@@ -1,0 +1,14 @@
+Exp,Lv,Str,Dex,Int,Job,Name,CharIndex
+0, 1, 3, 3, 3, 1, Girl_Kid_1, 1
+0, 1, 3, 3, 3, 1, Girl_Kid_2, 2
+0, 1, 3, 3, 3, 1, Man_Kid_1, 101
+0, 1, 3, 3, 3, 1, Man_Kid_2, 102
+0, 1, 3, 3, 3, 1, Man_Kid_3, 103
+0, 1, 3, 3, 3, 1, Man_Kid_4, 104
+
+0, 1, 3, 3, 3, 1, Mst_Cat, 201
+0, 1, 3, 3, 3, 1, Mst_Devil, 202
+0, 1, 3, 3, 3, 1, Mst_Giant, 203
+0, 1, 3, 3, 3, 1, Mst_Monkey, 204
+0, 1, 3, 3, 3, 1, Mst_Wolf, 205
+0, 1, 3, 3, 3, 1, Mst_Chest, 206
