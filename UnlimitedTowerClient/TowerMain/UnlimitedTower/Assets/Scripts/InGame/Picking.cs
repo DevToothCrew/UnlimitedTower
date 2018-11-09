@@ -4,9 +4,13 @@ public class Picking : MonoSingleton<Picking> {
 
  
     public GameObject SelectedCharObject = null;
+
     public GameObject SelectionStatusQuad;
     public GameObject SelectionTargetQuad;
     public CharController charCtrl;
+
+
+    public GameObject TargetObject;
 
     private void Update()
     {
@@ -21,64 +25,46 @@ public class Picking : MonoSingleton<Picking> {
         {
             if ( hit.transform.CompareTag("Enemy") || hit.transform.CompareTag("Player"))
             {
-                Transform transform = hit.transform;
+                Transform charTransform = hit.transform;
                 if (!SelectedCharObject) 
                 {
                     //아직 선택하지 않았다면
-                    // ChangeShader(transform, DEFINE.OUTLINE_SHADER);
-
-              
-                    SelectedCharObject = transform.gameObject;
-                    charCtrl = SelectedCharObject.GetComponent<CharController>();
-
-                    if (charCtrl.SelectionQuqdObject == null)
-                    {
-                        AddSelectionQuad();
-                    }
-
-                    Target();
+                    CreateSelectionQuad(ref charTransform);
+                    //Target();
 
                 }
                 else 
                 {
                     //이미 선택된 객체가 있을 경우
-                    if (SelectedCharObject != transform.gameObject) 
+                    if (SelectedCharObject != charTransform.gameObject) 
                     {
                         //옛날에 선택했던것과 다르다면
-                        //ChangeShader(SelectedCharObject.transform, DEFINE.BASIC_SHADER);
-                        //ChangeShader(hit.transform, DEFINE.OUTLINE_SHADER);
 
-                        charCtrl = SelectedCharObject.GetComponent<CharController>();
-                        if (charCtrl.SelectionQuqdObject)
-                        {
-                            DeleteSelectionQuad();
-                        }
+                        DeleteSelectionQuad();
+                        CreateSelectionQuad(ref charTransform);
 
-                        SelectedCharObject = transform.gameObject;
-                        charCtrl = SelectedCharObject.GetComponent<CharController>();
-                        if (charCtrl.SelectionQuqdObject == null)
-                        {
-                            AddSelectionQuad();
-                        }
-                       
+
                     }
-                    Target();
+                    //Target();
                 }
             }
             else 
             {
+                // 선택퇸 오브젝트가 있지만 피킹 광선에 벗어날 경우.
                 if (SelectedCharObject)
                 {
-                    // ChangeShader(SelectedCharObject.transform, DEFINE.BASIC_SHADER);
-                    charCtrl = SelectedCharObject.GetComponent<CharController>();
-                    if (charCtrl.SelectionQuqdObject)
-                    {
-                        DeleteSelectionQuad();
-                    }
+
+                    DeleteSelectionQuad();
                     SelectedCharObject = null;                   
                 }
             }
         }
+
+        if(Input.GetMouseButtonDown(0))
+        {
+
+        }
+
        
     }
     void SelectTarget()
@@ -134,13 +120,26 @@ public class Picking : MonoSingleton<Picking> {
     }
     void DeleteSelectionQuad()
     {
-        Destroy(charCtrl.SelectionQuqdObject);
+        charCtrl = SelectedCharObject.GetComponent<CharController>();
+        if (charCtrl.SelectionQuqdObject)
+        {
+            Destroy(charCtrl.SelectionQuqdObject);
+        }
+    }
+    void CreateSelectionQuad(ref Transform charTransform)
+    {
+        SelectedCharObject = charTransform.gameObject;
+        charCtrl = SelectedCharObject.GetComponent<CharController>();
+        if (charCtrl.SelectionQuqdObject == null)
+        {
+            AddSelectionQuad();
+        }
     }
   
 
     void Target()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && charCtrl.charType == CHAR_TYPE.ENEMY)
         {
             Material mt = Resources.Load("Selection/TargetSelection_Material", typeof(Material)) as Material; ;
                                       
