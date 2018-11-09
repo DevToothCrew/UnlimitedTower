@@ -25,7 +25,7 @@ public class DEFINE
     public const string BASIC_SHADER = "Mobile/Unlit (Supports Lightmap)";
 
     // Status posOffset
-    public const int MAX_HP_MULTI_posOffset = 1;
+    public const int MAX_HP_MULTI_posOffset = 6;
     public const int AVOID_MULTI_posOffset = 1;
     public const int SPEED_MULTI_posOffset = 1;
 

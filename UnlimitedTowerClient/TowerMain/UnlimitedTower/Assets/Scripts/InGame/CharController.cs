@@ -22,7 +22,10 @@ public class CharController : MonoBehaviour
 
     public int battleDicIndex;
 
-    public GameObject circleObject;
+    public GameObject SelectionQuqdObject;
+
+    public bool isFlying = false;
+    public GameObject shadowObject;
 
    
     private void Awake()
@@ -38,6 +41,7 @@ public class CharController : MonoBehaviour
     {
         charFirsrPos = charTransform.position;
     }
+ 
 
     IEnumerator IDLE()
     {

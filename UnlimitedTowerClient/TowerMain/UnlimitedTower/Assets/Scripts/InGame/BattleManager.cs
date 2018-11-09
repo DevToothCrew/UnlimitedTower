@@ -105,15 +105,15 @@ public class BattleManager : MonoSingleton<BattleManager> {
     // TODO : Test StartBattle : 배틀 전 플레이어의 세팅.
     void StartBattle()
     {
-        if (Input.GetMouseButtonDown(0) && MouseClick == false && BattleState != BATTLE_STATE.BATTLE)
-        {
-            MouseClick = true;
-            Debug.Log("공격 시작");
-            // 공격전 준비.
-            ReadyNextTurn();
-            // 전투 씬 시작.
-            BattleState = BATTLE_STATE.BATTLE;
-        }
+        //if (Input.GetMouseButtonDown(0) && MouseClick == false && BattleState != BATTLE_STATE.BATTLE)
+        //{
+        //    MouseClick = true;
+        //    Debug.Log("공격 시작");
+        //    // 공격전 준비.
+        //    ReadyNextTurn();
+        //    // 전투 씬 시작.
+        //    BattleState = BATTLE_STATE.BATTLE;
+        //}
     }
 
 
