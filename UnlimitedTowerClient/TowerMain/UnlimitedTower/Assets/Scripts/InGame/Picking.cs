@@ -1,18 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Picking : MonoSingleton<Picking> {
 
  
-    public GameObject SelectedObject = null;
-    public GameObject QuadPrefab;
+    public GameObject SelectedCharObject = null;
+    public GameObject SelectionStatusQuad;
+    public GameObject SelectionTargetQuad;
     public CharController charCtrl;
 
     private void Update()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
+        
+
 
 
         //충돌과 태그가 플레이어 것일 때
@@ -21,65 +22,90 @@ public class Picking : MonoSingleton<Picking> {
             if ( hit.transform.CompareTag("Enemy") || hit.transform.CompareTag("Player"))
             {
                 Transform transform = hit.transform;
-                if (!SelectedObject) 
+                if (!SelectedCharObject) 
                 {
                     //아직 선택하지 않았다면
-                   // ChangeShader(transform, DEFINE.OUTLINE_SHADER);
+                    // ChangeShader(transform, DEFINE.OUTLINE_SHADER);
 
-
-                    SelectedObject = transform.gameObject;
-                    charCtrl = SelectedObject.GetComponent<CharController>();
+              
+                    SelectedCharObject = transform.gameObject;
+                    charCtrl = SelectedCharObject.GetComponent<CharController>();
 
                     if (charCtrl.SelectionQuqdObject == null)
                     {
                         AddSelectionQuad();
                     }
+
+                    Target();
+
                 }
                 else 
                 {
                     //이미 선택된 객체가 있을 경우
-                    if (SelectedObject != transform.gameObject) 
+                    if (SelectedCharObject != transform.gameObject) 
                     {
                         //옛날에 선택했던것과 다르다면
-                        //ChangeShader(SelectedObject.transform, DEFINE.BASIC_SHADER);
+                        //ChangeShader(SelectedCharObject.transform, DEFINE.BASIC_SHADER);
                         //ChangeShader(hit.transform, DEFINE.OUTLINE_SHADER);
 
-                        charCtrl = SelectedObject.GetComponent<CharController>();
+                        charCtrl = SelectedCharObject.GetComponent<CharController>();
                         if (charCtrl.SelectionQuqdObject)
                         {
-                            DeleteCircle();
+                            DeleteSelectionQuad();
                         }
 
-                        SelectedObject = transform.gameObject;
-                        charCtrl = SelectedObject.GetComponent<CharController>();
+                        SelectedCharObject = transform.gameObject;
+                        charCtrl = SelectedCharObject.GetComponent<CharController>();
                         if (charCtrl.SelectionQuqdObject == null)
                         {
                             AddSelectionQuad();
                         }
+                       
                     }
+                    Target();
                 }
             }
             else 
             {
-                if (SelectedObject)
+                if (SelectedCharObject)
                 {
-                    // ChangeShader(SelectedObject.transform, DEFINE.BASIC_SHADER);
-                    charCtrl = SelectedObject.GetComponent<CharController>();
+                    // ChangeShader(SelectedCharObject.transform, DEFINE.BASIC_SHADER);
+                    charCtrl = SelectedCharObject.GetComponent<CharController>();
                     if (charCtrl.SelectionQuqdObject)
                     {
-                        Destroy(charCtrl.SelectionQuqdObject);
+                        DeleteSelectionQuad();
                     }
-                    SelectedObject = null;                   
+                    SelectedCharObject = null;                   
                 }
             }
         }
        
     }
+    void SelectTarget()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.transform.CompareTag("Enemy"))
+                {
+
+
+
+                }
+            }
+        }
+    }
+
 
     void AddSelectionQuad()
     {
         Vector3 scale = new Vector3(0.5f, 0.5f, 0.5f);
-        charCtrl.SelectionQuqdObject = Instantiate(QuadPrefab);
+        charCtrl.SelectionQuqdObject = Instantiate(SelectionStatusQuad);
         charCtrl.SelectionQuqdObject.transform.SetParent(charCtrl.transform, false);
         charCtrl.SelectionQuqdObject.transform.position = new Vector3(charCtrl.SelectionQuqdObject.transform.position.x, 0.001f, charCtrl.SelectionQuqdObject.transform.position.z);
         charCtrl.SelectionQuqdObject.transform.eulerAngles = new Vector3(90, 0, 0);
@@ -106,10 +132,25 @@ public class Picking : MonoSingleton<Picking> {
 
         charCtrl.SelectionQuqdObject.transform.localScale = scale;
     }
-    void DeleteCircle()
+    void DeleteSelectionQuad()
     {
         Destroy(charCtrl.SelectionQuqdObject);
     }
+  
+
+    void Target()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Material mt = Resources.Load("Selection/TargetSelection_Material", typeof(Material)) as Material; ;
+                                      
+            charCtrl.SelectionQuqdObject.GetComponent<MeshRenderer>().material = mt;
+            charCtrl.SelectTarget = true;
+        }
+
+             
+    }
+
 
 
 

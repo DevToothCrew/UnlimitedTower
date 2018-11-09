@@ -27,6 +27,9 @@ public class CharController : MonoBehaviour
     public bool isFlying = false;
     public GameObject shadowObject;
 
+
+    public bool SelectTarget = false;
+
    
     private void Awake()
     {

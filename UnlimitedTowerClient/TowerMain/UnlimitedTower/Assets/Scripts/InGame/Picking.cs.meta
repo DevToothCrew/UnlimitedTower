@@ -3,7 +3,11 @@ guid: 5752235215939c743b3843525ea90acf
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - SelectedObject: {instanceID: 0}
+  - QuadPrefab: {fileID: 1414068695530784, guid: dbd3ca29f1397274b9440d7087bbfa88,
+      type: 2}
+  - charCtrl: {instanceID: 0}
   executionOrder: 300
   icon: {instanceID: 0}
   userData: 
