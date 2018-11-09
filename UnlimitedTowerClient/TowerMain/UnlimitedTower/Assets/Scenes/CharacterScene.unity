@@ -176,11 +176,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectedCharObject: {fileID: 0}
-  SelectionStatusQuad: {fileID: 1414068695530784, guid: dbd3ca29f1397274b9440d7087bbfa88,
+  SelectionStatusQuadPrefab: {fileID: 1414068695530784, guid: dbd3ca29f1397274b9440d7087bbfa88,
     type: 2}
-  SelectionTargetQuad: {fileID: 1094504942435638, guid: 6a5bb04f8ee69c249a67c0dce9a16ef2,
+  SelectionTargetQuadPrefab: {fileID: 1094504942435638, guid: 6a5bb04f8ee69c249a67c0dce9a16ef2,
     type: 2}
   charCtrl: {fileID: 0}
+  HeroTargetObject: {fileID: 0}
 --- !u!4 &247568430
 Transform:
   m_ObjectHideFlags: 0

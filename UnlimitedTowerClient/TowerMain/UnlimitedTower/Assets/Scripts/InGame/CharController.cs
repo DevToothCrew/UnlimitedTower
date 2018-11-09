@@ -23,6 +23,8 @@ public class CharController : MonoBehaviour
     public int battleDicIndex;
 
     public GameObject SelectionQuqdObject;
+    public GameObject SelectionHeroTargetQuadObject;
+
 
     public bool isFlying = false;
     public GameObject shadowObject;
