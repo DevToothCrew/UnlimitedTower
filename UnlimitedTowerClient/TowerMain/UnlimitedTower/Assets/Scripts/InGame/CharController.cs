@@ -7,7 +7,7 @@ public class CharController : MonoBehaviour
     private Vector3 charMovement;
     private Vector3 charDirection;
     private Vector3 charFirstDirection;
-    private Vector3 charFirsrPos;
+    private  Vector3 charFirsrPos;
 
     private Transform charTransform;
     private Animator charAnimator;
@@ -34,7 +34,10 @@ public class CharController : MonoBehaviour
         
         stateType = STATE_TYPE.IDLE; 
     }
-
+    public void SetFirstPosition()
+    {
+        charFirsrPos = charTransform.position;
+    }
 
     IEnumerator IDLE()
     {
@@ -255,7 +258,7 @@ public class CharController : MonoBehaviour
     //  TODO : Sample Code if Delete
     void SelectAction()
     {
-        switch (BattleManager.Inst.turnActionList[BattleManager.Inst.attackOrder].actionType)
+        switch (BattleManager.Inst.turnActionList[BattleManager.Inst.AttackOrder].actionType)
         {
             case ACTION_TYPE.None:
                 break;

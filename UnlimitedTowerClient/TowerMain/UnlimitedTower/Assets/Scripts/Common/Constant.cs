@@ -38,7 +38,7 @@ public class DEFINE
 
     // Battle Position
     public const float START_X = -1.5f;
-    public const float START_Z = -4.0f;
+    public const float START_Z = -5.0f;
     public const float DISTANCE_OFFSET = 1.0f;
 
     // 캐릭터 끼리 최소 만나기 직전의 최소 거리
@@ -51,11 +51,11 @@ public class DEFINE
     public const float MOVING_SPEED = 14.0f;
 
     // 테스트 상수
-    public const int TEST_NUM = 3;
+    public static Vector3 PLAYER_BACKLINE_CENTER_POS = new Vector3(0.0f, 0.0f, -5.0f);
+    public static Vector3 ENEMY_BACKLINE_CENTER_POS = new Vector3(0.0f, 0.0f, 5.0f);
 
 
-  
- 
+
 
     public static Vector3 GetBattlePosition(int partyIndex, CHAR_TYPE type, int num)
     {
@@ -76,18 +76,9 @@ public class DEFINE
             y = 0.1f;
         }
 
-
-        switch(partyIndex)
+        // Vector3(0.0f, 0.0f, 5.0f);
+        switch (partyIndex)
         {
-            case 3:
-                position = new Vector3(START_X + DISTANCE_OFFSET * 1, y, START_Z * posOffset);
-                break;
-            case 4:
-                position = new Vector3(START_X + DISTANCE_OFFSET * 2, y, START_Z * posOffset);
-                break;
-            case 5:
-                position = new Vector3(START_X + DISTANCE_OFFSET * 3, y, START_Z * posOffset);
-                break;
             case 0:
                 position = new Vector3(START_X + DISTANCE_OFFSET * 1, y, START_Z * posOffset + 1.0f);
                 break;
@@ -96,6 +87,15 @@ public class DEFINE
                 break;
             case 2:
                 position = new Vector3(START_X + DISTANCE_OFFSET * 3, y, START_Z * posOffset + 1.0f);
+                break;
+            case 3:
+                position = new Vector3(START_X + DISTANCE_OFFSET * 1, y, START_Z * posOffset);
+                break;
+            case 4:
+                position = new Vector3(START_X + DISTANCE_OFFSET * 2, y, START_Z * posOffset);
+                break;
+            case 5:
+                position = new Vector3(START_X + DISTANCE_OFFSET * 3, y, START_Z * posOffset);
                 break;
         }
 

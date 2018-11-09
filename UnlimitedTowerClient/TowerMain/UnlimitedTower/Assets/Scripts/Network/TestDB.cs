@@ -43,8 +43,8 @@ public class TestDB
 
         List<CHARACTER_NUM> myIndexList = new List<CHARACTER_NUM>();
         myIndexList.Add(CHARACTER_NUM.Mst_Anubis);
-        //myIndexList.Add(CHARACTER_NUM.Mst_Ninja);
-        //myIndexList.Add(CHARACTER_NUM.Mst_Fairy);
+        myIndexList.Add(CHARACTER_NUM.Mst_Ninja);
+        myIndexList.Add(CHARACTER_NUM.Mst_FireFairy);
         myIndexList.Add(CHARACTER_NUM.Mst_Death);
         myIndexList.Add(CHARACTER_NUM.Mst_Knight);
         myIndexList.Add(CHARACTER_NUM.Mst_WolfMan);
