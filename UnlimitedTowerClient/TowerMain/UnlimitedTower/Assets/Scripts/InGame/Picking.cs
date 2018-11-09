@@ -141,6 +141,9 @@ public class Picking : MonoSingleton<Picking> {
     }
     void CreateSelectionQuad(ref Transform charTransform)
     {
+        if (charTransform.gameObject == HeroTargetObject)
+            return;
+
         SelectedCharObject = charTransform.gameObject;
         charCtrl = SelectedCharObject.GetComponent<CharController>();
         if (charCtrl.SelectionQuqdObject == null)

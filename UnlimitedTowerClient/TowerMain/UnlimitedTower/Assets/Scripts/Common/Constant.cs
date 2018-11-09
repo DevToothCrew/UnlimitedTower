@@ -34,7 +34,7 @@ public class DEFINE
     public const int DAMAGE_INT_MUlTI_posOffset = 1;
 
     // Party Info
-    public const int PARTY_MAX_NUM = 6;
+    public const int PARTY_MAX_NUM = 10;
 
     // Battle Position
     public const float START_X = -1.5f;
