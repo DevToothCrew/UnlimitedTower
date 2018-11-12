@@ -55,10 +55,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
         }
 
 
-        if (GUI.Button(new Rect(800, 800, 100, 70), "BattleRest"))
-        {
-            TestSetPosition();
-        }
+      
 
     }
 
@@ -689,10 +686,6 @@ public class BattleManager : MonoSingleton<BattleManager> {
         charObjects[backLineCenterIndex].transform.position = backCenterPos;
 
 
-
-
-
-
         SetLeftPosition(charObjects, backLineCenterIndex, 1, centerCharStatus.sizeType, ref charBattleStatusDic);
         SetLeftPosition(charObjects, 1, 0, charBattleStatusDic[1].sizeType, ref charBattleStatusDic);
 
@@ -704,7 +697,6 @@ public class BattleManager : MonoSingleton<BattleManager> {
         float frontLineDis = GetBackLineLargestDistance(charObjects, charType, ref charBattleStatusDic);
         frontCenterPos.z = frontLineDis;
         frontCenterPos = GetFrontLineCenterCharPos(frontCenterPos, charBattleStatusDic[frontLineCenterIndex].sizeType);
-
 
 
         Debug.Log("z값 중심 : " + frontLineDis);

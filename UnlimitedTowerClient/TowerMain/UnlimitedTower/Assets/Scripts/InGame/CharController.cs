@@ -31,7 +31,9 @@ public class CharController : MonoBehaviour
         charAnimator = GetComponent<Animator>();
         charFirstDirection = charTransform.forward;
         charFirsrPos = charTransform.position;
-        
+
+        charAnimator.speed = DEFINE.ANIMATION_SPEED;
+
         stateType = STATE_TYPE.IDLE; 
     }
     public void SetFirstPosition()

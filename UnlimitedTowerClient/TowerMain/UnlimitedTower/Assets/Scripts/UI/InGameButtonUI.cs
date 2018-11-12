@@ -8,7 +8,7 @@ public class InGameButtonUI : MonoBehaviour {
 
     // Use this for initialization
 
-
+    public float SPEED = 2.0f;
 
 
     bool AnimationSpeedDouble = false;
@@ -25,7 +25,7 @@ public class InGameButtonUI : MonoBehaviour {
             Debug.Log("홠성화");
             AnimationSpeedDouble = true;
             transform.GetChild(0).GetComponent<Text>().fontStyle = FontStyle.Bold;
-            DEFINE.ANIMATION_SPEED = 2;
+            DEFINE.ANIMATION_SPEED = SPEED*1.5f;
             for(int i=0; i<DEFINE.PARTY_MAX_NUM; i++)
             {
                 BattleManager.Inst.enemyObjects[i].GetComponent<Animator>().speed = DEFINE.ANIMATION_SPEED;
@@ -38,7 +38,7 @@ public class InGameButtonUI : MonoBehaviour {
             Debug.Log("비홠성화");
             AnimationSpeedDouble = false;
             transform.GetChild(0).GetComponent<Text>().fontStyle = FontStyle.Normal;
-            DEFINE.ANIMATION_SPEED = 1;
+            DEFINE.ANIMATION_SPEED = SPEED;
             for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
             {
                 BattleManager.Inst.enemyObjects[i].GetComponent<Animator>().speed = DEFINE.ANIMATION_SPEED;

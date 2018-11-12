@@ -48,8 +48,8 @@ public class DEFINE
     public const float MIN_DISTANCE = 0.3f;
 
     // 움직이는 속도
-    public const float MOVING_SPEED = 2.0f;
-    public  static float ANIMATION_SPEED = 1.0f;
+    public const float MOVING_SPEED = 4.0f;
+    public  static float ANIMATION_SPEED = 2.0f;
 
     // 테스트 상수
     public static Vector3 PLAYER_BACKLINE_CENTER_POS = new Vector3(0.0f, 0.0f, -5.0f);
@@ -309,7 +309,7 @@ public enum CHARACTER_NUM
 
 
     Mst_Cat             = 201,
-    Mst_Devil           = 202,
+    Mst_Demon           = 202,
     Mst_Giant           = 203,
     Mst_Monkey          = 204,
     Mst_Wolf            = 205,
@@ -320,7 +320,16 @@ public enum CHARACTER_NUM
     Mst_Death           = 210,
     Mst_WolfMan         = 211,
     Mst_Knight          = 212,
- 
+    Mst_DarkMagician    = 213,
+    Mst_Egg             = 214,
+    Mst_Goblen_Blue     = 215,
+    Mst_Goblen_Green    = 216,
+    Mst_Leaf_fairy      = 217,
+    Mst_Sham            = 218,
+    Mst_Shamcat         = 219,
+    Mst_Water_fairy     = 210
+
+
 
 }
 
