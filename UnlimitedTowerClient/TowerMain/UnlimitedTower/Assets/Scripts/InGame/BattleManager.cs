@@ -105,15 +105,15 @@ public class BattleManager : MonoSingleton<BattleManager> {
     // TODO : Test StartBattle : 배틀 전 플레이어의 세팅.
     void StartBattle()
     {
-        //if (Input.GetMouseButtonDown(0) && MouseClick == false && BattleState != BATTLE_STATE.BATTLE)
-        //{
-        //    MouseClick = true;
-        //    Debug.Log("공격 시작");
-        //    // 공격전 준비.
-        //    ReadyNextTurn();
-        //    // 전투 씬 시작.
-        //    BattleState = BATTLE_STATE.BATTLE;
-        //}
+        if (Input.GetMouseButtonDown(0) && MouseClick == false && BattleState != BATTLE_STATE.BATTLE)
+        {
+            MouseClick = true;
+            Debug.Log("공격 시작");
+            // 공격전 준비.
+            ReadyNextTurn();
+            // 전투 씬 시작.
+            BattleState = BATTLE_STATE.BATTLE;
+        }
     }
 
 
@@ -610,13 +610,6 @@ public class BattleManager : MonoSingleton<BattleManager> {
         if (sizeType < charBattleStatusDic[num].sizeType)
             sign = -1.0f;
 
-        if (centerNum == 1)
-        {
-            Debug.Log("기준 위치 : " + pos);
-            Debug.Log("x : " + x +" , z : " +z);
-        }
-
-
         pos.x += -x;
         pos.z += +z * sign;
         charObjects[num].transform.position = pos;
@@ -696,17 +689,11 @@ public class BattleManager : MonoSingleton<BattleManager> {
         charObjects[backLineCenterIndex].transform.position = backCenterPos;
 
 
-        //SetLeftPosition(charObjects, backLineCenterIndex, 0, centerCharStatus.sizeType, ref charBattleStatusDic);
-        //SetRightPosition(charObjects, backLineCenterIndex, 2, centerCharStatus.sizeType, ref charBattleStatusDic);
-
-
-
         SetLeftPosition(charObjects, backLineCenterIndex, 1, centerCharStatus.sizeType, ref charBattleStatusDic);
         SetLeftPosition(charObjects, 1, 0, charBattleStatusDic[1].sizeType, ref charBattleStatusDic);
 
         SetRightPosition(charObjects, backLineCenterIndex, 3, centerCharStatus.sizeType, ref charBattleStatusDic);
         SetRightPosition(charObjects, 3, 4, charBattleStatusDic[3].sizeType, ref charBattleStatusDic);
-
 
 
 
@@ -718,16 +705,12 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
         Debug.Log("z값 중심 : " + frontLineDis);
         charObjects[frontLineCenterIndex].transform.position = frontCenterPos;
-        //SetLeftPosition(charObjects, frontLineCenterIndex, 3, charBattleStatusDic[frontLineCenterIndex].sizeType, ref charBattleStatusDic);
-        //SetRightPosition(charObjects, frontLineCenterIndex, 5, charBattleStatusDic[frontLineCenterIndex].sizeType, ref charBattleStatusDic);
-
-
         SetLeftPosition(charObjects, frontLineCenterIndex, 6, charBattleStatusDic[frontLineCenterIndex].sizeType, ref charBattleStatusDic);
         SetLeftPosition(charObjects, 6, 5, charBattleStatusDic[6].sizeType, ref charBattleStatusDic);
 
+
         SetRightPosition(charObjects, frontLineCenterIndex, 8, charBattleStatusDic[frontLineCenterIndex].sizeType, ref charBattleStatusDic);
         SetRightPosition(charObjects, 8, 9, charBattleStatusDic[8].sizeType, ref charBattleStatusDic);
-
     }
 
 

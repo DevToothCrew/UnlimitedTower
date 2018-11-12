@@ -22,15 +22,7 @@ public class CharController : MonoBehaviour
 
     public int battleDicIndex;
 
-    public GameObject SelectionQuqdObject;
-    public GameObject SelectionHeroTargetQuadObject;
-
-
-    public bool isFlying = false;
-    public GameObject shadowObject;
-
-
-    public bool SelectTarget = false;
+    public GameObject circleObject;
 
    
     private void Awake()
@@ -46,7 +38,6 @@ public class CharController : MonoBehaviour
     {
         charFirsrPos = charTransform.position;
     }
- 
 
     IEnumerator IDLE()
     {

@@ -28,9 +28,9 @@ public class TestGui : MonoBehaviour {
         GUI.DragWindow();
         //
 
-        if (Picking.Inst.SelectedCharObject)
+        if (Picking.Inst.SelectedObject)
         {
-            CharController charCtrl = Picking.Inst.SelectedCharObject.GetComponent<CharController>();
+            CharController charCtrl = Picking.Inst.SelectedObject.GetComponent<CharController>();
 
             //if (charCtrl.charType == CHAR_TYPE.PLAYER)
             if (charCtrl)
