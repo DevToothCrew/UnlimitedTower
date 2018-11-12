@@ -316,18 +316,20 @@ public enum CHARACTER_NUM
     Mst_Chest           = 206,
     Mst_Anubis          = 207,
     Mst_Ninja           = 208,
-    Mst_FireFairy       = 209,
-    Mst_Death           = 210,
-    Mst_WolfMan         = 211,
-    Mst_Knight          = 212,
-    Mst_DarkMagician    = 213,
-    Mst_Egg             = 214,
-    Mst_Goblin_Blue     = 215,
-    Mst_Goblin_Green    = 216,
-    Mst_Leaf_fairy      = 217,
-    Mst_Sham            = 218,
-    Mst_Shamcat         = 219,
-    Mst_Water_fairy     = 210
+    Mst_Fire_Fairy      = 209,
+    Mst_Leaf_Fairy      = 210,
+    Mst_Water_Fairy     = 211,
+    Mst_Death           = 212,
+    Mst_WolfMan         = 213,
+    Mst_Knight          = 214,
+    Mst_DarkMagician    = 215,
+    Mst_Egg             = 216,
+    Mst_Goblin_Blue     = 217,
+    Mst_Goblin_Green    = 218,
+  
+    Mst_Sham            = 219,
+    Mst_Shamcat         = 220,
+ 
 
 
 

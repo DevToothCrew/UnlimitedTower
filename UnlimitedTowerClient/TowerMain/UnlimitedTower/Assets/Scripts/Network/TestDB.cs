@@ -44,7 +44,8 @@ public class TestDB
         List<CHARACTER_NUM> myIndexList = new List<CHARACTER_NUM>();
         myIndexList.Add(CHARACTER_NUM.Mst_Anubis);
         myIndexList.Add(CHARACTER_NUM.Mst_Ninja);
-        myIndexList.Add(CHARACTER_NUM.Mst_FireFairy);
+        myIndexList.Add(CHARACTER_NUM.Mst_Fire_Fairy);
+       // myIndexList.Add(CHARACTER_NUM.Mst_Leaf_Fairy);
         myIndexList.Add(CHARACTER_NUM.Mst_Death);
         myIndexList.Add(CHARACTER_NUM.Mst_Knight);
         myIndexList.Add(CHARACTER_NUM.Mst_WolfMan);
@@ -52,6 +53,8 @@ public class TestDB
         myIndexList.Add(CHARACTER_NUM.Mst_DarkMagician);
         myIndexList.Add(CHARACTER_NUM.Mst_Demon);
         myIndexList.Add(CHARACTER_NUM.Mst_Egg);
+        //myIndexList.Add(CHARACTER_NUM.Mst_Goblin_Blue);
+        //myIndexList.Add(CHARACTER_NUM.Mst_Goblin_Green);
 
 
 

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c0de4712940965149b23feddbe1e5e65
+guid: 872fa7937497d4c4ea41f4f31de65761
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -15,23 +15,23 @@ ModelImporter:
     100018: heel.02.L_end
     100020: heel.02.R
     100022: heel.02.R_end
-    100024: mst_water_fairy.000
-    100026: mst_water_fairy.001
-    100028: mst_water_fairy.002
-    100030: mst_water_fairy.003
-    100032: mst_water_fairy.004
-    100034: mst_water_fairy.005
-    100036: mst_water_fairy.006
-    100038: mst_water_fairy.007
-    100040: mst_water_fairy.008
-    100042: mst_water_fairy.009
-    100044: mst_water_fairy.010
-    100046: mst_water_fairy.011
-    100048: mst_water_fairy.012
-    100050: mst_water_fairy.013
-    100052: mst_water_fairy.014
-    100054: mst_water_fairy.015
-    100056: //RootNode
+    100024: //RootNode
+    100026: mst_water_fairy.000
+    100028: mst_water_fairy.001
+    100030: mst_water_fairy.002
+    100032: mst_water_fairy.003
+    100034: mst_water_fairy.004
+    100036: mst_water_fairy.005
+    100038: mst_water_fairy.006
+    100040: mst_water_fairy.007
+    100042: mst_water_fairy.008
+    100044: mst_water_fairy.009
+    100046: mst_water_fairy.010
+    100048: mst_water_fairy.011
+    100050: mst_water_fairy.012
+    100052: mst_water_fairy.013
+    100054: mst_water_fairy.014
+    100056: mst_water_fairy.015
     100058: shin.L
     100060: shin.R
     100062: shoulder.L
@@ -64,23 +64,23 @@ ModelImporter:
     400018: heel.02.L_end
     400020: heel.02.R
     400022: heel.02.R_end
-    400024: mst_water_fairy.000
-    400026: mst_water_fairy.001
-    400028: mst_water_fairy.002
-    400030: mst_water_fairy.003
-    400032: mst_water_fairy.004
-    400034: mst_water_fairy.005
-    400036: mst_water_fairy.006
-    400038: mst_water_fairy.007
-    400040: mst_water_fairy.008
-    400042: mst_water_fairy.009
-    400044: mst_water_fairy.010
-    400046: mst_water_fairy.011
-    400048: mst_water_fairy.012
-    400050: mst_water_fairy.013
-    400052: mst_water_fairy.014
-    400054: mst_water_fairy.015
-    400056: //RootNode
+    400024: //RootNode
+    400026: mst_water_fairy.000
+    400028: mst_water_fairy.001
+    400030: mst_water_fairy.002
+    400032: mst_water_fairy.003
+    400034: mst_water_fairy.004
+    400036: mst_water_fairy.005
+    400038: mst_water_fairy.006
+    400040: mst_water_fairy.007
+    400042: mst_water_fairy.008
+    400044: mst_water_fairy.009
+    400046: mst_water_fairy.010
+    400048: mst_water_fairy.011
+    400050: mst_water_fairy.012
+    400052: mst_water_fairy.013
+    400054: mst_water_fairy.014
+    400056: mst_water_fairy.015
     400058: shin.L
     400060: shin.R
     400062: shoulder.L
@@ -150,9 +150,12 @@ ModelImporter:
     4300026: mst_water_fairy.008
     4300028: mst_water_fairy.007
     4300030: mst_water_fairy.001
-    7400000: Attack
-    9500000: //RootNode
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: palette.002
+    second: {fileID: 2100000, guid: 48d13138d0b0f6c4488d6b00452d0899, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -178,42 +181,7 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations:
-    - serializedVersion: 16
-      name: Attack
-      takeName: mixamo.com
-      firstFrame: 0
-      lastFrame: 68
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events:
-      - time: 0.39948454
-        functionName: AttackEvent
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+    clipAnimations: []
     isReadable: 1
   meshes:
     lODScreenPercentages: []
@@ -261,7 +229,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
