@@ -48,6 +48,7 @@ public class TestDB
         myIndexList.Add(CHARACTER_NUM.Mst_Death);
         myIndexList.Add(CHARACTER_NUM.Mst_Knight);
         myIndexList.Add(CHARACTER_NUM.Mst_WolfMan);
+        myIndexList.Add(CHARACTER_NUM.Mst_Cat);
 
 
 

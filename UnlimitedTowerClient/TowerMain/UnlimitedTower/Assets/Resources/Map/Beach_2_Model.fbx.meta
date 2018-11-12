@@ -11,7 +11,12 @@ ModelImporter:
     4300000: bitch_edge_2
     7400000: Default Take
     9500000: //RootNode
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: palette_001__bitch_edge_2_png
+    second: {fileID: 2100000, guid: 88e8e52b1cdb9c24b9e0f0535ede9b65, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

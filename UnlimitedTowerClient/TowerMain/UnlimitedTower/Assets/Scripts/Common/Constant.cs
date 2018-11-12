@@ -48,7 +48,8 @@ public class DEFINE
     public const float MIN_DISTANCE = 0.3f;
 
     // 움직이는 속도
-    public const float MOVING_SPEED = 14.0f;
+    public const float MOVING_SPEED = 2.0f;
+    public  static float ANIMATION_SPEED = 1.0f;
 
     // 테스트 상수
     public static Vector3 PLAYER_BACKLINE_CENTER_POS = new Vector3(0.0f, 0.0f, -5.0f);

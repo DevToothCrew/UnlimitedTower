@@ -73,7 +73,26 @@ public class Picking : MonoSingleton<Picking> {
                 }
             }
         }
+        else
+        {
+            if (SelectedObject)
+            {
+                // ChangeShader(SelectedObject.transform, DEFINE.BASIC_SHADER);
+                charCtrl = SelectedObject.GetComponent<CharController>();
+                if (charCtrl.circleObject)
+                {
+                    Destroy(charCtrl.circleObject);
+                }
+                SelectedObject = null;
+            }
+        }
        
+    }
+
+
+    void SelectObject()
+    {
+
     }
 
     void AddSelectionQuad()
@@ -81,7 +100,7 @@ public class Picking : MonoSingleton<Picking> {
         Vector3 scale = new Vector3(0.5f, 0.5f, 0.5f);
         charCtrl.circleObject = Instantiate(QuadPrefab);
         charCtrl.circleObject.transform.SetParent(charCtrl.transform, false);
-        charCtrl.circleObject.transform.position = new Vector3(charCtrl.circleObject.transform.position.x, 0.001f, charCtrl.circleObject.transform.position.z);
+        charCtrl.circleObject.transform.position = new Vector3(charCtrl.circleObject.transform.position.x, 0.042f, charCtrl.circleObject.transform.position.z);
         charCtrl.circleObject.transform.eulerAngles = new Vector3(90, 0, 0);
 
 

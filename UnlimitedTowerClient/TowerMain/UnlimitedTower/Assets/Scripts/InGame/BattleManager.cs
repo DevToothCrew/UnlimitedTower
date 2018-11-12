@@ -72,7 +72,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
         switch (BattleState)
         {
             case BATTLE_STATE.NONE:
-                StartBattle();
+               // StartBattle();
                 break;
             case BATTLE_STATE.BATTLE:
                 // 마우스 클릭(공격 시작)을 할 수 없는 상태
@@ -103,9 +103,9 @@ public class BattleManager : MonoSingleton<BattleManager> {
     }
    
     // TODO : Test StartBattle : 배틀 전 플레이어의 세팅.
-    void StartBattle()
+    public void StartBattle()
     {
-        if (Input.GetMouseButtonDown(0) && MouseClick == false && BattleState != BATTLE_STATE.BATTLE)
+        //if (Input.GetMouseButtonDown(0) && MouseClick == false && BattleState != BATTLE_STATE.BATTLE)
         {
             MouseClick = true;
             Debug.Log("공격 시작");
@@ -309,7 +309,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
         if (AttackOrder >= enemyStatusDic.Count + playerStatusDic.Count)
         {
             // 두 개의 dic의 크기를 넘으면 모든 캐릭터가 한번씩 했음.
-            Debug.Log("1턴 종료 -> attackaNum : " + AttackOrder);
+            Debug.Log("모든 캐릭 한 턴 종료 -> attackaNum : " + AttackOrder);
             BattleState = BATTLE_STATE.NONE;
             AttackOrder = -1;
             MouseClick = false;

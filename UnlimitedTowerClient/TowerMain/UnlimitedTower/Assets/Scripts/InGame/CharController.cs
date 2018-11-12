@@ -156,7 +156,7 @@ public class CharController : MonoBehaviour
 
         charMovement = charDirection;
         charMovement.y = 0;
-        charMovement = charMovement.normalized * DEFINE.MOVING_SPEED * Time.deltaTime;
+        charMovement = charMovement.normalized * DEFINE.MOVING_SPEED * DEFINE.ANIMATION_SPEED* Time.deltaTime;
         charTransform.position += charMovement;
         // TODO : rigidbogy 적용했을 때.
         // _rigidbody.MovePosition(charTransform.position + movement);
