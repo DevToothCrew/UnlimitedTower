@@ -49,8 +49,9 @@ public class TestDB
         myIndexList.Add(CHARACTER_NUM.Mst_Knight);
         myIndexList.Add(CHARACTER_NUM.Mst_WolfMan);
         myIndexList.Add(CHARACTER_NUM.Mst_Cat);
-      //  myIndexList.Add(CHARACTER_NUM.Mst_DarkMagician);
-        //myIndexList.Add(CHARACTER_NUM.Mst_Demon);
+        myIndexList.Add(CHARACTER_NUM.Mst_DarkMagician);
+        myIndexList.Add(CHARACTER_NUM.Mst_Demon);
+        myIndexList.Add(CHARACTER_NUM.Mst_Egg);
 
 
 

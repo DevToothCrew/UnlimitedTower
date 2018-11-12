@@ -25,7 +25,7 @@ public class InGameButtonUI : MonoBehaviour {
             Debug.Log("홠성화");
             AnimationSpeedDouble = true;
             transform.GetChild(0).GetComponent<Text>().fontStyle = FontStyle.Bold;
-            DEFINE.ANIMATION_SPEED = SPEED*1.5f;
+            DEFINE.ANIMATION_SPEED = SPEED*2;
             for(int i=0; i<DEFINE.PARTY_MAX_NUM; i++)
             {
                 BattleManager.Inst.enemyObjects[i].GetComponent<Animator>().speed = DEFINE.ANIMATION_SPEED;
