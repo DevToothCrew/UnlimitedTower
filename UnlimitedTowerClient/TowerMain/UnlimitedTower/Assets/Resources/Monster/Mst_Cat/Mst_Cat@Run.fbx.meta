@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1698b1675a77d9446acbbb99d84ebddd
+guid: 2209eb4910781ff479643883bf008481
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -53,8 +53,8 @@ ModelImporter:
     400012: heel_02_L
     400014: heel_02_R
     400016: metarig
-    400018: //RootNode
-    400020: mst_cat
+    400018: mst_cat
+    400020: //RootNode
     400022: mst_cat_001
     400024: mst_cat_002
     400026: mst_cat_003
@@ -100,7 +100,8 @@ ModelImporter:
     4300022: mst_cat_005
     4300024: mst_cat_008
     4300026: mst_cat_007
-    7400000: Default Take
+    7400000: Run
+    7400002: Run
     9500000: //RootNode
     13700000: mst_cat
     13700002: mst_cat_001
@@ -116,12 +117,7 @@ ModelImporter:
     13700022: mst_cat_011
     13700024: mst_cat_012
     13700026: mst_cat_013
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: palette__mst_cat_png
-    second: {fileID: 2100000, guid: 86ed7961fbc347849b11270e72e23f09, type: 2}
+  externalObjects: {}
   materials:
     importMaterials: 1
     materialName: 0
@@ -147,7 +143,35 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Run
+      takeName: mixamo.com
+      firstFrame: 0
+      lastFrame: 18
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []

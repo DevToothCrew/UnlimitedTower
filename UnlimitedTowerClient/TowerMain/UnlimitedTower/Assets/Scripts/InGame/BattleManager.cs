@@ -689,6 +689,10 @@ public class BattleManager : MonoSingleton<BattleManager> {
         charObjects[backLineCenterIndex].transform.position = backCenterPos;
 
 
+
+
+
+
         SetLeftPosition(charObjects, backLineCenterIndex, 1, centerCharStatus.sizeType, ref charBattleStatusDic);
         SetLeftPosition(charObjects, 1, 0, charBattleStatusDic[1].sizeType, ref charBattleStatusDic);
 
