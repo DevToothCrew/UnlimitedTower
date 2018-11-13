@@ -24,9 +24,6 @@ public class Picking : MonoSingleton<Picking> {
                 if (!SelectedObject) 
                 {
                     //아직 선택하지 않았다면
-                    // ChangeShader(transform, DEFINE.OUTLINE_SHADER);
-
-
                     SelectObject(ref charTransform);
                 }
                 else 
@@ -35,9 +32,7 @@ public class Picking : MonoSingleton<Picking> {
                     if (SelectedObject != charTransform.gameObject) 
                     {
                         //옛날에 선택했던것과 다르다면
-                        //ChangeShader(SelectedObject.transform, DEFINE.BASIC_SHADER);
-                        //ChangeShader(hit.transform, DEFINE.OUTLINE_SHADER);
-
+                       
                         DeleteQuad();
                     }
                 }
@@ -45,8 +40,7 @@ public class Picking : MonoSingleton<Picking> {
             else 
             {
                 if (SelectedObject)
-                {
-                    // ChangeShader(SelectedObject.transform, DEFINE.BASIC_SHADER);
+                {               
                     DeleteQuad();
                 }
             }
@@ -55,8 +49,9 @@ public class Picking : MonoSingleton<Picking> {
         {
             if (SelectedObject)
             {
-                // ChangeShader(SelectedObject.transform, DEFINE.BASIC_SHADER);
-                DeleteQuad();            }
+
+                DeleteQuad();
+            }
         }
        
     }

@@ -402,20 +402,30 @@ public class BattleManager : MonoSingleton<BattleManager> {
             //캐릭터 정보,                     //partyIndex   //chartIndex(필요없는 값일 수도 있음_
             Battle_Character_Status status = new Battle_Character_Status(CharacterManager.Inst.characterDic[i], i, i, 0);
             playerStatusDic.Add(i, status);
-            playerObjects[i] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.identity);         
-            playerObjects[i].GetComponent<CharController>().charType = CHAR_TYPE.PLAYER;
-            playerObjects[i].GetComponent<CharController>().charSize = status.sizeType;
-            playerObjects[i].transform.SetParent(PlayerParty.transform.transform, false);
-            //playerObject[i].GetComponent<CharController>().battleDicIndex = i;
+            if (!playerObjects[i])
+            {
+                playerObjects[i] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.identity);
+                playerObjects[i].transform.SetParent(PlayerParty.transform.transform, false);
+                if (playerObjects[i].GetComponent<CharController>())
+                {
+                    playerObjects[i].GetComponent<CharController>().charType = CHAR_TYPE.PLAYER;
+                    playerObjects[i].GetComponent<CharController>().charSize = status.sizeType;
+                    //playerObject[i].GetComponent<CharController>().battleDicIndex = i;
+                }
+            }                   
         }
         SetBattlePosition(playerObjects, CHAR_TYPE.PLAYER, ref playerStatusDic);
         for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
         {
-            playerObjects[i].GetComponent<CharController>().SetFirstPosition();
+            if(playerObjects[i])
+            {
+                if(playerObjects[i].GetComponent<CharController>())
+                {
+                    playerObjects[i].GetComponent<CharController>().SetFirstPosition();
+                }
+            }         
         }
             
-
-
         // TODO : DB 대신 임시로
         Dictionary<int, Character> enemyDic = TestDB.LoadMonstersData();
 
@@ -428,18 +438,29 @@ public class BattleManager : MonoSingleton<BattleManager> {
             Battle_Character_Status status = new Battle_Character_Status(enemyDic[i], i, i, enemyDic[i].Size);
             enemyStatusDic.Add(i, status);
 
-
-            enemyObjects[i] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.Euler(new Vector3(0, 180, 0)));
-            enemyObjects[i].GetComponent<CharController>().charType = CHAR_TYPE.ENEMY;
-            enemyObjects[i].GetComponent<CharController>().battleDicIndex = i;
-            enemyObjects[i].GetComponent<CharController>().charSize = status.sizeType;
-            enemyObjects[i].transform.SetParent(EnemyParty.transform.transform, false);
+            if (!enemyObjects[i])
+            {
+                enemyObjects[i] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.Euler(new Vector3(0, 180, 0)));
+                enemyObjects[i].transform.SetParent(EnemyParty.transform.transform, false);
+                if (enemyObjects[i].GetComponent<CharController>())
+                {
+                    enemyObjects[i].GetComponent<CharController>().charType = CHAR_TYPE.ENEMY;
+                    enemyObjects[i].GetComponent<CharController>().battleDicIndex = i;
+                    enemyObjects[i].GetComponent<CharController>().charSize = status.sizeType;
+                }                             
+            }       
         }
         SetBattlePosition(enemyObjects, CHAR_TYPE.ENEMY, ref enemyStatusDic);
 
         for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
         {
-            enemyObjects[i].GetComponent<CharController>().SetFirstPosition();
+            if(enemyObjects[i])
+            {
+                if (enemyObjects[i].GetComponent<CharController>())
+                {
+                    enemyObjects[i].GetComponent<CharController>().SetFirstPosition();
+                }        
+            }      
         }
     }
             
@@ -643,27 +664,22 @@ public class BattleManager : MonoSingleton<BattleManager> {
             {
                 num = i;
             }
-        }
-        Debug.Log("**** 가장 큰 인덱스 : " + num);
+        }      
         dis = charObjects[num].transform.position.z;
         switch (charBattleStatusDic[num].sizeType)
         {
             case SIZE_TYPE.SMALL:
-                {
-                    Debug.Log("*****스몰");
-                    //dis -= 0.25f + 0.5f + 0.5f;
+                {                              
                     dis -= offset;
                     break;
                 }
             case SIZE_TYPE.MIDDLE:
-                {
-                    Debug.Log("*****미들");
+                {                
                     dis -= 0.25f + offset;
                     break;
                 }
             case SIZE_TYPE.BIG:
-                {
-                    Debug.Log("*****빅");
+                {                
                     dis -= 0.5f + offset;
                     break;
                 }

@@ -9,46 +9,46 @@ public class DEFINE
 {
 
 	// GACHA COST
-	public const int GACHA_COST = 1;
-
+	public readonly int GACHA_COST = 1;
+    
 	// MIN - MAX Status
-	public const int MIN_STATUS = 10;
-	public const int MAX_STATUS = 30;
-    public const int RAND_STATUS = 10;
+	public static readonly int MIN_STATUS = 10;
+	public static readonly int MAX_STATUS = 30;
+    public static readonly int RAND_STATUS = 10;
 
     // MIN - MAX Exp
-    public const int MIN_EXP = 0;
-	public const int MAX_EXP = 1024;
+    public static readonly int MIN_EXP = 0;
+    public static readonly int MAX_EXP = 1024;
 
     // SHADER Name
-    public const string OUTLINE_SHADER = "Outlined/UltimateOutline";
-    public const string BASIC_SHADER = "Mobile/Unlit (Supports Lightmap)";
+    public static readonly string OUTLINE_SHADER = "Outlined/UltimateOutline";
+    public static readonly string BASIC_SHADER = "Mobile/Unlit (Supports Lightmap)";
 
     // Status posOffset
-    public const int MAX_HP_MULTI_posOffset = 1;
-    public const int AVOID_MULTI_posOffset = 1;
-    public const int SPEED_MULTI_posOffset = 1;
+    public static readonly int MAX_HP_MULTI_posOffset = 1;
+    public static readonly int AVOID_MULTI_posOffset = 1;
+    public static readonly int SPEED_MULTI_posOffset = 1;
 
-    public const int DAMAGE_STR_MUlTI_posOffset = 3;
-    public const int DAMAGE_DEX_MUlTI_posOffset = 2;
-    public const int DAMAGE_INT_MUlTI_posOffset = 1;
+    public static readonly int DAMAGE_STR_MUlTI_posOffset = 3;
+    public static readonly int DAMAGE_DEX_MUlTI_posOffset = 2;
+    public static readonly int DAMAGE_INT_MUlTI_posOffset = 1;
 
     // Party Info
-    public const int PARTY_MAX_NUM = 10;
+    public static readonly int PARTY_MAX_NUM = 10;
 
     // Battle Position
-    public const float START_X = -1.5f;
-    public const float START_Z = -5.0f;
-    public const float DISTANCE_OFFSET = 1.0f;
+    public static readonly float START_X = -1.5f;
+    public static readonly float START_Z = -5.0f;
+    public static readonly float DISTANCE_OFFSET = 1.0f;
 
     // 캐릭터 끼리 최소 만나기 직전의 최소 거리
-    public const float STOP_DISTANCE = 0.5f;
+    public static readonly float STOP_DISTANCE = 0.5f;
 
     // 공격 끝나고 되돌아 올때 거리 보정하는 기준.
-    public const float MIN_DISTANCE = 0.3f;
+    public static readonly float MIN_DISTANCE = 0.3f;
 
     // 움직이는 속도
-    public const float MOVING_SPEED = 4.0f;
+    public static readonly float MOVING_SPEED = 4.0f;
     public  static float ANIMATION_SPEED = 2.0f;
 
     // 테스트 상수
@@ -77,7 +77,6 @@ public class DEFINE
             y = 0.1f;
         }
 
-        // Vector3(0.0f, 0.0f, 5.0f);
         switch (partyIndex)
         {
             case 0:

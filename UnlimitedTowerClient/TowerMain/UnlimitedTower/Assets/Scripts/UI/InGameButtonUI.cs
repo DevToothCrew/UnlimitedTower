@@ -12,12 +12,6 @@ public class InGameButtonUI : MonoBehaviour {
 
 
     bool AnimationSpeedDouble = false;
-	void Start () {
-		
-	}
-	
-
-
     public void OnClickAnimationSpeedDouble()
     {
         if (!AnimationSpeedDouble)
@@ -53,10 +47,6 @@ public class InGameButtonUI : MonoBehaviour {
             BattleManager.Inst.StartBattle();
             transform.GetChild(0).GetComponent<Text>().fontStyle = FontStyle.Bold;
             BattleManager.Inst.BattleState = BATTLE_STATE.BATTLE;
-        }
-        else
-        {
-
         }
     }
 
