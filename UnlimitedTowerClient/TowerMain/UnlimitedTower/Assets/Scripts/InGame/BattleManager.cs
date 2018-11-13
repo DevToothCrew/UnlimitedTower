@@ -36,16 +36,19 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
     void Awake()
     {
-        if(debugFlag == true)
-        {
-            debugPanel.SetActive(true);
-           debugText.text = "Debug ";
-        }
-     
+        Debug.Log("BattleManager Awake");
+
+
+        //if(debugFlag == true)
+        //{
+        //    debugPanel.SetActive(true);
+        //   debugText.text = "Debug ";
+        //}
+
+
         SetObject();
-        SetTurnSpeed();
-        
     }
+
     // TODO : Test code if delete
     private void OnGUI()
     {
@@ -58,10 +61,13 @@ public class BattleManager : MonoSingleton<BattleManager> {
       
 
     }
+    public void InitTest()
+    {
 
+    }
     private void Update()
     {
-        SetDebug();
+       // SetDebug();
         BattleLogic();
     }
     private void BattleLogic()
@@ -165,12 +171,15 @@ public class BattleManager : MonoSingleton<BattleManager> {
     }
 
     // TODO : Test Setting if Delete
-    private void CreateTestObjetct()
+    public void CreateTestObjetct()
     {
         if(!FirstAcess)
         {
-            CharacterManager.Inst.SetChar(TestDB.LoadCharactersData());
-            FirstAcess = true;
+            //CharacterManager.Inst.SetChar(TestDB.LoadCharactersData());
+            //UserDataManager.Inst.SetChar(TestDB.LoadCharactersData());
+
+           FirstAcess = true;
+            Debug.Log("최초의 배틀씬 ");
         }
        
         CreateGameObject();
@@ -391,20 +400,26 @@ public class BattleManager : MonoSingleton<BattleManager> {
     }
     private void CreateGameObject()
     {
+        Debug.Log(" CreateGameObject()");
         PlayerParty = new GameObject("PlayerParty");
         EnemyParty = new GameObject("EnemyParty");
         for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
         {
-            if (CharacterManager.Inst.characterDic.ContainsKey(i) == false)
+            //if (CharacterManager.Inst.characterDic.ContainsKey(i) == false)
+            if (UserDataManager.Inst.characterDic.ContainsKey(i) == false)
             {
                 return;
             }
             //캐릭터 정보,                     //partyIndex   //chartIndex(필요없는 값일 수도 있음_
-            Battle_Character_Status status = new Battle_Character_Status(CharacterManager.Inst.characterDic[i], i, i, 0);
+
+            
+            //Battle_Character_Status status = new Battle_Character_Status(CharacterManager.Inst.characterDic[i], i, i, 0);
+            Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.characterDic[i], i, i, 0);
             playerStatusDic.Add(i, status);
             if (!playerObjects[i])
             {
                 playerObjects[i] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.identity);
+
                 playerObjects[i].transform.SetParent(PlayerParty.transform.transform, false);
                 if (playerObjects[i].GetComponent<CharController>())
                 {
@@ -462,6 +477,8 @@ public class BattleManager : MonoSingleton<BattleManager> {
                 }        
             }      
         }
+
+       // Debug.Log("")
     }
             
 
@@ -708,14 +725,12 @@ public class BattleManager : MonoSingleton<BattleManager> {
         SetRightPosition(charObjects, backLineCenterIndex, 3, centerCharStatus.sizeType, ref charBattleStatusDic);
         SetRightPosition(charObjects, 3, 4, charBattleStatusDic[3].sizeType, ref charBattleStatusDic);
 
-
-
         float frontLineDis = GetBackLineLargestDistance(charObjects, charType, ref charBattleStatusDic);
         frontCenterPos.z = frontLineDis;
         frontCenterPos = GetFrontLineCenterCharPos(frontCenterPos, charBattleStatusDic[frontLineCenterIndex].sizeType);
 
 
-        Debug.Log("z값 중심 : " + frontLineDis);
+        //Debug.Log("z값 중심 : " + frontLineDis);
         charObjects[frontLineCenterIndex].transform.position = frontCenterPos;
         SetLeftPosition(charObjects, frontLineCenterIndex, 6, charBattleStatusDic[frontLineCenterIndex].sizeType, ref charBattleStatusDic);
         SetLeftPosition(charObjects, 6, 5, charBattleStatusDic[6].sizeType, ref charBattleStatusDic);

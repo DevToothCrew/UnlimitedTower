@@ -11,19 +11,23 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public Dictionary<int, Character> characterDic = new Dictionary<int, Character>();
 
-    public GameObject LobbyBackGround;
-    public GameObject StageBackGround;
 
-    public GameObject StageList;
+
+
+    // TODO : 확실히 필요없다고 판단되면 삭제할것
+    //public GameObject LobbyBackGround;
+    //public GameObject StageBackGround;
+    // public GameObject StageList;
 
     public int characterIndex = 0;
 
     public void Awake()
     {
         InitFlag();
-        LobbyBackGround.SetActive(true);
-        StageBackGround.SetActive(false);
-        StageList.SetActive(false);
+        // TODO : 확실히 필요없다고 판단되면 삭제할것
+        //LobbyBackGround.SetActive(true);
+        //StageBackGround.SetActive(false);
+        //StageList.SetActive(false);
     }
 
     public void InitFlag()
@@ -56,24 +60,27 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         return true;
     }
 
-    public void ChangeSceneState(SCENE_STATE state)
-    {
-        sceneState = state;
 
-        switch (state)
-        {
-            case SCENE_STATE.Lobby:
-                StageBackGround.SetActive(false);
-                StageList.SetActive(false);
-                LobbyBackGround.SetActive(true);
-                break;
-            case SCENE_STATE.Stage:
-                LobbyBackGround.SetActive(false);
-                StageBackGround.SetActive(true);
-                StageList.SetActive(true);
-                break;
-        }
-    }
+    // TODO : 확실히 필요없다고 판단되면 삭제할것
+
+    //public void ChangeSceneState(SCENE_STATE state)
+    //{
+    //    sceneState = state;
+
+    //    switch (state)
+    //    {
+    //        case SCENE_STATE.Lobby:
+    //            StageBackGround.SetActive(false);
+    //            StageList.SetActive(false);
+    //            LobbyBackGround.SetActive(true);
+    //            break;
+    //        case SCENE_STATE.Stage:
+    //            LobbyBackGround.SetActive(false);
+    //            StageBackGround.SetActive(true);
+    //            StageList.SetActive(true);
+    //            break;
+    //    }
+    //}
 
     public int GetCharacterIndex()
     {
@@ -84,5 +91,11 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     {
         characterIndex += 1;
         characterDic.Add(characterIndex, newChar);
+    }
+
+    // TODO : Test Code if deleted
+    public void SetChar(Dictionary<int, Character> getCharcterDic)
+    {
+        characterDic = getCharcterDic;
     }
 }

@@ -9,6 +9,7 @@ public class TestDB
     // 캐릭터 세팅하는 예시. 실제로는 서버에서 값을 받아온다.
     public static Dictionary<int, Character> LoadCharactersData()
     {
+        Debug.Log("캐릭터 정보를 받아옴");
         Dictionary<int, Character> getCharactrerDic = new Dictionary<int, Character>();
 
         // 랜덤값으로 뽑기 위한

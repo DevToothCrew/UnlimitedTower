@@ -91,6 +91,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("Requset_GetStageInfo : " + stageNum);
         Response_GetStageInfo(stageNum);
+        // TODO : if delete
+
+        //BattleManager.Inst.InitTest();
+        SceneManager.LoadScene("CharacterBattleScene");
+        Debug.Log("씬 로딩 완료");
+        //BattleManager.Inst.CreateTestObjetct();
+
+
     }
 
     public void Request_EnterStage(int stageNum)
@@ -129,7 +137,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("Response_GetLobbyInfo");
         LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Lobby);
-        UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Lobby);
+
+        // void RecivePacketCharInfo()..
+        //  TODO : Test Code if deleted
+        UserDataManager.Inst.SetChar(TestDB.LoadCharactersData());
+
+
+        // TODO : 확실히 필요없다고 판단되면 삭제할것
+        //UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Lobby);
     }
 
     public void Response_Gacha()
@@ -151,13 +166,16 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("Response_GetStageInfo");
         LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Stage);
-        UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Stage);
+        // TODO : 확실히 필요없다고 판단되면 삭제할것
+        //UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Stage);
     }
 
     public void Response_EnterStage(int stageNum)
     {
         // 씬 전환 데이터 정보 변경 필요
-        SceneManager.LoadScene("CharacterScene");
+
+        // TODO : 확실히 필요없다고 판단되면 삭제할것
+        //SceneManager.LoadScene("CharacterBattleScene");
     }
 
     public void Response_Logout()
@@ -165,7 +183,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Response_Logout");
         UserDataManager.Inst.InitFlag();
         LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Login);
-        UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Login);
+        // TODO : 확실히 필요없다고 판단되면 삭제할것
+       // UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Login);
     }
 
     #endregion

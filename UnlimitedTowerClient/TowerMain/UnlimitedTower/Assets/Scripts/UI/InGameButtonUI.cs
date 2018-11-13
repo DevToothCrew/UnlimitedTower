@@ -14,6 +14,7 @@ public class InGameButtonUI : MonoBehaviour {
     bool AnimationSpeedDouble = false;
     public void OnClickAnimationSpeedDouble()
     {
+     
         if (!AnimationSpeedDouble)
         {
             Debug.Log("홠성화");

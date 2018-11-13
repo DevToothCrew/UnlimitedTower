@@ -25,7 +25,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         InitCenterPopup();
         ChangeSceneState(SCENE_STATE.Login);
     }
-
     public void ChangeSceneState(SCENE_STATE state)
     {
         switch (state)
