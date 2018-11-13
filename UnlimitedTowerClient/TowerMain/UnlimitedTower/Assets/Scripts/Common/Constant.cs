@@ -9,53 +9,54 @@ public class DEFINE
 {
 
 	// GACHA COST
-	public const int GACHA_COST = 1;
-
+	public readonly int GACHA_COST = 1;
+    
 	// MIN - MAX Status
-	public const int MIN_STATUS = 10;
-	public const int MAX_STATUS = 30;
-    public const int RAND_STATUS = 10;
+	public static readonly int MIN_STATUS = 10;
+	public static readonly int MAX_STATUS = 30;
+    public static readonly int RAND_STATUS = 10;
 
     // MIN - MAX Exp
-    public const int MIN_EXP = 0;
-	public const int MAX_EXP = 1024;
+    public static readonly int MIN_EXP = 0;
+    public static readonly int MAX_EXP = 1024;
 
     // SHADER Name
-    public const string OUTLINE_SHADER = "Outlined/UltimateOutline";
-    public const string BASIC_SHADER = "Mobile/Unlit (Supports Lightmap)";
+    public static readonly string OUTLINE_SHADER = "Outlined/UltimateOutline";
+    public static readonly string BASIC_SHADER = "Mobile/Unlit (Supports Lightmap)";
 
     // Status posOffset
-    public const int MAX_HP_MULTI_posOffset = 1;
-    public const int AVOID_MULTI_posOffset = 1;
-    public const int SPEED_MULTI_posOffset = 1;
+    public static readonly int MAX_HP_MULTI_posOffset = 1;
+    public static readonly int AVOID_MULTI_posOffset = 1;
+    public static readonly int SPEED_MULTI_posOffset = 1;
 
-    public const int DAMAGE_STR_MUlTI_posOffset = 3;
-    public const int DAMAGE_DEX_MUlTI_posOffset = 2;
-    public const int DAMAGE_INT_MUlTI_posOffset = 1;
+    public static readonly int DAMAGE_STR_MUlTI_posOffset = 3;
+    public static readonly int DAMAGE_DEX_MUlTI_posOffset = 2;
+    public static readonly int DAMAGE_INT_MUlTI_posOffset = 1;
 
     // Party Info
-    public const int PARTY_MAX_NUM = 6;
+    public static readonly int PARTY_MAX_NUM = 10;
 
     // Battle Position
-    public const float START_X = -1.5f;
-    public const float START_Z = -4.0f;
-    public const float DISTANCE_OFFSET = 1.0f;
+    public static readonly float START_X = -1.5f;
+    public static readonly float START_Z = -5.0f;
+    public static readonly float DISTANCE_OFFSET = 1.0f;
 
     // 캐릭터 끼리 최소 만나기 직전의 최소 거리
-    public const float STOP_DISTANCE = 0.5f;
+    public static readonly float STOP_DISTANCE = 0.5f;
 
     // 공격 끝나고 되돌아 올때 거리 보정하는 기준.
-    public const float MIN_DISTANCE = 0.3f;
+    public static readonly float MIN_DISTANCE = 0.3f;
 
     // 움직이는 속도
-    public const float MOVING_SPEED = 14.0f;
+    public static readonly float MOVING_SPEED = 4.0f;
+    public  static float ANIMATION_SPEED = 2.0f;
 
     // 테스트 상수
-    public const int TEST_NUM = 3;
+    public static Vector3 PLAYER_BACKLINE_CENTER_POS = new Vector3(0.0f, 0.0f, -5.0f);
+    public static Vector3 ENEMY_BACKLINE_CENTER_POS = new Vector3(0.0f, 0.0f, 5.0f);
 
 
-  
- 
+
 
     public static Vector3 GetBattlePosition(int partyIndex, CHAR_TYPE type, int num)
     {
@@ -76,18 +77,8 @@ public class DEFINE
             y = 0.1f;
         }
 
-
-        switch(partyIndex)
+        switch (partyIndex)
         {
-            case 3:
-                position = new Vector3(START_X + DISTANCE_OFFSET * 1, y, START_Z * posOffset);
-                break;
-            case 4:
-                position = new Vector3(START_X + DISTANCE_OFFSET * 2, y, START_Z * posOffset);
-                break;
-            case 5:
-                position = new Vector3(START_X + DISTANCE_OFFSET * 3, y, START_Z * posOffset);
-                break;
             case 0:
                 position = new Vector3(START_X + DISTANCE_OFFSET * 1, y, START_Z * posOffset + 1.0f);
                 break;
@@ -96,6 +87,15 @@ public class DEFINE
                 break;
             case 2:
                 position = new Vector3(START_X + DISTANCE_OFFSET * 3, y, START_Z * posOffset + 1.0f);
+                break;
+            case 3:
+                position = new Vector3(START_X + DISTANCE_OFFSET * 1, y, START_Z * posOffset);
+                break;
+            case 4:
+                position = new Vector3(START_X + DISTANCE_OFFSET * 2, y, START_Z * posOffset);
+                break;
+            case 5:
+                position = new Vector3(START_X + DISTANCE_OFFSET * 3, y, START_Z * posOffset);
                 break;
         }
 
@@ -308,18 +308,29 @@ public enum CHARACTER_NUM
 
 
     Mst_Cat             = 201,
-    Mst_Devil           = 202,
+    Mst_Demon           = 202,
     Mst_Giant           = 203,
     Mst_Monkey          = 204,
     Mst_Wolf            = 205,
     Mst_Chest           = 206,
     Mst_Anubis          = 207,
     Mst_Ninja           = 208,
-    Mst_FireFairy       = 209,
-    Mst_Death           = 210,
-    Mst_WolfMan         = 211,
-    Mst_Knight          = 212,
+    Mst_Fire_Fairy      = 209,
+    Mst_Leaf_Fairy      = 210,
+    Mst_Water_Fairy     = 211,
+    Mst_Death           = 212,
+    Mst_WolfMan         = 213,
+    Mst_Knight          = 214,
+    Mst_DarkMagician    = 215,
+    Mst_Egg             = 216,
+    Mst_Goblin_Blue     = 217,
+    Mst_Goblin_Green    = 218,
+  
+    Mst_Sham            = 219,
+    Mst_Shamcat         = 220,
  
+
+
 
 }
 

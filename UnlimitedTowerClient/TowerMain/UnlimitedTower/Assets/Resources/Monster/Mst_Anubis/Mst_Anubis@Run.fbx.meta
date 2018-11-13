@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fe624d1798375b44da59262df2b47034
+guid: bdfda9395d6668c478b331ff91e2ec18
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -109,8 +109,8 @@ ModelImporter:
     4300028: mst_bone_010
     4300030: mst_bone_008
     4300032: mst_bone_007
-    7400000: Run
-    7400002: Running
+    7400000: Running
+    7400002: Run
     9500000: //RootNode
     13700000: mst_bone
     13700002: mst_bone_001
@@ -160,7 +160,7 @@ ModelImporter:
       name: Run
       takeName: mixamo.com
       firstFrame: 0
-      lastFrame: 33
+      lastFrame: 26
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

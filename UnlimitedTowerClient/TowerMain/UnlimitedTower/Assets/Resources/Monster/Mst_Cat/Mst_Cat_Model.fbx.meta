@@ -1,15 +1,127 @@
 fileFormatVersion: 2
-guid: c4e200b39a010fc4ea5699ba14dcdd62
+guid: 1698b1675a77d9446acbbb99d84ebddd
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2100000: palette.003
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: mst_cat
-  externalObjects: {}
+    100000: foot_L
+    100002: foot_R
+    100004: forearm_L
+    100006: forearm_R
+    100008: hand_L
+    100010: hand_R
+    100012: heel_02_L
+    100014: heel_02_R
+    100016: metarig
+    100018: mst_cat
+    100020: //RootNode
+    100022: mst_cat_001
+    100024: mst_cat_002
+    100026: mst_cat_003
+    100028: mst_cat_004
+    100030: mst_cat_005
+    100032: mst_cat_006
+    100034: mst_cat_007
+    100036: mst_cat_008
+    100038: mst_cat_009
+    100040: mst_cat_010
+    100042: mst_cat_011
+    100044: mst_cat_012
+    100046: mst_cat_013
+    100048: shin_L
+    100050: shin_R
+    100052: shoulder_L
+    100054: shoulder_R
+    100056: spine
+    100058: spine_001
+    100060: spine_002
+    100062: spine_003
+    100064: spine_004
+    100066: spine_005
+    100068: spine_006
+    100070: thigh_L
+    100072: thigh_R
+    100074: toe_L
+    100076: toe_R
+    100078: upper_arm_L
+    100080: upper_arm_R
+    400000: foot_L
+    400002: foot_R
+    400004: forearm_L
+    400006: forearm_R
+    400008: hand_L
+    400010: hand_R
+    400012: heel_02_L
+    400014: heel_02_R
+    400016: metarig
+    400018: //RootNode
+    400020: mst_cat
+    400022: mst_cat_001
+    400024: mst_cat_002
+    400026: mst_cat_003
+    400028: mst_cat_004
+    400030: mst_cat_005
+    400032: mst_cat_006
+    400034: mst_cat_007
+    400036: mst_cat_008
+    400038: mst_cat_009
+    400040: mst_cat_010
+    400042: mst_cat_011
+    400044: mst_cat_012
+    400046: mst_cat_013
+    400048: shin_L
+    400050: shin_R
+    400052: shoulder_L
+    400054: shoulder_R
+    400056: spine
+    400058: spine_001
+    400060: spine_002
+    400062: spine_003
+    400064: spine_004
+    400066: spine_005
+    400068: spine_006
+    400070: thigh_L
+    400072: thigh_R
+    400074: toe_L
+    400076: toe_R
+    400078: upper_arm_L
+    400080: upper_arm_R
+    2100000: palette__mst_cat_png
+    4300000: mst_cat_003
+    4300002: mst_cat_004
+    4300004: mst_cat_009
+    4300006: mst_cat_010
+    4300008: mst_cat_013
+    4300010: mst_cat_011
+    4300012: mst_cat_002
+    4300014: mst_cat_012
+    4300016: mst_cat_001
+    4300018: mst_cat
+    4300020: mst_cat_006
+    4300022: mst_cat_005
+    4300024: mst_cat_008
+    4300026: mst_cat_007
+    7400000: Default Take
+    9500000: //RootNode
+    13700000: mst_cat
+    13700002: mst_cat_001
+    13700004: mst_cat_002
+    13700006: mst_cat_003
+    13700008: mst_cat_004
+    13700010: mst_cat_005
+    13700012: mst_cat_006
+    13700014: mst_cat_007
+    13700016: mst_cat_008
+    13700018: mst_cat_009
+    13700020: mst_cat_010
+    13700022: mst_cat_011
+    13700024: mst_cat_012
+    13700026: mst_cat_013
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: palette__mst_cat_png
+    second: {fileID: 2100000, guid: 86ed7961fbc347849b11270e72e23f09, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -83,7 +195,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

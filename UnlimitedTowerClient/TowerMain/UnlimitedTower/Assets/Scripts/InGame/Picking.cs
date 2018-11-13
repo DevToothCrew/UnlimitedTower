@@ -20,60 +20,52 @@ public class Picking : MonoSingleton<Picking> {
         {
             if ( hit.transform.CompareTag("Enemy") || hit.transform.CompareTag("Player"))
             {
-                Transform transform = hit.transform;
+                Transform charTransform = hit.transform;
                 if (!SelectedObject) 
                 {
                     //아직 선택하지 않았다면
-                   // ChangeShader(transform, DEFINE.OUTLINE_SHADER);
-
-
-                    SelectedObject = transform.gameObject;
-                    charCtrl = SelectedObject.GetComponent<CharController>();
-
-                    if (charCtrl.circleObject == null)
-                    {
-                        AddSelectionQuad();
-                    }
+                    SelectObject(ref charTransform);
                 }
                 else 
                 {
                     //이미 선택된 객체가 있을 경우
-                    if (SelectedObject != transform.gameObject) 
+                    if (SelectedObject != charTransform.gameObject) 
                     {
                         //옛날에 선택했던것과 다르다면
-                        //ChangeShader(SelectedObject.transform, DEFINE.BASIC_SHADER);
-                        //ChangeShader(hit.transform, DEFINE.OUTLINE_SHADER);
-
-                        charCtrl = SelectedObject.GetComponent<CharController>();
-                        if (charCtrl.circleObject)
-                        {
-                            DeleteCircle();
-                        }
-
-                        SelectedObject = transform.gameObject;
-                        charCtrl = SelectedObject.GetComponent<CharController>();
-                        if (charCtrl.circleObject == null)
-                        {
-                            AddSelectionQuad();
-                        }
+                       
+                        DeleteQuad();
                     }
                 }
             }
             else 
             {
                 if (SelectedObject)
-                {
-                    // ChangeShader(SelectedObject.transform, DEFINE.BASIC_SHADER);
-                    charCtrl = SelectedObject.GetComponent<CharController>();
-                    if (charCtrl.circleObject)
-                    {
-                        Destroy(charCtrl.circleObject);
-                    }
-                    SelectedObject = null;                   
+                {               
+                    DeleteQuad();
                 }
             }
         }
+        else
+        {
+            if (SelectedObject)
+            {
+
+                DeleteQuad();
+            }
+        }
        
+    }
+
+
+    void SelectObject(ref Transform charTransform)
+    {
+        SelectedObject = charTransform.gameObject;
+        charCtrl = SelectedObject.GetComponent<CharController>();
+
+        if (charCtrl.circleObject == null)
+        {
+            AddSelectionQuad();
+        }
     }
 
     void AddSelectionQuad()
@@ -81,7 +73,7 @@ public class Picking : MonoSingleton<Picking> {
         Vector3 scale = new Vector3(0.5f, 0.5f, 0.5f);
         charCtrl.circleObject = Instantiate(QuadPrefab);
         charCtrl.circleObject.transform.SetParent(charCtrl.transform, false);
-        charCtrl.circleObject.transform.position = new Vector3(charCtrl.circleObject.transform.position.x, 0.001f, charCtrl.circleObject.transform.position.z);
+        charCtrl.circleObject.transform.position = new Vector3(charCtrl.circleObject.transform.position.x, 0.042f, charCtrl.circleObject.transform.position.z);
         charCtrl.circleObject.transform.eulerAngles = new Vector3(90, 0, 0);
 
 
@@ -106,10 +98,16 @@ public class Picking : MonoSingleton<Picking> {
 
         charCtrl.circleObject.transform.localScale = scale;
     }
-    void DeleteCircle()
+    void DeleteQuad()
     {
-        Destroy(charCtrl.circleObject);
+        charCtrl = SelectedObject.GetComponent<CharController>();
+        if (charCtrl.circleObject)
+        {
+            Destroy(charCtrl.circleObject);
+        }
+        SelectedObject = null;
     }
+
 
 
 
