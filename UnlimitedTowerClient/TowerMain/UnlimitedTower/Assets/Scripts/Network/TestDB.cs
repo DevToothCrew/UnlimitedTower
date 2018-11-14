@@ -59,10 +59,10 @@ public class TestDB
         myIndexList.Add(CHARACTER_NUM.Mst_DarkKnight);
         myIndexList.Add(CHARACTER_NUM.Mst_Card);
 
-
+    
         myIndexList.Add(CHARACTER_NUM.Mst_Goblin_Blue);
         myIndexList.Add(CHARACTER_NUM.Mst_Goblin_Green);
-
+        myIndexList.Add(CHARACTER_NUM.Mst_BirdMan);
 
 
         for (int i = 0; i < 10; i++)
@@ -78,7 +78,7 @@ public class TestDB
             {
                 charSize = SIZE_TYPE.MIDDLE;
             }
-            else if(charType == CHARACTER_NUM.Mst_Death || charType == CHARACTER_NUM.Mst_Giant)
+            else if(charType == CHARACTER_NUM.Mst_Death || charType == CHARACTER_NUM.Mst_Giant || charType == CHARACTER_NUM.Mst_BirdMan)
             {
                 charSize = SIZE_TYPE.BIG;
             }

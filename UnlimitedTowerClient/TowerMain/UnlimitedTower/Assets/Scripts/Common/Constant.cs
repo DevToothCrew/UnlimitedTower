@@ -341,7 +341,8 @@ public enum CHARACTER_NUM
     Mst_Goblin_Blue     = 217,
     Mst_Goblin_Green    = 218,
     Mst_Card            = 219,
-    Mst_DarkKnight      = 220
+    Mst_DarkKnight      = 220,
+    Mst_BirdMan         = 221
 
 
     //Mst_Sham            = 219,

@@ -1,0 +1,246 @@
+fileFormatVersion: 2
+guid: e0e94cbd10a8958478e467c360f55fcc
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: foot_L
+    100002: foot_R
+    100004: forearm_L
+    100006: forearm_R
+    100008: hand_L
+    100010: hand_R
+    100012: heel_02_L
+    100014: heel_02_R
+    100016: metarig
+    100018: metarig_001
+    100020: //RootNode
+    100022: mst_birdman_000
+    100024: mst_birdman_001
+    100026: mst_birdman_002
+    100028: mst_birdman_003
+    100030: mst_birdman_004
+    100032: mst_birdman_005
+    100034: mst_birdman_006
+    100036: mst_birdman_007
+    100038: mst_birdman_008
+    100040: mst_birdman_010
+    100042: mst_birdman_011
+    100044: mst_birdman_013
+    100046: mst_birdman_014
+    100048: mst_birdman_016
+    100050: mst_birdman_017
+    100052: mst_birdman_018
+    100054: shin_L
+    100056: shin_R
+    100058: shoulder_L
+    100060: shoulder_R
+    100062: spine
+    100064: spine_001
+    100066: spine_002
+    100068: spine_003
+    100070: spine_004
+    100072: spine_005
+    100074: spine_006
+    100076: thigh_L
+    100078: thigh_R
+    100080: toe_L
+    100082: toe_R
+    100084: upper_arm_L
+    100086: upper_arm_R
+    400000: foot_L
+    400002: foot_R
+    400004: forearm_L
+    400006: forearm_R
+    400008: hand_L
+    400010: hand_R
+    400012: heel_02_L
+    400014: heel_02_R
+    400016: metarig
+    400018: metarig_001
+    400020: //RootNode
+    400022: mst_birdman_000
+    400024: mst_birdman_001
+    400026: mst_birdman_002
+    400028: mst_birdman_003
+    400030: mst_birdman_004
+    400032: mst_birdman_005
+    400034: mst_birdman_006
+    400036: mst_birdman_007
+    400038: mst_birdman_008
+    400040: mst_birdman_010
+    400042: mst_birdman_011
+    400044: mst_birdman_013
+    400046: mst_birdman_014
+    400048: mst_birdman_016
+    400050: mst_birdman_017
+    400052: mst_birdman_018
+    400054: shin_L
+    400056: shin_R
+    400058: shoulder_L
+    400060: shoulder_R
+    400062: spine
+    400064: spine_001
+    400066: spine_002
+    400068: spine_003
+    400070: spine_004
+    400072: spine_005
+    400074: spine_006
+    400076: thigh_L
+    400078: thigh_R
+    400080: toe_L
+    400082: toe_R
+    400084: upper_arm_L
+    400086: upper_arm_R
+    2100000: palette__mst_birdman_png
+    2100002: palette_003__mst_birdman_png_003
+    2100004: palette_002__mst_birdman_png_002
+    4300000: mst_birdman_010
+    4300002: mst_birdman_011
+    4300004: mst_birdman_003
+    4300006: mst_birdman_008
+    4300008: mst_birdman_014
+    4300010: mst_birdman_013
+    4300012: mst_birdman_007
+    4300014: mst_birdman_006
+    4300016: mst_birdman_016
+    4300018: mst_birdman_017
+    4300020: mst_birdman_000
+    4300022: mst_birdman_018
+    4300024: mst_birdman_004
+    4300026: mst_birdman_002
+    4300028: mst_birdman_005
+    4300030: mst_birdman_001
+    7400000: Attack
+    7400002: Attack
+    9500000: //RootNode
+    13700000: mst_birdman_000
+    13700002: mst_birdman_001
+    13700004: mst_birdman_002
+    13700006: mst_birdman_003
+    13700008: mst_birdman_004
+    13700010: mst_birdman_005
+    13700012: mst_birdman_006
+    13700014: mst_birdman_007
+    13700016: mst_birdman_008
+    13700018: mst_birdman_010
+    13700020: mst_birdman_011
+    13700022: mst_birdman_013
+    13700024: mst_birdman_014
+    13700026: mst_birdman_016
+    13700028: mst_birdman_017
+    13700030: mst_birdman_018
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Attack
+      takeName: mixamo.com
+      firstFrame: 0
+      lastFrame: 45
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0.5055147
+        functionName: AttackEvent
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

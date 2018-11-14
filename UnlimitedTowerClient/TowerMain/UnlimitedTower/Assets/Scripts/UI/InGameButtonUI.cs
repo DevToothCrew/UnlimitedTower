@@ -45,6 +45,7 @@ public class InGameButtonUI : MonoBehaviour {
     {
         if(BattleManager.Inst.BattleState != BATTLE_STATE.BATTLE  )
         {
+            //BattleManager.Inst.SetTurnSpeed();
             BattleManager.Inst.StartBattle();
             transform.GetChild(0).GetComponent<Text>().fontStyle = FontStyle.Bold;
             BattleManager.Inst.BattleState = BATTLE_STATE.BATTLE;
