@@ -134,6 +134,18 @@ public class Character
     }
     public Character(int index)
     {
+        List<CHARACTER_NUM> myIndexList = new List<CHARACTER_NUM>();
+
+        myIndexList.Add(CHARACTER_NUM.Hero_Novice_1001);
+        myIndexList.Add(CHARACTER_NUM.Hero_Novice_1002);
+        myIndexList.Add(CHARACTER_NUM.Hero_Novice_1003);
+        myIndexList.Add(CHARACTER_NUM.Hero_Novice_1004);
+
+        int myIndex = Random.Range(0, myIndexList.Count);
+        CHARACTER_NUM charType = myIndexList[myIndex];
+
+        Size = SIZE_TYPE.SMALL;
+
         Exp = 0;
         Level = 1;
 
@@ -142,8 +154,11 @@ public class Character
         Int = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
 
         Job = Random.Range(0, 3) * 100 + Random.Range(1, 3);
-        Index = index;
+
+        //Index = index;
         Name = "Test" + Index;
+        Index = (int)charType;
+
         Appear = Random.Range(0, 9999);
     }
 

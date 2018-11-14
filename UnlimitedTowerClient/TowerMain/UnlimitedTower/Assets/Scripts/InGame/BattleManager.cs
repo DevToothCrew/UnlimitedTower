@@ -45,7 +45,6 @@ public class BattleManager : MonoSingleton<BattleManager> {
         //   debugText.text = "Debug ";
         //}
 
-
         SetObject();
     }
 
@@ -408,26 +407,29 @@ public class BattleManager : MonoSingleton<BattleManager> {
             //if (CharacterManager.Inst.characterDic.ContainsKey(i) == false)
             if (UserDataManager.Inst.characterDic.ContainsKey(i) == false)
             {
-                return;
+                break;
             }
-            //캐릭터 정보,                     //partyIndex   //chartIndex(필요없는 값일 수도 있음_
-
-            
-            //Battle_Character_Status status = new Battle_Character_Status(CharacterManager.Inst.characterDic[i], i, i, 0);
-            Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.characterDic[i], i, i, 0);
-            playerStatusDic.Add(i, status);
-            if (!playerObjects[i])
+            else
             {
-                playerObjects[i] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.identity);
+                //캐릭터 정보,                     //partyIndex   //chartIndex(필요없는 값일 수도 있음_
 
-                playerObjects[i].transform.SetParent(PlayerParty.transform.transform, false);
-                if (playerObjects[i].GetComponent<CharController>())
+                //Battle_Character_Status status = new Battle_Character_Status(CharacterManager.Inst.characterDic[i], i, i, 0);
+                Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.characterDic[i], i, i, 0);
+                playerStatusDic.Add(i, status);
+                if (!playerObjects[i])
                 {
-                    playerObjects[i].GetComponent<CharController>().charType = CHAR_TYPE.PLAYER;
-                    playerObjects[i].GetComponent<CharController>().charSize = status.sizeType;
-                    //playerObject[i].GetComponent<CharController>().battleDicIndex = i;
+                    playerObjects[i] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.identity);
+
+                    playerObjects[i].transform.SetParent(PlayerParty.transform.transform, false);
+                    if (playerObjects[i].GetComponent<CharController>())
+                    {
+                        playerObjects[i].GetComponent<CharController>().charType = CHAR_TYPE.PLAYER;
+                        playerObjects[i].GetComponent<CharController>().charSize = status.sizeType;
+                        //playerObject[i].GetComponent<CharController>().battleDicIndex = i;
+                    }
                 }
-            }                   
+            }
+                  
         }
         SetBattlePosition(playerObjects, CHAR_TYPE.PLAYER, ref playerStatusDic);
         for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
@@ -448,22 +450,26 @@ public class BattleManager : MonoSingleton<BattleManager> {
         {
             if (enemyDic.ContainsKey(i) == false)
             {
-                return;
+                break;
             }
-            Battle_Character_Status status = new Battle_Character_Status(enemyDic[i], i, i, enemyDic[i].Size);
-            enemyStatusDic.Add(i, status);
-
-            if (!enemyObjects[i])
+            else
             {
-                enemyObjects[i] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.Euler(new Vector3(0, 180, 0)));
-                enemyObjects[i].transform.SetParent(EnemyParty.transform.transform, false);
-                if (enemyObjects[i].GetComponent<CharController>())
+                Battle_Character_Status status = new Battle_Character_Status(enemyDic[i], i, i, enemyDic[i].Size);
+                enemyStatusDic.Add(i, status);
+
+                if (!enemyObjects[i])
                 {
-                    enemyObjects[i].GetComponent<CharController>().charType = CHAR_TYPE.ENEMY;
-                    enemyObjects[i].GetComponent<CharController>().battleDicIndex = i;
-                    enemyObjects[i].GetComponent<CharController>().charSize = status.sizeType;
-                }                             
-            }       
+                    enemyObjects[i] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.Euler(new Vector3(0, 180, 0)));
+                    enemyObjects[i].transform.SetParent(EnemyParty.transform.transform, false);
+                    if (enemyObjects[i].GetComponent<CharController>())
+                    {
+                        enemyObjects[i].GetComponent<CharController>().charType = CHAR_TYPE.ENEMY;
+                        enemyObjects[i].GetComponent<CharController>().battleDicIndex = i;
+                        enemyObjects[i].GetComponent<CharController>().charSize = status.sizeType;
+                    }
+                }
+            }
+           
         }
         SetBattlePosition(enemyObjects, CHAR_TYPE.ENEMY, ref enemyStatusDic);
 
@@ -521,7 +527,6 @@ public class BattleManager : MonoSingleton<BattleManager> {
         {
             pos = DEFINE.ENEMY_BACKLINE_CENTER_POS;
         }
-
 
         float middleOffset = 0.25f;
         switch (sizeType)
@@ -636,6 +641,11 @@ public class BattleManager : MonoSingleton<BattleManager> {
     }
     void SetLeftPosition(GameObject[] charObjects, int centerNum, int num, SIZE_TYPE sizeType, ref Dictionary<int, Battle_Character_Status> charBattleStatusDic)
     {
+        if (charBattleStatusDic.ContainsKey(num) == false)
+        {
+            return;
+        }
+
         Vector3 pos = new Vector3(0, 0, 0);
         float x = 0, z = 0;
         float sign = 1.0f;
@@ -651,6 +661,11 @@ public class BattleManager : MonoSingleton<BattleManager> {
     }
     void SetRightPosition(GameObject[] charObjects, int centerNum, int num, SIZE_TYPE sizeType, ref Dictionary<int, Battle_Character_Status> charBattleStatusDic)
     {
+        if (charBattleStatusDic.ContainsKey(num) == false)
+        {
+            return;
+        }
+
         Vector3 pos = new Vector3(0, 0, 0);
         pos = charObjects[centerNum].transform.position;
         float x = 0, z = 0;
@@ -731,6 +746,12 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
 
         //Debug.Log("z값 중심 : " + frontLineDis);
+        if(charObjects[frontLineCenterIndex]== false)
+        {
+            return;
+        }
+
+
         charObjects[frontLineCenterIndex].transform.position = frontCenterPos;
         SetLeftPosition(charObjects, frontLineCenterIndex, 6, charBattleStatusDic[frontLineCenterIndex].sizeType, ref charBattleStatusDic);
         SetLeftPosition(charObjects, 6, 5, charBattleStatusDic[6].sizeType, ref charBattleStatusDic);

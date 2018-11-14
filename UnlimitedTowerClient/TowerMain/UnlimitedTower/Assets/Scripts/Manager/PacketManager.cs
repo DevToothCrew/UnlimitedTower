@@ -89,10 +89,16 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void Request_GetStageInfo(int stageNum)
     {
+        // TODO : if delete
+        if(UserDataManager.Inst.characterDic.Count<=0)
+        {
+            Debug.Log("캐릭터가 없습니다. 뽑기를 해주세요");
+            return;
+        }
+
         Debug.Log("Requset_GetStageInfo : " + stageNum);
         Response_GetStageInfo(stageNum);
         // TODO : if delete
-
         //BattleManager.Inst.InitTest();
         SceneManager.LoadScene("CharacterBattleScene");
         Debug.Log("씬 로딩 완료");

@@ -89,8 +89,9 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public void SetCharacter(Character newChar)
     {
-        characterIndex += 1;
+       
         characterDic.Add(characterIndex, newChar);
+        characterIndex += 1;
     }
 
     // TODO : Test Code if deleted

@@ -30,7 +30,7 @@ public class TestDB
             CHARACTER_NUM charType = myIndexList[myIndex];
             
 
-            // 사이즈 구분 번호가 없다?
+            // 사이즈 구분 번호가 없다.
             getCharactrerDic.Add(i, new Character(0, 1, getStr, getDex, getInt, 0, (charType.ToString()), (int)charType
                 , SIZE_TYPE.SMALL));
         }
