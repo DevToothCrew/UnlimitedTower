@@ -46,6 +46,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
         //}
 
         SetObject();
+        SetTurnSpeed();
     }
 
     // TODO : Test code if delete
@@ -175,7 +176,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
         if(!FirstAcess)
         {
             //CharacterManager.Inst.SetChar(TestDB.LoadCharactersData());
-            //UserDataManager.Inst.SetChar(TestDB.LoadCharactersData());
+            UserDataManager.Inst.SetChar(TestDB.LoadCharactersData());
 
            FirstAcess = true;
             Debug.Log("최초의 배틀씬 ");
@@ -780,6 +781,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
         {
             Destroy(playerObjects[i]);
             Destroy(enemyObjects[i]);
+
         }
         Destroy(PlayerParty);
         Destroy(EnemyParty);

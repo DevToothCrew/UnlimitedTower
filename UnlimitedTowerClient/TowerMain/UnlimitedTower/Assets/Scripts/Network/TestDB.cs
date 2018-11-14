@@ -46,7 +46,8 @@ public class TestDB
         myIndexList.Add(CHARACTER_NUM.Mst_Anubis);
         myIndexList.Add(CHARACTER_NUM.Mst_Ninja);
         myIndexList.Add(CHARACTER_NUM.Mst_Fire_Fairy);
-       // myIndexList.Add(CHARACTER_NUM.Mst_Leaf_Fairy);
+        myIndexList.Add(CHARACTER_NUM.Mst_Water_Fairy);
+        myIndexList.Add(CHARACTER_NUM.Mst_Leaf_Fairy);
         myIndexList.Add(CHARACTER_NUM.Mst_Death);
         myIndexList.Add(CHARACTER_NUM.Mst_Knight);
         myIndexList.Add(CHARACTER_NUM.Mst_WolfMan);
@@ -54,6 +55,7 @@ public class TestDB
         myIndexList.Add(CHARACTER_NUM.Mst_DarkMagician);
         myIndexList.Add(CHARACTER_NUM.Mst_Demon);
         myIndexList.Add(CHARACTER_NUM.Mst_Egg);
+        myIndexList.Add(CHARACTER_NUM.Mst_Giant);
         //myIndexList.Add(CHARACTER_NUM.Mst_Goblin_Blue);
         //myIndexList.Add(CHARACTER_NUM.Mst_Goblin_Green);
 
@@ -68,11 +70,11 @@ public class TestDB
             CHARACTER_NUM charType = myIndexList[myIndex];
             SIZE_TYPE charSize;
 
-            if(charType == CHARACTER_NUM.Mst_Knight)
+            if(charType == CHARACTER_NUM.Mst_Knight || charType == CHARACTER_NUM.Mst_Anubis)
             {
                 charSize = SIZE_TYPE.MIDDLE;
             }
-            else if(charType == CHARACTER_NUM.Mst_Death)
+            else if(charType == CHARACTER_NUM.Mst_Death || charType == CHARACTER_NUM.Mst_Giant)
             {
                 charSize = SIZE_TYPE.BIG;
             }
