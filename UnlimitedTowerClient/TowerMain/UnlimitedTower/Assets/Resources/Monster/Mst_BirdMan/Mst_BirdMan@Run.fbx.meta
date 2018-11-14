@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: c38875f93e4d08a42a29473b4dd804a0
+guid: 2f2b41cd8f5f06e43ac8badc5a743433
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: foot_L
-    100002: foot_R
-    100004: forearm_L
-    100006: forearm_R
-    100008: hand_L
-    100010: hand_R
-    100012: heel_02_L
-    100014: heel_02_R
-    100016: metarig
-    100018: metarig_001
-    100020: //RootNode
+    100000: //RootNode
+    100002: foot_L
+    100004: foot_R
+    100006: forearm_L
+    100008: forearm_R
+    100010: hand_L
+    100012: hand_R
+    100014: heel_02_L
+    100016: heel_02_R
+    100018: metarig
+    100020: metarig_001
     100022: mst_birdman_000
     100024: mst_birdman_001
     100026: mst_birdman_002
@@ -47,17 +47,17 @@ ModelImporter:
     100082: toe_R
     100084: upper_arm_L
     100086: upper_arm_R
-    400000: foot_L
-    400002: foot_R
-    400004: forearm_L
-    400006: forearm_R
-    400008: hand_L
-    400010: hand_R
-    400012: heel_02_L
-    400014: heel_02_R
-    400016: metarig
-    400018: metarig_001
-    400020: //RootNode
+    400000: //RootNode
+    400002: foot_L
+    400004: foot_R
+    400006: forearm_L
+    400008: forearm_R
+    400010: hand_L
+    400012: hand_R
+    400014: heel_02_L
+    400016: heel_02_R
+    400018: metarig
+    400020: metarig_001
     400022: mst_birdman_000
     400024: mst_birdman_001
     400026: mst_birdman_002
@@ -160,7 +160,7 @@ ModelImporter:
       name: Run
       takeName: mixamo.com
       firstFrame: 0
-      lastFrame: 49
+      lastFrame: 16
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

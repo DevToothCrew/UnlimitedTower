@@ -148,7 +148,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         // void RecivePacketCharInfo()..
 
         // 로비에 들어가면 데이터 연동
-        UserDataManager.Inst.SetChar(TestDB.LoadCharactersData());
+        //UserDataManager.Inst.SetChar(TestDB.LoadCharactersData());
 
 
         // TODO : 확실히 필요없다고 판단되면 삭제할것

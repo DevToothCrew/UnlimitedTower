@@ -176,7 +176,8 @@ public class BattleManager : MonoSingleton<BattleManager> {
         if(!FirstAcess)
         {
             //CharacterManager.Inst.SetChar(TestDB.LoadCharactersData());
-            UserDataManager.Inst.SetChar(TestDB.LoadCharactersData());
+
+           // UserDataManager.Inst.SetChar(TestDB.LoadCharactersData());
 
            FirstAcess = true;
             Debug.Log("최초의 배틀씬 ");
@@ -191,7 +192,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
     }
 
     // TODO : Test Setting 
-    private void SetTurnSpeed()
+    public void SetTurnSpeed()
     {
         //공격대상, 공격자, 공격하는 타입, 공격자 타입등을 알려줌.
         for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
@@ -735,18 +736,23 @@ public class BattleManager : MonoSingleton<BattleManager> {
         charObjects[backLineCenterIndex].transform.position = backCenterPos;
 
 
-        SetLeftPosition(charObjects, backLineCenterIndex, 1, centerCharStatus.sizeType, ref charBattleStatusDic);
-        SetLeftPosition(charObjects, 1, 0, charBattleStatusDic[1].sizeType, ref charBattleStatusDic);
+        //for(int i=0; i<charBattleStatusDic.Count/2; i++)
+        //{
+        //    int lineCenterIndex = i + 1;
+        //    SetLeftPosition(charObjects, lineCenterIndex, 1, centerCharStatus.sizeType, ref charBattleStatusDic);
+        //    SetRightPosition(charObjects, lineCenterIndex, 3, centerCharStatus.sizeType, ref charBattleStatusDic);
+        //}
 
+        SetLeftPosition(charObjects, backLineCenterIndex, 1, centerCharStatus.sizeType, ref charBattleStatusDic);
         SetRightPosition(charObjects, backLineCenterIndex, 3, centerCharStatus.sizeType, ref charBattleStatusDic);
+
+        SetLeftPosition(charObjects, 1, 0, charBattleStatusDic[1].sizeType, ref charBattleStatusDic);
         SetRightPosition(charObjects, 3, 4, charBattleStatusDic[3].sizeType, ref charBattleStatusDic);
 
         float frontLineDis = GetBackLineLargestDistance(charObjects, charType, ref charBattleStatusDic);
         frontCenterPos.z = frontLineDis;
         frontCenterPos = GetFrontLineCenterCharPos(frontCenterPos, charBattleStatusDic[frontLineCenterIndex].sizeType);
 
-
-        //Debug.Log("z값 중심 : " + frontLineDis);
         if(charObjects[frontLineCenterIndex]== false)
         {
             return;
@@ -754,11 +760,11 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
 
         charObjects[frontLineCenterIndex].transform.position = frontCenterPos;
+
         SetLeftPosition(charObjects, frontLineCenterIndex, 6, charBattleStatusDic[frontLineCenterIndex].sizeType, ref charBattleStatusDic);
-        SetLeftPosition(charObjects, 6, 5, charBattleStatusDic[6].sizeType, ref charBattleStatusDic);
-
-
         SetRightPosition(charObjects, frontLineCenterIndex, 8, charBattleStatusDic[frontLineCenterIndex].sizeType, ref charBattleStatusDic);
+
+        SetLeftPosition(charObjects, 6, 5, charBattleStatusDic[6].sizeType, ref charBattleStatusDic);
         SetRightPosition(charObjects, 8, 9, charBattleStatusDic[8].sizeType, ref charBattleStatusDic);
     }
 

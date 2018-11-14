@@ -74,7 +74,8 @@ public class TestDB
             CHARACTER_NUM charType = myIndexList[myIndex];
             SIZE_TYPE charSize;
 
-            if(charType == CHARACTER_NUM.Mst_Knight || charType == CHARACTER_NUM.Mst_Anubis || charType == CHARACTER_NUM.Mst_DarkKnight)
+            if(charType == CHARACTER_NUM.Mst_Knight || charType == CHARACTER_NUM.Mst_Anubis || charType == CHARACTER_NUM.Mst_DarkKnight
+                || charType == CHARACTER_NUM.Mst_WolfMan)
             {
                 charSize = SIZE_TYPE.MIDDLE;
             }
