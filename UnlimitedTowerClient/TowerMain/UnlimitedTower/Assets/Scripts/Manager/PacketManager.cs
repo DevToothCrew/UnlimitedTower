@@ -138,9 +138,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Response_GetLobbyInfo");
         LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Lobby);
 
-        // void RecivePacketCharInfo()..
         //  TODO : Test Code if deleted
-        UserDataManager.Inst.SetChar(TestDB.LoadCharactersData());
+        // void RecivePacketCharInfo()..
+
+        // 로비에 들어가면 데이터 연동
+        //UserDataManager.Inst.SetChar(TestDB.LoadCharactersData());
 
 
         // TODO : 확실히 필요없다고 판단되면 삭제할것
@@ -151,6 +153,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("Response_Gacha");
 
+        // TODO : 현재 임시로 TestDB에서 캐릭터 정보 가져와서
+        // 갓차 클릭하면 바로터짐.
         Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1);
         UserDataManager.Inst.SetCharacter(newChar);
 
