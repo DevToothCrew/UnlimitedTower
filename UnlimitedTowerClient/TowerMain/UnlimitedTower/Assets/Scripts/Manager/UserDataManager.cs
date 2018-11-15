@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UserDataManager : MonoSingleton<UserDataManager> {
 
@@ -98,5 +99,31 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public void SetChar(Dictionary<int, Character> getCharcterDic)
     {
         characterDic = getCharcterDic;
+    }
+
+
+    public void LoadCharList()
+    {
+        int charDicCount = UserDataManager.Inst.characterDic.Count;
+
+        for (int i = 0; i < charDicCount; i++)
+        {
+            var instance = Instantiate(Resources.Load("Prefabs/CharElement") as GameObject);
+            if (instance.GetComponent<Image>())
+            {
+                instance.GetComponent<Image>().sprite = Resources.Load<Sprite>("CharaterImage/" + UserDataManager.Inst.characterDic[i].Name);
+                instance.transform.SetParent(LobbyManager.Inst.CharacterListContent.transform.transform);
+            }
+
+        }
+    }
+    public void AddNewChar(string getChar)
+    {
+        var instance = Instantiate(Resources.Load("Prefabs/CharElement") as GameObject);
+        if (instance.GetComponent<Image>())
+        {
+            instance.GetComponent<Image>().sprite = Resources.Load<Sprite>("CharaterImage/" + getChar);
+        }
+        instance.transform.SetParent(LobbyManager.Inst.CharacterListContent.transform.transform);
     }
 }

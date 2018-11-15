@@ -2581,7 +2581,7 @@ GameObject:
   - component: {fileID: 324762382}
   - component: {fileID: 324762381}
   m_Layer: 5
-  m_Name: CharacterList
+  m_Name: CharacterListScroll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6053,6 +6053,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0835a9c00d9e7cb469a4bf0d4e2193bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CharacterListContent: {fileID: 292467050}
+  ElementPrefab: {fileID: 1064912378579048, guid: 8ac944c4aa67324408f17431288cbbc7,
+    type: 2}
   GachaResultInfoPopup: {fileID: 1881522387}
   GachaResultInfoText: {fileID: 534362213}
 --- !u!1 &832571410

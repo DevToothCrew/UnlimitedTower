@@ -20,6 +20,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public GameObject StageInfoPopup;
     public GameObject SettingInfoPopup;
 
+    public GameObject CharacterListContent;
+
     public void Awake()
     {
         if(!UserDataManager.Inst.UserLoginFlag)
@@ -31,6 +33,9 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         else
         {
             Debug.Log("로비로 리턴");
+
+
+            UserDataManager.Inst.LoadCharList();
             ChangeSceneState(SCENE_STATE.Lobby);
            
         }       

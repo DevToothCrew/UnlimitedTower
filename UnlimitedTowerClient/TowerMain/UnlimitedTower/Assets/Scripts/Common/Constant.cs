@@ -156,7 +156,8 @@ public class Character
         Job = Random.Range(0, 3) * 100 + Random.Range(1, 3);
 
         //Index = index;
-        Name = "Test" + Index;
+        //Name = "Test" + Index;
+        Name = charType.ToString();
         Index = (int)charType;
 
         Appear = Random.Range(0, 9999);
