@@ -414,9 +414,8 @@ public class BattleManager : MonoSingleton<BattleManager> {
             else
             {
                 //캐릭터 정보,                     //partyIndex   //chartIndex(필요없는 값일 수도 있음)
-
-                //Battle_Character_Status status = new Battle_Character_Status(CharacterManager.Inst.characterDic[i], i, i, 0);
                 Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.characterDic[i], i, i, 0);
+                //Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.formationDic[i], i, i, 0);
                 playerStatusDic.Add(i, status);
                 if (!playerObjects[i])
                 {
@@ -488,8 +487,6 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
     }
             
-
-
 
 
     float GetBigOffset(ref Dictionary<int, Battle_Character_Status> charBattleStatusDic )

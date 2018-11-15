@@ -11,7 +11,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public SCENE_STATE sceneState = SCENE_STATE.None;
 
     public Dictionary<int, Character> characterDic = new Dictionary<int, Character>();
-
+    public Dictionary<int, Character> formationDic = new Dictionary<int, Character>();
 
 
 
@@ -125,5 +125,72 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             instance.GetComponent<Image>().sprite = Resources.Load<Sprite>("CharaterImage/" + getChar);
         }
         instance.transform.SetParent(LobbyManager.Inst.CharacterListContent.transform.transform);
+
+       //SetFormation();
     }
+
+    // TODO : Test Code if deleted
+    private void SetFormation()
+    {
+        List<int> formationList = new List<int>();
+        formationList.Add(2);
+
+        switch(characterDic.Count)
+        {
+            case 1:
+                {
+                    formationDic.Add(2, characterDic[characterDic.Count - 1]);
+                    break;
+                }
+            case 2:
+                {
+                    formationDic.Add(1, characterDic[characterDic.Count - 1]);
+                    break;
+                }
+            case 3:
+                {
+                    formationDic.Add(3, characterDic[characterDic.Count - 1]);
+                    break;
+                }
+            case 4:
+                {
+                    formationDic.Add(0, characterDic[characterDic.Count - 1]);
+                    break;
+                }
+            case 5:
+                {
+                    formationDic.Add(4, characterDic[characterDic.Count - 1]);
+                    break;
+                }
+            case 6:
+                {
+                    formationDic.Add(7, characterDic[characterDic.Count - 1]);
+                    break;
+                }
+            case 7:
+                {
+                    formationDic.Add(6, characterDic[characterDic.Count - 1]);
+                    break;
+                }
+            case 8:
+                {
+                    formationDic.Add(8, characterDic[characterDic.Count - 1]);
+                    break;
+                }
+             case 9:
+                {
+                    formationDic.Add(5, characterDic[characterDic.Count - 1]);
+                    break;
+                }
+            case 10:
+                {
+                    formationDic.Add(9, characterDic[characterDic.Count - 1]);
+                    break;
+                }
+        }
+        
+        
+       
+    }
+
 }
