@@ -2131,7 +2131,7 @@ GameObject:
   - component: {fileID: 292467052}
   - component: {fileID: 292467053}
   m_Layer: 5
-  m_Name: Content
+  m_Name: CharListContent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2174,7 +2174,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 100, y: 100}
+  m_CellSize: {x: 155, y: 155}
   m_Spacing: {x: 10, y: 30}
   m_Constraint: 2
   m_ConstraintCount: 1
@@ -2213,7 +2213,7 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 304513083}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2227,13 +2227,13 @@ RectTransform:
   - {fileID: 546492153}
   - {fileID: 1942608019}
   - {fileID: 1161966256}
-  m_Father: {fileID: 594191674}
+  m_Father: {fileID: 631953932}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 1000, y: 682}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &304513085
 MonoBehaviour:
@@ -2654,7 +2654,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Content: {fileID: 292467051}
   m_Horizontal: 1
-  m_Vertical: 1
+  m_Vertical: 0
   m_MovementType: 1
   m_Elasticity: 0.1
   m_Inertia: 1
@@ -4369,8 +4369,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 304513084}
+  m_Children: []
   m_Father: {fileID: 1434154573}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4515,6 +4514,40 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -152}
   m_SizeDelta: {x: 260, y: 30}
   m_Pivot: {x: 0, y: 1}
+--- !u!1 &631953931
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 631953932}
+  m_Layer: 5
+  m_Name: FormationListPopup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &631953932
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 631953931}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 304513084}
+  m_Father: {fileID: 1434154573}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &638590332
 GameObject:
   m_ObjectHideFlags: 0
@@ -6053,9 +6086,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0835a9c00d9e7cb469a4bf0d4e2193bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterListContent: {fileID: 292467050}
-  ElementPrefab: {fileID: 1064912378579048, guid: 8ac944c4aa67324408f17431288cbbc7,
-    type: 2}
   GachaResultInfoPopup: {fileID: 1881522387}
   GachaResultInfoText: {fileID: 534362213}
 --- !u!1 &832571410
@@ -9523,6 +9553,7 @@ RectTransform:
   - {fileID: 594191674}
   - {fileID: 1440411914}
   - {fileID: 1049970514}
+  - {fileID: 631953932}
   - {fileID: 1871771296}
   m_Father: {fileID: 1334481535}
   m_RootOrder: 2
@@ -10022,6 +10053,7 @@ MonoBehaviour:
   GachaInfoPopup: {fileID: 831700362}
   StageInfoPopup: {fileID: 1285505471}
   SettingInfoPopup: {fileID: 1920526032}
+  CharacterListContent: {fileID: 292467050}
 --- !u!1 &1497820692
 GameObject:
   m_ObjectHideFlags: 0
@@ -12167,7 +12199,7 @@ RectTransform:
   - {fileID: 444530802}
   - {fileID: 324762380}
   m_Father: {fileID: 1434154573}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

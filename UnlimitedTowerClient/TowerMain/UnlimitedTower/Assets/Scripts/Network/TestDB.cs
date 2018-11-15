@@ -58,8 +58,6 @@ public class TestDB
         myIndexList.Add(CHARACTER_NUM.Mst_Giant);
         myIndexList.Add(CHARACTER_NUM.Mst_DarkKnight);
         myIndexList.Add(CHARACTER_NUM.Mst_Card);
-
-    
         myIndexList.Add(CHARACTER_NUM.Mst_Goblin_Blue);
         myIndexList.Add(CHARACTER_NUM.Mst_Goblin_Green);
         myIndexList.Add(CHARACTER_NUM.Mst_BirdMan);

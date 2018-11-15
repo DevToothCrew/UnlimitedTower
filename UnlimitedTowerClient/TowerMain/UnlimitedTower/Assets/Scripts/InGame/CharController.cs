@@ -22,7 +22,7 @@ public class CharController : MonoBehaviour
 
     public int battleDicIndex;
 
-    public GameObject circleObject;
+    public GameObject QuadSelectionObject;
 
    
     private void Awake()

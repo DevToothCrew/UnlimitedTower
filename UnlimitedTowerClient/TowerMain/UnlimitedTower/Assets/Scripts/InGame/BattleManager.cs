@@ -734,11 +734,12 @@ public class BattleManager : MonoSingleton<BattleManager> {
         //int centerLineIndex = backLineCenterIndex;
         //for (int i = 0; i < charBattleStatusDic.Count / 2; i++)
         //{
-            
+
         //    SetLeftPosition(charObjects, centerLineIndex, 1, centerCharStatus.sizeType, ref charBattleStatusDic);
         //    SetRightPosition(charObjects, centerLineIndex, 3, centerCharStatus.sizeType, ref charBattleStatusDic);
         //}
 
+        // 최적화 할것.
         SetLeftPosition(charObjects, backLineCenterIndex, 1, centerCharStatus.sizeType, ref charBattleStatusDic);
         SetRightPosition(charObjects, backLineCenterIndex, 3, centerCharStatus.sizeType, ref charBattleStatusDic);
 
