@@ -413,7 +413,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
             }
             else
             {
-                //캐릭터 정보,                     //partyIndex   //chartIndex(필요없는 값일 수도 있음_
+                //캐릭터 정보,                     //partyIndex   //chartIndex(필요없는 값일 수도 있음)
 
                 //Battle_Character_Status status = new Battle_Character_Status(CharacterManager.Inst.characterDic[i], i, i, 0);
                 Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.characterDic[i], i, i, 0);
@@ -486,7 +486,6 @@ public class BattleManager : MonoSingleton<BattleManager> {
             }      
         }
 
-       // Debug.Log("")
     }
             
 
@@ -735,12 +734,12 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
         charObjects[backLineCenterIndex].transform.position = backCenterPos;
 
-
-        //for(int i=0; i<charBattleStatusDic.Count/2; i++)
+        //int centerLineIndex = backLineCenterIndex;
+        //for (int i = 0; i < charBattleStatusDic.Count / 2; i++)
         //{
-        //    int lineCenterIndex = i + 1;
-        //    SetLeftPosition(charObjects, lineCenterIndex, 1, centerCharStatus.sizeType, ref charBattleStatusDic);
-        //    SetRightPosition(charObjects, lineCenterIndex, 3, centerCharStatus.sizeType, ref charBattleStatusDic);
+            
+        //    SetLeftPosition(charObjects, centerLineIndex, 1, centerCharStatus.sizeType, ref charBattleStatusDic);
+        //    SetRightPosition(charObjects, centerLineIndex, 3, centerCharStatus.sizeType, ref charBattleStatusDic);
         //}
 
         SetLeftPosition(charObjects, backLineCenterIndex, 1, centerCharStatus.sizeType, ref charBattleStatusDic);
