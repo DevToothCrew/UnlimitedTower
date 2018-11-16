@@ -12,7 +12,11 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public Dictionary<int, Character> characterDic = new Dictionary<int, Character>();
     public Dictionary<int, Character> formationDic = new Dictionary<int, Character>();
-    public List<int> formationList = new List<int>();
+    public List<int> userCharsKeyList = new List<int>();
+    public List<int> formationOrderList = new List<int>()
+    {
+        2, 1, 3, 0, 4, 7, 6, 8, 5, 9
+    };
 
 
     // TODO : 확실히 필요없다고 판단되면 삭제할것
@@ -36,6 +40,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         Debug.Log("InitFlag");
         UserLoginFlag = false;
         CreatePlayerFlag = false;
+ 
     }
 
     public void SetUserLoginFlag(bool flag)
@@ -133,7 +138,9 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     private void SetFormation()
     {
         // 지금은 들어가는 순서대로 세팅.
-        formationList.Add(characterDic.Count - 1);
+        // UserCharsKeyList?
+        // 
+        userCharsKeyList.Add(characterDic.Count - 1);
 
     }
 

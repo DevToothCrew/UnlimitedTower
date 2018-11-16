@@ -415,21 +415,34 @@ public class BattleManager : MonoSingleton<BattleManager> {
         PlayerParty = new GameObject("PlayerParty");
         EnemyParty = new GameObject("EnemyParty");
 
-        List<int> charPositionList = new List<int>()
-        {
-            2, 1, 3, 0, 4, 7, 6, 8, 5, 9
-        };
+    
+        // TODO : 캐릭터 배틀 포지션 한번에 세팅했던 함수.
+        // CreatePlayerBsttlePosition(playerObjects, CHAR_TYPE.PLAYER, ref playerStatusDic);
+        CreatePlayerObjects();
+        SetCharBattlePosition(playerObjects);
 
+        // TODO : DB 대신 임시로 몬스터 생성.
+        CreateEnemyObjects();
+        CreateEnemyBattlePosition(enemyObjects, CHAR_TYPE.ENEMY, ref enemyStatusDic);
+
+        SetCharBattlePosition(enemyObjects);
+    }
+
+
+    private void CreatePlayerObjects()
+    {
         for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
         {
-            if (UserDataManager.Inst.formationList.Count <= i)
+            if (UserDataManager.Inst.userCharsKeyList.Count <= i)
             {
                 break;
             }
-            int formationNum = UserDataManager.Inst.formationList[i];
+            int charKey = UserDataManager.Inst.userCharsKeyList[i];
+            int formationNum = UserDataManager.Inst.formationOrderList[i];
+
 
             //if (UserDataManager.Inst.characterDic.ContainsKey(i) == false)
-            if (UserDataManager.Inst.characterDic.ContainsKey(formationNum) == false)
+            if (UserDataManager.Inst.characterDic.ContainsKey(charKey) == false)
             {
                 break;
             }
@@ -437,41 +450,29 @@ public class BattleManager : MonoSingleton<BattleManager> {
             {
                 //캐릭터 정보,                     //partyIndex   //chartIndex(필요없는 값일 수도 있음)
                 // Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.characterDic[i], i, i, 0);
-                        
-                Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.characterDic[formationNum], charPositionList[i], i, 0);
+                Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.characterDic[charKey], formationNum, i, 0);
 
                 //playerStatusDic.Add(i, status);
-                playerStatusDic.Add(charPositionList[i], status);
-                if (!playerObjects[charPositionList[i]])
+                playerStatusDic.Add(formationNum, status);
+                if (!playerObjects[formationNum])
                 {
-                    playerObjects[charPositionList[i]] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.identity);
+                    playerObjects[formationNum] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.identity);
 
-                    playerObjects[charPositionList[i]].transform.SetParent(PlayerParty.transform.transform, false);
-                    if (playerObjects[charPositionList[i]].GetComponent<CharController>())
+                    playerObjects[formationNum].transform.SetParent(PlayerParty.transform.transform, false);
+                    if (playerObjects[formationNum].GetComponent<CharController>())
                     {
-                        playerObjects[charPositionList[i]].GetComponent<CharController>().charType = CHAR_TYPE.PLAYER;
-                        playerObjects[charPositionList[i]].GetComponent<CharController>().charSize = status.sizeType;
+                        playerObjects[formationNum].GetComponent<CharController>().charType = CHAR_TYPE.PLAYER;
+                        playerObjects[formationNum].GetComponent<CharController>().charSize = status.sizeType;
 
-                        SetPlayerBsttlePosition(charPositionList[i], playerObjects, CHAR_TYPE.PLAYER, ref playerStatusDic);
-                        playerObjects[charPositionList[i]].GetComponent<CharController>().battleDicIndex = charPositionList[i];
+                        CreatePlayerBsttlePosition(formationNum, playerObjects, CHAR_TYPE.PLAYER, ref playerStatusDic);
+                        playerObjects[formationNum].GetComponent<CharController>().battleDicIndex = formationNum;
                     }
                 }
             }
-                  
         }
-       // SetBattlePosition(playerObjects, CHAR_TYPE.PLAYER, ref playerStatusDic);
-        for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
-        {
-            if(playerObjects[i])
-            {
-                if(playerObjects[i].GetComponent<CharController>())
-                {
-                    playerObjects[i].GetComponent<CharController>().SetFirstPosition();
-                }
-            }         
-        }
-            
-        // TODO : DB 대신 임시로
+    }
+    private void CreateEnemyObjects()
+    {
         Dictionary<int, Character> enemyDic = TestDB.LoadMonstersData();
 
         for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
@@ -497,25 +498,14 @@ public class BattleManager : MonoSingleton<BattleManager> {
                     }
                 }
             }
-           
         }
-        SetEnemyBattlePosition(enemyObjects, CHAR_TYPE.ENEMY, ref enemyStatusDic);
-
-        for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
-        {
-            if(enemyObjects[i])
-            {
-                if (enemyObjects[i].GetComponent<CharController>())
-                {
-                    enemyObjects[i].GetComponent<CharController>().SetFirstPosition();
-                }        
-            }      
-        }
-
     }
 
 
+
+
     #region CharacterPosition Setting Func
+
     private float GetBigOffset(ref Dictionary<int, Battle_Character_Status> charBattleStatusDic )
     {
         bool isBigBackLine = false;
@@ -744,7 +734,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
         return dis;
     }
 
-    private void SetPlayerBsttlePosition(int fomationOrder, GameObject[] charObjects, CHAR_TYPE charType, ref Dictionary<int, Battle_Character_Status> charBattleStatusDic)
+    private void CreatePlayerBsttlePosition(int fomationOrder, GameObject[] charObjects, CHAR_TYPE charType, ref Dictionary<int, Battle_Character_Status> charBattleStatusDic)
     {
         Vector3 frontCenterPos = DEFINE.PLAYER_BACKLINE_CENTER_POS;
 
@@ -814,7 +804,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
         }
     }
-    private void SetEnemyBattlePosition(GameObject[] charObjects, CHAR_TYPE charType, ref Dictionary<int, Battle_Character_Status> charBattleStatusDic)
+    private void CreateEnemyBattlePosition(GameObject[] charObjects, CHAR_TYPE charType, ref Dictionary<int, Battle_Character_Status> charBattleStatusDic)
     {
         int backLineCenterIndex = charBattleStatusDic.Count / 2 / 2;
         int frontLineCenterIndex = charBattleStatusDic.Count / 2 / 2 + charBattleStatusDic.Count / 2;
@@ -862,6 +852,21 @@ public class BattleManager : MonoSingleton<BattleManager> {
         SetLeftPosition(charObjects, 6, 5, charBattleStatusDic[6].sizeType, ref charBattleStatusDic);
         SetRightPosition(charObjects, 8, 9, charBattleStatusDic[8].sizeType, ref charBattleStatusDic);
     }
+
+    private void SetCharBattlePosition(GameObject[] charObjects)
+    {
+        for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
+        {
+            if (charObjects[i])
+            {
+                if (charObjects[i].GetComponent<CharController>())
+                {
+                    charObjects[i].GetComponent<CharController>().SetFirstPosition();
+                }
+            }
+        }
+    }
+
     #endregion
 
     public void RestBattle()
