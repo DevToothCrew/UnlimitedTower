@@ -188,7 +188,6 @@ public class BattleManager : MonoSingleton<BattleManager> {
         return Resources.Load("Prefabs/" + ( (CHARACTER_NUM)num ).ToString() ) as GameObject;
     }
 
-    //*(*******죽은애 또 죽여버려서 팅김.
 
 
     // TODO : Test Setting 
@@ -301,6 +300,8 @@ public class BattleManager : MonoSingleton<BattleManager> {
     }
 
 
+    #region BattleLogic Funcs
+
     public void GetCharObject(CHAR_TYPE charType, int myIndex,  ref GameObject myObject, int targetNum, ref GameObject TargetObject)
     {
         if (charType == CHAR_TYPE.PLAYER)
@@ -408,6 +409,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
     }
 
 
+    #endregion
 
     private void CreateGameObject()
     {
@@ -427,7 +429,6 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
         SetCharBattlePosition(enemyObjects);
     }
-
 
     private void CreatePlayerObjects()
     {
@@ -504,7 +505,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
 
 
-    #region CharacterPosition Setting Func
+    #region CharacterPosition Setting Funcs
 
     private float GetBigOffset(ref Dictionary<int, Battle_Character_Status> charBattleStatusDic )
     {
