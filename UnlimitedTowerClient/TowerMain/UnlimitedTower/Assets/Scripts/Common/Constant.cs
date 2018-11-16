@@ -149,7 +149,7 @@ public class Character
         Exp = 0;
         Level = 1;
 
-        Str = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
+        Str = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS) + 400;
         Dex = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
         Int = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
 

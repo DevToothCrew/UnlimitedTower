@@ -39,11 +39,11 @@ public class BattleManager : MonoSingleton<BattleManager> {
         Debug.Log("BattleManager Awake");
 
 
-        //if(debugFlag == true)
-        //{
-        //    debugPanel.SetActive(true);
-        //   debugText.text = "Debug ";
-        //}
+        if (debugFlag == true)
+        {
+            debugPanel.SetActive(true);
+            debugText.text = "Debug ";
+        }
 
         SetObject();
        SetTurnSpeed();
@@ -67,7 +67,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
     }
     private void Update()
     {
-       // SetDebug();
+        SetDebug();
         BattleLogic();
     }
     private void BattleLogic()
@@ -150,12 +150,17 @@ public class BattleManager : MonoSingleton<BattleManager> {
             if(turnActionList[i].charType == CHAR_TYPE.PLAYER)
             {
                 if (!playerStatusDic.ContainsKey(turnActionList[i].myIndex))
+                {
                     turnActionList.RemoveAt(i);
+                }
+                    
             }
             else
             {
                 if (!enemyStatusDic.ContainsKey(turnActionList[i].myIndex))
+                {
                     turnActionList.RemoveAt(i);
+                }
             }
         }
     }
@@ -167,53 +172,64 @@ public class BattleManager : MonoSingleton<BattleManager> {
     private void SetObject()
     {
         // TODO : Test Setting if Delete
-        CreateTestObjetct();
-    }
-
-    // TODO : Test Setting if Delete
-    public void CreateTestObjetct()
-    {
-        if(!FirstAcess)
+        if (!FirstAcess)
         {
             //CharacterManager.Inst.SetChar(TestDB.LoadCharactersData());
 
-           // UserDataManager.Inst.SetChar(TestDB.LoadCharactersData());
+            // UserDataManager.Inst.SetChar(TestDB.LoadCharactersData());
 
-           FirstAcess = true;
+            FirstAcess = true;
             Debug.Log("최초의 배틀씬 ");
         }
-       
+
         CreateGameObject();
     }
+
+
    
     private GameObject GetCharacterObject(int num)
     {
         return Resources.Load("Prefabs/" + ( (CHARACTER_NUM)num ).ToString() ) as GameObject;
     }
 
+    //*(*******죽은애 또 죽여버려서 팅김.
+
+
     // TODO : Test Setting 
     public void SetTurnSpeed()
     {
         //공격대상, 공격자, 공격하는 타입, 공격자 타입등을 알려줌.
-        for (int i = 0; i < playerStatusDic.Count; i++)
+        foreach (KeyValuePair<int, Battle_Character_Status> dic in playerStatusDic)
         {
-            //플레이어
-            if (playerObjects[i])
-            {
-                CharacterAction temp1 = new CharacterAction(i, GetTargetIndex(CHAR_TYPE.ENEMY), ACTION_TYPE.Attack, CHAR_TYPE.PLAYER);
-                turnActionList.Add(temp1);
-            }
+            CharacterAction temp1 = new CharacterAction(dic.Key, GetTargetIndex(CHAR_TYPE.ENEMY), ACTION_TYPE.Attack, CHAR_TYPE.PLAYER);
+            turnActionList.Add(temp1);
         }
-        for (int i = 0; i < enemyStatusDic.Count; i++)
-        {
-            //적
-            if(enemyObjects[i])
-            {
-                CharacterAction temp1 = new CharacterAction(i, GetTargetIndex(CHAR_TYPE.PLAYER), ACTION_TYPE.Attack, CHAR_TYPE.ENEMY);
 
-                turnActionList.Add(temp1);
-            }      
+        foreach (KeyValuePair<int, Battle_Character_Status> dic in enemyStatusDic)
+        {
+            CharacterAction temp1 = new CharacterAction(dic.Key, GetTargetIndex(CHAR_TYPE.PLAYER), ACTION_TYPE.Attack, CHAR_TYPE.ENEMY);
+            turnActionList.Add(temp1);
         }
+
+        //for (int i = 0; i < playerStatusDic.Count; i++)
+        //{
+        //    //플레이어
+        //    if (playerObjects[i])
+        //    {
+        //        CharacterAction temp1 = new CharacterAction(i, GetTargetIndex(CHAR_TYPE.ENEMY), ACTION_TYPE.Attack, CHAR_TYPE.PLAYER);
+        //        turnActionList.Add(temp1);
+        //    }
+        //}
+        //for (int i = 0; i < enemyStatusDic.Count; i++)
+        //{
+        //    //적
+        //    if(enemyObjects[i])
+        //    {
+        //        CharacterAction temp1 = new CharacterAction(i, GetTargetIndex(CHAR_TYPE.PLAYER), ACTION_TYPE.Attack, CHAR_TYPE.ENEMY);
+
+        //        turnActionList.Add(temp1);
+        //    }      
+        //}
 
         turnActionList.Sort(SpeedComparer);
 
@@ -241,14 +257,15 @@ public class BattleManager : MonoSingleton<BattleManager> {
             while (!playerStatusDic.ContainsKey(targetIndex))
             {
                 targetIndex = Random.Range(0, DEFINE.PARTY_MAX_NUM);
-            }           
+             
+            }
         }
         else
         {
            // targetIndex = Random.Range(0, enemyStatusDic.Count);
             while (!enemyStatusDic.ContainsKey(targetIndex))
             {
-                targetIndex = Random.Range(0, DEFINE.PARTY_MAX_NUM);
+                targetIndex = Random.Range(0, DEFINE.PARTY_MAX_NUM);              
             }
         }
         return targetIndex;
@@ -358,17 +375,16 @@ public class BattleManager : MonoSingleton<BattleManager> {
             return;
         }
         if (AttackOrder < enemyStatusDic.Count + playerStatusDic.Count)
-        {
-
+        {       
             AttackerAction = turnActionList[AttackOrder];
 
-
+        
             // 타켓이 죽었는지 검사
             CheckTargetIsLive(AttackerAction.charType);
-            GetCharObject(AttackerAction.charType, AttackerAction.myIndex, ref AttackObject,
-                                                                AttackerAction.targetIndex, ref TargetObject);
 
-            // 현재 공격하는 오브젝트를 실행한다.
+      
+            GetCharObject(AttackerAction.charType, AttackerAction.myIndex, ref AttackObject,  AttackerAction.targetIndex, ref TargetObject);
+            // 현재 공격하는 오브젝트를 실행한다
             CharController charController = AttackObject.GetComponent<CharController>();
             charController.StartMyTurn(STATE_TYPE.RUN, TargetObject, AttackerAction);
 
@@ -383,7 +399,6 @@ public class BattleManager : MonoSingleton<BattleManager> {
         {
             targetDic[targetIndex].nowHp = 0;
             charObject[targetIndex].GetComponent<CharController>().PlayDeadAnimation();
-
 
             // 죽으면..
             if (targetDic.ContainsKey(targetIndex))
@@ -408,7 +423,17 @@ public class BattleManager : MonoSingleton<BattleManager> {
         }
         else
         {
-            AttackerAction.targetIndex = GetTargetIndex(AttackerAction.charType);
+            if(AttackerAction.charType == CHAR_TYPE.PLAYER)
+            {
+                AttackerAction.targetIndex = GetTargetIndex(CHAR_TYPE.ENEMY);
+            }
+            else
+            {
+                AttackerAction.targetIndex = GetTargetIndex(CHAR_TYPE.PLAYER);
+            }
+
+            //AttackerAction.targetIndex = GetTargetIndex(AttackerAction.charType);
+           // Debug.Log("변경된" + AttackerAction.charType.ToString() + " 타켓 키 : " + AttackerAction.targetIndex);
         }
     }
     private void CreateGameObject()
@@ -465,16 +490,16 @@ public class BattleManager : MonoSingleton<BattleManager> {
                   
         }
        // SetBattlePosition(playerObjects, CHAR_TYPE.PLAYER, ref playerStatusDic);
-        //for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
-        //{
-        //    if(playerObjects[i])
-        //    {
-        //        if(playerObjects[i].GetComponent<CharController>())
-        //        {
-        //            playerObjects[i].GetComponent<CharController>().SetFirstPosition();
-        //        }
-        //    }         
-        //}
+        for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
+        {
+            if(playerObjects[i])
+            {
+                if(playerObjects[i].GetComponent<CharController>())
+                {
+                    playerObjects[i].GetComponent<CharController>().SetFirstPosition();
+                }
+            }         
+        }
             
         // TODO : DB 대신 임시로
         Dictionary<int, Character> enemyDic = TestDB.LoadMonstersData();

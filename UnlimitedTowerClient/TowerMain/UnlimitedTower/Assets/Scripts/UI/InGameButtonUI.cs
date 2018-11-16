@@ -23,8 +23,18 @@ public class InGameButtonUI : MonoBehaviour {
             DEFINE.ANIMATION_SPEED = SPEED*2;
             for(int i=0; i<DEFINE.PARTY_MAX_NUM; i++)
             {
-                BattleManager.Inst.enemyObjects[i].GetComponent<Animator>().speed = DEFINE.ANIMATION_SPEED;
-                BattleManager.Inst.playerObjects[i].GetComponent<Animator>().speed = DEFINE.ANIMATION_SPEED;
+                if(BattleManager.Inst.enemyObjects[i])
+                {
+                    BattleManager.Inst.enemyObjects[i].GetComponent<Animator>().speed = DEFINE.ANIMATION_SPEED;
+                }
+
+                if (BattleManager.Inst.playerObjects[i])
+                {
+                    BattleManager.Inst.playerObjects[i].GetComponent<Animator>().speed = DEFINE.ANIMATION_SPEED;
+                }
+
+              
+               
             }
           
         }
