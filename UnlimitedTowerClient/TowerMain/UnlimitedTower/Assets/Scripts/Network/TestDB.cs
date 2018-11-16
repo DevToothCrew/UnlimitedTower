@@ -61,7 +61,7 @@ public class TestDB
         myIndexList.Add(CHARACTER_NUM.Mst_Goblin_Blue);
         myIndexList.Add(CHARACTER_NUM.Mst_Goblin_Green);
         myIndexList.Add(CHARACTER_NUM.Mst_BirdMan);
-
+        myIndexList.Add(CHARACTER_NUM.Mst_ShadowCat);
 
         for (int i = 0; i < 10; i++)
         {

@@ -104,7 +104,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public void LoadCharList()
     {
-        int charDicCount = UserDataManager.Inst.characterDic.Count;
+        int charDicCount = characterDic.Count;
 
         for (int i = 0; i < charDicCount; i++)
         {
@@ -132,8 +132,10 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     // TODO : Test Code if deleted
     private void SetFormation()
     {
-        List<int> formationList = new List<int>();
-        formationList.Add(2);
+        List<int> formationList = new List<int>()
+        {2 };
+
+ 
 
         switch(characterDic.Count)
         {

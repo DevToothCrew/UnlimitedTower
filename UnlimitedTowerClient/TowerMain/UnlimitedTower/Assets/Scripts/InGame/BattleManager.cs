@@ -406,16 +406,23 @@ public class BattleManager : MonoSingleton<BattleManager> {
         EnemyParty = new GameObject("EnemyParty");
         for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
         {
-            //if (CharacterManager.Inst.characterDic.ContainsKey(i) == false)
-            if (UserDataManager.Inst.characterDic.ContainsKey(i) == false)
+            int charKey = UserDataManager.Inst.formationList[i];
+
+            //if (UserDataManager.Inst.characterDic.ContainsKey(i) == false)
+            if (UserDataManager.Inst.characterDic.ContainsKey(charKey) == false)
             {
                 break;
             }
             else
             {
                 //캐릭터 정보,                     //partyIndex   //chartIndex(필요없는 값일 수도 있음)
-                Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.characterDic[i], i, i, 0);
-                //Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.formationDic[i], i, i, 0);
+                // Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.characterDic[i], i, i, 0);
+          
+
+               
+                Battle_Character_Status status = 
+                    new Battle_Character_Status(UserDataManager.Inst.characterDic[charKey], i, i, 0);
+
                 playerStatusDic.Add(i, status);
                 if (!playerObjects[i])
                 {
