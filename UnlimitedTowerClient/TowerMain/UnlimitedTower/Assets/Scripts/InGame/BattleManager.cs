@@ -404,6 +404,12 @@ public class BattleManager : MonoSingleton<BattleManager> {
         Debug.Log(" CreateGameObject()");
         PlayerParty = new GameObject("PlayerParty");
         EnemyParty = new GameObject("EnemyParty");
+
+        List<int> charPositionList = new List<int>()
+        {
+            2, 1, 3, 0, 4, 7, 6, 8, 5, 9
+        };
+
         for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
         {
             int charKey = UserDataManager.Inst.formationList[i];
@@ -421,9 +427,10 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
                
                 Battle_Character_Status status = 
-                    new Battle_Character_Status(UserDataManager.Inst.characterDic[charKey], i, i, 0);
+                    new Battle_Character_Status(UserDataManager.Inst.characterDic[charKey], charPositionList[i], i, 0);
 
-                playerStatusDic.Add(i, status);
+                //playerStatusDic.Add(i, status);
+                playerStatusDic.Add(charPositionList[i], status);
                 if (!playerObjects[i])
                 {
                     playerObjects[i] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.identity);
@@ -433,6 +440,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
                     {
                         playerObjects[i].GetComponent<CharController>().charType = CHAR_TYPE.PLAYER;
                         playerObjects[i].GetComponent<CharController>().charSize = status.sizeType;
+                        NewSetBsttlePosition(charPositionList[i], playerObjects, CHAR_TYPE.PLAYER, ref playerStatusDic);
                         //playerObject[i].GetComponent<CharController>().battleDicIndex = i;
                     }
                 }
@@ -722,6 +730,42 @@ public class BattleManager : MonoSingleton<BattleManager> {
                 }
         }
         return dis;
+    }
+
+
+
+
+    void NewSetBsttlePosition(int fomationOrder, GameObject[] charObjects, CHAR_TYPE charType, ref Dictionary<int, Battle_Character_Status> charBattleStatusDic)
+    {
+        switch(fomationOrder)
+        {
+            case 2:
+                {
+
+                    break;
+                }
+            case 1:
+                {
+                    break;
+                }
+             
+            case 3:
+                {
+                    break;
+                }
+            case 0:
+                {
+                    break;
+                }
+            case 4:
+                {
+                    break;
+                }
+              
+        }
+
+
+
     }
     void SetBattlePosition(GameObject[] charObjects, CHAR_TYPE charType, ref Dictionary<int, Battle_Character_Status> charBattleStatusDic)
     {
