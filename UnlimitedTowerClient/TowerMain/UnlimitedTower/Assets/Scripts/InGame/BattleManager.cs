@@ -46,7 +46,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
         //}
 
         SetObject();
-        SetTurnSpeed();
+       SetTurnSpeed();
     }
 
     // TODO : Test code if delete
@@ -195,14 +195,24 @@ public class BattleManager : MonoSingleton<BattleManager> {
     public void SetTurnSpeed()
     {
         //공격대상, 공격자, 공격하는 타입, 공격자 타입등을 알려줌.
-        for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
+        for (int i = 0; i < playerStatusDic.Count; i++)
         {
-            //플레이어, 적
-            CharacterAction temp1 = new CharacterAction(i, GetTargetIndex(CHAR_TYPE.PLAYER), ACTION_TYPE.Attack, CHAR_TYPE.PLAYER);
-            CharacterAction temp2 = new CharacterAction(i, GetTargetIndex(CHAR_TYPE.ENEMY), ACTION_TYPE.Attack, CHAR_TYPE.ENEMY);
+            //플레이어
+            if (playerObjects[i])
+            {
+                CharacterAction temp1 = new CharacterAction(i, GetTargetIndex(CHAR_TYPE.ENEMY), ACTION_TYPE.Attack, CHAR_TYPE.PLAYER);
+                turnActionList.Add(temp1);
+            }
+        }
+        for (int i = 0; i < enemyStatusDic.Count; i++)
+        {
+            //적
+            if(enemyObjects[i])
+            {
+                CharacterAction temp1 = new CharacterAction(i, GetTargetIndex(CHAR_TYPE.PLAYER), ACTION_TYPE.Attack, CHAR_TYPE.ENEMY);
 
-            turnActionList.Add(temp1);
-            turnActionList.Add(temp2);
+                turnActionList.Add(temp1);
+            }      
         }
 
         turnActionList.Sort(SpeedComparer);
@@ -226,15 +236,17 @@ public class BattleManager : MonoSingleton<BattleManager> {
     {
         int targetIndex = Random.Range(0, DEFINE.PARTY_MAX_NUM);
         if (charType == CHAR_TYPE.PLAYER)
-        {          
-            while (!enemyStatusDic.ContainsKey(targetIndex))
+        {
+          //  targetIndex = Random.Range(0, playerStatusDic.Count);
+            while (!playerStatusDic.ContainsKey(targetIndex))
             {
                 targetIndex = Random.Range(0, DEFINE.PARTY_MAX_NUM);
             }           
         }
         else
         {
-            while (!playerStatusDic.ContainsKey(targetIndex))
+           // targetIndex = Random.Range(0, enemyStatusDic.Count);
+            while (!enemyStatusDic.ContainsKey(targetIndex))
             {
                 targetIndex = Random.Range(0, DEFINE.PARTY_MAX_NUM);
             }
@@ -412,6 +424,10 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
         for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
         {
+            if (UserDataManager.Inst.formationList.Count <= i)
+            {
+                break;
+            }
             int charKey = UserDataManager.Inst.formationList[i];
 
             //if (UserDataManager.Inst.characterDic.ContainsKey(i) == false)
@@ -431,33 +447,34 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
                 //playerStatusDic.Add(i, status);
                 playerStatusDic.Add(charPositionList[i], status);
-                if (!playerObjects[i])
+                if (!playerObjects[charPositionList[i]])
                 {
-                    playerObjects[i] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.identity);
+                    playerObjects[charPositionList[i]] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.identity);
 
-                    playerObjects[i].transform.SetParent(PlayerParty.transform.transform, false);
-                    if (playerObjects[i].GetComponent<CharController>())
+                    playerObjects[charPositionList[i]].transform.SetParent(PlayerParty.transform.transform, false);
+                    if (playerObjects[charPositionList[i]].GetComponent<CharController>())
                     {
-                        playerObjects[i].GetComponent<CharController>().charType = CHAR_TYPE.PLAYER;
-                        playerObjects[i].GetComponent<CharController>().charSize = status.sizeType;
+                        playerObjects[charPositionList[i]].GetComponent<CharController>().charType = CHAR_TYPE.PLAYER;
+                        playerObjects[charPositionList[i]].GetComponent<CharController>().charSize = status.sizeType;
+
                         NewSetBsttlePosition(charPositionList[i], playerObjects, CHAR_TYPE.PLAYER, ref playerStatusDic);
-                        //playerObject[i].GetComponent<CharController>().battleDicIndex = i;
+                        playerObjects[charPositionList[i]].GetComponent<CharController>().battleDicIndex = charPositionList[i];
                     }
                 }
             }
                   
         }
-        SetBattlePosition(playerObjects, CHAR_TYPE.PLAYER, ref playerStatusDic);
-        for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
-        {
-            if(playerObjects[i])
-            {
-                if(playerObjects[i].GetComponent<CharController>())
-                {
-                    playerObjects[i].GetComponent<CharController>().SetFirstPosition();
-                }
-            }         
-        }
+       // SetBattlePosition(playerObjects, CHAR_TYPE.PLAYER, ref playerStatusDic);
+        //for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
+        //{
+        //    if(playerObjects[i])
+        //    {
+        //        if(playerObjects[i].GetComponent<CharController>())
+        //        {
+        //            playerObjects[i].GetComponent<CharController>().SetFirstPosition();
+        //        }
+        //    }         
+        //}
             
         // TODO : DB 대신 임시로
         Dictionary<int, Character> enemyDic = TestDB.LoadMonstersData();
@@ -737,31 +754,72 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
     void NewSetBsttlePosition(int fomationOrder, GameObject[] charObjects, CHAR_TYPE charType, ref Dictionary<int, Battle_Character_Status> charBattleStatusDic)
     {
-        switch(fomationOrder)
+        Vector3 frontCenterPos = DEFINE.PLAYER_BACKLINE_CENTER_POS;
+
+        Battle_Character_Status centerCharStatus = charBattleStatusDic[2];
+        int frontLineCenterIndex = 7;
+        switch (fomationOrder)
         {
             case 2:
                 {
-
+                    Vector3 backCenterPos = GetBackLineCenterCharPos(charType, centerCharStatus.sizeType);
+                    charObjects[fomationOrder].transform.position = backCenterPos;
                     break;
                 }
             case 1:
                 {
+                    SetLeftPosition(charObjects, 2, 1, centerCharStatus.sizeType, ref charBattleStatusDic);
                     break;
-                }
-             
+                }       
             case 3:
                 {
+                    SetRightPosition(charObjects, 2, 3, centerCharStatus.sizeType, ref charBattleStatusDic);
                     break;
                 }
             case 0:
                 {
+                    SetLeftPosition(charObjects, 1, 0, charBattleStatusDic[1].sizeType, ref charBattleStatusDic);
+                  
                     break;
                 }
             case 4:
                 {
+                    SetRightPosition(charObjects, 3, 4, charBattleStatusDic[3].sizeType, ref charBattleStatusDic);
                     break;
                 }
-              
+
+
+
+            case 7:
+                {
+                    float frontLineDis = GetBackLineLargestDistance(charObjects, charType, ref charBattleStatusDic);
+                    frontCenterPos.z = frontLineDis;
+                    frontCenterPos = GetFrontLineCenterCharPos(frontCenterPos, charBattleStatusDic[frontLineCenterIndex].sizeType);
+                    charObjects[frontLineCenterIndex].transform.position = frontCenterPos;
+                    break;
+                }
+            case 6:
+                {
+                    SetLeftPosition(charObjects, frontLineCenterIndex, 6, charBattleStatusDic[frontLineCenterIndex].sizeType, ref charBattleStatusDic);
+                    break;
+                }
+            case 8:
+                {
+                    SetRightPosition(charObjects, frontLineCenterIndex, 8, charBattleStatusDic[frontLineCenterIndex].sizeType, ref charBattleStatusDic);
+                    break;
+                }
+            case 5:
+                {
+                    SetLeftPosition(charObjects, 6, 5, charBattleStatusDic[6].sizeType, ref charBattleStatusDic);
+                
+                    break;
+                }
+            case 9:
+                {
+                    SetRightPosition(charObjects, 8, 9, charBattleStatusDic[8].sizeType, ref charBattleStatusDic);
+                    break;
+                }
+
         }
 
 
