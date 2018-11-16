@@ -176,7 +176,7 @@ public class CharController : MonoBehaviour
             case ACTION_TYPE.Attack:
                 {
                     Debug.Log(charType.ToString() + " : 공격 성공");
-                    BattleManager.Inst.DecreaseHp(charAction.charType, charAction.myIndex, charAction.targetIndex);                
+                    BattleManager.Inst.CheckCharBeHit(charAction.charType, charAction.myIndex, charAction.targetIndex);                
                     break;
                 }
             case ACTION_TYPE.Defence:
