@@ -192,7 +192,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("Response_Logout");
         UserDataManager.Inst.InitFlag();
+        UserDataManager.Inst.RemoveUserInfo();
         LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Login);
+
+
+
         // TODO : 확실히 필요없다고 판단되면 삭제할것
        // UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Login);
     }

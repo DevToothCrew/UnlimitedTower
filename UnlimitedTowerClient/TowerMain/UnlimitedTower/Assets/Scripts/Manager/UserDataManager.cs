@@ -12,6 +12,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public Dictionary<int, Character> characterDic = new Dictionary<int, Character>();
     public Dictionary<int, Character> formationDic = new Dictionary<int, Character>();
+
     public List<int> userCharsKeyList = new List<int>();
     public List<int> formationOrderList = new List<int>()
     {
@@ -142,6 +143,14 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         // 
         userCharsKeyList.Add(characterDic.Count - 1);
 
+    }
+
+    public void RemoveUserInfo()
+    {
+        Debug.Log("Remove UserInfo");
+        characterDic.Clear();
+        userCharsKeyList.Clear();
+        characterIndex = 0;
     }
 
 }
