@@ -18,6 +18,8 @@
 #include "Table/test_static_equip_table.hpp"
 #include "Table/test_static_stage_table.hpp"
 
+#include "Rule/rule_system.hpp"
+
 #include "Login/login_system.hpp"
 #include "Gacha/gacha_system.hpp"
 #include "Item/item_system.hpp"
@@ -33,6 +35,7 @@
         cparty_system party_controller;
         cgacha_system gacha_controller;
         citem_system item_controller;
+        crule_system rule_controller;
 
         const char *add_char="addchar";
         const char *change_stat="changestat";
@@ -45,7 +48,8 @@
         battle_controller(_self,party_controller,login_controller,gacha_controller),
         party_controller(_self,login_controller,gacha_controller),
         gacha_controller(_self,login_controller),
-        item_controller(_self,login_controller,gacha_controller)
+        item_controller(_self,login_controller,gacha_controller),
+        rule_controller(_self)
         {
             
         }

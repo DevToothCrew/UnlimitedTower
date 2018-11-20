@@ -232,7 +232,7 @@ class citem_system
                 ser.s_servent_list[l_servent_location].plus_status_info.plus_int -= item_get_iter.i_item_list[l_item_location].i_status_info.intelligence;
             });
         }
-        void unequip_hero_item(account_name _user, uint8_t _character_slot,uint8_t _item_slot)
+        void unequip_hero_item(account_name _user, uint8_t _character_slot,uint8_t _item_location, uint64_t _item_index,uint8_t _item_slot)
         {
             
         }

@@ -13,11 +13,11 @@ struct servenet_stat
 class crservent
 {
   public:
-    uint8_t s_job;
+    uint16_t s_job;
     servenet_stat s_min_range;
-    servenet_stat s_max_rangeß;
+    servenet_stat s_max_range;
 public:
-    uint8_t primary_key() const {return s_job;}
+    uint16_t primary_key() const {return s_job;}
 };
 
 typedef multi_index<N(crservent),crservent> servent_data_table;
