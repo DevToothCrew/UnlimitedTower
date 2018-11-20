@@ -98,11 +98,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         Debug.Log("Requset_GetStageInfo : " + stageNum);
         Response_GetStageInfo(stageNum);
-        // TODO : if delete
-        //BattleManager.Inst.InitTest();
         SceneManager.LoadScene("CharacterBattleScene");
-        Debug.Log("씬 로딩 완료");
-        //BattleManager.Inst.CreateTestObjetct();
+        Debug.Log("Success BattleSceene Loading");
+ 
 
 
     }

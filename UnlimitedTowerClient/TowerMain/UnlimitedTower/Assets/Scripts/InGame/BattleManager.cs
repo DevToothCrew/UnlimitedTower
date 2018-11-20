@@ -215,15 +215,13 @@ public class BattleManager : MonoSingleton<BattleManager> {
         int targetIndex = Random.Range(0, DEFINE.PARTY_MAX_NUM);
         if (charType == CHAR_TYPE.PLAYER)
         {
-          //  targetIndex = Random.Range(0, playerStatusDic.Count);
             while (!playerStatusDic.ContainsKey(targetIndex))
             {
                 targetIndex = Random.Range(0, DEFINE.PARTY_MAX_NUM);          
             }
         }
         else
-        {
-           // targetIndex = Random.Range(0, enemyStatusDic.Count);
+        {         
             while (!enemyStatusDic.ContainsKey(targetIndex))
             {
                 targetIndex = Random.Range(0, DEFINE.PARTY_MAX_NUM);              
