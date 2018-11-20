@@ -70,24 +70,25 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     // TODO : 확실히 필요없다고 판단되면 삭제할것
 
-    //public void ChangeSceneState(SCENE_STATE state)
-    //{
-    //    sceneState = state;
+    public void ChangeSceneState(SCENE_STATE state)
+    {
+        sceneState = state;
 
-    //    switch (state)
-    //    {
-    //        case SCENE_STATE.Lobby:
-    //            StageBackGround.SetActive(false);
-    //            StageList.SetActive(false);
-    //            LobbyBackGround.SetActive(true);
-    //            break;
-    //        case SCENE_STATE.Stage:
-    //            LobbyBackGround.SetActive(false);
-    //            StageBackGround.SetActive(true);
-    //            StageList.SetActive(true);
-    //            break;
-    //    }
-    //}
+        //TODO : Test Code
+        //switch (state)
+        //{
+        //    case SCENE_STATE.Lobby:
+        //        StageBackGround.SetActive(false);
+        //        StageList.SetActive(false);
+        //        LobbyBackGround.SetActive(true);
+        //        break;
+        //    case SCENE_STATE.Stage:
+        //        LobbyBackGround.SetActive(false);
+        //        StageBackGround.SetActive(true);
+        //        StageList.SetActive(true);
+        //        break;
+        //}
+    }
 
     public int GetCharacterIndex()
     {
@@ -139,10 +140,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     private void SetFormation()
     {
         // 지금은 들어가는 순서대로 세팅.
-        // UserCharsKeyList?
-        // 
         userCharsKeyList.Add(characterDic.Count - 1);
-
     }
 
     public void RemoveUserInfo()

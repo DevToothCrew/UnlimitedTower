@@ -165,7 +165,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
             // UserDataManager.Inst.SetChar(TestDB.LoadCharactersData());
 
             FirstAcess = true;
-            Debug.Log("최초의 배틀씬 ");
+            Debug.Log("First BattleScene");
         }
 
         CreateGameObject();
@@ -392,9 +392,6 @@ public class BattleManager : MonoSingleton<BattleManager> {
             {
                 AttackerAction.targetIndex = GetTargetIndex(CHAR_TYPE.PLAYER);
             }
-
-            //AttackerAction.targetIndex = GetTargetIndex(AttackerAction.charType);
-           // Debug.Log("변경된" + AttackerAction.charType.ToString() + " 타켓 키 : " + AttackerAction.targetIndex);
         }
     }
 
@@ -440,10 +437,8 @@ public class BattleManager : MonoSingleton<BattleManager> {
             else
             {
                 //캐릭터 정보,                     //partyIndex   //chartIndex(필요없는 값일 수도 있음)
-                // Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.characterDic[i], i, i, 0);
                 Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.characterDic[charKey], formationNum, i, 0);
 
-                //playerStatusDic.Add(i, status);
                 playerStatusDic.Add(formationNum, status);
                 if (!playerObjects[formationNum])
                 {

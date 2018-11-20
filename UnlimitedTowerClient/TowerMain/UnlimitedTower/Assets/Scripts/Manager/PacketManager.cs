@@ -152,7 +152,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
 
         // TODO : 확실히 필요없다고 판단되면 삭제할것
-        //UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Lobby);
+        UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Lobby);
     }
 
     public void Response_Gacha()
@@ -160,7 +160,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Response_Gacha");
 
         // TODO : 현재 임시로 TestDB에서 캐릭터 정보 가져와서
-        // 갓차 클릭하면 바로터짐.
+
         Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1);
         UserDataManager.Inst.SetCharacter(newChar);
 
@@ -176,8 +176,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("Response_GetStageInfo");
         LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Stage);
+
+
         // TODO : 확실히 필요없다고 판단되면 삭제할것
-        //UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Stage);
+        UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Stage);
     }
 
     public void Response_EnterStage(int stageNum)
@@ -198,7 +200,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
 
         // TODO : 확실히 필요없다고 판단되면 삭제할것
-       // UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Login);
+        UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Login);
     }
 
     #endregion
