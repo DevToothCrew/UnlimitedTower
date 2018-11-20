@@ -161,9 +161,6 @@ public class BattleManager : MonoSingleton<BattleManager> {
         // TODO : Test Setting if Delete
         if (!FirstAcess)
         {
-            //CharacterManager.Inst.SetChar(TestDB.LoadCharactersData());
-            // UserDataManager.Inst.SetChar(TestDB.LoadCharactersData());
-
             FirstAcess = true;
             Debug.Log("First BattleScene");
         }

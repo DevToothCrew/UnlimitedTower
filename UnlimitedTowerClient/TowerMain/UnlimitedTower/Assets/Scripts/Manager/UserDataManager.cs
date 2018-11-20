@@ -68,8 +68,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     }
 
 
-    // TODO : 확실히 필요없다고 판단되면 삭제할것
-
+   
     public void ChangeSceneState(SCENE_STATE state)
     {
         sceneState = state;
