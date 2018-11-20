@@ -17,7 +17,7 @@ public class InGameButtonUI : MonoBehaviour {
      
         if (!AnimationSpeedDouble)
         {
-            Debug.Log("홠성화");
+            Debug.Log("활성화");
             AnimationSpeedDouble = true;
             transform.GetChild(0).GetComponent<Text>().fontStyle = FontStyle.Bold;
             DEFINE.ANIMATION_SPEED = SPEED*2;
@@ -40,7 +40,7 @@ public class InGameButtonUI : MonoBehaviour {
         }
         else
         {
-            Debug.Log("비홠성화");
+            Debug.Log("비활성화");
             AnimationSpeedDouble = false;
             transform.GetChild(0).GetComponent<Text>().fontStyle = FontStyle.Normal;
             DEFINE.ANIMATION_SPEED = SPEED;

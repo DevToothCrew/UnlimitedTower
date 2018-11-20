@@ -149,7 +149,7 @@ public class Character
         Exp = 0;
         Level = 1;
 
-        Str = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS) + 400;
+        Str = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
         Dex = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
         Int = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
 
@@ -345,13 +345,6 @@ public enum CHARACTER_NUM
     Mst_DarkKnight      = 220,
     Mst_BirdMan         = 221,
     Mst_ShadowCat       = 222
-
-    //Mst_Sham            = 219,
-    //Mst_Shamcat         = 220,
-
-
-
-
 }
 
 public enum CHARACTER_JOB

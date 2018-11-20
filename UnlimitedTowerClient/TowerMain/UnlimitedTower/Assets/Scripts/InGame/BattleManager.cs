@@ -36,9 +36,6 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
     void Awake()
     {
-        Debug.Log("BattleManager Awake");
-
-
         if (debugFlag == true)
         {
             debugPanel.SetActive(true);
@@ -56,15 +53,8 @@ public class BattleManager : MonoSingleton<BattleManager> {
         {
             RestBattle();
         }
-
-
-      
-
     }
-    public void InitTest()
-    {
 
-    }
     private void Update()
     {
         SetDebug();
@@ -820,15 +810,6 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
         charObjects[backLineCenterIndex].transform.position = backCenterPos;
 
-        //int centerLineIndex = backLineCenterIndex;
-        //for (int i = 0; i < charBattleStatusDic.Count / 2; i++)
-        //{
-
-        //    SetLeftPosition(charObjects, centerLineIndex, 1, centerCharStatus.sizeType, ref charBattleStatusDic);
-        //    SetRightPosition(charObjects, centerLineIndex, 3, centerCharStatus.sizeType, ref charBattleStatusDic);
-        //}
-
-        // 최적화 할것.
         SetLeftPosition(charObjects, backLineCenterIndex, 1, centerCharStatus.sizeType, ref charBattleStatusDic);
         SetRightPosition(charObjects, backLineCenterIndex, 3, centerCharStatus.sizeType, ref charBattleStatusDic);
 
