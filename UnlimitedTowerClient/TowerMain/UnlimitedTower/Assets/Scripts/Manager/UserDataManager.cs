@@ -117,7 +117,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             var instance = Instantiate(Resources.Load("Prefabs/CharElement") as GameObject);
             if (instance.GetComponent<Image>())
             {
-                instance.GetComponent<Image>().sprite = Resources.Load<Sprite>("CharaterImage/" + UserDataManager.Inst.characterDic[i].Name);
+                instance.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[i].Name);
                 instance.transform.SetParent(LobbyManager.Inst.CharacterListContent.transform.transform);
             }
 
@@ -128,7 +128,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         var instance = Instantiate(Resources.Load("Prefabs/CharElement") as GameObject);
         if (instance.GetComponent<Image>())
         {
-            instance.GetComponent<Image>().sprite = Resources.Load<Sprite>("CharaterImage/" + getChar);
+            instance.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + getChar);
         }
         instance.transform.SetParent(LobbyManager.Inst.CharacterListContent.transform.transform);
 
