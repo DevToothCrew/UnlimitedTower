@@ -47,7 +47,7 @@
         login_controller(_self),
         battle_controller(_self,party_controller,login_controller,gacha_controller),
         party_controller(_self,login_controller,gacha_controller),
-        gacha_controller(_self,login_controller),
+        gacha_controller(_self,login_controller,rule_controller),
         item_controller(_self,login_controller,gacha_controller),
         rule_controller(_self)
         {

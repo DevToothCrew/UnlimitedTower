@@ -37,6 +37,31 @@ class crule_system
           item_tier_rule(_self,_self)
     {
     }
+    servent_data_table &get_servent_rule_table()
+    {
+        return servent_rule;
+    }
+    head_data_table &get_head_rule_table()
+    {
+        return head_rule;
+    }
+    hair_data_table &get_hair_rule_table()
+    {
+        return hair_rule;
+    }
+    body_data_table &get_body_rule_table()
+    {
+        return body_rule;
+    }
+    monster_grade_data_table &get_monster_grade_rule_table()
+    {
+        return monster_grade_rule;
+    }
+    monster_id_data_table &get_monster_id_rule_table()
+    {
+        return monster_id_rule;
+    }
+
     uint64_t random_value(uint32_t _range)
     {
         checksum256 l_result;
