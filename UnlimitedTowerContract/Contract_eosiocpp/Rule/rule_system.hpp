@@ -61,6 +61,14 @@ class crule_system
     {
         return monster_id_rule;
     }
+    item_id_data_table &get_item_id_rule_table()
+    {
+        return item_id_rule;
+    }
+    item_tier_data_table &get_item_tier_rule_table()
+    {
+        return item_tier_rule;
+    }
 
     uint64_t random_value(uint32_t _range)
     {
@@ -132,12 +140,15 @@ class crule_system
                 a.i_id = item_id_rule.available_primary_key();
                 if(i < 30)
                 {
-                a.i_type = random_value(2);
+                    a.i_type = random_value(2);
                 }
                 else
                 {
                     a.i_type = random_value(3);
                 }
+                a.i_status.i_str = i + 10;
+                a.i_status.i_dex = i + 10;
+                a.i_status.i_int = i + 10;
             });
         }
         for(uint32_t i=1;i<=5;++i)

@@ -79,10 +79,59 @@ class cgacha_system
             }
             return l_random_result;
         }
-        void gacha_servent_type(account_name _user)
+        void gacha_servent_job(account_name _user)
         {
+            uint8_t result_job = random_value(4);
+            auto &servent_job = rule_controller.get_servent_rule_table();
+            const auto &job_iter = servent_job.get(result_job,"not exist servent job");
+
+            auto &log = login_controller.get_log_table();
+            auto find_log_iter = log.find(_user);
+
+            
+            auto cur_user_servent = servents.find(_user);
+            servents.modify(cur_user_servent, owner, [&](auto &servent) {
+                cserventinfo ser;
+                ser.s_index = find_log_iter->l_servent_num + 1;
+                ser.appear_info.hair = gacha_servent_hair();
+                ser.appear_info.face = gacha_servent_head();
+                ser.appear_info.body = gacha_servent_body();
+                ser.status_info.job = job_iter.s_job;
+                ser.status_info.strength = random_min(job_iter.s_min_range.s_str,job_iter.s_max_range.s_str);
+                ser.status_info.dexterity = random_min(job_iter.s_min_range.s_dex,job_iter.s_max_range.s_dex);
+                ser.status_info.intelligence = random_min(job_iter.s_min_range.s_int,job_iter.s_max_range.s_int);
+                servent.s_servent_list.push_back(ser);
+            });
+
+            //로그 남기는 부분
+            log.modify(find_log_iter, owner, [&](auto &update_log) {
+                update_log.l_servent_num++;
+                update_log.l_gacha_num++;
+            });
 
         }
+        uint8_t gacha_servent_head()
+        {
+            uint8_t result_head = random_value(2);
+            auto &servent_head = rule_controller.get_head_rule_table();
+            const auto &head_iter = servent_head.get(result_head,"not exist head info");
+            return head_iter.h_head;
+        }
+        uint8_t gacha_servent_hair()
+        {
+            uint8_t result_hair = random_value(2);
+            auto &servent_hair = rule_controller.get_hair_rule_table();
+            const auto &hair_iter = servent_hair.get(result_hair,"not exist hair info");
+            return hair_iter.h_hair;
+        }
+        uint8_t gacha_servent_body()
+        {
+            uint8_t result_body = random_value(2);
+            auto &servent_body = rule_controller.get_body_rule_table();
+            const auto &body_iter = servent_body.get(result_body, "not exist body info");
+            return body_iter.b_body;
+        }
+        //---------------------------------------------------------------------------------//
         void gacha_monster_id(account_name _user)
         {           
             uint8_t result_id = random_value(30);
@@ -96,11 +145,6 @@ class cgacha_system
             auto &log = login_controller.get_log_table();
             auto find_log_iter = log.find(_user);
 
-            log.modify(find_log_iter, owner, [&](auto &update_log) {
-                update_log.l_gacha_num++;
-                update_log.l_monster_num++;
-            });
-
             auto cur_user_monster = monsters.find(_user);
             monsters.modify(cur_user_monster, owner, [&](auto &new_monster) {
                 cmonsterinfo monster;
@@ -112,11 +156,42 @@ class cgacha_system
                 new_monster.m_monster_list.push_back(monster);
             });
 
+            log.modify(find_log_iter, owner, [&](auto &update_log) {
+                update_log.l_gacha_num++;
+                update_log.l_monster_num++;
+            });
         }
-        void gacha_item_tier(account_name _user)
+        //-----------------------------------------------------------------------------//
+        void gacha_item_id(account_name _user)
         {
+            uint8_t result_id = random_value(70);
+            auto &item_id = rule_controller.get_item_id_rule_table();
+            const auto &id_iter = item_id.get(result_id, "not exist item id");
 
-            
+            uint8_t result_tier = random_value(5);
+            auto &item_tier = rule_controller.get_item_tier_rule_table();
+            const auto &tier_iter = item_tier.get(result_tier,"not exist tier info");
+
+            auto &log = login_controller.get_log_table();
+            auto find_log_iter = log.find(_user);
+
+            auto cur_user_item = items.find(_user);
+            items.modify(cur_user_item, owner, [&](auto &new_item) {
+                citeminfo item;
+                item.i_index = find_log_iter->l_item_num + 1;
+                item.i_type_index = id_iter.i_id;
+                item.i_type_equip = id_iter.i_type;
+                item.i_tier = tier_iter.i_tier;
+                item.i_status_info.strength = id_iter.i_status.i_str;
+                item.i_status_info.dexterity = id_iter.i_status.i_dex;
+                item.i_status_info.intelligence = id_iter.i_status.i_int;
+                new_item.i_item_list.push_back(item);
+            });
+
+            log.modify(find_log_iter, owner, [&](auto &update_log) {
+                update_log.l_item_num++;
+                update_log.l_gacha_num++;
+            });
         }
         void start_gacha(account_name _user)
         {
@@ -124,16 +199,7 @@ class cgacha_system
             auto find_log_iter = log.find(_user);
             eosio_assert(find_log_iter != log.end(),"unknown account");
 
-            cmonsterinfo monster;
-            cserventinfo ser;
-            citeminfo item;
-
-            const auto &get_log_iter = log.get(_user);
-            auto cur_user_monster = monsters.find(_user);
-
-            auto &data = login_controller.get_static_data_table();
-
-            if(get_log_iter.l_gacha_num == 0)
+            if(find_log_iter->l_gacha_num == 0)
             {
                 gacha_monster_id(_user);
             }
@@ -143,70 +209,15 @@ class cgacha_system
                 uint64_t l_gacha_result_type = random_value(10);
                 if(l_gacha_result_type < 2)
                 {
-                    uint8_t result = random_value(99);
-                    if(result < 50)
-                    {
-                        result += 50;
-                    }
-                    const auto &data_get_ier = data.get(result);
-
-                    auto cur_user_servent = servents.find(_user);
-                    servents.modify(cur_user_servent, owner, [&](auto &servent) {
-                        ser.s_index = get_log_iter.l_servent_num + 1;
-                        ser.s_type_index = data_get_ier.type;
-                        ser.status_info.strength = data_get_ier.status.s_str;
-                        ser.status_info.dexterity =  data_get_ier.status.s_dex;
-                        ser.status_info.intelligence = data_get_ier.status.s_int;
-                        servent.s_servent_list.push_back(ser);
-                    });
-                    //로그 남기는 부분
-                    log.modify(find_log_iter, owner, [&](auto &update_log) {
-                        update_log.l_servent_num++;
-                        update_log.l_gacha_num++;
-                    });
-
+                    gacha_servent_job(_user);
                 }
                 else if(l_gacha_result_type < 6)
                 {
-                    //몬스터가 뽑혔을 경우
-                    uint8_t result = random_value(49);
-                    const auto &data_get_ier = data.get(result);
-
-                    monsters.modify(cur_user_monster, owner, [&](auto &new_monster) {
-                        monster.m_index = get_log_iter.l_monster_num + 1;
-                        monster.m_type_index = data_get_ier.type;
-                        monster.m_status_info.strength = data_get_ier.status.s_str;
-                        monster.m_status_info.dexterity = data_get_ier.status.s_dex;
-                        monster.m_status_info.intelligence = data_get_ier.status.s_int;
-                        new_monster.m_monster_list.push_back(monster);
-                    });
-                    log.modify(find_log_iter, owner, [&](auto &update_log) {
-                        update_log.l_monster_num++;
-                        update_log.l_gacha_num++;
-                    });
+                    gacha_monster_id(_user);
                 }
                 else
                 {
-                    //아이템이 뽑혔을 경우
-                    uint8_t result = random_value(199);
-                    if(result<100)
-                    {
-                        result+=100;   
-                    }
-                    const auto &data_get_ier = data.get(result);
-                    auto cur_user_item = items.find(_user);
-                    items.modify(cur_user_item, owner, [&](auto &new_item) {   
-                            item.i_index = get_log_iter.l_item_num + 1;
-                            item.i_type_index = data_get_ier.type;
-                            item.i_status_info.strength = data_get_ier.status.s_str;
-                            item.i_status_info.dexterity = data_get_ier.status.s_dex;
-                            item.i_status_info.intelligence = data_get_ier.status.s_int;
-                            new_item.i_item_list.push_back(item);
-                    });
-                    log.modify(find_log_iter, owner, [&](auto &update_log) {
-                        update_log.l_item_num++;
-                        update_log.l_gacha_num++;
-                    });
+                    gacha_item_id(_user);
                 }
             }
         }

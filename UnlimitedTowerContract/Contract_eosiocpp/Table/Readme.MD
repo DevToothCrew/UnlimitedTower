@@ -115,7 +115,6 @@ struct sparty_info
 
 해당 리스트는 cserventinfo 자료형으로 이루어져 있습니다.
 - s_index             : 해당 용병의 인덱스 번호입니다.
-- s_type_index        : 해당 용병의 타입 번호입니다.
 - s_appear_info       : 해당 용병의 외모 정보입니다.
 - [body,face,hair]
 - s_status_info       : 해당 용병의 스테이터스 정보입니다.
@@ -148,7 +147,9 @@ struct sparty_info
 - i_item_list : 유저가 소유한 아이템의 리스트입니다.
 
 해당리스트는 citeminfo 자료형으로 이루어져 있습니다.
-- i_index             : 해당 아이템의 인덱스 번호입니다.
-- i_type_index        : 해당 아이템의 타입 번호입니다.
+- i_index             : 해당 아이템의 고유 인덱스 번호입니다.
+- i_type_equip        : 해당 아이템의 장비 종류 번호입니다.[무기,방어구,악세사리]
+- i_type_index        : 해당 아이템의 리소스 번호 입니다.
+- i_tier              : 해당 아이템의 등급 번호 입니다.
 - i_status_info       : 해당 아이템의 스테이터스 정보입니다.
 - [str,dex,int,job][job은 무시]

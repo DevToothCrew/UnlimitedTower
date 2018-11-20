@@ -7,6 +7,8 @@ struct citeminfo
 {
     uint64_t i_index;
     uint32_t i_type_index;
+    uint8_t i_type_equip;
+    uint8_t i_tier;
     sobject_status i_status_info;
 };
 
