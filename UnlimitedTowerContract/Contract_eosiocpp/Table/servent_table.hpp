@@ -46,7 +46,7 @@ public:
     std::vector<cserventinfo> s_servent_list;
 public:
     cservent() {
-       
+        
     }
     uint64_t primary_key() const {return s_user;}
     void servent_set_user(account_name _user) {s_user = _user;}

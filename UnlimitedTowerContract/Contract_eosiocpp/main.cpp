@@ -57,8 +57,9 @@
         //@abi action
         void datainit()
         {
-            login_controller.init_static_data();
-            login_controller.init_stage_data();
+            //login_controller.init_static_data();
+            //login_controller.init_stage_data();
+            rule_controller.init_data();
         }
 #pragma endregion
 

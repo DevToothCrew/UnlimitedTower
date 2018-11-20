@@ -13,11 +13,11 @@ struct monster_stat
 class crmgrade
 {
   public:
-    uint8_t m_grade;
-    monster_stat s_min_range;
-    monster_stat s_max_rangeß;
+    uint16_t m_grade;
+    monster_stat m_min_range;
+    monster_stat m_max_range;
 public:
-    uint8_t primary_key() const {return m_grade;}
+    uint16_t primary_key() const {return m_grade;}
 };
 
 typedef multi_index<N(crmgrade),crmgrade> monster_grade_data_table;
