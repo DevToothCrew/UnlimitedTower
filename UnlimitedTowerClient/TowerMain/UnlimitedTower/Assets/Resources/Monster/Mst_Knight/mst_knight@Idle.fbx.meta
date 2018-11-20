@@ -1,34 +1,34 @@
 fileFormatVersion: 2
-guid: 41450bf63c967894f8d1a7e7c195c938
+guid: b9f12f1459115c94986e9a7c98196ead
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: foot_L
-    100002: foot_R
-    100004: forearm_L
-    100006: forearm_R
-    100008: hand_L
-    100010: hand_R
-    100012: heel_02_L
-    100014: heel_02_R
-    100016: metarig
-    100018: mst_knight_001
-    100020: mst_knight_002
-    100022: mst_knight_003
-    100024: mst_knight_004
-    100026: mst_knight_005
-    100028: mst_knight_006
-    100030: mst_knight_007
-    100032: mst_knight_008
-    100034: mst_knight_009
-    100036: mst_knight_010
-    100038: mst_knight_011
-    100040: mst_knight_012
-    100042: mst_knight_013
-    100044: mst_knight_014
-    100046: mst_knight_015
-    100048: mst_knight_016
-    100050: //RootNode
+    100000: //RootNode
+    100002: foot_L
+    100004: foot_R
+    100006: forearm_L
+    100008: forearm_R
+    100010: hand_L
+    100012: hand_R
+    100014: heel_02_L
+    100016: heel_02_R
+    100018: metarig
+    100020: mst_knight_001
+    100022: mst_knight_002
+    100024: mst_knight_003
+    100026: mst_knight_004
+    100028: mst_knight_005
+    100030: mst_knight_006
+    100032: mst_knight_007
+    100034: mst_knight_008
+    100036: mst_knight_009
+    100038: mst_knight_010
+    100040: mst_knight_011
+    100042: mst_knight_012
+    100044: mst_knight_013
+    100046: mst_knight_014
+    100048: mst_knight_015
+    100050: mst_knight_016
     100052: shin_L
     100054: shin_R
     100056: shoulder_L
@@ -46,32 +46,32 @@ ModelImporter:
     100080: toe_R
     100082: upper_arm_L
     100084: upper_arm_R
-    400000: foot_L
-    400002: foot_R
-    400004: forearm_L
-    400006: forearm_R
-    400008: hand_L
-    400010: hand_R
-    400012: heel_02_L
-    400014: heel_02_R
-    400016: metarig
-    400018: mst_knight_001
-    400020: mst_knight_002
-    400022: mst_knight_003
-    400024: mst_knight_004
-    400026: mst_knight_005
-    400028: mst_knight_006
-    400030: mst_knight_007
-    400032: mst_knight_008
-    400034: mst_knight_009
-    400036: mst_knight_010
-    400038: mst_knight_011
-    400040: mst_knight_012
-    400042: mst_knight_013
-    400044: mst_knight_014
-    400046: mst_knight_015
-    400048: mst_knight_016
-    400050: //RootNode
+    400000: //RootNode
+    400002: foot_L
+    400004: foot_R
+    400006: forearm_L
+    400008: forearm_R
+    400010: hand_L
+    400012: hand_R
+    400014: heel_02_L
+    400016: heel_02_R
+    400018: metarig
+    400020: mst_knight_001
+    400022: mst_knight_002
+    400024: mst_knight_003
+    400026: mst_knight_004
+    400028: mst_knight_005
+    400030: mst_knight_006
+    400032: mst_knight_007
+    400034: mst_knight_008
+    400036: mst_knight_009
+    400038: mst_knight_010
+    400040: mst_knight_011
+    400042: mst_knight_012
+    400044: mst_knight_013
+    400046: mst_knight_014
+    400048: mst_knight_015
+    400050: mst_knight_016
     400052: shin_L
     400054: shin_R
     400056: shoulder_L
@@ -156,7 +156,7 @@ ModelImporter:
       name: Idle
       takeName: mixamo.com
       firstFrame: 0
-      lastFrame: 74
+      lastFrame: 125
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

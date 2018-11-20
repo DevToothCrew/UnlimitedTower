@@ -62,7 +62,7 @@ public class Picking : MonoSingleton<Picking> {
         SelectedObject = charTransform.gameObject;
         charCtrl = SelectedObject.GetComponent<CharController>();
 
-        if (charCtrl.circleObject == null)
+        if (charCtrl.QuadSelectionObject == null)
         {
             AddSelectionQuad();
         }
@@ -71,10 +71,10 @@ public class Picking : MonoSingleton<Picking> {
     void AddSelectionQuad()
     {
         Vector3 scale = new Vector3(0.5f, 0.5f, 0.5f);
-        charCtrl.circleObject = Instantiate(QuadPrefab);
-        charCtrl.circleObject.transform.SetParent(charCtrl.transform, false);
-        charCtrl.circleObject.transform.position = new Vector3(charCtrl.circleObject.transform.position.x, 0.042f, charCtrl.circleObject.transform.position.z);
-        charCtrl.circleObject.transform.eulerAngles = new Vector3(90, 0, 0);
+        charCtrl.QuadSelectionObject = Instantiate(QuadPrefab);
+        charCtrl.QuadSelectionObject.transform.SetParent(charCtrl.transform, false);
+        charCtrl.QuadSelectionObject.transform.position = new Vector3(charCtrl.QuadSelectionObject.transform.position.x, 0.042f, charCtrl.QuadSelectionObject.transform.position.z);
+        charCtrl.QuadSelectionObject.transform.eulerAngles = new Vector3(90, 0, 0);
 
 
         switch(charCtrl.charSize)
@@ -96,14 +96,14 @@ public class Picking : MonoSingleton<Picking> {
                 }
         }
 
-        charCtrl.circleObject.transform.localScale = scale;
+        charCtrl.QuadSelectionObject.transform.localScale = scale;
     }
     void DeleteQuad()
     {
         charCtrl = SelectedObject.GetComponent<CharController>();
-        if (charCtrl.circleObject)
+        if (charCtrl.QuadSelectionObject)
         {
-            Destroy(charCtrl.circleObject);
+            Destroy(charCtrl.QuadSelectionObject);
         }
         SelectedObject = null;
     }

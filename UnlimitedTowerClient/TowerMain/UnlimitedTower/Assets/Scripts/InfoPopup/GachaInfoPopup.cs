@@ -32,11 +32,15 @@ public class GachaInfoPopup : MonoSingleton<GachaInfoPopup> {
             + "Damage : " + getChar.GetDamage() + "\n"
             + "Avoid : " + getChar.GetAvoid() + "\n"
             + "Speed : " + getChar.GetSpeed();
+
+
+        UserDataManager.Inst.AddNewChar(getChar.Name);
+
     }
 
     public void OnClickCloseResultInfoPopup()
     {
         GachaResultInfoPopup.SetActive(false);
-        // 정보 초기화
+        // 정보 초기화     
     }
 }

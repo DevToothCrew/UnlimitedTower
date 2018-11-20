@@ -20,19 +20,36 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public GameObject StageInfoPopup;
     public GameObject SettingInfoPopup;
 
+    public GameObject CharacterListContent;
+
     public void Awake()
     {
-        InitCenterPopup();
-        ChangeSceneState(SCENE_STATE.Login);
-    }
+        if(!UserDataManager.Inst.UserLoginFlag)
+        {
+            Debug.Log("첫 로그인 화면");
+            InitCenterPopup();
+            ChangeSceneState(SCENE_STATE.Login);
+        }
+        else
+        {
+            Debug.Log("로비로 리턴");
 
+
+            UserDataManager.Inst.LoadCharList();
+            ChangeSceneState(SCENE_STATE.Lobby);
+           
+        }       
+    }
     public void ChangeSceneState(SCENE_STATE state)
     {
+        //TODO :테스트 코드 필요없을시 삭제.
+        UserDataManager.Inst.sceneState = state;
+
         switch (state)
         {
             case SCENE_STATE.Login:
                 SetTowerInfo(true, -100.0f);
-                SetRightPopup(LoginPopup);
+                SetRightPopup(LoginPopup);                        
                 break;
             case SCENE_STATE.Lobby:
                 SetTowerInfo(true, 100.0f);
@@ -66,6 +83,9 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public void InitCenterPopup()
     {
         centerPopupState = LOBBY_RIGHT_BUTTON.None;
+
+   
+       
         CenterPopup.SetActive(false);
         HeroInfoPopup.SetActive(false);
         PartnerInfoPopup.SetActive(false);
@@ -87,6 +107,9 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public void OnClickEnterLobbyButton()
     {
+        //TODO : 임시 코드. 필요없을시 삭제.
+        PacketManager.Inst.Request_Login();
+
         PacketManager.Inst.Request_GetLobbyInfo();
     }
 

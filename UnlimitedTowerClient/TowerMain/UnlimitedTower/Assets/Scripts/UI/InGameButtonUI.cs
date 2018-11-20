@@ -14,29 +14,47 @@ public class InGameButtonUI : MonoBehaviour {
     bool AnimationSpeedDouble = false;
     public void OnClickAnimationSpeedDouble()
     {
+     
         if (!AnimationSpeedDouble)
         {
-            Debug.Log("홠성화");
+            Debug.Log("활성화");
             AnimationSpeedDouble = true;
             transform.GetChild(0).GetComponent<Text>().fontStyle = FontStyle.Bold;
             DEFINE.ANIMATION_SPEED = SPEED*2;
             for(int i=0; i<DEFINE.PARTY_MAX_NUM; i++)
             {
-                BattleManager.Inst.enemyObjects[i].GetComponent<Animator>().speed = DEFINE.ANIMATION_SPEED;
-                BattleManager.Inst.playerObjects[i].GetComponent<Animator>().speed = DEFINE.ANIMATION_SPEED;
+                if(BattleManager.Inst.enemyObjects[i])
+                {
+                    BattleManager.Inst.enemyObjects[i].GetComponent<Animator>().speed = DEFINE.ANIMATION_SPEED;
+                }
+
+                if (BattleManager.Inst.playerObjects[i])
+                {
+                    BattleManager.Inst.playerObjects[i].GetComponent<Animator>().speed = DEFINE.ANIMATION_SPEED;
+                }
+
+              
+               
             }
           
         }
         else
         {
-            Debug.Log("비홠성화");
+            Debug.Log("비활성화");
             AnimationSpeedDouble = false;
             transform.GetChild(0).GetComponent<Text>().fontStyle = FontStyle.Normal;
             DEFINE.ANIMATION_SPEED = SPEED;
             for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
             {
-                BattleManager.Inst.enemyObjects[i].GetComponent<Animator>().speed = DEFINE.ANIMATION_SPEED;
-                BattleManager.Inst.playerObjects[i].GetComponent<Animator>().speed = DEFINE.ANIMATION_SPEED;
+                if (BattleManager.Inst.enemyObjects[i])
+                {
+                    BattleManager.Inst.enemyObjects[i].GetComponent<Animator>().speed = DEFINE.ANIMATION_SPEED;
+                }
+
+                if (BattleManager.Inst.playerObjects[i])
+                {
+                    BattleManager.Inst.playerObjects[i].GetComponent<Animator>().speed = DEFINE.ANIMATION_SPEED;
+                }
             }
         }
     }
@@ -44,6 +62,7 @@ public class InGameButtonUI : MonoBehaviour {
     {
         if(BattleManager.Inst.BattleState != BATTLE_STATE.BATTLE  )
         {
+            //BattleManager.Inst.SetTurnSpeed();
             BattleManager.Inst.StartBattle();
             transform.GetChild(0).GetComponent<Text>().fontStyle = FontStyle.Bold;
             BattleManager.Inst.BattleState = BATTLE_STATE.BATTLE;

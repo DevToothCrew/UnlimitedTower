@@ -21,15 +21,18 @@ public class TestResultButton : MonoBehaviour
     }
     private void OnGUI()
     {
-        if (BattleManager.Inst.BattleState == BATTLE_STATE.END)
+        //if (BattleManager.Inst.BattleState == BATTLE_STATE.END)
         {
             if (GUI.Button(new Rect(Screen.width / 2, Screen.height / 2, 100, 70), "GameOver"))
             {
                 BattleManager.Inst.BattleState = BATTLE_STATE.NONE;
+                //LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Lobby);
                 SceneManager.LoadScene("Lobby");
+                
+               // LobbyManager.Inst.InitCenterPopup();
                 //LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Lobby);
                 //LobbyManager.Inst.OnClickEnterLobbyButton();
-
+                //Debug.Log("로비로 다시 전환");
 
 
 

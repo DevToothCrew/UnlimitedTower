@@ -89,8 +89,20 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void Request_GetStageInfo(int stageNum)
     {
+        // TODO : if delete
+        if(UserDataManager.Inst.characterDic.Count<=0)
+        {
+            Debug.Log("캐릭터가 없습니다. 뽑기를 해주세요");
+            return;
+        }
+
         Debug.Log("Requset_GetStageInfo : " + stageNum);
         Response_GetStageInfo(stageNum);
+        SceneManager.LoadScene("CharacterBattleScene");
+        Debug.Log("Success BattleSceene Loading");
+ 
+
+
     }
 
     public void Request_EnterStage(int stageNum)
@@ -129,12 +141,23 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("Response_GetLobbyInfo");
         LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Lobby);
+
+        //  TODO : Test Code if deleted
+        // void RecivePacketCharInfo()..
+
+        // 로비에 들어가면 데이터 연동
+        //UserDataManager.Inst.SetChar(TestDB.LoadCharactersData());
+
+
+        // TODO : 확실히 필요없다고 판단되면 삭제할것
         UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Lobby);
     }
 
     public void Response_Gacha()
     {
         Debug.Log("Response_Gacha");
+
+        // TODO : 현재 임시로 TestDB에서 캐릭터 정보 가져와서
 
         Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1);
         UserDataManager.Inst.SetCharacter(newChar);
@@ -151,20 +174,30 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("Response_GetStageInfo");
         LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Stage);
+
+
+        // TODO : 확실히 필요없다고 판단되면 삭제할것
         UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Stage);
     }
 
     public void Response_EnterStage(int stageNum)
     {
         // 씬 전환 데이터 정보 변경 필요
-        SceneManager.LoadScene("CharacterScene");
+
+        // TODO : 확실히 필요없다고 판단되면 삭제할것
+        //SceneManager.LoadScene("CharacterBattleScene");
     }
 
     public void Response_Logout()
     {
         Debug.Log("Response_Logout");
         UserDataManager.Inst.InitFlag();
+        UserDataManager.Inst.RemoveUserInfo();
         LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Login);
+
+
+
+        // TODO : 확실히 필요없다고 판단되면 삭제할것
         UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Login);
     }
 

@@ -9,6 +9,7 @@ public class TestDB
     // 캐릭터 세팅하는 예시. 실제로는 서버에서 값을 받아온다.
     public static Dictionary<int, Character> LoadCharactersData()
     {
+        Debug.Log("캐릭터 정보를 받아옴");
         Dictionary<int, Character> getCharactrerDic = new Dictionary<int, Character>();
 
         // 랜덤값으로 뽑기 위한
@@ -29,7 +30,7 @@ public class TestDB
             CHARACTER_NUM charType = myIndexList[myIndex];
             
 
-            // 사이즈 구분 번호가 없다?
+            // 사이즈 구분 번호가 없다.
             getCharactrerDic.Add(i, new Character(0, 1, getStr, getDex, getInt, 0, (charType.ToString()), (int)charType
                 , SIZE_TYPE.SMALL));
         }
@@ -45,7 +46,8 @@ public class TestDB
         myIndexList.Add(CHARACTER_NUM.Mst_Anubis);
         myIndexList.Add(CHARACTER_NUM.Mst_Ninja);
         myIndexList.Add(CHARACTER_NUM.Mst_Fire_Fairy);
-       // myIndexList.Add(CHARACTER_NUM.Mst_Leaf_Fairy);
+        myIndexList.Add(CHARACTER_NUM.Mst_Water_Fairy);
+        myIndexList.Add(CHARACTER_NUM.Mst_Leaf_Fairy);
         myIndexList.Add(CHARACTER_NUM.Mst_Death);
         myIndexList.Add(CHARACTER_NUM.Mst_Knight);
         myIndexList.Add(CHARACTER_NUM.Mst_WolfMan);
@@ -53,10 +55,13 @@ public class TestDB
         myIndexList.Add(CHARACTER_NUM.Mst_DarkMagician);
         myIndexList.Add(CHARACTER_NUM.Mst_Demon);
         myIndexList.Add(CHARACTER_NUM.Mst_Egg);
-        //myIndexList.Add(CHARACTER_NUM.Mst_Goblin_Blue);
-        //myIndexList.Add(CHARACTER_NUM.Mst_Goblin_Green);
-
-
+        myIndexList.Add(CHARACTER_NUM.Mst_Giant);
+        myIndexList.Add(CHARACTER_NUM.Mst_DarkKnight);
+        myIndexList.Add(CHARACTER_NUM.Mst_Card);
+        myIndexList.Add(CHARACTER_NUM.Mst_Goblin_Blue);
+        myIndexList.Add(CHARACTER_NUM.Mst_Goblin_Green);
+        myIndexList.Add(CHARACTER_NUM.Mst_BirdMan);
+        myIndexList.Add(CHARACTER_NUM.Mst_ShadowCat);
 
         for (int i = 0; i < 10; i++)
         {
@@ -67,11 +72,12 @@ public class TestDB
             CHARACTER_NUM charType = myIndexList[myIndex];
             SIZE_TYPE charSize;
 
-            if(charType == CHARACTER_NUM.Mst_Knight)
+            if(charType == CHARACTER_NUM.Mst_Knight || charType == CHARACTER_NUM.Mst_Anubis || charType == CHARACTER_NUM.Mst_DarkKnight
+                || charType == CHARACTER_NUM.Mst_WolfMan)
             {
                 charSize = SIZE_TYPE.MIDDLE;
             }
-            else if(charType == CHARACTER_NUM.Mst_Death)
+            else if(charType == CHARACTER_NUM.Mst_Death || charType == CHARACTER_NUM.Mst_Giant || charType == CHARACTER_NUM.Mst_BirdMan)
             {
                 charSize = SIZE_TYPE.BIG;
             }

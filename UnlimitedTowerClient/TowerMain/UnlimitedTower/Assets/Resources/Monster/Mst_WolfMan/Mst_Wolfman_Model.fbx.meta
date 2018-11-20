@@ -1,33 +1,33 @@
 fileFormatVersion: 2
-guid: 24905593c8012bb468c47210104b4b43
+guid: 9c86a2f03af52ef4fbac54ec99d9b8a8
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: foot_L
-    100002: foot_R
-    100004: forearm_L
-    100006: forearm_R
-    100008: hand_L
-    100010: hand_R
-    100012: heel_02_L
-    100014: heel_02_R
-    100016: metarig
-    100018: //RootNode
-    100020: mst_Wwolfman_000
-    100022: mst_Wwolfman_002
-    100024: mst_Wwolfman_003
-    100026: mst_Wwolfman_004
-    100028: mst_Wwolfman_005
-    100030: mst_Wwolfman_006
-    100032: mst_Wwolfman_007
-    100034: mst_Wwolfman_008
-    100036: mst_Wwolfman_010
-    100038: mst_Wwolfman_011
-    100040: mst_Wwolfman_012
-    100042: mst_Wwolfman_014
-    100044: mst_Wwolfman_015
-    100046: mst_Wwolfman_016
-    100048: mst_Wwolfman_017
+    100000: //RootNode
+    100002: foot_L
+    100004: foot_R
+    100006: forearm_L
+    100008: forearm_R
+    100010: hand_L
+    100012: hand_R
+    100014: heel_02_L
+    100016: heel_02_R
+    100018: metarig
+    100020: mst_wolfman
+    100022: mst_wolfman_001
+    100024: mst_wolfman_002
+    100026: mst_wolfman_003
+    100028: mst_wolfman_004
+    100030: mst_wolfman_006
+    100032: mst_wolfman_007
+    100034: mst_wolfman_008
+    100036: mst_wolfman_009
+    100038: mst_wolfman_011
+    100040: mst_wolfman_012
+    100042: mst_wolfman_013
+    100044: mst_wolfman_015
+    100046: mst_wolfman_016
+    100048: mst_wolfman_017
     100050: shin_L
     100052: shin_R
     100054: shoulder_L
@@ -45,31 +45,31 @@ ModelImporter:
     100078: toe_R
     100080: upper_arm_L
     100082: upper_arm_R
-    400000: foot_L
-    400002: foot_R
-    400004: forearm_L
-    400006: forearm_R
-    400008: hand_L
-    400010: hand_R
-    400012: heel_02_L
-    400014: heel_02_R
-    400016: metarig
-    400018: //RootNode
-    400020: mst_Wwolfman_000
-    400022: mst_Wwolfman_002
-    400024: mst_Wwolfman_003
-    400026: mst_Wwolfman_004
-    400028: mst_Wwolfman_005
-    400030: mst_Wwolfman_006
-    400032: mst_Wwolfman_007
-    400034: mst_Wwolfman_008
-    400036: mst_Wwolfman_010
-    400038: mst_Wwolfman_011
-    400040: mst_Wwolfman_012
-    400042: mst_Wwolfman_014
-    400044: mst_Wwolfman_015
-    400046: mst_Wwolfman_016
-    400048: mst_Wwolfman_017
+    400000: //RootNode
+    400002: foot_L
+    400004: foot_R
+    400006: forearm_L
+    400008: forearm_R
+    400010: hand_L
+    400012: hand_R
+    400014: heel_02_L
+    400016: heel_02_R
+    400018: metarig
+    400020: mst_wolfman
+    400022: mst_wolfman_001
+    400024: mst_wolfman_002
+    400026: mst_wolfman_003
+    400028: mst_wolfman_004
+    400030: mst_wolfman_006
+    400032: mst_wolfman_007
+    400034: mst_wolfman_008
+    400036: mst_wolfman_009
+    400038: mst_wolfman_011
+    400040: mst_wolfman_012
+    400042: mst_wolfman_013
+    400044: mst_wolfman_015
+    400046: mst_wolfman_016
+    400048: mst_wolfman_017
     400050: shin_L
     400052: shin_R
     400054: shoulder_L
@@ -87,44 +87,44 @@ ModelImporter:
     400078: toe_R
     400080: upper_arm_L
     400082: upper_arm_R
-    2100000: palette_001__mst_Wwolfman_png_001
-    4300000: mst_Wwolfman_008
-    4300002: mst_Wwolfman_007
-    4300004: mst_Wwolfman_012
-    4300006: mst_Wwolfman_011
-    4300008: mst_Wwolfman_006
-    4300010: mst_Wwolfman_005
-    4300012: mst_Wwolfman_010
-    4300014: mst_Wwolfman_014
-    4300016: mst_Wwolfman_015
-    4300018: mst_Wwolfman_016
-    4300020: mst_Wwolfman_017
-    4300022: mst_Wwolfman_004
-    4300024: mst_Wwolfman_003
-    4300026: mst_Wwolfman_002
-    4300028: mst_Wwolfman_000
+    2100000: palette__mst_wolfman_png
+    4300000: mst_wolfman_009
+    4300002: mst_wolfman_011
+    4300004: mst_wolfman_008
+    4300006: mst_wolfman_013
+    4300008: mst_wolfman_012
+    4300010: mst_wolfman_007
+    4300012: mst_wolfman_006
+    4300014: mst_wolfman_015
+    4300016: mst_wolfman_016
+    4300018: mst_wolfman_017
+    4300020: mst_wolfman
+    4300022: mst_wolfman_004
+    4300024: mst_wolfman_003
+    4300026: mst_wolfman_002
+    4300028: mst_wolfman_001
     7400000: Default Take
     9500000: //RootNode
-    13700000: mst_Wwolfman_000
-    13700002: mst_Wwolfman_002
-    13700004: mst_Wwolfman_003
-    13700006: mst_Wwolfman_004
-    13700008: mst_Wwolfman_005
-    13700010: mst_Wwolfman_006
-    13700012: mst_Wwolfman_007
-    13700014: mst_Wwolfman_008
-    13700016: mst_Wwolfman_010
-    13700018: mst_Wwolfman_011
-    13700020: mst_Wwolfman_012
-    13700022: mst_Wwolfman_014
-    13700024: mst_Wwolfman_015
-    13700026: mst_Wwolfman_016
-    13700028: mst_Wwolfman_017
+    13700000: mst_wolfman
+    13700002: mst_wolfman_001
+    13700004: mst_wolfman_002
+    13700006: mst_wolfman_003
+    13700008: mst_wolfman_004
+    13700010: mst_wolfman_006
+    13700012: mst_wolfman_007
+    13700014: mst_wolfman_008
+    13700016: mst_wolfman_009
+    13700018: mst_wolfman_011
+    13700020: mst_wolfman_012
+    13700022: mst_wolfman_013
+    13700024: mst_wolfman_015
+    13700026: mst_wolfman_016
+    13700028: mst_wolfman_017
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: palette_001__mst_Wwolfman_png_001
+      name: palette__mst_wolfman_png
     second: {fileID: 2100000, guid: 89684d1f1edcac54fb9b92a05853fb24, type: 2}
   materials:
     importMaterials: 1
