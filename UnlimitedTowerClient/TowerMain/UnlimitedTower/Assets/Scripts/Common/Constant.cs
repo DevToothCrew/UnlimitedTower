@@ -341,9 +341,15 @@ public enum CHARACTER_NUM
     Mst_Goblin_Blue     = 217,
     Mst_Goblin_Green    = 218,
     Mst_Card            = 219,
-    Mst_DarkKnight      = 220,
-    Mst_BirdMan         = 221,
-    Mst_ShadowCat       = 222
+    Mst_Card_Green      = 220,
+    Mst_Card_Red        = 221,
+    Mst_Card_Yellow     = 222,
+    Mst_Robot           = 223,
+    Mst_Gangsi          = 224,
+    Mst_Zombie          = 225,
+    Mst_DarkKnight      = 226,
+    Mst_BirdMan         = 227,
+    Mst_ShadowCat       = 228
 }
 
 public enum CHARACTER_JOB

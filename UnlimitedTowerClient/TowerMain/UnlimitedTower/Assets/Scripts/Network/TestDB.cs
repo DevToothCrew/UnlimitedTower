@@ -58,10 +58,21 @@ public class TestDB
         myIndexList.Add(CHARACTER_NUM.Mst_Giant);
         myIndexList.Add(CHARACTER_NUM.Mst_DarkKnight);
         myIndexList.Add(CHARACTER_NUM.Mst_Card);
+        myIndexList.Add(CHARACTER_NUM.Mst_Card_Yellow);
+        myIndexList.Add(CHARACTER_NUM.Mst_Card_Red);
+        myIndexList.Add(CHARACTER_NUM.Mst_Card_Green);
+        myIndexList.Add(CHARACTER_NUM.Mst_Robot);
+        myIndexList.Add(CHARACTER_NUM.Mst_Zombie);
+        myIndexList.Add(CHARACTER_NUM.Mst_Gangsi);
         myIndexList.Add(CHARACTER_NUM.Mst_Goblin_Blue);
         myIndexList.Add(CHARACTER_NUM.Mst_Goblin_Green);
         myIndexList.Add(CHARACTER_NUM.Mst_BirdMan);
         myIndexList.Add(CHARACTER_NUM.Mst_ShadowCat);
+
+
+
+
+
 
         for (int i = 0; i < 10; i++)
         {
@@ -73,7 +84,7 @@ public class TestDB
             SIZE_TYPE charSize;
 
             if(charType == CHARACTER_NUM.Mst_Knight || charType == CHARACTER_NUM.Mst_Anubis || charType == CHARACTER_NUM.Mst_DarkKnight
-                || charType == CHARACTER_NUM.Mst_WolfMan)
+                || charType == CHARACTER_NUM.Mst_WolfMan || charType==CHARACTER_NUM.Mst_Robot)
             {
                 charSize = SIZE_TYPE.MIDDLE;
             }
