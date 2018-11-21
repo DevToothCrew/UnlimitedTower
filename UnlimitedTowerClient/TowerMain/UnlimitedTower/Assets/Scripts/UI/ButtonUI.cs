@@ -26,4 +26,10 @@ public class ButtonUI : MonoBehaviour {
             Button[i].GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1);
         }
     }
+
+
+    public void OnClickGachaFadeOut()
+    {
+
+    }
 }
