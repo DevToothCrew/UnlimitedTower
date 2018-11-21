@@ -1,0 +1,235 @@
+fileFormatVersion: 2
+guid: 77582cadf71bfc24b9156fd2c1a278a8
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: foot_L
+    100002: foot_R
+    100004: forearm_L
+    100006: forearm_R
+    100008: hand_L
+    100010: hand_R
+    100012: heel_02_L
+    100014: heel_02_R
+    100016: metarig
+    100018: mst_robot_2
+    100020: //RootNode
+    100022: mst_robot_2_001
+    100024: mst_robot_2_002
+    100026: mst_robot_2_003
+    100028: mst_robot_2_004
+    100030: mst_robot_2_005
+    100032: mst_robot_2_006
+    100034: mst_robot_2_009
+    100036: mst_robot_2_010
+    100038: mst_robot_2_011
+    100040: mst_robot_2_015
+    100042: mst_robot_2_016
+    100044: mst_robot_2_017
+    100046: mst_robot_2_023
+    100048: mst_robot_2_024
+    100050: mst_robot_2_025
+    100052: shin_L
+    100054: shin_R
+    100056: shoulder_L
+    100058: shoulder_R
+    100060: spine
+    100062: spine_001
+    100064: spine_002
+    100066: spine_003
+    100068: spine_004
+    100070: spine_005
+    100072: spine_006
+    100074: thigh_L
+    100076: thigh_R
+    100078: toe_L
+    100080: toe_R
+    100082: upper_arm_L
+    100084: upper_arm_R
+    400000: foot_L
+    400002: foot_R
+    400004: forearm_L
+    400006: forearm_R
+    400008: hand_L
+    400010: hand_R
+    400012: heel_02_L
+    400014: heel_02_R
+    400016: metarig
+    400018: mst_robot_2
+    400020: //RootNode
+    400022: mst_robot_2_001
+    400024: mst_robot_2_002
+    400026: mst_robot_2_003
+    400028: mst_robot_2_004
+    400030: mst_robot_2_005
+    400032: mst_robot_2_006
+    400034: mst_robot_2_009
+    400036: mst_robot_2_010
+    400038: mst_robot_2_011
+    400040: mst_robot_2_015
+    400042: mst_robot_2_016
+    400044: mst_robot_2_017
+    400046: mst_robot_2_023
+    400048: mst_robot_2_024
+    400050: mst_robot_2_025
+    400052: shin_L
+    400054: shin_R
+    400056: shoulder_L
+    400058: shoulder_R
+    400060: spine
+    400062: spine_001
+    400064: spine_002
+    400066: spine_003
+    400068: spine_004
+    400070: spine_005
+    400072: spine_006
+    400074: thigh_L
+    400076: thigh_R
+    400078: toe_L
+    400080: toe_R
+    400082: upper_arm_L
+    400084: upper_arm_R
+    2100000: palette_001__mst_robot_2_png
+    4300000: mst_robot_2_010
+    4300002: mst_robot_2_009
+    4300004: mst_robot_2_023
+    4300006: mst_robot_2_011
+    4300008: mst_robot_2_015
+    4300010: mst_robot_2_024
+    4300012: mst_robot_2_025
+    4300014: mst_robot_2
+    4300016: mst_robot_2_005
+    4300018: mst_robot_2_003
+    4300020: mst_robot_2_002
+    4300022: mst_robot_2_001
+    4300024: mst_robot_2_004
+    4300026: mst_robot_2_017
+    4300028: mst_robot_2_006
+    4300030: mst_robot_2_016
+    7400000: Idle
+    7400002: Idle
+    9500000: //RootNode
+    13700000: mst_robot_2
+    13700002: mst_robot_2_001
+    13700004: mst_robot_2_002
+    13700006: mst_robot_2_003
+    13700008: mst_robot_2_004
+    13700010: mst_robot_2_005
+    13700012: mst_robot_2_006
+    13700014: mst_robot_2_009
+    13700016: mst_robot_2_010
+    13700018: mst_robot_2_011
+    13700020: mst_robot_2_015
+    13700022: mst_robot_2_016
+    13700024: mst_robot_2_017
+    13700026: mst_robot_2_023
+    13700028: mst_robot_2_024
+    13700030: mst_robot_2_025
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: mixamo.com
+      firstFrame: 0
+      lastFrame: 75
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
