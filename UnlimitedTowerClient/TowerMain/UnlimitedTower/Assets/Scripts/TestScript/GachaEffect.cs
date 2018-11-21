@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightEffectCircle : MonoBehaviour {
+public class GachaEffect : MonoBehaviour {
 
     public Animator fadeOut;
 
@@ -14,6 +14,7 @@ public class LightEffectCircle : MonoBehaviour {
     public Animator blackHoleAnimator;
 
     public GameObject blackHole;
+    public GameObject lightEffectCircle;
 
     public bool MouseClick = false;
 
@@ -21,10 +22,7 @@ public class LightEffectCircle : MonoBehaviour {
     {
         blackHole.GetComponent<RectTransform>().localEulerAngles = new Vector3(0.0f, 0.0f, 180.0f);
     }
-   public void StopBlackHoleRotate()
-    {
-        blackHoleAnimator.SetBool("Play", false);
-    }
+ 
     private void OnEnable()
     {
         // 애니메이션 기본값 설정.
@@ -34,24 +32,24 @@ public class LightEffectCircle : MonoBehaviour {
         lightEffectCircle03.SetBool("Play", false);
         lightEffectCircle04.SetBool("Play", false);
 
-        for(int i=0; i<4; i++)
-        {
-            transform.GetChild(i).GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 1.0f);
-        }
-     
+        //for(int i=0; i<4; i++)
+        //{
+        //    if (lightEffectCircle.transform.GetChild(i).GetComponent<RectTransform>())
+        //    {
+        //        Debug.Log("LightEffect : " + lightEffectCircle.transform.GetChild(i).name);
+        //        lightEffectCircle.transform.GetChild(i).GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        //    }
+          
+        //}    
         if (blackHole.GetComponent<RectTransform>())
         {
 
             Debug.Log("블랙홀 각도 : " + blackHole.GetComponent<RectTransform>().eulerAngles.ToString());
-
             Debug.Log("블랙홀 각도 : " + blackHole.GetComponent<RectTransform>().eulerAngles.ToString());
 
            // blackHole.GetComponent<RectTransform>().localEulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
 
-
         }
-
-
 
 
     }
@@ -134,21 +132,24 @@ public class LightEffectCircle : MonoBehaviour {
     }
 
 
-    void WaveLightEffect()
+    //public void Update()
+    //{
+    //    if(Input.GetMouseButtonDown(0))
+    //    {
+    //        GoGacha();
+    //    }
+    //}
+
+
+    public void GoGacha()
     {
-        if(Input.GetMouseButtonDown(0) && !MouseClick)
-        {
+        
             MouseClick = true;
             lightEffectCircle04.SetBool("Play", true);
             blackHoleAnimator.SetBool("Play", true);
             StartCoroutine("WAVE_LIGHT_EFFECT_CIRCLE04");
-        }
+        
     }
 	
-	// Update is called once per frame
-	void Update () {
-        WaveLightEffect();
-
-
-    }
+	
 }
