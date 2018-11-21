@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class LightEffectCircle : MonoBehaviour {
 
-
-
-
+    public Animator fadeOut;
 
     public Animator lightEffectCircle01;
     public Animator lightEffectCircle02;
@@ -58,6 +56,21 @@ public class LightEffectCircle : MonoBehaviour {
 
     }
 
+    IEnumerator FADE_OUT()
+    {
+        do
+        {
+            yield return null;
+        }
+        while (fadeOut.GetCurrentAnimatorStateInfo(0).IsName("FadeOut") &&
+     fadeOut.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
+
+
+        //lightEffectCircle01.SetBool("Play", false);
+
+        yield break;
+    }
+
     IEnumerator WAVE_LIGHT_EFFECT_CIRCLE01()
     {
         do
@@ -70,7 +83,8 @@ public class LightEffectCircle : MonoBehaviour {
 
         //lightEffectCircle01.SetBool("Play", false);
 
-        yield break;
+        fadeOut.SetBool("Play", true);
+        yield return StartCoroutine("FADE_OUT");
     }
 
     IEnumerator WAVE_LIGHT_EFFECT_CIRCLE02()

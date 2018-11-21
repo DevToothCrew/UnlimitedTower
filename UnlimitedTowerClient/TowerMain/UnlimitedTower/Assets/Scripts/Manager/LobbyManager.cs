@@ -20,8 +20,17 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public GameObject StageInfoPopup;
     public GameObject SettingInfoPopup;
 
+
+    // TODO : TestCode
     public GameObject CharacterListContent;
     public GameObject TestGachaScene;
+
+    public GameObject LeftPop;
+    public GameObject BaseBackground;
+    public GameObject CloudImage;
+
+
+
 
     public void Awake()
     {
@@ -142,6 +151,15 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
             case LOBBY_RIGHT_BUTTON.Gacha:
                 // GachaInfoPopup.SetActive(true);
+
+              
+                RightPopup.SetActive(false);
+                TowerGrid.SetActive(false);
+                CenterPopup.SetActive(false);
+                LeftPop.SetActive(false);
+                BaseBackground.SetActive(false);
+                CloudImage.SetActive(false);
+
                 TestGachaScene.SetActive(true);
                 break;
 
@@ -163,6 +181,17 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public void OnClickExitGacha()
     {
         TestGachaScene.SetActive(false);
+
+
+        
+        RightPopup.SetActive(true);
+        TowerGrid.SetActive(true);
+        //TowerInfo.SetActive(false);
+        //CenterPopup.SetActive(false);
+
+        LeftPop.SetActive(true);
+        BaseBackground.SetActive(true);
+        CloudImage.SetActive(true);
     }
 
     public void OnClickStageButton(int stageNum)

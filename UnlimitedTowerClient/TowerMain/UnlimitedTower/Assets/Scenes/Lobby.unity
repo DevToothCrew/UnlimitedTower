@@ -446,7 +446,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &50528313
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7144,6 +7144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bfce7ba2daed394caed75e817aa419c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeOut: {fileID: 50528314}
   lightEffectCircle01: {fileID: 1804539810}
   lightEffectCircle02: {fileID: 640856122}
   lightEffectCircle03: {fileID: 1191319562}
@@ -11245,6 +11246,9 @@ MonoBehaviour:
   SettingInfoPopup: {fileID: 1920526032}
   CharacterListContent: {fileID: 292467050}
   TestGachaScene: {fileID: 50528312}
+  LeftPop: {fileID: 1910031054}
+  BaseBackground: {fileID: 387069708}
+  CloudImage: {fileID: 1708599346}
 --- !u!1 &1497820692
 GameObject:
   m_ObjectHideFlags: 0
