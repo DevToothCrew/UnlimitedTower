@@ -6,22 +6,60 @@ public class LightEffectCircle : MonoBehaviour {
 
 
 
+
+
     public Animator lightEffectCircle01;
     public Animator lightEffectCircle02;
     public Animator lightEffectCircle03;
     public Animator lightEffectCircle04;
 
-    public Animator blackHole;
+    public Animator blackHoleAnimator;
+
+    public GameObject blackHole;
 
     public bool MouseClick = false;
 
-    void Awake () {
-		
-	}
+    private void Awake()
+    {
+        blackHole.GetComponent<RectTransform>().localEulerAngles = new Vector3(0.0f, 0.0f, 180.0f);
+    }
+   public void StopBlackHoleRotate()
+    {
+        blackHoleAnimator.SetBool("Play", false);
+    }
+    private void OnEnable()
+    {
+        // 애니메이션 기본값 설정.
+        MouseClick = false;
+        lightEffectCircle01.SetBool("Play", false);
+        lightEffectCircle02.SetBool("Play", false);
+        lightEffectCircle03.SetBool("Play", false);
+        lightEffectCircle04.SetBool("Play", false);
+
+        for(int i=0; i<4; i++)
+        {
+            transform.GetChild(i).GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 1.0f);
+        }
+     
+        if (blackHole.GetComponent<RectTransform>())
+        {
+
+            Debug.Log("블랙홀 각도 : " + blackHole.GetComponent<RectTransform>().eulerAngles.ToString());
+
+            Debug.Log("블랙홀 각도 : " + blackHole.GetComponent<RectTransform>().eulerAngles.ToString());
+
+           // blackHole.GetComponent<RectTransform>().localEulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+
+
+        }
+
+
+
+
+    }
 
     IEnumerator WAVE_LIGHT_EFFECT_CIRCLE01()
     {
-        Debug.Log("나도 간다");
         do
         {
             yield return null;
@@ -88,7 +126,7 @@ public class LightEffectCircle : MonoBehaviour {
         {
             MouseClick = true;
             lightEffectCircle04.SetBool("Play", true);
-            blackHole.SetBool("Play", true);
+            blackHoleAnimator.SetBool("Play", true);
             StartCoroutine("WAVE_LIGHT_EFFECT_CIRCLE04");
         }
     }
@@ -96,6 +134,7 @@ public class LightEffectCircle : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         WaveLightEffect();
+
 
     }
 }

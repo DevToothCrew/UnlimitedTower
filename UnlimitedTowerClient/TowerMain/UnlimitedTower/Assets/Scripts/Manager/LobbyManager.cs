@@ -21,6 +21,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public GameObject SettingInfoPopup;
 
     public GameObject CharacterListContent;
+    public GameObject TestGachaScene;
 
     public void Awake()
     {
@@ -140,7 +141,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                 break;
 
             case LOBBY_RIGHT_BUTTON.Gacha:
-                GachaInfoPopup.SetActive(true);
+                // GachaInfoPopup.SetActive(true);
+                TestGachaScene.SetActive(true);
                 break;
 
             case LOBBY_RIGHT_BUTTON.Stage:
@@ -153,9 +155,14 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         }
     }
 
+
     public void OnClickExitCenterPopup()
     {
         InitCenterPopup();
+    }
+    public void OnClickExitGacha()
+    {
+        TestGachaScene.SetActive(false);
     }
 
     public void OnClickStageButton(int stageNum)
