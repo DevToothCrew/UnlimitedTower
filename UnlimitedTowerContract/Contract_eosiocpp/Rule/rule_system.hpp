@@ -9,6 +9,8 @@
 #include "../Rule/rule_monster_grade_table.hpp"
 #include "../Rule/rule_monster_id_table.hpp"
 
+
+
 class crule_system
 {
   private:
@@ -23,7 +25,16 @@ class crule_system
     monster_id_data_table monster_id_rule;
     item_id_data_table item_id_rule;
     item_tier_data_table item_tier_rule;
-
+  public:
+    const uint8_t servent_job_count = 5;
+    const uint8_t monster_id_count = 30;
+    const uint8_t monster_grade_count = 5;
+    const uint8_t item_id_count = 70;
+    const uint8_t item_tier_count = 5;
+    const uint8_t item_type_count = 3;
+    const uint8_t head_count = 3;
+    const uint8_t hair_count = 3;
+    const uint8_t body_count = 3;
   public:
     crule_system(account_name _self)
         : owner(_self),
@@ -86,7 +97,7 @@ class crule_system
     void init_data()
     {
         require_auth2(owner,N(owner));
-        for (uint32_t i = 0; i < 5; ++i)
+        for (uint8_t i = 0; i < servent_job_count; ++i)
         {
             servent_rule.emplace(owner, [&](auto& a) {
                 a.s_job = servent_rule.available_primary_key();
@@ -99,7 +110,7 @@ class crule_system
                 a.s_max_range.s_int = random_value(10) + 25;
             });
         }
-        for(uint32_t i=0;i<3;++i)
+        for(uint8_t i=0;i<head_count;++i)
         {
             head_rule.emplace(owner,[&](auto& a)
             {
@@ -112,7 +123,7 @@ class crule_system
                 a.b_body = head_rule.available_primary_key();
             });
         }
-        for(uint32_t i=0;i<5;++i)
+        for(uint8_t i=0;i<monster_grade_count;++i)
         {
             monster_grade_rule.emplace(owner,[&](auto &a)
             {
@@ -127,31 +138,35 @@ class crule_system
             });
 
         }
-        for(uint32_t i=0;i<30;++i)
+        for(uint8_t i=0;i<monster_id_count;++i)
         {
             monster_id_rule.emplace(owner,[&](auto &a)
             {
                 a.m_id = monster_id_rule.available_primary_key();
             });
         }
-        for (uint32_t i = 0; i < 70; ++i)
+        for (uint8_t i = 0; i < item_id_count; ++i)
         {
             item_id_rule.emplace(owner, [&](auto &a) {
                 a.i_id = item_id_rule.available_primary_key();
                 if(i < 30)
                 {
-                    a.i_type = random_value(2);
+                    a.i_type = random_value(item_type_count);
                 }
                 else
                 {
-                    a.i_type = random_value(3);
+                    a.i_type = random_value(item_type_count);
                 }
-                a.i_status.i_str = i + 10;
-                a.i_status.i_dex = i + 10;
-                a.i_status.i_int = i + 10;
+                a.i_min_range.i_str = random_value(10);
+                a.i_min_range.i_dex = random_value(10);
+                a.i_min_range.i_int = random_value(10);
+
+                a.i_max_range.i_str = random_value(10) + 25;
+                a.i_max_range.i_dex = random_value(10) + 25;
+                a.i_max_range.i_int = random_value(10) + 25;
             });
         }
-        for(uint32_t i=1;i<=5;++i)
+        for(uint32_t i=1;i<=item_tier_count;++i)
         {
             item_tier_rule.emplace(owner,[&](auto &a)
             {

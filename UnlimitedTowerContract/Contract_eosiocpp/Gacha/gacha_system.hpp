@@ -10,6 +10,7 @@ class cgacha_system
         user_monster_table monsters;
         user_servent_table servents;
         user_item_table items;
+
     public:
         cgacha_system(account_name _self,
         clogin_system &_login_controller,
@@ -35,7 +36,6 @@ class cgacha_system
         {
             return items;
         }
-#pragma region test
         void user_own_object_init(account_name _user)
         {
             servents.emplace(owner, [&](auto &new_servent) {
@@ -48,7 +48,6 @@ class cgacha_system
                 new_item.item_set_user(_user);
             });
         }
-#pragma endregion
         uint64_t random_value(uint32_t _range)
         {
             checksum256 l_result;
@@ -81,7 +80,7 @@ class cgacha_system
         }
         void gacha_servent_job(account_name _user)
         {
-            uint8_t result_job = random_value(4);
+            uint8_t result_job = random_value(rule_controller.servent_job_count);
             auto &servent_job = rule_controller.get_servent_rule_table();
             const auto &job_iter = servent_job.get(result_job,"not exist servent job");
 
@@ -112,21 +111,21 @@ class cgacha_system
         }
         uint8_t gacha_servent_head()
         {
-            uint8_t result_head = random_value(2);
+            uint8_t result_head = random_value(rule_controller.head_count);
             auto &servent_head = rule_controller.get_head_rule_table();
             const auto &head_iter = servent_head.get(result_head,"not exist head info");
             return head_iter.h_head;
         }
         uint8_t gacha_servent_hair()
         {
-            uint8_t result_hair = random_value(2);
+            uint8_t result_hair = random_value(rule_controller.hair_count);
             auto &servent_hair = rule_controller.get_hair_rule_table();
             const auto &hair_iter = servent_hair.get(result_hair,"not exist hair info");
             return hair_iter.h_hair;
         }
         uint8_t gacha_servent_body()
         {
-            uint8_t result_body = random_value(2);
+            uint8_t result_body = random_value(rule_controller.body_count);
             auto &servent_body = rule_controller.get_body_rule_table();
             const auto &body_iter = servent_body.get(result_body, "not exist body info");
             return body_iter.b_body;
@@ -134,11 +133,11 @@ class cgacha_system
         //---------------------------------------------------------------------------------//
         void gacha_monster_id(account_name _user)
         {           
-            uint8_t result_id = random_value(30);
+            uint8_t result_id = random_value(rule_controller.monster_id_count);
             auto &monster_id = rule_controller.get_monster_id_rule_table();
             const auto &id_iter = monster_id.get(result_id,"not exist monster id");
 
-            uint8_t result_grade = random_value(5);
+            uint8_t result_grade = random_value(rule_controller.monster_grade_count);
             auto &monster_grade = rule_controller.get_monster_grade_rule_table();
             const auto &grade_iter = monster_grade.get(result_grade,"not exist monster grade");
 
@@ -164,11 +163,11 @@ class cgacha_system
         //-----------------------------------------------------------------------------//
         void gacha_item_id(account_name _user)
         {
-            uint8_t result_id = random_value(70);
+            uint8_t result_id = random_value(rule_controller.item_id_count);
             auto &item_id = rule_controller.get_item_id_rule_table();
             const auto &id_iter = item_id.get(result_id, "not exist item id");
 
-            uint8_t result_tier = random_value(5);
+            uint8_t result_tier = random_value(rule_controller.item_tier_count);
             auto &item_tier = rule_controller.get_item_tier_rule_table();
             const auto &tier_iter = item_tier.get(result_tier,"not exist tier info");
 
@@ -182,9 +181,9 @@ class cgacha_system
                 item.i_type_index = id_iter.i_id;
                 item.i_type_equip = id_iter.i_type;
                 item.i_tier = tier_iter.i_tier;
-                item.i_status_info.strength = id_iter.i_status.i_str;
-                item.i_status_info.dexterity = id_iter.i_status.i_dex;
-                item.i_status_info.intelligence = id_iter.i_status.i_int;
+                item.i_status_info.strength = random_min(id_iter.i_min_range.i_str,id_iter.i_max_range.i_str);
+                item.i_status_info.dexterity = random_min(id_iter.i_min_range.i_dex,id_iter.i_max_range.i_dex);
+                item.i_status_info.intelligence = random_min(id_iter.i_min_range.i_int,id_iter.i_max_range.i_int);
                 new_item.i_item_list.push_back(item);
             });
 
@@ -205,13 +204,12 @@ class cgacha_system
             }
             else
             {
-                //용병이 뽑혔을 경우
-                uint64_t l_gacha_result_type = random_value(10);
-                if(l_gacha_result_type < 2)
+                uint64_t l_gacha_result_type = random_value(3);
+                if(l_gacha_result_type == 1)
                 {
                     gacha_servent_job(_user);
                 }
-                else if(l_gacha_result_type < 6)
+                else if(l_gacha_result_type == 2)
                 {
                     gacha_monster_id(_user);
                 }

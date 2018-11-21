@@ -10,4 +10,3 @@ void start_gacha(account_name _user)
 - 뽑기를 진행하는 함수이다
 - 인자로는 유저의 이름을 받는다.
 
-- //0~49 monster 50 ~ 99 servent 100~199 item <- 테스트용 수치

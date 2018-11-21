@@ -13,7 +13,8 @@ class critemid
   public:
     uint64_t i_id;
     uint8_t i_type;
-    item_stat i_status;
+    item_stat i_min_range;
+    item_stat i_max_range;
 public:
     uint64_t primary_key() const {return i_id;}
 };
