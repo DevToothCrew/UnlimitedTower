@@ -14,7 +14,6 @@
 #include "Table/monster_table.hpp"
 #include "Table/party_table.hpp"
 #include "Table/servent_table.hpp"
-#include "Table/test_static_data_table.hpp"
 #include "Table/test_static_equip_table.hpp"
 #include "Table/test_static_stage_table.hpp"
 

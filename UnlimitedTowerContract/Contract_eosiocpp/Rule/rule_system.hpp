@@ -88,10 +88,6 @@ class crule_system
         sha256((char *)&l_source, sizeof(l_source), &l_result);
         uint64_t *l_p = reinterpret_cast<uint64_t *>(&l_result.hash);
         uint64_t l_random_result = *l_p % _range;
-        if (l_random_result == 0)
-        {
-            l_random_result++;
-        }
         return l_random_result;
     }
     void init_data()
@@ -117,10 +113,10 @@ class crule_system
                 a.h_head = head_rule.available_primary_key();
             });
             hair_rule.emplace(owner, [&](auto& a) {
-                a.h_hair = head_rule.available_primary_key();
+                a.h_hair = hair_rule.available_primary_key();
             });
             body_rule.emplace(owner, [&](auto& a) {
-                a.b_body = head_rule.available_primary_key();
+                a.b_body = body_rule.available_primary_key();
             });
         }
         for(uint8_t i=0;i<monster_grade_count;++i)

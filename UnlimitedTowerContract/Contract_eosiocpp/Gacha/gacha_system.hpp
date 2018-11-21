@@ -55,10 +55,6 @@ class cgacha_system
             sha256((char *)&l_source, sizeof(l_source), &l_result);
             uint64_t *l_p = reinterpret_cast<uint64_t *>(&l_result.hash);
             uint64_t l_random_result = *l_p % _range;
-            if(l_random_result == 0)
-            {
-                l_random_result++;
-            }
             return l_random_result;
         }
         uint64_t random_min(uint32_t _min,uint32_t _max)
@@ -68,11 +64,7 @@ class cgacha_system
             sha256((char *)&l_source, sizeof(l_source), &l_result);
             uint64_t *l_p = reinterpret_cast<uint64_t *>(&l_result.hash);
             uint64_t l_random_result = *l_p % _max;
-            if (l_random_result == 0)
-            {
-                l_random_result++;
-            }
-            else if(_min > l_random_result )
+            if(_min > l_random_result )
             {
                 l_random_result+= _min;
             }

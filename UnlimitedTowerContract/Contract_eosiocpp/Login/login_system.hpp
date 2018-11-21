@@ -2,7 +2,6 @@
 #include "../Common/common_header.hpp"
 #include "../Table/log_table.hpp"
 #include "../Table/auth_user_table.hpp"
-#include "../Table/test_static_data_table.hpp"
 #include "../Table/test_static_stage_table.hpp"
 // need login & login time log
 struct transfer_action {
@@ -21,7 +20,6 @@ class clogin_system
     user_log_table log;
 
   private:
-    static_data_table data;
     battle_data_table stage;
 
   public:
@@ -37,13 +35,8 @@ class clogin_system
         : owner(_self),
           players(_self, _self),
           log(_self, _self),
-          data(_self,_self),
           stage(_self,_self)
     {
-    }
-    static_data_table &get_static_data_table()
-    {
-        return data;
     }
     battle_data_table &get_battle_stage_table()
     {
@@ -159,26 +152,6 @@ class clogin_system
         }
     }
     #pragma region static data test
-    void init_static_data()
-    {
-        for(uint32_t i = 0; i<200;++i)
-        {
-            auto cur_data_iter = data.find(i);
-            eosio_assert(cur_data_iter == data.end(),"exist data");
-
-            data.emplace(owner, [&](auto &new_data) {
-                new_data.type = i;
-                new_data.gacha_rate = i + 1;
-                new_data.status.s_str = random_value(10) + i + 1;
-                new_data.status.s_dex = random_value(10) + i + 1;
-                new_data.status.s_int = random_value(10) + i + 1;
-                if (i > 100)
-                {
-                    new_data.status.s_job = random_value(10);
-                }
-            });
-        }
-    }
     void init_stage_data()
     {
         uint32_t l_stage_count = 0;
@@ -188,13 +161,12 @@ class clogin_system
             {
                 l_stage_count++;
             }
-            const auto &cur_get_iter = data.get(j);
             stage_info enemy_info;
-            enemy_info.type_index = cur_get_iter.type;
-            enemy_info.s_str = cur_get_iter.status.s_str + l_stage_count;
-            enemy_info.s_dex = cur_get_iter.status.s_dex + l_stage_count;
-            enemy_info.s_int = cur_get_iter.status.s_int + l_stage_count;
-            enemy_info.s_job = cur_get_iter.status.s_job;
+            enemy_info.type_index = j;
+            enemy_info.s_str = j + l_stage_count;
+            enemy_info.s_dex = j + l_stage_count;
+            enemy_info.s_int = j + l_stage_count;
+            enemy_info.s_job = j;
 
             auto cur_stage_iter = stage.find(l_stage_count);
             if (cur_stage_iter == stage.end())
