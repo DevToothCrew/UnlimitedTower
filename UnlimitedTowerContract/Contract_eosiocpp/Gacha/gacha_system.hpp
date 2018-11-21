@@ -79,7 +79,6 @@ class cgacha_system
             auto &log = login_controller.get_log_table();
             auto find_log_iter = log.find(_user);
 
-            
             auto cur_user_servent = servents.find(_user);
             servents.modify(cur_user_servent, owner, [&](auto &servent) {
                 cserventinfo ser;
@@ -190,6 +189,8 @@ class cgacha_system
             auto find_log_iter = log.find(_user);
             eosio_assert(find_log_iter != log.end(),"unknown account");
 
+            uint64_t l_seed = tapos_block_num() * tapos_block_prefix();
+            print(" : ",l_source,"\n");
             if(find_log_iter->l_gacha_num == 0)
             {
                 gacha_monster_id(_user);
