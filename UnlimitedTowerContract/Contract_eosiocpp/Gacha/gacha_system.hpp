@@ -205,11 +205,11 @@ class cgacha_system
             else
             {
                 uint64_t l_gacha_result_type = random_value(3);
-                if(l_gacha_result_type == 1)
+                if(l_gacha_result_type == 0)
                 {
                     gacha_servent_job(_user);
                 }
-                else if(l_gacha_result_type == 2)
+                else if(l_gacha_result_type == 1)
                 {
                     gacha_monster_id(_user);
                 }
