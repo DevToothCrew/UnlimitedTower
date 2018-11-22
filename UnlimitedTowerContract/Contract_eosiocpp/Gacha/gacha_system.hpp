@@ -17,7 +17,7 @@ class cgacha_system
         crule_system &_rule_controller) 
         : owner(_self),
         login_controller(_login_controller),
-        rule_controller(_rule_controller),
+        rule_controller(_rule_controller), 
         monsters(_self,_self),
         servents(_self,_self),
         items(_self,_self)
@@ -47,6 +47,23 @@ class cgacha_system
             items.emplace(owner, [&](auto &new_item) {
                 new_item.item_set_user(_user);
             });
+        }
+        uint64_t random_seed(uint64_t _seed,uint32_t _range,uint32_t _random_count,uint32_t _min)
+        {
+            uint64_t l_result;
+            uint64_t l_seed;
+
+            l_seed = (_seed >> (2 * _random_count));
+            l_result = l_seed % _range;
+            print("r_count : ", _random_count, "\n");
+            print("l_seed : ", l_seed, "\n");
+            print("l_result : ", l_result, "\n");
+            print("-------------------------------\n");
+            if(l_result < _min)
+            {
+                return l_result+=_min;
+            }
+            return l_result;
         }
         uint64_t random_value(uint32_t _range)
         {
@@ -189,8 +206,12 @@ class cgacha_system
             auto find_log_iter = log.find(_user);
             eosio_assert(find_log_iter != log.end(),"unknown account");
 
-            uint64_t l_seed = tapos_block_num() * tapos_block_prefix();
-            print(" : ",l_source,"\n");
+            uint64_t l_seed = tapos_block_num() * tapos_block_prefix() * now();
+            for(uint32_t i=1;i<=8;++i)
+            {
+                random_seed(l_seed,8,i,i);
+            }
+
             if(find_log_iter->l_gacha_num == 0)
             {
                 gacha_monster_id(_user);
