@@ -23,7 +23,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     // TODO : TestCode
     public GameObject CharacterListContent;
-    public GameObject TestGachaScene;
+    public GameObject GachaScene;
 
     public GameObject LeftPop;
     public GameObject BaseBackground;
@@ -160,7 +160,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                 BaseBackground.SetActive(false);
                 CloudImage.SetActive(false);
 
-                TestGachaScene.SetActive(true);
+                GachaScene.SetActive(true);
                 break;
 
             case LOBBY_RIGHT_BUTTON.Stage:
@@ -180,7 +180,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     }
     public void OnClickExitGacha()
     {
-        TestGachaScene.SetActive(false);
+        GachaScene.SetActive(false);
 
 
         
