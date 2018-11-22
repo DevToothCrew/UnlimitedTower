@@ -505,15 +505,13 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 50528313}
-  - component: {fileID: 50528314}
-  - component: {fileID: 50528315}
   m_Layer: 5
-  m_Name: TestGachaInfoPopup
+  m_Name: GachaScene
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &50528313
 RectTransform:
   m_ObjectHideFlags: 0
@@ -535,34 +533,6 @@ RectTransform:
   m_AnchoredPosition: {x: -800, y: 450}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!95 &50528314
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 50528312}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 48d2b6ff7cb8fbe4e8e99a13a4cf6053, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
---- !u!225 &50528315
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 50528312}
-  m_Enabled: 0
-  m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &77275841
 GameObject:
   m_ObjectHideFlags: 0
@@ -1878,7 +1848,7 @@ GameObject:
   - component: {fileID: 248358788}
   - component: {fileID: 248358787}
   m_Layer: 5
-  m_Name: Gacha
+  m_Name: OldGacha
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1921,14 +1891,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeOut: {fileID: 248358789}
-  lightEffectCircle01: {fileID: 1804539810}
-  lightEffectCircle02: {fileID: 640856122}
-  lightEffectCircle03: {fileID: 1191319562}
-  lightEffectCircle04: {fileID: 403556307}
+  lightEffectCircle01Animator: {fileID: 0}
+  lightEffectCircle02Animator: {fileID: 0}
+  lightEffectCircle03Animator: {fileID: 0}
+  lightEffectCircle04Animator: {fileID: 0}
+  purpleCircleAnimator: {fileID: 0}
   blackHoleAnimator: {fileID: 35420581}
   blackHole: {fileID: 35420577}
   lightEffectCircle: {fileID: 852366515}
-  MouseClick: 0
 --- !u!225 &248358788
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -2105,12 +2075,12 @@ GameObject:
   - component: {fileID: 260262338}
   - component: {fileID: 260262336}
   m_Layer: 5
-  m_Name: Gacha (1)
+  m_Name: GachaImages
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &260262335
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2127,7 +2097,6 @@ RectTransform:
   - {fileID: 540518794}
   - {fileID: 2131281850}
   - {fileID: 758918810}
-  - {fileID: 1263307455}
   - {fileID: 273677068}
   - {fileID: 1365274831}
   m_Father: {fileID: 50528313}
@@ -2150,14 +2119,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeOut: {fileID: 260262337}
-  lightEffectCircle01: {fileID: 1266348681}
-  lightEffectCircle02: {fileID: 125707376}
-  lightEffectCircle03: {fileID: 1047664920}
-  lightEffectCircle04: {fileID: 1359624095}
+  lightEffectCircle01Animator: {fileID: 1266348681}
+  lightEffectCircle02Animator: {fileID: 125707376}
+  lightEffectCircle03Animator: {fileID: 1047664920}
+  lightEffectCircle04Animator: {fileID: 1359624095}
+  purpleCircleAnimator: {fileID: 1543341101}
   blackHoleAnimator: {fileID: 758918809}
   blackHole: {fileID: 758918806}
   lightEffectCircle: {fileID: 2131281849}
-  MouseClick: 0
 --- !u!95 &260262337
 Animator:
   serializedVersion: 3
@@ -2398,7 +2367,7 @@ GameObject:
   - component: {fileID: 273677070}
   - component: {fileID: 273677069}
   m_Layer: 5
-  m_Name: GoGacha
+  m_Name: GachaButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2416,7 +2385,7 @@ RectTransform:
   m_Children:
   - {fileID: 339545834}
   m_Father: {fileID: 260262335}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6934,7 +6903,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: a3e369979aab5e542a1166f318880c1e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7fb33e1cc8dba74439015e5dde110b9e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6980,8 +6949,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 803, y: -452}
-  m_SizeDelta: {x: 1582, y: 900}
+  m_AnchoredPosition: {x: 809, y: -437}
+  m_SizeDelta: {x: 545, y: 531}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &777382605
 GameObject:
@@ -8872,9 +8841,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 350, y: -893}
+  m_AnchoredPosition: {x: 807.5, y: -435.5}
   m_SizeDelta: {x: 915, y: 915}
-  m_Pivot: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1049970513
 GameObject:
   m_ObjectHideFlags: 0
@@ -10427,74 +10396,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1256975188}
---- !u!1 &1263307454
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1263307455}
-  - component: {fileID: 1263307457}
-  - component: {fileID: 1263307456}
-  m_Layer: 5
-  m_Name: TestBlackhole
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &1263307455
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1263307454}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 260262335}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 809, y: -437}
-  m_SizeDelta: {x: 545, y: 531}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1263307456
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1263307454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 7fb33e1cc8dba74439015e5dde110b9e, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
---- !u!222 &1263307457
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1263307454}
 --- !u!1 &1266348680
 GameObject:
   m_ObjectHideFlags: 0
@@ -10879,7 +10780,7 @@ RectTransform:
   m_GameObject: {fileID: 1359624094}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
   m_Children: []
   m_Father: {fileID: 2131281850}
   m_RootOrder: 3
@@ -10993,7 +10894,7 @@ RectTransform:
   m_Children:
   - {fileID: 618229310}
   m_Father: {fileID: 260262335}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -12418,7 +12319,7 @@ MonoBehaviour:
   StageInfoPopup: {fileID: 1285505471}
   SettingInfoPopup: {fileID: 1920526032}
   CharacterListContent: {fileID: 292467050}
-  TestGachaScene: {fileID: 50528312}
+  GachaScene: {fileID: 50528312}
   LeftPop: {fileID: 1910031054}
   BaseBackground: {fileID: 387069708}
   CloudImage: {fileID: 1708599346}
@@ -13020,6 +12921,7 @@ GameObject:
   - component: {fileID: 1543341098}
   - component: {fileID: 1543341100}
   - component: {fileID: 1543341099}
+  - component: {fileID: 1543341101}
   m_Layer: 5
   m_Name: PurpleCircle
   m_TagString: Untagged
@@ -13042,7 +12944,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 801, y: -423}
+  m_AnchoredPosition: {x: 801, y: -450}
   m_SizeDelta: {x: 770, y: 809}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1543341099
@@ -13078,6 +12980,23 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1543341097}
+--- !u!95 &1543341101
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1543341097}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0d6764d4338adad478891339fa85e086, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &1562762057
 GameObject:
   m_ObjectHideFlags: 0
