@@ -1,10 +1,16 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+
+using Random = UnityEngine.Random;
 
 public class BattleManager : MonoSingleton<BattleManager> {
 
+    static public BattleManager instance = null;
+
     // TODO : Test Prefabs if Delete
+
     // 인게임 보여주는 용도의 오브젝트
     public GameObject[] playerObjects = new GameObject[DEFINE.PARTY_MAX_NUM];
     public GameObject[] enemyObjects = new GameObject[DEFINE.PARTY_MAX_NUM];
@@ -13,6 +19,10 @@ public class BattleManager : MonoSingleton<BattleManager> {
     public Dictionary<int, Battle_Character_Status> playerStatusDic = new Dictionary<int, Battle_Character_Status>();
     public Dictionary<int, Battle_Character_Status> enemyStatusDic = new Dictionary<int, Battle_Character_Status>();
     public List<CharacterAction> turnActionList = new List<CharacterAction>();
+
+    // Delegates for receiving event
+    public delegate void DecreaseHpDelegate(float demage, GameObject targetGo);
+    public event DecreaseHpDelegate decreaseHpDelegate = null;
 
 
     // Debug 전용
@@ -36,6 +46,8 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
     void Awake()
     {
+        instance = instance ?? this;
+
         if (debugFlag == true)
         {
             debugPanel.SetActive(true);
@@ -348,27 +360,54 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
         }
     }
-    private void DecreaseHp(ref Dictionary<int, Battle_Character_Status> attackDic, ref Dictionary<int, Battle_Character_Status> targetDic,
-    GameObject[] charObject, int myIndex, int targetIndex)
+    
+    private void DecreaseHp(ref Dictionary<int, Battle_Character_Status> attackDic, ref Dictionary<int, Battle_Character_Status> targetDic, GameObject[] charObjects, int myIndex, int targetIndex)
     {
-        targetDic[targetIndex].nowHp -= attackDic[myIndex].damage;
-        if (targetDic[targetIndex].nowHp <= 0)
-        {
-            targetDic[targetIndex].nowHp = 0;
-            charObject[targetIndex].GetComponent<CharController>().PlayDeadAnimation();
+        Battle_Character_Status targetStatus = null;
+        Battle_Character_Status attackStatus = null;
 
-            // 죽으면..
-            if (targetDic.ContainsKey(targetIndex))
+        if(targetDic.TryGetValue(targetIndex, out targetStatus) && targetStatus != null &&
+            attackDic.TryGetValue(myIndex, out attackStatus) && attackStatus != null && 
+            targetIndex < charObjects.Length)
+        {
+            var targetObject = charObjects[targetIndex];
+            var targetController = targetObject.GetComponent<CharController>();
+
+            targetStatus.nowHp -= attackStatus.damage;
+            if (targetStatus.nowHp <= 0)
             {
+                targetStatus.nowHp = 0;
+                if (targetController != null)
+                {
+                    targetController.PlayDeadAnimation();
+                }
+
+                // 죽으면..
                 targetDic.Remove(targetIndex);
                 Debug.Log("플레이어 : " + targetIndex + "삭제 실행");
             }
+            else
+            {
+                if(targetController != null)
+                {
+                    targetController.PlayHitAnimation();
+                }
+
+                Debug.Log("플레이어 : " + targetIndex + "피격 애니 실행");
+            }
+
+            if (decreaseHpDelegate != null) decreaseHpDelegate(attackStatus.damage, targetObject);
         }
         else
         {
-            charObject[targetIndex].GetComponent<CharController>().PlayHitAnimation();
-            Debug.Log("플레이어 : " + targetIndex + "피격 애니 실행");
+            Debug.LogWarning("[DecreaseHp]" +
+                "Logger : DH\n" +
+                "Has targetDic the key(" + targetIndex + ") ? : " + targetDic.ContainsKey(targetIndex) + "" +
+                "Has attackDic the key(" + myIndex + ") ? : " + attackDic.ContainsKey(myIndex) + "" +
+                "Lenght of charObjects : " + charObjects.Length + "");
         }
+
+        
     }
 
     private void CheckTargetDic(ref Dictionary<int, Battle_Character_Status> charStatusDic)
@@ -862,4 +901,8 @@ public class BattleManager : MonoSingleton<BattleManager> {
         CreateGameObject();
         SetTurnSpeed();
     }
+}
+
+public class DecreaseHpDelegate
+{
 }
