@@ -60,12 +60,12 @@ public class GachaEffect : MonoBehaviour {
         {
             yield return null;
         }
-        while (fadeOut.GetCurrentAnimatorStateInfo(0).IsName("FadeOut") &&
+        while (fadeOut.GetCurrentAnimatorStateInfo(0).IsName("TestFadeOut") &&
      fadeOut.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
 
 
         //lightEffectCircle01.SetBool("Play", false);
-
+        fadeOut.SetBool("Play", false);
         yield break;
     }
 
