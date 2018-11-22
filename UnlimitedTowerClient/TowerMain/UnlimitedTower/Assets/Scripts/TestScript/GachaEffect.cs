@@ -132,14 +132,6 @@ public class GachaEffect : MonoBehaviour {
     }
 
 
-    //public void Update()
-    //{
-    //    if(Input.GetMouseButtonDown(0))
-    //    {
-    //        GoGacha();
-    //    }
-    //}
-
 
     public void GoGacha()
     {
