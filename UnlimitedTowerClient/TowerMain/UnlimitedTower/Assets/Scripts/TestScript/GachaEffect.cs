@@ -116,12 +116,14 @@ public class GachaEffect : MonoBehaviour {
         //PacketManager.Inst.Request_Gacha();
         Debug.Log("Gacha Result");
 
+
+
+
         Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1);
         UserDataManager.Inst.SetCharacter(newChar);
-
         UserDataManager.Inst.AddNewChar(newChar.Name);
 
-        // var instance = Instantiate(Resources.Load("Prefabs/CharElement") as GameObject);
+ 
     }
 	
 	
