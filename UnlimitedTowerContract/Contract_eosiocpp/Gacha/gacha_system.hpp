@@ -83,9 +83,9 @@ class cgacha_system
                 ser.appear_info.face = gacha_servent_head(_seed,random_count++);
                 ser.appear_info.body = gacha_servent_body(_seed,random_count++);
                 ser.status_info.job = job_iter.s_job;
-                ser.status_info.strength = random_seed(_seed,job_iter.s_min_range.s_str,job_iter.s_max_range.s_str,random_count++);
-                ser.status_info.dexterity = random_seed(_seed,job_iter.s_min_range.s_dex,job_iter.s_max_range.s_dex,random_count++);
-                ser.status_info.intelligence = random_seed(_seed,job_iter.s_min_range.s_int,job_iter.s_max_range.s_int,random_count++);
+                ser.status_info.strength = random_seed(_seed,job_iter.s_max_range.s_str,job_iter.s_min_range.s_str,random_count++);
+                ser.status_info.dexterity = random_seed(_seed,job_iter.s_max_range.s_dex,job_iter.s_min_range.s_dex,random_count++);
+                ser.status_info.intelligence = random_seed(_seed,job_iter.s_max_range.s_int,job_iter.s_min_range.s_int,random_count++);
                 servent.s_servent_list.push_back(ser);
             });
 
@@ -150,11 +150,11 @@ class cgacha_system
         //-----------------------------------------------------------------------------//
         void gacha_item_id(account_name _user,uint64_t _seed)
         {
-            uint8_t result_id = random_value(rule_controller.item_id_count);
+            uint8_t result_id = random_seed(_seed,rule_controller.item_id_count,not_exist_min,random_count++);
             auto &item_id = rule_controller.get_item_id_rule_table();
             const auto &id_iter = item_id.get(result_id, "not exist item id");
 
-            uint8_t result_tier = random_value(rule_controller.item_tier_count);
+            uint8_t result_tier = random_seed(_seed,rule_controller.item_tier_count,not_exist_min,random_count++);
             auto &item_tier = rule_controller.get_item_tier_rule_table();
             const auto &tier_iter = item_tier.get(result_tier,"not exist tier info");
 
@@ -168,9 +168,9 @@ class cgacha_system
                 item.i_type_index = id_iter.i_id;
                 item.i_type_equip = id_iter.i_type;
                 item.i_tier = tier_iter.i_tier;
-                item.i_status_info.strength = random_min(id_iter.i_min_range.i_str,id_iter.i_max_range.i_str);
-                item.i_status_info.dexterity = random_min(id_iter.i_min_range.i_dex,id_iter.i_max_range.i_dex);
-                item.i_status_info.intelligence = random_min(id_iter.i_min_range.i_int,id_iter.i_max_range.i_int);
+                item.i_status_info.strength = random_seed(_seed,tier_iter.i_max_range.i_str,tier_iter.i_min_range.i_str,random_count++);
+                item.i_status_info.dexterity = random_seed(_seed,tier_iter.i_max_range.i_dex,tier_iter.i_min_range.i_dex,random_count++);
+                item.i_status_info.intelligence = random_seed(_seed,tier_iter.i_max_range.i_int,tier_iter.i_min_range.i_int,random_count++);
                 new_item.i_item_list.push_back(item);
             });
 

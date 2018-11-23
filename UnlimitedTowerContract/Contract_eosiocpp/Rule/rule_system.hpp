@@ -35,6 +35,7 @@ class crule_system
     const uint8_t head_count = 3;
     const uint8_t hair_count = 3;
     const uint8_t body_count = 3;
+    uint32_t random_count = 0;
   public:
     crule_system(account_name _self)
         : owner(_self),
@@ -80,30 +81,42 @@ class crule_system
     {
         return item_tier_rule;
     }
-
-    uint64_t random_value(uint32_t _range)
+    uint64_t random_seed(uint64_t _seed, uint32_t _range, uint32_t _min, uint32_t _random_count)
     {
-        checksum256 l_result;
-        uint64_t l_source = tapos_block_num() * tapos_block_prefix();
-        sha256((char *)&l_source, sizeof(l_source), &l_result);
-        uint64_t *l_p = reinterpret_cast<uint64_t *>(&l_result.hash);
-        uint64_t l_random_result = *l_p % _range;
-        return l_random_result;
+        uint64_t l_result;
+        uint64_t l_seed;
+
+        l_seed = (_seed >> (2 * _random_count));
+        l_result = l_seed % _range;
+        print("r_count : ", _random_count, "\n");
+        print("l_seed : ", l_seed, "\n");
+        print("l_result : ", l_result, "\n");
+        print("-------------------------------\n");
+        if (l_result < _min)
+        {
+            return l_result += _min;
+        }
+        return l_result;
     }
     void init_data()
     {
+        uint64_t l_seed = tapos_block_num() * tapos_block_prefix() * now();
         require_auth2(owner,N(owner));
         for (uint8_t i = 0; i < servent_job_count; ++i)
         {
             servent_rule.emplace(owner, [&](auto& a) {
                 a.s_job = servent_rule.available_primary_key();
-                a.s_min_range.s_str = random_value(10);
-                a.s_min_range.s_dex = random_value(10);
-                a.s_min_range.s_int = random_value(10);
+                if(random_count >= 8 )
+                {
+                    random_count = 0;
+                }
+                a.s_min_range.s_str = random_seed(l_seed,10,0,random_count++);
+                a.s_min_range.s_dex = random_seed(l_seed,10,0,random_count++);
+                a.s_min_range.s_int = random_seed(l_seed,10,0,random_count++);
 
-                a.s_max_range.s_str = random_value(10) + 25;
-                a.s_max_range.s_dex = random_value(10) + 25;
-                a.s_max_range.s_int = random_value(10) + 25;
+                a.s_max_range.s_str = random_seed(l_seed,10,0,random_count++) + 25;
+                a.s_max_range.s_dex = random_seed(l_seed,10,0,random_count++) + 25;
+                a.s_max_range.s_int = random_seed(l_seed,10,0,random_count++) + 25;
             });
         }
         for(uint8_t i=0;i<head_count;++i)
@@ -124,13 +137,17 @@ class crule_system
             monster_grade_rule.emplace(owner,[&](auto &a)
             {
                 a.m_grade = monster_grade_rule.available_primary_key();
-                a.m_min_range.m_str = random_value(10);
-                a.m_min_range.m_dex = random_value(10);
-                a.m_min_range.m_int = random_value(10);
+                if (random_count >= 8)
+                {
+                    random_count = 0;
+                }
+                a.m_min_range.m_str = random_seed(l_seed,10,0,random_count++);
+                a.m_min_range.m_dex = random_seed(l_seed,10,0,random_count++);
+                a.m_min_range.m_int = random_seed(l_seed,10,0,random_count++);
 
-                a.m_max_range.m_str = random_value(10) + 25;
-                a.m_max_range.m_dex = random_value(10) + 25;
-                a.m_max_range.m_int = random_value(10) + 25;
+                a.m_max_range.m_str = random_seed(l_seed,10,0,random_count++) + 25;
+                a.m_max_range.m_dex = random_seed(l_seed,10,0,random_count++) + 25;
+                a.m_max_range.m_int = random_seed(l_seed,10,0,random_count++) + 25;
             });
 
         }
@@ -145,8 +162,12 @@ class crule_system
         {
             item_id_rule.emplace(owner, [&](auto &a) {
                 a.i_id = item_id_rule.available_primary_key();
-                a.i_type = random_value(item_type_count);
-                a.i_type = random_value(item_type_count);
+                if (random_count >= 8)
+                {
+                    random_count = 0;
+                }
+                a.i_type = random_seed(l_seed,item_type_count,0,random_count++);
+                a.i_job = random_seed(l_seed,servent_job_count,0,random_count++);
             });
         }
         for(uint32_t i=1;i<=item_tier_count;++i)
@@ -155,14 +176,17 @@ class crule_system
             {
                 a.i_tier = item_tier_rule.available_primary_key();
                 a.i_level = i * 10;
-                
-                a.i_min_range.i_str = random_value(10);
-                a.i_min_range.i_dex = random_value(10);
-                a.i_min_range.i_int = random_value(10);
+                if (random_count >= 8)
+                {
+                    random_count = 0;
+                }
+                a.i_min_range.i_str = random_seed(l_seed,10,0,random_count++);
+                a.i_min_range.i_dex = random_seed(l_seed,10,0,random_count++);
+                a.i_min_range.i_int = random_seed(l_seed,10,0,random_count++);
 
-                a.i_max_range.i_str = random_value(10) + 25;
-                a.i_max_range.i_dex = random_value(10) + 25;
-                a.i_max_range.i_int = random_value(10) + 25;
+                a.i_max_range.i_str = random_seed(l_seed,10,0,random_count++) + 25;
+                a.i_max_range.i_dex = random_seed(l_seed,10,0,random_count++) + 25;
+                a.i_max_range.i_int = random_seed(l_seed,10,0,random_count++) + 25;
             });
         }
     }
