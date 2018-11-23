@@ -5,22 +5,21 @@ using UnityEngine.UI;
 
 // TODO : if deleted
 public class InGameButtonUI : MonoBehaviour {
+    
+    [SerializeField]
+    private float animationSpeed = 2.0f;
 
-    // Use this for initialization
+    private bool animationSpeedDouble = false;
 
-    public float SPEED = 2.0f;
-
-
-    bool AnimationSpeedDouble = false;
     public void OnClickAnimationSpeedDouble()
     {
      
-        if (!AnimationSpeedDouble)
+        if (!animationSpeedDouble)
         {
             Debug.Log("활성화");
-            AnimationSpeedDouble = true;
+            animationSpeedDouble = true;
             transform.GetChild(0).GetComponent<Text>().fontStyle = FontStyle.Bold;
-            DEFINE.ANIMATION_SPEED = SPEED*2;
+            DEFINE.ANIMATION_SPEED = animationSpeed * 2;
             for(int i=0; i<DEFINE.PARTY_MAX_NUM; i++)
             {
                 if(BattleManager.Inst.enemyObjects[i])
@@ -41,9 +40,9 @@ public class InGameButtonUI : MonoBehaviour {
         else
         {
             Debug.Log("비활성화");
-            AnimationSpeedDouble = false;
+            animationSpeedDouble = false;
             transform.GetChild(0).GetComponent<Text>().fontStyle = FontStyle.Normal;
-            DEFINE.ANIMATION_SPEED = SPEED;
+            DEFINE.ANIMATION_SPEED = animationSpeed;
             for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
             {
                 if (BattleManager.Inst.enemyObjects[i])
@@ -58,6 +57,7 @@ public class InGameButtonUI : MonoBehaviour {
             }
         }
     }
+
     public void OnClickBattleStart()
     {
         if(BattleManager.Inst.BattleState != BATTLE_STATE.BATTLE  )
@@ -68,6 +68,5 @@ public class InGameButtonUI : MonoBehaviour {
             BattleManager.Inst.BattleState = BATTLE_STATE.BATTLE;
         }
     }
-
 
 }

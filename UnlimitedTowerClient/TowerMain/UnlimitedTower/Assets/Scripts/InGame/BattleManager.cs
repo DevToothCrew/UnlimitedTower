@@ -6,9 +6,7 @@ using System;
 using Random = UnityEngine.Random;
 
 public class BattleManager : MonoSingleton<BattleManager> {
-
-    static public BattleManager instance = null;
-
+    
     // TODO : Test Prefabs if Delete
 
     // 인게임 보여주는 용도의 오브젝트
@@ -21,7 +19,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
     public List<CharacterAction> turnActionList = new List<CharacterAction>();
 
     // Delegates for receiving event
-    public delegate void DecreaseHpDelegate(float demage, GameObject targetGo);
+    public delegate void DecreaseHpDelegate(int demage, GameObject targetGo);
     public event DecreaseHpDelegate decreaseHpDelegate = null;
 
 
@@ -46,8 +44,6 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
     void Awake()
     {
-        instance = instance ?? this;
-
         if (debugFlag == true)
         {
             debugPanel.SetActive(true);
@@ -396,7 +392,10 @@ public class BattleManager : MonoSingleton<BattleManager> {
                 Debug.Log("플레이어 : " + targetIndex + "피격 애니 실행");
             }
 
-            if (decreaseHpDelegate != null) decreaseHpDelegate(attackStatus.damage, targetObject);
+            if (decreaseHpDelegate != null)
+            {
+                decreaseHpDelegate(attackStatus.damage, targetObject);
+            }
         }
         else
         {
