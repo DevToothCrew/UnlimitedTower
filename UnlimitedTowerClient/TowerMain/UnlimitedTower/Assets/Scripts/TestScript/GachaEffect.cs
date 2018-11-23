@@ -7,6 +7,8 @@ public class GachaEffect : MonoBehaviour {
 
     public Animator fadeOut;
 
+
+    public Animator lightEffectCirclesAnimator;
     public Animator lightEffectCircle01Animator;
     public Animator lightEffectCircle02Animator;
     public Animator lightEffectCircle03Animator;
@@ -26,10 +28,21 @@ public class GachaEffect : MonoBehaviour {
     public Text statusDexText;
     public Text statusIntText;
 
+    public GameObject light01;
+
+
 
     private void Awake()
     {
         blackHole.GetComponent<RectTransform>().localEulerAngles = new Vector3(0.0f, 0.0f, 180.0f);
+
+        //TODO : TestCode
+        //for (int i = 0; i < 4; i++)
+        //{
+        //    //lightEffectCircle.transform.GetChild(i).GetComponent<RectTransform>().localScale = new Vector3(2.0f, 2.0f, 2.0f);
+
+        //    //lightEffectCircle.transform.GetChild(i).GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+        //}
     }
  
 
@@ -40,7 +53,7 @@ public class GachaEffect : MonoBehaviour {
         {
             yield return null;
         }
-        while (fadeOut.GetCurrentAnimatorStateInfo(0).IsName("TestFadeOut") &&
+        while (fadeOut.GetCurrentAnimatorStateInfo(0).IsName("FadeOut") &&
      fadeOut.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
 
 
@@ -106,6 +119,7 @@ public class GachaEffect : MonoBehaviour {
 
         lightEffectCircle03Animator.SetBool("Play", true);
         yield return StartCoroutine("WAVE_LIGHT_EFFECT_CIRCLE03");
+
     }
 
 
@@ -147,6 +161,44 @@ public class GachaEffect : MonoBehaviour {
 
 
     }
-	
-	
+
+    public void OnClickCheckGacha()
+    {
+        lightEffectCircle01Animator.SetBool("Play", false);
+        lightEffectCircle02Animator.SetBool("Play", false);
+        lightEffectCircle03Animator.SetBool("Play", false);
+        lightEffectCircle04Animator.SetBool("Play", false);
+
+
+
+        gachaResult.SetActive(false);
+        // 가챠 애니메이션 초기화한다.
+
+        light01.GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 1.0f);
+
+
+        //fadeOut.SetBool("Play", true);
+        // lightEffect가 다 커진다음 사라지고 작아진다(어처피 안보이니깐)
+        // 가챠 확인 누른뒤 서서시 lifht effect가fadein처럼 나온다
+
+
+  
+
+
+
+
+        //lightEffectCirclesAnimator.SetBool("Play", true);
+
+        purpleCircleAnimator.SetBool("Play", false);
+        blackHoleAnimator.SetBool("Play", false);
+
+    }
+    public void StopCircle()
+    {
+        //purpleCircleAnimator.SetBool("Play", false);
+        //blackHoleAnimator.SetBool("Play", false);
+    }
 }
+
+
+

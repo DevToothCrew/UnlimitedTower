@@ -194,6 +194,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         CloudImage.SetActive(true);
     }
 
+
     public void OnClickStageButton(int stageNum)
     {
         PacketManager.Inst.Request_GetStageInfo(stageNum);
