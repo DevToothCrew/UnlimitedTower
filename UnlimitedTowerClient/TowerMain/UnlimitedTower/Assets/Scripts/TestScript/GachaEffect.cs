@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GachaEffect : MonoBehaviour {
 
@@ -16,6 +17,14 @@ public class GachaEffect : MonoBehaviour {
 
     public GameObject blackHole;
     public GameObject lightEffectCircle;
+
+    public GameObject gachaResult;
+    public GameObject charImage;
+
+    public Text charNameText;
+    public Text statusStrText;
+    public Text statusDexText;
+    public Text statusIntText;
 
 
     private void Awake()
@@ -115,15 +124,28 @@ public class GachaEffect : MonoBehaviour {
     {
         //PacketManager.Inst.Request_Gacha();
         Debug.Log("Gacha Result");
+        gachaResult.SetActive(true);
 
-
-
+        // 네트워크 가정이 생략됬기 때문에
+        // 그걸 고려해서 네이밍할것.
 
         Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1);
+
+        charNameText.text = newChar.Name;
+
+        statusStrText.text = newChar.Str.ToString();
+        statusDexText.text = newChar.Dex.ToString();
+        statusIntText.text = newChar.Int.ToString();
+
+
+        Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + newChar.Name);
+
+        charImage.GetComponent<Image>().sprite = sprite;
+
         UserDataManager.Inst.SetCharacter(newChar);
         UserDataManager.Inst.AddNewChar(newChar.Name);
 
- 
+
     }
 	
 	
