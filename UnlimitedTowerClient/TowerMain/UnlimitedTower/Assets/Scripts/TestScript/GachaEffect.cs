@@ -166,7 +166,6 @@ public class GachaEffect : MonoBehaviour {
     {
         lightEffectCircle01Animator.SetBool("Play", false);
         lightEffectCircle02Animator.SetBool("Play", false);
-        lightEffectCircle03Animator.SetBool("Play", false);
         lightEffectCircle04Animator.SetBool("Play", false);
 
 
