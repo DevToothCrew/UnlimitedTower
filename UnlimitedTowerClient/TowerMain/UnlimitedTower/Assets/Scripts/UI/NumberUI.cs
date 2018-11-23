@@ -54,7 +54,7 @@ public class NumberUI : MonoBehaviour
         }
         else
         {
-
+            Destroy(gameObject);
         }
 
     }
