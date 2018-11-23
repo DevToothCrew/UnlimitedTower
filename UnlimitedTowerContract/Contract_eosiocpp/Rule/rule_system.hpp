@@ -145,21 +145,8 @@ class crule_system
         {
             item_id_rule.emplace(owner, [&](auto &a) {
                 a.i_id = item_id_rule.available_primary_key();
-                if(i < 30)
-                {
-                    a.i_type = random_value(item_type_count);
-                }
-                else
-                {
-                    a.i_type = random_value(item_type_count);
-                }
-                a.i_min_range.i_str = random_value(10);
-                a.i_min_range.i_dex = random_value(10);
-                a.i_min_range.i_int = random_value(10);
-
-                a.i_max_range.i_str = random_value(10) + 25;
-                a.i_max_range.i_dex = random_value(10) + 25;
-                a.i_max_range.i_int = random_value(10) + 25;
+                a.i_type = random_value(item_type_count);
+                a.i_type = random_value(item_type_count);
             });
         }
         for(uint32_t i=1;i<=item_tier_count;++i)
@@ -168,6 +155,14 @@ class crule_system
             {
                 a.i_tier = item_tier_rule.available_primary_key();
                 a.i_level = i * 10;
+                
+                a.i_min_range.i_str = random_value(10);
+                a.i_min_range.i_dex = random_value(10);
+                a.i_min_range.i_int = random_value(10);
+
+                a.i_max_range.i_str = random_value(10) + 25;
+                a.i_max_range.i_dex = random_value(10) + 25;
+                a.i_max_range.i_int = random_value(10) + 25;
             });
         }
     }
