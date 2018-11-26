@@ -17,7 +17,7 @@ class cgacha_system
         crule_system &_rule_controller) 
         : owner(_self),
         login_controller(_login_controller),
-        rule_controller(_rule_controller), 
+        rule_controller(_rule_controller),
         monsters(_self,_self),
         servants(_self,_self),
         items(_self,_self)
@@ -85,6 +85,7 @@ class cgacha_system
                 ser.status_info.strength = random_seed(_seed,job_iter.s_max_range.s_str,job_iter.s_min_range.s_str,random_count++);
                 ser.status_info.dexterity = random_seed(_seed,job_iter.s_max_range.s_dex,job_iter.s_min_range.s_dex,random_count++);
                 ser.status_info.intelligence = random_seed(_seed,job_iter.s_max_range.s_int,job_iter.s_min_range.s_int,random_count++);
+                ser.s_equip.resize(3);
                 servant.s_servant_list.push_back(ser);
             });
 
@@ -170,6 +171,8 @@ class cgacha_system
                 item.i_status_info.strength = random_seed(_seed,tier_iter.i_max_range.i_str,tier_iter.i_min_range.i_str,random_count++);
                 item.i_status_info.dexterity = random_seed(_seed,tier_iter.i_max_range.i_dex,tier_iter.i_min_range.i_dex,random_count++);
                 item.i_status_info.intelligence = random_seed(_seed,tier_iter.i_max_range.i_int,tier_iter.i_min_range.i_int,random_count++);
+                item.i_job = id_iter.i_job;
+                item.i_item_state = item_none;
                 new_item.i_item_list.push_back(item);
             });
 

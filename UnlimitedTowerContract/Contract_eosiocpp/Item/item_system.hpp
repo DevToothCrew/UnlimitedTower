@@ -2,10 +2,6 @@
 #include "../Common/common_header.hpp"
 #include "../Gacha/gacha_system.hpp"
 
-//item type number = 100 ~ 150 // hand
-//item type number = 151 ~ 180 // body
-//item type number = 181 ~ 199 // neck
-
 class citem_system
     {
     private:
@@ -36,7 +32,6 @@ class citem_system
             {
                 new_equip.set_account(_user);
             });
-
         }
         void sell_item(account_name _user,uint8_t _item_location,uint64_t _item_index)
         {
@@ -68,173 +63,111 @@ class citem_system
         {
             print("buy item\n");
         }
-        void equip_servant_item(account_name _user,uint8_t _item_location,uint64_t _item_index,uint64_t _object_index,uint8_t _item_slot)
+        void equip_servant_item(account_name _user,uint8_t _item_location,uint64_t _item_index,uint64_t _object_index,uint8_t _equip_slot)
         {
             auto &user_items = gacha_controller.get_item_table();
-            const auto &item_get_iter = user_items.get(_user);
-            eosio_assert((item_get_iter.i_item_list[_item_location].i_index==_item_index),"not exist item");
-
-            //해당 아이템이 맞는 슬롯인지 체크
-            #pragma region slot check
-            if(_item_slot == equip_list::hand)
-            {
-                if(item_get_iter.i_item_list[_item_location].i_type_index > 150)
-                {
-                    print("this slot only hand equip item");
-                    return;
-                }
-            }
-            else if(_item_slot == equip_list::body)
-            {
-                if (item_get_iter.i_item_list[_item_location].i_type_index > 180 && item_get_iter.i_item_list[_item_location].i_type_index < 151)
-                {
-                    print("this slot only body equip item");
-                    return;
-                }
-            }
-            else if(_item_slot == equip_list::neck)
-            {
-                if (item_get_iter.i_item_list[_item_location].i_type_index > 200 && item_get_iter.i_item_list[_item_location].i_type_index < 181)
-                {
-                    print("this slot only neck equip item");
-                    return;
-                }
-            }
-            #pragma endregion
-            
-            const auto &equip_get_iter = equip.get(_user);
-            auto equip_find_iter = equip.find(_user);
-            bool l_is_exist = false;
-            //아이템 장착 테이블에 데이터 반영
-            for (uint32_t i = 0; i != equip_get_iter.servant_list.size(); ++i)
-            {
-                if (equip_get_iter.servant_list[i].servant_index == _object_index)
-                {
-                    equip.modify(equip_find_iter, owner, [&](auto &ser) {
-                        ser.servant_list[i].item_list[_item_slot] = _item_index;
-                    });
-                    l_is_exist = true;
-                    break;
-                }
-            }
-            if(l_is_exist==false)
-            {
-                equip.modify(equip_find_iter,owner,[&](auto &new_equip)
-                {
-                    equip_item_info new_ser;
-                    new_ser.servant_index = _object_index;
-                    new_ser.item_list.resize(3);
-                    new_ser.item_list[_item_slot] = _item_index;
-                    new_equip.servant_list.push_back(new_ser);
-                });
-            }
-
+            auto item_find_iter = user_items.find(_user);
+            eosio_assert((item_find_iter->i_item_list[_item_location].i_index==_item_index),"not exist item");
+            eosio_assert(item_find_iter->i_item_list[_item_location].i_type_equip==_equip_slot,"mis match equip slot");
+            eosio_assert(item_find_iter->i_item_list[_item_location].i_item_state==item_none,"impossible equip item state");
             //장착한 아이템 능력치 용병에게 반영
             auto &servants = gacha_controller.get_servant_table();
-            const auto &cur_get_iter = servants.get(_user);
-            int l_servant_location = -1;
-            for(uint32_t i=0;i<cur_get_iter.s_servant_list.size();++i)
+            auto cur_find_iter = servants.find(_user);
+            int check_exist_id = -1;
+            for(uint32_t i=0;i<cur_find_iter->s_servant_list.size();++i)
             {
-                if(cur_get_iter.s_servant_list[i].s_index == _object_index)
+                if(cur_find_iter->s_servant_list[i].s_index == _object_index)
                 {
-                    l_servant_location = i;
+                    eosio_assert(cur_find_iter->s_servant_list[i].status_info.job==item_find_iter->i_item_list[_item_location].i_job,"mis match job");
+                    servants.modify(cur_find_iter, owner, [&](auto &ser) {
+                        ser.s_servant_list[i].plus_status_info.plus_str += item_find_iter->i_item_list[_item_location].i_status_info.strength;
+                        ser.s_servant_list[i].plus_status_info.plus_dex += item_find_iter->i_item_list[_item_location].i_status_info.dexterity;
+                        ser.s_servant_list[i].plus_status_info.plus_int += item_find_iter->i_item_list[_item_location].i_status_info.intelligence;
+                        ser.s_servant_list[i].s_equip[_equip_slot] = _item_index;
+                    });
+                    user_items.modify(item_find_iter,owner,[&](auto& new_equip)
+                    {
+                        new_equip.i_item_list[_item_location].i_item_state = item_equip;
+                    });
+                    check_exist_id = i;
                     break;
                 }
             }
-            auto cur_find_iter = servants.find(_user);
-            servants.modify(cur_find_iter,owner,[&](auto &ser){
-                ser.s_servant_list[l_servant_location].plus_status_info.plus_str += item_get_iter.i_item_list[_item_location].i_status_info.strength;
-                ser.s_servant_list[l_servant_location].plus_status_info.plus_dex += item_get_iter.i_item_list[_item_location].i_status_info.dexterity;
-                ser.s_servant_list[l_servant_location].plus_status_info.plus_int += item_get_iter.i_item_list[_item_location].i_status_info.intelligence;
+            eosio_assert(check_exist_id!=-1,"not exist servant");
+        }
+        void equip_hero_item(account_name _user, uint8_t _character_slot,uint8_t _item_location, uint64_t _item_index,uint8_t _equip_slot)
+        {
+            auto &user_items = gacha_controller.get_item_table();
+            auto item_find_iter = user_items.find(_user);
+            eosio_assert((item_find_iter->i_item_list[_item_location].i_index==_item_index),"not exist item");
+            eosio_assert(item_find_iter->i_item_list[_item_location].i_type_equip==_equip_slot,"mis match equip slot");
+            eosio_assert(item_find_iter->i_item_list[_item_location].i_item_state==item_none,"impossible equip item state");
+
+            auto &players = login_controller.get_auth_user_table();
+            auto cur_find_iter = players.find(_user);
+            eosio_assert(cur_find_iter->a_hero_list[_character_slot].status.job == item_find_iter->i_item_list[_item_location].i_job,"mis match job");
+            players.modify(cur_find_iter,owner,[&](auto &new_hero_equip)
+            {
+                new_hero_equip.a_hero_list[_character_slot].plus_status.plus_str += item_find_iter->i_item_list[_item_location].i_status_info.strength;
+                new_hero_equip.a_hero_list[_character_slot].plus_status.plus_dex += item_find_iter->i_item_list[_item_location].i_status_info.dexterity;
+                new_hero_equip.a_hero_list[_character_slot].plus_status.plus_int += item_find_iter->i_item_list[_item_location].i_status_info.intelligence;
+                new_hero_equip.a_hero_list[_character_slot].equip[_equip_slot]= _item_index;
             });
 
+            user_items.modify(item_find_iter, owner, [&](auto &new_equip) {
+                new_equip.i_item_list[_item_location].i_item_state = item_equip;
+            });
         }
-        void equip_hero_item(account_name _user, uint8_t _character_slot,uint8_t _item_location, uint64_t _item_index,uint8_t _item_slot)
+        void unequip_servant_item(account_name _user,uint32_t _servant_location,uint64_t _object_index,uint8_t _equip_slot)
         {
-            auto &user_items = gacha_controller.get_item_table();
-            const auto &item_get_iter = user_items.get(_user);
-            eosio_assert((item_get_iter.i_item_list[_item_location].i_index == _item_index), "not exist item");
-
-            if (_item_slot == equip_list::hand)
-            {
-                if (item_get_iter.i_item_list[_item_location].i_type_index > 150)
-                {
-                    print("this slot only hand equip item");
-                    return;
-                }
-            }
-            else if (_item_slot == equip_list::body)
-            {
-                if (item_get_iter.i_item_list[_item_location].i_type_index > 180 && item_get_iter.i_item_list[_item_location].i_type_index < 151)
-                {
-                    print("this slot only body equip item");
-                    return;
-                }
-            }
-            else if (_item_slot == equip_list::neck)
-            {
-                if (item_get_iter.i_item_list[_item_location].i_type_index > 200 && item_get_iter.i_item_list[_item_location].i_type_index < 181)
-                {
-                    print("this slot only neck equip item");
-                    return;
-                }
-            }
-
-
-            const auto &equip_get_iter = equip.get(_user);
-        }
-        void unequip_servant_item(account_name _user,uint64_t _object_index,uint8_t _item_slot)
-        {
-            auto &user_items = gacha_controller.get_item_table();
-            const auto &item_get_iter = user_items.get(_user);
-
-            const auto &equip_get_iter = equip.get(_user);
-            auto equip_find_iter = equip.find(_user);
-            uint32_t l_item_index;
-            uint8_t l_item_location;
-            //아이템 장착 테이블에 데이터 반영
-            for (uint32_t i = 0; i != equip_get_iter.servant_list.size(); ++i)
-            {
-                if (equip_get_iter.servant_list[i].servant_index == _object_index)
-                {
-                    l_item_index = equip_get_iter.servant_list[i].item_list[_item_slot];
-                    equip.modify(equip_find_iter, owner, [&](auto &ser) {
-                        ser.servant_list[i].item_list[_item_slot] = 0;
-                    });
-                    break;
-                }
-            }
-
-            for(uint32_t i=0;i<item_get_iter.i_item_list.size();++i)
-            {
-                if(item_get_iter.i_item_list[i].i_index == l_item_index)
-                {
-                    l_item_location=i;
-                    break;
-                }
-            }
             //장착한 아이템 능력치 용병에게 반영
             auto &servants = gacha_controller.get_servant_table();
-            const auto &cur_get_iter = servants.get(_user);
-            int l_servant_location = -1;
-            for (uint32_t i = 0; i < cur_get_iter.s_servant_list.size(); ++i)
+            auto cur_find_iter = servants.find(_user);
+
+            auto &user_items = gacha_controller.get_item_table();
+            auto item_find_iter = user_items.find(_user);
+            int check_exist_id = -1;
+
+            for(auto i=0;i<item_find_iter->i_item_list.size();++i)
             {
-                if (cur_get_iter.s_servant_list[i].s_index == _object_index)
+                if(item_find_iter->i_item_list[i].i_index == cur_find_iter->s_servant_list[_servant_location].s_equip[_equip_slot])
                 {
-                    l_servant_location = i;
+                    servants.modify(cur_find_iter, owner, [&](auto &ser) {
+                        ser.s_servant_list[_servant_location].plus_status_info.plus_str -= item_find_iter->i_item_list[i].i_status_info.strength;
+                        ser.s_servant_list[_servant_location].plus_status_info.plus_dex -= item_find_iter->i_item_list[i].i_status_info.dexterity;
+                        ser.s_servant_list[_servant_location].plus_status_info.plus_int -= item_find_iter->i_item_list[i].i_status_info.intelligence;
+                        ser.s_servant_list[_servant_location].s_equip[_equip_slot] = 0;
+                    });
+                    user_items.modify(item_find_iter, owner, [&](auto &new_equip) {
+                        new_equip.i_item_list[i].i_item_state = item_none;
+                    });
+                    check_exist_id = i;
                     break;
                 }
             }
-            auto cur_find_iter = servants.find(_user);
-            servants.modify(cur_find_iter, owner, [&](auto &ser) {
-                ser.s_servant_list[l_servant_location].plus_status_info.plus_str -= item_get_iter.i_item_list[l_item_location].i_status_info.strength;
-                ser.s_servant_list[l_servant_location].plus_status_info.plus_dex -= item_get_iter.i_item_list[l_item_location].i_status_info.dexterity;
-                ser.s_servant_list[l_servant_location].plus_status_info.plus_int -= item_get_iter.i_item_list[l_item_location].i_status_info.intelligence;
+            eosio_assert(check_exist_id!=-1,"not exist item");
+        }
+        void unequip_hero_item(account_name _user, uint8_t _character_slot, uint8_t _item_location, uint64_t _item_index, uint8_t _equip_slot)
+        {
+            auto &user_items = gacha_controller.get_item_table();
+            auto item_find_iter = user_items.find(_user);
+            eosio_assert((item_find_iter->i_item_list[_item_location].i_index==_item_index),"not exist item");
+            eosio_assert(item_find_iter->i_item_list[_item_location].i_type_equip==_equip_slot,"mis match equip slot");
+            eosio_assert(item_find_iter->i_item_list[_item_location].i_item_state==item_none,"impossible equip item state");
+
+            auto &players = login_controller.get_auth_user_table();
+            auto cur_find_iter = players.find(_user);
+            eosio_assert(cur_find_iter->a_hero_list[_character_slot].status.job == item_find_iter->i_item_list[_item_location].i_job,"mis match job");
+            players.modify(cur_find_iter,owner,[&](auto &new_hero_equip)
+            {
+                new_hero_equip.a_hero_list[_character_slot].plus_status.plus_str -= item_find_iter->i_item_list[_item_location].i_status_info.strength;
+                new_hero_equip.a_hero_list[_character_slot].plus_status.plus_dex -= item_find_iter->i_item_list[_item_location].i_status_info.dexterity;
+                new_hero_equip.a_hero_list[_character_slot].plus_status.plus_int -= item_find_iter->i_item_list[_item_location].i_status_info.intelligence;
+                new_hero_equip.a_hero_list[_character_slot].equip[_equip_slot]= 0;
+            });
+
+            user_items.modify(item_find_iter, owner, [&](auto &new_equip) {
+                new_equip.i_item_list[_item_location].i_item_state = item_none;
             });
         }
-        void unequip_hero_item(account_name _user, uint8_t _character_slot,uint8_t _item_location, uint64_t _item_index,uint8_t _item_slot)
-        {
-            
-        }
-
     };

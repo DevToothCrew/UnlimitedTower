@@ -27,7 +27,7 @@ battle - 전투 진행중인 상태
 
 - primary_key : account_name user : 유저의 계정 명이다.
 
-- l_servent_num : 유저가 획득한 용벙의 숫자이다
+- l_servant_num : 유저가 획득한 용벙의 숫자이다
 
 - l_monster_num : 유저가 획득한 몬스터의 숫자이다
 
@@ -107,13 +107,13 @@ struct sparty_info
 - }
 
 
-[table] - servent_table
+[table] - servant_table
 
 - primary_key : account_name user : 유저의 계정 명이다.
 
-- s_servent_list : 유저가 소유한 용병의 리스트 입니다.
+- s_servant_list : 유저가 소유한 용병의 리스트 입니다.
 
-해당 리스트는 cserventinfo 자료형으로 이루어져 있습니다.
+해당 리스트는 cservantinfo 자료형으로 이루어져 있습니다.
 - s_index             : 해당 용병의 인덱스 번호입니다.
 - s_appear_info       : 해당 용병의 외모 정보입니다.
 - [body,face,hair]
@@ -122,7 +122,7 @@ struct sparty_info
 - s_plus_status_info  : 해당 용병의 증가한 스테이터스 정보입니다.
 - [plus str,plus dex, plus int, stat_point]
 - s_exp               : 해당 용병의 경험치 정보입니다.
-
+- s_equip             : 해당 용병의 장비 리스트 입니다.
 
 [table] - monster_table
 

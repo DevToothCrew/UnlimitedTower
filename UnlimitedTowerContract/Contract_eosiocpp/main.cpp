@@ -180,10 +180,10 @@
             item_controller.equip_servant_item(_user,_item_location,_item_index,_object_index,_item_slot);
         }
         //@abi action
-        void unequipser(account_name _user,uint64_t _object_index,uint8_t _item_slot)
+        void unequipser(account_name _user,uint32_t _servant_location,uint64_t _object_index,uint8_t _item_slot)
         {
             print("un equip item\n");
-            item_controller.unequip_servant_item(_user,_object_index,_item_slot);
+            item_controller.unequip_servant_item(_user,_servant_location,_object_index,_item_slot);
         }
         //@abi action
         void equiphero(account_name _user, uint8_t _character_slot,uint8_t _item_location, uint64_t _item_index,uint8_t _item_slot)

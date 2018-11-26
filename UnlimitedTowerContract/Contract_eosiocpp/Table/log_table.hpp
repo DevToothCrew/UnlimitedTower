@@ -2,7 +2,7 @@
 #include "../Common/common_header.hpp"
 
 
-//(4 * 16) + 8 = 72
+//(4 * 19) + 8 = 84
 //@abi table cuserlog i64
 class cuserlog
 {
@@ -10,8 +10,11 @@ private:
     account_name l_user;
 public:
     uint32_t l_servant_num;
+    uint32_t l_servant_slot_count;
     uint32_t l_monster_num;
+    uint32_t l_monster_slot_count;
     uint32_t l_item_num;
+    uint32_t l_item_slot_count;
     uint32_t l_gacha_num;
     uint32_t l_login_time;
     uint32_t l_get_gold;
@@ -31,8 +34,11 @@ public:
     l_get_eos(0,S(4,EOS))
     {
         l_servant_num = 0;
+        l_servant_slot_count=50;
         l_monster_num = 0;
+        l_monster_slot_count=50;
         l_item_num = 0;
+        l_item_slot_count=50;
         l_gacha_num = 0;
         l_login_time = 0;
         l_get_gold = 0;
@@ -52,8 +58,11 @@ public:
             cuserlog,
             (l_user)
             (l_servant_num)
+            (l_servant_slot_count)
             (l_monster_num)
+            (l_monster_slot_count)
             (l_item_num)
+            (l_item_slot_count)
             (l_gacha_num)
             (l_login_time)
             (l_get_gold)

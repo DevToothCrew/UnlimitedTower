@@ -31,6 +31,7 @@ struct cservantinfo
     sobject_appear appear_info;
     sobject_status status_info;
     sobject_plus_status plus_status_info;
+    std::vector<uint32_t> s_equip;
     uint32_t s_exp = 0;
 };
 

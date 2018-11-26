@@ -2,6 +2,12 @@
 #include "../Common/common_header.hpp"
 #include "Table/servant_table.hpp"
 
+enum item_state
+{
+    item_none = 0,
+    item_equip,
+    item_notsell,
+};
 // 8 + 4 + 13 = 25
 struct citeminfo
 {
@@ -10,6 +16,8 @@ struct citeminfo
     uint8_t i_type_equip;
     uint8_t i_tier;
     sobject_status i_status_info;
+    uint32_t i_item_state;
+    uint32_t i_job;
 };
 
 // 8 + 25 = 33

@@ -34,7 +34,7 @@ class crule_system
     const uint8_t item_type_count = 3;
     const uint8_t head_count = 3;
     const uint8_t hair_count = 3;
-    const uint8_t body_count = 3;
+    const uint8_t body_count = 4;
     uint32_t random_count = 0;
   public:
     crule_system(account_name _self)

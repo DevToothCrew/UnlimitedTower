@@ -24,13 +24,27 @@ struct suser_status
     uint32_t strength;
     uint32_t dexterity;
     uint32_t intelligence;
+    uint32_t job;
 };
+struct suser_plus_status
+{
+    uint32_t plus_str = 0;
+    uint32_t plus_dex = 0;
+    uint32_t plus_int = 0;
+    uint32_t stat_point = 0;
+};
+
+
 // 3 + 12 = 15
 struct shero_info
 {
     suser_look look;
     suser_status status;
+    suser_plus_status plus_status;
+    std::vector<uint32_t> equip;
 };
+
+
 
 // 8 + 15 + 4 + 8 = 35
 // vector 한개당 15
@@ -46,8 +60,13 @@ public:
 public:
     cuserauth() {
         a_hero_list.resize(3);
+        for(auto i=0;i<a_hero_list.size();++i)
+        {
+            a_hero_list[i].equip.resize(3);
+        }
         a_game_money = 100;
         a_state = static_cast<uint8_t>(euser_state::none);
+        
     }
     uint64_t primary_key() const {return a_user;}
     void auth_set_user(account_name _user) {a_user = _user;}
