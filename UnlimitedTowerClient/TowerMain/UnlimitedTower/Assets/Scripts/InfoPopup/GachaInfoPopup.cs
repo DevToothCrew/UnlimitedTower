@@ -34,7 +34,7 @@ public class GachaInfoPopup : MonoSingleton<GachaInfoPopup> {
             + "Speed : " + getChar.GetSpeed();
 
 
-        UserDataManager.Inst.AddNewChar(getChar.Name);
+        UserDataManager.Inst.AddNewCharImage(getChar.Name);
 
     }
 
