@@ -17,6 +17,10 @@ struct scharacter_state
 //vector 개당 + 9
 struct scharacter_info
 {
+    uint32_t speed;
+    uint32_t critical;
+    uint32_t defense;
+    uint32_t attack;
     uint32_t now_hp = 0;
     std::vector<scharacter_state> state_list;
     uint64_t party_object_index = 0;

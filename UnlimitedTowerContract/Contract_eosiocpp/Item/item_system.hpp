@@ -128,7 +128,7 @@ class citem_system
             auto item_find_iter = user_items.find(_user);
             int check_exist_id = -1;
 
-            for(auto i=0;i<item_find_iter->i_item_list.size();++i)
+            for(uint32_t i=0;i<item_find_iter->i_item_list.size();++i)
             {
                 if(item_find_iter->i_item_list[i].i_index == cur_find_iter->s_servant_list[_servant_location].s_equip[_equip_slot])
                 {

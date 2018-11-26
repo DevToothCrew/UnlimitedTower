@@ -95,7 +95,41 @@ class cbattle_system
                     {
                         if (servant_get_iter.s_servant_list[j].s_index == party_get_iter.p_party_list[_party_number].object_id_list[i])
                         {
-                            new_user.b_my_party_list[i].now_hp = servant_get_iter.s_servant_list[j].status_info.strength + 100;
+                            new_user.b_my_party_list[i].now_hp = servant_get_iter.s_servant_list[j].status_info.strength * 24;
+                            new_user.b_my_party_list[i].defense = servant_get_iter.s_servant_list[j].status_info.dexterity * 0.5;
+                            new_user.b_my_party_list[i].critical = servant_get_iter.s_servant_list[j].status_info.intelligence * 0.1;
+
+                            if(servant_get_iter.s_servant_list[j].status_info.s_job == warrior)
+                            {
+                               new_user.b_my_party_list[i].attack = servant_get_iter.s_servant_list[j].status_info.strength * 2.2;
+                               new_user.b_my_party_list[i].speed = 34;
+                            }
+                            else if(servant_get_iter.s_servant_list[j].status_info.s_job == archer)
+                            {
+                               new_user.b_my_party_list[i].attack = servant_get_iter.s_servant_list[j].status_info.dexterity * 2.2;
+                               new_user.b_my_party_list[i].speed = 42;
+                            }
+                            else if (servant_get_iter.s_servant_list[j].status_info.s_job == wizard)
+                            {
+                                new_user.b_my_party_list[i].attack = servant_get_iter.s_servant_list[j].status_info.intelligence * 2.2;
+                                new_user.b_my_party_list[i].speed =29;
+                            }
+                            else if (servant_get_iter.s_servant_list[j].status_info.s_job == priest)
+                            {
+                                new_user.b_my_party_list[i].attack = servant_get_iter.s_servant_list[j].status_info.intelligence * 2.2;
+                                new_user.b_my_party_list[i].speed = 32;
+                            }
+                            else if (servant_get_iter.s_servant_list[j].status_info.s_job == beginner)
+                            {
+                                new_user.b_my_party_list[i].attack = servant_get_iter.s_servant_list[j].status_info.strength * 2.2;
+                                new_user.b_my_party_list[i].speed = 25;
+                            }
+                            else if((servant_get_iter.s_servant_list[j].status_info.s_job == thief)
+                            {
+                               new_user.b_my_party_list[i].attack = servant_get_iter.s_servant_list[j].status_info.dexterity * 2.2;
+                               new_user.b_my_party_list[i].speed = 50;
+                            }
+                            new_user.b_my_party_list[i].attack = servant_get_iter.s_servant_list[j].status_info.strength * 24;
                             break;
                         }
                     }

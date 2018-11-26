@@ -26,7 +26,7 @@ class crule_system
     item_id_data_table item_id_rule;
     item_tier_data_table item_tier_rule;
   public:
-    const uint8_t servant_job_count = 5;
+    const uint8_t servant_job_count = 6;
     const uint8_t monster_id_count = 30;
     const uint8_t monster_grade_count = 5;
     const uint8_t item_id_count = 70;

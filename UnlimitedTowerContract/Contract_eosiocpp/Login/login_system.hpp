@@ -12,6 +12,16 @@ struct transfer_action {
     name seller;
     asset quantity;
 };
+enum job_list
+{
+    beginner = 0,
+    warrior,
+    archer,
+    wizard,
+    priest,
+    thief,
+};
+
 class clogin_system
 {
   private:
