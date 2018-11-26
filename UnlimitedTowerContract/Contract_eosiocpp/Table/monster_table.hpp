@@ -1,6 +1,6 @@
 #pragma once
 #include "../Common/common_header.hpp"
-#include "Table/servent_table.hpp"
+#include "Table/servant_table.hpp"
 
 // 8 + 4 + 13 + 16 + 4 = 46
 struct cmonsterinfo

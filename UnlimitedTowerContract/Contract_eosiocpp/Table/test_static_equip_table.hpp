@@ -8,7 +8,7 @@ enum equip_list
 };
 struct equip_item_info
 {
-    uint32_t servent_index = 0;
+    uint32_t servant_index = 0;
     std::vector<uint32_t> item_list;
 };
 
@@ -19,7 +19,7 @@ private:
     account_name user;
 public:    
     std::vector<equip_item_info> hero_list;
-    std::vector<equip_item_info> servent_list;
+    std::vector<equip_item_info> servant_list;
 public:
     cequipdata()
     {
@@ -35,7 +35,7 @@ public:
         cequipdata,
         (user)
         (hero_list)
-        (servent_list)
+        (servant_list)
     )
 
 };

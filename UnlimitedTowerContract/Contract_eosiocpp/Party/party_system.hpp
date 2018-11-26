@@ -5,7 +5,7 @@
 enum object_type
 {
     max_monster_type_id = 50,
-    max_servent_type_id = 100,
+    max_servant_type_id = 100,
 };
 #pragma endregion
 
@@ -59,7 +59,7 @@ class cparty_system
             //2번은 히어로의 위치
             auto party_find_iter = party_list.find(_user);
             eosio_assert(party_find_iter != party_list.end(),"not exist party list");
-            party_list.modify(part_find_iter,owner,[&](auto& new_party_hero)
+            party_list.modify(party_find_iter,owner,[&](auto& new_party_hero)
             {
                 new_party_hero.p_party_list[_party_number].object_id_list[2] = _character_slot;
             });
@@ -78,20 +78,20 @@ class cparty_system
             uint32_t right = 0;
             if(_party_location_index < 5)
             {
-                eosio_assert(_object_type > max_monster_type_id,"this location only servent");
+                eosio_assert(_object_type > max_monster_type_id,"this location only servant");
                 bool l_use_index = false;
-                auto &servents = gacha_controller.get_servent_table();
-                const auto &servent_info = servents.get(_user);
-                right = servent_info.s_servent_list.size()-1;
+                auto &servants = gacha_controller.get_servant_table();
+                const auto &servant_info = servants.get(_user);
+                right = servant_info.s_servant_list.size()-1;
                 while(left <= right)
                 {
                     mid = (left+right)/2;
-                    if ( servent_info.s_servent_list[mid].s_index == _object_index)
+                    if ( servant_info.s_servant_list[mid].s_index == _object_index)
                     {
                         l_use_index = true;
                         break;
                     }
-                    else if(_object_index > servent_info.s_servent_list[mid].s_index)
+                    else if(_object_index > servant_info.s_servant_list[mid].s_index)
                     {
                         left = mid + 1;
                     }

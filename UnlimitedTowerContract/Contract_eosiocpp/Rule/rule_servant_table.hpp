@@ -9,8 +9,8 @@ struct servenet_stat
     uint8_t s_int;
 };
 
-//@abi table crservent i64
-class crservent
+//@abi table crservant i64
+class crservant
 {
   public:
     uint16_t s_job;
@@ -20,4 +20,4 @@ public:
     uint16_t primary_key() const {return s_job;}
 };
 
-typedef multi_index<N(crservent),crservent> servent_data_table;
+typedef multi_index<N(crservant),crservant> servant_data_table;

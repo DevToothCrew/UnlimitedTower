@@ -1,6 +1,6 @@
 #pragma once
 #include "../Common/common_header.hpp"
-#include "../Rule/rule_servent_table.hpp"
+#include "../Rule/rule_servant_table.hpp"
 #include "../Rule/rule_head_table.hpp"
 #include "../Rule/rule_hair_table.hpp"
 #include "../Rule/rule_body_table.hpp"
@@ -17,7 +17,7 @@ class crule_system
     account_name owner;
 
   private:
-    servent_data_table  servent_rule;
+    servant_data_table  servant_rule;
     head_data_table head_rule;
     hair_data_table hair_rule;
     body_data_table body_rule;
@@ -26,7 +26,7 @@ class crule_system
     item_id_data_table item_id_rule;
     item_tier_data_table item_tier_rule;
   public:
-    const uint8_t servent_job_count = 5;
+    const uint8_t servant_job_count = 5;
     const uint8_t monster_id_count = 30;
     const uint8_t monster_grade_count = 5;
     const uint8_t item_id_count = 70;
@@ -39,7 +39,7 @@ class crule_system
   public:
     crule_system(account_name _self)
         : owner(_self),
-          servent_rule(_self, _self),
+          servant_rule(_self, _self),
           head_rule(_self,_self),
           hair_rule(_self,_self),
           body_rule(_self,_self),
@@ -49,9 +49,9 @@ class crule_system
           item_tier_rule(_self,_self)
     {
     }
-    servent_data_table &get_servent_rule_table()
+    servant_data_table &get_servant_rule_table()
     {
-        return servent_rule;
+        return servant_rule;
     }
     head_data_table &get_head_rule_table()
     {
@@ -102,10 +102,10 @@ class crule_system
     {
         uint64_t l_seed = tapos_block_num() * tapos_block_prefix() * now();
         require_auth2(owner,N(owner));
-        for (uint8_t i = 0; i < servent_job_count; ++i)
+        for (uint8_t i = 0; i < servant_job_count; ++i)
         {
-            servent_rule.emplace(owner, [&](auto& a) {
-                a.s_job = servent_rule.available_primary_key();
+            servant_rule.emplace(owner, [&](auto& a) {
+                a.s_job = servant_rule.available_primary_key();
                 if(random_count >= 8 )
                 {
                     random_count = 0;
@@ -167,7 +167,7 @@ class crule_system
                     random_count = 0;
                 }
                 a.i_type = random_seed(l_seed,item_type_count,0,random_count++);
-                a.i_job = random_seed(l_seed,servent_job_count,0,random_count++);
+                a.i_job = random_seed(l_seed,servant_job_count,0,random_count++);
             });
         }
         for(uint32_t i=1;i<=item_tier_count;++i)

@@ -25,7 +25,7 @@ struct sobject_plus_status
     uint32_t stat_point = 0;
 };
 // 8 + 4 + 3 + 13 + 16 + 4 = 48
-struct cserventinfo
+struct cservantinfo
 {
     uint64_t s_index;
     sobject_appear appear_info;
@@ -36,24 +36,24 @@ struct cserventinfo
 
 // 8 + 48 = 56
 // vector당 48
-//@abi table cservent i64
-class cservent
+//@abi table cservant i64
+class cservant
 {
   private:
     account_name s_user;
 
   public:
-    std::vector<cserventinfo> s_servent_list;
+    std::vector<cservantinfo> s_servant_list;
 
   public:
-    cservent()
+    cservant()
     {
     }
     uint64_t primary_key() const { return s_user; }
-    void servent_set_user(account_name _user) { s_user = _user; }
+    void servant_set_user(account_name _user) { s_user = _user; }
     EOSLIB_SERIALIZE(
-        cservent,
-        (s_user)(s_servent_list))
+        cservant,
+        (s_user)(s_servant_list))
 };
 
-typedef multi_index<N(cservent), cservent> user_servent_table;
+typedef multi_index<N(cservant), cservant> user_servant_table;

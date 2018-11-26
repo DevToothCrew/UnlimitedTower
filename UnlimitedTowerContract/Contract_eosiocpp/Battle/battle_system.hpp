@@ -74,8 +74,8 @@ class cbattle_system
             auto &user_monster = gacha_controller.get_monster_table();
             const auto &monster_get_iter = user_monster.get(_user);
 
-            auto &user_servent = gacha_controller.get_servent_table();
-            const auto &servent_get_iter = user_servent.get(_user);
+            auto &user_servant = gacha_controller.get_servant_table();
+            const auto &servant_get_iter = user_servant.get(_user);
 
             uint32_t mid = 0;
             uint32_t left = 0;
@@ -91,11 +91,11 @@ class cbattle_system
             battles.modify(cur_player_iter, owner, [&](auto &new_user) {
                 for (uint32_t i = 0; i < 5; ++i)
                 {
-                    for (uint32_t j = 0; j < servent_get_iter.s_servent_list.size(); ++j)
+                    for (uint32_t j = 0; j < servant_get_iter.s_servant_list.size(); ++j)
                     {
-                        if (servent_get_iter.s_servent_list[j].s_index == party_get_iter.p_party_list[_party_number].object_id_list[i])
+                        if (servant_get_iter.s_servant_list[j].s_index == party_get_iter.p_party_list[_party_number].object_id_list[i])
                         {
-                            new_user.b_my_party_list[i].now_hp = servent_get_iter.s_servent_list[j].status_info.strength + 100;
+                            new_user.b_my_party_list[i].now_hp = servant_get_iter.s_servant_list[j].status_info.strength + 100;
                             break;
                         }
                     }

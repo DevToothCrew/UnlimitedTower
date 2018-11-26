@@ -9,7 +9,7 @@ class cuserlog
 private:
     account_name l_user;
 public:
-    uint32_t l_servent_num;
+    uint32_t l_servant_num;
     uint32_t l_monster_num;
     uint32_t l_item_num;
     uint32_t l_gacha_num;
@@ -30,7 +30,7 @@ public:
     l_use_eos(0,S(4,EOS)),
     l_get_eos(0,S(4,EOS))
     {
-        l_servent_num = 0;
+        l_servant_num = 0;
         l_monster_num = 0;
         l_item_num = 0;
         l_gacha_num = 0;
@@ -51,7 +51,7 @@ public:
     EOSLIB_SERIALIZE(
             cuserlog,
             (l_user)
-            (l_servent_num)
+            (l_servant_num)
             (l_monster_num)
             (l_item_num)
             (l_gacha_num)
