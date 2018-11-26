@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CharController : MonoBehaviour
 {
-    
+
     private Vector3 charMovement;
     private Vector3 charDirection;
     private Vector3 charFirstDirection;
@@ -36,6 +36,12 @@ public class CharController : MonoBehaviour
 
         stateType = STATE_TYPE.IDLE; 
     }
+
+    protected void Update()
+    {
+        UpdateOwnUIs();
+    }
+
     public void SetFirstPosition()
     {
         charFirsrPos = charTransform.position;
@@ -269,4 +275,15 @@ public class CharController : MonoBehaviour
          
         }
     }
+
+    #region UI Interfaces
+
+
+    void UpdateOwnUIs()
+    {
+
+    }
+
+
+    #endregion
 }
