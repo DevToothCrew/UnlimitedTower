@@ -351,7 +351,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &50528313
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1208,7 +1208,7 @@ GameObject:
   - component: {fileID: 190070917}
   - component: {fileID: 190070916}
   m_Layer: 5
-  m_Name: NameText
+  m_Name: CharNameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2121,7 +2121,7 @@ GameObject:
   - component: {fileID: 260262338}
   - component: {fileID: 260262336}
   m_Layer: 5
-  m_Name: GachaImages
+  m_Name: GachaImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2164,22 +2164,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bfce7ba2daed394caed75e817aa419c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gachaImagesAnimator: {fileID: 260262337}
-  lightEffectCircle01Animator: {fileID: 1266348681}
-  lightEffectCircle02Animator: {fileID: 125707376}
-  lightEffectCircle03Animator: {fileID: 1047664920}
-  lightEffectCircle04Animator: {fileID: 1359624095}
-  purpleCircleAnimator: {fileID: 1543341101}
-  blackHoleAnimator: {fileID: 758918809}
-  blackHole: {fileID: 758918806}
-  gachaResultPopup: {fileID: 719195510}
+  GachaImageAnimator: {fileID: 260262337}
+  LightEffectCircle01Animator: {fileID: 1266348681}
+  LightEffectCircle02Animator: {fileID: 125707376}
+  LightEffectCircle03Animator: {fileID: 1047664920}
+  LightEffectCircle04Animator: {fileID: 1359624095}
+  PurpleCircleAnimator: {fileID: 1543341101}
+  BlackHoleAnimator: {fileID: 758918809}
+  BlackHole: {fileID: 758918806}
+  GachaResultPopup: {fileID: 719195510}
   charImage: {fileID: 247452472}
-  charNameText: {fileID: 190070916}
-  statusStrText: {fileID: 1781020257}
-  statusDexText: {fileID: 1987773347}
-  statusIntText: {fileID: 1068661387}
-  gachaButton: {fileID: 273677067}
-  exitButton: {fileID: 1365274830}
+  CharNameText: {fileID: 190070916}
+  StatusStrText: {fileID: 1781020257}
+  StatusDexText: {fileID: 1987773347}
+  StatusIntText: {fileID: 1068661387}
+  GachaButton: {fileID: 273677067}
+  ExitButton: {fileID: 1365274830}
 --- !u!95 &260262337
 Animator:
   serializedVersion: 3
