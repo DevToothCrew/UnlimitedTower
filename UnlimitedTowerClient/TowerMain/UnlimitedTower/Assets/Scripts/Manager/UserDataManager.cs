@@ -123,7 +123,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
         }
     }
-    public void AddNewChar(string getChar)
+    public void AddNewCharImage(string getChar)
     {
         var instance = Instantiate(Resources.Load("Prefabs/CharElement") as GameObject);
         if (instance.GetComponent<Image>())

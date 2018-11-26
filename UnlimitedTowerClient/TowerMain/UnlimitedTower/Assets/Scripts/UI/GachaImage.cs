@@ -83,7 +83,6 @@ public class GachaImage : MonoSingleton<GachaImage>
       LightEffectCircle03Animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
 
 
-
         LightEffectCircle02Animator.SetBool("Play", true);
          yield return StartCoroutine("WAVE_LIGHT_EFFECT_CIRCLE02");
     }
@@ -96,7 +95,6 @@ public class GachaImage : MonoSingleton<GachaImage>
         while (LightEffectCircle04Animator.GetCurrentAnimatorStateInfo(0).IsName("Wave") &&
       LightEffectCircle04Animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
 
-        Debug.Log(" WAVE_LIGHT_EFFECT_CIRCLE04");
 
         LightEffectCircle03Animator.SetBool("Play", true);
         yield return StartCoroutine("WAVE_LIGHT_EFFECT_CIRCLE03");
@@ -115,6 +113,7 @@ public class GachaImage : MonoSingleton<GachaImage>
         while (LightEffectCircle01Animator.GetCurrentAnimatorStateInfo(0).IsName("Stop") &&
       LightEffectCircle01Animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
 
+        // 가챠 결과창에서 바로 가챠 시도할 때 사용하는 함수
         ReTryGacha();
         yield break;
     }
@@ -153,7 +152,6 @@ public class GachaImage : MonoSingleton<GachaImage>
         while (LightEffectCircle04Animator.GetCurrentAnimatorStateInfo(0).IsName("Stop") &&
       LightEffectCircle04Animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
 
-        Debug.Log("FADE_IN_LIGHT_EFFECT_CIRCLE04");
 
         LightEffectCircle03Animator.SetBool("Play", false);
         yield return StartCoroutine("FADE_IN_LIGHT_EFFECT_CIRCLE03");
@@ -184,16 +182,12 @@ public class GachaImage : MonoSingleton<GachaImage>
     public void SetGachaReult(Character newChar)
     {
         GachaResultPopup.SetActive(true);
-        // 캐릭터 정보 보여주기
-
+ 
         CharNameText.text = newChar.Name;
         StatusStrText.text = newChar.Str.ToString();
         StatusDexText.text = newChar.Dex.ToString();
         StatusIntText.text = newChar.Int.ToString();
 
-
-        // 포메이션에 추가하는 것이기 때문에 함수 이를 수정 요망.
-        UserDataManager.Inst.AddNewChar(newChar.Name);
 
         Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + newChar.Name);
         charImage.GetComponent<Image>().sprite = sprite;

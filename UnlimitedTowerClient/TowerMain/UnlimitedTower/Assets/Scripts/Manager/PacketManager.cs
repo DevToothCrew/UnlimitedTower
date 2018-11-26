@@ -160,7 +160,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         // TODO : 현재 임시로 TestDB에서 캐릭터 정보 가져와서
         Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1);
         UserDataManager.Inst.SetCharacter(newChar);
-
+        UserDataManager.Inst.AddNewCharImage(newChar.Name);
 
         GachaImage.Inst.SetGachaReult(newChar);
         //GachaInfoPopup.Inst.SetGachaResultInfoPopup(newChar);
