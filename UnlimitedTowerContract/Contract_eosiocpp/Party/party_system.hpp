@@ -53,6 +53,17 @@ class cparty_system
             }
             return l_random_result;
         }
+        void set_hero(account_name _user,uint32_t _party_number,uint8_t _character_slot)
+        {
+            //캐릭터 슬롯을 히어로의 아이디로 사용한다.
+            //2번은 히어로의 위치
+            auto party_find_iter = party_list.find(_user);
+            eosio_assert(party_find_iter != party_list.end(),"not exist party list");
+            party_list.modify(part_find_iter,owner,[&](auto& new_party_hero)
+            {
+                new_party_hero.p_party_list[_party_number].object_id_list[2] = _character_slot;
+            });
+        }
         void set_party(account_name _user,uint8_t _party_number,uint8_t _party_location_index,uint32_t _object_type,uint64_t _object_index)
         {  
             //need to hero setting

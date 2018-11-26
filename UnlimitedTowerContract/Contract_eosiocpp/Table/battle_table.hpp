@@ -40,11 +40,6 @@ public:
         b_party_number = 0;
         b_my_party_list.resize(10);
         b_enemy_party_list.resize(10);
-        // for(uint32_t i = 0;i<10;++i)
-        // {
-        //     b_my_party_list[i].state_list.resize(5);
-        //     b_enemy_party_list[i].state_list.resize(5);
-        // }
     }
     uint64_t primary_key() const {return b_user;}
     void battle_set_user(account_name _user) {b_user = _user;}

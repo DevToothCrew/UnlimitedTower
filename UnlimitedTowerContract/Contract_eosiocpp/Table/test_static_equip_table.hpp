@@ -15,14 +15,12 @@ struct equip_item_info
 //@abi table cequipdata i64
 class cequipdata
 {
-    private:
+private:
     account_name user;
-  public:
-    
+public:    
     std::vector<equip_item_info> hero_list;
     std::vector<equip_item_info> servent_list;
-
-  public:
+public:
     cequipdata()
     {
         hero_list.resize(3);
