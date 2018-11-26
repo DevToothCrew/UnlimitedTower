@@ -75,6 +75,7 @@ class cgacha_system
             auto find_log_iter = log.find(_user);
 
             auto cur_user_servant = servants.find(_user);
+            eosio_assert(cur_user_servant->s_servant_list.size()<find_log_iter->l_servant_slot_count,"need more slot");
             servants.modify(cur_user_servant, owner, [&](auto &servant) {
                 cservantinfo ser;
                 ser.s_index = find_log_iter->l_servant_num + 1;
@@ -132,6 +133,7 @@ class cgacha_system
             auto find_log_iter = log.find(_user);
 
             auto cur_user_monster = monsters.find(_user);
+            eosio_assert(cur_user_monster->m_monster_list.size()<find_log_iter->l_monster_slot_count,"need more slot");
             monsters.modify(cur_user_monster, owner, [&](auto &new_monster) {
                 cmonsterinfo monster;
                 monster.m_index = find_log_iter->l_monster_num + 1;
@@ -162,6 +164,7 @@ class cgacha_system
             auto find_log_iter = log.find(_user);
 
             auto cur_user_item = items.find(_user);
+            eosio_assert(cur_user_item->i_item_list.size()<find_log_iter->l_item_slot_count,"need more slot");
             items.modify(cur_user_item, owner, [&](auto &new_item) {
                 citeminfo item;
                 item.i_index = find_log_iter->l_item_num + 1;
