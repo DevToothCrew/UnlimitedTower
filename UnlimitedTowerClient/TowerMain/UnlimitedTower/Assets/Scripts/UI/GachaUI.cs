@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class GachaUI : MonoSingleton<GachaUI>
 {
 
-    public Animator gachaImages;
+    public Animator gachaImagesAnimator;
 
     public Animator lightEffectCircle01Animator;
     public Animator lightEffectCircle02Animator;
@@ -17,9 +17,7 @@ public class GachaUI : MonoSingleton<GachaUI>
     public Animator blackHoleAnimator;
 
     public GameObject blackHole;
-    public GameObject lightEffectCircle;
-
-    public GameObject gachaResult;
+    public GameObject gachaResultPopup;
     public GameObject charImage;
 
     public Text charNameText;
@@ -30,7 +28,7 @@ public class GachaUI : MonoSingleton<GachaUI>
     public GameObject gachaButton;
     public GameObject exitButton;
 
-
+    private bool reGachaflag = false;
 
 
     IEnumerator FADE_OUT()
@@ -39,11 +37,11 @@ public class GachaUI : MonoSingleton<GachaUI>
         {
             yield return null;
         }
-        while (gachaImages.GetCurrentAnimatorStateInfo(0).IsName("FadeOut") &&
-     gachaImages.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
+        while (gachaImagesAnimator.GetCurrentAnimatorStateInfo(0).IsName("FadeOut") &&
+     gachaImagesAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
 
 
-        gachaImages.SetBool("Play", false);
+        gachaImagesAnimator.SetBool("Play", false);
         yield break;
     }
 
@@ -58,7 +56,7 @@ public class GachaUI : MonoSingleton<GachaUI>
       lightEffectCircle01Animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
 
 
-        gachaImages.SetBool("Play", true);
+        gachaImagesAnimator.SetBool("Play", true);
         yield return StartCoroutine("FADE_OUT");
     }
 
@@ -98,13 +96,13 @@ public class GachaUI : MonoSingleton<GachaUI>
         while (lightEffectCircle04Animator.GetCurrentAnimatorStateInfo(0).IsName("Wave") &&
       lightEffectCircle04Animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
 
+        Debug.Log(" WAVE_LIGHT_EFFECT_CIRCLE04");
+
         lightEffectCircle03Animator.SetBool("Play", true);
         yield return StartCoroutine("WAVE_LIGHT_EFFECT_CIRCLE03");
 
     }
     #endregion
-
-
 
 
     #region LightCircles FadeIn Coroutine
@@ -117,12 +115,12 @@ public class GachaUI : MonoSingleton<GachaUI>
         while (lightEffectCircle01Animator.GetCurrentAnimatorStateInfo(0).IsName("Stop") &&
       lightEffectCircle01Animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
 
+        ReTryGacha();
         yield break;
     }
 
     IEnumerator FADE_IN_LIGHT_EFFECT_CIRCLE02()
     {
-
         do
         {
             yield return null;
@@ -136,7 +134,6 @@ public class GachaUI : MonoSingleton<GachaUI>
     }
     IEnumerator FADE_IN_LIGHT_EFFECT_CIRCLE03()
     {
-
         do
         {
             yield return null;
@@ -149,7 +146,6 @@ public class GachaUI : MonoSingleton<GachaUI>
     }
     IEnumerator FADE_IN_LIGHT_EFFECT_CIRCLE04()
     {
-
        do
         {
             yield return null;
@@ -157,6 +153,7 @@ public class GachaUI : MonoSingleton<GachaUI>
         while (lightEffectCircle04Animator.GetCurrentAnimatorStateInfo(0).IsName("Stop") &&
       lightEffectCircle04Animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
 
+        Debug.Log("FADE_IN_LIGHT_EFFECT_CIRCLE04");
 
         lightEffectCircle03Animator.SetBool("Play", false);
         yield return StartCoroutine("FADE_IN_LIGHT_EFFECT_CIRCLE03");
@@ -164,26 +161,29 @@ public class GachaUI : MonoSingleton<GachaUI>
     #endregion
 
 
-    public void GoGacha()
-    {
-
-        lightEffectCircle04Animator.SetBool("Play", true);
-        blackHoleAnimator.SetBool("Play", true);
-        purpleCircleAnimator.SetBool("Play", true);
-        StartCoroutine("WAVE_LIGHT_EFFECT_CIRCLE04");
-
-        gachaButton.SetActive(false);
-        exitButton.SetActive(false);
-    }
     public void ReGacha()
     {
-        OnClickCheckGacha();
-        //GoGacha();
+        reGachaflag = true ;
+
+        gachaResultPopup.SetActive(false);
+        lightEffectCircle04Animator.SetBool("Play", false);
+        StartCoroutine("FADE_IN_LIGHT_EFFECT_CIRCLE04");
+
+        purpleCircleAnimator.SetBool("Play", false);
+        blackHoleAnimator.SetBool("Play", false);
+    }
+
+    public void ReTryGacha()
+    {
+        if (reGachaflag)
+        {
+            GoGacha();
+        }
     }
 
     public void SetGachaReult(Character newChar)
     {
-        gachaResult.SetActive(true);
+        gachaResultPopup.SetActive(true);
         // 캐릭터 정보 보여주기
 
         charNameText.text = newChar.Name;
@@ -200,15 +200,9 @@ public class GachaUI : MonoSingleton<GachaUI>
     }
     public void ShowGachaResult()
     {
+        reGachaflag = false;
         PacketManager.Inst.Request_Gacha();
-
-       // Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1);
-        //Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + newChar.Name);
-        //charImage.GetComponent<Image>().sprite = sprite;
-        //UserDataManager.Inst.SetCharacter(newChar);
-        //UserDataManager.Inst.AddNewChar(newChar.Name);
     }
-
 
 
     public void OnClickCheckGacha()
@@ -218,12 +212,25 @@ public class GachaUI : MonoSingleton<GachaUI>
 
         gachaButton.SetActive(true);
         exitButton.SetActive(true);
-        gachaResult.SetActive(false);
+        gachaResultPopup.SetActive(false);
 
 
         purpleCircleAnimator.SetBool("Play", false);
         blackHoleAnimator.SetBool("Play", false);
-    }  
+    }
+
+
+    public void GoGacha()
+    {
+        lightEffectCircle04Animator.SetBool("Play", true);
+        blackHoleAnimator.SetBool("Play", true);
+        purpleCircleAnimator.SetBool("Play", true);
+        StartCoroutine("WAVE_LIGHT_EFFECT_CIRCLE04");
+
+        gachaButton.SetActive(false);
+        exitButton.SetActive(false);
+    }
+
 }
 
 

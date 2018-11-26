@@ -182,8 +182,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     {
         GachaScene.SetActive(false);
 
-
-        
         RightPopup.SetActive(true);
         TowerGrid.SetActive(true);
         //TowerInfo.SetActive(false);
