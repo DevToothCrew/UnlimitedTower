@@ -20,16 +20,6 @@ public class InGameUIManager : MonoSingleton<InGameUIManager>
         BattleManager.Inst.decreaseHpDelegate += DecreaseHp;
     }
 
-    // Use this for initialization
-    void Start() {
-
-    }
-
-    // Update is called once per frame
-    void Update() {
-
-    }
-
     public void DecreaseHp(int damage, GameObject target)
     {
         Debug.Log("DecreaseHp : " + damage + " / " + target);
