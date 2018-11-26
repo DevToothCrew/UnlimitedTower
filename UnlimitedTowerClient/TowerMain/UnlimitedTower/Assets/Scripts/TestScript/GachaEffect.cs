@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GachaEffect : MonoBehaviour {
+public class GachaUI : MonoBehaviour {
 
     public Animator fadeOut;
 
@@ -28,23 +28,11 @@ public class GachaEffect : MonoBehaviour {
     public Text statusDexText;
     public Text statusIntText;
 
-    public GameObject light01;
+    public GameObject gachaButton;
+    public GameObject exitButton;
 
 
 
-    private void Awake()
-    {
-        blackHole.GetComponent<RectTransform>().localEulerAngles = new Vector3(0.0f, 0.0f, 180.0f);
-
-        //TODO : TestCode
-        //for (int i = 0; i < 4; i++)
-        //{
-        //    //lightEffectCircle.transform.GetChild(i).GetComponent<RectTransform>().localScale = new Vector3(2.0f, 2.0f, 2.0f);
-
-        //    //lightEffectCircle.transform.GetChild(i).GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-        //}
-    }
- 
 
 
     IEnumerator FADE_OUT()
@@ -85,10 +73,6 @@ public class GachaEffect : MonoBehaviour {
       lightEffectCircle02Animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
 
 
-        //lightEffectCircle02.SetBool("Play", false);
-
-
-        //yield break;
         lightEffectCircle01Animator.SetBool("Play", true);
         yield return StartCoroutine("WAVE_LIGHT_EFFECT_CIRCLE01");
     }
@@ -103,8 +87,6 @@ public class GachaEffect : MonoBehaviour {
 
 
 
-
-        //yield break;
         lightEffectCircle02Animator.SetBool("Play", true);
          yield return StartCoroutine("WAVE_LIGHT_EFFECT_CIRCLE02");
     }
@@ -132,6 +114,8 @@ public class GachaEffect : MonoBehaviour {
         purpleCircleAnimator.SetBool("Play", true);
         StartCoroutine("WAVE_LIGHT_EFFECT_CIRCLE04");
 
+        gachaButton.SetActive(false);
+        exitButton.SetActive(false);
     }
 
     public void ShowGachaResult()
@@ -142,6 +126,9 @@ public class GachaEffect : MonoBehaviour {
 
         // 네트워크 가정이 생략됬기 때문에
         // 그걸 고려해서 네이밍할것.
+
+
+
 
         Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1);
 
@@ -166,14 +153,15 @@ public class GachaEffect : MonoBehaviour {
     {
         lightEffectCircle01Animator.SetBool("Play", false);
         lightEffectCircle02Animator.SetBool("Play", false);
+        lightEffectCircle03Animator.SetBool("Play", false);
         lightEffectCircle04Animator.SetBool("Play", false);
 
+        gachaButton.SetActive(true);
+        exitButton.SetActive(true);
 
 
         gachaResult.SetActive(false);
         // 가챠 애니메이션 초기화한다.
-
-        light01.GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 1.0f);
 
 
         //fadeOut.SetBool("Play", true);
