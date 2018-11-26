@@ -162,7 +162,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         UserDataManager.Inst.SetCharacter(newChar);
 
 
-        GachaUI.Inst.SetGachaReult(newChar);
+        GachaImage.Inst.SetGachaReult(newChar);
         //GachaInfoPopup.Inst.SetGachaResultInfoPopup(newChar);
     }
 
