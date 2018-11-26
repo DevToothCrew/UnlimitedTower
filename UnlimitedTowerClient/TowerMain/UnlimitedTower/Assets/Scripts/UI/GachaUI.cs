@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GachaUI : MonoBehaviour {
+public class GachaUI : MonoSingleton<GachaUI>
+{
 
-    public Animator fadeOut;
+    public Animator gachaImages;
 
-
-    public Animator lightEffectCirclesAnimator;
     public Animator lightEffectCircle01Animator;
     public Animator lightEffectCircle02Animator;
     public Animator lightEffectCircle03Animator;
@@ -34,18 +33,17 @@ public class GachaUI : MonoBehaviour {
 
 
 
-
     IEnumerator FADE_OUT()
     {
         do
         {
             yield return null;
         }
-        while (fadeOut.GetCurrentAnimatorStateInfo(0).IsName("FadeOut") &&
-     fadeOut.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
+        while (gachaImages.GetCurrentAnimatorStateInfo(0).IsName("FadeOut") &&
+     gachaImages.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
 
 
-        fadeOut.SetBool("Play", false);
+        gachaImages.SetBool("Play", false);
         yield break;
     }
 
@@ -60,7 +58,7 @@ public class GachaUI : MonoBehaviour {
       lightEffectCircle01Animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
 
 
-        fadeOut.SetBool("Play", true);
+        gachaImages.SetBool("Play", true);
         yield return StartCoroutine("FADE_OUT");
     }
 
@@ -109,6 +107,7 @@ public class GachaUI : MonoBehaviour {
 
 
 
+    #region LightCircles FadeIn Coroutine
     IEnumerator FADE_IN_LIGHT_EFFECT_CIRCLE01()
     {
         do
@@ -118,8 +117,6 @@ public class GachaUI : MonoBehaviour {
         while (lightEffectCircle01Animator.GetCurrentAnimatorStateInfo(0).IsName("Stop") &&
       lightEffectCircle01Animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
 
-
-     
         yield break;
     }
 
@@ -147,14 +144,13 @@ public class GachaUI : MonoBehaviour {
         while (lightEffectCircle03Animator.GetCurrentAnimatorStateInfo(0).IsName("Stop") &&
       lightEffectCircle03Animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
 
-
         lightEffectCircle02Animator.SetBool("Play", false);
         yield return StartCoroutine("FADE_IN_LIGHT_EFFECT_CIRCLE02");
     }
     IEnumerator FADE_IN_LIGHT_EFFECT_CIRCLE04()
     {
 
-        do
+       do
         {
             yield return null;
         }
@@ -165,6 +161,8 @@ public class GachaUI : MonoBehaviour {
         lightEffectCircle03Animator.SetBool("Play", false);
         yield return StartCoroutine("FADE_IN_LIGHT_EFFECT_CIRCLE03");
     }
+    #endregion
+
 
     public void GoGacha()
     {
@@ -177,80 +175,55 @@ public class GachaUI : MonoBehaviour {
         gachaButton.SetActive(false);
         exitButton.SetActive(false);
     }
-
-    public void ShowGachaResult()
+    public void ReGacha()
     {
-       // PacketManager.Inst.Request_Gacha();
+        OnClickCheckGacha();
+        //GoGacha();
+    }
 
-
-
-        Debug.Log("Gacha Result");
+    public void SetGachaReult(Character newChar)
+    {
         gachaResult.SetActive(true);
-
-        // 네트워크 가정이 생략됬기 때문에
-        // 그걸 고려해서 네이밍할것.
-
-
-
-
-        Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1);
+        // 캐릭터 정보 보여주기
 
         charNameText.text = newChar.Name;
-
         statusStrText.text = newChar.Str.ToString();
         statusDexText.text = newChar.Dex.ToString();
         statusIntText.text = newChar.Int.ToString();
 
 
-        Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + newChar.Name);
-
-        charImage.GetComponent<Image>().sprite = sprite;
-
-        UserDataManager.Inst.SetCharacter(newChar);
+        // 포메이션에 추가하는 것이기 때문에 함수 이를 수정 요망.
         UserDataManager.Inst.AddNewChar(newChar.Name);
 
-
+        Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + newChar.Name);
+        charImage.GetComponent<Image>().sprite = sprite;
     }
+    public void ShowGachaResult()
+    {
+        PacketManager.Inst.Request_Gacha();
+
+       // Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1);
+        //Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + newChar.Name);
+        //charImage.GetComponent<Image>().sprite = sprite;
+        //UserDataManager.Inst.SetCharacter(newChar);
+        //UserDataManager.Inst.AddNewChar(newChar.Name);
+    }
+
+
 
     public void OnClickCheckGacha()
     {
-        //lightEffectCircle01Animator.SetBool("Play", false);
-        //lightEffectCircle02Animator.SetBool("Play", false);
-        //lightEffectCircle03Animator.SetBool("Play", false);
-
-
         lightEffectCircle04Animator.SetBool("Play", false);
         StartCoroutine("FADE_IN_LIGHT_EFFECT_CIRCLE04");
 
         gachaButton.SetActive(true);
         exitButton.SetActive(true);
-
-
         gachaResult.SetActive(false);
-        // 가챠 애니메이션 초기화한다.
 
-
-        //fadeOut.SetBool("Play", true);
-        // lightEffect가 다 커진다음 사라지고 작아진다(어처피 안보이니깐)
-        // 가챠 확인 누른뒤 서서시 lifht effect가fadein처럼 나온다
-
-
-  
-
-
-
-
-        //lightEffectCirclesAnimator.SetBool("Play", true);
 
         purpleCircleAnimator.SetBool("Play", false);
         blackHoleAnimator.SetBool("Play", false);
-
-    }
-    public void StopCircle()
-    {
-        //purpleCircleAnimator.SetBool("Play", false);
-        //blackHoleAnimator.SetBool("Play", false);
-    }
+    }  
 }
 
 

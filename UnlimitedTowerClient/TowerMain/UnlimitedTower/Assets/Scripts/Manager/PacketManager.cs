@@ -158,11 +158,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Response_Gacha");
 
         // TODO : 현재 임시로 TestDB에서 캐릭터 정보 가져와서
-
         Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1);
         UserDataManager.Inst.SetCharacter(newChar);
 
-        GachaInfoPopup.Inst.SetGachaResultInfoPopup(newChar);
+
+        GachaUI.Inst.SetGachaReult(newChar);
+        //GachaInfoPopup.Inst.SetGachaResultInfoPopup(newChar);
     }
 
     public void Response_GetPartnerInfo()
