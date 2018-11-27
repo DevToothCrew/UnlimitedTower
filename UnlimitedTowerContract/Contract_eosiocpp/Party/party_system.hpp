@@ -21,6 +21,7 @@ class cparty_system
     const uint32_t max_monster_slot = 10;
     const uint32_t hero_party_location = 2;
     const uint32_t max_hero_slot = 3;
+    const uint32_t max_total_member = 10;
     public:
         cparty_system(account_name _self,
         clogin_system &_login_controller,

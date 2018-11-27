@@ -155,7 +155,7 @@ class crule_system
         {
             monster_id_rule.emplace(owner,[&](auto &a)
             {
-                a.m_id = monster_id_rule.available_primary_key() + monster_id_count;
+                a.m_id = monster_id_rule.available_primary_key();
             });
         }
         for (uint8_t i = 0; i < item_id_count; ++i)
