@@ -9,7 +9,7 @@ public class Droppable :
     MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 // 드롭 조작을 제어하기 위한 인터페이스를 상속한다
 {
-    #region OnPointerEnterメソッドの実装
+    #region OnPointerEnter
     // 드롭 영역에 표시되어 있는 아이콘
     [SerializeField] private Image iconImage;
     // 드롭 영역에 표시되어 있는 아이콘의 하이라이트 색
@@ -31,11 +31,12 @@ public class Droppable :
         {
             // 드래그 중이라며 드롭 영역에 표시되어 있는 아이콘 색을 하이라이트 색으로 변경한다
             iconImage.color = highlightedColor;
+            Debug.Log("OnPointerEnter Color : " + iconImage.color.ToString());
         }
     }
     #endregion
 
-    #region OnPointerExitメソッドの実装    
+    #region OnPointerExit   
     public void OnPointerExit(PointerEventData pointerEventData)
     {
         if (pointerEventData.dragging)
@@ -46,15 +47,22 @@ public class Droppable :
     }
     #endregion
 
-    #region OnDropメソッドの実装
+    #region OnDrop
     public void OnDrop(PointerEventData pointerEventData)
     {
         // 드래그하고 있었던 아이콘의 Image 컴포넌트를 가져온다
         Image droppedImage = pointerEventData.pointerDrag.GetComponent<Image>();
         // 드롭 영역에 표시되어 있는 아이콘의 스프라이트를
         // 드롭된 아이콘과 동일한 스프라이트로 변경하고 색을 본래 색으로 되돌린다
-        iconImage.sprite = droppedImage.sprite;
+
+
+        gameObject.GetComponent<Image>().sprite = droppedImage.sprite;
+
+        //iconImage.sprite = droppedImage.sprite;
         iconImage.color = normalColor;
+
+        Debug.Log("드랍 : " + iconImage.sprite.name + ", 이미지 색상 : " + iconImage.color);
+
     }
     #endregion
 }

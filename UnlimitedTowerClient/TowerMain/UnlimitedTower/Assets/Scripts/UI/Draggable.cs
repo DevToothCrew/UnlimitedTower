@@ -4,12 +4,12 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine;
 
-//[RequireComponent(typeof(Image))]
+[RequireComponent(typeof(Image))]
 public class Draggable :
     MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 // 드래그 조작을 제어하기 위한 인터페이스를 상속
 {
-    #region ドラッグ中のアイコンの位置を設定するメソッドの実装
+    #region 
     [SerializeField]
     private Vector2 draggingOffset = new Vector2(0.0f, 40.0f);  // 드래그 중인 아이콘의 오프셋
     private GameObject draggingObject;                          // 드래그 중인 아이콘의 게임 오브젝트
@@ -31,12 +31,16 @@ public class Draggable :
                 // 드래그 중인 아이콘의 위치를 설정한다
                 draggingObject.transform.position = newPos;
                 draggingObject.transform.rotation = canvasRectTransform.rotation;
+
+                Color color = draggingObject.GetComponent<Image>().color;
+                color.a = 0.5f;
+                draggingObject.GetComponent<Image>().color = color;
             }
         }
     }
     #endregion
 
-    #region OnBeginDragメソッドの実装
+    #region OnBeginDrag
     public void OnBeginDrag(PointerEventData pointerEventData)
     {
         if (draggingObject != null)
