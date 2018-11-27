@@ -4,8 +4,8 @@
 #pragma region test staice enum
 enum object_type
 {
-    max_monster_type_id = 50,
-    max_servant_type_id = 100,
+    monster_type_id = 50,
+    servant_type_id = 100,
 };
 #pragma endregion
 
@@ -16,6 +16,11 @@ class cparty_system
         clogin_system &login_controller;
         cgacha_system &gacha_controller;
         user_party_table party_list;
+    public:
+    const uint32_t max_servant_slot = 5;
+    const uint32_t max_monster_slot = 10;
+    const uint32_t hero_party_location = 2;
+    const uint32_t max_hero_slot = 3;
     public:
         cparty_system(account_name _self,
         clogin_system &_login_controller,
@@ -55,30 +60,27 @@ class cparty_system
         }
         void set_hero(account_name _user,uint32_t _party_number,uint8_t _character_slot)
         {
-            //캐릭터 슬롯을 히어로의 아이디로 사용한다.
-            //2번은 히어로의 위치
             auto party_find_iter = party_list.find(_user);
             eosio_assert(party_find_iter != party_list.end(),"not exist party list");
+            eosio_assert(_character_slot < max_hero_slot,"not hero index");
             party_list.modify(party_find_iter,owner,[&](auto& new_party_hero)
             {
-                new_party_hero.p_party_list[_party_number].object_id_list[2] = _character_slot;
+                new_party_hero.p_party_list[_party_number].object_id_list[hero_party_location] = _character_slot;
             });
         }
         void set_party(account_name _user,uint8_t _party_number,uint8_t _party_location_index,uint32_t _object_type,uint64_t _object_index)
         {  
-            //need to hero setting
-            eosio_assert(_party_location_index != 2,"this location only hero");
+            eosio_assert(_party_location_index != hero_party_location,"this location only hero");
             
             auto party_find_iter = party_list.find(_user);
             eosio_assert(party_find_iter != party_list.end(),"not exist party list");
 
-            const auto &party_get_iter = party_list.get(_user);
             uint32_t mid = 0;
             uint32_t left = 0;
             uint32_t right = 0;
-            if(_party_location_index < 5)
+            if(_party_location_index < max_servant_slot)
             {
-                eosio_assert(_object_type > max_monster_type_id,"this location only servant");
+                eosio_assert(_object_type == servant_type_id,"this location only servant");
                 bool l_use_index = false;
                 auto &servants = gacha_controller.get_servant_table();
                 const auto &servant_info = servants.get(_user);
@@ -100,14 +102,12 @@ class cparty_system
                         right = mid - 1;
                     }
                 }
-                if(l_use_index == false)
+                eosio_assert(l_use_index==true ,"not exist servent id");
+                for(uint32_t i =0; i<max_servant_slot;++i)
                 {
-                    return;
-                }
-                for(uint32_t i =0; i<5;++i)
-                {
-                    if(party_get_iter.p_party_list[_party_number].object_id_list[i] == _object_index)
+                    if(party_find_iter->p_party_list[_party_number].object_id_list[i] == _object_index)
                     {
+                        //해당 인덱스 번호를 가진 서번트가 기존 파티에 배정이 되어 있을 경우
                         party_list.modify(party_find_iter,owner,[&](auto &new_member)
                         {
                             new_member.p_party_list[_party_number].object_id_list[i] = 0;
@@ -122,7 +122,7 @@ class cparty_system
             }
             else
             {
-                eosio_assert(_object_type < max_monster_type_id,"this location only monster");
+                eosio_assert(_object_type == monster_type_id,"this location only monster");
                 bool l_use_index = false;
                 auto &monsters = gacha_controller.get_monster_table();
                 const auto &monster_info = monsters.get(_user);
@@ -145,14 +145,12 @@ class cparty_system
                         right = mid - 1;
                     }
                 }
-                if (l_use_index == false)
+                eosio_assert(l_use_index==true ,"not exist monster id");
+                for (uint32_t i = max_servant_slot; i < max_monster_slot; ++i)
                 {
-                    return;
-                }
-                for (uint32_t i = 5; i < 10; ++i)
-                {
-                    if (party_get_iter.p_party_list[_party_number].object_id_list[i] == _object_index)
+                    if (party_find_iter->p_party_list[_party_number].object_id_list[i] == _object_index)
                     {
+                         //해당 인덱스 번호를 가진 몬스터가 기존 파티에 배정이 되어 있을 경우
                         party_list.modify(party_find_iter, owner, [&](auto &new_member) {
                             new_member.p_party_list[_party_number].object_id_list[i] = 0;
                             new_member.p_party_list[_party_number].object_id_list[_party_location_index] = _object_index;
@@ -171,8 +169,7 @@ class cparty_system
             auto log_find_iter = log.find(_user);
             eosio_assert(log_find_iter != log.end(),"not find user information to log");
 
-            const auto &log_get_iter = log.get(_user);
-            uint32_t l_p_count = log_get_iter.l_party_count;
+            uint32_t l_p_count = log_find_iter->l_party_count;
             l_p_count++;
             log.modify(log_find_iter,owner,[&](auto &add_count)
             {

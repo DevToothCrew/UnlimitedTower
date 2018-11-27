@@ -16,6 +16,7 @@ class cbattle_system
     const uint32_t oper_attack = 2;
     const uint32_t oper_defense = 1;
     const uint32_t oper_critical = 1;
+    const uint32_t hero_party_location = 2;
       public:
         cbattle_system(account_name _self,
         cparty_system &_party_controller,
@@ -98,7 +99,7 @@ class cbattle_system
             battles.modify(cur_player_iter, owner, [&](auto &new_user) {
                 for (uint32_t i = 0; i < 5; ++i)
                 {
-                    if(i==2) //히어로 능력치 셋팅
+                    if(i==hero_party_location) //히어로 능력치 셋팅
                     {
                         uint32_t hero_slot = party_get_iter.p_party_list[_party_number].object_id_list[i];
                         new_user.b_my_party_list[i].party_object_index = hero_slot;
@@ -200,7 +201,7 @@ class cbattle_system
                                 new_user.b_my_party_list[i].attack = monster_get_iter.m_monster_list[j].m_status_info.dexterity * oper_attack;
                                 new_user.b_my_party_list[i].speed = 40;
                             }
-                            else if (monster_get_iter.m_monster_list[j].m_type_index > 10 && monster_get_iter.m_monster_list[j].m_type_index < 20)
+                            else if (monster_get_iter.m_monster_list[j].m_type_index > 20 && monster_get_iter.m_monster_list[j].m_type_index < 30)
                             {
                                 new_user.b_my_party_list[i].attack = monster_get_iter.m_monster_list[j].m_status_info.intelligence * oper_attack;
                                 new_user.b_my_party_list[i].speed = 50;
