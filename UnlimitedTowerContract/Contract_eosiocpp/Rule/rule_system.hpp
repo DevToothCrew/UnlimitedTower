@@ -88,10 +88,10 @@ class crule_system
 
         l_seed = (_seed >> (2 * _random_count));
         l_result = l_seed % _range;
-        print("r_count : ", _random_count, "\n");
-        print("l_seed : ", l_seed, "\n");
-        print("l_result : ", l_result, "\n");
-        print("-------------------------------\n");
+        // print("r_count : ", _random_count, "\n");
+        // print("l_seed : ", l_seed, "\n");
+        // print("l_result : ", l_result, "\n");
+        // print("-------------------------------\n");
         if (l_result < _min)
         {
             return l_result += _min;

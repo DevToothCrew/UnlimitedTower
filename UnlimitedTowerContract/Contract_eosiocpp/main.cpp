@@ -56,9 +56,12 @@
         //@abi action
         void datainit()
         {
-            //login_controller.init_static_data();
-            //login_controller.init_stage_data();
             rule_controller.init_data();
+        }
+        //@abi action
+        void stageinit()
+        {
+            login_controller.init_stage_data();
         }
 #pragma endregion
 
@@ -152,6 +155,10 @@
 #pragma endregion
 
 #pragma resion Party
+        void sethero(account_name _user,uint32_t _party_number,uint8_t _character_slot)
+        {
+            party_controller.set_hero(_user,_party_number,_character_slot);
+        }
         //@abi action
         void setparty(account_name _user,uint8_t _party_number,uint8_t _party_location_index,uint32_t _object_type,uint64_t _object_index)
         {
@@ -228,4 +235,4 @@ extern "C" { \
 }
 
 
-    EOSIO_ABI(cmain_logic,(datainit)(signup)(lookset)(statset)(changestatus)(transfer)(gacha)(setbattle)(startbattle)(activeturn)(setparty)(sellitem)(buyitem)(equipser)(unequipser)(equiphero)(unequiphero) )
+    EOSIO_ABI(cmain_logic,(datainit)(stageinit)(signup)(lookset)(statset)(changestatus)(transfer)(gacha)(setbattle)(startbattle)(activeturn)(sethero)(setparty)(sellitem)(buyitem)(equipser)(unequipser)(equiphero)(unequiphero) )
