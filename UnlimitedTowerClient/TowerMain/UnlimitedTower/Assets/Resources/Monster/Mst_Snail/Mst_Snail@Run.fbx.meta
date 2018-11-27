@@ -1,0 +1,179 @@
+fileFormatVersion: 2
+guid: eff12f81e29ac4846903a32112c61d20
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: foot_L
+    100002: foot_R
+    100004: forearm_L
+    100006: forearm_R
+    100008: hand_L
+    100010: hand_R
+    100012: heel_02_L
+    100014: heel_02_R
+    100016: metarig
+    100018: mst_snail
+    100020: //RootNode
+    100022: mst_snail_001
+    100024: shin_L
+    100026: shin_R
+    100028: shoulder_L
+    100030: shoulder_R
+    100032: spine
+    100034: spine_001
+    100036: spine_002
+    100038: spine_003
+    100040: spine_004
+    100042: spine_005
+    100044: spine_006
+    100046: thigh_L
+    100048: thigh_R
+    100050: toe_L
+    100052: toe_R
+    100054: upper_arm_L
+    100056: upper_arm_R
+    400000: foot_L
+    400002: foot_R
+    400004: forearm_L
+    400006: forearm_R
+    400008: hand_L
+    400010: hand_R
+    400012: heel_02_L
+    400014: heel_02_R
+    400016: metarig
+    400018: mst_snail
+    400020: //RootNode
+    400022: mst_snail_001
+    400024: shin_L
+    400026: shin_R
+    400028: shoulder_L
+    400030: shoulder_R
+    400032: spine
+    400034: spine_001
+    400036: spine_002
+    400038: spine_003
+    400040: spine_004
+    400042: spine_005
+    400044: spine_006
+    400046: thigh_L
+    400048: thigh_R
+    400050: toe_L
+    400052: toe_R
+    400054: upper_arm_L
+    400056: upper_arm_R
+    2100000: palette__mst_snail_png
+    4300000: mst_snail_001
+    4300002: mst_snail
+    7400000: Run
+    7400002: Run
+    9500000: //RootNode
+    13700000: mst_snail
+    13700002: mst_snail_001
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Run
+      takeName: mixamo.com
+      firstFrame: 0
+      lastFrame: 35
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

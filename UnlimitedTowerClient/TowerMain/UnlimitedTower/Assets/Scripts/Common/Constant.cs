@@ -344,12 +344,18 @@ public enum CHARACTER_NUM
     Mst_Card_Green,
     Mst_Card_Red,
     Mst_Card_Yellow,
-    Mst_Robot,           
+    Mst_Robot,
+    Mst_Robot_2,
     Mst_Gangsi,         
     Mst_Zombie ,         
     Mst_DarkKnight,      
     Mst_BirdMan,         
-    Mst_ShadowCat
+    Mst_ShadowCat,
+    Mst_Minotaurus,
+    Mst_Meka,
+    Mst_Snail
+
+
 }
 
 public enum CHARACTER_JOB

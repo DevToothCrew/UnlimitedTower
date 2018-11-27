@@ -29,6 +29,9 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public void Awake()
     {
+        Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1);
+        UserDataManager.Inst.SetCharacter(newChar);
+        UserDataManager.Inst.AddNewCharImage(newChar.Name);
         InitFlag();
         // TODO : 확실히 필요없다고 판단되면 삭제할것
         //LobbyBackGround.SetActive(true);
