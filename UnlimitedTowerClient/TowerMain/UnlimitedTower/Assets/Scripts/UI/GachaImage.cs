@@ -55,7 +55,6 @@ public class GachaImage : MonoSingleton<GachaImage>
         while (LightEffectCircle01Animator.GetCurrentAnimatorStateInfo(0).IsName("Wave") &&
       LightEffectCircle01Animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
 
-
         GachaImageAnimator.SetBool("Play", true);
         yield return StartCoroutine("FADE_OUT");
     }
