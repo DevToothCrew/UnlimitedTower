@@ -34,7 +34,7 @@ public class Draggable :
 
                 Color color = draggingObject.GetComponent<Image>().color;
                 color.a = 0.5f;
-                draggingObject.GetComponent<Image>().color = color;
+                draggingObject.GetComponent<Image>().color = color;            
             }
         }
     }
@@ -43,6 +43,7 @@ public class Draggable :
     #region OnBeginDrag
     public void OnBeginDrag(PointerEventData pointerEventData)
     {
+        Debug.Log("드래그 시작");
         if (draggingObject != null)
         {
             Destroy(draggingObject);
@@ -63,7 +64,7 @@ public class Draggable :
         CanvasGroup canvasGroup = draggingObject.AddComponent<CanvasGroup>();
         canvasGroup.blocksRaycasts = false;
 
-        // 드래그 중인 아이콘의 게임 오브젝트에 Image 컴포넌트를 어태치한다
+        // 드래그 중인 아이콘의 게임 오브젝트에 Image 컴포넌트를 부착한다.
         Image draggingImage = draggingObject.AddComponent<Image>();
         // 본래 아이콘과 동일한 외양을 설정한다
         draggingImage.sprite = sourceImage.sprite;
@@ -83,6 +84,7 @@ public class Draggable :
     public void OnDrag(PointerEventData pointerEventData)
     {
         UpdateDraggingObjectPos(pointerEventData);
+        Debug.Log("드래그 중");
     }
     #endregion
 
