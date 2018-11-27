@@ -150,9 +150,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                 break;
 
             case LOBBY_RIGHT_BUTTON.Gacha:
-                // GachaInfoPopup.SetActive(true);
+                GachaScene.SetActive(true);
 
-              
                 RightPopup.SetActive(false);
                 TowerGrid.SetActive(false);
                 CenterPopup.SetActive(false);
@@ -160,7 +159,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                 BaseBackground.SetActive(false);
                 CloudImage.SetActive(false);
 
-                GachaScene.SetActive(true);
                 break;
 
             case LOBBY_RIGHT_BUTTON.Stage:
