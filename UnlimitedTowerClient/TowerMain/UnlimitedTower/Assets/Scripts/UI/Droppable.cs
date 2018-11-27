@@ -17,6 +17,9 @@ public class Droppable :
     // 드롭 영역에 표시하고 있는 아이콘의 본래 색
     private Color normalColor;
 
+
+    public GameObject bodyObject;
+
     // 인스턴스를 로드할 때 Awake 메서드가 처리된 다음에 호출된다
     void Start()
     {
@@ -52,11 +55,15 @@ public class Droppable :
     {
         // 드래그하고 있었던 아이콘의 Image 컴포넌트를 가져온다
         Image droppedImage = pointerEventData.pointerDrag.GetComponent<Image>();
+        // 드랍했을 때 드랍한 본체를 알아야한다.
+
         // 드롭 영역에 표시되어 있는 아이콘의 스프라이트를
         // 드롭된 아이콘과 동일한 스프라이트로 변경하고 색을 본래 색으로 되돌린다
 
-
+        // 스프라이트를 넣어준다.
         gameObject.GetComponent<Image>().sprite = droppedImage.sprite;
+
+       // Debug.Log("확인 : " + pointerEventData.gameObject.name);
 
         //iconImage.sprite = droppedImage.sprite;
         iconImage.color = normalColor;
