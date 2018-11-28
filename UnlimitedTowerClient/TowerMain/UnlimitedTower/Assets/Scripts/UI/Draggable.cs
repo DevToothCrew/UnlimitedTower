@@ -49,6 +49,10 @@ public class Draggable :
             Destroy(draggingObject);
         }
 
+        // 캐릭터 리스트와 딕셔너리에 저장된 캐릭터 정보를
+        // 일치시켜야할듯.
+        UserDataManager.Inst.PutChar = gameObject;
+
         // 본래 아이콘의 Image 컴포넌트를 가져온다
         Image sourceImage = GetComponent<Image>();
 
@@ -91,6 +95,7 @@ public class Draggable :
     #region OnEndDrag 메서드 본체
     public void OnEndDrag(PointerEventData pointerEventData)
     {
+        UserDataManager.Inst.PutChar = null;
         Destroy(draggingObject);
     }
     #endregion
