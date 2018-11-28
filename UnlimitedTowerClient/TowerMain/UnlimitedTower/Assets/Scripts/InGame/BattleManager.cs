@@ -480,6 +480,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
                     playerObjects[formationNum].transform.SetParent(PlayerParty.transform.transform, false);
                     if (playerObjects[formationNum].GetComponent<CharController>())
                     {
+                        playerObjects[formationNum].GetComponent<CharController>().status = status;
                         playerObjects[formationNum].GetComponent<CharController>().charType = CHAR_TYPE.PLAYER;
                         playerObjects[formationNum].GetComponent<CharController>().charSize = status.sizeType;
 
@@ -511,6 +512,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
                     enemyObjects[i].transform.SetParent(EnemyParty.transform.transform, false);
                     if (enemyObjects[i].GetComponent<CharController>())
                     {
+                        enemyObjects[i].GetComponent<CharController>().status = status;
                         enemyObjects[i].GetComponent<CharController>().charType = CHAR_TYPE.ENEMY;
                         enemyObjects[i].GetComponent<CharController>().battleDicIndex = i;
                         enemyObjects[i].GetComponent<CharController>().charSize = status.sizeType;
@@ -900,8 +902,4 @@ public class BattleManager : MonoSingleton<BattleManager> {
         CreateGameObject();
         SetTurnSpeed();
     }
-}
-
-public class DecreaseHpDelegate
-{
 }

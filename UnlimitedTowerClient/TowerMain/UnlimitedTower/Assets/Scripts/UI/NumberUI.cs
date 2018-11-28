@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class NumberUI : MonoBehaviour
 {
-    private readonly float _COMPLETE_THRESHOLD = 1.01f;
+    private readonly float _COMPLETE_THRESHOLD = 1.00f;
 
     public AnimationCurve animationAlphaCurve;
     public AnimationCurve animationTransformCurve;
 
-    public float animationDuration;
-    public float animationMoveUpAmount;
+    public float animationDuration = 1.0f;
+    public float animationMoveUpAmount = 1.0f;
 
     // animation times
     private float currAnimationTime = 0.0f;
@@ -36,7 +36,9 @@ public class NumberUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float t = currAnimationTime / animationDuration;
+        float t = Mathf.Clamp01(currAnimationTime / animationDuration);
+
+        Debug.Log(t);
 
         if (t < _COMPLETE_THRESHOLD)
         {
