@@ -4,6 +4,26 @@ using UnityEngine;
 public class CharController : MonoBehaviour
 {
     
+    private Battle_Character_Status _status = null;
+    // for lazy setting
+    public Battle_Character_Status status {
+        set {
+
+            if(_status == null && healthGaze != null)
+            {
+                healthGaze.SetMaxHealth(value.maxHp);
+                UpdateHealthUI = () =>
+                {
+                    healthGaze.SetHealth(value.nowHp);
+                };
+            }
+            _status = value;
+        }
+        get {
+            return _status;
+        }
+    }
+
     private Vector3 charMovement;
     private Vector3 charDirection;
     private Vector3 charFirstDirection;
@@ -24,9 +44,25 @@ public class CharController : MonoBehaviour
 
     public GameObject QuadSelectionObject;
 
-   
+
+    #region UIs
+
+    static private readonly string _HEALTHGAZE_PREFAB_PATH = "Prefabs/UIs/HealthGaze";
+    static private GameObject prefHealthGaze = null;
+
+    private InGameCharHealthGaze healthGaze = null;
+    private System.Action UpdateHealthUI = null;
+    #endregion
+
     private void Awake()
     {
+        //create health gaze on individual char / and init
+        prefHealthGaze = prefHealthGaze ?? Resources.Load(_HEALTHGAZE_PREFAB_PATH) as GameObject;
+        var goHealthGaze = Instantiate(prefHealthGaze, transform) as GameObject;
+
+        healthGaze = goHealthGaze != null ? goHealthGaze.GetComponent<InGameCharHealthGaze>() : null;
+
+        //value setup from component
         charTransform = GetComponent<Transform>();
         charAnimator = GetComponent<Animator>();
         charFirstDirection = charTransform.forward;
@@ -36,6 +72,13 @@ public class CharController : MonoBehaviour
 
         stateType = STATE_TYPE.IDLE; 
     }
+
+    private void Update()
+    {
+        if (UpdateHealthUI != null)
+            UpdateHealthUI();
+    }
+
     public void SetFirstPosition()
     {
         charFirsrPos = charTransform.position;
