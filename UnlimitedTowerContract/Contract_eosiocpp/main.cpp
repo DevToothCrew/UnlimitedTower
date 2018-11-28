@@ -1,9 +1,4 @@
 #include "Common/common_header.hpp"
-// #include "BackupTable/global_info.hpp"
-// #include "BackupTable/account_info.hpp"
-// #include "BackupTable/hero_info.hpp"
-// #include "BackupTable/monster_info.hpp"
-// #include "BackupTable/party_info.hpp"
 
 #define MAINTENANCE 0
 
@@ -229,6 +224,8 @@ extern "C" { \
             }\
         } \
         else if (code == N(eosio.token) && action == N(transfer) ) {\
+        // eos 금액에 대해 체크 하는 함수
+
             execute_action(&thiscontract, &cmain_logic::transfer);\
         }\
     } \

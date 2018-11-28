@@ -258,6 +258,8 @@ class cbattle_system
             auto cur_player_iter = battles.find(_user);
             battles.modify(cur_player_iter,owner,[&](auto &battle_state)
             {
+                std::sort(battle_state.b_my_party_list.begin(),battle_state.b_my_party_list.end(),
+                [](scharacter_info a,scharacter_info b){return a.speed > b.speed;});
                 battle_state.b_turn_count++;
                 uint64_t l_user_action_seed = tapos_block_num() * tapos_block_prefix() * now();
                 uint64_t l_user_attack_seed = tapos_block_num() * tapos_block_prefix() * now();
