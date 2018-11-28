@@ -119,6 +119,8 @@ public class Character
     public int Index;
     public int Appear;
 
+    public bool OnFormation = false;
+
     public Character(int getExp, int getLv, int getStr, int getDex, int getInt, 
         int getJob, string getName, int getChartIndex, SIZE_TYPE getSizeType)
     {

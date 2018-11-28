@@ -159,6 +159,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         // TODO : 현재 임시로 TestDB에서 캐릭터 정보 가져와서
         Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1);
+        // 가챠의 결과로 나온 캐릭터 정보를 저장한다.
         UserDataManager.Inst.SetCharacter(newChar);
         UserDataManager.Inst.AddNewCharImage(newChar.Name);
 

@@ -68,6 +68,10 @@ public class Droppable :
         //iconImage.sprite = droppedImage.sprite;
         iconImage.color = normalColor;
 
+        Color color = UserDataManager.Inst.PutChar.GetComponent<Image>().color;
+        color.r = color.g = color.b = 0.35f;
+        UserDataManager.Inst.PutChar.GetComponent<Image>().color = color;
+
         Debug.Log("드랍 : " + iconImage.sprite.name + ", 이미지 색상 : " + iconImage.color);
 
     }

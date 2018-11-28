@@ -13,11 +13,18 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public Dictionary<int, Character> characterDic = new Dictionary<int, Character>();
     public Dictionary<int, Character> formationDic = new Dictionary<int, Character>();
 
+    public List<int> fomationList = new List<int>();
+    public GameObject PutChar;
+
     public List<int> userCharsKeyList = new List<int>();
     public List<int> formationOrderList = new List<int>()
     {
         2, 1, 3, 0, 4, 7, 6, 8, 5, 9
     };
+
+    // 캐릭터 딕셔너리에 이 캐릭터가 포메이션에 들어가 있는지
+    // 확인할 필요가 있을거 같다.
+
 
 
     // TODO : 확실히 필요없다고 판단되면 삭제할것
@@ -30,6 +37,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public void Awake()
     {
         Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1);
+
+        //TODO :  Test 
         UserDataManager.Inst.SetCharacter(newChar);
         UserDataManager.Inst.AddNewCharImage(newChar.Name);
         InitFlag();
@@ -97,6 +106,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         return characterIndex;
     }
 
+    // 새로운 캐릭터를 dic에 저장한다.
     public void SetCharacter(Character newChar)
     {
        
@@ -115,6 +125,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     {
         int charDicCount = characterDic.Count;
 
+        // 캐릭터 개수만큼 캐릭터 목록을 다시 불러온다.
         for (int i = 0; i < charDicCount; i++)
         {
             var instance = Instantiate(Resources.Load("Prefabs/CharElement") as GameObject);
