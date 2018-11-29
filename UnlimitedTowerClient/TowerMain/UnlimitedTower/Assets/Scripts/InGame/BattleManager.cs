@@ -478,7 +478,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
     {
         // 내 캐릭터를 먼저 배치함으로써(중앙에 있는 캐릭터 기준으로 그 외 캐릭터들이 배치된다)
         // 생길수 있는 버그를 막는다.
-        SetHero();
+        //SetHero();
 
         for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
         {
@@ -495,19 +495,19 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
 
 
-            if(playerStatusDic.ContainsKey(i))
-            {
-                Debug.Log("주인공 이미 배치");
-                continue;
-            }
+            //if(playerStatusDic.ContainsKey(i))
+            //{
+            //    Debug.Log("주인공 이미 배치");
+            //    continue;
+            //}
 
 
             int formationNum = -1;
             int charKey = -1;
-            if (UserDataManager.Inst.formationDic.ContainsKey(i))
+            if (UserDataManager.Inst.formationDic.ContainsKey(UserDataManager.Inst.formationOrderList[i]))
             {
-                formationNum = i;
-                charKey = UserDataManager.Inst.formationDic[i];
+                formationNum = UserDataManager.Inst.formationOrderList[i];
+                charKey = UserDataManager.Inst.formationDic[UserDataManager.Inst.formationOrderList[i]];
             }
             else
             {
