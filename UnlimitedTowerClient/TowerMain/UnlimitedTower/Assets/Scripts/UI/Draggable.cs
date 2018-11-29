@@ -43,7 +43,7 @@ public class Draggable :
     #region OnBeginDrag
     public void OnBeginDrag(PointerEventData pointerEventData)
     {
-        Debug.Log("드래그 시작");
+        //Debug.Log("드래그 시작");
         if (draggingObject != null)
         {
             Destroy(draggingObject);
@@ -61,6 +61,7 @@ public class Draggable :
         // 본래 아이콘의 캔버스의 자식요소로 종속시키고 맨 앞쪽에 표시한다
         draggingObject.transform.SetParent(sourceImage.canvas.transform);
         draggingObject.transform.SetAsLastSibling();
+        draggingObject.AddComponent<CharListContent>().CharDicKey = gameObject.GetComponent<CharListContent>().CharDicKey;
         draggingObject.transform.localScale = Vector3.one;
 
         // Canvas Group 컴포넌트의 Block Raycasts 속성을 사용하여
@@ -88,7 +89,7 @@ public class Draggable :
     public void OnDrag(PointerEventData pointerEventData)
     {
         UpdateDraggingObjectPos(pointerEventData);
-        Debug.Log("드래그 중");
+       // Debug.Log("드래그 중");
     }
     #endregion
 
