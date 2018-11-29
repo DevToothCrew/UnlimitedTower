@@ -34,7 +34,7 @@ public class Droppable :
         {
             // 드래그 중이라며 드롭 영역에 표시되어 있는 아이콘 색을 하이라이트 색으로 변경한다
             iconImage.color = highlightedColor;
-            Debug.Log("OnPointerEnter Color : " + iconImage.color.ToString());
+            //Debug.Log("OnPointerEnter Color : " + iconImage.color.ToString());
         }
     }
     #endregion
@@ -53,6 +53,21 @@ public class Droppable :
     #region OnDrop
     public void OnDrop(PointerEventData pointerEventData)
     {
+        int charIndex = UserDataManager.Inst.PutChar.GetComponent<CharListContent>().CharDicKey;
+        int deckNum = gameObject.GetComponent<FormationDeck>().DeckNum;
+
+        for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
+        {
+            if (UserDataManager.Inst.formationDic.ContainsValue(charIndex))
+            {
+                return;
+            }
+        }
+        UserDataManager.Inst.formationDic.Add(deckNum, charIndex);
+
+        Debug.Log("UserDataManager.Inst.formationDic : " + deckNum + " " + charIndex);
+
+
         // 드래그하고 있었던 아이콘의 Image 컴포넌트를 가져온다
         Image droppedImage = pointerEventData.pointerDrag.GetComponent<Image>();
         // 드랍했을 때 드랍한 본체를 알아야한다.
@@ -63,6 +78,16 @@ public class Droppable :
         // 스프라이트를 넣어준다.
         gameObject.GetComponent<Image>().sprite = droppedImage.sprite;
 
+
+        
+
+       
+
+     
+
+        
+        
+
        // Debug.Log("확인 : " + pointerEventData.gameObject.name);
 
         //iconImage.sprite = droppedImage.sprite;
@@ -72,7 +97,7 @@ public class Droppable :
         color.r = color.g = color.b = 0.35f;
         UserDataManager.Inst.PutChar.GetComponent<Image>().color = color;
 
-        Debug.Log("드랍 : " + iconImage.sprite.name + ", 이미지 색상 : " + iconImage.color);
+        //Debug.Log("드랍 : " + iconImage.sprite.name + ", 이미지 색상 : " + iconImage.color);
 
     }
     #endregion

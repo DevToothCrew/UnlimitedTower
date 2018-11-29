@@ -11,7 +11,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public SCENE_STATE sceneState = SCENE_STATE.None;
 
     public Dictionary<int, Character> characterDic = new Dictionary<int, Character>();
-    public Dictionary<int, Character> formationDic = new Dictionary<int, Character>();
+    public Dictionary<int, int> formationDic = new Dictionary<int, int>();
 
     public List<int> fomationList = new List<int>();
     public GameObject PutChar;
@@ -22,8 +22,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         2, 1, 3, 0, 4, 7, 6, 8, 5, 9
     };
 
-    // 캐릭터 딕셔너리에 이 캐릭터가 포메이션에 들어가 있는지
-    // 확인할 필요가 있을거 같다.
 
 
 
@@ -106,21 +104,20 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         return characterIndex;
     }
 
-    // 새로운 캐릭터를 dic에 저장한다.
-    public void SetCharacter(Character newChar)
-    {
-       
-        characterDic.Add(characterIndex, newChar);
-        characterIndex += 1;
-    }
-
     // TODO : Test Code if deleted
     public void SetChar(Dictionary<int, Character> getCharcterDic)
     {
         characterDic = getCharcterDic;
     }
 
+    // 새로운 캐릭터를 dic에 저장한다.
+    public void SetCharacter(Character newChar)
+    {
 
+        characterDic.Add(characterIndex, newChar);
+        characterIndex += 1;
+    }
+    // 로비로 되돌아 올때 캐릭터 리스트 다시 불러오는 함수
     public void LoadCharList()
     {
         int charDicCount = characterDic.Count;
@@ -137,16 +134,33 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
         }
     }
+
+    //딕셔너리 기준으로 0 1 2 3 5 ... 키 값 순으로 들어가있다.
+
+
+
+    // 캐릭터 딕셔너리에 이 캐릭터가 포메이션에 들어가 있는지
+    // 확인할 필요가 있을거 같다.
+
+    // 쉽게 말해서 하단 캐릭터 이미지가 내 캐릭터 정보를 시각화한것이라고 생각하면 될거 같다
+    // 즉, dic의 정보의 시각화를 하면될듯
+
+    // 근데 bat
     public void AddNewCharImage(string getChar)
     {
         var instance = Instantiate(Resources.Load("Prefabs/CharElement") as GameObject);
         if (instance.GetComponent<Image>())
         {
             instance.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + getChar);
-        }
-        instance.transform.SetParent(LobbyManager.Inst.CharacterListContent.transform.transform);
+            instance.GetComponent<CharListContent>().CharDicKey = characterIndex - 1;
 
-       SetFormation();
+            instance.transform.SetParent(LobbyManager.Inst.CharacterListContent.transform.transform);
+
+
+
+
+            SetFormation();
+        } 
     }
 
     // TODO : Test Code if deleted

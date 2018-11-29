@@ -120,6 +120,7 @@ public class Character
     public int Appear;
 
     public bool OnFormation = false;
+    public int FormationIndex = -1;
 
     public Character(int getExp, int getLv, int getStr, int getDex, int getInt, 
         int getJob, string getName, int getChartIndex, SIZE_TYPE getSizeType)
