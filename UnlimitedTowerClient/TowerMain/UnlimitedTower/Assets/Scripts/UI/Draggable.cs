@@ -51,7 +51,7 @@ public class Draggable :
 
         // 캐릭터 리스트와 딕셔너리에 저장된 캐릭터 정보를
         // 일치시켜야할듯.
-        UserDataManager.Inst.PutChar = gameObject;
+       
 
         // 본래 아이콘의 Image 컴포넌트를 가져온다
         Image sourceImage = GetComponent<Image>();
@@ -61,7 +61,11 @@ public class Draggable :
         // 본래 아이콘의 캔버스의 자식요소로 종속시키고 맨 앞쪽에 표시한다
         draggingObject.transform.SetParent(sourceImage.canvas.transform);
         draggingObject.transform.SetAsLastSibling();
+
         draggingObject.AddComponent<CharListContent>().CharDicKey = gameObject.GetComponent<CharListContent>().CharDicKey;
+        UserDataManager.Inst.PutChar = gameObject;
+
+
         draggingObject.transform.localScale = Vector3.one;
 
         // Canvas Group 컴포넌트의 Block Raycasts 속성을 사용하여
