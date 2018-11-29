@@ -494,6 +494,14 @@ public class BattleManager : MonoSingleton<BattleManager> {
             // 이거 해결해야할듯요.
 
 
+
+            if(playerStatusDic.ContainsKey(i))
+            {
+                Debug.Log("주인공 이미 배치");
+                continue;
+            }
+
+
             int formationNum = -1;
             int charKey = -1;
             if (UserDataManager.Inst.formationDic.ContainsKey(i))

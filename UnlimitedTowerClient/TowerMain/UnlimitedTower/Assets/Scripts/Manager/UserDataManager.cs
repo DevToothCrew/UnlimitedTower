@@ -24,6 +24,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         2, 1, 3, 0, 4, 7, 6, 8, 5, 9
     };
 
+    public int TestCharNum = 10;
 
 
 
@@ -36,11 +37,13 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public void Awake()
     {
-        Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1);
+       
 
         //TODO :  나의 캐릭터(무조건 존재하는 값)이라고 가정
-        //UserDataManager.Inst.SetCharacter(newChar);
-        //UserDataManager.Inst.AddNewCharImage(newChar.Name);
+       for(int i=0; i<TestCharNum; i++)
+        {
+            CreateChar();
+        }
 
 
         InitFlag();
@@ -48,6 +51,13 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         //LobbyBackGround.SetActive(true);
         //StageBackGround.SetActive(false);
         //StageList.SetActive(false);
+    }
+
+    void CreateChar()
+    {
+        Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1);
+        UserDataManager.Inst.SetCharacter(newChar);
+        UserDataManager.Inst.AddNewCharImage(newChar.Name);
     }
 
     public void InitFlag()
@@ -121,8 +131,19 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         characterDic.Add(characterIndex, newChar);
         characterIndex += 1;
     }
+    public void  LoadUserData()
+    {
+        LoadCharList();
+        LoadFormation();
+    }
+    private void LoadFormation()
+    {
+
+    }
+
+
     // 로비로 되돌아 올때 캐릭터 리스트 다시 불러오는 함수
-    public void LoadCharList()
+    private void LoadCharList()
     {
         int charDicCount = characterDic.Count;
 
