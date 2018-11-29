@@ -86,10 +86,10 @@ public class Droppable :
                     GameObject oldDeck = GetOldDeckObject(key);
                     if (oldDeck)
                     {
-                        if (oldDeck.GetComponent<Image>().sprite)
+                        if (oldDeck.transform.GetChild(0).GetComponent<Image>().sprite)
                         {
                             Debug.Log("이미지 교체");
-                            oldDeck.GetComponent<Image>().sprite = null;
+                            oldDeck.transform.GetChild(0).GetComponent<Image>().sprite = null;
                         }
                     }
 
@@ -102,9 +102,6 @@ public class Droppable :
                 return;
             }
 
-
-
-
         }
 
         UserDataManager.Inst.formationDic.Add(deckNum, charIndex);
@@ -114,25 +111,28 @@ public class Droppable :
 
         // 드래그하고 있었던 아이콘의 Image 컴포넌트를 가져온다
         Image droppedImage = pointerEventData.pointerDrag.GetComponent<Image>();
+
+
+
         // 드랍했을 때 드랍한 본체를 알아야한다.
 
         // 드롭 영역에 표시되어 있는 아이콘의 스프라이트를
         // 드롭된 아이콘과 동일한 스프라이트로 변경하고 색을 본래 색으로 되돌린다
 
         // 스프라이트를 넣어준다.
-        gameObject.GetComponent<Image>().sprite = droppedImage.sprite;
+        //gameObject.GetComponent<Image>().sprite = droppedImage.sprite;
+        gameObject.transform.GetChild(0).GetComponent<Image>().sprite = droppedImage.sprite;
 
 
-        
 
-       
 
-     
 
-        
-        
 
-       // Debug.Log("확인 : " + pointerEventData.gameObject.name);
+
+
+
+
+        // Debug.Log("확인 : " + pointerEventData.gameObject.name);
 
         //iconImage.sprite = droppedImage.sprite;
         iconImage.color = normalColor;
