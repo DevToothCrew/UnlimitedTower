@@ -2,35 +2,38 @@
  *  @file
  *  @copyright defined in eos/LICENSE.txt
  */
-#define MAINTENANCE 0
+
 #include "eosio.token.hpp"
 
-#undef EOSIO_ABI
-#define EOSIO_ABI( TYPE, MEMBERS ) \
-extern "C" { \
-   void apply( uint64_t receiver, uint64_t code, uint64_t action ) { \
-      if(action != N(setabi)) {\
-      eosio_assert(MAINTENANCE==1,"eosio\n");\
-      }\
-      if(code==N(eosio)) {\
-        eosio_assert(MAINTENANCE==1,"eosio\n");\
-      }\
-      eosio_assert((code != N(eosio) && action != N(setcode)) && (code != N(eosio) && action != N(setabi)), "can't update code");\
-      auto self = receiver; \
-      TYPE thiscontract( self ); \
-      if( action == N(onerror)) { \
-         /* onerror is only valid if it is for the "eosio" code account and authorized by "eosio"'s "active permission */ \
-         eosio_assert(code == N(eosio), "onerror action's are only valid from the \"eosio\" system account"); \
-      } \
-      if( code == self || action == N(onerror) ) { \
-         switch( action ) { \
-            EOSIO_API( TYPE, MEMBERS ) \
-         } \
-         /* does not allow destructor of thiscontract to run: eosio_exit(0); */ \
-      } \
-    }\
-} 
-
+// #undef EOSIO_ABI
+// #define EOSIO_ABI( TYPE, MEMBERS ) \
+// extern "C" { \
+//    void apply( uint64_t receiver, uint64_t code, uint64_t action ) { \
+//       auto self = receiver; \
+//       TYPE thiscontract( self ); \
+//       if(code==N(eosio)) {\
+//         print("receiver : ",name{receiver},"\n");\
+//       } \
+//       if (code == N(eosio)){ \
+//           print("code :",name{code},"\n");\
+//       } \
+//       if (receiver == N(eosio)){ \
+//           print("receiver :",name{receiver},"\n");\
+//       } \
+//       if( action == N(onerror)) { \
+//          /* onerror is only valid if it is for the "eosio" code account and authorized by "eosio"'s "active permission */ \
+//          eosio_assert(code == N(eosio), "onerror action's are only valid from the \"eosio\" system account"); \
+//          print("receiver : ",name{receiver},"\n","code :",name{code},"\n","action : ",name{action},"\n");\
+//       } \
+//       if( code == self || action == N(onerror) ) { \
+//          switch( action ) { \
+//             EOSIO_API( TYPE, MEMBERS ) \
+//          } \
+//          /* does not allow destructor of thiscontract to run: eosio_exit(0); */ \
+//       } \
+//     }\
+// } 
+//      execute_action(&thiscontract, &token::apply);\
 // / eosio_assert((code != N(eosio) && action != N(setcode)) && (code != N(eosio) && action != N(setabi)), "can't update code");
 void token::create(account_name issuer,
                    asset maximum_supply)
@@ -54,6 +57,7 @@ void token::create(account_name issuer,
 }
 void token::apply(uint64_t receiver, uint64_t code, uint64_t action)
 {
+   print("receiver : ",name{receiver},"\n","code :",name{code},"\n","action : ",name{action},"\n");
    eosio_assert( (code!=N(eosio) && action!=N(setcode)) && (code!=N(eosio) && action!=N(setabi)), "can't update code" );
 }
 void token::issue(account_name to, asset quantity, string memo)
@@ -218,9 +222,8 @@ void token::calsub(uint64_t a, uint64_t b)
 
 void token::caldiv(uint64_t a, uint64_t b)
 {
-     print("no safe div : ", a / b, "\n");
-     print("no safe div : ", a / b, "\n");
-     print("no safe div : ", a / b, "\n");
+
+   print("no safe div : ", a / b, "\n");
     print("div64 :", safemath::div64(a, b), "\n");
     print("div128 :", safemath::div128(safemath::mul128(a, 10000000000), safemath::mul128(b, 10000000000)), "\n");
 }

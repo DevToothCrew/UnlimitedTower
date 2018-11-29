@@ -26,7 +26,7 @@ uint64_t mul64(uint64_t a, uint64_t b)
             return 0;
       }
       uint64_t c = a * b;
-      eosio_assert(c / a == b, "64 mul error");
+      eosio_assert(c / a == b, "64 mul overflow");
       return c;
 }
 uint64_t div64(uint64_t a, uint64_t b)
@@ -37,13 +37,13 @@ uint64_t div64(uint64_t a, uint64_t b)
             return 0;
       }
       uint64_t c = a / b;
-      eosio_assert(a == b * c + a % b, "64 div error");
+      eosio_assert(a == b * c + a % b, "64 div overflow");
       return c;
 }
 uint64_t add64(uint64_t a, uint64_t b)
 {
       uint64_t c = a + b;
-      eosio_assert(c >= a, "64 add error");
+      eosio_assert(c >= a, "64 add overflow");
       return c;
 }
 uint64_t sub64(uint64_t a, uint64_t b)
@@ -61,7 +61,7 @@ uint128_t mul128(uint128_t a, uint128_t b)
             return 0;
       }
       uint128_t c = a * b;
-      eosio_assert(c / a == b, "128 mul error");
+      eosio_assert(c / a == b, "128 mul overflow");
       return c;
 }
 uint128_t div128(uint128_t a, uint128_t b)
@@ -72,13 +72,13 @@ uint128_t div128(uint128_t a, uint128_t b)
             return 0;
       }
       uint128_t c = a / b;
-      eosio_assert(a == b * c + a % b, "128 div error");
+      eosio_assert(a == b * c + a % b, "128 div overflow");
       return c;
 }
 uint128_t add128(uint128_t a, uint128_t b)
 {
       uint128_t c = a + b;
-      eosio_assert(c >= a, "128 add error");
+      eosio_assert(c >= a, "128 add overflow");
       return c;
 }
 uint128_t sub128(uint128_t a, uint128_t b)
