@@ -224,12 +224,10 @@ extern "C" { \
             }\
         } \
         else if (code == N(eosio.token) && action == N(transfer) ) {\
-        // eos 금액에 대해 체크 하는 함수
-
             execute_action(&thiscontract, &cmain_logic::transfer);\
         }\
     } \
 }
-
+// eos 금액에 대해 체크 하는 함
 
     EOSIO_ABI(cmain_logic,(datainit)(stageinit)(signup)(lookset)(statset)(changestatus)(transfer)(gacha)(setbattle)(startbattle)(activeturn)(sethero)(setparty)(sellitem)(buyitem)(equipser)(unequipser)(equiphero)(unequiphero) )

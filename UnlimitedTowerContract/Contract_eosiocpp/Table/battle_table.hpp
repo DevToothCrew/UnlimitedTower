@@ -17,6 +17,7 @@ struct scharacter_state
 //vector 개당 + 9
 struct scharacter_info
 {
+    uint32_t action;
     uint32_t speed;
     uint32_t critical;
     uint32_t defense;
@@ -25,8 +26,17 @@ struct scharacter_info
     std::vector<scharacter_state> state_list;
     uint64_t party_object_index = 0;
 };
+
+
 // 8 + 1 + 4 + 1 + 21 + 21 = 56
 //vector 당 21
+
+struct attack_speed
+{
+    uint32_t member_array_index;
+    uint32_t member_speed;
+};
+
 //@abi table cbattle i64
 class cbattle
 {
@@ -36,14 +46,16 @@ public:
     uint8_t b_turn_count;
     uint32_t b_stage_index;
     uint8_t b_party_number;
-    std::vector<scharacter_info> b_my_party_list;
-    std::vector<scharacter_info> b_enemy_party_list;
+    uint8_t b_preference;
+    std::vector<scharacter_info> b_battle_state_list;
+    std::vector<attack_speed> attack_order_list;
 public:
     cbattle() {
+        b_preference = 0;
         b_turn_count = 0;
         b_party_number = 0;
-        b_my_party_list.resize(10);
-        b_enemy_party_list.resize(10);
+        b_battle_state_list.resize(20);
+        attack_order_list.resize(20);
     }
     uint64_t primary_key() const {return b_user;}
     void battle_set_user(account_name _user) {b_user = _user;}
@@ -53,8 +65,9 @@ public:
         (b_turn_count)
         (b_stage_index)
         (b_party_number)
-        (b_my_party_list)
-        (b_enemy_party_list)
+        (b_preference)
+        (b_battle_state_list)
+        (attack_order_list)
     )
 };
 
