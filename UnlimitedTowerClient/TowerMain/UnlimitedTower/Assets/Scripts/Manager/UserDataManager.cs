@@ -38,9 +38,11 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     {
         Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1);
 
-        //TODO :  Test 
-        UserDataManager.Inst.SetCharacter(newChar);
-        UserDataManager.Inst.AddNewCharImage(newChar.Name);
+        //TODO :  나의 캐릭터(무조건 존재하는 값)이라고 가정
+        //UserDataManager.Inst.SetCharacter(newChar);
+        //UserDataManager.Inst.AddNewCharImage(newChar.Name);
+
+
         InitFlag();
         // TODO : 확실히 필요없다고 판단되면 삭제할것
         //LobbyBackGround.SetActive(true);

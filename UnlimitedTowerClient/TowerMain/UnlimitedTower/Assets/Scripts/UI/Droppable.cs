@@ -54,8 +54,20 @@ public class Droppable :
     #region OnDrop
     public void OnDrop(PointerEventData pointerEventData)
     {
-        int charIndex = UserDataManager.Inst.PutChar.GetComponent<CharListContent>().CharDicKey;
+        int charIndex = -1;
         int deckNum = gameObject.GetComponent<FormationDeck>().DeckNum;
+        if (UserDataManager.Inst.PutChar)
+        {
+            charIndex =  UserDataManager.Inst.PutChar.GetComponent<CharListContent>().CharDicKey;
+        }
+        else
+        {
+            Debug.Log("**********Error**********Not Find : PutChar GameObject");
+            return;
+        }
+
+
+       
 
 
         // 만약 이미 포메이션에 놓인 캐릭터가 있다면
@@ -65,26 +77,6 @@ public class Droppable :
             {
                 // 일단 캐릭터 인덱스가 dic에 있다는 것은 확인했다.
                 // 문제는 캐릭터 인덱스가 어느 키 값(어느 덱)인지를 확인하면 된다.
-
-
-                //foreach (var key in UserDataManager.Inst.formationDic.Keys)
-                //{
-                //    // 
-                //    if (UserDataManager.Inst.formationDic[key] == charIndex)
-                //    {
-                //        UserDataManager.Inst.formationDic.Remove(charIndex);
-                //        GameObject oldDeck = GetOldDeckObject(charIndex);
-                //        if(oldDeck)
-                //        {
-                //            if(oldDeck.GetComponent<Image>().sprite)
-                //            {
-                //                Debug.Log("이미지 겨ㅛ체");
-                //                oldDeck.GetComponent<Image>().sprite = null;
-                //            }
-                //        }
-
-                //    }
-                //}
 
                int key =  KeyByValue(UserDataManager.Inst.formationDic, charIndex);
 
@@ -96,7 +88,7 @@ public class Droppable :
                     {
                         if (oldDeck.GetComponent<Image>().sprite)
                         {
-                            Debug.Log("이미지 겨ㅛ체");
+                            Debug.Log("이미지 교체");
                             oldDeck.GetComponent<Image>().sprite = null;
                         }
                     }
@@ -146,6 +138,7 @@ public class Droppable :
         iconImage.color = normalColor;
 
         Color color = UserDataManager.Inst.PutChar.GetComponent<Image>().color;
+        Debug.Log("선택된 캐릭터");
         color.r = color.g = color.b = 0.35f;
         UserDataManager.Inst.PutChar.GetComponent<Image>().color = color;
 
