@@ -45,7 +45,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
             Debug.Log("로비로 리턴");
 
 
-            UserDataManager.Inst.LoadCharList();
+            UserDataManager.Inst.LoadUserData();
             ChangeSceneState(SCENE_STATE.Lobby);
            
         }       
