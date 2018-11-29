@@ -17,6 +17,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public GameObject PutChar;
 
     public List<int> userCharsKeyList = new List<int>();
+
+    // 포메이션 임시 틀
     public List<int> formationOrderList = new List<int>()
     {
         2, 1, 3, 0, 4, 7, 6, 8, 5, 9

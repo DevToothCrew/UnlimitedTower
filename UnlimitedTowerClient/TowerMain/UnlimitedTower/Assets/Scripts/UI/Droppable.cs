@@ -18,13 +18,14 @@ public class Droppable :
     private Color normalColor;
 
 
-    public GameObject bodyObject;
+    public GameObject FormationList;
 
     // 인스턴스를 로드할 때 Awake 메서드가 처리된 다음에 호출된다
-    void Start()
+    void Awake()
     {
         // 드롭 영역에 표시되어 있는 아이콘의 본래 색을 보존해둔다
         normalColor = iconImage.color;
+        FormationList = GameObject.Find("FormationList");
     }
 
     // 마우스 커서가 영역에 들어왔을 때 호출된다
@@ -56,42 +57,64 @@ public class Droppable :
         int charIndex = UserDataManager.Inst.PutChar.GetComponent<CharListContent>().CharDicKey;
         int deckNum = gameObject.GetComponent<FormationDeck>().DeckNum;
 
-        for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
+
+        // 만약 이미 포메이션에 놓인 캐릭터가 있다면
+        if (UserDataManager.Inst.formationDic.ContainsValue(charIndex))
         {
-            // 만약 이미 포메이션에 놓인 캐릭터가 있다면
-            if (UserDataManager.Inst.formationDic.ContainsValue(charIndex))
+            if (gameObject.GetComponent<Image>().sprite == null)
             {
-                if(gameObject.GetComponent<Image>() == null)
+                // 일단 캐릭터 인덱스가 dic에 있다는 것은 확인했다.
+                // 문제는 캐릭터 인덱스가 어느 키 값(어느 덱)인지를 확인하면 된다.
+
+
+                //foreach (var key in UserDataManager.Inst.formationDic.Keys)
+                //{
+                //    // 
+                //    if (UserDataManager.Inst.formationDic[key] == charIndex)
+                //    {
+                //        UserDataManager.Inst.formationDic.Remove(charIndex);
+                //        GameObject oldDeck = GetOldDeckObject(charIndex);
+                //        if(oldDeck)
+                //        {
+                //            if(oldDeck.GetComponent<Image>().sprite)
+                //            {
+                //                Debug.Log("이미지 겨ㅛ체");
+                //                oldDeck.GetComponent<Image>().sprite = null;
+                //            }
+                //        }
+
+                //    }
+                //}
+
+               int key =  KeyByValue(UserDataManager.Inst.formationDic, charIndex);
+
+                if (UserDataManager.Inst.formationDic[key] == charIndex)
                 {
-                    // 일단 캐릭터 인덱스가 dic에 있다는 것은 확인했다.
-                    // 문제는 캐릭터 인덱스가 어느 키 값(어느 덱)인지를 확인하면 된다.
-
-
-                    foreach(var keyValuePair in UserDataManager.Inst.formationDic )
+                    UserDataManager.Inst.formationDic.Remove(key);
+                    GameObject oldDeck = GetOldDeckObject(key);
+                    if (oldDeck)
                     {
-                        if(Object.ReferenceEquals(keyValuePair.Value, charIndex))
+                        if (oldDeck.GetComponent<Image>().sprite)
                         {
-                            UserDataManager.Inst.formationDic.Remove(keyValuePair.Key);
-
-                            
-
+                            Debug.Log("이미지 겨ㅛ체");
+                            oldDeck.GetComponent<Image>().sprite = null;
                         }
                     }
 
-                  
+                }
 
 
-                }
-                else
-                {
-                    return;
-                }
-                
-              
-                
-                
             }
+            else
+            {
+                return;
+            }
+
+
+
+
         }
+
         UserDataManager.Inst.formationDic.Add(deckNum, charIndex);
 
         Debug.Log("UserDataManager.Inst.formationDic : " + deckNum + " " + charIndex);
@@ -132,11 +155,32 @@ public class Droppable :
     #endregion
 
 
-    void RemoveCharImage()
+    GameObject GetOldDeckObject(int key)
     {
-
+        for(int i=0; i<DEFINE.PARTY_MAX_NUM; i++)
+        {
+            if(FormationList.transform.GetChild(i).GetComponent<FormationDeck>().DeckNum == key)
+            {
+                return FormationList.transform.GetChild(i).gameObject;
+            }
+        }
+        return null;
+      
+    }
+    public static int KeyByValue(Dictionary<int, int> dic, int val)
+    {
+        int key = -1;
+        foreach (KeyValuePair<int, int> pair in dic)
+        {
+            if (pair.Value == val)
+            {
+                key = pair.Key;
+                break;
+            }
+        }
+        return key;
     }
 
 
-    
+
 }
