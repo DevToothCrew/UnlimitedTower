@@ -128,7 +128,7 @@ public class Droppable :
         // 스프라이트를 넣어준다.
         //gameObject.GetComponent<Image>().sprite = droppedImage.sprite;
         gameObject.transform.GetChild(0).GetComponent<Image>().sprite = droppedImage.sprite;
-
+        OpenNewDeck(deckNum);
 
 
 
@@ -163,15 +163,24 @@ public class Droppable :
 
     void OpenNewDeck(int deckNum)
     {
-  
+        GameObject dec = null;
         switch(deckNum)
         {
             case 2:
                 {
+                    FormationManager.Inst.decDic[1].GetComponent<FormationDeck>().Enable = true;
+                    FormationManager.Inst.decDic[1].transform.GetChild(1).gameObject.SetActive(true);
+                    FormationManager.Inst.decDic[1].transform.GetChild(2).gameObject.SetActive(false);
+
+
+                    FormationManager.Inst.decDic[3].GetComponent<FormationDeck>().Enable = true;
+                    FormationManager.Inst.decDic[3].transform.GetChild(1).gameObject.SetActive(true);
+                    FormationManager.Inst.decDic[3].transform.GetChild(2).gameObject.SetActive(false);
+
+                    Debug.Log("1 Deck & 3 Deck Active");
                     // 이거 그냥 덱을 decDic에 포함하는 낫지 않을려나?
                     // 일일이 찾기 넘 까다롭다.
-                  //  UserDataManager.Inst.formationDic[1];
-                    //UserDataManager.Inst.formationDic[3];
+                   
 
                     break;
                 }
