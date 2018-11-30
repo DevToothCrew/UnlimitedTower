@@ -489,25 +489,11 @@ public class BattleManager : MonoSingleton<BattleManager> {
             //int charKey = UserDataManager.Inst.userCharsKeyList[i];
             //int formationNum = UserDataManager.Inst.formationOrderList[i];
             
-
-            // 키 값이 작으니깐 걍 나가진다.
-            // 이거 해결해야할듯요.
-
-
-
-            //if(playerStatusDic.ContainsKey(i))
-            //{
-            //    Debug.Log("주인공 이미 배치");
-            //    continue;
-            //}
-
-
-            int formationNum = -1;
+            int formationNum = UserDataManager.Inst.formationOrderList[i];
             int charKey = -1;
-            if (UserDataManager.Inst.formationDic.ContainsKey(UserDataManager.Inst.formationOrderList[i]))
+            if (UserDataManager.Inst.formationDic.ContainsKey(formationNum))
             {
-                formationNum = UserDataManager.Inst.formationOrderList[i];
-                charKey = UserDataManager.Inst.formationDic[UserDataManager.Inst.formationOrderList[i]];
+                charKey = UserDataManager.Inst.formationDic[formationNum];
             }
             else
             {
