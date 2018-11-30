@@ -759,7 +759,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
     }
     private float GetBackLineLargestDistance(GameObject[] charObjects, CHAR_TYPE charType, ref Dictionary<int, Battle_Character_Status> charBattleStatusDic)
     {
-        int num = 0;
+        int num = 5;
         float dis = 0.0f;
         float offset = -2.0f;
         if (charType == CHAR_TYPE.ENEMY)
@@ -767,7 +767,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
             offset = +2.0f;
         }
 
-        for (int i = 0; i < charBattleStatusDic.Count / 2; i++)
+        for (int i = 5; i < charBattleStatusDic.Count ; i++)
         {
             if (charObjects[i].transform.position.z < charObjects[num].transform.position.z)
             {
@@ -800,56 +800,25 @@ public class BattleManager : MonoSingleton<BattleManager> {
     {
         Vector3 frontCenterPos = DEFINE.PLAYER_BACKLINE_CENTER_POS;
 
-        Battle_Character_Status centerCharStatus = charBattleStatusDic[2];
-        int frontLineCenterIndex = 7;
+        Battle_Character_Status centerCharStatus = charBattleStatusDic[7];
+        int frontLineCenterIndex = 2;
+        int backLineCenterIndex = 7;
         switch (fomationOrder)
         {
-            case 2:
-                {
-                    Vector3 backCenterPos = GetBackLineCenterCharPos(charType, centerCharStatus.sizeType);
-                    charObjects[fomationOrder].transform.position = backCenterPos;
-                    break;
-                }
-            case 1:
-                {
-                    SetLeftPosition(charObjects, 2, 1, centerCharStatus.sizeType, ref charBattleStatusDic);
-                    break;
-                }       
-            case 3:
-                {
-                    SetRightPosition(charObjects, 2, 3, centerCharStatus.sizeType, ref charBattleStatusDic);
-                    break;
-                }
-            case 0:
-                {
-                    SetLeftPosition(charObjects, 1, 0, charBattleStatusDic[1].sizeType, ref charBattleStatusDic);
-                  
-                    break;
-                }
-            case 4:
-                {
-                    SetRightPosition(charObjects, 3, 4, charBattleStatusDic[3].sizeType, ref charBattleStatusDic);
-                    break;
-                }
-
-
-
             case 7:
                 {
-                    float frontLineDis = GetBackLineLargestDistance(charObjects, charType, ref charBattleStatusDic);
-                    frontCenterPos.z = frontLineDis;
-                    frontCenterPos = GetFrontLineCenterCharPos(frontCenterPos, charBattleStatusDic[frontLineCenterIndex].sizeType);
-                    charObjects[frontLineCenterIndex].transform.position = frontCenterPos;
+                    Vector3 backCenterPos = GetBackLineCenterCharPos(charType, centerCharStatus.sizeType);
+                    charObjects[fomationOrder].transform.position = backCenterPos;                
                     break;
                 }
             case 6:
                 {
-                    SetLeftPosition(charObjects, frontLineCenterIndex, 6, charBattleStatusDic[frontLineCenterIndex].sizeType, ref charBattleStatusDic);
+                    SetLeftPosition(charObjects, backLineCenterIndex, 6, charBattleStatusDic[backLineCenterIndex].sizeType, ref charBattleStatusDic);
                     break;
                 }
             case 8:
                 {
-                    SetRightPosition(charObjects, frontLineCenterIndex, 8, charBattleStatusDic[frontLineCenterIndex].sizeType, ref charBattleStatusDic);
+                    SetRightPosition(charObjects, backLineCenterIndex, 8, charBattleStatusDic[backLineCenterIndex].sizeType, ref charBattleStatusDic);
                     break;
                 }
             case 5:
@@ -864,12 +833,44 @@ public class BattleManager : MonoSingleton<BattleManager> {
                     break;
                 }
 
+            case 2:
+                {
+                    float frontLineDis = GetBackLineLargestDistance(charObjects, charType, ref charBattleStatusDic);
+                    frontCenterPos.z = frontLineDis;
+                    frontCenterPos = GetFrontLineCenterCharPos(frontCenterPos, charBattleStatusDic[frontLineCenterIndex].sizeType);
+                    charObjects[frontLineCenterIndex].transform.position = frontCenterPos;
+                    break;
+                }
+            case 1:
+                {
+                    SetLeftPosition(charObjects, 2, 1, centerCharStatus.sizeType, ref charBattleStatusDic);
+                    break;
+                }
+            case 3:
+                {
+                    SetRightPosition(charObjects, 2, 3, centerCharStatus.sizeType, ref charBattleStatusDic);
+                    break;
+                }
+            case 0:
+                {
+                    SetLeftPosition(charObjects, 1, 0, charBattleStatusDic[1].sizeType, ref charBattleStatusDic);
+
+                    break;
+                }
+            case 4:
+                {
+                    SetRightPosition(charObjects, 3, 4, charBattleStatusDic[3].sizeType, ref charBattleStatusDic);
+                    break;
+                }
+
         }
     }
     private void CreateEnemyBattlePosition(GameObject[] charObjects, CHAR_TYPE charType, ref Dictionary<int, Battle_Character_Status> charBattleStatusDic)
     {
-        int backLineCenterIndex = charBattleStatusDic.Count / 2 / 2;
-        int frontLineCenterIndex = charBattleStatusDic.Count / 2 / 2 + charBattleStatusDic.Count / 2;
+        int frontLineCenterIndex = charBattleStatusDic.Count / 2 / 2;
+        int backLineCenterIndex = charBattleStatusDic.Count / 2 / 2 + charBattleStatusDic.Count / 2;
+
+       
 
         Battle_Character_Status centerCharStatus = charBattleStatusDic[backLineCenterIndex];
         Vector3 backCenterPos = GetBackLineCenterCharPos(charType, centerCharStatus.sizeType);
@@ -881,11 +882,11 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
         charObjects[backLineCenterIndex].transform.position = backCenterPos;
 
-        SetLeftPosition(charObjects, backLineCenterIndex, 1, centerCharStatus.sizeType, ref charBattleStatusDic);
-        SetRightPosition(charObjects, backLineCenterIndex, 3, centerCharStatus.sizeType, ref charBattleStatusDic);
+        SetLeftPosition(charObjects, backLineCenterIndex, 6, centerCharStatus.sizeType, ref charBattleStatusDic);
+        SetRightPosition(charObjects, backLineCenterIndex, 8, centerCharStatus.sizeType, ref charBattleStatusDic);
 
-        SetLeftPosition(charObjects, 1, 0, charBattleStatusDic[1].sizeType, ref charBattleStatusDic);
-        SetRightPosition(charObjects, 3, 4, charBattleStatusDic[3].sizeType, ref charBattleStatusDic);
+        SetLeftPosition(charObjects, 6, 5, charBattleStatusDic[6].sizeType, ref charBattleStatusDic);
+        SetRightPosition(charObjects, 8, 9, charBattleStatusDic[8].sizeType, ref charBattleStatusDic);
 
         float frontLineDis = GetBackLineLargestDistance(charObjects, charType, ref charBattleStatusDic);
         frontCenterPos.z = frontLineDis;
@@ -899,11 +900,11 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
         charObjects[frontLineCenterIndex].transform.position = frontCenterPos;
 
-        SetLeftPosition(charObjects, frontLineCenterIndex, 6, charBattleStatusDic[frontLineCenterIndex].sizeType, ref charBattleStatusDic);
-        SetRightPosition(charObjects, frontLineCenterIndex, 8, charBattleStatusDic[frontLineCenterIndex].sizeType, ref charBattleStatusDic);
+        SetLeftPosition(charObjects, frontLineCenterIndex, 1, charBattleStatusDic[frontLineCenterIndex].sizeType, ref charBattleStatusDic);
+        SetRightPosition(charObjects, frontLineCenterIndex, 3, charBattleStatusDic[frontLineCenterIndex].sizeType, ref charBattleStatusDic);
 
-        SetLeftPosition(charObjects, 6, 5, charBattleStatusDic[6].sizeType, ref charBattleStatusDic);
-        SetRightPosition(charObjects, 8, 9, charBattleStatusDic[8].sizeType, ref charBattleStatusDic);
+        SetLeftPosition(charObjects, 1, 0, charBattleStatusDic[1].sizeType, ref charBattleStatusDic);
+        SetRightPosition(charObjects, 3, 4, charBattleStatusDic[3].sizeType, ref charBattleStatusDic);
     }
 
     private void SetCharBattlePosition(GameObject[] charObjects)

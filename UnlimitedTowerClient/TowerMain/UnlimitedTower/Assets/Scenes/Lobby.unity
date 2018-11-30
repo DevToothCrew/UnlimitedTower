@@ -2032,7 +2032,7 @@ RectTransform:
   - {fileID: 2115283175}
   - {fileID: 1977899859}
   m_Father: {fileID: 304513084}
-  m_RootOrder: 1
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -2099,7 +2099,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeckNum: 6
-  Enable: 1
+  Enable: 0
 --- !u!1 &253792658
 GameObject:
   m_ObjectHideFlags: 0
@@ -2744,7 +2744,7 @@ RectTransform:
   - {fileID: 1273902058}
   - {fileID: 465656765}
   m_Father: {fileID: 304513084}
-  m_RootOrder: 2
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -3224,6 +3224,7 @@ GameObject:
   m_Component:
   - component: {fileID: 304513084}
   - component: {fileID: 304513085}
+  - component: {fileID: 304513086}
   m_Layer: 5
   m_Name: FormationList
   m_TagString: Untagged
@@ -3241,16 +3242,16 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1486521011}
-  - {fileID: 250081741}
-  - {fileID: 279912215}
-  - {fileID: 550266535}
-  - {fileID: 371167124}
   - {fileID: 724553517}
   - {fileID: 2133609773}
   - {fileID: 546492153}
   - {fileID: 1942608019}
   - {fileID: 1161966256}
+  - {fileID: 1486521011}
+  - {fileID: 250081741}
+  - {fileID: 279912215}
+  - {fileID: 550266535}
+  - {fileID: 371167124}
   m_Father: {fileID: 631953932}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3282,6 +3283,17 @@ MonoBehaviour:
   m_Spacing: {x: 30, y: 70}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!114 &304513086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 304513083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed08ca105e969e047abd58f284d9ccd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &305773856
 GameObject:
   m_ObjectHideFlags: 0
@@ -4117,7 +4129,7 @@ RectTransform:
   - {fileID: 1922072415}
   - {fileID: 1146002267}
   m_Father: {fileID: 304513084}
-  m_RootOrder: 4
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -4184,7 +4196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeckNum: 9
-  Enable: 1
+  Enable: 0
 --- !u!1 &376691404
 GameObject:
   m_ObjectHideFlags: 0
@@ -5143,7 +5155,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 465656764}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -5726,7 +5738,7 @@ RectTransform:
   - {fileID: 1508988200}
   - {fileID: 1996770652}
   m_Father: {fileID: 304513084}
-  m_RootOrder: 7
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -5793,7 +5805,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeckNum: 2
-  Enable: 1
+  Enable: 0
 --- !u!1 &550266534
 GameObject:
   m_ObjectHideFlags: 0
@@ -5827,7 +5839,7 @@ RectTransform:
   - {fileID: 1253083716}
   - {fileID: 2048154129}
   m_Father: {fileID: 304513084}
-  m_RootOrder: 3
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -5894,7 +5906,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeckNum: 8
-  Enable: 1
+  Enable: 0
 --- !u!1001 &576842555
 Prefab:
   m_ObjectHideFlags: 0
@@ -7213,7 +7225,7 @@ RectTransform:
   - {fileID: 1318830166}
   - {fileID: 1879624714}
   m_Father: {fileID: 304513084}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -7280,7 +7292,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeckNum: 0
-  Enable: 1
+  Enable: 0
 --- !u!1 &735227874
 GameObject:
   m_ObjectHideFlags: 0
@@ -11180,7 +11192,7 @@ RectTransform:
   - {fileID: 1044876662}
   - {fileID: 249034029}
   m_Father: {fileID: 304513084}
-  m_RootOrder: 9
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -11247,7 +11259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeckNum: 4
-  Enable: 1
+  Enable: 0
 --- !u!1 &1163785875
 GameObject:
   m_ObjectHideFlags: 0
@@ -12001,7 +12013,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1273902058
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14014,7 +14026,7 @@ RectTransform:
   - {fileID: 849949505}
   - {fileID: 1364443141}
   m_Father: {fileID: 304513084}
-  m_RootOrder: 0
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -14412,7 +14424,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1508988200
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17798,7 +17810,7 @@ RectTransform:
   - {fileID: 901431015}
   - {fileID: 83187138}
   m_Father: {fileID: 304513084}
-  m_RootOrder: 8
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -17865,7 +17877,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeckNum: 3
-  Enable: 1
+  Enable: 0
 --- !u!1001 &1946589121
 Prefab:
   m_ObjectHideFlags: 0
@@ -18454,7 +18466,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1996770652
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19500,7 +19512,7 @@ RectTransform:
   - {fileID: 2120827223}
   - {fileID: 735227875}
   m_Father: {fileID: 304513084}
-  m_RootOrder: 6
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -19567,4 +19579,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeckNum: 1
-  Enable: 1
+  Enable: 0
