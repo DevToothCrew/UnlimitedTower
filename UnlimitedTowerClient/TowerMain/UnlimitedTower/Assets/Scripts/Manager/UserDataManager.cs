@@ -21,7 +21,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     // 포메이션 임시 틀
     public List<int> formationOrderList = new List<int>()
     {
-      7, 6, 8, 5, 9, 2, 1, 3, 0, 4  // 2, 1, 3, 0, 4, 7, 6, 8, 5, 9
+      7, 6, 8, 5, 9, 2, 1, 3, 0, 4 
     };
 
     public int TestCharNum = 10;
@@ -134,9 +134,9 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public void  LoadUserData()
     {
         LoadCharList();
-        LoadFormation();
+       // LoadFormation();
     }
-    private void LoadFormation()
+    public void LoadFormation()
     {
         // 포메이션 데이터를 가져온다.
 
@@ -144,22 +144,38 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         string deckName = null;
         foreach (KeyValuePair<int, int> dic in formationDic)
         {
+
+            Debug.Log("포메이션 세팅");
+
             // 위치값으로 해당 덱 오브젝트를 찾으면될듯
             // 근데 덱 오브젝트를 어찌 찾냐?
 
             // 포메이션 위치
             deckName = "Deck" + dic.Key;
 
-            for(int i=0; i<10; i++)
+            for (int i=0; i<10; i++)
             {
-               if( LobbyManager.Inst.FormationList.transform.GetChild(i).name == deckName)
+                //if(FormationManager.Inst.gameObject.transform.GetChild(i).name == deckName)
+
+
+            
+                if (LobbyManager.Inst.FormationList.gameObject.transform.GetChild(i).gameObject.name == deckName)
+                {
+                    Debug.Log("자식 존재");
+                }
+
+
+                //if (FormationManager.Inst.deckList[i].name == deckName)
+                FormationManager.Inst.transform.gameObject.transform.GetChild(i);
+                if (FormationManager.Inst.gameObject.transform.GetChild(i).gameObject.name == deckName)
                 {
                     Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[dic.Value].Name);
-                    LobbyManager.Inst.FormationList.transform.GetChild(i).transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+                    FormationManager.Inst.deckList[i].transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+                    //FormationManager.Inst.gameObject.transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite = sprite;
                 }
             }
            
-
+            
 
 
            //GameObject deck =  GetDeck(ref decks, deckName);

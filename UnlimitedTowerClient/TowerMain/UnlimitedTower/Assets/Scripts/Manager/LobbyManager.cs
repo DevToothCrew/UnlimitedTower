@@ -45,9 +45,10 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
             Debug.Log("로비로 리턴");
 
 
-            UserDataManager.Inst.LoadUserData();
-            ChangeSceneState(SCENE_STATE.Lobby);
            
+            ChangeSceneState(SCENE_STATE.Lobby);
+            UserDataManager.Inst.LoadUserData();
+
         }       
     }
     public void ChangeSceneState(SCENE_STATE state)
@@ -146,7 +147,9 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                 break;
 
             case LOBBY_RIGHT_BUTTON.Formation:
+                UserDataManager.Inst.LoadFormation();
                 FormationInfoPopup.SetActive(true);
+              
                 break;
 
             case LOBBY_RIGHT_BUTTON.Gacha:

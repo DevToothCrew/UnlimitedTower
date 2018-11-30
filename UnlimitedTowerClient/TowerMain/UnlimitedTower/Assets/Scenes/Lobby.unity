@@ -3294,6 +3294,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed08ca105e969e047abd58f284d9ccd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deckList:
+  - {fileID: 724553516}
+  - {fileID: 2133609772}
+  - {fileID: 546492152}
+  - {fileID: 1942608018}
+  - {fileID: 1161966255}
+  - {fileID: 1486521010}
+  - {fileID: 250081740}
+  - {fileID: 279912214}
+  - {fileID: 550266534}
+  - {fileID: 371167123}
+  formation: {fileID: 304513083}
 --- !u!1 &305773856
 GameObject:
   m_ObjectHideFlags: 0

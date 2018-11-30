@@ -5,32 +5,35 @@ using UnityEngine;
 public class FormationManager : MonoSingleton<FormationManager> {
 
 
-    public Dictionary<int, GameObject> decDic = new Dictionary<int, GameObject>();
+    // public Dictionary<int, GameObject> decDic = new Dictionary<int, GameObject>();
+    public List<GameObject> deckList= new List <GameObject>();
+    public GameObject formation;
 
-	// Use this for initialization
-	void Awake () {
-		//decDid
-        for(int i=0; i<10; i++)
-        {
-            decDic.Add(i, gameObject.transform.GetChild(i).gameObject);
-        }
+    // Use this for initialization
+    void Awake () {
+        //decDid
+
+       // gameObject.name = "ddd";
+
+
+        //for(int i=0; i<10; i++)
+        //{
+        //    deckList.Add(formation.transform.GetChild(i).gameObject);
+        //    // decDic.Add(i, gameObject.transform.GetChild(i).gameObject);
+        //   // deckList.Add(gameObject.transform.GetChild(i).gameObject);
+        //}
 
 	}
-	
+
     public void OpenNewDeck(int deckNum)
     {
-        switch(deckNum)
+        switch (deckNum)
         {
             case 7:
                 {
-                    decDic[6].GetComponent<FormationDeck>().Enable = true;
-                    decDic[6].transform.GetChild(1).gameObject.SetActive(true);
-                    decDic[6].transform.GetChild(2).gameObject.SetActive(false);
-
-
-                    decDic[8].GetComponent<FormationDeck>().Enable = true;
-                    decDic[8].transform.GetChild(1).gameObject.SetActive(true);
-                    decDic[8].transform.GetChild(2).gameObject.SetActive(false);
+                    ActiveDeck(6);
+                    ActiveDeck(8);
+                
 
                     Debug.Log("1 Deck & 3 Deck Active");
                     // 이거 그냥 덱을 decDic에 포함하는 낫지 않을려나?
@@ -38,23 +41,31 @@ public class FormationManager : MonoSingleton<FormationManager> {
 
 
                     //그러면 이 처리를 어느 스크립트에서 하는게 적절할가?
-                   
+
                     break;
                 }
             case 6:
                 {
-                    decDic[5].GetComponent<FormationDeck>().Enable = true;
-                    decDic[5].transform.GetChild(1).gameObject.SetActive(true);
-                    decDic[5].transform.GetChild(2).gameObject.SetActive(false);
+                    ActiveDeck(5);
+                  
                     break;
                 }
             case 8:
                 {
-                    decDic[9].GetComponent<FormationDeck>().Enable = true;
-                    decDic[9].transform.GetChild(1).gameObject.SetActive(true);
-                    decDic[9].transform.GetChild(2).gameObject.SetActive(false);
+                    ActiveDeck(9);
                     break;
                 }
         }
+
+    }
+    void ActiveDeck(int deckNum)
+    {
+        //gameObject.transform.GetChild(deckNum).GetComponent<FormationDeck>().Enable = true;
+        //gameObject.transform.GetChild(deckNum).transform.GetChild(1).gameObject.SetActive(true);
+        //gameObject.transform.GetChild(deckNum).transform.GetChild(2).gameObject.SetActive(false);
+
+        deckList[deckNum].GetComponent<FormationDeck>().Enable = true;
+        deckList[deckNum].transform.GetChild(1).gameObject.SetActive(true);
+        deckList[deckNum].transform.GetChild(2).gameObject.SetActive(false);
     }
 }
