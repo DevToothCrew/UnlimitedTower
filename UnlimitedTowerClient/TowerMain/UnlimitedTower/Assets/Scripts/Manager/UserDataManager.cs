@@ -138,7 +138,30 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     }
     private void LoadFormation()
     {
+        // 포메이션 데이터를 가져온다.
 
+        GameObject[] decks = GameObject.FindGameObjectsWithTag("Deck");
+        string deckName = null;
+        foreach (KeyValuePair<int, int> dic in formationDic)
+        {
+            // 위치값으로 해당 덱 오브젝트를 찾으면될듯
+            // 근데 덱 오브젝트를 어찌 찾냐?
+
+            // 포메이션 위치
+            deckName = "Deck" + dic.Key;
+           GameObject deck =  GetDeck(ref decks, deckName);
+            if(deck)
+            {
+                Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[dic.Value].Name);
+                deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+            }
+
+
+           
+            // 캐릭터 인덱스
+          
+           
+        }
     }
 
 
@@ -194,6 +217,24 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         // 지금은 들어가는 순서대로 세팅.
         userCharsKeyList.Add(characterDic.Count - 1);
     }
+    private GameObject GetDeck(ref GameObject[] decks, string deckName)
+    {
+        if(decks == null)
+        {
+            return null;
+        }
+
+        for(int i=0; i<decks.Length; i++)
+        {
+            if(decks[i].name == deckName)
+            {
+                return decks[i];
+            }
+        }
+        return null;
+
+    }
+
 
     public void RemoveUserInfo()
     {

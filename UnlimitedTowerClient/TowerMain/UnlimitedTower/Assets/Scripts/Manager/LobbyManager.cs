@@ -29,7 +29,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public GameObject BaseBackground;
     public GameObject CloudImage;
 
-
+    public GameObject FormationList;
 
 
     public void Awake()

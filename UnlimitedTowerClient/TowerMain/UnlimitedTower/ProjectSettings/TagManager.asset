@@ -6,6 +6,7 @@ TagManager:
   tags:
   - TestPicking
   - Enemy
+  - Deck
   layers:
   - Default
   - TransparentFX

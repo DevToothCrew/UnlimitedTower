@@ -564,7 +564,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &83187138
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1941,7 +1941,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &249034029
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2013,7 +2013,7 @@ GameObject:
   - component: {fileID: 250081745}
   m_Layer: 5
   m_Name: Deck6
-  m_TagString: Untagged
+  m_TagString: Deck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2724,7 +2724,7 @@ GameObject:
   - component: {fileID: 279912219}
   m_Layer: 5
   m_Name: Deck7
-  m_TagString: Untagged
+  m_TagString: Deck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4096,7 +4096,7 @@ GameObject:
   - component: {fileID: 371167128}
   m_Layer: 5
   m_Name: Deck9
-  m_TagString: Untagged
+  m_TagString: Deck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5115,7 +5115,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &465656765
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5704,7 +5704,7 @@ GameObject:
   - component: {fileID: 546492157}
   m_Layer: 5
   m_Name: Deck2
-  m_TagString: Untagged
+  m_TagString: Deck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5804,7 +5804,7 @@ GameObject:
   - component: {fileID: 550266539}
   m_Layer: 5
   m_Name: Deck8
-  m_TagString: Untagged
+  m_TagString: Deck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7189,7 +7189,7 @@ GameObject:
   - component: {fileID: 724553521}
   m_Layer: 5
   m_Name: Deck0
-  m_TagString: Untagged
+  m_TagString: Deck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7291,7 +7291,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &735227875
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10879,7 +10879,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1146002267
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11155,7 +11155,7 @@ GameObject:
   - component: {fileID: 1161966260}
   m_Layer: 5
   m_Name: Deck4
-  m_TagString: Untagged
+  m_TagString: Deck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12450,7 +12450,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1364443141
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13988,7 +13988,7 @@ GameObject:
   - component: {fileID: 1486521015}
   m_Layer: 5
   m_Name: Deck5
-  m_TagString: Untagged
+  m_TagString: Deck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14403,7 +14403,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1508988200
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17446,7 +17446,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1879624714
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17770,7 +17770,7 @@ GameObject:
   - component: {fileID: 1942608023}
   m_Layer: 5
   m_Name: Deck3
-  m_TagString: Untagged
+  m_TagString: Deck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18261,7 +18261,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1977899859
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18728,7 +18728,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2048154129
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19471,7 +19471,7 @@ GameObject:
   - component: {fileID: 2133609777}
   m_Layer: 5
   m_Name: Deck1
-  m_TagString: Untagged
+  m_TagString: Deck
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
