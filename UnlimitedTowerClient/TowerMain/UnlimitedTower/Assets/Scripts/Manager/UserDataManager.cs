@@ -149,18 +149,26 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
             // 포메이션 위치
             deckName = "Deck" + dic.Key;
-           GameObject deck =  GetDeck(ref decks, deckName);
-            if(deck)
+
+            for(int i=0; i<10; i++)
             {
-                Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[dic.Value].Name);
-                deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+               if( LobbyManager.Inst.FormationList.transform.GetChild(i).name == deckName)
+                {
+                    Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[dic.Value].Name);
+                    LobbyManager.Inst.FormationList.transform.GetChild(i).transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+                }
             }
+           
 
 
-           
-            // 캐릭터 인덱스
-          
-           
+
+           //GameObject deck =  GetDeck(ref decks, deckName);
+           // if(deck)
+           // {
+           //     Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[dic.Value].Name);
+           //     deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+           // }
+                     
         }
     }
 
@@ -171,16 +179,44 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         int charDicCount = characterDic.Count;
 
         // 캐릭터 개수만큼 캐릭터 목록을 다시 불러온다.
-        for (int i = 0; i < charDicCount; i++)
+        foreach (KeyValuePair<int, Character> dic in characterDic)
         {
             var instance = Instantiate(Resources.Load("Prefabs/CharElement") as GameObject);
             if (instance.GetComponent<Image>())
             {
-                instance.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[i].Name);
+                instance.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[dic.Key].Name);
                 instance.transform.SetParent(LobbyManager.Inst.CharacterListContent.transform.transform);
-            }
+                instance.GetComponent<CharListContent>().CharDicKey = dic.Key;
+                if (characterDic[dic.Key].OnFormation)
+                {
+                    Color color = instance.GetComponent<Image>().color;
+                    color.r = color.g = color.b = 0.35f;
+                    instance.GetComponent<Image>().color = color;
+                }
 
+            }
         }
+        // 이전 코드
+        #region 
+        //for (int i = 0; i < charDicCount; i++)
+        //{
+        //    var instance = Instantiate(Resources.Load("Prefabs/CharElement") as GameObject);
+        //    if (instance.GetComponent<Image>())
+        //    {
+        //        instance.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[i].Name);
+        //        instance.transform.SetParent(LobbyManager.Inst.CharacterListContent.transform.transform);
+        //        instance.GetComponent<CharListContent>().CharDicKey = i;
+        //        if (characterDic[i].OnFormation)
+        //        {
+        //            Color color = instance.GetComponent<Image>().color;
+        //            color.r = color.g = color.b = 0.35f;
+        //            instance.GetComponent<Image>().color = color;
+        //        }
+
+        //    }
+
+        //}
+        #endregion 
     }
 
     //딕셔너리 기준으로 0 1 2 3 5 ... 키 값 순으로 들어가있다.
