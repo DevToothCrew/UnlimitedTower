@@ -11,6 +11,8 @@ public class FormationManager : MonoSingleton<FormationManager> {
 
     // Use this for initialization
     void Awake () {
+
+        UserDataManager.Inst.LoadFormation();
         //decDid
 
         // gameObject.name = "ddd";
@@ -23,7 +25,9 @@ public class FormationManager : MonoSingleton<FormationManager> {
         //   // deckList.Add(gameObject.transform.GetChild(i).gameObject);
         //}
 
-        UserDataManager.Inst.loaderEvent += LoadFormation;
+        Debug.Log("Awake Formaiton");
+
+        //UserDataManager.Inst.loaderEvent += LoadFormation;
 
 	}
 

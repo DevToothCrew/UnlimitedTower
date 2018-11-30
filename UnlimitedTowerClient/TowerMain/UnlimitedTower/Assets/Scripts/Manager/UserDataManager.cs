@@ -160,6 +160,10 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
                 //if(FormationManager.Inst.gameObject.transform.GetChild(i).name == deckName)
 
 
+                // 비활성화된 객체를 싱글톤으로 가져오면
+                // 제대로 작동이 안되는듯허다.
+                // 그러니 객체를 접근할 수 있는 다른 방법을 찾아보자
+
             
                 if (LobbyManager.Inst.FormationList.gameObject.transform.GetChild(i).gameObject.name == deckName)
                 {
