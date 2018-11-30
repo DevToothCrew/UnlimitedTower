@@ -2099,6 +2099,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeckNum: 6
+  Enable: 1
 --- !u!1 &253792658
 GameObject:
   m_ObjectHideFlags: 0
@@ -2810,6 +2811,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeckNum: 7
+  Enable: 1
 --- !u!1 &284131363
 GameObject:
   m_ObjectHideFlags: 0
@@ -4182,6 +4184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeckNum: 9
+  Enable: 1
 --- !u!1 &376691404
 GameObject:
   m_ObjectHideFlags: 0
@@ -5790,6 +5793,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeckNum: 2
+  Enable: 1
 --- !u!1 &550266534
 GameObject:
   m_ObjectHideFlags: 0
@@ -5890,6 +5894,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeckNum: 8
+  Enable: 1
 --- !u!1001 &576842555
 Prefab:
   m_ObjectHideFlags: 0
@@ -7275,6 +7280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeckNum: 0
+  Enable: 1
 --- !u!1 &735227874
 GameObject:
   m_ObjectHideFlags: 0
@@ -11241,6 +11247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeckNum: 4
+  Enable: 1
 --- !u!1 &1163785875
 GameObject:
   m_ObjectHideFlags: 0
@@ -14074,6 +14081,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeckNum: 5
+  Enable: 0
 --- !u!1 &1486880753
 GameObject:
   m_ObjectHideFlags: 0
@@ -14211,6 +14219,7 @@ MonoBehaviour:
   LeftPop: {fileID: 1910031054}
   BaseBackground: {fileID: 387069708}
   CloudImage: {fileID: 1708599346}
+  FormationList: {fileID: 304513083}
 --- !u!1 &1497820692
 GameObject:
   m_ObjectHideFlags: 0
@@ -17856,6 +17865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeckNum: 3
+  Enable: 1
 --- !u!1001 &1946589121
 Prefab:
   m_ObjectHideFlags: 0
@@ -19557,3 +19567,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeckNum: 1
+  Enable: 1

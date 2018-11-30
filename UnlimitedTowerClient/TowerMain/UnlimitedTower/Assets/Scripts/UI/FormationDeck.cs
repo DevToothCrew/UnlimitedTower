@@ -5,5 +5,6 @@ using UnityEngine;
 public class FormationDeck : MonoBehaviour {
 
     public int DeckNum = -1;
+    public bool Enable = false;
 
 }

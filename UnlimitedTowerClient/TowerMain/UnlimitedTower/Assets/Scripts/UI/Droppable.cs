@@ -56,6 +56,14 @@ public class Droppable :
     {
         int charIndex = -1;
         int deckNum = gameObject.GetComponent<FormationDeck>().DeckNum;
+
+        if(gameObject.GetComponent<FormationDeck>().Enable == false)
+        {
+            Debug.Log("This Slot is close ");
+            return;
+        }
+
+
         if (UserDataManager.Inst.PutChar)
         {
             charIndex =  UserDataManager.Inst.PutChar.GetComponent<CharListContent>().CharDicKey;
@@ -104,10 +112,8 @@ public class Droppable :
 
         }
 
-        UserDataManager.Inst.formationDic.Add(deckNum, charIndex);
-
         Debug.Log("UserDataManager.Inst.formationDic : " + deckNum + " " + charIndex);
-
+        UserDataManager.Inst.formationDic.Add(deckNum, charIndex);
 
         // 드래그하고 있었던 아이콘의 Image 컴포넌트를 가져온다
         Image droppedImage = pointerEventData.pointerDrag.GetComponent<Image>();
@@ -137,7 +143,14 @@ public class Droppable :
         //iconImage.sprite = droppedImage.sprite;
         iconImage.color = normalColor;
 
+
+
+        gameObject.transform.GetChild(1).gameObject.SetActive(false);
         Color color = UserDataManager.Inst.PutChar.GetComponent<Image>().color;
+        int charKey = UserDataManager.Inst.PutChar.GetComponent<CharListContent>().CharDicKey;
+        UserDataManager.Inst.characterDic[charKey].OnFormation = true;
+
+
         Debug.Log("선택된 캐릭터");
         color.r = color.g = color.b = 0.35f;
         UserDataManager.Inst.PutChar.GetComponent<Image>().color = color;
@@ -146,6 +159,25 @@ public class Droppable :
 
     }
     #endregion
+
+
+    void OpenNewDeck(int deckNum)
+    {
+  
+        switch(deckNum)
+        {
+            case 2:
+                {
+                    // 이거 그냥 덱을 decDic에 포함하는 낫지 않을려나?
+                    // 일일이 찾기 넘 까다롭다.
+                  //  UserDataManager.Inst.formationDic[1];
+                    //UserDataManager.Inst.formationDic[3];
+
+                    break;
+                }
+        }
+    }
+
 
 
     GameObject GetOldDeckObject(int key)
