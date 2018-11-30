@@ -51,6 +51,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
         }       
     }
+
+
     public void ChangeSceneState(SCENE_STATE state)
     {
         //TODO :테스트 코드 필요없을시 삭제.
@@ -147,7 +149,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                 break;
 
             case LOBBY_RIGHT_BUTTON.Formation:
-                UserDataManager.Inst.LoadFormation();
+               // UserDataManager.Inst.LoadFormation();
                 FormationInfoPopup.SetActive(true);
               
                 break;

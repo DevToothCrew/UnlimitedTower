@@ -13,7 +13,7 @@ public class FormationManager : MonoSingleton<FormationManager> {
     void Awake () {
         //decDid
 
-       // gameObject.name = "ddd";
+        // gameObject.name = "ddd";
 
 
         //for(int i=0; i<10; i++)
@@ -23,7 +23,15 @@ public class FormationManager : MonoSingleton<FormationManager> {
         //   // deckList.Add(gameObject.transform.GetChild(i).gameObject);
         //}
 
+        UserDataManager.Inst.loaderEvent += LoadFormation;
+
 	}
+
+
+    public void LoadFormation()
+    {
+
+    }
 
     public void OpenNewDeck(int deckNum)
     {

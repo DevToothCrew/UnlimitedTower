@@ -26,7 +26,9 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public int TestCharNum = 10;
 
-
+    // Delegates for receiving event
+    public delegate void LoaderEvent();
+    public event LoaderEvent loaderEvent = null;
 
     // TODO : 확실히 필요없다고 판단되면 삭제할것
     //public GameObject LobbyBackGround;
@@ -286,8 +288,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         return null;
 
     }
-
-
     public void RemoveUserInfo()
     {
         Debug.Log("Remove UserInfo");
@@ -295,5 +295,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         userCharsKeyList.Clear();
         characterIndex = 0;
     }
+
+
 
 }
