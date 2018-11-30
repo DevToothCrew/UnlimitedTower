@@ -54,6 +54,7 @@ public class DEFINE
     // 테스트 상수
     public static Vector3 PLAYER_BACKLINE_CENTER_POS = new Vector3(0.0f, 0.0f, -5.0f);
     public static Vector3 ENEMY_BACKLINE_CENTER_POS = new Vector3(0.0f, 0.0f, 5.0f);
+    public static readonly int TEST_HP_NUM = 1;
 
 
 
@@ -166,7 +167,7 @@ public class Character
 
     public int GetMaxHp()
     {
-        return Str * DEFINE.MAX_HP_MULTI_posOffset;
+        return Str * DEFINE.MAX_HP_MULTI_posOffset * DEFINE.TEST_HP_NUM;
     }
     public int GetAvoid()
     {

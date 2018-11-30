@@ -95,7 +95,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log("캐릭터가 없습니다. 뽑기를 해주세요");
             return;
         }
-        if(UserDataManager.Inst.formationDic.ContainsKey(2) == false)
+        if(UserDataManager.Inst.formationDic.ContainsKey(7) == false)
         {
             Debug.Log("포메이션 설정이 안됬습니다.");
             return;
