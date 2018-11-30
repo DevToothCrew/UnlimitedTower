@@ -12,6 +12,11 @@ class cgacha_system
         uint32_t random_count;
         const uint32_t not_exist_min = 0;
     public:
+        const uint32_t max_rate = 100000;
+        const uint32_t grade_three_rate = 89000;
+        const uint32_t grade_four_rate = 9000;
+        const uint32_t grade_five_rate = 2000;
+    public:
         cgacha_system(account_name _self,
         clogin_system &_login_controller,
         crule_system &_rule_controller) 
@@ -121,7 +126,21 @@ class cgacha_system
         //---------------------------------------------------------------------------------//
         void gacha_monster_id(account_name _user,uint64_t _seed)
         {           
-            uint8_t result_id = random_seed(_seed,rule_controller.monster_id_count,not_exist_min,random_count++);
+            uint32_t result_rate = random_seed(_seed,max_rate,not_exist_min,random_count++);
+            uint8_t result_id;
+            if(result_rate < grade_five_rate)
+            {
+                result_id = 4;
+            }
+            else if(result_rate < grade_four_rate)
+            {
+                result_id = 3;
+            }
+            else
+            {
+                result_id = 2;
+            }
+            //uint8_t result_id = random_seed(_seed,rule_controller.monster_id_count,not_exist_min,random_count++);
             auto &monster_id = rule_controller.get_monster_id_rule_table();
             const auto &id_iter = monster_id.get(result_id,"not exist monster id");
 

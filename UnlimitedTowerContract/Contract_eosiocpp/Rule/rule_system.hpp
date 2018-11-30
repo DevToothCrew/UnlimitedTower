@@ -110,13 +110,13 @@ class crule_system
                 {
                     random_count = 0;
                 }
-                a.s_min_range.s_str = random_seed(l_seed,10,0,random_count++);
-                a.s_min_range.s_dex = random_seed(l_seed,10,0,random_count++);
-                a.s_min_range.s_int = random_seed(l_seed,10,0,random_count++);
+                a.s_min_range.s_str = 1;
+                a.s_min_range.s_dex = 1;
+                a.s_min_range.s_int = 1;
 
-                a.s_max_range.s_str = random_seed(l_seed,10,0,random_count++) + 25;
-                a.s_max_range.s_dex = random_seed(l_seed,10,0,random_count++) + 25;
-                a.s_max_range.s_int = random_seed(l_seed,10,0,random_count++) + 25;
+                a.s_max_range.s_str = 99;
+                a.s_max_range.s_dex = 99;
+                a.s_max_range.s_int = 99;
             });
         }
         for(uint8_t i=0;i<head_count;++i)
@@ -141,13 +141,58 @@ class crule_system
                 {
                     random_count = 0;
                 }
-                a.m_min_range.m_str = random_seed(l_seed,10,0,random_count++);
-                a.m_min_range.m_dex = random_seed(l_seed,10,0,random_count++);
-                a.m_min_range.m_int = random_seed(l_seed,10,0,random_count++);
+                if(i == 0)
+                {
+                    a.m_min_range.m_str = 1;
+                    a.m_min_range.m_dex = 1;
+                    a.m_min_range.m_int = 1;
 
-                a.m_max_range.m_str = random_seed(l_seed,10,0,random_count++) + 25;
-                a.m_max_range.m_dex = random_seed(l_seed,10,0,random_count++) + 25;
-                a.m_max_range.m_int = random_seed(l_seed,10,0,random_count++) + 25;
+                    a.m_max_range.m_str = 5;
+                    a.m_max_range.m_dex = 5;
+                    a.m_max_range.m_int = 5;
+                }
+                else if(i==1)
+                {
+                     a.m_min_range.m_str = 6;
+                    a.m_min_range.m_dex = 6;
+                    a.m_min_range.m_int = 6;
+
+                    a.m_max_range.m_str = 10;
+                    a.m_max_range.m_dex = 10;
+                    a.m_max_range.m_int = 10;
+                }
+                else if(i==2)
+                {                    
+                    a.m_min_range.m_str = 10;
+                    a.m_min_range.m_dex = 10;
+                    a.m_min_range.m_int = 10;
+
+                    a.m_max_range.m_str = 50;
+                    a.m_max_range.m_dex = 50;
+                    a.m_max_range.m_int = 50;
+                }
+                else if(i==3)
+                {
+                    a.m_min_range.m_str = 30;
+                    a.m_min_range.m_dex = 30;
+                    a.m_min_range.m_int = 30;
+
+                    a.m_max_range.m_str = 150;
+                    a.m_max_range.m_dex = 150;
+                    a.m_max_range.m_int = 150;
+                }
+                else
+                {
+                    a.m_min_range.m_str = 100;
+                    a.m_min_range.m_dex = 100;
+                    a.m_min_range.m_int = 100;
+
+                    a.m_max_range.m_str = 500;
+                    a.m_max_range.m_dex = 500;
+                    a.m_max_range.m_int = 500;
+                }
+
+
             });
 
         }

@@ -7,8 +7,8 @@ class critemid
 {
   public:
     uint64_t i_id;
-    uint8_t i_type;
-    uint8_t i_job;
+    uint32_t i_type;
+    uint32_t i_job;
 public:
     uint64_t primary_key() const {return i_id;}
 };
