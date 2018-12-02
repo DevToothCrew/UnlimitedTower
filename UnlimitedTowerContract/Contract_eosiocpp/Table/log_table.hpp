@@ -79,4 +79,4 @@ public:
         )
 };
 
-typedef multi_index<N(cuserlog),cuserlog> user_log_table;
+typedef multi_index<N(cuserlog),cuserlog> user_logs;

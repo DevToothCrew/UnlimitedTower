@@ -3,13 +3,16 @@
 
 enum euser_state
 {
-    none = 1,
+    wait = 1,
     look,
     status,
     lobby,
     battle_result,
     tower,
     travel,
+    pause,
+    black,
+
 };
 // 1 + 1 + 1 = 3
 struct suser_look
@@ -65,7 +68,7 @@ public:
             a_hero_list[i].equip.resize(3);
         }
         a_game_money = 100;
-        a_state = static_cast<uint8_t>(euser_state::none);
+        a_state = static_cast<uint8_t>(euser_state::wait);
         
     }
     uint64_t primary_key() const {return a_user;}
@@ -79,4 +82,4 @@ public:
     )
 };
 
-typedef multi_index<N(cuserauth),cuserauth> auth_user_table;
+typedef multi_index<N(cuserauth),cuserauth> auth_users;

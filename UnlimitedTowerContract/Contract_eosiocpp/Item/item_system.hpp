@@ -103,10 +103,10 @@ class citem_system
             eosio_assert(item_find_iter->i_item_list[_item_location].i_type_equip==_equip_slot,"mis match equip slot");
             eosio_assert(item_find_iter->i_item_list[_item_location].i_item_state==item_none,"impossible equip item state");
 
-            auto &players = login_controller.get_auth_user_table();
-            auto cur_find_iter = players.find(_user);
+            auto &auth_user_table = login_controller.get_auth_user_table();
+            auto cur_find_iter = auth_user_table.find(_user);
             eosio_assert(cur_find_iter->a_hero_list[_character_slot].status.job == item_find_iter->i_item_list[_item_location].i_job,"mis match job");
-            players.modify(cur_find_iter,owner,[&](auto &new_hero_equip)
+            auth_user_table.modify(cur_find_iter,owner,[&](auto &new_hero_equip)
             {
                 new_hero_equip.a_hero_list[_character_slot].plus_status.plus_str += item_find_iter->i_item_list[_item_location].i_status_info.strength;
                 new_hero_equip.a_hero_list[_character_slot].plus_status.plus_dex += item_find_iter->i_item_list[_item_location].i_status_info.dexterity;
@@ -155,10 +155,10 @@ class citem_system
             eosio_assert(item_find_iter->i_item_list[_item_location].i_type_equip==_equip_slot,"mis match equip slot");
             eosio_assert(item_find_iter->i_item_list[_item_location].i_item_state==item_none,"impossible equip item state");
 
-            auto &players = login_controller.get_auth_user_table();
-            auto cur_find_iter = players.find(_user);
+            auto &auth_user_table = login_controller.get_auth_user_table();
+            auto cur_find_iter = auth_user_table.find(_user);
             eosio_assert(cur_find_iter->a_hero_list[_character_slot].status.job == item_find_iter->i_item_list[_item_location].i_job,"mis match job");
-            players.modify(cur_find_iter,owner,[&](auto &new_hero_equip)
+            auth_user_table.modify(cur_find_iter,owner,[&](auto &new_hero_equip)
             {
                 new_hero_equip.a_hero_list[_character_slot].plus_status.plus_str -= item_find_iter->i_item_list[_item_location].i_status_info.strength;
                 new_hero_equip.a_hero_list[_character_slot].plus_status.plus_dex -= item_find_iter->i_item_list[_item_location].i_status_info.dexterity;

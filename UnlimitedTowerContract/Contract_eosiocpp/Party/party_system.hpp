@@ -166,13 +166,13 @@ class cparty_system
         }
         void add_party_list(account_name _user)
         {
-            auto &log = login_controller.get_log_table();
-            auto log_find_iter = log.find(_user);
-            eosio_assert(log_find_iter != log.end(),"not find user information to log");
+            auto &log_table = login_controller.get_log_table();
+            auto log_find_iter = log_table.find(_user);
+            eosio_assert(log_find_iter != log_table.end(),"not find user information to log");
 
             uint32_t l_p_count = log_find_iter->l_party_count;
             l_p_count++;
-            log.modify(log_find_iter,owner,[&](auto &add_count)
+            log_table.modify(log_find_iter,owner,[&](auto &add_count)
             {
                 add_count.l_party_count = l_p_count;
             });

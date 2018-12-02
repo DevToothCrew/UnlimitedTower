@@ -26,8 +26,8 @@ class clogin_system
 {
   private:
     account_name owner;
-    auth_user_table players;
-    user_log_table log;
+    auth_users auth_user_table;
+    user_logs user_log_table;
 
   private:
     battle_data_table stage;
@@ -43,8 +43,8 @@ class clogin_system
   public:
     clogin_system(account_name _self)
         : owner(_self),
-          players(_self, _self),
-          log(_self, _self),
+          auth_user_table(_self, _self),
+          user_log_table(_self, _self),
           stage(_self,_self)
     {
     }
@@ -52,13 +52,13 @@ class clogin_system
     {
         return stage;
     }
-    auth_user_table &get_auth_user_table()
+    auth_users &get_auth_user_table()
     {
-        return players;
+        return auth_user_table;
     }
-    user_log_table &get_log_table()
+    user_logs &get_log_table()
     {
-        return log;
+        return user_log_table;
     }
     template<typename T>
     void eosiotoken_transfer(account_name sender, account_name receiver, T func) 
@@ -68,8 +68,8 @@ class clogin_system
         eosio_assert(transfer_data.quantity.is_valid(), "Invalid token transfer");
         eosio_assert(transfer_data.quantity.amount > 0, "Quantity must be positive");
 
-        auto log_find_iter = log.find(sender);
-        log.modify(log_find_iter,owner,[&](auto &buy_log)
+        auto log_find_iter = user_log_table.find(sender);
+        user_log_table.modify(log_find_iter,owner,[&](auto &buy_log)
         {
             buy_log.l_use_eos+=transfer_data.quantity;
         });
@@ -91,48 +91,46 @@ class clogin_system
     }
     void create_account(const account_name _user)
     {
-        auto cur_player_itr = players.find(_user);
-        eosio_assert(cur_player_itr == players.end(), "exist account");
-        players.emplace(owner, [&](auto &new_user) {
+        auto new_user_iter = auth_user_table.find(_user);
+        eosio_assert(new_user_iter == auth_user_table.end(), "exist account");
+        auth_user_table.emplace(owner, [&](auto &new_user) {
             new_user.auth_set_user(_user);
             new_user.a_state = static_cast<uint8_t>(euser_state::look);
         });
 
-        auto log_iter = log.find(_user);
-        eosio_assert(log_iter == log.end(), "exist account");
-        log.emplace(owner, [&](auto &l_log) {
-            l_log.log_set_user(_user);
+        auto user_log_iter = user_log_table.find(_user);
+        eosio_assert(user_log_iter == user_log_table.end(), "exist account");
+        user_log_table.emplace(owner, [&](auto &new_log) {
+            new_log.log_set_user(_user);
         });
     }
     void set_look(const account_name _user, uint8_t _character_slot, uint8_t _head, uint8_t _face,uint8_t _body)
     {
-        const auto &log_iter = log.get(_user);
+        auto user_iter = auth_user_table.find(_user);
+        eosio_assert(user_iter != auth_user_table.end(), "unknown account");
+        eosio_assert(user_iter->a_state == euser_state::look,"look setting is over");
+
+        const auto &user_log_iter = user_log_table.get(_user);
+        //추가적인 캐릭터를 구매했는지 체크해야한다.
         eosio_assert((log_iter.l_character_count) < _character_slot + 1, "need buy character slot");
 
-        const auto &cur_user_data = players.get(_user);
-        uint8_t l_current_slot_data = cur_user_data.a_hero_list[_character_slot].look.head;
-        eosio_assert(l_current_slot_data == 0, "exist look data");
-
-        auto cur_player_itr = players.find(_user);
-        eosio_assert(cur_player_itr != players.end(), "unknown account");
-
-        players.modify(cur_player_itr, owner, [&](auto &user) {
-            user.a_state = static_cast<uint8_t>(euser_state::status);
-            user.a_hero_list[_character_slot].look.head = _head;
-            user.a_hero_list[_character_slot].look.face = _face;
-            user.a_hero_list[_character_slot].look.body = _body;
+        auth_user_table.modify(user_itr, owner, [&](auto &user_look_set) {
+            user_look_set.a_state = static_cast<uint8_t>(euser_state::status);
+            user_look_set.a_hero_list[_character_slot].look.head = _head;
+            user_look_set.a_hero_list[_character_slot].look.face = _face;
+            user_look_set.a_hero_list[_character_slot].look.body = _body;
         });
     }
     void set_status(const account_name _user, uint8_t _character_slot)
     {
-        auto cur_player_itr = players.find(_user);
-        eosio_assert(cur_player_itr != players.end(), "unknown account");
+        auto user_itr = auth_user_table.find(_user);
+        eosio_assert(user_itr != auth_user_table.end(), "unknown account");
 
-        players.modify(cur_player_itr, owner, [&](auto &user) {
-            user.a_state = static_cast<uint8_t>(euser_state::lobby);
-            user.a_hero_list[_character_slot].status.strength = random_value(10);
-            user.a_hero_list[_character_slot].status.dexterity = random_value(10);
-            user.a_hero_list[_character_slot].status.intelligence = random_value(10);
+        auth_user_table.modify(user_itr, owner, [&](auto &user_status_set) {
+            user_status_set.a_state = static_cast<uint8_t>(euser_state::lobby);
+            user_status_set.a_hero_list[_character_slot].status.strength = random_value(10);
+            user_status_set.a_hero_list[_character_slot].status.dexterity = random_value(10);
+            user_status_set.a_hero_list[_character_slot].status.intelligence = random_value(10);
         });
     }
     uint64_t random_value(uint32_t _range)
@@ -150,14 +148,12 @@ class clogin_system
     }
     void add_chacater_slot(account_name _user)
     {
-        auto log_iter = log.find(_user);
-        eosio_assert(log_iter != log.end(), "not exist account");
+        auto user_log_iter = user_log_table.find(_user);
 
-        const auto &log_data_iter = log.get(_user);
-        if (log_data_iter.l_character_count < 3)
+        if (user_log_iter->l_character_count < 3)
         {
-            log.modify(log_iter, owner, [&](auto &user_log) {
-                user_log.l_character_count++;
+            user_log_table.modify(user_log_iter, owner, [&](auto &user_add_character) {
+                user_add_character.l_character_count++;
             });
         }
     }
