@@ -42,23 +42,45 @@ public class FormationManager : MonoSingleton<FormationManager> {
                 // hz
 
 
-               if(UserDataManager.Inst.formationDic.ContainsKey(deckNum))
+                //if(UserDataManager.Inst.formationDic.ContainsKey(deckNum))
+                // {
+                //     int charKey = UserDataManager.Inst.formationDic[deckNum];
+
+                //     // 자식 개수가 0이 되서 for문에 접근하질 못한다.
+                //     // 메모리를 낭비하는 쪽으로 가는건?
+                //     int charCount = CharContentList.Inst.gameObject.transform.childCount;
+                //     for (int j=0; j< charCount; j++)
+                //     {
+                //         GameObject charElement = CharContentList.Inst.gameObject.transform.GetChild(j).gameObject;
+                //         if(charElement.GetComponent<CharContent>().CharDicKey == charKey)
+                //         {
+                //             goDeck.GetComponent<FormationDeck>().LinkedChar = charElement;
+                //         }
+                //     }                                      
+                // }
+
+
+
+                if (UserDataManager.Inst.formationDic.ContainsKey(deckNum))
                 {
                     int charKey = UserDataManager.Inst.formationDic[deckNum];
 
-                    int charCount = CharContentList.Inst.gameObject.transform.childCount;
-                    for (int j=0; j< charCount; j++)
+                    // 자식 개수가 0이 되서 for문에 접근하질 못한다.
+                    // 메모리를 낭비하는 쪽으로 가는건?
+                    int charCount = LobbyManager.Inst.CharacterContentList.transform.childCount;
+                    for (int j = 0; j < charCount; j++)
                     {
                         GameObject charElement = CharContentList.Inst.gameObject.transform.GetChild(j).gameObject;
-                        if(charElement.GetComponent<CharContent>().CharDicKey == charKey)
+                        if (charElement.GetComponent<CharContent>().CharDicKey == charKey)
                         {
                             goDeck.GetComponent<FormationDeck>().LinkedChar = charElement;
                         }
-                    }                                      
+                    }
                 }
-                
-    
-               //주변 덱을 연다.
+
+
+
+                //주변 덱을 연다.
                 OpenNewDeck(deckNum);
                 // 이미 덱이 존재했던 내용을 채운다.
                 LoadDeck(deckNum);
