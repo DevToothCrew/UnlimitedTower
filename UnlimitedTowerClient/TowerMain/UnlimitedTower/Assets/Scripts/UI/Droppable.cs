@@ -88,30 +88,13 @@ public class Droppable : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
        
 
 
-        // 만약 이미 포메이션에 놓인 캐릭터가 있다면
+        // 기존 덱을 새로운 덱의 위치로 이동시킬 것이라면
         if (UserDataManager.Inst.formationDic.ContainsValue(charIndex))
         {
             if (gameObject.GetComponent<Image>().sprite == null)
             {
-                // 일단 캐릭터 인덱스가 dic에 있다는 것은 확인했다.
-                // 문제는 캐릭터 인덱스가 어느 키 값(어느 덱)인지를 확인하면 된다.
-
-               int key =  KeyByValue(UserDataManager.Inst.formationDic, charIndex);
-
-                if (UserDataManager.Inst.formationDic[key] == charIndex)
-                {
-                    UserDataManager.Inst.formationDic.Remove(key);
-                    GameObject oldDeck = GetOldDeckObject(key);
-                    if (oldDeck)
-                    {
-                        if (oldDeck.transform.GetChild(0).GetComponent<Image>().sprite)
-                        {
-                            Debug.Log("이미지 교체");
-                            oldDeck.transform.GetChild(0).GetComponent<Image>().sprite = null;
-                        }
-                    }
-
-                }
+                // 새로운 덱 위치로 기존 덱을 이동시킨다.
+                MoveNewDeckPos(charIndex);
             }
             else
             {
@@ -119,7 +102,7 @@ public class Droppable : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
             }
 
         }
-        // 해당 덱에 캐릭터가 존재한다면
+        // 기존 덱 자리에 덮어 씌을 것이라면(error)
         else if(gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().sprite)
         {
             // 기존에 덱에 있는 이미지를 삭제한다.
@@ -130,12 +113,15 @@ public class Droppable : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
 
 
 
-        //Debug.Log("드랍 : " + iconImage.sprite.name + ", 이미지 색상 : " + iconImage.color);
+ 
 
     }
     #endregion
 
-    // 추가, 제거 등을 함수로 잘써서 구분할듯.
+
+
+   
+
 
    
     void AddNewDeck(int deckNum, int charIndex, Image charImage)
@@ -165,7 +151,28 @@ public class Droppable : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
         gameObject.GetComponent<FormationDeck>().LinkedChar = FormationManager.Inst.NewDropChar;
     }
 
+    void MoveNewDeckPos(int charIndex)
+    {
+        // 일단 캐릭터 인덱스가 dic에 있다는 것은 확인했다.
+        // 문제는 캐릭터 인덱스가 어느 키 값(어느 덱)인지를 확인하면 된다.
 
+        int key = KeyByValue(UserDataManager.Inst.formationDic, charIndex);
+
+        if (UserDataManager.Inst.formationDic[key] == charIndex)
+        {
+            UserDataManager.Inst.formationDic.Remove(key);
+            GameObject oldDeck = GetOldDeckObject(key);
+            if (oldDeck)
+            {
+                if (oldDeck.transform.GetChild(0).GetComponent<Image>().sprite)
+                {
+                    Debug.Log("이미지 교체");
+                    oldDeck.transform.GetChild(0).GetComponent<Image>().sprite = null;
+                }
+            }
+
+        }
+    }
     void RemoveOldDeck(int deckNum)
     {
         UserDataManager.Inst.formationDic.Remove(deckNum);

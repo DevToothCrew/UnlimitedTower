@@ -162,7 +162,53 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
                     LobbyManager.Inst.FormationList.gameObject.transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite = sprite;
                     // FormationManager.Inst.gameObject.transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite = sprite;
                 }
-            }                              
+            }    
+           
+        }
+
+
+
+
+
+
+        for (int i = 0; i < 10; i++)
+        {
+            int deckNum = UserDataManager.Inst.formationOrderList[i];
+            GameObject goDeck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
+            if (goDeck.transform.GetChild(0).gameObject.GetComponent<Image>().sprite)
+            {
+                Debug.Log("Load Open Close : " + deckNum);
+
+            
+                if (UserDataManager.Inst.formationDic.ContainsKey(deckNum))
+                {
+                    int charKey = UserDataManager.Inst.formationDic[deckNum];
+
+                    // 자식 개수가 0이 되서 for문에 접근하질 못한다.
+                    // 메모리를 낭비하는 쪽으로 가는건?
+                    int charCount = LobbyManager.Inst.CharacterContentList.transform.childCount;
+                    for (int j = 0; j < charCount; j++)
+                    {
+                        GameObject charElement = LobbyManager.Inst.CharacterContentList.gameObject.transform.GetChild(j).gameObject;
+
+
+                        if (charElement.GetComponent<CharContent>().CharDicKey == charKey)
+                        {
+                            goDeck.GetComponent<FormationDeck>().LinkedChar = charElement;
+                            //주변 덱을 연다.
+
+                            
+                            FormationManager.Inst.OpenNewDeck(deckNum);
+                            // 이미 덱이 존재했던 내용을 채운다.
+                           // FormationManager.Inst.LoadDeck(deckNum);
+                        }
+                    }
+                }
+
+
+
+
+            }
         }
     }
 
