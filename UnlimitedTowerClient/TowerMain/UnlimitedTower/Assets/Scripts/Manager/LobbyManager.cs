@@ -29,7 +29,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public GameObject BaseBackground;
     public GameObject CloudImage;
 
-    public GameObject FormationList;
 
 
     public void Awake()
@@ -47,7 +46,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
            
             ChangeSceneState(SCENE_STATE.Lobby);
-            UserDataManager.Inst.LoadUserData();
+            //UserDataManager.Inst.LoadUserData();
 
         }       
     }

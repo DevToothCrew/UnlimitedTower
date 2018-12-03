@@ -26,9 +26,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public int TestCharNum = 10;
 
-    // Delegates for receiving event
-    public delegate void LoaderEvent();
-    public event LoaderEvent loaderEvent = null;
+
 
     // TODO : 확실히 필요없다고 판단되면 삭제할것
     //public GameObject LobbyBackGround;
@@ -164,39 +162,26 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
                 // 제대로 작동이 안되는듯허다.
                 // 그러니 객체를 접근할 수 있는 다른 방법을 찾아보자
 
-            
-                if (LobbyManager.Inst.FormationList.gameObject.transform.GetChild(i).gameObject.name == deckName)
-                {
-                    Debug.Log("자식 존재");
-                }
-
+           
 
                 //if (FormationManager.Inst.deckList[i].name == deckName)
                 FormationManager.Inst.transform.gameObject.transform.GetChild(i);
                 if (FormationManager.Inst.gameObject.transform.GetChild(i).gameObject.name == deckName)
                 {
                     Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[dic.Value].Name);
-                    FormationManager.Inst.deckList[i].transform.GetChild(0).GetComponent<Image>().sprite = sprite;
-                    //FormationManager.Inst.gameObject.transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite = sprite;
+                    //FormationManager.Inst.deckList[i].transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+                    FormationManager.Inst.gameObject.transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite = sprite;
                 }
             }
            
-            
-
-
-           //GameObject deck =  GetDeck(ref decks, deckName);
-           // if(deck)
-           // {
-           //     Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[dic.Value].Name);
-           //     deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
-           // }
+         
                      
         }
     }
 
 
     // 로비로 되돌아 올때 캐릭터 리스트 다시 불러오는 함수
-    private void LoadCharList()
+    public void LoadCharList()
     {
         int charDicCount = characterDic.Count;
 
@@ -208,7 +193,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             {
                 instance.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[dic.Key].Name);
                 instance.transform.SetParent(LobbyManager.Inst.CharacterListContent.transform.transform);
-                instance.GetComponent<CharListContent>().CharDicKey = dic.Key;
+                instance.GetComponent<CharContent>().CharDicKey = dic.Key;
                 if (characterDic[dic.Key].OnFormation)
                 {
                     Color color = instance.GetComponent<Image>().color;
@@ -258,7 +243,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         if (instance.GetComponent<Image>())
         {
             instance.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + getChar);
-            instance.GetComponent<CharListContent>().CharDicKey = characterIndex - 1;
+            instance.GetComponent<CharContent>().CharDicKey = characterIndex - 1;
 
             instance.transform.SetParent(LobbyManager.Inst.CharacterListContent.transform.transform);
 
