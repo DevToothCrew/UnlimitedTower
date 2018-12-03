@@ -1,9 +1,16 @@
 #pragma once
 #include "../Common/common_header.hpp"
 
+enum ehero_state
+{   
+    set_look = 1,
+    set_status,
+    set_complete,
+};
+
 enum euser_state
 {
-    wait = 1,
+    create = 1,
     look,
     status,
     lobby,
@@ -12,21 +19,20 @@ enum euser_state
     travel,
     pause,
     black,
-
 };
 // 1 + 1 + 1 = 3
 struct suser_look
 {
    uint8_t head;
-   uint8_t face;
+   uint8_t hair;
    uint8_t body;
 };
 // 4 + 4 + 4 = 12
 struct suser_status
 {
-    uint32_t strength;
-    uint32_t dexterity;
-    uint32_t intelligence;
+    uint32_t basic_str;
+    uint32_t basic_dex;
+    uint32_t basic_int;
     uint32_t job;
 };
 struct suser_plus_status
@@ -41,6 +47,7 @@ struct suser_plus_status
 // 3 + 12 = 15
 struct shero_info
 {
+    uint32_t current_state;
     suser_look look;
     suser_status status;
     suser_plus_status plus_status;
@@ -59,17 +66,19 @@ private:
 public:
     std::vector<shero_info> a_hero_list;
     uint32_t a_game_money;
-    uint8_t a_state;
+    uint32_t a_state;
+    uint32_t a_hero_slot;
+    uint32_t a_item_slot;
+    uint32_t a_monster_slot;
+    uint32_t a_servant_slot;
 public:
     cuserauth() {
-        a_hero_list.resize(3);
-        for(auto i=0;i<a_hero_list.size();++i)
-        {
-            a_hero_list[i].equip.resize(3);
-        }
         a_game_money = 100;
-        a_state = static_cast<uint8_t>(euser_state::wait);
-        
+        a_state = euser_state::create;
+        a_hero_slot = 0;
+        a_item_slot = 10;
+        a_monster_slot = 10;
+        a_servant_slot = 10;
     }
     uint64_t primary_key() const {return a_user;}
     void auth_set_user(account_name _user) {a_user = _user;}
@@ -79,6 +88,10 @@ public:
         (a_hero_list)
         (a_game_money)
         (a_state)
+        (a_hero_slot)
+        (a_item_slot)
+        (a_monster_slot)
+        (a_servant_slot)
     )
 };
 

@@ -4,7 +4,7 @@
 
 enum echaracter_state
 {
-    wait = 0,
+    none = 0,
     sleep,
 };
 // 1 + 8 = 9

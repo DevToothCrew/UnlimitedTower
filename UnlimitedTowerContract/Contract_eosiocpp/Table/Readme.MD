@@ -5,19 +5,41 @@
 
 - primary_key : account_name user : 유저의 계정 명이다.
 
-
 - a_hero_list : 유저의 영웅 정보를 담고 있는 벡터이다.
-[head,face,body]
+[head,hair,body]
 [str,dex,int]
+[current_state]
+
+enum ehero_state
+{   
+    set_look = 1,
+    set_status,
+    set_complete,
+};
 
 - a_game_money : 유저의 게임 재화 정보를 갖는 값이다.
 
 - a_state : 유저의 상태값을 같는 상태다.
-none - 아무것도 아닌 상태
-lobby - 로비에 있는 상태 
-battle - 전투 진행중인 상태
-[tower] : 타워에서 전투가 진행중
-[travel] : 모험에서 전투가 진행중
+enum euser_state
+{
+    create = 1,
+    look,
+    status,
+    lobby,
+    battle_result,
+    tower,
+    travel,
+    pause,
+    black,
+};
+
+- a_hero_slot : 유저가 보유하고 있는 히어로의 슬롯 갯수 입니다.
+
+- a_item_slot : 유저가 보유하고 있는 아이템 슬롯의 갯수 입니다.
+
+- a_monster_slot : 유저가 보유하고있는 몬스터 슬롯의 갯수 입니다.
+
+- a_servant_slot : 유저가 보유하고 있는 서번트 슬롯의 갯수 입니다.
 
 
 
@@ -55,7 +77,7 @@ battle - 전투 진행중인 상태
 
 - l_top_clear_tower : 유저가 클리어한 최고 타워의 층 번호이다.
 
-- l_party_count     : 유저가 보유한 파티의 갯수이다.
+- l_add_party_count     : 유저가 보유한 파티의 갯수이다.
 
 - l_character_count : 유저가 보유한 캐릭터 갯수이다.
 
@@ -116,7 +138,7 @@ struct sparty_info
 해당 리스트는 cservantinfo 자료형으로 이루어져 있습니다.
 - s_index             : 해당 용병의 인덱스 번호입니다.
 - s_appear_info       : 해당 용병의 외모 정보입니다.
-- [body,face,hair]
+- [body,hair,hair]
 - s_status_info       : 해당 용병의 스테이터스 정보입니다.
 - [str,dex,int,job]
 - s_plus_status_info  : 해당 용병의 증가한 스테이터스 정보입니다.

@@ -80,9 +80,9 @@ class citem_system
                 {
                     eosio_assert(cur_find_iter->s_servant_list[i].status_info.job==item_find_iter->i_item_list[_item_location].i_job,"mis match job");
                     servants.modify(cur_find_iter, owner, [&](auto &ser) {
-                        ser.s_servant_list[i].plus_status_info.plus_str += item_find_iter->i_item_list[_item_location].i_status_info.strength;
-                        ser.s_servant_list[i].plus_status_info.plus_dex += item_find_iter->i_item_list[_item_location].i_status_info.dexterity;
-                        ser.s_servant_list[i].plus_status_info.plus_int += item_find_iter->i_item_list[_item_location].i_status_info.intelligence;
+                        ser.s_servant_list[i].plus_status_info.plus_str += item_find_iter->i_item_list[_item_location].i_status_info.basic_str;
+                        ser.s_servant_list[i].plus_status_info.plus_dex += item_find_iter->i_item_list[_item_location].i_status_info.basic_dex;
+                        ser.s_servant_list[i].plus_status_info.plus_int += item_find_iter->i_item_list[_item_location].i_status_info.basic_int;
                         ser.s_servant_list[i].s_equip[_equip_slot] = _item_index;
                     });
                     user_items.modify(item_find_iter,owner,[&](auto& new_equip)
@@ -95,7 +95,7 @@ class citem_system
             }
             eosio_assert(check_exist_id!=-1,"not exist servant");
         }
-        void equip_hero_item(account_name _user, uint8_t _character_slot,uint8_t _item_location, uint64_t _item_index,uint8_t _equip_slot)
+        void equip_hero_item(account_name _user, uint8_t _hero_slot,uint8_t _item_location, uint64_t _item_index,uint8_t _equip_slot)
         {
             auto &user_items = gacha_controller.get_item_table();
             auto item_find_iter = user_items.find(_user);
@@ -105,13 +105,13 @@ class citem_system
 
             auto &auth_user_table = login_controller.get_auth_user_table();
             auto cur_find_iter = auth_user_table.find(_user);
-            eosio_assert(cur_find_iter->a_hero_list[_character_slot].status.job == item_find_iter->i_item_list[_item_location].i_job,"mis match job");
+            eosio_assert(cur_find_iter->a_hero_list[_hero_slot].status.job == item_find_iter->i_item_list[_item_location].i_job,"mis match job");
             auth_user_table.modify(cur_find_iter,owner,[&](auto &new_hero_equip)
             {
-                new_hero_equip.a_hero_list[_character_slot].plus_status.plus_str += item_find_iter->i_item_list[_item_location].i_status_info.strength;
-                new_hero_equip.a_hero_list[_character_slot].plus_status.plus_dex += item_find_iter->i_item_list[_item_location].i_status_info.dexterity;
-                new_hero_equip.a_hero_list[_character_slot].plus_status.plus_int += item_find_iter->i_item_list[_item_location].i_status_info.intelligence;
-                new_hero_equip.a_hero_list[_character_slot].equip[_equip_slot]= _item_index;
+                new_hero_equip.a_hero_list[_hero_slot].plus_status.plus_str += item_find_iter->i_item_list[_item_location].i_status_info.basic_str;
+                new_hero_equip.a_hero_list[_hero_slot].plus_status.plus_dex += item_find_iter->i_item_list[_item_location].i_status_info.basic_dex;
+                new_hero_equip.a_hero_list[_hero_slot].plus_status.plus_int += item_find_iter->i_item_list[_item_location].i_status_info.basic_int;
+                new_hero_equip.a_hero_list[_hero_slot].equip[_equip_slot]= _item_index;
             });
 
             user_items.modify(item_find_iter, owner, [&](auto &new_equip) {
@@ -133,9 +133,9 @@ class citem_system
                 if(item_find_iter->i_item_list[i].i_index == cur_find_iter->s_servant_list[_servant_location].s_equip[_equip_slot])
                 {
                     servants.modify(cur_find_iter, owner, [&](auto &ser) {
-                        ser.s_servant_list[_servant_location].plus_status_info.plus_str -= item_find_iter->i_item_list[i].i_status_info.strength;
-                        ser.s_servant_list[_servant_location].plus_status_info.plus_dex -= item_find_iter->i_item_list[i].i_status_info.dexterity;
-                        ser.s_servant_list[_servant_location].plus_status_info.plus_int -= item_find_iter->i_item_list[i].i_status_info.intelligence;
+                        ser.s_servant_list[_servant_location].plus_status_info.plus_str -= item_find_iter->i_item_list[i].i_status_info.basic_str;
+                        ser.s_servant_list[_servant_location].plus_status_info.plus_dex -= item_find_iter->i_item_list[i].i_status_info.basic_dex;
+                        ser.s_servant_list[_servant_location].plus_status_info.plus_int -= item_find_iter->i_item_list[i].i_status_info.basic_int;
                         ser.s_servant_list[_servant_location].s_equip[_equip_slot] = 0;
                     });
                     user_items.modify(item_find_iter, owner, [&](auto &new_equip) {
@@ -147,7 +147,7 @@ class citem_system
             }
             eosio_assert(check_exist_id!=-1,"not exist item");
         }
-        void unequip_hero_item(account_name _user, uint8_t _character_slot, uint8_t _item_location, uint64_t _item_index, uint8_t _equip_slot)
+        void unequip_hero_item(account_name _user, uint8_t _hero_slot, uint8_t _item_location, uint64_t _item_index, uint8_t _equip_slot)
         {
             auto &user_items = gacha_controller.get_item_table();
             auto item_find_iter = user_items.find(_user);
@@ -157,13 +157,13 @@ class citem_system
 
             auto &auth_user_table = login_controller.get_auth_user_table();
             auto cur_find_iter = auth_user_table.find(_user);
-            eosio_assert(cur_find_iter->a_hero_list[_character_slot].status.job == item_find_iter->i_item_list[_item_location].i_job,"mis match job");
+            eosio_assert(cur_find_iter->a_hero_list[_hero_slot].status.job == item_find_iter->i_item_list[_item_location].i_job,"mis match job");
             auth_user_table.modify(cur_find_iter,owner,[&](auto &new_hero_equip)
             {
-                new_hero_equip.a_hero_list[_character_slot].plus_status.plus_str -= item_find_iter->i_item_list[_item_location].i_status_info.strength;
-                new_hero_equip.a_hero_list[_character_slot].plus_status.plus_dex -= item_find_iter->i_item_list[_item_location].i_status_info.dexterity;
-                new_hero_equip.a_hero_list[_character_slot].plus_status.plus_int -= item_find_iter->i_item_list[_item_location].i_status_info.intelligence;
-                new_hero_equip.a_hero_list[_character_slot].equip[_equip_slot]= 0;
+                new_hero_equip.a_hero_list[_hero_slot].plus_status.plus_str -= item_find_iter->i_item_list[_item_location].i_status_info.basic_str;
+                new_hero_equip.a_hero_list[_hero_slot].plus_status.plus_dex -= item_find_iter->i_item_list[_item_location].i_status_info.basic_dex;
+                new_hero_equip.a_hero_list[_hero_slot].plus_status.plus_int -= item_find_iter->i_item_list[_item_location].i_status_info.basic_int;
+                new_hero_equip.a_hero_list[_hero_slot].equip[_equip_slot]= 0;
             });
 
             user_items.modify(item_find_iter, owner, [&](auto &new_equip) {

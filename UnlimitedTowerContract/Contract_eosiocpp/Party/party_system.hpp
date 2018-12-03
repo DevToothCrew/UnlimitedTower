@@ -59,14 +59,14 @@ class cparty_system
             }
             return l_random_result;
         }
-        void set_hero(account_name _user,uint32_t _party_number,uint8_t _character_slot)
+        void set_hero(account_name _user,uint32_t _party_number,uint8_t _hero_slot)
         {
             auto party_find_iter = party_list.find(_user);
             eosio_assert(party_find_iter != party_list.end(),"not exist party list");
-            eosio_assert(_character_slot < max_hero_slot,"not hero index");
+            eosio_assert(_hero_slot < max_hero_slot,"not hero index");
             party_list.modify(party_find_iter,owner,[&](auto& new_party_hero)
             {
-                new_party_hero.p_party_list[_party_number].object_id_list[hero_party_location] = _character_slot;
+                new_party_hero.p_party_list[_party_number].object_id_list[hero_party_location] = _hero_slot;
             });
         }
         void set_party(account_name _user,uint8_t _party_number,uint8_t _party_location_index,uint32_t _object_type,uint64_t _object_index)
@@ -170,11 +170,11 @@ class cparty_system
             auto log_find_iter = log_table.find(_user);
             eosio_assert(log_find_iter != log_table.end(),"not find user information to log");
 
-            uint32_t l_p_count = log_find_iter->l_party_count;
+            uint32_t l_p_count = log_find_iter->l_add_party_count;
             l_p_count++;
             log_table.modify(log_find_iter,owner,[&](auto &add_count)
             {
-                add_count.l_party_count = l_p_count;
+                add_count.l_add_party_count = l_p_count;
             });
             auto cur_player_iter = party_list.find(_user);
             eosio_assert(cur_player_iter != party_list.end(), "not exist party list");

@@ -31,6 +31,8 @@ class clogin_system
 
   private:
     battle_data_table stage;
+    const uint32_t max_charcterslot = 3;
+    const uint32_t max_equip_slot = 3;
 
   public:
     struct st_transfer
@@ -95,7 +97,13 @@ class clogin_system
         eosio_assert(new_user_iter == auth_user_table.end(), "exist account");
         auth_user_table.emplace(owner, [&](auto &new_user) {
             new_user.auth_set_user(_user);
-            new_user.a_state = static_cast<uint8_t>(euser_state::look);
+            new_user.a_state = euser_state::create;
+
+            shero_info first_hero;
+            first_hero.equip.resize(max_equip_slot);
+            first_hero.current_state = ehero_state::set_look;
+            
+            new_user.a_hero_list.push_back(first_hero);
         });
 
         auto user_log_iter = user_log_table.find(_user);
@@ -104,33 +112,42 @@ class clogin_system
             new_log.log_set_user(_user);
         });
     }
-    void set_look(const account_name _user, uint8_t _character_slot, uint8_t _head, uint8_t _face,uint8_t _body)
+    void set_look(const account_name _user, uint8_t _hero_slot, uint8_t _head, uint8_t _hair,uint8_t _body)
     {
         auto user_iter = auth_user_table.find(_user);
         eosio_assert(user_iter != auth_user_table.end(), "unknown account");
-        eosio_assert(user_iter->a_state == euser_state::look,"look setting is over");
+        eosio_assert(user_iter->a_hero_slot >= _hero_slot,"need more character slot");
+        eosio_assert(user_iter->a_hero_list[_hero_slot].current_state == ehero_state::set_look,"already completed look setting");
 
-        const auto &user_log_iter = user_log_table.get(_user);
-        //추가적인 캐릭터를 구매했는지 체크해야한다.
-        eosio_assert((log_iter.l_character_count) < _character_slot + 1, "need buy character slot");
-
-        auth_user_table.modify(user_itr, owner, [&](auto &user_look_set) {
-            user_look_set.a_state = static_cast<uint8_t>(euser_state::status);
-            user_look_set.a_hero_list[_character_slot].look.head = _head;
-            user_look_set.a_hero_list[_character_slot].look.face = _face;
-            user_look_set.a_hero_list[_character_slot].look.body = _body;
+        auth_user_table.modify(user_iter, owner, [&](auto &hero_look_set) {
+            hero_look_set.a_hero_list[_hero_slot].current_state = ehero_state::set_status;
+            hero_look_set.a_hero_list[_hero_slot].look.head = _head;
+            hero_look_set.a_hero_list[_hero_slot].look.hair = _hair;
+            hero_look_set.a_hero_list[_hero_slot].look.body = _body;
         });
     }
-    void set_status(const account_name _user, uint8_t _character_slot)
+    void set_status(const account_name _user, uint8_t _hero_slot)
     {
-        auto user_itr = auth_user_table.find(_user);
-        eosio_assert(user_itr != auth_user_table.end(), "unknown account");
+        auto user_iter = auth_user_table.find(_user);
+        eosio_assert(user_iter != auth_user_table.end(), "unknown account");
+        eosio_assert(user_iter->a_hero_slot >= _hero_slot,"need more character slot");
+        eosio_assert(user_iter->a_hero_list[_hero_slot].current_state == ehero_state::set_status,"already completed status setting");
 
-        auth_user_table.modify(user_itr, owner, [&](auto &user_status_set) {
-            user_status_set.a_state = static_cast<uint8_t>(euser_state::lobby);
-            user_status_set.a_hero_list[_character_slot].status.strength = random_value(10);
-            user_status_set.a_hero_list[_character_slot].status.dexterity = random_value(10);
-            user_status_set.a_hero_list[_character_slot].status.intelligence = random_value(10);
+        auth_user_table.modify(user_iter, owner, [&](auto &hero_status_set) {
+            hero_status_set.a_hero_list[_hero_slot].status.basic_str = random_value(10);
+            hero_status_set.a_hero_list[_hero_slot].status.basic_dex = random_value(10);
+            hero_status_set.a_hero_list[_hero_slot].status.basic_int = random_value(10);
+        });
+    }
+    void complete_hero_set(account_name _user, uint8_t _hero_slot)
+    {
+        auto user_iter = auth_user_table.find(_user);
+        eosio_assert(user_iter != auth_user_table.end(), "unknown account");
+        eosio_assert(user_iter->a_hero_slot >= _hero_slot,"need more character slot");
+        eosio_assert(user_iter->a_hero_list[_hero_slot].current_state == ehero_state::set_status,"already completed status setting");
+    
+        auth_user_table.modify(user_iter, owner, [&](auto &hero_state_set) {
+            hero_state_set.a_hero_list[_hero_slot].current_state = ehero_state::set_complete;
         });
     }
     uint64_t random_value(uint32_t _range)
@@ -146,18 +163,48 @@ class clogin_system
         }
         return l_random_result;
     }
-    void add_chacater_slot(account_name _user)
+    void add_hero_slot(account_name _user)
     {
-        auto user_log_iter = user_log_table.find(_user);
-
-        if (user_log_iter->l_character_count < 3)
+        auto user_iter = auth_user_table.find(_user);
+        eosio_assert(user_iter != auth_user_table.end(),"not find user info");
+        if (user_iter->a_hero_slot < max_charcterslot)
         {
-            user_log_table.modify(user_log_iter, owner, [&](auto &user_add_character) {
-                user_add_character.l_character_count++;
+            auth_user_table.modify(user_iter, owner, [&](auto &user_add_character) {
+                shero_info new_hero;
+                new_hero.equip.resize(max_equip_slot);
+                new_hero.current_state = ehero_state::set_look;
+
+                user_add_character.a_hero_list.push_back(new_hero);
+                user_add_character.a_hero_slot+=1;
             });
         }
     }
-    #pragma region static data test
+    void add_item_slot(account_name _user)
+    {
+        auto user_iter = auth_user_table.find(_user);
+        eosio_assert(user_iter != auth_user_table.end(), "not find user info");
+        auth_user_table.modify(user_iter, owner, [&](auto &user_add_item_slot) {
+            user_add_item_slot.a_item_slot += 10;
+        });
+    }
+    void add_servant_slot(account_name _user)
+    {
+        auto user_iter = auth_user_table.find(_user);
+        eosio_assert(user_iter != auth_user_table.end(), "not find user info");
+        auth_user_table.modify(user_iter, owner, [&](auto &user_add_servant_slot) {
+            user_add_servant_slot.a_servant_slot += 10;
+        });
+    }
+    void add_monster_slot(account_name _user)
+    {
+        auto user_iter = auth_user_table.find(_user);
+        eosio_assert(user_iter != auth_user_table.end(), "not find user info");
+        auth_user_table.modify(user_iter, owner, [&](auto &user_add_monster_slot) {
+            user_add_monster_slot.a_monster_slot += 10;
+        });
+    }
+
+#pragma region static data test
     void init_stage_data()
     {
         uint32_t l_stage_count = 0;

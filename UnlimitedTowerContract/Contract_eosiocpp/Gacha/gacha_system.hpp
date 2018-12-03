@@ -80,17 +80,17 @@ class cgacha_system
             auto find_log_iter = log.find(_user);
 
             auto cur_user_servant = servants.find(_user);
-            eosio_assert(cur_user_servant->s_servant_list.size()<find_log_iter->l_servant_slot_count,"need more slot");
+            //eosio_assert(cur_user_servant->s_servant_list.size()<find_log_iter->l_servant_slot_count,"need more slot");
             servants.modify(cur_user_servant, owner, [&](auto &servant) {
                 cservantinfo ser;
                 ser.s_index = find_log_iter->l_servant_num + 1;
                 ser.appear_info.hair = gacha_servant_hair(_seed,random_count++);
-                ser.appear_info.face = gacha_servant_head(_seed,random_count++);
+                ser.appear_info.hair = gacha_servant_head(_seed,random_count++);
                 ser.appear_info.body = gacha_servant_body(_seed,random_count++);
                 ser.status_info.job = job_iter.s_job;
-                ser.status_info.strength = random_seed(_seed,job_iter.s_max_range.s_str,job_iter.s_min_range.s_str,random_count++);
-                ser.status_info.dexterity = random_seed(_seed,job_iter.s_max_range.s_dex,job_iter.s_min_range.s_dex,random_count++);
-                ser.status_info.intelligence = random_seed(_seed,job_iter.s_max_range.s_int,job_iter.s_min_range.s_int,random_count++);
+                ser.status_info.basic_str = random_seed(_seed,job_iter.s_max_range.s_str,job_iter.s_min_range.s_str,random_count++);
+                ser.status_info.basic_dex = random_seed(_seed,job_iter.s_max_range.s_dex,job_iter.s_min_range.s_dex,random_count++);
+                ser.status_info.basic_int = random_seed(_seed,job_iter.s_max_range.s_int,job_iter.s_min_range.s_int,random_count++);
                 ser.s_equip.resize(3);
                 servant.s_servant_list.push_back(ser);
             });
@@ -152,14 +152,14 @@ class cgacha_system
             auto find_log_iter = log.find(_user);
 
             auto cur_user_monster = monsters.find(_user);
-            eosio_assert(cur_user_monster->m_monster_list.size()<find_log_iter->l_monster_slot_count,"need more slot");
+            //eosio_assert(cur_user_monster->m_monster_list.size()<find_log_iter->l_monster_slot_count,"need more slot");
             monsters.modify(cur_user_monster, owner, [&](auto &new_monster) {
                 cmonsterinfo monster;
                 monster.m_index = find_log_iter->l_monster_num + 1;
                 monster.m_type_index = id_iter.m_id;
-                monster.m_status_info.strength = random_seed(_seed,grade_iter.m_max_range.m_str,grade_iter.m_min_range.m_str,random_count++);
-                monster.m_status_info.dexterity = random_seed(_seed,grade_iter.m_max_range.m_dex,grade_iter.m_min_range.m_dex,random_count++);
-                monster.m_status_info.intelligence = random_seed(_seed,grade_iter.m_max_range.m_int,grade_iter.m_min_range.m_int,random_count++);
+                monster.m_status_info.basic_str = random_seed(_seed,grade_iter.m_max_range.m_str,grade_iter.m_min_range.m_str,random_count++);
+                monster.m_status_info.basic_dex = random_seed(_seed,grade_iter.m_max_range.m_dex,grade_iter.m_min_range.m_dex,random_count++);
+                monster.m_status_info.basic_int = random_seed(_seed,grade_iter.m_max_range.m_int,grade_iter.m_min_range.m_int,random_count++);
                 new_monster.m_monster_list.push_back(monster);
             });
 
@@ -183,16 +183,16 @@ class cgacha_system
             auto find_log_iter = log.find(_user);
 
             auto cur_user_item = items.find(_user);
-            eosio_assert(cur_user_item->i_item_list.size()<find_log_iter->l_item_slot_count,"need more slot");
+            //eosio_assert(cur_user_item->i_item_list.size()<find_log_iter->l_item_slot_count,"need more slot");
             items.modify(cur_user_item, owner, [&](auto &new_item) {
                 citeminfo item;
                 item.i_index = find_log_iter->l_item_num + 1;
                 item.i_type_index = id_iter.i_id;
                 item.i_type_equip = id_iter.i_type;
                 item.i_tier = tier_iter.i_tier;
-                item.i_status_info.strength = random_seed(_seed,tier_iter.i_max_range.i_str,tier_iter.i_min_range.i_str,random_count++);
-                item.i_status_info.dexterity = random_seed(_seed,tier_iter.i_max_range.i_dex,tier_iter.i_min_range.i_dex,random_count++);
-                item.i_status_info.intelligence = random_seed(_seed,tier_iter.i_max_range.i_int,tier_iter.i_min_range.i_int,random_count++);
+                item.i_status_info.basic_str = random_seed(_seed,tier_iter.i_max_range.i_str,tier_iter.i_min_range.i_str,random_count++);
+                item.i_status_info.basic_dex = random_seed(_seed,tier_iter.i_max_range.i_dex,tier_iter.i_min_range.i_dex,random_count++);
+                item.i_status_info.basic_int = random_seed(_seed,tier_iter.i_max_range.i_int,tier_iter.i_min_range.i_int,random_count++);
                 item.i_job = id_iter.i_job;
                 item.i_item_state = item_none;
                 new_item.i_item_list.push_back(item);

@@ -47,7 +47,7 @@
         {
             
         }
-#pragma region test
+#pragma region init
         //@abi action
         void datainit()
         {
@@ -67,27 +67,26 @@
         {
             print("account create\n");
             login_controller.create_account(_user);
-            gacha_controller.user_own_object_init(_user); //test func
+            gacha_controller.user_own_object_init(_user);
             party_controller.party_init(_user);
             item_controller.equip_init(_user);
         }
         //@abi action
-        void lookset(account_name _user,uint8_t _charater_slot ,uint8_t _head,uint8_t _face,uint8_t _body)
+        void lookset(account_name _user,uint8_t _hero_slot ,uint8_t _head,uint8_t _hair,uint8_t _body)
         {
             print("set look account from account\n");
-            login_controller.set_look(_user,_charater_slot,_head,_face,_body);
+            login_controller.set_look(_user,_hero_slot,_head,_hair,_body);
         }
         //@abi action
-        void statset(account_name _user,uint8_t _charater_slot)
+        void statset(account_name _user,uint8_t _hero_slot)
         {
             print("set status account from account\n");
-            login_controller.set_status(_user,_charater_slot);
+            login_controller.set_status(_user,_hero_slot);
         }
         //@abi action
-        void changestatus(account_name _user,uint32_t _character_slot)
+        void completeset(account_name _user,uint32_t _hero_slot)
         {
-            print("first create character dice for change status action\n");
-            login_controller.set_status(_user,_character_slot);
+            login_controller.complete_hero_set(_user,_hero_slot);
         }
         // eosio.token recipient
         // memo description spec
@@ -102,7 +101,7 @@
             }
             if(ad.action == add_char)        
             {
-                login_controller.add_chacater_slot(sender);
+                login_controller.add_hero_slot(sender);
             }
             else if(ad.action == change_stat)
             {
@@ -150,9 +149,9 @@
 #pragma endregion
 
 #pragma resion Party
-        void sethero(account_name _user,uint32_t _party_number,uint8_t _character_slot)
+        void sethero(account_name _user,uint32_t _party_number,uint8_t _hero_slot)
         {
-            party_controller.set_hero(_user,_party_number,_character_slot);
+            party_controller.set_hero(_user,_party_number,_hero_slot);
         }
         //@abi action
         void setparty(account_name _user,uint8_t _party_number,uint8_t _party_location_index,uint32_t _object_type,uint64_t _object_index)
@@ -188,16 +187,16 @@
             item_controller.unequip_servant_item(_user,_servant_location,_object_index,_item_slot);
         }
         //@abi action
-        void equiphero(account_name _user, uint8_t _character_slot,uint8_t _item_location, uint64_t _item_index,uint8_t _item_slot)
+        void equiphero(account_name _user, uint8_t _hero_slot,uint8_t _item_location, uint64_t _item_index,uint8_t _item_slot)
         {
             print("equip item\n");
-            item_controller.equip_hero_item(_user, _character_slot,_item_location, _item_index,_item_slot);
+            item_controller.equip_hero_item(_user, _hero_slot,_item_location, _item_index,_item_slot);
         }
         //@abi action
-        void unequiphero(account_name _user, uint8_t _character_slot,uint8_t _item_location, uint64_t _item_index,uint8_t _item_slot)
+        void unequiphero(account_name _user, uint8_t _hero_slot,uint8_t _item_location, uint64_t _item_index,uint8_t _item_slot)
         {
             print("un equip item\n");
-            item_controller.unequip_hero_item(_user, _character_slot,_item_location, _item_index,_item_slot);
+            item_controller.unequip_hero_item(_user, _hero_slot,_item_location, _item_index,_item_slot);
         }
 #pragma endregion
 
@@ -230,4 +229,4 @@ extern "C" { \
 }
 // eos 금액에 대해 체크 하는 함
 
-    EOSIO_ABI(cmain_logic,(datainit)(stageinit)(signup)(lookset)(statset)(changestatus)(transfer)(gacha)(setbattle)(startbattle)(activeturn)(sethero)(setparty)(sellitem)(buyitem)(equipser)(unequipser)(equiphero)(unequiphero) )
+    EOSIO_ABI(cmain_logic,(datainit)(stageinit)(signup)(lookset)(statset)(completeset)(transfer)(gacha)(setbattle)(startbattle)(activeturn)(sethero)(setparty)(sellitem)(buyitem)(equipser)(unequipser)(equiphero)(unequiphero) )
