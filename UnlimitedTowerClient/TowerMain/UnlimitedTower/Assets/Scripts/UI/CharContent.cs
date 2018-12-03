@@ -7,5 +7,6 @@ public class CharContent : MonoBehaviour {
     // Use this for initialization
 
     public int CharDicKey;
+
 	
 }

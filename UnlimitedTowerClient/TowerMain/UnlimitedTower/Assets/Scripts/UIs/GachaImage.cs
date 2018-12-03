@@ -27,8 +27,26 @@ public class GachaImage : MonoSingleton<GachaImage>
 
     public GameObject GachaButton;
     public GameObject ExitButton;
+    public GameObject Test10GachaButton;
 
     private bool reGachaflag = false;
+
+
+    public void Test_10_GoGacha()
+    {
+        Debug.Log("Test_10Gacha");
+
+        // TODO : 현재 임시로 TestDB에서 캐릭터 정보 가져와서
+
+        for(int i=0; i<10; i++)
+        {
+            Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1);
+            // 가챠의 결과로 나온 캐릭터 정보를 저장한다.
+            UserDataManager.Inst.SetCharacter(newChar);
+            UserDataManager.Inst.AddNewCharImage(newChar.Name);
+        }
+     
+    }
 
 
     IEnumerator FADE_OUT()
