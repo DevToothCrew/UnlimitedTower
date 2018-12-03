@@ -97,7 +97,7 @@ class clogin_system
         eosio_assert(new_user_iter == auth_user_table.end(), "exist account");
         auth_user_table.emplace(owner, [&](auto &new_user) {
             new_user.auth_set_user(_user);
-            new_user.a_state = euser_state::create;
+            new_user.a_state = euser_state::login;
 
             shero_info first_hero;
             first_hero.equip.resize(max_equip_slot);
@@ -178,30 +178,6 @@ class clogin_system
                 user_add_character.a_hero_slot+=1;
             });
         }
-    }
-    void add_item_slot(account_name _user)
-    {
-        auto user_iter = auth_user_table.find(_user);
-        eosio_assert(user_iter != auth_user_table.end(), "not find user info");
-        auth_user_table.modify(user_iter, owner, [&](auto &user_add_item_slot) {
-            user_add_item_slot.a_item_slot += 10;
-        });
-    }
-    void add_servant_slot(account_name _user)
-    {
-        auto user_iter = auth_user_table.find(_user);
-        eosio_assert(user_iter != auth_user_table.end(), "not find user info");
-        auth_user_table.modify(user_iter, owner, [&](auto &user_add_servant_slot) {
-            user_add_servant_slot.a_servant_slot += 10;
-        });
-    }
-    void add_monster_slot(account_name _user)
-    {
-        auto user_iter = auth_user_table.find(_user);
-        eosio_assert(user_iter != auth_user_table.end(), "not find user info");
-        auth_user_table.modify(user_iter, owner, [&](auto &user_add_monster_slot) {
-            user_add_monster_slot.a_monster_slot += 10;
-        });
     }
 
 #pragma region static data test

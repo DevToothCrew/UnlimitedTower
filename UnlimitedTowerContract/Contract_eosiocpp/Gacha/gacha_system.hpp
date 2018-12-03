@@ -6,16 +6,21 @@ class cgacha_system
         account_name owner;
         clogin_system &login_controller;
         crule_system &rule_controller;
-        user_monster_table monsters;
-        user_servant_table servants;
-        user_item_table items;
-        uint32_t random_count;
-        const uint32_t not_exist_min = 0;
+        user_monsters user_monster_table;
+        user_servants user_servant_table;
+        user_items user_item_table;
+
+        uint32_t servant_random_count;
+        uint32_t monster_random_count;
+        uint32_t item_random_count;
+
     public:
+        const uint32_t default_min = 0;
         const uint32_t max_rate = 100000;
         const uint32_t grade_three_rate = 89000;
         const uint32_t grade_four_rate = 9000;
         const uint32_t grade_five_rate = 2000;
+
     public:
         cgacha_system(account_name _self,
         clogin_system &_login_controller,
@@ -23,47 +28,46 @@ class cgacha_system
         : owner(_self),
         login_controller(_login_controller),
         rule_controller(_rule_controller),
-        monsters(_self,_self),
-        servants(_self,_self),
-        items(_self,_self)
+        user_monster_table(_self,_self),
+        user_servant_table(_self,_self),
+        user_item_table(_self,_self)
         {
-            random_count = 0;
+            servant_random_count=0;
+            monster_random_count=0;
+            item_random_count=0;
         }
-        user_monster_table &get_monster_table()
+        user_monsters &get_monster_table()
         {
-            return monsters;
+            return user_monster_table;
         }
-        user_servant_table &get_servant_table()
+        user_servants &get_servant_table()
         {
-            return servants;
+            return user_servant_table;
         }
-        user_item_table &get_item_table()
+        user_items &get_item_table()
         {
-            return items;
+            return user_item_table;
         }
         void user_own_object_init(account_name _user)
         {
-            servants.emplace(owner, [&](auto &new_servant) {
+            user_servant_table.emplace(owner, [&](auto &new_servant) {
                 new_servant.servant_set_user(_user);
             });
-            monsters.emplace(owner, [&](auto &new_monster) {
+            user_monster_table.emplace(owner, [&](auto &new_monster) {
                 new_monster.monster_set_user(_user);
             });
-            items.emplace(owner, [&](auto &new_item) {
+            user_item_table.emplace(owner, [&](auto &new_item) {
                 new_item.item_set_user(_user);
             });
         }
-        uint64_t random_seed(uint64_t _seed,uint32_t _range,uint32_t _min,uint32_t _random_count)
+        uint64_t random_seed(uint64_t _seed,uint32_t _max,uint32_t _min,uint32_t _random_count)
         {
-            uint64_t l_result;
-            uint64_t l_seed;
+            checksum256 check_sum_result;
+            sha256((char *)&_seed, sizeof(_seed), &check_sum_result);
+            uint64_t *l_seed = reinterpret_cast<uint64_t *>(&check_sum_result.hash);
 
-            l_seed = (_seed >> (2 * _random_count));
-            l_result = l_seed % _range;
-            print("r_count : ", _random_count, "\n");
-            print("l_seed : ", l_seed, "\n");
-            print("l_result : ", l_result, "\n");
-            print("-------------------------------\n");
+            *l_seed = ((*l_seed) >> (2 * _random_count));
+            uint64_t l_result = *l_seed % _max;
             if(l_result < _min)
             {
                 return l_result+=_min;
@@ -72,31 +76,30 @@ class cgacha_system
         }
         void gacha_servant_job(account_name _user,uint64_t _seed)
         {
-            uint8_t result_job = random_seed(_seed,rule_controller.servant_job_count,not_exist_min,random_count++);
-            auto &servant_job = rule_controller.get_servant_rule_table();
-            const auto &job_iter = servant_job.get(result_job,"not exist servant job");
+            uint8_t random_job = random_seed(_seed,rule_controller.servant_job_count,default_min,servant_random_count++);
+            auto &servant_job_db = rule_controller.get_servant_rule_table();
+            const auto &servant_db_iter = servant_job_db.get(random_job,"not get servant job data");
 
-            auto &log = login_controller.get_log_table();
-            auto find_log_iter = log.find(_user);
+            auto &user_log_table = login_controller.get_log_table();
+            auto user_log_iter = user_log_table.find(_user);
 
-            auto cur_user_servant = servants.find(_user);
-            //eosio_assert(cur_user_servant->s_servant_list.size()<find_log_iter->l_servant_slot_count,"need more slot");
-            servants.modify(cur_user_servant, owner, [&](auto &servant) {
-                cservantinfo ser;
-                ser.s_index = find_log_iter->l_servant_num + 1;
-                ser.appear_info.hair = gacha_servant_hair(_seed,random_count++);
-                ser.appear_info.hair = gacha_servant_head(_seed,random_count++);
-                ser.appear_info.body = gacha_servant_body(_seed,random_count++);
-                ser.status_info.job = job_iter.s_job;
-                ser.status_info.basic_str = random_seed(_seed,job_iter.s_max_range.s_str,job_iter.s_min_range.s_str,random_count++);
-                ser.status_info.basic_dex = random_seed(_seed,job_iter.s_max_range.s_dex,job_iter.s_min_range.s_dex,random_count++);
-                ser.status_info.basic_int = random_seed(_seed,job_iter.s_max_range.s_int,job_iter.s_min_range.s_int,random_count++);
-                ser.s_equip.resize(3);
-                servant.s_servant_list.push_back(ser);
+            auto user_servant_list_iter = user_servant_table.find(_user);
+            user_servant_table.modify(user_servant_list_iter, owner, [&](auto &update_user_servant_list) {
+                cservantinfo new_servant;
+                new_servant.s_index = user_log_iter->l_servant_num + 1;
+                new_servant.appear_info.hair = gacha_servant_hair(_seed,servant_random_count++);
+                new_servant.appear_info.hair = gacha_servant_head(_seed,servant_random_count++);
+                new_servant.appear_info.body = gacha_servant_body(_seed,servant_random_count++);
+                new_servant.status_info.job = servant_db_iter.s_job;
+                new_servant.status_info.basic_str = random_seed(_seed,servant_db_iter.s_max_range.s_str,servant_db_iter.s_min_range.s_str,servant_random_count++);
+                new_servant.status_info.basic_dex = random_seed(_seed,servant_db_iter.s_max_range.s_dex,servant_db_iter.s_min_range.s_dex,servant_random_count++);
+                new_servant.status_info.basic_int = random_seed(_seed,servant_db_iter.s_max_range.s_int,servant_db_iter.s_min_range.s_int,servant_random_count++);
+                new_servant.s_equip.resize(3);
+                update_user_servant_list.s_servant_list.push_back(new_servant);
             });
 
             //로그 남기는 부분
-            log.modify(find_log_iter, owner, [&](auto &update_log) {
+            user_log_table.modify(user_log_iter, owner, [&](auto &update_log) {
                 update_log.l_servant_num++;
                 update_log.l_gacha_num++;
             });
@@ -104,66 +107,65 @@ class cgacha_system
         }
         uint8_t gacha_servant_head(uint64_t _seed,uint32_t _count)
         {
-            uint8_t result_head = random_seed(_seed,rule_controller.head_count,not_exist_min,_count);
-            auto &servant_head = rule_controller.get_head_rule_table();
-            const auto &head_iter = servant_head.get(result_head,"not exist head info");
-            return head_iter.h_head;
+            uint8_t random_head = random_seed(_seed,rule_controller.head_count,default_min,_count);
+            auto &servant_head_db = rule_controller.get_head_rule_table();
+            const auto &head_db_iter = servant_head_db.get(random_head,"not exist head info");
+            return head_db_iter.h_head;
         }
         uint8_t gacha_servant_hair(uint64_t _seed,uint32_t _count)
         {
-            uint8_t result_hair = random_seed(_seed,rule_controller.hair_count,not_exist_min,_count);
-            auto &servant_hair = rule_controller.get_hair_rule_table();
-            const auto &hair_iter = servant_hair.get(result_hair,"not exist hair info");
-            return hair_iter.h_hair;
+            uint8_t random_hair = random_seed(_seed,rule_controller.hair_count,default_min,_count);
+            auto &servant_hair_db = rule_controller.get_hair_rule_table();
+            const auto &hair_db_iter = servant_hair_db.get(random_hair,"not exist hair info");
+            return hair_db_iter.h_hair;
         }
         uint8_t gacha_servant_body(uint64_t _seed,uint32_t _count)
         {
-            uint8_t result_body = random_seed(_seed,rule_controller.body_count,not_exist_min,_count);
-            auto &servant_body = rule_controller.get_body_rule_table();
-            const auto &body_iter = servant_body.get(result_body, "not exist body info");
-            return body_iter.b_body;
+            uint8_t random_body = random_seed(_seed,rule_controller.body_count,default_min,_count);
+            auto &servant_body_db = rule_controller.get_body_rule_table();
+            const auto &body_db_iter = servant_body_db.get(random_body, "not exist body info");
+            return body_db_iter.b_body;
         }
         //---------------------------------------------------------------------------------//
         void gacha_monster_id(account_name _user,uint64_t _seed)
-        {           
-            uint32_t result_rate = random_seed(_seed,max_rate,not_exist_min,random_count++);
-            uint8_t result_id;
-            if(result_rate < grade_five_rate)
+        {   
+            uint8_t random_monster_id = random_seed(_seed,rule_controller.monster_id_count,default_min,monster_random_count++);
+            auto &monster_id_db = rule_controller.get_monster_id_rule_table();
+            const auto &monster_id_db_iter = monster_id_db.get(random_monster_id,"not exist monster id");
+
+            uint32_t random_rate = random_seed(_seed,max_rate,default_min,monster_random_count++);
+            uint8_t random_grade;
+            if(random_rate < grade_five_rate)
             {
-                result_id = 4;
+                random_grade = 4;
             }
-            else if(result_rate < grade_four_rate)
+            else if(random_rate < grade_four_rate)
             {
-                result_id = 3;
+                random_grade = 3;
             }
             else
             {
-                result_id = 2;
+                random_grade = 2;
             }
-            //uint8_t result_id = random_seed(_seed,rule_controller.monster_id_count,not_exist_min,random_count++);
-            auto &monster_id = rule_controller.get_monster_id_rule_table();
-            const auto &id_iter = monster_id.get(result_id,"not exist monster id");
 
-            uint8_t result_grade = random_seed(_seed,rule_controller.monster_grade_count,not_exist_min,random_count++);
-            auto &monster_grade = rule_controller.get_monster_grade_rule_table();
-            const auto &grade_iter = monster_grade.get(result_grade,"not exist monster grade");
+            auto &monster_grade_db = rule_controller.get_monster_grade_rule_table();
+            const auto &grade_db_iter = monster_grade_db.get(random_grade,"not exist monster grade");
 
-            auto &log = login_controller.get_log_table();
-            auto find_log_iter = log.find(_user);
+            auto &user_log_table = login_controller.get_log_table();
+            auto user_log_iter = user_log_table.find(_user);
 
-            auto cur_user_monster = monsters.find(_user);
-            //eosio_assert(cur_user_monster->m_monster_list.size()<find_log_iter->l_monster_slot_count,"need more slot");
-            monsters.modify(cur_user_monster, owner, [&](auto &new_monster) {
-                cmonsterinfo monster;
-                monster.m_index = find_log_iter->l_monster_num + 1;
-                monster.m_type_index = id_iter.m_id;
-                monster.m_status_info.basic_str = random_seed(_seed,grade_iter.m_max_range.m_str,grade_iter.m_min_range.m_str,random_count++);
-                monster.m_status_info.basic_dex = random_seed(_seed,grade_iter.m_max_range.m_dex,grade_iter.m_min_range.m_dex,random_count++);
-                monster.m_status_info.basic_int = random_seed(_seed,grade_iter.m_max_range.m_int,grade_iter.m_min_range.m_int,random_count++);
-                new_monster.m_monster_list.push_back(monster);
+            auto user_monster_list_iter = user_monster_table.find(_user);
+            user_monster_table.modify(user_monster_list_iter, owner, [&](auto &update_user_monster_list) {
+                cmonsterinfo new_monster;
+                new_monster.m_index = user_log_iter->l_monster_num + 1;
+                new_monster.m_type_index = monster_id_db_iter.m_id;
+                new_monster.m_status_info.basic_str = random_seed(_seed,grade_db_iter.m_max_range.m_str,grade_db_iter.m_min_range.m_str,monster_random_count++);
+                new_monster.m_status_info.basic_dex = random_seed(_seed,grade_db_iter.m_max_range.m_dex,grade_db_iter.m_min_range.m_dex,monster_random_count++);
+                new_monster.m_status_info.basic_int = random_seed(_seed,grade_db_iter.m_max_range.m_int,grade_db_iter.m_min_range.m_int,monster_random_count++);
+                update_user_monster_list.m_monster_list.push_back(new_monster);
             });
 
-            log.modify(find_log_iter, owner, [&](auto &update_log) {
+            user_log_table.modify(user_log_iter, owner, [&](auto &update_log) {
                 update_log.l_gacha_num++;
                 update_log.l_monster_num++;
             });
@@ -171,53 +173,52 @@ class cgacha_system
         //-----------------------------------------------------------------------------//
         void gacha_item_id(account_name _user,uint64_t _seed)
         {
-            uint8_t result_id = random_seed(_seed,rule_controller.item_id_count,not_exist_min,random_count++);
-            auto &item_id = rule_controller.get_item_id_rule_table();
-            const auto &id_iter = item_id.get(result_id, "not exist item id");
+            uint8_t random_item_id = random_seed(_seed,rule_controller.item_id_count,default_min,item_random_count++);
+            auto &item_id_db = rule_controller.get_item_id_rule_table();
+            const auto &item_id_db_iter = item_id_db.get(random_item_id, "not exist item id");
 
-            uint8_t result_tier = random_seed(_seed,rule_controller.item_tier_count,not_exist_min,random_count++);
-            auto &item_tier = rule_controller.get_item_tier_rule_table();
-            const auto &tier_iter = item_tier.get(result_tier,"not exist tier info");
+            uint8_t random_item_tier = random_seed(_seed,rule_controller.item_tier_count,default_min,item_random_count++);
+            auto &item_tier_db = rule_controller.get_item_tier_rule_table();
+            const auto &item_tier_db_iter = item_tier_db.get(random_item_tier,"not exist tier info");
 
-            auto &log = login_controller.get_log_table();
-            auto find_log_iter = log.find(_user);
+            auto &user_log_table = login_controller.get_log_table();
+            auto user_log_iter = user_log_table.find(_user);
 
-            auto cur_user_item = items.find(_user);
-            //eosio_assert(cur_user_item->i_item_list.size()<find_log_iter->l_item_slot_count,"need more slot");
-            items.modify(cur_user_item, owner, [&](auto &new_item) {
-                citeminfo item;
-                item.i_index = find_log_iter->l_item_num + 1;
-                item.i_type_index = id_iter.i_id;
-                item.i_type_equip = id_iter.i_type;
-                item.i_tier = tier_iter.i_tier;
-                item.i_status_info.basic_str = random_seed(_seed,tier_iter.i_max_range.i_str,tier_iter.i_min_range.i_str,random_count++);
-                item.i_status_info.basic_dex = random_seed(_seed,tier_iter.i_max_range.i_dex,tier_iter.i_min_range.i_dex,random_count++);
-                item.i_status_info.basic_int = random_seed(_seed,tier_iter.i_max_range.i_int,tier_iter.i_min_range.i_int,random_count++);
-                item.i_job = id_iter.i_job;
-                item.i_item_state = item_none;
-                new_item.i_item_list.push_back(item);
+            auto user_item_list_iter = user_item_table.find(_user);
+            user_item_table.modify(user_item_list_iter, owner, [&](auto &update_user_item_list) {
+                citeminfo new_item;
+                new_item.i_index = user_log_iter->l_item_num + 1;
+                new_item.i_type_index = item_id_db_iter.i_id;
+                new_item.i_type_equip = item_id_db_iter.i_type;
+                new_item.i_tier = item_tier_db_iter.i_tier;
+                new_item.i_status_info.basic_str = random_seed(_seed,item_tier_db_iter.i_max_range.i_str,item_tier_db_iter.i_min_range.i_str,item_random_count++);
+                new_item.i_status_info.basic_dex = random_seed(_seed,item_tier_db_iter.i_max_range.i_dex,item_tier_db_iter.i_min_range.i_dex,item_random_count++);
+                new_item.i_status_info.basic_int = random_seed(_seed,item_tier_db_iter.i_max_range.i_int,item_tier_db_iter.i_min_range.i_int,item_random_count++);
+                new_item.i_job = item_id_db_iter.i_job;
+                new_item.i_item_state = item_none;
+                update_user_item_list.i_item_list.push_back(new_item);
             });
 
-            log.modify(find_log_iter, owner, [&](auto &update_log) {
+            user_log_table.modify(user_log_iter, owner, [&](auto &update_log) {
                 update_log.l_item_num++;
                 update_log.l_gacha_num++;
             });
         }
         void start_gacha(account_name _user)
         {
-            auto &log = login_controller.get_log_table();
-            auto find_log_iter = log.find(_user);
-            eosio_assert(find_log_iter != log.end(),"unknown account");
+            auto &user_log_table = login_controller.get_log_table();
+            auto user_log_iter = user_log_table.find(_user);
+            eosio_assert(user_log_iter != user_log_table.end(),"unknown account");
 
             uint64_t l_seed = tapos_block_num() * tapos_block_prefix() * now();
 
-            if(find_log_iter->l_gacha_num == 0)
+            if(user_log_iter->l_gacha_num == 0)
             {
                 gacha_monster_id(_user,l_seed);
             }
             else
             {
-                uint64_t l_gacha_result_type = random_seed(l_seed,3,not_exist_min,random_count);
+                uint64_t l_gacha_result_type = random_seed(l_seed,3,default_min,0);
                 if(l_gacha_result_type == 0)
                 {
                     gacha_servant_job(_user,l_seed);
@@ -231,7 +232,9 @@ class cgacha_system
                     gacha_item_id(_user,l_seed);
                 }
             }
-            random_count=0;
+            servant_random_count = 0;
+            monster_random_count = 0;
+            item_random_count = 0;
         }
 
     };

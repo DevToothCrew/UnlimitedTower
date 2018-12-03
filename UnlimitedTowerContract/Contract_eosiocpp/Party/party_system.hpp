@@ -83,8 +83,8 @@ class cparty_system
             {
                 eosio_assert(_object_type == servant_type_id,"this location only servant");
                 bool l_use_index = false;
-                auto &servants = gacha_controller.get_servant_table();
-                const auto &servant_info = servants.get(_user);
+                auto &user_servant_table = gacha_controller.get_servant_table();
+                const auto &servant_info = user_servant_table.get(_user);
                 right = servant_info.s_servant_list.size()-1;
                 while(left <= right)
                 {
@@ -125,8 +125,8 @@ class cparty_system
             {
                 eosio_assert(_object_type == monster_type_id,"this location only monster");
                 bool l_use_index = false;
-                auto &monsters = gacha_controller.get_monster_table();
-                const auto &monster_info = monsters.get(_user);
+                auto &user_monster_table = gacha_controller.get_monster_table();
+                const auto &monster_info = user_monster_table.get(_user);
 
                 right = monster_info.m_monster_list.size()-1;
                 while(left <= right)

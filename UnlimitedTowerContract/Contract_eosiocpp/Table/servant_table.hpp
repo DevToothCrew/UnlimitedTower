@@ -57,4 +57,4 @@ class cservant
         (s_user)(s_servant_list))
 };
 
-typedef multi_index<N(cservant), cservant> user_servant_table;
+typedef multi_index<N(cservant), cservant> user_servants;

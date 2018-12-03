@@ -35,11 +35,6 @@ enum euser_state
 
 - a_hero_slot : 유저가 보유하고 있는 히어로의 슬롯 갯수 입니다.
 
-- a_item_slot : 유저가 보유하고 있는 아이템 슬롯의 갯수 입니다.
-
-- a_monster_slot : 유저가 보유하고있는 몬스터 슬롯의 갯수 입니다.
-
-- a_servant_slot : 유저가 보유하고 있는 서번트 슬롯의 갯수 입니다.
 
 
 

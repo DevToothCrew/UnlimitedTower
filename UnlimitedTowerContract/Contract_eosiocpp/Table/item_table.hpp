@@ -40,4 +40,4 @@ public:
     )
 };
 
-typedef multi_index<N(citem),citem> user_item_table;
+typedef multi_index<N(citem),citem> user_items;

@@ -10,9 +10,7 @@ enum ehero_state
 
 enum euser_state
 {
-    create = 1,
-    look,
-    status,
+    login = 1,
     lobby,
     battle_result,
     tower,
@@ -68,17 +66,11 @@ public:
     uint32_t a_game_money;
     uint32_t a_state;
     uint32_t a_hero_slot;
-    uint32_t a_item_slot;
-    uint32_t a_monster_slot;
-    uint32_t a_servant_slot;
 public:
     cuserauth() {
         a_game_money = 100;
-        a_state = euser_state::create;
+        a_state = euser_state::login;
         a_hero_slot = 0;
-        a_item_slot = 10;
-        a_monster_slot = 10;
-        a_servant_slot = 10;
     }
     uint64_t primary_key() const {return a_user;}
     void auth_set_user(account_name _user) {a_user = _user;}
@@ -89,9 +81,6 @@ public:
         (a_game_money)
         (a_state)
         (a_hero_slot)
-        (a_item_slot)
-        (a_monster_slot)
-        (a_servant_slot)
     )
 };
 

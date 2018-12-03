@@ -32,4 +32,4 @@ public:
     )
 };
 
-typedef multi_index<N(cmonster),cmonster> user_monster_table;
+typedef multi_index<N(cmonster),cmonster> user_monsters;
