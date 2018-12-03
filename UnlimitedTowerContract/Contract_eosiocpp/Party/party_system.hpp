@@ -61,6 +61,7 @@ class cparty_system
         }
         void set_hero(account_name _user,uint32_t _party_number,uint8_t _hero_slot)
         {
+            require_auth(_user);
             auto party_find_iter = party_list.find(_user);
             eosio_assert(party_find_iter != party_list.end(),"not exist party list");
             eosio_assert(_hero_slot < max_hero_slot,"not hero index");
@@ -71,6 +72,7 @@ class cparty_system
         }
         void set_party(account_name _user,uint8_t _party_number,uint8_t _party_location_index,uint32_t _object_type,uint64_t _object_index)
         {  
+            require_auth(_user);
             eosio_assert(_party_location_index != hero_party_location,"this location only hero");
             
             auto party_find_iter = party_list.find(_user);

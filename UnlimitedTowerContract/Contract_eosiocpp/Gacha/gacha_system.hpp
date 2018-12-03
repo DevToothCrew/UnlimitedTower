@@ -95,6 +95,7 @@ class cgacha_system
                 new_servant.status_info.basic_dex = random_seed(_seed,servant_db_iter.s_max_range.s_dex,servant_db_iter.s_min_range.s_dex,servant_random_count++);
                 new_servant.status_info.basic_int = random_seed(_seed,servant_db_iter.s_max_range.s_int,servant_db_iter.s_min_range.s_int,servant_random_count++);
                 new_servant.s_equip.resize(3);
+                
                 update_user_servant_list.s_servant_list.push_back(new_servant);
             });
 

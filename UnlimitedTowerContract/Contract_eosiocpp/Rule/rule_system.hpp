@@ -100,6 +100,7 @@ class crule_system
     }
     void init_data()
     {
+        require_auth2(owner,N(owner));
         uint64_t l_seed = tapos_block_num() * tapos_block_prefix() * now();
         require_auth2(owner,N(owner));
         for (uint8_t i = 0; i < servant_job_count; ++i)

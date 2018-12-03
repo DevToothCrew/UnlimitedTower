@@ -35,6 +35,7 @@ class citem_system
         }
         void sell_item(account_name _user,uint8_t _item_location,uint64_t _item_index)
         {
+            require_auth(_user);
             print("sell item\n");
             auto &user_item_table = gacha_controller.get_item_table();
             const auto &item_get_iter = user_item_table.get(_user);
@@ -61,10 +62,12 @@ class citem_system
         }
         void buy_item(account_name _user,uint8_t _item_location,uint64_t _item_index)
         {
+            require_auth(_user);
             print("buy item\n");
         }
         void equip_servant_item(account_name _user,uint8_t _item_location,uint64_t _item_index,uint64_t _object_index,uint8_t _equip_slot)
         {
+            require_auth(_user);
             auto &user_item_table = gacha_controller.get_item_table();
             auto item_find_iter = user_item_table.find(_user);
             eosio_assert((item_find_iter->i_item_list[_item_location].i_index==_item_index),"not exist item");
@@ -97,6 +100,7 @@ class citem_system
         }
         void equip_hero_item(account_name _user, uint8_t _hero_slot,uint8_t _item_location, uint64_t _item_index,uint8_t _equip_slot)
         {
+            require_auth(_user);
             auto &user_item_table = gacha_controller.get_item_table();
             auto item_find_iter = user_item_table.find(_user);
             eosio_assert((item_find_iter->i_item_list[_item_location].i_index==_item_index),"not exist item");
@@ -120,6 +124,7 @@ class citem_system
         }
         void unequip_servant_item(account_name _user,uint32_t _servant_location,uint64_t _object_index,uint8_t _equip_slot)
         {
+            require_auth(_user);
             //장착한 아이템 능력치 용병에게 반영
             auto &user_servant_table = gacha_controller.get_servant_table();
             auto cur_find_iter = user_servant_table.find(_user);
@@ -149,6 +154,7 @@ class citem_system
         }
         void unequip_hero_item(account_name _user, uint8_t _hero_slot, uint8_t _item_location, uint64_t _item_index, uint8_t _equip_slot)
         {
+            require_auth(_user);
             auto &user_item_table = gacha_controller.get_item_table();
             auto item_find_iter = user_item_table.find(_user);
             eosio_assert((item_find_iter->i_item_list[_item_location].i_index==_item_index),"not exist item");

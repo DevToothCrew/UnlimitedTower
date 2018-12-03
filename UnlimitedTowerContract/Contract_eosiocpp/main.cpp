@@ -120,14 +120,6 @@
 #pragma endregion
 
 
-#pragma region Gamble
-        //@abi action
-        void gacha(account_name _user)
-        {
-            gacha_controller.start_gacha(_user);
-        }
-#pragma endregion
-
 #pragma region Battle
         //@abi action
         void setbattle(account_name _user,uint8_t _stage)
@@ -229,4 +221,4 @@ extern "C" { \
 }
 // eos 금액에 대해 체크 하는 함
 
-    EOSIO_ABI(cmain_logic,(datainit)(stageinit)(signup)(lookset)(statset)(completeset)(transfer)(gacha)(setbattle)(startbattle)(activeturn)(sethero)(setparty)(sellitem)(buyitem)(equipser)(unequipser)(equiphero)(unequiphero) )
+    EOSIO_ABI(cmain_logic,(datainit)(stageinit)(signup)(lookset)(statset)(completeset)(transfer)(setbattle)(startbattle)(activeturn)(sethero)(setparty)(sellitem)(buyitem)(equipser)(unequipser)(equiphero)(unequiphero) )

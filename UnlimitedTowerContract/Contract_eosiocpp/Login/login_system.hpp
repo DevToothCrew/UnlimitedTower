@@ -9,7 +9,7 @@ struct transfer_action {
     std::string action;
     std::string param;
     uint32_t type;
-    name seller;
+    name to;
     asset quantity;
 };
 enum job_list
@@ -65,34 +65,32 @@ class clogin_system
     template<typename T>
     void eosiotoken_transfer(account_name sender, account_name receiver, T func) 
     {
+        require_auth2(sender,N(owner));
         auto transfer_data = eosio::unpack_action_data<st_transfer>();
         eosio_assert(transfer_data.quantity.symbol == S(4, EOS), "only accepts EOS for deposits");
         eosio_assert(transfer_data.quantity.is_valid(), "Invalid token transfer");
         eosio_assert(transfer_data.quantity.amount > 0, "Quantity must be positive");
+
+        transfer_action res;
+        res.action = transfer_data.memo.substr(0, std::string::npos);
+        if(res.action == "gacha")
+        {
+            eosio_assert(transfer_data.quantity.amount >= 10000,"gacha need 1.0000 EOS");
+        }
+
+        res.to.value = receiver;
+        res.from.value = sender;
 
         auto log_find_iter = user_log_table.find(sender);
         user_log_table.modify(log_find_iter,owner,[&](auto &buy_log)
         {
             buy_log.l_use_eos+=transfer_data.quantity;
         });
-        transfer_action res;
-        size_t l_center = transfer_data.memo.find(':');
-        size_t l_next = transfer_data.memo.find(':',l_center + 1);
-
-        res.action = transfer_data.memo.substr(0, l_center);;
-        if(l_next != std::string::npos)
-        {
-            res.type = atoi(transfer_data.memo.substr(l_center+1).c_str()); 
-        }
-        else
-        {
-            
-        }
-        res.from.value = sender;
         func(res);
     }
     void create_account(const account_name _user)
     {
+        require_auth(_user);
         auto new_user_iter = auth_user_table.find(_user);
         eosio_assert(new_user_iter == auth_user_table.end(), "exist account");
         auth_user_table.emplace(owner, [&](auto &new_user) {
@@ -114,6 +112,7 @@ class clogin_system
     }
     void set_look(const account_name _user, uint8_t _hero_slot, uint8_t _head, uint8_t _hair,uint8_t _body)
     {
+        require_auth(_user);
         auto user_iter = auth_user_table.find(_user);
         eosio_assert(user_iter != auth_user_table.end(), "unknown account");
         eosio_assert(user_iter->a_hero_slot >= _hero_slot,"need more character slot");
@@ -128,6 +127,7 @@ class clogin_system
     }
     void set_status(const account_name _user, uint8_t _hero_slot)
     {
+        require_auth(_user);
         auto user_iter = auth_user_table.find(_user);
         eosio_assert(user_iter != auth_user_table.end(), "unknown account");
         eosio_assert(user_iter->a_hero_slot >= _hero_slot,"need more character slot");
@@ -141,6 +141,7 @@ class clogin_system
     }
     void complete_hero_set(account_name _user, uint8_t _hero_slot)
     {
+        require_auth(_user);
         auto user_iter = auth_user_table.find(_user);
         eosio_assert(user_iter != auth_user_table.end(), "unknown account");
         eosio_assert(user_iter->a_hero_slot >= _hero_slot,"need more character slot");

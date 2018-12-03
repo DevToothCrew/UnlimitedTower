@@ -78,6 +78,7 @@ class cbattle_system
         }
         void set_battle(account_name _user,uint8_t _stage)
         {
+            require_auth(_user);
             #pragma region test
             print("set battle field\n");
             auto cur_player_iter = battles.find(_user);
@@ -103,6 +104,7 @@ class cbattle_system
         }
         void start_battle(account_name _user,uint8_t _party_number)
         {
+            require_auth(_user);
             const auto &battle_get_iter = battles.get(_user);
         
             auto &stage_info = login_controller.get_battle_stage_table();
@@ -257,6 +259,7 @@ class cbattle_system
         }
         void active_turn(account_name _user,uint8_t _characteraction,uint8_t _monsteraction,uint8_t _character_target,uint8_t _monster_target)
         {
+            require_auth(_user);
             // bool battle_check = false;
             // battle_check = battle_state(_user);
             // eosio_assert((battle_check==false) ,"Already closed battle");

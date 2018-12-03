@@ -5,7 +5,6 @@ Login System
 
 [Function]
 
-
 void create_account(const account_name _user)
 
 - 유저가 처음 게임을 접헀을 때 계정을 생성해주는 함수입니다.
@@ -25,21 +24,6 @@ void set_status(const account_name _user, uint8_t _hero_slot)
 void add_hero_slot(account_name _user)
 
 - 유저가 히어로 슬롯을 추가 구매에 대한 값을 남겨주는 함수 입니다.
-- 인자값으로는 구매한 유저의 이름을 받습니다.
-
-void add_item_slot(account_name _user)
-
-- 유저가 아이템 인벤토리를 추가 구매에 대한 값을 남겨주는 함수 입니다.
-- 인자값으로는 구매한 유저의 이름을 받습니다.
-
-void add_servant_slot(account_name _user)
-
-- 유저가 서번트 인벤토리를 추가 구매에 대한 값을 남겨주는 함수 입니다.
-- 인자값으로는 구매한 유저의 이름을 받습니다.
-
-void add_monster_slot(account_name _user)
-
-- 유저가 몬스터 인벤토리를 추가 구매에 대한 값을 남겨주는 함수 입니다.
 - 인자값으로는 구매한 유저의 이름을 받습니다.
 
 
