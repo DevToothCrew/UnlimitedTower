@@ -24,7 +24,8 @@ public class CharContentList : MonoSingleton<CharContentList>
                 instance.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + UserDataManager.Inst.characterDic[dic.Key].Name);
                 instance.transform.SetParent(gameObject.transform.transform);
                 instance.GetComponent<CharContent>().CharDicKey = dic.Key;
-                // 이미 배치된 캐릭터라면
+
+                // 이미 배치된 캐릭터라면 캐릭터 리스트의 이미지를 검게한다.
                 if (UserDataManager.Inst.characterDic[dic.Key].OnFormation)
                 {
                     Color color = instance.GetComponent<Image>().color;

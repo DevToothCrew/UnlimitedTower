@@ -22,13 +22,15 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
 
     // TODO : TestCode
-    public GameObject CharacterListContent;
     public GameObject GachaScene;
 
     public GameObject LeftPop;
     public GameObject BaseBackground;
     public GameObject CloudImage;
 
+
+    public GameObject CharacterContentList;
+    public GameObject FormationList;
 
 
     public void Awake()
@@ -44,7 +46,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
             Debug.Log("로비로 리턴");
          
             ChangeSceneState(SCENE_STATE.Lobby);
-            //UserDataManager.Inst.LoadUserData();
+            UserDataManager.Inst.LoadUserData();
         }       
     }
 
