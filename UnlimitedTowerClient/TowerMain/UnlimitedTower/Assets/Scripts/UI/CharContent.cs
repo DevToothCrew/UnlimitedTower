@@ -2,17 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharListContent : MonoBehaviour {
+public class CharContent : MonoBehaviour {
 
     // Use this for initialization
 
     public int CharDicKey;
-	void Start () {
-		
-	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

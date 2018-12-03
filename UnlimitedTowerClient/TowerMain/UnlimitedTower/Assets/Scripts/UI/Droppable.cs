@@ -66,7 +66,7 @@ public class Droppable :
 
         if (UserDataManager.Inst.PutChar)
         {
-            charIndex =  UserDataManager.Inst.PutChar.GetComponent<CharListContent>().CharDicKey;
+            charIndex =  UserDataManager.Inst.PutChar.GetComponent<CharContent>().CharDicKey;
         }
         else
         {
@@ -111,9 +111,25 @@ public class Droppable :
             }
 
         }
+        // 해당 덱에 캐릭터가 존재한다면
+        else if(gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().sprite)
+        {
+            UserDataManager.Inst.formationDic.Remove(deckNum);
+            gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().sprite
+                = null;
+       
+            gameObject.GetComponent<FormationDeck>().LinkedChar.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+
+        }
+
+
+
+
 
         Debug.Log("UserDataManager.Inst.formationDic : " + deckNum + " " + charIndex);
         UserDataManager.Inst.formationDic.Add(deckNum, charIndex);
+        gameObject.GetComponent<FormationDeck>().LinkedChar = UserDataManager.Inst.PutChar;
+
 
         // 드래그하고 있었던 아이콘의 Image 컴포넌트를 가져온다
         Image droppedImage = pointerEventData.pointerDrag.GetComponent<Image>();
@@ -130,24 +146,13 @@ public class Droppable :
         gameObject.transform.GetChild(0).GetComponent<Image>().sprite = droppedImage.sprite;
         FormationManager.Inst.OpenNewDeck(deckNum);
 
-
-
-
-
-
-
-
-
-        // Debug.Log("확인 : " + pointerEventData.gameObject.name);
-
-        //iconImage.sprite = droppedImage.sprite;
         iconImage.color = normalColor;
 
 
 
         gameObject.transform.GetChild(1).gameObject.SetActive(false);
         Color color = UserDataManager.Inst.PutChar.GetComponent<Image>().color;
-        int charKey = UserDataManager.Inst.PutChar.GetComponent<CharListContent>().CharDicKey;
+        int charKey = UserDataManager.Inst.PutChar.GetComponent<CharContent>().CharDicKey;
         UserDataManager.Inst.characterDic[charKey].OnFormation = true;
 
 
@@ -162,6 +167,12 @@ public class Droppable :
 
 
    
+
+
+    void ReplaceDeck()
+    {
+
+    }
 
 
 

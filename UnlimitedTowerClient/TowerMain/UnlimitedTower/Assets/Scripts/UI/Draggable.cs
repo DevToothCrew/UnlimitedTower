@@ -62,7 +62,7 @@ public class Draggable :
         draggingObject.transform.SetParent(sourceImage.canvas.transform);
         draggingObject.transform.SetAsLastSibling();
 
-        draggingObject.AddComponent<CharListContent>().CharDicKey = gameObject.GetComponent<CharListContent>().CharDicKey;
+        draggingObject.AddComponent<CharContent>().CharDicKey = gameObject.GetComponent<CharContent>().CharDicKey;
         UserDataManager.Inst.PutChar = gameObject;
 
 

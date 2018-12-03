@@ -1,41 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class FormationManager : MonoSingleton<FormationManager> {
 
-
-    // public Dictionary<int, GameObject> decDic = new Dictionary<int, GameObject>();
-    public List<GameObject> deckList= new List <GameObject>();
-    public GameObject formation;
-
     // Use this for initialization
     void Awake () {
 
+
+
         UserDataManager.Inst.LoadFormation();
-        //decDid
 
-        // gameObject.name = "ddd";
+        for (int i = 0; i < 10; i++)
+        {
+            if (gameObject.transform.GetChild(i).transform.GetChild(0).gameObject.GetComponent<Image>().sprite)
+            {
+                Debug.Log("Load Open Close : " + i);
+                OpenNewDeck(i);
 
+                // 이미 덱이 존재했던 내용을 채운다.
+                LoadDeck(i);
 
-        //for(int i=0; i<10; i++)
-        //{
-        //    deckList.Add(formation.transform.GetChild(i).gameObject);
-        //    // decDic.Add(i, gameObject.transform.GetChild(i).gameObject);
-        //   // deckList.Add(gameObject.transform.GetChild(i).gameObject);
-        //}
-
-        Debug.Log("Awake Formaiton");
-
-        //UserDataManager.Inst.loaderEvent += LoadFormation;
+            }
+        }
+     
 
 	}
 
-
-    public void LoadFormation()
-    {
-
-    }
 
     public void OpenNewDeck(int deckNum)
     {
@@ -43,41 +35,48 @@ public class FormationManager : MonoSingleton<FormationManager> {
         {
             case 7:
                 {
-                    ActiveDeck(6);
-                    ActiveDeck(8);
-                
+                    ActivateDeck(6);
+                    ActivateDeck(8);
 
-                    Debug.Log("1 Deck & 3 Deck Active");
-                    // 이거 그냥 덱을 decDic에 포함하는 낫지 않을려나?
-                    // 일일이 찾기 넘 까다롭다.
-
-
-                    //그러면 이 처리를 어느 스크립트에서 하는게 적절할가?
-
+                    ActivateDeck(2);
                     break;
                 }
             case 6:
-                {
-                    ActiveDeck(5);
-                  
-                    break;
-                }
             case 8:
                 {
-                    ActiveDeck(9);
+                    if(deckNum == 8)
+                    {
+                        ActivateDeck(deckNum + 1);
+                    }
+                    else
+                    {
+                        ActivateDeck(deckNum - 1);
+                    }
+                
+                    ActivateDeck(deckNum - 5);
+                    break;
+                }
+
+
+            case 5:
+            case 9:
+                {
+                    ActivateDeck(deckNum-5);
                     break;
                 }
         }
 
     }
-    void ActiveDeck(int deckNum)
+    void ActivateDeck(int deckNum)
     {
-        //gameObject.transform.GetChild(deckNum).GetComponent<FormationDeck>().Enable = true;
-        //gameObject.transform.GetChild(deckNum).transform.GetChild(1).gameObject.SetActive(true);
-        //gameObject.transform.GetChild(deckNum).transform.GetChild(2).gameObject.SetActive(false);
-
-        deckList[deckNum].GetComponent<FormationDeck>().Enable = true;
-        deckList[deckNum].transform.GetChild(1).gameObject.SetActive(true);
-        deckList[deckNum].transform.GetChild(2).gameObject.SetActive(false);
+        gameObject.transform.GetChild(deckNum).GetComponent<FormationDeck>().Enable = true;
+        gameObject.transform.GetChild(deckNum).transform.GetChild(1).gameObject.SetActive(true);
+        gameObject.transform.GetChild(deckNum).transform.GetChild(2).gameObject.SetActive(false);
+    }
+    void LoadDeck(int deckNum)
+    {
+        gameObject.transform.GetChild(deckNum).GetComponent<FormationDeck>().Enable = true;
+        gameObject.transform.GetChild(deckNum).transform.GetChild(1).gameObject.SetActive(false);
+        gameObject.transform.GetChild(deckNum).transform.GetChild(2).gameObject.SetActive(false);
     }
 }
