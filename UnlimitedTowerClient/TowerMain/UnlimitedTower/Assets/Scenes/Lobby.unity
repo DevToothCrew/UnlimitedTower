@@ -2083,10 +2083,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iconImage: {fileID: 114239747610104308, guid: c871e2be735094a4882d3f4c93556945,
-    type: 2}
   highlightedColor: {r: 0.7058823, g: 0.38965517, b: 0.875, a: 1}
-  FormationList: {fileID: 0}
+  normalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &250081745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2100,6 +2098,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DeckNum: 6
   Enable: 0
+  LinkedChar: {fileID: 0}
 --- !u!1 &253792658
 GameObject:
   m_ObjectHideFlags: 0
@@ -2795,10 +2794,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iconImage: {fileID: 114239747610104308, guid: c871e2be735094a4882d3f4c93556945,
-    type: 2}
   highlightedColor: {r: 0.7058823, g: 0.38965517, b: 0.875, a: 1}
-  FormationList: {fileID: 0}
+  normalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &279912219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2812,6 +2809,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DeckNum: 7
   Enable: 1
+  LinkedChar: {fileID: 0}
 --- !u!1 &284131363
 GameObject:
   m_ObjectHideFlags: 0
@@ -3154,6 +3152,7 @@ GameObject:
   - component: {fileID: 292467051}
   - component: {fileID: 292467052}
   - component: {fileID: 292467053}
+  - component: {fileID: 292467054}
   m_Layer: 5
   m_Name: CharListContent
   m_TagString: Untagged
@@ -3215,6 +3214,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 1
   m_VerticalFit: 1
+--- !u!114 &292467054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 292467050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1a8ca1d3582856439d0d9ec52ab29fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &304513083
 GameObject:
   m_ObjectHideFlags: 0
@@ -3294,18 +3304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed08ca105e969e047abd58f284d9ccd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckList:
-  - {fileID: 724553516}
-  - {fileID: 2133609772}
-  - {fileID: 546492152}
-  - {fileID: 1942608018}
-  - {fileID: 1161966255}
-  - {fileID: 1486521010}
-  - {fileID: 250081740}
-  - {fileID: 279912214}
-  - {fileID: 550266534}
-  - {fileID: 371167123}
-  formation: {fileID: 304513083}
+  NewDropChar: {fileID: 0}
 --- !u!1 &305773856
 GameObject:
   m_ObjectHideFlags: 0
@@ -4192,10 +4191,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iconImage: {fileID: 114239747610104308, guid: c871e2be735094a4882d3f4c93556945,
-    type: 2}
   highlightedColor: {r: 0.7058823, g: 0.38965517, b: 0.875, a: 1}
-  FormationList: {fileID: 0}
+  normalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &371167128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4209,6 +4206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DeckNum: 9
   Enable: 0
+  LinkedChar: {fileID: 0}
 --- !u!1 &376691404
 GameObject:
   m_ObjectHideFlags: 0
@@ -5801,10 +5799,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iconImage: {fileID: 114239747610104308, guid: c871e2be735094a4882d3f4c93556945,
-    type: 2}
   highlightedColor: {r: 0.7058823, g: 0.38965517, b: 0.875, a: 1}
-  FormationList: {fileID: 0}
+  normalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &546492157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5818,6 +5814,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DeckNum: 2
   Enable: 0
+  LinkedChar: {fileID: 0}
 --- !u!1 &550266534
 GameObject:
   m_ObjectHideFlags: 0
@@ -5902,10 +5899,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iconImage: {fileID: 114239747610104308, guid: c871e2be735094a4882d3f4c93556945,
-    type: 2}
   highlightedColor: {r: 0.7058823, g: 0.38965517, b: 0.875, a: 1}
-  FormationList: {fileID: 0}
+  normalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &550266539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5919,6 +5914,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DeckNum: 8
   Enable: 0
+  LinkedChar: {fileID: 0}
 --- !u!1 &594191673
 GameObject:
   m_ObjectHideFlags: 0
@@ -6313,7 +6309,7 @@ RectTransform:
   m_Children:
   - {fileID: 304513084}
   m_Father: {fileID: 1434154573}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7230,10 +7226,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iconImage: {fileID: 114239747610104308, guid: c871e2be735094a4882d3f4c93556945,
-    type: 2}
   highlightedColor: {r: 0.7058823, g: 0.38965517, b: 0.875, a: 1}
-  FormationList: {fileID: 0}
+  normalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &724553521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7247,6 +7241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DeckNum: 0
   Enable: 0
+  LinkedChar: {fileID: 0}
 --- !u!1 &735227874
 GameObject:
   m_ObjectHideFlags: 0
@@ -11197,10 +11192,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iconImage: {fileID: 114239747610104308, guid: c871e2be735094a4882d3f4c93556945,
-    type: 2}
   highlightedColor: {r: 0.7058823, g: 0.38965517, b: 0.875, a: 1}
-  FormationList: {fileID: 0}
+  normalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &1161966260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11214,6 +11207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DeckNum: 4
   Enable: 0
+  LinkedChar: {fileID: 0}
 --- !u!1 &1163785875
 GameObject:
   m_ObjectHideFlags: 0
@@ -13597,8 +13591,8 @@ RectTransform:
   - {fileID: 594191674}
   - {fileID: 1440411914}
   - {fileID: 1049970514}
-  - {fileID: 631953932}
   - {fileID: 1871771296}
+  - {fileID: 631953932}
   m_Father: {fileID: 1334481535}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13981,10 +13975,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iconImage: {fileID: 114239747610104308, guid: c871e2be735094a4882d3f4c93556945,
-    type: 2}
   highlightedColor: {r: 0.7058823, g: 0.38965517, b: 0.875, a: 1}
-  FormationList: {fileID: 0}
+  normalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &1486521015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13998,6 +13990,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DeckNum: 5
   Enable: 0
+  LinkedChar: {fileID: 0}
 --- !u!1 &1486880753
 GameObject:
   m_ObjectHideFlags: 0
@@ -14135,7 +14128,6 @@ MonoBehaviour:
   LeftPop: {fileID: 1910031054}
   BaseBackground: {fileID: 387069708}
   CloudImage: {fileID: 1708599346}
-  FormationList: {fileID: 304513083}
 --- !u!1 &1497820692
 GameObject:
   m_ObjectHideFlags: 0
@@ -16930,7 +16922,7 @@ RectTransform:
   - {fileID: 444530802}
   - {fileID: 324762380}
   m_Father: {fileID: 1434154573}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -17611,10 +17603,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iconImage: {fileID: 114239747610104308, guid: c871e2be735094a4882d3f4c93556945,
-    type: 2}
   highlightedColor: {r: 0.7058823, g: 0.38965517, b: 0.875, a: 1}
-  FormationList: {fileID: 0}
+  normalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &1942608023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17628,6 +17618,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DeckNum: 3
   Enable: 0
+  LinkedChar: {fileID: 0}
 --- !u!1 &1953693542
 GameObject:
   m_ObjectHideFlags: 0
@@ -19267,10 +19258,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iconImage: {fileID: 114239747610104308, guid: c871e2be735094a4882d3f4c93556945,
-    type: 2}
   highlightedColor: {r: 0.7058823, g: 0.38965517, b: 0.875, a: 1}
-  FormationList: {fileID: 0}
+  normalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &2133609777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19284,3 +19273,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DeckNum: 1
   Enable: 0
+  LinkedChar: {fileID: 0}

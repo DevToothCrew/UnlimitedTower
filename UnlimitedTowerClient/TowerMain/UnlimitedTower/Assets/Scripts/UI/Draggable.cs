@@ -43,16 +43,13 @@ public class Draggable :
     #region OnBeginDrag
     public void OnBeginDrag(PointerEventData pointerEventData)
     {
-        //Debug.Log("드래그 시작");
         if (draggingObject != null)
         {
             Destroy(draggingObject);
         }
 
-        // 캐릭터 리스트와 딕셔너리에 저장된 캐릭터 정보를
-        // 일치시켜야할듯.
-       
 
+       
         // 본래 아이콘의 Image 컴포넌트를 가져온다
         Image sourceImage = GetComponent<Image>();
 
@@ -63,7 +60,10 @@ public class Draggable :
         draggingObject.transform.SetAsLastSibling();
 
         draggingObject.AddComponent<CharContent>().CharDicKey = gameObject.GetComponent<CharContent>().CharDicKey;
-        UserDataManager.Inst.PutChar = gameObject;
+
+
+        //UserDataManager.Inst.PutChar = gameObject;
+        FormationManager.Inst.NewDropChar = gameObject;
 
 
         draggingObject.transform.localScale = Vector3.one;
@@ -100,7 +100,7 @@ public class Draggable :
     #region OnEndDrag 메서드 본체
     public void OnEndDrag(PointerEventData pointerEventData)
     {
-        UserDataManager.Inst.PutChar = null;
+        FormationManager.Inst.NewDropChar = null;
         Destroy(draggingObject);
     }
     #endregion

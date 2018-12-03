@@ -14,7 +14,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public Dictionary<int, int> formationDic = new Dictionary<int, int>();
 
     public List<int> fomationList = new List<int>();
-    public GameObject PutChar;
 
     public List<int> userCharsKeyList = new List<int>();
 
@@ -147,35 +146,18 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
             Debug.Log("포메이션 세팅");
 
-            // 위치값으로 해당 덱 오브젝트를 찾으면될듯
-            // 근데 덱 오브젝트를 어찌 찾냐?
-
             // 포메이션 위치
             deckName = "Deck" + dic.Key;
 
             for (int i=0; i<10; i++)
-            {
-                //if(FormationManager.Inst.gameObject.transform.GetChild(i).name == deckName)
-
-
-                // 비활성화된 객체를 싱글톤으로 가져오면
-                // 제대로 작동이 안되는듯허다.
-                // 그러니 객체를 접근할 수 있는 다른 방법을 찾아보자
-
-           
-
-                //if (FormationManager.Inst.deckList[i].name == deckName)
+            {                   
                 FormationManager.Inst.transform.gameObject.transform.GetChild(i);
                 if (FormationManager.Inst.gameObject.transform.GetChild(i).gameObject.name == deckName)
                 {
                     Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[dic.Value].Name);
-                    //FormationManager.Inst.deckList[i].transform.GetChild(0).GetComponent<Image>().sprite = sprite;
                     FormationManager.Inst.gameObject.transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite = sprite;
                 }
-            }
-           
-         
-                     
+            }                              
         }
     }
 
@@ -203,40 +185,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
             }
         }
-        // 이전 코드
-        #region 
-        //for (int i = 0; i < charDicCount; i++)
-        //{
-        //    var instance = Instantiate(Resources.Load("Prefabs/CharElement") as GameObject);
-        //    if (instance.GetComponent<Image>())
-        //    {
-        //        instance.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[i].Name);
-        //        instance.transform.SetParent(LobbyManager.Inst.CharacterListContent.transform.transform);
-        //        instance.GetComponent<CharListContent>().CharDicKey = i;
-        //        if (characterDic[i].OnFormation)
-        //        {
-        //            Color color = instance.GetComponent<Image>().color;
-        //            color.r = color.g = color.b = 0.35f;
-        //            instance.GetComponent<Image>().color = color;
-        //        }
-
-        //    }
-
-        //}
-        #endregion 
+      
     }
-
-    //딕셔너리 기준으로 0 1 2 3 5 ... 키 값 순으로 들어가있다.
-
-
-
-    // 캐릭터 딕셔너리에 이 캐릭터가 포메이션에 들어가 있는지
-    // 확인할 필요가 있을거 같다.
-
-    // 쉽게 말해서 하단 캐릭터 이미지가 내 캐릭터 정보를 시각화한것이라고 생각하면 될거 같다
-    // 즉, dic의 정보의 시각화를 하면될듯
-
-    // 근데 bat
     public void AddNewCharImage(string getChar)
     {
         var instance = Instantiate(Resources.Load("Prefabs/CharElement") as GameObject);
