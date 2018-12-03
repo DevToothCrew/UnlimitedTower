@@ -6,6 +6,9 @@ using UnityEngine;
 public class FormationManager : MonoSingleton<FormationManager> {
 
     // Use this for initialization
+  public  GameObject NewDropChar = null;
+
+
     void Awake () {
 
 
