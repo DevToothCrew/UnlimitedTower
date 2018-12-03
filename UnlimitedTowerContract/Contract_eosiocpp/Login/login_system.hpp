@@ -75,16 +75,15 @@ class clogin_system
         res.action = transfer_data.memo.substr(0, std::string::npos);
         if(res.action == "gacha")
         {
-            eosio_assert(transfer_data.quantity.amount >= 10000,"gacha need 1.0000 EOS");
+            eosio_assert(transfer_data.quantity.amount == 10000,"gacha need 1.0000 EOS");
         }
 
         res.to.value = receiver;
         res.from.value = sender;
 
         auto log_find_iter = user_log_table.find(sender);
-        user_log_table.modify(log_find_iter,owner,[&](auto &buy_log)
-        {
-            buy_log.l_use_eos+=transfer_data.quantity;
+        user_log_table.modify(log_find_iter, owner, [&](auto &buy_log) {
+            buy_log.l_use_eos += transfer_data.quantity;
         });
         func(res);
     }
