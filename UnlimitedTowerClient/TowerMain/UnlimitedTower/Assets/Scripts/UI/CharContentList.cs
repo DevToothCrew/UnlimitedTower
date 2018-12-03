@@ -9,7 +9,8 @@ public class CharContentList : MonoSingleton<CharContentList>
 	// Use this for initialization
 	void Awake () {
         //UserDataManager.Inst.LoadCharList();
-        LoadCharContentList();
+
+        //LoadCharContentList();
     }
     void LoadCharContentList()
     {
