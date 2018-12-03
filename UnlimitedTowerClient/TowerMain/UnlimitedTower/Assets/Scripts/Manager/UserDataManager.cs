@@ -11,11 +11,13 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public SCENE_STATE sceneState = SCENE_STATE.None;
 
     public Dictionary<int, Character> characterDic = new Dictionary<int, Character>();
+
+    // 포메이션 : 캐릭터 인덱스 ->가 들어가는 딕셔너리
     public Dictionary<int, int> formationDic = new Dictionary<int, int>();
 
-    public List<int> fomationList = new List<int>();
 
-    public List<int> userCharsKeyList = new List<int>();
+    // 유저의 캐릭터 키값들 담는 리스트
+   // public List<int> userCharsKeyList = new List<int>();
 
     // 포메이션 임시 틀
     public List<int> formationOrderList = new List<int>()
@@ -165,8 +167,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     // 로비로 되돌아 올때 캐릭터 리스트 다시 불러오는 함수
     public void LoadCharList()
     {
-        int charDicCount = characterDic.Count;
-
         // 캐릭터 개수만큼 캐릭터 목록을 다시 불러온다.
         foreach (KeyValuePair<int, Character> dic in characterDic)
         {
@@ -182,10 +182,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
                     color.r = color.g = color.b = 0.35f;
                     instance.GetComponent<Image>().color = color;
                 }
-
             }
-        }
-      
+        }    
     }
     public void AddNewCharImage(string getChar)
     {
@@ -200,7 +198,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
 
 
-            SetFormation();
+            //SetFormation();
         } 
     }
 
@@ -208,7 +206,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     private void SetFormation()
     {
         // 지금은 들어가는 순서대로 세팅.
-        userCharsKeyList.Add(characterDic.Count - 1);
+       // userCharsKeyList.Add(characterDic.Count - 1);
     }
     private GameObject GetDeck(ref GameObject[] decks, string deckName)
     {
@@ -231,7 +229,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     {
         Debug.Log("Remove UserInfo");
         characterDic.Clear();
-        userCharsKeyList.Clear();
+        //userCharsKeyList.Clear();
         characterIndex = 0;
     }
 

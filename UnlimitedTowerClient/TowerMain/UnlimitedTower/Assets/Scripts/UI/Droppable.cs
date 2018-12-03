@@ -11,10 +11,10 @@ public class Droppable : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
     // 드롭 영역에 표시되어 있는 아이콘의 하이라이트 색
     [SerializeField] private Color highlightedColor;
     // 드롭 영역에 표시하고 있는 아이콘의 본래 색
-    [SerializeField]  private Color normalColor; 
+    [SerializeField] private Color normalColor;
+    [SerializeField] private Color closeColor;
 
 
-  
 
     // 인스턴스를 로드할 때 Awake 메서드가 처리된 다음에 호출된다
     void Awake()
@@ -22,6 +22,7 @@ public class Droppable : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
         // 드롭 영역에 표시되어 있는 아이콘의 본래 색을 보존해둔다
         normalColor = new Color(1.0f, 1.0f, 1.0f);
         highlightedColor = new Color(0.5f, 0.5f, 1.0f);
+        closeColor = new Color(1.0f, 0.5f, 0.5f);
      
     }
 
@@ -31,8 +32,17 @@ public class Droppable : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
         if (pointerEventData.dragging)
         {
             // 드래그 중이라며 드롭 영역에 표시되어 있는 아이콘 색을 하이라이트 색으로 변경한다
-            gameObject.transform.GetChild(0).GetComponent<Image>().color = highlightedColor;
+            if (GetComponent<FormationDeck>().Active)
+            {
+               gameObject.transform.GetChild(0).GetComponent<Image>().color = highlightedColor;
+            }
+            else
+            {
+                gameObject.transform.GetChild(0).GetComponent<Image>().color = closeColor;
+            }
 
+
+          
         }
     }
     #endregion
@@ -43,6 +53,7 @@ public class Droppable : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
         if (pointerEventData.dragging)
         {
             // 드래그 도중이라면 드롭 영역에 표시되어 있는 아이콘 색을 본래 색으로 되돌린다
+            Debug.Log("OnPointerExit");
             gameObject.transform.GetChild(0).GetComponent<Image>().color = normalColor;
         }
     }
@@ -54,9 +65,10 @@ public class Droppable : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
         int charIndex = -1;
         int deckNum = gameObject.GetComponent<FormationDeck>().DeckNum;
 
-        if(gameObject.GetComponent<FormationDeck>().Enable == false)
+        if(gameObject.GetComponent<FormationDeck>().Active == false)
         {
             Debug.Log("This Slot is close ");
+            gameObject.transform.GetChild(0).GetComponent<Image>().color = normalColor;
             return;
         }
 
@@ -130,15 +142,13 @@ public class Droppable : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
     {
         Debug.Log("UserDataManager.Inst.formationDic : " + deckNum + " " + charIndex);
         UserDataManager.Inst.formationDic.Add(deckNum, charIndex);
-        gameObject.GetComponent<FormationDeck>().LinkedChar = FormationManager.Inst.NewDropChar;
+       
 
         // 드래그하고 있었던 아이콘의 Image 컴포넌트를 가져온다
         Image droppedImage = charImage;
 
         gameObject.transform.GetChild(0).GetComponent<Image>().sprite = droppedImage.sprite;
         FormationManager.Inst.OpenNewDeck(deckNum);
-
-        // iconImage.color = normalColor;
 
 
         gameObject.transform.GetChild(1).gameObject.SetActive(false);
@@ -152,6 +162,7 @@ public class Droppable : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
         FormationManager.Inst.NewDropChar.GetComponent<Image>().color = color;
 
         gameObject.transform.GetChild(0).GetComponent<Image>().color = normalColor;
+        gameObject.GetComponent<FormationDeck>().LinkedChar = FormationManager.Inst.NewDropChar;
     }
 
 
