@@ -2327,7 +2327,7 @@ MonoBehaviour:
   StatusIntText: {fileID: 1068661387}
   GachaButton: {fileID: 273677067}
   ExitButton: {fileID: 1365274830}
-  Test10GachaButton: {fileID: 1800545728}
+  Test10GachaButton: {fileID: 0}
 --- !u!95 &260262337
 Animator:
   serializedVersion: 3
