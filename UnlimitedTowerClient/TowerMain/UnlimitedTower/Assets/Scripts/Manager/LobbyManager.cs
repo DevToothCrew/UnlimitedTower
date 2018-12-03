@@ -42,12 +42,9 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         else
         {
             Debug.Log("로비로 리턴");
-
-
-           
+         
             ChangeSceneState(SCENE_STATE.Lobby);
             //UserDataManager.Inst.LoadUserData();
-
         }       
     }
 

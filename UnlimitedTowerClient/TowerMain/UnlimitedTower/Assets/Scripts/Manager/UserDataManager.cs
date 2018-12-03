@@ -41,10 +41,10 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
        
 
         //TODO :  나의 캐릭터(무조건 존재하는 값)이라고 가정
-       for(int i=0; i<TestCharNum; i++)
-        {
-            CreateChar();
-        }
+       //for(int i=0; i<TestCharNum; i++)
+       // {
+       //     CreateChar();
+       // }
 
 
         InitFlag();
@@ -134,57 +134,9 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     }
     public void  LoadUserData()
     {
-        LoadCharList();
-       // LoadFormation();
-    }
-    public void LoadFormation()
-    {
-        // 포메이션 데이터를 가져온다.
 
-        GameObject[] decks = GameObject.FindGameObjectsWithTag("Deck");
-        string deckName = null;
-        foreach (KeyValuePair<int, int> dic in formationDic)
-        {
-
-            Debug.Log("포메이션 세팅");
-
-            // 포메이션 위치
-            deckName = "Deck" + dic.Key;
-
-            for (int i=0; i<10; i++)
-            {                   
-                FormationManager.Inst.transform.gameObject.transform.GetChild(i);
-                if (FormationManager.Inst.gameObject.transform.GetChild(i).gameObject.name == deckName)
-                {
-                    Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[dic.Value].Name);
-                    FormationManager.Inst.gameObject.transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite = sprite;
-                }
-            }                              
-        }
     }
 
-
-    // 로비로 되돌아 올때 캐릭터 리스트 다시 불러오는 함수
-    public void LoadCharList()
-    {
-        // 캐릭터 개수만큼 캐릭터 목록을 다시 불러온다.
-        foreach (KeyValuePair<int, Character> dic in characterDic)
-        {
-            var instance = Instantiate(Resources.Load("Prefabs/CharElement") as GameObject);
-            if (instance.GetComponent<Image>())
-            {
-                instance.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[dic.Key].Name);
-                instance.transform.SetParent(LobbyManager.Inst.CharacterListContent.transform.transform);
-                instance.GetComponent<CharContent>().CharDicKey = dic.Key;
-                if (characterDic[dic.Key].OnFormation)
-                {
-                    Color color = instance.GetComponent<Image>().color;
-                    color.r = color.g = color.b = 0.35f;
-                    instance.GetComponent<Image>().color = color;
-                }
-            }
-        }    
-    }
     public void AddNewCharImage(string getChar)
     {
         var instance = Instantiate(Resources.Load("Prefabs/CharElement") as GameObject);
