@@ -135,86 +135,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public void  LoadUserData()
     {
         LoadCharList();
-        LoadFormation();
+       // LoadFormation();
     }
-    public void LoadFormation()
-    {
-
-  
-        // 포메이션 데이터를 가져온다.
-        string deckName = null;
-        foreach (KeyValuePair<int, int> dic in formationDic)
-        {
-
-            Debug.Log("포메이션 세팅");
-
-            // 포메이션 위치
-            deckName = "Deck" + dic.Key;
-
-            for (int i=0; i<10; i++)
-            {
-
-                GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(i).gameObject;
-               // if (FormationManager.Inst.gameObject.transform.GetChild(i).gameObject.name == deckName)
-                if (deck.name == deckName)
-                {
-                    Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[dic.Value].Name);
-                    deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
-                    deck.GetComponent<FormationDeck>().Active = true;
-                    deck.GetComponent<FormationDeck>().LinkedChar = null;
-                    deck.transform.GetChild(1).gameObject.SetActive(false);
-                    deck.transform.GetChild(2).gameObject.SetActive(false);
-
-                    // FormationManager.Inst.gameObject.transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite = sprite;
-                }
-            }    
-           
-        }
-
-
-
-
-
-
-        for (int i = 0; i < 10; i++)
-        {
-            int deckNum = UserDataManager.Inst.formationOrderList[i];
-            GameObject goDeck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
-            if (goDeck.transform.GetChild(0).gameObject.GetComponent<Image>().sprite)
-            {
-                Debug.Log("Load Open Close : " + deckNum);
-
-            
-                if (UserDataManager.Inst.formationDic.ContainsKey(deckNum))
-                {
-                    int charKey = UserDataManager.Inst.formationDic[deckNum];
-
-                    // 자식 개수가 0이 되서 for문에 접근하질 못한다.
-                    // 메모리를 낭비하는 쪽으로 가는건?
-                    int charCount = LobbyManager.Inst.CharacterContentList.transform.childCount;
-                    for (int j = 0; j < charCount; j++)
-                    {
-                        GameObject charElement = LobbyManager.Inst.CharacterContentList.gameObject.transform.GetChild(j).gameObject;
-
-
-                        if (charElement.GetComponent<CharContent>().CharDicKey == charKey)
-                        {
-                            goDeck.GetComponent<FormationDeck>().LinkedChar = charElement;
-                            LobbyManager.Inst.FormationList.GetComponent<FormationManager>().OpenNewDeck(deckNum);
-                            LobbyManager.Inst.FormationList.GetComponent<FormationManager>().LoadDeck(deckNum);
-                            //주변 덱을 연다.
-
-
-                            //FormationManager.Inst.OpenNewDeck(deckNum);
-                            // 이미 덱이 존재했던 내용을 채운다.
-                            // FormationManager.Inst.LoadDeck(deckNum);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
 
     // 로비로 되돌아 올때 캐릭터 리스트 다시 불러오는 함수
     public void LoadCharList()
@@ -235,10 +157,58 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
                     Color color = instance.GetComponent<Image>().color;
                     color.r = color.g = color.b = 0.35f;
                     instance.GetComponent<Image>().color = color;
+
+
+                    //  포메이션 세팅.
+                    if(characterDic[dic.Key].FormationIndex !=-1)
+                    {
+                        Debug.Log("dic.key : " + dic.Key);
+                        int deckNum = characterDic[dic.Key].FormationIndex;
+                        GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
+                        deck.GetComponent<FormationDeck>().LinkedChar = instance;
+
+                        Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[dic.Key].Name);
+                        deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+                        deck.GetComponent<FormationDeck>().Activate();
+                    }
+
+
                 }
             }
-        }    
+        }
     }
+
+
+    public void LoadFormation()
+    {
+
+        // 포메이션 데이터를 가져온다.
+        string deckName = null;
+        foreach (KeyValuePair<int, int> dic in formationDic)
+        {
+            Debug.Log("포메이션 세팅");
+
+            // 포메이션의 캐릭터 정보를 가져온다.
+            deckName = "Deck" + dic.Key;
+            GameObject deck = null;
+            for (int i=0; i<10; i++)
+            {
+                 deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(i).gameObject;
+                if (deck.name == deckName)
+                {
+                    //Deck0 , Deck1 ~ Deck9
+                    Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[dic.Value].Name);
+                    deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+                    deck.GetComponent<FormationDeck>().Activate();
+     
+                }
+            }    
+           
+        }
+    }
+
+
+
     public void AddNewCharImage(string getChar)
     {
         var instance = Instantiate(Resources.Load("Prefabs/CharElement") as GameObject);
@@ -248,8 +218,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             instance.GetComponent<CharContent>().CharDicKey = characterIndex - 1;
 
             instance.transform.SetParent(LobbyManager.Inst.CharacterContentList.transform.transform);
-
-
 
 
             SetFormation();
