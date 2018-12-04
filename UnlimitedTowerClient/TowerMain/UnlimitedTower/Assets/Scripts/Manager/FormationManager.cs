@@ -76,7 +76,6 @@ public class FormationManager : MonoBehaviour
     }
     public void ActivateDeck(int deckNum)
     {
-        // awake 가 끝나냐 자식을 호출할 수 있다?
         gameObject.transform.GetChild(deckNum).GetComponent<FormationDeck>().Active = true;
         gameObject.transform.GetChild(deckNum).transform.GetChild(1).gameObject.SetActive(true);
         gameObject.transform.GetChild(deckNum).transform.GetChild(2).gameObject.SetActive(false);
