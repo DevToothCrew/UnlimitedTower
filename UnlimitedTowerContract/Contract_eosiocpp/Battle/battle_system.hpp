@@ -110,10 +110,10 @@ class cbattle_system
             auto &stage_info = login_controller.get_battle_stage_table();
             const auto &stage_get_iter = stage_info.get(battle_get_iter.b_stage_index);
 
-            auto &user_monster = gacha_controller.get_monster_table();
+            auto &user_monster = gacha_controller.get_user_monster_table();
             const auto &monster_get_iter = user_monster.get(_user);
 
-            auto &user_servant = gacha_controller.get_servant_table();
+            auto &user_servant = gacha_controller.get_user_servant_table();
             const auto &servant_get_iter = user_servant.get(_user);
 
             auto &user_hero = login_controller.get_auth_user_table();

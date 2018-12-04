@@ -9,7 +9,6 @@
 #include "Table/monster_table.hpp"
 #include "Table/party_table.hpp"
 #include "Table/servant_table.hpp"
-#include "Table/test_static_equip_table.hpp"
 #include "Table/test_static_stage_table.hpp"
 
 #include "Rule/rule_system.hpp"
@@ -69,7 +68,6 @@
             login_controller.create_account(_user);
             gacha_controller.user_own_object_init(_user);
             party_controller.party_init(_user);
-            item_controller.equip_init(_user);
         }
         //@abi action
         void lookset(account_name _user,uint8_t _hero_slot ,uint8_t _head,uint8_t _hair,uint8_t _body)

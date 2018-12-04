@@ -37,15 +37,15 @@ class cgacha_system
             monster_random_count=0;
             item_random_count=0;
         }
-        user_monsters &get_monster_table()
+        user_monsters &get_user_monster_table()
         {
             return user_monster_table;
         }
-        user_servants &get_servant_table()
+        user_servants &get_user_servant_table()
         {
             return user_servant_table;
         }
-        user_items &get_item_table()
+        user_items &get_user_item_table()
         {
             return user_item_table;
         }
