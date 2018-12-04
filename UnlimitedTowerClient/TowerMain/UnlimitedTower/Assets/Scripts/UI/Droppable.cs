@@ -121,18 +121,22 @@ public class Droppable : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
 
         }
         // 기존 덱 자리에 덮어 씌을 것이라면
-        else if(GetChildObject(0).gameObject.GetComponent<Image>().sprite)
+        else if(GetChildObject(0).GetComponent<Image>().sprite)
         {
             // 기존에 덱에 있는 이미지를 삭제한다.
-            RemoveOldDeck(deckNum);
+            RemoveOldDeck(charIndex, deckNum);
         }
 
+        // 둘다 이미 덱에 위에 있는데
+        // 겹치는 경우
+        else if(true)
+        {
+
+        }
+
+
+
         AddNewDeck(deckNum, charIndex, pointerEventData.pointerDrag.GetComponent<Image>());
-
-
-
- 
-
     }
     #endregion
 
@@ -154,7 +158,10 @@ public class Droppable : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
         this.charImage.sprite = droppedImage.sprite;
         LobbyManager.Inst.FormationList.GetComponent<FormationManager>().OpenNewDeck(deckNum);
         UserDataManager.Inst.characterDic[charIndex].OnFormation = true;
+        UserDataManager.Inst.characterDic[charIndex].FormationIndex = deckNum;
         FormationManager.NewDropChar.GetComponent<Image>().color = usedColor;
+
+
 
 
 
@@ -168,12 +175,13 @@ public class Droppable : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
         // 일단 캐릭터 인덱스가 dic에 있다는 것은 확인했다.
         // 문제는 캐릭터 인덱스가 어느 키 값(어느 덱)인지를 확인하면 된다.
 
-        int key = KeyByValue(UserDataManager.Inst.formationDic, charIndex);
+        int deckNum = KeyByValue(UserDataManager.Inst.formationDic, charIndex);
 
-        if (UserDataManager.Inst.formationDic[key] == charIndex)
+        if (UserDataManager.Inst.formationDic[deckNum] == charIndex)
         {
-            UserDataManager.Inst.formationDic.Remove(key);
-            GameObject oldDeck = GetOldDeckObject(key);
+            UserDataManager.Inst.formationDic.Remove(deckNum);
+            UserDataManager.Inst.characterDic[charIndex].FormationIndex = -1;
+            GameObject oldDeck = GetOldDeckObject(deckNum);
             if (oldDeck)
             {
                 if (oldDeck.transform.GetChild(0).GetComponent<Image>().sprite)
@@ -185,29 +193,23 @@ public class Droppable : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
 
         }
     }
-    void RemoveOldDeck(int deckNum)
+    void RemoveOldDeck(int charIndex, int deckNum)
     {
+        UserDataManager.Inst.characterDic[charIndex].FormationIndex = -1;
         UserDataManager.Inst.formationDic.Remove(deckNum);
-        gameObject.transform.GetChild(0).gameObject.GetComponent<Image>().sprite
-            = null;
+        GetChildObject(0).GetComponent<Image>().sprite  = null;
 
-        gameObject.GetComponent<FormationDeck>().LinkedChar.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        formationDeckCS.LinkedChar.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
 
 
-    GameObject GetOldDeckObject(int key)
+    GameObject GetOldDeckObject(int deckNum)
     {
         GameObject formationList = LobbyManager.Inst.FormationList.GetComponent<FormationManager>().gameObject;
         for (int i=0; i<DEFINE.PARTY_MAX_NUM; i++)
-        {
-
-            //if (FormationManager.Inst.gameObject.transform.GetChild(i).GetComponent<FormationDeck>().DeckNum == key)
-            //{
-            //    return FormationManager.Inst.gameObject.transform.GetChild(i).gameObject;
-            //}
-         
-            if (formationList.transform.GetChild(i).GetComponent<FormationDeck>().DeckNum == key)
+        {      
+            if (formationList.transform.GetChild(i).GetComponent<FormationDeck>().DeckNum == deckNum)
             {
                 return formationList.transform.GetChild(i).gameObject;
             }     

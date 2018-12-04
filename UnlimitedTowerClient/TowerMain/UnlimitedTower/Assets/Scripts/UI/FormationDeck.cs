@@ -11,4 +11,11 @@ public class FormationDeck : MonoBehaviour {
     // 덱과 연결된 캐릭터 목록
     public GameObject LinkedChar = null;
 
+
+    public void Activate()
+    {
+        GetComponent<FormationDeck>().Active = true;
+        transform.GetChild(1).gameObject.SetActive(false);
+        transform.GetChild(2).gameObject.SetActive(false);
+    }
 }
