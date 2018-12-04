@@ -20,7 +20,6 @@ public class NumberUI : MonoBehaviour
 
     // Number Mesh (child) shader information
     private MeshRenderer rdrr;
-    private Material mtrl;
 
     private MaterialPropertyBlock mtrlBlock = null;
 
@@ -30,7 +29,6 @@ public class NumberUI : MonoBehaviour
         numberMeshTransform = rdrr.transform;
 
         mtrlBlock = new MaterialPropertyBlock();
-        mtrl = rdrr ? rdrr.material : null;
     }
 
     // Update is called once per frame

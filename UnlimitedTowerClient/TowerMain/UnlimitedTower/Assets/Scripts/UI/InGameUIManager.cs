@@ -13,8 +13,6 @@ public class InGameUIManager : MonoSingleton<InGameUIManager>
     [SerializeField]
     private GameObject prefNum;
 
-    private List<GameObject> generatedUIs = new List<GameObject>();
-
     private void Awake()
     {
         BattleManager.Inst.decreaseHpDelegate += DecreaseHp;
@@ -22,7 +20,6 @@ public class InGameUIManager : MonoSingleton<InGameUIManager>
 
     public void DecreaseHp(int damage, GameObject target)
     {
-        Debug.Log("DecreaseHp : " + damage + " / " + target);
         var i = 0;
         foreach(var num in damage.ToString())
         {

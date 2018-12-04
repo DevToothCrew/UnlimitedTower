@@ -54,15 +54,6 @@ public class BattleManager : MonoSingleton<BattleManager> {
        SetTurnSpeed();
     }
 
-    // TODO : Test code if delete
-    private void OnGUI()
-    {
-        if(GUI.Button(new Rect(10, 800, 100, 70), "BattleRest"))
-        {
-            RestBattle();
-        }
-    }
-
     private void Update()
     {
         SetDebug();
