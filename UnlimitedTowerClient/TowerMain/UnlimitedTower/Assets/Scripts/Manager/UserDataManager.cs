@@ -38,13 +38,13 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public void Awake()
     {
-       
+
 
         //TODO :  나의 캐릭터(무조건 존재하는 값)이라고 가정
-       //for(int i=0; i<TestCharNum; i++)
-       // {
-       //     CreateChar();
-       // }
+        for (int i = 0; i < TestCharNum; i++)
+        {
+            CreateChar();
+        }
 
 
         InitFlag();
