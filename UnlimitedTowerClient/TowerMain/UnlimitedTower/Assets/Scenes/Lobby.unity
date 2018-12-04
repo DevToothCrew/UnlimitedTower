@@ -2312,23 +2312,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bfce7ba2daed394caed75e817aa419c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GachaImageAnimator: {fileID: 0}
-  LightEffectCircle01Animator: {fileID: 0}
-  LightEffectCircle02Animator: {fileID: 0}
-  LightEffectCircle03Animator: {fileID: 0}
-  LightEffectCircle04Animator: {fileID: 0}
-  PurpleCircleAnimator: {fileID: 0}
-  BlackHoleAnimator: {fileID: 0}
-  BlackHole: {fileID: 0}
-  GachaResultPopup: {fileID: 0}
-  charImage: {fileID: 0}
-  CharNameText: {fileID: 0}
-  StatusStrText: {fileID: 0}
-  StatusDexText: {fileID: 0}
-  StatusIntText: {fileID: 0}
-  GachaButton: {fileID: 0}
-  ExitButton: {fileID: 0}
-  Test10GachaButton: {fileID: 0}
+  GachaImageAnimator: {fileID: 260262337}
+  LightEffectCircle01Animator: {fileID: 1266348681}
+  LightEffectCircle02Animator: {fileID: 125707376}
+  LightEffectCircle03Animator: {fileID: 1047664920}
+  LightEffectCircle04Animator: {fileID: 1359624095}
+  PurpleCircleAnimator: {fileID: 1543341101}
+  BlackHoleAnimator: {fileID: 758918809}
+  BlackHole: {fileID: 758918806}
+  GachaResultPopup: {fileID: 719195510}
+  charImage: {fileID: 247452472}
+  CharNameText: {fileID: 190070916}
+  StatusStrText: {fileID: 1781020257}
+  StatusDexText: {fileID: 1987773347}
+  StatusIntText: {fileID: 1068661387}
+  GachaButton: {fileID: 273677067}
+  ExitButton: {fileID: 1365274830}
+  Test10GachaButton: {fileID: 1800545728}
 --- !u!95 &260262337
 Animator:
   serializedVersion: 3
@@ -7310,7 +7310,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1, y: 28}
+  m_AnchoredPosition: {x: -10, y: 28}
   m_SizeDelta: {x: 545, y: 531}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &769817553
