@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System;
 
 using Random = UnityEngine.Random;
@@ -42,6 +43,15 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
     public bool FirstAcess = false;
 
+    //Test Code
+    private void OnGUI()
+    {
+        if (GUI.Button(new Rect(100, 100, 100, 100), "GameOver"))
+        {
+            UserDataManager.Inst.sceneState = SCENE_STATE.Lobby;
+            SceneManager.LoadScene("Lobby");
+        }
+    }
     void Awake()
     {
         if (debugFlag == true)

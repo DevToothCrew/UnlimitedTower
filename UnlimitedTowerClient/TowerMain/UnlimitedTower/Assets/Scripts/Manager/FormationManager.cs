@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class FormationManager : MonoBehaviour
+public class FormationManager : MonoSingleton<FormationManager>
 {
 
-    // Use this for initialization
 
+    // Use this for initialization
+    public GameObject NewDropChar;
 
 
     void Awake()

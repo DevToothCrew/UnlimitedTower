@@ -200,7 +200,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
                         if (charElement.GetComponent<CharContent>().CharDicKey == charKey)
                         {
                             goDeck.GetComponent<FormationDeck>().LinkedChar = charElement;
-                            LobbyManager.Inst.FormationList.GetComponent<FormationManager>().KS
+                            LobbyManager.Inst.FormationList.GetComponent<FormationManager>().OpenNewDeck(deckNum);
+                            LobbyManager.Inst.FormationList.GetComponent<FormationManager>().LoadDeck(deckNum);
                             //주변 덱을 연다.
 
 

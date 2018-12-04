@@ -2048,7 +2048,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightedColor: {r: 0.7058823, g: 0.38965517, b: 0.875, a: 1}
+  highlightedColor: {r: 0, g: 0, b: 0, a: 0}
   normalColor: {r: 0, g: 0, b: 0, a: 0}
   closeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &250081745
@@ -2311,22 +2311,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bfce7ba2daed394caed75e817aa419c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GachaImageAnimator: {fileID: 260262337}
-  LightEffectCircle01Animator: {fileID: 1266348681}
-  LightEffectCircle02Animator: {fileID: 125707376}
-  LightEffectCircle03Animator: {fileID: 1047664920}
-  LightEffectCircle04Animator: {fileID: 1359624095}
-  PurpleCircleAnimator: {fileID: 1543341101}
-  BlackHoleAnimator: {fileID: 758918809}
-  BlackHole: {fileID: 758918806}
-  GachaResultPopup: {fileID: 719195510}
-  charImage: {fileID: 247452472}
-  CharNameText: {fileID: 190070916}
-  StatusStrText: {fileID: 1781020257}
-  StatusDexText: {fileID: 1987773347}
-  StatusIntText: {fileID: 1068661387}
-  GachaButton: {fileID: 273677067}
-  ExitButton: {fileID: 1365274830}
+  GachaImageAnimator: {fileID: 0}
+  LightEffectCircle01Animator: {fileID: 0}
+  LightEffectCircle02Animator: {fileID: 0}
+  LightEffectCircle03Animator: {fileID: 0}
+  LightEffectCircle04Animator: {fileID: 0}
+  PurpleCircleAnimator: {fileID: 0}
+  BlackHoleAnimator: {fileID: 0}
+  BlackHole: {fileID: 0}
+  GachaResultPopup: {fileID: 0}
+  charImage: {fileID: 0}
+  CharNameText: {fileID: 0}
+  StatusStrText: {fileID: 0}
+  StatusDexText: {fileID: 0}
+  StatusIntText: {fileID: 0}
+  GachaButton: {fileID: 0}
+  ExitButton: {fileID: 0}
   Test10GachaButton: {fileID: 0}
 --- !u!95 &260262337
 Animator:
@@ -2727,9 +2727,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightedColor: {r: 0.7058823, g: 0.38965517, b: 0.875, a: 1}
+  highlightedColor: {r: 0, g: 0, b: 0, a: 0}
   normalColor: {r: 0, g: 0, b: 0, a: 0}
-  closeColor: {r: 0.97794116, g: 0, b: 0, a: 0}
+  closeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &279912219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4090,7 +4090,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightedColor: {r: 0.7058823, g: 0.38965517, b: 0.875, a: 1}
+  highlightedColor: {r: 0, g: 0, b: 0, a: 0}
   normalColor: {r: 0, g: 0, b: 0, a: 0}
   closeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &371167128
@@ -5738,7 +5738,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightedColor: {r: 0.7058823, g: 0.38965517, b: 0.875, a: 1}
+  highlightedColor: {r: 0, g: 0, b: 0, a: 0}
   normalColor: {r: 0, g: 0, b: 0, a: 0}
   closeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &546492157
@@ -5804,7 +5804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightedColor: {r: 0.7058823, g: 0.38965517, b: 0.875, a: 1}
+  highlightedColor: {r: 0, g: 0, b: 0, a: 0}
   normalColor: {r: 0, g: 0, b: 0, a: 0}
   closeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &550266539
@@ -7097,7 +7097,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightedColor: {r: 0.7058823, g: 0.38965517, b: 0.875, a: 1}
+  highlightedColor: {r: 0, g: 0, b: 0, a: 0}
   normalColor: {r: 0, g: 0, b: 0, a: 0}
   closeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &724553521
@@ -8196,8 +8196,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0835a9c00d9e7cb469a4bf0d4e2193bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GachaResultInfoPopup: {fileID: 1881522387}
-  GachaResultInfoText: {fileID: 534362213}
+  GachaResultInfoPopup: {fileID: 0}
+  GachaResultInfoText: {fileID: 0}
 --- !u!1 &832571410
 GameObject:
   m_ObjectHideFlags: 0
@@ -11029,7 +11029,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightedColor: {r: 0.7058823, g: 0.38965517, b: 0.875, a: 1}
+  highlightedColor: {r: 0, g: 0, b: 0, a: 0}
   normalColor: {r: 0, g: 0, b: 0, a: 0}
   closeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &1161966260
@@ -13778,7 +13778,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightedColor: {r: 0.7058823, g: 0.38965517, b: 0.875, a: 1}
+  highlightedColor: {r: 0, g: 0, b: 0, a: 0}
   normalColor: {r: 0, g: 0, b: 0, a: 0}
   closeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &1486521015
@@ -13919,7 +13919,7 @@ MonoBehaviour:
   LoginPopup: {fileID: 673741669}
   RightPopup: {fileID: 1771640374}
   TowerGrid: {fileID: 980136346}
-  TowerInfo: {fileID: 1910031054}
+  TowerInfo: {fileID: 1334481534}
   CenterPopup: {fileID: 366202406}
   HeroInfoPopup: {fileID: 170685062}
   PartnerInfoPopup: {fileID: 1324943359}
@@ -17495,7 +17495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightedColor: {r: 0.7058823, g: 0.38965517, b: 0.875, a: 1}
+  highlightedColor: {r: 0, g: 0, b: 0, a: 0}
   normalColor: {r: 0, g: 0, b: 0, a: 0}
   closeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &1942608023
@@ -19116,7 +19116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightedColor: {r: 0.7058823, g: 0.38965517, b: 0.875, a: 1}
+  highlightedColor: {r: 0, g: 0, b: 0, a: 0}
   normalColor: {r: 0, g: 0, b: 0, a: 0}
   closeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &2133609777
