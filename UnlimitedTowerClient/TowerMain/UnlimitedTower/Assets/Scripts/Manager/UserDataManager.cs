@@ -139,9 +139,9 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     }
     public void LoadFormation()
     {
-        // 포메이션 데이터를 가져온다.
 
-        GameObject[] decks = GameObject.FindGameObjectsWithTag("Deck");
+  
+        // 포메이션 데이터를 가져온다.
         string deckName = null;
         foreach (KeyValuePair<int, int> dic in formationDic)
         {
@@ -152,14 +152,19 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             deckName = "Deck" + dic.Key;
 
             for (int i=0; i<10; i++)
-            {        
-             
+            {
 
+                GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(i).gameObject;
                // if (FormationManager.Inst.gameObject.transform.GetChild(i).gameObject.name == deckName)
-                if (LobbyManager.Inst.FormationList.gameObject.transform.GetChild(i).gameObject.name == deckName)
+                if (deck.name == deckName)
                 {
                     Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[dic.Value].Name);
-                    LobbyManager.Inst.FormationList.gameObject.transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite = sprite;
+                    deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+                    deck.GetComponent<FormationDeck>().Active = true;
+                    deck.GetComponent<FormationDeck>().LinkedChar = null;
+                    deck.transform.GetChild(1).gameObject.SetActive(false);
+                    deck.transform.GetChild(2).gameObject.SetActive(false);
+
                     // FormationManager.Inst.gameObject.transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite = sprite;
                 }
             }    
@@ -195,19 +200,16 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
                         if (charElement.GetComponent<CharContent>().CharDicKey == charKey)
                         {
                             goDeck.GetComponent<FormationDeck>().LinkedChar = charElement;
+                            LobbyManager.Inst.FormationList.GetComponent<FormationManager>().KS
                             //주변 덱을 연다.
 
-                            
-                            FormationManager.Inst.OpenNewDeck(deckNum);
+
+                            //FormationManager.Inst.OpenNewDeck(deckNum);
                             // 이미 덱이 존재했던 내용을 채운다.
-                           // FormationManager.Inst.LoadDeck(deckNum);
+                            // FormationManager.Inst.LoadDeck(deckNum);
                         }
                     }
                 }
-
-
-
-
             }
         }
     }

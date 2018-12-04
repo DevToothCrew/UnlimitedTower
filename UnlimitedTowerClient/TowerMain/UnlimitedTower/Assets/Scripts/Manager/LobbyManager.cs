@@ -35,10 +35,11 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public void Awake()
     {
-        if(!UserDataManager.Inst.UserLoginFlag)
+        InitCenterPopup();
+        if (!UserDataManager.Inst.UserLoginFlag)
         {
             Debug.Log("첫 로그인 화면");
-            InitCenterPopup();
+         
             ChangeSceneState(SCENE_STATE.Login);
         }
         else
