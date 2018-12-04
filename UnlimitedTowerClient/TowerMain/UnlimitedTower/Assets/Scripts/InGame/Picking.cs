@@ -61,8 +61,7 @@ public class Picking : MonoSingleton<Picking> {
     {
         SelectedObject = charTransform.gameObject;
         charCtrl = SelectedObject.GetComponent<CharController>();
-
-        InGameCharacterStateUI.Inst.gameObject.SetActive(true);
+        
         InGameCharacterStateUI.SetStatus(charCtrl.status);
 
         if (charCtrl.QuadSelectionObject == null)
@@ -104,7 +103,6 @@ public class Picking : MonoSingleton<Picking> {
     void DeleteQuad()
     {
         charCtrl = SelectedObject.GetComponent<CharController>();
-        InGameCharacterStateUI.Inst.gameObject.SetActive(false);
         if (charCtrl.QuadSelectionObject)
         {
             Destroy(charCtrl.QuadSelectionObject);
