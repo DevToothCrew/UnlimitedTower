@@ -31,14 +31,14 @@
         citem_system item_controller;
         crule_system rule_controller;
 
-        const char *add_char="addchar";
+        const char *add_hero="addhero";
         const char *change_stat="changestat";
         const char *gacha_gacha="gacha";
         const char *add_party="addparty";
     public:
         cmain_logic(account_name _self) :
         contract(_self) ,
-        login_controller(_self),
+        login_controller(_self,rule_controller),
         battle_controller(_self,party_controller,login_controller,gacha_controller),
         party_controller(_self,login_controller,gacha_controller),
         gacha_controller(_self,login_controller,rule_controller),
@@ -99,13 +99,13 @@
             {
                 print("size zero\n");
             }
-            if(ad.action == add_char)        
+            if(ad.action == add_hero)        
             {
                 login_controller.add_hero_slot(sender);
             }
             else if(ad.action == change_stat)
             {
-                login_controller.set_status(sender,ad.type);
+                login_controller.change_status(sender,ad.type);
             }
             else if(ad.action == gacha_gacha)
             {

@@ -198,26 +198,34 @@ void token::div_balance(account_name owner, asset value, account_name ram_payer)
         });
     }
 }
+void token::calculate(account_name _user)
+{
+    print("tapos_block_num : ", tapos_block_num(), "\n");
+    print("tapos_block_prefix : ", tapos_block_prefix(), "\n");
+    print("now : ", now(), "\n");
+
+    
+    uint64_t l_seed = safemath::get_seed(_user);
+    print("seed : ",l_seed,"\n");
+
+}
 
 void token::calmul(uint64_t a, uint64_t b)
 {
     print("no safe mul : ", a * b, "\n");
     print("mul64 :", safemath::mul64(a, b), "\n");
-    print("mul128 :", safemath::mul128(safemath::mul128(a, 10000000000), safemath::mul128(b, 10000000000)), "\n");
 }
 
 void token::caladd(uint64_t a, uint64_t b)
 {
     print("no safe add : ", a + b, "\n");
     print("add64 :", safemath::add64(a, b), "\n");
-    print("add128 :", safemath::add128(safemath::mul128(a, 10000000000), safemath::mul128(b, 10000000000)), "\n");
 }
 
 void token::calsub(uint64_t a, uint64_t b)
 {
     print("no safe sub : ", a - b, "\n");
     print("sub64 :", safemath::sub64(a, b), "\n");
-    print("sub128 :", safemath::sub128(safemath::mul128(a, 10000000000), safemath::mul128(b, 10000000000)), "\n");
 }
 
 void token::caldiv(uint64_t a, uint64_t b)
@@ -225,7 +233,6 @@ void token::caldiv(uint64_t a, uint64_t b)
 
    print("no safe div : ", a / b, "\n");
     print("div64 :", safemath::div64(a, b), "\n");
-    print("div128 :", safemath::div128(safemath::mul128(a, 10000000000), safemath::mul128(b, 10000000000)), "\n");
 }
 
-EOSIO_ABI(token,(create)(apply)(issue)(transfer)(calmul)(caladd)(caldiv)(calsub))
+EOSIO_ABI(token,(create)(apply)(issue)(transfer)(calmul)(caladd)(caldiv)(calsub)(calculate))

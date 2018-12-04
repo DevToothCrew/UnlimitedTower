@@ -1,5 +1,6 @@
 #pragma once
 #include "../Common/common_header.hpp"
+#include "../Common/common_seed.hpp"
 class cgacha_system
     {
     private:
@@ -62,12 +63,8 @@ class cgacha_system
         }
         uint64_t random_seed(uint64_t _seed,uint32_t _max,uint32_t _min,uint32_t _random_count)
         {
-            checksum256 check_sum_result;
-            sha256((char *)&_seed, sizeof(_seed), &check_sum_result);
-            uint64_t *l_seed = reinterpret_cast<uint64_t *>(&check_sum_result.hash);
-
-            *l_seed = ((*l_seed) >> (2 * _random_count));
-            uint64_t l_result = *l_seed % _max;
+            _seed= ((_seed) >> (2 * _random_count));
+            uint64_t l_result = _seed % _max;
             if(l_result < _min)
             {
                 return l_result+=_min;
@@ -211,7 +208,7 @@ class cgacha_system
             auto user_log_iter = user_log_table.find(_user);
             eosio_assert(user_log_iter != user_log_table.end(),"unknown account");
 
-            uint64_t l_seed = tapos_block_num() * tapos_block_prefix() * now();
+            uint64_t l_seed = safeseed::get_seed(_user);
 
             if(user_log_iter->l_gacha_num == 0)
             {
@@ -219,12 +216,12 @@ class cgacha_system
             }
             else
             {
-                uint64_t l_gacha_result_type = random_seed(l_seed,3,default_min,0);
-                if(l_gacha_result_type == 0)
+                uint64_t l_gacha_result_type = random_seed(l_seed,100000,default_min,0);
+                if(l_gacha_result_type < 33333)
                 {
                     gacha_servant_job(_user,l_seed);
                 }
-                else if(l_gacha_result_type == 1)
+                else if(l_gacha_result_type > 33333 && l_gacha_result_type <= 66666)
                 {
                     gacha_monster_id(_user,l_seed);
                 }

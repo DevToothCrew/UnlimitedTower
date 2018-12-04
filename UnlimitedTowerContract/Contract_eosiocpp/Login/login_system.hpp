@@ -28,6 +28,7 @@ class clogin_system
     account_name owner;
     auth_users auth_user_table;
     user_logs user_log_table;
+    crule_system &rule_controller;
 
   private:
     battle_data_table stage;
@@ -43,8 +44,9 @@ class clogin_system
         string memo;
     };
   public:
-    clogin_system(account_name _self)
+    clogin_system(account_name _self,crule_system &_rule_controller)
         : owner(_self),
+          rule_controller(_rule_controller),
           auth_user_table(_self, _self),
           user_log_table(_self, _self),
           stage(_self,_self)
@@ -72,10 +74,29 @@ class clogin_system
         eosio_assert(transfer_data.quantity.amount > 0, "Quantity must be positive");
 
         transfer_action res;
-        res.action = transfer_data.memo.substr(0, std::string::npos);
+        size_t l_center = transfer_data.memo.find(':');
+
+        res.action = transfer_data.memo.substr(0, l_center);
         if(res.action == "gacha")
         {
             eosio_assert(transfer_data.quantity.amount == 10000,"gacha need 1.0000 EOS");
+        }
+        else if(res.action == "addhero")
+        {
+            eosio_assert(transfer_data.quantity.amount == 10000,"add hero need 1.0000 EOS");
+        }
+        else if(res.action == "changestat")
+        {
+            eosio_assert(transfer_data.memo.find(':')!=std::string::npos,"change stat memo [:] error");
+            eosio_assert(transfer_data.quantity.amount == 1000,"change stat need 0.1000 EOS");
+            eosio_assert(l_center + 1!=std::string::npos,"change stat memo slot error");
+
+            res.type = atoi(transfer_data.memo.substr(l_center + 1).c_str());
+            eosio_assert(res.type <= max_charcterslot - 1, "overflow");
+        }
+        else if(res.action == "addparty")
+        {
+            eosio_assert(transfer_data.quantity.amount == 10000,"add party need 1.0000 EOS");
         }
 
         res.to.value = receiver;
@@ -112,6 +133,16 @@ class clogin_system
     void set_look(const account_name _user, uint8_t _hero_slot, uint8_t _head, uint8_t _hair,uint8_t _body)
     {
         require_auth(_user);
+
+        auto &user_head_db = rule_controller.get_head_rule_table();
+        const auto &head_db_iter = user_head_db.get(_head, "not exist head info");
+
+        auto &user_hair_db = rule_controller.get_hair_rule_table();
+        const auto &hair_db_iter = user_hair_db.get(_hair, "not exist hair info");
+
+        auto &user_body_db = rule_controller.get_body_rule_table();
+        const auto &body_db_iter = user_body_db.get(_body, "not exist body info");
+
         auto user_iter = auth_user_table.find(_user);
         eosio_assert(user_iter != auth_user_table.end(), "unknown account");
         eosio_assert(user_iter->a_hero_slot >= _hero_slot,"need more character slot");
@@ -130,12 +161,26 @@ class clogin_system
         auto user_iter = auth_user_table.find(_user);
         eosio_assert(user_iter != auth_user_table.end(), "unknown account");
         eosio_assert(user_iter->a_hero_slot >= _hero_slot,"need more character slot");
-        eosio_assert(user_iter->a_hero_list[_hero_slot].current_state == ehero_state::set_status,"already completed status setting");
+        eosio_assert(user_iter->a_hero_list[_hero_slot].current_state == ehero_state::set_status,"free roulette completed status setting");
 
         auth_user_table.modify(user_iter, owner, [&](auto &hero_status_set) {
+            hero_status_set.a_hero_list[_hero_slot].current_state = ehero_state::set_change_status;
             hero_status_set.a_hero_list[_hero_slot].status.basic_str = random_value(10);
             hero_status_set.a_hero_list[_hero_slot].status.basic_dex = random_value(10);
             hero_status_set.a_hero_list[_hero_slot].status.basic_int = random_value(10);
+        });
+    }
+    void change_status(account_name _user,uint8_t _hero_slot)
+    {
+        auto user_iter = auth_user_table.find(_user);
+        eosio_assert(user_iter != auth_user_table.end(), "unknown account");
+        eosio_assert(user_iter->a_hero_slot >= _hero_slot, "need more character slot");
+        eosio_assert(user_iter->a_hero_list[_hero_slot].current_state == ehero_state::set_change_status, "already completed status setting");
+
+        auth_user_table.modify(user_iter, owner, [&](auto &hero_status_change) {
+            hero_status_change.a_hero_list[_hero_slot].status.basic_str = random_value(10);
+            hero_status_change.a_hero_list[_hero_slot].status.basic_dex = random_value(10);
+            hero_status_change.a_hero_list[_hero_slot].status.basic_int = random_value(10);
         });
     }
     void complete_hero_set(account_name _user, uint8_t _hero_slot)
@@ -144,7 +189,7 @@ class clogin_system
         auto user_iter = auth_user_table.find(_user);
         eosio_assert(user_iter != auth_user_table.end(), "unknown account");
         eosio_assert(user_iter->a_hero_slot >= _hero_slot,"need more character slot");
-        eosio_assert(user_iter->a_hero_list[_hero_slot].current_state == ehero_state::set_status,"already completed status setting");
+        eosio_assert(user_iter->a_hero_list[_hero_slot].current_state == ehero_state::set_change_status || user_iter->a_hero_list[_hero_slot].current_state == ehero_state::set_status,"need to look setting & status setting");
     
         auth_user_table.modify(user_iter, owner, [&](auto &hero_state_set) {
             hero_state_set.a_hero_list[_hero_slot].current_state = ehero_state::set_complete;

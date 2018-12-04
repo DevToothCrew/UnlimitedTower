@@ -129,10 +129,16 @@ class crule_system
             hair_rule.emplace(owner, [&](auto& a) {
                 a.h_hair = hair_rule.available_primary_key();
             });
-            body_rule.emplace(owner, [&](auto& a) {
-                a.b_body = body_rule.available_primary_key();
-            });
+
         }
+        for (uint8_t i = 0; i < body_count; ++i)
+        {
+        body_rule.emplace(owner, [&](auto &a) {
+            a.b_body = body_rule.available_primary_key();
+        });
+        }
+
+
         for(uint8_t i=0;i<monster_grade_count;++i)
         {
             monster_grade_rule.emplace(owner,[&](auto &a)

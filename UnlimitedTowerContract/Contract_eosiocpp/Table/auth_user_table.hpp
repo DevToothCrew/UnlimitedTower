@@ -5,6 +5,7 @@ enum ehero_state
 {   
     set_look = 1,
     set_status,
+    set_change_status,
     set_complete,
 };
 
