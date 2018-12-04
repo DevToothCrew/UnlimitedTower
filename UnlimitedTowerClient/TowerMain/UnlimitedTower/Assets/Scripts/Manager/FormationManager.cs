@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class FormationManager : MonoSingleton<FormationManager> {
+public class FormationManager : MonoBehaviour
+{
 
     // Use this for initialization
-  public  GameObject NewDropChar = null;
 
-    void Awake () {
+
+
+    void Awake()
+    {
 
         Debug.Log("FormationManager call:)");
 
-      // LoadFormation();
+        // LoadFormation();
 
 
-         
+
 
         //for (int i = 0; i < 10; i++)
         //{
@@ -87,12 +90,12 @@ public class FormationManager : MonoSingleton<FormationManager> {
 
 
 
-              
+
         //    }
         //}
-     
-       
-	}
+
+
+    }
     private void LoadFormation()
     {
         string deckName = null;
