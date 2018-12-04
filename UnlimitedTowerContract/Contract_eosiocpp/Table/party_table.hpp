@@ -34,4 +34,4 @@ public:
     )
 };
 
-typedef multi_index<N(cparty),cparty> user_party_table;
+typedef multi_index<N(cparty),cparty> user_partys;

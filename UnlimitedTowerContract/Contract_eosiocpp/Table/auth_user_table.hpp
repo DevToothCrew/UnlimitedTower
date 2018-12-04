@@ -7,6 +7,8 @@ enum ehero_state
     set_status,
     set_change_status,
     set_complete,
+    set_tower_party,
+    set_travel_party,
 };
 
 enum euser_state

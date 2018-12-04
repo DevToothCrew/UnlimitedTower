@@ -125,8 +125,8 @@ class cbattle_system
             uint32_t mon_right = 0;
 
             //need to static stage info
-            auto &party_list = party_controller.get_user_party_table();
-            const auto &party_get_iter = party_list.get(_user);
+            auto &user_party_table = party_controller.get_user_party_table();
+            const auto &party_get_iter = user_party_table.get(_user);
 
             auto cur_player_iter = battles.find(_user);
             eosio_assert(cur_player_iter != battles.end(),"not exist account in battle");
