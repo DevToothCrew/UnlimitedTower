@@ -128,7 +128,10 @@ public class Droppable : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
         }
 
         // 둘다 이미 덱에 위에 있는데
-        // 겹치는 경우
+        // 겹치는 경우, 빠져나가는 캐릭은 어떻게 처리하나
+
+        // 조건 1: 캐릭터 초상화가 이미 덱에 있다.
+        // 조건 2:
         else if(true)
         {
 

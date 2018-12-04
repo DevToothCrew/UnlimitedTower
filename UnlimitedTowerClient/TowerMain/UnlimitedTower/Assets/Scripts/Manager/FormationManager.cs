@@ -58,8 +58,6 @@ public class FormationManager : MonoBehaviour
                     ActivateDeck(deckNum - 5);
                     break;
                 }
-
-
             case 5:
             case 9:
                 {
