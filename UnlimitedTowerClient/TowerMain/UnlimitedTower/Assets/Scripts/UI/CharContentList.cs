@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CharContentList : MonoSingleton<CharContentList>
+public class CharContentList : MonoBehaviour
 {
 
 	// Use this for initialization

@@ -73,10 +73,9 @@ public class Droppable : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
         }
 
 
-        if (FormationManager.Inst.NewDropChar)
-        {
-            //charIndex =  UserDataManager.Inst.PutChar.GetComponent<CharContent>().CharDicKey;
-            charIndex = FormationManager.Inst.NewDropChar.GetComponent<CharContent>().CharDicKey;
+        if (FormationManager.NewDropChar)
+        {         
+            charIndex = FormationManager.NewDropChar.GetComponent<CharContent>().CharDicKey;
         }
         else
         {
@@ -84,14 +83,23 @@ public class Droppable : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
             return;
         }
 
-
+        if(GetComponent<FormationDeck>().LinkedChar)
+        {
+            if(charIndex == GetComponent<FormationDeck>().LinkedChar.GetComponent<CharContent>().CharDicKey)
+            {
+                Debug.Log("This is same character!");
+                gameObject.transform.GetChild(0).GetComponent<Image>().color = normalColor;
+                return;
+            }
+        }
        
 
 
         // 기존 덱을 새로운 덱의 위치로 이동시킬 것이라면
+        // error : 같은거 같은 곳에 드래그하면 생기는 에러
         if (UserDataManager.Inst.formationDic.ContainsValue(charIndex))
         {
-            if (gameObject.GetComponent<Image>().sprite == null)
+            if (gameObject.transform.GetChild(0).GetComponent<Image>().sprite == null)
             {
                 // 새로운 덱 위치로 기존 덱을 이동시킨다.
                 MoveNewDeckPos(charIndex);
@@ -134,21 +142,22 @@ public class Droppable : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
         Image droppedImage = charImage;
 
         gameObject.transform.GetChild(0).GetComponent<Image>().sprite = droppedImage.sprite;
-        FormationManager.Inst.OpenNewDeck(deckNum);
+        LobbyManager.Inst.FormationList.GetComponent<FormationManager>().OpenNewDeck(deckNum);
+
 
 
         gameObject.transform.GetChild(1).gameObject.SetActive(false);
-        Color color = FormationManager.Inst.NewDropChar.GetComponent<Image>().color;
-        int charKey = FormationManager.Inst.NewDropChar.GetComponent<CharContent>().CharDicKey;
+        Color color = FormationManager.NewDropChar.GetComponent<Image>().color;
+        int charKey = FormationManager.NewDropChar.GetComponent<CharContent>().CharDicKey;
         UserDataManager.Inst.characterDic[charKey].OnFormation = true;
 
 
         Debug.Log("선택된 캐릭터");
         color.r = color.g = color.b = 0.35f;
-        FormationManager.Inst.NewDropChar.GetComponent<Image>().color = color;
+        FormationManager.NewDropChar.GetComponent<Image>().color = color;
 
         gameObject.transform.GetChild(0).GetComponent<Image>().color = normalColor;
-        gameObject.GetComponent<FormationDeck>().LinkedChar = FormationManager.Inst.NewDropChar;
+        gameObject.GetComponent<FormationDeck>().LinkedChar = FormationManager.NewDropChar;
     }
 
     void MoveNewDeckPos(int charIndex)
@@ -186,13 +195,19 @@ public class Droppable : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
 
     GameObject GetOldDeckObject(int key)
     {
-        for(int i=0; i<DEFINE.PARTY_MAX_NUM; i++)
+        GameObject formationList = LobbyManager.Inst.FormationList.GetComponent<FormationManager>().gameObject;
+        for (int i=0; i<DEFINE.PARTY_MAX_NUM; i++)
         {
-           
-            if (FormationManager.Inst.gameObject.transform.GetChild(i).GetComponent<FormationDeck>().DeckNum == key)
+
+            //if (FormationManager.Inst.gameObject.transform.GetChild(i).GetComponent<FormationDeck>().DeckNum == key)
+            //{
+            //    return FormationManager.Inst.gameObject.transform.GetChild(i).gameObject;
+            //}
+         
+            if (formationList.transform.GetChild(i).GetComponent<FormationDeck>().DeckNum == key)
             {
-                return FormationManager.Inst.gameObject.transform.GetChild(i).gameObject;
-            }
+                return formationList.transform.GetChild(i).gameObject;
+            }     
         }
         return null;
       
