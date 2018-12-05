@@ -162,6 +162,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void Response_Gacha(GACHA_TYPE gachaType)
     {
 
+        // ### 코드 깔끔하게 정리
         switch(gachaType)
         {
             case GACHA_TYPE.Servant:
