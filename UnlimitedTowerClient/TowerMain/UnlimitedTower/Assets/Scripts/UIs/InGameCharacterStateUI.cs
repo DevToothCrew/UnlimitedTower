@@ -22,7 +22,6 @@ public class InGameCharacterStateUI : MonoBehaviour
     private void Awake()
     {
         instance = instance ?? this;
-        gameObject.SetActive(false);
     }
 
     static public void SetThumbnail(Sprite img)
