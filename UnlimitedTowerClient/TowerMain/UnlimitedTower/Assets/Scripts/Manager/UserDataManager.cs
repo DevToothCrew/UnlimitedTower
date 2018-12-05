@@ -208,14 +208,14 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public void LoadCharData(GameObject charContentList,
         ref Dictionary<int, Character> _charDic, GACHA_TYPE gachaType)
     {
-        string spriteFath = null;
+        string imageFath = null;
         if(gachaType == GACHA_TYPE.Servant)
         {
-            spriteFath = "UI/CharaterImage/";
+            imageFath = "UI/CharaterImage/";
         }
         else
         {
-            spriteFath = "UI/MonsterImage/";
+            imageFath = "UI/MonsterImage/";
         }
 
         // 캐릭터 개수만큼 캐릭터 목록을 다시 불러온다.
@@ -226,7 +226,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             if (instance.transform.GetChild(0).GetComponent<Image>())
             {
          
-                instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(spriteFath + _charDic[dic.Key].Name);
+                instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(imageFath + _charDic[dic.Key].Name);
                 instance.transform.SetParent(charContentList.transform.transform);
                 instance.GetComponent<CharContent>().CharDicKey = dic.Key;
                 if (gachaType == GACHA_TYPE.Servant)
@@ -255,7 +255,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
                        
                         deck.GetComponent<FormationDeck>().LinkedChar = instance;
 
-                        Sprite sprite = Resources.Load<Sprite>(spriteFath + _charDic[dic.Key].Name);
+                        Sprite sprite = Resources.Load<Sprite>(imageFath + _charDic[dic.Key].Name);
                         deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
                         deck.GetComponent<FormationDeck>().ShowEmptyText(false);
                     }

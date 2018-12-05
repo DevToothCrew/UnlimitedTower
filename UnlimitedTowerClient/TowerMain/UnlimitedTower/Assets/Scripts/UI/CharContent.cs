@@ -19,14 +19,14 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
 
         if(CharType == 0)
         {
-            AddDeck(ref UserDataManager.Inst.characterDic);
+            AddDeck(ref UserDataManager.Inst.characterDic, CharType);
         }
-        //else if(CharType == 1)
-        //{
-        //    AddDeck(ref UserDataManager.Inst.monsterDic);
-        //}
+        else if (CharType == 1)
+        {
+            AddDeck(ref UserDataManager.Inst.monsterDic, CharType);
+        }
 
-
+        #region
         //if(UserDataManager.Inst.characterDic.ContainsKey(CharDicKey))
         //{
         //    if (UserDataManager.Inst.characterDic[CharDicKey].OnFormation == true)
@@ -71,9 +71,10 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
         //        }
         //    }
         //}     
+        #endregion
     }
 
-    public void AddDeck(ref Dictionary<int, Character> _charDic)
+    public void AddDeck(ref Dictionary<int, Character> _charDic, int charType)
     {
         if (_charDic.ContainsKey(CharDicKey))
         {
@@ -90,7 +91,21 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
             //   덱에 새로 캐릭터 추가.
             else
             {
-                for (int i = 0; i < DEFINE.PARTY_MAX_NUM / 2; i++)
+                int startNum = -1;
+                string imageFath = null;
+                if (charType == 0)
+                {
+                    startNum = 0;
+                    imageFath = "UI/CharaterImage/";
+                }
+                else
+                {
+                    startNum = 5;
+                    imageFath = "UI/MonsterImage/";
+                }
+           
+
+                for (int i = startNum; i < DEFINE.PARTY_MAX_NUM / 2 + startNum; i++)
                 {
                     int deckNum = UserDataManager.Inst.formationOrderList[i];
                     // 빈 덱 검색
@@ -98,7 +113,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
                     {
                         // 캐릭터 넣기.
                         GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
-                        Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + _charDic[CharDicKey].Name);
+                        Sprite sprite = Resources.Load<Sprite>(imageFath + _charDic[CharDicKey].Name);
 
                         // 덱에 캐릭터 오브젝트 연결
                         deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
