@@ -54,7 +54,7 @@ public class DEFINE
     // 테스트 상수
     public static Vector3 PLAYER_BACKLINE_CENTER_POS = new Vector3(0.0f, 0.0f, -5.0f);
     public static Vector3 ENEMY_BACKLINE_CENTER_POS = new Vector3(0.0f, 0.0f, 5.0f);
-    public static readonly int TEST_HP_NUM = 1;
+    public static readonly int TEST_HP_NUM = 10;
 
 
 

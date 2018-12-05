@@ -510,36 +510,66 @@ public class BattleManager : MonoSingleton<BattleManager> {
                 continue;
             }
 
-            
-
-
-            //if (UserDataManager.Inst.characterDic.ContainsKey(i) == false)
-            if (UserDataManager.Inst.characterDic.ContainsKey(charKey) == false)
+            if(i<5)
             {
-                break;
-            }
-            else
-            {
-                //캐릭터 정보,                     //partyIndex   //chartIndex(필요없는 값일 수도 있음)
-                Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.characterDic[charKey], formationNum, i, 0);
-
-                playerStatusDic.Add(formationNum, status);
-                if (!playerObjects[formationNum])
+                if (UserDataManager.Inst.characterDic.ContainsKey(charKey) == false)
                 {
-                    playerObjects[formationNum] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.identity);
+                    break;
+                }
+                else
+                {
+                    //캐릭터 정보,                     //partyIndex   //chartIndex(필요없는 값일 수도 있음)
+                    Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.characterDic[charKey], formationNum, i, 0);
 
-                    playerObjects[formationNum].transform.SetParent(PlayerParty.transform.transform, false);
-                    if (playerObjects[formationNum].GetComponent<CharController>())
+                    playerStatusDic.Add(formationNum, status);
+                    if (!playerObjects[formationNum])
                     {
-                        playerObjects[formationNum].GetComponent<CharController>().status = status;
-                        playerObjects[formationNum].GetComponent<CharController>().charType = CHAR_TYPE.PLAYER;
-                        playerObjects[formationNum].GetComponent<CharController>().charSize = status.sizeType;
+                        playerObjects[formationNum] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.identity);
 
-                        CreatePlayerBsttlePosition(formationNum, playerObjects, CHAR_TYPE.PLAYER, ref playerStatusDic);
-                        playerObjects[formationNum].GetComponent<CharController>().battleDicIndex = formationNum;
+                        playerObjects[formationNum].transform.SetParent(PlayerParty.transform.transform, false);
+                        if (playerObjects[formationNum].GetComponent<CharController>())
+                        {
+                            playerObjects[formationNum].GetComponent<CharController>().status = status;
+                            playerObjects[formationNum].GetComponent<CharController>().charType = CHAR_TYPE.PLAYER;
+                            playerObjects[formationNum].GetComponent<CharController>().charSize = status.sizeType;
+
+                            CreatePlayerBsttlePosition(formationNum, playerObjects, CHAR_TYPE.PLAYER, ref playerStatusDic);
+                            playerObjects[formationNum].GetComponent<CharController>().battleDicIndex = formationNum;
+                        }
                     }
                 }
             }
+            else
+            {
+                if (UserDataManager.Inst.monsterDic.ContainsKey(charKey) == false)
+                {
+                    break;
+                }
+                else
+                {
+                    //캐릭터 정보,                     //partyIndex   //chartIndex(필요없는 값일 수도 있음)
+                    Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.monsterDic[charKey], formationNum, i, 0);
+
+                    playerStatusDic.Add(formationNum, status);
+                    if (!playerObjects[formationNum])
+                    {
+                        playerObjects[formationNum] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.identity);
+
+                        playerObjects[formationNum].transform.SetParent(PlayerParty.transform.transform, false);
+                        if (playerObjects[formationNum].GetComponent<CharController>())
+                        {
+                            playerObjects[formationNum].GetComponent<CharController>().status = status;
+                            playerObjects[formationNum].GetComponent<CharController>().charType = CHAR_TYPE.PLAYER;
+                            playerObjects[formationNum].GetComponent<CharController>().charSize = status.sizeType;
+
+                            CreatePlayerBsttlePosition(formationNum, playerObjects, CHAR_TYPE.PLAYER, ref playerStatusDic);
+                            playerObjects[formationNum].GetComponent<CharController>().battleDicIndex = formationNum;
+                        }
+                    }
+                }
+            }
+
+          
         }
     }
     private void CreateEnemyObjects()

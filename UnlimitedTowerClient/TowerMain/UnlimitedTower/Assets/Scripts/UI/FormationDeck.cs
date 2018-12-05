@@ -32,11 +32,23 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         transform.GetChild(0).gameObject.GetComponent<Image>().sprite = null;
 
         //캐릭터 삭제
+
+        Debug.Log("formatonDeck : " + DeckNum);
         int charIndex = UserDataManager.Inst.formationDic[DeckNum];
         UserDataManager.Inst.formationDic.Remove(DeckNum);
+        if(DeckNum<5)
+        {
+            UserDataManager.Inst.monsterDic[charIndex].OnFormation = false;
+            UserDataManager.Inst.monsterDic[charIndex].FormationIndex = -1;
+        }
+        else
+        {
+            UserDataManager.Inst.characterDic[charIndex].OnFormation = false;
+            UserDataManager.Inst.characterDic[charIndex].FormationIndex = -1;
+        }
 
-        UserDataManager.Inst.characterDic[charIndex].OnFormation = false;
-        UserDataManager.Inst.characterDic[charIndex].FormationIndex = -1;
+
+     
         ShowEmptyText(true);
 
     }
