@@ -10,7 +10,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public bool CreatePlayerFlag;
     public SCENE_STATE sceneState = SCENE_STATE.None;
 
-    public Dictionary<int, Character> characterDic = new Dictionary<int, Character>();
+    public Dictionary<int, Character> servantDic = new Dictionary<int, Character>();
     public Dictionary<int, Character> monsterDic = new Dictionary<int, Character>();
 
 
@@ -139,14 +139,14 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     // TODO : Test Code if deleted
     public void SetChar(Dictionary<int, Character> getCharcterDic)
     {
-        characterDic = getCharcterDic;
+        servantDic = getCharcterDic;
     }
 
     // 새로운 캐릭터를 dic에 저장한다.
     public void SetServant(Character newChar)
     {
 
-        characterDic.Add(characterIndex, newChar);
+        servantDic.Add(characterIndex, newChar);
         characterIndex += 1;
     }
 
@@ -160,26 +160,26 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public void  LoadUserData()
     {
         // LoadServantData();
-        LoadCharData(LobbyManager.Inst.ServantContentList, ref characterDic, GACHA_TYPE.Servant);
+        LoadCharData(LobbyManager.Inst.ServantContentList, ref servantDic, GACHA_TYPE.Servant);
         LoadCharData(LobbyManager.Inst.MonsterContentList, ref monsterDic, GACHA_TYPE.Monster);
     }
 
     // 로비로 되돌아 올때 캐릭터 리스트 다시 불러오는 함수
     public void LoadServantData()
     {
-        int charDicCount = characterDic.Count;
+        int charDicCount = servantDic.Count;
 
         // 캐릭터 개수만큼 캐릭터 목록을 다시 불러온다.
-        foreach (KeyValuePair<int, Character> dic in characterDic)
+        foreach (KeyValuePair<int, Character> dic in servantDic)
         {
             var instance = Instantiate(Resources.Load("Prefabs/CharContent") as GameObject);
             // 이걸 이미지로 검사해야하는가?
             if (instance.transform.GetChild(0).GetComponent<Image>())
             {
-                instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[dic.Key].Name);
+                instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + servantDic[dic.Key].Name);
                 instance.transform.SetParent(LobbyManager.Inst.ServantContentList.transform.transform);
                 instance.GetComponent<CharContent>().CharDicKey = dic.Key;
-                if (characterDic[dic.Key].OnFormation)
+                if (servantDic[dic.Key].OnFormation)
                 {
                     Color color = instance.transform.GetChild(0).GetComponent<Image>().color;
                     color.r = color.g = color.b = 0.35f;
@@ -187,14 +187,14 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
                     instance.transform.GetChild(1).gameObject.SetActive(true);
 
                     //  포메이션 세팅.
-                    if (characterDic[dic.Key].FormationIndex !=-1)
+                    if (servantDic[dic.Key].FormationIndex !=-1)
                     {
                         Debug.Log("dic.key : " + dic.Key);
-                        int deckNum = characterDic[dic.Key].FormationIndex;
+                        int deckNum = servantDic[dic.Key].FormationIndex;
                         GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
                         deck.GetComponent<FormationDeck>().LinkedChar = instance;
 
-                        Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[dic.Key].Name);
+                        Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + servantDic[dic.Key].Name);
                         deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
                         deck.GetComponent<FormationDeck>().ShowEmptyText(false);
                     }
@@ -298,13 +298,13 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     private void SetFormation()
     {
         // 지금은 들어가는 순서대로 세팅.
-       // userCharsKeyList.Add(characterDic.Count - 1);
+       // userCharsKeyList.Add(servantDic.Count - 1);
     }
 
     public void RemoveUserInfo()
     {
         Debug.Log("Remove UserInfo");
-        characterDic.Clear();
+        servantDic.Clear();
         userCharsKeyList.Clear();
         characterIndex = 0;
     }

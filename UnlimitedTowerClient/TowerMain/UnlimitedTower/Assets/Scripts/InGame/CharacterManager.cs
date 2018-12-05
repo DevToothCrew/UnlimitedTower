@@ -5,11 +5,11 @@ public class CharacterManager : MonoSingleton<CharacterManager> {
 
 #region Character
 
-	public Dictionary<int, Character> characterDic = new Dictionary<int, Character>();
+	public Dictionary<int, Character> servantDic = new Dictionary<int, Character>();
 
     public void SetChar(Dictionary<int, Character> getCharcterDic)
 	{
-		characterDic = getCharcterDic;
+		servantDic = getCharcterDic;
 	}
 
 #endregion

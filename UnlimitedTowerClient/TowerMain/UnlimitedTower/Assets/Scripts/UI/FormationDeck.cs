@@ -43,8 +43,8 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         }
         else
         {
-            UserDataManager.Inst.characterDic[charIndex].OnFormation = false;
-            UserDataManager.Inst.characterDic[charIndex].FormationIndex = -1;
+            UserDataManager.Inst.servantDic[charIndex].OnFormation = false;
+            UserDataManager.Inst.servantDic[charIndex].FormationIndex = -1;
         }
 
 

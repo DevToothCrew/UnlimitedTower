@@ -90,7 +90,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void Request_GetStageInfo(int stageNum)
     {
         // TODO : if delete
-        if(UserDataManager.Inst.characterDic.Count<=0)
+        if(UserDataManager.Inst.servantDic.Count<=0)
         {
             Debug.Log("캐릭터가 없습니다. 뽑기를 해주세요");
             return;

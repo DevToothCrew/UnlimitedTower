@@ -185,8 +185,8 @@ public class Droppable : MonoBehaviour, IDropHandler,
 
         this.charImage.sprite = droppedImage.sprite;
         LobbyManager.Inst.FormationList.GetComponent<FormationManager>().OpenNewDeck(deckNum);
-        UserDataManager.Inst.characterDic[charIndex].OnFormation = true;
-        UserDataManager.Inst.characterDic[charIndex].FormationIndex = deckNum;
+        UserDataManager.Inst.servantDic[charIndex].OnFormation = true;
+        UserDataManager.Inst.servantDic[charIndex].FormationIndex = deckNum;
         FormationManager.NewDropChar.GetComponent<Image>().color = usedColor;
 
 
@@ -208,7 +208,7 @@ public class Droppable : MonoBehaviour, IDropHandler,
         if (UserDataManager.Inst.formationDic[deckNum] == charIndex)
         {
             UserDataManager.Inst.formationDic.Remove(deckNum);
-            UserDataManager.Inst.characterDic[charIndex].FormationIndex = -1;
+            UserDataManager.Inst.servantDic[charIndex].FormationIndex = -1;
             GameObject oldDeck = GetOldDeckObject(deckNum);
             if (oldDeck)
             {
@@ -223,7 +223,7 @@ public class Droppable : MonoBehaviour, IDropHandler,
     }
     void RemoveOldDeck(int charIndex, int deckNum)
     {
-        UserDataManager.Inst.characterDic[charIndex].FormationIndex = -1;
+        UserDataManager.Inst.servantDic[charIndex].FormationIndex = -1;
         UserDataManager.Inst.formationDic.Remove(deckNum);
         GetChildObject(0).GetComponent<Image>().sprite  = null;
 
