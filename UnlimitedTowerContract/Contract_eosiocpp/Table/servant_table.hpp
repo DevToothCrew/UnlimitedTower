@@ -27,12 +27,13 @@ struct sobject_plus_status
 // 8 + 4 + 3 + 13 + 16 + 4 = 48
 struct cservantinfo
 {
-    uint64_t s_index;
-    sobject_appear appear_info;
-    sobject_status status_info;
-    sobject_plus_status plus_status_info;
-    std::vector<uint32_t> s_equip;
-    uint32_t s_exp = 0;
+    uint64_t s_index;           //서번트 인덱스번호
+    sobject_appear s_appear;    //서번트 외형 정보
+    sobject_status s_status;    //서번트 힘민지 직업
+    sobject_plus_status s_plus_status;  //서번트 추가힘민지
+    std::vector<uint32_t> s_equip_slot; //서번트 장비 리스트
+    uint32_t s_exp = 0; //서번트 경험치
+    uint32_t s_state; //서번트 상태
 };
 
 // 8 + 48 = 56

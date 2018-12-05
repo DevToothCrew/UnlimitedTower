@@ -8,14 +8,14 @@ enum echaracter_state
     sleep,
 };
 // 1 + 8 = 9
-struct scharacter_state
+struct sbattle_member_state
 {
     uint8_t turn_count;       //캐릭터 상태의 지속 턴 횟수
     uint64_t state;           //캐릭터의 현재 상태
 };
 // 4 + 9 + 8 = 21 
 //vector 개당 + 9
-struct scharacter_info
+struct sbattle_staus_info
 {
     uint32_t action;
     uint32_t speed;
@@ -23,7 +23,7 @@ struct scharacter_info
     uint32_t defense;
     uint32_t attack;
     uint32_t now_hp = 0;
-    std::vector<scharacter_state> state_list;
+    std::vector<sbattle_member_state> state_list;
     uint64_t party_object_index = 0;
 };
 
@@ -44,10 +44,10 @@ private:
     account_name b_user;
 public:
     uint8_t b_turn_count;
-    uint32_t b_stage_index;
+    uint32_t b_stage_number;
     uint8_t b_party_number;
     uint8_t b_preference;
-    std::vector<scharacter_info> b_battle_state_list;
+    std::vector<sbattle_staus_info> b_battle_state_list;
     std::vector<attack_speed> attack_order_list;
 public:
     cbattle() {
@@ -63,7 +63,7 @@ public:
         cbattle,
         (b_user)
         (b_turn_count)
-        (b_stage_index)
+        (b_stage_number)
         (b_party_number)
         (b_preference)
         (b_battle_state_list)
@@ -71,4 +71,4 @@ public:
     )
 };
 
-typedef multi_index<N(cbattle),cbattle> user_battle_table;
+typedef multi_index<N(cbattle),cbattle> user_battle_info;

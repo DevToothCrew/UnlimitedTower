@@ -2,8 +2,8 @@
 #include "../Common/common_header.hpp"
 
 
-//@abi table crhead i64
-class crhead
+//@abi table cdbhead i64
+class cdbhead
 {
   public:
     uint64_t h_head;
@@ -12,4 +12,4 @@ class crhead
     uint64_t primary_key() const { return h_head; }
 };
 
-typedef multi_index<N(crhead),crhead> head_data_table;
+typedef multi_index<N(cdbhead),cdbhead> head_db;

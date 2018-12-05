@@ -11,13 +11,14 @@ enum item_state
 // 8 + 4 + 13 = 25
 struct citeminfo
 {
-    uint64_t i_index;
-    uint32_t i_type_index;
-    uint8_t i_type_equip;
-    uint8_t i_tier;
-    sobject_status i_status_info;
-    uint32_t i_item_state;
-    uint32_t i_job;
+    uint64_t i_index; //아이템 인덱스
+    uint32_t i_type;  //종류
+    uint32_t i_slot;  //장착 타입
+    uint32_t i_tier;  //티어
+    sobject_status i_status; //힘민지 직업
+    uint32_t i_state; //아이템 현재 상태
+    uint32_t i_grade; //아이템 등급
+    uint32_t i_reinforce; //아이템 강화 수치
 };
 
 // 8 + 25 = 33

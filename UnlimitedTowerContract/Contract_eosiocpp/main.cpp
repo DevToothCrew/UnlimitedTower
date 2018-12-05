@@ -11,7 +11,7 @@
 #include "Table/servant_table.hpp"
 #include "Table/test_static_stage_table.hpp"
 
-#include "Rule/rule_system.hpp"
+#include "DB/db_system.hpp"
 
 #include "Login/login_system.hpp"
 #include "Gacha/gacha_system.hpp"
@@ -28,7 +28,7 @@
         cparty_system party_controller;
         cgacha_system gacha_controller;
         citem_system item_controller;
-        crule_system rule_controller;
+        cdb_system db_controller;
 
         const char *add_hero="addhero";
         const char *change_stat="changestat";
@@ -37,12 +37,12 @@
     public:
         cmain_logic(account_name _self) :
         contract(_self) ,
-        login_controller(_self,rule_controller),
+        login_controller(_self,db_controller),
         battle_controller(_self,party_controller,login_controller,gacha_controller),
         party_controller(_self,login_controller,gacha_controller),
-        gacha_controller(_self,login_controller,rule_controller),
+        gacha_controller(_self,login_controller,db_controller),
         item_controller(_self,login_controller,gacha_controller),
-        rule_controller(_self)
+        db_controller(_self)
         {
             
         }
@@ -50,7 +50,7 @@
         //@abi action
         void datainit()
         {
-            rule_controller.init_data();
+            db_controller.init_data();
         }
         //@abi action
         void stageinit()

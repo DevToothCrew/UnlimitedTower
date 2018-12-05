@@ -5,11 +5,14 @@
 // 8 + 4 + 13 + 16 + 4 = 46
 struct cmonsterinfo
 {
-    uint64_t m_index;
-    uint32_t m_type_index;
-    sobject_status m_status_info;
-    sobject_plus_status m_plus_status_info;
-    uint32_t m_exp;
+    uint64_t m_index;  //고유 인덱스
+    uint32_t m_type;   //외형 - 타입
+    sobject_status m_status; // 힘민지
+    sobject_plus_status m_plus_status; //추가 힘민지
+    uint32_t m_exp; //경험치
+    uint32_t m_grade; // 등급
+    uint32_t m_reinforce; //강화수치
+    uint32_t m_state; //몬스터 상태값
 };
 
 // 8 + 46 = 54

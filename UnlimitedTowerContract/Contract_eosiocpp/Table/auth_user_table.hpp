@@ -15,7 +15,8 @@ enum euser_state
 {
     login = 1,
     lobby,
-    battle_result,
+    battle_win,
+    battle_lose,
     tower,
     travel,
     pause,

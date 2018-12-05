@@ -2,8 +2,8 @@
 #include "../Common/common_header.hpp"
 
 
-//@abi table critemid i64
-class critemid
+//@abi table cdbitemid i64
+class cdbitemid
 {
   public:
     uint64_t i_id;
@@ -13,4 +13,4 @@ public:
     uint64_t primary_key() const {return i_id;}
 };
 
-typedef multi_index<N(critemid),critemid> item_id_data_table;
+typedef multi_index<N(cdbitemid),cdbitemid> item_id_db;

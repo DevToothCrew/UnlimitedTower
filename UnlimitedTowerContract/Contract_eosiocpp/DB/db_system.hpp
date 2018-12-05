@@ -1,30 +1,30 @@
 #pragma once
 #include "../Common/common_header.hpp"
-#include "../Rule/rule_servant_table.hpp"
-#include "../Rule/rule_head_table.hpp"
-#include "../Rule/rule_hair_table.hpp"
-#include "../Rule/rule_body_table.hpp"
-#include "../Rule/rule_item_id_table.hpp"
-#include "../Rule/rule_item_tier_table.hpp"
-#include "../Rule/rule_monster_grade_table.hpp"
-#include "../Rule/rule_monster_id_table.hpp"
+#include "../DB/db_servant.hpp"
+#include "../DB/db_head.hpp"
+#include "../DB/db_hair.hpp"
+#include "../DB/db_body.hpp"
+#include "../DB/db_item_id.hpp"
+#include "../DB/db_item_tier.hpp"
+#include "../DB/db_monster_grade.hpp"
+#include "../DB/db_monster_id.hpp"
 
 
 
-class crule_system
+class cdb_system
 {
   private:
     account_name owner;
 
   private:
-    servant_data_table  servant_rule;
-    head_data_table head_rule;
-    hair_data_table hair_rule;
-    body_data_table body_rule;
-    monster_grade_data_table monster_grade_rule;
-    monster_id_data_table monster_id_rule;
-    item_id_data_table item_id_rule;
-    item_tier_data_table item_tier_rule;
+    servant_db  servant_db_table;
+    head_db head_db_table;
+    hair_db hair_db_table;
+    body_db body_db_table;
+    monster_grade_db monster_grade_db_table;
+    monster_id_db monster_id_db_table;
+    item_id_db item_id_db_table;
+    item_tier_db item_tier_db_table;
   public:
     const uint8_t servant_job_count = 6;
     const uint8_t monster_id_count = 30;
@@ -37,49 +37,49 @@ class crule_system
     const uint8_t body_count = 4;
     uint32_t random_count = 0;
   public:
-    crule_system(account_name _self)
+    cdb_system(account_name _self)
         : owner(_self),
-          servant_rule(_self, _self),
-          head_rule(_self,_self),
-          hair_rule(_self,_self),
-          body_rule(_self,_self),
-          monster_grade_rule(_self,_self),
-          monster_id_rule(_self,_self),
-          item_id_rule(_self,_self),
-          item_tier_rule(_self,_self)
+          servant_db_table(_self, _self),
+          head_db_table(_self,_self),
+          hair_db_table(_self,_self),
+          body_db_table(_self,_self),
+          monster_grade_db_table(_self,_self),
+          monster_id_db_table(_self,_self),
+          item_id_db_table(_self,_self),
+          item_tier_db_table(_self,_self)
     {
     }
-    servant_data_table &get_servant_rule_table()
+    servant_db &get_servant_db_table()
     {
-        return servant_rule;
+        return servant_db_table;
     }
-    head_data_table &get_head_rule_table()
+    head_db &get_head_db_table()
     {
-        return head_rule;
+        return head_db_table;
     }
-    hair_data_table &get_hair_rule_table()
+    hair_db &get_hair_db_table()
     {
-        return hair_rule;
+        return hair_db_table;
     }
-    body_data_table &get_body_rule_table()
+    body_db &get_body_db_table()
     {
-        return body_rule;
+        return body_db_table;
     }
-    monster_grade_data_table &get_monster_grade_rule_table()
+    monster_grade_db &get_monster_grade_db_table()
     {
-        return monster_grade_rule;
+        return monster_grade_db_table;
     }
-    monster_id_data_table &get_monster_id_rule_table()
+    monster_id_db &get_monster_id_db_table()
     {
-        return monster_id_rule;
+        return monster_id_db_table;
     }
-    item_id_data_table &get_item_id_rule_table()
+    item_id_db &get_item_id_db_table()
     {
-        return item_id_rule;
+        return item_id_db_table;
     }
-    item_tier_data_table &get_item_tier_rule_table()
+    item_tier_db &get_item_tier_db_table()
     {
-        return item_tier_rule;
+        return item_tier_db_table;
     }
     uint64_t random_seed(uint64_t _seed, uint32_t _range, uint32_t _min, uint32_t _random_count)
     {
@@ -105,8 +105,8 @@ class crule_system
         require_auth2(owner,N(owner));
         for (uint8_t i = 0; i < servant_job_count; ++i)
         {
-            servant_rule.emplace(owner, [&](auto& a) {
-                a.s_job = servant_rule.available_primary_key();
+            servant_db_table.emplace(owner, [&](auto& a) {
+                a.s_job = servant_db_table.available_primary_key();
                 if(random_count >= 8 )
                 {
                     random_count = 0;
@@ -122,28 +122,28 @@ class crule_system
         }
         for(uint8_t i=0;i<head_count;++i)
         {
-            head_rule.emplace(owner,[&](auto& a)
+            head_db_table.emplace(owner,[&](auto& a)
             {
-                a.h_head = head_rule.available_primary_key();
+                a.h_head = head_db_table.available_primary_key();
             });
-            hair_rule.emplace(owner, [&](auto& a) {
-                a.h_hair = hair_rule.available_primary_key();
+            hair_db_table.emplace(owner, [&](auto& a) {
+                a.h_hair = hair_db_table.available_primary_key();
             });
 
         }
         for (uint8_t i = 0; i < body_count; ++i)
         {
-        body_rule.emplace(owner, [&](auto &a) {
-            a.b_body = body_rule.available_primary_key();
+        body_db_table.emplace(owner, [&](auto &a) {
+            a.b_body = body_db_table.available_primary_key();
         });
         }
 
 
         for(uint8_t i=0;i<monster_grade_count;++i)
         {
-            monster_grade_rule.emplace(owner,[&](auto &a)
+            monster_grade_db_table.emplace(owner,[&](auto &a)
             {
-                a.m_grade = monster_grade_rule.available_primary_key();
+                a.m_grade = monster_grade_db_table.available_primary_key();
                 if (random_count >= 8)
                 {
                     random_count = 0;
@@ -205,15 +205,15 @@ class crule_system
         }
         for(uint8_t i=0;i<monster_id_count;++i)
         {
-            monster_id_rule.emplace(owner,[&](auto &a)
+            monster_id_db_table.emplace(owner,[&](auto &a)
             {
-                a.m_id = monster_id_rule.available_primary_key();
+                a.m_id = monster_id_db_table.available_primary_key();
             });
         }
         for (uint8_t i = 0; i < item_id_count; ++i)
         {
-            item_id_rule.emplace(owner, [&](auto &a) {
-                a.i_id = item_id_rule.available_primary_key();
+            item_id_db_table.emplace(owner, [&](auto &a) {
+                a.i_id = item_id_db_table.available_primary_key();
                 if (random_count >= 8)
                 {
                     random_count = 0;
@@ -224,9 +224,9 @@ class crule_system
         }
         for(uint32_t i=1;i<=item_tier_count;++i)
         {
-            item_tier_rule.emplace(owner,[&](auto &a)
+            item_tier_db_table.emplace(owner,[&](auto &a)
             {
-                a.i_tier = item_tier_rule.available_primary_key();
+                a.i_tier = item_tier_db_table.available_primary_key();
                 a.i_level = i * 10;
                 if (random_count >= 8)
                 {

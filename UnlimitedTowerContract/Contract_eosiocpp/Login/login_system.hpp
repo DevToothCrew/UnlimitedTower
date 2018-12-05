@@ -28,7 +28,7 @@ class clogin_system
     account_name owner;
     auth_users auth_user_table;
     user_logs user_log_table;
-    crule_system &rule_controller;
+    cdb_system &db_controller;
 
   private:
     battle_data_table stage;
@@ -44,9 +44,9 @@ class clogin_system
         string memo;
     };
   public:
-    clogin_system(account_name _self,crule_system &_rule_controller)
+    clogin_system(account_name _self,cdb_system &_db_controller)
         : owner(_self),
-          rule_controller(_rule_controller),
+          db_controller(_db_controller),
           auth_user_table(_self, _self),
           user_log_table(_self, _self),
           stage(_self,_self)
@@ -134,13 +134,13 @@ class clogin_system
     {
         require_auth(_user);
 
-        auto &user_head_db = rule_controller.get_head_rule_table();
+        auto &user_head_db = db_controller.get_head_db_table();
         const auto &head_db_iter = user_head_db.get(_head, "not exist head info");
 
-        auto &user_hair_db = rule_controller.get_hair_rule_table();
+        auto &user_hair_db = db_controller.get_hair_db_table();
         const auto &hair_db_iter = user_hair_db.get(_hair, "not exist hair info");
 
-        auto &user_body_db = rule_controller.get_body_rule_table();
+        auto &user_body_db = db_controller.get_body_db_table();
         const auto &body_db_iter = user_body_db.get(_body, "not exist body info");
 
         auto user_iter = auth_user_table.find(_user);

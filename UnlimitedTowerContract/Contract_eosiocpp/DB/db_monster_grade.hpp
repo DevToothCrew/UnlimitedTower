@@ -9,8 +9,8 @@ struct monster_stat
     uint32_t m_int;
 };
 
-//@abi table crmgrade i64
-class crmgrade
+//@abi table cdbmgrade i64
+class cdbmgrade
 {
   public:
     uint64_t m_grade;
@@ -20,4 +20,4 @@ public:
     uint64_t primary_key() const {return m_grade;}
 };
 
-typedef multi_index<N(crmgrade),crmgrade> monster_grade_data_table;
+typedef multi_index<N(cdbmgrade),cdbmgrade> monster_grade_db;

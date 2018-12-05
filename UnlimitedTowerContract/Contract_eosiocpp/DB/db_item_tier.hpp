@@ -7,8 +7,8 @@ struct item_stat
     uint32_t i_dex;
     uint32_t i_int;
 };
-//@abi table critemtier i64
-class critemtier
+//@abi table cdbitemtier i64
+class cdbitemtier
 {
   public:
     uint64_t i_tier;
@@ -19,4 +19,4 @@ class critemtier
     uint64_t primary_key() const {return i_tier;}
 };
 
-typedef multi_index<N(critemtier),critemtier> item_tier_data_table;
+typedef multi_index<N(cdbitemtier),cdbitemtier> item_tier_db;
