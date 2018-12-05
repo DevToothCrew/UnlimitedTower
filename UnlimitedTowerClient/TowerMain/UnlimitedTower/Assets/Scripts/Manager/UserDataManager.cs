@@ -11,6 +11,9 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public SCENE_STATE sceneState = SCENE_STATE.None;
 
     public Dictionary<int, Character> characterDic = new Dictionary<int, Character>();
+    public Dictionary<int, Character> monsterDic = new Dictionary<int, Character>();
+
+
 
     // 포메이션 : 캐릭터 인덱스 ->가 들어가는 딕셔너리
     public Dictionary<int, int> formationDic = new Dictionary<int, int>();
@@ -35,6 +38,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     // public GameObject StageList;
 
     public int characterIndex = 0;
+    public int monsterIndex = 0;
 
     public void Awake()
     {
@@ -56,7 +60,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     void CreateChar()
     {
-        Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1);
+        Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1, GACHA_TYPE.Servant);
         UserDataManager.Inst.SetCharacter(newChar);
         UserDataManager.Inst.AddNewCharImage(newChar.Name);
     }
@@ -118,6 +122,11 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     {
         return characterIndex;
     }
+    public int GetMonsterIndex()
+    {
+        return monsterIndex;
+    }
+
 
     // TODO : Test Code if deleted
     public void SetChar(Dictionary<int, Character> getCharcterDic)
@@ -132,6 +141,9 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         characterDic.Add(characterIndex, newChar);
         characterIndex += 1;
     }
+
+
+
     public void  LoadUserData()
     {
         LoadCharData();
@@ -202,23 +214,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         // 지금은 들어가는 순서대로 세팅.
        // userCharsKeyList.Add(characterDic.Count - 1);
     }
-    private GameObject GetDeck(ref GameObject[] decks, string deckName)
-    {
-        if(decks == null)
-        {
-            return null;
-        }
 
-        for(int i=0; i<decks.Length; i++)
-        {
-            if(decks[i].name == deckName)
-            {
-                return decks[i];
-            }
-        }
-        return null;
-
-    }
     public void RemoveUserInfo()
     {
         Debug.Log("Remove UserInfo");

@@ -76,10 +76,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
     }
 
-    public void Request_Gacha()
+    public void Request_Gacha(GACHA_TYPE gachaType)
     {
         Debug.Log("Request_Gacha");
-        Response_Gacha();
+        Response_Gacha(gachaType);
     }
 
     public void Request_GetPartnerInfo()
@@ -159,18 +159,49 @@ public class PacketManager : MonoSingleton<PacketManager> {
         UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Lobby);
     }
 
-    public void Response_Gacha()
+    public void Response_Gacha(GACHA_TYPE gachaType)
     {
-        Debug.Log("Response_Gacha");
 
-        // TODO : 현재 임시로 TestDB에서 캐릭터 정보 가져와서
-        Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1);
-        // 가챠의 결과로 나온 캐릭터 정보를 저장한다.
-        UserDataManager.Inst.SetCharacter(newChar);
-        UserDataManager.Inst.AddNewCharImage(newChar.Name);
+        switch(gachaType)
+        {
+            case GACHA_TYPE.Servant:
+                {
+                    Debug.Log("Response_ServantGacha");
+                    // TODO : 현재 임시로 TestDB에서 캐릭터 정보 가져와서
+                    Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1, gachaType);
+                    // 가챠의 결과로 나온 캐릭터 정보를 저장한다.
+                    UserDataManager.Inst.SetCharacter(newChar);
+                    UserDataManager.Inst.AddNewCharImage(newChar.Name);
 
-        GachaImage.Inst.SetGachaReult(newChar);
-        //GachaInfoPopup.Inst.SetGachaResultInfoPopup(newChar);
+                    GachaImage.Inst.SetGachaReult(newChar, gachaType);
+                    //GachaInfoPopup.Inst.SetGachaResultInfoPopup(newChar);
+                    break;
+                }
+            case GACHA_TYPE.Monster:
+                {
+                    Debug.Log("Response_MonsterGacha");
+
+                    Character newChar = new Character(UserDataManager.Inst.GetMonsterIndex() + 1, gachaType);
+                    UserDataManager.Inst.SetCharacter(newChar);
+                    UserDataManager.Inst.AddNewCharImage(newChar.Name);
+
+                    GachaImage.Inst.SetGachaReult(newChar, gachaType);
+
+                    break;
+                }
+            case GACHA_TYPE.Item:
+                {
+                    Debug.Log("Response_ItemGacha");
+                    break;
+                }
+        }
+
+
+
+
+       
+
+      
     }
 
     public void Response_GetPartnerInfo()

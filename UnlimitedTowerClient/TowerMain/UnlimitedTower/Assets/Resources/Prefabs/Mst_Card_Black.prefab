@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 65065308076546670}
   - component: {fileID: 114929435959509246}
   m_Layer: 0
-  m_Name: Mst_Card
+  m_Name: Mst_Card_Black
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1263,7 +1263,7 @@ MonoBehaviour:
   charType: 0
   charSize: 0
   battleDicIndex: 0
-  circleObject: {fileID: 0}
+  QuadSelectionObject: {fileID: 0}
 --- !u!137 &137033854102529994
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
