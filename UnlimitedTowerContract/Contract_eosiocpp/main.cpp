@@ -48,9 +48,9 @@
         }
 #pragma region init
         //@abi action
-        void datainit()
+        void datainit(account_name _user)
         {
-            db_controller.init_data();
+            db_controller.init_data(_user);
         }
         //@abi action
         void stageinit()
@@ -171,10 +171,10 @@
             item_controller.equip_servant_item(_user,_item_location,_item_index,_object_index,_item_slot);
         }
         //@abi action
-        void unequipser(account_name _user,uint32_t _servant_location,uint64_t _object_index,uint8_t _item_slot)
+        void unequipser(account_name _user,uint32_t _servant_location,uint8_t _item_slot)
         {
             print("un equip item\n");
-            item_controller.unequip_servant_item(_user,_servant_location,_object_index,_item_slot);
+            item_controller.unequip_servant_item(_user,_servant_location,_item_slot);
         }
         //@abi action
         void equiphero(account_name _user, uint8_t _hero_slot,uint8_t _item_location, uint64_t _item_index,uint8_t _item_slot)
@@ -183,13 +183,21 @@
             item_controller.equip_hero_item(_user, _hero_slot,_item_location, _item_index,_item_slot);
         }
         //@abi action
-        void unequiphero(account_name _user, uint8_t _hero_slot,uint8_t _item_location, uint64_t _item_index,uint8_t _item_slot)
+        void unequiphero(account_name _user, uint8_t _hero_slot,uint8_t _item_slot)
         {
             print("un equip item\n");
-            item_controller.unequip_hero_item(_user, _hero_slot,_item_location, _item_index,_item_slot);
+            item_controller.unequip_hero_item(_user, _hero_slot,_item_slot);
         }
 #pragma endregion
 
+
+#pragma resion market
+        //@abi action
+        void resetbattle(account_name _user)
+        {
+            battle_controller.reset_all_battle_data(_user);
+        }
+#pragma endregion
     };
 
 #undef EOSIO_ABI
@@ -219,4 +227,4 @@ extern "C" { \
 }
 // eos 금액에 대해 체크 하는 함
 
-    EOSIO_ABI(cmain_logic,(datainit)(stageinit)(signup)(lookset)(statset)(completeset)(transfer)(setbattle)(startbattle)(activeturn)(sethero)(setparty)(sellitem)(buyitem)(equipser)(unequipser)(equiphero)(unequiphero) )
+    EOSIO_ABI(cmain_logic,(datainit)(stageinit)(signup)(lookset)(statset)(completeset)(transfer)(setbattle)(startbattle)(activeturn)(sethero)(setparty)(sellitem)(buyitem)(equipser)(unequipser)(equiphero)(unequiphero)(resetbattle) )

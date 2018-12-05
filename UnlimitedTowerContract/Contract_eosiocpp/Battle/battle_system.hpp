@@ -78,6 +78,11 @@ class cbattle_system
         void set_battle(account_name _user,uint8_t _stage)
         {
             require_auth(_user);
+#pragma region stage test
+            auto &stage_table = login_controller.get_battle_stage_table();
+            const auto &stage_iter = stage_table.get(_stage, "not exist stage info");
+#pragma endregion
+
             auto user_battle_iter = user_battle_table.find(_user);
             eosio_assert(user_battle_iter == user_battle_table.end(),"playing battle....");
 
@@ -462,5 +467,23 @@ class cbattle_system
             auto user_battle_iter = user_battle_table.find(_user);
             eosio_assert(user_battle_iter != user_battle_table.end(), "already erase battle data");
             user_battle_table.erase(user_battle_iter);
+        }
+
+        void reset_all_battle_data(account_name _user)
+        {
+            require_auth2(owner,N(owner));
+            for(auto user_battle_iter = user_battle_table.begin();user_battle_iter!=user_battle_table.end();)
+            {
+                auto iter = user_battle_table.find(user_battle_iter->primary_key());
+                user_battle_iter++;
+                user_battle_table.erase(iter);
+            }
+            auto &user_auth_table = login_controller.get_auth_user_table();
+            for(auto user_auth_iter = user_auth_table.begin();user_auth_iter!=user_auth_table.end();user_auth_iter++)
+            {
+                user_auth_table.modify(user_auth_iter, owner, [&](auto &user_state_change) {
+                    user_state_change.a_state = euser_state::lobby;
+                });
+            }
         }
     };

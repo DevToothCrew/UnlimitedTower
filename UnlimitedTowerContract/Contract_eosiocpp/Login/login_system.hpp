@@ -118,7 +118,7 @@ class clogin_system
             new_user.a_state = euser_state::login;
 
             shero_info first_hero;
-            first_hero.equip.resize(max_equip_slot);
+            first_hero.equip_slot.resize(max_equip_slot);
             first_hero.current_state = ehero_state::set_look;
             
             new_user.a_hero_list.push_back(first_hero);
@@ -216,7 +216,7 @@ class clogin_system
         {
             auth_user_table.modify(user_iter, owner, [&](auto &user_add_character) {
                 shero_info new_hero;
-                new_hero.equip.resize(max_equip_slot);
+                new_hero.equip_slot.resize(max_equip_slot);
                 new_hero.current_state = ehero_state::set_look;
 
                 user_add_character.a_hero_list.push_back(new_hero);

@@ -1,5 +1,6 @@
 #pragma once
 #include "../Common/common_header.hpp"
+#include "../Common/common_seed.hpp"
 #include "../DB/db_servant.hpp"
 #include "../DB/db_head.hpp"
 #include "../DB/db_hair.hpp"
@@ -30,8 +31,9 @@ class cdb_system
     const uint8_t monster_id_count = 30;
     const uint8_t monster_grade_count = 5;
     const uint8_t item_id_count = 70;
-    const uint8_t item_tier_count = 5;
-    const uint8_t item_type_count = 3;
+    const uint8_t item_tier_count = 4;
+    const uint8_t item_grade_count= 5;
+    const uint8_t item_slot_count = 3;
     const uint8_t head_count = 3;
     const uint8_t hair_count = 3;
     const uint8_t body_count = 4;
@@ -84,25 +86,18 @@ class cdb_system
     uint64_t random_seed(uint64_t _seed, uint32_t _range, uint32_t _min, uint32_t _random_count)
     {
         uint64_t l_result;
-        uint64_t l_seed;
-
-        l_seed = (_seed >> (2 * _random_count));
-        l_result = l_seed % _range;
-        // print("r_count : ", _random_count, "\n");
-        // print("l_seed : ", l_seed, "\n");
-        // print("l_result : ", l_result, "\n");
-        // print("-------------------------------\n");
+        _seed = (_seed >> (2 * _random_count));
+        l_result = _seed % _range;
         if (l_result < _min)
         {
             return l_result += _min;
         }
         return l_result;
     }
-    void init_data()
+    void init_data(account_name _user)
     {
         require_auth2(owner,N(owner));
-        uint64_t l_seed = tapos_block_num() * tapos_block_prefix() * now();
-        require_auth2(owner,N(owner));
+        uint64_t l_seed = safeseed::get_seed(_user);
         for (uint8_t i = 0; i < servant_job_count; ++i)
         {
             servant_db_table.emplace(owner, [&](auto& a) {
@@ -218,7 +213,7 @@ class cdb_system
                 {
                     random_count = 0;
                 }
-                a.i_type = random_seed(l_seed,item_type_count,0,random_count++);
+                a.i_slot = random_seed(l_seed,item_slot_count,0,random_count++);
                 a.i_job = random_seed(l_seed,servant_job_count,0,random_count++);
             });
         }

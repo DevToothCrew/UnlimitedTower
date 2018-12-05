@@ -53,7 +53,7 @@ struct shero_info
     suser_look look;
     suser_status status;
     suser_plus_status plus_status;
-    std::vector<uint32_t> equip;
+    std::vector<uint32_t> equip_slot;
 };
 
 

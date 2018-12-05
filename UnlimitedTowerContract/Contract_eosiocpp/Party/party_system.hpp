@@ -22,6 +22,7 @@ class cparty_system
     const uint32_t hero_party_location = 2;
     const uint32_t max_hero_slot = 3;
     const uint32_t max_total_member = 10;
+    const uint32_t hero_slot_id = 10;
     public:
         cparty_system(account_name _self,
         clogin_system &_login_controller,
@@ -64,7 +65,8 @@ class cparty_system
             require_auth(_user);
             auto &auth_user_table = login_controller.get_auth_user_table();
             auto auth_user_iter = auth_user_table.find(_user);
-            eosio_assert(auth_user_iter->a_hero_list[_hero_slot].current_state != ehero_state::set_tower_party,"this hero setting tower party");
+            eosio_assert(auth_user_iter->a_hero_list[_hero_slot].current_state == ehero_state::set_travel_party || 
+             auth_user_iter->a_hero_list[_hero_slot].current_state == ehero_state::set_complete,"this hero impossible in party member");
 
             auto user_party_iter = user_party_table.find(_user);
             eosio_assert(user_party_iter != user_party_table.end(),"not exist party list");

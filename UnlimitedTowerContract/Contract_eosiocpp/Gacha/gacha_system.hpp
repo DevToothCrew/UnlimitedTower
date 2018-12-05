@@ -186,8 +186,8 @@ class cgacha_system
             user_item_table.modify(user_item_list_iter, owner, [&](auto &update_user_item_list) {
                 citeminfo new_item;
                 new_item.i_index = user_log_iter->l_item_num + 1;
-                new_item.i_type = item_id_db_iter.i_id;
-                new_item.i_slot = item_id_db_iter.i_type;
+                new_item.i_id = item_id_db_iter.i_id;
+                new_item.i_slot = item_id_db_iter.i_slot;
                 new_item.i_tier = item_tier_db_iter.i_tier;
                 new_item.i_status.basic_str = random_seed(_seed,item_tier_db_iter.i_max_range.i_str,item_tier_db_iter.i_min_range.i_str,item_random_count++);
                 new_item.i_status.basic_dex = random_seed(_seed,item_tier_db_iter.i_max_range.i_dex,item_tier_db_iter.i_min_range.i_dex,item_random_count++);
