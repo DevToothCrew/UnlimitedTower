@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114095682510522456}
   - component: {fileID: 114751571800818646}
   m_Layer: 5
-  m_Name: CharElement
+  m_Name: CharContent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,7 +68,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharDicKey: 0
-  OnFormation: 0
 --- !u!222 &222216313517725404
 CanvasRenderer:
   m_ObjectHideFlags: 1

@@ -15,16 +15,6 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
     public GameObject LinkedChar = null;
 
 
-    public void Activate()
-    {
-        GetComponent<FormationDeck>().Active = true;
-        transform.GetChild(1).gameObject.SetActive(false);
-        transform.GetChild(2).gameObject.SetActive(false);
-    }
-
-
-
-
     public void OnPointerClick(PointerEventData pointerEventData)
     {
         Debug.Log("On Click : Formation");
@@ -46,8 +36,20 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 
             UserDataManager.Inst.characterDic[charIndex].OnFormation = false;
             UserDataManager.Inst.characterDic[charIndex].FormationIndex = -1;
-
+            SetEmptyText(true);
 
         }
+    }
+    public void SetEmptyText(bool on)
+    {
+        if(on)
+        {
+            transform.GetChild(1).gameObject.SetActive(true);
+        }
+        else
+        {
+            transform.GetChild(1).gameObject.SetActive(false);
+        }
+        
     }
 }
