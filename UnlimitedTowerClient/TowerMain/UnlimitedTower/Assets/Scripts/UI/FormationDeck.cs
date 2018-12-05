@@ -8,7 +8,6 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 {
 
     public int DeckNum = -1;
-    public bool Active = false;
     public bool HeroDeck = false;
 
     // 덱과 연결된 캐릭터 목록
@@ -20,27 +19,28 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         Debug.Log("On Click : Formation");
 
         // 이미 덱에 캐릭터가 존재하면
-        RemoveDeck();
+        if (UserDataManager.Inst.formationDic.ContainsKey(DeckNum))
+        {
+            RemoveDeck();
+            LinkedChar.GetComponent<CharContent>().RemoveCharImage();
+            LinkedChar = null;
+        }  
     }
 
     public void RemoveDeck()
     {
-        if (transform.GetChild(0).gameObject.GetComponent<Image>().sprite)
-        {
-            transform.GetChild(0).gameObject.GetComponent<Image>().sprite = null;
-            LinkedChar.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f);
+        transform.GetChild(0).gameObject.GetComponent<Image>().sprite = null;
 
-            //캐릭터 삭제
-            int charIndex = UserDataManager.Inst.formationDic[DeckNum];
-            UserDataManager.Inst.formationDic.Remove(DeckNum);
+        //캐릭터 삭제
+        int charIndex = UserDataManager.Inst.formationDic[DeckNum];
+        UserDataManager.Inst.formationDic.Remove(DeckNum);
 
-            UserDataManager.Inst.characterDic[charIndex].OnFormation = false;
-            UserDataManager.Inst.characterDic[charIndex].FormationIndex = -1;
-            SetEmptyText(true);
+        UserDataManager.Inst.characterDic[charIndex].OnFormation = false;
+        UserDataManager.Inst.characterDic[charIndex].FormationIndex = -1;
+        ShowEmptyText(true);
 
-        }
     }
-    public void SetEmptyText(bool on)
+    public void ShowEmptyText(bool on)
     {
         if(on)
         {

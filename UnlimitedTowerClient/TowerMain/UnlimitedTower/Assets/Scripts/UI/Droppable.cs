@@ -42,14 +42,16 @@ public class Droppable : MonoBehaviour, IDropHandler,
         if (pointerEventData.dragging)
         {
             // 드래그 중이라며 드롭 영역에 표시되어 있는 아이콘 색을 하이라이트 색으로 변경한다
-            if (GetComponent<FormationDeck>().Active)
-            {
-                this.charImage.color = highlightedColor;
-            }
-            else
-            {
-                this.charImage.color = closeColor;
-            }
+
+
+            //if (GetComponent<FormationDeck>().Active)
+            //{
+            //    this.charImage.color = highlightedColor;
+            //}
+            //else
+            //{
+            //    this.charImage.color = closeColor;
+            //}
 
 
           
@@ -76,12 +78,12 @@ public class Droppable : MonoBehaviour, IDropHandler,
         int deckNum = formationDeckCS.DeckNum;
 
         // 활성화된 덱이 아니면 드롭을 종료한다.
-        if(formationDeckCS.Active == false)
-        {
-            Debug.Log("This Slot is close ");
-            this.charImage.color = normalColor;
-            return;
-        }
+        //if(formationDeckCS.Active == false)
+        //{
+        //    Debug.Log("This Slot is close ");
+        //    this.charImage.color = normalColor;
+        //    return;
+        //}
 
         // 현재 곧 드랍할 오브젝트의 캐릭터의 인덱스값을 저장한다.
         if (FormationManager.NewDropChar)
