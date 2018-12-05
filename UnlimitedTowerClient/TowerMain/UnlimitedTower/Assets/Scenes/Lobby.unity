@@ -2007,7 +2007,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 250081741}
-  - component: {fileID: 250081744}
   - component: {fileID: 250081745}
   m_Layer: 5
   m_Name: Deck6
@@ -2037,20 +2036,6 @@ RectTransform:
   m_AnchoredPosition: {x: 362.5, y: -177.5}
   m_SizeDelta: {x: 155, y: 155}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &250081744
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 250081740}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  highlightedColor: {r: 0, g: 0, b: 0, a: 0}
-  normalColor: {r: 0, g: 0, b: 0, a: 0}
-  closeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &250081745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2687,7 +2672,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 279912215}
-  - component: {fileID: 279912218}
   - component: {fileID: 279912219}
   m_Layer: 5
   m_Name: Deck7
@@ -2717,20 +2701,6 @@ RectTransform:
   m_AnchoredPosition: {x: 547.5, y: -177.5}
   m_SizeDelta: {x: 155, y: 155}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &279912218
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 279912214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  highlightedColor: {r: 0, g: 0, b: 0, a: 0}
-  normalColor: {r: 0, g: 0, b: 0, a: 0}
-  closeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &279912219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4050,7 +4020,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 371167124}
-  - component: {fileID: 371167127}
   - component: {fileID: 371167128}
   m_Layer: 5
   m_Name: Deck9
@@ -4080,20 +4049,6 @@ RectTransform:
   m_AnchoredPosition: {x: 917.5, y: -177.5}
   m_SizeDelta: {x: 155, y: 155}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &371167127
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 371167123}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  highlightedColor: {r: 0, g: 0, b: 0, a: 0}
-  normalColor: {r: 0, g: 0, b: 0, a: 0}
-  closeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &371167128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5699,7 +5654,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 546492153}
-  - component: {fileID: 546492156}
   - component: {fileID: 546492157}
   m_Layer: 5
   m_Name: Deck2
@@ -5729,20 +5683,6 @@ RectTransform:
   m_AnchoredPosition: {x: 547.5, y: -402.5}
   m_SizeDelta: {x: 155, y: 155}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &546492156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 546492152}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  highlightedColor: {r: 0, g: 0, b: 0, a: 0}
-  normalColor: {r: 0, g: 0, b: 0, a: 0}
-  closeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &546492157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5766,7 +5706,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 550266535}
-  - component: {fileID: 550266538}
   - component: {fileID: 550266539}
   m_Layer: 5
   m_Name: Deck8
@@ -5796,20 +5735,6 @@ RectTransform:
   m_AnchoredPosition: {x: 732.5, y: -177.5}
   m_SizeDelta: {x: 155, y: 155}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &550266538
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 550266534}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  highlightedColor: {r: 0, g: 0, b: 0, a: 0}
-  normalColor: {r: 0, g: 0, b: 0, a: 0}
-  closeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &550266539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7060,7 +6985,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 724553517}
-  - component: {fileID: 724553520}
   - component: {fileID: 724553521}
   m_Layer: 5
   m_Name: Deck0
@@ -7090,20 +7014,6 @@ RectTransform:
   m_AnchoredPosition: {x: 177.5, y: -402.5}
   m_SizeDelta: {x: 155, y: 155}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &724553520
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 724553516}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  highlightedColor: {r: 0, g: 0, b: 0, a: 0}
-  normalColor: {r: 0, g: 0, b: 0, a: 0}
-  closeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &724553521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10993,7 +10903,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1161966256}
-  - component: {fileID: 1161966259}
   - component: {fileID: 1161966260}
   m_Layer: 5
   m_Name: Deck4
@@ -11023,20 +10932,6 @@ RectTransform:
   m_AnchoredPosition: {x: 917.5, y: -402.5}
   m_SizeDelta: {x: 155, y: 155}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1161966259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1161966255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  highlightedColor: {r: 0, g: 0, b: 0, a: 0}
-  normalColor: {r: 0, g: 0, b: 0, a: 0}
-  closeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &1161966260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13743,7 +13638,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1486521011}
-  - component: {fileID: 1486521014}
   - component: {fileID: 1486521015}
   m_Layer: 5
   m_Name: Deck5
@@ -13773,20 +13667,6 @@ RectTransform:
   m_AnchoredPosition: {x: 177.5, y: -177.5}
   m_SizeDelta: {x: 155, y: 155}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1486521014
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1486521010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  highlightedColor: {r: 0, g: 0, b: 0, a: 0}
-  normalColor: {r: 0, g: 0, b: 0, a: 0}
-  closeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &1486521015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17461,7 +17341,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1942608019}
-  - component: {fileID: 1942608022}
   - component: {fileID: 1942608023}
   m_Layer: 5
   m_Name: Deck3
@@ -17491,20 +17370,6 @@ RectTransform:
   m_AnchoredPosition: {x: 732.5, y: -402.5}
   m_SizeDelta: {x: 155, y: 155}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1942608022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1942608018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  highlightedColor: {r: 0, g: 0, b: 0, a: 0}
-  normalColor: {r: 0, g: 0, b: 0, a: 0}
-  closeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &1942608023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19083,7 +18948,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 2133609773}
-  - component: {fileID: 2133609776}
   - component: {fileID: 2133609777}
   m_Layer: 5
   m_Name: Deck1
@@ -19113,20 +18977,6 @@ RectTransform:
   m_AnchoredPosition: {x: 362.5, y: -402.5}
   m_SizeDelta: {x: 155, y: 155}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2133609776
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2133609772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4f2ac70265f3fa4b897f7b05c1d3b5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  highlightedColor: {r: 0, g: 0, b: 0, a: 0}
-  normalColor: {r: 0, g: 0, b: 0, a: 0}
-  closeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &2133609777
 MonoBehaviour:
   m_ObjectHideFlags: 0

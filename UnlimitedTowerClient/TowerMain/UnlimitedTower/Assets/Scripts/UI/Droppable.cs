@@ -5,7 +5,8 @@ using UnityEngine;
 
 using UnityEngine.EventSystems;
 
-public class Droppable : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
+public class Droppable : MonoBehaviour, IDropHandler, 
+    IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     #region OnPointerEnter
     // 드롭 영역에 표시되어 있는 아이콘의 하이라이트 색
@@ -145,10 +146,32 @@ public class Droppable : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoi
 
 
 
-   
 
 
-   
+    public void OnPointerClick(PointerEventData pointerEventData)
+    {
+        Debug.Log("On Click : Formation");
+
+        // 이미 덱에 캐릭터가 존재하면
+        if(transform.GetChild(0).gameObject.GetComponent<Image>().sprite)
+        {
+            transform.GetChild(0).gameObject.GetComponent<Image>().sprite = null;
+            GetComponent<FormationDeck>().LinkedChar.GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f);
+
+            //캐릭터 삭제
+            UserDataManager.Inst.formationDic.Remove(GetComponent<FormationDeck>().DeckNum);
+            GetComponent<FormationDeck>().LinkedChar.GetComponent<CharContent>().OnFormation = false;
+
+        }
+      
+
+
+
+
+    }
+
+
+
     void AddNewDeck(int deckNum, int charIndex, Image charImage)
     {
         Debug.Log("UserDataManager.Inst.formationDic : " + deckNum + " " + charIndex);
