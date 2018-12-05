@@ -30,7 +30,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
             //   덱에 새로 캐릭터 추가.
             else
             {
-                for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
+                for (int i = 0; i < DEFINE.PARTY_MAX_NUM/2; i++)
                 {
                     int deckNum = UserDataManager.Inst.formationOrderList[i];
                     // 빈 덱 검색

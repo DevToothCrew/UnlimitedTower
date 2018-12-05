@@ -28,7 +28,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
       7, 6, 8, 5, 9, 2, 1, 3, 0, 4 
     };
 
-    public int TestCharNum = 14;
+    public int TestCharNum = 10;
 
 
 
@@ -47,7 +47,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         //TODO :  나의 캐릭터(무조건 존재하는 값)이라고 가정
         for (int i = 0; i < TestCharNum; i++)
         {
-            CreateChar();
+            CreateServant();
+            CreateMonster();
         }
 
 
@@ -58,11 +59,18 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         //StageList.SetActive(false);
     }
 
-    void CreateChar()
+    void CreateServant()
     {
         Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1, GACHA_TYPE.Servant);
         UserDataManager.Inst.SetCharacter(newChar);
-        UserDataManager.Inst.AddNewCharImage(newChar.Name);
+        UserDataManager.Inst.AddNewCharImage(newChar.Name, GACHA_TYPE.Servant);
+    }
+
+    void CreateMonster()
+    {
+        Character newChar = new Character(UserDataManager.Inst.GetMonsterIndex() + 1, GACHA_TYPE.Monster);
+        UserDataManager.Inst.SetMonster(newChar);
+        UserDataManager.Inst.AddNewCharImage(newChar.Name, GACHA_TYPE.Monster);
     }
 
     public void InitFlag()
@@ -142,15 +150,22 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         characterIndex += 1;
     }
 
+    public void SetMonster(Character newChar)
+    {
 
+        monsterDic.Add(monsterIndex, newChar);
+        monsterIndex += 1;
+    }
 
     public void  LoadUserData()
     {
-        LoadCharData();
+        // LoadServantData();
+        LoadCharData(LobbyManager.Inst.ServantContentList, ref characterDic, GACHA_TYPE.Servant);
+        LoadCharData(LobbyManager.Inst.MonsterContentList, ref monsterDic, GACHA_TYPE.Monster);
     }
 
     // 로비로 되돌아 올때 캐릭터 리스트 다시 불러오는 함수
-    public void LoadCharData()
+    public void LoadServantData()
     {
         int charDicCount = characterDic.Count;
 
@@ -162,7 +177,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             if (instance.transform.GetChild(0).GetComponent<Image>())
             {
                 instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[dic.Key].Name);
-                instance.transform.SetParent(LobbyManager.Inst.CharacterContentList.transform.transform);
+                instance.transform.SetParent(LobbyManager.Inst.ServantContentList.transform.transform);
                 instance.GetComponent<CharContent>().CharDicKey = dic.Key;
                 if (characterDic[dic.Key].OnFormation)
                 {
@@ -190,20 +205,79 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         }
     }
 
-
-
-
-    public void AddNewCharImage(string getChar)
+    public void LoadCharData(GameObject charContentList,
+        ref Dictionary<int, Character> _charDic, GACHA_TYPE gachaType)
     {
-        var instance = Instantiate(Resources.Load("Prefabs/CharContent") as GameObject);
+        string spriteFath = null;
+        if(gachaType == GACHA_TYPE.Servant)
+        {
+            spriteFath = "UI/CharaterImage/";
+        }
+        else
+        {
+            spriteFath = "UI/MonsterImage/";
+        }
+
+        // 캐릭터 개수만큼 캐릭터 목록을 다시 불러온다.
+        foreach (KeyValuePair<int, Character> dic in _charDic)
+        {
+            var instance = Instantiate(Resources.Load("Prefabs/CharContent") as GameObject);
+            // 이걸 이미지로 검사해야하는가?
+            if (instance.transform.GetChild(0).GetComponent<Image>())
+            {
+         
+                instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(spriteFath + _charDic[dic.Key].Name);
+                instance.transform.SetParent(charContentList.transform.transform);
+                instance.GetComponent<CharContent>().CharDicKey = dic.Key;
+                if (_charDic[dic.Key].OnFormation)
+                {
+                    Color color = instance.transform.GetChild(0).GetComponent<Image>().color;
+                    color.r = color.g = color.b = 0.35f;
+                    instance.transform.GetChild(0).GetComponent<Image>().color = color;
+                    instance.transform.GetChild(1).gameObject.SetActive(true);
+
+                    //  포메이션 세팅.
+                    if (_charDic[dic.Key].FormationIndex != -1)
+                    {
+                        Debug.Log("dic.key : " + dic.Key);
+                        int deckNum = _charDic[dic.Key].FormationIndex;
+                        GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
+                       
+                        deck.GetComponent<FormationDeck>().LinkedChar = instance;
+
+                        Sprite sprite = Resources.Load<Sprite>(spriteFath + _charDic[dic.Key].Name);
+                        deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+                        deck.GetComponent<FormationDeck>().ShowEmptyText(false);
+                    }
+
+
+                }
+            }
+        }
+    }
+
+
+
+
+    public void AddNewCharImage(string getChar, GACHA_TYPE gachaType)
+    {
+        GameObject instance = Instantiate(Resources.Load("Prefabs/CharContent") as GameObject);
+
         if (instance.transform.GetChild(0))
         {
-            instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + getChar);
-            instance.GetComponent<CharContent>().CharDicKey = characterIndex - 1;
-
-            instance.transform.SetParent(LobbyManager.Inst.CharacterContentList.transform.transform);
-
-
+            if (gachaType == GACHA_TYPE.Servant)
+            {
+                instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + getChar);
+                instance.GetComponent<CharContent>().CharDicKey = characterIndex - 1;
+                instance.transform.SetParent(LobbyManager.Inst.ServantContentList.transform.transform);
+            }
+            else
+            {
+                instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/MonsterImage/" + getChar);
+                instance.GetComponent<CharContent>().CharDicKey = characterIndex - 1;
+                instance.transform.SetParent(LobbyManager.Inst.MonsterContentList.transform.transform);
+            }
+             
             SetFormation();
         } 
     }

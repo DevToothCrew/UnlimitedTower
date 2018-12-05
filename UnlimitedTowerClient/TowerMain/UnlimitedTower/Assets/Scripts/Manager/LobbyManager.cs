@@ -28,7 +28,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public GameObject BaseBackground;
     public GameObject CloudImage;
 
-    public GameObject CharacterContentList;
+    public GameObject CharacterListScroll;
+    public GameObject ServantContentList;
     public GameObject MonsterContentList;
 
     public GameObject FormationList;
@@ -110,6 +111,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         GachaInfoPopup.SetActive(false);
         StageInfoPopup.SetActive(false);
         SettingInfoPopup.SetActive(false);
+
+        MonsterContentList.SetActive(false);
     }
 
     public void OnClickLoginButton()
@@ -200,15 +203,17 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     }
     public void OnClickFormationServantButton()
     {
-        CharacterContentList.SetActive(true);
+        ServantContentList.SetActive(true);
         MonsterContentList.SetActive(false);
+        CharacterListScroll.GetComponent<ScrollRect>().content = ServantContentList.gameObject.GetComponent<RectTransform>();
 
     }
 
     public void OnClickFormationMonsterButton()
     {
         MonsterContentList.SetActive(true);
-        CharacterContentList.SetActive(false);
+        ServantContentList.SetActive(false);
+        CharacterListScroll.GetComponent<ScrollRect>().content = MonsterContentList.gameObject.GetComponent<RectTransform>();
     }
 
 

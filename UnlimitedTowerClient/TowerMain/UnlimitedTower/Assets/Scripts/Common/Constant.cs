@@ -73,10 +73,7 @@ public class DEFINE
             posOffset = -1;
         }
 
-        if(num == (int)CHARACTER_NUM.Mst_Chest)
-        {
-            y = 0.1f;
-        }
+
 
         switch (partyIndex)
         {
@@ -340,9 +337,6 @@ public enum CHARACTER_NUM
     Mst_Cat             = 201,
     Mst_Demon,
     Mst_Giant,
-    Mst_Monkey,
-    Mst_Wolf,
-    Mst_Chest,
     Mst_Anubis,
     Mst_Ninja,
     Mst_Fire_Fairy,

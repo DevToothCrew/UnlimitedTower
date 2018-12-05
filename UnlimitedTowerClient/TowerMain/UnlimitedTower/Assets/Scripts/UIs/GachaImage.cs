@@ -32,6 +32,8 @@ public class GachaImage : MonoSingleton<GachaImage>
     private bool reGachaflag = false;
     private GACHA_TYPE gachaType;
 
+    public int TestGachaNum = 0;
+
     public void Test_10_GoGacha()
     {
         Debug.Log("Test_10Gacha");
@@ -43,7 +45,7 @@ public class GachaImage : MonoSingleton<GachaImage>
             Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1, GACHA_TYPE.Servant);
             // 가챠의 결과로 나온 캐릭터 정보를 저장한다.
             UserDataManager.Inst.SetCharacter(newChar);
-            UserDataManager.Inst.AddNewCharImage(newChar.Name);
+            UserDataManager.Inst.AddNewCharImage(newChar.Name, GACHA_TYPE.Servant);
         }
      
     }
@@ -222,6 +224,11 @@ public class GachaImage : MonoSingleton<GachaImage>
     public void ShowGachaResult()
     {
         reGachaflag = false;
+        //Test Code
+        TestGachaNum++;
+        if (TestGachaNum % 2 == 1) gachaType = GACHA_TYPE.Monster;
+        else gachaType = GACHA_TYPE.Servant;
+
         PacketManager.Inst.Request_Gacha(this.gachaType);
     }
 
@@ -243,7 +250,6 @@ public class GachaImage : MonoSingleton<GachaImage>
 
     public void GoGacha(int gachaType)
     {
-        this.gachaType = (GACHA_TYPE)gachaType;
         LightEffectCircle04Animator.SetBool("Play", true);
         BlackHoleAnimator.SetBool("Play", true);
         PurpleCircleAnimator.SetBool("Play", true);
