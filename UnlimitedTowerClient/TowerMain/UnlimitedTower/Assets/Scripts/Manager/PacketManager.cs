@@ -172,7 +172,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                     Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1, gachaType);
                     // 가챠의 결과로 나온 캐릭터 정보를 저장한다.
                     UserDataManager.Inst.SetCharacter(newChar);
-                    UserDataManager.Inst.AddNewCharImage(newChar.Name);
+                    UserDataManager.Inst.AddNewCharImage(newChar.Name, gachaType);
 
                     GachaImage.Inst.SetGachaReult(newChar, gachaType);
                     //GachaInfoPopup.Inst.SetGachaResultInfoPopup(newChar);
@@ -183,8 +183,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
                     Debug.Log("Response_MonsterGacha");
 
                     Character newChar = new Character(UserDataManager.Inst.GetMonsterIndex() + 1, gachaType);
-                    UserDataManager.Inst.SetCharacter(newChar);
-                    UserDataManager.Inst.AddNewCharImage(newChar.Name);
+                    UserDataManager.Inst.SetMonster(newChar);
+                    UserDataManager.Inst.AddNewCharImage(newChar.Name, gachaType);
 
                     GachaImage.Inst.SetGachaReult(newChar, gachaType);
 
