@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 224739739025678842}
   - component: {fileID: 222216313517725404}
   - component: {fileID: 114095682510522456}
-  - component: {fileID: 114965501186340860}
   - component: {fileID: 114751571800818646}
   m_Layer: 5
   m_Name: CharElement
@@ -69,18 +68,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharDicKey: 0
---- !u!114 &114965501186340860
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1064912378579048}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d523b384d6b26c54d9a442aacfce3789, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  draggingOffset: {x: 0, y: 40}
+  OnFormation: 0
 --- !u!222 &222216313517725404
 CanvasRenderer:
   m_ObjectHideFlags: 1

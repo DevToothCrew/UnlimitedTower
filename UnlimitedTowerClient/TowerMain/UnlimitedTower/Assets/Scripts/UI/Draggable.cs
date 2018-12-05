@@ -6,7 +6,8 @@ using UnityEngine;
 
 [RequireComponent(typeof(Image))]
 public class Draggable :
-    MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+    MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, 
+    IPointerClickHandler, IPointerUpHandler
 // 드래그 조작을 제어하기 위한 인터페이스를 상속
 {
     #region 
@@ -14,6 +15,43 @@ public class Draggable :
     private Vector2 draggingOffset = new Vector2(0.0f, 40.0f);  // 드래그 중인 아이콘의 오프셋
     private GameObject draggingObject;                          // 드래그 중인 아이콘의 게임 오브젝트
     private RectTransform canvasRectTransform;                  // 캔버스의 Rect Transform
+
+
+    public void OnPointerClick(PointerEventData pointerEventData)
+    {
+        Debug.Log("click:");
+       
+        for (int i=0; i<10; i++)
+        {
+            int deckNum = UserDataManager.Inst.formationOrderList[i];
+            if (UserDataManager.Inst.formationDic.ContainsKey(deckNum) != true
+                && GetComponent<CharContent>().OnFormation == false)
+            {
+                // 캐릭터 넣기.
+                GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
+                int charIndex = GetComponent<CharContent>().CharDicKey;
+                Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + UserDataManager.Inst.characterDic[charIndex].Name);
+                deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+
+                // 덱에 캐릭터 오브젝트 연결
+                deck.GetComponent<FormationDeck>().LinkedChar = gameObject;
+                UserDataManager.Inst.formationDic.Add(deckNum, charIndex);
+
+                // 캐릭터 사용중이라는 표시하기.
+                GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f);
+                GetComponent<CharContent>().OnFormation = true;
+
+                return;
+
+            }
+        }
+
+
+    }
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        Debug.Log("Mouse Down: " + eventData.pointerCurrentRaycast.gameObject.name);
+    }
 
     private void UpdateDraggingObjectPos(PointerEventData pointerEventData)
     {
