@@ -95,7 +95,7 @@ class cparty_system
             uint32_t left = 0;
             uint32_t right = 0;
             //배치하려는 인덱스가 서번트만 들어갈 수 있는 공간의 경우
-            if(_party_location_index < max_servant_slot)
+            if(_party_location_index < max_servant_slot && _party_location_index >= max_monster_slot)
             {
                 eosio_assert(_object_type == servant_type_id,"this location only servant");
                 bool l_use_index = false;
