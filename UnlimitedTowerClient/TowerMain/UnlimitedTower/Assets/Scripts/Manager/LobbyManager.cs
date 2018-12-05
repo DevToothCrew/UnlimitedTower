@@ -28,9 +28,14 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public GameObject BaseBackground;
     public GameObject CloudImage;
 
-
     public GameObject CharacterContentList;
+    public GameObject MonsterContentList;
+
     public GameObject FormationList;
+
+
+
+
 
 
     public void Awake()
@@ -193,6 +198,19 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         BaseBackground.SetActive(true);
         CloudImage.SetActive(true);
     }
+    public void OnClickFormationServantButton()
+    {
+        CharacterContentList.SetActive(true);
+        MonsterContentList.SetActive(false);
+
+    }
+
+    public void OnClickFormationMonsterButton()
+    {
+        MonsterContentList.SetActive(true);
+        CharacterContentList.SetActive(false);
+    }
+
 
 
     public void OnClickStageButton(int stageNum)
