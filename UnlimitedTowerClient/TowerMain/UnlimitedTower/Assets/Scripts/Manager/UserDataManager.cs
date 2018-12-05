@@ -25,7 +25,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
       7, 6, 8, 5, 9, 2, 1, 3, 0, 4 
     };
 
-    public int TestCharNum = 10;
+    public int TestCharNum = 14;
 
 
 
@@ -145,21 +145,22 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         // 캐릭터 개수만큼 캐릭터 목록을 다시 불러온다.
         foreach (KeyValuePair<int, Character> dic in characterDic)
         {
-            var instance = Instantiate(Resources.Load("Prefabs/CharElement") as GameObject);
-            if (instance.GetComponent<Image>())
+            var instance = Instantiate(Resources.Load("Prefabs/CharContent") as GameObject);
+            // 이걸 이미지로 검사해야하는가?
+            if (instance.transform.GetChild(0).GetComponent<Image>())
             {
-                instance.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[dic.Key].Name);
+                instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[dic.Key].Name);
                 instance.transform.SetParent(LobbyManager.Inst.CharacterContentList.transform.transform);
                 instance.GetComponent<CharContent>().CharDicKey = dic.Key;
                 if (characterDic[dic.Key].OnFormation)
                 {
-                    Color color = instance.GetComponent<Image>().color;
+                    Color color = instance.transform.GetChild(0).GetComponent<Image>().color;
                     color.r = color.g = color.b = 0.35f;
-                    instance.GetComponent<Image>().color = color;
-
+                    instance.transform.GetChild(0).GetComponent<Image>().color = color;
+                    instance.transform.GetChild(1).gameObject.SetActive(true);
 
                     //  포메이션 세팅.
-                    if(characterDic[dic.Key].FormationIndex !=-1)
+                    if (characterDic[dic.Key].FormationIndex !=-1)
                     {
                         Debug.Log("dic.key : " + dic.Key);
                         int deckNum = characterDic[dic.Key].FormationIndex;
@@ -168,8 +169,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
                         Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[dic.Key].Name);
                         deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
-                        deck.GetComponent<FormationDeck>().SetEmptyText(false);
-                        //deck.GetComponent<FormationDeck>().Activate();
+                        deck.GetComponent<FormationDeck>().ShowEmptyText(false);
                     }
 
 
@@ -184,9 +184,9 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public void AddNewCharImage(string getChar)
     {
         var instance = Instantiate(Resources.Load("Prefabs/CharContent") as GameObject);
-        if (instance.GetComponent<Image>())
+        if (instance.transform.GetChild(0))
         {
-            instance.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + getChar);
+            instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + getChar);
             instance.GetComponent<CharContent>().CharDicKey = characterIndex - 1;
 
             instance.transform.SetParent(LobbyManager.Inst.CharacterContentList.transform.transform);

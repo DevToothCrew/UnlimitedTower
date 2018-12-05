@@ -69,14 +69,14 @@ public class FormationManager : MonoBehaviour
     }
     public void ActivateDeck(int deckNum)
     {
-        gameObject.transform.GetChild(deckNum).GetComponent<FormationDeck>().Active = true;
+        //gameObject.transform.GetChild(deckNum).GetComponent<FormationDeck>().Active = true;
         gameObject.transform.GetChild(deckNum).transform.GetChild(1).gameObject.SetActive(true);
         gameObject.transform.GetChild(deckNum).transform.GetChild(2).gameObject.SetActive(false);
     }
     // 이름 반드시 바꿀것. 오해하기 쉬운 이름이다.
     public void LoadDeck(int deckNum)
     {
-        gameObject.transform.GetChild(deckNum).GetComponent<FormationDeck>().Active = true;
+       //gameObject.transform.GetChild(deckNum).GetComponent<FormationDeck>().Active = true;
         gameObject.transform.GetChild(deckNum).transform.GetChild(1).gameObject.SetActive(false);
         gameObject.transform.GetChild(deckNum).transform.GetChild(2).gameObject.SetActive(false);
     }
