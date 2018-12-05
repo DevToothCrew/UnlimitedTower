@@ -24,8 +24,8 @@ public class Draggable :
         for (int i=0; i<10; i++)
         {
             int deckNum = UserDataManager.Inst.formationOrderList[i];
-            if (UserDataManager.Inst.formationDic.ContainsKey(deckNum) != true
-                && GetComponent<CharContent>().OnFormation == false)
+            if (UserDataManager.Inst.formationDic.ContainsKey(deckNum) != true)
+               // && GetComponent<CharContent>().OnFormation == false)
             {
                 // 캐릭터 넣기.
                 GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
@@ -39,7 +39,7 @@ public class Draggable :
 
                 // 캐릭터 사용중이라는 표시하기.
                 GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f);
-                GetComponent<CharContent>().OnFormation = true;
+                //GetComponent<CharContent>().OnFormation = true;
 
                 return;
 

@@ -134,12 +134,11 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     }
     public void  LoadUserData()
     {
-        LoadCharList();
-       // LoadFormation();
+        LoadCharData();
     }
 
     // 로비로 되돌아 올때 캐릭터 리스트 다시 불러오는 함수
-    public void LoadCharList()
+    public void LoadCharData()
     {
         int charDicCount = characterDic.Count;
 
@@ -169,7 +168,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
                         Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[dic.Key].Name);
                         deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
-                        deck.GetComponent<FormationDeck>().Activate();
+                        deck.GetComponent<FormationDeck>().SetEmptyText(false);
+                        //deck.GetComponent<FormationDeck>().Activate();
                     }
 
 
@@ -179,39 +179,11 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     }
 
 
-    public void LoadFormation()
-    {
-
-        // 포메이션 데이터를 가져온다.
-        string deckName = null;
-        foreach (KeyValuePair<int, int> dic in formationDic)
-        {
-            Debug.Log("포메이션 세팅");
-
-            // 포메이션의 캐릭터 정보를 가져온다.
-            deckName = "Deck" + dic.Key;
-            GameObject deck = null;
-            for (int i=0; i<10; i++)
-            {
-                 deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(i).gameObject;
-                if (deck.name == deckName)
-                {
-                    //Deck0 , Deck1 ~ Deck9
-                    Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[dic.Value].Name);
-                    deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
-                    deck.GetComponent<FormationDeck>().Activate();
-     
-                }
-            }    
-           
-        }
-    }
-
 
 
     public void AddNewCharImage(string getChar)
     {
-        var instance = Instantiate(Resources.Load("Prefabs/CharElement") as GameObject);
+        var instance = Instantiate(Resources.Load("Prefabs/CharContent") as GameObject);
         if (instance.GetComponent<Image>())
         {
             instance.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + getChar);

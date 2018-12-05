@@ -160,7 +160,7 @@ public class Droppable : MonoBehaviour, IDropHandler,
 
             //캐릭터 삭제
             UserDataManager.Inst.formationDic.Remove(GetComponent<FormationDeck>().DeckNum);
-            GetComponent<FormationDeck>().LinkedChar.GetComponent<CharContent>().OnFormation = false;
+          //  GetComponent<FormationDeck>().LinkedChar.GetComponent<CharContent>().OnFormation = false;
 
         }
       
