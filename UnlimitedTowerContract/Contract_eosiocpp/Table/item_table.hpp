@@ -4,9 +4,10 @@
 
 enum item_state
 {
-    item_none = 0,
+    item_inventory = 0,
     item_equip,
     item_notsell,
+    item_presale,
 };
 // 8 + 4 + 13 = 25
 struct citeminfo
@@ -19,7 +20,7 @@ struct citeminfo
     sobject_status i_status; //힘민지 직업
     uint32_t i_state; //아이템 현재 상태
     uint32_t i_grade; //아이템 등급
-    uint32_t i_reinforce; //아이템 강화 수치
+    uint32_t i_reinforce = 0; //아이템 강화 수치
 };
 
 // 8 + 25 = 33

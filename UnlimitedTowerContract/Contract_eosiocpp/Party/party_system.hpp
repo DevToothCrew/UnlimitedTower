@@ -17,9 +17,10 @@ class cparty_system
         cgacha_system &gacha_controller;
         user_partys user_party_table;
     public:
-    const uint32_t max_servant_slot = 5;
-    const uint32_t max_monster_slot = 10;
-    const uint32_t hero_party_location = 2;
+    const uint32_t max_servant_slot = 10;
+    const uint32_t max_monster_slot = 5;
+    const uint32_t hero_party_location = 8;
+    const uint32_t hero_party_monster_location = 2;
     const uint32_t max_hero_slot = 3;
     const uint32_t max_total_member = 10;
     const uint32_t hero_slot_id = 10;
@@ -98,18 +99,21 @@ class cparty_system
             {
                 eosio_assert(_object_type == servant_type_id,"this location only servant");
                 bool l_use_index = false;
+                int l_servant_location = -1;
                 auto &user_servant_table = gacha_controller.get_user_servant_table();
-                const auto &user_servant_row = user_servant_table.get(_user,"not exist user servant table");
-                right = user_servant_row.s_servant_list.size()-1;
+                auto user_servant_iter = user_servant_table.find(_user);
+                eosio_assert(user_servant_iter != user_servant_table.end(),"not exist user servant list");
+                right = user_servant_iter->s_servant_list.size()-1;
                 while(left <= right)
                 {
                     mid = (left+right)/2;
-                    if ( user_servant_row.s_servant_list[mid].s_index == _object_index)
+                    if ( user_servant_iter->s_servant_list[mid].s_index == _object_index)
                     {
                         l_use_index = true;
+                        l_servant_location = mid;
                         break;
                     }
-                    else if(_object_index > user_servant_row.s_servant_list[mid].s_index)
+                    else if(_object_index > user_servant_iter->s_servant_list[mid].s_index)
                     {
                         left = mid + 1;
                     }
@@ -135,25 +139,32 @@ class cparty_system
                 user_party_table.modify(user_party_iter, owner, [&](auto &add_party_servant) {
                     add_party_servant.p_party_list[_party_number].object_id_list[_party_location_index] = _object_index;
                 });
+                user_servant_table.modify(user_servant_iter,owner,[&](auto &change_servant_state)
+                {
+                    change_servant_state.s_servant_list[l_servant_location].s_state = object_state::in_party;
+                });
             }
             //배치하려는 인덱스가 몬스터만 들어갈 수 있는 공간의 경우
             else
             {
                 eosio_assert(_object_type == monster_type_id,"this location only monster");
                 bool l_use_index = false;
+                int l_monster_location = -1;
                 auto &user_monster_table = gacha_controller.get_user_monster_table();
-                const auto &user_monster_row = user_monster_table.get(_user,"not exist user monster table");
+                auto user_monster_iter = user_monster_table.find(_user);
+                eosio_assert(user_monster_iter!=user_monster_table.end(),"not exist user monster table");
 
-                right = user_monster_row.m_monster_list.size()-1;
+                right = user_monster_iter->m_monster_list.size()-1;
                 while(left <= right)
                 {
                     mid = (left+right)/2;
-                    if ( user_monster_row.m_monster_list[mid].m_index == _object_index)
+                    if ( user_monster_iter->m_monster_list[mid].m_index == _object_index)
                     {
                         l_use_index = true;
+                        l_monster_location = mid;
                         break;
                     }
-                    else if(_object_index > user_monster_row.m_monster_list[mid].m_index)
+                    else if(_object_index > user_monster_iter->m_monster_list[mid].m_index)
                     {
                         left = mid + 1;
                     }
@@ -178,6 +189,9 @@ class cparty_system
                 user_party_table.modify(user_party_iter, owner, [&](auto &add_party_monster) {
                     add_party_monster.p_party_list[_party_number].object_id_list[_party_location_index] = _object_index;
                 });
+                user_monster_table.modify(user_monster_iter, owner, [&](auto &change_monster_state) {
+                    change_monster_state.m_monster_list[l_monster_location].m_state = object_state::in_party;
+                });
             }
         }
         void add_party_list(account_name _user)
@@ -199,4 +213,17 @@ class cparty_system
                 new_party.add_party(l_p_count);
             });
         }
+
+#pragma region reset
+        void reset_all_user_party_data()
+        {
+            require_auth2(owner, N(owner));
+            for (auto user_party_iter = user_party_table.begin(); user_party_iter != user_party_table.end();)
+            {
+                auto iter = user_party_table.find(user_party_iter->primary_key());
+                user_party_iter++;
+                user_party_table.erase(iter);
+            }
+        }
+#pragma endregion
     };

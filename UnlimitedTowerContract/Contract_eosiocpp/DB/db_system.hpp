@@ -7,6 +7,7 @@
 #include "../DB/db_body.hpp"
 #include "../DB/db_item_id.hpp"
 #include "../DB/db_item_tier.hpp"
+#include "../DB/db_item_grade.hpp"
 #include "../DB/db_monster_grade.hpp"
 #include "../DB/db_monster_id.hpp"
 
@@ -26,6 +27,7 @@ class cdb_system
     monster_id_db monster_id_db_table;
     item_id_db item_id_db_table;
     item_tier_db item_tier_db_table;
+    item_grade_db item_grade_db_table;
   public:
     const uint8_t servant_job_count = 6;
     const uint8_t monster_id_count = 30;
@@ -48,7 +50,8 @@ class cdb_system
           monster_grade_db_table(_self,_self),
           monster_id_db_table(_self,_self),
           item_id_db_table(_self,_self),
-          item_tier_db_table(_self,_self)
+          item_tier_db_table(_self,_self),
+          item_grade_db_table(_self,_self)
     {
     }
     servant_db &get_servant_db_table()
@@ -82,6 +85,10 @@ class cdb_system
     item_tier_db &get_item_tier_db_table()
     {
         return item_tier_db_table;
+    }
+    item_grade_db &get_item_grade_db_table()
+    {
+        return item_grade_db_table;
     }
     uint64_t random_seed(uint64_t _seed, uint32_t _range, uint32_t _min, uint32_t _random_count)
     {
@@ -223,17 +230,23 @@ class cdb_system
             {
                 a.i_tier = item_tier_db_table.available_primary_key();
                 a.i_level = i * 10;
+            });
+        }
+        for(uint32_t i=0;i<item_grade_count;++i)
+        {
+            item_grade_db_table.emplace(owner, [&](auto &a) {
+                a.i_grade = item_grade_db_table.available_primary_key();
                 if (random_count >= 8)
                 {
                     random_count = 0;
                 }
-                a.i_min_range.i_str = random_seed(l_seed,10,0,random_count++);
-                a.i_min_range.i_dex = random_seed(l_seed,10,0,random_count++);
-                a.i_min_range.i_int = random_seed(l_seed,10,0,random_count++);
+                a.i_min_range.i_str = random_seed(l_seed, 10, 0, random_count++);
+                a.i_min_range.i_dex = random_seed(l_seed, 10, 0, random_count++);
+                a.i_min_range.i_int = random_seed(l_seed, 10, 0, random_count++);
 
-                a.i_max_range.i_str = random_seed(l_seed,10,0,random_count++) + 25;
-                a.i_max_range.i_dex = random_seed(l_seed,10,0,random_count++) + 25;
-                a.i_max_range.i_int = random_seed(l_seed,10,0,random_count++) + 25;
+                a.i_max_range.i_str = random_seed(l_seed, 10, 0, random_count++) + 25;
+                a.i_max_range.i_dex = random_seed(l_seed, 10, 0, random_count++) + 25;
+                a.i_max_range.i_int = random_seed(l_seed, 10, 0, random_count++) + 25;
             });
         }
     }

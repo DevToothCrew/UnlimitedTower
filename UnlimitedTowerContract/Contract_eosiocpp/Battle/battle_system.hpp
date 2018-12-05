@@ -29,8 +29,7 @@ class cbattle_system
     const uint32_t oper_attack = 20;
     const uint32_t oper_defense = 50;
     const uint32_t oper_critical = 10;
-    const uint32_t hero_party_location = 2;
-    const uint32_t hero_party_monster_location = 5;
+    const uint32_t defense_constant = 200;
     const uint32_t warrior_speed = 34;
     const uint32_t wizard_speed = 29;
     const uint32_t priest_speed = 32;
@@ -136,7 +135,7 @@ class cbattle_system
             user_battle_table.modify(user_battle_iter, owner, [&](auto &new_battle_set) {
                 for (uint32_t i = 0; i < party_controller.max_servant_slot; ++i)
                 {
-                    if(i==hero_party_location) //히어로 능력치 셋팅
+                    if(i==party_controller.hero_party_location) //히어로 능력치 셋팅
                     {
                         uint32_t hero_slot = user_party_iter.p_party_list[_party_number].object_id_list[i];
                         new_battle_set.b_battle_state_list[i].party_object_index = hero_slot;
@@ -260,7 +259,7 @@ class cbattle_system
                 }
             });
         }
-        void active_turn(account_name _user,uint8_t _characteraction,uint8_t _monsteraction,uint8_t _character_target,uint8_t _monster_target)
+        void active_turn(account_name _user,uint8_t _hero_action,uint8_t _monster_action,uint8_t _hero_target,uint8_t _monster_target)
         {
             require_auth(_user);
             auto &user_auth_table = login_controller.get_auth_user_table();
@@ -318,9 +317,38 @@ class cbattle_system
                         uint32_t index = temp_order_list[i].member_array_index;
                         if (index < my_party_count)
                         {
-                            if (index == hero_party_location || index == hero_party_monster_location)
+                            if (index == party_controller.hero_party_location)
                             {
-                                //플레이어에 대한 처리
+                                if(_hero_action == attack_action)
+                                {
+                                    uint32_t l_damage = (battle_state.b_battle_state_list[index].attack * ((defense_constant * decimal) / 
+                                    (defense_constant + battle_state.b_battle_state_list[_hero_target].defense))) / decimal;
+                                    if (battle_state.b_battle_state_list[_hero_target].now_hp <= l_damage)
+                                    {
+                                        battle_state.b_battle_state_list[_hero_target].now_hp = 0;
+                                    }
+                                    else
+                                    {
+                                        battle_state.b_battle_state_list[_hero_target].now_hp -= l_damage;
+                                    }
+                                }
+                                continue;
+                            }
+                            else if(index == party_controller.hero_party_monster_location)
+                            {
+                                if (_monster_action == attack_action)
+                                {
+                                    uint32_t l_damage = (battle_state.b_battle_state_list[index].attack * ((defense_constant * decimal) /
+                                        (defense_constant + battle_state.b_battle_state_list[_monster_target].defense))) /decimal;
+                                    if (battle_state.b_battle_state_list[_monster_target].now_hp <= l_damage)
+                                    {
+                                        battle_state.b_battle_state_list[_monster_target].now_hp = 0;
+                                    }
+                                    else
+                                    {
+                                        battle_state.b_battle_state_list[_monster_target].now_hp -= l_damage;
+                                    }
+                                }
                                 continue;
                             }
                             l_user_action = random_seed(safeseed::get_seed(_user), action_count, 0, i);
@@ -333,7 +361,7 @@ class cbattle_system
                                 if (l_user_action == attack_action)
                                 {
                                     battle_state.b_battle_state_list[index].action = attack_action;
-                                    uint32_t l_damage = (battle_state.b_battle_state_list[index].attack * ((200 * decimal) / (200 + battle_state.b_battle_state_list[enemy].defense))) / decimal;
+                                    uint32_t l_damage = (battle_state.b_battle_state_list[index].attack * ((defense_constant * decimal) / (defense_constant + battle_state.b_battle_state_list[enemy].defense))) / decimal;
                                     print("l_damage : ", l_damage, "\n");
                                     if (battle_state.b_battle_state_list[enemy].now_hp <= l_damage)
                                     {
@@ -468,8 +496,8 @@ class cbattle_system
             eosio_assert(user_battle_iter != user_battle_table.end(), "already erase battle data");
             user_battle_table.erase(user_battle_iter);
         }
-
-        void reset_all_battle_data(account_name _user)
+#pragma region reset
+        void reset_all_battle_data()
         {
             require_auth2(owner,N(owner));
             for(auto user_battle_iter = user_battle_table.begin();user_battle_iter!=user_battle_table.end();)
@@ -486,4 +514,5 @@ class cbattle_system
                 });
             }
         }
+#pragma endregion
     };

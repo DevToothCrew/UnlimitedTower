@@ -59,7 +59,7 @@ class citem_system
             auto user_item_iter = user_item_table.find(_user);
             eosio_assert((user_item_iter->i_item_list[_item_location].i_index==_item_index),"not exist item");
             eosio_assert(user_item_iter->i_item_list[_item_location].i_slot==_equip_slot,"mis match equip slot");
-            eosio_assert(user_item_iter->i_item_list[_item_location].i_state==item_state::item_none,"impossible equip item state");
+            eosio_assert(user_item_iter->i_item_list[_item_location].i_state==item_state::item_inventory,"impossible equip item state");
             //장착한 아이템 능력치 용병에게 반영
             auto &user_servant_table = gacha_controller.get_user_servant_table();
             auto user_servant_iter = user_servant_table.find(_user);
@@ -92,7 +92,7 @@ class citem_system
             auto user_item_iter = user_item_table.find(_user);
             eosio_assert((user_item_iter->i_item_list[_item_location].i_index==_item_index),"not exist item");
             eosio_assert(user_item_iter->i_item_list[_item_location].i_slot==_equip_slot,"mis match equip slot");
-            eosio_assert(user_item_iter->i_item_list[_item_location].i_state==item_state::item_none,"impossible equip item state");
+            eosio_assert(user_item_iter->i_item_list[_item_location].i_state==item_state::item_inventory,"impossible equip item state");
 
             auto &auth_user_table = login_controller.get_auth_user_table();
             auto user_auth_iter = auth_user_table.find(_user);
@@ -134,7 +134,7 @@ class citem_system
                         unequip_servant.s_servant_list[_servant_location].s_equip_slot[_equip_slot] = 0;
                     });
                     user_item_table.modify(user_item_iter, owner, [&](auto &unequip_item) {
-                        unequip_item.i_item_list[i].i_state = item_state::item_none;
+                        unequip_item.i_item_list[i].i_state = item_state::item_inventory;
                     });
                     check_exist_id = i;
                     break;
@@ -165,7 +165,7 @@ class citem_system
                         unequip_hero.a_hero_list[_hero_slot].equip_slot[_equip_slot] = 0;
                     });
                     user_item_table.modify(user_item_iter, owner, [&](auto &unequip_item) {
-                        unequip_item.i_item_list[i].i_state = item_state::item_none;
+                        unequip_item.i_item_list[i].i_state = item_state::item_inventory;
                     });
                     check_exist_id = i;
                     break;

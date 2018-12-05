@@ -179,6 +179,10 @@ class cgacha_system
             auto &item_tier_db = db_controller.get_item_tier_db_table();
             const auto &item_tier_db_iter = item_tier_db.get(random_item_tier,"not exist tier info");
 
+            uint8_t random_item_grade = random_seed(_seed,db_controller.item_grade_count,default_min,item_random_count++);
+            auto &item_grade_db = db_controller.get_item_grade_db_table();
+            const auto &item_grade_db_iter = item_grade_db.get(random_item_grade,"not exist tier info");
+
             auto &user_log_table = login_controller.get_log_table();
             auto user_log_iter = user_log_table.find(_user);
 
@@ -189,11 +193,12 @@ class cgacha_system
                 new_item.i_id = item_id_db_iter.i_id;
                 new_item.i_slot = item_id_db_iter.i_slot;
                 new_item.i_tier = item_tier_db_iter.i_tier;
-                new_item.i_status.basic_str = random_seed(_seed,item_tier_db_iter.i_max_range.i_str,item_tier_db_iter.i_min_range.i_str,item_random_count++);
-                new_item.i_status.basic_dex = random_seed(_seed,item_tier_db_iter.i_max_range.i_dex,item_tier_db_iter.i_min_range.i_dex,item_random_count++);
-                new_item.i_status.basic_int = random_seed(_seed,item_tier_db_iter.i_max_range.i_int,item_tier_db_iter.i_min_range.i_int,item_random_count++);
+                new_item.i_status.basic_str = random_seed(_seed,item_grade_db_iter.i_max_range.i_str,item_grade_db_iter.i_min_range.i_str,item_random_count++);
+                new_item.i_status.basic_dex = random_seed(_seed,item_grade_db_iter.i_max_range.i_dex,item_grade_db_iter.i_min_range.i_dex,item_random_count++);
+                new_item.i_status.basic_int = random_seed(_seed,item_grade_db_iter.i_max_range.i_int,item_grade_db_iter.i_min_range.i_int,item_random_count++);
                 new_item.i_status.job = item_id_db_iter.i_job;
-                new_item.i_state = item_none;
+                new_item.i_state = item_state::item_inventory;
+                new_item.i_grade = item_grade_db_iter.i_grade;
                 update_user_item_list.i_item_list.push_back(new_item);
             });
 
@@ -234,5 +239,30 @@ class cgacha_system
             monster_random_count = 0;
             item_random_count = 0;
         }
+#pragma region reset
+        void reset_all_user_object_data()
+        {
+            require_auth2(owner, N(owner));
+            for (auto user_servant_iter = user_servant_table.begin(); user_servant_iter != user_servant_table.end();)
+            {
+                auto iter = user_servant_table.find(user_servant_iter->primary_key());
+                user_servant_iter++;
+                user_servant_table.erase(iter);
+            }
 
+            for (auto user_monster_iter = user_monster_table.begin(); user_monster_iter != user_monster_table.end();)
+            {
+                auto iter = user_monster_table.find(user_monster_iter->primary_key());
+                user_monster_iter++;
+                user_monster_table.erase(iter);
+            }
+
+            for (auto user_item_iter = user_item_table.begin(); user_item_iter != user_item_table.end();)
+            {
+                auto iter = user_item_table.find(user_item_iter->primary_key());
+                user_item_iter++;
+                user_item_table.erase(iter);
+            }
+        }
+#pragma endregion
     };

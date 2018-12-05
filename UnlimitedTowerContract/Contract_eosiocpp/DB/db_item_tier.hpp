@@ -1,20 +1,13 @@
 #pragma once
 #include "../Common/common_header.hpp"
 
-struct item_stat
-{
-    uint32_t i_str;
-    uint32_t i_dex;
-    uint32_t i_int;
-};
+
 //@abi table cdbitemtier i64
 class cdbitemtier
 {
   public:
     uint64_t i_tier;
     uint32_t i_level;
-    item_stat i_min_range;
-    item_stat i_max_range;
   public:
     uint64_t primary_key() const {return i_tier;}
 };

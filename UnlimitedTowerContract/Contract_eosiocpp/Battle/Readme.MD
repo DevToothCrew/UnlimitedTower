@@ -12,9 +12,9 @@ void start_battle(account_name _user,uint8_t _party_number)
 
 
  void active_turn( account_name _user,
- uint8_t _characteraction,
- uint8_t _monsteraction,
- uint8_t _character_target,
+ uint8_t _hero_action,
+ uint8_t _monster_action,
+ uint8_t _hero_target,
  uint8_t _monster_target)  
  
  - 유저가 자신이 조종 하는 캐릭터와 몬스터의 행동을 지정하고 턴을 진행하는 함수

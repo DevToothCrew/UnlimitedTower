@@ -89,9 +89,13 @@ class clogin_system
         {
             eosio_assert(transfer_data.memo.find(':')!=std::string::npos,"change stat memo [:] error");
             eosio_assert(transfer_data.quantity.amount == 1000,"change stat need 0.1000 EOS");
-            eosio_assert(l_center + 1!=std::string::npos,"change stat memo slot error");
+            eosio_assert(l_center+1!=transfer_data.memo.length(),"change stat need hero slot number error");
 
             res.type = atoi(transfer_data.memo.substr(l_center + 1).c_str());
+            if(res.type == 0)
+            {
+                 eosio_assert(transfer_data.memo.find('0')!=std::string::npos,"this hero slot wrong");
+            }
             eosio_assert(res.type <= max_charcterslot - 1, "overflow");
         }
         else if(res.action == "addparty")
@@ -102,8 +106,8 @@ class clogin_system
         res.to.value = receiver;
         res.from.value = sender;
 
-        auto log_find_iter = user_log_table.find(sender);
-        user_log_table.modify(log_find_iter, owner, [&](auto &buy_log) {
+        auto user_log_iter = user_log_table.find(sender);
+        user_log_table.modify(user_log_iter, owner, [&](auto &buy_log) {
             buy_log.l_use_eos += transfer_data.quantity;
         });
         func(res);
@@ -224,6 +228,28 @@ class clogin_system
             });
         }
     }
+#pragma region reset
+    void reset_all_user_auth_data()
+    {
+        require_auth2(owner, N(owner));
+        for (auto user_auth_iter = auth_user_table.begin(); user_auth_iter != auth_user_table.end();)
+        {
+            auto iter = auth_user_table.find(user_auth_iter->primary_key());
+            user_auth_iter++;
+            auth_user_table.erase(iter);
+        }
+    }
+    void reset_all_user_log_data()
+    {
+        require_auth2(owner, N(owner));
+        for (auto user_log_iter = user_log_table.begin(); user_log_iter != user_log_table.end();)
+        {
+            auto iter = user_log_table.find(user_log_iter->primary_key());
+            user_log_iter++;
+            user_log_table.erase(iter);
+        }
+    }
+#pragma endregion
 
 #pragma region static data test
     void init_stage_data()

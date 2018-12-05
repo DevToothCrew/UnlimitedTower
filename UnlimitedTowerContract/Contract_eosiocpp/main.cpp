@@ -131,10 +131,10 @@
             battle_controller.start_battle(_user,_party_number);
         }
         //@abi action
-        void activeturn(account_name _user,uint8_t _characteraction,uint8_t _monsteraction,uint8_t _character_target,uint8_t _monster_target)
+        void activeturn(account_name _user,uint8_t _hero_action,uint8_t _monster_action,uint8_t _hero_target,uint8_t _monster_target)
         {
             print("active turn action\n");
-            battle_controller.active_turn(_user,_characteraction,_monsteraction,_character_target,_monster_target);
+            battle_controller.active_turn(_user,_hero_action,_monster_action,_hero_target,_monster_target);
         }
 #pragma endregion
 
@@ -191,11 +191,15 @@
 #pragma endregion
 
 
-#pragma resion market
+#pragma resion reset
         //@abi action
-        void resetbattle(account_name _user)
+        void resettable()
         {
-            battle_controller.reset_all_battle_data(_user);
+            battle_controller.reset_all_battle_data();
+            login_controller.reset_all_user_log_data();
+            login_controller.reset_all_user_auth_data();
+            gacha_controller.reset_all_user_object_data();
+            party_controller.reset_all_user_party_data();
         }
 #pragma endregion
     };
@@ -227,4 +231,4 @@ extern "C" { \
 }
 // eos 금액에 대해 체크 하는 함
 
-    EOSIO_ABI(cmain_logic,(datainit)(stageinit)(signup)(lookset)(statset)(completeset)(transfer)(setbattle)(startbattle)(activeturn)(sethero)(setparty)(sellitem)(buyitem)(equipser)(unequipser)(equiphero)(unequiphero)(resetbattle) )
+    EOSIO_ABI(cmain_logic,(datainit)(stageinit)(signup)(lookset)(statset)(completeset)(transfer)(setbattle)(startbattle)(activeturn)(sethero)(setparty)(sellitem)(buyitem)(equipser)(unequipser)(equiphero)(unequiphero)(resettable) )

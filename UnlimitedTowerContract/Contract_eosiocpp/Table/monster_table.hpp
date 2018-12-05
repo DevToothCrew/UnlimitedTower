@@ -12,7 +12,7 @@ struct cmonsterinfo
     uint32_t m_exp; //경험치
     uint32_t m_grade; // 등급
     uint32_t m_reinforce; //강화수치
-    uint32_t m_state; //몬스터 상태값
+    uint32_t m_state = object_state::in_ineventory;; //몬스터 상태값
 };
 
 // 8 + 46 = 54
