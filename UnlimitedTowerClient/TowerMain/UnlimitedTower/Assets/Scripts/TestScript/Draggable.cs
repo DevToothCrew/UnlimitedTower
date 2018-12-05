@@ -30,7 +30,7 @@ public class Draggable :
                 // 캐릭터 넣기.
                 GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
                 int charIndex = GetComponent<CharContent>().CharDicKey;
-                Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + UserDataManager.Inst.characterDic[charIndex].Name);
+                Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + UserDataManager.Inst.servantDic[charIndex].Name);
                 deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
 
                 // 덱에 캐릭터 오브젝트 연결

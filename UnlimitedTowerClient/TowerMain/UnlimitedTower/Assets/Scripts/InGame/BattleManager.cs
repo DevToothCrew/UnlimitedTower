@@ -465,7 +465,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
             return;
         }
 
-        Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.characterDic[charKey], formationNum, 0, 0);
+        Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.servantDic[charKey], formationNum, 0, 0);
 
         playerStatusDic.Add(formationNum, status);
         if (!playerObjects[formationNum])
@@ -486,6 +486,65 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
     private void CreatePlayerObjects()
     {
+        for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
+        {
+            int formationNum = UserDataManager.Inst.formationOrderList[i];
+            int charKey = -1;
+            Battle_Character_Status status;
+            if (UserDataManager.Inst.formationDic.ContainsKey(formationNum))
+            {
+                charKey = UserDataManager.Inst.formationDic[formationNum];
+            }
+            else
+            {
+                continue;
+            }
+
+            if (i < 5)
+            {
+                if (UserDataManager.Inst.servantDic.ContainsKey(charKey) == false)
+                {
+                    break;
+                }
+                else
+                {
+                    status = new Battle_Character_Status(UserDataManager.Inst.servantDic[charKey], formationNum, i, 0);
+                }
+            }
+            else
+            {
+                if (UserDataManager.Inst.monsterDic.ContainsKey(charKey) == false)
+                {
+                    break;
+                }
+                else
+                {
+                    status = new Battle_Character_Status(UserDataManager.Inst.monsterDic[charKey], formationNum, i, 0);
+                }
+            }
+            playerStatusDic.Add(formationNum, status);
+            if (!playerObjects[formationNum])
+            {
+                playerObjects[formationNum] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.identity);
+
+                playerObjects[formationNum].transform.SetParent(PlayerParty.transform.transform, false);
+                if (playerObjects[formationNum].GetComponent<CharController>())
+                {
+                    playerObjects[formationNum].GetComponent<CharController>().status = status;
+                    playerObjects[formationNum].GetComponent<CharController>().charType = CHAR_TYPE.PLAYER;
+                    playerObjects[formationNum].GetComponent<CharController>().charSize = status.sizeType;
+
+                    CreatePlayerBsttlePosition(formationNum, playerObjects, CHAR_TYPE.PLAYER, ref playerStatusDic);
+                    playerObjects[formationNum].GetComponent<CharController>().battleDicIndex = formationNum;
+                }
+            }
+
+        }
+    }
+
+    private void CreateMyObject( )
+    {
+
         // 내 캐릭터를 먼저 배치함으로써(중앙에 있는 캐릭터 기준으로 그 외 캐릭터들이 배치된다)
         // 생길수 있는 버그를 막는다.
         //SetHero();
@@ -498,7 +557,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
             //}
             //int charKey = UserDataManager.Inst.userCharsKeyList[i];
             //int formationNum = UserDataManager.Inst.formationOrderList[i];
-            
+
             int formationNum = UserDataManager.Inst.formationOrderList[i];
             int charKey = -1;
             if (UserDataManager.Inst.formationDic.ContainsKey(formationNum))
@@ -510,16 +569,16 @@ public class BattleManager : MonoSingleton<BattleManager> {
                 continue;
             }
 
-            if(i<5)
+            if (i < 5)
             {
-                if (UserDataManager.Inst.characterDic.ContainsKey(charKey) == false)
+                if (UserDataManager.Inst.servantDic.ContainsKey(charKey) == false)
                 {
                     break;
                 }
                 else
                 {
                     //캐릭터 정보,                     //partyIndex   //chartIndex(필요없는 값일 수도 있음)
-                    Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.characterDic[charKey], formationNum, i, 0);
+                    Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.servantDic[charKey], formationNum, i, 0);
 
                     playerStatusDic.Add(formationNum, status);
                     if (!playerObjects[formationNum])
@@ -569,9 +628,11 @@ public class BattleManager : MonoSingleton<BattleManager> {
                 }
             }
 
-          
+
         }
+
     }
+
     private void CreateEnemyObjects()
     {
         Dictionary<int, Character> enemyDic = TestDB.LoadMonstersData();

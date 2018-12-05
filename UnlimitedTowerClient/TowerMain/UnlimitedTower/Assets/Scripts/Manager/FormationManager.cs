@@ -24,7 +24,7 @@ public class FormationManager : MonoBehaviour
                  gameObject.transform.GetChild(i);
                 if (gameObject.transform.GetChild(i).gameObject.name == deckName)
                 {
-                    Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + UserDataManager.Inst.characterDic[dic.Value].Name);
+                    Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + UserDataManager.Inst.servantDic[dic.Value].Name);
                     gameObject.transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite = sprite;
                 }
             }

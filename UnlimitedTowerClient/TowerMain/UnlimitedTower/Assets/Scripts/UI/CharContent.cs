@@ -19,7 +19,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
 
         if(CharType == 0)
         {
-            AddDeck(ref UserDataManager.Inst.characterDic, CharType);
+            AddDeck(ref UserDataManager.Inst.servantDic, CharType);
         }
         else if (CharType == 1)
         {
@@ -27,11 +27,11 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
         }
 
         #region
-        //if(UserDataManager.Inst.characterDic.ContainsKey(CharDicKey))
+        //if(UserDataManager.Inst.servantDic.ContainsKey(CharDicKey))
         //{
-        //    if (UserDataManager.Inst.characterDic[CharDicKey].OnFormation == true)
+        //    if (UserDataManager.Inst.servantDic[CharDicKey].OnFormation == true)
         //    {
-        //        int deckNum = UserDataManager.Inst.characterDic[CharDicKey].FormationIndex;
+        //        int deckNum = UserDataManager.Inst.servantDic[CharDicKey].FormationIndex;
         //        GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
         //        RemoveCharImage();
         //        deck.GetComponent<FormationDeck>().RemoveDeck();
@@ -50,7 +50,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
         //            {
         //                // 캐릭터 넣기.
         //                GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
-        //                Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + UserDataManager.Inst.characterDic[CharDicKey].Name);
+        //                Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + UserDataManager.Inst.servantDic[CharDicKey].Name);
 
         //                // 덱에 캐릭터 오브젝트 연결
         //                deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
@@ -60,8 +60,8 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
 
         //                // 캐릭터 사용중이라는 표시하기.
         //                UserDataManager.Inst.formationDic.Add(deckNum, CharDicKey);
-        //                UserDataManager.Inst.characterDic[CharDicKey].OnFormation = true;
-        //                UserDataManager.Inst.characterDic[CharDicKey].FormationIndex = deckNum;
+        //                UserDataManager.Inst.servantDic[CharDicKey].OnFormation = true;
+        //                UserDataManager.Inst.servantDic[CharDicKey].FormationIndex = deckNum;
 
         //                transform.GetChild(1).gameObject.SetActive(true);
         //                transform.GetChild(0).GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f);
