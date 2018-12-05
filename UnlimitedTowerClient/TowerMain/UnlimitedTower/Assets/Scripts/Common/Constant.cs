@@ -136,14 +136,25 @@ public class Character
         Index = getChartIndex;
         Size = getSizeType;
     }
-    public Character(int index)
+    public Character(int index, GACHA_TYPE gachaType)
     {
         List<CHARACTER_NUM> myIndexList = new List<CHARACTER_NUM>();
+        if(gachaType == GACHA_TYPE.Servant)
+        {
+            myIndexList.Add(CHARACTER_NUM.Hero_Novice_1001);
+            myIndexList.Add(CHARACTER_NUM.Hero_Novice_1002);
+            myIndexList.Add(CHARACTER_NUM.Hero_Novice_1003);
+            myIndexList.Add(CHARACTER_NUM.Hero_Novice_1004);
+        }
+        else
+        {
+            for(int i = (int)CHARACTER_NUM.Mst_Cat; i<= (int)CHARACTER_NUM.Mst_Snail; i++)
+            {
+                myIndexList.Add((CHARACTER_NUM)i);
+            }
+        }
 
-        myIndexList.Add(CHARACTER_NUM.Hero_Novice_1001);
-        myIndexList.Add(CHARACTER_NUM.Hero_Novice_1002);
-        myIndexList.Add(CHARACTER_NUM.Hero_Novice_1003);
-        myIndexList.Add(CHARACTER_NUM.Hero_Novice_1004);
+      
 
         int myIndex = Random.Range(0, myIndexList.Count);
         CHARACTER_NUM charType = myIndexList[myIndex];
@@ -344,7 +355,7 @@ public enum CHARACTER_NUM
     Mst_Egg,
     Mst_Goblin_Blue,
     Mst_Goblin_Green,
-    Mst_Card,
+    Mst_Card_Black,
     Mst_Card_Green,
     Mst_Card_Red,
     Mst_Card_Yellow,
@@ -420,6 +431,12 @@ public enum SCENE_STATE
     StageBattle = 4,
     TowerBattle = 5,
     Max = 6,
+}
+public enum GACHA_TYPE
+{
+    Servant,
+    Monster,
+    Item,
 }
 
 #endregion

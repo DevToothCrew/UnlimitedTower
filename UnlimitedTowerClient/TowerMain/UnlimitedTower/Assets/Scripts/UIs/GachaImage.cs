@@ -30,7 +30,7 @@ public class GachaImage : MonoSingleton<GachaImage>
     public GameObject Test10GachaButton;
 
     private bool reGachaflag = false;
-
+    private GACHA_TYPE gachaType;
 
     public void Test_10_GoGacha()
     {
@@ -40,7 +40,7 @@ public class GachaImage : MonoSingleton<GachaImage>
 
         for(int i=0; i<10; i++)
         {
-            Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1);
+            Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1, GACHA_TYPE.Servant);
             // 가챠의 결과로 나온 캐릭터 정보를 저장한다.
             UserDataManager.Inst.SetCharacter(newChar);
             UserDataManager.Inst.AddNewCharImage(newChar.Name);
@@ -192,11 +192,11 @@ public class GachaImage : MonoSingleton<GachaImage>
     {
         if (reGachaflag)
         {
-            GoGacha();
+            GoGacha((int)gachaType);
         }
     }
 
-    public void SetGachaReult(Character newChar)
+    public void SetGachaReult(Character newChar, GACHA_TYPE gachaType)
     {
         GachaResultPopup.SetActive(true);
  
@@ -205,14 +205,24 @@ public class GachaImage : MonoSingleton<GachaImage>
         StatusDexText.text = newChar.Dex.ToString();
         StatusIntText.text = newChar.Int.ToString();
 
+        Sprite sprite;
+        if (gachaType == GACHA_TYPE.Servant)
+        {
+            sprite = Resources.Load<Sprite>("UI/CharaterImage/" + newChar.Name);
+        }
+        else
+        {
+            sprite = Resources.Load<Sprite>("UI/MonsterImage/" + newChar.Name);
+        }
 
-        Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + newChar.Name);
+
+        
         charImage.GetComponent<Image>().sprite = sprite;
     }
     public void ShowGachaResult()
     {
         reGachaflag = false;
-        PacketManager.Inst.Request_Gacha();
+        PacketManager.Inst.Request_Gacha(this.gachaType);
     }
 
 
@@ -231,8 +241,9 @@ public class GachaImage : MonoSingleton<GachaImage>
     }
 
 
-    public void GoGacha()
+    public void GoGacha(int gachaType)
     {
+        this.gachaType = (GACHA_TYPE)gachaType;
         LightEffectCircle04Animator.SetBool("Play", true);
         BlackHoleAnimator.SetBool("Play", true);
         PurpleCircleAnimator.SetBool("Play", true);

@@ -14,7 +14,7 @@ public class GachaInfoPopup : MonoSingleton<GachaInfoPopup> {
 
     public void GachaStart()
     {
-        PacketManager.Inst.Request_Gacha();
+        //PacketManager.Inst.Request_Gacha();
     }
 
     public void SetGachaResultInfoPopup(Character getChar)

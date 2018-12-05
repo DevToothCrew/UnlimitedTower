@@ -68,7 +68,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1187141335168924}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.258819, z: 0, w: 0.9659259}
   m_LocalPosition: {x: -1.2, y: 0, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -76,7 +76,7 @@ Transform:
   - {fileID: 4249215985821566}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -30, z: 0}
 --- !u!4 &4249215985821566
 Transform:
   m_ObjectHideFlags: 1
@@ -192,4 +192,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateType: 0
   charType: 0
+  charSize: 0
   battleDicIndex: 0
+  QuadSelectionObject: {fileID: 0}

@@ -6,12 +6,6 @@ using UnityEngine.UI;
 public class CharContentList : MonoBehaviour
 {
 
-	// Use this for initialization
-	void Awake () {
-        //UserDataManager.Inst.LoadCharList();
-
-        //LoadCharContentList();
-    }
     void LoadCharContentList()
     {
         //
