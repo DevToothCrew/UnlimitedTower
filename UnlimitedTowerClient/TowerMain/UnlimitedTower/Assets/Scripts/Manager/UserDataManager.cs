@@ -82,24 +82,34 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         CreatePlayerFlag = false;
  
     }
+    //private void LoadHero()
+    //{
+    //    GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(DEFINE.HERO_FORMATION_NUM).gameObject;
+    //    Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + heroChar.Name);
+    //    deck.GetComponent<FormationDeck>().LinkedChar = null;
+    //    deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
 
+    //    deck.GetComponent<FormationDeck>().ShowEmptyText(false);
+    //}
     private void CreateHero()
     {
         if(formationDic.ContainsKey(DEFINE.HERO_FORMATION_NUM) == false)
         {
             formationDic.Add(DEFINE.HERO_FORMATION_NUM, heroChar.Index);
-
-            GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(DEFINE.HERO_FORMATION_NUM).gameObject;
-            Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + heroChar.Name);
-            deck.GetComponent<FormationDeck>().LinkedChar = null;
-            deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
-
-            deck.GetComponent<FormationDeck>().ShowEmptyText(false);
+            string path = "UI/CharaterImage/" + heroChar.Name;
+            LoadCharImage(path, DEFINE.HERO_FORMATION_NUM, null);
         }
     }
-    private void LoadCharImage()
+    private void LoadCharImage(string imageFath, int deckNum, GameObject original)
     {
+        GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
+        Sprite sprite = Resources.Load<Sprite>(imageFath);
 
+
+        deck.GetComponent<FormationDeck>().LinkedChar = original;
+        deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+
+        deck.GetComponent<FormationDeck>().ShowEmptyText(false);
     }
     public void SetUserLoginFlag(bool flag)
     {
@@ -179,20 +189,12 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public void  LoadUserData()
     {
-        // LoadServantData();
-        LoadHero();
+        string path = "UI/CharaterImage/" + heroChar.Name;
+        LoadCharImage(path, DEFINE.HERO_FORMATION_NUM, null);
         LoadCharData(LobbyManager.Inst.ServantContentList, ref servantDic, GACHA_TYPE.Servant);
         LoadCharData(LobbyManager.Inst.MonsterContentList, ref monsterDic, GACHA_TYPE.Monster);
     }
-    private void LoadHero()
-    {
-        GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(DEFINE.HERO_FORMATION_NUM).gameObject;
-        Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + heroChar.Name);
-        deck.GetComponent<FormationDeck>().LinkedChar = null;
-        deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
 
-        deck.GetComponent<FormationDeck>().ShowEmptyText(false);
-    }
     // 로비로 되돌아 올때 캐릭터 리스트 다시 불러오는 함수
     public void LoadServantData()
     {
@@ -280,13 +282,14 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
                     {
                         Debug.Log("dic.key : " + dic.Key);
                         int deckNum = charDic[dic.Key].FormationIndex;
-                        GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
 
-                        deck.GetComponent<FormationDeck>().LinkedChar = instance;
+                        LoadCharImage(imageFath + charDic[dic.Key].Name, deckNum, instance);
+                        //GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
+                        //Sprite sprite = Resources.Load<Sprite>(imageFath + charDic[dic.Key].Name);
+                        //deck.GetComponent<FormationDeck>().LinkedChar = instance;
+                        //deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
 
-                        Sprite sprite = Resources.Load<Sprite>(imageFath + charDic[dic.Key].Name);
-                        deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
-                        deck.GetComponent<FormationDeck>().ShowEmptyText(false);
+                        //deck.GetComponent<FormationDeck>().ShowEmptyText(false);
                     }
                 }
             }
