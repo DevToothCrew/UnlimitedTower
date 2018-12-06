@@ -38,7 +38,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 
     public void RemoveDeck()
     {
-        transform.GetChild(0).gameObject.GetComponent<Image>().sprite = null;
+        //transform.GetChild(0).gameObject.GetComponent<Image>().sprite = null;
 
         //캐릭터 삭제
 
@@ -56,6 +56,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
             //UserDataManager.Inst.servantDic[charIndex].OnFormation = false;
             //UserDataManager.Inst.servantDic[charIndex].FormationIndex = -1;
             Reorder(ref UserDataManager.Inst.servantDic, 0);
+            CheckPairReorder();
         }
 
 
@@ -96,7 +97,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         UserDataManager.Inst.formationDic.Remove(DeckNum);
         charDic[charIndex].OnFormation = false;
         charDic[charIndex].FormationIndex = -1;
-
+        transform.GetChild(0).gameObject.GetComponent<Image>().sprite = null;
         LinkedChar.GetComponent<CharContent>().RemoveCharImage();
         LinkedChar = null;
 
@@ -123,6 +124,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         if (UserDataManager.Inst.formationDic.ContainsKey(nextDeckNum) == false)
         {
             Debug.Log("이 덱이 마지막 덱입니다.(1번 덱만  다음 없삼");
+            // error
             ShowEmptyText(true);
             return;
         }
@@ -170,7 +172,6 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 
         FormationList.transform.GetChild(preDeckNum).gameObject.transform.GetChild(0).GetComponent<Image>().sprite = null;
         FormationList.transform.GetChild(preDeckNum).gameObject.transform.GetChild(1).gameObject.SetActive(true);
-       // FormationList.transform.GetChild(preDeckNum).GetComponent<FormationDeck>().LinkedChar.GetComponent<CharContent>().RemoveCharImage();
         FormationList.transform.GetChild(preDeckNum).GetComponent<FormationDeck>().LinkedChar = null;
     }
 
@@ -186,4 +187,40 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
             transform.GetChild(1).gameObject.SetActive(false);
         }     
     }
+
+    private void CheckPairReorder()
+    {
+        int backLineCharNum = 0;
+        int frontLineCharNum = 0;
+
+        for(int i=0; i<10; i++)
+        {
+            if(i<5)
+            {
+                if (UserDataManager.Inst.formationDic.ContainsKey(i))
+                {
+                    frontLineCharNum++;
+                }          
+            }
+            else
+            {
+                if (UserDataManager.Inst.formationDic.ContainsKey(i))
+                {
+                    backLineCharNum++;
+                }
+            }
+        }
+
+        // 몬스터 라인의 수가 더 많으면
+        if(backLineCharNum < frontLineCharNum)
+        {
+            GameObject FormationList = LobbyManager.Inst.FormationList.gameObject;
+            FormationList.transform.GetChild(DeckNum - 5).gameObject.GetComponent<FormationDeck>().Reorder(ref UserDataManager.Inst.monsterDic, 1);
+            
+        }
+
+    }
+
+
+
 }
