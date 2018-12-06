@@ -84,7 +84,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
                 GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
                 RemoveCharImage();
                 deck.GetComponent<FormationDeck>().RemoveDeck();
-                deck.GetComponent<FormationDeck>().ShowEmptyText(true);
+                //deck.GetComponent<FormationDeck>().ShowEmptyText(true);
 
                 transform.GetChild(1).gameObject.SetActive(false);
             }
