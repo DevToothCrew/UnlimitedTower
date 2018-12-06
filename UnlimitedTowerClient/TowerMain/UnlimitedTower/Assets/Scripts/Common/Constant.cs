@@ -56,6 +56,7 @@ public class DEFINE
     public static Vector3 ENEMY_BACKLINE_CENTER_POS = new Vector3(0.0f, 0.0f, 5.0f);
     public static readonly int TEST_HP_NUM = 10;
 
+    public static readonly int HERO_FORMATION_NUM = 7;
 
 
 
@@ -174,6 +175,29 @@ public class Character
         Appear = Random.Range(0, 9999);
     }
 
+    // Test Code : Hero
+    public Character()
+    {
+        CHARACTER_NUM charType = CHARACTER_NUM.Hero_Novice_1001;
+
+        Size = GetSize(charType);
+
+        Exp = 0;
+        Level = 1;
+
+        Str = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
+        Dex = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
+        Int = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
+
+        Job = Random.Range(0, 3) * 100 + Random.Range(1, 3);
+
+
+        Name = charType.ToString();
+        Index = (int)charType;
+
+        Appear = Random.Range(0, 9999);
+    }
+
     public int GetMaxHp()
     {
         return Str * DEFINE.MAX_HP_MULTI_posOffset * DEFINE.TEST_HP_NUM;
@@ -210,7 +234,8 @@ public class Character
         SIZE_TYPE charSize;
 
         if (charType == CHARACTER_NUM.Mst_Knight || charType == CHARACTER_NUM.Mst_Anubis || charType == CHARACTER_NUM.Mst_DarkKnight
-            || charType == CHARACTER_NUM.Mst_WolfMan || charType == CHARACTER_NUM.Mst_Robot || charType == CHARACTER_NUM.Mst_Minotaurus)
+            || charType == CHARACTER_NUM.Mst_WolfMan || charType == CHARACTER_NUM.Mst_Robot || charType == CHARACTER_NUM.Mst_Minotaurus
+            || charType == CHARACTER_NUM.Mst_Robot_2)
         {
             charSize = SIZE_TYPE.MIDDLE;
         }

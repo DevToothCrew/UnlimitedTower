@@ -10,6 +10,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public bool CreatePlayerFlag;
     public SCENE_STATE sceneState = SCENE_STATE.None;
 
+    public Character heroChar;
     public Dictionary<int, Character> servantDic = new Dictionary<int, Character>();
     public Dictionary<int, Character> monsterDic = new Dictionary<int, Character>();
 
@@ -42,8 +43,9 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public void Awake()
     {
+        heroChar = new Character();
 
-
+        CreateHero();
         //TODO :  나의 캐릭터(무조건 존재하는 값)이라고 가정
         for (int i = 0; i < TestCharNum; i++)
         {
@@ -62,15 +64,15 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     void CreateServant()
     {
         Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1, GACHA_TYPE.Servant);
-        UserDataManager.Inst.SetServant(newChar);
-        UserDataManager.Inst.AddNewCharImage(newChar.Name, GACHA_TYPE.Servant);
+        SetServant(newChar);
+        Inst.AddNewCharImage(newChar.Name, GACHA_TYPE.Servant);
     }
 
     void CreateMonster()
     {
         Character newChar = new Character(UserDataManager.Inst.GetMonsterIndex() + 1, GACHA_TYPE.Monster);
-        UserDataManager.Inst.SetMonster(newChar);
-        UserDataManager.Inst.AddNewCharImage(newChar.Name, GACHA_TYPE.Monster);
+        SetMonster(newChar);
+        AddNewCharImage(newChar.Name, GACHA_TYPE.Monster);
     }
 
     public void InitFlag()
@@ -81,6 +83,24 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
  
     }
 
+    private void CreateHero()
+    {
+        if(formationDic.ContainsKey(DEFINE.HERO_FORMATION_NUM) == false)
+        {
+            formationDic.Add(DEFINE.HERO_FORMATION_NUM, heroChar.Index);
+
+            GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(DEFINE.HERO_FORMATION_NUM).gameObject;
+            Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + heroChar.Name);
+            deck.GetComponent<FormationDeck>().LinkedChar = null;
+            deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+
+            deck.GetComponent<FormationDeck>().ShowEmptyText(false);
+        }
+    }
+    private void LoadCharImage()
+    {
+
+    }
     public void SetUserLoginFlag(bool flag)
     {
         UserLoginFlag = flag;
@@ -160,10 +180,19 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public void  LoadUserData()
     {
         // LoadServantData();
+        LoadHero();
         LoadCharData(LobbyManager.Inst.ServantContentList, ref servantDic, GACHA_TYPE.Servant);
         LoadCharData(LobbyManager.Inst.MonsterContentList, ref monsterDic, GACHA_TYPE.Monster);
     }
+    private void LoadHero()
+    {
+        GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(DEFINE.HERO_FORMATION_NUM).gameObject;
+        Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + heroChar.Name);
+        deck.GetComponent<FormationDeck>().LinkedChar = null;
+        deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
 
+        deck.GetComponent<FormationDeck>().ShowEmptyText(false);
+    }
     // 로비로 되돌아 올때 캐릭터 리스트 다시 불러오는 함수
     public void LoadServantData()
     {
@@ -173,7 +202,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         foreach (KeyValuePair<int, Character> dic in servantDic)
         {
             var instance = Instantiate(Resources.Load("Prefabs/CharContent") as GameObject);
-            // 이걸 이미지로 검사해야하는가?
+            //### 이걸 이미지로 검사해야하는가?
             if (instance.transform.GetChild(0).GetComponent<Image>())
             {
                 instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + servantDic[dic.Key].Name);
@@ -221,6 +250,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         // 캐릭터 개수만큼 캐릭터 목록을 다시 불러온다.
         foreach (KeyValuePair<int, Character> dic in charDic)
         {
+            
             var instance = Instantiate(Resources.Load("Prefabs/CharContent") as GameObject);
             // 이걸 이미지로 검사해야하는가?
             if (instance.transform.GetChild(0).GetComponent<Image>())
@@ -238,8 +268,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
                     instance.GetComponent<CharContent>().CharType = 1;
                 }
 
-
-                    if (charDic[dic.Key].OnFormation)
+                if (charDic[dic.Key].OnFormation)
                 {
                     Color color = instance.transform.GetChild(0).GetComponent<Image>().color;
                     color.r = color.g = color.b = 0.35f;
@@ -252,15 +281,13 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
                         Debug.Log("dic.key : " + dic.Key);
                         int deckNum = charDic[dic.Key].FormationIndex;
                         GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
-                       
+
                         deck.GetComponent<FormationDeck>().LinkedChar = instance;
 
                         Sprite sprite = Resources.Load<Sprite>(imageFath + charDic[dic.Key].Name);
                         deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
                         deck.GetComponent<FormationDeck>().ShowEmptyText(false);
                     }
-
-
                 }
             }
         }

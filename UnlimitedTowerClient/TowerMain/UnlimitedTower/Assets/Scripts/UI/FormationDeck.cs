@@ -19,12 +19,21 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         Debug.Log("On Click : Formation");
 
         // 이미 덱에 캐릭터가 존재하면
-        if (UserDataManager.Inst.formationDic.ContainsKey(DeckNum))
+
+        if (DeckNum != DEFINE.HERO_FORMATION_NUM)
         {
-            RemoveDeck();
-            LinkedChar.GetComponent<CharContent>().RemoveCharImage();
-            LinkedChar = null;
-        }  
+            if (UserDataManager.Inst.formationDic.ContainsKey(DeckNum))
+            {
+                RemoveDeck();
+                LinkedChar.GetComponent<CharContent>().RemoveCharImage();
+                LinkedChar = null;
+            }
+        }
+        else
+        {
+            Debug.Log("Do not remove hEro");
+        }
+     
     }
 
     public void RemoveDeck()
@@ -61,7 +70,6 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         else
         {
             transform.GetChild(1).gameObject.SetActive(false);
-        }
-        
+        }     
     }
 }

@@ -438,9 +438,10 @@ public class BattleManager : MonoSingleton<BattleManager> {
         PlayerParty = new GameObject("PlayerParty");
         EnemyParty = new GameObject("EnemyParty");
 
-    
+
         // TODO : 캐릭터 배틀 포지션 한번에 세팅했던 함수.
         // CreatePlayerBsttlePosition(playerObjects, CHAR_TYPE.PLAYER, ref playerStatusDic);
+        SetHero();
         CreatePlayerObjects();
         SetCharBattlePosition(playerObjects);
 
@@ -453,40 +454,38 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
     void SetHero()
     {
-        int formationNum = -1;
         int charKey = -1;
-        if (UserDataManager.Inst.formationDic.ContainsKey(2))
+        if (UserDataManager.Inst.formationDic.ContainsKey(DEFINE.HERO_FORMATION_NUM))
         {
-            formationNum = 2;
-            charKey = UserDataManager.Inst.formationDic[formationNum];
+            charKey = UserDataManager.Inst.formationDic[DEFINE.HERO_FORMATION_NUM];
         }
         else
         {
             return;
         }
 
-        Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.servantDic[charKey], formationNum, 0, 0);
+        Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.heroChar, DEFINE.HERO_FORMATION_NUM, 0, UserDataManager.Inst.heroChar.Size);
 
-        playerStatusDic.Add(formationNum, status);
-        if (!playerObjects[formationNum])
+        playerStatusDic.Add(DEFINE.HERO_FORMATION_NUM, status);
+        if (!playerObjects[DEFINE.HERO_FORMATION_NUM])
         {
-            playerObjects[formationNum] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.identity);
+            playerObjects[DEFINE.HERO_FORMATION_NUM] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.identity);
 
-            playerObjects[formationNum].transform.SetParent(PlayerParty.transform.transform, false);
-            if (playerObjects[formationNum].GetComponent<CharController>())
+            playerObjects[DEFINE.HERO_FORMATION_NUM].transform.SetParent(PlayerParty.transform.transform, false);
+            if (playerObjects[DEFINE.HERO_FORMATION_NUM].GetComponent<CharController>())
             {
-                playerObjects[formationNum].GetComponent<CharController>().charType = CHAR_TYPE.PLAYER;
-                playerObjects[formationNum].GetComponent<CharController>().charSize = status.sizeType;
+                playerObjects[DEFINE.HERO_FORMATION_NUM].GetComponent<CharController>().charType = CHAR_TYPE.PLAYER;
+                playerObjects[DEFINE.HERO_FORMATION_NUM].GetComponent<CharController>().charSize = status.sizeType;
 
-                CreatePlayerBsttlePosition(formationNum, playerObjects, CHAR_TYPE.PLAYER, ref playerStatusDic);
-                playerObjects[formationNum].GetComponent<CharController>().battleDicIndex = formationNum;
+                CreatePlayerBsttlePosition(DEFINE.HERO_FORMATION_NUM, playerObjects, CHAR_TYPE.PLAYER, ref playerStatusDic);
+                playerObjects[DEFINE.HERO_FORMATION_NUM].GetComponent<CharController>().battleDicIndex = DEFINE.HERO_FORMATION_NUM;
             }
         }
     }
 
     private void CreatePlayerObjects()
     {
-        for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
+        for (int i = 1; i < DEFINE.PARTY_MAX_NUM; i++)
         {
             int formationNum = UserDataManager.Inst.formationOrderList[i];
             int charKey = -1;
@@ -502,25 +501,21 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
             if (i < 5)
             {
-                if (UserDataManager.Inst.servantDic.ContainsKey(charKey) == false)
+                GetBattleCharStatue(out status, ref UserDataManager.Inst.servantDic, formationNum, i, charKey);
+                if (status == null)
                 {
+                    Debug.Log("Error  : Acollcate BattleStatue");
                     break;
-                }
-                else///
-                {
-                    status = new Battle_Character_Status(UserDataManager.Inst.servantDic[charKey], formationNum, i, UserDataManager.Inst.servantDic[charKey].Size);
                 }
             }
             else
             {
-                if (UserDataManager.Inst.monsterDic.ContainsKey(charKey) == false)
+                GetBattleCharStatue(out status, ref UserDataManager.Inst.monsterDic, formationNum, i, charKey);
+                if(status == null)
                 {
+                    Debug.Log("Error  : Acollcate BattleStatue");
                     break;
-                }
-                else
-                {
-                    status = new Battle_Character_Status(UserDataManager.Inst.monsterDic[charKey], formationNum, i, UserDataManager.Inst.monsterDic[charKey].Size);
-                }
+                }            
             }
             playerStatusDic.Add(formationNum, status);
             if (!playerObjects[formationNum])
@@ -535,102 +530,23 @@ public class BattleManager : MonoSingleton<BattleManager> {
                     playerObjects[formationNum].GetComponent<CharController>().charSize = status.sizeType;
 
                     CreatePlayerBsttlePosition(formationNum, playerObjects, CHAR_TYPE.PLAYER, ref playerStatusDic);
+                    Debug.Log(formationNum + " CharSize : " + status.sizeType);
                     playerObjects[formationNum].GetComponent<CharController>().battleDicIndex = formationNum;
                 }
             }
 
         }
     }
-
-    private void CreateMyObject( )
+    private void GetBattleCharStatue(out Battle_Character_Status battleStatus, ref Dictionary<int, Character> charDic, int formationNum, int i, int charKey)
     {
-
-        // 내 캐릭터를 먼저 배치함으로써(중앙에 있는 캐릭터 기준으로 그 외 캐릭터들이 배치된다)
-        // 생길수 있는 버그를 막는다.
-        //SetHero();
-
-        for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
+        if (UserDataManager.Inst.servantDic.ContainsKey(charKey) == false)
         {
-            //if (UserDataManager.Inst.userCharsKeyList.Count <= i)
-            //{
-            //    break;
-            //}
-            //int charKey = UserDataManager.Inst.userCharsKeyList[i];
-            //int formationNum = UserDataManager.Inst.formationOrderList[i];
-
-            int formationNum = UserDataManager.Inst.formationOrderList[i];
-            int charKey = -1;
-            if (UserDataManager.Inst.formationDic.ContainsKey(formationNum))
-            {
-                charKey = UserDataManager.Inst.formationDic[formationNum];
-            }
-            else
-            {
-                continue;
-            }
-
-            if (i < 5)
-            {
-                if (UserDataManager.Inst.servantDic.ContainsKey(charKey) == false)
-                {
-                    break;
-                }
-                else
-                {
-                    //캐릭터 정보,                     //partyIndex   //chartIndex(필요없는 값일 수도 있음)
-                    Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.servantDic[charKey], formationNum, i, 0);
-
-                    playerStatusDic.Add(formationNum, status);
-                    if (!playerObjects[formationNum])
-                    {
-                        playerObjects[formationNum] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.identity);
-
-                        playerObjects[formationNum].transform.SetParent(PlayerParty.transform.transform, false);
-                        if (playerObjects[formationNum].GetComponent<CharController>())
-                        {
-                            playerObjects[formationNum].GetComponent<CharController>().status = status;
-                            playerObjects[formationNum].GetComponent<CharController>().charType = CHAR_TYPE.PLAYER;
-                            playerObjects[formationNum].GetComponent<CharController>().charSize = status.sizeType;
-
-                            CreatePlayerBsttlePosition(formationNum, playerObjects, CHAR_TYPE.PLAYER, ref playerStatusDic);
-                            playerObjects[formationNum].GetComponent<CharController>().battleDicIndex = formationNum;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (UserDataManager.Inst.monsterDic.ContainsKey(charKey) == false)
-                {
-                    break;
-                }
-                else
-                {
-                    //캐릭터 정보,                     //partyIndex   //chartIndex(필요없는 값일 수도 있음)
-                    Battle_Character_Status status = new Battle_Character_Status(UserDataManager.Inst.monsterDic[charKey], formationNum, i, 0);
-
-                    playerStatusDic.Add(formationNum, status);
-                    if (!playerObjects[formationNum])
-                    {
-                        playerObjects[formationNum] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.identity);
-
-                        playerObjects[formationNum].transform.SetParent(PlayerParty.transform.transform, false);
-                        if (playerObjects[formationNum].GetComponent<CharController>())
-                        {
-                            playerObjects[formationNum].GetComponent<CharController>().status = status;
-                            playerObjects[formationNum].GetComponent<CharController>().charType = CHAR_TYPE.PLAYER;
-                            playerObjects[formationNum].GetComponent<CharController>().charSize = status.sizeType;
-
-                            CreatePlayerBsttlePosition(formationNum, playerObjects, CHAR_TYPE.PLAYER, ref playerStatusDic);
-                            playerObjects[formationNum].GetComponent<CharController>().battleDicIndex = formationNum;
-                        }
-                    }
-                }
-            }
-
-
+            battleStatus = null;
         }
-
+        else
+        {
+            battleStatus = new Battle_Character_Status(charDic[charKey], formationNum, i, charDic[charKey].Size);
+        }
     }
 
     private void CreateEnemyObjects()
@@ -728,10 +644,21 @@ public class BattleManager : MonoSingleton<BattleManager> {
         }
         return pos;
     }
-    private Vector3 GetFrontLineCenterCharPos(Vector3 frontCenterPos, SIZE_TYPE sizeType)
+    private Vector3 GetFrontLineCenterCharPos(Vector3 frontCenterPos, CHAR_TYPE charType, SIZE_TYPE sizeType)
     {
         float middleOffset = 0.25f; //중형 크기이면 칸에 맞추기 위해 움직인다.
         Vector3 pos = frontCenterPos;
+        
+        // ### 수정할것
+        if(charType == CHAR_TYPE.PLAYER)
+        {
+            middleOffset *= -1.0f;
+        }
+        else
+        {
+           
+        }
+
 
         switch (sizeType)
         {
@@ -742,16 +669,20 @@ public class BattleManager : MonoSingleton<BattleManager> {
             case SIZE_TYPE.MIDDLE:
                 {
                     pos.x += middleOffset;
-                    pos.z += -middleOffset;
+                    pos.z -= middleOffset;
+                    //pos.z += -middleOffset;
                     break;
                 }
             case SIZE_TYPE.BIG:
                 {
                     pos.x += middleOffset * 2;
-                    pos.z += -middleOffset * 2;
+                    pos.z -= middleOffset * 2;
+                    //pos.z += -middleOffset * 2;
                     break;
                 }         
         }
+        // x: 0.25, z : -3.25
+        Debug.Log("앞 라인 중앙 pos.x : " + pos.x + ", pos.z : " + pos.z);
         return pos;
     }
     private void GetCharOffset(SIZE_TYPE centerSize, SIZE_TYPE mySize, ref float x, ref float z)
@@ -817,7 +748,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
                 }
         }
     }
-    private void SetLeftPosition(GameObject[] charObjects, int centerNum, int num, SIZE_TYPE sizeType, ref Dictionary<int, Battle_Character_Status> charBattleStatusDic)
+    private void SetLeftPosition(GameObject[] charObjects, int centerNum, int num, CHAR_TYPE charType, SIZE_TYPE sizeType, ref Dictionary<int, Battle_Character_Status> charBattleStatusDic)
     {
         if (charBattleStatusDic.ContainsKey(num) == false)
         {
@@ -827,17 +758,28 @@ public class BattleManager : MonoSingleton<BattleManager> {
         Vector3 pos = new Vector3(0, 0, 0);
         float x = 0, z = 0;
         float sign = 1.0f;
+
         pos = charObjects[centerNum].transform.position;
    
         GetCharOffset(sizeType, charBattleStatusDic[num].sizeType, ref x, ref z);
         if (sizeType < charBattleStatusDic[num].sizeType)
+        {
             sign = -1.0f;
+            // ### 수정할것
+            //if (charType == CHAR_TYPE.PLAYER)
+            //{
+            //    sign = +1.0f;
+            //}
+        }
+          
+
+
 
         pos.x += -x;
         pos.z += +z * sign;
         charObjects[num].transform.position = pos;
     }
-    private void SetRightPosition(GameObject[] charObjects, int centerNum, int num, SIZE_TYPE sizeType, ref Dictionary<int, Battle_Character_Status> charBattleStatusDic)
+    private void SetRightPosition(GameObject[] charObjects, int centerNum, int num, CHAR_TYPE charType, SIZE_TYPE sizeType, ref Dictionary<int, Battle_Character_Status> charBattleStatusDic)
     {
         if (charBattleStatusDic.ContainsKey(num) == false)
         {
@@ -851,7 +793,14 @@ public class BattleManager : MonoSingleton<BattleManager> {
         float sign = 1.0f;
         GetCharOffset(sizeType, charBattleStatusDic[num].sizeType, ref x, ref z);
         if (sizeType < charBattleStatusDic[num].sizeType)
+        {
             sign = -1.0f;
+            // ### 수정할것
+            //if (charType == CHAR_TYPE.PLAYER)
+            //{
+            //    sign = +1.0f;
+            //}
+        }
 
 
         pos.x += +x;
@@ -914,53 +863,56 @@ public class BattleManager : MonoSingleton<BattleManager> {
                 }
             case 6:
                 {
-                    SetLeftPosition(charObjects, backLineCenterIndex, 6, charBattleStatusDic[backLineCenterIndex].sizeType, ref charBattleStatusDic);
+                    SetLeftPosition(charObjects, backLineCenterIndex, 6, CHAR_TYPE.PLAYER, charBattleStatusDic[backLineCenterIndex].sizeType, ref charBattleStatusDic);
                     break;
                 }
             case 8:
                 {
-                    SetRightPosition(charObjects, backLineCenterIndex, 8, charBattleStatusDic[backLineCenterIndex].sizeType, ref charBattleStatusDic);
+                    SetRightPosition(charObjects, backLineCenterIndex, 8, CHAR_TYPE.PLAYER, charBattleStatusDic[backLineCenterIndex].sizeType, ref charBattleStatusDic);
                     break;
                 }
             case 5:
                 {
-                    SetLeftPosition(charObjects, 6, 5, charBattleStatusDic[6].sizeType, ref charBattleStatusDic);
+                    SetLeftPosition(charObjects, 6, 5, CHAR_TYPE.PLAYER, charBattleStatusDic[6].sizeType, ref charBattleStatusDic);
                 
                     break;
                 }
             case 9:
                 {
-                    SetRightPosition(charObjects, 8, 9, charBattleStatusDic[8].sizeType, ref charBattleStatusDic);
+                    SetRightPosition(charObjects, 8, 9, CHAR_TYPE.PLAYER, charBattleStatusDic[8].sizeType, ref charBattleStatusDic);
                     break;
                 }
 
+                // 몬스터 배치 부분으로 여기서 부턴 몬스터가 존재하지 않을 수도 있다.
             case 2:
                 {
                     float frontLineDis = GetBackLineLargestDistance(charObjects, charType, ref charBattleStatusDic);
                     frontCenterPos.z = frontLineDis;
-                    frontCenterPos = GetFrontLineCenterCharPos(frontCenterPos, charBattleStatusDic[frontLineCenterIndex].sizeType);
+                    frontCenterPos = GetFrontLineCenterCharPos(frontCenterPos, charType, charBattleStatusDic[frontLineCenterIndex].sizeType);
+                    Debug.Log("몬스터 센터  크기 : " + charBattleStatusDic[frontLineCenterIndex].sizeType);
+                    Debug.Log("frontLineDis : " + frontLineDis);
                     charObjects[frontLineCenterIndex].transform.position = frontCenterPos;
                     break;
                 }
             case 1:
                 {
-                    SetLeftPosition(charObjects, 2, 1, centerCharStatus.sizeType, ref charBattleStatusDic);
+                    SetLeftPosition(charObjects, 2, 1, CHAR_TYPE.PLAYER, charBattleStatusDic[2].sizeType, ref charBattleStatusDic);
                     break;
                 }
             case 3:
                 {
-                    SetRightPosition(charObjects, 2, 3, centerCharStatus.sizeType, ref charBattleStatusDic);
+                    SetRightPosition(charObjects, 2, 3, CHAR_TYPE.PLAYER, charBattleStatusDic[2].sizeType, ref charBattleStatusDic);
                     break;
                 }
             case 0:
                 {
-                    SetLeftPosition(charObjects, 1, 0, charBattleStatusDic[1].sizeType, ref charBattleStatusDic);
+                    SetLeftPosition(charObjects, 1, 0, CHAR_TYPE.PLAYER, charBattleStatusDic[1].sizeType, ref charBattleStatusDic);
 
                     break;
                 }
             case 4:
                 {
-                    SetRightPosition(charObjects, 3, 4, charBattleStatusDic[3].sizeType, ref charBattleStatusDic);
+                    SetRightPosition(charObjects, 3, 4, CHAR_TYPE.PLAYER, charBattleStatusDic[3].sizeType, ref charBattleStatusDic);
                     break;
                 }
 
@@ -983,15 +935,15 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
         charObjects[backLineCenterIndex].transform.position = backCenterPos;
 
-        SetLeftPosition(charObjects, backLineCenterIndex, 6, centerCharStatus.sizeType, ref charBattleStatusDic);
-        SetRightPosition(charObjects, backLineCenterIndex, 8, centerCharStatus.sizeType, ref charBattleStatusDic);
+        SetLeftPosition(charObjects, backLineCenterIndex, 6, CHAR_TYPE.PLAYER, centerCharStatus.sizeType, ref charBattleStatusDic);
+        SetRightPosition(charObjects, backLineCenterIndex, 8, CHAR_TYPE.PLAYER, centerCharStatus.sizeType, ref charBattleStatusDic);
 
-        SetLeftPosition(charObjects, 6, 5, charBattleStatusDic[6].sizeType, ref charBattleStatusDic);
-        SetRightPosition(charObjects, 8, 9, charBattleStatusDic[8].sizeType, ref charBattleStatusDic);
+        SetLeftPosition(charObjects, 6, 5, CHAR_TYPE.PLAYER, charBattleStatusDic[6].sizeType, ref charBattleStatusDic);
+        SetRightPosition(charObjects, 8, 9, CHAR_TYPE.PLAYER, charBattleStatusDic[8].sizeType, ref charBattleStatusDic);
 
         float frontLineDis = GetBackLineLargestDistance(charObjects, charType, ref charBattleStatusDic);
         frontCenterPos.z = frontLineDis;
-        frontCenterPos = GetFrontLineCenterCharPos(frontCenterPos, charBattleStatusDic[frontLineCenterIndex].sizeType);
+        frontCenterPos = GetFrontLineCenterCharPos(frontCenterPos, charType, charBattleStatusDic[frontLineCenterIndex].sizeType);
 
         if(charObjects[frontLineCenterIndex]== false)
         {
@@ -1001,11 +953,11 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
         charObjects[frontLineCenterIndex].transform.position = frontCenterPos;
 
-        SetLeftPosition(charObjects, frontLineCenterIndex, 1, charBattleStatusDic[frontLineCenterIndex].sizeType, ref charBattleStatusDic);
-        SetRightPosition(charObjects, frontLineCenterIndex, 3, charBattleStatusDic[frontLineCenterIndex].sizeType, ref charBattleStatusDic);
+        SetLeftPosition(charObjects, frontLineCenterIndex, 1, CHAR_TYPE.PLAYER, charBattleStatusDic[frontLineCenterIndex].sizeType, ref charBattleStatusDic);
+        SetRightPosition(charObjects, frontLineCenterIndex, 3, CHAR_TYPE.PLAYER, charBattleStatusDic[frontLineCenterIndex].sizeType, ref charBattleStatusDic);
 
-        SetLeftPosition(charObjects, 1, 0, charBattleStatusDic[1].sizeType, ref charBattleStatusDic);
-        SetRightPosition(charObjects, 3, 4, charBattleStatusDic[3].sizeType, ref charBattleStatusDic);
+        SetLeftPosition(charObjects, 1, 0, CHAR_TYPE.PLAYER, charBattleStatusDic[1].sizeType, ref charBattleStatusDic);
+        SetRightPosition(charObjects, 3, 4, CHAR_TYPE.PLAYER, charBattleStatusDic[3].sizeType, ref charBattleStatusDic);
     }
 
     private void SetCharBattlePosition(GameObject[] charObjects)
