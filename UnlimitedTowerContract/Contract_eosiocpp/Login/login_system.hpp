@@ -162,7 +162,7 @@ class clogin_system
             hero_look_set.a_hero_list[_hero_slot].look.body = _body;
         });
     }
-    void set_status(const account_name _user, uint8_t _hero_slot)
+    void set_status(account_name _user, uint8_t _hero_slot)
     {
         require_auth(_user);
         auto user_iter = auth_user_table.find(_user);

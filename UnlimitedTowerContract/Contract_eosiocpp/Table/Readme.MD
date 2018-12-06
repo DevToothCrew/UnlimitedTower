@@ -9,12 +9,14 @@
 [head,hair,body]
 [str,dex,int]
 [current_state]
-
 enum ehero_state
 {   
     set_look = 1,
     set_status,
+    set_change_status,
     set_complete,
+    set_tower_party,
+    set_travel_party,
 };
 
 - a_game_money : 유저의 게임 재화 정보를 갖는 값이다.
@@ -22,11 +24,11 @@ enum ehero_state
 - a_state : 유저의 상태값을 같는 상태다.
 enum euser_state
 {
-    create = 1,
-    look,
-    status,
+    login = 1,
     lobby,
-    battle_result,
+    battle,
+    battle_win,
+    battle_lose,
     tower,
     travel,
     pause,
@@ -124,49 +126,117 @@ struct sparty_info
 - }
 
 
-[table] - servant_table
+
+
+
+
+
+
+
+------------------------------------------game object table----------------------------------------
+
+enum object_state
+{
+    in_ineventory,      //인벤토리에 들어있는 상태
+    
+    in_party,           //파티에 속해있는 상태
+    in_tower,           //타워 파티에 속해있는 상태
+    object_presale,     //사전예약때 뽑은 상태
+};
+- 몬스터와 서번트가 사용하는 상태 값 입니다.
+
+
+
+
+
+* [table] - servant_table
 
 - primary_key : account_name user : 유저의 계정 명이다.
 
 - servant_list : 유저가 소유한 용병의 리스트 입니다.
 
 해당 리스트는 cservantinfo 자료형으로 이루어져 있습니다.
-- s_index             : 해당 용병의 인덱스 번호입니다.
-- s_appear       : 해당 용병의 외모 정보입니다.
-- [body,hair,hair]
-- s_status       : 해당 용병의 스테이터스 정보입니다.
-- [str,dex,int,job]
-- s_plus_status  : 해당 용병의 증가한 스테이터스 정보입니다.
-- [plus str,plus dex, plus int, stat_point]
-- s_exp               : 해당 용병의 경험치 정보입니다.
-- s_equip_slot             : 해당 용병의 장비 리스트 입니다.
+struct sobject_appear
+{
+    uint8_t head = 0;       //오브젝트 얼굴 정보
+    uint8_t hair = 0;       //오브젝트 머리 정보
+    uint8_t body = 0;       //오브젝트 몸 정보
+};
 
-[table] - monster_table
+struct sobject_status
+{
+    uint32_t basic_str = 0; //오브젝트 기본 힘
+    uint32_t basic_dex = 0; //오브젝트 기본 민첩
+    uint32_t basic_int = 0; //오브젝트 기본 지능
+    uint8_t job = 0;        //오브젝트 기본 직업
+};
+
+struct sobject_plus_status
+{
+    uint32_t plus_str = 0;  //오브젝트 추가 힘
+    uint32_t plus_dex = 0;  //오브젝트 추가 민첩
+    uint32_t plus_int = 0;  //오브젝트 추가 지능
+    uint32_t stat_point = 0;//오브젝트 추가 스테이터스 포인트
+};
+
+struct cservantinfo
+{
+    uint64_t s_index;           //서번트 인덱스번호
+    sobject_appear s_appear;    //서번트 외형 정보
+    sobject_status s_status;    //서번트 힘민지 직업
+    sobject_plus_status s_plus_status;  //서번트 추가힘민지
+    std::vector<uint32_t> s_equip_slot; //서번트 장비 리스트
+    uint32_t s_exp = 0; //서번트 경험치
+    uint32_t s_state = object_state::in_ineventory; //서번트 상태
+};
+
+
+
+* [table] - monster_table
 
 - primary_key : account_name user : 유저의 계정 명이다.
 
 - monster_list : 유저가 소유한 몬스터의 리스트입니다.
 
 해당리스트는 cmonsterinfo 자료형으로 이루어져 있습니다.
-- m_index             : 해당 몬스터의 인덱스 번호입니다.
-- m_type        : 해당 몬스터의 타입 번호입니다.
-- m_status       : 해당 몬스터의 스테이터스 정보입니다.
-- [str,dex,int,job][job은 무시]
-- m_plus_status  : 해당 몬스터의 증가한 스테이터스 정보입니다.
-- [plus str,plus dex, plus int, stat_point]
-- m_exp               : 해당 몬스터의 경험치 정보입니다.
+
+    uint64_t m_index;  //고유 인덱스
+    uint32_t m_type;   //외형 - 타입
+    sobject_status m_status; // 힘민지
+    sobject_plus_status m_plus_status; //추가 힘민지
+    uint32_t m_exp = 0; //경험치
+    uint32_t m_grade; // 등급
+    uint32_t m_reinforce = 0; //강화수치
+    uint32_t m_state = object_state::in_ineventory;; //몬스터 상태값
 
 
-[table] - item_table
+
+
+* [table] - item_table
 
 - primary_key : account_name user : 유저의 계정 명이다.
 
 - item_list : 유저가 소유한 아이템의 리스트입니다.
 
 해당리스트는 citeminfo 자료형으로 이루어져 있습니다.
-- i_index             : 해당 아이템의 고유 인덱스 번호입니다.
-- i_slot        : 해당 아이템의 장비 종류 번호입니다.[무기,방어구,악세사리]
-- i_type        : 해당 아이템의 리소스 번호 입니다.
-- i_tier              : 해당 아이템의 등급 번호 입니다.
-- i_status       : 해당 아이템의 스테이터스 정보입니다.
-- [str,dex,int,job][job은 무시]
+struct citeminfo
+{
+    uint64_t i_index; //아이템 인덱스
+    uint32_t i_id; //아이템 고유 아이디
+    uint32_t i_type = 0;  //종류
+    uint32_t i_slot;  //장착 타입
+    uint32_t i_tier;  //티어
+    sobject_status i_status; //힘민지 직업
+    uint32_t i_state; //아이템 현재 상태
+    uint32_t i_grade; //아이템 등급
+    uint32_t i_reinforce = 0; //아이템 강화 수치
+};
+
+
+enum item_state -  아이템의 상태값입니다.
+{
+    item_inventory = 0, //방금막 뽑아서 인벤토리에 들어온 상태
+    item_equip,         //아이템 슬롯에 장착이 되어있는 상태
+    item_notsell,       //판매가 불가능한 상태
+    item_presale,       //사전예약때 뽑은 상태
+};

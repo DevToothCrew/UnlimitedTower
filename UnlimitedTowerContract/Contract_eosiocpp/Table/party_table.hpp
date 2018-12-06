@@ -1,15 +1,16 @@
 #pragma once
 #include "../Common/common_header.hpp"
 
-// 8 
+// 8 * 10 = 80
 //sparty_info 당  8
 struct sparty_info
 {
     std::vector<uint64_t> party_id_list;
 };
 
-// 8 + 16 = 24
-// vector당 16
+// 8 + 80 = 88
+// vector당 80
+// 112 + 88 = 200
 //@abi table cparty i64
 class cparty
 {
