@@ -506,9 +506,9 @@ public class BattleManager : MonoSingleton<BattleManager> {
                 {
                     break;
                 }
-                else
+                else///
                 {
-                    status = new Battle_Character_Status(UserDataManager.Inst.servantDic[charKey], formationNum, i, 0);
+                    status = new Battle_Character_Status(UserDataManager.Inst.servantDic[charKey], formationNum, i, UserDataManager.Inst.servantDic[charKey].Size);
                 }
             }
             else
@@ -519,7 +519,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
                 }
                 else
                 {
-                    status = new Battle_Character_Status(UserDataManager.Inst.monsterDic[charKey], formationNum, i, 0);
+                    status = new Battle_Character_Status(UserDataManager.Inst.monsterDic[charKey], formationNum, i, UserDataManager.Inst.monsterDic[charKey].Size);
                 }
             }
             playerStatusDic.Add(formationNum, status);
@@ -897,19 +897,19 @@ public class BattleManager : MonoSingleton<BattleManager> {
         return dis;
     }
 
-    private void CreatePlayerBsttlePosition(int fomationOrder, GameObject[] charObjects, CHAR_TYPE charType, ref Dictionary<int, Battle_Character_Status> charBattleStatusDic)
+    private void CreatePlayerBsttlePosition(int formationOrder, GameObject[] charObjects, CHAR_TYPE charType, ref Dictionary<int, Battle_Character_Status> charBattleStatusDic)
     {
         Vector3 frontCenterPos = DEFINE.PLAYER_BACKLINE_CENTER_POS;
 
         Battle_Character_Status centerCharStatus = charBattleStatusDic[7];
         int frontLineCenterIndex = 2;
         int backLineCenterIndex = 7;
-        switch (fomationOrder)
+        switch (formationOrder)
         {
             case 7:
                 {
                     Vector3 backCenterPos = GetBackLineCenterCharPos(charType, centerCharStatus.sizeType);
-                    charObjects[fomationOrder].transform.position = backCenterPos;                
+                    charObjects[formationOrder].transform.position = backCenterPos;                
                     break;
                 }
             case 6:
