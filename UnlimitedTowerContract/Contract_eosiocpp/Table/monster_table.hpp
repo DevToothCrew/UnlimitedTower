@@ -9,9 +9,9 @@ struct cmonsterinfo
     uint32_t m_type;   //외형 - 타입
     sobject_status m_status; // 힘민지
     sobject_plus_status m_plus_status; //추가 힘민지
-    uint32_t m_exp; //경험치
+    uint32_t m_exp = 0; //경험치
     uint32_t m_grade; // 등급
-    uint32_t m_reinforce; //강화수치
+    uint32_t m_reinforce = 0; //강화수치
     uint32_t m_state = object_state::in_ineventory;; //몬스터 상태값
 };
 

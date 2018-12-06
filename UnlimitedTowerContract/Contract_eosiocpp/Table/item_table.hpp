@@ -14,7 +14,7 @@ struct citeminfo
 {
     uint64_t i_index; //아이템 인덱스
     uint32_t i_id; //아이템 고유 아이디
-    uint32_t i_type;  //종류
+    uint32_t i_type = 0;  //종류
     uint32_t i_slot;  //장착 타입
     uint32_t i_tier;  //티어
     sobject_status i_status; //힘민지 직업

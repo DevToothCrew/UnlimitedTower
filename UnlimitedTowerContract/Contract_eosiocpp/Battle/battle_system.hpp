@@ -54,26 +54,6 @@ class cbattle_system
         {
 
         }
-        uint64_t random_seed(uint64_t _seed, uint32_t _range, uint32_t _min, uint32_t _random_count)
-        {
-            uint64_t l_result;
-            _seed = (_seed >> (1 * _random_count));
-            l_result = _seed % _range;
-            if (l_result < _min)
-            {
-                return l_result += _min;
-            }
-            return l_result;
-        }
-        uint64_t random_value(uint32_t _range)
-        {
-            checksum256 l_result;
-            uint64_t l_source = tapos_block_num() * tapos_block_prefix() * now();
-            sha256((char *)&l_source, sizeof(l_source), &l_result);
-            uint64_t *l_p = reinterpret_cast<uint64_t *>(&l_result.hash);
-            uint64_t l_random_result = *l_p % _range;
-            return l_random_result;
-        }
         void set_battle(account_name _user,uint8_t _stage)
         {
             require_auth(_user);
@@ -91,6 +71,7 @@ class cbattle_system
             });
             auto &user_auth_table = login_controller.get_auth_user_table();
             auto user_auth_iter = user_auth_table.find(_user);
+            eosio_assert(user_auth_iter!=user_auth_table.end(),"not exist user auth data");
             user_auth_table.modify(user_auth_iter, owner, [&](auto &user_state_change) {
                 if (_stage != 0)
                 {
@@ -112,7 +93,7 @@ class cbattle_system
             const auto &user_servant_iter = user_servant_table.get(_user);
 
             auto &user_auth_table = login_controller.get_auth_user_table();
-            const auto &user_auth_iter = user_auth_table.get(_user);
+            auto user_auth_iter = user_auth_table.find(_user);
 
             uint32_t mid = 0;
             uint32_t left = 0;
@@ -131,7 +112,12 @@ class cbattle_system
             const auto &stage_iter = stage_table.get(user_battle_iter->b_stage_number,"not exist stage info");
         #pragma endregion
 
-            eosio_assert(user_battle_iter != user_battle_table.end(),"not exist account in battle");
+            // user_auth_table.modify(user_auth_iter,owner,[&](auto user_state_change)
+            // {
+            //     user_state_change.a_state = euser_state::battle;
+            // });
+
+
             user_battle_table.modify(user_battle_iter, owner, [&](auto &new_battle_set) {
                 for (uint32_t i = 0; i < party_controller.max_servant_slot; ++i)
                 {
@@ -139,38 +125,38 @@ class cbattle_system
                     {
                         uint32_t hero_slot = user_party_iter.p_party_list[_party_number].object_id_list[i];
                         new_battle_set.b_battle_state_list[i].party_object_index = hero_slot;
-                        new_battle_set.b_battle_state_list[i].now_hp = user_auth_iter.a_hero_list[hero_slot].status.basic_str * oper_hp;
-                        new_battle_set.b_battle_state_list[i].defense = user_auth_iter.a_hero_list[hero_slot].status.basic_dex * oper_defense;
-                        new_battle_set.b_battle_state_list[i].critical = user_auth_iter.a_hero_list[hero_slot].status.basic_int * oper_critical;
+                        new_battle_set.b_battle_state_list[i].now_hp = user_auth_iter->a_hero_list[hero_slot].status.basic_str * oper_hp;
+                        new_battle_set.b_battle_state_list[i].defense = user_auth_iter->a_hero_list[hero_slot].status.basic_dex * oper_defense;
+                        new_battle_set.b_battle_state_list[i].critical = user_auth_iter->a_hero_list[hero_slot].status.basic_int * oper_critical;
 
-                        if (user_auth_iter.a_hero_list[hero_slot].status.job == warrior)
+                        if (user_auth_iter->a_hero_list[hero_slot].status.job == warrior)
                         {
-                            new_battle_set.b_battle_state_list[i].attack = user_auth_iter.a_hero_list[hero_slot].status.basic_str * oper_attack;
+                            new_battle_set.b_battle_state_list[i].attack = user_auth_iter->a_hero_list[hero_slot].status.basic_str * oper_attack;
                             new_battle_set.b_battle_state_list[i].speed = warrior_speed;
                         }
-                        else if (user_auth_iter.a_hero_list[hero_slot].status.job == archer)
+                        else if (user_auth_iter->a_hero_list[hero_slot].status.job == archer)
                         {
-                            new_battle_set.b_battle_state_list[i].attack = user_auth_iter.a_hero_list[hero_slot].status.basic_dex * oper_attack;
+                            new_battle_set.b_battle_state_list[i].attack = user_auth_iter->a_hero_list[hero_slot].status.basic_dex * oper_attack;
                             new_battle_set.b_battle_state_list[i].speed = archer_speed;
                         }
-                        else if (user_auth_iter.a_hero_list[hero_slot].status.job == wizard)
+                        else if (user_auth_iter->a_hero_list[hero_slot].status.job == wizard)
                         {
-                            new_battle_set.b_battle_state_list[i].attack = user_auth_iter.a_hero_list[hero_slot].status.basic_int * oper_attack;
+                            new_battle_set.b_battle_state_list[i].attack = user_auth_iter->a_hero_list[hero_slot].status.basic_int * oper_attack;
                             new_battle_set.b_battle_state_list[i].speed = wizard_speed;
                         }
-                        else if (user_auth_iter.a_hero_list[hero_slot].status.job == priest)
+                        else if (user_auth_iter->a_hero_list[hero_slot].status.job == priest)
                         {
-                            new_battle_set.b_battle_state_list[i].attack = user_auth_iter.a_hero_list[hero_slot].status.basic_int * oper_attack;
+                            new_battle_set.b_battle_state_list[i].attack = user_auth_iter->a_hero_list[hero_slot].status.basic_int * oper_attack;
                             new_battle_set.b_battle_state_list[i].speed = priest_speed;
                         }
-                        else if (user_auth_iter.a_hero_list[hero_slot].status.job == beginner)
+                        else if (user_auth_iter->a_hero_list[hero_slot].status.job == beginner)
                         {
-                            new_battle_set.b_battle_state_list[i].attack = user_auth_iter.a_hero_list[hero_slot].status.basic_str * oper_attack;
+                            new_battle_set.b_battle_state_list[i].attack = user_auth_iter->a_hero_list[hero_slot].status.basic_str * oper_attack;
                             new_battle_set.b_battle_state_list[i].speed = beginner_speed;
                         }
-                        else if (user_auth_iter.a_hero_list[hero_slot].status.job == thief)
+                        else if (user_auth_iter->a_hero_list[hero_slot].status.job == thief)
                         {
-                            new_battle_set.b_battle_state_list[i].attack = user_auth_iter.a_hero_list[hero_slot].status.basic_dex * oper_attack;
+                            new_battle_set.b_battle_state_list[i].attack = user_auth_iter->a_hero_list[hero_slot].status.basic_dex * oper_attack;
                             new_battle_set.b_battle_state_list[i].speed = thief_speed;
                         }
                     }
@@ -263,210 +249,205 @@ class cbattle_system
         {
             require_auth(_user);
             auto &user_auth_table = login_controller.get_auth_user_table();
-            auto user_auth_iter = user_auth_table.find(_user);
-            if(user_auth_iter->a_state == euser_state::battle_lose || user_auth_iter->a_state == euser_state::battle_win)
-            {
-                user_auth_table.modify(user_auth_iter,owner,[&](auto &user_state)
-                {
-                    user_state.a_state = euser_state::lobby;
-                });
-                end_battle(_user);
-            }
-            else
-            {
-                uint32_t user_dead_count = 0;
-                uint32_t enemy_dead_count = 0;
+            const auto &user_auth_iter = user_auth_table.get(_user);
+            eosio_assert(user_auth_iter.a_state==euser_state::travel || user_auth_iter.a_state==euser_state::tower,"already over battle");
 
-                auto user_battle_iter = user_battle_table.find(_user);
-                user_battle_table.modify(user_battle_iter, owner, [&](auto &battle_state) {
-                    uint32_t battle_preference = random_seed(safeseed::get_seed(_user), 2, 0, 0);
-                    std::vector<attack_speed> temp_order_list;
-                    temp_order_list.resize(20);
-                    for (uint32_t i = 0; i < max_battle_member_count; ++i)
-                    {
-                        temp_order_list[i].member_array_index = i;
-                        temp_order_list[i].member_speed = user_battle_iter->b_battle_state_list[i].speed;
-                    }
-                    if (battle_preference == user)
-                    {
-                        std::sort(temp_order_list.begin(), temp_order_list.end(),
-                                  [&](attack_speed a, attack_speed b) {
-                                      return a.member_array_index < b.member_array_index;
-                                  });
-                    }
-                    else if (battle_preference == enemy)
-                    {
-                        std::sort(temp_order_list.begin(), temp_order_list.end(),
-                                  [&](attack_speed a, attack_speed b) {
-                                      return a.member_array_index > b.member_array_index;
-                                  });
-                    }
+            uint32_t user_dead_count = 0;
+            uint32_t enemy_dead_count = 0;
+
+            auto user_battle_iter = user_battle_table.find(_user);
+            user_battle_table.modify(user_battle_iter, owner, [&](auto &battle_state) {
+                uint32_t battle_preference = safeseed::random_seed(safeseed::get_seed(_user), 2, 0, 0);
+                std::vector<attack_speed> temp_order_list;
+                temp_order_list.resize(20);
+                for (uint32_t i = 0; i < max_battle_member_count; ++i)
+                {
+                    temp_order_list[i].member_array_index = i;
+                    temp_order_list[i].member_speed = user_battle_iter->b_battle_state_list[i].speed;
+                }
+                if (battle_preference == user)
+                {
                     std::sort(temp_order_list.begin(), temp_order_list.end(),
                               [&](attack_speed a, attack_speed b) {
-                                  return a.member_speed > b.member_speed;
+                                  return a.member_array_index < b.member_array_index;
                               });
-                    battle_state.b_preference = battle_preference;
-                    battle_state.b_turn_count++;
-                    uint32_t l_user_action;
+                }
+                else if (battle_preference == enemy)
+                {
+                    std::sort(temp_order_list.begin(), temp_order_list.end(),
+                              [&](attack_speed a, attack_speed b) {
+                                  return a.member_array_index > b.member_array_index;
+                              });
+                }
+                std::sort(temp_order_list.begin(), temp_order_list.end(),
+                          [&](attack_speed a, attack_speed b) {
+                              return a.member_speed > b.member_speed;
+                          });
+                battle_state.b_preference = battle_preference;
+                battle_state.b_turn_count++;
+                uint32_t l_user_action;
 
-                    for (uint32_t i = 0; i < max_battle_member_count; ++i)
+                for (uint32_t i = 0; i < max_battle_member_count; ++i)
+                {
+                    battle_state.attack_order_list[i].member_array_index = temp_order_list[i].member_array_index;
+                    battle_state.attack_order_list[i].member_speed = temp_order_list[i].member_speed;
+
+                    uint32_t index = temp_order_list[i].member_array_index;
+                    if (index < my_party_count)
                     {
-                        battle_state.attack_order_list[i].member_array_index = temp_order_list[i].member_array_index;
-                        battle_state.attack_order_list[i].member_speed = temp_order_list[i].member_speed;
-
-                        uint32_t index = temp_order_list[i].member_array_index;
-                        if (index < my_party_count)
+                        if (index == party_controller.hero_party_location)
                         {
-                            if (index == party_controller.hero_party_location)
+                            if (_hero_action == attack_action)
                             {
-                                if(_hero_action == attack_action)
+                                uint32_t l_damage = (battle_state.b_battle_state_list[index].attack * ((defense_constant * decimal) /
+                                                                                                       (defense_constant + battle_state.b_battle_state_list[_hero_target].defense))) /
+                                                    decimal;
+                                if (battle_state.b_battle_state_list[_hero_target].now_hp <= l_damage)
                                 {
-                                    uint32_t l_damage = (battle_state.b_battle_state_list[index].attack * ((defense_constant * decimal) / 
-                                    (defense_constant + battle_state.b_battle_state_list[_hero_target].defense))) / decimal;
-                                    if (battle_state.b_battle_state_list[_hero_target].now_hp <= l_damage)
-                                    {
-                                        battle_state.b_battle_state_list[_hero_target].now_hp = 0;
-                                    }
-                                    else
-                                    {
-                                        battle_state.b_battle_state_list[_hero_target].now_hp -= l_damage;
-                                    }
+                                    battle_state.b_battle_state_list[_hero_target].now_hp = 0;
                                 }
-                                continue;
-                            }
-                            else if(index == party_controller.hero_party_monster_location)
-                            {
-                                if (_monster_action == attack_action)
+                                else
                                 {
-                                    uint32_t l_damage = (battle_state.b_battle_state_list[index].attack * ((defense_constant * decimal) /
-                                        (defense_constant + battle_state.b_battle_state_list[_monster_target].defense))) /decimal;
-                                    if (battle_state.b_battle_state_list[_monster_target].now_hp <= l_damage)
-                                    {
-                                        battle_state.b_battle_state_list[_monster_target].now_hp = 0;
-                                    }
-                                    else
-                                    {
-                                        battle_state.b_battle_state_list[_monster_target].now_hp -= l_damage;
-                                    }
-                                }
-                                continue;
-                            }
-                            l_user_action = random_seed(safeseed::get_seed(_user), action_count, 0, i);
-                            for (uint32_t enemy = my_party_count; enemy < enemy_part_count; ++enemy)
-                            {
-                                if (battle_state.b_battle_state_list[enemy].now_hp == 0)
-                                {
-                                    continue;
-                                }
-                                if (l_user_action == attack_action)
-                                {
-                                    battle_state.b_battle_state_list[index].action = attack_action;
-                                    uint32_t l_damage = (battle_state.b_battle_state_list[index].attack * ((defense_constant * decimal) / (defense_constant + battle_state.b_battle_state_list[enemy].defense))) / decimal;
-                                    print("l_damage : ", l_damage, "\n");
-                                    if (battle_state.b_battle_state_list[enemy].now_hp <= l_damage)
-                                    {
-                                        battle_state.b_battle_state_list[enemy].now_hp = 0;
-                                    }
-                                    else
-                                    {
-                                        battle_state.b_battle_state_list[enemy].now_hp -= l_damage;
-                                    }
-                                    break;
-                                }
-                                else if (l_user_action == defense_action)
-                                {
-                                    break;
+                                    battle_state.b_battle_state_list[_hero_target].now_hp -= l_damage;
                                 }
                             }
+                            continue;
                         }
-                        else
+                        else if (index == party_controller.hero_party_monster_location)
                         {
-                            l_user_action = random_seed(safeseed::get_seed(_user), action_count, 0, i);
-                            for (uint32_t enemy = 0; enemy < my_party_count; ++enemy)
+                            if (_monster_action == attack_action)
                             {
-                                if (battle_state.b_battle_state_list[enemy].now_hp == 0)
+                                uint32_t l_damage = (battle_state.b_battle_state_list[index].attack * ((defense_constant * decimal) /
+                                                                                                       (defense_constant + battle_state.b_battle_state_list[_monster_target].defense))) /
+                                                    decimal;
+                                if (battle_state.b_battle_state_list[_monster_target].now_hp <= l_damage)
                                 {
-                                    continue;
+                                    battle_state.b_battle_state_list[_monster_target].now_hp = 0;
                                 }
-                                if (l_user_action == attack_action)
+                                else
                                 {
-                                    battle_state.b_battle_state_list[index].action = attack_action;
-                                    uint32_t l_damage = (battle_state.b_battle_state_list[index].attack * ((200 * decimal) / (200 + battle_state.b_battle_state_list[enemy].defense))) / decimal;
-                                    print("l_damage : ", l_damage, "\n");
-                                    if (battle_state.b_battle_state_list[enemy].now_hp <= l_damage)
-                                    {
-                                        battle_state.b_battle_state_list[enemy].now_hp = 0;
-                                    }
-                                    else
-                                    {
-                                        battle_state.b_battle_state_list[enemy].now_hp -= l_damage;
-                                    }
-                                    break;
+                                    battle_state.b_battle_state_list[_monster_target].now_hp -= l_damage;
                                 }
-                                else if (l_user_action == defense_action)
+                            }
+                            continue;
+                        }
+                        l_user_action = safeseed::random_seed(safeseed::get_seed(_user), action_count, 0, i);
+                        for (uint32_t enemy = my_party_count; enemy < enemy_part_count; ++enemy)
+                        {
+                            if (battle_state.b_battle_state_list[enemy].now_hp == 0)
+                            {
+                                continue;
+                            }
+                            if (l_user_action == attack_action)
+                            {
+                                battle_state.b_battle_state_list[index].action = attack_action;
+                                uint32_t l_damage = (battle_state.b_battle_state_list[index].attack * ((defense_constant * decimal) / (defense_constant + battle_state.b_battle_state_list[enemy].defense))) / decimal;
+                                print("l_damage : ", l_damage, "\n");
+                                if (battle_state.b_battle_state_list[enemy].now_hp <= l_damage)
                                 {
-                                    break;
+                                    battle_state.b_battle_state_list[enemy].now_hp = 0;
                                 }
+                                else
+                                {
+                                    battle_state.b_battle_state_list[enemy].now_hp -= l_damage;
+                                }
+                                break;
+                            }
+                            else if (l_user_action == defense_action)
+                            {
+                                break;
                             }
                         }
                     }
-                    for (uint32_t i = 0; i < max_battle_member_count; ++i)
+                    else
                     {
-                        if (i < my_party_count)
+                        l_user_action = safeseed::random_seed(safeseed::get_seed(_user), action_count, 0, i);
+                        for (uint32_t enemy = 0; enemy < my_party_count; ++enemy)
                         {
-                            if (battle_state.b_battle_state_list[i].now_hp == 0)
+                            if (battle_state.b_battle_state_list[enemy].now_hp == 0)
                             {
-                                user_dead_count += 1;
+                                continue;
                             }
-                        }
-                        else
-                        {
-                            if (battle_state.b_battle_state_list[i].now_hp == 0)
+                            if (l_user_action == attack_action)
                             {
-                                enemy_dead_count += 1;
+                                battle_state.b_battle_state_list[index].action = attack_action;
+                                uint32_t l_damage = (battle_state.b_battle_state_list[index].attack * ((200 * decimal) / (200 + battle_state.b_battle_state_list[enemy].defense))) / decimal;
+                                print("l_damage : ", l_damage, "\n");
+                                if (battle_state.b_battle_state_list[enemy].now_hp <= l_damage)
+                                {
+                                    battle_state.b_battle_state_list[enemy].now_hp = 0;
+                                }
+                                else
+                                {
+                                    battle_state.b_battle_state_list[enemy].now_hp -= l_damage;
+                                }
+                                break;
+                            }
+                            else if (l_user_action == defense_action)
+                            {
+                                break;
                             }
                         }
                     }
-                });
-                if (enemy_dead_count == party_controller.max_total_member)
-                {
-                    print("user win");
-                    win_reward(_user);
                 }
-                else if (user_dead_count == party_controller.max_total_member)
+                for (uint32_t i = 0; i < max_battle_member_count; ++i)
                 {
-                    print("user lose");
-                    fail_reward(_user);
+                    if (i < my_party_count)
+                    {
+                        if (battle_state.b_battle_state_list[i].now_hp == 0)
+                        {
+                            user_dead_count += 1;
+                        }
+                    }
+                    else
+                    {
+                        if (battle_state.b_battle_state_list[i].now_hp == 0)
+                        {
+                            enemy_dead_count += 1;
+                        }
+                    }
                 }
-                print("enemy_count : ", uint32_t{enemy_dead_count}, "\n");
-                print("user_count : ", uint32_t{user_dead_count}, "\n");
+            });
+            if (enemy_dead_count == party_controller.max_total_member)
+            {
+                win_reward(_user);
+            }
+            else if (user_dead_count == party_controller.max_total_member)
+            {
+                fail_reward(_user);
             }
         }
-
         void win_reward(account_name _user)
         {
             auto &user_auth_table = login_controller.get_auth_user_table();
             auto user_auth_iter = user_auth_table.find(_user);
+            eosio_assert(user_auth_iter!=user_auth_table.end(),"not exist user auth data");
 
-            uint32_t l_reward = random_value(1000) + 100;
+            uint32_t l_reward = safeseed::random_seed(safeseed::get_seed(_user),1000,100,0);
 
-            const auto &user_battle_iter = user_battle_table.get(_user);
+            auto user_battle_iter = user_battle_table.find(_user);
+            eosio_assert(user_battle_iter != user_battle_table.end(),"not exist user battle data");
 
             auto &user_log_table = login_controller.get_log_table();
             auto user_log_iter = user_log_table.find(_user);
+            eosio_assert(user_log_iter != user_log_table.end(),"not exist user log data");
 
             user_log_table.modify(user_log_iter, owner, [&](auto &update_log) {
-                update_log.l_last_stage_num = user_battle_iter.b_stage_number;
-                if (user_log_iter->l_top_clear_stage < user_battle_iter.b_stage_number)
+                update_log.l_last_stage_num = user_battle_iter->b_stage_number;
+                if (user_log_iter->l_top_clear_stage < user_battle_iter->b_stage_number)
                 {
-                    update_log.l_top_clear_stage = user_battle_iter.b_stage_number;
+                    update_log.l_top_clear_stage = user_battle_iter->b_stage_number;
                 }
                 update_log.l_battle_count++;
                 update_log.l_get_gold += l_reward;
             });
-            
+
+            user_battle_table.modify(user_battle_iter,owner,[&](auto &add_win_reward)
+            {
+                add_win_reward.b_reward_list.push_back(l_reward);
+            });          
+
             user_auth_table.modify(user_auth_iter, owner, [&](auto &user_state) {
-                user_state.a_game_money += l_reward;
                 user_state.a_state = euser_state::battle_win;
             });
 
@@ -475,11 +456,13 @@ class cbattle_system
         {
             auto &user_auth_table = login_controller.get_auth_user_table();
             auto user_auth_iter = user_auth_table.find(_user);
+            eosio_assert(user_auth_iter!=user_auth_table.end(),"not exist user auth data");
 
             const auto &user_battle_iter = user_battle_table.get(_user);
 
             auto &user_log_table = login_controller.get_log_table();
             auto user_log_iter = user_log_table.find(_user);
+            eosio_assert(user_log_iter != user_log_table.end(),"not exist user log data");
 
             user_log_table.modify(user_log_iter, owner, [&](auto &update_log) {
                 update_log.l_last_stage_num = user_battle_iter.b_stage_number;
@@ -490,10 +473,31 @@ class cbattle_system
                 user_state.a_state = euser_state::battle_lose;
             });
         }
-        void end_battle(account_name _user)
+        void get_battle_reward(account_name _user)
         {
+            auto &user_auth_table = login_controller.get_auth_user_table();
+            auto user_auth_iter = user_auth_table.find(_user);
+            eosio_assert(user_auth_iter->a_state == euser_state::battle_lose || user_auth_iter->a_state == euser_state::battle_win,"impossible get reward");
+
             auto user_battle_iter = user_battle_table.find(_user);
-            eosio_assert(user_battle_iter != user_battle_table.end(), "already erase battle data");
+            eosio_assert(user_battle_iter != user_battle_table.end(), "not exist user battle data");
+            
+            if (user_auth_iter->a_state == euser_state::battle_win)
+            {
+                user_auth_table.modify(user_auth_iter, owner, [&](auto &user_win_reward) {
+                    for(uint32_t i=0;i<user_battle_iter->b_reward_list.size();++i)
+                    {
+                        user_win_reward.a_game_money+=user_battle_iter->b_reward_list[i];
+                    }
+                    user_win_reward.a_state = euser_state::lobby;
+                });
+            }
+            else
+            {
+                user_auth_table.modify(user_auth_iter, owner, [&](auto &user_lose_reward) {
+                    user_lose_reward.a_state = euser_state::lobby;
+                });
+            }
             user_battle_table.erase(user_battle_iter);
         }
 #pragma region reset

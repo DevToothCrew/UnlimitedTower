@@ -15,6 +15,7 @@ enum euser_state
 {
     login = 1,
     lobby,
+    battle,
     battle_win,
     battle_lose,
     tower,
@@ -25,17 +26,17 @@ enum euser_state
 // 1 + 1 + 1 = 3
 struct suser_look
 {
-   uint8_t head;
-   uint8_t hair;
-   uint8_t body;
+   uint8_t head = 0;
+   uint8_t hair = 0;
+   uint8_t body = 0;
 };
 // 4 + 4 + 4 = 12
 struct suser_status
 {
-    uint32_t basic_str;
-    uint32_t basic_dex;
-    uint32_t basic_int;
-    uint32_t job;
+    uint32_t basic_str = 0;
+    uint32_t basic_dex = 0;
+    uint32_t basic_int = 0;
+    uint32_t job = 0;
 };
 struct suser_plus_status
 {

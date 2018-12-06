@@ -48,22 +48,13 @@ class cparty_system
                 new_party.add_party(0);
             });
         } 
-        uint64_t random_value(uint32_t _range)
-        {
-            checksum256 l_result;
-            uint64_t l_source = tapos_block_num() * tapos_block_prefix();
-            sha256((char *)&l_source, sizeof(l_source), &l_result);
-            uint64_t *l_p = reinterpret_cast<uint64_t *>(&l_result.hash);
-            uint64_t l_random_result = *l_p % _range;
-            if (l_random_result == 0)
-            {
-                l_random_result++;
-            }
-            return l_random_result;
-        }
         void set_hero(account_name _user,uint32_t _party_number,uint8_t _hero_slot)
         {
             require_auth(_user);
+            auto &user_log_table = login_controller.get_log_table();
+            const auto &user_log_iter = user_log_table.get(_user,"not get user log data");
+            eosio_assert(user_log_iter.l_add_party_count >= _party_number,"need more party");
+
             auto &auth_user_table = login_controller.get_auth_user_table();
             auto auth_user_iter = auth_user_table.find(_user);
             eosio_assert(auth_user_iter->a_hero_list[_hero_slot].current_state == ehero_state::set_travel_party || 
@@ -86,6 +77,10 @@ class cparty_system
         void set_party(account_name _user,uint8_t _party_number,uint8_t _party_location_index,uint32_t _object_type,uint64_t _object_index)
         {  
             require_auth(_user);
+            auto &user_log_table = login_controller.get_log_table();
+            const auto &user_log_iter = user_log_table.get(_user, "not get user log data");
+            eosio_assert(user_log_iter.l_add_party_count >= _party_number, "need more party");
+
             eosio_assert(_party_location_index != hero_party_location,"this location only hero");
             
             auto user_party_iter = user_party_table.find(_user);

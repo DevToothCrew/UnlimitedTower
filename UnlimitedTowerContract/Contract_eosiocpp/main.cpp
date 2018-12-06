@@ -136,6 +136,11 @@
             print("active turn action\n");
             battle_controller.active_turn(_user,_hero_action,_monster_action,_hero_target,_monster_target);
         }
+        //@abi action
+        void getreward(account_name _user)
+        {
+            battle_controller.get_battle_reward(_user);
+        }
 #pragma endregion
 
 #pragma resion Party
@@ -231,4 +236,4 @@ extern "C" { \
 }
 // eos 금액에 대해 체크 하는 함
 
-    EOSIO_ABI(cmain_logic,(datainit)(stageinit)(signup)(lookset)(statset)(completeset)(transfer)(setbattle)(startbattle)(activeturn)(sethero)(setparty)(sellitem)(buyitem)(equipser)(unequipser)(equiphero)(unequiphero)(resettable) )
+    EOSIO_ABI(cmain_logic,(datainit)(stageinit)(signup)(lookset)(statset)(completeset)(transfer)(setbattle)(startbattle)(activeturn)(getreward)(sethero)(setparty)(sellitem)(buyitem)(equipser)(unequipser)(equiphero)(unequiphero)(resettable) )

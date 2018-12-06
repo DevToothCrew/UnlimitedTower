@@ -1,5 +1,6 @@
 #pragma once
 #include "../Common/common_header.hpp"
+#include "../Common/common_seed.hpp"
 #include "../Table/log_table.hpp"
 #include "../Table/auth_user_table.hpp"
 #include "../Table/test_static_stage_table.hpp"
@@ -169,9 +170,9 @@ class clogin_system
 
         auth_user_table.modify(user_iter, owner, [&](auto &hero_status_set) {
             hero_status_set.a_hero_list[_hero_slot].current_state = ehero_state::set_change_status;
-            hero_status_set.a_hero_list[_hero_slot].status.basic_str = random_value(10);
-            hero_status_set.a_hero_list[_hero_slot].status.basic_dex = random_value(10);
-            hero_status_set.a_hero_list[_hero_slot].status.basic_int = random_value(10);
+            hero_status_set.a_hero_list[_hero_slot].status.basic_str = safeseed::random_seed(safeseed::get_seed(_user),10,1,1);
+            hero_status_set.a_hero_list[_hero_slot].status.basic_dex = safeseed::random_seed(safeseed::get_seed(_user),10,1,2);
+            hero_status_set.a_hero_list[_hero_slot].status.basic_int = safeseed::random_seed(safeseed::get_seed(_user),10,1,3);
         });
     }
     void change_status(account_name _user,uint8_t _hero_slot)
@@ -182,9 +183,9 @@ class clogin_system
         eosio_assert(user_iter->a_hero_list[_hero_slot].current_state == ehero_state::set_change_status, "already completed status setting");
 
         auth_user_table.modify(user_iter, owner, [&](auto &hero_status_change) {
-            hero_status_change.a_hero_list[_hero_slot].status.basic_str = random_value(10);
-            hero_status_change.a_hero_list[_hero_slot].status.basic_dex = random_value(10);
-            hero_status_change.a_hero_list[_hero_slot].status.basic_int = random_value(10);
+            hero_status_change.a_hero_list[_hero_slot].status.basic_str = safeseed::random_seed(safeseed::get_seed(_user),10,1,1);
+            hero_status_change.a_hero_list[_hero_slot].status.basic_dex = safeseed::random_seed(safeseed::get_seed(_user),10,1,2);
+            hero_status_change.a_hero_list[_hero_slot].status.basic_int = safeseed::random_seed(safeseed::get_seed(_user),10,1,3);
         });
     }
     void complete_hero_set(account_name _user, uint8_t _hero_slot)
@@ -198,19 +199,6 @@ class clogin_system
         auth_user_table.modify(user_iter, owner, [&](auto &hero_state_set) {
             hero_state_set.a_hero_list[_hero_slot].current_state = ehero_state::set_complete;
         });
-    }
-    uint64_t random_value(uint32_t _range)
-    {
-        checksum256 l_result;
-        uint64_t l_source = tapos_block_num() * tapos_block_prefix();
-        sha256((char *)&l_source, sizeof(l_source), &l_result);
-        uint64_t *l_p = reinterpret_cast<uint64_t *>(&l_result.hash);
-        uint64_t l_random_result = *l_p % _range;
-        if (l_random_result == 0)
-        {
-            l_random_result++;
-        }
-        return l_random_result;
     }
     void add_hero_slot(account_name _user)
     {

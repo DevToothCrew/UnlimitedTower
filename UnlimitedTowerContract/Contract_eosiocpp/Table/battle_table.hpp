@@ -37,6 +37,7 @@ struct attack_speed
     uint32_t member_speed;
 };
 
+
 //@abi table cbattle i64
 class cbattle
 {
@@ -47,6 +48,7 @@ public:
     uint32_t b_stage_number;
     uint8_t b_party_number;
     uint8_t b_preference;
+    std::vector<uint32_t> b_reward_list;
     std::vector<sbattle_staus_info> b_battle_state_list;
     std::vector<attack_speed> attack_order_list;
 public:
@@ -66,6 +68,7 @@ public:
         (b_stage_number)
         (b_party_number)
         (b_preference)
+        (b_reward_list)
         (b_battle_state_list)
         (attack_order_list)
     )
