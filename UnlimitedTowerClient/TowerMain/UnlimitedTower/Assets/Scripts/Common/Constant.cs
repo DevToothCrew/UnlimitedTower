@@ -156,7 +156,7 @@ public class Character
         int myIndex = Random.Range(0, myIndexList.Count);
         CHARACTER_NUM charType = myIndexList[myIndex];
 
-        Size = SIZE_TYPE.SMALL;
+        Size = GetSize(charType);
 
         Exp = 0;
         Level = 1;
@@ -204,6 +204,25 @@ public class Character
     public int GetSpeed()
     {
         return Dex * DEFINE.SPEED_MULTI_posOffset;
+    }
+    public SIZE_TYPE GetSize(CHARACTER_NUM charType)
+    {
+        SIZE_TYPE charSize;
+
+        if (charType == CHARACTER_NUM.Mst_Knight || charType == CHARACTER_NUM.Mst_Anubis || charType == CHARACTER_NUM.Mst_DarkKnight
+            || charType == CHARACTER_NUM.Mst_WolfMan || charType == CHARACTER_NUM.Mst_Robot || charType == CHARACTER_NUM.Mst_Minotaurus)
+        {
+            charSize = SIZE_TYPE.MIDDLE;
+        }
+        else if (charType == CHARACTER_NUM.Mst_Death || charType == CHARACTER_NUM.Mst_Giant || charType == CHARACTER_NUM.Mst_BirdMan)
+        {
+            charSize = SIZE_TYPE.BIG;
+        }
+        else
+        {
+            charSize = SIZE_TYPE.SMALL;
+        }
+        return charSize;
     }
 }
 

@@ -206,7 +206,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     }
 
     public void LoadCharData(GameObject charContentList,
-        ref Dictionary<int, Character> _charDic, GACHA_TYPE gachaType)
+        ref Dictionary<int, Character> charDic, GACHA_TYPE gachaType)
     {
         string imageFath = null;
         if(gachaType == GACHA_TYPE.Servant)
@@ -219,14 +219,14 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         }
 
         // 캐릭터 개수만큼 캐릭터 목록을 다시 불러온다.
-        foreach (KeyValuePair<int, Character> dic in _charDic)
+        foreach (KeyValuePair<int, Character> dic in charDic)
         {
             var instance = Instantiate(Resources.Load("Prefabs/CharContent") as GameObject);
             // 이걸 이미지로 검사해야하는가?
             if (instance.transform.GetChild(0).GetComponent<Image>())
             {
          
-                instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(imageFath + _charDic[dic.Key].Name);
+                instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(imageFath + charDic[dic.Key].Name);
                 instance.transform.SetParent(charContentList.transform.transform);
                 instance.GetComponent<CharContent>().CharDicKey = dic.Key;
                 if (gachaType == GACHA_TYPE.Servant)
@@ -239,7 +239,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
                 }
 
 
-                    if (_charDic[dic.Key].OnFormation)
+                    if (charDic[dic.Key].OnFormation)
                 {
                     Color color = instance.transform.GetChild(0).GetComponent<Image>().color;
                     color.r = color.g = color.b = 0.35f;
@@ -247,15 +247,15 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
                     instance.transform.GetChild(1).gameObject.SetActive(true);
 
                     //  포메이션 세팅.
-                    if (_charDic[dic.Key].FormationIndex != -1)
+                    if (charDic[dic.Key].FormationIndex != -1)
                     {
                         Debug.Log("dic.key : " + dic.Key);
-                        int deckNum = _charDic[dic.Key].FormationIndex;
+                        int deckNum = charDic[dic.Key].FormationIndex;
                         GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
                        
                         deck.GetComponent<FormationDeck>().LinkedChar = instance;
 
-                        Sprite sprite = Resources.Load<Sprite>(imageFath + _charDic[dic.Key].Name);
+                        Sprite sprite = Resources.Load<Sprite>(imageFath + charDic[dic.Key].Name);
                         deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
                         deck.GetComponent<FormationDeck>().ShowEmptyText(false);
                     }
