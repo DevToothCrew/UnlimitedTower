@@ -559,7 +559,7 @@ GameObject:
   - component: {fileID: 83187140}
   - component: {fileID: 83187139}
   m_Layer: 5
-  m_Name: empty
+  m_Name: EmptyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1936,7 +1936,7 @@ GameObject:
   - component: {fileID: 249034031}
   - component: {fileID: 249034030}
   m_Layer: 5
-  m_Name: empty
+  m_Name: EmptyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5107,7 +5107,7 @@ GameObject:
   - component: {fileID: 465656767}
   - component: {fileID: 465656766}
   m_Layer: 5
-  m_Name: empty
+  m_Name: EmptyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7149,7 +7149,7 @@ GameObject:
   - component: {fileID: 735227877}
   - component: {fileID: 735227876}
   m_Layer: 5
-  m_Name: empty
+  m_Name: EmptyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10590,7 +10590,7 @@ GameObject:
   - component: {fileID: 1146002269}
   - component: {fileID: 1146002268}
   m_Layer: 5
-  m_Name: empty
+  m_Name: EmptyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11889,7 +11889,7 @@ GameObject:
   - component: {fileID: 1364443143}
   - component: {fileID: 1364443142}
   m_Layer: 5
-  m_Name: empty
+  m_Name: EmptyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16758,7 +16758,7 @@ GameObject:
   - component: {fileID: 1879624716}
   - component: {fileID: 1879624715}
   m_Layer: 5
-  m_Name: empty
+  m_Name: EmptyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17525,7 +17525,7 @@ GameObject:
   - component: {fileID: 1977899861}
   - component: {fileID: 1977899860}
   m_Layer: 5
-  m_Name: empty
+  m_Name: EmptyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17708,7 +17708,7 @@ GameObject:
   - component: {fileID: 1996770654}
   - component: {fileID: 1996770653}
   m_Layer: 5
-  m_Name: empty
+  m_Name: EmptyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18075,7 +18075,7 @@ GameObject:
   - component: {fileID: 2048154131}
   - component: {fileID: 2048154130}
   m_Layer: 5
-  m_Name: empty
+  m_Name: EmptyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
