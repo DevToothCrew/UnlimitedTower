@@ -2,7 +2,7 @@
 #include "../Common/common_header.hpp"
 #include "Table/servant_table.hpp"
 
-// 8 + 4 + 13 + 16 + 4 = 46
+// 8 + 4 + 16 + 16 + 4 + 4 + 4 + 4 = 60
 struct cmonsterinfo
 {
     uint64_t m_index;  //고유 인덱스
@@ -15,15 +15,16 @@ struct cmonsterinfo
     uint32_t m_state = object_state::in_ineventory;; //몬스터 상태값
 };
 
-// 8 + 46 = 54
-// vector 당 46
+// 8 + 60 = 68
+// vector 당 60
+// 112 + 68 = 180
 //@abi table cmonster i64
 class cmonster
 {
 private:
     account_name m_user;
 public:
-    std::vector<cmonsterinfo> m_monster_list;
+    std::vector<cmonsterinfo> monster_list;
 public:
     cmonster() {}
     uint64_t primary_key() const {return m_user;}
@@ -31,7 +32,7 @@ public:
     EOSLIB_SERIALIZE(
         cmonster,
         (m_user)
-        (m_monster_list)
+        (monster_list)
     )
 };
 

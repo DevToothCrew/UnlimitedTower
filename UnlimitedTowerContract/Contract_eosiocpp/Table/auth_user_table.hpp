@@ -30,7 +30,7 @@ struct suser_look
    uint8_t hair = 0;
    uint8_t body = 0;
 };
-// 4 + 4 + 4 = 12
+// 4 + 4 + 4 + 4 = 16
 struct suser_status
 {
     uint32_t basic_str = 0;
@@ -38,6 +38,7 @@ struct suser_status
     uint32_t basic_int = 0;
     uint32_t job = 0;
 };
+// 4 + 4 + 4 + 4 = 16
 struct suser_plus_status
 {
     uint32_t plus_str = 0;
@@ -47,7 +48,7 @@ struct suser_plus_status
 };
 
 
-// 3 + 12 = 15
+// 4 + 3 + 16 + 16 + 12 = 51
 struct shero_info
 {
     uint32_t current_state;
@@ -57,10 +58,11 @@ struct shero_info
     std::vector<uint32_t> equip_slot;
 };
 
-
-
-// 8 + 15 + 4 + 8 = 35
-// vector 한개당 15
+//primary_key = 112
+//8 + 4 + 4 + 4 + shero_info(51) = 71
+//hero slot 한개 추가당 51
+//총 히어로 3마리 가정하면 유저당 8 + 4 + 4 + 4 + (51 * 3) = 173
+//112 + 173 = 285 byte
 //@abi table cuserauth i64
 class cuserauth
 {

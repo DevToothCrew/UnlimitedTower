@@ -68,7 +68,8 @@ class clogin_system
     template<typename T>
     void eosiotoken_transfer(account_name sender, account_name receiver, T func) 
     {
-        require_auth2(sender,N(owner));
+        //require_auth2(sender,N(active));
+        require_auth(sender);
         auto transfer_data = eosio::unpack_action_data<st_transfer>();
         eosio_assert(transfer_data.quantity.symbol == S(4, EOS), "only accepts EOS for deposits");
         eosio_assert(transfer_data.quantity.is_valid(), "Invalid token transfer");
@@ -108,6 +109,7 @@ class clogin_system
         res.from.value = sender;
 
         auto user_log_iter = user_log_table.find(sender);
+        eosio_assert(user_log_iter != user_log_table.end(),"not exist user log data");
         user_log_table.modify(user_log_iter, owner, [&](auto &buy_log) {
             buy_log.l_use_eos += transfer_data.quantity;
         });

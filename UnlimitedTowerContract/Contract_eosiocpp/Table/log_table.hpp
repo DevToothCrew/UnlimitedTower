@@ -2,7 +2,7 @@
 #include "../Common/common_header.hpp"
 
 
-//(4 * 19) + 8 = 84
+//(4 * 17) + 8 = 76
 //@abi table cuserlog i64
 class cuserlog
 {

@@ -49,8 +49,9 @@ class cgacha_system
         {
             return user_item_table;
         }
-        void user_own_object_init(account_name _user)
+        void user_inventory_init(account_name _user)
         {
+            require_auth(_user);
             user_servant_table.emplace(owner, [&](auto &new_servant) {
                 new_servant.servant_set_user(_user);
             });
@@ -69,8 +70,11 @@ class cgacha_system
 
             auto &user_log_table = login_controller.get_log_table();
             auto user_log_iter = user_log_table.find(_user);
+            eosio_assert(user_log_iter != user_log_table.end(),"not exist user log data");
 
             auto user_servant_list_iter = user_servant_table.find(_user);
+            eosio_assert(user_servant_list_iter != user_servant_table.end(),"not exist user servant data");
+
             user_servant_table.modify(user_servant_list_iter, owner, [&](auto &update_user_servant_list) {
                 cservantinfo new_servant;
                 new_servant.s_index = user_log_iter->l_servant_num + 1;
@@ -83,7 +87,7 @@ class cgacha_system
                 new_servant.s_status.basic_int = safeseed::random_seed(_seed,servant_db_iter.s_max_range.s_int,servant_db_iter.s_min_range.s_int,servant_random_count++);
                 new_servant.s_equip_slot.resize(3);
                 
-                update_user_servant_list.s_servant_list.push_back(new_servant);
+                update_user_servant_list.servant_list.push_back(new_servant);
             });
 
             //로그 남기는 부분
@@ -141,6 +145,7 @@ class cgacha_system
 
             auto &user_log_table = login_controller.get_log_table();
             auto user_log_iter = user_log_table.find(_user);
+            eosio_assert(user_log_iter != user_log_table.end(),"not exist user log data");
 
             auto user_monster_list_iter = user_monster_table.find(_user);
             user_monster_table.modify(user_monster_list_iter, owner, [&](auto &update_user_monster_list) {
@@ -151,7 +156,7 @@ class cgacha_system
                 new_monster.m_status.basic_str = safeseed::random_seed(_seed,monster_grade_db_iter.m_max_range.m_str,monster_grade_db_iter.m_min_range.m_str,monster_random_count++);
                 new_monster.m_status.basic_dex = safeseed::random_seed(_seed,monster_grade_db_iter.m_max_range.m_dex,monster_grade_db_iter.m_min_range.m_dex,monster_random_count++);
                 new_monster.m_status.basic_int = safeseed::random_seed(_seed,monster_grade_db_iter.m_max_range.m_int,monster_grade_db_iter.m_min_range.m_int,monster_random_count++);
-                update_user_monster_list.m_monster_list.push_back(new_monster);
+                update_user_monster_list.monster_list.push_back(new_monster);
             });
 
             user_log_table.modify(user_log_iter, owner, [&](auto &update_log) {
@@ -176,6 +181,7 @@ class cgacha_system
 
             auto &user_log_table = login_controller.get_log_table();
             auto user_log_iter = user_log_table.find(_user);
+            eosio_assert(user_log_iter != user_log_table.end(),"not exist user log data");
 
             auto user_item_list_iter = user_item_table.find(_user);
             user_item_table.modify(user_item_list_iter, owner, [&](auto &update_user_item_list) {
@@ -190,7 +196,7 @@ class cgacha_system
                 new_item.i_status.job = item_id_db_iter.i_job;
                 new_item.i_state = item_state::item_inventory;
                 new_item.i_grade = item_grade_db_iter.i_grade;
-                update_user_item_list.i_item_list.push_back(new_item);
+                update_user_item_list.item_list.push_back(new_item);
             });
 
             user_log_table.modify(user_log_iter, owner, [&](auto &update_log) {

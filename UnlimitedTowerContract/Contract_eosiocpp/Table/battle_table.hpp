@@ -13,8 +13,8 @@ struct sbattle_member_state
     uint8_t turn_count;       //캐릭터 상태의 지속 턴 횟수
     uint64_t state;           //캐릭터의 현재 상태
 };
-// 4 + 9 + 8 = 21 
-//vector 개당 + 9
+// 4 + 4 + 4 + 4 + 4 + 4 + 8 + sbattle_member_state(9) = 41
+// sbattle_member_state 당 9 총 5개의 버프창이 있으면 45 + 32 = 77
 struct sbattle_staus_info
 {
     uint32_t action;
@@ -27,17 +27,14 @@ struct sbattle_staus_info
     uint64_t party_object_index = 0;
 };
 
-
-// 8 + 1 + 4 + 1 + 21 + 21 = 56
-//vector 당 21
-
+// 4 + 4 = 8
 struct attack_speed
 {
     uint32_t member_array_index;
     uint32_t member_speed;
 };
 
-
+// 8 + 1 + 4 + 1 + 1 + b_reward_list(4) + (77 * 20) + (8*20) = 1727
 //@abi table cbattle i64
 class cbattle
 {

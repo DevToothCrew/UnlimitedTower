@@ -5,7 +5,7 @@
 //sparty_info 당  8
 struct sparty_info
 {
-    std::vector<uint64_t> object_id_list;
+    std::vector<uint64_t> party_id_list;
 };
 
 // 8 + 16 = 24
@@ -24,7 +24,7 @@ public:
     {
         sparty_info temp;
         p_party_list.push_back(temp);
-        p_party_list[_party_number].object_id_list.resize(10);
+        p_party_list[_party_number].party_id_list.resize(10);
     }
     void party_set_user(account_name _user) {p_user = _user;}
     EOSLIB_SERIALIZE(

@@ -88,7 +88,7 @@ enum euser_state
 
 struct sparty_info
 {
-    std::vector<uint8_t> object_id_list;
+    std::vector<uint32_t> party_id_list;
 }
 
 
@@ -128,7 +128,7 @@ struct sparty_info
 
 - primary_key : account_name user : 유저의 계정 명이다.
 
-- s_servant_list : 유저가 소유한 용병의 리스트 입니다.
+- servant_list : 유저가 소유한 용병의 리스트 입니다.
 
 해당 리스트는 cservantinfo 자료형으로 이루어져 있습니다.
 - s_index             : 해당 용병의 인덱스 번호입니다.
@@ -145,7 +145,7 @@ struct sparty_info
 
 - primary_key : account_name user : 유저의 계정 명이다.
 
-- m_monster_list : 유저가 소유한 몬스터의 리스트입니다.
+- monster_list : 유저가 소유한 몬스터의 리스트입니다.
 
 해당리스트는 cmonsterinfo 자료형으로 이루어져 있습니다.
 - m_index             : 해당 몬스터의 인덱스 번호입니다.
@@ -161,7 +161,7 @@ struct sparty_info
 
 - primary_key : account_name user : 유저의 계정 명이다.
 
-- i_item_list : 유저가 소유한 아이템의 리스트입니다.
+- item_list : 유저가 소유한 아이템의 리스트입니다.
 
 해당리스트는 citeminfo 자료형으로 이루어져 있습니다.
 - i_index             : 해당 아이템의 고유 인덱스 번호입니다.

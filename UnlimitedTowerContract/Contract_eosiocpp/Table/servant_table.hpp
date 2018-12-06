@@ -32,7 +32,7 @@ struct sobject_plus_status
     uint32_t plus_int = 0;
     uint32_t stat_point = 0;
 };
-// 8 + 4 + 3 + 13 + 16 + 4 = 48
+// 8 + 3 + 16 + 16 + 12 + 4 + 4 = 63
 struct cservantinfo
 {
     uint64_t s_index;           //서번트 인덱스번호
@@ -44,8 +44,9 @@ struct cservantinfo
     uint32_t s_state = object_state::in_ineventory; //서번트 상태
 };
 
-// 8 + 48 = 56
-// vector당 48
+// 8 + 63 = 71
+// vector당 63
+// 112 + 71 = 183
 //@abi table cservant i64
 class cservant
 {
@@ -53,7 +54,7 @@ class cservant
     account_name s_user;
 
   public:
-    std::vector<cservantinfo> s_servant_list;
+    std::vector<cservantinfo> servant_list;
 
   public:
     cservant()
@@ -63,7 +64,7 @@ class cservant
     void servant_set_user(account_name _user) { s_user = _user; }
     EOSLIB_SERIALIZE(
         cservant,
-        (s_user)(s_servant_list))
+        (s_user)(servant_list))
 };
 
 typedef multi_index<N(cservant), cservant> user_servants;

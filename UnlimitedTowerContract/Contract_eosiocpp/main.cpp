@@ -66,7 +66,7 @@
         {
             print("account create\n");
             login_controller.create_account(_user);
-            gacha_controller.user_own_object_init(_user);
+            gacha_controller.user_inventory_init(_user);
             party_controller.party_init(_user);
         }
         //@abi action
@@ -82,7 +82,7 @@
             login_controller.set_status(_user,_hero_slot);
         }
         //@abi action
-        void completeset(account_name _user,uint32_t _hero_slot)
+        void completehero(account_name _user,uint32_t _hero_slot)
         {
             login_controller.complete_hero_set(_user,_hero_slot);
         }
@@ -120,10 +120,10 @@
 
 #pragma region Battle
         //@abi action
-        void setbattle(account_name _user,uint8_t _stage)
+        void setbattle(account_name _user,uint32_t _party_number,uint8_t _stage)
         {
             print("user start battle\n");
-            battle_controller.set_battle(_user,_stage);
+            battle_controller.set_battle(_user,_party_number,_stage);
         }
         //@abi action
         void startbattle(account_name _user,uint8_t _party_number)
@@ -236,4 +236,4 @@ extern "C" { \
 }
 // eos 금액에 대해 체크 하는 함
 
-    EOSIO_ABI(cmain_logic,(datainit)(stageinit)(signup)(lookset)(statset)(completeset)(transfer)(setbattle)(startbattle)(activeturn)(getreward)(sethero)(setparty)(sellitem)(buyitem)(equipser)(unequipser)(equiphero)(unequiphero)(resettable) )
+    EOSIO_ABI(cmain_logic,(datainit)(stageinit)(signup)(lookset)(statset)(completehero)(transfer)(setbattle)(startbattle)(activeturn)(getreward)(sethero)(setparty)(sellitem)(buyitem)(equipser)(unequipser)(equiphero)(unequiphero)(resettable) )
