@@ -87,7 +87,8 @@ public class TestDB
             SIZE_TYPE charSize;
 
             if(charType == CHARACTER_NUM.Mst_Knight || charType == CHARACTER_NUM.Mst_Anubis || charType == CHARACTER_NUM.Mst_DarkKnight
-                || charType == CHARACTER_NUM.Mst_WolfMan || charType==CHARACTER_NUM.Mst_Robot || charType ==CHARACTER_NUM.Mst_Minotaurus)
+                || charType == CHARACTER_NUM.Mst_WolfMan || charType==CHARACTER_NUM.Mst_Robot || charType ==CHARACTER_NUM.Mst_Minotaurus
+                || charType == CHARACTER_NUM.Mst_Robot_2)
             {
                 charSize = SIZE_TYPE.MIDDLE;
             }
