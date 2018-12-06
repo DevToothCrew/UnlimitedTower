@@ -25,8 +25,8 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
             if (UserDataManager.Inst.formationDic.ContainsKey(DeckNum))
             {
                 RemoveDeck();
-                LinkedChar.GetComponent<CharContent>().RemoveCharImage();
-                LinkedChar = null;
+                //LinkedChar.GetComponent<CharContent>().RemoveCharImage();
+                //LinkedChar = null;
             }
         }
         else
@@ -63,13 +63,11 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 
     }
 
-    // 5 6 7 8 9
-    // 순서 7 -> 6  -> 8 -> 5 -> 9
 
     void Reorder(ref Dictionary<int, Character> charDic, int charType)
     {
        GameObject FormationList =  LobbyManager.Inst.FormationList.gameObject;
-        int index = -1;
+        int order = -1;
 
 
 
@@ -77,7 +75,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         {
             if(UserDataManager.Inst.formationOrderList[i] == DeckNum)
             {
-                index = i;
+                order = i;
                 break;
             }
         }
@@ -85,24 +83,48 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 
         // 덱 삭제
         int charIndex = UserDataManager.Inst.formationDic[DeckNum];
-
-
-
         UserDataManager.Inst.formationDic.Remove(DeckNum);
         charDic[charIndex].OnFormation = false;
         charDic[charIndex].FormationIndex = -1;
+
+        LinkedChar.GetComponent<CharContent>().RemoveCharImage();
+        LinkedChar = null;
+
         // empty 활성화
-
-        int preDeckNum = UserDataManager.Inst.formationOrderList[index];
-        int nextDeckNum = UserDataManager.Inst.formationOrderList[++index];
-
-    
+      
+ 
 
 
+
+
+        // 5 6 7 8 9
+        // 순서 7 -> 6 -> 8 -> 5 -> 9
+        // 순서 2 -> 1 -> 3 -> 0 -> 4
+
+
+        if (order++ == 4)
+        {
+            Debug.Log("이 덱이 마지막 덱입니다.");
+            ShowEmptyText(true);
+            return;
+        }
+        // 현재 덱 넘버
+        int preDeckNum = UserDataManager.Inst.formationOrderList[order - 1];
+        int nextDeckNum = UserDataManager.Inst.formationOrderList[order];
         int nextCharDicKey = UserDataManager.Inst.formationDic[nextDeckNum];
 
-        while (nextDeckNum != 2)
+
+        int lastCharKey = -1;
+
+        // 순서값이 아니라
+        // 다른 값으로 확인을 해야할거 같다.
+        // 
+        while (order != 4 + 1) //7 
         {
+
+            preDeckNum = UserDataManager.Inst.formationOrderList[order - 1];
+            nextDeckNum = UserDataManager.Inst.formationOrderList[order];
+            nextCharDicKey = UserDataManager.Inst.formationDic[nextDeckNum];
 
             FormationList.transform.GetChild(preDeckNum).gameObject.transform.GetChild(0).GetComponent<Image>().sprite =
           FormationList.transform.GetChild(nextDeckNum).gameObject.transform.GetChild(0).GetComponent<Image>().sprite;
@@ -116,26 +138,26 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
             charDic[nextCharDicKey].OnFormation = true;
             charDic[nextCharDicKey].FormationIndex = preDeckNum;
 
-           
-        
+            lastCharKey = UserDataManager.Inst.formationDic[nextDeckNum];
+
             UserDataManager.Inst.formationDic.Remove(nextDeckNum);
-
-            preDeckNum = UserDataManager.Inst.formationOrderList[index];
-            nextDeckNum = UserDataManager.Inst.formationOrderList[++index];
-            if(nextDeckNum ==2)
-            {
-                UserDataManager.Inst.formationDic.Remove(preDeckNum);
-                FormationList.transform.GetChild(preDeckNum).gameObject.transform.GetChild(0).GetComponent<Image>().sprite = null;
-                FormationList.transform.GetChild(preDeckNum).gameObject.transform.GetChild(1).gameObject.SetActive(true);
-                FormationList.transform.GetChild(nextDeckNum).GetComponent<FormationDeck>().LinkedChar = null;
-
-                //charDic[nextCharDicKey].OnFormation = true;
-                //charDic[nextCharDicKey].FormationIndex = preDeckNum;
-                break;
-            }
-            nextCharDicKey = UserDataManager.Inst.formationDic[nextDeckNum];
+            order++;
 
         }
+           preDeckNum = UserDataManager.Inst.formationOrderList[order - 1];
+
+        //nextCharDicKey = UserDataManager.Inst.formationDic[preDeckNum];
+       // UserDataManager.Inst.formationDic.Remove(order-1);
+
+        // 마지막께 체크가 해제되었다.
+        charDic[lastCharKey].OnFormation = false;
+        charDic[lastCharKey].FormationIndex = -1;
+
+        FormationList.transform.GetChild(preDeckNum).gameObject.transform.GetChild(0).GetComponent<Image>().sprite = null;
+        FormationList.transform.GetChild(preDeckNum).gameObject.transform.GetChild(1).gameObject.SetActive(true);
+       // FormationList.transform.GetChild(preDeckNum).GetComponent<FormationDeck>().LinkedChar.GetComponent<CharContent>().RemoveCharImage();
+        FormationList.transform.GetChild(preDeckNum).GetComponent<FormationDeck>().LinkedChar = null;
+
 
 
     }
