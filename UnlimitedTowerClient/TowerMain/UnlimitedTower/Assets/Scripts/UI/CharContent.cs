@@ -23,6 +23,11 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
         }
         else if (CharType == 1)
         {
+            if (CheckAddDeck() == false)
+            {
+                Debug.Log("용병 수가 적어 몬스터를 추가할 수 없습니다.");
+                return;
+            }
             AddDeck(ref UserDataManager.Inst.monsterDic, CharType);
         }
 
@@ -91,6 +96,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
             //   덱에 새로 캐릭터 추가.
             else
             {
+               
                 int startNum = -1;
                 string imageFath = null;
                 if (charType == 0)
@@ -144,7 +150,37 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
        transform.GetChild(1).transform.gameObject.SetActive(false);
     }
 
+    private bool CheckAddDeck()
+    {
+        int backLineCharNum = 0;
+        int frontLineCharNum = 0;
 
+        for (int i = 0; i < 10; i++)
+        {
+            if (i < 5)
+            {
+                if (UserDataManager.Inst.formationDic.ContainsKey(i))
+                {
+                    frontLineCharNum++;
+                }
+            }
+            else
+            {
+                if (UserDataManager.Inst.formationDic.ContainsKey(i))
+                {
+                    backLineCharNum++;
+                }
+            }
+        }
+
+        // 몬스터 라인의 수가 더 많으면
+        if (backLineCharNum <= frontLineCharNum)
+        {
+            return false;
+
+        }
+        return true;
+    }
 
 
 }
