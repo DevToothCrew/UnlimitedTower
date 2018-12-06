@@ -817,6 +817,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
             offset = +2.0f;
         }
 
+        // 이게 for문에 들어가지 않아 죽어버린다.
         for (int i = 5; i < charBattleStatusDic.Count ; i++)
         {
             if (charObjects[i].transform.position.z < charObjects[num].transform.position.z)
@@ -940,6 +941,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
         SetLeftPosition(charObjects, 6, 5, CHAR_TYPE.PLAYER, charBattleStatusDic[6].sizeType, ref charBattleStatusDic);
         SetRightPosition(charObjects, 8, 9, CHAR_TYPE.PLAYER, charBattleStatusDic[8].sizeType, ref charBattleStatusDic);
+
 
         float frontLineDis = GetBackLineLargestDistance(charObjects, charType, ref charBattleStatusDic);
         frontCenterPos.z = frontLineDis;
