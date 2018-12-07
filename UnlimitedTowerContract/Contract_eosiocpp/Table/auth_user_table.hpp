@@ -23,23 +23,24 @@ enum euser_state
     pause,
     black,
 };
+
 // 1 + 1 + 1 = 3
-struct suser_look
+struct sobject_appear
 {
-   uint8_t head = 0;
-   uint8_t hair = 0;
-   uint8_t body = 0;
+    uint8_t head = 0;
+    uint8_t hair = 0;
+    uint8_t body = 0;
 };
-// 4 + 4 + 4 + 4 = 16
-struct suser_status
+// 4 + 4 + 4 + 1 = 13
+struct sobject_status
 {
     uint32_t basic_str = 0;
     uint32_t basic_dex = 0;
     uint32_t basic_int = 0;
-    uint32_t job = 0;
+    uint8_t job = 0;
 };
 // 4 + 4 + 4 + 4 = 16
-struct suser_plus_status
+struct sobject_plus_status
 {
     uint32_t plus_str = 0;
     uint32_t plus_dex = 0;
@@ -47,15 +48,14 @@ struct suser_plus_status
     uint32_t stat_point = 0;
 };
 
-
 // 4 + 3 + 16 + 16 + 12 = 51
 struct shero_info
 {
-    uint32_t current_state;
-    suser_look look;
-    suser_status status;
-    suser_plus_status plus_status;
-    std::vector<uint32_t> equip_slot;
+    uint32_t h_state;
+    sobject_appear h_appear;
+    sobject_status h_status;
+    sobject_plus_status h_plus_status;
+    std::vector<uint32_t> h_equip_slot;
 };
 
 //primary_key = 112

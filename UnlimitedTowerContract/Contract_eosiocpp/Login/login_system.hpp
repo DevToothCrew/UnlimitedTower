@@ -125,8 +125,8 @@ class clogin_system
             new_user.a_state = euser_state::login;
 
             shero_info first_hero;
-            first_hero.equip_slot.resize(max_equip_slot);
-            first_hero.current_state = ehero_state::set_look;
+            first_hero.h_equip_slot.resize(max_equip_slot);
+            first_hero.h_state = ehero_state::set_look;
             
             new_user.a_hero_list.push_back(first_hero);
         });
@@ -153,13 +153,13 @@ class clogin_system
         auto user_iter = auth_user_table.find(_user);
         eosio_assert(user_iter != auth_user_table.end(), "unknown account");
         eosio_assert(user_iter->a_hero_slot >= _hero_slot,"need more character slot");
-        eosio_assert(user_iter->a_hero_list[_hero_slot].current_state == ehero_state::set_look,"already completed look setting");
+        eosio_assert(user_iter->a_hero_list[_hero_slot].h_state == ehero_state::set_look,"already completed look setting");
 
         auth_user_table.modify(user_iter, owner, [&](auto &hero_look_set) {
-            hero_look_set.a_hero_list[_hero_slot].current_state = ehero_state::set_status;
-            hero_look_set.a_hero_list[_hero_slot].look.head = _head;
-            hero_look_set.a_hero_list[_hero_slot].look.hair = _hair;
-            hero_look_set.a_hero_list[_hero_slot].look.body = _body;
+            hero_look_set.a_hero_list[_hero_slot].h_state = ehero_state::set_status;
+            hero_look_set.a_hero_list[_hero_slot].h_appear.head = _head;
+            hero_look_set.a_hero_list[_hero_slot].h_appear.hair = _hair;
+            hero_look_set.a_hero_list[_hero_slot].h_appear.body = _body;
         });
     }
     void set_status(account_name _user, uint8_t _hero_slot)
@@ -168,13 +168,13 @@ class clogin_system
         auto user_iter = auth_user_table.find(_user);
         eosio_assert(user_iter != auth_user_table.end(), "unknown account");
         eosio_assert(user_iter->a_hero_slot >= _hero_slot,"need more character slot");
-        eosio_assert(user_iter->a_hero_list[_hero_slot].current_state == ehero_state::set_status,"free roulette completed status setting");
+        eosio_assert(user_iter->a_hero_list[_hero_slot].h_state == ehero_state::set_status,"free roulette completed status setting");
 
         auth_user_table.modify(user_iter, owner, [&](auto &hero_status_set) {
-            hero_status_set.a_hero_list[_hero_slot].current_state = ehero_state::set_change_status;
-            hero_status_set.a_hero_list[_hero_slot].status.basic_str = safeseed::random_seed(safeseed::get_seed(_user),10,1,1);
-            hero_status_set.a_hero_list[_hero_slot].status.basic_dex = safeseed::random_seed(safeseed::get_seed(_user),10,1,2);
-            hero_status_set.a_hero_list[_hero_slot].status.basic_int = safeseed::random_seed(safeseed::get_seed(_user),10,1,3);
+            hero_status_set.a_hero_list[_hero_slot].h_state = ehero_state::set_change_status;
+            hero_status_set.a_hero_list[_hero_slot].h_status.basic_str = safeseed::random_seed(safeseed::get_seed(_user),10,1,1);
+            hero_status_set.a_hero_list[_hero_slot].h_status.basic_dex = safeseed::random_seed(safeseed::get_seed(_user),10,1,2);
+            hero_status_set.a_hero_list[_hero_slot].h_status.basic_int = safeseed::random_seed(safeseed::get_seed(_user),10,1,3);
         });
     }
     void change_status(account_name _user,uint8_t _hero_slot)
@@ -182,12 +182,12 @@ class clogin_system
         auto user_iter = auth_user_table.find(_user);
         eosio_assert(user_iter != auth_user_table.end(), "unknown account");
         eosio_assert(user_iter->a_hero_slot >= _hero_slot, "need more character slot");
-        eosio_assert(user_iter->a_hero_list[_hero_slot].current_state == ehero_state::set_change_status, "already completed status setting");
+        eosio_assert(user_iter->a_hero_list[_hero_slot].h_state == ehero_state::set_change_status, "already completed status setting");
 
         auth_user_table.modify(user_iter, owner, [&](auto &hero_status_change) {
-            hero_status_change.a_hero_list[_hero_slot].status.basic_str = safeseed::random_seed(safeseed::get_seed(_user),10,1,1);
-            hero_status_change.a_hero_list[_hero_slot].status.basic_dex = safeseed::random_seed(safeseed::get_seed(_user),10,1,2);
-            hero_status_change.a_hero_list[_hero_slot].status.basic_int = safeseed::random_seed(safeseed::get_seed(_user),10,1,3);
+            hero_status_change.a_hero_list[_hero_slot].h_status.basic_str = safeseed::random_seed(safeseed::get_seed(_user),10,1,1);
+            hero_status_change.a_hero_list[_hero_slot].h_status.basic_dex = safeseed::random_seed(safeseed::get_seed(_user),10,1,2);
+            hero_status_change.a_hero_list[_hero_slot].h_status.basic_int = safeseed::random_seed(safeseed::get_seed(_user),10,1,3);
         });
     }
     void complete_hero_set(account_name _user, uint8_t _hero_slot)
@@ -196,10 +196,10 @@ class clogin_system
         auto user_iter = auth_user_table.find(_user);
         eosio_assert(user_iter != auth_user_table.end(), "unknown account");
         eosio_assert(user_iter->a_hero_slot >= _hero_slot,"need more character slot");
-        eosio_assert(user_iter->a_hero_list[_hero_slot].current_state == ehero_state::set_change_status || user_iter->a_hero_list[_hero_slot].current_state == ehero_state::set_status,"need to look setting & status setting");
+        eosio_assert(user_iter->a_hero_list[_hero_slot].h_state == ehero_state::set_change_status || user_iter->a_hero_list[_hero_slot].h_state == ehero_state::set_status,"need to look setting & status setting");
     
         auth_user_table.modify(user_iter, owner, [&](auto &hero_state_set) {
-            hero_state_set.a_hero_list[_hero_slot].current_state = ehero_state::set_complete;
+            hero_state_set.a_hero_list[_hero_slot].h_state = ehero_state::set_complete;
         });
     }
     void add_hero_slot(account_name _user)
@@ -210,8 +210,8 @@ class clogin_system
         {
             auth_user_table.modify(user_iter, owner, [&](auto &user_add_character) {
                 shero_info new_hero;
-                new_hero.equip_slot.resize(max_equip_slot);
-                new_hero.current_state = ehero_state::set_look;
+                new_hero.h_equip_slot.resize(max_equip_slot);
+                new_hero.h_state = ehero_state::set_look;
 
                 user_add_character.a_hero_list.push_back(new_hero);
                 user_add_character.a_hero_slot+=1;

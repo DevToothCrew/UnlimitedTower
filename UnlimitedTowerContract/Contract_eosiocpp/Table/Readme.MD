@@ -85,7 +85,7 @@ enum euser_state
 
 - primary_key : account_name user : 유저의 계정 명이다.
 
-- p_party_list : 유저의 파티별 정보를 담고 있는 리스트입니다.
+- party_list : 유저의 파티별 정보를 담고 있는 리스트입니다.
 해당 리스트는 아래 구조체로 이루어줘 있습니다.
 
 struct sparty_info

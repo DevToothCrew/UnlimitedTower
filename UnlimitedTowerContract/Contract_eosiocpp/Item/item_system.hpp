@@ -96,13 +96,13 @@ class citem_system
 
             auto &auth_user_table = login_controller.get_auth_user_table();
             auto user_auth_iter = auth_user_table.find(_user);
-            eosio_assert(user_auth_iter->a_hero_list[_hero_slot].status.job == user_item_iter->item_list[_item_location].i_status.job,"mis match job");
+            eosio_assert(user_auth_iter->a_hero_list[_hero_slot].h_status.job == user_item_iter->item_list[_item_location].i_status.job,"mis match job");
             auth_user_table.modify(user_auth_iter,owner,[&](auto &equip_hero)
             {
-                equip_hero.a_hero_list[_hero_slot].plus_status.plus_str += user_item_iter->item_list[_item_location].i_status.basic_str;
-                equip_hero.a_hero_list[_hero_slot].plus_status.plus_dex += user_item_iter->item_list[_item_location].i_status.basic_dex;
-                equip_hero.a_hero_list[_hero_slot].plus_status.plus_int += user_item_iter->item_list[_item_location].i_status.basic_int;
-                equip_hero.a_hero_list[_hero_slot].equip_slot[_equip_slot]= _item_index;
+                equip_hero.a_hero_list[_hero_slot].h_plus_status.plus_str += user_item_iter->item_list[_item_location].i_status.basic_str;
+                equip_hero.a_hero_list[_hero_slot].h_plus_status.plus_dex += user_item_iter->item_list[_item_location].i_status.basic_dex;
+                equip_hero.a_hero_list[_hero_slot].h_plus_status.plus_int += user_item_iter->item_list[_item_location].i_status.basic_int;
+                equip_hero.a_hero_list[_hero_slot].h_equip_slot[_equip_slot]= _item_index;
             });
 
             user_item_table.modify(user_item_iter, owner, [&](auto &equip_item) {
@@ -156,13 +156,13 @@ class citem_system
             int check_exist_id = -1;
             for (uint32_t i = 0; i < user_item_iter->item_list.size(); ++i)
             {
-                if (user_item_iter->item_list[i].i_index == user_auth_iter->a_hero_list[_hero_slot].equip_slot[_equip_slot])
+                if (user_item_iter->item_list[i].i_index == user_auth_iter->a_hero_list[_hero_slot].h_equip_slot[_equip_slot])
                 {
                     auth_user_table.modify(user_auth_iter, owner, [&](auto &unequip_hero) {
-                        unequip_hero.a_hero_list[_hero_slot].plus_status.plus_str -= user_item_iter->item_list[i].i_status.basic_str;
-                        unequip_hero.a_hero_list[_hero_slot].plus_status.plus_dex -= user_item_iter->item_list[i].i_status.basic_dex;
-                        unequip_hero.a_hero_list[_hero_slot].plus_status.plus_int -= user_item_iter->item_list[i].i_status.basic_int;
-                        unequip_hero.a_hero_list[_hero_slot].equip_slot[_equip_slot] = 0;
+                        unequip_hero.a_hero_list[_hero_slot].h_plus_status.plus_str -= user_item_iter->item_list[i].i_status.basic_str;
+                        unequip_hero.a_hero_list[_hero_slot].h_plus_status.plus_dex -= user_item_iter->item_list[i].i_status.basic_dex;
+                        unequip_hero.a_hero_list[_hero_slot].h_plus_status.plus_int -= user_item_iter->item_list[i].i_status.basic_int;
+                        unequip_hero.a_hero_list[_hero_slot].h_equip_slot[_equip_slot] = 0;
                     });
                     user_item_table.modify(user_item_iter, owner, [&](auto &unequip_item) {
                         unequip_item.item_list[i].i_state = item_state::item_inventory;

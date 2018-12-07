@@ -126,17 +126,17 @@ class cdb_system
         {
             head_db_table.emplace(owner,[&](auto& a)
             {
-                a.h_head = head_db_table.available_primary_key();
+                a.head = head_db_table.available_primary_key();
             });
             hair_db_table.emplace(owner, [&](auto& a) {
-                a.h_hair = hair_db_table.available_primary_key();
+                a.hair = hair_db_table.available_primary_key();
             });
 
         }
         for (uint8_t i = 0; i < body_count; ++i)
         {
         body_db_table.emplace(owner, [&](auto &a) {
-            a.b_body = body_db_table.available_primary_key();
+            a.body = body_db_table.available_primary_key();
         });
         }
 

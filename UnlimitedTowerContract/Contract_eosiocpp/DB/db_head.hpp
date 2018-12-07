@@ -6,10 +6,10 @@
 class cdbhead
 {
   public:
-    uint64_t h_head;
+    uint64_t head;
 
   public:
-    uint64_t primary_key() const { return h_head; }
+    uint64_t primary_key() const { return head; }
 };
 
 typedef multi_index<N(cdbhead),cdbhead> head_db;

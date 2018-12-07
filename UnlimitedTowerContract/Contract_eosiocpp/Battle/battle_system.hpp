@@ -87,12 +87,12 @@ class cbattle_system
             auto &user_party_table = party_controller.get_user_party_table();
             const auto &user_party_iter = user_party_table.get(_user,"not exist user party data");
 
-            uint32_t party_hero_id = user_party_iter.p_party_list[_party_number].party_id_list[party_controller.hero_party_location];
-            uint32_t party_hero_pair = user_party_iter.p_party_list[_party_number].party_id_list[party_controller.hero_party_monster_location];
+            uint32_t party_hero_id = user_party_iter.party_list[_party_number].party_id_list[party_controller.hero_party_location];
+            uint32_t party_hero_pair = user_party_iter.party_list[_party_number].party_id_list[party_controller.hero_party_monster_location];
 
-            eosio_assert(user_auth_iter->a_hero_list[party_hero_id].current_state != ehero_state::set_look && 
-            user_auth_iter->a_hero_list[party_hero_id].current_state != ehero_state::set_status &&
-            user_auth_iter->a_hero_list[party_hero_id].current_state != ehero_state::set_change_status,"need to hero information setting");
+            eosio_assert(user_auth_iter->a_hero_list[party_hero_id].h_state != ehero_state::set_look && 
+            user_auth_iter->a_hero_list[party_hero_id].h_state != ehero_state::set_status &&
+            user_auth_iter->a_hero_list[party_hero_id].h_state != ehero_state::set_change_status,"need to hero information setting");
             
             eosio_assert(party_hero_pair != 0 ,"need to set hero pair monster");
 
@@ -131,47 +131,47 @@ class cbattle_system
                 {
                     if(i==party_controller.hero_party_location) //히어로 능력치 셋팅
                     {
-                        uint32_t hero_slot = user_party_iter.p_party_list[_party_number].party_id_list[i];
+                        uint32_t hero_slot = user_party_iter.party_list[_party_number].party_id_list[i];
                         new_battle_set.b_battle_state_list[i].party_object_index = hero_slot;
-                        new_battle_set.b_battle_state_list[i].now_hp = user_auth_iter->a_hero_list[hero_slot].status.basic_str * oper_hp;
-                        new_battle_set.b_battle_state_list[i].defense = user_auth_iter->a_hero_list[hero_slot].status.basic_dex * oper_defense;
-                        new_battle_set.b_battle_state_list[i].critical = user_auth_iter->a_hero_list[hero_slot].status.basic_int * oper_critical;
+                        new_battle_set.b_battle_state_list[i].now_hp = user_auth_iter->a_hero_list[hero_slot].h_status.basic_str * oper_hp;
+                        new_battle_set.b_battle_state_list[i].defense = user_auth_iter->a_hero_list[hero_slot].h_status.basic_dex * oper_defense;
+                        new_battle_set.b_battle_state_list[i].critical = user_auth_iter->a_hero_list[hero_slot].h_status.basic_int * oper_critical;
 
-                        if (user_auth_iter->a_hero_list[hero_slot].status.job == warrior)
+                        if (user_auth_iter->a_hero_list[hero_slot].h_status.job == warrior)
                         {
-                            new_battle_set.b_battle_state_list[i].attack = user_auth_iter->a_hero_list[hero_slot].status.basic_str * oper_attack;
+                            new_battle_set.b_battle_state_list[i].attack = user_auth_iter->a_hero_list[hero_slot].h_status.basic_str * oper_attack;
                             new_battle_set.b_battle_state_list[i].speed = warrior_speed;
                         }
-                        else if (user_auth_iter->a_hero_list[hero_slot].status.job == archer)
+                        else if (user_auth_iter->a_hero_list[hero_slot].h_status.job == archer)
                         {
-                            new_battle_set.b_battle_state_list[i].attack = user_auth_iter->a_hero_list[hero_slot].status.basic_dex * oper_attack;
+                            new_battle_set.b_battle_state_list[i].attack = user_auth_iter->a_hero_list[hero_slot].h_status.basic_dex * oper_attack;
                             new_battle_set.b_battle_state_list[i].speed = archer_speed;
                         }
-                        else if (user_auth_iter->a_hero_list[hero_slot].status.job == wizard)
+                        else if (user_auth_iter->a_hero_list[hero_slot].h_status.job == wizard)
                         {
-                            new_battle_set.b_battle_state_list[i].attack = user_auth_iter->a_hero_list[hero_slot].status.basic_int * oper_attack;
+                            new_battle_set.b_battle_state_list[i].attack = user_auth_iter->a_hero_list[hero_slot].h_status.basic_int * oper_attack;
                             new_battle_set.b_battle_state_list[i].speed = wizard_speed;
                         }
-                        else if (user_auth_iter->a_hero_list[hero_slot].status.job == priest)
+                        else if (user_auth_iter->a_hero_list[hero_slot].h_status.job == priest)
                         {
-                            new_battle_set.b_battle_state_list[i].attack = user_auth_iter->a_hero_list[hero_slot].status.basic_int * oper_attack;
+                            new_battle_set.b_battle_state_list[i].attack = user_auth_iter->a_hero_list[hero_slot].h_status.basic_int * oper_attack;
                             new_battle_set.b_battle_state_list[i].speed = priest_speed;
                         }
-                        else if (user_auth_iter->a_hero_list[hero_slot].status.job == beginner)
+                        else if (user_auth_iter->a_hero_list[hero_slot].h_status.job == beginner)
                         {
-                            new_battle_set.b_battle_state_list[i].attack = user_auth_iter->a_hero_list[hero_slot].status.basic_str * oper_attack;
+                            new_battle_set.b_battle_state_list[i].attack = user_auth_iter->a_hero_list[hero_slot].h_status.basic_str * oper_attack;
                             new_battle_set.b_battle_state_list[i].speed = beginner_speed;
                         }
-                        else if (user_auth_iter->a_hero_list[hero_slot].status.job == thief)
+                        else if (user_auth_iter->a_hero_list[hero_slot].h_status.job == thief)
                         {
-                            new_battle_set.b_battle_state_list[i].attack = user_auth_iter->a_hero_list[hero_slot].status.basic_dex * oper_attack;
+                            new_battle_set.b_battle_state_list[i].attack = user_auth_iter->a_hero_list[hero_slot].h_status.basic_dex * oper_attack;
                             new_battle_set.b_battle_state_list[i].speed = thief_speed;
                         }
                     }
                     //servant 능력치 셋팅
                     for (uint32_t j = 0; j < user_servant_iter.servant_list.size(); ++j)
                     {
-                        if (user_servant_iter.servant_list[j].s_index == user_party_iter.p_party_list[_party_number].party_id_list[i])
+                        if (user_servant_iter.servant_list[j].s_index == user_party_iter.party_list[_party_number].party_id_list[i])
                         {
                             new_battle_set.b_battle_state_list[i].now_hp = user_servant_iter.servant_list[j].s_status.basic_str * oper_hp;
                             new_battle_set.b_battle_state_list[i].defense = user_servant_iter.servant_list[j].s_status.basic_dex * oper_defense;
@@ -210,13 +210,13 @@ class cbattle_system
                             break;
                         }
                     }
-                    new_battle_set.b_battle_state_list[i].party_object_index = user_party_iter.p_party_list[_party_number].party_id_list[i];
+                    new_battle_set.b_battle_state_list[i].party_object_index = user_party_iter.party_list[_party_number].party_id_list[i];
                 }
                 for (uint32_t i = 0; i < party_controller.max_monster_slot; ++i)
                 {
                     for (uint32_t j = 0; j < user_monster_iter.monster_list.size(); ++j)
                     {
-                        if (user_monster_iter.monster_list[j].m_index == user_party_iter.p_party_list[_party_number].party_id_list[i])
+                        if (user_monster_iter.monster_list[j].m_index == user_party_iter.party_list[_party_number].party_id_list[i])
                         {
                             new_battle_set.b_battle_state_list[i].now_hp = user_monster_iter.monster_list[j].m_status.basic_str * oper_hp;
                             new_battle_set.b_battle_state_list[i].defense = user_monster_iter.monster_list[j].m_status.basic_dex * oper_defense;
@@ -239,7 +239,7 @@ class cbattle_system
                             break;
                         }
                     }
-                    new_battle_set.b_battle_state_list[i].party_object_index = user_party_iter.p_party_list[_party_number].party_id_list[i];
+                    new_battle_set.b_battle_state_list[i].party_object_index = user_party_iter.party_list[_party_number].party_id_list[i];
                 }
                 //enemy info setting
                 for(uint32_t i = my_party_count; i < enemy_part_count; ++i)

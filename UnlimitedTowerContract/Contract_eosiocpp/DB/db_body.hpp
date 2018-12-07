@@ -6,9 +6,9 @@
 class cdbbody
 {
   public:
-    uint64_t b_body;
+    uint64_t body;
 public:
-    uint64_t primary_key() const {return b_body;}
+    uint64_t primary_key() const {return body;}
 };
 
 typedef multi_index<N(cdbbody),cdbbody> body_db;

@@ -84,7 +84,8 @@ class cgacha_system
                 new_servant.s_status.job = servant_db_iter.s_job;
                 new_servant.s_status.basic_str = safeseed::random_seed(_seed,servant_db_iter.s_max_range.s_str,servant_db_iter.s_min_range.s_str,servant_random_count++);
                 new_servant.s_status.basic_dex = safeseed::random_seed(_seed,servant_db_iter.s_max_range.s_dex,servant_db_iter.s_min_range.s_dex,servant_random_count++);
-                new_servant.s_status.basic_int = safeseed::random_seed(_seed,servant_db_iter.s_max_range.s_int,servant_db_iter.s_min_range.s_int,servant_random_count++);
+                new_servant.s_status.basic_int = safeseed::random_seed(_seed,servant_db_iter.s_max_range.
+                s_int,servant_db_iter.s_min_range.s_int,servant_random_count++);
                 new_servant.s_equip_slot.resize(3);
                 
                 update_user_servant_list.servant_list.push_back(new_servant);
@@ -102,21 +103,21 @@ class cgacha_system
             uint8_t random_head = safeseed::random_seed(_seed,db_controller.head_count,default_min,_count);
             auto &servant_head_db = db_controller.get_head_db_table();
             const auto &head_db_iter = servant_head_db.get(random_head,"not exist head info");
-            return head_db_iter.h_head;
+            return head_db_iter.head;
         }
         uint8_t gacha_servant_hair(uint64_t _seed,uint32_t _count)
         {
             uint8_t random_hair = safeseed::random_seed(_seed,db_controller.hair_count,default_min,_count);
             auto &servant_hair_db = db_controller.get_hair_db_table();
             const auto &hair_db_iter = servant_hair_db.get(random_hair,"not exist hair info");
-            return hair_db_iter.h_hair;
+            return hair_db_iter.hair;
         }
         uint8_t gacha_servant_body(uint64_t _seed,uint32_t _count)
         {
             uint8_t random_body = safeseed::random_seed(_seed,db_controller.body_count,default_min,_count);
             auto &servant_body_db = db_controller.get_body_db_table();
             const auto &body_db_iter = servant_body_db.get(random_body, "not exist body info");
-            return body_db_iter.b_body;
+            return body_db_iter.body;
         }
         //---------------------------------------------------------------------------------//
         void gacha_monster_id(account_name _user,uint64_t _seed)
@@ -184,6 +185,7 @@ class cgacha_system
             eosio_assert(user_log_iter != user_log_table.end(),"not exist user log data");
 
             auto user_item_list_iter = user_item_table.find(_user);
+            eosio_assert(user_item_list_iter != user_item_table.end(),"not exist user item iter");
             user_item_table.modify(user_item_list_iter, owner, [&](auto &update_user_item_list) {
                 citeminfo new_item;
                 new_item.i_index = user_log_iter->l_item_num + 1;

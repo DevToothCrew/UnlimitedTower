@@ -59,8 +59,8 @@ class cparty_system
 
             auto &auth_user_table = login_controller.get_auth_user_table();
             auto auth_user_iter = auth_user_table.find(_user);
-            eosio_assert(auth_user_iter->a_hero_list[_hero_slot].current_state == ehero_state::set_travel_party || 
-            auth_user_iter->a_hero_list[_hero_slot].current_state == ehero_state::set_complete,"this hero impossible in party member");
+            eosio_assert(auth_user_iter->a_hero_list[_hero_slot].h_state == ehero_state::set_travel_party || 
+            auth_user_iter->a_hero_list[_hero_slot].h_state == ehero_state::set_complete,"this hero impossible in party member");
 
             auto user_party_iter = user_party_table.find(_user);
             eosio_assert(user_party_iter != user_party_table.end(),"not exist party list");
@@ -68,12 +68,12 @@ class cparty_system
 
             auth_user_table.modify(auth_user_iter,owner,[&](auto& change_hero_state)
             {
-                change_hero_state.a_hero_list[_hero_slot].current_state = ehero_state::set_travel_party;
+                change_hero_state.a_hero_list[_hero_slot].h_state = ehero_state::set_travel_party;
             });
 
             user_party_table.modify(user_party_iter,owner,[&](auto& party_hero_set)
             {
-                party_hero_set.p_party_list[_party_number].party_id_list[hero_party_location] = _hero_slot;
+                party_hero_set.party_list[_party_number].party_id_list[hero_party_location] = _hero_slot;
             });
         }
         void set_party(account_name _user,uint8_t _party_number,uint8_t _party_location_index,uint32_t _object_type,uint64_t _object_index)
@@ -122,19 +122,19 @@ class cparty_system
                 eosio_assert(l_use_index==true ,"not exist servent id");
                 for(uint32_t i =0; i<max_servant_slot;++i)
                 {
-                    if(user_party_iter->p_party_list[_party_number].party_id_list[i] == _object_index)
+                    if(user_party_iter->party_list[_party_number].party_id_list[i] == _object_index)
                     {
                         //해당 인덱스 번호를 가진 서번트가 기존 파티에 배정이 되어 있을 경우
                         user_party_table.modify(user_party_iter,owner,[&](auto &add_party_servant)
                         {
-                            add_party_servant.p_party_list[_party_number].party_id_list[i] = 0;
-                            add_party_servant.p_party_list[_party_number].party_id_list[_party_location_index] = _object_index;
+                            add_party_servant.party_list[_party_number].party_id_list[i] = 0;
+                            add_party_servant.party_list[_party_number].party_id_list[_party_location_index] = _object_index;
                         });
                         return;
                     }
                 }
                 user_party_table.modify(user_party_iter, owner, [&](auto &add_party_servant) {
-                    add_party_servant.p_party_list[_party_number].party_id_list[_party_location_index] = _object_index;
+                    add_party_servant.party_list[_party_number].party_id_list[_party_location_index] = _object_index;
                 });
                 user_servant_table.modify(user_servant_iter,owner,[&](auto &change_servant_state)
                 {
@@ -147,7 +147,7 @@ class cparty_system
                 eosio_assert(_object_type == monster_type_id,"this location only monster");
                 if (_party_location_index != hero_party_monster_location)
                 {
-                    eosio_assert(user_party_iter->p_party_list[_party_number].party_id_list[_party_location_index + servant_pair] != 0, "need set member servant");
+                    eosio_assert(user_party_iter->party_list[_party_number].party_id_list[_party_location_index + servant_pair] != 0, "need set member servant");
                 }
                 bool l_use_index = false;
                 int l_monster_location = -1;
@@ -178,18 +178,18 @@ class cparty_system
                 eosio_assert(l_use_index==true ,"not exist monster id");
                 for (uint32_t i = max_servant_slot; i < max_monster_slot; ++i)
                 {
-                    if (user_party_iter->p_party_list[_party_number].party_id_list[i] == _object_index)
+                    if (user_party_iter->party_list[_party_number].party_id_list[i] == _object_index)
                     {
                          //해당 인덱스 번호를 가진 몬스터가 기존 파티에 배정이 되어 있을 경우
                         user_party_table.modify(user_party_iter, owner, [&](auto &add_party_monster) {
-                            add_party_monster.p_party_list[_party_number].party_id_list[i] = 0;
-                            add_party_monster.p_party_list[_party_number].party_id_list[_party_location_index] = _object_index;
+                            add_party_monster.party_list[_party_number].party_id_list[i] = 0;
+                            add_party_monster.party_list[_party_number].party_id_list[_party_location_index] = _object_index;
                         });
                         return;
                     }
                 }
                 user_party_table.modify(user_party_iter, owner, [&](auto &add_party_monster) {
-                    add_party_monster.p_party_list[_party_number].party_id_list[_party_location_index] = _object_index;
+                    add_party_monster.party_list[_party_number].party_id_list[_party_location_index] = _object_index;
                 });
                 user_monster_table.modify(user_monster_iter, owner, [&](auto &change_monster_state) {
                     change_monster_state.monster_list[l_monster_location].m_state = object_state::in_party;
