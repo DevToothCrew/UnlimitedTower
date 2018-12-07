@@ -196,7 +196,7 @@ class cgacha_system
                 new_item.i_status.basic_dex = safeseed::random_seed(_seed,item_grade_db_iter.i_max_range.i_dex,item_grade_db_iter.i_min_range.i_dex,item_random_count++);
                 new_item.i_status.basic_int = safeseed::random_seed(_seed,item_grade_db_iter.i_max_range.i_int,item_grade_db_iter.i_min_range.i_int,item_random_count++);
                 new_item.i_status.job = item_id_db_iter.i_job;
-                new_item.i_state = item_state::item_inventory;
+                new_item.i_state = eobject_state::in_inventory;
                 new_item.i_grade = item_grade_db_iter.i_grade;
                 update_user_item_list.item_list.push_back(new_item);
             });

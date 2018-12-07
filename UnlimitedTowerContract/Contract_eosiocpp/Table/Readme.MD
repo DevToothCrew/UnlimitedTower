@@ -135,9 +135,9 @@ struct sparty_info
 
 ------------------------------------------game object table----------------------------------------
 
-enum object_state
+enum eobject_state
 {
-    in_ineventory,      //인벤토리에 들어있는 상태
+    in_inventory,      //인벤토리에 들어있는 상태
     
     in_party,           //파티에 속해있는 상태
     in_tower,           //타워 파티에 속해있는 상태
@@ -187,7 +187,7 @@ struct cservantinfo
     sobject_plus_status s_plus_status;  //서번트 추가힘민지
     std::vector<uint32_t> s_equip_slot; //서번트 장비 리스트
     uint32_t s_exp = 0; //서번트 경험치
-    uint32_t s_state = object_state::in_ineventory; //서번트 상태
+    uint32_t s_state = eobject_state::in_inventory; //서번트 상태
 };
 
 
@@ -207,7 +207,7 @@ struct cservantinfo
     uint32_t m_exp = 0; //경험치
     uint32_t m_grade; // 등급
     uint32_t m_reinforce = 0; //강화수치
-    uint32_t m_state = object_state::in_ineventory;; //몬스터 상태값
+    uint32_t m_state = eobject_state::in_inventory;; //몬스터 상태값
 
 
 

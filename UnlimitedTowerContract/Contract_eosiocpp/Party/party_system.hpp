@@ -138,7 +138,7 @@ class cparty_system
                 });
                 user_servant_table.modify(user_servant_iter,owner,[&](auto &change_servant_state)
                 {
-                    change_servant_state.servant_list[l_servant_location].s_state = object_state::in_party;
+                    change_servant_state.servant_list[l_servant_location].s_state = eobject_state::in_party;
                 });
             }
             //배치하려는 인덱스가 몬스터만 들어갈 수 있는 공간의 경우
@@ -192,7 +192,7 @@ class cparty_system
                     add_party_monster.party_list[_party_number].party_id_list[_party_location_index] = _object_index;
                 });
                 user_monster_table.modify(user_monster_iter, owner, [&](auto &change_monster_state) {
-                    change_monster_state.monster_list[l_monster_location].m_state = object_state::in_party;
+                    change_monster_state.monster_list[l_monster_location].m_state = eobject_state::in_party;
                 });
             }
         }

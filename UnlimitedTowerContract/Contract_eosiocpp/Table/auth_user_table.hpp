@@ -1,16 +1,6 @@
 #pragma once
 #include "../Common/common_header.hpp"
 
-enum ehero_state
-{   
-    set_look = 1,
-    set_status,
-    set_change_status,
-    set_complete,
-    set_tower_party,
-    set_travel_party,
-};
-
 enum euser_state
 {
     login = 1,
@@ -22,6 +12,25 @@ enum euser_state
     travel,
     pause,
     black,
+};
+
+enum ehero_state
+{   
+    set_look = 1,
+    set_status,
+    set_change_status,
+    set_complete,
+    set_tower_party,
+    set_travel_party,
+};
+
+enum eobject_state
+{
+    in_inventory,
+    in_equip_slot,
+    in_party,
+    in_tower,
+    object_presale,
 };
 
 // 1 + 1 + 1 = 3

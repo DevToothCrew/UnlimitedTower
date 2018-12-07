@@ -1,14 +1,6 @@
 #pragma once
 #include "../Common/common_header.hpp"
 
-enum object_state
-{
-    in_ineventory,
-    in_equip_slot,
-    in_party,
-    in_tower,
-    object_presale,
-};
 
 // 8 + 3 + 16 + 16 + 12 + 4 + 4 = 63
 struct cservantinfo
@@ -19,7 +11,7 @@ struct cservantinfo
     sobject_plus_status s_plus_status;  //서번트 추가힘민지
     std::vector<uint32_t> s_equip_slot; //서번트 장비 리스트
     uint32_t s_exp = 0; //서번트 경험치
-    uint32_t s_state = object_state::in_ineventory; //서번트 상태
+    uint32_t s_state = eobject_state::in_inventory; //서번트 상태
 };
 
 // 8 + 63 = 71

@@ -90,17 +90,6 @@ class cdb_system
     {
         return item_grade_db_table;
     }
-    uint64_t random_seed(uint64_t _seed, uint32_t _range, uint32_t _min, uint32_t _random_count)
-    {
-        uint64_t l_result;
-        _seed = (_seed >> (2 * _random_count));
-        l_result = _seed % _range;
-        if (l_result < _min)
-        {
-            return l_result += _min;
-        }
-        return l_result;
-    }
     void init_data(account_name _user)
     {
         require_auth2(owner,N(owner));
@@ -220,8 +209,8 @@ class cdb_system
                 {
                     random_count = 0;
                 }
-                a.i_slot = random_seed(l_seed,item_slot_count,0,random_count++);
-                a.i_job = random_seed(l_seed,servant_job_count,0,random_count++);
+                a.i_slot = safeseed::random_seed(safeseed::get_seed(_user),item_slot_count,0,random_count++);
+                a.i_job = safeseed::random_seed(safeseed::get_seed(_user),servant_job_count,0,random_count++);
             });
         }
         for(uint32_t i=1;i<=item_tier_count;++i)
@@ -240,13 +229,13 @@ class cdb_system
                 {
                     random_count = 0;
                 }
-                a.i_min_range.i_str = random_seed(l_seed, 10, 0, random_count++);
-                a.i_min_range.i_dex = random_seed(l_seed, 10, 0, random_count++);
-                a.i_min_range.i_int = random_seed(l_seed, 10, 0, random_count++);
+                a.i_min_range.i_str = safeseed::random_seed(safeseed::get_seed(_user), 10, 0, random_count++);
+                a.i_min_range.i_dex = safeseed::random_seed(safeseed::get_seed(_user), 10, 0, random_count++);
+                a.i_min_range.i_int = safeseed::random_seed(safeseed::get_seed(_user), 10, 0, random_count++);
 
-                a.i_max_range.i_str = random_seed(l_seed, 10, 0, random_count++) + 25;
-                a.i_max_range.i_dex = random_seed(l_seed, 10, 0, random_count++) + 25;
-                a.i_max_range.i_int = random_seed(l_seed, 10, 0, random_count++) + 25;
+                a.i_max_range.i_str = safeseed::random_seed(safeseed::get_seed(_user), 10, 0, random_count++) + 25;
+                a.i_max_range.i_dex = safeseed::random_seed(safeseed::get_seed(_user), 10, 0, random_count++) + 25;
+                a.i_max_range.i_int = safeseed::random_seed(safeseed::get_seed(_user), 10, 0, random_count++) + 25;
             });
         }
     }
