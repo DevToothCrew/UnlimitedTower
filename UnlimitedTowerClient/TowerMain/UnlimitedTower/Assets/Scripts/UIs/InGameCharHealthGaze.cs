@@ -45,8 +45,8 @@ public class InGameCharHealthGaze : MonoBehaviour {
         // MARK : Renderer update
         _currHealthValue = Mathf.Lerp(_currHealthValue, _nextHealthValue, Time.deltaTime * _CONVERGENCE_FACTOR);
 
-        _materialPropertyBlock.SetFloat("_CurrValue", _currHealthValue);
-        _materialPropertyBlock.SetFloat("_NextValue", _nextHealthValue);
+        _materialPropertyBlock.SetFloat("_CurrVal", _currHealthValue);
+        //_materialPropertyBlock.SetFloat("_NextValue", _nextHealthValue);
 
         _meshRenderer.SetPropertyBlock(_materialPropertyBlock);
 
@@ -58,7 +58,7 @@ public class InGameCharHealthGaze : MonoBehaviour {
     public void SetMaxHealth(int v)
     {
         _maxHealth = v;
-        _materialPropertyBlock.SetFloat("_MaxHealthGrid", (float) v / _GRID_DIVIDOR);
+        //_materialPropertyBlock.SetFloat("_MaxHealthGrid", (float) v / _GRID_DIVIDOR);
     }
 
     public void SetHealth(int v)

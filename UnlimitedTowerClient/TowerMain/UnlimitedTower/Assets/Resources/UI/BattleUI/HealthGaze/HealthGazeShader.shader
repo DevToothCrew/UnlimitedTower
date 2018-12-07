@@ -2,12 +2,11 @@
 {
 	Properties
 	{
-		_ValidHealthColor("Valid Health Color", Color) = (0.2, 1.0, 0.3, 1.0)
-		_TempHealthColor("Temp Health Color", Color) = (1.0, 0.8, 0.3, 1.0)
-		_MaxHealthGrid("Max Health Grid", range(2.0, 20.0)) = 10
+		_FCCol("Full Charged Color", Color) = (0.2, 1.0, 0.3, 1.0)
+		_EPCol("Empty Color", Color) = (1.0, 0.2, 0.1, 1.0)
+		_EGCol("Edge Color", COlor) = (0.3, 0.3 , 0.3, 1.0)
 
-		_CurrValue("Current Value", range(0.0, 1.0)) = 0.75
-		_NextValue("Next Value", range(0.0, 1.0)) = 0.5
+		_CurrVal("Current Value", range(0.0, 1.0)) = 0.75
 
 		_MainTex ("Texture", 2D) = "white" {}
 	}
@@ -44,29 +43,58 @@
 				o.uv = v.uv;
 				return o;
 			}
-			
-			float4 _ValidHealthColor;
+			float4 _FCCol;
+			float4 _EPCol;
+			float4 _EGCol;
+
 			float4 _TempHealthColor;
-			float _MaxHealthGrid;
 
-			float _CurrValue;
-			float _NextValue;
-
+			float _CurrVal;
 			sampler2D _MainTex;
+
+			float4 GetIngageColor(float hr) {
+				return lerp(_EPCol, _FCCol, hr);
+			}
+
+			float4 GetHighlightedValidColor(float hr, float2 uv)
+			{
+				float4 shCol = GetIngageColor(hr);
+				float4 hlCol = float4(1.0, 1.0, 1.0, 1.0);
+				float4 btCol = lerp(shCol, float4(1.0, 1.0, 1.0, 1.0), 0.5);
+				hlCol = lerp(hlCol, btCol, smoothstep(0.0, 1.0, uv.x * uv.x));
+				return lerp(shCol, hlCol, smoothstep(0.0, 0.8, uv.y));
+			}
+
+			float GetEdgeAlpha(float val, float2 uv)
+			{
+				uv.x += (1.0 - val);
+				return tex2D(_MainTex, uv).r;
+			}
+
+			inline float GetRatio(float val, float2 uv)
+			{
+				float egalp = GetEdgeAlpha(_CurrVal, uv);
+				return smoothstep(val + 0.002, val - 0.002, uv.x) * egalp;
+			}
 
 			float4 frag (v2f i) : SV_Target
 			{
-				float4 col = tex2D(_MainTex, i.uv);
-				if (col.r > 0.5)
+				float4 mskch = tex2D(_MainTex, i.uv);
+
+
+				if (mskch.r > 0.5)
 				{
-					float gap =  _MaxHealthGrid * 0.02;
+					float4 validColor = GetHighlightedValidColor(_CurrVal, i.uv);
 
-					col.rgb = lerp(col.rgb, _TempHealthColor.rgb, smoothstep(_CurrValue + 0.01, _CurrValue - 0.01, i.uv.x));
-
-					float grid = smoothstep(0.5, 0.5 - gap, abs(frac(i.uv.x * _MaxHealthGrid) - 0.5));
-					col.rgb = lerp(col.rgb, _ValidHealthColor.rgb * grid, smoothstep(_NextValue + 0.01, _NextValue - 0.01, i.uv.x));
+					mskch.rgb = lerp(_EGCol.rgb, validColor.rgb, GetRatio(_CurrVal, i.uv));
 				}
-				return col;
+				else
+				{
+					mskch.rgb = _EGCol;
+				}
+
+
+				return mskch;
 			}
 			ENDCG
 		}
