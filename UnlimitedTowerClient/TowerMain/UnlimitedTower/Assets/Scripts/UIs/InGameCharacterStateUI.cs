@@ -24,6 +24,11 @@ public class InGameCharacterStateUI : MonoBehaviour
         instance = instance ?? this;
     }
 
+    private void OnDestroy()
+    {
+        instance = null;
+    }
+
     static public void SetThumbnail(Sprite img)
     {
         Inst.uiThumbnailImage.sprite = img;
