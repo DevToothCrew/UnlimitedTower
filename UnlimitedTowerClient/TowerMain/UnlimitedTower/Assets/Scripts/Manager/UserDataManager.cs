@@ -195,46 +195,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         LoadCharData(LobbyManager.Inst.MonsterContentList, ref monsterDic, GACHA_TYPE.Monster);
     }
 
-    // 로비로 되돌아 올때 캐릭터 리스트 다시 불러오는 함수
-    public void LoadServantData()
-    {
-        int charDicCount = servantDic.Count;
-
-        // 캐릭터 개수만큼 캐릭터 목록을 다시 불러온다.
-        foreach (KeyValuePair<int, Character> dic in servantDic)
-        {
-            var instance = Instantiate(Resources.Load("Prefabs/CharContent") as GameObject);
-            //### 이걸 이미지로 검사해야하는가?
-            if (instance.transform.GetChild(0).GetComponent<Image>())
-            {
-                instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + servantDic[dic.Key].Name);
-                instance.transform.SetParent(LobbyManager.Inst.ServantContentList.transform.transform);
-                instance.GetComponent<CharContent>().CharDicKey = dic.Key;
-                if (servantDic[dic.Key].OnFormation)
-                {
-                    Color color = instance.transform.GetChild(0).GetComponent<Image>().color;
-                    color.r = color.g = color.b = 0.35f;
-                    instance.transform.GetChild(0).GetComponent<Image>().color = color;
-                    instance.transform.GetChild(1).gameObject.SetActive(true);
-
-                    //  포메이션 세팅.
-                    if (servantDic[dic.Key].FormationIndex !=-1)
-                    {
-                        Debug.Log("dic.key : " + dic.Key);
-                        int deckNum = servantDic[dic.Key].FormationIndex;
-                        GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
-                        deck.GetComponent<FormationDeck>().LinkedChar = instance;
-
-                        Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + servantDic[dic.Key].Name);
-                        deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
-                        deck.GetComponent<FormationDeck>().ShowEmptyText(false);
-                    }
-
-
-                }
-            }
-        }
-    }
 
     public void LoadCharData(GameObject charContentList,
         ref Dictionary<int, Character> charDic, GACHA_TYPE gachaType)
@@ -251,13 +211,11 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
         // 캐릭터 개수만큼 캐릭터 목록을 다시 불러온다.
         foreach (KeyValuePair<int, Character> dic in charDic)
-        {
-            
+        {          
             var instance = Instantiate(Resources.Load("Prefabs/CharContent") as GameObject);
             // 이걸 이미지로 검사해야하는가?
             if (instance.transform.GetChild(0).GetComponent<Image>())
-            {
-         
+            {         
                 instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(imageFath + charDic[dic.Key].Name);
                 instance.transform.SetParent(charContentList.transform.transform);
                 instance.GetComponent<CharContent>().CharDicKey = dic.Key;
@@ -283,13 +241,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
                         Debug.Log("dic.key : " + dic.Key);
                         int deckNum = charDic[dic.Key].FormationIndex;
 
-                        LoadCharImage(imageFath + charDic[dic.Key].Name, deckNum, instance);
-                        //GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
-                        //Sprite sprite = Resources.Load<Sprite>(imageFath + charDic[dic.Key].Name);
-                        //deck.GetComponent<FormationDeck>().LinkedChar = instance;
-                        //deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
-
-                        //deck.GetComponent<FormationDeck>().ShowEmptyText(false);
+                        LoadCharImage(imageFath + charDic[dic.Key].Name, deckNum, instance);                 
                     }
                 }
             }

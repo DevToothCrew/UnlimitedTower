@@ -17,6 +17,11 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
     {
         // 이미 덱에 캐릭터가 존재하면, 그 캐릭터를 뺀다.
 
+
+        // 캐릭터 타입 : Hero Mosnter Servaent
+        // 진영? 타입 : Player : Enemy
+        // FormationType : FormationType.Player, FormationType, Enemy
+
         if(CharType == 0)
         {
             CheckAddOrRemove(ref UserDataManager.Inst.servantDic, CharType);

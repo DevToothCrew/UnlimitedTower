@@ -60,12 +60,12 @@ public class DEFINE
 
 
 
-    public static Vector3 GetBattlePosition(int partyIndex, CHAR_TYPE type, int num)
+    public static Vector3 GetBattlePosition(int partyIndex, FORMATION_TYPE type, int num)
     {
         Vector3 position = new Vector3();
         int posOffset = 0;
         float y = 0.0f;
-        if(type == CHAR_TYPE.PLAYER)
+        if(type == FORMATION_TYPE.PLAYER)
         {
             posOffset = 1;
         }
@@ -321,23 +321,30 @@ public class CharacterAction
     public int myIndex;
     public int targetIndex;
     public ACTION_TYPE actionType;
-    public CHAR_TYPE charType;
-    public CharacterAction(int _myIndex, int _targetIndex, ACTION_TYPE _actionType, CHAR_TYPE _charType)
+    public FORMATION_TYPE formationType;
+    public CharacterAction(int _myIndex, int _targetIndex, ACTION_TYPE _actionType, FORMATION_TYPE _formationType)
     {
         myIndex = _myIndex;
         targetIndex = _targetIndex;
         actionType = _actionType;
-        charType = _charType;
+        formationType = _formationType;
     }
 }
 
 #region ENUM
 
-public enum CHAR_TYPE
+// Battle Formation Type
+public enum FORMATION_TYPE
 {
     PLAYER = 0,
-    ENEMY = 1,
+    ENEMY
 }
+
+//public enum CHAR_TYPE
+//{
+//    PLAYER = 0,
+//    ENEMY = 1,
+//}
 
 public enum STATE_TYPE
 {

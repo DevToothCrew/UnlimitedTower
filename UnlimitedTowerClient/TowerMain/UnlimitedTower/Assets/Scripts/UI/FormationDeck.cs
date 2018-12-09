@@ -19,14 +19,11 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         Debug.Log("On Click : Formation");
 
         // 이미 덱에 캐릭터가 존재하면
-
         if (DeckNum != DEFINE.HERO_FORMATION_NUM)
         {
             if (UserDataManager.Inst.formationDic.ContainsKey(DeckNum))
             {
                 RemoveDeck();
-                //LinkedChar.GetComponent<CharContent>().RemoveCharImage();
-                //LinkedChar = null;
             }
         }
         else
@@ -38,8 +35,6 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 
     public void RemoveDeck()
     {
-
-
         //캐릭터 삭제
 
         Debug.Log("formatonDeck : " + DeckNum);
@@ -53,10 +48,6 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
             Reorder(ref UserDataManager.Inst.servantDic, 0);
             CheckPairReorder();
         }
-
-
-     
-        //ShowEmptyText(true);
 
     }
 
@@ -96,11 +87,6 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         LinkedChar.GetComponent<CharContent>().RemoveCharImage();
         LinkedChar = null;
 
-        // 5 6 7 8 9
-        // 순서 7 -> 6 -> 8 -> 5 -> 9
-        // 순서 2 -> 1 -> 3 -> 0 -> 4
-
-
         if (orderIndex++ == startNum + 4)
         {
             Debug.Log("이 덱이 마지막 덱입니다.");
@@ -129,9 +115,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 
         int lastCharKey = -1;
 
-        // 순서값이 아니라
-        // 다른 값으로 확인을 해야할거 같다.
-        // 
+
         while (orderIndex != 4 + 1 + startNum && UserDataManager.Inst.formationDic.ContainsKey(UserDataManager.Inst.formationOrderList[orderIndex])) //7 
         {
 
@@ -215,7 +199,4 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         }
 
     }
-
-
-
 }
