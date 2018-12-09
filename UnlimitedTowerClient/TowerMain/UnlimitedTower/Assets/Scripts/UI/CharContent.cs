@@ -31,9 +31,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
         {
             CheckAddOrRemove(ref UserDataManager.Inst.monsterDic, CharType);
         }
-        
-
-
+       
     }
 
 

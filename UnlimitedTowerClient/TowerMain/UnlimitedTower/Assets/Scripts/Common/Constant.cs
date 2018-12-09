@@ -176,11 +176,19 @@ public class Character
     }
 
     // Test Code : Hero
-    public Character()
+    public Character(CHAR_TYPE charType)
     {
-        CHARACTER_NUM charType = CHARACTER_NUM.Hero_Novice_1001;
+        CHARACTER_NUM char_index;
+        if (charType == CHAR_TYPE.SERVANT)
+        {
+            char_index = CHARACTER_NUM.Hero_Novice_1001;
+        }
+        else
+        {
+            char_index = CHARACTER_NUM.Mst_BirdMan;
+        }
 
-        Size = GetSize(charType);
+        Size = GetSize(char_index);
 
         Exp = 0;
         Level = 1;
@@ -192,8 +200,8 @@ public class Character
         Job = Random.Range(0, 3) * 100 + Random.Range(1, 3);
 
 
-        Name = charType.ToString();
-        Index = (int)charType;
+        Name = char_index.ToString();
+        Index = (int)char_index;
 
         Appear = Random.Range(0, 9999);
     }

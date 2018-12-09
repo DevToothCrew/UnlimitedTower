@@ -60,7 +60,8 @@ public class BattleManager : MonoSingleton<BattleManager> {
             debugText.text = "Debug ";
         }
 
-        SetObject();
+
+       SetObject();
        SetTurnSpeed();
     }
 
@@ -173,7 +174,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
             FirstAcess = true;
             Debug.Log("First BattleScene");
         }
-
+        
         CreateGameObject();
     }
 
@@ -441,14 +442,26 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
         // TODO : 캐릭터 배틀 포지션 한번에 세팅했던 함수.
         // CreatePlayerBsttlePosition(playerObjects, FORMATION_TYPE.PLAYER, ref playerStatusDic);
-        SetHero();
-        CreatePlayerObjects();
-        SetCharBattlePosition(playerObjects);
+
+        // 배틀씬에서 바로 시작할 경우 플레이어 캐릭터들을 초기화해준다.
+        //Test Code
+        if (UserDataManager.Inst.UserLoginFlag == false)
+        {
+            Test_CreatePlayerObjects();
+            SetCharBattlePosition(playerObjects);
+        }
+        else
+        {
+            SetHero();
+            CreatePlayerObjects(1);
+            SetCharBattlePosition(playerObjects);
+        }
+
+
 
         // TODO : DB 대신 임시로 몬스터 생성.
         CreateEnemyObjects();
         CreateEnemyBattlePosition(enemyObjects, FORMATION_TYPE.ENEMY, ref enemyStatusDic);
-
         SetCharBattlePosition(enemyObjects);
     }
 
@@ -482,10 +495,46 @@ public class BattleManager : MonoSingleton<BattleManager> {
             }
         }
     }
-    ///
-    private void CreatePlayerObjects()
+    private void Test_CreatePlayerObjects()
     {
-        for (int i = 1; i < DEFINE.PARTY_MAX_NUM; i++)
+        for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
+        {
+            int formationNum = UserDataManager.Inst.formationOrderList[i];
+            Battle_Character_Status status;
+      
+            if (i < 5)
+            {
+                Character character = new Character(CHAR_TYPE.SERVANT);
+                status = new Battle_Character_Status(character, formationNum, i, character.Size);
+            }
+            else
+            {
+                Character character = new Character(CHAR_TYPE.MONSTER);
+                status = new Battle_Character_Status(character, formationNum, i, character.Size);     
+            }
+            playerStatusDic.Add(formationNum, status);
+            if (playerObjects[formationNum] == null)
+            {
+                playerObjects[formationNum] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.identity);
+
+                playerObjects[formationNum].transform.SetParent(PlayerParty.transform.transform, false);
+                if (playerObjects[formationNum].GetComponent<CharController>())
+                {
+                    playerObjects[formationNum].GetComponent<CharController>().status = status;
+                    playerObjects[formationNum].GetComponent<CharController>().formationType = FORMATION_TYPE.PLAYER;
+                    playerObjects[formationNum].GetComponent<CharController>().charSize = status.sizeType;
+
+                    CreatePlayerBsttlePosition(formationNum, playerObjects, FORMATION_TYPE.PLAYER, ref playerStatusDic);
+                    Debug.Log(formationNum + " CharSize : " + status.sizeType);
+                    playerObjects[formationNum].GetComponent<CharController>().battleDicIndex = formationNum;
+                }
+            }
+
+        }
+    }
+    private void CreatePlayerObjects(int startNum)
+    {
+        for (int i = startNum; i < DEFINE.PARTY_MAX_NUM; i++)
         {
             int formationNum = UserDataManager.Inst.formationOrderList[i];
             int charKey = -1;
@@ -539,7 +588,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
     }
     private void GetBattleCharStatue(out Battle_Character_Status battleStatus, ref Dictionary<int, Character> charDic, int formationNum, int i, int charKey)
     {
-        if (UserDataManager.Inst.servantDic.ContainsKey(charKey) == false)
+        if (charDic.ContainsKey(charKey) == false)
         {
             battleStatus = null;
         }
@@ -817,14 +866,22 @@ public class BattleManager : MonoSingleton<BattleManager> {
             offset = +2.0f;
         }
 
-        // 이게 for문에 들어가지 않아 죽어버린다.
-        for (int i = 5; i < charBattleStatusDic.Count ; i++)
+
+        if(charBattleStatusDic.Count <=5)
         {
-            if (charObjects[i].transform.position.z < charObjects[num].transform.position.z)
+            num = 7;
+        }
+        else
+        {
+            for (int i = 5; i < charBattleStatusDic.Count; i++)
             {
-                num = i;
+                if (charObjects[i].transform.position.z < charObjects[num].transform.position.z)
+                {
+                    num = i;
+                }
             }
-        }      
+        }
+        
         dis = charObjects[num].transform.position.z;
         switch (charBattleStatusDic[num].sizeType)
         {
@@ -864,23 +921,22 @@ public class BattleManager : MonoSingleton<BattleManager> {
                 }
             case 6:
                 {
-                    SetLeftPosition(charObjects, backLineCenterIndex, 6, FORMATION_TYPE.PLAYER, charBattleStatusDic[backLineCenterIndex].sizeType, ref charBattleStatusDic);
+                    SetLeftPosition(charObjects, backLineCenterIndex, formationOrder, FORMATION_TYPE.PLAYER, charBattleStatusDic[backLineCenterIndex].sizeType, ref charBattleStatusDic);
                     break;
                 }
             case 8:
                 {
-                    SetRightPosition(charObjects, backLineCenterIndex, 8, FORMATION_TYPE.PLAYER, charBattleStatusDic[backLineCenterIndex].sizeType, ref charBattleStatusDic);
+                    SetRightPosition(charObjects, backLineCenterIndex, formationOrder, FORMATION_TYPE.PLAYER, charBattleStatusDic[backLineCenterIndex].sizeType, ref charBattleStatusDic);
                     break;
                 }
             case 5:
                 {
-                    SetLeftPosition(charObjects, 6, 5, FORMATION_TYPE.PLAYER, charBattleStatusDic[6].sizeType, ref charBattleStatusDic);
-                
+                    SetLeftPosition(charObjects, 6, formationOrder, FORMATION_TYPE.PLAYER, charBattleStatusDic[6].sizeType, ref charBattleStatusDic);           
                     break;
                 }
             case 9:
                 {
-                    SetRightPosition(charObjects, 8, 9, FORMATION_TYPE.PLAYER, charBattleStatusDic[8].sizeType, ref charBattleStatusDic);
+                    SetRightPosition(charObjects, 8, formationOrder, FORMATION_TYPE.PLAYER, charBattleStatusDic[8].sizeType, ref charBattleStatusDic);
                     break;
                 }
 
@@ -897,23 +953,23 @@ public class BattleManager : MonoSingleton<BattleManager> {
                 }
             case 1:
                 {
-                    SetLeftPosition(charObjects, 2, 1, FORMATION_TYPE.PLAYER, charBattleStatusDic[2].sizeType, ref charBattleStatusDic);
+                    SetLeftPosition(charObjects, 2, formationOrder, FORMATION_TYPE.PLAYER, charBattleStatusDic[2].sizeType, ref charBattleStatusDic);
                     break;
                 }
             case 3:
                 {
-                    SetRightPosition(charObjects, 2, 3, FORMATION_TYPE.PLAYER, charBattleStatusDic[2].sizeType, ref charBattleStatusDic);
+                    SetRightPosition(charObjects, 2, formationOrder, FORMATION_TYPE.PLAYER, charBattleStatusDic[2].sizeType, ref charBattleStatusDic);
                     break;
                 }
             case 0:
                 {
-                    SetLeftPosition(charObjects, 1, 0, FORMATION_TYPE.PLAYER, charBattleStatusDic[1].sizeType, ref charBattleStatusDic);
+                    SetLeftPosition(charObjects, 1, formationOrder, FORMATION_TYPE.PLAYER, charBattleStatusDic[1].sizeType, ref charBattleStatusDic);
 
                     break;
                 }
             case 4:
                 {
-                    SetRightPosition(charObjects, 3, 4, FORMATION_TYPE.PLAYER, charBattleStatusDic[3].sizeType, ref charBattleStatusDic);
+                    SetRightPosition(charObjects, 3, formationOrder, FORMATION_TYPE.PLAYER, charBattleStatusDic[3].sizeType, ref charBattleStatusDic);
                     break;
                 }
 

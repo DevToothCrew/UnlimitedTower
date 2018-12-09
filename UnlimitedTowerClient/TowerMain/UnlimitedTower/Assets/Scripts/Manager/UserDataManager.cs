@@ -43,8 +43,15 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public void Awake()
     {
-        heroChar = new Character();
-
+        InitFlag();
+        // TODO : 확실히 필요없다고 판단되면 삭제할것
+        //LobbyBackGround.SetActive(true);
+        //StageBackGround.SetActive(false);
+        //StageList.SetActive(false);
+    }
+    public void Test_InitCharacter()
+    {
+        heroChar = new Character(CHAR_TYPE.SERVANT);
         CreateHero();
         //TODO :  나의 캐릭터(무조건 존재하는 값)이라고 가정
         for (int i = 0; i < TestCharNum; i++)
@@ -52,15 +59,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             CreateServant();
             CreateMonster();
         }
-
-
-        InitFlag();
-        // TODO : 확실히 필요없다고 판단되면 삭제할것
-        //LobbyBackGround.SetActive(true);
-        //StageBackGround.SetActive(false);
-        //StageList.SetActive(false);
     }
-
     void CreateServant()
     {
         Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1, GACHA_TYPE.Servant);
@@ -281,7 +280,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         userCharsKeyList.Clear();
         characterIndex = 0;
     }
-
 
 
 }

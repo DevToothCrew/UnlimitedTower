@@ -108,7 +108,6 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         if (UserDataManager.Inst.formationDic.ContainsKey(nextDeckNum) == false)
         {
             Debug.Log("이 덱이 마지막 덱입니다.(1번 덱만  다음 없삼");
-            // error
             ShowEmptyText(true);
             return;
         }
@@ -148,7 +147,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 
 
 
-        // 마지막께 체크가 해제되었다.
+        // 마지막 덱의 체크가 해제되었다.
         charDic[lastCharKey].OnFormation = false;
         charDic[lastCharKey].FormationIndex = -1;
 
@@ -192,14 +191,11 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
                 }
             }
         }
-
         // 몬스터 라인의 수가 더 많으면
         if(backLineCharNum < frontLineCharNum)
         {
             GameObject FormationList = LobbyManager.Inst.FormationList.gameObject;
-            FormationList.transform.GetChild(DeckNum - 5).gameObject.GetComponent<FormationDeck>().Reorder(ref UserDataManager.Inst.monsterDic, CHAR_TYPE.MONSTER);
-            
+            FormationList.transform.GetChild(DeckNum - 5).gameObject.GetComponent<FormationDeck>().Reorder(ref UserDataManager.Inst.monsterDic, CHAR_TYPE.MONSTER);         
         }
-
     }
 }
