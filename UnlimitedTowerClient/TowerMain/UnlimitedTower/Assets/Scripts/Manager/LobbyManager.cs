@@ -45,7 +45,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         if (!UserDataManager.Inst.UserLoginFlag)
         {
             Debug.Log("첫 로그인 화면");
-         
+            UserDataManager.Inst.Test_InitCharacter();
             ChangeSceneState(SCENE_STATE.Login);
         }
         else
