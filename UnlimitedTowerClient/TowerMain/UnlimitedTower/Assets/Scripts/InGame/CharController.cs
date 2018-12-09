@@ -37,7 +37,7 @@ public class CharController : MonoBehaviour
 
 
     public STATE_TYPE stateType;
-    public CHAR_TYPE charType;
+    public FORMATION_TYPE formationType;
     public SIZE_TYPE charSize;
 
     public int battleDicIndex;
@@ -218,8 +218,8 @@ public class CharController : MonoBehaviour
                 break;
             case ACTION_TYPE.Attack:
                 {
-                    Debug.Log(charType.ToString() + " : 공격 성공");
-                    BattleManager.Inst.CheckCharBeHit(charAction.charType, charAction.myIndex, charAction.targetIndex);                
+                    Debug.Log(formationType.ToString() + " : 공격 성공");
+                    BattleManager.Inst.CheckCharBeHit(charAction.formationType, charAction.myIndex, charAction.targetIndex);                
                     break;
                 }
             case ACTION_TYPE.Defence:
