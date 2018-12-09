@@ -29,8 +29,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         else
         {
             Debug.Log("Do not remove hEro");
-        }
-     
+        }  
     }
 
     public void RemoveDeck()
@@ -41,34 +40,38 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         int charIndex = UserDataManager.Inst.formationDic[DeckNum];
         if(DeckNum<5)
         {
-            Reorder(ref UserDataManager.Inst.monsterDic, 1);
+            Reorder(ref UserDataManager.Inst.monsterDic, CHAR_TYPE.MONSTER);
         }
         else
         {
-            Reorder(ref UserDataManager.Inst.servantDic, 0);
+            Reorder(ref UserDataManager.Inst.servantDic, CHAR_TYPE.SERVANT);
             CheckPairReorder();
         }
 
     }
 
 
-    void Reorder(ref Dictionary<int, Character> charDic, int charType)
+    void Reorder(ref Dictionary<int, Character> charDic, CHAR_TYPE charType)
     {
        GameObject FormationList =  LobbyManager.Inst.FormationList.gameObject;
         int orderIndex = -1;
 
         int startNum = -1;
-        if(charType == 0)
+        if (charType == CHAR_TYPE.SERVANT)
         {
             startNum = 0;
         }
-        else
+        else if (charType == CHAR_TYPE.MONSTER)
         {
             startNum = 5;
         }
+        else
+        {
+            Debug.Log("Error : hero or error");
+        }
 
         // 범위 0~4 & 5~9로 바꿀것.
-        for(int i= startNum; i<UserDataManager.Inst.formationOrderList.Count + 0; i++)
+        for (int i= startNum; i<UserDataManager.Inst.formationOrderList.Count + 0; i++)
         {
             if(UserDataManager.Inst.formationOrderList[i] == DeckNum)
             {
@@ -194,7 +197,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         if(backLineCharNum < frontLineCharNum)
         {
             GameObject FormationList = LobbyManager.Inst.FormationList.gameObject;
-            FormationList.transform.GetChild(DeckNum - 5).gameObject.GetComponent<FormationDeck>().Reorder(ref UserDataManager.Inst.monsterDic, 1);
+            FormationList.transform.GetChild(DeckNum - 5).gameObject.GetComponent<FormationDeck>().Reorder(ref UserDataManager.Inst.monsterDic, CHAR_TYPE.MONSTER);
             
         }
 

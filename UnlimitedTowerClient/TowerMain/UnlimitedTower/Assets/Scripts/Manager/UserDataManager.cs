@@ -65,14 +65,14 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     {
         Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1, GACHA_TYPE.Servant);
         SetServant(newChar);
-        Inst.AddNewCharImage(newChar.Name, GACHA_TYPE.Servant);
+        AddNewCharImage(newChar.Name, CHAR_TYPE.SERVANT);
     }
 
     void CreateMonster()
     {
         Character newChar = new Character(UserDataManager.Inst.GetMonsterIndex() + 1, GACHA_TYPE.Monster);
         SetMonster(newChar);
-        AddNewCharImage(newChar.Name, GACHA_TYPE.Monster);
+        AddNewCharImage(newChar.Name, CHAR_TYPE.MONSTER);
     }
 
     public void InitFlag()
@@ -82,15 +82,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         CreatePlayerFlag = false;
  
     }
-    //private void LoadHero()
-    //{
-    //    GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(DEFINE.HERO_FORMATION_NUM).gameObject;
-    //    Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + heroChar.Name);
-    //    deck.GetComponent<FormationDeck>().LinkedChar = null;
-    //    deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
-
-    //    deck.GetComponent<FormationDeck>().ShowEmptyText(false);
-    //}
     private void CreateHero()
     {
         if(formationDic.ContainsKey(DEFINE.HERO_FORMATION_NUM) == false)
@@ -191,16 +182,16 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     {
         string path = "UI/CharaterImage/" + heroChar.Name;
         LoadCharImage(path, DEFINE.HERO_FORMATION_NUM, null);
-        LoadCharData(LobbyManager.Inst.ServantContentList, ref servantDic, GACHA_TYPE.Servant);
-        LoadCharData(LobbyManager.Inst.MonsterContentList, ref monsterDic, GACHA_TYPE.Monster);
+        LoadCharData(LobbyManager.Inst.ServantContentList, ref servantDic, CHAR_TYPE.SERVANT);
+        LoadCharData(LobbyManager.Inst.MonsterContentList, ref monsterDic, CHAR_TYPE.MONSTER);
     }
 
 
     public void LoadCharData(GameObject charContentList,
-        ref Dictionary<int, Character> charDic, GACHA_TYPE gachaType)
+        ref Dictionary<int, Character> charDic, CHAR_TYPE charType)
     {
         string imageFath = null;
-        if(gachaType == GACHA_TYPE.Servant)
+        if(charType == CHAR_TYPE.SERVANT)
         {
             imageFath = "UI/CharaterImage/";
         }
@@ -219,13 +210,13 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
                 instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(imageFath + charDic[dic.Key].Name);
                 instance.transform.SetParent(charContentList.transform.transform);
                 instance.GetComponent<CharContent>().CharDicKey = dic.Key;
-                if (gachaType == GACHA_TYPE.Servant)
+                if (charType == CHAR_TYPE.SERVANT)
                 {
-                    instance.GetComponent<CharContent>().CharType = 0;
+                    instance.GetComponent<CharContent>().CharType = CHAR_TYPE.SERVANT;
                 }
                 else
                 {
-                    instance.GetComponent<CharContent>().CharType = 1;
+                    instance.GetComponent<CharContent>().CharType = CHAR_TYPE.MONSTER;
                 }
 
                 if (charDic[dic.Key].OnFormation)
@@ -251,25 +242,25 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
 
 
-    public void AddNewCharImage(string getChar, GACHA_TYPE gachaType)
+    public void AddNewCharImage(string getChar, CHAR_TYPE charType)
     {
         GameObject instance = Instantiate(Resources.Load("Prefabs/CharContent") as GameObject);
 
         if (instance.transform.GetChild(0))
         {
-            if (gachaType == GACHA_TYPE.Servant)
+            if (charType == CHAR_TYPE.SERVANT)
             {
                 instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + getChar);
                 instance.GetComponent<CharContent>().CharDicKey = characterIndex - 1;
                 instance.transform.SetParent(LobbyManager.Inst.ServantContentList.transform.transform);
-                instance.GetComponent<CharContent>().CharType = 0;
+                instance.GetComponent<CharContent>().CharType = CHAR_TYPE.SERVANT;
             }
             else
             {
                 instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/MonsterImage/" + getChar);
                 instance.GetComponent<CharContent>().CharDicKey = characterIndex - 1;
                 instance.transform.SetParent(LobbyManager.Inst.MonsterContentList.transform.transform);
-                instance.GetComponent<CharContent>().CharType = 1;
+                instance.GetComponent<CharContent>().CharType = CHAR_TYPE.MONSTER;
             }
              
             SetFormation();

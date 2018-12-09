@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class CharContent : MonoBehaviour, IPointerClickHandler
 {
     public int CharDicKey;
-    public int CharType = -1;
+    public CHAR_TYPE CharType;
    
     void Awake()
     {
@@ -22,21 +22,22 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
         // 진영? 타입 : Player : Enemy
         // FormationType : FormationType.Player, FormationType, Enemy
 
-        if(CharType == 0)
+        if(CharType == CHAR_TYPE.SERVANT)
         {
             CheckAddOrRemove(ref UserDataManager.Inst.servantDic, CharType);
 
         }
-        else if (CharType == 1)
+        else if (CharType == CHAR_TYPE.MONSTER)
         {
             CheckAddOrRemove(ref UserDataManager.Inst.monsterDic, CharType);
         }
+        
 
 
     }
 
 
-    private void CheckAddOrRemove(ref Dictionary<int, Character> charDic, int charType)
+    private void CheckAddOrRemove(ref Dictionary<int, Character> charDic, CHAR_TYPE charType)
     {
         if (charDic.ContainsKey(CharDicKey))
         {
@@ -46,7 +47,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
             }
             else
             {
-                if(charType == 1)
+                if(charType == CHAR_TYPE.MONSTER)
                 {
                     if (CheckAddDeck() == false)
                     {
@@ -58,7 +59,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
             }
         }
     }
-    private void RemoveDeck(ref Dictionary<int, Character> charDic, int charType)
+    private void RemoveDeck(ref Dictionary<int, Character> charDic, CHAR_TYPE charType)
     {
         if (charDic[CharDicKey].OnFormation == true)
         {
@@ -71,19 +72,24 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
             transform.GetChild(1).gameObject.SetActive(false);
         }
     }
-    private void AddDeck(ref Dictionary<int, Character> charDic, int charType)
+    private void AddDeck(ref Dictionary<int, Character> charDic, CHAR_TYPE charType)
     {
         int startNum = -1;
         string imageFath = null;
-        if (charType == 0)
+        if (charType == CHAR_TYPE.SERVANT)
         {
             startNum = 0;
             imageFath = "UI/CharaterImage/";
         }
-        else
+        else if(charType == CHAR_TYPE.MONSTER)
         {
             startNum = 5;
             imageFath = "UI/MonsterImage/";
+        }
+        else
+        {
+            Debug.Log("error : both servant and monster not.");
+                return;
         }
 
 

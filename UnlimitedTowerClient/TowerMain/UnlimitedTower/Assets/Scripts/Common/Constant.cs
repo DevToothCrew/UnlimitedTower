@@ -340,11 +340,12 @@ public enum FORMATION_TYPE
     ENEMY
 }
 
-//public enum CHAR_TYPE
-//{
-//    PLAYER = 0,
-//    ENEMY = 1,
-//}
+public enum CHAR_TYPE
+{
+    HERO = 0,
+    SERVANT,
+    MONSTER
+}
 
 public enum STATE_TYPE
 {
