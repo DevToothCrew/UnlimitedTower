@@ -482,7 +482,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
             }
         }
     }
-
+    ///
     private void CreatePlayerObjects()
     {
         for (int i = 1; i < DEFINE.PARTY_MAX_NUM; i++)
