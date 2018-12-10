@@ -8,11 +8,14 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
 {
     public int CharDicKey;
     public CHAR_TYPE CharType;
-   
+
+    public GameObject childCheckingImage;
+
     void Awake()
     {
-        transform.GetChild(1).gameObject.SetActive(false);
+        childCheckingImage.SetActive(false);
     }
+ 
     public void OnPointerClick(PointerEventData pointerEventData)
     {
         // 이미 덱에 캐릭터가 존재하면, 그 캐릭터를 뺀다.
@@ -64,7 +67,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
                 RemoveCharImage();
                 deck.GetComponent<FormationDeck>().RemoveDeck();
 
-                transform.GetChild(1).gameObject.SetActive(false);
+                childCheckingImage.SetActive(false);
             }
         }
 
@@ -113,7 +116,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
                 charDic[CharDicKey].OnFormation = true;
                 charDic[CharDicKey].FormationIndex = deckNum;
 
-                transform.GetChild(1).gameObject.SetActive(true);
+                childCheckingImage.SetActive(true);
                 transform.GetChild(0).GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f);
                 return;
 
@@ -124,7 +127,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
     public void RemoveCharImage()
     {
        transform.GetChild(0).GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f);
-       transform.GetChild(1).transform.gameObject.SetActive(false);
+       childCheckingImage.SetActive(false);
     }
     private bool CheckAddDeck()
     {

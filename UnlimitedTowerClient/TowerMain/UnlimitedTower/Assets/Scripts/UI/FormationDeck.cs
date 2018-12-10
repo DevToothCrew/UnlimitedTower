@@ -111,7 +111,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
                 LinkedChar.GetComponent<CharContent>().RemoveCharImage();
                 LinkedChar = null;
             }
-            childEmptyText.SetActive(true);
+            //childEmptyText.SetActive(true);
         }
         else
         {
