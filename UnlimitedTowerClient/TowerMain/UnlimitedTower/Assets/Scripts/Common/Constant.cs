@@ -338,6 +338,31 @@ public class CharacterAction
         formationType = _formationType;
     }
 }
+public static class ExtensionMethod
+{
+    public static T GetReferenceTo<T>(this GameObject go, T instance)
+    {
+        if (instance == null)
+        {
+            instance = go.GetComponent<T>();
+        }
+        return instance;
+    }
+    public static T CheckReferenceTo<T>( T instance)
+    {
+        //if (instance == null)
+        //{
+        //    return default<T>;
+        //}
+        return instance;
+
+    }
+    public static bool IsNull(this object obj)//literally all i did was add "this"
+    {
+        return obj == null || ReferenceEquals(obj, null) || obj.Equals(null);
+    }
+}
+
 
 #region ENUM
 
