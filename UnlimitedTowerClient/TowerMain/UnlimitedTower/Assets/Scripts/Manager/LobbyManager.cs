@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public GameObject LoginPopup;
+    public GameObject ConquerorList;
     public GameObject RightPopup;
     public GameObject TowerGrid;
     public GameObject TowerInfo;
