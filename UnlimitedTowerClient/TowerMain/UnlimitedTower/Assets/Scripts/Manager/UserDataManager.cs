@@ -107,7 +107,9 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             deck.GetComponent<FormationDeck>().LinkedChar = original;
             deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
 
-            deck.GetComponent<FormationDeck>().ShowEmptyText(false);
+
+            FormationManager.Inst.DeckTexts[deckNum].SetActive(false);
+            //deck.GetComponent<FormationDeck>().ShowEmptyText(false);
         }
         else
         {

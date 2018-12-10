@@ -101,9 +101,17 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
             UserDataManager.Inst.formationDic.Remove(DeckNum);
             charDic[charIndex].OnFormation = false;
             charDic[charIndex].FormationIndex = -1;
-            childCharImage.GetComponent<Image>().sprite = null;
-            LinkedChar.GetComponent<CharContent>().RemoveCharImage();
-            LinkedChar = null;
+
+            if (childCharImage.GetComponent<Image>())
+            {
+                childCharImage.GetComponent<Image>().sprite = null;
+            }
+            if (LinkedChar && LinkedChar.GetComponent<CharContent>())
+            {
+                LinkedChar.GetComponent<CharContent>().RemoveCharImage();
+                LinkedChar = null;
+            }
+            childEmptyText.SetActive(true);
         }
         else
         {
@@ -205,7 +213,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         }
         else
         {
-            childEmptyText.gameObject.SetActive(false);
+            childEmptyText.SetActive(false);
         }     
     }
    
