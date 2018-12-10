@@ -54,9 +54,9 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     {
         if(testInitFlag == false)
         {
+            //TODO :  나의 캐릭터(무조건 존재하는 값)이라고 가정
             heroChar = new Character(CHAR_TYPE.SERVANT);
             CreateHero();
-            //TODO :  나의 캐릭터(무조건 존재하는 값)이라고 가정
             for (int i = 0; i < TestCharNum; i++)
             {
                 CreateServant();
@@ -68,14 +68,14 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     }
     void CreateServant()
     {
-        Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1, GACHA_TYPE.Servant);
+        Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex(), GACHA_TYPE.Servant);
         SetServant(newChar);
         AddNewCharImage(newChar.Name, CHAR_TYPE.SERVANT);
     }
 
     void CreateMonster()
     {
-        Character newChar = new Character(UserDataManager.Inst.GetMonsterIndex() + 1, GACHA_TYPE.Monster);
+        Character newChar = new Character(UserDataManager.Inst.GetMonsterIndex(), GACHA_TYPE.Monster);
         SetMonster(newChar);
         AddNewCharImage(newChar.Name, CHAR_TYPE.MONSTER);
     }
@@ -102,10 +102,19 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         Sprite sprite = Resources.Load<Sprite>(imageFath);
 
 
-        deck.GetComponent<FormationDeck>().LinkedChar = original;
-        deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+        if (deck.GetComponent<FormationDeck>())
+        {
+            deck.GetComponent<FormationDeck>().LinkedChar = original;
+            deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
 
-        deck.GetComponent<FormationDeck>().ShowEmptyText(false);
+            deck.GetComponent<FormationDeck>().ShowEmptyText(false);
+        }
+        else
+        {
+            Debug.Log("Do not exist FormatiionDeck Component");
+        }
+
+    
     }
     public void SetUserLoginFlag(bool flag)
     {
@@ -266,17 +275,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
                 instance.GetComponent<CharContent>().CharDicKey = characterIndex - 1;
                 instance.transform.SetParent(LobbyManager.Inst.MonsterContentList.transform.transform);
                 instance.GetComponent<CharContent>().CharType = CHAR_TYPE.MONSTER;
-            }
-             
-            SetFormation();
+            }          
         } 
-    }
-
-    // TODO : Test Code if deleted
-    private void SetFormation()
-    {
-        // 지금은 들어가는 순서대로 세팅.
-       // userCharsKeyList.Add(servantDic.Count - 1);
     }
 
     public void RemoveUserInfo()
