@@ -37,6 +37,8 @@ public class GachaImage : MonoSingleton<GachaImage>
     private GACHA_TYPE gachaType;
 
     public int TestGachaNum = 0;
+
+    public GameObject Packet;
     public GameObject TestReciveText;
 
 
@@ -201,7 +203,7 @@ public class GachaImage : MonoSingleton<GachaImage>
     {
         if (reGachaflag)
         {
-            GoGacha((int)gachaType);
+            OnClickExecuteGacha((int)gachaType);
         }
     }
 
@@ -241,14 +243,14 @@ public class GachaImage : MonoSingleton<GachaImage>
 
 
 
-        if (Test_PacketManager.Inst.GetPakcet().Length <= 0)
+        if (Packet.GetComponent<Test_PacketManager>().GetPakcet().Length <= 0)
         {
             TestReciveText.GetComponent<Text>().text = "0000000000000";
             TestReciveText.SetActive(true);
         }
         else
         {
-            TestReciveText.GetComponent<Text>().text = Test_PacketManager.Inst._Packet;
+            TestReciveText.GetComponent<Text>().text = Packet.GetComponent<Test_PacketManager>()._Packet;
             TestReciveText.SetActive(true);
         }
     }
@@ -269,11 +271,10 @@ public class GachaImage : MonoSingleton<GachaImage>
     }
 
 
-
     // 가챠 시작
-    public void GoGacha(int gachaType)
+    public void OnClickExecuteGacha(int gachaType)
     {
-        Gacha();
+        //Gacha();
 
         LightEffectCircle04Animator.SetBool("Play", true);
         BlackHoleAnimator.SetBool("Play", true);
@@ -283,7 +284,6 @@ public class GachaImage : MonoSingleton<GachaImage>
         GachaButton.SetActive(false);
         ExitButton.SetActive(false);
     }
-
 }
 
 

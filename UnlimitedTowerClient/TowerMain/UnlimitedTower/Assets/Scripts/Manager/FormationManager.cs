@@ -3,86 +3,32 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class FormationManager : MonoBehaviour
+public class FormationManager : MonoSingleton<FormationManager>
 {
+    public GameObject[] Decks = new GameObject[10];
+    public GameObject[] DeckImages = new GameObject[10];
+    public GameObject[] DeckTexts = new GameObject[10];
+    //public GameObject[] 
 
-
-    // Use this for initialization
-   static  public GameObject NewDropChar;
-    
-    private void LoadFormation()
+    // 하이어라키 뷰 오브젝트가 바뀌면
+    // GetChild 접근이 에러가 날 확률이 급격히 증가한다.
+    // 즉, 하이어라키에서 값이 바껴도 에러가 최소한으로 나도록 설계하면 된다.
+    private void Awake()
     {
-        string deckName = null;
-        foreach (KeyValuePair<int, int> dic in UserDataManager.Inst.formationDic)
+        Debug.Log("Awake : FormationManager");
+        for(int i=0; i<10; i++)
         {
-            Debug.Log("포메이션 세팅");
-
-            // 포메이션 위치
-            deckName = "Deck" + dic.Key;
-            for (int i = 0; i < 10; i++)
+            if(Decks[i])
             {
-                 gameObject.transform.GetChild(i);
-                if (gameObject.transform.GetChild(i).gameObject.name == deckName)
-                {
-                    Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + UserDataManager.Inst.servantDic[dic.Value].Name);
-                    gameObject.transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite = sprite;
-                }
+                DeckImages[i] = Decks[i].transform.GetChild(0).gameObject;
+                DeckTexts[i] = Decks[i].transform.GetChild(1).gameObject;           
             }
         }
     }
 
-    public void OpenNewDeck(int deckNum)
+    void Func()
     {
-        switch (deckNum)
-        {
-            case 7:
-                {
-                    ActivateDeck(6);
-                    ActivateDeck(8);
-
-                    ActivateDeck(2);
-                    break;
-                }
-            case 6:
-            case 8:
-                {
-                    if(deckNum == 8)
-                    {
-                        ActivateDeck(deckNum + 1);
-                    }
-                    else
-                    {
-                        ActivateDeck(deckNum - 1);
-                    }
-                
-                    ActivateDeck(deckNum - 5);
-                    break;
-                }
-            case 5:
-            case 9:
-                {
-                    ActivateDeck(deckNum-5);
-                    break;
-                }
-        }
-
-    }
-    public void ActivateDeck(int deckNum)
-    {
-        //gameObject.transform.GetChild(deckNum).GetComponent<FormationDeck>().Active = true;
-        gameObject.transform.GetChild(deckNum).transform.GetChild(1).gameObject.SetActive(true);
-        gameObject.transform.GetChild(deckNum).transform.GetChild(2).gameObject.SetActive(false);
-    }
-    // 이름 반드시 바꿀것. 오해하기 쉬운 이름이다.
-    public void LoadDeck(int deckNum)
-    {
-       //gameObject.transform.GetChild(deckNum).GetComponent<FormationDeck>().Active = true;
-        gameObject.transform.GetChild(deckNum).transform.GetChild(1).gameObject.SetActive(false);
-        gameObject.transform.GetChild(deckNum).transform.GetChild(2).gameObject.SetActive(false);
+        Decks[0].transform.GetChild(0);
     }
 
-    public GameObject GetDeck(int deckNum)
-    {
-        return gameObject.transform.GetChild(deckNum).gameObject;
-    }
 }

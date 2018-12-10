@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Test_PacketManager : MonoSingleton<Test_PacketManager>
+public class Test_PacketManager : MonoBehaviour
 {
     // Use this for initialization
 
@@ -10,8 +10,9 @@ public class Test_PacketManager : MonoSingleton<Test_PacketManager>
     public string _Packet = null;
 
 
-    public void  Test_Receive(string packet)
+    public void  TestReceive(string packet)
     {
+        Debug.Log("Recive : packet : " + packet);
         _Packet = packet;
     }
 

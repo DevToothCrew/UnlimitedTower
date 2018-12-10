@@ -3043,7 +3043,8 @@ MonoBehaviour:
   ExitButton: {fileID: 1365274830}
   Test10GachaButton: {fileID: 1800545728}
   TestGachaNum: 0
-  TestReciveText: {fileID: 0}
+  Packet: {fileID: 1327011098}
+  TestReciveText: {fileID: 1805701829}
 --- !u!95 &260262337
 Animator:
   serializedVersion: 3
@@ -3459,7 +3460,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 260262336}
-        m_MethodName: GoGacha
+        m_MethodName: OnClickExecuteGacha
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4189,7 +4190,6 @@ GameObject:
   m_Component:
   - component: {fileID: 304513084}
   - component: {fileID: 304513085}
-  - component: {fileID: 304513086}
   m_Layer: 5
   m_Name: FormationList
   m_TagString: Untagged
@@ -4248,17 +4248,6 @@ MonoBehaviour:
   m_Spacing: {x: 30, y: 70}
   m_Constraint: 0
   m_ConstraintCount: 2
---- !u!114 &304513086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 304513083}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed08ca105e969e047abd58f284d9ccd1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &305773856
 GameObject:
   m_ObjectHideFlags: 0
@@ -5909,9 +5898,9 @@ Transform:
   m_Children:
   - {fileID: 1496532083}
   - {fileID: 77275843}
-  - {fileID: 1327011099}
+  - {fileID: 1037899089}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &415637460
 GameObject:
@@ -11707,6 +11696,57 @@ RectTransform:
   m_AnchoredPosition: {x: 23, y: -22}
   m_SizeDelta: {x: 163, y: 48}
   m_Pivot: {x: 0, y: 1}
+--- !u!1 &1037899088
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1037899089}
+  - component: {fileID: 1037899090}
+  m_Layer: 0
+  m_Name: FormationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1037899089
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1037899088}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 411062243}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1037899090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1037899088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed08ca105e969e047abd58f284d9ccd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Decks:
+  - {fileID: 724553516}
+  - {fileID: 2133609772}
+  - {fileID: 546492152}
+  - {fileID: 1942608018}
+  - {fileID: 1161966255}
+  - {fileID: 1486521010}
+  - {fileID: 250081740}
+  - {fileID: 279912214}
+  - {fileID: 550266534}
+  - {fileID: 371167123}
 --- !u!1 &1045883073
 GameObject:
   m_ObjectHideFlags: 0
@@ -15712,7 +15752,7 @@ GameObject:
   - component: {fileID: 1327011099}
   - component: {fileID: 1327011100}
   m_Layer: 0
-  m_Name: Test_PacketManger
+  m_Name: Packet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15724,12 +15764,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1327011098}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 627.3028, y: 515.0468, z: -23.566162}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 411062243}
-  m_RootOrder: 2
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1327011100
 MonoBehaviour:

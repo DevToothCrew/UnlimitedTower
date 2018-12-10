@@ -86,15 +86,15 @@ public class Droppable : MonoBehaviour, IDropHandler,
         //}
 
         // 현재 곧 드랍할 오브젝트의 캐릭터의 인덱스값을 저장한다.
-        if (FormationManager.NewDropChar)
-        {         
-            charIndex = FormationManager.NewDropChar.GetComponent<CharContent>().CharDicKey;
-        }
-        else
-        {
-            Debug.Log("**********Error**********Not Find : PutChar GameObject");
-            return;
-        }
+        //if (FormationManager.NewDropChar)
+        //{         
+        //    charIndex = FormationManager.NewDropChar.GetComponent<CharContent>().CharDicKey;
+        //}
+        //else
+        //{
+        //    Debug.Log("**********Error**********Not Find : PutChar GameObject");
+        //    return;
+        //}
 
         // 같은 캐릭터를 같은 자리에 올려둘 경우
         if(formationDeckCS.LinkedChar)
@@ -184,16 +184,16 @@ public class Droppable : MonoBehaviour, IDropHandler,
         Image droppedImage = charImage;
 
         this.charImage.sprite = droppedImage.sprite;
-        LobbyManager.Inst.FormationList.GetComponent<FormationManager>().OpenNewDeck(deckNum);
+       // LobbyManager.Inst.FormationList.GetComponent<FormationManager>().OpenNewDeck(deckNum);
         UserDataManager.Inst.servantDic[charIndex].OnFormation = true;
         UserDataManager.Inst.servantDic[charIndex].FormationIndex = deckNum;
-        FormationManager.NewDropChar.GetComponent<Image>().color = usedColor;
+       // FormationManager.NewDropChar.GetComponent<Image>().color = usedColor;
 
 
 
 
 
-        formationDeckCS.LinkedChar = FormationManager.NewDropChar;
+      //  formationDeckCS.LinkedChar = FormationManager.NewDropChar;
         GetChildObject(1).gameObject.SetActive(false);
         this.charImage.color = normalColor;
     }
