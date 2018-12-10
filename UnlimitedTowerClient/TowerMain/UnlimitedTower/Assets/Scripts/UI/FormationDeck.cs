@@ -139,7 +139,6 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
                 charDic[nextCharDicKey].OnFormation = true;
                 charDic[nextCharDicKey].FormationIndex = preDeckNum;
 
-           
             }
 
           
