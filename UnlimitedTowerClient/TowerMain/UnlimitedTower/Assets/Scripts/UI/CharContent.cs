@@ -17,11 +17,6 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
     {
         // 이미 덱에 캐릭터가 존재하면, 그 캐릭터를 뺀다.
 
-
-        // 캐릭터 타입 : Hero Mosnter Servaent
-        // 진영? 타입 : Player : Enemy
-        // FormationType : FormationType.Player, FormationType, Enemy
-
         if(CharType == CHAR_TYPE.SERVANT)
         {
             CheckAddOrRemove(ref UserDataManager.Inst.servantDic, CharType);
@@ -65,7 +60,6 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
             GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
             RemoveCharImage();
             deck.GetComponent<FormationDeck>().RemoveDeck();
-            //deck.GetComponent<FormationDeck>().ShowEmptyText(true);
 
             transform.GetChild(1).gameObject.SetActive(false);
         }
