@@ -12,7 +12,14 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 
     // 덱과 연결된 캐릭터 목록
     public GameObject LinkedChar = null;
+    private GameObject childCharImage;
+    private GameObject childEmptyText;
 
+    void Awake()
+    {
+        childCharImage = transform.GetChild(0).gameObject;
+        childEmptyText = transform.GetChild(1).gameObject;
+    }
 
     public void OnPointerClick(PointerEventData pointerEventData)
     {
@@ -37,7 +44,13 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         //캐릭터 삭제
 
         Debug.Log("formatonDeck : " + DeckNum);
-        int charIndex = UserDataManager.Inst.formationDic[DeckNum];
+        int charIndex = -1;
+        if(UserDataManager.Inst.formationDic.TryGetValue(DeckNum, out charIndex) == false)
+        {
+            Debug.Log("Error : UserDataManager.Inst.formationDic.TryGetValue(DeckNum, out charIndex) == false");
+            return;
+        }
+       
         if(DeckNum<5)
         {
             Reorder(ref UserDataManager.Inst.monsterDic, CHAR_TYPE.MONSTER);
@@ -82,21 +95,23 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 
 
         // 덱 삭제
-        int charIndex = UserDataManager.Inst.formationDic[DeckNum];
+        int charIndex = -1;
+        if (UserDataManager.Inst.formationDic.TryGetValue(DeckNum, out charIndex))
+        {
+            UserDataManager.Inst.formationDic.Remove(DeckNum);
+            charDic[charIndex].OnFormation = false;
+            charDic[charIndex].FormationIndex = -1;
+            childCharImage.GetComponent<Image>().sprite = null;
+            LinkedChar.GetComponent<CharContent>().RemoveCharImage();
+            LinkedChar = null;
+        }
+        else
+        {
+            Debug.Log("Error : UserDataManager.Inst.formationDic.TryGetValue");
+        }
 
-        //if(UserDataManager.Inst.formationDic.TryGetValue(DeckNum, out charIndex))
-        //{
-
-        //}
-
-
-        UserDataManager.Inst.formationDic.Remove(DeckNum);
-        charDic[charIndex].OnFormation = false;
-        charDic[charIndex].FormationIndex = -1;
-        transform.GetChild(0).gameObject.GetComponent<Image>().sprite = null;
-        LinkedChar.GetComponent<CharContent>().RemoveCharImage();
-        LinkedChar = null;
-
+      
+     
         if (orderIndex++ == startNum + 4)
         {
             Debug.Log("이 덱이 마지막 덱입니다.");
@@ -104,9 +119,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
             return;
         }
 
-      
-
-
+     
         // 현재 덱 넘버
         int preDeckNum = UserDataManager.Inst.formationOrderList[orderIndex - 1];
         int nextDeckNum = UserDataManager.Inst.formationOrderList[orderIndex];
@@ -114,47 +127,59 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         // 다음덱이 존재하지 않을 때
         if (UserDataManager.Inst.formationDic.ContainsKey(nextDeckNum) == false)
         {
-            Debug.Log("이 덱이 마지막 덱입니다.(1번 덱만  다음 없삼");
+            Debug.Log("This deck is last deck!");
             ShowEmptyText(true);
             return;
         }
 
-        int nextCharDicKey = UserDataManager.Inst.formationDic[nextDeckNum];
-
-
+        int nextCharDicKey = -1;
         int lastCharKey = -1;
+        if (UserDataManager.Inst.formationDic.TryGetValue(nextDeckNum, out nextCharDicKey) == false)
+        {
+            Debug.Log("Error : UserDataManager.Inst.formationDic.TryGetValue(nextDeckNum, out nextCharDicKey)");
+            return;
+        }
 
-
-        while (orderIndex != 4 + 1 + startNum && UserDataManager.Inst.formationDic.ContainsKey(UserDataManager.Inst.formationOrderList[orderIndex])) //7 
+        while (orderIndex != 5 + startNum && UserDataManager.Inst.formationDic.ContainsKey(UserDataManager.Inst.formationOrderList[orderIndex])) 
         {
 
             preDeckNum = UserDataManager.Inst.formationOrderList[orderIndex - 1];
             nextDeckNum = UserDataManager.Inst.formationOrderList[orderIndex];
-            nextCharDicKey = UserDataManager.Inst.formationDic[nextDeckNum];
 
-            FormationList.transform.GetChild(preDeckNum).gameObject.transform.GetChild(0).GetComponent<Image>().sprite =
-          FormationList.transform.GetChild(nextDeckNum).gameObject.transform.GetChild(0).GetComponent<Image>().sprite;
-
-
-            FormationList.transform.GetChild(preDeckNum).gameObject.GetComponent<FormationDeck>().LinkedChar = 
-            FormationList.transform.GetChild(nextDeckNum).gameObject.GetComponent<FormationDeck>().LinkedChar;
-
-            // 캐릭터 사용중이라는 표시하기.
-            if(UserDataManager.Inst.formationDic.TryGetValue(preDeckNum, out nextCharDicKey))
+            if (UserDataManager.Inst.formationDic.TryGetValue(nextDeckNum, out nextCharDicKey))
             {
+                if (FormationManager.Inst.DeckImages[preDeckNum].GetComponent<Image>()
+                    && FormationManager.Inst.DeckImages[nextDeckNum].GetComponent<Image>())
+                {
+                    FormationManager.Inst.DeckImages[preDeckNum].GetComponent<Image>().sprite =
+                  FormationManager.Inst.DeckImages[nextDeckNum].GetComponent<Image>().sprite;
+                }
+
+             
+
+                FormationManager.Inst.Decks[preDeckNum].GetComponent<FormationDeck>().LinkedChar
+                    = FormationManager.Inst.Decks[nextDeckNum].GetComponent<FormationDeck>().LinkedChar;
+
+                // 캐릭터 사용중이라는 표시하기.
                 UserDataManager.Inst.formationDic.Add(preDeckNum, nextCharDicKey);
                 charDic[nextCharDicKey].OnFormation = true;
                 charDic[nextCharDicKey].FormationIndex = preDeckNum;
 
+
+
+                if (UserDataManager.Inst.formationDic.TryGetValue(nextDeckNum, out lastCharKey) == false)
+                {
+                    Debug.Log("Error : UserDataManager.Inst.formationDic.TryGetValue(nextDeckNum, out lastCharKey");
+                }
+
+             
+                UserDataManager.Inst.formationDic.Remove(nextDeckNum);
+                orderIndex++;
             }
-
-          
-
-            lastCharKey = UserDataManager.Inst.formationDic[nextDeckNum];
-
-            UserDataManager.Inst.formationDic.Remove(nextDeckNum);
-            orderIndex++;
-
+            else
+            {
+                Debug.Log("Error : UserDataManager.Inst.formationDic.TryGetValue(nextDeckNum, out nextCharDicKey)");
+            }
         }
            preDeckNum = UserDataManager.Inst.formationOrderList[orderIndex - 1];
 
@@ -164,9 +189,11 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         charDic[lastCharKey].OnFormation = false;
         charDic[lastCharKey].FormationIndex = -1;
 
-        FormationList.transform.GetChild(preDeckNum).gameObject.transform.GetChild(0).GetComponent<Image>().sprite = null;
-        FormationList.transform.GetChild(preDeckNum).gameObject.transform.GetChild(1).gameObject.SetActive(true);
-        FormationList.transform.GetChild(preDeckNum).GetComponent<FormationDeck>().LinkedChar = null;
+
+
+        FormationManager.Inst.DeckImages[preDeckNum].GetComponent<Image>().sprite = null;
+        FormationManager.Inst.DeckTexts[preDeckNum].gameObject.SetActive(true);
+        FormationManager.Inst.Decks[preDeckNum].GetComponent<FormationDeck>().LinkedChar = null;
     }
 
 
@@ -174,13 +201,14 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
     {
         if(on)
         {
-            transform.GetChild(1).gameObject.SetActive(true);
+            childEmptyText.SetActive(true);
         }
         else
         {
-            transform.GetChild(1).gameObject.SetActive(false);
+            childEmptyText.gameObject.SetActive(false);
         }     
     }
+   
 
     private void CheckPairReorder()
     {

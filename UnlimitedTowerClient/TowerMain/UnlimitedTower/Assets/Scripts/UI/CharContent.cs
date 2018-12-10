@@ -54,15 +54,22 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
     }
     private void RemoveDeck(ref Dictionary<int, Character> charDic, CHAR_TYPE charType)
     {
+        Character character;
         if (charDic[CharDicKey].OnFormation == true)
         {
-            int deckNum = charDic[CharDicKey].FormationIndex;
-            GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
-            RemoveCharImage();
-            deck.GetComponent<FormationDeck>().RemoveDeck();
+            if(charDic.TryGetValue(CharDicKey, out character))
+            {
+                int deckNum = character.FormationIndex;
+                GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
+                RemoveCharImage();
+                deck.GetComponent<FormationDeck>().RemoveDeck();
 
-            transform.GetChild(1).gameObject.SetActive(false);
+                transform.GetChild(1).gameObject.SetActive(false);
+            }
         }
+
+           
+          
     }
     private void AddDeck(ref Dictionary<int, Character> charDic, CHAR_TYPE charType)
     {

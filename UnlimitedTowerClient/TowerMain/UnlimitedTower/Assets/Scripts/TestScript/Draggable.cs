@@ -101,7 +101,7 @@ public class Draggable :
 
 
         //UserDataManager.Inst.PutChar = gameObject;
-        FormationManager.NewDropChar = gameObject;
+       // FormationManager.NewDropChar = gameObject;
 
 
         draggingObject.transform.localScale = Vector3.one;
@@ -138,7 +138,7 @@ public class Draggable :
     #region OnEndDrag 메서드 본체
     public void OnEndDrag(PointerEventData pointerEventData)
     {
-        FormationManager.NewDropChar = null;
+       // FormationManager.NewDropChar = null;
         Destroy(draggingObject);
     }
     #endregion
