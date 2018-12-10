@@ -420,7 +420,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1493354261356964
 GameObject:
   m_ObjectHideFlags: 1
@@ -503,7 +503,7 @@ GameObject:
   - component: {fileID: 114360298417930258}
   - component: {fileID: 114311354094004200}
   m_Layer: 0
-  m_Name: UI Root (In Game)
+  m_Name: InGameUIRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1804,9 +1804,41 @@ MonoBehaviour:
   m_GameObject: {fileID: 1453124537246408}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8abbf2191677d3d4f81930db7a8a2080, type: 3}
+  m_Script: {fileID: 11500000, guid: 64482e65a3584c24e85928edb94d7b79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blurPlayAnimationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0.00019493699
+      value: 0.0005084388
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.22366461
+      value: 0.7296489
+      inSlope: 2.7238703
+      outSlope: 2.7238703
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.40307048
+      value: 0.9705997
+      inSlope: 0.15405825
+      outSlope: 0.15405825
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 0.051550265
+      outSlope: 0.051550265
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  blurPlayDuration: 2
+  blurMaterial: {fileID: 2100000, guid: ef2b7c384e295734a92cca46743a711c, type: 2}
 --- !u!114 &114588228882196614
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2316,16 +2348,16 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Material: {fileID: 2100000, guid: ef2b7c384e295734a92cca46743a711c, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 0}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3486,7 +3518,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00048828125, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224716423813102150

@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4673827535769480}
   - component: {fileID: 114082919436518572}
   m_Layer: 0
-  m_Name: HealthGaze
+  m_Name: InGameHealthGaze
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

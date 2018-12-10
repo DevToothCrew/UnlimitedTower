@@ -37,7 +37,7 @@ public class InGameUIManager : MonoSingleton<InGameUIManager>
         // should look the main camera always
         go.transform.LookAt(Camera.main.transform.position);
 
-        var numberUI = go.GetComponent<NumberUI>();
+        var numberUI = go.GetComponent<InGameNumberUI>();
 
         if (num < texNums.Length)
         {

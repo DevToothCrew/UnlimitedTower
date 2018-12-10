@@ -47,7 +47,7 @@ public class CharController : MonoBehaviour
 
     #region UIs
 
-    static private readonly string _HEALTHGAZE_PREFAB_PATH = "Prefabs/UIs/HealthGaze";
+    static private readonly string _HEALTHGAZE_PREFAB_PATH = "Prefabs/UIs/InGameHealthGaze";
     static private GameObject prefHealthGaze = null;
 
     private InGameCharHealthGaze healthGaze = null;

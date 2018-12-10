@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NumberUI : MonoBehaviour
+public class InGameNumberUI : MonoBehaviour
 {
     private readonly float _COMPLETE_THRESHOLD = 1.00f;
 
@@ -35,8 +35,6 @@ public class NumberUI : MonoBehaviour
     void Update()
     {
         float t = Mathf.Clamp01(currAnimationTime / animationDuration);
-
-        Debug.Log(t);
 
         if (t < _COMPLETE_THRESHOLD)
         {
