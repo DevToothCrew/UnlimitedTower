@@ -31,6 +31,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public int TestCharNum = 10;
 
+    private bool testInitFlag = false;
 
 
     // TODO : 확실히 필요없다고 판단되면 삭제할것
@@ -51,14 +52,19 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     }
     public void Test_InitCharacter()
     {
-        heroChar = new Character(CHAR_TYPE.SERVANT);
-        CreateHero();
-        //TODO :  나의 캐릭터(무조건 존재하는 값)이라고 가정
-        for (int i = 0; i < TestCharNum; i++)
+        if(testInitFlag == false)
         {
-            CreateServant();
-            CreateMonster();
-        }
+            heroChar = new Character(CHAR_TYPE.SERVANT);
+            CreateHero();
+            //TODO :  나의 캐릭터(무조건 존재하는 값)이라고 가정
+            for (int i = 0; i < TestCharNum; i++)
+            {
+                CreateServant();
+                CreateMonster();
+            }
+
+            testInitFlag = true;
+        }  
     }
     void CreateServant()
     {
