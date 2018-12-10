@@ -133,9 +133,16 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
             FormationList.transform.GetChild(nextDeckNum).gameObject.GetComponent<FormationDeck>().LinkedChar;
 
             // 캐릭터 사용중이라는 표시하기.
-            UserDataManager.Inst.formationDic.Add(preDeckNum, nextCharDicKey);
-            charDic[nextCharDicKey].OnFormation = true;
-            charDic[nextCharDicKey].FormationIndex = preDeckNum;
+            if(UserDataManager.Inst.formationDic.TryGetValue(preDeckNum, out nextCharDicKey))
+            {
+                UserDataManager.Inst.formationDic.Add(preDeckNum, nextCharDicKey);
+                charDic[nextCharDicKey].OnFormation = true;
+                charDic[nextCharDicKey].FormationIndex = preDeckNum;
+
+           
+            }
+
+          
 
             lastCharKey = UserDataManager.Inst.formationDic[nextDeckNum];
 
