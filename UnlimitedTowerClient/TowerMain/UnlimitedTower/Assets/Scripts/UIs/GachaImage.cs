@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Runtime.InteropServices;
 
 public class GachaImage : MonoSingleton<GachaImage>
 {
+
+    [DllImport("__Internal")]
+    public static extern void Gacha();
 
     public Animator GachaImageAnimator;
 
@@ -33,6 +37,9 @@ public class GachaImage : MonoSingleton<GachaImage>
     private GACHA_TYPE gachaType;
 
     public int TestGachaNum = 0;
+    public GameObject TestReciveText;
+
+
 
     public void Test_10_GoGacha()
     {
@@ -207,6 +214,7 @@ public class GachaImage : MonoSingleton<GachaImage>
         StatusDexText.text = newChar.Dex.ToString();
         StatusIntText.text = newChar.Int.ToString();
 
+
         Sprite sprite;
         if (gachaType == GACHA_TYPE.Servant)
         {
@@ -230,9 +238,22 @@ public class GachaImage : MonoSingleton<GachaImage>
         else gachaType = GACHA_TYPE.Servant;
 
         PacketManager.Inst.Request_Gacha(this.gachaType);
+
+
+
+        if (Test_PacketManager.Inst.GetPakcet().Length <= 0)
+        {
+            TestReciveText.GetComponent<Text>().text = "0000000000000";
+            TestReciveText.SetActive(true);
+        }
+        else
+        {
+            TestReciveText.GetComponent<Text>().text = Test_PacketManager.Inst._Packet;
+            TestReciveText.SetActive(true);
+        }
     }
 
-
+    // 가차 멈춤
     public void OnClickCheckGacha()
     {
         LightEffectCircle04Animator.SetBool("Play", false);
@@ -248,8 +269,12 @@ public class GachaImage : MonoSingleton<GachaImage>
     }
 
 
+
+    // 가챠 시작
     public void GoGacha(int gachaType)
     {
+        Gacha();
+
         LightEffectCircle04Animator.SetBool("Play", true);
         BlackHoleAnimator.SetBool("Play", true);
         PurpleCircleAnimator.SetBool("Play", true);

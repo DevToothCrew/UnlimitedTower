@@ -83,6 +83,13 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 
         // 덱 삭제
         int charIndex = UserDataManager.Inst.formationDic[DeckNum];
+
+        //if(UserDataManager.Inst.formationDic.TryGetValue(DeckNum, out charIndex))
+        //{
+
+        //}
+
+
         UserDataManager.Inst.formationDic.Remove(DeckNum);
         charDic[charIndex].OnFormation = false;
         charDic[charIndex].FormationIndex = -1;
