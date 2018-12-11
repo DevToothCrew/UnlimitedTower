@@ -709,11 +709,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
         {
             middleOffset *= -1.0f;
         }
-        else
-        {
-           
-        }
-
+ 
         switch (sizeType)
         {
             case SIZE_TYPE.SMALL:
@@ -820,26 +816,21 @@ public class BattleManager : MonoSingleton<BattleManager> {
         // 기준이 더 작을 때 문제가 생기는거 같다.
 
 
-        if(formationType == FORMATION_TYPE.ENEMY)
+        if (formationType == FORMATION_TYPE.ENEMY)
         {
             if (standardCharSizeType < charBattleStatusDic[num].sizeType)
             {
-               sign = -1.0f;
+                sign = -1.0f;
+            }
+        }
+        else
+        {
+            if (standardCharSizeType > charBattleStatusDic[num].sizeType)
+            {
+                sign = -1.0f;
             }
         }
 
-
-        //if (standardCharSizeType < charBattleStatusDic[num].sizeType)
-        //{
-        //    // ### 수정할것
-        //    //if (formationType == FORMATION_TYPE.PLAYER && charBattleStatusDic[2].sizeType == SIZE_TYPE.MIDDLE)
-        //    //{
-        //    //    sign = +1.0f;
-        //    //}
-
-        //    sign = -1.0f;
-           
-        //}         
         pos.x += -x;
         pos.z += +z * sign;
         charObjects[num].transform.position = pos;
@@ -864,17 +855,15 @@ public class BattleManager : MonoSingleton<BattleManager> {
                 sign = -1.0f;
             }
         }
+        else
+        {
+            if (standardCharSizeType > charBattleStatusDic[num].sizeType)
+            {
+                sign = -1.0f;
+            }
+        }
 
 
-        //if (standardCharSizeType < charBattleStatusDic[num].sizeType)
-        //{
-        //    sign = -1.0f;
-        //    // ### 수정할것
-        //    //if (formationType == FORMATION_TYPE.PLAYER && charBattleStatusDic[2].sizeType == SIZE_TYPE.MIDDLE)
-        //    //{
-        //    //    sign = +1.0f;
-        //    //}
-        //}
         pos.x += +x;
         pos.z += +z * sign;
         charObjects[num].transform.position = pos;
@@ -883,6 +872,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
     {
         int num = 5;
         float dis = 0.0f;
+        // 앞라인과 뒷 라인의 간격 offset
         float offset = -2.0f;
         if (formationType == FORMATION_TYPE.ENEMY)
         {
