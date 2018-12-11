@@ -263,7 +263,6 @@ public class BattleManager : MonoSingleton<BattleManager> {
                 return null;
             }
         }
-
     }
 
     int SpeedComparer(CharacterAction x, CharacterAction y)
@@ -363,6 +362,12 @@ public class BattleManager : MonoSingleton<BattleManager> {
     {
         Battle_Character_Status targetStatus = null;
         Battle_Character_Status attackStatus = null;
+
+
+        if(targetIndex ==7)
+        {
+            Debug.Log("히어로 피격당함");
+        }
 
         if(targetDic.TryGetValue(targetIndex, out targetStatus) && targetStatus != null &&
             attackDic.TryGetValue(myIndex, out attackStatus) && attackStatus != null && 
@@ -487,6 +492,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
             playerObjects[DEFINE.HERO_FORMATION_NUM].transform.SetParent(PlayerParty.transform.transform, false);
             if (playerObjects[DEFINE.HERO_FORMATION_NUM].GetComponent<CharController>())
             {
+                playerObjects[DEFINE.HERO_FORMATION_NUM].GetComponent<CharController>().status = status;
                 playerObjects[DEFINE.HERO_FORMATION_NUM].GetComponent<CharController>().formationType = FORMATION_TYPE.PLAYER;
                 playerObjects[DEFINE.HERO_FORMATION_NUM].GetComponent<CharController>().charSize = status.sizeType;
 
