@@ -206,6 +206,26 @@ public class Character
         Appear = Random.Range(0, 9999);
     }
 
+    // Test Code :
+    public Character(CHARACTER_NUM charNum)
+    {
+        Size = GetSize(charNum);
+
+        Exp = 0;
+        Level = 1;
+
+        Str = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
+        Dex = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
+        Int = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
+
+        Job = Random.Range(0, 3) * 100 + Random.Range(1, 3);
+
+
+        Name = charNum.ToString();
+        Index = (int)(charNum);
+
+        Appear = Random.Range(0, 9999);
+    }
     public int GetMaxHp()
     {
         return Str * DEFINE.MAX_HP_MULTI_posOffset * DEFINE.TEST_HP_NUM;

@@ -191,14 +191,8 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         }
            preDeckNum = UserDataManager.Inst.formationOrderList[orderIndex - 1];
 
-
-
-        // 마지막 덱의 체크가 해제되었다.
-        // 1. 여기서 false로 값을 바꿈
-        // 2. 
-
-     
-
+        // 삭제 되는 덱이 6이면 히어로 제외한
+        // 마지막이기 때문에
         if(nextDeckNum == 6)
         {
             Debug.Log("Last Servant Delete");
