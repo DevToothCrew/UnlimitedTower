@@ -39,8 +39,16 @@ public class InGameUIFinished : MonoBehaviour {
     public enum FinishedType { Clear, Failed, None }
     public FinishedType finishedType { get; set; }
 
-	// Update is called once per frame
-	void Update () {
+    static private InGameUIFinished instance = null;
+
+    private void Awake()
+    {
+        instance = instance ?? this;
+        instance.gameObject.SetActive(false);
+    }
+
+    // Update is called once per frame
+    void Update () {
 
         //Animation about blur / darkness
         {
@@ -53,7 +61,8 @@ public class InGameUIFinished : MonoBehaviour {
 
         switch(finishedType)
         {
-            case FinishedType.Clear: //Animation about clean title
+            case FinishedType.Clear: 
+                //Animation about clean title
                 {
                     clearTitlePlayedTime += Time.deltaTime / Mathf.Max(float.Epsilon, clearTitlePlayDuration);
                     float t = clearTitlePlayAnimationCurve.Evaluate(clearTitlePlayedTime);
@@ -62,7 +71,6 @@ public class InGameUIFinished : MonoBehaviour {
                 }
                 break;
             case FinishedType.Failed:
-
                 //Animation about failed title
                 {
                     failedTitlePlayedTime += Time.deltaTime / Mathf.Max(float.Epsilon, failedTitlePlayDuration);
@@ -87,7 +95,27 @@ public class InGameUIFinished : MonoBehaviour {
         clearTitleOriginColor = clearTitleImage.color;
         failedTitleOriginColor = failedTitleImage.color;
 
-        clearTitleTargetColor.a = 0.0f;
-        failedTitleTargetColor.a = 0.0f;
+        clearTitleOriginColor.a = 0.0f;
+        failedTitleOriginColor.a = 0.0f;
+
+        clearTitleImage.color = clearTitleOriginColor;
+        failedTitleImage.color = failedTitleOriginColor;
+
+        blurMaterial.SetFloat("_BlurRange", 0.0f);
+        blurMaterial.SetFloat("_Darkness", 1.0f);
+
+        clearTitleImage.gameObject.SetActive(finishedType == FinishedType.Clear);
+        failedTitleImage.gameObject.SetActive(finishedType == FinishedType.Failed);
+    }
+
+    private void OnDestroy()
+    {
+        if(instance == this) instance = null;
+    }
+
+    static public void SetupAndPlay(FinishedType type)
+    {
+        instance.finishedType = type;
+        instance.gameObject.SetActive(true);
     }
 }
