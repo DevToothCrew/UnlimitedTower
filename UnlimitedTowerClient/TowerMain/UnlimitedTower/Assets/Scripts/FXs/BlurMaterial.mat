@@ -58,6 +58,7 @@ Material:
     - _BlurRange: 3
     - _BumpScale: 1
     - _Cutoff: 0.5
+    - _Darkness: 0.1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1

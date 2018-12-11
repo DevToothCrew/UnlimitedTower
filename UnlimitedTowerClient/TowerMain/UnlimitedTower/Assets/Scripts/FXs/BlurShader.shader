@@ -1,8 +1,9 @@
-﻿Shader "Hidden/BlurShader"
+﻿Shader "UnlimitedTower/InGame/BlurShader"
 {
 	Properties
 	{
 		_BlurRange("Blur Range", range(0.0, 3.0)) = 1.0
+		_Darkness("Darkness", range(0.0, 1.0)) = 1.0
 	}
 	SubShader
 	{
@@ -11,6 +12,7 @@
 		Blend SrcAlpha OneMinusSrcAlpha
 
 		GrabPass {
+
 		}
 		Pass
 		{
@@ -63,6 +65,7 @@
 			ENDCG
 		}
 		GrabPass {
+
 		}
 		Pass
 		{
@@ -96,7 +99,7 @@
 			sampler2D _GrabTexture;
 			float4 _GrabTexture_TexelSize;
 			float _BlurRange;
-
+			float _Darkness;
 			float4 frag (v2f i) : SV_Target
 			{
 				const float gaussianFilter[9] = {0.05, 0.09, 0.12, 0.15, 0.18, 0.15, 0.12, 0.09, 0.05};
@@ -109,6 +112,7 @@
 					col += gaussianFilter[j] * tex2D(_GrabTexture, i.uv + _GrabTexture_TexelSize.xy * float2(0.0, gaussianDist[j] * _BlurRange));
 				}
 				col.a = 1.0f;
+				col.rgb *= _Darkness;
 				return col;
 			}
 			ENDCG
