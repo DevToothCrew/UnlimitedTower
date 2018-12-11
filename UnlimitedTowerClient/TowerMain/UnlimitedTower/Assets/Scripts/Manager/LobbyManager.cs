@@ -143,6 +143,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         InitCenterPopup();
         CenterPopup.SetActive(true);
         TowerInfo.SetActive(false);
+        TowerGrid.SetActive(false);
 
         centerPopupState = (LOBBY_RIGHT_BUTTON)rightButton;
 
@@ -186,6 +187,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     {
         InitCenterPopup();
         TowerInfo.SetActive(true);
+        TowerGrid.SetActive(true);
     }
     public void OnClickExitGacha()
     {
