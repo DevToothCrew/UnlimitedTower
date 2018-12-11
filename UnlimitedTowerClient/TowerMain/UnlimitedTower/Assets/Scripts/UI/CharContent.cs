@@ -37,6 +37,8 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
     {
         if (charDic.ContainsKey(CharDicKey))
         {
+            // OnFormaion = true여야하는게 false가 되서 이미지 추가 해버렷다;.
+            // 어디서 OnFormation값이 변경될 것일가?
             if (charDic[CharDicKey].OnFormation == true)
             {
                 RemoveDeck(ref charDic, charType);
@@ -68,6 +70,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
                 deck.GetComponent<FormationDeck>().RemoveDeck();
 
                 childCheckingImage.SetActive(false);
+                charDic[CharDicKey].OnFormation = false;
             }
         }
 
@@ -113,6 +116,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
 
                 // 캐릭터 사용중이라는 표시하기.
                 UserDataManager.Inst.formationDic.Add(deckNum, CharDicKey);
+                Debug.Log("CharDicKey : " + CharDicKey);
                 charDic[CharDicKey].OnFormation = true;
                 charDic[CharDicKey].FormationIndex = deckNum;
 

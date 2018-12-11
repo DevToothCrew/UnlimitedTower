@@ -245,9 +245,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
                     //  포메이션 세팅.
                     if (charDic[dic.Key].FormationIndex != -1)
                     {
-                        Debug.Log("dic.key : " + dic.Key);
                         int deckNum = charDic[dic.Key].FormationIndex;
-
                         LoadCharImage(imageFath + charDic[dic.Key].Name, deckNum, instance);                 
                     }
                 }
