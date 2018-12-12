@@ -170,11 +170,12 @@ class clogin_system
         eosio_assert(user_iter->a_hero_slot >= _hero_slot,"need more character slot");
         eosio_assert(user_iter->a_hero_list[_hero_slot].h_state == ehero_state::set_status,"free roulette completed status setting");
 
+        uint64_t l_seed = safeseed::get_seed(_user);
         auth_user_table.modify(user_iter, owner, [&](auto &hero_status_set) {
             hero_status_set.a_hero_list[_hero_slot].h_state = ehero_state::set_change_status;
-            hero_status_set.a_hero_list[_hero_slot].h_status.basic_str = safeseed::random_seed(safeseed::get_seed(_user),10,1,1);
-            hero_status_set.a_hero_list[_hero_slot].h_status.basic_dex = safeseed::random_seed(safeseed::get_seed(_user),10,1,2);
-            hero_status_set.a_hero_list[_hero_slot].h_status.basic_int = safeseed::random_seed(safeseed::get_seed(_user),10,1,3);
+            hero_status_set.a_hero_list[_hero_slot].h_status.basic_str = safeseed::get_random_seed(l_seed,10,1,1);
+            hero_status_set.a_hero_list[_hero_slot].h_status.basic_dex = safeseed::get_random_seed(l_seed,10,1,2);
+            hero_status_set.a_hero_list[_hero_slot].h_status.basic_int = safeseed::get_random_seed(l_seed,10,1,3);
         });
     }
     void change_status(account_name _user,uint8_t _hero_slot)
@@ -184,10 +185,11 @@ class clogin_system
         eosio_assert(user_iter->a_hero_slot >= _hero_slot, "need more character slot");
         eosio_assert(user_iter->a_hero_list[_hero_slot].h_state == ehero_state::set_change_status, "already completed status setting");
 
+        uint64_t l_seed = safeseed::get_seed(_user);
         auth_user_table.modify(user_iter, owner, [&](auto &hero_status_change) {
-            hero_status_change.a_hero_list[_hero_slot].h_status.basic_str = safeseed::random_seed(safeseed::get_seed(_user),10,1,1);
-            hero_status_change.a_hero_list[_hero_slot].h_status.basic_dex = safeseed::random_seed(safeseed::get_seed(_user),10,1,2);
-            hero_status_change.a_hero_list[_hero_slot].h_status.basic_int = safeseed::random_seed(safeseed::get_seed(_user),10,1,3);
+            hero_status_change.a_hero_list[_hero_slot].h_status.basic_str = safeseed::get_random_seed(l_seed,10,1,1);
+            hero_status_change.a_hero_list[_hero_slot].h_status.basic_dex = safeseed::get_random_seed(l_seed,10,1,2);
+            hero_status_change.a_hero_list[_hero_slot].h_status.basic_int = safeseed::get_random_seed(l_seed,10,1,3);
         });
     }
     void complete_hero_set(account_name _user, uint8_t _hero_slot)
@@ -253,10 +255,10 @@ class clogin_system
             }
             stage_info enemy_info;
             enemy_info.type_index = j;
-            enemy_info.s_str = j + l_stage_count;
-            enemy_info.s_dex = j + l_stage_count;
-            enemy_info.s_int = j + l_stage_count;
-            enemy_info.s_job = j;
+            enemy_info.base_str = j + l_stage_count;
+            enemy_info.base_dex = j + l_stage_count;
+            enemy_info.base_int = j + l_stage_count;
+            enemy_info.base_job = j;
 
             auto cur_stage_iter = stage.find(l_stage_count);
             if (cur_stage_iter == stage.end())
