@@ -19,11 +19,12 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     // 포메이션 : 캐릭터 인덱스 ->가 들어가는 딕셔너리
     public Dictionary<int, int> formationDic = new Dictionary<int, int>();
 
+    public Dictionary<int, int> oldFormationDic = new Dictionary<int, int>();
 
     // 유저의 캐릭터 키값들 담는 리스트
     public List<int> userCharsKeyList = new List<int>();
 
-    // 포메이션 임시 틀
+    // 포메이션 들어가는 순서
     public List<int> formationOrderList = new List<int>()
     {
       7, 6, 8, 5, 9, 2, 1, 3, 0, 4 
@@ -124,9 +125,9 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     }
     private void LoadCharImage(string imageFath, int deckNum, GameObject original)
     {
-        GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
+        //GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
+        GameObject deck = FormationManager.Inst.Decks[deckNum];
         Sprite sprite = Resources.Load<Sprite>(imageFath);
-
 
         if (deck.GetComponent<FormationDeck>())
         {
@@ -224,8 +225,9 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     {
         string path = "UI/CharaterImage/" + heroChar.Name;
         LoadCharImage(path, DEFINE.HERO_FORMATION_NUM, null);
-        LoadCharData(LobbyManager.Inst.ServantContentList, ref servantDic, CHAR_TYPE.SERVANT);
-        LoadCharData(LobbyManager.Inst.MonsterContentList, ref monsterDic, CHAR_TYPE.MONSTER);
+        // LobbyManager.Inst
+        LoadCharData(CharacterListManager.Inst.ServantContentList, ref servantDic, CHAR_TYPE.SERVANT);
+        LoadCharData(CharacterListManager.Inst.MonsterContentList, ref monsterDic, CHAR_TYPE.MONSTER);
     }
 
 
@@ -292,15 +294,17 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             {
                 instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + getChar);
                 instance.GetComponent<CharContent>().CharDicKey = characterIndex - 1;
-                instance.transform.SetParent(LobbyManager.Inst.ServantContentList.transform.transform);
+                instance.transform.SetParent(CharacterListManager.Inst.ServantContentList.transform.transform);
+                //instance.transform.SetParent(LobbyManager.Inst.ServantContentList.transform.transform);
                 instance.GetComponent<CharContent>().CharType = CHAR_TYPE.SERVANT;
             }
             else
             {
                 instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/MonsterImage/" + getChar);
                 instance.GetComponent<CharContent>().CharDicKey = monsterIndex - 1;
-                instance.transform.SetParent(LobbyManager.Inst.MonsterContentList.transform.transform);
-                instance.GetComponent<CharContent>().CharType = CHAR_TYPE.MONSTER;
+                instance.transform.SetParent(CharacterListManager.Inst.MonsterContentList.transform.transform); 
+                 //instance.transform.SetParent(LobbyManager.Inst.MonsterContentList.transform.transform);
+                 instance.GetComponent<CharContent>().CharType = CHAR_TYPE.MONSTER;
             }          
         } 
     }

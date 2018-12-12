@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Runtime.InteropServices;
@@ -116,6 +117,35 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("Request_GetPartnerInfo");
     }
+    public void Request_SaveFormation()
+    {
+        Debug.Log("Request_SaveFormation");
+        Response_SaveFormation();
+    }
+
+
+    public void SendFormtionInfo()
+    {
+        List<int> formationList = new List<int>();
+        int formationNum = 0;
+        for (int i = 0; i < 10; i++)
+        {
+            if (UserDataManager.Inst.formationDic.ContainsKey(i) == true)
+            {
+                if (!UserDataManager.Inst.formationDic.TryGetValue(i, out formationNum))
+                {
+                    Debug.Log("Error : SendFormationInfo");
+                }
+            }
+            else
+            {
+                formationNum = 0;
+
+            }
+            formationList.Add(formationNum);
+
+        }
+    }
 
     public void Request_GetStageInfo(int stageNum)
     {
@@ -202,7 +232,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void Response_GachaResult(GACHA_TYPE gachaType)
     {
-        switch(gachaType)
+        switch (gachaType)
         {
             case GACHA_TYPE.Servant:
                 {
@@ -232,7 +262,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                     Debug.Log("Response_ItemGacha");
                     break;
                 }
-        }     
+        }
     }
     public void Response_ExitGacha()
     {
@@ -242,6 +272,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void Response_GetPartnerInfo()
     {
         Debug.Log("Response_GetPartnerInfo");
+    }
+    public void Response_SaveFormation()
+    {
+        Debug.Log("Response_SaveFormation");
     }
 
     public void Response_GetStageInfo(int stageNum)

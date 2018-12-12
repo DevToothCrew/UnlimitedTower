@@ -8,7 +8,9 @@ public class FormationManager : MonoSingleton<FormationManager>
     public GameObject[] Decks = new GameObject[10];
     public GameObject[] DeckImages = new GameObject[10];
     public GameObject[] DeckTexts = new GameObject[10];
-    //public GameObject[] 
+
+
+    public bool BeSaved = false;
 
     // 하이어라키 뷰 오브젝트가 바뀌면
     // GetChild 접근이 에러가 날 확률이 급격히 증가한다.
@@ -26,9 +28,16 @@ public class FormationManager : MonoSingleton<FormationManager>
         }
     }
 
-    void Func()
+    public void OnClickSaveFormation()
     {
-        Decks[0].transform.GetChild(0);
+        PacketManager.Inst.Request_SaveFormation();
+        BeSaved = true;
+        // 저장 버튼을 안눌렀으면
+
+        // 저장 버튼을 안눌렸으면
+        // 이전 덱으로 되돌아 가야하나?
     }
 
 }
+
+// 히어로 넘버를 0, 1, 2 중 하나로
