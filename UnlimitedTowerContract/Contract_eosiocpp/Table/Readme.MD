@@ -3,57 +3,56 @@
 ###1. [table] - auth_user_table.hpp
 - 유저의 기본 정보를 가지고 있는 테이블 입니다.
 
-struct shero_info
-{
-* uint32_t h_state;
-    - 히어로 상태값 입니다.
-    enum ehero_state
-    {   
-        set_look = 1,
-        set_status,
-        set_change_status,
-        set_complete,
-        set_tower_party,
-        set_travel_party,
-    };
-
-* sobject_appear h_appear;
-    - 히어로의 외모 정보 입니다.
-    struct sobject_appear
-    {
-        uint8_t head = 0;
-        uint8_t hair = 0;
-        uint8_t body = 0;
-    };
-* sobject_status h_status;
-    - 히어로의 기본 스탯 정보 입니다.
-    struct sobject_status
-    {
-        uint32_t basic_str = 0;
-        uint32_t basic_dex = 0;
-        uint32_t basic_int = 0;
-        uint8_t job = 0;
-    };
-* sobject_plus_status h_plus_status;
-    - 히어로의 추가 스탯 정보 입니다.
-    struct sobject_plus_status
-    {
-        uint32_t plus_str = 0;
-        uint32_t plus_dex = 0;
-        uint32_t plus_int = 0;
-        uint32_t stat_point = 0;
-    };
-
-* std::vector<uint32_t> h_equip_slot;
-    - 히어로의 장비 정보 입니다.
-};
-
 
 * account_name a_user
     - primary_key : account_name user : 유저의 계정 명이다.
 
 * std::vector<shero_info> a_hero_list
     - a_hero_list : 유저의 영웅 정보를 담고 있는 벡터이다.
+    - 해당 리스트는 shero_info로 이루어져 있습니다.
+
+* uint32_t h_state;
+    - 히어로 상태값 입니다.
+    * enum ehero_state
+    * {   
+    *     set_look = 1,
+    *     set_status,
+    *     set_change_status,
+    *     set_complete,
+    *     set_tower_party,
+    *     set_travel_party,
+    * };
+
+* sobject_appear h_appear;
+    - 히어로의 외모 정보 입니다.
+    * struct sobject_appear
+    * {
+    *     uint8_t head = 0;
+    *     uint8_t hair = 0;
+    *     uint8_t body = 0;
+    * };
+* sobject_status h_status;
+    - 히어로의 기본 스탯 정보 입니다.
+    * struct sobject_status
+    * {
+    *     uint32_t basic_str = 0;
+    *     uint32_t basic_dex = 0;
+    *     uint32_t basic_int = 0;
+    *     uint8_t job = 0;
+    * };
+* sobject_plus_status h_plus_status;
+    - 히어로의 추가 스탯 정보 입니다.
+    * struct sobject_plus_status
+    * {
+    *     uint32_t plus_str = 0;
+    *     uint32_t plus_dex = 0;
+    *     uint32_t plus_int = 0;
+    *     uint32_t stat_point = 0;
+    * };
+
+* std::vector<uint32_t> h_equip_slot;
+    - 히어로의 장비 정보 입니다.
+
 
 * uint32_t a_game_money
     - a_game_money : 유저의 게임 재화 정보를 갖는 값이다.
@@ -188,40 +187,40 @@ struct shero_info
 
 ------------------------------------------game object table----------------------------------------
 
-enum eobject_state
-{
-    in_inventory,   //인벤토리에 들어있는 상태
-    in_equip_slot,  //장비에 장착한 상태
-    in_party,        //파티에 속해있는 상태
-    in_tower,        //타워 파티에 속해있는 상태
-    object_presale,  //사전예약때 뽑은 상태
-};
+* enum eobject_state
+* {
+*     in_inventory,   //인벤토리에 들어있는 상태
+*     in_equip_slot,  //장비에 장착한 상태
+*     in_party,        //파티에 속해있는 상태
+*     in_tower,        //타워 파티에 속해있는 상태
+*     object_presale,  //사전예약때 뽑은 상태
+* };
 
 - 게임내 오브젝트들이 사용하는 상태 값 입니다.
 
 
-struct sobject_appear
-{
-    uint8_t head = 0;       //오브젝트 얼굴 정보
-    uint8_t hair = 0;       //오브젝트 머리 정보
-    uint8_t body = 0;       //오브젝트 몸 정보
-};
+* struct sobject_appear
+* {
+*     uint8_t head = 0;       //오브젝트 얼굴 정보
+*     uint8_t hair = 0;       //오브젝트 머리 정보
+*     uint8_t body = 0;       //오브젝트 몸 정보
+* };
 
-struct sobject_status
-{
-    uint32_t basic_str = 0; //오브젝트 기본 힘
-    uint32_t basic_dex = 0; //오브젝트 기본 민첩
-    uint32_t basic_int = 0; //오브젝트 기본 지능
-    uint8_t job = 0;        //오브젝트 기본 직업
-};
+* struct sobject_status
+* {
+*     uint32_t basic_str = 0; //오브젝트 기본 힘
+*     uint32_t basic_dex = 0; //오브젝트 기본 민첩
+*     uint32_t basic_int = 0; //오브젝트 기본 지능
+*     uint8_t job = 0;        //오브젝트 기본 직업
+* };
 
-struct sobject_plus_status
-{
-    uint32_t plus_str = 0;  //오브젝트 추가 힘
-    uint32_t plus_dex = 0;  //오브젝트 추가 민첩
-    uint32_t plus_int = 0;  //오브젝트 추가 지능
-    uint32_t stat_point = 0;//오브젝트 추가 스테이터스 포인트
-};
+* struct sobject_plus_status
+* {
+*     uint32_t plus_str = 0;  //오브젝트 추가 힘
+*     uint32_t plus_dex = 0;  //오브젝트 추가 민첩
+*     uint32_t plus_int = 0;  //오브젝트 추가 지능
+*     uint32_t stat_point = 0;//오브젝트 추가 스테이터스 포인트
+* };
 -  게임내 오브젝트들이 사용하는 구조체 구조 입니다.
 
 
@@ -234,13 +233,13 @@ struct sobject_plus_status
     - servant_list : 유저가 소유한 용병의 리스트 입니다.
     - 해당 리스트는 cservantinfo 자료형으로 이루어져 있습니다.
 
-uint64_t s_index;           //서번트 인덱스번호
-sobject_appear s_appear;    //서번트 외형 정보
-sobject_status s_status;    //서번트 힘민지 직업
-sobject_plus_status s_plus_status;  //서번트 추가힘민지
-std::vector<uint32_t> s_equip_slot; //서번트 장비 리스트
-uint32_t s_exp = 0;                 //서번트 경험치
-uint32_t s_state = eobject_state::in_inventory; //서번트 상태
+* uint64_t s_index;           //서번트 인덱스번호
+* sobject_appear s_appear;    //서번트 외형 정보
+* sobject_status s_status;    //서번트 힘민지 직업
+* sobject_plus_status s_plus_status;  //서번트 추가힘민지
+* std::vector<uint32_t> s_equip_slot; //서번트 장비 리스트
+* uint32_t s_exp = 0;                 //서번트 경험치
+* uint32_t s_state = eobject_state::in_inventory; //서번트 상태
 
 
 
@@ -254,14 +253,14 @@ uint32_t s_state = eobject_state::in_inventory; //서번트 상태
     - monster_list : 유저가 소유한 몬스터의 리스트입니다.
     - 해당리스트는 cmonsterinfo 자료형으로 이루어져 있습니다.
 
-uint64_t m_index;                                // 고유 인덱스
-uint32_t m_type;                                 // 외형 - 타입
-sobject_status m_status;                         // 힘민지
-sobject_plus_status m_plus_status;               // 추가 힘민지
-uint32_t m_exp = 0;                              // 경험치
-uint32_t m_grade;                                // 등급
-uint32_t m_reinforce = 0;                        // 강화수치
-uint32_t m_state = eobject_state::in_inventory;; // 몬스터 상태값
+* uint64_t m_index;                                // 고유 인덱스
+* uint32_t m_type;                                 // 외형 - 타입
+* sobject_status m_status;                         // 힘민지
+* sobject_plus_status m_plus_status;               // 추가 힘민지
+* uint32_t m_exp = 0;                              // 경험치
+* uint32_t m_grade;                                // 등급
+* uint32_t m_reinforce = 0;                        // 강화수치
+* uint32_t m_state = eobject_state::in_inventory;; // 몬스터 상태값
 
 
 
@@ -274,14 +273,14 @@ uint32_t m_state = eobject_state::in_inventory;; // 몬스터 상태값
     - item_list : 유저가 소유한 아이템의 리스트입니다.
     - 해당리스트는 citeminfo 자료형으로 이루어져 있습니다.
 
-uint64_t i_index;               //아이템 인덱스
-uint32_t i_id;                  //아이템 고유 아이디
-uint32_t i_type = 0;            //종류
-uint32_t i_slot;                //장착 타입
-uint32_t i_tier;                //티어
-sobject_status i_status;        //힘민지 직업
-uint32_t i_state                //아이템 현재 상태
-uint32_t i_grade;               //아이템 등급
-uint32_t i_reinforce = 0;       //아이템 강화 수치
+* uint64_t i_index;               //아이템 인덱스
+* uint32_t i_id;                  //아이템 고유 아이디
+* uint32_t i_type = 0;            //종류
+* uint32_t i_slot;                //장착 타입
+* uint32_t i_tier;                //티어
+* sobject_status i_status;        //힘민지 직업
+* uint32_t i_state                //아이템 현재 상태
+* uint32_t i_grade;               //아이템 등급
+* uint32_t i_reinforce = 0;       //아이템 강화 수치
 
 
