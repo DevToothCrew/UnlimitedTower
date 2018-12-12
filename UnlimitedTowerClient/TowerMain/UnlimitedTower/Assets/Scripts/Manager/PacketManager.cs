@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Runtime.InteropServices;
 
+
 public class PacketManager : MonoSingleton<PacketManager> {
 
     #region ServerConnect
@@ -145,6 +146,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
             formationList.Add(formationNum);
 
         }
+ 
+        SetFormation(0, formationList[0], formationList[1], formationList[2], formationList[3], formationList[4],
+                     formationList[5], formationList[6], formationList[7], formationList[8], formationList[9]);
+        //string json = JsonUtility.ToJson(formationList);
+        // var serializer = new System.Web.Script.Ser
+        //avaScriptSerializer json = new JavaScriptSerializer();
+
     }
 
     public void Request_GetStageInfo(int stageNum)
