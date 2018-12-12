@@ -25,6 +25,21 @@ public class PacketManager : MonoSingleton<PacketManager> {
     [DllImport("__Internal")]
     private static extern void BindWebGLTexture(int texture);
 
+    // Added by John
+    [DllImport("__Internal")]
+    private static extern void SetFormation (int party_num, int pos_1, int pos_2, int pos_3, int pos_4, int pos_5, int pos_6, int pos_7, int pos_8, int pos_9, int pos_10);
+
+    [DllImport("__Internal")]
+    private static extern void GetStageInfo (int stage_num);
+
+    [DllImport("__Internal")]
+    private static extern void BattleAction (int target_1, int action_1, int target_2, int action_2);
+
+    [DllImport("__Internal")]
+    private static extern void StartBattle (int stage_num, int party_num);
+    
+
+
     void Start()
     {
 
