@@ -2,7 +2,6 @@
 
 ###1. [table] - auth_user_table.hpp
 - 유저의 기본 정보를 가지고 있는 테이블 입니다.
-- 유저의 히어로들 정보, 보유 게임 머니,보유 히어로 갯수를 가지고 있습니다.
 
 struct shero_info
 {
@@ -81,61 +80,75 @@ struct shero_info
 
 
 
-[table] - log_table.hpp
+###2. [table] - log_table.hpp
+- 유저의 로그정보를 가지고 있는 테이블 입니다.
+
+* account_name l_user;
+    - primary_key : account_name user : 유저의 계정 명이다.
+
+* uint32_t l_servant_num;
+    - l_servant_num : 유저가 획득한 용벙의 숫자이다
+
+* uint32_t l_monster_num;
+    - l_monster_num : 유저가 획득한 몬스터의 숫자이다
+
+* uint32_t l_item_num;
+    - l_item_num    : 유저가 획득한 아이템의 숫자이다
+
+* uint32_t l_gacha_num;
+    - l_gacha_num   : 유저가 뽑기를 한 횟수이다
+
+* uint32_t l_login_time;
+    - l_login_time  : 유저가 마지막으로 로그인한 시간이다
+
+* uint32_t l_get_gold;
+    - l_get_gold    : 유저가 얻은 게임내의 재화량이다.
+
+* asset l_get_eos;
+    - l_get_eos     : 유저가 얻은 EOS의 양이다.
+
+* uint32_t l_use_gold;
+    - l_use_gold    : 유저가 사용한 게임내의 재화량이다.
+
+* asset l_use_eos;
+    - l_use_eos     : 유저가 사용한 EOS의 양이다.
 
 
-- primary_key : account_name user : 유저의 계정 명이다.
-
-- l_servant_num : 유저가 획득한 용벙의 숫자이다
-
-- l_monster_num : 유저가 획득한 몬스터의 숫자이다
-
-- l_item_num    : 유저가 획득한 아이템의 숫자이다
-
-- l_gacha_num   : 유저가 뽑기를 한 횟수이다
-
-- l_login_time  : 유저가 마지막으로 로그인한 시간이다
-
-- l_get_gold    : 유저가 얻은 게임내의 재화량이다.
-
-- l_get_eos     : 유저가 얻은 EOS의 양이다.
-
-- l_use_gold    : 유저가 사용한 게임내의 재화량이다.
-
-- l_use_eos     : 유저가 사용한 EOS의 양이다.
-
-- l_battle_count: 유저가 진행한 전투의 횟수이다.
-
-- l_last_stage_num : 유저가 마지막으로 클리어한 스테이지의 번호이다.
-
-- l_last_tower_num : 유저가 마지막으로 클리어한 타워의 번호이다.
-
-- l_top_clear_stage : 유저가 클리어한 최고 스테이지의 번호이다.
-
-- l_top_clear_tower : 유저가 클리어한 최고 타워의 층 번호이다.
-
-- l_add_party_count     : 유저가 보유한 파티의 갯수이다.
-
-- l_character_count : 유저가 보유한 캐릭터 갯수이다.
+* uint32_t l_battle_count;
+    - l_battle_count: 유저가 진행한 전투의 횟수이다.
 
 
+* uint32_t l_last_stage_num;
+    - l_last_stage_num : 유저가 마지막으로 클리어한 스테이지의 번호이다.
 
-[table] - party_table
+* uint32_t l_last_tower_num;
+    - l_last_tower_num : 유저가 마지막으로 클리어한 타워의 번호이다.
+
+* uint32_t l_top_clear_stage;
+    - l_top_clear_stage : 유저가 클리어한 최고 스테이지의 번호이다.
+
+* uint32_t l_top_clear_tower;
+    - l_top_clear_tower : 유저가 클리어한 최고 타워의 층 번호이다.
+
+* uint32_t l_add_party_count;
+    - l_add_party_count     : 유저가 보유한 파티의 갯수이다.
 
 
-- primary_key : account_name user : 유저의 계정 명이다.
+###3. [table] - party_table
 
-- party_list : 유저의 파티별 정보를 담고 있는 리스트입니다.
-해당 리스트는 아래 구조체로 이루어줘 있습니다.
+* account_name p_user;
+    - primary_key : account_name user : 유저의 계정 명이다.
 
-struct sparty_info
-{
-    std::vector<uint32_t> party_id_list;
-}
+* std::vector<sparty_info> party_list;
+    - party_list : 유저의 파티별 정보를 담고 있는 리스트입니다.
+    - 해당 리스트는 아래의 구조체로 이루어져 있습니다.
+    struct sparty_info
+    {
+        std::vector<uint32_t> party_id_list;
+    }
 
 
-
-[table] - battle_table
+###4 .[table] - battle_table
 
 
 - primary_key : account_name user : 유저의 계정 명이다.
@@ -177,25 +190,16 @@ struct sparty_info
 
 enum eobject_state
 {
-    in_inventory,      //인벤토리에 들어있는 상태
-    
-    in_party,           //파티에 속해있는 상태
-    in_tower,           //타워 파티에 속해있는 상태
-    object_presale,     //사전예약때 뽑은 상태
+    in_inventory,   //인벤토리에 들어있는 상태
+    in_equip_slot,  //장비에 장착한 상태
+    in_party,        //파티에 속해있는 상태
+    in_tower,        //타워 파티에 속해있는 상태
+    object_presale,  //사전예약때 뽑은 상태
 };
-- 몬스터와 서번트가 사용하는 상태 값 입니다.
+
+- 게임내 오브젝트들이 사용하는 상태 값 입니다.
 
 
-
-
-
-* [table] - servant_table
-
-- primary_key : account_name user : 유저의 계정 명이다.
-
-- servant_list : 유저가 소유한 용병의 리스트 입니다.
-
-해당 리스트는 cservantinfo 자료형으로 이루어져 있습니다.
 struct sobject_appear
 {
     uint8_t head = 0;       //오브젝트 얼굴 정보
@@ -218,65 +222,66 @@ struct sobject_plus_status
     uint32_t plus_int = 0;  //오브젝트 추가 지능
     uint32_t stat_point = 0;//오브젝트 추가 스테이터스 포인트
 };
-
-struct cservantinfo
-{
-    uint64_t s_index;           //서번트 인덱스번호
-    sobject_appear s_appear;    //서번트 외형 정보
-    sobject_status s_status;    //서번트 힘민지 직업
-    sobject_plus_status s_plus_status;  //서번트 추가힘민지
-    std::vector<uint32_t> s_equip_slot; //서번트 장비 리스트
-    uint32_t s_exp = 0; //서번트 경험치
-    uint32_t s_state = eobject_state::in_inventory; //서번트 상태
-};
+-  게임내 오브젝트들이 사용하는 구조체 구조 입니다.
 
 
+###5. [table] - servant_table
 
-* [table] - monster_table
+* account_name s_user;
+    - primary_key : account_name user : 유저의 계정 명이다.
 
-- primary_key : account_name user : 유저의 계정 명이다.
+* std::vector<cservantinfo> servant_list;
+    - servant_list : 유저가 소유한 용병의 리스트 입니다.
+    - 해당 리스트는 cservantinfo 자료형으로 이루어져 있습니다.
 
-- monster_list : 유저가 소유한 몬스터의 리스트입니다.
-
-해당리스트는 cmonsterinfo 자료형으로 이루어져 있습니다.
-
-    uint64_t m_index;  //고유 인덱스
-    uint32_t m_type;   //외형 - 타입
-    sobject_status m_status; // 힘민지
-    sobject_plus_status m_plus_status; //추가 힘민지
-    uint32_t m_exp = 0; //경험치
-    uint32_t m_grade; // 등급
-    uint32_t m_reinforce = 0; //강화수치
-    uint32_t m_state = eobject_state::in_inventory;; //몬스터 상태값
+uint64_t s_index;           //서번트 인덱스번호
+sobject_appear s_appear;    //서번트 외형 정보
+sobject_status s_status;    //서번트 힘민지 직업
+sobject_plus_status s_plus_status;  //서번트 추가힘민지
+std::vector<uint32_t> s_equip_slot; //서번트 장비 리스트
+uint32_t s_exp = 0;                 //서번트 경험치
+uint32_t s_state = eobject_state::in_inventory; //서번트 상태
 
 
 
 
-* [table] - item_table
+###6. [table] - monster_table
 
-- primary_key : account_name user : 유저의 계정 명이다.
+* account_name m_user;
+    - primary_key : account_name user : 유저의 계정 명이다.
 
-- item_list : 유저가 소유한 아이템의 리스트입니다.
+* std::vector<cmonsterinfo> monster_list;
+    - monster_list : 유저가 소유한 몬스터의 리스트입니다.
+    - 해당리스트는 cmonsterinfo 자료형으로 이루어져 있습니다.
 
-해당리스트는 citeminfo 자료형으로 이루어져 있습니다.
-struct citeminfo
-{
-    uint64_t i_index; //아이템 인덱스
-    uint32_t i_id; //아이템 고유 아이디
-    uint32_t i_type = 0;  //종류
-    uint32_t i_slot;  //장착 타입
-    uint32_t i_tier;  //티어
-    sobject_status i_status; //힘민지 직업
-    uint32_t i_state; //아이템 현재 상태
-    uint32_t i_grade; //아이템 등급
-    uint32_t i_reinforce = 0; //아이템 강화 수치
-};
+uint64_t m_index;                                // 고유 인덱스
+uint32_t m_type;                                 // 외형 - 타입
+sobject_status m_status;                         // 힘민지
+sobject_plus_status m_plus_status;               // 추가 힘민지
+uint32_t m_exp = 0;                              // 경험치
+uint32_t m_grade;                                // 등급
+uint32_t m_reinforce = 0;                        // 강화수치
+uint32_t m_state = eobject_state::in_inventory;; // 몬스터 상태값
 
 
-enum item_state -  아이템의 상태값입니다.
-{
-    item_inventory = 0, //방금막 뽑아서 인벤토리에 들어온 상태
-    item_equip,         //아이템 슬롯에 장착이 되어있는 상태
-    item_notsell,       //판매가 불가능한 상태
-    item_presale,       //사전예약때 뽑은 상태
-};
+
+###7. [table] - item_table
+
+* account_name i_user;
+    - primary_key : account_name user : 유저의 계정 명이다.
+
+* std::vector<citeminfo> item_list;
+    - item_list : 유저가 소유한 아이템의 리스트입니다.
+    - 해당리스트는 citeminfo 자료형으로 이루어져 있습니다.
+
+uint64_t i_index;               //아이템 인덱스
+uint32_t i_id;                  //아이템 고유 아이디
+uint32_t i_type = 0;            //종류
+uint32_t i_slot;                //장착 타입
+uint32_t i_tier;                //티어
+sobject_status i_status;        //힘민지 직업
+uint32_t i_state                //아이템 현재 상태
+uint32_t i_grade;               //아이템 등급
+uint32_t i_reinforce = 0;       //아이템 강화 수치
+
+
