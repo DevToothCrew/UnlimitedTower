@@ -2,16 +2,17 @@
 #include "../Common/common_header.hpp"
 
 
-enum echaracter_state
+enum ebattle_member_state
 {
     none = 0,
     sleep,
+    dead,
 };
 // 1 + 8 = 9
 struct sbattle_member_state
 {
     uint8_t turn_count;       //캐릭터 상태의 지속 턴 횟수
-    uint64_t state;           //캐릭터의 현재 상태
+    uint64_t turn_state;           //캐릭터의 현재 상태
 };
 // 4 + 4 + 4 + 4 + 4 + 4 + 8 + sbattle_member_state(9) = 41
 // sbattle_member_state 당 9 총 5개의 버프창이 있으면 45 + 32 = 77

@@ -119,16 +119,16 @@
 
 
 #pragma region Battle
+        // //@abi action
+        // void setbattle(account_name _user,uint32_t _party_number,uint8_t _stage)
+        // {
+        //     print("user start battle\n");
+        //     battle_controller.set_battle(_user,_party_number,_stage);
+        // }
         //@abi action
-        void setbattle(account_name _user,uint32_t _party_number,uint8_t _stage)
+        void startbattle(account_name _user,uint8_t _party_number,uint8_t _stage)
         {
-            print("user start battle\n");
-            battle_controller.set_battle(_user,_party_number,_stage);
-        }
-        //@abi action
-        void startbattle(account_name _user,uint8_t _party_number)
-        {
-            battle_controller.start_battle(_user,_party_number);
+            battle_controller.start_battle(_user,_party_number,_stage);
         }
         //@abi action
         void activeturn(account_name _user,uint8_t _hero_action,uint8_t _monster_action,uint8_t _hero_target,uint8_t _monster_target)
@@ -136,23 +136,18 @@
             print("active turn action\n");
             battle_controller.active_turn(_user,_hero_action,_monster_action,_hero_target,_monster_target);
         }
-        //@abi action
-        void getreward(account_name _user)
-        {
-            battle_controller.get_battle_reward(_user);
-        }
+        // //@abi action
+        // void getreward(account_name _user)
+        // {
+        //     battle_controller.get_battle_reward(_user);
+        // }
 #pragma endregion
 
 #pragma resion Party
-        void sethero(account_name _user,uint32_t _party_number,uint8_t _hero_slot)
-        {
-            party_controller.set_hero(_user,_party_number,_hero_slot);
-        }
         //@abi action
-        void setparty(account_name _user,uint8_t _party_number,uint8_t _party_location_index,uint32_t _object_type,uint64_t _object_index)
+        void setparty(account_name _user,uint8_t _party_number,const std::vector<uint32_t> &_party_list)
         {
-            print("set party action\n");
-            party_controller.set_party(_user,_party_number,_party_location_index,_object_type,_object_index);
+            party_controller.set_party(_user,_party_number,_party_list);
         }
 #pragma endregion
 
@@ -163,12 +158,12 @@
             print("sell item action \n");
             item_controller.sell_item(_user,_item_location,_item_index);
         }
-        //abi action
-        void buyitem(account_name _user,uint8_t _item_location,uint64_t _item_index)
-        {
-            print("buy item action\n");
-            item_controller.buy_item(_user,_item_location,_item_index);
-        }
+        // //abi action
+        // void buyitem(account_name _user,uint8_t _item_location,uint64_t _item_index)
+        // {
+        //     print("buy item action\n");
+        //     item_controller.buy_item(_user,_item_location,_item_index);
+        // }
         //@abi action
         void equipser(account_name _user,uint8_t _item_location,uint64_t _item_index,uint64_t _object_index,uint8_t _item_slot)
         {
@@ -236,4 +231,4 @@ extern "C" { \
 }
 // eos 금액에 대해 체크 하는 함
 
-    EOSIO_ABI(cmain_logic,(datainit)(stageinit)(signup)(lookset)(statset)(completehero)(transfer)(setbattle)(startbattle)(activeturn)(getreward)(sethero)(setparty)(sellitem)(buyitem)(equipser)(unequipser)(equiphero)(unequiphero)(resettable) )
+    EOSIO_ABI(cmain_logic,(datainit)(stageinit)(signup)(lookset)(statset)(completehero)(transfer)(startbattle)(activeturn)(setparty)(sellitem)(equipser)(unequipser)(equiphero)(unequiphero)(resettable) )
