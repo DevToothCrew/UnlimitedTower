@@ -3,10 +3,10 @@
 struct stage_info
 {
     uint32_t type_index;
-    uint32_t s_str = 0;
-    uint32_t s_dex = 0;
-    uint32_t s_int = 0;
-    uint8_t s_job = 0;
+    uint32_t base_str = 0;
+    uint32_t base_dex = 0;
+    uint32_t base_int = 0;
+    uint8_t base_job = 0;
 };
 
 //@abi table cbattledata i64
