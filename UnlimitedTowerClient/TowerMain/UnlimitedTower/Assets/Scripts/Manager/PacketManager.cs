@@ -76,10 +76,25 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
     }
 
-    public void Request_Gacha(GACHA_TYPE gachaType)
+
+    public void Request_EntryGacha()
     {
-        Debug.Log("Request_Gacha");
-        Response_Gacha(gachaType);
+        Debug.Log("Request_EntryGacha");
+        Response_EntryGacha();
+    }
+    public void Request_ExecuteGacha()
+    {
+        Debug.Log("Request_ExecuteGacha");
+        Response_ExecuteGacha();
+    }
+    public void Request_GachaResult(GACHA_TYPE gachaType)
+    {
+        Debug.Log("Request_GachaResult");
+        Response_GachaResult(gachaType);
+    }
+    public void Request_ExitGacha()
+    {
+        Response_ExitGacha();
     }
 
     public void Request_GetPartnerInfo()
@@ -159,7 +174,18 @@ public class PacketManager : MonoSingleton<PacketManager> {
         UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Lobby);
     }
 
-    public void Response_Gacha(GACHA_TYPE gachaType)
+
+    public void Response_EntryGacha()
+    {
+        Debug.Log("Response_EntryGacha");
+    }
+    public void Response_ExecuteGacha()
+    {
+        Debug.Log("Response_ExecuteGacha");
+    }
+
+
+    public void Response_GachaResult(GACHA_TYPE gachaType)
     {
         switch(gachaType)
         {
@@ -192,6 +218,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
                     break;
                 }
         }     
+    }
+    public void Response_ExitGacha()
+    {
+        Debug.Log("Response_ExitGacha");
     }
 
     public void Response_GetPartnerInfo()
