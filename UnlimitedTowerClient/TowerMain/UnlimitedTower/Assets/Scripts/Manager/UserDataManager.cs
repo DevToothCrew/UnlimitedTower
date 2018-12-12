@@ -60,7 +60,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             for (int i = 0; i < TestCharNum; i++)
             {
                CreateServant();
-               //CreateMonster();
+               CreateMonster();
             }
             //Create10NumberMonster();
             testInitFlag = true;
