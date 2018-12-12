@@ -29,7 +29,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
       7, 6, 8, 5, 9, 2, 1, 3, 0, 4 
     };
 
-    public int TestCharNum = 10;
+    public int TestCharNum = 20;
 
     private bool testInitFlag = false;
 
@@ -59,10 +59,10 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             CreateHero();
             for (int i = 0; i < TestCharNum; i++)
             {
-                CreateServant();
-                CreateMonster();
+               CreateServant();
+               CreateMonster();
             }
-
+            //Create10NumberMonster();
             testInitFlag = true;
         }  
     }
@@ -78,6 +78,32 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         Character newChar = new Character(UserDataManager.Inst.GetMonsterIndex(), GACHA_TYPE.Monster);
         SetMonster(newChar);
         AddNewCharImage(newChar.Name, CHAR_TYPE.MONSTER);
+    }
+    void Create10NumberMonster()
+    {
+        Character newChar;
+        for (int i = 0; i < 3; i++)
+        {
+            newChar = new Character(CHARACTER_NUM.Mst_Death);
+            SetMonster(newChar);
+            AddNewCharImage(newChar.Name, CHAR_TYPE.MONSTER);
+        }
+        
+        for (int i = 3; i < 6; i++)
+        {
+            newChar = new Character(CHARACTER_NUM.Mst_Robot);
+            SetMonster(newChar);
+            AddNewCharImage(newChar.Name, CHAR_TYPE.MONSTER);
+        }
+     
+        for (int i = 6; i < 10; i++)
+        {
+            newChar = new Character(CHARACTER_NUM.Mst_ShadowCat);
+            SetMonster(newChar);
+            AddNewCharImage(newChar.Name, CHAR_TYPE.MONSTER);
+        }
+
+
     }
 
     public void InitFlag()
@@ -245,9 +271,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
                     //  포메이션 세팅.
                     if (charDic[dic.Key].FormationIndex != -1)
                     {
-                        Debug.Log("dic.key : " + dic.Key);
                         int deckNum = charDic[dic.Key].FormationIndex;
-
                         LoadCharImage(imageFath + charDic[dic.Key].Name, deckNum, instance);                 
                     }
                 }
@@ -274,7 +298,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             else
             {
                 instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/MonsterImage/" + getChar);
-                instance.GetComponent<CharContent>().CharDicKey = characterIndex - 1;
+                instance.GetComponent<CharContent>().CharDicKey = monsterIndex - 1;
                 instance.transform.SetParent(LobbyManager.Inst.MonsterContentList.transform.transform);
                 instance.GetComponent<CharContent>().CharType = CHAR_TYPE.MONSTER;
             }          

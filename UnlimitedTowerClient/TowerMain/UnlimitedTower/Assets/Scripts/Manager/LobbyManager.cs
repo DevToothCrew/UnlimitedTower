@@ -156,7 +156,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                 break;
 
             case LOBBY_RIGHT_BUTTON.Formation:
-                FormationInfoPopup.SetActive(true);      
+                FormationInfoPopup.SetActive(true);
+                OnClickFormationServantButton();
                 break;
 
             case LOBBY_RIGHT_BUTTON.Gacha:

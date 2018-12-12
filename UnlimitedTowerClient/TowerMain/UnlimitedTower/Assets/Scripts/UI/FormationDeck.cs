@@ -60,7 +60,6 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
             Reorder(ref UserDataManager.Inst.servantDic, CHAR_TYPE.SERVANT);
             CheckPairReorder();
         }
-
     }
 
 
@@ -99,6 +98,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         if (UserDataManager.Inst.formationDic.TryGetValue(DeckNum, out charIndex))
         {
             UserDataManager.Inst.formationDic.Remove(DeckNum);
+            // 덱 삭제하고 더 이상 포메이션 없다고 한건데 왜 문제가 생길까?
             charDic[charIndex].OnFormation = false;
             charDic[charIndex].FormationIndex = -1;
 
@@ -191,12 +191,14 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         }
            preDeckNum = UserDataManager.Inst.formationOrderList[orderIndex - 1];
 
-
-
-        // 마지막 덱의 체크가 해제되었다.
-        charDic[lastCharKey].OnFormation = false;
-        charDic[lastCharKey].FormationIndex = -1;
-
+        // 삭제 되는 덱이 6이면 히어로 제외한
+        // 마지막이기 때문에
+        if(nextDeckNum == 6)
+        {
+            Debug.Log("Last Servant Delete");
+            charDic[lastCharKey].OnFormation = false;
+            charDic[lastCharKey].FormationIndex = -1;
+        }
 
 
         FormationManager.Inst.DeckImages[preDeckNum].GetComponent<Image>().sprite = null;

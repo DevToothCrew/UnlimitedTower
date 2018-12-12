@@ -27,6 +27,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
         }
         else if (CharType == CHAR_TYPE.MONSTER)
         {
+            Debug.Log("먼스터 추가");
             CheckAddOrRemove(ref UserDataManager.Inst.monsterDic, CharType);
         }
        
@@ -68,6 +69,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
                 deck.GetComponent<FormationDeck>().RemoveDeck();
 
                 childCheckingImage.SetActive(false);
+                charDic[CharDicKey].OnFormation = false;
             }
         }
 
@@ -113,6 +115,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
 
                 // 캐릭터 사용중이라는 표시하기.
                 UserDataManager.Inst.formationDic.Add(deckNum, CharDicKey);
+                Debug.Log("CharDicKey : " + CharDicKey);
                 charDic[CharDicKey].OnFormation = true;
                 charDic[CharDicKey].FormationIndex = deckNum;
 

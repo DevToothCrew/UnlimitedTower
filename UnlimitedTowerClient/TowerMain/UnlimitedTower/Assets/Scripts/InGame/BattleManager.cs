@@ -263,7 +263,6 @@ public class BattleManager : MonoSingleton<BattleManager> {
                 return null;
             }
         }
-
     }
 
     int SpeedComparer(CharacterAction x, CharacterAction y)
@@ -363,6 +362,12 @@ public class BattleManager : MonoSingleton<BattleManager> {
     {
         Battle_Character_Status targetStatus = null;
         Battle_Character_Status attackStatus = null;
+
+
+        if(targetIndex ==7)
+        {
+            Debug.Log("히어로 피격당함");
+        }
 
         if(targetDic.TryGetValue(targetIndex, out targetStatus) && targetStatus != null &&
             attackDic.TryGetValue(myIndex, out attackStatus) && attackStatus != null && 
@@ -487,6 +492,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
             playerObjects[DEFINE.HERO_FORMATION_NUM].transform.SetParent(PlayerParty.transform.transform, false);
             if (playerObjects[DEFINE.HERO_FORMATION_NUM].GetComponent<CharController>())
             {
+                playerObjects[DEFINE.HERO_FORMATION_NUM].GetComponent<CharController>().status = status;
                 playerObjects[DEFINE.HERO_FORMATION_NUM].GetComponent<CharController>().formationType = FORMATION_TYPE.PLAYER;
                 playerObjects[DEFINE.HERO_FORMATION_NUM].GetComponent<CharController>().charSize = status.sizeType;
 
@@ -703,12 +709,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
         {
             middleOffset *= -1.0f;
         }
-        else
-        {
-           
-        }
-
-
+ 
         switch (sizeType)
         {
             case SIZE_TYPE.SMALL:
@@ -797,7 +798,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
                 }
         }
     }
-    private void SetLeftPosition(GameObject[] charObjects, int centerNum, int num, FORMATION_TYPE formationType, SIZE_TYPE sizeType, ref Dictionary<int, Battle_Character_Status> charBattleStatusDic)
+    private void SetLeftPosition(GameObject[] charObjects, int centerNum, int num, FORMATION_TYPE formationType, SIZE_TYPE standardCharSizeType, ref Dictionary<int, Battle_Character_Status> charBattleStatusDic)
     {
         if (charBattleStatusDic.ContainsKey(num) == false)
         {
@@ -810,25 +811,31 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
         pos = charObjects[centerNum].transform.position;
    
-        GetCharOffset(sizeType, charBattleStatusDic[num].sizeType, ref x, ref z);
-        if (sizeType < charBattleStatusDic[num].sizeType)
+        GetCharOffset(standardCharSizeType, charBattleStatusDic[num].sizeType, ref x, ref z);
+        // 기준보다 내가 크면
+        // 기준이 더 작을 때 문제가 생기는거 같다.
+
+
+        if (formationType == FORMATION_TYPE.ENEMY)
         {
-            sign = -1.0f;
-            // ### 수정할것
-            //if (formationType == FORMATION_TYPE.PLAYER)
-            //{
-            //    sign = +1.0f;
-            //}
+            if (standardCharSizeType < charBattleStatusDic[num].sizeType)
+            {
+                sign = -1.0f;
+            }
         }
-          
-
-
+        else
+        {
+            if (standardCharSizeType > charBattleStatusDic[num].sizeType)
+            {
+                sign = -1.0f;
+            }
+        }
 
         pos.x += -x;
         pos.z += +z * sign;
         charObjects[num].transform.position = pos;
     }
-    private void SetRightPosition(GameObject[] charObjects, int centerNum, int num, FORMATION_TYPE formationType, SIZE_TYPE sizeType, ref Dictionary<int, Battle_Character_Status> charBattleStatusDic)
+    private void SetRightPosition(GameObject[] charObjects, int centerNum, int num, FORMATION_TYPE formationType, SIZE_TYPE standardCharSizeType, ref Dictionary<int, Battle_Character_Status> charBattleStatusDic)
     {
         if (charBattleStatusDic.ContainsKey(num) == false)
         {
@@ -840,15 +847,20 @@ public class BattleManager : MonoSingleton<BattleManager> {
         float x = 0, z = 0;
 
         float sign = 1.0f;
-        GetCharOffset(sizeType, charBattleStatusDic[num].sizeType, ref x, ref z);
-        if (sizeType < charBattleStatusDic[num].sizeType)
+        GetCharOffset(standardCharSizeType, charBattleStatusDic[num].sizeType, ref x, ref z);
+        if (formationType == FORMATION_TYPE.ENEMY)
         {
-            sign = -1.0f;
-            // ### 수정할것
-            //if (formationType == FORMATION_TYPE.PLAYER)
-            //{
-            //    sign = +1.0f;
-            //}
+            if (standardCharSizeType < charBattleStatusDic[num].sizeType)
+            {
+                sign = -1.0f;
+            }
+        }
+        else
+        {
+            if (standardCharSizeType > charBattleStatusDic[num].sizeType)
+            {
+                sign = -1.0f;
+            }
         }
 
 
@@ -860,12 +872,12 @@ public class BattleManager : MonoSingleton<BattleManager> {
     {
         int num = 5;
         float dis = 0.0f;
+        // 앞라인과 뒷 라인의 간격 offset
         float offset = -2.0f;
         if (formationType == FORMATION_TYPE.ENEMY)
         {
             offset = +2.0f;
         }
-
 
         if(charBattleStatusDic.Count <=5)
         {
@@ -992,11 +1004,11 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
         charObjects[backLineCenterIndex].transform.position = backCenterPos;
 
-        SetLeftPosition(charObjects, backLineCenterIndex, 6, FORMATION_TYPE.PLAYER, centerCharStatus.sizeType, ref charBattleStatusDic);
-        SetRightPosition(charObjects, backLineCenterIndex, 8, FORMATION_TYPE.PLAYER, centerCharStatus.sizeType, ref charBattleStatusDic);
+        SetLeftPosition(charObjects, backLineCenterIndex, 6, FORMATION_TYPE.ENEMY, centerCharStatus.sizeType, ref charBattleStatusDic);
+        SetRightPosition(charObjects, backLineCenterIndex, 8, FORMATION_TYPE.ENEMY, centerCharStatus.sizeType, ref charBattleStatusDic);
 
-        SetLeftPosition(charObjects, 6, 5, FORMATION_TYPE.PLAYER, charBattleStatusDic[6].sizeType, ref charBattleStatusDic);
-        SetRightPosition(charObjects, 8, 9, FORMATION_TYPE.PLAYER, charBattleStatusDic[8].sizeType, ref charBattleStatusDic);
+        SetLeftPosition(charObjects, 6, 5, FORMATION_TYPE.ENEMY, charBattleStatusDic[6].sizeType, ref charBattleStatusDic);
+        SetRightPosition(charObjects, 8, 9, FORMATION_TYPE.ENEMY, charBattleStatusDic[8].sizeType, ref charBattleStatusDic);
 
 
         float frontLineDis = GetBackLineLargestDistance(charObjects, formationType, ref charBattleStatusDic);
@@ -1011,11 +1023,11 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
         charObjects[frontLineCenterIndex].transform.position = frontCenterPos;
 
-        SetLeftPosition(charObjects, frontLineCenterIndex, 1, FORMATION_TYPE.PLAYER, charBattleStatusDic[frontLineCenterIndex].sizeType, ref charBattleStatusDic);
-        SetRightPosition(charObjects, frontLineCenterIndex, 3, FORMATION_TYPE.PLAYER, charBattleStatusDic[frontLineCenterIndex].sizeType, ref charBattleStatusDic);
+        SetLeftPosition(charObjects, frontLineCenterIndex, 1, FORMATION_TYPE.ENEMY, charBattleStatusDic[frontLineCenterIndex].sizeType, ref charBattleStatusDic);
+        SetRightPosition(charObjects, frontLineCenterIndex, 3, FORMATION_TYPE.ENEMY, charBattleStatusDic[frontLineCenterIndex].sizeType, ref charBattleStatusDic);
 
-        SetLeftPosition(charObjects, 1, 0, FORMATION_TYPE.PLAYER, charBattleStatusDic[1].sizeType, ref charBattleStatusDic);
-        SetRightPosition(charObjects, 3, 4, FORMATION_TYPE.PLAYER, charBattleStatusDic[3].sizeType, ref charBattleStatusDic);
+        SetLeftPosition(charObjects, 1, 0, FORMATION_TYPE.ENEMY, charBattleStatusDic[1].sizeType, ref charBattleStatusDic);
+        SetRightPosition(charObjects, 3, 4, FORMATION_TYPE.ENEMY, charBattleStatusDic[3].sizeType, ref charBattleStatusDic);
     }
 
     private void SetCharBattlePosition(GameObject[] charObjects)
