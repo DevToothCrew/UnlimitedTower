@@ -1,41 +1,81 @@
 테이블 구조
 
-[table] - auth_user_table.hpp
+###1. [table] - auth_user_table.hpp
+- 유저의 기본 정보를 가지고 있는 테이블 입니다.
+- 유저의 히어로들 정보, 보유 게임 머니,보유 히어로 갯수를 가지고 있습니다.
 
-
-- primary_key : account_name user : 유저의 계정 명이다.
-
-- a_hero_list : 유저의 영웅 정보를 담고 있는 벡터이다.
-[head,hair,body]
-[str,dex,int]
-[current_state]
-enum ehero_state
-{   
-    set_look = 1,
-    set_status,
-    set_change_status,
-    set_complete,
-    set_tower_party,
-    set_travel_party,
-};
-
-- a_game_money : 유저의 게임 재화 정보를 갖는 값이다.
-
-- a_state : 유저의 상태값을 같는 상태다.
-enum euser_state
+struct shero_info
 {
-    login = 1,
-    lobby,
-    battle,
-    battle_win,
-    battle_lose,
-    tower,
-    travel,
-    pause,
-    black,
+* uint32_t h_state;
+    - 히어로 상태값 입니다.
+    enum ehero_state
+    {   
+        set_look = 1,
+        set_status,
+        set_change_status,
+        set_complete,
+        set_tower_party,
+        set_travel_party,
+    };
+
+* sobject_appear h_appear;
+    - 히어로의 외모 정보 입니다.
+    struct sobject_appear
+    {
+        uint8_t head = 0;
+        uint8_t hair = 0;
+        uint8_t body = 0;
+    };
+* sobject_status h_status;
+    - 히어로의 기본 스탯 정보 입니다.
+    struct sobject_status
+    {
+        uint32_t basic_str = 0;
+        uint32_t basic_dex = 0;
+        uint32_t basic_int = 0;
+        uint8_t job = 0;
+    };
+* sobject_plus_status h_plus_status;
+    - 히어로의 추가 스탯 정보 입니다.
+    struct sobject_plus_status
+    {
+        uint32_t plus_str = 0;
+        uint32_t plus_dex = 0;
+        uint32_t plus_int = 0;
+        uint32_t stat_point = 0;
+    };
+
+* std::vector<uint32_t> h_equip_slot;
+    - 히어로의 장비 정보 입니다.
 };
 
-- a_hero_slot : 유저가 보유하고 있는 히어로의 슬롯 갯수 입니다.
+
+* account_name a_user
+    - primary_key : account_name user : 유저의 계정 명이다.
+
+* std::vector<shero_info> a_hero_list
+    - a_hero_list : 유저의 영웅 정보를 담고 있는 벡터이다.
+
+* uint32_t a_game_money
+    - a_game_money : 유저의 게임 재화 정보를 갖는 값이다.
+    
+* uint32_t a_state
+    - a_state : 유저의 상태값을 같는 상태다.
+    enum euser_state
+    {
+        login = 1,
+        lobby,
+        battle,
+        battle_win,
+        battle_lose,
+        tower,
+        travel,
+        pause,
+        black,
+    };
+
+* uint32_t a_hero_slot
+    - a_hero_slot : 유저가 보유하고 있는 히어로의 슬롯 갯수 입니다. [0~2]
 
 
 
