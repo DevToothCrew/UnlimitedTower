@@ -225,10 +225,7 @@ public class GachaImage : MonoSingleton<GachaImage>
         else
         {
             sprite = Resources.Load<Sprite>("UI/MonsterImage/" + newChar.Name);
-        }
-
-
-        
+        }      
         charImage.GetComponent<Image>().sprite = sprite;
     }
     public void ShowGachaResult()

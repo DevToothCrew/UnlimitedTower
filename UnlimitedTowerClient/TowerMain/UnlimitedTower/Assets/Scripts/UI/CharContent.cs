@@ -27,6 +27,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
         }
         else if (CharType == CHAR_TYPE.MONSTER)
         {
+            Debug.Log("먼스터 추가");
             CheckAddOrRemove(ref UserDataManager.Inst.monsterDic, CharType);
         }
        
@@ -37,8 +38,6 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
     {
         if (charDic.ContainsKey(CharDicKey))
         {
-            // OnFormaion = true여야하는게 false가 되서 이미지 추가 해버렷다;.
-            // 어디서 OnFormation값이 변경될 것일가?
             if (charDic[CharDicKey].OnFormation == true)
             {
                 RemoveDeck(ref charDic, charType);

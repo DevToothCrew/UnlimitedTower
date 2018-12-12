@@ -169,11 +169,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 {
                     Debug.Log("Response_ServantGacha");
                     // TODO : 현재 임시로 TestDB에서 캐릭터 정보 가져와서
-                    Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1, gachaType);
+                    Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex(), gachaType);
                     // 가챠의 결과로 나온 캐릭터 정보를 저장한다.
                     UserDataManager.Inst.SetServant(newChar);
                     UserDataManager.Inst.AddNewCharImage(newChar.Name, CHAR_TYPE.SERVANT);
-
                     GachaImage.Inst.SetGachaReult(newChar, gachaType);
                     //GachaInfoPopup.Inst.SetGachaResultInfoPopup(newChar);
                     break;
@@ -182,10 +181,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 {
                     Debug.Log("Response_MonsterGacha");
 
-                    Character newChar = new Character(UserDataManager.Inst.GetMonsterIndex() + 1, gachaType);
+                    Character newChar = new Character(UserDataManager.Inst.GetMonsterIndex(), gachaType);
                     UserDataManager.Inst.SetMonster(newChar);
                     UserDataManager.Inst.AddNewCharImage(newChar.Name, CHAR_TYPE.MONSTER);
-
                     GachaImage.Inst.SetGachaReult(newChar, gachaType);
 
                     break;

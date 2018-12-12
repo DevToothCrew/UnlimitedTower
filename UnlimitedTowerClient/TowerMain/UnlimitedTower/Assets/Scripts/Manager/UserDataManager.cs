@@ -59,8 +59,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             CreateHero();
             for (int i = 0; i < TestCharNum; i++)
             {
-                CreateServant();
-               CreateMonster();
+               CreateServant();
+               //CreateMonster();
             }
             //Create10NumberMonster();
             testInitFlag = true;
@@ -298,7 +298,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             else
             {
                 instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/MonsterImage/" + getChar);
-                instance.GetComponent<CharContent>().CharDicKey = characterIndex - 1;
+                instance.GetComponent<CharContent>().CharDicKey = monsterIndex - 1;
                 instance.transform.SetParent(LobbyManager.Inst.MonsterContentList.transform.transform);
                 instance.GetComponent<CharContent>().CharType = CHAR_TYPE.MONSTER;
             }          
