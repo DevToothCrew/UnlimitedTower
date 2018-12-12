@@ -9,6 +9,9 @@
 #include <eosiolib/asset.hpp>
 #include <eosiolib/transaction.hpp>
 
+#define DEFAULE_RANDOM_COUNT    0
+#define DEFAULT_MIN             0
+
 using namespace std;
 using namespace eosio;
 
