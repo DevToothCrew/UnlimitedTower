@@ -2,11 +2,11 @@
 #include "../Common/common_header.hpp"
 
 
-struct servenet_stat
+struct object_status
 {
-    uint32_t s_str;
-    uint32_t s_dex;
-    uint32_t s_int;
+    uint32_t base_str;
+    uint32_t base_dex;
+    uint32_t base_int;
 };
 
 //@abi table cdbservant i64
@@ -14,8 +14,8 @@ class cdbservant
 {
   public:
     uint64_t s_job;
-    servenet_stat s_min_range;
-    servenet_stat s_max_range;
+    object_status s_min_range;
+    object_status s_max_range;
 public:
     uint64_t primary_key() const {return s_job;}
 };
