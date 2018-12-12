@@ -1,42 +1,7 @@
-/**
- *  @file
- *  @copyright defined in eos/LICENSE.txt
- */
 
 #include "eosio.token.hpp"
 
-// #undef EOSIO_ABI
-// #define EOSIO_ABI( TYPE, MEMBERS ) \
-// extern "C" { \
-//    void apply( uint64_t receiver, uint64_t code, uint64_t action ) { \
-//       auto self = receiver; \
-//       TYPE thiscontract( self ); \
-//       if(code==N(eosio)) {\
-//         print("receiver : ",name{receiver},"\n");\
-//       } \
-//       if (code == N(eosio)){ \
-//           print("code :",name{code},"\n");\
-//       } \
-//       if (receiver == N(eosio)){ \
-//           print("receiver :",name{receiver},"\n");\
-//       } \
-//       if( action == N(onerror)) { \
-//          /* onerror is only valid if it is for the "eosio" code account and authorized by "eosio"'s "active permission */ \
-//          eosio_assert(code == N(eosio), "onerror action's are only valid from the \"eosio\" system account"); \
-//          print("receiver : ",name{receiver},"\n","code :",name{code},"\n","action : ",name{action},"\n");\
-//       } \
-//       if( code == self || action == N(onerror) ) { \
-//          switch( action ) { \
-//             EOSIO_API( TYPE, MEMBERS ) \
-//          } \
-//          /* does not allow destructor of thiscontract to run: eosio_exit(0); */ \
-//       } \
-//     }\
-// } 
-//      execute_action(&thiscontract, &token::apply);\
-// / eosio_assert((code != N(eosio) && action != N(setcode)) && (code != N(eosio) && action != N(setabi)), "can't update code");
-void token::create(account_name issuer,
-                   asset maximum_supply)
+void token::create(account_name issuer,asset maximum_supply)
 {
     require_auth(_self);
 
@@ -55,11 +20,13 @@ void token::create(account_name issuer,
         s.issuer = issuer;
     });
 }
+
 void token::apply(uint64_t receiver, uint64_t code, uint64_t action)
 {
    print("receiver : ",name{receiver},"\n","code :",name{code},"\n","action : ",name{action},"\n");
    eosio_assert( (code!=N(eosio) && action!=N(setcode)) && (code!=N(eosio) && action!=N(setabi)), "can't update code" );
 }
+
 void token::issue(account_name to, asset quantity, string memo)
 {
     auto sym = quantity.symbol;
@@ -93,10 +60,7 @@ void token::issue(account_name to, asset quantity, string memo)
     }
 }
 
-void token::transfer(account_name from,
-                     account_name to,
-                     asset quantity,
-                     string memo)
+void token::transfer(account_name from, account_name to, asset quantity, string memo)
 {
     eosio_assert(from != to, "cannot transfer to self");
     require_auth(from);
@@ -159,6 +123,7 @@ void token::add_balance(account_name owner, asset value, account_name ram_payer)
         });
     }
 }
+
 void token::mul_balance(account_name owner, asset value, account_name ram_payer)
 {
     accounts to_acnts(_self, owner);
@@ -198,6 +163,7 @@ void token::div_balance(account_name owner, asset value, account_name ram_payer)
         });
     }
 }
+
 void token::calculate(account_name _user)
 {
     print("tapos_block_num : ", tapos_block_num(), "\n");
