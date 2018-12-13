@@ -383,7 +383,7 @@ class cbattle_system
 
             auto user_battle_iter = user_battle_table.find(_user);
             user_battle_table.modify(user_battle_iter, owner, [&](auto &battle_state) {
-                uint32_t battle_preference = safeseed::get_random_seed(l_seed, 2, 0, 0);
+                uint32_t battle_preference = safeseed::get_random_value(l_seed, 2, 0, 0);
                 std::vector<attack_speed> temp_order_list;
                 temp_order_list.resize(20);
                 for (uint32_t i = 0; i < max_battle_member_count; ++i)
@@ -460,7 +460,7 @@ class cbattle_system
                             continue;
                         }
                         uint64_t l_seed = safeseed::get_seed(_user);
-                        l_user_action = safeseed::get_random_seed(l_seed, action_count, 0, i);
+                        l_user_action = safeseed::get_random_value(l_seed, action_count, 0, i);
                         for (uint32_t enemy = my_party_count; enemy < enemy_part_count; ++enemy)
                         {
                             if (battle_state.b_battle_state_list[enemy].now_hp == 0)
@@ -492,7 +492,7 @@ class cbattle_system
                     else
                     {
                         uint64_t l_seed = safeseed::get_seed(_user);
-                        l_user_action = safeseed::get_random_seed(l_seed, action_count, 0, i);
+                        l_user_action = safeseed::get_random_value(l_seed, action_count, 0, i);
                         for (uint32_t enemy = 0; enemy < my_party_count; ++enemy)
                         {
                             if (battle_state.b_battle_state_list[enemy].now_hp == 0)
@@ -557,7 +557,7 @@ class cbattle_system
             eosio_assert(user_auth_iter!=user_auth_table.end(),"not exist user auth data");
 
             uint64_t l_seed = safeseed::get_seed(_user);
-            uint32_t l_reward = safeseed::get_random_seed(l_seed,1000,100,0);   //1000 , 100  test value
+            uint32_t l_reward = safeseed::get_random_value(l_seed,1000,100,0);   //1000 , 100  test value
 
             auto user_battle_iter = user_battle_table.find(_user);
             eosio_assert(user_battle_iter != user_battle_table.end(),"not exist user battle data");

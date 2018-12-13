@@ -51,7 +51,7 @@ uint64_t get_seed(uint64_t _user)
     return *result_seed;
 }
 
-uint64_t get_random_seed(uint64_t _seed, uint32_t _max, uint32_t _min, uint32_t _random_count)
+uint64_t get_random_value(uint64_t _seed, uint32_t _max, uint32_t _min, uint32_t _random_count)
 {
       _seed = ((_seed) >> (2 * _random_count));
       uint64_t l_result = _seed % _max;

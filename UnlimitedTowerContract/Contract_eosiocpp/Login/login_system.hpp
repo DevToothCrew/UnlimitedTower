@@ -180,9 +180,9 @@ class clogin_system
         uint64_t l_seed = safeseed::get_seed(_user);
         auth_user_table.modify(user_iter, owner, [&](auto &hero_status_set) {
             hero_status_set.a_hero_list[_hero_slot].h_state = ehero_state::set_change_status;
-            hero_status_set.a_hero_list[_hero_slot].h_status.basic_str = safeseed::get_random_seed(l_seed,10,1,1);
-            hero_status_set.a_hero_list[_hero_slot].h_status.basic_dex = safeseed::get_random_seed(l_seed,10,1,2);
-            hero_status_set.a_hero_list[_hero_slot].h_status.basic_int = safeseed::get_random_seed(l_seed,10,1,3);
+            hero_status_set.a_hero_list[_hero_slot].h_status.basic_str = safeseed::get_random_value(l_seed,10,1,1);
+            hero_status_set.a_hero_list[_hero_slot].h_status.basic_dex = safeseed::get_random_value(l_seed,10,1,2);
+            hero_status_set.a_hero_list[_hero_slot].h_status.basic_int = safeseed::get_random_value(l_seed,10,1,3);
         });
     }
 
@@ -195,9 +195,9 @@ class clogin_system
 
         uint64_t l_seed = safeseed::get_seed(_user);
         auth_user_table.modify(user_iter, owner, [&](auto &hero_status_change) {
-            hero_status_change.a_hero_list[_hero_slot].h_status.basic_str = safeseed::get_random_seed(l_seed,10,1,1);
-            hero_status_change.a_hero_list[_hero_slot].h_status.basic_dex = safeseed::get_random_seed(l_seed,10,1,2);
-            hero_status_change.a_hero_list[_hero_slot].h_status.basic_int = safeseed::get_random_seed(l_seed,10,1,3);
+            hero_status_change.a_hero_list[_hero_slot].h_status.basic_str = safeseed::get_random_value(l_seed,10,1,1);
+            hero_status_change.a_hero_list[_hero_slot].h_status.basic_dex = safeseed::get_random_value(l_seed,10,1,2);
+            hero_status_change.a_hero_list[_hero_slot].h_status.basic_int = safeseed::get_random_value(l_seed,10,1,3);
         });
     }
 

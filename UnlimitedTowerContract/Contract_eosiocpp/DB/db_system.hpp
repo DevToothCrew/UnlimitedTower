@@ -219,9 +219,9 @@ class cdb_system
                 {
                     random_count = 0;
                 }
-                a.i_slot = safeseed::get_random_seed(l_seed,item_slot_count,0,random_count);
+                a.i_slot = safeseed::get_random_value(l_seed,item_slot_count,0,random_count);
                 random_count+=1;
-                a.i_job = safeseed::get_random_seed(l_seed,servant_job_count,0,random_count);
+                a.i_job = safeseed::get_random_value(l_seed,servant_job_count,0,random_count);
                 random_count+=1;
             });
         }
@@ -241,18 +241,18 @@ class cdb_system
                 {
                     random_count = 0;
                 }
-                a.i_min_range.base_str = safeseed::get_random_seed(l_seed, 10, DEFAULT_MIN, random_count);
+                a.i_min_range.base_str = safeseed::get_random_value(l_seed, 10, DEFAULT_MIN, random_count);
                 random_count+=1;
-                a.i_min_range.base_dex = safeseed::get_random_seed(l_seed, 10, DEFAULT_MIN, random_count);
+                a.i_min_range.base_dex = safeseed::get_random_value(l_seed, 10, DEFAULT_MIN, random_count);
                 random_count+=1;
-                a.i_min_range.base_int = safeseed::get_random_seed(l_seed, 10, DEFAULT_MIN, random_count);
+                a.i_min_range.base_int = safeseed::get_random_value(l_seed, 10, DEFAULT_MIN, random_count);
                 random_count+=1;
 
-                a.i_max_range.base_str = safeseed::get_random_seed(l_seed, 10, DEFAULT_MIN, random_count) + 25;      // + 25 test value
+                a.i_max_range.base_str = safeseed::get_random_value(l_seed, 10, DEFAULT_MIN, random_count) + 25;      // + 25 test value
                 random_count+=1;
-                a.i_max_range.base_dex = safeseed::get_random_seed(l_seed, 10, DEFAULT_MIN, random_count) + 25;      // + 25 test value
+                a.i_max_range.base_dex = safeseed::get_random_value(l_seed, 10, DEFAULT_MIN, random_count) + 25;      // + 25 test value
                 random_count+=1;
-                a.i_max_range.base_int = safeseed::get_random_seed(l_seed, 10, DEFAULT_MIN, random_count) + 25;      // + 25 test value
+                a.i_max_range.base_int = safeseed::get_random_value(l_seed, 10, DEFAULT_MIN, random_count) + 25;      // + 25 test value
                 random_count+=1;
             });
         }
