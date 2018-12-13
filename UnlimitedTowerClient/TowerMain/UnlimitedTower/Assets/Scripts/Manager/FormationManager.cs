@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine;
 
 public class FormationManager : MonoSingleton<FormationManager>
 {
@@ -29,10 +27,10 @@ public class FormationManager : MonoSingleton<FormationManager>
     }
 
     public void OnClickSaveFormation()
-    { 
+    {
         // ### 포메이션 패킷을 보낸다.
-  
 
+        Debug.Log("OnClickSaveFormation");
         PacketManager.Inst.Request_SaveFormation();
         BeSaved = true;
     }
@@ -44,7 +42,9 @@ public class FormationManager : MonoSingleton<FormationManager>
             {
                 if (Decks[i].GetComponent<FormationDeck>())
                 {
-                    Decks[i].GetComponent<FormationDeck>().LinkedChar = null;
+                    GameObject charContent = Decks[i].GetComponent<FormationDeck>().LinkedChar;
+                   // charContent.GetComponent<CharContent>()
+
                 }
                 if (DeckImages[i].GetComponent<Image>())
                 {
@@ -54,15 +54,25 @@ public class FormationManager : MonoSingleton<FormationManager>
                 {
                     DeckTexts[i].SetActive(true);
                 }
+
+                // 어떠한 값을 리셋하여 해결하면 되는가???
             }
 
-           
+
+
+
+
 
 
         }
     }
 
 }
+
+// attackingOrder myIndex targetIndex actionType
+// 0~9까지는 플레이어
+// 10~19
+
 
 
 

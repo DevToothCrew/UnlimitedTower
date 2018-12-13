@@ -49,6 +49,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         }
         else
         {
+            FormationManager.Inst.BeSaved = false;
             Debug.Log("로비로 리턴");
          
             ChangeSceneState(SCENE_STATE.Lobby);
