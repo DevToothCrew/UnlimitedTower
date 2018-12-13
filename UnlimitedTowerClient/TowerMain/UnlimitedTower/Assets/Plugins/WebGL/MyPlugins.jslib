@@ -12,8 +12,8 @@ mergeInto(LibraryManager.library, {
     ReactUnityWebGL.Login();
   },
 
-  SetFormation : function(a, b, c) {
-    ReactUnityWebGL.SetFormation(a, b, c);
+  SetFormation : function(formation) {
+    ReactUnityWebGL.SetFormation(Pointer_stringify(formation));
   },
 
   GetStageInfo : function(stage_num) {

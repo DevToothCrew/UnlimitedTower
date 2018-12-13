@@ -3,8 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Runtime.InteropServices;
+using LitJson;
+[System.Serializable]
 
 
+public class Test
+{
+    public int a = 1;
+    public int b = 2;
+    public int c = 3;
+
+}
 public class PacketManager : MonoSingleton<PacketManager> {
 
     #region ServerConnect
@@ -32,7 +41,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     //private static extern void SetFormation(FormationParty formationParty);
     //private static extern void SetFormation(int[] formationArr);
     //private static extern void SetFormation (int party_num, int pos_1, int pos_2, int pos_3, int pos_4, int pos_5, int pos_6, int pos_7, int pos_8, int pos_9, int pos_10);
-    private static extern void SetFormation(int a, int b, int c);
+    private static extern void SetFormation(string formation);
     [DllImport("__Internal")]
     private static extern void GetStageInfo (int stage_num);
 
@@ -42,6 +51,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     [DllImport("__Internal")]
     private static extern void StartBattle (int stage_num, int party_num);
     
+
 
 
     void Start()
@@ -143,10 +153,23 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
             }
             formationList.Add(formationNum);
+            testFormatonArr[i] = 10;
         }
 
-        string json = JsonUtility.ToJson(formationList);
 
+
+        Test t = new Test();
+        t.a = 10;
+        t.b = 1;
+        t.c = 2;
+
+        string json = JsonUtility.ToJson(t);
+        Debug.Log("print Jsson : : " + json);
+
+
+        //var a = int.Parse(str);
+        //Debug.Log("Parse : " + a);
+       SetFormation(json);
 
         Response_SaveFormation();
     }
