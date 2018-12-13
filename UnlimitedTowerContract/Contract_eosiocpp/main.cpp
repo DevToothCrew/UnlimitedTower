@@ -50,7 +50,7 @@
         //@abi action
         void datainit(account_name _user)
         {
-            db_controller.init_data(_user);
+            db_controller.init_db_data(_user);
         }
         //@abi action
         void stageinit()
@@ -119,12 +119,6 @@
 
 
 #pragma region Battle
-        // //@abi action
-        // void setbattle(account_name _user,uint32_t _party_number,uint8_t _stage)
-        // {
-        //     print("user start battle\n");
-        //     battle_controller.set_battle(_user,_party_number,_stage);
-        // }
         //@abi action
         void startbattle(account_name _user,uint8_t _party_number,uint8_t _stage)
         {
@@ -136,11 +130,7 @@
             print("active turn action\n");
             battle_controller.active_turn(_user,_hero_action,_monster_action,_hero_target,_monster_target);
         }
-        // //@abi action
-        // void getreward(account_name _user)
-        // {
-        //     battle_controller.get_battle_reward(_user);
-        // }
+
 #pragma endregion
 
 #pragma resion Party
@@ -158,12 +148,6 @@
             print("sell item action \n");
             item_controller.sell_item(_user,_item_location,_item_index);
         }
-        // //abi action
-        // void buyitem(account_name _user,uint8_t _item_location,uint64_t _item_index)
-        // {
-        //     print("buy item action\n");
-        //     item_controller.buy_item(_user,_item_location,_item_index);
-        // }
         //@abi action
         void equipser(account_name _user,uint8_t _item_location,uint64_t _item_index,uint64_t _object_index,uint8_t _item_slot)
         {
