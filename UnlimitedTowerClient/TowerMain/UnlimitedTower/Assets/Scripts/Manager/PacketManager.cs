@@ -123,6 +123,18 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Request_SaveFormation");
 
 
+        int num = 10;
+        int num0 = 0;
+        int num1 = 1;
+        int num2 = 2;
+        int num3 = 3;
+        int num4 = 4;
+        int num5 = 5;
+        int num6 = 6;
+        int num7 = 7;
+        int num8 = 8;
+        int num9 = 9;
+
         List<int> formationList = new List<int>();
         int formationNum = 0;
         for (int i = 0; i < 10; i++)
@@ -141,6 +153,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
             }
             formationList.Add(formationNum);
         }
+
+        SetFormation(num, num0, num1, num2, num3, num4,
+                  num5, num6, num7, num8, num9);
 
         //SetFormation(0, formationList[0], formationList[1], formationList[2], formationList[3], formationList[4],
         //             formationList[5], formationList[6], formationList[7], formationList[8], formationList[9]);

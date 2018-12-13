@@ -132,17 +132,9 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         PacketManager.Inst.Request_GetLobbyInfo();
 
 
-        if (Test_PacketManager.Inst.GetPakcet().Length <= 0)
-        {
-            TestText.GetComponent<Text>().text = "OnClickEnterLobbyButton : not recive packet";
-            TestText.SetActive(true);
-        }
-        else
-        {
-            TestText.GetComponent<Text>().text = Test_PacketManager.Inst._Packet;
-            TestText.SetActive(true);
-        }
-        Test_PacketManager.Inst._Packet = null;
+        Test_PacketManager.Inst.CheckPacket("OnClickEnterLobbyButton : not recive packet");
+
+     
 
     }
 

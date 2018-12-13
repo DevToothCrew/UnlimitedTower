@@ -267,17 +267,11 @@ public class GachaImage : MonoSingleton<GachaImage>
         //Gacha();
         // ### 가챠 시작 패킷을 보낸다.
 
-        if (Test_PacketManager.Inst._Packet.Length <= 0)
-        {
-            LobbyManager.Inst.TestText.GetComponent<Text>().text = "OnClickExecuteGacha : not recive packet";
-            LobbyManager.Inst.TestText.SetActive(true);
-        }
-        else
-        {
-            LobbyManager.Inst.TestText.GetComponent<Text>().text = Test_PacketManager.Inst._Packet;
-            LobbyManager.Inst.TestText.SetActive(true);
-        }
-        Test_PacketManager.Inst._Packet = null;
+
+        Test_PacketManager.Inst.CheckPacket("OnClickExecuteGacha: not recive packet");
+
+
+      
 
 
         PacketManager.Inst.Request_ExecuteGacha();
