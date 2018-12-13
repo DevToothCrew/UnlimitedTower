@@ -54,46 +54,56 @@ class cdb_system
           item_grade_db_table(_self,_self)
     {
     }
+
     servant_db &get_servant_db_table()
     {
         return servant_db_table;
     }
+
     head_db &get_head_db_table()
     {
         return head_db_table;
     }
+
     hair_db &get_hair_db_table()
     {
         return hair_db_table;
     }
+
     body_db &get_body_db_table()
     {
         return body_db_table;
     }
+
     monster_grade_db &get_monster_grade_db_table()
     {
         return monster_grade_db_table;
     }
+
     monster_id_db &get_monster_id_db_table()
     {
         return monster_id_db_table;
     }
+
     item_id_db &get_item_id_db_table()
     {
         return item_id_db_table;
     }
+
     item_tier_db &get_item_tier_db_table()
     {
         return item_tier_db_table;
     }
+
     item_grade_db &get_item_grade_db_table()
     {
         return item_grade_db_table;
     }
-    void init_data(account_name _user)
+
+    void init_db_data()
     {
         require_auth2(owner,N(owner));
-        uint64_t l_seed = safeseed::get_seed(_user);
+        uint64_t l_seed = safeseed::get_seed(owner);
         for (uint8_t i = 0; i < servant_job_count; ++i)
         {
             servant_db_table.emplace(owner, [&](auto& a) {
@@ -134,7 +144,7 @@ class cdb_system
         {
             monster_grade_db_table.emplace(owner,[&](auto &a)
             {
-                a.m_grade = monster_grade_db_table.available_primary_key();
+                a.monster_grade = monster_grade_db_table.available_primary_key();
                 if (random_count >= 8)
                 {
                     random_count = 0;
@@ -209,8 +219,10 @@ class cdb_system
                 {
                     random_count = 0;
                 }
-                a.i_slot = safeseed::get_random_seed(l_seed,item_slot_count,0,random_count++);
-                a.i_job = safeseed::get_random_seed(l_seed,servant_job_count,0,random_count++);
+                a.i_slot = safeseed::get_random_seed(l_seed,item_slot_count,0,random_count);
+                random_count+=1;
+                a.i_job = safeseed::get_random_seed(l_seed,servant_job_count,0,random_count);
+                random_count+=1;
             });
         }
         for(uint32_t i=1;i<=item_tier_count;++i)
@@ -229,14 +241,88 @@ class cdb_system
                 {
                     random_count = 0;
                 }
-                a.i_min_range.base_str = safeseed::get_random_seed(l_seed, 10, DEFAULT_MIN, random_count++);
-                a.i_min_range.base_dex = safeseed::get_random_seed(l_seed, 10, DEFAULT_MIN, random_count++);
-                a.i_min_range.base_int = safeseed::get_random_seed(l_seed, 10, DEFAULT_MIN, random_count++);
+                a.i_min_range.base_str = safeseed::get_random_seed(l_seed, 10, DEFAULT_MIN, random_count);
+                random_count+=1;
+                a.i_min_range.base_dex = safeseed::get_random_seed(l_seed, 10, DEFAULT_MIN, random_count);
+                random_count+=1;
+                a.i_min_range.base_int = safeseed::get_random_seed(l_seed, 10, DEFAULT_MIN, random_count);
+                random_count+=1;
 
-                a.i_max_range.base_str = safeseed::get_random_seed(l_seed, 10, DEFAULT_MIN, random_count++) + 25;      // + 25 test value
-                a.i_max_range.base_dex = safeseed::get_random_seed(l_seed, 10, DEFAULT_MIN, random_count++) + 25;      // + 25 test value
-                a.i_max_range.base_int = safeseed::get_random_seed(l_seed, 10, DEFAULT_MIN, random_count++) + 25;      // + 25 test value
+                a.i_max_range.base_str = safeseed::get_random_seed(l_seed, 10, DEFAULT_MIN, random_count) + 25;      // + 25 test value
+                random_count+=1;
+                a.i_max_range.base_dex = safeseed::get_random_seed(l_seed, 10, DEFAULT_MIN, random_count) + 25;      // + 25 test value
+                random_count+=1;
+                a.i_max_range.base_int = safeseed::get_random_seed(l_seed, 10, DEFAULT_MIN, random_count) + 25;      // + 25 test value
+                random_count+=1;
             });
+        }
+    }
+
+    void reset_db_data()
+    {
+        require_auth2(owner,N(owner));
+
+        for (auto servant_db_table_iter = servant_db_table.begin(); servant_db_table_iter != servant_db_table.end();)
+        {
+            auto iter = servant_db_table.find(servant_db_table_iter->primary_key());
+            servant_db_table_iter++;
+            servant_db_table.erase(iter);
+        }
+
+        for (auto head_db_table_iter = head_db_table.begin(); head_db_table_iter != head_db_table.end();)
+        {
+            auto iter = head_db_table.find(head_db_table_iter->primary_key());
+            head_db_table_iter++;
+            head_db_table.erase(iter);
+        }
+
+        for (auto hair_db_table_iter = hair_db_table.begin(); hair_db_table_iter != hair_db_table.end();)
+        {
+            auto iter = hair_db_table.find(hair_db_table_iter->primary_key());
+            hair_db_table_iter++;
+            hair_db_table.erase(iter);
+        }
+
+        for (auto body_db_table_iter = body_db_table.begin(); body_db_table_iter != body_db_table.end();)
+        {
+            auto iter = body_db_table.find(body_db_table_iter->primary_key());
+            body_db_table_iter++;
+            body_db_table.erase(iter);
+        }
+
+        for (auto monster_grade_db_table_iter = monster_grade_db_table.begin(); monster_grade_db_table_iter != monster_grade_db_table.end();)
+        {
+            auto iter = monster_grade_db_table.find(monster_grade_db_table_iter->primary_key());
+            monster_grade_db_table_iter++;
+            monster_grade_db_table.erase(iter);
+        }
+
+        for (auto monster_id_db_table_iter = monster_id_db_table.begin(); monster_id_db_table_iter != monster_id_db_table.end();)
+        {
+            auto iter = monster_id_db_table.find(monster_id_db_table_iter->primary_key());
+            monster_id_db_table_iter++;
+            monster_id_db_table.erase(iter);
+        }
+
+        for (auto item_id_db_table_iter = item_id_db_table.begin(); item_id_db_table_iter != item_id_db_table.end();)
+        {
+            auto iter = item_id_db_table.find(item_id_db_table_iter->primary_key());
+            item_id_db_table_iter++;
+            item_id_db_table.erase(iter);
+        }
+
+        for (auto item_grade_db_table_iter = item_grade_db_table.begin(); item_grade_db_table_iter != item_grade_db_table.end();)
+        {
+            auto iter = item_grade_db_table.find(item_grade_db_table_iter->primary_key());
+            item_grade_db_table_iter++;
+            item_grade_db_table.erase(iter);
+        }
+
+        for (auto item_tier_db_table_iter = item_tier_db_table.begin(); item_tier_db_table_iter != item_tier_db_table.end();)
+        {
+            auto iter = item_tier_db_table.find(item_tier_db_table_iter->primary_key());
+            item_tier_db_table_iter++;
+            item_tier_db_table.erase(iter);
         }
     }
 };

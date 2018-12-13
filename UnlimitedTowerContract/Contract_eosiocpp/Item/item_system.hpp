@@ -18,13 +18,14 @@ class citem_system
         {
 
         }
+
         void sell_item(account_name _user,uint8_t _item_location,uint64_t _item_index)
         {
             require_auth(_user);
             auto &user_item_table = gacha_controller.get_user_item_table();
             auto user_item_iter = user_item_table.find(_user);
             eosio_assert(user_item_iter->item_list[_item_location].i_index == _item_index,"not exist this item information");
-            eosio_assert(user_item_iter->item_list[_item_location].i_state != eobject_state::in_equip_slot,"this item already equip");
+            eosio_assert(user_item_iter->item_list[_item_location].i_state != eobject_state::on_equip_slot,"this item already equip");
 
             auto &user_auth_table = login_controller.get_auth_user_table();
             auto user_auth_iter = user_auth_table.find(_user);
@@ -47,11 +48,13 @@ class citem_system
                 del_item.item_list.erase(del_item.item_list.begin() + _item_location);
             });
         }
+
         void buy_item(account_name _user,uint8_t _item_location,uint64_t _item_index)
         {
             require_auth(_user);
             print("buy item\n");
         }
+
         void equip_servant_item(account_name _user,uint8_t _item_location,uint64_t _item_index,uint64_t _object_index,uint8_t _equip_slot)
         {
             require_auth(_user);
@@ -59,7 +62,7 @@ class citem_system
             auto user_item_iter = user_item_table.find(_user);
             eosio_assert((user_item_iter->item_list[_item_location].i_index==_item_index),"not exist item");
             eosio_assert(user_item_iter->item_list[_item_location].i_slot==_equip_slot,"mis match equip slot");
-            eosio_assert(user_item_iter->item_list[_item_location].i_state==eobject_state::in_inventory,"impossible equip item state");
+            eosio_assert(user_item_iter->item_list[_item_location].i_state==eobject_state::on_inventory,"impossible equip item state");
             //장착한 아이템 능력치 용병에게 반영
             auto &user_servant_table = gacha_controller.get_user_servant_table();
             auto user_servant_iter = user_servant_table.find(_user);
@@ -77,7 +80,7 @@ class citem_system
                     });
                     user_item_table.modify(user_item_iter,owner,[&](auto& new_equip)
                     {
-                        new_equip.item_list[_item_location].i_state = eobject_state::in_equip_slot;
+                        new_equip.item_list[_item_location].i_state = eobject_state::on_equip_slot;
                     });
                     check_exist_id = i;
                     break;
@@ -85,6 +88,7 @@ class citem_system
             }
             eosio_assert(check_exist_id!=-1,"not exist servant");
         }
+
         void equip_hero_item(account_name _user, uint8_t _hero_slot,uint8_t _item_location, uint64_t _item_index,uint8_t _equip_slot)
         {
             require_auth(_user);
@@ -92,7 +96,7 @@ class citem_system
             auto user_item_iter = user_item_table.find(_user);
             eosio_assert((user_item_iter->item_list[_item_location].i_index==_item_index),"not exist item");
             eosio_assert(user_item_iter->item_list[_item_location].i_slot==_equip_slot,"mis match equip slot");
-            eosio_assert(user_item_iter->item_list[_item_location].i_state==eobject_state::in_inventory,"impossible equip item state");
+            eosio_assert(user_item_iter->item_list[_item_location].i_state==eobject_state::on_inventory,"impossible equip item state");
 
             auto &auth_user_table = login_controller.get_auth_user_table();
             auto user_auth_iter = auth_user_table.find(_user);
@@ -106,9 +110,10 @@ class citem_system
             });
 
             user_item_table.modify(user_item_iter, owner, [&](auto &equip_item) {
-                equip_item.item_list[_item_location].i_state = eobject_state::in_equip_slot;
+                equip_item.item_list[_item_location].i_state = eobject_state::on_equip_slot;
             });
         }
+
         void unequip_servant_item(account_name _user,uint32_t _servant_location,uint8_t _equip_slot)
         {
             require_auth(_user);
@@ -134,7 +139,7 @@ class citem_system
                         unequip_servant.servant_list[_servant_location].s_equip_slot[_equip_slot] = 0;
                     });
                     user_item_table.modify(user_item_iter, owner, [&](auto &unequip_item) {
-                        unequip_item.item_list[i].i_state = eobject_state::in_inventory;
+                        unequip_item.item_list[i].i_state = eobject_state::on_inventory;
                     });
                     check_exist_id = i;
                     break;
@@ -142,6 +147,7 @@ class citem_system
             }
             eosio_assert(check_exist_id!=-1,"not exist in servent slot item");
         }
+        
         void unequip_hero_item(account_name _user, uint8_t _hero_slot, uint8_t _equip_slot)
         {
             require_auth(_user);
@@ -165,7 +171,7 @@ class citem_system
                         unequip_hero.a_hero_list[_hero_slot].h_equip_slot[_equip_slot] = 0;
                     });
                     user_item_table.modify(user_item_iter, owner, [&](auto &unequip_item) {
-                        unequip_item.item_list[i].i_state = eobject_state::in_inventory;
+                        unequip_item.item_list[i].i_state = eobject_state::on_inventory;
                     });
                     check_exist_id = i;
                     break;

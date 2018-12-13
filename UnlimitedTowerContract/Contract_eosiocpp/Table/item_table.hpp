@@ -12,7 +12,7 @@ struct citeminfo
     uint32_t i_slot;  //장착 타입
     uint32_t i_tier;  //티어
     sobject_status i_status; //힘민지 직업
-    uint32_t i_state = eobject_state::in_inventory; //아이템 현재 상태
+    uint32_t i_state = eobject_state::on_inventory; //아이템 현재 상태
     uint32_t i_grade; //아이템 등급
     uint32_t i_reinforce = 0; //아이템 강화 수치
 };

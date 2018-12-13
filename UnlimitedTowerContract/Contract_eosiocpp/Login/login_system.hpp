@@ -53,18 +53,22 @@ class clogin_system
           stage(_self,_self)
     {
     }
+
     battle_data_table &get_battle_stage_table()
     {
         return stage;
     }
+
     auth_users &get_auth_user_table()
     {
         return auth_user_table;
     }
+
     user_logs &get_log_table()
     {
         return user_log_table;
     }
+
     template<typename T>
     void eosiotoken_transfer(account_name sender, account_name receiver, T func) 
     {
@@ -115,6 +119,7 @@ class clogin_system
         });
         func(res);
     }
+
     void create_account(const account_name _user)
     {
         require_auth(_user);
@@ -137,6 +142,7 @@ class clogin_system
             new_log.log_set_user(_user);
         });
     }
+
     void set_look(const account_name _user, uint8_t _hero_slot, uint8_t _head, uint8_t _hair,uint8_t _body)
     {
         require_auth(_user);
@@ -152,7 +158,7 @@ class clogin_system
 
         auto user_iter = auth_user_table.find(_user);
         eosio_assert(user_iter != auth_user_table.end(), "unknown account");
-        eosio_assert(user_iter->a_hero_slot >= _hero_slot,"need more character slot");
+        eosio_assert(user_iter->a_hero_slot >= _hero_slot,"need more hero slot");
         eosio_assert(user_iter->a_hero_list[_hero_slot].h_state == ehero_state::set_look,"already completed look setting");
 
         auth_user_table.modify(user_iter, owner, [&](auto &hero_look_set) {
@@ -162,12 +168,13 @@ class clogin_system
             hero_look_set.a_hero_list[_hero_slot].h_appear.body = _body;
         });
     }
+
     void set_status(account_name _user, uint8_t _hero_slot)
     {
         require_auth(_user);
         auto user_iter = auth_user_table.find(_user);
         eosio_assert(user_iter != auth_user_table.end(), "unknown account");
-        eosio_assert(user_iter->a_hero_slot >= _hero_slot,"need more character slot");
+        eosio_assert(user_iter->a_hero_slot >= _hero_slot,"need more hero slot");
         eosio_assert(user_iter->a_hero_list[_hero_slot].h_state == ehero_state::set_status,"free roulette completed status setting");
 
         uint64_t l_seed = safeseed::get_seed(_user);
@@ -178,11 +185,12 @@ class clogin_system
             hero_status_set.a_hero_list[_hero_slot].h_status.basic_int = safeseed::get_random_seed(l_seed,10,1,3);
         });
     }
+
     void change_status(account_name _user,uint8_t _hero_slot)
     {
         auto user_iter = auth_user_table.find(_user);
         eosio_assert(user_iter != auth_user_table.end(), "unknown account");
-        eosio_assert(user_iter->a_hero_slot >= _hero_slot, "need more character slot");
+        eosio_assert(user_iter->a_hero_slot >= _hero_slot, "need more hero slot");
         eosio_assert(user_iter->a_hero_list[_hero_slot].h_state == ehero_state::set_change_status, "already completed status setting");
 
         uint64_t l_seed = safeseed::get_seed(_user);
@@ -192,34 +200,37 @@ class clogin_system
             hero_status_change.a_hero_list[_hero_slot].h_status.basic_int = safeseed::get_random_seed(l_seed,10,1,3);
         });
     }
+
     void complete_hero_set(account_name _user, uint8_t _hero_slot)
     {
         require_auth(_user);
         auto user_iter = auth_user_table.find(_user);
         eosio_assert(user_iter != auth_user_table.end(), "unknown account");
-        eosio_assert(user_iter->a_hero_slot >= _hero_slot,"need more character slot");
+        eosio_assert(user_iter->a_hero_slot >= _hero_slot,"need more hero slot");
         eosio_assert(user_iter->a_hero_list[_hero_slot].h_state == ehero_state::set_change_status || user_iter->a_hero_list[_hero_slot].h_state == ehero_state::set_status,"need to look setting & status setting");
     
         auth_user_table.modify(user_iter, owner, [&](auto &hero_state_set) {
             hero_state_set.a_hero_list[_hero_slot].h_state = ehero_state::set_complete;
         });
     }
+
     void add_hero_slot(account_name _user)
     {
         auto user_iter = auth_user_table.find(_user);
         eosio_assert(user_iter != auth_user_table.end(),"not find user info");
         if (user_iter->a_hero_slot < max_charcterslot)
         {
-            auth_user_table.modify(user_iter, owner, [&](auto &user_add_character) {
+            auth_user_table.modify(user_iter, owner, [&](auto &user_add_hero) {
                 shero_info new_hero;
                 new_hero.h_equip_slot.resize(max_equip_slot);
                 new_hero.h_state = ehero_state::set_look;
 
-                user_add_character.a_hero_list.push_back(new_hero);
-                user_add_character.a_hero_slot+=1;
+                user_add_hero.a_hero_list.push_back(new_hero);
+                user_add_hero.a_hero_slot+=1;
             });
         }
     }
+    
 #pragma region reset
     void reset_all_user_auth_data()
     {

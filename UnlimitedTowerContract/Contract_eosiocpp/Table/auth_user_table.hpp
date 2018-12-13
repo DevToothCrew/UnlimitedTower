@@ -26,19 +26,19 @@ enum ehero_state
 
 enum eobject_state
 {
-    in_inventory,
-    in_equip_slot,
-    in_party,
-    in_tower,
+    on_inventory,
+    on_equip_slot,
+    on_party,
+    on_tower,
     object_presale,
 };
 
 // 1 + 1 + 1 = 3
 struct sobject_appear
 {
-    uint8_t head = 0;
-    uint8_t hair = 0;
-    uint8_t body = 0;
+    uint32_t head = 0;
+    uint32_t hair = 0;
+    uint32_t body = 0;
 };
 // 4 + 4 + 4 + 1 = 13
 struct sobject_status
@@ -46,7 +46,7 @@ struct sobject_status
     uint32_t basic_str = 0;
     uint32_t basic_dex = 0;
     uint32_t basic_int = 0;
-    uint8_t job = 0;
+    uint32_t job = 0;
 };
 // 4 + 4 + 4 + 4 = 16
 struct sobject_plus_status
