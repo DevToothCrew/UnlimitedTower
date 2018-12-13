@@ -54,49 +54,7 @@ class cbattle_system
         {
 
         }
-//         void set_battle(account_name _user,uint32_t _party_number,uint8_t _stage)
-//         {
-//             require_auth(_user);
-// #pragma region stage test
-//             auto &stage_table = login_controller.get_battle_stage_table();
-//             const auto &stage_iter = stage_table.get(_stage, "not exist stage info");
-// #pragma endregion
-//             auto user_battle_iter = user_battle_table.find(_user);
-//             eosio_assert(user_battle_iter == user_battle_table.end(),"playing battle....");
 
-//             user_battle_table.emplace(owner,[&](auto &new_battle){
-//                 new_battle.battle_set_user(_user);
-//                 new_battle.b_stage_number = _stage;
-//             });
-
-//             auto &user_auth_table = login_controller.get_auth_user_table();
-//             auto user_auth_iter = user_auth_table.find(_user);
-//             eosio_assert(user_auth_iter!=user_auth_table.end(),"not exist user auth data");
-
-//             user_auth_table.modify(user_auth_iter, owner, [&](auto &user_state_change) {
-//                 if (_stage != 0)
-//                 {
-//                     user_state_change.a_state = euser_state::travel;
-//                 }
-//                 else
-//                 {
-//                     user_state_change.a_state = euser_state::tower;
-//                 }
-//             });
-
-//             auto &user_party_table = party_controller.get_user_party_table();
-//             const auto &user_party_iter = user_party_table.get(_user,"not exist user party data");
-
-//             uint32_t party_hero_id = user_party_iter.party_list[_party_number].party_id_list[party_controller.hero_party_location];
-//             uint32_t party_hero_pair = user_party_iter.party_list[_party_number].party_id_list[party_controller.hero_party_monster_location];
-
-//             eosio_assert(user_auth_iter->a_hero_list[party_hero_id].h_state != ehero_state::set_look && 
-//             user_auth_iter->a_hero_list[party_hero_id].h_state != ehero_state::set_status &&
-//             user_auth_iter->a_hero_list[party_hero_id].h_state != ehero_state::set_change_status,"need to hero information setting");
-            
-//             eosio_assert(party_hero_pair != 0 ,"need to set hero pair monster");
-
-//         }
         void start_battle(account_name _user,uint8_t _party_number,uint8_t _stage)
         {
             require_auth(_user);
@@ -410,6 +368,7 @@ class cbattle_system
 
 
         }
+
         void active_turn(account_name _user,uint8_t _hero_action,uint8_t _monster_action,uint8_t _hero_target,uint8_t _monster_target)
         {
             require_auth(_user);
@@ -587,6 +546,7 @@ class cbattle_system
                 fail_reward(_user);
             }
         }
+
         void win_reward(account_name _user)
         {
             auto &user_auth_table = login_controller.get_auth_user_table();
@@ -618,14 +578,12 @@ class cbattle_system
                 add_win_reward.b_reward_list.push_back(l_reward);
             });          
 
-            // user_auth_table.modify(user_auth_iter, owner, [&](auto &user_state) {
-            //     user_state.a_state = euser_state::battle_win;
-            // });
             user_auth_table.modify(user_auth_iter, owner, [&](auto &user_state) {
                 user_state.a_state = euser_state::lobby;
                 user_state.a_game_money += l_reward;
             });
         }
+
         void fail_reward(account_name _user)
         {
             auto &user_auth_table = login_controller.get_auth_user_table();
@@ -647,34 +605,7 @@ class cbattle_system
                 user_state.a_state = euser_state::lobby;
             });
         }
-        // void get_battle_reward(account_name _user)
-        // {
-        //     require_auth(_user);
-        //     auto &user_auth_table = login_controller.get_auth_user_table();
-        //     auto user_auth_iter = user_auth_table.find(_user);
-        //     eosio_assert(user_auth_iter->a_state == euser_state::battle_lose || user_auth_iter->a_state == euser_state::battle_win,"impossible get reward");
 
-        //     auto user_battle_iter = user_battle_table.find(_user);
-        //     eosio_assert(user_battle_iter != user_battle_table.end(), "not exist user battle data");
-            
-        //     if (user_auth_iter->a_state == euser_state::battle_win)
-        //     {
-        //         user_auth_table.modify(user_auth_iter, owner, [&](auto &user_win_reward) {
-        //             for(uint32_t i=0;i<user_battle_iter->b_reward_list.size();++i)
-        //             {
-        //                 user_win_reward.a_game_money+=user_battle_iter->b_reward_list[i];
-        //             }
-        //             user_win_reward.a_state = euser_state::lobby;
-        //         });
-        //     }
-        //     else
-        //     {
-        //         user_auth_table.modify(user_auth_iter, owner, [&](auto &user_lose_reward) {
-        //             user_lose_reward.a_state = euser_state::lobby;
-        //         });
-        //     }
-        //     user_battle_table.erase(user_battle_iter);
-        // }
 #pragma region reset
         void reset_all_battle_data()
         {
