@@ -240,18 +240,8 @@ public class GachaImage : MonoSingleton<GachaImage>
         // ### 가챠 결과
         PacketManager.Inst.Request_GachaResult(this.gachaType);
 
+      
 
-
-        if (Packet.GetComponent<Test_PacketManager>().GetPakcet().Length <= 0)
-        {
-            TestReciveText.GetComponent<Text>().text = "0000000000000";
-            TestReciveText.SetActive(true);
-        }
-        else
-        {
-            TestReciveText.GetComponent<Text>().text = Packet.GetComponent<Test_PacketManager>()._Packet;
-            TestReciveText.SetActive(true);
-        }
     }
 
     // 가차 멈춤
@@ -276,6 +266,20 @@ public class GachaImage : MonoSingleton<GachaImage>
         //Test : Send Gacha to Server
         //Gacha();
         // ### 가챠 시작 패킷을 보낸다.
+
+        if (Test_PacketManager.Inst._Packet.Length <= 0)
+        {
+            LobbyManager.Inst.TestText.GetComponent<Text>().text = "OnClickExecuteGacha : not recive packet";
+            LobbyManager.Inst.TestText.SetActive(true);
+        }
+        else
+        {
+            LobbyManager.Inst.TestText.GetComponent<Text>().text = Test_PacketManager.Inst._Packet;
+            LobbyManager.Inst.TestText.SetActive(true);
+        }
+        Test_PacketManager.Inst._Packet = null;
+
+
         PacketManager.Inst.Request_ExecuteGacha();
         LightEffectCircle04Animator.SetBool("Play", true);
         BlackHoleAnimator.SetBool("Play", true);

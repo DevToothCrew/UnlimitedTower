@@ -33,7 +33,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public GameObject FormationList;
 
-
+    public GameObject TestText;
 
 
 
@@ -129,8 +129,21 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         //TODO : 임시 코드. 필요없을시 삭제.
         // ### 로그인 패킷을 보낸다.
         PacketManager.Inst.Request_Login();
-
         PacketManager.Inst.Request_GetLobbyInfo();
+
+
+        if (Test_PacketManager.Inst.GetPakcet().Length <= 0)
+        {
+            TestText.GetComponent<Text>().text = "OnClickEnterLobbyButton : not recive packet";
+            TestText.SetActive(true);
+        }
+        else
+        {
+            TestText.GetComponent<Text>().text = Test_PacketManager.Inst._Packet;
+            TestText.SetActive(true);
+        }
+        Test_PacketManager.Inst._Packet = null;
+
     }
 
     public void OnClickLogoutButton()

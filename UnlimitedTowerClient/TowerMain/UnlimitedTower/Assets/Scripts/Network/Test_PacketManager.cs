@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Test_PacketManager : MonoBehaviour
+public class Test_PacketManager : MonoSingleton<Test_PacketManager>
 {
     // Use this for initialization
 
@@ -20,4 +20,25 @@ public class Test_PacketManager : MonoBehaviour
     {
         return _Packet;
     }
+
+
+    public void Test_LoginReceive(string packet)
+    {
+        Debug.Log("Test_LoginReceive : " + packet);
+        _Packet = packet;
+    }
+    public void Test_ExecuteGacha(string packet)
+    {
+        Debug.Log("Test_ExecuteGacha : " + packet);
+        _Packet = packet;
+    }
+    public void Test_SaveFormation(string packet)
+    {
+        Debug.Log("Test_ExecuteGacha : " + packet);
+        _Packet = packet;
+    }
+
+
+
+
 }
