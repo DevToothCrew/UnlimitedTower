@@ -33,6 +33,7 @@ struct attack_speed
 {
     uint32_t member_array_index;
     uint32_t member_speed;
+    uint32_t member_target;
 };
 
 // 8 + 1 + 4 + 1 + 1 + b_reward_list(4) + (77 * 20) + (8*20) = 1727

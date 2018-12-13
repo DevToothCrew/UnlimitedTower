@@ -107,6 +107,7 @@ class cbattle_system
                 user_battle_table.emplace(owner, [&](auto &new_battle_set) {
                     new_battle_set.battle_set_user(_user);
                     new_battle_set.b_stage_number = _stage;
+                    new_battle_set.b_turn_count = START_BATTLE;
                     for (uint32_t i = party_controller.max_monster_slot; i < party_controller.max_servant_slot; ++i)
                     {
                         if (i == party_controller.hero_party_location) //히어로 능력치 셋팅
@@ -236,7 +237,7 @@ class cbattle_system
             else
             {
                 user_battle_table.modify(user_battle_iter, owner, [&](auto &new_battle_set) {
-                    new_battle_set.b_turn_count = 0;
+                    new_battle_set.b_turn_count = START_BATTLE;
                     new_battle_set.b_stage_number = _stage;
                     new_battle_set.b_reward_list.clear();
                     for (uint32_t i = party_controller.max_monster_slot; i < party_controller.max_servant_slot; ++i)
@@ -426,8 +427,8 @@ class cbattle_system
                             if (_hero_action == attack_action)
                             {
                                 uint32_t l_damage = (battle_state.b_battle_state_list[index].attack * ((defense_constant * decimal) /
-                                                                                                       (defense_constant + battle_state.b_battle_state_list[_hero_target].defense))) /
-                                                    decimal;
+                                                                                                       (defense_constant + battle_state.b_battle_state_list[_hero_target].defense))) / decimal;
+                                battle_state.attack_order_list[i].member_target = _hero_target;
                                 if (battle_state.b_battle_state_list[_hero_target].now_hp <= l_damage)
                                 {
                                     battle_state.b_battle_state_list[_hero_target].now_hp = 0;
@@ -445,8 +446,8 @@ class cbattle_system
                             if (_monster_action == attack_action)
                             {
                                 uint32_t l_damage = (battle_state.b_battle_state_list[index].attack * ((defense_constant * decimal) /
-                                                                                                       (defense_constant + battle_state.b_battle_state_list[_monster_target].defense))) /
-                                                    decimal;
+                                                                                                       (defense_constant + battle_state.b_battle_state_list[_monster_target].defense))) / decimal;
+                                battle_state.attack_order_list[i].member_target = _monster_target;
                                 if (battle_state.b_battle_state_list[_monster_target].now_hp <= l_damage)
                                 {
                                     battle_state.b_battle_state_list[_monster_target].now_hp = 0;
@@ -469,6 +470,7 @@ class cbattle_system
                             if (l_user_action == attack_action)
                             {
                                 battle_state.b_battle_state_list[index].action = attack_action;
+                                battle_state.attack_order_list[i].member_target = enemy;
                                 uint32_t l_damage = (battle_state.b_battle_state_list[index].attack * ((defense_constant * decimal) / (defense_constant + battle_state.b_battle_state_list[enemy].defense))) / decimal;
                                 print("l_damage : ", l_damage, "\n");
                                 if (battle_state.b_battle_state_list[enemy].now_hp <= l_damage)
@@ -500,6 +502,7 @@ class cbattle_system
                             if (l_user_action == attack_action)
                             {
                                 battle_state.b_battle_state_list[index].action = attack_action;
+                                battle_state.attack_order_list[i].member_target = enemy;
                                 uint32_t l_damage = (battle_state.b_battle_state_list[index].attack * ((200 * decimal) / (200 + battle_state.b_battle_state_list[enemy].defense))) / decimal;
                                 print("l_damage : ", l_damage, "\n");
                                 if (battle_state.b_battle_state_list[enemy].now_hp <= l_damage)
@@ -575,6 +578,7 @@ class cbattle_system
 
             user_battle_table.modify(user_battle_iter,owner,[&](auto &add_win_reward)
             {
+                add_win_reward.b_turn_count = END_BATTLE;
                 add_win_reward.b_reward_list.push_back(l_reward);
             });          
 
@@ -590,14 +594,19 @@ class cbattle_system
             auto user_auth_iter = user_auth_table.find(_user);
             eosio_assert(user_auth_iter!=user_auth_table.end(),"not exist user auth data");
 
-            const auto &user_battle_iter = user_battle_table.get(_user);
+            auto user_battle_iter = user_battle_table.find(_user);
+            eosio_assert(user_battle_iter != user_battle_table.end(),"not exist user battle data");
+            user_battle_table.modify(user_battle_iter,owner,[&](auto &add_win_reward)
+            {
+                add_win_reward.b_turn_count = END_BATTLE;
+            });    
 
             auto &user_log_table = login_controller.get_log_table();
             auto user_log_iter = user_log_table.find(_user);
             eosio_assert(user_log_iter != user_log_table.end(),"not exist user log data");
 
             user_log_table.modify(user_log_iter, owner, [&](auto &update_log) {
-                update_log.l_last_stage_num = user_battle_iter.b_stage_number;
+                update_log.l_last_stage_num = user_battle_iter->b_stage_number;
                 update_log.l_battle_count++;
             });
 
