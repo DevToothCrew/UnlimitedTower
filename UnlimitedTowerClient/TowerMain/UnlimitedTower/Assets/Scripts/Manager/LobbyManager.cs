@@ -9,6 +9,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public GameObject RightPopup;
     public GameObject TowerGrid;
     public GameObject TowerInfo;
+    public GameObject InfoPopup;
 
     public GameObject CenterPopup;
     private LOBBY_RIGHT_BUTTON centerPopupState;
@@ -26,7 +27,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public GameObject LeftPop;
     public GameObject BaseBackground;
-    public GameObject CloudImage;
 
     public GameObject CharacterListScroll;
     public GameObject ServantContentList;
@@ -67,7 +67,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         {
             case SCENE_STATE.Login:
                 SetTowerInfo(true, -100.0f);
-                SetRightPopup(LoginPopup);                        
+                SetRightPopup(LoginPopup);
+                TowerInfo.SetActive(false);
                 break;
             case SCENE_STATE.Lobby:
                 SetTowerInfo(true, 100.0f);
@@ -86,6 +87,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     {
         // 그리드 세팅도 여기에 넣는다
         TowerGrid.SetActive(active);
+        InfoPopup.SetActive(active);
         TowerInfo.SetActive(active);
     }
     
@@ -100,9 +102,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public void InitCenterPopup()
     {
-        centerPopupState = LOBBY_RIGHT_BUTTON.None;
-
-   
+        centerPopupState = LOBBY_RIGHT_BUTTON.None;   
        
         CenterPopup.SetActive(false);
         HeroInfoPopup.SetActive(false);
@@ -142,6 +142,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     {
         InitCenterPopup();
         CenterPopup.SetActive(true);
+        TowerInfo.SetActive(false);
+        TowerGrid.SetActive(false);
 
         centerPopupState = (LOBBY_RIGHT_BUTTON)rightButton;
 
@@ -168,7 +170,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                 CenterPopup.SetActive(false);
                 LeftPop.SetActive(false);
                 BaseBackground.SetActive(false);
-                CloudImage.SetActive(false);
 
                 break;
 
@@ -186,6 +187,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public void OnClickExitCenterPopup()
     {
         InitCenterPopup();
+        TowerInfo.SetActive(true);
+        TowerGrid.SetActive(true);
     }
     public void OnClickExitGacha()
     {
@@ -193,12 +196,12 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
         RightPopup.SetActive(true);
         TowerGrid.SetActive(true);
-        //TowerInfo.SetActive(false);
+        TowerInfo.SetActive(true);
+        //InfoPopup.SetActive(false);
         //CenterPopup.SetActive(false);
 
         LeftPop.SetActive(true);
         BaseBackground.SetActive(true);
-        CloudImage.SetActive(true);
     }
     public void OnClickFormationServantButton()
     {

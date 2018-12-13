@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: fd378f62c97134f458197fea4e772845
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: DISPLAYEDOblique
+  fontNames:
+  - DISPLAYEDOblique
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: aefbdc9105504be4a99fc131359609e9, type: 3}
+  - {fileID: 12800000, guid: 8a2efed38208faf4cb0e6f161851eaab, type: 3}
+  - {fileID: 12800000, guid: 1bf8e8599348e54438e53902e2d8505c, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
