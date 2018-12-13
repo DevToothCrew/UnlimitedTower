@@ -48,9 +48,9 @@
         }
 #pragma region init
         //@abi action
-        void datainit(account_name _user)
+        void datainit()
         {
-            db_controller.init_db_data(_user);
+            db_controller.init_db_data();
         }
         //@abi action
         void stageinit()
@@ -177,13 +177,18 @@
 
 #pragma resion reset
         //@abi action
-        void resettable()
+        void resetuser()
         {
             battle_controller.reset_all_battle_data();
             login_controller.reset_all_user_log_data();
             login_controller.reset_all_user_auth_data();
             gacha_controller.reset_all_user_object_data();
             party_controller.reset_all_user_party_data();
+        }
+        //@abi action
+        void resetdata()
+        {
+            db_controller.reset_db_data();
         }
 #pragma endregion
     };
@@ -215,4 +220,4 @@ extern "C" { \
 }
 // eos 금액에 대해 체크 하는 함
 
-    EOSIO_ABI(cmain_logic,(datainit)(stageinit)(signup)(lookset)(statset)(completehero)(transfer)(startbattle)(activeturn)(setparty)(sellitem)(equipser)(unequipser)(equiphero)(unequiphero)(resettable) )
+    EOSIO_ABI(cmain_logic,(datainit)(stageinit)(signup)(lookset)(statset)(completehero)(transfer)(startbattle)(activeturn)(setparty)(sellitem)(equipser)(unequipser)(equiphero)(unequiphero)(resetuser)(resetdata) )
