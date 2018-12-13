@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NumberUI : MonoBehaviour
+public class InGameNumberUI : MonoBehaviour
 {
     private readonly float _COMPLETE_THRESHOLD = 1.00f;
 
@@ -19,24 +19,18 @@ public class NumberUI : MonoBehaviour
     private Transform numberMeshTransform;
 
     // Number Mesh (child) shader information
-    private MeshRenderer rdrr;
-
-    private MaterialPropertyBlock mtrlBlock = null;
+    private TextMesh textMesh;
 
     private void Awake()
     {
-        rdrr = GetComponentInChildren<MeshRenderer>();
-        numberMeshTransform = rdrr.transform;
-
-        mtrlBlock = new MaterialPropertyBlock();
+        textMesh = GetComponentInChildren<TextMesh>();
+        numberMeshTransform = textMesh.transform;
     }
 
     // Update is called once per frame
     void Update()
     {
         float t = Mathf.Clamp01(currAnimationTime / animationDuration);
-
-        Debug.Log(t);
 
         if (t < _COMPLETE_THRESHOLD)
         {
@@ -47,8 +41,9 @@ public class NumberUI : MonoBehaviour
             numberMeshTransform.localPosition = Vector3.up * animationMoveUpAmount * transformProgress;
 
             // update Shader
-            mtrlBlock.SetFloat("_Alpha", alphaProgress);
-            rdrr.SetPropertyBlock(mtrlBlock);
+            Color currColor = textMesh.color;
+            currColor.a = alphaProgress;
+            textMesh.color = currColor;
 
             currAnimationTime += Time.deltaTime;
         }
@@ -61,12 +56,10 @@ public class NumberUI : MonoBehaviour
 
     #region interfaces
 
-    public void SetTexture(Texture2D tex)
+    public void SetValue(int val)
     {
-        if (rdrr != null)
-        {
-            rdrr.material.mainTexture = tex;
-        }
+        textMesh.color = Mathf.Sign(val) < 0 ? new Color(1.0f, 0.0f, 0.0f) : new Color(1.0f, 1.0f, 0.0f);
+        textMesh.text = val.ToString();
     }
     #endregion
 }

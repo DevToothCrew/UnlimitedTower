@@ -9,7 +9,7 @@ public class CharController : MonoBehaviour
     public Battle_Character_Status status {
         set {
 
-            if(_status == null && healthGaze != null)
+            if(_status != value && healthGaze != null)
             {
                 healthGaze.SetMaxHealth(value.maxHp);
                 UpdateHealthUI = () =>
@@ -47,7 +47,7 @@ public class CharController : MonoBehaviour
 
     #region UIs
 
-    static private readonly string _HEALTHGAZE_PREFAB_PATH = "Prefabs/UIs/HealthGaze";
+    static private readonly string _HEALTHGAZE_PREFAB_PATH = "Prefabs/UIs/InGameHealthGaze";
     static private GameObject prefHealthGaze = null;
 
     private InGameCharHealthGaze healthGaze = null;

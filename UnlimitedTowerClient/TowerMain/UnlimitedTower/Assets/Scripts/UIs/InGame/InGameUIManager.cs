@@ -21,13 +21,7 @@ public class InGameUIManager : MonoSingleton<InGameUIManager>
     public void DecreaseHp(int damage, GameObject target)
     {
         var i = 0;
-        foreach(var num in damage.ToString())
-        {
-            var ret = -1;
-            int.TryParse(num.ToString(), out ret);
-            InstantiateNumber(ret, target.transform.position + Vector3.up * _DIST_FROM_HEAD + i * Camera.main.transform.right * _DIST_EACH_NUMBER);
-            i++;
-        }
+        InstantiateNumber(damage, target.transform.position + Vector3.up * _DIST_FROM_HEAD);
     }
 
     public GameObject InstantiateNumber(int num, Vector3 position)
@@ -35,13 +29,12 @@ public class InGameUIManager : MonoSingleton<InGameUIManager>
         var go = Instantiate(prefNum, position, Quaternion.identity, null);
         
         // should look the main camera always
-        go.transform.LookAt(Camera.main.transform.position);
+        go.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward, Vector3.up);
 
-        var numberUI = go.GetComponent<NumberUI>();
-
-        if (num < texNums.Length)
+        var numberUI = go.GetComponent<InGameNumberUI>();
+        if(numberUI != null)
         {
-            numberUI.SetTexture(texNums[num]);
+            numberUI.SetValue(num);
         }
 
         return go;
