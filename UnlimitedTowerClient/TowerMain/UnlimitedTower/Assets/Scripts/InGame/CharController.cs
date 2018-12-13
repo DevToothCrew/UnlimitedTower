@@ -9,7 +9,7 @@ public class CharController : MonoBehaviour
     public Battle_Character_Status status {
         set {
 
-            if(_status == null && healthGaze != null)
+            if(_status != value && healthGaze != null)
             {
                 healthGaze.SetMaxHealth(value.maxHp);
                 UpdateHealthUI = () =>

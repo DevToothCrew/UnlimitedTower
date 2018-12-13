@@ -16,15 +16,5 @@ public class InGameUIRoot : MonoBehaviour {
 
     private void Update()
     {
-#if UNITY_EDITOR
-        if(Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            InGameUIFinished.SetupAndPlay(InGameUIFinished.FinishedType.Clear);
-        }
-        if(Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            InGameUIFinished.SetupAndPlay(InGameUIFinished.FinishedType.Failed);
-        }
-#endif
     }
 }
