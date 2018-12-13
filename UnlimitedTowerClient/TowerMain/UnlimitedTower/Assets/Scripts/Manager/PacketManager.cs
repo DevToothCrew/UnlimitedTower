@@ -226,6 +226,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("Response_Login");
         // 스캐터 답받기
+        
+
         UserDataManager.Inst.SetUserLoginFlag(true);
         // 상태변화에 대한것은 LobbyManager에서 표현할수 있어야 한다.
     }

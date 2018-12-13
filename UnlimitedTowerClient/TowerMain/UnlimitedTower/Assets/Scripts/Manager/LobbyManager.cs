@@ -50,6 +50,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         else
         {
             FormationManager.Inst.BeSaved = false;
+            UserDataManager.Inst.oldFormationDic = UserDataManager.Inst.formationDic;
             Debug.Log("로비로 리턴");
          
             ChangeSceneState(SCENE_STATE.Lobby);
