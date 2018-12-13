@@ -12,8 +12,8 @@ mergeInto(LibraryManager.library, {
     ReactUnityWebGL.Login();
   },
 
-  SetFormation : function(party_num, pos_1, pos_2, pos_3, pos_4, pos_5, pos_6, pos_7, pos_8, pos_9, pos_10) {
-    ReactUnityWebGL.SetFormation(party_num, pos_1, pos_2, pos_3, pos_4, pos_5, pos_6, pos_7, pos_8, pos_9, pos_10);
+  SetFormation : function(a, b, c) {
+    ReactUnityWebGL.SetFormation(a, b, c);
   },
 
   GetStageInfo : function(stage_num) {
