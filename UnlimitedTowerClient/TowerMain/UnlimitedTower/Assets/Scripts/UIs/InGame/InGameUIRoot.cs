@@ -13,8 +13,4 @@ public class InGameUIRoot : MonoBehaviour {
         debugButtonWrap.SetActive(true);
 #endif
     }
-
-    private void Update()
-    {
-    }
 }
