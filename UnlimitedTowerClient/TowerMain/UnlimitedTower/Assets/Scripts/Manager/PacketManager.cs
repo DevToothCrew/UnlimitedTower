@@ -121,6 +121,31 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void Request_SaveFormation()
     {
         Debug.Log("Request_SaveFormation");
+
+
+        List<int> formationList = new List<int>();
+        int formationNum = 0;
+        for (int i = 0; i < 10; i++)
+        {
+            if (UserDataManager.Inst.formationDic.ContainsKey(i) == true)
+            {
+                if (!UserDataManager.Inst.formationDic.TryGetValue(i, out formationNum))
+                {
+                    Debug.Log("Error : SendFormationInfo");
+                }
+            }
+            else
+            {
+                formationNum = 0;
+
+            }
+            formationList.Add(formationNum);
+        }
+
+        //SetFormation(0, formationList[0], formationList[1], formationList[2], formationList[3], formationList[4],
+        //             formationList[5], formationList[6], formationList[7], formationList[8], formationList[9]);
+
+
         Response_SaveFormation();
     }
 

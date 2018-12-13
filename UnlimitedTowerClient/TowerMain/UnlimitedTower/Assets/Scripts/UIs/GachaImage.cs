@@ -236,6 +236,8 @@ public class GachaImage : MonoSingleton<GachaImage>
         if (TestGachaNum % 2 == 1) gachaType = GACHA_TYPE.Monster;
         else gachaType = GACHA_TYPE.Servant;
 
+
+        // ### 가챠 결과
         PacketManager.Inst.Request_GachaResult(this.gachaType);
 
 
@@ -273,7 +275,7 @@ public class GachaImage : MonoSingleton<GachaImage>
     {
         //Test : Send Gacha to Server
         //Gacha();
-
+        // ### 가챠 시작 패킷을 보낸다.
         PacketManager.Inst.Request_ExecuteGacha();
         LightEffectCircle04Animator.SetBool("Play", true);
         BlackHoleAnimator.SetBool("Play", true);

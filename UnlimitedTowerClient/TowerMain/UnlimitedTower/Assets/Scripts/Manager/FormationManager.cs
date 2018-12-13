@@ -29,15 +29,42 @@ public class FormationManager : MonoSingleton<FormationManager>
     }
 
     public void OnClickSaveFormation()
-    {
+    { 
+        // ### 포메이션 패킷을 보낸다.
+  
+
         PacketManager.Inst.Request_SaveFormation();
         BeSaved = true;
-        // 저장 버튼을 안눌렀으면
+    }
+    public void ResetFormation()
+    {
+        for(int i=0; i<10; i++)
+        {
+            if(i != DEFINE.HERO_FORMATION_NUM)
+            {
+                if (Decks[i].GetComponent<FormationDeck>())
+                {
+                    Decks[i].GetComponent<FormationDeck>().LinkedChar = null;
+                }
+                if (DeckImages[i].GetComponent<Image>())
+                {
+                    DeckImages[i].GetComponent<Image>().sprite = null;
+                }
+                if (DeckTexts[i].GetComponent<Text>())
+                {
+                    DeckTexts[i].SetActive(true);
+                }
+            }
 
-        // 저장 버튼을 안눌렸으면
-        // 이전 덱으로 되돌아 가야하나?
+           
+
+
+        }
     }
 
 }
 
-// 히어로 넘버를 0, 1, 2 중 하나로
+
+
+
+

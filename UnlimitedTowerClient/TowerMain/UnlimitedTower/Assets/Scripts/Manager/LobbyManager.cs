@@ -125,6 +125,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public void OnClickEnterLobbyButton()
     {
         //TODO : 임시 코드. 필요없을시 삭제.
+        // ### 로그인 패킷을 보낸다.
         PacketManager.Inst.Request_Login();
 
         PacketManager.Inst.Request_GetLobbyInfo();
@@ -220,6 +221,14 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public void OnClickStageButton(int stageNum)
     {
+        // ### 스테이지 넘어가는 패킷을 보낸대.(전투씬으로감)
+
+        if (FormationManager.Inst.BeSaved == false)
+        {
+            UserDataManager.Inst.SetOldFormation();
+        }
+
+        Debug.Log("OnClickStageButton : " + stageNum);
         PacketManager.Inst.Request_GetStageInfo(stageNum);
     }
 

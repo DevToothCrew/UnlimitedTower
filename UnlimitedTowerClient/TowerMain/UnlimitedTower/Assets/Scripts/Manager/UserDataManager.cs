@@ -65,6 +65,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             }
             //Create10NumberMonster();
             testInitFlag = true;
+            oldFormationDic = formationDic;
         }  
     }
     void CreateServant()
@@ -118,7 +119,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     {
         if(formationDic.ContainsKey(DEFINE.HERO_FORMATION_NUM) == false)
         {
-            formationDic.Add(DEFINE.HERO_FORMATION_NUM, heroChar.Index);
+            // 히어로의 인덱스는 0~2
+            formationDic.Add(DEFINE.HERO_FORMATION_NUM, 0);
             string path = "UI/CharaterImage/" + heroChar.Name;
             LoadCharImage(path, DEFINE.HERO_FORMATION_NUM, null);
         }
@@ -141,10 +143,18 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         else
         {
             Debug.Log("Do not exist FormatiionDeck Component");
-        }
-
-    
+        }    
     }
+    // 저장을 안했기 때문에 히어로 혼자 플레이한다.
+    private void ResetFormation()
+    {
+
+    }
+    public void SetOldFormation()
+    {
+        oldFormationDic = formationDic;
+    }
+
     public void SetUserLoginFlag(bool flag)
     {
         UserLoginFlag = flag;

@@ -72,10 +72,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
                 childCheckingImage.SetActive(false);
                 charDic[CharDicKey].OnFormation = false;
             }
-        }
-
-           
-          
+        }          
     }
     private void AddDeck(ref Dictionary<int, Character> charDic, CHAR_TYPE charType)
     {
