@@ -616,13 +616,6 @@ class cbattle_system
                 user_battle_iter++;
                 user_battle_table.erase(iter);
             }
-            auto &user_auth_table = login_controller.get_auth_user_table();
-            for(auto user_auth_iter = user_auth_table.begin();user_auth_iter!=user_auth_table.end();user_auth_iter++)
-            {
-                user_auth_table.modify(user_auth_iter, owner, [&](auto &user_state_change) {
-                    user_state_change.a_state = euser_state::lobby;
-                });
-            }
         }
 #pragma endregion
     };
