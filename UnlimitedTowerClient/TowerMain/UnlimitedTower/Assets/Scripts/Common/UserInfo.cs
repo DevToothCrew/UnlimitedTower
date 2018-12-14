@@ -282,15 +282,6 @@ public class UserInfo : MonoSingleton<UserInfo>
 
     public void getAddServant(string _servant_info)
     {
-
-
-      
-
-
-
-
-        // var json ="{"i_index":5,"i_id":50,"i_type":0,"i_slot":0,"i_tier":0,"i_status":{"basic_str":7,"basic_dex":8,"basic_int":18,"job":2},"i_state":0,"i_grade":3,"i_reinforce":0,"result":"i"}" 
-
         Debug.Log("Packet Servant : " + _servant_info);
 
         
@@ -398,9 +389,20 @@ public class UserInfo : MonoSingleton<UserInfo>
         user_battle.b_party_number = user_battle_info.b_party_number;
         user_battle.b_preference = user_battle_info.b_preference;
         user_battle.b_stage_number = user_battle_info.b_stage_number;
+        foreach(var reward in user_battle_info.b_reward_List)
+        {
+            user_battle.b_reward_List.Add(reward);
+        }
 
+        foreach (var battle_state in user_battle_info.b_battle_state_List)
+        {
+            user_battle.b_battle_state_List.Add(battle_state);
+        }
 
-
+        foreach (var attack_order in user_battle_info.attack_order_List)
+        {
+            user_battle.attack_order_List.Add(attack_order);
+        }
     }
 
     public void getParty(string _party_info)
