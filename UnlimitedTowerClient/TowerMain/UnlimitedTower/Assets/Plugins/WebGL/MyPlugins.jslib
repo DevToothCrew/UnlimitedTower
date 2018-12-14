@@ -20,8 +20,8 @@ mergeInto(LibraryManager.library, {
     ReactUnityWebGL.GetStageInfo(stage_num);
   },
 
-  BattleAction : function(target_1, action_1, target_2, action_2) {
-    ReactUnityWebGL.BattleAction(target_1, action_1, target_2, action_2);
+  BattleAction : function(battleAction) {
+    ReactUnityWebGL.BattleAction(Pointer_stringify(battleAction));
   },
 
   StartBattle : function(stage_num, party_num) {

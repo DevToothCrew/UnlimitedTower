@@ -7,13 +7,6 @@ using LitJson;
 [System.Serializable]
 
 
-public class Test
-{
-    public int a = 1;
-    public int b = 2;
-    public int c = 3;
-
-}
 public class PacketManager : MonoSingleton<PacketManager> {
 
     #region ServerConnect
@@ -46,11 +39,16 @@ public class PacketManager : MonoSingleton<PacketManager> {
     private static extern void GetStageInfo (int stage_num);
 
     [DllImport("__Internal")]
-    private static extern void BattleAction (int target_1, int action_1, int target_2, int action_2);
+    private static extern void BattleAction (string battleAction);
 
     [DllImport("__Internal")]
     private static extern void StartBattle (int stage_num, int party_num);
-    
+
+
+    [DllImport("__Internal")]
+    public static extern void Gacha();
+
+
 
 
 
@@ -114,12 +112,16 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void Request_ExecuteGacha()
     {
         Debug.Log("Request_ExecuteGacha");
+        Gacha();
         Response_ExecuteGacha();
     }
     public void Request_GachaResult(GACHA_TYPE gachaType)
     {
+
+      //  UserInfo.getAddServant(gachaType);
+
         Debug.Log("Request_GachaResult");
-        Response_GachaResult(gachaType);
+       // Response_GachaResult(gachaType);
     }
     public void Request_ExitGacha()
     {
@@ -135,6 +137,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Request_SaveFormation");
 
         List<int> formationList = new List<int>();
+
+
+
+        JsonFomation data = new JsonFomation();
+
+
         int[] testFormatonArr = new int[10];
 
         int formationNum = 0;
@@ -153,54 +161,21 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
             }
             formationList.Add(formationNum);
-            testFormatonArr[i] = 10;
+
+
+            data.formation.Add(formationNum);
+             testFormatonArr[i] = 10;
         }
 
 
 
-        Test t = new Test();
-        t.a = 10;
-        t.b = 1;
-        t.c = 2;
-
-        string json = JsonUtility.ToJson(t);
+        data.partyNum = 0;
+        string json = JsonUtility.ToJson(data);
         Debug.Log("print Jsson : : " + json);
 
-
-        //var a = int.Parse(str);
-        //Debug.Log("Parse : " + a);
        SetFormation(json);
 
         Response_SaveFormation();
-    }
-
-
-    public void SendFormtionInfo()
-    {
-        List<int> formationList = new List<int>();
-        int formationNum = 0;
-        for (int i = 0; i < 10; i++)
-        {
-            if (UserDataManager.Inst.formationDic.ContainsKey(i) == true)
-            {
-                if (!UserDataManager.Inst.formationDic.TryGetValue(i, out formationNum))
-                {
-                    Debug.Log("Error : SendFormationInfo");
-                }
-            }
-            else
-            {
-                formationNum = 0;
-
-            }
-            formationList.Add(formationNum);
-
-        }
- 
-        //SetFormation(
-        // var serializer = new System.Web.Script.Ser
-        //avaScriptSerializer json = new JavaScriptSerializer();
-
     }
 
     public void Request_GetStageInfo(int stageNum)
@@ -232,12 +207,36 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("RequestEnterStage : " + stageNum);
         Response_EnterStage(stageNum);
     }
+    public void Request_BattleAction(int target_1, int action_1, int target_2, int action_2)
+    {
+        Debug.Log("Request_BattleAction");
+
+
+        List<JsonBattleAction> actionList = new List<JsonBattleAction>();
+        actionList.Add(new JsonBattleAction(target_1, action_1));
+        actionList.Add(new JsonBattleAction(target_2, action_2));
+
+        //JsonList fList = new JsonList();
+        //fList.list.Add(target_1);
+        //fList.list.Add(action_1);
+        //fList.list.Add(target_2);
+        //fList.list.Add(action_2);
+
+
+        string json = JsonUtility.ToJson(actionList);
+
+        BattleAction(json);
+        Debug.Log("Json action : " + json);
+
+
+    }
 
     public void Request_Logout()
     {
         Debug.Log("Request_Logout");
         Response_Logout();
     }
+
 
     #endregion
 

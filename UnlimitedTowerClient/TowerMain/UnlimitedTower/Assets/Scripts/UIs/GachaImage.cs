@@ -7,9 +7,6 @@ using System.Runtime.InteropServices;
 public class GachaImage : MonoSingleton<GachaImage>
 {
 
-    [DllImport("__Internal")]
-    public static extern void Gacha();
-
     public Animator GachaImageAnimator;
 
     public Animator LightEffectCircle01Animator;
@@ -264,17 +261,15 @@ public class GachaImage : MonoSingleton<GachaImage>
     public void OnClickExecuteGacha(int gachaType)
     {
         //Test : Send Gacha to Server
-        //Gacha();
         // ### 가챠 시작 패킷을 보낸다.
-
+        PacketManager.Inst.Request_ExecuteGacha();
 
         Test_PacketManager.Inst.CheckPacket("OnClickExecuteGacha: not recive packet");
 
+        
 
-      
 
 
-        PacketManager.Inst.Request_ExecuteGacha();
         LightEffectCircle04Animator.SetBool("Play", true);
         BlackHoleAnimator.SetBool("Play", true);
         PurpleCircleAnimator.SetBool("Play", true);
