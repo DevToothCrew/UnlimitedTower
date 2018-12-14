@@ -1,13 +1,26 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System;
-
-using Random = UnityEngine.Random;
 
 public class BattleManager : MonoSingleton<BattleManager> {
-    
+
+    #region event listeners 
+    [System.Serializable]
+    public class EventListener : UnityEvent { }
+
+    public EventListener onBattleClear = new EventListener();
+    public EventListener onBattleFailed = new EventListener();
+
+    public EventListener onBattlePause = new EventListener();
+    public EventListener onBattleReset = new EventListener();
+
+    public EventListener onBattleStarted = new EventListener();
+    public EventListener onBattleExited = new EventListener();
+
+    #endregion
+
     // TODO : Test Prefabs if Delete
 
     // 인게임 보여주는 용도의 오브젝트
@@ -42,16 +55,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
     GameObject EnemyParty;
 
     public bool FirstAcess = false;
-
-    //Test Code
-    private void OnGUI()
-    {
-        if (GUI.Button(new Rect(100, 100, 100, 100), "GameOver"))
-        {
-            UserDataManager.Inst.sceneState = SCENE_STATE.Lobby;
-            SceneManager.LoadScene("Lobby");
-        }
-    }
+        
     void Awake()
     {
         if (debugFlag == true)
@@ -59,7 +63,6 @@ public class BattleManager : MonoSingleton<BattleManager> {
             debugPanel.SetActive(true);
             debugText.text = "Debug ";
         }
-
 
        SetObject();
        SetTurnSpeed();
@@ -110,6 +113,8 @@ public class BattleManager : MonoSingleton<BattleManager> {
     {
         //if (Input.GetMouseButtonDown(0) && MouseClick == false && BattleState != BATTLE_STATE.BATTLE)
         {
+            onBattleStarted.Invoke();
+
             MouseClick = true;
             Debug.Log("공격 시작");
             // 공격전 준비.
@@ -128,10 +133,22 @@ public class BattleManager : MonoSingleton<BattleManager> {
             BattleState = BATTLE_STATE.END;
             AttackOrder = -1;
             MouseClick = false;
+
+
+            /// 임시로 여기서 이벤트를 받습니다.
+            /// 기본적으로 Check 함수에서는 어떤 결과를 알수 있는지만 리턴하고 Check함수 밖에서 모든 행동을 처리합니다.
+            /// 
+            if(enemyStatusDic.Count == 0)
+                onBattleClear.Invoke();
+
+            if (playerStatusDic.Count == 0)
+                onBattleFailed.Invoke();
+
             return true;
         }
         return false;
     }
+
     private void CheckTargetIsLive(FORMATION_TYPE formationType)
     {
         if (AttackerAction.formationType == FORMATION_TYPE.PLAYER)
@@ -1048,12 +1065,14 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
     public void RestBattle()
     {
-        for(int i=0; i<DEFINE.PARTY_MAX_NUM; i++)
+        onBattleReset.Invoke();
+
+        for (int i=0; i<DEFINE.PARTY_MAX_NUM; i++)
         {
             Destroy(playerObjects[i]);
             Destroy(enemyObjects[i]);
-
         }
+
         Destroy(PlayerParty);
         Destroy(EnemyParty);
         AttackOrder = -1;
@@ -1066,5 +1085,12 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
         CreateGameObject();
         SetTurnSpeed();
+    }
+
+    public void ExitBattle()
+    {
+        onBattleExited.Invoke();
+        Inst.BattleState = BATTLE_STATE.NONE;
+        SceneManager.LoadScene("Lobby");
     }
 }
