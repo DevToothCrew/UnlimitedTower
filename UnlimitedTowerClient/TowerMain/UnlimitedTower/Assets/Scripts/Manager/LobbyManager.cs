@@ -9,7 +9,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public GameObject RightPopup;
     public GameObject TowerGrid;
     public GameObject TowerInfo;
-    public GameObject InfoPopup;
 
     public GameObject CenterPopup;
     private LOBBY_RIGHT_BUTTON centerPopupState;
@@ -85,9 +84,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public void SetTowerInfo(bool active, float xPos)
     {
-        // 그리드 세팅도 여기에 넣는다
         TowerGrid.SetActive(active);
-        InfoPopup.SetActive(active);
         TowerInfo.SetActive(active);
     }
     
@@ -163,14 +160,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                 break;
 
             case LOBBY_RIGHT_BUTTON.Gacha:
-                GachaScene.SetActive(true);
-
-                RightPopup.SetActive(false);
-                TowerGrid.SetActive(false);
-                CenterPopup.SetActive(false);
-                LeftPop.SetActive(false);
-                BaseBackground.SetActive(false);
-
+                GachaInfoPopup.SetActive(true);
                 break;
 
             case LOBBY_RIGHT_BUTTON.Stage:
@@ -183,6 +173,16 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         }
     }
 
+    public void EnterGachaScene(int gachaNum)
+    {
+        GachaScene.SetActive(true);
+
+        RightPopup.SetActive(false);
+        TowerGrid.SetActive(false);
+        CenterPopup.SetActive(false);
+        LeftPop.SetActive(false);
+        BaseBackground.SetActive(false);
+    }
 
     public void OnClickExitCenterPopup()
     {
@@ -197,8 +197,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         RightPopup.SetActive(true);
         TowerGrid.SetActive(true);
         TowerInfo.SetActive(true);
-        //InfoPopup.SetActive(false);
-        //CenterPopup.SetActive(false);
 
         LeftPop.SetActive(true);
         BaseBackground.SetActive(true);
