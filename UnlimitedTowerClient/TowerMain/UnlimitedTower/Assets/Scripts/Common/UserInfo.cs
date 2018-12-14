@@ -51,7 +51,8 @@ public class cuserauth
     public int a_game_money;
     public int a_state;
     public int a_hero_slot;
-    public List<shero_info> a_hero_List = new List<shero_info>();
+    // public List<shero_info> a_hero_List = new List<shero_info>();
+    public shero_info a_hero_info = new shero_info();
 }
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
@@ -243,25 +244,25 @@ public class UserInfo : MonoSingleton<UserInfo>
     public citeminfo gacha_result_item =  new citeminfo();
 
 
-    public void getLogin(string _login_info)
-    {
-        var user_auth_info = JsonUtility.FromJson<cuserauth>(_login_info);
+    //public void getLogin(string _login_info)
+    //{
+    //    var user_auth_info = JsonUtility.FromJson<cuserauth>(_login_info);
 
-        user_auth.a_game_money = user_auth_info.a_game_money;
-        user_auth.a_hero_slot = user_auth_info.a_hero_slot;
-        user_auth.a_state = user_auth_info.a_state;
-        foreach (var v in user_auth_info.a_hero_List)
-        {
-            user_auth.a_hero_List.Add(v);
-        }
+    //    user_auth.a_game_money = user_auth_info.a_game_money;
+    //    user_auth.a_hero_slot = user_auth_info.a_hero_slot;
+    //    user_auth.a_state = user_auth_info.a_state;
+    //    foreach (var v in user_auth_info.a_hero_List)
+    //    {
+    //        user_auth.a_hero_List.Add(v);
+    //    }
 
-        Debug.Log(user_auth_info.a_game_money);
-        Debug.Log(user_auth_info.a_hero_slot);
-        foreach (var v in user_auth_info.a_hero_List)
-        {
-            Debug.Log(v);
-        }
-    }
+    //    Debug.Log(user_auth_info.a_game_money);
+    //    Debug.Log(user_auth_info.a_hero_slot);
+    //    foreach (var v in user_auth_info.a_hero_List)
+    //    {
+    //        Debug.Log(v);
+    //    }
+    //}
 
     public void getAllServant(string _all_servant_info)
     {

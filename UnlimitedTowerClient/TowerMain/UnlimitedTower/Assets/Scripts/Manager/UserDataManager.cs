@@ -10,6 +10,11 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public bool CreatePlayerFlag;
     public SCENE_STATE sceneState = SCENE_STATE.None;
 
+
+    public cuserauth userInfo = new cuserauth();
+    //public int hero_slot;
+
+
     public Character heroChar;
     public Dictionary<int, Character> servantDic = new Dictionary<int, Character>();
     public Dictionary<int, Character> monsterDic = new Dictionary<int, Character>();
@@ -57,8 +62,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         if(testInitFlag == false)
         {
             //TODO :  나의 캐릭터(무조건 존재하는 값)이라고 가정
-            heroChar = new Character(CHAR_TYPE.SERVANT);
-            CreateHero();
+           // heroChar = new Character(CHAR_TYPE.SERVANT);
+            //CreateHero();
             //for (int i = 0; i < TestCharNum; i++)
             //{
             //   CreateServant();
@@ -333,18 +338,54 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     #region NewGetData Func
 
-    public void AddServant(cservantinfo servantinfo)
+
+    public void GetLogin(cuserauth _userInfo)
+    {
+     
+        userInfo.a_game_money = _userInfo.a_game_money;
+        userInfo.a_hero_slot = _userInfo.a_hero_slot;
+        userInfo.a_state = _userInfo.a_state;
+        userInfo.a_hero_info = _userInfo.a_hero_info;
+        // Debug.
+        // Debug.Log("list Count : " + _userInfo.a_hero_List.Count);
+        //for(int i=0; i< _userInfo.a_hero_List.Count; i++)
+        //{
+        //    Debug.Log("save hero info");
+        //    userInfo.a_hero_List.Add(_userInfo.a_hero_List[i]);
+        //}
+
+
+        heroChar = new Character(userInfo.a_hero_info);
+
+        Debug.Log("hero staute : " + heroChar.Str + " " + heroChar.Dex + " "
+             + heroChar.Int);
+        Debug.Log(userInfo.a_game_money);
+        Debug.Log(userInfo.a_hero_slot);
+
+        formationDic.Add(DEFINE.HERO_FORMATION_NUM, 0);
+        string path = "UI/CharaterImage/" + heroChar.Name;
+        LoadCharImage(path, DEFINE.HERO_FORMATION_NUM, null);
+
+
+    }
+
+
+    public Character AddServant(cservantinfo servantinfo)
     {
         Character newChar = new Character(servantinfo);
         SetServant(newChar);
         AddNewCharImage(newChar.Name, CHAR_TYPE.SERVANT);
+
+        return newChar;
     }
 
-    public void AddMonster(cmonsterinfo monsterinfo)
+    public Character AddMonster(cmonsterinfo monsterinfo)
     {
         Character newChar = new Character(monsterinfo);
-        SetServant(newChar);
+        SetMonster(newChar);
         AddNewCharImage(newChar.Name, CHAR_TYPE.MONSTER);
+
+        return newChar;
     }
     public void AddItem(cmonsterinfo monsterinfo)
     {

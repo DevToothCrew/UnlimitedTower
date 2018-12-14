@@ -87,9 +87,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void Request_Login()
     {
         Debug.Log("Request_Login");
-
+        Login();
         // Scatter 보내기
-        Response_Login();
+        //Response_Login();
     }
 
     public void Request_CreatePlayer()
@@ -122,14 +122,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("Request_ExecuteGacha");
         Gacha();
-        Response_ExecuteGacha();
+        //Response_ExecuteGacha();
     }
     public void Request_GachaResult(GACHA_TYPE gachaType)
     {
         string packet = null;
-        //UserInfo.getAddServant(packet);
-        //UserInfo.getAddItem(packet);
-        //UserInfo.getAddMonster(packet);
+;
         Debug.Log("Request_GachaResult");
         Response_GachaResult(gachaType);
     }
@@ -146,14 +144,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("Request_SaveFormation");
 
-        List<int> formationList = new List<int>();
-
-
-
         JsonFomation data = new JsonFomation();
 
-
-        int[] testFormatonArr = new int[10];
 
         int formationNum = 0;
         for (int i = 0; i < 10; i++)
@@ -170,11 +162,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 formationNum = 0;
 
             }
-            formationList.Add(formationNum);
-
-
+            //formationList.Add(formationNum);
             data.formation.Add(formationNum);
-             testFormatonArr[i] = 10;
         }
 
 
@@ -254,10 +243,19 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     #region Response
 
-    public void Response_Login()
+    public void Response_Login(string _login_info)
     {
         Debug.Log("Response_Login");
         // 스캐터 답받기
+
+        Debug.Log(" login data : " + _login_info);
+
+
+        var _userInfo = JsonUtility.FromJson<cuserauth>(_login_info);
+
+       
+
+        UserDataManager.Inst.GetLogin(_userInfo);
         
 
         UserDataManager.Inst.SetUserLoginFlag(true);
@@ -305,11 +303,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
         {
             Debug.Log("Responese_GetServant");
             var PasingData = JsonUtility.FromJson<cservantinfo>(servant_info);
-            UserDataManager.Inst.AddServant(PasingData);
+            Character newChar = UserDataManager.Inst.AddServant(PasingData);
+
+         
+            GachaImage.Inst.SetGachaReult(newChar, GACHA_TYPE.Servant);
         }
-
-  
-
     }
 
     public void Response_GetMonster(string mosnster_info)
@@ -318,18 +316,20 @@ public class PacketManager : MonoSingleton<PacketManager> {
         {
             Debug.Log("Responese_GetMonster");
             var PasingData = JsonUtility.FromJson<cmonsterinfo>(mosnster_info);
-            UserDataManager.Inst.AddMonster(PasingData);
-        }
-       
+            Character newChar = UserDataManager.Inst.AddMonster(PasingData);
 
+            GachaImage.Inst.SetGachaReult(newChar, GACHA_TYPE.Monster);
+        }
     }
+
     public void Response_GetItem(string item_info)
     {
         Debug.Log("Responese_GetItem");
         Debug.Log("print : " + item_info);
         var PasingData = JsonUtility.FromJson<citeminfo>(item_info);
-        //UserDataManager.Inst.AddMonster(PasingData);
 
+        GachaImage.Inst.SetGachaReult(null, GACHA_TYPE.Item);
+        //UserDataManager.Inst.AddMonster(PasingData);
     }
 
 

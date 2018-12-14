@@ -184,7 +184,7 @@ public class GachaImage : MonoSingleton<GachaImage>
     #endregion
 
 
-    public void ReGacha()
+    public void OnClickReGacha()
     {
         reGachaflag = true ;
 
@@ -207,35 +207,44 @@ public class GachaImage : MonoSingleton<GachaImage>
     public void SetGachaReult(Character newChar, GACHA_TYPE gachaType)
     {
         GachaResultPopup.SetActive(true);
- 
-        CharNameText.text = newChar.Name;
-        StatusStrText.text = newChar.Str.ToString();
-        StatusDexText.text = newChar.Dex.ToString();
-        StatusIntText.text = newChar.Int.ToString();
+        Sprite sprite = null;
 
-
-        Sprite sprite;
-        if (gachaType == GACHA_TYPE.Servant)
+        if  (gachaType == GACHA_TYPE.Item)
         {
-            sprite = Resources.Load<Sprite>("UI/CharaterImage/" + newChar.Name);
+            sprite = null;
         }
         else
         {
-            sprite = Resources.Load<Sprite>("UI/MonsterImage/" + newChar.Name);
-        }      
+            CharNameText.text = newChar.Name;
+            StatusStrText.text = newChar.Str.ToString();
+            StatusDexText.text = newChar.Dex.ToString();
+            StatusIntText.text = newChar.Int.ToString();
+
+           
+            if (gachaType == GACHA_TYPE.Servant)
+            {
+                sprite = Resources.Load<Sprite>("UI/CharaterImage/" + newChar.Name);
+            }
+            else if (gachaType == GACHA_TYPE.Monster)
+            {
+                sprite = Resources.Load<Sprite>("UI/MonsterImage/" + newChar.Name);
+            }
+        }
+
+       
         charImage.GetComponent<Image>().sprite = sprite;
     }
     public void ShowGachaResult()
     {
         reGachaflag = false;
-        //Test Code
-        TestGachaNum++;
-        if (TestGachaNum % 2 == 1) gachaType = GACHA_TYPE.Monster;
-        else gachaType = GACHA_TYPE.Servant;
+        ////Test Code
+        //TestGachaNum++;
+        //if (TestGachaNum % 2 == 1) gachaType = GACHA_TYPE.Monster;
+        //else gachaType = GACHA_TYPE.Servant;
 
 
-        // ### 가챠 결과
-        PacketManager.Inst.Request_GachaResult(this.gachaType);
+        //// ### 가챠 결과
+        //PacketManager.Inst.Request_GachaResult(this.gachaType);
 
       
 
@@ -264,7 +273,7 @@ public class GachaImage : MonoSingleton<GachaImage>
         // ### 가챠 시작 패킷을 보낸다.
         PacketManager.Inst.Request_ExecuteGacha();
 
-        Test_PacketManager.Inst.CheckPacket("OnClickExecuteGacha: not recive packet");
+        //Test_PacketManager.Inst.CheckPacket("OnClickExecuteGacha: not recive packet");
 
         
 

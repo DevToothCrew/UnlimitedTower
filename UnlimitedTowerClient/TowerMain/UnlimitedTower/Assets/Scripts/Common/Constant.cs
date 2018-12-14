@@ -249,6 +249,31 @@ public class Character
     }
 
 
+
+
+    public Character(shero_info heroInfo)
+    {
+        // 저장하지 않은 데이터
+        // 등급, 강화수치, 추가 힘민지
+
+    
+
+        Str = heroInfo.h_status.basic_str;
+        Dex = heroInfo.h_status.basic_dex;
+        Int = heroInfo.h_status.basic_int;
+
+        Level = 1;
+        // job값으로 현재는 서번트 구분 추후에 합의하여 수정해야할듯.
+        // CHARACTER_NUM charNum = (CHARACTER_NUM)(heroInfo.m_type + (int)CHARACTER_NUM.Mst_Cat);
+        CHARACTER_NUM charNum = CHARACTER_NUM.Hero_Novice_1001;
+        Index = (int)charNum;
+        Size = GetSize(charNum);
+
+
+        Name = charNum.ToString();
+        Appear = Random.Range(0, 9999);
+    }
+
     public Character(cservantinfo servantinfo)
     {
         // 저장하지 않은 데이터
