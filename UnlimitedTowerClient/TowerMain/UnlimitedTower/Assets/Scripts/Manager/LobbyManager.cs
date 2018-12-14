@@ -9,7 +9,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public GameObject RightPopup;
     public GameObject TowerGrid;
     public GameObject TowerInfo;
-    public GameObject InfoPopup;
 
     public GameObject CenterPopup;
     private LOBBY_RIGHT_BUTTON centerPopupState;
@@ -87,7 +86,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     {
         // 그리드 세팅도 여기에 넣는다
         TowerGrid.SetActive(active);
-        InfoPopup.SetActive(active);
         TowerInfo.SetActive(active);
     }
     
