@@ -132,7 +132,6 @@ public class cmonster
 //---------------------------------------------------------------------------------------//
 public class citem
 {
-
     public struct citeminfo
     {
         double i_index; //아이템 인덱스
@@ -184,14 +183,12 @@ public class cuserlog
 //---------------------------------------------------------------------------------------//
 public class cparty
 {
-
     public struct sparty_info
     {
         List<ulong> party_id_List;
     };
 
     public List<sparty_info> party_List;
-
 };
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
@@ -199,7 +196,6 @@ public class cparty
 //---------------------------------------------------------------------------------------//
 public class cbattle
 {
-
     public struct sbattle_member_state
     {
         int turn_count;       //캐릭터 상태의 지속 턴 횟수
@@ -241,7 +237,6 @@ public class cbattle
 //---------------------------------------------------------------------------------------//
 public class cstagedata
 {
-
     public struct stage_info
     {
         int type_index;
@@ -255,3 +250,129 @@ public class cstagedata
     public List<stage_info> enemy_List;
 
 };
+
+
+struct protocol
+{
+    int type;
+};
+enum protocol_type
+{
+    auth = 0,
+    servant,
+    monster,
+    item,
+    battle,
+    party,
+    stage,
+};
+
+class Test_Packet_Manager
+{
+private:
+    std::string sendMessage;
+public:
+    cstagedata stage_data;
+ 
+public:
+    cuserauth user_auth;
+    cservant user_servant;
+    cmonster user_monster;
+    citem user_item;
+    cbattle user_battle;
+    cparty user_party;
+public:
+    void get_login_info(std::string _login_info)
+    { 
+        var user_auth_info = JsonUtility.FromJson<cuserauth>(_login_info);
+
+        user_auth.a_game_money = user_auth_info.a_game_money;
+        user_auth.a_hero_slot = user_auth_info.a_hero_slot;
+        user_auth.a_state = user_auth_info.a_state;
+        foreach(var v in user_auth_info.a_hero_List)
+        {
+            user_auth.a_hero_List.push_back(v);
+        }
+
+        Debug.Log(data1.action);
+        Debug.Log (data1.state); 
+        foreach (var v in data1.others)
+        {
+            Debug.Log (v);
+        }
+    }
+    
+    void get_servant_info(std::string _servant_info)
+    {
+        var user_servant_info = JsonUtility.FromJson<cservant>(_servant_info);
+    }
+    
+    void get_monster_info(std::string _monster_info)
+    {
+        var user_monster_info = JsonUtility.FromJson<cmonster>(_monster_info);
+    }
+    
+    void get_item_info(std::string _item_info)
+    {
+        var user_item_info = JsonUtility.FromJson<citem>(_item_info);
+    }
+
+    void get_battle_info(std::string _battle_info)
+    {
+        var user_battle_info = JsonUtility.FromJson<cbattle>(_battle_info);
+    }
+
+    void get_party_info(std::string _party_info)
+    {
+        var user_party_info = JsonUtility.FromJson<cparty>(_party_info);
+    }
+
+    void get_stage_info(std::string _stage_info)
+    {
+        var stage_info = JsonUtility.FromJson<cstagedata>(_stage_info);
+    }
+
+    void recv_packet(std::string _sendMessage)
+    {
+        std::string type = _sendMessage;
+        std::string data = _sendMessage;
+
+        var packet = JsonUtility.FromJson<protocol>(type);
+        switch(packet)
+        {
+            case protocol_type::auth :
+            get_login_info(data);
+            break;
+
+            case protocol_type::servant :
+            get_servant_info(data);
+            break;
+
+            case protocol_type::monster :
+            get_monster_info(data);
+            break;
+
+            case protocol_type::item :
+            get_item_info(data);
+            break;
+
+            case protocol_type::battle :
+            get_battle_info(data);
+            break;
+
+            case protocol_type::party :
+            get_party_info(data);
+            break;
+
+            case protocol_type::stage :
+            get_login_info(data);
+            break;
+
+            default:
+            Debug.Log("recv error");
+            break;
+        };
+
+    }    
+
+}
