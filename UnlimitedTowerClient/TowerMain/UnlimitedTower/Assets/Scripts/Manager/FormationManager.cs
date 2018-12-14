@@ -31,6 +31,9 @@ public class FormationManager : MonoSingleton<FormationManager>
         // ### 포메이션 패킷을 보낸다.
 
         Debug.Log("OnClickSaveFormation");
+
+        //UserInfo.Inst.getAddServant("dd");
+
         PacketManager.Inst.Request_SaveFormation();
         BeSaved = true;
     }

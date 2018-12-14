@@ -58,11 +58,11 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             //TODO :  나의 캐릭터(무조건 존재하는 값)이라고 가정
             heroChar = new Character(CHAR_TYPE.SERVANT);
             CreateHero();
-            for (int i = 0; i < TestCharNum; i++)
-            {
-               CreateServant();
-               CreateMonster();
-            }
+            //for (int i = 0; i < TestCharNum; i++)
+            //{
+            //   CreateServant();
+            //   CreateMonster();
+            //}
             //Create10NumberMonster();
             testInitFlag = true;
             oldFormationDic = formationDic;

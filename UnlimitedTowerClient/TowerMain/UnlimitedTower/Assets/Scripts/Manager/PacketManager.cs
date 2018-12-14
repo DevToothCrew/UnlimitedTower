@@ -117,11 +117,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
     public void Request_GachaResult(GACHA_TYPE gachaType)
     {
-
-      //  UserInfo.getAddServant(gachaType);
-
+        string packet = null;
+        //UserInfo.getAddServant(packet);
+        //UserInfo.getAddItem(packet);
+        //UserInfo.getAddMonster(packet);
         Debug.Log("Request_GachaResult");
-       // Response_GachaResult(gachaType);
+        Response_GachaResult(gachaType);
     }
     public void Request_ExitGacha()
     {

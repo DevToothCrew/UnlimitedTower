@@ -1,20 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using LitJson;
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
 
-public struct sobject_appear
+[System.Serializable]
+public class sobject_appear
 {
     public int head;
     public int hair;
     public int body;
 };
 // 4 + 4 + 4 + 1 = 13
-public struct sobject_status
+[System.Serializable]
+public class sobject_status
 {
     public int basic_str;
     public int basic_dex;
@@ -22,7 +24,8 @@ public struct sobject_status
     public int job;
 };
 // 4 + 4 + 4 + 4 = 16
-public struct sobject_plus_status
+[System.Serializable]
+public class sobject_plus_status
 {
     public int plus_str;
     public int plus_dex;
@@ -31,97 +34,100 @@ public struct sobject_plus_status
 };
 
 // 4 + 3 + 16 + 16 + 12 = 51
-public struct shero_info
+[System.Serializable]
+public class shero_info
 {
     public int h_state;
-    public sobject_appear h_appear;
-    public sobject_status h_status;
-    public sobject_plus_status h_plus_status;
-    public List<int> h_equip_slot;
+    public sobject_appear h_appear = new sobject_appear();
+    public sobject_status h_status = new sobject_status();
+    public sobject_plus_status h_plus_status = new sobject_plus_status();
+    public List<int> h_equip_slot = new List<int>();
 };
 
-
+[System.Serializable]
 public class cuserauth
 {
 
     public int a_game_money;
     public int a_state;
     public int a_hero_slot;
-    public List<shero_info> a_hero_List;
+    public List<shero_info> a_hero_List = new List<shero_info>();
 }
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
-
-public struct cservantinfo
+[System.Serializable]
+public class cservantinfo
 {
-    public double s_index;           //서번트 인덱스번호
-    public sobject_appear s_appear;    //서번트 외형 정보
-    public sobject_status s_status;    //서번트 힘민지 직업
-    public sobject_plus_status s_plus_status;  //서번트 추가힘민지
-    public List<int> s_equip_slot; //서번트 장비 리스트
+    public sobject_appear s_appear = new sobject_appear();    //서번트 외형 정보
+    public sobject_status s_status = new sobject_status();    //서번트 힘 민 지 직업<- 리소스0~4
+    public sobject_plus_status s_plus_status = new sobject_plus_status();  //서번트 추가힘민지
+    public long s_index;           //서번트 인덱스번호
+    public List<int> s_equip_slot = new List<int>(); //서번트 장비 리스트
     public int s_exp; //서번트 경험치
     public int s_state; //서번트 상태
 };
 
+[System.Serializable]
 public class cservant
 {
-    public List<cservantinfo> servant_List;
+    public List<cservantinfo> servant_List = new List<cservantinfo>();
 };
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
-
-public struct cmonsterinfo
+[System.Serializable]
+public class cmonsterinfo
 {
-    public double m_index;  //고유 인덱스
-    public int m_type;   //외형 - 타입
-    public sobject_status m_status; // 힘민지
-    public sobject_plus_status m_plus_status; //추가 힘민지
+    public sobject_status m_status = new sobject_status(); // 힘민지
+    public sobject_plus_status m_plus_status = new sobject_plus_status(); //추가 힘민지
+    public long m_index;  //고유 인덱스
+    public int m_type;   //외형 - 타입 - 0~29
     public int m_exp; //경험치
     public int m_grade; // 등급
     public int m_reinforce; //강화수치
     public int m_state;
 };
+[System.Serializable]
 public class cmonster
 {
-    public List<cmonsterinfo> monster_List;
+    public List<cmonsterinfo> monster_List = new List<cmonsterinfo>();
 };
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
-
-public struct citeminfo
+[System.Serializable]
+public class citeminfo
 {
-    public double i_index; //아이템 인덱스
-    public int i_id; //아이템 고유 아이디
+    public sobject_status i_status = new sobject_status(); //힘민지 직업
+    public long i_index; //아이템 인덱스
+    public int i_id; //아이템 고유 아이디 <-리소스 0~
     public int i_type;  //종류
     public int i_slot;  //장착 타입
     public int i_tier;  //티어
-    public sobject_status i_status; //힘민지 직업
     public int i_state;
     public int i_grade; //아이템 등급
     public int i_reinforce; //아이템 강화 수치
 };
-
+[System.Serializable]
 public class citem
 {
-    public List<citeminfo> item_List;
-
+    public List<citeminfo> item_List = new List<citeminfo>();
 };
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
-
-public struct asset
+[System.Serializable]
+public class asset
 {
-    public double symbol;
-    public double amount;
+    public long symbol;
+    public long amount;
 }
+[System.Serializable]
 public class cuserlog
 {
     public int l_servant_num;
@@ -130,9 +136,9 @@ public class cuserlog
     public int l_gacha_num;
     public int l_login_time;
     public int l_get_gold;
-    public asset l_get_eos;
+    public asset l_get_eos = new asset();
     public int l_use_gold;
-    public asset l_use_eos;
+    public asset l_use_eos = new asset();
     public int l_battle_count;
     public int l_last_stage_num;
     public int l_last_tower_num;
@@ -144,27 +150,28 @@ public class cuserlog
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
-public struct sparty_info
+[System.Serializable]
+public class sparty_info
 {
-    List<ulong> party_id_List;
+    List<ulong> party_id_List = new List<ulong>();
 };
+[System.Serializable]
 public class cparty
 {
-
-    public List<sparty_info> party_List;
+   public List<sparty_info> party_List = new List<sparty_info>();
 };
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
-
-public struct sbattle_member_state
+[System.Serializable]
+public class sbattle_member_state
 {
     public int turn_count;       //캐릭터 상태의 지속 턴 횟수
     public int turn_state;           //캐릭터의 현재 상태
 };
-
-public struct sbattle_staus_info
+[System.Serializable]
+public class sbattle_staus_info
 {
     public int action;
     public int speed;
@@ -172,17 +179,17 @@ public struct sbattle_staus_info
     public int defense;
     public int attack;
     public int now_hp;
-    public List<sbattle_member_state> state_List;
-    public double party_object_index;
+    public List<sbattle_member_state> state_List = new List<sbattle_member_state>();
+    public long party_object_index;
 };
-
-public struct attack_speed
+[System.Serializable]
+public class attack_speed
 {
     public int member_array_index;
     public int member_speed;
     public int member_target;
 };
-
+[System.Serializable]
 public class cbattle
 {
 
@@ -190,17 +197,17 @@ public class cbattle
     public int b_stage_number;
     public int b_party_number;
     public int b_preference;
-    public List<int> b_reward_List;
-    public List<sbattle_staus_info> b_battle_state_List;
-    public List<attack_speed> attack_order_List;
+    public List<int> b_reward_List = new List<int>();
+    public List<sbattle_staus_info> b_battle_state_List = new List<sbattle_staus_info>();
+    public List<attack_speed> attack_order_List = new List<attack_speed>();
 
 };
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
-
-public struct stage_info
+[System.Serializable]
+public class stage_info
 {
     public int type_index;
     public int base_str;
@@ -209,28 +216,34 @@ public struct stage_info
     public int base_job;
 };
 
-
+[System.Serializable]
 public class cstagedata
 {
-    public double stage;
-    public List<stage_info> enemy_List;
+    public long stage;
+    public List<stage_info> enemy_List = new List<stage_info>();
 
 };
 
 // UserInfomation
-static public class UserInfo
+public class UserInfo : MonoSingleton<UserInfo>
 {
-    static public cstagedata current_stage_info;
+    // public string Packet;
+
+    public cstagedata current_stage_info = new cstagedata();
+
+    public cuserauth user_auth = new cuserauth();
+    public cservant user_servant = new cservant();
+    public cmonster user_monster = new cmonster();
+    public citem user_item = new citem();
+    public cbattle user_battle = new cbattle();
+    public cparty user_party = new cparty();
+
+    public cservantinfo gacha_result_servant = new cservantinfo();
+    public cmonsterinfo gacha_result_monster =  new cmonsterinfo();
+    public citeminfo gacha_result_item =  new citeminfo();
 
 
-    static public cuserauth user_auth;
-    static public cservant user_servant;
-    static public cmonster user_monster;
-    static public citem user_item;
-    static public cbattle user_battle;
-    static public cparty user_party;
-
-    static public void getLogin(string _login_info)
+    public void getLogin(string _login_info)
     {
         var user_auth_info = JsonUtility.FromJson<cuserauth>(_login_info);
 
@@ -250,7 +263,7 @@ static public class UserInfo
         }
     }
 
-    static public void getAllServant(string _all_servant_info)
+    public void getAllServant(string _all_servant_info)
     {
         var user_all_servant_info = JsonUtility.FromJson<cservant>(_all_servant_info);
         foreach (var servant in user_all_servant_info.servant_List)
@@ -267,10 +280,34 @@ static public class UserInfo
 
     }
 
-    static public void getAddServant(string _servant_info)
+    public void getAddServant(string _servant_info)
     {
+
+
+      
+
+
+
+
+        // var json ="{"i_index":5,"i_id":50,"i_type":0,"i_slot":0,"i_tier":0,"i_status":{"basic_str":7,"basic_dex":8,"basic_int":18,"job":2},"i_state":0,"i_grade":3,"i_reinforce":0,"result":"i"}" 
+
+        Debug.Log("Packet Servant : " + _servant_info);
+
+        
         var add_servant_info = JsonUtility.FromJson<cservantinfo>(_servant_info);
         user_servant.servant_List.Add(add_servant_info);
+        gacha_result_servant = add_servant_info;
+        foreach (var servant  in   user_servant.servant_List)
+        {
+            Debug.Log(servant.s_index);
+            Debug.Log(servant.s_status.basic_str);
+            Debug.Log(servant.s_status.basic_dex);
+            Debug.Log(servant.s_status.basic_int);
+            Debug.Log(servant.s_appear.hair);
+            Debug.Log(servant.s_appear.head);
+            Debug.Log(servant.s_appear.body);
+        }
+
         Debug.Log(add_servant_info.s_index);
         Debug.Log(add_servant_info.s_status.basic_str);
         Debug.Log(add_servant_info.s_status.basic_dex);
@@ -278,9 +315,12 @@ static public class UserInfo
         Debug.Log(add_servant_info.s_appear.hair);
         Debug.Log(add_servant_info.s_appear.head);
         Debug.Log(add_servant_info.s_appear.body);
+
+
+        //Packet = _servant_info;
     }
 
-    static public void getAllMonster(string _all_monster_info)
+    public void getAllMonster(string _all_monster_info)
     {
         var user_all_monster_info = JsonUtility.FromJson<cmonster>(_all_monster_info);
         foreach (var monster in user_all_monster_info.monster_List)
@@ -293,17 +333,28 @@ static public class UserInfo
         }
     }
 
-    static public void getAddMonster(string _monster_info)
+    public void getAddMonster(string _monster_info)
     {
+        Debug.Log("Packet Monster : " + _monster_info);
+
         var add_monster_info = JsonUtility.FromJson<cmonsterinfo>(_monster_info);
         user_monster.monster_List.Add(add_monster_info);
+        gacha_result_monster = add_monster_info;
+        foreach (var monster in user_monster.monster_List)
+        {
+            Debug.Log(monster.m_index);
+            Debug.Log(monster.m_status.basic_str);
+            Debug.Log(monster.m_status.basic_dex);
+            Debug.Log(monster.m_status.basic_int);
+        }
+
         Debug.Log(add_monster_info.m_index);
         Debug.Log(add_monster_info.m_status.basic_str);
         Debug.Log(add_monster_info.m_status.basic_dex);
         Debug.Log(add_monster_info.m_status.basic_int);
     }
 
-    static public void getAllItem(string _all_item_info)
+    public void getAllItem(string _all_item_info)
     {
         var user_all_item_info = JsonUtility.FromJson<citem>(_all_item_info);
         foreach (var item in user_all_item_info.item_List)
@@ -316,10 +367,22 @@ static public class UserInfo
         }
     }
 
-    static public void getAddItem(string _item_info)
+    public void getAddItem(string _item_info)
     {
+        Debug.Log("Packet Item : " + _item_info);
+
         var add_item_info = JsonUtility.FromJson<citeminfo>(_item_info);
         user_item.item_List.Add(add_item_info);
+        gacha_result_item = add_item_info;
+        //gacharesultcs.
+        foreach (var item in user_item.item_List)
+        {
+            Debug.Log(item.i_index);
+            Debug.Log(item.i_status.basic_str);
+            Debug.Log(item.i_status.basic_dex);
+            Debug.Log(item.i_status.basic_int);
+        }
+
         Debug.Log(add_item_info.i_index);
         Debug.Log(add_item_info.i_status.basic_str);
         Debug.Log(add_item_info.i_status.basic_dex);
@@ -328,7 +391,7 @@ static public class UserInfo
 
 
 
-    static public void getBattle(string _battle_info)
+    public void getBattle(string _battle_info)
     {
         var user_battle_info = JsonUtility.FromJson<cbattle>(_battle_info);
         user_battle.b_turn_count = user_battle_info.b_turn_count;
@@ -340,7 +403,7 @@ static public class UserInfo
 
     }
 
-    static public void getParty(string _party_info)
+    public void getParty(string _party_info)
     {
         var user_party_info = JsonUtility.FromJson<cparty>(_party_info);
         foreach (var my_party in user_party_info.party_List)
@@ -353,7 +416,7 @@ static public class UserInfo
         }
     }
 
-    static public void getStage(string _stage_info)
+    public void getStage(string _stage_info)
     {
         var stage_info = JsonUtility.FromJson<cstagedata>(_stage_info);
         current_stage_info.stage = stage_info.stage;
@@ -369,4 +432,5 @@ static public class UserInfo
 }
 
 // Gacha
+
 
