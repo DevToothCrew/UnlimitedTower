@@ -5,36 +5,26 @@ using UnityEngine.UI;
 
 public class InGameUIFinished : MonoBehaviour {
 
-    public Image clearTitleImage;
-    public Image failedTitleImage;
+    public GameObject clearUIGO;
+    public GameObject failedUIGO;
 
     [SerializeField]
     private AnimationCurve blurPlayAnimationCurve;
     [SerializeField]
     private float blurPlayDuration;
-        
-    [SerializeField]
-    private AnimationCurve clearTitlePlayAnimationCurve;
-    [SerializeField]
-    private float clearTitlePlayDuration;
+    private float blurPlayedTime = 0.0f;
 
     [SerializeField]
-    private AnimationCurve failedTitlePlayAnimationCurve;
+    private AnimationCurve UIPlayAnimationCurve;
     [SerializeField]
-    private float failedTitlePlayDuration;
+    private float UIPlayDuration;
+    private float UIPlayedTime = 0.0f;
 
     [SerializeField]
     private Material blurMaterial;
 
     private readonly float _BLUR_MAXIMUM_RANGE = 3.0f;
     private readonly float _DARKNESS_MAXIMUM = 0.9f;
-    private float blurPlayedTime = 0.0f;
-    private float clearTitlePlayedTime = 0.0f;
-    private float failedTitlePlayedTime = 0.0f;
-    private Color clearTitleOriginColor = Color.white;
-    private Color failedTitleOriginColor = Color.white;
-    private Color clearTitleTargetColor = Color.white;
-    private Color failedTitleTargetColor = Color.white;
 
     public enum FinishedType { Clear, Failed, None }
     public FinishedType finishedType { get; set; }
@@ -45,6 +35,9 @@ public class InGameUIFinished : MonoBehaviour {
     {
         instance = instance ?? this;
         instance.gameObject.SetActive(false);
+
+        BattleManager.Inst.onBattleClear.AddListener(() => SetupAndPlay(FinishedType.Clear));
+        BattleManager.Inst.onBattleFailed.AddListener(() => SetupAndPlay(FinishedType.Failed));
     }
 
     // Update is called once per frame
@@ -59,53 +52,43 @@ public class InGameUIFinished : MonoBehaviour {
             blurMaterial.SetFloat("_Darkness", 1.0f - _DARKNESS_MAXIMUM * t);
         }
 
-        switch(finishedType)
         {
-            case FinishedType.Clear: 
-                //Animation about clean title
-                {
-                    clearTitlePlayedTime += Time.deltaTime / Mathf.Max(float.Epsilon, clearTitlePlayDuration);
-                    float t = clearTitlePlayAnimationCurve.Evaluate(clearTitlePlayedTime);
+            UIPlayedTime += Time.deltaTime / Mathf.Max(float.Epsilon, UIPlayDuration);
+            float t = UIPlayAnimationCurve.Evaluate(UIPlayedTime);
 
-                    clearTitleImage.color = Color.Lerp(clearTitleOriginColor, clearTitleTargetColor, t);
-                }
-                break;
-            case FinishedType.Failed:
-                //Animation about failed title
-                {
-                    failedTitlePlayedTime += Time.deltaTime / Mathf.Max(float.Epsilon, failedTitlePlayDuration);
-                    float t = failedTitlePlayAnimationCurve.Evaluate(failedTitlePlayedTime);
-
-                    failedTitleImage.color = Color.Lerp(failedTitleOriginColor, failedTitleTargetColor, t);
-                }
-                break;
-            default: break;
+            switch (finishedType)
+            {
+                case FinishedType.Clear:
+                    //Animation about clean title
+                    foreach (var cvs in clearUIGO.GetComponentsInChildren<CanvasRenderer>())
+                        cvs.SetAlpha(t);
+                    break;
+                case FinishedType.Failed:
+                    //Animation about failed title
+                    foreach (var cvs in failedUIGO.GetComponentsInChildren<CanvasRenderer>())
+                        cvs.SetAlpha(t);
+                    break;
+                default: break;
+            }
         }
     }
 
     private void OnEnable()
     {
         blurPlayedTime = 0.0f;
-        clearTitlePlayedTime = 0.0f;
-        failedTitlePlayedTime = 0.0f;
+        UIPlayedTime = 0.0f;
 
-        clearTitleTargetColor = clearTitleImage.color;
-        failedTitleTargetColor = failedTitleImage.color;
+        foreach (var cvs in clearUIGO.GetComponentsInChildren<CanvasRenderer>())
+            cvs.SetAlpha(0.0f);
 
-        clearTitleOriginColor = clearTitleImage.color;
-        failedTitleOriginColor = failedTitleImage.color;
-
-        clearTitleOriginColor.a = 0.0f;
-        failedTitleOriginColor.a = 0.0f;
-
-        clearTitleImage.color = clearTitleOriginColor;
-        failedTitleImage.color = failedTitleOriginColor;
+        foreach (var cvs in failedUIGO.GetComponentsInChildren<CanvasRenderer>())
+            cvs.SetAlpha(0.0f);
 
         blurMaterial.SetFloat("_BlurRange", 0.0f);
         blurMaterial.SetFloat("_Darkness", 1.0f);
 
-        clearTitleImage.gameObject.SetActive(finishedType == FinishedType.Clear);
-        failedTitleImage.gameObject.SetActive(finishedType == FinishedType.Failed);
+        clearUIGO.gameObject.SetActive(finishedType == FinishedType.Clear);
+        failedUIGO.gameObject.SetActive(finishedType == FinishedType.Failed);
     }
 
     private void OnDestroy()
@@ -113,9 +96,16 @@ public class InGameUIFinished : MonoBehaviour {
         if(instance == this) instance = null;
     }
 
+    public void Clear()
+    {
+        finishedType = FinishedType.None;
+        gameObject.SetActive(false);
+    }
+
     static public void SetupAndPlay(FinishedType type)
     {
         instance.finishedType = type;
         instance.gameObject.SetActive(true);
     }
+
 }

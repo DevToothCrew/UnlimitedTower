@@ -8,14 +8,19 @@ public class InGameUIManager : MonoSingleton<InGameUIManager>
     private readonly float _DIST_EACH_NUMBER = 0.2f;
 
     [SerializeField]
-    private Texture2D[] texNums;
+    private GameObject prefNum;
 
     [SerializeField]
-    private GameObject prefNum;
+    private GameObject pauseMenu;
 
     private void Awake()
     {
         BattleManager.Inst.decreaseHpDelegate += DecreaseHp;
+    }
+
+    public void PopupPauseMenu(bool b)
+    {
+        pauseMenu.SetActive(b);
     }
 
     public void DecreaseHp(int damage, GameObject target)
