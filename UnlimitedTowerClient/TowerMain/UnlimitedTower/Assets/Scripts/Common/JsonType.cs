@@ -222,10 +222,10 @@ public class cbattle
     };
 
 
-    public char b_turn_count;
+    public int b_turn_count;
     public int b_stage_number;
-    public char b_party_number;
-    public char b_preference;
+    public int b_party_number;
+    public int b_preference;
     public List<int> b_reward_List;
     public List<sbattle_staus_info> b_battle_state_List;
     public List<attack_speed> attack_order_List;
@@ -252,27 +252,10 @@ public class cstagedata
 };
 
 
-struct protocol
+class UserInfo
 {
-    int type;
-};
-enum protocol_type
-{
-    auth = 0,
-    servant,
-    monster,
-    item,
-    battle,
-    party,
-    stage,
-};
-
-class Test_Packet_Manager
-{
-private:
-    std::string sendMessage;
 public:
-    cstagedata stage_data;
+    cstagedata current_stage_info;
  
 public:
     cuserauth user_auth;
@@ -282,7 +265,7 @@ public:
     cbattle user_battle;
     cparty user_party;
 public:
-    void get_login_info(std::string _login_info)
+    void getLogin(std::string _login_info)
     { 
         var user_auth_info = JsonUtility.FromJson<cuserauth>(_login_info);
 
@@ -294,85 +277,172 @@ public:
             user_auth.a_hero_List.push_back(v);
         }
 
-        Debug.Log(data1.action);
-        Debug.Log (data1.state); 
-        foreach (var v in data1.others)
+        Debug.Log(user_auth_info.a_game_money);
+        Debug.Log(user_auth_info.a_hero_slot); 
+        foreach (var v in user_auth_info.a_hero_List)
         {
             Debug.Log (v);
         }
     }
     
-    void get_servant_info(std::string _servant_info)
+    void getAllServant(std::string _all_servant_info)
     {
-        var user_servant_info = JsonUtility.FromJson<cservant>(_servant_info);
+        var user_all_servant_info = JsonUtility.FromJson<cservant>(_all_servant_info);
+        foreach(var servant in user_all_servant_info.servant_List)
+        {
+            user_servant.servant_List.push_back(servant);
+            Debug.Log(servant.s_index);
+            Debug.Log(servant.s_status.base_str);
+            Debug.Log(servant.s_status.base_dex);
+            Debug.Log(servant.s_status.base_int);
+            Debug.Log(servant.s_appear.hair);
+            Debug.Log(servant.s_appear.head);
+            Debug.Log(servant.s_appear.body);
+        }
+
     }
     
-    void get_monster_info(std::string _monster_info)
+    void getAddServant(std::string _servant_info)
     {
-        var user_monster_info = JsonUtility.FromJson<cmonster>(_monster_info);
-    }
-    
-    void get_item_info(std::string _item_info)
-    {
-        var user_item_info = JsonUtility.FromJson<citem>(_item_info);
+        var add_servant_info = JsonUtility.FromJson<cservantinfo>(_servant_info);
+        user_servant.servant_List.push_back(add_servant_info);
+        Debug.Log(add_servant_info.s_index);
+        Debug.Log(add_servant_info.s_status.base_str);
+        Debug.Log(add_servant_info.s_status.base_dex);
+        Debug.Log(add_servant_info.s_status.base_int);
+        Debug.Log(add_servant_info.s_appear.hair);
+        Debug.Log(add_servant_info.s_appear.head);
+        Debug.Log(add_servant_info.s_appear.body);
     }
 
-    void get_battle_info(std::string _battle_info)
+    void getAllMonster(std::string _all_monster_info)
+    {
+        var user_all_monster_info = JsonUtility.FromJson<cmonster>(_all_monster_info);
+        foreach(var monster in user_all_monster_info.monster_List)
+        {
+            user_monster.monster_List.push_back(monster);
+            Debug.Log(monster.m_index);
+            Debug.Log(monster.m_status.base_str);
+            Debug.Log(monster.m_status.base_dex);
+            Debug.Log(monster.m_status.base_int);
+        }
+    }
+    
+    void getAddMonster(std::string _monster_info)
+    {
+        var add_monster_info = JsonUtility.FromJson<cmonsterinfo>(_monster_info);
+        user_monster.monster_List.push_back(add_monster_info);
+        Debug.Log(add_servant_info.m_index);
+        Debug.Log(add_servant_info.m_status.base_str);
+        Debug.Log(add_servant_info.m_status.base_dex);
+        Debug.Log(add_servant_info.m_status.base_int);
+    }
+
+    void getAllItem(std::string _all_item_info)
+    {
+        var user_all_item_info = JsonUtility.FromJson<citem>(_item_info);
+        foreach(var item in user_all_item_info.item_List)
+        {
+            user_item.item_List.push_back(item);
+            Debug.Log(item.i_index);
+            Debug.Log(item.i_status.base_str);
+            Debug.Log(item.i_status.base_dex);
+            Debug.Log(item.i_status.base_int);
+        }
+    }
+
+    void getAddItem(std::string _item_info)
+    {
+        var add_item_info = JsonUtility.FromJson<citeminfo>(_item_info);
+        user_item.item_list.push_back(add_item_info);
+        Debug.Log(add_item_info.i_index);
+        Debug.Log(add_item_info.i_status.base_str);
+        Debug.Log(add_item_info.i_status.base_dex);
+        Debug.Log(add_item_info.i_status.base_int);
+    }
+
+
+
+    void getBattle(std::string _battle_info)
     {
         var user_battle_info = JsonUtility.FromJson<cbattle>(_battle_info);
+        user_battle.b_turn_count = user_battle_info.b_turn_count;
+        user_battle.b_party_number = user_battle_info.b_party_number;
+        user_battle.b_preference = user_battle_info.b_preference;
+        user_battle.b_stage_number = user_battle_info.b_stage_number;
+
+
+
     }
 
-    void get_party_info(std::string _party_info)
+    void getParty(std::string _party_info)
     {
         var user_party_info = JsonUtility.FromJson<cparty>(_party_info);
+        foreach(var my_party in user_party_info.party_List)
+        {
+            user_party_info.party_List.push_back(my_party);   
+            for(int i=0;i<10;++i)
+            {
+                Debug.Log(my_party[i]);
+            }
+        }
     }
 
-    void get_stage_info(std::string _stage_info)
+    void getStage(std::string _stage_info)
     {
         var stage_info = JsonUtility.FromJson<cstagedata>(_stage_info);
+        current_stage_info.stage = stage_info.stage;
+        foreach(var enemy in stage_info.enemy_List)
+        {
+            current_stage_info.enemy_List.push_back(enemy);
+            Debug.Log(enemy.type_index);
+            Debug.Log(enemy.base_str);
+            Debug.Log(enemy.base_dex);
+            Debug.Log(enemy.base_int);
+        }
     }
 
-    void recv_packet(std::string _sendMessage)
-    {
-        std::string type = _sendMessage;
-        std::string data = _sendMessage;
+    // void recv_packet(std::string _sendMessage)
+    // {
+    //     std::string type = _sendMessage;
+    //     std::string data = _sendMessage;
 
-        var packet = JsonUtility.FromJson<protocol>(type);
-        switch(packet)
-        {
-            case protocol_type::auth :
-            get_login_info(data);
-            break;
+    //     var packet = JsonUtility.FromJson<protocol>(type[0]);
+    //     switch(packet)
+    //     {
+    //         case protocol_type::auth :
+    //         get_login_info(data);
+    //         break;
 
-            case protocol_type::servant :
-            get_servant_info(data);
-            break;
+    //         case protocol_type::servant :
+    //         get_servant_info(data);
+    //         break;
 
-            case protocol_type::monster :
-            get_monster_info(data);
-            break;
+    //         case protocol_type::monster :
+    //         get_monster_info(data);
+    //         break;
 
-            case protocol_type::item :
-            get_item_info(data);
-            break;
+    //         case protocol_type::item :
+    //         get_item_info(data);
+    //         break;
 
-            case protocol_type::battle :
-            get_battle_info(data);
-            break;
+    //         case protocol_type::battle :
+    //         get_battle_info(data);
+    //         break;
 
-            case protocol_type::party :
-            get_party_info(data);
-            break;
+    //         case protocol_type::party :
+    //         get_party_info(data);
+    //         break;
 
-            case protocol_type::stage :
-            get_login_info(data);
-            break;
+    //         case protocol_type::stage :
+    //         get_login_info(data);
+    //         break;
 
-            default:
-            Debug.Log("recv error");
-            break;
-        };
+    //         default:
+    //         Debug.Log("recv error");
+    //         break;
+    //     };
 
-    }    
+    // }    
 
 }

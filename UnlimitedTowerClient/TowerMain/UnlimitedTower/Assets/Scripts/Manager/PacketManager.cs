@@ -263,6 +263,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void Response_GetLobbyInfo()
     {
+
         Debug.Log("Response_GetLobbyInfo");
         LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Lobby);
 
