@@ -308,7 +308,7 @@ public class UserInfo : MonoSingleton<UserInfo>
         Debug.Log(add_servant_info.s_appear.body);
 
 
-        //Packet = _servant_info;
+      
     }
 
     public void getAllMonster(string _all_monster_info)

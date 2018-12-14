@@ -13,6 +13,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public Character heroChar;
     public Dictionary<int, Character> servantDic = new Dictionary<int, Character>();
     public Dictionary<int, Character> monsterDic = new Dictionary<int, Character>();
+    //public Dictionary<int, int> itemDic = new 
 
 
 
@@ -40,7 +41,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     //public GameObject StageBackGround;
     // public GameObject StageList;
 
-    public int characterIndex = 0;
+    public int servantIndex = 0;
     public int monsterIndex = 0;
 
     public void Awake()
@@ -202,7 +203,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public int GetCharacterIndex()
     {
-        return characterIndex;
+        return servantIndex;
     }
     public int GetMonsterIndex()
     {
@@ -219,9 +220,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     // 새로운 캐릭터를 dic에 저장한다.
     public void SetServant(Character newChar)
     {
-
-        servantDic.Add(characterIndex, newChar);
-        characterIndex += 1;
+        servantDic.Add(servantIndex, newChar);
+        servantIndex += 1;
     }
 
     public void SetMonster(Character newChar)
@@ -303,7 +303,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             if (charType == CHAR_TYPE.SERVANT)
             {
                 instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + getChar);
-                instance.GetComponent<CharContent>().CharDicKey = characterIndex - 1;
+                instance.GetComponent<CharContent>().CharDicKey = servantIndex - 1;
                 instance.transform.SetParent(CharacterListManager.Inst.ServantContentList.transform.transform);
                 //instance.transform.SetParent(LobbyManager.Inst.ServantContentList.transform.transform);
                 instance.GetComponent<CharContent>().CharType = CHAR_TYPE.SERVANT;
@@ -324,8 +324,38 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         Debug.Log("Remove UserInfo");
         servantDic.Clear();
         userCharsKeyList.Clear();
-        characterIndex = 0;
+        servantIndex = 0;
     }
+
+
+
+
+
+    #region NewGetData Func
+
+    public void AddServant(cservantinfo servantinfo)
+    {
+        Character newChar = new Character(servantinfo);
+        SetServant(newChar);
+        AddNewCharImage(newChar.Name, CHAR_TYPE.SERVANT);
+    }
+
+    public void AddMonster(cmonsterinfo monsterinfo)
+    {
+        Character newChar = new Character(monsterinfo);
+        SetServant(newChar);
+        AddNewCharImage(newChar.Name, CHAR_TYPE.MONSTER);
+    }
+    public void AddItem(cmonsterinfo monsterinfo)
+    {
+        Character newChar = new Character(monsterinfo);
+        SetServant(newChar);
+        AddNewCharImage(newChar.Name, CHAR_TYPE.MONSTER);
+    }
+
+
+
+    #endregion
 
 
 }

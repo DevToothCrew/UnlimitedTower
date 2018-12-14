@@ -34,6 +34,7 @@ public class FormationManager : MonoSingleton<FormationManager>
 
         //UserInfo.Inst.getAddServant("dd");
 
+
         PacketManager.Inst.Request_SaveFormation();
         BeSaved = true;
     }

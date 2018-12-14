@@ -31,9 +31,21 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     // Added by John
     [DllImport("__Internal")]
-    //private static extern void SetFormation(FormationParty formationParty);
-    //private static extern void SetFormation(int[] formationArr);
-    //private static extern void SetFormation (int party_num, int pos_1, int pos_2, int pos_3, int pos_4, int pos_5, int pos_6, int pos_7, int pos_8, int pos_9, int pos_10);
+    private static extern void Login();
+
+    [DllImport("__Internal")]
+    public static extern void Gacha();
+
+    [DllImport("__Internal")]
+    public static extern void GetServant();
+
+    [DllImport("__Internal")]
+    public static extern void GetItem();
+
+    [DllImport("__Internal")]
+    public static extern void GetMonster();
+
+    [DllImport("__Internal")]
     private static extern void SetFormation(string formation);
     [DllImport("__Internal")]
     private static extern void GetStageInfo (int stage_num);
@@ -44,9 +56,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
     [DllImport("__Internal")]
     private static extern void StartBattle (int stage_num, int party_num);
 
-
-    [DllImport("__Internal")]
-    public static extern void Gacha();
 
 
 
@@ -287,6 +296,42 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("Response_ExecuteGacha");
     }
+
+
+    //###
+    public void Response_GetServant(string servant_info)
+    {
+        if(servant_info != null)
+        {
+            Debug.Log("Responese_GetServant");
+            var PasingData = JsonUtility.FromJson<cservantinfo>(servant_info);
+            UserDataManager.Inst.AddServant(PasingData);
+        }
+
+  
+
+    }
+
+    public void Response_GetMonster(string mosnster_info)
+    {
+        if(mosnster_info !=null)
+        {
+            Debug.Log("Responese_GetMonster");
+            var PasingData = JsonUtility.FromJson<cmonsterinfo>(mosnster_info);
+            UserDataManager.Inst.AddMonster(PasingData);
+        }
+       
+
+    }
+    public void Response_GetItem(string item_info)
+    {
+        Debug.Log("Responese_GetItem");
+        Debug.Log("print : " + item_info);
+        var PasingData = JsonUtility.FromJson<citeminfo>(item_info);
+        //UserDataManager.Inst.AddMonster(PasingData);
+
+    }
+
 
 
     public void Response_GachaResult(GACHA_TYPE gachaType)

@@ -247,6 +247,57 @@ public class Character
 
         Appear = Random.Range(0, 9999);
     }
+
+
+    public Character(cservantinfo servantinfo)
+    {
+        // 저장하지 않은 데이터
+        // 외모, 
+        // 장비 리스트. 
+        // 상태, 
+        // 추가 스텟
+        // 서번트 -105
+        // 몬스터 - 201
+
+        Exp = servantinfo.s_exp;
+
+        Str = servantinfo.s_status.basic_str;
+        Dex = servantinfo.s_status.basic_dex;
+        Int = servantinfo.s_status.basic_int;
+
+        Level = 1;
+        // job값으로 현재는 서번트 구분 추후에 합의하여 수정해야할듯.
+        CHARACTER_NUM charNum = (CHARACTER_NUM)(servantinfo.s_status.job + (int)CHARACTER_NUM.Hero_Novice_1001);
+        Index = (int)charNum;
+        Size = GetSize(charNum);
+
+
+        Name = charNum.ToString();     
+    }
+
+    public Character(cmonsterinfo monsterinfo)
+    {
+        // 저장하지 않은 데이터
+        // 등급, 강화수치, 추가 힘민지
+
+        Exp = monsterinfo.m_exp;
+
+        Str = monsterinfo.m_status.basic_str;
+        Dex = monsterinfo.m_status.basic_dex;
+        Int = monsterinfo.m_status.basic_int;
+
+        Level = 1;
+        // job값으로 현재는 서번트 구분 추후에 합의하여 수정해야할듯.
+        CHARACTER_NUM charNum = (CHARACTER_NUM)(monsterinfo.m_type + (int)CHARACTER_NUM.Mst_Cat);
+        Index = (int)charNum;
+        Size = GetSize(charNum);
+
+
+        Name = charNum.ToString();
+        Appear = Random.Range(0, 9999);
+    }
+
+
     public int GetMaxHp()
     {
         return Str * DEFINE.MAX_HP_MULTI_posOffset * DEFINE.TEST_HP_NUM;

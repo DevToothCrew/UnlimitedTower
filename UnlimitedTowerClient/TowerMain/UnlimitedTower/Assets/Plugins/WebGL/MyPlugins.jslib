@@ -26,6 +26,18 @@ mergeInto(LibraryManager.library, {
 
   StartBattle : function(stage_num, party_num) {
     ReactUnityWebGL.StartBattle(stage_num, party_num);
+  },
+
+  GetServant : function() {
+	ReactUnityWebGL.GetServant();
+  },
+
+  GetItem : function() {
+	ReactUnityWebGL.GetItem();
+  },
+
+  GetMonster : function() {
+	ReactUnityWebGL.GetMonster();
   }
 
 });
