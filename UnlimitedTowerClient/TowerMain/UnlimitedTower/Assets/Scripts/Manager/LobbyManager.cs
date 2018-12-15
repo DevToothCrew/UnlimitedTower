@@ -124,6 +124,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         PacketManager.Inst.Request_CreatePlayer();
     }
 
+
     public void OnClickEnterLobbyButton()
     {
         //TODO : 임시 코드. 필요없을시 삭제.
