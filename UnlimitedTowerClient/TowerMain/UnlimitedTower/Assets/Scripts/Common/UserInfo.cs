@@ -47,12 +47,12 @@ public class shero_info
 [System.Serializable]
 public class cuserauth
 {
-
+    public ulong a_user;
     public int a_game_money;
     public int a_state;
     public int a_hero_slot;
-    // public List<shero_info> a_hero_List = new List<shero_info>();
-    public shero_info a_hero_info = new shero_info();
+    public List<shero_info> a_hero_List = new List<shero_info>();
+    //public shero_info a_hero_info = new shero_info();
 }
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
@@ -73,6 +73,7 @@ public class cservantinfo
 [System.Serializable]
 public class cservant
 {
+    public ulong s_user;
     public List<cservantinfo> servant_List = new List<cservantinfo>();
 };
 //---------------------------------------------------------------------------------------//
@@ -94,6 +95,7 @@ public class cmonsterinfo
 [System.Serializable]
 public class cmonster
 {
+    public ulong m_user;
     public List<cmonsterinfo> monster_List = new List<cmonsterinfo>();
 };
 //---------------------------------------------------------------------------------------//
@@ -116,6 +118,7 @@ public class citeminfo
 [System.Serializable]
 public class citem
 {
+    public ulong i_user;
     public List<citeminfo> item_List = new List<citeminfo>();
 };
 //---------------------------------------------------------------------------------------//
@@ -131,6 +134,7 @@ public class asset
 [System.Serializable]
 public class cuserlog
 {
+    public ulong l_user;
     public int l_servant_num;
     public int l_monster_num;
     public int l_item_num;
@@ -159,6 +163,7 @@ public class sparty_info
 [System.Serializable]
 public class cparty
 {
+    public ulong p_user;
    public List<sparty_info> party_List = new List<sparty_info>();
 };
 //---------------------------------------------------------------------------------------//
@@ -193,7 +198,7 @@ public class attack_speed
 [System.Serializable]
 public class cbattle
 {
-
+    public ulong b_user;
     public int b_turn_count;
     public int b_stage_number;
     public int b_party_number;
