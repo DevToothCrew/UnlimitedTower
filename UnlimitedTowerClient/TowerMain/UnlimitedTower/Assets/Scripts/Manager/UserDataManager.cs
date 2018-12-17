@@ -144,6 +144,10 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
 
             FormationManager.Inst.DeckTexts[deckNum].SetActive(false);
+            if(original == null)
+            {
+                Debug.Log("히로 로딩 완료");
+            }
             //deck.GetComponent<FormationDeck>().ShowEmptyText(false);
         }
         else
@@ -314,7 +318,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
                 instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + newChar.Name);
                 //instance.GetComponent<CharContent>().CharDicKey = servantIndex - 1;
                 instance.GetComponent<CharContent>().CharDicKey = (int)newChar.UniqueIndex;
-
                 instance.transform.SetParent(CharacterListManager.Inst.ServantContentList.transform.transform);
                 //instance.transform.SetParent(LobbyManager.Inst.ServantContentList.transform.transform);
                 instance.GetComponent<CharContent>().CharType = CHAR_TYPE.SERVANT;
@@ -322,7 +325,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             else
             {
                 instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/MonsterImage/" + newChar.Name);
-                instance.GetComponent<CharContent>().CharDicKey = monsterIndex - 1;
+                //instance.GetComponent<CharContent>().CharDicKey = monsterIndex - 1;
+                instance.GetComponent<CharContent>().CharDicKey = (int)newChar.UniqueIndex;
                 instance.transform.SetParent(CharacterListManager.Inst.MonsterContentList.transform.transform); 
                  //instance.transform.SetParent(LobbyManager.Inst.MonsterContentList.transform.transform);
                  instance.GetComponent<CharContent>().CharType = CHAR_TYPE.MONSTER;
@@ -350,12 +354,14 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         userInfo.a_game_money = _userInfo.a_game_money;
         userInfo.a_hero_slot = _userInfo.a_hero_slot;
         userInfo.a_state = _userInfo.a_state;
-        // Debug.Log("list Count : " + _userInfo.a_hero_List.Count);
+        Debug.Log("list Count : " + _userInfo.a_hero_List.Count);
         for (int i = 0; i < _userInfo.a_hero_List.Count; i++)
         {
             Debug.Log("save hero info");
             userInfo.a_hero_List.Add(_userInfo.a_hero_List[i]);
+      
         }
+      
 
 
         heroChar = new Character(userInfo.a_hero_List[0]);
@@ -369,6 +375,23 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         string path = "UI/CharaterImage/" + heroChar.Name;
         LoadCharImage(path, DEFINE.HERO_FORMATION_NUM, null);
     }
+    public void LoadAllServant(cservant servant_info)
+    {
+        servantDic.Clear();
+        for (int i = 0; i < servant_info.servant_List.Count; i++)
+        {  
+            AddServant(servant_info.servant_List[i]);
+        }
+    }
+    public void LoadAllMonster(cmonster monster_info)
+    {
+        monsterDic.Clear();
+        for (int i = 0; i < monster_info.monster_List.Count; i++)
+        {
+            AddMonster(monster_info.monster_List[i]);
+        }
+    }
+
 
 
     public Character AddServant(cservantinfo servantinfo)

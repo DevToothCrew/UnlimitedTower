@@ -48,10 +48,10 @@ public class shero_info
 public class cuserauth
 {
     public ulong a_user;
+    public List<shero_info> a_hero_List = new List<shero_info>();
     public int a_game_money;
     public int a_state;
     public int a_hero_slot;
-    public List<shero_info> a_hero_List = new List<shero_info>();
 }
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
@@ -250,25 +250,25 @@ public class UserInfo : MonoSingleton<UserInfo>
     public citeminfo gacha_result_item =  new citeminfo();
 
 
-    //public void getLogin(string _login_info)
-    //{
-    //    var user_auth_info = JsonUtility.FromJson<cuserauth>(_login_info);
+    public void getLogin(string _login_info)
+    {
+        var user_auth_info = JsonUtility.FromJson<cuserauth>(_login_info);
 
-    //    user_auth.a_game_money = user_auth_info.a_game_money;
-    //    user_auth.a_hero_slot = user_auth_info.a_hero_slot;
-    //    user_auth.a_state = user_auth_info.a_state;
-    //    foreach (var v in user_auth_info.a_hero_List)
-    //    {
-    //        user_auth.a_hero_List.Add(v);
-    //    }
+        user_auth.a_game_money = user_auth_info.a_game_money;
+        user_auth.a_hero_slot = user_auth_info.a_hero_slot;
+        user_auth.a_state = user_auth_info.a_state;
+        foreach (var v in user_auth_info.a_hero_List)
+        {
+            user_auth.a_hero_List.Add(v);
+        }
 
-    //    Debug.Log(user_auth_info.a_game_money);
-    //    Debug.Log(user_auth_info.a_hero_slot);
-    //    foreach (var v in user_auth_info.a_hero_List)
-    //    {
-    //        Debug.Log(v);
-    //    }
-    //}
+        Debug.Log(user_auth_info.a_game_money);
+        Debug.Log(user_auth_info.a_hero_slot);
+        foreach (var v in user_auth_info.a_hero_List)
+        {
+            Debug.Log(v);
+        }
+    }
 
     public void getAllServant(string _all_servant_info)
     {
@@ -392,6 +392,7 @@ public class UserInfo : MonoSingleton<UserInfo>
     public void getBattle(string _battle_info)
     {
         var user_battle_info = JsonUtility.FromJson<cbattle>(_battle_info);
+        // 0되면 끝나는 턴 카운트
         user_battle.b_turn_count = user_battle_info.b_turn_count;
         user_battle.b_party_number = user_battle_info.b_party_number;
         user_battle.b_preference = user_battle_info.b_preference;

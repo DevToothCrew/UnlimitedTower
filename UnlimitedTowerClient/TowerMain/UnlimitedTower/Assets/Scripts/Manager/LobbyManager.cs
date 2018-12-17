@@ -130,6 +130,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         //TODO : 임시 코드. 필요없을시 삭제.
         // ### 로그인 패킷을 보낸다.
         PacketManager.Inst.Request_Login();
+
+
         PacketManager.Inst.Request_GetLobbyInfo();
 
 
@@ -215,6 +217,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         ServantContentList.SetActive(true);
         MonsterContentList.SetActive(false);
         CharacterListScroll.GetComponent<ScrollRect>().content = ServantContentList.gameObject.GetComponent<RectTransform>();
+        PacketManager.Inst.Request_AllServant();
+     
 
     }
 
@@ -223,6 +227,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         MonsterContentList.SetActive(true);
         ServantContentList.SetActive(false);
         CharacterListScroll.GetComponent<ScrollRect>().content = MonsterContentList.gameObject.GetComponent<RectTransform>();
+        PacketManager.Inst.Request_AllMonster();
     }
 
 
