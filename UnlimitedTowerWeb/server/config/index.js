@@ -41,8 +41,10 @@ module.exports = {
         httpEndpoint: 'https://jungle2.cryptolions.io:443',
         expireInSeconds: 60,
         broadcast: true,
-        verbose: true, // API activity
-        sign: true
-        //keyProvider:['5JimHrYDeEJA2LRVEmsT8FeW8qTHrBxpQ6kc1KKKGPMX4qFQkYc']
+        verbose: true // API activity
+    },
+    // Contract list
+    contract : {
+        main : 'canietest444'
     }
 };
