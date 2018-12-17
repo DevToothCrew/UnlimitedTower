@@ -46,16 +46,16 @@ public class Picking : MonoSingleton<Picking> {
             }
             if(Input.GetMouseButtonDown(0))
             {
-                if (BattleManager.Inst.BattleState == BATTLE_STATE.NONE && hit.transform.CompareTag("Enemy") &&
-              SelectedObject == true)
-                {
-                    if (SelectedObject.GetComponent<CharController>().stateType != STATE_TYPE.DIE)
-                        BattleManager.Inst.FindAttackingTarget(hit.transform.gameObject);
-                    else
-                    {
-                        Debug.Log("죽은 몬스터를 공격 대상으로 지정할 수 없습니다");
-                    }
-                }
+              //  if (BattleManager.Inst.BattleState == BATTLE_STATE.NONE && hit.transform.CompareTag("Enemy") &&
+              //SelectedObject == true)
+              //  {
+              //      if (SelectedObject.GetComponent<CharController>().stateType != STATE_TYPE.DIE)
+              //          BattleManager.Inst.FindAttackingTarget(hit.transform.gameObject);
+              //      else
+              //      {
+              //          Debug.Log("죽은 몬스터를 공격 대상으로 지정할 수 없습니다");
+              //      }
+              //  }
             }
 
           

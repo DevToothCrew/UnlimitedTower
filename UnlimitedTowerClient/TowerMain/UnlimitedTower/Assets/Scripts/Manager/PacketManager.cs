@@ -98,7 +98,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
 
 
-        Login();
+       // Login();
         // Scatter 보내기
         //Response_Login();
     }
@@ -143,7 +143,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void Request_ExecuteGacha()
     {
         Debug.Log("Request_ExecuteGacha");
-        Gacha();
+        //Gacha();
         //Response_ExecuteGacha();
     }
     public void Request_GachaResult(GACHA_TYPE gachaType)
@@ -375,7 +375,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("Response_GetBattle : " + battle_info);
         var pasingData = JsonUtility.FromJson<cbattle>(battle_info);
-        BattleManager.Inst.SetBattle(pasingData);
+       // BattleManager.Inst.SetBattle(pasingData);
 
     }
 
