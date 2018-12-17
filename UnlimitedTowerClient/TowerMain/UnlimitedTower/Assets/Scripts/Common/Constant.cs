@@ -302,7 +302,7 @@ public class Character
 
         // 리소스 인덱스
         Index = (int)charNum;
-        UniqueIndex = servantinfo.s_index - 1;
+        //UniqueIndex = servantinfo.s_index - 1;
         Size = GetSize(charNum);
 
 
@@ -324,7 +324,7 @@ public class Character
         // job값으로 현재는 서번트 구분 추후에 합의하여 수정해야할듯.
         CHARACTER_NUM charNum = (CHARACTER_NUM)(monsterinfo.m_type + (int)CHARACTER_NUM.Mst_Cat);
         Index = (int)charNum;
-        UniqueIndex = monsterinfo.m_index - 1; 
+        //UniqueIndex = monsterinfo.m_index - 1; 
         Size = GetSize(charNum);
 
 
