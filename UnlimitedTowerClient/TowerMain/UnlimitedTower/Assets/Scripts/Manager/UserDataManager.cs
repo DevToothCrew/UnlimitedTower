@@ -80,7 +80,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         SetServant(newChar);
         AddNewCharImage(newChar, CHAR_TYPE.SERVANT);
     }
-
     void CreateMonster()
     {
         Character newChar = new Character(UserDataManager.Inst.GetMonsterIndex(), GACHA_TYPE.Monster);
@@ -248,7 +247,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     {
         string path = "UI/CharaterImage/" + heroChar.Name;
         LoadCharImage(path, DEFINE.HERO_FORMATION_NUM, null);
-        // LobbyManager.Inst
         LoadCharData(CharacterListManager.Inst.ServantContentList, ref servantDic, CHAR_TYPE.SERVANT);
         LoadCharData(CharacterListManager.Inst.MonsterContentList, ref monsterDic, CHAR_TYPE.MONSTER);
     }
@@ -369,8 +367,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             Debug.Log("save hero info");
             //userInfo.a_hero_List.Add(_userInfo.a_hero_List[i]);
            userInfo.a_hero_list.Add(hero);
-
-
         }
       
 

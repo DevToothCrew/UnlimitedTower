@@ -269,8 +269,9 @@ public class Character
         // CHARACTER_NUM charNum = (CHARACTER_NUM)(heroInfo.m_type + (int)CHARACTER_NUM.Mst_Cat);
         CHARACTER_NUM charNum = CHARACTER_NUM.Hero_Novice_1001;
         Index = (int)charNum;
+        //UniqueIndex
         Size = GetSize(charNum);
-
+        
 
         Name = charNum.ToString();
         Appear = Random.Range(0, 9999);

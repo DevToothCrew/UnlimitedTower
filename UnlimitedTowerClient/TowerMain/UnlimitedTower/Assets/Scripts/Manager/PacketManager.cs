@@ -148,7 +148,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
     public void Request_GachaResult(GACHA_TYPE gachaType)
     {
-        string packet = null;
 ;
         Debug.Log("Request_GachaResult");
         Response_GachaResult(gachaType);
@@ -179,7 +178,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void Request_SaveFormation()
     {
         Debug.Log("Request_SaveFormation");
-
         JsonFomation data = new JsonFomation();
 
 
@@ -200,6 +198,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
             }
             data.formation.Add(formationNum);
         }
+
+        // 이미지 클릭
         // 7 2 -1 3 5     3, -1, 0, 2, 4
 
 
@@ -210,8 +210,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("print Jsson : : " + json);
 
        SetFormation(json);
-
-        //Response_SaveFormation();
     }
 
     public void Request_GetStageInfo(int stageNum)
@@ -286,38 +284,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
         // 스캐터 답받기
 
         Debug.Log(" login data : " + _login_info);
-        string temp = _login_info;
+        cuserauth _userInfo = JsonUtility.FromJson<cuserauth>(_login_info); 
 
-        var _userInfo = new cuserauth();
-
-
-        _userInfo = JsonUtility.FromJson<cuserauth>(temp); 
-
-
-        Debug.Log(" user_name : " + _userInfo.a_user);
-        //foreach (var hero in _userInfo.a_hero_List)
-        //{
-            Debug.Log(" hero : " + _userInfo.a_hero_list);
-        //}
-        Debug.Log(" hero_money" + _userInfo.a_game_money);
-        Debug.Log(" hero_state" + _userInfo.a_state);
-        Debug.Log(" hero_slot" + _userInfo.a_hero_slot);
-
-        // 리스트 내부 정보
-        Debug.Log("user info : " + _userInfo);
-        Debug.Log("hero list_appear : " + _userInfo.a_hero_list[0].h_appear);
-    
-
-
-        if ( _userInfo.a_hero_list.Count == 0)
-        {
-            Debug.Log(" hero list count is empty");
-        }
         UserDataManager.Inst.GetLogin(_userInfo);
-        
 
-        UserDataManager.Inst.SetUserLoginFlag(true);
         // 상태변화에 대한것은 LobbyManager에서 표현할수 있어야 한다.
+        UserDataManager.Inst.SetUserLoginFlag(true);
     }
     public void Response_GetAllServant(string all_servant_info)
     {
