@@ -43,10 +43,10 @@ class cbattle
 private:
     account_name b_user;
 public:
-    uint8_t b_turn_count;
+    uint32_t b_turn_count;
     uint32_t b_stage_number;
-    uint8_t b_party_number;
-    uint8_t b_preference;
+    uint32_t b_party_number;
+    uint32_t b_preference;
     std::vector<uint32_t> b_reward_list;
     std::vector<sbattle_staus_info> b_battle_state_list;
     std::vector<attack_speed> attack_order_list;
