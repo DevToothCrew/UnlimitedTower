@@ -109,7 +109,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         StageInfoPopup.SetActive(false);
         SettingInfoPopup.SetActive(false);
 
-        MonsterContentList.SetActive(false);
+        //MonsterContentList.SetActive(false);
     }
 
     public void OnClickLoginButton()
@@ -127,14 +127,16 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     {
         //TODO : 임시 코드. 필요없을시 삭제.
         // ### 로그인 패킷을 보낸다.
+        PacketManager.Inst.Request_GetLobbyInfo();
+        Test_PacketManager.Inst.CheckPacket("OnClickEnterLobbyButton : not recive packet");
+#if UNITY_EDITOR
+        int tetst = 3;
+#else
         PacketManager.Inst.Request_Login();
 
 
-        PacketManager.Inst.Request_GetLobbyInfo();
-
-
-        Test_PacketManager.Inst.CheckPacket("OnClickEnterLobbyButton : not recive packet");
-
+   
+#endif
      
 
     }
