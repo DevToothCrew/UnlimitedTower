@@ -47,8 +47,9 @@ public class shero_info
 [System.Serializable]
 public class cuserauth
 {
-    public ulong a_user;
-    public List<shero_info> a_hero_List = new List<shero_info>();
+    public string a_user;
+   // public List<shero_info> a_hero_List = new List<shero_info>();
+    public List<shero_info> a_hero_list = new List<shero_info>();
     public int a_game_money;
     public int a_state;
     public int a_hero_slot;
@@ -60,10 +61,10 @@ public class cuserauth
 [System.Serializable]
 public class cservantinfo
 {
+    public long s_index;           //서번트 인덱스번호
     public sobject_appear s_appear = new sobject_appear();    //서번트 외형 정보
     public sobject_status s_status = new sobject_status();    //서번트 힘 민 지 직업<- 리소스0~4
     public sobject_plus_status s_plus_status = new sobject_plus_status();  //서번트 추가힘민지
-    public long s_index;           //서번트 인덱스번호
     public List<int> s_equip_slot = new List<int>(); //서번트 장비 리스트
     public int s_exp; //서번트 경험치
     public int s_state; //서번트 상태
@@ -73,7 +74,7 @@ public class cservantinfo
 public class cservant
 {
     public ulong s_user;
-    public List<cservantinfo> servant_List = new List<cservantinfo>();
+    public List<cservantinfo> servant_list = new List<cservantinfo>();
 };
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
@@ -82,10 +83,10 @@ public class cservant
 [System.Serializable]
 public class cmonsterinfo
 {
-    public sobject_status m_status = new sobject_status(); // 힘민지
-    public sobject_plus_status m_plus_status = new sobject_plus_status(); //추가 힘민지
     public long m_index;  //고유 인덱스
     public int m_type;   //외형 - 타입 - 0~29
+    public sobject_status m_status = new sobject_status(); // 힘민지
+    public sobject_plus_status m_plus_status = new sobject_plus_status(); //추가 힘민지
     public int m_exp; //경험치
     public int m_grade; // 등급
     public int m_reinforce; //강화수치
@@ -95,7 +96,7 @@ public class cmonsterinfo
 public class cmonster
 {
     public ulong m_user;
-    public List<cmonsterinfo> monster_List = new List<cmonsterinfo>();
+    public List<cmonsterinfo> monster_list = new List<cmonsterinfo>();
 };
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
@@ -104,12 +105,12 @@ public class cmonster
 [System.Serializable]
 public class citeminfo
 {
-    public sobject_status i_status = new sobject_status(); //힘민지 직업
     public long i_index; //아이템 인덱스
     public int i_id; //아이템 고유 아이디 <-리소스 0~
     public int i_type;  //종류
     public int i_slot;  //장착 타입
     public int i_tier;  //티어
+    public sobject_status i_status = new sobject_status(); //힘민지 직업
     public int i_state;
     public int i_grade; //아이템 등급
     public int i_reinforce; //아이템 강화 수치
@@ -118,7 +119,7 @@ public class citeminfo
 public class citem
 {
     public ulong i_user;
-    public List<citeminfo> item_List = new List<citeminfo>();
+    public List<citeminfo> item_list = new List<citeminfo>();
 };
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
@@ -157,13 +158,13 @@ public class cuserlog
 [System.Serializable]
 public class sparty_info
 {
-    List<ulong> party_id_List = new List<ulong>();
+    List<ulong> party_id_list = new List<ulong>();
 };
 [System.Serializable]
 public class cparty
 {
     public ulong p_user;
-   public List<sparty_info> party_List = new List<sparty_info>();
+   public List<sparty_info> party_list = new List<sparty_info>();
 };
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//
@@ -184,7 +185,7 @@ public class sbattle_staus_info
     public int defense;
     public int attack;
     public int now_hp; //현재 hp
-    public List<sbattle_member_state> state_List = new List<sbattle_member_state>(); //신경 쓰지말것
+    public List<sbattle_member_state> state_list = new List<sbattle_member_state>(); //신경 쓰지말것
     public long party_object_index; //멤버들의 유일한 아이디 값
 };
 [System.Serializable]
@@ -202,9 +203,9 @@ public class cbattle
     public int b_stage_number; 
     public int b_party_number;
     public int b_preference; //우선 순위
-    public List<int> b_reward_List = new List<int>(); //졌으면 일다 보상이 없음.
-    public List<sbattle_staus_info> b_battle_state_List = new List<sbattle_staus_info>(); 
-    public List<attack_speed> attack_order_List = new List<attack_speed>(); //0 번째가 가장 먼저 공격
+    public List<int> b_reward_list = new List<int>(); //졌으면 일다 보상이 없음.
+    public List<sbattle_staus_info> b_battle_state_list = new List<sbattle_staus_info>(); 
+    public List<attack_speed> attack_order_list = new List<attack_speed>(); //0 번째가 가장 먼저 공격
     // attack_order_list[0] <- 공격순서
     // attack_order_list[0].member_array_index <- 공격하는 파티원의 위치
     // target - >상대방 진영의 상대적인 위치값.
@@ -227,7 +228,7 @@ public class stage_info
 public class cstagedata
 {
     public long stage;
-    public List<stage_info> enemy_List = new List<stage_info>();
+    public List<stage_info> enemy_list = new List<stage_info>();
 
 };
 
@@ -257,14 +258,14 @@ public class UserInfo : MonoSingleton<UserInfo>
         user_auth.a_game_money = user_auth_info.a_game_money;
         user_auth.a_hero_slot = user_auth_info.a_hero_slot;
         user_auth.a_state = user_auth_info.a_state;
-        foreach (var v in user_auth_info.a_hero_List)
+        foreach (var v in user_auth_info.a_hero_list)
         {
-            user_auth.a_hero_List.Add(v);
+            user_auth.a_hero_list.Add(v);
         }
 
         Debug.Log(user_auth_info.a_game_money);
         Debug.Log(user_auth_info.a_hero_slot);
-        foreach (var v in user_auth_info.a_hero_List)
+        foreach (var v in user_auth_info.a_hero_list)
         {
             Debug.Log(v);
         }
@@ -273,9 +274,9 @@ public class UserInfo : MonoSingleton<UserInfo>
     public void getAllServant(string _all_servant_info)
     {
         var user_all_servant_info = JsonUtility.FromJson<cservant>(_all_servant_info);
-        foreach (var servant in user_all_servant_info.servant_List)
+        foreach (var servant in user_all_servant_info.servant_list)
         {
-            user_servant.servant_List.Add(servant);
+            user_servant.servant_list.Add(servant);
             Debug.Log(servant.s_index);
             Debug.Log(servant.s_status.basic_str);
             Debug.Log(servant.s_status.basic_dex);
@@ -293,9 +294,9 @@ public class UserInfo : MonoSingleton<UserInfo>
 
         
         var add_servant_info = JsonUtility.FromJson<cservantinfo>(_servant_info);
-        user_servant.servant_List.Add(add_servant_info);
+        user_servant.servant_list.Add(add_servant_info);
         gacha_result_servant = add_servant_info;
-        foreach (var servant  in   user_servant.servant_List)
+        foreach (var servant  in   user_servant.servant_list)
         {
             Debug.Log(servant.s_index);
             Debug.Log(servant.s_status.basic_str);
@@ -321,9 +322,9 @@ public class UserInfo : MonoSingleton<UserInfo>
     public void getAllMonster(string _all_monster_info)
     {
         var user_all_monster_info = JsonUtility.FromJson<cmonster>(_all_monster_info);
-        foreach (var monster in user_all_monster_info.monster_List)
+        foreach (var monster in user_all_monster_info.monster_list)
         {
-            user_monster.monster_List.Add(monster);
+            user_monster.monster_list.Add(monster);
             Debug.Log(monster.m_index);
             Debug.Log(monster.m_status.basic_str);
             Debug.Log(monster.m_status.basic_dex);
@@ -336,9 +337,9 @@ public class UserInfo : MonoSingleton<UserInfo>
         Debug.Log("Packet Monster : " + _monster_info);
 
         var add_monster_info = JsonUtility.FromJson<cmonsterinfo>(_monster_info);
-        user_monster.monster_List.Add(add_monster_info);
+        user_monster.monster_list.Add(add_monster_info);
         gacha_result_monster = add_monster_info;
-        foreach (var monster in user_monster.monster_List)
+        foreach (var monster in user_monster.monster_list)
         {
             Debug.Log(monster.m_index);
             Debug.Log(monster.m_status.basic_str);
@@ -355,9 +356,9 @@ public class UserInfo : MonoSingleton<UserInfo>
     public void getAllItem(string _all_item_info)
     {
         var user_all_item_info = JsonUtility.FromJson<citem>(_all_item_info);
-        foreach (var item in user_all_item_info.item_List)
+        foreach (var item in user_all_item_info.item_list)
         {
-            user_item.item_List.Add(item);
+            user_item.item_list.Add(item);
             Debug.Log(item.i_index);
             Debug.Log(item.i_status.basic_str);
             Debug.Log(item.i_status.basic_dex);
@@ -370,10 +371,10 @@ public class UserInfo : MonoSingleton<UserInfo>
         Debug.Log("Packet Item : " + _item_info);
 
         var add_item_info = JsonUtility.FromJson<citeminfo>(_item_info);
-        user_item.item_List.Add(add_item_info);
+        user_item.item_list.Add(add_item_info);
         gacha_result_item = add_item_info;
         //gacharesultcs.
-        foreach (var item in user_item.item_List)
+        foreach (var item in user_item.item_list)
         {
             Debug.Log(item.i_index);
             Debug.Log(item.i_status.basic_str);
@@ -397,28 +398,28 @@ public class UserInfo : MonoSingleton<UserInfo>
         user_battle.b_party_number = user_battle_info.b_party_number;
         user_battle.b_preference = user_battle_info.b_preference;
         user_battle.b_stage_number = user_battle_info.b_stage_number;
-        foreach(var reward in user_battle_info.b_reward_List)
+        foreach(var reward in user_battle_info.b_reward_list)
         {
-            user_battle.b_reward_List.Add(reward);
+            user_battle.b_reward_list.Add(reward);
         }
 
-        foreach (var battle_state in user_battle_info.b_battle_state_List)
+        foreach (var battle_state in user_battle_info.b_battle_state_list)
         {
-            user_battle.b_battle_state_List.Add(battle_state);
+            user_battle.b_battle_state_list.Add(battle_state);
         }
 
-        foreach (var attack_order in user_battle_info.attack_order_List)
+        foreach (var attack_order in user_battle_info.attack_order_list)
         {
-            user_battle.attack_order_List.Add(attack_order);
+            user_battle.attack_order_list.Add(attack_order);
         }
     }
 
     public void getParty(string _party_info)
     {
         var user_party_info = JsonUtility.FromJson<cparty>(_party_info);
-        foreach (var my_party in user_party_info.party_List)
+        foreach (var my_party in user_party_info.party_list)
         {
-            user_party_info.party_List.Add(my_party);
+            user_party_info.party_list.Add(my_party);
             for (int i = 0; i < 10; ++i)
             {
                 Debug.Log(my_party);
@@ -430,9 +431,9 @@ public class UserInfo : MonoSingleton<UserInfo>
     {
         var stage_info = JsonUtility.FromJson<cstagedata>(_stage_info);
         current_stage_info.stage = stage_info.stage;
-        foreach (var enemy in stage_info.enemy_List)
+        foreach (var enemy in stage_info.enemy_list)
         {
-            current_stage_info.enemy_List.Add(enemy);
+            current_stage_info.enemy_list.Add(enemy);
             Debug.Log(enemy.type_index);
             Debug.Log(enemy.base_str);
             Debug.Log(enemy.base_dex);

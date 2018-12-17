@@ -338,8 +338,15 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     {
         Debug.Log("Remove UserInfo");
         servantDic.Clear();
-        userCharsKeyList.Clear();
         servantIndex = 0;
+        monsterDic.Clear();
+        monsterIndex = 0;
+
+          //userInfo 
+         //   heroChar;
+
+    userCharsKeyList.Clear();
+ 
     }
 
 
@@ -354,17 +361,21 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         userInfo.a_game_money = _userInfo.a_game_money;
         userInfo.a_hero_slot = _userInfo.a_hero_slot;
         userInfo.a_state = _userInfo.a_state;
-        Debug.Log("list Count : " + _userInfo.a_hero_List.Count);
-        for (int i = 0; i < _userInfo.a_hero_List.Count; i++)
+       // Debug.Log("list Count : " + _userInfo.a_hero_List.Count);
+        
+        //for (int i = 0; i < _userInfo.a_hero_List.Count; i++)
+        foreach(var hero in _userInfo.a_hero_list)
         {
             Debug.Log("save hero info");
-            userInfo.a_hero_List.Add(_userInfo.a_hero_List[i]);
-      
+            //userInfo.a_hero_List.Add(_userInfo.a_hero_List[i]);
+           userInfo.a_hero_list.Add(hero);
+
+
         }
       
 
 
-        heroChar = new Character(userInfo.a_hero_List[0]);
+        heroChar = new Character(userInfo.a_hero_list[0]);
 
         Debug.Log("hero staute : " + heroChar.Str + " " + heroChar.Dex + " "
              + heroChar.Int);
@@ -378,17 +389,17 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public void LoadAllServant(cservant servant_info)
     {
         servantDic.Clear();
-        for (int i = 0; i < servant_info.servant_List.Count; i++)
+        for (int i = 0; i < servant_info.servant_list.Count; i++)
         {  
-            AddServant(servant_info.servant_List[i]);
+            AddServant(servant_info.servant_list[i]);
         }
     }
     public void LoadAllMonster(cmonster monster_info)
     {
         monsterDic.Clear();
-        for (int i = 0; i < monster_info.monster_List.Count; i++)
+        for (int i = 0; i < monster_info.monster_list.Count; i++)
         {
-            AddMonster(monster_info.monster_List[i]);
+            AddMonster(monster_info.monster_list[i]);
         }
     }
 

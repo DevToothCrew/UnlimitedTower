@@ -87,6 +87,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void Request_Login()
     {
         Debug.Log("Request_Login");
+        //cuserauth userath = new cuserauth();
+        //userath.a_hero_List.Add(new shero_info());
+        //userath.a_hero_List.Add(new shero_info());
+
+        //string json = JsonUtility.ToJson(userath);
+        //Debug.Log("json : " + json);
+        //cuserauth test = JsonUtility.FromJson<cuserauth>(json);
+        //UserDataManager.Inst.GetLogin(test);
+
+
+
         Login();
         // Scatter 보내기
         //Response_Login();
@@ -187,10 +198,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 formationNum = 0;
 
             }
-            //formationList.Add(formationNum);
             data.formation.Add(formationNum);
         }
+        // 7 2 -1 3 5     3, -1, 0, 2, 4
 
+
+        // 4 2 1 3 5    4 2 1 3 5
+        // 3 1 0 2 4    3 1 0 2 4
         data.partyNum = 0;
         string json = JsonUtility.ToJson(data);
         Debug.Log("print Jsson : : " + json);
@@ -272,12 +286,33 @@ public class PacketManager : MonoSingleton<PacketManager> {
         // 스캐터 답받기
 
         Debug.Log(" login data : " + _login_info);
+        string temp = _login_info;
+
+        var _userInfo = new cuserauth();
 
 
-        var _userInfo = JsonUtility.FromJson<cuserauth>(_login_info);
+        _userInfo = JsonUtility.FromJson<cuserauth>(temp); 
 
-       
 
+        Debug.Log(" user_name : " + _userInfo.a_user);
+        //foreach (var hero in _userInfo.a_hero_List)
+        //{
+            Debug.Log(" hero : " + _userInfo.a_hero_list);
+        //}
+        Debug.Log(" hero_money" + _userInfo.a_game_money);
+        Debug.Log(" hero_state" + _userInfo.a_state);
+        Debug.Log(" hero_slot" + _userInfo.a_hero_slot);
+
+        // 리스트 내부 정보
+        Debug.Log("user info : " + _userInfo);
+        Debug.Log("hero list_appear : " + _userInfo.a_hero_list[0].h_appear);
+    
+
+
+        if ( _userInfo.a_hero_list.Count == 0)
+        {
+            Debug.Log(" hero list count is empty");
+        }
         UserDataManager.Inst.GetLogin(_userInfo);
         
 

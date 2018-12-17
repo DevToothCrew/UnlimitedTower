@@ -129,7 +129,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     {
         //TODO : 임시 코드. 필요없을시 삭제.
         // ### 로그인 패킷을 보낸다.
-        PacketManager.Inst.Request_Login();
+        //PacketManager.Inst.Request_Login();
 
 
         PacketManager.Inst.Request_GetLobbyInfo();
@@ -141,6 +141,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     }
 
+    //###
     public void OnClickLogoutButton()
     {
         PacketManager.Inst.Request_Logout();
