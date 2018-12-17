@@ -61,7 +61,6 @@ public class cuserauth
 [System.Serializable]
 public class cservantinfo
 {
-    public long s_index;           //서번트 인덱스번호
     public sobject_appear s_appear = new sobject_appear();    //서번트 외형 정보
     public sobject_status s_status = new sobject_status();    //서번트 힘 민 지 직업<- 리소스0~4
     public sobject_plus_status s_plus_status = new sobject_plus_status();  //서번트 추가힘민지
@@ -83,7 +82,6 @@ public class cservant
 [System.Serializable]
 public class cmonsterinfo
 {
-    public long m_index;  //고유 인덱스
     public int m_type;   //외형 - 타입 - 0~29
     public sobject_status m_status = new sobject_status(); // 힘민지
     public sobject_plus_status m_plus_status = new sobject_plus_status(); //추가 힘민지
@@ -105,7 +103,6 @@ public class cmonster
 [System.Serializable]
 public class citeminfo
 {
-    public long i_index; //아이템 인덱스
     public int i_id; //아이템 고유 아이디 <-리소스 0~
     public int i_type;  //종류
     public int i_slot;  //장착 타입
@@ -277,7 +274,6 @@ public class UserInfo : MonoSingleton<UserInfo>
         foreach (var servant in user_all_servant_info.servant_list)
         {
             user_servant.servant_list.Add(servant);
-            Debug.Log(servant.s_index);
             Debug.Log(servant.s_status.basic_str);
             Debug.Log(servant.s_status.basic_dex);
             Debug.Log(servant.s_status.basic_int);
@@ -298,7 +294,6 @@ public class UserInfo : MonoSingleton<UserInfo>
         gacha_result_servant = add_servant_info;
         foreach (var servant  in   user_servant.servant_list)
         {
-            Debug.Log(servant.s_index);
             Debug.Log(servant.s_status.basic_str);
             Debug.Log(servant.s_status.basic_dex);
             Debug.Log(servant.s_status.basic_int);
@@ -307,7 +302,6 @@ public class UserInfo : MonoSingleton<UserInfo>
             Debug.Log(servant.s_appear.body);
         }
 
-        Debug.Log(add_servant_info.s_index);
         Debug.Log(add_servant_info.s_status.basic_str);
         Debug.Log(add_servant_info.s_status.basic_dex);
         Debug.Log(add_servant_info.s_status.basic_int);
@@ -325,7 +319,6 @@ public class UserInfo : MonoSingleton<UserInfo>
         foreach (var monster in user_all_monster_info.monster_list)
         {
             user_monster.monster_list.Add(monster);
-            Debug.Log(monster.m_index);
             Debug.Log(monster.m_status.basic_str);
             Debug.Log(monster.m_status.basic_dex);
             Debug.Log(monster.m_status.basic_int);
@@ -341,13 +334,11 @@ public class UserInfo : MonoSingleton<UserInfo>
         gacha_result_monster = add_monster_info;
         foreach (var monster in user_monster.monster_list)
         {
-            Debug.Log(monster.m_index);
             Debug.Log(monster.m_status.basic_str);
             Debug.Log(monster.m_status.basic_dex);
             Debug.Log(monster.m_status.basic_int);
         }
 
-        Debug.Log(add_monster_info.m_index);
         Debug.Log(add_monster_info.m_status.basic_str);
         Debug.Log(add_monster_info.m_status.basic_dex);
         Debug.Log(add_monster_info.m_status.basic_int);
@@ -359,7 +350,6 @@ public class UserInfo : MonoSingleton<UserInfo>
         foreach (var item in user_all_item_info.item_list)
         {
             user_item.item_list.Add(item);
-            Debug.Log(item.i_index);
             Debug.Log(item.i_status.basic_str);
             Debug.Log(item.i_status.basic_dex);
             Debug.Log(item.i_status.basic_int);
@@ -376,13 +366,10 @@ public class UserInfo : MonoSingleton<UserInfo>
         //gacharesultcs.
         foreach (var item in user_item.item_list)
         {
-            Debug.Log(item.i_index);
             Debug.Log(item.i_status.basic_str);
             Debug.Log(item.i_status.basic_dex);
             Debug.Log(item.i_status.basic_int);
         }
-
-        Debug.Log(add_item_info.i_index);
         Debug.Log(add_item_info.i_status.basic_str);
         Debug.Log(add_item_info.i_status.basic_dex);
         Debug.Log(add_item_info.i_status.basic_int);
