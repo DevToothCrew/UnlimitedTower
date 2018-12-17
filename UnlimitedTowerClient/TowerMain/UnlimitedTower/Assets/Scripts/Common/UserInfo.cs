@@ -52,7 +52,6 @@ public class cuserauth
     public int a_state;
     public int a_hero_slot;
     public List<shero_info> a_hero_List = new List<shero_info>();
-    //public shero_info a_hero_info = new shero_info();
 }
 //---------------------------------------------------------------------------------------//
 //---------------------------------------------------------------------------------------//

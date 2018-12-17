@@ -135,8 +135,10 @@ public class Character
     
 	public string Name;
 
-    //캐릭터 구분하는 값
+    //리소스)구분하는 값
     public int Index;
+    // 캐릭터 구분하는 고유값
+    public long UniqueIndex;
     public int Appear;
 
     public bool OnFormation = false;
@@ -290,10 +292,16 @@ public class Character
         Dex = servantinfo.s_status.basic_dex;
         Int = servantinfo.s_status.basic_int;
 
+        // 파티에 들어가는 고유 유니크값.
+        //servantinfo.s_index;
+
         Level = 1;
         // job값으로 현재는 서번트 구분 추후에 합의하여 수정해야할듯.
         CHARACTER_NUM charNum = (CHARACTER_NUM)(servantinfo.s_status.job + (int)CHARACTER_NUM.Hero_Novice_1001);
+
+        // 리소스 인덱스
         Index = (int)charNum;
+        UniqueIndex = servantinfo.s_index;
         Size = GetSize(charNum);
 
 
@@ -315,6 +323,7 @@ public class Character
         // job값으로 현재는 서번트 구분 추후에 합의하여 수정해야할듯.
         CHARACTER_NUM charNum = (CHARACTER_NUM)(monsterinfo.m_type + (int)CHARACTER_NUM.Mst_Cat);
         Index = (int)charNum;
+        UniqueIndex = monsterinfo.m_index;
         Size = GetSize(charNum);
 
 

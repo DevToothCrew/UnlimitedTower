@@ -51,7 +51,7 @@ public class GachaImage : MonoSingleton<GachaImage>
             Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1, GACHA_TYPE.Servant);
             // 가챠의 결과로 나온 캐릭터 정보를 저장한다.
             UserDataManager.Inst.SetServant(newChar);
-            UserDataManager.Inst.AddNewCharImage(newChar.Name, CHAR_TYPE.SERVANT);
+            UserDataManager.Inst.AddNewCharImage(newChar, CHAR_TYPE.SERVANT);
         }
      
     }

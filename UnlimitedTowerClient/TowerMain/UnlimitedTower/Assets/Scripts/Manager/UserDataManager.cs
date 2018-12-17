@@ -78,14 +78,14 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     {
         Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex(), GACHA_TYPE.Servant);
         SetServant(newChar);
-        AddNewCharImage(newChar.Name, CHAR_TYPE.SERVANT);
+        AddNewCharImage(newChar, CHAR_TYPE.SERVANT);
     }
 
     void CreateMonster()
     {
         Character newChar = new Character(UserDataManager.Inst.GetMonsterIndex(), GACHA_TYPE.Monster);
         SetMonster(newChar);
-        AddNewCharImage(newChar.Name, CHAR_TYPE.MONSTER);
+        AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
     }
     void Create10NumberMonster()
     {
@@ -94,21 +94,21 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         {
             newChar = new Character(CHARACTER_NUM.Mst_Death);
             SetMonster(newChar);
-            AddNewCharImage(newChar.Name, CHAR_TYPE.MONSTER);
+            AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
         }
         
         for (int i = 3; i < 6; i++)
         {
             newChar = new Character(CHARACTER_NUM.Mst_Robot);
             SetMonster(newChar);
-            AddNewCharImage(newChar.Name, CHAR_TYPE.MONSTER);
+            AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
         }
      
         for (int i = 6; i < 10; i++)
         {
             newChar = new Character(CHARACTER_NUM.Mst_ShadowCat);
             SetMonster(newChar);
-            AddNewCharImage(newChar.Name, CHAR_TYPE.MONSTER);
+            AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
         }
 
 
@@ -225,14 +225,18 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     // 새로운 캐릭터를 dic에 저장한다.
     public void SetServant(Character newChar)
     {
-        servantDic.Add(servantIndex, newChar);
+        // 클라 싱글 실행.
+        //servantDic.Add(servantIndex, newChar);
+
+        servantDic.Add((int)newChar.UniqueIndex-1, newChar);
         servantIndex += 1;
     }
-
     public void SetMonster(Character newChar)
     {
+        // 클라 싱글 실행.
+        //monsterDic.Add(monsterIndex, newChar);
 
-        monsterDic.Add(monsterIndex, newChar);
+        monsterDic.Add((int)newChar.UniqueIndex - 1, newChar);
         monsterIndex += 1;
     }
 
@@ -299,7 +303,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
 
 
-    public void AddNewCharImage(string getChar, CHAR_TYPE charType)
+    public void AddNewCharImage(Character newChar, CHAR_TYPE charType)
     {
         GameObject instance = Instantiate(Resources.Load("Prefabs/CharContent") as GameObject);
 
@@ -307,15 +311,17 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         {
             if (charType == CHAR_TYPE.SERVANT)
             {
-                instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + getChar);
-                instance.GetComponent<CharContent>().CharDicKey = servantIndex - 1;
+                instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + newChar.Name);
+                //instance.GetComponent<CharContent>().CharDicKey = servantIndex - 1;
+                instance.GetComponent<CharContent>().CharDicKey = (int)newChar.UniqueIndex;
+
                 instance.transform.SetParent(CharacterListManager.Inst.ServantContentList.transform.transform);
                 //instance.transform.SetParent(LobbyManager.Inst.ServantContentList.transform.transform);
                 instance.GetComponent<CharContent>().CharType = CHAR_TYPE.SERVANT;
             }
             else
             {
-                instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/MonsterImage/" + getChar);
+                instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/MonsterImage/" + newChar.Name);
                 instance.GetComponent<CharContent>().CharDicKey = monsterIndex - 1;
                 instance.transform.SetParent(CharacterListManager.Inst.MonsterContentList.transform.transform); 
                  //instance.transform.SetParent(LobbyManager.Inst.MonsterContentList.transform.transform);
@@ -340,22 +346,19 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
 
     public void GetLogin(cuserauth _userInfo)
-    {
-     
+    {  
         userInfo.a_game_money = _userInfo.a_game_money;
         userInfo.a_hero_slot = _userInfo.a_hero_slot;
         userInfo.a_state = _userInfo.a_state;
-        userInfo.a_hero_info = _userInfo.a_hero_info;
-        // Debug.
         // Debug.Log("list Count : " + _userInfo.a_hero_List.Count);
-        //for(int i=0; i< _userInfo.a_hero_List.Count; i++)
-        //{
-        //    Debug.Log("save hero info");
-        //    userInfo.a_hero_List.Add(_userInfo.a_hero_List[i]);
-        //}
+        for (int i = 0; i < _userInfo.a_hero_List.Count; i++)
+        {
+            Debug.Log("save hero info");
+            userInfo.a_hero_List.Add(_userInfo.a_hero_List[i]);
+        }
 
 
-        heroChar = new Character(userInfo.a_hero_info);
+        heroChar = new Character(userInfo.a_hero_List[0]);
 
         Debug.Log("hero staute : " + heroChar.Str + " " + heroChar.Dex + " "
              + heroChar.Int);
@@ -365,8 +368,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         formationDic.Add(DEFINE.HERO_FORMATION_NUM, 0);
         string path = "UI/CharaterImage/" + heroChar.Name;
         LoadCharImage(path, DEFINE.HERO_FORMATION_NUM, null);
-
-
     }
 
 
@@ -374,7 +375,9 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     {
         Character newChar = new Character(servantinfo);
         SetServant(newChar);
-        AddNewCharImage(newChar.Name, CHAR_TYPE.SERVANT);
+        // 만약 여기서 인자로 받는다도 해도
+        // 씬이 전환 됬을 때 이 값을 복구할 수 있겠는가?
+        AddNewCharImage(newChar, CHAR_TYPE.SERVANT);
 
         return newChar;
     }
@@ -383,7 +386,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     {
         Character newChar = new Character(monsterinfo);
         SetMonster(newChar);
-        AddNewCharImage(newChar.Name, CHAR_TYPE.MONSTER);
+        AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
 
         return newChar;
     }
@@ -391,7 +394,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     {
         Character newChar = new Character(monsterinfo);
         SetServant(newChar);
-        AddNewCharImage(newChar.Name, CHAR_TYPE.MONSTER);
+        AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
     }
 
 
