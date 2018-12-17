@@ -33,8 +33,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public GameObject FormationList;
 
-    public GameObject TestText;
-
 
 
 

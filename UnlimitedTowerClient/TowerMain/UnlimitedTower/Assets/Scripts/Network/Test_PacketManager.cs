@@ -43,17 +43,17 @@ public class Test_PacketManager : MonoSingleton<Test_PacketManager>
     public void CheckPacket(string errorLog)
     {
 
-        if (Test_PacketManager.Inst._Packet.Length <= 0)
-        {
-            LobbyManager.Inst.TestText.GetComponent<Text>().text = "errorLog";
-            LobbyManager.Inst.TestText.SetActive(true);
-        }
-        else
-        {
-            LobbyManager.Inst.TestText.GetComponent<Text>().text = Test_PacketManager.Inst._Packet;
-            LobbyManager.Inst.TestText.SetActive(true);
-        }
-        Test_PacketManager.Inst._Packet = null;
+        //if (Test_PacketManager.Inst._Packet.Length <= 0)
+        //{
+        //    LobbyManager.Inst.TestText.GetComponent<Text>().text = "errorLog";
+        //    LobbyManager.Inst.TestText.SetActive(true);
+        //}
+        //else
+        //{
+        //    LobbyManager.Inst.TestText.GetComponent<Text>().text = Test_PacketManager.Inst._Packet;
+        //    LobbyManager.Inst.TestText.SetActive(true);
+        //}
+        //Test_PacketManager.Inst._Packet = null;
 
 
         _Packet = "";
