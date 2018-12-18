@@ -7,13 +7,15 @@ class cgacha_system
         account_name owner;
         clogin_system &login_controller;
         cdb_system &db_controller;
-        user_monsters user_monster_table;
-        user_servants user_servant_table;
-        user_items user_item_table;
+
+        user_gacha_results user_gacha_result_table;
+        user_gacha_accumulates user_gacha_accumulate_table;
 
         uint32_t servant_random_count;
         uint32_t monster_random_count;
         uint32_t item_random_count;
+
+
 
     public:
         const uint32_t default_min = 0;
@@ -29,43 +31,14 @@ class cgacha_system
         : owner(_self),
         login_controller(_login_controller),
         db_controller(_db_controller),
-        user_monster_table(_self,_self),
-        user_servant_table(_self,_self),
-        user_item_table(_self,_self)
+        user_gacha_result_table(_self,_self),
+        user_gacha_accumulate_table(_self,_self)
         {
             servant_random_count=0;
             monster_random_count=0;
             item_random_count=0;
         }
 
-        user_monsters &get_user_monster_table()
-        {
-            return user_monster_table;
-        }
-
-        user_servants &get_user_servant_table()
-        {
-            return user_servant_table;
-        }
-
-        user_items &get_user_item_table()
-        {
-            return user_item_table;
-        }
-
-        void user_inventory_init(account_name _user)
-        {
-            require_auth(_user);
-            user_servant_table.emplace(owner, [&](auto &new_servant) {
-                new_servant.servant_set_user(_user);
-            });
-            user_monster_table.emplace(owner, [&](auto &new_monster) {
-                new_monster.monster_set_user(_user);
-            });
-            user_item_table.emplace(owner, [&](auto &new_item) {
-                new_item.item_set_user(_user);
-            });
-        }
 
         void gacha_servant_job(account_name _user,uint64_t _seed)
         {
@@ -77,33 +50,72 @@ class cgacha_system
             auto user_log_iter = user_log_table.find(_user);
             eosio_assert(user_log_iter != user_log_table.end(),"not exist user log data");
 
-            auto user_servant_list_iter = user_servant_table.find(_user);
-            eosio_assert(user_servant_list_iter != user_servant_table.end(),"not exist user servant data");
-
-            user_servant_table.modify(user_servant_list_iter, owner, [&](auto &update_user_servant_list) {
-                cservantinfo new_servant;
-                servant_random_count+=1;
-                new_servant.s_appear.hair = gacha_servant_hair(_seed,servant_random_count);
-                servant_random_count+=1;
-                new_servant.s_appear.hair = gacha_servant_head(_seed,servant_random_count);
-                servant_random_count+=1;
-                new_servant.s_appear.body = gacha_servant_body(_seed,servant_random_count);
-                new_servant.s_status.job = servant_db_iter.s_job;
-                servant_random_count+=1;
-                new_servant.s_status.basic_str = safeseed::get_random_value(_seed,servant_db_iter.s_max_range.base_str,servant_db_iter.s_min_range.base_str,servant_random_count);
-                servant_random_count+=1;
-                new_servant.s_status.basic_dex = safeseed::get_random_value(_seed,servant_db_iter.s_max_range.base_dex,servant_db_iter.s_min_range.base_dex,servant_random_count);
-                servant_random_count+=1;
-                new_servant.s_status.basic_int = safeseed::get_random_value(_seed,servant_db_iter.s_max_range.base_int,servant_db_iter.s_min_range.base_int,servant_random_count);
-                new_servant.s_equip_slot.resize(3);
+            result_info result;
+            user_servants user_servant_table(owner, _user);
+            user_servant_table.emplace( owner, [&](auto &update_user_servant_list) {
+                update_user_servant_list.index = user_servant_table.available_primary_key();
                 
-                update_user_servant_list.servant_list.push_back(new_servant);
+                servant_info new_servant;
+                servant_random_count+=1;
+                new_servant.appear.hair = gacha_servant_hair(_seed,servant_random_count);
+                servant_random_count+=1;
+                new_servant.appear.hair = gacha_servant_head(_seed,servant_random_count);
+                servant_random_count+=1;
+                new_servant.appear.body = gacha_servant_body(_seed,servant_random_count);
+                new_servant.job = servant_db_iter.s_job;
+                servant_random_count+=1;
+                new_servant.status.basic_str = safeseed::get_random_value(_seed,servant_db_iter.s_max_range.base_str,servant_db_iter.s_min_range.base_str,servant_random_count);
+                servant_random_count+=1;
+                new_servant.status.basic_dex = safeseed::get_random_value(_seed,servant_db_iter.s_max_range.base_dex,servant_db_iter.s_min_range.base_dex,servant_random_count);
+                servant_random_count+=1;
+                new_servant.status.basic_int = safeseed::get_random_value(_seed,servant_db_iter.s_max_range.base_int,servant_db_iter.s_min_range.base_int,servant_random_count);
+                new_servant.equip_slot.resize(3);
+
+                result.index = update_user_servant_list.index;
+                result.type = result::servant;
+                
+                update_user_servant_list.servant = new_servant;
             });
+
+            auto user_gacha_result_iter = user_gacha_result_table.find(_user);
+            if(user_gacha_result_iter == user_gacha_result_table.end())
+            {
+                user_gacha_result_table.emplace(owner, [&](auto &new_result)
+                {
+                    new_result.user = _user;
+                    new_result.result = result;
+                });
+            }
+            else
+            {
+                user_gacha_result_table.modify(user_gacha_result_iter, owner, [&](auto &new_result)
+                {
+                    new_result.result = result;
+                });
+            }
+
+            auto user_gacha_accumulate_iter = user_gacha_accumulate_table.find(_user);
+            if(user_gacha_accumulate_iter == user_gacha_accumulate_table.end())
+            {
+                user_gacha_accumulate_table.emplace(owner, [&](auto &new_result)
+                {
+                    new_result.user = _user;
+                    new_result.result_list.push_back(result);
+                });
+            }
+            else
+            {
+                user_gacha_accumulate_table.modify(user_gacha_accumulate_iter, owner, [&](auto &new_result)
+                {
+                    new_result.result_list.push_back(result);
+                });
+            }
+
 
             //로그 남기는 부분
             user_log_table.modify(user_log_iter, owner, [&](auto &update_log) {
-                update_log.l_servant_num++;
-                update_log.l_gacha_num++;
+                update_log.servant_num++;
+                update_log.gacha_num++;
             });
         }
 
@@ -160,23 +172,66 @@ class cgacha_system
             auto user_log_iter = user_log_table.find(_user);
             eosio_assert(user_log_iter != user_log_table.end(),"not exist user log data");
 
-            auto user_monster_list_iter = user_monster_table.find(_user);
-            user_monster_table.modify(user_monster_list_iter, owner, [&](auto &update_user_monster_list) {
-                cmonsterinfo new_monster;
-                new_monster.m_type = monster_id_db_iter.m_id;
-                new_monster.m_grade = monster_grade_db_iter.monster_grade;
+            result_info result;
+            user_monsters user_monster_table(owner, _user);
+            user_monster_table.emplace(owner, [&](auto &update_user_monster_list) {
+                update_user_monster_list.index = user_monster_table.available_primary_key();
+
+
+                monster_info new_monster;
+                new_monster.type = monster_id_db_iter.m_id;
+                new_monster.grade = monster_grade_db_iter.monster_grade;
                 monster_random_count+=1;
-                new_monster.m_status.basic_str = safeseed::get_random_value(_seed,monster_grade_db_iter.m_max_range.base_str,monster_grade_db_iter.m_min_range.base_str,monster_random_count);
+                new_monster.status.basic_str = safeseed::get_random_value(_seed,monster_grade_db_iter.m_max_range.base_str,monster_grade_db_iter.m_min_range.base_str,monster_random_count);
                 monster_random_count+=1;
-                new_monster.m_status.basic_dex = safeseed::get_random_value(_seed,monster_grade_db_iter.m_max_range.base_dex,monster_grade_db_iter.m_min_range.base_dex,monster_random_count);
+                new_monster.status.basic_dex = safeseed::get_random_value(_seed,monster_grade_db_iter.m_max_range.base_dex,monster_grade_db_iter.m_min_range.base_dex,monster_random_count);
                 monster_random_count+=1;
-                new_monster.m_status.basic_int = safeseed::get_random_value(_seed,monster_grade_db_iter.m_max_range.base_int,monster_grade_db_iter.m_min_range.base_int,monster_random_count);
-                update_user_monster_list.monster_list.push_back(new_monster);
+                new_monster.status.basic_int = safeseed::get_random_value(_seed,monster_grade_db_iter.m_max_range.base_int,monster_grade_db_iter.m_min_range.base_int,monster_random_count);
+                
+                result.index = update_user_monster_list.index;
+                result.type = result::monster;
+                
+                update_user_monster_list.monster = new_monster;
             });
 
+            auto user_gacha_result_iter = user_gacha_result_table.find(_user);
+            if(user_gacha_result_iter == user_gacha_result_table.end())
+            {
+                user_gacha_result_table.emplace(owner, [&](auto &new_result)
+                {
+                    new_result.user = _user;
+                    new_result.result = result;
+                });
+            }
+            else
+            {
+                user_gacha_result_table.modify(user_gacha_result_iter, owner, [&](auto &new_result)
+                {
+                    new_result.result = result;
+                });
+            }
+
+
+            auto user_gacha_accumulate_iter = user_gacha_accumulate_table.find(_user);
+            if(user_gacha_accumulate_iter == user_gacha_accumulate_table.end())
+            {
+                user_gacha_accumulate_table.emplace(owner, [&](auto &new_result)
+                {
+                    new_result.user = _user;
+                    new_result.result_list.push_back(result);
+                });
+            }
+            else
+            {
+                user_gacha_accumulate_table.modify(user_gacha_accumulate_iter, owner, [&](auto &new_result)
+                {
+                    new_result.result_list.push_back(result);
+                });
+            }
+
             user_log_table.modify(user_log_iter, owner, [&](auto &update_log) {
-                update_log.l_gacha_num++;
-                update_log.l_monster_num++;
+                update_log.gacha_num++;
+                update_log.monster_num++;
             });
         }
 
@@ -200,28 +255,70 @@ class cgacha_system
             auto user_log_iter = user_log_table.find(_user);
             eosio_assert(user_log_iter != user_log_table.end(),"not exist user log data");
 
-            auto user_item_list_iter = user_item_table.find(_user);
-            eosio_assert(user_item_list_iter != user_item_table.end(),"not exist user item iter");
-            user_item_table.modify(user_item_list_iter, owner, [&](auto &update_user_item_list) {
-                citeminfo new_item;
-                new_item.i_id = item_id_db_iter.i_id;
-                new_item.i_slot = item_id_db_iter.i_slot;
-                new_item.i_tier = item_tier_db_iter.i_tier;
+            result_info result;
+            user_items user_item_table(owner, _user);
+            user_item_table.emplace(owner, [&](auto &update_user_item_list) {
+                update_user_item_list.index = user_item_table.available_primary_key();
+
+                item_info new_item;
+                new_item.id = item_id_db_iter.i_id;
+                new_item.slot = item_id_db_iter.i_slot;
+                new_item.tier = item_tier_db_iter.i_tier;
                 item_random_count+=1;
-                new_item.i_status.basic_str = safeseed::get_random_value(_seed,item_grade_db_iter.i_max_range.base_str,item_grade_db_iter.i_min_range.base_str,item_random_count);
+                new_item.status.basic_str = safeseed::get_random_value(_seed,item_grade_db_iter.i_max_range.base_str,item_grade_db_iter.i_min_range.base_str,item_random_count);
                 item_random_count+=1;
-                new_item.i_status.basic_dex = safeseed::get_random_value(_seed,item_grade_db_iter.i_max_range.base_dex,item_grade_db_iter.i_min_range.base_dex,item_random_count);
+                new_item.status.basic_dex = safeseed::get_random_value(_seed,item_grade_db_iter.i_max_range.base_dex,item_grade_db_iter.i_min_range.base_dex,item_random_count);
                 item_random_count+=1;
-                new_item.i_status.basic_int = safeseed::get_random_value(_seed,item_grade_db_iter.i_max_range.base_int,item_grade_db_iter.i_min_range.base_int,item_random_count);
-                new_item.i_status.job = item_id_db_iter.i_job;
-                new_item.i_state = eobject_state::on_inventory;
-                new_item.i_grade = item_grade_db_iter.i_grade;
-                update_user_item_list.item_list.push_back(new_item);
+                new_item.status.basic_int = safeseed::get_random_value(_seed,item_grade_db_iter.i_max_range.base_int,item_grade_db_iter.i_min_range.base_int,item_random_count);
+                new_item.job = item_id_db_iter.i_job;
+                new_item.state = eobject_state::on_inventory;
+                new_item.grade = item_grade_db_iter.i_grade;
+
+                result.index = update_user_item_list.index;
+                result.type = result::item;
+
+                update_user_item_list.item = new_item;
             });
 
+
+            auto user_gacha_result_iter = user_gacha_result_table.find(_user);
+            if(user_gacha_result_iter == user_gacha_result_table.end())
+            {
+                user_gacha_result_table.emplace(owner, [&](auto &new_result)
+                {
+                    new_result.user = _user;
+                    new_result.result = result;
+                });
+            }
+            else
+            {
+                user_gacha_result_table.modify(user_gacha_result_iter, owner, [&](auto &new_result)
+                {
+                    new_result.result = result;
+                });
+            }
+
+            auto user_gacha_accumulate_iter = user_gacha_accumulate_table.find(_user);
+            if(user_gacha_accumulate_iter == user_gacha_accumulate_table.end())
+            {
+                user_gacha_accumulate_table.emplace(owner, [&](auto &new_result)
+                {
+                    new_result.user = _user;
+                    new_result.result_list.push_back(result);
+                });
+            }
+            else
+            {
+                user_gacha_accumulate_table.modify(user_gacha_accumulate_iter, owner, [&](auto &new_result)
+                {
+                    new_result.result_list.push_back(result);
+                });
+            }
+
+
             user_log_table.modify(user_log_iter, owner, [&](auto &update_log) {
-                update_log.l_item_num++;
-                update_log.l_gacha_num++;
+                update_log.item_num++;
+                update_log.gacha_num++;
             });
         }
 
@@ -233,7 +330,7 @@ class cgacha_system
 
             uint64_t l_seed = safeseed::get_seed(_user);
 
-            if(user_log_iter->l_gacha_num == 0)
+            if(user_log_iter->gacha_num == 0)
             {
                 gacha_monster_id(_user,l_seed);
             }
@@ -257,5 +354,33 @@ class cgacha_system
             monster_random_count = 0;
             item_random_count = 0;
         }
+#pragma region reset
+        void reset_all_user_object_data(account_name _user)
+        {
+            require_auth2(owner, N(owner));
+            user_servants user_servant_table(owner, _user);
+            for (auto user_servant_iter = user_servant_table.begin(); user_servant_iter != user_servant_table.end();)
+            {
+                auto iter = user_servant_table.find(user_servant_iter->primary_key());
+                user_servant_iter++;
+                user_servant_table.erase(iter);
+            }
 
+            user_monsters user_monster_table(owner, _user);
+            for (auto user_monster_iter = user_monster_table.begin(); user_monster_iter != user_monster_table.end();)
+            {
+                auto iter = user_monster_table.find(user_monster_iter->primary_key());
+                user_monster_iter++;
+                user_monster_table.erase(iter);
+            }
+
+            user_items user_item_table(owner, _user);
+            for (auto user_item_iter = user_item_table.begin(); user_item_iter != user_item_table.end();)
+            {
+                auto iter = user_item_table.find(user_item_iter->primary_key());
+                user_item_iter++;
+                user_item_table.erase(iter);
+            }
+        }
+#pragma endregion
     };
