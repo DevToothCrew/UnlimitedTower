@@ -130,15 +130,12 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         PacketManager.Inst.Request_GetLobbyInfo();
         Test_PacketManager.Inst.CheckPacket("OnClickEnterLobbyButton : not recive packet");
 #if UNITY_EDITOR
-        int tetst = 3;
+       
 #else
         PacketManager.Inst.Request_Login();
-
-
-   
+  
 #endif
-     
-
+   
     }
 
     //###
@@ -218,8 +215,12 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         ServantContentList.SetActive(true);
         MonsterContentList.SetActive(false);
         CharacterListScroll.GetComponent<ScrollRect>().content = ServantContentList.gameObject.GetComponent<RectTransform>();
-        PacketManager.Inst.Request_AllServant();
+       
+#if UNITY_EDITOR
      
+#else
+         PacketManager.Inst.Request_AllServant();  
+#endif
 
     }
 
