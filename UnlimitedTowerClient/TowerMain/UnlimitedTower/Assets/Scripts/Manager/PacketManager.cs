@@ -56,7 +56,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     [DllImport("__Internal")]
     private static extern void StartBattle (int stage_num, int party_num);
 
-
+    public bool receiveGacha = false;
 
 
 
@@ -143,7 +143,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void Request_ExecuteGacha()
     {
         Debug.Log("Request_ExecuteGacha");
-        //Gacha();
+        Gacha();
         //Response_ExecuteGacha();
     }
     public void Request_GachaResult(GACHA_TYPE gachaType)
@@ -349,6 +349,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Character newChar = UserDataManager.Inst.AddServant(pasingData);
         
             GachaImage.Inst.SetGachaReult(newChar, GACHA_TYPE.Servant);
+            receiveGacha = true;
         }
     }
     public void Response_GetMonster(string mosnster_info)
@@ -360,6 +361,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Character newChar = UserDataManager.Inst.AddMonster(pasingData);
 
             GachaImage.Inst.SetGachaReult(newChar, GACHA_TYPE.Monster);
+            receiveGacha = true;
         }
     }
     public void Response_GetItem(string item_info)
@@ -368,6 +370,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         var pasingData = JsonUtility.FromJson<citeminfo>(item_info);
 
         GachaImage.Inst.SetGachaReult(null, GACHA_TYPE.Item);
+        receiveGacha = true;
         //UserDataManager.Inst.AddMonster(PasingData);
     }
     public void Response_GetBattle(string battle_info)

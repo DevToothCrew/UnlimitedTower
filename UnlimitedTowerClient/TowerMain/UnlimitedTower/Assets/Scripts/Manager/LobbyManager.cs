@@ -41,8 +41,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         InitCenterPopup();
         if (!UserDataManager.Inst.UserLoginFlag)
         {
-            Debug.Log("첫 로그인 화면");
-            UserDataManager.Inst.Test_InitCharacter();
+            Debug.Log("첫 로그인 화면");        
             ChangeSceneState(SCENE_STATE.Login);
         }
         else
@@ -129,6 +128,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         // ### 로그인 패킷을 보낸다.
 
 #if UNITY_EDITOR
+        UserDataManager.Inst.Test_InitCharacter();
         PacketManager.Inst.Request_GetLobbyInfo();
         Test_PacketManager.Inst.CheckPacket("OnClickEnterLobbyButton : not recive packet");
 #else

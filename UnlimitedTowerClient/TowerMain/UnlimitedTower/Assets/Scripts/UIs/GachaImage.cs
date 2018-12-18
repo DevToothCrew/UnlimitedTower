@@ -31,6 +31,7 @@ public class GachaImage : MonoSingleton<GachaImage>
     public GameObject Test10GachaButton;
 
     private bool reGachaflag = false;
+    private bool fadeOutFlag = false;
     private GACHA_TYPE gachaType;
 
 #if UNITY_EDITOR
@@ -58,17 +59,24 @@ public class GachaImage : MonoSingleton<GachaImage>
     // 가챠 결과 마지막에 깜빡이는 부분
     IEnumerator FADE_OUT()
     {
-        Debug.Log("Start Fade Out ");
-        do
+        if(fadeOutFlag == false)
         {
-            yield return null;
+            Debug.Log("Start Fade Out ");
+            do
+            {
+                yield return null;
+            }
+            while (GachaImageAnimator.GetCurrentAnimatorStateInfo(0).IsName("FadeOut") &&
+         GachaImageAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
+
+            Debug.Log("End Fade Out ");
+            GachaImageAnimator.SetBool("Play", false);
+            fadeOutFlag = true;
         }
-        while (GachaImageAnimator.GetCurrentAnimatorStateInfo(0).IsName("FadeOut") &&
-     GachaImageAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
+       
 
 
-        Debug.Log("End Fade Out ");
-        GachaImageAnimator.SetBool("Play", false);
+     
         yield break;
     }
 
@@ -188,7 +196,7 @@ public class GachaImage : MonoSingleton<GachaImage>
     public void OnClickReGacha()
     {
         reGachaflag = true ;
-
+        fadeOutFlag = false;
         GachaResultPopup.SetActive(false);
         LightEffectCircle04Animator.SetBool("Play", false);
         StartCoroutine("FADE_IN_LIGHT_EFFECT_CIRCLE04");
@@ -247,9 +255,9 @@ public class GachaImage : MonoSingleton<GachaImage>
 
         PacketManager.Inst.Request_GachaResult(this.gachaType);
 #else
-
+        // 
 #endif
-        // 가챠 결과를 보여준다?
+        // 가챠 결과를 보여준다
 
 
     }
@@ -257,6 +265,7 @@ public class GachaImage : MonoSingleton<GachaImage>
     // 가차 멈춤
     public void OnClickCheckGacha()
     {
+        fadeOutFlag = false;
         LightEffectCircle04Animator.SetBool("Play", false);
         StartCoroutine("FADE_IN_LIGHT_EFFECT_CIRCLE04");
 
@@ -281,13 +290,6 @@ public class GachaImage : MonoSingleton<GachaImage>
 #else
          PacketManager.Inst.Request_ExecuteGacha();
 #endif
-
-
-        //Test_PacketManager.Inst.CheckPacket("OnClickExecuteGacha: not recive packet");
-
-
-
-
 
         LightEffectCircle04Animator.SetBool("Play", true);
         BlackHoleAnimator.SetBool("Play", true);
