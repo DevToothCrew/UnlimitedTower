@@ -261,7 +261,10 @@ public class Monster
         Name = charNum.ToString();
     }
 }
+public class Item
+{
 
+}
 
 
 

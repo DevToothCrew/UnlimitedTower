@@ -18,6 +18,11 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public Character heroChar;
     public Dictionary<int, Character> servantDic = new Dictionary<int, Character>();
     public Dictionary<int, Character> monsterDic = new Dictionary<int, Character>();
+
+
+    public Dictionary<int, Servant> newServantDic = new Dictionary<int, Servant>();
+    public Dictionary<int, Monster> newMonsterDic = new Dictionary<int, Monster>();
+
     //public Dictionary<int, int> itemDic = new 
 
 
@@ -79,6 +84,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex(), GACHA_TYPE.Servant);
         SetServant(newChar);
         AddNewCharImage(newChar, CHAR_TYPE.SERVANT);
+
     }
     void CreateMonster()
     {

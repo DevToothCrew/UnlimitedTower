@@ -67,6 +67,12 @@ public class cservantinfo
     public List<int> s_equip_slot = new List<int>(); //서번트 장비 리스트
     public int s_exp; //서번트 경험치
     public int s_state; //서번트 상태
+    public cservantinfo()
+    {
+        s_status.basic_str = 10;
+        s_status.basic_int = 10;
+        s_status.basic_dex = 10;
+    }
 };
 
 [System.Serializable]
@@ -89,6 +95,13 @@ public class cmonsterinfo
     public int m_grade; // 등급
     public int m_reinforce; //강화수치
     public int m_state;
+
+    public cmonsterinfo()
+    {
+        m_status.basic_str = 10;
+        m_status.basic_int = 10;
+        m_status.basic_dex = 10;
+    }
 };
 [System.Serializable]
 public class cmonster

@@ -22,13 +22,13 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
 
         if(CharType == CHAR_TYPE.SERVANT)
         {
-            CheckAddOrRemove(ref UserDataManager.Inst.servantDic, CharType);
+           // CheckAddOrRemove(ref UserDataManager.Inst.servantDic, CharType);
 
         }
         else if (CharType == CHAR_TYPE.MONSTER)
         {
             Debug.Log("먼스터 추가");
-            CheckAddOrRemove(ref UserDataManager.Inst.monsterDic, CharType);
+            //CheckAddOrRemove(ref UserDataManager.Inst.monsterDic, CharType);
         }
        
     }
