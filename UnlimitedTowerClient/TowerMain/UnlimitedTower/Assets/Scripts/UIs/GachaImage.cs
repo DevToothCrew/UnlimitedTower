@@ -36,8 +36,6 @@ public class GachaImage : MonoSingleton<GachaImage>
 #if UNITY_EDITOR
     public int TestGachaNum = 1;
 #endif
-    public GameObject Packet;
-    public GameObject TestReciveText;
 
 
 
@@ -60,6 +58,7 @@ public class GachaImage : MonoSingleton<GachaImage>
     // 가챠 결과 마지막에 깜빡이는 부분
     IEnumerator FADE_OUT()
     {
+        Debug.Log("Start Fade Out ");
         do
         {
             yield return null;
@@ -68,6 +67,7 @@ public class GachaImage : MonoSingleton<GachaImage>
      GachaImageAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
 
 
+        Debug.Log("End Fade Out ");
         GachaImageAnimator.SetBool("Play", false);
         yield break;
     }
@@ -238,10 +238,7 @@ public class GachaImage : MonoSingleton<GachaImage>
     public void ShowGachaResult()
     {
         reGachaflag = false;
-        ////Test Code
-
-
-
+  
 #if UNITY_EDITOR
         //// ### 가챠 결과
         TestGachaNum++;
@@ -252,7 +249,7 @@ public class GachaImage : MonoSingleton<GachaImage>
 #else
 
 #endif
-
+        // 가챠 결과를 보여준다?
 
 
     }

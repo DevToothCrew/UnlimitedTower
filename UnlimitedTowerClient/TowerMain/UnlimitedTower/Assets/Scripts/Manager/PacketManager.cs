@@ -347,8 +347,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log("Responese_GetServant : " + servant_info);
             var pasingData = JsonUtility.FromJson<cservantinfo>(servant_info);
             Character newChar = UserDataManager.Inst.AddServant(pasingData);
-
-         
+        
             GachaImage.Inst.SetGachaReult(newChar, GACHA_TYPE.Servant);
         }
     }
