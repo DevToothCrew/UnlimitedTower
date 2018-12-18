@@ -10,6 +10,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public GameObject TowerGrid;
     public GameObject TowerInfo;
 
+
     public GameObject CenterPopup;
     private LOBBY_RIGHT_BUTTON centerPopupState;
 
