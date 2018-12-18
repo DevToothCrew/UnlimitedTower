@@ -1,9 +1,9 @@
 Battle System
 
-void set_battle(account_name _user, uint8_t _stage )
+void set_battle(account_name _user,uint32_t _party_number,uint8_t _stage)
 
  - 전투 기본정보를 셋팅해주는 함수
- - 액션을 실행한 유저의 이름, 진행하려는 스테이지의 넘버를 받는다.
+ - 액션을 실행한 유저의 이름, 파티 넘버 ,진행하려는 스테이지의 넘버를 받는다.
  
 void start_battle(account_name _user,uint8_t _party_number)
 
@@ -12,31 +12,31 @@ void start_battle(account_name _user,uint8_t _party_number)
 
 
  void active_turn( account_name _user,
- uint8_t _characteraction,
- uint8_t _monsteraction,
- uint8_t _character_target,
+ uint8_t _hero_action,
+ uint8_t _monster_action,
+ uint8_t _hero_target,
  uint8_t _monster_target)  
  
  - 유저가 자신이 조종 하는 캐릭터와 몬스터의 행동을 지정하고 턴을 진행하는 함수
  - 액션을 실행한 유저의 이름,자신의 캐릭터의 행동에 대한 액션값 , 자신의 몬스터의 행동에 대한 액션값 , 캐릭터의 타겟 인덱스, 몬스터의 타겟 인덱스를 인자로 받는다
- 
 
- void attack(account_name _user,uint8_t _from,uint8_t _target)
- 
- - Battle System 내부에서 반영하는 함수로 공격하는 상태를 처리 한다.
- - 인자로는 유저 이름, 공격을 진행하는 인덱스, 공격을 받는 타겟 인덱스
- 
- void defense(account_name _user,uint8_t _from,uint8_t _target)
- 
-  - Battle System 내부에서 반영하는 함수로 방어,버프하는 상태를 처리 한다.
-  - 인자로는 유저 이름, 공격을 진행하는 인덱스, 공격을 받는 타겟 인덱스
- 
- void result(account_name _user)
- 
-  - Battle System 내부에서 반영하는 함수로 배틀의 결과를 반영해준다.
-  - 인자로는 유저 이름을 받는다.
- 
- bool battlestate(account_name _user)
-  - Battle System 내부에서 반영하는 함수로 배틀 상태를 체크한다.
-  - 인자로는 유저 이름을 받는다.
- 
+
+void win_reward(account_name _user)
+
+- 유저가 전투에서 승리하였을 경우 보상과 로그를 셋팅해주는 함수 입니다.
+- 유저의 이름을 인자값으로 받습니다.
+
+void fail_reward(account_name _user)
+
+- 유저가 전투에서 패배하였을 경우 보상과 로그를 셋팅해주는 함수 입니다.
+- 유저의 이름을 인자값으로 받습니다.
+
+void get_battle_reward(account_name _user)
+
+- 유저가 보상을 획득하게 해주는 함수 입니다.
+- 유저의 이름을 인자값으로 받습니다.
+
+void reset_all_battle_data()
+
+- cbattle 테이블을 리셋 해주는 함수입니다.
+- 컨트랙트의 배포자만 실행이 가능합니다.

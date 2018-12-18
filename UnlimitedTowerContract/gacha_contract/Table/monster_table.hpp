@@ -5,7 +5,6 @@
 // 8 + 4 + 16 + 16 + 4 + 4 + 4 + 4 = 60
 struct cmonsterinfo
 {
-    uint64_t m_index;  //고유 인덱스
     uint32_t m_type;   //외형 - 타입
     sobject_status m_status; // 힘민지
     sobject_plus_status m_plus_status; //추가 힘민지

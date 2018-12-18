@@ -82,7 +82,6 @@ class cgacha_system
 
             user_servant_table.modify(user_servant_list_iter, owner, [&](auto &update_user_servant_list) {
                 cservantinfo new_servant;
-                new_servant.s_index = user_log_iter->l_servant_num + 1;
                 servant_random_count+=1;
                 new_servant.s_appear.hair = gacha_servant_hair(_seed,servant_random_count);
                 servant_random_count+=1;
@@ -164,7 +163,6 @@ class cgacha_system
             auto user_monster_list_iter = user_monster_table.find(_user);
             user_monster_table.modify(user_monster_list_iter, owner, [&](auto &update_user_monster_list) {
                 cmonsterinfo new_monster;
-                new_monster.m_index = user_log_iter->l_monster_num + 1;
                 new_monster.m_type = monster_id_db_iter.m_id;
                 new_monster.m_grade = monster_grade_db_iter.monster_grade;
                 monster_random_count+=1;
@@ -206,7 +204,6 @@ class cgacha_system
             eosio_assert(user_item_list_iter != user_item_table.end(),"not exist user item iter");
             user_item_table.modify(user_item_list_iter, owner, [&](auto &update_user_item_list) {
                 citeminfo new_item;
-                new_item.i_index = user_log_iter->l_item_num + 1;
                 new_item.i_id = item_id_db_iter.i_id;
                 new_item.i_slot = item_id_db_iter.i_slot;
                 new_item.i_tier = item_tier_db_iter.i_tier;
@@ -261,30 +258,4 @@ class cgacha_system
             item_random_count = 0;
         }
 
-#pragma region reset
-        void reset_all_user_object_data()
-        {
-            require_auth2(owner, N(owner));
-            for (auto user_servant_iter = user_servant_table.begin(); user_servant_iter != user_servant_table.end();)
-            {
-                auto iter = user_servant_table.find(user_servant_iter->primary_key());
-                user_servant_iter++;
-                user_servant_table.erase(iter);
-            }
-
-            for (auto user_monster_iter = user_monster_table.begin(); user_monster_iter != user_monster_table.end();)
-            {
-                auto iter = user_monster_table.find(user_monster_iter->primary_key());
-                user_monster_iter++;
-                user_monster_table.erase(iter);
-            }
-
-            for (auto user_item_iter = user_item_table.begin(); user_item_iter != user_item_table.end();)
-            {
-                auto iter = user_item_table.find(user_item_iter->primary_key());
-                user_item_iter++;
-                user_item_table.erase(iter);
-            }
-        }
-#pragma endregion
     };
