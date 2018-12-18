@@ -4036,8 +4036,6 @@ MonoBehaviour:
   ExitButton: {fileID: 1365274830}
   Test10GachaButton: {fileID: 1800545728}
   TestGachaNum: 0
-  Packet: {fileID: 0}
-  TestReciveText: {fileID: 1805701829}
 --- !u!95 &260262337
 Animator:
   serializedVersion: 3
