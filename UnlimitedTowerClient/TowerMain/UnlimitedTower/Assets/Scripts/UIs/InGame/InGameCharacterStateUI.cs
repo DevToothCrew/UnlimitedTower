@@ -89,9 +89,12 @@ public class InGameCharacterStateUI : MonoBehaviour
     {
         if(status != null)
         {
-            SetLevel(status.character.Level);
-            SetName(status.character.Name);
-            
+            //###
+            //SetLevel(status.character.Level);
+            //SetName(status.character.Name);
+            SetLevel(status.level);
+            SetName(status.name);
+
             SetStatusSlot(0, status.nowHp + "/" + status.maxHp);
             SetStatusSlot(1, "" + status.speed);
             SetStatusSlot(2, "" + status.avoid);

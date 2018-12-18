@@ -469,6 +469,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
         //Test Code
         if (UserDataManager.Inst.UserLoginFlag == false)
         {
+            Debug.Log("Only BattleScene Start");
             Test_CreatePlayerObjects();
             SetCharBattlePosition(playerObjects);
         }
@@ -524,21 +525,36 @@ public class BattleManager : MonoSingleton<BattleManager> {
         {
             int formationNum = UserDataManager.Inst.formationOrderList[i];
             Battle_Character_Status status;
+            int charIndex = -1;
       
             if (i < 5)
             {
-                Character character = new Character(CHAR_TYPE.SERVANT);
-                status = new Battle_Character_Status(character, formationNum, i, character.Size);
+                Servant servant = new Servant();
+                status = new Battle_Character_Status(servant, formationNum, i, servant.Size);
+                charIndex = servant.Index;
+
+                // Old Code
+                //Character character = new Character(CHAR_TYPE.SERVANT);
+                //status = new Battle_Character_Status(character, formationNum, i, character.Size);
             }
             else
             {
-                Character character = new Character(CHAR_TYPE.MONSTER);
-                status = new Battle_Character_Status(character, formationNum, i, character.Size);     
+                Monster monster = new Monster();
+                status = new Battle_Character_Status(monster, formationNum, i, monster.Size);
+                charIndex = monster.Index;
+
+                // Old Code
+                //Character character = new Character(CHAR_TYPE.MONSTER);
+                //status = new Battle_Character_Status(character, formationNum, i, character.Size);
             }
             playerStatusDic.Add(formationNum, status);
             if (playerObjects[formationNum] == null)
             {
-                playerObjects[formationNum] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.identity);
+                // Old Code
+                //playerObjects[formationNum] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.identity);
+                //playerObjects[formationNum] = Instantiate(GetCharacterObject(status.Index), new Vector3(), Quaternion.identity);
+         
+                playerObjects[formationNum] = Instantiate(GetCharacterObject(charIndex), new Vector3(), Quaternion.identity);
 
                 playerObjects[formationNum].transform.SetParent(PlayerParty.transform.transform, false);
                 if (playerObjects[formationNum].GetComponent<CharController>())
@@ -571,6 +587,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
                 continue;
             }
 
+            // i<5 : 몬스터. i>=5 servant
             if (i < 5)
             {
                 GetBattleCharStatue(out status, ref UserDataManager.Inst.servantDic, formationNum, i, charKey);
@@ -623,8 +640,9 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
     private void CreateEnemyObjects()
     {
-        Dictionary<int, Character> enemyDic = TestDB.LoadMonstersData();
-
+        //Old Code
+        //Dictionary<int, Character> enemyDic = TestDB.LoadMonstersData();
+        Dictionary<int, Monster> enemyDic = TestDB.LoadNewMonstersData();
         for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
         {
             if (enemyDic.ContainsKey(i) == false)
@@ -636,9 +654,13 @@ public class BattleManager : MonoSingleton<BattleManager> {
                 Battle_Character_Status status = new Battle_Character_Status(enemyDic[i], i, i, enemyDic[i].Size);
                 enemyStatusDic.Add(i, status);
 
+                int monsterIndex = enemyDic[i].Index;
+
                 if (!enemyObjects[i])
                 {
-                    enemyObjects[i] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.Euler(new Vector3(0, 180, 0)));
+                    //OldCode
+                    //enemyObjects[i] = Instantiate(GetCharacterObject(status.character.Index), new Vector3(), Quaternion.Euler(new Vector3(0, 180, 0)));
+                    enemyObjects[i] = Instantiate(GetCharacterObject(monsterIndex), new Vector3(), Quaternion.Euler(new Vector3(0, 180, 0)));
                     enemyObjects[i].transform.SetParent(EnemyParty.transform.transform, false);
                     if (enemyObjects[i].GetComponent<CharController>())
                     {
@@ -1066,8 +1088,14 @@ public class BattleManager : MonoSingleton<BattleManager> {
     public void RestBattle()
     {
         onBattleReset.Invoke();
-
+        Debug.Log("Debugging : Rest Battle");
         for (int i=0; i<DEFINE.PARTY_MAX_NUM; i++)
+        {
+            Destroy(playerObjects[i]);
+            Destroy(enemyObjects[i]);
+        }
+
+        for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
         {
             Destroy(playerObjects[i]);
             Destroy(enemyObjects[i]);
