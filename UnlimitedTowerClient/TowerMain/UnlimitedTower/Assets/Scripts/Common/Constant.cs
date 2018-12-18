@@ -152,6 +152,7 @@ public class DEFINE
 public class Servant
 {
     // (cmonsterinfo monsterinfo)
+    // Test Commit
     public int Exp;
     public int Level;
     public int Str;
