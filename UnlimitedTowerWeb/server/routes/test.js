@@ -5,42 +5,6 @@ var async = require('async');
 
 function Test() {}
 
-/**
- * EOS Connect Test
- * 
- * @param req
- * @param res
- */
-Test.action_start = function(req, res){
-    var func = "EOS Action Test";
-
-    var user = req.body.user;
-    var auth = req.body.auth;
-    var act = req.body.action;
-
-    config.eos.keyProvider = ['5JimHrYDeEJA2LRVEmsT8FeW8qTHrBxpQ6kc1KKKGPMX4qFQkYc'];
-
-    eos = Eos(config.eos);
-
-    const result = eos.transaction({
-        actions:[
-            {
-                account: 'doraemonydwy',
-                name: act,
-                authorization: [{
-                    actor: user,
-                    permission: auth
-                }],
-                data: {
-                    payer: user
-                }
-            }
-        ]
-    });
-    //console.log(result);
-    res.send(func);
-};
-
 Test.get_table = function(req, res){
     var func = "Get EOS Table";
     
@@ -108,21 +72,6 @@ Test.get_table = function(req, res){
             res.status(200).send(user_data);
         }
     });
-}
-
-Test.post = function(req, res){
-    var func = "Post Test";
-
-    console.log(req.body);
-
-    var result = {
-        code : 200,
-        msg : 'Test success',
-        auth : req.body.auth,
-        name : req.body.user
-    };
-
-    res.status(200).send(result);
 }
 
 Test.table_update = function(req, res){
@@ -334,14 +283,17 @@ Test.gacha = function(req, res){
                         }
                         if(old_data.servant.rows[0].servant_list.length != new_data.servant.rows[0].servant_list.length){
                             clearInterval(timer);
+                            new_data.servant.rows[0].servant_list[new_data.servant.rows[0].servant_list.length-1].result = "s";
                             callback(null, new_data.servant.rows[0].servant_list[new_data.servant.rows[0].servant_list.length-1]);
                         }
                         if(old_data.item.rows[0].item_list.length != new_data.item.rows[0].item_list.length){
                             clearInterval(timer);
+                            new_data.item.rows[0].item_list[new_data.item.rows[0].item_list.length-1].result = "i";
                             callback(null, new_data.item.rows[0].item_list[new_data.item.rows[0].item_list.length-1]);
                         }
                         if(old_data.monster.rows[0].monster_list.length != new_data.monster.rows[0].monster_list.length){
                             clearInterval(timer);
+                            new_data.monster.rows[0].monster_list[new_data.monster.rows[0].monster_list.length-1].result = "m";
                             callback(null, new_data.monster.rows[0].monster_list[new_data.monster.rows[0].monster_list.length-1]);
                         }
                         if(count >= 5){

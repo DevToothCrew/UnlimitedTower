@@ -7,9 +7,6 @@ using System.Runtime.InteropServices;
 public class GachaImage : MonoSingleton<GachaImage>
 {
 
-    [DllImport("__Internal")]
-    public static extern void Gacha();
-
     public Animator GachaImageAnimator;
 
     public Animator LightEffectCircle01Animator;
@@ -34,12 +31,12 @@ public class GachaImage : MonoSingleton<GachaImage>
     public GameObject Test10GachaButton;
 
     private bool reGachaflag = false;
+    private bool fadeOutFlag = false;
     private GACHA_TYPE gachaType;
 
-    public int TestGachaNum = 0;
-
-    public GameObject Packet;
-    public GameObject TestReciveText;
+#if UNITY_EDITOR
+    public int TestGachaNum = 1;
+#endif
 
 
 
@@ -54,23 +51,32 @@ public class GachaImage : MonoSingleton<GachaImage>
             Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1, GACHA_TYPE.Servant);
             // 가챠의 결과로 나온 캐릭터 정보를 저장한다.
             UserDataManager.Inst.SetServant(newChar);
-            UserDataManager.Inst.AddNewCharImage(newChar.Name, CHAR_TYPE.SERVANT);
+            UserDataManager.Inst.AddNewCharImage(newChar, CHAR_TYPE.SERVANT);
         }
      
     }
 
-
+    // 가챠 결과 마지막에 깜빡이는 부분
     IEnumerator FADE_OUT()
     {
-        do
+        if(fadeOutFlag == false)
         {
-            yield return null;
+            Debug.Log("Start Fade Out ");
+            do
+            {
+                yield return null;
+            }
+            while (GachaImageAnimator.GetCurrentAnimatorStateInfo(0).IsName("FadeOut") &&
+         GachaImageAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
+
+            Debug.Log("End Fade Out ");
+            GachaImageAnimator.SetBool("Play", false);
+            fadeOutFlag = true;
         }
-        while (GachaImageAnimator.GetCurrentAnimatorStateInfo(0).IsName("FadeOut") &&
-     GachaImageAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
+       
 
 
-        GachaImageAnimator.SetBool("Play", false);
+     
         yield break;
     }
 
@@ -187,10 +193,10 @@ public class GachaImage : MonoSingleton<GachaImage>
     #endregion
 
 
-    public void ReGacha()
+    public void OnClickReGacha()
     {
         reGachaflag = true ;
-
+        fadeOutFlag = false;
         GachaResultPopup.SetActive(false);
         LightEffectCircle04Animator.SetBool("Play", false);
         StartCoroutine("FADE_IN_LIGHT_EFFECT_CIRCLE04");
@@ -210,51 +216,56 @@ public class GachaImage : MonoSingleton<GachaImage>
     public void SetGachaReult(Character newChar, GACHA_TYPE gachaType)
     {
         GachaResultPopup.SetActive(true);
- 
-        CharNameText.text = newChar.Name;
-        StatusStrText.text = newChar.Str.ToString();
-        StatusDexText.text = newChar.Dex.ToString();
-        StatusIntText.text = newChar.Int.ToString();
+        Sprite sprite = null;
 
-
-        Sprite sprite;
-        if (gachaType == GACHA_TYPE.Servant)
+        if  (gachaType == GACHA_TYPE.Item)
         {
-            sprite = Resources.Load<Sprite>("UI/CharaterImage/" + newChar.Name);
+            sprite = null;
         }
         else
         {
-            sprite = Resources.Load<Sprite>("UI/MonsterImage/" + newChar.Name);
-        }      
+            CharNameText.text = newChar.Name;
+            StatusStrText.text = newChar.Str.ToString();
+            StatusDexText.text = newChar.Dex.ToString();
+            StatusIntText.text = newChar.Int.ToString();
+
+           
+            if (gachaType == GACHA_TYPE.Servant)
+            {
+                sprite = Resources.Load<Sprite>("UI/CharaterImage/" + newChar.Name);
+            }
+            else if (gachaType == GACHA_TYPE.Monster)
+            {
+                sprite = Resources.Load<Sprite>("UI/MonsterImage/" + newChar.Name);
+            }
+        }
+
+       
         charImage.GetComponent<Image>().sprite = sprite;
     }
     public void ShowGachaResult()
     {
         reGachaflag = false;
-        //Test Code
+  
+#if UNITY_EDITOR
+        //// ### 가챠 결과
         TestGachaNum++;
         if (TestGachaNum % 2 == 1) gachaType = GACHA_TYPE.Monster;
         else gachaType = GACHA_TYPE.Servant;
 
-        PacketManager.Inst.Request_Gacha(this.gachaType);
+        PacketManager.Inst.Request_GachaResult(this.gachaType);
+#else
+        // 
+#endif
+        // 가챠 결과를 보여준다
 
 
-
-        if (Packet.GetComponent<Test_PacketManager>().GetPakcet().Length <= 0)
-        {
-            TestReciveText.GetComponent<Text>().text = "0000000000000";
-            TestReciveText.SetActive(true);
-        }
-        else
-        {
-            TestReciveText.GetComponent<Text>().text = Packet.GetComponent<Test_PacketManager>()._Packet;
-            TestReciveText.SetActive(true);
-        }
     }
 
     // 가차 멈춤
     public void OnClickCheckGacha()
     {
+        fadeOutFlag = false;
         LightEffectCircle04Animator.SetBool("Play", false);
         StartCoroutine("FADE_IN_LIGHT_EFFECT_CIRCLE04");
 
@@ -271,7 +282,14 @@ public class GachaImage : MonoSingleton<GachaImage>
     // 가챠 시작
     public void OnClickExecuteGacha(int gachaType)
     {
-        //Gacha();
+        //Test : Send Gacha to Server
+        // ### 가챠 시작 패킷을 보낸다.
+
+#if UNITY_EDITOR
+
+#else
+         PacketManager.Inst.Request_ExecuteGacha();
+#endif
 
         LightEffectCircle04Animator.SetBool("Play", true);
         BlackHoleAnimator.SetBool("Play", true);
@@ -281,6 +299,7 @@ public class GachaImage : MonoSingleton<GachaImage>
         GachaButton.SetActive(false);
         ExitButton.SetActive(false);
     }
+
 }
 
 

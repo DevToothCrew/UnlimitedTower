@@ -1,14 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine;
 
 public class FormationManager : MonoSingleton<FormationManager>
 {
     public GameObject[] Decks = new GameObject[10];
     public GameObject[] DeckImages = new GameObject[10];
     public GameObject[] DeckTexts = new GameObject[10];
-    //public GameObject[] 
+
+
+    public bool BeSaved = false;
 
     // 하이어라키 뷰 오브젝트가 바뀌면
     // GetChild 접근이 에러가 날 확률이 급격히 증가한다.
@@ -26,9 +26,52 @@ public class FormationManager : MonoSingleton<FormationManager>
         }
     }
 
-    void Func()
+    public void OnClickSaveFormation()
     {
-        Decks[0].transform.GetChild(0);
-    }
+        // ### 포메이션 패킷을 보낸다.
+        Debug.Log("OnClickSaveFormation");
 
+#if UNITY_EDITOR
+
+#else
+     PacketManager.Inst.Request_SaveFormation();
+#endif
+
+        BeSaved = true;
+    }
+    public void ResetFormation()
+    {
+        for(int i=0; i<10; i++)
+        {
+            if(i != DEFINE.HERO_FORMATION_NUM)
+            {
+                if (Decks[i].GetComponent<FormationDeck>())
+                {
+                    GameObject charContent = Decks[i].GetComponent<FormationDeck>().LinkedChar;
+                   // charContent.GetComponent<CharContent>()
+
+                }
+                if (DeckImages[i].GetComponent<Image>())
+                {
+                    DeckImages[i].GetComponent<Image>().sprite = null;
+                }
+                if (DeckTexts[i].GetComponent<Text>())
+                {
+                    DeckTexts[i].SetActive(true);
+                }
+
+                // 어떠한 값을 리셋하여 해결하면 되는가???
+            }
+        }
+    }
 }
+
+// attackingOrder myIndex targetIndex actionType
+// 0~9까지는 플레이어
+// 10~19
+
+
+
+
+
+

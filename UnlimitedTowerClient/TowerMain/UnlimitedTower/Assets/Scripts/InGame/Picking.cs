@@ -7,6 +7,7 @@ public class Picking : MonoSingleton<Picking> {
  
     public GameObject SelectedObject = null;
     public GameObject QuadPrefab;
+    public GameObject QuadTargetingPrefab;
     public CharController charCtrl;
 
     private void Update()
@@ -31,8 +32,7 @@ public class Picking : MonoSingleton<Picking> {
                     //이미 선택된 객체가 있을 경우
                     if (SelectedObject != charTransform.gameObject) 
                     {
-                        //옛날에 선택했던것과 다르다면
-                       
+                        //옛날에 선택했던것과 다르다면                    
                         DeleteQuad();
                     }
                 }
@@ -44,6 +44,23 @@ public class Picking : MonoSingleton<Picking> {
                     DeleteQuad();
                 }
             }
+            if(Input.GetMouseButtonDown(0))
+            {
+              //  if (BattleManager.Inst.BattleState == BATTLE_STATE.NONE && hit.transform.CompareTag("Enemy") &&
+              //SelectedObject == true)
+              //  {
+              //      if (SelectedObject.GetComponent<CharController>().stateType != STATE_TYPE.DIE)
+              //          BattleManager.Inst.FindAttackingTarget(hit.transform.gameObject);
+              //      else
+              //      {
+              //          Debug.Log("죽은 몬스터를 공격 대상으로 지정할 수 없습니다");
+              //      }
+              //  }
+            }
+
+          
+
+
         }
         else
         {
@@ -110,6 +127,16 @@ public class Picking : MonoSingleton<Picking> {
         SelectedObject = null;
     }
 
+
+
+    public void AddSelectionTargetingQuad(ref CharController charCtrl)
+    {
+        Vector3 scale = new Vector3(0.5f, 0.5f, 0.5f);
+
+        charCtrl.QuadSelectionObject = Instantiate(QuadTargetingPrefab);
+        charCtrl.QuadSelectionObject.transform.SetParent(charCtrl.transform, false);
+        charCtrl.QuadSelectionObject.transform.position = new Vector3(charCtrl.QuadSelectionObject.transform.position.x, 0.042f, charCtrl.QuadSelectionObject.transform.position.z);
+    }
 
 
 

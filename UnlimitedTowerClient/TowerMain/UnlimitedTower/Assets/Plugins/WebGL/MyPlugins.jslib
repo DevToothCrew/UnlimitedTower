@@ -1,21 +1,43 @@
 mergeInto(LibraryManager.library, {
 
-  // Create a new function with the same name as
-  // the event listeners name and make sure the
-  // parameters match as well.
-
-  SignUp: function() {
-
-    // Within the function we're going to trigger
-    // the event within the ReactUnityWebGL object
-    // which is exposed by the library to the window.
-
+  SignUp : function() {
     ReactUnityWebGL.SignUp();
-    //console.log(score);
   },
 
   Gacha : function() {
-
     ReactUnityWebGL.Gacha();
+  },
+
+  Login : function() {
+    ReactUnityWebGL.Login();
+  },
+
+  SetFormation : function(formation) {
+    ReactUnityWebGL.SetFormation(Pointer_stringify(formation));
+  },
+
+  GetStageInfo : function(stage_num) {
+    ReactUnityWebGL.GetStageInfo(stage_num);
+  },
+
+  BattleAction : function(battleAction) {
+    ReactUnityWebGL.BattleAction(Pointer_stringify(battleAction));
+  },
+
+  StartBattle : function(stage_num, party_num) {
+    ReactUnityWebGL.StartBattle(stage_num, party_num);
+  },
+
+  GetServant : function() {
+	ReactUnityWebGL.GetServant();
+  },
+
+  GetItem : function() {
+	ReactUnityWebGL.GetItem();
+  },
+
+  GetMonster : function() {
+	ReactUnityWebGL.GetMonster();
   }
+
 });

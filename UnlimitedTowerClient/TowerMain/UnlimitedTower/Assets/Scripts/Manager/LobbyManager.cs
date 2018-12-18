@@ -36,19 +36,18 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
 
 
-
-
     public void Awake()
     {
         InitCenterPopup();
         if (!UserDataManager.Inst.UserLoginFlag)
         {
-            Debug.Log("첫 로그인 화면");
-            UserDataManager.Inst.Test_InitCharacter();
+            Debug.Log("첫 로그인 화면");        
             ChangeSceneState(SCENE_STATE.Login);
         }
         else
         {
+            FormationManager.Inst.BeSaved = false;
+            UserDataManager.Inst.oldFormationDic = UserDataManager.Inst.formationDic;
             Debug.Log("로비로 리턴");
          
             ChangeSceneState(SCENE_STATE.Lobby);
@@ -109,7 +108,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         StageInfoPopup.SetActive(false);
         SettingInfoPopup.SetActive(false);
 
-        MonsterContentList.SetActive(false);
+        //MonsterContentList.SetActive(false);
     }
 
     public void OnClickLoginButton()
@@ -122,14 +121,26 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         PacketManager.Inst.Request_CreatePlayer();
     }
 
+
     public void OnClickEnterLobbyButton()
     {
         //TODO : 임시 코드. 필요없을시 삭제.
-        PacketManager.Inst.Request_Login();
+        // ### 로그인 패킷을 보낸다.
 
+#if UNITY_EDITOR
+        UserDataManager.Inst.Test_InitCharacter();
         PacketManager.Inst.Request_GetLobbyInfo();
+        Test_PacketManager.Inst.CheckPacket("OnClickEnterLobbyButton : not recive packet");
+#else
+        PacketManager.Inst.Request_Login();
+         PacketManager.Inst.Request_GetLobbyInfo();
+        Test_PacketManager.Inst.CheckPacket("OnClickEnterLobbyButton : not recive packet");
+  
+#endif
+
     }
 
+    //###
     public void OnClickLogoutButton()
     {
         PacketManager.Inst.Request_Logout();
@@ -206,6 +217,12 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         ServantContentList.SetActive(true);
         MonsterContentList.SetActive(false);
         CharacterListScroll.GetComponent<ScrollRect>().content = ServantContentList.gameObject.GetComponent<RectTransform>();
+       
+#if UNITY_EDITOR
+     
+#else
+         PacketManager.Inst.Request_AllServant();  
+#endif
 
     }
 
@@ -214,12 +231,26 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         MonsterContentList.SetActive(true);
         ServantContentList.SetActive(false);
         CharacterListScroll.GetComponent<ScrollRect>().content = MonsterContentList.gameObject.GetComponent<RectTransform>();
+
+#if UNITY_EDITOR
+
+#else
+            PacketManager.Inst.Request_AllMonster();
+#endif
     }
 
 
 
     public void OnClickStageButton(int stageNum)
     {
+        // ### 스테이지 넘어가는 패킷을 보낸대.(전투씬으로감)
+
+        if (FormationManager.Inst.BeSaved == false)
+        {
+            UserDataManager.Inst.SetOldFormation();
+        }
+
+        Debug.Log("OnClickStageButton : " + stageNum);
         PacketManager.Inst.Request_GetStageInfo(stageNum);
     }
 

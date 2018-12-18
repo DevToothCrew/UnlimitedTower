@@ -10,20 +10,27 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public bool CreatePlayerFlag;
     public SCENE_STATE sceneState = SCENE_STATE.None;
 
+
+    public cuserauth userInfo = new cuserauth();
+    //public int hero_slot;
+
+
     public Character heroChar;
     public Dictionary<int, Character> servantDic = new Dictionary<int, Character>();
     public Dictionary<int, Character> monsterDic = new Dictionary<int, Character>();
+    //public Dictionary<int, int> itemDic = new 
 
 
 
     // 포메이션 : 캐릭터 인덱스 ->가 들어가는 딕셔너리
     public Dictionary<int, int> formationDic = new Dictionary<int, int>();
 
+    public Dictionary<int, int> oldFormationDic = new Dictionary<int, int>();
 
     // 유저의 캐릭터 키값들 담는 리스트
     public List<int> userCharsKeyList = new List<int>();
 
-    // 포메이션 임시 틀
+    // 포메이션 들어가는 순서
     public List<int> formationOrderList = new List<int>()
     {
       7, 6, 8, 5, 9, 2, 1, 3, 0, 4 
@@ -39,7 +46,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     //public GameObject StageBackGround;
     // public GameObject StageList;
 
-    public int characterIndex = 0;
+    public int servantIndex = 0;
     public int monsterIndex = 0;
 
     public void Awake()
@@ -59,25 +66,25 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             CreateHero();
             for (int i = 0; i < TestCharNum; i++)
             {
-               CreateServant();
-               CreateMonster();
+                CreateServant();
+                CreateMonster();
             }
-            //Create10NumberMonster();
+            Create10NumberMonster();
             testInitFlag = true;
+            oldFormationDic = formationDic;
         }  
     }
     void CreateServant()
     {
         Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex(), GACHA_TYPE.Servant);
         SetServant(newChar);
-        AddNewCharImage(newChar.Name, CHAR_TYPE.SERVANT);
+        AddNewCharImage(newChar, CHAR_TYPE.SERVANT);
     }
-
     void CreateMonster()
     {
         Character newChar = new Character(UserDataManager.Inst.GetMonsterIndex(), GACHA_TYPE.Monster);
         SetMonster(newChar);
-        AddNewCharImage(newChar.Name, CHAR_TYPE.MONSTER);
+        AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
     }
     void Create10NumberMonster()
     {
@@ -86,21 +93,21 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         {
             newChar = new Character(CHARACTER_NUM.Mst_Death);
             SetMonster(newChar);
-            AddNewCharImage(newChar.Name, CHAR_TYPE.MONSTER);
+            AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
         }
         
         for (int i = 3; i < 6; i++)
         {
             newChar = new Character(CHARACTER_NUM.Mst_Robot);
             SetMonster(newChar);
-            AddNewCharImage(newChar.Name, CHAR_TYPE.MONSTER);
+            AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
         }
      
         for (int i = 6; i < 10; i++)
         {
             newChar = new Character(CHARACTER_NUM.Mst_ShadowCat);
             SetMonster(newChar);
-            AddNewCharImage(newChar.Name, CHAR_TYPE.MONSTER);
+            AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
         }
 
 
@@ -117,16 +124,17 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     {
         if(formationDic.ContainsKey(DEFINE.HERO_FORMATION_NUM) == false)
         {
-            formationDic.Add(DEFINE.HERO_FORMATION_NUM, heroChar.Index);
+            // 히어로의 인덱스는 0~2
+            formationDic.Add(DEFINE.HERO_FORMATION_NUM, 0);
             string path = "UI/CharaterImage/" + heroChar.Name;
             LoadCharImage(path, DEFINE.HERO_FORMATION_NUM, null);
         }
     }
     private void LoadCharImage(string imageFath, int deckNum, GameObject original)
     {
-        GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
+        //GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
+        GameObject deck = FormationManager.Inst.Decks[deckNum];
         Sprite sprite = Resources.Load<Sprite>(imageFath);
-
 
         if (deck.GetComponent<FormationDeck>())
         {
@@ -135,15 +143,27 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
 
             FormationManager.Inst.DeckTexts[deckNum].SetActive(false);
+            if(original == null)
+            {
+                Debug.Log("히로 로딩 완료");
+            }
             //deck.GetComponent<FormationDeck>().ShowEmptyText(false);
         }
         else
         {
             Debug.Log("Do not exist FormatiionDeck Component");
-        }
-
-    
+        }    
     }
+    // 저장을 안했기 때문에 히어로 혼자 플레이한다.
+    private void ResetFormation()
+    {
+
+    }
+    public void SetOldFormation()
+    {
+        oldFormationDic = formationDic;
+    }
+
     public void SetUserLoginFlag(bool flag)
     {
         UserLoginFlag = flag;
@@ -191,7 +211,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public int GetCharacterIndex()
     {
-        return characterIndex;
+        return servantIndex;
     }
     public int GetMonsterIndex()
     {
@@ -208,15 +228,23 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     // 새로운 캐릭터를 dic에 저장한다.
     public void SetServant(Character newChar)
     {
-
-        servantDic.Add(characterIndex, newChar);
-        characterIndex += 1;
+#if UNITY_EDITOR
+        servantDic.Add(servantIndex, newChar);
+        Debug.Log("서번트 인덱스 : " + servantIndex);
+#else
+         servantDic.Add((int)newChar.UniqueIndex-1, newChar);
+#endif
+        servantIndex += 1;
     }
 
     public void SetMonster(Character newChar)
     {
-
+#if UNITY_EDITOR
         monsterDic.Add(monsterIndex, newChar);
+        Debug.Log("몬스터 인덱스 : " + monsterIndex);
+#else
+          monsterDic.Add((int)newChar.UniqueIndex - 1, newChar);
+#endif
         monsterIndex += 1;
     }
 
@@ -224,8 +252,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     {
         string path = "UI/CharaterImage/" + heroChar.Name;
         LoadCharImage(path, DEFINE.HERO_FORMATION_NUM, null);
-        LoadCharData(LobbyManager.Inst.ServantContentList, ref servantDic, CHAR_TYPE.SERVANT);
-        LoadCharData(LobbyManager.Inst.MonsterContentList, ref monsterDic, CHAR_TYPE.MONSTER);
+        LoadCharData(CharacterListManager.Inst.ServantContentList, ref servantDic, CHAR_TYPE.SERVANT);
+        LoadCharData(CharacterListManager.Inst.MonsterContentList, ref monsterDic, CHAR_TYPE.MONSTER);
     }
 
 
@@ -282,7 +310,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
 
 
-    public void AddNewCharImage(string getChar, CHAR_TYPE charType)
+    public void AddNewCharImage(Character newChar, CHAR_TYPE charType)
     {
         GameObject instance = Instantiate(Resources.Load("Prefabs/CharContent") as GameObject);
 
@@ -290,17 +318,21 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         {
             if (charType == CHAR_TYPE.SERVANT)
             {
-                instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + getChar);
-                instance.GetComponent<CharContent>().CharDicKey = characterIndex - 1;
-                instance.transform.SetParent(LobbyManager.Inst.ServantContentList.transform.transform);
+                instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + newChar.Name);
+                //instance.GetComponent<CharContent>().CharDicKey = servantIndex - 1;
+                instance.GetComponent<CharContent>().CharDicKey = (int)newChar.UniqueIndex;
+                instance.transform.SetParent(CharacterListManager.Inst.ServantContentList.transform.transform);
+                //instance.transform.SetParent(LobbyManager.Inst.ServantContentList.transform.transform);
                 instance.GetComponent<CharContent>().CharType = CHAR_TYPE.SERVANT;
             }
             else
             {
-                instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/MonsterImage/" + getChar);
-                instance.GetComponent<CharContent>().CharDicKey = monsterIndex - 1;
-                instance.transform.SetParent(LobbyManager.Inst.MonsterContentList.transform.transform);
-                instance.GetComponent<CharContent>().CharType = CHAR_TYPE.MONSTER;
+                instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/MonsterImage/" + newChar.Name);
+                //instance.GetComponent<CharContent>().CharDicKey = monsterIndex - 1;
+                instance.GetComponent<CharContent>().CharDicKey = (int)newChar.UniqueIndex;
+                instance.transform.SetParent(CharacterListManager.Inst.MonsterContentList.transform.transform); 
+                 //instance.transform.SetParent(LobbyManager.Inst.MonsterContentList.transform.transform);
+                 instance.GetComponent<CharContent>().CharType = CHAR_TYPE.MONSTER;
             }          
         } 
     }
@@ -309,9 +341,100 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     {
         Debug.Log("Remove UserInfo");
         servantDic.Clear();
-        userCharsKeyList.Clear();
-        characterIndex = 0;
+        servantIndex = 0;
+        monsterDic.Clear();
+        monsterIndex = 0;
+
+          //userInfo 
+         //   heroChar;
+
+    userCharsKeyList.Clear();
+ 
     }
+
+
+
+
+
+#region NewGetData Func
+
+
+    public void GetLogin(cuserauth _userInfo)
+    {  
+        userInfo.a_game_money = _userInfo.a_game_money;
+        userInfo.a_hero_slot = _userInfo.a_hero_slot;
+        userInfo.a_state = _userInfo.a_state;
+       // Debug.Log("list Count : " + _userInfo.a_hero_List.Count);
+        
+        //for (int i = 0; i < _userInfo.a_hero_List.Count; i++)
+        foreach(var hero in _userInfo.a_hero_list)
+        {
+            Debug.Log("save hero info");
+            //userInfo.a_hero_List.Add(_userInfo.a_hero_List[i]);
+           userInfo.a_hero_list.Add(hero);
+        }
+      
+
+
+        heroChar = new Character(userInfo.a_hero_list[0]);
+
+        Debug.Log("hero staute : " + heroChar.Str + " " + heroChar.Dex + " "
+             + heroChar.Int);
+        Debug.Log(userInfo.a_game_money);
+        Debug.Log(userInfo.a_hero_slot);
+
+        formationDic.Add(DEFINE.HERO_FORMATION_NUM, 0);
+        string path = "UI/CharaterImage/" + heroChar.Name;
+        LoadCharImage(path, DEFINE.HERO_FORMATION_NUM, null);
+    }
+    public void LoadAllServant(cservant servant_info)
+    {
+        servantDic.Clear();
+        for (int i = 0; i < servant_info.servant_list.Count; i++)
+        {  
+            AddServant(servant_info.servant_list[i]);
+        }
+    }
+    public void LoadAllMonster(cmonster monster_info)
+    {
+        monsterDic.Clear();
+        for (int i = 0; i < monster_info.monster_list.Count; i++)
+        {
+            AddMonster(monster_info.monster_list[i]);
+        }
+    }
+
+
+
+    public Character AddServant(cservantinfo servantinfo)
+    {
+        Character newChar = new Character(servantinfo);
+        SetServant(newChar);
+        // 만약 여기서 인자로 받는다도 해도
+        // 씬이 전환 됬을 때 이 값을 복구할 수 있겠는가?
+        AddNewCharImage(newChar, CHAR_TYPE.SERVANT);
+
+        return newChar;
+    }
+
+    public Character AddMonster(cmonsterinfo monsterinfo)
+    {
+        Character newChar = new Character(monsterinfo);
+        SetMonster(newChar);
+        AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
+
+        return newChar;
+    }
+    public void AddItem(cmonsterinfo monsterinfo)
+    {
+        Character newChar = new Character(monsterinfo);
+        SetServant(newChar);
+        AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
+    }
+
+
+
+#endregion
 
 
 }

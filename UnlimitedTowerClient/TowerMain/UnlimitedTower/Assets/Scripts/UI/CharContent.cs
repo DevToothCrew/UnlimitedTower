@@ -64,17 +64,15 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
             if(charDic.TryGetValue(CharDicKey, out character))
             {
                 int deckNum = character.FormationIndex;
-                GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
+                //GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
+                GameObject deck = FormationManager.Inst.Decks[deckNum];
                 RemoveCharImage();
                 deck.GetComponent<FormationDeck>().RemoveDeck();
 
                 childCheckingImage.SetActive(false);
                 charDic[CharDicKey].OnFormation = false;
             }
-        }
-
-           
-          
+        }          
     }
     private void AddDeck(ref Dictionary<int, Character> charDic, CHAR_TYPE charType)
     {
@@ -104,7 +102,8 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
             if (UserDataManager.Inst.formationDic.ContainsKey(deckNum) == false)
             {
                 // 캐릭터 넣기.
-                GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
+                //GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
+                GameObject deck = FormationManager.Inst.Decks[deckNum];
                 Sprite sprite = Resources.Load<Sprite>(imageFath + charDic[CharDicKey].Name);
 
                 // 덱에 캐릭터 오브젝트 연결

@@ -1,7 +1,11 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Runtime.InteropServices;
+using LitJson;
+[System.Serializable]
+
 
 public class PacketManager : MonoSingleton<PacketManager> {
 
@@ -24,6 +28,38 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     [DllImport("__Internal")]
     private static extern void BindWebGLTexture(int texture);
+
+    // Added by John
+    [DllImport("__Internal")]
+    private static extern void Login();
+
+    [DllImport("__Internal")]
+    public static extern void Gacha();
+
+    [DllImport("__Internal")]
+    public static extern void GetServant();
+
+    [DllImport("__Internal")]
+    public static extern void GetItem();
+
+    [DllImport("__Internal")]
+    public static extern void GetMonster();
+
+    [DllImport("__Internal")]
+    private static extern void SetFormation(string formation);
+    [DllImport("__Internal")]
+    private static extern void GetStageInfo (int stage_num);
+
+    [DllImport("__Internal")]
+    private static extern void BattleAction (string battleAction);
+
+    [DllImport("__Internal")]
+    private static extern void StartBattle (int stage_num, int party_num);
+
+    public bool receiveGacha = false;
+
+
+
 
     void Start()
     {
@@ -51,11 +87,22 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void Request_Login()
     {
         Debug.Log("Request_Login");
-
+  
+        Login();
         // Scatter 보내기
-        Response_Login();
     }
+    public void Request_AllServant()
+    {
+        Debug.Log("Request_AllServant");
+        GetServant();
 
+    }
+    public void Request_AllMonster()
+    {
+        Debug.Log("Request_Monster");
+        GetMonster();
+
+    }
     public void Request_CreatePlayer()
     {
         Debug.Log("Request_CreatePlayer");
@@ -76,15 +123,76 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
     }
 
-    public void Request_Gacha(GACHA_TYPE gachaType)
+    public void Request_Gacha()
     {
-        Debug.Log("Request_Gacha");
-        Response_Gacha(gachaType);
+        Debug.Log("Request_ExecuteGacha");
+        Gacha();
+        //Response_ExecuteGacha();
+    }
+    public void Request_GachaResult(GACHA_TYPE gachaType)
+    {
+;
+        Debug.Log("Request_GachaResult");
+        Response_GachaResult(gachaType);
+    }
+    public void Request_ExitGacha()
+    {
+        Response_ExitGacha();
     }
 
     public void Request_GetPartnerInfo()
     {
         Debug.Log("Request_GetPartnerInfo");
+    }
+
+    // 포메이션 창에서 Servant르 누를때 서번트를 로드한다.
+    public void Request_LoadServant()
+    {
+        Debug.Log("Request_LoadServant");
+        GetServant();
+    }
+    // 포메이션 창에서 Monster르 누를때  몬스터를 로드한다.
+    public void Request_LoadMonster()
+    {
+        Debug.Log("Request_LoadMonster");
+        GetMonster();
+    }
+
+    public void Request_SaveFormation()
+    {
+        Debug.Log("Request_SaveFormation");
+        JsonFomation data = new JsonFomation();
+
+
+        int formationNum = 0;
+        for (int i = 0; i < 10; i++)
+        {
+            if (UserDataManager.Inst.formationDic.ContainsKey(i) == true)
+            {
+                if (!UserDataManager.Inst.formationDic.TryGetValue(i, out formationNum))
+                {
+                    Debug.Log("Error : SendFormationInfo");
+                }
+            }
+            else
+            {
+                formationNum = 0;
+
+            }
+            data.formation.Add(formationNum);
+        }
+
+        // 이미지 클릭
+        // 7 2 -1 3 5     3, -1, 0, 2, 4
+
+
+        // 4 2 1 3 5    4 2 1 3 5
+        // 3 1 0 2 4    3 1 0 2 4
+        data.partyNum = 0;
+        string json = JsonUtility.ToJson(data);
+        Debug.Log("print Jsson : : " + json);
+
+       SetFormation(json);
     }
 
     public void Request_GetStageInfo(int stageNum)
@@ -116,6 +224,29 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("RequestEnterStage : " + stageNum);
         Response_EnterStage(stageNum);
     }
+    public void Request_BattleAction(int action_1,  int action_2, int target_1, int target_2)
+    {
+        Debug.Log("Request_BattleAction");
+
+
+        List<JsonBattleAction> actionList = new List<JsonBattleAction>();
+        actionList.Add(new JsonBattleAction(target_1, action_1));
+        actionList.Add(new JsonBattleAction(target_2, action_2));
+
+        //JsonList fList = new JsonList();
+        //fList.list.Add(target_1);
+        //fList.list.Add(action_1);
+        //fList.list.Add(target_2);
+        //fList.list.Add(action_2);
+
+
+        string json = JsonUtility.ToJson(actionList);
+
+        BattleAction(json);
+        Debug.Log("Json action : " + json);
+
+
+    }
 
     public void Request_Logout()
     {
@@ -123,19 +254,39 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Response_Logout();
     }
 
+
     #endregion
 
 
 
     #region Response
 
-    public void Response_Login()
+    public void Response_Login(string _login_info)
     {
         Debug.Log("Response_Login");
         // 스캐터 답받기
-        UserDataManager.Inst.SetUserLoginFlag(true);
+
+        Debug.Log(" login data : " + _login_info);
+        cuserauth _userInfo = JsonUtility.FromJson<cuserauth>(_login_info); 
+
+        UserDataManager.Inst.GetLogin(_userInfo);
+
         // 상태변화에 대한것은 LobbyManager에서 표현할수 있어야 한다.
+        UserDataManager.Inst.SetUserLoginFlag(true);
     }
+    public void Response_GetAllServant(string all_servant_info)
+    {
+        Debug.Log(" Response_GetAllServant : " + all_servant_info);
+        var pasingData = JsonUtility.FromJson<cservant>(all_servant_info);
+        UserDataManager.Inst.LoadAllServant(pasingData);
+    }
+    public void Response_GetAllMonster(string all_monster_info)
+    {
+        Debug.Log(" Response_GetAllMonster : " + all_monster_info);
+        var pasingData = JsonUtility.FromJson<cmonster>(all_monster_info);
+        UserDataManager.Inst.LoadAllMonster(pasingData);
+    }
+
 
     public void Response_CreatePlayer()
     {
@@ -145,6 +296,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void Response_GetLobbyInfo()
     {
+
         Debug.Log("Response_GetLobbyInfo");
         LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Lobby);
 
@@ -159,9 +311,74 @@ public class PacketManager : MonoSingleton<PacketManager> {
         UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Lobby);
     }
 
-    public void Response_Gacha(GACHA_TYPE gachaType)
+
+    public void Response_EntryGacha()
     {
-        switch(gachaType)
+        Debug.Log("Response_EntryGacha");
+    }
+    public void Response_ExecuteGacha()
+    {
+        Debug.Log("Response_ExecuteGacha");
+    }
+
+
+    //###
+    public void Response_Gacha(string gacha_info)
+    {
+
+    }
+
+    public void Response_GetServant(string servant_info)
+    {
+        if(servant_info != null)
+        {
+            Debug.Log("Responese_GetServant : " + servant_info);
+            var pasingData = JsonUtility.FromJson<cservantinfo>(servant_info);
+
+            Character newChar = UserDataManager.Inst.AddServant(pasingData);
+        
+            GachaImage.Inst.SetGachaReult(newChar, GACHA_TYPE.Servant);
+
+            receiveGacha = true;
+        }
+    }
+
+    public void Response_GetMonster(string mosnster_info)
+    {
+        if(mosnster_info !=null)
+        {
+            Debug.Log("Responese_GetMonster : " + mosnster_info);
+            var pasingData = JsonUtility.FromJson<cmonsterinfo>(mosnster_info);
+            Character newChar = UserDataManager.Inst.AddMonster(pasingData);
+
+            GachaImage.Inst.SetGachaReult(newChar, GACHA_TYPE.Monster);
+            receiveGacha = true;
+        }
+    }
+
+    public void Response_GetItem(string item_info)
+    {
+        Debug.Log("Responese_GetItem : " + item_info);
+        var pasingData = JsonUtility.FromJson<citeminfo>(item_info);
+
+        GachaImage.Inst.SetGachaReult(null, GACHA_TYPE.Item);
+        receiveGacha = true;
+        //UserDataManager.Inst.AddMonster(PasingData);
+    }
+    public void Response_GetBattle(string battle_info)
+    {
+        Debug.Log("Response_GetBattle : " + battle_info);
+        var pasingData = JsonUtility.FromJson<cbattle>(battle_info);
+       // BattleManager.Inst.SetBattle(pasingData);
+
+    }
+
+
+
+
+    public void Response_GachaResult(GACHA_TYPE gachaType)
+    {
+        switch (gachaType)
         {
             case GACHA_TYPE.Servant:
                 {
@@ -170,7 +387,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                     Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex(), gachaType);
                     // 가챠의 결과로 나온 캐릭터 정보를 저장한다.
                     UserDataManager.Inst.SetServant(newChar);
-                    UserDataManager.Inst.AddNewCharImage(newChar.Name, CHAR_TYPE.SERVANT);
+                    UserDataManager.Inst.AddNewCharImage(newChar, CHAR_TYPE.SERVANT);
                     GachaImage.Inst.SetGachaReult(newChar, gachaType);
                     //GachaInfoPopup.Inst.SetGachaResultInfoPopup(newChar);
                     break;
@@ -181,7 +398,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
                     Character newChar = new Character(UserDataManager.Inst.GetMonsterIndex(), gachaType);
                     UserDataManager.Inst.SetMonster(newChar);
-                    UserDataManager.Inst.AddNewCharImage(newChar.Name, CHAR_TYPE.MONSTER);
+                    UserDataManager.Inst.AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
                     GachaImage.Inst.SetGachaReult(newChar, gachaType);
 
                     break;
@@ -191,12 +408,20 @@ public class PacketManager : MonoSingleton<PacketManager> {
                     Debug.Log("Response_ItemGacha");
                     break;
                 }
-        }     
+        }
+    }
+    public void Response_ExitGacha()
+    {
+        Debug.Log("Response_ExitGacha");
     }
 
     public void Response_GetPartnerInfo()
     {
         Debug.Log("Response_GetPartnerInfo");
+    }
+    public void Response_SaveFormation()
+    {
+        Debug.Log("Response_SaveFormation");
     }
 
     public void Response_GetStageInfo(int stageNum)
