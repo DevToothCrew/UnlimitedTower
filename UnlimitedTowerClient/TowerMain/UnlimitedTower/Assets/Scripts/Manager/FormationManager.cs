@@ -29,13 +29,14 @@ public class FormationManager : MonoSingleton<FormationManager>
     public void OnClickSaveFormation()
     {
         // ### 포메이션 패킷을 보낸다.
-
         Debug.Log("OnClickSaveFormation");
 
-        //UserInfo.Inst.getAddServant("dd");
+#if UNITY_EDITOR
 
+#else
+     PacketManager.Inst.Request_SaveFormation();
+#endif
 
-        PacketManager.Inst.Request_SaveFormation();
         BeSaved = true;
     }
     public void ResetFormation()

@@ -87,20 +87,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void Request_Login()
     {
         Debug.Log("Request_Login");
-        //cuserauth userath = new cuserauth();
-        //userath.a_hero_List.Add(new shero_info());
-        //userath.a_hero_List.Add(new shero_info());
-
-        //string json = JsonUtility.ToJson(userath);
-        //Debug.Log("json : " + json);
-        //cuserauth test = JsonUtility.FromJson<cuserauth>(json);
-        //UserDataManager.Inst.GetLogin(test);
-
-
-
+  
         Login();
         // Scatter 보내기
-        //Response_Login();
     }
     public void Request_AllServant()
     {
@@ -134,13 +123,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
     }
 
-
-    public void Request_EntryGacha()
-    {
-        Debug.Log("Request_EntryGacha");
-        Response_EntryGacha();
-    }
-    public void Request_ExecuteGacha()
+    public void Request_Gacha()
     {
         Debug.Log("Request_ExecuteGacha");
         Gacha();
@@ -340,18 +323,26 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
 
     //###
+    public void Response_Gacha(string gacha_info)
+    {
+
+    }
+
     public void Response_GetServant(string servant_info)
     {
         if(servant_info != null)
         {
             Debug.Log("Responese_GetServant : " + servant_info);
             var pasingData = JsonUtility.FromJson<cservantinfo>(servant_info);
+
             Character newChar = UserDataManager.Inst.AddServant(pasingData);
         
             GachaImage.Inst.SetGachaReult(newChar, GACHA_TYPE.Servant);
+
             receiveGacha = true;
         }
     }
+
     public void Response_GetMonster(string mosnster_info)
     {
         if(mosnster_info !=null)
@@ -364,6 +355,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             receiveGacha = true;
         }
     }
+
     public void Response_GetItem(string item_info)
     {
         Debug.Log("Responese_GetItem : " + item_info);

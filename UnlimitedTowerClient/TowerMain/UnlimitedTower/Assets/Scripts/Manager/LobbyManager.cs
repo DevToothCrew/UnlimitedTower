@@ -231,7 +231,12 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         MonsterContentList.SetActive(true);
         ServantContentList.SetActive(false);
         CharacterListScroll.GetComponent<ScrollRect>().content = MonsterContentList.gameObject.GetComponent<RectTransform>();
-        PacketManager.Inst.Request_AllMonster();
+
+#if UNITY_EDITOR
+
+#else
+            PacketManager.Inst.Request_AllMonster();
+#endif
     }
 
 
