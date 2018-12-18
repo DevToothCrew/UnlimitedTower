@@ -2,139 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using LitJson;
-//---------------------------------------------------------------------------------------//
-//---------------------------------------------------------------------------------------//
-//---------------------------------------------------------------------------------------//
-//---------------------------------------------------------------------------------------//
 
-[System.Serializable]
-public class sobject_appear
-{
-    public int head;
-    public int hair;
-    public int body;
-};
-// 4 + 4 + 4 + 1 = 13
-[System.Serializable]
-public class sobject_status
-{
-    public int basic_str;
-    public int basic_dex;
-    public int basic_int;
-    public int job;
-};
-// 4 + 4 + 4 + 4 = 16
-[System.Serializable]
-public class sobject_plus_status
-{
-    public int plus_str;
-    public int plus_dex;
-    public int plus_int;
-    public int stat_point;
-};
-
-// 4 + 3 + 16 + 16 + 12 = 51
-[System.Serializable]
-public class shero_info
-{
-    public int h_state;
-    public sobject_appear h_appear = new sobject_appear();
-    public sobject_status h_status = new sobject_status();
-    public sobject_plus_status h_plus_status = new sobject_plus_status();
-    public List<int> h_equip_slot = new List<int>();
-};
-
-[System.Serializable]
-public class cuserauth
-{
-    public string a_user;
-   // public List<shero_info> a_hero_List = new List<shero_info>();
-    public List<shero_info> a_hero_list = new List<shero_info>();
-    public int a_game_money;
-    public int a_state;
-    public int a_hero_slot;
-}
-//---------------------------------------------------------------------------------------//
-//---------------------------------------------------------------------------------------//
-//---------------------------------------------------------------------------------------//
-//---------------------------------------------------------------------------------------//
-[System.Serializable]
-public class cservantinfo
-{
-    public sobject_appear s_appear = new sobject_appear();    //서번트 외형 정보
-    public sobject_status s_status = new sobject_status();    //서번트 힘 민 지 직업<- 리소스0~4
-    public sobject_plus_status s_plus_status = new sobject_plus_status();  //서번트 추가힘민지
-    public List<int> s_equip_slot = new List<int>(); //서번트 장비 리스트
-    public int s_exp; //서번트 경험치
-    public int s_state; //서번트 상태
-    public cservantinfo()
-    {
-        s_status.basic_str = 10;
-        s_status.basic_int = 10;
-        s_status.basic_dex = 10;
-    }
-};
-
-[System.Serializable]
-public class cservant
-{
-    public ulong s_user;
-    public List<cservantinfo> servant_list = new List<cservantinfo>();
-};
-//---------------------------------------------------------------------------------------//
-//---------------------------------------------------------------------------------------//
-//---------------------------------------------------------------------------------------//
-//---------------------------------------------------------------------------------------//
-[System.Serializable]
-public class cmonsterinfo
-{
-    public int m_type;   //외형 - 타입 - 0~29
-    public sobject_status m_status = new sobject_status(); // 힘민지
-    public sobject_plus_status m_plus_status = new sobject_plus_status(); //추가 힘민지
-    public int m_exp; //경험치
-    public int m_grade; // 등급
-    public int m_reinforce; //강화수치
-    public int m_state;
-
-    public cmonsterinfo()
-    {
-        m_status.basic_str = 10;
-        m_status.basic_int = 10;
-        m_status.basic_dex = 10;
-    }
-};
-[System.Serializable]
-public class cmonster
-{
-    public ulong m_user;
-    public List<cmonsterinfo> monster_list = new List<cmonsterinfo>();
-};
-//---------------------------------------------------------------------------------------//
-//---------------------------------------------------------------------------------------//
-//---------------------------------------------------------------------------------------//
-//---------------------------------------------------------------------------------------//
-[System.Serializable]
-public class citeminfo
-{
-    public int i_id; //아이템 고유 아이디 <-리소스 0~
-    public int i_type;  //종류
-    public int i_slot;  //장착 타입
-    public int i_tier;  //티어
-    public sobject_status i_status = new sobject_status(); //힘민지 직업
-    public int i_state;
-    public int i_grade; //아이템 등급
-    public int i_reinforce; //아이템 강화 수치
-};
-[System.Serializable]
-public class citem
-{
-    public ulong i_user;
-    public List<citeminfo> item_list = new List<citeminfo>();
-};
-//---------------------------------------------------------------------------------------//
-//---------------------------------------------------------------------------------------//
-//---------------------------------------------------------------------------------------//
-//---------------------------------------------------------------------------------------//
 [System.Serializable]
 public class asset
 {
@@ -168,7 +36,7 @@ public class cuserlog
 [System.Serializable]
 public class sparty_info
 {
-    List<ulong> party_id_list = new List<ulong>();
+    //List<ulong> party_id_list = new List<ulong>();
 };
 [System.Serializable]
 public class cparty
@@ -242,206 +110,206 @@ public class cstagedata
 
 };
 
-// UserInfomation
-public class UserInfo : MonoSingleton<UserInfo>
-{
-    // public string Packet;
+//// UserInfomation
+//public class UserInfo : MonoSingleton<UserInfo>
+//{
+//    // public string Packet;
 
-    public cstagedata current_stage_info = new cstagedata();
+//    public cstagedata current_stage_info = new cstagedata();
 
-    public cuserauth user_auth = new cuserauth();
-    public cservant user_servant = new cservant();
-    public cmonster user_monster = new cmonster();
-    public citem user_item = new citem();
-    public cbattle user_battle = new cbattle();
-    public cparty user_party = new cparty();
+//    public cuserauth user_auth = new cuserauth();
+//    public cservant user_servant = new cservant();
+//    public cmonster user_monster = new cmonster();
+//    public citem user_item = new citem();
+//    public cbattle user_battle = new cbattle();
+//    public cparty user_party = new cparty();
 
-    public cservantinfo gacha_result_servant = new cservantinfo();
-    public cmonsterinfo gacha_result_monster =  new cmonsterinfo();
-    public citeminfo gacha_result_item =  new citeminfo();
+//    public cservantinfo gacha_result_servant = new cservantinfo();
+//    public cmonsterinfo gacha_result_monster =  new cmonsterinfo();
+//    public citeminfo gacha_result_item =  new citeminfo();
 
 
-    public void getLogin(string _login_info)
-    {
-        var user_auth_info = JsonUtility.FromJson<cuserauth>(_login_info);
+//    public void getLogin(string _login_info)
+//    {
+//        var user_auth_info = JsonUtility.FromJson<cuserauth>(_login_info);
 
-        user_auth.a_game_money = user_auth_info.a_game_money;
-        user_auth.a_hero_slot = user_auth_info.a_hero_slot;
-        user_auth.a_state = user_auth_info.a_state;
-        foreach (var v in user_auth_info.a_hero_list)
-        {
-            user_auth.a_hero_list.Add(v);
-        }
+//        user_auth.a_game_money = user_auth_info.a_game_money;
+//        user_auth.a_hero_slot = user_auth_info.a_hero_slot;
+//        user_auth.a_state = user_auth_info.a_state;
+//        foreach (var v in user_auth_info.a_hero_list)
+//        {
+//            user_auth.a_hero_list.Add(v);
+//        }
 
-        Debug.Log(user_auth_info.a_game_money);
-        Debug.Log(user_auth_info.a_hero_slot);
-        foreach (var v in user_auth_info.a_hero_list)
-        {
-            Debug.Log(v);
-        }
-    }
+//        Debug.Log(user_auth_info.a_game_money);
+//        Debug.Log(user_auth_info.a_hero_slot);
+//        foreach (var v in user_auth_info.a_hero_list)
+//        {
+//            Debug.Log(v);
+//        }
+//    }
 
-    public void getAllServant(string _all_servant_info)
-    {
-        var user_all_servant_info = JsonUtility.FromJson<cservant>(_all_servant_info);
-        foreach (var servant in user_all_servant_info.servant_list)
-        {
-            user_servant.servant_list.Add(servant);
-            Debug.Log(servant.s_status.basic_str);
-            Debug.Log(servant.s_status.basic_dex);
-            Debug.Log(servant.s_status.basic_int);
-            Debug.Log(servant.s_appear.hair);
-            Debug.Log(servant.s_appear.head);
-            Debug.Log(servant.s_appear.body);
-        }
+//    public void getAllServant(string _all_servant_info)
+//    {
+//        var user_all_servant_info = JsonUtility.FromJson<cservant>(_all_servant_info);
+//        foreach (var servant in user_all_servant_info.servant_list)
+//        {
+//            user_servant.servant_list.Add(servant);
+//            Debug.Log(servant.s_status.basic_str);
+//            Debug.Log(servant.s_status.basic_dex);
+//            Debug.Log(servant.s_status.basic_int);
+//            Debug.Log(servant.s_appear.hair);
+//            Debug.Log(servant.s_appear.head);
+//            Debug.Log(servant.s_appear.body);
+//        }
 
-    }
+//    }
 
-    public void getAddServant(string _servant_info)
-    {
-        Debug.Log("Packet Servant : " + _servant_info);
+//    public void getAddServant(string _servant_info)
+//    {
+//        Debug.Log("Packet Servant : " + _servant_info);
 
         
-        var add_servant_info = JsonUtility.FromJson<cservantinfo>(_servant_info);
-        user_servant.servant_list.Add(add_servant_info);
-        gacha_result_servant = add_servant_info;
-        foreach (var servant  in   user_servant.servant_list)
-        {
-            Debug.Log(servant.s_status.basic_str);
-            Debug.Log(servant.s_status.basic_dex);
-            Debug.Log(servant.s_status.basic_int);
-            Debug.Log(servant.s_appear.hair);
-            Debug.Log(servant.s_appear.head);
-            Debug.Log(servant.s_appear.body);
-        }
+//        var add_servant_info = JsonUtility.FromJson<cservantinfo>(_servant_info);
+//        user_servant.servant_list.Add(add_servant_info);
+//        gacha_result_servant = add_servant_info;
+//        foreach (var servant  in   user_servant.servant_list)
+//        {
+//            Debug.Log(servant.s_status.basic_str);
+//            Debug.Log(servant.s_status.basic_dex);
+//            Debug.Log(servant.s_status.basic_int);
+//            Debug.Log(servant.s_appear.hair);
+//            Debug.Log(servant.s_appear.head);
+//            Debug.Log(servant.s_appear.body);
+//        }
 
-        Debug.Log(add_servant_info.s_status.basic_str);
-        Debug.Log(add_servant_info.s_status.basic_dex);
-        Debug.Log(add_servant_info.s_status.basic_int);
-        Debug.Log(add_servant_info.s_appear.hair);
-        Debug.Log(add_servant_info.s_appear.head);
-        Debug.Log(add_servant_info.s_appear.body);
+//        Debug.Log(add_servant_info.s_status.basic_str);
+//        Debug.Log(add_servant_info.s_status.basic_dex);
+//        Debug.Log(add_servant_info.s_status.basic_int);
+//        Debug.Log(add_servant_info.s_appear.hair);
+//        Debug.Log(add_servant_info.s_appear.head);
+//        Debug.Log(add_servant_info.s_appear.body);
 
 
       
-    }
+//    }
 
-    public void getAllMonster(string _all_monster_info)
-    {
-        var user_all_monster_info = JsonUtility.FromJson<cmonster>(_all_monster_info);
-        foreach (var monster in user_all_monster_info.monster_list)
-        {
-            user_monster.monster_list.Add(monster);
-            Debug.Log(monster.m_status.basic_str);
-            Debug.Log(monster.m_status.basic_dex);
-            Debug.Log(monster.m_status.basic_int);
-        }
-    }
+//    public void getAllMonster(string _all_monster_info)
+//    {
+//        var user_all_monster_info = JsonUtility.FromJson<cmonster>(_all_monster_info);
+//        foreach (var monster in user_all_monster_info.monster_list)
+//        {
+//            user_monster.monster_list.Add(monster);
+//            Debug.Log(monster.m_status.basic_str);
+//            Debug.Log(monster.m_status.basic_dex);
+//            Debug.Log(monster.m_status.basic_int);
+//        }
+//    }
 
-    public void getAddMonster(string _monster_info)
-    {
-        Debug.Log("Packet Monster : " + _monster_info);
+//    public void getAddMonster(string _monster_info)
+//    {
+//        Debug.Log("Packet Monster : " + _monster_info);
 
-        var add_monster_info = JsonUtility.FromJson<cmonsterinfo>(_monster_info);
-        user_monster.monster_list.Add(add_monster_info);
-        gacha_result_monster = add_monster_info;
-        foreach (var monster in user_monster.monster_list)
-        {
-            Debug.Log(monster.m_status.basic_str);
-            Debug.Log(monster.m_status.basic_dex);
-            Debug.Log(monster.m_status.basic_int);
-        }
+//        var add_monster_info = JsonUtility.FromJson<cmonsterinfo>(_monster_info);
+//        user_monster.monster_list.Add(add_monster_info);
+//        gacha_result_monster = add_monster_info;
+//        foreach (var monster in user_monster.monster_list)
+//        {
+//            Debug.Log(monster.m_status.basic_str);
+//            Debug.Log(monster.m_status.basic_dex);
+//            Debug.Log(monster.m_status.basic_int);
+//        }
 
-        Debug.Log(add_monster_info.m_status.basic_str);
-        Debug.Log(add_monster_info.m_status.basic_dex);
-        Debug.Log(add_monster_info.m_status.basic_int);
-    }
+//        Debug.Log(add_monster_info.m_status.basic_str);
+//        Debug.Log(add_monster_info.m_status.basic_dex);
+//        Debug.Log(add_monster_info.m_status.basic_int);
+//    }
 
-    public void getAllItem(string _all_item_info)
-    {
-        var user_all_item_info = JsonUtility.FromJson<citem>(_all_item_info);
-        foreach (var item in user_all_item_info.item_list)
-        {
-            user_item.item_list.Add(item);
-            Debug.Log(item.i_status.basic_str);
-            Debug.Log(item.i_status.basic_dex);
-            Debug.Log(item.i_status.basic_int);
-        }
-    }
+//    public void getAllItem(string _all_item_info)
+//    {
+//        var user_all_item_info = JsonUtility.FromJson<citem>(_all_item_info);
+//        foreach (var item in user_all_item_info.item_list)
+//        {
+//            user_item.item_list.Add(item);
+//            Debug.Log(item.i_status.basic_str);
+//            Debug.Log(item.i_status.basic_dex);
+//            Debug.Log(item.i_status.basic_int);
+//        }
+//    }
 
-    public void getAddItem(string _item_info)
-    {
-        Debug.Log("Packet Item : " + _item_info);
+//    public void getAddItem(string _item_info)
+//    {
+//        Debug.Log("Packet Item : " + _item_info);
 
-        var add_item_info = JsonUtility.FromJson<citeminfo>(_item_info);
-        user_item.item_list.Add(add_item_info);
-        gacha_result_item = add_item_info;
-        //gacharesultcs.
-        foreach (var item in user_item.item_list)
-        {
-            Debug.Log(item.i_status.basic_str);
-            Debug.Log(item.i_status.basic_dex);
-            Debug.Log(item.i_status.basic_int);
-        }
-        Debug.Log(add_item_info.i_status.basic_str);
-        Debug.Log(add_item_info.i_status.basic_dex);
-        Debug.Log(add_item_info.i_status.basic_int);
-    }
+//        var add_item_info = JsonUtility.FromJson<citeminfo>(_item_info);
+//        user_item.item_list.Add(add_item_info);
+//        gacha_result_item = add_item_info;
+//        //gacharesultcs.
+//        foreach (var item in user_item.item_list)
+//        {
+//            Debug.Log(item.i_status.basic_str);
+//            Debug.Log(item.i_status.basic_dex);
+//            Debug.Log(item.i_status.basic_int);
+//        }
+//        Debug.Log(add_item_info.i_status.basic_str);
+//        Debug.Log(add_item_info.i_status.basic_dex);
+//        Debug.Log(add_item_info.i_status.basic_int);
+//    }
 
 
 
-    public void getBattle(string _battle_info)
-    {
-        var user_battle_info = JsonUtility.FromJson<cbattle>(_battle_info);
-        // 0되면 끝나는 턴 카운트
-        user_battle.b_turn_count = user_battle_info.b_turn_count;
-        user_battle.b_party_number = user_battle_info.b_party_number;
-        user_battle.b_preference = user_battle_info.b_preference;
-        user_battle.b_stage_number = user_battle_info.b_stage_number;
-        foreach(var reward in user_battle_info.b_reward_list)
-        {
-            user_battle.b_reward_list.Add(reward);
-        }
+//    public void getBattle(string _battle_info)
+//    {
+//        var user_battle_info = JsonUtility.FromJson<cbattle>(_battle_info);
+//        // 0되면 끝나는 턴 카운트
+//        user_battle.b_turn_count = user_battle_info.b_turn_count;
+//        user_battle.b_party_number = user_battle_info.b_party_number;
+//        user_battle.b_preference = user_battle_info.b_preference;
+//        user_battle.b_stage_number = user_battle_info.b_stage_number;
+//        foreach(var reward in user_battle_info.b_reward_list)
+//        {
+//            user_battle.b_reward_list.Add(reward);
+//        }
 
-        foreach (var battle_state in user_battle_info.b_battle_state_list)
-        {
-            user_battle.b_battle_state_list.Add(battle_state);
-        }
+//        foreach (var battle_state in user_battle_info.b_battle_state_list)
+//        {
+//            user_battle.b_battle_state_list.Add(battle_state);
+//        }
 
-        foreach (var attack_order in user_battle_info.attack_order_list)
-        {
-            user_battle.attack_order_list.Add(attack_order);
-        }
-    }
+//        foreach (var attack_order in user_battle_info.attack_order_list)
+//        {
+//            user_battle.attack_order_list.Add(attack_order);
+//        }
+//    }
 
-    public void getParty(string _party_info)
-    {
-        var user_party_info = JsonUtility.FromJson<cparty>(_party_info);
-        foreach (var my_party in user_party_info.party_list)
-        {
-            user_party_info.party_list.Add(my_party);
-            for (int i = 0; i < 10; ++i)
-            {
-                Debug.Log(my_party);
-            }
-        }
-    }
+//    public void getParty(string _party_info)
+//    {
+//        var user_party_info = JsonUtility.FromJson<cparty>(_party_info);
+//        foreach (var my_party in user_party_info.party_list)
+//        {
+//            user_party_info.party_list.Add(my_party);
+//            for (int i = 0; i < 10; ++i)
+//            {
+//                Debug.Log(my_party);
+//            }
+//        }
+//    }
 
-    public void getStage(string _stage_info)
-    {
-        var stage_info = JsonUtility.FromJson<cstagedata>(_stage_info);
-        current_stage_info.stage = stage_info.stage;
-        foreach (var enemy in stage_info.enemy_list)
-        {
-            current_stage_info.enemy_list.Add(enemy);
-            Debug.Log(enemy.type_index);
-            Debug.Log(enemy.base_str);
-            Debug.Log(enemy.base_dex);
-            Debug.Log(enemy.base_int);
-        }
-    }
-}
+//    public void getStage(string _stage_info)
+//    {
+//        var stage_info = JsonUtility.FromJson<cstagedata>(_stage_info);
+//        current_stage_info.stage = stage_info.stage;
+//        foreach (var enemy in stage_info.enemy_list)
+//        {
+//            current_stage_info.enemy_list.Add(enemy);
+//            Debug.Log(enemy.type_index);
+//            Debug.Log(enemy.base_str);
+//            Debug.Log(enemy.base_dex);
+//            Debug.Log(enemy.base_int);
+//        }
+//    }
+//}
 
-// Gacha
+//// Gacha
 
 

@@ -131,7 +131,7 @@ public class Picking : MonoSingleton<Picking> {
 
     public void AddSelectionTargetingQuad(ref CharController charCtrl)
     {
-        Vector3 scale = new Vector3(0.5f, 0.5f, 0.5f);
+        //Vector3 scale = new Vector3(0.5f, 0.5f, 0.5f);
 
         charCtrl.QuadSelectionObject = Instantiate(QuadTargetingPrefab);
         charCtrl.QuadSelectionObject.transform.SetParent(charCtrl.transform, false);

@@ -530,8 +530,8 @@ public class BattleManager : MonoSingleton<BattleManager> {
             if (i < 5)
             {
                 Servant servant = new Servant();
-                status = new Battle_Character_Status(servant, formationNum, i, servant.Size);
-                charIndex = servant.Index;
+                status = new Battle_Character_Status(servant, formationNum, i, servant.size);
+                charIndex = servant.appear;
 
                 // Old Code
                 //Character character = new Character(CHAR_TYPE.SERVANT);
@@ -540,8 +540,8 @@ public class BattleManager : MonoSingleton<BattleManager> {
             else
             {
                 Monster monster = new Monster();
-                status = new Battle_Character_Status(monster, formationNum, i, monster.Size);
-                charIndex = monster.Index;
+                status = new Battle_Character_Status(monster, formationNum, i, monster.size);
+                charIndex = monster.index;
 
                 // Old Code
                 //Character character = new Character(CHAR_TYPE.MONSTER);
@@ -651,10 +651,10 @@ public class BattleManager : MonoSingleton<BattleManager> {
             }
             else
             {
-                Battle_Character_Status status = new Battle_Character_Status(enemyDic[i], i, i, enemyDic[i].Size);
+                Battle_Character_Status status = new Battle_Character_Status(enemyDic[i], i, i, enemyDic[i].size);
                 enemyStatusDic.Add(i, status);
 
-                int monsterIndex = enemyDic[i].Index;
+                int monsterIndex = enemyDic[i].index;
 
                 if (!enemyObjects[i])
                 {

@@ -144,7 +144,7 @@ public class DEFINE
         }
         return charSize;
     }
-
+    
     #region stauts Calcuate
     public static int GetMaxHp(int Str)
     {
@@ -177,179 +177,134 @@ public class DEFINE
     {
         return Dex * DEFINE.SPEED_MULTI_posOffset;
     }
+
+    public static int GetLevelForExp(int exp)
+    {
+        // TODO : 추후 Servant Exp에 따른 Level 공식을 추가해 레벨 적용 필요
+        return 1;
+    }
     #endregion
 }
 
+public class Status
+{
+    public int basicStr;
+    public int basicDex;
+    public int basicInt;
 
+    public int plusStr;
+    public int plusDex;
+    public int plusInt;
+}
 
 // 서번트 클래스에 히로도 포함된다.
 // TODO  : New Code
 public class Servant
 {
-    public int Exp;
-    public int Level;
-    public int Str;
-    public int Dex;
-    public int Int;
-    public int Job;
-    public SIZE_TYPE Size;
-    public string Name;
+    // 캐릭터를 구분하는 고유값이 되어야함
+    public int index;
 
-    //리소스)구분하는 값
-    public int Index;
-    // 캐릭터 구분하는 고유값
-    public long UniqueIndex;
-    public int Appear;
-    public bool OnFormation = false;
-    public int FormationIndex = -1;
+    // TODO : Servant별 State 추가 필요
+    public int state;
+    public int exp;
+    public int level;
+    public int job;
+
+    // 현재는 appear를 통해 간단히 사용하고 추후 appearInfo와 job을 통해 캐릭터 생성이 되어야함
+    public int appear;
+
+    public int head;
+    public int hair;
+    public int body;
+
+    public Status status;
+    public int statPoint;
+
+    public SIZE_TYPE size;
+    public string name;
+
+    public bool onFormation = false;
+    public int formationIndex = -1;
 
     // 장착한 장비 리스트
-    public List<int> EquipmentList = new List<int>();
+    public List<int> equipmentList = new List<int>();
 
-    //TODO : TestCode
     public Servant()
     {
-        Exp = 0;
+        state = 0;
+        exp = 0;
+        level = 1;
 
-        Str = DEFINE.TEST_STATUS_VALUE;
-        Dex = DEFINE.TEST_STATUS_VALUE;
-        Int = DEFINE.TEST_STATUS_VALUE;
+        status = new Status();
+        status.basicStr = DEFINE.TEST_STATUS_VALUE;
+        status.basicDex = DEFINE.TEST_STATUS_VALUE;
+        status.basicInt = DEFINE.TEST_STATUS_VALUE;
 
-        Level = 1;
+        // TODO : 추후 수정 필요 임시 코드
         CHARACTER_NUM charNum = CHARACTER_NUM.Hero_Novice_1001;
-
         // 리소스 인덱스
-        Index = (int)charNum;
-
-        Size = DEFINE.GetCharacterSize(charNum);
-        Name = charNum.ToString();
-    }
-    public Servant(cservantinfo servantinfo)
-    {
-        // 저장하지 않은 데이터
-        // 외모, 
-        // 장비 리스트. 
-        // 상태, 
-        // 추가 스텟
-        // 서번트 -105
-        // 몬스터 - 201
-
-        Exp = servantinfo.s_exp;
-
-        Str = servantinfo.s_status.basic_str;
-        Dex = servantinfo.s_status.basic_dex;
-        Int = servantinfo.s_status.basic_int;
-
-        // 파티에 들어가는 고유 유니크값.
-        //servantinfo.s_index;
-
-        Level = 1;
-        CHARACTER_NUM charNum = (CHARACTER_NUM)(servantinfo.s_status.job + (int)CHARACTER_NUM.Hero_Novice_1001);
-
-        // 리소스 인덱스
-        Index = (int)charNum;
-
-
-        Size = DEFINE.GetCharacterSize(charNum);
-        Name = charNum.ToString();
+        appear = (int)charNum;
+        size = DEFINE.GetCharacterSize(charNum);
+        name = charNum.ToString();
     }
 }
+
+public class UserInfo
+{
+    public string userName;
+    public int userMoney;
+    public int userEOS;
+    public Servant userHero = new Servant();
+}
+
 public class Monster
 {
-    public int Exp;
-    public int Level;
-    public int Str;
-    public int Dex;
-    public int Int;
-    public int Job;
-    public SIZE_TYPE Size;
-    public string Name;
+    // 캐릭터를 구분하는 고유값이 되어야함
+    public int index;
 
-    //리소스)구분하는 값
-    public int Index;
-    // 캐릭터 구분하는 고유값
-    public long UniqueIndex;
-    public int Appear;
-    public bool OnFormation = false;
-    public int FormationIndex = -1;
+
+    // TODO : Monster별 State 추가 필요
+    public int state;
+    public int exp;
+    public int level;
+    public int type;
+    public int grade;
+    public int upgrade;
+
+    // TODO : Type과 Appear를 통해 외형 결정
+    public int appear;
+    public Status status;
+
+    public SIZE_TYPE size;
+    public string name;
+
+    public bool onFormation = false;
+    public int formationIndex = -1;
 
 
     //TODO : TestCode
     public Monster()
     {
-        Exp = 0;
+        exp = 0;
+        level = 1;
 
-        Str = 10;
-        Dex = 10;
-        Int = 10;
+        status = new Status();
+        status.basicStr = DEFINE.TEST_STATUS_VALUE;
+        status.basicDex = DEFINE.TEST_STATUS_VALUE;
+        status.basicInt = DEFINE.TEST_STATUS_VALUE;
 
-        // 파티에 들어가는 고유 유니크값.
-        //servantinfo.s_index;
-
-        Level = 1;
         // job값으로 현재는 서번트 구분 추후에 합의하여 수정해야할듯.
         CHARACTER_NUM charNum = CHARACTER_NUM.Mst_BirdMan;
 
         // 리소스 인덱스
-        Index = (int)charNum;
+        index = (int)charNum;
         //UniqueIndex = servantinfo.s_index - 1;
 
-        Size = DEFINE.GetCharacterSize(charNum);
-
-
-
-        Name = charNum.ToString();
-    }
-    public Monster(CHARACTER_NUM charNum)
-    {
-        Exp = 0;
-
-        Str = DEFINE.TEST_STATUS_VALUE;
-        Dex = DEFINE.TEST_STATUS_VALUE;
-        Int = DEFINE.TEST_STATUS_VALUE;
-
-
-        Level = 1;
-
-        // 리소스 인덱스
-        Index = (int)charNum;
-        Size = DEFINE.GetCharacterSize(charNum);
-        Name = charNum.ToString();
-    }
-    public Monster(cservantinfo servantinfo)
-    {
-        // 저장하지 않은 데이터
-        // 외모, 
-        // 장비 리스트. 
-        // 상태, 
-        // 추가 스텟
-        // 서번트 -105
-        // 몬스터 - 201
-
-        Exp = servantinfo.s_exp;
-
-        Str = servantinfo.s_status.basic_str;
-        Dex = servantinfo.s_status.basic_dex;
-        Int = servantinfo.s_status.basic_int;
-
-        // 파티에 들어가는 고유 유니크값.
-        //servantinfo.s_index;
-
-        Level = 1;
-        // job값으로 현재는 서번트 구분 추후에 합의하여 수정해야할듯.
-        CHARACTER_NUM charNum = (CHARACTER_NUM)(servantinfo.s_status.job + (int)CHARACTER_NUM.Hero_Novice_1001);
-
-        // 리소스 인덱스
-        Index = (int)charNum;
-        //UniqueIndex = servantinfo.s_index - 1;
-
-        Size = DEFINE.GetCharacterSize(charNum);
-
-
-
-        Name = charNum.ToString();
+        size = DEFINE.GetCharacterSize(charNum);
+        name = charNum.ToString();
     }
 }
+
 public class Item
 {
     public string Name;
@@ -374,10 +329,6 @@ public class Item
     }
 
 }
-
-
-
-
 
 
 
@@ -509,89 +460,7 @@ public class Character
         Appear = Random.Range(0, 9999);
     }
 
-
-
-
-    public Character(shero_info heroInfo)
-    {
-        // 저장하지 않은 데이터
-        // 등급, 강화수치, 추가 힘민지
-
-    
-
-        Str = heroInfo.h_status.basic_str;
-        Dex = heroInfo.h_status.basic_dex;
-        Int = heroInfo.h_status.basic_int;
-
-        Level = 1;
-        // job값으로 현재는 서번트 구분 추후에 합의하여 수정해야할듯.
-        // CHARACTER_NUM charNum = (CHARACTER_NUM)(heroInfo.m_type + (int)CHARACTER_NUM.Mst_Cat);
-        CHARACTER_NUM charNum = CHARACTER_NUM.Hero_Novice_1001;
-        Index = (int)charNum;
-        //UniqueIndex
-        Size = GetSize(charNum);
-        
-
-        Name = charNum.ToString();
-        Appear = Random.Range(0, 9999);
-    }
-
-    public Character(cservantinfo servantinfo)
-    {
-        // 저장하지 않은 데이터
-        // 외모, 
-        // 장비 리스트. 
-        // 상태, 
-        // 추가 스텟
-        // 서번트 -105
-        // 몬스터 - 201
-
-        Exp = servantinfo.s_exp;
-
-        Str = servantinfo.s_status.basic_str;
-        Dex = servantinfo.s_status.basic_dex;
-        Int = servantinfo.s_status.basic_int;
-
-        // 파티에 들어가는 고유 유니크값.
-        //servantinfo.s_index;
-
-        Level = 1;
-        // job값으로 현재는 서번트 구분 추후에 합의하여 수정해야할듯.
-        CHARACTER_NUM charNum = (CHARACTER_NUM)(servantinfo.s_status.job + (int)CHARACTER_NUM.Hero_Novice_1001);
-
-        // 리소스 인덱스
-        Index = (int)charNum;
-        //UniqueIndex = servantinfo.s_index - 1;
-        Size = GetSize(charNum);
-
-
-        Name = charNum.ToString();     
-    }
-
-    public Character(cmonsterinfo monsterinfo)
-    {
-        // 저장하지 않은 데이터
-        // 등급, 강화수치, 추가 힘민지
-
-        Exp = monsterinfo.m_exp;
-
-        Str = monsterinfo.m_status.basic_str;
-        Dex = monsterinfo.m_status.basic_dex;
-        Int = monsterinfo.m_status.basic_int;
-
-        Level = 1;
-        // job값으로 현재는 서번트 구분 추후에 합의하여 수정해야할듯.
-        CHARACTER_NUM charNum = (CHARACTER_NUM)(monsterinfo.m_type + (int)CHARACTER_NUM.Mst_Cat);
-        Index = (int)charNum;
-        //UniqueIndex = monsterinfo.m_index - 1; 
-        Size = GetSize(charNum);
-
-
-        Name = charNum.ToString();
-        Appear = Random.Range(0, 9999);
-    }
-
-
+    // TODO : 위 Calculate에 있는 함수가 왜 여기 또?
     public int GetMaxHp()
     {
         return Str * DEFINE.MAX_HP_MULTI_posOffset * DEFINE.TEST_HP_NUM;
@@ -715,20 +584,21 @@ public class Battle_Character_Status
         partyIndex = getPartyIndex;
 
         // 캐릭터 수치.
-        name = servant.Name;
+        name = servant.name;
 
-        maxHp = DEFINE.GetMaxHp(servant.Str);
+        maxHp = DEFINE.GetMaxHp(servant.status.basicStr + servant.status.plusStr);
         nowHp = maxHp;
 
-        damage = DEFINE.GetDamage(servant.Job, servant.Str, servant.Dex, servant.Int);
+        // 이런식으로 쓰면 안됩니다 DEFINE은
+        damage = DEFINE.GetDamage(servant.job, servant.status.basicStr + servant.status.plusStr, servant.status.basicDex+ servant.status.plusDex, servant.status.basicInt + servant.status.plusInt);
 
-        avoid = DEFINE.GetAvoid(servant.Dex);
-        speed = DEFINE.GetSpeed(servant.Dex);
+        avoid = DEFINE.GetAvoid(servant.status.basicDex + servant.status.plusDex);
+        speed = DEFINE.GetSpeed(servant.status.basicDex + servant.status.plusDex);
 
         stateType = STATE_TYPE.IDLE;
         sizeType = getSizeType;
 
-        level = servant.Level;
+        level = servant.level;
         lived = true;
     }
     // New Setting MonsterInfo
@@ -741,20 +611,21 @@ public class Battle_Character_Status
         partyIndex = getPartyIndex;
 
         // 캐릭터 수치.
-        name = monster.Name;
+        name = monster.name;
 
-        maxHp = DEFINE.GetMaxHp(monster.Str);
+        maxHp = DEFINE.GetMaxHp(monster.status.basicStr + monster.status.plusStr);
         nowHp = maxHp;
 
-        damage = DEFINE.GetDamage(monster.Job, monster.Str, monster.Dex, monster.Int);
+        damage = DEFINE.GetDamage(monster.type, monster.status.basicStr + monster.status.plusStr,
+            monster.status.basicDex + monster.status.plusDex, monster.status.basicInt + monster.status.plusInt);
 
-        avoid = DEFINE.GetAvoid(monster.Dex);
-        speed = DEFINE.GetSpeed(monster.Dex);
+        avoid = DEFINE.GetAvoid(monster.status.basicDex + monster.status.plusDex);
+        speed = DEFINE.GetSpeed(monster.status.basicDex + monster.status.plusDex);
 
         stateType = STATE_TYPE.IDLE;
         sizeType = getSizeType;
 
-        level = monster.Level;
+        level = monster.level;
         lived = true;
     }
 

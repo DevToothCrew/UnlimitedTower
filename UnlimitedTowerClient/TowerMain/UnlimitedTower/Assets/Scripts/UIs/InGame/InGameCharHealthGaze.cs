@@ -5,7 +5,7 @@ using UnityEngine;
 public class InGameCharHealthGaze : MonoBehaviour {
 
     #region UI Shader
-    private readonly int _GRID_DIVIDOR = 4;
+    //private readonly int _GRID_DIVIDOR = 4;
     private readonly float _CONVERGENCE_FACTOR = 2.0f;
 
     private MeshRenderer _meshRenderer;

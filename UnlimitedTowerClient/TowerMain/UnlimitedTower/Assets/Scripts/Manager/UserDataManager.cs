@@ -10,20 +10,17 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public bool CreatePlayerFlag;
     public SCENE_STATE sceneState = SCENE_STATE.None;
 
-
-    public cuserauth userInfo = new cuserauth();
-    //public int hero_slot;
-
-
     public Character heroChar;
     public Dictionary<int, Character> servantDic = new Dictionary<int, Character>();
     public Dictionary<int, Character> monsterDic = new Dictionary<int, Character>();
 
+    public UserInfo userInfo = new UserInfo();
 
     public Dictionary<int, Servant> newServantDic = new Dictionary<int, Servant>();
     public Dictionary<int, Monster> newMonsterDic = new Dictionary<int, Monster>();
 
     //public Dictionary<int, int> itemDic = new 
+
 
 
 
@@ -365,82 +362,190 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 #region NewGetData Func
 
 
-    public void GetLogin(cuserauth _userInfo)
-    {  
-        userInfo.a_game_money = _userInfo.a_game_money;
-        userInfo.a_hero_slot = _userInfo.a_hero_slot;
-        userInfo.a_state = _userInfo.a_state;
-       // Debug.Log("list Count : " + _userInfo.a_hero_List.Count);
-        
-        //for (int i = 0; i < _userInfo.a_hero_List.Count; i++)
-        foreach(var hero in _userInfo.a_hero_list)
+    public void Login(UserLoginData userLoginData)
+    {
+
+        if (ParseUserInfo(userLoginData.userinfo) == false)
         {
-            Debug.Log("save hero info");
-            //userInfo.a_hero_List.Add(_userInfo.a_hero_List[i]);
-           userInfo.a_hero_list.Add(hero);
+            Debug.Log("Invalid ParseUserInfo Info");
+            // 재 로그인 시켜야함
         }
-      
 
+        if (ParseServantList(userLoginData.servant_list) == false)
+        {
+            Debug.Log("Invalid ParseServantList Info");
+            // 재 로그인 시켜야함
+        }
 
-        heroChar = new Character(userInfo.a_hero_list[0]);
+        ParseMonsterList(userLoginData.monster_list);
 
-        Debug.Log("hero staute : " + heroChar.Str + " " + heroChar.Dex + " "
-             + heroChar.Int);
-        Debug.Log(userInfo.a_game_money);
-        Debug.Log(userInfo.a_hero_slot);
+        // TODO : 작업 예정
+        // ParseItemList(userLoginData.item_list);
 
+        // TODO : Party 편성 정보도 추가
         formationDic.Add(DEFINE.HERO_FORMATION_NUM, 0);
         string path = "UI/CharaterImage/" + heroChar.Name;
         LoadCharImage(path, DEFINE.HERO_FORMATION_NUM, null);
     }
-    public void LoadAllServant(cservant servant_info)
+
+    public bool ParseUserInfo(userData getUserData)
     {
-        servantDic.Clear();
-        for (int i = 0; i < servant_info.servant_list.Count; i++)
-        {  
-            AddServant(servant_info.servant_list[i]);
-        }
-    }
-    public void LoadAllMonster(cmonster monster_info)
-    {
-        monsterDic.Clear();
-        for (int i = 0; i < monster_info.monster_list.Count; i++)
+        userInfo = new UserInfo();
+
+        userInfo.userName = getUserData.user;
+        userInfo.userEOS = 0;
+        // TODO : EOS는 따로 구하는 코드 추가 필요?
+        // userInfo.userEOS = ??
+        userInfo.userMoney = getUserData.game_money;
+        sceneState = (SCENE_STATE)getUserData.state;
+
+        userInfo.userHero = ParseServant(0, getUserData.hero);
+        if (userInfo.userHero == null)
         {
-            AddMonster(monster_info.monster_list[i]);
+            Debug.Log("Invalid UserHero Info");
+            return false;
         }
+
+        return true;
     }
 
-
-
-    public Character AddServant(cservantinfo servantinfo)
+    public bool ParseServantList(List<servantData> getServantList)
     {
-        Character newChar = new Character(servantinfo);
-        SetServant(newChar);
-        // 만약 여기서 인자로 받는다도 해도
-        // 씬이 전환 됬을 때 이 값을 복구할 수 있겠는가?
-        AddNewCharImage(newChar, CHAR_TYPE.SERVANT);
+        newServantDic = new Dictionary<int, Servant>();
+        
+        for (int i = 0; i < getServantList.Count; i++)
+        {
+            Servant servant = ParseServant(getServantList[i].index, getServantList[i].servant);
+            if(servant == null)
+            {
+                Debug.Log("Invalid Servant Info");
+                return false;
+            }
 
-        return newChar;
+            newServantDic.Add(servant.index, servant);
+        }
+
+        return true;
     }
-
-    public Character AddMonster(cmonsterinfo monsterinfo)
+    
+    public Servant ParseServant(int getServantIndex, servantInfo getServantInfo)
     {
-        Character newChar = new Character(monsterinfo);
-        SetMonster(newChar);
-        AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
+        Servant servant = new Servant();
 
-        return newChar;
+        servant.index = getServantIndex;
+        servant.state = getServantInfo.state;
+        servant.exp = getServantInfo.exp;
+        // TODO : 추후 Servant Exp에 따른 Level 공식을 추가해 레벨 적용 필요
+        servant.level = DEFINE.GetLevelForExp(getServantInfo.exp);
+        servant.job = getServantInfo.job;
+
+        // TODO : 추후 Appear의 값에 따른 리소스가 저장되어야함
+        servant.head = getServantInfo.appear.head;
+        servant.hair = getServantInfo.appear.hair;
+        servant.body = getServantInfo.appear.body;
+
+        servant.status = ParseStatus(getServantInfo.status);
+        if(servant.status == null)
+        {
+            Debug.Log("Invalid Status Info");
+            return null;
+        }
+
+        servant.equipmentList = getServantInfo.equip_slot;
+
+        return servant;
     }
-    public void AddItem(cmonsterinfo monsterinfo)
+
+    public Status ParseStatus(statusInfo getStatusInfo)
     {
-        Character newChar = new Character(monsterinfo);
-        SetServant(newChar);
-        AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
+        if(getStatusInfo == null)
+        {
+            return null;
+        }
+
+        Status status = new Status();
+
+        status.basicStr = getStatusInfo.basic_str;
+        status.basicDex = getStatusInfo.basic_dex;
+        status.basicInt = getStatusInfo.basic_int;
+
+        status.plusStr = getStatusInfo.plus_str;
+        status.plusDex = getStatusInfo.plus_dex;
+        status.plusInt = getStatusInfo.plus_int;
+
+        return status;
     }
 
+    public bool ParseMonsterList(List<monsterData> getMonsterList)
+    {
+        newMonsterDic = new Dictionary<int, Monster>();
 
+        for(int i = 0; i < getMonsterList.Count; i++)
+        {
+            Monster monster = ParseMonster(getMonsterList[i].index, getMonsterList[i].monster);
+            if(monster == null)
+            {
+                Debug.Log("Invalid Monster Info");
+                return false;
+            }
 
-#endregion
+            newMonsterDic.Add(monster.index, monster);
+        }
 
+        return true;
+    }
 
+    public Monster ParseMonster(int getMonsterIndex, monsterInfo getMonsterInfo)
+    {
+        Monster monster = new Monster();
+
+        monster.index = getMonsterIndex;
+        monster.state = getMonsterInfo.state;
+        monster.exp = getMonsterInfo.exp;
+        // TODO : 추후 Servant Exp에 따른 Level 공식을 추가해 레벨 적용 필요
+        monster.level = DEFINE.GetLevelForExp(getMonsterInfo.exp);
+        monster.type = getMonsterInfo.type;
+        monster.grade = getMonsterInfo.grade;
+        monster.upgrade = getMonsterInfo.upgrade;
+
+        // TODO : 추후 Appear + Type 의 값에 따른 리소스가 저장되어야함
+        // monster.appear = ???
+
+        monster.status = ParseStatus(getMonsterInfo.status);
+        if(monster.status == null)
+        {
+            Debug.Log("Invalid Status Info");
+            return null;
+        }
+
+        return monster;
+    }
+
+    //public Character AddServant(cservantinfo servantinfo)
+    //{
+    //    Character newChar = new Character(servantinfo);
+    //    SetServant(newChar);
+    //    // 만약 여기서 인자로 받는다도 해도
+    //    // 씬이 전환 됬을 때 이 값을 복구할 수 있겠는가?
+    //    AddNewCharImage(newChar, CHAR_TYPE.SERVANT);
+
+    //    return newChar;
+    //}
+
+    //public Character AddMonster(cmonsterinfo monsterinfo)
+    //{
+    //    Character newChar = new Character(monsterinfo);
+    //    SetMonster(newChar);
+    //    AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
+
+    //    return newChar;
+    //}
+    //public void AddItem(cmonsterinfo monsterinfo)
+    //{
+    //    Character newChar = new Character(monsterinfo);
+    //    SetServant(newChar);
+    //    AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
+    //}
+
+    #endregion
 }

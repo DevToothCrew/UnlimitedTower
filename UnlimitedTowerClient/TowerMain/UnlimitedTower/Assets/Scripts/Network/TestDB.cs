@@ -79,9 +79,9 @@ public class TestDB
 
         for (int i = 0; i < 10; i++)
         {
-            int getStr = Random.Range(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
-            int getDex = Random.Range(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
-            int getInt = Random.Range(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
+            //int getStr = Random.Range(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
+            //int getDex = Random.Range(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
+            //int getInt = Random.Range(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
             int myIndex = Random.Range(0, myIndexList.Count);
             CHARACTER_NUM charNum = myIndexList[myIndex];
             SIZE_TYPE charSize;
@@ -101,7 +101,7 @@ public class TestDB
                 charSize = SIZE_TYPE.SMALL;
             }
 
-            getMonsterDic.Add(i, new Monster(charNum)) ;
+            //getMonsterDic.Add(i, new Monster(charNum)) ;
         }
 
         return getMonsterDic;

@@ -5,7 +5,7 @@ using UnityEngine;
 public class InGameUIManager : MonoSingleton<InGameUIManager>
 {
     private readonly float _DIST_FROM_HEAD = 0.8f;
-    private readonly float _DIST_EACH_NUMBER = 0.2f;
+    //private readonly float _DIST_EACH_NUMBER = 0.2f;
 
     [SerializeField]
     private GameObject prefNum;
@@ -25,7 +25,7 @@ public class InGameUIManager : MonoSingleton<InGameUIManager>
 
     public void DecreaseHp(int damage, GameObject target)
     {
-        var i = 0;
+        //var i = 0;
         InstantiateNumber(damage, target.transform.position + Vector3.up * _DIST_FROM_HEAD);
     }
 
