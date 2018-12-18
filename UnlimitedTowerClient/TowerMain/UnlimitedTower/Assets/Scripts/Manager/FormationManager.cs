@@ -61,16 +61,8 @@ public class FormationManager : MonoSingleton<FormationManager>
 
                 // 어떠한 값을 리셋하여 해결하면 되는가???
             }
-
-
-
-
-
-
-
         }
     }
-
 }
 
 // attackingOrder myIndex targetIndex actionType

@@ -98,7 +98,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
 
 
-       // Login();
+        Login();
         // Scatter 보내기
         //Response_Login();
     }

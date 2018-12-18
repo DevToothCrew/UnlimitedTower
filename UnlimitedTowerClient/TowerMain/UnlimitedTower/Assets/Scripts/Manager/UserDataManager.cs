@@ -228,18 +228,23 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     // 새로운 캐릭터를 dic에 저장한다.
     public void SetServant(Character newChar)
     {
-        // 클라 싱글 실행.
-        //servantDic.Add(servantIndex, newChar);
-
-        servantDic.Add((int)newChar.UniqueIndex-1, newChar);
+#if UNITY_EDITOR
+        servantDic.Add(servantIndex, newChar);
+        Debug.Log("서번트 인덱스 : " + servantIndex);
+#else
+         servantDic.Add((int)newChar.UniqueIndex-1, newChar);
+#endif
         servantIndex += 1;
     }
+
     public void SetMonster(Character newChar)
     {
-        // 클라 싱글 실행.
-        //monsterDic.Add(monsterIndex, newChar);
-
-        monsterDic.Add((int)newChar.UniqueIndex - 1, newChar);
+#if UNITY_EDITOR
+        monsterDic.Add(monsterIndex, newChar);
+        Debug.Log("몬스터 인덱스 : " + monsterIndex);
+#else
+          monsterDic.Add((int)newChar.UniqueIndex - 1, newChar);
+#endif
         monsterIndex += 1;
     }
 
@@ -351,7 +356,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
 
 
-    #region NewGetData Func
+#region NewGetData Func
 
 
     public void GetLogin(cuserauth _userInfo)
@@ -429,7 +434,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
 
 
-    #endregion
+#endregion
 
 
 }

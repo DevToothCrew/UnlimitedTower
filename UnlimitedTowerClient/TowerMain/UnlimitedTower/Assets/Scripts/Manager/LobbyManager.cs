@@ -127,15 +127,17 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     {
         //TODO : 임시 코드. 필요없을시 삭제.
         // ### 로그인 패킷을 보낸다.
+
+#if UNITY_EDITOR
         PacketManager.Inst.Request_GetLobbyInfo();
         Test_PacketManager.Inst.CheckPacket("OnClickEnterLobbyButton : not recive packet");
-#if UNITY_EDITOR
-       
 #else
         PacketManager.Inst.Request_Login();
+         PacketManager.Inst.Request_GetLobbyInfo();
+        Test_PacketManager.Inst.CheckPacket("OnClickEnterLobbyButton : not recive packet");
   
 #endif
-   
+
     }
 
     //###

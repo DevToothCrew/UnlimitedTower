@@ -33,8 +33,9 @@ public class GachaImage : MonoSingleton<GachaImage>
     private bool reGachaflag = false;
     private GACHA_TYPE gachaType;
 
-    public int TestGachaNum = 0;
-
+#if UNITY_EDITOR
+    public int TestGachaNum = 1;
+#endif
     public GameObject Packet;
     public GameObject TestReciveText;
 
@@ -56,7 +57,7 @@ public class GachaImage : MonoSingleton<GachaImage>
      
     }
 
-
+    // 가챠 결과 마지막에 깜빡이는 부분
     IEnumerator FADE_OUT()
     {
         do
@@ -238,15 +239,21 @@ public class GachaImage : MonoSingleton<GachaImage>
     {
         reGachaflag = false;
         ////Test Code
-        //TestGachaNum++;
-        //if (TestGachaNum % 2 == 1) gachaType = GACHA_TYPE.Monster;
-        //else gachaType = GACHA_TYPE.Servant;
 
 
+
+#if UNITY_EDITOR
         //// ### 가챠 결과
-        //PacketManager.Inst.Request_GachaResult(this.gachaType);
+        TestGachaNum++;
+        if (TestGachaNum % 2 == 1) gachaType = GACHA_TYPE.Monster;
+        else gachaType = GACHA_TYPE.Servant;
 
-      
+        PacketManager.Inst.Request_GachaResult(this.gachaType);
+#else
+
+#endif
+
+
 
     }
 
@@ -271,11 +278,17 @@ public class GachaImage : MonoSingleton<GachaImage>
     {
         //Test : Send Gacha to Server
         // ### 가챠 시작 패킷을 보낸다.
-        PacketManager.Inst.Request_ExecuteGacha();
+
+#if UNITY_EDITOR
+
+#else
+         PacketManager.Inst.Request_ExecuteGacha();
+#endif
+
 
         //Test_PacketManager.Inst.CheckPacket("OnClickExecuteGacha: not recive packet");
 
-        
+
 
 
 
