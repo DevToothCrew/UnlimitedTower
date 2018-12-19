@@ -55,11 +55,39 @@ class cparty_system
             eosio_assert(user_party_iter->party_list.size() > _party_number,"neeed more party");
             eosio_assert(user_party_iter->party_list[_party_number].state != party_state::on_tower_defense,"this party on tower unmodified");
 
+            user_servants user_servant_table(owner, _user);
+            user_monsters user_monster_table(owner, _user);
+
+            for (uint32_t i = 1; i < max_servant_slot; ++i)
+            {
+                if(user_party_iter->party_list[_party_number].index_list[i] != empty_party_slot && 
+                user_party_iter->party_list[_party_number].index_list[i] != _party_list[i])
+                {
+                    auto user_servant_iter = user_servant_table.find(user_party_iter->party_list[_party_number].index_list[i]);
+                    eosio_assert(user_servant_iter != user_servant_table.end(),"fatal party data mis");
+                    user_servant_table.modify(user_servant_iter, owner, [&](auto &set_party) {
+                        set_party.party_number = EMPTY_PARTY;
+                    });
+                }
+            }
+            for (uint32_t i = max_servant_slot; i < max_monster_slot; ++i)
+            {
+                if (user_party_iter->party_list[_party_number].index_list[i] != empty_party_slot &&
+                    user_party_iter->party_list[_party_number].index_list[i] != _party_list[i])
+                {
+                    auto user_monster_iter = user_monster_table.find(user_party_iter->party_list[_party_number].index_list[i]);
+                    eosio_assert(user_monster_iter != user_monster_table.end(), "fatal party data mis");
+                    user_monster_table.modify(user_monster_iter, owner, [&](auto &set_party) {
+                        set_party.party_number = EMPTY_PARTY;
+                    });
+                }
+            }
+
             user_party_table.modify(user_party_iter, owner, [&](auto &save_party) {
-                user_servants user_servant_table(owner, _user);
+                
                 for (uint32_t i = 1; i < max_servant_slot; ++i)
                 {
-                    if (_party_list[i] == 0)
+                    if (_party_list[i] == empty_party_slot)
                     {
                         save_party.party_list[_party_number].index_list[i] = _party_list[i];
                         continue;
@@ -73,14 +101,13 @@ class cparty_system
                     save_party.party_list[_party_number].index_list[i] = _party_list[i];
                 }
 
-                user_monsters user_monster_table(owner, _user);
                 for (uint32_t i = max_servant_slot; i < max_monster_slot; ++i)
                 {
                     if(i == max_servant_slot)
                     {
                         continue;
                     }
-                    if (_party_list[i] == 0)
+                    if (_party_list[i] == empty_party_slot)
                     {
                         save_party.party_list[_party_number].index_list[i] = _party_list[i];
                         continue;
@@ -136,6 +163,43 @@ class cparty_system
             auto iter = user_party_table.find(_user);
             eosio_assert(iter != user_party_table.end(),"not exist party data");
             user_party_table.erase(iter);
+        }
+#pragma endregion
+
+#pragma region party cheat
+        void set_automatic_party(account_name _user)
+        {
+            auto user_party_iter = user_party_table.find(_user);
+            eosio_assert(user_party_iter != user_party_table.end(), "not exist party list");
+            
+            user_servants user_servant_table(owner, _user);
+            user_monsters user_monster_table(owner, _user);
+
+            user_party_table.modify(user_party_iter, owner, [&](auto &automatic_party)
+            {
+                for(uint32_t i=1; i<10; ++i)
+                {
+                    if (i < 5)
+                    {
+                        automatic_party.party_list[0].index_list[i] = i;
+
+                        auto user_servant_iter = user_servant_table.find(i);
+                        user_servant_table.modify(user_servant_iter, owner, [&](auto &set_party) {
+                            set_party.party_number = 0;
+                        });
+                    }
+                    else
+                    {
+                        uint32_t monster_index = i - 4;
+                        automatic_party.party_list[0].index_list[i] = monster_index;
+                        
+                        auto user_monster_iter = user_monster_table.find(monster_index);
+                        user_monster_table.modify(user_monster_iter, owner, [&](auto &set_party) {
+                            set_party.party_number = 0;
+                        });
+                    }
+                }
+            });
         }
 #pragma endregion
     };
