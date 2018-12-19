@@ -304,28 +304,26 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         JsonData getInfo = JsonMapper.ToObject(getGachaInfo);
         int type = Convert.ToInt32(getInfo["result_type"].ToString());
-        string data = getInfo["data"].ToString();
-
         // Servant
-        if(type == (int)GACHA_RESULT_TYPE.Servant)
+        if (type == (int)GACHA_RESULT_TYPE.Servant)
         {
-            Debug.Log(data);
-            servantData gachaData = JsonUtility.FromJson<servantData>(data);
-            Servant getServant = UserDataManager.Inst.ParseServant(gachaData.index, gachaData.servant);
+            Debug.Log(getGachaInfo);
+            gachaServantData gachaData = JsonUtility.FromJson<gachaServantData>(getGachaInfo);
+            Servant getServant = UserDataManager.Inst.ParseServant(gachaData.data.index, gachaData.data.servant);
         }
         // Monster
-        else if(type == (int)GACHA_RESULT_TYPE.Monster)
+        else if (type == (int)GACHA_RESULT_TYPE.Monster)
         {
-            Debug.Log(data);
-            monsterData gachaData = JsonUtility.FromJson<monsterData>(data);
-            Monster getMonster = UserDataManager.Inst.ParseMonster(gachaData.index, gachaData.monster);
+            Debug.Log(getGachaInfo);
+            gachaMonsterData gachaData = JsonUtility.FromJson<gachaMonsterData>(getGachaInfo);
+            Monster getMonster = UserDataManager.Inst.ParseMonster(gachaData.data.index, gachaData.data.monster);
         }
         // Item
-        else if(type == (int) GACHA_RESULT_TYPE.Item)
+        else if (type == (int)GACHA_RESULT_TYPE.Item)
         {
-            Debug.Log(data);
-            itemData gachaData = JsonUtility.FromJson<itemData>(data);
-            Item getItem = UserDataManager.Inst.ParseItem(gachaData.index, gachaData.item);
+            Debug.Log(getGachaInfo);
+            gachaItemData gachaData = JsonUtility.FromJson<gachaItemData>(getGachaInfo);
+            Item getItem = UserDataManager.Inst.ParseItem(gachaData.data.index, gachaData.data.item);
         }
     }
 

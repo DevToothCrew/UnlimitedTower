@@ -40,6 +40,7 @@ public class monsterInfo
     public int state;
     public int exp;
     public int type;
+    public int look;
     public int grade;
     public int upgrade;
     public statusInfo status = new statusInfo();
@@ -92,6 +93,27 @@ public class itemData
 {
     public int index;
     public itemInfo item = new itemInfo();
+}
+
+[Serializable]
+public class gachaServantData
+{
+    public int result_type;
+    public servantData data = new servantData();
+}
+
+[Serializable]
+public class gachaMonsterData
+{
+    public int result_type;
+    public monsterData data = new monsterData();
+}
+
+[Serializable]
+public class gachaItemData
+{
+    public int result_type;
+    public itemData data = new itemData();
 }
 
 [Serializable]
