@@ -53,11 +53,11 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
        
         if(DeckNum<5)
         {
-            Reorder(ref UserDataManager.Inst.monsterDic, CHAR_TYPE.MONSTER);
+           // Reorder(ref UserDataManager.Inst.monsterDic, CHAR_TYPE.MONSTER);
         }
         else
         {
-            Reorder(ref UserDataManager.Inst.servantDic, CHAR_TYPE.SERVANT);
+          // Reorder(ref UserDataManager.Inst.servantDic, CHAR_TYPE.SERVANT);
             CheckPairReorder();
         }
     }
@@ -246,7 +246,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         if(backLineCharNum < frontLineCharNum)
         {
             GameObject FormationList = LobbyManager.Inst.FormationList.gameObject;
-            FormationList.transform.GetChild(DeckNum - 5).gameObject.GetComponent<FormationDeck>().Reorder(ref UserDataManager.Inst.monsterDic, CHAR_TYPE.MONSTER);         
+           // FormationList.transform.GetChild(DeckNum - 5).gameObject.GetComponent<FormationDeck>().Reorder(ref UserDataManager.Inst.monsterDic, CHAR_TYPE.MONSTER);         
         }
     }
 }

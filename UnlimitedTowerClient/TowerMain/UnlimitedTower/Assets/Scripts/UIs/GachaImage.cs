@@ -32,7 +32,7 @@ public class GachaImage : MonoSingleton<GachaImage>
 
     private bool reGachaflag = false;
     private bool fadeOutFlag = false;
-    private GACHA_TYPE gachaType;
+    private GACHA_RESULT_TYPE gachaResultType;
 
 #if UNITY_EDITOR
     public int TestGachaNum = 1;
@@ -40,25 +40,17 @@ public class GachaImage : MonoSingleton<GachaImage>
 
 
 
-    public void Test_10_GoGacha()
-    {
-        Debug.Log("Test_10Gacha");
-
-        // TODO : 현재 임시로 TestDB에서 캐릭터 정보 가져와서
-
-        for(int i=0; i<10; i++)
-        {
-            Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1, GACHA_TYPE.Servant);
-            // 가챠의 결과로 나온 캐릭터 정보를 저장한다.
-            UserDataManager.Inst.SetServant(newChar);
-            UserDataManager.Inst.AddNewCharImage(newChar, CHAR_TYPE.SERVANT);
-        }
-     
-    }
-
     // 가챠 결과 마지막에 깜빡이는 부분
     IEnumerator FADE_OUT()
     {
+        //bool testflag = true;
+
+        //while(testflag)
+        //{
+        //    yield return null;
+        //}
+
+
         if(fadeOutFlag == false)
         {
             Debug.Log("Start Fade Out ");
@@ -209,16 +201,16 @@ public class GachaImage : MonoSingleton<GachaImage>
     {
         if (reGachaflag)
         {
-            OnClickExecuteGacha((int)gachaType);
+            OnClickExecuteGacha((int)gachaResultType);
         }
     }
 
-    public void SetGachaReult(Character newChar, GACHA_TYPE gachaType)
+    public void SetGachaReult(Character newChar, GACHA_RESULT_TYPE gachaResultType)
     {
         GachaResultPopup.SetActive(true);
         Sprite sprite = null;
 
-        if  (gachaType == GACHA_TYPE.Item)
+        if  (gachaResultType == GACHA_RESULT_TYPE.Item)
         {
             sprite = null;
         }
@@ -230,30 +222,138 @@ public class GachaImage : MonoSingleton<GachaImage>
             StatusIntText.text = newChar.Int.ToString();
 
            
-            if (gachaType == GACHA_TYPE.Servant)
+            if (gachaResultType == GACHA_RESULT_TYPE.Servant)
             {
                 sprite = Resources.Load<Sprite>("UI/CharaterImage/" + newChar.Name);
             }
-            else if (gachaType == GACHA_TYPE.Monster)
+            else if (gachaResultType == GACHA_RESULT_TYPE.Monster)
             {
                 sprite = Resources.Load<Sprite>("UI/MonsterImage/" + newChar.Name);
             }
         }
-
-       
         charImage.GetComponent<Image>().sprite = sprite;
     }
+    // TODO :Test Code
+    public void SetGachaCharacterResult(string name, Status status, GACHA_RESULT_TYPE gachaType)
+    {
+        GachaResultPopup.SetActive(true);
+        Sprite sprite = null;
+
+        CharNameText.text = name;
+        StatusStrText.text = status.basicStr.ToString();
+        StatusDexText.text = status.basicDex.ToString();
+        StatusIntText.text = status.basicInt.ToString();
+
+        if (gachaType == GACHA_RESULT_TYPE.Servant)
+        {
+            sprite = Resources.Load<Sprite>("UI/CharaterImage/" +name);
+        }
+        else if (gachaType == GACHA_RESULT_TYPE.Monster)
+        {
+            sprite = Resources.Load<Sprite>("UI/MonsterImage/" + name);
+        }
+
+        charImage.GetComponent<Image>().sprite = sprite;
+    }
+
+    public void SetGachaResult_Servant(Servant getServant)
+    {  
+        Sprite sprite = null;
+        SetGachaResultInfo(getServant.status);
+
+        CharNameText.text = getServant.name;    
+        sprite = Resources.Load<Sprite>("UI/CharaterImage/" + getServant.name);       
+        charImage.GetComponent<Image>().sprite = sprite;
+
+        UserDataManager.Inst.SetServant(getServant);
+        fadeOutFlag = false;
+    }
+
+    public void SetGachaResult_Monster(Monster getMonster)
+    {
+        Sprite sprite = null;
+        SetGachaResultInfo(getMonster.status);
+
+        CharNameText.text = getMonster.name;       
+        sprite = Resources.Load<Sprite>("UI/MonsterImage/" + getMonster.name);
+        charImage.GetComponent<Image>().sprite = sprite;
+
+        UserDataManager.Inst.SetMonster(getMonster);
+        fadeOutFlag = false;
+    }
+
+    public void SetGacharResult_Item(Item getItem)
+    {
+        Sprite sprite = null;
+        SetGachaResultInfo(getItem.status);
+        // TODO : 아이템 이름 등이 확정되면 수정필요.
+
+        CharNameText.text = getItem.id.ToString();
+        charImage.GetComponent<Image>().sprite = sprite;
+
+        UserDataManager.Inst.SetItem(getItem);
+        fadeOutFlag = false;
+    }
+
+
+    public void SetNewGachaResult(object getGachaItem, GACHA_RESULT_TYPE gachaResultType)
+    {
+        GachaResultPopup.SetActive(true);
+        Sprite sprite = null;
+
+        switch (gachaResultType)
+        {
+            case GACHA_RESULT_TYPE.Servant:
+                {
+                    Servant servant = (Servant)getGachaItem;
+                    SetGachaResultInfo(servant.status);
+                    sprite = Resources.Load<Sprite>("UI/CharaterImage/" + servant.name);
+                    break;
+                }
+            case GACHA_RESULT_TYPE.Monster:
+                {
+                    Monster monster = (Monster)getGachaItem;
+                    SetGachaResultInfo(monster.status);
+                    sprite = Resources.Load<Sprite>("UI/MonsterImage/" + monster.name);
+                    break;
+                }
+            case GACHA_RESULT_TYPE.Item:
+                {
+                    Item item = (Item)getGachaItem;
+                    SetGachaResultInfo(item.status);
+                    break;
+                }
+            default:
+                Debug.Log("Error : SetNewGachaResult");
+                break;
+        }
+
+    }
+    private void SetGachaResultInfo(Status getStatus)
+    {
+        GachaResultPopup.SetActive(true);
+
+        StatusStrText.text = getStatus.basicStr.ToString();
+        StatusDexText.text = getStatus.basicDex.ToString();
+        StatusIntText.text = getStatus.basicInt.ToString();
+    }
+
+
+
+
+
+
     public void ShowGachaResult()
     {
         reGachaflag = false;
-  
+
 #if UNITY_EDITOR
         //// ### 가챠 결과
         TestGachaNum++;
-        if (TestGachaNum % 2 == 1) gachaType = GACHA_TYPE.Monster;
-        else gachaType = GACHA_TYPE.Servant;
+        if (TestGachaNum % 2 == 1) gachaResultType = GACHA_RESULT_TYPE.Monster;
+        else gachaResultType = GACHA_RESULT_TYPE.Servant;
 
-        PacketManager.Inst.Request_GachaResult(this.gachaType);
+        PacketManager.Inst.Request_GachaResult(this.gachaResultType);
 #else
         // 
 #endif
@@ -288,7 +388,9 @@ public class GachaImage : MonoSingleton<GachaImage>
 #if UNITY_EDITOR
 
 #else
-         PacketManager.Inst.Request_ExecuteGacha();
+        // Remove Code 
+        //PacketManager.Inst.Request_ExecuteGacha();
+         PacketManager.Inst.Request_Gacha();
 #endif
 
         LightEffectCircle04Animator.SetBool("Play", true);

@@ -22,18 +22,90 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
 
         if(CharType == CHAR_TYPE.SERVANT)
         {
-            CheckAddOrRemove(ref UserDataManager.Inst.servantDic, CharType);
+            Debug.Log("서번트 추가");
+            // CheckAddOrRemove(ref UserDataManager.Inst.servantDic, CharType);
 
         }
         else if (CharType == CHAR_TYPE.MONSTER)
         {
             Debug.Log("먼스터 추가");
-            CheckAddOrRemove(ref UserDataManager.Inst.monsterDic, CharType);
+            //CheckAddOrRemove(ref UserDataManager.Inst.monsterDic, CharType);
         }
        
     }
 
 
+    // 이제 Character 딕셔너리가 두 개로 분리되어
+    // Monster와 Servant로 되었다.
+    // 그러면 Monster와 Servant 추가 혹은 제거하는 함수 역시 두 개의 함수로 분리되어야할까?
+    private void CheckAddOrRemove(CHAR_TYPE charType)
+    {
+        //if (UserDataManager.Inst.newServantDic.ContainsKey(CharDicKey))
+        //{
+        //    if (UserDataManager.Inst.newServantDic[CharDicKey].onFormation == true)
+        //    {
+        //        RemoveDeck(ref charDic, charType);
+        //    }
+        //    else
+        //    {
+        //        if (charType == CHAR_TYPE.MONSTER)
+        //        {
+        //            if (CheckAddDeck() == false)
+        //            {
+        //                Debug.Log("용병 수가 적어 몬스터를 추가할 수 없습니다.");
+        //                return;
+        //            }
+        //        }
+        //        AddDeck(ref charDic, charType);
+        //    }
+        //}
+    }
+    private void RemoveMonsterDeck()
+    {
+        Monster getMonster = null;
+        if (UserDataManager.Inst.newMonsterDic[CharDicKey].onFormation == true)
+        {
+            if (UserDataManager.Inst.newMonsterDic.TryGetValue(CharDicKey, out getMonster))
+            {
+                int deckNum = getMonster.formationIndex;
+                //GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
+                GameObject deck = FormationManager.Inst.Decks[deckNum];
+                RemoveCharImage();
+                deck.GetComponent<FormationDeck>().RemoveDeck();
+
+                childCheckingImage.SetActive(false);
+                UserDataManager.Inst.newMonsterDic[CharDicKey].onFormation = false;
+            }
+        }
+    }
+    private void RemoveServantDeck()
+    {
+        Servant getServant = null;
+        if (UserDataManager.Inst.newServantDic[CharDicKey].onFormation == true)
+        {
+            if (UserDataManager.Inst.newServantDic.TryGetValue(CharDicKey, out getServant))
+            {
+                int deckNum = getServant.formationIndex;
+                //GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
+                GameObject deck = FormationManager.Inst.Decks[deckNum];
+                RemoveCharImage();
+                deck.GetComponent<FormationDeck>().RemoveDeck();
+
+                childCheckingImage.SetActive(false);
+                UserDataManager.Inst.newServantDic[CharDicKey].onFormation = false;
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+    //Old Code
     private void CheckAddOrRemove(ref Dictionary<int, Character> charDic, CHAR_TYPE charType)
     {
         if (charDic.ContainsKey(CharDicKey))
@@ -56,6 +128,8 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
             }
         }
     }
+
+
     private void RemoveDeck(ref Dictionary<int, Character> charDic, CHAR_TYPE charType)
     {
         Character character;

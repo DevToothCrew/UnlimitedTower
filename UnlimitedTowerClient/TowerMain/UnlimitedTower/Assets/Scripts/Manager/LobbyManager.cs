@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using LitJson;
 
 public class LobbyManager : MonoSingleton<LobbyManager> {
 
@@ -9,6 +9,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public GameObject RightPopup;
     public GameObject TowerGrid;
     public GameObject TowerInfo;
+
 
     public GameObject CenterPopup;
     private LOBBY_RIGHT_BUTTON centerPopupState;
@@ -52,7 +53,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
          
             ChangeSceneState(SCENE_STATE.Lobby);
             UserDataManager.Inst.LoadUserData();
-        }       
+        }
     }
 
 
@@ -124,26 +125,23 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public void OnClickEnterLobbyButton()
     {
-        //TODO : 임시 코드. 필요없을시 삭제.
-        // ### 로그인 패킷을 보낸다.
-
 #if UNITY_EDITOR
         UserDataManager.Inst.Test_InitCharacter();
-        PacketManager.Inst.Request_GetLobbyInfo();
-        Test_PacketManager.Inst.CheckPacket("OnClickEnterLobbyButton : not recive packet");
 #else
-        PacketManager.Inst.Request_Login();
-         PacketManager.Inst.Request_GetLobbyInfo();
-        Test_PacketManager.Inst.CheckPacket("OnClickEnterLobbyButton : not recive packet");
-  
+        PacketManager.Inst.Request_Login();  
 #endif
-
     }
 
     //###
     public void OnClickLogoutButton()
     {
-        PacketManager.Inst.Request_Logout();
+#if UNITY_EDITOR
+        PacketManager.Inst.Response_Logout();
+#else
+
+  PacketManager.Inst.Request_Logout();
+#endif
+
     }
 
     public void OnClickRightButton(int rightButton)

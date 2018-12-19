@@ -47,7 +47,7 @@ public class FormationManager : MonoSingleton<FormationManager>
             {
                 if (Decks[i].GetComponent<FormationDeck>())
                 {
-                    GameObject charContent = Decks[i].GetComponent<FormationDeck>().LinkedChar;
+                    //GameObject charContent = Decks[i].GetComponent<FormationDeck>().LinkedChar;
                    // charContent.GetComponent<CharContent>()
 
                 }

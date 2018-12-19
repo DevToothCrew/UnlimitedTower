@@ -1,49 +1,35 @@
-﻿using System.Collections;
+﻿using LitJson;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Runtime.InteropServices;
-using LitJson;
+using System;
+
 [System.Serializable]
-
-
 public class PacketManager : MonoSingleton<PacketManager> {
 
     #region ServerConnect
 
     [DllImport("__Internal")]
-    private static extern void Hello();
-
-    [DllImport("__Internal")]
-    private static extern void HelloString(string str);
-
-    [DllImport("__Internal")]
-    private static extern void PrintFloatArray(float[] array, int size);
-
-    [DllImport("__Internal")]
-    private static extern int AddNumbers(int x, int y);
-
-    [DllImport("__Internal")]
-    private static extern string StringReturnValueFunction();
-
-    [DllImport("__Internal")]
-    private static extern void BindWebGLTexture(int texture);
-
-    // Added by John
-    [DllImport("__Internal")]
     private static extern void Login();
 
     [DllImport("__Internal")]
-    public static extern void Gacha();
+    private static extern void SignUp();
 
     [DllImport("__Internal")]
-    public static extern void GetServant();
+    private static extern void Logout();
 
     [DllImport("__Internal")]
-    public static extern void GetItem();
+    private static extern void Gacha();
 
     [DllImport("__Internal")]
-    public static extern void GetMonster();
+    private static extern void GetServant();
+
+    [DllImport("__Internal")]
+    private static extern void GetItem();
+
+    [DllImport("__Internal")]
+    private static extern void GetMonster();
 
     [DllImport("__Internal")]
     private static extern void SetFormation(string formation);
@@ -86,27 +72,25 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void Request_Login()
     {
-        Debug.Log("Request_Login");
-  
+        Debug.Log("Request_Login");  
         Login();
-        // Scatter 보내기
     }
+
     public void Request_AllServant()
     {
         Debug.Log("Request_AllServant");
         GetServant();
-
     }
+
     public void Request_AllMonster()
     {
         Debug.Log("Request_Monster");
         GetMonster();
-
     }
+
     public void Request_CreatePlayer()
     {
         Debug.Log("Request_CreatePlayer");
-
         Response_CreatePlayer();
     }
 
@@ -125,16 +109,16 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void Request_Gacha()
     {
-        Debug.Log("Request_ExecuteGacha");
+        Debug.Log("Request_Gacha");
         Gacha();
-        //Response_ExecuteGacha();
     }
-    public void Request_GachaResult(GACHA_TYPE gachaType)
+
+    public void Request_GachaResult(GACHA_RESULT_TYPE gachaResultType)
     {
-;
         Debug.Log("Request_GachaResult");
-        Response_GachaResult(gachaType);
+        Response_GachaResult(gachaResultType);
     }
+
     public void Request_ExitGacha()
     {
         Response_ExitGacha();
@@ -151,6 +135,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Request_LoadServant");
         GetServant();
     }
+
     // 포메이션 창에서 Monster르 누를때  몬스터를 로드한다.
     public void Request_LoadMonster()
     {
@@ -198,16 +183,16 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void Request_GetStageInfo(int stageNum)
     {
         // TODO : if delete
-        if(UserDataManager.Inst.servantDic.Count<=0)
-        {
-            Debug.Log("캐릭터가 없습니다. 뽑기를 해주세요");
-            return;
-        }
-        if(UserDataManager.Inst.formationDic.ContainsKey(7) == false)
-        {
-            Debug.Log("포메이션 설정이 안됬습니다.");
-            return;
-        }
+        //if(UserDataManager.Inst.servantDic.Count<=0)
+        //{
+        //    Debug.Log("캐릭터가 없습니다. 뽑기를 해주세요");
+        //    return;
+        //}
+        //if(UserDataManager.Inst.formationDic.ContainsKey(7) == false)
+        //{
+        //    Debug.Log("포메이션 설정이 안됬습니다.");
+        //    return;
+        //}
 
 
         Debug.Log("Requset_GetStageInfo : " + stageNum);
@@ -251,6 +236,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void Request_Logout()
     {
         Debug.Log("Request_Logout");
+        Logout();
         Response_Logout();
     }
 
@@ -261,32 +247,30 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     #region Response
 
-    public void Response_Login(string _login_info)
+    public void Response_Login(string getLoginInfo)
     {
+        if(getLoginInfo == null)
+        {
+            // 유저 정보가 없으면 SignUp으로
+            SignUp();
+            return;
+        }
+
         Debug.Log("Response_Login");
         // 스캐터 답받기
+        
+        UserLoginData userLoginData = JsonUtility.FromJson<UserLoginData>(getLoginInfo); 
+        if(userLoginData == null)
+        {
+            Debug.Log("Invalid Login Data : " + getLoginInfo);
+        }
 
-        Debug.Log(" login data : " + _login_info);
-        cuserauth _userInfo = JsonUtility.FromJson<cuserauth>(_login_info); 
-
-        UserDataManager.Inst.GetLogin(_userInfo);
+        UserDataManager.Inst.Login(userLoginData);
 
         // 상태변화에 대한것은 LobbyManager에서 표현할수 있어야 한다.
         UserDataManager.Inst.SetUserLoginFlag(true);
+        LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Lobby);
     }
-    public void Response_GetAllServant(string all_servant_info)
-    {
-        Debug.Log(" Response_GetAllServant : " + all_servant_info);
-        var pasingData = JsonUtility.FromJson<cservant>(all_servant_info);
-        UserDataManager.Inst.LoadAllServant(pasingData);
-    }
-    public void Response_GetAllMonster(string all_monster_info)
-    {
-        Debug.Log(" Response_GetAllMonster : " + all_monster_info);
-        var pasingData = JsonUtility.FromJson<cmonster>(all_monster_info);
-        UserDataManager.Inst.LoadAllMonster(pasingData);
-    }
-
 
     public void Response_CreatePlayer()
     {
@@ -296,114 +280,83 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void Response_GetLobbyInfo()
     {
-
         Debug.Log("Response_GetLobbyInfo");
-        LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Lobby);
-
-        //  TODO : Test Code if deleted
-        // void RecivePacketCharInfo()..
-
-        // 로비에 들어가면 데이터 연동
-        //UserDataManager.Inst.SetChar(TestDB.LoadCharactersData());
-
-
-        // TODO : 확실히 필요없다고 판단되면 삭제할것
-        UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Lobby);
     }
-
-
-    public void Response_EntryGacha()
-    {
-        Debug.Log("Response_EntryGacha");
-    }
-    public void Response_ExecuteGacha()
-    {
-        Debug.Log("Response_ExecuteGacha");
-    }
-
 
     //###
-    public void Response_Gacha(string gacha_info)
+    public void Response_Gacha(string getGachaInfo)
     {
+        Debug.Log("Response_Gacha : " + getGachaInfo);
 
-    }
-
-    public void Response_GetServant(string servant_info)
-    {
-        if(servant_info != null)
+        JsonData getInfo = JsonMapper.ToObject(getGachaInfo);
+        int type = Convert.ToInt32(getInfo["result_type"].ToString());
+        // Servant
+        if (type == (int)GACHA_RESULT_TYPE.Servant)
         {
-            Debug.Log("Responese_GetServant : " + servant_info);
-            var pasingData = JsonUtility.FromJson<cservantinfo>(servant_info);
+            Debug.Log(getGachaInfo);
+            gachaServantData gachaData = JsonUtility.FromJson<gachaServantData>(getGachaInfo);
+            Servant getServant = UserDataManager.Inst.ParseServant(gachaData.data.index, gachaData.data.servant);
 
-            Character newChar = UserDataManager.Inst.AddServant(pasingData);
-        
-            GachaImage.Inst.SetGachaReult(newChar, GACHA_TYPE.Servant);
+            GachaImage.Inst.SetGachaResult_Servant(getServant);
+        }
+        // Monster
+        else if (type == (int)GACHA_RESULT_TYPE.Monster)
+        {
+            Debug.Log(getGachaInfo);
+            gachaMonsterData gachaData = JsonUtility.FromJson<gachaMonsterData>(getGachaInfo);
+            Monster getMonster = UserDataManager.Inst.ParseMonster(gachaData.data.index, gachaData.data.monster);
 
-            receiveGacha = true;
+            GachaImage.Inst.SetGachaResult_Monster(getMonster);
+        }
+        // Item
+        else if (type == (int)GACHA_RESULT_TYPE.Item)
+        {
+            Debug.Log(getGachaInfo);
+            gachaItemData gachaData = JsonUtility.FromJson<gachaItemData>(getGachaInfo);
+            Item getItem = UserDataManager.Inst.ParseItem(gachaData.data.index, gachaData.data.item);
+
+            GachaImage.Inst.SetGacharResult_Item(getItem);
         }
     }
 
-    public void Response_GetMonster(string mosnster_info)
-    {
-        if(mosnster_info !=null)
-        {
-            Debug.Log("Responese_GetMonster : " + mosnster_info);
-            var pasingData = JsonUtility.FromJson<cmonsterinfo>(mosnster_info);
-            Character newChar = UserDataManager.Inst.AddMonster(pasingData);
-
-            GachaImage.Inst.SetGachaReult(newChar, GACHA_TYPE.Monster);
-            receiveGacha = true;
-        }
-    }
-
-    public void Response_GetItem(string item_info)
-    {
-        Debug.Log("Responese_GetItem : " + item_info);
-        var pasingData = JsonUtility.FromJson<citeminfo>(item_info);
-
-        GachaImage.Inst.SetGachaReult(null, GACHA_TYPE.Item);
-        receiveGacha = true;
-        //UserDataManager.Inst.AddMonster(PasingData);
-    }
     public void Response_GetBattle(string battle_info)
     {
         Debug.Log("Response_GetBattle : " + battle_info);
-        var pasingData = JsonUtility.FromJson<cbattle>(battle_info);
+        //var pasingData = JsonUtility.FromJson<cbattle>(battle_info);
        // BattleManager.Inst.SetBattle(pasingData);
 
     }
 
 
 
-
-    public void Response_GachaResult(GACHA_TYPE gachaType)
+    //TODO : Test Code
+    public void Response_GachaResult(GACHA_RESULT_TYPE gachaResultType)
     {
-        switch (gachaType)
+        switch (gachaResultType)
         {
-            case GACHA_TYPE.Servant:
+            case GACHA_RESULT_TYPE.Servant:
                 {
                     Debug.Log("Response_ServantGacha");
-                    // TODO : 현재 임시로 TestDB에서 캐릭터 정보 가져와서
-                    Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex(), gachaType);
-                    // 가챠의 결과로 나온 캐릭터 정보를 저장한다.
-                    UserDataManager.Inst.SetServant(newChar);
-                    UserDataManager.Inst.AddNewCharImage(newChar, CHAR_TYPE.SERVANT);
-                    GachaImage.Inst.SetGachaReult(newChar, gachaType);
-                    //GachaInfoPopup.Inst.SetGachaResultInfoPopup(newChar);
+                    int servantCount = UserDataManager.Inst.GetServantCount() + 1;
+                    Servant servant = UserDataManager.Inst.CreateServant(servantCount);
+                    GachaImage.Inst.SetGachaCharacterResult(servant.name, servant.status, GACHA_RESULT_TYPE.Servant);
                     break;
                 }
-            case GACHA_TYPE.Monster:
+            case GACHA_RESULT_TYPE.Monster:
                 {
                     Debug.Log("Response_MonsterGacha");
 
-                    Character newChar = new Character(UserDataManager.Inst.GetMonsterIndex(), gachaType);
-                    UserDataManager.Inst.SetMonster(newChar);
-                    UserDataManager.Inst.AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
-                    GachaImage.Inst.SetGachaReult(newChar, gachaType);
+                    //Character newChar = new Character(UserDataManager.Inst.GetMonsterIndex(), gachaType);
+                    //UserDataManager.Inst.SetMonster(newChar);
+                    //UserDataManager.Inst.AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
+                    //GachaImage.Inst.SetGachaReult(newChar, gachaType);
 
+                    int monsterCount = UserDataManager.Inst.GetMonsterCount() + 1;
+                    Monster monster = UserDataManager.Inst.CreateMonster(monsterCount);
+                    GachaImage.Inst.SetGachaCharacterResult(monster.name, monster.status, GACHA_RESULT_TYPE.Monster);
                     break;
                 }
-            case GACHA_TYPE.Item:
+            case GACHA_RESULT_TYPE.Item:
                 {
                     Debug.Log("Response_ItemGacha");
                     break;
@@ -428,10 +381,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("Response_GetStageInfo");
         LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Stage);
-
-
-        // TODO : 확실히 필요없다고 판단되면 삭제할것
-        UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Stage);
     }
 
     public void Response_EnterStage(int stageNum)
@@ -446,13 +395,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("Response_Logout");
         UserDataManager.Inst.InitFlag();
-        UserDataManager.Inst.RemoveUserInfo();
+
         LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Login);
-
-
-
-        // TODO : 확실히 필요없다고 판단되면 삭제할것
-        UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Login);
     }
 
     #endregion
