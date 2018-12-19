@@ -77,26 +77,20 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             oldFormationDic = formationDic;
         }  
     }
-    public Servant CreateServant(int index)
+    public Servant CreateServant(int getIndex)
     {
-        //Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex(), GACHA_TYPE.Servant);
-        //SetServant(newChar);
-       // AddNewCharImage(newChar, CHAR_TYPE.SERVANT);
        Servant servant = new Servant();
-       servant.index = index;
-       newServantDic.Add(index, servant);
+       servant.index = getIndex;
+       newServantDic.Add(getIndex, servant);
        AddServantImage(servant);
 
         return servant;
     }
-    public Monster CreateMonster(int index)
+    public Monster CreateMonster(int getIndex)
     {
-        //Character newChar = new Character(UserDataManager.Inst.GetMonsterIndex(), GACHA_TYPE.Monster);
-        //SetMonster(newChar);
-
         Monster monster = new Monster();
-        monster.index = index;
-        newMonsterDic.Add(index, monster);
+        monster.index = getIndex;
+        newMonsterDic.Add(getIndex, monster);
         AddMonsterImage(monster);
 
         return monster;
@@ -267,58 +261,30 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     }
 
 
-
-
-    public void AddNewCharImage(Character newChar, CHAR_TYPE charType)
-    {
-        GameObject instance = Instantiate(Resources.Load("Prefabs/CharContent") as GameObject);
-        Debug.Log("AddNewCharImage");
-        if (instance.transform.GetChild(0))
-        {
-            if (charType == CHAR_TYPE.SERVANT)
-            {
-                instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + newChar.Name);
-                //instance.GetComponent<CharContent>().CharDicKey = servantIndex - 1;
-                instance.GetComponent<CharContent>().CharDicKey = (int)newChar.UniqueIndex;
-                instance.transform.SetParent(CharacterListManager.Inst.ServantContentList.transform.transform);
-                //instance.transform.SetParent(LobbyManager.Inst.ServantContentList.transform.transform);
-                instance.GetComponent<CharContent>().CharType = CHAR_TYPE.SERVANT;
-            }
-            else
-            {
-                instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/MonsterImage/" + newChar.Name);
-                //instance.GetComponent<CharContent>().CharDicKey = monsterIndex - 1;
-                instance.GetComponent<CharContent>().CharDicKey = (int)newChar.UniqueIndex;
-                instance.transform.SetParent(CharacterListManager.Inst.MonsterContentList.transform.transform); 
-                 //instance.transform.SetParent(LobbyManager.Inst.MonsterContentList.transform.transform);
-                 instance.GetComponent<CharContent>().CharType = CHAR_TYPE.MONSTER;
-            }          
-        } 
-    }
-    public void AddServantImage(Servant servant)
+    public void AddServantImage(Servant getServant)
     {
         GameObject instance = Instantiate(Resources.Load("Prefabs/CharContent") as GameObject);
 
         if (instance.transform.GetChild(0))
         {
-            instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + servant.name);
+            instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + getServant.name);
             //instance.GetComponent<CharContent>().CharDicKey = servantIndex - 1;
-            instance.GetComponent<CharContent>().CharDicKey = servant.index;
+            instance.GetComponent<CharContent>().CharDicKey = getServant.index;
             instance.transform.SetParent(CharacterListManager.Inst.ServantContentList.transform.transform);
             //instance.transform.SetParent(LobbyManager.Inst.ServantContentList.transform.transform);
             instance.GetComponent<CharContent>().CharType = CHAR_TYPE.SERVANT;
 
         }
     }
-    public void AddMonsterImage(Monster monster)
+    public void AddMonsterImage(Monster getMonster)
     {
         GameObject instance = Instantiate(Resources.Load("Prefabs/CharContent") as GameObject);
 
         if (instance.transform.GetChild(0))
         {
-            instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/MonsterImage/" + monster.name);
+            instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/MonsterImage/" + getMonster.name);
             //instance.GetComponent<CharContent>().CharDicKey = monsterIndex - 1;
-            instance.GetComponent<CharContent>().CharDicKey = monster.index;
+            instance.GetComponent<CharContent>().CharDicKey = getMonster.index;
             instance.transform.SetParent(CharacterListManager.Inst.MonsterContentList.transform.transform);
             //instance.transform.SetParent(LobbyManager.Inst.MonsterContentList.transform.transform);
             instance.GetComponent<CharContent>().CharType = CHAR_TYPE.MONSTER;
@@ -348,28 +314,28 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 #region NewGetData Func
 
 
-    public void Login(UserLoginData userLoginData)
+    public void Login(UserLoginData getUserLoginData)
     {
 
-        if (ParseUserInfo(userLoginData.userinfo) == false)
+        if (ParseUserInfo(getUserLoginData.userinfo) == false)
         {
             Debug.Log("Invalid ParseUserInfo Info");
             // 재 로그인 시켜야함
         }
 
-        if (ParseServantList(userLoginData.servant_list) == false)
+        if (ParseServantList(getUserLoginData.servant_list) == false)
         {
             Debug.Log("Invalid ParseServantList Info");
             // 재 로그인 시켜야함
         }
 
-        if (ParseMonsterList(userLoginData.monster_list) == false)
+        if (ParseMonsterList(getUserLoginData.monster_list) == false)
         {
             Debug.Log("Invalid ParseMonsterList Info");
             // 재 로그인 시켜야함
         }
 
-        if (ParseItemList(userLoginData.item_list) == false)
+        if (ParseItemList(getUserLoginData.item_list) == false)
         {
             Debug.Log("Invalid ParseItemList Info");
             // 재 로그인 시켜야함
@@ -579,6 +545,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
 
 
+
+
     public int GetCharacterIndex()
     {
         return servantIndex;
@@ -612,6 +580,32 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     }
 
 
+    public void AddNewCharImage(Character newChar, CHAR_TYPE charType)
+    {
+        GameObject instance = Instantiate(Resources.Load("Prefabs/CharContent") as GameObject);
+        Debug.Log("AddNewCharImage");
+        if (instance.transform.GetChild(0))
+        {
+            if (charType == CHAR_TYPE.SERVANT)
+            {
+                instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + newChar.Name);
+                //instance.GetComponent<CharContent>().CharDicKey = servantIndex - 1;
+                instance.GetComponent<CharContent>().CharDicKey = (int)newChar.UniqueIndex;
+                instance.transform.SetParent(CharacterListManager.Inst.ServantContentList.transform.transform);
+                //instance.transform.SetParent(LobbyManager.Inst.ServantContentList.transform.transform);
+                instance.GetComponent<CharContent>().CharType = CHAR_TYPE.SERVANT;
+            }
+            else
+            {
+                instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/MonsterImage/" + newChar.Name);
+                //instance.GetComponent<CharContent>().CharDicKey = monsterIndex - 1;
+                instance.GetComponent<CharContent>().CharDicKey = (int)newChar.UniqueIndex;
+                instance.transform.SetParent(CharacterListManager.Inst.MonsterContentList.transform.transform);
+                //instance.transform.SetParent(LobbyManager.Inst.MonsterContentList.transform.transform);
+                instance.GetComponent<CharContent>().CharType = CHAR_TYPE.MONSTER;
+            }
+        }
+    }
     //public Character AddServant(cservantinfo servantinfo)
     //{
     //    Character newChar = new Character(servantinfo);

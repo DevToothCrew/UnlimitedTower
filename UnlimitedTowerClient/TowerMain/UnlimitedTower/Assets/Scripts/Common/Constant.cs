@@ -381,10 +381,10 @@ public class Character
         Index = getChartIndex;
         Size = getSizeType;
     }
-    public Character(int index, GACHA_TYPE gachaType)
+    public Character(int index, GACHA_RESULT_TYPE gachaType)
     {
         List<CHARACTER_NUM> myIndexList = new List<CHARACTER_NUM>();
-        if(gachaType == GACHA_TYPE.Servant)
+        if(gachaType == GACHA_RESULT_TYPE.Servant)
         {
             myIndexList.Add(CHARACTER_NUM.Hero_Novice_1001);
             myIndexList.Add(CHARACTER_NUM.Hero_Novice_1002);
@@ -834,11 +834,18 @@ public enum SCENE_STATE
     TowerBattle = 5,
     Max = 6,
 }
+//  가챠 타입은 무료, 특수, 이벤트 등을 의미한다.
 public enum GACHA_TYPE
 {
-    Servant,
+    // TODO : 예시로 쓴 부분임
+    Default,
+    Specail
+}
+public enum GACHA_RESULT_TYPE
+{
+    Servant = 0,
     Monster,
-    Item,
+    Item
 }
 
 #endregion

@@ -126,10 +126,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Gacha();
     }
 
-    public void Request_GachaResult(GACHA_TYPE gachaType)
+    public void Request_GachaResult(GACHA_RESULT_TYPE gachaResultType)
     {
         Debug.Log("Request_GachaResult");
-        Response_GachaResult(gachaType);
+        Response_GachaResult(gachaResultType);
     }
 
     public void Request_ExitGacha()
@@ -340,19 +340,19 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
 
     //TODO : Test Code
-    public void Response_GachaResult(GACHA_TYPE gachaType)
+    public void Response_GachaResult(GACHA_RESULT_TYPE gachaResultType)
     {
-        switch (gachaType)
+        switch (gachaResultType)
         {
-            case GACHA_TYPE.Servant:
+            case GACHA_RESULT_TYPE.Servant:
                 {
                     Debug.Log("Response_ServantGacha");
                     int servantCount = UserDataManager.Inst.GetServantCount() + 1;
                     Servant servant = UserDataManager.Inst.CreateServant(servantCount);
-                    GachaImage.Inst.SetGachaCharacterResult(servant.name, servant.status, GACHA_TYPE.Servant);
+                    GachaImage.Inst.SetGachaCharacterResult(servant.name, servant.status, GACHA_RESULT_TYPE.Servant);
                     break;
                 }
-            case GACHA_TYPE.Monster:
+            case GACHA_RESULT_TYPE.Monster:
                 {
                     Debug.Log("Response_MonsterGacha");
 
@@ -363,10 +363,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
                     int monsterCount = UserDataManager.Inst.GetMonsterCount() + 1;
                     Monster monster = UserDataManager.Inst.CreateMonster(monsterCount);
-                    GachaImage.Inst.SetGachaCharacterResult(monster.name, monster.status, GACHA_TYPE.Monster);
+                    GachaImage.Inst.SetGachaCharacterResult(monster.name, monster.status, GACHA_RESULT_TYPE.Monster);
                     break;
                 }
-            case GACHA_TYPE.Item:
+            case GACHA_RESULT_TYPE.Item:
                 {
                     Debug.Log("Response_ItemGacha");
                     break;
