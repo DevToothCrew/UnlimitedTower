@@ -307,21 +307,21 @@ public class PacketManager : MonoSingleton<PacketManager> {
         string data = getInfo["data"].ToString();
 
         // Servant
-        if(type == 1)
+        if(type == (int)GACHA_RESULT_TYPE.Servant)
         {
             Debug.Log(data);
             servantData gachaData = JsonUtility.FromJson<servantData>(data);
             Servant getServant = UserDataManager.Inst.ParseServant(gachaData.index, gachaData.servant);
         }
         // Monster
-        else if(type == 2)
+        else if(type == (int)GACHA_RESULT_TYPE.Monster)
         {
             Debug.Log(data);
             monsterData gachaData = JsonUtility.FromJson<monsterData>(data);
             Monster getMonster = UserDataManager.Inst.ParseMonster(gachaData.index, gachaData.monster);
         }
         // Item
-        else if(type == 3)
+        else if(type == (int) GACHA_RESULT_TYPE.Item)
         {
             Debug.Log(data);
             itemData gachaData = JsonUtility.FromJson<itemData>(data);

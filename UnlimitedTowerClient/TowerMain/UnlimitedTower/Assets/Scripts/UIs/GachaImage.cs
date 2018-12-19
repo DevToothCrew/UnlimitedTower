@@ -311,7 +311,8 @@ public class GachaImage : MonoSingleton<GachaImage>
 #if UNITY_EDITOR
 
 #else
-         PacketManager.Inst.Request_ExecuteGacha();
+        // Remove Code 
+        //PacketManager.Inst.Request_ExecuteGacha();
 #endif
 
         LightEffectCircle04Animator.SetBool("Play", true);

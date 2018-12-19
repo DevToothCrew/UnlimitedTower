@@ -843,7 +843,7 @@ public enum GACHA_TYPE
 }
 public enum GACHA_RESULT_TYPE
 {
-    Servant = 0,
+    Servant = 1,
     Monster,
     Item
 }
