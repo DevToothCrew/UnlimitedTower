@@ -39,7 +39,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
       7, 6, 8, 5, 9, 2, 1, 3, 0, 4 
     };
 
-    public int TestCharNum = 20;
+    public int TestCharNum = 10;
 
     private bool testInitFlag = false;
 
@@ -69,52 +69,34 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             CreateHero();
             for (int i = 0; i < TestCharNum; i++)
             {
-                CreateServant();
-                CreateMonster();
+                CreateServant(i+1);
+                CreateMonster(i+1);
             }
-            Create10NumberMonster();
+            //Create10NumberMonster();
             testInitFlag = true;
             oldFormationDic = formationDic;
         }  
     }
-    void CreateServant()
+    public void CreateServant(int index)
     {
-        Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex(), GACHA_TYPE.Servant);
-        SetServant(newChar);
-        AddNewCharImage(newChar, CHAR_TYPE.SERVANT);
-
+        //Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex(), GACHA_TYPE.Servant);
+        //SetServant(newChar);
+       // AddNewCharImage(newChar, CHAR_TYPE.SERVANT);
+       Servant servant = new Servant();
+       newServantDic.Add(index, servant);
+       AddServantImage(servant);
+      
     }
-    void CreateMonster()
+    public void CreateMonster(int index)
     {
-        Character newChar = new Character(UserDataManager.Inst.GetMonsterIndex(), GACHA_TYPE.Monster);
-        SetMonster(newChar);
-        AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
-    }
-    void Create10NumberMonster()
-    {
-        Character newChar;
-        for (int i = 0; i < 3; i++)
-        {
-            newChar = new Character(CHARACTER_NUM.Mst_Death);
-            SetMonster(newChar);
-            AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
-        }
-        
-        for (int i = 3; i < 6; i++)
-        {
-            newChar = new Character(CHARACTER_NUM.Mst_Robot);
-            SetMonster(newChar);
-            AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
-        }
-     
-        for (int i = 6; i < 10; i++)
-        {
-            newChar = new Character(CHARACTER_NUM.Mst_ShadowCat);
-            SetMonster(newChar);
-            AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
-        }
+        //Character newChar = new Character(UserDataManager.Inst.GetMonsterIndex(), GACHA_TYPE.Monster);
+        //SetMonster(newChar);
 
+        Monster monster = new Monster();
+        newMonsterDic.Add(index, monster);
+        AddMonsterImage(monster);
 
+        // AddNewCharImage(monster, CHAR_TYPE.MONSTER);
     }
 
     public void InitFlag()
@@ -213,44 +195,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         //}
     }
 
-    public int GetCharacterIndex()
-    {
-        return servantIndex;
-    }
-    public int GetMonsterIndex()
-    {
-        return monsterIndex;
-    }
-
-
-    // TODO : Test Code if deleted
-    public void SetChar(Dictionary<int, Character> getCharcterDic)
-    {
-        servantDic = getCharcterDic;
-    }
-
-    // 새로운 캐릭터를 dic에 저장한다.
-    public void SetServant(Character newChar)
-    {
-#if UNITY_EDITOR
-        servantDic.Add(servantIndex, newChar);
-        Debug.Log("서번트 인덱스 : " + servantIndex);
-#else
-         servantDic.Add((int)newChar.UniqueIndex-1, newChar);
-#endif
-        servantIndex += 1;
-    }
-
-    public void SetMonster(Character newChar)
-    {
-#if UNITY_EDITOR
-        monsterDic.Add(monsterIndex, newChar);
-        Debug.Log("몬스터 인덱스 : " + monsterIndex);
-#else
-          monsterDic.Add((int)newChar.UniqueIndex - 1, newChar);
-#endif
-        monsterIndex += 1;
-    }
 
     public void  LoadUserData()
     {
@@ -317,7 +261,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public void AddNewCharImage(Character newChar, CHAR_TYPE charType)
     {
         GameObject instance = Instantiate(Resources.Load("Prefabs/CharContent") as GameObject);
-
+        Debug.Log("AddNewCharImage");
         if (instance.transform.GetChild(0))
         {
             if (charType == CHAR_TYPE.SERVANT)
@@ -340,6 +284,36 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             }          
         } 
     }
+    public void AddServantImage(Servant servant)
+    {
+        GameObject instance = Instantiate(Resources.Load("Prefabs/CharContent") as GameObject);
+
+        if (instance.transform.GetChild(0))
+        {
+            instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + servant.name);
+            //instance.GetComponent<CharContent>().CharDicKey = servantIndex - 1;
+            instance.GetComponent<CharContent>().CharDicKey = servant.index;
+            instance.transform.SetParent(CharacterListManager.Inst.ServantContentList.transform.transform);
+            //instance.transform.SetParent(LobbyManager.Inst.ServantContentList.transform.transform);
+            instance.GetComponent<CharContent>().CharType = CHAR_TYPE.SERVANT;
+
+        }
+    }
+    public void AddMonsterImage(Monster monster)
+    {
+        GameObject instance = Instantiate(Resources.Load("Prefabs/CharContent") as GameObject);
+
+        if (instance.transform.GetChild(0))
+        {
+            instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/MonsterImage/" + monster.name);
+            //instance.GetComponent<CharContent>().CharDicKey = monsterIndex - 1;
+            instance.GetComponent<CharContent>().CharDicKey = monster.index;
+            instance.transform.SetParent(CharacterListManager.Inst.MonsterContentList.transform.transform);
+            //instance.transform.SetParent(LobbyManager.Inst.MonsterContentList.transform.transform);
+            instance.GetComponent<CharContent>().CharType = CHAR_TYPE.MONSTER;
+        }    
+    }
+
 
     public void RemoveUserInfo()
     {
@@ -377,18 +351,20 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             Debug.Log("Invalid ParseServantList Info");
             // 재 로그인 시켜야함
         }
-        // TODO : 작업 예정
+
+        if (ParseMonsterList(userLoginData.monster_list) == false)
+        {
+            Debug.Log("Invalid ParseMonsterList Info");
+            // 재 로그인 시켜야함
+        }
+
         if (ParseItemList(userLoginData.item_list) == false)
         {
             Debug.Log("Invalid ParseItemList Info");
             // 재 로그인 시켜야함
         }
-        if (ParseMonsterList(userLoginData.monster_list) == false)
-        {
-            Debug.Log("Invalid ParseMonsterList Info");
-        }
 
-     
+
 
         // TODO : Party 편성 정보도 추가
         formationDic.Add(DEFINE.HERO_FORMATION_NUM, 0);
@@ -438,21 +414,26 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     
     public Servant ParseServant(int getServantIndex, servantInfo getServantInfo)
     {
+        if (getServantInfo == null)
+        {
+            return null;
+        }
+
         Servant servant = new Servant();
 
-        servant.index = getServantIndex;
-        servant.state = getServantInfo.state;
+        servant.index       = getServantIndex;
+        servant.state       = getServantInfo.state;
         servant.exp = getServantInfo.exp;
         // TODO : 추후 Servant Exp에 따른 Level 공식을 추가해 레벨 적용 필요
-        servant.level = DEFINE.GetLevelForExp(getServantInfo.exp);
-        servant.job = getServantInfo.job;
+        servant.level        = DEFINE.GetLevelForExp(getServantInfo.exp);
+        servant.job          = getServantInfo.job;
 
         // TODO : 추후 Appear의 값에 따른 리소스가 저장되어야함
-        servant.head = getServantInfo.appear.head;
-        servant.hair = getServantInfo.appear.hair;
-        servant.body = getServantInfo.appear.body;
+        servant.head        = getServantInfo.appear.head;
+        servant.hair        = getServantInfo.appear.hair;
+        servant.body        = getServantInfo.appear.body;
 
-        servant.status = ParseStatus(getServantInfo.status);
+        servant.status      = ParseStatus(getServantInfo.status);
         if(servant.status == null)
         {
             Debug.Log("Invalid Status Info");
@@ -505,16 +486,21 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public Monster ParseMonster(int getMonsterIndex, monsterInfo getMonsterInfo)
     {
+        if (getMonsterInfo == null)
+        {
+            return null;
+        }
+
         Monster monster = new Monster();
 
-        monster.index = getMonsterIndex;
-        monster.state = getMonsterInfo.state;
+        monster.index       = getMonsterIndex;
+        monster.state       = getMonsterInfo.state;
         monster.exp = getMonsterInfo.exp;
         // TODO : 추후 Servant Exp에 따른 Level 공식을 추가해 레벨 적용 필요
-        monster.level = DEFINE.GetLevelForExp(getMonsterInfo.exp);
-        monster.type = getMonsterInfo.type;
-        monster.grade = getMonsterInfo.grade;
-        monster.upgrade = getMonsterInfo.upgrade;
+        monster.level       = DEFINE.GetLevelForExp(getMonsterInfo.exp);
+        monster.type        = getMonsterInfo.type;
+        monster.grade       = getMonsterInfo.grade;
+        monster.upgrade     = getMonsterInfo.upgrade;
 
         // TODO : 추후 Appear + Type 의 값에 따른 리소스가 저장되어야함
         // monster.appear = ???
@@ -528,13 +514,20 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
         return monster;
     }
-    bool ParseItemList(List<itemData> getItemList)
+
+    public bool ParseItemList(List<itemData> getItemList)
     {
         itemDic = new Dictionary<int, Item>();
         
         for(int i=0; i<getItemList.Count; i++)
         {
             Item item = ParseItem(getItemList[i].index, getItemList[i].item);
+            if(item == null)
+            {
+                Debug.Log("Invalid Item Info");
+                return false;
+            }
+            itemDic.Add(item.index, item);
         }
 
         return true;
@@ -542,18 +535,24 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public Item ParseItem(int getItemIndex, itemInfo getItemInfo)
     {
+        if(getItemInfo == null)
+        {
+            return null;
+        }
+
         Item item = new Item();
 
         item.index = getItemIndex;
-        item.state = getItemInfo.state;
-        item.id = getItemInfo.id;
-        item.slot = getItemInfo.slot;
-        item.tier = getItemInfo.tier;
-        item.job = getItemInfo.job;
-        item.grade = getItemInfo.grade;
-        item.upgrade = getItemInfo.upgrade;
-        item.atk = getItemInfo.atk;
-        item.def = getItemInfo.def;
+
+        item.state      = getItemInfo.state;
+        item.id         = getItemInfo.id;
+        item.slot       = getItemInfo.slot;
+        item.tier       = getItemInfo.tier;
+        item.job        = getItemInfo.job;
+        item.grade      = getItemInfo.grade;
+        item.upgrade    = getItemInfo.upgrade;
+        item.atk        = getItemInfo.atk;
+        item.def        = getItemInfo.def;
 
         item.status = ParseStatus(getItemInfo.status);
         if(item.status == null)
@@ -563,6 +562,42 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         }
 
         return item;   
+    }
+
+
+
+
+
+    public int GetCharacterIndex()
+    {
+        return servantIndex;
+    }
+    public int GetMonsterIndex()
+    {
+        return monsterIndex;
+    }
+
+    // 새로운 캐릭터를 dic에 저장한다.
+    public void SetServant(Character newChar)
+    {
+#if UNITY_EDITOR
+        servantDic.Add(servantIndex, newChar);
+        Debug.Log("서번트 인덱스 : " + servantIndex);
+#else
+         servantDic.Add((int)newChar.UniqueIndex-1, newChar);
+#endif
+        servantIndex += 1;
+    }
+
+    public void SetMonster(Character newChar)
+    {
+#if UNITY_EDITOR
+        monsterDic.Add(monsterIndex, newChar);
+        Debug.Log("몬스터 인덱스 : " + monsterIndex);
+#else
+          monsterDic.Add((int)newChar.UniqueIndex - 1, newChar);
+#endif
+        monsterIndex += 1;
     }
 
 

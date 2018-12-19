@@ -335,13 +335,15 @@ public class PacketManager : MonoSingleton<PacketManager> {
             case GACHA_TYPE.Servant:
                 {
                     Debug.Log("Response_ServantGacha");
-                    // TODO : 현재 임시로 TestDB에서 캐릭터 정보 가져와서
+
                     Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex(), gachaType);
-                    // 가챠의 결과로 나온 캐릭터 정보를 저장한다.
                     UserDataManager.Inst.SetServant(newChar);
                     UserDataManager.Inst.AddNewCharImage(newChar, CHAR_TYPE.SERVANT);
                     GachaImage.Inst.SetGachaReult(newChar, gachaType);
-                    //GachaInfoPopup.Inst.SetGachaResultInfoPopup(newChar);
+
+                    //Servant servant = new Servant();
+
+            
                     break;
                 }
             case GACHA_TYPE.Monster:

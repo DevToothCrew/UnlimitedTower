@@ -342,7 +342,6 @@ public class Item
     public int def;
 
     public Status status;
-
 }
 
 
