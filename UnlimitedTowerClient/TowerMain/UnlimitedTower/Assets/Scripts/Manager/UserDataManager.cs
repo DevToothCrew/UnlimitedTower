@@ -575,7 +575,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         return item;   
     }
 
-
+    #endregion
 
 
 
@@ -638,8 +638,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     //    AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
     //}
 
-
-
-
-    #endregion
 }
+
+
+
