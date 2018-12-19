@@ -18,6 +18,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public Dictionary<int, Servant> newServantDic = new Dictionary<int, Servant>();
     public Dictionary<int, Monster> newMonsterDic = new Dictionary<int, Monster>();
+    public Dictionary<int, Item>    itemDic       = new Dictionary<int, Item>();
 
     //public Dictionary<int, int> itemDic = new 
 
@@ -376,11 +377,18 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             Debug.Log("Invalid ParseServantList Info");
             // 재 로그인 시켜야함
         }
-
-        ParseMonsterList(userLoginData.monster_list);
-
         // TODO : 작업 예정
-        // ParseItemList(userLoginData.item_list);
+        if (ParseItemList(userLoginData.item_list) == false)
+        {
+            Debug.Log("Invalid ParseItemList Info");
+            // 재 로그인 시켜야함
+        }
+        if (ParseMonsterList(userLoginData.monster_list) == false)
+        {
+            Debug.Log("Invalid ParseMonsterList Info");
+        }
+
+     
 
         // TODO : Party 편성 정보도 추가
         formationDic.Add(DEFINE.HERO_FORMATION_NUM, 0);
@@ -520,6 +528,43 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
         return monster;
     }
+    bool ParseItemList(List<itemData> getItemList)
+    {
+        itemDic = new Dictionary<int, Item>();
+        
+        for(int i=0; i<getItemList.Count; i++)
+        {
+            Item item = ParseItem(getItemList[i].index, getItemList[i].item);
+        }
+
+        return true;
+    }
+
+    public Item ParseItem(int getItemIndex, itemInfo getItemInfo)
+    {
+        Item item = new Item();
+
+        item.index = getItemIndex;
+        item.state = getItemInfo.state;
+        item.id = getItemInfo.id;
+        item.slot = getItemInfo.slot;
+        item.tier = getItemInfo.tier;
+        item.job = getItemInfo.job;
+        item.grade = getItemInfo.grade;
+        item.upgrade = getItemInfo.upgrade;
+        item.atk = getItemInfo.atk;
+        item.def = getItemInfo.def;
+
+        item.status = ParseStatus(getItemInfo.status);
+        if(item.status == null)
+        {
+            Debug.Log("Invalid Status Info");
+            return null;
+        }
+
+        return item;   
+    }
+
 
     //public Character AddServant(cservantinfo servantinfo)
     //{
@@ -546,6 +591,9 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     //    SetServant(newChar);
     //    AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
     //}
+
+
+
 
     #endregion
 }

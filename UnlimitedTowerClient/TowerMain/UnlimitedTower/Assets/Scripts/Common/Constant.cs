@@ -303,30 +303,45 @@ public class Monster
         size = DEFINE.GetCharacterSize(charNum);
         name = charNum.ToString();
     }
+
+
+    public Monster(CHARACTER_NUM charNum)
+    {
+        exp = 0;
+        level = 1;
+
+        status = new Status();
+        status.basicStr = DEFINE.TEST_STATUS_VALUE;
+        status.basicDex = DEFINE.TEST_STATUS_VALUE;
+        status.basicInt = DEFINE.TEST_STATUS_VALUE;
+
+        // job값으로 현재는 서번트 구분 추후에 합의하여 수정해야할듯.
+      
+
+        // 리소스 인덱스
+        index = (int)charNum;
+        //UniqueIndex = servantinfo.s_index - 1;
+
+        size = DEFINE.GetCharacterSize(charNum);
+        name = charNum.ToString();
+    }
 }
 
 public class Item
 {
-    public string Name;
-    public int Index;
-    public int UniqueIndex;
-    // 아이템 종류
-    public int Type;
-    // 장착 타입
-    public int Slot;
-    // 티어
-    public int Tier;
-    public int Grade;
-    public int Reinforce;
+    public int index;
 
-    // ***추가하지 않은 정보
-    // - 힘민지 클래스
-    // - 아이템 현재 상태
+    public int state;
+    public int id;
+    public int slot;
+    public int tier;
+    public int job;
+    public int grade;
+    public int upgrade;
+    public int atk;
+    public int def;
 
-    public Item()
-    {
-
-    }
+    public Status status;
 
 }
 

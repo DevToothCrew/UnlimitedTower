@@ -101,7 +101,7 @@ public class TestDB
                 charSize = SIZE_TYPE.SMALL;
             }
 
-            //getMonsterDic.Add(i, new Monster(charNum)) ;
+            getMonsterDic.Add(i, new Monster(charNum)) ;
         }
 
         return getMonsterDic;
