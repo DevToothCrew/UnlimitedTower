@@ -11,41 +11,25 @@ public class PacketManager : MonoSingleton<PacketManager> {
     #region ServerConnect
 
     [DllImport("__Internal")]
-    private static extern void Hello();
-
-    [DllImport("__Internal")]
-    private static extern void HelloString(string str);
-
-    [DllImport("__Internal")]
-    private static extern void PrintFloatArray(float[] array, int size);
-
-    [DllImport("__Internal")]
-    private static extern int AddNumbers(int x, int y);
-
-    [DllImport("__Internal")]
-    private static extern string StringReturnValueFunction();
-
-    [DllImport("__Internal")]
-    private static extern void BindWebGLTexture(int texture);
-
-    // Added by John
-    [DllImport("__Internal")]
     private static extern void Login();
+
+    [DllImport("__Internal")]
+    private static extern void SignUp();
 
     [DllImport("__Internal")]
     private static extern void Logout();
 
     [DllImport("__Internal")]
-    public static extern void Gacha();
+    private static extern void Gacha();
 
     [DllImport("__Internal")]
-    public static extern void GetServant();
+    private static extern void GetServant();
 
     [DllImport("__Internal")]
-    public static extern void GetItem();
+    private static extern void GetItem();
 
     [DllImport("__Internal")]
-    public static extern void GetMonster();
+    private static extern void GetMonster();
 
     [DllImport("__Internal")]
     private static extern void SetFormation(string formation);
@@ -265,6 +249,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void Response_Login(string getLoginInfo)
     {
+        if(getLoginInfo == null)
+        {
+            // 유저 정보가 없으면 SignUp으로
+            SignUp();
+            return;
+        }
+
         Debug.Log("Response_Login");
         // 스캐터 답받기
         
