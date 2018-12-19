@@ -419,4 +419,20 @@ class cgacha_system
             user_gacha_accumulate_table.erase(accumulate_iter);
         }
 #pragma endregion
+
+#pragma region gacha cheat
+        void gacha_cheat(account_name _user)
+        {
+            require_auth2(_user, N(owner));
+            uint64_t l_seed = safeseed::get_seed(_user);
+            for(uint32_t i=0;i<5;++i)
+            {
+                if(i < 4)
+                {
+                    gacha_servant_job(_user,l_seed);
+                }
+                gacha_monster_id(_user,l_seed);
+            }
+        }
+#pragma endregion
     };
