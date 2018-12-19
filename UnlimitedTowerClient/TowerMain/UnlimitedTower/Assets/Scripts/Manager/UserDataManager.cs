@@ -77,26 +77,37 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             oldFormationDic = formationDic;
         }  
     }
-    public void CreateServant(int index)
+    public Servant CreateServant(int index)
     {
         //Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex(), GACHA_TYPE.Servant);
         //SetServant(newChar);
        // AddNewCharImage(newChar, CHAR_TYPE.SERVANT);
        Servant servant = new Servant();
+       servant.index = index;
        newServantDic.Add(index, servant);
        AddServantImage(servant);
-      
+
+        return servant;
     }
-    public void CreateMonster(int index)
+    public Monster CreateMonster(int index)
     {
         //Character newChar = new Character(UserDataManager.Inst.GetMonsterIndex(), GACHA_TYPE.Monster);
         //SetMonster(newChar);
 
         Monster monster = new Monster();
+        monster.index = index;
         newMonsterDic.Add(index, monster);
         AddMonsterImage(monster);
 
-        // AddNewCharImage(monster, CHAR_TYPE.MONSTER);
+        return monster;
+    }
+    public int GetMonsterCount()
+    {
+        return newMonsterDic.Count;
+    }
+    public int GetServantCount()
+    {
+        return newServantDic.Count;
     }
 
     public void InitFlag()

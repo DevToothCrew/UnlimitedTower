@@ -327,7 +327,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
 
 
-
+    //TODO : Test Code
     public void Response_GachaResult(GACHA_TYPE gachaType)
     {
         switch (gachaType)
@@ -335,26 +335,23 @@ public class PacketManager : MonoSingleton<PacketManager> {
             case GACHA_TYPE.Servant:
                 {
                     Debug.Log("Response_ServantGacha");
-
-                    Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex(), gachaType);
-                    UserDataManager.Inst.SetServant(newChar);
-                    UserDataManager.Inst.AddNewCharImage(newChar, CHAR_TYPE.SERVANT);
-                    GachaImage.Inst.SetGachaReult(newChar, gachaType);
-
-                    //Servant servant = new Servant();
-
-            
+                    int servantCount = UserDataManager.Inst.GetServantCount() + 1;
+                    Servant servant = UserDataManager.Inst.CreateServant(servantCount);
+                    GachaImage.Inst.SetGachaCharacterResult(servant.name, servant.status, GACHA_TYPE.Servant);
                     break;
                 }
             case GACHA_TYPE.Monster:
                 {
                     Debug.Log("Response_MonsterGacha");
 
-                    Character newChar = new Character(UserDataManager.Inst.GetMonsterIndex(), gachaType);
-                    UserDataManager.Inst.SetMonster(newChar);
-                    UserDataManager.Inst.AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
-                    GachaImage.Inst.SetGachaReult(newChar, gachaType);
+                    //Character newChar = new Character(UserDataManager.Inst.GetMonsterIndex(), gachaType);
+                    //UserDataManager.Inst.SetMonster(newChar);
+                    //UserDataManager.Inst.AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
+                    //GachaImage.Inst.SetGachaReult(newChar, gachaType);
 
+                    int monsterCount = UserDataManager.Inst.GetMonsterCount() + 1;
+                    Monster monster = UserDataManager.Inst.CreateMonster(monsterCount);
+                    GachaImage.Inst.SetGachaCharacterResult(monster.name, monster.status, GACHA_TYPE.Monster);
                     break;
                 }
             case GACHA_TYPE.Item:

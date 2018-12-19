@@ -239,10 +239,33 @@ public class GachaImage : MonoSingleton<GachaImage>
                 sprite = Resources.Load<Sprite>("UI/MonsterImage/" + newChar.Name);
             }
         }
-
-       
         charImage.GetComponent<Image>().sprite = sprite;
     }
+    public void SetGachaCharacterResult(string name, Status status, GACHA_TYPE gachaType)
+    {
+        GachaResultPopup.SetActive(true);
+        Sprite sprite = null;
+
+        CharNameText.text = name;
+        StatusStrText.text = status.basicStr.ToString();
+        StatusDexText.text = status.basicDex.ToString();
+        StatusIntText.text = status.basicInt.ToString();
+
+        if (gachaType == GACHA_TYPE.Servant)
+        {
+            sprite = Resources.Load<Sprite>("UI/CharaterImage/" +name);
+        }
+        else if (gachaType == GACHA_TYPE.Monster)
+        {
+            sprite = Resources.Load<Sprite>("UI/MonsterImage/" + name);
+        }
+
+        charImage.GetComponent<Image>().sprite = sprite;
+    }
+
+
+
+
     public void ShowGachaResult()
     {
         reGachaflag = false;
