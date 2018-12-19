@@ -18,15 +18,19 @@ class cservant
 {
   public:
     uint64_t index;
+    uint32_t party_number;
     servant_info servant;
+
   public:
     cservant()
     {
+       party_number = EMPTY_PARTY;
     }
     uint64_t primary_key() const { return index; }
     EOSLIB_SERIALIZE(
         cservant,
         (index)
+        (party_number)
         (servant)
         )
 };

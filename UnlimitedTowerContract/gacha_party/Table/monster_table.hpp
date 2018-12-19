@@ -20,13 +20,17 @@ class cmonster
 {
 public:
     uint64_t index;
+    uint32_t party_number;
     monster_info monster;
 public:
-    cmonster() {}
+    cmonster() {
+        party_number = EMPTY_PARTY;
+    }
     uint64_t primary_key() const {return index;}
     EOSLIB_SERIALIZE(
         cmonster,
         (index)
+        (party_number)
         (monster)
     )
 };
