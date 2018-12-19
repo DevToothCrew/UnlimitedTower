@@ -14,7 +14,7 @@ enum euser_state
     black,
 };
 
-enum ehero_state
+enum hero_state
 {   
     set_look = 1,
     set_status,
