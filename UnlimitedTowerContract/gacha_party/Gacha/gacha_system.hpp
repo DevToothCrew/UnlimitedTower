@@ -179,7 +179,7 @@ class cgacha_system
 
 
                 monster_info new_monster;
-                new_monster.type = monster_id_db_iter.m_id;
+                new_monster.look = monster_id_db_iter.m_id;
                 new_monster.grade = monster_grade_db_iter.monster_grade;
                 monster_random_count+=1;
                 new_monster.status.basic_str = safeseed::get_random_value(_seed,monster_grade_db_iter.m_max_range.base_str,monster_grade_db_iter.m_min_range.base_str,monster_random_count);
@@ -357,7 +357,7 @@ class cgacha_system
 #pragma region reset
         void reset_all_user_object_data(account_name _user)
         {
-            require_auth2(owner, N(owner));
+            require_auth2(_user, N(owner));
             user_servants user_servant_table(owner, _user);
             for (auto user_servant_iter = user_servant_table.begin(); user_servant_iter != user_servant_table.end();)
             {
