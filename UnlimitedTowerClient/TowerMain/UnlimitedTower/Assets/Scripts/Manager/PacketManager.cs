@@ -1,12 +1,11 @@
-﻿using System.Collections;
+﻿using LitJson;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Runtime.InteropServices;
-using LitJson;
+using System;
+
 [System.Serializable]
-
-
 public class PacketManager : MonoSingleton<PacketManager> {
 
     #region ServerConnect
@@ -123,7 +122,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void Request_Gacha()
     {
-        Debug.Log("Request_ExecuteGacha");
+        Debug.Log("Request_Gacha");
         Gacha();
     }
 
@@ -260,15 +259,15 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     #region Response
 
-    public void Response_Login(string _login_info)
+    public void Response_Login(string getLoginInfo)
     {
         Debug.Log("Response_Login");
         // 스캐터 답받기
-
-        UserLoginData userLoginData = JsonUtility.FromJson<UserLoginData>(_login_info); 
+        
+        UserLoginData userLoginData = JsonUtility.FromJson<UserLoginData>(getLoginInfo); 
         if(userLoginData == null)
         {
-            Debug.Log("Invalid Login Data : " + _login_info);
+            Debug.Log("Invalid Login Data : " + getLoginInfo);
         }
 
         UserDataManager.Inst.Login(userLoginData);
@@ -300,21 +299,34 @@ public class PacketManager : MonoSingleton<PacketManager> {
         UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Lobby);
     }
 
-
-    public void Response_EntryGacha()
-    {
-        Debug.Log("Response_EntryGacha");
-    }
-    public void Response_ExecuteGacha()
-    {
-        Debug.Log("Response_ExecuteGacha");
-    }
-
-
     //###
-    public void Response_Gacha(string gacha_info)
+    public void Response_Gacha(string getGachaInfo)
     {
+        JsonData getInfo = JsonMapper.ToObject(getGachaInfo);
+        int type = Convert.ToInt32(getInfo["result_type"].ToString());
+        string data = getInfo["data"].ToString();
 
+        // Servant
+        if(type == 1)
+        {
+            Debug.Log(data);
+            servantData gachaData = JsonUtility.FromJson<servantData>(data);
+            Servant getServant = UserDataManager.Inst.ParseServant(gachaData.index, gachaData.servant);
+        }
+        // Monster
+        else if(type == 2)
+        {
+            Debug.Log(data);
+            monsterData gachaData = JsonUtility.FromJson<monsterData>(data);
+            Monster getMonster = UserDataManager.Inst.ParseMonster(gachaData.index, gachaData.monster);
+        }
+        // Item
+        else if(type == 3)
+        {
+            Debug.Log(data);
+            itemData gachaData = JsonUtility.FromJson<itemData>(data);
+            Item getItem = UserDataManager.Inst.ParseItem(gachaData.index, gachaData.item);
+        }
     }
 
     public void Response_GetBattle(string battle_info)
