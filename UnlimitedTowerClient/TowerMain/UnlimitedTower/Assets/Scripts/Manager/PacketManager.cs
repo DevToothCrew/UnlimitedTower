@@ -33,6 +33,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
     private static extern void Login();
 
     [DllImport("__Internal")]
+    private static extern void Logout();
+
+    [DllImport("__Internal")]
     public static extern void Gacha();
 
     [DllImport("__Internal")]
@@ -302,6 +305,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
     //###
     public void Response_Gacha(string getGachaInfo)
     {
+        Debug.Log("Response_Gacha : " + getGachaInfo);
+
         JsonData getInfo = JsonMapper.ToObject(getGachaInfo);
         int type = Convert.ToInt32(getInfo["result_type"].ToString());
         string data = getInfo["data"].ToString();
@@ -312,6 +317,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log(data);
             servantData gachaData = JsonUtility.FromJson<servantData>(data);
             Servant getServant = UserDataManager.Inst.ParseServant(gachaData.index, gachaData.servant);
+            GachaImage.Inst.SetGachaResult_Servant(getServant);
         }
         // Monster
         else if(type == (int)GACHA_RESULT_TYPE.Monster)
@@ -319,6 +325,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log(data);
             monsterData gachaData = JsonUtility.FromJson<monsterData>(data);
             Monster getMonster = UserDataManager.Inst.ParseMonster(gachaData.index, gachaData.monster);
+            GachaImage.Inst.SetGachaResult_Monster(getMonster);
         }
         // Item
         else if(type == (int) GACHA_RESULT_TYPE.Item)
@@ -326,6 +333,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log(data);
             itemData gachaData = JsonUtility.FromJson<itemData>(data);
             Item getItem = UserDataManager.Inst.ParseItem(gachaData.index, gachaData.item);
+            GachaImage.Inst.SetGacharResult_Item(getItem);
         }
     }
 
@@ -408,12 +416,15 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void Response_Logout()
     {
         Debug.Log("Response_Logout");
-        UserDataManager.Inst.InitFlag();
+
+#if UNITY_EDITOR
+      
         UserDataManager.Inst.RemoveUserInfo();
-        LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Login);
-
-
-
+#else
+               Logout();
+  
+#endif
+       UserDataManager.Inst.InitFlag();
         // TODO : 확실히 필요없다고 판단되면 삭제할것
         UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Login);
     }

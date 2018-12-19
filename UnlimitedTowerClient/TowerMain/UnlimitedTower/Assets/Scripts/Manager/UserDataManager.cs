@@ -62,21 +62,22 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     }
     public void Test_InitCharacter()
     {
-        if(testInitFlag == false)
+        if (testInitFlag == false)
         {
             //TODO :  나의 캐릭터(무조건 존재하는 값)이라고 가정
             heroChar = new Character(CHAR_TYPE.SERVANT);
             CreateHero();
             for (int i = 0; i < TestCharNum; i++)
             {
-                CreateServant(i+1);
-                CreateMonster(i+1);
+                CreateServant(i + 1);
+                CreateMonster(i + 1);
             }
             //Create10NumberMonster();
             testInitFlag = true;
             oldFormationDic = formationDic;
-        }  
+        }
     }
+
     public Servant CreateServant(int getIndex)
     {
        Servant servant = new Servant();
@@ -341,9 +342,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             // 재 로그인 시켜야함
         }
 
-
-
         // TODO : Party 편성 정보도 추가
+        formationDic = new Dictionary<int, int>();
         formationDic.Add(DEFINE.HERO_FORMATION_NUM, 0);
         string path = "UI/CharaterImage/" + heroChar.Name;
         LoadCharImage(path, DEFINE.HERO_FORMATION_NUM, null);
@@ -400,7 +400,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
         servant.index       = getServantIndex;
         servant.state       = getServantInfo.state;
-        servant.exp = getServantInfo.exp;
+        servant.exp         = getServantInfo.exp;
         // TODO : 추후 Servant Exp에 따른 Level 공식을 추가해 레벨 적용 필요
         servant.level        = DEFINE.GetLevelForExp(getServantInfo.exp);
         servant.job          = getServantInfo.job;
@@ -539,6 +539,10 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         }
 
         return item;   
+    }
+    public void SetServant(Servant getServant)
+    {
+        newServantDic.Add(0, getServant);
     }
 
     #endregion

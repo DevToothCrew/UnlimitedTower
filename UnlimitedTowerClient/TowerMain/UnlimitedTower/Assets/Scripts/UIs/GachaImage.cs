@@ -241,6 +241,7 @@ public class GachaImage : MonoSingleton<GachaImage>
         }
         charImage.GetComponent<Image>().sprite = sprite;
     }
+    // TODO :Old Code
     public void SetGachaCharacterResult(string name, Status status, GACHA_RESULT_TYPE gachaType)
     {
         GachaResultPopup.SetActive(true);
@@ -263,13 +264,93 @@ public class GachaImage : MonoSingleton<GachaImage>
         charImage.GetComponent<Image>().sprite = sprite;
     }
 
+    public void SetGachaResult_Servant(Servant getServant)
+    {  
+        Sprite sprite = null;
+        SetGachaResultInfo(getServant.status);
+
+        CharNameText.text = getServant.name;    
+        sprite = Resources.Load<Sprite>("UI/CharaterImage/" + getServant.name);       
+        charImage.GetComponent<Image>().sprite = sprite;
+
+        fadeOutFlag = false;
+    }
+
+    public void SetGachaResult_Monster(Monster getMonster)
+    {
+        Sprite sprite = null;
+        SetGachaResultInfo(getMonster.status);
+
+        CharNameText.text = getMonster.name;       
+        sprite = Resources.Load<Sprite>("UI/MonsterImage/" + getMonster.name);
+        charImage.GetComponent<Image>().sprite = sprite;
+
+        fadeOutFlag = false;
+    }
+
+    public void SetGacharResult_Item(Item getItem)
+    {
+        Sprite sprite = null;
+        SetGachaResultInfo(getItem.status);
+        // TODO : 아이템 이름 등이 확정되면 수정필요.
+        CharNameText.text = "Item";
+        charImage.GetComponent<Image>().sprite = sprite;
+
+        fadeOutFlag = false;
+    }
+
+
+    public void SetNewGachaResult(object getGachaItem, GACHA_RESULT_TYPE gachaResultType)
+    {
+        GachaResultPopup.SetActive(true);
+        Sprite sprite = null;
+
+        switch (gachaResultType)
+        {
+            case GACHA_RESULT_TYPE.Servant:
+                {
+                    Servant servant = (Servant)getGachaItem;
+                    SetGachaResultInfo(servant.status);
+                    sprite = Resources.Load<Sprite>("UI/CharaterImage/" + servant.name);
+                    break;
+                }
+            case GACHA_RESULT_TYPE.Monster:
+                {
+                    Monster monster = (Monster)getGachaItem;
+                    SetGachaResultInfo(monster.status);
+                    sprite = Resources.Load<Sprite>("UI/MonsterImage/" + monster.name);
+                    break;
+                }
+            case GACHA_RESULT_TYPE.Item:
+                {
+                    Item item = (Item)getGachaItem;
+                    SetGachaResultInfo(item.status);
+                    break;
+                }
+            default:
+                Debug.Log("Error : SetNewGachaResult");
+                break;
+        }
+
+    }
+    private void SetGachaResultInfo(Status getStatus)
+    {
+        GachaResultPopup.SetActive(true);
+
+        StatusStrText.text = getStatus.basicStr.ToString();
+        StatusDexText.text = getStatus.basicDex.ToString();
+        StatusIntText.text = getStatus.basicInt.ToString();
+    }
+
+
+
 
 
 
     public void ShowGachaResult()
     {
         reGachaflag = false;
-  
+
 #if UNITY_EDITOR
         //// ### 가챠 결과
         TestGachaNum++;
@@ -313,6 +394,7 @@ public class GachaImage : MonoSingleton<GachaImage>
 #else
         // Remove Code 
         //PacketManager.Inst.Request_ExecuteGacha();
+         PacketManager.Inst.Request_Gacha();
 #endif
 
         LightEffectCircle04Animator.SetBool("Play", true);
