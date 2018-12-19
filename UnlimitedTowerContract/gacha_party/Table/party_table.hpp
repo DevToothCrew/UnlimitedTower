@@ -6,7 +6,7 @@
 enum party_state
 {
     on_wait = 1,
-    on_tower,
+    on_tower_defense,
 };
 
 // 8 * 10 = 80

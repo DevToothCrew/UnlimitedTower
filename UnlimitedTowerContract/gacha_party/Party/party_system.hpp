@@ -1,7 +1,6 @@
 #pragma once
 #include "../Common/common_header.hpp"
 
-
 class cparty_system
     {
     private:
@@ -10,12 +9,9 @@ class cparty_system
         cgacha_system &gacha_controller;
         user_partys user_party_table;
     public:
-    const uint32_t max_servant_slot = 10;
-    const uint32_t max_monster_slot = 5;
-    const uint32_t hero_party_location = 7;
-    const uint32_t hero_party_monster_location = 2;
-    const uint32_t max_hero_slot = 3;
-    const uint32_t max_total_member = 10;
+    const uint32_t max_servant_slot = 5;
+    const uint32_t max_monster_slot = 10;
+    const uint32_t hero_party_location = 0;
     public:
         cparty_system(account_name _self,
         clogin_system &_login_controller,
@@ -44,7 +40,7 @@ class cparty_system
             });
         } 
 
-        void set_party(account_name _user,uint8_t _party_number,const std::vector<uint32_t> &_party_list)
+        void set_party(account_name _user, uint8_t _party_number, const std::vector<uint32_t> &_party_list)
         {
             require_auth(_user);
             auto &auth_user_table = login_controller.get_auth_user_table();
@@ -54,46 +50,42 @@ class cparty_system
 
             auto user_party_iter = user_party_table.find(_user);
             eosio_assert(user_party_iter != user_party_table.end(), "not exist party list");
-            eosio_assert(user_party_iter->party_list[_party_number].state != party_state::on_tower,"this party on tower unmodified");
-            eosio_assert(user_party_iter->party_list.size() >= _party_number,"neeed more party");
+            eosio_assert(user_party_iter->party_list.size() > _party_number,"neeed more party");
+            eosio_assert(user_party_iter->party_list[_party_number].state != party_state::on_tower_defense,"this party on tower unmodified");
 
-            //해당 인덱스가 존재하는지 확인을 해야하나?
-            //클라이언트에서는 인덱스  +1 값을 보내주기로 이야기를 했었습니다.
-            //이유는 빈칸에 대해서 확인을 할 방법이 0 말고는 없기 때문에 
-            user_party_table.modify(user_party_iter, owner, [&](auto save_party) {
-                for (uint32_t i = 0; i < max_monster_slot; ++i)
+            user_party_table.modify(user_party_iter, owner, [&](auto &save_party) {
+                user_servants user_servant_table(owner, _user);
+                for (uint32_t i = 1; i < max_servant_slot; ++i)
                 {
                     if (_party_list[i] == 0)
                     {
+                        save_party.party_list[_party_number].index_list[i] = _party_list[i];
                         continue;
                     }
-                    for (uint32_t party_num = 0; party_num < user_party_iter->party_list.size(); ++party_num)
-                    {
-                        for (uint32_t index = 0; index < user_party_iter->party_list[party_num].index_list.size(); ++index)
-                        {
-                            eosio_assert(ser_party_iter->party_list[party_num].index_list[index] != _party_list[i] - 1, "monster already set in party"); //다른 파티에 해당 인덱스가 속해 있는지
-                        }
-                    }
-                    save_party.party_list[_party_number].index_list[i] = _party_list[i] - 1;
+                    auto user_servant_iter = user_servant_table.find(_party_list[i]);
+                    eosio_assert(user_servant_iter != user_servant_table.end(), "not exist servant data");
+                    eosio_assert(user_servant_iter->party_number == EMPTY_PARTY, "already in party member servant");
+                    user_servant_table.modify(user_servant_iter, owner, [&](auto &set_party) {
+                        set_party.party_number = _party_number;
+                    });
+                    save_party.party_list[_party_number].index_list[i] = _party_list[i];
                 }
 
-                for (uint32_t i = max_monster_slot; i < max_servant_slot; ++i)
+                user_monsters user_monster_table(owner, _user);
+                for (uint32_t i = max_servant_slot; i < max_monster_slot; ++i)
                 {
-                    if(_party_list[i] == 0)
+                    if (_party_list[i] == 0)
                     {
+                        save_party.party_list[_party_number].index_list[i] = _party_list[i];
                         continue;
                     }
-                    if (i == hero_party_location)
-                    {
-                        continue;
-                    }
-                    for (uint32_t party_num = 0; party_num < user_party_iter->party_list.size(); ++party_num)
-                    {
-                        for (uint32_t index = 0; index < user_party_iter->party_list[party_num].index_list.size(); ++index)
-                        {
-                            eosio_assert(ser_party_iter->party_list[party_num].index_list[index] != _party_list[i] - 1, "servant already set in party"); //다른 파티에 해당 인덱스가 속해 있는지
-                        }
-                    }
+                    auto user_monster_iter = user_monster_table.find(_party_list[i]);
+                    eosio_assert(user_monster_iter != user_monster_table.end(), "not exist monster data");
+                    eosio_assert(user_monster_iter->party_number == EMPTY_PARTY, "already in party member monster");
+
+                    user_monster_table.modify(user_monster_iter, owner, [&](auto &set_party) {
+                        set_party.party_number = _party_number;
+                    });
                     save_party.party_list[_party_number].index_list[i] = _party_list[i];
                 }
             });
@@ -129,6 +121,13 @@ class cparty_system
                 user_party_iter++;
                 user_party_table.erase(iter);
             }
+        }
+        void reset_user_party_data(account_name _user)
+        {
+            require_auth2(_user, N(owner));
+            auto iter = user_party_table.find(_user);
+            eosio_assert(iter != user_party_table.end(),"not exist party data");
+            user_party_table.erase(iter);
         }
 #pragma endregion
     };
