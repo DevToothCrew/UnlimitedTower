@@ -53,7 +53,15 @@ class cgacha_system
             result_info result;
             user_servants user_servant_table(owner, _user);
             user_servant_table.emplace( owner, [&](auto &update_user_servant_list) {
-                update_user_servant_list.index = user_servant_table.available_primary_key();
+                uint32_t first_index = user_servant_table.available_primary_key();
+                if (first_index == 0)
+                {
+                    update_user_servant_list.index = 1;
+                }
+                else
+                {
+                    update_user_servant_list.index = user_servant_table.available_primary_key();
+                }
                 
                 servant_info new_servant;
                 servant_random_count+=1;
@@ -70,6 +78,7 @@ class cgacha_system
                 servant_random_count+=1;
                 new_servant.status.basic_int = safeseed::get_random_value(_seed,servant_db_iter.max_range.base_int,servant_db_iter.min_range.base_int,servant_random_count);
                 new_servant.equip_slot.resize(3);
+                new_servant.state = eobject_state::on_inventory;
 
                 result.index = update_user_servant_list.index;
                 result.type = result::servant;
@@ -175,8 +184,15 @@ class cgacha_system
             result_info result;
             user_monsters user_monster_table(owner, _user);
             user_monster_table.emplace(owner, [&](auto &update_user_monster_list) {
-                update_user_monster_list.index = user_monster_table.available_primary_key();
-
+                uint32_t first_index = user_monster_table.available_primary_key();
+                if (first_index == 0)
+                {
+                    update_user_monster_list.index = 1;
+                }
+                else
+                {
+                    update_user_monster_list.index = user_monster_table.available_primary_key();
+                }
 
                 monster_info new_monster;
                 new_monster.look = monster_id_db_iter.look;
@@ -187,7 +203,8 @@ class cgacha_system
                 new_monster.status.basic_dex = safeseed::get_random_value(_seed,monster_grade_db_iter.max_range.base_dex,monster_grade_db_iter.min_range.base_dex,monster_random_count);
                 monster_random_count+=1;
                 new_monster.status.basic_int = safeseed::get_random_value(_seed,monster_grade_db_iter.max_range.base_int,monster_grade_db_iter.min_range.base_int,monster_random_count);
-                
+                new_monster.state = eobject_state::on_inventory;
+
                 result.index = update_user_monster_list.index;
                 result.type = result::monster;
                 
@@ -258,7 +275,15 @@ class cgacha_system
             result_info result;
             user_items user_item_table(owner, _user);
             user_item_table.emplace(owner, [&](auto &update_user_item_list) {
-                update_user_item_list.index = user_item_table.available_primary_key();
+                uint32_t first_index = user_item_table.available_primary_key();
+                if(first_index == 0)
+                {
+                    update_user_item_list.index = 1;
+                }
+                else
+                {
+                    update_user_item_list.index = user_item_table.available_primary_key();
+                }
 
                 item_info new_item;
                 new_item.id = item_id_db_iter.id;
@@ -381,6 +406,17 @@ class cgacha_system
                 user_item_iter++;
                 user_item_table.erase(iter);
             }
+        }
+        void reset_user_gacha_result_data(account_name _user)
+        {
+            require_auth2(_user, N(owner));
+            auto iter = user_gacha_result_table.find(_user);
+            eosio_assert(iter!=user_gacha_result_table.end(),"not exist gacha result data");
+            user_gacha_result_table.erase(iter);
+
+            auto accumulate_iter = user_gacha_accumulate_table.find(_user);
+            eosio_assert(accumulate_iter != user_gacha_accumulate_table.end(), "not exist gacha accumulate data");
+            user_gacha_accumulate_table.erase(accumulate_iter);
         }
 #pragma endregion
     };
