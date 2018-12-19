@@ -13,11 +13,11 @@ struct object_status
 class cdbservant
 {
   public:
-    uint64_t s_job;
-    object_status s_min_range;
-    object_status s_max_range;
+    uint64_t job;
+    object_status min_range;
+    object_status max_range;
 public:
-    uint64_t primary_key() const {return s_job;}
+    uint64_t primary_key() const {return job;}
 };
 
 typedef multi_index<N(cdbservant),cdbservant> servant_db;
