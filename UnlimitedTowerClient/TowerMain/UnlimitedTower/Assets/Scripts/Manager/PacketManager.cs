@@ -249,7 +249,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void Response_Login(string getLoginInfo)
     {
-        if(getLoginInfo == null)
+        if(getLoginInfo.StartsWith("{signup"))
         {
             // 유저 정보가 없으면 SignUp으로
             SignUp();
