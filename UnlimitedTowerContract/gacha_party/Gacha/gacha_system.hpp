@@ -62,13 +62,13 @@ class cgacha_system
                 new_servant.appear.hair = gacha_servant_head(_seed,servant_random_count);
                 servant_random_count+=1;
                 new_servant.appear.body = gacha_servant_body(_seed,servant_random_count);
-                new_servant.job = servant_db_iter.s_job;
+                new_servant.job = servant_db_iter.job;
                 servant_random_count+=1;
-                new_servant.status.basic_str = safeseed::get_random_value(_seed,servant_db_iter.s_max_range.base_str,servant_db_iter.s_min_range.base_str,servant_random_count);
+                new_servant.status.basic_str = safeseed::get_random_value(_seed,servant_db_iter.max_range.base_str,servant_db_iter.min_range.base_str,servant_random_count);
                 servant_random_count+=1;
-                new_servant.status.basic_dex = safeseed::get_random_value(_seed,servant_db_iter.s_max_range.base_dex,servant_db_iter.s_min_range.base_dex,servant_random_count);
+                new_servant.status.basic_dex = safeseed::get_random_value(_seed,servant_db_iter.max_range.base_dex,servant_db_iter.min_range.base_dex,servant_random_count);
                 servant_random_count+=1;
-                new_servant.status.basic_int = safeseed::get_random_value(_seed,servant_db_iter.s_max_range.base_int,servant_db_iter.s_min_range.base_int,servant_random_count);
+                new_servant.status.basic_int = safeseed::get_random_value(_seed,servant_db_iter.max_range.base_int,servant_db_iter.min_range.base_int,servant_random_count);
                 new_servant.equip_slot.resize(3);
 
                 result.index = update_user_servant_list.index;
@@ -179,14 +179,14 @@ class cgacha_system
 
 
                 monster_info new_monster;
-                new_monster.look = monster_id_db_iter.m_id;
+                new_monster.look = monster_id_db_iter.look;
                 new_monster.grade = monster_grade_db_iter.monster_grade;
                 monster_random_count+=1;
-                new_monster.status.basic_str = safeseed::get_random_value(_seed,monster_grade_db_iter.m_max_range.base_str,monster_grade_db_iter.m_min_range.base_str,monster_random_count);
+                new_monster.status.basic_str = safeseed::get_random_value(_seed,monster_grade_db_iter.max_range.base_str,monster_grade_db_iter.min_range.base_str,monster_random_count);
                 monster_random_count+=1;
-                new_monster.status.basic_dex = safeseed::get_random_value(_seed,monster_grade_db_iter.m_max_range.base_dex,monster_grade_db_iter.m_min_range.base_dex,monster_random_count);
+                new_monster.status.basic_dex = safeseed::get_random_value(_seed,monster_grade_db_iter.max_range.base_dex,monster_grade_db_iter.min_range.base_dex,monster_random_count);
                 monster_random_count+=1;
-                new_monster.status.basic_int = safeseed::get_random_value(_seed,monster_grade_db_iter.m_max_range.base_int,monster_grade_db_iter.m_min_range.base_int,monster_random_count);
+                new_monster.status.basic_int = safeseed::get_random_value(_seed,monster_grade_db_iter.max_range.base_int,monster_grade_db_iter.min_range.base_int,monster_random_count);
                 
                 result.index = update_user_monster_list.index;
                 result.type = result::monster;
@@ -261,18 +261,18 @@ class cgacha_system
                 update_user_item_list.index = user_item_table.available_primary_key();
 
                 item_info new_item;
-                new_item.id = item_id_db_iter.i_id;
-                new_item.slot = item_id_db_iter.i_slot;
-                new_item.tier = item_tier_db_iter.i_tier;
+                new_item.id = item_id_db_iter.id;
+                new_item.slot = item_id_db_iter.slot;
+                new_item.tier = item_tier_db_iter.tier;
                 item_random_count+=1;
-                new_item.status.basic_str = safeseed::get_random_value(_seed,item_grade_db_iter.i_max_range.base_str,item_grade_db_iter.i_min_range.base_str,item_random_count);
+                new_item.status.basic_str = safeseed::get_random_value(_seed,item_grade_db_iter.max_range.base_str,item_grade_db_iter.min_range.base_str,item_random_count);
                 item_random_count+=1;
-                new_item.status.basic_dex = safeseed::get_random_value(_seed,item_grade_db_iter.i_max_range.base_dex,item_grade_db_iter.i_min_range.base_dex,item_random_count);
+                new_item.status.basic_dex = safeseed::get_random_value(_seed,item_grade_db_iter.max_range.base_dex,item_grade_db_iter.min_range.base_dex,item_random_count);
                 item_random_count+=1;
-                new_item.status.basic_int = safeseed::get_random_value(_seed,item_grade_db_iter.i_max_range.base_int,item_grade_db_iter.i_min_range.base_int,item_random_count);
-                new_item.job = item_id_db_iter.i_job;
+                new_item.status.basic_int = safeseed::get_random_value(_seed,item_grade_db_iter.max_range.base_int,item_grade_db_iter.min_range.base_int,item_random_count);
+                new_item.job = item_id_db_iter.job;
                 new_item.state = eobject_state::on_inventory;
-                new_item.grade = item_grade_db_iter.i_grade;
+                new_item.grade = item_grade_db_iter.grade;
 
                 result.index = update_user_item_list.index;
                 result.type = result::item;
