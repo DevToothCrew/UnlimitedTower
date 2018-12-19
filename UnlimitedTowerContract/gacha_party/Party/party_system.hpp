@@ -12,12 +12,10 @@ class cparty_system
     public:
     const uint32_t max_servant_slot = 10;
     const uint32_t max_monster_slot = 5;
-    const uint32_t servant_pair = 5;
     const uint32_t hero_party_location = 7;
     const uint32_t hero_party_monster_location = 2;
     const uint32_t max_hero_slot = 3;
     const uint32_t max_total_member = 10;
-    const uint32_t hero_slot_id = 10;
     public:
         cparty_system(account_name _self,
         clogin_system &_login_controller,
@@ -59,25 +57,46 @@ class cparty_system
             eosio_assert(user_party_iter->party_list[_party_number].state != party_state::on_tower,"this party on tower unmodified");
             eosio_assert(user_party_iter->party_list.size() >= _party_number,"neeed more party");
 
-            //다른 파티에 해당 인덱스가 속해 있는지
-            //해당 인덱스가 존재하는지
-
-            for(uint32_t i=0;i<max_monster_slot;++i)
-            {
-                user_party_table.modify(user_party_iter, owner, [&](auto save_monster)
+            //해당 인덱스가 존재하는지 확인을 해야하나?
+            //클라이언트에서는 인덱스  +1 값을 보내주기로 이야기를 했었습니다.
+            //이유는 빈칸에 대해서 확인을 할 방법이 0 말고는 없기 때문에 
+            user_party_table.modify(user_party_iter, owner, [&](auto save_party) {
+                for (uint32_t i = 0; i < max_monster_slot; ++i)
                 {
-                    
-                });
-            }
-
-            for (uint32_t i = max_monster_slot; i < max_servant_slot; ++i)
-            {
-                if(i == hero_party_location)
-                {
-                    continue;
+                    if (_party_list[i] == 0)
+                    {
+                        continue;
+                    }
+                    for (uint32_t party_num = 0; party_num < user_party_iter->party_list.size(); ++party_num)
+                    {
+                        for (uint32_t index = 0; index < user_party_iter->party_list[party_num].index_list.size(); ++index)
+                        {
+                            eosio_assert(ser_party_iter->party_list[party_num].index_list[index] != _party_list[i] - 1, "monster already set in party"); //다른 파티에 해당 인덱스가 속해 있는지
+                        }
+                    }
+                    save_party.party_list[_party_number].index_list[i] = _party_list[i] - 1;
                 }
-            }
 
+                for (uint32_t i = max_monster_slot; i < max_servant_slot; ++i)
+                {
+                    if(_party_list[i] == 0)
+                    {
+                        continue;
+                    }
+                    if (i == hero_party_location)
+                    {
+                        continue;
+                    }
+                    for (uint32_t party_num = 0; party_num < user_party_iter->party_list.size(); ++party_num)
+                    {
+                        for (uint32_t index = 0; index < user_party_iter->party_list[party_num].index_list.size(); ++index)
+                        {
+                            eosio_assert(ser_party_iter->party_list[party_num].index_list[index] != _party_list[i] - 1, "servant already set in party"); //다른 파티에 해당 인덱스가 속해 있는지
+                        }
+                    }
+                    save_party.party_list[_party_number].index_list[i] = _party_list[i];
+                }
+            });
         }
         
         void add_party_list(account_name _user)
