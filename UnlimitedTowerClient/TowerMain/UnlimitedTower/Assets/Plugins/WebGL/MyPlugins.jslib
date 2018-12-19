@@ -12,6 +12,10 @@ mergeInto(LibraryManager.library, {
     ReactUnityWebGL.Login();
   },
 
+   Logout : function() {
+    ReactUnityWebGL.Logout();
+  },
+
   SetFormation : function(formation) {
     ReactUnityWebGL.SetFormation(Pointer_stringify(formation));
   },
