@@ -22,7 +22,8 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
 
         if(CharType == CHAR_TYPE.SERVANT)
         {
-           // CheckAddOrRemove(ref UserDataManager.Inst.servantDic, CharType);
+            Debug.Log("서번트 추가");
+            // CheckAddOrRemove(ref UserDataManager.Inst.servantDic, CharType);
 
         }
         else if (CharType == CHAR_TYPE.MONSTER)
@@ -33,7 +34,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
        
     }
 
-
+    //Old Code
     private void CheckAddOrRemove(ref Dictionary<int, Character> charDic, CHAR_TYPE charType)
     {
         if (charDic.ContainsKey(CharDicKey))
@@ -56,6 +57,39 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
             }
         }
     }
+
+
+
+    // 이제 Character 딕셔너리가 두 개로 분리되어
+    // Monster와 Servant로 되었다.
+    // 그러면 Monster와 Servant 추가 혹은 제거하는 함수 역시 두 개의 함수로 분리되어야할까?
+    private void CheckAddOrRemove()
+    {
+        //if (UserDataManager.Inst.newServantDic.ContainsKey(CharDicKey))
+        //{
+        //    if (UserDataManager.Inst.newServantDic[CharDicKey].onFormation == true)
+        //    {
+        //        RemoveDeck(ref charDic, charType);
+        //    }
+        //    else
+        //    {
+        //        if (charType == CHAR_TYPE.MONSTER)
+        //        {
+        //            if (CheckAddDeck() == false)
+        //            {
+        //                Debug.Log("용병 수가 적어 몬스터를 추가할 수 없습니다.");
+        //                return;
+        //            }
+        //        }
+        //        AddDeck(ref charDic, charType);
+        //    }
+        //}
+    }
+    private void RemoveDeck()
+    {
+
+    }
+
     private void RemoveDeck(ref Dictionary<int, Character> charDic, CHAR_TYPE charType)
     {
         Character character;
