@@ -6,11 +6,11 @@
 class cdbitemid
 {
   public:
-    uint64_t i_id;
-    uint32_t i_slot;
-    uint32_t i_job;
+    uint64_t id;
+    uint32_t slot;
+    uint32_t job;
 public:
-    uint64_t primary_key() const {return i_id;}
+    uint64_t primary_key() const {return id;}
 };
 
 typedef multi_index<N(cdbitemid),cdbitemid> item_id_db;

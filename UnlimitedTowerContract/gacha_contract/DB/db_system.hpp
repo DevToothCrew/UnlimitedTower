@@ -107,18 +107,18 @@ class cdb_system
         for (uint8_t i = 0; i < servant_job_count; ++i)
         {
             servant_db_table.emplace(owner, [&](auto& a) {
-                a.s_job = servant_db_table.available_primary_key();
+                a.job = servant_db_table.available_primary_key();
                 if(random_count >= 8 )
                 {
                     random_count = 0;
                 }
-                a.s_min_range.base_str = DEFAULT_MIN;
-                a.s_min_range.base_dex = DEFAULT_MIN;
-                a.s_min_range.base_int = DEFAULT_MIN;
+                a.min_range.base_str = DEFAULT_MIN;
+                a.min_range.base_dex = DEFAULT_MIN;
+                a.min_range.base_int = DEFAULT_MIN;
 
-                a.s_max_range.base_str = DEFAULT_MAX;
-                a.s_max_range.base_dex = DEFAULT_MAX;
-                a.s_max_range.base_int = DEFAULT_MAX;
+                a.max_range.base_str = DEFAULT_MAX;
+                a.max_range.base_dex = DEFAULT_MAX;
+                a.max_range.base_int = DEFAULT_MAX;
             });
         }
         for(uint8_t i=0;i<head_count;++i)
@@ -151,53 +151,53 @@ class cdb_system
                 }
                 if(i == 0)
                 {
-                    a.m_min_range.base_str = DEFAULT_MIN;
-                    a.m_min_range.base_dex = DEFAULT_MIN;
-                    a.m_min_range.base_int = DEFAULT_MIN;
+                    a.min_range.base_str = DEFAULT_MIN;
+                    a.min_range.base_dex = DEFAULT_MIN;
+                    a.min_range.base_int = DEFAULT_MIN;
 
-                    a.m_max_range.base_str = DEFAULT_MAX;
-                    a.m_max_range.base_dex = DEFAULT_MAX;
-                    a.m_max_range.base_int = DEFAULT_MAX;
+                    a.max_range.base_str = DEFAULT_MAX;
+                    a.max_range.base_dex = DEFAULT_MAX;
+                    a.max_range.base_int = DEFAULT_MAX;
                 }
                 else if(i==1)
                 {
-                    a.m_min_range.base_str = DEFAULT_MIN;
-                    a.m_min_range.base_dex = DEFAULT_MIN;
-                    a.m_min_range.base_int = DEFAULT_MIN;
+                    a.min_range.base_str = DEFAULT_MIN;
+                    a.min_range.base_dex = DEFAULT_MIN;
+                    a.min_range.base_int = DEFAULT_MIN;
 
-                    a.m_max_range.base_str = DEFAULT_MAX;
-                    a.m_max_range.base_dex = DEFAULT_MAX;
-                    a.m_max_range.base_int = DEFAULT_MAX;
+                    a.max_range.base_str = DEFAULT_MAX;
+                    a.max_range.base_dex = DEFAULT_MAX;
+                    a.max_range.base_int = DEFAULT_MAX;
                 }
                 else if(i==2)
                 {                    
-                    a.m_min_range.base_str = DEFAULT_MIN;
-                    a.m_min_range.base_dex = DEFAULT_MIN;
-                    a.m_min_range.base_int = DEFAULT_MIN;
+                    a.min_range.base_str = DEFAULT_MIN;
+                    a.min_range.base_dex = DEFAULT_MIN;
+                    a.min_range.base_int = DEFAULT_MIN;
 
-                    a.m_max_range.base_str = DEFAULT_MAX;
-                    a.m_max_range.base_dex = DEFAULT_MAX;
-                    a.m_max_range.base_int = DEFAULT_MAX;
+                    a.max_range.base_str = DEFAULT_MAX;
+                    a.max_range.base_dex = DEFAULT_MAX;
+                    a.max_range.base_int = DEFAULT_MAX;
                 }
                 else if(i==3)
                 {
-                    a.m_min_range.base_str = DEFAULT_MIN;
-                    a.m_min_range.base_dex = DEFAULT_MIN;
-                    a.m_min_range.base_int = DEFAULT_MIN;
+                    a.min_range.base_str = DEFAULT_MIN;
+                    a.min_range.base_dex = DEFAULT_MIN;
+                    a.min_range.base_int = DEFAULT_MIN;
 
-                    a.m_max_range.base_str = DEFAULT_MAX;
-                    a.m_max_range.base_dex = DEFAULT_MAX;
-                    a.m_max_range.base_int = DEFAULT_MAX;
+                    a.max_range.base_str = DEFAULT_MAX;
+                    a.max_range.base_dex = DEFAULT_MAX;
+                    a.max_range.base_int = DEFAULT_MAX;
                 }
                 else
                 {
-                    a.m_min_range.base_str = 0;
-                    a.m_min_range.base_dex = 0;
-                    a.m_min_range.base_int = 0;
+                    a.min_range.base_str = 0;
+                    a.min_range.base_dex = 0;
+                    a.min_range.base_int = 0;
 
-                    a.m_max_range.base_str = DEFAULT_MAX;
-                    a.m_max_range.base_dex = DEFAULT_MAX;
-                    a.m_max_range.base_int = DEFAULT_MAX;
+                    a.max_range.base_str = DEFAULT_MAX;
+                    a.max_range.base_dex = DEFAULT_MAX;
+                    a.max_range.base_int = DEFAULT_MAX;
                 }
 
 
@@ -208,20 +208,20 @@ class cdb_system
         {
             monster_id_db_table.emplace(owner,[&](auto &a)
             {
-                a.m_id = monster_id_db_table.available_primary_key();
+                a.look = monster_id_db_table.available_primary_key();
             });
         }
         for (uint8_t i = 0; i < item_id_count; ++i)
         {
             item_id_db_table.emplace(owner, [&](auto &a) {
-                a.i_id = item_id_db_table.available_primary_key();
+                a.id = item_id_db_table.available_primary_key();
                 if (random_count >= 8)
                 {
                     random_count = 0;
                 }
-                a.i_slot = safeseed::get_random_value(l_seed,item_slot_count,0,random_count);
+                a.slot = safeseed::get_random_value(l_seed,item_slot_count,0,random_count);
                 random_count+=1;
-                a.i_job = safeseed::get_random_value(l_seed,servant_job_count,0,random_count);
+                a.job = safeseed::get_random_value(l_seed,servant_job_count,0,random_count);
                 random_count+=1;
             });
         }
@@ -229,26 +229,26 @@ class cdb_system
         {
             item_tier_db_table.emplace(owner,[&](auto &a)
             {
-                a.i_tier = item_tier_db_table.available_primary_key();
-                a.i_level = i * 10;
+                a.tier = item_tier_db_table.available_primary_key();
+                a.level = i * 10;
             });
         }
         for(uint32_t i=0;i<item_grade_count;++i)
         {
             item_grade_db_table.emplace(owner, [&](auto &a) {
-                a.i_grade = item_grade_db_table.available_primary_key();
+                a.grade = item_grade_db_table.available_primary_key();
                 if (random_count >= 8)
                 {
                     random_count = 0;
                 }
-                a.i_min_range.base_str = DEFAULT_MIN;
-                a.i_min_range.base_dex = DEFAULT_MIN;
-                a.i_min_range.base_int = DEFAULT_MIN;
+                a.min_range.base_str = DEFAULT_MIN;
+                a.min_range.base_dex = DEFAULT_MIN;
+                a.min_range.base_int = DEFAULT_MIN;
       
 
-                a.i_max_range.base_str = DEFAULT_MAX;    
-                a.i_max_range.base_dex = DEFAULT_MAX;      
-                a.i_max_range.base_int = DEFAULT_MAX;      
+                a.max_range.base_str = DEFAULT_MAX;    
+                a.max_range.base_dex = DEFAULT_MAX;      
+                a.max_range.base_int = DEFAULT_MAX;      
 
             });
         }
