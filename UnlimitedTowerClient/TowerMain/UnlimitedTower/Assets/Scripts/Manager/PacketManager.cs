@@ -278,6 +278,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         // 상태변화에 대한것은 LobbyManager에서 표현할수 있어야 한다.
         UserDataManager.Inst.SetUserLoginFlag(true);
+        LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Lobby);
     }
 
     public void Response_CreatePlayer()
@@ -288,19 +289,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void Response_GetLobbyInfo()
     {
-
         Debug.Log("Response_GetLobbyInfo");
-        LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Lobby);
-
-        //  TODO : Test Code if deleted
-        // void RecivePacketCharInfo()..
-
-        // 로비에 들어가면 데이터 연동
-        //UserDataManager.Inst.SetChar(TestDB.LoadCharactersData());
-
-
-        // TODO : 확실히 필요없다고 판단되면 삭제할것
-        UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Lobby);
     }
 
     //###
@@ -401,10 +390,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("Response_GetStageInfo");
         LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Stage);
-
-
-        // TODO : 확실히 필요없다고 판단되면 삭제할것
-        UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Stage);
     }
 
     public void Response_EnterStage(int stageNum)
@@ -420,7 +405,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Response_Logout");
         UserDataManager.Inst.InitFlag();
 
-        UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Login);
         LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Login);
     }
 

@@ -10,14 +10,11 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public bool CreatePlayerFlag;
     public SCENE_STATE sceneState = SCENE_STATE.None;
 
-
     public UserInfo userInfo = new UserInfo();
 
     public Dictionary<int, Servant> newServantDic = new Dictionary<int, Servant>();
     public Dictionary<int, Monster> newMonsterDic = new Dictionary<int, Monster>();
     public Dictionary<int, Item>    itemDic       = new Dictionary<int, Item>();
-
-
 
     // 포메이션 : 캐릭터 인덱스 ->가 들어가는 딕셔너리
     public Dictionary<int, int> formationDic = new Dictionary<int, int>();
@@ -166,29 +163,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
         return true;
     }
-
-
-   
-    public void ChangeSceneState(SCENE_STATE state)
-    {
-        sceneState = state;
-
-        //TODO : Test Code
-        //switch (state)
-        //{
-        //    case SCENE_STATE.Lobby:
-        //        StageBackGround.SetActive(false);
-        //        StageList.SetActive(false);
-        //        LobbyBackGround.SetActive(true);
-        //        break;
-        //    case SCENE_STATE.Stage:
-        //        LobbyBackGround.SetActive(false);
-        //        StageBackGround.SetActive(true);
-        //        StageList.SetActive(true);
-        //        break;
-        //}
-    }
-
 
     public void  LoadUserData()
     {

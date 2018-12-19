@@ -53,7 +53,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
          
             ChangeSceneState(SCENE_STATE.Lobby);
             UserDataManager.Inst.LoadUserData();
-        }       
+        }
     }
 
 
@@ -125,20 +125,11 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public void OnClickEnterLobbyButton()
     {
-        //TODO : 임시 코드. 필요없을시 삭제.
-        // ### 로그인 패킷을 보낸다.
-
 #if UNITY_EDITOR
         UserDataManager.Inst.Test_InitCharacter();
-        PacketManager.Inst.Request_GetLobbyInfo();
-        Test_PacketManager.Inst.CheckPacket("OnClickEnterLobbyButton : not recive packet");
 #else
-        PacketManager.Inst.Request_Login();
-         PacketManager.Inst.Request_GetLobbyInfo();
-        Test_PacketManager.Inst.CheckPacket("OnClickEnterLobbyButton : not recive packet");
-  
+        PacketManager.Inst.Request_Login();  
 #endif
-
     }
 
     //###
