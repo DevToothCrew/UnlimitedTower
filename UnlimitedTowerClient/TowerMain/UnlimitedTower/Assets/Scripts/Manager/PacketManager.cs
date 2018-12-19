@@ -199,16 +199,16 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void Request_GetStageInfo(int stageNum)
     {
         // TODO : if delete
-        if(UserDataManager.Inst.servantDic.Count<=0)
-        {
-            Debug.Log("캐릭터가 없습니다. 뽑기를 해주세요");
-            return;
-        }
-        if(UserDataManager.Inst.formationDic.ContainsKey(7) == false)
-        {
-            Debug.Log("포메이션 설정이 안됬습니다.");
-            return;
-        }
+        //if(UserDataManager.Inst.servantDic.Count<=0)
+        //{
+        //    Debug.Log("캐릭터가 없습니다. 뽑기를 해주세요");
+        //    return;
+        //}
+        //if(UserDataManager.Inst.formationDic.ContainsKey(7) == false)
+        //{
+        //    Debug.Log("포메이션 설정이 안됬습니다.");
+        //    return;
+        //}
 
 
         Debug.Log("Requset_GetStageInfo : " + stageNum);
@@ -252,6 +252,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void Request_Logout()
     {
         Debug.Log("Request_Logout");
+        Logout();
         Response_Logout();
     }
 
@@ -315,6 +316,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log(getGachaInfo);
             gachaServantData gachaData = JsonUtility.FromJson<gachaServantData>(getGachaInfo);
             Servant getServant = UserDataManager.Inst.ParseServant(gachaData.data.index, gachaData.data.servant);
+
+            GachaImage.Inst.SetGachaResult_Servant(getServant);
         }
         // Monster
         else if (type == (int)GACHA_RESULT_TYPE.Monster)
@@ -322,6 +325,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log(getGachaInfo);
             gachaMonsterData gachaData = JsonUtility.FromJson<gachaMonsterData>(getGachaInfo);
             Monster getMonster = UserDataManager.Inst.ParseMonster(gachaData.data.index, gachaData.data.monster);
+
+            GachaImage.Inst.SetGachaResult_Monster(getMonster);
         }
         // Item
         else if (type == (int)GACHA_RESULT_TYPE.Item)
@@ -329,6 +334,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log(getGachaInfo);
             gachaItemData gachaData = JsonUtility.FromJson<gachaItemData>(getGachaInfo);
             Item getItem = UserDataManager.Inst.ParseItem(gachaData.data.index, gachaData.data.item);
+
+            GachaImage.Inst.SetGacharResult_Item(getItem);
         }
     }
 
@@ -411,17 +418,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void Response_Logout()
     {
         Debug.Log("Response_Logout");
+        UserDataManager.Inst.InitFlag();
 
-#if UNITY_EDITOR
-      
-        UserDataManager.Inst.RemoveUserInfo();
-#else
-               Logout();
-  
-#endif
-       UserDataManager.Inst.InitFlag();
-        // TODO : 확실히 필요없다고 판단되면 삭제할것
         UserDataManager.Inst.ChangeSceneState(SCENE_STATE.Login);
+        LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Login);
     }
 
     #endregion

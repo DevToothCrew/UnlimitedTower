@@ -264,6 +264,7 @@ public class Monster
 
 
     // TODO : Monster별 State 추가 필요
+    public int look;
     public int state;
     public int exp;
     public int level;
@@ -740,6 +741,8 @@ public enum CHARACTER_NUM
     Hero_Novice_1002,
     Hero_Novice_1003,
     Hero_Novice_1004,
+    Hero_Novice_1005,
+    Hero_Novice_1006,
 
 
     Mst_Cat             = 201,

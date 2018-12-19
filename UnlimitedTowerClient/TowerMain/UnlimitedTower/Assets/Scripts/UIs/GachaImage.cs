@@ -40,25 +40,17 @@ public class GachaImage : MonoSingleton<GachaImage>
 
 
 
-    public void Test_10_GoGacha()
-    {
-        Debug.Log("Test_10Gacha");
-
-        // TODO : 현재 임시로 TestDB에서 캐릭터 정보 가져와서
-
-        for(int i=0; i<10; i++)
-        {
-            //Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1, GACHA_TYPE.Servant);
-            // 가챠의 결과로 나온 캐릭터 정보를 저장한다.
-            //UserDataManager.Inst.SetServant(newChar);
-            //UserDataManager.Inst.AddNewCharImage(newChar, CHAR_TYPE.SERVANT);
-        }
-     
-    }
-
     // 가챠 결과 마지막에 깜빡이는 부분
     IEnumerator FADE_OUT()
     {
+        //bool testflag = true;
+
+        //while(testflag)
+        //{
+        //    yield return null;
+        //}
+
+
         if(fadeOutFlag == false)
         {
             Debug.Log("Start Fade Out ");
@@ -241,7 +233,7 @@ public class GachaImage : MonoSingleton<GachaImage>
         }
         charImage.GetComponent<Image>().sprite = sprite;
     }
-    // TODO :Old Code
+    // TODO :Test Code
     public void SetGachaCharacterResult(string name, Status status, GACHA_RESULT_TYPE gachaType)
     {
         GachaResultPopup.SetActive(true);
@@ -273,6 +265,7 @@ public class GachaImage : MonoSingleton<GachaImage>
         sprite = Resources.Load<Sprite>("UI/CharaterImage/" + getServant.name);       
         charImage.GetComponent<Image>().sprite = sprite;
 
+        UserDataManager.Inst.SetServant(getServant);
         fadeOutFlag = false;
     }
 
@@ -285,6 +278,7 @@ public class GachaImage : MonoSingleton<GachaImage>
         sprite = Resources.Load<Sprite>("UI/MonsterImage/" + getMonster.name);
         charImage.GetComponent<Image>().sprite = sprite;
 
+        UserDataManager.Inst.SetMonster(getMonster);
         fadeOutFlag = false;
     }
 
@@ -293,9 +287,11 @@ public class GachaImage : MonoSingleton<GachaImage>
         Sprite sprite = null;
         SetGachaResultInfo(getItem.status);
         // TODO : 아이템 이름 등이 확정되면 수정필요.
-        CharNameText.text = "Item";
+
+        CharNameText.text = getItem.id.ToString();
         charImage.GetComponent<Image>().sprite = sprite;
 
+        UserDataManager.Inst.SetItem(getItem);
         fadeOutFlag = false;
     }
 

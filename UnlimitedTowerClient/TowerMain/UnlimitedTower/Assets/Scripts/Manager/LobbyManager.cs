@@ -144,7 +144,13 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     //###
     public void OnClickLogoutButton()
     {
-        PacketManager.Inst.Request_Logout();
+#if UNITY_EDITOR
+        PacketManager.Inst.Response_Logout();
+#else
+
+  PacketManager.Inst.Request_Logout();
+#endif
+
     }
 
     public void OnClickRightButton(int rightButton)
