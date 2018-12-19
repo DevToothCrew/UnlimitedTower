@@ -11,7 +11,9 @@ class cparty_system
     public:
     const uint32_t max_servant_slot = 5;
     const uint32_t max_monster_slot = 10;
+    const uint32_t pair_slot = 5;
     const uint32_t hero_party_location = 0;
+    const uint32_t empty_party_slot = 0;
     public:
         cparty_system(account_name _self,
         clogin_system &_login_controller,
@@ -64,7 +66,7 @@ class cparty_system
                     }
                     auto user_servant_iter = user_servant_table.find(_party_list[i]);
                     eosio_assert(user_servant_iter != user_servant_table.end(), "not exist servant data");
-                    eosio_assert(user_servant_iter->party_number == EMPTY_PARTY, "already in party member servant");
+                    eosio_assert(user_servant_iter->party_number == EMPTY_PARTY || user_servant_iter->party_number == _party_number, "already in party member servant");
                     user_servant_table.modify(user_servant_iter, owner, [&](auto &set_party) {
                         set_party.party_number = _party_number;
                     });
@@ -74,14 +76,20 @@ class cparty_system
                 user_monsters user_monster_table(owner, _user);
                 for (uint32_t i = max_servant_slot; i < max_monster_slot; ++i)
                 {
+                    if(i == max_servant_slot)
+                    {
+                        continue;
+                    }
                     if (_party_list[i] == 0)
                     {
                         save_party.party_list[_party_number].index_list[i] = _party_list[i];
                         continue;
                     }
+                    eosio_assert(_party_list[i - pair_slot] != empty_party_slot ,"need set servant");
+                    
                     auto user_monster_iter = user_monster_table.find(_party_list[i]);
                     eosio_assert(user_monster_iter != user_monster_table.end(), "not exist monster data");
-                    eosio_assert(user_monster_iter->party_number == EMPTY_PARTY, "already in party member monster");
+                    eosio_assert(user_monster_iter->party_number == EMPTY_PARTY || user_monster_iter->party_number == _party_number, "already in party member monster");
 
                     user_monster_table.modify(user_monster_iter, owner, [&](auto &set_party) {
                         set_party.party_number = _party_number;
