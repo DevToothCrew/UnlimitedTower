@@ -49,10 +49,10 @@ class cparty_system
             eosio_assert(_party_number > 0 ,"wrong party_number");
 
             uint32_t party_list_index = _party_number - 1;
-            auto &auth_user_table = login_controller.get_auth_user_table();
-            auto auth_user_iter = auth_user_table.find(_user);
-            eosio_assert(auth_user_iter->hero.state == hero_state::set_travel_party || auth_user_iter->hero.state == hero_state::set_complete,
-                         "this hero impossible in party member");
+            // auto &auth_user_table = login_controller.get_auth_user_table();
+            // auto auth_user_iter = auth_user_table.find(_user);
+            // eosio_assert(auth_user_iter->hero.state == hero_state::set_travel_party || auth_user_iter->hero.state == hero_state::set_complete,
+            //              "this hero impossible in party member");
 
             auto user_party_iter = user_party_table.find(_user);
             eosio_assert(user_party_iter != user_party_table.end(), "not exist party list");
@@ -62,7 +62,7 @@ class cparty_system
             user_servants user_servant_table(owner, _user);
             user_monsters user_monster_table(owner, _user);
 
-            for (uint32_t i = 0; i < max_servant_slot; ++i)
+            for (uint32_t i = 1; i < max_servant_slot; ++i)
             {
                 if(user_party_iter->party_list[party_list_index].index_list[i] != empty_party_slot && 
                 user_party_iter->party_list[party_list_index].index_list[i] != _party_list[i])
@@ -89,7 +89,7 @@ class cparty_system
 
             user_party_table.modify(user_party_iter, owner, [&](auto &save_party) {
                 
-                for (uint32_t i = 0; i < max_servant_slot; ++i)
+                for (uint32_t i = 1; i < max_servant_slot; ++i)
                 {
                     if (_party_list[i] == empty_party_slot)
                     {
