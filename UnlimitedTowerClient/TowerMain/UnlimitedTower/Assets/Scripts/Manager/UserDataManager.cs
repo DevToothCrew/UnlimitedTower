@@ -76,13 +76,17 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         }
     }
 
-    //public bool CheckBeingDeck(int deckNum)
-    //{
-    //    for(int i=0; i<DEFINE.PARTY_MAX_NUM; i++)
-    //    {
-    //        if(partyDic[usingPartyNum].indexList[i])
-    //    }
-    //}
+    public int GetBeingDeckIndex(int deckNum)
+    {
+        for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
+        {
+            if (partyDic[usingPartyNum].indexList[i] == deckNum)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
 
     public Servant CreateServant(int getIndex)
     {

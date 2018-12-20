@@ -30,7 +30,8 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         {
             if(UserDataManager.Inst.formationOrderList[i] == deckNum)
             {
-                index = UserDataManager.Inst.formationOrderList[i];
+                // 삭제할 해당 partyList 인덱스 0 ~ 9
+                index = i;
                 break;
             }
         }
@@ -213,7 +214,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
     private void ReorderMonster()
     {
         int usingPartyNum = UserDataManager.Inst.usingPartyNum;
-
+        int deletedIndex = -1;
         GameObject FormationList = LobbyManager.Inst.FormationList.gameObject;
         int orderIndex = -1;
 
@@ -232,10 +233,15 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 
         // 덱 삭제
         int charIndex = -1;
-        if (UserDataManager.Inst.formationDic.TryGetValue(deckNum, out charIndex))
+        //if (UserDataManager.Inst.formationDic.TryGetValue(deckNum, out charIndex))
+
+        if(UserDataManager.Inst.partyDic[usingPartyNum].indexList[deletedIndex] !=0)
         {
-            UserDataManager.Inst.formationDic.Remove(deckNum);
-            // 덱 삭제하고 더 이상 포메이션 없다고 한건데 왜 문제가 생길까?
+            //UserDataManager.Inst.formationDic.Remove(deckNum);
+            charIndex = UserDataManager.Inst.partyDic[usingPartyNum].indexList[deletedIndex];
+            UserDataManager.Inst.partyDic[usingPartyNum].indexList[deletedIndex] = 0;
+
+
             UserDataManager.Inst.newMonsterDic[charIndex].onFormation = false;
             UserDataManager.Inst.newMonsterDic[charIndex].formationIndex = -1;
 
@@ -270,8 +276,10 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         int nextDeckNum = UserDataManager.Inst.formationOrderList[orderIndex];
 
         // 다음덱이 존재하지 않을 때
-        if (UserDataManager.Inst.formationDic.ContainsKey(nextDeckNum) == false)
-        //if(UserDataManager.Inst.partyDic[usingPartyNum].indexList[index])
+        //if (UserDataManager.Inst.formationDic.ContainsKey(nextDeckNum) == false)
+
+        int nextDeckIndex = UserDataManager.Inst.GetBeingDeckIndex(nextDeckNum);
+        //if (UerDataManager.Inst.partyDic[usingPartyNum].indexList[extDeckIndex] == 0)
         {
             Debug.Log("This deck is last deck!");
             ShowEmptyText(true);
