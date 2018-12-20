@@ -46,6 +46,10 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         //StageBackGround.SetActive(false);
         //StageList.SetActive(false);
     }
+
+
+
+    #region  Editor
     public void Test_InitCharacter()
     {
         if (testInitFlag == false)
@@ -89,7 +93,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     {
         return newServantDic.Count;
     }
-
+    #endregion
     public void InitFlag()
     {
         Debug.Log("InitFlag");
@@ -195,14 +199,14 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             {         
                 instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(imageFath + charDic[dic.Key].Name);
                 instance.transform.SetParent(charContentList.transform.transform);
-                instance.GetComponent<CharContent>().CharDicKey = dic.Key;
+                instance.GetComponent<CharContent>().charDicKey = dic.Key;
                 if (charType == CHAR_TYPE.SERVANT)
                 {
-                    instance.GetComponent<CharContent>().CharType = CHAR_TYPE.SERVANT;
+                    instance.GetComponent<CharContent>().charType = CHAR_TYPE.SERVANT;
                 }
                 else
                 {
-                    instance.GetComponent<CharContent>().CharType = CHAR_TYPE.MONSTER;
+                    instance.GetComponent<CharContent>().charType = CHAR_TYPE.MONSTER;
                 }
 
                 if (charDic[dic.Key].OnFormation)
@@ -231,11 +235,9 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         if (instance.transform.GetChild(0))
         {
             instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + getServant.name);
-            //instance.GetComponent<CharContent>().CharDicKey = servantIndex - 1;
-            instance.GetComponent<CharContent>().CharDicKey = getServant.index;
+            instance.GetComponent<CharContent>().charDicKey = getServant.index;
             instance.transform.SetParent(CharacterListManager.Inst.ServantContentList.transform.transform);
-            //instance.transform.SetParent(LobbyManager.Inst.ServantContentList.transform.transform);
-            instance.GetComponent<CharContent>().CharType = CHAR_TYPE.SERVANT;
+            instance.GetComponent<CharContent>().charType = CHAR_TYPE.SERVANT;
 
         }
     }
@@ -246,11 +248,9 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         if (instance.transform.GetChild(0))
         {
             instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/MonsterImage/" + getMonster.name);
-            //instance.GetComponent<CharContent>().CharDicKey = monsterIndex - 1;
-            instance.GetComponent<CharContent>().CharDicKey = getMonster.index;
+            instance.GetComponent<CharContent>().charDicKey = getMonster.index;
             instance.transform.SetParent(CharacterListManager.Inst.MonsterContentList.transform.transform);
-            //instance.transform.SetParent(LobbyManager.Inst.MonsterContentList.transform.transform);
-            instance.GetComponent<CharContent>().CharType = CHAR_TYPE.MONSTER;
+            instance.GetComponent<CharContent>().charType = CHAR_TYPE.MONSTER;
         }    
     }
 
@@ -261,8 +261,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         //servantDic.Clear();
         servantIndex = 0;
         //monsterDic.Clear();
-
- 
     }
 
 

@@ -112,6 +112,9 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         //MonsterContentList.SetActive(false);
     }
 
+    // TODO : 
+    // - 추후에 OnClickScatterButton으로 변경
+    // - OnClickEnterLobbyButton 내용을 아래 함수에 넣을 것.
     public void OnClickLoginButton()
     {
         PacketManager.Inst.Request_Login();        
@@ -127,6 +130,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     {
 #if UNITY_EDITOR
         UserDataManager.Inst.Test_InitCharacter();
+        ChangeSceneState(SCENE_STATE.Lobby);
 #else
         PacketManager.Inst.Request_Login();  
 #endif

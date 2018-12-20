@@ -147,7 +147,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("Request_SaveFormation");
         JsonFomation data = new JsonFomation();
-
+        
 
         int formationNum = 0;
         for (int i = 0; i < 10; i++)
@@ -298,6 +298,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Servant getServant = UserDataManager.Inst.ParseServant(gachaData.data.index, gachaData.data.servant);
 
             GachaImage.Inst.SetGachaResult_Servant(getServant);
+            UserDataManager.Inst.AddServantImage(getServant);
         }
         // Monster
         else if (type == (int)GACHA_RESULT_TYPE.Monster)
@@ -307,6 +308,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Monster getMonster = UserDataManager.Inst.ParseMonster(gachaData.data.index, gachaData.data.monster);
 
             GachaImage.Inst.SetGachaResult_Monster(getMonster);
+            UserDataManager.Inst.AddMonsterImage(getMonster);
         }
         // Item
         else if (type == (int)GACHA_RESULT_TYPE.Item)
@@ -316,6 +318,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Item getItem = UserDataManager.Inst.ParseItem(gachaData.data.index, gachaData.data.item);
 
             GachaImage.Inst.SetGacharResult_Item(getItem);
+            //TODO : 아이템 이미지 미구현
         }
     }
 

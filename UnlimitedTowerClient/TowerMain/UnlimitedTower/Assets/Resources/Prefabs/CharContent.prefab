@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224739739025678842}
-  - component: {fileID: 114751571800818646}
+  - component: {fileID: 114886783987043550}
   m_Layer: 5
   m_Name: CharContent
   m_TagString: Untagged
@@ -115,7 +115,7 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114751571800818646
+--- !u!114 &114886783987043550
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -126,9 +126,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee4077e767a49f848ae0b647024b40fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharDicKey: 0
-  CharType: 0
-  childCheckingImage: {fileID: 1237390670934364}
+  charDicKey: 0
+  charType: 0
+  ChildCheckingImage: {fileID: 1237390670934364}
 --- !u!222 &222722925614832988
 CanvasRenderer:
   m_ObjectHideFlags: 1

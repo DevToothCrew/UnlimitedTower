@@ -66,10 +66,6 @@ public class FormationManager : MonoSingleton<FormationManager>
     }
 }
 
-// attackingOrder myIndex targetIndex actionType
-// 0~9까지는 플레이어
-// 10~19
-
 
 
 
