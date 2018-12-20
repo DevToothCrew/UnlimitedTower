@@ -9,13 +9,6 @@ enum party_state
     on_tower_defense,
 };
 
-// 8 * 10 = 80
-//party_info 당  8
-struct party_info
-{
-    uint32_t state = party_state::on_wait;
-    std::vector<uint64_t> index_list;
-};
 
 // 8 + 80 = 88
 // vector당 80
@@ -23,24 +16,20 @@ struct party_info
 //@abi table cparty i64
 class cparty
 {
-private:
-    account_name user;
 public:
-    std::vector<party_info> party_list;
+    uint32_t index;
+    uint32_t state;
+    std::vector<uint64_t> party;
 public:
-    cparty() {}
-    uint64_t primary_key() const {return user;}
-    void add_party(uint8_t _party_number)
-    {
-        party_info temp;
-        party_list.push_back(temp);
-        party_list[_party_number].index_list.resize(10);
+    cparty() {
+        state=party_state::on_wait;
     }
-    void party_set_user(account_name _user) {user = _user;}
+    uint64_t primary_key() const {return index;}
     EOSLIB_SERIALIZE(
         cparty,
-        (user)
-        (party_list)
+        (index)
+        (state)
+        (party)
     )
 };
 
