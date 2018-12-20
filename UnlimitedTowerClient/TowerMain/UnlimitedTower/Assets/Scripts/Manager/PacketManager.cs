@@ -327,6 +327,22 @@ public class PacketManager : MonoSingleton<PacketManager> {
             //TODO : 아이템 이미지 미구현
         }
     }
+    //add by canie
+    public void Response_GetParty(string getPartyInfo)
+    {
+        Debug.Log("Response_GetParty : " + getPartyInfo);
+        partyData partyInfo = JsonUtility.FromJson<partyData>(getPartyInfo);
+
+        Party getParty = UserDataManager.Inst.ParseParty(partyInfo.index, partyInfo);
+        if (UserDataManager.Inst.partyDic.ContainsKey(getParty.partyIndex) == false)
+        {
+            UserDataManager.Inst.partyDic.Add(getParty.partyIndex, getParty);
+        }
+        else
+        {
+            UserDataManager.Inst.partyDic[getParty.partyIndex] = getParty;
+        }
+    }
 
 
     public void Response_GetBattle(string battle_info)
