@@ -7,7 +7,7 @@ struct servant_info
    uint32_t state; //서번트 상태
    uint32_t exp = 0; //서번트 경험치
    uint32_t job;
-   uint32_t stat_point;
+   uint32_t stat_point = 0;
    appear_info appear;    //서번트 외형 정보
    status_info status;    //기본 힘,민,지 추가 힘,민,지
    std::vector<uint32_t> equip_slot; //서번트 장비 리스트
