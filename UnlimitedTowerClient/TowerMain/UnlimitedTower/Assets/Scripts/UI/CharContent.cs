@@ -79,7 +79,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
 
     private void AddServantDeck()
     {
-        int startNum = 0;
+        int startNum = 1;
         string imageFath = "UI/CharaterImage/";
         int usingPartyNum = UserDataManager.Inst.usingPartyNum;
 
@@ -91,6 +91,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
             // 빈 덱 검색
 
             //    if (UserDataManager.Inst.formationDic.ContainsKey(deckNum) == false)
+            //if (UserDataManager.Inst.partyDic[usingPartyNum].characterList.ContainsKey(deckNum) == false)
             if (UserDataManager.Inst.partyDic[usingPartyNum].characterList.ContainsKey(deckNum) == false)
             {
                 // 캐릭터 넣기.

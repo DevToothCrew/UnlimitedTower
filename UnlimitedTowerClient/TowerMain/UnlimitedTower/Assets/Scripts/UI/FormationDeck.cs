@@ -48,7 +48,8 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         if (deckNum != DEFINE.HERO_FORMATION_NUM)
         {
             //if (UserDataManager.Inst.formationDic.ContainsKey(deckNum))
-            if(UserDataManager.Inst.partyDic[usingPartyNum].indexList[index] != 0)
+
+           // if(UserDataManager.Inst.partyDic[usingPartyNum].indexList[index] != 0)
             {
                 RemoveDeck();
             }
@@ -235,31 +236,31 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         int charIndex = -1;
         //if (UserDataManager.Inst.formationDic.TryGetValue(deckNum, out charIndex))
 
-        if(UserDataManager.Inst.partyDic[usingPartyNum].indexList[deletedIndex] !=0)
-        {
-            //UserDataManager.Inst.formationDic.Remove(deckNum);
-            charIndex = UserDataManager.Inst.partyDic[usingPartyNum].indexList[deletedIndex];
-            UserDataManager.Inst.partyDic[usingPartyNum].indexList[deletedIndex] = 0;
+        //if(UserDataManager.Inst.partyDic[usingPartyNum].indexList[deletedIndex] !=0)
+        //{
+        //    //UserDataManager.Inst.formationDic.Remove(deckNum);
+        //    charIndex = UserDataManager.Inst.partyDic[usingPartyNum].indexList[deletedIndex];
+        //    UserDataManager.Inst.partyDic[usingPartyNum].indexList[deletedIndex] = 0;
 
 
-            UserDataManager.Inst.newMonsterDic[charIndex].onFormation = false;
-            UserDataManager.Inst.newMonsterDic[charIndex].formationIndex = -1;
+        //    UserDataManager.Inst.newMonsterDic[charIndex].onFormation = false;
+        //    UserDataManager.Inst.newMonsterDic[charIndex].formationIndex = -1;
 
-            if (ChildCharImage.GetComponent<Image>())
-            {
-                ChildCharImage.GetComponent<Image>().sprite = null;
-            }
-            if (LinkedChar && LinkedChar.GetComponent<CharContent>())
-            {
-                LinkedChar.GetComponent<CharContent>().RemoveCharImage();
-                LinkedChar = null;
-            }
-            //ChildEmptyText.SetActive(true);
-        }
-        else
-        {
-            Debug.Log("Error : UserDataManager.Inst.formationDic.TryGetValue");
-        }
+        //    if (ChildCharImage.GetComponent<Image>())
+        //    {
+        //        ChildCharImage.GetComponent<Image>().sprite = null;
+        //    }
+        //    if (LinkedChar && LinkedChar.GetComponent<CharContent>())
+        //    {
+        //        LinkedChar.GetComponent<CharContent>().RemoveCharImage();
+        //        LinkedChar = null;
+        //    }
+        //    //ChildEmptyText.SetActive(true);
+        //}
+        //else
+        //{
+        //    Debug.Log("Error : UserDataManager.Inst.formationDic.TryGetValue");
+        //}
 
 
 
@@ -278,7 +279,9 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         // 다음덱이 존재하지 않을 때
         //if (UserDataManager.Inst.formationDic.ContainsKey(nextDeckNum) == false)
 
-        int nextDeckIndex = UserDataManager.Inst.GetBeingDeckIndex(nextDeckNum);
+        //int nextDeckIndex = UserDataManager.Inst.GetBeingDeckIndex(nextDeckNum);
+
+
         //if (UerDataManager.Inst.partyDic[usingPartyNum].indexList[extDeckIndex] == 0)
         {
             Debug.Log("This deck is last deck!");

@@ -344,6 +344,10 @@ public class PartyCharacterInfo
         type = getType;
         index = getIndex;
     }
+    public PartyCharacterInfo()
+    {
+
+    }
 }
 
 // TODO : Old Code
