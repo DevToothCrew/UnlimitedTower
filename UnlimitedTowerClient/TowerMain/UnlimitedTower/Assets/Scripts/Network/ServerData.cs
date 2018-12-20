@@ -61,6 +61,14 @@ public class itemInfo
     public statusInfo status = new statusInfo();
 }
 
+//add by canie
+[Serializable]
+public class partyInfo
+{
+    public int state;
+    public List<int> indexList = new List<int>();
+}
+
 #endregion
 
 #region Data
@@ -116,6 +124,14 @@ public class gachaItemData
     public itemData data = new itemData();
 }
 
+//add by canie
+[Serializable]
+public class partyData
+{
+    public string user;
+    public List<partyInfo> partyList = new List<partyInfo>();
+}
+
 [Serializable]
 public class UserLoginData
 {
@@ -123,6 +139,8 @@ public class UserLoginData
     public List<servantData> servant_list = new List<servantData>();
     public List<monsterData> monster_list = new List<monsterData>();
     public List<itemData> item_list = new List<itemData>();
+    //add by canie
+    public partyData party_list = new partyData();
 }
 
 #endregion

@@ -346,6 +346,13 @@ public class Item
 }
 
 
+//add by canie
+public class Party
+{
+    public int state;
+    public List<int> indexList;
+}
+
 
 // TODO : Old Code
 public class Character

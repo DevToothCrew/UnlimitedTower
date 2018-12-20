@@ -30,6 +30,9 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
       7, 6, 8, 5, 9, 2, 1, 3, 0, 4 
     };
 
+    //add by canie
+    public Dictionary<int, Party> partyDic = new Dictionary<int, Party>();
+
     // TODO : 테스트 서번트+몬스터 수
     public readonly int  TestCharNum = 10;
     private bool testInitFlag = false;
@@ -298,6 +301,13 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             // 재 로그인 시켜야함
         }
 
+        //add by canie
+        if (ParsePartyList(getUserLoginData.party_list) ==  false)
+        {
+            Debug.Log("invalid ParsePartyList info");
+            // 재 로그인 시켜야함
+        }
+
         // TODO : Party 편성 정보도 추가
         formationDic = new Dictionary<int, int>();
         formationDic.Add(DEFINE.HERO_FORMATION_NUM, 0);
@@ -511,6 +521,34 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         }
 
         return item;   
+    }
+    //add by canie
+    public bool ParsePartyList(partyData getPartyList)
+    {
+        partyDic = new Dictionary<int, Party>();
+
+        for (int i = 0; i < getPartyList.partyList.Count; i++)
+        {
+            Party party = ParseParty(getPartyList.partyList[i]);
+            if (party == null)
+            {
+                Debug.Log("Invalid party list Info");
+                return false;
+            }
+            int party_number = i + 1;
+            partyDic.Add(party_number, party);
+        }
+
+        return true;
+    }
+
+    public Party ParseParty(partyInfo getParty)
+    {
+        Party party = new Party();
+        party.state = getParty.state;
+        party.indexList = getParty.indexList;
+
+        return party;
     }
 
     // TODO : 가챠에서 받아오는 목록
