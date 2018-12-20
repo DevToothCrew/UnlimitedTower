@@ -249,9 +249,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void Response_Login(string getLoginInfo)
     {
-        if(getLoginInfo.StartsWith("{signup"))
+        Debug.Log(getLoginInfo);
+
+        if (getLoginInfo.StartsWith("{\"sign"))
         {
             // 유저 정보가 없으면 SignUp으로
+            Debug.Log("SignUp");
             SignUp();
             return;
         }
