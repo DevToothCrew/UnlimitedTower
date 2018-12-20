@@ -88,6 +88,10 @@
             {
                 gacha_controller.start_gacha(sender);
             }
+            else if (ad.action == add_party)
+            {
+                party_controller.add_party_list(sender);
+            }
             });
         }
 #pragma endregion
@@ -140,6 +144,22 @@
             login_controller.reset_user_log_data(_user);
             party_controller.reset_user_party_data(_user);
         }
+        //@abi action 
+        void resetall()
+        {
+            login_controller.reset_all_user_auth_data();
+            login_controller.reset_all_user_log_data();
+            gacha_controller.reset_all_object_gacha_data();
+            party_controller.reset_all_user_party_data();
+
+        }
+        //@abi action 
+        void deleteuser(account_name _user)
+        {
+            login_controller.delete_user_data(_user);
+            gacha_controller.delete_object_data(_user);
+            party_controller.delete_party_data(_user);
+        }
 #pragma endregion
     };
 
@@ -170,4 +190,4 @@ extern "C" { \
 }
 // eos 금액에 대해 체크 하는 함
 
-    EOSIO_ABI(cmain_logic,(datainit)(signup)(lookset)(statset)(completehero)(transfer)(setparty)(gachacheat)(partycheat)(resetdata)(resetobject)(resetuser) )
+    EOSIO_ABI(cmain_logic,(datainit)(signup)(lookset)(statset)(completehero)(transfer)(setparty)(gachacheat)(partycheat)(resetdata)(resetobject)(resetuser)(resetall)(deleteuser) )
