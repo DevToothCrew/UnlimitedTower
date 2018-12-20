@@ -164,8 +164,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
             party_info = UserDataManager.Inst.partyDic[partyNumber];
 
             JsonParty data = new JsonParty();
-            data.partyNum = partyNumber;
-            data.partyList = party_info.indexList;
+            data.partyNum = party_info.partyIndex;
+
+            for (int i=0; i< party_info.characterList.Count; ++i)
+            {
+                data.partyList[i] = party_info.characterList[i].index;
+            }
+            
 
             string json = JsonUtility.ToJson(data);
             Debug.Log("print Jsson : : " + json);

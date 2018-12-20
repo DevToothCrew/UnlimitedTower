@@ -128,8 +128,9 @@ public class gachaItemData
 [Serializable]
 public class partyData
 {
-    public string user;
-    public List<partyInfo> partyList = new List<partyInfo>();
+    public int index;
+    public int state;
+    public List<int> partyList = new List<int>();
 }
 
 [Serializable]
@@ -140,7 +141,7 @@ public class UserLoginData
     public List<monsterData> monster_list = new List<monsterData>();
     public List<itemData> item_list = new List<itemData>();
     //add by canie
-    public partyData party_list = new partyData();
+    public List<partyData> party_list = new List<partyData>();
 }
 
 #endregion

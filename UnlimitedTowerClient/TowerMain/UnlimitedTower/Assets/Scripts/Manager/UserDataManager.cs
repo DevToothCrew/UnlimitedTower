@@ -531,13 +531,13 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         return item;   
     }
     //add by canie
-    public bool ParsePartyList(partyData getPartyList)
+    public bool ParsePartyList(List<partyData> getPartyList)
     {
         partyDic = new Dictionary<int, Party>();
 
-        for (int i = 0; i < getPartyList.partyList.Count; i++)
+        for (int i = 0; i < getPartyList.Count; i++)
         {
-            Party party = ParseParty(getPartyList.partyList[i]);
+            Party party = ParseParty(getPartyList[i].index, getPartyList[i]);
             if (party == null)
             {
                 Debug.Log("Invalid party Info");
@@ -549,12 +549,34 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         return true;
     }
 
-    public Party ParseParty(partyInfo getParty)
+    public Party ParseParty(int getPartyIndex,partyData getParty)
     {
         Party party = new Party();
+        party.partyIndex = getPartyIndex;
         party.state = getParty.state;
-        party.indexList = getParty.indexList;
 
+        for (int i=0; i< getParty.partyList.Count; ++i)
+        {
+            PartyCharacterInfo partyInfo = new PartyCharacterInfo();
+
+            if (i == 0 )
+            {
+                partyInfo.type = (int)CHAR_TYPE.HERO;
+            }
+            else if ( i < 5 )
+            {
+                partyInfo.type = (int)CHAR_TYPE.SERVANT;
+            }
+            else
+            {
+                partyInfo.type = (int)CHAR_TYPE.MONSTER;
+            }
+
+            partyInfo.partyLocation = formationOrderList[i];
+            partyInfo.index = getParty.partyList[i];
+
+            party.characterList.Add(i, partyInfo);
+        }
         return party;
     }
 
