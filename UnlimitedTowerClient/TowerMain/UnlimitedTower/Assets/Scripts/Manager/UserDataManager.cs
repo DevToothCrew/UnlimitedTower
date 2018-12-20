@@ -28,9 +28,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     // 현재는 테스트 용으로 1을 사용한다.
     public int usingPartyNum = 1;
 
-    // 유저의 캐릭터 키값들 담는 리스트
-    public List<int> userCharsKeyList = new List<int>();
-
     // 포메이션 들어가는 순서
     public List<int> formationOrderList = new List<int>()
     {
@@ -69,6 +66,13 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             }
             testInitFlag = true;
             oldFormationDic = formationDic;
+
+            partyDic[usingPartyNum] = new Party();
+            for(int i=0; i<DEFINE.PARTY_MAX_NUM; i++)
+            {
+                partyDic[usingPartyNum].indexList.Add(0);
+            }
+
         }
     }
 
