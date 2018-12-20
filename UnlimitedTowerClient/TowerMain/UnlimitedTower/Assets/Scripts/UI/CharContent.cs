@@ -92,7 +92,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
 
             //    if (UserDataManager.Inst.formationDic.ContainsKey(deckNum) == false)
             //if (UserDataManager.Inst.partyDic[usingPartyNum].characterList.ContainsKey(deckNum) == false)
-            if (UserDataManager.Inst.partyDic[usingPartyNum].characterList.ContainsKey(deckNum) == false)
+            if (UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index == 0)
             {
                 // 캐릭터 넣기.
                 //GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
@@ -133,7 +133,8 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
                                                                       // 0값이면 없는 값이라고 가정한다.
 
             int deckNum = UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyLocation;
-            if (UserDataManager.Inst.partyDic[usingPartyNum].characterList.ContainsKey(deckNum) == false)
+            if (UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index == 0)
+            //if (UserDataManager.Inst.partyDic[usingPartyNum].characterList.ContainsKey(deckNum) == false)
             {
                 // 캐릭터 넣기.
                 GameObject deck = FormationManager.Inst.Decks[deckNum];

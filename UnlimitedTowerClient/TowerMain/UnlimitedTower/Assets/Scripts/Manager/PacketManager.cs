@@ -148,8 +148,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
         // TODO : 추후에 저장 파티 인덱스 넣을것.
         int partyNumber = UserDataManager.Inst.usingPartyNum;
 
-        Party party_info;
-
+        Party party_info = new Party();
+        party_info.partyIndex = partyNumber;
         //TODO : Test Code
         //UserDataManager.Inst.partyDic.Add(1, new Party());
         //for (int i = 0; i < 10; i++)
@@ -168,7 +168,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
             for (int i=0; i< party_info.characterList.Count; ++i)
             {
-                data.partyList[i] = party_info.characterList[i].index;
+                data.partyList.Add(party_info.characterList[i].index);
             }
             
 

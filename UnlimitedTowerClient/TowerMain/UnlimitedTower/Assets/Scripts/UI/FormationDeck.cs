@@ -51,7 +51,9 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 
            // if(UserDataManager.Inst.partyDic[usingPartyNum].indexList[index] != 0)
             {
-                RemoveDeck();
+
+                // 일단 막아둠
+                //RemoveDeck();
             }
         }
         else
