@@ -15,8 +15,7 @@ public class FormationManager : MonoSingleton<FormationManager>
     // 즉, 하이어라키에서 값이 바껴도 에러가 최소한으로 나도록 설계하면 된다.
     private void Awake()
     {
-        Debug.Log("Awake : FormationManager");
-        for(int i=0; i<10; i++)
+        for(int i=0; i<DEFINE.PARTY_MAX_NUM; i++)
         {
             if(Decks[i])
             {
@@ -26,19 +25,24 @@ public class FormationManager : MonoSingleton<FormationManager>
         }
     }
 
-    public void OnClickSaveFormation()
+    public void OnClickSaveParty()
     {
         // ### 포메이션 패킷을 보낸다.
         Debug.Log("OnClickSaveFormation");
 
 #if UNITY_EDITOR
-
+        //PacketManager.Inst.Request_SaveParty();
 #else
-     PacketManager.Inst.Request_SaveFormation();
+         PacketManager.Inst.Request_SaveParty();
 #endif
 
         BeSaved = true;
     }
+
+
+
+
+
     public void ResetFormation()
     {
         for(int i=0; i<10; i++)
@@ -60,7 +64,6 @@ public class FormationManager : MonoSingleton<FormationManager>
                     DeckTexts[i].SetActive(true);
                 }
 
-                // 어떠한 값을 리셋하여 해결하면 되는가???
             }
         }
     }

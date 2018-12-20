@@ -144,3 +144,23 @@ public class UserLoginData
 }
 
 #endregion
+
+
+[System.Serializable]
+public class JsonParty
+{
+    public int partyNum = 0;
+    public List<int> partyList = new List<int>();
+}
+[System.Serializable]
+public class JsonBattleAction
+{
+    public int targetIndex = 0;
+    public int actionType = 0;
+
+    public JsonBattleAction(int targetIndex, int actionType)
+    {
+        this.targetIndex = targetIndex;
+        this.actionType = actionType;
+    }
+}

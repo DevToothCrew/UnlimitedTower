@@ -18,8 +18,15 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     // 포메이션 : 캐릭터 인덱스 ->가 들어가는 딕셔너리
     public Dictionary<int, int> formationDic = new Dictionary<int, int>();
-
     public Dictionary<int, int> oldFormationDic = new Dictionary<int, int>();
+
+
+    //add by canie
+    public Dictionary<int, Party> partyDic = new Dictionary<int, Party>();
+
+    //TODO :현재 활성화된 파티 인덱스 : 1 부터 시작한다.
+    // 현재는 테스트 용으로 1을 사용한다.
+    public int usingPartyNum = 1;
 
     // 유저의 캐릭터 키값들 담는 리스트
     public List<int> userCharsKeyList = new List<int>();
@@ -30,17 +37,11 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
       7, 6, 8, 5, 9, 2, 1, 3, 0, 4 
     };
 
-    //add by canie
-    public Dictionary<int, Party> partyDic = new Dictionary<int, Party>();
 
     // TODO : 테스트 서번트+몬스터 수
     public readonly int  TestCharNum = 10;
     private bool testInitFlag = false;
 
-
-
-    public int servantIndex = 0;
-    public int monsterIndex = 0;
 
     public void Awake()
     {
@@ -256,15 +257,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             instance.transform.SetParent(CharacterListManager.Inst.MonsterContentList.transform.transform);
             instance.GetComponent<CharContent>().charType = CHAR_TYPE.MONSTER;
         }    
-    }
-
-
-    public void RemoveUserInfo()
-    {
-        Debug.Log("Remove UserInfo");
-        //servantDic.Clear();
-        servantIndex = 0;
-        //monsterDic.Clear();
     }
 
 

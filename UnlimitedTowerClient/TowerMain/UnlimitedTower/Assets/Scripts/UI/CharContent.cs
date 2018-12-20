@@ -4,12 +4,13 @@ using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+
 public class CharContent : MonoBehaviour, IPointerClickHandler
 {
     public int charDicKey;
     public CHAR_TYPE charType;
-
     public GameObject ChildCheckingImage;
+
 
     void Awake()
     {
@@ -19,11 +20,9 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData pointerEventData)
     {
         // 이미 덱에 캐릭터가 존재하면, 그 캐릭터를 뺀다.
-
         if (charType == CHAR_TYPE.SERVANT)
         {
             Debug.Log("서번트 추가");
-            // CheckAddOrRemove(ref UserDataManager.Inst.servantDic, CharType);
             CheckServantAddOrRemove(charType);
 
         }
@@ -31,17 +30,11 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
         {
             Debug.Log("먼스터 추가");
             CheckMonsterAddOrRemove(charType);
-            //CheckAddOrRemove(ref UserDataManager.Inst.monsterDic, CharType);   
         }
         else
         {
             Debug.Log("Error :OnPointerClick -> unvaild charType");
         }
-
-
-
- 
-
     }
 
 
@@ -78,8 +71,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
                     Debug.Log("용병 수가 적어 몬스터를 추가할 수 없습니다.");
                     return;
                 }
-                AddMonsterDeck();
-               
+                AddMonsterDeck();          
             }
         }
     }
@@ -89,9 +81,41 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
     {
         int startNum = 0;
         string imageFath = "UI/CharaterImage/";
-         
+        int usingPartyNum = UserDataManager.Inst.usingPartyNum;
+
         for (int i = startNum; i < DEFINE.PARTY_MAX_NUM / 2 + startNum; i++)
         {
+            //int deckNum = UserDataManager.Inst.formationOrderList[i];
+            //// 빈 덱 검색
+            //if (UserDataManager.Inst.formationDic.ContainsKey(deckNum) == false)
+            //{
+            //    // 캐릭터 넣기.
+            //    //GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
+            //    GameObject deck = FormationManager.Inst.Decks[deckNum];
+            //    Sprite sprite = Resources.Load<Sprite>(imageFath + UserDataManager.Inst.newServantDic[charDicKey].name);
+
+            //    // 덱에 캐릭터 오브젝트 연결
+            //    deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+            //    deck.GetComponent<FormationDeck>().LinkedChar = gameObject;
+            //    deck.GetComponent<FormationDeck>().ShowEmptyText(false);
+
+
+            //    // 캐릭터 사용중이라는 표시하기.
+            //    // party에 포함한다.
+            //    UserDataManager.Inst.formationDic.Add(deckNum, charDicKey);
+            //    Debug.Log("CharDicKey : " + charDicKey);
+            //    UserDataManager.Inst.newServantDic[charDicKey].onFormation = true;
+            //    UserDataManager.Inst.newServantDic[charDicKey].formationIndex = deckNum;
+
+            //    ChildCheckingImage.SetActive(true);
+            //    transform.GetChild(0).GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f);
+            //    return;
+            //}
+
+
+
+          
+
             int deckNum = UserDataManager.Inst.formationOrderList[i];
             // 빈 덱 검색
             if (UserDataManager.Inst.formationDic.ContainsKey(deckNum) == false)
@@ -108,6 +132,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
 
 
                 // 캐릭터 사용중이라는 표시하기.
+                // party에 포함한다.
                 UserDataManager.Inst.formationDic.Add(deckNum, charDicKey);
                 Debug.Log("CharDicKey : " + charDicKey);
                 UserDataManager.Inst.newServantDic[charDicKey].onFormation = true;
@@ -116,8 +141,16 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
                 ChildCheckingImage.SetActive(true);
                 transform.GetChild(0).GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f);
                 return;
-
             }
+
+
+
+
+
+
+
+
+
         }
     }
     private void AddMonsterDeck()
@@ -205,7 +238,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
         int backLineCharNum = 0;
         int frontLineCharNum = 0;
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
         {
             if (i < 5)
             {

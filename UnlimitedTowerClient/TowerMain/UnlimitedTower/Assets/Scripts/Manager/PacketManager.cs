@@ -142,49 +142,19 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Request_LoadMonster");
         GetMonster();
     }
-
-    public void Request_SaveFormation()
-    {
-        Debug.Log("Request_SaveFormation");
-        JsonFomation data = new JsonFomation();
-        
-
-        int formationNum = 0;
-        for (int i = 0; i < 10; i++)
-        {
-            if (UserDataManager.Inst.formationDic.ContainsKey(i) == true)
-            {
-                if (!UserDataManager.Inst.formationDic.TryGetValue(i, out formationNum))
-                {
-                    Debug.Log("Error : SendFormationInfo");
-                }
-            }
-            else
-            {
-                formationNum = 0;
-
-            }
-            data.formation.Add(formationNum);
-        }
-
-        // 이미지 클릭
-        // 7 2 -1 3 5     3, -1, 0, 2, 4
-
-
-        // 4 2 1 3 5    4 2 1 3 5
-        // 3 1 0 2 4    3 1 0 2 4
-        data.partyNum = 0;
-        string json = JsonUtility.ToJson(data);
-        Debug.Log("print Jsson : : " + json);
-
-       SetFormation(json);
-    }
     //add by canie
     public void Request_SaveParty()
     {
-        int partyNumber = 1;
+        // TODO : 추후에 저장 파티 인덱스 넣을것.
+        int partyNumber = UserDataManager.Inst.usingPartyNum;
 
         Party party_info;
+
+        //TODO : Test Code
+        //UserDataManager.Inst.partyDic.Add(1, new Party());
+        //for (int i = 0; i < 10; i++)
+        //    UserDataManager.Inst.partyDic[partyNumber].indexList.Add(3);
+
         if (UserDataManager.Inst.partyDic.ContainsKey(partyNumber) == false)
         {
             Debug.Log("Error : send party info");
@@ -193,16 +163,19 @@ public class PacketManager : MonoSingleton<PacketManager> {
         {
             party_info = UserDataManager.Inst.partyDic[partyNumber];
 
-            JsonFomation data = new JsonFomation();
+            JsonParty data = new JsonParty();
             data.partyNum = partyNumber;
-            data.formation = party_info.indexList;
+            data.partyList = party_info.indexList;
 
             string json = JsonUtility.ToJson(data);
             Debug.Log("print Jsson : : " + json);
 
+
+            // TODO : Test Code
+            // JsonParty test = JsonUtility.FromJson<JsonParty>(json);
+
             SetFormation(json);
         }
-
     }
 
     public void Request_GetStageInfo(int stageNum)

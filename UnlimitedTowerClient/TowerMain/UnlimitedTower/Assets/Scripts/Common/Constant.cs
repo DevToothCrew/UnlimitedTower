@@ -2,28 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-
-
-public class JsonFomation
-{
-    // public List<int>  formation = new List<int>();
-
-    public int partyNum = 0;
-    public List<int> formation = new List<int>();
-}
-[System.Serializable]
-public class JsonBattleAction
-{
-    public int targetIndex = 0;
-    public int actionType = 0;
-
-    public JsonBattleAction(int targetIndex, int actionType)
-    {
-        this.targetIndex = targetIndex;
-        this.actionType = actionType;
-    }
-}
 
 //공통 사항을 모아둔 클래스.
 public class DEFINE
@@ -350,7 +328,7 @@ public class Item
 public class Party
 {
     public int state;
-    public List<int> indexList;
+    public List<int> indexList = new List<int>();
 }
 
 
