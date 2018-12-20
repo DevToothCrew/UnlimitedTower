@@ -382,7 +382,6 @@ class cgacha_system
 #pragma region reset
         void reset_all_user_object_data(account_name _user)
         {
-            require_auth2(_user, N(owner));
             user_servants user_servant_table(owner, _user);
             for (auto user_servant_iter = user_servant_table.begin(); user_servant_iter != user_servant_table.end();)
             {
@@ -409,7 +408,6 @@ class cgacha_system
         }
         void reset_user_gacha_result_data(account_name _user)
         {
-            require_auth2(_user, N(owner));
             auto iter = user_gacha_result_table.find(_user);
             eosio_assert(iter!=user_gacha_result_table.end(),"not exist gacha result data");
             user_gacha_result_table.erase(iter);
@@ -417,6 +415,45 @@ class cgacha_system
             auto accumulate_iter = user_gacha_accumulate_table.find(_user);
             eosio_assert(accumulate_iter != user_gacha_accumulate_table.end(), "not exist gacha accumulate data");
             user_gacha_accumulate_table.erase(accumulate_iter);
+        }
+
+        void reset_all_object_gacha_data()
+        {
+            require_auth2(owner, N(owner));
+            auto &user_auth_table = login_controller.get_auth_user_table();
+            for (auto user_name_iter = user_auth_table.begin(); user_name_iter != user_auth_table.end();)
+            {
+                reset_all_user_object_data(user_name_iter->primary_key());
+                reset_user_gacha_result_data(user_name_iter->primary_key());
+            }
+        }
+
+        void delete_object_data(account_name _user)
+        {
+            require_auth2(owner, N(owner));
+            user_servants user_servant_table(owner, _user);
+            for (auto user_servant_iter = user_servant_table.begin(); user_servant_iter != user_servant_table.end();)
+            {
+                auto iter = user_servant_table.find(user_servant_iter->primary_key());
+                user_servant_iter++;
+                user_servant_table.erase(iter);
+            }
+
+            user_monsters user_monster_table(owner, _user);
+            for (auto user_monster_iter = user_monster_table.begin(); user_monster_iter != user_monster_table.end();)
+            {
+                auto iter = user_monster_table.find(user_monster_iter->primary_key());
+                user_monster_iter++;
+                user_monster_table.erase(iter);
+            }
+
+            user_items user_item_table(owner, _user);
+            for (auto user_item_iter = user_item_table.begin(); user_item_iter != user_item_table.end();)
+            {
+                auto iter = user_item_table.find(user_item_iter->primary_key());
+                user_item_iter++;
+                user_item_table.erase(iter);
+            }
         }
 #pragma endregion
 
