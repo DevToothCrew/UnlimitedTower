@@ -334,9 +334,16 @@ public class Party
 
 public class PartyCharacterInfo
 {
-    public int partyLocation;
+    public int partyLocation; //OrderList 매칭시킨 
     public int type;
-    public int index;
+    public int index; // 캐릭터 구분하는 인덱스
+
+    public PartyCharacterInfo(int getPartyLocation, int getType, int getIndex)
+    {
+        partyLocation = getPartyLocation;
+        type = getType;
+        index = getIndex;
+    }
 }
 
 // TODO : Old Code

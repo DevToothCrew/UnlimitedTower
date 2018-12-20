@@ -85,46 +85,13 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
 
         for (int i = startNum; i < DEFINE.PARTY_MAX_NUM / 2 + startNum; i++)
         {
-            #region TODO : Old Code
+            int deckNum = UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyLocation;
             //int deckNum = UserDataManager.Inst.formationOrderList[i];
-            //// 빈 덱 검색
-            //if (UserDataManager.Inst.formationDic.ContainsKey(deckNum) == false)
-            //{
-            //    // 캐릭터 넣기.
-            //    //GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
-            //    GameObject deck = FormationManager.Inst.Decks[deckNum];
-            //    Sprite sprite = Resources.Load<Sprite>(imageFath + UserDataManager.Inst.newServantDic[charDicKey].name);
 
-            //    // 덱에 캐릭터 오브젝트 연결
-            //    deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
-            //    deck.GetComponent<FormationDeck>().LinkedChar = gameObject;
-            //    deck.GetComponent<FormationDeck>().ShowEmptyText(false);
-
-
-            //    // 캐릭터 사용중이라는 표시하기.
-            //    // party에 포함한다.
-            //    UserDataManager.Inst.formationDic.Add(deckNum, charDicKey);
-            //    Debug.Log("CharDicKey : " + charDicKey);
-            //    UserDataManager.Inst.newServantDic[charDicKey].onFormation = true;
-            //    UserDataManager.Inst.newServantDic[charDicKey].formationIndex = deckNum;
-
-            //    ChildCheckingImage.SetActive(true);
-            //    transform.GetChild(0).GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f);
-            //    return;
-            //}
-            #endregion
-
-
-            // 히로라서 넘어간다.
-            if (i==0)
-            {
-                continue;
-            }
-
-            int deckNum = UserDataManager.Inst.formationOrderList[i]; //6번 덱에 들어갈 차례
             // 빈 덱 검색
-            // 0값이면 없는 값이라고 가정한다.
-            if (UserDataManager.Inst.partyDic[usingPartyNum].indexList[i] == 0)
+
+            //    if (UserDataManager.Inst.formationDic.ContainsKey(deckNum) == false)
+            if (UserDataManager.Inst.partyDic[usingPartyNum].characterList.ContainsKey(deckNum) == false)
             {
                 // 캐릭터 넣기.
                 //GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
@@ -139,9 +106,8 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
 
                 // 캐릭터 사용중이라는 표시하기.
                 // party에 포함한다.
-
                 //UserDataManager.Inst.formationDic.Add(deckNum, charDicKey);
-                UserDataManager.Inst.partyDic[usingPartyNum].indexList[i] = charDicKey;
+                UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index = charDicKey;
                 Debug.Log("CharDicKey : " + charDicKey);
                 UserDataManager.Inst.newServantDic[charDicKey].onFormation = true;
                 UserDataManager.Inst.newServantDic[charDicKey].formationIndex = deckNum;
@@ -150,6 +116,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
                 transform.GetChild(0).GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f);
                 return;
             }
+    
         }
     }
     private void AddMonsterDeck()
@@ -160,10 +127,12 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
 
         for (int i = startNum; i < DEFINE.PARTY_MAX_NUM / 2 + startNum; i++)
         {
-            int deckNum = UserDataManager.Inst.formationOrderList[i]; //6번 덱에 들어갈 차례
-            // 빈 덱 검색
-            // 0값이면 없는 값이라고 가정한다.
-            if (UserDataManager.Inst.partyDic[usingPartyNum].indexList[i] == 0)
+            //int deckNum = UserDataManager.Inst.formationOrderList[i]; //6번 덱에 들어갈 차례
+                                                                      // 빈 덱 검색
+                                                                      // 0값이면 없는 값이라고 가정한다.
+
+            int deckNum = UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyLocation;
+            if (UserDataManager.Inst.partyDic[usingPartyNum].characterList.ContainsKey(deckNum) == false)
             {
                 // 캐릭터 넣기.
                 GameObject deck = FormationManager.Inst.Decks[deckNum];
@@ -174,7 +143,11 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
                 deck.GetComponent<FormationDeck>().LinkedChar = gameObject;
                 deck.GetComponent<FormationDeck>().ShowEmptyText(false);
 
-                UserDataManager.Inst.partyDic[usingPartyNum].indexList[i] = charDicKey;
+                // 기존 방식
+               // UserDataManager.Inst.partyDic[usingPartyNum].characterList.Add(deckNum,             new PartyCharacterInfo(deckNum, 0, charDicKey));
+              
+                UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index = charDicKey;
+
                 Debug.Log("CharDicKey : " + charDicKey);
                 UserDataManager.Inst.newMonsterDic[charDicKey].onFormation = true;
                 UserDataManager.Inst.newMonsterDic[charDicKey].formationIndex = deckNum;
@@ -236,22 +209,20 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
         int frontLineCharNum = 0;
         int usingPartyNum = UserDataManager.Inst.usingPartyNum;
 
-        for (int i = 1; i < DEFINE.PARTY_MAX_NUM; i++)
+        for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
         {
-
-
             if (i < 5)
             {
-                if (UserDataManager.Inst.partyDic[usingPartyNum].indexList[i] != 0)
+               if(UserDataManager.Inst.partyDic[usingPartyNum].characterList.ContainsKey(i) == true)
                 {
-                    backLineCharNum++;              
+                    frontLineCharNum++;
                 }
             }
             else
             {
-                if (UserDataManager.Inst.partyDic[usingPartyNum].indexList[i] != 0)
+                if (UserDataManager.Inst.partyDic[usingPartyNum].characterList.ContainsKey(i) == true)
                 {
-                    frontLineCharNum++;
+                    backLineCharNum++;
                 }
             }
         }
@@ -263,34 +234,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
 
         }
         return true;
-
-        #region Old Code
-        //for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
-        //{
-        //    if (i < 5)
-        //    {
-        //        if (UserDataManager.Inst.formationDic.ContainsKey(i))
-        //        {
-        //            frontLineCharNum++;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (UserDataManager.Inst.formationDic.ContainsKey(i))
-        //        {
-        //            backLineCharNum++;
-        //        }
-        //    }
-        //}
-
-        //// 몬스터 라인의 수가 더 많으면
-        //if (backLineCharNum <= frontLineCharNum)
-        //{
-        //    return false;
-
-        //}
-        //return true;
-        #endregion
+       
     }
     //Old Code
     //private void CheckAddOrRemove(ref Dictionary<int, Character> charDic, CHAR_TYPE charType)

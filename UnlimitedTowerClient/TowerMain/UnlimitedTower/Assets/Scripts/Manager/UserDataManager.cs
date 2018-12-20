@@ -70,23 +70,12 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             partyDic[usingPartyNum] = new Party();
             for(int i=0; i<DEFINE.PARTY_MAX_NUM; i++)
             {
-                partyDic[usingPartyNum].indexList.Add(0);
+                partyDic[usingPartyNum].characterList[i] = new PartyCharacterInfo(formationOrderList[i], 0, 0);
             }
 
         }
     }
 
-    public int GetBeingDeckIndex(int deckNum)
-    {
-        for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
-        {
-            if (partyDic[usingPartyNum].indexList[i] == deckNum)
-            {
-                return i;
-            }
-        }
-        return -1;
-    }
 
     public Servant CreateServant(int getIndex)
     {
