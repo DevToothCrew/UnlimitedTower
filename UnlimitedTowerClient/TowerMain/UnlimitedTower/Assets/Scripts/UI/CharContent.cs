@@ -20,18 +20,27 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
     {
         // 이미 덱에 캐릭터가 존재하면, 그 캐릭터를 뺀다.
 
-        //if(charType == CHAR_TYPE.SERVANT)
-        //{
-        //    Debug.Log("서번트 추가");
-        //    // CheckAddOrRemove(ref UserDataManager.Inst.servantDic, CharType);
+        if (charType == CHAR_TYPE.SERVANT)
+        {
+            Debug.Log("서번트 추가");
+            // CheckAddOrRemove(ref UserDataManager.Inst.servantDic, CharType);
+            CheckServantAddOrRemove(charType);
 
-        //}
-        //else if (charType == CHAR_TYPE.MONSTER)
-        //{
-        //    Debug.Log("먼스터 추가");
-        //    //CheckAddOrRemove(ref UserDataManager.Inst.monsterDic, CharType);   
-        //}
-        CheckAddOrRemove(charType);
+        }
+        else if (charType == CHAR_TYPE.MONSTER)
+        {
+            Debug.Log("먼스터 추가");
+            CheckMonsterAddOrRemove(charType);
+            //CheckAddOrRemove(ref UserDataManager.Inst.monsterDic, CharType);   
+        }
+        else
+        {
+            Debug.Log("Error :OnPointerClick -> unvaild charType");
+        }
+
+
+
+ 
 
     }
 
@@ -39,40 +48,43 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
     // 이제 Character 딕셔너리가 두 개로 분리되어
     // Monster와 Servant로 되었다.
     // 그러면 Monster와 Servant 추가 혹은 제거하는 함수 역시 두 개의 함수로 분리되어야할까?
-    private void CheckAddOrRemove(CHAR_TYPE getCharType)
+    private void CheckServantAddOrRemove(CHAR_TYPE getCharType)
     {
         if (UserDataManager.Inst.newServantDic.ContainsKey(charDicKey))
         {
             if (UserDataManager.Inst.newServantDic[charDicKey].onFormation == true)
             {
-                if (getCharType == CHAR_TYPE.SERVANT)
-                {
-                    RemoveServantDeck();
-                }
-                else if (getCharType == CHAR_TYPE.MONSTER)
-                {
-                    RemoveMonsterDeck();
-                }
+                RemoveServantDeck();
             }
             else
             {
-                if (getCharType == CHAR_TYPE.MONSTER)
-                {
-                    if (CheckAddDeck() == false)
-                    {
-                        Debug.Log("용병 수가 적어 몬스터를 추가할 수 없습니다.");
-                        return;
-                    }
-                    AddMonsterDeck();
-                }
-                else if (getCharType == CHAR_TYPE.SERVANT)
-                {
-                    AddServantDeck();
-                }
-
+                AddServantDeck();
             }
         }
     }
+
+    private void CheckMonsterAddOrRemove(CHAR_TYPE getCharType)
+    {
+        if (UserDataManager.Inst.newMonsterDic.ContainsKey(charDicKey))
+        {
+            if (UserDataManager.Inst.newMonsterDic[charDicKey].onFormation == true)
+            {
+                RemoveMonsterDeck();
+            }
+            else
+            {
+                if (CheckAddDeck() == false)
+                {
+                    Debug.Log("용병 수가 적어 몬스터를 추가할 수 없습니다.");
+                    return;
+                }
+                AddMonsterDeck();
+               
+            }
+        }
+    }
+
+
     private void AddServantDeck()
     {
         int startNum = 0;

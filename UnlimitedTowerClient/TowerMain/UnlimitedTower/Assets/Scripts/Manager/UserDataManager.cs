@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class UserDataManager : MonoSingleton<UserDataManager> {
 
-    // TODO : Test Flag
-    public bool UserLoginFlag;
-    public bool CreatePlayerFlag;
+    // TODO : userLoginFlag : 배틀씬에서 단독으로 실행할 때 쓰는 용도
+    public bool userLoginFlag;
+    public bool createPlayerFlag;
     public SCENE_STATE sceneState = SCENE_STATE.None;
 
     public UserInfo userInfo = new UserInfo();
@@ -30,7 +30,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
       7, 6, 8, 5, 9, 2, 1, 3, 0, 4 
     };
 
-    public int TestCharNum = 10;
+    // TODO : 테스트 서번트+몬스터 수
+    public readonly int  TestCharNum = 10;
     private bool testInitFlag = false;
 
 
@@ -97,8 +98,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public void InitFlag()
     {
         Debug.Log("InitFlag");
-        UserLoginFlag = false;
-        CreatePlayerFlag = false;
+        userLoginFlag = false;
+        createPlayerFlag = false;
  
     }
     private void CreateHero()
@@ -147,18 +148,18 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public void SetUserLoginFlag(bool flag)
     {
-        UserLoginFlag = flag;
+        userLoginFlag = flag;
     }
 
     public void SetCreatePlayerFlag(bool flag)
     {
-        CreatePlayerFlag = flag;
+        createPlayerFlag = flag;
     }
 
     public bool CheckEnterLobby()
     {
         // TEST
-        //if(UserLoginFlag == true && CreatePlayerFlag == true)
+        //if(userLoginFlag == true && createPlayerFlag == true)
         //{
         //    return true;
         //}

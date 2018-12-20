@@ -40,7 +40,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public void Awake()
     {
         InitCenterPopup();
-        if (!UserDataManager.Inst.UserLoginFlag)
+        if (!UserDataManager.Inst.userLoginFlag)
         {
             Debug.Log("첫 로그인 화면");        
             ChangeSceneState(SCENE_STATE.Login);

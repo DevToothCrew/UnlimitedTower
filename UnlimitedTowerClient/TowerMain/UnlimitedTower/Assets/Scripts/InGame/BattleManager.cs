@@ -467,7 +467,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
 
         // 배틀씬에서 바로 시작할 경우 플레이어 캐릭터들을 초기화해준다.
         //Test Code
-        if (UserDataManager.Inst.UserLoginFlag == false)
+        if (UserDataManager.Inst.userLoginFlag == false)
         {
             Debug.Log("Only BattleScene Start");
             Test_CreatePlayerObjects();

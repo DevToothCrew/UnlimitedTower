@@ -3770,8 +3770,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846779e2e1d261744aef9d8230ed5d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeckNum: 6
-  HeroDeck: 0
+  deckNum: 6
+  heroDeck: 0
   LinkedChar: {fileID: 0}
 --- !u!1 &253792658
 GameObject:
@@ -4678,8 +4678,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846779e2e1d261744aef9d8230ed5d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeckNum: 7
-  HeroDeck: 1
+  deckNum: 7
+  heroDeck: 0
   LinkedChar: {fileID: 0}
 --- !u!1 &285395138
 GameObject:
@@ -6374,8 +6374,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846779e2e1d261744aef9d8230ed5d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeckNum: 9
-  HeroDeck: 0
+  deckNum: 9
+  heroDeck: 0
   LinkedChar: {fileID: 0}
 --- !u!1 &377994551
 GameObject:
@@ -9687,8 +9687,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846779e2e1d261744aef9d8230ed5d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeckNum: 2
-  HeroDeck: 0
+  deckNum: 2
+  heroDeck: 0
   LinkedChar: {fileID: 0}
 --- !u!1 &550266534
 GameObject:
@@ -9737,8 +9737,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846779e2e1d261744aef9d8230ed5d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeckNum: 8
-  HeroDeck: 0
+  deckNum: 8
+  heroDeck: 0
   LinkedChar: {fileID: 0}
 --- !u!1 &560888955
 GameObject:
@@ -12412,8 +12412,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846779e2e1d261744aef9d8230ed5d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeckNum: 0
-  HeroDeck: 0
+  deckNum: 0
+  heroDeck: 0
   LinkedChar: {fileID: 0}
 --- !u!1 &726916159
 GameObject:
@@ -18740,8 +18740,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846779e2e1d261744aef9d8230ed5d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeckNum: 4
-  HeroDeck: 0
+  deckNum: 4
+  heroDeck: 0
   LinkedChar: {fileID: 0}
 --- !u!1 &1167738661
 GameObject:
@@ -23469,8 +23469,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846779e2e1d261744aef9d8230ed5d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeckNum: 5
-  HeroDeck: 0
+  deckNum: 5
+  heroDeck: 0
   LinkedChar: {fileID: 0}
 --- !u!1 &1496532082
 GameObject:
@@ -30009,8 +30009,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846779e2e1d261744aef9d8230ed5d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeckNum: 3
-  HeroDeck: 0
+  deckNum: 3
+  heroDeck: 0
   LinkedChar: {fileID: 0}
 --- !u!1 &1964829595
 GameObject:
@@ -32996,8 +32996,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846779e2e1d261744aef9d8230ed5d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeckNum: 1
-  HeroDeck: 0
+  deckNum: 1
+  heroDeck: 0
   LinkedChar: {fileID: 0}
 --- !u!1 &2136012352
 GameObject:

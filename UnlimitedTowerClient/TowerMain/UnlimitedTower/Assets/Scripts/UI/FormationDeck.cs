@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class FormationDeck : MonoBehaviour, IPointerClickHandler
 {
 
-    public int DeckNum = -1;
+    public int deckNum = -1;
     public bool heroDeck = false;
 
     // 덱과 연결된 캐릭터 목록
@@ -26,9 +26,9 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         Debug.Log("On Click : Formation");
 
         // 이미 덱에 캐릭터가 존재하면
-        if (DeckNum != DEFINE.HERO_FORMATION_NUM)
+        if (deckNum != DEFINE.HERO_FORMATION_NUM)
         {
-            if (UserDataManager.Inst.formationDic.ContainsKey(DeckNum))
+            if (UserDataManager.Inst.formationDic.ContainsKey(deckNum))
             {
                 RemoveDeck();
             }
@@ -42,15 +42,15 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
     public void RemoveDeck()
     {
         //캐릭터 삭제
-        Debug.Log("formatonDeck : " + DeckNum);
+        Debug.Log("formatonDeck : " + deckNum);
         int charIndex = -1;
-        if(UserDataManager.Inst.formationDic.TryGetValue(DeckNum, out charIndex) == false)
+        if(UserDataManager.Inst.formationDic.TryGetValue(deckNum, out charIndex) == false)
         {
-            Debug.Log("Error : UserDataManager.Inst.formationDic.TryGetValue(DeckNum, out charIndex) == false");
+            Debug.Log("Error : UserDataManager.Inst.formationDic.TryGetValue(deckNum, out charIndex) == false");
             return;
         }
        
-        if(DeckNum<5)
+        if(deckNum<5)
         {
             ReorderMonster();
         }
@@ -72,7 +72,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         // 범위 0~4 & 5~9로 바꿀것.
         for (int i = startNum; i < UserDataManager.Inst.formationOrderList.Count + 0; i++)
         {
-            if (UserDataManager.Inst.formationOrderList[i] == DeckNum)
+            if (UserDataManager.Inst.formationOrderList[i] == deckNum)
             {
                 orderIndex = i;
                 break;
@@ -81,9 +81,9 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 
         // 덱 삭제
         int charIndex = -1;
-        if (UserDataManager.Inst.formationDic.TryGetValue(DeckNum, out charIndex))
+        if (UserDataManager.Inst.formationDic.TryGetValue(deckNum, out charIndex))
         {
-            UserDataManager.Inst.formationDic.Remove(DeckNum);
+            UserDataManager.Inst.formationDic.Remove(deckNum);
             // 덱 삭제하고 더 이상 포메이션 없다고 한건데 왜 문제가 생길까?
             UserDataManager.Inst.newServantDic[charIndex].onFormation = false;
             UserDataManager.Inst.newServantDic[charIndex].formationIndex = -1;
@@ -202,7 +202,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         // 범위 0~4 & 5~9로 바꿀것.
         for (int i = startNum; i < UserDataManager.Inst.formationOrderList.Count + 0; i++)
         {
-            if (UserDataManager.Inst.formationOrderList[i] == DeckNum)
+            if (UserDataManager.Inst.formationOrderList[i] == deckNum)
             {
                 orderIndex = i;
                 break;
@@ -211,9 +211,9 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 
         // 덱 삭제
         int charIndex = -1;
-        if (UserDataManager.Inst.formationDic.TryGetValue(DeckNum, out charIndex))
+        if (UserDataManager.Inst.formationDic.TryGetValue(deckNum, out charIndex))
         {
-            UserDataManager.Inst.formationDic.Remove(DeckNum);
+            UserDataManager.Inst.formationDic.Remove(deckNum);
             // 덱 삭제하고 더 이상 포메이션 없다고 한건데 왜 문제가 생길까?
             UserDataManager.Inst.newMonsterDic[charIndex].onFormation = false;
             UserDataManager.Inst.newMonsterDic[charIndex].formationIndex = -1;
@@ -359,7 +359,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         if (backLineCharNum < frontLineCharNum)
         {
             GameObject FormationList = LobbyManager.Inst.FormationList.gameObject;
-            // FormationList.transform.GetChild(DeckNum - 5).gameObject.GetComponent<FormationDeck>().Reorder(ref UserDataManager.Inst.monsterDic, CHAR_TYPE.MONSTER);         
+            // FormationList.transform.GetChild(deckNum - 5).gameObject.GetComponent<FormationDeck>().Reorder(ref UserDataManager.Inst.monsterDic, CHAR_TYPE.MONSTER);         
         }
     }
 
@@ -389,7 +389,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 //        // 범위 0~4 & 5~9로 바꿀것.
 //        for (int i= startNum; i<UserDataManager.Inst.formationOrderList.Count + 0; i++)
 //        {
-//            if(UserDataManager.Inst.formationOrderList[i] == DeckNum)
+//            if(UserDataManager.Inst.formationOrderList[i] == deckNum)
 //            {
 //                orderIndex = i;
 //                break;
@@ -399,9 +399,9 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 
 //        // 덱 삭제
 //        int charIndex = -1;
-//        if (UserDataManager.Inst.formationDic.TryGetValue(DeckNum, out charIndex))
+//        if (UserDataManager.Inst.formationDic.TryGetValue(deckNum, out charIndex))
 //        {
-//            UserDataManager.Inst.formationDic.Remove(DeckNum);
+//            UserDataManager.Inst.formationDic.Remove(deckNum);
 //            // 덱 삭제하고 더 이상 포메이션 없다고 한건데 왜 문제가 생길까?
 //            charDic[charIndex].OnFormation = false;
 //            charDic[charIndex].FormationIndex = -1;
