@@ -179,6 +179,31 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
        SetFormation(json);
     }
+    //add by canie
+    public void Request_SaveParty()
+    {
+        int partyNumber = 1;
+
+        Party party_info;
+        if (UserDataManager.Inst.partyDic.ContainsKey(partyNumber) == false)
+        {
+            Debug.Log("Error : send party info");
+        }
+        else
+        {
+            party_info = UserDataManager.Inst.partyDic[partyNumber];
+
+            JsonFomation data = new JsonFomation();
+            data.partyNum = partyNumber;
+            data.formation = party_info.indexList;
+
+            string json = JsonUtility.ToJson(data);
+            Debug.Log("print Jsson : : " + json);
+
+            SetFormation(json);
+        }
+
+    }
 
     public void Request_GetStageInfo(int stageNum)
     {
@@ -324,6 +349,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             //TODO : 아이템 이미지 미구현
         }
     }
+
 
     public void Response_GetBattle(string battle_info)
     {

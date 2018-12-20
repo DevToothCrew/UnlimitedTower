@@ -532,13 +532,12 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             Party party = ParseParty(getPartyList.partyList[i]);
             if (party == null)
             {
-                Debug.Log("Invalid party list Info");
+                Debug.Log("Invalid party Info");
                 return false;
             }
-            int party_number = i + 1;
+            int party_number = i + 1;  //파티넘버 1부터 시작
             partyDic.Add(party_number, party);
         }
-
         return true;
     }
 
