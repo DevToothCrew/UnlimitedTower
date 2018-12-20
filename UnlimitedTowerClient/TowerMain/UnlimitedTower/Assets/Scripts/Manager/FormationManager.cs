@@ -31,7 +31,7 @@ public class FormationManager : MonoSingleton<FormationManager>
         Debug.Log("OnClickSaveFormation");
 
 #if UNITY_EDITOR
-        //PacketManager.Inst.Request_SaveParty();
+        PacketManager.Inst.Request_SaveParty();
 #else
          PacketManager.Inst.Request_SaveParty();
 #endif

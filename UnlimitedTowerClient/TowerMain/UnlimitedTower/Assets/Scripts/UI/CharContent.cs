@@ -231,24 +231,27 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
     }
     private bool CheckAddDeck()
     {
-        int backLineCharNum = 0;
+        // 히로는 항상 존재하기 때문에 기본적으로 뒷 라인의 수는 1이다.
+        int backLineCharNum = 1;
         int frontLineCharNum = 0;
         int usingPartyNum = UserDataManager.Inst.usingPartyNum;
 
-        for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
+        for (int i = 1; i < DEFINE.PARTY_MAX_NUM; i++)
         {
+
+
             if (i < 5)
             {
                 if (UserDataManager.Inst.partyDic[usingPartyNum].indexList[i] != 0)
                 {
-                    frontLineCharNum++;
+                    backLineCharNum++;              
                 }
             }
             else
             {
                 if (UserDataManager.Inst.partyDic[usingPartyNum].indexList[i] != 0)
                 {
-                    backLineCharNum++;
+                    frontLineCharNum++;
                 }
             }
         }
@@ -289,11 +292,6 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
         //return true;
         #endregion
     }
-
-
-
-
-
     //Old Code
     //private void CheckAddOrRemove(ref Dictionary<int, Character> charDic, CHAR_TYPE charType)
     //{
@@ -386,7 +384,4 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
     //        }
     //    }
     //}
-
-
-
 }

@@ -23,12 +23,31 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        Debug.Log("On Click : Formation");
+        int usingPartyNum = UserDataManager.Inst.usingPartyNum;
+        int index = -1;
 
+        for(int i=0; i<DEFINE.PARTY_MAX_NUM; i++)
+        {
+            if(UserDataManager.Inst.formationOrderList[i] == deckNum)
+            {
+                index = UserDataManager.Inst.formationOrderList[i];
+                break;
+            }
+        }
+        if(index == -1)
+        {
+            Debug.Log("Dc not find certain Index!");
+            return;
+        }
+
+
+        Debug.Log("On Click : Formation");
+           
         // 이미 덱에 캐릭터가 존재하면
         if (deckNum != DEFINE.HERO_FORMATION_NUM)
         {
-            if (UserDataManager.Inst.formationDic.ContainsKey(deckNum))
+            //if (UserDataManager.Inst.formationDic.ContainsKey(deckNum))
+            if(UserDataManager.Inst.partyDic[usingPartyNum].indexList[index] != 0)
             {
                 RemoveDeck();
             }
@@ -44,11 +63,11 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         //캐릭터 삭제
         Debug.Log("formatonDeck : " + deckNum);
         int charIndex = -1;
-        if(UserDataManager.Inst.formationDic.TryGetValue(deckNum, out charIndex) == false)
-        {
-            Debug.Log("Error : UserDataManager.Inst.formationDic.TryGetValue(deckNum, out charIndex) == false");
-            return;
-        }
+        //if(UserDataManager.Inst.formationDic.TryGetValue(deckNum, out charIndex) == false)
+        //{
+        //    Debug.Log("Error : UserDataManager.Inst.formationDic.TryGetValue(deckNum, out charIndex) == false");
+        //    return;
+        //}
        
         if(deckNum<5)
         {
@@ -193,6 +212,8 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
     }
     private void ReorderMonster()
     {
+        int usingPartyNum = UserDataManager.Inst.usingPartyNum;
+
         GameObject FormationList = LobbyManager.Inst.FormationList.gameObject;
         int orderIndex = -1;
 
@@ -236,7 +257,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 
 
 
-        if (orderIndex++ == startNum + 4)
+        if ((orderIndex++) == startNum + 4)
         {
             Debug.Log("이 덱이 마지막 덱입니다.");
             ShowEmptyText(true);
@@ -250,6 +271,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 
         // 다음덱이 존재하지 않을 때
         if (UserDataManager.Inst.formationDic.ContainsKey(nextDeckNum) == false)
+        //if(UserDataManager.Inst.partyDic[usingPartyNum].indexList[index])
         {
             Debug.Log("This deck is last deck!");
             ShowEmptyText(true);
