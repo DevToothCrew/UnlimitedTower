@@ -121,6 +121,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             LoadCharImage(path, DEFINE.HERO_FORMATION_NUM, null);
         }
     }
+
     private void LoadCharImage(string imageFath, int deckNum, GameObject original)
     {
         //GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
@@ -273,7 +274,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public void Login(UserLoginData getUserLoginData)
     {
-
         if (ParseUserInfo(getUserLoginData.userinfo) == false)
         {
             Debug.Log("Invalid ParseUserInfo Info");
@@ -309,7 +309,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         formationDic = new Dictionary<int, int>();
         formationDic.Add(DEFINE.HERO_FORMATION_NUM, 0);
 
-       
         string path = "UI/CharaterImage/" + userInfo.userHero.name;
         LoadCharImage(path, DEFINE.HERO_FORMATION_NUM, null);
     }

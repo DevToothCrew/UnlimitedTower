@@ -219,13 +219,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         ServantContentList.SetActive(true);
         MonsterContentList.SetActive(false);
         CharacterListScroll.GetComponent<ScrollRect>().content = ServantContentList.gameObject.GetComponent<RectTransform>();
-       
-#if UNITY_EDITOR
-     
-#else
-         PacketManager.Inst.Request_AllServant();  
-#endif
-
     }
 
     public void OnClickFormationMonsterButton()
@@ -237,7 +230,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 #if UNITY_EDITOR
 
 #else
-            PacketManager.Inst.Request_AllMonster();
+            //PacketManager.Inst.Request_AllMonster();
 #endif
     }
 

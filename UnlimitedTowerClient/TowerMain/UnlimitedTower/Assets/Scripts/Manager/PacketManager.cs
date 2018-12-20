@@ -23,16 +23,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
     private static extern void Gacha();
 
     [DllImport("__Internal")]
-    private static extern void GetServant();
-
-    [DllImport("__Internal")]
     private static extern void GetItem();
 
     [DllImport("__Internal")]
-    private static extern void GetMonster();
-
-    [DllImport("__Internal")]
     private static extern void SetFormation(string formation);
+
     [DllImport("__Internal")]
     private static extern void GetStageInfo (int stage_num);
 
@@ -76,18 +71,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Login();
     }
 
-    public void Request_AllServant()
-    {
-        Debug.Log("Request_AllServant");
-        GetServant();
-    }
-
-    public void Request_AllMonster()
-    {
-        Debug.Log("Request_Monster");
-        GetMonster();
-    }
-
     public void Request_CreatePlayer()
     {
         Debug.Log("Request_CreatePlayer");
@@ -119,41 +102,19 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Response_GachaResult(gachaResultType);
     }
 
-    public void Request_ExitGacha()
-    {
-        Response_ExitGacha();
-    }
-
     public void Request_GetPartnerInfo()
     {
         Debug.Log("Request_GetPartnerInfo");
     }
 
-    // 포메이션 창에서 Servant르 누를때 서번트를 로드한다.
-    public void Request_LoadServant()
-    {
-        Debug.Log("Request_LoadServant");
-        GetServant();
-    }
-
-    // 포메이션 창에서 Monster르 누를때  몬스터를 로드한다.
-    public void Request_LoadMonster()
-    {
-        Debug.Log("Request_LoadMonster");
-        GetMonster();
-    }
     //add by canie
     public void Request_SaveParty()
     {
         // TODO : 추후에 저장 파티 인덱스 넣을것.
         int partyNumber = UserDataManager.Inst.usingPartyNum;
-
         Party party_info = new Party();
         party_info.partyIndex = partyNumber;
-        //TODO : Test Code
-        //UserDataManager.Inst.partyDic.Add(1, new Party());
-        //for (int i = 0; i < 10; i++)
-        //    UserDataManager.Inst.partyDic[partyNumber].indexList.Add(3);
+
 
         if (UserDataManager.Inst.partyDic.ContainsKey(partyNumber) == false)
         {
@@ -327,6 +288,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             //TODO : 아이템 이미지 미구현
         }
     }
+
     //add by canie
     public void Response_GetParty(string getPartyInfo)
     {
@@ -344,7 +306,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
     }
 
-
     public void Response_GetBattle(string battle_info)
     {
         Debug.Log("Response_GetBattle : " + battle_info);
@@ -352,8 +313,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
        // BattleManager.Inst.SetBattle(pasingData);
 
     }
-
-
 
     //TODO : Test Code
     public void Response_GachaResult(GACHA_RESULT_TYPE gachaResultType)
@@ -389,15 +348,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 }
         }
     }
-    public void Response_ExitGacha()
-    {
-        Debug.Log("Response_ExitGacha");
-    }
 
     public void Response_GetPartnerInfo()
     {
         Debug.Log("Response_GetPartnerInfo");
     }
+
     public void Response_SaveFormation()
     {
         Debug.Log("Response_SaveFormation");

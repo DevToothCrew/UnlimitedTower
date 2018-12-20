@@ -24,36 +24,19 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData pointerEventData)
     {
         int usingPartyNum = UserDataManager.Inst.usingPartyNum;
-        int index = -1;
 
-        for(int i=0; i<DEFINE.PARTY_MAX_NUM; i++)
-        {
-            if(UserDataManager.Inst.formationOrderList[i] == deckNum)
-            {
-                // 삭제할 해당 partyList 인덱스 0 ~ 9
-                index = i;
-                break;
-            }
-        }
-        if(index == -1)
-        {
-            Debug.Log("Dc not find certain Index!");
-            return;
-        }
-
-
+       
         Debug.Log("On Click : Formation");
            
         // 이미 덱에 캐릭터가 존재하면
         if (deckNum != DEFINE.HERO_FORMATION_NUM)
         {
             //if (UserDataManager.Inst.formationDic.ContainsKey(deckNum))
-
-           // if(UserDataManager.Inst.partyDic[usingPartyNum].indexList[index] != 0)
+            //if (UserDataManager.Inst.fo
             {
 
                 // 일단 막아둠
-                //RemoveDeck();
+                RemoveDeck();
             }
         }
         else
