@@ -327,10 +327,17 @@ public class Item
 //add by canie
 public class Party
 {
+    public int partyIndex;
     public int state;
-    public List<int> indexList = new List<int>();
+    public Dictionary<int, PartyCharacterInfo> characterList = new Dictionary<int, PartyCharacterInfo>();
 }
 
+public class PartyCharacterInfo
+{
+    public int partyLocation;
+    public int type;
+    public int index;
+}
 
 // TODO : Old Code
 public class Character
