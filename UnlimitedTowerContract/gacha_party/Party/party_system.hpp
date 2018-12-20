@@ -10,6 +10,7 @@ class cparty_system
         user_partys user_party_table;
     public:
     const uint32_t max_servant_slot = 5;
+    const uint32_t hero_partner_slot = 5;
     const uint32_t max_monster_slot = 10;
     const uint32_t pair_slot = 5;
     const uint32_t hero_party_location = 0;
@@ -103,17 +104,15 @@ class cparty_system
 
                 for (uint32_t i = max_servant_slot; i < max_monster_slot; ++i)
                 {
-                    if(i == max_servant_slot)
-                    {
-                        continue;
-                    }
                     if (_party_list[i] == empty_party_slot)
                     {
                         save_party.party_list[_party_number].index_list[i] = _party_list[i];
                         continue;
                     }
-                    eosio_assert(_party_list[i - pair_slot] != empty_party_slot ,"need set servant");
-                    
+                    if (i != hero_partner_slot)
+                    {
+                        eosio_assert(_party_list[i - pair_slot] != empty_party_slot ,"need set servant");
+                    }
                     auto user_monster_iter = user_monster_table.find(_party_list[i]);
                     eosio_assert(user_monster_iter != user_monster_table.end(), "not exist monster data");
                     eosio_assert(user_monster_iter->party_number == EMPTY_PARTY || user_monster_iter->party_number == _party_number, "already in party member monster");
