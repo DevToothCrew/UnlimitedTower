@@ -65,7 +65,6 @@ public class itemInfo
 [Serializable]
 public class partyInfo
 {
-    public int state;
     public List<int> indexList = new List<int>();
 }
 
@@ -130,7 +129,7 @@ public class partyData
 {
     public int index;
     public int state;
-    public List<int> partyList = new List<int>();
+    public partyInfo party = new partyInfo();
 }
 
 [Serializable]
