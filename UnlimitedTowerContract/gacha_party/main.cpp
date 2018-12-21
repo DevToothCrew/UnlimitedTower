@@ -28,7 +28,9 @@
         cparty_system party_controller;
         cdb_system db_controller;
 
+        const char *change_stat="changestat";
         const char *gacha_gacha="gacha";
+        const char *add_party="addparty";
     public:
         cmain_logic(account_name _self) :
         contract(_self) ,
@@ -87,6 +89,10 @@
             else if(ad.action == gacha_gacha)
             {
                 gacha_controller.start_gacha(sender);
+            }
+            else if(ad.action == change_stat)
+            {
+                login_controller.change_status(sender);
             }
             else if (ad.action == add_party)
             {

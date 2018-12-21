@@ -15,8 +15,6 @@ class cgacha_system
         uint32_t monster_random_count;
         uint32_t item_random_count;
 
-
-
     public:
         const uint32_t default_min = 0;
         const uint32_t max_rate = 100000;

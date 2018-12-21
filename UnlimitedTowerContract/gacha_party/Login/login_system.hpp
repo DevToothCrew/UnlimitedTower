@@ -73,11 +73,15 @@ class clogin_system
         res.action = transfer_data.memo.substr(0, l_center);
         if(res.action == "gacha")
         {
-            eosio_assert(transfer_data.quantity.amount == 10000,"gacha need 1.0000 EOS");
+            eosio_assert(transfer_data.quantity.amount == 10000, "gacha need 1.0000 EOS");
         }
         else if (res.action == "addparty")
         {
             eosio_assert(transfer_data.quantity.amount == 10000, "add party need 1.0000 EOS");
+        }
+        else if (res.action == "changestat")
+        {
+            eosio_assert(transfer_data.quantity.amount == 1000, "change stat need 0.1000 EOS");
         }
 
         res.to.value = receiver;
