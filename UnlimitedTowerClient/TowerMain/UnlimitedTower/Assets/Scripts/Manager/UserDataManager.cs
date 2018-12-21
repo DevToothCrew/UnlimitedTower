@@ -111,10 +111,10 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     }
     private void CreateHero()
     {
-        if(formationDic.ContainsKey(DEFINE.HERO_FORMATION_NUM) == false)
+        //if(formationDic.ContainsKey(DEFINE.HERO_FORMATION_NUM) == false)
         {
             // 히어로의 인덱스는 0~2
-            formationDic.Add(DEFINE.HERO_FORMATION_NUM, 0);
+            //formationDic.Add(DEFINE.HERO_FORMATION_NUM, 0);
             string path = "UI/CharaterImage/" + userInfo.userHero.name;
             LoadCharImage(path, DEFINE.HERO_FORMATION_NUM, null);
         }
@@ -159,7 +159,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     {
         //string path = "UI/CharaterImage/" + heroChar.Name;
         //LoadCharImage(path, DEFINE.HERO_FORMATION_NUM, null);
-        //LoadCharData(CharacterListManager.Inst.ServantContentList, ref servantDic, CHAR_TYPE.SERVANT);
+        //LoadCharData(CharacterListManager.Inst.CharacterContentList, ref servantDic, CHAR_TYPE.SERVANT);
         //LoadCharData(CharacterListManager.Inst.MonsterContentList, ref monsterDic, CHAR_TYPE.MONSTER);
     }
 
@@ -223,7 +223,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         {
             instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + getServant.name);
             instance.GetComponent<CharContent>().charDicKey = getServant.index;
-            instance.transform.SetParent(CharacterListManager.Inst.ServantContentList.transform.transform);
+            instance.transform.SetParent(CharacterListManager.Inst.CharacterContentList.transform.transform);
             instance.GetComponent<CharContent>().charType = CHAR_TYPE.SERVANT;
 
         }
@@ -237,11 +237,40 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/MonsterImage/" + getMonster.name);
             instance.GetComponent<CharContent>().charDicKey = getMonster.index;
             //instance.transform.SetParent(CharacterListManager.Inst.MonsterContentList.transform.transform);
-            instance.transform.SetParent(CharacterListManager.Inst.ServantContentList.transform.transform);
+            instance.transform.SetParent(CharacterListManager.Inst.CharacterContentList.transform.transform);
             instance.GetComponent<CharContent>().charType = CHAR_TYPE.MONSTER;
         }    
     }
+    public void LoadPartyImage()
+    {
+        GameObject charContentList = CharacterListManager.Inst.CharacterContentList.gameObject;
+        for (int i=1; i<partyDic.Count; i++)
+        {
+            if(partyDic.ContainsKey(i) == true)
+            {
+                //partyDic[i].partyIndex;
+                // 0 ~ 9 : 
+                //for(int j=1; j<partyDic[i].characterList.Count; j++)
+                //{
+                //    if (partyDic[i].characterList[j].type == (int)CHAR_TYPE.SERVANT)
+                //    {
+                //        int deckNum = partyDic[i].characterList[j].partyLocation; // 0 ~ 9
+                //        int charDicIndex = partyDic[i].characterList[j].index;
 
+                //        // 다 뒤질 필요없이 필요한거만 하면 될듯...
+
+                //        charContentList.transform.GetChild()
+
+                //        FormationManager.Inst.Decks[deckNum].GetComponent<FormationDeck>()
+
+
+
+
+                //    }
+                //}
+            }
+        }
+    }
 
 
 
@@ -283,11 +312,18 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         }
 
         // TODO : Party 편성 정보도 추가
-        formationDic = new Dictionary<int, int>();
-        formationDic.Add(DEFINE.HERO_FORMATION_NUM, 0);
+        // TODO : Old Code -> 필요없으니 삭제없이 잘 작동해야됨
+        //formationDic = new Dictionary<int, int>();
+        //formationDic.Add(DEFINE.HERO_FORMATION_NUM, 0);
+
+        
+
+
+
 
         string path = "UI/CharaterImage/" + userInfo.userHero.name;
         LoadCharImage(path, DEFINE.HERO_FORMATION_NUM, null);
+        LoadPartyImage();
     }
 
     public bool ParseUserInfo(userData getUserData)

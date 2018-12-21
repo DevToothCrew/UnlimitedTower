@@ -51,7 +51,6 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
             {
                 Debug.Log("마지막 몬스터덱이 아니라 삭제 할 수 없습니다");
             }
-
         }
         else
         {
@@ -160,7 +159,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         }
 
 
-        UserDataManager.Inst.formationDic.Remove(deckNum);
+       // UserDataManager.Inst.formationDic.Remove(deckNum);
         UserDataManager.Inst.newServantDic[charIndex].onFormation = false;
         UserDataManager.Inst.newServantDic[charIndex].formationIndex = -1;
 
@@ -217,7 +216,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         }
 
       
-        UserDataManager.Inst.formationDic.Remove(deckNum);
+        //UserDataManager.Inst.formationDic.Remove(deckNum);
         UserDataManager.Inst.newMonsterDic[charIndex].onFormation = false;
         UserDataManager.Inst.newMonsterDic[charIndex].formationIndex = -1;
 

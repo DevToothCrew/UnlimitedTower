@@ -225,6 +225,23 @@ public class Servant
         size = DEFINE.GetCharacterSize(charNum);
         name = charNum.ToString();
     }
+    public Servant(int getCharNum)
+    {
+        state = 0;
+        exp = 0;
+        level = 1;
+
+        status = new Status();
+        status.basicStr = DEFINE.TEST_STATUS_VALUE;
+        status.basicDex = DEFINE.TEST_STATUS_VALUE;
+        status.basicInt = DEFINE.TEST_STATUS_VALUE;
+
+
+        // 리소스 인덱스
+        appear = getCharNum;
+        size = DEFINE.GetCharacterSize((CHARACTER_NUM)getCharNum);
+        name = getCharNum.ToString();
+    }
 }
 
 public class UserInfo
@@ -284,7 +301,7 @@ public class Monster
     }
 
 
-    public Monster(CHARACTER_NUM charNum)
+    public Monster(int getCharNum)
     {
         exp = 0;
         level = 1;
@@ -298,11 +315,11 @@ public class Monster
       
 
         // 리소스 인덱스
-        index = (int)charNum;
+        index = getCharNum;
         //UniqueIndex = servantinfo.s_index - 1;
 
-        size = DEFINE.GetCharacterSize(charNum);
-        name = charNum.ToString();
+        size = DEFINE.GetCharacterSize((CHARACTER_NUM)getCharNum);
+        name = getCharNum.ToString();
     }
 }
 

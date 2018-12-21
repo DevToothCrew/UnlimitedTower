@@ -81,7 +81,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
     private void AddServantDeck()
     {
         int startNum = 1;
-        string imageFath = "UI/CharaterImage/";
+        string imagePath = "UI/CharaterImage/";
         int usingPartyNum = UserDataManager.Inst.usingPartyNum;
         Debug.Log("Log : AddServantDeck");
 
@@ -111,11 +111,10 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
 
                 Debug.Log("Log : In for CharDicKey : " + charDicKey);
                 GameObject deck = FormationManager.Inst.Decks[deckNum];
-                Sprite sprite = Resources.Load<Sprite>(imageFath + UserDataManager.Inst.newServantDic[charDicKey].name);
+                Sprite sprite = Resources.Load<Sprite>(imagePath + UserDataManager.Inst.newServantDic[charDicKey].name);
 
                 // 덱에 캐릭터 오브젝트 연결
                 FormationManager.Inst.DeckImages[deckNum].GetComponent<Image>().sprite = sprite;
-               // deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
                 deck.GetComponent<FormationDeck>().LinkedChar = gameObject;
                 deck.GetComponent<FormationDeck>().ShowEmptyText(false);
 
@@ -180,6 +179,31 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
             }
         }
     }
+
+    public void AddCharacterImage(string getImagePath, int getDeckNum, int getCharDicKey, int getUsingPartyNum, int charListIndex )
+    {
+        Debug.Log("Log : In for CharDicKey : " + charDicKey);
+        GameObject deck = FormationManager.Inst.Decks[getDeckNum];
+        Sprite sprite = Resources.Load<Sprite>(getImagePath + UserDataManager.Inst.newServantDic[getCharDicKey].name);
+
+        // 덱에 캐릭터 오브젝트 연결
+        FormationManager.Inst.DeckImages[getDeckNum].GetComponent<Image>().sprite = sprite;
+        // deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+        deck.GetComponent<FormationDeck>().LinkedChar = gameObject;
+        deck.GetComponent<FormationDeck>().ShowEmptyText(false);
+
+
+        // 캐릭터 사용중이라는 표시하기.
+        // party에 포함한다.
+        UserDataManager.Inst.partyDic[getUsingPartyNum].characterList[charListIndex].index = charDicKey;
+        Debug.Log("CharDicKey : " + charDicKey);
+        UserDataManager.Inst.newServantDic[getCharDicKey].onFormation = true;
+        UserDataManager.Inst.newServantDic[getCharDicKey].formationIndex = getDeckNum;
+
+        ChildCheckingImage.SetActive(true);
+        transform.GetChild(0).GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f);
+    }
+
 
     private void RemoveServantDeck()
     {
@@ -256,8 +280,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
             return false;
 
         }
-        return true;
-       
+        return true;       
     }
- 
+
 }

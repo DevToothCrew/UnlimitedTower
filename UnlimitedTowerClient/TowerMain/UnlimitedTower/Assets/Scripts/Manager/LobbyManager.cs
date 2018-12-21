@@ -29,7 +29,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public GameObject BaseBackground;
 
     public GameObject CharacterListScroll;
-    public GameObject ServantContentList;
+    public GameObject CharacterContentList;
     public GameObject MonsterContentList;
 
     public GameObject FormationList;
@@ -222,16 +222,16 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public void OnClickFormationServantButton()
     {
-        //ServantContentList.SetActive(true);
+        //CharacterContentList.SetActive(true);
         //MonsterContentList.SetActive(false);
-        //CharacterListScroll.GetComponent<ScrollRect>().content = ServantContentList.gameObject.GetComponent<RectTransform>();
+        //CharacterListScroll.GetComponent<ScrollRect>().content = CharacterContentList.gameObject.GetComponent<RectTransform>();
         CharacterListManager.Inst.ShowServantImage();
     }
 
     public void OnClickFormationMonsterButton()
     {
         //MonsterContentList.SetActive(true);
-        //ServantContentList.SetActive(false);
+        //CharacterContentList.SetActive(false);
         //CharacterListScroll.GetComponent<ScrollRect>().content = MonsterContentList.gameObject.GetComponent<RectTransform>();
         CharacterListManager.Inst.ShowMonsterImage();
     }
