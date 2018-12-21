@@ -504,8 +504,11 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     {
         partyDic = new Dictionary<int, Party>();
 
+        Debug.Log("ParsePartyList : " + getPartyList.Count);
+
         for (int i = 0; i < getPartyList.Count; i++)
         {
+            Debug.Log("getPartyList : " + getPartyList[i].index);
             Party party = ParseParty(getPartyList[i].index, getPartyList[i]);
             if (party == null)
             {
@@ -513,6 +516,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
                 return false;
             }
             partyDic.Add(party.partyIndex, party);
+            Debug.Log("party.partyIndex : " + party.partyIndex);
         }
         return true;
     }
@@ -527,9 +531,13 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         party.partyIndex = getPartyIndex;
         party.state = getParty.state;
 
+        Debug.Log("party Count : " + getParty.partyList.Count);
+
         for (int i=0; i< getParty.partyList.Count; ++i)
         {
             PartyCharacterInfo partyInfo = new PartyCharacterInfo();
+
+            Debug.Log("partyInfo : " + partyInfo.type + ", " + partyInfo.index);
 
             if (i == 0 )
             {

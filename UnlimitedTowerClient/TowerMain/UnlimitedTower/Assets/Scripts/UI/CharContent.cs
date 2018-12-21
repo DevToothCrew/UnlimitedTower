@@ -94,12 +94,11 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
      
         for (int i = startNum; i < DEFINE.PARTY_MAX_NUM / 2 ; i++)
         {
-
             int deckNum = -1;
             if (UserDataManager.Inst.partyDic[usingPartyNum].characterList.ContainsKey(i) == false)
             {
                 // 에러 지점
-                Debug.Log("not exist characterList Key : " + i);
+                Debug.Log("not exist Servant characterList Key : " + i);
                 continue;
             }
             else
@@ -143,7 +142,20 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
 
         for (int i = startNum; i < DEFINE.PARTY_MAX_NUM / 2 + startNum; i++)
         {
-            int deckNum = UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyLocation;
+            //int deckNum = UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyLocation;
+
+            int deckNum = -1;
+            if (UserDataManager.Inst.partyDic[usingPartyNum].characterList.ContainsKey(i) == false)
+            {
+                // 에러 지점
+                Debug.Log("not exist Monster characterList Key : " + i);
+                continue;
+            }
+            else
+            {
+                deckNum = UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyLocation;
+            }
+
             if (UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index == 0)
             {
                 // 캐릭터 넣기.
