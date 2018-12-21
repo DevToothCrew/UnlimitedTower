@@ -18,7 +18,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     // 포메이션 : 캐릭터 인덱스 ->가 들어가는 딕셔너리
     public Dictionary<int, int> formationDic = new Dictionary<int, int>();
-    public Dictionary<int, int> oldFormationDic = new Dictionary<int, int>();
 
 
     //add by canie
@@ -65,7 +64,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
                 CreateMonster(i + 1);
             }
             testInitFlag = true;
-            oldFormationDic = formationDic;
 
             partyDic[usingPartyNum] = new Party();
             for(int i=0; i<DEFINE.PARTY_MAX_NUM; i++)
@@ -146,15 +144,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             Debug.Log("Do not exist FormatiionDeck Component");
         }    
     }
-    // 저장을 안했기 때문에 히어로 혼자 플레이한다.
-    private void ResetFormation()
-    {
-
-    }
-    public void SetOldFormation()
-    {
-        oldFormationDic = formationDic;
-    }
 
     public void SetUserLoginFlag(bool flag)
     {
@@ -164,19 +153,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public void SetCreatePlayerFlag(bool flag)
     {
         createPlayerFlag = flag;
-    }
-
-    public bool CheckEnterLobby()
-    {
-        // TEST
-        //if(userLoginFlag == true && createPlayerFlag == true)
-        //{
-        //    return true;
-        //}
-
-        //return false;
-
-        return true;
     }
 
     public void  LoadUserData()
@@ -260,7 +236,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         {
             instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/MonsterImage/" + getMonster.name);
             instance.GetComponent<CharContent>().charDicKey = getMonster.index;
-            instance.transform.SetParent(CharacterListManager.Inst.MonsterContentList.transform.transform);
+            //instance.transform.SetParent(CharacterListManager.Inst.MonsterContentList.transform.transform);
+            instance.transform.SetParent(CharacterListManager.Inst.ServantContentList.transform.transform);
             instance.GetComponent<CharContent>().charType = CHAR_TYPE.MONSTER;
         }    
     }

@@ -354,7 +354,7 @@ public class GachaImage : MonoSingleton<GachaImage>
         else gachaResultType = GACHA_RESULT_TYPE.Servant;
 
         //PacketManager.Inst.Request_GachaResult(this.gachaResultType);
-        //PacketManager.Inst.Response_Gacha("dddd");
+        PacketManager.Inst.Test_Response_Gacha("TestString");
 #else
         // 
 #endif

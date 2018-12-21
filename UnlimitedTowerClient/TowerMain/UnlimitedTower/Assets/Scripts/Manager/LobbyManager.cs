@@ -47,8 +47,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         }
         else
         {
-            FormationManager.Inst.BeSaved = false;
-            UserDataManager.Inst.oldFormationDic = UserDataManager.Inst.formationDic;
             Debug.Log("로비로 리턴");
          
             ChangeSceneState(SCENE_STATE.Lobby);
@@ -169,7 +167,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
             case LOBBY_RIGHT_BUTTON.Formation:
                 FormationInfoPopup.SetActive(true);
-                OnClickFormationServantButton();
+                CharacterListManager.Inst.ShowAllCharacterImage();
                 break;
 
             case LOBBY_RIGHT_BUTTON.Gacha:
@@ -214,24 +212,28 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         LeftPop.SetActive(true);
         BaseBackground.SetActive(true);
     }
+
+
+
+    public void OnClickFormationAllCharacterButton()
+    {
+        CharacterListManager.Inst.ShowAllCharacterImage();
+    }
+
     public void OnClickFormationServantButton()
     {
-        ServantContentList.SetActive(true);
-        MonsterContentList.SetActive(false);
-        CharacterListScroll.GetComponent<ScrollRect>().content = ServantContentList.gameObject.GetComponent<RectTransform>();
+        //ServantContentList.SetActive(true);
+        //MonsterContentList.SetActive(false);
+        //CharacterListScroll.GetComponent<ScrollRect>().content = ServantContentList.gameObject.GetComponent<RectTransform>();
+        CharacterListManager.Inst.ShowServantImage();
     }
 
     public void OnClickFormationMonsterButton()
     {
-        MonsterContentList.SetActive(true);
-        ServantContentList.SetActive(false);
-        CharacterListScroll.GetComponent<ScrollRect>().content = MonsterContentList.gameObject.GetComponent<RectTransform>();
-
-#if UNITY_EDITOR
-
-#else
-     
-#endif
+        //MonsterContentList.SetActive(true);
+        //ServantContentList.SetActive(false);
+        //CharacterListScroll.GetComponent<ScrollRect>().content = MonsterContentList.gameObject.GetComponent<RectTransform>();
+        CharacterListManager.Inst.ShowMonsterImage();
     }
 
 
@@ -239,11 +241,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public void OnClickStageButton(int stageNum)
     {
         // ### 스테이지 넘어가는 패킷을 보낸대.(전투씬으로감)
-
-        if (FormationManager.Inst.BeSaved == false)
-        {
-            UserDataManager.Inst.SetOldFormation();
-        }
 
         Debug.Log("OnClickStageButton : " + stageNum);
         PacketManager.Inst.Request_GetStageInfo(stageNum);

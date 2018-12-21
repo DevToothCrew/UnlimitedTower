@@ -77,18 +77,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Response_CreatePlayer();
     }
 
-    public void Request_GetLobbyInfo()
-    {
-        Debug.Log("Request_GetLobbyInfo");
-        if(UserDataManager.Inst.CheckEnterLobby() == false)
-        {
-            Debug.Log("You Need Login And Create Player");
-        }
-        else
-        {
-            Response_GetLobbyInfo();
-        }
-    }
 
     public void Request_Gacha()
     {
@@ -258,15 +246,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
         JsonData getInfo = JsonMapper.ToObject(getGachaInfo);
         int type = Convert.ToInt32(getInfo["result_type"].ToString());
 
-
-        //Debug.Log(getGachaInfo);
-        //gachaServantData gachaData = new gachaServantData();
-        //gachaData.data.index = 2;
-        //Servant getServant = UserDataManager.Inst.ParseServant(gachaData.data.index, gachaData.data.servant);
-
-        //GachaImage.Inst.SetGachaResult_Servant(getServant);
-        //UserDataManager.Inst.AddServantImage(getServant);
-
         // Servant
         if (type == (int)GACHA_RESULT_TYPE.Servant)
         {
@@ -389,5 +368,54 @@ public class PacketManager : MonoSingleton<PacketManager> {
         LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Login);
     }
 
+    #endregion
+
+
+    #region Test Response Fuction
+    public void Test_Response_Gacha(string getGachaInfo)
+    {
+        Debug.Log("Response_Gacha : " + getGachaInfo);
+
+        //JsonData getInfo = JsonMapper.ToObject(getGachaInfo);
+        //int type = Convert.ToInt32(getInfo["result_type"].ToString());
+
+
+        Debug.Log(getGachaInfo);
+        gachaServantData gachaData = new gachaServantData();
+        gachaData.data.index = 2;
+        Servant getServant = UserDataManager.Inst.ParseServant(gachaData.data.index, gachaData.data.servant);
+
+        GachaImage.Inst.SetGachaResult_Servant(getServant);
+        UserDataManager.Inst.AddServantImage(getServant);
+
+        // Servant
+        //if (type == (int)GACHA_RESULT_TYPE.Servant)
+        //{
+        //    Debug.Log(getGachaInfo);
+        //    gachaServantData gachaData = JsonUtility.FromJson<gachaServantData>(getGachaInfo);
+        //    Servant getServant = UserDataManager.Inst.ParseServant(gachaData.data.index, gachaData.data.servant);
+
+        //    GachaImage.Inst.SetGachaResult_Servant(getServant);
+        //    UserDataManager.Inst.AddServantImage(getServant);
+        //}
+        //// Monster
+        //else if (type == (int)GACHA_RESULT_TYPE.Monster)
+        //{
+        //    Debug.Log(getGachaInfo);
+        //    gachaMonsterData gachaData = JsonUtility.FromJson<gachaMonsterData>(getGachaInfo);
+        //    Monster getMonster = UserDataManager.Inst.ParseMonster(gachaData.data.index, gachaData.data.monster);
+        //    GachaImage.Inst.SetGachaResult_Monster(getMonster);
+        //    UserDataManager.Inst.AddMonsterImage(getMonster);
+        //}
+        //// Item
+        //else if (type == (int)GACHA_RESULT_TYPE.Item)
+        //{
+        //    Debug.Log(getGachaInfo);
+        //    gachaItemData gachaData = JsonUtility.FromJson<gachaItemData>(getGachaInfo);
+        //    Item getItem = UserDataManager.Inst.ParseItem(gachaData.data.index, gachaData.data.item);
+        //    GachaImage.Inst.SetGacharResult_Item(getItem);
+        //    //TODO : 아이템 이미지 미구현
+        //}
+    }
     #endregion
 }

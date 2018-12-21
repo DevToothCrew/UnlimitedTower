@@ -91,13 +91,22 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
             return;
         }
 
-      
-
-
+     
         for (int i = startNum; i < DEFINE.PARTY_MAX_NUM / 2 ; i++)
         {
 
-            int deckNum = UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyLocation;
+            int deckNum = -1;
+            if (UserDataManager.Inst.partyDic[usingPartyNum].characterList.ContainsKey(i) == false)
+            {
+                // 에러 지점
+                Debug.Log("not exist characterList Key : " + i);
+                continue;
+            }
+            else
+            {
+                deckNum = UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyLocation;
+            }
+
             if (UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index == 0)
             {
 
@@ -106,7 +115,8 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
                 Sprite sprite = Resources.Load<Sprite>(imageFath + UserDataManager.Inst.newServantDic[charDicKey].name);
 
                 // 덱에 캐릭터 오브젝트 연결
-                deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+                FormationManager.Inst.DeckImages[deckNum].GetComponent<Image>().sprite = sprite;
+               // deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
                 deck.GetComponent<FormationDeck>().LinkedChar = gameObject;
                 deck.GetComponent<FormationDeck>().ShowEmptyText(false);
 
