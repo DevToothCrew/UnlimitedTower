@@ -531,9 +531,9 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         party.partyIndex = getPartyIndex;
         party.state = getParty.state;
 
-        Debug.Log("party Count : " + getParty.party.indexList.Count);
+        Debug.Log("party Count : " + getParty.party.Count);
 
-        for (int i=0; i< getParty.party.indexList.Count; ++i)
+        for (int i=0; i< getParty.party.Count; ++i)
         {
             PartyCharacterInfo partyInfo = new PartyCharacterInfo();
 
@@ -553,7 +553,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             }
 
             partyInfo.partyLocation = formationOrderList[i];
-            partyInfo.index = getParty.party.indexList[i];
+            partyInfo.index = getParty.party[i];
 
             party.characterList.Add(i, partyInfo);
         }
