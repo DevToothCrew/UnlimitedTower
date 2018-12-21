@@ -47,6 +47,11 @@
         {
             db_controller.init_db_data();
         }
+        //@abi action
+        void insertseed(uint64_t _seed)
+        {
+            db_controller.insert_seed(_seed);
+        }
 #pragma endregion
 
 
@@ -131,6 +136,11 @@
         {
             db_controller.reset_db_data();
         }
+        //@abi action
+        void resetseed()
+        {
+            db_controller.reset_db_seed_data();
+        }
 #pragma endregion
 
 #pragma resion reset servant monster item
@@ -196,4 +206,4 @@ extern "C" { \
 }
 // eos 금액에 대해 체크 하는 함
 
-    EOSIO_ABI(cmain_logic,(datainit)(signup)(lookset)(statset)(completehero)(transfer)(setparty)(gachacheat)(partycheat)(resetdata)(resetobject)(resetuser)(resetall)(deleteuser) )
+    EOSIO_ABI(cmain_logic,(datainit)(insertseed)(signup)(lookset)(statset)(completehero)(transfer)(setparty)(gachacheat)(partycheat)(resetdata)(resetseed)(resetobject)(resetuser)(resetall)(deleteuser) )
