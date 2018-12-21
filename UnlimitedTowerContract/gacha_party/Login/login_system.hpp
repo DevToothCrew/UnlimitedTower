@@ -153,46 +153,29 @@ class clogin_system
 
         uint64_t l_seed = safeseed::get_seed(_user);
 
-        uint32_t first_rvalue = safeseed::get_random_value(l_seed,hero_total_status,hero_min_status,1);
-        if(hero_total_status - first_rvalue <= 1)
-        {
-            hero_total_status = 1;
-        }
-        else
-        {
-            hero_total_status -= first_rvalue;
-        }
-        uint32_t second_rvalue = safeseed::get_random_value(l_seed,hero_total_status,hero_min_status,2);
-        if (hero_total_status - second_rvalue <= 1)
-        {
-            hero_total_status = 1;
-        }
-        else
-        {
-            hero_total_status -= second_rvalue;
-        }
-        uint32_t third_rvalue = safeseed::get_random_value(l_seed,hero_total_status,hero_min_status,3);
+        std::vector<uint64_t> randoms;
+        auto &random_value = safeseed::get_rand(randoms);
 
         uint32_t preference = safeseed::get_random_value(l_seed,3,0,0);
         auth_user_table.modify(user_iter, owner, [&](auto &hero_status_set) {
             hero_status_set.hero.state = hero_state::set_change_status;
             if (preference == 0)
             {
-                hero_status_set.hero.status.basic_str = first_rvalue;
-                hero_status_set.hero.status.basic_dex = second_rvalue;
-                hero_status_set.hero.status.basic_int = third_rvalue;
+                hero_status_set.hero.status.basic_str = random_value[0];
+                hero_status_set.hero.status.basic_dex = random_value[1];
+                hero_status_set.hero.status.basic_int = random_value[2];
             }
             else if (preference == 1)
             {
-                hero_status_set.hero.status.basic_dex = first_rvalue;
-                hero_status_set.hero.status.basic_int = second_rvalue;
-                hero_status_set.hero.status.basic_str = third_rvalue; 
+                hero_status_set.hero.status.basic_dex = random_value[0];
+                hero_status_set.hero.status.basic_int = random_value[1];
+                hero_status_set.hero.status.basic_str = random_value[2]; 
             }
             else if (preference == 2)
             {
-                hero_status_set.hero.status.basic_int = first_rvalue;
-                hero_status_set.hero.status.basic_dex = second_rvalue;
-                hero_status_set.hero.status.basic_str = third_rvalue;
+                hero_status_set.hero.status.basic_int = random_value[0];
+                hero_status_set.hero.status.basic_dex = random_value[1];
+                hero_status_set.hero.status.basic_str = random_value[2];
             }
         });
     }
@@ -205,45 +188,28 @@ class clogin_system
 
         uint64_t l_seed = safeseed::get_seed(_user);
 
-        uint64_t first_rvalue = safeseed::get_random_value(l_seed,hero_total_status,hero_min_status,1);
-        if(hero_total_status - first_rvalue <= 1)
-        {
-            hero_total_status = 1;
-        }
-        else
-        {
-            hero_total_status -= first_rvalue;
-        }
-        uint64_t second_rvalue = safeseed::get_random_value(l_seed,hero_total_status,hero_min_status,2);
-        if (hero_total_status - second_rvalue <= 1)
-        {
-            hero_total_status = 1;
-        }
-        else
-        {
-            hero_total_status -= second_rvalue;
-        }
-        uint64_t third_rvalue = safeseed::get_random_value(l_seed,hero_total_status,hero_min_status,3);
+        std::vector<uint64_t> randoms;
+        auto &random_value = safeseed::get_rand(randoms);
 
         uint32_t preference = safeseed::get_random_value(l_seed,3,0,0);
         auth_user_table.modify(user_iter, owner, [&](auto &hero_status_change) {
             if (preference == 0)
             {
-                hero_status_change.hero.status.basic_str = first_rvalue;
-                hero_status_change.hero.status.basic_dex = second_rvalue;
-                hero_status_change.hero.status.basic_int = third_rvalue;
+                hero_status_change.hero.status.basic_str = random_value[0];
+                hero_status_change.hero.status.basic_dex = random_value[1];
+                hero_status_change.hero.status.basic_int = random_value[2];
             }
             else if (preference == 1)
             {
-                hero_status_change.hero.status.basic_dex = first_rvalue;
-                hero_status_change.hero.status.basic_int = second_rvalue;
-                hero_status_change.hero.status.basic_str = third_rvalue; 
+                hero_status_change.hero.status.basic_dex = random_value[0];
+                hero_status_change.hero.status.basic_int = random_value[1];
+                hero_status_change.hero.status.basic_str = random_value[2]; 
             }
             else if (preference == 2)
             {
-                hero_status_change.hero.status.basic_int = first_rvalue;
-                hero_status_change.hero.status.basic_dex = second_rvalue;
-                hero_status_change.hero.status.basic_str = third_rvalue;
+                hero_status_change.hero.status.basic_int = random_value[0];
+                hero_status_change.hero.status.basic_dex = random_value[1];
+                hero_status_change.hero.status.basic_str = random_value[2];
             }
         });
     }
