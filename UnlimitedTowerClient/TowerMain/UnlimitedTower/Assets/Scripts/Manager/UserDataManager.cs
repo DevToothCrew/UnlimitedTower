@@ -348,6 +348,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             }
 
             newServantDic.Add(servant.index, servant);
+            //TODO : 이미지 추가할 수 있는 적당한 곳이 생기면 옮길것.
+            AddServantImage(servant);
         }
 
         return true;
@@ -427,6 +429,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             }
 
             newMonsterDic.Add(monster.index, monster);
+            //TODO : 이미지 추가할 수 있는 적당한 곳이 생기면 옮길것.
+            AddMonsterImage(monster);
         }
 
         return true;

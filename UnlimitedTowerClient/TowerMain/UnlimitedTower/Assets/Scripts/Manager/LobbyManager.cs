@@ -129,7 +129,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public void OnClickEnterLobbyButton()
     {
 #if UNITY_EDITOR
-        UserDataManager.Inst.Test_InitCharacter();
+       UserDataManager.Inst.Test_InitCharacter();
         ChangeSceneState(SCENE_STATE.Lobby);
 #else
         PacketManager.Inst.Request_Login();  
@@ -230,7 +230,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 #if UNITY_EDITOR
 
 #else
-            //PacketManager.Inst.Request_AllMonster();
+     
 #endif
     }
 

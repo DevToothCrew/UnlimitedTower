@@ -257,6 +257,16 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         JsonData getInfo = JsonMapper.ToObject(getGachaInfo);
         int type = Convert.ToInt32(getInfo["result_type"].ToString());
+
+
+        //Debug.Log(getGachaInfo);
+        //gachaServantData gachaData = new gachaServantData();
+        //gachaData.data.index = 2;
+        //Servant getServant = UserDataManager.Inst.ParseServant(gachaData.data.index, gachaData.data.servant);
+
+        //GachaImage.Inst.SetGachaResult_Servant(getServant);
+        //UserDataManager.Inst.AddServantImage(getServant);
+
         // Servant
         if (type == (int)GACHA_RESULT_TYPE.Servant)
         {
@@ -273,7 +283,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log(getGachaInfo);
             gachaMonsterData gachaData = JsonUtility.FromJson<gachaMonsterData>(getGachaInfo);
             Monster getMonster = UserDataManager.Inst.ParseMonster(gachaData.data.index, gachaData.data.monster);
-
             GachaImage.Inst.SetGachaResult_Monster(getMonster);
             UserDataManager.Inst.AddMonsterImage(getMonster);
         }
@@ -283,7 +292,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log(getGachaInfo);
             gachaItemData gachaData = JsonUtility.FromJson<gachaItemData>(getGachaInfo);
             Item getItem = UserDataManager.Inst.ParseItem(gachaData.data.index, gachaData.data.item);
-
             GachaImage.Inst.SetGacharResult_Item(getItem);
             //TODO : 아이템 이미지 미구현
         }

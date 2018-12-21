@@ -29,7 +29,6 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         if (deckNum != DEFINE.HERO_FORMATION_NUM)
         {
             RemoveDeck();
-
         }
         else
         {
@@ -41,21 +40,17 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
     {
         //캐릭터 삭제
         Debug.Log("formatonDeck : " + deckNum);
-
-       
+     
         if(deckNum<5)
         {
-
             if (CheckMonsterEnableRemove())
             {
                 ReorderMonster();
-
             }
             else
             {
                 Debug.Log("마지막 몬스터덱이 아니라 삭제 할 수 없습니다");
             }
-
 
         }
         else
@@ -87,12 +82,18 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
                 lastIndex = i-1;
                 break;
             }
+
         }
         
-        if(lastIndex == 4)
-        {
-            return true;
-        }
+        // 테스트 용도로 마지막 덱만 제거 되도록한다.
+        // 지금 덱이 마지막덱인지 판정 조건?
+        //
+
+        // 수정할것
+        //if(lastIndex == 4)
+        //{
+        //    return true;
+        //}
 
 
         if(deckNum  ==  UserDataManager.Inst.partyDic[usingPartyNum].characterList[lastIndex].partyLocation)

@@ -353,7 +353,8 @@ public class GachaImage : MonoSingleton<GachaImage>
         if (TestGachaNum % 2 == 1) gachaResultType = GACHA_RESULT_TYPE.Monster;
         else gachaResultType = GACHA_RESULT_TYPE.Servant;
 
-        PacketManager.Inst.Request_GachaResult(this.gachaResultType);
+        //PacketManager.Inst.Request_GachaResult(this.gachaResultType);
+        //PacketManager.Inst.Response_Gacha("dddd");
 #else
         // 
 #endif

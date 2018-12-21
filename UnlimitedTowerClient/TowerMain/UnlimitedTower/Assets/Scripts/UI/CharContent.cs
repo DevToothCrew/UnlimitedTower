@@ -28,7 +28,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
         }
         else if (charType == CHAR_TYPE.MONSTER)
         {
-            Debug.Log("먼스터 추가");
+            Debug.Log("몬스터 추가");
             CheckMonsterAddOrRemove(charType);
         }
         else
@@ -51,6 +51,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
             }
             else
             {
+                Debug.Log("Log : CheckServantAddOrRemove");
                 AddServantDeck();
             }
         }
@@ -82,14 +83,25 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
         int startNum = 1;
         string imageFath = "UI/CharaterImage/";
         int usingPartyNum = UserDataManager.Inst.usingPartyNum;
+        Debug.Log("Log : AddServantDeck");
+
+        if (UserDataManager.Inst.partyDic.ContainsKey(usingPartyNum) == false)
+        {
+            Debug.Log("unvaild partyDic key : " + usingPartyNum);
+            return;
+        }
+
+      
+
 
         for (int i = startNum; i < DEFINE.PARTY_MAX_NUM / 2 ; i++)
         {
+
             int deckNum = UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyLocation;
-  
             if (UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index == 0)
             {
 
+                Debug.Log("Log : In for CharDicKey : " + charDicKey);
                 GameObject deck = FormationManager.Inst.Decks[deckNum];
                 Sprite sprite = Resources.Load<Sprite>(imageFath + UserDataManager.Inst.newServantDic[charDicKey].name);
 
