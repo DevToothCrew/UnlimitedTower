@@ -190,7 +190,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
         FormationManager.Inst.DeckImages[getDeckNum].GetComponent<Image>().sprite = sprite;
         // deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
         deck.GetComponent<FormationDeck>().LinkedChar = gameObject;
-        deck.GetComponent<FormationDeck>().ShowEmptyText(false);
+        //deck.GetComponent<FormationDeck>().ShowEmptyText(false);
 
 
         // 캐릭터 사용중이라는 표시하기.

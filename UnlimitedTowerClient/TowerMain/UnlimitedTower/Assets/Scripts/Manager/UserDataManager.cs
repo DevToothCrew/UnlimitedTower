@@ -243,6 +243,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     }
     public void LoadPartyImage()
     {
+        string servantImagePath = "UI/CharaterImage/";
+        string monsterImagePath = "UI/MonsterImage";
         GameObject charContentList = CharacterListManager.Inst.CharacterContentList.gameObject;
         for (int i=1; i<partyDic.Count; i++)
         {
@@ -250,22 +252,26 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
             {
                 //partyDic[i].partyIndex;
                 // 0 ~ 9 : 
-                //for(int j=1; j<partyDic[i].characterList.Count; j++)
+                // 파티 값을 이용하여 캐릭터 인덱스를 찾는다.
+                // 근데 문제가 몬스터와 서번트가 합쳐져서 구분하기가 쉽진 않다.
+                //for (int j = 1; j < partyDic[i].characterList.Count; j++)
                 //{
                 //    if (partyDic[i].characterList[j].type == (int)CHAR_TYPE.SERVANT)
                 //    {
                 //        int deckNum = partyDic[i].characterList[j].partyLocation; // 0 ~ 9
                 //        int charDicIndex = partyDic[i].characterList[j].index;
+                //        Sprite sprite = Resources.Load<Sprite>(servantImagePath + newServantDic[charDicIndex].name);
+                //        FormationManager.Inst.DeckImages[deckNum].GetComponent<Image>().sprite = sprite;
 
-                //        // 다 뒤질 필요없이 필요한거만 하면 될듯...
-
-                //        charContentList.transform.GetChild()
-
-                //        FormationManager.Inst.Decks[deckNum].GetComponent<FormationDeck>()
+                //        FormationManager.Inst.Decks[deckNum].GetComponent<FormationDeck>().LinkedChar = null;
 
 
 
+                //        newServantDic[charDicIndex].onFormation = true;
+                //       newServantDic[charDicIndex].formationIndex = deckNum;
 
+                //        ChildCheckingImage.SetActive(true);
+                //        transform.GetChild(0).GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f);
                 //    }
                 //}
             }
@@ -317,9 +323,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         //formationDic.Add(DEFINE.HERO_FORMATION_NUM, 0);
 
         
-
-
-
 
         string path = "UI/CharaterImage/" + userInfo.userHero.name;
         LoadCharImage(path, DEFINE.HERO_FORMATION_NUM, null);
