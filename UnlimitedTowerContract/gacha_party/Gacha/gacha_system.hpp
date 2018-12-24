@@ -351,8 +351,8 @@ class cgacha_system
             auto user_log_iter = user_log_table.find(_user);
             eosio_assert(user_log_iter != user_log_table.end(),"unknown account");
 
-            uint64_t l_seed = safeseed::get_seed(_user);
-
+            //uint64_t l_seed = safeseed::get_seed(_user);
+            uint64_t l_seed = db_controller.get_db_seed_value();
             if(user_log_iter->gacha_num == 0)
             {
                 gacha_monster_id(_user,l_seed);
@@ -459,7 +459,7 @@ class cgacha_system
         void gacha_cheat(account_name _user)
         {
             require_auth2(_user, N(owner));
-            uint64_t l_seed = safeseed::get_seed(_user);
+            uint64_t l_seed = db_controller.get_db_seed_value();
             for(uint32_t i=0;i<5;++i)
             {
                 if(i < 4)

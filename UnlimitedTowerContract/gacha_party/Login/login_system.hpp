@@ -154,7 +154,7 @@ class clogin_system
         uint64_t l_seed = safeseed::get_seed(_user);
 
         std::vector<uint64_t> randoms;
-        auto &random_value = safeseed::get_rand(randoms);
+        auto &random_value = safeseed::get_total_rand(randoms, hero_total_status);
 
         //uint32_t preference = safeseed::get_random_value(l_seed,3,0,0);
         auth_user_table.modify(user_iter, owner, [&](auto &hero_status_set) {
@@ -192,7 +192,7 @@ class clogin_system
         uint64_t l_seed = safeseed::get_seed(_user);
 
         std::vector<uint64_t> randoms;
-        auto &random_value = safeseed::get_rand(randoms);
+        auto &random_value = safeseed::get_total_rand(randoms, hero_total_status);
 
         //uint32_t preference = safeseed::get_random_value(l_seed,3,0,0);
         auth_user_table.modify(user_iter, owner, [&](auto &hero_status_change) {
