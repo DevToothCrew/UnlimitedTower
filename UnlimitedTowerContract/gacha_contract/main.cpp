@@ -16,8 +16,8 @@
 
 #include "DB/db_system.hpp"
 
-#include "Token/token_system.hpp"
 #include "Login/login_system.hpp"
+#include "Token/token_system.hpp"
 #include "Gacha/gacha_system.hpp"
 
     class cmain_logic : public contract
@@ -35,7 +35,7 @@
     public:
         cmain_logic(account_name _self) :
         contract(_self) ,
-        token_controller(_self),
+        token_controller(_self,login_controller),
         login_controller(_self,db_controller),
         gacha_controller(_self,login_controller,db_controller,token_controller),
         db_controller(_self)
@@ -159,6 +159,7 @@
         //@abi action 
         void resetall()
         {
+            safeseed::return_seed_value(N(toweraction2));
             login_controller.reset_all_user_auth_data();
             login_controller.reset_all_user_log_data();
             gacha_controller.reset_all_object_gacha_data();
@@ -169,6 +170,15 @@
         {
             login_controller.delete_user_data(_user);
             gacha_controller.delete_object_data(_user);
+        }
+#pragma endregion
+
+#pragma resion reset token
+        //@abi action
+        void resettoken(account_name _user, asset _token)
+        {
+            token_controller.delete_user_balance(_user);
+            token_controller.delete_stat(_token);
         }
 #pragma endregion
     };
@@ -200,4 +210,4 @@ extern "C" { \
 }
 // eos 금액에 대해 체크 하는 함
 
-    EOSIO_ABI(cmain_logic,(tokencreate)(tokenissue)(datainit)(insertseed)(signup)(lookset)(statset)(completehero)(transfer)(gachacheat)(resetdata)(resetseed)(resetobject)(resetuser)(resetall)(deleteuser) )
+    EOSIO_ABI(cmain_logic,(tokencreate)(tokenissue)(datainit)(insertseed)(signup)(lookset)(statset)(completehero)(transfer)(gachacheat)(resetdata)(resetseed)(resetobject)(resetuser)(resetall)(deleteuser)(resettoken) )
