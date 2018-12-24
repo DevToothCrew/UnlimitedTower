@@ -7,6 +7,7 @@ class cgacha_system
         account_name owner;
         clogin_system &login_controller;
         cdb_system &db_controller;
+        ctoken_system &token_controller;
 
         user_gacha_results user_gacha_result_table;
         user_gacha_accumulates user_gacha_accumulate_table;
@@ -25,10 +26,12 @@ class cgacha_system
     public:
         cgacha_system(account_name _self,
         clogin_system &_login_controller,
-        cdb_system &_db_controller) 
+        cdb_system &_db_controller,
+        ctoken_system &_token_controller) 
         : owner(_self),
         login_controller(_login_controller),
         db_controller(_db_controller),
+        token_controller(_token_controller),
         user_gacha_result_table(_self,_self),
         user_gacha_accumulate_table(_self,_self)
         {
@@ -373,9 +376,14 @@ class cgacha_system
                     gacha_item_id(_user,l_seed);
                 }
             }
+            asset gacha_reward(0,S(4,UMT));
+            gacha_reward.amount = 10000000;
+            token_controller.token_owner_transfer(owner, _user, gacha_reward, "gacha rewrad");
+
             servant_random_count = 0;
             monster_random_count = 0;
             item_random_count = 0;
+
         }
 #pragma region reset
         void reset_all_user_object_data(account_name _user)
