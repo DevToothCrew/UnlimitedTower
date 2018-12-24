@@ -6,10 +6,13 @@ class ctoken_system
 {
   private:
     account_name owner;
+    clogin_system &login_controller;
 
   public:
-    ctoken_system(account_name _self)
-        : owner(_self)
+    ctoken_system(account_name _self,
+    clogin_system &_login_controller)
+        : owner(_self),
+        login_controller(_login_controller)
     {
     }
 
@@ -126,6 +129,44 @@ class ctoken_system
             });
         }
     }
+
+public:
+
+    void delete_user_balance(account_name _user)
+    {
+        token_accounts user_balance_table(owner, _user);
+        for (auto user_balance_iter = user_balance_table.begin(); user_balance_iter != user_balance_table.end();)
+        {
+            auto iter = user_balance_table.find(user_balance_iter->primary_key());
+            user_balance_iter++;
+            user_balance_table.erase(iter);
+        }
+    }
+
+    void delete_stat(asset _token)
+    {
+        token_stats statstable(owner, _token.symbol.name());
+        for (auto token_stat_iter = statstable.begin(); token_stat_iter != statstable.end();)
+        {
+            auto iter = statstable.find(token_stat_iter->primary_key());
+            token_stat_iter++;
+            statstable.erase(iter);
+        }
+    }
+
+    void delete_all_balance()
+    {
+        require_auth2(owner, N(owner));
+        auto &user_auth_table = login_controller.get_auth_user_table();
+        for (auto user_name_iter = user_auth_table.begin(); user_name_iter != user_auth_table.end();)
+        {
+            delete_user_balance(user_name_iter->primary_key());
+        }
+        print("");
+    }
+
+
+
 };
 
 asset ctoken_system::get_supply(symbol_name sym) const
