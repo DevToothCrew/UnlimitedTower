@@ -1,6 +1,8 @@
 #pragma once
 #include "../Common/common_header.hpp"
 #include "../Common/common_seed.hpp"
+#include "../DB/db_seed_log.hpp"
+#include "../DB/db_seed.hpp"
 #include "../DB/db_servant.hpp"
 #include "../DB/db_head.hpp"
 #include "../DB/db_hair.hpp"
@@ -13,11 +15,15 @@
 
 
 
+
 class cdb_system
 {
   private:
     account_name owner;
 
+  private:
+    seed_db     seed_db_table;
+    seed_log_db seed_log_db_table;
   private:
     servant_db  servant_db_table;
     head_db head_db_table;
@@ -43,6 +49,8 @@ class cdb_system
   public:
     cdb_system(account_name _self)
         : owner(_self),
+          seed_db_table(_self,_self),
+          seed_log_db_table(_self,_self),
           servant_db_table(_self, _self),
           head_db_table(_self,_self),
           hair_db_table(_self,_self),
@@ -53,6 +61,15 @@ class cdb_system
           item_tier_db_table(_self,_self),
           item_grade_db_table(_self,_self)
     {
+    }
+    seed_db &get_seed_table()
+    {
+        return seed_db_table;
+    }
+
+    seed_log_db &get_seed_log_table()
+    {
+        return seed_log_db_table;
     }
 
     servant_db &get_servant_db_table()
@@ -100,9 +117,69 @@ class cdb_system
         return item_grade_db_table;
     }
 
+    seed_db &get_seed_db_table()
+    {
+        return seed_db_table;
+    }
+
+    seed_log_db &get_seed_log_db_tabe()
+    {
+        return seed_log_db_table;
+    }
+
+    uint64_t get_db_seed_value()
+    {
+        auto seed_log_db_table_iter = seed_log_db_table.find(owner);
+        eosio_assert(seed_log_db_table_iter != seed_log_db_table.end(), "not setting db table");
+
+        auto seed_db_table_iter = seed_db_table.find(seed_log_db_table_iter->count);
+        eosio_assert(seed_db_table_iter != seed_db_table.end(),"wrong seed number");
+        
+        seed_log_db_table.modify(seed_log_db_table_iter, owner, [&](auto &update_log)
+        {
+            if(seed_log_db_table_iter->count >= 20)
+            {
+                update_log.count = 1;
+            }
+            else
+            {
+                update_log.count += 1;
+            }
+            
+        });
+
+        return safeseed::get_seed(seed_db_table_iter->seed);
+    }
+
+    void insert_seed(uint64_t _seed)
+    {
+        seed_db_table.emplace(owner, [&](auto &add_seed)
+        {
+            uint32_t first_index = seed_db_table.available_primary_key();
+            if(first_index == 0)
+            {
+                 add_seed.index = 1;
+            }
+            else
+            {
+                add_seed.index = seed_db_table.available_primary_key();
+            }
+            add_seed.seed = _seed;
+        });
+    }
+
     void init_db_data()
     {
         require_auth2(owner,N(owner));
+        auto seed_log_db_iter = seed_log_db_table.find(owner);
+        eosio_assert(seed_log_db_iter == seed_log_db_table.end(),"already data init");
+
+        seed_log_db_table.emplace(owner, [&](auto &new_owner)
+        {
+            new_owner.owner = owner;
+            new_owner.count = 1;
+        });
+
         uint64_t l_seed = safeseed::get_seed(owner);
         for (uint8_t i = 0; i < servant_job_count; ++i)
         {
@@ -254,9 +331,22 @@ class cdb_system
         }
     }
 
+    void reset_db_seed_data()
+    {
+        for (auto seed_db_iter = seed_db_table.begin(); seed_db_iter != seed_db_table.end();)
+        {
+            auto iter = seed_db_table.find(seed_db_iter->primary_key());
+            seed_db_iter++;
+            seed_db_table.erase(iter);
+        }
+    }
+
     void reset_db_data()
     {
         require_auth2(owner,N(owner));
+        auto seed_log_db_iter = seed_log_db_table.find(owner);
+        eosio_assert(seed_log_db_iter != seed_log_db_table.end(),"already reset db data");
+        seed_log_db_table.erase(seed_log_db_iter);
 
         for (auto servant_db_table_iter = servant_db_table.begin(); servant_db_table_iter != servant_db_table.end();)
         {
