@@ -151,7 +151,7 @@ class clogin_system
         eosio_assert(user_iter != auth_user_table.end(), "unknown account");
         eosio_assert(user_iter->hero.state == hero_state::set_status,"free roulette completed status setting");
 
-        uint64_t l_seed = safeseed::get_seed(_user);
+        uint64_t l_seed = safeseed::get_seed(owner, _user);
 
         std::vector<uint64_t> randoms;
         auto &random_value = safeseed::get_total_rand(randoms, hero_total_status);
@@ -189,7 +189,7 @@ class clogin_system
         eosio_assert(user_iter != auth_user_table.end(), "unknown account");
         eosio_assert(user_iter->hero.state == hero_state::set_change_status, "already completed status setting");
 
-        uint64_t l_seed = safeseed::get_seed(_user);
+        uint64_t l_seed = safeseed::get_seed(owner, _user);
 
         std::vector<uint64_t> randoms;
         auto &random_value = safeseed::get_total_rand(randoms, hero_total_status);
