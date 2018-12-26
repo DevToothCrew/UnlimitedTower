@@ -45,10 +45,17 @@ public class TestDB
         List<CHARACTER_NUM> myIndexList = new List<CHARACTER_NUM>();
         myIndexList.Add(CHARACTER_NUM.Mst_Anubis);
         myIndexList.Add(CHARACTER_NUM.Mst_Ninja);
+        myIndexList.Add(CHARACTER_NUM.Mst_Zombie);
+        myIndexList.Add(CHARACTER_NUM.Mst_Gangsi);
+        myIndexList.Add(CHARACTER_NUM.Mst_Goblin_Blue);
+        myIndexList.Add(CHARACTER_NUM.Mst_Goblin_Green);
+        myIndexList.Add(CHARACTER_NUM.Mst_BirdMan);
+        myIndexList.Add(CHARACTER_NUM.Mst_ShadowCat);
         myIndexList.Add(CHARACTER_NUM.Mst_Fire_Fairy);
+        myIndexList.Add(CHARACTER_NUM.Mst_Death);
         myIndexList.Add(CHARACTER_NUM.Mst_Water_Fairy);
         myIndexList.Add(CHARACTER_NUM.Mst_Leaf_Fairy);
-        myIndexList.Add(CHARACTER_NUM.Mst_Death);
+
         myIndexList.Add(CHARACTER_NUM.Mst_Knight);
         myIndexList.Add(CHARACTER_NUM.Mst_WolfMan);
         myIndexList.Add(CHARACTER_NUM.Mst_Cat);
@@ -63,12 +70,7 @@ public class TestDB
         myIndexList.Add(CHARACTER_NUM.Mst_Card_Green);
         myIndexList.Add(CHARACTER_NUM.Mst_Robot);
         myIndexList.Add(CHARACTER_NUM.Mst_Robot_2);
-        myIndexList.Add(CHARACTER_NUM.Mst_Zombie);
-        myIndexList.Add(CHARACTER_NUM.Mst_Gangsi);
-        myIndexList.Add(CHARACTER_NUM.Mst_Goblin_Blue);
-        myIndexList.Add(CHARACTER_NUM.Mst_Goblin_Green);
-        myIndexList.Add(CHARACTER_NUM.Mst_BirdMan);
-        myIndexList.Add(CHARACTER_NUM.Mst_ShadowCat);
+    ;
         myIndexList.Add(CHARACTER_NUM.Mst_Meka);
         myIndexList.Add(CHARACTER_NUM.Mst_Minotaurus);
         myIndexList.Add(CHARACTER_NUM.Mst_Snail);
@@ -82,8 +84,9 @@ public class TestDB
             //int getStr = Random.Range(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
             //int getDex = Random.Range(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
             //int getInt = Random.Range(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
-            int myIndex = Random.Range(0, myIndexList.Count);
-            CHARACTER_NUM charNum = myIndexList[myIndex];
+
+            //int myIndex = Random.Range(0, myIndexList.Count);
+            CHARACTER_NUM charNum = myIndexList[i];
             SIZE_TYPE charSize;
 
             if (charNum == CHARACTER_NUM.Mst_Knight || charNum == CHARACTER_NUM.Mst_Anubis || charNum == CHARACTER_NUM.Mst_DarkKnight
@@ -101,7 +104,7 @@ public class TestDB
                 charSize = SIZE_TYPE.SMALL;
             }
 
-            getMonsterDic.Add(i, new Monster(charNum)) ;
+            getMonsterDic.Add(i, new Monster((int)charNum)) ;
         }
 
         return getMonsterDic;

@@ -60,7 +60,8 @@ public class BattleManager : MonoSingleton<BattleManager> {
     {
         if (debugFlag == true)
         {
-            debugPanel.SetActive(true);
+            // TODO : Test
+            // debugPanel.SetActive(true);
             debugText.text = "Debug ";
         }
 
@@ -519,6 +520,12 @@ public class BattleManager : MonoSingleton<BattleManager> {
     }
     private void Test_CreatePlayerObjects()
     {
+        List<int> characterList = new List<int>
+        {
+           105, 106, 107, 108, 108,  220, 225, 226, 205, 202
+        };
+   
+
         for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
         {
             int formationNum = UserDataManager.Inst.formationOrderList[i];
@@ -527,13 +534,13 @@ public class BattleManager : MonoSingleton<BattleManager> {
       
             if (i < 5)
             {
-                Servant servant = new Servant();
+                Servant servant = new Servant(characterList[i]);
                 status = new Battle_Character_Status(servant, formationNum, i, servant.size);
                 charIndex = servant.appear;
             }
             else
             {
-                Monster monster = new Monster();
+                Monster monster = new Monster(characterList[i]);
                 status = new Battle_Character_Status(monster, formationNum, i, monster.size);
                 charIndex = monster.index;
             }

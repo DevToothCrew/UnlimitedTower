@@ -8,8 +8,6 @@ public class FormationManager : MonoSingleton<FormationManager>
     public GameObject[] DeckTexts = new GameObject[10];
 
 
-    public bool BeSaved = false;
-
     // 하이어라키 뷰 오브젝트가 바뀌면
     // GetChild 접근이 에러가 날 확률이 급격히 증가한다.
     // 즉, 하이어라키에서 값이 바껴도 에러가 최소한으로 나도록 설계하면 된다.
@@ -36,7 +34,6 @@ public class FormationManager : MonoSingleton<FormationManager>
          PacketManager.Inst.Request_SaveParty();
 #endif
 
-        BeSaved = true;
     }
 
 

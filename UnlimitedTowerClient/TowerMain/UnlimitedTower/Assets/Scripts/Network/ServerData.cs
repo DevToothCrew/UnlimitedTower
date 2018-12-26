@@ -130,7 +130,7 @@ public class partyData
 {
     public int index;
     public int state;
-    public List<int> partyList = new List<int>();
+    public List<int> party = new List<int>();
 }
 
 [Serializable]

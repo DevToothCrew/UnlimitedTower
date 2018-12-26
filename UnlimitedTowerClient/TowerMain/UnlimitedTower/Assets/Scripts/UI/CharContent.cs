@@ -28,7 +28,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
         }
         else if (charType == CHAR_TYPE.MONSTER)
         {
-            Debug.Log("먼스터 추가");
+            Debug.Log("몬스터 추가");
             CheckMonsterAddOrRemove(charType);
         }
         else
@@ -51,6 +51,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
             }
             else
             {
+                Debug.Log("Log : CheckServantAddOrRemove");
                 AddServantDeck();
             }
         }
@@ -80,34 +81,46 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
     private void AddServantDeck()
     {
         int startNum = 1;
-        string imageFath = "UI/CharaterImage/";
+        string imagePath = "UI/CharaterImage/";
         int usingPartyNum = UserDataManager.Inst.usingPartyNum;
+        Debug.Log("Log : AddServantDeck");
 
-        for (int i = startNum; i < DEFINE.PARTY_MAX_NUM / 2 + startNum; i++)
+        if (UserDataManager.Inst.partyDic.ContainsKey(usingPartyNum) == false)
         {
-            int deckNum = UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyLocation;
-            //int deckNum = UserDataManager.Inst.formationOrderList[i];
+            Debug.Log("unvaild partyDic key : " + usingPartyNum);
+            return;
+        }
 
-            // 빈 덱 검색
+     
+        for (int i = startNum; i < DEFINE.PARTY_MAX_NUM / 2 ; i++)
+        {
+            int deckNum = -1;
+            if (UserDataManager.Inst.partyDic[usingPartyNum].characterList.ContainsKey(i) == false)
+            {
+                // 에러 지점
+                Debug.Log("not exist Servant characterList Key : " + i);
+                continue;
+            }
+            else
+            {
+                deckNum = UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyLocation;
+            }
 
-            //    if (UserDataManager.Inst.formationDic.ContainsKey(deckNum) == false)
-            //if (UserDataManager.Inst.partyDic[usingPartyNum].characterList.ContainsKey(deckNum) == false)
             if (UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index == 0)
             {
-                // 캐릭터 넣기.
-                //GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
+
+                Debug.Log("Log : In for CharDicKey : " + charDicKey);
                 GameObject deck = FormationManager.Inst.Decks[deckNum];
-                Sprite sprite = Resources.Load<Sprite>(imageFath + UserDataManager.Inst.newServantDic[charDicKey].name);
+                Sprite sprite = Resources.Load<Sprite>(imagePath + UserDataManager.Inst.newServantDic[charDicKey].name);
 
                 // 덱에 캐릭터 오브젝트 연결
-                deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+                FormationManager.Inst.DeckImages[deckNum].GetComponent<Image>().sprite = sprite;
                 deck.GetComponent<FormationDeck>().LinkedChar = gameObject;
                 deck.GetComponent<FormationDeck>().ShowEmptyText(false);
 
 
                 // 캐릭터 사용중이라는 표시하기.
                 // party에 포함한다.
-                //UserDataManager.Inst.formationDic.Add(deckNum, charDicKey);
                 UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index = charDicKey;
                 Debug.Log("CharDicKey : " + charDicKey);
                 UserDataManager.Inst.newServantDic[charDicKey].onFormation = true;
@@ -128,13 +141,21 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
 
         for (int i = startNum; i < DEFINE.PARTY_MAX_NUM / 2 + startNum; i++)
         {
-            //int deckNum = UserDataManager.Inst.formationOrderList[i]; //6번 덱에 들어갈 차례
-                                                                      // 빈 덱 검색
-                                                                      // 0값이면 없는 값이라고 가정한다.
+            //int deckNum = UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyLocation;
 
-            int deckNum = UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyLocation;
+            int deckNum = -1;
+            if (UserDataManager.Inst.partyDic[usingPartyNum].characterList.ContainsKey(i) == false)
+            {
+                // 에러 지점
+                Debug.Log("not exist Monster characterList Key : " + i);
+                continue;
+            }
+            else
+            {
+                deckNum = UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyLocation;
+            }
+
             if (UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index == 0)
-            //if (UserDataManager.Inst.partyDic[usingPartyNum].characterList.ContainsKey(deckNum) == false)
             {
                 // 캐릭터 넣기.
                 GameObject deck = FormationManager.Inst.Decks[deckNum];
@@ -145,8 +166,6 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
                 deck.GetComponent<FormationDeck>().LinkedChar = gameObject;
                 deck.GetComponent<FormationDeck>().ShowEmptyText(false);
 
-                // 기존 방식
-               // UserDataManager.Inst.partyDic[usingPartyNum].characterList.Add(deckNum,             new PartyCharacterInfo(deckNum, 0, charDicKey));
               
                 UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index = charDicKey;
 
@@ -160,6 +179,31 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
             }
         }
     }
+
+    public void AddCharacterImage(string getImagePath, int getDeckNum, int getCharDicKey, int getUsingPartyNum, int charListIndex )
+    {
+        Debug.Log("Log : In for CharDicKey : " + charDicKey);
+        GameObject deck = FormationManager.Inst.Decks[getDeckNum];
+        Sprite sprite = Resources.Load<Sprite>(getImagePath + UserDataManager.Inst.newServantDic[getCharDicKey].name);
+
+        // 덱에 캐릭터 오브젝트 연결
+        FormationManager.Inst.DeckImages[getDeckNum].GetComponent<Image>().sprite = sprite;
+        // deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+        deck.GetComponent<FormationDeck>().LinkedChar = gameObject;
+        //deck.GetComponent<FormationDeck>().ShowEmptyText(false);
+
+
+        // 캐릭터 사용중이라는 표시하기.
+        // party에 포함한다.
+        UserDataManager.Inst.partyDic[getUsingPartyNum].characterList[charListIndex].index = charDicKey;
+        Debug.Log("CharDicKey : " + charDicKey);
+        UserDataManager.Inst.newServantDic[getCharDicKey].onFormation = true;
+        UserDataManager.Inst.newServantDic[getCharDicKey].formationIndex = getDeckNum;
+
+        ChildCheckingImage.SetActive(true);
+        transform.GetChild(0).GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f);
+    }
+
 
     private void RemoveServantDeck()
     {
@@ -215,16 +259,17 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
         {
             if (i < 5)
             {
-               if(UserDataManager.Inst.partyDic[usingPartyNum].characterList.ContainsKey(i) == true)
+               if(UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index !=0)
                 {
-                    frontLineCharNum++;
+                    backLineCharNum++;
                 }
             }
             else
             {
-                if (UserDataManager.Inst.partyDic[usingPartyNum].characterList.ContainsKey(i) == true)
+                if (UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index != 0)
                 {
-                    backLineCharNum++;
+                    frontLineCharNum++;
+                
                 }
             }
         }
@@ -235,99 +280,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
             return false;
 
         }
-        return true;
-       
+        return true;       
     }
-    //Old Code
-    //private void CheckAddOrRemove(ref Dictionary<int, Character> charDic, CHAR_TYPE charType)
-    //{
-    //    if (charDic.ContainsKey(charDicKey))
-    //    {
-    //        if (charDic[charDicKey].OnFormation == true)
-    //        {
-    //            RemoveDeck(ref charDic, charType);
-    //        }
-    //        else
-    //        {
-    //            if(charType == CHAR_TYPE.MONSTER)
-    //            {
-    //                if (CheckAddDeck() == false)
-    //                {
-    //                    Debug.Log("용병 수가 적어 몬스터를 추가할 수 없습니다.");
-    //                    return;
-    //                }
-    //            }
-    //            AddDeck(ref charDic, charType);
-    //        }
-    //    }
-    //}
-    //private void RemoveDeck(ref Dictionary<int, Character> charDic, CHAR_TYPE charType)
-    //{
-    //    Character character;
-    //    if (charDic[charDicKey].OnFormation == true)
-    //    {
-    //        if(charDic.TryGetValue(charDicKey, out character))
-    //        {
-    //            int deckNum = character.FormationIndex;
-    //            //GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
-    //            GameObject deck = FormationManager.Inst.Decks[deckNum];
-    //            RemoveCharImage();
-    //            deck.GetComponent<FormationDeck>().RemoveDeck();
 
-    //            ChildCheckingImage.SetActive(false);
-    //            charDic[charDicKey].OnFormation = false;
-    //        }
-    //    }          
-    //}
-    //private void AddDeck(ref Dictionary<int, Character> charDic, CHAR_TYPE charType)
-    //{
-    //    int startNum = -1;
-    //    string imageFath = null;
-    //    if (charType == CHAR_TYPE.SERVANT)
-    //    {
-    //        startNum = 0;
-    //        imageFath = "UI/CharaterImage/";
-    //    }
-    //    else if(charType == CHAR_TYPE.MONSTER)
-    //    {
-    //        startNum = 5;
-    //        imageFath = "UI/MonsterImage/";
-    //    }
-    //    else
-    //    {
-    //        Debug.Log("error : both servant and monster not.");
-    //            return;
-    //    }
-
-
-    //    for (int i = startNum; i < DEFINE.PARTY_MAX_NUM / 2 + startNum; i++)
-    //    {
-    //        int deckNum = UserDataManager.Inst.formationOrderList[i];
-    //        // 빈 덱 검색
-    //        if (UserDataManager.Inst.formationDic.ContainsKey(deckNum) == false)
-    //        {
-    //            // 캐릭터 넣기.
-    //            //GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
-    //            GameObject deck = FormationManager.Inst.Decks[deckNum];
-    //            Sprite sprite = Resources.Load<Sprite>(imageFath + charDic[charDicKey].Name);
-
-    //            // 덱에 캐릭터 오브젝트 연결
-    //            deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
-    //            deck.GetComponent<FormationDeck>().LinkedChar = gameObject;
-    //            deck.GetComponent<FormationDeck>().ShowEmptyText(false);
-
-
-    //            // 캐릭터 사용중이라는 표시하기.
-    //            UserDataManager.Inst.formationDic.Add(deckNum, charDicKey);
-    //            Debug.Log("CharDicKey : " + charDicKey);
-    //            charDic[charDicKey].OnFormation = true;
-    //            charDic[charDicKey].FormationIndex = deckNum;
-
-    //            ChildCheckingImage.SetActive(true);
-    //            transform.GetChild(0).GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f);
-    //            return;
-
-    //        }
-    //    }
-    //}
 }
