@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 
-[System.Serializable]
+[Serializable]
 public class PacketManager : MonoSingleton<PacketManager> {
 
     #region ServerConnect
@@ -71,23 +71,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Login();
     }
 
-    public void Request_CreatePlayer()
+    public void Request_Instant_Login()
     {
-        Debug.Log("Request_CreatePlayer");
-        Response_CreatePlayer();
-    }
-
-    public void Request_GetLobbyInfo()
-    {
-        Debug.Log("Request_GetLobbyInfo");
-        if(UserDataManager.Inst.CheckEnterLobby() == false)
-        {
-            Debug.Log("You Need Login And Create Player");
-        }
-        else
-        {
-            Response_GetLobbyInfo();
-        }
+        Debug.Log("Request_Instant_Login");
+        Response_Instant_Login();
     }
 
     public void Request_Gacha()
@@ -136,65 +123,30 @@ public class PacketManager : MonoSingleton<PacketManager> {
             string json = JsonUtility.ToJson(data);
             Debug.Log("print Jsson : : " + json);
 
-
-            // TODO : Test Code
-            // JsonParty test = JsonUtility.FromJson<JsonParty>(json);
-
             SetFormation(json);
         }
     }
 
     public void Request_GetStageInfo(int stageNum)
     {
-        // TODO : if delete
-        //if(UserDataManager.Inst.servantDic.Count<=0)
-        //{
-        //    Debug.Log("캐릭터가 없습니다. 뽑기를 해주세요");
-        //    return;
-        //}
-        //if(UserDataManager.Inst.formationDic.ContainsKey(7) == false)
-        //{
-        //    Debug.Log("포메이션 설정이 안됬습니다.");
-        //    return;
-        //}
-
-
         Debug.Log("Requset_GetStageInfo : " + stageNum);
         Response_GetStageInfo(stageNum);
         SceneManager.LoadScene("CharacterBattleScene");
         Debug.Log("Success BattleSceene Loading");
- 
-
-
     }
 
-    public void Request_EnterStage(int stageNum)
-    {
-        Debug.Log("RequestEnterStage : " + stageNum);
-        Response_EnterStage(stageNum);
-    }
     public void Request_BattleAction(int action_1,  int action_2, int target_1, int target_2)
     {
         Debug.Log("Request_BattleAction");
-
 
         List<JsonBattleAction> actionList = new List<JsonBattleAction>();
         actionList.Add(new JsonBattleAction(target_1, action_1));
         actionList.Add(new JsonBattleAction(target_2, action_2));
 
-        //JsonList fList = new JsonList();
-        //fList.list.Add(target_1);
-        //fList.list.Add(action_1);
-        //fList.list.Add(target_2);
-        //fList.list.Add(action_2);
-
-
         string json = JsonUtility.ToJson(actionList);
 
         BattleAction(json);
         Debug.Log("Json action : " + json);
-
-
     }
 
     public void Request_Logout()
@@ -204,7 +156,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Response_Logout();
     }
 
-
     #endregion
 
 
@@ -213,18 +164,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void Response_Login(string getLoginInfo)
     {
-        Debug.Log(getLoginInfo);
-
         if (getLoginInfo.StartsWith("{\"sign"))
         {
-            // 유저 정보가 없으면 SignUp으로
-            Debug.Log("SignUp");
             SignUp();
             return;
         }
-
-        Debug.Log("Response_Login");
-        // 스캐터 답받기
         
         UserLoginData userLoginData = JsonUtility.FromJson<UserLoginData>(getLoginInfo); 
         if(userLoginData == null)
@@ -232,17 +176,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log("Invalid Login Data : " + getLoginInfo);
         }
 
-        UserDataManager.Inst.Login(userLoginData);
-
-        // 상태변화에 대한것은 LobbyManager에서 표현할수 있어야 한다.
-        UserDataManager.Inst.SetUserLoginFlag(true);
-        LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Lobby);
+        Login(userLoginData);
     }
 
-    public void Response_CreatePlayer()
+    public void Response_Instant_Login()
     {
-        Debug.Log("Response_CreatePlayer");
-        UserDataManager.Inst.SetCreatePlayerFlag(true);
+        InstantLogin();
     }
 
     public void Response_GetLobbyInfo()
@@ -250,39 +189,36 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Response_GetLobbyInfo");
     }
 
-    //###
     public void Response_Gacha(string getGachaInfo)
     {
         Debug.Log("Response_Gacha : " + getGachaInfo);
 
         JsonData getInfo = JsonMapper.ToObject(getGachaInfo);
         int type = Convert.ToInt32(getInfo["result_type"].ToString());
-        // Servant
+
         if (type == (int)GACHA_RESULT_TYPE.Servant)
         {
             Debug.Log(getGachaInfo);
             gachaServantData gachaData = JsonUtility.FromJson<gachaServantData>(getGachaInfo);
-            Servant getServant = UserDataManager.Inst.ParseServant(gachaData.data.index, gachaData.data.servant);
+            Servant getServant = ParseServant(gachaData.data.index, gachaData.data.servant);
 
             GachaImage.Inst.SetGachaResult_Servant(getServant);
             UserDataManager.Inst.AddServantImage(getServant);
         }
-        // Monster
         else if (type == (int)GACHA_RESULT_TYPE.Monster)
         {
             Debug.Log(getGachaInfo);
             gachaMonsterData gachaData = JsonUtility.FromJson<gachaMonsterData>(getGachaInfo);
-            Monster getMonster = UserDataManager.Inst.ParseMonster(gachaData.data.index, gachaData.data.monster);
+            Monster getMonster = ParseMonster(gachaData.data.index, gachaData.data.monster);
 
             GachaImage.Inst.SetGachaResult_Monster(getMonster);
             UserDataManager.Inst.AddMonsterImage(getMonster);
         }
-        // Item
         else if (type == (int)GACHA_RESULT_TYPE.Item)
         {
             Debug.Log(getGachaInfo);
             gachaItemData gachaData = JsonUtility.FromJson<gachaItemData>(getGachaInfo);
-            Item getItem = UserDataManager.Inst.ParseItem(gachaData.data.index, gachaData.data.item);
+            Item getItem = ParseItem(gachaData.data.index, gachaData.data.item);
 
             GachaImage.Inst.SetGacharResult_Item(getItem);
             //TODO : 아이템 이미지 미구현
@@ -295,7 +231,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Response_GetParty : " + getPartyInfo);
         partyData partyInfo = JsonUtility.FromJson<partyData>(getPartyInfo);
 
-        Party getParty = UserDataManager.Inst.ParseParty(partyInfo.index, partyInfo);
+        Party getParty = ParseParty(partyInfo.index, partyInfo);
         if (UserDataManager.Inst.partyDic.ContainsKey(getParty.partyIndex) == false)
         {
             UserDataManager.Inst.partyDic.Add(getParty.partyIndex, getParty);
@@ -309,44 +245,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void Response_GetBattle(string battle_info)
     {
         Debug.Log("Response_GetBattle : " + battle_info);
-        //var pasingData = JsonUtility.FromJson<cbattle>(battle_info);
-       // BattleManager.Inst.SetBattle(pasingData);
 
-    }
-
-    //TODO : Test Code
-    public void Response_GachaResult(GACHA_RESULT_TYPE gachaResultType)
-    {
-        switch (gachaResultType)
-        {
-            case GACHA_RESULT_TYPE.Servant:
-                {
-                    Debug.Log("Response_ServantGacha");
-                    int servantCount = UserDataManager.Inst.GetServantCount() + 1;
-                    Servant servant = UserDataManager.Inst.CreateServant(servantCount);
-                    GachaImage.Inst.SetGachaCharacterResult(servant.name, servant.status, GACHA_RESULT_TYPE.Servant);
-                    break;
-                }
-            case GACHA_RESULT_TYPE.Monster:
-                {
-                    Debug.Log("Response_MonsterGacha");
-
-                    //Character newChar = new Character(UserDataManager.Inst.GetMonsterIndex(), gachaType);
-                    //UserDataManager.Inst.SetMonster(newChar);
-                    //UserDataManager.Inst.AddNewCharImage(newChar, CHAR_TYPE.MONSTER);
-                    //GachaImage.Inst.SetGachaReult(newChar, gachaType);
-
-                    int monsterCount = UserDataManager.Inst.GetMonsterCount() + 1;
-                    Monster monster = UserDataManager.Inst.CreateMonster(monsterCount);
-                    GachaImage.Inst.SetGachaCharacterResult(monster.name, monster.status, GACHA_RESULT_TYPE.Monster);
-                    break;
-                }
-            case GACHA_RESULT_TYPE.Item:
-                {
-                    Debug.Log("Response_ItemGacha");
-                    break;
-                }
-        }
     }
 
     public void Response_GetPartnerInfo()
@@ -365,20 +264,344 @@ public class PacketManager : MonoSingleton<PacketManager> {
         LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Stage);
     }
 
-    public void Response_EnterStage(int stageNum)
-    {
-        // 씬 전환 데이터 정보 변경 필요
-
-        // TODO : 확실히 필요없다고 판단되면 삭제할것
-        //SceneManager.LoadScene("CharacterBattleScene");
-    }
-
     public void Response_Logout()
     {
         Debug.Log("Response_Logout");
-        UserDataManager.Inst.InitFlag();
-
         LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Login);
+    }
+
+    #endregion
+
+    #region Function
+
+    public void Login(UserLoginData getUserLoginData)
+    {
+        UserInfo userInfo = new UserInfo();
+        if (ParseUserInfo(getUserLoginData.userinfo, ref userInfo) == false)
+        {
+            Debug.Log("Invalid ParseUserInfo Info");
+            // 재 로그인 시켜야함
+        }
+        UserDataManager.Inst.SetUserInfo(userInfo);
+
+        Dictionary<int, Servant> servantDic = new Dictionary<int, Servant>();
+        if (ParseServantList(getUserLoginData.servant_list, ref servantDic) == false)
+        {
+            Debug.Log("Invalid ParseServantList Info");
+            // 재 로그인 시켜야함
+        }
+        UserDataManager.Inst.SetServantDic(servantDic);
+
+        Dictionary<int, Monster> monsterDic = new Dictionary<int, Monster>();
+        if (ParseMonsterList(getUserLoginData.monster_list, ref monsterDic) == false)
+        {
+            Debug.Log("Invalid ParseMonsterList Info");
+            // 재 로그인 시켜야함
+        }
+        UserDataManager.Inst.SetMonsterDic(monsterDic);
+
+        Dictionary<int, Item> itemDic = new Dictionary<int, Item>();
+        if (ParseItemList(getUserLoginData.item_list, ref itemDic) == false)
+        {
+            Debug.Log("Invalid ParseItemList Info");
+            // 재 로그인 시켜야함
+        }
+        UserDataManager.Inst.SetItemDic(itemDic);
+
+        Dictionary<int, Party> partyDic = new Dictionary<int, Party>();
+        if (ParsePartyList(getUserLoginData.party_list, ref partyDic) == false)
+        {
+            Debug.Log("invalid ParsePartyList info");
+            // 재 로그인 시켜야함
+        }
+        UserDataManager.Inst.SetPartyDic(partyDic);
+
+        // 모든 데이터가 저장이 된 후 화면 전환
+        LobbyManager.Inst.ChangeSceneState(userInfo.sceneState);
+    }
+
+    public void InstantLogin()
+    {
+        UserInfo userInfo = new UserInfo();
+        userInfo.userName = "devtooth";
+        userInfo.userMoney = 0;
+        userInfo.userEOS = 0;
+        userInfo.sceneState = SCENE_STATE.Lobby;
+        userInfo.userHero = Cheat.Inst.GetRandomServant();
+        UserDataManager.Inst.SetUserInfo(userInfo);
+
+        Dictionary<int, Servant> servantDic = new Dictionary<int, Servant>();
+        UserDataManager.Inst.SetServantDic(servantDic);
+
+        Dictionary<int, Monster> monsterDic = new Dictionary<int, Monster>();
+        UserDataManager.Inst.SetMonsterDic(monsterDic);
+
+        Dictionary<int, Item> itemDic = new Dictionary<int, Item>();
+        UserDataManager.Inst.SetItemDic(itemDic);
+
+        Dictionary<int, Party> partyDic = new Dictionary<int, Party>();
+        UserDataManager.Inst.SetPartyDic(partyDic);
+
+        // 모든 데이터가 저장이 된 후 화면 전환
+        LobbyManager.Inst.ChangeSceneState(userInfo.sceneState);
+    }
+
+    public bool ParseUserInfo(userData getUserData, ref UserInfo userInfo)
+    {
+        userInfo.userName = getUserData.user;
+        userInfo.userEOS = 0;
+        // TODO : EOS는 따로 구하는 코드 추가 필요?
+        // userInfo.userEOS = ??
+        userInfo.userMoney = getUserData.game_money;
+        userInfo.sceneState = (SCENE_STATE)getUserData.state;
+
+        userInfo.userHero = ParseServant(0, getUserData.hero);
+        if (userInfo.userHero == null)
+        {
+            Debug.Log("Invalid UserHero Info");
+            return false;
+        }
+
+        return true;
+    }
+
+    public bool ParseServantList(List<servantData> getServantList, ref Dictionary<int, Servant> servantDic)
+    {
+        for (int i = 0; i < getServantList.Count; i++)
+        {
+            Servant servant = ParseServant(getServantList[i].index, getServantList[i].servant);
+            if (servant == null)
+            {
+                Debug.Log("Invalid Servant Info");
+                return false;
+            }
+
+            servantDic.Add(servant.index, servant);
+        }
+
+        return true;
+    }
+
+    public Servant ParseServant(int getServantIndex, servantInfo getServantInfo)
+    {
+        if (getServantInfo == null)
+        {
+            return null;
+        }
+
+        Servant servant = new Servant();
+
+        servant.job = getServantInfo.job;
+
+        servant.index = getServantIndex;
+        servant.state = getServantInfo.state;
+        servant.exp = getServantInfo.exp;
+        // TODO : 추후 Servant Exp에 따른 Level 공식을 추가해 레벨 적용 필요
+        servant.level = DEFINE.GetLevelForExp(getServantInfo.exp);
+        servant.job = getServantInfo.job;
+
+        // TODO : 추후 Appear의 값에 따른 리소스가 저장되어야함
+        servant.head = getServantInfo.appear.head;
+        servant.hair = getServantInfo.appear.hair;
+        servant.body = getServantInfo.appear.body;
+
+        servant.status = ParseStatus(getServantInfo.status);
+
+        //TODO : 임시 코드 
+        CHARACTER_NUM servantNum = servant.job + CHARACTER_NUM.Hero_Novice_1001;
+        servant.name = servantNum.ToString();
+
+        if (servant.status == null)
+        {
+            Debug.Log("Invalid Status Info");
+            return null;
+        }
+
+        servant.equipmentList = getServantInfo.equip_slot;
+
+        return servant;
+    }
+
+    public Status ParseStatus(statusInfo getStatusInfo)
+    {
+        if (getStatusInfo == null)
+        {
+            return null;
+        }
+
+        Status status = new Status();
+
+        status.basicStr = getStatusInfo.basic_str;
+        status.basicDex = getStatusInfo.basic_dex;
+        status.basicInt = getStatusInfo.basic_int;
+
+        status.plusStr = getStatusInfo.plus_str;
+        status.plusDex = getStatusInfo.plus_dex;
+        status.plusInt = getStatusInfo.plus_int;
+
+        return status;
+    }
+
+    public bool ParseMonsterList(List<monsterData> getMonsterList, ref Dictionary<int, Monster> monsterDic)
+    {
+        for (int i = 0; i < getMonsterList.Count; i++)
+        {
+            Monster monster = ParseMonster(getMonsterList[i].index, getMonsterList[i].monster);
+            if (monster == null)
+            {
+                Debug.Log("Invalid Monster Info");
+                return false;
+            }
+
+            monsterDic.Add(monster.index, monster);
+        }
+
+        return true;
+    }
+
+    public Monster ParseMonster(int getMonsterIndex, monsterInfo getMonsterInfo)
+    {
+        if (getMonsterInfo == null)
+        {
+            return null;
+        }
+
+        Monster monster = new Monster();
+
+        monster.look = getMonsterInfo.look;
+
+        monster.index = getMonsterIndex;
+        monster.state = getMonsterInfo.state;
+        monster.exp = getMonsterInfo.exp;
+        // TODO : 추후 Servant Exp에 따른 Level 공식을 추가해 레벨 적용 필요
+        monster.level = DEFINE.GetLevelForExp(getMonsterInfo.exp);
+        monster.type = getMonsterInfo.type;
+        monster.grade = getMonsterInfo.grade;
+        monster.upgrade = getMonsterInfo.upgrade;
+
+        // TODO : 추후 Appear + Type 의 값에 따른 리소스가 저장되어야함
+        // monster.appear = ???
+
+        monster.status = ParseStatus(getMonsterInfo.status);
+
+        //TODO : 임시 코드 
+        CHARACTER_NUM monsterNum = monster.look + CHARACTER_NUM.Mst_Cat;
+        monster.name = monsterNum.ToString();
+
+        if (monster.status == null)
+        {
+            Debug.Log("Invalid Status Info");
+            return null;
+        }
+
+        return monster;
+    }
+
+    public bool ParseItemList(List<itemData> getItemList, ref Dictionary<int, Item> itemDic)
+    {
+        for (int i = 0; i < getItemList.Count; i++)
+        {
+            Item item = ParseItem(getItemList[i].index, getItemList[i].item);
+            if (item == null)
+            {
+                Debug.Log("Invalid Item Info");
+                return false;
+            }
+            itemDic.Add(item.index, item);
+        }
+
+        return true;
+    }
+
+    public Item ParseItem(int getItemIndex, itemInfo getItemInfo)
+    {
+        if (getItemInfo == null)
+        {
+            return null;
+        }
+
+        Item item = new Item();
+
+        item.index = getItemIndex;
+
+        item.state = getItemInfo.state;
+        item.id = getItemInfo.id;
+        item.slot = getItemInfo.slot;
+        item.tier = getItemInfo.tier;
+        item.job = getItemInfo.job;
+        item.grade = getItemInfo.grade;
+        item.upgrade = getItemInfo.upgrade;
+        item.atk = getItemInfo.atk;
+        item.def = getItemInfo.def;
+
+        item.status = ParseStatus(getItemInfo.status);
+        if (item.status == null)
+        {
+            Debug.Log("Invalid Status Info");
+            return null;
+        }
+
+        return item;
+    }
+
+    public bool ParsePartyList(List<partyData> getPartyList, ref Dictionary<int, Party> partyDic)
+    {
+        for (int i = 0; i < getPartyList.Count; i++)
+        {
+            Party party = ParseParty(getPartyList[i].index, getPartyList[i]);
+
+            if (party == null)
+            {
+                Debug.Log("Invalid party Info");
+                return false;
+            }
+
+            partyDic.Add(party.partyIndex, party);
+        }
+
+        return true;
+    }
+
+    public Party ParseParty(int getPartyIndex, partyData getParty)
+    {
+        if (getParty == null)
+        {
+            return null;
+        }
+
+        Party party = new Party();
+
+        party.partyIndex = getPartyIndex;
+        party.state = getParty.state;
+
+        for (int i = 0; i < getParty.partyList.Count; ++i)
+        {
+            PartyCharacterInfo partyInfo = new PartyCharacterInfo();
+
+            if (i == 0)
+            {
+                partyInfo.type = CHAR_TYPE.HERO;
+            }
+            else if (i < 5)
+            {
+                partyInfo.type = CHAR_TYPE.SERVANT;
+            }
+            else if (i < DEFINE.PARTY_MAX_NUM)
+            {
+                partyInfo.type = CHAR_TYPE.MONSTER;
+            }
+            else
+            {
+                return null;
+            }
+
+            partyInfo.partyPosition = i;
+            partyInfo.index = getParty.partyList[i];
+
+            party.characterList.Add(i, partyInfo);
+        }
+
+        return party;
     }
 
     #endregion

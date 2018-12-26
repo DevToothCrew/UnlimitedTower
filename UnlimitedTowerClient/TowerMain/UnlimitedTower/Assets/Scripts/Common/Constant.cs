@@ -233,6 +233,7 @@ public class UserInfo
     public int userMoney;
     public int userEOS;
     public Servant userHero = new Servant();
+    public SCENE_STATE sceneState;
 }
 
 public class Monster
@@ -323,8 +324,6 @@ public class Item
     public Status status;
 }
 
-
-//add by canie
 public class Party
 {
     public int partyIndex;
@@ -334,20 +333,9 @@ public class Party
 
 public class PartyCharacterInfo
 {
-    public int partyLocation; //OrderList 매칭시킨 
-    public int type;
-    public int index; // 캐릭터 구분하는 인덱스
-
-    public PartyCharacterInfo(int getPartyLocation, int getType, int getIndex)
-    {
-        partyLocation = getPartyLocation;
-        type = getType;
-        index = getIndex;
-    }
-    public PartyCharacterInfo()
-    {
-
-    }
+    public CHAR_TYPE type;
+    public int partyPosition;
+    public int index;
 }
 
 // TODO : Old Code
@@ -702,9 +690,9 @@ public enum FORMATION_TYPE
 
 public enum CHAR_TYPE
 {
-    HERO = 0,
-    SERVANT,
-    MONSTER
+    HERO    = 1,
+    SERVANT = 2,
+    MONSTER = 3
 }
 
 public enum STATE_TYPE

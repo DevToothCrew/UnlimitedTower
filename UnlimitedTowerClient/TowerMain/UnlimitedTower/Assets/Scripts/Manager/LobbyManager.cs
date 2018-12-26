@@ -47,20 +47,14 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         }
         else
         {
-            FormationManager.Inst.BeSaved = false;
-            UserDataManager.Inst.oldFormationDic = UserDataManager.Inst.formationDic;
             Debug.Log("로비로 리턴");
-         
             ChangeSceneState(SCENE_STATE.Lobby);
-            UserDataManager.Inst.LoadUserData();
         }
     }
 
-
     public void ChangeSceneState(SCENE_STATE state)
     {
-        //TODO :테스트 코드 필요없을시 삭제.
-        UserDataManager.Inst.sceneState = state;
+        UserDataManager.Inst.SetSceneState(state);
 
         switch (state)
         {
@@ -108,8 +102,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         GachaInfoPopup.SetActive(false);
         StageInfoPopup.SetActive(false);
         SettingInfoPopup.SetActive(false);
-
-        //MonsterContentList.SetActive(false);
     }
 
     // TODO : 
@@ -129,8 +121,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public void OnClickEnterLobbyButton()
     {
 #if UNITY_EDITOR
-        UserDataManager.Inst.Test_InitCharacter();
-        ChangeSceneState(SCENE_STATE.Lobby);
+        // 유니티 에디터에서 자동으로 테스트 코드 생성
+        PacketManager.Inst.Request_Instant_Login();
 #else
         PacketManager.Inst.Request_Login();  
 #endif
@@ -234,8 +226,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 #endif
     }
 
-
-
     public void OnClickStageButton(int stageNum)
     {
         // ### 스테이지 넘어가는 패킷을 보낸대.(전투씬으로감)
@@ -247,10 +237,5 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
         Debug.Log("OnClickStageButton : " + stageNum);
         PacketManager.Inst.Request_GetStageInfo(stageNum);
-    }
-
-    public void EnterStage(int stageNum)
-    {
-        PacketManager.Inst.Request_EnterStage(stageNum);
     }
 }

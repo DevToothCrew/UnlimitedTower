@@ -140,7 +140,6 @@ public class UserLoginData
     public List<servantData> servant_list = new List<servantData>();
     public List<monsterData> monster_list = new List<monsterData>();
     public List<itemData> item_list = new List<itemData>();
-    //add by canie
     public List<partyData> party_list = new List<partyData>();
 }
 
