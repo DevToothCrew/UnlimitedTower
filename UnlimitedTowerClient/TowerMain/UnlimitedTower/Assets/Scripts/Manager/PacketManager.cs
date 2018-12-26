@@ -44,28 +44,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     void Start()
     {
-
-        //Hello();
-
-        //HelloString("This is a string.");
-
-        //float[] myArray = new float[10];
-        //PrintFloatArray(myArray, myArray.Length);
-
-        //int result = AddNumbers(5, 7);
-        //Debug.Log(result);
-
-        //Debug.Log(StringReturnValueFunction());
-
-        //var texture = new Texture2D(0, 0, TextureFormat.ARGB32, false);
-        //BindWebGLTexture(texture.GetNativeTextureID());
     }
 
     #endregion
 
     #region Request
 
-    public void Request_Login()
+    public void Request_ScatterLogin()
     {
         Debug.Log("Request_Login");  
         Login();
@@ -81,17 +66,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("Request_Gacha");
         Gacha();
-    }
-
-    public void Request_GachaResult(GACHA_RESULT_TYPE gachaResultType)
-    {
-        Debug.Log("Request_GachaResult");
-        Response_GachaResult(gachaResultType);
-    }
-
-    public void Request_GetPartnerInfo()
-    {
-        Debug.Log("Request_GetPartnerInfo");
     }
 
     //add by canie
@@ -225,7 +199,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
     }
 
-    //add by canie
     public void Response_GetParty(string getPartyInfo)
     {
         Debug.Log("Response_GetParty : " + getPartyInfo);
@@ -245,12 +218,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void Response_GetBattle(string battle_info)
     {
         Debug.Log("Response_GetBattle : " + battle_info);
-
-    }
-
-    public void Response_GetPartnerInfo()
-    {
-        Debug.Log("Response_GetPartnerInfo");
     }
 
     public void Response_SaveFormation()

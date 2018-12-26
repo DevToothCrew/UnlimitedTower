@@ -1,7 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.UI;
-using LitJson;
 
 public class LobbyManager : MonoSingleton<LobbyManager> {
 
@@ -9,7 +7,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public GameObject RightPopup;
     public GameObject TowerGrid;
     public GameObject TowerInfo;
-
 
     public GameObject CenterPopup;
     public LOBBY_RIGHT_BUTTON centerPopupState;
@@ -21,21 +18,12 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public GameObject StageInfoPopup;
     public GameObject SettingInfoPopup;
 
-
-    // TODO : TestCode
     public GameObject GachaScene;
 
     public GameObject LeftPop;
     public GameObject BaseBackground;
 
-    public GameObject CharacterListScroll;
-    public GameObject ServantContentList;
-    public GameObject MonsterContentList;
-
     public GameObject FormationList;
-
-
-
 
     public void Awake()
     {
@@ -104,12 +92,9 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         SettingInfoPopup.SetActive(false);
     }
 
-    // TODO : 
-    // - 추후에 OnClickScatterButton으로 변경
-    // - OnClickEnterLobbyButton 내용을 아래 함수에 넣을 것.
-    public void OnClickLoginButton()
+    public void OnClickScatterButton()
     {
-        PacketManager.Inst.Request_Login();        
+        PacketManager.Inst.Request_ScatterLogin();        
     }
 
     public void OnClickEnterLobbyButton()
@@ -154,7 +139,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                 break;
 
             case LOBBY_RIGHT_BUTTON.Formation:
-                OnClickFormationServantButton();
+                OnClickFormationAllButton();
                 FormationInfoPopup.SetActive(true);
                 break;
 
@@ -172,6 +157,13 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         }
     }
 
+    public void OnClickExitCenterPopup()
+    {
+        InitCenterPopup();
+        TowerInfo.SetActive(true);
+        TowerGrid.SetActive(true);
+    }
+
     public void EnterGachaScene(int gachaNum)
     {
         GachaScene.SetActive(true);
@@ -183,12 +175,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         BaseBackground.SetActive(false);
     }
 
-    public void OnClickExitCenterPopup()
-    {
-        InitCenterPopup();
-        TowerInfo.SetActive(true);
-        TowerGrid.SetActive(true);
-    }
     public void OnClickExitGacha()
     {
         GachaScene.SetActive(false);
@@ -200,19 +186,25 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         LeftPop.SetActive(true);
         BaseBackground.SetActive(true);
     }
+
+    // Formation Info Popup
+
+    public void OnClickFormationAllButton()
+    {
+        // TODO : 그리드에 이미지 추가
+    }
+
     public void OnClickFormationServantButton()
     {
-        ServantContentList.SetActive(true);
-        MonsterContentList.SetActive(false);
-        CharacterListScroll.GetComponent<ScrollRect>().content = ServantContentList.gameObject.GetComponent<RectTransform>();
+
     }
 
     public void OnClickFormationMonsterButton()
     {
-        MonsterContentList.SetActive(true);
-        ServantContentList.SetActive(false);
-        CharacterListScroll.GetComponent<ScrollRect>().content = MonsterContentList.gameObject.GetComponent<RectTransform>();
+
     }
+
+    // ------
 
     public void OnClickStageButton(int stageNum)
     {

@@ -4,13 +4,8 @@ using UnityEngine;
 
 public class CharacterListManager : MonoSingleton<CharacterListManager>
 {
-
     public GameObject CharacterListScroll;
     public GameObject CharacterContentList;
-
-
-
-
 
     public void ShowAllCharacterImage()
     {
@@ -25,12 +20,6 @@ public class CharacterListManager : MonoSingleton<CharacterListManager>
         }
     }
 
-
-
-
-
-
-
     public void ShowServantImage()
     {
         for (int i = 0; i < CharacterContentList.transform.childCount; i++)
@@ -39,7 +28,6 @@ public class CharacterListManager : MonoSingleton<CharacterListManager>
 
             if (servantObject.GetComponent<CharContent>())
             {
-
                 if (servantObject.GetComponent<CharContent>().charType == CHAR_TYPE.SERVANT)
                 {
                     CharacterContentList.transform.GetChild(i).gameObject.SetActive(true);
@@ -60,7 +48,6 @@ public class CharacterListManager : MonoSingleton<CharacterListManager>
 
             if (servantObject.GetComponent<CharContent>())
             {
-
                 if (servantObject.GetComponent<CharContent>().charType == CHAR_TYPE.MONSTER)
                 {
                     CharacterContentList.transform.GetChild(i).gameObject.SetActive(true);

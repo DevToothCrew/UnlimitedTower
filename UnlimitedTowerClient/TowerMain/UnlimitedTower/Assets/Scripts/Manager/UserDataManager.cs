@@ -109,9 +109,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         {
             instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + getServant.name);
             instance.GetComponent<CharContent>().charDicKey = getServant.index;
-            instance.transform.SetParent(CharacterListManager.Inst.ServantContentList.transform.transform);
+            instance.transform.SetParent(CharacterListManager.Inst.CharacterContentList.transform.transform);
             instance.GetComponent<CharContent>().charType = CHAR_TYPE.SERVANT;
-
         }
     }
 
@@ -123,7 +122,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         {
             instance.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/MonsterImage/" + getMonster.name);
             instance.GetComponent<CharContent>().charDicKey = getMonster.index;
-            instance.transform.SetParent(CharacterListManager.Inst.MonsterContentList.transform.transform);
+            instance.transform.SetParent(CharacterListManager.Inst.CharacterContentList.transform.transform);
             instance.GetComponent<CharContent>().charType = CHAR_TYPE.MONSTER;
         }    
     }
