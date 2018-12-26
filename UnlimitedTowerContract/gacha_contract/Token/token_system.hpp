@@ -61,11 +61,6 @@ class ctoken_system
         });
 
         add_balance(st.issuer, quantity, st.issuer);
-
-        // if (to != st.issuer)
-        // {
-        //     token_owner_transfer(st.issuer, to, quantity, memo);
-        // }
     }
 
     void token_owner_transfer(account_name from, account_name to, asset quantity, string memo)
@@ -162,7 +157,6 @@ public:
         {
             delete_user_balance(user_name_iter->primary_key());
         }
-        print("");
     }
 
 
