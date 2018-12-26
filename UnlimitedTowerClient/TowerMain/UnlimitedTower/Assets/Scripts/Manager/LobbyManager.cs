@@ -12,7 +12,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
 
     public GameObject CenterPopup;
-    private LOBBY_RIGHT_BUTTON centerPopupState;
+    public LOBBY_RIGHT_BUTTON centerPopupState;
 
     public GameObject HeroInfoPopup;
     public GameObject PartnerInfoPopup;
@@ -112,12 +112,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         PacketManager.Inst.Request_Login();        
     }
 
-    public void OnClickCreatePlayerButton()
-    {
-        PacketManager.Inst.Request_CreatePlayer();
-    }
-
-
     public void OnClickEnterLobbyButton()
     {
 #if UNITY_EDITOR
@@ -160,8 +154,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                 break;
 
             case LOBBY_RIGHT_BUTTON.Formation:
-                FormationInfoPopup.SetActive(true);
                 OnClickFormationServantButton();
+                FormationInfoPopup.SetActive(true);
                 break;
 
             case LOBBY_RIGHT_BUTTON.Gacha:
@@ -218,23 +212,10 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         MonsterContentList.SetActive(true);
         ServantContentList.SetActive(false);
         CharacterListScroll.GetComponent<ScrollRect>().content = MonsterContentList.gameObject.GetComponent<RectTransform>();
-
-#if UNITY_EDITOR
-
-#else
-            //PacketManager.Inst.Request_AllMonster();
-#endif
     }
 
     public void OnClickStageButton(int stageNum)
     {
-        // ### 스테이지 넘어가는 패킷을 보낸대.(전투씬으로감)
-
-        if (FormationManager.Inst.BeSaved == false)
-        {
-            UserDataManager.Inst.SetOldFormation();
-        }
-
         Debug.Log("OnClickStageButton : " + stageNum);
         PacketManager.Inst.Request_GetStageInfo(stageNum);
     }
