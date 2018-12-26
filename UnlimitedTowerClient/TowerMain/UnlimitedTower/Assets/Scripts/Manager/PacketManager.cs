@@ -68,37 +68,25 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Gacha();
     }
 
-    //add by canie
-    public void Request_SaveParty()
+    public void Request_SaveParty(int partyNum)
     {
-        // TODO : 추후에 저장 파티 인덱스 넣을것.
-        int partyNumber = UserDataManager.Inst.usingPartyNum;
         Party party_info = new Party();
-        party_info.partyIndex = partyNumber;
+        party_info.partyIndex = partyNum;
 
+        party_info = UserDataManager.Inst.partyDic[partyNum];
 
-        if (UserDataManager.Inst.partyDic.ContainsKey(partyNumber) == false)
+        JsonParty data = new JsonParty();
+        data.partyNum = party_info.partyIndex;
+
+        for (int i=0; i< party_info.characterList.Count; ++i)
         {
-            Debug.Log("Error : send party info");
-        }
-        else
-        {
-            party_info = UserDataManager.Inst.partyDic[partyNumber];
+            data.partyList.Add(party_info.characterList[i].index);
+        }            
 
-            JsonParty data = new JsonParty();
-            data.partyNum = party_info.partyIndex;
+        string json = JsonUtility.ToJson(data);
+        Debug.Log("print Jsson : : " + json);
 
-            for (int i=0; i< party_info.characterList.Count; ++i)
-            {
-                data.partyList.Add(party_info.characterList[i].index);
-            }
-            
-
-            string json = JsonUtility.ToJson(data);
-            Debug.Log("print Jsson : : " + json);
-
-            SetFormation(json);
-        }
+        SetFormation(json);
     }
 
     public void Request_GetStageInfo(int stageNum)

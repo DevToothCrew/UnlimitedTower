@@ -6,6 +6,7 @@ public class FormationManager : MonoSingleton<FormationManager>
     public GameObject[] Decks = new GameObject[10];
     public GameObject[] DeckImages = new GameObject[10];
     public GameObject[] DeckTexts = new GameObject[10];
+    public int targetPartyNum = 0;
 
 
     // 하이어라키 뷰 오브젝트가 바뀌면
@@ -25,15 +26,16 @@ public class FormationManager : MonoSingleton<FormationManager>
 
     public void OnClickSaveParty()
     {
-        // ### 포메이션 패킷을 보낸다.
-        Debug.Log("OnClickSaveFormation");
+        if(targetPartyNum == 0)
+        {
+            Debug.Log("Invalid TagetPartyNum : " + targetPartyNum);
+        }
+        if (UserDataManager.Inst.partyDic.ContainsKey(targetPartyNum) == false)
+        {
+            Debug.Log("Invalid TagetPartyNum : " + targetPartyNum);
+        }
 
-#if UNITY_EDITOR
-        PacketManager.Inst.Request_SaveParty();
-#else
-         PacketManager.Inst.Request_SaveParty();
-#endif
-
+        PacketManager.Inst.Request_SaveParty(targetPartyNum);
     }
 
 

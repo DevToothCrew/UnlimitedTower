@@ -91,13 +91,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public void OnClickLogoutButton()
     {
-#if UNITY_EDITOR
         PacketManager.Inst.Response_Logout();
-#else
-
-  PacketManager.Inst.Request_Logout();
-#endif
-
     }
 
     public void OnClickRightButton(int rightButton)
@@ -168,8 +162,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         BaseBackground.SetActive(true);
     }
 
-    // Formation Info Popup
-
     public void OnClickFormationAllButton()
     {
         // TODO : 그리드에 이미지 추가
@@ -184,8 +176,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     {
 
     }
-
-    // ------
 
     public void OnClickStageButton(int stageNum)
     {

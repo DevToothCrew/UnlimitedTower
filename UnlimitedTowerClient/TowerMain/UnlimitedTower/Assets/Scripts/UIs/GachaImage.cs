@@ -185,8 +185,6 @@ public class GachaImage : MonoSingleton<GachaImage>
     {
         if (reGachaflag)
         {
-            PacketManager.Inst.Request_Gacha();
-
             LightEffectCircle04Animator.SetBool("Play", true);
             BlackHoleAnimator.SetBool("Play", true);
             PurpleCircleAnimator.SetBool("Play", true);
@@ -194,6 +192,8 @@ public class GachaImage : MonoSingleton<GachaImage>
 
             GachaButton.SetActive(false);
             ExitButton.SetActive(false);
+
+            PacketManager.Inst.Request_Gacha();
         }
     }
 
