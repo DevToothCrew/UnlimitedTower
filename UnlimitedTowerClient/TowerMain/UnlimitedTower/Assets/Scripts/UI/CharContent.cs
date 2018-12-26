@@ -103,7 +103,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
             }
             else
             {
-                deckNum = UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyLocation;
+                deckNum = UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyPosition;
             }
 
             if (UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index == 0)
@@ -141,8 +141,6 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
 
         for (int i = startNum; i < DEFINE.PARTY_MAX_NUM / 2 + startNum; i++)
         {
-            //int deckNum = UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyLocation;
-
             int deckNum = -1;
             if (UserDataManager.Inst.partyDic[usingPartyNum].characterList.ContainsKey(i) == false)
             {
@@ -152,7 +150,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
             }
             else
             {
-                deckNum = UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyLocation;
+                deckNum = UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyPosition;
             }
 
             if (UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index == 0)

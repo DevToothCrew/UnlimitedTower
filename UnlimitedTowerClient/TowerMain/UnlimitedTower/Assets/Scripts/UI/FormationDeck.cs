@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -68,7 +66,6 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         }
     }
 
-
     private bool CheckServantEnableRemove()
     {
         int usingPartyNum = UserDataManager.Inst.usingPartyNum;
@@ -83,19 +80,8 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
             }
 
         }
-        
-        // 테스트 용도로 마지막 덱만 제거 되도록한다.
-        // 지금 덱이 마지막덱인지 판정 조건?
-        //
 
-        // 수정할것
-        //if(lastIndex == 4)
-        //{
-        //    return true;
-        //}
-
-
-        if(deckNum  ==  UserDataManager.Inst.partyDic[usingPartyNum].characterList[lastIndex].partyLocation)
+        if(deckNum  ==  UserDataManager.Inst.partyDic[usingPartyNum].characterList[lastIndex].partyPosition)
         {
             return true;
         }
@@ -103,6 +89,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
     }
     private bool CheckMonsterEnableRemove()
     {
+        // PartyNum을 배틀에서 사용하는걸 고유값 저장 필요?
         int usingPartyNum = UserDataManager.Inst.usingPartyNum;
         int lastIndex = DEFINE.PARTY_MAX_NUM-1;
         //히어로는 항상 존재하기 때문에 1부터 시작한다.
@@ -120,8 +107,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
             return true;
         }
 
-
-        if (deckNum == UserDataManager.Inst.partyDic[usingPartyNum].characterList[lastIndex].partyLocation)
+        if (deckNum == UserDataManager.Inst.partyDic[usingPartyNum].characterList[lastIndex].partyPosition)
         {
             return true;
         }
@@ -136,21 +122,22 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         int usingPartyNum = UserDataManager.Inst.usingPartyNum;
  
 
-        // 범위 0~4 & 5~9로 바꿀것.
-        for (int i = startNum; i < UserDataManager.Inst.formationOrderList.Count + 0; i++)
-        {
-            if (UserDataManager.Inst.formationOrderList[i] == deckNum)
-            {
-                orderIndex = i;
-                break;
-            }
-        }
+        // 전혀 모르겠슴 무슨용도로 쓰는지
+        //// 범위 0~4 & 5~9로 바꿀것.
+        //for (int i = startNum; i < UserDataManager.Inst.formationOrderList.Count + 0; i++)
+        //{
+        //    if (UserDataManager.Inst.formationOrderList[i] == deckNum)
+        //    {
+        //        orderIndex = i;
+        //        break;
+        //    }
+        //}
 
         // 덱 삭제
         int charIndex = -1;
         for(int i=0; i<DEFINE.PARTY_MAX_NUM; i++)
         {
-            if(UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyLocation == deckNum)
+            if(UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyPosition == deckNum)
             {
                 charIndex = UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index;
                 UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index = 0;
@@ -160,8 +147,8 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 
 
        // UserDataManager.Inst.formationDic.Remove(deckNum);
-        UserDataManager.Inst.newServantDic[charIndex].onFormation = false;
-        UserDataManager.Inst.newServantDic[charIndex].formationIndex = -1;
+        UserDataManager.Inst.servantDic[charIndex].onFormation = false;
+        UserDataManager.Inst.servantDic[charIndex].formationIndex = -1;
 
         if (ChildCharImage.GetComponent<Image>())
         {
@@ -183,6 +170,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         }
 
     }
+
     private void ReorderMonster()
     {
         int usingPartyNum = UserDataManager.Inst.usingPartyNum;
@@ -191,23 +179,23 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 
         int startNum = 0;
 
-
-        // 범위 0~4 & 5~9로 바꿀것.
-        for (int i = startNum; i < UserDataManager.Inst.formationOrderList.Count + 0; i++)
-        {
-            if (UserDataManager.Inst.formationOrderList[i] == deckNum)
-            {
-                orderIndex = i;
-                break;
-            }
-        }
+        // 전혀 모르겠슴 무슨 용도인지
+        //// 범위 0~4 & 5~9로 바꿀것.
+        //for (int i = startNum; i < UserDataManager.Inst.formationOrderList.Count + 0; i++)
+        //{
+        //    if (UserDataManager.Inst.formationOrderList[i] == deckNum)
+        //    {
+        //        orderIndex = i;
+        //        break;
+        //    }
+        //}
 
 
         // 덱 삭제
         int charIndex = -1;
         for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
         {
-            if (UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyLocation == deckNum)
+            if (UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyPosition == deckNum)
             {
                 charIndex = UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index;
                 UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index = 0;
@@ -217,8 +205,8 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 
       
         //UserDataManager.Inst.formationDic.Remove(deckNum);
-        UserDataManager.Inst.newMonsterDic[charIndex].onFormation = false;
-        UserDataManager.Inst.newMonsterDic[charIndex].formationIndex = -1;
+        UserDataManager.Inst.monsterDic[charIndex].onFormation = false;
+        UserDataManager.Inst.monsterDic[charIndex].formationIndex = -1;
 
         if (ChildCharImage.GetComponent<Image>())
         {

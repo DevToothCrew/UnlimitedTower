@@ -2,6 +2,7 @@
 
 public class Cheat : MonoSingleton<Cheat>
 {
+    // Local 작동을 위한 Random Servant, Monster, Item, EOS, Money 추가 필요
     public Servant GetRandomServant()
     {
         Random rand = new Random();

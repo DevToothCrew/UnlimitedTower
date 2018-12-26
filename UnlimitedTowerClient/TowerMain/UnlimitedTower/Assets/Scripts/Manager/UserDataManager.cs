@@ -9,6 +9,8 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public Dictionary<int, Item> itemDic = new Dictionary<int, Item>();
     public Dictionary<int, Party> partyDic = new Dictionary<int, Party>();
 
+    public int usingPartyNum = 1;
+
     public void Awake()
     {
 
@@ -89,6 +91,55 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
     public SCENE_STATE GetSceneState()
     {
         return userInfo.sceneState;
+    }
+
+    public UserInfo GetUserInfo()
+    {
+        return userInfo;
+    }
+
+    public Servant GetHeroInfo()
+    {
+        if(userInfo == null)
+        {
+            Debug.Log("Invalid UserInfo");
+            return null;
+        }
+
+        return userInfo.userHero;
+    }
+
+    public Servant GetServantInfo(int index)
+    {
+        if(servantDic.ContainsKey(index) == false)
+        {
+            Debug.Log("Invalid GetServantInfo : " + index);
+            return null;
+        }
+
+        return servantDic[index];
+    }
+
+    public Monster GetMonsterInfo(int index)
+    {
+        if(monsterDic.ContainsKey(index) == false)
+        {
+            Debug.Log("Invalid GetMonsterInfo : " + index);
+            return null;
+        }
+
+        return monsterDic[index];
+    }
+
+    public Item GetItemInfo(int index)
+    {
+        if(itemDic.ContainsKey(index) == false)
+        {
+            Debug.Log("Invalid GetItemInfo : " + index);
+            return null;
+        }
+
+        return itemDic[index];
     }
 
     #endregion
