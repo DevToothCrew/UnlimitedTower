@@ -7,6 +7,7 @@ class cgacha_system
         account_name owner;
         clogin_system &login_controller;
         cdb_system &db_controller;
+        ctoken_system &token_controller;
 
         user_gacha_results user_gacha_result_table;
         user_gacha_accumulates user_gacha_accumulate_table;
@@ -25,10 +26,12 @@ class cgacha_system
     public:
         cgacha_system(account_name _self,
         clogin_system &_login_controller,
-        cdb_system &_db_controller) 
+        cdb_system &_db_controller,
+        ctoken_system &_token_controller) 
         : owner(_self),
         login_controller(_login_controller),
         db_controller(_db_controller),
+        token_controller(_token_controller),
         user_gacha_result_table(_self,_self),
         user_gacha_accumulate_table(_self,_self)
         {
@@ -262,9 +265,22 @@ class cgacha_system
             const auto &item_tier_db_iter = item_tier_db.get(random_item_tier,"not exist tier info");
 
             item_random_count+=1;
-            uint8_t random_item_grade = safeseed::get_random_value(_seed,db_controller.item_grade_count,default_min,item_random_count);
+            uint32_t random_rate = safeseed::get_random_value(_seed, max_rate, default_min, item_random_count);
+            uint8_t random_grade;
+            if (random_rate < grade_five_rate)
+            {
+                random_grade = 4;
+            }
+            else if (random_rate < grade_four_rate)
+            {
+                random_grade = 3;
+            }
+            else
+            {
+                random_grade = 2;
+            }
             auto &item_grade_db = db_controller.get_item_grade_db_table();
-            const auto &item_grade_db_iter = item_grade_db.get(random_item_grade,"not exist tier info");
+            const auto &item_grade_db_iter = item_grade_db.get(random_grade,"not exist tier info");
 
             auto &user_log_table = login_controller.get_log_table();
             auto user_log_iter = user_log_table.find(_user);
@@ -351,8 +367,8 @@ class cgacha_system
             auto user_log_iter = user_log_table.find(_user);
             eosio_assert(user_log_iter != user_log_table.end(),"unknown account");
 
-            //uint64_t l_seed = safeseed::get_seed(_user);
-            uint64_t l_seed = db_controller.get_db_seed_value();
+            uint64_t l_seed = safeseed::get_seed(owner,_user);
+            //uint64_t l_seed = db_controller.get_db_seed_value();
             if(user_log_iter->gacha_num == 0)
             {
                 gacha_monster_id(_user,l_seed);
@@ -373,9 +389,14 @@ class cgacha_system
                     gacha_item_id(_user,l_seed);
                 }
             }
+            asset gacha_reward(0,S(4,UMT));
+            gacha_reward.amount = 10000000; //1000 UMT
+            token_controller.token_owner_transfer(owner, _user, gacha_reward, "gacha rewrad");
+
             servant_random_count = 0;
             monster_random_count = 0;
             item_random_count = 0;
+
         }
 #pragma region reset
         void reset_all_user_object_data(account_name _user)
@@ -423,6 +444,7 @@ class cgacha_system
             {
                 reset_all_user_object_data(user_name_iter->primary_key());
                 reset_user_gacha_result_data(user_name_iter->primary_key());
+                user_name_iter++;
             }
         }
 
@@ -459,7 +481,8 @@ class cgacha_system
         void gacha_cheat(account_name _user)
         {
             require_auth2(_user, N(owner));
-            uint64_t l_seed = db_controller.get_db_seed_value();
+            uint64_t l_seed = safeseed::get_seed(owner,_user);
+            //uint64_t l_seed = db_controller.get_db_seed_value();
             for(uint32_t i=0;i<5;++i)
             {
                 if(i < 4)
