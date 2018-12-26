@@ -43,9 +43,9 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
     // 그러면 Monster와 Servant 추가 혹은 제거하는 함수 역시 두 개의 함수로 분리되어야할까?
     private void CheckServantAddOrRemove(CHAR_TYPE getCharType)
     {
-        if (UserDataManager.Inst.newServantDic.ContainsKey(charDicKey))
+        if (UserDataManager.Inst.servantDic.ContainsKey(charDicKey))
         {
-            if (UserDataManager.Inst.newServantDic[charDicKey].onFormation == true)
+            if (UserDataManager.Inst.servantDic[charDicKey].onFormation == true)
             {
                 RemoveServantDeck();
             }
@@ -59,9 +59,9 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
 
     private void CheckMonsterAddOrRemove(CHAR_TYPE getCharType)
     {
-        if (UserDataManager.Inst.newMonsterDic.ContainsKey(charDicKey))
+        if (UserDataManager.Inst.monsterDic.ContainsKey(charDicKey))
         {
-            if (UserDataManager.Inst.newMonsterDic[charDicKey].onFormation == true)
+            if (UserDataManager.Inst.monsterDic[charDicKey].onFormation == true)
             {
                 RemoveMonsterDeck();
             }
@@ -111,7 +111,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
 
                 Debug.Log("Log : In for CharDicKey : " + charDicKey);
                 GameObject deck = FormationManager.Inst.Decks[deckNum];
-                Sprite sprite = Resources.Load<Sprite>(imagePath + UserDataManager.Inst.newServantDic[charDicKey].name);
+                Sprite sprite = Resources.Load<Sprite>(imagePath + UserDataManager.Inst.servantDic[charDicKey].name);
 
                 // 덱에 캐릭터 오브젝트 연결
                 FormationManager.Inst.DeckImages[deckNum].GetComponent<Image>().sprite = sprite;
@@ -123,8 +123,8 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
                 // party에 포함한다.
                 UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index = charDicKey;
                 Debug.Log("CharDicKey : " + charDicKey);
-                UserDataManager.Inst.newServantDic[charDicKey].onFormation = true;
-                UserDataManager.Inst.newServantDic[charDicKey].formationIndex = deckNum;
+                UserDataManager.Inst.servantDic[charDicKey].onFormation = true;
+                UserDataManager.Inst.servantDic[charDicKey].formationIndex = deckNum;
 
                 ChildCheckingImage.SetActive(true);
                 transform.GetChild(0).GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f);
@@ -157,7 +157,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
             {
                 // 캐릭터 넣기.
                 GameObject deck = FormationManager.Inst.Decks[deckNum];
-                Sprite sprite = Resources.Load<Sprite>(imageFath + UserDataManager.Inst.newMonsterDic[charDicKey].name);
+                Sprite sprite = Resources.Load<Sprite>(imageFath + UserDataManager.Inst.monsterDic[charDicKey].name);
 
                 // 덱에 캐릭터 오브젝트 연결
                 deck.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
@@ -168,8 +168,8 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
                 UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index = charDicKey;
 
                 Debug.Log("CharDicKey : " + charDicKey);
-                UserDataManager.Inst.newMonsterDic[charDicKey].onFormation = true;
-                UserDataManager.Inst.newMonsterDic[charDicKey].formationIndex = deckNum;
+                UserDataManager.Inst.monsterDic[charDicKey].onFormation = true;
+                UserDataManager.Inst.monsterDic[charDicKey].formationIndex = deckNum;
 
                 ChildCheckingImage.SetActive(true);
                 transform.GetChild(0).GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f);
@@ -182,7 +182,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
     {
         Debug.Log("Log : In for CharDicKey : " + charDicKey);
         GameObject deck = FormationManager.Inst.Decks[getDeckNum];
-        Sprite sprite = Resources.Load<Sprite>(getImagePath + UserDataManager.Inst.newServantDic[getCharDicKey].name);
+        Sprite sprite = Resources.Load<Sprite>(getImagePath + UserDataManager.Inst.servantDic[getCharDicKey].name);
 
         // 덱에 캐릭터 오브젝트 연결
         FormationManager.Inst.DeckImages[getDeckNum].GetComponent<Image>().sprite = sprite;
@@ -195,8 +195,8 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
         // party에 포함한다.
         UserDataManager.Inst.partyDic[getUsingPartyNum].characterList[charListIndex].index = charDicKey;
         Debug.Log("CharDicKey : " + charDicKey);
-        UserDataManager.Inst.newServantDic[getCharDicKey].onFormation = true;
-        UserDataManager.Inst.newServantDic[getCharDicKey].formationIndex = getDeckNum;
+        UserDataManager.Inst.servantDic[getCharDicKey].onFormation = true;
+        UserDataManager.Inst.servantDic[getCharDicKey].formationIndex = getDeckNum;
 
         ChildCheckingImage.SetActive(true);
         transform.GetChild(0).GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f);
@@ -206,9 +206,9 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
     private void RemoveServantDeck()
     {
         Servant getServant = null;
-        if (UserDataManager.Inst.newServantDic[charDicKey].onFormation == true)
+        if (UserDataManager.Inst.servantDic[charDicKey].onFormation == true)
         {
-            if (UserDataManager.Inst.newServantDic.TryGetValue(charDicKey, out getServant))
+            if (UserDataManager.Inst.servantDic.TryGetValue(charDicKey, out getServant))
             {
                 int deckNum = getServant.formationIndex;
                 GameObject deck = FormationManager.Inst.Decks[deckNum];
@@ -216,16 +216,16 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
                 deck.GetComponent<FormationDeck>().RemoveDeck();
 
                 ChildCheckingImage.SetActive(false);
-                UserDataManager.Inst.newServantDic[charDicKey].onFormation = false;
+                UserDataManager.Inst.servantDic[charDicKey].onFormation = false;
             }
         }
     }
     private void RemoveMonsterDeck()
     {
         Monster getMonster = null;
-        if (UserDataManager.Inst.newMonsterDic[charDicKey].onFormation == true)
+        if (UserDataManager.Inst.monsterDic[charDicKey].onFormation == true)
         {
-            if (UserDataManager.Inst.newMonsterDic.TryGetValue(charDicKey, out getMonster))
+            if (UserDataManager.Inst.monsterDic.TryGetValue(charDicKey, out getMonster))
             {
                 int deckNum = getMonster.formationIndex;
                 //GameObject deck = LobbyManager.Inst.FormationList.gameObject.transform.GetChild(deckNum).gameObject;
@@ -234,7 +234,7 @@ public class CharContent : MonoBehaviour, IPointerClickHandler
                 deck.GetComponent<FormationDeck>().RemoveDeck();
 
                 ChildCheckingImage.SetActive(false);
-                UserDataManager.Inst.newMonsterDic[charDicKey].onFormation = false;
+                UserDataManager.Inst.monsterDic[charDicKey].onFormation = false;
             }
         }
     }

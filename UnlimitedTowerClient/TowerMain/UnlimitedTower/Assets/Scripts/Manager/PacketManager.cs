@@ -358,7 +358,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         servant.state = getServantInfo.state;
         servant.exp = getServantInfo.exp;
         // TODO : 추후 Servant Exp에 따른 Level 공식을 추가해 레벨 적용 필요
-        servant.level = DEFINE.GetLevelForExp(getServantInfo.exp);
+        servant.level = Calculator.GetLevelForExp(getServantInfo.exp);
         servant.job = getServantInfo.job;
 
         // TODO : 추후 Appear의 값에 따른 리소스가 저장되어야함
@@ -435,7 +435,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         monster.state = getMonsterInfo.state;
         monster.exp = getMonsterInfo.exp;
         // TODO : 추후 Servant Exp에 따른 Level 공식을 추가해 레벨 적용 필요
-        monster.level = DEFINE.GetLevelForExp(getMonsterInfo.exp);
+        monster.level = Calculator.GetLevelForExp(getMonsterInfo.exp);
         monster.type = getMonsterInfo.type;
         monster.grade = getMonsterInfo.grade;
         monster.upgrade = getMonsterInfo.upgrade;
@@ -535,7 +535,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         party.partyIndex = getPartyIndex;
         party.state = getParty.state;
 
-        for (int i = 0; i < getParty.partyList.Count; ++i)
+        for (int i = 0; i < getParty.party.Count; ++i)
         {
             PartyCharacterInfo partyInfo = new PartyCharacterInfo();
 
@@ -557,7 +557,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             }
 
             partyInfo.partyPosition = i;
-            partyInfo.index = getParty.partyList[i];
+            partyInfo.index = getParty.party[i];
 
             party.characterList.Add(i, partyInfo);
         }
