@@ -265,9 +265,22 @@ class cgacha_system
             const auto &item_tier_db_iter = item_tier_db.get(random_item_tier,"not exist tier info");
 
             item_random_count+=1;
-            uint8_t random_item_grade = safeseed::get_random_value(_seed,db_controller.item_grade_count,default_min,item_random_count);
+            uint32_t random_rate = safeseed::get_random_value(_seed, max_rate, default_min, item_random_count);
+            uint8_t random_grade;
+            if (random_rate < grade_five_rate)
+            {
+                random_grade = 4;
+            }
+            else if (random_rate < grade_four_rate)
+            {
+                random_grade = 3;
+            }
+            else
+            {
+                random_grade = 2;
+            }
             auto &item_grade_db = db_controller.get_item_grade_db_table();
-            const auto &item_grade_db_iter = item_grade_db.get(random_item_grade,"not exist tier info");
+            const auto &item_grade_db_iter = item_grade_db.get(random_grade,"not exist tier info");
 
             auto &user_log_table = login_controller.get_log_table();
             auto user_log_iter = user_log_table.find(_user);
@@ -354,8 +367,8 @@ class cgacha_system
             auto user_log_iter = user_log_table.find(_user);
             eosio_assert(user_log_iter != user_log_table.end(),"unknown account");
 
-            //uint64_t l_seed = safeseed::get_seed(_user);
-            uint64_t l_seed = db_controller.get_db_seed_value();
+            uint64_t l_seed = safeseed::get_seed(owner,_user);
+            //uint64_t l_seed = db_controller.get_db_seed_value();
             if(user_log_iter->gacha_num == 0)
             {
                 gacha_monster_id(_user,l_seed);
@@ -467,7 +480,8 @@ class cgacha_system
         void gacha_cheat(account_name _user)
         {
             require_auth2(_user, N(owner));
-            uint64_t l_seed = db_controller.get_db_seed_value();
+            uint64_t l_seed = safeseed::get_seed(owner,_user);
+            //uint64_t l_seed = db_controller.get_db_seed_value();
             for(uint32_t i=0;i<5;++i)
             {
                 if(i < 4)

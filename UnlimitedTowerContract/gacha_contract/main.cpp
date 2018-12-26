@@ -159,7 +159,6 @@
         //@abi action 
         void resetall()
         {
-            safeseed::return_seed_value(N(toweraction2));
             login_controller.reset_all_user_auth_data();
             login_controller.reset_all_user_log_data();
             gacha_controller.reset_all_object_gacha_data();
@@ -175,9 +174,9 @@
 
 #pragma resion reset token
         //@abi action
-        void resettoken(account_name _user, asset _token)
+        void resettoken(asset _token)
         {
-            token_controller.delete_user_balance(_user);
+            token_controller.delete_all_balance();
             token_controller.delete_stat(_token);
         }
 #pragma endregion
