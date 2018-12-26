@@ -109,7 +109,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                 break;
 
             case LOBBY_RIGHT_BUTTON.Formation:
-                OnClickFormationAllButton();
                 FormationInfoPopup.SetActive(true);
                 break;
 
@@ -155,20 +154,5 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
         LeftPop.SetActive(true);
         BaseBackground.SetActive(true);
-    }
-
-    public void OnClickFormationAllButton()
-    {
-        // TODO : 그리드에 이미지 추가
-    }
-
-    public void OnClickFormationServantButton()
-    {
-
-    }
-
-    public void OnClickFormationMonsterButton()
-    {
-
     }
 }
