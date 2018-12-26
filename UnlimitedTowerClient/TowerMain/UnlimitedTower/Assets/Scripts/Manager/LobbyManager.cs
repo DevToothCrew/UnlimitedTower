@@ -29,6 +29,11 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     {
         InitCenterPopup();
         SCENE_STATE state = UserDataManager.Inst.GetSceneState();
+        if(state == SCENE_STATE.None)
+        {
+            state = SCENE_STATE.Login;
+            UserDataManager.Inst.SetSceneState(state);
+        }
         ChangeSceneState(state);
     }
 

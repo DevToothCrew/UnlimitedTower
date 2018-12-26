@@ -11,11 +11,6 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public int usingPartyNum = 1;
 
-    public void Awake()
-    {
-
-    }
-
     #region SetFunction
 
     public void SetUserInfo(UserInfo getUserInfo)
