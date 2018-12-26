@@ -2,6 +2,8 @@
 
 #define MAINTENANCE 0
 
+#include "Token/token_account_table.hpp"
+#include "Token/token_stat_table.hpp"
 #include "Table/auth_user_table.hpp"
 #include "Table/item_table.hpp"
 #include "Table/log_table.hpp"
@@ -16,13 +18,17 @@
 #include "DB/db_system.hpp"
 
 #include "Login/login_system.hpp"
+#include "Token/token_system.hpp"
 #include "Gacha/gacha_system.hpp"
 #include "Party/party_system.hpp"
 
 
     class cmain_logic : public contract
     {
-    private:
+      private:
+        ctoken_system token_controller;
+
+      private:
         clogin_system login_controller;
         cgacha_system gacha_controller;
         cparty_system party_controller;
@@ -34,13 +40,27 @@
     public:
         cmain_logic(account_name _self) :
         contract(_self) ,
+        token_controller(_self,login_controller),
         login_controller(_self,db_controller),
-        gacha_controller(_self,login_controller,db_controller),
+        gacha_controller(_self,login_controller,db_controller,token_controller),
         party_controller(_self,login_controller,gacha_controller),
         db_controller(_self)
         {
             
         }
+#pragma region token
+        //@abi action
+        void tokencreate(account_name _issuer, asset _maximum_supply)
+        {
+            token_controller.create(_issuer, _maximum_supply);
+        }
+        //@abi action
+        void tokenissue(account_name _to, asset _quantity, string _memo)
+        {
+            token_controller.issue(_to, _quantity, _memo);
+        }
+#pragma endregion
+
 #pragma region init
         //@abi action
         void datainit()
@@ -177,6 +197,15 @@
             party_controller.delete_party_data(_user);
         }
 #pragma endregion
+
+#pragma resion reset token
+        //@abi action
+        void resettoken(asset _token)
+        {
+            token_controller.delete_all_balance();
+            token_controller.delete_stat(_token);
+        }
+#pragma endregion
     };
 
 #undef EOSIO_ABI
@@ -206,4 +235,4 @@ extern "C" { \
 }
 // eos 금액에 대해 체크 하는 함
 
-    EOSIO_ABI(cmain_logic,(datainit)(insertseed)(signup)(lookset)(statset)(completehero)(transfer)(setparty)(gachacheat)(partycheat)(resetdata)(resetseed)(resetobject)(resetuser)(resetall)(deleteuser) )
+    EOSIO_ABI(cmain_logic,(tokencreate)(tokenissue)(datainit)(insertseed)(signup)(lookset)(statset)(completehero)(transfer)(setparty)(gachacheat)(partycheat)(resetdata)(resetseed)(resetobject)(resetuser)(resetall)(deleteuser)(resettoken) )
