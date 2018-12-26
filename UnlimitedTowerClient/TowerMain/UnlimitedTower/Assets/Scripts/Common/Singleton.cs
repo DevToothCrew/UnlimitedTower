@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reflection;
 
-
 // 유니티 함수 사용하지 않을 때 사용
 public class Singleton<T> where T : class 
 {

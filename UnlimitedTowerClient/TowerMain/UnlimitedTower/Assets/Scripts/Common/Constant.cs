@@ -1,29 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-
-
-public class JsonFomation
-{
-    // public List<int>  formation = new List<int>();
-
-    public int partyNum = 0;
-    public List<int> formation = new List<int>();
-}
-[System.Serializable]
-public class JsonBattleAction
-{
-    public int targetIndex = 0;
-    public int actionType = 0;
-
-    public JsonBattleAction(int targetIndex, int actionType)
-    {
-        this.targetIndex = targetIndex;
-        this.actionType = actionType;
-    }
-}
 
 //공통 사항을 모아둔 클래스.
 public class DEFINE
@@ -96,8 +73,6 @@ public class DEFINE
             posOffset = -1;
         }
 
-
-
         switch (partyIndex)
         {
             case 0:
@@ -143,47 +118,7 @@ public class DEFINE
             charSize = SIZE_TYPE.SMALL;
         }
         return charSize;
-    }
-    
-    #region stauts Calcuate
-    public static int GetMaxHp(int Str)
-    {
-        return Str * DEFINE.MAX_HP_MULTI_posOffset * DEFINE.TEST_HP_NUM;
-    }
-    public static int GetAvoid(int Dex)
-    {
-        return Dex * DEFINE.AVOID_MULTI_posOffset;
-    }
-    public static int GetDamage(int Job, int Str, int Dex, int Int)
-    {
-        if (Job / 100 == 0)
-        {
-            return Str * DEFINE.DAMAGE_STR_MUlTI_posOffset;
-        }
-        else if (Job / 100 == 1)
-        {
-            return Dex * DEFINE.DAMAGE_DEX_MUlTI_posOffset;
-        }
-        else if (Job / 100 == 2)
-        {
-            return Int * DEFINE.DAMAGE_INT_MUlTI_posOffset;
-        }
-        else
-        {
-            return 0;
-        }
-    }
-    public static int GetSpeed(int Dex)
-    {
-        return Dex * DEFINE.SPEED_MULTI_posOffset;
-    }
-
-    public static int GetLevelForExp(int exp)
-    {
-        // TODO : 추후 Servant Exp에 따른 Level 공식을 추가해 레벨 적용 필요
-        return 1;
-    }
-    #endregion
+    }    
 }
 
 public class Status
@@ -247,6 +182,23 @@ public class Servant
         size = DEFINE.GetCharacterSize(charNum);
         name = charNum.ToString();
     }
+    public Servant(int getCharNum)
+    {
+        state = 0;
+        exp = 0;
+        level = 1;
+
+        status = new Status();
+        status.basicStr = DEFINE.TEST_STATUS_VALUE;
+        status.basicDex = DEFINE.TEST_STATUS_VALUE;
+        status.basicInt = DEFINE.TEST_STATUS_VALUE;
+
+
+        // 리소스 인덱스
+        appear = getCharNum;
+        size = DEFINE.GetCharacterSize((CHARACTER_NUM)getCharNum);
+        name = getCharNum.ToString();
+    }
 }
 
 public class UserInfo
@@ -255,6 +207,7 @@ public class UserInfo
     public int userMoney;
     public int userEOS;
     public Servant userHero = new Servant();
+    public SCENE_STATE sceneState;
 }
 
 public class Monster
@@ -306,7 +259,7 @@ public class Monster
     }
 
 
-    public Monster(CHARACTER_NUM charNum)
+    public Monster(int getCharNum)
     {
         exp = 0;
         level = 1;
@@ -320,11 +273,11 @@ public class Monster
       
 
         // 리소스 인덱스
-        index = (int)charNum;
+        index = getCharNum;
         //UniqueIndex = servantinfo.s_index - 1;
 
-        size = DEFINE.GetCharacterSize(charNum);
-        name = charNum.ToString();
+        size = DEFINE.GetCharacterSize((CHARACTER_NUM)getCharNum);
+        name = getCharNum.ToString();
     }
 }
 
@@ -345,198 +298,25 @@ public class Item
     public Status status;
 }
 
-
-
-// TODO : Old Code
-public class Character
-{
-	public int Exp;
-	public int Level;
-	public int Str;
-	public int Dex;
-	public int Int;
-    public int Job;
-    public SIZE_TYPE Size;
-    
-	public string Name;
-
-    //리소스)구분하는 값
-    public int Index;
-    // 캐릭터 구분하는 고유값
-    public long UniqueIndex;
-    public int Appear;
-
-    public bool OnFormation = false;
-    public int FormationIndex = -1;
-
-    public Character(int getExp, int getLv, int getStr, int getDex, int getInt, 
-        int getJob, string getName, int getChartIndex, SIZE_TYPE getSizeType)
-    {
-        Exp = getExp;
-        Level = getLv;
-        Str = getStr;
-        Dex = getDex;
-        Int = getInt;
-        Job = getJob;
-        Name = getName;
-        Index = getChartIndex;
-        Size = getSizeType;
-    }
-    public Character(int index, GACHA_RESULT_TYPE gachaType)
-    {
-        List<CHARACTER_NUM> myIndexList = new List<CHARACTER_NUM>();
-        if(gachaType == GACHA_RESULT_TYPE.Servant)
-        {
-            myIndexList.Add(CHARACTER_NUM.Hero_Novice_1001);
-            myIndexList.Add(CHARACTER_NUM.Hero_Novice_1002);
-            myIndexList.Add(CHARACTER_NUM.Hero_Novice_1003);
-            myIndexList.Add(CHARACTER_NUM.Hero_Novice_1004);
-        }
-        else
-        {
-            for(int i = (int)CHARACTER_NUM.Mst_Cat; i<= (int)CHARACTER_NUM.Mst_Snail; i++)
-            {
-                myIndexList.Add((CHARACTER_NUM)i);
-            }
-        }
-
-      
-
-        int myIndex = Random.Range(0, myIndexList.Count);
-        CHARACTER_NUM charType = myIndexList[myIndex];
-
-        Size = GetSize(charType);
-
-        Exp = 0;
-        Level = 1;
-
-        Str = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
-        Dex = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
-        Int = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
-
-        Job = Random.Range(0, 3) * 100 + Random.Range(1, 3);
-
- 
-        Name = charType.ToString();
-        Index = (int)charType;
-
-        Appear = Random.Range(0, 9999);
-    }
-
-    // Test Code : Hero
-    public Character(CHAR_TYPE charType)
-    {
-        CHARACTER_NUM char_index;
-        if (charType == CHAR_TYPE.SERVANT)
-        {
-            char_index = CHARACTER_NUM.Hero_Novice_1001;
-        }
-        else
-        {
-            char_index = CHARACTER_NUM.Mst_BirdMan;
-        }
-
-        Size = GetSize(char_index);
-
-        Exp = 0;
-        Level = 1;
-
-        Str = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
-        Dex = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
-        Int = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
-
-        Job = Random.Range(0, 3) * 100 + Random.Range(1, 3);
-
-
-        Name = char_index.ToString();
-        Index = (int)char_index;
-
-        Appear = Random.Range(0, 9999);
-    }
-
-    // Test Code :
-    public Character(CHARACTER_NUM charNum)
-    {
-        Size = GetSize(charNum);
-
-        Exp = 0;
-        Level = 1;
-
-        Str = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
-        Dex = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
-        Int = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
-
-        Job = Random.Range(0, 3) * 100 + Random.Range(1, 3);
-
-
-        Name = charNum.ToString();
-        Index = (int)(charNum);
-
-        Appear = Random.Range(0, 9999);
-    }
-
-    // TODO : 위 Calculate에 있는 함수가 왜 여기 또?
-    public int GetMaxHp()
-    {
-        return Str * DEFINE.MAX_HP_MULTI_posOffset * DEFINE.TEST_HP_NUM;
-    }
-    public int GetAvoid()
-    {
-        return Dex * DEFINE.AVOID_MULTI_posOffset;
-    }
-    public int GetDamage()
-    {
-        if (Job / 100 == 0)
-        {
-            return Str * DEFINE.DAMAGE_STR_MUlTI_posOffset;
-        }
-        else if (Job / 100 == 1)
-        {
-            return Dex * DEFINE.DAMAGE_DEX_MUlTI_posOffset;
-        }
-        else if (Job / 100 == 2)
-        {
-            return Int * DEFINE.DAMAGE_INT_MUlTI_posOffset;
-        }
-        else
-        {
-            return 0;
-        }
-    }
-    public int GetSpeed()
-    {
-        return Dex * DEFINE.SPEED_MULTI_posOffset;
-    }
-    public SIZE_TYPE GetSize(CHARACTER_NUM charType)
-    {
-        SIZE_TYPE charSize;
-
-        if (charType == CHARACTER_NUM.Mst_Knight || charType == CHARACTER_NUM.Mst_Anubis || charType == CHARACTER_NUM.Mst_DarkKnight
-            || charType == CHARACTER_NUM.Mst_WolfMan || charType == CHARACTER_NUM.Mst_Robot || charType == CHARACTER_NUM.Mst_Minotaurus
-            || charType == CHARACTER_NUM.Mst_Robot_2)
-        {
-            charSize = SIZE_TYPE.MIDDLE;
-        }
-        else if (charType == CHARACTER_NUM.Mst_Death || charType == CHARACTER_NUM.Mst_Giant || charType == CHARACTER_NUM.Mst_BirdMan)
-        {
-            charSize = SIZE_TYPE.BIG;
-        }
-        else
-        {
-            charSize = SIZE_TYPE.SMALL;
-        }
-        return charSize;
-    }
-}
-
-
-
-// 배틀시 각 캐릭터 정보
-public class Battle_Character_Status 
+public class Party
 {
     public int partyIndex;
+    public int state;
+    public Dictionary<int, PartyCharacterInfo> characterList = new Dictionary<int, PartyCharacterInfo>();
+}
 
-    public Character character;
+public class PartyCharacterInfo
+{
+    public CHAR_TYPE type;
+    public int partyPosition;
+    public int index;
+}
+
+// 배틀시 각 캐릭터 정보
+public class CharacterBattleStatus
+{
+    public int partyIndex;
+    public int index;
 
     public int maxHp;
     public int nowHp;
@@ -562,90 +342,6 @@ public class Battle_Character_Status
     public string name;
 
     public int level;
-
-    //TODO : Old Code
-    public Battle_Character_Status(Character getChar, int getPartyIndex, int getCharacterIndex, SIZE_TYPE getSizeType)
-    {
-        if (getPartyIndex < 0 || getPartyIndex > DEFINE.PARTY_MAX_NUM)
-        {
-            return;
-        }
-        partyIndex = getPartyIndex;
-
-        // 캐릭터 수치.
-        character = getChar;
-
-        maxHp = character.GetMaxHp();
-        nowHp = maxHp;
-
-        damage = character.GetDamage();
-
-        avoid = character.GetAvoid();
-        speed = character.GetSpeed();
-
-        stateType = STATE_TYPE.IDLE;
-        sizeType = getSizeType;
-
-        lived = true;
-    }
-
-    // New Setting ServantInfo
-    public Battle_Character_Status(Servant servant, int getPartyIndex, int getCharacterIndex, SIZE_TYPE getSizeType)
-    {
-        if (getPartyIndex < 0 || getPartyIndex > DEFINE.PARTY_MAX_NUM)
-        {
-            return;
-        }
-        partyIndex = getPartyIndex;
-
-        // 캐릭터 수치.
-        name = servant.name;
-
-        maxHp = DEFINE.GetMaxHp(servant.status.basicStr + servant.status.plusStr);
-        nowHp = maxHp;
-
-        // 이런식으로 쓰면 안됩니다 DEFINE은
-        damage = DEFINE.GetDamage(servant.job, servant.status.basicStr + servant.status.plusStr, servant.status.basicDex+ servant.status.plusDex, servant.status.basicInt + servant.status.plusInt);
-
-        avoid = DEFINE.GetAvoid(servant.status.basicDex + servant.status.plusDex);
-        speed = DEFINE.GetSpeed(servant.status.basicDex + servant.status.plusDex);
-
-        stateType = STATE_TYPE.IDLE;
-        sizeType = getSizeType;
-
-        level = servant.level;
-        lived = true;
-    }
-    // New Setting MonsterInfo
-    public Battle_Character_Status(Monster monster, int getPartyIndex, int getCharacterIndex, SIZE_TYPE getSizeType)
-    {
-        if (getPartyIndex < 0 || getPartyIndex > DEFINE.PARTY_MAX_NUM)
-        {
-            return;
-        }
-        partyIndex = getPartyIndex;
-
-        // 캐릭터 수치.
-        name = monster.name;
-
-        maxHp = DEFINE.GetMaxHp(monster.status.basicStr + monster.status.plusStr);
-        nowHp = maxHp;
-
-        damage = DEFINE.GetDamage(monster.type, monster.status.basicStr + monster.status.plusStr,
-            monster.status.basicDex + monster.status.plusDex, monster.status.basicInt + monster.status.plusInt);
-
-        avoid = DEFINE.GetAvoid(monster.status.basicDex + monster.status.plusDex);
-        speed = DEFINE.GetSpeed(monster.status.basicDex + monster.status.plusDex);
-
-        stateType = STATE_TYPE.IDLE;
-        sizeType = getSizeType;
-
-        level = monster.level;
-        lived = true;
-    }
-
-
-
 }
 
 public class CharacterAction
@@ -674,10 +370,6 @@ public static class ExtensionMethod
     }
     public static T CheckReferenceTo<T>( T instance)
     {
-        //if (instance == null)
-        //{
-        //    return default<T>;
-        //}
         return instance;
 
     }
@@ -699,9 +391,9 @@ public enum FORMATION_TYPE
 
 public enum CHAR_TYPE
 {
-    HERO = 0,
-    SERVANT,
-    MONSTER
+    HERO    = 1,
+    SERVANT = 2,
+    MONSTER = 3
 }
 
 public enum STATE_TYPE

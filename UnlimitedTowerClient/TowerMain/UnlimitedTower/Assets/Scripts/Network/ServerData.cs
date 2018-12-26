@@ -61,6 +61,14 @@ public class itemInfo
     public statusInfo status = new statusInfo();
 }
 
+//add by canie
+[Serializable]
+public class partyInfo
+{
+    public int state;
+    public List<int> indexList = new List<int>();
+}
+
 #endregion
 
 #region Data
@@ -116,6 +124,15 @@ public class gachaItemData
     public itemData data = new itemData();
 }
 
+//add by canie
+[Serializable]
+public class partyData
+{
+    public int index;
+    public int state;
+    public List<int> party = new List<int>();
+}
+
 [Serializable]
 public class UserLoginData
 {
@@ -123,6 +140,27 @@ public class UserLoginData
     public List<servantData> servant_list = new List<servantData>();
     public List<monsterData> monster_list = new List<monsterData>();
     public List<itemData> item_list = new List<itemData>();
+    public List<partyData> party_list = new List<partyData>();
 }
 
 #endregion
+
+
+[System.Serializable]
+public class JsonParty
+{
+    public int partyNum = 0;
+    public List<int> partyList = new List<int>();
+}
+[System.Serializable]
+public class JsonBattleAction
+{
+    public int targetIndex = 0;
+    public int actionType = 0;
+
+    public JsonBattleAction(int targetIndex, int actionType)
+    {
+        this.targetIndex = targetIndex;
+        this.actionType = actionType;
+    }
+}

@@ -4,9 +4,9 @@ using UnityEngine;
 public class CharController : MonoBehaviour
 {
     
-    private Battle_Character_Status _status = null;
+    private CharacterBattleStatus _status = null;
     // for lazy setting
-    public Battle_Character_Status status {
+    public CharacterBattleStatus status {
         set {
 
             if(_status != value && healthGaze != null)

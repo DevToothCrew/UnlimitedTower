@@ -1,7 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.UI;
-using LitJson;
 
 public class LobbyManager : MonoSingleton<LobbyManager> {
 
@@ -10,9 +8,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public GameObject TowerGrid;
     public GameObject TowerInfo;
 
-
     public GameObject CenterPopup;
-    private LOBBY_RIGHT_BUTTON centerPopupState;
+    public LOBBY_RIGHT_BUTTON centerPopupState;
 
     public GameObject HeroInfoPopup;
     public GameObject PartnerInfoPopup;
@@ -21,46 +18,23 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public GameObject StageInfoPopup;
     public GameObject SettingInfoPopup;
 
-
-    // TODO : TestCode
     public GameObject GachaScene;
 
     public GameObject LeftPop;
     public GameObject BaseBackground;
 
-    public GameObject CharacterListScroll;
-    public GameObject ServantContentList;
-    public GameObject MonsterContentList;
-
     public GameObject FormationList;
-
-
-
 
     public void Awake()
     {
         InitCenterPopup();
-        if (!UserDataManager.Inst.UserLoginFlag)
-        {
-            Debug.Log("첫 로그인 화면");        
-            ChangeSceneState(SCENE_STATE.Login);
-        }
-        else
-        {
-            FormationManager.Inst.BeSaved = false;
-            UserDataManager.Inst.oldFormationDic = UserDataManager.Inst.formationDic;
-            Debug.Log("로비로 리턴");
-         
-            ChangeSceneState(SCENE_STATE.Lobby);
-            UserDataManager.Inst.LoadUserData();
-        }
+        SCENE_STATE state = UserDataManager.Inst.GetSceneState();
+        ChangeSceneState(state);
     }
-
 
     public void ChangeSceneState(SCENE_STATE state)
     {
-        //TODO :테스트 코드 필요없을시 삭제.
-        UserDataManager.Inst.sceneState = state;
+        UserDataManager.Inst.SetSceneState(state);
 
         switch (state)
         {
@@ -108,40 +82,16 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         GachaInfoPopup.SetActive(false);
         StageInfoPopup.SetActive(false);
         SettingInfoPopup.SetActive(false);
-
-        //MonsterContentList.SetActive(false);
     }
 
-    public void OnClickLoginButton()
+    public void OnClickScatterButton()
     {
-        PacketManager.Inst.Request_Login();        
+        PacketManager.Inst.Request_ScatterLogin();        
     }
 
-    public void OnClickCreatePlayerButton()
-    {
-        PacketManager.Inst.Request_CreatePlayer();
-    }
-
-
-    public void OnClickEnterLobbyButton()
-    {
-#if UNITY_EDITOR
-        UserDataManager.Inst.Test_InitCharacter();
-#else
-        PacketManager.Inst.Request_Login();  
-#endif
-    }
-
-    //###
     public void OnClickLogoutButton()
     {
-#if UNITY_EDITOR
         PacketManager.Inst.Response_Logout();
-#else
-
-  PacketManager.Inst.Request_Logout();
-#endif
-
     }
 
     public void OnClickRightButton(int rightButton)
@@ -164,8 +114,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                 break;
 
             case LOBBY_RIGHT_BUTTON.Formation:
+                OnClickFormationAllButton();
                 FormationInfoPopup.SetActive(true);
-                OnClickFormationServantButton();
                 break;
 
             case LOBBY_RIGHT_BUTTON.Gacha:
@@ -182,6 +132,13 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         }
     }
 
+    public void OnClickExitCenterPopup()
+    {
+        InitCenterPopup();
+        TowerInfo.SetActive(true);
+        TowerGrid.SetActive(true);
+    }
+
     public void EnterGachaScene(int gachaNum)
     {
         GachaScene.SetActive(true);
@@ -193,12 +150,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         BaseBackground.SetActive(false);
     }
 
-    public void OnClickExitCenterPopup()
-    {
-        InitCenterPopup();
-        TowerInfo.SetActive(true);
-        TowerGrid.SetActive(true);
-    }
     public void OnClickExitGacha()
     {
         GachaScene.SetActive(false);
@@ -210,50 +161,25 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         LeftPop.SetActive(true);
         BaseBackground.SetActive(true);
     }
+
+    public void OnClickFormationAllButton()
+    {
+        // TODO : 그리드에 이미지 추가
+    }
+
     public void OnClickFormationServantButton()
     {
-        ServantContentList.SetActive(true);
-        MonsterContentList.SetActive(false);
-        CharacterListScroll.GetComponent<ScrollRect>().content = ServantContentList.gameObject.GetComponent<RectTransform>();
-       
-#if UNITY_EDITOR
-     
-#else
-         PacketManager.Inst.Request_AllServant();  
-#endif
 
     }
 
     public void OnClickFormationMonsterButton()
     {
-        MonsterContentList.SetActive(true);
-        ServantContentList.SetActive(false);
-        CharacterListScroll.GetComponent<ScrollRect>().content = MonsterContentList.gameObject.GetComponent<RectTransform>();
 
-#if UNITY_EDITOR
-
-#else
-            PacketManager.Inst.Request_AllMonster();
-#endif
     }
-
-
 
     public void OnClickStageButton(int stageNum)
     {
-        // ### 스테이지 넘어가는 패킷을 보낸대.(전투씬으로감)
-
-        if (FormationManager.Inst.BeSaved == false)
-        {
-            UserDataManager.Inst.SetOldFormation();
-        }
-
         Debug.Log("OnClickStageButton : " + stageNum);
         PacketManager.Inst.Request_GetStageInfo(stageNum);
-    }
-
-    public void EnterStage(int stageNum)
-    {
-        PacketManager.Inst.Request_EnterStage(stageNum);
     }
 }

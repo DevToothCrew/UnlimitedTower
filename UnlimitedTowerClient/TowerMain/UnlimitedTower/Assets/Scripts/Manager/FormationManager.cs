@@ -6,17 +6,15 @@ public class FormationManager : MonoSingleton<FormationManager>
     public GameObject[] Decks = new GameObject[10];
     public GameObject[] DeckImages = new GameObject[10];
     public GameObject[] DeckTexts = new GameObject[10];
+    public int targetPartyNum = 0;
 
-
-    public bool BeSaved = false;
 
     // 하이어라키 뷰 오브젝트가 바뀌면
     // GetChild 접근이 에러가 날 확률이 급격히 증가한다.
     // 즉, 하이어라키에서 값이 바껴도 에러가 최소한으로 나도록 설계하면 된다.
     private void Awake()
     {
-        Debug.Log("Awake : FormationManager");
-        for(int i=0; i<10; i++)
+        for(int i=0; i<DEFINE.PARTY_MAX_NUM; i++)
         {
             if(Decks[i])
             {
@@ -26,19 +24,24 @@ public class FormationManager : MonoSingleton<FormationManager>
         }
     }
 
-    public void OnClickSaveFormation()
+    public void OnClickSaveParty()
     {
-        // ### 포메이션 패킷을 보낸다.
-        Debug.Log("OnClickSaveFormation");
+        if(targetPartyNum == 0)
+        {
+            Debug.Log("Invalid TagetPartyNum : " + targetPartyNum);
+        }
+        if (UserDataManager.Inst.partyDic.ContainsKey(targetPartyNum) == false)
+        {
+            Debug.Log("Invalid TagetPartyNum : " + targetPartyNum);
+        }
 
-#if UNITY_EDITOR
-
-#else
-     PacketManager.Inst.Request_SaveFormation();
-#endif
-
-        BeSaved = true;
+        PacketManager.Inst.Request_SaveParty(targetPartyNum);
     }
+
+
+
+
+
     public void ResetFormation()
     {
         for(int i=0; i<10; i++)
@@ -60,15 +63,10 @@ public class FormationManager : MonoSingleton<FormationManager>
                     DeckTexts[i].SetActive(true);
                 }
 
-                // 어떠한 값을 리셋하여 해결하면 되는가???
             }
         }
     }
 }
-
-// attackingOrder myIndex targetIndex actionType
-// 0~9까지는 플레이어
-// 10~19
 
 
 

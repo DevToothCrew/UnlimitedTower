@@ -85,13 +85,10 @@ public class InGameCharacterStateUI : MonoBehaviour
     /// defaultly will setup about whole states
     /// </summary>
     /// <param name="status"></param>
-    static public void SetStatus(Battle_Character_Status status)
+    static public void SetStatus(CharacterBattleStatus status)
     {
         if(status != null)
         {
-            //###
-            //SetLevel(status.character.Level);
-            //SetName(status.character.Name);
             SetLevel(status.level);
             SetName(status.name);
 
@@ -99,8 +96,6 @@ public class InGameCharacterStateUI : MonoBehaviour
             SetStatusSlot(1, "" + status.speed);
             SetStatusSlot(2, "" + status.avoid);
             SetStatusSlot(3, "" + status.damage);
-            //SetStatusSlot(4, "" + status.lived);
-            //SetStatusSlot(5, "" + status.partyIndex);
         }
     }
     
