@@ -39,7 +39,7 @@ class cdb_system
     const uint8_t monster_id_count = 30;
     const uint8_t monster_grade_count = 5;
     const uint8_t item_id_count = 70;
-    const uint8_t item_tier_count = 4;
+    const uint8_t item_tier_count = 3;
     const uint8_t item_grade_count= 5;
     const uint8_t item_slot_count = 3;
     const uint8_t head_count = 3;
@@ -127,29 +127,27 @@ class cdb_system
         return seed_log_db_table;
     }
 
-    uint64_t get_db_seed_value()
-    {
-        auto seed_log_db_table_iter = seed_log_db_table.find(owner);
-        eosio_assert(seed_log_db_table_iter != seed_log_db_table.end(), "not setting db table");
+    // uint64_t get_db_seed_value()
+    // {
+    //     auto seed_log_db_table_iter = seed_log_db_table.find(owner);
+    //     eosio_assert(seed_log_db_table_iter != seed_log_db_table.end(), "not setting db table");
 
-        auto seed_db_table_iter = seed_db_table.find(seed_log_db_table_iter->count);
-        eosio_assert(seed_db_table_iter != seed_db_table.end(),"wrong seed number");
-        
-        seed_log_db_table.modify(seed_log_db_table_iter, owner, [&](auto &update_log)
-        {
-            if(seed_log_db_table_iter->count >= 20)
-            {
-                update_log.count = 1;
-            }
-            else
-            {
-                update_log.count += 1;
-            }
-            
-        });
+    //     auto seed_db_table_iter = seed_db_table.find(seed_log_db_table_iter->count);
+    //     eosio_assert(seed_db_table_iter != seed_db_table.end(), "wrong seed number");
 
-        return safeseed::get_seed(seed_db_table_iter->seed);
-    }
+    //     seed_log_db_table.modify(seed_log_db_table_iter, owner, [&](auto &update_log) {
+    //         if (seed_log_db_table_iter->count >= 20)
+    //         {
+    //             update_log.count = 1;
+    //         }
+    //         else
+    //         {
+    //             update_log.count += 1;
+    //         }
+    //     });
+
+    //     return safeseed::get_seed(seed_db_table_iter->seed);
+    // }
 
     void insert_seed(uint64_t _seed)
     {
@@ -180,7 +178,7 @@ class cdb_system
             new_owner.count = 1;
         });
 
-        uint64_t l_seed = safeseed::get_seed(owner);
+        uint64_t l_seed = safeseed::get_seed(owner,now());
         for (uint8_t i = 0; i < servant_job_count; ++i)
         {
             servant_db_table.emplace(owner, [&](auto& a) {
