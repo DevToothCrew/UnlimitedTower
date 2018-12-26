@@ -3850,7 +3850,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 260262336}
-        m_MethodName: OnClickReGacha
+        m_MethodName: ReTryGacha
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4036,7 +4036,6 @@ MonoBehaviour:
   GachaButton: {fileID: 273677067}
   ExitButton: {fileID: 1365274830}
   Test10GachaButton: {fileID: 1800545728}
-  TestGachaNum: 0
 --- !u!95 &260262337
 Animator:
   serializedVersion: 3
@@ -4517,9 +4516,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 260262336}
-        m_MethodName: OnClickExecuteGacha
-        m_Mode: 3
+      - m_Target: {fileID: 1223251366}
+        m_MethodName: Gacha
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5426,17 +5425,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1496532084}
-        m_MethodName: OnClickEnterLobbyButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1223251366}
         m_MethodName: Login
         m_Mode: 1
@@ -10582,7 +10570,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 260262336}
-        m_MethodName: OnClickCheckGacha
+        m_MethodName: OnClickGachaOKButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14090,7 +14078,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 831700363}
-  - component: {fileID: 831700364}
   m_Layer: 5
   m_Name: GachaInfoPopup
   m_TagString: Untagged
@@ -14120,17 +14107,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &831700364
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 831700362}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0835a9c00d9e7cb469a4bf0d4e2193bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &832571410
 GameObject:
   m_ObjectHideFlags: 0
@@ -16618,6 +16594,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  targetPartyNum: 0
 --- !u!1 &1045883073
 GameObject:
   m_ObjectHideFlags: 0
@@ -23626,6 +23603,7 @@ MonoBehaviour:
   TowerGrid: {fileID: 980136346}
   TowerInfo: {fileID: 89730582}
   CenterPopup: {fileID: 366202406}
+  centerPopupState: 0
   HeroInfoPopup: {fileID: 170685062}
   PartnerInfoPopup: {fileID: 1324943359}
   FormationInfoPopup: {fileID: 1434154572}
@@ -23635,9 +23613,6 @@ MonoBehaviour:
   GachaScene: {fileID: 50528312}
   LeftPop: {fileID: 1910031054}
   BaseBackground: {fileID: 387069708}
-  CharacterListScroll: {fileID: 324762379}
-  CharacterContentList: {fileID: 0}
-  MonsterContentList: {fileID: 0}
   FormationList: {fileID: 304513083}
 --- !u!1 &1497820692
 GameObject:
@@ -30401,19 +30376,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1496532084}
-        m_MethodName: OnClickLogoutButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1771640376}
-        m_MethodName: OnClickCloseButton
+      - m_Target: {fileID: 1223251366}
+        m_MethodName: Logout
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

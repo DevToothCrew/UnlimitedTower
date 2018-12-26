@@ -50,38 +50,44 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     #region Request
 
-    public void Request_ScatterLogin()
+    public void RequestLoginWithScatter()
     {
-        Debug.Log("Request_Login");
-
-#if UNITY_EDITOR
-        Response_Instant_Login();
-#else
+        Debug.Log("RequestLoginWithScatter");
         Login();
-#endif
-
     }
 
-    public void Request_Gacha()
+    public void RequestGacha()
     {
-        Debug.Log("Request_Gacha");
+        Debug.Log("RequestGacha");
         Gacha();
     }
 
-    public void Request_SaveParty(int partyNum)
+    public void RequestSaveParty(Party partyInfo)
     {
-        Party party_info = new Party();
-        party_info.partyIndex = partyNum;
+        if(partyInfo == null)
+        {
+            Debug.Log("Invalid PartyInfo : " + partyInfo.partyIndex);
+        }
 
-        party_info = UserDataManager.Inst.partyDic[partyNum];
+        if(partyInfo.partyIndex == 0)
+        {
+            Debug.Log("Invalid PartyIndex : " + 0);
+        }
+
+        if(UserDataManager.Inst.partyDic.ContainsKey(partyInfo.partyIndex) == false)
+        {
+            Debug.Log("NotEnough PartyIndex : " + partyInfo.partyIndex);
+        }
+
+        Debug.Log("RequestSaveParty");
 
         JsonParty data = new JsonParty();
-        data.partyNum = party_info.partyIndex;
+        data.partyNum = partyInfo.partyIndex;
 
-        for (int i=0; i< party_info.characterList.Count; ++i)
+        for (int i=0; i< partyInfo.characterList.Count; ++i)
         {
-            data.partyList.Add(party_info.characterList[i].index);
-        }            
+            data.partyList.Add(partyInfo.characterList[i].index);
+        }
 
         string json = JsonUtility.ToJson(data);
         Debug.Log("print Jsson : : " + json);
@@ -89,17 +95,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
         SetFormation(json);
     }
 
-    public void Request_GetStageInfo(int stageNum)
+    public void RequestGetStageInfo(int stageNum)
     {
-        Debug.Log("Requset_GetStageInfo : " + stageNum);
+        Debug.Log("RequsetGetStageInfo : " + stageNum);
         Response_GetStageInfo(stageNum);
         SceneManager.LoadScene("CharacterBattleScene");
         Debug.Log("Success BattleSceene Loading");
     }
 
-    public void Request_BattleAction(int action_1,  int action_2, int target_1, int target_2)
+    public void RequestBattleAction(int action_1,  int action_2, int target_1, int target_2)
     {
-        Debug.Log("Request_BattleAction");
+        Debug.Log("RequestBattleAction");
 
         List<JsonBattleAction> actionList = new List<JsonBattleAction>();
         actionList.Add(new JsonBattleAction(target_1, action_1));
@@ -111,11 +117,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Json action : " + json);
     }
 
-    public void Request_Logout()
+    public void RequestLogout()
     {
-        Debug.Log("Request_Logout");
+        Debug.Log("RequestLogout");
         Logout();
-        Response_Logout();
+        ResponseLogout();
     }
 
 #endregion
@@ -124,7 +130,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
 #region Response
 
-    public void Response_Login(string getLoginInfo)
+    public void ResponseLogin(string getLoginInfo)
     {
         if (getLoginInfo.StartsWith("{\"sign"))
         {
@@ -141,19 +147,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Login(userLoginData);
     }
 
-    public void Response_Instant_Login()
+    public void ResponseGetLobbyInfo()
     {
-        InstantLogin();
+        Debug.Log("ResponseGetLobbyInfo");
     }
 
-    public void Response_GetLobbyInfo()
+    public void ResponseGacha(string getGachaInfo)
     {
-        Debug.Log("Response_GetLobbyInfo");
-    }
-
-    public void Response_Gacha(string getGachaInfo)
-    {
-        Debug.Log("Response_Gacha : " + getGachaInfo);
+        Debug.Log("ResponseGacha : " + getGachaInfo);
 
         JsonData getInfo = JsonMapper.ToObject(getGachaInfo);
         int type = Convert.ToInt32(getInfo["result_type"].ToString());
@@ -193,9 +194,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
     }
 
-    public void Response_GetParty(string getPartyInfo)
+    public void ResponseGetParty(string getPartyInfo)
     {
-        Debug.Log("Response_GetParty : " + getPartyInfo);
+        Debug.Log("ResponseGetParty : " + getPartyInfo);
         partyData partyInfo = JsonUtility.FromJson<partyData>(getPartyInfo);
 
         Party getParty = ParseParty(partyInfo.index, partyInfo);
@@ -209,25 +210,15 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
     }
 
-    public void Response_GetBattle(string battle_info)
-    {
-        Debug.Log("Response_GetBattle : " + battle_info);
-    }
-
-    public void Response_SaveFormation()
-    {
-        Debug.Log("Response_SaveFormation");
-    }
-
     public void Response_GetStageInfo(int stageNum)
     {
         Debug.Log("Response_GetStageInfo");
         LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Stage);
     }
 
-    public void Response_Logout()
+    public void ResponseLogout()
     {
-        Debug.Log("Response_Logout");
+        Debug.Log("ResponseLogout");
         LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Login);
     }
 
@@ -275,32 +266,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log("invalid ParsePartyList info");
             // 재 로그인 시켜야함
         }
-        UserDataManager.Inst.SetPartyDic(partyDic);
-
-        // 모든 데이터가 저장이 된 후 화면 전환
-        LobbyManager.Inst.ChangeSceneState(userInfo.sceneState);
-    }
-
-    public void InstantLogin()
-    {
-        UserInfo userInfo = new UserInfo();
-        userInfo.userName = "devtooth";
-        userInfo.userMoney = 0;
-        userInfo.userEOS = 0;
-        userInfo.sceneState = SCENE_STATE.Lobby;
-        userInfo.userHero = Cheat.Inst.GetRandomServant();
-        UserDataManager.Inst.SetUserInfo(userInfo);
-
-        Dictionary<int, Servant> servantDic = new Dictionary<int, Servant>();
-        UserDataManager.Inst.SetServantDic(servantDic);
-
-        Dictionary<int, Monster> monsterDic = new Dictionary<int, Monster>();
-        UserDataManager.Inst.SetMonsterDic(monsterDic);
-
-        Dictionary<int, Item> itemDic = new Dictionary<int, Item>();
-        UserDataManager.Inst.SetItemDic(itemDic);
-
-        Dictionary<int, Party> partyDic = new Dictionary<int, Party>();
         UserDataManager.Inst.SetPartyDic(partyDic);
 
         // 모든 데이터가 저장이 된 후 화면 전환

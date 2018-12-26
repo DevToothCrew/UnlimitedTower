@@ -3,53 +3,92 @@ using UnityEngine;
 
 public class Calculator : MonoBehaviour {
 
-   public static int GetMonsterNum()
+    public static int GetMaxHp(Status status)
     {
-        List<CHARACTER_NUM> myIndexList = new List<CHARACTER_NUM>();
-
-        for (int i = (int)CHARACTER_NUM.Mst_Cat; i <= (int)CHARACTER_NUM.Mst_Snail; i++)
-        {
-            myIndexList.Add((CHARACTER_NUM)i);
-        }
-
-        return Random.Range(0, myIndexList.Count); 
+        return (status.basicStr + status.plusStr) * DEFINE.HP_MULTI_VALUE;
     }
 
-    public static int GetMaxHp(int Str)
+    public static int GetDamage(SERVANT_JOB job, Status status)
     {
-        return Str * DEFINE.MAX_HP_MULTI_posOffset * DEFINE.TEST_HP_NUM;
-    }
-    public static int GetAvoid(int Dex)
-    {
-        return Dex * DEFINE.AVOID_MULTI_posOffset;
-    }
-    public static int GetDamage(int Job, int Str, int Dex, int Int)
-    {
-        if (Job / 100 == 0)
+        int getJob = (int)job;
+
+        if (getJob / 100 == 0)
         {
-            return Str * DEFINE.DAMAGE_STR_MUlTI_posOffset;
+            return (status.basicStr + status.plusStr) * DEFINE.DAMAGE_MUlTI_VALUE;
         }
-        else if (Job / 100 == 1)
+        else if (getJob / 100 == 1)
         {
-            return Dex * DEFINE.DAMAGE_DEX_MUlTI_posOffset;
+            return (status.basicDex + status.plusDex) * DEFINE.DAMAGE_MUlTI_VALUE;
         }
-        else if (Job / 100 == 2)
+        else if (getJob / 100 == 2)
         {
-            return Int * DEFINE.DAMAGE_INT_MUlTI_posOffset;
+            return (status.basicInt + status.plusInt) * DEFINE.DAMAGE_MUlTI_VALUE;
         }
         else
         {
             return 0;
         }
     }
-    public static int GetSpeed(int Dex)
+
+    public static int GetDefence(Status status)
     {
-        return Dex * DEFINE.SPEED_MULTI_posOffset;
+        return (status.basicDex + status.plusDex) * DEFINE.DEFENCE_MULTI_VALUE;
+    }
+
+    public static int GetCriticalPer(Status status)
+    {
+        return (status.basicInt + status.plusInt) * DEFINE.CRITICAL_PER_MULTI_VALUE;
+    }
+
+    // 일단 박아서 쓰다가 이후 CSV 파일로 변경
+    public static int GetSpeed(SERVANT_JOB job)
+    {
+        if(job == SERVANT_JOB.WhiteHand)
+        {
+            return 30;
+        }
+        else if(job == SERVANT_JOB.Warrior)
+        {
+            return 34;
+        }
+        else if(job == SERVANT_JOB.Theif)
+        {
+            return 50;
+        }
+        else if (job == SERVANT_JOB.Archer)
+        {
+            return 42;
+        }
+        else if (job == SERVANT_JOB.Magician)
+        {
+            return 29;
+        }
+        else if (job == SERVANT_JOB.Cleric)
+        {
+            return 32;
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     public static int GetLevelForExp(int exp)
     {
         // TODO : 추후 Servant Exp에 따른 Level 공식을 추가해 레벨 적용 필요
-        return 1;
+        // 일단 박아서 쓰다가 이후 CSV 파일로 변경
+
+        int preExp = 100;
+        for(int i = 0; i < DEFINE.MAX_LEVEL; i++)
+        {
+            if (exp < preExp)
+            {
+                return i + 1;
+            }
+
+            preExp = preExp + 100;
+        }
+
+        return DEFINE.MAX_LEVEL;
     }
 }

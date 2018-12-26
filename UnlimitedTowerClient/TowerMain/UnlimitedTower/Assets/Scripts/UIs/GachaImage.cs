@@ -30,7 +30,6 @@ public class GachaImage : MonoSingleton<GachaImage>
 
     private bool reGachaflag = false;
     private bool fadeOutFlag = false;
-    private GACHA_RESULT_TYPE gachaResultType;
 
 
     // 가챠 결과 마지막에 깜빡이는 부분
@@ -167,18 +166,17 @@ public class GachaImage : MonoSingleton<GachaImage>
 
     public void ReTryGacha()
     {
-        if (reGachaflag)
-        {
-            LightEffectCircle04Animator.SetBool("Play", true);
-            BlackHoleAnimator.SetBool("Play", true);
-            PurpleCircleAnimator.SetBool("Play", true);
-            StartCoroutine("WAVE_LIGHT_EFFECT_CIRCLE04");
+        // TODO : 정상적으로 작동하지 않음
 
-            GachaButton.SetActive(false);
-            ExitButton.SetActive(false);
+        //LightEffectCircle04Animator.SetBool("Play", true);
+        //BlackHoleAnimator.SetBool("Play", true);
+        //PurpleCircleAnimator.SetBool("Play", true);
+        //StartCoroutine("WAVE_LIGHT_EFFECT_CIRCLE04");
 
-            PacketManager.Inst.Request_Gacha();
-        }
+        //GachaButton.SetActive(false);
+        //ExitButton.SetActive(false);
+
+        UTUMSProvider.Instance.RequestGacha();
     }
 
     public void SetServantGachaImage(Servant getServant)

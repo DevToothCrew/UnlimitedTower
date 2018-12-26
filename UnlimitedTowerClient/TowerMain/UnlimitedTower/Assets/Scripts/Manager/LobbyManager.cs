@@ -84,16 +84,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         SettingInfoPopup.SetActive(false);
     }
 
-    public void OnClickScatterButton()
-    {
-        PacketManager.Inst.Request_ScatterLogin();        
-    }
-
-    public void OnClickLogoutButton()
-    {
-        PacketManager.Inst.Response_Logout();
-    }
-
     public void OnClickRightButton(int rightButton)
     {
         InitCenterPopup();
@@ -175,11 +165,5 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public void OnClickFormationMonsterButton()
     {
 
-    }
-
-    public void OnClickStageButton(int stageNum)
-    {
-        Debug.Log("OnClickStageButton : " + stageNum);
-        PacketManager.Inst.Request_GetStageInfo(stageNum);
     }
 }

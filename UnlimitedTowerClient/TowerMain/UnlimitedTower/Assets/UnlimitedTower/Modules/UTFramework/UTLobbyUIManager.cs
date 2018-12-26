@@ -8,4 +8,21 @@ public class UTLobbyUIManager : MonoBehaviour {
     {
         UTUMSProvider.Instance.RequestLoginWithScatter();
     }
+
+    public void Gacha()
+    {
+        UTUMSProvider.Instance.RequestGacha();
+    }
+
+    public void SaveParty()
+    {
+        // TODO : 파티 상황을 로컬에서 저장
+        Party party = new Party();
+        UTUMSProvider.Instance.RequestSaveParty(party);
+    }
+
+    public void Logout()
+    {
+        UTUMSProvider.Instance.RequestLogout();
+    }
 }

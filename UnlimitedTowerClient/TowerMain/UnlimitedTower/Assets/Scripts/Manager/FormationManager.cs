@@ -24,24 +24,6 @@ public class FormationManager : MonoSingleton<FormationManager>
         }
     }
 
-    public void OnClickSaveParty()
-    {
-        if(targetPartyNum == 0)
-        {
-            Debug.Log("Invalid TagetPartyNum : " + targetPartyNum);
-        }
-        if (UserDataManager.Inst.partyDic.ContainsKey(targetPartyNum) == false)
-        {
-            Debug.Log("Invalid TagetPartyNum : " + targetPartyNum);
-        }
-
-        PacketManager.Inst.Request_SaveParty(targetPartyNum);
-    }
-
-
-
-
-
     public void ResetFormation()
     {
         for(int i=0; i<10; i++)

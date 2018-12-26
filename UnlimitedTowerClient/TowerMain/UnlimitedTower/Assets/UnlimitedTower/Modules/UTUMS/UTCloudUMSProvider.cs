@@ -9,6 +9,21 @@ public class UTCloudUMSProvider : UTUMSProvider
 {
     public override void RequestLoginWithScatter()
     {
-        throw new System.NotImplementedException();
+        PacketManager.Inst.RequestLoginWithScatter();
+    }
+
+    public override void RequestGacha()
+    {
+        PacketManager.Inst.RequestGacha();
+    }
+
+    public override void RequestSaveParty(Party partyInfo)
+    {
+        PacketManager.Inst.RequestSaveParty(partyInfo);
+    }
+
+    public override void RequestLogout()
+    {
+        PacketManager.Inst.RequestLogout();
     }
 }

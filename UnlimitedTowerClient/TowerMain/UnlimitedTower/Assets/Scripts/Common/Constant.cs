@@ -5,31 +5,24 @@ using UnityEngine;
 //공통 사항을 모아둔 클래스.
 public class DEFINE
 {
-
-	// GACHA COST
-	public readonly int GACHA_COST = 1;
-    
 	// MIN - MAX Status
-	public static readonly int MIN_STATUS = 10;
-	public static readonly int MAX_STATUS = 30;
+	public static readonly int MIN_STATUS = 0;
+	public static readonly int MAX_STATUS = 9;
     public static readonly int RAND_STATUS = 10;
-
-    // MIN - MAX Exp
-    public static readonly int MIN_EXP = 0;
-    public static readonly int MAX_EXP = 1024;
+    public static readonly int MAX_LEVEL = 50;
+    public static readonly int MAX_EXP = 5000;
+    public static readonly int BONUS_STAT = 1;
 
     // SHADER Name
     public static readonly string OUTLINE_SHADER = "Outlined/UltimateOutline";
     public static readonly string BASIC_SHADER = "Mobile/Unlit (Supports Lightmap)";
 
-    // Status posOffset
-    public static readonly int MAX_HP_MULTI_posOffset = 1;
-    public static readonly int AVOID_MULTI_posOffset = 1;
-    public static readonly int SPEED_MULTI_posOffset = 1;
-
-    public static readonly int DAMAGE_STR_MUlTI_posOffset = 3;
-    public static readonly int DAMAGE_DEX_MUlTI_posOffset = 2;
-    public static readonly int DAMAGE_INT_MUlTI_posOffset = 1;
+    // Status Formula
+    public static readonly int HP_MULTI_VALUE = 22;
+    public static readonly int DAMAGE_MUlTI_VALUE = 2;
+    public static readonly int DEFENCE_MULTI_VALUE = 1;
+    public static readonly int CRITICAL_PER_MULTI_VALUE = 1;
+    
 
     // Party Info
     public static readonly int PARTY_MAX_NUM = 10;
@@ -52,7 +45,6 @@ public class DEFINE
     // 테스트 상수
     public static Vector3 PLAYER_BACKLINE_CENTER_POS = new Vector3(0.0f, 0.0f, -5.0f);
     public static Vector3 ENEMY_BACKLINE_CENTER_POS = new Vector3(0.0f, 0.0f, 5.0f);
-    public static readonly int TEST_HP_NUM = 10;
 
     public static readonly int HERO_FORMATION_NUM = 7;
     public static readonly int TEST_STATUS_VALUE = 1;
@@ -466,25 +458,22 @@ public enum CHARACTER_NUM
     Mst_Minotaurus,
     Mst_Meka,
     Mst_Snail
-
-
 }
 
-public enum CHARACTER_JOB
+public enum SERVANT_JOB
 {
-    WhiteHand = 0,
 
     // STR
-    Knight = 1,
-    SwordMan = 2,
+    WhiteHand = 0,
+    Warrior = 1,
 
     // DEX
-    Thief = 101,
-    Archer = 102,
+    Theif = 100,
+    Archer = 110,
 
     // INT
-    MAGICIAN = 201,
-    CLERIC = 202,
+    Magician = 200,
+    Cleric = 210,
 }
 
 public enum ACTION_TYPE
@@ -540,7 +529,29 @@ public enum GACHA_RESULT_TYPE
 {
     Servant = 1,
     Monster,
-    Item
+    Item,
 }
+
+public enum APPEAR_HAIR
+{
+    BASE = 0,
+
+    MAX = 2
+}
+
+public enum APPEAR_HEAD
+{
+    BASE = 0,
+
+    MAX = 2
+}
+
+public enum APPEAR_BODY
+{
+    BASE = 0,
+
+    MAX = 3
+}
+
 
 #endregion

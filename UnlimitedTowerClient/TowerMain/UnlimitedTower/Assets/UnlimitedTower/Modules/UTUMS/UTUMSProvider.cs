@@ -27,4 +27,7 @@ public abstract class UTUMSProvider
     /// Request login via Scatter
     /// </summary>
     public abstract void RequestLoginWithScatter();
+    public abstract void RequestGacha();
+    public abstract void RequestSaveParty(Party partyInfo);
+    public abstract void RequestLogout();
 }
