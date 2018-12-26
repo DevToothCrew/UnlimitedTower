@@ -28,16 +28,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public void Awake()
     {
         InitCenterPopup();
-        if (!UserDataManager.Inst.userLoginFlag)
-        {
-            Debug.Log("첫 로그인 화면");        
-            ChangeSceneState(SCENE_STATE.Login);
-        }
-        else
-        {
-            Debug.Log("로비로 리턴");
-            ChangeSceneState(SCENE_STATE.Lobby);
-        }
+        SCENE_STATE state = UserDataManager.Inst.GetSceneState();
+        ChangeSceneState(state);
     }
 
     public void ChangeSceneState(SCENE_STATE state)
@@ -97,17 +89,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         PacketManager.Inst.Request_ScatterLogin();        
     }
 
-    public void OnClickEnterLobbyButton()
-    {
-#if UNITY_EDITOR
-        // 유니티 에디터에서 자동으로 테스트 코드 생성
-        PacketManager.Inst.Request_Instant_Login();
-#else
-        PacketManager.Inst.Request_Login();  
-#endif
-    }
-
-    //###
     public void OnClickLogoutButton()
     {
 #if UNITY_EDITOR

@@ -52,14 +52,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void Request_ScatterLogin()
     {
-        Debug.Log("Request_Login");  
-        Login();
-    }
+        Debug.Log("Request_Login");
 
-    public void Request_Instant_Login()
-    {
-        Debug.Log("Request_Instant_Login");
+#if UNITY_EDITOR
         Response_Instant_Login();
+#else
+        Login();
+#endif
+
     }
 
     public void Request_Gacha()
@@ -130,11 +130,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Response_Logout();
     }
 
-    #endregion
+#endregion
 
 
 
-    #region Response
+#region Response
 
     public void Response_Login(string getLoginInfo)
     {
@@ -172,30 +172,36 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         if (type == (int)GACHA_RESULT_TYPE.Servant)
         {
-            Debug.Log(getGachaInfo);
+            // Debug.Log(getGachaInfo);
+
             gachaServantData gachaData = JsonUtility.FromJson<gachaServantData>(getGachaInfo);
             Servant getServant = ParseServant(gachaData.data.index, gachaData.data.servant);
 
-            GachaImage.Inst.SetGachaResult_Servant(getServant);
-            UserDataManager.Inst.AddServantImage(getServant);
+            UserDataManager.Inst.SetServantInfo(getServant);
+
+            GachaImage.Inst.SetServantGachaImage(getServant);
         }
         else if (type == (int)GACHA_RESULT_TYPE.Monster)
         {
-            Debug.Log(getGachaInfo);
+            // Debug.Log(getGachaInfo);
+
             gachaMonsterData gachaData = JsonUtility.FromJson<gachaMonsterData>(getGachaInfo);
             Monster getMonster = ParseMonster(gachaData.data.index, gachaData.data.monster);
 
-            GachaImage.Inst.SetGachaResult_Monster(getMonster);
-            UserDataManager.Inst.AddMonsterImage(getMonster);
+            UserDataManager.Inst.SetMonsterInfo(getMonster);
+
+            GachaImage.Inst.SetMonsterGachaImage(getMonster);
         }
         else if (type == (int)GACHA_RESULT_TYPE.Item)
         {
-            Debug.Log(getGachaInfo);
+            // Debug.Log(getGachaInfo);
+
             gachaItemData gachaData = JsonUtility.FromJson<gachaItemData>(getGachaInfo);
             Item getItem = ParseItem(gachaData.data.index, gachaData.data.item);
 
-            GachaImage.Inst.SetGacharResult_Item(getItem);
-            //TODO : 아이템 이미지 미구현
+            UserDataManager.Inst.SetItemInfo(getItem);
+
+            GachaImage.Inst.SetItemGachaImage(getItem);
         }
     }
 
@@ -237,9 +243,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
         LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Login);
     }
 
-    #endregion
+#endregion
 
-    #region Function
+#region Function
 
     public void Login(UserLoginData getUserLoginData)
     {
@@ -571,5 +577,5 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return party;
     }
 
-    #endregion
+#endregion
 }
