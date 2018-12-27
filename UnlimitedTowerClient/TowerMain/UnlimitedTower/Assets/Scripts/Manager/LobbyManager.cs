@@ -71,7 +71,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                 LeftPopup.SetActivateWithAnimation(false);
                 RightPopup.SetActivateWithAnimation(false);
                 CenterPopup.SetActivateWithAnimation(false);
-
                 LoginPopup.SetActivateWithAnimation(true);
                 break;
 
