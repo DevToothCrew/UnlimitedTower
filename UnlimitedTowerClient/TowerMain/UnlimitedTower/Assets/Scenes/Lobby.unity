@@ -1054,13 +1054,14 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 89730583}
+  - component: {fileID: 89730584}
   m_Layer: 5
   m_Name: TowerFloor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &89730583
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1081,6 +1082,23 @@ RectTransform:
   m_AnchoredPosition: {x: 800, y: -28}
   m_SizeDelta: {x: 540, y: 846}
   m_Pivot: {x: 0, y: 1}
+--- !u!95 &89730584
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 89730582}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5ca449d1a854e5848adaa8733cdee02a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &92152842
 GameObject:
   m_ObjectHideFlags: 0
@@ -3770,7 +3788,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846779e2e1d261744aef9d8230ed5d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckNum: 6
+  deckNum: -1
   heroDeck: 0
   LinkedChar: {fileID: 0}
 --- !u!1 &253792658
@@ -4677,7 +4695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846779e2e1d261744aef9d8230ed5d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckNum: 7
+  deckNum: -1
   heroDeck: 0
   LinkedChar: {fileID: 0}
 --- !u!1 &285395138
@@ -5586,7 +5604,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterListScroll: {fileID: 324762379}
-  CharacterContentList: {fileID: 292467050}
+  CharacterContentList: {fileID: 0}
 --- !u!1 &324762379
 GameObject:
   m_ObjectHideFlags: 0
@@ -6425,7 +6443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846779e2e1d261744aef9d8230ed5d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckNum: 9
+  deckNum: -1
   heroDeck: 0
   LinkedChar: {fileID: 0}
 --- !u!1 &377994551
@@ -9738,7 +9756,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846779e2e1d261744aef9d8230ed5d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckNum: 2
+  deckNum: -1
   heroDeck: 0
   LinkedChar: {fileID: 0}
 --- !u!1 &550266534
@@ -9788,7 +9806,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846779e2e1d261744aef9d8230ed5d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckNum: 8
+  deckNum: -1
   heroDeck: 0
   LinkedChar: {fileID: 0}
 --- !u!1 &560888955
@@ -11422,6 +11440,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 673741670}
+  - component: {fileID: 673741671}
   m_Layer: 5
   m_Name: LoginPopup
   m_TagString: Untagged
@@ -11450,6 +11469,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 545, y: 900}
   m_Pivot: {x: 1, y: 0.5}
+--- !u!95 &673741671
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 673741669}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e1405dcd2b5670f45949a092c85a28cd, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &676963901
 GameObject:
   m_ObjectHideFlags: 0
@@ -12463,7 +12499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846779e2e1d261744aef9d8230ed5d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckNum: 0
+  deckNum: -1
   heroDeck: 0
   LinkedChar: {fileID: 0}
 --- !u!1 &726916159
@@ -18778,7 +18814,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846779e2e1d261744aef9d8230ed5d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckNum: 4
+  deckNum: -1
   heroDeck: 0
   LinkedChar: {fileID: 0}
 --- !u!1 &1167738661
@@ -23555,7 +23591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846779e2e1d261744aef9d8230ed5d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckNum: 5
+  deckNum: -1
   heroDeck: 0
   LinkedChar: {fileID: 0}
 --- !u!1 &1496532082
@@ -27585,13 +27621,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1771640375}
   - component: {fileID: 1771640376}
+  - component: {fileID: 1771640377}
   m_Layer: 5
   m_Name: RightPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1771640375
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27638,6 +27675,23 @@ MonoBehaviour:
   - {fileID: 1085553874}
   - {fileID: 1973454912}
   onClick: 0
+--- !u!95 &1771640377
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1771640374}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 58d69c47c12e06940881906b39e46cb2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &1774563439
 GameObject:
   m_ObjectHideFlags: 0
@@ -29724,6 +29778,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1910031055}
+  - component: {fileID: 1910031056}
   m_Layer: 5
   m_Name: LeftPopup
   m_TagString: Untagged
@@ -29754,6 +29809,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 305, y: 900}
   m_Pivot: {x: 0, y: 1}
+--- !u!95 &1910031056
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1910031054}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a0f9a8fa82b16ab42af82b46613ef49d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &1918416325
 GameObject:
   m_ObjectHideFlags: 0
@@ -30093,7 +30165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846779e2e1d261744aef9d8230ed5d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckNum: 3
+  deckNum: -1
   heroDeck: 0
   LinkedChar: {fileID: 0}
 --- !u!1 &1964829595
@@ -32986,7 +33058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846779e2e1d261744aef9d8230ed5d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckNum: 1
+  deckNum: -1
   heroDeck: 0
   LinkedChar: {fileID: 0}
 --- !u!1 &2136012352

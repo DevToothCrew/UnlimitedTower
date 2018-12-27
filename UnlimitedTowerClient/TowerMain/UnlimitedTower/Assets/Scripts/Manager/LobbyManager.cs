@@ -1,6 +1,28 @@
 ﻿using System;
 using UnityEngine;
 
+#region Extensions 
+
+static public class LobbyAnimationManager
+{
+    static public void SetActivateWithAnimation(this GameObject uiGO, bool value)
+    {
+
+
+        var animator = uiGO.GetComponent<Animator>();
+        if (animator != null)
+        {
+            uiGO.SetActive(true);
+            animator.SetTrigger(value ? "SetVisible" : "SetInvisible");
+        }
+        else
+        {
+            uiGO.SetActive(value);
+        }
+    }
+}
+#endregion
+
 public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public GameObject LoginPopup;
@@ -44,13 +66,18 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         switch (state)
         {
             case SCENE_STATE.Login:
-                SetTowerInfo(true, -100.0f);
-                SetRightPopup(LoginPopup);
-                TowerInfo.SetActive(false);
+                TowerGrid.SetActivateWithAnimation(false);
+                TowerInfo.SetActivateWithAnimation(false);
+
+                RightPopup.SetActivateWithAnimation(false);
+                CenterPopup.SetActivateWithAnimation(false);
+
+                LoginPopup.SetActivateWithAnimation(true);
                 break;
             case SCENE_STATE.Lobby:
                 SetTowerInfo(true, 100.0f);
                 SetRightPopup(RightPopup);
+                LeftPop.SetActivateWithAnimation(true);
                 break;
             case SCENE_STATE.Stage:
                 SetTowerInfo(false, 100.0f);
@@ -63,65 +90,65 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public void SetTowerInfo(bool active, float xPos)
     {
-        TowerGrid.SetActive(active);
-        TowerInfo.SetActive(active);
+        TowerGrid.SetActivateWithAnimation(active);
+        TowerInfo.SetActivateWithAnimation(active);
     }
     
     public void SetRightPopup(GameObject obj)
     {
-        LoginPopup.SetActive(false);
-        RightPopup.SetActive(false);
-        CenterPopup.SetActive(false);
+        LoginPopup.SetActivateWithAnimation(false);
+        RightPopup.SetActivateWithAnimation(false);
+        CenterPopup.SetActivateWithAnimation(false);
 
-        obj.SetActive(true);
+        obj.SetActivateWithAnimation(true);
     }
 
     public void InitCenterPopup()
     {
         centerPopupState = LOBBY_RIGHT_BUTTON.None;   
        
-        CenterPopup.SetActive(false);
-        HeroInfoPopup.SetActive(false);
-        PartnerInfoPopup.SetActive(false);
-        FormationInfoPopup.SetActive(false);
-        GachaInfoPopup.SetActive(false);
-        StageInfoPopup.SetActive(false);
-        SettingInfoPopup.SetActive(false);
+        CenterPopup.SetActivateWithAnimation(false);
+        HeroInfoPopup.SetActivateWithAnimation(false);
+        PartnerInfoPopup.SetActivateWithAnimation(false);
+        FormationInfoPopup.SetActivateWithAnimation(false);
+        GachaInfoPopup.SetActivateWithAnimation(false);
+        StageInfoPopup.SetActivateWithAnimation(false);
+        SettingInfoPopup.SetActivateWithAnimation(false);
     }
 
     public void OnClickRightButton(int rightButton)
     {
         InitCenterPopup();
-        CenterPopup.SetActive(true);
-        TowerInfo.SetActive(false);
-        TowerGrid.SetActive(false);
+        CenterPopup.SetActivateWithAnimation(true);
+        TowerInfo.SetActivateWithAnimation(false);
+        TowerGrid.SetActivateWithAnimation(false);
 
         centerPopupState = (LOBBY_RIGHT_BUTTON)rightButton;
 
         switch (centerPopupState)
         {
             case LOBBY_RIGHT_BUTTON.Hero:
-                HeroInfoPopup.SetActive(true);
+                HeroInfoPopup.SetActivateWithAnimation(true);
                 break;
 
             case LOBBY_RIGHT_BUTTON.Partner:
-                PartnerInfoPopup.SetActive(true);
+                PartnerInfoPopup.SetActivateWithAnimation(true);
                 break;
 
             case LOBBY_RIGHT_BUTTON.Formation:
-                FormationInfoPopup.SetActive(true);
+                FormationInfoPopup.SetActivateWithAnimation(true);
                 break;
 
             case LOBBY_RIGHT_BUTTON.Gacha:
-                GachaInfoPopup.SetActive(true);
+                GachaInfoPopup.SetActivateWithAnimation(true);
                 break;
 
             case LOBBY_RIGHT_BUTTON.Stage:
-                StageInfoPopup.SetActive(true);
+                StageInfoPopup.SetActivateWithAnimation(true);
                 break;
 
             case LOBBY_RIGHT_BUTTON.Setting:
-                SettingInfoPopup.SetActive(true);
+                SettingInfoPopup.SetActivateWithAnimation(true);
                 break;
         }
     }
@@ -129,30 +156,30 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public void OnClickExitCenterPopup()
     {
         InitCenterPopup();
-        TowerInfo.SetActive(true);
-        TowerGrid.SetActive(true);
+        TowerInfo.SetActivateWithAnimation(true);
+        TowerGrid.SetActivateWithAnimation(true);
     }
 
     public void EnterGachaScene(int gachaNum)
     {
-        GachaScene.SetActive(true);
+        GachaScene.SetActivateWithAnimation(true);
 
-        RightPopup.SetActive(false);
-        TowerGrid.SetActive(false);
-        CenterPopup.SetActive(false);
-        LeftPop.SetActive(false);
-        BaseBackground.SetActive(false);
+        RightPopup.SetActivateWithAnimation(false);
+        TowerGrid.SetActivateWithAnimation(false);
+        CenterPopup.SetActivateWithAnimation(false);
+        LeftPop.SetActivateWithAnimation(false);
+        BaseBackground.SetActivateWithAnimation(false);
     }
 
     public void OnClickExitGacha()
     {
-        GachaScene.SetActive(false);
+        GachaScene.SetActivateWithAnimation(false);
 
-        RightPopup.SetActive(true);
-        TowerGrid.SetActive(true);
-        TowerInfo.SetActive(true);
+        RightPopup.SetActivateWithAnimation(true);
+        TowerGrid.SetActivateWithAnimation(true);
+        TowerInfo.SetActivateWithAnimation(true);
 
-        LeftPop.SetActive(true);
-        BaseBackground.SetActive(true);
+        LeftPop.SetActivateWithAnimation(true);
+        BaseBackground.SetActivateWithAnimation(true);
     }
 }
