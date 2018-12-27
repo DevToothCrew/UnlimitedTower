@@ -74,11 +74,13 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
                 LoginPopup.SetActivateWithAnimation(true);
                 break;
+
             case SCENE_STATE.Lobby:
                 SetTowerInfo(true, 100.0f);
                 SetRightPopup(RightPopup);
                 LeftPop.SetActivateWithAnimation(true);
                 break;
+
             case SCENE_STATE.Stage:
                 SetTowerInfo(false, 100.0f);
                 SetRightPopup(RightPopup);

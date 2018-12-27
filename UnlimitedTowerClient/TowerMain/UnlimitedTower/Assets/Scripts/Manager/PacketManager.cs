@@ -281,6 +281,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
         userInfo.userMoney = getUserData.game_money;
         userInfo.sceneState = (SCENE_STATE)getUserData.state;
 
+        Debug.Log("State : " + (SCENE_STATE)getUserData.state);
+
         userInfo.userHero = ParseServant(0, getUserData.hero);
         if (userInfo.userHero == null)
         {

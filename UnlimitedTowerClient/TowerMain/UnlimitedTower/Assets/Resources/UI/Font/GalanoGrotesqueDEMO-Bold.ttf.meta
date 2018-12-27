@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: b678ab7e98608894b9bd7b9cc7453fd2
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: GalanoGrotesqueDEMO-Bold
+  fontNames:
+  - GalanoGrotesqueDEMO-Bold
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
