@@ -7110,7 +7110,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -10, y: 0}
-  m_SizeDelta: {x: 577, y: 900}
+  m_SizeDelta: {x: 686, y: 900}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &421492425
 MonoBehaviour:
@@ -7131,7 +7131,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: b18f3414898446a48a14adafcbd7f45a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2943efe598eaeb44b8e221aedac42073, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -15450,8 +15450,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 45, y: 0}
-  m_SizeDelta: {x: 600, y: 900}
+  m_AnchoredPosition: {x: 175, y: 0}
+  m_SizeDelta: {x: 711, y: 900}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &989204393
 GameObject:
@@ -17612,7 +17612,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: e861230675847ee4a9fd7870b9d872d5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2e0dcc0999cc59449948bb9f070394d8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -23080,7 +23080,7 @@ MonoBehaviour:
   StageInfoPopup: {fileID: 1285505471}
   SettingInfoPopup: {fileID: 1920526032}
   GachaScene: {fileID: 50528312}
-  LeftPop: {fileID: 1910031054}
+  LeftPopup: {fileID: 1910031054}
   BaseBackground: {fileID: 387069708}
   FormationList: {fileID: 304513083}
 --- !u!1 &1497820692

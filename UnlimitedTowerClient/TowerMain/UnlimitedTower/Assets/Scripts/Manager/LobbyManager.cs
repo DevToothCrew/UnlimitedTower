@@ -42,7 +42,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public GameObject GachaScene;
 
-    public GameObject LeftPop;
+    public GameObject LeftPopup;
     public GameObject BaseBackground;
 
     public GameObject FormationList;
@@ -68,7 +68,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
             case SCENE_STATE.Login:
                 TowerGrid.SetActivateWithAnimation(false);
                 TowerInfo.SetActivateWithAnimation(false);
-
+                LeftPopup.SetActivateWithAnimation(false);
                 RightPopup.SetActivateWithAnimation(false);
                 CenterPopup.SetActivateWithAnimation(false);
 
@@ -78,7 +78,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
             case SCENE_STATE.Lobby:
                 SetTowerInfo(true, 100.0f);
                 SetRightPopup(RightPopup);
-                LeftPop.SetActivateWithAnimation(true);
+                LeftPopup.SetActivateWithAnimation(true);
                 break;
 
             case SCENE_STATE.Stage:
@@ -169,7 +169,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         RightPopup.SetActivateWithAnimation(false);
         TowerGrid.SetActivateWithAnimation(false);
         CenterPopup.SetActivateWithAnimation(false);
-        LeftPop.SetActivateWithAnimation(false);
+        LeftPopup.SetActivateWithAnimation(false);
         BaseBackground.SetActivateWithAnimation(false);
     }
 
@@ -181,7 +181,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         TowerGrid.SetActivateWithAnimation(true);
         TowerInfo.SetActivateWithAnimation(true);
 
-        LeftPop.SetActivateWithAnimation(true);
+        LeftPopup.SetActivateWithAnimation(true);
         BaseBackground.SetActivateWithAnimation(true);
     }
 }

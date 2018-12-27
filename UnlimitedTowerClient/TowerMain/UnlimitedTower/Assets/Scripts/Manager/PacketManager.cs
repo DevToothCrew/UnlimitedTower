@@ -235,6 +235,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             // 재 로그인 시켜야함
         }
         UserDataManager.Inst.SetUserInfo(userInfo);
+        LeftInfoPopup.Inst.SetLeftInfoUserInfoUpdate(userInfo);
 
         Dictionary<int, Servant> servantDic = new Dictionary<int, Servant>();
         if (ParseServantList(getUserLoginData.servant_list, ref servantDic) == false)

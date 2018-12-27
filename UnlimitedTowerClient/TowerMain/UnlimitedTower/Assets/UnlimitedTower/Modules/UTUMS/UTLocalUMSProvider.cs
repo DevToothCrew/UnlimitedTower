@@ -23,6 +23,6 @@ public class UTLocalUMSProvider : UTUMSProvider
 
     public override void RequestLogout()
     {
-        UTEventPoolInterface.SendEventData("login", new UTPlayerManager.UTPlayerData() { user = "devtooth", gameMoney = 999999 });
+        PacketManager.Inst.ResponseLogout();
     }
 }

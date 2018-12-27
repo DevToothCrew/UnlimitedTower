@@ -1,7 +1,7 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
 
-public class LeftInfoPopup : MonoBehaviour
+public class LeftInfoPopup : MonoSingleton<LeftInfoPopup>
 {
     public Text level;
     public Text account;
