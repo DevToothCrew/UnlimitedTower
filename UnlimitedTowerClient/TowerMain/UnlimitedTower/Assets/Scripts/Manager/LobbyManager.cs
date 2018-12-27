@@ -66,7 +66,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         switch (state)
         {
             case SCENE_STATE.Login:
-                TowerGrid.SetActivateWithAnimation(false);
+                TowerGrid.SetActivateWithAnimation(true);
                 TowerInfo.SetActivateWithAnimation(false);
                 LeftPopup.SetActivateWithAnimation(false);
                 RightPopup.SetActivateWithAnimation(false);
@@ -120,10 +120,20 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public void OnClickRightButton(int rightButton)
     {
+        if (centerPopupState == LOBBY_RIGHT_BUTTON.None)
+        {
+            TowerInfo.SetActivateWithAnimation(false);
+            TowerGrid.SetActivateWithAnimation(false);
+        }
+        else
+        {
+            TowerInfo.SetActive(false);
+            TowerGrid.SetActive(false);
+        }
+
         InitCenterPopup();
         CenterPopup.SetActivateWithAnimation(true);
-        TowerInfo.SetActivateWithAnimation(false);
-        TowerGrid.SetActivateWithAnimation(false);
+
 
         centerPopupState = (LOBBY_RIGHT_BUTTON)rightButton;
 
