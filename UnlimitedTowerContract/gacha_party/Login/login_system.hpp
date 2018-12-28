@@ -7,7 +7,7 @@ struct transfer_action {
     name from;
     std::string action;
     std::string param;
-    uint32_t type;
+    uint64_t type;
     name to;
     asset quantity;
 };
@@ -58,6 +58,14 @@ class clogin_system
     {
         return user_log_table;
     }
+
+    uint64_t get_user_seed_value(uint64_t _user)
+    {
+        const auto &user_log_iter = user_log_table.get(_user,"not exist log in login seed");
+        uint64_t user = _user + user_log_iter.gacha_num;
+        return user;
+    }
+
     template<typename T>
     void eosiotoken_transfer(account_name sender, account_name receiver, T func) 
     {
@@ -69,11 +77,24 @@ class clogin_system
 
         transfer_action res;
         size_t l_center = transfer_data.memo.find(':');
-
+        
         res.action = transfer_data.memo.substr(0, l_center);
+        
         if(res.action == "gacha")
         {
-            eosio_assert(transfer_data.quantity.amount == 10000, "gacha need 1.0000 EOS");
+            size_t l_next = transfer_data.memo.find(':', l_center + 1);
+            size_t l_end = transfer_data.memo.length() - (l_next + 1);
+
+            eosio_assert(transfer_data.memo.find(':')!=std::string::npos,"seed memo [:] error");
+            eosio_assert(transfer_data.memo.find(':',l_center + 1)!=std::string::npos,"seed memo [:] error");
+            eosio_assert(transfer_data.quantity.amount == 100, "gacha need 1.0000 EOS"); //test 100
+
+            std::string l_seed = transfer_data.memo.substr(l_center + 1, (l_next - l_center - 1));
+            std::string l_sha = transfer_data.memo.substr(l_next + 1, l_end);
+            
+            res.type = safeseed::check_seed(l_seed, l_sha);
+
+            eosio_assert(res.type != 0 ,"wrong seed convert");
         }
         else if (res.action == "addparty")
         {
@@ -101,7 +122,7 @@ class clogin_system
         eosio_assert(new_user_iter == auth_user_table.end(), "exist account");
         auth_user_table.emplace(owner, [&](auto &new_user) {
             new_user.auth_set_user(_user);
-            new_user.state = euser_state::login;
+            new_user.state = euser_state::lobby;
 
             hero_info first_hero;
             first_hero.equip_slot.resize(max_equip_slot);
