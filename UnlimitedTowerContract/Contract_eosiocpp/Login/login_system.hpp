@@ -81,6 +81,7 @@ class clogin_system
 
         transfer_action res;
         size_t l_center = transfer_data.memo.find(':');
+        size_t l_next = transfer_data.memo.find(':', center + 1);
 
         res.action = transfer_data.memo.substr(0, l_center);
         if(res.action == "gacha")
