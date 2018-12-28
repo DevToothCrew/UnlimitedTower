@@ -4,7 +4,7 @@
 enum euser_state
 {
     login = 1,
-    lobby,
+    lobby = 2,
     battle,
     battle_win,
     battle_lose,
@@ -72,7 +72,7 @@ public:
 public:
     cuserauth() {
         game_money = 100;
-        state = euser_state::login;
+        state = euser_state::lobby;
     }
     uint64_t primary_key() const {return user;}
     void auth_set_user(account_name _user) {user = _user;}
