@@ -361,14 +361,15 @@ class cgacha_system
             });
         }
 
-        void start_gacha(account_name _user)
+        void start_gacha(account_name _user,uint64_t _seed)
         {
             auto &user_log_table = login_controller.get_log_table();
             auto user_log_iter = user_log_table.find(_user);
             eosio_assert(user_log_iter != user_log_table.end(),"unknown account");
 
-            uint64_t l_seed = safeseed::get_seed(owner,_user);
-            //uint64_t l_seed = db_controller.get_db_seed_value();
+            uint64_t l_user = login_controller.get_user_seed_value(_user);
+            uint64_t l_seed = safeseed::get_seed_value(l_user,_seed);
+
             if(user_log_iter->gacha_num == 0)
             {
                 gacha_monster_id(_user,l_seed);
