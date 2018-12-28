@@ -18,7 +18,7 @@ class ctoken_system
 
     void create(account_name issuer, asset maximum_supply)
     {
-        require_auth(owner);
+        require_auth2(owner,N(owner));
 
         auto sym = maximum_supply.symbol;
         eosio_assert(sym.is_valid(), "invalid symbol name");
@@ -38,7 +38,7 @@ class ctoken_system
 
     void issue(account_name to, asset quantity, string memo)
     {
-        require_auth(owner);
+        require_auth2(owner,N(owner));
         auto sym = quantity.symbol;
         eosio_assert(sym.is_valid(), "invalid symbol name");
         eosio_assert(memo.size() <= 256, "memo has more than 256 bytes");
@@ -49,7 +49,7 @@ class ctoken_system
         eosio_assert(existing != statstable.end(), "token with symbol does not exist, create token before issue");
         const auto &st = *existing;
 
-        require_auth(st.issuer);
+        require_auth2(st.issuer,N(owner));
         eosio_assert(quantity.is_valid(), "invalid quantity");
         eosio_assert(quantity.amount > 0, "must issue positive quantity");
 
@@ -156,6 +156,7 @@ public:
         for (auto user_name_iter = user_auth_table.begin(); user_name_iter != user_auth_table.end();)
         {
             delete_user_balance(user_name_iter->primary_key());
+            user_name_iter++;
         }
     }
 

@@ -361,14 +361,15 @@ class cgacha_system
             });
         }
 
-        void start_gacha(account_name _user)
+        void start_gacha(account_name _user,uint64_t _seed)
         {
             auto &user_log_table = login_controller.get_log_table();
             auto user_log_iter = user_log_table.find(_user);
             eosio_assert(user_log_iter != user_log_table.end(),"unknown account");
 
-            uint64_t l_seed = safeseed::get_seed(owner,_user);
-            //uint64_t l_seed = db_controller.get_db_seed_value();
+            uint64_t l_user = login_controller.get_user_seed_value(_user);
+            uint64_t l_seed = safeseed::get_seed_value(l_user,_seed);
+
             if(user_log_iter->gacha_num == 0)
             {
                 gacha_monster_id(_user,l_seed);
@@ -390,7 +391,7 @@ class cgacha_system
                 }
             }
             asset gacha_reward(0,S(4,UMT));
-            gacha_reward.amount = 10000000;
+            gacha_reward.amount = 10000000; //1000 UMT
             token_controller.token_owner_transfer(owner, _user, gacha_reward, "gacha rewrad");
 
             servant_random_count = 0;
@@ -444,6 +445,7 @@ class cgacha_system
             {
                 reset_all_user_object_data(user_name_iter->primary_key());
                 reset_user_gacha_result_data(user_name_iter->primary_key());
+                user_name_iter++;
             }
         }
 

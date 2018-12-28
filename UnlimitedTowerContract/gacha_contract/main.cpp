@@ -106,7 +106,7 @@
             }
             else if(ad.action == gacha_gacha)
             {
-                gacha_controller.start_gacha(sender);
+                gacha_controller.start_gacha(sender,ad.type);
             }
             else if(ad.action == change_stat)
             {
