@@ -390,8 +390,8 @@ class cgacha_system
                     gacha_item_id(_user,l_seed);
                 }
             }
-            asset gacha_reward(0,S(4,UMT));
-            gacha_reward.amount = 10000000; //1000 UMT
+            asset gacha_reward(0,S(4,UTG));
+            gacha_reward.amount = 10000000; //1000 UTG
             token_controller.token_owner_transfer(owner, _user, gacha_reward, "gacha rewrad");
 
             servant_random_count = 0;
@@ -483,7 +483,6 @@ class cgacha_system
         {
             require_auth2(_user, N(owner));
             uint64_t l_seed = safeseed::get_seed(owner,_user);
-            //uint64_t l_seed = db_controller.get_db_seed_value();
             for(uint32_t i=0;i<5;++i)
             {
                 if(i < 4)
