@@ -390,14 +390,13 @@ class cgacha_system
                     gacha_item_id(_user,l_seed);
                 }
             }
-            asset gacha_reward(0,S(4,UMT));
-            gacha_reward.amount = 10000000; //1000 UMT
+            asset gacha_reward(0,S(4,UTG));
+            gacha_reward.amount = 10000000; //1000 UTG
             token_controller.token_owner_transfer(owner, _user, gacha_reward, "gacha rewrad");
 
             servant_random_count = 0;
             monster_random_count = 0;
             item_random_count = 0;
-
         }
 #pragma region reset
         void reset_all_user_object_data(account_name _user)
