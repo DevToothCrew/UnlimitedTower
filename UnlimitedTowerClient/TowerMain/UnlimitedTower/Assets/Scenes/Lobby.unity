@@ -13191,7 +13191,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 260262336}
-        m_MethodName: OnClickGachaOKButton
+        m_MethodName: OnClickCheckButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
