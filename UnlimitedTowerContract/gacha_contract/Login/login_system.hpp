@@ -87,7 +87,7 @@ class clogin_system
 
             eosio_assert(transfer_data.memo.find(':')!=std::string::npos,"seed memo [:] error");
             eosio_assert(transfer_data.memo.find(':',l_center + 1)!=std::string::npos,"seed memo [:] error");
-            eosio_assert(transfer_data.quantity.amount == 100, "gacha need 1.0000 EOS"); //test 100
+            eosio_assert(transfer_data.quantity.amount == 10000, "gacha need 1.0000 EOS"); //test 100
 
             std::string l_seed = transfer_data.memo.substr(l_center + 1, (l_next - l_center - 1));
             std::string l_sha = transfer_data.memo.substr(l_next + 1, l_end);
@@ -175,27 +175,9 @@ class clogin_system
         std::vector<uint64_t> randoms;
         auto &random_value = safeseed::get_total_rand(randoms, hero_total_status);
 
-        //uint32_t preference = safeseed::get_random_value(l_seed,3,0,0);
         auth_user_table.modify(user_iter, owner, [&](auto &hero_status_set) {
             hero_status_set.hero.state = hero_state::set_change_status;
-            // if (preference == 0)
-            // {
-            //     hero_status_set.hero.status.basic_str = random_value[0];
-            //     hero_status_set.hero.status.basic_dex = random_value[1];
-            //     hero_status_set.hero.status.basic_int = random_value[2];
-            // }
-            // else if (preference == 1)
-            // {
-            //     hero_status_set.hero.status.basic_dex = random_value[0];
-            //     hero_status_set.hero.status.basic_int = random_value[1];
-            //     hero_status_set.hero.status.basic_str = random_value[2]; 
-            // }
-            // else if (preference == 2)
-            // {
-            //     hero_status_set.hero.status.basic_int = random_value[0];
-            //     hero_status_set.hero.status.basic_dex = random_value[1];
-            //     hero_status_set.hero.status.basic_str = random_value[2];
-            // }
+
             hero_status_set.hero.status.basic_str = random_value[0];
             hero_status_set.hero.status.basic_dex = random_value[1];
             hero_status_set.hero.status.basic_int = random_value[2];
@@ -213,26 +195,7 @@ class clogin_system
         std::vector<uint64_t> randoms;
         auto &random_value = safeseed::get_total_rand(randoms, hero_total_status);
 
-        //uint32_t preference = safeseed::get_random_value(l_seed,3,0,0);
         auth_user_table.modify(user_iter, owner, [&](auto &hero_status_change) {
-            // if (preference == 0)
-            // {
-            //     hero_status_change.hero.status.basic_str = random_value[0];
-            //     hero_status_change.hero.status.basic_dex = random_value[1];
-            //     hero_status_change.hero.status.basic_int = random_value[2];
-            // }
-            // else if (preference == 1)
-            // {
-            //     hero_status_change.hero.status.basic_dex = random_value[0];
-            //     hero_status_change.hero.status.basic_int = random_value[1];
-            //     hero_status_change.hero.status.basic_str = random_value[2]; 
-            // }
-            // else if (preference == 2)
-            // {
-            //     hero_status_change.hero.status.basic_int = random_value[0];
-            //     hero_status_change.hero.status.basic_dex = random_value[1];
-            //     hero_status_change.hero.status.basic_str = random_value[2];
-            // }
             hero_status_change.hero.status.basic_str = random_value[0];
             hero_status_change.hero.status.basic_dex = random_value[1];
             hero_status_change.hero.status.basic_int = random_value[2];

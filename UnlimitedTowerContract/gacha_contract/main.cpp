@@ -1,7 +1,5 @@
 #include "Common/common_header.hpp"
 
-#define MAINTENANCE 0
-
 #include "Token/token_account_table.hpp"
 #include "Token/token_stat_table.hpp"
 #include "Table/auth_user_table.hpp"
@@ -189,9 +187,6 @@ extern "C" { \
     void apply( uint64_t receiver, uint64_t code, uint64_t action ) { \
         auto self = receiver; \
         TYPE thiscontract( self ); \
-        if (MAINTENANCE == 1) { \
-            require_auth(self); \
-        }\
         if( action == N(onerror)) { \
             eosio_assert(code == N(eosio), "onerror action's are only valid from the \"eosio\" system account"); \
         } \

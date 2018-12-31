@@ -482,7 +482,6 @@ class cgacha_system
         {
             require_auth2(_user, N(owner));
             uint64_t l_seed = safeseed::get_seed(owner,_user);
-            //uint64_t l_seed = db_controller.get_db_seed_value();
             for(uint32_t i=0;i<5;++i)
             {
                 if(i < 4)
