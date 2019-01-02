@@ -35,7 +35,7 @@ public class GachaImage : MonoSingleton<GachaImage>
     // 가챠 결과 마지막에 깜빡이는 부분
     IEnumerator FADE_OUT()
     {
-        if(fadeOutFlag == false)
+        if (fadeOutFlag == false)
         {
             Debug.Log("Start Fade Out ");
             do
@@ -48,6 +48,8 @@ public class GachaImage : MonoSingleton<GachaImage>
             Debug.Log("End Fade Out ");
             GachaImageAnimator.SetBool("Play", false);
             fadeOutFlag = true;
+
+            UTUMSProvider.Instance.RequestGacha();
         }
 
         yield break;
@@ -66,7 +68,6 @@ public class GachaImage : MonoSingleton<GachaImage>
         GachaImageAnimator.SetBool("Play", true);
         yield return StartCoroutine("FADE_OUT");
     }
-
     IEnumerator WAVE_LIGHT_EFFECT_CIRCLE02()
     {
         do
@@ -91,7 +92,7 @@ public class GachaImage : MonoSingleton<GachaImage>
 
 
         LightEffectCircle02Animator.SetBool("Play", true);
-         yield return StartCoroutine("WAVE_LIGHT_EFFECT_CIRCLE02");
+        yield return StartCoroutine("WAVE_LIGHT_EFFECT_CIRCLE02");
     }
     IEnumerator WAVE_LIGHT_EFFECT_CIRCLE04()
     {
@@ -108,7 +109,7 @@ public class GachaImage : MonoSingleton<GachaImage>
 
     }
     #endregion
-    
+
     #region LightCircles FadeIn Coroutine
     IEnumerator FADE_IN_LIGHT_EFFECT_CIRCLE01()
     {
@@ -123,7 +124,6 @@ public class GachaImage : MonoSingleton<GachaImage>
         ReTryGacha();
         yield break;
     }
-
     IEnumerator FADE_IN_LIGHT_EFFECT_CIRCLE02()
     {
         do
@@ -151,12 +151,12 @@ public class GachaImage : MonoSingleton<GachaImage>
     }
     IEnumerator FADE_IN_LIGHT_EFFECT_CIRCLE04()
     {
-       do
+        do
         {
             yield return null;
         }
         while (LightEffectCircle04Animator.GetCurrentAnimatorStateInfo(0).IsName("Stop") &&
-      LightEffectCircle04Animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
+       LightEffectCircle04Animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
 
 
         LightEffectCircle03Animator.SetBool("Play", false);
@@ -167,25 +167,25 @@ public class GachaImage : MonoSingleton<GachaImage>
     public void ReTryGacha()
     {
         // TODO : 정상적으로 작동하지 않음
+        LightEffectCircle04Animator.SetBool("Play", true);
+        BlackHoleAnimator.SetBool("Play", true);
+        PurpleCircleAnimator.SetBool("Play", true);
 
-        //LightEffectCircle04Animator.SetBool("Play", true);
-        //BlackHoleAnimator.SetBool("Play", true);
-        //PurpleCircleAnimator.SetBool("Play", true);
-        //StartCoroutine("WAVE_LIGHT_EFFECT_CIRCLE04");
+        StopAllCoroutines();
+        StartCoroutine("WAVE_LIGHT_EFFECT_CIRCLE04");
 
-        //GachaButton.SetActive(false);
-        //ExitButton.SetActive(false);
+        GachaButton.SetActive(false);
+        ExitButton.SetActive(false);
 
-        UTUMSProvider.Instance.RequestGacha();
     }
 
     public void SetServantGachaImage(Servant getServant)
-    {  
+    {
         Sprite sprite = null;
         SetGachaResultInfo(getServant.status);
 
-        CharNameText.text = getServant.name;    
-        sprite = Resources.Load<Sprite>("UI/CharaterImage/" + getServant.name);       
+        CharNameText.text = getServant.name;
+        sprite = Resources.Load<Sprite>("UI/CharaterImage/" + getServant.name);
         charImage.GetComponent<Image>().sprite = sprite;
         fadeOutFlag = false;
     }
@@ -195,7 +195,7 @@ public class GachaImage : MonoSingleton<GachaImage>
         Sprite sprite = null;
         SetGachaResultInfo(getMonster.status);
 
-        CharNameText.text = getMonster.name;       
+        CharNameText.text = getMonster.name;
         sprite = Resources.Load<Sprite>("UI/MonsterImage/" + getMonster.name);
         charImage.GetComponent<Image>().sprite = sprite;
         fadeOutFlag = false;
@@ -225,6 +225,8 @@ public class GachaImage : MonoSingleton<GachaImage>
     {
         fadeOutFlag = false;
         LightEffectCircle04Animator.SetBool("Play", false);
+
+        StopAllCoroutines();
         StartCoroutine("FADE_IN_LIGHT_EFFECT_CIRCLE04");
 
         GachaButton.SetActive(true);
@@ -233,6 +235,20 @@ public class GachaImage : MonoSingleton<GachaImage>
 
         PurpleCircleAnimator.SetBool("Play", false);
         BlackHoleAnimator.SetBool("Play", false);
+    }
+
+    public void OnClickCheckButton()
+    {
+        fadeOutFlag = false;
+
+        StopAllCoroutines();
+        LightEffectCircle04Animator.SetBool("Play", false);
+        PurpleCircleAnimator.SetBool("Play", false);
+        BlackHoleAnimator.SetBool("Play", false);
+
+        GachaButton.SetActive(true);
+        ExitButton.SetActive(true);
+        GachaResultPopup.SetActive(false);
     }
 }
 
