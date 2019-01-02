@@ -1,5 +1,6 @@
 #include "Common/common_header.hpp"
 
+
 #include "Token/token_account_table.hpp"
 #include "Token/token_stat_table.hpp"
 #include "Table/auth_user_table.hpp"
@@ -11,25 +12,24 @@
 #include "Table/gacha_accumulate_result_table.hpp"
 
 
-
 #include "DB/db_system.hpp"
 
 #include "Login/login_system.hpp"
 #include "Token/token_system.hpp"
 #include "Gacha/gacha_system.hpp"
 
+
     class cmain_logic : public contract
     {
-    private:
+      private:
         ctoken_system token_controller;
-    private:
+
+      private:
         clogin_system login_controller;
         cgacha_system gacha_controller;
         cdb_system db_controller;
 
-        const char *change_stat="changestat";
         const char *gacha_gacha="gacha";
-        const char *add_party="addparty";
     public:
         cmain_logic(account_name _self) :
         contract(_self) ,
@@ -40,6 +40,10 @@
         {
             
         }
+#pragma region test action
+ 
+#pragma endregion
+
 #pragma region token
         //@abi action
         void tokencreate(account_name _issuer, asset _maximum_supply)
@@ -59,11 +63,6 @@
         {
             db_controller.init_db_data();
         }
-        //@abi action
-        void insertseed(uint64_t _seed)
-        {
-            db_controller.insert_seed(_seed);
-        }
 #pragma endregion
 
 
@@ -73,23 +72,6 @@
         {
             print("account create\n");
             login_controller.create_account(_user);
-        }
-        //@abi action
-        void lookset(account_name _user ,uint8_t _head,uint8_t _hair,uint8_t _body)
-        {
-            print("set look account from account\n");
-            login_controller.set_look(_user,_head,_hair,_body);
-        }
-        //@abi action
-        void statset(account_name _user)
-        {
-            print("set status account from account\n");
-            login_controller.set_status(_user);
-        }
-        //@abi action
-        void completehero(account_name _user)
-        {
-            login_controller.complete_hero_set(_user);
         }
         // eosio.token recipient
         // memo description spec
@@ -106,23 +88,9 @@
             {
                 gacha_controller.start_gacha(sender,ad.type);
             }
-            else if(ad.action == change_stat)
-            {
-                login_controller.change_status(sender);
-            }
             });
         }
 #pragma endregion
-
-
-#pragma resion cheat
-        //@abi action
-        void gachacheat(account_name _user)
-        {
-            gacha_controller.gacha_cheat(_user);
-        }
-#pragma endregion
-
 
 
 #pragma resion reset db table
@@ -130,11 +98,6 @@
         void resetdata()
         {
             db_controller.reset_db_data();
-        }
-        //@abi action
-        void resetseed()
-        {
-            db_controller.reset_db_seed_data();
         }
 #pragma endregion
 
@@ -204,4 +167,4 @@ extern "C" { \
 }
 // eos 금액에 대해 체크 하는 함
 
-    EOSIO_ABI(cmain_logic,(tokencreate)(tokenissue)(datainit)(insertseed)(signup)(lookset)(statset)(completehero)(transfer)(gachacheat)(resetdata)(resetseed)(resetobject)(resetuser)(resetall)(deleteuser)(resettoken) )
+    EOSIO_ABI(cmain_logic,(tokencreate)(tokenissue)(datainit)(signup)(transfer)(resetdata)(resetobject)(resetuser)(resetall)(deleteuser)(resettoken) )
