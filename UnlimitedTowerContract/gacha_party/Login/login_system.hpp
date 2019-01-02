@@ -170,32 +170,11 @@ class clogin_system
         eosio_assert(user_iter != auth_user_table.end(), "unknown account");
         eosio_assert(user_iter->hero.state == hero_state::set_status,"free roulette completed status setting");
 
-        uint64_t l_seed = safeseed::get_seed(owner, _user);
-
         std::vector<uint64_t> randoms;
         auto &random_value = safeseed::get_total_rand(randoms, hero_total_status);
 
-        //uint32_t preference = safeseed::get_random_value(l_seed,3,0,0);
         auth_user_table.modify(user_iter, owner, [&](auto &hero_status_set) {
             hero_status_set.hero.state = hero_state::set_change_status;
-            // if (preference == 0)
-            // {
-            //     hero_status_set.hero.status.basic_str = random_value[0];
-            //     hero_status_set.hero.status.basic_dex = random_value[1];
-            //     hero_status_set.hero.status.basic_int = random_value[2];
-            // }
-            // else if (preference == 1)
-            // {
-            //     hero_status_set.hero.status.basic_dex = random_value[0];
-            //     hero_status_set.hero.status.basic_int = random_value[1];
-            //     hero_status_set.hero.status.basic_str = random_value[2]; 
-            // }
-            // else if (preference == 2)
-            // {
-            //     hero_status_set.hero.status.basic_int = random_value[0];
-            //     hero_status_set.hero.status.basic_dex = random_value[1];
-            //     hero_status_set.hero.status.basic_str = random_value[2];
-            // }
             hero_status_set.hero.status.basic_str = random_value[0];
             hero_status_set.hero.status.basic_dex = random_value[1];
             hero_status_set.hero.status.basic_int = random_value[2];
@@ -208,31 +187,10 @@ class clogin_system
         eosio_assert(user_iter != auth_user_table.end(), "unknown account");
         eosio_assert(user_iter->hero.state == hero_state::set_change_status, "already completed status setting");
 
-        uint64_t l_seed = safeseed::get_seed(owner, _user);
-
         std::vector<uint64_t> randoms;
         auto &random_value = safeseed::get_total_rand(randoms, hero_total_status);
 
-        //uint32_t preference = safeseed::get_random_value(l_seed,3,0,0);
         auth_user_table.modify(user_iter, owner, [&](auto &hero_status_change) {
-            // if (preference == 0)
-            // {
-            //     hero_status_change.hero.status.basic_str = random_value[0];
-            //     hero_status_change.hero.status.basic_dex = random_value[1];
-            //     hero_status_change.hero.status.basic_int = random_value[2];
-            // }
-            // else if (preference == 1)
-            // {
-            //     hero_status_change.hero.status.basic_dex = random_value[0];
-            //     hero_status_change.hero.status.basic_int = random_value[1];
-            //     hero_status_change.hero.status.basic_str = random_value[2]; 
-            // }
-            // else if (preference == 2)
-            // {
-            //     hero_status_change.hero.status.basic_int = random_value[0];
-            //     hero_status_change.hero.status.basic_dex = random_value[1];
-            //     hero_status_change.hero.status.basic_str = random_value[2];
-            // }
             hero_status_change.hero.status.basic_str = random_value[0];
             hero_status_change.hero.status.basic_dex = random_value[1];
             hero_status_change.hero.status.basic_int = random_value[2];
