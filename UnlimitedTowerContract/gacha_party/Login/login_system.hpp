@@ -87,7 +87,7 @@ class clogin_system
 
             eosio_assert(transfer_data.memo.find(':')!=std::string::npos,"seed memo [:] error");
             eosio_assert(transfer_data.memo.find(':',l_center + 1)!=std::string::npos,"seed memo [:] error");
-            eosio_assert(transfer_data.quantity.amount == 100, "gacha need 1.0000 EOS"); //test 100
+            eosio_assert(transfer_data.quantity.amount == 1, "gacha need 1.0000 EOS"); //test 100
 
             std::string l_seed = transfer_data.memo.substr(l_center + 1, (l_next - l_center - 1));
             std::string l_sha = transfer_data.memo.substr(l_next + 1, l_end);
