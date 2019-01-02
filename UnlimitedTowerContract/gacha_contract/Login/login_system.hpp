@@ -87,7 +87,7 @@ class clogin_system
 
             eosio_assert(transfer_data.memo.find(':')!=std::string::npos,"seed memo [:] error");
             eosio_assert(transfer_data.memo.find(':',l_center + 1)!=std::string::npos,"seed memo [:] error");
-            eosio_assert(transfer_data.quantity.amount == 10000, "gacha need 1.0000 EOS"); //test 100
+            eosio_assert(transfer_data.quantity.amount == 10000, "gacha need 1.0000 EOS");
 
             std::string l_seed = transfer_data.memo.substr(l_center + 1, (l_next - l_center - 1));
             std::string l_sha = transfer_data.memo.substr(l_next + 1, l_end);
@@ -96,17 +96,6 @@ class clogin_system
 
             eosio_assert(res.type != 0 ,"wrong seed convert");
         }
-        else if (res.action == "addparty")
-        {
-            eosio_assert(transfer_data.quantity.amount == 10000, "add party need 1.0000 EOS");
-        }
-        else if (res.action == "changestat")
-        {
-            eosio_assert(transfer_data.quantity.amount == 1000, "change stat need 0.1000 EOS");
-        }
-
-        res.to.value = receiver;
-        res.from.value = sender;
 
         auto user_log_iter = user_log_table.find(sender);
         eosio_assert(user_log_iter != user_log_table.end(),"not exist user log data");
@@ -135,82 +124,6 @@ class clogin_system
         eosio_assert(user_log_iter == user_log_table.end(), "exist account");
         user_log_table.emplace(owner, [&](auto &new_log) {
             new_log.log_set_user(_user);
-        });
-    }
-
-    void set_look(const account_name _user, uint8_t _head, uint8_t _hair,uint8_t _body)
-    {
-        require_auth(_user);
-
-        auto &user_head_db = db_controller.get_head_db_table();
-        const auto &head_db_iter = user_head_db.get(_head, "not exist head info");
-
-        auto &user_hair_db = db_controller.get_hair_db_table();
-        const auto &hair_db_iter = user_hair_db.get(_hair, "not exist hair info");
-
-        auto &user_body_db = db_controller.get_body_db_table();
-        const auto &body_db_iter = user_body_db.get(_body, "not exist body info");
-
-        auto user_iter = auth_user_table.find(_user);
-        eosio_assert(user_iter != auth_user_table.end(), "unknown account");
-        eosio_assert(user_iter->hero.state == hero_state::set_look,"already completed look setting");
-
-        auth_user_table.modify(user_iter, owner, [&](auto &hero_look_set) {
-            hero_look_set.hero.state = hero_state::set_status;
-            hero_look_set.hero.appear.head = _head;
-            hero_look_set.hero.appear.hair = _hair;
-            hero_look_set.hero.appear.body = _body;
-        });
-    }
-
-    void set_status(account_name _user)
-    {
-        require_auth(_user);
-        auto user_iter = auth_user_table.find(_user);
-        eosio_assert(user_iter != auth_user_table.end(), "unknown account");
-        eosio_assert(user_iter->hero.state == hero_state::set_status,"free roulette completed status setting");
-
-        uint64_t l_seed = safeseed::get_seed(owner, _user);
-
-        std::vector<uint64_t> randoms;
-        auto &random_value = safeseed::get_total_rand(randoms, hero_total_status);
-
-        auth_user_table.modify(user_iter, owner, [&](auto &hero_status_set) {
-            hero_status_set.hero.state = hero_state::set_change_status;
-
-            hero_status_set.hero.status.basic_str = random_value[0];
-            hero_status_set.hero.status.basic_dex = random_value[1];
-            hero_status_set.hero.status.basic_int = random_value[2];
-        });
-    }
-
-    void change_status(account_name _user)
-    {
-        auto user_iter = auth_user_table.find(_user);
-        eosio_assert(user_iter != auth_user_table.end(), "unknown account");
-        eosio_assert(user_iter->hero.state == hero_state::set_change_status, "already completed status setting");
-
-        uint64_t l_seed = safeseed::get_seed(owner, _user);
-
-        std::vector<uint64_t> randoms;
-        auto &random_value = safeseed::get_total_rand(randoms, hero_total_status);
-
-        auth_user_table.modify(user_iter, owner, [&](auto &hero_status_change) {
-            hero_status_change.hero.status.basic_str = random_value[0];
-            hero_status_change.hero.status.basic_dex = random_value[1];
-            hero_status_change.hero.status.basic_int = random_value[2];
-        });
-    }
-
-    void complete_hero_set(account_name _user)
-    {
-        require_auth(_user);
-        auto user_iter = auth_user_table.find(_user);
-        eosio_assert(user_iter != auth_user_table.end(), "unknown account");
-        eosio_assert(user_iter->hero.state == hero_state::set_change_status || user_iter->hero.state == hero_state::set_status,"need to look setting & status setting");
-    
-        auth_user_table.modify(user_iter, owner, [&](auto &hero_state_set) {
-            hero_state_set.hero.state = hero_state::set_complete;
         });
     }
 
