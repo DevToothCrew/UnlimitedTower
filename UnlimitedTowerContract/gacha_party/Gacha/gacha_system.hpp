@@ -18,10 +18,10 @@ class cgacha_system
 
     public:
         const uint32_t default_min = 0;
-        const uint32_t max_rate = 100000;
-        const uint32_t grade_three_rate = 89000;
-        const uint32_t grade_four_rate = 9000;
-        const uint32_t grade_five_rate = 2000;
+        const uint32_t max_rate = 100;
+        const uint32_t grade_three_rate = 89;
+        const uint32_t grade_four_rate = 9;
+        const uint32_t grade_five_rate = 2;
 
     public:
         cgacha_system(account_name _self,
@@ -162,11 +162,11 @@ class cgacha_system
             monster_random_count+=1;
             uint32_t random_rate = safeseed::get_random_value(_seed,max_rate,default_min,monster_random_count);
             uint8_t random_grade;
-            if(random_rate < grade_five_rate)
+            if(random_rate <= grade_five_rate)
             {
                 random_grade = 4;
             }
-            else if(random_rate < grade_four_rate)
+            else if(random_rate <= grade_four_rate)
             {
                 random_grade = 3;
             }
@@ -267,11 +267,11 @@ class cgacha_system
             item_random_count+=1;
             uint32_t random_rate = safeseed::get_random_value(_seed, max_rate, default_min, item_random_count);
             uint8_t random_grade;
-            if (random_rate < grade_five_rate)
+            if (random_rate <= grade_five_rate)
             {
                 random_grade = 4;
             }
-            else if (random_rate < grade_four_rate)
+            else if (random_rate <= grade_four_rate)
             {
                 random_grade = 3;
             }
@@ -377,11 +377,11 @@ class cgacha_system
             else
             {
                 uint64_t l_gacha_result_type = safeseed::get_random_value(l_seed,max_rate,default_min,DEFAULE_RANDOM_COUNT);
-                if(l_gacha_result_type < 33333)
+                if(l_gacha_result_type < 33)
                 {
                     gacha_servant_job(_user,l_seed);
                 }
-                else if(l_gacha_result_type > 33333 && l_gacha_result_type <= 66666)
+                else if(l_gacha_result_type > 33 && l_gacha_result_type <= 66)
                 {
                     gacha_monster_id(_user,l_seed);
                 }
