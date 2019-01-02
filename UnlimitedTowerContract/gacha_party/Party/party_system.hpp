@@ -9,9 +9,8 @@ class cparty_system
         cgacha_system &gacha_controller;
     public:
     const uint32_t max_servant_slot = 5;
-    const uint32_t hero_partner_slot = 5;
+    const uint32_t hero_partner_monster_slot = 5;
     const uint32_t max_monster_slot = 10;
-    const uint32_t pair_slot = 5;
     const uint32_t hero_party_location = 0;
     const uint32_t empty_party_slot = 0;
     public:
@@ -43,7 +42,7 @@ class cparty_system
             });
         } 
 
-        void set_party(account_name _user, uint8_t _party_number, const std::vector<uint32_t> &_party_list)
+        void set_party(account_name _user, uint8_t _party_number, const std::vector<uint32_t> &_new_party_list)
         {
             require_auth(_user);
             eosio_assert(_party_number > 0 ,"wrong party_number");
@@ -64,24 +63,24 @@ class cparty_system
             for (uint32_t i = 1; i < max_servant_slot; ++i)
             {
                 if(user_party_iter->party[i] != empty_party_slot && 
-                user_party_iter->party[i] != _party_list[i])
+                user_party_iter->party[i] != _new_party_list[i])
                 {
                     auto user_servant_iter = user_servant_table.find(user_party_iter->party[i]);
                     eosio_assert(user_servant_iter != user_servant_table.end(),"fatal party data mis");
-                    user_servant_table.modify(user_servant_iter, owner, [&](auto &set_party) {
-                        set_party.party_number = EMPTY_PARTY;
+                    user_servant_table.modify(user_servant_iter, owner, [&](auto &servant_out_party) {
+                        servant_out_party.party_number = EMPTY_PARTY;
                     });
                 }
             }
             for (uint32_t i = max_servant_slot; i < max_monster_slot; ++i)
             {
                 if (user_party_iter->party[i] != empty_party_slot &&
-                    user_party_iter->party[i] != _party_list[i])
+                    user_party_iter->party[i] != _new_party_list[i])
                 {
                     auto user_monster_iter = user_monster_table.find(user_party_iter->party[i]);
                     eosio_assert(user_monster_iter != user_monster_table.end(), "fatal party data mis");
-                    user_monster_table.modify(user_monster_iter, owner, [&](auto &set_party) {
-                        set_party.party_number = EMPTY_PARTY;
+                    user_monster_table.modify(user_monster_iter, owner, [&](auto &monster_out_party) {
+                        monster_out_party.party_number = EMPTY_PARTY;
                     });
                 }
             }
@@ -90,39 +89,39 @@ class cparty_system
                 
                 for (uint32_t i = 1; i < max_servant_slot; ++i)
                 {
-                    if (_party_list[i] == empty_party_slot)
+                    if (_new_party_list[i] == empty_party_slot)
                     {
-                        save_party.party[i] = _party_list[i];
+                        save_party.party[i] = _new_party_list[i];
                         continue;
                     }
-                    auto user_servant_iter = user_servant_table.find(_party_list[i]);
+                    auto user_servant_iter = user_servant_table.find(_new_party_list[i]);
                     eosio_assert(user_servant_iter != user_servant_table.end(), "not exist servant data");
                     eosio_assert(user_servant_iter->party_number == EMPTY_PARTY || user_servant_iter->party_number == _party_number, "already in party member servant");
-                    user_servant_table.modify(user_servant_iter, owner, [&](auto &set_party) {
-                        set_party.party_number = _party_number;
+                    user_servant_table.modify(user_servant_iter, owner, [&](auto &servant_set_party) {
+                        servant_set_party.party_number = _party_number;
                     });
-                    save_party.party[i] = _party_list[i];
+                    save_party.party[i] = _new_party_list[i];
                 }
 
                 for (uint32_t i = max_servant_slot; i < max_monster_slot; ++i)
                 {
-                    if (_party_list[i] == empty_party_slot)
+                    if (_new_party_list[i] == empty_party_slot)
                     {
-                        save_party.party[i] = _party_list[i];
+                        save_party.party[i] = _new_party_list[i];
                         continue;
                     }
-                    if (i != hero_partner_slot)
+                    if (i != hero_partner_monster_slot)
                     {
-                        eosio_assert(_party_list[i - pair_slot] != empty_party_slot ,"need set servant");
+                        eosio_assert(_new_party_list[i - hero_partner_monster_slot] != empty_party_slot ,"need set servant");
                     }
-                    auto user_monster_iter = user_monster_table.find(_party_list[i]);
+                    auto user_monster_iter = user_monster_table.find(_new_party_list[i]);
                     eosio_assert(user_monster_iter != user_monster_table.end(), "not exist monster data");
                     eosio_assert(user_monster_iter->party_number == EMPTY_PARTY || user_monster_iter->party_number == _party_number, "already in party member monster");
 
-                    user_monster_table.modify(user_monster_iter, owner, [&](auto &set_party) {
-                        set_party.party_number = _party_number;
+                    user_monster_table.modify(user_monster_iter, owner, [&](auto &monster_set_party) {
+                        monster_set_party.party_number = _party_number;
                     });
-                    save_party.party[i] = _party_list[i];
+                    save_party.party[i] = _new_party_list[i];
                 }
             });
         }
@@ -134,7 +133,7 @@ class cparty_system
             eosio_assert(user_log_iter != user_log_table.end(),"not find user information to log");
 
             uint32_t l_p_count = user_log_iter->add_party_count;
-            l_p_count++;
+            l_p_count+=1;
             user_log_table.modify(user_log_iter,owner,[&](auto &buy_party_log)
             {
                 buy_party_log.add_party_count = l_p_count;

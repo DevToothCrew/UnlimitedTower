@@ -133,9 +133,9 @@
 
 #pragma resion Party
         //@abi action
-        void setparty(account_name _user,uint8_t _party_number,const std::vector<uint32_t> &_party_list)
+        void setparty(account_name _user,uint8_t _party_number,const std::vector<uint32_t> &_new_party_list)
         {
-            party_controller.set_party(_user,_party_number,_party_list);
+            party_controller.set_party(_user,_party_number,_new_party_list);
         }
 #pragma endregion
 
