@@ -29,7 +29,7 @@
         cgacha_system gacha_controller;
         cdb_system db_controller;
 
-        const char *gacha_gacha="gacha";
+        const char *eos_gacha="gacha";
     public:
         cmain_logic(account_name _self) :
         contract(_self) ,
@@ -46,20 +46,25 @@
 
 #pragma region token
         //@abi action
-        void tokencreate(account_name _issuer, asset _maximum_supply)
+        void create(account_name _issuer, asset _maximum_supply)
         {
             token_controller.create(_issuer, _maximum_supply);
         }
         //@abi action
-        void tokenissue(account_name _to, asset _quantity, string _memo)
+        void issue(account_name _to, asset _quantity, string _memo)
         {
             token_controller.issue(_to, _quantity, _memo);
+        }
+        //@abi action
+        void tokentrans(account_name _from, account_name _to, asset _quantity, string _memo)
+        {
+            token_controller.transfer(_from, _to, _quantity, _memo);
         }
 #pragma endregion
 
 #pragma region init
         //@abi action
-        void datainit()
+        void initdata()
         {
             db_controller.init_db_data();
         }
@@ -76,7 +81,7 @@
         // eosio.token recipient
         // memo description spec
         //-------------------------------------------------------------------------
-        void transfer(account_name sender, account_name receiver)
+        void eostransfer(account_name sender, account_name receiver)
         {
             print("trasnfer\n");
             login_controller.eosiotoken_transfer(sender, receiver, [&](const auto &ad) {
@@ -84,7 +89,7 @@
             {
                 print("action size zero\n");
             }
-            else if(ad.action == gacha_gacha)
+            else if(ad.action == eos_gacha)
             {
                 gacha_controller.start_gacha(sender,ad.type);
             }
@@ -95,50 +100,43 @@
 
 #pragma resion reset db table
         //@abi action
-        void resetdata()
+        void erasedata()
         {
-            db_controller.reset_db_data();
+            db_controller.erase_db_data();
         }
 #pragma endregion
 
 #pragma resion reset servant monster item
         //@abi action 
-        void resetobject(account_name _user)
+        void eraseobject(account_name _user)
         {
-            gacha_controller.reset_all_user_object_data(_user);
-            gacha_controller.reset_user_gacha_result_data(_user);
+            gacha_controller.erase_all_user_object_data(_user);
+            gacha_controller.erase_user_gacha_result_data(_user);
         }
 #pragma endregion
 
 #pragma resion reset table
         //@abi action 
-        void resetuser(account_name _user)
+        void eraseuser(account_name _user)
         {
-            login_controller.reset_user_auth_data(_user);
-            login_controller.reset_user_log_data(_user);
+            login_controller.erase_user_data(_user);
         }
         //@abi action 
-        void resetall()
+        void eraseall()
         {
-            login_controller.reset_all_user_auth_data();
-            login_controller.reset_all_user_log_data();
-            gacha_controller.reset_all_object_gacha_data();
+            login_controller.erase_all_user_auth_data();
+            login_controller.erase_all_user_log_data();
+            gacha_controller.erase_all_object_gacha_data();
 
-        }
-        //@abi action 
-        void deleteuser(account_name _user)
-        {
-            login_controller.delete_user_data(_user);
-            gacha_controller.delete_object_data(_user);
         }
 #pragma endregion
 
 #pragma resion reset token
         //@abi action
-        void resettoken(asset _token)
+        void erasetoken(asset _token)
         {
-            token_controller.delete_all_balance();
-            token_controller.delete_stat(_token);
+            token_controller.erase_all_balance();
+            token_controller.erase_stat(_token);
         }
 #pragma endregion
     };
@@ -161,10 +159,10 @@ extern "C" { \
             }\
         } \
         else if (code == N(eosio.token) && action == N(transfer) ) {\
-            execute_action(&thiscontract, &cmain_logic::transfer);\
+            execute_action(&thiscontract, &cmain_logic::eostransfer);\
         }\
     } \
 }
 // eos 금액에 대해 체크 하는 함
 
-    EOSIO_ABI(cmain_logic,(tokencreate)(tokenissue)(datainit)(signup)(transfer)(resetdata)(resetobject)(resetuser)(resetall)(deleteuser)(resettoken) )
+    EOSIO_ABI(cmain_logic,(create)(issue)(tokentrans)(initdata)(signup)(eostransfer)(erasedata)(eraseobject)(eraseuser)(eraseall)(erasetoken) )
