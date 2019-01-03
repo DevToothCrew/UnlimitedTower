@@ -293,7 +293,7 @@ class cdb_system
         }
     }
 
-    void reset_db_data()
+    void erase_db_data()
     {
         require_auth2(owner,N(owner));
 
