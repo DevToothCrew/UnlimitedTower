@@ -127,8 +127,8 @@ class clogin_system
         });
     }
 
-#pragma region reset
-    void erase_all_user_auth_data()
+#pragma region init
+    void init_all_user_auth_data()
     {
         require_auth2(owner, N(owner));
         for (auto user_auth_iter = auth_user_table.begin(); user_auth_iter != auth_user_table.end();)
@@ -139,7 +139,7 @@ class clogin_system
         }
     }
 
-    void erase_all_user_log_data()
+    void init_all_user_log_data()
     {
         require_auth2(owner, N(owner));
         for (auto user_log_iter = user_log_table.begin(); user_log_iter != user_log_table.end();)
@@ -149,8 +149,10 @@ class clogin_system
             user_log_table.erase(iter);
         }
     }
+#pragma endregion
 
-    void erase_user_data(account_name _user)
+#pragma region delete
+    void delete_user_data(account_name _user)
     {
         require_auth2(owner, N(owner));
         auto user_auth_iter = auth_user_table.find(_user);
@@ -161,8 +163,8 @@ class clogin_system
         eosio_assert(user_log_iter != user_log_table.end(), "not exist user auth data");
         user_log_table.erase(user_log_iter);
     }
-
 #pragma endregion
+
 
 
 

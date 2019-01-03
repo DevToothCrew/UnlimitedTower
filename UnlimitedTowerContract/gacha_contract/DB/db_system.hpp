@@ -128,7 +128,7 @@ class cdb_system
     }
 
 
-    void init_db_data()
+    void set_db_data()
     {
         require_auth2(owner,N(owner));
 
@@ -283,17 +283,8 @@ class cdb_system
         }
     }
 
-    void reset_db_seed_data()
-    {
-        for (auto seed_db_iter = seed_db_table.begin(); seed_db_iter != seed_db_table.end();)
-        {
-            auto iter = seed_db_table.find(seed_db_iter->primary_key());
-            seed_db_iter++;
-            seed_db_table.erase(iter);
-        }
-    }
 
-    void erase_db_data()
+    void init_db_data()
     {
         require_auth2(owner,N(owner));
 

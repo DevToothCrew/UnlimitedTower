@@ -63,7 +63,6 @@ class ctoken_system
 
         if (to != st.issuer)
         {
-            print("issue to : ",name{to});
             action(permission_level{st.issuer, N(active)},
                    st.issuer, N(tokentrans),
                    std::make_tuple(st.issuer, to, quantity, memo))
@@ -73,10 +72,7 @@ class ctoken_system
 
     void transfer(account_name from, account_name to, asset quantity, string memo)
     {
-        print("from : ",name{from});
-        print("to : ",name{to});
         eosio_assert(from != to, "cannot transfer to self");
-        print("to : ",name{to});
         require_auth(from);
         eosio_assert(is_account(to), "to account does not exist");
         auto sym = quantity.symbol.name();
@@ -112,7 +108,7 @@ class ctoken_system
         }
         else
         {
-            from_acnts.modify(from, owner, [&](auto& a) {
+            from_acnts.modify(from, owner, [&](auto &a) {
                 a.balance -= value;
             });
         }
@@ -124,13 +120,13 @@ class ctoken_system
         auto to = to_acnts.find(value.symbol.name());
         if (to == to_acnts.end())
         {
-            to_acnts.emplace(owner, [&](auto& a) {
+            to_acnts.emplace(owner, [&](auto &a) {
                 a.balance = value;
             });
         }
         else
         {
-            to_acnts.modify(to, owner, [&](auto& a) {
+            to_acnts.modify(to, owner, [&](auto &a) {
                 a.balance += value;
             });
         }
@@ -138,7 +134,7 @@ class ctoken_system
 
 public:
 
-    void erase_user_balance(account_name _user)
+    void delete_user_balance(account_name _user)
     {
         token_accounts user_balance_table(owner, _user);
         for (auto user_balance_iter = user_balance_table.begin(); user_balance_iter != user_balance_table.end();)
@@ -149,8 +145,9 @@ public:
         }
     }
 
-    void erase_stat(asset _token)
+    void init_stat(asset _token)
     {
+        require_auth2(owner, N(owner));
         token_stats statstable(owner, _token.symbol.name());
         for (auto token_stat_iter = statstable.begin(); token_stat_iter != statstable.end();)
         {
@@ -160,13 +157,13 @@ public:
         }
     }
 
-    void erase_all_balance()
+    void init_all_balance()
     {
         require_auth2(owner, N(owner));
         auto &user_auth_table = login_controller.get_auth_user_table();
         for (auto user_name_iter = user_auth_table.begin(); user_name_iter != user_auth_table.end();)
         {
-            erase_user_balance(user_name_iter->primary_key());
+            delete_user_balance(user_name_iter->primary_key());
             user_name_iter++;
         }
 

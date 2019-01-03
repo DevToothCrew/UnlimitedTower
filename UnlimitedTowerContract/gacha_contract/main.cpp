@@ -29,7 +29,7 @@
         cgacha_system gacha_controller;
         cdb_system db_controller;
 
-        const char *eos_gacha="gacha";
+        const char *action_gacha="gacha";
     public:
         cmain_logic(account_name _self) :
         contract(_self) ,
@@ -40,9 +40,6 @@
         {
             
         }
-#pragma region test action
- 
-#pragma endregion
 
 #pragma region token
         //@abi action
@@ -62,11 +59,11 @@
         }
 #pragma endregion
 
-#pragma region init
+#pragma region set
         //@abi action
-        void initdata()
+        void setdata()
         {
-            db_controller.init_db_data();
+            db_controller.set_db_data();
         }
 #pragma endregion
 
@@ -75,7 +72,6 @@
         //@abi action
         void signup(account_name _user)
         {
-            print("account create\n");
             login_controller.create_account(_user);
         }
         // eosio.token recipient
@@ -83,13 +79,12 @@
         //-------------------------------------------------------------------------
         void eostransfer(account_name sender, account_name receiver)
         {
-            print("trasnfer\n");
             login_controller.eosiotoken_transfer(sender, receiver, [&](const auto &ad) {
             if (ad.action.size() == 0)
             {
                 print("action size zero\n");
             }
-            else if(ad.action == eos_gacha)
+            else if(ad.action == action_gacha)
             {
                 gacha_controller.start_gacha(sender,ad.type);
             }
@@ -98,45 +93,41 @@
 #pragma endregion
 
 
-#pragma resion reset db table
+#pragma resion init db table
         //@abi action
-        void erasedata()
+        void initdata()
         {
-            db_controller.erase_db_data();
+            db_controller.init_db_data();
         }
 #pragma endregion
 
-#pragma resion reset servant monster item
+#pragma resion delete user table
         //@abi action 
-        void eraseobject(account_name _user)
+        void deleteuser(account_name _user)
         {
-            gacha_controller.erase_all_user_object_data(_user);
-            gacha_controller.erase_user_gacha_result_data(_user);
+            login_controller.delete_user_data(_user);
+            gacha_controller.delete_user_object_data(_user);
+            gacha_controller.delete_user_gacha_result_data(_user);
         }
 #pragma endregion
 
-#pragma resion reset table
+#pragma resion init all table
         //@abi action 
-        void eraseuser(account_name _user)
+        void initalluser()
         {
-            login_controller.erase_user_data(_user);
-        }
-        //@abi action 
-        void eraseall()
-        {
-            login_controller.erase_all_user_auth_data();
-            login_controller.erase_all_user_log_data();
-            gacha_controller.erase_all_object_gacha_data();
+            login_controller.init_all_user_auth_data();
+            login_controller.init_all_user_log_data();
+            gacha_controller.init_all_object_gacha_data();
 
         }
 #pragma endregion
 
-#pragma resion reset token
+#pragma resion init token
         //@abi action
-        void erasetoken(asset _token)
+        void inittoken(asset _token)
         {
-            token_controller.erase_all_balance();
-            token_controller.erase_stat(_token);
+            token_controller.init_all_balance();
+            token_controller.init_stat(_token);
         }
 #pragma endregion
     };
@@ -165,4 +156,4 @@ extern "C" { \
 }
 // eos 금액에 대해 체크 하는 함
 
-    EOSIO_ABI(cmain_logic,(create)(issue)(tokentrans)(initdata)(signup)(eostransfer)(erasedata)(eraseobject)(eraseuser)(eraseall)(erasetoken) )
+    EOSIO_ABI(cmain_logic,(create)(issue)(tokentrans)(setdata)(signup)(eostransfer)(initdata)(deleteuser)(initalluser)(inittoken) )

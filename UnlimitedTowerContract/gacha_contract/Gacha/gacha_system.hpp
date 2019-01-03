@@ -394,7 +394,7 @@ class cgacha_system
             
             action(permission_level{owner, N(active)},
                    owner, N(tokentrans),
-                   std::make_tuple(owner, _user, gacha_reward, "gacha reward"))
+                   std::make_tuple(owner, _user, gacha_reward, std::string("gacha reward")))
                 .send();
 
             make_servant_random_count = 0;
@@ -402,8 +402,9 @@ class cgacha_system
             make_item_random_count = 0;
 
         }
-#pragma region reset
-        void erase_all_user_object_data(account_name _user)
+
+#pragma region delete
+        void delete_user_object_data(account_name _user)
         {
             require_auth2(owner, N(owner));
             user_servants user_servant_table(owner, _user);
@@ -430,7 +431,7 @@ class cgacha_system
                 user_item_table.erase(iter);
             }
         }
-        void erase_user_gacha_result_data(account_name _user)
+        void delete_user_gacha_result_data(account_name _user)
         {
             require_auth2(owner, N(owner));
             auto iter = user_gacha_current_result_table.find(_user);
@@ -441,19 +442,21 @@ class cgacha_system
             eosio_assert(accumulate_iter != user_gacha_accumulate_table.end(), "not exist gacha accumulate data");
             user_gacha_accumulate_table.erase(accumulate_iter);
         }
+#pragma endregion
 
-        void erase_all_object_gacha_data()
+#pragma region delete
+        void init_all_object_gacha_data()
         {
             require_auth2(owner, N(owner));
             auto &user_auth_table = login_controller.get_auth_user_table();
             for (auto user_name_iter = user_auth_table.begin(); user_name_iter != user_auth_table.end();)
             {
-                erase_all_user_object_data(user_name_iter->primary_key());
-                erase_user_gacha_result_data(user_name_iter->primary_key());
+                delete_user_object_data(user_name_iter->primary_key());
+                delete_user_gacha_result_data(user_name_iter->primary_key());
                 user_name_iter++;
             }
         }
+#pragma endregion init
 
-#pragma endregion
 
     };
