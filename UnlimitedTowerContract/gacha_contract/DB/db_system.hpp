@@ -1,6 +1,8 @@
 #pragma once
 #include "../Common/common_header.hpp"
 #include "../Common/common_seed.hpp"
+#include "../DB/db_seed_log.hpp"
+#include "../DB/db_seed.hpp"
 #include "../DB/db_servant.hpp"
 #include "../DB/db_head.hpp"
 #include "../DB/db_hair.hpp"
@@ -13,11 +15,15 @@
 
 
 
+
 class cdb_system
 {
   private:
     account_name owner;
 
+  private:
+    seed_db     seed_db_table;
+    seed_log_db seed_log_db_table;
   private:
     servant_db  servant_db_table;
     head_db head_db_table;
@@ -33,7 +39,7 @@ class cdb_system
     const uint8_t monster_id_count = 30;
     const uint8_t monster_grade_count = 5;
     const uint8_t item_id_count = 70;
-    const uint8_t item_tier_count = 4;
+    const uint8_t item_tier_count = 3;
     const uint8_t item_grade_count= 5;
     const uint8_t item_slot_count = 3;
     const uint8_t head_count = 3;
@@ -43,6 +49,8 @@ class cdb_system
   public:
     cdb_system(account_name _self)
         : owner(_self),
+          seed_db_table(_self,_self),
+          seed_log_db_table(_self,_self),
           servant_db_table(_self, _self),
           head_db_table(_self,_self),
           hair_db_table(_self,_self),
@@ -53,6 +61,15 @@ class cdb_system
           item_tier_db_table(_self,_self),
           item_grade_db_table(_self,_self)
     {
+    }
+    seed_db &get_seed_table()
+    {
+        return seed_db_table;
+    }
+
+    seed_log_db &get_seed_log_table()
+    {
+        return seed_log_db_table;
     }
 
     servant_db &get_servant_db_table()
@@ -100,25 +117,37 @@ class cdb_system
         return item_grade_db_table;
     }
 
-    void init_db_data()
+    seed_db &get_seed_db_table()
+    {
+        return seed_db_table;
+    }
+
+    seed_log_db &get_seed_log_db_tabe()
+    {
+        return seed_log_db_table;
+    }
+
+
+    void set_db_data()
     {
         require_auth2(owner,N(owner));
-        uint64_t l_seed = safeseed::get_seed(owner);
+
+        uint64_t l_seed = safeseed::get_seed(owner,now());
         for (uint8_t i = 0; i < servant_job_count; ++i)
         {
             servant_db_table.emplace(owner, [&](auto& a) {
-                a.s_job = servant_db_table.available_primary_key();
+                a.job = servant_db_table.available_primary_key();
                 if(random_count >= 8 )
                 {
                     random_count = 0;
                 }
-                a.s_min_range.base_str = DEFAULT_MIN;
-                a.s_min_range.base_dex = DEFAULT_MIN;
-                a.s_min_range.base_int = DEFAULT_MIN;
+                a.min_range.base_str = DEFAULT_MIN;
+                a.min_range.base_dex = DEFAULT_MIN;
+                a.min_range.base_int = DEFAULT_MIN;
 
-                a.s_max_range.base_str = DEFAULT_MAX;
-                a.s_max_range.base_dex = DEFAULT_MAX;
-                a.s_max_range.base_int = DEFAULT_MAX;
+                a.max_range.base_str = DEFAULT_MAX;
+                a.max_range.base_dex = DEFAULT_MAX;
+                a.max_range.base_int = DEFAULT_MAX;
             });
         }
         for(uint8_t i=0;i<head_count;++i)
@@ -151,53 +180,53 @@ class cdb_system
                 }
                 if(i == 0)
                 {
-                    a.m_min_range.base_str = DEFAULT_MIN;
-                    a.m_min_range.base_dex = DEFAULT_MIN;
-                    a.m_min_range.base_int = DEFAULT_MIN;
+                    a.min_range.base_str = DEFAULT_MIN;
+                    a.min_range.base_dex = DEFAULT_MIN;
+                    a.min_range.base_int = DEFAULT_MIN;
 
-                    a.m_max_range.base_str = DEFAULT_MAX;
-                    a.m_max_range.base_dex = DEFAULT_MAX;
-                    a.m_max_range.base_int = DEFAULT_MAX;
+                    a.max_range.base_str = DEFAULT_MAX;
+                    a.max_range.base_dex = DEFAULT_MAX;
+                    a.max_range.base_int = DEFAULT_MAX;
                 }
                 else if(i==1)
                 {
-                    a.m_min_range.base_str = DEFAULT_MIN;
-                    a.m_min_range.base_dex = DEFAULT_MIN;
-                    a.m_min_range.base_int = DEFAULT_MIN;
+                    a.min_range.base_str = DEFAULT_MIN;
+                    a.min_range.base_dex = DEFAULT_MIN;
+                    a.min_range.base_int = DEFAULT_MIN;
 
-                    a.m_max_range.base_str = DEFAULT_MAX;
-                    a.m_max_range.base_dex = DEFAULT_MAX;
-                    a.m_max_range.base_int = DEFAULT_MAX;
+                    a.max_range.base_str = DEFAULT_MAX;
+                    a.max_range.base_dex = DEFAULT_MAX;
+                    a.max_range.base_int = DEFAULT_MAX;
                 }
                 else if(i==2)
                 {                    
-                    a.m_min_range.base_str = DEFAULT_MIN;
-                    a.m_min_range.base_dex = DEFAULT_MIN;
-                    a.m_min_range.base_int = DEFAULT_MIN;
+                    a.min_range.base_str = DEFAULT_MIN;
+                    a.min_range.base_dex = DEFAULT_MIN;
+                    a.min_range.base_int = DEFAULT_MIN;
 
-                    a.m_max_range.base_str = DEFAULT_MAX;
-                    a.m_max_range.base_dex = DEFAULT_MAX;
-                    a.m_max_range.base_int = DEFAULT_MAX;
+                    a.max_range.base_str = DEFAULT_MAX;
+                    a.max_range.base_dex = DEFAULT_MAX;
+                    a.max_range.base_int = DEFAULT_MAX;
                 }
                 else if(i==3)
                 {
-                    a.m_min_range.base_str = DEFAULT_MIN;
-                    a.m_min_range.base_dex = DEFAULT_MIN;
-                    a.m_min_range.base_int = DEFAULT_MIN;
+                    a.min_range.base_str = DEFAULT_MIN;
+                    a.min_range.base_dex = DEFAULT_MIN;
+                    a.min_range.base_int = DEFAULT_MIN;
 
-                    a.m_max_range.base_str = DEFAULT_MAX;
-                    a.m_max_range.base_dex = DEFAULT_MAX;
-                    a.m_max_range.base_int = DEFAULT_MAX;
+                    a.max_range.base_str = DEFAULT_MAX;
+                    a.max_range.base_dex = DEFAULT_MAX;
+                    a.max_range.base_int = DEFAULT_MAX;
                 }
                 else
                 {
-                    a.m_min_range.base_str = 0;
-                    a.m_min_range.base_dex = 0;
-                    a.m_min_range.base_int = 0;
+                    a.min_range.base_str = 0;
+                    a.min_range.base_dex = 0;
+                    a.min_range.base_int = 0;
 
-                    a.m_max_range.base_str = DEFAULT_MAX;
-                    a.m_max_range.base_dex = DEFAULT_MAX;
-                    a.m_max_range.base_int = DEFAULT_MAX;
+                    a.max_range.base_str = DEFAULT_MAX;
+                    a.max_range.base_dex = DEFAULT_MAX;
+                    a.max_range.base_int = DEFAULT_MAX;
                 }
 
 
@@ -208,20 +237,20 @@ class cdb_system
         {
             monster_id_db_table.emplace(owner,[&](auto &a)
             {
-                a.m_id = monster_id_db_table.available_primary_key();
+                a.look = monster_id_db_table.available_primary_key();
             });
         }
         for (uint8_t i = 0; i < item_id_count; ++i)
         {
             item_id_db_table.emplace(owner, [&](auto &a) {
-                a.i_id = item_id_db_table.available_primary_key();
+                a.id = item_id_db_table.available_primary_key();
                 if (random_count >= 8)
                 {
                     random_count = 0;
                 }
-                a.i_slot = safeseed::get_random_value(l_seed,item_slot_count,0,random_count);
+                a.slot = safeseed::get_random_value(l_seed,item_slot_count,0,random_count);
                 random_count+=1;
-                a.i_job = safeseed::get_random_value(l_seed,servant_job_count,0,random_count);
+                a.job = safeseed::get_random_value(l_seed,servant_job_count,0,random_count);
                 random_count+=1;
             });
         }
@@ -229,32 +258,33 @@ class cdb_system
         {
             item_tier_db_table.emplace(owner,[&](auto &a)
             {
-                a.i_tier = item_tier_db_table.available_primary_key();
-                a.i_level = i * 10;
+                a.tier = item_tier_db_table.available_primary_key();
+                a.level = i * 10;
             });
         }
         for(uint32_t i=0;i<item_grade_count;++i)
         {
             item_grade_db_table.emplace(owner, [&](auto &a) {
-                a.i_grade = item_grade_db_table.available_primary_key();
+                a.grade = item_grade_db_table.available_primary_key();
                 if (random_count >= 8)
                 {
                     random_count = 0;
                 }
-                a.i_min_range.base_str = DEFAULT_MIN;
-                a.i_min_range.base_dex = DEFAULT_MIN;
-                a.i_min_range.base_int = DEFAULT_MIN;
+                a.min_range.base_str = DEFAULT_MIN;
+                a.min_range.base_dex = DEFAULT_MIN;
+                a.min_range.base_int = DEFAULT_MIN;
       
 
-                a.i_max_range.base_str = DEFAULT_MAX;    
-                a.i_max_range.base_dex = DEFAULT_MAX;      
-                a.i_max_range.base_int = DEFAULT_MAX;      
+                a.max_range.base_str = DEFAULT_MAX;    
+                a.max_range.base_dex = DEFAULT_MAX;      
+                a.max_range.base_int = DEFAULT_MAX;      
 
             });
         }
     }
 
-    void reset_db_data()
+
+    void init_db_data()
     {
         require_auth2(owner,N(owner));
 

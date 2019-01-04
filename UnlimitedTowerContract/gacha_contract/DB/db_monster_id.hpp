@@ -6,9 +6,9 @@
 class cdbmonsterid
 {
   public:
-    uint64_t m_id;
+    uint64_t look;
 public:
-    uint64_t primary_key() const {return m_id;}
+    uint64_t primary_key() const {return look;}
 };
 
 typedef multi_index<N(cdbmonsterid),cdbmonsterid> monster_id_db;
