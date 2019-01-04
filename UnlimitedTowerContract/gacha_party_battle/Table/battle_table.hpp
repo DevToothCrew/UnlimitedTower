@@ -6,7 +6,6 @@ enum battle_action_state
     wait = 0,
     attack,
     defense,
-    use_skill,
     state_count,
 };
 
@@ -40,26 +39,19 @@ enum passive_skill_list
     strength_collect,//힘모으기 - 방어시 다음 턴 공격력 25% 증가
     passive_skill_count,
 };
-// 1 + 8 = 9
-struct battle_member_state
-{
-    uint32_t count;       //캐릭터 상태의 지속 턴 횟수
-    uint32_t state;           //캐릭터의 현재 상태
-};
+
 // 4 + 4 + 4 + 4 + 4 + 4 + 8 + sbattle_member_state(9) = 41
 // sbattle_member_state 당 9 총 5개의 버프창이 있으면 45 + 32 = 77
 struct battle_staus_info
 {
     uint32_t state;
+    uint32_t target = 0;
     uint32_t speed;
     uint32_t critical;
     uint32_t defense;
     uint32_t attack;
     uint32_t now_hp = 0;
-    std::vector<battle_member_state> state_list;
-    uint64_t party_index = 0;
-    uint32_t active_skill = active_skill_list::none_active;
-    uint32_t passive_skill = passive_skill_list::none_passive;
+    uint64_t party_index = 0; 
 };
 
 // 4 + 4 = 8
@@ -78,16 +70,18 @@ private:
     account_name user;
 public:
     uint32_t turn_count;
-    uint32_t stage_number;
     uint32_t preference;
+    uint32_t stage_number;
+    std::vector<uint32_t> attack_order_list;
+    std::vector<battle_staus_info> my_party_status_list;
     std::vector<uint32_t> reward_list;
-    std::vector<battle_staus_info> battle_state_list;
-    std::vector<attack_speed> attack_order_list;
+    std::vector<battle_staus_info> enemy_party_status_list;
 public:
     cbattle() {
         preference = 0;
         turn_count = 0;
-        battle_state_list.resize(20);
+        my_party_status_list.resize(10);
+        enemy_party_status_list.resize(10);
         attack_order_list.resize(20);
     }
     uint64_t primary_key() const {return user;}
@@ -96,11 +90,12 @@ public:
         cbattle,
         (user)
         (turn_count)
-        (stage_number)
         (preference)
-        (reward_list)
-        (battle_state_list)
+        (stage_number)
         (attack_order_list)
+        (my_party_status_list)
+        (reward_list)
+        (enemy_party_status_list)
     )
 };
 
