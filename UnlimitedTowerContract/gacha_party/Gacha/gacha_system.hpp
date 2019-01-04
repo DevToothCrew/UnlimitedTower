@@ -354,7 +354,6 @@ class cgacha_system
                 });
             }
 
-
             user_log_table.modify(user_log_iter, owner, [&](auto &update_log) {
                 update_log.item_num += 1;
                 update_log.gacha_num += 1;
@@ -392,16 +391,22 @@ class cgacha_system
             }
             asset gacha_reward(0,S(4,UTG));
             gacha_reward.amount = 10000000; //1000 UTG
-            token_controller.token_owner_transfer(owner, _user, gacha_reward, "gacha rewrad");
+            
+            action(permission_level{owner, N(active)},
+                   owner, N(tokentrans),
+                   std::make_tuple(owner, _user, gacha_reward, std::string("gacha reward")))
+                .send();
 
             make_servant_random_count = 0;
             make_monster_random_count = 0;
             make_item_random_count = 0;
 
         }
-#pragma region reset
-        void reset_all_user_object_data(account_name _user)
+        
+#pragma region delete
+        void delete_user_object_data(account_name _user)
         {
+            require_auth2(owner, N(owner));
             user_servants user_servant_table(owner, _user);
             for (auto user_servant_iter = user_servant_table.begin(); user_servant_iter != user_servant_table.end();)
             {
@@ -426,8 +431,9 @@ class cgacha_system
                 user_item_table.erase(iter);
             }
         }
-        void reset_user_gacha_result_data(account_name _user)
+        void delete_user_gacha_result_data(account_name _user)
         {
+            require_auth2(owner, N(owner));
             auto iter = user_gacha_current_result_table.find(_user);
             eosio_assert(iter!=user_gacha_current_result_table.end(),"not exist gacha result data");
             user_gacha_current_result_table.erase(iter);
@@ -436,47 +442,22 @@ class cgacha_system
             eosio_assert(accumulate_iter != user_gacha_accumulate_table.end(), "not exist gacha accumulate data");
             user_gacha_accumulate_table.erase(accumulate_iter);
         }
+#pragma endregion
 
-        void reset_all_object_gacha_data()
+#pragma region delete
+        void init_all_object_gacha_data()
         {
             require_auth2(owner, N(owner));
             auto &user_auth_table = login_controller.get_auth_user_table();
             for (auto user_name_iter = user_auth_table.begin(); user_name_iter != user_auth_table.end();)
             {
-                reset_all_user_object_data(user_name_iter->primary_key());
-                reset_user_gacha_result_data(user_name_iter->primary_key());
+                delete_user_object_data(user_name_iter->primary_key());
+                delete_user_gacha_result_data(user_name_iter->primary_key());
                 user_name_iter++;
             }
         }
+#pragma endregion init
 
-        void delete_object_data(account_name _user)
-        {
-            require_auth2(owner, N(owner));
-            user_servants user_servant_table(owner, _user);
-            for (auto user_servant_iter = user_servant_table.begin(); user_servant_iter != user_servant_table.end();)
-            {
-                auto iter = user_servant_table.find(user_servant_iter->primary_key());
-                user_servant_iter++;
-                user_servant_table.erase(iter);
-            }
-
-            user_monsters user_monster_table(owner, _user);
-            for (auto user_monster_iter = user_monster_table.begin(); user_monster_iter != user_monster_table.end();)
-            {
-                auto iter = user_monster_table.find(user_monster_iter->primary_key());
-                user_monster_iter++;
-                user_monster_table.erase(iter);
-            }
-
-            user_items user_item_table(owner, _user);
-            for (auto user_item_iter = user_item_table.begin(); user_item_iter != user_item_table.end();)
-            {
-                auto iter = user_item_table.find(user_item_iter->primary_key());
-                user_item_iter++;
-                user_item_table.erase(iter);
-            }
-        }
-#pragma endregion
 
 #pragma region gacha cheat
         void gacha_cheat(account_name _user)
