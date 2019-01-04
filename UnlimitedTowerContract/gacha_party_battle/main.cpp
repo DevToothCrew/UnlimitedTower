@@ -1,6 +1,6 @@
 #include "Common/common_header.hpp"
 
-#define MAINTENANCE 0
+
 
 #include "Token/token_account_table.hpp"
 #include "Token/token_stat_table.hpp"
@@ -12,7 +12,8 @@
 #include "Table/gacha_result_table.hpp"
 #include "Table/gacha_accumulate_result_table.hpp"
 #include "Table/party_table.hpp"
-
+#include "Table/test_static_stage_table.hpp"
+#include "Table/battle_table.hpp"
 
 
 #include "DB/db_system.hpp"
@@ -21,6 +22,7 @@
 #include "Token/token_system.hpp"
 #include "Gacha/gacha_system.hpp"
 #include "Party/party_system.hpp"
+#include "Battle/battle_system.hpp"
 
 
     class cmain_logic : public contract
@@ -34,6 +36,8 @@
         cparty_system party_controller;
         cdb_system db_controller;
 
+        cbattle_system battle_controller;
+
         const char *action_change_stat="changestat";
         const char *action_gacha="gacha";
         const char *action_add_party="addparty";
@@ -44,7 +48,8 @@
         login_controller(_self,db_controller),
         gacha_controller(_self,login_controller,db_controller,token_controller),
         party_controller(_self,login_controller,gacha_controller),
-        db_controller(_self)
+        db_controller(_self),
+        battle_controller(_self,party_controller,login_controller)
         {
             
         }
@@ -71,6 +76,11 @@
         void setdata()
         {
             db_controller.set_db_data();
+        }
+        //@abi action
+        void setstage()
+        {
+            battle_controller.set_stage_data();
         }
 #pragma endregion
 
@@ -135,6 +145,19 @@
         }
 #pragma endregion
 
+#pragma resion Party
+        //@abi action
+        void startbattle(account_name _user, uint8_t _party_number, uint8_t _stage)
+        {
+            battle_controller.start_battle(_user, _party_number, _stage);
+        }
+        //@abi action
+        void activeturn(account_name _user, uint8_t _hero_action, uint8_t _monster_action, uint8_t _hero_target, uint8_t _monster_target)
+        {
+            battle_controller.active_turn( _user,  _hero_action,  _monster_action,  _hero_target,  _monster_target);
+        }
+#pragma endregion
+
 #pragma resion cheat
         //@abi action
         void gachacheat(account_name _user)
@@ -175,7 +198,6 @@
             login_controller.init_all_user_auth_data();
             login_controller.init_all_user_log_data();
             gacha_controller.init_all_object_gacha_data();
-
         }
 #pragma endregion
 
@@ -187,6 +209,15 @@
             token_controller.init_stat(_token);
         }
 #pragma endregion
+
+#pragma resion init battle
+        //@abi action
+        void initbattle()
+        {
+            battle_controller.init_all_battle_data();
+        }
+#pragma endregion
+
     };
 
 #undef EOSIO_ABI
@@ -213,4 +244,4 @@ extern "C" { \
 }
 // eos 금액에 대해 체크 하는 함
 
-    EOSIO_ABI(cmain_logic,(create)(issue)(tokentrans)(setdata)(signup)(lookset)(statset)(completehero)(eostransfer)(setparty)(gachacheat)(partycheat)(initdata)(deleteuser)(initalluser)(inittoken) )
+    EOSIO_ABI(cmain_logic,(create)(issue)(tokentrans)(setdata)(setstage)(signup)(lookset)(statset)(completehero)(eostransfer)(setparty)(startbattle)(activeturn)(gachacheat)(partycheat)(initdata)(deleteuser)(initalluser)(inittoken)(initbattle) )
