@@ -296,7 +296,7 @@ typedef eosio::multi_index<"caccumulate"_n,caccumulate> user_gacha_accumulates;
 #pragma region init 
 	    void reset_all_user_object_data(eosio::name _user);
         void reset_user_gacha_result_data(eosio::name _user)
-        void reset_all_object_gacha_data();=
+        void reset_all_object_gacha_data();
         void delete_object_data(eosio::name _user);
 #pragma endregion
 

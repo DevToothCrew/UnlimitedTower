@@ -4,23 +4,6 @@
 
 
 #pragma resion token system
-TABLE account
-{
-    asset balance;
-    uint64_t primary_key() const { return balance.symbol.code().raw(); }
-};
-
-TABLE stats
-{
-    asset supply;
-    asset max_supply;
-    name issuer;
-    uint64_t primary_key() const { return supply.symbol.code().raw(); }
-};
-
-typedef eosio::multi_index<"account"_n, firstToken::account> accounts;
-typedef eosio::multi_index<"stats"_n, stats> stat;
-
 ACTION unlimited_tower::create(name issuer, asset maximum_supply)
 {
     require_auth(_self);
