@@ -76,10 +76,6 @@
         void setdata()
         {
             db_controller.set_db_data();
-        }
-        //@abi action
-        void setstage()
-        {
             battle_controller.set_stage_data();
         }
 #pragma endregion
@@ -178,6 +174,7 @@
         void initdata()
         {
             db_controller.init_db_data();
+            battle_controller.init_stage_data();
         }
 #pragma endregion
 
@@ -244,4 +241,4 @@ extern "C" { \
 }
 // eos 금액에 대해 체크 하는 함
 
-    EOSIO_ABI(cmain_logic,(create)(issue)(tokentrans)(setdata)(setstage)(signup)(lookset)(statset)(completehero)(eostransfer)(setparty)(startbattle)(activeturn)(gachacheat)(partycheat)(initdata)(deleteuser)(initalluser)(inittoken)(initbattle) )
+    EOSIO_ABI(cmain_logic,(create)(issue)(tokentrans)(setdata)(signup)(lookset)(statset)(completehero)(eostransfer)(setparty)(startbattle)(activeturn)(gachacheat)(partycheat)(initdata)(deleteuser)(initalluser)(inittoken)(initbattle) )

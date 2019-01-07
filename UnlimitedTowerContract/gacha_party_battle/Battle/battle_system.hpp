@@ -20,20 +20,21 @@ class cbattle_system
     battle_data_table stage_table;
 
   private:
-    const uint32_t oper_hp = 240;
-    const uint32_t oper_attack = 20;
-    const uint32_t oper_defense = 50;
-    const uint32_t oper_critical = 10;
-    const uint32_t defense_constant = 200;
     const uint32_t warrior_speed = 34;
     const uint32_t wizard_speed = 29;
     const uint32_t priest_speed = 32;
     const uint32_t archer_speed = 42;
     const uint32_t thief_speed = 50;
     const uint32_t beginner_speed = 25;
+
+  private:
+    const uint32_t oper_hp = 240;
+    const uint32_t oper_attack = 20;
+    const uint32_t oper_defense = 50;
+    const uint32_t oper_critical = 10;
+    const uint32_t defense_constant = 200;
+
     const uint32_t decimal = 100;
-    const uint32_t my_party_count = 10;
-    const uint32_t enemy_part_count = 20;
     const uint32_t max_battle_member_count = 20;
     const uint32_t max_party_count = 10;
     
@@ -276,6 +277,7 @@ class cbattle_system
                     new_battle_set.enemy_party_status_list[i].attack = stage_iter.enemy_list[i].base_str * oper_attack;
                     new_battle_set.enemy_party_status_list[i].speed = beginner_speed;
                     new_battle_set.enemy_party_status_list[i].party_index = stage_iter.enemy_list[i].type_index;
+                    new_battle_set.enemy_party_status_list[i].state = battle_action_state::wait;
                 }
             });
         }
@@ -332,6 +334,7 @@ class cbattle_system
                     new_battle_set.enemy_party_status_list[i].attack = stage_iter.enemy_list[i].base_str * oper_attack;
                     new_battle_set.enemy_party_status_list[i].speed = beginner_speed;
                     new_battle_set.enemy_party_status_list[i].party_index = stage_iter.enemy_list[i].type_index;
+                    new_battle_set.enemy_party_status_list[i].state = battle_action_state::wait;
                 }
             });
         }
@@ -346,12 +349,12 @@ class cbattle_system
 
         uint32_t user_dead_count = 0;
         uint32_t enemy_dead_count = 0;
-        uint64_t l_seed = safeseed::get_seed(owner, _user);
+        uint64_t seed = safeseed::get_seed(owner, _user);
 
         auto user_battle_iter = user_battle_table.find(_user);
         eosio_assert(user_battle_iter != user_battle_table.end(),"not setting battle data");
         user_battle_table.modify(user_battle_iter, owner, [&](auto &battle_state) {
-            uint32_t battle_preference = safeseed::get_random_battle_value(l_seed, 2, 0, 0);
+            uint32_t battle_preference = safeseed::get_random_battle_value(seed, 2, 0, 0);
             battle_state.preference = battle_preference;
             battle_state.turn_count += 1;
 
@@ -390,13 +393,13 @@ class cbattle_system
                       });
 
 
-            uint32_t l_user_action;
+            uint32_t user_action;
             for (uint32_t i = 0; i < max_battle_member_count; ++i)
             {
                 battle_state.attack_order_list[i] = temp_order_list[i].member_array_index;
 
                 uint32_t index = temp_order_list[i].member_array_index;
-                if (index < my_party_count)         //자기 파티에 대한 처리
+                if (index < max_party_count)         //자기 파티에 대한 처리
                 {
                     if(battle_state.my_party_status_list[index].now_hp == 0)
                     {
@@ -452,14 +455,14 @@ class cbattle_system
                         continue;
                     }
 
-                    l_user_action = safeseed::get_random_battle_value(l_seed, battle_action_state::state_count, battle_action_state::attack, i);
+                    user_action = safeseed::get_random_battle_value(seed, battle_action_state::state_count, battle_action_state::attack, i);
                     for (uint32_t enemy = 0; enemy < max_party_count; ++enemy)
                     {
                         if (battle_state.enemy_party_status_list[enemy].now_hp == 0)
                         {
                             continue;
                         }
-                        if (l_user_action == battle_action_state::attack)
+                        if (user_action == battle_action_state::attack)
                         {
                             battle_state.my_party_status_list[index].state = battle_action_state::attack;
                             battle_state.my_party_status_list[index].target = enemy;
@@ -475,7 +478,7 @@ class cbattle_system
                             }
                             break;
                         }
-                        else if (l_user_action == battle_action_state::defense)
+                        else if (user_action == battle_action_state::defense)
                         {
                             battle_state.my_party_status_list[index].now_hp += 2;
                             break;
@@ -490,14 +493,14 @@ class cbattle_system
                         continue;
                     }
 
-                    l_user_action = safeseed::get_random_battle_value(l_seed, battle_action_state::state_count, battle_action_state::attack, i);
+                    user_action = safeseed::get_random_battle_value(seed, battle_action_state::state_count, battle_action_state::attack, i);
                     for (uint32_t enemy = 0; enemy < max_party_count; ++enemy)
                     {
                         if (battle_state.my_party_status_list[enemy].now_hp == 0)
                         {
                             continue;
                         }
-                        if (l_user_action == battle_action_state::attack)
+                        if (user_action == battle_action_state::attack)
                         {
                             battle_state.enemy_party_status_list[index].state = battle_action_state::attack;
                             battle_state.enemy_party_status_list[index].target = enemy;
@@ -513,7 +516,7 @@ class cbattle_system
                             }
                             break;
                         }
-                        else if (l_user_action == battle_action_state::defense)
+                        else if (user_action == battle_action_state::defense)
                         {
                             battle_state.enemy_party_status_list[index].now_hp += 2;
                             break;
@@ -524,7 +527,7 @@ class cbattle_system
             //게임의 종료 여부 체크 
             for (uint32_t i = 0; i < max_battle_member_count; ++i)
             {
-                if (i < my_party_count)
+                if (i < max_party_count)
                 {
                     if (battle_state.my_party_status_list[i].now_hp == 0)
                     {
@@ -556,8 +559,8 @@ class cbattle_system
         auto user_auth_iter = user_auth_table.find(_user);
         eosio_assert(user_auth_iter != user_auth_table.end(), "not exist user auth data");
 
-        uint64_t l_seed = safeseed::get_seed(owner, _user);
-        uint32_t l_reward = safeseed::get_random_value(l_seed, 1000, 100, 0); //1000 , 100  test value
+        uint64_t seed = safeseed::get_seed(owner, _user);
+        uint32_t reward = safeseed::get_random_value(seed, 1000, 100, 0); //1000 , 100  test value
 
         auto user_battle_iter = user_battle_table.find(_user);
         eosio_assert(user_battle_iter != user_battle_table.end(), "not exist user battle data");
@@ -572,26 +575,26 @@ class cbattle_system
             {
                 update_log.top_clear_stage = user_battle_iter->stage_number;
             }
-            update_log.battle_count++;
-            update_log.get_gold += l_reward;
+            update_log.battle_count += 1;
+            update_log.get_gold += reward;
         });
 
         user_battle_table.modify(user_battle_iter, owner, [&](auto &add_win_reward) {
             add_win_reward.turn_count = END_BATTLE;
-            add_win_reward.reward_list.push_back(l_reward);
+            add_win_reward.reward_list.push_back(reward);
         });
 
         user_auth_table.modify(user_auth_iter, owner, [&](auto &user_state) {
             user_state.state = euser_state::lobby;
-            user_state.game_money += l_reward;
+            user_state.game_money += reward;
         });
 
-        asset gacha_reward(0, S(4, UTG));
-        gacha_reward.amount = l_reward * 1000;
+        asset battle_reward(0, S(4, UTG));
+        battle_reward.amount = reward * 1000;
 
         action(permission_level{owner, N(active)},
                owner, N(tokentrans),
-               std::make_tuple(owner, _user, gacha_reward, std::string("battle reward")))
+               std::make_tuple(owner, _user, battle_reward, std::string("battle reward")))
             .send();
     }
 
@@ -613,7 +616,7 @@ class cbattle_system
 
         user_log_table.modify(user_log_iter, owner, [&](auto &update_log) {
             update_log.last_stage_num = user_battle_iter->stage_number;
-            update_log.battle_count++;
+            update_log.battle_count += 1;
         });
 
         user_auth_table.modify(user_auth_iter, owner, [&](auto &user_state) {
@@ -625,11 +628,29 @@ class cbattle_system
     void init_all_battle_data()
     {
         require_auth2(owner, N(owner));
+        auto &user_auth_table = login_controller.get_auth_user_table();
+
         for (auto user_battle_iter = user_battle_table.begin(); user_battle_iter != user_battle_table.end();)
         {
+            auto user_auth_iter = user_auth_table.find(user_battle_iter->primary_key());
+            user_auth_table.modify(user_auth_iter, owner, [&](auto &user_state) {
+                user_state.state = euser_state::lobby;
+            });
+
             auto iter = user_battle_table.find(user_battle_iter->primary_key());
             user_battle_iter++;
             user_battle_table.erase(iter);
+        }
+    }
+
+    void init_stage_data()
+    {
+        require_auth2(owner, N(owner));
+        for (auto stage_iter = stage_table.begin(); stage_iter != stage_table.end();)
+        {
+            auto iter = stage_table.find(stage_iter->primary_key());
+            stage_iter++;
+            stage_table.erase(iter);
         }
     }
 #pragma endregion
