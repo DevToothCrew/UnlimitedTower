@@ -9,18 +9,19 @@ enum result
     item,
 };
 
-struct result_info
+//struct result_info
+TABLE result_info
 {
     uint64_t index;
     uint32_t type;
 };
 
 
-//@abi table cgacharesult i64
-class cgacharesult
+//class [[eosio::table]] cgacharesult
+TABLE cgacharesult
 { 
 public:
-    account_name user;
+    uint64_t user;
     result_info result;
 public:
     cgacharesult() {}
@@ -32,4 +33,4 @@ public:
     )
 };
 
-typedef multi_index<N(cgacharesult),cgacharesult> user_gacha_results;
+typedef eosio::multi_index<"cgacharesult"_n,cgacharesult> user_gacha_results;

@@ -2,8 +2,9 @@
 #include "../Common/common_header.hpp"
 
 
-//@abi table cdbbody i64
-class cdbbody
+
+//class [[eosio::table]] cdbbody
+TABLE cdbbody
 {
   public:
     uint64_t body;
@@ -11,4 +12,4 @@ public:
     uint64_t primary_key() const {return body;}
 };
 
-typedef multi_index<N(cdbbody),cdbbody> body_db;
+typedef eosio::multi_index<"cdbbody"_n,cdbbody> body_db;

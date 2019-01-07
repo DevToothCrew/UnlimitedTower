@@ -1,9 +1,10 @@
 #pragma once
 #include "../Common/common_header.hpp"
-#include "Table/servant_table.hpp"
+#include "./servant_table.hpp"
+//#include "Table/servant_table.hpp"
 
-
-struct item_info
+//struct item_info
+TABLE item_info
 {
    uint32_t state; //아이템 현재 상태
    uint32_t id; //아이템 리소스 아이디
@@ -17,8 +18,8 @@ struct item_info
    status_info status; //기본 힘,민,지 추가 힘,민,지
 };
 
-//@abi table citem i64
-class citem
+//class [[eosio::table]] citem
+TABLE citem
 {
 public:
     uint64_t index;
@@ -33,4 +34,4 @@ public:
     )
 };
 
-typedef multi_index<N(citem),citem> user_items;
+typedef eosio::multi_index<"citem"_n,citem> user_items;

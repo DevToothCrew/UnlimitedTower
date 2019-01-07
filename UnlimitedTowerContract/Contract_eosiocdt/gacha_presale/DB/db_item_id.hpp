@@ -2,15 +2,15 @@
 #include "../Common/common_header.hpp"
 
 
-//@abi table cdbitemid i64
-class cdbitemid
+//class [[eosio::table]] cdbitemid
+TABLE cdbitemid
 {
   public:
     uint64_t id;
-    uint32_t slot;
-    uint32_t job;
+    uint64_t slot;
+    uint64_t job;
 public:
     uint64_t primary_key() const {return id;}
 };
 
-typedef multi_index<N(cdbitemid),cdbitemid> item_id_db;
+typedef eosio::multi_index<"cdbitemid"_n,cdbitemid> item_id_db;

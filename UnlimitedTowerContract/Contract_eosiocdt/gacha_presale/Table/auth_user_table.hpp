@@ -4,7 +4,7 @@
 enum euser_state
 {
     login = 1,
-    lobby = 2,
+    lobby,
     battle,
     battle_win,
     battle_lose,
@@ -32,14 +32,16 @@ enum eobject_state
     on_tower,
     object_presale,
 };
-
-struct appear_info
+//struct appear_info
+TABLE appear_info
 {
     uint32_t head = 0;
     uint32_t hair = 0;
     uint32_t body = 0;
 };
-struct status_info
+
+//struct status_info
+TABLE status_info
 {
     uint32_t basic_str = 0;
     uint32_t basic_dex = 0;
@@ -49,7 +51,8 @@ struct status_info
     uint32_t plus_int = 0;
 };
 
-struct hero_info
+//struct hero_info
+TABLE hero_info
 {
    uint32_t state; //히어로 상태
    uint32_t exp = 0; //히어로 경험치
@@ -60,11 +63,12 @@ struct hero_info
    std::vector<uint32_t> equip_slot; //히어로 장비 리스트
 };
 
-//@abi table cuserauth i64
-class cuserauth
+
+//class [[eosio::table]] cuserauth
+TABLE cuserauth
 {
 private:
-    account_name user;
+    uint64_t user;
 public:
     uint32_t game_money;
     uint32_t state;
@@ -72,17 +76,11 @@ public:
 public:
     cuserauth() {
         game_money = 100;
-        state = euser_state::lobby;
+        state = euser_state::login;
     }
     uint64_t primary_key() const {return user;}
-    void auth_set_user(account_name _user) {user = _user;}
-    EOSLIB_SERIALIZE(
-        cuserauth,
-        (user)
-        (game_money)
-        (state)
-        (hero)
-    )
+    void auth_set_user(uint64_t _user) {user = _user;}
+
 };
 
-typedef multi_index<N(cuserauth),cuserauth> auth_users;
+typedef eosio::multi_index<"cuserauth"_n,cuserauth> auth_users;

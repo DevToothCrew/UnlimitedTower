@@ -1,11 +1,11 @@
 #pragma once
 #include "../Common/common_header.hpp"
 
-//@abi table cuserlog i64
-class cuserlog
+//class [[eosio::table]] cuserlog
+TABLE cuserlog
 {
 private:
-    account_name user;
+    uint64_t user;
 public:
     uint32_t servant_num;
     uint32_t monster_num;
@@ -24,8 +24,8 @@ public:
     uint32_t add_party_count;
 public:
     cuserlog():
-    use_eos(0,S(4,EOS)),
-    get_eos(0,S(4,EOS))
+    use_eos(0,symbol(symbol_code("EOS"),4)),
+    get_eos(0,symbol(symbol_code("EOS"),4))
     {
         servant_num = 0;
         monster_num = 0;
@@ -42,7 +42,7 @@ public:
         add_party_count = 0;
     }
     uint64_t primary_key() const {return user;}
-    void log_set_user(account_name _user){user = _user;}
+    void log_set_user(uint64_t _user){user = _user;}
     
     EOSLIB_SERIALIZE(
             cuserlog,
@@ -65,4 +65,4 @@ public:
         )
 };
 
-typedef multi_index<N(cuserlog),cuserlog> user_logs;
+typedef eosio::multi_index<"cuserlog"_n,cuserlog> user_logs;

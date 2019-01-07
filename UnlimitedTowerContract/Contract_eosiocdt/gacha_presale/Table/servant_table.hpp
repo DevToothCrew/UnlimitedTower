@@ -1,8 +1,8 @@
 #pragma once
 #include "../Common/common_header.hpp"
 
-
-struct servant_info
+//struct servant_info
+TABLE servant_info
 {
    uint32_t state; //서번트 상태
    uint32_t exp = 0; //서번트 경험치
@@ -13,8 +13,8 @@ struct servant_info
    std::vector<uint32_t> equip_slot; //서번트 장비 리스트
 };
 
-//@abi table cservant i64
-class cservant
+//class [[eosio::table]] cservant
+TABLE cservant
 {
   public:
     uint64_t index;
@@ -27,12 +27,6 @@ class cservant
        party_number = EMPTY_PARTY;
     }
     uint64_t primary_key() const { return index; }
-    EOSLIB_SERIALIZE(
-        cservant,
-        (index)
-        (party_number)
-        (servant)
-        )
 };
 
-typedef multi_index<N(cservant), cservant> user_servants;
+typedef eosio::multi_index<"cservant"_n, cservant> user_servants;

@@ -3,11 +3,11 @@
 
 
 
-//@abi table caccumulate i64
-class caccumulate
+//class [[eosio::table]] caccumulate
+TABLE caccumulate
 { 
 public:
-    account_name user;
+    uint64_t user;
     std::vector<result_info> result_list;
 public:
     caccumulate() {}
@@ -19,4 +19,4 @@ public:
     )
 };
 
-typedef multi_index<N(caccumulate),caccumulate> user_gacha_accumulates;
+typedef eosio::multi_index<"caccumulate"_n,caccumulate> user_gacha_accumulates;

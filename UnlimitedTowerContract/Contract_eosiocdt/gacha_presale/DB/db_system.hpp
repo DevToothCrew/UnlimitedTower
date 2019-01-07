@@ -1,8 +1,6 @@
 #pragma once
 #include "../Common/common_header.hpp"
 #include "../Common/common_seed.hpp"
-#include "../DB/db_seed_log.hpp"
-#include "../DB/db_seed.hpp"
 #include "../DB/db_servant.hpp"
 #include "../DB/db_head.hpp"
 #include "../DB/db_hair.hpp"
@@ -15,17 +13,13 @@
 
 
 
-
 class cdb_system
 {
   private:
-    account_name owner;
-
+    //uint64_t owner;
+   eosio::name owner;
   private:
-    seed_db     seed_db_table;
-    seed_log_db seed_log_db_table;
-  private:
-    servant_db  servant_db_table;
+    servant_db servant_db_table;
     head_db head_db_table;
     hair_db hair_db_table;
     body_db body_db_table;
@@ -39,7 +33,7 @@ class cdb_system
     const uint8_t monster_id_count = 30;
     const uint8_t monster_grade_count = 5;
     const uint8_t item_id_count = 70;
-    const uint8_t item_tier_count = 3;
+    const uint8_t item_tier_count = 4;
     const uint8_t item_grade_count= 5;
     const uint8_t item_slot_count = 3;
     const uint8_t head_count = 3;
@@ -47,29 +41,27 @@ class cdb_system
     const uint8_t body_count = 4;
     uint32_t random_count = 0;
   public:
-    cdb_system(account_name _self)
+    cdb_system(eosio::name _self)
         : owner(_self),
-          seed_db_table(_self,_self),
-          seed_log_db_table(_self,_self),
-          servant_db_table(_self, _self),
-          head_db_table(_self,_self),
-          hair_db_table(_self,_self),
-          body_db_table(_self,_self),
-          monster_grade_db_table(_self,_self),
-          monster_id_db_table(_self,_self),
-          item_id_db_table(_self,_self),
-          item_tier_db_table(_self,_self),
-          item_grade_db_table(_self,_self)
+         /* servant_db_table("sdb"_self, _self),
+          head_db_table("hedb"_self,_self),
+          hair_db_table("hadb"_self,_self),
+          body_db_table("bdb"_self,_self),
+          monster_grade_db_table("mgdb"_self,_self),
+          monster_id_db_table("midb"_self,_self),
+          item_id_db_table("iidb"_self,_self),
+          item_tier_db_table("itdb"_self,_self),
+          item_grade_db_table("igdb"_self,_self)*/
+          servant_db_table(_self, _self.value),
+          head_db_table(_self,_self.value),
+          hair_db_table(_self,_self.value),
+          body_db_table(_self,_self.value),
+          monster_grade_db_table(_self,_self.value),
+          monster_id_db_table(_self,_self.value),
+          item_id_db_table(_self,_self.value),
+          item_tier_db_table(_self,_self.value),
+          item_grade_db_table(_self,_self.value)
     {
-    }
-    seed_db &get_seed_table()
-    {
-        return seed_db_table;
-    }
-
-    seed_log_db &get_seed_log_table()
-    {
-        return seed_log_db_table;
     }
 
     servant_db &get_servant_db_table()
@@ -117,22 +109,13 @@ class cdb_system
         return item_grade_db_table;
     }
 
-    seed_db &get_seed_db_table()
+    void init_db_data()
     {
-        return seed_db_table;
-    }
-
-    seed_log_db &get_seed_log_db_tabe()
-    {
-        return seed_log_db_table;
-    }
-
-
-    void set_db_data()
-    {
-        require_auth2(owner,N(owner));
-
-        uint64_t l_seed = safeseed::get_seed(owner,now());
+        eosio::require_auth(owner);
+	//require_auth2(owner,_n);
+	//require_auth2(owner,N(owner));
+        //uint64_t l_seed = safeseed::get_seed(owner);
+	uint64_t l_seed = safeseed::get_seed(owner.value);
         for (uint8_t i = 0; i < servant_job_count; ++i)
         {
             servant_db_table.emplace(owner, [&](auto& a) {
@@ -283,10 +266,9 @@ class cdb_system
         }
     }
 
-
-    void init_db_data()
+    void reset_db_data()
     {
-        require_auth2(owner,N(owner));
+        eosio::require_auth(owner);
 
         for (auto servant_db_table_iter = servant_db_table.begin(); servant_db_table_iter != servant_db_table.end();)
         {

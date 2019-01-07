@@ -2,8 +2,9 @@
 #include "../Common/common_header.hpp"
 
 
-//@abi table cdbitemgrade i64
-class cdbitemgrade
+
+//class [[eosio::table]] cdbitemgrade
+TABLE cdbitemgrade
 {
   public:
     uint64_t grade;
@@ -13,4 +14,4 @@ class cdbitemgrade
     uint64_t primary_key() const {return grade;}
 };
 
-typedef multi_index<N(cdbitemgrade),cdbitemgrade> item_grade_db;
+typedef eosio::multi_index<"cdbitemgrade"_n,cdbitemgrade> item_grade_db;

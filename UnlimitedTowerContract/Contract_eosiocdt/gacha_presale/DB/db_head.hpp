@@ -2,8 +2,9 @@
 #include "../Common/common_header.hpp"
 
 
-//@abi table cdbhead i64
-class cdbhead
+
+//class [[eosio::table]] cdbhead
+TABLE cdbhead
 {
   public:
     uint64_t head;
@@ -12,4 +13,5 @@ class cdbhead
     uint64_t primary_key() const { return head; }
 };
 
-typedef multi_index<N(cdbhead),cdbhead> head_db;
+typedef eosio::multi_index<"cdbhead"_n,cdbhead> head_db;
+//typedef multi_index<N(cdbhead),cdbhead> head_db;

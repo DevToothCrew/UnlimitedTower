@@ -19,7 +19,7 @@
 #include "Gacha/gacha_system.hpp"
 
 
-    class unlimited_tower : public contract
+    class cmain_logic : public contract
     {
       private:
         ctoken_system token_controller;

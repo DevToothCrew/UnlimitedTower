@@ -2,8 +2,9 @@
 #include "../Common/common_header.hpp"
 
 
-//@abi table cdbmonsterid i64
-class cdbmonsterid
+
+//class [[eosio::table]] cdbmonsterid
+TABLE cdbmonsterid
 {
   public:
     uint64_t look;
@@ -11,4 +12,4 @@ public:
     uint64_t primary_key() const {return look;}
 };
 
-typedef multi_index<N(cdbmonsterid),cdbmonsterid> monster_id_db;
+typedef eosio::multi_index<"cdbmonsterid"_n,cdbmonsterid> monster_id_db;

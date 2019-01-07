@@ -4,20 +4,21 @@
 
 struct object_status
 {
-    uint32_t base_str;
-    uint32_t base_dex;
-    uint32_t base_int;
+    uint64_t base_str;
+    uint64_t base_dex;
+    uint64_t base_int;
 };
 
-//@abi table cdbservant i64
-class cdbservant
+
+//struct [[eosio::table]] cdbservant
+TABLE cdbservant
 {
-  public:
+  //public:
     uint64_t job;
     object_status min_range;
     object_status max_range;
-public:
+//public:
     uint64_t primary_key() const {return job;}
 };
 
-typedef multi_index<N(cdbservant),cdbservant> servant_db;
+typedef eosio::multi_index<"cdbservant"_n,cdbservant> servant_db;

@@ -3,8 +3,8 @@
 
 
 
-//@abi table cdbmgrade i64
-class cdbmgrade
+//class [[eosio::table]] cdbmgrade
+TABLE cdbmgrade
 {
   public:
     uint64_t monster_grade;
@@ -14,4 +14,4 @@ public:
     uint64_t primary_key() const {return monster_grade;}
 };
 
-typedef multi_index<N(cdbmgrade),cdbmgrade> monster_grade_db;
+typedef eosio::multi_index<"cdbmgrade"_n,cdbmgrade> monster_grade_db;

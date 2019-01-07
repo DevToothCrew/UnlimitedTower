@@ -1,8 +1,10 @@
 #pragma once
 #include "../Common/common_header.hpp"
-#include "Table/servant_table.hpp"
+#include "./servant_table.hpp"
+//#include "Table/servant_table.hpp"
 
-struct monster_info
+//struct monster_info
+TABLE monster_info
 {
    uint32_t state; //몬스터 상태값
    uint32_t exp = 0; //경험치
@@ -15,8 +17,8 @@ struct monster_info
 
  //
 
-//@abi table cmonster i64
-class cmonster
+//class [[eosio::table]] cmonster
+TABLE cmonster
 {
 public:
     uint64_t index;
@@ -35,4 +37,4 @@ public:
     )
 };
 
-typedef multi_index<N(cmonster),cmonster> user_monsters;
+typedef eosio::multi_index<"cmonster"_n,cmonster> user_monsters;
