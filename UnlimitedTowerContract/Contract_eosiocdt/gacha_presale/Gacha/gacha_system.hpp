@@ -381,7 +381,7 @@ class cgacha_system
         //void reset_all_user_object_data(eosio::name _user)
 	void reset_all_user_object_data(uint64_t _user)
         {
-            user_servants user_servant_table(owner, _user);
+            user_servants user_servant_table(owner, _user.value);
             for (auto user_servant_iter = user_servant_table.begin(); user_servant_iter != user_servant_table.end();)
             {
                 auto iter = user_servant_table.find(user_servant_iter->primary_key());
@@ -389,7 +389,7 @@ class cgacha_system
                 user_servant_table.erase(iter);
             }
 
-            user_monsters user_monster_table(owner, _user);
+            user_monsters user_monster_table(owner, _user.value);
             for (auto user_monster_iter = user_monster_table.begin(); user_monster_iter != user_monster_table.end();)
             {
                 auto iter = user_monster_table.find(user_monster_iter->primary_key());
@@ -397,7 +397,7 @@ class cgacha_system
                 user_monster_table.erase(iter);
             }
 
-            user_items user_item_table(owner, _user);
+            user_items user_item_table(owner, _user.value);
             for (auto user_item_iter = user_item_table.begin(); user_item_iter != user_item_table.end();)
             {
                 auto iter = user_item_table.find(user_item_iter->primary_key());
@@ -405,13 +405,13 @@ class cgacha_system
                 user_item_table.erase(iter);
             }
         }
-        void reset_user_gacha_result_data(uint64_t _user)
+        void reset_user_gacha_result_data(eosio::name _user)
         {
-            auto iter = user_gacha_result_table.find(_user);
+            auto iter = user_gacha_result_table.find(_user.value);
             eosio_assert(iter!=user_gacha_result_table.end(),"not exist gacha result data");
             user_gacha_result_table.erase(iter);
 
-            auto accumulate_iter = user_gacha_accumulate_table.find(_user);
+            auto accumulate_iter = user_gacha_accumulate_table.find(_user.value);
             eosio_assert(accumulate_iter != user_gacha_accumulate_table.end(), "not exist gacha accumulate data");
             user_gacha_accumulate_table.erase(accumulate_iter);
         }
