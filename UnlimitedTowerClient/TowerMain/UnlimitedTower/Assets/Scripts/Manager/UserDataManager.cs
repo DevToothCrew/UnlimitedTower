@@ -1,19 +1,21 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class UserDataManager : MonoSingleton<UserDataManager> {
+public class UserDataManager : MonoSingleton<UserDataManager>
+{
 
     public UserInfo userInfo = new UserInfo();
-    public Dictionary<int, Servant> servantDic = new Dictionary<int, Servant>();
-    public Dictionary<int, Monster> monsterDic = new Dictionary<int, Monster>();
+
+    public Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
+    public Dictionary<int, UserMonsterData> monsterDic = new Dictionary<int, UserMonsterData>();
+    public Dictionary<int, UserMountItemData> mountitemDic = new Dictionary<int, UserMountItemData>();
+    public Dictionary<int, UserPartyData> partyDic = new Dictionary<int, UserPartyData>();
+
     public Dictionary<int, Item> itemDic = new Dictionary<int, Item>();
-    public Dictionary<int, Party> partyDic = new Dictionary<int, Party>();
+    public Dictionary<int, Party> partydic = new Dictionary<int, Party>();
 
     public int usingPartyNum = 1;
 
-    private void FixedUpdate()
-    {
-    }
 
     #region SetFunction
 
@@ -99,7 +101,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public Servant GetHeroInfo()
     {
-        if(userInfo == null)
+        if (userInfo == null)
         {
             Debug.Log("Invalid UserInfo");
             return null;
@@ -110,7 +112,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public Servant GetServantInfo(int index)
     {
-        if(servantDic.ContainsKey(index) == false)
+        if (servantDic.ContainsKey(index) == false)
         {
             Debug.Log("Invalid GetServantInfo : " + index);
             return null;
@@ -121,7 +123,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public Monster GetMonsterInfo(int index)
     {
-        if(monsterDic.ContainsKey(index) == false)
+        if (monsterDic.ContainsKey(index) == false)
         {
             Debug.Log("Invalid GetMonsterInfo : " + index);
             return null;
@@ -132,7 +134,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public Item GetItemInfo(int index)
     {
-        if(itemDic.ContainsKey(index) == false)
+        if (itemDic.ContainsKey(index) == false)
         {
             Debug.Log("Invalid GetItemInfo : " + index);
             return null;
@@ -143,6 +145,3 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     #endregion
 }
-
-
-
