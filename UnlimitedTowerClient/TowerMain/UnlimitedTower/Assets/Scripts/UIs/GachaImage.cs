@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class GachaImage : MonoSingleton<GachaImage>
 {
-
     public Animator GachaImageAnimator;
 
     public Animator LightEffectCircle01Animator;
@@ -179,7 +178,7 @@ public class GachaImage : MonoSingleton<GachaImage>
 
     }
 
-    public void SetServantGachaImage(Servant getServant)
+    public void SetServantGachaImage(UserServantData getServant)
     {
         Sprite sprite = null;
         SetGachaResultInfo(getServant.status);
@@ -190,10 +189,9 @@ public class GachaImage : MonoSingleton<GachaImage>
         fadeOutFlag = false;
     }
 
-    public void SetMonsterGachaImage(Monster getMonster)
+    public void SetMonsterGachaImage(UserMonsterData getMonster)
     {
         Sprite sprite = null;
-        SetGachaResultInfo(getMonster.status);
 
         CharNameText.text = getMonster.name;
         sprite = Resources.Load<Sprite>("UI/MonsterImage/" + getMonster.name);

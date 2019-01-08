@@ -113,6 +113,126 @@ public class DEFINE
     }    
 }
 
+
+// 서번트 클래스에 히로도 포함된다.
+[System.Serializable]
+public class UserInfo
+{
+    public string userName;
+    public int userMoney;
+    public int userEOS;
+    public UserServantData userHero = new UserServantData();
+    public SCENE_STATE sceneState;
+}
+
+// erd완
+[System.Serializable]
+public class UserServantData
+{
+    // 캐릭터를 구분하는 고유값이 되어야함
+    public int index;
+
+    // 메인히어로인지 아닌지
+    public bool isMainHero;
+
+    // 영웅서번트인지 아닌지
+    public bool isLegend;
+    public int LegendServantNum;
+
+    public string name;
+
+    // TODO : Servant별 State 추가 필요
+    public int exp;
+    public int level;
+    public bool isjobHas;
+    public int jobNum;
+
+    // 현재는 appear를 통해 간단히 사용하고 추후 appearInfo와 job을 통해 캐릭터 생성이 되어야함
+    public int charNum;
+    public int headNum;
+    public int hairNum;
+
+    public Status status;
+    public int leftStatPoint;
+
+    public bool onFormation = false;
+    public int partyIndex = -1;
+    public int formationIndex = -1;
+
+
+    public UserServantData()
+    {
+        exp = 0;
+        level = 1;
+
+        status = new Status();
+        status.basicStr = DEFINE.TEST_STATUS_VALUE;
+        status.basicDex = DEFINE.TEST_STATUS_VALUE;
+        status.basicInt = DEFINE.TEST_STATUS_VALUE;
+    }
+    public UserServantData(int getCharNum)
+    {
+        charNum = getCharNum;
+        exp = 0;
+        level = 1;
+
+        status = new Status();
+        status.basicStr = DEFINE.TEST_STATUS_VALUE;
+        status.basicDex = DEFINE.TEST_STATUS_VALUE;
+        status.basicInt = DEFINE.TEST_STATUS_VALUE;
+
+    }
+}
+[System.Serializable]
+public class UserMonsterData
+{
+    // 서버에서 캐릭터를 구분하는 고유값
+    public int index;
+
+    // 몬스터, 타입
+    public int monsterNum;
+    public int monsterTypeNum;
+
+    // TODO : Monster별 State 추가 필요
+    public int gradeNum;
+    public int enforceNum;
+    public int exp;
+    public int level;
+    
+    public string name;
+
+    public bool OnFormation = false;
+    public int partyIndex = -1;
+    public int formationIndex = -1;
+
+
+    //TODO : TestCode
+    public UserMonsterData()
+    {
+        exp = 0;
+        level = 1;
+        
+        // job값으로 현재는 서번트 구분 추후에 합의하여 수정해야할듯.
+        CHARACTER_NUM charNum = CHARACTER_NUM.Mst_BirdMan;
+
+        // 리소스 인덱스
+        index = (int)charNum;
+        //UniqueIndex = servantinfo.s_index - 1;
+        
+        name = charNum.ToString();
+    }
+    public UserMonsterData(int index)
+    {
+        exp = 0;
+        level = 1;
+        
+        // 리소스 인덱스
+        this.index = index;
+
+        name = index.ToString();
+    }
+}
+[System.Serializable]
 public class Status
 {
     public int basicStr;
@@ -124,158 +244,45 @@ public class Status
     public int plusInt;
 }
 
-// 서번트 클래스에 히로도 포함된다.
-// TODO  : New Code
-public class Servant
+// erd완
+[System.Serializable]
+public class UserMountItemData
 {
-    // 캐릭터를 구분하는 고유값이 되어야함
     public int index;
+    public int mountitemNum;
+    public int enforceCount;
 
-    // TODO : Servant별 State 추가 필요
-    public int state;
-    public int exp;
-    public int level;
-    public int job;
+    public bool isMounted;
+    public int mountServantIndex;
 
-    // 현재는 appear를 통해 간단히 사용하고 추후 appearInfo와 job을 통해 캐릭터 생성이 되어야함
-    public int appear;
-
-    public int head;
-    public int hair;
-    public int body;
-
-    public Status status;
-    public int statPoint;
-
-    public SIZE_TYPE size;
-    public string name;
-
-    public bool onFormation = false;
-    public int formationIndex = -1;
-
-    // 장착한 장비 리스트
-    public List<int> equipmentList = new List<int>();
-
-    public Servant()
-    {
-        state = 0;
-        exp = 0;
-        level = 1;
-
-        status = new Status();
-        status.basicStr = DEFINE.TEST_STATUS_VALUE;
-        status.basicDex = DEFINE.TEST_STATUS_VALUE;
-        status.basicInt = DEFINE.TEST_STATUS_VALUE;
-
-        // TODO : 추후 수정 필요 임시 코드
-        CHARACTER_NUM charNum = CHARACTER_NUM.Hero_Novice_1001;
-        // 리소스 인덱스
-        appear = (int)charNum;
-        size = DEFINE.GetCharacterSize(charNum);
-        name = charNum.ToString();
-    }
-    public Servant(int getCharNum)
-    {
-        state = 0;
-        exp = 0;
-        level = 1;
-
-        status = new Status();
-        status.basicStr = DEFINE.TEST_STATUS_VALUE;
-        status.basicDex = DEFINE.TEST_STATUS_VALUE;
-        status.basicInt = DEFINE.TEST_STATUS_VALUE;
-
-
-        // 리소스 인덱스
-        appear = getCharNum;
-        size = DEFINE.GetCharacterSize((CHARACTER_NUM)getCharNum);
-        name = getCharNum.ToString();
-    }
 }
-
-public class UserInfo
+// erd완
+[System.Serializable]
+public class UserPartyData
 {
-    public string userName;
-    public int userMoney;
-    public int userEOS;
-    public Servant userHero = new Servant();
-    public SCENE_STATE sceneState;
+    public int partyIndex;
+
+    public bool isFixedAtFloor;
 }
 
-public class Monster
-{
-    // 캐릭터를 구분하는 고유값이 되어야함
-    public int index;
 
 
-    // TODO : Monster별 State 추가 필요
-    public int look;
-    public int state;
-    public int exp;
-    public int level;
-    public int type;
-    public int grade;
-    public int upgrade;
-
-    // TODO : Type과 Appear를 통해 외형 결정
-    public int appear;
-    public Status status;
-
-    public SIZE_TYPE size;
-    public string name;
-
-    public bool onFormation = false;
-    public int formationIndex = -1;
 
 
-    //TODO : TestCode
-    public Monster()
-    {
-        exp = 0;
-        level = 1;
 
-        status = new Status();
-        status.basicStr = DEFINE.TEST_STATUS_VALUE;
-        status.basicDex = DEFINE.TEST_STATUS_VALUE;
-        status.basicInt = DEFINE.TEST_STATUS_VALUE;
-
-        // job값으로 현재는 서번트 구분 추후에 합의하여 수정해야할듯.
-        CHARACTER_NUM charNum = CHARACTER_NUM.Mst_BirdMan;
-
-        // 리소스 인덱스
-        index = (int)charNum;
-        //UniqueIndex = servantinfo.s_index - 1;
-
-        size = DEFINE.GetCharacterSize(charNum);
-        name = charNum.ToString();
-    }
-
-
-    public Monster(int getCharNum)
-    {
-        exp = 0;
-        level = 1;
-
-        status = new Status();
-        status.basicStr = DEFINE.TEST_STATUS_VALUE;
-        status.basicDex = DEFINE.TEST_STATUS_VALUE;
-        status.basicInt = DEFINE.TEST_STATUS_VALUE;
-
-        // job값으로 현재는 서번트 구분 추후에 합의하여 수정해야할듯.
-      
-
-        // 리소스 인덱스
-        index = getCharNum;
-        //UniqueIndex = servantinfo.s_index - 1;
-
-        size = DEFINE.GetCharacterSize((CHARACTER_NUM)getCharNum);
-        name = getCharNum.ToString();
-    }
-}
-
+// 사용안함...
 public class Item
 {
+    // 서버에 저장되어야할 고유 index
     public int index;
+
+    // 장비템인지 아닌지
+    public bool isMountingItem;
+    public bool itemNum;
+
+    // 착용상태인지 아닌지
+    public bool isMounted;
+    public bool mountingServantIndex;
 
     public int state;
     public int id;
@@ -289,14 +296,12 @@ public class Item
 
     public Status status;
 }
-
 public class Party
 {
     public int partyIndex;
     public int state;
     public Dictionary<int, PartyCharacterInfo> characterList = new Dictionary<int, PartyCharacterInfo>();
 }
-
 public class PartyCharacterInfo
 {
     public CHAR_TYPE type;
@@ -464,16 +469,16 @@ public enum SERVANT_JOB
 {
 
     // STR
-    WhiteHand = 0,
-    Warrior = 1,
+    WhiteHand = 5,
+    Warrior = 0,
 
     // DEX
-    Theif = 100,
-    Archer = 110,
+    Theif = 2,
+    Archer = 1,
 
     // INT
-    Magician = 200,
-    Cleric = 210,
+    Magician = 3,
+    Cleric = 4,
 }
 
 public enum ACTION_TYPE

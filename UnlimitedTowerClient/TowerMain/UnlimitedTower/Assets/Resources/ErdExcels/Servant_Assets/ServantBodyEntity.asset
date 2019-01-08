@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f57d0b4b3487f8449bc1f8f9275fd3f, type: 3}
+  m_Name: ServantBodyEntity
+  m_EditorClassIdentifier: 
+  param:
+  - bodyNum: 0
+    charName: "\uC5B4\uB9B0\uAF2C\uB9C8\uB0A8\uC790\uC544\uC774"
+  - bodyNum: 1
+    charName: "\uAF2C\uB9C8\uC5EC\uC790\uC544\uC774"
+  - bodyNum: 2
+    charName: "\uCCAD\uB144"

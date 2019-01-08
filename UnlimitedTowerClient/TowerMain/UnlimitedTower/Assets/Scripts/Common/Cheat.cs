@@ -16,7 +16,12 @@ public class Cheat : MonoSingleton<Cheat>
 
         for (int i = 1; i <= 5; i++)
         {
-            userLoginData.servant_list.Add(GetRandomServantData(i, GetRandomServantJob()));
+            servantData servantdata = GetRandomServantData(i, GetRandomServantJob());
+            if (i == 1)
+            {
+                servantdata.servant.isMainServant = true;
+            }
+            userLoginData.servant_list.Add(servantdata);
 
             userLoginData.monster_list.Add(GetRandomMonster(i));
         }
