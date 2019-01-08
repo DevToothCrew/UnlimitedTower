@@ -4,7 +4,7 @@ CONTRACT unlimited_tower : public contract
 {
   public:
 #pragma resgion contract constructor
-    using contract::contract;
+    //using contract::contract;
     eosio::name owner;
     unlimited_tower(eosio::name _self, eosio::name _code, datastream<const char *> ds) : contract(_self, _code, ds)
     {
@@ -418,13 +418,13 @@ CONTRACT unlimited_tower : public contract
 //--------------------------freesale_log_table----------------------------//
 //------------------------------------------------------------------------//
 #pragma region freesale table log
-TRABLE participationlog
+TABLE freesalelog
 {   
     eosio::name owner;
     uint64_t gacha_participation;
     uint64_t primary_key() const { return owner.value; }
 };
-    typedef eosio::multi_index<"participationlog"_n, participationlog> participation_logs;
+    typedef eosio::multi_index<"freesalelog"_n, freesalelog> participation_logs;
 #pragma endregion
 //------------------------------------------------------------------------//
 //-----------------------------------log_table----------------------------//
@@ -506,7 +506,7 @@ TRABLE participationlog
 
 #pragma region login action
 ACTION eostransfer(eosio::name sender, eosio::name receiver);
-    ACTION freesale_signup(eosio::name _user);
+    ACTION freesalesign(eosio::name _user);
     ACTION signup(eosio::name _user);
 #pragma endregion
 

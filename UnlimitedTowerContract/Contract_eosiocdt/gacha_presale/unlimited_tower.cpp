@@ -279,7 +279,7 @@ ACTION unlimited_tower::setdata()
 
 #pragma region login
 
-ACTION unlimited_tower::freesale_signup(eosio::name _user)
+ACTION unlimited_tower::freesalesign(eosio::name _user)
 {
     require_auth(_user);
     auth_users auth_user_table(owner, owner.value);
@@ -306,7 +306,7 @@ ACTION unlimited_tower::freesale_signup(eosio::name _user)
 
 ACTION unlimited_tower::signup(eosio::name _user)
 {
-    freesale_signup(eosio::name _user);
+    freesalesign(_user);
     // require_auth(_user);
     // auth_users auth_user_table(owner, owner.value);
     // auto new_user_iter = auth_user_table.find(_user.value);
@@ -380,7 +380,7 @@ void unlimited_tower::eosiotoken_transfer(eosio::name sender, eosio::name receiv
     res.to.value = receiver.value;
     res.from.value = sender.value;
 
-    user_logs user_log_table(owner,owner.value);
+    user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(sender.value);
     eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data");
     user_log_table.modify(user_log_iter, owner, [&](auto &buy_log) {
@@ -1026,10 +1026,10 @@ void unlimited_tower::start_gacha(eosio::name _user, uint64_t _seed)
             update_participation_list.gacha_participation += 1;
         }); 
     }
-    if(temp_parti_count <=3){
+    if(temp_parti_count <= 3){
         gacha_reward.amount = 30000000;
     }
-    else if (3 < temp_parti_count <=5){
+    else if (temp_parti_count <= 5){
         gacha_reward.amount = 20000000;
     }
     else{
@@ -1049,24 +1049,24 @@ void unlimited_tower::start_gacha(eosio::name _user, uint64_t _seed)
 
 #undef EOSIO_DISPATCH
 
-#define EOSIO_DISPATCH(TYPE, MEMBERS)                                                                                                                               \
-    extern "C"                                                                                                                                                      \
-    {                                                                                                                                                               \
-        void apply(uint64_t receiver, uint64_t code, uint64_t action)                                                                                               \
-        {                                                                                                                                                           \
-            if (code == receiver)                                                                                                                                   \
-            {                                                                                                                                                       \
-                switch (action)                                                                                                                                     \
-                {                                                                                                                                                   \
-                    EOSIO_DISPATCH_HELPER(unlimited_tower, (create)(issue)(tokentrans)(setdata)(signup)(eostransfer)(initdata)(deleteuser)(initalluser)(inittoken)) \
-                }                                                                                                                                                   \
-            }                                                                                                                                                       \
-            else if (code == name("eosio.token").value && action == name("transfer").value)                                                                         \
-            {                                                                                                                                                       \
-                execute_action(name(receiver), name(code), &unlimited_tower::eostransfer);                                                                          \
-            }                                                                                                                                                       \
-        }                                                                                                                                                           \
+#define EOSIO_DISPATCH(TYPE, MEMBERS)                                                                                                                                             \
+    extern "C"                                                                                                                                                                    \
+    {                                                                                                                                                                             \
+        void apply(uint64_t receiver, uint64_t code, uint64_t action)                                                                                                             \
+        {                                                                                                                                                                         \
+            if (code == receiver)                                                                                                                                                 \
+            {                                                                                                                                                                     \
+                switch (action)                                                                                                                                                   \
+                {                                                                                                                                                                 \
+                    EOSIO_DISPATCH_HELPER(unlimited_tower, (create)(issue)(tokentrans)(setdata)(freesalesign)(signup)(eostransfer)(initdata)(deleteuser)(initalluser)(inittoken)) \
+                }                                                                                                                                                                 \
+            }                                                                                                                                                                     \
+            else if (code == name("eosio.token").value && action == name("transfer").value)                                                                                       \
+            {                                                                                                                                                                     \
+                execute_action(name(receiver), name(receiver), &unlimited_tower::eostransfer);                                                                                        \
+            }                                                                                                                                                                     \
+        }                                                                                                                                                                         \
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(unlimited_tower, (create)(issue)(tokentrans)(setdata)(signup)(eostransfer)(initdata)(deleteuser)(initalluser)(inittoken))
+EOSIO_DISPATCH(unlimited_tower, (create)(issue)(tokentrans)(setdata)(freesalesign)(signup)(eostransfer)(initdata)(deleteuser)(initalluser)(inittoken))
