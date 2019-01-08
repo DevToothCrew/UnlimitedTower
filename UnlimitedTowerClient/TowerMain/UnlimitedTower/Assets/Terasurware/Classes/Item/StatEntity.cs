@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class MountItemStatEntity : ScriptableObject
+public class StatEntity : ScriptableObject
 {	
 	public List<Param> param = new List<Param> ();
 
@@ -10,8 +10,7 @@ public class MountItemStatEntity : ScriptableObject
 	public class Param
 	{
 		
-		public int mountItemNum;
 		public StatType statType;
-		public double plusValue;
+		public string statName;
 	}
 }

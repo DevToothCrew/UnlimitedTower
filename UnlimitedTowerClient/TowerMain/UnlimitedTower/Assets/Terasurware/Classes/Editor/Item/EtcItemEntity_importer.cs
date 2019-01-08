@@ -7,10 +7,10 @@ using NPOI.HSSF.UserModel;
 using NPOI.XSSF.UserModel;
 using NPOI.SS.UserModel;
 
-public class MountItemStatEntity_importer : AssetPostprocessor
+public class EtcItemEntity_importer : AssetPostprocessor
 {
     private static readonly string filePath = "Assets/Resources/ErdExcels/Item.xlsx";
-    private static readonly string[] sheetNames = { "MountItemStatEntity" };
+    private static readonly string[] sheetNames = { "EtcItemEntity" };
     
     static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
     {
@@ -33,14 +33,14 @@ public class MountItemStatEntity_importer : AssetPostprocessor
                     var exportPath = "Assets/Resources/ErdExcels/Item_Assets/" + sheetName + ".asset";
                     
                     // check scriptable object
-                    var data = (MountItemStatEntity)AssetDatabase.LoadAssetAtPath(exportPath, typeof(MountItemStatEntity));
+                    var data = (EtcItemEntity)AssetDatabase.LoadAssetAtPath(exportPath, typeof(EtcItemEntity));
                     if (data == null)
                     {
 					     //�����丮�� ���ٸ� �������ش�
                         if (!Directory.Exists(Path.GetDirectoryName(exportPath).Replace("\\", "/")))
                             Directory.CreateDirectory(Path.GetDirectoryName(exportPath).Replace("\\", "/"));
 
-                        data = ScriptableObject.CreateInstance<MountItemStatEntity>();
+                        data = ScriptableObject.CreateInstance<EtcItemEntity>();
                         AssetDatabase.CreateAsset((ScriptableObject)data, exportPath);
                         //data.hideFlags = HideFlags.NotEditable;
                     }
@@ -73,11 +73,10 @@ public class MountItemStatEntity_importer : AssetPostprocessor
                         }
                         ICell cell = null;
 
-                        var p = new MountItemStatEntity.Param();
+                        var p = new EtcItemEntity.Param();
 			
-					cell = row.GetCell(0);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.mountItemNum);
-					cell = row.GetCell(1);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "")   p.statType =  (StatType)System.Enum.Parse(typeof(StatType), cell.StringCellValue);
-					cell = row.GetCell(2);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "")double.TryParse( cell.StringCellValue, out p.plusValue);
+					cell = row.GetCell(0);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.etcitemNum);
+					cell = row.GetCell(1);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") p.itemName = cell.StringCellValue;
 
                         data.param.Add(p);
                     }

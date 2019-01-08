@@ -106,3 +106,24 @@ public class EventClass
     }
 
 }
+
+public enum MountitemType
+{
+    Weapon,
+    Defense,
+    Accesory
+}
+public enum StatType
+{
+    Str,
+    Dex,
+    Int,
+
+    Def,
+    Atk,
+    CriDmg,
+    CriPercent,
+    Spd,
+    Hp,
+
+}

@@ -8,6 +8,8 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
     public Dictionary<int, UserMonsterData> monsterDic = new Dictionary<int, UserMonsterData>();
     public Dictionary<int, UserMountItemData> mountitemDic = new Dictionary<int, UserMountItemData>();
+    public Dictionary<int, UserEtcItemData> etcitemDic = new Dictionary<int, UserEtcItemData>();
+
     public Dictionary<int, UserPartyData> partyDic = new Dictionary<int, UserPartyData>();
 
     public Dictionary<int, Item> itemDic = new Dictionary<int, Item>();
