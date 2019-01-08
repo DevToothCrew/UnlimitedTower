@@ -5,16 +5,23 @@ CONTRACT unlimited_tower : public contract
   public:
 #pragma resgion contract constructor
     using contract::contract;
-    name _owner;
+    eosio::name owner;
     unlimited_tower(eosio::name _self, eosio::name _code, datastream<const char *> ds) : contract(_self, _code, ds)
     {
-        _owner = _self;
+        owner = _self;
     }
 #pragma endregion
     //------------------------------------------------------------------------//
     //-----------------------------db_table-----------------------------------//
     //------------------------------------------------------------------------//
   private:
+    struct object_status
+    {
+        uint64_t base_str;
+        uint64_t base_dex;
+        uint64_t base_int;
+    };
+
 #pragma region db cdbbody
     TABLE cdbbody
     {
@@ -95,13 +102,6 @@ CONTRACT unlimited_tower : public contract
 #pragma endregion
 
 #pragma region db cdbservant
-    struct object_status
-    {
-        uint64_t base_str;
-        uint64_t base_dex;
-        uint64_t base_int;
-    };
-
     TABLE cdbservant
     {
         uint64_t job;
@@ -117,16 +117,6 @@ CONTRACT unlimited_tower : public contract
     //------------------------------------------------------------------------//
   private:
 #pragma region db values
-    servant_db servant_db_table(owner, owner.value);
-    head_db head_db_table(owner, owner.value);
-    hair_db hair_db_table(owner, owner.value);
-    body_db body_db_table(owner, owner.value);
-    monster_grade_db monster_grade_db_table(owner, owner.value);
-    monster_id_db monster_id_db_table(owner, owner.value);
-    item_id_db item_id_db_table(owner, owner.value);
-    item_tier_db item_tier_db_table(owner, owner.value);
-    item_grade_db item_grade_db_table(owner, owner.value);
-
     const uint8_t servant_job_count = 6;
     const uint8_t monster_id_count = 30;
     const uint8_t monster_grade_count = 5;
@@ -170,7 +160,7 @@ CONTRACT unlimited_tower : public contract
     {
         asset supply;
         asset max_supply;
-        name issuer;
+        eosio::name issuer;
         uint64_t primary_key() const { return supply.symbol.code().raw(); }
     };
     typedef eosio::multi_index<"stats"_n, stats> stat;
@@ -180,19 +170,22 @@ CONTRACT unlimited_tower : public contract
     //-----------------------------token_system--------------------------------//
     //------------------------------------------------------------------------//
   public:
-#pragma region token action
-    ACTION create(name issuer, asset maximum_supply);
-    ACTION issue(name to, asset quantity, string memo);
-    ACTION transfer(name from, name to, asset quantity, string memo);
-#pragma endregion
-
 #pragma region token function
     void sub_balance(name owner, asset value);
     void add_balance(name owner, asset value, name ram_payer);
 #pragma endregion
 
+#pragma region token action
+    ACTION create(name issuer, asset maximum_supply);
+    ACTION issue(name to, asset quantity, string memo);
+    ACTION tokentrans(name from, name to, asset quantity, string memo);
+    ACTION inittoken(asset _token);
+#pragma endregion
+
+
+
 #pragma region token delete init
-    void delete_user_balance(name _user);
+    void delete_user_balance(uint64_t _user);
     void init_stat(asset _token);
     void init_all_balance();
 #pragma endregion
@@ -200,6 +193,25 @@ CONTRACT unlimited_tower : public contract
     //-----------------------------gacha_table--------------------------------//
     //------------------------------------------------------------------------//
   private:
+      //struct appear_info
+    struct appear_info
+    {
+        uint32_t head = 0;
+        uint32_t hair = 0;
+        uint32_t body = 0;
+    };
+
+    //struct status_info
+    struct status_info
+    {
+        uint32_t basic_str = 0;
+        uint32_t basic_dex = 0;
+        uint32_t basic_int = 0;
+        uint32_t plus_str = 0;
+        uint32_t plus_dex = 0;
+        uint32_t plus_int = 0;
+    };
+
 #pragma region gacha cservant
     struct servant_info
     {
@@ -308,18 +320,17 @@ CONTRACT unlimited_tower : public contract
     //------------------------------------------------------------------------//
   private:
 #pragma region gacha values
-    user_gacha_results user_gacha_result_table(owner, owner.value);
-    user_gacha_accumulates user_gacha_accumulate_table(owner, owner.value);
+    const char *action_gacha="gacha";
 
     uint32_t servant_random_count;
     uint32_t monster_random_count;
     uint32_t item_random_count;
 
     const uint32_t default_min = 0;
-    const uint32_t max_rate = 100000;
-    const uint32_t grade_three_rate = 89000;
-    const uint32_t grade_four_rate = 9000;
-    const uint32_t grade_five_rate = 2000;
+    const uint32_t max_rate = 100;
+    const uint32_t two_grade_ratio = 89;
+    const uint32_t three_grade_ratio = 9;
+    const uint32_t four_grade_ratio = 2;
 #pragma endregion
 
   public:
@@ -330,14 +341,12 @@ CONTRACT unlimited_tower : public contract
     uint8_t gacha_servant_body(uint64_t _seed, uint32_t _count);
     void gacha_monster_id(eosio::name _user, uint64_t _seed);
     void gacha_item_id(eosio::name _user, uint64_t _seed);
-    void start_gacha(eosio::name _user);
+    
+    uint64_t get_user_seed_value(uint64_t _user);
+
+    void start_gacha(eosio::name _user, uint64_t _seed);
 #pragma endregion
 
-#pragma region gacha init
-    void reset_all_user_object_data(eosio::name _user);
-    void reset_user_gacha_result_data(eosio::name _user) void reset_all_object_gacha_data();
-    void delete_object_data(eosio::name _user);
-#pragma endregion
 
 #pragma region gacha cheat
     void gacha_cheat(eosio::name _user);
@@ -381,25 +390,6 @@ CONTRACT unlimited_tower : public contract
 #pragma endregion
 
 #pragma region login table cuserauth
-    //struct appear_info
-    struct appear_info
-    {
-        uint32_t head = 0;
-        uint32_t hair = 0;
-        uint32_t body = 0;
-    };
-
-    //struct status_info
-    struct status_info
-    {
-        uint32_t basic_str = 0;
-        uint32_t basic_dex = 0;
-        uint32_t basic_int = 0;
-        uint32_t plus_str = 0;
-        uint32_t plus_dex = 0;
-        uint32_t plus_int = 0;
-    };
-
     //struct hero_info
     struct hero_info
     {
@@ -414,12 +404,11 @@ CONTRACT unlimited_tower : public contract
 
     TABLE cuserauth
     {
-        uint64_t user;
+        eosio::name user;
         uint32_t game_money = 100;
-        uint32_t state = euser_state::login;
+        uint32_t state = euser_state::lobby;
         hero_info hero;
-        uint64_t primary_key() const { return user; }
-        void auth_set_user(uint64_t _user) { user = _user; }
+        uint64_t primary_key() const { return user.value; }
     };
     typedef eosio::multi_index<"cuserauth"_n, cuserauth> auth_users;
 
@@ -431,16 +420,16 @@ CONTRACT unlimited_tower : public contract
 #pragma region login table cuserlog
     TABLE cuserlog
     {
-        uint64_t user;
+        eosio::name user;
         uint32_t servant_num = 0;
         uint32_t monster_num = 0;
         uint32_t item_num = 0;
         uint32_t gacha_num = 0;
         uint32_t login_time = 0;
         uint32_t get_gold = 0;
-        asset get_eos;
+        asset get_eos = eosio::asset(0, symbol(symbol_code("EOS"),4));;
         uint32_t use_gold = 0;
-        asset use_eos;
+        asset use_eos = eosio::asset(0, symbol(symbol_code("EOS"),4));
         uint32_t battle_count = 0;
         uint32_t last_stage_num = 0;
         uint32_t last_tower_num = 0;
@@ -448,10 +437,8 @@ CONTRACT unlimited_tower : public contract
         uint32_t top_clear_tower = 0;
         uint32_t add_party_count = 0;
 
-        // use_eos(0,symbol(symbol_code("EOS"),4)),
-        // get_eos(0,symbol(symbol_code("EOS"),4))
-        uint64_t primary_key() const { return user; }
-        void log_set_user(uint64_t _user) { user = _user; }
+
+        uint64_t primary_key() const { return user.value; }
     };
     typedef eosio::multi_index<"cuserlog"_n, cuserlog> user_logs;
 #pragma endregion
@@ -500,13 +487,34 @@ CONTRACT unlimited_tower : public contract
   public:
 #pragma region login function
 
+    template <typename T>
     void eosiotoken_transfer(eosio::name sender, eosio::name receiver, T func);
-    void create_account(const eosio::name _user);
-    void set_look(const eosio::name _user, uint8_t _head, uint8_t _hair, uint8_t _body);
-    void set_status(eosio::name _user);
-    void change_status(eosio::name _user);
-    void complete_hero_set(eosio::name _user);
-
+    
 #pragma endregion
+
+#pragma region login action
+ACTION eostransfer(eosio::name sender, eosio::name receiver);
+    ACTION signup(eosio::name _user);
+#pragma endregion
+
+    //------------------------------------------------------------------------//
+    //-----------------------------init_function------------------------------//
+    //------------------------------------------------------------------------//
+void init_all_user_auth_data();
+void init_all_user_log_data();
+void init_all_object_gacha_data();
+
+ACTION initalluser();
+
+
+    //------------------------------------------------------------------------//
+    //-----------------------------delete_function----------------------------//
+    //------------------------------------------------------------------------//
+void delete_user_data(uint64_t _user);
+void delete_user_object_data(uint64_t _user);
+void delete_user_gacha_result_data(uint64_t _user);
+
+ACTION deleteuser(eosio::name _user);
+
 
 };
