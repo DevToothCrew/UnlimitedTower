@@ -358,8 +358,8 @@ CONTRACT unlimited_tower : public contract
   private:
 #pragma region login enum
     enum euser_state
-    {
-        login = 1,
+    {        
+        freesale = 1,       //owen change 
         lobby,
         battle,
         battle_win,
@@ -381,6 +381,7 @@ CONTRACT unlimited_tower : public contract
 
     enum eobject_state
     {
+        on_freesale =1,
         on_inventory,
         on_equip_slot,
         on_party,
@@ -413,7 +414,18 @@ CONTRACT unlimited_tower : public contract
     typedef eosio::multi_index<"cuserauth"_n, cuserauth> auth_users;
 
 #pragma endregion
-
+//------------------------------------------------------------------------//
+//--------------------------freesale_log_table----------------------------//
+//------------------------------------------------------------------------//
+#pragma region freesale table log
+TRABLE participationlog
+{   
+    eosio::name owner;
+    uint64_t gacha_participation;
+    uint64_t primary_key() const { return owner.value; }
+};
+    typedef eosio::multi_index<"participationlog"_n, participationlog> participation_logs;
+#pragma endregion
 //------------------------------------------------------------------------//
 //-----------------------------------log_table----------------------------//
 //------------------------------------------------------------------------//
@@ -429,7 +441,7 @@ CONTRACT unlimited_tower : public contract
         uint32_t get_gold = 0;
         asset get_eos = eosio::asset(0, symbol(symbol_code("EOS"),4));;
         uint32_t use_gold = 0;
-        asset use_eos = eosio::asset(0, symbol(symbol_code("EOS"),4));
+        asset use_eos = eosio::asset(0, symbol(symbol_code("EOS"),4));        
         uint32_t battle_count = 0;
         uint32_t last_stage_num = 0;
         uint32_t last_tower_num = 0;
@@ -494,6 +506,7 @@ CONTRACT unlimited_tower : public contract
 
 #pragma region login action
 ACTION eostransfer(eosio::name sender, eosio::name receiver);
+    ACTION freesale_signup(eosio::name _user);
     ACTION signup(eosio::name _user);
 #pragma endregion
 

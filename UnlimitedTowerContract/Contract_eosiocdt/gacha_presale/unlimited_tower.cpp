@@ -278,7 +278,8 @@ ACTION unlimited_tower::setdata()
 #pragma endregion
 
 #pragma region login
-ACTION unlimited_tower::signup(eosio::name _user)
+
+ACTION unlimited_tower::freesale_signup(eosio::name _user)
 {
     require_auth(_user);
     auth_users auth_user_table(owner, owner.value);
@@ -286,7 +287,7 @@ ACTION unlimited_tower::signup(eosio::name _user)
     eosio_assert(new_user_iter == auth_user_table.end(), "exist account");
     auth_user_table.emplace(owner, [&](auto &new_user) {
         new_user.user = _user;
-        new_user.state = euser_state::login;
+        new_user.state = euser_state::freesale;
 
         hero_info first_hero;
         first_hero.equip_slot.resize(max_equip_slot);
@@ -301,6 +302,32 @@ ACTION unlimited_tower::signup(eosio::name _user)
     user_log_table.emplace(owner, [&](auto &new_log) {
         new_log.user = _user;
     });
+}
+
+ACTION unlimited_tower::signup(eosio::name _user)
+{
+    freesale_signup(eosio::name _user);
+    // require_auth(_user);
+    // auth_users auth_user_table(owner, owner.value);
+    // auto new_user_iter = auth_user_table.find(_user.value);
+    // eosio_assert(new_user_iter == auth_user_table.end(), "exist account");
+    // auth_user_table.emplace(owner, [&](auto &new_user) {
+    //     new_user.user = _user;
+    //     new_user.state = euser_state::login;
+
+    //     hero_info first_hero;
+    //     first_hero.equip_slot.resize(max_equip_slot);
+    //     first_hero.state = hero_state::set_look;
+
+    //     new_user.hero = first_hero;
+    // });
+
+    // user_logs user_log_table(owner, owner.value);
+    // auto user_log_iter = user_log_table.find(_user.value);
+    // eosio_assert(user_log_iter == user_log_table.end(), "exist account");
+    // user_log_table.emplace(owner, [&](auto &new_log) {
+    //     new_log.user = _user;
+    // });
 }
 // eosio.token recipient
 // memo description spec
@@ -661,7 +688,7 @@ void unlimited_tower::gacha_servant_job(eosio::name _user, uint64_t _seed)
         servant_random_count += 1;
         new_servant.status.basic_int = safeseed::get_random_value(_seed, servant_db_iter.max_range.base_int, servant_db_iter.min_range.base_int, servant_random_count);
         new_servant.equip_slot.resize(3);
-        new_servant.state = eobject_state::on_inventory;
+        new_servant.state = eobject_state::on_freesale;
 
         result.index = update_user_servant_list.index;
         result.type = result::servant;
@@ -784,7 +811,7 @@ void unlimited_tower::gacha_monster_id(eosio::name _user, uint64_t _seed)
         new_monster.status.basic_dex = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_dex, monster_grade_db_iter.min_range.base_dex, monster_random_count);
         monster_random_count += 1;
         new_monster.status.basic_int = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_int, monster_grade_db_iter.min_range.base_int, monster_random_count);
-        new_monster.state = eobject_state::on_inventory;
+        new_monster.state = eobject_state::on_freesale;
 
         result.index = update_user_monster_list.index;
         result.type = result::monster;
@@ -891,7 +918,7 @@ void unlimited_tower::gacha_item_id(eosio::name _user, uint64_t _seed)
         item_random_count += 1;
         new_item.status.basic_int = safeseed::get_random_value(_seed, item_grade_db_iter.max_range.base_int, item_grade_db_iter.min_range.base_int, item_random_count);
         new_item.job = item_id_db_iter.job;
-        new_item.state = eobject_state::on_inventory;
+        new_item.state = eobject_state::on_freesale;
         new_item.grade = item_grade_db_iter.grade;
 
         result.index = update_user_item_list.index;
@@ -955,6 +982,7 @@ void unlimited_tower::start_gacha(eosio::name _user, uint64_t _seed)
 
     uint64_t l_user = get_user_seed_value(_user.value);
     uint64_t l_seed = safeseed::get_seed_value(l_user, _seed);
+       //가차 뽑기 참여 횟수 
 
     if (user_log_iter->gacha_num == 0)
     {
@@ -977,8 +1005,36 @@ void unlimited_tower::start_gacha(eosio::name _user, uint64_t _seed)
         }
     }
     asset gacha_reward(0,symbol(symbol_code("UTG"),4));
-    gacha_reward.amount = 10000000; //1000 UTG
-
+    //gacha_reward.amount = 10000000; //1000 UTG
+    
+    participation_logs participation_log_table(owner, owner.value);
+    auto gacha_participation_iter = participation_log_table.find(owner.value);
+    uint64_t temp_parti_count = 0;
+    if(gacha_participation_iter == participation_log_table.end())
+    {
+        participation_log_table.emplace(owner, [&](auto &update_participation_list) {
+            update_participation_list.owner = owner;
+            update_participation_list.gacha_participation = 1;   
+        
+        });
+        temp_parti_count = 1 ;
+    }
+    else
+    {
+        participation_log_table.modify(gacha_participation_iter, owner, [&](auto &update_participation_list) {
+            temp_parti_count = update_participation_list.gacha_participation;
+            update_participation_list.gacha_participation += 1;
+        }); 
+    }
+    if(temp_parti_count <=3){
+        gacha_reward.amount = 30000000;
+    }
+    else if (3 < temp_parti_count <=5){
+        gacha_reward.amount = 20000000;
+    }
+    else{
+        gacha_reward.amount = 10000000;
+    }
     action(permission_level{owner, "active"_n},
            owner, "tokentrans"_n,
            std::make_tuple(owner, _user, gacha_reward, std::string("gacha reward")))
