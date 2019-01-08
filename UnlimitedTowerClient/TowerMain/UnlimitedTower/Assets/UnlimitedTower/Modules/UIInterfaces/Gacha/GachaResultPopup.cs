@@ -15,9 +15,11 @@ public class GachaResultPopup : MonoBehaviour {
 
         // set instance
         instance = instance ?? this;
-
+        
         // set animator
         animator = GetComponentInChildren<Animator>();
+
+        gameObject.SetActive(false);
     }
 
     // Use this for initialization

@@ -38,6 +38,7 @@ public class GachaManager : MonoBehaviour {
         // Request to server
         // this interface can be changed
         UTUMSProvider.Instance.RequestGacha();
+        GachaResultPopup.Popup();
     }
 
     public void ExitGachaScene()
