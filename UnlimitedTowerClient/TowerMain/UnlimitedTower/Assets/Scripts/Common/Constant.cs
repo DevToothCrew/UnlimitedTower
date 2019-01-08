@@ -248,8 +248,12 @@ public class Status
 [System.Serializable]
 public class UserMountItemData
 {
+    // 
     public int index;
+
+    //
     public int mountitemNum;
+
     public int enforceCount;
 
     public bool isMounted;

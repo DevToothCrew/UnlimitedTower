@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class UserDataManager : MonoSingleton<UserDataManager>
 {
-
     public UserInfo userInfo = new UserInfo();
 
     public Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
@@ -17,6 +16,9 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public int usingPartyNum = 1;
 
 
+
+
+
     #region SetFunction
 
     public void SetUserInfo(UserInfo getUserInfo)
@@ -24,12 +26,12 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         userInfo = getUserInfo;
     }
 
-    public void SetServantDic(Dictionary<int, Servant> getServantDic)
+    public void SetServantDic(Dictionary<int, UserServantData> getServantDic)
     {
         servantDic = getServantDic;
     }
 
-    public void SetMonsterDic(Dictionary<int, Monster> getMonsterDic)
+    public void SetMonsterDic(Dictionary<int, UserMonsterData> getMonsterDic)
     {
         monsterDic = getMonsterDic;
     }
@@ -41,10 +43,10 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
     public void SetPartyDic(Dictionary<int, Party> getPartyDic)
     {
-        partyDic = getPartyDic;
+        partydic = getPartyDic;
     }
 
-    public void SetServantInfo(Servant getServant)
+    public void AddServantInfo(UserServantData getServant)
     {
         if (servantDic.ContainsKey(getServant.index) == false)
         {
@@ -56,7 +58,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         }
     }
 
-    public void SetMonsterInfo(Monster getMonster)
+    public void SetMonsterInfo(UserMonsterData getMonster)
     {
         if (monsterDic.ContainsKey(getMonster.index) == false)
         {
@@ -99,7 +101,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return userInfo;
     }
 
-    public Servant GetHeroInfo()
+    public UserServantData GetHeroInfo()
     {
         if (userInfo == null)
         {
@@ -110,7 +112,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return userInfo.userHero;
     }
 
-    public Servant GetServantInfo(int index)
+    public UserServantData GetServantInfo(int index)
     {
         if (servantDic.ContainsKey(index) == false)
         {
@@ -121,7 +123,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return servantDic[index];
     }
 
-    public Monster GetMonsterInfo(int index)
+    public UserMonsterData GetMonsterInfo(int index)
     {
         if (monsterDic.ContainsKey(index) == false)
         {

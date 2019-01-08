@@ -579,7 +579,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
         }
         else if (getCharInfo.type == CHAR_TYPE.SERVANT)
         {
-            UserServantData servantInfo = UserDataManager.Inst.GetServantInfo_nullpossible(getCharInfo.index);
+            UserServantData servantInfo = UserDataManager.Inst.GetServantInfo(getCharInfo.index);
             if (servantInfo == null)
             {
                 return null;

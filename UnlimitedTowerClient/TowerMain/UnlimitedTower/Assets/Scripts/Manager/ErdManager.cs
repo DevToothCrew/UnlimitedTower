@@ -19,16 +19,17 @@ public class ErdManager : MonoBehaviour {
         }
         
     }
+
     
     
+
     public levelEntity levelEntityTable;    // 레벨별 정보
     public levelEntity.Param getlevelEntityTable_nullPossible(int level)
     {
         return levelEntityTable.param.Find((rowdata) => { return rowdata.level == level; });
     }
     
-
-
+    
     // Servant
     [Space(10)]
     [Header("SERVANT")]
@@ -44,6 +45,7 @@ public class ErdManager : MonoBehaviour {
     {
         return ServantBodyEntityTable.param.Find((rowdata) => { return rowdata.bodyNum == bodyNum; });
     }
+    public Sprite[] ServantbodySprite;
 
     public ServantJobEntity ServantJobEntityTable;    // 
     public ServantJobEntity.Param getServantJobEntityTable_nullPossible(int jobNum)
@@ -61,6 +63,7 @@ public class ErdManager : MonoBehaviour {
     {
         return mountitemEntityTable.param.Find((rowdata) => { return rowdata.mountItemNum == num; });
     }
+    public Sprite[] MountitemSprite;
 
     public MountItemEnforceEntity mountitemEnforceEntityTable;    // 
     public MountItemEnforceEntity.Param getmountitemEnforceEntityTable_nullPossible(int num)
@@ -96,6 +99,9 @@ public class ErdManager : MonoBehaviour {
     {
         return MonsterEntityTable.param.Find((rowdata) => { return rowdata.monsterNum == monsterNum && rowdata.typeNum == typeNum; });
     }
+    public Sprite[] MonsterSprite;
+
+
 
     public MonsterEnforceEntity MonsterEnforceEntityTable;    // 
     public MonsterEnforceEntity.Param getMonsterEnforceEntityTable_nullPossible(int gradeNum)
