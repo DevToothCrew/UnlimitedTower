@@ -19,7 +19,6 @@ public class GachaManager : MonoBehaviour {
             else
             {
                 var gacha = result as UTPlayerManager.UTGachaData;
-                
             }
         });
     }
