@@ -43,7 +43,6 @@ public class GachaManager : MonoBehaviour {
 
     public void ExitGachaScene()
     {
-
     }
 
 }

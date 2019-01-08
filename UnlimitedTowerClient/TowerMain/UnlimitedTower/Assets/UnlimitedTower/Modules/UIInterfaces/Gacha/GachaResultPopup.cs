@@ -32,9 +32,22 @@ public class GachaResultPopup : MonoBehaviour {
 		
 	}
 
+    private IEnumerator waitAndDisable(float time)
+    {
+        yield return new WaitForSeconds(time);
+        gameObject.SetActive(false);
+    }
+
+    public void Exit()
+    {
+        instance.animator.SetTrigger("SetInvisible");
+        StartCoroutine(waitAndDisable(1.0f));
+    }
+
     static public void Popup()
     {
         instance.gameObject.SetActive(true);
         instance.animator.SetTrigger("SetVisible");
     }
+
 }
