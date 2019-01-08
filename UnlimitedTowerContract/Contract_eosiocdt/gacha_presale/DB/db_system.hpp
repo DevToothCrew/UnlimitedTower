@@ -13,109 +13,11 @@
 
 
 
-class cdb_system
-{
-  private:
-    //uint64_t owner;
-   eosio::name owner;
-  private:
-    servant_db servant_db_table;
-    head_db head_db_table;
-    hair_db hair_db_table;
-    body_db body_db_table;
-    monster_grade_db monster_grade_db_table;
-    monster_id_db monster_id_db_table;
-    item_id_db item_id_db_table;
-    item_tier_db item_tier_db_table;
-    item_grade_db item_grade_db_table;
-  public:
-    const uint8_t servant_job_count = 6;
-    const uint8_t monster_id_count = 30;
-    const uint8_t monster_grade_count = 5;
-    const uint8_t item_id_count = 70;
-    const uint8_t item_tier_count = 4;
-    const uint8_t item_grade_count= 5;
-    const uint8_t item_slot_count = 3;
-    const uint8_t head_count = 3;
-    const uint8_t hair_count = 3;
-    const uint8_t body_count = 4;
-    uint32_t random_count = 0;
-  public:
-    cdb_system(eosio::name _self)
-        : owner(_self),
-         /* servant_db_table("sdb"_self, _self),
-          head_db_table("hedb"_self,_self),
-          hair_db_table("hadb"_self,_self),
-          body_db_table("bdb"_self,_self),
-          monster_grade_db_table("mgdb"_self,_self),
-          monster_id_db_table("midb"_self,_self),
-          item_id_db_table("iidb"_self,_self),
-          item_tier_db_table("itdb"_self,_self),
-          item_grade_db_table("igdb"_self,_self)*/
-          servant_db_table(_self, _self.value),
-          head_db_table(_self,_self.value),
-          hair_db_table(_self,_self.value),
-          body_db_table(_self,_self.value),
-          monster_grade_db_table(_self,_self.value),
-          monster_id_db_table(_self,_self.value),
-          item_id_db_table(_self,_self.value),
-          item_tier_db_table(_self,_self.value),
-          item_grade_db_table(_self,_self.value)
-    {
-    }
 
-    servant_db &get_servant_db_table()
-    {
-        return servant_db_table;
-    }
-
-    head_db &get_head_db_table()
-    {
-        return head_db_table;
-    }
-
-    hair_db &get_hair_db_table()
-    {
-        return hair_db_table;
-    }
-
-    body_db &get_body_db_table()
-    {
-        return body_db_table;
-    }
-
-    monster_grade_db &get_monster_grade_db_table()
-    {
-        return monster_grade_db_table;
-    }
-
-    monster_id_db &get_monster_id_db_table()
-    {
-        return monster_id_db_table;
-    }
-
-    item_id_db &get_item_id_db_table()
-    {
-        return item_id_db_table;
-    }
-
-    item_tier_db &get_item_tier_db_table()
-    {
-        return item_tier_db_table;
-    }
-
-    item_grade_db &get_item_grade_db_table()
-    {
-        return item_grade_db_table;
-    }
-
-    void init_db_data()
+    ACTION setdata()
     {
         eosio::require_auth(owner);
-	//require_auth2(owner,_n);
-	//require_auth2(owner,N(owner));
-        //uint64_t l_seed = safeseed::get_seed(owner);
-	uint64_t l_seed = safeseed::get_seed(owner.value);
+	    uint64_t l_seed = safeseed::get_seed(owner.value);
         for (uint8_t i = 0; i < servant_job_count; ++i)
         {
             servant_db_table.emplace(owner, [&](auto& a) {
@@ -266,7 +168,7 @@ class cdb_system
         }
     }
 
-    void reset_db_data()
+    ACTION initdata()
     {
         eosio::require_auth(owner);
 

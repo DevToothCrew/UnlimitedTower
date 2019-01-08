@@ -1,50 +1,14 @@
 #pragma once
 #include "../Common/common_header.hpp"
 #include "../Common/common_seed.hpp"
-class cgacha_system
-    {
-    private:
-        eosio::name owner;
-        clogin_system &login_controller;
-        cdb_system &db_controller;
 
-        user_gacha_results user_gacha_result_table;
-        user_gacha_accumulates user_gacha_accumulate_table;
-
-        uint32_t servant_random_count;
-        uint32_t monster_random_count;
-        uint32_t item_random_count;
-
-    public:
-        const uint32_t default_min = 0;
-        const uint32_t max_rate = 100000;
-        const uint32_t grade_three_rate = 89000;
-        const uint32_t grade_four_rate = 9000;
-        const uint32_t grade_five_rate = 2000;
-
-    public:
-        cgacha_system(eosio::name _self,
-        clogin_system &_login_controller,
-        cdb_system &_db_controller) 
-        : owner(_self),
-        login_controller(_login_controller),
-        db_controller(_db_controller),
-        user_gacha_result_table(_self,_self.value),
-        user_gacha_accumulate_table(_self,_self.value)
-        {
-            servant_random_count=0;
-            monster_random_count=0;
-            item_random_count=0;
-        }
 
 
         void gacha_servant_job(eosio::name _user,uint64_t _seed)
         {
             uint8_t random_job = safeseed::get_random_value(_seed,db_controller.servant_job_count,default_min,servant_random_count);
-            auto &servant_job_db = db_controller.get_servant_db_table();
-            const auto &servant_db_iter = servant_job_db.get(random_job,"not get servant job data");
+            const auto &servant_db_iter = servant_db_table.get(random_job,"not get servant job data");
 
-            auto &user_log_table = login_controller.get_log_table();
             auto user_log_iter = user_log_table.find(_user.value);
             eosio_assert(user_log_iter != user_log_table.end(),"not exist user log data");
 
@@ -129,32 +93,28 @@ class cgacha_system
         uint8_t gacha_servant_head(uint64_t _seed,uint32_t _count)
         {
             uint8_t random_head = safeseed::get_random_value(_seed,db_controller.head_count,default_min,_count);
-            auto &servant_head_db = db_controller.get_head_db_table();
-            const auto &head_db_iter = servant_head_db.get(random_head,"not exist head info");
+            const auto &head_db_iter = head_db_table.get(random_head,"not exist head info");
             return head_db_iter.head;
         }
 
         uint8_t gacha_servant_hair(uint64_t _seed,uint32_t _count)
         {
             uint8_t random_hair = safeseed::get_random_value(_seed,db_controller.hair_count,default_min,_count);
-            auto &servant_hair_db = db_controller.get_hair_db_table();
-            const auto &hair_db_iter = servant_hair_db.get(random_hair,"not exist hair info");
+            const auto &hair_db_iter = hair_db_table.get(random_hair,"not exist hair info");
             return hair_db_iter.hair;
         }
 
         uint8_t gacha_servant_body(uint64_t _seed,uint32_t _count)
         {
             uint8_t random_body = safeseed::get_random_value(_seed,db_controller.body_count,default_min,_count);
-            auto &servant_body_db = db_controller.get_body_db_table();
-            const auto &body_db_iter = servant_body_db.get(random_body, "not exist body info");
+            const auto &body_db_iter = body_db_table.get(random_body, "not exist body info");
             return body_db_iter.body;
         }
 
         void gacha_monster_id(eosio::name _user,uint64_t _seed)
         {   
             uint8_t random_monster_id = safeseed::get_random_value(_seed,db_controller.monster_id_count,default_min,monster_random_count);
-            auto &monster_id_db = db_controller.get_monster_id_db_table();
-            const auto &monster_id_db_iter = monster_id_db.get(random_monster_id,"not exist monster id");
+            const auto &monster_id_db_iter = monster_id_db_table.get(random_monster_id,"not exist monster id");
 
             monster_random_count+=1;
             uint32_t random_rate = safeseed::get_random_value(_seed,max_rate,default_min,monster_random_count);
@@ -172,10 +132,8 @@ class cgacha_system
                 random_grade = 2;
             }
 
-            auto &monster_grade_db = db_controller.get_monster_grade_db_table();
-            const auto &monster_grade_db_iter = monster_grade_db.get(random_grade,"not exist monster grade");
+            const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade,"not exist monster grade");
 
-            auto &user_log_table = login_controller.get_log_table();
             auto user_log_iter = user_log_table.find(_user.value);
             eosio_assert(user_log_iter != user_log_table.end(),"not exist user log data");
 
@@ -253,20 +211,17 @@ class cgacha_system
         void gacha_item_id(eosio::name _user,uint64_t _seed)
         {
             uint8_t random_item_id = safeseed::get_random_value(_seed,db_controller.item_id_count,default_min,item_random_count);
-            auto &item_id_db = db_controller.get_item_id_db_table();
-            const auto &item_id_db_iter = item_id_db.get(random_item_id, "not exist item id");
+            const auto &item_id_db_iter = item_id_db_table.get(random_item_id, "not exist item id");
 
             item_random_count+=1;
             uint8_t random_item_tier = safeseed::get_random_value(_seed,db_controller.item_tier_count,default_min,item_random_count);
-            auto &item_tier_db = db_controller.get_item_tier_db_table();
-            const auto &item_tier_db_iter = item_tier_db.get(random_item_tier,"not exist tier info");
+            const auto &item_tier_db_iter = item_tier_db_table.get(random_item_tier,"not exist tier info");
 
             item_random_count+=1;
             uint8_t random_item_grade = safeseed::get_random_value(_seed,db_controller.item_grade_count,default_min,item_random_count);
-            auto &item_grade_db = db_controller.get_item_grade_db_table();
-            const auto &item_grade_db_iter = item_grade_db.get(random_item_grade,"not exist tier info");
+            const auto &item_grade_db_iter = item_grade_db_table.get(random_item_grade,"not exist tier info");
 
-            auto &user_log_table = login_controller.get_log_table();
+
             auto user_log_iter = user_log_table.find(_user.value);
             eosio_assert(user_log_iter != user_log_table.end(),"not exist user log data");
 
@@ -347,7 +302,6 @@ class cgacha_system
 
         void start_gacha(eosio::name _user)
         {
-            auto &user_log_table = login_controller.get_log_table();
             auto user_log_iter = user_log_table.find(_user.value);
             eosio_assert(user_log_iter != user_log_table.end(),"unknown account");
 
