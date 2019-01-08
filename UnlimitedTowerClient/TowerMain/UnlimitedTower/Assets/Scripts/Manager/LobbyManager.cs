@@ -7,8 +7,6 @@ static public class LobbyAnimationManager
 {
     static public void SetActivateWithAnimation(this GameObject uiGO, bool value)
     {
-
-
         var animator = uiGO.GetComponent<Animator>();
         if (animator != null)
         {

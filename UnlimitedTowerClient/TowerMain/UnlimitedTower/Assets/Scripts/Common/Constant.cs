@@ -248,13 +248,26 @@ public class Status
 [System.Serializable]
 public class UserMountItemData
 {
+    // 
     public int index;
+
+    //
     public int mountitemNum;
+
     public int enforceCount;
 
     public bool isMounted;
     public int mountServantIndex;
 
+}
+[System.Serializable]
+public class UserEtcItemData
+{
+    //
+    public int index;
+
+    public int etcItemNum;
+    public int Count;
 }
 // erd완
 [System.Serializable]

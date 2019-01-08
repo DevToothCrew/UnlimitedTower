@@ -16,8 +16,8 @@ MonoBehaviour:
     statType: 0
     plusValue: 1
   - mountItemNum: 1
-    statType: 0
-    plusValue: 1
+    statType: 3
+    plusValue: 3
   - mountItemNum: 2
     statType: 0
     plusValue: 1
@@ -29,10 +29,13 @@ MonoBehaviour:
     plusValue: 1
   - mountItemNum: 5
     statType: 0
+    plusValue: 1
+  - mountItemNum: 6
+    statType: 5
     plusValue: 50
-  - mountItemNum: 5
-    statType: 1
+  - mountItemNum: 6
+    statType: 6
     plusValue: 50
-  - mountItemNum: 5
-    statType: 2
+  - mountItemNum: 6
+    statType: 7
     plusValue: 50

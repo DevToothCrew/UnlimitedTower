@@ -11,7 +11,7 @@ public class MountItemStatEntity : ScriptableObject
 	{
 		
 		public int mountItemNum;
-		public int statType;
+		public StatType statType;
 		public double plusValue;
 	}
 }

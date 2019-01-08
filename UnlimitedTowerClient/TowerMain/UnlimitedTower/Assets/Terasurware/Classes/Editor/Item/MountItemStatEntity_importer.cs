@@ -76,7 +76,7 @@ public class MountItemStatEntity_importer : AssetPostprocessor
                         var p = new MountItemStatEntity.Param();
 			
 					cell = row.GetCell(0);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.mountItemNum);
-					cell = row.GetCell(1);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.statType);
+					cell = row.GetCell(1);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "")   p.statType =  (StatType)System.Enum.Parse(typeof(StatType), cell.StringCellValue);
 					cell = row.GetCell(2);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "")double.TryParse( cell.StringCellValue, out p.plusValue);
 
                         data.param.Add(p);

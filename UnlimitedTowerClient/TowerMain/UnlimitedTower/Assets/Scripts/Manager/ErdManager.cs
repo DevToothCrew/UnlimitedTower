@@ -19,15 +19,17 @@ public class ErdManager : MonoBehaviour {
         }
         
     }
+
     
     
+
     public levelEntity levelEntityTable;    // 레벨별 정보
     public levelEntity.Param getlevelEntityTable_nullPossible(int level)
     {
         return levelEntityTable.param.Find((rowdata) => { return rowdata.level == level; });
     }
     
-
+    
 
     // Servant
     [Space(10)]
@@ -44,12 +46,14 @@ public class ErdManager : MonoBehaviour {
     {
         return ServantBodyEntityTable.param.Find((rowdata) => { return rowdata.bodyNum == bodyNum; });
     }
+    public Sprite[] ServantbodySprite;
 
     public ServantJobEntity ServantJobEntityTable;    // 
     public ServantJobEntity.Param getServantJobEntityTable_nullPossible(int jobNum)
     {
         return ServantJobEntityTable.param.Find((rowdata) => { return rowdata.jobNum == jobNum; });
     }
+
 
 
     // ITEM
@@ -61,6 +65,7 @@ public class ErdManager : MonoBehaviour {
     {
         return mountitemEntityTable.param.Find((rowdata) => { return rowdata.mountItemNum == num; });
     }
+    public Sprite[] MountitemSprite;
 
     public MountItemEnforceEntity mountitemEnforceEntityTable;    // 
     public MountItemEnforceEntity.Param getmountitemEnforceEntityTable_nullPossible(int num)
@@ -86,9 +91,16 @@ public class ErdManager : MonoBehaviour {
         return MountItemStatEntityTable.param.Find((rowdata) => { return rowdata.mountItemNum == num; });
     }
 
+    public EtcItemEntity EtcItemEntityTable;    // 
+    public EtcItemEntity.Param getEtcItemEntityTable_nullPossible(int num)
+    {
+        return EtcItemEntityTable.param.Find((rowdata) => { return rowdata.etcitemNum == num; });
+    }
+    public Sprite[] etcitemSprite;
 
 
-    // ITEM
+
+    // MONSTER
     [Space(10)]
     [Header("MONSTER")]
     public MonsterEntity MonsterEntityTable;    // 
@@ -96,7 +108,8 @@ public class ErdManager : MonoBehaviour {
     {
         return MonsterEntityTable.param.Find((rowdata) => { return rowdata.monsterNum == monsterNum && rowdata.typeNum == typeNum; });
     }
-
+    public Sprite[] MonsterSprite;
+    
     public MonsterEnforceEntity MonsterEnforceEntityTable;    // 
     public MonsterEnforceEntity.Param getMonsterEnforceEntityTable_nullPossible(int gradeNum)
     {
@@ -108,4 +121,15 @@ public class ErdManager : MonoBehaviour {
     {
         return MonsterGradeEntityTable.param.Find((rowdata) => { return rowdata.gradeNum == gradeNum; });
     }
+
+    
+    [Space(10)]
+    [Header("ETC")]
+    public StatEntity StatEntityTable;    // 
+    public StatEntity.Param getStatEntityTable_nullPossible(StatType stattype)
+    {
+        return StatEntityTable.param.Find((rowdata) => { return rowdata.statType == stattype; });
+    }
+
+
 }

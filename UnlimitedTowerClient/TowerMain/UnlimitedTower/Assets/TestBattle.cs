@@ -6,13 +6,13 @@ using UnityEngine.UI;
 public class TestBattle : MonoSingleton<TestBattle>
 {
 
-    public Dictionary<int, Servant> servantDic = new Dictionary<int, Servant>();
-    public Dictionary<int, Monster> monsterDic = new Dictionary<int, Monster>();
+    public Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
+    public Dictionary<int, UserMonsterData> monsterDic = new Dictionary<int, UserMonsterData>();
     public Dictionary<int, Item> itemDic = new Dictionary<int, Item>();
     public Dictionary<int, Party> partyDic = new Dictionary<int, Party>();
 
-    public Servant[] servant = new Servant[5];
-    public Monster[] monster = new Monster[5];
+    public UserServantData[] servant = new UserServantData[5];
+    public UserMonsterData[] monster = new UserMonsterData[5];
     public Party party = new Party();
     public PartyCharacterInfo temp = new PartyCharacterInfo();
 
@@ -54,7 +54,7 @@ public class TestBattle : MonoSingleton<TestBattle>
 
         for (int i = 0; i < 5; i++)
         {
-            servant[i] = new Servant();
+            servant[i] = new UserServantData();
             servant[i].status.basicDex = 3;
             servant[i].status.basicDex = 3;
             servant[i].status.basicDex = 3;
@@ -63,10 +63,7 @@ public class TestBattle : MonoSingleton<TestBattle>
 
         for (int i = 0; i < 5; i++)
         {
-            monster[i] = new Monster();
-            monster[i].status.basicDex = 2;
-            monster[i].status.basicDex = 2;
-            monster[i].status.basicDex = 2;
+            monster[i] = new UserMonsterData();
             monsterDic.Add(i, monster[i]);
         }
 
