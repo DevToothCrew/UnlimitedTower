@@ -483,13 +483,13 @@ public class BattleManager : MonoSingleton<BattleManager> {
       
             if (i < 5)
             {
-                Servant servant = new Servant(characterList[i]);
+                UserServantData servant = new UserServantData(characterList[i]);
                 status = new CharacterBattleStatus();
-                charIndex = servant.appear;
+                charIndex = 0;
             }
             else
             {
-                Monster monster = new Monster(characterList[i]);
+                UserMonsterData monster = new UserMonsterData(characterList[i]);
                 status = new CharacterBattleStatus();
                 charIndex = monster.index;
             }
@@ -520,9 +520,9 @@ public class BattleManager : MonoSingleton<BattleManager> {
         {
             int formationNum = i;
             PartyCharacterInfo charInfo = new PartyCharacterInfo();
-            if (UserDataManager.Inst.partyDic.ContainsKey(partyNum))
+            if (UserDataManager.Inst.partydic.ContainsKey(partyNum))
             {
-                charInfo = UserDataManager.Inst.partyDic[partyNum].characterList[formationNum];
+                charInfo = UserDataManager.Inst.partydic[partyNum].characterList[formationNum];
                 if(charInfo == null)
                 {
                     break;
@@ -567,7 +567,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
     {
         if(getCharInfo.type == CHAR_TYPE.HERO)
         {
-            Servant heroInfo = UserDataManager.Inst.GetHeroInfo();
+            UserServantData heroInfo = UserDataManager.Inst.GetHeroInfo();
             if(heroInfo == null)
             {
                 return null;
@@ -579,7 +579,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
         }
         else if (getCharInfo.type == CHAR_TYPE.SERVANT)
         {
-            Servant servantInfo = UserDataManager.Inst.GetServantInfo(getCharInfo.index);
+            UserServantData servantInfo = UserDataManager.Inst.GetServantInfo_nullpossible(getCharInfo.index);
             if (servantInfo == null)
             {
                 return null;
@@ -592,7 +592,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
         }
         else if(getCharInfo.type == CHAR_TYPE.MONSTER)
         {
-            Monster monsterInfo = UserDataManager.Inst.GetMonsterInfo(getCharInfo.index);
+            UserMonsterData monsterInfo = UserDataManager.Inst.GetMonsterInfo(getCharInfo.index);
             if(monsterInfo == null)
             {
                 return null;
@@ -609,14 +609,14 @@ public class BattleManager : MonoSingleton<BattleManager> {
         }
     }
 
-    public CharacterBattleStatus GetServantBattleStatus(Servant getServantInfo)
+    public CharacterBattleStatus GetServantBattleStatus(UserServantData getServantInfo)
     {
         CharacterBattleStatus battleStatus = new CharacterBattleStatus();
 
         return battleStatus;
     }
 
-    public CharacterBattleStatus GetMonsterBattleStatus(Monster getMonsterInfo)
+    public CharacterBattleStatus GetMonsterBattleStatus(UserMonsterData getMonsterInfo)
     {
         CharacterBattleStatus battleStatus = new CharacterBattleStatus();
 
@@ -626,7 +626,7 @@ public class BattleManager : MonoSingleton<BattleManager> {
     private void CreateEnemyObjects()
     {
         // TODO :  Test Enemy Setting 코드 필요
-        Dictionary<int, Monster> enemyDic = new Dictionary<int, Monster>();
+        Dictionary<int, UserMonsterData> enemyDic = new Dictionary<int, UserMonsterData>();
 
         for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
         {

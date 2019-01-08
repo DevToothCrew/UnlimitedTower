@@ -15,17 +15,17 @@ public class CharContentList : MonoBehaviour
         //  
 
         // old Code
-        //foreach (KeyValuePair<int, Character> dic in UserDataManager.Inst.servantDic)
+        //foreach (KeyValuePair<int, Character> dic in UserDataManager.Inst.servantList)
         //{
         //    var instance = Instantiate(Resources.Load("Prefabs/CharElement") as GameObject);
         //    if (instance.GetComponent<Image>())
         //    {
-        //        instance.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + UserDataManager.Inst.servantDic[dic.Key].Name);
+        //        instance.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + UserDataManager.Inst.servantList[dic.Key].Name);
         //        instance.transform.SetParent(gameObject.transform.transform);
         //        instance.GetComponent<CharContent>().CharDicKey = dic.Key;
 
         //        // 이미 배치된 캐릭터라면 캐릭터 리스트의 이미지를 검게한다.
-        //        if (UserDataManager.Inst.servantDic[dic.Key].OnFormation)
+        //        if (UserDataManager.Inst.servantList[dic.Key].OnFormation)
         //        {
         //            Color color = instance.GetComponent<Image>().color;
         //            color.r = color.g = color.b = 0.35f;

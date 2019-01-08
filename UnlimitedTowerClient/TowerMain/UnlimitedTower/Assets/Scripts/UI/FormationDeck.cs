@@ -73,7 +73,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         //히어로는 항상 존재하기 때문에 1부터 시작한다.
         for(int i=1; i<DEFINE.PARTY_MAX_NUM/2; ++i)
         {
-            if(UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index ==0)
+            if(UserDataManager.Inst.partydic[usingPartyNum].characterList[i].index ==0)
             {
                 lastIndex = i-1;
                 break;
@@ -81,7 +81,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 
         }
 
-        if(deckNum  ==  UserDataManager.Inst.partyDic[usingPartyNum].characterList[lastIndex].partyPosition)
+        if(deckNum  ==  UserDataManager.Inst.partydic[usingPartyNum].characterList[lastIndex].partyPosition)
         {
             return true;
         }
@@ -95,7 +95,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         //히어로는 항상 존재하기 때문에 1부터 시작한다.
         for (int i = 5; i < DEFINE.PARTY_MAX_NUM ; ++i)
         {
-            if (UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index == 0)
+            if (UserDataManager.Inst.partydic[usingPartyNum].characterList[i].index == 0)
             {
                 lastIndex = i - 1;
                 break;
@@ -107,7 +107,7 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
             return true;
         }
 
-        if (deckNum == UserDataManager.Inst.partyDic[usingPartyNum].characterList[lastIndex].partyPosition)
+        if (deckNum == UserDataManager.Inst.partydic[usingPartyNum].characterList[lastIndex].partyPosition)
         {
             return true;
         }
@@ -137,10 +137,10 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         int charIndex = -1;
         for(int i=0; i<DEFINE.PARTY_MAX_NUM; i++)
         {
-            if(UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyPosition == deckNum)
+            if(UserDataManager.Inst.partydic[usingPartyNum].characterList[i].partyPosition == deckNum)
             {
-                charIndex = UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index;
-                UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index = 0;
+                charIndex = UserDataManager.Inst.partydic[usingPartyNum].characterList[i].index;
+                UserDataManager.Inst.partydic[usingPartyNum].characterList[i].index = 0;
                 break;
             }
         }
@@ -150,24 +150,24 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         UserDataManager.Inst.servantDic[charIndex].onFormation = false;
         UserDataManager.Inst.servantDic[charIndex].formationIndex = -1;
 
-        if (ChildCharImage.GetComponent<Image>())
-        {
-            Sprite sprite = Resources.Load<Sprite>("UI/LobbyUI/CenterPopupUI/15_Formation_Empty_Slot");
-            ChildCharImage.GetComponent<Image>().sprite = sprite;
-        }
-        if (LinkedChar && LinkedChar.GetComponent<CharContent>())
-        {
-            LinkedChar.GetComponent<CharContent>().RemoveCharImage();
-            LinkedChar = null;
-        }
+        //if (ChildCharImage.GetComponent<Image>())
+        //{
+        //    Sprite sprite = Resources.Load<Sprite>("UI/LobbyUI/CenterPopupUI/15_Formation_Empty_Slot");
+        //    ChildCharImage.GetComponent<Image>().sprite = sprite;
+        //}
+        //if (LinkedChar && LinkedChar.GetComponent<CharContent>())
+        //{
+        //    LinkedChar.GetComponent<CharContent>().RemoveCharImage();
+        //    LinkedChar = null;
+        //}
 
 
-        if (orderIndex++ == startNum + 4)
-        {
-            Debug.Log("이 덱이 마지막 덱입니다.");
-            ShowEmptyText(true);
-            return;
-        }
+        //if (orderIndex++ == startNum + 4)
+        //{
+        //    Debug.Log("이 덱이 마지막 덱입니다.");
+        //    ShowEmptyText(true);
+        //    return;
+        //}
 
     }
 
@@ -195,17 +195,17 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         int charIndex = -1;
         for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
         {
-            if (UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].partyPosition == deckNum)
+            if (UserDataManager.Inst.partydic[usingPartyNum].characterList[i].partyPosition == deckNum)
             {
-                charIndex = UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index;
-                UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index = 0;
+                charIndex = UserDataManager.Inst.partydic[usingPartyNum].characterList[i].index;
+                UserDataManager.Inst.partydic[usingPartyNum].characterList[i].index = 0;
                 break;
             }
         }
 
       
         //UserDataManager.Inst.formationDic.Remove(deckNum);
-        UserDataManager.Inst.monsterDic[charIndex].onFormation = false;
+        UserDataManager.Inst.monsterDic[charIndex].OnFormation = false;
         UserDataManager.Inst.monsterDic[charIndex].formationIndex = -1;
 
         if (ChildCharImage.GetComponent<Image>())
@@ -213,11 +213,11 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
             Sprite sprite = Resources.Load<Sprite>("UI/LobbyUI/CenterPopupUI/15_Formation_Empty_Slot");
             ChildCharImage.GetComponent<Image>().sprite = sprite;
         }
-        if (LinkedChar && LinkedChar.GetComponent<CharContent>())
-        { 
-            LinkedChar.GetComponent<CharContent>().RemoveCharImage();
-            LinkedChar = null;
-        }
+        //if (LinkedChar && LinkedChar.GetComponent<CharContent>())
+        //{ 
+        //    LinkedChar.GetComponent<CharContent>().RemoveCharImage();
+        //    LinkedChar = null;
+        //}
 
 
         if (orderIndex++ == startNum + 4)
@@ -251,14 +251,14 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         {
             if (i < 5)
             {
-                if (UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index != 0)
+                if (UserDataManager.Inst.partydic[usingPartyNum].characterList[i].index != 0)
                 {
                     backLineCharNum++;
                 }
             }
             else
             {
-                if (UserDataManager.Inst.partyDic[usingPartyNum].characterList[i].index != 0)
+                if (UserDataManager.Inst.partydic[usingPartyNum].characterList[i].index != 0)
                 {
                     frontLineCharNum++;
 

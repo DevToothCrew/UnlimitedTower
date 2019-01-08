@@ -74,7 +74,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log("Invalid PartyIndex : " + 0);
         }
 
-        if(UserDataManager.Inst.partyDic.ContainsKey(partyInfo.partyIndex) == false)
+        if(UserDataManager.Inst.partydic.ContainsKey(partyInfo.partyIndex) == false)
         {
             Debug.Log("NotEnough PartyIndex : " + partyInfo.partyIndex);
         }
@@ -132,12 +132,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void ResponseLogin(string getLoginInfo)
     {
+        // 
         if (getLoginInfo.StartsWith("{\"sign"))
         {
             SignUp();
             return;
         }
         
+        // 
         UserLoginData userLoginData = JsonUtility.FromJson<UserLoginData>(getLoginInfo); 
         if(userLoginData == null)
         {
@@ -164,9 +166,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
             // Debug.Log(getGachaInfo);
 
             gachaServantData gachaData = JsonUtility.FromJson<gachaServantData>(getGachaInfo);
-            Servant getServant = ParseServant(gachaData.data.index, gachaData.data.servant);
+            UserServantData getServant = ParseServant(gachaData.data.index, gachaData.data.servant);
 
-            UserDataManager.Inst.SetServantInfo(getServant);
+            UserDataManager.Inst.AddServantInfo(getServant);
 
             GachaImage.Inst.SetServantGachaImage(getServant);
         }
@@ -175,7 +177,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             // Debug.Log(getGachaInfo);
 
             gachaMonsterData gachaData = JsonUtility.FromJson<gachaMonsterData>(getGachaInfo);
-            Monster getMonster = ParseMonster(gachaData.data.index, gachaData.data.monster);
+            UserMonsterData getMonster = ParseMonster(gachaData.data.index, gachaData.data.monster);
 
             UserDataManager.Inst.SetMonsterInfo(getMonster);
 
@@ -200,13 +202,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
         partyData partyInfo = JsonUtility.FromJson<partyData>(getPartyInfo);
 
         Party getParty = ParseParty(partyInfo.index, partyInfo);
-        if (UserDataManager.Inst.partyDic.ContainsKey(getParty.partyIndex) == false)
+        if (UserDataManager.Inst.partydic.ContainsKey(getParty.partyIndex) == false)
         {
-            UserDataManager.Inst.partyDic.Add(getParty.partyIndex, getParty);
+            UserDataManager.Inst.partydic.Add(getParty.partyIndex, getParty);
         }
         else
         {
-            UserDataManager.Inst.partyDic[getParty.partyIndex] = getParty;
+            UserDataManager.Inst.partydic[getParty.partyIndex] = getParty;
         }
     }
 
@@ -237,22 +239,25 @@ public class PacketManager : MonoSingleton<PacketManager> {
         UserDataManager.Inst.SetUserInfo(userInfo);
         LeftInfoPopup.Inst.SetLeftInfoUserInfoUpdate(userInfo);
 
-        Dictionary<int, Servant> servantDic = new Dictionary<int, Servant>();
-        if (ParseServantList(getUserLoginData.servant_list, ref servantDic) == false)
+        Dictionary<int, UserServantData> servantList = new Dictionary<int, UserServantData>();
+        if (ParseServantList(getUserLoginData.servant_list, ref servantList) == false)
         {
             Debug.Log("Invalid ParseServantList Info");
             // 재 로그인 시켜야함
         }
-        UserDataManager.Inst.SetServantDic(servantDic);
+        UserDataManager.Inst.SetServantDic(servantList);
 
-        Dictionary<int, Monster> monsterDic = new Dictionary<int, Monster>();
-        if (ParseMonsterList(getUserLoginData.monster_list, ref monsterDic) == false)
+        Dictionary<int, UserMonsterData> monsterList = new Dictionary<int, UserMonsterData>();
+        if (ParseMonsterList(getUserLoginData.monster_list, ref monsterList) == false)
         {
             Debug.Log("Invalid ParseMonsterList Info");
             // 재 로그인 시켜야함
         }
-        UserDataManager.Inst.SetMonsterDic(monsterDic);
+        UserDataManager.Inst.SetMonsterDic(monsterList);
 
+
+
+        
         Dictionary<int, Item> itemDic = new Dictionary<int, Item>();
         if (ParseItemList(getUserLoginData.item_list, ref itemDic) == false)
         {
@@ -294,59 +299,57 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return true;
     }
 
-    public bool ParseServantList(List<servantData> getServantList, ref Dictionary<int, Servant> servantDic)
+    public bool ParseServantList(List<servantData> getServantList, ref Dictionary<int, UserServantData> servantList)
     {
         for (int i = 0; i < getServantList.Count; i++)
         {
-            Servant servant = ParseServant(getServantList[i].index, getServantList[i].servant);
+            UserServantData servant = ParseServant(getServantList[i].index, getServantList[i].servant);
             if (servant == null)
             {
                 Debug.Log("Invalid Servant Info");
                 return false;
             }
 
-            servantDic.Add(servant.index, servant);
+            servantList.Add(servant.index, servant);
         }
 
         return true;
     }
 
-    public Servant ParseServant(int getServantIndex, servantInfo getServantInfo)
+    public UserServantData ParseServant(int getServantIndex, servantInfo getServantInfo)
     {
         if (getServantInfo == null)
         {
             return null;
         }
 
-        Servant servant = new Servant();
+        UserServantData servant = new UserServantData();
 
-        servant.job = getServantInfo.job;
+        servant.jobNum = getServantInfo.job;
+
+        servant.isMainHero = getServantInfo.isMainServant;
 
         servant.index = getServantIndex;
-        servant.state = getServantInfo.state;
         servant.exp = getServantInfo.exp;
         // TODO : 추후 Servant Exp에 따른 Level 공식을 추가해 레벨 적용 필요
         servant.level = Calculator.GetLevelForExp(getServantInfo.exp);
-        servant.job = getServantInfo.job;
+        servant.jobNum = getServantInfo.job;
 
         // TODO : 추후 Appear의 값에 따른 리소스가 저장되어야함
-        servant.head = getServantInfo.appear.head;
-        servant.hair = getServantInfo.appear.hair;
-        servant.body = getServantInfo.appear.body;
+        servant.headNum = getServantInfo.appear.head;
+        servant.hairNum = getServantInfo.appear.hair;
 
         servant.status = ParseStatus(getServantInfo.status);
 
         //TODO : 임시 코드 
-        CHARACTER_NUM servantNum = servant.job + CHARACTER_NUM.Hero_Novice_1001;
-        servant.name = servantNum.ToString();
+        CHARACTER_NUM servantNum = servant.jobNum + CHARACTER_NUM.Hero_Novice_1001;
 
         if (servant.status == null)
         {
             Debug.Log("Invalid Status Info");
             return null;
         }
-
-        servant.equipmentList = getServantInfo.equip_slot;
+        
 
         return servant;
     }
@@ -371,57 +374,42 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return status;
     }
 
-    public bool ParseMonsterList(List<monsterData> getMonsterList, ref Dictionary<int, Monster> monsterDic)
+    public bool ParseMonsterList(List<monsterData> getMonsterList, ref Dictionary<int, UserMonsterData> monsterList)
     {
         for (int i = 0; i < getMonsterList.Count; i++)
         {
-            Monster monster = ParseMonster(getMonsterList[i].index, getMonsterList[i].monster);
+            UserMonsterData monster = ParseMonster(getMonsterList[i].index, getMonsterList[i].monster);
             if (monster == null)
             {
                 Debug.Log("Invalid Monster Info");
                 return false;
             }
 
-            monsterDic.Add(monster.index, monster);
+            monsterList.Add(monster.index, monster);
         }
 
         return true;
     }
 
-    public Monster ParseMonster(int getMonsterIndex, monsterInfo getMonsterInfo)
+    public UserMonsterData ParseMonster(int getMonsterIndex, monsterInfo getMonsterInfo)
     {
         if (getMonsterInfo == null)
         {
             return null;
         }
 
-        Monster monster = new Monster();
+        UserMonsterData monster = new UserMonsterData();
 
-        monster.look = getMonsterInfo.look;
+        monster.monsterNum = getMonsterInfo.look;
 
         monster.index = getMonsterIndex;
-        monster.state = getMonsterInfo.state;
         monster.exp = getMonsterInfo.exp;
         // TODO : 추후 Servant Exp에 따른 Level 공식을 추가해 레벨 적용 필요
         monster.level = Calculator.GetLevelForExp(getMonsterInfo.exp);
-        monster.type = getMonsterInfo.type;
-        monster.grade = getMonsterInfo.grade;
-        monster.upgrade = getMonsterInfo.upgrade;
-
-        // TODO : 추후 Appear + Type 의 값에 따른 리소스가 저장되어야함
-        // monster.appear = ???
-
-        monster.status = ParseStatus(getMonsterInfo.status);
-
-        //TODO : 임시 코드 
-        CHARACTER_NUM monsterNum = monster.look + CHARACTER_NUM.Mst_Cat;
-        monster.name = monsterNum.ToString();
-
-        if (monster.status == null)
-        {
-            Debug.Log("Invalid Status Info");
-            return null;
-        }
+        monster.monsterTypeNum = getMonsterInfo.type;
+        monster.gradeNum = getMonsterInfo.grade;
+        monster.enforceNum = getMonsterInfo.upgrade;
+        
 
         return monster;
     }
