@@ -6,10 +6,10 @@
 class cdbitemtier
 {
   public:
-    uint64_t i_tier;
-    uint32_t i_level;
+    uint64_t tier;
+    uint32_t level;
   public:
-    uint64_t primary_key() const {return i_tier;}
+    uint64_t primary_key() const {return tier;}
 };
 
 typedef multi_index<N(cdbitemtier),cdbitemtier> item_tier_db;

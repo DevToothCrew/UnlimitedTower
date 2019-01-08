@@ -510,8 +510,9 @@ public enum LOBBY_RIGHT_BUTTON
     Formation = 3,
     Gacha = 4,
     Stage = 5,
-    Setting = 6,
-    Max = 7,
+    Inventory = 6,
+    Setting = 7,
+    Max = 8,
 }
 public enum SCENE_STATE
 {

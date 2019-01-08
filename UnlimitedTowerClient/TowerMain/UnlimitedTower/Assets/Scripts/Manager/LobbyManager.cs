@@ -38,6 +38,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public GameObject FormationInfoPopup;
     public GameObject GachaInfoPopup;
     public GameObject StageInfoPopup;
+    public GameObject InventoryInfoPopup;
     public GameObject SettingInfoPopup;
 
     public GameObject GachaScene;
@@ -114,6 +115,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         FormationInfoPopup.SetActivateWithAnimation(false);
         GachaInfoPopup.SetActivateWithAnimation(false);
         StageInfoPopup.SetActivateWithAnimation(false);
+        InventoryInfoPopup.SetActivateWithAnimation(false);
         SettingInfoPopup.SetActivateWithAnimation(false);
     }
 
@@ -156,6 +158,10 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
             case LOBBY_RIGHT_BUTTON.Stage:
                 StageInfoPopup.SetActivateWithAnimation(true);
+                break;
+
+            case LOBBY_RIGHT_BUTTON.Inventory:
+                InventoryInfoPopup.SetActivateWithAnimation(true);
                 break;
 
             case LOBBY_RIGHT_BUTTON.Setting:
