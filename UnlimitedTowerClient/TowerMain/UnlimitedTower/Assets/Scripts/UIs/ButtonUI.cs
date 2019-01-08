@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class ButtonUI : MonoBehaviour {
 
-    public GameObject[] Button = new GameObject[7];
+    public GameObject[] Button = new GameObject[(int)LOBBY_RIGHT_BUTTON.Max];
 
     public bool onClick = false;
 
     public void OnClickButton(int index)
     {
-        for(int i = 0; i < 7; i++)
+        for(int i = 0; i < (int)LOBBY_RIGHT_BUTTON.Max; i++)
         {
             Button[i].GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 0.4f);
         }
@@ -21,7 +21,7 @@ public class ButtonUI : MonoBehaviour {
 
     public void OnClickCloseButton()
     {
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < (int)LOBBY_RIGHT_BUTTON.Max; i++)
         {
             Button[i].GetComponent<Image>().color = new Color(1.0f, 1.0f, 1.0f, 1);
         }
