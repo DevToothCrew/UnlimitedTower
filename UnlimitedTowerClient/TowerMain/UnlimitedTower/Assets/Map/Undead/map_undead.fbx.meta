@@ -1,0 +1,161 @@
+fileFormatVersion: 2
+guid: f52e632c46022754a8aa3b628cb57924
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: map_undead
+    100004: map_undead_object
+    100006: map_undead_object_001
+    100008: map_undead_object_002
+    100010: map_undead_object_003
+    100012: map_undead_object_004
+    100014: map_undead_object_005
+    100016: map_undead_object_2
+    100018: map_undead_object_2_001
+    100020: map_undead_object_2_002
+    100022: map_undead_object_3
+    100024: map_undead_object_3_001
+    400000: //RootNode
+    400002: map_undead
+    400004: map_undead_object
+    400006: map_undead_object_001
+    400008: map_undead_object_002
+    400010: map_undead_object_003
+    400012: map_undead_object_004
+    400014: map_undead_object_005
+    400016: map_undead_object_2
+    400018: map_undead_object_2_001
+    400020: map_undead_object_2_002
+    400022: map_undead_object_3
+    400024: map_undead_object_3_001
+    2100000: palette_009__map_undead_object_2_png
+    2100002: palette_007__map_undead_object_3_png
+    2100004: palette_001__map_undead_object_png
+    2100006: palette__map_undead_png
+    2100008: palette_002__map_undead_object_png_001
+    2100010: palette_004__map_undead_object_png_003
+    2100012: palette_003__map_undead_object_png_002
+    2100014: palette_006__map_undead_object_png_005
+    2100016: palette_005__map_undead_object_png_004
+    2100018: palette_008__map_undead_object_3_png_001
+    2100020: palette_010__map_undead_object_2_png_001
+    2100022: palette_011__map_undead_object_2_png_002
+    2300000: map_undead
+    2300002: map_undead_object
+    2300004: map_undead_object_001
+    2300006: map_undead_object_002
+    2300008: map_undead_object_003
+    2300010: map_undead_object_004
+    2300012: map_undead_object_005
+    2300014: map_undead_object_2
+    2300016: map_undead_object_2_001
+    2300018: map_undead_object_2_002
+    2300020: map_undead_object_3
+    2300022: map_undead_object_3_001
+    3300000: map_undead
+    3300002: map_undead_object
+    3300004: map_undead_object_001
+    3300006: map_undead_object_002
+    3300008: map_undead_object_003
+    3300010: map_undead_object_004
+    3300012: map_undead_object_005
+    3300014: map_undead_object_2
+    3300016: map_undead_object_2_001
+    3300018: map_undead_object_2_002
+    3300020: map_undead_object_3
+    3300022: map_undead_object_3_001
+    4300000: map_undead_object_2
+    4300002: map_undead_object_3
+    4300004: map_undead_object
+    4300006: map_undead
+    4300008: map_undead_object_001
+    4300010: map_undead_object_003
+    4300012: map_undead_object_002
+    4300014: map_undead_object_005
+    4300016: map_undead_object_004
+    4300018: map_undead_object_3_001
+    4300020: map_undead_object_2_001
+    4300022: map_undead_object_2_002
+    7400000: Default Take
+    9500000: //RootNode
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

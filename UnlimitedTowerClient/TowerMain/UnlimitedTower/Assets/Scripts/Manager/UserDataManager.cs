@@ -11,6 +11,10 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public int usingPartyNum = 1;
 
+    private void FixedUpdate()
+    {
+    }
+
     #region SetFunction
 
     public void SetUserInfo(UserInfo getUserInfo)
