@@ -302,11 +302,205 @@ typedef eosio::multi_index<"caccumulate"_n,caccumulate> user_gacha_accumulates;
 
 #pragma region gacha cheat
         void gacha_cheat(eosio::name _user);
+#pragma endregion   
+
+
+
+//------------------------------------------------------------------------//
+//-----------------------------auth_user_table----------------------------//
+//------------------------------------------------------------------------//
+
+#pragma region auth_user_table enum 
+enum euser_state
+{
+    login = 1,
+    lobby,
+    battle,
+    battle_win,
+    battle_lose,
+    tower,
+    travel,
+    pause,
+    black,
+};
+enum hero_state
+{   
+    set_look = 1,
+    set_status,
+    set_change_status,
+    set_complete,
+    set_tower_party,
+    set_travel_party,
+};
+
+enum eobject_state
+{
+    on_inventory,
+    on_equip_slot,
+    on_party,
+    on_tower,
+    object_presale,
+};
 #pragma endregion
+
+#pragma region auth_user_table table
+//struct appear_info
+TABLE appear_info
+{
+    uint32_t head = 0;
+    uint32_t hair = 0;
+    uint32_t body = 0;
+};
+
+//struct status_info
+TABLE status_info
+{
+    uint32_t basic_str = 0;
+    uint32_t basic_dex = 0;
+    uint32_t basic_int = 0;
+    uint32_t plus_str = 0;
+    uint32_t plus_dex = 0;
+    uint32_t plus_int = 0;
+};
+
+//struct hero_info
+TABLE hero_info
+{
+   uint32_t state; //히어로 상태
+   uint32_t exp = 0; //히어로 경험치
+   uint32_t job;
+   uint32_t stat_point = 0;
+   appear_info appear;    //히어로 외형 정보
+   status_info status;    //기본 힘,민,지 추가 힘,민,지
+   std::vector<uint32_t> equip_slot; //히어로 장비 리스트
+};
+
+TABLE cuserauth
+{
+private:
+    uint64_t user;
+public:
+    uint32_t game_money = 100;
+    uint32_t state = euser_state::login;
+    hero_info hero;
+    uint64_t primary_key() const {return user;}
+    void auth_set_user(uint64_t _user) {user = _user;}
+
+};
+
+typedef eosio::multi_index<"cuserauth"_n,cuserauth> auth_users;
+
+#pragma endregion
+
+
+//------------------------------------------------------------------------//
+//-----------------------------------log_table----------------------------//
+//------------------------------------------------------------------------//
+#pragma region log_table
+TABLE cuserlog
+{
+private:
+    uint64_t user;
+public:
+    uint32_t servant_num = 0 ; 
+    uint32_t monster_num = 0 ;
+    uint32_t item_num = 0 ;
+    uint32_t gacha_num = 0 ;
+    uint32_t login_time = 0 ;
+    uint32_t get_gold = 0 ;
+    asset get_eos;
+    uint32_t use_gold = 0 ;
+    asset use_eos;
+    uint32_t battle_count = 0 ;
+    uint32_t last_stage_num = 0 ;
+    uint32_t last_tower_num = 0 ;
+    uint32_t top_clear_stage = 0 ;
+    uint32_t top_clear_tower = 0 ;
+    uint32_t add_party_count = 0 ;
+public:
+  
+    // use_eos(0,symbol(symbol_code("EOS"),4)),
+    // get_eos(0,symbol(symbol_code("EOS"),4))
+    uint64_t primary_key() const {return user;}
+    void log_set_user(uint64_t _user){user = _user;}    
+    
+};
+
+typedef eosio::multi_index<"cuserlog"_n,cuserlog> user_logs;
+
+#pragma endregion
+
+
+
+//------------------------------------------------------------------------//
+//-----------------------------------Login--------------------------------//
+//------------------------------------------------------------------------//
+
+#pragma region Login enum  
+struct transfer_action {
+    name from;
+    std::string action;
+    std::string param;
+    uint32_t type;
+    name to;
+    asset quantity;
+};
+enum job_list
+{
+    beginner = 0,
+    warrior,
+    archer,
+    wizard,
+    priest,
+    thief,
+};
+#pragma endregion
+
+#pragma region Login values
+
+  private:
+    const uint32_t max_charcterslot = 3;
+    const uint32_t max_equip_slot = 3;
+    const uint32_t hero_min_status = 1;
+    uint32_t hero_total_status = 24;
+ public:
+    struct st_transfer
+    {
+        eosio::name from;
+        eosio::name to;
+        asset quantity;
+        string memo;
     };
 
+#pragma endregion
+
+#pragma region Login function
+
+void eosiotoken_transfer(eosio::name sender, eosio::name receiver, T func); 
+void create_account(const eosio::name _user);
+void set_look(const eosio::name _user, uint8_t _head, uint8_t _hair,uint8_t _body);
+void set_status(eosio::name _user);
+void change_status(eosio::name _user);
+void complete_hero_set(eosio::name _user);
+
+#pragma endregion
+
+#pragma region Login reset
+
+void reset_all_user_auth_data();
+void reset_all_user_log_data();
+void delete_user_data(eosio::name _user);
+void reset_user_auth_data(eosio::name _user);
+void reset_user_log_data(eosio::name _user);
+
+#pragma endregion
 
 
 
+
+
+
+
+ };
 
 };
