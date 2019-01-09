@@ -11,7 +11,7 @@ public class UTLobbyUIManager : MonoBehaviour {
 
     public void Gacha()
     {
-        GachaImage.Inst.OnClickGachaOKButton();
+        GachaManager.Instance.ExecuteGacha();
     }
 
     public void SaveParty()

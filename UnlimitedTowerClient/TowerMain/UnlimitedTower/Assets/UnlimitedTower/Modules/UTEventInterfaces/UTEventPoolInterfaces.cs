@@ -54,7 +54,10 @@ public static class UTEventPoolInterface
             Action<IJSONableData> cbs = null;
             if (callbackList.TryGetValue(eventName, out cbs))
             {
-                cbs(data);
+                if(cbs != null)
+                {
+                    cbs(data);
+                }
             }
         }
         catch (Exception e)
@@ -78,7 +81,7 @@ public static class UTEventPoolInterface
             if (callbackList.TryGetValue(eventName, out cbs))
             {
                 cbs += callback;
-                callbackList.Add(eventName, cbs);
+                callbackList[eventName] = cbs;
             }
             else
             {
