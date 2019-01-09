@@ -86,6 +86,9 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
             Debug.Log(TextPool[Index].GetComponent<RectTransform>().position);
         }
 
+        if (isCritical)
+            StartCoroutine(CriticalAttackEffect());
+
         Index++;
     }
 

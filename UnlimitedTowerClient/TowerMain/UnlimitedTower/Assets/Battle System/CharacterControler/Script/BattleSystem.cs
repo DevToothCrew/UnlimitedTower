@@ -128,9 +128,6 @@ public class BattleSystem : MonoSingleton<BattleSystem>
 
     IEnumerator BattleStart()
     {
-        // 임시로 대에에에에에충 만든거니 나중에 바꿀것
-        /// 둘중 한팀이 전멸하면 팅긴다 조심 
-
         int temp1;
         int temp2;
         while (true)
