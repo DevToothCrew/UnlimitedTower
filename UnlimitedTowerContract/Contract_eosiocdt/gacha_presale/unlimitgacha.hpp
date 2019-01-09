@@ -1,5 +1,13 @@
 #include "Common/common_header.hpp"
 
+//즐겨찾기 
+//테이블 
+//db_table, token_table, gacha_table, login_table
+//시스템 
+//db_system, token_system, login_system, gacha_system, init_function, delete_function, free_sale_function
+//로그
+//freesale_log_table, user_log_table
+
 CONTRACT unlimitgacha : public contract
 {
   public:
@@ -22,94 +30,94 @@ CONTRACT unlimitgacha : public contract
         uint64_t base_int;
     };
 
-#pragma region db cdbbody
-    TABLE cdbbody
+#pragma region db dbbody
+    TABLE dbbody
     {
         uint64_t body;
         uint64_t primary_key() const { return body; }
     };
-    typedef eosio::multi_index<"cdbbody"_n, cdbbody> body_db;
+    typedef eosio::multi_index<"dbbody"_n, dbbody> body_db;
 #pragma endregion
 
-#pragma region db cdbhair
-    TABLE cdbhair
+#pragma region db dbhair
+    TABLE dbhair
     {
         uint64_t hair;
         uint64_t primary_key() const { return hair; }
     };
-    typedef eosio::multi_index<"cdbhair"_n, cdbhair> hair_db;
+    typedef eosio::multi_index<"dbhair"_n, dbhair> hair_db;
 #pragma endregion
 
-#pragma region db cdbhead
-    TABLE cdbhead
+#pragma region db dbhead
+    TABLE dbhead
     {
         uint64_t head;
         uint64_t primary_key() const { return head; }
     };
-    typedef eosio::multi_index<"cdbhead"_n, cdbhead> head_db;
+    typedef eosio::multi_index<"dbhead"_n, dbhead> head_db;
 #pragma endregion
 
-#pragma region db cdbitemgrade
-    TABLE cdbitemgrade
+#pragma region db dbitemgrade
+    TABLE dbitemgrade
     {
         uint64_t grade;
         object_status min_range;
         object_status max_range;
         uint64_t primary_key() const { return grade; }
     };
-    typedef eosio::multi_index<"cdbitemgrade"_n, cdbitemgrade> item_grade_db;
+    typedef eosio::multi_index<"dbitemgrade"_n, dbitemgrade> item_grade_db;
 #pragma endregion
 
-#pragma region db cdbitemid
-    TABLE cdbitemid
+#pragma region db dbitemid
+    TABLE dbitemid
     {
         uint64_t id;
         uint64_t slot;
         uint64_t job;
         uint64_t primary_key() const { return id; }
     };
-    typedef eosio::multi_index<"cdbitemid"_n, cdbitemid> item_id_db;
+    typedef eosio::multi_index<"dbitemid"_n, dbitemid> item_id_db;
 #pragma endregion
 
-#pragma region db cdbitemtier
-    TABLE cdbitemtier
+#pragma region db dbitemtier
+    TABLE dbitemtier
     {
         uint64_t tier;
         uint64_t level;
         uint64_t primary_key() const { return tier; }
     };
-    typedef eosio::multi_index<"cdbitemtier"_n, cdbitemtier> item_tier_db;
+    typedef eosio::multi_index<"dbitemtier"_n, dbitemtier> item_tier_db;
 #pragma endregion
 
-#pragma region db cdbmgrade
-    TABLE cdbmgrade
+#pragma region db dbmgrade
+    TABLE dbmgrade
     {
         uint64_t monster_grade;
         object_status min_range;
         object_status max_range;
         uint64_t primary_key() const { return monster_grade; }
     };
-    typedef eosio::multi_index<"cdbmgrade"_n, cdbmgrade> monster_grade_db;
+    typedef eosio::multi_index<"dbmgrade"_n, dbmgrade> monster_grade_db;
 #pragma endregion
 
-#pragma region db cdbmonsterid
-    TABLE cdbmonsterid
+#pragma region db dbmonsterid
+    TABLE dbmonsterid
     {
         uint64_t look;
         uint64_t primary_key() const { return look; }
     };
-    typedef eosio::multi_index<"cdbmonsterid"_n, cdbmonsterid> monster_id_db;
+    typedef eosio::multi_index<"dbmonsterid"_n, dbmonsterid> monster_id_db;
 #pragma endregion
 
-#pragma region db cdbservant
-    TABLE cdbservant
+#pragma region db dbservant
+    TABLE dbservant
     {
         uint64_t job;
         object_status min_range;
         object_status max_range;
         uint64_t primary_key() const { return job; }
     };
-    typedef eosio::multi_index<"cdbservant"_n, cdbservant> servant_db;
+    typedef eosio::multi_index<"dbservant"_n, dbservant> servant_db;
 #pragma endregion
 
     //------------------------------------------------------------------------//
@@ -213,30 +221,30 @@ CONTRACT unlimitgacha : public contract
         uint32_t plus_int = 0;
     };
 
-#pragma region gacha cservant
+#pragma region gacha tservant
     struct servant_info
     {
-        uint32_t state;   //서번트 상태
-        uint32_t exp = 0; //서번트 경험치
-        uint32_t job;
+        uint32_t state;                   //서번트 상태
+        uint32_t exp = 0;                 //서번트 경험치
+        uint32_t job;   
         uint32_t stat_point = 0;
         appear_info appear;               //서번트 외형 정보
         status_info status;               //기본 힘,민,지 추가 힘,민,지
         std::vector<uint32_t> equip_slot; //서번트 장비 리스트
     };
 
-    TABLE cservant
+    TABLE tservant
     {
         uint64_t index;
         uint32_t party_number;
         servant_info servant;
         uint64_t primary_key() const { return index; }
     };
-    typedef eosio::multi_index<"cservant"_n, cservant> user_servants;
-    typedef eosio::multi_index<"freeservant"_n, cservant> user_free_sale_servants;
+    typedef eosio::multi_index<"tservant"_n, tservant> user_servants;
+    typedef eosio::multi_index<"freeservant"_n, servant> user_free_sale_servants;
 #pragma endregion
 
-#pragma region gacha cmonster
+#pragma region gacha tmonster
     struct monster_info
     {
         uint32_t state;    //몬스터 상태값
@@ -248,18 +256,17 @@ CONTRACT unlimitgacha : public contract
         status_info status;   //기본 힘,민,지 추가 힘,민,지
     };
 
-    TABLE cmonster
+    TABLE tmonster
     {
         uint64_t index;
         uint32_t party_number;
         monster_info monster;
         uint64_t primary_key() const { return index; }
     };
-    typedef eosio::multi_index<"cmonster"_n, cmonster> user_monsters;
-    typedef eosio::multi_index<"freemonster"_n, cmonster> user_free_sale_monsters;
+    typedef eosio::multi_index<"tmonster"_n, tmonster> user_monsters;
 #pragma endregion
 
-#pragma region gacha citem
+#pragma region gacha titem
     struct item_info
     {
         uint32_t state;       //아이템 현재 상태
@@ -274,17 +281,17 @@ CONTRACT unlimitgacha : public contract
         status_info status; //기본 힘,민,지 추가 힘,민,지
     };
 
-    TABLE citem
+    TABLE titem
     {
         uint64_t index;
         item_info item;
         uint64_t primary_key() const { return index; }
     };
-    typedef eosio::multi_index<"citem"_n, citem> user_items;
-    typedef eosio::multi_index<"freeitem"_n, citem> user_free_sale_items;
+    typedef eosio::multi_index<"titem"_n, titem> user_items;
+    typedef eosio::multi_index<"freeitem"_n, titem> user_free_sale_items;
 #pragma endregion
 
-#pragma region gacha cgacharesult
+#pragma region gacha tgacharesult
     enum result
     {
         servant = 1,
@@ -298,24 +305,24 @@ CONTRACT unlimitgacha : public contract
         uint32_t type;
     };
 
-    TABLE cgacharesult
+    TABLE tgacharesult
     {
         eosio::name user;
         result_info result;
         uint64_t primary_key() const { return user.value; }
     };
-    typedef eosio::multi_index<"cgacharesult"_n, cgacharesult> user_gacha_results;
+    typedef eosio::multi_index<"tgacharesult"_n, tgacharesult> user_gacha_results;
 #pragma endregion
 
-#pragma region gacha caccumulate
+#pragma region gacha taccumulate
 
-    TABLE caccumulate
+    TABLE taccumulate
     {
         eosio::name user;
         std::vector<result_info> result_list;
         uint64_t primary_key() const { return user.value; }
     };
-    typedef eosio::multi_index<"caccumulate"_n, caccumulate> user_gacha_accumulates;
+    typedef eosio::multi_index<"taccumulate"_n, taccumulate> user_gacha_accumulates;
 
 #pragma endregion
 
@@ -366,6 +373,49 @@ CONTRACT unlimitgacha : public contract
     void gacha_cheat(eosio::name _user);
 #pragma endregion
 
+//------------------------------------------------------------------------//
+//--------------------------freesale_log_table----------------------------//
+//------------------------------------------------------------------------//
+#pragma region freesale table log
+TABLE freesalelog
+{   
+    eosio::name owner;
+    uint64_t gacha_participation = 0;
+    uint64_t accumulate_token_amount = 0;
+    uint64_t primary_key() const { return owner.value; }
+};
+    typedef eosio::multi_index<"freesalelog"_n, freesalelog> participation_logs;
+#pragma endregion
+//------------------------------------------------------------------------//
+//------------------------------user_log_table----------------------------//
+//------------------------------------------------------------------------//
+#pragma region login table tuserlog
+    TABLE tuserlog
+    {
+        eosio::name user;
+        uint32_t servant_num = 0;
+        uint32_t monster_num = 0;
+        uint32_t item_num = 0;
+        uint32_t gacha_num = 0;
+        uint32_t login_time = 0;
+        uint32_t get_gold = 0;
+        //asset get_eos = eosio::asset(0, symbol(symbol_code("EOS"),4));;
+        uint32_t use_gold = 0;
+        //asset use_eos = eosio::asset(0, symbol(symbol_code("EOS"),4)); 
+        uint64_t use_eos = 0;       
+        uint32_t battle_count = 0;
+        uint32_t last_stage_num = 0;
+        uint32_t last_tower_num = 0;
+        uint32_t top_clear_stage = 0;
+        uint32_t top_clear_tower = 0;
+        uint32_t add_party_count = 0;
+
+
+        uint64_t primary_key() const { return user.value; }
+    };
+    typedef eosio::multi_index<"tuserlog"_n, tuserlog> user_logs;
+#pragma endregion
+
     //------------------------------------------------------------------------//
     //-----------------------------login_table--------------------------------//
     //------------------------------------------------------------------------//
@@ -373,7 +423,7 @@ CONTRACT unlimitgacha : public contract
 #pragma region login enum
     enum euser_state
     {        
-        freesale = 1,       //owen change 
+        freesale = 1,        
         lobby,
         battle,
         battle_win,
@@ -403,12 +453,12 @@ CONTRACT unlimitgacha : public contract
     };
 #pragma endregion
 
-#pragma region login table cuserauth
+#pragma region login table tuserauth
     //struct hero_info
     struct hero_info
     {
-        uint32_t state;   //히어로 상태
-        uint32_t exp = 0; //히어로 경험치
+        uint32_t state;                   //히어로 상태
+        uint32_t exp = 0;                 //히어로 경험치
         uint32_t job;
         uint32_t stat_point = 0;
         appear_info appear;               //히어로 외형 정보
@@ -416,7 +466,7 @@ CONTRACT unlimitgacha : public contract
         std::vector<uint32_t> equip_slot; //히어로 장비 리스트
     };
 
-    TABLE cuserauth
+    TABLE tuserauth
     {
         eosio::name user;
         uint32_t game_money = 100;
@@ -424,52 +474,9 @@ CONTRACT unlimitgacha : public contract
         hero_info hero;
         uint64_t primary_key() const { return user.value; }
     };
-    typedef eosio::multi_index<"cuserauth"_n, cuserauth> auth_users;
+    typedef eosio::multi_index<"tuserauth"_n, tuserauth> auth_users;
 
 #pragma endregion
-//------------------------------------------------------------------------//
-//--------------------------freesale_log_table----------------------------//
-//------------------------------------------------------------------------//
-#pragma region freesale table log
-TABLE freesalelog
-{   
-    eosio::name owner;
-    uint64_t gacha_participation = 0;
-    uint64_t accumulate_token_amount = 0;
-    uint64_t primary_key() const { return owner.value; }
-};
-    typedef eosio::multi_index<"freesalelog"_n, freesalelog> participation_logs;
-#pragma endregion
-//------------------------------------------------------------------------//
-//-----------------------------------log_table----------------------------//
-//------------------------------------------------------------------------//
-#pragma region login table cuserlog
-    TABLE cuserlog
-    {
-        eosio::name user;
-        uint32_t servant_num = 0;
-        uint32_t monster_num = 0;
-        uint32_t item_num = 0;
-        uint32_t gacha_num = 0;
-        uint32_t login_time = 0;
-        uint32_t get_gold = 0;
-        //asset get_eos = eosio::asset(0, symbol(symbol_code("EOS"),4));;
-        uint32_t use_gold = 0;
-        //asset use_eos = eosio::asset(0, symbol(symbol_code("EOS"),4)); 
-        uint64_t use_eos = 0;       
-        uint32_t battle_count = 0;
-        uint32_t last_stage_num = 0;
-        uint32_t last_tower_num = 0;
-        uint32_t top_clear_stage = 0;
-        uint32_t top_clear_tower = 0;
-        uint32_t add_party_count = 0;
-
-
-        uint64_t primary_key() const { return user.value; }
-    };
-    typedef eosio::multi_index<"cuserlog"_n, cuserlog> user_logs;
-#pragma endregion
-
     //------------------------------------------------------------------------//
     //-----------------------------login_system-------------------------------//
     //------------------------------------------------------------------------//
@@ -531,12 +538,8 @@ TABLE freesalelog
 void init_all_user_auth_data();
 void init_all_user_log_data();
 void init_all_object_gacha_data();
-
 ACTION initalluser();
-
-
 void init_freesale_log();
-
 ACTION initfreelog();
 
 
@@ -546,9 +549,7 @@ ACTION initfreelog();
 void delete_user_data(eosio::name _user);
 void delete_user_object_data(eosio::name _user);
 void delete_user_gacha_result_data(eosio::name _user);
-
 void delete_user_freesale_data(eosio::name _user);
-
 ACTION deleteuser(eosio::name _user);
 
 
