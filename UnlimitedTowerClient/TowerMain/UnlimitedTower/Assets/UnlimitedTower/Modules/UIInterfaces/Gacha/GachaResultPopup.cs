@@ -25,6 +25,7 @@ public class GachaResultPopup : MonoBehaviour {
     [SerializeField]
     private Text resultIntStat;
 
+    /*
     public UTObject resultObject
     { 
         set
@@ -84,7 +85,7 @@ public class GachaResultPopup : MonoBehaviour {
             }
         }
     }
-
+    */
 
     private void OnEnable()
     {
