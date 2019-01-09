@@ -232,6 +232,7 @@ CONTRACT unlimitgacha : public contract
         uint64_t primary_key() const { return index; }
     };
     typedef eosio::multi_index<"cservant"_n, cservant> user_servants;
+    typedef eosio::multi_index<"freeservant"_n, cservant> user_free_sale_servants;
 #pragma endregion
 
 #pragma region gacha cmonster
@@ -254,6 +255,7 @@ CONTRACT unlimitgacha : public contract
         uint64_t primary_key() const { return index; }
     };
     typedef eosio::multi_index<"cmonster"_n, cmonster> user_monsters;
+    typedef eosio::multi_index<"freemonster"_n, cmonster> user_free_sale_monsters;
 #pragma endregion
 
 #pragma region gacha citem
@@ -278,6 +280,7 @@ CONTRACT unlimitgacha : public contract
         uint64_t primary_key() const { return index; }
     };
     typedef eosio::multi_index<"citem"_n, citem> user_items;
+    typedef eosio::multi_index<"freeitem"_n, citem> user_free_sale_items;
 #pragma endregion
 
 #pragma region gacha cgacharesult
@@ -345,6 +348,14 @@ CONTRACT unlimitgacha : public contract
     uint64_t get_user_seed_value(uint64_t _user);
 
     void start_gacha(eosio::name _user, uint64_t _seed);
+
+//-----------------------------free_sale_function--------------------------------//
+    void freesale_gacha_servant_job(eosio::name _user, uint64_t _seed);
+    void freesale_gacha_monster_id(eosio::name _user, uint64_t _seed);
+    void freesale_gacha_item_id(eosio::name _user, uint64_t _seed);
+
+    void freesale_gacha(eosio::name _user, uint64_t _seed);
+
 #pragma endregion
 
 
@@ -381,8 +392,7 @@ CONTRACT unlimitgacha : public contract
 
     enum eobject_state
     {
-        on_freesale =1,
-        on_inventory,
+        on_inventory = 1,
         on_equip_slot,
         on_party,
         on_tower,
@@ -421,7 +431,8 @@ CONTRACT unlimitgacha : public contract
 TABLE freesalelog
 {   
     eosio::name owner;
-    uint64_t gacha_participation;
+    uint64_t gacha_participation = 0;
+    uint64_t remain_token_amount = 0;
     uint64_t primary_key() const { return owner.value; }
 };
     typedef eosio::multi_index<"freesalelog"_n, freesalelog> participation_logs;
@@ -532,6 +543,8 @@ ACTION initfreelog();
 void delete_user_data(eosio::name _user);
 void delete_user_object_data(eosio::name _user);
 void delete_user_gacha_result_data(eosio::name _user);
+
+void delete_user_freesale_data(eosio::name _user);
 
 ACTION deleteuser(eosio::name _user);
 
