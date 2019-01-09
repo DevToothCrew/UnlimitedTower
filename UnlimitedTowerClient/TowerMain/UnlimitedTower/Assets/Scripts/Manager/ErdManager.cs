@@ -53,7 +53,7 @@ public class ErdManager : MonoBehaviour {
     {
         return ServantJobEntityTable.param.Find((rowdata) => { return rowdata.jobNum == jobNum; });
     }
-
+    public Sprite[] servantJobIconSprite;
 
 
     // ITEM
@@ -107,6 +107,20 @@ public class ErdManager : MonoBehaviour {
     public MonsterEntity.Param getMonsterEntityTable_nullPossible(int monsterNum, int typeNum)
     {
         return MonsterEntityTable.param.Find((rowdata) => { return rowdata.monsterNum == monsterNum && rowdata.typeNum == typeNum; });
+    }
+    public Sprite getMonsterImage(int monsterNum, int typeNum)
+    {
+        MonsterEntity.Param param = getMonsterEntityTable_nullPossible(monsterNum, typeNum);
+        if (param != null)
+        {
+            return MonsterSprite[param.apearNum];
+
+        }
+        else
+        {
+            return null;
+        }
+        
     }
     public Sprite[] MonsterSprite;
     

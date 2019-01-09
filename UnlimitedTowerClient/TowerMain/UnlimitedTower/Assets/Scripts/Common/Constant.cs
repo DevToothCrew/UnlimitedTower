@@ -155,9 +155,42 @@ public class UserServantData
     public Status status;
     public int leftStatPoint;
 
+    // event on
     public bool onFormation = false;
     public int partyIndex = -1;
     public int formationIndex = -1;
+
+
+    // 함수(배치, 디배치)
+    public void requestPlaceChange(int teamNum, int formationNum)
+    {
+        onFormation = true;
+        partyIndex = teamNum;
+        formationIndex = formationNum;
+
+
+        if (GameDataManager.instance != null && GameDataManager.instance.placeChangedEvent != null)
+        {
+            GameDataManager.instance.placeChangedEvent();
+        }
+    }
+    public void request_deplace()
+    {
+        if (!onFormation)
+        {
+            return;
+        }
+
+        onFormation = false;
+
+        // 이벤트
+        if (GameDataManager.instance != null && GameDataManager.instance.placeChangedEvent != null)
+        {
+            GameDataManager.instance.placeChangedEvent();
+        }
+    }
+
+
 
 
     public UserServantData()
@@ -205,6 +238,34 @@ public class UserMonsterData
     public int partyIndex = -1;
     public int formationIndex = -1;
 
+    // 함수(배치, 디배치)
+    public void requestPlaceChange(int teamNum, int formationNum)
+    {
+        OnFormation = true;
+        partyIndex = teamNum;
+        formationIndex = formationNum;
+
+
+        if (GameDataManager.instance != null && GameDataManager.instance.placeChangedEvent != null)
+        {
+            GameDataManager.instance.placeChangedEvent();
+        }
+    }
+    public void request_deplace()
+    {
+        if (!OnFormation)
+        {
+            return;
+        }
+
+        OnFormation = false;
+
+        // 이벤트
+        if (GameDataManager.instance != null && GameDataManager.instance.placeChangedEvent != null)
+        {
+            GameDataManager.instance.placeChangedEvent();
+        }
+    }
 
     //TODO : TestCode
     public UserMonsterData()

@@ -74,10 +74,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log("Invalid PartyIndex : " + 0);
         }
 
-        if(UserDataManager.Inst.partydic.ContainsKey(partyInfo.partyIndex) == false)
-        {
-            Debug.Log("NotEnough PartyIndex : " + partyInfo.partyIndex);
-        }
+        //if(UserDataManager.Inst.partydic.ContainsKey(partyInfo.partyIndex) == false)
+        //{
+        //    Debug.Log("NotEnough PartyIndex : " + partyInfo.partyIndex);
+        //}
 
         Debug.Log("RequestSaveParty");
 
@@ -168,7 +168,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             gachaServantData gachaData = JsonUtility.FromJson<gachaServantData>(getGachaInfo);
             UserServantData getServant = ParseServant(gachaData.data.index, gachaData.data.servant);
 
-            UserDataManager.Inst.AddServantInfo(getServant);
+            UserDataManager.Inst.addServantData(getServant);
 
             GachaImage.Inst.SetServantGachaImage(getServant);
         }
@@ -179,7 +179,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             gachaMonsterData gachaData = JsonUtility.FromJson<gachaMonsterData>(getGachaInfo);
             UserMonsterData getMonster = ParseMonster(gachaData.data.index, gachaData.data.monster);
 
-            UserDataManager.Inst.SetMonsterInfo(getMonster);
+            UserDataManager.Inst.addMonsterData(getMonster);
 
             GachaImage.Inst.SetMonsterGachaImage(getMonster);
         }
@@ -190,7 +190,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             gachaItemData gachaData = JsonUtility.FromJson<gachaItemData>(getGachaInfo);
             Item getItem = ParseItem(gachaData.data.index, gachaData.data.item);
 
-            UserDataManager.Inst.SetItemInfo(getItem);
+            //UserDataManager.Inst.SetItemInfo(getItem);
 
             GachaImage.Inst.SetItemGachaImage(getItem);
         }
@@ -202,14 +202,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
         partyData partyInfo = JsonUtility.FromJson<partyData>(getPartyInfo);
 
         Party getParty = ParseParty(partyInfo.index, partyInfo);
-        if (UserDataManager.Inst.partydic.ContainsKey(getParty.partyIndex) == false)
-        {
-            UserDataManager.Inst.partydic.Add(getParty.partyIndex, getParty);
-        }
-        else
-        {
-            UserDataManager.Inst.partydic[getParty.partyIndex] = getParty;
-        }
+        //if (UserDataManager.Inst.partydic.ContainsKey(getParty.partyIndex) == false)
+        //{
+        //    UserDataManager.Inst.partydic.Add(getParty.partyIndex, getParty);
+        //}
+        //else
+        //{
+        //    UserDataManager.Inst.partydic[getParty.partyIndex] = getParty;
+        //}
     }
 
     public void Response_GetStageInfo(int stageNum)
@@ -245,7 +245,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log("Invalid ParseServantList Info");
             // 재 로그인 시켜야함
         }
-        UserDataManager.Inst.SetServantDic(servantList);
+        foreach (var item in servantList)
+        {
+            UserDataManager.Inst.addServantData(item.Value);
+        }
+
 
         Dictionary<int, UserMonsterData> monsterList = new Dictionary<int, UserMonsterData>();
         if (ParseMonsterList(getUserLoginData.monster_list, ref monsterList) == false)
@@ -253,9 +257,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log("Invalid ParseMonsterList Info");
             // 재 로그인 시켜야함
         }
-        UserDataManager.Inst.SetMonsterDic(monsterList);
-
-
+        foreach (var item in monsterList)
+        {
+            UserDataManager.Inst.addMonsterData(item.Value);
+        }
 
         
         Dictionary<int, Item> itemDic = new Dictionary<int, Item>();
@@ -264,7 +269,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log("Invalid ParseItemList Info");
             // 재 로그인 시켜야함
         }
-        UserDataManager.Inst.SetItemDic(itemDic);
+        //UserDataManager.Inst.SetItemDic(itemDic);
 
         Dictionary<int, Party> partyDic = new Dictionary<int, Party>();
         if (ParsePartyList(getUserLoginData.party_list, ref partyDic) == false)
@@ -272,7 +277,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log("invalid ParsePartyList info");
             // 재 로그인 시켜야함
         }
-        UserDataManager.Inst.SetPartyDic(partyDic);
+        //UserDataManager.Inst.SetPartyDic(partyDic);
 
         // 모든 데이터가 저장이 된 후 화면 전환
         LobbyManager.Inst.ChangeSceneState(userInfo.sceneState);
