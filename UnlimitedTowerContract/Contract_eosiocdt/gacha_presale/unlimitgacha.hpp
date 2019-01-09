@@ -134,6 +134,7 @@ CONTRACT unlimitgacha : public contract
 #pragma region db action
     ACTION setdata();
     ACTION initdata();
+    ACTION setfreesale();
 #pragma endregion
 
   public:
@@ -334,6 +335,9 @@ CONTRACT unlimitgacha : public contract
     const uint32_t two_grade_ratio = 89;
     const uint32_t three_grade_ratio = 9;
     const uint32_t four_grade_ratio = 2;
+
+    const uint64_t limit_token_amount = 150000000;
+
 #pragma endregion
 
   public:
@@ -348,7 +352,6 @@ CONTRACT unlimitgacha : public contract
     uint64_t get_user_seed_value(uint64_t _user);
 
     void start_gacha(eosio::name _user, uint64_t _seed);
-
 //-----------------------------free_sale_function--------------------------------//
     void freesale_gacha_servant_job(eosio::name _user, uint64_t _seed);
     void freesale_gacha_monster_id(eosio::name _user, uint64_t _seed);
@@ -432,7 +435,7 @@ TABLE freesalelog
 {   
     eosio::name owner;
     uint64_t gacha_participation = 0;
-    uint64_t remain_token_amount = 0;
+    uint64_t accumulate_token_amount = 0;
     uint64_t primary_key() const { return owner.value; }
 };
     typedef eosio::multi_index<"freesalelog"_n, freesalelog> participation_logs;

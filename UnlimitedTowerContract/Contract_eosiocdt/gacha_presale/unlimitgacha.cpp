@@ -126,11 +126,6 @@ void unlimitgacha::add_balance(name _user, asset _value, name _ram_payer)
 ACTION unlimitgacha::setdata()
 {
     eosio::require_auth(owner);
-    participation_logs participation_log_table(owner, owner.value);
-    participation_log_table.emplace(owner, [&](auto &free_sale) {
-        free_sale.owner = owner;
-    });
-
     servant_db servant_db_table(owner, owner.value);
     head_db head_db_table(owner, owner.value);
     hair_db hair_db_table(owner, owner.value);
@@ -280,6 +275,16 @@ ACTION unlimitgacha::setdata()
         });
     }
 }
+
+ACTION unlimitgacha::setfreesale()
+{
+    eosio::require_auth(owner);
+    participation_logs participation_log_table(owner, owner.value);
+    participation_log_table.emplace(owner, [&](auto &free_sale) {
+        free_sale.owner = owner;
+    });
+}
+
 #pragma endregion
 
 #pragma region login
@@ -355,18 +360,34 @@ ACTION unlimitgacha::freesalesign(eosio::name _user)
         update_user_monster_list.monster = new_monster;
     });
 
+    participation_logs participation_log_table(owner, owner.value);
+    auto gacha_participation_iter = participation_log_table.find(owner.value);
+    eosio_assert(gacha_participation_iter != participation_log_table.end(), "free sale time over");
+
     asset freesale_signup_reward(0, symbol(symbol_code("UTG"), 4));
     freesale_signup_reward.amount = 30000000; // 3000 UTG
 
-    action(permission_level{get_self(), "active"_n},
-           get_self(), "tokentrans"_n,
-           std::make_tuple(owner, _user, freesale_signup_reward, std::string("freesale signup reward")))
-        .send();
+    uint64_t limt_check = gacha_participation_iter->accumulate_token_amount + freesale_signup_reward.amount;
+    if( limt_check <= limit_token_amount )
+    {
+        participation_log_table.modify(gacha_participation_iter, owner, [&](auto &update_participation_list) {
+            update_participation_list.gacha_participation += 1;
+            update_participation_list.accumulate_token_amount += freesale_signup_reward.amount;
+        });
+        action(permission_level{get_self(), "active"_n},
+               get_self(), "tokentrans"_n,
+               std::make_tuple(owner, _user, freesale_signup_reward, std::string("freesale signup reward")))
+            .send();
+    }
 }
 
 ACTION unlimitgacha::signup(eosio::name _user)
 {
     require_auth(_user);
+    participation_logs participation_log_table(owner, owner.value);
+    auto gacha_participation_iter = participation_log_table.find(owner.value);
+    eosio_assert(gacha_participation_iter == participation_log_table.end(), "free sale time please freesalesign");
+
     auth_users auth_user_table(owner, owner.value);
     auto new_user_iter = auth_user_table.find(_user.value);
     if (new_user_iter == auth_user_table.end())
@@ -391,7 +412,40 @@ ACTION unlimitgacha::signup(eosio::name _user)
     }
     else
     {
-        //기존 인벤토리로 옮기면서 지워주는 함수
+        user_servants user_servant_table(owner, _user.value);
+        user_free_sale_servants user_servant_free_table(owner, _user.value);
+        for (auto user_servant_iter = user_servant_free_table.begin(); user_servant_iter != user_servant_free_table.end();)
+        {
+            user_servant_table.emplace(owner, [&](auto &move_servant) {
+                move_servant.index = user_servant_iter->index;
+                move_servant.party_number = user_servant_iter->party_number;
+                move_servant.servant = user_servant_iter->servant;
+            });
+            user_servant_iter++;
+        }
+
+        user_monsters user_monster_table(owner, _user.value);
+        user_free_sale_monsters user_monster_free_table(owner, _user.value);
+        for (auto user_monster_iter = user_monster_free_table.begin(); user_monster_iter != user_monster_free_table.end();)
+        {
+            user_monster_table.emplace(owner, [&](auto &move_monster) {
+                move_monster.index = user_monster_iter->index;
+                move_monster.party_number = user_monster_iter->party_number;
+                move_monster.monster = user_monster_iter->monster;
+            });
+            user_monster_iter++;
+        }
+
+        user_items user_item_table(owner, _user.value);
+        user_free_sale_items user_item_free_table(owner, _user.value);
+        for (auto user_item_iter = user_item_free_table.begin(); user_item_iter != user_item_free_table.end();)
+        {
+            user_item_table.emplace(owner, [&](auto &move_item) {
+                move_item.index = user_item_iter->index;
+                move_item.item = user_item_iter->item;
+            });
+            user_item_iter++;
+        }
     }
 }
 // eosio.token recipient
@@ -407,14 +461,41 @@ ACTION unlimitgacha::eostransfer(eosio::name sender, eosio::name receiver)
         else if (ad.action == action_gacha)
         {
             participation_logs participation_log_table(owner, owner.value);
-            auto participation_log_iter = participation_log_table.find(owner.value);
-            if ( participation_log_iter == participation_log_table.end() ) 
+            auto gacha_participation_iter = participation_log_table.find(owner.value);
+            if ( gacha_participation_iter == participation_log_table.end() ) 
             {
                 start_gacha(sender, ad.type);
             }
             else
             {
                 freesale_gacha(sender, ad.type);
+
+                asset gacha_reward(0, symbol(symbol_code("UTG"), 4));
+                if (gacha_participation_iter->gacha_participation < 3)
+                {
+                    gacha_reward.amount = 30000000;
+                }
+                else if (gacha_participation_iter->gacha_participation < 5)
+                {
+                    gacha_reward.amount = 20000000;
+                }
+                else
+                {
+                    gacha_reward.amount = 10000000;
+                }
+
+                uint64_t limt_check = gacha_participation_iter->accumulate_token_amount + gacha_reward.amount;
+                if (limt_check <= limit_token_amount)
+                {
+                    participation_log_table.modify(gacha_participation_iter, owner, [&](auto &update_participation_list) {
+                        update_participation_list.gacha_participation += 1;
+                        update_participation_list.accumulate_token_amount += gacha_reward.amount;
+                    });
+                    action(permission_level{get_self(), "active"_n},
+                           get_self(), "tokentrans"_n,
+                           std::make_tuple(owner, sender, gacha_reward, std::string("free sale gacha reward")))
+                        .send();
+                }
             }
         }
     });
@@ -1445,44 +1526,6 @@ void unlimitgacha::freesale_gacha(eosio::name _user, uint64_t _seed)
         }
     }
 
-    participation_logs participation_log_table(owner, owner.value);
-    auto gacha_participation_iter = participation_log_table.find(owner.value);
-    eosio_assert(gacha_participation_iter != participation_log_table.end(), "free sale time over");
-
-    uint64_t limit_token_amount = 400000000;
-
-    asset gacha_reward(0, symbol(symbol_code("UTG"), 4));
-    if (gacha_participation_iter->gacha_participation < 3)
-    {
-        gacha_reward.amount = 30000000;
-    }
-    else if (gacha_participation_iter->gacha_participation < 5)
-    {
-        gacha_reward.amount = 20000000;
-    }
-    else
-    {
-        gacha_reward.amount = 10000000;
-    }
-
-    uint64_t limt_check = gacha_participation_iter->remain_token_amount + gacha_reward.amount;
-    if (limt_check >= limit_token_amount)
-    {
-        participation_log_table.erase(gacha_participation_iter);
-    }
-    else
-    {
-        participation_log_table.modify(gacha_participation_iter, owner, [&](auto &update_participation_list) {
-            update_participation_list.gacha_participation += 1;
-            update_participation_list.remain_token_amount += gacha_reward.amount;
-        });
-    }
-
-    action(permission_level{get_self(), "active"_n},
-           get_self(), "tokentrans"_n,
-           std::make_tuple(owner, _user, gacha_reward, std::string("gacha reward")))
-        .send();
-
     servant_random_count = 0;
     monster_random_count = 0;
     item_random_count = 0;
@@ -1512,4 +1555,4 @@ void unlimitgacha::freesale_gacha(eosio::name _user, uint64_t _seed)
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(unlimitgacha, (create)(issue)(tokentrans)(setdata)(freesalesign)(signup)(eostransfer)(initdata)(deleteuser)(initalluser)(initfreelog)(inittoken))
+EOSIO_DISPATCH(unlimitgacha, (create)(issue)(tokentrans)(setdata)(setfreesale)(freesalesign)(signup)(eostransfer)(initdata)(deleteuser)(initalluser)(initfreelog)(inittoken))
