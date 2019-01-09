@@ -36,13 +36,19 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
 
         TextPool[Index].SetActive(true);
         if (isPlayer)
+        {
             TextPool[Index].transform.position =
-                Camera.main.WorldToScreenPoint(BattleSystem.Inst.PlayerCharacter[target].transform.position +
-                new Vector3(0, BattleSystem.Inst.PlayerCharacterControl[target].child.GetComponent<CharacterInformation>().Height, 0));
+                  Camera.main.WorldToScreenPoint(BattleSystem.Inst.PlayerCharacter[target].transform.position +
+                  new Vector3(0, BattleSystem.Inst.PlayerCharacterControl[target].child.GetComponent<CharacterInformation>().Height, 0));
+            BattleSystem.Inst.PlayerCharacterControl[target].NowHp -= damage;
+        }
         else
+        {
             TextPool[Index].transform.position =
-                Camera.main.WorldToScreenPoint(BattleSystem.Inst.EnemyCharacter[target].transform.position +
-                new Vector3(0, BattleSystem.Inst.EnemyCharacterControl[target].child.GetComponent<CharacterInformation>().Height, 0));
+                  Camera.main.WorldToScreenPoint(BattleSystem.Inst.EnemyCharacter[target].transform.position +
+                  new Vector3(0, BattleSystem.Inst.EnemyCharacterControl[target].child.GetComponent<CharacterInformation>().Height, 0));
+            BattleSystem.Inst.EnemyCharacterControl[target].NowHp -= damage;
+        }
 
         for (int i = 0; i < 5; i++)
         {
@@ -79,6 +85,7 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
             TextPool[Index].GetComponent<RectTransform>().position += new Vector3(-16.5f, 0, 0);
             Debug.Log(TextPool[Index].GetComponent<RectTransform>().position);
         }
+
         Index++;
     }
 

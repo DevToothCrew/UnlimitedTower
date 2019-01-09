@@ -49,7 +49,7 @@ public class Control_Zombie : MonoBehaviour {
 
         yield return new WaitForSeconds(AttackDelay);
 
-        DamageTextSystem.Inst.DamageShow(sendValue.Target, sendValue.isPlayer, 10, false);
+        DamageTextSystem.Inst.DamageShow(sendValue.Target, !sendValue.isPlayer, 10, false);
         
         target.GetChild(0).GetComponent<Animator>().SetTrigger("isHit");
 

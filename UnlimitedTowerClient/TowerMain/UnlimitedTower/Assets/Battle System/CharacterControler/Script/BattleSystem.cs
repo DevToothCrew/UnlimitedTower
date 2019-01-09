@@ -98,11 +98,21 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         StartCoroutine(BattleStart());
     }
 
+    [ContextMenu("AttackTest2")]
+    public void AttackTest2()
+    {
+        PlayerCharacterControl[2].Attack(new SendValue(2, Random.Range(0,10), true));
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             AttackTest();
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            AttackTest2();
         }
         if (Input.GetKeyDown(KeyCode.N))
         {

@@ -52,19 +52,18 @@ public class Control_Archer : MonoBehaviour {
         else
             attacker.rotation = Quaternion.Euler(0, 180, 0);
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.7f);
 
-        DamageTextSystem.Inst.DamageShow(sendValue.Target, sendValue.isPlayer, 10, false);
-
+        DamageTextSystem.Inst.DamageShow(sendValue.Target, !sendValue.isPlayer, 10, false);
     }
 
     IEnumerator ArrowShot(Vector3 target)
     {
         GameObject arrow = Instantiate(Arrow, transform.position + new Vector3(0, 0.4f, 0), transform.rotation);
         float Speed = Vector3.Distance(arrow.transform.position, target) * 0.02f;
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < 50; i += BattleSystem.Inst.TimeScale)
         {
-            arrow.transform.Translate(0, 0, Speed);
+            arrow.transform.Translate(0, 0, Speed * BattleSystem.Inst.TimeScale);
             yield return new WaitForSeconds(0.01f);
         }
         Destroy(arrow);
