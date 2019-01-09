@@ -302,6 +302,52 @@ ACTION unlimitgacha::freesalesign(eosio::name _user)
     user_log_table.emplace(owner, [&](auto &new_log) {
         new_log.user = _user;
     });
+
+    
+    monster_random_count += 1;
+    uint32_t random_rate = safeseed::get_random_value(_seed, max_rate, default_min, monster_random_count);
+    uint8_t random_grade;
+    if (random_rate <= four_grade_ratio)
+    {
+        random_grade = 4;
+    }
+    else if (random_rate <= three_grade_ratio)
+    {
+        random_grade = 3;
+    }
+    else
+    {
+        random_grade = 2;
+    }
+
+    monster_grade_db monster_grade_db_table(owner, owner.value);
+    const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "not exist monster grade");
+
+    user_monsters user_monster_table(owner, _user.value);
+    user_monster_table.emplace(owner, [&](auto &update_user_monster_list) {
+        uint32_t first_index = user_monster_table.available_primary_key();
+        if (first_index == 0)
+        {
+            update_user_monster_list.index = 1;
+        }
+        else
+        {
+            update_user_monster_list.index = user_monster_table.available_primary_key();
+        }
+    
+        monster_info new_monster;
+        new_monster.look = 1;
+        new_monster.grade = monster_grade_db_iter.monster_grade;
+        monster_random_count += 1;
+        new_monster.status.basic_str = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_str, monster_grade_db_iter.min_range.base_str, monster_random_count);
+        monster_random_count += 1;
+        new_monster.status.basic_dex = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_dex, monster_grade_db_iter.min_range.base_dex, monster_random_count);
+        monster_random_count += 1;
+        new_monster.status.basic_int = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_int, monster_grade_db_iter.min_range.base_int, monster_random_count);
+        new_monster.state = eobject_state::on_freesale;
+
+        update_user_monster_list.monster = new_monster;
+
 }
 
 ACTION unlimitgacha::signup(eosio::name _user)
