@@ -1,12 +1,12 @@
 #include "Common/common_header.hpp"
 
-CONTRACT unlimited_tower : public contract
+CONTRACT unlimitgacha : public contract
 {
   public:
 #pragma resgion contract constructor
     //using contract::contract;
     eosio::name owner;
-    unlimited_tower(eosio::name _self, eosio::name _code, datastream<const char *> ds) : contract(_self, _code, ds)
+    unlimitgacha(eosio::name _self, eosio::name _code, datastream<const char *> ds) : contract(_self, _code, ds)
     {
         owner = _self;
     }
@@ -171,14 +171,14 @@ CONTRACT unlimited_tower : public contract
     //------------------------------------------------------------------------//
   public:
 #pragma region token function
-    void sub_balance(name owner, asset value);
-    void add_balance(name owner, asset value, name ram_payer);
+    void sub_balance(name _user, asset _value);
+    void add_balance(name _user, asset _value, name _ram_payer);
 #pragma endregion
 
 #pragma region token action
-    ACTION create(name issuer, asset maximum_supply);
-    ACTION issue(name to, asset quantity, string memo);
-    ACTION tokentrans(name from, name to, asset quantity, string memo);
+    ACTION create(name _issuer, asset _maximum_supply);
+    ACTION issue(name _to, asset _quantity, string _memo);
+    ACTION tokentrans(name _from, name _to, asset _quantity, string _memo);
     ACTION inittoken(asset _token);
 #pragma endregion
 
@@ -439,9 +439,10 @@ TABLE freesalelog
         uint32_t gacha_num = 0;
         uint32_t login_time = 0;
         uint32_t get_gold = 0;
-        asset get_eos = eosio::asset(0, symbol(symbol_code("EOS"),4));;
+        //asset get_eos = eosio::asset(0, symbol(symbol_code("EOS"),4));;
         uint32_t use_gold = 0;
-        asset use_eos = eosio::asset(0, symbol(symbol_code("EOS"),4));        
+        //asset use_eos = eosio::asset(0, symbol(symbol_code("EOS"),4)); 
+        uint64_t use_eos = 0;       
         uint32_t battle_count = 0;
         uint32_t last_stage_num = 0;
         uint32_t last_tower_num = 0;
@@ -505,7 +506,7 @@ TABLE freesalelog
 #pragma endregion
 
 #pragma region login action
-ACTION eostransfer(eosio::name sender, eosio::name receiver);
+    ACTION eostransfer(eosio::name sender, eosio::name receiver);
     ACTION freesalesign(eosio::name _user);
     ACTION signup(eosio::name _user);
 #pragma endregion
@@ -518,6 +519,11 @@ void init_all_user_log_data();
 void init_all_object_gacha_data();
 
 ACTION initalluser();
+
+
+void init_freesale_log();
+
+ACTION initfreelog();
 
 
     //------------------------------------------------------------------------//

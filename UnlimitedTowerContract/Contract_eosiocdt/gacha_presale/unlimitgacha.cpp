@@ -1,38 +1,38 @@
 #include "Common/common_header.hpp"
 #include "Common/common_seed.hpp"
-#include "unlimited_tower.hpp"
+#include "unlimitgacha.hpp"
 
 //------------------------------------------------------------------------//
 //----------------------------unlimited_tower_action----------------------//
 //------------------------------------------------------------------------//
 #pragma region Token action
 
-ACTION unlimited_tower::create(eosio::name issuer, asset maximum_supply)
+ACTION unlimitgacha::create(eosio::name _issuer, asset _maximum_supply)
 {
     require_auth(owner);
 
-    auto sym = maximum_supply.symbol;
+    auto sym = _maximum_supply.symbol;
     eosio_assert(sym.is_valid(), "Invalid symbol name");
-    eosio_assert(maximum_supply.is_valid(), "Invalid Supply");
+    eosio_assert(_maximum_supply.is_valid(), "Invalid Supply");
     
-    eosio_assert(maximum_supply.amount > 0, "Max-supply must be positive");
+    eosio_assert(_maximum_supply.amount > 0, "Max-supply must be positive");
 
     stat statstable(owner, sym.code().raw());
     auto existing = statstable.find(sym.code().raw());
     eosio_assert(existing == statstable.end(), "Tokenwith symbol already exists");
 
     statstable.emplace(owner, [&](auto &s) {
-        s.supply.symbol = maximum_supply.symbol;
-        s.max_supply = maximum_supply;
-        s.issuer = issuer;
+        s.supply.symbol = _maximum_supply.symbol;
+        s.max_supply = _maximum_supply;
+        s.issuer = _issuer;
     });
 }
 
-ACTION unlimited_tower::issue(eosio::name to, asset quantity, string memo)
+ACTION unlimitgacha::issue(eosio::name _to, asset _quantity, string _memo)
 {
-    auto sym = quantity.symbol;
+    auto sym = _quantity.symbol;
     eosio_assert(sym.is_valid(), "Invalid symbol name");
-    eosio_assert(memo.size() <= 256, "Memo has more than 256 bytes");
+    eosio_assert(_memo.size() <= 256, "Memo has more than 256 bytes");
 
     uint64_t sym_name = sym.code().raw();
     stat statstable(owner, sym_name);
@@ -41,81 +41,81 @@ ACTION unlimited_tower::issue(eosio::name to, asset quantity, string memo)
     const auto &st = *existing;
 
     require_auth(st.issuer);
-    eosio_assert(quantity.is_valid(), "Invalid quantity");
-    eosio_assert(quantity.amount > 0, "Must issue positive quantity");
+    eosio_assert(_quantity.is_valid(), "Invalid quantity");
+    eosio_assert(_quantity.amount > 0, "Must issue positive quantity");
 
-    eosio_assert(quantity.symbol == st.supply.symbol, "Symbol precision mismatch");
-    eosio_assert(quantity.amount <= st.max_supply.amount - st.supply.amount, "Quantity exceeds available supply");
+    eosio_assert(_quantity.symbol == st.supply.symbol, "Symbol precision mismatch");
+    eosio_assert(_quantity.amount <= st.max_supply.amount - st.supply.amount, "Quantity exceeds available supply");
 
     statstable.modify(st, owner, [&](auto &s) {
-        s.supply += quantity;
+        s.supply += _quantity;
     });
 
-    add_balance(st.issuer, quantity, st.issuer);
+    add_balance(st.issuer, _quantity, st.issuer);
 
-    if (to != st.issuer)
+    if (_to != st.issuer)
     {
         action(permission_level{st.issuer, "active"_n},
                st.issuer, "tokentrans"_n,
-               std::make_tuple(st.issuer, to, quantity, memo))
+               std::make_tuple(st.issuer, _to, _quantity, _memo))
             .send();
     }
 }
 
-ACTION unlimited_tower::tokentrans(name from, name to, asset quantity, string memo)
+ACTION unlimitgacha::tokentrans(name _from, name _to, asset _quantity, string _memo)
 {
-    eosio_assert(from != to, "Cannot transfer to self");
-    require_auth(from);
-    eosio_assert(is_account(to), "To account does not exist");
-    auto sym = quantity.symbol.code().raw();
+    eosio_assert(_from != _to, "Cannot transfer to self");
+    require_auth(_from);
+    eosio_assert(is_account(_to), "To account does not exist");
+    auto sym = _quantity.symbol.code().raw();
     stat statstable(owner, sym);
     const auto &st = statstable.get(sym, "Not exist symbol");
 
-    require_recipient(from);
-    require_recipient(to);
+    require_recipient(_from);
+    require_recipient(_to);
 
-    eosio_assert(quantity.is_valid(), "Invalid quantity");
-    eosio_assert(quantity.amount > 0, "Must transfer positive quantity");
-    eosio_assert(quantity.symbol == st.supply.symbol, "Symbol precision mismatch");
-    eosio_assert(memo.size() <= 250, "Memo has more than 256 bytes");
+    eosio_assert(_quantity.is_valid(), "Invalid quantity");
+    eosio_assert(_quantity.amount > 0, "Must transfer positive quantity");
+    eosio_assert(_quantity.symbol == st.supply.symbol, "Symbol precision mismatch");
+    eosio_assert(_memo.size() <= 250, "Memo has more than 256 bytes");
 
-    sub_balance(from, quantity);
-    add_balance(to, quantity, from);
+    sub_balance(_from, _quantity);
+    add_balance(_to, _quantity, _from);
 }
 
-void unlimited_tower::sub_balance(name owner, asset value)
+void unlimitgacha::sub_balance(name _user, asset _value)
 {
-    accounts from_acnts(owner, owner.value);
+    accounts from_acnts(owner, _user.value);
 
-    const auto &from = from_acnts.get(value.symbol.code().raw(), "No balance object found");
-    eosio_assert(from.balance.amount >= value.amount, "Overdrawn balance");
+    const auto &from = from_acnts.get(_value.symbol.code().raw(), "No balance object found");
+    eosio_assert(from.balance.amount >= _value.amount, "Overdrawn balance");
 
-    if (from.balance.amount == value.amount)
+    if (from.balance.amount == _value.amount)
     {
         from_acnts.erase(from);
     }
     else
     {
         from_acnts.modify(from, owner, [&](auto &a) {
-            a.balance -= value;
+            a.balance -= _value;
         });
     }
 }
 
-void unlimited_tower::add_balance(name owner, asset value, name ram_payer)
+void unlimitgacha::add_balance(name _user, asset _value, name _ram_payer)
 {
-    accounts to_acnts(owner, owner.value);
-    auto to = to_acnts.find(value.symbol.code().raw());
+    accounts to_acnts(owner, _user.value);
+    auto to = to_acnts.find(_value.symbol.code().raw());
     if (to == to_acnts.end())
     {
-        to_acnts.emplace(ram_payer, [&](auto &a) {
-            a.balance = value;
+        to_acnts.emplace(_ram_payer, [&](auto &a) {
+            a.balance = _value;
         });
     }
     else
     {
-        to_acnts.modify(to, ram_payer, [&](auto &a) {
-            a.balance += value;
+        to_acnts.modify(to, _ram_payer, [&](auto &a) {
+            a.balance += _value;
         });
     }
 }
@@ -123,7 +123,7 @@ void unlimited_tower::add_balance(name owner, asset value, name ram_payer)
 #pragma endregion
 
 #pragma region set
-ACTION unlimited_tower::setdata()
+ACTION unlimitgacha::setdata()
 {
     servant_db servant_db_table(owner, owner.value);
     head_db head_db_table(owner, owner.value);
@@ -279,7 +279,7 @@ ACTION unlimited_tower::setdata()
 
 #pragma region login
 
-ACTION unlimited_tower::freesalesign(eosio::name _user)
+ACTION unlimitgacha::freesalesign(eosio::name _user)
 {
     require_auth(_user);
     auth_users auth_user_table(owner, owner.value);
@@ -304,7 +304,7 @@ ACTION unlimited_tower::freesalesign(eosio::name _user)
     });
 }
 
-ACTION unlimited_tower::signup(eosio::name _user)
+ACTION unlimitgacha::signup(eosio::name _user)
 {
     freesalesign(_user);
     // require_auth(_user);
@@ -332,11 +332,13 @@ ACTION unlimited_tower::signup(eosio::name _user)
 // eosio.token recipient
 // memo description spec
 //-------------------------------------------------------------------------
-void unlimited_tower::eostransfer(eosio::name sender, eosio::name receiver)
+ACTION unlimitgacha::eostransfer(eosio::name sender, eosio::name receiver)
 {
     eosiotoken_transfer(sender, receiver, [&](const auto &ad) {
         if (ad.action.size() == 0)
         {
+            print("action size zero\n");
+            print("action size zero\n");
             print("action size zero\n");
         }
         else if (ad.action == action_gacha)
@@ -347,7 +349,7 @@ void unlimited_tower::eostransfer(eosio::name sender, eosio::name receiver)
 }
 
 template <typename T>
-void unlimited_tower::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T func)
+void unlimitgacha::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T func)
 {
     require_auth(sender);
     auto transfer_data = eosio::unpack_action_data<st_transfer>();
@@ -377,14 +379,11 @@ void unlimited_tower::eosiotoken_transfer(eosio::name sender, eosio::name receiv
         eosio_assert(res.type != 0, "wrong seed convert");
     }
 
-    res.to.value = receiver.value;
-    res.from.value = sender.value;
-
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(sender.value);
     eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data");
     user_log_table.modify(user_log_iter, owner, [&](auto &buy_log) {
-        buy_log.use_eos += transfer_data.quantity;
+        buy_log.use_eos += transfer_data.quantity.amount;
     });
     func(res);
 }
@@ -392,7 +391,7 @@ void unlimited_tower::eosiotoken_transfer(eosio::name sender, eosio::name receiv
 #pragma endregion
 
 #pragma resion init db table
-ACTION unlimited_tower::initdata()
+ACTION unlimitgacha::initdata()
 {
     eosio::require_auth(owner);
 
@@ -474,14 +473,14 @@ ACTION unlimited_tower::initdata()
 
 #pragma resion delete user table
 
-ACTION unlimited_tower::deleteuser(eosio::name _user)
+ACTION unlimitgacha::deleteuser(eosio::name _user)
 {
     delete_user_data(_user.value);
     delete_user_object_data(_user.value);
     delete_user_gacha_result_data(_user.value);
 }
 
-void unlimited_tower::delete_user_data(uint64_t _user)
+void unlimitgacha::delete_user_data(uint64_t _user)
 {
     require_auth(owner);
     auth_users auth_user_table(owner, owner.value);
@@ -495,7 +494,7 @@ void unlimited_tower::delete_user_data(uint64_t _user)
     user_log_table.erase(user_log_iter);
 }
 
-void unlimited_tower::delete_user_object_data(uint64_t _user)
+void unlimitgacha::delete_user_object_data(uint64_t _user)
 {
     require_auth(owner);
     user_servants user_servant_table(owner, _user);
@@ -522,7 +521,7 @@ void unlimited_tower::delete_user_object_data(uint64_t _user)
         user_item_table.erase(iter);
     }
 }
-void unlimited_tower::delete_user_gacha_result_data(uint64_t _user)
+void unlimitgacha::delete_user_gacha_result_data(uint64_t _user)
 {
     require_auth(owner);
     user_gacha_results user_gacha_current_result_table(owner, owner.value);
@@ -542,14 +541,14 @@ void unlimited_tower::delete_user_gacha_result_data(uint64_t _user)
 
 #pragma resion init all table
 
-ACTION unlimited_tower::initalluser()
+ACTION unlimitgacha::initalluser()
 {
     init_all_user_auth_data();
     init_all_user_log_data();
     init_all_object_gacha_data();
 }
 
-void unlimited_tower::init_all_user_auth_data()
+void unlimitgacha::init_all_user_auth_data()
 {
     require_auth(owner);
     auth_users auth_user_table(owner, owner.value);
@@ -561,7 +560,7 @@ void unlimited_tower::init_all_user_auth_data()
     }
 }
 
-void unlimited_tower::init_all_user_log_data()
+void unlimitgacha::init_all_user_log_data()
 {
     require_auth(owner);
     user_logs user_log_table(owner, owner.value);
@@ -573,7 +572,7 @@ void unlimited_tower::init_all_user_log_data()
     }
 }
 
-void unlimited_tower::init_all_object_gacha_data()
+void unlimitgacha::init_all_object_gacha_data()
 {
     require_auth(owner);
     auth_users user_auth_table(owner, owner.value);
@@ -585,17 +584,32 @@ void unlimited_tower::init_all_object_gacha_data()
     }
 }
 
+ACTION unlimitgacha::initfreelog()
+{
+    init_freesale_log();
+}
+
+void unlimitgacha::init_freesale_log()
+{
+    require_auth(owner);
+    participation_logs free_sale_log_table(owner, owner.value);
+
+    auto iter = free_sale_log_table.find(owner.value);
+    eosio_assert(iter != free_sale_log_table.end(), "not exist freesale log data");
+    free_sale_log_table.erase(iter);
+}
+
 #pragma endregion
 
 #pragma resion init token
 
-ACTION unlimited_tower::inittoken(asset _token)
+ACTION unlimitgacha::inittoken(asset _token)
 {
     init_all_balance();
     init_stat(_token);
 }
 
-void unlimited_tower::delete_user_balance(uint64_t _user)
+void unlimitgacha::delete_user_balance(uint64_t _user)
 {
     accounts user_balance_table(owner, _user);
     for (auto user_balance_iter = user_balance_table.begin(); user_balance_iter != user_balance_table.end();)
@@ -606,7 +620,7 @@ void unlimited_tower::delete_user_balance(uint64_t _user)
     }
 }
 
-void unlimited_tower::init_stat(asset _token)
+void unlimitgacha::init_stat(asset _token)
 {
     require_auth(owner);
     stat statstable(owner, _token.symbol.code().raw());
@@ -618,7 +632,7 @@ void unlimited_tower::init_stat(asset _token)
     }
 }
 
-void unlimited_tower::init_all_balance()
+void unlimitgacha::init_all_balance()
 {
     require_auth(owner);
 
@@ -650,7 +664,7 @@ void unlimited_tower::init_all_balance()
 //-------------------------------gacha_function---------------------------//
 //------------------------------------------------------------------------//
 
-void unlimited_tower::gacha_servant_job(eosio::name _user, uint64_t _seed)
+void unlimitgacha::gacha_servant_job(eosio::name _user, uint64_t _seed)
 {
     servant_db servant_db_table(owner, owner.value);
     uint8_t random_job = safeseed::get_random_value(_seed, servant_job_count, default_min, servant_random_count);
@@ -736,7 +750,7 @@ void unlimited_tower::gacha_servant_job(eosio::name _user, uint64_t _seed)
     });
 }
 
-uint8_t unlimited_tower::gacha_servant_head(uint64_t _seed, uint32_t _count)
+uint8_t unlimitgacha::gacha_servant_head(uint64_t _seed, uint32_t _count)
 {
     head_db head_db_table(owner, owner.value);
     uint8_t random_head = safeseed::get_random_value(_seed, head_count, default_min, _count);
@@ -744,7 +758,7 @@ uint8_t unlimited_tower::gacha_servant_head(uint64_t _seed, uint32_t _count)
     return head_db_iter.head;
 }
 
-uint8_t unlimited_tower::gacha_servant_hair(uint64_t _seed, uint32_t _count)
+uint8_t unlimitgacha::gacha_servant_hair(uint64_t _seed, uint32_t _count)
 {
     hair_db hair_db_table(owner, owner.value);
     uint8_t random_hair = safeseed::get_random_value(_seed, hair_count, default_min, _count);
@@ -752,7 +766,7 @@ uint8_t unlimited_tower::gacha_servant_hair(uint64_t _seed, uint32_t _count)
     return hair_db_iter.hair;
 }
 
-uint8_t unlimited_tower::gacha_servant_body(uint64_t _seed, uint32_t _count)
+uint8_t unlimitgacha::gacha_servant_body(uint64_t _seed, uint32_t _count)
 {
     body_db body_db_table(owner, owner.value);
     uint8_t random_body = safeseed::get_random_value(_seed, body_count, default_min, _count);
@@ -760,7 +774,7 @@ uint8_t unlimited_tower::gacha_servant_body(uint64_t _seed, uint32_t _count)
     return body_db_iter.body;
 }
 
-void unlimited_tower::gacha_monster_id(eosio::name _user, uint64_t _seed)
+void unlimitgacha::gacha_monster_id(eosio::name _user, uint64_t _seed)
 {
     monster_id_db monster_id_db_table(owner, owner.value);
     uint8_t random_monster_id = safeseed::get_random_value(_seed, monster_id_count, default_min, monster_random_count);
@@ -858,7 +872,7 @@ void unlimited_tower::gacha_monster_id(eosio::name _user, uint64_t _seed)
     });
 }
 
-void unlimited_tower::gacha_item_id(eosio::name _user, uint64_t _seed)
+void unlimitgacha::gacha_item_id(eosio::name _user, uint64_t _seed)
 {
     item_id_db item_id_db_table(owner, owner.value);
     uint8_t random_item_id = safeseed::get_random_value(_seed, item_id_count, default_min, item_random_count);
@@ -966,7 +980,7 @@ void unlimited_tower::gacha_item_id(eosio::name _user, uint64_t _seed)
         update_log.gacha_num++;
     });
 }
-uint64_t unlimited_tower::get_user_seed_value(uint64_t _user)
+uint64_t unlimitgacha::get_user_seed_value(uint64_t _user)
 {
     user_logs user_log_table(owner, owner.value);
     const auto &user_log_iter = user_log_table.get(_user, "not exist log in login seed");
@@ -974,7 +988,7 @@ uint64_t unlimited_tower::get_user_seed_value(uint64_t _user)
     return user;
 }
 
-void unlimited_tower::start_gacha(eosio::name _user, uint64_t _seed)
+void unlimitgacha::start_gacha(eosio::name _user, uint64_t _seed)
 {
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
@@ -1035,8 +1049,8 @@ void unlimited_tower::start_gacha(eosio::name _user, uint64_t _seed)
     else{
         gacha_reward.amount = 10000000;
     }
-    action(permission_level{owner, "active"_n},
-           owner, "tokentrans"_n,
+    action(permission_level{get_self(), "active"_n},
+           get_self(), "tokentrans"_n,
            std::make_tuple(owner, _user, gacha_reward, std::string("gacha reward")))
         .send();
 
@@ -1058,15 +1072,15 @@ void unlimited_tower::start_gacha(eosio::name _user, uint64_t _seed)
             {                                                                                                                                                                     \
                 switch (action)                                                                                                                                                   \
                 {                                                                                                                                                                 \
-                    EOSIO_DISPATCH_HELPER(unlimited_tower, (create)(issue)(tokentrans)(setdata)(freesalesign)(signup)(eostransfer)(initdata)(deleteuser)(initalluser)(inittoken)) \
+                    EOSIO_DISPATCH_HELPER( TYPE, MEMBERS )  \
                 }                                                                                                                                                                 \
             }                                                                                                                                                                     \
             else if (code == name("eosio.token").value && action == name("transfer").value)                                                                                       \
             {                                                                                                                                                                     \
-                execute_action(name(receiver), name(receiver), &unlimited_tower::eostransfer);                                                                                        \
+                execute_action(name(receiver), name(code), &unlimitgacha::eostransfer);                                                                                        \
             }                                                                                                                                                                     \
-        }                                                                                                                                                                         \
+        }                                                                                                                                                                          \
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(unlimited_tower, (create)(issue)(tokentrans)(setdata)(freesalesign)(signup)(eostransfer)(initdata)(deleteuser)(initalluser)(inittoken))
+EOSIO_DISPATCH(unlimitgacha, (create)(issue)(tokentrans)(setdata)(freesalesign)(signup)(eostransfer)(initdata)(deleteuser)(initalluser)(initfreelog)(inittoken))
