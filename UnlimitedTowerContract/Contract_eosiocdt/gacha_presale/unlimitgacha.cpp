@@ -475,29 +475,29 @@ ACTION unlimitgacha::initdata()
 
 ACTION unlimitgacha::deleteuser(eosio::name _user)
 {
-    delete_user_data(_user.value);
-    delete_user_object_data(_user.value);
-    delete_user_gacha_result_data(_user.value);
+    delete_user_data(_user);
+    delete_user_object_data(_user);
+    delete_user_gacha_result_data(_user);
 }
 
-void unlimitgacha::delete_user_data(uint64_t _user)
+void unlimitgacha::delete_user_data(eosio::name _user)
 {
     require_auth(owner);
     auth_users auth_user_table(owner, owner.value);
-    auto user_auth_iter = auth_user_table.find(_user);
+    auto user_auth_iter = auth_user_table.find(_user.value);
     eosio_assert(user_auth_iter != auth_user_table.end(), "not exist user auth data");
     auth_user_table.erase(user_auth_iter);
 
     user_logs user_log_table(owner,owner.value);
-    auto user_log_iter = user_log_table.find(_user);
+    auto user_log_iter = user_log_table.find(_user.value);
     eosio_assert(user_log_iter != user_log_table.end(), "not exist user auth data");
     user_log_table.erase(user_log_iter);
 }
 
-void unlimitgacha::delete_user_object_data(uint64_t _user)
+void unlimitgacha::delete_user_object_data(eosio::name _user)
 {
     require_auth(owner);
-    user_servants user_servant_table(owner, _user);
+    user_servants user_servant_table(owner, _user.value);
     for (auto user_servant_iter = user_servant_table.begin(); user_servant_iter != user_servant_table.end();)
     {
         auto iter = user_servant_table.find(user_servant_iter->primary_key());
@@ -505,7 +505,7 @@ void unlimitgacha::delete_user_object_data(uint64_t _user)
         user_servant_table.erase(iter);
     }
 
-    user_monsters user_monster_table(owner, _user);
+    user_monsters user_monster_table(owner, _user.value);
     for (auto user_monster_iter = user_monster_table.begin(); user_monster_iter != user_monster_table.end();)
     {
         auto iter = user_monster_table.find(user_monster_iter->primary_key());
@@ -513,7 +513,7 @@ void unlimitgacha::delete_user_object_data(uint64_t _user)
         user_monster_table.erase(iter);
     }
 
-    user_items user_item_table(owner, _user);
+    user_items user_item_table(owner, _user.value);
     for (auto user_item_iter = user_item_table.begin(); user_item_iter != user_item_table.end();)
     {
         auto iter = user_item_table.find(user_item_iter->primary_key());
@@ -521,17 +521,17 @@ void unlimitgacha::delete_user_object_data(uint64_t _user)
         user_item_table.erase(iter);
     }
 }
-void unlimitgacha::delete_user_gacha_result_data(uint64_t _user)
+void unlimitgacha::delete_user_gacha_result_data(eosio::name _user)
 {
     require_auth(owner);
     user_gacha_results user_gacha_current_result_table(owner, owner.value);
     user_gacha_accumulates user_gacha_accumulate_table(owner, owner.value);
 
-    auto iter = user_gacha_current_result_table.find(_user);
+    auto iter = user_gacha_current_result_table.find(_user.value);
     eosio_assert(iter != user_gacha_current_result_table.end(), "not exist gacha result data");
     user_gacha_current_result_table.erase(iter);
 
-    auto accumulate_iter = user_gacha_accumulate_table.find(_user);
+    auto accumulate_iter = user_gacha_accumulate_table.find(_user.value);
     eosio_assert(accumulate_iter != user_gacha_accumulate_table.end(), "not exist gacha accumulate data");
     user_gacha_accumulate_table.erase(accumulate_iter);
 }
@@ -543,9 +543,9 @@ void unlimitgacha::delete_user_gacha_result_data(uint64_t _user)
 
 ACTION unlimitgacha::initalluser()
 {
+    init_all_object_gacha_data();
     init_all_user_auth_data();
     init_all_user_log_data();
-    init_all_object_gacha_data();
 }
 
 void unlimitgacha::init_all_user_auth_data()
@@ -578,8 +578,8 @@ void unlimitgacha::init_all_object_gacha_data()
     auth_users user_auth_table(owner, owner.value);
     for (auto user_name_iter = user_auth_table.begin(); user_name_iter != user_auth_table.end();)
     {
-        delete_user_object_data(user_name_iter->primary_key());
-        delete_user_gacha_result_data(user_name_iter->primary_key());
+        delete_user_object_data(user_name_iter->user);
+        delete_user_gacha_result_data(user_name_iter->user);
         user_name_iter++;
     }
 }
@@ -609,9 +609,9 @@ ACTION unlimitgacha::inittoken(asset _token)
     init_stat(_token);
 }
 
-void unlimitgacha::delete_user_balance(uint64_t _user)
+void unlimitgacha::delete_user_balance(eosio::name _user)
 {
-    accounts user_balance_table(owner, _user);
+    accounts user_balance_table(owner, _user.value);
     for (auto user_balance_iter = user_balance_table.begin(); user_balance_iter != user_balance_table.end();)
     {
         auto iter = user_balance_table.find(user_balance_iter->primary_key());
@@ -639,7 +639,7 @@ void unlimitgacha::init_all_balance()
     auth_users user_auth_table(owner, owner.value);
     for (auto user_name_iter = user_auth_table.begin(); user_name_iter != user_auth_table.end();)
     {
-        delete_user_balance(user_name_iter->primary_key());
+        delete_user_balance(user_name_iter->user);
         user_name_iter++;
     }
 

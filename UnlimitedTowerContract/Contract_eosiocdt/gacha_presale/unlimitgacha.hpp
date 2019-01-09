@@ -185,7 +185,7 @@ CONTRACT unlimitgacha : public contract
 
 
 #pragma region token delete init
-    void delete_user_balance(uint64_t _user);
+    void delete_user_balance(eosio::name _user);
     void init_stat(asset _token);
     void init_all_balance();
 #pragma endregion
@@ -529,9 +529,9 @@ ACTION initfreelog();
     //------------------------------------------------------------------------//
     //-----------------------------delete_function----------------------------//
     //------------------------------------------------------------------------//
-void delete_user_data(uint64_t _user);
-void delete_user_object_data(uint64_t _user);
-void delete_user_gacha_result_data(uint64_t _user);
+void delete_user_data(eosio::name _user);
+void delete_user_object_data(eosio::name _user);
+void delete_user_gacha_result_data(eosio::name _user);
 
 ACTION deleteuser(eosio::name _user);
 
