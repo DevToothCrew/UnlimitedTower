@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GachaManager : MonoBehaviour {
 
-    static private GachaManager Instance = null;
+    static public GachaManager Instance = null;
 
     private void Awake()
     {
@@ -38,7 +38,7 @@ public class GachaManager : MonoBehaviour {
         // Request to server
         // this interface can be changed
         UTUMSProvider.Instance.RequestGacha();
-        GachaResultPopup.Popup();
+        GachaResultPopup.Instance.gameObject.SetActivateWithAnimation(true);
     }
 
     public void ExitGachaScene()
