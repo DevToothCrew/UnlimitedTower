@@ -10,6 +10,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     public Dictionary<int, Monster> monsterDic = new Dictionary<int, Monster>();
     public Dictionary<int, Item> itemDic = new Dictionary<int, Item>();
     public Dictionary<int, Party> partyDic = new Dictionary<int, Party>();
+    public PrefabList prefabList;
 
     public Servant[] servant = new Servant[5];
     public Monster[] monster = new Monster[5];
@@ -28,8 +29,22 @@ public class BattleSystem : MonoSingleton<BattleSystem>
 
     private void Awake()
     {
+        prefabList = GetComponent<PrefabList>();
+
+        for (int i = 0; i < 10; i++)
+        {
+            Instantiate(prefabList.prefabList[201 + i].Prefab, PlayerCharacter[i].transform);
+        }
+        for (int i = 0; i < 10; i++)
+        {
+            Instantiate(prefabList.prefabList[211 + i].Prefab, EnemyCharacter[i].transform);
+        }
+
+
+
         // 오브젝트 정렬
         // 추후 오브젝트 instance는 Awake에서 한후 정렬
+
 
         for (int i = 0; i < 10; i++)
         {
@@ -84,53 +99,25 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             EnemyCharacterControl[i].isPlayer = false;
         }
     }
-
-
-    [ContextMenu("AttackTest2")]
-    public void DamageShow()
-    {
-        DamageTextSystem.Inst.DamageShow(2, false, 653, true);
-    }
-
+    
     [ContextMenu("AttackTest")]
     public void AttackTest()
     {
         StartCoroutine(BattleStart());
-    }
-
-    [ContextMenu("AttackTest2")]
-    public void AttackTest2()
-    {
-        PlayerCharacterControl[2].Attack(new SendValue(2, Random.Range(0,10), true));
+        //PlayerCharacterControl[0].Attack(new SendValue(0, 3, true));
     }
 
     private void Update()
     {
+        // Debug.Log(UserDataManager.Inst.partyDic[1]);
         if (Input.GetKeyDown(KeyCode.Space))
         {
             AttackTest();
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            AttackTest2();
-        }
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            Time.timeScale = 1;
-            TimeScale = 1;
-        }
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            Time.timeScale = 2;
-            TimeScale = 2;
         }
     }
 
     IEnumerator BattleStart()
     {
-        // 임시로 대에에에에에충 만든거니 나중에 바꿀것
-        /// 둘중 한팀이 전멸하면 팅긴다 조심 
-
         int temp1;
         int temp2;
         while (true)
