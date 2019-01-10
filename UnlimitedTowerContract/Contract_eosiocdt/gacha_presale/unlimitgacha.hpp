@@ -4,9 +4,9 @@
 //테이블 
 //db_table, token_table, gacha_table, login_table
 //시스템 
-//db_system, token_system, login_system, gacha_system, init_function, delete_function, free_sale_function
+//db_system, token_system, login_system, gacha_system, init_function, delete_function, pre_sale_function
 //로그
-//freesale_log_table, user_log_table
+//presale_log_table, user_log_table
 
 CONTRACT unlimitgacha : public contract
 {
@@ -142,7 +142,7 @@ CONTRACT unlimitgacha : public contract
 #pragma region db action
     ACTION setdata();
     ACTION initdata();
-    ACTION setfreesale();
+    ACTION setpresale();
 #pragma endregion
 
   public:
@@ -241,7 +241,7 @@ CONTRACT unlimitgacha : public contract
         uint64_t primary_key() const { return index; }
     };
     typedef eosio::multi_index<"tservant"_n, tservant> user_servants;
-    typedef eosio::multi_index<"freeservant"_n, tservant> user_free_sale_servants;
+    typedef eosio::multi_index<"preservant"_n, tservant> user_pre_sale_servants;
 #pragma endregion
 
 #pragma region gacha tmonster
@@ -264,7 +264,7 @@ CONTRACT unlimitgacha : public contract
         uint64_t primary_key() const { return index; }
     };
     typedef eosio::multi_index<"tmonster"_n, tmonster> user_monsters;
-    typedef eosio::multi_index<"freemonster"_n, tmonster> user_free_sale_monsters;
+    typedef eosio::multi_index<"premonster"_n, tmonster> user_pre_sale_monsters;
 #pragma endregion
 
 #pragma region gacha titem
@@ -289,7 +289,7 @@ CONTRACT unlimitgacha : public contract
         uint64_t primary_key() const { return index; }
     };
     typedef eosio::multi_index<"titem"_n, titem> user_items;
-    typedef eosio::multi_index<"freeitem"_n, titem> user_free_sale_items;
+    typedef eosio::multi_index<"preitem"_n, titem> user_pre_sale_items;
 #pragma endregion
 
 #pragma region gacha tgacharesult
@@ -366,12 +366,12 @@ CONTRACT unlimitgacha : public contract
     uint64_t get_user_seed_value(uint64_t _user);
 
     void start_gacha(eosio::name _user, uint64_t _seed);
-//-----------------------------free_sale_function--------------------------------//
-    void freesale_gacha_servant_job(eosio::name _user, uint64_t _seed);
-    void freesale_gacha_monster_id(eosio::name _user, uint64_t _seed);
-    void freesale_gacha_item_id(eosio::name _user, uint64_t _seed);
+//-----------------------------pre_sale_function--------------------------------//
+    void presale_gacha_servant_job(eosio::name _user, uint64_t _seed);
+    void presale_gacha_monster_id(eosio::name _user, uint64_t _seed);
+    void presale_gacha_item_id(eosio::name _user, uint64_t _seed);
 
-    void freesale_gacha(eosio::name _user, uint64_t _seed);
+    void presale_gacha(eosio::name _user, uint64_t _seed);
 
 #pragma endregion
 
@@ -381,17 +381,17 @@ CONTRACT unlimitgacha : public contract
 #pragma endregion
 
 //------------------------------------------------------------------------//
-//--------------------------freesale_log_table----------------------------//
+//--------------------------presale_log_table----------------------------//
 //------------------------------------------------------------------------//
-#pragma region freesale table log
-TABLE freesalelog
+#pragma region presale table log
+TABLE presalelog
 {   
     eosio::name owner;
     uint64_t gacha_participation = 0;
     uint64_t accumulate_token_amount = 0;
     uint64_t primary_key() const { return owner.value; }
 };
-    typedef eosio::multi_index<"freesalelog"_n, freesalelog> participation_logs;
+    typedef eosio::multi_index<"presalelog"_n, presalelog> participation_logs;
 #pragma endregion
 //------------------------------------------------------------------------//
 //------------------------------user_log_table----------------------------//
@@ -430,7 +430,7 @@ TABLE freesalelog
 #pragma region login enum
     enum euser_state
     {        
-        freesale = 1,        
+        presale = 1,        
         lobby,
         battle,
         battle_win,
@@ -535,7 +535,7 @@ TABLE freesalelog
 
 #pragma region login action
     ACTION eostransfer(eosio::name sender, eosio::name receiver);
-    ACTION freesalesign(eosio::name _user);
+    ACTION presalesign(eosio::name _user);
     ACTION signup(eosio::name _user);
 #pragma endregion
 
@@ -546,8 +546,8 @@ void init_all_user_auth_data();
 void init_all_user_log_data();
 void init_all_object_gacha_data();
 ACTION initalluser();
-void init_freesale_log();
-ACTION initfreelog();
+void init_presale_log();
+ACTION initprelog();
 
 
     //------------------------------------------------------------------------//
@@ -556,7 +556,7 @@ ACTION initfreelog();
 void delete_user_data(eosio::name _user);
 void delete_user_object_data(eosio::name _user);
 void delete_user_gacha_result_data(eosio::name _user);
-void delete_user_freesale_data(eosio::name _user);
+void delete_user_presale_data(eosio::name _user);
 ACTION deleteuser(eosio::name _user);
 
 

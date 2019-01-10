@@ -286,12 +286,12 @@ ACTION unlimitgacha::setdata()
     }
 }
 
-ACTION unlimitgacha::setfreesale()
+ACTION unlimitgacha::setpresale()
 {
     eosio::require_auth(owner);
     participation_logs participation_log_table(owner, owner.value);
-    participation_log_table.emplace(owner, [&](auto &free_sale) {
-        free_sale.owner = owner;
+    participation_log_table.emplace(owner, [&](auto &pre_sale) {
+        pre_sale.owner = owner;
     });
 }
 
@@ -304,7 +304,7 @@ ACTION unlimitgacha::setfreesale()
 
 #pragma region login
 
-ACTION unlimitgacha::freesalesign(eosio::name _user)
+ACTION unlimitgacha::presalesign(eosio::name _user)
 {
     require_auth(_user);
     auth_users auth_user_table(owner, owner.value);
@@ -337,7 +337,7 @@ ACTION unlimitgacha::freesalesign(eosio::name _user)
     monster_grade_db monster_grade_db_table(owner, owner.value);
     const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "not exist monster grade");
 
-    user_free_sale_monsters user_monster_table(owner, _user.value);
+    user_pre_sale_monsters user_monster_table(owner, _user.value);
     user_monster_table.emplace(owner, [&](auto &update_user_monster_list) {
         uint32_t first_index = user_monster_table.available_primary_key();
         if (first_index == 0)
@@ -365,21 +365,21 @@ ACTION unlimitgacha::freesalesign(eosio::name _user)
 
     participation_logs participation_log_table(owner, owner.value);
     auto gacha_participation_iter = participation_log_table.find(owner.value);
-    eosio_assert(gacha_participation_iter != participation_log_table.end(), "free sale time over");
+    eosio_assert(gacha_participation_iter != participation_log_table.end(), "pre sale time over");
 
-    asset freesale_signup_reward(0, symbol(symbol_code("UTG"), 4));
-    freesale_signup_reward.amount = 30000000; // 3000 UTG
+    asset presale_signup_reward(0, symbol(symbol_code("UTG"), 4));
+    presale_signup_reward.amount = 30000000; // 3000 UTG
 
-    uint64_t limt_check = gacha_participation_iter->accumulate_token_amount + freesale_signup_reward.amount;
+    uint64_t limt_check = gacha_participation_iter->accumulate_token_amount + presale_signup_reward.amount;
     if( limt_check <= limit_token_amount )
     {
         participation_log_table.modify(gacha_participation_iter, owner, [&](auto &update_participation_list) {
             update_participation_list.gacha_participation += 1;
-            update_participation_list.accumulate_token_amount += freesale_signup_reward.amount;
+            update_participation_list.accumulate_token_amount += presale_signup_reward.amount;
         });
         action(permission_level{get_self(), "active"_n},
                get_self(), "tokentrans"_n,
-               std::make_tuple(owner, _user, freesale_signup_reward, std::string("freesale signup reward")))
+               std::make_tuple(owner, _user, presale_signup_reward, std::string("presale signup reward")))
             .send();
     }
 }
@@ -389,7 +389,7 @@ ACTION unlimitgacha::signup(eosio::name _user)
     require_auth(_user);
     participation_logs participation_log_table(owner, owner.value);
     auto gacha_participation_iter = participation_log_table.find(owner.value);
-    eosio_assert(gacha_participation_iter == participation_log_table.end(), "free sale time please freesalesign");
+    eosio_assert(gacha_participation_iter == participation_log_table.end(), "pre sale time please presalesign");
 
     auth_users auth_user_table(owner, owner.value);
     auto new_user_iter = auth_user_table.find(_user.value);
@@ -416,8 +416,8 @@ ACTION unlimitgacha::signup(eosio::name _user)
     else
     {
         user_servants user_servant_table(owner, _user.value);
-        user_free_sale_servants user_servant_free_table(owner, _user.value);
-        for (auto user_servant_iter = user_servant_free_table.begin(); user_servant_iter != user_servant_free_table.end();)
+        user_pre_sale_servants user_servant_pre_table(owner, _user.value);
+        for (auto user_servant_iter = user_servant_pre_table.begin(); user_servant_iter != user_servant_pre_table.end();)
         {
             user_servant_table.emplace(owner, [&](auto &move_servant) {
                 move_servant.index = user_servant_iter->index;
@@ -428,8 +428,8 @@ ACTION unlimitgacha::signup(eosio::name _user)
         }
 
         user_monsters user_monster_table(owner, _user.value);
-        user_free_sale_monsters user_monster_free_table(owner, _user.value);
-        for (auto user_monster_iter = user_monster_free_table.begin(); user_monster_iter != user_monster_free_table.end();)
+        user_pre_sale_monsters user_monster_pre_table(owner, _user.value);
+        for (auto user_monster_iter = user_monster_pre_table.begin(); user_monster_iter != user_monster_pre_table.end();)
         {
             user_monster_table.emplace(owner, [&](auto &move_monster) {
                 move_monster.index = user_monster_iter->index;
@@ -440,8 +440,8 @@ ACTION unlimitgacha::signup(eosio::name _user)
         }
 
         user_items user_item_table(owner, _user.value);
-        user_free_sale_items user_item_free_table(owner, _user.value);
-        for (auto user_item_iter = user_item_free_table.begin(); user_item_iter != user_item_free_table.end();)
+        user_pre_sale_items user_item_pre_table(owner, _user.value);
+        for (auto user_item_iter = user_item_pre_table.begin(); user_item_iter != user_item_pre_table.end();)
         {
             user_item_table.emplace(owner, [&](auto &move_item) {
                 move_item.index = user_item_iter->index;
@@ -472,7 +472,7 @@ ACTION unlimitgacha::eostransfer(eosio::name sender, eosio::name receiver)
             }
             else
             {
-                freesale_gacha(sender, ad.type);
+                presale_gacha(sender, ad.type);
 
                 asset gacha_reward(0, symbol(symbol_code("UTG"), 4));
                 if (gacha_participation_iter->gacha_participation < 3)
@@ -497,7 +497,7 @@ ACTION unlimitgacha::eostransfer(eosio::name sender, eosio::name receiver)
                     });
                     action(permission_level{get_self(), "active"_n},
                            get_self(), "tokentrans"_n,
-                           std::make_tuple(owner, sender, gacha_reward, std::string("free sale gacha reward")))
+                           std::make_tuple(owner, sender, gacha_reward, std::string("pre sale gacha reward")))
                         .send();
                 }
             }
@@ -633,7 +633,7 @@ ACTION unlimitgacha::deleteuser(eosio::name _user)
 {
     delete_user_data(_user);
     delete_user_object_data(_user);
-    delete_user_freesale_data(_user);
+    delete_user_presale_data(_user);
     delete_user_gacha_result_data(_user);
     delete_user_balance(_user);
 }
@@ -680,10 +680,10 @@ void unlimitgacha::delete_user_object_data(eosio::name _user)
     }
 }
 
-void unlimitgacha::delete_user_freesale_data(eosio::name _user)
+void unlimitgacha::delete_user_presale_data(eosio::name _user)
 {
     require_auth(owner);
-    user_free_sale_servants user_servant_table(owner, _user.value);
+    user_pre_sale_servants user_servant_table(owner, _user.value);
     for (auto user_servant_iter = user_servant_table.begin(); user_servant_iter != user_servant_table.end();)
     {
         auto iter = user_servant_table.find(user_servant_iter->primary_key());
@@ -691,7 +691,7 @@ void unlimitgacha::delete_user_freesale_data(eosio::name _user)
         user_servant_table.erase(iter);
     }
 
-    user_free_sale_monsters user_monster_table(owner, _user.value);
+    user_pre_sale_monsters user_monster_table(owner, _user.value);
     for (auto user_monster_iter = user_monster_table.begin(); user_monster_iter != user_monster_table.end();)
     {
         auto iter = user_monster_table.find(user_monster_iter->primary_key());
@@ -699,7 +699,7 @@ void unlimitgacha::delete_user_freesale_data(eosio::name _user)
         user_monster_table.erase(iter);
     }
 
-    user_free_sale_items user_item_table(owner, _user.value);
+    user_pre_sale_items user_item_table(owner, _user.value);
     for (auto user_item_iter = user_item_table.begin(); user_item_iter != user_item_table.end();)
     {
         auto iter = user_item_table.find(user_item_iter->primary_key());
@@ -764,26 +764,26 @@ void unlimitgacha::init_all_object_gacha_data()
     for (auto user_name_iter = user_auth_table.begin(); user_name_iter != user_auth_table.end();)
     {
         delete_user_object_data(user_name_iter->user);
-        delete_user_freesale_data(user_name_iter->user);
+        delete_user_presale_data(user_name_iter->user);
         delete_user_balance(user_name_iter->user);
         delete_user_gacha_result_data(user_name_iter->user);
         user_name_iter++;
     }
 }
 
-ACTION unlimitgacha::initfreelog()
+ACTION unlimitgacha::initprelog()
 {
-    init_freesale_log();
+    init_presale_log();
 }
 
-void unlimitgacha::init_freesale_log()
+void unlimitgacha::init_presale_log()
 {
     require_auth(owner);
-    participation_logs free_sale_log_table(owner, owner.value);
+    participation_logs pre_sale_log_table(owner, owner.value);
 
-    auto iter = free_sale_log_table.find(owner.value);
-    eosio_assert(iter != free_sale_log_table.end(), "not exist freesale log data");
-    free_sale_log_table.erase(iter);
+    auto iter = pre_sale_log_table.find(owner.value);
+    eosio_assert(iter != pre_sale_log_table.end(), "not exist presale log data");
+    pre_sale_log_table.erase(iter);
 }
 
 #pragma endregion
@@ -1204,7 +1204,7 @@ void unlimitgacha::start_gacha(eosio::name _user, uint64_t _seed)
     item_random_count = 0;
 }
 
-void unlimitgacha::freesale_gacha_servant_job(eosio::name _user, uint64_t _seed)
+void unlimitgacha::presale_gacha_servant_job(eosio::name _user, uint64_t _seed)
 {
     servant_db servant_db_table(owner, owner.value);
     uint8_t random_job = safeseed::get_random_value(_seed, servant_job_count, default_min, servant_random_count);
@@ -1215,7 +1215,7 @@ void unlimitgacha::freesale_gacha_servant_job(eosio::name _user, uint64_t _seed)
     eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data");
 
     result_info result;
-    user_free_sale_servants user_servant_table(owner, _user.value);
+    user_pre_sale_servants user_servant_table(owner, _user.value);
     user_servant_table.emplace(owner, [&](auto &update_user_servant_list) {
         uint32_t first_index = user_servant_table.available_primary_key();
         if (first_index == 0)
@@ -1290,7 +1290,7 @@ void unlimitgacha::freesale_gacha_servant_job(eosio::name _user, uint64_t _seed)
     });
 }
 
-void unlimitgacha::freesale_gacha_monster_id(eosio::name _user, uint64_t _seed)
+void unlimitgacha::presale_gacha_monster_id(eosio::name _user, uint64_t _seed)
 {
     monster_id_db monster_id_db_table(owner, owner.value);
     uint8_t random_monster_id = safeseed::get_random_value(_seed, monster_id_count, default_min, monster_random_count);
@@ -1308,7 +1308,7 @@ void unlimitgacha::freesale_gacha_monster_id(eosio::name _user, uint64_t _seed)
     eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data");
 
     result_info result;
-    user_free_sale_monsters user_monster_table(owner, _user.value);
+    user_pre_sale_monsters user_monster_table(owner, _user.value);
     user_monster_table.emplace(owner, [&](auto &update_user_monster_list) {
         uint32_t first_index = user_monster_table.available_primary_key();
         if (first_index == 0)
@@ -1376,7 +1376,7 @@ void unlimitgacha::freesale_gacha_monster_id(eosio::name _user, uint64_t _seed)
     });
 }
 
-void unlimitgacha::freesale_gacha_item_id(eosio::name _user, uint64_t _seed)
+void unlimitgacha::presale_gacha_item_id(eosio::name _user, uint64_t _seed)
 {
     item_id_db item_id_db_table(owner, owner.value);
     uint8_t random_item_id = safeseed::get_random_value(_seed, item_id_count, default_min, item_random_count);
@@ -1399,7 +1399,7 @@ void unlimitgacha::freesale_gacha_item_id(eosio::name _user, uint64_t _seed)
     eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data");
 
     result_info result;
-    user_free_sale_items user_item_table(owner, _user.value);
+    user_pre_sale_items user_item_table(owner, _user.value);
     user_item_table.emplace(owner, [&](auto &update_user_item_list) {
         uint32_t first_index = user_item_table.available_primary_key();
         if (first_index == 0)
@@ -1470,7 +1470,7 @@ void unlimitgacha::freesale_gacha_item_id(eosio::name _user, uint64_t _seed)
     });
 }
 
-void unlimitgacha::freesale_gacha(eosio::name _user, uint64_t _seed)
+void unlimitgacha::presale_gacha(eosio::name _user, uint64_t _seed)
 {
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
@@ -1482,22 +1482,22 @@ void unlimitgacha::freesale_gacha(eosio::name _user, uint64_t _seed)
 
     if (user_log_iter->gacha_num == 0)
     {
-        freesale_gacha_monster_id(_user, l_seed);
+        presale_gacha_monster_id(_user, l_seed);
     }
     else
     {
         uint64_t l_gacha_result_type = safeseed::get_random_value(l_seed, max_rate, default_min, DEFAULE_RANDOM_COUNT);
         if (l_gacha_result_type < 333)
         {
-            freesale_gacha_servant_job(_user, l_seed);
+            presale_gacha_servant_job(_user, l_seed);
         }
         else if (l_gacha_result_type > 333 && l_gacha_result_type <= 666)
         {
-            freesale_gacha_monster_id(_user, l_seed);
+            presale_gacha_monster_id(_user, l_seed);
         }
         else
         {
-            freesale_gacha_item_id(_user, l_seed);
+            presale_gacha_item_id(_user, l_seed);
         }
     }
 
@@ -1522,8 +1522,8 @@ void unlimitgacha::freesale_gacha(eosio::name _user, uint64_t _seed)
             uint64_t l_user = get_user_seed_value(_user.value);
             uint64_t seed = safeseed::get_seed_value(l_user, l_seed);
 
-            freesale_gacha_item_id(_user, seed);
-            freesale_gacha_monster_id(_user, seed);
+            presale_gacha_item_id(_user, seed);
+            presale_gacha_monster_id(_user, seed);
         }
     }
 #pragma endregion
@@ -1552,4 +1552,4 @@ void unlimitgacha::freesale_gacha(eosio::name _user, uint64_t _seed)
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(unlimitgacha, (create)(issue)(tokentrans)(setdata)(setfreesale)(freesalesign)(signup)(eostransfer)(initdata)(deleteuser)(initalluser)(initfreelog)(inittoken)(gachacheat))
+EOSIO_DISPATCH(unlimitgacha, (create)(issue)(tokentrans)(setdata)(setpresale)(presalesign)(signup)(eostransfer)(initdata)(deleteuser)(initalluser)(initprelog)(inittoken)(gachacheat))
