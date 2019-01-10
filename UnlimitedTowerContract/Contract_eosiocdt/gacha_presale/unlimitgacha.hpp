@@ -241,7 +241,7 @@ CONTRACT unlimitgacha : public contract
         uint64_t primary_key() const { return index; }
     };
     typedef eosio::multi_index<"tservant"_n, tservant> user_servants;
-    typedef eosio::multi_index<"freeservant"_n, servant> user_free_sale_servants;
+    typedef eosio::multi_index<"freeservant"_n, tservant> user_free_sale_servants;
 #pragma endregion
 
 #pragma region gacha tmonster
@@ -264,6 +264,7 @@ CONTRACT unlimitgacha : public contract
         uint64_t primary_key() const { return index; }
     };
     typedef eosio::multi_index<"tmonster"_n, tmonster> user_monsters;
+    typedef eosio::multi_index<"freemonster"_n, tmonster> user_free_sale_monsters;
 #pragma endregion
 
 #pragma region gacha titem
@@ -338,10 +339,14 @@ CONTRACT unlimitgacha : public contract
     uint32_t item_random_count;
 
     const uint32_t default_min = 0;
-    const uint32_t max_rate = 100;
-    const uint32_t two_grade_ratio = 89;
-    const uint32_t three_grade_ratio = 9;
-    const uint32_t four_grade_ratio = 2;
+    const uint32_t max_rate = 1000;
+
+    
+    const uint32_t one_grade_ratio = 32; //3.2 %
+    const uint32_t two_grade_ratio = 97; //6.5 %
+    const uint32_t three_grade_ratio = 226; //12.9 %
+    const uint32_t four_grade_ratio = 484; //25.8 %
+    const uint32_t five_grade_ratio = 1000; //51.6 %
 
     const uint64_t limit_token_amount = 150000000;
 
@@ -349,6 +354,8 @@ CONTRACT unlimitgacha : public contract
 
   public:
 #pragma region gacha function
+    uint32_t get_random_grade(uint64_t _rate);
+
     void gacha_servant_job(eosio::name _user, uint64_t _seed);
     uint8_t gacha_servant_head(uint64_t _seed, uint32_t _count);
     uint8_t gacha_servant_hair(uint64_t _seed, uint32_t _count);
@@ -370,7 +377,7 @@ CONTRACT unlimitgacha : public contract
 
 
 #pragma region gacha cheat
-    void gacha_cheat(eosio::name _user);
+    ACTION gachacheat(eosio::name _user);
 #pragma endregion
 
 //------------------------------------------------------------------------//

@@ -41,8 +41,7 @@ ACTION unlimitgacha::issue(eosio::name _to, asset _quantity, string _memo)
     eosio_assert(sym.is_valid(), "Invalid symbol name");
     eosio_assert(_memo.size() <= 256, "Memo has more than 256 bytes");
 
-    uint64_t sym_name = sym.code().raw();
-    stat statstable(owner, sym_name);
+    stat statstable(owner, sym.code().raw());
     auto existing = statstable.find(sym.code().raw());
     eosio_assert(existing != statstable.end(), "Token with symbol does now exist, Create token before issue");
     const auto &st = *existing;
@@ -54,7 +53,7 @@ ACTION unlimitgacha::issue(eosio::name _to, asset _quantity, string _memo)
     eosio_assert(_quantity.symbol == st.supply.symbol, "Symbol precision mismatch");
     eosio_assert(_quantity.amount <= st.max_supply.amount - st.supply.amount, "Quantity exceeds available supply");
 
-    statstable.modify(st, owner, [&](auto &s) {
+    statstable.modify(st, same_payer, [&](auto &s) {
         s.supply += _quantity;
     });
 
@@ -84,7 +83,7 @@ ACTION unlimitgacha::tokentrans(name _from, name _to, asset _quantity, string _m
     eosio_assert(_quantity.is_valid(), "Invalid quantity");
     eosio_assert(_quantity.amount > 0, "Must transfer positive quantity");
     eosio_assert(_quantity.symbol == st.supply.symbol, "Symbol precision mismatch");
-    eosio_assert(_memo.size() <= 250, "Memo has more than 256 bytes");
+    eosio_assert(_memo.size() <= 256, "Memo has more than 256 bytes");
 
     sub_balance(_from, _quantity);
     add_balance(_to, _quantity, _from);
@@ -121,7 +120,7 @@ void unlimitgacha::add_balance(name _user, asset _value, name _ram_payer)
     }
     else
     {
-        to_acnts.modify(to, _ram_payer, [&](auto &a) {
+        to_acnts.modify(to, same_payer, [&](auto &a) {
             a.balance += _value;
         });
     }
@@ -333,19 +332,7 @@ ACTION unlimitgacha::freesalesign(eosio::name _user)
 
     monster_random_count += 1;
     uint32_t random_rate = safeseed::get_random_value(seed, max_rate, default_min, monster_random_count);
-    uint8_t random_grade;
-    if (random_rate <= four_grade_ratio)
-    {
-        random_grade = 4;
-    }
-    else if (random_rate <= three_grade_ratio)
-    {
-        random_grade = 3;
-    }
-    else
-    {
-        random_grade = 2;
-    }
+    uint32_t random_grade = get_random_grade(random_rate);
 
     monster_grade_db monster_grade_db_table(owner, owner.value);
     const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "not exist monster grade");
@@ -858,6 +845,32 @@ void unlimitgacha::init_all_balance()
 //------------------------------------------------------------------------//
 //-------------------------------gacha_function---------------------------//
 //------------------------------------------------------------------------//
+uint32_t unlimitgacha::get_random_grade(uint64_t _rate)
+{
+    uint32_t grade;
+    if (_rate <= one_grade_ratio)
+    {
+        grade = 0;
+    }
+    else if (_rate <= two_grade_ratio)
+    {
+        grade = 1;
+    }
+    else if (_rate <= three_grade_ratio)
+    {
+        grade = 2;
+    }
+    else if (_rate <= four_grade_ratio)
+    {
+        grade = 3;
+    }
+    else
+    {
+        grade = 4;
+    }
+    return grade;
+}
+
 
 void unlimitgacha::gacha_servant_job(eosio::name _user, uint64_t _seed)
 {
@@ -977,19 +990,7 @@ void unlimitgacha::gacha_monster_id(eosio::name _user, uint64_t _seed)
 
     monster_random_count += 1;
     uint32_t random_rate = safeseed::get_random_value(_seed, max_rate, default_min, monster_random_count);
-    uint8_t random_grade;
-    if (random_rate <= four_grade_ratio)
-    {
-        random_grade = 4;
-    }
-    else if (random_rate <= three_grade_ratio)
-    {
-        random_grade = 3;
-    }
-    else
-    {
-        random_grade = 2;
-    }
+    uint32_t random_grade = get_random_grade(random_rate);
 
     monster_grade_db monster_grade_db_table(owner, owner.value);
     const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "not exist monster grade");
@@ -1080,24 +1081,10 @@ void unlimitgacha::gacha_item_id(eosio::name _user, uint64_t _seed)
 
     item_random_count += 1;
     uint32_t random_rate = safeseed::get_random_value(_seed, max_rate, default_min, item_random_count);
-    uint8_t random_grade;
-    if (random_rate <= four_grade_ratio)
-    {
-        random_grade = 4;
-    }
-    else if (random_rate <= three_grade_ratio)
-    {
-        random_grade = 3;
-    }
-    else
-    {
-        random_grade = 2;
-    }
+    uint32_t random_grade = get_random_grade(random_rate);
 
     item_grade_db item_grade_db_table(owner, owner.value);
-    item_random_count += 1;
-    uint8_t random_item_grade = safeseed::get_random_value(_seed, item_grade_count, default_min, item_random_count);
-    const auto &item_grade_db_iter = item_grade_db_table.get(random_item_grade, "not exist tier info");
+    const auto &item_grade_db_iter = item_grade_db_table.get(random_grade, "not exist tier info");
 
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
@@ -1199,11 +1186,11 @@ void unlimitgacha::start_gacha(eosio::name _user, uint64_t _seed)
     else
     {
         uint64_t l_gacha_result_type = safeseed::get_random_value(l_seed, max_rate, default_min, DEFAULE_RANDOM_COUNT);
-        if (l_gacha_result_type < 33)
+        if (l_gacha_result_type < 333)
         {
             gacha_servant_job(_user, l_seed);
         }
-        else if (l_gacha_result_type > 33 && l_gacha_result_type <= 66)
+        else if (l_gacha_result_type > 333 && l_gacha_result_type <= 666)
         {
             gacha_monster_id(_user, l_seed);
         }
@@ -1311,19 +1298,7 @@ void unlimitgacha::freesale_gacha_monster_id(eosio::name _user, uint64_t _seed)
 
     monster_random_count += 1;
     uint32_t random_rate = safeseed::get_random_value(_seed, max_rate, default_min, monster_random_count);
-    uint8_t random_grade;
-    if (random_rate <= four_grade_ratio)
-    {
-        random_grade = 4;
-    }
-    else if (random_rate <= three_grade_ratio)
-    {
-        random_grade = 3;
-    }
-    else
-    {
-        random_grade = 2;
-    }
+    uint32_t random_grade = get_random_grade(random_rate);
 
     monster_grade_db monster_grade_db_table(owner, owner.value);
     const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "not exist monster grade");
@@ -1414,24 +1389,10 @@ void unlimitgacha::freesale_gacha_item_id(eosio::name _user, uint64_t _seed)
 
     item_random_count += 1;
     uint32_t random_rate = safeseed::get_random_value(_seed, max_rate, default_min, item_random_count);
-    uint8_t random_grade;
-    if (random_rate <= four_grade_ratio)
-    {
-        random_grade = 4;
-    }
-    else if (random_rate <= three_grade_ratio)
-    {
-        random_grade = 3;
-    }
-    else
-    {
-        random_grade = 2;
-    }
+    uint32_t random_grade = get_random_grade(random_rate);
 
     item_grade_db item_grade_db_table(owner, owner.value);
-    item_random_count += 1;
-    uint8_t random_item_grade = safeseed::get_random_value(_seed, item_grade_count, default_min, item_random_count);
-    const auto &item_grade_db_iter = item_grade_db_table.get(random_item_grade, "not exist tier info");
+    const auto &item_grade_db_iter = item_grade_db_table.get(random_grade, "not exist tier info");
 
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
@@ -1526,11 +1487,11 @@ void unlimitgacha::freesale_gacha(eosio::name _user, uint64_t _seed)
     else
     {
         uint64_t l_gacha_result_type = safeseed::get_random_value(l_seed, max_rate, default_min, DEFAULE_RANDOM_COUNT);
-        if (l_gacha_result_type < 33)
+        if (l_gacha_result_type < 333)
         {
             freesale_gacha_servant_job(_user, l_seed);
         }
-        else if (l_gacha_result_type > 33 && l_gacha_result_type <= 66)
+        else if (l_gacha_result_type > 333 && l_gacha_result_type <= 666)
         {
             freesale_gacha_monster_id(_user, l_seed);
         }
@@ -1544,6 +1505,28 @@ void unlimitgacha::freesale_gacha(eosio::name _user, uint64_t _seed)
     monster_random_count = 0;
     item_random_count = 0;
 }
+
+#pragma region gacha cheat
+    ACTION unlimitgacha::gachacheat(eosio::name _user)
+    {
+        require_auth(_user);
+        uint64_t l_seed = safeseed::get_seed(owner.value, _user.value);
+        for (uint32_t i = 0; i < 50; ++i)
+        {
+            user_logs user_log_table(owner, owner.value);
+            auto user_log_iter = user_log_table.find(_user.value);
+            eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data");
+            user_log_table.modify(user_log_iter, owner, [&](auto &buy_log) {
+                buy_log.gacha_num += 1;
+            });
+            uint64_t l_user = get_user_seed_value(_user.value);
+            uint64_t seed = safeseed::get_seed_value(l_user, l_seed);
+
+            freesale_gacha_item_id(_user, seed);
+            freesale_gacha_monster_id(_user, seed);
+        }
+    }
+#pragma endregion
 
 #pragma endresion
 
@@ -1569,4 +1552,4 @@ void unlimitgacha::freesale_gacha(eosio::name _user, uint64_t _seed)
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(unlimitgacha, (create)(issue)(tokentrans)(setdata)(setfreesale)(freesalesign)(signup)(eostransfer)(initdata)(deleteuser)(initalluser)(initfreelog)(inittoken))
+EOSIO_DISPATCH(unlimitgacha, (create)(issue)(tokentrans)(setdata)(setfreesale)(freesalesign)(signup)(eostransfer)(initdata)(deleteuser)(initalluser)(initfreelog)(inittoken)(gachacheat))
