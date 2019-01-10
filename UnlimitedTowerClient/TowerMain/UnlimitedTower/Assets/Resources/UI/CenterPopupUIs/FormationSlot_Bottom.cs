@@ -12,8 +12,12 @@ public class FormationSlot_Bottom : MonoBehaviour {
     /// </summary>
 
     //
-    public Image slotimage;
-
+    public Image emptyImage;
+    public Image charImage;
+    public Image lefttopImage;
+    public Image monsterBGimage;
+    public Text leftbottomleveltext;
+    public Text monsterEnforceText;
     //
     public enum SlotType
     {
@@ -31,7 +35,16 @@ public class FormationSlot_Bottom : MonoBehaviour {
     {
         slottype = SlotType.servant;
         this.servantdata = servantdata;
-        slotimage.sprite = ErdManager.instance.ServantbodySprite[servantdata.charNum];
+
+
+        uiinitialize();
+        charImage.gameObject.SetActive(true);
+        charImage.sprite = ErdManager.instance.GetServantIconSprite(servantdata.isLegend ,servantdata.charNum, servantdata.jobNum);
+        lefttopImage.gameObject.SetActive(true);
+        lefttopImage.sprite = ErdManager.instance.JobIcons[servantdata.jobNum];
+        leftbottomleveltext.gameObject.SetActive(true);
+        leftbottomleveltext.text = "lv." + servantdata.level;
+
 
         placedUpdate();
     }
@@ -39,25 +52,39 @@ public class FormationSlot_Bottom : MonoBehaviour {
     {
         slottype = SlotType.monster;
         this.monsterdata = monsterdata;
-        slotimage.sprite = ErdManager.instance.getMonsterImage(monsterdata.monsterNum, monsterdata.monsterTypeNum);
+
+
+        uiinitialize();
+        charImage.gameObject.SetActive(true);
+        charImage.sprite = ErdManager.instance.getMonsterImage(monsterdata.monsterNum, monsterdata.monsterTypeNum);
+        lefttopImage.gameObject.SetActive(true);
+        lefttopImage.sprite = ErdManager.instance.TypeIcons[monsterdata.monsterTypeNum];
+        leftbottomleveltext.gameObject.SetActive(true);
+        leftbottomleveltext.text = "lv." + monsterdata.level;
+        monsterBGimage.gameObject.SetActive(true);
+        monsterBGimage.sprite = ErdManager.instance.monstergradeIcons[monsterdata.gradeNum];
+        monsterEnforceText.gameObject.SetActive(true);
+        monsterEnforceText.text = monsterdata.enforceNum > 0 ? "+" + monsterdata.enforceNum : "";
+
 
         placedUpdate();
     }
     public void to_none()
     {
         slottype = SlotType.none;
-        slotimage.sprite = FormationInfoPopup.instance.bgsprite;
+        uiinitialize();
+        emptyImage.gameObject.SetActive(true);
     }
 
     // 버튼 온클릭
     public void onclick()
     {
         // 이미 배치된 녀석이면, return
-        if (slottype == SlotType.monster && monsterdata.OnFormation)
+        if (slottype == SlotType.monster && GameDataManager.instance.isPlaced(PlayerType.monster, monsterdata.index))
         {
             return;
         }
-        if (slottype == SlotType.servant && servantdata.onFormation)
+        if (slottype == SlotType.servant && GameDataManager.instance.isPlaced(PlayerType.servant, servantdata.index))
         {
             return;
         }
@@ -76,18 +103,17 @@ public class FormationSlot_Bottom : MonoBehaviour {
         // father에 웨이팅칸이 없다면 -> 가장 앞에서부터 채워나가기
         if (!FormationInfoPopup.instance.isWaiting)
         {
-
             // 서번트이고, 0~4중남은칸이 있다면
             if (slottype == SlotType.servant && GameDataManager.instance.isServantPlaceExist(curTeamNum))
             {
                 // 거기로 배치 요청하기
-                servantdata.requestPlaceChange(curTeamNum, GameDataManager.instance.GetServantPlaceExist(curTeamNum));
+                GameDataManager.instance.request_Placement(PlayerType.servant, servantdata.index, curTeamNum, GameDataManager.instance.GetServantPlaceExist(curTeamNum));
             }
             // 몬스터이고, 5~9중 남은칸이 있다면
             else if (slottype == SlotType.monster && GameDataManager.instance.isMonsterPlaceExist(curTeamNum))
             {
                 // 거기로 배치 요청하기
-                monsterdata.requestPlaceChange(curTeamNum, GameDataManager.instance.GetMonsterPlaceExist(curTeamNum));
+                GameDataManager.instance.request_Placement(PlayerType.monster, monsterdata.index, curTeamNum, GameDataManager.instance.GetServantPlaceExist(curTeamNum));
             }
             // 남은 칸이 없다면
             else
@@ -108,18 +134,31 @@ public class FormationSlot_Bottom : MonoBehaviour {
     public void placedUpdate()
     {
         // 배치중
-        if ((slottype == SlotType.servant && servantdata.onFormation) ||
-            slottype == SlotType.monster && monsterdata.OnFormation)
+        if ((slottype == SlotType.servant && GameDataManager.instance.isPlaced(PlayerType.servant,servantdata.index)) ||
+            slottype == SlotType.monster && GameDataManager.instance.isPlaced(PlayerType.monster, monsterdata.index))
         {
-            slotimage.color = new Color(1f, 1f, 1f, 0.8f);
+            charImage.color = new Color(1f, 1f, 1f, 0.8f);
         }
         // 배치중아님
         else
         {
-            slotimage.color = new Color(1f, 1f, 1f, 1f);
+            charImage.color = new Color(1f, 1f, 1f, 1f);
         }
         
     }
+
+
+
+    public void uiinitialize()
+    {
+        emptyImage.gameObject.SetActive(false);
+        charImage.gameObject.SetActive(false);
+        lefttopImage.gameObject.SetActive(false);
+        monsterBGimage.gameObject.SetActive(false);
+        leftbottomleveltext.gameObject.SetActive(false);
+        monsterEnforceText.gameObject.SetActive(false);
+    }
+
 
     private void OnEnable()
     {

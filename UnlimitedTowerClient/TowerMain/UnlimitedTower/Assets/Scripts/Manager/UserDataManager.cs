@@ -7,14 +7,16 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
     public Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
     public List<UserServantData> ServantList = new List<UserServantData>();
+
     public Dictionary<int, UserMonsterData> monsterDic = new Dictionary<int, UserMonsterData>();
     public List<UserMonsterData> MonsterList = new List<UserMonsterData>();
+
     public Dictionary<int, UserMountItemData> mountitemDic = new Dictionary<int, UserMountItemData>();
     public List<UserMountItemData> MountItemList = new List<UserMountItemData>();
+
     public Dictionary<int, UserEtcItemData> etcitemDic = new Dictionary<int, UserEtcItemData>();
-
-
-
+    
+    public List<UserFormationData> UserFormationList = new List<UserFormationData>();
     public Dictionary<int, UserPartyData> partyDic = new Dictionary<int, UserPartyData>();
     
     public int usingPartyNum = 1;
@@ -100,7 +102,11 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
 
 
-
+    // get
+    public UserFormationData getFormaData_nullPossible(int team, int formindex)
+    {
+        return UserFormationList.Find((rowdata) => { return rowdata.partyIndex == team && rowdata.formationIndex == formindex; });
+    }
     #region SetFunction
 
     public void SetUserInfo(UserInfo getUserInfo)

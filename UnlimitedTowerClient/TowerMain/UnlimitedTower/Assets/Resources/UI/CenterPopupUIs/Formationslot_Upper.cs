@@ -10,7 +10,12 @@ public class Formationslot_Upper : MonoBehaviour {
     /// </summary>
 
     //
-    public Image image;
+    public Image emptyImage;
+    public Image charImage;
+    public Image lefttopImage;
+    public Image monsterBGimage;
+    public Text leftbottomleveltext;
+    public Text monsterEnforceText;
     [SerializeField] int FormationIndex;
 
     // 현재 자리넘버가 어떻게 되는지
@@ -22,36 +27,66 @@ public class Formationslot_Upper : MonoBehaviour {
     // 저장되어있는 FormationIndex에다가 teamnumber만 줬을때, 해당자리에 배치되어있는놈 display
     public void SetDisplayteam(int curTeamNum)
     {
-        // 배치된 서번트가 있다면 -> 배치표시후 return
-        List<UserServantData> list = new List<UserServantData>(UserDataManager.Inst.servantDic.Values);
-        UserServantData rightServant = list.Find((rowdata) => { return rowdata.onFormation == true && rowdata.partyIndex == curTeamNum && rowdata.formationIndex == FormationIndex; });
-        if (rightServant != null )
+        // 배치된 아이가 있다면 -> 배치표시후 return
+        bool isplaced = GameDataManager.instance.isPlacedAt(FormationInfoPopup.instance.curTeamNum, FormationIndex);
+        if (isplaced)
         {
-            isPlaced = true;
-            curServant = rightServant;
-            image.sprite = ErdManager.instance.ServantbodySprite[curServant.charNum];
-            return;
-        }
+            // 몬스터
+            if (FormationIndex>=5)
+            {
+                isPlaced = true;
+                curMonster = GameDataManager.instance.getMonsterPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, FormationIndex);
 
-        // 배치된 몬스터가 있다면 -> 배치표시후 return
-        List<UserMonsterData> mlist = new List<UserMonsterData>(UserDataManager.Inst.monsterDic.Values);
-        UserMonsterData rightMonster = mlist.Find((rowdata) => { return rowdata.OnFormation == true && rowdata.partyIndex == curTeamNum && rowdata.formationIndex == FormationIndex; });
-        if (rightMonster != null)
-        {
-            isPlaced = true;
-            curMonster = rightMonster;
-            image.sprite = ErdManager.instance.MonsterSprite[curMonster.monsterNum];
-            return;
-        }
 
+                uiinitialize();
+                charImage.gameObject.SetActive(true);
+                charImage.sprite = ErdManager.instance.getMonsterImage(curMonster.monsterNum, curMonster.monsterTypeNum);
+                lefttopImage.gameObject.SetActive(true);
+                lefttopImage.sprite = ErdManager.instance.TypeIcons[curMonster.monsterTypeNum];
+                leftbottomleveltext.gameObject.SetActive(true);
+                leftbottomleveltext.text = "lv." + curMonster.level;
+                monsterBGimage.gameObject.SetActive(true);
+                monsterBGimage.sprite = ErdManager.instance.monstergradeIcons[curMonster.gradeNum];
+                monsterEnforceText.gameObject.SetActive(true);
+                monsterEnforceText.text = curMonster.enforceNum > 0 ? "+" + curMonster.enforceNum : "";
+
+
+                return;
+            }
+            // 서번트
+            else
+            {
+                isPlaced = true;
+                curServant = GameDataManager.instance.getServantPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, FormationIndex);
+
+                uiinitialize();
+                charImage.gameObject.SetActive(true);
+                charImage.sprite = ErdManager.instance.GetServantIconSprite(curServant.isLegend, curServant.charNum, curServant.jobNum);
+                lefttopImage.gameObject.SetActive(true);
+                lefttopImage.sprite = ErdManager.instance.JobIcons[curServant.jobNum];
+                leftbottomleveltext.gameObject.SetActive(true);
+                leftbottomleveltext.text = "lv." + curServant.level;
+
+
+
+                return;
+            }
+
+            
+        }
+        
+        // 없다면 lock상태로
         toDeregister();
     }
     public void toDeregister()
     {
         isPlaced = false;
-        image.sprite = FormationInfoPopup.instance.bgsprite;
-    }
 
+        uiinitialize();
+        emptyImage.gameObject.SetActive(true);
+
+        emptyImage.sprite = FormationInfoPopup.instance.bgsprite;
+    }
 
 
 
@@ -78,10 +113,26 @@ public class Formationslot_Upper : MonoBehaviour {
     }
 
 
+    public void uiinitialize()
+    {
+        emptyImage.gameObject.SetActive(false);
+        charImage.gameObject.SetActive(false);
+        lefttopImage.gameObject.SetActive(false);
+        monsterBGimage.gameObject.SetActive(false);
+        leftbottomleveltext.gameObject.SetActive(false);
+        monsterEnforceText.gameObject.SetActive(false);
+    }
 
     // 클릭시
     public void onclick()
     {
+        // 메인히어로가 배치된 자리라면, return
+        if (FormationIndex == 2)
+        {
+            return;
+        }
+
+
         // 배치되어있다면, 배치 풀기 요청
         if (GameDataManager.instance.isPlacedAt(FormationInfoPopup.instance.curTeamNum, FormationIndex))
         {
@@ -89,13 +140,13 @@ public class Formationslot_Upper : MonoBehaviour {
             if (FormationIndex >= 5)
             {
                 UserMonsterData monsterdata = GameDataManager.instance.getMonsterPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, FormationIndex);
-                monsterdata.request_deplace();
+                GameDataManager.instance.request_deplace(PlayerType.monster, monsterdata.index);
             }
             // 서번트 일경우
             else
             {
                 UserServantData servantdata = GameDataManager.instance.getServantPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, FormationIndex);
-                servantdata.request_deplace();
+                GameDataManager.instance.request_deplace(PlayerType.servant, servantdata.index);
             }
         }
 

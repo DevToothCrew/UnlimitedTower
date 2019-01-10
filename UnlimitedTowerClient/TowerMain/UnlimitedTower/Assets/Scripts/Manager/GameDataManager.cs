@@ -22,38 +22,106 @@ public class GameDataManager : MonoBehaviour {
     // 누군가의 배치가 바뀌었을때
     public System.Action placeChangedEvent;
 
+    // 배치 요청
+    public void request_Placement(PlayerType type, int index, int teamnum, int formationIndex)
+    {
+        // 이미 배치된친구라면 return
+        if (isPlaced(type,index))
+        {
+            return;
+        }
+
+
+        // 배치
+        UserFormationData formdata = UserDataManager.Inst.getFormaData_nullPossible(teamnum, formationIndex);
+        formdata.isPlaced = true;
+        formdata.isServant = type == PlayerType.servant ? true : false;
+        
+        if (GameDataManager.instance != null && GameDataManager.instance.placeChangedEvent != null)
+        {
+            GameDataManager.instance.placeChangedEvent();
+        }
+    }
+    // 배치해제 요청
+    public void request_deplace(PlayerType type, int playerindex)
+    {
+        // 배치되어있지않다면 return
+        if (!isPlaced(type,playerindex))
+        {
+            return;
+        }
+
+        // 저위에놈이 배치되어있는곳을 찾아서, 해제해준다.
+        UserFormationData data= UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isServant == (type == PlayerType.servant) && rowdata.index == playerindex; });
+        if (data == null)
+        {
+            return;
+        }
+        data.isPlaced = false;
+        
+        if (GameDataManager.instance != null && GameDataManager.instance.placeChangedEvent != null)
+        {
+            GameDataManager.instance.placeChangedEvent();
+        }
+    }
+
+
     // 배치 조회
     public bool isPlacedAt(int teamNum, int formationIndex)
     {
-        // 몬스터 자리
-        if (formationIndex >= 5)
+        return UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isPlaced && rowdata.partyIndex == teamNum && rowdata.formationIndex == formationIndex; }) != null;
+        
+    }
+    public bool isPlaced(PlayerType type, int index)
+    {
+        if (type == PlayerType.servant)
         {
-            return isMonsterPlacedAt(teamNum, formationIndex);
+            return UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isServant && rowdata.index == index && rowdata.isPlaced; }) != null;
         }
-        // 서번트 자리
         else
         {
-            return isServantPlacedAt(teamNum, formationIndex);
+            return UserDataManager.Inst.UserFormationList.Find((rowdata) => { return !rowdata.isServant && rowdata.index == index && rowdata.isPlaced; }) != null;
         }
-    }
-    
-    public bool isServantPlacedAt(int teamNum, int formationindex)
-    {
-        return UserDataManager.Inst.ServantList.Find((rowdata) => { return rowdata.onFormation && rowdata.partyIndex == teamNum && rowdata.formationIndex == formationindex; }) != null;
-    }
-    public bool isMonsterPlacedAt(int teamNum, int formationindex)
-    {
-        return UserDataManager.Inst.MonsterList.Find((rowdata) => { return rowdata.OnFormation && rowdata.partyIndex == teamNum && rowdata.formationIndex == formationindex; }) != null;
+        
     }
 
     // 배치된놈 가져오기
     public UserServantData getServantPlacedAt_nullPossible(int teamNum, int formationindex)
     {
-        return UserDataManager.Inst.ServantList.Find((rowdata) => { return rowdata.onFormation && rowdata.partyIndex == teamNum && rowdata.formationIndex == formationindex; });
+
+        UserFormationData formData = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isPlaced && rowdata.partyIndex == teamNum && rowdata.formationIndex == formationindex; });
+        // 그자리에 배치 안되어있을경우 return
+        if (!formData.isPlaced)
+        {
+            Debug.Log("버그");
+            return null;
+        }
+
+        // 서번트가아닐경우 return
+        if (!formData.isServant)
+        {
+            return null;
+        }
+        
+        return UserDataManager.Inst.ServantList.Find((rowdata) => { return rowdata.index == formData.index; });
     }
     public UserMonsterData getMonsterPlacedAt_nullPossible(int teamNum, int formationindex)
     {
-        return UserDataManager.Inst.MonsterList.Find((rowdata) => { return rowdata.OnFormation && rowdata.partyIndex == teamNum && rowdata.formationIndex == formationindex; });
+        UserFormationData formData = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isPlaced && rowdata.partyIndex == teamNum && rowdata.formationIndex == formationindex; });
+        // 그자리에 배치 안되어있을경우 return
+        if (!formData.isPlaced)
+        {
+            Debug.Log("버그");
+            return null;
+        }
+
+        // 서번트가아닐경우 return
+        if (formData.isServant)
+        {
+            return null;
+        }
+
+        return UserDataManager.Inst.MonsterList.Find((rowdata) => { return rowdata.index == formData.index; });
     }
 
     // 배치가능 조회

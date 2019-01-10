@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class StageInfoPopup : MonoBehaviour {
 
     // 이미지 슬롯들
-    public List<Image> placeImageList;
+    public List<stageui_charslot> charslotList;
     // 현재 디스플레이되고있는 팀넘버
     public int CurDisplayTeam;
 
@@ -26,7 +26,8 @@ public class StageInfoPopup : MonoBehaviour {
 
     public void DisplayTeam(int teamNum)
     {
-        for (int i = 0; i < placeImageList.Count; i++)
+
+        for (int i = 0; i < charslotList.Count; i++)
         {
             int formationIndex = i;
 
@@ -37,19 +38,19 @@ public class StageInfoPopup : MonoBehaviour {
                 if (formationIndex <= 4)
                 {
                     UserServantData servantdata = GameDataManager.instance.getServantPlacedAt_nullPossible(CurDisplayTeam, formationIndex);
-                    placeImageList[i].sprite = ErdManager.instance.ServantbodySprite[servantdata.charNum];
+                    charslotList[i].to_servant(servantdata);
                 }
                 // 몬스터
                 else
                 {
                     UserMonsterData servantdata = GameDataManager.instance.getMonsterPlacedAt_nullPossible(CurDisplayTeam, formationIndex);
-                    placeImageList[i].sprite = ErdManager.instance.getMonsterImage(servantdata.monsterNum, servantdata.monsterTypeNum);
+                    charslotList[i].to_monster(servantdata); 
                 }
             }
             // 배치되어있지 않다면, 흰아이콘으로
             else
             {
-                placeImageList[i].sprite = null;
+                charslotList[i].to_empty();
             }
         }
     }

@@ -62,6 +62,12 @@ public class FormationInfoPopup : MonoBehaviour {
             List<UserServantData> list = new List<UserServantData>(UserDataManager.Inst.servantDic.Values);
             for (int i = 0; i < list.Count && i < bottomslotlist.Count; i++)
             {
+                // 메인히어로는 선택지에 안나온다.
+                if (list[i].isMainHero)
+                {
+                    continue;
+                }
+
                 bottomslotlist[i].to_servant(list[i]);
             }
         }

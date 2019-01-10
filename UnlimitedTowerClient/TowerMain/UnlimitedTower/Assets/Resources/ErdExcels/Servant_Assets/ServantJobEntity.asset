@@ -16,23 +16,65 @@ MonoBehaviour:
     speed: 34
     jobName: "\uC804\uC0AC"
     getPossibleLevel: 10
+    Legend_CharNum: 3
+    Legend_HairNum: 2
+    Legend_HeadNum: 4
+    Legend_Name: PowerMan
+    Legend_OriginalSTR: 100
+    Legend_OriginalDEX: 100
+    Legend_OriginalINT: 100
   - jobNum: 1
     speed: 42
     jobName: "\uAD81\uC218"
     getPossibleLevel: 10
+    Legend_CharNum: 3
+    Legend_HairNum: 2
+    Legend_HeadNum: 4
+    Legend_Name: PowerMan
+    Legend_OriginalSTR: 100
+    Legend_OriginalDEX: 100
+    Legend_OriginalINT: 100
   - jobNum: 2
     speed: 50
     jobName: "\uB3C4\uC801"
     getPossibleLevel: 10
+    Legend_CharNum: 3
+    Legend_HairNum: 2
+    Legend_HeadNum: 4
+    Legend_Name: PowerMan
+    Legend_OriginalSTR: 100
+    Legend_OriginalDEX: 100
+    Legend_OriginalINT: 100
   - jobNum: 3
     speed: 29
     jobName: "\uB9C8\uBC95\uC0AC"
     getPossibleLevel: 10
+    Legend_CharNum: 3
+    Legend_HairNum: 2
+    Legend_HeadNum: 4
+    Legend_Name: PowerMan
+    Legend_OriginalSTR: 100
+    Legend_OriginalDEX: 100
+    Legend_OriginalINT: 100
   - jobNum: 4
     speed: 32
     jobName: "\uC131\uC9C1\uC790"
     getPossibleLevel: 10
+    Legend_CharNum: 3
+    Legend_HairNum: 2
+    Legend_HeadNum: 4
+    Legend_Name: PowerMan
+    Legend_OriginalSTR: 100
+    Legend_OriginalDEX: 100
+    Legend_OriginalINT: 100
   - jobNum: 5
     speed: 30
     jobName: "\uCD08\uBCF4\uC790"
     getPossibleLevel: 0
+    Legend_CharNum: 0
+    Legend_HairNum: 0
+    Legend_HeadNum: 0
+    Legend_Name: 
+    Legend_OriginalSTR: 0
+    Legend_OriginalDEX: 0
+    Legend_OriginalINT: 0
