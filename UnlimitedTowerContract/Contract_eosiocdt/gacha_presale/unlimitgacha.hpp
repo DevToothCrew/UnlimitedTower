@@ -2,11 +2,13 @@
 
 //즐겨찾기 
 //테이블 
-//db_table, token_table, gacha_table, login_table
+//db_table, token_table, gacha_table, login_table, black_list_table
 //시스템 
-//db_system, token_system, login_system, gacha_system, init_function, delete_function, pre_sale_function
+//db_system, token_system, login_system, gacha_system, init_function, delete_function, pre_sale_function ,black_list_system
 //로그
 //presale_log_table, user_log_table
+//컨트랙트 계정용 
+//owner_system
 
 CONTRACT unlimitgacha : public contract
 {
@@ -333,6 +335,8 @@ CONTRACT unlimitgacha : public contract
   private:
 #pragma region gacha values
     const char *action_gacha="gacha";
+    const char *action_presale_signup="presalesignup";
+    const char *action_signup="signup";
 
     uint32_t servant_random_count;
     uint32_t monster_random_count;
@@ -466,7 +470,7 @@ TABLE presalelog
     {
         uint32_t state;                   //히어로 상태
         uint32_t exp = 0;                 //히어로 경험치
-        uint32_t job;
+        uint32_t job = 0;
         uint32_t stat_point = 0;
         appear_info appear;               //히어로 외형 정보
         status_info status;               //기본 힘,민,지 추가 힘,민,지
@@ -484,6 +488,8 @@ TABLE presalelog
     typedef eosio::multi_index<"tuserauth"_n, tuserauth> auth_users;
 
 #pragma endregion
+
+
     //------------------------------------------------------------------------//
     //-----------------------------login_system-------------------------------//
     //------------------------------------------------------------------------//
@@ -535,8 +541,9 @@ TABLE presalelog
 
 #pragma region login action
     ACTION eostransfer(eosio::name sender, eosio::name receiver);
-    ACTION presalesign(eosio::name _user);
-    ACTION signup(eosio::name _user);
+    void presalesign(eosio::name _user);
+    void signup(eosio::name _user);
+    ACTION presalemove(eosio::name _user);
 #pragma endregion
 
     //------------------------------------------------------------------------//
@@ -559,5 +566,30 @@ void delete_user_gacha_result_data(eosio::name _user);
 void delete_user_presale_data(eosio::name _user);
 ACTION deleteuser(eosio::name _user);
 
+    //------------------------------------------------------------------------//
+    //-----------------------------black_list_table---------------------------//
+    //------------------------------------------------------------------------//
+#pragma region black_list table tblacklist
+    TABLE tblacklist
+    {
+        eosio::name user;
+        uint64_t primary_key() const { return user.value; }
+    };
+    typedef eosio::multi_index<"tblacklist"_n, tblacklist> black_list;
+#pragma endregion
+    //------------------------------------------------------------------------//
+    //----------------------------black_list_system---------------------------//
+    //------------------------------------------------------------------------//
+#pragma region black_list action
+
+ACTION deleteblack(eosio::name _user);
+ACTION addblack(eosio::name _user);
+
+#pragma endregion
+
+    //------------------------------------------------------------------------//
+    //---------------------------------owner_system---------------------------//
+    //------------------------------------------------------------------------//
+ACTION setpause(uint64_t _state);
 
 };
