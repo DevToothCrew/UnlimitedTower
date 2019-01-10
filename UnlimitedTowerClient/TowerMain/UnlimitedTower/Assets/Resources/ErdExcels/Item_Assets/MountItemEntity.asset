@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51df39f6e56812349aa11c1054f1cfee, type: 3}
+  m_Name: MountItemEntity
+  m_EditorClassIdentifier: 
+  param:
+  - mountItemNum: 0
+    mountitemType: 0
+    itemName: "\uC7A5\uAC80"
+    isSpeJobPossible: 1
+    possibleJobNum: 0
+    teerNum: 0
+    gradeNum: 0
+  - mountItemNum: 1
+    mountitemType: 1
+    itemName: "\uB0A1\uC740\uBC29\uD328"
+    isSpeJobPossible: 1
+    possibleJobNum: 0
+    teerNum: 0
+    gradeNum: 0
+  - mountItemNum: 2
+    mountitemType: 0
+    itemName: "\uB2E8\uAC80"
+    isSpeJobPossible: 1
+    possibleJobNum: 2
+    teerNum: 0
+    gradeNum: 0
+  - mountItemNum: 3
+    mountitemType: 0
+    itemName: "\uD65C"
+    isSpeJobPossible: 1
+    possibleJobNum: 1
+    teerNum: 0
+    gradeNum: 0
+  - mountItemNum: 4
+    mountitemType: 0
+    itemName: "\uC9C0\uD321\uC774"
+    isSpeJobPossible: 1
+    possibleJobNum: 3
+    teerNum: 0
+    gradeNum: 0
+  - mountItemNum: 5
+    mountitemType: 0
+    itemName: "\uC131\uC2A4\uB7EC\uC6B4\uC9C0\uD321\uC774"
+    isSpeJobPossible: 1
+    possibleJobNum: 4
+    teerNum: 0
+    gradeNum: 0
+  - mountItemNum: 6
+    mountitemType: 2
+    itemName: "\uBAA9\uC7A5\uAC11"
+    isSpeJobPossible: 0
+    possibleJobNum: 0
+    teerNum: 0
+    gradeNum: 0

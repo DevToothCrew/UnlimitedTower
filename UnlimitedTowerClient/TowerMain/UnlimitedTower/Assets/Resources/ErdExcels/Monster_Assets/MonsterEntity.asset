@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a2fcf6180365c24383ccc3fb5773938, type: 3}
+  m_Name: MonsterEntity
+  m_EditorClassIdentifier: 
+  param:
+  - monsterNum: 0
+    typeNum: 0
+    monsterName: "\uBD88\uD398\uC5B4\uB9AC"
+    mainstatTypenum: 0
+    apearNum: 0
+    sizeNum: 0
+  - monsterNum: 0
+    typeNum: 1
+    monsterName: "\uBB3C\uD398\uC5B4\uB9AC"
+    mainstatTypenum: 1
+    apearNum: 1
+    sizeNum: 0
+  - monsterNum: 0
+    typeNum: 2
+    monsterName: "\uB545\uD398\uC5B4\uB9AC"
+    mainstatTypenum: 2
+    apearNum: 2
+    sizeNum: 0
+  - monsterNum: 1
+    typeNum: 0
+    monsterName: "\uBD88\uC880\uBE44"
+    mainstatTypenum: 0
+    apearNum: 3
+    sizeNum: 0
+  - monsterNum: 1
+    typeNum: 1
+    monsterName: "\uBB3C\uC880\uBE44"
+    mainstatTypenum: 1
+    apearNum: 4
+    sizeNum: 0
+  - monsterNum: 1
+    typeNum: 2
+    monsterName: "\uB545\uC880\uBE44"
+    mainstatTypenum: 2
+    apearNum: 5
+    sizeNum: 0
+  - monsterNum: 2
+    typeNum: 0
+    monsterName: "\uBD88\uB098\uBC29"
+    mainstatTypenum: 0
+    apearNum: 6
+    sizeNum: 0
+  - monsterNum: 2
+    typeNum: 1
+    monsterName: "\uBB3C\uB098\uBC29"
+    mainstatTypenum: 1
+    apearNum: 7
+    sizeNum: 0
+  - monsterNum: 2
+    typeNum: 2
+    monsterName: "\uB545\uB098\uBC29"
+    mainstatTypenum: 2
+    apearNum: 8
+    sizeNum: 0
+  - monsterNum: 3
+    typeNum: 0
+    monsterName: "\uBD88\uACE0\uBE14\uB9B0"
+    mainstatTypenum: 0
+    apearNum: 9
+    sizeNum: 0
+  - monsterNum: 3
+    typeNum: 1
+    monsterName: "\uBB3C\uACE0\uBE14\uB9B0"
+    mainstatTypenum: 1
+    apearNum: 10
+    sizeNum: 0
+  - monsterNum: 3
+    typeNum: 2
+    monsterName: "\uB545\uACE0\uBE14\uB9B0"
+    mainstatTypenum: 2
+    apearNum: 11
+    sizeNum: 0

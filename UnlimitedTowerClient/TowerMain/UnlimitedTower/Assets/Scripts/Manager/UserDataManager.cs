@@ -1,19 +1,25 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class UserDataManager : MonoSingleton<UserDataManager> {
-
+public class UserDataManager : MonoSingleton<UserDataManager>
+{
     public UserInfo userInfo = new UserInfo();
-    public Dictionary<int, Servant> servantDic = new Dictionary<int, Servant>();
-    public Dictionary<int, Monster> monsterDic = new Dictionary<int, Monster>();
+
+    public Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
+    public Dictionary<int, UserMonsterData> monsterDic = new Dictionary<int, UserMonsterData>();
+    public Dictionary<int, UserMountItemData> mountitemDic = new Dictionary<int, UserMountItemData>();
+    public Dictionary<int, UserEtcItemData> etcitemDic = new Dictionary<int, UserEtcItemData>();
+
+    public Dictionary<int, UserPartyData> partyDic = new Dictionary<int, UserPartyData>();
+
     public Dictionary<int, Item> itemDic = new Dictionary<int, Item>();
-    public Dictionary<int, Party> partyDic = new Dictionary<int, Party>();
+    public Dictionary<int, Party> partydic = new Dictionary<int, Party>();
 
     public int usingPartyNum = 1;
 
-    private void FixedUpdate()
-    {
-    }
+
+
+
 
     #region SetFunction
 
@@ -22,12 +28,12 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         userInfo = getUserInfo;
     }
 
-    public void SetServantDic(Dictionary<int, Servant> getServantDic)
+    public void SetServantDic(Dictionary<int, UserServantData> getServantDic)
     {
         servantDic = getServantDic;
     }
 
-    public void SetMonsterDic(Dictionary<int, Monster> getMonsterDic)
+    public void SetMonsterDic(Dictionary<int, UserMonsterData> getMonsterDic)
     {
         monsterDic = getMonsterDic;
     }
@@ -39,10 +45,10 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public void SetPartyDic(Dictionary<int, Party> getPartyDic)
     {
-        partyDic = getPartyDic;
+        partydic = getPartyDic;
     }
 
-    public void SetServantInfo(Servant getServant)
+    public void AddServantInfo(UserServantData getServant)
     {
         if (servantDic.ContainsKey(getServant.index) == false)
         {
@@ -54,7 +60,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         }
     }
 
-    public void SetMonsterInfo(Monster getMonster)
+    public void SetMonsterInfo(UserMonsterData getMonster)
     {
         if (monsterDic.ContainsKey(getMonster.index) == false)
         {
@@ -97,9 +103,9 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         return userInfo;
     }
 
-    public Servant GetHeroInfo()
+    public UserServantData GetHeroInfo()
     {
-        if(userInfo == null)
+        if (userInfo == null)
         {
             Debug.Log("Invalid UserInfo");
             return null;
@@ -108,9 +114,9 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         return userInfo.userHero;
     }
 
-    public Servant GetServantInfo(int index)
+    public UserServantData GetServantInfo(int index)
     {
-        if(servantDic.ContainsKey(index) == false)
+        if (servantDic.ContainsKey(index) == false)
         {
             Debug.Log("Invalid GetServantInfo : " + index);
             return null;
@@ -119,9 +125,9 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
         return servantDic[index];
     }
 
-    public Monster GetMonsterInfo(int index)
+    public UserMonsterData GetMonsterInfo(int index)
     {
-        if(monsterDic.ContainsKey(index) == false)
+        if (monsterDic.ContainsKey(index) == false)
         {
             Debug.Log("Invalid GetMonsterInfo : " + index);
             return null;
@@ -132,7 +138,7 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     public Item GetItemInfo(int index)
     {
-        if(itemDic.ContainsKey(index) == false)
+        if (itemDic.ContainsKey(index) == false)
         {
             Debug.Log("Invalid GetItemInfo : " + index);
             return null;
@@ -143,6 +149,3 @@ public class UserDataManager : MonoSingleton<UserDataManager> {
 
     #endregion
 }
-
-
-

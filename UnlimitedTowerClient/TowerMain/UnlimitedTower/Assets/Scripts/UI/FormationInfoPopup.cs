@@ -11,12 +11,12 @@ public class FormationInfoPopup : MonoBehaviour
 
     private void Awake()
     {
-        if (UserDataManager.Inst.partyDic.ContainsKey(lastPartyNum) == false)
+        if (UserDataManager.Inst.partydic.ContainsKey(lastPartyNum) == false)
         {
             Debug.Log("Invalid Load Party Dic : " + lastPartyNum);
         }
 
-        partyInfo = UserDataManager.Inst.partyDic[lastPartyNum];
+        partyInfo = UserDataManager.Inst.partydic[lastPartyNum];
     }
 
     private void SetFormationInfo()
