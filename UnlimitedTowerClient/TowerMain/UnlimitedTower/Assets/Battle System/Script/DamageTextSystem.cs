@@ -28,6 +28,8 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
 
     public void DamageShow(int target, bool isPlayer, int damage, bool isCritical)
     {
+        Debug.Log(damage);
+        Debug.Log(damage % 10);
         numberIndex[0] = damage % 10;
         numberIndex[1] = (damage % 100 - numberIndex[0]) / 10;
         numberIndex[2] = (damage % 1000 - numberIndex[0] - numberIndex[1] * 10) / 100;
@@ -81,15 +83,15 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
         else if (damage < 10000)
         {
             chsing[Index].image[4].gameObject.SetActive(false);
-            Debug.Log(TextPool[Index].GetComponent<RectTransform>().position);
             TextPool[Index].GetComponent<RectTransform>().position += new Vector3(-16.5f, 0, 0);
-            Debug.Log(TextPool[Index].GetComponent<RectTransform>().position);
         }
 
         if (isCritical)
             StartCoroutine(CriticalAttackEffect());
 
         Index++;
+        if (Index >= 50)
+            Index = 0;
     }
 
     IEnumerator CriticalAttackEffect()
