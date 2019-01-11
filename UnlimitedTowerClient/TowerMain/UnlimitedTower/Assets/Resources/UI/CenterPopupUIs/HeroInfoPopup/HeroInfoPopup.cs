@@ -23,43 +23,25 @@ public class HeroInfoPopup : MonoBehaviour {
     [SerializeField] Image DefenseImage;             // 방어구칸
     [SerializeField] Image AccesoryImage;            // 악세서리칸
 
+    //
+    [SerializeField] GameObject CharCamera;
+    [SerializeField] Vector3 CharPos;
 
-
-    // 서번트 등록된상태, 등록안된상태 
+        
     [Space(15)]
     [Header("DEBUG DATAS")]
     public UserServantData servant;
     public bool registered = false;
-    private void OnEnable()
+    public GameObject _CharObj;
+    public void to_registered(UserServantData servant)
     {
-        // 등록 되어있다면, 그 서번트 띄워줌
         if (registered)
         {
-            register(servant);
+            return;
         }
-        // 등록 안되어 있다면, 메인서번트를 띄워준다.
-        else
-        {
-            foreach (UserServantData item in UserDataManager.Inst.servantDic.Values)
-            {
-                if (item.isMainHero == true)
-                {
-                    register(item);
-                    break;
-                }
-            }
-            
-        }
-    }
-    private void OnDisable()
-    {
-        registered = false;
-    }
-
-    //
-    public void register(UserServantData servant)
-    {
         registered = true;
+
+        
         this.servant = servant;
 
         // 능력치 창
@@ -72,16 +54,21 @@ public class HeroInfoPopup : MonoBehaviour {
         strtext.text = ((int)Etc.instance.getstr(servant)).ToString();
         dextext.text = ((int)Etc.instance.getdex(servant)).ToString();
         wistext.text = ((int)Etc.instance.getwis(servant)).ToString();
-
-
+        
         // 레벨 이름
-        levelText.text = servant.level + "";
+        levelText.text = "lv." + servant.level;
         nameText.text = servant.name;
 
+        // 캐릭터 카메라
+        CharCamera.SetActive(true);
+        _CharObj = Instantiate(ErdManager.instance.ServantBodyPrefabs[servant.charNum]);
+        _CharObj.transform.position = CharPos;
+        _CharObj.transform.eulerAngles = new Vector3(0,-160,0);
 
         // 무기칸
         foreach (var mountitem in UserDataManager.Inst.mountitemDic.Values)
         {
+            // DB에없는 아이템일경우 continue
             MountItemEntity.Param param = ErdManager.instance.getmountitemEntityTable_nullPossible(mountitem.mountitemNum);
             if (param == null)
             {
@@ -100,6 +87,7 @@ public class HeroInfoPopup : MonoBehaviour {
         // 방어구칸
         foreach (var mountitem in UserDataManager.Inst.mountitemDic.Values)
         {
+            //
             MountItemEntity.Param param = ErdManager.instance.getmountitemEntityTable_nullPossible(mountitem.mountitemNum);
             if (param == null)
             {
@@ -118,6 +106,7 @@ public class HeroInfoPopup : MonoBehaviour {
         // 악세서리칸
         foreach (var mountitem in UserDataManager.Inst.mountitemDic.Values)
         {
+            //
             MountItemEntity.Param param = ErdManager.instance.getmountitemEntityTable_nullPossible(mountitem.mountitemNum);
             if (param == null)
             {
@@ -136,15 +125,44 @@ public class HeroInfoPopup : MonoBehaviour {
 
 
 
-
-
-
-
-
-        if (gameObject.activeSelf == false)
+        
+    }
+    public void to_deregistered()
+    {
+        if (!registered)
         {
-            gameObject.SetActive(true);
+            return;
         }
+        registered = false;
+
+        // 캐릭터 카메라
+        CharCamera.SetActive(false);
+        if (_CharObj != null)
+        {
+            Destroy(_CharObj);
+        }
+    }
+
+
+    private void OnEnable()
+    {
+        if (registered == false)
+        {
+            UserServantData servantdata = UserDataManager.Inst.ServantList.Find((rowdata) => { return rowdata.isMainHero; });
+            to_registered(servantdata);
+        }
+    }
+    private void OnDisable()
+    {
+        to_deregistered();
+    }
+
+
+    
+    //
+    public void register(UserServantData servant)
+    {
+        registered = true;
         
     }
     

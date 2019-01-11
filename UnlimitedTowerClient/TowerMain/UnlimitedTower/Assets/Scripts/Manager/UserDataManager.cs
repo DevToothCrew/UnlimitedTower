@@ -6,65 +6,42 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public UserInfo userInfo = new UserInfo();
 
     public Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
+    public List<UserServantData> ServantList = new List<UserServantData>();
+
     public Dictionary<int, UserMonsterData> monsterDic = new Dictionary<int, UserMonsterData>();
+    public List<UserMonsterData> MonsterList = new List<UserMonsterData>();
+
     public Dictionary<int, UserMountItemData> mountitemDic = new Dictionary<int, UserMountItemData>();
+    public List<UserMountItemData> MountItemList = new List<UserMountItemData>();
+
     public Dictionary<int, UserEtcItemData> etcitemDic = new Dictionary<int, UserEtcItemData>();
-
+    
+    public List<UserFormationData> UserFormationList = new List<UserFormationData>();
     public Dictionary<int, UserPartyData> partyDic = new Dictionary<int, UserPartyData>();
-
-    public Dictionary<int, Item> itemDic = new Dictionary<int, Item>();
-    public Dictionary<int, Party> partydic = new Dictionary<int, Party>();
-
+    
     public int usingPartyNum = 1;
 
 
 
-
-
-    #region SetFunction
-
-    public void SetUserInfo(UserInfo getUserInfo)
-    {
-        userInfo = getUserInfo;
-    }
-
-    public void SetServantDic(Dictionary<int, UserServantData> getServantDic)
-    {
-        servantDic = getServantDic;
-    }
-
-    public void SetMonsterDic(Dictionary<int, UserMonsterData> getMonsterDic)
-    {
-        monsterDic = getMonsterDic;
-    }
-
-    public void SetItemDic(Dictionary<int, Item> getItemDic)
-    {
-        itemDic = getItemDic;
-    }
-
-    public void SetPartyDic(Dictionary<int, Party> getPartyDic)
-    {
-        partydic = getPartyDic;
-    }
-
-    public void AddServantInfo(UserServantData getServant)
+    // Add Remove
+    public void addServantData(UserServantData getServant)
     {
         if (servantDic.ContainsKey(getServant.index) == false)
         {
             servantDic.Add(getServant.index, getServant);
+            ServantList.Add(getServant);
         }
         else
         {
             Debug.Log("Invalid SetServant Info : " + getServant.index);
         }
     }
-
-    public void SetMonsterInfo(UserMonsterData getMonster)
+    public void addMonsterData(UserMonsterData getMonster)
     {
         if (monsterDic.ContainsKey(getMonster.index) == false)
         {
             monsterDic.Add(getMonster.index, getMonster);
+            MonsterList.Add(getMonster);
         }
         else
         {
@@ -72,25 +49,83 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         }
     }
 
-    public void SetItemInfo(Item getItem)
+    public void removeServantData(int index)
     {
-        if (itemDic.ContainsKey(getItem.index) == false)
+        if (servantDic.ContainsKey(index))
         {
-            itemDic.Add(getItem.index, getItem);
+            UserServantData servData = servantDic[index];
+            servantDic.Remove(index);
+
+            if (ServantList.Contains(servData))
+            {
+                ServantList.Remove(servData);
+            }
         }
-        else
+    }
+    public void removeMonsterData(int index)
+    {
+        if (monsterDic.ContainsKey(index))
         {
-            Debug.Log("Invalid SetItem Info : " + getItem.index);
+            UserMonsterData servData = monsterDic[index];
+            monsterDic.Remove(index);
+
+            if (MonsterList.Contains(servData))
+            {
+                MonsterList.Remove(servData);
+            }
         }
     }
 
+    public UserServantData GetServantInfo(int index)
+    {
+        if (servantDic.ContainsKey(index) == false)
+        {
+            Debug.Log("Invalid GetServantInfo : " + index);
+            return null;
+        }
+
+        return servantDic[index];
+    }
+    public UserMonsterData GetMonsterInfo(int index)
+    {
+        if (monsterDic.ContainsKey(index) == false)
+        {
+            Debug.Log("Invalid GetMonsterInfo : " + index);
+            return null;
+        }
+
+        return monsterDic[index];
+    }
+
+
+
+
+
+
+    // get
+    public UserFormationData getFormaData_nullPossible(int team, int formindex)
+    {
+        return UserFormationList.Find((rowdata) => { return rowdata.partyIndex == team && rowdata.formationIndex == formindex; });
+    }
+    #region SetFunction
+
+    public void SetUserInfo(UserInfo getUserInfo)
+    {
+        userInfo = getUserInfo;
+    }
+    public void SetMonsterDic(Dictionary<int, UserMonsterData> getMonsterDic)
+    {
+        monsterDic = getMonsterDic;
+    }
+    
+    
     public void SetSceneState(SCENE_STATE state)
     {
         userInfo.sceneState = state;
     }
 
     #endregion
-
+    
     #region GetFunction
 
     public SCENE_STATE GetSceneState()
@@ -113,39 +148,6 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
         return userInfo.userHero;
     }
-
-    public UserServantData GetServantInfo(int index)
-    {
-        if (servantDic.ContainsKey(index) == false)
-        {
-            Debug.Log("Invalid GetServantInfo : " + index);
-            return null;
-        }
-
-        return servantDic[index];
-    }
-
-    public UserMonsterData GetMonsterInfo(int index)
-    {
-        if (monsterDic.ContainsKey(index) == false)
-        {
-            Debug.Log("Invalid GetMonsterInfo : " + index);
-            return null;
-        }
-
-        return monsterDic[index];
-    }
-
-    public Item GetItemInfo(int index)
-    {
-        if (itemDic.ContainsKey(index) == false)
-        {
-            Debug.Log("Invalid GetItemInfo : " + index);
-            return null;
-        }
-
-        return itemDic[index];
-    }
-
+    
     #endregion
 }

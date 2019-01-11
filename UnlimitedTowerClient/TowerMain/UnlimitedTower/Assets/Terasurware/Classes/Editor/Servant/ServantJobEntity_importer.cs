@@ -79,6 +79,13 @@ public class ServantJobEntity_importer : AssetPostprocessor
 					cell = row.GetCell(1);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") float.TryParse( cell.StringCellValue, out p.speed);
 					cell = row.GetCell(2);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") p.jobName = cell.StringCellValue;
 					cell = row.GetCell(3);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.getPossibleLevel);
+					cell = row.GetCell(4);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.Legend_CharNum);
+					cell = row.GetCell(5);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.Legend_HairNum);
+					cell = row.GetCell(6);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.Legend_HeadNum);
+					cell = row.GetCell(7);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") p.Legend_Name = cell.StringCellValue;
+					cell = row.GetCell(8);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.Legend_OriginalSTR);
+					cell = row.GetCell(9);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.Legend_OriginalDEX);
+					cell = row.GetCell(10);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.Legend_OriginalINT);
 
                         data.param.Add(p);
                     }

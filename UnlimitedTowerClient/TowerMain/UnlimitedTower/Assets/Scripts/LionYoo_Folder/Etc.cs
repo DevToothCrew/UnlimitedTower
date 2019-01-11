@@ -127,3 +127,8 @@ public enum StatType
     Hp,
 
 }
+public enum PlayerType
+{
+    servant,
+    monster
+}

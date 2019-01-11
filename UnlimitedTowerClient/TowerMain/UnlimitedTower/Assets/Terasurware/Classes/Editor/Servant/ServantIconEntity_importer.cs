@@ -7,10 +7,10 @@ using NPOI.HSSF.UserModel;
 using NPOI.XSSF.UserModel;
 using NPOI.SS.UserModel;
 
-public class LegendServantEntity_importer : AssetPostprocessor
+public class ServantIconEntity_importer : AssetPostprocessor
 {
     private static readonly string filePath = "Assets/Resources/ErdExcels/Servant.xlsx";
-    private static readonly string[] sheetNames = { "LegendServantEntity" };
+    private static readonly string[] sheetNames = { "ServantIconEntity" };
     
     static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
     {
@@ -33,14 +33,14 @@ public class LegendServantEntity_importer : AssetPostprocessor
                     var exportPath = "Assets/Resources/ErdExcels/Servant_Assets/" + sheetName + ".asset";
                     
                     // check scriptable object
-                    var data = (LegendServantEntity)AssetDatabase.LoadAssetAtPath(exportPath, typeof(LegendServantEntity));
+                    var data = (ServantIconEntity)AssetDatabase.LoadAssetAtPath(exportPath, typeof(ServantIconEntity));
                     if (data == null)
                     {
 					     //�����丮�� ���ٸ� �������ش�
                         if (!Directory.Exists(Path.GetDirectoryName(exportPath).Replace("\\", "/")))
                             Directory.CreateDirectory(Path.GetDirectoryName(exportPath).Replace("\\", "/"));
 
-                        data = ScriptableObject.CreateInstance<LegendServantEntity>();
+                        data = ScriptableObject.CreateInstance<ServantIconEntity>();
                         AssetDatabase.CreateAsset((ScriptableObject)data, exportPath);
                         //data.hideFlags = HideFlags.NotEditable;
                     }
@@ -73,15 +73,11 @@ public class LegendServantEntity_importer : AssetPostprocessor
                         }
                         ICell cell = null;
 
-                        var p = new LegendServantEntity.Param();
+                        var p = new ServantIconEntity.Param();
 			
-					cell = row.GetCell(0);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.legendServantNum);
-					cell = row.GetCell(1);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.bodyNum);
-					cell = row.GetCell(2);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") p.name = cell.StringCellValue;
-					cell = row.GetCell(3);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.originalSTR);
-					cell = row.GetCell(4);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.originalDEX);
-					cell = row.GetCell(5);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.originalINT);
-					cell = row.GetCell(6);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.jobNum);
+					cell = row.GetCell(0);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.charNum);
+					cell = row.GetCell(1);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.jobNum);
+					cell = row.GetCell(2);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.iconNum);
 
                         data.param.Add(p);
                     }

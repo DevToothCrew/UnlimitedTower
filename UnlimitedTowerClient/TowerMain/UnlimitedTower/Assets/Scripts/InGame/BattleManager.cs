@@ -520,18 +520,18 @@ public class BattleManager : MonoSingleton<BattleManager> {
         {
             int formationNum = i;
             PartyCharacterInfo charInfo = new PartyCharacterInfo();
-            if (UserDataManager.Inst.partydic.ContainsKey(partyNum))
-            {
-                charInfo = UserDataManager.Inst.partydic[partyNum].characterList[formationNum];
-                if(charInfo == null)
-                {
-                    break;
-                }
-            }
-            else
-            {
-                break;
-            }
+            //if (UserDataManager.Inst.partydic.ContainsKey(partyNum))
+            //{
+            //    charInfo = UserDataManager.Inst.partydic[partyNum].characterList[formationNum];
+            //    if(charInfo == null)
+            //    {
+            //        break;
+            //    }
+            //}
+            //else
+            //{
+            //    break;
+            //}
 
             CharacterBattleStatus battleStatus = new CharacterBattleStatus();
             battleStatus = GetBattleStatus(charInfo);
