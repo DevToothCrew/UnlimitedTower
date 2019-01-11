@@ -61,6 +61,7 @@ public class Formationslot_Upper : MonoBehaviour {
 
                 uiinitialize();
                 charImage.gameObject.SetActive(true);
+                Debug.Log(curServant.isLegend +" " +curServant.charNum +" "+ curServant.jobNum);
                 charImage.sprite = ErdManager.instance.GetServantIconSprite(curServant.isLegend, curServant.charNum, curServant.jobNum);
                 lefttopImage.gameObject.SetActive(true);
                 lefttopImage.sprite = ErdManager.instance.JobIcons[curServant.jobNum];
@@ -71,7 +72,6 @@ public class Formationslot_Upper : MonoBehaviour {
 
                 return;
             }
-
             
         }
         
@@ -106,8 +106,6 @@ public class Formationslot_Upper : MonoBehaviour {
     // 특정몬스터의 배치가 변경되면, 일단 내 칸을 초기화 해준다.
     public void monsterPlaceChanged()
     {
-        // 현재 내 자리를 초기화하고, 
-        toDeregister();
         // 다시 업데이트 해준다.
         SetDisplayteam(FormationInfoPopup.instance.curTeamNum);
     }
@@ -136,6 +134,7 @@ public class Formationslot_Upper : MonoBehaviour {
         // 배치되어있다면, 배치 풀기 요청
         if (GameDataManager.instance.isPlacedAt(FormationInfoPopup.instance.curTeamNum, FormationIndex))
         {
+            Debug.Log("배치되어있엇음");
             // 몬스터 일경우
             if (FormationIndex >= 5)
             {
@@ -148,6 +147,10 @@ public class Formationslot_Upper : MonoBehaviour {
                 UserServantData servantdata = GameDataManager.instance.getServantPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, FormationIndex);
                 GameDataManager.instance.request_deplace(PlayerType.servant, servantdata.index);
             }
+        }
+        else
+        {
+            Debug.Log("배치 안되어있음");
         }
 
         // formaioninfoPopup에 서 TryWaiting

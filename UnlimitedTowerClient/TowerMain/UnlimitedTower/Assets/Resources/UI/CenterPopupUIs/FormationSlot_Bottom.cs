@@ -113,7 +113,7 @@ public class FormationSlot_Bottom : MonoBehaviour {
             else if (slottype == SlotType.monster && GameDataManager.instance.isMonsterPlaceExist(curTeamNum))
             {
                 // 거기로 배치 요청하기
-                GameDataManager.instance.request_Placement(PlayerType.monster, monsterdata.index, curTeamNum, GameDataManager.instance.GetServantPlaceExist(curTeamNum));
+                GameDataManager.instance.request_Placement(PlayerType.monster, monsterdata.index, curTeamNum, GameDataManager.instance.GetMonsterPlaceExist(curTeamNum));
             }
             // 남은 칸이 없다면
             else

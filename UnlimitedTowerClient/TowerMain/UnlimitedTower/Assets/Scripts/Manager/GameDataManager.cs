@@ -33,8 +33,10 @@ public class GameDataManager : MonoBehaviour {
 
 
         // 배치
+        Debug.Log(type+" "+ index + " " + teamnum + " " + formationIndex);
         UserFormationData formdata = UserDataManager.Inst.getFormaData_nullPossible(teamnum, formationIndex);
         formdata.isPlaced = true;
+        formdata.index = index;
         formdata.isServant = type == PlayerType.servant ? true : false;
         
         if (GameDataManager.instance != null && GameDataManager.instance.placeChangedEvent != null)
@@ -46,21 +48,26 @@ public class GameDataManager : MonoBehaviour {
     public void request_deplace(PlayerType type, int playerindex)
     {
         // 배치되어있지않다면 return
-        if (!isPlaced(type,playerindex))
+        if (!isPlaced(type, playerindex))
         {
+            Debug.Log("걘 배치 안되어있는데?");
             return;
         }
 
         // 저위에놈이 배치되어있는곳을 찾아서, 해제해준다.
-        UserFormationData data= UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isServant == (type == PlayerType.servant) && rowdata.index == playerindex; });
+        UserFormationData data= UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isPlaced && rowdata.isServant == (type == PlayerType.servant) && rowdata.index == playerindex; });
         if (data == null)
         {
+            Debug.Log("데이터 없는데?");
             return;
         }
+        Debug.Log(type+" "+ playerindex + "배치해제");
+        Debug.Log(data.partyIndex + " " + data.formationIndex + "배치해제");
         data.isPlaced = false;
         
         if (GameDataManager.instance != null && GameDataManager.instance.placeChangedEvent != null)
         {
+            Debug.Log("이벤트완료");
             GameDataManager.instance.placeChangedEvent();
         }
     }
@@ -115,7 +122,7 @@ public class GameDataManager : MonoBehaviour {
             return null;
         }
 
-        // 서번트가아닐경우 return
+        // 몬스터일경우 return
         if (formData.isServant)
         {
             return null;
