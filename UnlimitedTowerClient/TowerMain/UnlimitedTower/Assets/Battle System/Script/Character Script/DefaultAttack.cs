@@ -52,7 +52,9 @@ public class DefaultAttack : MonoBehaviour {
 
         yield return new WaitForSeconds(characterInformation.AttackDelay);
 
-        DamageTextSystem.Inst.DamageShow(sendValue.Target, !sendValue.isPlayer, 10, false);
+        int j = Random.Range(50000, 100000);
+        Debug.Log(j);
+        DamageTextSystem.Inst.DamageShow(sendValue.Target, !sendValue.isPlayer, j, Random.Range(0,2) == 0 ? true : false);
 
         target.GetChild(0).GetComponent<Animator>().SetTrigger("isHit");
 
@@ -74,6 +76,8 @@ public class DefaultAttack : MonoBehaviour {
             attacker.rotation = Quaternion.Euler(0, 0, 0);
         else
             attacker.rotation = Quaternion.Euler(0, 180, 0);
+
+        BattleSystem.Inst.battleInformation.AttackerIndex = -1;
     }
 
     IEnumerator FarAttackAction(SendValue sendValue)

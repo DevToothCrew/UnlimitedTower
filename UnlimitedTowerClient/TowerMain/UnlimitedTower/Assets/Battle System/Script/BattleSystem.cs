@@ -6,14 +6,15 @@ using UnityEngine.UI;
 public class BattleSystem : MonoSingleton<BattleSystem>
 {
 
-    public Dictionary<int, Servant> servantDic = new Dictionary<int, Servant>();
-    public Dictionary<int, Monster> monsterDic = new Dictionary<int, Monster>();
+    public Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
+    public Dictionary<int, UserMonsterData> monsterDic = new Dictionary<int, UserMonsterData>();
     public Dictionary<int, Item> itemDic = new Dictionary<int, Item>();
     public Dictionary<int, Party> partyDic = new Dictionary<int, Party>();
     public PrefabList prefabList;
+    public BattleInformation battleInformation;
 
-    public Servant[] servant = new Servant[5];
-    public Monster[] monster = new Monster[5];
+    public UserServantData[] servant = new UserServantData[5];
+    public UserMonsterData[] monster = new UserMonsterData[5];
     public Party party = new Party();
     public PartyCharacterInfo temp = new PartyCharacterInfo();
 
@@ -27,8 +28,17 @@ public class BattleSystem : MonoSingleton<BattleSystem>
 
     private int[] positionOrder = { 2, 1, 3, 0, 4, 7, 6, 8, 5, 9 };
 
+    public struct BattleInformation
+    {
+        public int AttackerIndex;
+        public int TargetIndex;
+        public bool isPlayerTurn;
+    }
+
     private void Awake()
     {
+        battleInformation.AttackerIndex = -1;
+        Application.targetFrameRate = 60;
         prefabList = GetComponent<PrefabList>();
 
         for (int i = 0; i < 10; i++)
@@ -62,7 +72,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
 
         for (int i = 0; i < 5; i++)
         {
-            servant[i] = new Servant();
+            servant[i] = new UserServantData();
             servant[i].status.basicDex = 3;
             servant[i].status.basicDex = 3;
             servant[i].status.basicDex = 3;
@@ -71,7 +81,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
 
         for (int i = 0; i < 5; i++)
         {
-            monster[i] = new Monster();
+            monster[i] = new UserMonsterData();
             monster[i].status.basicDex = 2;
             monster[i].status.basicDex = 2;
             monster[i].status.basicDex = 2;
@@ -118,30 +128,29 @@ public class BattleSystem : MonoSingleton<BattleSystem>
 
     IEnumerator BattleStart()
     {
-        int temp1;
-        int temp2;
         while (true)
         {
-            temp1 = Random.Range(0, 10);
-            temp2 = Random.Range(0, 10);
-            while (PlayerCharacterControl[temp1].NowHp <= 0 || EnemyCharacterControl[temp2].NowHp <= 0)
+            battleInformation.isPlayerTurn = true;
+            battleInformation.AttackerIndex = Random.Range(0, 10);
+            battleInformation.TargetIndex = Random.Range(0, 10);
+            while (PlayerCharacterControl[battleInformation.AttackerIndex].NowHp <= 0 || EnemyCharacterControl[battleInformation.TargetIndex].NowHp <= 0)
             {
-                temp1 = Random.Range(0, 10);
-                temp2 = Random.Range(0, 10);
+                battleInformation.AttackerIndex = Random.Range(0, 10);
+                battleInformation.TargetIndex = Random.Range(0, 10);
             }
-            PlayerCharacterControl[temp1].Attack(new SendValue(temp1, temp2, true));
+            PlayerCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(battleInformation.AttackerIndex, battleInformation.TargetIndex, true));
             yield return new WaitForSeconds(7);
-            temp1 = Random.Range(0, 10);
-            temp2 = Random.Range(0, 10);
-            while (EnemyCharacterControl[temp1].NowHp <= 0 || PlayerCharacterControl[temp2].NowHp <= 0)
+
+            battleInformation.isPlayerTurn = false;
+            battleInformation.AttackerIndex = Random.Range(0, 10);
+            battleInformation.TargetIndex = Random.Range(0, 10);
+            while (EnemyCharacterControl[battleInformation.AttackerIndex].NowHp <= 0 || PlayerCharacterControl[battleInformation.TargetIndex].NowHp <= 0)
             {
-                temp1 = Random.Range(0, 10);
-                temp2 = Random.Range(0, 10);
+                battleInformation.AttackerIndex = Random.Range(0, 10);
+                battleInformation.TargetIndex = Random.Range(0, 10);
             }
-            EnemyCharacterControl[temp1].Attack(new SendValue(temp1, temp2, false));
+            EnemyCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(battleInformation.AttackerIndex, battleInformation.TargetIndex, false));
             yield return new WaitForSeconds(7);
         }
     }
-   
-    
 }

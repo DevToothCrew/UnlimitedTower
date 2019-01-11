@@ -9,7 +9,9 @@ public class CheckSelectAnimation : MonoBehaviour {
     private Vector3 StartScale;
     private SpriteRenderer sprite;
     private bool isActive;
-        
+    private Color Yellow = new Color(1, 1, 0, 1);
+    private Color Red = new Color(1, 0, 0, 1);
+
     void Start () {
         tf = gameObject.transform;
         ScaleVector = tf.transform.localScale;
@@ -30,12 +32,12 @@ public class CheckSelectAnimation : MonoBehaviour {
     {
         isActive = false;
         tf.localScale = ScaleVector;
-        sprite.color = new Color(1, 1, 0, 1);
+        sprite.color = Yellow;
     }
 
     public void Click()
     {
-        sprite.color = new Color(1, 0, 0, 1);
+        sprite.color = Red;
     }
 
     IEnumerator AniRotate()
