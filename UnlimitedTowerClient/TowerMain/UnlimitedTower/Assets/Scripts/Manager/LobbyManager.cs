@@ -60,6 +60,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public void ChangeSceneState(SCENE_STATE state)
     {
+        Debug.Log(state + "==>");
         UserDataManager.Inst.SetSceneState(state);
 
         switch (state)
@@ -96,6 +97,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     
     public void SetRightPopup(GameObject obj)
     {
+        Debug.Log("dz2");
         LoginPopup.SetActivateWithAnimation(false);
         RightPopup.SetActivateWithAnimation(false);
         CenterPopup.SetActivateWithAnimation(false);

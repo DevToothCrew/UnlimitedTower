@@ -14,5 +14,12 @@ public class ServantJobEntity : ScriptableObject
 		public float speed;
 		public string jobName;
 		public int getPossibleLevel;
+		public int Legend_CharNum;
+		public int Legend_HairNum;
+		public int Legend_HeadNum;
+		public string Legend_Name;
+		public int Legend_OriginalSTR;
+		public int Legend_OriginalDEX;
+		public int Legend_OriginalINT;
 	}
 }

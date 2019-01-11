@@ -34,26 +34,40 @@ public class ErdManager : MonoBehaviour {
     // Servant
     [Space(10)]
     [Header("SERVANT")]
-
-    public LegendServantEntity legndServantEntityTable;    // 
-    public LegendServantEntity.Param getlegndServantEntityTable_nullPossible(int legendServantNum)
-    {
-        return legndServantEntityTable.param.Find((rowdata) => { return rowdata.legendServantNum == legendServantNum; });
-    }
-
     public ServantBodyEntity ServantBodyEntityTable;    // 
     public ServantBodyEntity.Param getServantBodyEntityTable_nullPossible(int bodyNum)
     {
         return ServantBodyEntityTable.param.Find((rowdata) => { return rowdata.bodyNum == bodyNum; });
     }
-    public Sprite[] ServantbodySprite;
+    public GameObject[] ServantBodyPrefabs;
+
+
+    public ServantIconEntity ServantIconEntityTable;    // 
+    public ServantIconEntity.Param getServantIconEntityTable_nullPossible(int charNum,int jobNum )
+    {
+        return ServantIconEntityTable.param.Find((rowdata) => { return rowdata.charNum == charNum && rowdata.jobNum == jobNum; });
+    }
+    public Sprite GetServantIconSprite(bool islegend, int charNum, int jobNum)
+    {
+        if (islegend)
+        {
+            charNum = getServantJobEntityTable_nullPossible(jobNum).Legend_CharNum;
+            return ServantbodySprite[getServantIconEntityTable_nullPossible(charNum, jobNum).iconNum];
+        }
+        else
+        {
+            return ServantbodySprite[getServantIconEntityTable_nullPossible(charNum, jobNum).iconNum];
+        }
+        
+    }
+    [SerializeField]Sprite[] ServantbodySprite;
 
     public ServantJobEntity ServantJobEntityTable;    // 
     public ServantJobEntity.Param getServantJobEntityTable_nullPossible(int jobNum)
     {
         return ServantJobEntityTable.param.Find((rowdata) => { return rowdata.jobNum == jobNum; });
     }
-
+    public Sprite[] JobIcons;
 
 
     // ITEM
@@ -108,7 +122,21 @@ public class ErdManager : MonoBehaviour {
     {
         return MonsterEntityTable.param.Find((rowdata) => { return rowdata.monsterNum == monsterNum && rowdata.typeNum == typeNum; });
     }
-    public Sprite[] MonsterSprite;
+    public Sprite getMonsterImage(int monsterNum, int typeNum)
+    {
+        MonsterEntity.Param param = getMonsterEntityTable_nullPossible(monsterNum, typeNum);
+        if (param != null)
+        {
+            return MonsterSprite[param.apearNum];
+
+        }
+        else
+        {
+            return null;
+        }
+        
+    }
+    [SerializeField]  Sprite[] MonsterSprite;
     
     public MonsterEnforceEntity MonsterEnforceEntityTable;    // 
     public MonsterEnforceEntity.Param getMonsterEnforceEntityTable_nullPossible(int gradeNum)
@@ -121,8 +149,10 @@ public class ErdManager : MonoBehaviour {
     {
         return MonsterGradeEntityTable.param.Find((rowdata) => { return rowdata.gradeNum == gradeNum; });
     }
-
+    public Sprite[] monstergradeIcons;
     
+
+
     [Space(10)]
     [Header("ETC")]
     public StatEntity StatEntityTable;    // 
@@ -131,5 +161,6 @@ public class ErdManager : MonoBehaviour {
         return StatEntityTable.param.Find((rowdata) => { return rowdata.statType == stattype; });
     }
 
-
+    // 속성
+    public Sprite[] TypeIcons;
 }

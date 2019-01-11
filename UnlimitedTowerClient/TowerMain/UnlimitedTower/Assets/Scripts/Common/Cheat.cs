@@ -20,6 +20,8 @@ public class Cheat : MonoSingleton<Cheat>
             if (i == 1)
             {
                 servantdata.servant.isMainServant = true;
+                servantdata.servant.onformation = true;
+                servantdata.servant.formationindex = 2;
             }
             userLoginData.servant_list.Add(servantdata);
 
@@ -134,8 +136,8 @@ public class Cheat : MonoSingleton<Cheat>
         monsterData.monster.state = 0;
         monsterData.monster.exp = rand.Next(0, DEFINE.MAX_EXP);
         monsterData.monster.type = 0;
-        monsterData.monster.look = rand.Next(201, 230);
-        monsterData.monster.grade = rand.Next(1, 6);
+        monsterData.monster.look = rand.Next(0, 3);
+        monsterData.monster.grade = rand.Next(0, 4);
         monsterData.monster.upgrade = 0;
         monsterData.monster.status = GetRandomStatus();
         // TODO : 업그레이드에 따른 스테이터스 가중치 추가 필요

@@ -49,12 +49,21 @@ public static class UTEventPoolInterface
     /// <param name="data"> 보낼 데이터 </param>
     static public void SendEventData(string eventName, IJSONableData data)
     {
+        //Action<IJSONableData> cbs = null;
+        //if (callbackList.TryGetValue(eventName, out cbs))
+        //{
+        //    if (cbs != null)
+        //    {
+        //        cbs(data);
+        //    }
+        //}
+
         try
         {
             Action<IJSONableData> cbs = null;
             if (callbackList.TryGetValue(eventName, out cbs))
             {
-                if(cbs != null)
+                if (cbs != null)
                 {
                     cbs(data);
                 }
@@ -62,6 +71,7 @@ public static class UTEventPoolInterface
         }
         catch (Exception e)
         {
+            Debug.Log(eventName);
             Debug.LogError("[UTEventPoolInterface.OnReceivedEventData]" + e.Message);
         }
     }

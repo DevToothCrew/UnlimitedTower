@@ -68,98 +68,158 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
 
     private bool CheckServantEnableRemove()
     {
-        int usingPartyNum = UserDataManager.Inst.usingPartyNum;
-        int lastIndex = 4;
-        //히어로는 항상 존재하기 때문에 1부터 시작한다.
-        for(int i=1; i<DEFINE.PARTY_MAX_NUM/2; ++i)
-        {
-            if(UserDataManager.Inst.partydic[usingPartyNum].characterList[i].index ==0)
-            {
-                lastIndex = i-1;
-                break;
-            }
-
-        }
-
-        if(deckNum  ==  UserDataManager.Inst.partydic[usingPartyNum].characterList[lastIndex].partyPosition)
-        {
-            return true;
-        }
         return false;
+    //    int usingPartyNum = UserDataManager.Inst.usingPartyNum;
+    //    int lastIndex = 4;
+    //    //히어로는 항상 존재하기 때문에 1부터 시작한다.
+    //    for(int i=1; i<DEFINE.PARTY_MAX_NUM/2; ++i)
+    //    {
+    //        if(UserDataManager.Inst.partydic[usingPartyNum].characterList[i].index ==0)
+    //        {
+    //            lastIndex = i-1;
+    //            break;
+    //        }
+
+    //    }
+
+    //    if(deckNum  ==  UserDataManager.Inst.partydic[usingPartyNum].characterList[lastIndex].partyPosition)
+    //    {
+    //        return true;
+    //    }
+    //    return false;
     }
     private bool CheckMonsterEnableRemove()
     {
-        // PartyNum을 배틀에서 사용하는걸 고유값 저장 필요?
-        int usingPartyNum = UserDataManager.Inst.usingPartyNum;
-        int lastIndex = DEFINE.PARTY_MAX_NUM-1;
-        //히어로는 항상 존재하기 때문에 1부터 시작한다.
-        for (int i = 5; i < DEFINE.PARTY_MAX_NUM ; ++i)
-        {
-            if (UserDataManager.Inst.partydic[usingPartyNum].characterList[i].index == 0)
-            {
-                lastIndex = i - 1;
-                break;
-            }
-        }
-
-        if (lastIndex == DEFINE.PARTY_MAX_NUM - 1)
-        {
-            return true;
-        }
-
-        if (deckNum == UserDataManager.Inst.partydic[usingPartyNum].characterList[lastIndex].partyPosition)
-        {
-            return true;
-        }
         return false;
-    }
-    private void ReorderServant()
-    {
-        GameObject FormationList = LobbyManager.Inst.FormationList.gameObject;
-        int orderIndex = -1;
-
-        int startNum = 0;
-        int usingPartyNum = UserDataManager.Inst.usingPartyNum;
- 
-
-        // 전혀 모르겠슴 무슨용도로 쓰는지
-        //// 범위 0~4 & 5~9로 바꿀것.
-        //for (int i = startNum; i < UserDataManager.Inst.formationOrderList.Count + 0; i++)
+        //// PartyNum을 배틀에서 사용하는걸 고유값 저장 필요?
+        //int usingPartyNum = UserDataManager.Inst.usingPartyNum;
+        //int lastIndex = DEFINE.PARTY_MAX_NUM-1;
+        ////히어로는 항상 존재하기 때문에 1부터 시작한다.
+        //for (int i = 5; i < DEFINE.PARTY_MAX_NUM ; ++i)
         //{
-        //    if (UserDataManager.Inst.formationOrderList[i] == deckNum)
+        //    if (UserDataManager.Inst.partydic[usingPartyNum].characterList[i].index == 0)
         //    {
-        //        orderIndex = i;
+        //        lastIndex = i - 1;
         //        break;
         //    }
         //}
 
-        // 덱 삭제
-        int charIndex = -1;
-        for(int i=0; i<DEFINE.PARTY_MAX_NUM; i++)
-        {
-            if(UserDataManager.Inst.partydic[usingPartyNum].characterList[i].partyPosition == deckNum)
-            {
-                charIndex = UserDataManager.Inst.partydic[usingPartyNum].characterList[i].index;
-                UserDataManager.Inst.partydic[usingPartyNum].characterList[i].index = 0;
-                break;
-            }
-        }
+        //if (lastIndex == DEFINE.PARTY_MAX_NUM - 1)
+        //{
+        //    return true;
+        //}
+
+        //if (deckNum == UserDataManager.Inst.partydic[usingPartyNum].characterList[lastIndex].partyPosition)
+        //{
+        //    return true;
+        //}
+        //return false;
+    }
+    private void ReorderServant()
+    {
+       // GameObject FormationList = LobbyManager.Inst.FormationList.gameObject;
+       // int orderIndex = -1;
+
+       // int startNum = 0;
+       // int usingPartyNum = UserDataManager.Inst.usingPartyNum;
+ 
+
+       // // 전혀 모르겠슴 무슨용도로 쓰는지
+       // //// 범위 0~4 & 5~9로 바꿀것.
+       // //for (int i = startNum; i < UserDataManager.Inst.formationOrderList.Count + 0; i++)
+       // //{
+       // //    if (UserDataManager.Inst.formationOrderList[i] == deckNum)
+       // //    {
+       // //        orderIndex = i;
+       // //        break;
+       // //    }
+       // //}
+
+       // // 덱 삭제
+       // int charIndex = -1;
+       // for(int i=0; i<DEFINE.PARTY_MAX_NUM; i++)
+       // {
+       //     if(UserDataManager.Inst.partydic[usingPartyNum].characterList[i].partyPosition == deckNum)
+       //     {
+       //         charIndex = UserDataManager.Inst.partydic[usingPartyNum].characterList[i].index;
+       //         UserDataManager.Inst.partydic[usingPartyNum].characterList[i].index = 0;
+       //         break;
+       //     }
+       // }
 
 
-       // UserDataManager.Inst.formationDic.Remove(deckNum);
-        UserDataManager.Inst.servantDic[charIndex].onFormation = false;
-        UserDataManager.Inst.servantDic[charIndex].formationIndex = -1;
+       //// UserDataManager.Inst.formationDic.Remove(deckNum);
+       // UserDataManager.Inst.servantDic[charIndex].onFormation = false;
+       // UserDataManager.Inst.servantDic[charIndex].formationIndex = -1;
+
+       // //if (ChildCharImage.GetComponent<Image>())
+       // //{
+       // //    Sprite sprite = Resources.Load<Sprite>("UI/LobbyUI/CenterPopupUI/15_Formation_Empty_Slot");
+       // //    ChildCharImage.GetComponent<Image>().sprite = sprite;
+       // //}
+       // //if (LinkedChar && LinkedChar.GetComponent<CharContent>())
+       // //{
+       // //    LinkedChar.GetComponent<CharContent>().RemoveCharImage();
+       // //    LinkedChar = null;
+       // //}
+
+
+       // //if (orderIndex++ == startNum + 4)
+       // //{
+       // //    Debug.Log("이 덱이 마지막 덱입니다.");
+       // //    ShowEmptyText(true);
+       // //    return;
+       // //}
+
+    }
+
+    private void ReorderMonster()
+    {
+        //int usingPartyNum = UserDataManager.Inst.usingPartyNum;
+        //GameObject FormationList = LobbyManager.Inst.FormationList.gameObject;
+        //int orderIndex = -1;
+
+        //int startNum = 0;
+
+        //// 전혀 모르겠슴 무슨 용도인지
+        ////// 범위 0~4 & 5~9로 바꿀것.
+        ////for (int i = startNum; i < UserDataManager.Inst.formationOrderList.Count + 0; i++)
+        ////{
+        ////    if (UserDataManager.Inst.formationOrderList[i] == deckNum)
+        ////    {
+        ////        orderIndex = i;
+        ////        break;
+        ////    }
+        ////}
+
+
+        //// 덱 삭제
+        //int charIndex = -1;
+        //for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
+        //{
+        //    if (UserDataManager.Inst.partydic[usingPartyNum].characterList[i].partyPosition == deckNum)
+        //    {
+        //        charIndex = UserDataManager.Inst.partydic[usingPartyNum].characterList[i].index;
+        //        UserDataManager.Inst.partydic[usingPartyNum].characterList[i].index = 0;
+        //        break;
+        //    }
+        //}
+
+      
+        ////UserDataManager.Inst.formationDic.Remove(deckNum);
+        //UserDataManager.Inst.monsterDic[charIndex].OnFormation = false;
+        //UserDataManager.Inst.monsterDic[charIndex].formationIndex = -1;
 
         //if (ChildCharImage.GetComponent<Image>())
         //{
         //    Sprite sprite = Resources.Load<Sprite>("UI/LobbyUI/CenterPopupUI/15_Formation_Empty_Slot");
         //    ChildCharImage.GetComponent<Image>().sprite = sprite;
         //}
-        //if (LinkedChar && LinkedChar.GetComponent<CharContent>())
-        //{
-        //    LinkedChar.GetComponent<CharContent>().RemoveCharImage();
-        //    LinkedChar = null;
-        //}
+        ////if (LinkedChar && LinkedChar.GetComponent<CharContent>())
+        ////{ 
+        ////    LinkedChar.GetComponent<CharContent>().RemoveCharImage();
+        ////    LinkedChar = null;
+        ////}
 
 
         //if (orderIndex++ == startNum + 4)
@@ -168,109 +228,51 @@ public class FormationDeck : MonoBehaviour, IPointerClickHandler
         //    ShowEmptyText(true);
         //    return;
         //}
-
-    }
-
-    private void ReorderMonster()
-    {
-        int usingPartyNum = UserDataManager.Inst.usingPartyNum;
-        GameObject FormationList = LobbyManager.Inst.FormationList.gameObject;
-        int orderIndex = -1;
-
-        int startNum = 0;
-
-        // 전혀 모르겠슴 무슨 용도인지
-        //// 범위 0~4 & 5~9로 바꿀것.
-        //for (int i = startNum; i < UserDataManager.Inst.formationOrderList.Count + 0; i++)
-        //{
-        //    if (UserDataManager.Inst.formationOrderList[i] == deckNum)
-        //    {
-        //        orderIndex = i;
-        //        break;
-        //    }
-        //}
-
-
-        // 덱 삭제
-        int charIndex = -1;
-        for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
-        {
-            if (UserDataManager.Inst.partydic[usingPartyNum].characterList[i].partyPosition == deckNum)
-            {
-                charIndex = UserDataManager.Inst.partydic[usingPartyNum].characterList[i].index;
-                UserDataManager.Inst.partydic[usingPartyNum].characterList[i].index = 0;
-                break;
-            }
-        }
-
-      
-        //UserDataManager.Inst.formationDic.Remove(deckNum);
-        UserDataManager.Inst.monsterDic[charIndex].OnFormation = false;
-        UserDataManager.Inst.monsterDic[charIndex].formationIndex = -1;
-
-        if (ChildCharImage.GetComponent<Image>())
-        {
-            Sprite sprite = Resources.Load<Sprite>("UI/LobbyUI/CenterPopupUI/15_Formation_Empty_Slot");
-            ChildCharImage.GetComponent<Image>().sprite = sprite;
-        }
-        //if (LinkedChar && LinkedChar.GetComponent<CharContent>())
-        //{ 
-        //    LinkedChar.GetComponent<CharContent>().RemoveCharImage();
-        //    LinkedChar = null;
-        //}
-
-
-        if (orderIndex++ == startNum + 4)
-        {
-            Debug.Log("이 덱이 마지막 덱입니다.");
-            ShowEmptyText(true);
-            return;
-        }
     
     }
 
     public void ShowEmptyText(bool on)
     {
-        if (on)
-        {
-            ChildEmptyText.SetActive(true);
-        }
-        else
-        {
-            ChildEmptyText.SetActive(false);
-        }
+        //if (on)
+        //{
+        //    ChildEmptyText.SetActive(true);
+        //}
+        //else
+        //{
+        //    ChildEmptyText.SetActive(false);
+        //}
     }
     private void CheckPairReorder()
     {
-        // 히어로를 기본으로 포함하기 때문에 1을 증가 시켯다.
-        int backLineCharNum = 1;
-        int frontLineCharNum = 0;
-        int usingPartyNum = UserDataManager.Inst.usingPartyNum;
+        //// 히어로를 기본으로 포함하기 때문에 1을 증가 시켯다.
+        //int backLineCharNum = 1;
+        //int frontLineCharNum = 0;
+        //int usingPartyNum = UserDataManager.Inst.usingPartyNum;
 
-        for (int i = 1; i < DEFINE.PARTY_MAX_NUM; i++)
-        {
-            if (i < 5)
-            {
-                if (UserDataManager.Inst.partydic[usingPartyNum].characterList[i].index != 0)
-                {
-                    backLineCharNum++;
-                }
-            }
-            else
-            {
-                if (UserDataManager.Inst.partydic[usingPartyNum].characterList[i].index != 0)
-                {
-                    frontLineCharNum++;
+        //for (int i = 1; i < DEFINE.PARTY_MAX_NUM; i++)
+        //{
+        //    if (i < 5)
+        //    {
+        //        if (UserDataManager.Inst.partydic[usingPartyNum].characterList[i].index != 0)
+        //        {
+        //            backLineCharNum++;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (UserDataManager.Inst.partydic[usingPartyNum].characterList[i].index != 0)
+        //        {
+        //            frontLineCharNum++;
 
-                }
-            }
-        }
-        // 몬스터 라인의 수가 더 많으면
-        if (backLineCharNum < frontLineCharNum)
-        {
-            GameObject FormationList = LobbyManager.Inst.FormationList.gameObject;
-            FormationList.transform.GetChild(deckNum - 5).gameObject.GetComponent<FormationDeck>().ReorderMonster();       
-        }
+        //        }
+        //    }
+        //}
+        //// 몬스터 라인의 수가 더 많으면
+        //if (backLineCharNum < frontLineCharNum)
+        //{
+        //    GameObject FormationList = LobbyManager.Inst.FormationList.gameObject;
+        //    FormationList.transform.GetChild(deckNum - 5).gameObject.GetComponent<FormationDeck>().ReorderMonster();       
+        //}
     }
 
 

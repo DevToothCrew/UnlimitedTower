@@ -29,6 +29,8 @@ public class servantInfo
     public int exp;
     public int job;
     public int stat_point;
+    public bool onformation;
+    public int formationindex;
 
     public bool isMainServant;
 
