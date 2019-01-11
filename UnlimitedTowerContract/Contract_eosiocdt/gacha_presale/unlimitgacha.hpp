@@ -76,20 +76,12 @@ CONTRACT unlimitgacha : public contract
         uint64_t id;
         uint64_t slot;
         uint64_t job;
+        uint64_t tier;
         uint64_t primary_key() const { return id; }
     };
     typedef eosio::multi_index<"dbitemid"_n, dbitemid> item_id_db;
 #pragma endregion
 
-#pragma region db dbitemtier
-    TABLE dbitemtier
-    {
-        uint64_t tier;
-        uint64_t level;
-        uint64_t primary_key() const { return tier; }
-    };
-    typedef eosio::multi_index<"dbitemtier"_n, dbitemtier> item_tier_db;
-#pragma endregion
 
 #pragma region db dbmgrade
     TABLE dbmgrade
@@ -127,10 +119,10 @@ CONTRACT unlimitgacha : public contract
     //------------------------------------------------------------------------//
   private:
 #pragma region db values
-    const uint8_t servant_job_count = 6;
-    const uint8_t monster_id_count = 30;
+    const uint8_t servant_job_count = 72;
+    const uint8_t monster_id_count = 51;
     const uint8_t monster_grade_count = 5;
-    const uint8_t item_id_count = 70;
+    const uint8_t item_id_count = 36;
     const uint8_t item_tier_count = 4;
     const uint8_t item_grade_count = 5;
     const uint8_t item_slot_count = 3;
@@ -591,5 +583,6 @@ ACTION addblack(eosio::name _user);
     //---------------------------------owner_system---------------------------//
     //------------------------------------------------------------------------//
 ACTION setpause(uint64_t _state);
+
 
 };
