@@ -216,6 +216,11 @@ public class UserMonsterData
         //UniqueIndex = servantinfo.s_index - 1;
         
         name = charNum.ToString();
+
+        status = new Status();
+        status.basicStr = DEFINE.TEST_STATUS_VALUE;
+        status.basicDex = DEFINE.TEST_STATUS_VALUE;
+        status.basicInt = DEFINE.TEST_STATUS_VALUE;
     }
     public UserMonsterData(int index)
     {
@@ -226,6 +231,11 @@ public class UserMonsterData
         this.index = index;
 
         name = index.ToString();
+
+        status = new Status();
+        status.basicStr = DEFINE.TEST_STATUS_VALUE;
+        status.basicDex = DEFINE.TEST_STATUS_VALUE;
+        status.basicInt = DEFINE.TEST_STATUS_VALUE;
     }
 }
 [System.Serializable]
