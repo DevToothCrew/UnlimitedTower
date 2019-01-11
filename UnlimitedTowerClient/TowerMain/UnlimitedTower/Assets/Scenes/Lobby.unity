@@ -202,9 +202,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monsterdata:
     index: 225
     monsterNum: 0
@@ -213,10 +210,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!114 &273550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1241,9 +1242,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   curMonster:
     index: 225
     monsterNum: 0
@@ -1252,10 +1250,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!222 &24559340
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2681,6 +2683,7 @@ GameObject:
   - component: {fileID: 62760405}
   - component: {fileID: 62760404}
   - component: {fileID: 62760406}
+  - component: {fileID: 62760407}
   m_Layer: 5
   m_Name: CharIcon (4)
   m_TagString: Untagged
@@ -2704,12 +2707,13 @@ RectTransform:
   - {fileID: 1695179079}
   - {fileID: 930968908}
   - {fileID: 889021073}
+  - {fileID: 765138710}
   m_Father: {fileID: 2072978876}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 646.95, y: -229.6}
+  m_AnchoredPosition: {x: 597.1, y: -224.6}
   m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &62760404
@@ -2762,6 +2766,60 @@ MonoBehaviour:
   MonsterEnfCountText: {fileID: 889021074}
   LefttopImage: {fileID: 1695179080}
   levelText: {fileID: 930968909}
+  selectedObj: {fileID: 765138709}
+  formationIndex: 4
+--- !u!114 &62760407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 62760402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 62760404}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 62760406}
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &65800706
 GameObject:
   m_ObjectHideFlags: 0
@@ -3193,7 +3251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3201,7 +3259,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 5b32d666611f3ce47bfadb29df26f864, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0
@@ -3213,7 +3271,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: START
 --- !u!222 &73172208
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3294,6 +3352,80 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 74636753}
+--- !u!1 &75317246
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 75317247}
+  - component: {fileID: 75317249}
+  - component: {fileID: 75317248}
+  m_Layer: 5
+  m_Name: STR
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &75317247
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 75317246}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_Children: []
+  m_Father: {fileID: 565700558}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 27.7, y: -27.5}
+  m_SizeDelta: {x: 100, y: 20}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &75317248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 75317246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 5b32d666611f3ce47bfadb29df26f864, type: 3}
+    m_FontSize: 70
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 5
+    m_MaxSize: 70
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: STR
+--- !u!222 &75317249
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 75317246}
 --- !u!1 &77224843
 GameObject:
   m_ObjectHideFlags: 0
@@ -3682,9 +3814,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -3693,10 +3822,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 43701968}
   MonsterGradeBG: {fileID: 902302518}
   lefttopimage: {fileID: 320228292}
@@ -4844,9 +4977,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -4855,10 +4985,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 1919577754}
   MonsterGradeBG: {fileID: 1813428727}
   lefttopimage: {fileID: 1298663729}
@@ -5010,6 +5144,80 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 0
+--- !u!1 &102550725
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 102550726}
+  - component: {fileID: 102550728}
+  - component: {fileID: 102550727}
+  m_Layer: 5
+  m_Name: CRI PROB (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &102550726
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 102550725}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.29999998, y: 0.29999998, z: 1}
+  m_Children: []
+  m_Father: {fileID: 565700558}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 137.5, y: -199.43335}
+  m_SizeDelta: {x: 100, y: 20}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &102550727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 102550725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 5b32d666611f3ce47bfadb29df26f864, type: 3}
+    m_FontSize: 70
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 5
+    m_MaxSize: 70
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: STR
+--- !u!222 &102550728
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 102550725}
 --- !u!1 &102600316
 GameObject:
   m_ObjectHideFlags: 0
@@ -5679,9 +5887,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   curMonster:
     index: 225
     monsterNum: 0
@@ -5690,10 +5895,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!222 &109816115
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7242,9 +7451,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monsterdata:
     index: 225
     monsterNum: 0
@@ -7253,10 +7459,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!222 &146569557
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8299,9 +8509,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   registered: 0
   _CharObj: {fileID: 0}
 --- !u!1 &171934826
@@ -8465,9 +8672,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monsterdata:
     index: 225
     monsterNum: 0
@@ -8476,10 +8680,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!222 &171934831
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8561,9 +8769,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -8572,10 +8777,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 232718283}
   MonsterGradeBG: {fileID: 309362324}
   lefttopimage: {fileID: 179115165}
@@ -9289,6 +9498,74 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 190882222}
+--- !u!1 &194932111
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 194932112}
+  - component: {fileID: 194932114}
+  - component: {fileID: 194932113}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &194932112
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 194932111}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1405971949}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 120, y: 119.99}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &194932113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 194932111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.1397059, g: 0.1397059, b: 0.1397059, a: 0.572}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &194932114
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 194932111}
 --- !u!1 &197179923
 GameObject:
   m_ObjectHideFlags: 0
@@ -11684,9 +11961,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monsterdata:
     index: 225
     monsterNum: 0
@@ -11695,10 +11969,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!222 &260142519
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12283,8 +12561,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.5, y: -23}
-  m_SizeDelta: {x: 971.9, y: 331.8}
+  m_AnchoredPosition: {x: -38, y: 23}
+  m_SizeDelta: {x: 764.7, y: 334.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &266403475
 MonoBehaviour:
@@ -14405,6 +14683,74 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 307949410}
+--- !u!1 &309267795
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 309267798}
+  - component: {fileID: 309267797}
+  - component: {fileID: 309267796}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &309267796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 309267795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.1397059, g: 0.1397059, b: 0.1397059, a: 0.572}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &309267797
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 309267795}
+--- !u!224 &309267798
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 309267795}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 978483182}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 120, y: 119.99}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &309362322
 GameObject:
   m_ObjectHideFlags: 0
@@ -14484,6 +14830,7 @@ GameObject:
   - component: {fileID: 310250679}
   - component: {fileID: 310250678}
   - component: {fileID: 310250680}
+  - component: {fileID: 310250681}
   m_Layer: 5
   m_Name: CharIcon (8)
   m_TagString: Untagged
@@ -14507,12 +14854,13 @@ RectTransform:
   - {fileID: 773083482}
   - {fileID: 1910960163}
   - {fileID: 348247308}
+  - {fileID: 1426174293}
   m_Father: {fileID: 2072978876}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 506.95, y: -89.600006}
+  m_AnchoredPosition: {x: 467.1, y: -94.600006}
   m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &310250678
@@ -14565,6 +14913,60 @@ MonoBehaviour:
   MonsterEnfCountText: {fileID: 348247309}
   LefttopImage: {fileID: 773083483}
   levelText: {fileID: 1910960164}
+  selectedObj: {fileID: 1426174292}
+  formationIndex: 8
+--- !u!114 &310250681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 310250676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 310250678}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 310250680}
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &311071558
 GameObject:
   m_ObjectHideFlags: 0
@@ -14942,9 +15344,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   curMonster:
     index: 225
     monsterNum: 0
@@ -14953,10 +15352,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!222 &315287876
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15579,9 +15982,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -15590,10 +15990,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 1023089505}
   MonsterGradeBG: {fileID: 224186380}
   lefttopimage: {fileID: 841102056}
@@ -16013,7 +16417,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &330289230
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16881,6 +17285,56 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 351631666}
+--- !u!1 &352179887
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 352179888}
+  - component: {fileID: 352179889}
+  m_Layer: 5
+  m_Name: ACCESORY
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &352179888
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 352179887}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1571766317}
+  m_Father: {fileID: 565700558}
+  m_RootOrder: 20
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 182.9, y: -82.099976}
+  m_SizeDelta: {x: 68.16, y: 73.74}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &352179889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 352179887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 645bf29f37f1a3744b5f987bd88b5360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemimage: {fileID: 0}
+  tearText: {fileID: 0}
+  upgradeText: {fileID: 0}
+  noneObj: {fileID: 0}
 --- !u!1 &357986374
 GameObject:
   m_ObjectHideFlags: 0
@@ -17678,6 +18132,80 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 369911183}
+--- !u!1 &372250260
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 372250261}
+  - component: {fileID: 372250263}
+  - component: {fileID: 372250262}
+  m_Layer: 5
+  m_Name: ATK
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &372250261
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 372250260}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.29999998, y: 0.29999998, z: 1}
+  m_Children: []
+  m_Father: {fileID: 565700558}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 27.700012, y: -113.86667}
+  m_SizeDelta: {x: 100, y: 20}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &372250262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 372250260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 5b32d666611f3ce47bfadb29df26f864, type: 3}
+    m_FontSize: 70
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 5
+    m_MaxSize: 70
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: ATK
+--- !u!222 &372250263
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 372250260}
 --- !u!1 &378641928
 GameObject:
   m_ObjectHideFlags: 0
@@ -18290,9 +18818,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -18301,10 +18826,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 2119239517}
   MonsterGradeBG: {fileID: 1147519220}
   lefttopimage: {fileID: 365380122}
@@ -18700,6 +19229,80 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 404955531}
+--- !u!1 &405043868
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 405043869}
+  - component: {fileID: 405043871}
+  - component: {fileID: 405043870}
+  m_Layer: 5
+  m_Name: SPD
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &405043869
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 405043868}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.29999998, y: 0.29999998, z: 1}
+  m_Children: []
+  m_Father: {fileID: 565700558}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 27.700012, y: -171.44446}
+  m_SizeDelta: {x: 100, y: 20}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &405043870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 405043868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 5b32d666611f3ce47bfadb29df26f864, type: 3}
+    m_FontSize: 70
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 5
+    m_MaxSize: 70
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: SPD
+--- !u!222 &405043871
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 405043868}
 --- !u!1 &409187965
 GameObject:
   m_ObjectHideFlags: 0
@@ -19514,9 +20117,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -19525,10 +20125,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 533188735}
   MonsterGradeBG: {fileID: 1558348300}
   lefttopimage: {fileID: 153184300}
@@ -21909,6 +22513,56 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 474005613}
+--- !u!1 &476927110
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 476927111}
+  - component: {fileID: 476927112}
+  m_Layer: 5
+  m_Name: WEAPON
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &476927111
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 476927110}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1725939293}
+  m_Father: {fileID: 565700558}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 29.5, y: -82.09999}
+  m_SizeDelta: {x: 68.16, y: 73.74}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &476927112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 476927110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 645bf29f37f1a3744b5f987bd88b5360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemimage: {fileID: 0}
+  tearText: {fileID: 0}
+  upgradeText: {fileID: 0}
+  noneObj: {fileID: 0}
 --- !u!1 &480759913
 GameObject:
   m_ObjectHideFlags: 0
@@ -21984,9 +22638,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -21995,10 +22646,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 1122810110}
   MonsterGradeBG: {fileID: 252203800}
   lefttopimage: {fileID: 2045988177}
@@ -22266,6 +22921,80 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 486137614}
+--- !u!1 &487886992
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 487886993}
+  - component: {fileID: 487886995}
+  - component: {fileID: 487886994}
+  m_Layer: 5
+  m_Name: CRI DMG
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &487886993
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 487886992}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.29999998, y: 0.29999998, z: 1}
+  m_Children: []
+  m_Father: {fileID: 565700558}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 27.700012, y: -229.02225}
+  m_SizeDelta: {x: 100, y: 20}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &487886994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 487886992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 5b32d666611f3ce47bfadb29df26f864, type: 3}
+    m_FontSize: 70
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 5
+    m_MaxSize: 70
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: CRI DMG
+--- !u!222 &487886995
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 487886992}
 --- !u!1 &492844519
 GameObject:
   m_ObjectHideFlags: 0
@@ -22402,6 +23131,74 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 493338429}
+--- !u!1 &494804046
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 494804047}
+  - component: {fileID: 494804049}
+  - component: {fileID: 494804048}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &494804047
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 494804046}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1582206393}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 120, y: 119.99}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &494804048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 494804046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.1397059, g: 0.1397059, b: 0.1397059, a: 0.572}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &494804049
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 494804046}
 --- !u!1 &495378886
 GameObject:
   m_ObjectHideFlags: 0
@@ -22544,6 +23341,80 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 496939579}
+--- !u!1 &497728626
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 497728627}
+  - component: {fileID: 497728629}
+  - component: {fileID: 497728628}
+  m_Layer: 5
+  m_Name: CRI PERCENT (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &497728627
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 497728626}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.29999998, y: 0.29999998, z: 1}
+  m_Children: []
+  m_Father: {fileID: 565700558}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 137.5, y: -228.22223}
+  m_SizeDelta: {x: 100, y: 20}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &497728628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 497728626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 5b32d666611f3ce47bfadb29df26f864, type: 3}
+    m_FontSize: 70
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 5
+    m_MaxSize: 70
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: STR
+--- !u!222 &497728629
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 497728626}
 --- !u!1 &498139976
 GameObject:
   m_ObjectHideFlags: 0
@@ -22686,6 +23557,80 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.ScrollRect+ScrollRectEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!1 &503669236
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 503669237}
+  - component: {fileID: 503669239}
+  - component: {fileID: 503669238}
+  m_Layer: 5
+  m_Name: Name
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &503669237
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 503669236}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1357592845}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 52.3, y: -114}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &503669238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 503669236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 5b32d666611f3ce47bfadb29df26f864, type: 3}
+    m_FontSize: 70
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 5
+    m_MaxSize: 90
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 0
+  m_Text: Luze
+--- !u!222 &503669239
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 503669236}
 --- !u!1 &509813325
 GameObject:
   m_ObjectHideFlags: 0
@@ -23674,6 +24619,74 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 529937792}
+--- !u!1 &531038411
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 531038412}
+  - component: {fileID: 531038414}
+  - component: {fileID: 531038413}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &531038412
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 531038411}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 830147356}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 120, y: 119.99}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &531038413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 531038411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.1397059, g: 0.1397059, b: 0.1397059, a: 0.572}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &531038414
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 531038411}
 --- !u!1 &533188735
 GameObject:
   m_ObjectHideFlags: 0
@@ -24230,9 +25243,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   curMonster:
     index: 225
     monsterNum: 0
@@ -24241,10 +25251,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!222 &539141809
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -24409,6 +25423,80 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 540948806}
+--- !u!1 &541151255
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 541151256}
+  - component: {fileID: 541151258}
+  - component: {fileID: 541151257}
+  m_Layer: 5
+  m_Name: DEX (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &541151256
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 541151255}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.29999998, y: 0.29999998, z: 1}
+  m_Children: []
+  m_Father: {fileID: 565700558}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 137.5, y: -55.48889}
+  m_SizeDelta: {x: 100, y: 20}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &541151257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 541151255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 5b32d666611f3ce47bfadb29df26f864, type: 3}
+    m_FontSize: 70
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 5
+    m_MaxSize: 70
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: STR
+--- !u!222 &541151258
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 541151255}
 --- !u!1 &550721106
 GameObject:
   m_ObjectHideFlags: 0
@@ -24484,9 +25572,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -24495,10 +25580,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 2119479581}
   MonsterGradeBG: {fileID: 1527800926}
   lefttopimage: {fileID: 969955349}
@@ -25253,9 +26342,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   curMonster:
     index: 225
     monsterNum: 0
@@ -25264,10 +26350,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!222 &561967668
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -25410,6 +26500,95 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 565656831}
+--- !u!1 &565700557
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 565700558}
+  - component: {fileID: 565700560}
+  - component: {fileID: 565700559}
+  m_Layer: 5
+  m_Name: SelectedCharInfo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &565700558
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 565700557}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 75317247}
+  - {fileID: 1729629906}
+  - {fileID: 1557360462}
+  - {fileID: 372250261}
+  - {fileID: 790201336}
+  - {fileID: 405043869}
+  - {fileID: 931117774}
+  - {fileID: 487886993}
+  - {fileID: 1674217504}
+  - {fileID: 702595741}
+  - {fileID: 541151256}
+  - {fileID: 1267119315}
+  - {fileID: 731660161}
+  - {fileID: 1671251630}
+  - {fileID: 1881371109}
+  - {fileID: 102550726}
+  - {fileID: 497728627}
+  - {fileID: 1842338906}
+  - {fileID: 476927111}
+  - {fileID: 1096169595}
+  - {fileID: 352179888}
+  m_Father: {fileID: 1285505472}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 106.17, y: -285}
+  m_SizeDelta: {x: 476.35, y: 259.1}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &565700559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 565700557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &565700560
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 565700557}
 --- !u!1 &565999679
 GameObject:
   m_ObjectHideFlags: 0
@@ -26473,9 +27652,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -26484,10 +27660,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 231453709}
   MonsterGradeBG: {fileID: 417097815}
   lefttopimage: {fileID: 1733724250}
@@ -28048,9 +29228,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monsterdata:
     index: 225
     monsterNum: 0
@@ -28059,10 +29236,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!222 &615969760
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -31599,9 +32780,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monsterdata:
     index: 225
     monsterNum: 0
@@ -31610,10 +32788,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!222 &697429031
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -31967,6 +33149,80 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 1, y: 1}
+--- !u!1 &702595740
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 702595741}
+  - component: {fileID: 702595743}
+  - component: {fileID: 702595742}
+  m_Layer: 5
+  m_Name: STR (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &702595741
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 702595740}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.29999998, y: 0.29999998, z: 1}
+  m_Children: []
+  m_Father: {fileID: 565700558}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 137.5, y: -26.7}
+  m_SizeDelta: {x: 100, y: 20}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &702595742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 702595740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 5b32d666611f3ce47bfadb29df26f864, type: 3}
+    m_FontSize: 70
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 5
+    m_MaxSize: 70
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: STR
+--- !u!222 &702595743
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 702595740}
 --- !u!1 &702694358
 GameObject:
   m_ObjectHideFlags: 0
@@ -32213,9 +33469,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -32224,10 +33477,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 1122386293}
   MonsterGradeBG: {fileID: 641368240}
   lefttopimage: {fileID: 1984982488}
@@ -32941,6 +34198,80 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 0
+--- !u!1 &731660160
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 731660161}
+  - component: {fileID: 731660163}
+  - component: {fileID: 731660162}
+  m_Layer: 5
+  m_Name: ATK (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &731660161
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 731660160}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.29999998, y: 0.29999998, z: 1}
+  m_Children: []
+  m_Father: {fileID: 565700558}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 137.5, y: -113.06665}
+  m_SizeDelta: {x: 100, y: 20}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &731660162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 731660160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 5b32d666611f3ce47bfadb29df26f864, type: 3}
+    m_FontSize: 70
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 5
+    m_MaxSize: 70
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: STR
+--- !u!222 &731660163
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 731660160}
 --- !u!1 &731726725
 GameObject:
   m_ObjectHideFlags: 0
@@ -33025,7 +34356,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &732211137
 RectTransform:
   m_ObjectHideFlags: 0
@@ -33867,6 +35198,73 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 747056349}
+--- !u!1 &754617520
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 754617521}
+  - component: {fileID: 754617523}
+  - component: {fileID: 754617522}
+  m_Layer: 5
+  m_Name: charImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &754617521
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 754617520}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1357592845}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.000024319, y: 21.1}
+  m_SizeDelta: {x: 184.9, y: 219.4}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &754617522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 754617520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Texture: {fileID: 8400000, guid: 556056f62eef152428647830f46f8368, type: 2}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &754617523
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 754617520}
 --- !u!1 &755003262
 GameObject:
   m_ObjectHideFlags: 0
@@ -34346,6 +35744,74 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 764431508}
+--- !u!1 &765138709
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 765138710}
+  - component: {fileID: 765138712}
+  - component: {fileID: 765138711}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &765138710
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 765138709}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 62760403}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 120, y: 119.99}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &765138711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 765138709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.1397059, g: 0.1397059, b: 0.1397059, a: 0.572}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &765138712
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 765138709}
 --- !u!1 &765979819
 GameObject:
   m_ObjectHideFlags: 0
@@ -34362,7 +35828,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &765979820
 RectTransform:
   m_ObjectHideFlags: 0
@@ -34992,7 +36458,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &778609625
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35008,8 +36474,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 89, y: 76}
+  m_AnchoredPosition: {x: 0, y: -0.000022888184}
+  m_SizeDelta: {x: 66, y: 66}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &778609626
 MonoBehaviour:
@@ -35675,6 +37141,80 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 787373018}
+--- !u!1 &790201335
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 790201336}
+  - component: {fileID: 790201338}
+  - component: {fileID: 790201337}
+  m_Layer: 5
+  m_Name: DEF
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &790201336
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 790201335}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.29999998, y: 0.29999998, z: 1}
+  m_Children: []
+  m_Father: {fileID: 565700558}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 27.700012, y: -142.65556}
+  m_SizeDelta: {x: 100, y: 20}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &790201337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 790201335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 5b32d666611f3ce47bfadb29df26f864, type: 3}
+    m_FontSize: 70
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 5
+    m_MaxSize: 70
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: DEF
+--- !u!222 &790201338
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 790201335}
 --- !u!1 &790237969
 GameObject:
   m_ObjectHideFlags: 0
@@ -36932,9 +38472,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monsterdata:
     index: 225
     monsterNum: 0
@@ -36943,10 +38480,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!222 &814415095
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -37689,6 +39230,7 @@ GameObject:
   - component: {fileID: 830147358}
   - component: {fileID: 830147357}
   - component: {fileID: 830147359}
+  - component: {fileID: 830147360}
   m_Layer: 5
   m_Name: CharIcon (6)
   m_TagString: Untagged
@@ -37712,12 +39254,13 @@ RectTransform:
   - {fileID: 527035751}
   - {fileID: 1016577393}
   - {fileID: 1125029073}
+  - {fileID: 531038412}
   m_Father: {fileID: 2072978876}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 226.95001, y: -89.600006}
+  m_AnchoredPosition: {x: 207.1, y: -94.600006}
   m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &830147357
@@ -37770,6 +39313,60 @@ MonoBehaviour:
   MonsterEnfCountText: {fileID: 1125029074}
   LefttopImage: {fileID: 527035752}
   levelText: {fileID: 1016577394}
+  selectedObj: {fileID: 531038411}
+  formationIndex: 6
+--- !u!114 &830147360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 830147355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 830147357}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 830147359}
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &830227051
 GameObject:
   m_ObjectHideFlags: 0
@@ -37781,6 +39378,7 @@ GameObject:
   - component: {fileID: 830227054}
   - component: {fileID: 830227053}
   - component: {fileID: 830227055}
+  - component: {fileID: 830227056}
   m_Layer: 5
   m_Name: CharIcon (5)
   m_TagString: Untagged
@@ -37804,12 +39402,13 @@ RectTransform:
   - {fileID: 1423829030}
   - {fileID: 2065693236}
   - {fileID: 1059164817}
+  - {fileID: 1967690746}
   m_Father: {fileID: 2072978876}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 86.95001, y: -89.600006}
+  m_AnchoredPosition: {x: 77.100006, y: -94.600006}
   m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &830227053
@@ -37862,6 +39461,60 @@ MonoBehaviour:
   MonsterEnfCountText: {fileID: 1059164818}
   LefttopImage: {fileID: 1423829031}
   levelText: {fileID: 2065693237}
+  selectedObj: {fileID: 1967690745}
+  formationIndex: 5
+--- !u!114 &830227056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 830227051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 830227053}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 830227055}
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &831700362
 GameObject:
   m_ObjectHideFlags: 0
@@ -38407,7 +40060,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &841808227
 RectTransform:
   m_ObjectHideFlags: 0
@@ -38540,9 +40193,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -38551,10 +40201,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 1641320692}
   MonsterGradeBG: {fileID: 2085391448}
   lefttopimage: {fileID: 14917606}
@@ -39131,6 +40785,80 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 853086673}
+--- !u!1 &854428847
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 854428848}
+  - component: {fileID: 854428850}
+  - component: {fileID: 854428849}
+  m_Layer: 5
+  m_Name: Lv
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &854428848
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 854428847}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1357592845}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -24.5, y: -106.4}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &854428849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 854428847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 5b32d666611f3ce47bfadb29df26f864, type: 3}
+    m_FontSize: 100
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 1
+    m_MaxSize: 100
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 0
+  m_Text: lv.12
+--- !u!222 &854428850
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 854428847}
 --- !u!1 &855946486
 GameObject:
   m_ObjectHideFlags: 0
@@ -39998,9 +41726,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -40009,10 +41734,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 1790425680}
   MonsterGradeBG: {fileID: 855946488}
   lefttopimage: {fileID: 265235167}
@@ -40423,9 +42152,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -40434,10 +42160,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 1485506722}
   MonsterGradeBG: {fileID: 89746580}
   lefttopimage: {fileID: 602222137}
@@ -41246,9 +42976,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -41257,10 +42984,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 326663357}
   MonsterGradeBG: {fileID: 1381987865}
   lefttopimage: {fileID: 1273616693}
@@ -42490,9 +44221,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   curMonster:
     index: 225
     monsterNum: 0
@@ -42501,10 +44229,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!222 &926262373
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -42721,6 +44453,80 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 930968907}
+--- !u!1 &931117773
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 931117774}
+  - component: {fileID: 931117776}
+  - component: {fileID: 931117775}
+  m_Layer: 5
+  m_Name: CRI PROB
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &931117774
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 931117773}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.29999998, y: 0.29999998, z: 1}
+  m_Children: []
+  m_Father: {fileID: 565700558}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 27.700012, y: -200.23335}
+  m_SizeDelta: {x: 100, y: 20}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &931117775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 931117773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 5b32d666611f3ce47bfadb29df26f864, type: 3}
+    m_FontSize: 70
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 5
+    m_MaxSize: 70
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: CRI (%)
+--- !u!222 &931117776
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 931117773}
 --- !u!1 &931427310
 GameObject:
   m_ObjectHideFlags: 0
@@ -44806,9 +46612,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -44817,10 +46620,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 2143864798}
   MonsterGradeBG: {fileID: 1285161259}
   lefttopimage: {fileID: 607121549}
@@ -45122,6 +46929,7 @@ GameObject:
   - component: {fileID: 978483184}
   - component: {fileID: 978483183}
   - component: {fileID: 978483181}
+  - component: {fileID: 978483185}
   m_Layer: 5
   m_Name: CharIcon (9)
   m_TagString: Untagged
@@ -45146,6 +46954,8 @@ MonoBehaviour:
   MonsterEnfCountText: {fileID: 1989207599}
   LefttopImage: {fileID: 916434488}
   levelText: {fileID: 1259661907}
+  selectedObj: {fileID: 309267795}
+  formationIndex: 9
 --- !u!224 &978483182
 RectTransform:
   m_ObjectHideFlags: 0
@@ -45162,12 +46972,13 @@ RectTransform:
   - {fileID: 916434486}
   - {fileID: 1259661909}
   - {fileID: 1989207597}
+  - {fileID: 309267798}
   m_Father: {fileID: 2072978876}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 646.95, y: -89.600006}
+  m_AnchoredPosition: {x: 597.1, y: -94.600006}
   m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &978483183
@@ -45203,6 +47014,58 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 978483180}
+--- !u!114 &978483185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 978483180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 978483183}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 978483181}
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &979492014
 GameObject:
   m_ObjectHideFlags: 0
@@ -45542,9 +47405,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monsterdata:
     index: 225
     monsterNum: 0
@@ -45553,10 +47413,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!222 &981282253
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -45917,6 +47781,74 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 988970378}
+--- !u!1 &989390450
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 989390451}
+  - component: {fileID: 989390453}
+  - component: {fileID: 989390452}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &989390451
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 989390450}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1790674843}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 120, y: 119.99}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &989390452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 989390450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.1397059, g: 0.1397059, b: 0.1397059, a: 0.572}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &989390453
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 989390450}
 --- !u!1 &990020504
 GameObject:
   m_ObjectHideFlags: 0
@@ -48035,40 +49967,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1046391397}
---- !u!1 &1047357214
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1047357215}
-  m_Layer: 5
-  m_Name: StageGoBtn
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1047357215
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1047357214}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1139360481}
-  m_Father: {fileID: 1285505472}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1047664919
 GameObject:
   m_ObjectHideFlags: 0
@@ -48998,9 +50896,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -49009,10 +50904,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 1493226594}
   MonsterGradeBG: {fileID: 1779920159}
   lefttopimage: {fileID: 681697622}
@@ -49651,9 +51550,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monsterdata:
     index: 225
     monsterNum: 0
@@ -49662,10 +51558,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!222 &1066358096
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -51007,9 +52907,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   curMonster:
     index: 225
     monsterNum: 0
@@ -51018,10 +52915,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!222 &1090940733
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -51096,6 +52997,56 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1095699329}
+--- !u!1 &1096169594
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1096169595}
+  - component: {fileID: 1096169596}
+  m_Layer: 5
+  m_Name: ARMOR
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1096169595
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1096169594}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1830000667}
+  m_Father: {fileID: 565700558}
+  m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 105.6, y: -82.1}
+  m_SizeDelta: {x: 68.16, y: 73.74}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1096169596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1096169594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 645bf29f37f1a3744b5f987bd88b5360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemimage: {fileID: 0}
+  tearText: {fileID: 0}
+  upgradeText: {fileID: 0}
+  noneObj: {fileID: 0}
 --- !u!1 &1098813243
 GameObject:
   m_ObjectHideFlags: 0
@@ -52477,9 +54428,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -52488,10 +54436,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 1582670599}
   MonsterGradeBG: {fileID: 311071560}
   lefttopimage: {fileID: 187078632}
@@ -52892,7 +54844,7 @@ GameObject:
   - component: {fileID: 1139360483}
   - component: {fileID: 1139360482}
   m_Layer: 5
-  m_Name: Button
+  m_Name: START BTN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52904,17 +54856,17 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1139360480}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 73172206}
-  m_Father: {fileID: 1047357215}
-  m_RootOrder: 0
+  m_Father: {fileID: 1285505472}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 350, y: -344}
+  m_AnchoredPosition: {x: 454, y: -373}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1139360482
@@ -53270,9 +55222,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -53281,10 +55230,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 780309830}
   MonsterGradeBG: {fileID: 1843701842}
   lefttopimage: {fileID: 1007346470}
@@ -54214,7 +56167,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1176358068
 RectTransform:
   m_ObjectHideFlags: 0
@@ -55562,9 +57515,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -55573,10 +57523,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 979492014}
   MonsterGradeBG: {fileID: 351631668}
   lefttopimage: {fileID: 2128459160}
@@ -56018,6 +57972,7 @@ GameObject:
   - component: {fileID: 1211499964}
   - component: {fileID: 1211499963}
   - component: {fileID: 1211499962}
+  - component: {fileID: 1211499961}
   m_Layer: 0
   m_Name: Character Camera
   m_TagString: Untagged
@@ -56025,6 +57980,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1211499961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1211499960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 899fe290a45639d4ba075537c48ffcf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _CharObj: {fileID: 0}
+  CharPos: {x: 2964, y: 2967, z: 3066}
 --- !u!124 &1211499962
 Behaviour:
   m_ObjectHideFlags: 0
@@ -56591,9 +58559,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -56602,10 +58567,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 159431024}
   MonsterGradeBG: {fileID: 1067718236}
   lefttopimage: {fileID: 1426643201}
@@ -56732,9 +58701,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -56743,10 +58709,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 843467666}
   MonsterGradeBG: {fileID: 1984019963}
   lefttopimage: {fileID: 1784201623}
@@ -57856,6 +59826,80 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 0
+--- !u!1 &1267119314
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1267119315}
+  - component: {fileID: 1267119317}
+  - component: {fileID: 1267119316}
+  m_Layer: 5
+  m_Name: INT (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1267119315
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1267119314}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.29999998, y: 0.29999998, z: 1}
+  m_Children: []
+  m_Father: {fileID: 565700558}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 137.5, y: -84.27777}
+  m_SizeDelta: {x: 100, y: 20}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1267119316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1267119314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 5b32d666611f3ce47bfadb29df26f864, type: 3}
+    m_FontSize: 70
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 5
+    m_MaxSize: 70
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: STR
+--- !u!222 &1267119317
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1267119314}
 --- !u!1 &1270320566
 GameObject:
   m_ObjectHideFlags: 0
@@ -58651,7 +60695,9 @@ RectTransform:
   - {fileID: 288611357}
   - {fileID: 266403474}
   - {fileID: 1716200427}
-  - {fileID: 1047357215}
+  - {fileID: 1139360481}
+  - {fileID: 1357592845}
+  - {fileID: 565700558}
   m_Father: {fileID: 1334481535}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -58682,7 +60728,24 @@ MonoBehaviour:
   - {fileID: 1301327703}
   - {fileID: 310250680}
   - {fileID: 978483181}
-  CurDisplayTeam: 0
+  charLv: {fileID: 854428849}
+  charName: {fileID: 503669238}
+  charJobImg: {fileID: 1292254576}
+  stagewindowItemList:
+  - {fileID: 476927112}
+  - {fileID: 1096169596}
+  - {fileID: 352179889}
+  STR: {fileID: 702595742}
+  DEX: {fileID: 541151257}
+  INT: {fileID: 1267119316}
+  ATK: {fileID: 731660162}
+  DEF: {fileID: 1671251631}
+  SPD: {fileID: 1881371110}
+  CRIPERCENT: {fileID: 102550727}
+  CRIDMG: {fileID: 497728628}
+  weaponIamage: {fileID: 1725939294}
+  curDisplayTeam: 0
+  selectedFormationNum: 0
 --- !u!1 &1287252589
 GameObject:
   m_ObjectHideFlags: 0
@@ -58825,6 +60888,74 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1288364687}
+--- !u!1 &1292254574
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1292254575}
+  - component: {fileID: 1292254577}
+  - component: {fileID: 1292254576}
+  m_Layer: 5
+  m_Name: job
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1292254575
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1292254574}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1357592845}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -72, y: -112}
+  m_SizeDelta: {x: 36.54, y: 36.54}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1292254576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1292254574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 21300000, guid: ac3a72318b04f054bb2e165ee2119cf7, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &1292254577
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1292254574}
 --- !u!1 &1292388991
 GameObject:
   m_ObjectHideFlags: 0
@@ -59548,9 +61679,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -59559,10 +61687,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 229279118}
   MonsterGradeBG: {fileID: 557311457}
   lefttopimage: {fileID: 176977274}
@@ -59625,6 +61757,7 @@ GameObject:
   - component: {fileID: 1301327702}
   - component: {fileID: 1301327701}
   - component: {fileID: 1301327703}
+  - component: {fileID: 1301327704}
   m_Layer: 5
   m_Name: CharIcon (7)
   m_TagString: Untagged
@@ -59648,12 +61781,13 @@ RectTransform:
   - {fileID: 1765343277}
   - {fileID: 401533753}
   - {fileID: 599037353}
+  - {fileID: 1925731236}
   m_Father: {fileID: 2072978876}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 366.94995, y: -89.600006}
+  m_AnchoredPosition: {x: 337.1, y: -94.600006}
   m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1301327701
@@ -59706,6 +61840,60 @@ MonoBehaviour:
   MonsterEnfCountText: {fileID: 599037354}
   LefttopImage: {fileID: 1765343278}
   levelText: {fileID: 401533754}
+  selectedObj: {fileID: 1925731235}
+  formationIndex: 7
+--- !u!114 &1301327704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1301327699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1301327701}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1301327703}
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1306635349
 GameObject:
   m_ObjectHideFlags: 0
@@ -60287,9 +62475,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monsterdata:
     index: 225
     monsterNum: 0
@@ -60298,10 +62483,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!222 &1317849054
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -61584,9 +63773,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monsterdata:
     index: 225
     monsterNum: 0
@@ -61595,10 +63781,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!222 &1353144952
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -61759,6 +63949,43 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1353398444}
+--- !u!1 &1357592844
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1357592845}
+  m_Layer: 5
+  m_Name: SelectedCharacter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1357592845
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1357592844}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 754617521}
+  - {fileID: 854428848}
+  - {fileID: 503669237}
+  - {fileID: 1292254575}
+  m_Father: {fileID: 1285505472}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -291, y: -281}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1359624094
 GameObject:
   m_ObjectHideFlags: 0
@@ -63937,7 +66164,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1396815264}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 109c14315da911a45b3f7b5d532579ed, type: 3}
   m_Name: 
@@ -64473,6 +66700,7 @@ GameObject:
   - component: {fileID: 1405971951}
   - component: {fileID: 1405971950}
   - component: {fileID: 1405971952}
+  - component: {fileID: 1405971953}
   m_Layer: 5
   m_Name: CharIcon (1)
   m_TagString: Untagged
@@ -64496,12 +66724,13 @@ RectTransform:
   - {fileID: 113949900}
   - {fileID: 772514796}
   - {fileID: 1660171053}
+  - {fileID: 194932112}
   m_Father: {fileID: 2072978876}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 226.95001, y: -229.6}
+  m_AnchoredPosition: {x: 207.1, y: -224.6}
   m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1405971950
@@ -64554,6 +66783,60 @@ MonoBehaviour:
   MonsterEnfCountText: {fileID: 1660171054}
   LefttopImage: {fileID: 113949901}
   levelText: {fileID: 772514797}
+  selectedObj: {fileID: 194932111}
+  formationIndex: 1
+--- !u!114 &1405971953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1405971948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1405971950}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1405971952}
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1408002372
 GameObject:
   m_ObjectHideFlags: 0
@@ -65779,6 +68062,74 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1424565625}
+--- !u!1 &1426174292
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1426174293}
+  - component: {fileID: 1426174295}
+  - component: {fileID: 1426174294}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1426174293
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1426174292}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 310250677}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 120, y: 119.99}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1426174294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1426174292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.1397059, g: 0.1397059, b: 0.1397059, a: 0.572}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &1426174295
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1426174292}
 --- !u!1 &1426175397
 GameObject:
   m_ObjectHideFlags: 0
@@ -66383,9 +68734,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monsterdata:
     index: 225
     monsterNum: 0
@@ -66394,10 +68742,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!222 &1440239081
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -66621,9 +68973,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -66632,10 +68981,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 1145384587}
   MonsterGradeBG: {fileID: 1829450289}
   lefttopimage: {fileID: 1170396270}
@@ -67094,9 +69447,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monsterdata:
     index: 225
     monsterNum: 0
@@ -67105,10 +69455,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!222 &1447991819
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -67596,9 +69950,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -67607,10 +69958,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 1441568274}
   MonsterGradeBG: {fileID: 359948647}
   lefttopimage: {fileID: 133122266}
@@ -68735,9 +71090,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   curMonster:
     index: 225
     monsterNum: 0
@@ -68746,10 +71098,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!222 &1478609448
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -72014,6 +74370,7 @@ GameObject:
   - component: {fileID: 1552462879}
   - component: {fileID: 1552462880}
   - component: {fileID: 1552462881}
+  - component: {fileID: 1552462882}
   m_Layer: 5
   m_Name: CharIcon
   m_TagString: Untagged
@@ -72037,12 +74394,13 @@ RectTransform:
   - {fileID: 1947941041}
   - {fileID: 1628579163}
   - {fileID: 943455967}
+  - {fileID: 2127093847}
   m_Father: {fileID: 2072978876}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 86.95001, y: -229.6}
+  m_AnchoredPosition: {x: 77.100006, y: -224.6}
   m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1552462879
@@ -72095,6 +74453,60 @@ MonoBehaviour:
   MonsterEnfCountText: {fileID: 943455968}
   LefttopImage: {fileID: 1947941042}
   levelText: {fileID: 1628579164}
+  selectedObj: {fileID: 2127093846}
+  formationIndex: 0
+--- !u!114 &1552462882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1552462877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1552462880}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1552462881}
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1554495750
 GameObject:
   m_ObjectHideFlags: 0
@@ -72269,6 +74681,80 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1554824651}
+--- !u!1 &1557360461
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1557360462}
+  - component: {fileID: 1557360464}
+  - component: {fileID: 1557360463}
+  m_Layer: 5
+  m_Name: INT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1557360462
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1557360461}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.29999998, y: 0.29999998, z: 1}
+  m_Children: []
+  m_Father: {fileID: 565700558}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 27.700012, y: -85.07778}
+  m_SizeDelta: {x: 100, y: 20}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1557360463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1557360461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 5b32d666611f3ce47bfadb29df26f864, type: 3}
+    m_FontSize: 70
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 5
+    m_MaxSize: 70
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: INT
+--- !u!222 &1557360464
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1557360461}
 --- !u!1 &1558348298
 GameObject:
   m_ObjectHideFlags: 0
@@ -72640,9 +75126,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monsterdata:
     index: 225
     monsterNum: 0
@@ -72651,10 +75134,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!222 &1560390386
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -72736,9 +75223,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -72747,10 +75231,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 1522382760}
   MonsterGradeBG: {fileID: 859356767}
   lefttopimage: {fileID: 1819995717}
@@ -73267,9 +75755,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -73278,10 +75763,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 613816553}
   MonsterGradeBG: {fileID: 858582457}
   lefttopimage: {fileID: 158598113}
@@ -73333,6 +75822,74 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 0
+--- !u!1 &1571766316
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1571766317}
+  - component: {fileID: 1571766319}
+  - component: {fileID: 1571766318}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1571766317
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1571766316}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 352179888}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 70, y: 70}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1571766318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1571766316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.8897059, g: 0.8897059, b: 0.8897059, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &1571766319
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1571766316}
 --- !u!1 &1572677651
 GameObject:
   m_ObjectHideFlags: 0
@@ -73726,6 +76283,7 @@ GameObject:
   - component: {fileID: 1582206395}
   - component: {fileID: 1582206394}
   - component: {fileID: 1582206396}
+  - component: {fileID: 1582206397}
   m_Layer: 5
   m_Name: CharIcon (3)
   m_TagString: Untagged
@@ -73749,12 +76307,13 @@ RectTransform:
   - {fileID: 108729507}
   - {fileID: 1820967830}
   - {fileID: 97120140}
+  - {fileID: 494804047}
   m_Father: {fileID: 2072978876}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 506.95, y: -229.6}
+  m_AnchoredPosition: {x: 467.1, y: -224.6}
   m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1582206394
@@ -73807,6 +76366,60 @@ MonoBehaviour:
   MonsterEnfCountText: {fileID: 97120141}
   LefttopImage: {fileID: 108729508}
   levelText: {fileID: 1820967831}
+  selectedObj: {fileID: 494804046}
+  formationIndex: 3
+--- !u!114 &1582206397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1582206392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1582206394}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1582206396}
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1582670599
 GameObject:
   m_ObjectHideFlags: 0
@@ -74699,9 +77312,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -74710,10 +77320,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 1193322283}
   MonsterGradeBG: {fileID: 2008334898}
   lefttopimage: {fileID: 2057441051}
@@ -76520,6 +79134,37 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  MonsterPrefabs:
+  - {fileID: 100018, guid: d314fb70430db7e41ae599514794b2e8, type: 3}
+  - {fileID: 100000, guid: 0df4ff5a2af500e41bd32e9de0970926, type: 3}
+  - {fileID: 100020, guid: be0fc923d4a551941818737db6a2962e, type: 3}
+  - {fileID: 100018, guid: b4a7c2207999e784683bf068d0e0169a, type: 3}
+  - {fileID: 100018, guid: b05f7a13f20331446ba78a9718f9649e, type: 3}
+  - {fileID: 100018, guid: b2ac9ecaf2fb517458b375cff37e2a3a, type: 3}
+  - {fileID: 100020, guid: 1698b1675a77d9446acbbb99d84ebddd, type: 3}
+  - {fileID: 100018, guid: 71f63ee9247e99b4a90cf6c7f8988807, type: 3}
+  - {fileID: 100018, guid: f6dbcfbdceba9fd4c950e569bba3e8b7, type: 3}
+  - {fileID: 100020, guid: 161b8d845a7d76a40ba5390c2d0ca570, type: 3}
+  - {fileID: 100020, guid: f8bac8bdc44c1b542ba2c6cde21cab68, type: 3}
+  - {fileID: 100020, guid: fb5a2a053ec638f4c988f85b7984375f, type: 3}
+  - {fileID: 100020, guid: bb3ca3adefeb6d94cb9909688dc38db6, type: 3}
+  - {fileID: 100018, guid: b476a108f1559054fb5d10517d36ad51, type: 3}
+  - {fileID: 100018, guid: e502107b437d9f34a90f7b5bcdbc4e21, type: 3}
+  - {fileID: 100018, guid: f289cada3d58306408b621742c98a19a, type: 3}
+  - {fileID: 100020, guid: 63fa90585e911254f9837403056229bc, type: 3}
+  - {fileID: 100050, guid: dfdcbae790e0ee04992912e553073ed5, type: 3}
+  - {fileID: 100018, guid: d2113c0e0d1dfab4f872319fa06f8bbb, type: 3}
+  - {fileID: 100018, guid: 3da97b3ece58b254eb1ebc360e7de6c9, type: 3}
+  - {fileID: 100018, guid: ed90a207fa6f9f84f8f674ad986d6cee, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   MonsterEnforceEntityTable: {fileID: 11400000, guid: 2d37f6f5786d10d448d46da9f217f2bb,
     type: 2}
   MonsterGradeEntityTable: {fileID: 11400000, guid: da83533dc81582e4aa65b3e1b2f0e911,
@@ -77685,9 +80330,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -77696,10 +80338,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 1450337885}
   MonsterGradeBG: {fileID: 2059220002}
   lefttopimage: {fileID: 728326052}
@@ -78449,6 +81095,80 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1670738529}
+--- !u!1 &1671251629
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1671251630}
+  - component: {fileID: 1671251632}
+  - component: {fileID: 1671251631}
+  m_Layer: 5
+  m_Name: DEF (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1671251630
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1671251629}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.29999998, y: 0.29999998, z: 1}
+  m_Children: []
+  m_Father: {fileID: 565700558}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 137.5, y: -141.85559}
+  m_SizeDelta: {x: 100, y: 20}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1671251631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1671251629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 5b32d666611f3ce47bfadb29df26f864, type: 3}
+    m_FontSize: 70
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 5
+    m_MaxSize: 70
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: STR
+--- !u!222 &1671251632
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1671251629}
 --- !u!1 &1671815246
 GameObject:
   m_ObjectHideFlags: 0
@@ -78517,6 +81237,39 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1671815246}
+--- !u!1 &1674217503
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1674217504}
+  m_Layer: 5
+  m_Name: ____________________
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1674217504
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1674217503}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 565700558}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1674730069
 GameObject:
   m_ObjectHideFlags: 0
@@ -80405,8 +83158,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -427.8, y: 164.1}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -398, y: 202}
+  m_SizeDelta: {x: 97.1, y: 101.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1719736144
 GameObject:
@@ -80543,9 +83296,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   curMonster:
     index: 225
     monsterNum: 0
@@ -80554,10 +83304,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!222 &1719736148
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -80822,6 +83576,74 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1724987529}
+--- !u!1 &1725939292
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1725939293}
+  - component: {fileID: 1725939295}
+  - component: {fileID: 1725939294}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1725939293
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1725939292}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 476927111}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 70, y: 70}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1725939294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1725939292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.8897059, g: 0.8897059, b: 0.8897059, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &1725939295
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1725939292}
 --- !u!1 &1726306738
 GameObject:
   m_ObjectHideFlags: 0
@@ -81138,6 +83960,80 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1729560471}
+--- !u!1 &1729629905
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1729629906}
+  - component: {fileID: 1729629908}
+  - component: {fileID: 1729629907}
+  m_Layer: 5
+  m_Name: DEX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1729629906
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1729629905}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.29999998, y: 0.29999998, z: 1}
+  m_Children: []
+  m_Father: {fileID: 565700558}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 27.700012, y: -56.288895}
+  m_SizeDelta: {x: 100, y: 20}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1729629907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1729629905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 5b32d666611f3ce47bfadb29df26f864, type: 3}
+    m_FontSize: 70
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 5
+    m_MaxSize: 70
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: DEX
+--- !u!222 &1729629908
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1729629905}
 --- !u!1 &1730181806
 GameObject:
   m_ObjectHideFlags: 0
@@ -83361,9 +86257,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -83372,10 +86265,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 315383}
   MonsterGradeBG: {fileID: 1947907824}
   lefttopimage: {fileID: 1390017666}
@@ -84419,6 +87316,7 @@ GameObject:
   - component: {fileID: 1790674845}
   - component: {fileID: 1790674844}
   - component: {fileID: 1790674846}
+  - component: {fileID: 1790674847}
   m_Layer: 5
   m_Name: CharIcon (2)
   m_TagString: Untagged
@@ -84442,12 +87340,13 @@ RectTransform:
   - {fileID: 511638326}
   - {fileID: 1819963331}
   - {fileID: 50427402}
+  - {fileID: 989390451}
   m_Father: {fileID: 2072978876}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 366.95, y: -229.6}
+  m_AnchoredPosition: {x: 337.1, y: -224.6}
   m_SizeDelta: {x: 120, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1790674844
@@ -84500,6 +87399,60 @@ MonoBehaviour:
   MonsterEnfCountText: {fileID: 50427403}
   LefttopImage: {fileID: 511638327}
   levelText: {fileID: 1819963332}
+  selectedObj: {fileID: 989390450}
+  formationIndex: 2
+--- !u!114 &1790674847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1790674842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1790674844}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1790674846}
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1791604744
 GameObject:
   m_ObjectHideFlags: 0
@@ -84871,9 +87824,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monsterdata:
     index: 225
     monsterNum: 0
@@ -84882,10 +87832,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!222 &1795688920
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -86522,6 +89476,74 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1829450287}
+--- !u!1 &1830000666
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1830000667}
+  - component: {fileID: 1830000669}
+  - component: {fileID: 1830000668}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1830000667
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1830000666}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1096169595}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 70, y: 70}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1830000668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1830000666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.8897059, g: 0.8897059, b: 0.8897059, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &1830000669
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1830000666}
 --- !u!1 &1831739175
 GameObject:
   m_ObjectHideFlags: 0
@@ -86874,6 +89896,39 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1840741997}
+--- !u!1 &1842338905
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1842338906}
+  m_Layer: 5
+  m_Name: ____________________
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1842338906
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1842338905}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 565700558}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1842407368
 GameObject:
   m_ObjectHideFlags: 0
@@ -87291,9 +90346,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -87302,10 +90354,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 306093002}
   MonsterGradeBG: {fileID: 1513478240}
   lefttopimage: {fileID: 247701184}
@@ -89046,6 +92102,80 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1880777097}
+--- !u!1 &1881371108
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1881371109}
+  - component: {fileID: 1881371111}
+  - component: {fileID: 1881371110}
+  m_Layer: 5
+  m_Name: SPD (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1881371109
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1881371108}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.29999998, y: 0.29999998, z: 1}
+  m_Children: []
+  m_Father: {fileID: 565700558}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 137.5, y: -170.64447}
+  m_SizeDelta: {x: 100, y: 20}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1881371110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1881371108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 5b32d666611f3ce47bfadb29df26f864, type: 3}
+    m_FontSize: 70
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 5
+    m_MaxSize: 70
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: STR
+--- !u!222 &1881371111
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1881371108}
 --- !u!1 &1881855515
 GameObject:
   m_ObjectHideFlags: 0
@@ -90931,6 +94061,74 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1923304245}
+--- !u!1 &1925731235
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1925731236}
+  - component: {fileID: 1925731238}
+  - component: {fileID: 1925731237}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1925731236
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1925731235}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1301327700}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 120, y: 119.99}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1925731237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1925731235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.1397059, g: 0.1397059, b: 0.1397059, a: 0.572}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &1925731238
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1925731235}
 --- !u!1 &1925889822
 GameObject:
   m_ObjectHideFlags: 0
@@ -91322,9 +94520,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -91333,10 +94528,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 1901921887}
   MonsterGradeBG: {fileID: 1344753780}
   lefttopimage: {fileID: 1810356726}
@@ -92472,6 +95671,74 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1963920118}
+--- !u!1 &1967690745
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1967690746}
+  - component: {fileID: 1967690748}
+  - component: {fileID: 1967690747}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1967690746
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1967690745}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 830227052}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 120, y: 119.99}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1967690747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1967690745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.1397059, g: 0.1397059, b: 0.1397059, a: 0.572}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &1967690748
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1967690745}
 --- !u!1 &1969731597
 GameObject:
   m_ObjectHideFlags: 0
@@ -93975,9 +97242,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monsterdata:
     index: 225
     monsterNum: 0
@@ -93986,10 +97250,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!222 &1986351992
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -96750,8 +100018,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -18, y: 0.000011444}
-  m_SizeDelta: {x: 733.9, y: 319.2}
+  m_AnchoredPosition: {x: -10, y: 0.000011444}
+  m_SizeDelta: {x: 674.2, y: 319.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2072978877
 MonoBehaviour:
@@ -96773,7 +100041,7 @@ MonoBehaviour:
   m_StartCorner: 2
   m_StartAxis: 0
   m_CellSize: {x: 120, y: 120}
-  m_Spacing: {x: 20, y: 20}
+  m_Spacing: {x: 10, y: 10}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!1 &2077057401
@@ -97655,9 +100923,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   monster:
     index: 225
     monsterNum: 0
@@ -97666,10 +100931,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   Lockobj: {fileID: 1877455354}
   MonsterGradeBG: {fileID: 1241541026}
   lefttopimage: {fileID: 1818776610}
@@ -98642,9 +101911,6 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
-    onFormation: 0
-    partyIndex: -1
-    formationIndex: -1
   curMonster:
     index: 225
     monsterNum: 0
@@ -98653,10 +101919,14 @@ MonoBehaviour:
     enforceNum: 0
     exp: 0
     level: 1
+    status:
+      basicStr: 0
+      basicDex: 0
+      basicInt: 0
+      plusStr: 0
+      plusDex: 0
+      plusInt: 0
     name: Mst_BirdMan
-    OnFormation: 0
-    partyIndex: -1
-    formationIndex: -1
 --- !u!114 &2119994773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98857,6 +102127,74 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2123935803}
+--- !u!1 &2127093846
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 2127093847}
+  - component: {fileID: 2127093849}
+  - component: {fileID: 2127093848}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &2127093847
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2127093846}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1552462878}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 120, y: 119.99}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2127093848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2127093846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.1397059, g: 0.1397059, b: 0.1397059, a: 0.572}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &2127093849
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2127093846}
 --- !u!1 &2127412768
 GameObject:
   m_ObjectHideFlags: 0

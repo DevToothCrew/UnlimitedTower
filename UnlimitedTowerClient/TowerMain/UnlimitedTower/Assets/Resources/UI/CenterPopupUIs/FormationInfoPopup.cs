@@ -26,7 +26,7 @@ public class FormationInfoPopup : MonoBehaviour {
     public int curTeamNum;
     // 팀 Set함수
     public System.Action displayteamChanged;
-    public void setTeamIndex(int teamNum)
+    public void SetTeamIndex(int teamNum)
     {
         this.curTeamNum = teamNum;
 
@@ -47,7 +47,7 @@ public class FormationInfoPopup : MonoBehaviour {
     }
     public displayType displaytype;
     // 디스플레이타입 Set함수
-    public void setdisplayType(displayType disType)
+    public void SetdisplayType(displayType disType)
     {
         this.displaytype = disType;
         // 초기화후
@@ -92,7 +92,7 @@ public class FormationInfoPopup : MonoBehaviour {
     }
     public SortType sortType;
     // 정렬상태 Set함수
-    public void setSortType(SortType sortType)
+    public void SetSortType(SortType sortType)
     {
         this.sortType = sortType;
         // 해당하는 소트타입으로 다시 소트해주기
@@ -116,9 +116,9 @@ public class FormationInfoPopup : MonoBehaviour {
 
     private void OnEnable()
     {
-        setTeamIndex(0);
-        setdisplayType(displayType.servant);
-        setSortType(SortType.Power);
+        SetTeamIndex(0);
+        SetdisplayType(displayType.servant);
+        SetSortType(SortType.Power);
     }
     private void OnDisable()
     {
@@ -128,15 +128,15 @@ public class FormationInfoPopup : MonoBehaviour {
     // 버튼 클릭
     public void setServantMode()
     {
-        setdisplayType(displayType.servant);
+        SetdisplayType(displayType.servant);
     }
     public void setMonsterMode()
     {
-        setdisplayType(displayType.monster);
+        SetdisplayType(displayType.monster);
     }
     public void Sortonclick(int sortTypeNum)
     {
-        setSortType((SortType)sortTypeNum);
+        SetSortType((SortType)sortTypeNum);
     }
 }
 
