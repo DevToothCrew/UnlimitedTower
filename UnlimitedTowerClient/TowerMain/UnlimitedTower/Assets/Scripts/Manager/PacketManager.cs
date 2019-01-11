@@ -4,6 +4,8 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
+using Random = UnityEngine.Random;
+
 
 [Serializable]
 public class PacketManager : MonoSingleton<PacketManager> {
@@ -128,7 +130,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
 
 
-#region Response
+    #region Response
 
     public void ResponseLogin(string getLoginInfo)
     {
