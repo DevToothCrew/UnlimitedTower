@@ -45,25 +45,22 @@ public class HeroInfoPopup : MonoBehaviour {
         this.servant = servant;
 
         // 능력치 창
-        powertext.text = ((int)Etc.instance.getatk(servant)).ToString();
-        hptext.text = (int)Etc.instance.getHP(Etc.instance.getstr(servant)) + "";
-        deftext.text = ((int)Etc.instance.getDef(Etc.instance.getdex(servant))).ToString();
-        criProbtext.text = ((int)Etc.instance.getCriticalProb(Etc.instance.getwis(servant))).ToString();
+        powertext.text = ((int)Etc.instance.Getatk(servant)).ToString();
+        hptext.text = (int)Etc.instance.GetHP(servant) + "";
+        deftext.text = ((int)Etc.instance.GetDef(servant)).ToString();
+        criProbtext.text = ((int)Etc.instance.GetCriticalProb(servant)).ToString();
         criValuetext.text = "";
         Speedtext.text = ErdManager.instance.getServantJobEntityTable_nullPossible(servant.jobNum).speed.ToString();
-        strtext.text = ((int)Etc.instance.getstr(servant)).ToString();
-        dextext.text = ((int)Etc.instance.getdex(servant)).ToString();
-        wistext.text = ((int)Etc.instance.getwis(servant)).ToString();
+        strtext.text = ((int)Etc.instance.Getstr(servant)).ToString();
+        dextext.text = ((int)Etc.instance.Getdex(servant)).ToString();
+        wistext.text = ((int)Etc.instance.Getint(servant)).ToString();
         
         // 레벨 이름
         levelText.text = "lv." + servant.level;
         nameText.text = servant.name;
 
-        // 캐릭터 카메라
-        CharCamera.SetActive(true);
-        _CharObj = Instantiate(ErdManager.instance.ServantBodyPrefabs[servant.charNum]);
-        _CharObj.transform.position = CharPos;
-        _CharObj.transform.eulerAngles = new Vector3(0,-160,0);
+        // 캐릭터프리팹
+        SubCamera.instance.Register(servant);
 
         // 무기칸
         foreach (var mountitem in UserDataManager.Inst.mountitemDic.Values)
@@ -121,10 +118,6 @@ public class HeroInfoPopup : MonoBehaviour {
                 break;
             }
         }
-
-
-
-
         
     }
     public void to_deregistered()
@@ -134,13 +127,7 @@ public class HeroInfoPopup : MonoBehaviour {
             return;
         }
         registered = false;
-
-        // 캐릭터 카메라
-        CharCamera.SetActive(false);
-        if (_CharObj != null)
-        {
-            Destroy(_CharObj);
-        }
+        SubCamera.instance.Deregister();
     }
 
 

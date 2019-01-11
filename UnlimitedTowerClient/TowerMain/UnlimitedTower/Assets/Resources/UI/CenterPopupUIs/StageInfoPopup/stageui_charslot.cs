@@ -13,9 +13,15 @@ public class stageui_charslot : MonoBehaviour {
     [SerializeField] Image LefttopImage;
     [SerializeField] Text levelText;
 
+    public GameObject selectedObj;
+
+    //
+    [SerializeField] int formationIndex;
+
+    
     public void to_servant(UserServantData servantdata)
     {
-        initialize();
+        UiInitialize();
 
         charimage.gameObject.SetActive(true);
         charimage.sprite = ErdManager.instance.GetServantIconSprite(servantdata.isLegend, servantdata.charNum, servantdata.jobNum);
@@ -26,7 +32,7 @@ public class stageui_charslot : MonoBehaviour {
     }
     public void to_monster(UserMonsterData monsterdata)
     {
-        initialize();
+        UiInitialize();
 
         MonsterGradeImgage.gameObject.SetActive(true);
         MonsterGradeImgage.sprite = ErdManager.instance.monstergradeIcons[monsterdata.gradeNum];
@@ -42,13 +48,13 @@ public class stageui_charslot : MonoBehaviour {
     }
     public void to_empty()
     {
-        initialize();
+        UiInitialize();
 
         emptyImage.gameObject.SetActive(true);
     }
 
-
-    public void initialize()
+    // 사용되는  UI초기화
+    public void UiInitialize()
     {
         MonsterEnfCountText.gameObject.SetActive(false);
         emptyImage.gameObject.SetActive(false);
@@ -56,5 +62,10 @@ public class stageui_charslot : MonoBehaviour {
         MonsterGradeImgage.gameObject.SetActive(false);
         LefttopImage.gameObject.SetActive(false);
         levelText.gameObject.SetActive(false);
+    }
+
+    public void OnClick()
+    {
+        StageInfoPopup.instance.SetFormationNum(formationIndex);
     }
 }

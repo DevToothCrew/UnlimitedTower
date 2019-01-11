@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Etc : MonoBehaviour
 {
+    public const int MainServantFormationNum = 2;
+
     // singleton
     public static Etc instance;
     private void Awake()
@@ -20,36 +22,36 @@ public class Etc : MonoBehaviour
     }
 
     // 힘 민 지
-    public double getstr(UserServantData servant)
+    public double Getstr(UserServantData servant)
     {
         return servant.status.basicStr + servant.status.plusStr;
     }
-    public double getstr(UserMonsterData monster)
+    public double Getstr(UserMonsterData monster)
     {
         return 0;
     }
 
-    public double getdex(UserServantData servant)
+    public double Getdex(UserServantData servant)
     {
         return servant.status.basicDex + servant.status.plusDex;
     }
-    public double getdex(UserMonsterData monster)
+    public double Getdex(UserMonsterData monster)
     {
         return 0;
     }
 
-    public double getwis(UserServantData servant)
+    public double Getint(UserServantData servant)
     {
         return servant.status.basicInt + servant.status.plusInt;
     }
-    public double getwis(UserMonsterData monster)
+    public double Getint(UserMonsterData monster)
     {
         return 0;
     }
 
 
-    // 생명력 방어력 공격력 치확 치피 속도
-    public double getatk(UserServantData servant)
+    // 공격력 방어력 생명력 치확 치피 속도
+    public double Getatk(UserServantData servant)
     {
         SERVANT_JOB job = (SERVANT_JOB)servant.jobNum;
         int multiplier = 2;
@@ -72,22 +74,55 @@ public class Etc : MonoBehaviour
                 return 0;
         }
     }
-    public double getatk(UserMonsterData monster)
+    public double Getatk(UserMonsterData monster)
     {
         // 아직 미정인상태
         return 0;
     }
-    public double getHP(double str)
+
+    public double GetDef(UserServantData servant)
     {
-        return str * 22d;
+        return servant.status.basicDex;
     }
-    public double getDef(double dex)
+    public double GetDef(UserMonsterData monster)
     {
-        return dex;
+        return monster.status.basicDex;
     }
-    public double getCriticalProb(double wis)
+
+    public double GetHP(UserServantData servant)
     {
-        return wis;
+        return Getstr(servant) * 22d;
+    }
+    public double GetHP(UserMonsterData monster)
+    {
+        return Getstr(monster) * 22d;
+    }
+
+    public double GetCriticalProb(UserServantData servant)
+    {
+        return 20;
+    }
+    public double GetCriticalProb(UserMonsterData servant)
+    {
+        return 20;
+    }
+
+    public double GetCriDmg(UserServantData servant)
+    {
+        return 10;
+    }
+    public double GetCriDmg(UserMonsterData servant)
+    {
+        return 10;
+    }
+
+    public double GetSpd(UserServantData servant)
+    {
+        return 30;
+    }
+    public double GetSpd(UserMonsterData servant)
+    {
+        return 30;
     }
 
 }

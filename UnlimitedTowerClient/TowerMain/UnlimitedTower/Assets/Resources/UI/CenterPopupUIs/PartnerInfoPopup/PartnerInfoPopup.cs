@@ -213,13 +213,13 @@ public class PartnerInfoPopup : MonoBehaviour {
                         {
                             case SlotScript.SlotType.servant:
                                 {
-                                    value = Etc.instance.getatk(slotscript.servant);
+                                    value = Etc.instance.Getatk(slotscript.servant);
                                 }
                                 break;
 
                             case SlotScript.SlotType.monster:
                                 {
-                                    value = Etc.instance.getatk(slotscript.monster);
+                                    value = Etc.instance.Getatk(slotscript.monster);
                                 }
                                 break;
                         }

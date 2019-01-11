@@ -56,6 +56,7 @@ public class ErdManager : MonoBehaviour {
         }
         else
         {
+            Debug.Log(charNum+" "+ jobNum);
             return ServantbodySprite[getServantIconEntityTable_nullPossible(charNum, jobNum).iconNum];
         }
         
@@ -68,6 +69,8 @@ public class ErdManager : MonoBehaviour {
         return ServantJobEntityTable.param.Find((rowdata) => { return rowdata.jobNum == jobNum; });
     }
     public Sprite[] JobIcons;
+
+
 
 
     // ITEM
@@ -114,6 +117,7 @@ public class ErdManager : MonoBehaviour {
 
 
 
+
     // MONSTER
     [Space(10)]
     [Header("MONSTER")]
@@ -128,16 +132,27 @@ public class ErdManager : MonoBehaviour {
         if (param != null)
         {
             return MonsterSprite[param.apearNum];
-
         }
         else
         {
             return null;
         }
-        
     }
-    [SerializeField]  Sprite[] MonsterSprite;
-    
+    [SerializeField] Sprite[] MonsterSprite;
+    public GameObject getMonsterPrefabs(int monsterNum, int typeNum)
+    {
+        MonsterEntity.Param param = getMonsterEntityTable_nullPossible(monsterNum, typeNum);
+        if (param != null)
+        {
+            return MonsterPrefabs[param.apearNum];
+        }
+        else
+        {
+            return null;
+        }
+    }
+    [SerializeField] GameObject[] MonsterPrefabs;
+
     public MonsterEnforceEntity MonsterEnforceEntityTable;    // 
     public MonsterEnforceEntity.Param getMonsterEnforceEntityTable_nullPossible(int gradeNum)
     {
@@ -151,6 +166,7 @@ public class ErdManager : MonoBehaviour {
     }
     public Sprite[] monstergradeIcons;
     
+
 
 
     [Space(10)]
