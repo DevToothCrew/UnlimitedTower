@@ -31,6 +31,15 @@
 #define MONSTER_POSITION_9      5            
 
 
+#define START_ITEM_ID           30001
+#define END_ITEM_ID             30036
+
+#define START_MONSTER_ID        20001
+#define END_MONSTER_ID          20051
+
+#define START_SERVANT_LOOK      10001
+#define END_SERVANT_LOOK        10072
+
 using namespace std;
 using namespace eosio;
 
