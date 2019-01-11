@@ -137,7 +137,7 @@ public class FormationSlot_Bottom : MonoBehaviour {
         if ((slottype == SlotType.servant && GameDataManager.instance.isPlaced(PlayerType.servant,servantdata.index)) ||
             slottype == SlotType.monster && GameDataManager.instance.isPlaced(PlayerType.monster, monsterdata.index))
         {
-            charImage.color = new Color(1f, 1f, 1f, 0.8f);
+            charImage.color = new Color(1f, 1f, 1f, 0.4f);
         }
         // 배치중아님
         else
