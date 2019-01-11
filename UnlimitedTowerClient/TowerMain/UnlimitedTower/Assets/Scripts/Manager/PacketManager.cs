@@ -225,7 +225,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
         LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Login);
     }
 
-    #endregion
+    public void ResponseEnterStage()
+    {
+
+    }
+
+#endregion
 
     #region Function
 
