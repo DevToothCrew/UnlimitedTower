@@ -144,18 +144,18 @@ void unlimitgacha::add_balance(name _user, asset _value, name _ram_payer)
 ACTION unlimitgacha::setdata()
 {
     eosio::require_auth(owner);
-    // auth_users user_auth_table(owner, owner.value);
-    // user_auth_table.emplace(owner, [&](auto &gm_set)
-    // {
-    //     gm_set.user = owner;
-    //     gm_set.state = euser_state::lobby;
+    auth_users user_auth_table(owner, owner.value);
+    user_auth_table.emplace(owner, [&](auto &gm_set)
+    {
+        gm_set.user = owner;
+        gm_set.state = euser_state::lobby;
 
-    //     hero_info first_hero;
-    //     first_hero.equip_slot.resize(max_equip_slot);
-    //     first_hero.state = hero_state::set_complete;
+        hero_info first_hero;
+        first_hero.equip_slot.resize(max_equip_slot);
+        first_hero.state = hero_state::set_complete;
 
-    //     gm_set.hero = first_hero;
-    // });
+        gm_set.hero = first_hero;
+    });
 
     servant_db servant_db_table(owner, owner.value);
     head_db head_db_table(owner, owner.value);
@@ -328,13 +328,6 @@ ACTION unlimitgacha::setpresale()
 void unlimitgacha::presalesign(eosio::name _user)
 {
     auth_users auth_user_table(owner, owner.value);
-    auto owner_iter = auth_user_table.find(owner.value);
-    eosio_assert(owner_iter->state != euser_state::pause," server checking... ");
-
-    black_list black_list_table(owner, owner.value);
-    auto black_list_iter = black_list_table.find(_user.value);
-    eosio_assert(black_list_iter == black_list_table.end(), "this user already exist in black list");
-
     auto new_user_iter = auth_user_table.find(_user.value);
     eosio_assert(new_user_iter == auth_user_table.end(), "exist account");
     auth_user_table.emplace(owner, [&](auto &new_user) {
@@ -394,17 +387,6 @@ void unlimitgacha::presalesign(eosio::name _user)
 void unlimitgacha::signup(eosio::name _user)
 {
     auth_users auth_user_table(owner, owner.value);
-    auto owner_iter = auth_user_table.find(owner.value);
-    eosio_assert(owner_iter->state != euser_state::pause, " server checking... ");
-
-    black_list black_list_table(owner, owner.value);
-    auto black_list_iter = black_list_table.find(_user.value);
-    eosio_assert(black_list_iter == black_list_table.end(), "this user already exist in black list");
-
-    participation_logs participation_log_table(owner, owner.value);
-    auto gacha_participation_iter = participation_log_table.find(owner.value);
-    eosio_assert(gacha_participation_iter == participation_log_table.end(), "need to presale signup");
-
     auto new_user_iter = auth_user_table.find(_user.value);
     eosio_assert(new_user_iter == auth_user_table.end(),"this user already exist");
 
@@ -440,10 +422,10 @@ ACTION unlimitgacha::presalemove(eosio::name _user)
 
     participation_logs participation_log_table(owner, owner.value);
     auto gacha_participation_iter = participation_log_table.find(owner.value);
-    eosio_assert(gacha_participation_iter == participation_log_table.end(), "need to presale signup");
+    eosio_assert(gacha_participation_iter == participation_log_table.end(), "It is still a presale period");
 
     auto pre_user_iter = auth_user_table.find(_user.value);
-    eosio_assert(pre_user_iter != auth_user_table.end(),"need to signup");
+    eosio_assert(pre_user_iter != auth_user_table.end(),"You are not a presales participant");
     eosio_assert(pre_user_iter->state == euser_state::presale,"already move object");
 
     auth_user_table.modify(pre_user_iter, owner, [&](auto &pre_user_move_object)
@@ -512,6 +494,10 @@ ACTION unlimitgacha::eostransfer(eosio::name sender, eosio::name receiver)
         }
         else if (ad.action == action_signup)
         {
+            participation_logs participation_log_table(owner, owner.value);
+            auto gacha_participation_iter = participation_log_table.find(owner.value);
+            eosio_assert(gacha_participation_iter == participation_log_table.end(), "need to presale signup");
+
             signup(sender);
         }
         else if (ad.action == action_presale_signup)
@@ -640,7 +626,7 @@ void unlimitgacha::eosiotoken_transfer(eosio::name sender, eosio::name receiver,
 
         eosio_assert(transfer_data.memo.find(':') != std::string::npos, "seed memo [:] error");
         eosio_assert(transfer_data.memo.find(':', l_center + 1) != std::string::npos, "seed memo [:] error");
-        eosio_assert(transfer_data.quantity.amount == 1, "gacha need 1.0000 EOS"); //test 100
+        eosio_assert(transfer_data.quantity.amount == 10000, "gacha need 1.0000 EOS");
 
         std::string l_seed = transfer_data.memo.substr(l_center + 1, (l_next - l_center - 1));
         std::string l_sha = transfer_data.memo.substr(l_next + 1, l_end);
@@ -674,6 +660,11 @@ void unlimitgacha::eosiotoken_transfer(eosio::name sender, eosio::name receiver,
 ACTION unlimitgacha::initdata()
 {
     eosio::require_auth(owner);
+    auth_users user_auth_table(owner, owner.value);
+    auto owner_iter = user_auth_table.find(owner.value);
+    eosio_assert(owner_iter != user_auth_table.end(),"already data init");
+    user_auth_table.erase(owner_iter);
+
     servant_db servant_db_table(owner, owner.value);
     head_db head_db_table(owner, owner.value);
     hair_db hair_db_table(owner, owner.value);
