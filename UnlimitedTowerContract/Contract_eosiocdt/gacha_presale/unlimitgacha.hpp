@@ -31,7 +31,6 @@ CONTRACT unlimitgacha : public contract
         uint64_t base_dex;
         uint64_t base_int;
     };
-
 #pragma region db dbbody
     TABLE dbbody
     {
@@ -68,46 +67,6 @@ CONTRACT unlimitgacha : public contract
     typedef eosio::multi_index<"dbgender"_n, dbgender> gender_db;
 #pragma endregion
 
-#pragma region db dbservantjob
-    TABLE dbservantjob
-    {
-        uint64_t job;
-        object_status min_range;
-        object_status max_range;
-        uint64_t primary_key() const { return job; }
-    };
-    typedef eosio::multi_index<"dbservantjob"_n, dbservantjob> servant_job_db;
-#pragma endregion
-
-#pragma region db dbservantid
-    TABLE dbservantid
-    {
-        uint64_t id;
-        uint64_t primary_key() const { return id; }
-    };
-    typedef eosio::multi_index<"dbservantid"_n, dbservantid> servant_id_db;
-#pragma endregion
-
-#pragma region db dbmonstergd
-    TABLE dbmonstergd
-    {
-        uint64_t grade;
-        object_status min_range;
-        object_status max_range;
-        uint64_t primary_key() const { return grade; }
-    };
-    typedef eosio::multi_index<"dbmonstergd"_n, dbmonstergd> monster_grade_db;
-#pragma endregion
-
-#pragma region db dbmonsterid
-    TABLE dbmonsterid
-    {
-        uint64_t id;
-        uint64_t primary_key() const { return id; }
-    };
-    typedef eosio::multi_index<"dbmonsterid"_n, dbmonsterid> monster_id_db;
-#pragma endregion
-
 #pragma region db dbitemgrade
     TABLE dbitemgrade
     {
@@ -131,8 +90,59 @@ CONTRACT unlimitgacha : public contract
     typedef eosio::multi_index<"dbitemid"_n, dbitemid> item_id_db;
 #pragma endregion
 
+#pragma region db dbmonstergd
+    TABLE dbmonstergd
+    {
+        uint64_t grade;
+        object_status min_range;
+        object_status max_range;
+        uint64_t primary_key() const { return grade; }
+    };
+    typedef eosio::multi_index<"dbmonstergd"_n, dbmonstergd> monster_grade_db;
+#pragma endregion
 
+#pragma region db dbmonsterid
+    TABLE dbmonsterid
+    {
+        uint64_t id;
+        uint64_t primary_key() const { return id; }
+    };
+    typedef eosio::multi_index<"dbmonsterid"_n, dbmonsterid> monster_id_db;
+#pragma endregion
 
+#pragma region db dbservantjob
+    TABLE dbservantjob
+    {
+        uint64_t job;
+        object_status min_range;
+        object_status max_range;
+        uint64_t primary_key() const { return job; }
+    };
+    typedef eosio::multi_index<"dbservantjob"_n, dbservantjob> servant_job_db;
+#pragma endregion
+
+#pragma region db dbservantid
+    TABLE dbservantid
+    {
+        uint64_t id;
+        uint64_t primary_key() const { return id; }
+    };
+    typedef eosio::multi_index<"dbservantid"_n, dbservantid> servant_id_db;
+#pragma endregion
+
+enum db_choice
+{
+    job =1, 
+    body,
+    hair,
+    gender,
+    servant_id,
+    item_id,
+    item_grade,
+    monster_id,
+    monster_grade
+
+}
 
     //------------------------------------------------------------------------//
     //----------------------------db_system-----------------------------------//
@@ -149,18 +159,55 @@ CONTRACT unlimitgacha : public contract
     const uint8_t head_count = 3;
     const uint8_t hair_count = 3;
     const uint8_t body_count = 4;
+    const uint8_t gender_count = 2;
     uint32_t random_count = 0;
 #pragma endregion
 
   public:
 #pragma region db action
-    ACTION setmaster();
-    ACTION initmaster();
+    ACTION setdata();
+    ACTION initdata();
     ACTION setpresale();
+    ACTION dbinsert();
+    ACTION dbmodify();
+    ACTION dbdelete();
 #pragma endregion
 
   public:
 #pragma region db function
+
+    void insert_job(uint32_t _job);
+    void insert_head(uint32_t _appear);
+    void insert_hair(uint32_t _appear);
+    void insert_body(uint32_t _appear);
+    void insert_gender(uint32_t _appear);
+    void insert_servant(uint32_t _id);
+    void insert_monster_id(uint32_t _id);
+    void insert_monster_grade(uint _grade, uint32_t _min, uint32_t _max);
+    void insert_item_id(uint32_t id, uint32_t type, uint32_t _job, uint32_t tier);
+    void insert_item_grade(uint32_t _grade, uint32_t _min, uint32_t _max); 
+
+    void modify_job(uint32_t _job);
+    void modify_head(uint32_t _appear);
+    void modify_hair(uint32_t _appear);
+    void modify_body(uint32_t _appear);
+    void modify_gender(uint32_t _appear);
+    void modify_servant(uint32_t _id);
+    void modify_monster_id(uint32_t _id);
+    void modify_monster_grade(uint _grade, uint32_t _min, uint32_t _max);
+    void modify_item_id(uint32_t id, uint32_t type, uint32_t _job, uint32_t tier);
+    void modify_item_grade(uint32_t _grade, uint32_t _min, uint32_t _max); 
+
+    void delete_job(uint32_t _job);
+    void delete_head(uint32_t _appear);
+    void delete_hair(uint32_t _appear);
+    void delete_body(uint32_t _appear);
+    void delete_gender(uint32_t _appear);
+    void delete_servant(uint32_t _id);
+    void delete_monster_id(uint32_t _id);
+    void delete_monster_grade(uint _grade, uint32_t _min, uint32_t _max);
+    void delete_item_id(uint32_t id, uint32_t type, uint32_t _job, uint32_t tier);
+    void delete_item_grade(uint32_t _grade, uint32_t _min, uint32_t _max); 
 
 #pragma endregion
 
@@ -203,6 +250,7 @@ CONTRACT unlimitgacha : public contract
     ACTION issue(name _to, asset _quantity, string _memo);
     ACTION tokentrans(name _from, name _to, asset _quantity, string _memo);
     ACTION inittoken(asset _token);
+    ACTION dbinsert(uint64_t _kind, uint64_t _appear, uint64_t _id, uint64_t _job, uint64_t _tier, uint64 _type, uint64_t _grade);
 #pragma endregion
 
 
@@ -371,8 +419,7 @@ CONTRACT unlimitgacha : public contract
 #pragma region gacha function
     uint32_t get_random_grade(uint64_t _rate);
 
-    uint32_t get_servant_id(uint32_t _job, uint32_t _body, uint32_t _gender, uint32_t _head, uint32_t _hair);
-    void gacha_servant_id(eosio::name _user, uint64_t _seed);
+    void gacha_servant_job(eosio::name _user, uint64_t _seed);
     uint8_t gacha_servant_head(uint64_t _seed, uint32_t _count);
     uint8_t gacha_servant_hair(uint64_t _seed, uint32_t _count);
     uint8_t gacha_servant_body(uint64_t _seed, uint32_t _count);
@@ -383,7 +430,7 @@ CONTRACT unlimitgacha : public contract
 
     void start_gacha(eosio::name _user, uint64_t _seed);
 //-----------------------------pre_sale_function--------------------------------//
-    void presale_gacha_servant_id(eosio::name _user, uint64_t _seed);
+    void presale_gacha_servant_job(eosio::name _user, uint64_t _seed);
     void presale_gacha_monster_id(eosio::name _user, uint64_t _seed);
     void presale_gacha_item_id(eosio::name _user, uint64_t _seed);
 
@@ -603,6 +650,7 @@ ACTION addblack(eosio::name _user);
     //---------------------------------owner_system---------------------------//
     //------------------------------------------------------------------------//
 ACTION setpause(uint64_t _state);
+
 
 
 };
