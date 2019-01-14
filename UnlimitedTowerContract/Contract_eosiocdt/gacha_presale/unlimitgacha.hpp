@@ -170,7 +170,7 @@ enum db_choice
     ACTION setpresale();
     ACTION dbinsert();
     ACTION dbmodify();
-    ACTION dbdelete();
+    ACTION dberase();
 #pragma endregion
 
   public:
@@ -192,22 +192,22 @@ enum db_choice
     void modify_hair(uint32_t _appear);
     void modify_body(uint32_t _appear);
     void modify_gender(uint32_t _appear);
-    void modify_servant(uint32_t _id);
+    void modify_servant_id(uint32_t _id);
     void modify_monster_id(uint32_t _id);
     void modify_monster_grade(uint _grade, uint32_t _min, uint32_t _max);
     void modify_item_id(uint32_t id, uint32_t type, uint32_t _job, uint32_t tier);
     void modify_item_grade(uint32_t _grade, uint32_t _min, uint32_t _max); 
 
-    void delete_job(uint32_t _job);
-    void delete_head(uint32_t _appear);
-    void delete_hair(uint32_t _appear);
-    void delete_body(uint32_t _appear);
-    void delete_gender(uint32_t _appear);
-    void delete_servant(uint32_t _id);
-    void delete_monster_id(uint32_t _id);
-    void delete_monster_grade(uint _grade, uint32_t _min, uint32_t _max);
-    void delete_item_id(uint32_t id, uint32_t type, uint32_t _job, uint32_t tier);
-    void delete_item_grade(uint32_t _grade, uint32_t _min, uint32_t _max); 
+    void erase_job(uint32_t _job);
+    void erase_head(uint32_t _appear);
+    void erase_hair(uint32_t _appear);
+    void erase_body(uint32_t _appear);
+    void erase_gender(uint32_t _appear);
+    void erase_servant_id(uint32_t _id);
+    void erase_monster_id(uint32_t _id);
+    void erase_monster_grade(uint _grade);
+    void erase_item_id(uint32_t id, uint32_t type, uint32_t _job, uint32_t tier);
+    void erase_item_grade(uint32_t _grade);
 
 #pragma endregion
 
