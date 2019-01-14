@@ -137,14 +137,12 @@ public class UserServantData
 
     // 영웅서번트인지 아닌지
     public bool isLegend;
-    public int LegendServantNum;
 
     public string name;
 
     // TODO : Servant별 State 추가 필요
     public int exp;
     public int level;
-    public bool isjobHas;
     public int jobNum;
 
     // 현재는 appear를 통해 간단히 사용하고 추후 appearInfo와 job을 통해 캐릭터 생성이 되어야함
@@ -276,7 +274,25 @@ public class UserMountItemData
     public int tearNum;
     public int enforceCount;
 
-    public bool isMounted;
+    bool IsMounted;
+    public bool isMounted
+    {
+        get
+        {
+            return IsMounted;
+        }
+        set
+        {
+            IsMounted = value;
+
+            if (mountedChanged != null)
+            {
+                mountedChanged();
+            }
+        }
+    }
+    public System.Action mountedChanged;
+
     public int mountServantIndex;
 }
 [System.Serializable]

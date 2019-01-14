@@ -36,19 +36,6 @@ public class UserDataManager : MonoSingleton<UserDataManager>
             Debug.Log("Invalid SetServant Info : " + getServant.index);
         }
     }
-    public void addMonsterData(UserMonsterData getMonster)
-    {
-        if (monsterDic.ContainsKey(getMonster.index) == false)
-        {
-            monsterDic.Add(getMonster.index, getMonster);
-            MonsterList.Add(getMonster);
-        }
-        else
-        {
-            Debug.Log("Invalid SetMonster Info : " + getMonster.index);
-        }
-    }
-
     public void removeServantData(int index)
     {
         if (servantDic.ContainsKey(index))
@@ -60,6 +47,19 @@ public class UserDataManager : MonoSingleton<UserDataManager>
             {
                 ServantList.Remove(servData);
             }
+        }
+    }
+
+    public void addMonsterData(UserMonsterData getMonster)
+    {
+        if (monsterDic.ContainsKey(getMonster.index) == false)
+        {
+            monsterDic.Add(getMonster.index, getMonster);
+            MonsterList.Add(getMonster);
+        }
+        else
+        {
+            Debug.Log("Invalid SetMonster Info : " + getMonster.index);
         }
     }
     public void removeMonsterData(int index)
@@ -75,6 +75,29 @@ public class UserDataManager : MonoSingleton<UserDataManager>
             }
         }
     }
+
+    public void addMountitemData(UserMountItemData mountitemdata)
+    {
+        MountItemList.Add(mountitemdata);
+        mountitemDic.Add(mountitemdata.index, mountitemdata);
+    }
+    public void removeMountiemData(UserMountItemData mountitemdata)
+    {
+        // list
+        if (MountItemList.Contains(mountitemdata))
+        {
+            MountItemList.Remove(mountitemdata);
+        }
+        // dictionary
+        if (mountitemDic.ContainsKey(mountitemdata.index))
+        {
+            mountitemDic.Remove(mountitemdata.index);
+        }
+
+    }
+    
+
+
 
     public UserServantData GetServantInfo(int index)
     {

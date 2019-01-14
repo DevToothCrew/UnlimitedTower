@@ -340,6 +340,19 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 monsterdata.gradeNum = UnityEngine.Random.Range(0, 4);
             }
 
+            // 아이템 생성
+            for (int i = 0; i < 9; i++)
+            {
+                UserMountItemData item = new UserMountItemData();
+                item.index = i;
+                item.mountitemNum = Random.Range(0, 7);
+                item.tearNum = Random.Range(0, 4);
+                item.enforceCount = Random.Range(0, 4);
+
+                UserDataManager.Inst.addMountitemData(item);
+            }
+             
+
             // 배치 데이터 생성
             int maxteamindex = 3;
             for (int teamindex = 0; teamindex <= maxteamindex; teamindex++)
@@ -553,9 +566,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         UserMonsterData monster = new UserMonsterData();
 
-        monster.monsterNum = getMonsterInfo.look;
-
         monster.index = getMonsterIndex;
+
+        monster.monsterNum = getMonsterInfo.look;
+        monster.name = getMonsterInfo.name;
+
         monster.exp = getMonsterInfo.exp;
         // TODO : 추후 Servant Exp에 따른 Level 공식을 추가해 레벨 적용 필요
         monster.level = Calculator.GetLevelForExp(getMonsterInfo.exp);

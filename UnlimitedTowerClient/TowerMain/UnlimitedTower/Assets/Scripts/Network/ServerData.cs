@@ -20,17 +20,27 @@ public class statusInfo
     public int plus_str = 0;
     public int plus_dex = 0;
     public int plus_int = 0;
+
+    //
+    //
+    //
+    //
+    //
 };
 
 [Serializable]
 public class servantInfo
 {
-    public int state;
-    public int exp;
-    public int job;
-    public int stat_point;
+    public int state;   // state 의미를 모르겠습니다.
+    public int exp;     // 
+    public int job;     // 
+    public int stat_point;      
     public bool onformation;
     public int formationindex;
+
+
+    // public bool isLegend;
+    // 
 
     public bool isMainServant;
 
@@ -39,31 +49,47 @@ public class servantInfo
     public List<int> equip_slot = new List<int>();
 };
 
+// 
 [Serializable]
 public class monsterInfo
 {
-    public int state;
-    public int exp;
     public int type;
     public int look;
+    
+    public int state;   // state가 뭔지 모르겠습니다
+
+    public string name;
+
+
+    public int exp;     
+    //public int level;
+
     public int grade;
     public int upgrade;
     public statusInfo status = new statusInfo();
 }
 
+
+// 보유아이템테이블과 아이템고유정보테이블이 섞여있음
 [Serializable]
 public class itemInfo
 {
-    public int state;
-    public int id;
-    public int slot;
-    public int tier;
-    public int job;
-    public int grade;
+    // 보유아이템 정보
+    public int state;       // state가 뭔지 모르겠습니다.
+    public int id;          // id가 뭔지 모르겠습니다.
+    public int slot;        // slot은 뭔가요?
     public int upgrade;
-    public int atk;
-    public int def;
-    public statusInfo status = new statusInfo();
+    //public int itemNum;
+    
+    // 아이템 고유정보인데 보유아이템클래스에 있음.
+    // 아이템 고유정보 테이블에서 인덱스만 갖고있으면 될것
+    public int tier;        // 
+    public int job;         
+    public int grade;       
+    
+    public int atk;         // atk
+    public int def;         // def
+    public statusInfo status = new statusInfo();    // statusinfo에 힘 민 지 3개가있던데, 다른 아이템이 다른능력치를 올려줄수도있다고 하셨었습니다.
 }
 
 //add by canie
