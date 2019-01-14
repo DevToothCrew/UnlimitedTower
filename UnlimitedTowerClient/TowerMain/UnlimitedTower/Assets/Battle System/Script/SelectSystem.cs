@@ -3,19 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SelectSystem : MonoBehaviour
+public class SelectSystem : MonoSingleton<SelectSystem>
 {
     public CheckSelectAnimation[] chsing = new CheckSelectAnimation[20];
     public int selectIndex = -1;
     public bool isPlayer;
     public Image selectHpBar;
     public Text selectHpText;
+    public Image selectCharacterImage;
     private RaycastHit hit;
     private Ray ray;
     private CheckSelectAnimation temp;
 
     private void Start()
     {
+        selectCharacterImage = GameObject.Find("Character Portrait Image").GetComponent<Image>();
         for (int i = 0; i < 10; i++)
         {
             chsing[i] = BattleSystem.Inst.PlayerCharacterControl[i].select.GetComponent<CheckSelectAnimation>();
@@ -27,7 +29,8 @@ public class SelectSystem : MonoBehaviour
         selectHpBar = GameObject.Find("Hp Bar").GetComponent<Image>();
         selectHpText = GameObject.Find("Hp Text").GetComponent<Text>();
     }
-
+    
+    // 추후 최적화 작업, timeScale도 바꿔야함
     void Update()
     {
         if (BattleSystem.Inst.TimeScale != 0)
@@ -84,6 +87,7 @@ public class SelectSystem : MonoBehaviour
                     selectHpBar.fillAmount = (float)BattleSystem.Inst.EnemyCharacterControl[selectIndex - 10].NowHp / BattleSystem.Inst.EnemyCharacterControl[selectIndex - 10].MaxHp;
                     selectHpText.text = BattleSystem.Inst.EnemyCharacterControl[selectIndex - 10].NowHp.ToString();
                 }
+                selectCharacterImage.sprite = BattleSystem.Inst.prefabList.prefabList[201 + selectIndex].sprite;
             }
         }
     }

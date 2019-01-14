@@ -28,8 +28,6 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
 
     public void DamageShow(int target, bool isPlayer, int damage, bool isCritical)
     {
-        Debug.Log(damage);
-        Debug.Log(damage % 10);
         numberIndex[0] = damage % 10;
         numberIndex[1] = (damage % 100 - numberIndex[0]) / 10;
         numberIndex[2] = (damage % 1000 - numberIndex[0] - numberIndex[1] * 10) / 100;

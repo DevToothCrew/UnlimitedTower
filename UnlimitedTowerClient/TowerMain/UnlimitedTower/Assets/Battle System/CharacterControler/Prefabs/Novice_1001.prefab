@@ -1336,6 +1336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isOneDeal: 0
   Arrow: {fileID: 0}
+  effect: {fileID: 0}
 --- !u!114 &114098200318002682
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1349,7 +1350,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackDelay: 0.44
   AttackAfterDelay: 1.5
-  Height: 0.8
+  Height: 1.2
 --- !u!114 &114373793897244822
 MonoBehaviour:
   m_ObjectHideFlags: 1

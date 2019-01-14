@@ -5,11 +5,13 @@ using UnityEngine;
 public class DefaultAttack : MonoBehaviour {
     public bool isOneDeal;
     public GameObject Arrow;
+    public GameObject effect;
     private CharacterInformation characterInformation;
     private Animator ani;
 
     private void Start()
     {
+        effect = BattleSystem.Inst.testEffect;
         ani = GetComponent<Animator>();
         characterInformation = GetComponent<CharacterInformation>();
     }
@@ -38,7 +40,7 @@ public class DefaultAttack : MonoBehaviour {
             target = BattleSystem.Inst.PlayerCharacter[sendValue.Target].transform;
         }
 
-        float MoveSpeed = (Vector3.Distance(attacker.position, target.position) - 0.5f) * 0.01f;
+        float MoveSpeed = (Vector3.Distance(attacker.position, target.position) - 0.7f) * 0.01f;
         attacker.LookAt(target);
         ani.SetTrigger("isRun");
 
@@ -51,10 +53,15 @@ public class DefaultAttack : MonoBehaviour {
         ani.SetTrigger("isAttack");
 
         yield return new WaitForSeconds(characterInformation.AttackDelay);
+        
+        DamageTextSystem.Inst.DamageShow(sendValue.Target, !sendValue.isPlayer, sendValue.Damage, Random.Range(0,2) == 0 ? true : false);
 
-        int j = Random.Range(50000, 100000);
-        Debug.Log(j);
-        DamageTextSystem.Inst.DamageShow(sendValue.Target, !sendValue.isPlayer, j, Random.Range(0,2) == 0 ? true : false);
+        if (sendValue.isPlayer)
+            Instantiate(effect, BattleSystem.Inst.EnemyCharacter[sendValue.Target].transform.position +
+                new Vector3(0, BattleSystem.Inst.EnemyCharacter[sendValue.Target].transform.GetChild(0).GetComponent<CharacterInformation>().Height * 0.3f, 0), transform.rotation);
+        else
+            Instantiate(effect, BattleSystem.Inst.PlayerCharacter[sendValue.Target].transform.position +
+                new Vector3(0, BattleSystem.Inst.PlayerCharacter[sendValue.Target].transform.GetChild(0).GetComponent<CharacterInformation>().Height * 0.3f, 0), transform.rotation);
 
         target.GetChild(0).GetComponent<Animator>().SetTrigger("isHit");
 

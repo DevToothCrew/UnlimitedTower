@@ -25,6 +25,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     public CharacterControl[] EnemyCharacterControl = new CharacterControl[10];
 
     public int TimeScale = 1;
+    public GameObject testEffect;
 
     private int[] positionOrder = { 2, 1, 3, 0, 4, 7, 6, 8, 5, 9 };
 
@@ -43,10 +44,8 @@ public class BattleSystem : MonoSingleton<BattleSystem>
 
         for (int i = 0; i < 10; i++)
         {
+            if (i > 4)
             Instantiate(prefabList.prefabList[201 + i].Prefab, PlayerCharacter[i].transform);
-        }
-        for (int i = 0; i < 10; i++)
-        {
             Instantiate(prefabList.prefabList[211 + i].Prefab, EnemyCharacter[i].transform);
         }
 
@@ -138,7 +137,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                 battleInformation.AttackerIndex = Random.Range(0, 10);
                 battleInformation.TargetIndex = Random.Range(0, 10);
             }
-            PlayerCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(battleInformation.AttackerIndex, battleInformation.TargetIndex, true));
+            PlayerCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(battleInformation.AttackerIndex, battleInformation.TargetIndex, true, Random.Range(1000, 2000)));
             yield return new WaitForSeconds(7);
 
             battleInformation.isPlayerTurn = false;
@@ -149,7 +148,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                 battleInformation.AttackerIndex = Random.Range(0, 10);
                 battleInformation.TargetIndex = Random.Range(0, 10);
             }
-            EnemyCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(battleInformation.AttackerIndex, battleInformation.TargetIndex, false));
+            EnemyCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(battleInformation.AttackerIndex, battleInformation.TargetIndex, false, Random.Range(1000, 2000)));
             yield return new WaitForSeconds(7);
         }
     }

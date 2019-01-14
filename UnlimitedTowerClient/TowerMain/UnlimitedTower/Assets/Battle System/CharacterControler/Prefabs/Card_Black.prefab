@@ -1320,7 +1320,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackDelay: 0.5
   AttackAfterDelay: 1
-  Height: 1
+  Height: 1.5
 --- !u!114 &114551481113342672
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1334,6 +1334,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isOneDeal: 0
   Arrow: {fileID: 0}
+  effect: {fileID: 0}
 --- !u!137 &137068318641565860
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

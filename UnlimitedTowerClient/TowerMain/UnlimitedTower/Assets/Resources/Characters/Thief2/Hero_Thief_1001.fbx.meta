@@ -1,0 +1,203 @@
+fileFormatVersion: 2
+guid: 623f92771df918b438978099585408e8
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: foot_L
+    100002: foot_R
+    100004: forearm_L
+    100006: forearm_R
+    100008: hand_L
+    100010: hand_R
+    100012: heel_02_L
+    100014: heel_02_R
+    100016: //RootNode
+    100018: hero_thief_1001
+    100020: hero_thief_1001_002
+    100022: hero_thief_1001_003
+    100024: hero_thief_1001_004
+    100026: hero_thief_1001_005
+    100028: hero_thief_1001_006
+    100030: hero_thief_1001_007
+    100032: hero_thief_1001_008
+    100034: hero_thief_1001_009
+    100036: hero_thief_1001_010
+    100038: hero_thief_1001_011
+    100040: hero_thief_1001_012
+    100042: hero_thief_1001_014
+    100044: hero_thief_1001_015
+    100046: hero_thief_1001_016
+    100048: metarig
+    100050: shin_L
+    100052: shin_R
+    100054: shoulder_L
+    100056: shoulder_R
+    100058: spine
+    100060: spine_001
+    100062: spine_002
+    100064: spine_003
+    100066: spine_004
+    100068: spine_005
+    100070: spine_006
+    100072: thigh_L
+    100074: thigh_R
+    100076: toe_L
+    100078: toe_R
+    100080: upper_arm_L
+    100082: upper_arm_R
+    400000: foot_L
+    400002: foot_R
+    400004: forearm_L
+    400006: forearm_R
+    400008: hand_L
+    400010: hand_R
+    400012: heel_02_L
+    400014: heel_02_R
+    400016: //RootNode
+    400018: hero_thief_1001
+    400020: hero_thief_1001_002
+    400022: hero_thief_1001_003
+    400024: hero_thief_1001_004
+    400026: hero_thief_1001_005
+    400028: hero_thief_1001_006
+    400030: hero_thief_1001_007
+    400032: hero_thief_1001_008
+    400034: hero_thief_1001_009
+    400036: hero_thief_1001_010
+    400038: hero_thief_1001_011
+    400040: hero_thief_1001_012
+    400042: hero_thief_1001_014
+    400044: hero_thief_1001_015
+    400046: hero_thief_1001_016
+    400048: metarig
+    400050: shin_L
+    400052: shin_R
+    400054: shoulder_L
+    400056: shoulder_R
+    400058: spine
+    400060: spine_001
+    400062: spine_002
+    400064: spine_003
+    400066: spine_004
+    400068: spine_005
+    400070: spine_006
+    400072: thigh_L
+    400074: thigh_R
+    400076: toe_L
+    400078: toe_R
+    400080: upper_arm_L
+    400082: upper_arm_R
+    2100000: palette_005__hero_thief_1001_png
+    2100002: palette_006__hero_thief_1001_png_001
+    4300000: hero_thief_1001_009
+    4300002: hero_thief_1001_010
+    4300004: hero_thief_1001_005
+    4300006: hero_thief_1001_006
+    4300008: hero_thief_1001_002
+    4300010: hero_thief_1001_014
+    4300012: hero_thief_1001
+    4300014: hero_thief_1001_003
+    4300016: hero_thief_1001_012
+    4300018: hero_thief_1001_015
+    4300020: hero_thief_1001_011
+    4300022: hero_thief_1001_007
+    4300024: hero_thief_1001_008
+    4300026: hero_thief_1001_004
+    4300028: hero_thief_1001_016
+    7400000: Default Take
+    9500000: //RootNode
+    13700000: hero_thief_1001
+    13700002: hero_thief_1001_002
+    13700004: hero_thief_1001_003
+    13700006: hero_thief_1001_004
+    13700008: hero_thief_1001_005
+    13700010: hero_thief_1001_006
+    13700012: hero_thief_1001_007
+    13700014: hero_thief_1001_008
+    13700016: hero_thief_1001_009
+    13700018: hero_thief_1001_010
+    13700020: hero_thief_1001_011
+    13700022: hero_thief_1001_012
+    13700024: hero_thief_1001_014
+    13700026: hero_thief_1001_015
+    13700028: hero_thief_1001_016
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

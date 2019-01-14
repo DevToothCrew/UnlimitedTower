@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterControl : MonoBehaviour {
+public class CharacterControl : MonoBehaviour
+{
     public GameObject child;
     public BoxCollider checkBox;
     public GameObject select;
@@ -27,6 +28,7 @@ public class CharacterControl : MonoBehaviour {
             {
                 child.GetComponent<Animator>().SetTrigger("isDie");
                 isDie = true;
+                // DieCameraMove.Inst.Test(index, isPlayer);
             }
         }
     }
@@ -34,7 +36,7 @@ public class CharacterControl : MonoBehaviour {
     private void OnEnable()
     {
         if (transform.childCount != 0)
-        select = transform.GetChild(0).GetChild(0).gameObject;
+            select = transform.GetChild(0).GetChild(0).gameObject;
         checkBox = GetComponent<BoxCollider>();
         if (transform.childCount != 0)
             child = transform.GetChild(0).gameObject;
@@ -43,5 +45,17 @@ public class CharacterControl : MonoBehaviour {
     public void Attack(SendValue sendValue)
     {
         child.SendMessage("Attack", sendValue);
+        if (isPlayer)
+        {
+            if (BattleSystem.Inst.EnemyCharacterControl[sendValue.Target].NowHp - sendValue.Damage <= 0)
+            {
+                DieCameraMove.Inst.Test(sendValue.Target, !isPlayer);
+            }
+        }
+        else if (BattleSystem.Inst.PlayerCharacterControl[sendValue.Target].NowHp - sendValue.Damage <= 0)
+        {
+            DieCameraMove.Inst.Test(sendValue.Target, !isPlayer);
+        }
+
     }
 }
