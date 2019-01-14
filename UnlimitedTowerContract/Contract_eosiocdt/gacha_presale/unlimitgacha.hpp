@@ -59,6 +59,15 @@ CONTRACT unlimitgacha : public contract
     typedef eosio::multi_index<"dbhead"_n, dbhead> head_db;
 #pragma endregion
 
+#pragma region db dbgender
+    TABLE dbgender
+    {
+        uint64_t gender;
+        uint64_t primary_key() const { return gender; }
+    };
+    typedef eosio::multi_index<"dbgender"_n, dbgender> gender_db;
+#pragma endregion
+
 #pragma region db dbitemgrade
     TABLE dbitemgrade
     {
@@ -74,7 +83,7 @@ CONTRACT unlimitgacha : public contract
     TABLE dbitemid
     {
         uint64_t id;
-        uint64_t slot;
+        uint64_t type;
         uint64_t job;
         uint64_t tier;
         uint64_t primary_key() const { return id; }
@@ -82,36 +91,44 @@ CONTRACT unlimitgacha : public contract
     typedef eosio::multi_index<"dbitemid"_n, dbitemid> item_id_db;
 #pragma endregion
 
-
-#pragma region db dbmgrade
-    TABLE dbmgrade
+#pragma region db dbmonstergd
+    TABLE dbmonstergd
     {
-        uint64_t monster_grade;
+        uint64_t grade;
         object_status min_range;
         object_status max_range;
-        uint64_t primary_key() const { return monster_grade; }
+        uint64_t primary_key() const { return grade; }
     };
-    typedef eosio::multi_index<"dbmgrade"_n, dbmgrade> monster_grade_db;
+    typedef eosio::multi_index<"dbmonstergd"_n, dbmonstergd> monster_grade_db;
 #pragma endregion
 
 #pragma region db dbmonsterid
     TABLE dbmonsterid
     {
-        uint64_t look;
-        uint64_t primary_key() const { return look; }
+        uint64_t id;
+        uint64_t primary_key() const { return id; }
     };
     typedef eosio::multi_index<"dbmonsterid"_n, dbmonsterid> monster_id_db;
 #pragma endregion
 
-#pragma region db dbservant
-    TABLE dbservant
+#pragma region db dbservantjob
+    TABLE dbservantjob
     {
         uint64_t job;
         object_status min_range;
         object_status max_range;
         uint64_t primary_key() const { return job; }
     };
-    typedef eosio::multi_index<"dbservant"_n, dbservant> servant_db;
+    typedef eosio::multi_index<"dbservantjob"_n, dbservantjob> servantjob_db;
+#pragma endregion
+
+#pragma region db dbservantid
+    TABLE dbservantid
+    {
+        uint64_t id;
+        uint64_t primary_key() const { return id; }
+    };
+    typedef eosio::multi_index<"dbservantid"_n, dbservantid> servantid_db;
 #pragma endregion
 
     //------------------------------------------------------------------------//
@@ -218,11 +235,10 @@ CONTRACT unlimitgacha : public contract
 #pragma region gacha tservant
     struct servant_info
     {
+        uint32_t id;
         uint32_t state;                   //서번트 상태
         uint32_t exp = 0;                 //서번트 경험치
-        uint32_t job;   
         uint32_t stat_point = 0;
-        appear_info appear;               //서번트 외형 정보
         status_info status;               //기본 힘,민,지 추가 힘,민,지
         std::vector<uint32_t> equip_slot; //서번트 장비 리스트
     };
@@ -241,10 +257,10 @@ CONTRACT unlimitgacha : public contract
 #pragma region gacha tmonster
     struct monster_info
     {
+        uint32_t id;
         uint32_t state;    //몬스터 상태값
-        uint32_t exp = 0;  //경험치
-        uint32_t type = 0; //속성 타입
-        uint32_t look;
+        uint32_t exp = 0;       //경험치
+        uint32_t type = 0;     //속성 타입
         uint32_t grade;       // 등급
         uint32_t upgrade = 0; //강화수치
         status_info status;   //기본 힘,민,지 추가 힘,민,지
@@ -264,9 +280,9 @@ CONTRACT unlimitgacha : public contract
 #pragma region gacha titem
     struct item_info
     {
-        uint32_t state;       //아이템 현재 상태
         uint32_t id;          //아이템 리소스 아이디
-        uint32_t slot;        //장착 타입
+        uint32_t state;       //아이템 현재 상태
+        uint32_t type;        //장착 타입
         uint32_t tier;        //티어
         uint32_t job;         //직업제한
         uint32_t grade;       //아이템 등급
