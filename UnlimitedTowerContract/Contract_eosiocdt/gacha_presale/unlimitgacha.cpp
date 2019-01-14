@@ -135,13 +135,538 @@ void unlimitgacha::add_balance(name _user, asset _value, name _ram_payer)
 }
 
 #pragma endregion
+//------------------------------------------------------------------------//
+//----------------------------------db_action-----------------------------//
+//------------------------------------------------------------------------//
+
+#pragma region db_insert action 
+
+ACTION unlimitgacha::dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max)
+{
+  require_auth(owner);
+  switch(_kind){
+      case db_choice::job:
+      {
+          insert_job(_job,_min,_max);
+          break;
+      }
+      case db_choice::body:
+      {
+          insert_body(_appear);
+          break;
+      }
+      case db_choice::hair:
+      {
+          insert_hair(_appear);
+          break;
+      }
+      case db_choice::head:
+      {
+          insert_head(_appear);
+          break;
+      }
+     case db_choice::gender:
+      {
+          insert_gender(_appear);
+          break;
+      }
+      case db_choice::servant_id:
+      {
+          insert_servant_id(_id);
+          break;
+      }
+      case db_choice::monster_id:
+      {
+          insert_monster_id(_id);
+          break;
+      }
+      case db_choice::monster_grade:
+      {
+          insert_monster_grade(_grade,_min,_max);
+          break;
+      }
+      case db_choice::item_id:
+      {
+          insert_item_id(_id,_type,_job,_tier);
+          break;
+      }
+      case db_choice::item_grade:
+      {
+          insert_item_grade(_grade,_min,_max);
+          break;
+      }
+    
+
+  }
+}
+void unlimitgacha::insert_job(uint32_t _job,uint32_t _min, uint32_t _max)
+{
+   servant_job_db servant_job_db_table(owner, owner.value);
+   servant_job_db_table.emplace(owner, [&](auto &new_job)
+   {
+       new_job.job = _job;
+        new_job.min_range.base_str = _min;
+        new_job.min_range.base_dex = _min;
+        new_job.min_range.base_int = _min;
+
+        new_job.max_range.base_str = _max;
+        new_job.max_range.base_dex = _max;
+        new_job.max_range.base_int = _max;
+   });
+}
+
+void unlimitgacha::insert_body(uint32_t _appear)
+{
+   body_db body_db_table(owner, owner.value);
+   body_db_table.emplace(owner, [&](auto &new_body)
+   {
+       new_body.body = _appear;
+   });
+}
+
+void unlimitgacha::insert_hair(uint32_t _appear)
+{
+    hair_db hair_db_table(owner, owner.value);
+    hair_db_table.emplace(owner, [&](auto &new_hair)
+    {
+        new_hair.hair = _appear;
+    });
+}
+void unlimitgacha::insert_head(uint32_t _appear)
+{
+    head_db head_db_table(owner, owner.value);
+    head_db_table.emplace(owner, [&](auto &new_head)
+    {
+        new_head.head = _appear;
+    });
+}
+
+void unlimitgacha::insert_gender(uint32_t _appear)
+{
+    gender_db gender_db_table(owner, owner.value);
+    gender_db_table.emplace(owner, [&](auto &new_gender)
+    {
+        new_gender.gender = _appear;
+    });
+}
+
+void unlimitgacha::insert_servant_id(uint32_t _id)
+{
+    servant_id_db servant_id_db_table(owner, owner.value);
+    servant_id_db_table.emplace(owner, [&](auto &new_servant_id)
+    {
+        new_servant_id.id = _id;
+    });
+}
+
+void unlimitgacha::insert_monster_id(uint32_t _id)
+{
+    monster_id_db monster_id_db_table(owner, owner.value);
+    monster_id_db_table.emplace(owner, [&](auto &new_monster_id)
+    {
+        new_monster_id.id = _id;
+    });
+}
+
+void unlimitgacha::insert_monster_grade(uint32_t _grade, uint32_t _min, uint32_t _max)
+{
+    monster_grade_db monster_grade_db_table(owner, owner.value);
+    monster_grade_db_table.emplace(owner, [&](auto &new_monster_grade)
+    {
+        new_monster_grade.grade = _grade;
+        new_monster_grade.min_range.base_dex = _min;
+        new_monster_grade.min_range.base_int = _min;
+        new_monster_grade.min_range.base_str = _min;
+        new_monster_grade.max_range.base_dex = _max;
+        new_monster_grade.max_range.base_int = _max;
+        new_monster_grade.max_range.base_str = _max;
+    });
+}
+
+void unlimitgacha::insert_item_id(uint32_t _id, uint32_t _type, uint32_t _job, uint32_t _tier)
+{
+    item_id_db item_id_db_table(owner, owner.value);
+    item_id_db_table.emplace(owner, [&](auto &new_item_id)
+    {
+        new_item_id.id = _id;
+        new_item_id.type = _type;
+        new_item_id.job = _job;
+        new_item_id.tier = _tier;
+    });
+}
+
+void unlimitgacha::insert_item_grade(uint32_t _grade, uint32_t _min, uint32_t _max)
+{
+    item_grade_db item_grade_db_table(owner, owner.value);
+    item_grade_db_table.emplace(owner, [&](auto &new_item_grade)
+    {
+        new_item_grade.grade = _grade;
+        new_item_grade.min_range.base_dex = _min;
+        new_item_grade.min_range.base_int = _min;
+        new_item_grade.min_range.base_str = _min;
+        new_item_grade.max_range.base_dex = _max;
+        new_item_grade.max_range.base_int = _max;
+        new_item_grade.max_range.base_str = _max;
+    });
+}
+
+
+ACTION unlimitgacha::dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max)
+{
+  require_auth(owner);
+  switch(_kind){
+      case db_choice::job:
+      {
+          modify_job(_job,_min,_max);
+          break;
+      }
+      case db_choice::body:
+      {
+          modify_body(_appear);
+          break;
+      }
+      case db_choice::hair:
+      {
+          modify_hair(_appear);
+          break;
+      }
+      case db_choice::head:
+      {
+          modify_head(_appear);
+          break;
+      }
+     case db_choice::gender:
+      {
+          modify_gender(_appear);
+          break;
+      }
+      case db_choice::servant_id:
+      {
+          modify_servant_id(_id);
+          break;
+      }
+      case db_choice::monster_id:
+      {
+          modify_monster_id(_id);
+          break;
+      }
+      case db_choice::monster_grade:
+      {
+         modify_monster_grade(_grade,_min,_max);
+          break;
+      }
+      case db_choice::item_id:
+      {
+          modify_item_id(_id,_type,_job,_tier);
+          break;
+      }
+      case db_choice::item_grade:
+      {
+          modify_item_grade(_grade,_min,_max);
+          break;
+      }
+    
+
+  }
+}
+
+
+void unlimitgacha::modify_job(uint32_t _job, uint32_t _min, uint32_t _max)
+{
+    servant_job_db servant_job_db_table(owner, owner.value);
+    auto job_iter = servant_job_db_table.find(_job);
+    eosio_assert(job_iter != servant_job_db_table.end(),"not exist job data");
+    servant_job_db_table.modify(job_iter, owner, [&](auto &modify_job)
+    {
+        modify_job.job = _job;
+        modify_job.min_range.base_str = _min;
+        modify_job.min_range.base_dex = _min;
+        modify_job.min_range.base_int = _min;
+
+        modify_job.max_range.base_str = _max;
+        modify_job.max_range.base_dex = _max;
+        modify_job.max_range.base_int = _max;
+    });
+}
+
+
+void unlimitgacha::modify_body(uint32_t _appear)
+{
+    body_db body_db_table(owner, owner.value);
+    auto body_iter = body_db_table.find(_appear);
+    eosio_assert(body_iter != body_db_table.end(),"not find body data");
+    body_db_table.modify(body_iter, owner, [&](auto &modify_body)
+    {
+        modify_body.body = _appear;
+    });
+}
+
+void unlimitgacha::modify_hair(uint32_t _appear)
+{
+    hair_db hair_db_table(owner, owner.value);
+    auto hair_iter = hair_db_table.find(_appear);
+    eosio_assert(hair_iter != hair_db_table.end(),"not find hair data");
+    hair_db_table.modify(hair_iter, owner, [&](auto &modify_hair)
+    {
+        modify_hair.hair = _appear;
+    });
+}
+
+void unlimitgacha::modify_head(uint32_t _appear)
+{
+    head_db head_db_table(owner, owner.value);
+    auto head_iter = head_db_table.find(_appear);
+    eosio_assert(head_iter != head_db_table.end(),"not find head data");
+    head_db_table.modify(head_iter, owner, [&](auto &modify_head)
+    {
+        modify_head.head = _appear;
+    });
+}
+
+
+void unlimitgacha::modify_gender(uint32_t _appear)
+{
+    gender_db gender_db_table(owner, owner.value);
+    auto gender_iter = gender_db_table.find(_appear);
+    eosio_assert(gender_iter != gender_db_table.end(),"not find gender data");
+    gender_db_table.modify(gender_iter, owner, [&](auto &modify_gender)
+    {
+        modify_gender.gender = _appear;
+    });
+}
+
+
+void unlimitgacha::modify_servant_id(uint32_t _id)
+{
+    servant_id_db servant_id_db_table(owner, owner.value);
+    auto servant_id_iter = servant_id_db_table.find(_id);
+    eosio_assert(servant_id_iter != servant_id_db_table.end(),"not find servant id data");
+    servant_id_db_table.modify(servant_id_iter, owner, [&](auto &modify_servant_id)
+    {
+        modify_servant_id.id = _id;
+    });
+}
+
+
+
+void unlimitgacha::modify_monster_id(uint32_t _id)
+{
+    monster_id_db monster_id_db_table(owner, owner.value);
+    auto monster_id_iter = monster_id_db_table.find(_id);
+    eosio_assert(monster_id_iter != monster_id_db_table.end(),"not find monster id data");
+    monster_id_db_table.modify(monster_id_iter, owner, [&](auto &modify_monster_id)
+    {
+        modify_monster_id.id = _id;
+    });
+}
+
+
+void unlimitgacha::modify_monster_grade(uint32_t _grade, uint32_t _min, uint32_t _max)
+{
+    monster_grade_db monster_grade_db_table(owner, owner.value);
+    auto monster_grade_iter = monster_grade_db_table.find(_grade);
+    eosio_assert(monster_grade_iter != monster_grade_db_table.end(),"not exist monster grade data");
+    monster_grade_db_table.modify(monster_grade_iter, owner, [&](auto &modify_monster_grade)
+    {
+        modify_monster_grade.grade = _grade;
+        modify_monster_grade.min_range.base_str = _min;
+        modify_monster_grade.min_range.base_dex = _min;
+        modify_monster_grade.min_range.base_int = _min;
+
+        modify_monster_grade.max_range.base_str = _max;
+        modify_monster_grade.max_range.base_dex = _max;
+        modify_monster_grade.max_range.base_int = _max;
+    });
+}
+
+
+void unlimitgacha::modify_item_grade(uint32_t _grade, uint32_t _min, uint32_t _max)
+{
+    item_grade_db item_grade_db_table(owner, owner.value);
+    auto item_grade_iter = item_grade_db_table.find(_grade);
+    eosio_assert(item_grade_iter != item_grade_db_table.end(),"not exist item grade data");
+    item_grade_db_table.modify(item_grade_iter, owner, [&](auto &modify_item_grade)
+    {
+        modify_item_grade.grade = _grade;
+        modify_item_grade.min_range.base_str = _min;
+        modify_item_grade.min_range.base_dex = _min;
+        modify_item_grade.min_range.base_int = _min;
+
+        modify_item_grade.max_range.base_str = _max;
+        modify_item_grade.max_range.base_dex = _max;
+        modify_item_grade.max_range.base_int = _max;
+    });
+}
+
+void unlimitgacha::modify_item_id(uint32_t _id, uint32_t _type, uint32_t _job, uint32_t _tier)
+{
+    item_id_db item_id_db_table(owner, owner.value);
+    auto item_id_iter = item_id_db_table.find(_id);
+    eosio_assert(item_id_iter != item_id_db_table.end(),"not exist item id data");
+    item_id_db_table.modify(item_id_iter, owner, [&](auto &modify_item_id)
+    {
+        modify_item_id.id = _id;
+        modify_item_id.type = _type;
+        modify_item_id.job = _job;
+        modify_item_id.tier = _tier;
+    });
+}
+
+
+ACTION unlimitgacha::dberase(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max)
+{
+  require_auth(owner);
+  switch(_kind){
+      case db_choice::job:
+      {
+          erase_job(_job);
+          break;
+      }
+      case db_choice::body:
+      {
+          erase_body(_appear);
+          break;
+      }
+      case db_choice::hair:
+      {
+          erase_hair(_appear);
+          break;
+      }
+      case db_choice::head:
+      {
+         erase_head(_appear);
+          break;
+      }
+     case db_choice::gender:
+      {
+          erase_gender(_appear);
+          break;
+      }
+      case db_choice::servant_id:
+      {
+          erase_servant_id(_id);
+          break;
+      }
+      case db_choice::monster_id:
+      {
+          erase_monster_id(_id);
+          break;
+      }
+      case db_choice::monster_grade:
+      {
+          erase_monster_grade(_grade);
+          break;
+      }
+      case db_choice::item_id:
+      {
+          erase_item_id(_id);
+          break;
+      }
+      case db_choice::item_grade:
+      {
+          erase_item_grade(_grade);
+          break;
+      }
+    
+
+  }
+}
+
+void unlimitgacha::erase_job(uint32_t _job)
+{
+    servant_job_db servant_job_db_table(owner, owner.value);
+    auto job_iter = servant_job_db_table.find(_job);
+    eosio_assert(job_iter != servant_job_db_table.end(),"not exist job data");
+    servant_job_db_table.erase(job_iter);
+}
+
+
+void unlimitgacha::erase_body(uint32_t _appear)
+{
+    body_db body_db_table(owner, owner.value);
+    auto body_iter = body_db_table.find(_appear);
+    eosio_assert(body_iter != body_db_table.end(),"not find body data");
+    body_db_table.erase(body_iter);
+}
+
+void unlimitgacha::erase_hair(uint32_t _appear)
+{
+    hair_db hair_db_table(owner, owner.value);
+    auto hair_iter = hair_db_table.find(_appear);
+    eosio_assert(hair_iter != hair_db_table.end(),"not find hair data");
+    hair_db_table.erase(hair_iter);
+}
+
+void unlimitgacha::erase_head(uint32_t _appear)
+{
+    head_db head_db_table(owner, owner.value);
+    auto head_iter = head_db_table.find(_appear);
+    eosio_assert(head_iter != head_db_table.end(),"not find head data");
+    head_db_table.erase(head_iter);
+}
+
+void unlimitgacha::erase_gender(uint32_t _appear)
+{
+    gender_db gender_db_table(owner, owner.value);
+    auto gender_iter = gender_db_table.find(_appear);
+    eosio_assert(gender_iter != gender_db_table.end(),"not find gender data");
+    gender_db_table.erase(gender_iter);
+}
+
+void unlimitgacha::erase_servant_id(uint32_t _id)
+{
+    servant_id_db servant_id_db_table(owner, owner.value);
+    auto servant_id_iter = servant_id_db_table.find(_id);
+    eosio_assert(servant_id_iter != servant_id_db_table.end(),"not find servant id data");
+    servant_id_db_table.erase(servant_id_iter);
+}
+
+
+void unlimitgacha::erase_monster_id(uint32_t _id)
+{
+    monster_id_db monster_id_db_table(owner, owner.value);
+    auto monster_id_iter = monster_id_db_table.find(_id);
+    eosio_assert(monster_id_iter != monster_id_db_table.end(),"not find monster id data");
+    monster_id_db_table.erase(monster_id_iter);
+}
+
+
+void unlimitgacha::erase_monster_grade(uint32_t _grade)
+{
+    monster_grade_db monster_grade_db_table(owner, owner.value);
+    auto monster_grade_iter = monster_grade_db_table.find(_grade);
+    eosio_assert(monster_grade_iter != monster_grade_db_table.end(),"not exist monster grade data");
+    monster_grade_db_table.erase(monster_grade_iter);
+}
+
+
+void unlimitgacha::erase_item_grade(uint32_t _grade)
+{
+    item_grade_db item_grade_db_table(owner, owner.value);
+    auto item_grade_iter = item_grade_db_table.find(_grade);
+    eosio_assert(item_grade_iter != item_grade_db_table.end(),"not exist item grade data");
+    item_grade_db_table.erase(item_grade_iter);
+}
+
+
+void unlimitgacha::erase_item_id(uint32_t _id)
+{
+    item_id_db item_id_db_table(owner, owner.value);
+    auto item_id_iter = item_id_db_table.find(_id);
+    eosio_assert(item_id_iter != item_id_db_table.end(),"not exist item id data");
+    item_id_db_table.erase(item_id_iter);
+}
+
+
+#pragma endresion
+
 
 //------------------------------------------------------------------------//
 //-----------------------------setdata_action-----------------------------//
 //------------------------------------------------------------------------//
 
 #pragma region set
-ACTION unlimitgacha::setdata()
+ACTION unlimitgacha::setmaster()
 {
     eosio::require_auth(owner);
     auth_users user_auth_table(owner, owner.value);
@@ -156,192 +681,6 @@ ACTION unlimitgacha::setdata()
 
         gm_set.hero = first_hero;
     });
-
-    servant_db servant_db_table(owner, owner.value);
-    head_db head_db_table(owner, owner.value);
-    hair_db hair_db_table(owner, owner.value);
-    body_db body_db_table(owner, owner.value);
-    monster_grade_db monster_grade_db_table(owner, owner.value);
-    monster_id_db monster_id_db_table(owner, owner.value);
-    item_id_db item_id_db_table(owner, owner.value);
-    item_grade_db item_grade_db_table(owner, owner.value);
-
-    uint64_t l_seed = safeseed::get_seed(owner.value, now());
-    for (uint8_t i = 0; i < servant_job_count; ++i)
-    {
-        servant_db_table.emplace(owner, [&](auto &a) {
-            uint32_t index = servant_db_table.available_primary_key();
-            if (index == 0)
-            {
-                a.job = START_SERVANT_LOOK;
-            }
-            else
-            {
-                a.job = servant_db_table.available_primary_key();
-            }
-            if (random_count >= 8)
-            {
-                random_count = 0;
-            }
-            a.min_range.base_str = DEFAULT_MIN;
-            a.min_range.base_dex = DEFAULT_MIN;
-            a.min_range.base_int = DEFAULT_MIN;
-
-            a.max_range.base_str = DEFAULT_MAX;
-            a.max_range.base_dex = DEFAULT_MAX;
-            a.max_range.base_int = DEFAULT_MAX;
-        });
-    }
-    for (uint8_t i = 0; i < head_count; ++i)
-    {
-        head_db_table.emplace(owner, [&](auto &a) {
-            a.head = head_db_table.available_primary_key();
-        });
-        hair_db_table.emplace(owner, [&](auto &a) {
-            a.hair = hair_db_table.available_primary_key();
-        });
-    }
-    for (uint8_t i = 0; i < body_count; ++i)
-    {
-        body_db_table.emplace(owner, [&](auto &a) {
-            a.body = body_db_table.available_primary_key();
-        });
-    }
-
-    for (uint8_t i = 0; i < monster_grade_count; ++i)
-    {
-        monster_grade_db_table.emplace(owner, [&](auto &a) {
-            uint32_t index = monster_grade_db_table.available_primary_key();
-            if (index == 0)
-            {
-                a.monster_grade = 1;
-            }
-            else
-            {
-                a.monster_grade = monster_grade_db_table.available_primary_key();
-            }
-
-            if (random_count >= 8)
-            {
-                random_count = 0;
-            }
-            if (i == 0)
-            {
-                a.min_range.base_str = DEFAULT_MIN;
-                a.min_range.base_dex = DEFAULT_MIN;
-                a.min_range.base_int = DEFAULT_MIN;
-
-                a.max_range.base_str = DEFAULT_MAX;
-                a.max_range.base_dex = DEFAULT_MAX;
-                a.max_range.base_int = DEFAULT_MAX;
-            }
-            else if (i == 1)
-            {
-                a.min_range.base_str = DEFAULT_MIN;
-                a.min_range.base_dex = DEFAULT_MIN;
-                a.min_range.base_int = DEFAULT_MIN;
-
-                a.max_range.base_str = DEFAULT_MAX;
-                a.max_range.base_dex = DEFAULT_MAX;
-                a.max_range.base_int = DEFAULT_MAX;
-            }
-            else if (i == 2)
-            {
-                a.min_range.base_str = DEFAULT_MIN;
-                a.min_range.base_dex = DEFAULT_MIN;
-                a.min_range.base_int = DEFAULT_MIN;
-
-                a.max_range.base_str = DEFAULT_MAX;
-                a.max_range.base_dex = DEFAULT_MAX;
-                a.max_range.base_int = DEFAULT_MAX;
-            }
-            else if (i == 3)
-            {
-                a.min_range.base_str = DEFAULT_MIN;
-                a.min_range.base_dex = DEFAULT_MIN;
-                a.min_range.base_int = DEFAULT_MIN;
-
-                a.max_range.base_str = DEFAULT_MAX;
-                a.max_range.base_dex = DEFAULT_MAX;
-                a.max_range.base_int = DEFAULT_MAX;
-            }
-            else
-            {
-                a.min_range.base_str = 0;
-                a.min_range.base_dex = 0;
-                a.min_range.base_int = 0;
-
-                a.max_range.base_str = DEFAULT_MAX;
-                a.max_range.base_dex = DEFAULT_MAX;
-                a.max_range.base_int = DEFAULT_MAX;
-            }
-        });
-    }
-    for (uint8_t i = 0; i < monster_id_count; ++i)
-    {
-        monster_id_db_table.emplace(owner, [&](auto &a) {
-            uint32_t index = monster_id_db_table.available_primary_key();
-            if(index == 0)
-            {
-                a.look = START_MONSTER_ID;
-            }
-            else
-            {
-                a.look = monster_id_db_table.available_primary_key();
-            }
-        });
-    }
-    for (uint8_t i = 0; i < item_id_count; ++i)
-    {
-        item_id_db_table.emplace(owner, [&](auto &a) {
-            uint32_t index = item_id_db_table.available_primary_key();
-            if (index == 0)
-            {
-                a.id = START_ITEM_ID;
-            }
-            else
-            {
-                a.id = item_id_db_table.available_primary_key();
-            }
-
-            if (random_count >= 8)
-            {
-                random_count = 0;
-            }
-            a.slot = safeseed::get_random_value(l_seed, item_slot_count, 0, random_count);
-            random_count += 1;
-            a.job = safeseed::get_random_value(l_seed, servant_job_count, 0, random_count);
-            random_count += 1;
-            a.tier = safeseed::get_random_value(l_seed, 6, 1, random_count);
-        });
-    }
-
-    for (uint32_t i = 0; i < item_grade_count; ++i)
-    {
-        item_grade_db_table.emplace(owner, [&](auto &a) {
-            uint32_t index = item_grade_db_table.available_primary_key();
-            if (index == 0)
-            {
-                a.grade = 1;
-            }
-            else
-            {
-                a.grade = item_grade_db_table.available_primary_key();
-            }
-            
-            if (random_count >= 8)
-            {
-                random_count = 0;
-            }
-            a.min_range.base_str = DEFAULT_MIN;
-            a.min_range.base_dex = DEFAULT_MIN;
-            a.min_range.base_int = DEFAULT_MIN;
-
-            a.max_range.base_str = DEFAULT_MAX;
-            a.max_range.base_dex = DEFAULT_MAX;
-            a.max_range.base_int = DEFAULT_MAX;
-        });
-    }
 }
 
 ACTION unlimitgacha::setpresale()
@@ -407,8 +746,8 @@ void unlimitgacha::presalesign(eosio::name _user)
         }
 
         monster_info new_monster;
-        new_monster.look = 20001;
-        new_monster.grade = monster_grade_db_iter.monster_grade;
+        new_monster.id = 20001;
+        new_monster.grade = monster_grade_db_iter.grade;
         monster_random_count += 1;
         new_monster.status.basic_str = safeseed::get_random_value(seed, monster_grade_db_iter.max_range.base_str, monster_grade_db_iter.min_range.base_str, monster_random_count);
         monster_random_count += 1;
@@ -694,79 +1033,13 @@ void unlimitgacha::eosiotoken_transfer(eosio::name sender, eosio::name receiver,
 #pragma endregion
 
 #pragma resion init db table
-ACTION unlimitgacha::initdata()
+ACTION unlimitgacha::initmaster()
 {
     eosio::require_auth(owner);
     auth_users user_auth_table(owner, owner.value);
     auto owner_iter = user_auth_table.find(owner.value);
     eosio_assert(owner_iter != user_auth_table.end(),"already data init");
     user_auth_table.erase(owner_iter);
-
-    servant_db servant_db_table(owner, owner.value);
-    head_db head_db_table(owner, owner.value);
-    hair_db hair_db_table(owner, owner.value);
-    body_db body_db_table(owner, owner.value);
-    monster_grade_db monster_grade_db_table(owner, owner.value);
-    monster_id_db monster_id_db_table(owner, owner.value);
-    item_id_db item_id_db_table(owner, owner.value);
-    item_grade_db item_grade_db_table(owner, owner.value);
-
-    for (auto servant_db_table_iter = servant_db_table.begin(); servant_db_table_iter != servant_db_table.end();)
-    {
-        auto iter = servant_db_table.find(servant_db_table_iter->primary_key());
-        servant_db_table_iter++;
-        servant_db_table.erase(iter);
-    }
-
-    for (auto head_db_table_iter = head_db_table.begin(); head_db_table_iter != head_db_table.end();)
-    {
-        auto iter = head_db_table.find(head_db_table_iter->primary_key());
-        head_db_table_iter++;
-        head_db_table.erase(iter);
-    }
-
-    for (auto hair_db_table_iter = hair_db_table.begin(); hair_db_table_iter != hair_db_table.end();)
-    {
-        auto iter = hair_db_table.find(hair_db_table_iter->primary_key());
-        hair_db_table_iter++;
-        hair_db_table.erase(iter);
-    }
-
-    for (auto body_db_table_iter = body_db_table.begin(); body_db_table_iter != body_db_table.end();)
-    {
-        auto iter = body_db_table.find(body_db_table_iter->primary_key());
-        body_db_table_iter++;
-        body_db_table.erase(iter);
-    }
-
-    for (auto monster_grade_db_table_iter = monster_grade_db_table.begin(); monster_grade_db_table_iter != monster_grade_db_table.end();)
-    {
-        auto iter = monster_grade_db_table.find(monster_grade_db_table_iter->primary_key());
-        monster_grade_db_table_iter++;
-        monster_grade_db_table.erase(iter);
-    }
-
-    for (auto monster_id_db_table_iter = monster_id_db_table.begin(); monster_id_db_table_iter != monster_id_db_table.end();)
-    {
-        auto iter = monster_id_db_table.find(monster_id_db_table_iter->primary_key());
-        monster_id_db_table_iter++;
-        monster_id_db_table.erase(iter);
-    }
-
-    for (auto item_id_db_table_iter = item_id_db_table.begin(); item_id_db_table_iter != item_id_db_table.end();)
-    {
-        auto iter = item_id_db_table.find(item_id_db_table_iter->primary_key());
-        item_id_db_table_iter++;
-        item_id_db_table.erase(iter);
-    }
-
-    for (auto item_grade_db_table_iter = item_grade_db_table.begin(); item_grade_db_table_iter != item_grade_db_table.end();)
-    {
-        auto iter = item_grade_db_table.find(item_grade_db_table_iter->primary_key());
-        item_grade_db_table_iter++;
-        item_grade_db_table.erase(iter);
-    }
-
 }
 
 #pragma endregion
@@ -1011,13 +1284,36 @@ uint32_t unlimitgacha::get_random_grade(uint64_t _rate)
     }
     return grade;
 }
-
-
-void unlimitgacha::gacha_servant_job(eosio::name _user, uint64_t _seed)
+uint32_t unlimitgacha::get_servant_id(uint32_t _job, uint32_t _body, uint32_t _gender, uint32_t _head, uint32_t _hair)
 {
-    servant_db servant_db_table(owner, owner.value);
+    uint32_t result_id;
+    result_id = (_job * 1000000) + (_body * 100000) + (_gender * 10000) + (_head * 100) + (_hair * 1);
+    return result_id;
+}
+
+void unlimitgacha::gacha_servant_id(eosio::name _user, uint64_t _seed)
+{
+    servant_job_db servant_job_table(owner, owner.value);
     uint32_t random_job = safeseed::get_random_value(_seed, servant_job_count, default_min, servant_random_count);
-    const auto &servant_db_iter = servant_db_table.get(random_job, "not get servant job data");
+    const auto &servant_job_db_iter = servant_job_table.get(random_job, "not get servant job data");
+
+    servant_random_count += 1;
+    uint32_t random_body = gacha_servant_body(_seed, servant_random_count);
+
+    servant_random_count += 1;
+    gender_db gender_table(owner, owner.value);
+    uint32_t random_gender = safeseed::get_random_value(_seed, 3, 1, servant_random_count);
+    const auto &gender_db_iter = gender_table.get(random_gender,"not get gender data");
+
+    servant_random_count += 1;
+    uint32_t random_head = gacha_servant_head(_seed, servant_random_count);
+
+    servant_random_count += 1;
+    uint32_t random_hair = gacha_servant_hair(_seed, servant_random_count);
+
+    servant_id_db servant_id_table(owner, owner.value);
+    uint32_t servant_id = get_servant_id(random_job, random_body, random_gender, random_head, random_hair);
+    const auto &servant_id_db_iter = servant_id_table.get(servant_id, "not exist servant id");
 
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
@@ -1037,19 +1333,14 @@ void unlimitgacha::gacha_servant_job(eosio::name _user, uint64_t _seed)
         }
 
         servant_info new_servant;
+        
+        new_servant.id = servant_id;
         servant_random_count += 1;
-        new_servant.appear.hair = gacha_servant_hair(_seed, servant_random_count);
+        new_servant.status.basic_str = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_str, servant_job_db_iter.min_range.base_str, servant_random_count);
         servant_random_count += 1;
-        new_servant.appear.hair = gacha_servant_head(_seed, servant_random_count);
+        new_servant.status.basic_dex = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_dex, servant_job_db_iter.min_range.base_dex, servant_random_count);
         servant_random_count += 1;
-        new_servant.appear.body = gacha_servant_body(_seed, servant_random_count);
-        new_servant.job = servant_db_iter.job;
-        servant_random_count += 1;
-        new_servant.status.basic_str = safeseed::get_random_value(_seed, servant_db_iter.max_range.base_str, servant_db_iter.min_range.base_str, servant_random_count);
-        servant_random_count += 1;
-        new_servant.status.basic_dex = safeseed::get_random_value(_seed, servant_db_iter.max_range.base_dex, servant_db_iter.min_range.base_dex, servant_random_count);
-        servant_random_count += 1;
-        new_servant.status.basic_int = safeseed::get_random_value(_seed, servant_db_iter.max_range.base_int, servant_db_iter.min_range.base_int, servant_random_count);
+        new_servant.status.basic_int = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_int, servant_job_db_iter.min_range.base_int, servant_random_count);
         new_servant.equip_slot.resize(3);
         new_servant.state = eobject_state::on_inventory;
 
@@ -1127,7 +1418,9 @@ void unlimitgacha::gacha_monster_id(eosio::name _user, uint64_t _seed)
 {
     monster_id_db monster_id_db_table(owner, owner.value);
     uint32_t random_monster_id = safeseed::get_random_value(_seed, monster_id_count, default_min, monster_random_count);
+    random_monster_id += 20000;
     const auto &monster_id_db_iter = monster_id_db_table.get(random_monster_id, "not exist monster id");
+
 
     monster_random_count += 1;
     uint32_t random_rate = safeseed::get_random_value(_seed, max_rate, default_min, monster_random_count);
@@ -1154,8 +1447,8 @@ void unlimitgacha::gacha_monster_id(eosio::name _user, uint64_t _seed)
         }
 
         monster_info new_monster;
-        new_monster.look = monster_id_db_iter.look;
-        new_monster.grade = monster_grade_db_iter.monster_grade;
+        new_monster.id = monster_id_db_iter.id;
+        new_monster.grade = monster_grade_db_iter.grade;
         monster_random_count += 1;
         new_monster.status.basic_str = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_str, monster_grade_db_iter.min_range.base_str, monster_random_count);
         monster_random_count += 1;
@@ -1213,6 +1506,7 @@ void unlimitgacha::gacha_item_id(eosio::name _user, uint64_t _seed)
 {
     item_id_db item_id_db_table(owner, owner.value);
     uint32_t random_item_id = safeseed::get_random_value(_seed, item_id_count, default_min, item_random_count);
+    random_item_id += 30000;
     const auto &item_id_db_iter = item_id_db_table.get(random_item_id, "not exist item id");
 
     item_random_count += 1;
@@ -1241,17 +1535,18 @@ void unlimitgacha::gacha_item_id(eosio::name _user, uint64_t _seed)
 
         item_info new_item;
         new_item.id = item_id_db_iter.id;
-        new_item.slot = item_id_db_iter.slot;
+        new_item.type = item_id_db_iter.type;
         new_item.tier = item_id_db_iter.tier;
+        new_item.job = item_id_db_iter.job;
+        new_item.grade = item_grade_db_iter.grade;
         item_random_count += 1;
         new_item.status.basic_str = safeseed::get_random_value(_seed, item_grade_db_iter.max_range.base_str, item_grade_db_iter.min_range.base_str, item_random_count);
         item_random_count += 1;
         new_item.status.basic_dex = safeseed::get_random_value(_seed, item_grade_db_iter.max_range.base_dex, item_grade_db_iter.min_range.base_dex, item_random_count);
         item_random_count += 1;
         new_item.status.basic_int = safeseed::get_random_value(_seed, item_grade_db_iter.max_range.base_int, item_grade_db_iter.min_range.base_int, item_random_count);
-        new_item.job = item_id_db_iter.job;
         new_item.state = eobject_state::on_inventory;
-        new_item.grade = item_grade_db_iter.grade;
+        
 
         result.index = update_user_item_list.index;
         result.type = result::item;
@@ -1324,7 +1619,7 @@ void unlimitgacha::start_gacha(eosio::name _user, uint64_t _seed)
         uint64_t l_gacha_result_type = safeseed::get_random_value(l_seed, max_rate, default_min, DEFAULE_RANDOM_COUNT);
         if (l_gacha_result_type < 333)
         {
-            gacha_servant_job(_user, l_seed);
+            gacha_servant_id(_user, l_seed);
         }
         else if (l_gacha_result_type > 333 && l_gacha_result_type <= 666)
         {
@@ -1340,12 +1635,29 @@ void unlimitgacha::start_gacha(eosio::name _user, uint64_t _seed)
     item_random_count = 0;
 }
 
-void unlimitgacha::presale_gacha_servant_job(eosio::name _user, uint64_t _seed)
+void unlimitgacha::presale_gacha_servant_id(eosio::name _user, uint64_t _seed)
 {
-    servant_db servant_db_table(owner, owner.value);
-    uint64_t random_job = safeseed::get_random_value(_seed, servant_job_count + 1, 1, servant_random_count);
-    random_job += 10000;
-    const auto &servant_db_iter = servant_db_table.get(random_job, "not get servant job data");
+    servant_job_db servant_job_table(owner, owner.value);
+    uint32_t random_job = safeseed::get_random_value(_seed, servant_job_count, default_min, servant_random_count);
+    const auto &servant_job_db_iter = servant_job_table.get(random_job, "not get servant job data");
+
+    servant_random_count += 1;
+    uint32_t random_body = gacha_servant_body(_seed, servant_random_count);
+
+    servant_random_count += 1;
+    gender_db gender_table(owner, owner.value);
+    uint32_t random_gender = safeseed::get_random_value(_seed, 3, 1, servant_random_count);
+    const auto &gender_db_iter = gender_table.get(random_gender,"not get gender data");
+
+    servant_random_count += 1;
+    uint32_t random_head = gacha_servant_head(_seed, servant_random_count);
+
+    servant_random_count += 1;
+    uint32_t random_hair = gacha_servant_hair(_seed, servant_random_count);
+
+    servant_id_db servant_id_table(owner, owner.value);
+    uint32_t servant_id = get_servant_id(random_job, random_body, random_gender, random_head, random_hair);
+    const auto &servant_id_db_iter = servant_id_table.get(servant_id, "not exist servant id");
 
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
@@ -1365,18 +1677,14 @@ void unlimitgacha::presale_gacha_servant_job(eosio::name _user, uint64_t _seed)
         }
 
         servant_info new_servant;
+        new_servant.id = servant_id;
 
-        new_servant.appear.hair = servant_db_iter.job;
-        new_servant.appear.head = servant_db_iter.job;
-        new_servant.appear.body = servant_db_iter.job;
-
-        new_servant.job = servant_db_iter.job;
         servant_random_count += 1;
-        new_servant.status.basic_str = safeseed::get_random_value(_seed, servant_db_iter.max_range.base_str, servant_db_iter.min_range.base_str, servant_random_count);
+        new_servant.status.basic_str = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_str, servant_job_db_iter.min_range.base_str, servant_random_count);
         servant_random_count += 1;
-        new_servant.status.basic_dex = safeseed::get_random_value(_seed, servant_db_iter.max_range.base_dex, servant_db_iter.min_range.base_dex, servant_random_count);
+        new_servant.status.basic_dex = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_dex, servant_job_db_iter.min_range.base_dex, servant_random_count);
         servant_random_count += 1;
-        new_servant.status.basic_int = safeseed::get_random_value(_seed, servant_db_iter.max_range.base_int, servant_db_iter.min_range.base_int, servant_random_count);
+        new_servant.status.basic_int = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_int, servant_job_db_iter.min_range.base_int, servant_random_count);
         new_servant.equip_slot.resize(3);
         new_servant.state = eobject_state::on_inventory;
 
@@ -1458,8 +1766,8 @@ void unlimitgacha::presale_gacha_monster_id(eosio::name _user, uint64_t _seed)
         }
 
         monster_info new_monster;
-        new_monster.look = monster_id_db_iter.look;
-        new_monster.grade = monster_grade_db_iter.monster_grade;
+        new_monster.id = monster_id_db_iter.id;
+        new_monster.grade = monster_grade_db_iter.grade;
         monster_random_count += 1;
         new_monster.status.basic_str = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_str, monster_grade_db_iter.min_range.base_str, monster_random_count);
         monster_random_count += 1;
@@ -1546,18 +1854,18 @@ void unlimitgacha::presale_gacha_item_id(eosio::name _user, uint64_t _seed)
 
         item_info new_item;
         new_item.id = item_id_db_iter.id;
-        new_item.slot = item_id_db_iter.slot;
+        new_item.type = item_id_db_iter.type;
         new_item.tier = item_id_db_iter.tier;
+        new_item.job = item_id_db_iter.job;
+        new_item.grade = item_grade_db_iter.grade;
         item_random_count += 1;
         new_item.status.basic_str = safeseed::get_random_value(_seed, item_grade_db_iter.max_range.base_str, item_grade_db_iter.min_range.base_str, item_random_count);
         item_random_count += 1;
         new_item.status.basic_dex = safeseed::get_random_value(_seed, item_grade_db_iter.max_range.base_dex, item_grade_db_iter.min_range.base_dex, item_random_count);
         item_random_count += 1;
         new_item.status.basic_int = safeseed::get_random_value(_seed, item_grade_db_iter.max_range.base_int, item_grade_db_iter.min_range.base_int, item_random_count);
-        new_item.job = item_id_db_iter.job;
         new_item.state = eobject_state::on_inventory;
-        new_item.grade = item_grade_db_iter.grade;
-
+        
         result.index = update_user_item_list.index;
         result.type = result::item;
 
@@ -1611,7 +1919,7 @@ void unlimitgacha::presale_gacha(eosio::name _user, uint64_t _seed)
     uint64_t l_gacha_result_type = safeseed::get_random_value(l_seed, max_rate, default_min, DEFAULE_RANDOM_COUNT);
     if (l_gacha_result_type < 333)
     {
-        presale_gacha_servant_job(_user, l_seed);
+        presale_gacha_servant_id(_user, l_seed);
     }
     else if (l_gacha_result_type > 333 && l_gacha_result_type <= 666)
     {
@@ -1701,552 +2009,7 @@ ACTION unlimitgacha::setpause(uint64_t _state)
 
 #pragma endregion
 
-#pragma region db_insert action 
-
-ACTION unlimitgacha::dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max)
-{
-  require_auth(owner);
-
-
-  head_db head_db_table(owner, owner.value);
-  hair_db hair_db_table(owner, owner.value); 
-  body_db body_db_table(owner, owner.value);
-  gender_db gender_db_table(owner, owner.value);
-  monster_grade_db monster_grade_db_table(owner, owner.value);
-  monster_id_db monster_id_db_table(owner, owner.value);
-  item_id_db item_id_db_table(owner, owner.value);
-  item_grade_db item_grade_db_table(owner, owner.value);
-
-  switch(_kind){
-      case db_choice::job:
-      {
-          insert_job(_job);
-          break;
-      }
-      case db_choice::body:
-      {
-          insert_body(_appear);
-          break;
-      }
-      case db_choice::hair:
-      {
-          insert_hair(_appear);
-          break;
-      }
-      case db_choice::head:
-      {
-          insert_head(_appear);
-          break;
-      }
-     case db_choice::gender:
-      {
-          insert_gender(_appear);
-          break;
-      }
-      case db_choice::servant_id:
-      {
-          insert_servant_id(_id);
-          break;
-      }
-      case db_choice::monster_id:
-      {
-          insert_monster_id(_id);
-          break;
-      }
-      case db_choice::monster_grade:
-      {
-          insert_monster_grade(_grade,_min,_max);
-          break;
-      }
-      case db_choice::item_id:
-      {
-          insert_item_id(_id,_type,_job,_tier);
-          break;
-      }
-      case db_choice::item_grade:
-      {
-          insert_item_grade(_grade,min,max);
-          break;
-      }
-    
-
-  }
-}
-void unlimitgacha::insert_job(uint32_t _job)
-{
-   servant_job_db servant_job_db_table(owner, owner.value);
-   servant_job_db_table.emplace(owner, [&](auto &new_job)
-   {
-       new_job.job = _job;
-        new_job.min_range.base_str = _min;
-        new_job.min_range.base_dex = _min;
-        new_job.min_range.base_int = _min;
-
-        new_job.max_range.base_str = _max;
-        new_job.max_range.base_dex = _max;
-        new_job.max_range.base_int = _max;
-   });
-}
-
-void unlimitgacha::insert_body(uint32_t _appear)
-{
-   body_db body_db_table(owner, owner.value);
-   body_db_table.emplace(owner, [&](auto &new_body)
-   {
-       new_body.body = _appear;
-   });
-}
-
-void unlimitgacha::insert_hair(uint32_t _appear)
-{
-    hair_db hair_db_table(owner, owner.value);
-    hair_db_table.emplace(owner, [&](auto &new_hair)
-    {
-        new_hair.hair = _appear;
-    })
-}
-void unlimitgacha::insert_head(uint32_t _appear)
-{
-    head_db head_db_table(owner, owner.value);
-    head_db_table.emplace(owner, [&](auto &new_head)
-    {
-        new_head.head = _appear;
-    })
-}
-
-void unlimitgacha::insert_gender(uint32_t _appear)
-{
-    gender_db gender_db_table(owner, owner.value);
-    gender_db_table.emplace(owner, [&](auto &new_gender)
-    {
-        new_gender.gender = _appear;
-    })
-}
-
-void unlimitgacha::insert_servant_id(uint32_t _id)
-{
-    servant_id_db servant_id_db_table(owner, owner.value);
-    servant_id_db_table.emplace(owner, [&](auto &new_servant_id)
-    {
-        new_servant_id.id = _id;
-    })
-}
-
-void unlimitgacha::insert_monster_id(uint32_t _id)
-{
-    monster_id_db monster_id_db_table(owner, owner.value);
-    monster_id_db_table.emplace(owner, [&](auto &new_monster_id)
-    {
-        new_monster_id.id = _id;
-    })
-}
-
-void unlimitgacha::insert_monster_grade(uint32_t _grade, uint32_t _min, uint32_t _max)
-{
-    monster_grade_db monster_grade_db_table(owner, owner.value);
-    monster_grade_db_table.emplace(owner, [&](auto &new_monster_grade)
-    {
-        new_monster_grade.grade = _grade;
-        new_monster_grade.min_range.basic_dex = _min;
-        new_monster_grade.min_range.basic_int = _min;
-        new_monster_grade.min_range.basic_str = _min;
-        new_monster_grade.max_range.basic_dex = _max;
-        new_monster_grade.max_range.basic_int = _max;
-        new_monster_grade.max_range.basic_str = _max;
-    })
-}
-
-void unlimitgacha::insert_item_id(uint32_t id, uint32_t type, uint32_t _job, uint32_t tier)
-{
-    item_id_db item_id_db_table(owner, owner.value);
-    item_id_db_table.emplace(owner, [&](auto &new_item_id)
-    {
-        new_item_id.id = _id;
-        new_item_id.type = _type;
-        new_item_id.job = _job;
-        new_item_id.tier = _tier;
-    })
-}
-
-void unlimitgacha::insert_item_grade(uint32_t _grade, uint32_t _min, uint32_t _max)
-{
-    item_grade_db item_grade_db_table(owner, owner.value);
-    item_grade_db_table.emplace(owner, [&](auto &new_item_grade)
-    {
-        new_item_grade.grade = _grade;
-        new_item_grade.min_range.basic_dex = _min;
-        new_item_grade.min_range.basic_int = _min;
-        new_item_grade.min_range.basic_str = _min;
-        new_item_grade.max_range.basic_dex = _max;
-        new_item_grade.max_range.basic_int = _max;
-        new_item_grade.max_range.basic_str = _max;
-    })
-}
-
-
-ACTION unlimitgacha::dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max)
-{
-  require_auth(owner);
-
-
-  head_db head_db_table(owner, owner.value);
-  hair_db hair_db_table(owner, owner.value); 
-  body_db body_db_table(owner, owner.value);
-  gender_db gender_db_table(owner, owner.value);
-  monster_grade_db monster_grade_db_table(owner, owner.value);
-  monster_id_db monster_id_db_table(owner, owner.value);
-  item_id_db item_id_db_table(owner, owner.value);
-  item_grade_db item_grade_db_table(owner, owner.value);
-
-  switch(_kind){
-      case db_choice::job:
-      {
-          modify_job(_job);
-          break;
-      }
-      case db_choice::body:
-      {
-          modify_body(_appear);
-          break;
-      }
-      case db_choice::hair:
-      {
-          modify_hair(_appear);
-          break;
-      }
-      case db_choice::head:
-      {
-          modify_head(_appear);
-          break;
-      }
-     case db_choice::gender:
-      {
-          modify_gender(_appear);
-          break;
-      }
-      case db_choice::servant_id:
-      {
-          modify_servant_id(_id);
-          break;
-      }
-      case db_choice::monster_id:
-      {
-          modify_monster_id(_id);
-          break;
-      }
-      case db_choice::monster_grade:
-      {
-         modify_monster_grade(_grade,_min,_max);
-          break;
-      }
-      case db_choice::item_id:
-      {
-          modify_item_id(_id,_type,_job,_tier);
-          break;
-      }
-      case db_choice::item_grade:
-      {
-          modify_item_grade(_grade,min,max);
-          break;
-      }
-    
-
-  }
-}
-
-
-void unlimitgacha::modify_job(uint32_t _job, uint32_t _min, uint32_t _max)
-{
-    servant_job_db servant_job_db_table(owner, owner.value);
-    auto job_iter = servant_job_db_table.find(_job);
-    eosio_assert(job_iter != servant_job_db_table.end(),"not exist job data");
-    servant_job_db_table.modify(job_iter, owner, [&](auto &modify_job)
-    {
-        modify_job.job = _job;
-        modify_job.min_range.base_str = _min;
-        modify_job.min_range.base_dex = _min;
-        modify_job.min_range.base_int = _min;
-
-        modify_job.max_range.base_str = _max;
-        modify_job.max_range.base_dex = _max;
-        modify_job.max_range.base_int = _max;
-    });
-}
-
-
-void unlimitgacha::modify_body(uint32_t _appear)
-{
-    body_db body_db_table(owner, owner.value);
-    auto body_iter = body_db_table.find(_appear);
-    eosio_assert(body_iter != body_db_table.end(),"not find body data");
-    body_db_table.modify(body_iter, owner, [&](auto &modify_body)
-    {
-        modify_body.body = _appear;
-    });
-}
-
-void unlimitgacha::modify_hair(uint32_t _appear)
-{
-    hair_db hair_db_table(owner, owner.value);
-    auto hair_iter = hair_db_table.find(_appear);
-    eosio_assert(hair_iter != hair_db_table.end(),"not find hair data");
-    hair_db_table.modify(hair_iter, owner, [&](auto &modify_hair)
-    {
-        modify_hair.hair = _appear;
-    });
-}
-
-void unlimitgacha::modify_head(uint32_t _appear)
-{
-    head_db head_db_table(owner, owner.value);
-    auto head_iter = head_db_table.find(_appear);
-    eosio_assert(head_iter != head_db_table.end(),"not find head data");
-    head_db_table.modify(head_iter, owner, [&](auto &modify_head)
-    {
-        modify_head.head = _appear;
-    });
-}
-
-
-void unlimitgacha::modify_gender(uint32_t _gender)
-{
-    gender_db gender_db_table(owner, owner.value);
-    auto gender_iter = gender_db_table.find(_appear);
-    eosio_assert(gender_iter != gender_db_table.end(),"not find gender data");
-    gender_db_table.modify(gender_iter, owner, [&](auto &modify_gender)
-    {
-        modify_gender.gender = _gender;
-    });
-}
-
-
-void unlimitgacha::modify_servant_id(uint32_t _id)
-{
-    servant_id_db servant_id_db_table(owner, owner.value);
-    auto servant_id_iter = servant_id_db_table.find(_id);
-    eosio_assert(servant_id_iter != servant_id_db_table.end(),"not find servant id data");
-    servant_id_db_table.modify(servant_id_iter, owner, [&](auto &modify_servant_id)
-    {
-        modify_servant_id.id = _id;
-    });
-}
-
-
-
-void unlimitgacha::modify_monster_id(uint32_t _id)
-{
-    monster_id_db monster_id_db_table(owner, owner.value);
-    auto monster_id_iter = monster_id_db_table.find(_id);
-    eosio_assert(monster_id_iter != monster_id_db_table.end(),"not find monster id data");
-    monster_id_db_table.modify(monster_id_iter, owner, [&](auto &modify_monster_id)
-    {
-        modify_monster_id.id = _id;
-    });
-}
-
-
-void unlimitgacha::modify_monster_grade(uint32_t _grade, uint32_t _min, uint32_t _max)
-{
-    monster_grade_db monster_grade_db_table(owner, owner.value);
-    auto monster_grade_iter = monster_grade_db_table.find(_grade);
-    eosio_assert(monster_grade_iter != monster_grade_db_table.end(),"not exist monster grade data");
-    monster_grade_db_table.modify(monster_grade_iter, owner, [&](auto &modify_monster_grade)
-    {
-        modify_monster_grade.grade = _grade;
-        modify_monster_grade.min_range.base_str = _min;
-        modify_monster_grade.min_range.base_dex = _min;
-        modify_monster_grade.min_range.base_int = _min;
-
-        modify_monster_grade.max_range.base_str = _max;
-        modify_monster_grade.max_range.base_dex = _max;
-        modify_monster_grade.max_range.base_int = _max;
-    });
-}
-
-
-void unlimitgacha::modify_item_grade(uint32_t _grade, uint32_t _min, uint32_t _max)
-{
-    item_grade_db item_grade_db_table(owner, owner.value);
-    auto item_grade_iter = item_grade_db_table.find(_grade);
-    eosio_assert(item_grade_iter != item_grade_db_table.end(),"not exist item grade data");
-    item_grade_db_table.modify(item_grade_iter, owner, [&](auto &modify_item_grade)
-    {
-        modify_item_grade.grade = _grade;
-        modify_item_grade.min_range.base_str = _min;
-        modify_item_grade.min_range.base_dex = _min;
-        modify_item_grade.min_range.base_int = _min;
-
-        modify_item_grade.max_range.base_str = _max;
-        modify_item_grade.max_range.base_dex = _max;
-        modify_item_grade.max_range.base_int = _max;
-    });
-}
-
-void unlimitgacha::modify_item_id(uint32_t _id, uint32_t _type, uint32_t _job, uint32_t _tier)
-{
-    item_id_db item_id_db_table(owner, owner.value);
-    auto item_id_iter = item_id_db_table.find(_id);
-    eosio_assert(item_id_iter != item_id_db_table.end(),"not exist item id data");
-    item_id_db_table.modify(item_id_iter, owner, [&](auto &modify_item_id)
-    {
-        modify_item_id.id = _id;
-        modify_item_id.type = _type;
-        modify_item_id.job = _job;
-        modify_item_id.tier = _tier;
-    });
-}
-
-
-ACTION unlimitgacha::dberase(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max)
-{
-  require_auth(owner);
-
-  switch(_kind){
-      case db_choice::job:
-      {
-          erase_job(_job);
-          break;
-      }
-      case db_choice::body:
-      {
-          erase_body(_appear);
-          break;
-      }
-      case db_choice::hair:
-      {
-          erase_hair(_appear);
-          break;
-      }
-      case db_choice::head:
-      {
-         erase_head(_appear);
-          break;
-      }
-     case db_choice::gender:
-      {
-          erase_gender(_appear);
-          break;
-      }
-      case db_choice::servant_id:
-      {
-          erase_servant_id(_id);
-          break;
-      }
-      case db_choice::monster_id:
-      {
-          erase_monster_id(_id);
-          break;
-      }
-      case db_choice::monster_grade:
-      {
-          erase_monster_grade(_grade);
-          break;
-      }
-      case db_choice::item_id:
-      {
-          erase_item_id(_id,_type,_job,_tier);
-          break;
-      }
-      case db_choice::item_grade:
-      {
-          erase_item_grade(_grade);
-          break;
-      }
-    
-
-  }
-}
-
-void unlimitgacha::erase_job(uint32_t _job)
-{
-    servant_job_db servant_job_db_table(owner, owner.value);
-    auto job_iter = servant_job_db_table.find(_job);
-    eosio_assert(job_iter != servant_job_db_table.end(),"not exist job data");
-    servant_job_db_table.erase(job_iter);
-}
-
-
-void unlimitgacha::erase_body(uint32_t _appear)
-{
-    body_db body_db_table(owner, owner.value);
-    auto body_iter = body_db_table.find(_appear);
-    eosio_assert(body_iter != body_db_table.end(),"not find body data");
-    body_db_table.erase(body_iter);
-}
-
-void unlimitgacha::erase_hair(uint32_t _appear)
-{
-    hair_db hair_db_table(owner, owner.value);
-    auto hair_iter = hair_db_table.find(_appear);
-    eosio_assert(hair_iter != hair_db_table.end(),"not find hair data");
-    hair_db_table.erase(hair_iter);
-}
-
-void unlimitgacha::erase_head(uint32_t _appear)
-{
-    head_db head_db_table(owner, owner.value);
-    auto head_iter = head_db_table.find(_appear);
-    eosio_assert(head_iter != head_db_table.end(),"not find head data");
-    head_db_table.modify(head_iter);
-}
-
-void unlimitgacha::erase_gender(uint32_t _gender)
-{
-    gender_db gender_db_table(owner, owner.value);
-    auto gender_iter = gender_db_table.find(_appear);
-    eosio_assert(gender_iter != gender_db_table.end(),"not find gender data");
-    gender_db_table.erase(gender_iter);
-}
-
-void unlimitgacha::erase_servant_id(uint32_t _id)
-{
-    servant_id_db servant_id_db_table(owner, owner.value);
-    auto servant_id_iter = servant_id_db_table.find(_id);
-    eosio_assert(servant_id_iter != servant_id_db_table.end(),"not find servant id data");
-    servant_id_db_table.erase(servant_id_iter);
-}
-
-
-void unlimitgacha::erase_monster_id(uint32_t _id)
-{
-    monster_id_db monster_id_db_table(owner, owner.value);
-    auto monster_id_iter = monster_id_db_table.find(_id);
-    eosio_assert(monster_id_iter != monster_id_db_table.end(),"not find monster id data");
-    monster_id_db_table.erase(monster_id_iter);
-}
-
-
-void unlimitgacha::erase_monster_grade(uint32_t _grade)
-{
-    monster_grade_db monster_grade_db_table(owner, owner.value);
-    auto monster_grade_iter = monster_grade_db_table.find(_grade);
-    eosio_assert(monster_grade_iter != monster_grade_db_table.end(),"not exist monster grade data");
-    monster_grade_db_table.erase(monster_grade_iter);
-}
-
-
-void unlimitgacha::erase_item_grade(uint32_t _grade)
-{
-    item_grade_db item_grade_db_table(owner, owner.value);
-    auto item_grade_iter = item_grade_db_table.find(_grade);
-    eosio_assert(item_grade_iter != item_grade_db_table.end(),"not exist item grade data");
-    item_grade_db_table.erase(item_grade_iter);
-}
-
-
-void unlimitgacha::erase_item_id(uint32_t _id)
-{
-    item_id_db item_id_db_table(owner, owner.value);
-    auto item_id_iter = item_id_db_table.find(_id);
-    eosio_assert(item_id_iter != item_id_db_table.end(),"not exist item id data");
-    item_id_db_table.erase(item_id_iter);
-}
-
-
-
-
 #pragma endresion
-
 
 #undef EOSIO_DISPATCH
 
@@ -2270,4 +2033,4 @@ void unlimitgacha::erase_item_id(uint32_t _id)
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(unlimitgacha, (create)(issue)(tokentrans)(setdata)(setpresale)(presalemove)(eostransfer)(initdata)(deleteuser)(initalluser)(initprelog)(inittoken)(gachacheat)(deleteblack)(addblack)(setpause) )
+EOSIO_DISPATCH(unlimitgacha, (create)(issue)(tokentrans)(setmaster)(setpresale)(presalemove)(eostransfer)(initmaster)(deleteuser)(initalluser)(initprelog)(inittoken)(gachacheat)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase) )
