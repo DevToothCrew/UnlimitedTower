@@ -27,7 +27,14 @@ public abstract class UTUMSProvider
     /// Request login via Scatter
     /// </summary>
     public abstract void RequestLoginWithScatter();
+    public abstract void RequestLogout();
+
     public abstract void RequestGacha();
     public abstract void RequestSaveParty(Party partyInfo);
-    public abstract void RequestLogout();
+
+    public abstract void RequestBattleAction(int heroTarget, int heroAction, int monsterTarget, int monsterAction);
+    public abstract void RequestStageStart(int stageNum, int partyNum);
+    public abstract void RequestStageResult(int stageNum);
+    public abstract void RequestTowerStart();
+    public abstract void RequestTowerResult();
 }

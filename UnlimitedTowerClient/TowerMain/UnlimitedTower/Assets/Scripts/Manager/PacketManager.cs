@@ -58,6 +58,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Login();
     }
 
+    public void RequestLogout()
+    {
+        Debug.Log("RequestLogout");
+        Logout();
+        ResponseLogout();
+    }
+
     public void RequestGacha()
     {
         Debug.Log("RequestGacha");
@@ -97,21 +104,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
         SetFormation(json);
     }
 
-    public void RequestGetStageInfo(int stageNum)
-    {
-        Debug.Log("RequsetGetStageInfo : " + stageNum);
-        Response_GetStageInfo(stageNum);
-        SceneManager.LoadScene("CharacterBattleScene");
-        Debug.Log("Success BattleSceene Loading");
-    }
-
-    public void RequestBattleAction(int action_1,  int action_2, int target_1, int target_2)
+    public void RequestBattleAction(int heroTarget, int heroAction, int monsterTarget, int monsterAction)
     {
         Debug.Log("RequestBattleAction");
 
         List<JsonBattleAction> actionList = new List<JsonBattleAction>();
-        actionList.Add(new JsonBattleAction(target_1, action_1));
-        actionList.Add(new JsonBattleAction(target_2, action_2));
+        actionList.Add(new JsonBattleAction(heroTarget, heroAction));
+        actionList.Add(new JsonBattleAction(monsterTarget, monsterAction));
 
         string json = JsonUtility.ToJson(actionList);
 
@@ -119,14 +118,27 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Json action : " + json);
     }
 
-    public void RequestLogout()
+    public void RequestStageStart(int stageNum, int partyNum)
     {
-        Debug.Log("RequestLogout");
-        Logout();
-        ResponseLogout();
+
     }
 
-#endregion
+    public void RequestStageResult(int stageNum)
+    {
+
+    }
+
+    public void RequestTowerStart(int towerFloor, int partyNum)
+    {
+
+    }
+
+    public void RequestTowerResult(int towerFloor)
+    {
+
+    }
+
+    #endregion
 
 
 
@@ -150,11 +162,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
 
         Login(userLoginData);
-    }
-
-    public void ResponseGetLobbyInfo()
-    {
-        Debug.Log("ResponseGetLobbyInfo");
     }
 
     public void ResponseGacha(string getGachaInfo)
@@ -215,19 +222,33 @@ public class PacketManager : MonoSingleton<PacketManager> {
         //}
     }
 
-    public void Response_GetStageInfo(int stageNum)
-    {
-        Debug.Log("Response_GetStageInfo");
-        LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Stage);
-    }
-
     public void ResponseLogout()
     {
         Debug.Log("ResponseLogout");
         LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Login);
     }
 
-    public void ResponseEnterStage()
+    public void ResponseBattleAction(string getBattleActionInfo)
+    {
+
+    }
+
+    public void ResponseStageStart(string getStageStartInfo)
+    {
+
+    }
+
+    public void ResponseStageResult(string getStageResultInfo)
+    {
+
+    }
+
+    public void ResponseTowerStart(string getTowerStartInfo)
+    {
+
+    }
+
+    public void ResponseTowerResult(string getTowerResultInfo)
     {
 
     }

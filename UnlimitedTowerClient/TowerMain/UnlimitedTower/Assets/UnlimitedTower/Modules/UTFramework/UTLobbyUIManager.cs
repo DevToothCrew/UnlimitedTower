@@ -25,4 +25,29 @@ public class UTLobbyUIManager : MonoBehaviour {
     {
         UTUMSProvider.Instance.RequestLogout();
     }
+
+    public void BattleAction(int heroTarget, int heroAction, int monsterTarget, int monsterAction)
+    {
+        UTUMSProvider.Instance.RequestBattleAction(heroTarget, heroAction, monsterTarget, monsterAction);
+    }
+
+    public void StageStart(int stageNum, int partyNum)
+    {
+        UTUMSProvider.Instance.RequestStageStart(stageNum, partyNum);
+    }
+
+    public void StageResult(int stageNum)
+    {
+        UTUMSProvider.Instance.RequestStageResult(stageNum);
+    }
+
+    public void TowerStart()
+    {
+        UTUMSProvider.Instance.RequestTowerStart();
+    }
+
+    public void TowerResult()
+    {
+        UTUMSProvider.Instance.RequestTowerResult();
+    }
 }

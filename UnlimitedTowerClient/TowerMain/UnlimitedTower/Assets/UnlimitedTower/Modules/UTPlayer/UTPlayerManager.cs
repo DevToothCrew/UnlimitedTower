@@ -38,6 +38,7 @@ public class UTPlayerManager : MonoBehaviour {
         }
     }
 
+    [SerializeField]
     public class UTGachaData : IJSONableData
     {
         public string ToJson()
@@ -47,7 +48,73 @@ public class UTPlayerManager : MonoBehaviour {
             return data.ToString();
         }
     }
-    
+
+    [SerializeField]
+    public class UTBattleActionData : IJSONableData
+    {
+        public int heroTarget;
+        public int heroAction;
+        public int monsterTarget;
+        public int monsterAction;
+
+        public string ToJson()
+        {
+            JsonData data = Cheat.Inst.GetBattleActionData(heroTarget, heroAction, monsterTarget, monsterAction);
+
+            return data.ToString();
+        }
+    }
+
+    [SerializeField]
+    public class UTStageStartData : IJSONableData
+    {
+        public int stageNum;
+        public int partyNum;
+
+        public string ToJson()
+        {
+            JsonData data = Cheat.Inst.GetStageStartData(stageNum, partyNum);
+
+            return data.ToString();
+        }
+    }
+
+    [SerializeField]
+    public class UTStageResultData : IJSONableData
+    {
+        public int stageNum;
+
+        public string ToJson()
+        {
+            JsonData data = Cheat.Inst.GetStageResultData(stageNum);
+
+            return data.ToString();
+        }
+    }
+
+    [SerializeField]
+    public class UTTowerStartData : IJSONableData
+    {
+        public string ToJson()
+        {
+            JsonData data = Cheat.Inst.GetTowerStartData();
+
+            return data.ToString();
+        }
+    }
+
+    [SerializeField]
+    public class UTTowerResultData : IJSONableData
+    {
+        public string ToJson()
+        {
+            JsonData data = Cheat.Inst.GetTowerResultData();
+
+            return data.ToString();
+        }
+    }
+
+
     /// <summary>
     /// 로그인했을 때 발생하는 이벤트 리스너입니다.
     /// </summary>
@@ -69,17 +136,50 @@ public class UTPlayerManager : MonoBehaviour {
     public event Listener OnLogout;
 
     /// <summary>
-    /// 배틀씬에서 상대 유저가 입장헀을때 발생하는 이벤트 리스너입니다.
+    /// 전투씬에서 액션을 입력했을 때 발생하는 이벤트 리스너입니다.
     /// </summary>
-    public event Listener OnEnemyJoined;
+    public event Listener OnBattleAction;
+
+    /// <summary>
+    /// 스테이지 진입했을 때 발생하는 이벤트 리스너입니다.
+    /// </summary>
+    public event Listener OnStageStart;
+
+    /// <summary>
+    /// 스테이지가 끝났을 때 발생하는 이벤트 리스너입니다.
+    /// </summary>
+    public event Listener OnStageResult;
+
+    /// <summary>
+    /// 타워 전투 진입했을 때 발생하는 이벤트 리스너입니다.
+    /// </summary>
+    public event Listener OnTowerStart;
+
+    /// <summary>
+    /// 타워 전투가 끝났을 때 발생하는 이벤트 리스너입니다.
+    /// </summary>
+    public event Listener OnTowerResult;
 
     //현재 로그인중인 유저의 정보를 가져옵니다.
     public UTPlayerData thisUser { get; private set; }
+    
+    //가챠 결과 정보를 가져옵니다.
     public UTGachaData thisGacha { get; private set; }
 
-    //현재 배틀씬에서 상대방의 유저 정보를 가져옵니다.
-    public UTPlayerData otherUserInThisBattle { get; private set; }
+    //전투 액션 정보를 가져옵니다.
+    public UTBattleActionData thisBattleAction { get; private set; }
 
+    //스테이지 시작 정보를 가져옵니다.
+    public UTStageStartData thisStageStart { get; private set; }
+
+    //스테이지 결과 정보를 가져옵니다.
+    public UTStageResultData thisStageResult { get; private set; }
+
+    //타워 시작 정보를 가져옵니다.
+    public UTTowerStartData thisTowerStart { get; private set; }
+
+    //타워 결과 정보를 가져옵니다.
+    public UTTowerResultData thisTowerResult { get; private set; }
 
     private void Start()
     {
@@ -144,7 +244,7 @@ public class UTPlayerManager : MonoBehaviour {
                 }
             };
 
-            OnEnemyJoined += (data) =>
+            OnBattleAction += (data) =>
             {
                 if (data is UTFailedData)
                 {
@@ -152,7 +252,70 @@ public class UTPlayerManager : MonoBehaviour {
                 }
                 else
                 {
-                    otherUserInThisBattle = data as UTPlayerData ?? otherUserInThisBattle;
+                    thisBattleAction = data as UTBattleActionData ?? thisBattleAction;
+                    string battleActionInfo = thisBattleAction.ToJson();
+                    Debug.Log("[SUCCESS] user battleaction :" + battleActionInfo);
+                    PacketManager.Inst.ResponseBattleAction(battleActionInfo);
+                }
+            };
+
+            OnStageStart += (data) =>
+            {
+                if (data is UTFailedData)
+                {
+                    Debug.LogWarning("[FAILED MESSAGE]" + (data as UTFailedData).msg);
+                }
+                else
+                {
+                    thisStageStart = data as UTStageStartData ?? thisStageStart;
+                    string stageStartInfo = thisStageStart.ToJson();
+                    Debug.Log("[SUCCESS] user stagestart :" + stageStartInfo);
+                    PacketManager.Inst.ResponseStageStart(stageStartInfo);
+                }
+            };
+
+            OnStageResult += (data) =>
+            {
+                if (data is UTFailedData)
+                {
+                    Debug.LogWarning("[FAILED MESSAGE]" + (data as UTFailedData).msg);
+                }
+                else
+                {
+                    thisStageResult = data as UTStageResultData ?? thisStageResult;
+                    string stageResultInfo = thisStageResult.ToJson();
+                    Debug.Log("[SUCCESS] user stageresult :" + stageResultInfo);
+                    PacketManager.Inst.ResponseStageResult(stageResultInfo);
+                }
+            };
+
+            OnTowerStart += (data) =>
+            {
+                if (data is UTFailedData)
+                {
+                    Debug.LogWarning("[FAILED MESSAGE]" + (data as UTFailedData).msg);
+                }
+                else
+                {
+                    thisTowerStart = data as UTTowerStartData ?? thisTowerStart;
+                    string towerStartInfo = thisTowerStart.ToJson();
+                    Debug.Log("[SUCCESS] user towerstart :" + towerStartInfo);
+                    PacketManager.Inst.ResponseTowerStart(towerStartInfo);
+                }
+            };
+
+            OnTowerResult += (data) =>
+            {
+                if (data is UTFailedData)
+                {
+                    Debug.LogWarning("[FAILED MESSAGE]" + (data as UTFailedData).msg);
+                }
+                else
+                {
+                    thisTowerResult = data as UTTowerResultData ?? thisTowerResult;
+                    string towerResultInfo = thisTowerResult.ToJson();
+                    Debug.Log("[SUCCESS] user towerresult :" + towerResultInfo);
+                    PacketManager.Inst.ResponseTowerResult(towerResultInfo);
                 }
             };
 
@@ -161,7 +324,11 @@ public class UTPlayerManager : MonoBehaviour {
             UTEventPoolInterface.AddEventListener("gacha", OnGacha);
             UTEventPoolInterface.AddEventListener("saveparty", OnSaveParty);
             UTEventPoolInterface.AddEventListener("logout", OnLogout);
-            UTEventPoolInterface.AddEventListener("enemyJoined", OnEnemyJoined);
+            UTEventPoolInterface.AddEventListener("battleaction", OnBattleAction);
+            UTEventPoolInterface.AddEventListener("stagestart", OnStageStart);
+            UTEventPoolInterface.AddEventListener("stageresult", OnStageResult);
+            UTEventPoolInterface.AddEventListener("towerstart", OnTowerStart);
+            UTEventPoolInterface.AddEventListener("towerresult", OnTowerResult);
         }
     }
 }

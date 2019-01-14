@@ -11,6 +11,11 @@ public class UTLocalUMSProvider : UTUMSProvider
         UTEventPoolInterface.SendEventData("login", new UTPlayerManager.UTPlayerData() { user = "devtooth", gameMoney = 999999 });
     }
 
+    public override void RequestLogout()
+    {
+        PacketManager.Inst.ResponseLogout();
+    }
+
     public override void RequestGacha()
     {
         UTEventPoolInterface.SendEventData("gacha", new UTPlayerManager.UTGachaData() { });
@@ -21,8 +26,28 @@ public class UTLocalUMSProvider : UTUMSProvider
         UTEventPoolInterface.SendEventData("login", new UTPlayerManager.UTPlayerData() { user = "devtooth", gameMoney = 999999 });
     }
 
-    public override void RequestLogout()
+    public override void RequestBattleAction(int heroTarget, int heroAction, int monsterTarget, int monsterAction)
     {
-        PacketManager.Inst.ResponseLogout();
+        PacketManager.Inst.RequestBattleAction(heroTarget, heroAction, monsterTarget, monsterAction);
+    }
+
+    public override void RequestStageStart(int stageNum, int partyNum)
+    {
+        PacketManager.Inst.RequestStageStart(stageNum, partyNum);
+    }
+
+    public override void RequestStageResult(int stageNum)
+    {
+        PacketManager.Inst.RequestStageResult(stageNum);
+    }
+
+    public override void RequestTowerStart()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void RequestTowerResult()
+    {
+        throw new System.NotImplementedException();
     }
 }

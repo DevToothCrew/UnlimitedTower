@@ -99,6 +99,32 @@ public class Cheat : MonoSingleton<Cheat>
         {
             return null;
         }
+
+    }
+
+    public string GetBattleActionData(int heroTarget, int heroAction, int monsterTarget, int monsterAction)
+    {
+        return null;
+    }
+
+    public string GetStageStartData(int stageNum, int partyNum)
+    {
+        return null;
+    }
+
+    public string GetStageResultData(int stageNum)
+    {
+        return null;
+    }
+
+    public string GetTowerStartData()
+    {
+        return null;
+    }
+
+    public string GetTowerResultData()
+    {
+        return null;
     }
 
     public servantData GetRandomServantData(int index, SERVANT_JOB job)
