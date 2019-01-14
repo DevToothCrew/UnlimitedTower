@@ -68,6 +68,46 @@ CONTRACT unlimitgacha : public contract
     typedef eosio::multi_index<"dbgender"_n, dbgender> gender_db;
 #pragma endregion
 
+#pragma region db dbservantjob
+    TABLE dbservantjob
+    {
+        uint64_t job;
+        object_status min_range;
+        object_status max_range;
+        uint64_t primary_key() const { return job; }
+    };
+    typedef eosio::multi_index<"dbservantjob"_n, dbservantjob> servant_job_db;
+#pragma endregion
+
+#pragma region db dbservantid
+    TABLE dbservantid
+    {
+        uint64_t id;
+        uint64_t primary_key() const { return id; }
+    };
+    typedef eosio::multi_index<"dbservantid"_n, dbservantid> servant_id_db;
+#pragma endregion
+
+#pragma region db dbmonstergd
+    TABLE dbmonstergd
+    {
+        uint64_t grade;
+        object_status min_range;
+        object_status max_range;
+        uint64_t primary_key() const { return grade; }
+    };
+    typedef eosio::multi_index<"dbmonstergd"_n, dbmonstergd> monster_grade_db;
+#pragma endregion
+
+#pragma region db dbmonsterid
+    TABLE dbmonsterid
+    {
+        uint64_t id;
+        uint64_t primary_key() const { return id; }
+    };
+    typedef eosio::multi_index<"dbmonsterid"_n, dbmonsterid> monster_id_db;
+#pragma endregion
+
 #pragma region db dbitemgrade
     TABLE dbitemgrade
     {
@@ -91,45 +131,8 @@ CONTRACT unlimitgacha : public contract
     typedef eosio::multi_index<"dbitemid"_n, dbitemid> item_id_db;
 #pragma endregion
 
-#pragma region db dbmonstergd
-    TABLE dbmonstergd
-    {
-        uint64_t grade;
-        object_status min_range;
-        object_status max_range;
-        uint64_t primary_key() const { return grade; }
-    };
-    typedef eosio::multi_index<"dbmonstergd"_n, dbmonstergd> monster_grade_db;
-#pragma endregion
 
-#pragma region db dbmonsterid
-    TABLE dbmonsterid
-    {
-        uint64_t id;
-        uint64_t primary_key() const { return id; }
-    };
-    typedef eosio::multi_index<"dbmonsterid"_n, dbmonsterid> monster_id_db;
-#pragma endregion
 
-#pragma region db dbservantjob
-    TABLE dbservantjob
-    {
-        uint64_t job;
-        object_status min_range;
-        object_status max_range;
-        uint64_t primary_key() const { return job; }
-    };
-    typedef eosio::multi_index<"dbservantjob"_n, dbservantjob> servantjob_db;
-#pragma endregion
-
-#pragma region db dbservantid
-    TABLE dbservantid
-    {
-        uint64_t id;
-        uint64_t primary_key() const { return id; }
-    };
-    typedef eosio::multi_index<"dbservantid"_n, dbservantid> servantid_db;
-#pragma endregion
 
     //------------------------------------------------------------------------//
     //----------------------------db_system-----------------------------------//
@@ -151,8 +154,8 @@ CONTRACT unlimitgacha : public contract
 
   public:
 #pragma region db action
-    ACTION setdata();
-    ACTION initdata();
+    ACTION setmaster();
+    ACTION initmaster();
     ACTION setpresale();
 #pragma endregion
 
@@ -368,7 +371,8 @@ CONTRACT unlimitgacha : public contract
 #pragma region gacha function
     uint32_t get_random_grade(uint64_t _rate);
 
-    void gacha_servant_job(eosio::name _user, uint64_t _seed);
+    uint32_t get_servant_id(uint32_t _job, uint32_t _body, uint32_t _gender, uint32_t _head, uint32_t _hair);
+    void gacha_servant_id(eosio::name _user, uint64_t _seed);
     uint8_t gacha_servant_head(uint64_t _seed, uint32_t _count);
     uint8_t gacha_servant_hair(uint64_t _seed, uint32_t _count);
     uint8_t gacha_servant_body(uint64_t _seed, uint32_t _count);
@@ -379,7 +383,7 @@ CONTRACT unlimitgacha : public contract
 
     void start_gacha(eosio::name _user, uint64_t _seed);
 //-----------------------------pre_sale_function--------------------------------//
-    void presale_gacha_servant_job(eosio::name _user, uint64_t _seed);
+    void presale_gacha_servant_id(eosio::name _user, uint64_t _seed);
     void presale_gacha_monster_id(eosio::name _user, uint64_t _seed);
     void presale_gacha_item_id(eosio::name _user, uint64_t _seed);
 
