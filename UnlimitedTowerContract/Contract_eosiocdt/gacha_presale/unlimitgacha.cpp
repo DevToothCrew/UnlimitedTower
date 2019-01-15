@@ -1020,7 +1020,6 @@ ACTION unlimitgacha::deleteuser(eosio::name _user)
     delete_user_data(_user);
     delete_user_object_data(_user);
     delete_user_presale_data(_user);
-    delete_user_gacha_result_data(_user);
     delete_user_balance(_user);
 }
 
@@ -1034,6 +1033,10 @@ void unlimitgacha::delete_user_data(eosio::name _user)
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
     eosio_assert(user_log_iter != user_log_table.end(), "not exist user auth data");
+    if(user_log_iter->gacha_num != 0)
+    {
+        delete_user_gacha_result_data(_user);
+    }
     user_log_table.erase(user_log_iter);
 }
 

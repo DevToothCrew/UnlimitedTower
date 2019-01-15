@@ -150,7 +150,7 @@ enum db_choice
     //------------------------------------------------------------------------//
   private:
 #pragma region db values
-    const uint8_t servant_job_count = 5;
+    const uint8_t servant_job_count = 6;
     const uint8_t monster_id_count = 51;
     const uint8_t item_id_count = 37;
     const uint8_t head_count = 4;
