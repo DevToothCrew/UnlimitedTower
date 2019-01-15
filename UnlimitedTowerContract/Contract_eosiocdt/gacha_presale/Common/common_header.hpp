@@ -17,6 +17,7 @@
 #define END_BATTLE              0
 #define NOT_APPEAR              0
 #define EMPTY_PARTY             0
+#define DEFAULT_MIN_DB          1
 
 
 #define HERO_POSITION           8

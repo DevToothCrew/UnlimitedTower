@@ -139,10 +139,10 @@ enum db_choice
     head,
     gender,
     servant_id,
+    monster_id,
+    monster_grade,
     item_id,
     item_grade,
-    monster_id,
-    monster_grade
 };
 
     //------------------------------------------------------------------------//
@@ -150,17 +150,13 @@ enum db_choice
     //------------------------------------------------------------------------//
   private:
 #pragma region db values
-    const uint8_t servant_job_count = 72;
+    const uint8_t servant_job_count = 5;
     const uint8_t monster_id_count = 51;
-    const uint8_t monster_grade_count = 5;
-    const uint8_t item_id_count = 36;
-    const uint8_t item_tier_count = 4;
-    const uint8_t item_grade_count = 5;
-    const uint8_t item_slot_count = 3;
-    const uint8_t head_count = 3;
-    const uint8_t hair_count = 3;
-    const uint8_t body_count = 4;
-    const uint8_t gender_count = 2;
+    const uint8_t item_id_count = 37;
+    const uint8_t head_count = 4;
+    const uint8_t hair_count = 4;
+    const uint8_t body_count = 3;
+    const uint8_t gender_count = 3;
     uint32_t random_count = 0;
 #pragma endregion
 
@@ -297,12 +293,21 @@ enum db_choice
     TABLE tservant
     {
         uint64_t index;
-        uint32_t party_number;
+        uint32_t party_number = 0;
         servant_info servant;
         uint64_t primary_key() const { return index; }
     };
     typedef eosio::multi_index<"tservant"_n, tservant> user_servants;
-    typedef eosio::multi_index<"preservant"_n, tservant> user_pre_sale_servants;
+
+    TABLE preservant
+    {
+        uint64_t index;
+        uint32_t id;
+        status_info status;
+        uint64_t primary_key() const { return index; }
+    };
+
+    typedef eosio::multi_index<"preservant"_n, preservant> user_pre_sale_servants;
 #pragma endregion
 
 #pragma region gacha tmonster
@@ -320,12 +325,23 @@ enum db_choice
     TABLE tmonster
     {
         uint64_t index;
-        uint32_t party_number;
+        uint32_t party_number = 0;
         monster_info monster;
         uint64_t primary_key() const { return index; }
     };
     typedef eosio::multi_index<"tmonster"_n, tmonster> user_monsters;
-    typedef eosio::multi_index<"premonster"_n, tmonster> user_pre_sale_monsters;
+
+
+    TABLE premonster
+    {
+        uint64_t index;
+        uint32_t id;
+        uint32_t grade;
+        status_info status;
+        uint64_t primary_key() const { return index; }
+    };
+
+    typedef eosio::multi_index<"premonster"_n, premonster> user_pre_sale_monsters;
 #pragma endregion
 
 #pragma region gacha titem
@@ -341,7 +357,6 @@ enum db_choice
         uint32_t atk = 0;
         uint32_t def = 0;
         status_info status; //기본 힘,민,지 추가 힘,민,지
-        uint32_t main_status;   //주스탯 
     };
 
     TABLE titem
@@ -351,7 +366,20 @@ enum db_choice
         uint64_t primary_key() const { return index; }
     };
     typedef eosio::multi_index<"titem"_n, titem> user_items;
-    typedef eosio::multi_index<"preitem"_n, titem> user_pre_sale_items;
+
+
+    TABLE preitem
+    {
+        uint64_t index;
+        uint32_t id;
+        uint32_t type;
+        uint32_t tier;
+        uint32_t job;
+        uint32_t grade;
+        uint32_t main_status;
+        uint64_t primary_key() const { return index; }
+    };
+    typedef eosio::multi_index<"preitem"_n, preitem> user_pre_sale_items;
 #pragma endregion
 
 #pragma region gacha tgacharesult
@@ -412,7 +440,7 @@ enum db_choice
     const uint32_t four_grade_ratio = 484; //25.8 %
     const uint32_t five_grade_ratio = 1000; //51.6 %
 
-    const uint64_t limit_token_amount = 150000000;
+    const uint64_t limit_token_amount = 15000000000;
 
 #pragma endregion
 
@@ -420,7 +448,8 @@ enum db_choice
 #pragma region gacha function
     uint32_t get_random_grade(uint64_t _rate);
 
-    void gacha_servant_job(eosio::name _user, uint64_t _seed);
+    uint32_t get_servant_index(uint32_t _job, uint32_t _body, uint32_t _gender, uint32_t _head, uint32_t _hair);
+    void gacha_servant_id(eosio::name _user, uint64_t _seed);
     uint8_t gacha_servant_head(uint64_t _seed, uint32_t _count);
     uint8_t gacha_servant_hair(uint64_t _seed, uint32_t _count);
     uint8_t gacha_servant_body(uint64_t _seed, uint32_t _count);
@@ -431,12 +460,10 @@ enum db_choice
 
     void start_gacha(eosio::name _user, uint64_t _seed);
 //-----------------------------pre_sale_function--------------------------------//
-    uint32_t get_servant_id(uint32_t _job, uint32_t _body, uint32_t _gender, uint32_t _head, uint32_t _hair);
+    
     void presale_gacha_servant_id(eosio::name _user, uint64_t _seed);
-    void presale_gacha_servant_job(eosio::name _user, uint64_t _seed);
     void presale_gacha_monster_id(eosio::name _user, uint64_t _seed);
     void presale_gacha_item_id(eosio::name _user, uint64_t _seed);
-    void gacha_servant_id(eosio::name _user, uint64_t _seed);
     void presale_gacha(eosio::name _user, uint64_t _seed);
 
 #pragma endregion
