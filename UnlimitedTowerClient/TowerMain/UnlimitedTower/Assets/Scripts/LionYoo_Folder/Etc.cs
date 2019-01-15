@@ -126,9 +126,9 @@ public class Etc : MonoBehaviour
         return 30;
     }
 
-    public totalstatclass getTotalstat(List<MountItemStatEntity.Param> list)
+    public StatInfo getTotalstat(List<MountItemStatEntity.Param> list)
     {
-        totalstatclass newstat = new totalstatclass();
+        StatInfo newstat = new StatInfo();
 
         for (int i = 0; i < list.Count; i++)
         {
@@ -212,7 +212,7 @@ public enum PlayerType
 }
 
 // 토탈스탯
-public class totalstatclass
+public class StatInfo
 {
     public double str;
     public double dex;

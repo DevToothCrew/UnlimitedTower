@@ -32,7 +32,7 @@ public class ItemInfoPannel : MonoBehaviour
     public Text CRIDMG;
 
 
-    public void register(UserMountItemData mountitemdata)
+    public void Register(UserMountItemData mountitemdata)
     {
         this.mountitemdata = mountitemdata;
         MountItemEntity.Param param = ErdManager.instance.getmountitemEntityTable_nullPossible(mountitemdata.mountitemNum);
@@ -57,7 +57,7 @@ public class ItemInfoPannel : MonoBehaviour
 
         // 스탯
         List<MountItemStatEntity.Param> statlist = ErdManager.instance.getMountItemStatEntityTable_nullPossible(mountitemdata.mountitemNum);
-        totalstatclass statclass = Etc.instance.getTotalstat(statlist);
+        StatInfo statclass = Etc.instance.getTotalstat(statlist);
 
         str.gameObject.SetActive(statclass.str > 0);
         str.text = (int)statclass.str + "";

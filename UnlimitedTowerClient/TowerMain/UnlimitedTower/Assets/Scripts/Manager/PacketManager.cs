@@ -240,60 +240,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 여기서그냥 데이터를 원하는대로 생성해버리면 되겠네. 
     public void Login(UserLoginData getUserLoginData)
     {
-        //UserInfo userInfo = new UserInfo();
-        //if (ParseUserInfo(getUserLoginData.userinfo, ref userInfo) == false)
-        //{
-        //    Debug.Log("Invalid ParseUserInfo Info");
-        //    // 재 로그인 시켜야함
-        //}
-        //UserDataManager.Inst.SetUserInfo(userInfo);
-        //LeftInfoPopup.Inst.SetLeftInfoUserInfoUpdate(userInfo);
-
-        //// 서번트
-        //Dictionary<int, UserServantData> servantList = new Dictionary<int, UserServantData>();
-        //if (ParseServantList(getUserLoginData.servant_list, ref servantList) == false)
-        //{
-        //    Debug.Log("Invalid ParseServantList Info");
-        //    // 재 로그인 시켜야함
-        //}
-        //foreach (var item in servantList)
-        //{
-        //    UserDataManager.Inst.addServantData(item.Value);
-        //}
-
-        //// 몬스터
-        //Dictionary<int, UserMonsterData> monsterList = new Dictionary<int, UserMonsterData>();
-        //if (ParseMonsterList(getUserLoginData.monster_list, ref monsterList) == false)
-        //{
-        //    Debug.Log("Invalid ParseMonsterList Info");
-        //    // 재 로그인 시켜야함
-        //}
-        //foreach (var item in monsterList)
-        //{
-        //    UserDataManager.Inst.addMonsterData(item.Value);
-        //}
-
-        //// 아이템
-        //Dictionary<int, Item> itemDic = new Dictionary<int, Item>();
-        //if (ParseItemList(getUserLoginData.item_list, ref itemDic) == false)
-        //{
-        //    Debug.Log("Invalid ParseItemList Info");
-        //    // 재 로그인 시켜야함
-        //}
-
-        //Dictionary<int, Party> partyDic = new Dictionary<int, Party>();
-        //if (ParsePartyList(getUserLoginData.party_list, ref partyDic) == false)
-        //{
-        //    Debug.Log("invalid ParsePartyList info");
-        //    // 재 로그인 시켜야함
-        //}
-
-
-        //// 모든 데이터가 저장이 된 후 화면 전환
-        //LobbyManager.Inst.ChangeSceneState(userInfo.sceneState);
-
-
-
         // 유니티 에디터이면, 편하게 데이터 생성
         if (Application.platform == RuntimePlatform.WindowsEditor)
         {
@@ -334,8 +280,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 monsterdata.index = i;
                 UserDataManager.Inst.addMonsterData(monsterdata);
 
-                monsterdata.monsterNum = UnityEngine.Random.Range(0, 3);
-                monsterdata.monsterTypeNum = UnityEngine.Random.Range(0, 3);
+                MonsterEntity.Param param = ErdManager.instance.MonsterEntityTable.param[UnityEngine.Random.Range(0, ErdManager.instance.MonsterEntityTable.param.Count)];
+
+                monsterdata.monsterNum = param.monsterNum;
+                monsterdata.monsterTypeNum = param.typeNum;
                 monsterdata.enforceNum = UnityEngine.Random.Range(0, 5);
                 monsterdata.gradeNum = UnityEngine.Random.Range(0, 4);
             }
@@ -351,7 +299,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
                 UserDataManager.Inst.addMountitemData(item);
             }
-             
+
 
             // 배치 데이터 생성
             int maxteamindex = 3;
@@ -440,8 +388,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
             // 모든 데이터가 저장이 된 후 화면 전환
             LobbyManager.Inst.ChangeSceneState(userInfo.sceneState);
         }
-
-
     }
 
     public bool ParseUserInfo(userData getUserData, ref UserInfo userInfo)

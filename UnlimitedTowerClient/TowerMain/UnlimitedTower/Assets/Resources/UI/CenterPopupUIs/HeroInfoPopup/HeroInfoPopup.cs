@@ -32,7 +32,19 @@ public class HeroInfoPopup : MonoBehaviour {
     public static HeroInfoPopup instance;
     private void Awake()
     {
-        instance = this;
+        if (instance != null)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+        }
+        
+    }
+    private void OnDestroy()
+    {
+        instance = null;
     }
 
 

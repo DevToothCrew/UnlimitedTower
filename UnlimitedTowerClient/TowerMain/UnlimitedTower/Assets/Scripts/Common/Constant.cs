@@ -274,16 +274,16 @@ public class UserMountItemData
     public int tearNum;
     public int enforceCount;
 
-    bool IsMounted;
+    bool _isMounted;
     public bool isMounted
     {
         get
         {
-            return IsMounted;
+            return _isMounted;
         }
         set
         {
-            IsMounted = value;
+            _isMounted = value;
 
             if (mountedChanged != null)
             {

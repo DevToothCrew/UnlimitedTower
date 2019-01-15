@@ -15,7 +15,8 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public List<UserMountItemData> MountItemList = new List<UserMountItemData>();
 
     public Dictionary<int, UserEtcItemData> etcitemDic = new Dictionary<int, UserEtcItemData>();
-    
+    public List<UserEtcItemData> EtcItemList = new List<UserEtcItemData>();
+
     public List<UserFormationData> UserFormationList = new List<UserFormationData>();
     public Dictionary<int, UserPartyData> partyDic = new Dictionary<int, UserPartyData>();
     

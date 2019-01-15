@@ -52,7 +52,7 @@ public class Heroinfo_InvenPannel : MonoBehaviour {
         for (int i = 0; i < UserDataManager.Inst.MountItemList.Count; i++)
         {
             HeroInfoInventoryItemicon icon = geticon();
-            icon.register(UserDataManager.Inst.MountItemList[i]);
+            icon.Register(UserDataManager.Inst.MountItemList[i]);
 
             icon.transform.SetParent(itemParent);
             icon.transform.SetAsLastSibling();
