@@ -112,7 +112,8 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     [ContextMenu("AttackTest")]
     public void AttackTest()
     {
-        StartCoroutine(BattleStart());
+        StartCoroutine(TestBattle());
+        //StartCoroutine(BattleStart());
         //PlayerCharacterControl[0].Attack(new SendValue(0, 3, true));
     }
 
@@ -151,5 +152,24 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             EnemyCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(battleInformation.AttackerIndex, battleInformation.TargetIndex, false, Random.Range(1000, 2000)));
             yield return new WaitForSeconds(7);
         }
+    }
+
+    IEnumerator TestBattle()
+    {
+        battleInformation.AttackerIndex = 3;
+        battleInformation.TargetIndex = 3;
+        battleInformation.isPlayerTurn = true;
+        PlayerCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(battleInformation.AttackerIndex, battleInformation.TargetIndex, true, Random.Range(1000, 2000)));
+        yield return new WaitForSeconds(7);
+        battleInformation.AttackerIndex = 2;
+        battleInformation.TargetIndex = 5;
+        battleInformation.isPlayerTurn = false;
+        EnemyCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(battleInformation.AttackerIndex, battleInformation.TargetIndex, false, Random.Range(1000, 2000)));
+        yield return new WaitForSeconds(7);
+        battleInformation.AttackerIndex = 1;
+        battleInformation.TargetIndex = 8;
+        battleInformation.isPlayerTurn = true;
+        PlayerCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(battleInformation.AttackerIndex, battleInformation.TargetIndex, true, Random.Range(1000, 2000)));
+        yield return new WaitForSeconds(7);
     }
 }

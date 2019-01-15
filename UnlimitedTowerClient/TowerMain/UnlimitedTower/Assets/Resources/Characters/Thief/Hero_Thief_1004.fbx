@@ -10,10 +10,10 @@ FBXHeaderExtension:  {
 		Version: 1000
 		Year: 2019
 		Month: 01
-		Day: 08
-		Hour: 16
-		Minute: 28
-		Second: 52
+		Day: 15
+		Hour: 11
+		Minute: 57
+		Second: 19
 		Millisecond: 0
 	}
 	Creator: "FBX SDK/FBX Plugins build 20070228"
@@ -21,7 +21,7 @@ FBXHeaderExtension:  {
 		FlagPLE: 0
 	}
 }
-CreationTime: "2019-01-08 16:28:52:000"
+CreationTime: "2019-01-15 11:57:19:000"
 Creator: "Blender version 2.79 (sub 0)"
 
 ; Object definitions
@@ -14813,755 +14813,755 @@ Relations:  {
 	}
 	Deformer: "Deformer::Skin hero_thief_1004_image_004", "Skin" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 spine", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 spine", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 spine", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 spine", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 spine", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 spine", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 spine", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 spine", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 spine", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 spine", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 spine", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 spine", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 spine", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 spine", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 spine", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 spine", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 spine", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 spine", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 spine", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 spine", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 spine", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image spine", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 spine", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 spine", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 spine", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 spine_001", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 spine_001", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 spine_001", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 spine_001", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 spine_001", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 spine_001", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 spine_001", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 spine_001", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 spine_001", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 spine_001", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 spine_001", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 spine_001", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 spine_001", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 spine_001", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 spine_001", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 spine_001", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 spine_001", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 spine_001", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 spine_001", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 spine_001", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 spine_001", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image spine_001", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 spine_001", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 spine_001", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 spine_001", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 spine_002", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 spine_002", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 spine_002", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 spine_002", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 spine_002", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 spine_002", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 spine_002", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 spine_002", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 spine_002", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 spine_002", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 spine_002", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 spine_002", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 spine_002", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 spine_002", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 spine_002", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 spine_002", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 spine_002", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 spine_002", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 spine_002", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 spine_002", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 spine_002", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image spine_002", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 spine_002", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 spine_002", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 spine_002", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 spine_003", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 spine_003", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 spine_003", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 spine_003", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 spine_003", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 spine_003", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 spine_003", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 spine_003", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 spine_003", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 spine_003", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 spine_003", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 spine_003", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 spine_003", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 spine_003", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 spine_003", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 spine_003", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 spine_003", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 spine_003", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 spine_003", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 spine_003", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 spine_003", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image spine_003", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 spine_003", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 spine_003", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 spine_003", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 spine_004", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 spine_004", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 spine_004", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 spine_004", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 spine_004", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 spine_004", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 spine_004", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 spine_004", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 spine_004", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 spine_004", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 spine_004", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 spine_004", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 spine_004", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 spine_004", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 spine_004", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 spine_004", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 spine_004", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 spine_004", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 spine_004", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 spine_004", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 spine_004", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image spine_004", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 spine_004", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 spine_004", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 spine_004", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 spine_005", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 spine_005", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 spine_005", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 spine_005", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 spine_005", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 spine_005", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 spine_005", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 spine_005", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 spine_005", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 spine_005", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 spine_005", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 spine_005", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 spine_005", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 spine_005", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 spine_005", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 spine_005", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 spine_005", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 spine_005", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 spine_005", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 spine_005", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 spine_005", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image spine_005", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 spine_005", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 spine_005", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 spine_005", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 spine_006", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 spine_006", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 spine_006", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 spine_006", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 spine_006", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 spine_006", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 spine_006", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 spine_006", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 spine_006", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 spine_006", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 spine_006", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 spine_006", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 spine_006", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 spine_006", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 spine_006", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 spine_006", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 spine_006", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 spine_006", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 spine_006", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 spine_006", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 spine_006", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image spine_006", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 spine_006", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 spine_006", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 spine_006", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 shoulder_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 shoulder_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 shoulder_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 shoulder_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 shoulder_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 shoulder_L", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 shoulder_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 shoulder_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 shoulder_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 shoulder_L", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 shoulder_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 shoulder_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 shoulder_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 shoulder_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 shoulder_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 shoulder_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 shoulder_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 shoulder_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 shoulder_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 shoulder_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 shoulder_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image shoulder_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 shoulder_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 shoulder_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 shoulder_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 upper_arm_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 upper_arm_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 upper_arm_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 upper_arm_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 upper_arm_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 upper_arm_L", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 upper_arm_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 upper_arm_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 upper_arm_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 upper_arm_L", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 upper_arm_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 upper_arm_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 upper_arm_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 upper_arm_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 upper_arm_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 upper_arm_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 upper_arm_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 upper_arm_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 upper_arm_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 upper_arm_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 upper_arm_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image upper_arm_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 upper_arm_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 upper_arm_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 upper_arm_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 forearm_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 forearm_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 forearm_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 forearm_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 forearm_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 forearm_L", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 forearm_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 forearm_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 forearm_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 forearm_L", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 forearm_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 forearm_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 forearm_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 forearm_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 forearm_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 forearm_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 forearm_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 forearm_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 forearm_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 forearm_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 forearm_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image forearm_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 forearm_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 forearm_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 forearm_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 hand_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 hand_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 hand_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 hand_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 hand_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 hand_L", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 hand_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 hand_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 hand_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 hand_L", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 hand_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 hand_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 hand_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 hand_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 hand_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 hand_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 hand_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 hand_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 hand_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 hand_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 hand_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image hand_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 hand_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 hand_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 hand_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 shoulder_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 shoulder_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 shoulder_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 shoulder_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 shoulder_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 shoulder_R", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 shoulder_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 shoulder_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 shoulder_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 shoulder_R", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 shoulder_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 shoulder_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 shoulder_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 shoulder_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 shoulder_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 shoulder_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 shoulder_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 shoulder_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 shoulder_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 shoulder_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 shoulder_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image shoulder_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 shoulder_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 shoulder_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 shoulder_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 upper_arm_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 upper_arm_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 upper_arm_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 upper_arm_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 upper_arm_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 upper_arm_R", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 upper_arm_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 upper_arm_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 upper_arm_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 upper_arm_R", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 upper_arm_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 upper_arm_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 upper_arm_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 upper_arm_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 upper_arm_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 upper_arm_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 upper_arm_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 upper_arm_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 upper_arm_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 upper_arm_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 upper_arm_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image upper_arm_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 upper_arm_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 upper_arm_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 upper_arm_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 forearm_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 forearm_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 forearm_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 forearm_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 forearm_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 forearm_R", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 forearm_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 forearm_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 forearm_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 forearm_R", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 forearm_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 forearm_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 forearm_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 forearm_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 forearm_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 forearm_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 forearm_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 forearm_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 forearm_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 forearm_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 forearm_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image forearm_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 forearm_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 forearm_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 forearm_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 hand_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 hand_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 hand_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 hand_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 hand_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 hand_R", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 hand_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 hand_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 hand_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 hand_R", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 hand_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 hand_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 hand_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 hand_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 hand_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 hand_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 hand_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 hand_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 hand_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 hand_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 hand_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image hand_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 hand_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 hand_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 hand_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 thigh_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 thigh_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 thigh_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 thigh_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 thigh_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 thigh_L", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 thigh_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 thigh_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 thigh_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 thigh_L", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 thigh_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 thigh_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 thigh_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 thigh_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 thigh_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 thigh_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 thigh_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 thigh_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 thigh_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 thigh_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 thigh_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image thigh_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 thigh_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 thigh_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 thigh_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 shin_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 shin_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 shin_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 shin_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 shin_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 shin_L", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 shin_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 shin_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 shin_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 shin_L", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 shin_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 shin_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 shin_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 shin_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 shin_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 shin_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 shin_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 shin_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 shin_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 shin_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 shin_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image shin_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 shin_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 shin_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 shin_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 foot_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 foot_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 foot_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 foot_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 foot_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 foot_L", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 foot_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 foot_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 foot_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 foot_L", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 foot_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 foot_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 foot_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 foot_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 foot_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 foot_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 foot_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 foot_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 foot_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 foot_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 foot_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image foot_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 foot_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 foot_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 foot_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 toe_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 toe_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 toe_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 toe_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 toe_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 toe_L", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 toe_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 toe_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 toe_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 toe_L", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 toe_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 toe_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 toe_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 toe_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 toe_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 toe_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 toe_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 toe_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 toe_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 toe_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 toe_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image toe_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 toe_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 toe_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 toe_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 heel_02_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 heel_02_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 heel_02_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 heel_02_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 heel_02_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 heel_02_L", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 heel_02_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 heel_02_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 heel_02_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 heel_02_L", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 heel_02_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 heel_02_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 heel_02_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 heel_02_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 heel_02_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 heel_02_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 heel_02_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 heel_02_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 heel_02_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 heel_02_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 heel_02_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image heel_02_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 heel_02_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 heel_02_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 heel_02_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 thigh_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 thigh_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 thigh_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 thigh_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 thigh_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 thigh_R", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 thigh_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 thigh_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 thigh_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 thigh_R", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 thigh_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 thigh_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 thigh_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 thigh_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 thigh_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 thigh_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 thigh_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 thigh_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 thigh_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 thigh_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 thigh_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image thigh_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 thigh_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 thigh_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 thigh_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 shin_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 shin_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 shin_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 shin_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 shin_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 shin_R", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 shin_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 shin_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 shin_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 shin_R", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 shin_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 shin_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 shin_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 shin_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 shin_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 shin_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 shin_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 shin_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 shin_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 shin_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 shin_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image shin_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 shin_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 shin_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 shin_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 foot_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 foot_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 foot_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 foot_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 foot_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 foot_R", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 foot_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 foot_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 foot_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 foot_R", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 foot_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 foot_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 foot_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 foot_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 foot_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 foot_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 foot_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 foot_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 foot_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 foot_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 foot_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image foot_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 foot_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 foot_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 foot_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 toe_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 toe_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 toe_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 toe_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 toe_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 toe_R", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 toe_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 toe_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 toe_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 toe_R", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 toe_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 toe_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 toe_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 toe_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 toe_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 toe_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 toe_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 toe_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 toe_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 toe_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 toe_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image toe_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 toe_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 toe_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 toe_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 heel_02_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 heel_02_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 heel_02_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 heel_02_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 heel_02_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_010 heel_02_R", "Cluster" {
 	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 heel_02_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 heel_02_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_003 heel_02_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_004 heel_02_R", "Cluster" {
+	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_007 heel_02_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 heel_02_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 heel_02_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_006 heel_02_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image_012 heel_02_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_011 heel_02_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_016 heel_02_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_008 heel_02_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_013 heel_02_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_009 heel_02_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 heel_02_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster hero_thief_1004_image heel_02_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_001 heel_02_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster hero_thief_1004_image_005 heel_02_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster hero_thief_1004_image_014 heel_02_R", "Cluster" {
 	}
 }
 
@@ -15631,756 +15631,756 @@ Connections:  {
 	Connect: "OO", "Deformer::Skin hero_thief_1004_image_008", "Model::hero_thief_1004_image_008"
 	Connect: "OO", "Deformer::Skin hero_thief_1004_image_009", "Model::hero_thief_1004_image_009"
 	Connect: "OO", "Deformer::Skin hero_thief_1004_image_004", "Model::hero_thief_1004_image_004"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 spine", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 spine", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 spine", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 spine", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 spine", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 spine", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 spine", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 spine", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 spine", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 spine", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 spine", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 spine", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 spine", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 spine", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 spine", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 spine", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 spine", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 spine", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 spine", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 spine", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image spine", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 spine", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 spine", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 spine_001", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 spine_001", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 spine_001", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image spine", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 spine", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 spine_001", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 spine_001", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 spine_001", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 spine_001", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 spine_001", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 spine_001", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 spine_001", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 spine_001", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 spine_001", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 spine_001", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 spine_001", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 spine_001", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 spine_001", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 spine_001", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 spine_001", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 spine_001", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 spine_001", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image spine_001", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 spine_001", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 spine_001", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 spine_002", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 spine_002", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 spine_002", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image spine_001", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 spine_001", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 spine_002", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 spine_002", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 spine_002", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 spine_002", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 spine_002", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 spine_002", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 spine_002", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 spine_002", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 spine_002", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 spine_002", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 spine_002", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 spine_002", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 spine_002", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 spine_002", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 spine_002", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 spine_002", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 spine_002", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image spine_002", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 spine_002", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 spine_002", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 spine_003", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 spine_003", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 spine_003", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image spine_002", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 spine_002", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 spine_003", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 spine_003", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 spine_003", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 spine_003", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 spine_003", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 spine_003", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 spine_003", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 spine_003", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 spine_003", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 spine_003", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 spine_003", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 spine_003", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 spine_003", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 spine_003", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 spine_003", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 spine_003", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 spine_003", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image spine_003", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 spine_003", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 spine_003", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 spine_004", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 spine_004", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 spine_004", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image spine_003", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 spine_003", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 spine_004", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 spine_004", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 spine_004", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 spine_004", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 spine_004", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 spine_004", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 spine_004", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 spine_004", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 spine_004", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 spine_004", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 spine_004", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 spine_004", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 spine_004", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 spine_004", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 spine_004", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 spine_004", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 spine_004", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image spine_004", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 spine_004", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 spine_004", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 spine_005", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 spine_005", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 spine_005", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image spine_004", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 spine_004", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 spine_005", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 spine_005", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 spine_005", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 spine_005", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 spine_005", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 spine_005", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 spine_005", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 spine_005", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 spine_005", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 spine_005", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 spine_005", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 spine_005", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 spine_005", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 spine_005", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 spine_005", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 spine_005", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 spine_005", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image spine_005", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 spine_005", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 spine_005", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 spine_006", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 spine_006", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 spine_006", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image spine_005", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 spine_005", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 spine_006", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 spine_006", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 spine_006", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 spine_006", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 spine_006", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 spine_006", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 spine_006", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 spine_006", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 spine_006", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 spine_006", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 spine_006", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 spine_006", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 spine_006", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 spine_006", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 spine_006", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 spine_006", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 spine_006", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image spine_006", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 spine_006", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 spine_006", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 shoulder_L", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 shoulder_L", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 shoulder_L", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image spine_006", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 spine_006", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 shoulder_L", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 shoulder_L", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 shoulder_L", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 shoulder_L", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 shoulder_L", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 shoulder_L", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 shoulder_L", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 shoulder_L", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 shoulder_L", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 shoulder_L", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 shoulder_L", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 shoulder_L", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 shoulder_L", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 shoulder_L", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 shoulder_L", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 shoulder_L", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 shoulder_L", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image shoulder_L", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 shoulder_L", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 shoulder_L", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 upper_arm_L", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 upper_arm_L", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 upper_arm_L", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image shoulder_L", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 shoulder_L", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 upper_arm_L", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 upper_arm_L", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 upper_arm_L", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 upper_arm_L", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 upper_arm_L", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 upper_arm_L", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 upper_arm_L", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 upper_arm_L", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 upper_arm_L", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 upper_arm_L", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 upper_arm_L", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 upper_arm_L", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 upper_arm_L", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 upper_arm_L", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 upper_arm_L", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 upper_arm_L", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 upper_arm_L", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image upper_arm_L", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 upper_arm_L", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 upper_arm_L", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 forearm_L", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 forearm_L", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 forearm_L", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image upper_arm_L", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 upper_arm_L", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 forearm_L", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 forearm_L", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 forearm_L", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 forearm_L", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 forearm_L", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 forearm_L", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 forearm_L", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 forearm_L", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 forearm_L", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 forearm_L", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 forearm_L", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 forearm_L", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 forearm_L", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 forearm_L", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 forearm_L", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 forearm_L", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 forearm_L", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image forearm_L", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 forearm_L", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 forearm_L", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 hand_L", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 hand_L", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 hand_L", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image forearm_L", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 forearm_L", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 hand_L", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 hand_L", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 hand_L", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 hand_L", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 hand_L", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 hand_L", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 hand_L", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 hand_L", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 hand_L", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 hand_L", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 hand_L", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 hand_L", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 hand_L", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 hand_L", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 hand_L", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 hand_L", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 hand_L", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image hand_L", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 hand_L", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 hand_L", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 shoulder_R", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 shoulder_R", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 shoulder_R", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image hand_L", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 hand_L", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 shoulder_R", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 shoulder_R", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 shoulder_R", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 shoulder_R", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 shoulder_R", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 shoulder_R", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 shoulder_R", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 shoulder_R", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 shoulder_R", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 shoulder_R", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 shoulder_R", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 shoulder_R", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 shoulder_R", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 shoulder_R", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 shoulder_R", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 shoulder_R", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 shoulder_R", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image shoulder_R", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 shoulder_R", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 shoulder_R", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 upper_arm_R", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 upper_arm_R", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 upper_arm_R", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image shoulder_R", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 shoulder_R", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 upper_arm_R", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 upper_arm_R", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 upper_arm_R", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 upper_arm_R", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 upper_arm_R", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 upper_arm_R", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 upper_arm_R", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 upper_arm_R", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 upper_arm_R", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 upper_arm_R", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 upper_arm_R", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 upper_arm_R", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 upper_arm_R", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 upper_arm_R", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 upper_arm_R", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 upper_arm_R", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 upper_arm_R", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image upper_arm_R", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 upper_arm_R", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 upper_arm_R", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 forearm_R", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 forearm_R", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 forearm_R", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image upper_arm_R", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 upper_arm_R", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 forearm_R", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 forearm_R", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 forearm_R", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 forearm_R", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 forearm_R", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 forearm_R", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 forearm_R", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 forearm_R", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 forearm_R", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 forearm_R", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 forearm_R", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 forearm_R", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 forearm_R", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 forearm_R", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 forearm_R", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 forearm_R", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 forearm_R", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image forearm_R", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 forearm_R", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 forearm_R", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 hand_R", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 hand_R", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 hand_R", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image forearm_R", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 forearm_R", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 hand_R", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 hand_R", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 hand_R", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 hand_R", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 hand_R", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 hand_R", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 hand_R", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 hand_R", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 hand_R", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 hand_R", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 hand_R", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 hand_R", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 hand_R", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 hand_R", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 hand_R", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 hand_R", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 hand_R", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image hand_R", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 hand_R", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 hand_R", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 thigh_L", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 thigh_L", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 thigh_L", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image hand_R", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 hand_R", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 thigh_L", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 thigh_L", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 thigh_L", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 thigh_L", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 thigh_L", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 thigh_L", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 thigh_L", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 thigh_L", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 thigh_L", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 thigh_L", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 thigh_L", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 thigh_L", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 thigh_L", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 thigh_L", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 thigh_L", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 thigh_L", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 thigh_L", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image thigh_L", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 thigh_L", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 thigh_L", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 shin_L", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 shin_L", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 shin_L", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image thigh_L", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 thigh_L", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 shin_L", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 shin_L", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 shin_L", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 shin_L", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 shin_L", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 shin_L", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 shin_L", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 shin_L", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 shin_L", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 shin_L", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 shin_L", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 shin_L", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 shin_L", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 shin_L", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 shin_L", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 shin_L", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 shin_L", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image shin_L", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 shin_L", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 shin_L", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 foot_L", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 foot_L", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 foot_L", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image shin_L", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 shin_L", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 foot_L", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 foot_L", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 foot_L", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 foot_L", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 foot_L", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 foot_L", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 foot_L", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 foot_L", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 foot_L", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 foot_L", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 foot_L", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 foot_L", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 foot_L", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 foot_L", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 foot_L", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 foot_L", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 foot_L", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image foot_L", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 foot_L", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 foot_L", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 toe_L", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 toe_L", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 toe_L", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image foot_L", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 foot_L", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 toe_L", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 toe_L", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 toe_L", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 toe_L", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 toe_L", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 toe_L", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 toe_L", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 toe_L", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 toe_L", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 toe_L", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 toe_L", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 toe_L", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 toe_L", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 toe_L", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 toe_L", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 toe_L", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 toe_L", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image toe_L", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 toe_L", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 toe_L", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 heel_02_L", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 heel_02_L", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 heel_02_L", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image toe_L", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 toe_L", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 heel_02_L", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 heel_02_L", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 heel_02_L", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 heel_02_L", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 heel_02_L", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 heel_02_L", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 heel_02_L", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 heel_02_L", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 heel_02_L", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 heel_02_L", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 heel_02_L", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 heel_02_L", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 heel_02_L", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 heel_02_L", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 heel_02_L", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 heel_02_L", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 heel_02_L", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image heel_02_L", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 heel_02_L", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 heel_02_L", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 thigh_R", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 thigh_R", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 thigh_R", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image heel_02_L", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 heel_02_L", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 thigh_R", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 thigh_R", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 thigh_R", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 thigh_R", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 thigh_R", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 thigh_R", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 thigh_R", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 thigh_R", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 thigh_R", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 thigh_R", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 thigh_R", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 thigh_R", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 thigh_R", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 thigh_R", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 thigh_R", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 thigh_R", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 thigh_R", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image thigh_R", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 thigh_R", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 thigh_R", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 shin_R", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 shin_R", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 shin_R", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image thigh_R", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 thigh_R", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 shin_R", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 shin_R", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 shin_R", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 shin_R", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 shin_R", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 shin_R", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 shin_R", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 shin_R", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 shin_R", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 shin_R", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 shin_R", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 shin_R", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 shin_R", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 shin_R", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 shin_R", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 shin_R", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 shin_R", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image shin_R", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 shin_R", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 shin_R", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 foot_R", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 foot_R", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 foot_R", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image shin_R", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 shin_R", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 foot_R", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 foot_R", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 foot_R", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 foot_R", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 foot_R", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 foot_R", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 foot_R", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 foot_R", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 foot_R", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 foot_R", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 foot_R", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 foot_R", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 foot_R", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 foot_R", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 foot_R", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 foot_R", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 foot_R", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image foot_R", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 foot_R", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 foot_R", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 toe_R", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 toe_R", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 toe_R", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image foot_R", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 foot_R", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 toe_R", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 toe_R", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 toe_R", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 toe_R", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 toe_R", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 toe_R", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 toe_R", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 toe_R", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 toe_R", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 toe_R", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 toe_R", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 toe_R", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 toe_R", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 toe_R", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 toe_R", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 toe_R", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 toe_R", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image toe_R", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 toe_R", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 toe_R", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 heel_02_R", "Deformer::Skin hero_thief_1004_image_003"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 heel_02_R", "Deformer::Skin hero_thief_1004_image_014"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 heel_02_R", "Deformer::Skin hero_thief_1004_image_004"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image toe_R", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 toe_R", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 heel_02_R", "Deformer::Skin hero_thief_1004_image_011"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 heel_02_R", "Deformer::Skin hero_thief_1004_image_013"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_010 heel_02_R", "Deformer::Skin hero_thief_1004_image_010"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 heel_02_R", "Deformer::Skin hero_thief_1004_image_008"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 heel_02_R", "Deformer::Skin hero_thief_1004_image_009"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_003 heel_02_R", "Deformer::Skin hero_thief_1004_image_003"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_004 heel_02_R", "Deformer::Skin hero_thief_1004_image_004"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_007 heel_02_R", "Deformer::Skin hero_thief_1004_image_007"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 heel_02_R", "Deformer::Skin hero_thief_1004_image_005"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 heel_02_R", "Deformer::Skin hero_thief_1004_image_016"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_006 heel_02_R", "Deformer::Skin hero_thief_1004_image_006"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_012 heel_02_R", "Deformer::Skin hero_thief_1004_image_012"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_011 heel_02_R", "Deformer::Skin hero_thief_1004_image_011"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_016 heel_02_R", "Deformer::Skin hero_thief_1004_image_016"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_008 heel_02_R", "Deformer::Skin hero_thief_1004_image_008"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_013 heel_02_R", "Deformer::Skin hero_thief_1004_image_013"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_009 heel_02_R", "Deformer::Skin hero_thief_1004_image_009"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image heel_02_R", "Deformer::Skin hero_thief_1004_image"
 	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_001 heel_02_R", "Deformer::Skin hero_thief_1004_image_001"
-	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_005 heel_02_R", "Deformer::Skin hero_thief_1004_image_005"
-	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image_003 spine"
-	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image_014 spine"
-	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image_004 spine"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image heel_02_R", "Deformer::Skin hero_thief_1004_image"
+	Connect: "OO", "SubDeformer::Cluster hero_thief_1004_image_014 heel_02_R", "Deformer::Skin hero_thief_1004_image_014"
+	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image_011 spine"
+	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image_013 spine"
 	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image_010 spine"
+	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image_008 spine"
+	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image_009 spine"
+	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image_003 spine"
+	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image_004 spine"
 	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image_007 spine"
+	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image_005 spine"
+	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image_016 spine"
 	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image_006 spine"
 	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image_012 spine"
-	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image_011 spine"
-	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image_016 spine"
-	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image_008 spine"
-	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image_013 spine"
-	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image_009 spine"
-	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image spine"
 	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image_001 spine"
-	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image_005 spine"
-	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image_003 spine_001"
-	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image_014 spine_001"
-	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image_004 spine_001"
+	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image spine"
+	Connect: "OO", "Model::spine", "SubDeformer::Cluster hero_thief_1004_image_014 spine"
+	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image_011 spine_001"
+	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image_013 spine_001"
 	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image_010 spine_001"
+	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image_008 spine_001"
+	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image_009 spine_001"
+	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image_003 spine_001"
+	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image_004 spine_001"
 	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image_007 spine_001"
+	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image_005 spine_001"
+	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image_016 spine_001"
 	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image_006 spine_001"
 	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image_012 spine_001"
-	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image_011 spine_001"
-	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image_016 spine_001"
-	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image_008 spine_001"
-	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image_013 spine_001"
-	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image_009 spine_001"
-	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image spine_001"
 	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image_001 spine_001"
-	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image_005 spine_001"
-	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image_003 spine_002"
-	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image_014 spine_002"
-	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image_004 spine_002"
+	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image spine_001"
+	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster hero_thief_1004_image_014 spine_001"
+	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image_011 spine_002"
+	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image_013 spine_002"
 	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image_010 spine_002"
+	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image_008 spine_002"
+	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image_009 spine_002"
+	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image_003 spine_002"
+	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image_004 spine_002"
 	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image_007 spine_002"
+	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image_005 spine_002"
+	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image_016 spine_002"
 	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image_006 spine_002"
 	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image_012 spine_002"
-	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image_011 spine_002"
-	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image_016 spine_002"
-	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image_008 spine_002"
-	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image_013 spine_002"
-	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image_009 spine_002"
-	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image spine_002"
 	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image_001 spine_002"
-	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image_005 spine_002"
-	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image_003 spine_003"
-	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image_014 spine_003"
-	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image_004 spine_003"
+	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image spine_002"
+	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster hero_thief_1004_image_014 spine_002"
+	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image_011 spine_003"
+	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image_013 spine_003"
 	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image_010 spine_003"
+	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image_008 spine_003"
+	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image_009 spine_003"
+	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image_003 spine_003"
+	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image_004 spine_003"
 	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image_007 spine_003"
+	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image_005 spine_003"
+	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image_016 spine_003"
 	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image_006 spine_003"
 	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image_012 spine_003"
-	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image_011 spine_003"
-	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image_016 spine_003"
-	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image_008 spine_003"
-	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image_013 spine_003"
-	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image_009 spine_003"
-	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image spine_003"
 	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image_001 spine_003"
-	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image_005 spine_003"
-	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image_003 spine_004"
-	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image_014 spine_004"
-	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image_004 spine_004"
+	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image spine_003"
+	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster hero_thief_1004_image_014 spine_003"
+	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image_011 spine_004"
+	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image_013 spine_004"
 	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image_010 spine_004"
+	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image_008 spine_004"
+	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image_009 spine_004"
+	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image_003 spine_004"
+	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image_004 spine_004"
 	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image_007 spine_004"
+	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image_005 spine_004"
+	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image_016 spine_004"
 	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image_006 spine_004"
 	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image_012 spine_004"
-	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image_011 spine_004"
-	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image_016 spine_004"
-	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image_008 spine_004"
-	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image_013 spine_004"
-	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image_009 spine_004"
-	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image spine_004"
 	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image_001 spine_004"
-	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image_005 spine_004"
-	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image_003 spine_005"
-	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image_014 spine_005"
-	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image_004 spine_005"
+	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image spine_004"
+	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster hero_thief_1004_image_014 spine_004"
+	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image_011 spine_005"
+	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image_013 spine_005"
 	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image_010 spine_005"
+	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image_008 spine_005"
+	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image_009 spine_005"
+	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image_003 spine_005"
+	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image_004 spine_005"
 	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image_007 spine_005"
+	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image_005 spine_005"
+	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image_016 spine_005"
 	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image_006 spine_005"
 	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image_012 spine_005"
-	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image_011 spine_005"
-	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image_016 spine_005"
-	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image_008 spine_005"
-	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image_013 spine_005"
-	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image_009 spine_005"
-	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image spine_005"
 	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image_001 spine_005"
-	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image_005 spine_005"
-	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image_003 spine_006"
-	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image_014 spine_006"
-	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image_004 spine_006"
+	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image spine_005"
+	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster hero_thief_1004_image_014 spine_005"
+	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image_011 spine_006"
+	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image_013 spine_006"
 	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image_010 spine_006"
+	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image_008 spine_006"
+	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image_009 spine_006"
+	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image_003 spine_006"
+	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image_004 spine_006"
 	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image_007 spine_006"
+	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image_005 spine_006"
+	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image_016 spine_006"
 	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image_006 spine_006"
 	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image_012 spine_006"
-	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image_011 spine_006"
-	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image_016 spine_006"
-	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image_008 spine_006"
-	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image_013 spine_006"
-	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image_009 spine_006"
-	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image spine_006"
 	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image_001 spine_006"
-	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image_005 spine_006"
-	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image_003 shoulder_L"
-	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image_014 shoulder_L"
-	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image_004 shoulder_L"
+	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image spine_006"
+	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster hero_thief_1004_image_014 spine_006"
+	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image_011 shoulder_L"
+	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image_013 shoulder_L"
 	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image_010 shoulder_L"
+	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image_008 shoulder_L"
+	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image_009 shoulder_L"
+	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image_003 shoulder_L"
+	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image_004 shoulder_L"
 	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image_007 shoulder_L"
+	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image_005 shoulder_L"
+	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image_016 shoulder_L"
 	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image_006 shoulder_L"
 	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image_012 shoulder_L"
-	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image_011 shoulder_L"
-	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image_016 shoulder_L"
-	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image_008 shoulder_L"
-	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image_013 shoulder_L"
-	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image_009 shoulder_L"
-	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image shoulder_L"
 	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image_001 shoulder_L"
-	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image_005 shoulder_L"
-	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image_003 upper_arm_L"
-	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image_014 upper_arm_L"
-	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image_004 upper_arm_L"
+	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image shoulder_L"
+	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster hero_thief_1004_image_014 shoulder_L"
+	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image_011 upper_arm_L"
+	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image_013 upper_arm_L"
 	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image_010 upper_arm_L"
+	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image_008 upper_arm_L"
+	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image_009 upper_arm_L"
+	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image_003 upper_arm_L"
+	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image_004 upper_arm_L"
 	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image_007 upper_arm_L"
+	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image_005 upper_arm_L"
+	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image_016 upper_arm_L"
 	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image_006 upper_arm_L"
 	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image_012 upper_arm_L"
-	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image_011 upper_arm_L"
-	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image_016 upper_arm_L"
-	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image_008 upper_arm_L"
-	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image_013 upper_arm_L"
-	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image_009 upper_arm_L"
-	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image upper_arm_L"
 	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image_001 upper_arm_L"
-	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image_005 upper_arm_L"
-	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image_003 forearm_L"
-	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image_014 forearm_L"
-	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image_004 forearm_L"
+	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image upper_arm_L"
+	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster hero_thief_1004_image_014 upper_arm_L"
+	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image_011 forearm_L"
+	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image_013 forearm_L"
 	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image_010 forearm_L"
+	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image_008 forearm_L"
+	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image_009 forearm_L"
+	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image_003 forearm_L"
+	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image_004 forearm_L"
 	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image_007 forearm_L"
+	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image_005 forearm_L"
+	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image_016 forearm_L"
 	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image_006 forearm_L"
 	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image_012 forearm_L"
-	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image_011 forearm_L"
-	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image_016 forearm_L"
-	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image_008 forearm_L"
-	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image_013 forearm_L"
-	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image_009 forearm_L"
-	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image forearm_L"
 	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image_001 forearm_L"
-	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image_005 forearm_L"
-	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image_003 hand_L"
-	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image_014 hand_L"
-	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image_004 hand_L"
+	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image forearm_L"
+	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster hero_thief_1004_image_014 forearm_L"
+	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image_011 hand_L"
+	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image_013 hand_L"
 	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image_010 hand_L"
+	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image_008 hand_L"
+	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image_009 hand_L"
+	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image_003 hand_L"
+	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image_004 hand_L"
 	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image_007 hand_L"
+	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image_005 hand_L"
+	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image_016 hand_L"
 	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image_006 hand_L"
 	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image_012 hand_L"
-	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image_011 hand_L"
-	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image_016 hand_L"
-	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image_008 hand_L"
-	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image_013 hand_L"
-	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image_009 hand_L"
-	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image hand_L"
 	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image_001 hand_L"
-	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image_005 hand_L"
-	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image_003 shoulder_R"
-	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image_014 shoulder_R"
-	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image_004 shoulder_R"
+	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image hand_L"
+	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster hero_thief_1004_image_014 hand_L"
+	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image_011 shoulder_R"
+	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image_013 shoulder_R"
 	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image_010 shoulder_R"
+	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image_008 shoulder_R"
+	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image_009 shoulder_R"
+	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image_003 shoulder_R"
+	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image_004 shoulder_R"
 	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image_007 shoulder_R"
+	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image_005 shoulder_R"
+	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image_016 shoulder_R"
 	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image_006 shoulder_R"
 	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image_012 shoulder_R"
-	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image_011 shoulder_R"
-	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image_016 shoulder_R"
-	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image_008 shoulder_R"
-	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image_013 shoulder_R"
-	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image_009 shoulder_R"
-	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image shoulder_R"
 	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image_001 shoulder_R"
-	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image_005 shoulder_R"
-	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image_003 upper_arm_R"
-	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image_014 upper_arm_R"
-	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image_004 upper_arm_R"
+	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image shoulder_R"
+	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster hero_thief_1004_image_014 shoulder_R"
+	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image_011 upper_arm_R"
+	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image_013 upper_arm_R"
 	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image_010 upper_arm_R"
+	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image_008 upper_arm_R"
+	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image_009 upper_arm_R"
+	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image_003 upper_arm_R"
+	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image_004 upper_arm_R"
 	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image_007 upper_arm_R"
+	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image_005 upper_arm_R"
+	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image_016 upper_arm_R"
 	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image_006 upper_arm_R"
 	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image_012 upper_arm_R"
-	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image_011 upper_arm_R"
-	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image_016 upper_arm_R"
-	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image_008 upper_arm_R"
-	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image_013 upper_arm_R"
-	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image_009 upper_arm_R"
-	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image upper_arm_R"
 	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image_001 upper_arm_R"
-	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image_005 upper_arm_R"
-	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image_003 forearm_R"
-	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image_014 forearm_R"
-	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image_004 forearm_R"
+	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image upper_arm_R"
+	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster hero_thief_1004_image_014 upper_arm_R"
+	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image_011 forearm_R"
+	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image_013 forearm_R"
 	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image_010 forearm_R"
+	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image_008 forearm_R"
+	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image_009 forearm_R"
+	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image_003 forearm_R"
+	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image_004 forearm_R"
 	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image_007 forearm_R"
+	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image_005 forearm_R"
+	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image_016 forearm_R"
 	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image_006 forearm_R"
 	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image_012 forearm_R"
-	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image_011 forearm_R"
-	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image_016 forearm_R"
-	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image_008 forearm_R"
-	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image_013 forearm_R"
-	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image_009 forearm_R"
-	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image forearm_R"
 	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image_001 forearm_R"
-	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image_005 forearm_R"
-	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image_003 hand_R"
-	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image_014 hand_R"
-	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image_004 hand_R"
+	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image forearm_R"
+	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster hero_thief_1004_image_014 forearm_R"
+	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image_011 hand_R"
+	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image_013 hand_R"
 	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image_010 hand_R"
+	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image_008 hand_R"
+	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image_009 hand_R"
+	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image_003 hand_R"
+	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image_004 hand_R"
 	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image_007 hand_R"
+	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image_005 hand_R"
+	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image_016 hand_R"
 	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image_006 hand_R"
 	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image_012 hand_R"
-	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image_011 hand_R"
-	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image_016 hand_R"
-	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image_008 hand_R"
-	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image_013 hand_R"
-	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image_009 hand_R"
-	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image hand_R"
 	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image_001 hand_R"
-	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image_005 hand_R"
-	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image_003 thigh_L"
-	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image_014 thigh_L"
-	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image_004 thigh_L"
+	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image hand_R"
+	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster hero_thief_1004_image_014 hand_R"
+	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image_011 thigh_L"
+	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image_013 thigh_L"
 	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image_010 thigh_L"
+	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image_008 thigh_L"
+	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image_009 thigh_L"
+	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image_003 thigh_L"
+	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image_004 thigh_L"
 	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image_007 thigh_L"
+	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image_005 thigh_L"
+	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image_016 thigh_L"
 	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image_006 thigh_L"
 	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image_012 thigh_L"
-	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image_011 thigh_L"
-	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image_016 thigh_L"
-	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image_008 thigh_L"
-	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image_013 thigh_L"
-	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image_009 thigh_L"
-	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image thigh_L"
 	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image_001 thigh_L"
-	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image_005 thigh_L"
-	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image_003 shin_L"
-	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image_014 shin_L"
-	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image_004 shin_L"
+	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image thigh_L"
+	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster hero_thief_1004_image_014 thigh_L"
+	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image_011 shin_L"
+	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image_013 shin_L"
 	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image_010 shin_L"
+	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image_008 shin_L"
+	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image_009 shin_L"
+	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image_003 shin_L"
+	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image_004 shin_L"
 	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image_007 shin_L"
+	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image_005 shin_L"
+	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image_016 shin_L"
 	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image_006 shin_L"
 	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image_012 shin_L"
-	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image_011 shin_L"
-	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image_016 shin_L"
-	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image_008 shin_L"
-	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image_013 shin_L"
-	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image_009 shin_L"
-	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image shin_L"
 	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image_001 shin_L"
-	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image_005 shin_L"
-	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image_003 foot_L"
-	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image_014 foot_L"
-	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image_004 foot_L"
+	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image shin_L"
+	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster hero_thief_1004_image_014 shin_L"
+	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image_011 foot_L"
+	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image_013 foot_L"
 	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image_010 foot_L"
+	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image_008 foot_L"
+	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image_009 foot_L"
+	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image_003 foot_L"
+	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image_004 foot_L"
 	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image_007 foot_L"
+	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image_005 foot_L"
+	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image_016 foot_L"
 	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image_006 foot_L"
 	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image_012 foot_L"
-	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image_011 foot_L"
-	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image_016 foot_L"
-	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image_008 foot_L"
-	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image_013 foot_L"
-	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image_009 foot_L"
-	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image foot_L"
 	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image_001 foot_L"
-	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image_005 foot_L"
-	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image_003 toe_L"
-	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image_014 toe_L"
-	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image_004 toe_L"
+	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image foot_L"
+	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster hero_thief_1004_image_014 foot_L"
+	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image_011 toe_L"
+	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image_013 toe_L"
 	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image_010 toe_L"
+	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image_008 toe_L"
+	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image_009 toe_L"
+	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image_003 toe_L"
+	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image_004 toe_L"
 	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image_007 toe_L"
+	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image_005 toe_L"
+	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image_016 toe_L"
 	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image_006 toe_L"
 	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image_012 toe_L"
-	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image_011 toe_L"
-	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image_016 toe_L"
-	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image_008 toe_L"
-	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image_013 toe_L"
-	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image_009 toe_L"
-	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image toe_L"
 	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image_001 toe_L"
-	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image_005 toe_L"
-	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image_003 heel_02_L"
-	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image_014 heel_02_L"
-	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image_004 heel_02_L"
+	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image toe_L"
+	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster hero_thief_1004_image_014 toe_L"
+	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image_011 heel_02_L"
+	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image_013 heel_02_L"
 	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image_010 heel_02_L"
+	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image_008 heel_02_L"
+	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image_009 heel_02_L"
+	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image_003 heel_02_L"
+	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image_004 heel_02_L"
 	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image_007 heel_02_L"
+	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image_005 heel_02_L"
+	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image_016 heel_02_L"
 	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image_006 heel_02_L"
 	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image_012 heel_02_L"
-	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image_011 heel_02_L"
-	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image_016 heel_02_L"
-	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image_008 heel_02_L"
-	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image_013 heel_02_L"
-	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image_009 heel_02_L"
-	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image heel_02_L"
 	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image_001 heel_02_L"
-	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image_005 heel_02_L"
-	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image_003 thigh_R"
-	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image_014 thigh_R"
-	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image_004 thigh_R"
+	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image heel_02_L"
+	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster hero_thief_1004_image_014 heel_02_L"
+	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image_011 thigh_R"
+	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image_013 thigh_R"
 	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image_010 thigh_R"
+	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image_008 thigh_R"
+	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image_009 thigh_R"
+	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image_003 thigh_R"
+	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image_004 thigh_R"
 	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image_007 thigh_R"
+	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image_005 thigh_R"
+	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image_016 thigh_R"
 	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image_006 thigh_R"
 	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image_012 thigh_R"
-	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image_011 thigh_R"
-	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image_016 thigh_R"
-	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image_008 thigh_R"
-	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image_013 thigh_R"
-	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image_009 thigh_R"
-	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image thigh_R"
 	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image_001 thigh_R"
-	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image_005 thigh_R"
-	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image_003 shin_R"
-	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image_014 shin_R"
-	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image_004 shin_R"
+	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image thigh_R"
+	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster hero_thief_1004_image_014 thigh_R"
+	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image_011 shin_R"
+	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image_013 shin_R"
 	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image_010 shin_R"
+	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image_008 shin_R"
+	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image_009 shin_R"
+	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image_003 shin_R"
+	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image_004 shin_R"
 	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image_007 shin_R"
+	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image_005 shin_R"
+	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image_016 shin_R"
 	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image_006 shin_R"
 	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image_012 shin_R"
-	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image_011 shin_R"
-	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image_016 shin_R"
-	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image_008 shin_R"
-	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image_013 shin_R"
-	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image_009 shin_R"
-	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image shin_R"
 	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image_001 shin_R"
-	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image_005 shin_R"
-	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image_003 foot_R"
-	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image_014 foot_R"
-	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image_004 foot_R"
+	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image shin_R"
+	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster hero_thief_1004_image_014 shin_R"
+	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image_011 foot_R"
+	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image_013 foot_R"
 	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image_010 foot_R"
+	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image_008 foot_R"
+	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image_009 foot_R"
+	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image_003 foot_R"
+	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image_004 foot_R"
 	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image_007 foot_R"
+	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image_005 foot_R"
+	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image_016 foot_R"
 	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image_006 foot_R"
 	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image_012 foot_R"
-	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image_011 foot_R"
-	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image_016 foot_R"
-	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image_008 foot_R"
-	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image_013 foot_R"
-	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image_009 foot_R"
-	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image foot_R"
 	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image_001 foot_R"
-	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image_005 foot_R"
-	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image_003 toe_R"
-	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image_014 toe_R"
-	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image_004 toe_R"
+	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image foot_R"
+	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster hero_thief_1004_image_014 foot_R"
+	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image_011 toe_R"
+	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image_013 toe_R"
 	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image_010 toe_R"
+	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image_008 toe_R"
+	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image_009 toe_R"
+	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image_003 toe_R"
+	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image_004 toe_R"
 	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image_007 toe_R"
+	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image_005 toe_R"
+	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image_016 toe_R"
 	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image_006 toe_R"
 	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image_012 toe_R"
-	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image_011 toe_R"
-	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image_016 toe_R"
-	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image_008 toe_R"
-	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image_013 toe_R"
-	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image_009 toe_R"
-	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image toe_R"
 	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image_001 toe_R"
-	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image_005 toe_R"
-	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image_003 heel_02_R"
-	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image_014 heel_02_R"
-	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image_004 heel_02_R"
+	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image toe_R"
+	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster hero_thief_1004_image_014 toe_R"
+	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image_011 heel_02_R"
+	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image_013 heel_02_R"
 	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image_010 heel_02_R"
+	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image_008 heel_02_R"
+	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image_009 heel_02_R"
+	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image_003 heel_02_R"
+	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image_004 heel_02_R"
 	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image_007 heel_02_R"
+	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image_005 heel_02_R"
+	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image_016 heel_02_R"
 	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image_006 heel_02_R"
 	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image_012 heel_02_R"
-	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image_011 heel_02_R"
-	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image_016 heel_02_R"
-	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image_008 heel_02_R"
-	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image_013 heel_02_R"
-	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image_009 heel_02_R"
-	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image heel_02_R"
 	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image_001 heel_02_R"
-	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image_005 heel_02_R"
+	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image heel_02_R"
+	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster hero_thief_1004_image_014 heel_02_R"
 	Connect: "OO", "Model::spine", "Model::metarig"
 	Connect: "OO", "Model::spine_001", "Model::spine"
 	Connect: "OO", "Model::spine_002", "Model::spine_001"

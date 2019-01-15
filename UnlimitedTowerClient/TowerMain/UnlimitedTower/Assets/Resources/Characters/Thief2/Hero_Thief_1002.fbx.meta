@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 58b948f728c8d704a95de2d0ea9da96e
+guid: 6955a800978268f4ca8412c85ea9161b
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -11,22 +11,22 @@ ModelImporter:
     100010: hand_R
     100012: heel_02_L
     100014: heel_02_R
-    100016: //RootNode
-    100018: hero_thief_1004_image
-    100020: hero_thief_1004_image_001
-    100022: hero_thief_1004_image_003
-    100024: hero_thief_1004_image_004
-    100026: hero_thief_1004_image_005
-    100028: hero_thief_1004_image_006
-    100030: hero_thief_1004_image_007
-    100032: hero_thief_1004_image_008
-    100034: hero_thief_1004_image_009
-    100036: hero_thief_1004_image_010
-    100038: hero_thief_1004_image_011
-    100040: hero_thief_1004_image_012
-    100042: hero_thief_1004_image_013
-    100044: hero_thief_1004_image_014
-    100046: hero_thief_1004_image_016
+    100016: hero_thief_1001
+    100018: hero_thief_1001_002
+    100020: hero_thief_1001_003
+    100022: hero_thief_1001_004
+    100024: hero_thief_1001_005
+    100026: hero_thief_1001_006
+    100028: hero_thief_1001_007
+    100030: hero_thief_1001_008
+    100032: hero_thief_1001_009
+    100034: hero_thief_1001_010
+    100036: hero_thief_1001_011
+    100038: hero_thief_1001_012
+    100040: hero_thief_1001_014
+    100042: hero_thief_1001_015
+    100044: hero_thief_1001_016
+    100046: //RootNode
     100048: metarig
     100050: shin_L
     100052: shin_R
@@ -53,22 +53,22 @@ ModelImporter:
     400010: hand_R
     400012: heel_02_L
     400014: heel_02_R
-    400016: //RootNode
-    400018: hero_thief_1004_image
-    400020: hero_thief_1004_image_001
-    400022: hero_thief_1004_image_003
-    400024: hero_thief_1004_image_004
-    400026: hero_thief_1004_image_005
-    400028: hero_thief_1004_image_006
-    400030: hero_thief_1004_image_007
-    400032: hero_thief_1004_image_008
-    400034: hero_thief_1004_image_009
-    400036: hero_thief_1004_image_010
-    400038: hero_thief_1004_image_011
-    400040: hero_thief_1004_image_012
-    400042: hero_thief_1004_image_013
-    400044: hero_thief_1004_image_014
-    400046: hero_thief_1004_image_016
+    400016: hero_thief_1001
+    400018: hero_thief_1001_002
+    400020: hero_thief_1001_003
+    400022: hero_thief_1001_004
+    400024: hero_thief_1001_005
+    400026: hero_thief_1001_006
+    400028: hero_thief_1001_007
+    400030: hero_thief_1001_008
+    400032: hero_thief_1001_009
+    400034: hero_thief_1001_010
+    400036: hero_thief_1001_011
+    400038: hero_thief_1001_012
+    400040: hero_thief_1001_014
+    400042: hero_thief_1001_015
+    400044: hero_thief_1001_016
+    400046: //RootNode
     400048: metarig
     400050: shin_L
     400052: shin_R
@@ -87,39 +87,40 @@ ModelImporter:
     400078: toe_R
     400080: upper_arm_L
     400082: upper_arm_R
-    2100000: palette_004__hero_thief_1004_image_png
-    4300000: hero_thief_1004_image_006
-    4300002: hero_thief_1004_image_007
-    4300004: hero_thief_1004_image_010
-    4300006: hero_thief_1004_image_011
-    4300008: hero_thief_1004_image_016
-    4300010: hero_thief_1004_image_001
-    4300012: hero_thief_1004_image_003
-    4300014: hero_thief_1004_image_005
-    4300016: hero_thief_1004_image_014
-    4300018: hero_thief_1004_image_013
-    4300020: hero_thief_1004_image
-    4300022: hero_thief_1004_image_012
-    4300024: hero_thief_1004_image_008
-    4300026: hero_thief_1004_image_009
-    4300028: hero_thief_1004_image_004
+    2100000: palette_005__hero_thief_1001_png
+    2100002: palette_006__hero_thief_1001_png_001
+    4300000: hero_thief_1001_009
+    4300002: hero_thief_1001_010
+    4300004: hero_thief_1001_005
+    4300006: hero_thief_1001_006
+    4300008: hero_thief_1001_002
+    4300010: hero_thief_1001_014
+    4300012: hero_thief_1001
+    4300014: hero_thief_1001_003
+    4300016: hero_thief_1001_012
+    4300018: hero_thief_1001_015
+    4300020: hero_thief_1001_011
+    4300022: hero_thief_1001_007
+    4300024: hero_thief_1001_008
+    4300026: hero_thief_1001_004
+    4300028: hero_thief_1001_016
     7400000: Default Take
     9500000: //RootNode
-    13700000: hero_thief_1004_image
-    13700002: hero_thief_1004_image_001
-    13700004: hero_thief_1004_image_003
-    13700006: hero_thief_1004_image_004
-    13700008: hero_thief_1004_image_005
-    13700010: hero_thief_1004_image_006
-    13700012: hero_thief_1004_image_007
-    13700014: hero_thief_1004_image_008
-    13700016: hero_thief_1004_image_009
-    13700018: hero_thief_1004_image_010
-    13700020: hero_thief_1004_image_011
-    13700022: hero_thief_1004_image_012
-    13700024: hero_thief_1004_image_013
-    13700026: hero_thief_1004_image_014
-    13700028: hero_thief_1004_image_016
+    13700000: hero_thief_1001
+    13700002: hero_thief_1001_002
+    13700004: hero_thief_1001_003
+    13700006: hero_thief_1001_004
+    13700008: hero_thief_1001_005
+    13700010: hero_thief_1001_006
+    13700012: hero_thief_1001_007
+    13700014: hero_thief_1001_008
+    13700016: hero_thief_1001_009
+    13700018: hero_thief_1001_010
+    13700020: hero_thief_1001_011
+    13700022: hero_thief_1001_012
+    13700024: hero_thief_1001_014
+    13700026: hero_thief_1001_015
+    13700028: hero_thief_1001_016
   externalObjects: {}
   materials:
     importMaterials: 1
