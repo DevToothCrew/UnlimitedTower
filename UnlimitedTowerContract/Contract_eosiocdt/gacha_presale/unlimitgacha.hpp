@@ -124,8 +124,9 @@ CONTRACT unlimitgacha : public contract
 #pragma region db dbservantid
     TABLE dbservantid
     {
+        uint64_t index;
         uint64_t id;
-        uint64_t primary_key() const { return id; }
+        uint64_t primary_key() const { return index; }
     };
     typedef eosio::multi_index<"dbservantid"_n, dbservantid> servant_id_db;
 #pragma endregion
@@ -168,8 +169,8 @@ enum db_choice
     ACTION setmaster();
     ACTION initmaster();
     ACTION setpresale();
-    ACTION dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max);
-    ACTION dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max);
+    ACTION dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max);
+    ACTION dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max);
     ACTION dberase(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max);
 #pragma endregion
 
@@ -181,7 +182,7 @@ enum db_choice
     void insert_hair(uint32_t _appear);
     void insert_body(uint32_t _appear);
     void insert_gender(uint32_t _appear);
-    void insert_servant_id(uint32_t _id);
+    void insert_servant_id(uint32_t _id, uint32_t _index);
     void insert_monster_id(uint32_t _id);
     void insert_monster_grade(uint32_t _grade, uint32_t _min, uint32_t _max);
     void insert_item_id(uint32_t id, uint32_t type, uint32_t _job, uint32_t tier);
@@ -192,7 +193,7 @@ enum db_choice
     void modify_hair(uint32_t _appear);
     void modify_body(uint32_t _appear);
     void modify_gender(uint32_t _appear);
-    void modify_servant_id(uint32_t _id);
+    void modify_servant_id(uint32_t _id, uint32_t _index);
     void modify_monster_id(uint32_t _id);
     void modify_monster_grade(uint32_t _grade, uint32_t _min, uint32_t _max);
     void modify_item_id(uint32_t id, uint32_t type, uint32_t _job, uint32_t tier);
@@ -340,6 +341,7 @@ enum db_choice
         uint32_t atk = 0;
         uint32_t def = 0;
         status_info status; //기본 힘,민,지 추가 힘,민,지
+        uint32_t main_status;   //주스탯 
     };
 
     TABLE titem
