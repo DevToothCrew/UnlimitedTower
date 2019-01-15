@@ -176,7 +176,7 @@ public class BattleActionData
 [Serializable]
 public class stageStateInfo
 {
-    public int index;
+    public int party_index;
 
     public int now_hp;
     public int damage;
@@ -184,11 +184,19 @@ public class stageStateInfo
 
     public int crit_per;
     public int crit_dmg;
-    public int avoid;
+    public int avoid;    
 
     public int state;
 
     // 버프 리스트, 디버프 리스트, 스킬 리스트 추가 예정
+
+    // DB 나오기 전까지 임시로 사용
+    public Status status;
+    public int status_type;
+    public int exp;
+    public int speed;
+    public int type;
+    public int index;
 }
 
 [Serializable]

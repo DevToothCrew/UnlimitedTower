@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Calculator : MonoBehaviour {
 
@@ -8,19 +9,17 @@ public class Calculator : MonoBehaviour {
         return (status.basicStr + status.plusStr) * DEFINE.HP_MULTI_VALUE;
     }
 
-    public static int GetDamage(SERVANT_JOB job, Status status)
+    public static int GetDamage(STATUS_TYPE statusType, Status status)
     {
-        int getJob = (int)job;
-
-        if (getJob / 100 == 0)
+        if (statusType == STATUS_TYPE.STR)
         {
             return (status.basicStr + status.plusStr) * DEFINE.DAMAGE_MUlTI_VALUE;
         }
-        else if (getJob / 100 == 1)
+        else if (statusType == STATUS_TYPE.DEX)
         {
             return (status.basicDex + status.plusDex) * DEFINE.DAMAGE_MUlTI_VALUE;
         }
-        else if (getJob / 100 == 2)
+        else if (statusType == STATUS_TYPE.INT)
         {
             return (status.basicInt + status.plusInt) * DEFINE.DAMAGE_MUlTI_VALUE;
         }
@@ -90,5 +89,17 @@ public class Calculator : MonoBehaviour {
         }
 
         return DEFINE.MAX_LEVEL;
+    }
+
+    public static int GetAvoid(Status status)
+    {
+        float avoid = (status.basicDex + status.plusDex) * DEFINE.DEFENCE_MULTI_VALUE;
+
+        if(avoid > 30)
+        {
+            avoid = 30;
+        }
+
+        return Convert.ToInt32(avoid);
     }
 }

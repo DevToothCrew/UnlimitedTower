@@ -31,8 +31,10 @@ public class UTLobbyUIManager : MonoBehaviour {
         UTUMSProvider.Instance.RequestBattleAction(heroTarget, heroAction, monsterTarget, monsterAction);
     }
 
-    public void StageStart(int stageNum, int partyNum)
+    public void StageStart()
     {
+        int stageNum = 0;
+        int partyNum = 1;
         UTUMSProvider.Instance.RequestStageStart(stageNum, partyNum);
     }
 

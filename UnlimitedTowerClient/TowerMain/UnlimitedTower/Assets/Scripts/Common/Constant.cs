@@ -22,7 +22,8 @@ public class DEFINE
     public static readonly int DAMAGE_MUlTI_VALUE = 2;
     public static readonly int DEFENCE_MULTI_VALUE = 1;
     public static readonly int CRITICAL_PER_MULTI_VALUE = 1;
-    
+    public static readonly float AVOID_MULTI_VALUE = 0.1f;
+
 
     // Party Info
     public static readonly int PARTY_MAX_NUM = 10;
@@ -387,6 +388,7 @@ public class CharacterAction
         formationType = _formationType;
     }
 }
+
 public static class ExtensionMethod
 {
     public static T GetReferenceTo<T>(this GameObject go, T instance)
@@ -591,5 +593,11 @@ public enum APPEAR_BODY
     MAX = 3
 }
 
+public enum STATUS_TYPE
+{
+    STR = 0,
+    DEX = 1,
+    INT = 2
+}
 
 #endregion
