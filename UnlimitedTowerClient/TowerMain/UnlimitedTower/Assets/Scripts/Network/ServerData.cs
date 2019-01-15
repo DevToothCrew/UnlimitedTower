@@ -148,6 +148,66 @@ public class UserLoginData
     public List<partyData> party_list = new List<partyData>();
 }
 
+[Serializable]
+public class actionInfo
+{
+    public int target_index;
+    public bool avoid;
+    public bool critical;
+    public int damage;
+}
+
+[Serializable]
+public class battleActionInfo
+{
+    public int index;
+    public int action_type;
+
+    public List<actionInfo> action_list = new List<actionInfo>();
+}
+
+[Serializable]
+public class BattleActionData
+{
+    public int turn;
+    public List<battleActionInfo> info_list = new List<battleActionInfo>();
+}
+
+[Serializable]
+public class stageStateInfo
+{
+    public int index;
+
+    public int now_hp;
+    public int damage;
+    public int defence;
+
+    public int crit_per;
+    public int crit_dmg;
+    public int avoid;
+
+    public int state;
+
+    // 버프 리스트, 디버프 리스트, 스킬 리스트 추가 예정
+}
+
+[Serializable]
+public class StageStateData
+{
+    public int turn;
+    public List<stageStateInfo> info_list = new List<stageStateInfo>();
+}
+
+[Serializable]
+public class StageResultData
+{
+    public int get_gold;
+    public List<int> get_exp_list = new List<int>();
+    public List<servantData> get_servant_list = new List<servantData>();
+    public List<monsterData> get_monster_list = new List<monsterData>();
+    public List<itemData> get_item_list = new List<itemData>();
+}
+
 #endregion
 
 
