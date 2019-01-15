@@ -135,14 +135,14 @@ enum db_choice
     job =1, 
     body,
     hair,
+    head,
     gender,
     servant_id,
     item_id,
     item_grade,
     monster_id,
     monster_grade
-
-}
+};
 
     //------------------------------------------------------------------------//
     //----------------------------db_system-----------------------------------//
@@ -165,36 +165,36 @@ enum db_choice
 
   public:
 #pragma region db action
-    ACTION setdata();
-    ACTION initdata();
+    ACTION setmaster();
+    ACTION initmaster();
     ACTION setpresale();
-    ACTION dbinsert();
-    ACTION dbmodify();
-    ACTION dberase();
+    ACTION dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max);
+    ACTION dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max);
+    ACTION dberase(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max);
 #pragma endregion
 
   public:
 #pragma region db function
 
-    void insert_job(uint32_t _job);
+    void insert_job(uint32_t _job,uint32_t _min, uint32_t _max);
     void insert_head(uint32_t _appear);
     void insert_hair(uint32_t _appear);
     void insert_body(uint32_t _appear);
     void insert_gender(uint32_t _appear);
-    void insert_servant(uint32_t _id);
+    void insert_servant_id(uint32_t _id);
     void insert_monster_id(uint32_t _id);
-    void insert_monster_grade(uint _grade, uint32_t _min, uint32_t _max);
+    void insert_monster_grade(uint32_t _grade, uint32_t _min, uint32_t _max);
     void insert_item_id(uint32_t id, uint32_t type, uint32_t _job, uint32_t tier);
     void insert_item_grade(uint32_t _grade, uint32_t _min, uint32_t _max); 
 
-    void modify_job(uint32_t _job);
+    void modify_job(uint32_t _job, uint32_t _min, uint32_t _max);
     void modify_head(uint32_t _appear);
     void modify_hair(uint32_t _appear);
     void modify_body(uint32_t _appear);
     void modify_gender(uint32_t _appear);
     void modify_servant_id(uint32_t _id);
     void modify_monster_id(uint32_t _id);
-    void modify_monster_grade(uint _grade, uint32_t _min, uint32_t _max);
+    void modify_monster_grade(uint32_t _grade, uint32_t _min, uint32_t _max);
     void modify_item_id(uint32_t id, uint32_t type, uint32_t _job, uint32_t tier);
     void modify_item_grade(uint32_t _grade, uint32_t _min, uint32_t _max); 
 
@@ -205,8 +205,8 @@ enum db_choice
     void erase_gender(uint32_t _appear);
     void erase_servant_id(uint32_t _id);
     void erase_monster_id(uint32_t _id);
-    void erase_monster_grade(uint _grade);
-    void erase_item_id(uint32_t id, uint32_t type, uint32_t _job, uint32_t tier);
+    void erase_monster_grade(uint32_t _grade);
+    void erase_item_id(uint32_t id);
     void erase_item_grade(uint32_t _grade);
 
 #pragma endregion
@@ -250,7 +250,6 @@ enum db_choice
     ACTION issue(name _to, asset _quantity, string _memo);
     ACTION tokentrans(name _from, name _to, asset _quantity, string _memo);
     ACTION inittoken(asset _token);
-    ACTION dbinsert(uint64_t _kind, uint64_t _appear, uint64_t _id, uint64_t _job, uint64_t _tier, uint64 _type, uint64_t _grade);
 #pragma endregion
 
 
@@ -430,10 +429,12 @@ enum db_choice
 
     void start_gacha(eosio::name _user, uint64_t _seed);
 //-----------------------------pre_sale_function--------------------------------//
+    uint32_t get_servant_id(uint32_t _job, uint32_t _body, uint32_t _gender, uint32_t _head, uint32_t _hair);
+    void presale_gacha_servant_id(eosio::name _user, uint64_t _seed);
     void presale_gacha_servant_job(eosio::name _user, uint64_t _seed);
     void presale_gacha_monster_id(eosio::name _user, uint64_t _seed);
     void presale_gacha_item_id(eosio::name _user, uint64_t _seed);
-
+    void gacha_servant_id(eosio::name _user, uint64_t _seed);
     void presale_gacha(eosio::name _user, uint64_t _seed);
 
 #pragma endregion
