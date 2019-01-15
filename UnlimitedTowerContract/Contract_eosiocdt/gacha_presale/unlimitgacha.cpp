@@ -141,7 +141,7 @@ void unlimitgacha::add_balance(name _user, asset _value, name _ram_payer)
 
 #pragma region db_insert action 
 
-ACTION unlimitgacha::dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max)
+ACTION unlimitgacha::dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max)
 {
   require_auth(owner);
   switch(_kind){
@@ -250,13 +250,13 @@ void unlimitgacha::insert_gender(uint32_t _appear)
     });
 }
 
-void unlimitgacha::insert_servant_id(uint32_t _id,uint32_t _index)
+void unlimitgacha::insert_servant_id(uint32_t _id, uint32_t _index)
 {
     servant_id_db servant_id_db_table(owner, owner.value);
     servant_id_db_table.emplace(owner, [&](auto &new_servant_id)
     {
         new_servant_id.id = _id;
-        new_servant_id.index = _index
+        new_servant_id.index = _index;
     });
 }
 
@@ -312,7 +312,7 @@ void unlimitgacha::insert_item_grade(uint32_t _grade, uint32_t _min, uint32_t _m
 }
 
 
-ACTION unlimitgacha::dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max)
+ACTION unlimitgacha::dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max)
 {
   require_auth(owner);
   switch(_kind){
