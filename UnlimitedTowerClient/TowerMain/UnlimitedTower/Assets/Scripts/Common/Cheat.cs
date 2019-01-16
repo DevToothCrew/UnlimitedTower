@@ -5,35 +5,185 @@ public class Cheat : MonoSingleton<Cheat>
 {
     private Random rand = new Random();
 
+    //
     public string GetUserLoginData(string user, int gameMoney)
     {
         UserLoginData userLoginData = new UserLoginData();
 
         userLoginData.userinfo.user = user;
         userLoginData.userinfo.game_money = gameMoney;
+
         userLoginData.userinfo.state = 2;
         userLoginData.userinfo.hero = GetRandomServant(GetRandomServantJob());
+        userLoginData.userinfo.hero.isMainServant = true;
+        servantData mainherodata = new servantData();
+        mainherodata.servant = userLoginData.userinfo.hero;
+        mainherodata.index = 0;
 
-        for (int i = 1; i <= 5; i++)
+        // 서번트 생성 ㅇㅋ
+        for (int i = 0; i < 7; i++)
         {
-            servantData servantdata = GetRandomServantData(i, GetRandomServantJob());
-            if (i == 1)
-            {
-                servantdata.servant.isMainServant = true;
-                servantdata.servant.onformation = true;
-                servantdata.servant.formationindex = 2;
-            }
-            userLoginData.servant_list.Add(servantdata);
+            // 서번트 정보
+            servantInfo info = GetRandomServant(GetRandomServantJob());
+            
+            // 서번트 데이터
+            servantData servantdata = new servantData();
+            servantdata.index = 1 + i;
+            servantdata.servant = info;
 
-            userLoginData.monster_list.Add(GetRandomMonster(i));
+            userLoginData.servant_list.Add(servantdata);
+        }
+        userLoginData.servant_list.Add(mainherodata);   // 메인히어로 추가
+
+        // 몬스터 생성
+        for (int i = 0; i < 9; i++)
+        {
+            MonsterEntity.Param param = ErdManager.instance.MonsterEntityTable.param[UnityEngine.Random.Range(0, ErdManager.instance.MonsterEntityTable.param.Count)];
+
+            monsterData monsterdata = GetRandomMonster(i);
+            monsterdata.index = i;
+
+            userLoginData.monster_list.Add(monsterdata);
         }
 
-        partyData partyData = new partyData();
-        partyData.index = 1;
-        partyData.state = 0;
-        partyData.party.Add(0);
+        // 아이템 생성
+        for (int i = 0; i < 9; i++)
+        {
+            itemData itemdata = new itemData();
+            itemdata.index = i;
 
-        userLoginData.party_list.Add(partyData);
+            itemInfo iteminfo = new itemInfo();
+            iteminfo.itemNum = UnityEngine.Random.Range(0, 7);
+            iteminfo.tearNum = UnityEngine.Random.Range(0, 4);
+            iteminfo.upgradeCount = UnityEngine.Random.Range(0, 4);
+
+            itemdata.item = iteminfo;
+
+
+            userLoginData.item_list.Add(itemdata);
+        }
+
+        // 배치 데이터 생성
+        int maxteamindex = 3;
+
+        // 파티,포메이션 추가
+        for (int partyNum = 0; partyNum < maxteamindex; partyNum++)
+        {
+            partyData partydata = new partyData();
+            partydata.index = partyNum;
+            
+            for (int forma_index = 0; forma_index < DEFINE.PARTY_MAX_NUM; forma_index++)
+            {
+                formationInfo formationinfo = new formationInfo();
+                formationinfo.formationIndex = forma_index;
+                formationinfo.isPlaced = false;
+
+                // 메인히어로는 모든 2번자리에 배치되어 있음.
+                if (forma_index == 2)
+                {
+                    formationinfo.isPlaced = true;
+                    formationinfo.unitIndex = 0;
+                }
+
+                partydata.formationList.Add(formationinfo);
+            }
+
+
+            userLoginData.party_list.Add(partydata);
+        }
+
+
+
+
+
+
+
+
+        //// 서번트 생성 
+        //for (int i = 0; i < 7; i++)
+        //{
+        //    UserServantData userservantdata = new UserServantData();
+        //    userservantdata.index = i;
+        //    UserDataManager.Inst.AddServantData(userservantdata);
+
+        //    if (i == 0)
+        //    {
+        //        userservantdata.isMainHero = true;
+        //    }
+        //    userservantdata.charNum = UnityEngine.Random.Range(0, 3);
+        //    userservantdata.jobNum = UnityEngine.Random.Range(0, 2);
+        //    userservantdata.status.basicStr = UnityEngine.Random.Range(5, 10);
+        //    userservantdata.status.basicDex = UnityEngine.Random.Range(5, 10);
+        //    userservantdata.status.basicInt = UnityEngine.Random.Range(5, 10);
+        //}
+
+        //// 몬스터 생성
+        //for (int i = 0; i < 9; i++)
+        //{
+        //    UserMonsterData monsterdata = new UserMonsterData();
+        //    monsterdata.index = i;
+        //    UserDataManager.Inst.AddMonsterData(monsterdata);
+
+        //    MonsterEntity.Param param = ErdManager.instance.MonsterEntityTable.param[UnityEngine.Random.Range(0, ErdManager.instance.MonsterEntityTable.param.Count)];
+
+        //    monsterdata.monsterNum = param.monsterNum;
+        //    monsterdata.monsterTypeNum = param.typeNum;
+        //    monsterdata.enforceNum = UnityEngine.Random.Range(0, 5);
+        //    monsterdata.gradeNum = UnityEngine.Random.Range(0, 4);
+        //}
+
+        //// 아이템 생성
+        //for (int i = 0; i < 9; i++)
+        //{
+        //    UserMountItemData item = new UserMountItemData();
+        //    item.index = i;
+        //    item.mountitemNum = Random.Range(0, 7);
+        //    item.tearNum = Random.Range(0, 4);
+        //    item.enforceCount = Random.Range(0, 4);
+
+        //    UserDataManager.Inst.AddMountitemData(item);
+        //}
+
+        //// 배치 데이터 생성
+        //int maxteamindex = 3;
+
+        //// 포메이션 추가
+        //for (int partyNum = 0; partyNum < maxteamindex; partyNum++)
+        //{
+        //    for (int forma_index = 0; forma_index < 10; forma_index++)
+        //    {
+        //        UserFormationData userformationdata = new UserFormationData();
+
+        //        if (forma_index == 2)
+        //        {
+        //            userformationdata.isPlaced = true;
+        //            userformationdata.index = 0;
+        //        }
+        //        userformationdata.partyIndex = partyNum;
+        //        userformationdata.formationIndex = forma_index;
+
+
+        //        UserDataManager.Inst.UserFormationList.Add(userformationdata);
+
+
+        //    }
+        //}
+
+        //// 파티 데이터 생성
+        //for (int i = 0; i < maxteamindex; i++)
+        //{
+        //    // 파티 추가
+        //    UserPartyData userpartydata = new UserPartyData();
+        //    userpartydata.partyIndex = i;
+
+        //    UserDataManager.Inst.partyDic.Add(userpartydata.partyIndex, userpartydata);
+        //    UserDataManager.Inst.partyList.Add(userpartydata);
+
+
+        //}
+
+
+
 
         return JsonMapper.ToJson(userLoginData);
     }
@@ -120,10 +270,7 @@ public class Cheat : MonoSingleton<Cheat>
         servant.stat_point = (Calculator.GetLevelForExp(servant.exp) - 1) * DEFINE.BONUS_STAT;
         servant.appear = GetRandomAppear();
         servant.status = GetRandomStatus();
-        servant.equip_slot.Add(0);
-        servant.equip_slot.Add(0);
-        servant.equip_slot.Add(0);
-
+        
         return servant;
     }
 
@@ -132,13 +279,16 @@ public class Cheat : MonoSingleton<Cheat>
         monsterData monsterData = new monsterData();
         monsterData.index = index;
 
+        MonsterEntity.Param param = ErdManager.instance.MonsterEntityTable.param[UnityEngine.Random.Range(0, ErdManager.instance.MonsterEntityTable.param.Count)];
+
+
         monsterData.monster = new monsterInfo();
         monsterData.monster.state = 0;
         monsterData.monster.exp = rand.Next(0, DEFINE.MAX_EXP);
-        monsterData.monster.type = 0;
-        monsterData.monster.look = rand.Next(0, 3);
-        monsterData.monster.grade = rand.Next(0, 4);
-        monsterData.monster.upgrade = 0;
+        monsterData.monster.type = param.typeNum;
+        monsterData.monster.look = param.monsterNum;
+        monsterData.monster.grade = UnityEngine.Random.Range(0, 4);
+        monsterData.monster.upgrade = UnityEngine.Random.Range(0, 5);
         monsterData.monster.status = GetRandomStatus();
         // TODO : 업그레이드에 따른 스테이터스 가중치 추가 필요
 

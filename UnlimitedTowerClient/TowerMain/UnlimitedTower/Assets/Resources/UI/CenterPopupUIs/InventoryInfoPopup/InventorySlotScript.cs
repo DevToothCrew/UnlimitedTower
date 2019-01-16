@@ -38,7 +38,7 @@ public class InventorySlotScript : MonoBehaviour {
         
         ItemImage.sprite = ErdManager.instance.MountitemSprite[mountitemdata.mountitemNum];
         teartext.text = mountitemdata.tearNum + "T" ;
-        upgradetext.text = "+"+mountitemdata.enforceCount;
+        upgradetext.text = "+"+mountitemdata.upgradeCount;
     }
     public void register(UserEtcItemData etcitemdata)
     {

@@ -62,7 +62,7 @@ public class Formationslot_Upper : MonoBehaviour {
 
                 uiinitialize();
                 charImage.gameObject.SetActive(true);
-                charImage.sprite = ErdManager.instance.GetServantIconSprite(curServant.isLegend, curServant.charNum, curServant.jobNum);
+                charImage.sprite = ErdManager.instance.GetServantIconSprite(curServant.isLegend, curServant.body, curServant.jobNum);
                 lefttopImage.gameObject.SetActive(true);
                 lefttopImage.sprite = ErdManager.instance.JobIcons[curServant.jobNum];
                 leftbottomleveltext.gameObject.SetActive(true);

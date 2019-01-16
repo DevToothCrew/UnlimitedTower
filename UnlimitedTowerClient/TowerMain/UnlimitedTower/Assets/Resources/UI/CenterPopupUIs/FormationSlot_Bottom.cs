@@ -39,7 +39,7 @@ public class FormationSlot_Bottom : MonoBehaviour {
 
         uiinitialize();
         charImage.gameObject.SetActive(true);
-        charImage.sprite = ErdManager.instance.GetServantIconSprite(servantdata.isLegend ,servantdata.charNum, servantdata.jobNum);
+        charImage.sprite = ErdManager.instance.GetServantIconSprite(servantdata.isLegend ,servantdata.body, servantdata.jobNum);
         lefttopImage.gameObject.SetActive(true);
         lefttopImage.sprite = ErdManager.instance.JobIcons[servantdata.jobNum];
         leftbottomleveltext.gameObject.SetActive(true);

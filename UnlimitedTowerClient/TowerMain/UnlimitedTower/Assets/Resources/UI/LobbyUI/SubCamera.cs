@@ -23,7 +23,7 @@ public class SubCamera : MonoBehaviour {
 
 
         // 캐릭터 카메라
-        _CharObj = Instantiate(ErdManager.instance.ServantBodyPrefabs[servant.charNum]);
+        _CharObj = Instantiate(ErdManager.instance.ServantBodyPrefabs[servant.body]);
         _CharObj.transform.position = CharPos;
         _CharObj.transform.eulerAngles = new Vector3(0, -160, 0);
     }

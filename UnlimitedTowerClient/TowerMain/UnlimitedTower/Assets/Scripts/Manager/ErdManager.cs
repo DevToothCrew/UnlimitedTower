@@ -55,7 +55,6 @@ public class ErdManager : MonoBehaviour {
         }
         else
         {
-            Debug.Log(charNum+" "+ jobNum);
             return ServantbodySprite[getServantIconEntityTable_nullPossible(charNum, jobNum).iconNum];
         }
         

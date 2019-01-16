@@ -29,7 +29,7 @@ public class stageui_charslot : MonoBehaviour {
         UiInitialize();
 
         charimage.gameObject.SetActive(true);
-        charimage.sprite = ErdManager.instance.GetServantIconSprite(servantdata.isLegend, servantdata.charNum, servantdata.jobNum);
+        charimage.sprite = ErdManager.instance.GetServantIconSprite(servantdata.isLegend, servantdata.body, servantdata.jobNum);
         LefttopImage.gameObject.SetActive(true);
         LefttopImage.sprite = ErdManager.instance.JobIcons[servantdata.jobNum];
         levelText.gameObject.SetActive(true);

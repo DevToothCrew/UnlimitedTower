@@ -20,7 +20,7 @@ public class HeroInfoInventoryItemicon : MonoBehaviour {
 
         itemimage.sprite = ErdManager.instance.MountitemSprite[mountitemdata.mountitemNum];
         teartext.text = mountitemdata.tearNum + "T";
-        upgradetext.text = "+"+ mountitemdata.enforceCount;
+        upgradetext.text = "+"+ mountitemdata.upgradeCount;
         UpdateMounted();
 
         mountitemdata.mountedChanged += UpdateMounted;

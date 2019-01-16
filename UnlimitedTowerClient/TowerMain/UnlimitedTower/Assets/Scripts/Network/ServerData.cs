@@ -31,16 +31,18 @@ public class statusInfo
 [Serializable]
 public class servantInfo
 {
+
     public int state;   // state 의미를 모르겠습니다.
     public int exp;     // 
-    public int job;     // 
     public int stat_point;      
     public bool onformation;
     public int formationindex;
+    public int job;     // 
 
 
-    // public bool isLegend;
-    // 
+    public bool isLegend;
+    public string name;
+
 
     public bool isMainServant;
 
@@ -49,60 +51,64 @@ public class servantInfo
     public List<int> equip_slot = new List<int>();
 };
 
-// 
 [Serializable]
 public class monsterInfo
 {
-    public int type;
+    public int type;    
     public int look;
     
-    public int state;   // state가 뭔지 모르겠습니다
-
+    public int exp;
     public string name;
-
-
-    public int exp;     
-    //public int level;
 
     public int grade;
     public int upgrade;
+
     public statusInfo status = new statusInfo();
+
+
+    /* 사용 x */
+    public int state;
 }
 
-
-// 보유아이템테이블과 아이템고유정보테이블이 섞여있음
 [Serializable]
 public class itemInfo
 {
     // 보유아이템 정보
-    public int state;       // state가 뭔지 모르겠습니다.
-    public int id;          // id가 뭔지 모르겠습니다.
-    public int slot;        // slot은 뭔가요?
-    public int upgrade;
-    //public int itemNum;
-    
-    // 아이템 고유정보인데 보유아이템클래스에 있음.
-    // 아이템 고유정보 테이블에서 인덱스만 갖고있으면 될것
-    public int tier;        // 
-    public int job;         
-    public int grade;       
-    
-    public int atk;         // atk
-    public int def;         // def
-    public statusInfo status = new statusInfo();    // statusinfo에 힘 민 지 3개가있던데, 다른 아이템이 다른능력치를 올려줄수도있다고 하셨었습니다.
+    public int itemNum;
+
+    // 
+    public int tearNum;
+    public int upgradeCount;
+
+    public bool isMounted;
+    public int mountedServantNum;
 }
 
-//add by canie
 [Serializable]
-public class partyInfo
+public class formationInfo
 {
-    public int state;
-    public List<int> indexList = new List<int>();
+    public int formationIndex;
+
+    public bool isPlaced;
+    public int unitIndex;
 }
 
 #endregion
 
+
+
 #region Data
+
+[Serializable]
+public class UserLoginData
+{
+    public userData userinfo = new userData();
+    public List<servantData> servant_list = new List<servantData>();
+    public List<monsterData> monster_list = new List<monsterData>();
+    public List<itemData> item_list = new List<itemData>();
+    public List<partyData> party_list = new List<partyData>();
+}
+
 
 [Serializable]
 public class userData
@@ -161,18 +167,10 @@ public class partyData
 {
     public int index;
     public int state;
-    public List<int> party = new List<int>();
+    public List<formationInfo> formationList = new List<formationInfo>();
 }
 
-[Serializable]
-public class UserLoginData
-{
-    public userData userinfo = new userData();
-    public List<servantData> servant_list = new List<servantData>();
-    public List<monsterData> monster_list = new List<monsterData>();
-    public List<itemData> item_list = new List<itemData>();
-    public List<partyData> party_list = new List<partyData>();
-}
+
 
 #endregion
 

@@ -37,7 +37,7 @@ public class SlotScript : MonoBehaviour {
         uiInitialize();
 
         charimage.gameObject.SetActive(true);
-        charimage.sprite = ErdManager.instance.GetServantIconSprite(servant.isLegend, servant.charNum, servant.jobNum);
+        charimage.sprite = ErdManager.instance.GetServantIconSprite(servant.isLegend, servant.body, servant.jobNum);
         lefttopimage.gameObject.SetActive(true);
         lefttopimage.sprite = ErdManager.instance.JobIcons[servant.jobNum];
         leveltext.gameObject.SetActive(true);

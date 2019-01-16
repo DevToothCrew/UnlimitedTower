@@ -42,10 +42,10 @@ public class ItemInfoPannel : MonoBehaviour
         itemname.text = param.itemName;
         itemimage.sprite = ErdManager.instance.MountitemSprite[mountitemdata.mountitemNum];
         teartext.text = mountitemdata.tearNum + "T";
-        upgradeText.text = "+" + mountitemdata.enforceCount;
+        upgradeText.text = "+" + mountitemdata.upgradeCount;
 
         teartext2.text = mountitemdata.tearNum + "T";
-        upgradetext2.text = "+" + mountitemdata.enforceCount +"/"+ Etc.maxItemUpgradeNum;
+        upgradetext2.text = "+" + mountitemdata.upgradeCount +"/"+ Etc.maxItemUpgradeNum;
 
         // job
         for (int i = 0; i < jobimageList.Count; i++)
