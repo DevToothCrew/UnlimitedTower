@@ -152,7 +152,20 @@ public class UserServantData
 
     public Status status = new Status();
     public int leftStatPoint;
+
+
+
+    // 조회용 데이터 __________________________________________________________
+
+    // 착용 아이템 리스트 -> 역참조초기화x, 역참조업데이트x
+    public List<UserMountItemData> mountItemList = new List<UserMountItemData>();
+
+    // 배치 데이터   -> 역참조 초기화?x, 역참조업데이트?ok
+    public bool isPlaced;       
+    public int partyNum;
+    public int formationNum;
     
+
 
 
 
@@ -198,7 +211,17 @@ public class UserMonsterData
     public Status status = new Status();
 
     public string name;
-    
+
+
+
+
+    // 조회용 데이터(ERD 역 참조값들)
+    public bool isPlaced;
+    public int teamNum;
+    public int formationNum;
+
+
+
 
     //TODO : TestCode
     public UserMonsterData()
@@ -251,12 +274,46 @@ public class Status
 [System.Serializable]
 public class UserFormationData
 {
+    // 인덱스
     public int partyIndex;
     public int formationIndex;
 
+
+
     public bool isPlaced;
-    public bool isServant;
+    public CHAR_TYPE charType
+    {
+        get
+        {
+            if (formationIndex == 2)
+            {
+                return CHAR_TYPE.HERO;
+            }
+
+            if (formationIndex <= 4)
+            {
+                return CHAR_TYPE.SERVANT;
+            }
+
+            return CHAR_TYPE.MONSTER;
+        }
+    }
     public int index;
+
+    public UserServantData servantdata
+    {
+        get
+        {
+            return UserDataManager.Inst.servantDic[index];
+        }
+    }
+    public UserMonsterData monsterdata
+    {
+        get
+        {
+            return UserDataManager.Inst.monsterDic[index];
+        }
+    }
 }
 
 
@@ -309,8 +366,11 @@ public class UserEtcItemData
 public class UserPartyData
 {
     public int partyIndex;
-
     public bool isFixedAtFloor;
+    
+    // 역참조 초기화o, 역참조 업데이트o
+    public Dictionary<int, UserFormationData> formationDataDic = new Dictionary<int, UserFormationData>();
+    public List<UserFormationData> UserFormationList = new List<UserFormationData>();
 }
 
 
@@ -427,6 +487,11 @@ public static class ExtensionMethod
 
 #region ENUM
 
+public enum PARTY_STATE
+{
+    FREE,
+    FIXED
+}
 // Battle Formation Type
 public enum FORMATION_TYPE
 {

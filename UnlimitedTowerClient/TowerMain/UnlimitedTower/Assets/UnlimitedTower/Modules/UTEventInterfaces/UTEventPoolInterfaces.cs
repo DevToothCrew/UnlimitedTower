@@ -72,7 +72,7 @@ public static class UTEventPoolInterface
         catch (Exception e)
         {
             Debug.Log(eventName);
-            Debug.LogError("[UTEventPoolInterface.OnReceivedEventData]" + e.Message);
+            //Debug.LogError("[UTEventPoolInterface.OnReceivedEventData]" + e.Message);
         }
     }
 

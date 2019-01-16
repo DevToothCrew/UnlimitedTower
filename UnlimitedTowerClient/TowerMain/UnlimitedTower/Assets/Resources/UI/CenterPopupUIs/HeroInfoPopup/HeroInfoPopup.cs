@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class HeroInfoPopup : MonoBehaviour {
     
-
     // UI
     [SerializeField] Text powertext;        // 공격력
     [SerializeField] Text hptext;           // 생명력

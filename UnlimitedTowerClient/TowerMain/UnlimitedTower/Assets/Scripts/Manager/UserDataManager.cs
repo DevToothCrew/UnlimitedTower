@@ -16,16 +16,21 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
     public Dictionary<int, UserEtcItemData> etcitemDic = new Dictionary<int, UserEtcItemData>();
     public List<UserEtcItemData> EtcItemList = new List<UserEtcItemData>();
-
-    public List<UserFormationData> UserFormationList = new List<UserFormationData>();
-    public Dictionary<int, UserPartyData> partyDic = new Dictionary<int, UserPartyData>();
     
+    public Dictionary<int, UserPartyData> partyDic = new Dictionary<int, UserPartyData>();
+    public List<UserPartyData> partyList = new List<UserPartyData>();
+    
+    public List<UserFormationData> UserFormationList = new List<UserFormationData>();
+
+
+
+
     public int usingPartyNum = 1;
 
 
 
     // Add Remove
-    public void addServantData(UserServantData getServant)
+    public void AddServantData(UserServantData getServant)
     {
         if (servantDic.ContainsKey(getServant.index) == false)
         {
@@ -37,7 +42,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
             Debug.Log("Invalid SetServant Info : " + getServant.index);
         }
     }
-    public void removeServantData(int index)
+    public void RemoveServantData(int index)
     {
         if (servantDic.ContainsKey(index))
         {
@@ -51,7 +56,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         }
     }
 
-    public void addMonsterData(UserMonsterData getMonster)
+    public void AddMonsterData(UserMonsterData getMonster)
     {
         if (monsterDic.ContainsKey(getMonster.index) == false)
         {
@@ -63,7 +68,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
             Debug.Log("Invalid SetMonster Info : " + getMonster.index);
         }
     }
-    public void removeMonsterData(int index)
+    public void RemoveMonsterData(int index)
     {
         if (monsterDic.ContainsKey(index))
         {
@@ -77,12 +82,12 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         }
     }
 
-    public void addMountitemData(UserMountItemData mountitemdata)
+    public void AddMountitemData(UserMountItemData mountitemdata)
     {
         MountItemList.Add(mountitemdata);
         mountitemDic.Add(mountitemdata.index, mountitemdata);
     }
-    public void removeMountiemData(UserMountItemData mountitemdata)
+    public void RemoveMountiemData(UserMountItemData mountitemdata)
     {
         // list
         if (MountItemList.Contains(mountitemdata))
@@ -127,10 +132,11 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
 
     // get
-    public UserFormationData getFormaData_nullPossible(int team, int formindex)
+    public UserFormationData GetFormaData_nullPossible(int team, int formindex)
     {
         return UserFormationList.Find((rowdata) => { return rowdata.partyIndex == team && rowdata.formationIndex == formindex; });
     }
+
     #region SetFunction
 
     public void SetUserInfo(UserInfo getUserInfo)

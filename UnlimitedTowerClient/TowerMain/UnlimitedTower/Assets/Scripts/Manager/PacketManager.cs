@@ -171,7 +171,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             gachaServantData gachaData = JsonUtility.FromJson<gachaServantData>(getGachaInfo);
             UserServantData getServant = ParseServant(gachaData.data.index, gachaData.data.servant);
 
-            UserDataManager.Inst.addServantData(getServant);
+            UserDataManager.Inst.AddServantData(getServant);
 
             GachaImage.Inst.SetServantGachaImage(getServant);
         }
@@ -182,7 +182,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             gachaMonsterData gachaData = JsonUtility.FromJson<gachaMonsterData>(getGachaInfo);
             UserMonsterData getMonster = ParseMonster(gachaData.data.index, gachaData.data.monster);
 
-            UserDataManager.Inst.addMonsterData(getMonster);
+            UserDataManager.Inst.AddMonsterData(getMonster);
 
             GachaImage.Inst.SetMonsterGachaImage(getMonster);
         }
@@ -245,6 +245,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
         {
             Debug.Log("유니티 로그인!");
 
+
+
+
+
+            /* ERD 데이터 초기화 */
+
             // 유저인포
             UserInfo userInfo = new UserInfo();
             if (ParseUserInfo(getUserLoginData.userinfo, ref userInfo) == false)
@@ -260,7 +266,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             {
                 UserServantData userservantdata = new UserServantData();
                 userservantdata.index = i;
-                UserDataManager.Inst.addServantData(userservantdata);
+                UserDataManager.Inst.AddServantData(userservantdata);
 
                 if (i == 0)
                 {
@@ -278,7 +284,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             {
                 UserMonsterData monsterdata = new UserMonsterData();
                 monsterdata.index = i;
-                UserDataManager.Inst.addMonsterData(monsterdata);
+                UserDataManager.Inst.AddMonsterData(monsterdata);
 
                 MonsterEntity.Param param = ErdManager.instance.MonsterEntityTable.param[UnityEngine.Random.Range(0, ErdManager.instance.MonsterEntityTable.param.Count)];
 
@@ -297,39 +303,121 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 item.tearNum = Random.Range(0, 4);
                 item.enforceCount = Random.Range(0, 4);
 
-                UserDataManager.Inst.addMountitemData(item);
+                UserDataManager.Inst.AddMountitemData(item);
             }
-
-
+            
             // 배치 데이터 생성
             int maxteamindex = 3;
-            for (int teamindex = 0; teamindex <= maxteamindex; teamindex++)
+
+            // 포메이션 추가
+            for (int partyNum = 0; partyNum < maxteamindex; partyNum++)
             {
                 for (int forma_index = 0; forma_index < 10; forma_index++)
                 {
                     UserFormationData userformationdata = new UserFormationData();
-                    UserDataManager.Inst.UserFormationList.Add(userformationdata);
 
                     if (forma_index == 2)
                     {
                         userformationdata.isPlaced = true;
-                        userformationdata.isServant = true;
                         userformationdata.index = 0;
                     }
-                    userformationdata.partyIndex = teamindex;
+                    userformationdata.partyIndex = partyNum;
                     userformationdata.formationIndex = forma_index;
+
+                    
+                    UserDataManager.Inst.UserFormationList.Add(userformationdata);
+
+
+                }
+            }
+            
+            // 파티 데이터 생성
+            for (int i = 0; i < maxteamindex; i++)
+            {
+                // 파티 추가
+                UserPartyData userpartydata = new UserPartyData();
+                userpartydata.partyIndex = i;
+
+                UserDataManager.Inst.partyDic.Add(userpartydata.partyIndex, userpartydata);
+                UserDataManager.Inst.partyList.Add(userpartydata);
+
+                
+            }
+
+
+
+
+
+            /* ERD 역참조데이터 초기화 */
+            // 서번트
+            for (int i = 0; i < UserDataManager.Inst.ServantList.Count; i++)
+            {
+                UserServantData servantdata = UserDataManager.Inst.ServantList[i];
+                
+                // 착용아이템 역참조 정보
+                servantdata.mountItemList = UserDataManager.Inst.MountItemList.FindAll((rowdata) => { return rowdata.isMounted && rowdata.mountServantIndex == servantdata.index; });
+                
+                // 배치 역참조 정보
+                UserFormationData formationdata = UserDataManager.Inst.UserFormationList.Find((rowdata) =>
+                {
+                    return rowdata.isPlaced &&
+                     (rowdata.charType == CHAR_TYPE.SERVANT || rowdata.charType == CHAR_TYPE.HERO) &&
+                     rowdata.index == servantdata.index;
+                });
+                if (formationdata != null)
+                {
+                    servantdata.isPlaced = true;
+                    servantdata.partyNum = formationdata.partyIndex;
+                    servantdata.formationNum = formationdata.formationIndex;
+                }
+                else
+                {
+                    servantdata.isPlaced = false;
+                }
+                
+            }
+            // 몬스터
+            for (int i = 0; i < UserDataManager.Inst.MonsterList.Count; i++)
+            {
+                UserMonsterData monsterdata = UserDataManager.Inst.MonsterList[i];
+                
+                // 배치 역참조 정보
+                UserFormationData formationdata = UserDataManager.Inst.UserFormationList.Find((rowdata) =>
+                {
+                    return rowdata.isPlaced &&
+                     (rowdata.charType == CHAR_TYPE.MONSTER) &&
+                     rowdata.index == monsterdata.index;
+                });
+                if (formationdata != null)
+                {
+                    monsterdata.isPlaced = true;
+                    monsterdata.teamNum = formationdata.partyIndex;
+                    monsterdata.formationNum = formationdata.formationIndex;
+                }
+                else
+                {
+                    monsterdata.isPlaced = false;
+                }
+
+            }
+            // 파티 역참조
+            for (int i = 0; i < UserDataManager.Inst.partyList.Count; i++)
+            {
+                UserPartyData partydata = UserDataManager.Inst.partyList[i];
+                for (int j = 0; j < 10; j++)
+                {
+                    int partynum = partydata.partyIndex;
+                    int formNum = j;
+
+                    UserFormationData formdata = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.partyIndex == partynum && rowdata.formationIndex == formNum; });
+                    partydata.formationDataDic.Add(formdata.formationIndex, formdata);
+                    partydata.UserFormationList.Add(formdata);
 
                 }
             }
 
-            // 파티 데이터 생성
-            for (int i = 0; i < maxteamindex; i++)
-            {
-                //UserPartyData userformationdata = new UserPartyData();
-                //UserDataManager.Inst.UserFormationList.Add(userformationdata);
-            }
 
-
+            Debug.Log("dd");
             // 모든 데이터가 저장이 된 후 화면 전환
             LobbyManager.Inst.ChangeSceneState(userInfo.sceneState);
         }
@@ -354,7 +442,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             }
             foreach (var item in servantList)
             {
-                UserDataManager.Inst.addServantData(item.Value);
+                UserDataManager.Inst.AddServantData(item.Value);
             }
 
             // 몬스터
@@ -366,7 +454,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             }
             foreach (var item in monsterList)
             {
-                UserDataManager.Inst.addMonsterData(item.Value);
+                UserDataManager.Inst.AddMonsterData(item.Value);
             }
 
             // 아이템
