@@ -17,6 +17,144 @@ public class ErdManager : MonoBehaviour {
             Destroy(gameObject);
             return;
         }
+
+
+        // 비어있는데이터, or Null인것 확인해서 띄워주기
+
+        if (levelEntityTable == null)
+        {
+            Debug.Log("levelEntityTable가 null입니다. Erdmanager인스펙터에 levelEntityTable.asset을 등록해주세요");
+        }
+        if (levelEntityTable.param.Count == 0)
+        {
+            Debug.Log("levelEntityTable가 비어있습니다. erdexcels파일안에 엑셀들을 우클릭해서 reimpot를 실행해주세요");
+        }
+
+        if (ServantBodyEntityTable == null)
+        {
+            Debug.Log("ServantBodyEntityTable가 null입니다. Erdmanager인스펙터에 ServantBodyEntityTable.asset을 등록해주세요");
+        }
+        if (ServantBodyEntityTable.param.Count == 0)
+        {
+            Debug.Log("ServantBodyEntityTable가 비어있습니다. erdexcels파일안에 엑셀들을 우클릭해서 reimpot를 실행해주세요");
+        }
+
+        if (ServantIconEntityTable == null)
+        {
+            Debug.Log("ServantIconEntityTable가 null입니다. Erdmanager인스펙터에 ServantIconEntityTable.asset을 등록해주세요");
+        }
+        if (ServantIconEntityTable.param.Count == 0)
+        {
+            Debug.Log("ServantIconEntityTable가 비어있습니다. erdexcels파일안에 엑셀들을 우클릭해서 reimpot를 실행해주세요");
+        }
+
+        if (ServantJobEntityTable == null)
+        {
+            Debug.Log("ServantJobEntityTable가 null입니다. Erdmanager인스펙터에 ServantJobEntityTable.asset을 등록해주세요");
+        }
+        if (ServantJobEntityTable.param.Count == 0)
+        {
+            Debug.Log("ServantJobEntityTable가 비어있습니다. erdexcels파일안에 엑셀들을 우클릭해서 reimpot를 실행해주세요");
+        }
+
+        if (mountitemEntityTable == null)
+        {
+            Debug.Log("mountitemEntityTable가 null입니다. Erdmanager인스펙터에 mountitemEntityTable.asset을 등록해주세요");
+        }
+        if (mountitemEntityTable.param.Count == 0)
+        {
+            Debug.Log("mountitemEntityTable가 비어있습니다. erdexcels파일안에 엑셀들을 우클릭해서 reimpot를 실행해주세요");
+        }
+
+        if (mountitemEnforceEntityTable == null)
+        {
+            Debug.Log("mountitemEnforceEntityTable가 null입니다. Erdmanager인스펙터에 mountitemEnforceEntityTable.asset을 등록해주세요");
+        }
+        if (mountitemEnforceEntityTable.param.Count == 0)
+        {
+            Debug.Log("mountitemEnforceEntityTable가 비어있습니다. erdexcels파일안에 엑셀들을 우클릭해서 reimpot를 실행해주세요");
+        }
+
+        if (mountitemTeerEntityTable == null)
+        {
+            Debug.Log("mountitemTeerEntityTable가 null입니다. Erdmanager인스펙터에 mountitemTeerEntityTable.asset을 등록해주세요");
+        }
+        if (mountitemTeerEntityTable.param.Count == 0)
+        {
+            Debug.Log("mountitemTeerEntityTable가 비어있습니다. erdexcels파일안에 엑셀들을 우클릭해서 reimpot를 실행해주세요");
+        }
+
+        if (mountitemGradeEntityTable == null)
+        {
+            Debug.Log("mountitemGradeEntityTable가 null입니다. Erdmanager인스펙터에 mountitemGradeEntityTable.asset을 등록해주세요");
+        }
+        if (mountitemGradeEntityTable.param.Count == 0)
+        {
+            Debug.Log("mountitemGradeEntityTable가 비어있습니다. erdexcels파일안에 엑셀들을 우클릭해서 reimpot를 실행해주세요");
+        }
+
+        if (MountItemStatEntityTable == null)
+        {
+            Debug.Log("MountItemStatEntityTable가 null입니다. Erdmanager인스펙터에 MountItemStatEntityTable.asset을 등록해주세요");
+        }
+        if (MountItemStatEntityTable.param.Count == 0)
+        {
+            Debug.Log("MountItemStatEntityTable가 비어있습니다. erdexcels파일안에 엑셀들을 우클릭해서 reimpot를 실행해주세요");
+        }
+
+        if (EtcItemEntityTable == null)
+        {
+            Debug.Log("EtcItemEntityTable가 null입니다. Erdmanager인스펙터에 EtcItemEntityTable.asset을 등록해주세요");
+        }
+        if (EtcItemEntityTable.param.Count == 0)
+        {
+            Debug.Log("EtcItemEntityTable가 비어있습니다. erdexcels파일안에 엑셀들을 우클릭해서 reimpot를 실행해주세요");
+        }
+
+        if (MonsterEntityTable == null)
+        {
+            Debug.Log("MonsterEntityTable가 null입니다. Erdmanager인스펙터에 MonsterEntityTable.asset을 등록해주세요");
+        }
+        if (MonsterEntityTable.param.Count == 0)
+        {
+            Debug.Log("MonsterEntityTable가 비어있습니다. erdexcels파일안에 엑셀들을 우클릭해서 reimpot를 실행해주세요");
+        }
+
+        if (MonsterEnforceEntityTable == null)
+        {
+            Debug.Log("MonsterEnforceEntityTable가 null입니다. Erdmanager인스펙터에 MonsterEnforceEntityTable.asset을 등록해주세요");
+        }
+        if (MonsterEnforceEntityTable.param.Count == 0)
+        {
+            Debug.Log("MonsterEnforceEntityTable가 비어있습니다. erdexcels파일안에 엑셀들을 우클릭해서 reimpot를 실행해주세요");
+        }
+
+        if (MonsterGradeEntityTable == null)
+        {
+            Debug.Log("MonsterGradeEntityTable가 null입니다. Erdmanager인스펙터에 MonsterGradeEntityTable.asset을 등록해주세요");
+        }
+        if (MonsterGradeEntityTable.param.Count == 0)
+        {
+            Debug.Log("MonsterGradeEntityTable가 비어있습니다. erdexcels파일안에 엑셀들을 우클릭해서 reimpot를 실행해주세요");
+        }
+
+        if (StatEntityTable == null)
+        {
+            Debug.Log("StatEntityTable가 null입니다. Erdmanager인스펙터에 StatEntityTable.asset을 등록해주세요");
+        }
+        if (StatEntityTable.param.Count == 0)
+        {
+            Debug.Log("StatEntityTable가 비어있습니다. erdexcels파일안에 엑셀들을 우클릭해서 reimpot를 실행해주세요");
+        }
+
+        if (formindextranstable == null)
+        {
+            Debug.Log("formindextranstable가 null입니다. Erdmanager인스펙터에 formindextranstable.asset을 등록해주세요");
+        }
+        if (formindextranstable.param.Count == 0)
+        {
+            Debug.Log("formindextranstable가 비어있습니다. erdexcels파일안에 엑셀들을 우클릭해서 reimpot를 실행해주세요");
+        }
         
     }
 
