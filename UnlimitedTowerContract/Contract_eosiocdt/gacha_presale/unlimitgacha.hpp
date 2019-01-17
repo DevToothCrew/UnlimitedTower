@@ -150,7 +150,7 @@ enum db_choice
     //------------------------------------------------------------------------//
   private:
 #pragma region db values
-    const uint8_t servant_job_count = 6;
+    const uint8_t servant_job_count = 4;
     const uint8_t monster_id_count = 51;
     const uint8_t item_id_count = 37;
     const uint8_t head_count = 4;
@@ -569,7 +569,6 @@ TABLE presalelog
     TABLE tuserauth
     {
         eosio::name user;
-        uint32_t game_money = 100;
         uint32_t state = euser_state::lobby;
         hero_info hero;
         uint64_t primary_key() const { return user.value; }
@@ -630,7 +629,7 @@ TABLE presalelog
 
 #pragma region login action
     ACTION eostransfer(eosio::name sender, eosio::name receiver);
-    void presalesign(eosio::name _user);
+    void presalesign(eosio::name _user, uint64_t _seed);
     void signup(eosio::name _user);
     ACTION presalemove(eosio::name _user);
 #pragma endregion

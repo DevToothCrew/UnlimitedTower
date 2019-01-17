@@ -658,11 +658,11 @@ ACTION unlimitgacha::setpresale()
 
 #pragma region login
 
-void unlimitgacha::presalesign(eosio::name _user)
+void unlimitgacha::presalesign(eosio::name _user, uint64_t _seed)
 {
     auth_users auth_user_table(owner, owner.value);
     auto new_user_iter = auth_user_table.find(_user.value);
-    eosio_assert(new_user_iter == auth_user_table.end(), "exist account");
+    eosio_assert(new_user_iter == auth_user_table.end(), "this user already signup in presale signup");
     auth_user_table.emplace(owner, [&](auto &new_user) {
         new_user.user = _user;
         new_user.state = euser_state::presale;
@@ -676,12 +676,15 @@ void unlimitgacha::presalesign(eosio::name _user)
 
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter == user_log_table.end(), "exist account");
+    eosio_assert(user_log_iter == user_log_table.end(), "this user already signup in presale signup");
     user_log_table.emplace(owner, [&](auto &new_log) {
         new_log.user = _user;
     });
 
-    uint64_t seed = safeseed::get_seed(owner.value, _user.value);
+    uint64_t user = _user.value;
+    uint64_t seed = safeseed::get_seed_value(user, _seed);
+
+    //uint64_t seed = safeseed::get_seed(owner.value, _user.value);
 
     monster_random_count += 1;
     uint32_t random_rate = safeseed::get_random_value(seed, max_rate, default_min, monster_random_count);
@@ -717,7 +720,7 @@ void unlimitgacha::signup(eosio::name _user)
 {
     auth_users auth_user_table(owner, owner.value);
     auto new_user_iter = auth_user_table.find(_user.value);
-    eosio_assert(new_user_iter == auth_user_table.end(), "this user already exist");
+    eosio_assert(new_user_iter == auth_user_table.end(), "this user already exist in signup");
 
     auth_user_table.emplace(owner, [&](auto &new_user) {
         new_user.user = _user;
@@ -732,7 +735,7 @@ void unlimitgacha::signup(eosio::name _user)
 
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter == user_log_table.end(), "exist account");
+    eosio_assert(user_log_iter == user_log_table.end(), "this user already exist in signup");
     user_log_table.emplace(owner, [&](auto &new_log) {
         new_log.user = _user;
     });
@@ -849,7 +852,7 @@ ACTION unlimitgacha::eostransfer(eosio::name sender, eosio::name receiver)
             auto gacha_participation_iter = participation_log_table.find(owner.value);
             eosio_assert(gacha_participation_iter != participation_log_table.end(), "pre sale time over");
 
-            presalesign(sender);
+            presalesign(sender, ad.type);
 
             asset presale_signup_reward(0, symbol(symbol_code("UTG"), 4));
             presale_signup_reward.amount = 30000000; // 3000 UTG
@@ -980,14 +983,27 @@ void unlimitgacha::eosiotoken_transfer(eosio::name sender, eosio::name receiver,
 
         user_logs user_log_table(owner, owner.value);
         auto user_log_iter = user_log_table.find(sender.value);
-        eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data");
+
+        eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data in eosiotoken transfer");
         user_log_table.modify(user_log_iter, owner, [&](auto &buy_log) {
             buy_log.use_eos += transfer_data.quantity.amount;
         });
     }
     else if (res.action == "presalesignup")
     {
-        eosio_assert(transfer_data.quantity.amount == 10000, "presale signup need 1.0000 EOS");
+        size_t l_next = transfer_data.memo.find(':', l_center + 1);
+        size_t l_end = transfer_data.memo.length() - (l_next + 1);
+
+        eosio_assert(transfer_data.memo.find(':') != std::string::npos, "seed memo [:] error");
+        eosio_assert(transfer_data.memo.find(':', l_center + 1) != std::string::npos, "seed memo [:] error");
+        eosio_assert(transfer_data.quantity.amount == 10000, "presalesignup need 1.0000 EOS");
+
+        std::string l_seed = transfer_data.memo.substr(l_center + 1, (l_next - l_center - 1));
+        std::string l_sha = transfer_data.memo.substr(l_next + 1, l_end);
+
+        res.type = safeseed::check_seed(l_seed, l_sha);
+
+        eosio_assert(res.type != 0, "wrong seed convert");
     }
     else if (res.action == "singup")
     {
@@ -1286,8 +1302,8 @@ void unlimitgacha::gacha_servant_id(eosio::name _user, uint64_t _seed)
 
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data");
-
+    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data in gacha servant");
+ 
     result_info result;
     user_servants user_servant_table(owner, _user.value);
     user_servant_table.emplace(owner, [&](auto &update_user_servant_list) {
@@ -1401,7 +1417,7 @@ void unlimitgacha::gacha_monster_id(eosio::name _user, uint64_t _seed)
 
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data");
+    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data in gacha monster");
 
     result_info result;
     user_monsters user_monster_table(owner, _user.value);
@@ -1489,7 +1505,7 @@ void unlimitgacha::gacha_item_id(eosio::name _user, uint64_t _seed)
 
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data");
+    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data in gacha item");
 
     result_info result;
     user_items user_item_table(owner, _user.value);
@@ -1631,7 +1647,7 @@ void unlimitgacha::presale_gacha_servant_id(eosio::name _user, uint64_t _seed)
 
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data");
+    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data in pre gacha servant");
 
     result_info result;
     user_pre_sale_servants user_servant_table(owner, _user.value);
@@ -1714,7 +1730,7 @@ void unlimitgacha::presale_gacha_monster_id(eosio::name _user, uint64_t _seed)
 
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data");
+    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data in pre gacha monster");
 
     result_info result;
     user_pre_sale_monsters user_monster_table(owner, _user.value);
@@ -1797,7 +1813,7 @@ void unlimitgacha::presale_gacha_item_id(eosio::name _user, uint64_t _seed)
 
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data");
+    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data in pre gacha item");
 
     result_info result;
     user_pre_sale_items user_item_table(owner, _user.value);
@@ -1900,7 +1916,7 @@ ACTION unlimitgacha::gachacheat(eosio::name _user)
     {
         user_logs user_log_table(owner, owner.value);
         auto user_log_iter = user_log_table.find(_user.value);
-        eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data");
+        eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data in gacha cheat");
         user_log_table.modify(user_log_iter, owner, [&](auto &buy_log) {
             buy_log.gacha_num += 1;
         });
@@ -1958,6 +1974,8 @@ ACTION unlimitgacha::setpause(uint64_t _state)
 
 #pragma endregion
 
+
+
 #pragma endresion
 
 #undef EOSIO_DISPATCH
@@ -1976,6 +1994,7 @@ ACTION unlimitgacha::setpause(uint64_t _state)
             }                                                                               \
             else if (code == name("eosio.token").value && action == name("transfer").value) \
             {                                                                               \
+                eosio_assert( code == name("eosio.token").value, "Must transfer EOS");      \
                 execute_action(name(receiver), name(code), &unlimitgacha::eostransfer);     \
             }                                                                               \
         }                                                                                   \
