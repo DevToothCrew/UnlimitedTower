@@ -5,6 +5,8 @@ using UnityEngine;
 //공통 사항을 모아둔 클래스.
 public class DEFINE
 {
+    public static readonly int MAINHERO_FORMINDEX = 2;
+
 	// MIN - MAX Status
 	public static readonly int MIN_STATUS = 0;
 	public static readonly int MAX_STATUS = 9;

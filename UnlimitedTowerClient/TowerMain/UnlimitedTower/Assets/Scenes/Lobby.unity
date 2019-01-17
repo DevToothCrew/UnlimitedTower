@@ -187,9 +187,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -200,6 +199,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monsterdata:
     index: 225
     monsterNum: 0
@@ -207,7 +210,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -216,6 +218,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!114 &273550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1334,9 +1339,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -1347,6 +1351,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   curMonster:
     index: 225
     monsterNum: 0
@@ -1354,7 +1362,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -1363,6 +1370,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!222 &24559340
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2791,7 +2801,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 1
       basicDex: 1
@@ -2800,15 +2809,17 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   servantdata:
     index: 0
     isMainHero: 0
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -2819,6 +2830,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
 --- !u!114 &62760407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4070,9 +4085,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -4083,6 +4097,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -4090,7 +4108,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -4099,6 +4116,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 43701968}
   MonsterGradeBG: {fileID: 902302518}
   lefttopimage: {fileID: 320228292}
@@ -4889,9 +4909,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -4902,6 +4921,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -4909,7 +4932,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -4918,6 +4940,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 1919577754}
   MonsterGradeBG: {fileID: 1813428727}
   lefttopimage: {fileID: 1298663729}
@@ -5845,9 +5870,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -5858,6 +5882,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   curMonster:
     index: 225
     monsterNum: 0
@@ -5865,7 +5893,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -5874,6 +5901,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!222 &109816115
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7531,9 +7561,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -7544,6 +7573,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monsterdata:
     index: 225
     monsterNum: 0
@@ -7551,7 +7584,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -7560,6 +7592,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!222 &146569557
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8537,9 +8572,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -8550,6 +8584,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   registered: 0
   _CharObj: {fileID: 0}
 --- !u!1 &171934826
@@ -8698,9 +8736,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -8711,6 +8748,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monsterdata:
     index: 225
     monsterNum: 0
@@ -8718,7 +8759,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -8727,6 +8767,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!222 &171934831
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8942,9 +8985,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -8955,6 +8997,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -8962,7 +9008,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -8971,6 +9016,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 232718283}
   MonsterGradeBG: {fileID: 309362324}
   lefttopimage: {fileID: 179115165}
@@ -12501,9 +12549,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -12514,6 +12561,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monsterdata:
     index: 225
     monsterNum: 0
@@ -12521,7 +12572,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -12530,6 +12580,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!222 &260142519
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15424,7 +15477,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 1
       basicDex: 1
@@ -15433,15 +15485,17 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   servantdata:
     index: 0
     isMainHero: 0
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -15452,6 +15506,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
 --- !u!114 &310250681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15908,9 +15966,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -15921,6 +15978,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   curMonster:
     index: 225
     monsterNum: 0
@@ -15928,7 +15989,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -15937,6 +15997,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!222 &315287876
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16402,9 +16465,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -16415,6 +16477,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -16422,7 +16488,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -16431,6 +16496,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 1023089505}
   MonsterGradeBG: {fileID: 224186380}
   lefttopimage: {fileID: 841102056}
@@ -16877,7 +16945,7 @@ MonoBehaviour:
     index: 0
     mountitemNum: 0
     tearNum: 0
-    enforceCount: 0
+    upgradeCount: 0
     mountServantIndex: 0
   itemname: {fileID: 1241795610}
   itemimage: {fileID: 1627537733}
@@ -20380,9 +20448,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -20393,6 +20460,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -20400,7 +20471,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -20409,6 +20479,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 2119239517}
   MonsterGradeBG: {fileID: 1147519220}
   lefttopimage: {fileID: 365380122}
@@ -21438,6 +21511,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 25d6d926dc2846f4aaffe685806e889c, type: 3}
   - {fileID: 21300000, guid: 6bd0b0e3429512f4eae84c55c5b105bc, type: 3}
   StatEntityTable: {fileID: 11400000, guid: 383ceffe6d61dd144981afff52202d26, type: 2}
+  formindextranstable: {fileID: 11400000, guid: f7e8c90b73f89094498a51a5e002e67c,
+    type: 2}
   TypeIcons:
   - {fileID: 21300000, guid: 1ecd08f93c7314f4b853e6264f20e2c9, type: 3}
   - {fileID: 21300000, guid: 3a608fe45711ade4f9ba48caf9283534, type: 3}
@@ -22201,9 +22276,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -22214,6 +22288,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -22221,7 +22299,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -22230,6 +22307,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 533188735}
   MonsterGradeBG: {fileID: 1558348300}
   lefttopimage: {fileID: 153184300}
@@ -24343,7 +24423,7 @@ MonoBehaviour:
     index: 0
     mountitemNum: 0
     tearNum: 0
-    enforceCount: 0
+    upgradeCount: 0
     mountServantIndex: 0
 --- !u!114 &477704076
 MonoBehaviour:
@@ -24490,9 +24570,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -24503,6 +24582,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -24510,7 +24593,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -24519,6 +24601,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 1122810110}
   MonsterGradeBG: {fileID: 252203800}
   lefttopimage: {fileID: 2045988177}
@@ -27465,9 +27550,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -27478,6 +27562,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   curMonster:
     index: 225
     monsterNum: 0
@@ -27485,7 +27573,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -27494,6 +27581,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!222 &539141809
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -28183,9 +28273,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -28196,6 +28285,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -28203,7 +28296,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -28212,6 +28304,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 2119479581}
   MonsterGradeBG: {fileID: 1527800926}
   lefttopimage: {fileID: 969955349}
@@ -28789,9 +28884,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -28802,6 +28896,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   curMonster:
     index: 225
     monsterNum: 0
@@ -28809,7 +28907,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -28818,6 +28915,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!222 &561967668
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -30321,9 +30421,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -30334,6 +30433,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -30341,7 +30444,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -30350,6 +30452,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 231453709}
   MonsterGradeBG: {fileID: 417097815}
   lefttopimage: {fileID: 1733724250}
@@ -31516,9 +31621,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -31529,6 +31633,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monsterdata:
     index: 225
     monsterNum: 0
@@ -31536,7 +31644,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -31545,6 +31652,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!222 &615969760
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -34503,7 +34613,7 @@ MonoBehaviour:
     index: 0
     mountitemNum: 0
     tearNum: 0
-    enforceCount: 0
+    upgradeCount: 0
     mountServantIndex: 0
 --- !u!114 &680005543
 MonoBehaviour:
@@ -35574,9 +35684,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -35587,6 +35696,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monsterdata:
     index: 225
     monsterNum: 0
@@ -35594,7 +35707,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -35603,6 +35715,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!222 &697429031
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -36220,9 +36335,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -36233,6 +36347,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -36240,7 +36358,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -36249,6 +36366,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 1122386293}
   MonsterGradeBG: {fileID: 641368240}
   lefttopimage: {fileID: 1984982488}
@@ -41250,9 +41370,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -41263,6 +41382,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monsterdata:
     index: 225
     monsterNum: 0
@@ -41270,7 +41393,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -41279,6 +41401,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!222 &814415095
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -41897,7 +42022,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 1
       basicDex: 1
@@ -41906,15 +42030,17 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   servantdata:
     index: 0
     isMainHero: 0
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -41925,6 +42051,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
 --- !u!114 &830147360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42080,7 +42210,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 1
       basicDex: 1
@@ -42089,15 +42218,17 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   servantdata:
     index: 0
     isMainHero: 0
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -42108,6 +42239,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
 --- !u!114 &830227056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43230,9 +43365,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -43243,6 +43377,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -43250,7 +43388,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -43259,6 +43396,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 1641320692}
   MonsterGradeBG: {fileID: 2085391448}
   lefttopimage: {fileID: 14917606}
@@ -45025,9 +45165,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -45038,6 +45177,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -45045,7 +45188,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -45054,6 +45196,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 1790425680}
   MonsterGradeBG: {fileID: 855946488}
   lefttopimage: {fileID: 265235167}
@@ -45308,9 +45453,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -45321,6 +45465,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -45328,7 +45476,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -45337,6 +45484,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 1485506722}
   MonsterGradeBG: {fileID: 89746580}
   lefttopimage: {fileID: 602222137}
@@ -45994,9 +46144,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -46007,6 +46156,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -46014,7 +46167,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -46023,6 +46175,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 326663357}
   MonsterGradeBG: {fileID: 1381987865}
   lefttopimage: {fileID: 1273616693}
@@ -47684,9 +47839,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -47697,6 +47851,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   curMonster:
     index: 225
     monsterNum: 0
@@ -47704,7 +47862,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -47713,6 +47870,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!222 &926262373
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -50547,9 +50707,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -50560,6 +50719,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -50567,7 +50730,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -50576,6 +50738,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 2143864798}
   MonsterGradeBG: {fileID: 1285161259}
   lefttopimage: {fileID: 607121549}
@@ -50837,7 +51002,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 1
       basicDex: 1
@@ -50846,15 +51010,17 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   servantdata:
     index: 0
     isMainHero: 0
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -50865,6 +51031,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
 --- !u!224 &978483182
 RectTransform:
   m_ObjectHideFlags: 0
@@ -51225,9 +51395,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -51238,6 +51407,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monsterdata:
     index: 225
     monsterNum: 0
@@ -51245,7 +51418,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -51254,6 +51426,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!222 &981282253
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -55456,9 +55631,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -55469,6 +55643,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -55476,7 +55654,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -55485,6 +55662,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 1493226594}
   MonsterGradeBG: {fileID: 1779920159}
   lefttopimage: {fileID: 681697622}
@@ -56002,9 +56182,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -56015,6 +56194,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monsterdata:
     index: 225
     monsterNum: 0
@@ -56022,7 +56205,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -56031,6 +56213,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!222 &1066358096
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -56972,9 +57157,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -56985,6 +57169,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   curMonster:
     index: 225
     monsterNum: 0
@@ -56992,7 +57180,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -57001,6 +57188,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!222 &1090940733
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -58648,9 +58838,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -58661,6 +58850,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -58668,7 +58861,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -58677,6 +58869,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 1582670599}
   MonsterGradeBG: {fileID: 311071560}
   lefttopimage: {fileID: 187078632}
@@ -60016,9 +60211,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -60029,6 +60223,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -60036,7 +60234,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -60045,6 +60242,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 780309830}
   MonsterGradeBG: {fileID: 1843701842}
   lefttopimage: {fileID: 1007346470}
@@ -62937,9 +63137,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -62950,6 +63149,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -62957,7 +63160,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -62966,6 +63168,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 979492014}
   MonsterGradeBG: {fileID: 351631668}
   lefttopimage: {fileID: 2128459160}
@@ -64175,9 +64380,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -64188,6 +64392,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -64195,7 +64403,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -64204,6 +64411,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 159431024}
   MonsterGradeBG: {fileID: 1067718236}
   lefttopimage: {fileID: 1426643201}
@@ -64315,9 +64525,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -64328,6 +64537,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -64335,7 +64548,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -64344,6 +64556,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 843467666}
   MonsterGradeBG: {fileID: 1984019963}
   lefttopimage: {fileID: 1784201623}
@@ -67766,9 +67981,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -67779,6 +67993,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -67786,7 +68004,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -67795,6 +68012,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 229279118}
   MonsterGradeBG: {fileID: 557311457}
   lefttopimage: {fileID: 176977274}
@@ -67949,7 +68169,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 1
       basicDex: 1
@@ -67958,15 +68177,17 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   servantdata:
     index: 0
     isMainHero: 0
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -67977,6 +68198,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
 --- !u!114 &1301327704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69017,9 +69242,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -69030,6 +69254,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monsterdata:
     index: 225
     monsterNum: 0
@@ -69037,7 +69265,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -69046,6 +69273,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!222 &1317849054
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -70164,9 +70394,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -70177,6 +70406,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monsterdata:
     index: 225
     monsterNum: 0
@@ -70184,7 +70417,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -70193,6 +70425,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!222 &1353144952
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -73800,7 +74035,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 1
       basicDex: 1
@@ -73809,15 +74043,17 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   servantdata:
     index: 0
     isMainHero: 0
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -73828,6 +74064,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
 --- !u!114 &1405971953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75873,9 +76113,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -75886,6 +76125,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monsterdata:
     index: 225
     monsterNum: 0
@@ -75893,7 +76136,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -75902,6 +76144,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!222 &1440239081
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -76184,9 +76429,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -76197,6 +76441,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -76204,7 +76452,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -76213,6 +76460,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 1145384587}
   MonsterGradeBG: {fileID: 1829450289}
   lefttopimage: {fileID: 1170396270}
@@ -76588,9 +76838,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -76601,6 +76850,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monsterdata:
     index: 225
     monsterNum: 0
@@ -76608,7 +76861,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -76617,6 +76869,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!222 &1447991819
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -77299,9 +77554,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -77312,6 +77566,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -77319,7 +77577,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -77328,6 +77585,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 1441568274}
   MonsterGradeBG: {fileID: 359948647}
   lefttopimage: {fileID: 133122266}
@@ -78773,9 +79033,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -78786,6 +79045,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   curMonster:
     index: 225
     monsterNum: 0
@@ -78793,7 +79056,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -78802,6 +79064,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!222 &1478609448
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -82599,7 +82864,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 1
       basicDex: 1
@@ -82608,15 +82872,17 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   servantdata:
     index: 0
     isMainHero: 0
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -82627,6 +82893,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
 --- !u!114 &1552462882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83109,9 +83379,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -83122,6 +83391,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monsterdata:
     index: 225
     monsterNum: 0
@@ -83129,7 +83402,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -83138,6 +83410,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!222 &1560390386
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -83204,9 +83479,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -83217,6 +83491,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -83224,7 +83502,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -83233,6 +83510,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 1522382760}
   MonsterGradeBG: {fileID: 859356767}
   lefttopimage: {fileID: 1819995717}
@@ -83823,9 +84103,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -83836,6 +84115,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -83843,7 +84126,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -83852,6 +84134,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 613816553}
   MonsterGradeBG: {fileID: 858582457}
   lefttopimage: {fileID: 158598113}
@@ -84623,7 +84908,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 1
       basicDex: 1
@@ -84632,15 +84916,17 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   servantdata:
     index: 0
     isMainHero: 0
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -84651,6 +84937,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
 --- !u!114 &1582206397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85707,9 +85997,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -85720,6 +86009,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -85727,7 +86020,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -85736,6 +86028,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 1193322283}
   MonsterGradeBG: {fileID: 2008334898}
   lefttopimage: {fileID: 2057441051}
@@ -88542,9 +88837,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -88555,6 +88849,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -88562,7 +88860,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -88571,6 +88868,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 1450337885}
   MonsterGradeBG: {fileID: 2059220002}
   lefttopimage: {fileID: 728326052}
@@ -91721,9 +92021,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -91734,6 +92033,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   curMonster:
     index: 225
     monsterNum: 0
@@ -91741,7 +92044,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -91750,6 +92052,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!222 &1719736148
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -94402,9 +94707,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -94415,6 +94719,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -94422,7 +94730,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -94431,6 +94738,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 315383}
   MonsterGradeBG: {fileID: 1947907824}
   lefttopimage: {fileID: 1390017666}
@@ -96178,7 +96488,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 1
       basicDex: 1
@@ -96187,15 +96496,17 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   servantdata:
     index: 0
     isMainHero: 0
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -96206,6 +96517,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
 --- !u!114 &1790674847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96608,9 +96923,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -96621,6 +96935,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monsterdata:
     index: 225
     monsterNum: 0
@@ -96628,7 +96946,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -96637,6 +96954,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!222 &1795688920
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -99055,9 +99375,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -99068,6 +99387,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -99075,7 +99398,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -99084,6 +99406,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 306093002}
   MonsterGradeBG: {fileID: 1513478240}
   lefttopimage: {fileID: 247701184}
@@ -102596,9 +102921,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -102609,6 +102933,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -102616,7 +102944,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -102625,6 +102952,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 1901921887}
   MonsterGradeBG: {fileID: 1344753780}
   lefttopimage: {fileID: 1810356726}
@@ -105683,9 +106013,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -105696,6 +106025,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monsterdata:
     index: 225
     monsterNum: 0
@@ -105703,7 +106036,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -105712,6 +106044,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!222 &1986351992
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -111548,9 +111883,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -111561,6 +111895,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   monster:
     index: 225
     monsterNum: 0
@@ -111568,7 +111906,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -111577,6 +111914,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
   Lockobj: {fileID: 1877455354}
   MonsterGradeBG: {fileID: 1241541026}
   lefttopimage: {fileID: 1818776610}
@@ -111906,7 +112246,7 @@ MonoBehaviour:
     index: 0
     mountitemNum: 0
     tearNum: 0
-    enforceCount: 0
+    upgradeCount: 0
     mountServantIndex: 0
 --- !u!114 &2106873538
 MonoBehaviour:
@@ -112812,9 +113152,8 @@ MonoBehaviour:
     isLegend: 0
     name: 
     exp: 0
-    level: 1
     jobNum: 0
-    charNum: 0
+    body: 0
     headNum: 0
     hairNum: 0
     status:
@@ -112825,6 +113164,10 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     leftStatPoint: 0
+    mountItemList: []
+    isPlaced: 0
+    partyNum: 0
+    formationNum: 0
   curMonster:
     index: 225
     monsterNum: 0
@@ -112832,7 +113175,6 @@ MonoBehaviour:
     gradeNum: 0
     enforceNum: 0
     exp: 0
-    level: 1
     status:
       basicStr: 0
       basicDex: 0
@@ -112841,6 +113183,9 @@ MonoBehaviour:
       plusDex: 0
       plusInt: 0
     name: Mst_BirdMan
+    isPlaced: 0
+    teamNum: 0
+    formationNum: 0
 --- !u!114 &2119994773
 MonoBehaviour:
   m_ObjectHideFlags: 0

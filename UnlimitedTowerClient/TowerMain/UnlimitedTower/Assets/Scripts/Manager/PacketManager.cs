@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 using System;
 using Random = UnityEngine.Random;
 
-
 [Serializable]
 public class PacketManager : MonoSingleton<PacketManager> {
 
@@ -317,15 +316,41 @@ public class PacketManager : MonoSingleton<PacketManager> {
         for (int i = 0; i < getUserLoginData.party_list.Count; i++)
         {
             partyData partydata = getUserLoginData.party_list[i];
-            for (int j = 0; j < partydata.formationList.Count; j++)
+            for (int j = 0; j < partydata.party.Count; j++)
             {
-                formationInfo forminfo = partydata.formationList[j];
+                int serverarrayIndex = j;
+                int realformindex = ErdManager.instance.getformindextrans(serverarrayIndex);
+                formationInfo forminfo = new formationInfo();
+                forminfo.form_index = realformindex;
+
+                // 서번트자리면 항상 서번트 가리키고있기
+                if (realformindex == 2)
+                {
+                    forminfo.isplaced = true;
+                    forminfo.unit_index = 0;
+                }
+                else
+                {
+                    // 배치 안되어있을때
+                    if (partydata.party[j] == 0)
+                    {
+                        forminfo.isplaced = false;
+                    }
+                    // 배치 되어있을때
+                    else
+                    {
+                        forminfo.isplaced = true;
+                        forminfo.unit_index = partydata.party[j];
+                    }
+                   
+                }
+
 
                 UserFormationData formdata = new UserFormationData();
                 formdata.partyIndex = partydata.index;
-                formdata.formationIndex = forminfo.formationIndex;
-                formdata.isPlaced = forminfo.isPlaced;
-                formdata.index = forminfo.unitIndex;
+                formdata.formationIndex = forminfo.form_index;
+                formdata.isPlaced = forminfo.isplaced;
+                formdata.index = forminfo.unit_index;
 
                 UserDataManager.Inst.UserFormationList.Add(formdata);
             }
@@ -460,7 +485,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         userServant.index = getServantIndex;
 
         userServant.jobNum = getServantInfo.job;
-        userServant.isMainHero = getServantInfo.isMainServant;
+        userServant.isMainHero = getServantIndex == 0 ? true : false;
         userServant.exp = getServantInfo.exp;
         
         userServant.body = getServantInfo.appear.body;
@@ -543,9 +568,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         UserMountItemData item = new UserMountItemData();
         item.index = getItemIndex;
-        item.mountitemNum = getItemInfo.itemNum;
-        item.tearNum = getItemInfo.tearNum;
-        item.upgradeCount = getItemInfo.upgradeCount;
+        item.mountitemNum = getItemInfo.itemnum;
+        item.tearNum = getItemInfo.tier;
+        item.upgradeCount = getItemInfo.upgrade;
 
         
         return item;
@@ -600,4 +625,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     #endregion
+}
+
+[Serializable]
+public class formationInfo
+{
+    public int form_index;
+
+    public bool isplaced;
+    public int unit_index;
 }

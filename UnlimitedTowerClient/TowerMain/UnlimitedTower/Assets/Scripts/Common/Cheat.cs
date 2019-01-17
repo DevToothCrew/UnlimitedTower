@@ -15,7 +15,6 @@ public class Cheat : MonoSingleton<Cheat>
 
         userLoginData.userinfo.state = 2;
         userLoginData.userinfo.hero = GetRandomServant(GetRandomServantJob());
-        userLoginData.userinfo.hero.isMainServant = true;
         servantData mainherodata = new servantData();
         mainherodata.servant = userLoginData.userinfo.hero;
         mainherodata.index = 0;
@@ -53,9 +52,9 @@ public class Cheat : MonoSingleton<Cheat>
             itemdata.index = i;
 
             itemInfo iteminfo = new itemInfo();
-            iteminfo.itemNum = UnityEngine.Random.Range(0, 7);
-            iteminfo.tearNum = UnityEngine.Random.Range(0, 4);
-            iteminfo.upgradeCount = UnityEngine.Random.Range(0, 4);
+            iteminfo.itemnum = UnityEngine.Random.Range(0, 7);
+            iteminfo.tier = UnityEngine.Random.Range(0, 4);
+            iteminfo.upgrade = UnityEngine.Random.Range(0, 4);
 
             itemdata.item = iteminfo;
 
@@ -74,18 +73,15 @@ public class Cheat : MonoSingleton<Cheat>
             
             for (int forma_index = 0; forma_index < DEFINE.PARTY_MAX_NUM; forma_index++)
             {
-                formationInfo formationinfo = new formationInfo();
-                formationinfo.formationIndex = forma_index;
-                formationinfo.isPlaced = false;
-
                 // 메인히어로는 모든 2번자리에 배치되어 있음.
                 if (forma_index == 2)
                 {
-                    formationinfo.isPlaced = true;
-                    formationinfo.unitIndex = 0;
+                    partydata.party.Add(0);
                 }
-
-                partydata.formationList.Add(formationinfo);
+                else
+                {
+                    partydata.party.Add(0);
+                }
             }
 
 
