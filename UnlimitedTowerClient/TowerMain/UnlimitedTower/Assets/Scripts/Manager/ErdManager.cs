@@ -175,6 +175,12 @@ public class ErdManager : MonoBehaviour {
         return StatEntityTable.param.Find((rowdata) => { return rowdata.statType == stattype; });
     }
 
+    public FormIndexTransTable formindextranstable;
+    public int getformindextrans(int arrayindex)
+    {
+        return formindextranstable.param.Find((rowdata) => { return rowdata.arrayIndex == arrayindex; }).realIndex;
+    }
+
     // 속성
     public Sprite[] TypeIcons;
 }
