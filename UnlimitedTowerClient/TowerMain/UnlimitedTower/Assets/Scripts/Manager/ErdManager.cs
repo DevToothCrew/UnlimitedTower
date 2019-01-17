@@ -40,8 +40,7 @@ public class ErdManager : MonoBehaviour {
         return ServantBodyEntityTable.param.Find((rowdata) => { return rowdata.bodyNum == bodyNum; });
     }
     public GameObject[] ServantBodyPrefabs;
-
-
+    
     public ServantIconEntity ServantIconEntityTable;    // 
     public ServantIconEntity.Param getServantIconEntityTable_nullPossible(int charNum,int jobNum )
     {
@@ -56,7 +55,6 @@ public class ErdManager : MonoBehaviour {
         }
         else
         {
-            Debug.Log(charNum+" "+ jobNum);
             return ServantbodySprite[getServantIconEntityTable_nullPossible(charNum, jobNum).iconNum];
         }
         
@@ -103,9 +101,9 @@ public class ErdManager : MonoBehaviour {
     }
 
     public MountItemStatEntity MountItemStatEntityTable;    // 
-    public MountItemStatEntity.Param getMountItemStatEntityTable_nullPossible(int num)
+    public List<MountItemStatEntity.Param> getMountItemStatEntityTable_nullPossible(int num)
     {
-        return MountItemStatEntityTable.param.Find((rowdata) => { return rowdata.mountItemNum == num; });
+        return MountItemStatEntityTable.param.FindAll((rowdata) => { return rowdata.mountItemNum == num; });
     }
 
     public EtcItemEntity EtcItemEntityTable;    // 

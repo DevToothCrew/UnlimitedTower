@@ -29,6 +29,7 @@ public class Formationslot_Upper : MonoBehaviour {
     {
         // 배치된 아이가 있다면 -> 배치표시후 return
         bool isplaced = GameDataManager.instance.isPlacedAt(FormationInfoPopup.instance.curTeamNum, FormationIndex);
+        Debug.Log(FormationInfoPopup.instance.curTeamNum +"/"+ FormationIndex);
         if (isplaced)
         {
             // 몬스터
@@ -61,8 +62,7 @@ public class Formationslot_Upper : MonoBehaviour {
 
                 uiinitialize();
                 charImage.gameObject.SetActive(true);
-                Debug.Log(curServant.isLegend +" " +curServant.charNum +" "+ curServant.jobNum);
-                charImage.sprite = ErdManager.instance.GetServantIconSprite(curServant.isLegend, curServant.charNum, curServant.jobNum);
+                charImage.sprite = ErdManager.instance.GetServantIconSprite(curServant.isLegend, curServant.body, curServant.jobNum);
                 lefttopImage.gameObject.SetActive(true);
                 lefttopImage.sprite = ErdManager.instance.JobIcons[curServant.jobNum];
                 leftbottomleveltext.gameObject.SetActive(true);

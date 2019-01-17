@@ -39,7 +39,7 @@ public static class UTEventPoolInterface
     //등록된 event list입니다
     static public CallbackList.KeyCollection eventList { get { return callbackList.Keys; } }
 
-    //callBack list 입니다. 
+    //callBack list 입니다.
     static public CallbackList callbackList = new CallbackList();
 
     /// <summary>
@@ -72,7 +72,7 @@ public static class UTEventPoolInterface
         catch (Exception e)
         {
             Debug.Log(eventName);
-            Debug.LogError("[UTEventPoolInterface.OnReceivedEventData]" + e.Message);
+            //Debug.LogError("[UTEventPoolInterface.OnReceivedEventData]" + e.Message);
         }
     }
 
@@ -103,4 +103,5 @@ public static class UTEventPoolInterface
             Debug.LogError("[UTEventPoolInterface.AddEventListener]" + e.Message);
         }
     }
+
 }

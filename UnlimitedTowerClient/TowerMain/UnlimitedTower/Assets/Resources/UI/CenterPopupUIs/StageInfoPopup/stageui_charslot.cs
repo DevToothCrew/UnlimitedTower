@@ -18,13 +18,18 @@ public class stageui_charslot : MonoBehaviour {
     //
     [SerializeField] int formationIndex;
 
-    
+    // For Debug
+    [SerializeField] UserMonsterData monsterdata;
+    [SerializeField] UserServantData servantdata;
+
+
     public void to_servant(UserServantData servantdata)
     {
+        this.servantdata = servantdata;
         UiInitialize();
 
         charimage.gameObject.SetActive(true);
-        charimage.sprite = ErdManager.instance.GetServantIconSprite(servantdata.isLegend, servantdata.charNum, servantdata.jobNum);
+        charimage.sprite = ErdManager.instance.GetServantIconSprite(servantdata.isLegend, servantdata.body, servantdata.jobNum);
         LefttopImage.gameObject.SetActive(true);
         LefttopImage.sprite = ErdManager.instance.JobIcons[servantdata.jobNum];
         levelText.gameObject.SetActive(true);
@@ -32,6 +37,7 @@ public class stageui_charslot : MonoBehaviour {
     }
     public void to_monster(UserMonsterData monsterdata)
     {
+        this.monsterdata = monsterdata;
         UiInitialize();
 
         MonsterGradeImgage.gameObject.SetActive(true);

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Etc : MonoBehaviour
 {
     public const int MainServantFormationNum = 2;
-
+    public const int maxItemUpgradeNum = 9;
     // singleton
     public static Etc instance;
     private void Awake()
@@ -20,6 +20,7 @@ public class Etc : MonoBehaviour
             return;
         }
     }
+
 
     // 힘 민 지
     public double Getstr(UserServantData servant)
@@ -125,6 +126,48 @@ public class Etc : MonoBehaviour
         return 30;
     }
 
+    public StatInfo getTotalstat(List<MountItemStatEntity.Param> list)
+    {
+        StatInfo newstat = new StatInfo();
+
+        for (int i = 0; i < list.Count; i++)
+        {
+            switch (list[i].statType)
+            {
+                case StatType.Str:
+                    newstat.str += list[i].plusValue;
+                    break;
+                case StatType.Dex:
+                    newstat.dex += list[i].plusValue;
+                    break;
+                case StatType.Int:
+                    newstat.INT += list[i].plusValue;
+                    break;
+                case StatType.Def:
+                    newstat.def += list[i].plusValue;
+                    break;
+                case StatType.Atk:
+                    newstat.atk += list[i].plusValue;
+                    break;
+                case StatType.CriDmg:
+                    newstat.cridmg += list[i].plusValue;
+                    break;
+                case StatType.CriPercent:
+                    newstat.criprob += list[i].plusValue;
+                    break;
+                case StatType.Spd:
+                    newstat.spd += list[i].plusValue;
+                    break;
+                case StatType.Hp:
+                    newstat.hp += list[i].plusValue;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return newstat;
+    }
 }
 
 // Event보유하고있는 클래스
@@ -166,4 +209,20 @@ public enum PlayerType
 {
     servant,
     monster
+}
+
+// 토탈스탯
+public class StatInfo
+{
+    public double str;
+    public double dex;
+    public double INT;
+
+    public double atk;
+    public double def;
+    public double spd;
+    public double hp;
+    public double criprob;
+    public double cridmg;
+
 }

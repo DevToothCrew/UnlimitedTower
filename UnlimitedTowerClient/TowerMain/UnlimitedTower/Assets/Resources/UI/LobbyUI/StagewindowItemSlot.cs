@@ -29,7 +29,7 @@ public class StagewindowItemSlot : MonoBehaviour {
         tearText.gameObject.SetActive(true);
         tearText.text = itemdata.tearNum + "T";
         upgradeText.gameObject.SetActive(true);
-        upgradeText.text = "+"+itemdata.enforceCount;
+        upgradeText.text = "+"+itemdata.upgradeCount;
     }
     public void Deregister()
     {

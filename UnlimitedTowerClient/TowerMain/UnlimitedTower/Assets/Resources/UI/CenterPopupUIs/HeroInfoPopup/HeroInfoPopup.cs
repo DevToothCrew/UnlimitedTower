@@ -19,15 +19,35 @@ public class HeroInfoPopup : MonoBehaviour {
     [SerializeField] Text levelText;           // 레벨
     [SerializeField] Text nameText;            // 이름
 
-    [SerializeField] Image WeaponImage;              // 무기칸
-    [SerializeField] Image DefenseImage;             // 방어구칸
-    [SerializeField] Image AccesoryImage;            // 악세서리칸
-
     //
+    [SerializeField] public Heroinfo_InvenPannel heroinfo_invenpannel;
+
+    // 
     [SerializeField] GameObject CharCamera;
     [SerializeField] Vector3 CharPos;
 
+    // 싱글톤 X(어차피 씬에 1개만 존재하는것이 보장된 상태 이므로)
+    // Static로 선언해 다른 스크립트에서 참조하기편하게하기위한 코드
+    public static HeroInfoPopup instance;
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+        }
         
+    }
+    private void OnDestroy()
+    {
+        instance = null;
+    }
+
+
+
     [Space(15)]
     [Header("DEBUG DATAS")]
     public UserServantData servant;
@@ -71,14 +91,7 @@ public class HeroInfoPopup : MonoBehaviour {
             {
                 continue;
             }
-
-            // 현재 해당서번트가 착용한 무기가맞다면 등록해주기
-            if (mountitem.isMounted && mountitem.mountServantIndex == servant.index && param.mountitemType == MountitemType.Weapon)
-            {
-                // 해당 무기칸 슬롯에다가 이 무기자체를 등록해줘야함.
-                WeaponImage.sprite = ErdManager.instance.MountitemSprite[mountitem.mountitemNum];
-                break;
-            }
+            
         }
 
         // 방어구칸
@@ -90,14 +103,7 @@ public class HeroInfoPopup : MonoBehaviour {
             {
                 continue;
             }
-
-            // 현재 해당서번트가 착용한 방어구마 맞다면 등록해주기 
-            if (mountitem.isMounted && mountitem.mountServantIndex == servant.index && param.mountitemType == MountitemType.Defense)
-            {
-                // 해당 방어구슬롯자체에 이 방어구를 등록해줘야함.
-                WeaponImage.sprite = ErdManager.instance.MountitemSprite[mountitem.mountitemNum];
-                break;
-            }
+            
         }
 
         // 악세서리칸
@@ -109,14 +115,7 @@ public class HeroInfoPopup : MonoBehaviour {
             {
                 continue;
             }
-
-            // 현재 해당서번트가 착용한 방어구마 맞다면 등록해주기 
-            if (mountitem.isMounted && mountitem.mountServantIndex == servant.index && param.mountitemType == MountitemType.Accesory)
-            {
-                // 해당 악세서리슬롯 자체에 이 악세서리를 등록해줘야함.
-                WeaponImage.sprite = ErdManager.instance.MountitemSprite[mountitem.mountitemNum];
-                break;
-            }
+            
         }
         
     }
@@ -138,6 +137,7 @@ public class HeroInfoPopup : MonoBehaviour {
             UserServantData servantdata = UserDataManager.Inst.ServantList.Find((rowdata) => { return rowdata.isMainHero; });
             to_registered(servantdata);
         }
+        
     }
     private void OnDisable()
     {
@@ -153,4 +153,6 @@ public class HeroInfoPopup : MonoBehaviour {
         
     }
     
+
+
 }

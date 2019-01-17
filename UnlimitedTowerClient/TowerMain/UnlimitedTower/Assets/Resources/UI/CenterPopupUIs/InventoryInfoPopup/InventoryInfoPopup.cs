@@ -3,29 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryInfoPopup : MonoBehaviour {
-
-    //
+    
+    // 인벤토리 슬롯
     public Transform slotparent;
-    List<InventorySlotScript> invenslotlist;
-    //
+    List<InventorySlotScript> invenslotlist = new List<InventorySlotScript>();
+    // SORT버튼들 
     public List<GameObject> sortBtnList;
     
+
+    // STATE VARIABLES
     public enum InvenState
     {
         deregistered,
         EquipMent,
         ETC
     }
+    [Space(10)]
+    [Header("Window State Variables")]
+    // 상태
     public InvenState inventoryState;
+    // 몇번째 단계에 있는지
+    public int curDisplayNum = 0;
 
-    
-    public void to_equipment()
+
+    // 아이콘 개수
+    int totalIconCount
     {
-        if (inventoryState == InvenState.EquipMent)
+        get
         {
-            return;
+            return invenslotlist.Count;
         }
+    }
+
+
+
+
+    public void Display_equipitems(int displayNum)
+    {
         inventoryState = InvenState.EquipMent;
+        this.curDisplayNum = displayNum;
 
         // 창 초기화
         for (int i = 0; i < invenslotlist.Count; i++)
@@ -33,12 +49,14 @@ public class InventoryInfoPopup : MonoBehaviour {
             invenslotlist[i].to_locked();
         }
 
-        // 서번트 등록
-        int index = 0;
-        foreach (var mountitem in UserDataManager.Inst.mountitemDic)
+        // 아이템 등록
+        int startindex = curDisplayNum * totalIconCount;
+        int endindex = (curDisplayNum + 1) * totalIconCount;
+        for (int itemIndex = startindex; itemIndex < endindex && itemIndex < UserDataManager.Inst.MountItemList.Count; itemIndex++)
         {
-            invenslotlist[index].register(mountitem.Value);
-            index++;
+            int iconIndex = itemIndex - curDisplayNum * totalIconCount;
+            InventorySlotScript slot = invenslotlist[iconIndex];
+            slot.register(UserDataManager.Inst.MountItemList[itemIndex]);
         }
 
 
@@ -49,13 +67,11 @@ public class InventoryInfoPopup : MonoBehaviour {
             sortBtnList[i].gameObject.SetActive(true);
         }
     }
-    public void to_ETC()
+    public void Display_ETCitems(int displayNum)
     {
-        if (inventoryState == InvenState.ETC)
-        {
-            return;
-        }
         inventoryState = InvenState.ETC;
+        this.curDisplayNum = displayNum;
+
 
         // 창 초기화
         for (int i = 0; i < invenslotlist.Count; i++)
@@ -63,12 +79,14 @@ public class InventoryInfoPopup : MonoBehaviour {
             invenslotlist[i].to_locked();
         }
 
-        // 서번트 등록
-        int index = 0;
-        foreach (var etcitem in UserDataManager.Inst.etcitemDic)
+        // ETC아이템 등록
+        int startindex = curDisplayNum * totalIconCount;
+        int endindex = (curDisplayNum + 1) * totalIconCount;
+        for (int itemIndex = startindex; itemIndex < endindex && itemIndex < UserDataManager.Inst.EtcItemList.Count; itemIndex++)
         {
-            invenslotlist[index].register(etcitem.Value);
-            index++;
+            int iconIndex = itemIndex - curDisplayNum * totalIconCount;
+            InventorySlotScript slot = invenslotlist[iconIndex];
+            slot.register(UserDataManager.Inst.EtcItemList[itemIndex]);
         }
 
 
@@ -85,6 +103,82 @@ public class InventoryInfoPopup : MonoBehaviour {
         // 
     }
 
+    // Equipment버튼 클릭
+    public void OnclickEquipBtn()
+    {
+        if (inventoryState == InvenState.EquipMent)
+        {
+            return;
+        }
+        else
+        {
+            Display_equipitems(0);
+        }
+    }
+    // ETC버튼 클릭
+    public void OnclickETCbtn()
+    {
+        if (inventoryState == InvenState.ETC)
+        {
+            return;
+        }
+        else
+        {
+            Display_ETCitems(0);
+        }
+    }
+
+
+    // 오른쪽 버튼 클릭
+    public void OnClickRightarrow()
+    {
+        // 다음윈도우 startIndex, endIndex
+        int startindex = totalIconCount * (curDisplayNum + 1);
+        int endindex = totalIconCount * (curDisplayNum + 2);
+
+        // 현재 아이템 타입에 따라서
+        switch (inventoryState)
+        {
+            case InvenState.deregistered:
+                break;
+            case InvenState.EquipMent:
+                {
+                    // 오른쪽 윈도우인덱스에 표시될 아이템이 있다면
+                    if (UserDataManager.Inst.MountItemList.Count-1 >= startindex)
+                    {
+                        curDisplayNum++;
+                        Display_equipitems(curDisplayNum);
+                    }
+                }
+                break;
+            case InvenState.ETC:
+                {
+                    // 오른쪽 윈도우인덱스에 표시될 아이템이 있다면
+                    if (UserDataManager.Inst.EtcItemList.Count - 1 >= startindex)
+                    {
+                        curDisplayNum++;
+                        Display_ETCitems(curDisplayNum);
+                    }
+                    
+                }
+                break;
+        }
+    }
+    // 왼쪽 버튼 클릭
+    public void OnClickLeftarrow()
+    {
+        if (inventoryState == InvenState.EquipMent)
+        {
+            curDisplayNum = Mathf.Max(curDisplayNum-1, 0);
+            Display_equipitems(curDisplayNum);
+        }
+        else
+        {
+            curDisplayNum = Mathf.Max(curDisplayNum-1, 0);
+            Display_ETCitems(curDisplayNum);
+        }
+    }
+
 
     private void Awake()
     {
@@ -95,7 +189,7 @@ public class InventoryInfoPopup : MonoBehaviour {
     }
     private void OnEnable()
     {
-        to_equipment();
+        Display_equipitems(0);
     }
     private void OnDisable()
     {

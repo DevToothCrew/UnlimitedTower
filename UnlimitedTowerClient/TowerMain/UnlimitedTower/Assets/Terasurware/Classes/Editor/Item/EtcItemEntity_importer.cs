@@ -36,7 +36,7 @@ public class EtcItemEntity_importer : AssetPostprocessor
                     var data = (EtcItemEntity)AssetDatabase.LoadAssetAtPath(exportPath, typeof(EtcItemEntity));
                     if (data == null)
                     {
-					     //�����丮�� ���ٸ� �������ش�
+					     //���丮�� ���ٸ� ������ش�
                         if (!Directory.Exists(Path.GetDirectoryName(exportPath).Replace("\\", "/")))
                             Directory.CreateDirectory(Path.GetDirectoryName(exportPath).Replace("\\", "/"));
 

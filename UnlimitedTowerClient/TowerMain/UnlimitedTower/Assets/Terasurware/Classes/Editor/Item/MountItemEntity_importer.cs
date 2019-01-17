@@ -36,7 +36,7 @@ public class MountItemEntity_importer : AssetPostprocessor
                     var data = (MountItemEntity)AssetDatabase.LoadAssetAtPath(exportPath, typeof(MountItemEntity));
                     if (data == null)
                     {
-					     //�����丮�� ���ٸ� �������ش�
+					     //���丮�� ���ٸ� ������ش�
                         if (!Directory.Exists(Path.GetDirectoryName(exportPath).Replace("\\", "/")))
                             Directory.CreateDirectory(Path.GetDirectoryName(exportPath).Replace("\\", "/"));
 
@@ -78,10 +78,9 @@ public class MountItemEntity_importer : AssetPostprocessor
 					cell = row.GetCell(0);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.mountItemNum);
 					cell = row.GetCell(1);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "")   p.mountitemType =  (MountitemType)System.Enum.Parse(typeof(MountitemType), cell.StringCellValue);
 					cell = row.GetCell(2);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") p.itemName = cell.StringCellValue;
-					cell = row.GetCell(3); if(cell != null) cell.SetCellType(CellType.String);  if(cell != null && cell.StringCellValue != "") bool.TryParse(cell.StringCellValue, out p.isSpeJobPossible);
-					cell = row.GetCell(4);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.possibleJobNum);
-					cell = row.GetCell(5);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.teerNum);
-					cell = row.GetCell(6);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.gradeNum);
+					cell = row.GetCell(3);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.possibleJobNum);
+					cell = row.GetCell(4);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.teerNum);
+					cell = row.GetCell(5);  if(cell != null) cell.SetCellType(CellType.String); if(cell != null && cell.StringCellValue != "") int.TryParse( cell.StringCellValue, out p.gradeNum);
 
                         data.param.Add(p);
                     }

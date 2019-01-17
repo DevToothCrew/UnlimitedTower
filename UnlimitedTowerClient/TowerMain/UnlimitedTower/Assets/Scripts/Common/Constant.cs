@@ -137,31 +137,47 @@ public class UserServantData
 
     // 영웅서번트인지 아닌지
     public bool isLegend;
-    public int LegendServantNum;
 
     public string name;
 
     // TODO : Servant별 State 추가 필요
     public int exp;
-    public int level;
-    public bool isjobHas;
+    public int level
+    {
+        get
+        {
+            return Calculator.GetLevelForExp(exp);
+        }
+    }
     public int jobNum;
 
     // 현재는 appear를 통해 간단히 사용하고 추후 appearInfo와 job을 통해 캐릭터 생성이 되어야함
-    public int charNum;
+    public int body;
     public int headNum;
     public int hairNum;
 
     public Status status = new Status();
     public int leftStatPoint;
+
+
+
+    // 조회용 데이터 __________________________________________________________
+
+    // 착용 아이템 리스트 -> 역참조초기화x, 역참조업데이트x
+    public List<UserMountItemData> mountItemList = new List<UserMountItemData>();
+
+    // 배치 데이터   -> 역참조 초기화?x, 역참조업데이트?ok
+    public bool isPlaced;       
+    public int partyNum;
+    public int formationNum;
     
+
 
 
 
     public UserServantData()
     {
         exp = 0;
-        level = 1;
 
         status = new Status();
         status.basicStr = DEFINE.TEST_STATUS_VALUE;
@@ -170,9 +186,8 @@ public class UserServantData
     }
     public UserServantData(int getCharNum)
     {
-        charNum = getCharNum;
+        body = getCharNum;
         exp = 0;
-        level = 1;
 
         status = new Status();
         status.basicStr = DEFINE.TEST_STATUS_VALUE;
@@ -195,18 +210,33 @@ public class UserMonsterData
     public int gradeNum;
     public int enforceNum;
     public int exp;
-    public int level;
+    public int level
+    {
+        get
+        {
+            return Calculator.GetLevelForExp(exp);
+        }
+    }
 
     public Status status = new Status();
 
     public string name;
-    
+
+
+
+
+    // 조회용 데이터(ERD 역 참조값들)
+    public bool isPlaced;
+    public int teamNum;
+    public int formationNum;
+
+
+
 
     //TODO : TestCode
     public UserMonsterData()
     {
         exp = 0;
-        level = 1;
         
         // job값으로 현재는 서번트 구분 추후에 합의하여 수정해야할듯.
         CHARACTER_NUM charNum = CHARACTER_NUM.Mst_BirdMan;
@@ -225,7 +255,6 @@ public class UserMonsterData
     public UserMonsterData(int index)
     {
         exp = 0;
-        level = 1;
         
         // 리소스 인덱스
         this.index = index;
@@ -238,6 +267,41 @@ public class UserMonsterData
         status.basicInt = DEFINE.TEST_STATUS_VALUE;
     }
 }
+// erd완
+[System.Serializable]
+public class UserMountItemData
+{
+    // 
+    public int index;
+
+    //
+    public int mountitemNum;
+
+    public int tearNum;
+    public int upgradeCount;
+
+    bool _isMounted;
+    public bool isMounted
+    {
+        get
+        {
+            return _isMounted;
+        }
+        set
+        {
+            _isMounted = value;
+
+            if (mountedChanged != null)
+            {
+                mountedChanged();
+            }
+        }
+    }
+    public System.Action mountedChanged;
+
+    public int mountServantIndex;
+}
+
 [System.Serializable]
 public class Status
 {
@@ -253,32 +317,51 @@ public class Status
 [System.Serializable]
 public class UserFormationData
 {
+    // 인덱스
     public int partyIndex;
     public int formationIndex;
 
+
+
     public bool isPlaced;
-    public bool isServant;
+    public CHAR_TYPE charType
+    {
+        get
+        {
+            if (formationIndex == 2)
+            {
+                return CHAR_TYPE.HERO;
+            }
+
+            if (formationIndex <= 4)
+            {
+                return CHAR_TYPE.SERVANT;
+            }
+
+            return CHAR_TYPE.MONSTER;
+        }
+    }
     public int index;
+
+    public UserServantData servantdata
+    {
+        get
+        {
+            return UserDataManager.Inst.servantDic[index];
+        }
+    }
+    public UserMonsterData monsterdata
+    {
+        get
+        {
+            return UserDataManager.Inst.monsterDic[index];
+        }
+    }
 }
 
 
 
-// erd완
-[System.Serializable]
-public class UserMountItemData
-{
-    // 
-    public int index;
 
-    //
-    public int mountitemNum;
-
-    public int tearNum;
-    public int enforceCount;
-
-    public bool isMounted;
-    public int mountServantIndex;
-}
 [System.Serializable]
 public class UserEtcItemData
 {
@@ -293,8 +376,11 @@ public class UserEtcItemData
 public class UserPartyData
 {
     public int partyIndex;
-
     public bool isFixedAtFloor;
+    
+    // 역참조 초기화o, 역참조 업데이트o
+    public Dictionary<int, UserFormationData> formationDataDic = new Dictionary<int, UserFormationData>();
+    public List<UserFormationData> UserFormationList = new List<UserFormationData>();
 }
 
 
@@ -411,6 +497,11 @@ public static class ExtensionMethod
 
 #region ENUM
 
+public enum PARTY_STATE
+{
+    FREE,
+    FIXED
+}
 // Battle Formation Type
 public enum FORMATION_TYPE
 {
@@ -499,7 +590,6 @@ public enum CHARACTER_NUM
 
 public enum SERVANT_JOB
 {
-
     // STR
     WhiteHand = 5,
     Warrior = 0,
