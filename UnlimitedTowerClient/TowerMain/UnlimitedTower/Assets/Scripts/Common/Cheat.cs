@@ -20,11 +20,11 @@ public class Cheat : MonoSingleton<Cheat>
         mainherodata.index = 0;
 
         // 서번트 생성 ㅇㅋ
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < 51; i++)
         {
             // 서번트 정보
             servantInfo info = GetRandomServant(GetRandomServantJob());
-            
+
             // 서번트 데이터
             servantData servantdata = new servantData();
             servantdata.index = 1 + i;
@@ -46,7 +46,7 @@ public class Cheat : MonoSingleton<Cheat>
         }
 
         // 아이템 생성
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < 130; i++)
         {
             itemData itemdata = new itemData();
             itemdata.index = i;
@@ -70,7 +70,7 @@ public class Cheat : MonoSingleton<Cheat>
         {
             partyData partydata = new partyData();
             partydata.index = partyNum;
-            
+
             for (int forma_index = 0; forma_index < DEFINE.PARTY_MAX_NUM; forma_index++)
             {
                 // 메인히어로는 모든 2번자리에 배치되어 있음.
@@ -292,7 +292,7 @@ public class Cheat : MonoSingleton<Cheat>
         servant.stat_point = (Calculator.GetLevelForExp(servant.exp) - 1) * DEFINE.BONUS_STAT;
         servant.appear = GetRandomAppear();
         servant.status = GetRandomStatus();
-        
+
         return servant;
     }
 

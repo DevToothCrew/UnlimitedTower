@@ -499,6 +499,14 @@ public static class ExtensionMethod
 
 #region ENUM
 
+// UI에서 사용하는 Sorting 타입
+public enum SortType
+{
+    Grade,
+    Level,
+    Power,
+    Obtain
+}
 public enum PARTY_STATE
 {
     FREE,

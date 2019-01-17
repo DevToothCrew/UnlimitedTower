@@ -54,11 +54,9 @@ public class PartnerInfoPopup : MonoBehaviour {
         }
 
         // 서번트 등록
-        int index = 0;
-        foreach (var servantpair in UserDataManager.Inst.servantDic)
+        for (int i = 0; i < UserDataManager.Inst.ServantList.Count && i<SlotList.Count; i++)
         {
-            SlotList[index].register(servantpair.Value);
-            index++;
+            SlotList[i].register(UserDataManager.Inst.ServantList[i]);
         }
 
         // 다시정렬
@@ -75,12 +73,9 @@ public class PartnerInfoPopup : MonoBehaviour {
         }
 
         // 몬스터 등록
-        // 서번트 등록
-        int index = 0;
-        foreach (var monsterpair in UserDataManager.Inst.monsterDic)
+        for (int i = 0; i < UserDataManager.Inst.MonsterList.Count && i < SlotList.Count; i++)
         {
-            SlotList[index].register(monsterpair.Value);
-            index++;
+            SlotList[i].register(UserDataManager.Inst.MonsterList[i]);
         }
 
         // 다시정렬

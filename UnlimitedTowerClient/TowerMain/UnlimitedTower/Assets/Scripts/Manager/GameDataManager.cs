@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameDataManager : MonoBehaviour {
+public class GameDataManager : MonoBehaviour
+{
 
     public static GameDataManager instance;
     public void Awake()
@@ -121,11 +122,11 @@ public class GameDataManager : MonoBehaviour {
             GameDataManager.instance.placeChangedEvent();
         }
     }
-    
+
     // 배치 조회
     public bool isPlacedAt(int teamNum, int formationIndex)
     {
-        UserFormationData formationdata = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isPlaced && rowdata.partyIndex == teamNum && rowdata.formationIndex == formationIndex; }) ;
+        UserFormationData formationdata = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isPlaced && rowdata.partyIndex == teamNum && rowdata.formationIndex == formationIndex; });
         if (formationdata != null)
         {
 
@@ -165,7 +166,7 @@ public class GameDataManager : MonoBehaviour {
         {
             return null;
         }
-        
+
         return UserDataManager.Inst.ServantList.Find((rowdata) => { return rowdata.index == formData.index; });
     }
     public UserMonsterData getMonsterPlacedAt_nullPossible(int teamNum, int formationindex)
@@ -202,7 +203,7 @@ public class GameDataManager : MonoBehaviour {
     }
     public bool isMonsterPlaceExist(int teamNum)
     {
-        for (int i = 5; i < 10 ; i++)
+        for (int i = 5; i < 10; i++)
         {
             if (isPlacedAt(teamNum, i) == false)
             {
@@ -239,4 +240,13 @@ public class GameDataManager : MonoBehaviour {
         Debug.Log("버그");
         return -1;
     }
+
+
+
+
+
+
+
+
+
 }
