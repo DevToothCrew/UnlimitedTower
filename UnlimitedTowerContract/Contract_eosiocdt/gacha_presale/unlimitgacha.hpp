@@ -16,9 +16,12 @@ CONTRACT unlimitgacha : public contract
 #pragma resgion contract constructor
     //using contract::contract;
     eosio::name owner;
+    permission_level owner_auth;
     unlimitgacha(eosio::name _self, eosio::name _code, datastream<const char *> ds) : contract(_self, _code, ds)
     {
         owner = _self;
+        owner_auth.actor = _self;
+        owner_auth.permission = "owner"_n;
     }
 #pragma endregion
     //------------------------------------------------------------------------//
@@ -637,11 +640,6 @@ TABLE presalelog
     //------------------------------------------------------------------------//
     //-----------------------------init_function------------------------------//
     //------------------------------------------------------------------------//
-void init_all_user_auth_data();
-void init_all_user_log_data();
-void init_all_object_gacha_data();
-ACTION initalluser();
-void init_presale_log();
 ACTION initprelog();
 
 
@@ -679,7 +677,6 @@ ACTION addblack(eosio::name _user);
     //————————————————owner_system—————————————//
     //————————————————————————————————————//
 ACTION setpause(uint64_t _state);
-
 
 
 };

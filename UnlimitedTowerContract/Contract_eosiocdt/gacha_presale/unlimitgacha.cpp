@@ -13,7 +13,7 @@
 
 ACTION unlimitgacha::create(eosio::name _issuer, asset _maximum_supply)
 {
-    require_auth(owner);
+    require_auth(owner_auth);
 
     auto sym = _maximum_supply.symbol;
     eosio_assert(sym.is_valid(), "Invalid symbol name");
@@ -69,6 +69,7 @@ ACTION unlimitgacha::tokentrans(name _from, name _to, asset _quantity, string _m
 {
     auth_users auth_user_table(owner, owner.value);
     auto owner_iter = auth_user_table.find(owner.value);
+    eosio_assert(owner_iter != auth_user_table.end(),"not set owner");
     eosio_assert(owner_iter->state != euser_state::pause, " server checking... ");
 
     black_list black_list_table(owner, owner.value);
@@ -140,7 +141,7 @@ void unlimitgacha::add_balance(name _user, asset _value, name _ram_payer)
 
 ACTION unlimitgacha::dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max)
 {
-    require_auth(owner);
+    require_auth(owner_auth);
     switch (_kind)
     {
     case db_choice::job:
@@ -299,7 +300,7 @@ void unlimitgacha::insert_item_grade(uint32_t _grade, uint32_t _min, uint32_t _m
 
 ACTION unlimitgacha::dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max)
 {
-    require_auth(owner);
+    require_auth(owner_auth);
     switch (_kind)
     {
     case db_choice::job:
@@ -482,7 +483,7 @@ void unlimitgacha::modify_item_id(uint32_t _id, uint32_t _type, uint32_t _job, u
 
 ACTION unlimitgacha::dberase(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max)
 {
-    require_auth(owner);
+    require_auth(owner_auth);
     switch (_kind)
     {
     case db_choice::job:
@@ -627,8 +628,10 @@ void unlimitgacha::erase_item_id(uint32_t _id)
 #pragma region set
 ACTION unlimitgacha::setmaster()
 {
-    eosio::require_auth(owner);
+    require_auth(owner_auth);
     auth_users user_auth_table(owner, owner.value);
+    auto owner_iter = user_auth_table.find(owner.value);
+    eosio_assert(owner_iter == user_auth_table.end(),"already set owner");
     user_auth_table.emplace(owner, [&](auto &gm_set) {
         gm_set.user = owner;
         gm_set.state = euser_state::lobby;
@@ -643,8 +646,10 @@ ACTION unlimitgacha::setmaster()
 
 ACTION unlimitgacha::setpresale()
 {
-    eosio::require_auth(owner);
+    require_auth(owner_auth);
     participation_logs participation_log_table(owner, owner.value);
+    auto participation_log_iter = participation_log_table.find(owner.value);
+    eosio_assert(participation_log_iter == participation_log_table.end(),"already set presale log");
     participation_log_table.emplace(owner, [&](auto &pre_sale) {
         pre_sale.owner = owner;
     });
@@ -746,6 +751,7 @@ ACTION unlimitgacha::presalemove(eosio::name _user)
 
     auth_users auth_user_table(owner, owner.value);
     auto owner_iter = auth_user_table.find(owner.value);
+    eosio_assert(owner_iter != auth_user_table.end(),"not set owner");
     eosio_assert(owner_iter->state != euser_state::pause, " server checking... ");
 
     black_list black_list_table(owner, owner.value);
@@ -827,6 +833,7 @@ ACTION unlimitgacha::eostransfer(eosio::name sender, eosio::name receiver)
 {
     auth_users auth_user_table(owner, owner.value);
     auto owner_iter = auth_user_table.find(owner.value);
+    eosio_assert(owner_iter != auth_user_table.end(),"not set owner");
     eosio_assert(owner_iter->state != euser_state::pause, " server checking... ");
 
     black_list black_list_table(owner, owner.value);
@@ -1018,10 +1025,10 @@ void unlimitgacha::eosiotoken_transfer(eosio::name sender, eosio::name receiver,
 #pragma resion init db table
 ACTION unlimitgacha::initmaster()
 {
-    eosio::require_auth(owner);
+    require_auth(owner_auth);
     auth_users user_auth_table(owner, owner.value);
     auto owner_iter = user_auth_table.find(owner.value);
-    eosio_assert(owner_iter != user_auth_table.end(), "already data init");
+    eosio_assert(owner_iter != user_auth_table.end(), "not set owner");
     user_auth_table.erase(owner_iter);
 }
 
@@ -1031,7 +1038,7 @@ ACTION unlimitgacha::initmaster()
 
 ACTION unlimitgacha::deleteuser(eosio::name _user)
 {
-    require_auth(owner);
+    require_auth(owner_auth);
 
     delete_user_data(_user);
     delete_user_object_data(_user);
@@ -1127,64 +1134,18 @@ void unlimitgacha::delete_user_gacha_result_data(eosio::name _user)
 
 #pragma resion init all table
 
-ACTION unlimitgacha::initalluser()
-{
-    require_auth(owner);
 
-    init_all_object_gacha_data();
-    init_all_user_auth_data();
-    init_all_user_log_data();
-}
-
-void unlimitgacha::init_all_user_auth_data()
-{
-    auth_users auth_user_table(owner, owner.value);
-    for (auto user_auth_iter = auth_user_table.begin(); user_auth_iter != auth_user_table.end();)
-    {
-        auto iter = auth_user_table.find(user_auth_iter->primary_key());
-        user_auth_iter++;
-        auth_user_table.erase(iter);
-    }
-}
-
-void unlimitgacha::init_all_user_log_data()
-{
-    user_logs user_log_table(owner, owner.value);
-    for (auto user_log_iter = user_log_table.begin(); user_log_iter != user_log_table.end();)
-    {
-        auto iter = user_log_table.find(user_log_iter->primary_key());
-        user_log_iter++;
-        user_log_table.erase(iter);
-    }
-}
-
-void unlimitgacha::init_all_object_gacha_data()
-{
-    auth_users user_auth_table(owner, owner.value);
-    for (auto user_name_iter = user_auth_table.begin(); user_name_iter != user_auth_table.end();)
-    {
-        delete_user_object_data(user_name_iter->user);
-        delete_user_presale_data(user_name_iter->user);
-        delete_user_balance(user_name_iter->user);
-        delete_user_gacha_result_data(user_name_iter->user);
-        user_name_iter++;
-    }
-}
 
 ACTION unlimitgacha::initprelog()
 {
-    require_auth(owner);
-    init_presale_log();
-}
+    require_auth(owner_auth);
 
-void unlimitgacha::init_presale_log()
-{
     participation_logs pre_sale_log_table(owner, owner.value);
-
     auto iter = pre_sale_log_table.find(owner.value);
     eosio_assert(iter != pre_sale_log_table.end(), "not exist presale log data");
     pre_sale_log_table.erase(iter);
 }
+
 
 #pragma endregion
 
@@ -1192,6 +1153,7 @@ void unlimitgacha::init_presale_log()
 
 ACTION unlimitgacha::inittoken(asset _token)
 {
+    require_auth(owner_auth);
     init_all_balance();
     init_stat(_token);
 }
@@ -1209,7 +1171,6 @@ void unlimitgacha::delete_user_balance(eosio::name _user)
 
 void unlimitgacha::init_stat(asset _token)
 {
-    require_auth(owner);
     stat statstable(owner, _token.symbol.code().raw());
     for (auto token_stat_iter = statstable.begin(); token_stat_iter != statstable.end();)
     {
@@ -1221,8 +1182,6 @@ void unlimitgacha::init_stat(asset _token)
 
 void unlimitgacha::init_all_balance()
 {
-    require_auth(owner);
-
     auth_users user_auth_table(owner, owner.value);
     for (auto user_name_iter = user_auth_table.begin(); user_name_iter != user_auth_table.end();)
     {
@@ -1933,7 +1892,7 @@ ACTION unlimitgacha::gachacheat(eosio::name _user)
 
 ACTION unlimitgacha::deleteblack(eosio::name _user)
 {
-    require_auth(owner);
+    require_auth(owner_auth);
 
     black_list black_list_table(owner, owner.value);
     auto black_list_iter = black_list_table.find(_user.value);
@@ -1944,7 +1903,7 @@ ACTION unlimitgacha::deleteblack(eosio::name _user)
 
 ACTION unlimitgacha::addblack(eosio::name _user)
 {
-    require_auth(owner);
+    require_auth(owner_auth);
 
     black_list black_list_table(owner, owner.value);
     auto black_list_iter = black_list_table.find(_user.value);
@@ -1961,7 +1920,7 @@ ACTION unlimitgacha::addblack(eosio::name _user)
 
 ACTION unlimitgacha::setpause(uint64_t _state)
 {
-    require_auth(owner);
+    require_auth(owner_auth);
 
     auth_users user_auth_table(owner, owner.value);
     auto owner_iter = user_auth_table.find(owner.value);
@@ -2001,4 +1960,4 @@ ACTION unlimitgacha::setpause(uint64_t _state)
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(unlimitgacha, (create)(issue)(tokentrans)(setmaster)(setpresale)(presalemove)(eostransfer)(initmaster)(deleteuser)(initalluser)(initprelog)(inittoken)(gachacheat)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase))
+EOSIO_DISPATCH(unlimitgacha, (create)(issue)(tokentrans)(setmaster)(setpresale)(presalemove)(eostransfer)(initmaster)(deleteuser)(initprelog)(inittoken)(gachacheat)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase))
