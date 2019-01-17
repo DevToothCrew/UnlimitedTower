@@ -1016,6 +1016,11 @@ void unlimitgacha::eosiotoken_transfer(eosio::name sender, eosio::name receiver,
     {
         eosio_assert(transfer_data.quantity.amount == 10000, "signup need 1.0000 EOS");
     }
+    else
+    {
+        uint32_t error_code = 0;
+        eosio_assert(error_code != 0 , " impossible send to this contract ");
+    }
 
     func(res);
 }
