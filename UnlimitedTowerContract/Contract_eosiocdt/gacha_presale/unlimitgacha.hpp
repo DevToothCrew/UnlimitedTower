@@ -248,7 +248,7 @@ enum db_choice
 #pragma region token action
     ACTION create(name _issuer, asset _maximum_supply);
     ACTION issue(name _to, asset _quantity, string _memo);
-    ACTION tokentrans(name _from, name _to, asset _quantity, string _memo);
+    ACTION transfer(name _from, name _to, asset _quantity, string _memo);
     ACTION inittoken(asset _token);
 #pragma endregion
 
@@ -472,9 +472,6 @@ enum db_choice
 #pragma endregion
 
 
-#pragma region gacha cheat
-    ACTION gachacheat(eosio::name _user);
-#pragma endregion
 
 //------------------------------------------------------------------------//
 //--------------------------presale_log_table----------------------------//

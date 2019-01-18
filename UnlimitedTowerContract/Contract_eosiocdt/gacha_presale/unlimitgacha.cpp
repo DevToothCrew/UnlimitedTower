@@ -59,19 +59,14 @@ ACTION unlimitgacha::issue(eosio::name _to, asset _quantity, string _memo)
     if (_to != st.issuer)
     {
         action(permission_level{st.issuer, "active"_n},
-               st.issuer, "tokentrans"_n,
+               st.issuer, "transfer"_n,
                std::make_tuple(st.issuer, _to, _quantity, _memo))
             .send();
     }
 }
 
-ACTION unlimitgacha::tokentrans(name _from, name _to, asset _quantity, string _memo)
+ACTION unlimitgacha::transfer(name _from, name _to, asset _quantity, string _memo)
 {
-    auth_users auth_user_table(owner, owner.value);
-    auto owner_iter = auth_user_table.find(owner.value);
-    eosio_assert(owner_iter != auth_user_table.end(),"not set owner");
-    eosio_assert(owner_iter->state != euser_state::pause, " server checking... ");
-
     black_list black_list_table(owner, owner.value);
     auto black_list_iter = black_list_table.find(_from.value);
     eosio_assert(black_list_iter == black_list_table.end(), "this user already exist in black list");
@@ -886,7 +881,7 @@ ACTION unlimitgacha::eostransfer(eosio::name sender, eosio::name receiver)
                     });
                 }
                 action(permission_level{get_self(), "active"_n},
-                       get_self(), "tokentrans"_n,
+                       get_self(), "transfer"_n,
                        std::make_tuple(owner, sender, presale_signup_reward, std::string("presale signup reward")))
                     .send();
             }
@@ -949,7 +944,7 @@ ACTION unlimitgacha::eostransfer(eosio::name sender, eosio::name receiver)
                     }
 
                     action(permission_level{get_self(), "active"_n},
-                           get_self(), "tokentrans"_n,
+                           get_self(), "transfer"_n,
                            std::make_tuple(owner, sender, gacha_reward, std::string("pre sale gacha reward")))
                         .send();
                 }
@@ -1871,31 +1866,7 @@ void unlimitgacha::presale_gacha(eosio::name _user, uint64_t _seed)
     item_random_count = 0;
 }
 
-#pragma region gacha cheat
-ACTION unlimitgacha::gachacheat(eosio::name _user)
-{
-    require_auth(_user);
-    auth_users auth_user_table(owner, owner.value);
-    auto owner_iter = auth_user_table.find(owner.value);
-    eosio_assert(owner_iter->state != euser_state::pause, " server checking... ");
 
-    uint64_t l_seed = safeseed::get_seed(owner.value, _user.value);
-    for (uint32_t i = 0; i < 50; ++i)
-    {
-        user_logs user_log_table(owner, owner.value);
-        auto user_log_iter = user_log_table.find(_user.value);
-        eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data in gacha cheat");
-        user_log_table.modify(user_log_iter, owner, [&](auto &buy_log) {
-            buy_log.gacha_num += 1;
-        });
-        uint64_t l_user = get_user_seed_value(_user.value);
-        uint64_t seed = safeseed::get_seed_value(l_user, l_seed);
-
-        presale_gacha_item_id(_user, seed);
-        presale_gacha_monster_id(_user, seed);
-    }
-}
-#pragma endregion
 
 #pragma region black_list action
 
@@ -1969,4 +1940,4 @@ ACTION unlimitgacha::setpause(uint64_t _state)
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(unlimitgacha, (create)(issue)(tokentrans)(setmaster)(setpresale)(presalemove)(eostransfer)(initmaster)(deleteuser)(initprelog)(inittoken)(gachacheat)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase))
+EOSIO_DISPATCH(unlimitgacha, (create)(issue)(transfer)(setmaster)(setpresale)(presalemove)(eostransfer)(initmaster)(deleteuser)(initprelog)(inittoken)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase))
