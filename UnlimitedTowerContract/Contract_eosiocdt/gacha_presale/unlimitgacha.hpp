@@ -17,6 +17,7 @@ CONTRACT unlimitgacha : public contract
     //using contract::contract;
     eosio::name owner;
     permission_level owner_auth;
+    
     unlimitgacha(eosio::name _self, eosio::name _code, datastream<const char *> ds) : contract(_self, _code, ds)
     {
         owner = _self;
@@ -165,12 +166,20 @@ enum db_choice
 
   public:
 #pragma region db action
-    ACTION setmaster();
-    ACTION initmaster();
+    TABLE tmaster
+    {
+        eosio::name master;
+        uint64_t primary_key() const { return master.value; }
+    };
+    typedef eosio::multi_index<"tmaster"_n, tmaster> master;
+
+    ACTION setmaster(eosio::name _master);
+    ACTION initmaster(eosio::name _master);
     ACTION setpresale();
     ACTION dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max);
     ACTION dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max);
     ACTION dberase(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max);
+    ACTION dbinit();
 #pragma endregion
 
   public:
