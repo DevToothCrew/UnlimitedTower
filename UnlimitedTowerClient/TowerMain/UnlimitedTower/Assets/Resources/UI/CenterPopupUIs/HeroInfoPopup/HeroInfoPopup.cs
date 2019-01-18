@@ -22,6 +22,10 @@ public class HeroInfoPopup : MonoBehaviour {
     //
     [SerializeField] public Heroinfo_InvenPannel heroinfo_invenpannel;
 
+    [SerializeField] HeroinfoItemSlot weaponSlot;
+    [SerializeField] HeroinfoItemSlot armorSlot;
+    [SerializeField] HeroinfoItemSlot accesorySlot;
+
     // 
     [SerializeField] GameObject CharCamera;
     [SerializeField] Vector3 CharPos;
@@ -83,41 +87,13 @@ public class HeroInfoPopup : MonoBehaviour {
         SubCamera.instance.Register(servant);
 
         // 무기칸
-        foreach (var mountitem in UserDataManager.Inst.mountitemDic.Values)
-        {
-            // DB에없는 아이템일경우 continue
-            MountItemEntity.Param param = ErdManager.instance.getmountitemEntityTable_nullPossible(mountitem.mountitemNum);
-            if (param == null)
-            {
-                continue;
-            }
-            
-        }
+        weaponSlot.Register(servant);
 
         // 방어구칸
-        foreach (var mountitem in UserDataManager.Inst.mountitemDic.Values)
-        {
-            //
-            MountItemEntity.Param param = ErdManager.instance.getmountitemEntityTable_nullPossible(mountitem.mountitemNum);
-            if (param == null)
-            {
-                continue;
-            }
-            
-        }
+        armorSlot.Register(servant);
 
         // 악세서리칸
-        foreach (var mountitem in UserDataManager.Inst.mountitemDic.Values)
-        {
-            //
-            MountItemEntity.Param param = ErdManager.instance.getmountitemEntityTable_nullPossible(mountitem.mountitemNum);
-            if (param == null)
-            {
-                continue;
-            }
-            
-        }
-        
+        accesorySlot.Register(servant);
     }
     public void to_deregistered()
     {

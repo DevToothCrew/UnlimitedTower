@@ -7,6 +7,8 @@ public class HeroinfoItemSlot : MonoBehaviour {
 
     [SerializeField] MountitemType mountItemType;
 
+    [SerializeField] HeroInfoPopup heroinfopopup;
+
     public Image itemimage;
     public Image lockimage;
     public Text teartext;
@@ -15,14 +17,11 @@ public class HeroinfoItemSlot : MonoBehaviour {
     // 상태
     public UserServantData servantdata;
     public UserMountItemData mountitemdata;
-
-    private void Start()
+    public void Register(UserServantData servantdata)
     {
-        servantdata = HeroInfoPopup.instance.servant;
-
+        this.servantdata = servantdata;
         servantdata.mountItemListChangeEvent += mountitemchanged;
         mountitemchanged();
-
     }
     private void OnDisable()
     {

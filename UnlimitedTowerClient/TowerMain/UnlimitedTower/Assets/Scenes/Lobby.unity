@@ -8638,6 +8638,9 @@ MonoBehaviour:
   levelText: {fileID: 307949412}
   nameText: {fileID: 13907710}
   heroinfo_invenpannel: {fileID: 1436255015}
+  weaponSlot: {fileID: 2106873537}
+  armorSlot: {fileID: 680005542}
+  accesorySlot: {fileID: 477704075}
   CharCamera: {fileID: 1211499960}
   CharPos: {x: 3000, y: 2970, z: 3060}
   servant:
@@ -24311,6 +24314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mountItemType: 2
+  heroinfopopup: {fileID: 170685064}
   itemimage: {fileID: 1315652621}
   lockimage: {fileID: 1205888074}
   teartext: {fileID: 1014081925}
@@ -34670,6 +34674,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mountItemType: 1
+  heroinfopopup: {fileID: 170685064}
   itemimage: {fileID: 2100036550}
   lockimage: {fileID: 679243409}
   teartext: {fileID: 967500447}
@@ -113333,6 +113338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mountItemType: 0
+  heroinfopopup: {fileID: 170685064}
   itemimage: {fileID: 280273659}
   lockimage: {fileID: 1446313677}
   teartext: {fileID: 1534568208}
