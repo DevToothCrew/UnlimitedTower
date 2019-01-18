@@ -163,12 +163,38 @@ public class UserServantData
 
 
 
-    // 조회용 데이터 __________________________________________________________
+    /* 조회용 데이터 __________________________________________________________ */
 
     // 착용 아이템 리스트 -> 역참조초기화x, 역참조업데이트x
     public List<UserMountItemData> mountItemList = new List<UserMountItemData>();
+    public event System.Action mountItemListChangeEvent;
+    public void Mount(UserMountItemData usermountitemdata)
+    {
+        mountItemList.Add(usermountitemdata);
 
-    // 배치 데이터   -> 역참조 초기화?x, 역참조업데이트?ok
+        if (mountItemListChangeEvent != null)
+        {
+            mountItemListChangeEvent();
+        }
+    }
+    public void Demount(UserMountItemData usermountitemdata)
+    {
+        // 장착하고있는 아이템이 아닐경우 -> return
+        if (!mountItemList.Contains(usermountitemdata))
+        {
+            return;
+        }
+
+        // 장착 해제
+        mountItemList.Remove(usermountitemdata);
+
+        if (mountItemListChangeEvent != null)
+        {
+            mountItemListChangeEvent();
+        }
+    }
+
+    // 배치 데이터 
     public bool isPlaced;       
     public int partyNum;
     public int formationNum;
@@ -498,6 +524,13 @@ public static class ExtensionMethod
 
 
 #region ENUM
+
+public enum MountitemType
+{
+    Weapon,
+    Defense,
+    Accesory
+}
 
 // UI에서 사용하는 Sorting 타입
 public enum SortType

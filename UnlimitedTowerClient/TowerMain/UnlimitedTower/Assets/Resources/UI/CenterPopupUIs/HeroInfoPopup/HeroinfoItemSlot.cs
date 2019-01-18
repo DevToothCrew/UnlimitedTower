@@ -5,23 +5,39 @@ using UnityEngine.UI;
 
 public class HeroinfoItemSlot : MonoBehaviour {
 
+    [SerializeField] MountitemType mountItemType;
+
     public Image itemimage;
     public Image lockimage;
     public Text teartext;
     public Text upgradetext;
 
-    [SerializeField] int itemslottype;
-
+    // 상태
+    public UserServantData servantdata;
     public UserMountItemData mountitemdata;
 
+    private void Start()
+    {
+        servantdata = HeroInfoPopup.instance.servant;
 
-    public void OnEnable()
-    {
-        displayUpdate();
+        servantdata.mountItemListChangeEvent += mountitemchanged;
+        mountitemchanged();
+
     }
-    public void displayUpdate()
+    private void OnDisable()
     {
-        UserMountItemData mountitemdata = UserDataManager.Inst.MountItemList.Find((rowdata) => { return rowdata.isMounted &&  HeroInfoPopup.instance.servant.index == rowdata.mountServantIndex; });
+        servantdata.mountItemListChangeEvent -= mountitemchanged;
+    }
+
+    public void mountitemchanged()
+    {
+        UserMountItemData mountitemdata = servantdata.mountItemList.Find((rowdata) => {
+
+            MountItemEntity.Param info = ErdManager.instance.getmountitemEntityTable_nullPossible(rowdata.mountitemNum);
+            MountitemType itemtype = info.mountitemType;
+
+            return rowdata.isMounted && HeroInfoPopup.instance.servant.index == rowdata.mountServantIndex && itemtype == mountItemType;
+        });
         if (mountitemdata != null)
         {
             this.mountitemdata = mountitemdata;
@@ -34,7 +50,7 @@ public class HeroinfoItemSlot : MonoBehaviour {
             teartext.text = mountitemdata.tearNum + "T";
             upgradetext.text = "+" + mountitemdata.upgradeCount;
             itemimage.sprite = ErdManager.instance.MountitemSprite[mountitemdata.mountitemNum];
-            
+
         }
         else
         {
@@ -45,9 +61,9 @@ public class HeroinfoItemSlot : MonoBehaviour {
         }
     }
 
-
     public void OnClick()
     {
+        HeroInfoPopup.instance.heroinfo_invenpannel.displayType = mountItemType;
         HeroInfoPopup.instance.heroinfo_invenpannel.gameObject.SetActive(true);
     }
 }

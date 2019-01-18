@@ -46,13 +46,21 @@ public class Heroinfo_InvenPannel : MonoBehaviour {
         return icon;
     }
 
+    // FSM
+    public MountitemType displayType;
 
     private void OnEnable()
     {
-        for (int i = 0; i < UserDataManager.Inst.MountItemList.Count; i++)
+        // 장착되지않은아이템 or 해당서번트에게 장착된아이템만 띄워준다.
+        List<UserMountItemData> list = UserDataManager.Inst.MountItemList.FindAll((rowdata)=> {
+
+            MountItemEntity.Param itemparam = ErdManager.instance.getmountitemEntityTable_nullPossible(rowdata.mountitemNum);
+            return (!rowdata.isMounted || (rowdata.isMounted && rowdata.mountServantIndex == HeroInfoPopup.instance.servant.index)) && itemparam.mountitemType == displayType;
+        });
+        for (int i = 0; i < list.Count; i++)
         {
             HeroInfoInventoryItemicon icon = geticon();
-            icon.Register(UserDataManager.Inst.MountItemList[i]);
+            icon.Register(list[i]);
 
             icon.transform.SetParent(itemParent);
             icon.transform.SetAsLastSibling();

@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class GameDataManager : MonoBehaviour
 {
+    /// <summary>
+    /// 단순히 변수값을 바꾸는 것이지만, 서버에 데이터를 요청해서 바꾸어야 하기때문에
+    /// 이것들을 모두 함수의 형태로 모아 두었습니다.
+    /// </summary>
 
     public static GameDataManager instance;
     public void Awake()
@@ -19,6 +23,9 @@ public class GameDataManager : MonoBehaviour
         }
     }
 
+
+
+    /* 배치 */
 
     // 누군가의 배치가 바뀌었을때
     public System.Action placeChangedEvent;
@@ -244,6 +251,38 @@ public class GameDataManager : MonoBehaviour
 
 
 
+
+
+    /* 아이템 */
+    
+    public void DemountItem(UserMountItemData mountitem)
+    {
+        if (mountitem.isMounted)
+        {
+            // isMounted에서 set함수로 이벤트 실행 됨
+            mountitem.isMounted = false;
+
+            // ERD역참조데이터 업데이트
+            int servIndex = mountitem.mountServantIndex;
+            if (UserDataManager.Inst.servantDic.ContainsKey(servIndex))
+            {
+                UserDataManager.Inst.servantDic[servIndex].Demount(mountitem);
+            }
+        }
+
+
+    }
+    public void MountItem(UserMountItemData mountitem, UserServantData servantdata)
+    {
+        mountitem.isMounted = true;
+        mountitem.mountServantIndex = servantdata.index;
+
+        // ERD 역참조데이터 업데이트
+        if (UserDataManager.Inst.servantDic.ContainsKey(servantdata.index))
+        {
+            UserDataManager.Inst.servantDic[servantdata.index].Mount(mountitem);
+        }
+    }
 
 
 
