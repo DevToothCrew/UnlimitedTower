@@ -12,6 +12,7 @@ public class StagewindowItemSlot : MonoBehaviour {
     public Image noneObj;
 
 
+
     // FSM
     bool registered = false;
     UserMountItemData itemdata;

@@ -126,8 +126,14 @@ public class StageInfoPopup : MonoBehaviour {
         }
 
 
-        // 착용중인 아이템 등록
-        List< UserMountItemData > mountitemList = UserDataManager.Inst.MountItemList.FindAll((rowdata) => { return rowdata.isMounted && rowdata.mountServantIndex == servantdata.index; });
+        /* 착용중인 아이템 등록 */
+        foreach (var item in stagewindowItemList)
+        {
+            item.Deregister();
+        }
+        // 아이템창 초기화
+        List<UserMountItemData> mountitemList = UserDataManager.Inst.MountItemList.FindAll((rowdata) => { return rowdata.isMounted && rowdata.mountServantIndex == servantdata.index; });
+        // 아이템창 등록
         foreach (var item in mountitemList)
         {
             MountItemEntity.Param param = ErdManager.instance.getmountitemEntityTable_nullPossible(item.mountitemNum);

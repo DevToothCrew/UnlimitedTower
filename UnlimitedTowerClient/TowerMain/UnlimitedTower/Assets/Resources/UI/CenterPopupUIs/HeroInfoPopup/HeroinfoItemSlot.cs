@@ -63,6 +63,10 @@ public class HeroinfoItemSlot : MonoBehaviour {
 
     public void OnClick()
     {
+        // 껏다가
+        HeroInfoPopup.instance.heroinfo_invenpannel.gameObject.SetActive(false);
+
+        // 켜기
         HeroInfoPopup.instance.heroinfo_invenpannel.displayType = mountItemType;
         HeroInfoPopup.instance.heroinfo_invenpannel.gameObject.SetActive(true);
     }

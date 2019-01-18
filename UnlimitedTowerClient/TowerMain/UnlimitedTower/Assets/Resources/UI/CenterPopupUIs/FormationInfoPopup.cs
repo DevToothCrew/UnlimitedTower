@@ -169,11 +169,11 @@ public class FormationInfoPopup : MonoBehaviour
     // 버튼 클릭 : sort
     public void setServantMode()
     {
-        SetdisplayType(PlayerType.servant, bottomWindowPageNum);
+        SetdisplayType(PlayerType.servant, 0);
     }
     public void setMonsterMode()
     {
-        SetdisplayType(PlayerType.monster, bottomWindowPageNum);
+        SetdisplayType(PlayerType.monster, 0);
     }
     public void Sortonclick(int sortTypeNum)
     {

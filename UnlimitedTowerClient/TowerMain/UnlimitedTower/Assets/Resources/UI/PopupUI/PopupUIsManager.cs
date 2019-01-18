@@ -12,6 +12,6 @@ public class PopupUIsManager : MonoBehaviour {
     }
 
 
-
+    public ItemMountWindow itemmountwindow;
     public ItemInfoPannel iteminfopannel;
 }

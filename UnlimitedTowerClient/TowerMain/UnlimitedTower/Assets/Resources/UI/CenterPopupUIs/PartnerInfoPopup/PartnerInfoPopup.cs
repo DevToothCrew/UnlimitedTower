@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PartnerInfoPopup : MonoBehaviour {
 
@@ -10,7 +11,10 @@ public class PartnerInfoPopup : MonoBehaviour {
     
     // 슬롯 리스트 //
     [SerializeField] List<SlotScript> SlotList = new List<SlotScript>();
-    
+
+    [SerializeField] Text pageText;
+
+
     // FSM 변수 //
     public enum WindowState
     {
@@ -18,6 +22,28 @@ public class PartnerInfoPopup : MonoBehaviour {
         Monster
     }
     public WindowState windowstate;
+    int _pageNum;
+    int pageNum
+    {
+        get
+        {
+            return _pageNum;
+        }
+        set
+        {
+            _pageNum = value;
+
+            switch (windowstate)
+            {
+                case WindowState.Servant:
+                    pageText.text = (_pageNum + 1) + "/" + (UserDataManager.Inst.ServantList.Count/ SlotList.Count + 1);
+                    break;
+                case WindowState.Monster:
+                    pageText.text = (_pageNum + 1) + "/" + (UserDataManager.Inst.MonsterList.Count / SlotList.Count + 1);
+                    break;
+            }
+        }
+    }
 
     public enum SortState
     {
@@ -34,10 +60,10 @@ public class PartnerInfoPopup : MonoBehaviour {
         switch (windowstate)
         {
             case WindowState.Servant:
-                toServantState();
+                toServantState(0);
                 break;
             case WindowState.Monster:
-                toMonsterState();
+                toMonsterState(0);
                 break;
         }
     }
@@ -45,8 +71,10 @@ public class PartnerInfoPopup : MonoBehaviour {
 
     // FSM 상태이동 함수들 // 
     // WindowState 이동
-    public void toServantState()
+    public void toServantState(int pageNum)
     {
+        this.pageNum = pageNum;
+
         // 창 초기화
         for (int i = 0; i < SlotList.Count; i++)
         {
@@ -64,8 +92,10 @@ public class PartnerInfoPopup : MonoBehaviour {
 
         windowstate = WindowState.Servant;
     }
-    public void toMonsterState()
+    public void toMonsterState(int pageNum)
     {
+        this.pageNum = pageNum;
+
         // 창 초기화
         for (int i = 0; i < SlotList.Count; i++)
         {
@@ -142,6 +172,75 @@ public class PartnerInfoPopup : MonoBehaviour {
     }
 
 
+
+    // 온클릭
+    public void OnClickServantBtn()
+    {
+        if (windowstate == WindowState.Servant)
+        {
+            return;
+        }
+
+        toServantState(0);
+    }
+    public void OnClickMonsterBtn()
+    {
+        if (windowstate == WindowState.Monster)
+        {
+            return;
+        }
+
+        toMonsterState(0);
+    }
+
+    public void OnClickRightArrow()
+    {
+        // 다음윈도우안에 서번트 혹은 몬스터가 있다면 넘어간다.
+        int startIndex = (pageNum+1) * SlotList.Count;
+        int endIndex = (pageNum+2) * SlotList.Count;
+        switch (windowstate)
+        {
+            case WindowState.Servant:
+                {
+                    if (UserDataManager.Inst.ServantList.Count-1 >= startIndex)
+                    {
+                        toServantState(pageNum+1);
+                    }
+                }
+                break;
+            case WindowState.Monster:
+                {
+                    if (UserDataManager.Inst.MonsterList.Count - 1 >= startIndex)
+                    {
+                        toMonsterState(pageNum + 1);
+                    }
+                }
+                break;
+        }
+    }
+    public void OnClickLeftArrow()
+    {
+        // 이미 페이지가 0페이지면 -> return
+        if (pageNum == 0)
+        {
+            return;
+        }
+
+
+        switch (windowstate)
+        {
+            case WindowState.Servant:
+                {
+                    toServantState(pageNum - 1);
+                }
+                break;
+            case WindowState.Monster:
+                {
+                    toMonsterState(pageNum - 1);
+                }
+                break;
+        }
+    }
 
 
     // 정렬할때 transform 과 각칸의 value를 함께 갖는 클래스

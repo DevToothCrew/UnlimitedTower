@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryInfoPopup : MonoBehaviour {
     
@@ -9,7 +10,9 @@ public class InventoryInfoPopup : MonoBehaviour {
     List<InventorySlotScript> invenslotlist = new List<InventorySlotScript>();
     // SORT버튼들 
     public List<GameObject> sortBtnList;
-    
+    // 페이지번호 Text
+    public Text pageText;
+
 
     // STATE VARIABLES
     public enum InvenState
@@ -23,7 +26,28 @@ public class InventoryInfoPopup : MonoBehaviour {
     // 상태
     public InvenState inventoryState;
     // 몇번째 단계에 있는지
-    public int curDisplayNum = 0;
+    int _curDisplayNum = 0;
+    public int curDisplayNum
+    {
+        get
+        {
+            return _curDisplayNum;
+        }
+        set
+        {
+            _curDisplayNum = value;
+
+            switch (inventoryState)
+            {
+                case InvenState.EquipMent:
+                    pageText.text = (_curDisplayNum+1) + "/" + (UserDataManager.Inst.MountItemList.Count / slotparent.childCount+1) + "P";
+                    break;
+                case InvenState.ETC:
+                    pageText.text = (_curDisplayNum+1) + "/" + (UserDataManager.Inst.EtcItemList.Count / slotparent.childCount + 1) + "P";
+                    break;
+            }
+        }
+    }
 
 
     // 아이콘 개수

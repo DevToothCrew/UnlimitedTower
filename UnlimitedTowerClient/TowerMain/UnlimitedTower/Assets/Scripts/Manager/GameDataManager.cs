@@ -136,12 +136,10 @@ public class GameDataManager : MonoBehaviour
         UserFormationData formationdata = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isPlaced && rowdata.partyIndex == teamNum && rowdata.formationIndex == formationIndex; });
         if (formationdata != null)
         {
-
-            Debug.Log(teamNum + "," + formationIndex + ":" + formationdata.isPlaced);
+            
             return formationdata.isPlaced;
         }
-
-        Debug.Log(teamNum + "," + formationIndex + ":" + false);
+        
         return false;
     }
     public bool isPlaced(PlayerType type, int index)
@@ -276,7 +274,26 @@ public class GameDataManager : MonoBehaviour
     {
         mountitem.isMounted = true;
         mountitem.mountServantIndex = servantdata.index;
+        
+        // 서번트가 같은 타입의 아이템장착하고있다면 -> 해당아이템 탈착
+        MountitemType itemtype = ErdManager.instance.getmountitemEntityTable_nullPossible(mountitem.mountitemNum).mountitemType;
+        UserMountItemData mountedItem = servantdata.mountItemList.Find((rowdata) =>
+        {
+            MountItemEntity.Param param = ErdManager.instance.getmountitemEntityTable_nullPossible(rowdata.mountitemNum);
 
+            if (param.mountitemType == itemtype)
+            {
+                return true;
+            }
+            else
+                return false;
+        });
+        if (mountedItem != null)
+        {
+            GameDataManager.instance.DemountItem(mountedItem);
+        }
+        
+        
         // ERD 역참조데이터 업데이트
         if (UserDataManager.Inst.servantDic.ContainsKey(servantdata.index))
         {
