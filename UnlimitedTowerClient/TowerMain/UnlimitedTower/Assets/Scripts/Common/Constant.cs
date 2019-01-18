@@ -18,6 +18,7 @@ public class DEFINE
     public static readonly string BASIC_SHADER = "Mobile/Unlit (Supports Lightmap)";
 
     // Status Formula
+    public static readonly int HP_MIN_VALUE = 300;
     public static readonly int HP_MULTI_VALUE = 22;
     public static readonly int DAMAGE_MUlTI_VALUE = 2;
     public static readonly int DEFENCE_MULTI_VALUE = 1;
@@ -464,8 +465,6 @@ public enum CHARACTER_NUM
     Hero_Novice_1002,
     Hero_Novice_1003,
     Hero_Novice_1004,
-    Hero_Novice_1005,
-    Hero_Novice_1006,
 
 
     Mst_Cat             = 201,

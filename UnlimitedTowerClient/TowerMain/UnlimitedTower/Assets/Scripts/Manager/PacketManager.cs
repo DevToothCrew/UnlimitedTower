@@ -720,7 +720,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void SetStageState(StageStateData getStageStateData)
     {
-
+        BattleSystem.Inst.stageStateData = getStageStateData;
     }
 
     public void SetStageResult(StageResultData getStageResultData)

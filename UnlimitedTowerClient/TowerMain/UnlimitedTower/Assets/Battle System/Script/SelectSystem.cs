@@ -14,25 +14,26 @@ public class SelectSystem : MonoSingleton<SelectSystem>
     private RaycastHit hit;
     private Ray ray;
     private CheckSelectAnimation temp;
-
-    private void Start()
-    {
-        selectCharacterImage = GameObject.Find("Character Portrait Image").GetComponent<Image>();
-        for (int i = 0; i < 10; i++)
-        {
-            chsing[i] = BattleSystem.Inst.PlayerCharacterControl[i].select.GetComponent<CheckSelectAnimation>();
-        }
-        for (int i = 0; i < 10; i++)
-        {
-            chsing[i + 10] = BattleSystem.Inst.EnemyCharacterControl[i].select.GetComponent<CheckSelectAnimation>();
-        }
-        selectHpBar = GameObject.Find("Hp Bar").GetComponent<Image>();
-        selectHpText = GameObject.Find("Hp Text").GetComponent<Text>();
-    }
+    private bool isStart = false;
     
     // 추후 최적화 작업, timeScale도 바꿔야함
     void Update()
     {
+        if (!isStart)
+        {
+            selectCharacterImage = GameObject.Find("Character Portrait Image").GetComponent<Image>();
+            for (int i = 0; i < 10; i++)
+            {
+                chsing[i] = BattleSystem.Inst.PlayerCharacterControl[i].select.GetComponent<CheckSelectAnimation>();
+            }
+            for (int i = 0; i < 10; i++)
+            {
+                chsing[i + 10] = BattleSystem.Inst.EnemyCharacterControl[i].select.GetComponent<CheckSelectAnimation>();
+            }
+            selectHpBar = GameObject.Find("Hp Bar").GetComponent<Image>();
+            selectHpText = GameObject.Find("Hp Text").GetComponent<Text>();
+        }
+
         if (BattleSystem.Inst.TimeScale != 0)
         {
             for (int i = 0; i < 20; i++)

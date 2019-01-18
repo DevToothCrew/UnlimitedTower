@@ -8,8 +8,6 @@ public class DieCameraMove : MonoSingleton<DieCameraMove>
     public Camera camera_C;
     public Vector3 distance;
     public Vector3 startPos;
-    [Range(0.08f, 0.1f)]
-    public float value;
 
     private void Start()
     {

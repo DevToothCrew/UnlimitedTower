@@ -5,18 +5,11 @@ using UnityEngine.UI;
 
 public class BattleSystem : MonoSingleton<BattleSystem>
 {
-
-    public Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
-    public Dictionary<int, UserMonsterData> monsterDic = new Dictionary<int, UserMonsterData>();
-    public Dictionary<int, Item> itemDic = new Dictionary<int, Item>();
-    public Dictionary<int, Party> partyDic = new Dictionary<int, Party>();
     public PrefabList prefabList;
     public BattleInformation battleInformation;
+    public StageStateData stageStateData;
 
-    public UserServantData[] servant = new UserServantData[5];
-    public UserMonsterData[] monster = new UserMonsterData[5];
-    public Party party = new Party();
-    public PartyCharacterInfo temp = new PartyCharacterInfo();
+    public List<BattleActionData> battleData;
 
     public GameObject[] PlayerCharacter = new GameObject[10];
     public CharacterControl[] PlayerCharacterControl = new CharacterControl[10];
@@ -27,33 +20,41 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     public int TimeScale = 1;
     public GameObject testEffect;
 
+    public UTLobbyUIManager UTLobbyUIManager_;
     private int[] positionOrder = { 2, 1, 3, 0, 4, 7, 6, 8, 5, 9 };
 
     public struct BattleInformation
     {
         public int AttackerIndex;
         public int TargetIndex;
+        public int Damage;
+        public bool isAvoid;
+        public bool isCritical;
         public bool isPlayerTurn;
     }
 
     private void Awake()
     {
-        battleInformation.AttackerIndex = -1;
         Application.targetFrameRate = 60;
+        UTLobbyUIManager_ = GameObject.Find("Framework").GetComponent<UTLobbyUIManager>();
+    }
+
+    public void Start()
+    {
+        UTLobbyUIManager_.StageStart();
+
+        battleInformation.AttackerIndex = -1;
         prefabList = GetComponent<PrefabList>();
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 20; i++)
         {
-            if (i > 4)
-            Instantiate(prefabList.prefabList[201 + i].Prefab, PlayerCharacter[i].transform);
-            Instantiate(prefabList.prefabList[211 + i].Prefab, EnemyCharacter[i].transform);
+            if (i == 0)
+                Instantiate(prefabList.prefabList[5].Prefab, PlayerCharacter[positionOrder[i]].transform);
+            else if (i < 10)
+                Instantiate(prefabList.prefabList[stageStateData.info_list[i].index].Prefab, PlayerCharacter[positionOrder[i]].transform);
+            else
+                Instantiate(prefabList.prefabList[stageStateData.info_list[i].index].Prefab, EnemyCharacter[positionOrder[i - 10]].transform);
         }
-
-
-
-        // 오브젝트 정렬
-        // 추후 오브젝트 instance는 Awake에서 한후 정렬
-
 
         for (int i = 0; i < 10; i++)
         {
@@ -69,37 +70,8 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             }
         }
 
-        for (int i = 0; i < 5; i++)
-        {
-            servant[i] = new UserServantData();
-            servant[i].status.basicDex = 3;
-            servant[i].status.basicDex = 3;
-            servant[i].status.basicDex = 3;
-            servantDic.Add(i, servant[i]);
-        }
-
-        for (int i = 0; i < 5; i++)
-        {
-            monster[i] = new UserMonsterData();
-            monster[i].status.basicDex = 2;
-            monster[i].status.basicDex = 2;
-            monster[i].status.basicDex = 2;
-            monsterDic.Add(i, monster[i]);
-        }
-
         for (int i = 0; i < 10; i++)
         {
-            temp.index = i;
-            temp.partyPosition = positionOrder[i];
-
-            if (i == 0)
-                temp.type = CHAR_TYPE.HERO;
-            else if (i < 5)
-                temp.type = CHAR_TYPE.SERVANT;
-            else
-                temp.type = CHAR_TYPE.MONSTER;
-
-            party.characterList.Add(i, temp);
             PlayerCharacterControl[i] = PlayerCharacter[i].GetComponent<CharacterControl>();
             EnemyCharacterControl[i] = EnemyCharacter[i].GetComponent<CharacterControl>();
             PlayerCharacterControl[i].index = i;
@@ -107,69 +79,175 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             PlayerCharacterControl[i].isPlayer = true;
             EnemyCharacterControl[i].isPlayer = false;
         }
+
+        for (int i = 0; i < 20; i++)
+        {
+            if (i < 10)
+            {
+                PlayerCharacterControl[i].MaxHp = stageStateData.info_list[positionOrder[i]].now_hp; // 나중에 최대체력 변경
+                PlayerCharacterControl[i].NowHp = stageStateData.info_list[positionOrder[i]].now_hp;
+                PlayerCharacterControl[i].MaxHp = 300;
+                PlayerCharacterControl[i].NowHp = 300;
+            }
+            else
+            {
+                EnemyCharacterControl[i - 10].MaxHp = stageStateData.info_list[positionOrder[i - 10]].now_hp;  // 나중에 최대체력 변경
+                EnemyCharacterControl[i - 10].NowHp = stageStateData.info_list[positionOrder[i - 10]].now_hp;
+                EnemyCharacterControl[i - 10].MaxHp = 300;
+                EnemyCharacterControl[i - 10].NowHp = 300;
+            }
+        }
     }
-    
+
     [ContextMenu("AttackTest")]
     public void AttackTest()
     {
-        StartCoroutine(TestBattle());
-        //StartCoroutine(BattleStart());
-        //PlayerCharacterControl[0].Attack(new SendValue(0, 3, true));
+        // StartCoroutine(BattleStart());
+        // StartCoroutine(BattleTest());
+        StartCoroutine(BattleTestTarget());
+        
+        // battleInformation.AttackerIndex = 0;
+        // battleInformation.TargetIndex = 0;
+        // battleInformation.Damage = 100;
+        // battleInformation.isCritical = true;
+        // battleInformation.isAvoid = false;
+        // battleInformation.isPlayerTurn = true;
+        // 
+        // PlayerCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(
+        //     battleInformation.AttackerIndex,
+        //     battleInformation.TargetIndex,
+        //     battleInformation.Damage,
+        //     battleInformation.isCritical,
+        //     battleInformation.isAvoid,
+        //     battleInformation.isPlayerTurn));
     }
 
     private void Update()
     {
-        // Debug.Log(UserDataManager.Inst.partyDic[1]);
         if (Input.GetKeyDown(KeyCode.Space))
         {
             AttackTest();
         }
     }
 
-    IEnumerator BattleStart()
+    IEnumerator BattleTestTarget()
     {
-        while (true)
-        {
-            battleInformation.isPlayerTurn = true;
-            battleInformation.AttackerIndex = Random.Range(0, 10);
-            battleInformation.TargetIndex = Random.Range(0, 10);
-            while (PlayerCharacterControl[battleInformation.AttackerIndex].NowHp <= 0 || EnemyCharacterControl[battleInformation.TargetIndex].NowHp <= 0)
-            {
-                battleInformation.AttackerIndex = Random.Range(0, 10);
-                battleInformation.TargetIndex = Random.Range(0, 10);
-            }
-            PlayerCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(battleInformation.AttackerIndex, battleInformation.TargetIndex, true, Random.Range(1000, 2000)));
-            yield return new WaitForSeconds(7);
+        battleInformation.AttackerIndex = 2;
+        battleInformation.TargetIndex = 2;
+        battleInformation.Damage = 10;
+        battleInformation.isCritical = Random.Range(0, 2) == 1 ? true : false;
+        battleInformation.isAvoid = false;
+        battleInformation.isPlayerTurn = true;
 
+        PlayerCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(
+            battleInformation.AttackerIndex,
+            battleInformation.TargetIndex,
+            battleInformation.Damage,
+            battleInformation.isCritical,
+            battleInformation.isAvoid,
+            battleInformation.isPlayerTurn));
+        yield return new WaitForSeconds(7);
+        {
+            battleInformation.AttackerIndex = 2;
+            battleInformation.TargetIndex = 2;
+            battleInformation.Damage = 10;
+            battleInformation.isCritical = Random.Range(0, 2) == 1 ? true : false;
+            battleInformation.isAvoid = false;
             battleInformation.isPlayerTurn = false;
-            battleInformation.AttackerIndex = Random.Range(0, 10);
+
+            EnemyCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(
+                battleInformation.AttackerIndex,
+                battleInformation.TargetIndex,
+                battleInformation.Damage,
+                battleInformation.isCritical,
+                battleInformation.isAvoid,
+                battleInformation.isPlayerTurn));
+        }
+        yield return new WaitForSeconds(7);
+    }
+
+    IEnumerator BattleTest()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            battleInformation.AttackerIndex = Random.Range(0,10);
             battleInformation.TargetIndex = Random.Range(0, 10);
-            while (EnemyCharacterControl[battleInformation.AttackerIndex].NowHp <= 0 || PlayerCharacterControl[battleInformation.TargetIndex].NowHp <= 0)
+            battleInformation.Damage = Random.Range(100, 200);
+            battleInformation.isCritical = Random.Range(0, 2) == 1 ? true : false;
+            battleInformation.isAvoid = Random.Range(0, 5) == 1 ? true : false;
+            battleInformation.isPlayerTurn = true;
+
+            PlayerCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(
+                battleInformation.AttackerIndex,
+                battleInformation.TargetIndex,
+                battleInformation.Damage,
+                battleInformation.isCritical,
+                battleInformation.isAvoid,
+                battleInformation.isPlayerTurn));
+            yield return new WaitForSeconds(7);
             {
                 battleInformation.AttackerIndex = Random.Range(0, 10);
                 battleInformation.TargetIndex = Random.Range(0, 10);
+                battleInformation.Damage = Random.Range(100, 200);
+                battleInformation.isCritical = Random.Range(0, 2) == 1 ? true : false;
+                battleInformation.isAvoid = Random.Range(0, 5) == 1 ? true : false;
+                battleInformation.isPlayerTurn = false;
+
+                EnemyCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(
+                    battleInformation.AttackerIndex,
+                    battleInformation.TargetIndex,
+                    battleInformation.Damage,
+                    battleInformation.isCritical,
+                    battleInformation.isAvoid,
+                    battleInformation.isPlayerTurn));
             }
-            EnemyCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(battleInformation.AttackerIndex, battleInformation.TargetIndex, false, Random.Range(1000, 2000)));
             yield return new WaitForSeconds(7);
         }
     }
 
-    IEnumerator TestBattle()
+
+    IEnumerator BattleStart()
     {
-        battleInformation.AttackerIndex = 3;
-        battleInformation.TargetIndex = 3;
-        battleInformation.isPlayerTurn = true;
-        PlayerCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(battleInformation.AttackerIndex, battleInformation.TargetIndex, true, Random.Range(1000, 2000)));
-        yield return new WaitForSeconds(7);
-        battleInformation.AttackerIndex = 2;
-        battleInformation.TargetIndex = 5;
-        battleInformation.isPlayerTurn = false;
-        EnemyCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(battleInformation.AttackerIndex, battleInformation.TargetIndex, false, Random.Range(1000, 2000)));
-        yield return new WaitForSeconds(7);
-        battleInformation.AttackerIndex = 1;
-        battleInformation.TargetIndex = 8;
-        battleInformation.isPlayerTurn = true;
-        PlayerCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(battleInformation.AttackerIndex, battleInformation.TargetIndex, true, Random.Range(1000, 2000)));
-        yield return new WaitForSeconds(7);
+        for (int i = 0; i < battleData.Count; i++)
+        {
+            for (int j = 0; j < battleData[i].info_list.Count; j++)
+            {
+                if (battleData[i].info_list[j].index < 10)
+                {
+                    battleInformation.AttackerIndex = battleData[i].info_list[j].index;
+                    battleInformation.TargetIndex = battleData[i].info_list[j].action_list[0].target_index;
+                    battleInformation.Damage = battleData[i].info_list[j].action_list[0].damage;
+                    battleInformation.isCritical = battleData[i].info_list[j].action_list[0].critical;
+                    battleInformation.isAvoid = battleData[i].info_list[j].action_list[0].avoid;
+                    battleInformation.isPlayerTurn = true;
+
+                    PlayerCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(
+                        battleInformation.AttackerIndex,
+                        battleInformation.TargetIndex,
+                        battleInformation.Damage,
+                        battleInformation.isCritical,
+                        battleInformation.isAvoid,
+                        battleInformation.isPlayerTurn));
+                }
+                else
+                {
+                    battleInformation.AttackerIndex = battleData[i].info_list[j].index - 10;
+                    battleInformation.TargetIndex = battleData[i].info_list[j].action_list[0].target_index - 10;
+                    battleInformation.Damage = battleData[i].info_list[j].action_list[0].damage;
+                    battleInformation.isCritical = battleData[i].info_list[j].action_list[0].critical;
+                    battleInformation.isAvoid = battleData[i].info_list[j].action_list[0].avoid;
+                    battleInformation.isPlayerTurn = false;
+
+                    EnemyCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(
+                        battleInformation.AttackerIndex,
+                        battleInformation.TargetIndex,
+                        battleInformation.Damage,
+                        battleInformation.isCritical,
+                        battleInformation.isAvoid,
+                        battleInformation.isPlayerTurn));
+                }
+                yield return new WaitForSeconds(7);
+            }
+        }
     }
 }

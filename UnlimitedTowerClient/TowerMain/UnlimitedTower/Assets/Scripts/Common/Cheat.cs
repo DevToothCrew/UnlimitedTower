@@ -144,7 +144,7 @@ public class Cheat : MonoSingleton<Cheat>
             stateData.info_list.Add(servantStateInfo);
         }
 
-        // 아군 몬스터
+        // 적군 몬스터
         for (int i = 15; i < 20; i++)
         {
             stageStateInfo monsterStateInfo = GetRandomStageStateInfo(i, GetRandomStatus(), rand.Next(0, DEFINE.MAX_EXP), (int)CHAR_TYPE.MONSTER);
@@ -177,11 +177,11 @@ public class Cheat : MonoSingleton<Cheat>
         stateInfo.type = type;
         if (type == (int)CHAR_TYPE.HERO)
         {
-            stateInfo.index = 0;
+            stateInfo.index = 105;
         }
         else if (type == (int)CHAR_TYPE.SERVANT)
         {
-            stateInfo.index = rand.Next(101, 111);
+            stateInfo.index = rand.Next(105, 109);
         }
         else if (type == (int)CHAR_TYPE.MONSTER)
         {

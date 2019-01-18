@@ -26,6 +26,7 @@ public class DefaultAttack : MonoBehaviour {
 
     IEnumerator NearAttackAction(SendValue sendValue)
     {
+        // 공격자와 타겟의 위치
         Transform attacker;
         Transform target;
 
@@ -53,17 +54,30 @@ public class DefaultAttack : MonoBehaviour {
         ani.SetTrigger("isAttack");
 
         yield return new WaitForSeconds(characterInformation.AttackDelay);
-        
-        DamageTextSystem.Inst.DamageShow(sendValue.Target, !sendValue.isPlayer, sendValue.Damage, Random.Range(0,2) == 0 ? true : false);
 
-        if (sendValue.isPlayer)
-            Instantiate(effect, BattleSystem.Inst.EnemyCharacter[sendValue.Target].transform.position +
-                new Vector3(0, BattleSystem.Inst.EnemyCharacter[sendValue.Target].transform.GetChild(0).GetComponent<CharacterInformation>().Height * 0.3f, 0), transform.rotation);
+        if (!sendValue.isAvoid)
+        {
+            // 데미지 텍스트 표시와 데미지 주기
+            DamageTextSystem.Inst.DamageShow(sendValue.Target, !sendValue.isPlayer, sendValue.Damage, Random.Range(0,2) == 0 ? true : false);
+
+            if (sendValue.isPlayer)
+                Instantiate(effect, BattleSystem.Inst.EnemyCharacter[sendValue.Target].transform.position +
+                    new Vector3(0, BattleSystem.Inst.EnemyCharacter[sendValue.Target].transform.GetChild(0).GetComponent<CharacterInformation>().Height * 0.3f, 0), transform.rotation);
+            else
+                Instantiate(effect, BattleSystem.Inst.PlayerCharacter[sendValue.Target].transform.position +
+                    new Vector3(0, BattleSystem.Inst.PlayerCharacter[sendValue.Target].transform.GetChild(0).GetComponent<CharacterInformation>().Height * 0.3f, 0), transform.rotation);
+
+            target.GetChild(0).GetComponent<Animator>().SetTrigger("isHit");
+        }
         else
-            Instantiate(effect, BattleSystem.Inst.PlayerCharacter[sendValue.Target].transform.position +
-                new Vector3(0, BattleSystem.Inst.PlayerCharacter[sendValue.Target].transform.GetChild(0).GetComponent<CharacterInformation>().Height * 0.3f, 0), transform.rotation);
-
-        target.GetChild(0).GetComponent<Animator>().SetTrigger("isHit");
+        {
+            // Miss 텍스트
+            DamageTextSystem.Inst.Avoid(sendValue.Target, !sendValue.isPlayer);
+            if (sendValue.isPlayer)
+                BattleSystem.Inst.EnemyCharacterControl[sendValue.Target].Miss();
+            else
+                BattleSystem.Inst.PlayerCharacterControl[sendValue.Target].Miss();
+        }
 
         yield return new WaitForSeconds(characterInformation.AttackAfterDelay);
 
@@ -87,6 +101,7 @@ public class DefaultAttack : MonoBehaviour {
         BattleSystem.Inst.battleInformation.AttackerIndex = -1;
     }
 
+    // 원거리 공격은 보류
     IEnumerator FarAttackAction(SendValue sendValue)
     {
         Transform attacker;

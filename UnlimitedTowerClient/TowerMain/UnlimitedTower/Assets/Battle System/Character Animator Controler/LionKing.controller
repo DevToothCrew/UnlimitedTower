@@ -5,7 +5,7 @@ AnimatorController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Zombie 5
+  m_Name: LionKing
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: isIdle
@@ -237,7 +237,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 4e3eeef7b35d9464d8e0345ce0399f25, type: 3}
+  m_Motion: {fileID: 7400002, guid: dab5c75748be0f5408047da725f357f6, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -263,7 +263,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 1c5f46f4be4df174b9feb76771c43383, type: 2}
+  m_Motion: {fileID: 7400002, guid: 27f3dd7fcef36ee47bb49dbf06ab38ec, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -289,7 +289,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 876116d09c889bc4db19e9ff999d1969, type: 3}
+  m_Motion: {fileID: 7400002, guid: 043441ea336cde642ac0bfaad33ea650, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -314,7 +314,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 46fbea4b5748d5948bb33e83607e7c18, type: 3}
+  m_Motion: {fileID: 7400002, guid: 7226f2e26f1173a4593604a2d524cdff, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -341,7 +341,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 591c5e4fb4f54e94f9f9e075ff034e35, type: 3}
+  m_Motion: {fileID: 7400002, guid: 55e63697a9cc4eb4582254383d73d089, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

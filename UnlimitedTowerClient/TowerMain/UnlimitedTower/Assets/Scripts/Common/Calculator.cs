@@ -6,7 +6,7 @@ public class Calculator : MonoBehaviour {
 
     public static int GetMaxHp(Status status)
     {
-        return (status.basicStr + status.plusStr) * DEFINE.HP_MULTI_VALUE;
+        return DEFINE.HP_MIN_VALUE + ((status.basicStr + status.plusStr) * DEFINE.HP_MULTI_VALUE);
     }
 
     public static int GetDamage(STATUS_TYPE statusType, Status status)
