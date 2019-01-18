@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Deck
   - Character
+  - Fire
   layers:
   - Default
   - TransparentFX
@@ -40,7 +41,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - FX
   m_SortingLayers:
   - name: Default
     uniqueID: 0
