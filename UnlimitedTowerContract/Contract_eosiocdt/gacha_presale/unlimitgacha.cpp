@@ -1171,9 +1171,16 @@ void unlimitgacha::eosiotoken_transfer(eosio::name sender, eosio::name receiver,
     else
     {
         master master_table(owner, owner.value);
-        auto master_iter = master_table.find(sender.value);
-        eosio_assert(master_iter != master_table.end(), "impossible send to this contract");
-
+        if (owner != sender)
+        {
+            auto master_iter = master_table.find(sender.value);
+            eosio_assert(master_iter != master_table.end(), "impossible send to this contract");
+        }
+        else
+        {
+            auto master_iter = master_table.find(receiver.value);
+            eosio_assert(master_iter != master_table.end(), "receiver is not master");
+        }
         // uint32_t error_code = 0;
         // eosio_assert(error_code != 0 , " impossible send to this contract ");
     }
