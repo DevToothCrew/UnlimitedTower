@@ -607,7 +607,6 @@ TABLE presalelog
 #pragma endregion
 
 #pragma region login values
-    const uint32_t max_charcterslot = 3;
     const uint32_t max_equip_slot = 3;
     const uint32_t hero_min_status = 1;
     uint32_t hero_total_status = 24;

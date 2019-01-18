@@ -908,17 +908,21 @@ ACTION unlimitgacha::eostransfer(eosio::name sender, eosio::name receiver)
                 presale_gacha(sender, ad.type);
 
                 asset gacha_reward(0, symbol(symbol_code("UTG"), 4));
-                if (gacha_participation_iter->gacha_participation < 3)
+                if (gacha_participation_iter->gacha_participation < 10) //1만명 제한
                 {
                     gacha_reward.amount = 30000000;
                 }
-                else if (gacha_participation_iter->gacha_participation < 5)
+                else if (gacha_participation_iter->gacha_participation < 40) //3만명 제한
                 {
                     gacha_reward.amount = 20000000;
                 }
-                else
+                else if (gacha_participation_iter->gacha_participation < 100) //6만명 제한
                 {
                     gacha_reward.amount = 10000000;
+                }
+                else
+                {
+                    gacha_reward.amount = 5000000;
                 }
 
                 uint64_t limt_check = gacha_participation_iter->accumulate_token_amount + gacha_reward.amount;
@@ -1012,7 +1016,7 @@ void unlimitgacha::eosiotoken_transfer(eosio::name sender, eosio::name receiver,
 
         eosio_assert(res.type != 0, "wrong seed convert");
     }
-    else if (res.action == "singup")
+    else if (res.action == "signup")
     {
         eosio_assert(transfer_data.quantity.amount == 10000, "signup need 1.0000 EOS");
     }
