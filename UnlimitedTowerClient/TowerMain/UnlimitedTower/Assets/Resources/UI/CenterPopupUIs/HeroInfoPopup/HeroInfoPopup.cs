@@ -4,8 +4,20 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class HeroInfoPopup : MonoBehaviour {
-    
-    // UI
+
+    /// <summary>
+    /// HeroInfoPopup 윈도우 스크립트 입니다. (인스펙터에 HeroInfoPopup 검색시 어떤 오브젝트에 붙어있는것인지 나옴)
+    /// 
+    /// STATE 1: Registered
+    ///     weaponSlot,armorSlot,accessorySlot이 현재 해당윈도우에 연결된 servantdata의 mountItemListChangeEvent에 콜백을 등록해놓은 상태.
+    ///     registered == true, servantdata에 UserServantData가 입력된 상태
+    ///     
+    /// STATE 2. DeRegistered
+    ///      UI가 꺼진 상태
+    ///      registered == false
+    /// </summary>
+
+    // 스탯 UI들
     [SerializeField] Text powertext;        // 공격력
     [SerializeField] Text hptext;           // 생명력
     [SerializeField] Text deftext;          // 방어력
@@ -19,21 +31,26 @@ public class HeroInfoPopup : MonoBehaviour {
     [SerializeField] Text levelText;           // 레벨
     [SerializeField] Text nameText;            // 이름
 
-    //
+    // 무기,방어구,악세서리 슬롯
+    [SerializeField] HeroinfoItemSlot weaponSlot;
+    [SerializeField] HeroinfoItemSlot armorSlot;
+    [SerializeField] HeroinfoItemSlot accessorySlot;
+
+    // 인벤토리 창
     [SerializeField] public Heroinfo_InvenPannel heroinfo_invenpannel;
+    public void SetHeroinfoPannel(bool active)
+    {
+        heroinfo_invenpannel.gameObject.SetActive(active);
+    }
 
     // 
-    [SerializeField] GameObject CharCamera;
-    [SerializeField] Vector3 CharPos;
-
-    // 싱글톤 X(어차피 씬에 1개만 존재하는것이 보장된 상태 이므로)
-    // Static로 선언해 다른 스크립트에서 참조하기편하게하기위한 코드
     public static HeroInfoPopup instance;
     private void Awake()
     {
         if (instance != null)
         {
             Destroy(this);
+            return;
         }
         else
         {
@@ -47,13 +64,14 @@ public class HeroInfoPopup : MonoBehaviour {
     }
 
 
-
+    // FSM 이동 함수
+    // 상태 1: 활성화 상태
+    // 상태 2: 비활성화 상태
     [Space(15)]
     [Header("DEBUG DATAS")]
     public UserServantData servant;
     public bool registered = false;
-    public GameObject _CharObj;
-    public void to_registered(UserServantData servant)
+    public void ToRegistered(UserServantData servant)
     {
         if (registered)
         {
@@ -83,43 +101,15 @@ public class HeroInfoPopup : MonoBehaviour {
         SubCamera.instance.Register(servant);
 
         // 무기칸
-        foreach (var mountitem in UserDataManager.Inst.mountitemDic.Values)
-        {
-            // DB에없는 아이템일경우 continue
-            MountItemEntity.Param param = ErdManager.instance.getmountitemEntityTable_nullPossible(mountitem.mountitemNum);
-            if (param == null)
-            {
-                continue;
-            }
-            
-        }
+        weaponSlot.Register(servant);
 
         // 방어구칸
-        foreach (var mountitem in UserDataManager.Inst.mountitemDic.Values)
-        {
-            //
-            MountItemEntity.Param param = ErdManager.instance.getmountitemEntityTable_nullPossible(mountitem.mountitemNum);
-            if (param == null)
-            {
-                continue;
-            }
-            
-        }
+        armorSlot.Register(servant);
 
         // 악세서리칸
-        foreach (var mountitem in UserDataManager.Inst.mountitemDic.Values)
-        {
-            //
-            MountItemEntity.Param param = ErdManager.instance.getmountitemEntityTable_nullPossible(mountitem.mountitemNum);
-            if (param == null)
-            {
-                continue;
-            }
-            
-        }
-        
+        accessorySlot.Register(servant);
     }
-    public void to_deregistered()
+    public void ToDeregistered()
     {
         if (!registered)
         {
@@ -135,19 +125,19 @@ public class HeroInfoPopup : MonoBehaviour {
         if (registered == false)
         {
             UserServantData servantdata = UserDataManager.Inst.ServantList.Find((rowdata) => { return rowdata.isMainHero; });
-            to_registered(servantdata);
+            ToRegistered(servantdata);
         }
         
     }
     private void OnDisable()
     {
-        to_deregistered();
+        ToDeregistered();
     }
 
 
     
     //
-    public void register(UserServantData servant)
+    public void Register(UserServantData servant)
     {
         registered = true;
         

@@ -387,12 +387,6 @@ public class EventClass
 
 }
 
-public enum MountitemType
-{
-    Weapon,
-    Defense,
-    Accesory
-}
 public enum StatType
 {
     Str,

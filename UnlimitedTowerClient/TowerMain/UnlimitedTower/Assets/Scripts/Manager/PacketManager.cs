@@ -463,7 +463,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         userInfo.userEOS = 0;
         // TODO : EOS는 따로 구하는 코드 추가 필요?
         // userInfo.userEOS = ??
-        userInfo.userMoney = getUserData.game_money;
+        userInfo.userMoney = 0;
         userInfo.sceneState = (SCENE_STATE)getUserData.state;
 
         Debug.Log("State : " + (SCENE_STATE)getUserData.state);

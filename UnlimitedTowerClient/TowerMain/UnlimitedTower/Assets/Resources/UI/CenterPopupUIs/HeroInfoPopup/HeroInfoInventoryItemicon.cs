@@ -9,42 +9,32 @@ public class HeroInfoInventoryItemicon : MonoBehaviour {
     public Text teartext;
     public Text upgradetext;
     public Image mountedImage;
-
-    public bool isregistered = false;
-    public UserMountItemData mountitemdata;
+    
+    
+    // FSM
+    public bool isRegistered = false;
+    public UserMountItemData mountItemData;
 
     public void Register(UserMountItemData mountitemdata)
     {
-        this.mountitemdata = mountitemdata;
-        isregistered = true;
-
+        this.mountItemData = mountitemdata;
+        isRegistered = true;
+        
         itemimage.sprite = ErdManager.instance.MountitemSprite[mountitemdata.mountitemNum];
         teartext.text = mountitemdata.tearNum + "T";
         upgradetext.text = "+"+ mountitemdata.upgradeCount;
-        UpdateMounted();
 
         mountitemdata.mountedChanged += UpdateMounted;
+        UpdateMounted();
     }
     public void Deregister()
     {
-        isregistered = false;
-        mountitemdata.mountedChanged -= UpdateMounted;
-    }
-
-    public void UpdateMounted()
-    {
-        mountedImage.gameObject.SetActive(mountitemdata.isMounted);
-    }
-
-
-
-    private void OnEnable()
-    {
-        
+        isRegistered = false;
+        mountItemData.mountedChanged -= UpdateMounted;
     }
     private void OnDisable()
     {
-        if (isregistered)
+        if (isRegistered)
         {
             Deregister();
         }
@@ -52,8 +42,17 @@ public class HeroInfoInventoryItemicon : MonoBehaviour {
     }
 
 
-    public void OnClick()
+
+
+    public void OnClickSlot()
     {
-        PopupUIsManager.instance.iteminfopannel.Register(mountitemdata);
+        PopupUIsManager.instance.itemmountwindow.Register(mountItemData);
     }
+
+
+    public void UpdateMounted()
+    {
+        mountedImage.gameObject.SetActive(mountItemData.isMounted);
+    }
+
 }
