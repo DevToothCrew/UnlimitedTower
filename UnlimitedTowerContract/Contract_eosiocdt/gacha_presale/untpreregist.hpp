@@ -135,6 +135,16 @@ CONTRACT untpreregist : public contract
     typedef eosio::multi_index<"dbservantid"_n, dbservantid> servant_id_db;
 #pragma endregion
 
+#pragma region db dbgraderatio
+    TABLE dbgraderatio
+    {
+        uint64_t grade;
+        uint64_t ratio;
+        uint64_t primary_key() const { return grade; }
+    };
+    typedef eosio::multi_index<"dbgraderatio"_n, dbgraderatio> grade_ratio_db;
+#pragma endregion
+
 enum db_index
 {
     job =1, 
@@ -147,6 +157,7 @@ enum db_index
     monster_grade,
     item_id,
     item_grade,
+    grade_ratio,
 };
 
     //------------------------------------------------------------------------//
@@ -176,8 +187,8 @@ enum db_index
     ACTION setmaster(eosio::name _master);
     ACTION initmaster(eosio::name _master);
     ACTION setpreregist();
-    ACTION dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max);
-    ACTION dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max);
+    ACTION dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max, uint32_t _ratio);
+    ACTION dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max, uint32_t _ratio);
     ACTION dberase(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max);
     ACTION dbinit();
 #pragma endregion
@@ -195,6 +206,8 @@ enum db_index
     void insert_monster_grade(uint32_t _grade, uint32_t _min, uint32_t _max);
     void insert_item_id(uint32_t id, uint32_t type, uint32_t _job, uint32_t tier);
     void insert_item_grade(uint32_t _grade, uint32_t _min, uint32_t _max); 
+    void insert_grade_ratio(uint32_t _grade, uint32_t _ratio);
+
 
     void modify_job(uint32_t _job, uint32_t _min, uint32_t _max);
     void modify_head(uint32_t _appear);
@@ -206,6 +219,7 @@ enum db_index
     void modify_monster_grade(uint32_t _grade, uint32_t _min, uint32_t _max);
     void modify_item_id(uint32_t id, uint32_t type, uint32_t _job, uint32_t tier);
     void modify_item_grade(uint32_t _grade, uint32_t _min, uint32_t _max); 
+    void modify_grade_ratio(uint32_t _grade, uint32_t _ratio);
 
     void erase_job(uint32_t _job);
     void erase_head(uint32_t _appear);
@@ -217,6 +231,7 @@ enum db_index
     void erase_monster_grade(uint32_t _grade);
     void erase_item_id(uint32_t id);
     void erase_item_grade(uint32_t _grade);
+    void erase_grade_ratio(uint32_t _grade);
 
 #pragma endregion
 
@@ -446,18 +461,7 @@ enum db_index
     const uint32_t default_min = 0;
     const uint32_t max_rate = 1000;
 
-    TABLE tgraderatio
-    {
-        uint64_t grade;
-        uint64_t ratio;
-        uint64_t primary_key() const { return grade; }
-    };
-    
-    const uint32_t one_grade_ratio = 32; //3.2 %
-    const uint32_t two_grade_ratio = 97; //6.5 %
-    const uint32_t three_grade_ratio = 226; //12.9 %
-    const uint32_t four_grade_ratio = 484; //25.8 %
-    const uint32_t five_grade_ratio = 1000; //51.6 %
+
 
     const uint64_t limit_token_amount = 800000000;
 

@@ -16,14 +16,14 @@ ACTION untpreregist::create(eosio::name _issuer, asset _maximum_supply)
     require_auth(owner_auth);
 
     auto sym = _maximum_supply.symbol;
-    eosio_assert(sym.is_valid(), "Invalid symbol name");
-    eosio_assert(_maximum_supply.is_valid(), "Invalid Supply");
+    eosio_assert(sym.is_valid(), "invalid symbol name");
+    eosio_assert(_maximum_supply.is_valid(), "invalid Supply");
 
-    eosio_assert(_maximum_supply.amount > 0, "Max-supply must be positive");
+    eosio_assert(_maximum_supply.amount > 0, "max supply more than 0");
 
     stat statstable(owner, sym.code().raw());
     auto existing = statstable.find(sym.code().raw());
-    eosio_assert(existing == statstable.end(), "Tokenwith symbol already exists");
+    eosio_assert(existing == statstable.end(), "tokenwith symbol already exists");
 
     statstable.emplace(owner, [&](auto &s) {
         s.supply.symbol = _maximum_supply.symbol;
@@ -95,7 +95,7 @@ void untpreregist::sub_balance(name _user, asset _value)
     accounts from_acnts(owner, _user.value);
 
     const auto &from = from_acnts.get(_value.symbol.code().raw(), "No balance object found");
-    eosio_assert(from.balance.amount >= _value.amount, "Overdrawn balance");
+    eosio_assert(from.balance.amount >= _value.amount, "over account balance");
 
     if (from.balance.amount == _value.amount)
     {
@@ -134,7 +134,7 @@ void untpreregist::add_balance(name _user, asset _value, name _ram_payer)
 
 #pragma region db_insert action
 
-ACTION untpreregist::dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max)
+ACTION untpreregist::dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max, uint32_t _ratio)
 {
     master master_table(owner, owner.value);
     auto master_iter = master_table.begin();
@@ -197,6 +197,11 @@ ACTION untpreregist::dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, ui
     case db_index::item_grade:
     {
         insert_item_grade(_grade, _min, _max);
+        break;
+    }
+    case db_index::grade_ratio:
+    {
+        insert_grade_ratio(_grade, _ratio);
         break;
     }
     }
@@ -303,7 +308,17 @@ void untpreregist::insert_item_grade(uint32_t _grade, uint32_t _min, uint32_t _m
     });
 }
 
-ACTION untpreregist::dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max)
+void untpreregist::insert_grade_ratio(uint32_t _grade, uint32_t _ratio)
+{
+    grade_ratio_db grade_ratio_db_table(owner, owner.value);
+    grade_ratio_db_table.emplace(owner, [&](auto &new_grade_ratio)
+    {
+        new_grade_ratio.grade = _grade;
+        new_grade_ratio.ratio = _ratio;
+    });
+}
+
+ACTION untpreregist::dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max, uint32_t _ratio)
 {
     master master_table(owner, owner.value);
     auto master_iter = master_table.begin();
@@ -365,6 +380,11 @@ ACTION untpreregist::dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, ui
     case db_index::item_grade:
     {
         modify_item_grade(_grade, _min, _max);
+        break;
+    }
+    case db_index::grade_ratio:
+    {
+        modify_grade_ratio(_grade, _ratio);
         break;
     }
     }
@@ -495,6 +515,17 @@ void untpreregist::modify_item_id(uint32_t _id, uint32_t _type, uint32_t _job, u
     });
 }
 
+void untpreregist::modify_grade_ratio(uint32_t _grade, uint32_t _ratio)
+{
+    grade_ratio_db grade_ratio_db_table(owner, owner.value);
+    auto grade_ratio_db_iter = grade_ratio_db_table.find(_grade);
+    eosio_assert( grade_ratio_db_iter != grade_ratio_db_table.end() , "not exist grade ratio data" );
+    grade_ratio_db_table.modify(grade_ratio_db_iter ,owner, [&](auto &new_grade_ratio) {
+        new_grade_ratio.ratio = _ratio;
+    });
+}
+
+
 ACTION untpreregist::dberase(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max)
 {
     master master_table(owner, owner.value);
@@ -559,6 +590,11 @@ ACTION untpreregist::dberase(uint32_t _kind, uint32_t _appear, uint32_t _id, uin
     case db_index::item_grade:
     {
         erase_item_grade(_grade);
+        break;
+    }
+    case db_index::grade_ratio:
+    {
+        erase_grade_ratio(_grade);
         break;
     }
     }
@@ -642,6 +678,14 @@ void untpreregist::erase_item_id(uint32_t _id)
     auto item_id_iter = item_id_db_table.find(_id);
     eosio_assert(item_id_iter != item_id_db_table.end(), "not exist item id data");
     item_id_db_table.erase(item_id_iter);
+}
+
+void untpreregist::erase_grade_ratio(uint32_t _grade)
+{
+    grade_ratio_db grade_ratio_db_table(owner, owner.value);
+    auto grade_ratio_db_iter = grade_ratio_db_table.find(_grade);
+    eosio_assert( grade_ratio_db_iter != grade_ratio_db_table.end() , "not exist grade ratio data" );
+    grade_ratio_db_table.erase(grade_ratio_db_iter);
 }
 
 ACTION untpreregist::dbinit()
@@ -1357,25 +1401,14 @@ void untpreregist::init_all_balance()
 uint32_t untpreregist::get_random_grade(uint64_t _rate)
 {
     uint32_t grade;
-    if (_rate <= one_grade_ratio)
+    grade_ratio_db grade_ratio_db_table(owner, owner.value);
+    for (auto iter = grade_ratio_db_table.begin(); iter != grade_ratio_db_table.end();)
     {
-        grade = 1;
-    }
-    else if (_rate <= two_grade_ratio)
-    {
-        grade = 2;
-    }
-    else if (_rate <= three_grade_ratio)
-    {
-        grade = 3;
-    }
-    else if (_rate <= four_grade_ratio)
-    {
-        grade = 4;
-    }
-    else
-    {
-        grade = 5;
+        if (_rate <= iter->ratio)
+        {
+            grade = iter->grade;
+            break;
+        }
     }
     return grade;
 }
