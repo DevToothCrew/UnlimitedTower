@@ -39,7 +39,7 @@ public class Formationslot_Upper : MonoBehaviour {
                 curMonster = GameDataManager.instance.getMonsterPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, FormationIndex);
 
 
-                uiinitialize();
+                InitializeUI();
                 charImage.gameObject.SetActive(true);
                 charImage.sprite = ErdManager.instance.getMonsterImage(curMonster.monsterNum, curMonster.monsterTypeNum);
                 lefttopImage.gameObject.SetActive(true);
@@ -60,7 +60,7 @@ public class Formationslot_Upper : MonoBehaviour {
                 isPlaced = true;
                 curServant = GameDataManager.instance.getServantPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, FormationIndex);
 
-                uiinitialize();
+                InitializeUI();
                 charImage.gameObject.SetActive(true);
                 charImage.sprite = ErdManager.instance.GetServantIconSprite(curServant.isLegend, curServant.body, curServant.jobNum);
                 lefttopImage.gameObject.SetActive(true);
@@ -76,13 +76,13 @@ public class Formationslot_Upper : MonoBehaviour {
         }
         
         // 없다면 lock상태로
-        toDeregister();
+        ToDeregister();
     }
-    public void toDeregister()
+    public void ToDeregister()
     {
         isPlaced = false;
 
-        uiinitialize();
+        InitializeUI();
         emptyImage.gameObject.SetActive(true);
 
         emptyImage.sprite = FormationInfoPopup.instance.bgsprite;
@@ -96,7 +96,7 @@ public class Formationslot_Upper : MonoBehaviour {
     }
     private void OnDisable()
     {
-        toDeregister();
+        ToDeregister();
         GameDataManager.instance.placeChangedEvent -= monsterPlaceChanged;
     }
 
@@ -111,7 +111,7 @@ public class Formationslot_Upper : MonoBehaviour {
     }
 
 
-    public void uiinitialize()
+    public void InitializeUI()
     {
         emptyImage.gameObject.SetActive(false);
         charImage.gameObject.SetActive(false);
@@ -122,7 +122,7 @@ public class Formationslot_Upper : MonoBehaviour {
     }
 
     // 클릭시
-    public void onclick()
+    public void OnClick()
     {
         // 메인히어로가 배치된 자리라면, return
         if (FormationIndex == 2)

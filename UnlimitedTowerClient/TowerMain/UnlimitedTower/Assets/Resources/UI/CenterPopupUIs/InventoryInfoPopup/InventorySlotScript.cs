@@ -22,13 +22,13 @@ public class InventorySlotScript : MonoBehaviour {
         ETC
     }
     public InventorySlotState inventorySlotState;
-    UserMountItemData mountitemdata;
-    UserEtcItemData etcitemdata;
+    UserMountItemData mountItemData;
+    UserEtcItemData etcItemData;
 
-    public void register(UserMountItemData mountitemdata)
+    public void Register(UserMountItemData mountitemdata)
     {
         inventorySlotState = InventorySlotState.EquipMent;
-        this.mountitemdata = mountitemdata;
+        this.mountItemData = mountitemdata;
 
         OffAllImages();
 
@@ -40,17 +40,17 @@ public class InventorySlotScript : MonoBehaviour {
         teartext.text = mountitemdata.tearNum + "T" ;
         upgradetext.text = "+"+mountitemdata.upgradeCount;
     }
-    public void register(UserEtcItemData etcitemdata)
+    public void Register(UserEtcItemData etcitemdata)
     {
         inventorySlotState = InventorySlotState.ETC;
-        this.etcitemdata = etcitemdata;
+        this.etcItemData = etcitemdata;
 
         OffAllImages();
 
         ItemImage.gameObject.SetActive(true);
         ItemImage.sprite = ErdManager.instance.etcitemSprite[etcitemdata.etcItemNum];
     }
-    public void to_locked()
+    public void ToLocked()
     {
         inventorySlotState = InventorySlotState.Locked;
 
@@ -75,7 +75,7 @@ public class InventorySlotScript : MonoBehaviour {
             case InventorySlotState.Locked:
                 break;
             case InventorySlotState.EquipMent:
-                PopupUIsManager.instance.iteminfopannel.Register(mountitemdata);
+                PopupUIsManager.instance.iteminfopannel.Register(mountItemData);
                 break;
             case InventorySlotState.ETC:
                 break;
@@ -87,7 +87,7 @@ public class InventorySlotScript : MonoBehaviour {
     {
         if (inventorySlotState == InventorySlotState.Locked)
         {
-            to_locked();
+            ToLocked();
         }
     }
 

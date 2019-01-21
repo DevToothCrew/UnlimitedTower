@@ -21,7 +21,7 @@ public class PartnerInfoPopup : MonoBehaviour {
         Servant,
         Monster
     }
-    public WindowState windowstate;
+    public WindowState windowState;
     int _pageNum;
     int pageNum
     {
@@ -33,7 +33,7 @@ public class PartnerInfoPopup : MonoBehaviour {
         {
             _pageNum = value;
 
-            switch (windowstate)
+            switch (windowState)
             {
                 case WindowState.Servant:
                     pageText.text = (_pageNum + 1) + "/" + (UserDataManager.Inst.ServantList.Count/ SlotList.Count + 1);
@@ -57,13 +57,13 @@ public class PartnerInfoPopup : MonoBehaviour {
     private void OnEnable()
     {
         // 
-        switch (windowstate)
+        switch (windowState)
         {
             case WindowState.Servant:
-                toServantState(0);
+                ToServantState(0);
                 break;
             case WindowState.Monster:
-                toMonsterState(0);
+                ToMonsterState(0);
                 break;
         }
     }
@@ -71,7 +71,7 @@ public class PartnerInfoPopup : MonoBehaviour {
 
     // FSM 상태이동 함수들 // 
     // WindowState 이동
-    public void toServantState(int pageNum)
+    public void ToServantState(int pageNum)
     {
         this.pageNum = pageNum;
 
@@ -84,15 +84,15 @@ public class PartnerInfoPopup : MonoBehaviour {
         // 서번트 등록
         for (int i = 0; i < UserDataManager.Inst.ServantList.Count && i<SlotList.Count; i++)
         {
-            SlotList[i].register(UserDataManager.Inst.ServantList[i]);
+            SlotList[i].Register(UserDataManager.Inst.ServantList[i]);
         }
 
         // 다시정렬
-        setSortState((int)sortstate);
+        SetSortState((int)sortstate);
 
-        windowstate = WindowState.Servant;
+        windowState = WindowState.Servant;
     }
-    public void toMonsterState(int pageNum)
+    public void ToMonsterState(int pageNum)
     {
         this.pageNum = pageNum;
 
@@ -105,13 +105,13 @@ public class PartnerInfoPopup : MonoBehaviour {
         // 몬스터 등록
         for (int i = 0; i < UserDataManager.Inst.MonsterList.Count && i < SlotList.Count; i++)
         {
-            SlotList[i].register(UserDataManager.Inst.MonsterList[i]);
+            SlotList[i].Register(UserDataManager.Inst.MonsterList[i]);
         }
 
         // 다시정렬
-        setSortState((int)sortstate);
+        SetSortState((int)sortstate);
 
-        windowstate = WindowState.Monster;
+        windowState = WindowState.Monster;
     }
     // sortState 이동
     [SerializeField] List<Slot_Value_Tuple> _TupleList = new List<Slot_Value_Tuple>();
@@ -137,7 +137,7 @@ public class PartnerInfoPopup : MonoBehaviour {
             _TupleList = value;
         }
     }
-    public void setSortState(int sortstateNum)
+    public void SetSortState(int sortstateNum)
     {
         this.sortstate = (SortState)sortstateNum;
 
@@ -176,21 +176,21 @@ public class PartnerInfoPopup : MonoBehaviour {
     // 온클릭
     public void OnClickServantBtn()
     {
-        if (windowstate == WindowState.Servant)
+        if (windowState == WindowState.Servant)
         {
             return;
         }
 
-        toServantState(0);
+        ToServantState(0);
     }
     public void OnClickMonsterBtn()
     {
-        if (windowstate == WindowState.Monster)
+        if (windowState == WindowState.Monster)
         {
             return;
         }
 
-        toMonsterState(0);
+        ToMonsterState(0);
     }
 
     public void OnClickRightArrow()
@@ -198,13 +198,13 @@ public class PartnerInfoPopup : MonoBehaviour {
         // 다음윈도우안에 서번트 혹은 몬스터가 있다면 넘어간다.
         int startIndex = (pageNum+1) * SlotList.Count;
         int endIndex = (pageNum+2) * SlotList.Count;
-        switch (windowstate)
+        switch (windowState)
         {
             case WindowState.Servant:
                 {
                     if (UserDataManager.Inst.ServantList.Count-1 >= startIndex)
                     {
-                        toServantState(pageNum+1);
+                        ToServantState(pageNum+1);
                     }
                 }
                 break;
@@ -212,7 +212,7 @@ public class PartnerInfoPopup : MonoBehaviour {
                 {
                     if (UserDataManager.Inst.MonsterList.Count - 1 >= startIndex)
                     {
-                        toMonsterState(pageNum + 1);
+                        ToMonsterState(pageNum + 1);
                     }
                 }
                 break;
@@ -227,16 +227,16 @@ public class PartnerInfoPopup : MonoBehaviour {
         }
 
 
-        switch (windowstate)
+        switch (windowState)
         {
             case WindowState.Servant:
                 {
-                    toServantState(pageNum - 1);
+                    ToServantState(pageNum - 1);
                 }
                 break;
             case WindowState.Monster:
                 {
-                    toMonsterState(pageNum - 1);
+                    ToMonsterState(pageNum - 1);
                 }
                 break;
         }

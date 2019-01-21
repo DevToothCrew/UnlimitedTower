@@ -28,13 +28,13 @@ public class SlotScript : MonoBehaviour {
 
 
 
-    public void register(UserServantData servant)
+    public void Register(UserServantData servant)
     {
         slottype = SlotType.servant;
         this.servant = servant;
 
 
-        uiInitialize();
+        InitializeUI();
 
         charimage.gameObject.SetActive(true);
         charimage.sprite = ErdManager.instance.GetServantIconSprite(servant.isLegend, servant.body, servant.jobNum);
@@ -43,14 +43,14 @@ public class SlotScript : MonoBehaviour {
         leveltext.gameObject.SetActive(true);
         leveltext.text = "Lv." + servant.level;
     }
-    public void register(UserMonsterData monster)
+    public void Register(UserMonsterData monster)
     {
         slottype = SlotType.monster;
         this.monster = monster;
 
 
 
-        uiInitialize();
+        InitializeUI();
 
         charimage.gameObject.SetActive(true);
         charimage.sprite = ErdManager.instance.getMonsterImage(monster.monsterNum,monster.monsterTypeNum);
@@ -68,11 +68,11 @@ public class SlotScript : MonoBehaviour {
         slottype = SlotType.locked;
 
 
-        uiInitialize();
+        InitializeUI();
         Lockobj.SetActive(true);
     }
 
-    public void uiInitialize()
+    public void InitializeUI()
     {
         MonsterGradeBG.gameObject.SetActive(false);
         Lockobj.gameObject.SetActive(false);

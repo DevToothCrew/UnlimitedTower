@@ -12,13 +12,13 @@ public class HeroInfoInventoryItemicon : MonoBehaviour {
     
     
     // FSM
-    public bool isregistered = false;
-    public UserMountItemData mountitemdata;
+    public bool isRegistered = false;
+    public UserMountItemData mountItemData;
 
     public void Register(UserMountItemData mountitemdata)
     {
-        this.mountitemdata = mountitemdata;
-        isregistered = true;
+        this.mountItemData = mountitemdata;
+        isRegistered = true;
         
         itemimage.sprite = ErdManager.instance.MountitemSprite[mountitemdata.mountitemNum];
         teartext.text = mountitemdata.tearNum + "T";
@@ -29,12 +29,12 @@ public class HeroInfoInventoryItemicon : MonoBehaviour {
     }
     public void Deregister()
     {
-        isregistered = false;
-        mountitemdata.mountedChanged -= UpdateMounted;
+        isRegistered = false;
+        mountItemData.mountedChanged -= UpdateMounted;
     }
     private void OnDisable()
     {
-        if (isregistered)
+        if (isRegistered)
         {
             Deregister();
         }
@@ -46,13 +46,13 @@ public class HeroInfoInventoryItemicon : MonoBehaviour {
 
     public void OnClickSlot()
     {
-        PopupUIsManager.instance.itemmountwindow.Register(mountitemdata);
+        PopupUIsManager.instance.itemmountwindow.Register(mountItemData);
     }
 
 
     public void UpdateMounted()
     {
-        mountedImage.gameObject.SetActive(mountitemdata.isMounted);
+        mountedImage.gameObject.SetActive(mountItemData.isMounted);
     }
 
 }

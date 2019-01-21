@@ -529,7 +529,7 @@ public enum MountitemType
 {
     Weapon,
     Defense,
-    Accesory
+    accessory
 }
 
 // UI에서 사용하는 Sorting 타입

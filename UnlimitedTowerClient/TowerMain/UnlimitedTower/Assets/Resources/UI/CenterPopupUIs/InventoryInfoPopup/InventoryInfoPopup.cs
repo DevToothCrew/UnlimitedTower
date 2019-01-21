@@ -70,7 +70,7 @@ public class InventoryInfoPopup : MonoBehaviour {
         // 창 초기화
         for (int i = 0; i < invenslotlist.Count; i++)
         {
-            invenslotlist[i].to_locked();
+            invenslotlist[i].ToLocked();
         }
 
         // 아이템 등록
@@ -80,7 +80,7 @@ public class InventoryInfoPopup : MonoBehaviour {
         {
             int iconIndex = itemIndex - curDisplayNum * totalIconCount;
             InventorySlotScript slot = invenslotlist[iconIndex];
-            slot.register(UserDataManager.Inst.MountItemList[itemIndex]);
+            slot.Register(UserDataManager.Inst.MountItemList[itemIndex]);
         }
 
 
@@ -100,7 +100,7 @@ public class InventoryInfoPopup : MonoBehaviour {
         // 창 초기화
         for (int i = 0; i < invenslotlist.Count; i++)
         {
-            invenslotlist[i].to_locked();
+            invenslotlist[i].ToLocked();
         }
 
         // ETC아이템 등록
@@ -110,7 +110,7 @@ public class InventoryInfoPopup : MonoBehaviour {
         {
             int iconIndex = itemIndex - curDisplayNum * totalIconCount;
             InventorySlotScript slot = invenslotlist[iconIndex];
-            slot.register(UserDataManager.Inst.EtcItemList[itemIndex]);
+            slot.Register(UserDataManager.Inst.EtcItemList[itemIndex]);
         }
 
 
@@ -120,7 +120,7 @@ public class InventoryInfoPopup : MonoBehaviour {
             sortBtnList[i].gameObject.SetActive(false);
         }
     }
-    public void to_deregistered()
+    public void ToDeregistered()
     {
         inventoryState = InvenState.deregistered;
 
@@ -217,6 +217,6 @@ public class InventoryInfoPopup : MonoBehaviour {
     }
     private void OnDisable()
     {
-        to_deregistered();
+        ToDeregistered();
     }
 }

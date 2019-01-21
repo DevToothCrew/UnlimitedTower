@@ -261,7 +261,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 273549}
-        m_MethodName: onclick
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7572,7 +7572,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 146569556}
-        m_MethodName: onclick
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8637,12 +8637,10 @@ MonoBehaviour:
   wistext: {fileID: 1275272550}
   levelText: {fileID: 307949412}
   nameText: {fileID: 13907710}
-  heroinfo_invenpannel: {fileID: 1436255015}
   weaponSlot: {fileID: 2106873537}
   armorSlot: {fileID: 680005542}
-  accesorySlot: {fileID: 477704075}
-  CharCamera: {fileID: 1211499960}
-  CharPos: {x: 3000, y: 2970, z: 3060}
+  accessorySlot: {fileID: 477704075}
+  heroinfo_invenpannel: {fileID: 1436255015}
   servant:
     index: 0
     isMainHero: 0
@@ -8666,7 +8664,6 @@ MonoBehaviour:
     partyNum: 0
     formationNum: 0
   registered: 0
-  _CharObj: {fileID: 0}
 --- !u!1 &171934826
 GameObject:
   m_ObjectHideFlags: 0
@@ -8750,7 +8747,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 171934830}
-        m_MethodName: onclick
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12616,7 +12613,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 260142518}
-        m_MethodName: onclick
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -24315,11 +24312,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mountItemType: 2
   heroinfopopup: {fileID: 170685064}
-  itemimage: {fileID: 1315652621}
-  lockimage: {fileID: 1205888074}
-  teartext: {fileID: 1014081925}
-  upgradetext: {fileID: 72081726}
-  servantdata:
+  itemImage: {fileID: 1315652621}
+  lockImage: {fileID: 1205888074}
+  tearText: {fileID: 1014081925}
+  upgradeText: {fileID: 72081726}
+  servantData:
     index: 0
     isMainHero: 0
     isLegend: 0
@@ -24341,7 +24338,7 @@ MonoBehaviour:
     isPlaced: 0
     partyNum: 0
     formationNum: 0
-  mountitemdata:
+  mountItemData:
     index: 0
     mountitemNum: 0
     tearNum: 0
@@ -31616,7 +31613,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 615969759}
-        m_MethodName: onclick
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -34675,11 +34672,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mountItemType: 1
   heroinfopopup: {fileID: 170685064}
-  itemimage: {fileID: 2100036550}
-  lockimage: {fileID: 679243409}
-  teartext: {fileID: 967500447}
-  upgradetext: {fileID: 771076150}
-  servantdata:
+  itemImage: {fileID: 2100036550}
+  lockImage: {fileID: 679243409}
+  tearText: {fileID: 967500447}
+  upgradeText: {fileID: 771076150}
+  servantData:
     index: 0
     isMainHero: 0
     isLegend: 0
@@ -34701,7 +34698,7 @@ MonoBehaviour:
     isPlaced: 0
     partyNum: 0
     formationNum: 0
-  mountitemdata:
+  mountItemData:
     index: 0
     mountitemNum: 0
     tearNum: 0
@@ -35713,7 +35710,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 697429030}
-        m_MethodName: onclick
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -41399,7 +41396,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 814415094}
-        m_MethodName: onclick
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -51577,7 +51574,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 981282252}
-        m_MethodName: onclick
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -56448,7 +56445,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1066358095}
-        m_MethodName: onclick
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -69599,7 +69596,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1317849053}
-        m_MethodName: onclick
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -70040,7 +70037,7 @@ MonoBehaviour:
   - {fileID: 1655920333}
   - {fileID: 324700830}
   pageText: {fileID: 514526600}
-  windowstate: 0
+  windowState: 0
   sortstate: 0
   _TupleList: []
 --- !u!1 &1326695689
@@ -70752,7 +70749,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1353144951}
-        m_MethodName: onclick
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -76671,7 +76668,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1440239080}
-        m_MethodName: onclick
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -77396,7 +77393,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1447991818}
-        m_MethodName: onclick
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -84079,7 +84076,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1560390385}
-        m_MethodName: onclick
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -97821,7 +97818,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1795688919}
-        m_MethodName: onclick
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -106856,7 +106853,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1986351991}
-        m_MethodName: onclick
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -113339,11 +113336,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mountItemType: 0
   heroinfopopup: {fileID: 170685064}
-  itemimage: {fileID: 280273659}
-  lockimage: {fileID: 1446313677}
-  teartext: {fileID: 1534568208}
-  upgradetext: {fileID: 1180216868}
-  servantdata:
+  itemImage: {fileID: 280273659}
+  lockImage: {fileID: 1446313677}
+  tearText: {fileID: 1534568208}
+  upgradeText: {fileID: 1180216868}
+  servantData:
     index: 0
     isMainHero: 0
     isLegend: 0
@@ -113365,7 +113362,7 @@ MonoBehaviour:
     isPlaced: 0
     partyNum: 0
     formationNum: 0
-  mountitemdata:
+  mountItemData:
     index: 0
     mountitemNum: 0
     tearNum: 0
