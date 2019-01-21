@@ -52,19 +52,19 @@ public class StageInfoPopup : MonoBehaviour {
                 if (formationIndex <= 4)
                 {
                     UserServantData servantdata = GameDataManager.instance.getServantPlacedAt_nullPossible(curDisplayTeam, formationIndex);
-                    charslotList[i].to_servant(servantdata);
+                    charslotList[i].ToServant(servantdata);
                 }
                 // 몬스터
                 else
                 {
                     UserMonsterData servantdata = GameDataManager.instance.getMonsterPlacedAt_nullPossible(curDisplayTeam, formationIndex);
-                    charslotList[i].to_monster(servantdata);
+                    charslotList[i].ToMonster(servantdata);
                 }
             }
             // 배치되어있지 않다면, 흰아이콘으로
             else
             {
-                charslotList[i].to_empty();
+                charslotList[i].ToEmpty();
             }
         }
 
@@ -126,8 +126,14 @@ public class StageInfoPopup : MonoBehaviour {
         }
 
 
-        // 착용중인 아이템 등록
-        List< UserMountItemData > mountitemList = UserDataManager.Inst.MountItemList.FindAll((rowdata) => { return rowdata.isMounted && rowdata.mountServantIndex == servantdata.index; });
+        /* 착용중인 아이템 등록 */
+        foreach (var item in stagewindowItemList)
+        {
+            item.Deregister();
+        }
+        // 아이템창 초기화
+        List<UserMountItemData> mountitemList = UserDataManager.Inst.MountItemList.FindAll((rowdata) => { return rowdata.isMounted && rowdata.mountServantIndex == servantdata.index; });
+        // 아이템창 등록
         foreach (var item in mountitemList)
         {
             MountItemEntity.Param param = ErdManager.instance.getmountitemEntityTable_nullPossible(item.mountitemNum);
@@ -140,7 +146,7 @@ public class StageInfoPopup : MonoBehaviour {
                 case MountitemType.Defense:
                     stagewindowItemList[1].RegisterItem(item);
                     break;
-
+                    
                 case MountitemType.Accessory:
                     stagewindowItemList[2].RegisterItem(item);
                     break;

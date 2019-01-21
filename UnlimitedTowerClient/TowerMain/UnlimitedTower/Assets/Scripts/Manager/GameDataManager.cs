@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class GameDataManager : MonoBehaviour
 {
+    /// <summary>
+    /// 단순히 변수값을 바꾸는 것이지만, 서버에 데이터를 요청해서 바꾸어야 하기때문에
+    /// 이것들을 모두 함수의 형태로 모아 두었습니다.
+    /// </summary>
 
     public static GameDataManager instance;
     public void Awake()
@@ -19,6 +23,9 @@ public class GameDataManager : MonoBehaviour
         }
     }
 
+
+
+    /* 배치 */
 
     // 누군가의 배치가 바뀌었을때
     public System.Action placeChangedEvent;
@@ -129,12 +136,10 @@ public class GameDataManager : MonoBehaviour
         UserFormationData formationdata = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isPlaced && rowdata.partyIndex == teamNum && rowdata.formationIndex == formationIndex; });
         if (formationdata != null)
         {
-
-            Debug.Log(teamNum + "," + formationIndex + ":" + formationdata.isPlaced);
+            
             return formationdata.isPlaced;
         }
-
-        Debug.Log(teamNum + "," + formationIndex + ":" + false);
+        
         return false;
     }
     public bool isPlaced(PlayerType type, int index)
@@ -244,6 +249,57 @@ public class GameDataManager : MonoBehaviour
 
 
 
+
+
+    /* 아이템 */
+    
+    public void DemountItem(UserMountItemData mountitem)
+    {
+        if (mountitem.isMounted)
+        {
+            // isMounted에서 set함수로 이벤트 실행 됨
+            mountitem.isMounted = false;
+
+            // ERD역참조데이터 업데이트
+            int servIndex = mountitem.mountServantIndex;
+            if (UserDataManager.Inst.servantDic.ContainsKey(servIndex))
+            {
+                UserDataManager.Inst.servantDic[servIndex].Demount(mountitem);
+            }
+        }
+
+
+    }
+    public void MountItem(UserMountItemData mountitem, UserServantData servantdata)
+    {
+        mountitem.isMounted = true;
+        mountitem.mountServantIndex = servantdata.index;
+        
+        // 서번트가 같은 타입의 아이템장착하고있다면 -> 해당아이템 탈착
+        MountitemType itemtype = ErdManager.instance.getmountitemEntityTable_nullPossible(mountitem.mountitemNum).mountitemType;
+        UserMountItemData mountedItem = servantdata.mountItemList.Find((rowdata) =>
+        {
+            MountItemEntity.Param param = ErdManager.instance.getmountitemEntityTable_nullPossible(rowdata.mountitemNum);
+
+            if (param.mountitemType == itemtype)
+            {
+                return true;
+            }
+            else
+                return false;
+        });
+        if (mountedItem != null)
+        {
+            GameDataManager.instance.DemountItem(mountedItem);
+        }
+        
+        
+        // ERD 역참조데이터 업데이트
+        if (UserDataManager.Inst.servantDic.ContainsKey(servantdata.index))
+        {
+            UserDataManager.Inst.servantDic[servantdata.index].Mount(mountitem);
+        }
+    }
 
 
 

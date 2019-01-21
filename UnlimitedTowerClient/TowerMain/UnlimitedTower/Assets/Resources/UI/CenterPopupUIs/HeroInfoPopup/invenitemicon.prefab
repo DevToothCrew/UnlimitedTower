@@ -151,7 +151,7 @@ MonoBehaviour:
     index: 0
     mountitemNum: 0
     tearNum: 0
-    enforceCount: 0
+    upgradeCount: 0
     mountServantIndex: 0
 --- !u!114 &114240152905135340
 MonoBehaviour:
@@ -193,7 +193,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114233501052446192}
-        m_MethodName: OnClick
+        m_MethodName: OnClickSlot
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

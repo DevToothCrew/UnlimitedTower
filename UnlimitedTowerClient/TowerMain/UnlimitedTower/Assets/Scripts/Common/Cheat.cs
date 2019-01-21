@@ -11,7 +11,7 @@ public class Cheat : MonoSingleton<Cheat>
         UserLoginData userLoginData = new UserLoginData();
 
         userLoginData.userinfo.user = user;
-        userLoginData.userinfo.game_money = gameMoney;
+        //userLoginData.userinfo.game_money = 0;
 
         userLoginData.userinfo.state = 2;
         userLoginData.userinfo.hero = GetRandomServant(GetRandomServantJob());

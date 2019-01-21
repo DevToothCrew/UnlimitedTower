@@ -31,13 +31,13 @@ public class FormationSlot_Bottom : MonoBehaviour {
     public UserServantData servantdata;
     public UserMonsterData monsterdata;
     
-    public void to_servant(UserServantData servantdata)
+    public void ToServant(UserServantData servantdata)
     {
         slottype = SlotType.servant;
         this.servantdata = servantdata;
 
 
-        uiinitialize();
+        InitializeUI();
         charImage.gameObject.SetActive(true);
         charImage.sprite = ErdManager.instance.GetServantIconSprite(servantdata.isLegend ,servantdata.body, servantdata.jobNum);
         lefttopImage.gameObject.SetActive(true);
@@ -48,13 +48,13 @@ public class FormationSlot_Bottom : MonoBehaviour {
 
         placedUpdate();
     }
-    public void to_monster(UserMonsterData monsterdata)
+    public void ToMonster(UserMonsterData monsterdata)
     {
         slottype = SlotType.monster;
         this.monsterdata = monsterdata;
 
 
-        uiinitialize();
+        InitializeUI();
         charImage.gameObject.SetActive(true);
         charImage.sprite = ErdManager.instance.getMonsterImage(monsterdata.monsterNum, monsterdata.monsterTypeNum);
         lefttopImage.gameObject.SetActive(true);
@@ -69,15 +69,15 @@ public class FormationSlot_Bottom : MonoBehaviour {
 
         placedUpdate();
     }
-    public void to_none()
+    public void ToNone()
     {
         slottype = SlotType.none;
-        uiinitialize();
+        InitializeUI();
         emptyImage.gameObject.SetActive(true);
     }
 
     // 버튼 온클릭
-    public void onclick()
+    public void OnClick()
     {
         // 이미 배치된 녀석이면, return
         if (slottype == SlotType.monster && GameDataManager.instance.isPlaced(PlayerType.monster, monsterdata.index))
@@ -149,7 +149,7 @@ public class FormationSlot_Bottom : MonoBehaviour {
 
 
 
-    public void uiinitialize()
+    public void InitializeUI()
     {
         emptyImage.gameObject.SetActive(false);
         charImage.gameObject.SetActive(false);
@@ -166,7 +166,7 @@ public class FormationSlot_Bottom : MonoBehaviour {
     }
     private void OnDisable()
     {
-        to_none();
+        ToNone();
         placedUpdate();
 
         GameDataManager.instance.placeChangedEvent -= placedUpdate;

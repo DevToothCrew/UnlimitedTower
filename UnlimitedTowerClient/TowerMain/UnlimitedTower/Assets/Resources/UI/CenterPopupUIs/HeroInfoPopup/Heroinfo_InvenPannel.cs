@@ -10,18 +10,18 @@ public class Heroinfo_InvenPannel : MonoBehaviour {
     public List<HeroInfoInventoryItemicon> iconlist;
     public List<HeroInfoInventoryItemicon> activeIconList;
 
-    public HeroInfoInventoryItemicon geticon()
+    public HeroInfoInventoryItemicon GetIcon()
     {
         if (iconlist.Count == 0)
         {
-            createicon();
+            CreateIcon();
         }
-        HeroInfoInventoryItemicon icon = popicon();
+        HeroInfoInventoryItemicon icon = PopIcon();
         activeIconList.Add(icon);
         icon.gameObject.SetActive(true);
         return icon;
     }
-    public void pushicon(HeroInfoInventoryItemicon icon)
+    public void PushIcon(HeroInfoInventoryItemicon icon)
     {
         icon.gameObject.SetActive(false);
         iconlist.Add(icon);
@@ -33,12 +33,12 @@ public class Heroinfo_InvenPannel : MonoBehaviour {
     }
 
     // object pooling 함수
-    public void createicon()
+    public void CreateIcon()
     {
         HeroInfoInventoryItemicon icon = Instantiate(itemprefab).GetComponent<HeroInfoInventoryItemicon>();
-        pushicon(icon);
+        PushIcon(icon);
     }
-    HeroInfoInventoryItemicon popicon()
+    HeroInfoInventoryItemicon PopIcon()
     {
         HeroInfoInventoryItemicon icon = iconlist[0];
         iconlist.Remove(icon);
@@ -46,13 +46,21 @@ public class Heroinfo_InvenPannel : MonoBehaviour {
         return icon;
     }
 
+    // FSM
+    public MountitemType displayType;
 
     private void OnEnable()
     {
-        for (int i = 0; i < UserDataManager.Inst.MountItemList.Count; i++)
+        // 장착되지않은아이템 or 해당서번트에게 장착된아이템만 띄워준다.
+        List<UserMountItemData> list = UserDataManager.Inst.MountItemList.FindAll((rowdata)=> {
+
+            MountItemEntity.Param itemparam = ErdManager.instance.getmountitemEntityTable_nullPossible(rowdata.mountitemNum);
+            return (!rowdata.isMounted || (rowdata.isMounted && rowdata.mountServantIndex == HeroInfoPopup.instance.servant.index)) && itemparam.mountitemType == displayType;
+        });
+        for (int i = 0; i < list.Count; i++)
         {
-            HeroInfoInventoryItemicon icon = geticon();
-            icon.Register(UserDataManager.Inst.MountItemList[i]);
+            HeroInfoInventoryItemicon icon = GetIcon();
+            icon.Register(list[i]);
 
             icon.transform.SetParent(itemParent);
             icon.transform.SetAsLastSibling();
@@ -67,7 +75,7 @@ public class Heroinfo_InvenPannel : MonoBehaviour {
             activeIconList.Remove(icon);
 
             // 푸쉬하기
-            pushicon(icon);
+            PushIcon(icon);
         }
     }
 }

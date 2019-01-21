@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PartnerInfoPopup : MonoBehaviour {
 
@@ -10,14 +11,39 @@ public class PartnerInfoPopup : MonoBehaviour {
     
     // 슬롯 리스트 //
     [SerializeField] List<SlotScript> SlotList = new List<SlotScript>();
-    
+
+    [SerializeField] Text pageText;
+
+
     // FSM 변수 //
     public enum WindowState
     {
         Servant,
         Monster
     }
-    public WindowState windowstate;
+    public WindowState windowState;
+    int _pageNum;
+    int pageNum
+    {
+        get
+        {
+            return _pageNum;
+        }
+        set
+        {
+            _pageNum = value;
+
+            switch (windowState)
+            {
+                case WindowState.Servant:
+                    pageText.text = (_pageNum + 1) + "/" + (UserDataManager.Inst.ServantList.Count/ SlotList.Count + 1);
+                    break;
+                case WindowState.Monster:
+                    pageText.text = (_pageNum + 1) + "/" + (UserDataManager.Inst.MonsterList.Count / SlotList.Count + 1);
+                    break;
+            }
+        }
+    }
 
     public enum SortState
     {
@@ -31,13 +57,13 @@ public class PartnerInfoPopup : MonoBehaviour {
     private void OnEnable()
     {
         // 
-        switch (windowstate)
+        switch (windowState)
         {
             case WindowState.Servant:
-                toServantState();
+                ToServantState(0);
                 break;
             case WindowState.Monster:
-                toMonsterState();
+                ToMonsterState(0);
                 break;
         }
     }
@@ -45,8 +71,10 @@ public class PartnerInfoPopup : MonoBehaviour {
 
     // FSM 상태이동 함수들 // 
     // WindowState 이동
-    public void toServantState()
+    public void ToServantState(int pageNum)
     {
+        this.pageNum = pageNum;
+
         // 창 초기화
         for (int i = 0; i < SlotList.Count; i++)
         {
@@ -56,16 +84,18 @@ public class PartnerInfoPopup : MonoBehaviour {
         // 서번트 등록
         for (int i = 0; i < UserDataManager.Inst.ServantList.Count && i<SlotList.Count; i++)
         {
-            SlotList[i].register(UserDataManager.Inst.ServantList[i]);
+            SlotList[i].Register(UserDataManager.Inst.ServantList[i]);
         }
 
         // 다시정렬
-        setSortState((int)sortstate);
+        SetSortState((int)sortstate);
 
-        windowstate = WindowState.Servant;
+        windowState = WindowState.Servant;
     }
-    public void toMonsterState()
+    public void ToMonsterState(int pageNum)
     {
+        this.pageNum = pageNum;
+
         // 창 초기화
         for (int i = 0; i < SlotList.Count; i++)
         {
@@ -75,13 +105,13 @@ public class PartnerInfoPopup : MonoBehaviour {
         // 몬스터 등록
         for (int i = 0; i < UserDataManager.Inst.MonsterList.Count && i < SlotList.Count; i++)
         {
-            SlotList[i].register(UserDataManager.Inst.MonsterList[i]);
+            SlotList[i].Register(UserDataManager.Inst.MonsterList[i]);
         }
 
         // 다시정렬
-        setSortState((int)sortstate);
+        SetSortState((int)sortstate);
 
-        windowstate = WindowState.Monster;
+        windowState = WindowState.Monster;
     }
     // sortState 이동
     [SerializeField] List<Slot_Value_Tuple> _TupleList = new List<Slot_Value_Tuple>();
@@ -107,7 +137,7 @@ public class PartnerInfoPopup : MonoBehaviour {
             _TupleList = value;
         }
     }
-    public void setSortState(int sortstateNum)
+    public void SetSortState(int sortstateNum)
     {
         this.sortstate = (SortState)sortstateNum;
 
@@ -142,6 +172,75 @@ public class PartnerInfoPopup : MonoBehaviour {
     }
 
 
+
+    // 온클릭
+    public void OnClickServantBtn()
+    {
+        if (windowState == WindowState.Servant)
+        {
+            return;
+        }
+
+        ToServantState(0);
+    }
+    public void OnClickMonsterBtn()
+    {
+        if (windowState == WindowState.Monster)
+        {
+            return;
+        }
+
+        ToMonsterState(0);
+    }
+
+    public void OnClickRightArrow()
+    {
+        // 다음윈도우안에 서번트 혹은 몬스터가 있다면 넘어간다.
+        int startIndex = (pageNum+1) * SlotList.Count;
+        int endIndex = (pageNum+2) * SlotList.Count;
+        switch (windowState)
+        {
+            case WindowState.Servant:
+                {
+                    if (UserDataManager.Inst.ServantList.Count-1 >= startIndex)
+                    {
+                        ToServantState(pageNum+1);
+                    }
+                }
+                break;
+            case WindowState.Monster:
+                {
+                    if (UserDataManager.Inst.MonsterList.Count - 1 >= startIndex)
+                    {
+                        ToMonsterState(pageNum + 1);
+                    }
+                }
+                break;
+        }
+    }
+    public void OnClickLeftArrow()
+    {
+        // 이미 페이지가 0페이지면 -> return
+        if (pageNum == 0)
+        {
+            return;
+        }
+
+
+        switch (windowState)
+        {
+            case WindowState.Servant:
+                {
+                    ToServantState(pageNum - 1);
+                }
+                break;
+            case WindowState.Monster:
+                {
+                    ToMonsterState(pageNum - 1);
+                }
+                break;
+        }
+    }
 
 
     // 정렬할때 transform 과 각칸의 value를 함께 갖는 클래스

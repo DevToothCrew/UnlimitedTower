@@ -76,7 +76,7 @@ public class FormationInfoPopup : MonoBehaviour
         // 초기화후
         for (int i = 0; i < bottomslotlist.Count; i++)
         {
-            bottomslotlist[i].to_none();
+            bottomslotlist[i].ToNone();
         }
 
         // 정렬
@@ -99,7 +99,7 @@ public class FormationInfoPopup : MonoBehaviour
                             continue;
                         }
 
-                        bottomslotlist[slotIndex].to_servant(list[slotIndex]);
+                        bottomslotlist[slotIndex].ToServant(list[slotIndex]);
                     }
                 }
                 break;
@@ -112,7 +112,7 @@ public class FormationInfoPopup : MonoBehaviour
                     {
                         int slotIndex = dataindex - startIndex;
 
-                        bottomslotlist[slotIndex].to_monster(list[slotIndex]);
+                        bottomslotlist[slotIndex].ToMonster(list[slotIndex]);
                     }
 
                 }
@@ -169,11 +169,11 @@ public class FormationInfoPopup : MonoBehaviour
     // 버튼 클릭 : sort
     public void setServantMode()
     {
-        SetdisplayType(PlayerType.servant, bottomWindowPageNum);
+        SetdisplayType(PlayerType.servant, 0);
     }
     public void setMonsterMode()
     {
-        SetdisplayType(PlayerType.monster, bottomWindowPageNum);
+        SetdisplayType(PlayerType.monster, 0);
     }
     public void Sortonclick(int sortTypeNum)
     {
