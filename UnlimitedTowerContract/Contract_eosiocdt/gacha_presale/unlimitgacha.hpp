@@ -154,13 +154,13 @@ enum db_choice
     //------------------------------------------------------------------------//
   private:
 #pragma region db values
-    const uint8_t servant_job_count = 4;
-    const uint8_t monster_id_count = 51;
-    const uint8_t item_id_count = 37;
-    const uint8_t head_count = 4;
-    const uint8_t hair_count = 4;
-    const uint8_t body_count = 3;
-    const uint8_t gender_count = 3;
+    const uint32_t servant_job_count = 4;
+    const uint32_t monster_id_count = 51;
+    const uint32_t item_id_count = 37;
+    const uint32_t head_count = 4;
+    const uint32_t hair_count = 4;
+    const uint32_t body_count = 3;
+    const uint32_t gender_count = 3;
     uint32_t random_count = 0;
 #pragma endregion
 
@@ -489,11 +489,10 @@ enum db_choice
 TABLE presalelog
 {   
     eosio::name owner;
-    uint64_t gacha_participation = 0;
     uint64_t accumulate_token_amount = 0;
     uint64_t primary_key() const { return owner.value; }
 };
-    typedef eosio::multi_index<"presalelog"_n, presalelog> participation_logs;
+    typedef eosio::multi_index<"presalelog"_n, presalelog> accumulate_presale_logs;
 #pragma endregion
 //------------------------------------------------------------------------//
 //------------------------------user_log_table----------------------------//

@@ -787,10 +787,10 @@ ACTION unlimitgacha::setpresale()
     master_auth.permission = "owner"_n;
     require_auth(master_auth);
 
-    participation_logs participation_log_table(owner, owner.value);
-    auto participation_log_iter = participation_log_table.find(master_iter->master.value);
-    eosio_assert(participation_log_iter == participation_log_table.end(),"already set presale log");
-    participation_log_table.emplace(owner, [&](auto &pre_sale) {
+    accumulate_presale_logs accumulate_presale_log_table(owner, owner.value);
+    auto participation_log_iter = accumulate_presale_log_table.find(master_iter->master.value);
+    eosio_assert(participation_log_iter == accumulate_presale_log_table.end(),"already set presale log");
+    accumulate_presale_log_table.emplace(owner, [&](auto &pre_sale) {
         pre_sale.owner = master_iter->master;
     });
 }
@@ -902,9 +902,9 @@ ACTION unlimitgacha::presalemove(eosio::name _user)
     auto black_list_iter = black_list_table.find(_user.value);
     eosio_assert(black_list_iter == black_list_table.end(), "this user already exist in black list");
 
-    participation_logs participation_log_table(owner, owner.value);
-    auto gacha_participation_iter = participation_log_table.find(master_iter->master.value);
-    eosio_assert(gacha_participation_iter == participation_log_table.end(), "It is still a presale period");
+    accumulate_presale_logs accumulate_presale_log_table(owner, owner.value);
+    auto presale_log_iter = accumulate_presale_log_table.find(master_iter->master.value);
+    eosio_assert(presale_log_iter == accumulate_presale_log_table.end(), "It is still a presale period");
 
     auto pre_user_iter = auth_user_table.find(_user.value);
     eosio_assert(pre_user_iter != auth_user_table.end(), "You are not a presales participant");
@@ -989,50 +989,33 @@ ACTION unlimitgacha::eostransfer(eosio::name sender, eosio::name receiver)
     eosio_assert(black_list_iter == black_list_table.end(), "this user already exist in black list");
 
     eosiotoken_transfer(sender, receiver, [&](const auto &ad) {
-        if (ad.action.size() == 0)
+        eosio_assert(ad.action.size() != 0,"wrong action");
+        if (ad.action == action_signup)
         {
-            print("action size zero\n");
-        }
-        else if (ad.action == action_signup)
-        {
-            participation_logs participation_log_table(owner, owner.value);
-            auto gacha_participation_iter = participation_log_table.find(master_iter->master.value);
-            eosio_assert(gacha_participation_iter == participation_log_table.end(), "need to presale signup");
+            accumulate_presale_logs accumulate_presale_log_table(owner, owner.value);
+            auto presale_log_iter = accumulate_presale_log_table.find(master_iter->master.value);
+            eosio_assert(presale_log_iter == accumulate_presale_log_table.end(), "need to presale signup");
 
             signup(sender);
         }
         else if (ad.action == action_presale_signup)
         {
-            participation_logs participation_log_table(owner, owner.value);
-            auto gacha_participation_iter = participation_log_table.find(master_iter->master.value);
-            eosio_assert(gacha_participation_iter != participation_log_table.end(), "pre sale time over");
+            accumulate_presale_logs accumulate_presale_log_table(owner, owner.value);
+            auto presale_log_iter = accumulate_presale_log_table.find(master_iter->master.value);
+            eosio_assert(presale_log_iter != accumulate_presale_log_table.end(), "pre sale time over");
 
             presalesign(sender, ad.type);
 
             asset presale_signup_reward(0, symbol(symbol_code("UTG"), 4));
             presale_signup_reward.amount = 30000000; // 3000 UTG
 
-            uint64_t limt_check = gacha_participation_iter->accumulate_token_amount + presale_signup_reward.amount;
+            uint64_t limt_check = presale_log_iter->accumulate_token_amount + presale_signup_reward.amount;
             if (limt_check <= limit_token_amount)
             {
-                if (limt_check == limit_token_amount)
-                {
-                    participation_log_table.erase(gacha_participation_iter);
+                accumulate_presale_log_table.modify(presale_log_iter, owner, [&](auto &update_participation_list) {
+                    update_participation_list.accumulate_token_amount += presale_signup_reward.amount;
+                });
 
-                    auth_users user_auth_table(owner, owner.value);
-                    auto owner_iter = user_auth_table.find(master_iter->master.value);
-                    eosio_assert(owner_iter != user_auth_table.end(), "not set gm account");
-
-                    user_auth_table.modify(owner_iter, owner, [&](auto &set_owner_account) {
-                        set_owner_account.state = euser_state::pause;
-                    });
-                }
-                else
-                {
-                    participation_log_table.modify(gacha_participation_iter, owner, [&](auto &update_participation_list) {
-                        update_participation_list.accumulate_token_amount += presale_signup_reward.amount;
-                    });
-                }
                 action(permission_level{get_self(), "active"_n},
                        get_self(), "transfer"_n,
                        std::make_tuple(owner, sender, presale_signup_reward, std::string("presale signup reward")))
@@ -1045,9 +1028,9 @@ ACTION unlimitgacha::eostransfer(eosio::name sender, eosio::name receiver)
         }
         else if (ad.action == action_gacha)
         {
-            participation_logs participation_log_table(owner, owner.value);
-            auto gacha_participation_iter = participation_log_table.find(master_iter->master.value);
-            if (gacha_participation_iter == participation_log_table.end())
+            accumulate_presale_logs accumulate_presale_log_table(owner, owner.value);
+            auto presale_log_iter = accumulate_presale_log_table.find(master_iter->master.value);
+            if (presale_log_iter == accumulate_presale_log_table.end())
             {
                 start_gacha(sender, ad.type);
             }
@@ -1056,15 +1039,15 @@ ACTION unlimitgacha::eostransfer(eosio::name sender, eosio::name receiver)
                 presale_gacha(sender, ad.type);
 
                 asset gacha_reward(0, symbol(symbol_code("UTG"), 4));
-                if (gacha_participation_iter->gacha_participation < 10) //1만명 제한
+                if (presale_log_iter->accumulate_token_amount < 300000000000) //1만명 제한 test 10명 골드 제한
                 {
                     gacha_reward.amount = 30000000;
                 }
-                else if (gacha_participation_iter->gacha_participation < 40) //3만명 제한
+                else if (presale_log_iter->accumulate_token_amount < 600000000000) //3만명 제한 test 40명 골드 제한
                 {
                     gacha_reward.amount = 20000000;
                 }
-                else if (gacha_participation_iter->gacha_participation < 100) //6만명 제한
+                else if (presale_log_iter->accumulate_token_amount < 600000000000) //6만명 제한 test 100명 골드로 변환
                 {
                     gacha_reward.amount = 10000000;
                 }
@@ -1073,38 +1056,14 @@ ACTION unlimitgacha::eostransfer(eosio::name sender, eosio::name receiver)
                     gacha_reward.amount = 5000000;
                 }
 
-                uint64_t limt_check = gacha_participation_iter->accumulate_token_amount + gacha_reward.amount;
-                if (limt_check <= limit_token_amount)
-                {
-                    if (limt_check == limit_token_amount)
-                    {
-                        participation_log_table.erase(gacha_participation_iter);
-
-                        auth_users user_auth_table(owner, owner.value);
-                        auto owner_iter = user_auth_table.find(master_iter->master.value);
-                        eosio_assert(owner_iter != user_auth_table.end(), "not set gm account");
-
-                        user_auth_table.modify(owner_iter, owner, [&](auto &set_owner_account) {
-                            set_owner_account.state = euser_state::pause;
-                        });
-                    }
-                    else
-                    {
-                        participation_log_table.modify(gacha_participation_iter, owner, [&](auto &update_participation_list) {
-                            update_participation_list.gacha_participation += 1;
-                            update_participation_list.accumulate_token_amount += gacha_reward.amount;
-                        });
-                    }
-
-                    action(permission_level{get_self(), "active"_n},
-                           get_self(), "transfer"_n,
-                           std::make_tuple(owner, sender, gacha_reward, std::string("pre sale gacha reward")))
-                        .send();
-                }
-                else
-                {
-                    eosio_assert(limt_check < limit_token_amount, "end presale");
-                }
+                accumulate_presale_log_table.modify(presale_log_iter, owner, [&](auto &update_participation_list) {
+                    update_participation_list.accumulate_token_amount += gacha_reward.amount;
+                });
+                
+                action(permission_level{get_self(), "active"_n},
+                       get_self(), "transfer"_n,
+                       std::make_tuple(owner, sender, gacha_reward, std::string("presale gacha reward")))
+                    .send();
             }
         }
     });
@@ -1329,10 +1288,10 @@ ACTION unlimitgacha::initprelog()
     master_auth.permission = "owner"_n;
     require_auth(master_auth);
 
-    participation_logs pre_sale_log_table(owner, owner.value);
-    auto iter = pre_sale_log_table.find(master_iter->master.value);
-    eosio_assert(iter != pre_sale_log_table.end(), "not exist presale log data");
-    pre_sale_log_table.erase(iter);
+    accumulate_presale_logs accumulate_presale_log_table(owner, owner.value);
+    auto iter = accumulate_presale_log_table.find(master_iter->master.value);
+    eosio_assert(iter != accumulate_presale_log_table.end(), "not exist presale log data");
+    accumulate_presale_log_table.erase(iter);
 }
 
 
