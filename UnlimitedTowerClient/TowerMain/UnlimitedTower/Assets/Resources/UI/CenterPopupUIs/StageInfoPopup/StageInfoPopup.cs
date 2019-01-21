@@ -141,7 +141,7 @@ public class StageInfoPopup : MonoBehaviour {
                     stagewindowItemList[1].RegisterItem(item);
                     break;
 
-                case MountitemType.Accesory:
+                case MountitemType.Accessory:
                     stagewindowItemList[2].RegisterItem(item);
                     break;
             }

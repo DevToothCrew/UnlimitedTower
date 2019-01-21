@@ -391,7 +391,7 @@ public enum MountitemType
 {
     Weapon,
     Defense,
-    Accesory
+    Accessory
 }
 public enum StatType
 {
