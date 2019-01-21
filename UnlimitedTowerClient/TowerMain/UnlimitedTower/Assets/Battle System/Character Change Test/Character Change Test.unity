@@ -146,9 +146,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartMoney: 1000000
-  StartBetting: 100
+  StartBetting: 10000
   TargetMoney: 100000000
-  SoulCount: 10
+  SoulCount: 100
   WinPercentage: 0
   Performance: 100000
   Player: []
