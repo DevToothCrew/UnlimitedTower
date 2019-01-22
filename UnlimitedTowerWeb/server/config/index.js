@@ -35,14 +35,24 @@ module.exports = {
             error: "red"
         }
     },
+    color: {
+        green : '\x1b[32m',
+        red : '\x1b[31m',
+        yellow : '\x1b[33m',
+        cyan : '\x1b[36m',
+        white : '\x1b[37m',
+        magenta : '\x1b[35m'
+    },
     // EOS configuration
     eos: {
         chainId: 'e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473', // 32 byte (64 char) hex string
         httpEndpoint: 'https://jungle2.cryptolions.io:443',
         expireInSeconds: 60,
         broadcast: true,
-        verbose: true, // API activity
-        sign: true
-        //keyProvider:['5JimHrYDeEJA2LRVEmsT8FeW8qTHrBxpQ6kc1KKKGPMX4qFQkYc']
+        verbose: true // API activity
+    },
+    // Contract list
+    contract : {
+        main : 'unlimittest1'
     }
 };
