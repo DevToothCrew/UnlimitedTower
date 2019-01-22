@@ -23,7 +23,7 @@ ACTION untpreregist::create(eosio::name _issuer, asset _maximum_supply)
 
     stat statstable(owner, sym.code().raw());
     auto existing = statstable.find(sym.code().raw());
-    eosio_assert(existing == statstable.end(), "tokenwith symbol already exists");
+    eosio_assert(existing == statstable.end(), "token symbol already exists");
 
     statstable.emplace(owner, [&](auto &s) {
         s.supply.symbol = _maximum_supply.symbol;
@@ -69,7 +69,7 @@ ACTION untpreregist::transfer(name _from, name _to, asset _quantity, string _mem
 {
     blacklist blacklist_table(owner, owner.value);
     auto blacklist_iter = blacklist_table.find(_from.value);
-    eosio_assert(blacklist_iter == blacklist_table.end(), "this user already exist in black list");
+    eosio_assert(blacklist_iter == blacklist_table.end(), "black list user1");
 
     eosio_assert(_from != _to, "Cannot transfer to self");
     require_auth(_from);
@@ -145,7 +145,7 @@ ACTION untpreregist::dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, ui
 
     auth_users user_auth_table(owner, owner.value);
     auto owner_iter = user_auth_table.find(master_iter->master.value);
-    eosio_assert(owner_iter->state == euser_state::pause, " not server checking");
+    eosio_assert(owner_iter->state == euser_state::pause, "not server checking1");
 
     switch (_kind)
     {
@@ -329,7 +329,7 @@ ACTION untpreregist::dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, ui
 
     auth_users user_auth_table(owner, owner.value);
     auto owner_iter = user_auth_table.find(master_iter->master.value);
-    eosio_assert(owner_iter->state == euser_state::pause, " not server checking");
+    eosio_assert(owner_iter->state == euser_state::pause, "not server checking2");
     switch (_kind)
     {
     case db_index::job:
@@ -472,7 +472,7 @@ void untpreregist::modify_monster_grade(uint32_t _grade, uint32_t _min, uint32_t
 {
     monster_grade_db monster_grade_db_table(owner, owner.value);
     auto monster_grade_iter = monster_grade_db_table.find(_grade);
-    eosio_assert(monster_grade_iter != monster_grade_db_table.end(), "not exist monster grade data");
+    eosio_assert(monster_grade_iter != monster_grade_db_table.end(), "not exist monster grade1");
     monster_grade_db_table.modify(monster_grade_iter, owner, [&](auto &modify_monster_grade) {
         modify_monster_grade.grade = _grade;
         modify_monster_grade.min_range.base_str = _min;
@@ -506,7 +506,7 @@ void untpreregist::modify_item_id(uint32_t _id, uint32_t _type, uint32_t _job, u
 {
     item_id_db item_id_db_table(owner, owner.value);
     auto item_id_iter = item_id_db_table.find(_id);
-    eosio_assert(item_id_iter != item_id_db_table.end(), "not exist item id data");
+    eosio_assert(item_id_iter != item_id_db_table.end(), "not exist item id1");
     item_id_db_table.modify(item_id_iter, owner, [&](auto &modify_item_id) {
         modify_item_id.id = _id;
         modify_item_id.type = _type;
@@ -538,7 +538,7 @@ ACTION untpreregist::dberase(uint32_t _kind, uint32_t _appear, uint32_t _id, uin
 
     auth_users user_auth_table(owner, owner.value);
     auto owner_iter = user_auth_table.find(master_iter -> master.value);
-    eosio_assert(owner_iter->state == euser_state::pause, " not server checking");
+    eosio_assert(owner_iter->state == euser_state::pause, "not server checking3");
 
     switch (_kind)
     {
@@ -660,7 +660,7 @@ void untpreregist::erase_monster_grade(uint32_t _grade)
 {
     monster_grade_db monster_grade_db_table(owner, owner.value);
     auto monster_grade_iter = monster_grade_db_table.find(_grade);
-    eosio_assert(monster_grade_iter != monster_grade_db_table.end(), "not exist monster grade data");
+    eosio_assert(monster_grade_iter != monster_grade_db_table.end(), "not exist monster grade2");
     monster_grade_db_table.erase(monster_grade_iter);
 }
 
@@ -676,7 +676,7 @@ void untpreregist::erase_item_id(uint32_t _id)
 {
     item_id_db item_id_db_table(owner, owner.value);
     auto item_id_iter = item_id_db_table.find(_id);
-    eosio_assert(item_id_iter != item_id_db_table.end(), "not exist item id data");
+    eosio_assert(item_id_iter != item_id_db_table.end(), "not exist item id2");
     item_id_db_table.erase(item_id_iter);
 }
 
@@ -700,7 +700,7 @@ ACTION untpreregist::dbinit()
 
     auth_users user_auth_table(owner, owner.value);
     auto owner_iter = user_auth_table.find(master_iter -> master.value);
-    eosio_assert(owner_iter->state == euser_state::pause, " not server checking");
+    eosio_assert(owner_iter->state == euser_state::pause, "not server checking4");
 
     head_db head_db_table(owner, owner.value);
     hair_db hair_db_table(owner, owner.value);
@@ -797,7 +797,7 @@ ACTION untpreregist::setmaster(eosio::name _master)
     require_auth(owner_auth);
     master master_table(owner, owner.value);
     auto master_iter = master_table.find(_master.value);
-    eosio_assert(master_iter == master_table.end(), "already set master table");
+    eosio_assert(master_iter == master_table.end(), "already set master1");
     master_table.emplace(owner, [&](auto &set_master)
     {
         set_master.master = _master;   
@@ -805,7 +805,7 @@ ACTION untpreregist::setmaster(eosio::name _master)
 
     auth_users user_auth_table(owner, owner.value);
     auto owner_iter = user_auth_table.find(_master.value);
-    eosio_assert(owner_iter == user_auth_table.end(),"already set master");
+    eosio_assert(owner_iter == user_auth_table.end(),"already set master2");
     user_auth_table.emplace(owner, [&](auto &gm_set) {
         gm_set.user = _master;
         gm_set.state = euser_state::lobby;
@@ -849,7 +849,7 @@ void untpreregist::presignup(eosio::name _user, uint64_t _seed)
 {
     auth_users auth_user_table(owner, owner.value);
     auto new_user_iter = auth_user_table.find(_user.value);
-    eosio_assert(new_user_iter == auth_user_table.end(), "this user already signup in preregist signup");
+    eosio_assert(new_user_iter == auth_user_table.end(), "user already signup1");
     auth_user_table.emplace(owner, [&](auto &new_user) {
         new_user.user = _user;
         new_user.state = euser_state::pre_regist;
@@ -863,22 +863,21 @@ void untpreregist::presignup(eosio::name _user, uint64_t _seed)
 
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter == user_log_table.end(), "this user already signup in preregist signup");
+    eosio_assert(user_log_iter == user_log_table.end(), "user already signup2");
     user_log_table.emplace(owner, [&](auto &new_log) {
         new_log.user = _user;
     });
 
-    uint64_t user = _user.value;
+    uint64_t user = _user.value + now();
     uint64_t seed = safeseed::get_seed_value(user, _seed);
 
-    //uint64_t seed = safeseed::get_seed(owner.value, _user.value);
 
     monster_random_count += 1;
     uint32_t random_rate = safeseed::get_random_value(seed, max_rate, default_min, monster_random_count);
     uint32_t random_grade = get_random_grade(random_rate);
 
     monster_grade_db monster_grade_db_table(owner, owner.value);
-    const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "not exist monster grade");
+    const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "not exist monster grade3");
 
     user_preregist_monsters user_monster_table(owner, _user.value);
     user_monster_table.emplace(owner, [&](auto &update_user_monster_list) {
@@ -907,7 +906,7 @@ void untpreregist::signup(eosio::name _user)
 {
     auth_users auth_user_table(owner, owner.value);
     auto new_user_iter = auth_user_table.find(_user.value);
-    eosio_assert(new_user_iter == auth_user_table.end(), "this user already exist in signup");
+    eosio_assert(new_user_iter == auth_user_table.end(), "user already signup2");
 
     auth_user_table.emplace(owner, [&](auto &new_user) {
         new_user.user = _user;
@@ -922,7 +921,7 @@ void untpreregist::signup(eosio::name _user)
 
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter == user_log_table.end(), "this user already exist in signup");
+    eosio_assert(user_log_iter == user_log_table.end(), "user already signup3");
     user_log_table.emplace(owner, [&](auto &new_log) {
         new_log.user = _user;
     });
@@ -936,12 +935,12 @@ ACTION untpreregist::preregistmov(eosio::name _user)
 
     auth_users auth_user_table(owner, owner.value);
     auto owner_iter = auth_user_table.find(master_iter->master.value);
-    eosio_assert(owner_iter != auth_user_table.end(),"not set owner");
-    eosio_assert(owner_iter->state != euser_state::pause, " server checking... ");
+    eosio_assert(owner_iter != auth_user_table.end(),"not set master1");
+    eosio_assert(owner_iter->state != euser_state::pause, " server checking6 ");
 
     blacklist blacklist_table(owner, owner.value);
     auto blacklist_iter = blacklist_table.find(_user.value);
-    eosio_assert(blacklist_iter == blacklist_table.end(), "this user already exist in black list");
+    eosio_assert(blacklist_iter == blacklist_table.end(), "black list user2");
 
     total_token_logs total_token_log_table(owner, owner.value);
     auto total_token_log_iter = total_token_log_table.find(master_iter->master.value);
@@ -1021,12 +1020,12 @@ ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
 
     auth_users auth_user_table(owner, owner.value);
     auto owner_iter = auth_user_table.find(master_iter->master.value);
-    eosio_assert(owner_iter != auth_user_table.end(),"not set owner");
-    eosio_assert(owner_iter->state != euser_state::pause, " server checking... ");
+    eosio_assert(owner_iter != auth_user_table.end(),"not set master2");
+    eosio_assert(owner_iter->state != euser_state::pause, "server checking");
 
     blacklist blacklist_table(owner, owner.value);
     auto blacklist_iter = blacklist_table.find(sender.value);
-    eosio_assert(blacklist_iter == blacklist_table.end(), "this user already exist in black list");
+    eosio_assert(blacklist_iter == blacklist_table.end(), "black list user3");
 
     eosiotoken_transfer(sender, receiver, [&](const auto &ad) {
         eosio_assert(ad.action.size() != 0,"wrong action");
@@ -1142,7 +1141,7 @@ void untpreregist::eosiotoken_transfer(eosio::name sender, eosio::name receiver,
         user_logs user_log_table(owner, owner.value);
         auto user_log_iter = user_log_table.find(sender.value);
 
-        eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data in eosiotoken transfer");
+        eosio_assert(user_log_iter != user_log_table.end(), "not exist user log1");
         user_log_table.modify(user_log_iter, owner, [&](auto &buy_log) {
             buy_log.use_eos += transfer_data.quantity.amount;
         });
@@ -1161,7 +1160,7 @@ void untpreregist::eosiotoken_transfer(eosio::name sender, eosio::name receiver,
 
         res.type = safeseed::check_seed(l_seed, l_sha);
 
-        eosio_assert(res.type != 0, "wrong seed convert");
+        eosio_assert(res.type != 0, "wrong seed");
     }
     else if (res.action == "signup")
     {
@@ -1173,12 +1172,12 @@ void untpreregist::eosiotoken_transfer(eosio::name sender, eosio::name receiver,
         if (owner != sender)
         {
             auto master_iter = master_table.find(sender.value);
-            eosio_assert(master_iter != master_table.end(), "impossible send to this contract");
+            eosio_assert(master_iter != master_table.end(), "impossible send EOS");
         }
         else
         {
             auto master_iter = master_table.find(receiver.value);
-            eosio_assert(master_iter != master_table.end(), "receiver is not master");
+            eosio_assert(master_iter != master_table.end(), "impossible recv EOS");
         }
         // uint32_t error_code = 0;
         // eosio_assert(error_code != 0 , " impossible send to this contract ");
@@ -1194,7 +1193,7 @@ ACTION untpreregist::initmaster(eosio::name _master)
 {
     master master_table(owner,owner.value);
     auto master_iter = master_table.find(_master.value);
-    eosio_assert(master_iter != master_table.end(),"not set master");
+    eosio_assert(master_iter != master_table.end(),"not set master5");
     permission_level master_auth;
     master_auth.actor = master_iter->master;
     master_auth.permission = "owner"_n;
@@ -1204,7 +1203,7 @@ ACTION untpreregist::initmaster(eosio::name _master)
 
     auth_users user_auth_table(owner, owner.value);
     auto owner_iter = user_auth_table.find(_master.value);
-    eosio_assert(owner_iter != user_auth_table.end(), "not set master");
+    eosio_assert(owner_iter != user_auth_table.end(), "not set master6");
     user_auth_table.erase(owner_iter);
 }
 
@@ -1232,12 +1231,12 @@ void untpreregist::delete_user_data(eosio::name _user)
 {
     auth_users auth_user_table(owner, owner.value);
     auto user_auth_iter = auth_user_table.find(_user.value);
-    eosio_assert(user_auth_iter != auth_user_table.end(), "not exist user auth data");
+    eosio_assert(user_auth_iter != auth_user_table.end(), "not exist user auth1");
     auth_user_table.erase(user_auth_iter);
 
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter != user_log_table.end(), "not exist user auth data");
+    eosio_assert(user_log_iter != user_log_table.end(), "not exist user auth2");
     if(user_log_iter->gacha_num != 0)
     {
         delete_user_gacha_result_data(_user);
@@ -1446,7 +1445,7 @@ void untpreregist::gacha_servant_id(eosio::name _user, uint64_t _seed)
 
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data in gacha servant");
+    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log2");
  
     result_info result;
     user_servants user_servant_table(owner, _user.value);
@@ -1550,18 +1549,18 @@ void untpreregist::gacha_monster_id(eosio::name _user, uint64_t _seed)
     monster_id_db monster_id_db_table(owner, owner.value);
     uint32_t random_monster_id = safeseed::get_random_value(_seed, monster_id_count, default_min, monster_random_count);
     random_monster_id += 20000;
-    const auto &monster_id_db_iter = monster_id_db_table.get(random_monster_id, "not exist monster id");
+    const auto &monster_id_db_iter = monster_id_db_table.get(random_monster_id, "not exist monster id1");
 
     monster_random_count += 1;
     uint32_t random_rate = safeseed::get_random_value(_seed, max_rate, default_min, monster_random_count);
     uint32_t random_grade = get_random_grade(random_rate);
 
     monster_grade_db monster_grade_db_table(owner, owner.value);
-    const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "not exist monster grade");
+    const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "not exist monster grade4");
 
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data in gacha monster");
+    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log3");
 
     result_info result;
     user_monsters user_monster_table(owner, _user.value);
@@ -1638,18 +1637,18 @@ void untpreregist::gacha_item_id(eosio::name _user, uint64_t _seed)
     item_id_db item_id_db_table(owner, owner.value);
     uint32_t random_item_id = safeseed::get_random_value(_seed, item_id_count, default_min, item_random_count);
     random_item_id += 30000;
-    const auto &item_id_db_iter = item_id_db_table.get(random_item_id, "not exist item id");
+    const auto &item_id_db_iter = item_id_db_table.get(random_item_id, "not exist item id3");
 
     item_random_count += 1;
     uint32_t random_rate = safeseed::get_random_value(_seed, max_rate, default_min, item_random_count);
     uint32_t random_grade = get_random_grade(random_rate);
 
     item_grade_db item_grade_db_table(owner, owner.value);
-    const auto &item_grade_db_iter = item_grade_db_table.get(random_grade, "not exist tier info");
+    const auto &item_grade_db_iter = item_grade_db_table.get(random_grade, "not exist tier");
 
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data in gacha item");
+    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log4");
 
     result_info result;
     user_items user_item_table(owner, _user.value);
@@ -1725,8 +1724,12 @@ void untpreregist::gacha_item_id(eosio::name _user, uint64_t _seed)
 uint64_t untpreregist::get_user_seed_value(uint64_t _user)
 {
     user_logs user_log_table(owner, owner.value);
-    const auto &user_log_iter = user_log_table.get(_user, "not exist log in login seed");
-    uint64_t user = _user + user_log_iter.gacha_num;
+    const auto &user_log_iter = user_log_table.get(_user, "not exist log2");
+    uint64_t user = _user + user_log_iter.gacha_num + now();
+    if(user <= _user)
+    {
+        user = user_log_iter.gacha_num + now();
+    }
     return user;
 }
 
@@ -1734,7 +1737,7 @@ void untpreregist::start_gacha(eosio::name _user, uint64_t _seed)
 {
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter != user_log_table.end(), "unknown account");
+    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log8");
 
     uint64_t l_user = get_user_seed_value(_user.value);
     uint64_t l_seed = safeseed::get_seed_value(l_user, _seed);
@@ -1791,7 +1794,7 @@ void untpreregist::preregist_servant_id(eosio::name _user, uint64_t _seed)
 
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data in pre gacha servant");
+    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log5");
 
     result_info result;
     user_preregist_servants user_servant_table(owner, _user.value);
@@ -1863,18 +1866,18 @@ void untpreregist::preregist_monster_id(eosio::name _user, uint64_t _seed)
     monster_id_db monster_id_db_table(owner, owner.value);
     uint64_t random_monster_id = safeseed::get_random_value(_seed, monster_id_count, DEFAULT_MIN_DB, monster_random_count);
     random_monster_id += 20000;
-    const auto &monster_id_db_iter = monster_id_db_table.get(random_monster_id, "not exist monster id");
+    const auto &monster_id_db_iter = monster_id_db_table.get(random_monster_id, "not exist monster id2");
 
     monster_random_count += 1;
     uint32_t random_rate = safeseed::get_random_value(_seed, max_rate, default_min, monster_random_count);
     uint32_t random_grade = get_random_grade(random_rate);
 
     monster_grade_db monster_grade_db_table(owner, owner.value);
-    const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "not exist monster grade");
+    const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "not exist monster grade5");
 
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data in pre gacha monster");
+    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log6");
 
     result_info result;
     user_preregist_monsters user_monster_table(owner, _user.value);
@@ -1946,7 +1949,7 @@ void untpreregist::preregist_item_id(eosio::name _user, uint64_t _seed)
     item_id_db item_id_db_table(owner, owner.value);
     uint64_t random_item_id = safeseed::get_random_value(_seed, item_id_count, DEFAULT_MIN_DB, item_random_count);
     random_item_id += 30000;
-    const auto &item_id_db_iter = item_id_db_table.get(random_item_id, "not exist item id");
+    const auto &item_id_db_iter = item_id_db_table.get(random_item_id, "not exist item id4");
 
     item_random_count += 1;
     uint32_t random_rate = safeseed::get_random_value(_seed, max_rate, default_min, item_random_count);
@@ -1957,7 +1960,7 @@ void untpreregist::preregist_item_id(eosio::name _user, uint64_t _seed)
 
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data in pre gacha item");
+    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log7");
 
     result_info result;
     user_preregist_items user_item_table(owner, _user.value);
@@ -2063,7 +2066,7 @@ ACTION untpreregist::deleteblack(eosio::name _user)
 
     blacklist blacklist_table(owner, owner.value);
     auto blacklist_iter = blacklist_table.find(_user.value);
-    eosio_assert(blacklist_iter != blacklist_table.end(), "this user not exist in black list");
+    eosio_assert(blacklist_iter != blacklist_table.end(), "user not black list");
 
     blacklist_table.erase(blacklist_iter);
 }
@@ -2080,7 +2083,7 @@ ACTION untpreregist::addblack(eosio::name _user)
 
     blacklist blacklist_table(owner, owner.value);
     auto blacklist_iter = blacklist_table.find(_user.value);
-    eosio_assert(blacklist_iter == blacklist_table.end(), "this user already exist in black list");
+    eosio_assert(blacklist_iter == blacklist_table.end(), "black list user4");
 
     blacklist_table.emplace(owner, [&](auto &new_black_user) {
         new_black_user.user = _user;
@@ -2103,7 +2106,7 @@ ACTION untpreregist::setpause(uint64_t _state)
 
     auth_users user_auth_table(owner, owner.value);
     auto owner_iter = user_auth_table.find(master_iter->master.value);
-    eosio_assert(owner_iter != user_auth_table.end(), "not set gm account");
+    eosio_assert(owner_iter != user_auth_table.end(), "not set master7");
 
     user_auth_table.modify(owner_iter, owner, [&](auto &set_owner_account) {
         set_owner_account.state = _state;
