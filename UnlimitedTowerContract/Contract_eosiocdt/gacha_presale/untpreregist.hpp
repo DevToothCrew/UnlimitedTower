@@ -2,15 +2,15 @@
 
 //즐겨찾기 
 //테이블 
-//db_table, token_table, gacha_table, login_table, black_list_table
+//db_table, token_table, gacha_table, login_table, blacklist_table
 //시스템 
-//db_system, token_system, login_system, gacha_system, init_function, delete_function, pre_sale_function ,black_list_system
+//db_system, token_system, login_system, gacha_system, init_function, delete_function, preregist_function ,blacklist_system
 //로그
-//presale_log_table, user_log_table
+//preregist_log_table, user_log_table
 //컨트랙트 계정용 
 //owner_system
 
-CONTRACT unlimitgacha : public contract
+CONTRACT untpreregist : public contract
 {
   public:
 #pragma resgion contract constructor
@@ -18,7 +18,7 @@ CONTRACT unlimitgacha : public contract
     eosio::name owner;
     permission_level owner_auth;
     
-    unlimitgacha(eosio::name _self, eosio::name _code, datastream<const char *> ds) : contract(_self, _code, ds)
+    untpreregist(eosio::name _self, eosio::name _code, datastream<const char *> ds) : contract(_self, _code, ds)
     {
         owner = _self;
         owner_auth.actor = _self;
@@ -135,7 +135,17 @@ CONTRACT unlimitgacha : public contract
     typedef eosio::multi_index<"dbservantid"_n, dbservantid> servant_id_db;
 #pragma endregion
 
-enum db_choice
+#pragma region db dbgraderatio
+    TABLE dbgraderatio
+    {
+        uint64_t grade;
+        uint64_t ratio;
+        uint64_t primary_key() const { return grade; }
+    };
+    typedef eosio::multi_index<"dbgraderatio"_n, dbgraderatio> grade_ratio_db;
+#pragma endregion
+
+enum db_index
 {
     job =1, 
     body,
@@ -147,6 +157,7 @@ enum db_choice
     monster_grade,
     item_id,
     item_grade,
+    grade_ratio,
 };
 
     //------------------------------------------------------------------------//
@@ -154,13 +165,13 @@ enum db_choice
     //------------------------------------------------------------------------//
   private:
 #pragma region db values
-    const uint8_t servant_job_count = 4;
-    const uint8_t monster_id_count = 51;
-    const uint8_t item_id_count = 37;
-    const uint8_t head_count = 4;
-    const uint8_t hair_count = 4;
-    const uint8_t body_count = 3;
-    const uint8_t gender_count = 3;
+    const uint32_t servant_job_count = 4;
+    const uint32_t monster_id_count = 51;
+    const uint32_t item_id_count = 37;
+    const uint32_t head_count = 4;
+    const uint32_t hair_count = 4;
+    const uint32_t body_count = 3;
+    const uint32_t gender_count = 3;
     uint32_t random_count = 0;
 #pragma endregion
 
@@ -175,9 +186,9 @@ enum db_choice
 
     ACTION setmaster(eosio::name _master);
     ACTION initmaster(eosio::name _master);
-    ACTION setpresale();
-    ACTION dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max);
-    ACTION dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max);
+    ACTION setpreregist();
+    ACTION dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max, uint32_t _ratio);
+    ACTION dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max, uint32_t _ratio);
     ACTION dberase(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max);
     ACTION dbinit();
 #pragma endregion
@@ -195,6 +206,8 @@ enum db_choice
     void insert_monster_grade(uint32_t _grade, uint32_t _min, uint32_t _max);
     void insert_item_id(uint32_t id, uint32_t type, uint32_t _job, uint32_t tier);
     void insert_item_grade(uint32_t _grade, uint32_t _min, uint32_t _max); 
+    void insert_grade_ratio(uint32_t _grade, uint32_t _ratio);
+
 
     void modify_job(uint32_t _job, uint32_t _min, uint32_t _max);
     void modify_head(uint32_t _appear);
@@ -206,6 +219,7 @@ enum db_choice
     void modify_monster_grade(uint32_t _grade, uint32_t _min, uint32_t _max);
     void modify_item_id(uint32_t id, uint32_t type, uint32_t _job, uint32_t tier);
     void modify_item_grade(uint32_t _grade, uint32_t _min, uint32_t _max); 
+    void modify_grade_ratio(uint32_t _grade, uint32_t _ratio);
 
     void erase_job(uint32_t _job);
     void erase_head(uint32_t _appear);
@@ -217,6 +231,7 @@ enum db_choice
     void erase_monster_grade(uint32_t _grade);
     void erase_item_id(uint32_t id);
     void erase_item_grade(uint32_t _grade);
+    void erase_grade_ratio(uint32_t _grade);
 
 #pragma endregion
 
@@ -297,6 +312,7 @@ enum db_choice
         uint32_t id;
         uint32_t state;                   //서번트 상태
         uint32_t exp = 0;                 //서번트 경험치
+        appear_info appear;
         uint32_t stat_point = 0;
         status_info status;               //기본 힘,민,지 추가 힘,민,지
         std::vector<uint32_t> equip_slot; //서번트 장비 리스트
@@ -319,7 +335,7 @@ enum db_choice
         uint64_t primary_key() const { return index; }
     };
 
-    typedef eosio::multi_index<"preservant"_n, preservant> user_pre_sale_servants;
+    typedef eosio::multi_index<"preservant"_n, preservant> user_preregist_servants;
 #pragma endregion
 
 #pragma region gacha tmonster
@@ -353,7 +369,7 @@ enum db_choice
         uint64_t primary_key() const { return index; }
     };
 
-    typedef eosio::multi_index<"premonster"_n, premonster> user_pre_sale_monsters;
+    typedef eosio::multi_index<"premonster"_n, premonster> user_preregist_monsters;
 #pragma endregion
 
 #pragma region gacha titem
@@ -391,7 +407,7 @@ enum db_choice
         uint32_t main_status;
         uint64_t primary_key() const { return index; }
     };
-    typedef eosio::multi_index<"preitem"_n, preitem> user_pre_sale_items;
+    typedef eosio::multi_index<"preitem"_n, preitem> user_preregist_items;
 #pragma endregion
 
 #pragma region gacha tgacharesult
@@ -417,15 +433,15 @@ enum db_choice
     typedef eosio::multi_index<"tgacharesult"_n, tgacharesult> user_gacha_results;
 #pragma endregion
 
-#pragma region gacha taccumulate
+#pragma region gacha ttotalgacha
 
-    TABLE taccumulate
+    TABLE ttotalgacha
     {
         eosio::name user;
         std::vector<result_info> result_list;
         uint64_t primary_key() const { return user.value; }
     };
-    typedef eosio::multi_index<"taccumulate"_n, taccumulate> user_gacha_accumulates;
+    typedef eosio::multi_index<"ttotalgacha"_n, ttotalgacha> user_gacha_totals;
 
 #pragma endregion
 
@@ -435,7 +451,7 @@ enum db_choice
   private:
 #pragma region gacha values
     const char *action_gacha="gacha";
-    const char *action_presale_signup="presalesignup";
+    const char *action_preregist_signup="presignup";
     const char *action_signup="signup";
 
     uint32_t servant_random_count;
@@ -445,14 +461,9 @@ enum db_choice
     const uint32_t default_min = 0;
     const uint32_t max_rate = 1000;
 
-    
-    const uint32_t one_grade_ratio = 32; //3.2 %
-    const uint32_t two_grade_ratio = 97; //6.5 %
-    const uint32_t three_grade_ratio = 226; //12.9 %
-    const uint32_t four_grade_ratio = 484; //25.8 %
-    const uint32_t five_grade_ratio = 1000; //51.6 %
 
-    const uint64_t limit_token_amount = 15000000000;
+
+    const uint64_t limit_token_amount = 800000000;
 
 #pragma endregion
 
@@ -471,29 +482,27 @@ enum db_choice
     uint64_t get_user_seed_value(uint64_t _user);
 
     void start_gacha(eosio::name _user, uint64_t _seed);
-//-----------------------------pre_sale_function--------------------------------//
-    
-    void presale_gacha_servant_id(eosio::name _user, uint64_t _seed);
-    void presale_gacha_monster_id(eosio::name _user, uint64_t _seed);
-    void presale_gacha_item_id(eosio::name _user, uint64_t _seed);
-    void presale_gacha(eosio::name _user, uint64_t _seed);
+//-----------------------------preregist_function--------------------------------//
+    void preregist_servant_id(eosio::name _user, uint64_t _seed);
+    void preregist_monster_id(eosio::name _user, uint64_t _seed);
+    void preregist_item_id(eosio::name _user, uint64_t _seed);
+    void preregist_gacha(eosio::name _user, uint64_t _seed);
 
 #pragma endregion
 
 
 
 //------------------------------------------------------------------------//
-//--------------------------presale_log_table----------------------------//
+//--------------------------preregist_log_table----------------------------//
 //------------------------------------------------------------------------//
-#pragma region presale table log
-TABLE presalelog
+#pragma region tokenlog table log
+TABLE tokenlog
 {   
     eosio::name owner;
-    uint64_t gacha_participation = 0;
-    uint64_t accumulate_token_amount = 0;
+    uint64_t total_token_amount = 0;
     uint64_t primary_key() const { return owner.value; }
 };
-    typedef eosio::multi_index<"presalelog"_n, presalelog> participation_logs;
+    typedef eosio::multi_index<"tokenlog"_n, tokenlog> total_token_logs;
 #pragma endregion
 //------------------------------------------------------------------------//
 //------------------------------user_log_table----------------------------//
@@ -532,7 +541,7 @@ TABLE presalelog
 #pragma region login enum
     enum euser_state
     {        
-        presale = 1,        
+        pre_regist = 1,        
         lobby,
         battle,
         battle_win,
@@ -558,7 +567,7 @@ TABLE presalelog
         on_equip_slot,
         on_party,
         on_tower,
-        object_presale,
+        object_preregist,
     };
 #pragma endregion
 
@@ -637,9 +646,9 @@ TABLE presalelog
 
 #pragma region login action
     ACTION eostransfer(eosio::name sender, eosio::name receiver);
-    void presalesign(eosio::name _user, uint64_t _seed);
+    void presignup(eosio::name _user, uint64_t _seed);
     void signup(eosio::name _user);
-    ACTION presalemove(eosio::name _user);
+    ACTION preregistmov(eosio::name _user);
 #pragma endregion
 
     //------------------------------------------------------------------------//
@@ -654,24 +663,24 @@ ACTION initprelog();
 void delete_user_data(eosio::name _user);
 void delete_user_object_data(eosio::name _user);
 void delete_user_gacha_result_data(eosio::name _user);
-void delete_user_presale_data(eosio::name _user);
+void delete_user_preregist_data(eosio::name _user);
 ACTION deleteuser(eosio::name _user);
 
     //------------------------------------------------------------------------//
-    //-----------------------------black_list_table---------------------------//
+    //-----------------------------blacklist_table---------------------------//
     //------------------------------------------------------------------------//
-#pragma region black_list table tblacklist
+#pragma region blacklist table tblacklist
     TABLE tblacklist
     {
         eosio::name user;
         uint64_t primary_key() const { return user.value; }
     };
-    typedef eosio::multi_index<"tblacklist"_n, tblacklist> black_list;
+    typedef eosio::multi_index<"tblacklist"_n, tblacklist> blacklist;
 #pragma endregion
     //------------------------------------------------------------------------//
-    //——————————————black_list_system—————————————//
+    //——————————————blacklist_system—————————————//
     //————————————————————————————————————//
-#pragma region black_list action
+#pragma region blacklist action
 
 ACTION deleteblack(eosio::name _user);
 ACTION addblack(eosio::name _user);
