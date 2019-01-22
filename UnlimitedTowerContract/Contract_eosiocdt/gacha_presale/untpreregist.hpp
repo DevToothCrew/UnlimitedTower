@@ -6,7 +6,7 @@
 //시스템 
 //db_system, token_system, login_system, gacha_system, init_function, delete_function, preregist_function ,blacklist_system
 //로그
-//presale_log_table, user_log_table
+//preregist_log_table, user_log_table
 //컨트랙트 계정용 
 //owner_system
 
@@ -451,7 +451,7 @@ enum db_index
   private:
 #pragma region gacha values
     const char *action_gacha="gacha";
-    const char *action_presale_signup="presignup";
+    const char *action_preregist_signup="presignup";
     const char *action_signup="signup";
 
     uint32_t servant_random_count;
@@ -494,16 +494,16 @@ enum db_index
 
 
 //------------------------------------------------------------------------//
-//--------------------------presale_log_table----------------------------//
+//--------------------------preregist_log_table----------------------------//
 //------------------------------------------------------------------------//
-#pragma region presale table log
-TABLE presalelog
+#pragma region tokenlog table log
+TABLE tokenlog
 {   
     eosio::name owner;
     uint64_t total_token_amount = 0;
     uint64_t primary_key() const { return owner.value; }
 };
-    typedef eosio::multi_index<"presalelog"_n, presalelog> total_presale_logs;
+    typedef eosio::multi_index<"tokenlog"_n, tokenlog> total_token_logs;
 #pragma endregion
 //------------------------------------------------------------------------//
 //------------------------------user_log_table----------------------------//
@@ -542,7 +542,7 @@ TABLE presalelog
 #pragma region login enum
     enum euser_state
     {        
-        presale = 1,        
+        pre_regist = 1,        
         lobby,
         battle,
         battle_win,
@@ -568,7 +568,7 @@ TABLE presalelog
         on_equip_slot,
         on_party,
         on_tower,
-        object_presale,
+        object_preregist,
     };
 #pragma endregion
 
@@ -649,7 +649,7 @@ TABLE presalelog
     ACTION eostransfer(eosio::name sender, eosio::name receiver);
     void presignup(eosio::name _user, uint64_t _seed);
     void signup(eosio::name _user);
-    ACTION presalemove(eosio::name _user);
+    ACTION preregistmov(eosio::name _user);
 #pragma endregion
 
     //------------------------------------------------------------------------//
@@ -664,7 +664,7 @@ ACTION initprelog();
 void delete_user_data(eosio::name _user);
 void delete_user_object_data(eosio::name _user);
 void delete_user_gacha_result_data(eosio::name _user);
-void delete_user_presale_data(eosio::name _user);
+void delete_user_preregist_data(eosio::name _user);
 ACTION deleteuser(eosio::name _user);
 
     //------------------------------------------------------------------------//

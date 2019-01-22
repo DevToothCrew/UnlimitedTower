@@ -829,10 +829,10 @@ ACTION untpreregist::setpreregist()
     master_auth.permission = "owner"_n;
     require_auth(master_auth);
 
-    total_presale_logs total_presale_log_table(owner, owner.value);
-    auto participation_log_iter = total_presale_log_table.find(master_iter->master.value);
-    eosio_assert(participation_log_iter == total_presale_log_table.end(),"already set presale log");
-    total_presale_log_table.emplace(owner, [&](auto &preregist) {
+    total_token_logs total_token_log_table(owner, owner.value);
+    auto total_token_log_iter = total_token_log_table.find(master_iter->master.value);
+    eosio_assert(total_token_log_iter == total_token_log_table.end(),"already set preregist log");
+    total_token_log_table.emplace(owner, [&](auto &preregist) {
         preregist.owner = master_iter->master;
     });
 }
@@ -849,10 +849,10 @@ void untpreregist::presignup(eosio::name _user, uint64_t _seed)
 {
     auth_users auth_user_table(owner, owner.value);
     auto new_user_iter = auth_user_table.find(_user.value);
-    eosio_assert(new_user_iter == auth_user_table.end(), "this user already signup in presale signup");
+    eosio_assert(new_user_iter == auth_user_table.end(), "this user already signup in preregist signup");
     auth_user_table.emplace(owner, [&](auto &new_user) {
         new_user.user = _user;
-        new_user.state = euser_state::presale;
+        new_user.state = euser_state::pre_regist;
 
         hero_info first_hero;
         first_hero.equip_slot.resize(max_equip_slot);
@@ -863,7 +863,7 @@ void untpreregist::presignup(eosio::name _user, uint64_t _seed)
 
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter == user_log_table.end(), "this user already signup in presale signup");
+    eosio_assert(user_log_iter == user_log_table.end(), "this user already signup in preregist signup");
     user_log_table.emplace(owner, [&](auto &new_log) {
         new_log.user = _user;
     });
@@ -927,7 +927,7 @@ void untpreregist::signup(eosio::name _user)
         new_log.user = _user;
     });
 }
-ACTION untpreregist::presalemove(eosio::name _user)
+ACTION untpreregist::preregistmov(eosio::name _user)
 {
     eosio::require_auth(_user);
 
@@ -943,13 +943,13 @@ ACTION untpreregist::presalemove(eosio::name _user)
     auto blacklist_iter = blacklist_table.find(_user.value);
     eosio_assert(blacklist_iter == blacklist_table.end(), "this user already exist in black list");
 
-    total_presale_logs total_presale_log_table(owner, owner.value);
-    auto presale_log_iter = total_presale_log_table.find(master_iter->master.value);
-    eosio_assert(presale_log_iter == total_presale_log_table.end(), "It is still a presale period");
+    total_token_logs total_token_log_table(owner, owner.value);
+    auto total_token_log_iter = total_token_log_table.find(master_iter->master.value);
+    eosio_assert(total_token_log_iter == total_token_log_table.end(), "It is still a preregist period");
 
     auto pre_user_iter = auth_user_table.find(_user.value);
-    eosio_assert(pre_user_iter != auth_user_table.end(), "You are not a presales participant");
-    eosio_assert(pre_user_iter->state == euser_state::presale, "already move object");
+    eosio_assert(pre_user_iter != auth_user_table.end(), "You are not a preregists participant");
+    eosio_assert(pre_user_iter->state == euser_state::pre_regist, "already move object");
 
     auth_user_table.modify(pre_user_iter, owner, [&](auto &pre_user_move_object) {
         pre_user_move_object.state = euser_state::lobby;
@@ -1007,7 +1007,7 @@ ACTION untpreregist::presalemove(eosio::name _user)
 
         user_item_iter++;
     }
-    delete_user_presale_data(_user);
+    delete_user_preregist_data(_user);
 }
 
 // eosio.token recipient
@@ -1032,45 +1032,45 @@ ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
         eosio_assert(ad.action.size() != 0,"wrong action");
         if (ad.action == action_signup)
         {
-            total_presale_logs total_presale_log_table(owner, owner.value);
-            auto presale_log_iter = total_presale_log_table.find(master_iter->master.value);
-            eosio_assert(presale_log_iter == total_presale_log_table.end(), "need to presale signup");
+            total_token_logs total_token_log_table(owner, owner.value);
+            auto total_token_log_iter = total_token_log_table.find(master_iter->master.value);
+            eosio_assert(total_token_log_iter == total_token_log_table.end(), "need to preregist signup");
 
             signup(sender);
         }
-        else if (ad.action == action_presale_signup)
+        else if (ad.action == action_preregist_signup)
         {
-            total_presale_logs total_presale_log_table(owner, owner.value);
-            auto presale_log_iter = total_presale_log_table.find(master_iter->master.value);
-            eosio_assert(presale_log_iter != total_presale_log_table.end(), "pre sale time over");
+            total_token_logs total_token_log_table(owner, owner.value);
+            auto total_token_log_iter = total_token_log_table.find(master_iter->master.value);
+            eosio_assert(total_token_log_iter != total_token_log_table.end(), "pre sale time over");
 
             presignup(sender, ad.type);
 
-            asset presale_signup_reward(0, symbol(symbol_code("UTG"), 4));
-            presale_signup_reward.amount = 30000000; // 3000 UTG
+            asset preregist_signup_reward(0, symbol(symbol_code("UTG"), 4));
+            preregist_signup_reward.amount = 30000000; // 3000 UTG
 
-            uint64_t limt_check = presale_log_iter->total_token_amount + presale_signup_reward.amount;
+            uint64_t limt_check = total_token_log_iter->total_token_amount + preregist_signup_reward.amount;
             if (limt_check <= limit_token_amount)
             {
-                total_presale_log_table.modify(presale_log_iter, owner, [&](auto &update_participation_list) {
-                    update_participation_list.total_token_amount += presale_signup_reward.amount;
+                total_token_log_table.modify(total_token_log_iter, owner, [&](auto &update_participation_list) {
+                    update_participation_list.total_token_amount += preregist_signup_reward.amount;
                 });
 
                 action(permission_level{get_self(), "active"_n},
                        get_self(), "transfer"_n,
-                       std::make_tuple(owner, sender, presale_signup_reward, std::string("presale signup reward")))
+                       std::make_tuple(owner, sender, preregist_signup_reward, std::string("preregist signup reward")))
                     .send();
             }
             else
             {
-                eosio_assert(limt_check < limit_token_amount, "end presale");
+                eosio_assert(limt_check < limit_token_amount, "end preregist");
             }
         }
         else if (ad.action == action_gacha)
         {
-            total_presale_logs total_presale_log_table(owner, owner.value);
-            auto presale_log_iter = total_presale_log_table.find(master_iter->master.value);
-            if (presale_log_iter == total_presale_log_table.end())
+            total_token_logs total_token_log_table(owner, owner.value);
+            auto total_token_log_iter = total_token_log_table.find(master_iter->master.value);
+            if (total_token_log_iter == total_token_log_table.end())
             {
                 start_gacha(sender, ad.type);
             }
@@ -1079,15 +1079,15 @@ ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
                 preregist(sender, ad.type);
 
                 asset gacha_reward(0, symbol(symbol_code("UTG"), 4));
-                if (presale_log_iter->total_token_amount < 150000000) //1만eos 제한 300000000000
+                if (total_token_log_iter->total_token_amount < 150000000) //1만eos 제한 300000000000
                 {
                     gacha_reward.amount = 30000000;
                 }
-                else if (presale_log_iter->total_token_amount < 450000000) //3만eos 제한 900000000000
+                else if (total_token_log_iter->total_token_amount < 450000000) //3만eos 제한 900000000000
                 {
                     gacha_reward.amount = 20000000;
                 }
-                else if (presale_log_iter->total_token_amount < 750000000) //6만eos 제한 1500000000000
+                else if (total_token_log_iter->total_token_amount < 750000000) //6만eos 제한 1500000000000
                 {
                     gacha_reward.amount = 10000000;
                 }
@@ -1096,13 +1096,13 @@ ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
                     gacha_reward.amount = 5000000;
                 }
 
-                total_presale_log_table.modify(presale_log_iter, owner, [&](auto &update_participation_list) {
+                total_token_log_table.modify(total_token_log_iter, owner, [&](auto &update_participation_list) {
                     update_participation_list.total_token_amount += gacha_reward.amount;
                 });
 
                 action(permission_level{get_self(), "active"_n},
                        get_self(), "transfer"_n,
-                       std::make_tuple(owner, sender, gacha_reward, std::string("presale gacha reward")))
+                       std::make_tuple(owner, sender, gacha_reward, std::string("preregist gacha reward")))
                     .send();
             }
         }
@@ -1224,7 +1224,7 @@ ACTION untpreregist::deleteuser(eosio::name _user)
 
     delete_user_data(_user);
     delete_user_object_data(_user);
-    delete_user_presale_data(_user);
+    delete_user_preregist_data(_user);
     delete_user_balance(_user);
 }
 
@@ -1272,7 +1272,7 @@ void untpreregist::delete_user_object_data(eosio::name _user)
     }
 }
 
-void untpreregist::delete_user_presale_data(eosio::name _user)
+void untpreregist::delete_user_preregist_data(eosio::name _user)
 {
     user_preregist_servants user_servant_table(owner, _user.value);
     for (auto user_servant_iter = user_servant_table.begin(); user_servant_iter != user_servant_table.end();)
@@ -1308,9 +1308,9 @@ void untpreregist::delete_user_gacha_result_data(eosio::name _user)
     eosio_assert(iter != user_gacha_current_result_table.end(), "not exist gacha result data");
     user_gacha_current_result_table.erase(iter);
 
-    auto total_iter = user_gacha_total_table.find(_user.value);
-    eosio_assert(total_iter != user_gacha_total_table.end(), "not exist gacha total data");
-    user_gacha_total_table.erase(total_iter);
+    // auto total_iter = user_gacha_total_table.find(_user.value);
+    // eosio_assert(total_iter != user_gacha_total_table.end(), "not exist gacha total data");
+    // user_gacha_total_table.erase(total_iter);
 }
 #pragma endregion
 
@@ -1328,10 +1328,10 @@ ACTION untpreregist::initprelog()
     master_auth.permission = "owner"_n;
     require_auth(master_auth);
 
-    total_presale_logs total_presale_log_table(owner, owner.value);
-    auto iter = total_presale_log_table.find(master_iter->master.value);
-    eosio_assert(iter != total_presale_log_table.end(), "not exist presale log data");
-    total_presale_log_table.erase(iter);
+    total_token_logs total_token_log_table(owner, owner.value);
+    auto iter = total_token_log_table.find(master_iter->master.value);
+    eosio_assert(iter != total_token_log_table.end(), "not exist preregist log data");
+    total_token_log_table.erase(iter);
 }
 
 
@@ -1409,6 +1409,7 @@ uint32_t untpreregist::get_random_grade(uint64_t _rate)
             grade = iter->grade;
             break;
         }
+        iter++;
     }
     return grade;
 }
@@ -2140,4 +2141,4 @@ ACTION untpreregist::setpause(uint64_t _state)
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(untpreregist, (create)(issue)(transfer)(setmaster)(setpreregist)(presalemove)(eostransfer)(initmaster)(deleteuser)(initprelog)(inittoken)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase)(dbinit))
+EOSIO_DISPATCH(untpreregist, (create)(issue)(transfer)(setmaster)(setpreregist)(preregistmov)(eostransfer)(initmaster)(deleteuser)(initprelog)(inittoken)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase)(dbinit))
