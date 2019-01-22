@@ -1210,7 +1210,7 @@ ACTION untpreregist::initmaster(eosio::name _master)
 
 #pragma endregion
 
-#pragma resion delete user table
+#pragma region delete user table
 
 ACTION untpreregist::deleteuser(eosio::name _user)
 {
@@ -1314,7 +1314,7 @@ void untpreregist::delete_user_gacha_result_data(eosio::name _user)
 }
 #pragma endregion
 
-#pragma resion init all table
+#pragma reion init all table
 
 
 
