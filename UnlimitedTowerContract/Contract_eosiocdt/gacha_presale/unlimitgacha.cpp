@@ -1039,7 +1039,7 @@ ACTION unlimitgacha::initmaster()
 
 #pragma endregion
 
-#pragma resion delete user table
+#pragma region delete user table
 
 ACTION unlimitgacha::deleteuser(eosio::name _user)
 {
@@ -1137,7 +1137,7 @@ void unlimitgacha::delete_user_gacha_result_data(eosio::name _user)
 }
 #pragma endregion
 
-#pragma resion init all table
+#pragma reion init all table
 
 
 
