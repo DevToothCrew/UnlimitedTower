@@ -4,14 +4,46 @@ using UnityEngine;
 
 public class PopupUIsManager : MonoBehaviour {
 
-    // Singleton 아님. 로비씬에서만 쓰이는 static class
+    // Singleton
     public static PopupUIsManager instance;
     private void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
+    private void OnDestroy()
+    {
+        instance = null;
     }
 
 
-    public ItemMountWindow itemmountwindow;
+
+    /* PopupUIs */
+
     public ItemInfoPannel iteminfopannel;
+
+
+
+
+
+    /* CenterPopup 들 */
+    //
+    public HeroInfoPopup heroInfoPopup;
+    public PartnerInfoPopup partnerInfoPopup;
+    public FormationInfoPopup formationInfoPopup;
+    public StageInfoPopup stageInfoPopup;
+    public InventoryInfoPopup inventoryInfoPopup;
+   
+    //
+    public void OnClickHerobtn()
+    {
+        UserServantData servantdata = UserDataManager.Inst.ServantList.Find((rowdata) => { return rowdata.isMainHero; });
+        heroInfoPopup.ToRegistered(servantdata);
+    }
 }

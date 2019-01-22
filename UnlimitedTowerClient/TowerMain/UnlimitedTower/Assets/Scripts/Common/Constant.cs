@@ -525,6 +525,12 @@ public static class ExtensionMethod
 
 #region ENUM
 
+// 유닛타입
+public enum UNIT_TYPE
+{
+    SERVANT,
+    MONSTER
+}
 // UI에서 사용하는 Sorting 타입
 public enum SortType
 {
