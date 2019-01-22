@@ -1,6 +1,6 @@
 #include "Common/common_header.hpp"
 #include "Common/common_seed.hpp"
-#include "unlimitgacha.hpp"
+#include "untpreregist.hpp"
 
 //------------------------------------------------------------------------//
 //----------------------------unlimited_tower_action----------------------//
@@ -11,19 +11,19 @@
 //------------------------------------------------------------------------//
 #pragma region Token action
 
-ACTION unlimitgacha::create(eosio::name _issuer, asset _maximum_supply)
+ACTION untpreregist::create(eosio::name _issuer, asset _maximum_supply)
 {
     require_auth(owner_auth);
 
     auto sym = _maximum_supply.symbol;
-    eosio_assert(sym.is_valid(), "Invalid symbol name");
-    eosio_assert(_maximum_supply.is_valid(), "Invalid Supply");
+    eosio_assert(sym.is_valid(), "invalid symbol name");
+    eosio_assert(_maximum_supply.is_valid(), "invalid Supply");
 
-    eosio_assert(_maximum_supply.amount > 0, "Max-supply must be positive");
+    eosio_assert(_maximum_supply.amount > 0, "max supply more than 0");
 
     stat statstable(owner, sym.code().raw());
     auto existing = statstable.find(sym.code().raw());
-    eosio_assert(existing == statstable.end(), "Tokenwith symbol already exists");
+    eosio_assert(existing == statstable.end(), "tokenwith symbol already exists");
 
     statstable.emplace(owner, [&](auto &s) {
         s.supply.symbol = _maximum_supply.symbol;
@@ -32,7 +32,7 @@ ACTION unlimitgacha::create(eosio::name _issuer, asset _maximum_supply)
     });
 }
 
-ACTION unlimitgacha::issue(eosio::name _to, asset _quantity, string _memo)
+ACTION untpreregist::issue(eosio::name _to, asset _quantity, string _memo)
 {
     auto sym = _quantity.symbol;
     eosio_assert(sym.is_valid(), "Invalid symbol name");
@@ -59,22 +59,17 @@ ACTION unlimitgacha::issue(eosio::name _to, asset _quantity, string _memo)
     if (_to != st.issuer)
     {
         action(permission_level{st.issuer, "active"_n},
-               st.issuer, "tokentrans"_n,
+               st.issuer, "transfer"_n,
                std::make_tuple(st.issuer, _to, _quantity, _memo))
             .send();
     }
 }
 
-ACTION unlimitgacha::tokentrans(name _from, name _to, asset _quantity, string _memo)
+ACTION untpreregist::transfer(name _from, name _to, asset _quantity, string _memo)
 {
-    auth_users auth_user_table(owner, owner.value);
-    auto owner_iter = auth_user_table.find(owner.value);
-    eosio_assert(owner_iter != auth_user_table.end(),"not set owner");
-    eosio_assert(owner_iter->state != euser_state::pause, " server checking... ");
-
-    black_list black_list_table(owner, owner.value);
-    auto black_list_iter = black_list_table.find(_from.value);
-    eosio_assert(black_list_iter == black_list_table.end(), "this user already exist in black list");
+    blacklist blacklist_table(owner, owner.value);
+    auto blacklist_iter = blacklist_table.find(_from.value);
+    eosio_assert(blacklist_iter == blacklist_table.end(), "this user already exist in black list");
 
     eosio_assert(_from != _to, "Cannot transfer to self");
     require_auth(_from);
@@ -95,12 +90,12 @@ ACTION unlimitgacha::tokentrans(name _from, name _to, asset _quantity, string _m
     add_balance(_to, _quantity, _from);
 }
 
-void unlimitgacha::sub_balance(name _user, asset _value)
+void untpreregist::sub_balance(name _user, asset _value)
 {
     accounts from_acnts(owner, _user.value);
 
     const auto &from = from_acnts.get(_value.symbol.code().raw(), "No balance object found");
-    eosio_assert(from.balance.amount >= _value.amount, "Overdrawn balance");
+    eosio_assert(from.balance.amount >= _value.amount, "over account balance");
 
     if (from.balance.amount == _value.amount)
     {
@@ -114,7 +109,7 @@ void unlimitgacha::sub_balance(name _user, asset _value)
     }
 }
 
-void unlimitgacha::add_balance(name _user, asset _value, name _ram_payer)
+void untpreregist::add_balance(name _user, asset _value, name _ram_payer)
 {
     accounts to_acnts(owner, _user.value);
     auto to = to_acnts.find(_value.symbol.code().raw());
@@ -139,64 +134,79 @@ void unlimitgacha::add_balance(name _user, asset _value, name _ram_payer)
 
 #pragma region db_insert action
 
-ACTION unlimitgacha::dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max)
+ACTION untpreregist::dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max, uint32_t _ratio)
 {
-    require_auth(owner_auth);
+    master master_table(owner, owner.value);
+    auto master_iter = master_table.begin();
+    permission_level master_auth;
+    master_auth.actor = master_iter->master;
+    master_auth.permission = "owner"_n;
+    require_auth(master_auth);
+
+    auth_users user_auth_table(owner, owner.value);
+    auto owner_iter = user_auth_table.find(master_iter->master.value);
+    eosio_assert(owner_iter->state == euser_state::pause, " not server checking");
+
     switch (_kind)
     {
-    case db_choice::job:
+    case db_index::job:
     {
         insert_job(_job, _min, _max);
         break;
     }
-    case db_choice::body:
+    case db_index::body:
     {
         insert_body(_appear);
         break;
     }
-    case db_choice::hair:
+    case db_index::hair:
     {
         insert_hair(_appear);
         break;
     }
-    case db_choice::head:
+    case db_index::head:
     {
         insert_head(_appear);
         break;
     }
-    case db_choice::gender:
+    case db_index::gender:
     {
         insert_gender(_appear);
         break;
     }
-    case db_choice::servant_id:
+    case db_index::servant_id:
     {
         insert_servant_id(_id, _index);
         break;
     }
-    case db_choice::monster_id:
+    case db_index::monster_id:
     {
         insert_monster_id(_id);
         break;
     }
-    case db_choice::monster_grade:
+    case db_index::monster_grade:
     {
         insert_monster_grade(_grade, _min, _max);
         break;
     }
-    case db_choice::item_id:
+    case db_index::item_id:
     {
         insert_item_id(_id, _type, _job, _tier);
         break;
     }
-    case db_choice::item_grade:
+    case db_index::item_grade:
     {
         insert_item_grade(_grade, _min, _max);
         break;
     }
+    case db_index::grade_ratio:
+    {
+        insert_grade_ratio(_grade, _ratio);
+        break;
+    }
     }
 }
-void unlimitgacha::insert_job(uint32_t _job, uint32_t _min, uint32_t _max)
+void untpreregist::insert_job(uint32_t _job, uint32_t _min, uint32_t _max)
 {
     servant_job_db servant_job_db_table(owner, owner.value);
     servant_job_db_table.emplace(owner, [&](auto &new_job) {
@@ -211,7 +221,7 @@ void unlimitgacha::insert_job(uint32_t _job, uint32_t _min, uint32_t _max)
     });
 }
 
-void unlimitgacha::insert_body(uint32_t _appear)
+void untpreregist::insert_body(uint32_t _appear)
 {
     body_db body_db_table(owner, owner.value);
     body_db_table.emplace(owner, [&](auto &new_body) {
@@ -219,14 +229,14 @@ void unlimitgacha::insert_body(uint32_t _appear)
     });
 }
 
-void unlimitgacha::insert_hair(uint32_t _appear)
+void untpreregist::insert_hair(uint32_t _appear)
 {
     hair_db hair_db_table(owner, owner.value);
     hair_db_table.emplace(owner, [&](auto &new_hair) {
         new_hair.hair = _appear;
     });
 }
-void unlimitgacha::insert_head(uint32_t _appear)
+void untpreregist::insert_head(uint32_t _appear)
 {
     head_db head_db_table(owner, owner.value);
     head_db_table.emplace(owner, [&](auto &new_head) {
@@ -234,7 +244,7 @@ void unlimitgacha::insert_head(uint32_t _appear)
     });
 }
 
-void unlimitgacha::insert_gender(uint32_t _appear)
+void untpreregist::insert_gender(uint32_t _appear)
 {
     gender_db gender_db_table(owner, owner.value);
     gender_db_table.emplace(owner, [&](auto &new_gender) {
@@ -242,7 +252,7 @@ void unlimitgacha::insert_gender(uint32_t _appear)
     });
 }
 
-void unlimitgacha::insert_servant_id(uint32_t _id, uint32_t _index)
+void untpreregist::insert_servant_id(uint32_t _id, uint32_t _index)
 {
     servant_id_db servant_id_db_table(owner, owner.value);
     servant_id_db_table.emplace(owner, [&](auto &new_servant_id) {
@@ -251,7 +261,7 @@ void unlimitgacha::insert_servant_id(uint32_t _id, uint32_t _index)
     });
 }
 
-void unlimitgacha::insert_monster_id(uint32_t _id)
+void untpreregist::insert_monster_id(uint32_t _id)
 {
     monster_id_db monster_id_db_table(owner, owner.value);
     monster_id_db_table.emplace(owner, [&](auto &new_monster_id) {
@@ -259,7 +269,7 @@ void unlimitgacha::insert_monster_id(uint32_t _id)
     });
 }
 
-void unlimitgacha::insert_monster_grade(uint32_t _grade, uint32_t _min, uint32_t _max)
+void untpreregist::insert_monster_grade(uint32_t _grade, uint32_t _min, uint32_t _max)
 {
     monster_grade_db monster_grade_db_table(owner, owner.value);
     monster_grade_db_table.emplace(owner, [&](auto &new_monster_grade) {
@@ -273,7 +283,7 @@ void unlimitgacha::insert_monster_grade(uint32_t _grade, uint32_t _min, uint32_t
     });
 }
 
-void unlimitgacha::insert_item_id(uint32_t _id, uint32_t _type, uint32_t _job, uint32_t _tier)
+void untpreregist::insert_item_id(uint32_t _id, uint32_t _type, uint32_t _job, uint32_t _tier)
 {
     item_id_db item_id_db_table(owner, owner.value);
     item_id_db_table.emplace(owner, [&](auto &new_item_id) {
@@ -284,7 +294,7 @@ void unlimitgacha::insert_item_id(uint32_t _id, uint32_t _type, uint32_t _job, u
     });
 }
 
-void unlimitgacha::insert_item_grade(uint32_t _grade, uint32_t _min, uint32_t _max)
+void untpreregist::insert_item_grade(uint32_t _grade, uint32_t _min, uint32_t _max)
 {
     item_grade_db item_grade_db_table(owner, owner.value);
     item_grade_db_table.emplace(owner, [&](auto &new_item_grade) {
@@ -298,65 +308,89 @@ void unlimitgacha::insert_item_grade(uint32_t _grade, uint32_t _min, uint32_t _m
     });
 }
 
-ACTION unlimitgacha::dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max)
+void untpreregist::insert_grade_ratio(uint32_t _grade, uint32_t _ratio)
 {
-    require_auth(owner_auth);
+    grade_ratio_db grade_ratio_db_table(owner, owner.value);
+    grade_ratio_db_table.emplace(owner, [&](auto &new_grade_ratio)
+    {
+        new_grade_ratio.grade = _grade;
+        new_grade_ratio.ratio = _ratio;
+    });
+}
+
+ACTION untpreregist::dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max, uint32_t _ratio)
+{
+    master master_table(owner, owner.value);
+    auto master_iter = master_table.begin();
+    permission_level master_auth;
+    master_auth.actor = master_iter->master;
+    master_auth.permission = "owner"_n;
+    require_auth(master_auth);
+
+    auth_users user_auth_table(owner, owner.value);
+    auto owner_iter = user_auth_table.find(master_iter->master.value);
+    eosio_assert(owner_iter->state == euser_state::pause, " not server checking");
     switch (_kind)
     {
-    case db_choice::job:
+    case db_index::job:
     {
         modify_job(_job, _min, _max);
         break;
     }
-    case db_choice::body:
+    case db_index::body:
     {
         modify_body(_appear);
         break;
     }
-    case db_choice::hair:
+    case db_index::hair:
     {
         modify_hair(_appear);
         break;
     }
-    case db_choice::head:
+    case db_index::head:
     {
         modify_head(_appear);
         break;
     }
-    case db_choice::gender:
+    case db_index::gender:
     {
         modify_gender(_appear);
         break;
     }
-    case db_choice::servant_id:
+    case db_index::servant_id:
     {
         modify_servant_id(_id, _index);
         break;
     }
-    case db_choice::monster_id:
+    case db_index::monster_id:
     {
         modify_monster_id(_id);
         break;
     }
-    case db_choice::monster_grade:
+    case db_index::monster_grade:
     {
         modify_monster_grade(_grade, _min, _max);
         break;
     }
-    case db_choice::item_id:
+    case db_index::item_id:
     {
         modify_item_id(_id, _type, _job, _tier);
         break;
     }
-    case db_choice::item_grade:
+    case db_index::item_grade:
     {
         modify_item_grade(_grade, _min, _max);
+        break;
+    }
+    case db_index::grade_ratio:
+    {
+        modify_grade_ratio(_grade, _ratio);
         break;
     }
     }
 }
 
-void unlimitgacha::modify_job(uint32_t _job, uint32_t _min, uint32_t _max)
+void untpreregist::modify_job(uint32_t _job, uint32_t _min, uint32_t _max)
 {
     servant_job_db servant_job_db_table(owner, owner.value);
     auto job_iter = servant_job_db_table.find(_job);
@@ -373,7 +407,7 @@ void unlimitgacha::modify_job(uint32_t _job, uint32_t _min, uint32_t _max)
     });
 }
 
-void unlimitgacha::modify_body(uint32_t _appear)
+void untpreregist::modify_body(uint32_t _appear)
 {
     body_db body_db_table(owner, owner.value);
     auto body_iter = body_db_table.find(_appear);
@@ -383,7 +417,7 @@ void unlimitgacha::modify_body(uint32_t _appear)
     });
 }
 
-void unlimitgacha::modify_hair(uint32_t _appear)
+void untpreregist::modify_hair(uint32_t _appear)
 {
     hair_db hair_db_table(owner, owner.value);
     auto hair_iter = hair_db_table.find(_appear);
@@ -393,7 +427,7 @@ void unlimitgacha::modify_hair(uint32_t _appear)
     });
 }
 
-void unlimitgacha::modify_head(uint32_t _appear)
+void untpreregist::modify_head(uint32_t _appear)
 {
     head_db head_db_table(owner, owner.value);
     auto head_iter = head_db_table.find(_appear);
@@ -403,7 +437,7 @@ void unlimitgacha::modify_head(uint32_t _appear)
     });
 }
 
-void unlimitgacha::modify_gender(uint32_t _appear)
+void untpreregist::modify_gender(uint32_t _appear)
 {
     gender_db gender_db_table(owner, owner.value);
     auto gender_iter = gender_db_table.find(_appear);
@@ -413,7 +447,7 @@ void unlimitgacha::modify_gender(uint32_t _appear)
     });
 }
 
-void unlimitgacha::modify_servant_id(uint32_t _id, uint32_t _index)
+void untpreregist::modify_servant_id(uint32_t _id, uint32_t _index)
 {
     servant_id_db servant_id_db_table(owner, owner.value);
     auto servant_id_iter = servant_id_db_table.find(_id);
@@ -424,7 +458,7 @@ void unlimitgacha::modify_servant_id(uint32_t _id, uint32_t _index)
     });
 }
 
-void unlimitgacha::modify_monster_id(uint32_t _id)
+void untpreregist::modify_monster_id(uint32_t _id)
 {
     monster_id_db monster_id_db_table(owner, owner.value);
     auto monster_id_iter = monster_id_db_table.find(_id);
@@ -434,7 +468,7 @@ void unlimitgacha::modify_monster_id(uint32_t _id)
     });
 }
 
-void unlimitgacha::modify_monster_grade(uint32_t _grade, uint32_t _min, uint32_t _max)
+void untpreregist::modify_monster_grade(uint32_t _grade, uint32_t _min, uint32_t _max)
 {
     monster_grade_db monster_grade_db_table(owner, owner.value);
     auto monster_grade_iter = monster_grade_db_table.find(_grade);
@@ -451,7 +485,7 @@ void unlimitgacha::modify_monster_grade(uint32_t _grade, uint32_t _min, uint32_t
     });
 }
 
-void unlimitgacha::modify_item_grade(uint32_t _grade, uint32_t _min, uint32_t _max)
+void untpreregist::modify_item_grade(uint32_t _grade, uint32_t _min, uint32_t _max)
 {
     item_grade_db item_grade_db_table(owner, owner.value);
     auto item_grade_iter = item_grade_db_table.find(_grade);
@@ -468,7 +502,7 @@ void unlimitgacha::modify_item_grade(uint32_t _grade, uint32_t _min, uint32_t _m
     });
 }
 
-void unlimitgacha::modify_item_id(uint32_t _id, uint32_t _type, uint32_t _job, uint32_t _tier)
+void untpreregist::modify_item_id(uint32_t _id, uint32_t _type, uint32_t _job, uint32_t _tier)
 {
     item_id_db item_id_db_table(owner, owner.value);
     auto item_id_iter = item_id_db_table.find(_id);
@@ -481,65 +515,92 @@ void unlimitgacha::modify_item_id(uint32_t _id, uint32_t _type, uint32_t _job, u
     });
 }
 
-ACTION unlimitgacha::dberase(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max)
+void untpreregist::modify_grade_ratio(uint32_t _grade, uint32_t _ratio)
 {
-    require_auth(owner_auth);
+    grade_ratio_db grade_ratio_db_table(owner, owner.value);
+    auto grade_ratio_db_iter = grade_ratio_db_table.find(_grade);
+    eosio_assert( grade_ratio_db_iter != grade_ratio_db_table.end() , "not exist grade ratio data" );
+    grade_ratio_db_table.modify(grade_ratio_db_iter ,owner, [&](auto &new_grade_ratio) {
+        new_grade_ratio.ratio = _ratio;
+    });
+}
+
+
+ACTION untpreregist::dberase(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max)
+{
+    master master_table(owner, owner.value);
+    auto master_iter = master_table.begin();
+
+    permission_level master_auth;
+    master_auth.actor = master_iter->master;
+    master_auth.permission = "owner"_n;
+    require_auth(master_auth);
+
+    auth_users user_auth_table(owner, owner.value);
+    auto owner_iter = user_auth_table.find(master_iter -> master.value);
+    eosio_assert(owner_iter->state == euser_state::pause, " not server checking");
+
     switch (_kind)
     {
-    case db_choice::job:
+    case db_index::job:
     {
         erase_job(_job);
         break;
     }
-    case db_choice::body:
+    case db_index::body:
     {
         erase_body(_appear);
         break;
     }
-    case db_choice::hair:
+    case db_index::hair:
     {
         erase_hair(_appear);
         break;
     }
-    case db_choice::head:
+    case db_index::head:
     {
         erase_head(_appear);
         break;
     }
-    case db_choice::gender:
+    case db_index::gender:
     {
         erase_gender(_appear);
         break;
     }
-    case db_choice::servant_id:
+    case db_index::servant_id:
     {
         erase_servant_id(_id);
         break;
     }
-    case db_choice::monster_id:
+    case db_index::monster_id:
     {
         erase_monster_id(_id);
         break;
     }
-    case db_choice::monster_grade:
+    case db_index::monster_grade:
     {
         erase_monster_grade(_grade);
         break;
     }
-    case db_choice::item_id:
+    case db_index::item_id:
     {
         erase_item_id(_id);
         break;
     }
-    case db_choice::item_grade:
+    case db_index::item_grade:
     {
         erase_item_grade(_grade);
+        break;
+    }
+    case db_index::grade_ratio:
+    {
+        erase_grade_ratio(_grade);
         break;
     }
     }
 }
 
-void unlimitgacha::erase_job(uint32_t _job)
+void untpreregist::erase_job(uint32_t _job)
 {
     servant_job_db servant_job_db_table(owner, owner.value);
     auto job_iter = servant_job_db_table.find(_job);
@@ -547,7 +608,7 @@ void unlimitgacha::erase_job(uint32_t _job)
     servant_job_db_table.erase(job_iter);
 }
 
-void unlimitgacha::erase_body(uint32_t _appear)
+void untpreregist::erase_body(uint32_t _appear)
 {
     body_db body_db_table(owner, owner.value);
     auto body_iter = body_db_table.find(_appear);
@@ -555,7 +616,7 @@ void unlimitgacha::erase_body(uint32_t _appear)
     body_db_table.erase(body_iter);
 }
 
-void unlimitgacha::erase_hair(uint32_t _appear)
+void untpreregist::erase_hair(uint32_t _appear)
 {
     hair_db hair_db_table(owner, owner.value);
     auto hair_iter = hair_db_table.find(_appear);
@@ -563,7 +624,7 @@ void unlimitgacha::erase_hair(uint32_t _appear)
     hair_db_table.erase(hair_iter);
 }
 
-void unlimitgacha::erase_head(uint32_t _appear)
+void untpreregist::erase_head(uint32_t _appear)
 {
     head_db head_db_table(owner, owner.value);
     auto head_iter = head_db_table.find(_appear);
@@ -571,7 +632,7 @@ void unlimitgacha::erase_head(uint32_t _appear)
     head_db_table.erase(head_iter);
 }
 
-void unlimitgacha::erase_gender(uint32_t _appear)
+void untpreregist::erase_gender(uint32_t _appear)
 {
     gender_db gender_db_table(owner, owner.value);
     auto gender_iter = gender_db_table.find(_appear);
@@ -579,7 +640,7 @@ void unlimitgacha::erase_gender(uint32_t _appear)
     gender_db_table.erase(gender_iter);
 }
 
-void unlimitgacha::erase_servant_id(uint32_t _id)
+void untpreregist::erase_servant_id(uint32_t _id)
 {
     servant_id_db servant_id_db_table(owner, owner.value);
     auto servant_id_iter = servant_id_db_table.find(_id);
@@ -587,7 +648,7 @@ void unlimitgacha::erase_servant_id(uint32_t _id)
     servant_id_db_table.erase(servant_id_iter);
 }
 
-void unlimitgacha::erase_monster_id(uint32_t _id)
+void untpreregist::erase_monster_id(uint32_t _id)
 {
     monster_id_db monster_id_db_table(owner, owner.value);
     auto monster_id_iter = monster_id_db_table.find(_id);
@@ -595,7 +656,7 @@ void unlimitgacha::erase_monster_id(uint32_t _id)
     monster_id_db_table.erase(monster_id_iter);
 }
 
-void unlimitgacha::erase_monster_grade(uint32_t _grade)
+void untpreregist::erase_monster_grade(uint32_t _grade)
 {
     monster_grade_db monster_grade_db_table(owner, owner.value);
     auto monster_grade_iter = monster_grade_db_table.find(_grade);
@@ -603,7 +664,7 @@ void unlimitgacha::erase_monster_grade(uint32_t _grade)
     monster_grade_db_table.erase(monster_grade_iter);
 }
 
-void unlimitgacha::erase_item_grade(uint32_t _grade)
+void untpreregist::erase_item_grade(uint32_t _grade)
 {
     item_grade_db item_grade_db_table(owner, owner.value);
     auto item_grade_iter = item_grade_db_table.find(_grade);
@@ -611,12 +672,117 @@ void unlimitgacha::erase_item_grade(uint32_t _grade)
     item_grade_db_table.erase(item_grade_iter);
 }
 
-void unlimitgacha::erase_item_id(uint32_t _id)
+void untpreregist::erase_item_id(uint32_t _id)
 {
     item_id_db item_id_db_table(owner, owner.value);
     auto item_id_iter = item_id_db_table.find(_id);
     eosio_assert(item_id_iter != item_id_db_table.end(), "not exist item id data");
     item_id_db_table.erase(item_id_iter);
+}
+
+void untpreregist::erase_grade_ratio(uint32_t _grade)
+{
+    grade_ratio_db grade_ratio_db_table(owner, owner.value);
+    auto grade_ratio_db_iter = grade_ratio_db_table.find(_grade);
+    eosio_assert( grade_ratio_db_iter != grade_ratio_db_table.end() , "not exist grade ratio data" );
+    grade_ratio_db_table.erase(grade_ratio_db_iter);
+}
+
+ACTION untpreregist::dbinit()
+{
+    master master_table(owner, owner.value);
+    auto master_iter = master_table.begin();
+
+    permission_level master_auth;
+    master_auth.actor = master_iter->master;
+    master_auth.permission = "owner"_n;
+    require_auth(master_auth);
+
+    auth_users user_auth_table(owner, owner.value);
+    auto owner_iter = user_auth_table.find(master_iter -> master.value);
+    eosio_assert(owner_iter->state == euser_state::pause, " not server checking");
+
+    head_db head_db_table(owner, owner.value);
+    hair_db hair_db_table(owner, owner.value);
+    body_db body_db_table(owner, owner.value);
+    monster_grade_db monster_grade_db_table(owner, owner.value);
+    monster_id_db monster_id_db_table(owner, owner.value);
+    item_id_db item_id_db_table(owner, owner.value);
+    item_grade_db item_grade_db_table(owner, owner.value);
+
+    gender_db gender_db_table(owner, owner.value);
+    servant_job_db servant_job_db_table(owner, owner.value);
+    servant_id_db servant_id_db_table(owner, owner.value);
+
+    for (auto gender_db_table_iter = gender_db_table.begin(); gender_db_table_iter != gender_db_table.end();)
+    {
+        auto iter = gender_db_table.find(gender_db_table_iter->primary_key());
+        gender_db_table_iter++;
+        gender_db_table.erase(iter);
+    }
+
+    for (auto servant_id_db_table_iter = servant_id_db_table.begin(); servant_id_db_table_iter != servant_id_db_table.end();)
+    {
+        auto iter = servant_id_db_table.find(servant_id_db_table_iter->primary_key());
+        servant_id_db_table_iter++;
+        servant_id_db_table.erase(iter);
+    }
+
+    for (auto servant_job_db_table_iter = servant_job_db_table.begin(); servant_job_db_table_iter != servant_job_db_table.end();)
+    {
+        auto iter = servant_job_db_table.find(servant_job_db_table_iter->primary_key());
+        servant_job_db_table_iter++;
+        servant_job_db_table.erase(iter);
+    }
+
+    for (auto head_db_table_iter = head_db_table.begin(); head_db_table_iter != head_db_table.end();)
+    {
+        auto iter = head_db_table.find(head_db_table_iter->primary_key());
+        head_db_table_iter++;
+        head_db_table.erase(iter);
+    }
+
+    for (auto hair_db_table_iter = hair_db_table.begin(); hair_db_table_iter != hair_db_table.end();)
+    {
+        auto iter = hair_db_table.find(hair_db_table_iter->primary_key());
+        hair_db_table_iter++;
+        hair_db_table.erase(iter);
+    }
+
+    for (auto body_db_table_iter = body_db_table.begin(); body_db_table_iter != body_db_table.end();)
+    {
+        auto iter = body_db_table.find(body_db_table_iter->primary_key());
+        body_db_table_iter++;
+        body_db_table.erase(iter);
+    }
+
+    for (auto monster_grade_db_table_iter = monster_grade_db_table.begin(); monster_grade_db_table_iter != monster_grade_db_table.end();)
+    {
+        auto iter = monster_grade_db_table.find(monster_grade_db_table_iter->primary_key());
+        monster_grade_db_table_iter++;
+        monster_grade_db_table.erase(iter);
+    }
+
+    for (auto monster_id_db_table_iter = monster_id_db_table.begin(); monster_id_db_table_iter != monster_id_db_table.end();)
+    {
+        auto iter = monster_id_db_table.find(monster_id_db_table_iter->primary_key());
+        monster_id_db_table_iter++;
+        monster_id_db_table.erase(iter);
+    }
+
+    for (auto item_id_db_table_iter = item_id_db_table.begin(); item_id_db_table_iter != item_id_db_table.end();)
+    {
+        auto iter = item_id_db_table.find(item_id_db_table_iter->primary_key());
+        item_id_db_table_iter++;
+        item_id_db_table.erase(iter);
+    }
+
+    for (auto item_grade_db_table_iter = item_grade_db_table.begin(); item_grade_db_table_iter != item_grade_db_table.end();)
+    {
+        auto iter = item_grade_db_table.find(item_grade_db_table_iter->primary_key());
+        item_grade_db_table_iter++;
+        item_grade_db_table.erase(iter);
+    }
 }
 
 #pragma endresion
@@ -626,14 +792,22 @@ void unlimitgacha::erase_item_id(uint32_t _id)
 //------------------------------------------------------------------------//
 
 #pragma region set
-ACTION unlimitgacha::setmaster()
+ACTION untpreregist::setmaster(eosio::name _master)
 {
     require_auth(owner_auth);
+    master master_table(owner, owner.value);
+    auto master_iter = master_table.find(_master.value);
+    eosio_assert(master_iter == master_table.end(), "already set master table");
+    master_table.emplace(owner, [&](auto &set_master)
+    {
+        set_master.master = _master;   
+    });
+
     auth_users user_auth_table(owner, owner.value);
-    auto owner_iter = user_auth_table.find(owner.value);
-    eosio_assert(owner_iter == user_auth_table.end(),"already set owner");
+    auto owner_iter = user_auth_table.find(_master.value);
+    eosio_assert(owner_iter == user_auth_table.end(),"already set master");
     user_auth_table.emplace(owner, [&](auto &gm_set) {
-        gm_set.user = owner;
+        gm_set.user = _master;
         gm_set.state = euser_state::lobby;
 
         hero_info first_hero;
@@ -642,16 +816,24 @@ ACTION unlimitgacha::setmaster()
 
         gm_set.hero = first_hero;
     });
+
 }
 
-ACTION unlimitgacha::setpresale()
+ACTION untpreregist::setpreregist()
 {
-    require_auth(owner_auth);
-    participation_logs participation_log_table(owner, owner.value);
-    auto participation_log_iter = participation_log_table.find(owner.value);
-    eosio_assert(participation_log_iter == participation_log_table.end(),"already set presale log");
-    participation_log_table.emplace(owner, [&](auto &pre_sale) {
-        pre_sale.owner = owner;
+    master master_table(owner, owner.value);
+    auto master_iter = master_table.begin();
+
+    permission_level master_auth;
+    master_auth.actor = master_iter->master;
+    master_auth.permission = "owner"_n;
+    require_auth(master_auth);
+
+    total_presale_logs total_presale_log_table(owner, owner.value);
+    auto participation_log_iter = total_presale_log_table.find(master_iter->master.value);
+    eosio_assert(participation_log_iter == total_presale_log_table.end(),"already set presale log");
+    total_presale_log_table.emplace(owner, [&](auto &preregist) {
+        preregist.owner = master_iter->master;
     });
 }
 
@@ -663,7 +845,7 @@ ACTION unlimitgacha::setpresale()
 
 #pragma region login
 
-void unlimitgacha::presalesign(eosio::name _user, uint64_t _seed)
+void untpreregist::presignup(eosio::name _user, uint64_t _seed)
 {
     auth_users auth_user_table(owner, owner.value);
     auto new_user_iter = auth_user_table.find(_user.value);
@@ -698,7 +880,7 @@ void unlimitgacha::presalesign(eosio::name _user, uint64_t _seed)
     monster_grade_db monster_grade_db_table(owner, owner.value);
     const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "not exist monster grade");
 
-    user_pre_sale_monsters user_monster_table(owner, _user.value);
+    user_preregist_monsters user_monster_table(owner, _user.value);
     user_monster_table.emplace(owner, [&](auto &update_user_monster_list) {
         uint32_t first_index = user_monster_table.available_primary_key();
         if (first_index == 0)
@@ -721,7 +903,7 @@ void unlimitgacha::presalesign(eosio::name _user, uint64_t _seed)
     });
 }
 
-void unlimitgacha::signup(eosio::name _user)
+void untpreregist::signup(eosio::name _user)
 {
     auth_users auth_user_table(owner, owner.value);
     auto new_user_iter = auth_user_table.find(_user.value);
@@ -745,22 +927,25 @@ void unlimitgacha::signup(eosio::name _user)
         new_log.user = _user;
     });
 }
-ACTION unlimitgacha::presalemove(eosio::name _user)
+ACTION untpreregist::presalemove(eosio::name _user)
 {
     eosio::require_auth(_user);
 
+    master master_table(owner, owner.value);
+    auto master_iter = master_table.begin();
+
     auth_users auth_user_table(owner, owner.value);
-    auto owner_iter = auth_user_table.find(owner.value);
+    auto owner_iter = auth_user_table.find(master_iter->master.value);
     eosio_assert(owner_iter != auth_user_table.end(),"not set owner");
     eosio_assert(owner_iter->state != euser_state::pause, " server checking... ");
 
-    black_list black_list_table(owner, owner.value);
-    auto black_list_iter = black_list_table.find(_user.value);
-    eosio_assert(black_list_iter == black_list_table.end(), "this user already exist in black list");
+    blacklist blacklist_table(owner, owner.value);
+    auto blacklist_iter = blacklist_table.find(_user.value);
+    eosio_assert(blacklist_iter == blacklist_table.end(), "this user already exist in black list");
 
-    participation_logs participation_log_table(owner, owner.value);
-    auto gacha_participation_iter = participation_log_table.find(owner.value);
-    eosio_assert(gacha_participation_iter == participation_log_table.end(), "It is still a presale period");
+    total_presale_logs total_presale_log_table(owner, owner.value);
+    auto presale_log_iter = total_presale_log_table.find(master_iter->master.value);
+    eosio_assert(presale_log_iter == total_presale_log_table.end(), "It is still a presale period");
 
     auto pre_user_iter = auth_user_table.find(_user.value);
     eosio_assert(pre_user_iter != auth_user_table.end(), "You are not a presales participant");
@@ -771,7 +956,7 @@ ACTION unlimitgacha::presalemove(eosio::name _user)
     });
 
     user_servants user_servant_table(owner, _user.value);
-    user_pre_sale_servants user_servant_pre_table(owner, _user.value);
+    user_preregist_servants user_servant_pre_table(owner, _user.value);
     for (auto user_servant_iter = user_servant_pre_table.begin(); user_servant_iter != user_servant_pre_table.end();)
     {
         user_servant_table.emplace(owner, [&](auto &move_servant) {
@@ -787,7 +972,7 @@ ACTION unlimitgacha::presalemove(eosio::name _user)
     }
 
     user_monsters user_monster_table(owner, _user.value);
-    user_pre_sale_monsters user_monster_pre_table(owner, _user.value);
+    user_preregist_monsters user_monster_pre_table(owner, _user.value);
     for (auto user_monster_iter = user_monster_pre_table.begin(); user_monster_iter != user_monster_pre_table.end();)
     {
         user_monster_table.emplace(owner, [&](auto &move_monster) {
@@ -803,7 +988,7 @@ ACTION unlimitgacha::presalemove(eosio::name _user)
     }
 
     user_items user_item_table(owner, _user.value);
-    user_pre_sale_items user_item_pre_table(owner, _user.value);
+    user_preregist_items user_item_pre_table(owner, _user.value);
     for (auto user_item_iter = user_item_pre_table.begin(); user_item_iter != user_item_pre_table.end();)
     {
         user_item_table.emplace(owner, [&](auto &move_item) {
@@ -829,64 +1014,50 @@ ACTION unlimitgacha::presalemove(eosio::name _user)
 // memo description spec
 //-------------------------------------------------------------------------
 
-ACTION unlimitgacha::eostransfer(eosio::name sender, eosio::name receiver)
+ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
 {
+    master master_table(owner, owner.value);
+    auto master_iter = master_table.begin();
+
     auth_users auth_user_table(owner, owner.value);
-    auto owner_iter = auth_user_table.find(owner.value);
+    auto owner_iter = auth_user_table.find(master_iter->master.value);
     eosio_assert(owner_iter != auth_user_table.end(),"not set owner");
     eosio_assert(owner_iter->state != euser_state::pause, " server checking... ");
 
-    black_list black_list_table(owner, owner.value);
-    auto black_list_iter = black_list_table.find(sender.value);
-    eosio_assert(black_list_iter == black_list_table.end(), "this user already exist in black list");
+    blacklist blacklist_table(owner, owner.value);
+    auto blacklist_iter = blacklist_table.find(sender.value);
+    eosio_assert(blacklist_iter == blacklist_table.end(), "this user already exist in black list");
 
     eosiotoken_transfer(sender, receiver, [&](const auto &ad) {
-        if (ad.action.size() == 0)
+        eosio_assert(ad.action.size() != 0,"wrong action");
+        if (ad.action == action_signup)
         {
-            print("action size zero\n");
-        }
-        else if (ad.action == action_signup)
-        {
-            participation_logs participation_log_table(owner, owner.value);
-            auto gacha_participation_iter = participation_log_table.find(owner.value);
-            eosio_assert(gacha_participation_iter == participation_log_table.end(), "need to presale signup");
+            total_presale_logs total_presale_log_table(owner, owner.value);
+            auto presale_log_iter = total_presale_log_table.find(master_iter->master.value);
+            eosio_assert(presale_log_iter == total_presale_log_table.end(), "need to presale signup");
 
             signup(sender);
         }
         else if (ad.action == action_presale_signup)
         {
-            participation_logs participation_log_table(owner, owner.value);
-            auto gacha_participation_iter = participation_log_table.find(owner.value);
-            eosio_assert(gacha_participation_iter != participation_log_table.end(), "pre sale time over");
+            total_presale_logs total_presale_log_table(owner, owner.value);
+            auto presale_log_iter = total_presale_log_table.find(master_iter->master.value);
+            eosio_assert(presale_log_iter != total_presale_log_table.end(), "pre sale time over");
 
-            presalesign(sender, ad.type);
+            presignup(sender, ad.type);
 
             asset presale_signup_reward(0, symbol(symbol_code("UTG"), 4));
             presale_signup_reward.amount = 30000000; // 3000 UTG
 
-            uint64_t limt_check = gacha_participation_iter->accumulate_token_amount + presale_signup_reward.amount;
+            uint64_t limt_check = presale_log_iter->total_token_amount + presale_signup_reward.amount;
             if (limt_check <= limit_token_amount)
             {
-                if (limt_check == limit_token_amount)
-                {
-                    participation_log_table.erase(gacha_participation_iter);
+                total_presale_log_table.modify(presale_log_iter, owner, [&](auto &update_participation_list) {
+                    update_participation_list.total_token_amount += presale_signup_reward.amount;
+                });
 
-                    auth_users user_auth_table(owner, owner.value);
-                    auto owner_iter = user_auth_table.find(owner.value);
-                    eosio_assert(owner_iter != user_auth_table.end(), "not set gm account");
-
-                    user_auth_table.modify(owner_iter, owner, [&](auto &set_owner_account) {
-                        set_owner_account.state = euser_state::pause;
-                    });
-                }
-                else
-                {
-                    participation_log_table.modify(gacha_participation_iter, owner, [&](auto &update_participation_list) {
-                        update_participation_list.accumulate_token_amount += presale_signup_reward.amount;
-                    });
-                }
                 action(permission_level{get_self(), "active"_n},
-                       get_self(), "tokentrans"_n,
+                       get_self(), "transfer"_n,
                        std::make_tuple(owner, sender, presale_signup_reward, std::string("presale signup reward")))
                     .send();
             }
@@ -897,69 +1068,49 @@ ACTION unlimitgacha::eostransfer(eosio::name sender, eosio::name receiver)
         }
         else if (ad.action == action_gacha)
         {
-            participation_logs participation_log_table(owner, owner.value);
-            auto gacha_participation_iter = participation_log_table.find(owner.value);
-            if (gacha_participation_iter == participation_log_table.end())
+            total_presale_logs total_presale_log_table(owner, owner.value);
+            auto presale_log_iter = total_presale_log_table.find(master_iter->master.value);
+            if (presale_log_iter == total_presale_log_table.end())
             {
                 start_gacha(sender, ad.type);
             }
             else
             {
-                presale_gacha(sender, ad.type);
+                preregist(sender, ad.type);
 
                 asset gacha_reward(0, symbol(symbol_code("UTG"), 4));
-                if (gacha_participation_iter->gacha_participation < 3)
+                if (presale_log_iter->total_token_amount < 150000000) //1만eos 제한 300000000000
                 {
                     gacha_reward.amount = 30000000;
                 }
-                else if (gacha_participation_iter->gacha_participation < 5)
+                else if (presale_log_iter->total_token_amount < 450000000) //3만eos 제한 900000000000
                 {
                     gacha_reward.amount = 20000000;
                 }
-                else
+                else if (presale_log_iter->total_token_amount < 750000000) //6만eos 제한 1500000000000
                 {
                     gacha_reward.amount = 10000000;
                 }
-
-                uint64_t limt_check = gacha_participation_iter->accumulate_token_amount + gacha_reward.amount;
-                if (limt_check <= limit_token_amount)
-                {
-                    if (limt_check == limit_token_amount)
-                    {
-                        participation_log_table.erase(gacha_participation_iter);
-
-                        auth_users user_auth_table(owner, owner.value);
-                        auto owner_iter = user_auth_table.find(owner.value);
-                        eosio_assert(owner_iter != user_auth_table.end(), "not set gm account");
-
-                        user_auth_table.modify(owner_iter, owner, [&](auto &set_owner_account) {
-                            set_owner_account.state = euser_state::pause;
-                        });
-                    }
-                    else
-                    {
-                        participation_log_table.modify(gacha_participation_iter, owner, [&](auto &update_participation_list) {
-                            update_participation_list.gacha_participation += 1;
-                            update_participation_list.accumulate_token_amount += gacha_reward.amount;
-                        });
-                    }
-
-                    action(permission_level{get_self(), "active"_n},
-                           get_self(), "tokentrans"_n,
-                           std::make_tuple(owner, sender, gacha_reward, std::string("pre sale gacha reward")))
-                        .send();
-                }
                 else
                 {
-                    eosio_assert(limt_check < limit_token_amount, "end presale");
+                    gacha_reward.amount = 5000000;
                 }
+
+                total_presale_log_table.modify(presale_log_iter, owner, [&](auto &update_participation_list) {
+                    update_participation_list.total_token_amount += gacha_reward.amount;
+                });
+
+                action(permission_level{get_self(), "active"_n},
+                       get_self(), "transfer"_n,
+                       std::make_tuple(owner, sender, gacha_reward, std::string("presale gacha reward")))
+                    .send();
             }
         }
     });
 }
 
 template <typename T>
-void unlimitgacha::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T func)
+void untpreregist::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T func)
 {
     require_auth(sender);
     auto transfer_data = eosio::unpack_action_data<st_transfer>();
@@ -996,14 +1147,14 @@ void unlimitgacha::eosiotoken_transfer(eosio::name sender, eosio::name receiver,
             buy_log.use_eos += transfer_data.quantity.amount;
         });
     }
-    else if (res.action == "presalesignup")
+    else if (res.action == "presignup")
     {
         size_t l_next = transfer_data.memo.find(':', l_center + 1);
         size_t l_end = transfer_data.memo.length() - (l_next + 1);
 
         eosio_assert(transfer_data.memo.find(':') != std::string::npos, "seed memo [:] error");
         eosio_assert(transfer_data.memo.find(':', l_center + 1) != std::string::npos, "seed memo [:] error");
-        eosio_assert(transfer_data.quantity.amount == 10000, "presalesignup need 1.0000 EOS");
+        eosio_assert(transfer_data.quantity.amount == 10000, "presignup need 1.0000 EOS");
 
         std::string l_seed = transfer_data.memo.substr(l_center + 1, (l_next - l_center - 1));
         std::string l_sha = transfer_data.memo.substr(l_next + 1, l_end);
@@ -1012,14 +1163,25 @@ void unlimitgacha::eosiotoken_transfer(eosio::name sender, eosio::name receiver,
 
         eosio_assert(res.type != 0, "wrong seed convert");
     }
-    else if (res.action == "singup")
+    else if (res.action == "signup")
     {
         eosio_assert(transfer_data.quantity.amount == 10000, "signup need 1.0000 EOS");
     }
     else
     {
-        uint32_t error_code = 0;
-        eosio_assert(error_code != 0 , " impossible send to this contract ");
+        master master_table(owner, owner.value);
+        if (owner != sender)
+        {
+            auto master_iter = master_table.find(sender.value);
+            eosio_assert(master_iter != master_table.end(), "impossible send to this contract");
+        }
+        else
+        {
+            auto master_iter = master_table.find(receiver.value);
+            eosio_assert(master_iter != master_table.end(), "receiver is not master");
+        }
+        // uint32_t error_code = 0;
+        // eosio_assert(error_code != 0 , " impossible send to this contract ");
     }
 
     func(res);
@@ -1028,12 +1190,21 @@ void unlimitgacha::eosiotoken_transfer(eosio::name sender, eosio::name receiver,
 #pragma endregion
 
 #pragma resion init db table
-ACTION unlimitgacha::initmaster()
+ACTION untpreregist::initmaster(eosio::name _master)
 {
-    require_auth(owner_auth);
+    master master_table(owner,owner.value);
+    auto master_iter = master_table.find(_master.value);
+    eosio_assert(master_iter != master_table.end(),"not set master");
+    permission_level master_auth;
+    master_auth.actor = master_iter->master;
+    master_auth.permission = "owner"_n;
+    require_auth(master_auth);
+
+    master_table.erase(master_iter);
+
     auth_users user_auth_table(owner, owner.value);
-    auto owner_iter = user_auth_table.find(owner.value);
-    eosio_assert(owner_iter != user_auth_table.end(), "not set owner");
+    auto owner_iter = user_auth_table.find(_master.value);
+    eosio_assert(owner_iter != user_auth_table.end(), "not set master");
     user_auth_table.erase(owner_iter);
 }
 
@@ -1041,9 +1212,15 @@ ACTION unlimitgacha::initmaster()
 
 #pragma region delete user table
 
-ACTION unlimitgacha::deleteuser(eosio::name _user)
+ACTION untpreregist::deleteuser(eosio::name _user)
 {
-    require_auth(owner_auth);
+    master master_table(owner, owner.value);
+    auto master_iter = master_table.begin();
+
+    permission_level master_auth;
+    master_auth.actor = master_iter->master;
+    master_auth.permission = "owner"_n;
+    require_auth(master_auth);
 
     delete_user_data(_user);
     delete_user_object_data(_user);
@@ -1051,7 +1228,7 @@ ACTION unlimitgacha::deleteuser(eosio::name _user)
     delete_user_balance(_user);
 }
 
-void unlimitgacha::delete_user_data(eosio::name _user)
+void untpreregist::delete_user_data(eosio::name _user)
 {
     auth_users auth_user_table(owner, owner.value);
     auto user_auth_iter = auth_user_table.find(_user.value);
@@ -1068,7 +1245,7 @@ void unlimitgacha::delete_user_data(eosio::name _user)
     user_log_table.erase(user_log_iter);
 }
 
-void unlimitgacha::delete_user_object_data(eosio::name _user)
+void untpreregist::delete_user_object_data(eosio::name _user)
 {
     user_servants user_servant_table(owner, _user.value);
     for (auto user_servant_iter = user_servant_table.begin(); user_servant_iter != user_servant_table.end();)
@@ -1095,9 +1272,9 @@ void unlimitgacha::delete_user_object_data(eosio::name _user)
     }
 }
 
-void unlimitgacha::delete_user_presale_data(eosio::name _user)
+void untpreregist::delete_user_presale_data(eosio::name _user)
 {
-    user_pre_sale_servants user_servant_table(owner, _user.value);
+    user_preregist_servants user_servant_table(owner, _user.value);
     for (auto user_servant_iter = user_servant_table.begin(); user_servant_iter != user_servant_table.end();)
     {
         auto iter = user_servant_table.find(user_servant_iter->primary_key());
@@ -1105,7 +1282,7 @@ void unlimitgacha::delete_user_presale_data(eosio::name _user)
         user_servant_table.erase(iter);
     }
 
-    user_pre_sale_monsters user_monster_table(owner, _user.value);
+    user_preregist_monsters user_monster_table(owner, _user.value);
     for (auto user_monster_iter = user_monster_table.begin(); user_monster_iter != user_monster_table.end();)
     {
         auto iter = user_monster_table.find(user_monster_iter->primary_key());
@@ -1113,7 +1290,7 @@ void unlimitgacha::delete_user_presale_data(eosio::name _user)
         user_monster_table.erase(iter);
     }
 
-    user_pre_sale_items user_item_table(owner, _user.value);
+    user_preregist_items user_item_table(owner, _user.value);
     for (auto user_item_iter = user_item_table.begin(); user_item_iter != user_item_table.end();)
     {
         auto iter = user_item_table.find(user_item_iter->primary_key());
@@ -1122,18 +1299,18 @@ void unlimitgacha::delete_user_presale_data(eosio::name _user)
     }
 }
 
-void unlimitgacha::delete_user_gacha_result_data(eosio::name _user)
+void untpreregist::delete_user_gacha_result_data(eosio::name _user)
 {
     user_gacha_results user_gacha_current_result_table(owner, owner.value);
-    user_gacha_accumulates user_gacha_accumulate_table(owner, owner.value);
+    user_gacha_totals user_gacha_total_table(owner, owner.value);
 
     auto iter = user_gacha_current_result_table.find(_user.value);
     eosio_assert(iter != user_gacha_current_result_table.end(), "not exist gacha result data");
     user_gacha_current_result_table.erase(iter);
 
-    auto accumulate_iter = user_gacha_accumulate_table.find(_user.value);
-    eosio_assert(accumulate_iter != user_gacha_accumulate_table.end(), "not exist gacha accumulate data");
-    user_gacha_accumulate_table.erase(accumulate_iter);
+    auto total_iter = user_gacha_total_table.find(_user.value);
+    eosio_assert(total_iter != user_gacha_total_table.end(), "not exist gacha total data");
+    user_gacha_total_table.erase(total_iter);
 }
 #pragma endregion
 
@@ -1141,14 +1318,20 @@ void unlimitgacha::delete_user_gacha_result_data(eosio::name _user)
 
 
 
-ACTION unlimitgacha::initprelog()
+ACTION untpreregist::initprelog()
 {
-    require_auth(owner_auth);
+    master master_table(owner, owner.value);
+    auto master_iter = master_table.begin();
 
-    participation_logs pre_sale_log_table(owner, owner.value);
-    auto iter = pre_sale_log_table.find(owner.value);
-    eosio_assert(iter != pre_sale_log_table.end(), "not exist presale log data");
-    pre_sale_log_table.erase(iter);
+    permission_level master_auth;
+    master_auth.actor = master_iter->master;
+    master_auth.permission = "owner"_n;
+    require_auth(master_auth);
+
+    total_presale_logs total_presale_log_table(owner, owner.value);
+    auto iter = total_presale_log_table.find(master_iter->master.value);
+    eosio_assert(iter != total_presale_log_table.end(), "not exist presale log data");
+    total_presale_log_table.erase(iter);
 }
 
 
@@ -1156,14 +1339,21 @@ ACTION unlimitgacha::initprelog()
 
 #pragma resion init token
 
-ACTION unlimitgacha::inittoken(asset _token)
+ACTION untpreregist::inittoken(asset _token)
 {
-    require_auth(owner_auth);
+    master master_table(owner, owner.value);
+    auto master_iter = master_table.begin();
+
+    permission_level master_auth;
+    master_auth.actor = master_iter->master;
+    master_auth.permission = "owner"_n;
+    require_auth(master_auth);
+
     init_all_balance();
     init_stat(_token);
 }
 
-void unlimitgacha::delete_user_balance(eosio::name _user)
+void untpreregist::delete_user_balance(eosio::name _user)
 {
     accounts user_balance_table(owner, _user.value);
     for (auto user_balance_iter = user_balance_table.begin(); user_balance_iter != user_balance_table.end();)
@@ -1174,7 +1364,7 @@ void unlimitgacha::delete_user_balance(eosio::name _user)
     }
 }
 
-void unlimitgacha::init_stat(asset _token)
+void untpreregist::init_stat(asset _token)
 {
     stat statstable(owner, _token.symbol.code().raw());
     for (auto token_stat_iter = statstable.begin(); token_stat_iter != statstable.end();)
@@ -1185,7 +1375,7 @@ void unlimitgacha::init_stat(asset _token)
     }
 }
 
-void unlimitgacha::init_all_balance()
+void untpreregist::init_all_balance()
 {
     auth_users user_auth_table(owner, owner.value);
     for (auto user_name_iter = user_auth_table.begin(); user_name_iter != user_auth_table.end();)
@@ -1208,39 +1398,28 @@ void unlimitgacha::init_all_balance()
 //------------------------------------------------------------------------//
 //-------------------------------gacha_function---------------------------//
 //------------------------------------------------------------------------//
-uint32_t unlimitgacha::get_random_grade(uint64_t _rate)
+uint32_t untpreregist::get_random_grade(uint64_t _rate)
 {
     uint32_t grade;
-    if (_rate <= one_grade_ratio)
+    grade_ratio_db grade_ratio_db_table(owner, owner.value);
+    for (auto iter = grade_ratio_db_table.begin(); iter != grade_ratio_db_table.end();)
     {
-        grade = 1;
-    }
-    else if (_rate <= two_grade_ratio)
-    {
-        grade = 2;
-    }
-    else if (_rate <= three_grade_ratio)
-    {
-        grade = 3;
-    }
-    else if (_rate <= four_grade_ratio)
-    {
-        grade = 4;
-    }
-    else
-    {
-        grade = 5;
+        if (_rate <= iter->ratio)
+        {
+            grade = iter->grade;
+            break;
+        }
     }
     return grade;
 }
-uint32_t unlimitgacha::get_servant_index(uint32_t _job, uint32_t _body, uint32_t _gender, uint32_t _head, uint32_t _hair)
+uint32_t untpreregist::get_servant_index(uint32_t _job, uint32_t _body, uint32_t _gender, uint32_t _head, uint32_t _hair)
 {
     uint32_t result_id;
     result_id = (_job * 1000000) + (_body * 100000) + (_gender * 10000) + (_head * 100) + (_hair * 1);
     return result_id;
 }
 
-void unlimitgacha::gacha_servant_id(eosio::name _user, uint64_t _seed)
+void untpreregist::gacha_servant_id(eosio::name _user, uint64_t _seed)
 {
     servant_job_db servant_job_table(owner, owner.value);
     uint32_t random_job = safeseed::get_random_value(_seed, servant_job_count, default_min, servant_random_count);
@@ -1302,7 +1481,7 @@ void unlimitgacha::gacha_servant_id(eosio::name _user, uint64_t _seed)
     });
 
     user_gacha_results user_gacha_result_table(owner, owner.value);
-    user_gacha_accumulates user_gacha_accumulate_table(owner, owner.value);
+    user_gacha_totals user_gacha_total_table(owner, owner.value);
 
     auto user_gacha_result_iter = user_gacha_result_table.find(_user.value);
     if (user_gacha_result_iter == user_gacha_result_table.end())
@@ -1319,17 +1498,17 @@ void unlimitgacha::gacha_servant_id(eosio::name _user, uint64_t _seed)
         });
     }
 
-    auto user_gacha_accumulate_iter = user_gacha_accumulate_table.find(_user.value);
-    if (user_gacha_accumulate_iter == user_gacha_accumulate_table.end())
+    auto user_gacha_total_iter = user_gacha_total_table.find(_user.value);
+    if (user_gacha_total_iter == user_gacha_total_table.end())
     {
-        user_gacha_accumulate_table.emplace(owner, [&](auto &new_result) {
+        user_gacha_total_table.emplace(owner, [&](auto &new_result) {
             new_result.user = _user;
             new_result.result_list.push_back(result);
         });
     }
     else
     {
-        user_gacha_accumulate_table.modify(user_gacha_accumulate_iter, owner, [&](auto &new_result) {
+        user_gacha_total_table.modify(user_gacha_total_iter, owner, [&](auto &new_result) {
             new_result.result_list.push_back(result);
         });
     }
@@ -1341,7 +1520,7 @@ void unlimitgacha::gacha_servant_id(eosio::name _user, uint64_t _seed)
     });
 }
 
-uint8_t unlimitgacha::gacha_servant_head(uint64_t _seed, uint32_t _count)
+uint8_t untpreregist::gacha_servant_head(uint64_t _seed, uint32_t _count)
 {
     head_db head_db_table(owner, owner.value);
     uint8_t random_head = safeseed::get_random_value(_seed, head_count, DEFAULT_MIN_DB, _count);
@@ -1349,7 +1528,7 @@ uint8_t unlimitgacha::gacha_servant_head(uint64_t _seed, uint32_t _count)
     return head_db_iter.head;
 }
 
-uint8_t unlimitgacha::gacha_servant_hair(uint64_t _seed, uint32_t _count)
+uint8_t untpreregist::gacha_servant_hair(uint64_t _seed, uint32_t _count)
 {
     hair_db hair_db_table(owner, owner.value);
     uint8_t random_hair = safeseed::get_random_value(_seed, hair_count, DEFAULT_MIN_DB, _count);
@@ -1357,7 +1536,7 @@ uint8_t unlimitgacha::gacha_servant_hair(uint64_t _seed, uint32_t _count)
     return hair_db_iter.hair;
 }
 
-uint8_t unlimitgacha::gacha_servant_body(uint64_t _seed, uint32_t _count)
+uint8_t untpreregist::gacha_servant_body(uint64_t _seed, uint32_t _count)
 {
     body_db body_db_table(owner, owner.value);
     uint8_t random_body = safeseed::get_random_value(_seed, body_count, DEFAULT_MIN_DB, _count);
@@ -1365,7 +1544,7 @@ uint8_t unlimitgacha::gacha_servant_body(uint64_t _seed, uint32_t _count)
     return body_db_iter.body;
 }
 
-void unlimitgacha::gacha_monster_id(eosio::name _user, uint64_t _seed)
+void untpreregist::gacha_monster_id(eosio::name _user, uint64_t _seed)
 {
     monster_id_db monster_id_db_table(owner, owner.value);
     uint32_t random_monster_id = safeseed::get_random_value(_seed, monster_id_count, default_min, monster_random_count);
@@ -1415,7 +1594,7 @@ void unlimitgacha::gacha_monster_id(eosio::name _user, uint64_t _seed)
     });
 
     user_gacha_results user_gacha_result_table(owner, owner.value);
-    user_gacha_accumulates user_gacha_accumulate_table(owner, owner.value);
+    user_gacha_totals user_gacha_total_table(owner, owner.value);
 
     auto user_gacha_result_iter = user_gacha_result_table.find(_user.value);
     if (user_gacha_result_iter == user_gacha_result_table.end())
@@ -1432,17 +1611,17 @@ void unlimitgacha::gacha_monster_id(eosio::name _user, uint64_t _seed)
         });
     }
 
-    auto user_gacha_accumulate_iter = user_gacha_accumulate_table.find(_user.value);
-    if (user_gacha_accumulate_iter == user_gacha_accumulate_table.end())
+    auto user_gacha_total_iter = user_gacha_total_table.find(_user.value);
+    if (user_gacha_total_iter == user_gacha_total_table.end())
     {
-        user_gacha_accumulate_table.emplace(owner, [&](auto &new_result) {
+        user_gacha_total_table.emplace(owner, [&](auto &new_result) {
             new_result.user = _user;
             new_result.result_list.push_back(result);
         });
     }
     else
     {
-        user_gacha_accumulate_table.modify(user_gacha_accumulate_iter, owner, [&](auto &new_result) {
+        user_gacha_total_table.modify(user_gacha_total_iter, owner, [&](auto &new_result) {
             new_result.result_list.push_back(result);
         });
     }
@@ -1453,7 +1632,7 @@ void unlimitgacha::gacha_monster_id(eosio::name _user, uint64_t _seed)
     });
 }
 
-void unlimitgacha::gacha_item_id(eosio::name _user, uint64_t _seed)
+void untpreregist::gacha_item_id(eosio::name _user, uint64_t _seed)
 {
     item_id_db item_id_db_table(owner, owner.value);
     uint32_t random_item_id = safeseed::get_random_value(_seed, item_id_count, default_min, item_random_count);
@@ -1505,7 +1684,7 @@ void unlimitgacha::gacha_item_id(eosio::name _user, uint64_t _seed)
     });
 
     user_gacha_results user_gacha_result_table(owner, owner.value);
-    user_gacha_accumulates user_gacha_accumulate_table(owner, owner.value);
+    user_gacha_totals user_gacha_total_table(owner, owner.value);
 
     auto user_gacha_result_iter = user_gacha_result_table.find(_user.value);
     if (user_gacha_result_iter == user_gacha_result_table.end())
@@ -1522,17 +1701,17 @@ void unlimitgacha::gacha_item_id(eosio::name _user, uint64_t _seed)
         });
     }
 
-    auto user_gacha_accumulate_iter = user_gacha_accumulate_table.find(_user.value);
-    if (user_gacha_accumulate_iter == user_gacha_accumulate_table.end())
+    auto user_gacha_total_iter = user_gacha_total_table.find(_user.value);
+    if (user_gacha_total_iter == user_gacha_total_table.end())
     {
-        user_gacha_accumulate_table.emplace(owner, [&](auto &new_result) {
+        user_gacha_total_table.emplace(owner, [&](auto &new_result) {
             new_result.user = _user;
             new_result.result_list.push_back(result);
         });
     }
     else
     {
-        user_gacha_accumulate_table.modify(user_gacha_accumulate_iter, owner, [&](auto &new_result) {
+        user_gacha_total_table.modify(user_gacha_total_iter, owner, [&](auto &new_result) {
             new_result.result_list.push_back(result);
         });
     }
@@ -1542,7 +1721,7 @@ void unlimitgacha::gacha_item_id(eosio::name _user, uint64_t _seed)
         update_log.gacha_num += 1;
     });
 }
-uint64_t unlimitgacha::get_user_seed_value(uint64_t _user)
+uint64_t untpreregist::get_user_seed_value(uint64_t _user)
 {
     user_logs user_log_table(owner, owner.value);
     const auto &user_log_iter = user_log_table.get(_user, "not exist log in login seed");
@@ -1550,7 +1729,7 @@ uint64_t unlimitgacha::get_user_seed_value(uint64_t _user)
     return user;
 }
 
-void unlimitgacha::start_gacha(eosio::name _user, uint64_t _seed)
+void untpreregist::start_gacha(eosio::name _user, uint64_t _seed)
 {
     user_logs user_log_table(owner, owner.value);
     auto user_log_iter = user_log_table.find(_user.value);
@@ -1585,7 +1764,7 @@ void unlimitgacha::start_gacha(eosio::name _user, uint64_t _seed)
     item_random_count = 0;
 }
 
-void unlimitgacha::presale_gacha_servant_id(eosio::name _user, uint64_t _seed)
+void untpreregist::preregist_servant_id(eosio::name _user, uint64_t _seed)
 {
     servant_job_db servant_job_table(owner, owner.value);
     uint32_t random_job = safeseed::get_random_value(_seed, servant_job_count, DEFAULT_MIN_DB, servant_random_count);
@@ -1614,7 +1793,7 @@ void unlimitgacha::presale_gacha_servant_id(eosio::name _user, uint64_t _seed)
     eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data in pre gacha servant");
 
     result_info result;
-    user_pre_sale_servants user_servant_table(owner, _user.value);
+    user_preregist_servants user_servant_table(owner, _user.value);
     user_servant_table.emplace(owner, [&](auto &update_user_servant_list) {
         uint32_t first_index = user_servant_table.available_primary_key();
         if (first_index == 0)
@@ -1639,7 +1818,7 @@ void unlimitgacha::presale_gacha_servant_id(eosio::name _user, uint64_t _seed)
     });
 
     user_gacha_results user_gacha_result_table(owner, owner.value);
-    user_gacha_accumulates user_gacha_accumulate_table(owner, owner.value);
+    user_gacha_totals user_gacha_total_table(owner, owner.value);
 
     auto user_gacha_result_iter = user_gacha_result_table.find(_user.value);
     if (user_gacha_result_iter == user_gacha_result_table.end())
@@ -1656,17 +1835,17 @@ void unlimitgacha::presale_gacha_servant_id(eosio::name _user, uint64_t _seed)
         });
     }
 
-    auto user_gacha_accumulate_iter = user_gacha_accumulate_table.find(_user.value);
-    if (user_gacha_accumulate_iter == user_gacha_accumulate_table.end())
+    auto user_gacha_total_iter = user_gacha_total_table.find(_user.value);
+    if (user_gacha_total_iter == user_gacha_total_table.end())
     {
-        user_gacha_accumulate_table.emplace(owner, [&](auto &new_result) {
+        user_gacha_total_table.emplace(owner, [&](auto &new_result) {
             new_result.user = _user;
             new_result.result_list.push_back(result);
         });
     }
     else
     {
-        user_gacha_accumulate_table.modify(user_gacha_accumulate_iter, owner, [&](auto &new_result) {
+        user_gacha_total_table.modify(user_gacha_total_iter, owner, [&](auto &new_result) {
             new_result.result_list.push_back(result);
         });
     }
@@ -1678,7 +1857,7 @@ void unlimitgacha::presale_gacha_servant_id(eosio::name _user, uint64_t _seed)
     });
 }
 
-void unlimitgacha::presale_gacha_monster_id(eosio::name _user, uint64_t _seed)
+void untpreregist::preregist_monster_id(eosio::name _user, uint64_t _seed)
 {
     monster_id_db monster_id_db_table(owner, owner.value);
     uint64_t random_monster_id = safeseed::get_random_value(_seed, monster_id_count, DEFAULT_MIN_DB, monster_random_count);
@@ -1697,7 +1876,7 @@ void unlimitgacha::presale_gacha_monster_id(eosio::name _user, uint64_t _seed)
     eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data in pre gacha monster");
 
     result_info result;
-    user_pre_sale_monsters user_monster_table(owner, _user.value);
+    user_preregist_monsters user_monster_table(owner, _user.value);
     user_monster_table.emplace(owner, [&](auto &update_user_monster_list) {
         uint32_t first_index = user_monster_table.available_primary_key();
         if (first_index == 0)
@@ -1723,7 +1902,7 @@ void unlimitgacha::presale_gacha_monster_id(eosio::name _user, uint64_t _seed)
     });
 
     user_gacha_results user_gacha_result_table(owner, owner.value);
-    user_gacha_accumulates user_gacha_accumulate_table(owner, owner.value);
+    user_gacha_totals user_gacha_total_table(owner, owner.value);
 
     auto user_gacha_result_iter = user_gacha_result_table.find(_user.value);
     if (user_gacha_result_iter == user_gacha_result_table.end())
@@ -1740,17 +1919,17 @@ void unlimitgacha::presale_gacha_monster_id(eosio::name _user, uint64_t _seed)
         });
     }
 
-    auto user_gacha_accumulate_iter = user_gacha_accumulate_table.find(_user.value);
-    if (user_gacha_accumulate_iter == user_gacha_accumulate_table.end())
+    auto user_gacha_total_iter = user_gacha_total_table.find(_user.value);
+    if (user_gacha_total_iter == user_gacha_total_table.end())
     {
-        user_gacha_accumulate_table.emplace(owner, [&](auto &new_result) {
+        user_gacha_total_table.emplace(owner, [&](auto &new_result) {
             new_result.user = _user;
             new_result.result_list.push_back(result);
         });
     }
     else
     {
-        user_gacha_accumulate_table.modify(user_gacha_accumulate_iter, owner, [&](auto &new_result) {
+        user_gacha_total_table.modify(user_gacha_total_iter, owner, [&](auto &new_result) {
             new_result.result_list.push_back(result);
         });
     }
@@ -1761,7 +1940,7 @@ void unlimitgacha::presale_gacha_monster_id(eosio::name _user, uint64_t _seed)
     });
 }
 
-void unlimitgacha::presale_gacha_item_id(eosio::name _user, uint64_t _seed)
+void untpreregist::preregist_item_id(eosio::name _user, uint64_t _seed)
 {
     item_id_db item_id_db_table(owner, owner.value);
     uint64_t random_item_id = safeseed::get_random_value(_seed, item_id_count, DEFAULT_MIN_DB, item_random_count);
@@ -1780,7 +1959,7 @@ void unlimitgacha::presale_gacha_item_id(eosio::name _user, uint64_t _seed)
     eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data in pre gacha item");
 
     result_info result;
-    user_pre_sale_items user_item_table(owner, _user.value);
+    user_preregist_items user_item_table(owner, _user.value);
     user_item_table.emplace(owner, [&](auto &update_user_item_list) {
         uint32_t first_index = user_item_table.available_primary_key();
         if (first_index == 0)
@@ -1805,7 +1984,7 @@ void unlimitgacha::presale_gacha_item_id(eosio::name _user, uint64_t _seed)
     });
 
     user_gacha_results user_gacha_result_table(owner, owner.value);
-    user_gacha_accumulates user_gacha_accumulate_table(owner, owner.value);
+    user_gacha_totals user_gacha_total_table(owner, owner.value);
 
     auto user_gacha_result_iter = user_gacha_result_table.find(_user.value);
     if (user_gacha_result_iter == user_gacha_result_table.end())
@@ -1822,17 +2001,17 @@ void unlimitgacha::presale_gacha_item_id(eosio::name _user, uint64_t _seed)
         });
     }
 
-    auto user_gacha_accumulate_iter = user_gacha_accumulate_table.find(_user.value);
-    if (user_gacha_accumulate_iter == user_gacha_accumulate_table.end())
+    auto user_gacha_total_iter = user_gacha_total_table.find(_user.value);
+    if (user_gacha_total_iter == user_gacha_total_table.end())
     {
-        user_gacha_accumulate_table.emplace(owner, [&](auto &new_result) {
+        user_gacha_total_table.emplace(owner, [&](auto &new_result) {
             new_result.user = _user;
             new_result.result_list.push_back(result);
         });
     }
     else
     {
-        user_gacha_accumulate_table.modify(user_gacha_accumulate_iter, owner, [&](auto &new_result) {
+        user_gacha_total_table.modify(user_gacha_total_iter, owner, [&](auto &new_result) {
             new_result.result_list.push_back(result);
         });
     }
@@ -1843,7 +2022,7 @@ void unlimitgacha::presale_gacha_item_id(eosio::name _user, uint64_t _seed)
     });
 }
 
-void unlimitgacha::presale_gacha(eosio::name _user, uint64_t _seed)
+void untpreregist::preregist(eosio::name _user, uint64_t _seed)
 {
     uint64_t l_user = get_user_seed_value(_user.value);
     uint64_t l_seed = safeseed::get_seed_value(l_user, _seed);
@@ -1851,15 +2030,15 @@ void unlimitgacha::presale_gacha(eosio::name _user, uint64_t _seed)
     uint64_t l_gacha_result_type = safeseed::get_random_value(l_seed, max_rate, default_min, DEFAULE_RANDOM_COUNT);
     if (l_gacha_result_type < 333)
     {
-        presale_gacha_servant_id(_user, l_seed);
+        preregist_servant_id(_user, l_seed);
     }
     else if (l_gacha_result_type > 333 && l_gacha_result_type <= 666)
     {
-        presale_gacha_monster_id(_user, l_seed);
+        preregist_monster_id(_user, l_seed);
     }
     else
     {
-        presale_gacha_item_id(_user, l_seed);
+        preregist_item_id(_user, l_seed);
     }
 
     servant_random_count = 0;
@@ -1867,54 +2046,42 @@ void unlimitgacha::presale_gacha(eosio::name _user, uint64_t _seed)
     item_random_count = 0;
 }
 
-#pragma region gacha cheat
-ACTION unlimitgacha::gachacheat(eosio::name _user)
+
+
+#pragma region blacklist action
+
+ACTION untpreregist::deleteblack(eosio::name _user)
 {
-    require_auth(_user);
-    auth_users auth_user_table(owner, owner.value);
-    auto owner_iter = auth_user_table.find(owner.value);
-    eosio_assert(owner_iter->state != euser_state::pause, " server checking... ");
+    master master_table(owner, owner.value);
+    auto master_iter = master_table.begin();
 
-    uint64_t l_seed = safeseed::get_seed(owner.value, _user.value);
-    for (uint32_t i = 0; i < 50; ++i)
-    {
-        user_logs user_log_table(owner, owner.value);
-        auto user_log_iter = user_log_table.find(_user.value);
-        eosio_assert(user_log_iter != user_log_table.end(), "not exist user log data in gacha cheat");
-        user_log_table.modify(user_log_iter, owner, [&](auto &buy_log) {
-            buy_log.gacha_num += 1;
-        });
-        uint64_t l_user = get_user_seed_value(_user.value);
-        uint64_t seed = safeseed::get_seed_value(l_user, l_seed);
+    permission_level master_auth;
+    master_auth.actor = master_iter->master;
+    master_auth.permission = "owner"_n;
+    require_auth(master_auth);
 
-        presale_gacha_item_id(_user, seed);
-        presale_gacha_monster_id(_user, seed);
-    }
-}
-#pragma endregion
+    blacklist blacklist_table(owner, owner.value);
+    auto blacklist_iter = blacklist_table.find(_user.value);
+    eosio_assert(blacklist_iter != blacklist_table.end(), "this user not exist in black list");
 
-#pragma region black_list action
-
-ACTION unlimitgacha::deleteblack(eosio::name _user)
-{
-    require_auth(owner_auth);
-
-    black_list black_list_table(owner, owner.value);
-    auto black_list_iter = black_list_table.find(_user.value);
-    eosio_assert(black_list_iter != black_list_table.end(), "this user not exist in black list");
-
-    black_list_table.erase(black_list_iter);
+    blacklist_table.erase(blacklist_iter);
 }
 
-ACTION unlimitgacha::addblack(eosio::name _user)
+ACTION untpreregist::addblack(eosio::name _user)
 {
-    require_auth(owner_auth);
+    master master_table(owner, owner.value);
+    auto master_iter = master_table.begin();
 
-    black_list black_list_table(owner, owner.value);
-    auto black_list_iter = black_list_table.find(_user.value);
-    eosio_assert(black_list_iter == black_list_table.end(), "this user already exist in black list");
+    permission_level master_auth;
+    master_auth.actor = master_iter->master;
+    master_auth.permission = "owner"_n;
+    require_auth(master_auth);
 
-    black_list_table.emplace(owner, [&](auto &new_black_user) {
+    blacklist blacklist_table(owner, owner.value);
+    auto blacklist_iter = blacklist_table.find(_user.value);
+    eosio_assert(blacklist_iter == blacklist_table.end(), "this user already exist in black list");
+
+    blacklist_table.emplace(owner, [&](auto &new_black_user) {
         new_black_user.user = _user;
     });
 }
@@ -1923,12 +2090,18 @@ ACTION unlimitgacha::addblack(eosio::name _user)
 
 #pragma region owenr action
 
-ACTION unlimitgacha::setpause(uint64_t _state)
+ACTION untpreregist::setpause(uint64_t _state)
 {
-    require_auth(owner_auth);
+    master master_table(owner, owner.value);
+    auto master_iter = master_table.begin();
+
+    permission_level master_auth;
+    master_auth.actor = master_iter->master;
+    master_auth.permission = "owner"_n;
+    require_auth(master_auth);
 
     auth_users user_auth_table(owner, owner.value);
-    auto owner_iter = user_auth_table.find(owner.value);
+    auto owner_iter = user_auth_table.find(master_iter->master.value);
     eosio_assert(owner_iter != user_auth_table.end(), "not set gm account");
 
     user_auth_table.modify(owner_iter, owner, [&](auto &set_owner_account) {
@@ -1951,18 +2124,20 @@ ACTION unlimitgacha::setpause(uint64_t _state)
         {                                                                                   \
             if (code == receiver)                                                           \
             {                                                                               \
-                switch (action)                                                             \
-                {                                                                           \
-                    EOSIO_DISPATCH_HELPER(TYPE, MEMBERS)                                    \
-                }                                                                           \
+                eosio_assert(action != name("eostransfer").value,"impossible this action");                                    \
+                    switch (action)                                                         \
+                    {                                                                       \
+                        EOSIO_DISPATCH_HELPER(TYPE, MEMBERS)                                \
+                    }                                                                       \
+                    /* does not allow destructor of thiscontract to run: eosio_exit(0); */ \
             }                                                                               \
             else if (code == name("eosio.token").value && action == name("transfer").value) \
             {                                                                               \
-                eosio_assert( code == name("eosio.token").value, "Must transfer EOS");      \
-                execute_action(name(receiver), name(code), &unlimitgacha::eostransfer);     \
+                eosio_assert(code == name("eosio.token").value, "Must transfer EOS");       \
+                execute_action(name(receiver), name(code), &untpreregist::eostransfer);     \
             }                                                                               \
         }                                                                                   \
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(unlimitgacha, (create)(issue)(tokentrans)(setmaster)(setpresale)(presalemove)(eostransfer)(initmaster)(deleteuser)(initprelog)(inittoken)(gachacheat)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase))
+EOSIO_DISPATCH(untpreregist, (create)(issue)(transfer)(setmaster)(setpreregist)(presalemove)(eostransfer)(initmaster)(deleteuser)(initprelog)(inittoken)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase)(dbinit))
