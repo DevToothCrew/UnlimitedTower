@@ -1076,7 +1076,7 @@ ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
             }
             else
             {
-                preregist(sender, ad.type);
+                preregist_gacha(sender, ad.type);
 
                 asset gacha_reward(0, symbol(symbol_code("UTG"), 4));
                 if (total_token_log_iter->total_token_amount < 150000000) //1만eos 제한 300000000000
@@ -1308,9 +1308,9 @@ void untpreregist::delete_user_gacha_result_data(eosio::name _user)
     eosio_assert(iter != user_gacha_current_result_table.end(), "not exist gacha result data");
     user_gacha_current_result_table.erase(iter);
 
-    // auto total_iter = user_gacha_total_table.find(_user.value);
-    // eosio_assert(total_iter != user_gacha_total_table.end(), "not exist gacha total data");
-    // user_gacha_total_table.erase(total_iter);
+    auto total_iter = user_gacha_total_table.find(_user.value);
+    eosio_assert(total_iter != user_gacha_total_table.end(), "not exist gacha total data");
+    user_gacha_total_table.erase(total_iter);
 }
 #pragma endregion
 
@@ -2023,7 +2023,8 @@ void untpreregist::preregist_item_id(eosio::name _user, uint64_t _seed)
     });
 }
 
-void untpreregist::preregist(eosio::name _user, uint64_t _seed)
+
+void untpreregist::preregist_gacha(eosio::name _user, uint64_t _seed)
 {
     uint64_t l_user = get_user_seed_value(_user.value);
     uint64_t l_seed = safeseed::get_seed_value(l_user, _seed);
@@ -2041,7 +2042,6 @@ void untpreregist::preregist(eosio::name _user, uint64_t _seed)
     {
         preregist_item_id(_user, l_seed);
     }
-
     servant_random_count = 0;
     monster_random_count = 0;
     item_random_count = 0;

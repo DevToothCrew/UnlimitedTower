@@ -483,11 +483,10 @@ enum db_index
 
     void start_gacha(eosio::name _user, uint64_t _seed);
 //-----------------------------preregist_function--------------------------------//
-    
     void preregist_servant_id(eosio::name _user, uint64_t _seed);
     void preregist_monster_id(eosio::name _user, uint64_t _seed);
     void preregist_item_id(eosio::name _user, uint64_t _seed);
-    void preregist(eosio::name _user, uint64_t _seed);
+    void preregist_gacha(eosio::name _user, uint64_t _seed);
 
 #pragma endregion
 
