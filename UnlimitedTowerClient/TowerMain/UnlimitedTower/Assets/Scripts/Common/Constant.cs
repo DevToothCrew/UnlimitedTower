@@ -599,4 +599,10 @@ public enum STATUS_TYPE
     INT = 2
 }
 
+public enum GENDER
+{
+    Man = 0,
+    Woman = 1
+}
+
 #endregion

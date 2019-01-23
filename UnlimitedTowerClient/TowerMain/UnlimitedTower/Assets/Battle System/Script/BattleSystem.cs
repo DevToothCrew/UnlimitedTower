@@ -102,24 +102,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     [ContextMenu("AttackTest")]
     public void AttackTest()
     {
-        // StartCoroutine(BattleStart());
-        // StartCoroutine(BattleTest());
         StartCoroutine(BattleTestTarget());
-        
-        // battleInformation.AttackerIndex = 0;
-        // battleInformation.TargetIndex = 0;
-        // battleInformation.Damage = 100;
-        // battleInformation.isCritical = true;
-        // battleInformation.isAvoid = false;
-        // battleInformation.isPlayerTurn = true;
-        // 
-        // PlayerCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(
-        //     battleInformation.AttackerIndex,
-        //     battleInformation.TargetIndex,
-        //     battleInformation.Damage,
-        //     battleInformation.isCritical,
-        //     battleInformation.isAvoid,
-        //     battleInformation.isPlayerTurn));
     }
 
     private void Update()
@@ -132,24 +115,25 @@ public class BattleSystem : MonoSingleton<BattleSystem>
 
     IEnumerator BattleTestTarget()
     {
-        battleInformation.AttackerIndex = 2;
-        battleInformation.TargetIndex = 2;
-        battleInformation.Damage = 10;
-        battleInformation.isCritical = Random.Range(0, 2) == 1 ? true : false;
-        battleInformation.isAvoid = false;
-        battleInformation.isPlayerTurn = true;
-
-        PlayerCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(
-            battleInformation.AttackerIndex,
-            battleInformation.TargetIndex,
-            battleInformation.Damage,
-            battleInformation.isCritical,
-            battleInformation.isAvoid,
-            battleInformation.isPlayerTurn));
-        yield return new WaitForSeconds(7);
+        for (int i = 0; i < 10; i++)
         {
-            battleInformation.AttackerIndex = 2;
-            battleInformation.TargetIndex = 2;
+            battleInformation.AttackerIndex = i;
+            battleInformation.TargetIndex = i;
+            battleInformation.Damage = 10;
+            battleInformation.isCritical = Random.Range(0, 2) == 1 ? true : false;
+            battleInformation.isAvoid = false;
+            battleInformation.isPlayerTurn = true;
+
+            PlayerCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(
+                battleInformation.AttackerIndex,
+                battleInformation.TargetIndex,
+                battleInformation.Damage,
+                battleInformation.isCritical,
+                battleInformation.isAvoid,
+                battleInformation.isPlayerTurn));
+            yield return new WaitForSeconds(7);
+            battleInformation.AttackerIndex = i;
+            battleInformation.TargetIndex = i;
             battleInformation.Damage = 10;
             battleInformation.isCritical = Random.Range(0, 2) == 1 ? true : false;
             battleInformation.isAvoid = false;
@@ -162,15 +146,15 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                 battleInformation.isCritical,
                 battleInformation.isAvoid,
                 battleInformation.isPlayerTurn));
+            yield return new WaitForSeconds(7);
         }
-        yield return new WaitForSeconds(7);
     }
 
-    IEnumerator BattleTest()
+    IEnumerator BattleTestRandom()
     {
         for (int i = 0; i < 10; i++)
         {
-            battleInformation.AttackerIndex = Random.Range(0,10);
+            battleInformation.AttackerIndex = Random.Range(0, 10);
             battleInformation.TargetIndex = Random.Range(0, 10);
             battleInformation.Damage = Random.Range(100, 200);
             battleInformation.isCritical = Random.Range(0, 2) == 1 ? true : false;
@@ -204,7 +188,6 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             yield return new WaitForSeconds(7);
         }
     }
-
 
     IEnumerator BattleStart()
     {
@@ -251,3 +234,10 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         }
     }
 }
+/*
+ public interface IVisibleListener
+{
+    void IVisibleListener_OnVisible(bool bIsVisible);
+}
+     
+     */

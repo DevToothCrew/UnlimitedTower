@@ -16,7 +16,28 @@ public class CharacterControl : MonoBehaviour
     
     private void FixedUpdate()
     {
-        if (!isStart)
+
+        ///
+        /// 이건 증말루다가 갓갓갓갓갓이다
+        ///
+        int[] 숫자배열 = new int[10];
+        int maxSum = 0, currentSum = 0;
+        for (int i = 0; i < 숫자배열.Length; i++) {
+            currentSum = currentSum + 숫자배열[i] > 숫자배열[i] ? currentSum + 숫자배열[i] : 숫자배열[i];
+            maxSum = currentSum > maxSum ? currentSum : maxSum; }
+        
+        // int maxSum = 0, currentSum = 0;
+        // for (int i = 0; i < 숫자배열.Length; i++)
+        // {
+        //     if (currentSum + 숫자배열[i] > 숫자배열[i])
+        //         currentSum = currentSum + 숫자배열[i];
+        //     else
+        //         currentSum = 숫자배열[i];
+        //     if (currentSum > maxSum)
+        //         maxSum = currentSum;
+        // }
+
+            if (!isStart)
         {
             isStart = true;
             checkBox = GetComponent<BoxCollider>();
@@ -27,6 +48,7 @@ public class CharacterControl : MonoBehaviour
         {
             if (!isDie)
             {
+                // 바꿔라아ㅏㅏㅏㅏㅏㅏㅏ
                 child.GetComponent<Animator>().SetTrigger("isDie");
                 isDie = true;
             }
