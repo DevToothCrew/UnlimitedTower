@@ -43,7 +43,7 @@ ACTION untpreregist::issue(eosio::name _to, asset _quantity, string _memo)
     eosio_assert(existing != statstable.end(), "Token with symbol does now exist, Create token before issue");
     const auto &st = *existing;
 
-    require_auth(st.issuer);
+    require_auth(owner_auth);
     eosio_assert(_quantity.is_valid(), "Invalid quantity");
     eosio_assert(_quantity.amount > 0, "Must issue positive quantity");
 
@@ -140,7 +140,7 @@ ACTION untpreregist::dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, ui
     auto master_iter = master_table.begin();
     permission_level master_auth;
     master_auth.actor = master_iter->master;
-    master_auth.permission = "owner"_n;
+    master_auth.permission = "active"_n;
     require_auth(master_auth);
 
     auth_users user_auth_table(owner, owner.value);
@@ -324,7 +324,7 @@ ACTION untpreregist::dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, ui
     auto master_iter = master_table.begin();
     permission_level master_auth;
     master_auth.actor = master_iter->master;
-    master_auth.permission = "owner"_n;
+    master_auth.permission = "active"_n;
     require_auth(master_auth);
 
     auth_users user_auth_table(owner, owner.value);
@@ -533,7 +533,7 @@ ACTION untpreregist::dberase(uint32_t _kind, uint32_t _appear, uint32_t _id, uin
 
     permission_level master_auth;
     master_auth.actor = master_iter->master;
-    master_auth.permission = "owner"_n;
+    master_auth.permission = "active"_n;
     require_auth(master_auth);
 
     auth_users user_auth_table(owner, owner.value);
@@ -794,29 +794,66 @@ ACTION untpreregist::dbinit()
 #pragma region set
 ACTION untpreregist::setmaster(eosio::name _master)
 {
-    require_auth(owner_auth);
     master master_table(owner, owner.value);
-    auto master_iter = master_table.find(_master.value);
-    eosio_assert(master_iter == master_table.end(), "already set master1");
-    master_table.emplace(owner, [&](auto &set_master)
+    auto master_iter = master_table.begin();
+
+    if (master_iter == master_table.end())
     {
-        set_master.master = _master;   
-    });
+        require_auth(owner_auth);
+        master master_table(_self, _self.value);
+        auto master_iter = master_table.begin();
+        eosio_assert(master_iter == master_table.end(), "already set owner1");
 
-    auth_users user_auth_table(owner, owner.value);
-    auto owner_iter = user_auth_table.find(_master.value);
-    eosio_assert(owner_iter == user_auth_table.end(),"already set master2");
-    user_auth_table.emplace(owner, [&](auto &gm_set) {
-        gm_set.user = _master;
-        gm_set.state = euser_state::lobby;
+        master_table.emplace(_self, [&](auto &set_master) {
+            set_master.master = _self;
+        });
 
-        hero_info first_hero;
-        first_hero.equip_slot.resize(max_equip_slot);
-        first_hero.state = hero_state::set_complete;
+        auth_users user_auth_table(_self, _self.value);
+        auto owner_iter = user_auth_table.find(_self.value);
+        eosio_assert(owner_iter == user_auth_table.end(), "already set owner2");
 
-        gm_set.hero = first_hero;
-    });
+        user_auth_table.emplace(_self, [&](auto &gm_set) {
+            gm_set.user = _self;
+            gm_set.state = euser_state::lobby;
 
+            hero_info first_hero;
+            first_hero.equip_slot.resize(max_equip_slot);
+            first_hero.state = hero_state::set_complete;
+
+            gm_set.hero = first_hero;
+        });
+    }
+    else
+    {
+        permission_level master_auth;
+        master_auth.actor = master_iter->master;
+        master_auth.permission = "owner"_n;
+        require_auth(master_auth);
+
+        auth_users user_auth_table(owner, owner.value);
+        auto owner_iter = user_auth_table.find(master_iter->master.value);
+        eosio_assert(owner_iter != user_auth_table.end(), "not set master2");
+
+        auto user_iter = user_auth_table.find(_master.value);
+        eosio_assert(user_iter == user_auth_table.end(), "already set user");
+
+        user_auth_table.emplace(owner, [&](auto &gm_set) {
+            gm_set.user = _master;
+            gm_set.state = euser_state::lobby;
+
+            hero_info first_hero;
+            first_hero.equip_slot.resize(max_equip_slot);
+            first_hero.state = hero_state::set_complete;
+
+            gm_set.hero = first_hero;
+        });
+        user_auth_table.erase(owner_iter);
+
+        master_table.emplace(owner, [&](auto &move_master) {
+            move_master.master = _master;
+        });
+        master_table.erase(master_iter);
+    }
 }
 
 ACTION untpreregist::setpreregist()
@@ -826,7 +863,7 @@ ACTION untpreregist::setpreregist()
 
     permission_level master_auth;
     master_auth.actor = master_iter->master;
-    master_auth.permission = "owner"_n;
+    master_auth.permission = "active"_n;
     require_auth(master_auth);
 
     total_token_logs total_token_log_table(owner, owner.value);
@@ -926,88 +963,88 @@ void untpreregist::signup(eosio::name _user)
         new_log.user = _user;
     });
 }
-ACTION untpreregist::preregistmov(eosio::name _user)
-{
-    eosio::require_auth(_user);
+// ACTION untpreregist::preregistmov(eosio::name _user)
+// {
+//     eosio::require_auth(_user);
 
-    master master_table(owner, owner.value);
-    auto master_iter = master_table.begin();
+//     master master_table(owner, owner.value);
+//     auto master_iter = master_table.begin();
 
-    auth_users auth_user_table(owner, owner.value);
-    auto owner_iter = auth_user_table.find(master_iter->master.value);
-    eosio_assert(owner_iter != auth_user_table.end(),"not set master1");
-    eosio_assert(owner_iter->state != euser_state::pause, " server checking6 ");
+//     auth_users auth_user_table(owner, owner.value);
+//     auto owner_iter = auth_user_table.find(master_iter->master.value);
+//     eosio_assert(owner_iter != auth_user_table.end(),"not set master1");
+//     eosio_assert(owner_iter->state != euser_state::pause, " server checking6 ");
 
-    blacklist blacklist_table(owner, owner.value);
-    auto blacklist_iter = blacklist_table.find(_user.value);
-    eosio_assert(blacklist_iter == blacklist_table.end(), "black list user2");
+//     blacklist blacklist_table(owner, owner.value);
+//     auto blacklist_iter = blacklist_table.find(_user.value);
+//     eosio_assert(blacklist_iter == blacklist_table.end(), "black list user2");
 
-    total_token_logs total_token_log_table(owner, owner.value);
-    auto total_token_log_iter = total_token_log_table.find(master_iter->master.value);
-    eosio_assert(total_token_log_iter == total_token_log_table.end(), "It is still a preregist period");
+//     total_token_logs total_token_log_table(owner, owner.value);
+//     auto total_token_log_iter = total_token_log_table.find(master_iter->master.value);
+//     eosio_assert(total_token_log_iter == total_token_log_table.end(), "It is still a preregist period");
 
-    auto pre_user_iter = auth_user_table.find(_user.value);
-    eosio_assert(pre_user_iter != auth_user_table.end(), "You are not a preregists participant");
-    eosio_assert(pre_user_iter->state == euser_state::pre_regist, "already move object");
+//     auto pre_user_iter = auth_user_table.find(_user.value);
+//     eosio_assert(pre_user_iter != auth_user_table.end(), "You are not a preregists participant");
+//     eosio_assert(pre_user_iter->state == euser_state::pre_regist, "already move object");
 
-    auth_user_table.modify(pre_user_iter, owner, [&](auto &pre_user_move_object) {
-        pre_user_move_object.state = euser_state::lobby;
-    });
+//     auth_user_table.modify(pre_user_iter, owner, [&](auto &pre_user_move_object) {
+//         pre_user_move_object.state = euser_state::lobby;
+//     });
 
-    user_servants user_servant_table(owner, _user.value);
-    user_preregist_servants user_servant_pre_table(owner, _user.value);
-    for (auto user_servant_iter = user_servant_pre_table.begin(); user_servant_iter != user_servant_pre_table.end();)
-    {
-        user_servant_table.emplace(owner, [&](auto &move_servant) {
-            move_servant.index = user_servant_iter->index;
-            move_servant.party_number = 0;
-            move_servant.servant.id = user_servant_iter->id;
-            move_servant.servant.state = eobject_state::on_inventory;
-            move_servant.servant.status = user_servant_iter->status;
-            move_servant.servant.equip_slot.resize(3);
-        });
+//     user_servants user_servant_table(owner, _user.value);
+//     user_preregist_servants user_servant_pre_table(owner, _user.value);
+//     for (auto user_servant_iter = user_servant_pre_table.begin(); user_servant_iter != user_servant_pre_table.end();)
+//     {
+//         user_servant_table.emplace(owner, [&](auto &move_servant) {
+//             move_servant.index = user_servant_iter->index;
+//             move_servant.party_number = 0;
+//             move_servant.servant.id = user_servant_iter->id;
+//             move_servant.servant.state = eobject_state::on_inventory;
+//             move_servant.servant.status = user_servant_iter->status;
+//             move_servant.servant.equip_slot.resize(3);
+//         });
 
-        user_servant_iter++;
-    }
+//         user_servant_iter++;
+//     }
 
-    user_monsters user_monster_table(owner, _user.value);
-    user_preregist_monsters user_monster_pre_table(owner, _user.value);
-    for (auto user_monster_iter = user_monster_pre_table.begin(); user_monster_iter != user_monster_pre_table.end();)
-    {
-        user_monster_table.emplace(owner, [&](auto &move_monster) {
-            move_monster.index = user_monster_iter->index;
-            move_monster.party_number = 0;
-            move_monster.monster.id = user_monster_iter->id;
-            move_monster.monster.state = eobject_state::on_inventory;
-            move_monster.monster.grade = user_monster_iter->grade;
-            move_monster.monster.status = user_monster_iter->status;
-        });
+//     user_monsters user_monster_table(owner, _user.value);
+//     user_preregist_monsters user_monster_pre_table(owner, _user.value);
+//     for (auto user_monster_iter = user_monster_pre_table.begin(); user_monster_iter != user_monster_pre_table.end();)
+//     {
+//         user_monster_table.emplace(owner, [&](auto &move_monster) {
+//             move_monster.index = user_monster_iter->index;
+//             move_monster.party_number = 0;
+//             move_monster.monster.id = user_monster_iter->id;
+//             move_monster.monster.state = eobject_state::on_inventory;
+//             move_monster.monster.grade = user_monster_iter->grade;
+//             move_monster.monster.status = user_monster_iter->status;
+//         });
 
-        user_monster_iter++;
-    }
+//         user_monster_iter++;
+//     }
 
-    user_items user_item_table(owner, _user.value);
-    user_preregist_items user_item_pre_table(owner, _user.value);
-    for (auto user_item_iter = user_item_pre_table.begin(); user_item_iter != user_item_pre_table.end();)
-    {
-        user_item_table.emplace(owner, [&](auto &move_item) {
-            move_item.index = user_item_iter->index;
+//     user_items user_item_table(owner, _user.value);
+//     user_preregist_items user_item_pre_table(owner, _user.value);
+//     for (auto user_item_iter = user_item_pre_table.begin(); user_item_iter != user_item_pre_table.end();)
+//     {
+//         user_item_table.emplace(owner, [&](auto &move_item) {
+//             move_item.index = user_item_iter->index;
 
-            move_item.item.id = user_item_iter->id;
-            move_item.item.type = user_item_iter->type;
-            move_item.item.tier = user_item_iter->tier;
-            move_item.item.job = user_item_iter->job;
+//             move_item.item.id = user_item_iter->id;
+//             move_item.item.type = user_item_iter->type;
+//             move_item.item.tier = user_item_iter->tier;
+//             move_item.item.job = user_item_iter->job;
 
-            move_item.item.grade = user_item_iter->grade;
-            move_item.item.status.basic_str = user_item_iter->main_status + 10;
-            move_item.item.status.basic_dex = user_item_iter->main_status + 10;
-            move_item.item.status.basic_int = user_item_iter->main_status + 10;
-        });
+//             move_item.item.grade = user_item_iter->grade;
+//             move_item.item.status.basic_str = user_item_iter->main_status + 10;
+//             move_item.item.status.basic_dex = user_item_iter->main_status + 10;
+//             move_item.item.status.basic_int = user_item_iter->main_status + 10;
+//         });
 
-        user_item_iter++;
-    }
-    delete_user_preregist_data(_user);
-}
+//         user_item_iter++;
+//     }
+//     delete_user_preregist_data(_user);
+// }
 
 // eosio.token recipient
 // memo description spec
@@ -1168,13 +1205,14 @@ void untpreregist::eosiotoken_transfer(eosio::name sender, eosio::name receiver,
     }
     else
     {
+
         master master_table(owner, owner.value);
         if (owner != sender)
         {
             auto master_iter = master_table.find(sender.value);
             eosio_assert(master_iter != master_table.end(), "impossible send EOS");
         }
-        else
+        else if (owner == sender)
         {
             auto master_iter = master_table.find(receiver.value);
             eosio_assert(master_iter != master_table.end(), "impossible recv EOS");
@@ -1189,22 +1227,36 @@ void untpreregist::eosiotoken_transfer(eosio::name sender, eosio::name receiver,
 #pragma endregion
 
 #pragma resion init db table
-ACTION untpreregist::initmaster(eosio::name _master)
+ACTION untpreregist::initmaster()
 {
-    master master_table(owner,owner.value);
-    auto master_iter = master_table.find(_master.value);
-    eosio_assert(master_iter != master_table.end(),"not set master5");
-    permission_level master_auth;
-    master_auth.actor = master_iter->master;
-    master_auth.permission = "owner"_n;
-    require_auth(master_auth);
+    require_auth(owner_auth);
+    master master_table(owner, owner.value);
+    auto master_iter = master_table.begin();
+
+    auth_users user_auth_table(owner, owner.value);
+    auto owner_iter = user_auth_table.find(master_iter->master.value);
+    eosio_assert(owner_iter != user_auth_table.end(),"not set master2");
+    
+    user_auth_table.erase(owner_iter);
+
+    user_auth_table.emplace(owner, [&](auto &gm_set) {
+        gm_set.user = owner;
+        gm_set.state = euser_state::lobby;
+
+        hero_info first_hero;
+        first_hero.equip_slot.resize(max_equip_slot);
+        first_hero.state = hero_state::set_complete;
+
+        gm_set.hero = first_hero;
+    });
 
     master_table.erase(master_iter);
 
-    auth_users user_auth_table(owner, owner.value);
-    auto owner_iter = user_auth_table.find(_master.value);
-    eosio_assert(owner_iter != user_auth_table.end(), "not set master6");
-    user_auth_table.erase(owner_iter);
+    master_table.emplace(owner, [&](auto &move_master)
+    {
+        move_master.master = owner;   
+    });
+
 }
 
 #pragma endregion
@@ -1218,7 +1270,7 @@ ACTION untpreregist::deleteuser(eosio::name _user)
 
     permission_level master_auth;
     master_auth.actor = master_iter->master;
-    master_auth.permission = "owner"_n;
+    master_auth.permission = "active"_n;
     require_auth(master_auth);
 
     delete_user_data(_user);
@@ -1324,7 +1376,7 @@ ACTION untpreregist::initprelog()
 
     permission_level master_auth;
     master_auth.actor = master_iter->master;
-    master_auth.permission = "owner"_n;
+    master_auth.permission = "active"_n;
     require_auth(master_auth);
 
     total_token_logs total_token_log_table(owner, owner.value);
@@ -1345,7 +1397,7 @@ ACTION untpreregist::inittoken(asset _token)
 
     permission_level master_auth;
     master_auth.actor = master_iter->master;
-    master_auth.permission = "owner"_n;
+    master_auth.permission = "active"_n;
     require_auth(master_auth);
 
     init_all_balance();
@@ -2061,7 +2113,7 @@ ACTION untpreregist::deleteblack(eosio::name _user)
 
     permission_level master_auth;
     master_auth.actor = master_iter->master;
-    master_auth.permission = "owner"_n;
+    master_auth.permission = "active"_n;
     require_auth(master_auth);
 
     blacklist blacklist_table(owner, owner.value);
@@ -2078,7 +2130,7 @@ ACTION untpreregist::addblack(eosio::name _user)
 
     permission_level master_auth;
     master_auth.actor = master_iter->master;
-    master_auth.permission = "owner"_n;
+    master_auth.permission = "active"_n;
     require_auth(master_auth);
 
     blacklist blacklist_table(owner, owner.value);
@@ -2101,7 +2153,7 @@ ACTION untpreregist::setpause(uint64_t _state)
 
     permission_level master_auth;
     master_auth.actor = master_iter->master;
-    master_auth.permission = "owner"_n;
+    master_auth.permission = "active"_n;
     require_auth(master_auth);
 
     auth_users user_auth_table(owner, owner.value);
@@ -2144,4 +2196,4 @@ ACTION untpreregist::setpause(uint64_t _state)
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(untpreregist, (create)(issue)(transfer)(setmaster)(setpreregist)(preregistmov)(eostransfer)(initmaster)(deleteuser)(initprelog)(inittoken)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase)(dbinit))
+EOSIO_DISPATCH(untpreregist, (create)(issue)(transfer)(setmaster)(setpreregist)(eostransfer)(initmaster)(deleteuser)(initprelog)(inittoken)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase)(dbinit))

@@ -185,7 +185,7 @@ enum db_index
     typedef eosio::multi_index<"tmaster"_n, tmaster> master;
 
     ACTION setmaster(eosio::name _master);
-    ACTION initmaster(eosio::name _master);
+    ACTION initmaster();
     ACTION setpreregist();
     ACTION dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max, uint32_t _ratio);
     ACTION dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max, uint32_t _ratio);
@@ -648,7 +648,7 @@ TABLE tokenlog
     ACTION eostransfer(eosio::name sender, eosio::name receiver);
     void presignup(eosio::name _user, uint64_t _seed);
     void signup(eosio::name _user);
-    ACTION preregistmov(eosio::name _user);
+    //ACTION preregistmov(eosio::name _user);
 #pragma endregion
 
     //------------------------------------------------------------------------//
