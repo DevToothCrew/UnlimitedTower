@@ -96,7 +96,7 @@ public class PartnerInfoPopup : MonoBehaviour {
         this.unitType = unitType;
         this.sortState = sortType;
         this.pageNum = pageNum;
-
+        
 
         // 창 초기화
         for (int i = 0; i < SlotList.Count; i++)
@@ -104,8 +104,7 @@ public class PartnerInfoPopup : MonoBehaviour {
             SlotList[i].LockSlot();
         }
 
-
-
+        
         // 정렬 
         int startIndex = SlotList.Count * pageNum;
         int endIndex = SlotList.Count * (pageNum+1);
@@ -173,17 +172,29 @@ public class PartnerInfoPopup : MonoBehaviour {
                 break;
         }
         
-
-
-
-        
-
-        
     }
 
     // SORT_STATE
+    public void SortByGrade()
+    {
+        DisplayUnits(unitType, SORT_TYPE.Grade, pageNum);
+    }
+    public void SortByLevel()
+    {
+        DisplayUnits(unitType, SORT_TYPE.Level, pageNum);
+    }
+    public void SortByPower()
+    {
+        DisplayUnits(unitType, SORT_TYPE.Power, pageNum);
+    }
+    public void SortByObtain()
+    {
+        DisplayUnits(unitType, SORT_TYPE.Obtain, pageNum);
+    }
     public void SetSortState(int sortstateNum)
     {
+        Debug.Log("click");
+
         // 이미같은 sort면 -> return
         if (sortstateNum == (int)this.sortState)
         {
