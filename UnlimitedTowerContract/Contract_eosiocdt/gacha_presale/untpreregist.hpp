@@ -648,7 +648,6 @@ TABLE tokenlog
     ACTION eostransfer(eosio::name sender, eosio::name receiver);
     void presignup(eosio::name _user, uint64_t _seed);
     void signup(eosio::name _user);
-    //ACTION preregistmov(eosio::name _user);
 #pragma endregion
 
     //------------------------------------------------------------------------//
