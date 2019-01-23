@@ -53,7 +53,7 @@ public class HeroinfoItemSlot : MonoBehaviour {
             upgradeText.gameObject.SetActive(true);
             lockImage.gameObject.SetActive(false);
 
-            tearText.text = mountItemData.tearNum + "T";
+            tearText.text = mountItemData.tierNum + "T";
             upgradeText.text = "+" + mountItemData.upgradeCount;
             itemImage.sprite = ErdManager.instance.MountitemSprite[mountItemData.mountitemNum];
 

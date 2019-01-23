@@ -24,7 +24,7 @@ public class HeroInfoInventoryItemicon : MonoBehaviour , IPointerClickHandler
         isRegistered = true;
         
         itemimage.sprite = ErdManager.instance.MountitemSprite[mountitemdata.mountitemNum];
-        teartext.text = mountitemdata.tearNum + "T";
+        teartext.text = mountitemdata.tierNum + "T";
         upgradetext.text = "+"+ mountitemdata.upgradeCount;
 
         mountitemdata.mountedChanged += UpdateMounted;

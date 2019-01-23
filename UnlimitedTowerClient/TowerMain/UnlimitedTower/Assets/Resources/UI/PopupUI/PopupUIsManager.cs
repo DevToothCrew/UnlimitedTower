@@ -43,6 +43,18 @@ public class PopupUIsManager : MonoBehaviour {
     //
     public void OnClickHerobtn()
     {
+        // 이미 등록되어있다면 return
+        if (PopupUIsManager.instance.heroInfoPopup.isRegistered)
+        {
+            return;
+        }
+
+        // UI들 초기화
+        LobbyManager.Inst.InitCenterPopup();
+        // CenterPopup 켜주기
+        LobbyManager.Inst.CenterPopup.SetActivateWithAnimation(true);
+
+        // 히어로팝업 켜기
         UserServantData servantdata = UserDataManager.Inst.ServantList.Find((rowdata) => { return rowdata.isMainHero; });
         heroInfoPopup.ToRegistered(servantdata);
     }

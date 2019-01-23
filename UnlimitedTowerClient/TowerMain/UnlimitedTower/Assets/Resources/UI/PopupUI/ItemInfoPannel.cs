@@ -41,10 +41,10 @@ public class ItemInfoPannel : MonoBehaviour
         // 아이템 아이콘, 티어, 
         itemname.text = param.itemName;
         itemimage.sprite = ErdManager.instance.MountitemSprite[mountitemdata.mountitemNum];
-        teartext.text = mountitemdata.tearNum + "T";
+        teartext.text = mountitemdata.tierNum + "T";
         upgradeText.text = "+" + mountitemdata.upgradeCount;
 
-        teartext2.text = mountitemdata.tearNum + "T";
+        teartext2.text = mountitemdata.tierNum + "T";
         upgradetext2.text = "+" + mountitemdata.upgradeCount +"/"+ Etc.maxItemUpgradeNum;
 
         // job

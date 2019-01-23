@@ -117,7 +117,7 @@ public class HeroInfoPopup : MonoBehaviour {
         // 악세서리칸
         accessorySlot.ToRegister(servant);
 
-        gameObject.SetActive(true);
+        gameObject.SetActivateWithAnimation(true);
     }
     public void ToRegistered(UserMonsterData monster)
     {
@@ -146,7 +146,7 @@ public class HeroInfoPopup : MonoBehaviour {
         // 캐릭터프리팹
         SubCamera.instance.Register(monsterData);
 
-        gameObject.SetActive(true);
+        gameObject.SetActivateWithAnimation(true);
     }
     public void ToDeregistered()
     {

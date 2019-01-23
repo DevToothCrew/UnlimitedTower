@@ -305,7 +305,8 @@ public class UserMountItemData
     //
     public int mountitemNum;
 
-    public int tearNum;
+    public int gradeNum;
+    public int tierNum; 
     public int upgradeCount;
 
     bool _isMounted;
@@ -532,7 +533,7 @@ public enum UNIT_TYPE
     MONSTER
 }
 // UI에서 사용하는 Sorting 타입
-public enum SortType
+public enum SORT_TYPE
 {
     Grade,
     Level,

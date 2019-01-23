@@ -39,12 +39,12 @@ public class InventorySlotScript : MonoBehaviour {
         upgradetext.gameObject.SetActive(true);
         
         ItemImage.sprite = ErdManager.instance.MountitemSprite[mountitemdata.mountitemNum];
-        teartext.text = mountitemdata.tearNum + "T";
+        teartext.text = mountitemdata.tierNum + "T";
         upgradetext.text = "+"+mountitemdata.upgradeCount;
 
         // 해당 서번트가 판매리스트에 포함되어있다면
         if (PopupUIsManager.instance.inventoryInfoPopup.sellingMountItemList.Contains(mountitemdata) &&
-            PopupUIsManager.instance.inventoryInfoPopup.modeType == InventoryInfoPopup.MODE_TYPE.SELLING)
+            PopupUIsManager.instance.inventoryInfoPopup.modeType == InventoryInfoPopup.ITEMINVENTORY_MODE_TYPE.SELLING)
         {
             sellCheckedObj.SetActive(true);
         }
@@ -67,7 +67,7 @@ public class InventorySlotScript : MonoBehaviour {
 
         // 해당 서번트가 판매리스트에 포함되어있다면
         if (PopupUIsManager.instance.inventoryInfoPopup.sellingETCItemList.Contains(etcitemdata) &&
-            PopupUIsManager.instance.inventoryInfoPopup.modeType == InventoryInfoPopup.MODE_TYPE.SELLING)
+            PopupUIsManager.instance.inventoryInfoPopup.modeType == InventoryInfoPopup.ITEMINVENTORY_MODE_TYPE.SELLING)
         {
             sellCheckedObj.SetActive(true);
         }
@@ -115,7 +115,7 @@ public class InventorySlotScript : MonoBehaviour {
         {
 
             // 보여주기 모드 -> 아이템 정보 띄우기
-            case InventoryInfoPopup.MODE_TYPE.JUST_DISPLAY:
+            case InventoryInfoPopup.ITEMINVENTORY_MODE_TYPE.JUST_DISPLAY:
                 {
                     switch (inventorySlotState)
                     {
@@ -131,7 +131,7 @@ public class InventorySlotScript : MonoBehaviour {
                 break;
 
             // 셀링 모드이면 -> 셀링리스트에 포함시키기
-            case InventoryInfoPopup.MODE_TYPE.SELLING:
+            case InventoryInfoPopup.ITEMINVENTORY_MODE_TYPE.SELLING:
                 {
                     switch (inventorySlotState)
                     {
@@ -157,7 +157,7 @@ public class InventorySlotScript : MonoBehaviour {
     public void mountitemListChanged(UserMountItemData monsterdata)
     {
         // 셀링모드가 아니라면, 끄고 return
-        if (PopupUIsManager.instance.inventoryInfoPopup.modeType == InventoryInfoPopup.MODE_TYPE.JUST_DISPLAY)
+        if (PopupUIsManager.instance.inventoryInfoPopup.modeType == InventoryInfoPopup.ITEMINVENTORY_MODE_TYPE.JUST_DISPLAY)
         {
             sellCheckedObj.SetActive(false);
             return;
@@ -196,7 +196,7 @@ public class InventorySlotScript : MonoBehaviour {
     public void modeChanged()
     {
         // 셀링모드가 아니면,  꺼주기
-        if (PopupUIsManager.instance.inventoryInfoPopup.modeType == InventoryInfoPopup.MODE_TYPE.JUST_DISPLAY)
+        if (PopupUIsManager.instance.inventoryInfoPopup.modeType == InventoryInfoPopup.ITEMINVENTORY_MODE_TYPE.JUST_DISPLAY)
         {
             sellCheckedObj.SetActive(false);
         }

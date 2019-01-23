@@ -122,9 +122,9 @@ public class FormationInfoPopup : MonoBehaviour
 
 
     // 하단슬롯 정렬타입 
-    public SortType sortType;
+    public SORT_TYPE sortType;
     // 하단슬롯 정렬타입 Set함수
-    public void SetSortType(SortType sortType)
+    public void SetSortType(SORT_TYPE sortType)
     {
         this.sortType = sortType;
 
@@ -159,7 +159,7 @@ public class FormationInfoPopup : MonoBehaviour
     {
         SetTeamIndex(0);
         SetdisplayType(PlayerType.servant, 0);
-        SetSortType(SortType.Power);
+        SetSortType(SORT_TYPE.Power);
     }
     private void OnDisable()
     {
@@ -177,7 +177,7 @@ public class FormationInfoPopup : MonoBehaviour
     }
     public void Sortonclick(int sortTypeNum)
     {
-        SetSortType((SortType)sortTypeNum);
+        SetSortType((SORT_TYPE)sortTypeNum);
     }
 
     // 버튼클릭: 오른쪽, 왼쪽
