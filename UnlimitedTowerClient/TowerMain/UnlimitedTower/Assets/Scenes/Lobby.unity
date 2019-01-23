@@ -87073,7 +87073,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2081745959}
+      - m_Target: {fileID: 0}
         m_MethodName: OnClickInfoBtn
         m_Mode: 1
         m_Arguments:
@@ -98033,7 +98033,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2081745959}
+      - m_Target: {fileID: 0}
         m_MethodName: OnClickMountBtn
         m_Mode: 1
         m_Arguments:
@@ -126879,7 +126879,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 2081745955}
-  - component: {fileID: 2081745959}
   - component: {fileID: 2081745958}
   - component: {fileID: 2081745957}
   - component: {fileID: 2081745956}
@@ -126994,25 +126993,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2081745954}
---- !u!114 &2081745959
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2081745954}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c55186a2854d98b42be4fe28a1ce3e92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mountitemdata:
-    index: 0
-    mountitemNum: 0
-    tearNum: 0
-    upgradeCount: 0
-    _isMounted: 0
-    mountServantIndex: 0
-  mountText: {fileID: 29797395}
 --- !u!1 &2081929820
 GameObject:
   m_ObjectHideFlags: 0
