@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class HeroinfoItemSlot : MonoBehaviour {
 
     [SerializeField] MountitemType mountItemType;
@@ -14,19 +15,25 @@ public class HeroinfoItemSlot : MonoBehaviour {
     public Text tearText;
     public Text upgradeText;
 
-    // 상태
+    // FSM 상태이동 함수
     public UserServantData servantData;
     public UserMountItemData mountItemData;
-    public void Register(UserServantData servantData)
+    public void ToRegister(UserServantData servantData)
     {
         this.servantData = servantData;
         servantData.mountItemListChangeEvent += mountitemchanged;
         mountitemchanged();
     }
-    private void OnDisable()
+    public void ToDeregister()
     {
         servantData.mountItemListChangeEvent -= mountitemchanged;
     }
+
+    private void OnDisable()
+    {
+        ToDeregister();
+    }
+    
 
     public void mountitemchanged()
     {
@@ -35,7 +42,7 @@ public class HeroinfoItemSlot : MonoBehaviour {
             MountItemEntity.Param info = ErdManager.instance.getmountitemEntityTable_nullPossible(rowdata.mountitemNum);
             MountitemType itemtype = info.mountitemType;
 
-            return rowdata.isMounted && HeroInfoPopup.instance.servant.index == rowdata.mountServantIndex && itemtype == mountItemType;
+            return rowdata.isMounted && HeroInfoPopup.instance.servantData.index == rowdata.mountServantIndex && itemtype == mountItemType;
         });
         if (mountItemData != null)
         {
@@ -60,6 +67,8 @@ public class HeroinfoItemSlot : MonoBehaviour {
         }
     }
 
+
+    // 버튼클릭시
     public void OnClick()
     {
         // 껏다가

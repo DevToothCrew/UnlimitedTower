@@ -43,7 +43,7 @@ public class HeroInfoPopup : MonoBehaviour {
         heroinfo_invenpannel.gameObject.SetActive(active);
     }
 
-    // 
+    // 싱글톤
     public static HeroInfoPopup instance;
     private void Awake()
     {
@@ -64,23 +64,31 @@ public class HeroInfoPopup : MonoBehaviour {
     }
 
 
+    
+    private void OnDisable()
+    {
+        ToDeregistered();
+    }
+
+
+    
     // FSM 이동 함수
     // 상태 1: 활성화 상태
     // 상태 2: 비활성화 상태
     [Space(15)]
     [Header("DEBUG DATAS")]
-    public UserServantData servant;
-    public bool registered = false;
+    public UserServantData servantData;
+    public UserMonsterData monsterData;
+    public UNIT_TYPE unitType;
+    public bool isRegistered = false;
     public void ToRegistered(UserServantData servant)
     {
-        if (registered)
+        if (isRegistered)
         {
             return;
         }
-        registered = true;
-
-        
-        this.servant = servant;
+        isRegistered = true;
+        this.servantData = servant;
 
         // 능력치 창
         powertext.text = ((int)Etc.instance.Getatk(servant)).ToString();
@@ -101,47 +109,72 @@ public class HeroInfoPopup : MonoBehaviour {
         SubCamera.instance.Register(servant);
 
         // 무기칸
-        weaponSlot.Register(servant);
+        weaponSlot.ToRegister(servant);
 
         // 방어구칸
-        armorSlot.Register(servant);
+        armorSlot.ToRegister(servant);
 
         // 악세서리칸
-        accessorySlot.Register(servant);
+        accessorySlot.ToRegister(servant);
+
+        gameObject.SetActive(true);
     }
-    public void ToDeregistered()
+    public void ToRegistered(UserMonsterData monster)
     {
-        if (!registered)
+        if (isRegistered)
         {
             return;
         }
-        registered = false;
+        isRegistered = true;
+        this.monsterData = monster;
+
+        // 능력치 창
+        powertext.text = ((int)Etc.instance.Getatk(monsterData)).ToString();
+        hptext.text = (int)Etc.instance.GetHP(monsterData) + "";
+        deftext.text = ((int)Etc.instance.GetDef(monsterData)).ToString();
+        criProbtext.text = ((int)Etc.instance.GetCriticalProb(monsterData)).ToString();
+        criValuetext.text = "";
+        //Speedtext.text = ErdManager.instance.getServantJobEntityTable_nullPossible(monsterData.jobNum).speed.ToString();
+        strtext.text = ((int)Etc.instance.Getstr(monsterData)).ToString();
+        dextext.text = ((int)Etc.instance.Getdex(monsterData)).ToString();
+        wistext.text = ((int)Etc.instance.Getint(monsterData)).ToString();
+
+        // 레벨 이름
+        levelText.text = "lv." + monsterData.level;
+        nameText.text = monsterData.name;
+
+        // 캐릭터프리팹
+        SubCamera.instance.Register(monsterData);
+
+        gameObject.SetActive(true);
+    }
+    public void ToDeregistered()
+    {
+        if (!isRegistered)
+        {
+            return;
+        }
+        isRegistered = false;
+
+        switch (unitType)
+        {
+            case UNIT_TYPE.SERVANT:
+                {
+
+                }
+                break;
+            case UNIT_TYPE.MONSTER:
+                {
+
+                }
+                break;
+        }
+
         SubCamera.instance.Deregister();
     }
 
 
-    private void OnEnable()
-    {
-        if (registered == false)
-        {
-            UserServantData servantdata = UserDataManager.Inst.ServantList.Find((rowdata) => { return rowdata.isMainHero; });
-            ToRegistered(servantdata);
-        }
-        
-    }
-    private void OnDisable()
-    {
-        ToDeregistered();
-    }
-
-
     
-    //
-    public void Register(UserServantData servant)
-    {
-        registered = true;
-        
-    }
     
 
 

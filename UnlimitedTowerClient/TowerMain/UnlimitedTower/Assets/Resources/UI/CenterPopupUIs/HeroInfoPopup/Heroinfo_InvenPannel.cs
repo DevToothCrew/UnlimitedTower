@@ -55,7 +55,7 @@ public class Heroinfo_InvenPannel : MonoBehaviour {
         List<UserMountItemData> list = UserDataManager.Inst.MountItemList.FindAll((rowdata)=> {
 
             MountItemEntity.Param itemparam = ErdManager.instance.getmountitemEntityTable_nullPossible(rowdata.mountitemNum);
-            return (!rowdata.isMounted || (rowdata.isMounted && rowdata.mountServantIndex == HeroInfoPopup.instance.servant.index)) && itemparam.mountitemType == displayType;
+            return (!rowdata.isMounted || (rowdata.isMounted && rowdata.mountServantIndex == HeroInfoPopup.instance.servantData.index)) && itemparam.mountitemType == displayType;
         });
         for (int i = 0; i < list.Count; i++)
         {

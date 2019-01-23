@@ -13,6 +13,8 @@ public class InventoryInfoPopup : MonoBehaviour {
     // 페이지번호 Text
     public Text pageText;
 
+    public GameObject SellingModeObj;
+    public GameObject DisplayModeObj;
 
     // STATE VARIABLES
     public enum InvenState
@@ -50,6 +52,50 @@ public class InventoryInfoPopup : MonoBehaviour {
     }
 
 
+    public enum MODE_TYPE
+    {
+        JUST_DISPLAY,
+        SELLING
+    }
+    public MODE_TYPE modeType;
+    public List<UserMountItemData> sellingMountItemList;
+    public List<UserEtcItemData> sellingETCItemList;
+    public static System.Action<UserMountItemData> mountitemListChanged;
+    public static System.Action<UserEtcItemData> etcitemListChanged;
+    public static System.Action modeChanged;
+
+    // MODE_TYPE
+    public void ToJustDisplayMode()
+    {
+        modeType = MODE_TYPE.JUST_DISPLAY;
+
+        sellingMountItemList = new List<UserMountItemData>();
+        sellingETCItemList = new List<UserEtcItemData>();
+
+        if (modeChanged != null)
+        {
+            modeChanged();
+        }
+
+        // 셀링바 업데이트
+        SellingModeObj.SetActive(false);
+        DisplayModeObj.SetActive(true);
+    }
+    public void ToSellingMode()
+    {
+        modeType = MODE_TYPE.SELLING;
+
+        if (modeChanged != null)
+        {
+            modeChanged();
+        }
+
+        // 셀링바 업데이트
+        SellingModeObj.SetActive(true);
+        DisplayModeObj.SetActive(false);
+    }
+
+
     // 아이콘 개수
     int totalIconCount
     {
@@ -78,7 +124,7 @@ public class InventoryInfoPopup : MonoBehaviour {
         int endindex = (curDisplayNum + 1) * totalIconCount;
         for (int itemIndex = startindex; itemIndex < endindex && itemIndex < UserDataManager.Inst.MountItemList.Count; itemIndex++)
         {
-            int iconIndex = itemIndex - curDisplayNum * totalIconCount;
+            int iconIndex = itemIndex - startindex;
             InventorySlotScript slot = invenslotlist[iconIndex];
             slot.Register(UserDataManager.Inst.MountItemList[itemIndex]);
         }
@@ -202,6 +248,65 @@ public class InventoryInfoPopup : MonoBehaviour {
             Display_ETCitems(curDisplayNum);
         }
     }
+    // 셀링모드일때 버튼 클릭시
+    public void OnClickSellingBtn()
+    {
+        if (modeType == MODE_TYPE.JUST_DISPLAY)
+        {
+            ToSellingMode();
+        }
+        else
+        {
+            ToJustDisplayMode();
+        }
+    }
+    public void OnClickInSellingmode(UserMountItemData servantdata)
+    {
+        if (modeType != MODE_TYPE.SELLING)
+        {
+            return;
+        }
+
+        Debug.Log("servant Onclick! : " + servantdata.index);
+
+        if (sellingMountItemList.Contains(servantdata))
+        {
+            sellingMountItemList.Remove(servantdata);
+        }
+        else
+        {
+            sellingMountItemList.Add(servantdata);
+        }
+
+        if (mountitemListChanged != null)
+        {
+            mountitemListChanged(servantdata);
+        }
+    }
+    public void OnClickInSellingmode(UserEtcItemData monsterdata)
+    {
+        if (modeType != MODE_TYPE.SELLING)
+        {
+            return;
+        }
+
+
+        if (sellingETCItemList.Contains(monsterdata))
+        {
+            sellingETCItemList.Remove(monsterdata);
+        }
+        else
+        {
+            sellingETCItemList.Add(monsterdata);
+        }
+
+
+        if (etcitemListChanged != null)
+        {
+            etcitemListChanged(monsterdata);
+        }
+    }
+
 
 
     private void Awake()
@@ -213,6 +318,7 @@ public class InventoryInfoPopup : MonoBehaviour {
     }
     private void OnEnable()
     {
+        ToJustDisplayMode();
         Display_equipitems(0);
     }
     private void OnDisable()
