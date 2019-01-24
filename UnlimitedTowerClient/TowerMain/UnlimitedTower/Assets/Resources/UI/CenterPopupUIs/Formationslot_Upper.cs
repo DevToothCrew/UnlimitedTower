@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Formationslot_Upper : MonoBehaviour {
+public class Formationslot_Upper : MonoBehaviour
+{
 
     /// <summary>
     /// 클릭시, (메인히어로가 아니면)현재 배치가되어있는 칸이라면 배치를 해제한다
@@ -29,11 +30,11 @@ public class Formationslot_Upper : MonoBehaviour {
     {
         // 배치된 아이가 있다면 -> 배치표시후 return
         bool isplaced = GameDataManager.instance.isPlacedAt(FormationInfoPopup.instance.curTeamNum, FormationIndex);
-        Debug.Log(FormationInfoPopup.instance.curTeamNum +"/"+ FormationIndex);
+        Debug.Log(FormationInfoPopup.instance.curTeamNum + "/" + FormationIndex);
         if (isplaced)
         {
             // 몬스터
-            if (FormationIndex>=5)
+            if (FormationIndex >= 5)
             {
                 isPlaced = true;
                 curMonster = GameDataManager.instance.getMonsterPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, FormationIndex);
@@ -72,9 +73,9 @@ public class Formationslot_Upper : MonoBehaviour {
 
                 return;
             }
-            
+
         }
-        
+
         // 없다면 lock상태로
         ToDeregister();
     }
@@ -139,13 +140,13 @@ public class Formationslot_Upper : MonoBehaviour {
             if (FormationIndex >= 5)
             {
                 UserMonsterData monsterdata = GameDataManager.instance.getMonsterPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, FormationIndex);
-                GameDataManager.instance.request_deplace(PlayerType.monster, monsterdata.index);
+                GameDataManager.instance.request_deplace(UNIT_TYPE.MONSTER, monsterdata.index);
             }
             // 서번트 일경우
             else
             {
                 UserServantData servantdata = GameDataManager.instance.getServantPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, FormationIndex);
-                GameDataManager.instance.request_deplace(PlayerType.servant, servantdata.index);
+                GameDataManager.instance.request_deplace(UNIT_TYPE.SERVANT, servantdata.index);
             }
         }
         else

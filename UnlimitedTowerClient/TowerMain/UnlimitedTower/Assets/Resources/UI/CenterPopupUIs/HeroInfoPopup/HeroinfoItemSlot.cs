@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class HeroinfoItemSlot : MonoBehaviour {
+public class HeroinfoItemSlot : MonoBehaviour
+{
 
     [SerializeField] MountitemType mountItemType;
 
@@ -18,14 +19,27 @@ public class HeroinfoItemSlot : MonoBehaviour {
     // FSM 상태이동 함수
     public UserServantData servantData;
     public UserMountItemData mountItemData;
+    public bool isRegistered = false;
     public void ToRegister(UserServantData servantData)
     {
+        if (isRegistered)
+        {
+            return;
+        }
+        isRegistered = true;
+
         this.servantData = servantData;
         servantData.mountItemListChangeEvent += mountitemchanged;
         mountitemchanged();
     }
     public void ToDeregister()
     {
+        if (!isRegistered)
+        {
+            return;
+        }
+        isRegistered = false;
+
         servantData.mountItemListChangeEvent -= mountitemchanged;
     }
 
@@ -33,7 +47,7 @@ public class HeroinfoItemSlot : MonoBehaviour {
     {
         ToDeregister();
     }
-    
+
 
     public void mountitemchanged()
     {
@@ -53,7 +67,7 @@ public class HeroinfoItemSlot : MonoBehaviour {
             upgradeText.gameObject.SetActive(true);
             lockImage.gameObject.SetActive(false);
 
-            tearText.text = mountItemData.tearNum + "T";
+            tearText.text = mountItemData.tierNum + "T";
             upgradeText.text = "+" + mountItemData.upgradeCount;
             itemImage.sprite = ErdManager.instance.MountitemSprite[mountItemData.mountitemNum];
 

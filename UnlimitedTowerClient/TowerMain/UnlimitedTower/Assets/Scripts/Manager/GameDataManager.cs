@@ -31,7 +31,7 @@ public class GameDataManager : MonoBehaviour
     public System.Action placeChangedEvent;
 
     // 배치 요청
-    public void request_Placement(PlayerType type, int index, int teamnum, int formationIndex)
+    public void request_Placement(UNIT_TYPE type, int index, int teamnum, int formationIndex)
     {
         // 이미 배치된친구라면 return
         if (isPlaced(type, index))
@@ -49,13 +49,13 @@ public class GameDataManager : MonoBehaviour
         // 조회용데이터에 바뀐것 넣어주기
         switch (type)
         {
-            case PlayerType.servant:
+            case UNIT_TYPE.SERVANT:
                 UserDataManager.Inst.servantDic[index].partyNum = teamnum;
                 UserDataManager.Inst.servantDic[index].isPlaced = true;
                 UserDataManager.Inst.servantDic[index].formationNum = formationIndex;
                 break;
 
-            case PlayerType.monster:
+            case UNIT_TYPE.MONSTER:
                 UserDataManager.Inst.monsterDic[index].isPlaced = true;
                 UserDataManager.Inst.monsterDic[index].teamNum = teamnum;
                 UserDataManager.Inst.monsterDic[index].formationNum = formationIndex;
@@ -69,7 +69,7 @@ public class GameDataManager : MonoBehaviour
         }
     }
     // 배치해제 요청
-    public void request_deplace(PlayerType type, int playerindex)
+    public void request_deplace(UNIT_TYPE type, int playerindex)
     {
         // 배치되어있지않다면 return
         if (!isPlaced(type, playerindex))
@@ -79,7 +79,7 @@ public class GameDataManager : MonoBehaviour
         }
 
         // 메인히어로를 빼려고한다면 return
-        if (type == PlayerType.servant && playerindex == 0)
+        if (type == UNIT_TYPE.SERVANT && playerindex == 0)
         {
             return;
         }
@@ -89,13 +89,13 @@ public class GameDataManager : MonoBehaviour
         // ERD 데이터 업데이트
         switch (type)
         {
-            case PlayerType.servant:
+            case UNIT_TYPE.SERVANT:
                 {
                     UserFormationData formData = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isPlaced && rowdata.index == playerindex && rowdata.charType == CHAR_TYPE.SERVANT; });
                     formData.isPlaced = false;
                 }
                 break;
-            case PlayerType.monster:
+            case UNIT_TYPE.MONSTER:
                 {
                     UserFormationData formData = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isPlaced && rowdata.index == playerindex && rowdata.charType == CHAR_TYPE.MONSTER; });
                     formData.isPlaced = false;
@@ -106,13 +106,13 @@ public class GameDataManager : MonoBehaviour
         // ERD 역참조데이터 업데이트 
         switch (type)
         {
-            case PlayerType.servant:
+            case UNIT_TYPE.SERVANT:
                 {
                     UserServantData servantdata = UserDataManager.Inst.servantDic[playerindex];
                     servantdata.isPlaced = false;
                 }
                 break;
-            case PlayerType.monster:
+            case UNIT_TYPE.MONSTER:
                 {
                     UserMonsterData servantdata = UserDataManager.Inst.monsterDic[playerindex];
                     servantdata.isPlaced = false;
@@ -136,15 +136,15 @@ public class GameDataManager : MonoBehaviour
         UserFormationData formationdata = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isPlaced && rowdata.partyIndex == teamNum && rowdata.formationIndex == formationIndex; });
         if (formationdata != null)
         {
-            
+
             return formationdata.isPlaced;
         }
-        
+
         return false;
     }
-    public bool isPlaced(PlayerType type, int index)
+    public bool isPlaced(UNIT_TYPE type, int index)
     {
-        if (type == PlayerType.servant)
+        if (type == UNIT_TYPE.SERVANT)
         {
             return UserDataManager.Inst.servantDic[index].isPlaced;
         }
@@ -252,7 +252,7 @@ public class GameDataManager : MonoBehaviour
 
 
     /* 아이템 */
-    
+
     public void DemountItem(UserMountItemData mountitem)
     {
         if (mountitem.isMounted)
@@ -274,7 +274,7 @@ public class GameDataManager : MonoBehaviour
     {
         mountitem.isMounted = true;
         mountitem.mountServantIndex = servantdata.index;
-        
+
         // 서번트가 같은 타입의 아이템장착하고있다면 -> 해당아이템 탈착
         MountitemType itemtype = ErdManager.instance.getmountitemEntityTable_nullPossible(mountitem.mountitemNum).mountitemType;
         UserMountItemData mountedItem = servantdata.mountItemList.Find((rowdata) =>
@@ -292,8 +292,8 @@ public class GameDataManager : MonoBehaviour
         {
             GameDataManager.instance.DemountItem(mountedItem);
         }
-        
-        
+
+
         // ERD 역참조데이터 업데이트
         if (UserDataManager.Inst.servantDic.ContainsKey(servantdata.index))
         {

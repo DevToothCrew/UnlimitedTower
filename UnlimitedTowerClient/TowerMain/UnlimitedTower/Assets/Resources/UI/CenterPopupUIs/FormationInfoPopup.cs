@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class FormationInfoPopup : MonoBehaviour
 {
-
     public static FormationInfoPopup instance;
     private void Awake()
     {
@@ -26,10 +25,16 @@ public class FormationInfoPopup : MonoBehaviour
 
 
 
+    // DEFAULT PARAMETERS
+    const UNIT_TYPE DEFAULT_UNIT_TYPE = UNIT_TYPE.SERVANT;
+    const SORT_TYPE DEFAULT_SORT_TYPE = SORT_TYPE.Grade;
+    const int DEFAULT_PAGE_NUM = 0;
 
-    // FSM //
 
-    // 팀 번호
+
+    /* FSM PARAMETERS */
+
+    // 상단
     public int curTeamNum;
     // 팀 Set함수
     public System.Action displayteamChanged;
@@ -46,26 +51,35 @@ public class FormationInfoPopup : MonoBehaviour
 
     }
 
-
-    // 하단슬롯 디스플레이 타입
-    public PlayerType displaytype;
+    // 하단
+    public SORT_TYPE sortType;
+    public UNIT_TYPE unitType;
     public int bottomWindowPageNum = 0;
-    // 하단슬롯 디스플레이 Set함수
-    public void SetdisplayType(PlayerType displaytype, int pageNum)
-    {
-        this.displaytype = displaytype;
-        this.bottomWindowPageNum = pageNum;
 
-        // UI텍스트
-        switch (displaytype)
+
+
+
+
+
+
+
+    // SORT TYPE, UNIT TYPE, PAGE NUM -> 하단창
+    public void DisplayBottomUnits(SORT_TYPE sortType, UNIT_TYPE unitType, int bottomWindowPageNum)
+    {
+        this.unitType = unitType;
+        this.sortType = sortType;
+        this.bottomWindowPageNum = bottomWindowPageNum;
+
+        // UI텍스트 표시하기
+        switch (unitType)
         {
-            case PlayerType.servant:
+            case UNIT_TYPE.SERVANT:
                 {
                     int maxPageNum = Mathf.CeilToInt(UserDataManager.Inst.ServantList.Count / bottomslotParent.childCount);
                     pageText.text = (bottomWindowPageNum + 1) + "/" + (maxPageNum + 1) + "P";
                 }
                 break;
-            case PlayerType.monster:
+            case UNIT_TYPE.MONSTER:
                 {
                     int maxPageNum = Mathf.CeilToInt(UserDataManager.Inst.MonsterList.Count / bottomslotParent.childCount);
                     pageText.text = (bottomWindowPageNum + 1) + "/" + (maxPageNum + 1) + "P";
@@ -73,70 +87,67 @@ public class FormationInfoPopup : MonoBehaviour
                 break;
         }
 
-        // 초기화후
+        // 초기화
         for (int i = 0; i < bottomslotlist.Count; i++)
         {
             bottomslotlist[i].ToNone();
         }
 
-        // 정렬
-        Etc.instance.sort(displaytype, sortType);
 
-        // 해당하는 윈도우 디스플레이
-        int startIndex = pageNum * bottomslotParent.childCount;
-        int endIndex = (1 + pageNum) * bottomslotParent.childCount;
-        switch (displaytype)
+        // unitType과 curTeamNum을 보고 해당하는 애들을 가져온다
+        switch (unitType)
         {
-            case PlayerType.servant:
+            case UNIT_TYPE.SERVANT:
                 {
-                    List<UserServantData> list = UserDataManager.Inst.ServantList;
-                    for (int dataindex = startIndex; dataindex < list.Count && dataindex < endIndex; dataindex++)
+                    // 페이지윈도우에 해당하는 애들 가져오기
+                    int startIndex = bottomWindowPageNum * bottomslotlist.Count;
+                    int endIndex = (bottomWindowPageNum + 1) * (bottomslotlist.Count);
+                    List<UserServantData> list = new List<UserServantData>();
+                    for (int i = startIndex; i < endIndex && i < UserDataManager.Inst.ServantList.Count; i++)
                     {
-                        int slotIndex = dataindex - startIndex;
-                        // 메인히어로는 선택지에 안나온다.
-                        if (list[slotIndex].isMainHero)
-                        {
-                            continue;
-                        }
-
-                        bottomslotlist[slotIndex].ToServant(list[slotIndex]);
+                        list.Add(UserDataManager.Inst.ServantList[i]);
                     }
+
+                    // sort하기
+                    Etc.instance.SortByType(list, sortType);
+
+                    // display 하기
+                    for (int i = 0; i < bottomslotlist.Count && i < list.Count; i++)
+                    {
+                        bottomslotlist[i].ToServant(list[i]);
+                    }
+
                 }
                 break;
 
-            case PlayerType.monster:
+
+            case UNIT_TYPE.MONSTER:
                 {
-
-                    List<UserMonsterData> list = UserDataManager.Inst.MonsterList;
-                    for (int dataindex = startIndex; dataindex < list.Count && dataindex < endIndex; dataindex++)
+                    // 페이지윈도우에 해당하는 애들 가져오기
+                    int startIndex = bottomWindowPageNum * bottomslotlist.Count;
+                    int endIndex = (bottomWindowPageNum + 1) * (bottomslotlist.Count);
+                    List<UserMonsterData> list = new List<UserMonsterData>();
+                    for (int i = startIndex; i < endIndex && i < UserDataManager.Inst.MonsterList.Count; i++)
                     {
-                        int slotIndex = dataindex - startIndex;
-
-                        bottomslotlist[slotIndex].ToMonster(list[slotIndex]);
+                        list.Add(UserDataManager.Inst.MonsterList[i]);
                     }
 
+                    // sort하기
+                    Etc.instance.SortByType(list, sortType);
+
+                    // display 하기
+                    for (int i = 0; i < bottomslotlist.Count && i < list.Count; i++)
+                    {
+                        bottomslotlist[i].ToMonster(list[i]);
+                    }
                 }
                 break;
         }
     }
-
-
-    // 하단슬롯 정렬타입 
-    public SortType sortType;
-    // 하단슬롯 정렬타입 Set함수
-    public void SetSortType(SortType sortType)
+    public void DisplayUpperUnits(int teamNum)
     {
-        this.sortType = sortType;
-
-        // 해당하는 소트타입으로 다시 소트해주기
-        Etc.instance.sort(displaytype, sortType);
-
-        // 보여주기
-        SetdisplayType(displaytype, bottomWindowPageNum);
 
     }
-
-
 
 
 
@@ -157,9 +168,11 @@ public class FormationInfoPopup : MonoBehaviour
 
     private void OnEnable()
     {
-        SetTeamIndex(0);
-        SetdisplayType(PlayerType.servant, 0);
-        SetSortType(SortType.Power);
+        DisplayBottomUnits(DEFAULT_SORT_TYPE, DEFAULT_UNIT_TYPE, DEFAULT_PAGE_NUM);
+        for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
+        {
+            upperslotlist[i].SetDisplayteam(0);
+        }
     }
     private void OnDisable()
     {
@@ -169,39 +182,39 @@ public class FormationInfoPopup : MonoBehaviour
     // 버튼 클릭 : sort
     public void setServantMode()
     {
-        SetdisplayType(PlayerType.servant, 0);
+        DisplayBottomUnits(sortType, UNIT_TYPE.SERVANT, 0);
     }
     public void setMonsterMode()
     {
-        SetdisplayType(PlayerType.monster, 0);
+        DisplayBottomUnits(sortType, UNIT_TYPE.MONSTER, 0);
     }
     public void Sortonclick(int sortTypeNum)
     {
-        SetSortType((SortType)sortTypeNum);
+        DisplayBottomUnits((SORT_TYPE)sortTypeNum, unitType, bottomWindowPageNum);
     }
 
     // 버튼클릭: 오른쪽, 왼쪽
     public void OnclickRightBtn()
     {
-        switch (displaytype)
+        switch (unitType)
         {
-            case PlayerType.servant:
+            case UNIT_TYPE.SERVANT:
                 {
                     // 다음윈도우안에 보여줄수있는애가 있으면, 다음으로 넘긴다.
                     int startindex = bottomslotParent.childCount * (bottomWindowPageNum + 1);
                     if (UserDataManager.Inst.ServantList.Count - 1 >= startindex)
                     {
-                        SetdisplayType(PlayerType.servant, bottomWindowPageNum + 1);
+                        DisplayBottomUnits(sortType, UNIT_TYPE.SERVANT, bottomWindowPageNum + 1);
                     }
                 }
                 break;
-            case PlayerType.monster:
+            case UNIT_TYPE.MONSTER:
                 {
                     // 다음윈도우안에 보여줄수있는애가 있으면, 다음으로 넘긴다.
                     int startindex = bottomslotParent.childCount * (bottomWindowPageNum + 1);
                     if (UserDataManager.Inst.MonsterList.Count - 1 >= startindex)
                     {
-                        SetdisplayType(PlayerType.monster, bottomWindowPageNum + 1);
+                        DisplayBottomUnits(sortType, UNIT_TYPE.MONSTER, bottomWindowPageNum + 1);
                     }
                 }
                 break;
@@ -212,7 +225,7 @@ public class FormationInfoPopup : MonoBehaviour
         // 현재 페이지가 0이 아니면, 1낮춘다
         if (bottomWindowPageNum > 0)
         {
-            SetdisplayType(displaytype, bottomWindowPageNum - 1);
+            DisplayBottomUnits(sortType, unitType, bottomWindowPageNum - 1);
         }
     }
 }

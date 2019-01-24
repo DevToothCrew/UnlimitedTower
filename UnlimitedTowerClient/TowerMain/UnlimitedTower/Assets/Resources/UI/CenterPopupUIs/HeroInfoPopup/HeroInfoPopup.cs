@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HeroInfoPopup : MonoBehaviour {
+public class HeroInfoPopup : MonoBehaviour
+{
 
     /// <summary>
     /// HeroInfoPopup 윈도우 스크립트 입니다. (인스펙터에 HeroInfoPopup 검색시 어떤 오브젝트에 붙어있는것인지 나옴)
@@ -56,7 +57,7 @@ public class HeroInfoPopup : MonoBehaviour {
         {
             instance = this;
         }
-        
+
     }
     private void OnDestroy()
     {
@@ -64,14 +65,14 @@ public class HeroInfoPopup : MonoBehaviour {
     }
 
 
-    
+
     private void OnDisable()
     {
         ToDeregistered();
     }
 
 
-    
+
     // FSM 이동 함수
     // 상태 1: 활성화 상태
     // 상태 2: 비활성화 상태
@@ -100,7 +101,7 @@ public class HeroInfoPopup : MonoBehaviour {
         strtext.text = ((int)Etc.instance.Getstr(servant)).ToString();
         dextext.text = ((int)Etc.instance.Getdex(servant)).ToString();
         wistext.text = ((int)Etc.instance.Getint(servant)).ToString();
-        
+
         // 레벨 이름
         levelText.text = "lv." + servant.level;
         nameText.text = servant.name;
@@ -109,15 +110,18 @@ public class HeroInfoPopup : MonoBehaviour {
         SubCamera.instance.Register(servant);
 
         // 무기칸
+        weaponSlot.gameObject.SetActive(true);
         weaponSlot.ToRegister(servant);
 
         // 방어구칸
+        armorSlot.gameObject.SetActive(true);
         armorSlot.ToRegister(servant);
 
         // 악세서리칸
+        accessorySlot.gameObject.SetActive(true);
         accessorySlot.ToRegister(servant);
 
-        gameObject.SetActive(true);
+        gameObject.SetActivateWithAnimation(true);
     }
     public void ToRegistered(UserMonsterData monster)
     {
@@ -146,7 +150,7 @@ public class HeroInfoPopup : MonoBehaviour {
         // 캐릭터프리팹
         SubCamera.instance.Register(monsterData);
 
-        gameObject.SetActive(true);
+        gameObject.SetActivateWithAnimation(true);
     }
     public void ToDeregistered()
     {
@@ -160,7 +164,9 @@ public class HeroInfoPopup : MonoBehaviour {
         {
             case UNIT_TYPE.SERVANT:
                 {
-
+                    weaponSlot.gameObject.SetActive(false);
+                    armorSlot.gameObject.SetActive(false);
+                    accessorySlot.gameObject.SetActive(false);
                 }
                 break;
             case UNIT_TYPE.MONSTER:
@@ -174,8 +180,8 @@ public class HeroInfoPopup : MonoBehaviour {
     }
 
 
-    
-    
+
+
 
 
 }
