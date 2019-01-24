@@ -309,6 +309,7 @@ public class UserMountItemData
     //
     public int mountitemNum;
 
+    public int gradeNum;
     public int tierNum;
     public int upgradeCount;
 

@@ -3,32 +3,58 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventoryInfoPopup : MonoBehaviour {
-    
-    // 인벤토리 슬롯
-    public Transform slotparent;
-    List<InventorySlotScript> invenslotlist = new List<InventorySlotScript>();
-    // SORT버튼들 
-    public List<GameObject> sortBtnList;
-    // 페이지번호 Text
-    public Text pageText;
+public class InventoryInfoPopup : MonoBehaviour
+{
 
-    public GameObject SellingModeObj;
-    public GameObject DisplayModeObj;
-
-    // STATE VARIABLES
-    public enum InvenState
+    public enum ITEMINVENTORY_ITEM_TYPE
     {
         deregistered,
         EquipMent,
         ETC
     }
+    public enum ITEMINVENTORY_MODE_TYPE
+    {
+        JUST_DISPLAY,
+        SELLING
+    }
+    public enum ITEMINVENTORY_SORT_TYPE
+    {
+        GRADE,
+        TIER,
+        UPGRADE,
+        OBTAIN
+    }
+
+    // 아이콘 개수
+    int totalIconCount
+    {
+        get
+        {
+            return invenslotlist.Count;
+        }
+    }
+
+
+
+    /* INSPECTOR */
+
+    // 아이콘들
+    public Transform slotparent;
+    List<InventorySlotScript> invenslotlist = new List<InventorySlotScript>();
+    // 정렬버튼들 
+    public List<GameObject> sortBtnList;
+    // 페이지번호Text
+    public Text pageText;
+    // 하단셀링바
+    public GameObject SellingModeObj;
+    public GameObject DisplayModeObj;
+
     [Space(10)]
     [Header("Window State Variables")]
-    // 상태
-    public InvenState inventoryState;
-    // 몇번째 단계에 있는지
-    int _curDisplayNum = 0;
+    //
+    [SerializeField] ITEMINVENTORY_ITEM_TYPE inventoryState;
+    //
+    [SerializeField] int _curDisplayNum = 0;
     public int curDisplayNum
     {
         get
@@ -41,33 +67,168 @@ public class InventoryInfoPopup : MonoBehaviour {
 
             switch (inventoryState)
             {
-                case InvenState.EquipMent:
-                    pageText.text = (_curDisplayNum+1) + "/" + (UserDataManager.Inst.MountItemList.Count / slotparent.childCount+1) + "P";
+                case ITEMINVENTORY_ITEM_TYPE.EquipMent:
+                    pageText.text = (_curDisplayNum + 1) + "/" + (UserDataManager.Inst.MountItemList.Count / slotparent.childCount + 1) + "P";
                     break;
-                case InvenState.ETC:
-                    pageText.text = (_curDisplayNum+1) + "/" + (UserDataManager.Inst.EtcItemList.Count / slotparent.childCount + 1) + "P";
+                case ITEMINVENTORY_ITEM_TYPE.ETC:
+                    pageText.text = (_curDisplayNum + 1) + "/" + (UserDataManager.Inst.EtcItemList.Count / slotparent.childCount + 1) + "P";
                     break;
             }
         }
     }
-
-
-    public enum MODE_TYPE
-    {
-        JUST_DISPLAY,
-        SELLING
-    }
-    public MODE_TYPE modeType;
+    //
+    public ITEMINVENTORY_MODE_TYPE modeType;
     public List<UserMountItemData> sellingMountItemList;
     public List<UserEtcItemData> sellingETCItemList;
     public static System.Action<UserMountItemData> mountitemListChanged;
     public static System.Action<UserEtcItemData> etcitemListChanged;
     public static System.Action modeChanged;
+    // SORT TYPE
+    public ITEMINVENTORY_SORT_TYPE sortType;
 
-    // MODE_TYPE
+    // 초기 상태
+    const ITEMINVENTORY_ITEM_TYPE DEFAULT_ITEM_TYPE = ITEMINVENTORY_ITEM_TYPE.EquipMent;
+    const ITEMINVENTORY_SORT_TYPE DEFAULT_SORT_TYPE = ITEMINVENTORY_SORT_TYPE.GRADE;
+    const int DEFAULT_PAGE_NUM = 0;
+    const ITEMINVENTORY_MODE_TYPE DEFAULT_MODE = ITEMINVENTORY_MODE_TYPE.JUST_DISPLAY;
+
+
+
+
+
+
+
+
+
+
+    /* FSM 상태변경 */
+
+    // DISPLAY
+    public void DisplayItems(ITEMINVENTORY_ITEM_TYPE itemType, ITEMINVENTORY_SORT_TYPE sortType, int pageNum)
+    {
+        this.inventoryState = itemType;
+        this.curDisplayNum = pageNum;
+        this.sortType = sortType;
+
+        // 창 초기화
+        for (int i = 0; i < invenslotlist.Count; i++)
+        {
+            invenslotlist[i].ToLocked();
+        }
+
+
+
+
+
+        // 아이콘 디스플레이 / 정렬버튼 확인
+        int startindex = curDisplayNum * totalIconCount;
+        int endindex = (curDisplayNum + 1) * totalIconCount;
+        switch (inventoryState)
+        {
+            // 정렬 후 디스플레이
+            case ITEMINVENTORY_ITEM_TYPE.EquipMent:
+                {
+                    // 정렬
+                    switch (sortType)
+                    {
+                        case ITEMINVENTORY_SORT_TYPE.GRADE:
+                            UserDataManager.Inst.MountItemList.Sort(
+                                (a, b) =>
+                                {
+                                    // grade가 같다면 -> index순으로
+                                    if (a.gradeNum == b.gradeNum)
+                                    {
+                                        return (a.index < b.index) ? 1 : -1;
+                                    }
+                                    else
+                                    {
+                                        return a.gradeNum < b.gradeNum ? 1 : -1;
+                                    }
+                                });
+                            break;
+                        case ITEMINVENTORY_SORT_TYPE.TIER:
+                            UserDataManager.Inst.MountItemList.Sort(
+                                (a, b) =>
+                                {
+                                    // grade가 같다면 -> index순으로
+                                    if (a.tierNum == b.tierNum)
+                                    {
+                                        return (a.index < b.index) ? 1 : -1;
+                                    }
+                                    else
+                                    {
+                                        return a.tierNum < b.tierNum ? 1 : -1;
+                                    }
+                                });
+                            break;
+                        case ITEMINVENTORY_SORT_TYPE.UPGRADE:
+                            UserDataManager.Inst.MountItemList.Sort(
+                                (a, b) =>
+                                {
+                                    // grade가 같다면 -> index순으로
+                                    if (a.upgradeCount == b.upgradeCount)
+                                    {
+                                        return (a.index < b.index) ? 1 : -1;
+                                    }
+                                    else
+                                    {
+                                        return a.upgradeCount < b.upgradeCount ? 1 : -1;
+                                    }
+                                });
+                            break;
+                        case ITEMINVENTORY_SORT_TYPE.OBTAIN:
+                            UserDataManager.Inst.MountItemList.Sort(
+                                (a, b) =>
+                                {
+                                    return (a.index < b.index) ? 1 : -1;
+                                });
+                            break;
+                    }
+
+                    // 디스플레이
+                    for (int itemIndex = startindex; itemIndex < endindex && itemIndex < UserDataManager.Inst.MountItemList.Count; itemIndex++)
+                    {
+                        int iconIndex = itemIndex - startindex;
+                        InventorySlotScript slot = invenslotlist[iconIndex];
+                        slot.Register(UserDataManager.Inst.MountItemList[itemIndex]);
+                    }
+
+                    // 정렬버튼 보이기
+                    for (int i = 0; i < sortBtnList.Count; i++)
+                    {
+                        sortBtnList[i].gameObject.SetActive(true);
+                    }
+                }
+                break;
+
+            // 디스플레이 
+            case ITEMINVENTORY_ITEM_TYPE.ETC:
+                {
+                    for (int itemIndex = startindex; itemIndex < endindex && itemIndex < UserDataManager.Inst.EtcItemList.Count; itemIndex++)
+                    {
+                        int iconIndex = itemIndex - curDisplayNum * totalIconCount;
+                        InventorySlotScript slot = invenslotlist[iconIndex];
+                        slot.Register(UserDataManager.Inst.EtcItemList[itemIndex]);
+                    }
+
+                    // 정렬버튼 없애기
+                    for (int i = 0; i < sortBtnList.Count; i++)
+                    {
+                        sortBtnList[i].gameObject.SetActive(false);
+                    }
+                }
+                break;
+        }
+    }
+    public void ToDeregistered()
+    {
+        inventoryState = ITEMINVENTORY_ITEM_TYPE.deregistered;
+    }
+
+    // MODE 변경
     public void ToJustDisplayMode()
     {
-        modeType = MODE_TYPE.JUST_DISPLAY;
+        modeType = ITEMINVENTORY_MODE_TYPE.JUST_DISPLAY;
 
         sellingMountItemList = new List<UserMountItemData>();
         sellingETCItemList = new List<UserEtcItemData>();
@@ -83,7 +244,7 @@ public class InventoryInfoPopup : MonoBehaviour {
     }
     public void ToSellingMode()
     {
-        modeType = MODE_TYPE.SELLING;
+        modeType = ITEMINVENTORY_MODE_TYPE.SELLING;
 
         if (modeChanged != null)
         {
@@ -96,106 +257,51 @@ public class InventoryInfoPopup : MonoBehaviour {
     }
 
 
-    // 아이콘 개수
-    int totalIconCount
+
+
+    /* 버튼 온클릭 */
+    // SORT 버튼
+    public void OnClickGradesort()
     {
-        get
-        {
-            return invenslotlist.Count;
-        }
+        DisplayItems(inventoryState, ITEMINVENTORY_SORT_TYPE.GRADE, curDisplayNum);
     }
-
-
-
-
-    public void Display_equipitems(int displayNum)
+    public void OnClickTiersort()
     {
-        inventoryState = InvenState.EquipMent;
-        this.curDisplayNum = displayNum;
-
-        // 창 초기화
-        for (int i = 0; i < invenslotlist.Count; i++)
-        {
-            invenslotlist[i].ToLocked();
-        }
-
-        // 아이템 등록
-        int startindex = curDisplayNum * totalIconCount;
-        int endindex = (curDisplayNum + 1) * totalIconCount;
-        for (int itemIndex = startindex; itemIndex < endindex && itemIndex < UserDataManager.Inst.MountItemList.Count; itemIndex++)
-        {
-            int iconIndex = itemIndex - startindex;
-            InventorySlotScript slot = invenslotlist[iconIndex];
-            slot.Register(UserDataManager.Inst.MountItemList[itemIndex]);
-        }
-
-
-
-        // 버튼들 생기게하기
-        for (int i = 0; i < sortBtnList.Count; i++)
-        {
-            sortBtnList[i].gameObject.SetActive(true);
-        }
+        DisplayItems(inventoryState, ITEMINVENTORY_SORT_TYPE.TIER, curDisplayNum);
     }
-    public void Display_ETCitems(int displayNum)
+    public void OnClickUpgradesort()
     {
-        inventoryState = InvenState.ETC;
-        this.curDisplayNum = displayNum;
-
-
-        // 창 초기화
-        for (int i = 0; i < invenslotlist.Count; i++)
-        {
-            invenslotlist[i].ToLocked();
-        }
-
-        // ETC아이템 등록
-        int startindex = curDisplayNum * totalIconCount;
-        int endindex = (curDisplayNum + 1) * totalIconCount;
-        for (int itemIndex = startindex; itemIndex < endindex && itemIndex < UserDataManager.Inst.EtcItemList.Count; itemIndex++)
-        {
-            int iconIndex = itemIndex - curDisplayNum * totalIconCount;
-            InventorySlotScript slot = invenslotlist[iconIndex];
-            slot.Register(UserDataManager.Inst.EtcItemList[itemIndex]);
-        }
-
-
-        // 버튼들 없애기
-        for (int i = 0; i < sortBtnList.Count; i++)
-        {
-            sortBtnList[i].gameObject.SetActive(false);
-        }
+        DisplayItems(inventoryState, ITEMINVENTORY_SORT_TYPE.UPGRADE, curDisplayNum);
     }
-    public void ToDeregistered()
+    public void OnClickObtainsort()
     {
-        inventoryState = InvenState.deregistered;
-
-        // 
+        DisplayItems(inventoryState, ITEMINVENTORY_SORT_TYPE.OBTAIN, curDisplayNum);
     }
 
     // Equipment버튼 클릭
     public void OnclickEquipBtn()
     {
-        if (inventoryState == InvenState.EquipMent)
+        // 현재 장비디스플레이중이면 -> RETURN
+        if (inventoryState == ITEMINVENTORY_ITEM_TYPE.EquipMent)
         {
             return;
         }
-        else
-        {
-            Display_equipitems(0);
-        }
+
+
+
+        DisplayItems(ITEMINVENTORY_ITEM_TYPE.EquipMent, sortType, 0);
     }
     // ETC버튼 클릭
     public void OnclickETCbtn()
     {
-        if (inventoryState == InvenState.ETC)
+        // 현재 ETC디스플레이중이면 -> RETURN
+        if (inventoryState == ITEMINVENTORY_ITEM_TYPE.ETC)
         {
             return;
         }
-        else
-        {
-            Display_ETCitems(0);
-        }
+
+
+        DisplayItems(ITEMINVENTORY_ITEM_TYPE.EquipMent, sortType, 0);
     }
 
 
@@ -209,27 +315,25 @@ public class InventoryInfoPopup : MonoBehaviour {
         // 현재 아이템 타입에 따라서
         switch (inventoryState)
         {
-            case InvenState.deregistered:
+            case ITEMINVENTORY_ITEM_TYPE.deregistered:
                 break;
-            case InvenState.EquipMent:
+            case ITEMINVENTORY_ITEM_TYPE.EquipMent:
                 {
                     // 오른쪽 윈도우인덱스에 표시될 아이템이 있다면
-                    if (UserDataManager.Inst.MountItemList.Count-1 >= startindex)
+                    if (UserDataManager.Inst.MountItemList.Count - 1 >= startindex)
                     {
-                        curDisplayNum++;
-                        Display_equipitems(curDisplayNum);
+                        DisplayItems(ITEMINVENTORY_ITEM_TYPE.EquipMent, sortType, curDisplayNum + 1);
                     }
                 }
                 break;
-            case InvenState.ETC:
+            case ITEMINVENTORY_ITEM_TYPE.ETC:
                 {
                     // 오른쪽 윈도우인덱스에 표시될 아이템이 있다면
                     if (UserDataManager.Inst.EtcItemList.Count - 1 >= startindex)
                     {
-                        curDisplayNum++;
-                        Display_ETCitems(curDisplayNum);
+                        DisplayItems(ITEMINVENTORY_ITEM_TYPE.ETC, sortType, curDisplayNum + 1);
                     }
-                    
+
                 }
                 break;
         }
@@ -237,21 +341,21 @@ public class InventoryInfoPopup : MonoBehaviour {
     // 왼쪽 버튼 클릭
     public void OnClickLeftarrow()
     {
-        if (inventoryState == InvenState.EquipMent)
+        if (inventoryState == ITEMINVENTORY_ITEM_TYPE.EquipMent)
         {
-            curDisplayNum = Mathf.Max(curDisplayNum-1, 0);
-            Display_equipitems(curDisplayNum);
+            curDisplayNum = Mathf.Max(curDisplayNum - 1, 0);
+            DisplayItems(ITEMINVENTORY_ITEM_TYPE.EquipMent, sortType, Mathf.Max(curDisplayNum - 1, 0));
         }
         else
         {
-            curDisplayNum = Mathf.Max(curDisplayNum-1, 0);
-            Display_ETCitems(curDisplayNum);
+            curDisplayNum = Mathf.Max(curDisplayNum - 1, 0);
+            DisplayItems(ITEMINVENTORY_ITEM_TYPE.ETC, sortType, Mathf.Max(curDisplayNum - 1, 0));
         }
     }
     // 셀링모드일때 버튼 클릭시
     public void OnClickSellingBtn()
     {
-        if (modeType == MODE_TYPE.JUST_DISPLAY)
+        if (modeType == ITEMINVENTORY_MODE_TYPE.JUST_DISPLAY)
         {
             ToSellingMode();
         }
@@ -262,7 +366,7 @@ public class InventoryInfoPopup : MonoBehaviour {
     }
     public void OnClickInSellingmode(UserMountItemData servantdata)
     {
-        if (modeType != MODE_TYPE.SELLING)
+        if (modeType != ITEMINVENTORY_MODE_TYPE.SELLING)
         {
             return;
         }
@@ -285,7 +389,7 @@ public class InventoryInfoPopup : MonoBehaviour {
     }
     public void OnClickInSellingmode(UserEtcItemData monsterdata)
     {
-        if (modeType != MODE_TYPE.SELLING)
+        if (modeType != ITEMINVENTORY_MODE_TYPE.SELLING)
         {
             return;
         }
@@ -309,6 +413,8 @@ public class InventoryInfoPopup : MonoBehaviour {
 
 
 
+
+
     private void Awake()
     {
         for (int i = 0; i < slotparent.childCount; i++)
@@ -318,11 +424,12 @@ public class InventoryInfoPopup : MonoBehaviour {
     }
     private void OnEnable()
     {
-        ToJustDisplayMode();
-        Display_equipitems(0);
+        // Default 상태로 켠다.
+        DisplayItems(InventoryInfoPopup.DEFAULT_ITEM_TYPE, sortType, InventoryInfoPopup.DEFAULT_PAGE_NUM);
     }
     private void OnDisable()
     {
         ToDeregistered();
     }
 }
+
