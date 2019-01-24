@@ -184,8 +184,26 @@ enum db_index
     };
     typedef eosio::multi_index<"tmaster"_n, tmaster> master;
 
+
+//-------------------------------------------------------//
     ACTION setmaster(eosio::name _master);
     ACTION initmaster();
+//------------------------------------------------------//    
+    enum system_state
+    {
+        normal = 0,
+        pause,
+    };
+
+    TABLE systemmaster
+    {
+        eosio::name master;
+        uint64_t state;
+        uint64_t primary_key() const { return master.value; }
+    };
+    typedef eosio::multi_index<"systemmaster"_n, systemmaster> system_master;
+
+
     ACTION setpreregist();
     ACTION dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max, uint32_t _ratio);
     ACTION dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max, uint32_t _ratio);
@@ -546,7 +564,6 @@ TABLE tokenlog
         battle_lose,
         tower,
         travel,
-        pause,
         black,
     };
     enum hero_state
@@ -651,7 +668,7 @@ TABLE tokenlog
     //------------------------------------------------------------------------//
     //-----------------------------init_function------------------------------//
     //------------------------------------------------------------------------//
-ACTION initprelog();
+ACTION inittokenlog();
 
 
     //------------------------------------------------------------------------//
@@ -689,6 +706,7 @@ ACTION addblack(eosio::name _user);
     //————————————————owner_system—————————————//
     //————————————————————————————————————//
 ACTION setpause(uint64_t _state);
+ACTION deletemas(); //tmaster 테이블을 지우기 위한 임시 액션
 
 
 };
