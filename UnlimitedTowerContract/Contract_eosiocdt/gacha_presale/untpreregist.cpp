@@ -11,118 +11,118 @@
 //------------------------------------------------------------------------//
 #pragma region Token action
 
-ACTION untpreregist::create(eosio::name _issuer, asset _maximum_supply)
+ACTION untpreregist::create(eosio::name issuer, asset maximum_supply)
 {
     require_auth(owner_auth);
 
-    auto sym = _maximum_supply.symbol;
+    auto sym = maximum_supply.symbol;
     eosio_assert(sym.is_valid(), "invalid symbol name");
-    eosio_assert(_maximum_supply.is_valid(), "invalid Supply");
+    eosio_assert(maximum_supply.is_valid(), "invalid Supply");
 
-    eosio_assert(_maximum_supply.amount > 0, "max supply more than 0");
+    eosio_assert(maximum_supply.amount > 0, "max supply more than 0");
 
-    stat statstable(owner, sym.code().raw());
+    stats statstable(owner, sym.code().raw());
     auto existing = statstable.find(sym.code().raw());
     eosio_assert(existing == statstable.end(), "token symbol already exists");
 
     statstable.emplace(owner, [&](auto &s) {
-        s.supply.symbol = _maximum_supply.symbol;
-        s.max_supply = _maximum_supply;
-        s.issuer = _issuer;
+        s.supply.symbol = maximum_supply.symbol;
+        s.max_supply = maximum_supply;
+        s.issuer = issuer;
     });
 }
 
-ACTION untpreregist::issue(eosio::name _to, asset _quantity, string _memo)
+ACTION untpreregist::issue(eosio::name to, asset quantity, string memo)
 {
-    auto sym = _quantity.symbol;
+    auto sym = quantity.symbol;
     eosio_assert(sym.is_valid(), "Invalid symbol name");
-    eosio_assert(_memo.size() <= 256, "Memo has more than 256 bytes");
+    eosio_assert(memo.size() <= 256, "Memo has more than 256 bytes");
 
-    stat statstable(owner, sym.code().raw());
+    stats statstable(owner, sym.code().raw());
     auto existing = statstable.find(sym.code().raw());
     eosio_assert(existing != statstable.end(), "Token with symbol does now exist, Create token before issue");
     const auto &st = *existing;
 
     require_auth(owner_auth);
-    eosio_assert(_quantity.is_valid(), "Invalid quantity");
-    eosio_assert(_quantity.amount > 0, "Must issue positive quantity");
+    eosio_assert(quantity.is_valid(), "Invalid quantity");
+    eosio_assert(quantity.amount > 0, "Must issue positive quantity");
 
-    eosio_assert(_quantity.symbol == st.supply.symbol, "Symbol precision mismatch");
-    eosio_assert(_quantity.amount <= st.max_supply.amount - st.supply.amount, "Quantity exceeds available supply");
+    eosio_assert(quantity.symbol == st.supply.symbol, "Symbol precision mismatch");
+    eosio_assert(quantity.amount <= st.max_supply.amount - st.supply.amount, "Quantity exceeds available supply");
 
     statstable.modify(st, same_payer, [&](auto &s) {
-        s.supply += _quantity;
+        s.supply += quantity;
     });
 
-    add_balance(st.issuer, _quantity, st.issuer);
+    add_balance(st.issuer, quantity, st.issuer);
 
-    if (_to != st.issuer)
+    if (to != st.issuer)
     {
         action(permission_level{st.issuer, "active"_n},
                st.issuer, "transfer"_n,
-               std::make_tuple(st.issuer, _to, _quantity, _memo))
+               std::make_tuple(st.issuer, to, quantity, memo))
             .send();
     }
 }
 
-ACTION untpreregist::transfer(name _from, name _to, asset _quantity, string _memo)
+ACTION untpreregist::transfer(name from, name to, asset quantity, string memo)
 {
     blacklist blacklist_table(owner, owner.value);
-    auto blacklist_iter = blacklist_table.find(_from.value);
+    auto blacklist_iter = blacklist_table.find(from.value);
     eosio_assert(blacklist_iter == blacklist_table.end(), "black list user1");
 
-    eosio_assert(_from != _to, "Cannot transfer to self");
-    require_auth(_from);
-    eosio_assert(is_account(_to), "To account does not exist");
-    auto sym = _quantity.symbol.code().raw();
-    stat statstable(owner, sym);
+    eosio_assert(from != to, "Cannot transfer to self");
+    require_auth(from);
+    eosio_assert(is_account(to), "To account does not exist");
+    auto sym = quantity.symbol.code().raw();
+    stats statstable(owner, sym);
     const auto &st = statstable.get(sym, "Not exist symbol");
 
-    require_recipient(_from);
-    require_recipient(_to);
+    require_recipient(from);
+    require_recipient(to);
 
-    eosio_assert(_quantity.is_valid(), "Invalid quantity");
-    eosio_assert(_quantity.amount > 0, "Must transfer positive quantity");
-    eosio_assert(_quantity.symbol == st.supply.symbol, "Symbol precision mismatch");
-    eosio_assert(_memo.size() <= 256, "Memo has more than 256 bytes");
+    eosio_assert(quantity.is_valid(), "Invalid quantity");
+    eosio_assert(quantity.amount > 0, "Must transfer positive quantity");
+    eosio_assert(quantity.symbol == st.supply.symbol, "Symbol precision mismatch");
+    eosio_assert(memo.size() <= 256, "Memo has more than 256 bytes");
 
-    sub_balance(_from, _quantity);
-    add_balance(_to, _quantity, _from);
+    sub_balance(from, quantity);
+    add_balance(to, quantity, from);
 }
 
-void untpreregist::sub_balance(name _user, asset _value)
+void untpreregist::sub_balance(name user, asset value)
 {
-    accounts from_acnts(owner, _user.value);
+    account from_acnts(owner, user.value);
 
-    const auto &from = from_acnts.get(_value.symbol.code().raw(), "No balance object found");
-    eosio_assert(from.balance.amount >= _value.amount, "over account balance");
+    const auto &from = from_acnts.get(value.symbol.code().raw(), "No balance object found");
+    eosio_assert(from.balance.amount >= value.amount, "over account balance");
 
-    if (from.balance.amount == _value.amount)
+    if (from.balance.amount == value.amount)
     {
         from_acnts.erase(from);
     }
     else
     {
         from_acnts.modify(from, owner, [&](auto &a) {
-            a.balance -= _value;
+            a.balance -= value;
         });
     }
 }
 
-void untpreregist::add_balance(name _user, asset _value, name _ram_payer)
+void untpreregist::add_balance(name user, asset value, name ram_payer)
 {
-    accounts to_acnts(owner, _user.value);
-    auto to = to_acnts.find(_value.symbol.code().raw());
+    account to_acnts(owner, user.value);
+    auto to = to_acnts.find(value.symbol.code().raw());
     if (to == to_acnts.end())
     {
-        to_acnts.emplace(_ram_payer, [&](auto &a) {
-            a.balance = _value;
+        to_acnts.emplace(ram_payer, [&](auto &a) {
+            a.balance = value;
         });
     }
     else
     {
         to_acnts.modify(to, same_payer, [&](auto &a) {
-            a.balance += _value;
+            a.balance += value;
         });
     }
 }
@@ -928,7 +928,7 @@ void untpreregist::presignup(eosio::name _user, uint64_t _seed)
             update_user_monster_list.index = user_monster_table.available_primary_key();
         }
 
-        update_user_monster_list.id = 20036;
+        update_user_monster_list.id = 20001;
         update_user_monster_list.grade = monster_grade_db_iter.grade;
         monster_random_count += 1;
         update_user_monster_list.status.basic_str = safeseed::get_random_value(seed, monster_grade_db_iter.max_range.base_str, monster_grade_db_iter.min_range.base_str, monster_random_count);
@@ -1033,15 +1033,15 @@ ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
                 preregist_gacha(sender, ad.type);
 
                 asset gacha_reward(0, symbol(symbol_code("UTG"), 4));
-                if (total_token_log_iter->total_token_amount < 150000000) //1만eos 제한 300000000000
+                if (total_token_log_iter->total_token_amount < 300000000000) //1만eos 제한 300000000000
                 {
                     gacha_reward.amount = 30000000;
                 }
-                else if (total_token_log_iter->total_token_amount < 450000000) //3만eos 제한 900000000000
+                else if (total_token_log_iter->total_token_amount < 900000000000) //3만eos 제한 900000000000
                 {
                     gacha_reward.amount = 20000000;
                 }
-                else if (total_token_log_iter->total_token_amount < 750000000) //6만eos 제한 1500000000000
+                else if (total_token_log_iter->total_token_amount < 1500000000000) //6만eos 제한 1500000000000
                 {
                     gacha_reward.amount = 10000000;
                 }
@@ -1281,11 +1281,21 @@ void untpreregist::delete_user_gacha_result_data(eosio::name _user)
     eosio_assert(total_iter != user_gacha_total_table.end(), "not exist gacha total data");
     user_gacha_total_table.erase(total_iter);
 }
+
+void untpreregist::delete_user_balance(eosio::name _user)
+{
+    account user_balance_table(owner, _user.value);
+    for (auto user_balance_iter = user_balance_table.begin(); user_balance_iter != user_balance_table.end();)
+    {
+        auto iter = user_balance_table.find(user_balance_iter->primary_key());
+        user_balance_iter++;
+        user_balance_table.erase(iter);
+    }
+}
+
 #pragma endregion
 
 #pragma reion init all table
-
-
 
 ACTION untpreregist::initprelog()
 {
@@ -1303,66 +1313,9 @@ ACTION untpreregist::initprelog()
     total_token_log_table.erase(iter);
 }
 
-
 #pragma endregion
 
-#pragma resion init token
 
-ACTION untpreregist::inittoken(asset _token)
-{
-    master master_table(owner, owner.value);
-    auto master_iter = master_table.begin();
-
-    permission_level master_auth;
-    master_auth.actor = master_iter->master;
-    master_auth.permission = "active"_n;
-    require_auth(master_auth);
-
-    init_all_balance();
-    init_stat(_token);
-}
-
-void untpreregist::delete_user_balance(eosio::name _user)
-{
-    accounts user_balance_table(owner, _user.value);
-    for (auto user_balance_iter = user_balance_table.begin(); user_balance_iter != user_balance_table.end();)
-    {
-        auto iter = user_balance_table.find(user_balance_iter->primary_key());
-        user_balance_iter++;
-        user_balance_table.erase(iter);
-    }
-}
-
-void untpreregist::init_stat(asset _token)
-{
-    stat statstable(owner, _token.symbol.code().raw());
-    for (auto token_stat_iter = statstable.begin(); token_stat_iter != statstable.end();)
-    {
-        auto iter = statstable.find(token_stat_iter->primary_key());
-        token_stat_iter++;
-        statstable.erase(iter);
-    }
-}
-
-void untpreregist::init_all_balance()
-{
-    auth_users user_auth_table(owner, owner.value);
-    for (auto user_name_iter = user_auth_table.begin(); user_name_iter != user_auth_table.end();)
-    {
-        delete_user_balance(user_name_iter->user);
-        user_name_iter++;
-    }
-
-    accounts user_balance_table(owner, owner.value);
-    for (auto user_balance_iter = user_balance_table.begin(); user_balance_iter != user_balance_table.end();)
-    {
-        auto iter = user_balance_table.find(user_balance_iter->primary_key());
-        user_balance_iter++;
-        user_balance_table.erase(iter);
-    }
-}
-
-#pragma endregion
 
 //------------------------------------------------------------------------//
 //-------------------------------gacha_function---------------------------//
@@ -2114,4 +2067,4 @@ ACTION untpreregist::setpause(uint64_t _state)
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(untpreregist, (create)(issue)(transfer)(setmaster)(setpreregist)(eostransfer)(initmaster)(deleteuser)(initprelog)(inittoken)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase)(dbinit))
+EOSIO_DISPATCH(untpreregist, (create)(issue)(transfer)(setmaster)(setpreregist)(eostransfer)(initmaster)(deleteuser)(initprelog)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase)(dbinit)(deletemas))
