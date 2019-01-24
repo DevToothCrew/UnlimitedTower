@@ -873,6 +873,9 @@ void untpreregist::presignup(eosio::name _user, uint64_t _seed)
     uint32_t random_rate = safeseed::get_random_value(seed, max_rate, default_min, monster_random_count);
     uint32_t random_grade = get_random_grade(random_rate);
 
+    monster_random_count += 1;
+    uint64_t random_panda_rate = safeseed::get_random_value(seed, max_rate, default_min, monster_random_count);
+
     monster_grade_db monster_grade_db_table(_self, _self.value);
     const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "not exist monster grade3");
 
@@ -888,7 +891,14 @@ void untpreregist::presignup(eosio::name _user, uint64_t _seed)
             update_user_monster_list.index = user_monster_table.available_primary_key();
         }
 
-        update_user_monster_list.id = 20001;
+        if (random_panda_rate < 50)
+        {
+            update_user_monster_list.id = 20002;    //황금 판다
+        }
+        else
+        {
+            update_user_monster_list.id = 20001;    //일반 판다
+        }
         update_user_monster_list.grade = monster_grade_db_iter.grade;
         monster_random_count += 1;
         update_user_monster_list.status.basic_str = safeseed::get_random_value(seed, monster_grade_db_iter.max_range.base_str, monster_grade_db_iter.min_range.base_str, monster_random_count);
