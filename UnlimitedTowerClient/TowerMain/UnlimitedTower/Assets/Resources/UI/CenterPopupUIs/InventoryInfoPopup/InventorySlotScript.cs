@@ -39,7 +39,7 @@ public class InventorySlotScript : MonoBehaviour {
         upgradetext.gameObject.SetActive(true);
         
         ItemImage.sprite = ErdManager.instance.MountitemSprite[mountitemdata.mountitemNum];
-        teartext.text = mountitemdata.tearNum + "T";
+        teartext.text = mountitemdata.tierNum + "T";
         upgradetext.text = "+"+mountitemdata.upgradeCount;
 
         // 해당 서번트가 판매리스트에 포함되어있다면

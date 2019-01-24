@@ -129,7 +129,34 @@ public class FormationSlot_Bottom : MonoBehaviour, IPointerClickHandler
         // 좌클릭
         if (eventData.button == PointerEventData.InputButton.Left)
         {
+            switch (slottype)
+            {
+                case SlotType.none:
+                    break;
+                case SlotType.servant:
 
+                    // 이미 배치되어있다면 return
+                    if (servantdata.isPlaced)
+                    {
+                        return;
+                    }
+
+                    FormationInfoPopup.instance.registeredServantData = servantdata;
+                    FormationInfoPopup.instance.SetPlaceMode(FormationInfoPopup.PlaceMode.SERVANT_PLACE);
+
+                    break;
+                case SlotType.monster:
+
+                    // 이미 배치되어있다면 return
+                    if (monsterdata.isPlaced)
+                    {
+                        return;
+                    }
+
+                    FormationInfoPopup.instance.registeredMonsterData = monsterdata;
+                    FormationInfoPopup.instance.SetPlaceMode(FormationInfoPopup.PlaceMode.MONSTER_PLACE);
+                    break;
+            }
         }
         // 우클릭
         else if (eventData.button == PointerEventData.InputButton.Right)

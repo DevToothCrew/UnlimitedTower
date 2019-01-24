@@ -27,17 +27,16 @@ public class FormationInfoPopup : MonoBehaviour
 
     // DEFAULT PARAMETERS
     const UNIT_TYPE DEFAULT_UNIT_TYPE = UNIT_TYPE.SERVANT;
-    const SORT_TYPE DEFAULT_SORT_TYPE = SORT_TYPE.Grade;
+    const sortType DEFAULT_SORT_TYPE = sortType.Grade;
     const int DEFAULT_PAGE_NUM = 0;
-
+  
 
 
     /* FSM PARAMETERS */
 
     // 상단
     public int curTeamNum;
-    // 팀 Set함수
-    public System.Action displayteamChanged;
+    public static System.Action teamNumChanged;
     public void SetTeamIndex(int teamNum)
     {
         this.curTeamNum = teamNum;
@@ -47,12 +46,31 @@ public class FormationInfoPopup : MonoBehaviour
         {
             upperslotlist[i].SetDisplayteam(this.curTeamNum);
         }
-
-
     }
 
-    // 하단
-    public SORT_TYPE sortType;
+    public enum PlaceMode
+    {
+        JUST_DISPLAY,
+        SERVANT_PLACE,
+        MONSTER_PLACE,
+    }
+    public PlaceMode placeMode;
+    public UserServantData registeredServantData;
+    public UserMonsterData registeredMonsterData;
+    public static System.Action placeModeChanged;
+    public void SetPlaceMode(PlaceMode placeMode)
+    {
+        this.placeMode = placeMode;
+
+        if (placeModeChanged != null)
+        {
+            placeModeChanged();
+        }
+    }
+
+
+    // 하단 상태변수
+    public sortType sortType;
     public UNIT_TYPE unitType;
     public int bottomWindowPageNum = 0;
 
@@ -64,7 +82,7 @@ public class FormationInfoPopup : MonoBehaviour
 
 
     // SORT TYPE, UNIT TYPE, PAGE NUM -> 하단창
-    public void DisplayBottomUnits(SORT_TYPE sortType, UNIT_TYPE unitType, int bottomWindowPageNum)
+    public void DisplayBottomUnits(sortType sortType, UNIT_TYPE unitType, int bottomWindowPageNum)
     {
         this.unitType = unitType;
         this.sortType = sortType;
@@ -169,6 +187,9 @@ public class FormationInfoPopup : MonoBehaviour
     private void OnEnable()
     {
         DisplayBottomUnits(DEFAULT_SORT_TYPE, DEFAULT_UNIT_TYPE, DEFAULT_PAGE_NUM);
+        DisplayUpperUnits(0);
+        SetPlaceMode(PlaceMode.JUST_DISPLAY);
+
         for (int i = 0; i < DEFINE.PARTY_MAX_NUM; i++)
         {
             upperslotlist[i].SetDisplayteam(0);
@@ -190,7 +211,7 @@ public class FormationInfoPopup : MonoBehaviour
     }
     public void Sortonclick(int sortTypeNum)
     {
-        DisplayBottomUnits((SORT_TYPE)sortTypeNum, unitType, bottomWindowPageNum);
+        DisplayBottomUnits((sortType)sortTypeNum, unitType, bottomWindowPageNum);
     }
 
     // 버튼클릭: 오른쪽, 왼쪽

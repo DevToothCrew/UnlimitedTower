@@ -171,7 +171,7 @@ public class Etc : MonoBehaviour
 
 
     //
-    public void SortTotal(UNIT_TYPE playertype, SORT_TYPE sorttype)
+    public void SortTotal(UNIT_TYPE playertype, sortType sorttype)
     {
         switch (playertype)
         {
@@ -179,7 +179,7 @@ public class Etc : MonoBehaviour
                 {
                     switch (sorttype)
                     {
-                        case SORT_TYPE.Grade:
+                        case sortType.Grade:
                             {
                                 UserDataManager.Inst.ServantList.Sort((a, b) =>
                                 {
@@ -201,7 +201,7 @@ public class Etc : MonoBehaviour
                                 });
                             }
                             break;
-                        case SORT_TYPE.Level:
+                        case sortType.Level:
                             {
                                 UserDataManager.Inst.ServantList.Sort((a, b) =>
                                 {
@@ -221,7 +221,7 @@ public class Etc : MonoBehaviour
                                 });
                             }
                             break;
-                        case SORT_TYPE.Power:
+                        case sortType.Power:
                             {
                                 UserDataManager.Inst.ServantList.Sort((a, b) =>
                                 {
@@ -243,7 +243,7 @@ public class Etc : MonoBehaviour
                                 });
                             }
                             break;
-                        case SORT_TYPE.Obtain:
+                        case sortType.Obtain:
                             {
                                 UserDataManager.Inst.ServantList.Sort((a, b) =>
                                 {
@@ -275,7 +275,7 @@ public class Etc : MonoBehaviour
 
                     switch (sorttype)
                     {
-                        case SORT_TYPE.Grade:
+                        case sortType.Grade:
                             {
                                 UserDataManager.Inst.MonsterList.Sort((a, b) =>
                                 {
@@ -297,7 +297,7 @@ public class Etc : MonoBehaviour
                                 });
                             }
                             break;
-                        case SORT_TYPE.Level:
+                        case sortType.Level:
                             {
                                 UserDataManager.Inst.MonsterList.Sort((a, b) =>
                                 {
@@ -319,7 +319,7 @@ public class Etc : MonoBehaviour
                                 });
                             }
                             break;
-                        case SORT_TYPE.Power:
+                        case sortType.Power:
                             {
                                 UserDataManager.Inst.MonsterList.Sort((a, b) =>
                                 {
@@ -341,7 +341,7 @@ public class Etc : MonoBehaviour
                                 });
                             }
                             break;
-                        case SORT_TYPE.Obtain:
+                        case sortType.Obtain:
                             {
                                 UserDataManager.Inst.MonsterList.Sort((a, b) =>
                                 {
@@ -370,11 +370,11 @@ public class Etc : MonoBehaviour
                 break;
         }
     }
-    public void SortByType(List<UserServantData> servantList, SORT_TYPE sortType)
+    public void SortByType(List<UserServantData> servantList, sortType sortType)
     {
         switch (sortType)
         {
-            case SORT_TYPE.Grade:
+            case sortType.Grade:
                 {
                     servantList.Sort((a, b) =>
                     {
@@ -396,7 +396,7 @@ public class Etc : MonoBehaviour
                     });
                 }
                 break;
-            case SORT_TYPE.Level:
+            case sortType.Level:
                 {
                     servantList.Sort((a, b) =>
                     {
@@ -416,7 +416,7 @@ public class Etc : MonoBehaviour
                     });
                 }
                 break;
-            case SORT_TYPE.Power:
+            case sortType.Power:
                 {
                     servantList.Sort((a, b) =>
                     {
@@ -438,7 +438,7 @@ public class Etc : MonoBehaviour
                     });
                 }
                 break;
-            case SORT_TYPE.Obtain:
+            case sortType.Obtain:
                 {
                     servantList.Sort((a, b) =>
                     {
@@ -464,12 +464,12 @@ public class Etc : MonoBehaviour
                 break;
         }
     }
-    public void SortByType(List<UserMonsterData> monsterList, SORT_TYPE sortType)
+    public void SortByType(List<UserMonsterData> monsterList, sortType sortType)
     {
 
         switch (sortType)
         {
-            case SORT_TYPE.Grade:
+            case sortType.Grade:
                 {
                     monsterList.Sort((a, b) =>
                     {
@@ -491,7 +491,7 @@ public class Etc : MonoBehaviour
                     });
                 }
                 break;
-            case SORT_TYPE.Level:
+            case sortType.Level:
                 {
                     monsterList.Sort((a, b) =>
                     {
@@ -513,7 +513,7 @@ public class Etc : MonoBehaviour
                     });
                 }
                 break;
-            case SORT_TYPE.Power:
+            case sortType.Power:
                 {
                     monsterList.Sort((a, b) =>
                     {
@@ -535,7 +535,7 @@ public class Etc : MonoBehaviour
                     });
                 }
                 break;
-            case SORT_TYPE.Obtain:
+            case sortType.Obtain:
                 {
                     monsterList.Sort((a, b) =>
                     {

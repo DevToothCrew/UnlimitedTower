@@ -43,6 +43,16 @@ public class PopupUIsManager : MonoBehaviour {
     //
     public void OnClickHerobtn()
     {
+        // 이미켜져있다면, return
+        if (heroInfoPopup.gameObject.activeSelf)
+        {
+            return;
+        }
+
+
+        LobbyManager.Inst.InitCenterPopup();
+        LobbyManager.Inst.CenterPopup.SetActivateWithAnimation(true);
+
         UserServantData servantdata = UserDataManager.Inst.ServantList.Find((rowdata) => { return rowdata.isMainHero; });
         heroInfoPopup.ToRegistered(servantdata);
     }
