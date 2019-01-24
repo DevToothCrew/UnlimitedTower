@@ -11,118 +11,118 @@
 //------------------------------------------------------------------------//
 #pragma region Token action
 
-ACTION untpreregist::create(eosio::name _issuer, asset _maximum_supply)
+ACTION untpreregist::create(eosio::name issuer, asset maximum_supply)
 {
     require_auth(owner_auth);
 
-    auto sym = _maximum_supply.symbol;
+    auto sym = maximum_supply.symbol;
     eosio_assert(sym.is_valid(), "invalid symbol name");
-    eosio_assert(_maximum_supply.is_valid(), "invalid Supply");
+    eosio_assert(maximum_supply.is_valid(), "invalid Supply");
 
-    eosio_assert(_maximum_supply.amount > 0, "max supply more than 0");
+    eosio_assert(maximum_supply.amount > 0, "max supply more than 0");
 
-    stat statstable(owner, sym.code().raw());
+    stats statstable(owner, sym.code().raw());
     auto existing = statstable.find(sym.code().raw());
     eosio_assert(existing == statstable.end(), "token symbol already exists");
 
     statstable.emplace(owner, [&](auto &s) {
-        s.supply.symbol = _maximum_supply.symbol;
-        s.max_supply = _maximum_supply;
-        s.issuer = _issuer;
+        s.supply.symbol = maximum_supply.symbol;
+        s.max_supply = maximum_supply;
+        s.issuer = issuer;
     });
 }
 
-ACTION untpreregist::issue(eosio::name _to, asset _quantity, string _memo)
+ACTION untpreregist::issue(eosio::name to, asset quantity, string memo)
 {
-    auto sym = _quantity.symbol;
+    auto sym = quantity.symbol;
     eosio_assert(sym.is_valid(), "Invalid symbol name");
-    eosio_assert(_memo.size() <= 256, "Memo has more than 256 bytes");
+    eosio_assert(memo.size() <= 256, "Memo has more than 256 bytes");
 
-    stat statstable(owner, sym.code().raw());
+    stats statstable(owner, sym.code().raw());
     auto existing = statstable.find(sym.code().raw());
     eosio_assert(existing != statstable.end(), "Token with symbol does now exist, Create token before issue");
     const auto &st = *existing;
 
-    require_auth(st.issuer);
-    eosio_assert(_quantity.is_valid(), "Invalid quantity");
-    eosio_assert(_quantity.amount > 0, "Must issue positive quantity");
+    require_auth(owner_auth);
+    eosio_assert(quantity.is_valid(), "Invalid quantity");
+    eosio_assert(quantity.amount > 0, "Must issue positive quantity");
 
-    eosio_assert(_quantity.symbol == st.supply.symbol, "Symbol precision mismatch");
-    eosio_assert(_quantity.amount <= st.max_supply.amount - st.supply.amount, "Quantity exceeds available supply");
+    eosio_assert(quantity.symbol == st.supply.symbol, "Symbol precision mismatch");
+    eosio_assert(quantity.amount <= st.max_supply.amount - st.supply.amount, "Quantity exceeds available supply");
 
     statstable.modify(st, same_payer, [&](auto &s) {
-        s.supply += _quantity;
+        s.supply += quantity;
     });
 
-    add_balance(st.issuer, _quantity, st.issuer);
+    add_balance(st.issuer, quantity, st.issuer);
 
-    if (_to != st.issuer)
+    if (to != st.issuer)
     {
         action(permission_level{st.issuer, "active"_n},
                st.issuer, "transfer"_n,
-               std::make_tuple(st.issuer, _to, _quantity, _memo))
+               std::make_tuple(st.issuer, to, quantity, memo))
             .send();
     }
 }
 
-ACTION untpreregist::transfer(name _from, name _to, asset _quantity, string _memo)
+ACTION untpreregist::transfer(name from, name to, asset quantity, string memo)
 {
     blacklist blacklist_table(owner, owner.value);
-    auto blacklist_iter = blacklist_table.find(_from.value);
+    auto blacklist_iter = blacklist_table.find(from.value);
     eosio_assert(blacklist_iter == blacklist_table.end(), "black list user1");
 
-    eosio_assert(_from != _to, "Cannot transfer to self");
-    require_auth(_from);
-    eosio_assert(is_account(_to), "To account does not exist");
-    auto sym = _quantity.symbol.code().raw();
-    stat statstable(owner, sym);
+    eosio_assert(from != to, "Cannot transfer to self");
+    require_auth(from);
+    eosio_assert(is_account(to), "To account does not exist");
+    auto sym = quantity.symbol.code().raw();
+    stats statstable(owner, sym);
     const auto &st = statstable.get(sym, "Not exist symbol");
 
-    require_recipient(_from);
-    require_recipient(_to);
+    require_recipient(from);
+    require_recipient(to);
 
-    eosio_assert(_quantity.is_valid(), "Invalid quantity");
-    eosio_assert(_quantity.amount > 0, "Must transfer positive quantity");
-    eosio_assert(_quantity.symbol == st.supply.symbol, "Symbol precision mismatch");
-    eosio_assert(_memo.size() <= 256, "Memo has more than 256 bytes");
+    eosio_assert(quantity.is_valid(), "Invalid quantity");
+    eosio_assert(quantity.amount > 0, "Must transfer positive quantity");
+    eosio_assert(quantity.symbol == st.supply.symbol, "Symbol precision mismatch");
+    eosio_assert(memo.size() <= 256, "Memo has more than 256 bytes");
 
-    sub_balance(_from, _quantity);
-    add_balance(_to, _quantity, _from);
+    sub_balance(from, quantity);
+    add_balance(to, quantity, from);
 }
 
-void untpreregist::sub_balance(name _user, asset _value)
+void untpreregist::sub_balance(name user, asset value)
 {
-    accounts from_acnts(owner, _user.value);
+    account from_acnts(owner, user.value);
 
-    const auto &from = from_acnts.get(_value.symbol.code().raw(), "No balance object found");
-    eosio_assert(from.balance.amount >= _value.amount, "over account balance");
+    const auto &from = from_acnts.get(value.symbol.code().raw(), "No balance object found");
+    eosio_assert(from.balance.amount >= value.amount, "over account balance");
 
-    if (from.balance.amount == _value.amount)
+    if (from.balance.amount == value.amount)
     {
         from_acnts.erase(from);
     }
     else
     {
         from_acnts.modify(from, owner, [&](auto &a) {
-            a.balance -= _value;
+            a.balance -= value;
         });
     }
 }
 
-void untpreregist::add_balance(name _user, asset _value, name _ram_payer)
+void untpreregist::add_balance(name user, asset value, name ram_payer)
 {
-    accounts to_acnts(owner, _user.value);
-    auto to = to_acnts.find(_value.symbol.code().raw());
+    account to_acnts(owner, user.value);
+    auto to = to_acnts.find(value.symbol.code().raw());
     if (to == to_acnts.end())
     {
-        to_acnts.emplace(_ram_payer, [&](auto &a) {
-            a.balance = _value;
+        to_acnts.emplace(ram_payer, [&](auto &a) {
+            a.balance = value;
         });
     }
     else
     {
         to_acnts.modify(to, same_payer, [&](auto &a) {
-            a.balance += _value;
+            a.balance += value;
         });
     }
 }
@@ -140,7 +140,7 @@ ACTION untpreregist::dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, ui
     auto master_iter = master_table.begin();
     permission_level master_auth;
     master_auth.actor = master_iter->master;
-    master_auth.permission = "owner"_n;
+    master_auth.permission = "active"_n;
     require_auth(master_auth);
 
     auth_users user_auth_table(owner, owner.value);
@@ -324,7 +324,7 @@ ACTION untpreregist::dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, ui
     auto master_iter = master_table.begin();
     permission_level master_auth;
     master_auth.actor = master_iter->master;
-    master_auth.permission = "owner"_n;
+    master_auth.permission = "active"_n;
     require_auth(master_auth);
 
     auth_users user_auth_table(owner, owner.value);
@@ -533,7 +533,7 @@ ACTION untpreregist::dberase(uint32_t _kind, uint32_t _appear, uint32_t _id, uin
 
     permission_level master_auth;
     master_auth.actor = master_iter->master;
-    master_auth.permission = "owner"_n;
+    master_auth.permission = "active"_n;
     require_auth(master_auth);
 
     auth_users user_auth_table(owner, owner.value);
@@ -794,29 +794,66 @@ ACTION untpreregist::dbinit()
 #pragma region set
 ACTION untpreregist::setmaster(eosio::name _master)
 {
-    require_auth(owner_auth);
     master master_table(owner, owner.value);
-    auto master_iter = master_table.find(_master.value);
-    eosio_assert(master_iter == master_table.end(), "already set master1");
-    master_table.emplace(owner, [&](auto &set_master)
+    auto master_iter = master_table.begin();
+
+    if (master_iter == master_table.end())
     {
-        set_master.master = _master;   
-    });
+        require_auth(owner_auth);
+        master master_table(_self, _self.value);
+        auto master_iter = master_table.begin();
+        eosio_assert(master_iter == master_table.end(), "already set owner1");
 
-    auth_users user_auth_table(owner, owner.value);
-    auto owner_iter = user_auth_table.find(_master.value);
-    eosio_assert(owner_iter == user_auth_table.end(),"already set master2");
-    user_auth_table.emplace(owner, [&](auto &gm_set) {
-        gm_set.user = _master;
-        gm_set.state = euser_state::lobby;
+        master_table.emplace(_self, [&](auto &set_master) {
+            set_master.master = _self;
+        });
 
-        hero_info first_hero;
-        first_hero.equip_slot.resize(max_equip_slot);
-        first_hero.state = hero_state::set_complete;
+        auth_users user_auth_table(_self, _self.value);
+        auto owner_iter = user_auth_table.find(_self.value);
+        eosio_assert(owner_iter == user_auth_table.end(), "already set owner2");
 
-        gm_set.hero = first_hero;
-    });
+        user_auth_table.emplace(_self, [&](auto &gm_set) {
+            gm_set.user = _self;
+            gm_set.state = euser_state::lobby;
 
+            hero_info first_hero;
+            first_hero.equip_slot.resize(max_equip_slot);
+            first_hero.state = hero_state::set_complete;
+
+            gm_set.hero = first_hero;
+        });
+    }
+    else
+    {
+        permission_level master_auth;
+        master_auth.actor = master_iter->master;
+        master_auth.permission = "owner"_n;
+        require_auth(master_auth);
+
+        auth_users user_auth_table(owner, owner.value);
+        auto owner_iter = user_auth_table.find(master_iter->master.value);
+        eosio_assert(owner_iter != user_auth_table.end(), "not set master2");
+
+        auto user_iter = user_auth_table.find(_master.value);
+        eosio_assert(user_iter == user_auth_table.end(), "already set user");
+
+        user_auth_table.emplace(owner, [&](auto &gm_set) {
+            gm_set.user = _master;
+            gm_set.state = euser_state::lobby;
+
+            hero_info first_hero;
+            first_hero.equip_slot.resize(max_equip_slot);
+            first_hero.state = hero_state::set_complete;
+
+            gm_set.hero = first_hero;
+        });
+        user_auth_table.erase(owner_iter);
+
+        master_table.emplace(owner, [&](auto &move_master) {
+            move_master.master = _master;
+        });
+        master_table.erase(master_iter);
+    }
 }
 
 ACTION untpreregist::setpreregist()
@@ -826,7 +863,7 @@ ACTION untpreregist::setpreregist()
 
     permission_level master_auth;
     master_auth.actor = master_iter->master;
-    master_auth.permission = "owner"_n;
+    master_auth.permission = "active"_n;
     require_auth(master_auth);
 
     total_token_logs total_token_log_table(owner, owner.value);
@@ -891,7 +928,7 @@ void untpreregist::presignup(eosio::name _user, uint64_t _seed)
             update_user_monster_list.index = user_monster_table.available_primary_key();
         }
 
-        update_user_monster_list.id = 20036;
+        update_user_monster_list.id = 20001;
         update_user_monster_list.grade = monster_grade_db_iter.grade;
         monster_random_count += 1;
         update_user_monster_list.status.basic_str = safeseed::get_random_value(seed, monster_grade_db_iter.max_range.base_str, monster_grade_db_iter.min_range.base_str, monster_random_count);
@@ -925,88 +962,6 @@ void untpreregist::signup(eosio::name _user)
     user_log_table.emplace(owner, [&](auto &new_log) {
         new_log.user = _user;
     });
-}
-ACTION untpreregist::preregistmov(eosio::name _user)
-{
-    eosio::require_auth(_user);
-
-    master master_table(owner, owner.value);
-    auto master_iter = master_table.begin();
-
-    auth_users auth_user_table(owner, owner.value);
-    auto owner_iter = auth_user_table.find(master_iter->master.value);
-    eosio_assert(owner_iter != auth_user_table.end(),"not set master1");
-    eosio_assert(owner_iter->state != euser_state::pause, " server checking6 ");
-
-    blacklist blacklist_table(owner, owner.value);
-    auto blacklist_iter = blacklist_table.find(_user.value);
-    eosio_assert(blacklist_iter == blacklist_table.end(), "black list user2");
-
-    total_token_logs total_token_log_table(owner, owner.value);
-    auto total_token_log_iter = total_token_log_table.find(master_iter->master.value);
-    eosio_assert(total_token_log_iter == total_token_log_table.end(), "It is still a preregist period");
-
-    auto pre_user_iter = auth_user_table.find(_user.value);
-    eosio_assert(pre_user_iter != auth_user_table.end(), "You are not a preregists participant");
-    eosio_assert(pre_user_iter->state == euser_state::pre_regist, "already move object");
-
-    auth_user_table.modify(pre_user_iter, owner, [&](auto &pre_user_move_object) {
-        pre_user_move_object.state = euser_state::lobby;
-    });
-
-    user_servants user_servant_table(owner, _user.value);
-    user_preregist_servants user_servant_pre_table(owner, _user.value);
-    for (auto user_servant_iter = user_servant_pre_table.begin(); user_servant_iter != user_servant_pre_table.end();)
-    {
-        user_servant_table.emplace(owner, [&](auto &move_servant) {
-            move_servant.index = user_servant_iter->index;
-            move_servant.party_number = 0;
-            move_servant.servant.id = user_servant_iter->id;
-            move_servant.servant.state = eobject_state::on_inventory;
-            move_servant.servant.status = user_servant_iter->status;
-            move_servant.servant.equip_slot.resize(3);
-        });
-
-        user_servant_iter++;
-    }
-
-    user_monsters user_monster_table(owner, _user.value);
-    user_preregist_monsters user_monster_pre_table(owner, _user.value);
-    for (auto user_monster_iter = user_monster_pre_table.begin(); user_monster_iter != user_monster_pre_table.end();)
-    {
-        user_monster_table.emplace(owner, [&](auto &move_monster) {
-            move_monster.index = user_monster_iter->index;
-            move_monster.party_number = 0;
-            move_monster.monster.id = user_monster_iter->id;
-            move_monster.monster.state = eobject_state::on_inventory;
-            move_monster.monster.grade = user_monster_iter->grade;
-            move_monster.monster.status = user_monster_iter->status;
-        });
-
-        user_monster_iter++;
-    }
-
-    user_items user_item_table(owner, _user.value);
-    user_preregist_items user_item_pre_table(owner, _user.value);
-    for (auto user_item_iter = user_item_pre_table.begin(); user_item_iter != user_item_pre_table.end();)
-    {
-        user_item_table.emplace(owner, [&](auto &move_item) {
-            move_item.index = user_item_iter->index;
-
-            move_item.item.id = user_item_iter->id;
-            move_item.item.type = user_item_iter->type;
-            move_item.item.tier = user_item_iter->tier;
-            move_item.item.job = user_item_iter->job;
-
-            move_item.item.grade = user_item_iter->grade;
-            move_item.item.status.basic_str = user_item_iter->main_status + 10;
-            move_item.item.status.basic_dex = user_item_iter->main_status + 10;
-            move_item.item.status.basic_int = user_item_iter->main_status + 10;
-        });
-
-        user_item_iter++;
-    }
-    delete_user_preregist_data(_user);
 }
 
 // eosio.token recipient
@@ -1078,15 +1033,15 @@ ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
                 preregist_gacha(sender, ad.type);
 
                 asset gacha_reward(0, symbol(symbol_code("UTG"), 4));
-                if (total_token_log_iter->total_token_amount < 150000000) //1만eos 제한 300000000000
+                if (total_token_log_iter->total_token_amount < 300000000000) //1만eos 제한 300000000000
                 {
                     gacha_reward.amount = 30000000;
                 }
-                else if (total_token_log_iter->total_token_amount < 450000000) //3만eos 제한 900000000000
+                else if (total_token_log_iter->total_token_amount < 900000000000) //3만eos 제한 900000000000
                 {
                     gacha_reward.amount = 20000000;
                 }
-                else if (total_token_log_iter->total_token_amount < 750000000) //6만eos 제한 1500000000000
+                else if (total_token_log_iter->total_token_amount < 1500000000000) //6만eos 제한 1500000000000
                 {
                     gacha_reward.amount = 10000000;
                 }
@@ -1168,13 +1123,14 @@ void untpreregist::eosiotoken_transfer(eosio::name sender, eosio::name receiver,
     }
     else
     {
+
         master master_table(owner, owner.value);
         if (owner != sender)
         {
             auto master_iter = master_table.find(sender.value);
             eosio_assert(master_iter != master_table.end(), "impossible send EOS");
         }
-        else
+        else if (owner == sender)
         {
             auto master_iter = master_table.find(receiver.value);
             eosio_assert(master_iter != master_table.end(), "impossible recv EOS");
@@ -1189,22 +1145,36 @@ void untpreregist::eosiotoken_transfer(eosio::name sender, eosio::name receiver,
 #pragma endregion
 
 #pragma resion init db table
-ACTION untpreregist::initmaster(eosio::name _master)
+ACTION untpreregist::initmaster()
 {
-    master master_table(owner,owner.value);
-    auto master_iter = master_table.find(_master.value);
-    eosio_assert(master_iter != master_table.end(),"not set master5");
-    permission_level master_auth;
-    master_auth.actor = master_iter->master;
-    master_auth.permission = "owner"_n;
-    require_auth(master_auth);
+    require_auth(owner_auth);
+    master master_table(owner, owner.value);
+    auto master_iter = master_table.begin();
+
+    auth_users user_auth_table(owner, owner.value);
+    auto owner_iter = user_auth_table.find(master_iter->master.value);
+    eosio_assert(owner_iter != user_auth_table.end(),"not set master2");
+    
+    user_auth_table.erase(owner_iter);
+
+    user_auth_table.emplace(owner, [&](auto &gm_set) {
+        gm_set.user = owner;
+        gm_set.state = euser_state::lobby;
+
+        hero_info first_hero;
+        first_hero.equip_slot.resize(max_equip_slot);
+        first_hero.state = hero_state::set_complete;
+
+        gm_set.hero = first_hero;
+    });
 
     master_table.erase(master_iter);
 
-    auth_users user_auth_table(owner, owner.value);
-    auto owner_iter = user_auth_table.find(_master.value);
-    eosio_assert(owner_iter != user_auth_table.end(), "not set master6");
-    user_auth_table.erase(owner_iter);
+    master_table.emplace(owner, [&](auto &move_master)
+    {
+        move_master.master = owner;   
+    });
+
 }
 
 #pragma endregion
@@ -1218,7 +1188,7 @@ ACTION untpreregist::deleteuser(eosio::name _user)
 
     permission_level master_auth;
     master_auth.actor = master_iter->master;
-    master_auth.permission = "owner"_n;
+    master_auth.permission = "active"_n;
     require_auth(master_auth);
 
     delete_user_data(_user);
@@ -1311,11 +1281,21 @@ void untpreregist::delete_user_gacha_result_data(eosio::name _user)
     eosio_assert(total_iter != user_gacha_total_table.end(), "not exist gacha total data");
     user_gacha_total_table.erase(total_iter);
 }
+
+void untpreregist::delete_user_balance(eosio::name _user)
+{
+    account user_balance_table(owner, _user.value);
+    for (auto user_balance_iter = user_balance_table.begin(); user_balance_iter != user_balance_table.end();)
+    {
+        auto iter = user_balance_table.find(user_balance_iter->primary_key());
+        user_balance_iter++;
+        user_balance_table.erase(iter);
+    }
+}
+
 #pragma endregion
 
 #pragma reion init all table
-
-
 
 ACTION untpreregist::initprelog()
 {
@@ -1324,7 +1304,7 @@ ACTION untpreregist::initprelog()
 
     permission_level master_auth;
     master_auth.actor = master_iter->master;
-    master_auth.permission = "owner"_n;
+    master_auth.permission = "active"_n;
     require_auth(master_auth);
 
     total_token_logs total_token_log_table(owner, owner.value);
@@ -1333,66 +1313,9 @@ ACTION untpreregist::initprelog()
     total_token_log_table.erase(iter);
 }
 
-
 #pragma endregion
 
-#pragma resion init token
 
-ACTION untpreregist::inittoken(asset _token)
-{
-    master master_table(owner, owner.value);
-    auto master_iter = master_table.begin();
-
-    permission_level master_auth;
-    master_auth.actor = master_iter->master;
-    master_auth.permission = "owner"_n;
-    require_auth(master_auth);
-
-    init_all_balance();
-    init_stat(_token);
-}
-
-void untpreregist::delete_user_balance(eosio::name _user)
-{
-    accounts user_balance_table(owner, _user.value);
-    for (auto user_balance_iter = user_balance_table.begin(); user_balance_iter != user_balance_table.end();)
-    {
-        auto iter = user_balance_table.find(user_balance_iter->primary_key());
-        user_balance_iter++;
-        user_balance_table.erase(iter);
-    }
-}
-
-void untpreregist::init_stat(asset _token)
-{
-    stat statstable(owner, _token.symbol.code().raw());
-    for (auto token_stat_iter = statstable.begin(); token_stat_iter != statstable.end();)
-    {
-        auto iter = statstable.find(token_stat_iter->primary_key());
-        token_stat_iter++;
-        statstable.erase(iter);
-    }
-}
-
-void untpreregist::init_all_balance()
-{
-    auth_users user_auth_table(owner, owner.value);
-    for (auto user_name_iter = user_auth_table.begin(); user_name_iter != user_auth_table.end();)
-    {
-        delete_user_balance(user_name_iter->user);
-        user_name_iter++;
-    }
-
-    accounts user_balance_table(owner, owner.value);
-    for (auto user_balance_iter = user_balance_table.begin(); user_balance_iter != user_balance_table.end();)
-    {
-        auto iter = user_balance_table.find(user_balance_iter->primary_key());
-        user_balance_iter++;
-        user_balance_table.erase(iter);
-    }
-}
-
-#pragma endregion
 
 //------------------------------------------------------------------------//
 //-------------------------------gacha_function---------------------------//
@@ -2061,7 +1984,7 @@ ACTION untpreregist::deleteblack(eosio::name _user)
 
     permission_level master_auth;
     master_auth.actor = master_iter->master;
-    master_auth.permission = "owner"_n;
+    master_auth.permission = "active"_n;
     require_auth(master_auth);
 
     blacklist blacklist_table(owner, owner.value);
@@ -2078,7 +2001,7 @@ ACTION untpreregist::addblack(eosio::name _user)
 
     permission_level master_auth;
     master_auth.actor = master_iter->master;
-    master_auth.permission = "owner"_n;
+    master_auth.permission = "active"_n;
     require_auth(master_auth);
 
     blacklist blacklist_table(owner, owner.value);
@@ -2101,7 +2024,7 @@ ACTION untpreregist::setpause(uint64_t _state)
 
     permission_level master_auth;
     master_auth.actor = master_iter->master;
-    master_auth.permission = "owner"_n;
+    master_auth.permission = "active"_n;
     require_auth(master_auth);
 
     auth_users user_auth_table(owner, owner.value);
@@ -2144,4 +2067,4 @@ ACTION untpreregist::setpause(uint64_t _state)
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(untpreregist, (create)(issue)(transfer)(setmaster)(setpreregist)(preregistmov)(eostransfer)(initmaster)(deleteuser)(initprelog)(inittoken)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase)(dbinit))
+EOSIO_DISPATCH(untpreregist, (create)(issue)(transfer)(setmaster)(setpreregist)(eostransfer)(initmaster)(deleteuser)(initprelog)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase)(dbinit)(deletemas))

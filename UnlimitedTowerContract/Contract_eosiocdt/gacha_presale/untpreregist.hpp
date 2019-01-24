@@ -185,7 +185,7 @@ enum db_index
     typedef eosio::multi_index<"tmaster"_n, tmaster> master;
 
     ACTION setmaster(eosio::name _master);
-    ACTION initmaster(eosio::name _master);
+    ACTION initmaster();
     ACTION setpreregist();
     ACTION dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max, uint32_t _ratio);
     ACTION dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max, uint32_t _ratio);
@@ -241,23 +241,23 @@ enum db_index
   private:
 #pragma region token account
   private:
-    TABLE account
+    TABLE accounts
     {
         asset balance;
         uint64_t primary_key() const { return balance.symbol.code().raw(); }
     };
-    typedef eosio::multi_index<"account"_n, account> accounts;
+    typedef eosio::multi_index<"accounts"_n, accounts> account;
 #pragma endregion
 
 #pragma region token stats
-    TABLE stats
+    TABLE stat
     {
         asset supply;
         asset max_supply;
         eosio::name issuer;
         uint64_t primary_key() const { return supply.symbol.code().raw(); }
     };
-    typedef eosio::multi_index<"stats"_n, stats> stat;
+    typedef eosio::multi_index<"stat"_n, stat> stats;
 #pragma endregion
 
     //------------------------------------------------------------------------//
@@ -265,24 +265,22 @@ enum db_index
     //------------------------------------------------------------------------//
   public:
 #pragma region token function
-    void sub_balance(name _user, asset _value);
-    void add_balance(name _user, asset _value, name _ram_payer);
+    void sub_balance(name user, asset value);
+    void add_balance(name user, asset value, name ram_payer);
 #pragma endregion
 
 #pragma region token action
-    ACTION create(name _issuer, asset _maximum_supply);
-    ACTION issue(name _to, asset _quantity, string _memo);
-    ACTION transfer(name _from, name _to, asset _quantity, string _memo);
-    ACTION inittoken(asset _token);
+    ACTION create(name issuer, asset maximum_supply);
+    ACTION issue(name to, asset quantity, string memo);
+    ACTION transfer(name from, name to, asset quantity, string memo);
 #pragma endregion
 
 
 
-#pragma region token delete init
-    void delete_user_balance(eosio::name _user);
-    void init_stat(asset _token);
-    void init_all_balance();
-#pragma endregion
+
+    
+
+
     //------------------------------------------------------------------------//
     //-----------------------------gacha_table--------------------------------//
     //------------------------------------------------------------------------//
@@ -463,7 +461,7 @@ enum db_index
 
 
 
-    const uint64_t limit_token_amount = 800000000;
+    const uint64_t limit_token_amount = 10000000000000;
 
 #pragma endregion
 
@@ -648,7 +646,6 @@ TABLE tokenlog
     ACTION eostransfer(eosio::name sender, eosio::name receiver);
     void presignup(eosio::name _user, uint64_t _seed);
     void signup(eosio::name _user);
-    ACTION preregistmov(eosio::name _user);
 #pragma endregion
 
     //------------------------------------------------------------------------//
@@ -660,6 +657,7 @@ ACTION initprelog();
     //------------------------------------------------------------------------//
     //-----------------------------delete_function----------------------------//
     //------------------------------------------------------------------------//
+void delete_user_balance(eosio::name _user);
 void delete_user_data(eosio::name _user);
 void delete_user_object_data(eosio::name _user);
 void delete_user_gacha_result_data(eosio::name _user);
