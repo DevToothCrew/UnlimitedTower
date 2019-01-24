@@ -3202,12 +3202,12 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1324943361}
-        m_MethodName: SortByObtain
-        m_Mode: 1
+        m_MethodName: SetSortState
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -8932,8 +8932,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1324943361}
-        m_MethodName: SortByGrade
-        m_Mode: 1
+        m_MethodName: SetSortState
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -22530,6 +22530,7 @@ MonoBehaviour:
   mountitemdata:
     index: 0
     mountitemNum: 0
+    gradeNum: 0
     tierNum: 0
     upgradeCount: 0
     mountServantIndex: 0
@@ -30870,6 +30871,7 @@ MonoBehaviour:
   mountItemData:
     index: 0
     mountitemNum: 0
+    gradeNum: 0
     tierNum: 0
     upgradeCount: 0
     mountServantIndex: 0
@@ -42874,6 +42876,7 @@ MonoBehaviour:
   mountItemData:
     index: 0
     mountitemNum: 0
+    gradeNum: 0
     tierNum: 0
     upgradeCount: 0
     mountServantIndex: 0
@@ -46686,12 +46689,12 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1324943361}
-        m_MethodName: SortByPower
-        m_Mode: 1
+        m_MethodName: SetSortState
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -82115,11 +82118,10 @@ MonoBehaviour:
   DisplayModeObj: {fileID: 2094907004}
   unitType: 0
   _pageNum: 0
-  sortstate: 0
+  sortState: 0
   modeType: 0
   sellingMonsterList: []
   sellingServantList: []
-  _TupleList: []
 --- !u!1 &1325203827
 GameObject:
   m_ObjectHideFlags: 0
@@ -86579,9 +86581,11 @@ MonoBehaviour:
   SellingModeObj: {fileID: 953444249}
   DisplayModeObj: {fileID: 888783903}
   inventoryState: 0
+  _curDisplayNum: 0
   modeType: 0
   sellingMountItemList: []
   sellingETCItemList: []
+  sortType: 0
 --- !u!1 &1397180150
 GameObject:
   m_ObjectHideFlags: 0
@@ -100235,12 +100239,12 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1324943361}
-        m_MethodName: SortByLevel
-        m_Mode: 1
+        m_MethodName: SetSortState
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -128897,6 +128901,7 @@ MonoBehaviour:
   mountItemData:
     index: 0
     mountitemNum: 0
+    gradeNum: 0
     tierNum: 0
     upgradeCount: 0
     mountServantIndex: 0
