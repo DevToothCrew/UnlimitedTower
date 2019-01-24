@@ -1,18 +1,17 @@
-# addblack : 블랙리스트에 사용자 계정 등록 함수 (Only Master Active)
-# create :  토큰을 만드는 액션 (Only Contract, One Time, Owner)
-# dberase : db 내용 선택 삭제 함수 (Only Master Active)
-# dbinsert : db 내용 선택 추가 함수 (Only Master Active)
-# dbmodify : db 내용 선택 수정 함수 (Only Master Active)
-# deleteblack : 블랙리스트에서 사용자 계정 삭제 함수 (Only Master Active)
-# deleteuser : 유저 정보 삭제 함수(Only Master Active)
-# eostransfer : eosio.token 컨트랙트 트랜스퍼 실행 함수
-# initmaster : Master 초기화 함수 (Only Contract Owner)
-# initprelog : PreRegist Log 초기화 함수 (Only Master Active)
-# inittoken : 토큰 초기화 함수 (Only Master Active)
-# issue : 토큰 발행 함수 (Only Master Active, One Time, Owner)
-# setmaster : Master 이동 함수 (Only Master Owner)
-# setpause : 컨트랙트 일시정지 (Only Master Active)
-# setpresale : 프리세일 로그 세팅 함수 (Only Master Active)
+##### addblack : 블랙리스트에 사용자 계정 등록 함수 (Only Master Active)
+##### create :  토큰을 만드는 액션 (Only Contract, One Time, Owner)
+##### dberase : db 내용 선택 삭제 함수 (Only Master Active)
+##### dbinsert : db 내용 선택 추가 함수 (Only Master Active)
+##### dbmodify : db 내용 선택 수정 함수 (Only Master Active)
+##### deleteblack : 블랙리스트에서 사용자 계정 삭제 함수 (Only Master Active)
+##### deleteuser : 유저 정보 삭제 함수(Only Master Active)
+##### eostransfer : eosio.token 컨트랙트 트랜스퍼 실행 함수
+##### initmaster : Master 초기화 함수 (Only Contract Owner)
+##### inittokenlog : PreRegist Log 초기화 함수 (Only Master Active)
+##### issue : 토큰 발행 함수 (Only Master Active, One Time, Owner)
+##### setmaster : Master 이동 함수 (Only Master Owner)
+##### setpause : 컨트랙트 일시정지 (Only Master Active)
+##### setpreregist : 프리세일 로그 세팅 함수 (Only Master Active)
 
 
 jungle_test_net_contract  - unlimittest1
