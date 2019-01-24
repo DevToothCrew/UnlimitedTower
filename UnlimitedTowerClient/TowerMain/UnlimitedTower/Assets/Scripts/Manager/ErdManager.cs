@@ -182,7 +182,12 @@ public class ErdManager : MonoBehaviour {
     public ServantIconEntity ServantIconEntityTable;    // 
     public ServantIconEntity.Param getServantIconEntityTable_nullPossible(int charNum,int jobNum )
     {
-        return ServantIconEntityTable.param.Find((rowdata) => { return rowdata.charNum == charNum && rowdata.jobNum == jobNum; });
+        ServantIconEntity.Param param = ServantIconEntityTable.param.Find((rowdata) => { return rowdata.charNum == charNum && rowdata.jobNum == jobNum; });
+        if (param == null)
+        {
+            Debug.Log(charNum + "/" + jobNum);
+        }
+        return param;
     }
     public Sprite GetServantIconSprite(bool islegend, int charNum, int jobNum)
     {

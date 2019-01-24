@@ -37,11 +37,16 @@ public class SlotScript : MonoBehaviour {
         InitializeUI();
 
         charimage.gameObject.SetActive(true);
-        charimage.sprite = ErdManager.instance.GetServantIconSprite(servant.isLegend, servant.body, servant.jobNum);
+
+        bool isLegend = servant.isLegend;
+        int bodyNum = servant.body;
+        int jobNum = servant.jobNum;
+        charimage.sprite = ErdManager.instance.GetServantIconSprite(isLegend, bodyNum, jobNum);
         lefttopimage.gameObject.SetActive(true);
         lefttopimage.sprite = ErdManager.instance.JobIcons[servant.jobNum];
         leveltext.gameObject.SetActive(true);
         leveltext.text = "Lv." + servant.level;
+
 
         // 해당 서번트가 판매리스트에 포함되어있다면
         if (PopupUIsManager.instance.partnerInfoPopup.sellingServantList.Contains(servant) &&
