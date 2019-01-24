@@ -816,7 +816,7 @@ ACTION untpreregist::setmaster(eosio::name _master)
     }
 }
 
-ACTION untpreregist::setpreregist()
+ACTION untpreregist::settokenlog()
 {
     system_master system_master_table(_self, _self.value);
     auto system_master_iter = system_master_table.begin();
@@ -2014,4 +2014,4 @@ ACTION untpreregist::deletemas()
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(untpreregist, (create)(issue)(transfer)(setmaster)(setpreregist)(eostransfer)(initmaster)(deleteuser)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase)(dbinit)(deletemas))
+EOSIO_DISPATCH(untpreregist, (create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(deleteuser)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase)(dbinit)(deletemas))
