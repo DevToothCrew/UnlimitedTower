@@ -123,10 +123,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 983476d0af3a5594a9b886785fdef4ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 15
+  color: {r: 1, g: 1, b: 0, a: 1}
+  maxSpeed: 25
   maxRadius: 17
   minRadius: 15
-  targetRadius: 0.5
+  targetRadius: 2
+  alphaDeltaCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0.00019493699
+      value: 0.0005084388
+      inSlope: 0.57924676
+      outSlope: 0.57924676
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.14557509
+      value: 0.7705282
+      inSlope: 5.6973615
+      outSlope: 5.6973615
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.25726423
+      value: 0.99998313
+      inSlope: 0.0028015038
+      outSlope: 0.0028015038
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.29999998
+      value: 0.9999986
+      inSlope: 0.000017283497
+      outSlope: 0.000017283497
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1.0000004
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
   speedDeltaGraph:
     serializedVersion: 2
     m_Curve:

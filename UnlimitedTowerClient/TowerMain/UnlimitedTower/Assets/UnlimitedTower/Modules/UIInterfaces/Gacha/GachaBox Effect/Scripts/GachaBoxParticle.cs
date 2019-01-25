@@ -6,6 +6,9 @@ using Random = UnityEngine.Random;
 
 public class GachaBoxParticle : MonoBehaviour {
     [SerializeField]
+    private Color color;
+
+    [SerializeField]
     private float maxSpeed;
 
     [SerializeField]
@@ -18,10 +21,15 @@ public class GachaBoxParticle : MonoBehaviour {
     private float targetRadius;
 
     [SerializeField]
+    private AnimationCurve alphaDeltaCurve;
+
+    [SerializeField]
     private AnimationCurve speedDeltaGraph;
 
     [SerializeField]
     private AnimationCurve scaleDeltaGraph;
+
+    private MaterialPropertyBlock materialPropertyBlock;
 
     private Vector3 preGenDir;
 
@@ -52,6 +60,14 @@ public class GachaBoxParticle : MonoBehaviour {
         get
         {
             return 1.0f - dispersionProgress;
+        }
+    }
+
+    private float alpha
+    {
+        get
+        {
+            return alphaDeltaCurve.Evaluate(summonProgress);
         }
     }
 
@@ -93,6 +109,11 @@ public class GachaBoxParticle : MonoBehaviour {
         //set position
         transform.localPosition = preGenDir * (preGenStartDist);
 
+        //get materialblock
+        materialPropertyBlock = new MaterialPropertyBlock();
+        materialPropertyBlock.SetColor("_TintColor", new Color(1.0f, 1.0f, 1.0f, 0.0f));
+        transform.GetComponentInChildren<MeshRenderer>()?.SetPropertyBlock(materialPropertyBlock);
+
     }
 
 	// Update is called once per frame
@@ -104,12 +125,22 @@ public class GachaBoxParticle : MonoBehaviour {
     {
         transform.localPosition = transform.localPosition + summonVelocity * Time.deltaTime;
         transform.localScale = scale;
+        materialPropertyBlock.SetColor("_TintColor", Color.Lerp(color * 0.0f, color, alpha));
+        transform.GetComponentInChildren<MeshRenderer>()?.SetPropertyBlock(materialPropertyBlock);
     }
 
     void UpdateDispersionAnimation()
     {
         transform.localPosition = transform.localPosition + dispersionVelocity * Time.deltaTime;
         transform.localScale = scale;
+        materialPropertyBlock.SetColor("_TintColor", Color.Lerp(color * 0.0f, color, alpha));
+        transform.GetComponentInChildren<MeshRenderer>()?.SetPropertyBlock(materialPropertyBlock);
+    }
+
+    void Destroyer()
+    {
+        if (dispersionProgress > 0.99f)
+            Destroy(gameObject);
     }
 
     public void BeginSummon()
@@ -120,6 +151,7 @@ public class GachaBoxParticle : MonoBehaviour {
     public void BeginDispersion()
     {
         UpdateAnimation = UpdateDispersionAnimation;
+        UpdateAnimation += Destroyer;
     }
 
 }

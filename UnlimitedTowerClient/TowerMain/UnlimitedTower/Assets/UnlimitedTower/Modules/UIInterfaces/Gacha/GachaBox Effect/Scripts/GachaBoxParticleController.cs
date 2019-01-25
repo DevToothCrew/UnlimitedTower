@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PostProcessing;
@@ -8,6 +9,10 @@ public class GachaBoxParticleController : MonoBehaviour
 
     public GameObject particlePrefab;
 
+    //pre saved transforms
+    private Vector3 orinCubePosition;
+    private Quaternion orinCubeRotation;
+    private Vector3 orinCubeScale;
 
     //post effect
     private PostProcessingBehaviour ppb;
@@ -22,19 +27,23 @@ public class GachaBoxParticleController : MonoBehaviour
     public float maxPlayTime;
     public List<GameObject> particles = new List<GameObject>();
 
+    private Action callback = null;
+
     private void Awake()
     {
         ppb = GetComponentInChildren<PostProcessingBehaviour>();
 
         bloomSettings = ppb.profile.bloom.settings;
+
+        orinCubePosition = Cube.transform.localPosition;
+        orinCubeRotation = Cube.transform.localRotation;
+        orinCubeScale = Cube.transform.localScale;
+        
     }
 
-    // Update is called once per frame
-    void Update () {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) BeginSummonAnimation();
-	}
+    #region Summon 
 
-    IEnumerator Translation()
+    IEnumerator SummonTranslation()
     {
         float timer = maxPlayTime;
 
@@ -51,7 +60,7 @@ public class GachaBoxParticleController : MonoBehaviour
         }
     }
 
-    IEnumerator Blooming()
+    IEnumerator SummonBlooming()
     {
         float timer = maxPlayTime;
         float nextIntensity = 0.0f;
@@ -60,7 +69,7 @@ public class GachaBoxParticleController : MonoBehaviour
         {
             if (Mathf.Abs(bloomSettings.bloom.intensity - nextIntensity) < 0.05f)
             {
-                nextIntensity = Mathf.Max(0.0f, bloomSettings.bloom.intensity + Random.Range(-0.8f, 1.2f));
+                nextIntensity = Mathf.Max(0.0f, bloomSettings.bloom.intensity + UnityEngine.Random.Range(-0.8f, 1.2f));
             }
 
             bloomSettings.bloom.intensity = Mathf.Lerp(bloomSettings.bloom.intensity, nextIntensity, Time.deltaTime * 16.0f);
@@ -69,15 +78,6 @@ public class GachaBoxParticleController : MonoBehaviour
             ppb.profile.bloom.settings = bloomSettings;
             yield return new WaitForEndOfFrame();
         }
-    }
-
-    IEnumerator GenerateParticle(float time)
-    {
-        var go = Instantiate(particlePrefab, transform);
-        particles.Add(go);
-        yield return new WaitForSeconds(time);
-
-        go.GetComponent<GachaBoxParticle>()?.BeginSummon();
     }
 
     IEnumerator ConditionChecker()
@@ -91,7 +91,7 @@ public class GachaBoxParticleController : MonoBehaviour
             allParticleReady = true;
             foreach (var go in particles)
             {
-                var particle = go.GetComponent<GachaBoxParticle>();
+                var particle = go?.GetComponent<GachaBoxParticle>();
                 if (particle != null)
                 {
                     allParticleReady = allParticleReady && particle.isFinishedSummonAnimation;
@@ -103,29 +103,79 @@ public class GachaBoxParticleController : MonoBehaviour
         BeginDispersionAnimation();
     }
 
-    public void BeginSummonAnimation()
+    #endregion
+
+    #region Dispersion
+    IEnumerator BoxUpAnimation()
     {
-        for (int i = 0; i < particleCount; i++)
+        while (true)
         {
-            var randTime = Random.Range(0, maxDelayTime);
-            StartCoroutine(GenerateParticle(randTime));
+            Cube.transform.localRotation = Quaternion.Lerp(Cube.transform.localRotation, Quaternion.Euler(0.0f, 0.0f, 45.0f), Time.deltaTime * 8.0f);
+            Cube.transform.localScale = Vector3.Lerp(Cube.transform.localScale, Vector3.one * 2.0f, Time.deltaTime * 8.0f);
+
+            bloomSettings.bloom.intensity = Mathf.Lerp(bloomSettings.bloom.intensity, 2.5f, Time.deltaTime * 8.0f);
+            //set dirty
+            ppb.profile.bloom.settings = bloomSettings;
+            yield return new WaitForEndOfFrame();
+        }
+    }
+    #endregion
+
+    IEnumerator GenerateParticle(float time)
+    {
+        var go = Instantiate(particlePrefab, transform);
+        particles.Add(go);
+        yield return new WaitForSeconds(time);
+
+        go.GetComponent<GachaBoxParticle>()?.BeginSummon();
+    }
+
+    IEnumerator ParticleWatcher()
+    {
+        while(particles.Count > particleCount / 10)
+        {
+            particles.RemoveAll(go => go == null);
+            yield return new WaitForEndOfFrame();
         }
 
-        StartCoroutine(Blooming());
-        StartCoroutine(Translation());
+        FinishAnimation();
+    }
+
+
+    public void BeginSummonAnimation(System.Action callback)
+    {
+        StopAllCoroutines();
+        particles?.Clear();
+
+        Cube.transform.localPosition = orinCubePosition;
+        Cube.transform.localRotation = orinCubeRotation ;
+        Cube.transform.localScale = orinCubeScale;
+
+        for (int i = 0; i < particleCount; i++)
+        {
+            StartCoroutine(GenerateParticle(UnityEngine.Random.Range(0, maxDelayTime)));
+        }
+        
+        StartCoroutine(SummonBlooming());
+        StartCoroutine(SummonTranslation());
         StartCoroutine(ConditionChecker());
+
+        this.callback += callback;
     }
 
     public void BeginDispersionAnimation()
     {
-        foreach(var go in particles)
-        {
-            var particle = go.GetComponent<GachaBoxParticle>();
-            if (particle != null)
-            {
-                particle.BeginDispersion();
-            }
-        }
+        StopAllCoroutines();
+        StartCoroutine(BoxUpAnimation());
+        StartCoroutine(ParticleWatcher());
+
+        particles.ForEach(go => go?.GetComponent<GachaBoxParticle>()?.BeginDispersion());
+    }
+
+    public void FinishAnimation()
+    {
+        StopAllCoroutines();
+        callback?.Invoke();
     }
 
     private void OnDestroy()

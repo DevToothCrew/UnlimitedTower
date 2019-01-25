@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 114662195474876258}
   - component: {fileID: 95364998794997266}
   m_Layer: 31
-  m_Name: Particle System
+  m_Name: Gacha Fx System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -268,3 +268,4 @@ MonoBehaviour:
   maxDelayTime: 10
   particleCount: 100
   maxPlayTime: 10
+  particles: []
