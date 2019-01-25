@@ -798,7 +798,7 @@ ACTION untpreregist::setmaster(eosio::name _master)
 
         system_master_table.emplace(_self, [&](auto &set_master) {
             set_master.master = _self;
-            set_master.state = system_state::normal;
+            set_master.state = system_state::pause;
         });
     }
     else
@@ -810,7 +810,7 @@ ACTION untpreregist::setmaster(eosio::name _master)
 
         system_master_table.emplace(_self, [&](auto &move_master) {
             move_master.master = _master;
-            move_master.state = system_state::normal;
+            move_master.state = system_state::pause;
         });
         system_master_table.erase(system_master_iter);
     }
@@ -825,6 +825,8 @@ ACTION untpreregist::settokenlog()
     master_auth.actor = system_master_iter->master;
     master_auth.permission = "active"_n;
     require_auth(master_auth);
+
+    eosio_assert(system_master_iter->state == system_state::pause, "not server pause 5");
 
     total_token_logs total_token_log_table(_self, _self.value);
     auto total_token_log_iter = total_token_log_table.find(system_master_iter->master.value);
@@ -844,24 +846,18 @@ ACTION untpreregist::settokenlog()
 
 void untpreregist::presignup(eosio::name _user, uint64_t _seed)
 {
-    auth_users auth_user_table(_self, _self.value);
-    auto new_user_iter = auth_user_table.find(_user.value);
-    eosio_assert(new_user_iter == auth_user_table.end(), "user already signup1");
-    auth_user_table.emplace(_self, [&](auto &new_user) {
+    pre_users pre_auth_table(_self, _self.value);
+    auto new_user_iter = pre_auth_table.find(_user.value);
+    eosio_assert(new_user_iter == pre_auth_table.end(), "user already signup1");
+    pre_auth_table.emplace(_self, [&](auto &new_user) {
         new_user.user = _user;
         new_user.state = euser_state::pre_regist;
-
-        hero_info first_hero;
-        first_hero.equip_slot.resize(max_equip_slot);
-        first_hero.state = hero_state::set_look;
-
-        new_user.hero = first_hero;
     });
 
-    user_logs user_log_table(_self, _self.value);
-    auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter == user_log_table.end(), "user already signup2");
-    user_log_table.emplace(_self, [&](auto &new_log) {
+    pre_logs pre_log_table(_self, _self.value);
+    auto user_log_iter = pre_log_table.find(_user.value);
+    eosio_assert(user_log_iter == pre_log_table.end(), "user already signup2");
+    pre_log_table.emplace(_self, [&](auto &new_log) {
         new_log.user = _user;
     });
 
@@ -881,15 +877,8 @@ void untpreregist::presignup(eosio::name _user, uint64_t _seed)
 
     user_preregist_monsters user_monster_table(_self, _user.value);
     user_monster_table.emplace(_self, [&](auto &update_user_monster_list) {
-        uint32_t first_index = user_monster_table.available_primary_key();
-        if (first_index == 0)
-        {
-            update_user_monster_list.index = 1;
-        }
-        else
-        {
-            update_user_monster_list.index = user_monster_table.available_primary_key();
-        }
+
+        update_user_monster_list.index = 1;
 
         if (random_panda_rate < 50)
         {
@@ -918,12 +907,6 @@ void untpreregist::signup(eosio::name _user)
     auth_user_table.emplace(_self, [&](auto &new_user) {
         new_user.user = _user;
         new_user.state = euser_state::lobby;
-
-        hero_info first_hero;
-        first_hero.equip_slot.resize(max_equip_slot);
-        first_hero.state = hero_state::set_look;
-
-        new_user.hero = first_hero;
     });
 
     user_logs user_log_table(_self, _self.value);
@@ -940,10 +923,6 @@ void untpreregist::signup(eosio::name _user)
 
 ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
 {
-    system_master system_master_table(_self, _self.value);
-    auto system_master_iter = system_master_table.begin();
-    eosio_assert(system_master_iter->state != system_state::pause, "server pause1");
-
     blacklist blacklist_table(_self, _self.value);
     auto blacklist_iter = blacklist_table.find(sender.value);
     eosio_assert(blacklist_iter == blacklist_table.end(), "black list user3");
@@ -952,6 +931,10 @@ ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
         eosio_assert(ad.action.size() != 0,"wrong action");
         if (ad.action == action_signup)
         {
+            system_master system_master_table(_self, _self.value);
+            auto system_master_iter = system_master_table.begin();
+            eosio_assert(system_master_iter->state != system_state::pause, "server pause1");
+
             total_token_logs total_token_log_table(_self, _self.value);
             auto total_token_log_iter = total_token_log_table.find(system_master_iter->master.value);
             eosio_assert(total_token_log_iter == total_token_log_table.end(), "need to preregist signup");
@@ -960,6 +943,10 @@ ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
         }
         else if (ad.action == action_preregist_signup)
         {
+            system_master system_master_table(_self, _self.value);
+            auto system_master_iter = system_master_table.begin();
+            eosio_assert(system_master_iter->state != system_state::pause, "server pause1");
+
             total_token_logs total_token_log_table(_self, _self.value);
             auto total_token_log_iter = total_token_log_table.find(system_master_iter->master.value);
             eosio_assert(total_token_log_iter != total_token_log_table.end(), "pre sale time over");
@@ -988,15 +975,35 @@ ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
         }
         else if (ad.action == action_gacha)
         {
+            system_master system_master_table(_self, _self.value);
+            auto system_master_iter = system_master_table.begin();
+            eosio_assert(system_master_iter->state != system_state::pause, "server pause1");
+
             total_token_logs total_token_log_table(_self, _self.value);
             auto total_token_log_iter = total_token_log_table.find(system_master_iter->master.value);
             if (total_token_log_iter == total_token_log_table.end())
             {
                 start_gacha(sender, ad.type);
+
+                user_logs user_log_table(_self, _self.value);
+                auto user_log_iter = user_log_table.find(sender.value);
+                eosio_assert(user_log_iter != user_log_table.end(), "not exist user log1");
+
+                user_log_table.modify(user_log_iter, _self, [&](auto &buy_log) {
+                    buy_log.use_eos += ad.quantity.amount;
+                });
             }
             else
             {
                 preregist_gacha(sender, ad.type);
+
+                pre_logs pre_log_table(_self, _self.value);
+                auto user_log_iter = pre_log_table.find(sender.value);
+                eosio_assert(user_log_iter != pre_log_table.end(), "not exist user log1");
+
+                pre_log_table.modify(user_log_iter, _self, [&](auto &buy_log) {
+                    buy_log.use_eos += ad.quantity.amount;
+                });
 
                 asset gacha_reward(0, symbol(symbol_code("UTG"), 4));
                 if (total_token_log_iter->total_token_amount < 300000000000) //1만eos 제한 300000000000
@@ -1050,25 +1057,22 @@ void untpreregist::eosiotoken_transfer(eosio::name sender, eosio::name receiver,
 
         eosio_assert(transfer_data.memo.find(':') != std::string::npos, "seed memo [:] error");
         eosio_assert(transfer_data.memo.find(':', l_center + 1) != std::string::npos, "seed memo [:] error");
-        eosio_assert(transfer_data.quantity.amount == 10000, "gacha need 1.0000 EOS");
+        eosio_assert(transfer_data.quantity.amount == 1, "gacha need 1.0000 EOS"); //test 0.0001 eos
 
         std::string l_seed = transfer_data.memo.substr(l_center + 1, (l_next - l_center - 1));
         std::string l_sha = transfer_data.memo.substr(l_next + 1, l_end);
 
         res.type = safeseed::check_seed(l_seed, l_sha);
+        res.quantity = transfer_data.quantity;
 
         eosio_assert(res.type != 0, "wrong seed convert");
-
-        user_logs user_log_table(_self, _self.value);
-        auto user_log_iter = user_log_table.find(sender.value);
-        eosio_assert(user_log_iter != user_log_table.end(), "not exist user log1");
-
-        user_log_table.modify(user_log_iter, _self, [&](auto &buy_log) {
-            buy_log.use_eos += transfer_data.quantity.amount;
-        });
     }
     else if (res.action == "presignup")
     {
+        system_master system_master_table(_self, _self.value);
+        auto system_master_iter = system_master_table.begin();
+        eosio_assert(system_master_iter->state != system_state::pause, "server pause1");
+
         size_t l_next = transfer_data.memo.find(':', l_center + 1);
         size_t l_end = transfer_data.memo.length() - (l_next + 1);
 
@@ -1085,11 +1089,14 @@ void untpreregist::eosiotoken_transfer(eosio::name sender, eosio::name receiver,
     }
     else if (res.action == "signup")
     {
+        system_master system_master_table(_self, _self.value);
+        auto system_master_iter = system_master_table.begin();
+        eosio_assert(system_master_iter->state != system_state::pause, "server pause1");
+
         eosio_assert(transfer_data.quantity.amount == 10000, "signup need 1.0000 EOS");
     }
     else
     {
-
         system_master system_master_table(_self, _self.value);
         if (_self != sender)
         {
@@ -1121,7 +1128,7 @@ ACTION untpreregist::initmaster()
     system_master_table.emplace(_self, [&](auto &owner_master)
     {
         owner_master.master = _self;   
-        owner_master.state = system_state::normal;
+        owner_master.state = system_state::pause;
     });
 }
 
@@ -1139,6 +1146,8 @@ ACTION untpreregist::deleteuser(eosio::name _user)
     master_auth.permission = "active"_n;
     require_auth(master_auth);
 
+    eosio_assert(system_master_iter->state == system_state::pause, "not server pause 6");
+
     delete_user_data(_user);
     delete_user_object_data(_user);
     delete_user_preregist_data(_user);
@@ -1147,19 +1156,19 @@ ACTION untpreregist::deleteuser(eosio::name _user)
 
 void untpreregist::delete_user_data(eosio::name _user)
 {
-    auth_users auth_user_table(_self, _self.value);
-    auto user_auth_iter = auth_user_table.find(_user.value);
-    eosio_assert(user_auth_iter != auth_user_table.end(), "not exist user auth1");
-    auth_user_table.erase(user_auth_iter);
+    pre_users pre_auth_table(_self, _self.value);
+    auto user_auth_iter = pre_auth_table.find(_user.value);
+    eosio_assert(user_auth_iter != pre_auth_table.end(), "not exist user auth1");
+    pre_auth_table.erase(user_auth_iter);
 
-    user_logs user_log_table(_self, _self.value);
-    auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter != user_log_table.end(), "not exist user auth2");
+    pre_logs pre_log_table(_self, _self.value);
+    auto user_log_iter = pre_log_table.find(_user.value);
+    eosio_assert(user_log_iter != pre_log_table.end(), "not exist user auth2");
     if(user_log_iter->gacha_num != 0)
     {
         delete_user_gacha_result_data(_user);
     }
-    user_log_table.erase(user_log_iter);
+    pre_log_table.erase(user_log_iter);
 }
 
 void untpreregist::delete_user_object_data(eosio::name _user)
@@ -1256,6 +1265,8 @@ ACTION untpreregist::inittokenlog()
     master_auth.permission = "active"_n;
     require_auth(master_auth);
 
+    eosio_assert(system_master_iter->state == system_state::pause, "not server pause 7");
+
     total_token_logs total_token_log_table(_self, _self.value);
     auto total_token_iter = total_token_log_table.begin();
     eosio_assert(total_token_iter != total_token_log_table.end(), "not exist preregist log data");
@@ -1335,7 +1346,12 @@ void untpreregist::gacha_servant_id(eosio::name _user, uint64_t _seed)
 
         servant_info new_servant;
 
-        new_servant.id = servant_id_db_iter.id;
+        new_servant.appear.head = random_head;
+        new_servant.appear.hair = random_hair;
+        new_servant.appear.body = random_body;
+        //new_servant.appear.gender = random_gender;
+        new_servant.job = random_job;
+
         servant_random_count += 1;
         new_servant.status.basic_str = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_str, servant_job_db_iter.min_range.base_str, servant_random_count);
         servant_random_count += 1;
@@ -1596,13 +1612,31 @@ void untpreregist::gacha_item_id(eosio::name _user, uint64_t _seed)
 }
 uint64_t untpreregist::get_user_seed_value(uint64_t _user)
 {
-    user_logs user_log_table(_self, _self.value);
-    const auto &user_log_iter = user_log_table.get(_user, "not exist log2");
-    uint64_t user = _user + user_log_iter.gacha_num + now();
-    if(user <= _user)
+    total_token_logs total_token_log_table(_self, _self.value);
+    auto total_token_iter = total_token_log_table.begin();
+
+    uint64_t user;
+    if (total_token_iter == total_token_log_table.end())
     {
-        user = user_log_iter.gacha_num + now();
+        user_logs user_log_table(_self, _self.value);
+        const auto &user_log_iter = user_log_table.get(_user, "not exist log2");
+        user = _user + user_log_iter.gacha_num + now();
+        if (user <= _user)
+        {
+            user = user_log_iter.gacha_num + now();
+        }
     }
+    else
+    {
+        pre_logs pre_log_table(_self, _self.value);
+        const auto &user_log_iter = pre_log_table.get(_user, "not exist log3");
+        user = _user + user_log_iter.gacha_num + now();
+        if (user <= _user)
+        {
+            user = user_log_iter.gacha_num + now();
+        }
+    }
+
     return user;
 }
 
@@ -1665,9 +1699,9 @@ void untpreregist::preregist_servant_id(eosio::name _user, uint64_t _seed)
     uint32_t servant_index = get_servant_index(random_job, random_body, random_gender, random_head, random_hair);
     const auto &servant_id_db_iter = servant_id_table.get(servant_index, "not exist servant id");
 
-    user_logs user_log_table(_self, _self.value);
-    auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log5");
+    pre_logs pre_log_table(_self, _self.value);
+    auto user_log_iter = pre_log_table.find(_user.value);
+    eosio_assert(user_log_iter != pre_log_table.end(), "not exist user log5");
 
     result_info result;
     user_preregist_servants user_servant_table(_self, _user.value);
@@ -1728,7 +1762,7 @@ void untpreregist::preregist_servant_id(eosio::name _user, uint64_t _seed)
     }
 
     //로그 남기는 부분
-    user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
+    pre_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
         update_log.servant_num += 1;
         update_log.gacha_num += 1;
     });
@@ -1748,9 +1782,9 @@ void untpreregist::preregist_monster_id(eosio::name _user, uint64_t _seed)
     monster_grade_db monster_grade_db_table(_self, _self.value);
     const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "not exist monster grade5");
 
-    user_logs user_log_table(_self, _self.value);
-    auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log6");
+    pre_logs pre_log_table(_self, _self.value);
+    auto user_log_iter = pre_log_table.find(_user.value);
+    eosio_assert(user_log_iter != pre_log_table.end(), "not exist user log6");
 
     result_info result;
     user_preregist_monsters user_monster_table(_self, _user.value);
@@ -1811,7 +1845,7 @@ void untpreregist::preregist_monster_id(eosio::name _user, uint64_t _seed)
         });
     }
 
-    user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
+    pre_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
         update_log.gacha_num += 1;
         update_log.monster_num += 1;
     });
@@ -1831,9 +1865,9 @@ void untpreregist::preregist_item_id(eosio::name _user, uint64_t _seed)
     item_grade_db item_grade_db_table(_self, _self.value);
     const auto &item_grade_db_iter = item_grade_db_table.get(random_grade, "not exist tier info");
 
-    user_logs user_log_table(_self, _self.value);
-    auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter != user_log_table.end(), "not exist user log7");
+    pre_logs pre_log_table(_self, _self.value);
+    auto user_log_iter = pre_log_table.find(_user.value);
+    eosio_assert(user_log_iter != pre_log_table.end(), "not exist user log7");
 
     result_info result;
     user_preregist_items user_item_table(_self, _user.value);
@@ -1893,7 +1927,7 @@ void untpreregist::preregist_item_id(eosio::name _user, uint64_t _seed)
         });
     }
 
-    user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
+    pre_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
         update_log.item_num += 1;
         update_log.gacha_num += 1;
     });
@@ -1997,6 +2031,39 @@ ACTION untpreregist::deletemas()
     master_table.erase(master_iter);
 }
 
+
+ACTION untpreregist::movetest()
+{
+    auth_users user_auth_table(_self, _self.value);
+    auto auth_user_iter = user_auth_table.begin();
+    
+    pre_users pre_user_table(_self, _self.value);
+    pre_user_table.emplace(_self, [&](auto &move)
+    {
+        move.user = auth_user_iter->user;
+        move.state = auth_user_iter->state;
+    });
+
+    user_auth_table.erase(auth_user_iter);
+
+
+    user_logs user_log_table(_self, _self.value);
+    auto user_log_iter = user_log_table.begin();
+
+    pre_logs pre_log_table(_self, _self.value);
+    pre_log_table.emplace(_self, [&](auto &log_move)
+    {
+        log_move.user = user_log_iter->user;
+        log_move.servant_num = user_log_iter->servant_num;
+        log_move.monster_num = user_log_iter->monster_num;
+        log_move.item_num = user_log_iter->item_num;
+        log_move.gacha_num = user_log_iter->gacha_num;
+        log_move.use_eos = user_log_iter->use_eos;
+    });
+
+    user_log_table.erase(user_log_iter);
+}
+
 #pragma endresion
 
 #undef EOSIO_DISPATCH
@@ -2024,4 +2091,4 @@ ACTION untpreregist::deletemas()
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(untpreregist, (create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(deleteuser)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase)(dbinit)(deletemas))
+EOSIO_DISPATCH(untpreregist, (movetest)(create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(deleteuser)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase)(dbinit)(deletemas))

@@ -325,10 +325,10 @@ enum db_index
 #pragma region gacha tservant
     struct servant_info
     {
-        uint32_t id;
         uint32_t state;                   //서번트 상태
         uint32_t exp = 0;                 //서번트 경험치
-        appear_info appear;
+        appear_info appear;               //서번트의 외모 정보
+        uint32_t job = 0;                 //서번트의 직업 정보
         uint32_t stat_point = 0;
         status_info status;               //기본 힘,민,지 추가 힘,민,지
         std::vector<uint32_t> equip_slot; //서번트 장비 리스트
@@ -357,7 +357,7 @@ enum db_index
 #pragma region gacha tmonster
     struct monster_info
     {
-        uint32_t id;
+        uint32_t id;        //몬스터 id 값
         uint32_t state;    //몬스터 상태값
         uint32_t exp = 0;       //경험치
         uint32_t type = 0;     //속성 타입
@@ -523,7 +523,7 @@ TABLE tokenlog
 //------------------------------------------------------------------------//
 //------------------------------user_log_table----------------------------//
 //------------------------------------------------------------------------//
-#pragma region login table tuserlog
+#pragma region login table prelog
     TABLE tuserlog
     {
         eosio::name user;
@@ -548,6 +548,21 @@ TABLE tokenlog
         uint64_t primary_key() const { return user.value; }
     };
     typedef eosio::multi_index<"tuserlog"_n, tuserlog> user_logs;
+
+    TABLE prelog
+    {
+        eosio::name user;
+        uint32_t servant_num = 0;
+        uint32_t monster_num = 0;
+        uint32_t item_num = 0;
+        uint32_t gacha_num = 0;
+        uint64_t use_eos = 0;       
+
+        uint64_t primary_key() const { return user.value; }
+    };
+    typedef eosio::multi_index<"prelog"_n, prelog> pre_logs;
+
+
 #pragma endregion
 
     //------------------------------------------------------------------------//
@@ -586,18 +601,19 @@ TABLE tokenlog
     };
 #pragma endregion
 
-#pragma region login table tuserauth
+#pragma region login table preauth
     //struct hero_info
     struct hero_info
     {
         uint32_t state;                   //히어로 상태
         uint32_t exp = 0;                 //히어로 경험치
-        uint32_t job = 0;
+        uint32_t job = 0;                 //히어로 직업
         uint32_t stat_point = 0;
-        appear_info appear;               //히어로 외형 정보
+        appear_info appear;               //히어로 외형 정보 <-젠더 추가해야함
         status_info status;               //기본 힘,민,지 추가 힘,민,지
         std::vector<uint32_t> equip_slot; //히어로 장비 리스트
     };
+
 
     TABLE tuserauth
     {
@@ -606,7 +622,17 @@ TABLE tokenlog
         hero_info hero;
         uint64_t primary_key() const { return user.value; }
     };
+
     typedef eosio::multi_index<"tuserauth"_n, tuserauth> auth_users;
+
+    TABLE preauth
+    {
+        eosio::name user;
+        uint32_t state = euser_state::lobby;
+        uint64_t primary_key() const { return user.value; }
+    };
+
+    typedef eosio::multi_index<"preauth"_n, preauth> pre_users;
 
 #pragma endregion
 
@@ -707,6 +733,9 @@ ACTION addblack(eosio::name _user);
     //————————————————————————————————————//
 ACTION setpause(uint64_t _state);
 ACTION deletemas(); //tmaster 테이블을 지우기 위한 임시 액션
+
+ACTION movetest(); //tuserauth, tuserlog 테이블 이동을 위한 임시 액션
+
 
 
 };
