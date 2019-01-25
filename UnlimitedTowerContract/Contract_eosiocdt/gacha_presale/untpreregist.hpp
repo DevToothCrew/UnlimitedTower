@@ -177,18 +177,6 @@ enum db_index
 
   public:
 #pragma region db action
-    TABLE tmaster
-    {
-        eosio::name master;
-        uint64_t primary_key() const { return master.value; }
-    };
-    typedef eosio::multi_index<"tmaster"_n, tmaster> master;
-
-
-//-------------------------------------------------------//
-    ACTION setmaster(eosio::name _master);
-    ACTION initmaster();
-//------------------------------------------------------//    
     enum system_state
     {
         normal = 0,
@@ -203,6 +191,10 @@ enum db_index
     };
     typedef eosio::multi_index<"systemmaster"_n, systemmaster> system_master;
 
+    //-------------------------------------------------------//
+    ACTION setmaster(eosio::name _master);
+    ACTION initmaster();
+    //------------------------------------------------------//
 
     ACTION settokenlog();
     ACTION dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max, uint32_t _ratio);
@@ -309,6 +301,7 @@ enum db_index
         uint32_t head = 0;
         uint32_t hair = 0;
         uint32_t body = 0;
+        uint32_t gender = 0;
     };
 
     //struct status_info
@@ -732,9 +725,7 @@ ACTION addblack(eosio::name _user);
     //————————————————owner_system—————————————//
     //————————————————————————————————————//
 ACTION setpause(uint64_t _state);
-ACTION deletemas(); //tmaster 테이블을 지우기 위한 임시 액션
 
-ACTION movetest(); //tuserauth, tuserlog 테이블 이동을 위한 임시 액션
 
 
 
