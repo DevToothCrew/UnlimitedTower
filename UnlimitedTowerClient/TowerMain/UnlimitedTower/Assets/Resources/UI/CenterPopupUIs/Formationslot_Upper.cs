@@ -116,7 +116,8 @@ public class Formationslot_Upper : MonoBehaviour
     }
     public void placeModeChanged()
     {
-        switch (FormationInfoPopup.instance.placeMode)
+        
+        switch (PopupUIsManager.instance.formationInfoPopup.placeMode)
         {
             case FormationInfoPopup.PlaceMode.JUST_DISPLAY:
                 {
