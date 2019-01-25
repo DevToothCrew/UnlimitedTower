@@ -1057,7 +1057,7 @@ void untpreregist::eosiotoken_transfer(eosio::name sender, eosio::name receiver,
 
         eosio_assert(transfer_data.memo.find(':') != std::string::npos, "seed memo [:] error");
         eosio_assert(transfer_data.memo.find(':', l_center + 1) != std::string::npos, "seed memo [:] error");
-        eosio_assert(transfer_data.quantity.amount == 1, "gacha need 1.0000 EOS"); //test 0.0001 eos
+        eosio_assert(transfer_data.quantity.amount == 10000, "gacha need 1.0000 EOS"); 
 
         std::string l_seed = transfer_data.memo.substr(l_center + 1, (l_next - l_center - 1));
         std::string l_sha = transfer_data.memo.substr(l_next + 1, l_end);
@@ -1349,7 +1349,6 @@ void untpreregist::gacha_servant_id(eosio::name _user, uint64_t _seed)
         new_servant.appear.head = random_head;
         new_servant.appear.hair = random_hair;
         new_servant.appear.body = random_body;
-        //new_servant.appear.gender = random_gender;
         new_servant.job = random_job;
 
         servant_random_count += 1;
