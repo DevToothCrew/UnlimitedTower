@@ -29,7 +29,7 @@ public class FormationInfoPopup : MonoBehaviour
     const UNIT_TYPE DEFAULT_UNIT_TYPE = UNIT_TYPE.SERVANT;
     const sortType DEFAULT_SORT_TYPE = sortType.Grade;
     const int DEFAULT_PAGE_NUM = 0;
-  
+    
 
 
     /* FSM PARAMETERS */
@@ -40,6 +40,8 @@ public class FormationInfoPopup : MonoBehaviour
     public void SetTeamIndex(int teamNum)
     {
         this.curTeamNum = teamNum;
+
+        SetPlaceMode(PlaceMode.JUST_DISPLAY);
 
         // 해당팀번호로 초기화
         for (int i = 0; i < upperslotlist.Count; i++)
@@ -61,6 +63,8 @@ public class FormationInfoPopup : MonoBehaviour
     public void SetPlaceMode(PlaceMode placeMode)
     {
         this.placeMode = placeMode;
+
+
 
         if (placeModeChanged != null)
         {
@@ -87,6 +91,9 @@ public class FormationInfoPopup : MonoBehaviour
         this.unitType = unitType;
         this.sortType = sortType;
         this.bottomWindowPageNum = bottomWindowPageNum;
+
+        // 보여주기모드로
+        SetPlaceMode(PlaceMode.JUST_DISPLAY);
 
         // UI텍스트 표시하기
         switch (unitType)

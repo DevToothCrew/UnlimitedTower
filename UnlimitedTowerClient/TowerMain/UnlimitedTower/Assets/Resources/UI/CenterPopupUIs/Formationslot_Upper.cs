@@ -91,13 +91,13 @@ public class Formationslot_Upper : MonoBehaviour
         emptyImage.sprite = FormationInfoPopup.instance.bgsprite;
     }
 
-
-
     private void OnEnable()
     {
         GameDataManager.instance.placeChangedEvent += monsterPlaceChanged;
         FormationInfoPopup.placeModeChanged += placeModeChanged;
+        placeModeChanged();
     }
+    
     private void OnDisable()
     {
         ToDeregister();

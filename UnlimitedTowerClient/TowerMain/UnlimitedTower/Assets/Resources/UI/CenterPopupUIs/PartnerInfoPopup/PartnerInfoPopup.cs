@@ -177,7 +177,18 @@ public class PartnerInfoPopup : MonoBehaviour
                                 return new Value(monsterdata, monsterdata.index);
                         }
                     });
-
+                    sortedSlotList.Sort((a, b) => {
+                        if (a.value < b.value)
+                        {
+                            return 1;
+                        }
+                        else if (a.value == b.value)
+                        {
+                            return 0;
+                        }
+                        else
+                            return -1;
+                    });
                     // 디스플레이
                     for (int i = 0; i < SlotList.Count && i < sortedSlotList.Count; i++)
                     {
