@@ -11,7 +11,7 @@
 ##### issue : 토큰 발행 함수 (Only Master Active, One Time, Owner)
 ##### setmaster : Master 이동 함수 (Only Master Owner)
 ##### setpause : 컨트랙트 일시정지 (Only Master Active)
-##### setpreregist : 프리세일 로그 세팅 함수 (Only Master Active)
+##### settokenlog : 프리세일 로그 세팅 함수 (Only Master Active)
 
 
 jungle_test_net_contract  - unlimittest1
@@ -23,7 +23,7 @@ jungle_test_net_contract  - unlimittest1
 * 액션을 실행해준다 해당 액션은 최초 실행시 마스터 계정은 컨트랙트가 되며 이후 실행시 입력하는 계정명에 따라 마스터 권한을 변경해주는 액션이다.
 * 인자값으로는 권한을 이동시켜줄 계정명을 넣어줍니다.
 
-2. setpreregist() 
+2. settokenlog() 
 * 액션을 실행해 줍니다. 프리레지스트 로그를 셋팅해줍니다. 프리레지스트 로그가 셋팅이 되어있다면 에러 입니다.  
 * 해당 액션은 마스터의 액티브키만 실행이 가능합니다.
 
@@ -59,33 +59,28 @@ jungle_test_net_contract  - unlimittest1
 
 1. setpause(uint64_t _state)
 * 마스터계정의 상태값을 바꾸는 액션입니다.
-* 인자값은 스테이트가 들어갑니다. 2가 기본값이고 8이 pause입니다.
+* 인자값은 스테이트가 들어갑니다. 0이 normal이고 1이 pause입니다.
 
 2. initmaster()
 * 마스터계정을 컨트랙트 계정으로 바꿔주는 액션입니다.
 
-3. inittoken(asset _token);
-* 토큰 정보를 전체 지워주는 액션입니다.
-* 인자값으로는 0과 토큰 심볼을 넣어줍니다.
-
-4. initprelog()
+3. inittokenlog()
 * prelog를 초기화해주는 액션입니다.
 
-
-5. deleteuser(eosio::name _user)
+4. deleteuser(eosio::name _user)
 * 유저의 기본정보를 지워주는 액션입니다.
 * 인자값으로는 지울 계정명을 넣어줍니다.
 
-6. deleteblack(eosio::name _user)
+5. deleteblack(eosio::name _user)
 * 블랙리스트에서 해당 유저를 지워주는 액션입니다.
 * 인자값으로는 지울 계졍명을 넣어 줍니다.
 
-
-7. addblack(eosio::name _user);
+6. addblack(eosio::name _user);
 * 블랙리스트에 해당 유저를 추가해주는 액션입니다.
 * 인자값으로는 추가할 계정명을 넣어 줍니다.
 
-8. dbinsert, dbmodify, dberase, dbinit
+7. dbinsert, dbmodify, dberase, dbinit
+* 해당 액션은 마스터 계정만 가능하고 마스터계정의 상태가 pause 상태인 1이어야 합니다.
 * 관련된 문서가 따로 있습니다.
 
 
