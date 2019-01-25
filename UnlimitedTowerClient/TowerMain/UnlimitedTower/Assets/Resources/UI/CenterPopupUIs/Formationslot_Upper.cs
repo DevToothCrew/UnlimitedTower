@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Formationslot_Upper : MonoBehaviour {
-
+public class Formationslot_Upper : MonoBehaviour
+{
     /// <summary>
     /// 클릭시, (메인히어로가 아니면)현재 배치가되어있는 칸이라면 배치를 해제한다
     /// </summary>
@@ -16,6 +16,9 @@ public class Formationslot_Upper : MonoBehaviour {
     public Image monsterBGimage;
     public Text leftbottomleveltext;
     public Text monsterEnforceText;
+    public GameObject possibleCheckObj;
+
+
     [SerializeField] int FormationIndex;
 
     // 현재 자리넘버가 어떻게 되는지
@@ -29,11 +32,11 @@ public class Formationslot_Upper : MonoBehaviour {
     {
         // 배치된 아이가 있다면 -> 배치표시후 return
         bool isplaced = GameDataManager.instance.isPlacedAt(FormationInfoPopup.instance.curTeamNum, FormationIndex);
-        Debug.Log(FormationInfoPopup.instance.curTeamNum +"/"+ FormationIndex);
+        Debug.Log(FormationInfoPopup.instance.curTeamNum + "/" + FormationIndex);
         if (isplaced)
         {
             // 몬스터
-            if (FormationIndex>=5)
+            if (FormationIndex >= 5)
             {
                 isPlaced = true;
                 curMonster = GameDataManager.instance.getMonsterPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, FormationIndex);
@@ -72,9 +75,9 @@ public class Formationslot_Upper : MonoBehaviour {
 
                 return;
             }
-            
+
         }
-        
+
         // 없다면 lock상태로
         ToDeregister();
     }
@@ -88,16 +91,18 @@ public class Formationslot_Upper : MonoBehaviour {
         emptyImage.sprite = FormationInfoPopup.instance.bgsprite;
     }
 
-
-
     private void OnEnable()
     {
         GameDataManager.instance.placeChangedEvent += monsterPlaceChanged;
+        FormationInfoPopup.placeModeChanged += placeModeChanged;
+        placeModeChanged();
     }
+    
     private void OnDisable()
     {
         ToDeregister();
         GameDataManager.instance.placeChangedEvent -= monsterPlaceChanged;
+        FormationInfoPopup.placeModeChanged -= placeModeChanged;
     }
 
 
@@ -109,7 +114,68 @@ public class Formationslot_Upper : MonoBehaviour {
         // 다시 업데이트 해준다.
         SetDisplayteam(FormationInfoPopup.instance.curTeamNum);
     }
+    public void placeModeChanged()
+    {
+        
+        switch (PopupUIsManager.instance.formationInfoPopup.placeMode)
+        {
+            case FormationInfoPopup.PlaceMode.JUST_DISPLAY:
+                {
+                    possibleCheckObj.SetActive(false);
+                }
+                break;
 
+            case FormationInfoPopup.PlaceMode.SERVANT_PLACE:
+                {
+                    // 몬스터자리면 return
+                    if (FormationIndex <= DEFINE.MonsterMaxFormationNum && FormationIndex >= DEFINE.MonsterMinFormationNum)
+                    {
+                        possibleCheckObj.SetActive(false);
+                        return;
+                    }
+
+
+                    // 서번트가 배치되어있는경우
+                    if (isPlaced )
+                    {
+                        possibleCheckObj.SetActive(false);
+
+                    }
+                    // 아닌경우
+                    else
+                    {
+
+                        possibleCheckObj.SetActive(true);
+                    }
+                }
+                break;
+
+            case FormationInfoPopup.PlaceMode.MONSTER_PLACE:
+                {
+                    // 서번트자리일경우 return
+                    if (FormationIndex >= DEFINE.ServantMinFormationNum && FormationIndex <= DEFINE.ServantMaxFormationNum)
+                    {
+                        possibleCheckObj.SetActive(false);
+                        return;
+                    }
+
+                    // 몬스터가 배치되어있는경우
+                    if (isPlaced )
+                    {
+                        possibleCheckObj.SetActive(false);
+
+                    }
+                    // 아닌경우
+                    else
+                    {
+
+                        possibleCheckObj.SetActive(true);
+                    }
+
+                }
+                break;
+        }
+    }
 
     public void InitializeUI()
     {
@@ -131,27 +197,77 @@ public class Formationslot_Upper : MonoBehaviour {
         }
 
 
-        // 배치되어있다면, 배치 풀기 요청
-        if (GameDataManager.instance.isPlacedAt(FormationInfoPopup.instance.curTeamNum, FormationIndex))
+        switch (FormationInfoPopup.instance.placeMode)
         {
-            Debug.Log("배치되어있엇음");
-            // 몬스터 일경우
-            if (FormationIndex >= 5)
-            {
-                UserMonsterData monsterdata = GameDataManager.instance.getMonsterPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, FormationIndex);
-                GameDataManager.instance.request_deplace(PlayerType.monster, monsterdata.index);
-            }
-            // 서번트 일경우
-            else
-            {
-                UserServantData servantdata = GameDataManager.instance.getServantPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, FormationIndex);
-                GameDataManager.instance.request_deplace(PlayerType.servant, servantdata.index);
-            }
+            case FormationInfoPopup.PlaceMode.JUST_DISPLAY:
+                // 
+                // 배치되어있다면, 배치 풀기 요청
+                if (GameDataManager.instance.isPlacedAt(FormationInfoPopup.instance.curTeamNum, FormationIndex))
+                {
+                    Debug.Log("배치되어있엇음");
+                    // 몬스터 일경우
+                    if (FormationIndex >= 5)
+                    {
+                        UserMonsterData monsterdata = GameDataManager.instance.getMonsterPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, FormationIndex);
+                        GameDataManager.instance.request_deplace(UNIT_TYPE.MONSTER, monsterdata.index);
+                    }
+                    // 서번트 일경우
+                    else
+                    {
+                        UserServantData servantdata = GameDataManager.instance.getServantPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, FormationIndex);
+                        GameDataManager.instance.request_deplace(UNIT_TYPE.SERVANT, servantdata.index);
+                    }
+                }
+                else
+                {
+                    Debug.Log("배치 안되어있음");
+                }
+
+                break;
+            case FormationInfoPopup.PlaceMode.SERVANT_PLACE:
+
+                // 몬스터자리라면 return
+                if (FormationIndex >= DEFINE.MonsterMinFormationNum && FormationIndex <= DEFINE.MonsterMaxFormationNum)
+                {
+                    return;
+                }
+
+                // 배치되어있다면 return
+                if (GameDataManager.instance.isPlacedAt(FormationInfoPopup.instance.curTeamNum, FormationIndex))
+                {
+                    return;
+                }
+
+
+                // 배치 요청하기
+                GameDataManager.instance.request_Placement(UNIT_TYPE.SERVANT, FormationInfoPopup.instance.registeredServantData.index, FormationInfoPopup.instance.curTeamNum, FormationIndex);
+                // 모드 돌려놓기
+                FormationInfoPopup.instance.SetPlaceMode(FormationInfoPopup.PlaceMode.JUST_DISPLAY);
+
+                break;
+            case FormationInfoPopup.PlaceMode.MONSTER_PLACE:
+
+                // 서번트자리라면 return
+                if (FormationIndex >= DEFINE.ServantMinFormationNum && FormationIndex <= DEFINE.ServantMaxFormationNum)
+                {
+                    return;
+                }
+
+                // 배치되어있다면 return
+                if (GameDataManager.instance.isPlacedAt(FormationInfoPopup.instance.curTeamNum, FormationIndex))
+                {
+                    return;
+                }
+
+                // 배치 요청하기
+                GameDataManager.instance.request_Placement(UNIT_TYPE.MONSTER, FormationInfoPopup.instance.registeredMonsterData.index, FormationInfoPopup.instance.curTeamNum, FormationIndex);
+                // 모드 돌려놓기
+                FormationInfoPopup.instance.SetPlaceMode(FormationInfoPopup.PlaceMode.JUST_DISPLAY);
+
+                break;
         }
-        else
-        {
-            Debug.Log("배치 안되어있음");
-        }
+
+        
 
         // formaioninfoPopup에 서 TryWaiting
         FormationInfoPopup.instance.TryWaiting(FormationIndex);

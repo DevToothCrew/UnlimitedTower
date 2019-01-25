@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventorySlotScript : MonoBehaviour {
+public class InventorySlotScript : MonoBehaviour
+{
 
     // 공통
     public Image Lockimg;
@@ -37,10 +38,10 @@ public class InventorySlotScript : MonoBehaviour {
         ItemImage.gameObject.SetActive(true);
         teartext.gameObject.SetActive(true);
         upgradetext.gameObject.SetActive(true);
-        
+
         ItemImage.sprite = ErdManager.instance.MountitemSprite[mountitemdata.mountitemNum];
         teartext.text = mountitemdata.tierNum + "T";
-        upgradetext.text = "+"+mountitemdata.upgradeCount;
+        upgradetext.text = "+" + mountitemdata.upgradeCount;
 
         // 해당 서번트가 판매리스트에 포함되어있다면
         if (PopupUIsManager.instance.inventoryInfoPopup.sellingMountItemList.Contains(mountitemdata) &&
@@ -149,7 +150,7 @@ public class InventorySlotScript : MonoBehaviour {
                 }
                 break;
         }
-        
+
     }
 
 

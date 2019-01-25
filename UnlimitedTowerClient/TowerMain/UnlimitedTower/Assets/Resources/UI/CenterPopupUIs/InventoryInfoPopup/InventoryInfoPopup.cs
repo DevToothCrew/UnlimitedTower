@@ -263,7 +263,7 @@ public class InventoryInfoPopup : MonoBehaviour
     // SORT 버튼
     public void OnClickGradesort()
     {
-        DisplayItems(inventoryState, ITEMINVENTORY_SORT_TYPE.GRADE ,curDisplayNum);
+        DisplayItems(inventoryState, ITEMINVENTORY_SORT_TYPE.GRADE, curDisplayNum);
     }
     public void OnClickTiersort()
     {
@@ -300,8 +300,8 @@ public class InventoryInfoPopup : MonoBehaviour
             return;
         }
 
-
-        DisplayItems(ITEMINVENTORY_ITEM_TYPE.EquipMent, sortType, 0);
+        
+        DisplayItems(ITEMINVENTORY_ITEM_TYPE.ETC, sortType, 0);
     }
 
 

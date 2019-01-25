@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PartnerInfoPopup : MonoBehaviour {
+public class PartnerInfoPopup : MonoBehaviour
+{
 
     // 해당 윈도우의 상태는 2개의 변수로 정의됩니다
     // 1. windowstate -> 현재 Servant만 보여주고있는지, Monster만 보여주고있는지 결정
     // 2. sortstate   -> 현재 어떠한 값을 기준으로 정렬중인지 결정
-    
+
     // 슬롯 리스트 //
     [SerializeField] List<SlotScript> SlotList = new List<SlotScript>();
 
@@ -18,7 +19,7 @@ public class PartnerInfoPopup : MonoBehaviour {
 
 
     const DISPLAY_UNIT_TYPE defaultUnitType = DISPLAY_UNIT_TYPE.Servant;
-    const SORT_TYPE defaultSortType = SORT_TYPE.Grade;
+    const SORT_TYPE defaultSortType = SORT_TYPE.Level;
     const int defaultPageNum = 0;
 
 
@@ -45,7 +46,7 @@ public class PartnerInfoPopup : MonoBehaviour {
             switch (unitType)
             {
                 case DISPLAY_UNIT_TYPE.Servant:
-                    pageText.text = (_pageNum + 1) + "/" + ( Mathf.FloorToInt(UserDataManager.Inst.ServantList.Count/ SlotList.Count) + 1);
+                    pageText.text = (_pageNum + 1) + "/" + (Mathf.FloorToInt(UserDataManager.Inst.ServantList.Count / SlotList.Count) + 1);
                     break;
                 case DISPLAY_UNIT_TYPE.Monster:
                     pageText.text = (_pageNum + 1) + "/" + (Mathf.FloorToInt(UserDataManager.Inst.MonsterList.Count / SlotList.Count) + 1);
@@ -60,7 +61,7 @@ public class PartnerInfoPopup : MonoBehaviour {
         Grade,
         Level,
         Power,
-        Obtain  
+        Obtain
     }
     public SORT_TYPE sortState;
     
@@ -96,18 +97,17 @@ public class PartnerInfoPopup : MonoBehaviour {
         this.unitType = unitType;
         this.sortState = sortType;
         this.pageNum = pageNum;
-        
 
         // 창 초기화
         for (int i = 0; i < SlotList.Count; i++)
         {
             SlotList[i].LockSlot();
         }
-
         
+
         // 정렬 
         int startIndex = SlotList.Count * pageNum;
-        int endIndex = SlotList.Count * (pageNum+1);
+        int endIndex = SlotList.Count * (pageNum + 1);
         switch (unitType)
         {
             case DISPLAY_UNIT_TYPE.Servant:
@@ -118,6 +118,7 @@ public class PartnerInfoPopup : MonoBehaviour {
                         list.Add(UserDataManager.Inst.ServantList[i]);
                     }
 
+                    // 
                     List<Value> sortedSlotList = list.ConvertAll((servantdata) =>
                     {
                         switch (sortState)
@@ -131,6 +132,19 @@ public class PartnerInfoPopup : MonoBehaviour {
                             default:
                                 return new Value(servantdata, servantdata.index);
                         }
+                    });
+                    // 
+                    sortedSlotList.Sort((a, b) => {
+                        if (a.value < b.value)
+                        {
+                            return 1;
+                        }
+                        else if (a.value == b.value)
+                        {
+                            return 0;
+                        }
+                        else
+                            return -1;
                     });
 
                     // 디스플레이
@@ -162,7 +176,18 @@ public class PartnerInfoPopup : MonoBehaviour {
                                 return new Value(monsterdata, monsterdata.index);
                         }
                     });
-
+                    sortedSlotList.Sort((a, b) => {
+                        if (a.value < b.value)
+                        {
+                            return 1;
+                        }
+                        else if (a.value == b.value)
+                        {
+                            return 0;
+                        }
+                        else
+                            return -1;
+                    });
                     // 디스플레이
                     for (int i = 0; i < SlotList.Count && i < sortedSlotList.Count; i++)
                     {
@@ -171,7 +196,6 @@ public class PartnerInfoPopup : MonoBehaviour {
                 }
                 break;
         }
-        
     }
 
     // SORT_STATE
@@ -198,6 +222,7 @@ public class PartnerInfoPopup : MonoBehaviour {
         // 이미같은 sort면 -> return
         if (sortstateNum == (int)this.sortState)
         {
+            Debug.Log("click");
             return;
         }
 
@@ -213,7 +238,7 @@ public class PartnerInfoPopup : MonoBehaviour {
         sellingMonsterList = new List<UserMonsterData>();
         sellingServantList = new List<UserServantData>();
 
-        if (modeChanged!= null)
+        if (modeChanged != null)
         {
             modeChanged();
         }
@@ -265,15 +290,15 @@ public class PartnerInfoPopup : MonoBehaviour {
     public void OnClickRightArrow()
     {
         // 다음윈도우안에 서번트 혹은 몬스터가 있다면 넘어간다.
-        int startIndex = (pageNum+1) * SlotList.Count;
-        int endIndex = (pageNum+2) * SlotList.Count;
+        int startIndex = (pageNum + 1) * SlotList.Count;
+        int endIndex = (pageNum + 2) * SlotList.Count;
         switch (unitType)
         {
             case DISPLAY_UNIT_TYPE.Servant:
                 {
-                    if (UserDataManager.Inst.ServantList.Count-1 >= startIndex)
+                    if (UserDataManager.Inst.ServantList.Count - 1 >= startIndex)
                     {
-                        DisplayUnits(DISPLAY_UNIT_TYPE.Servant, sortState, pageNum+1);
+                        DisplayUnits(DISPLAY_UNIT_TYPE.Servant, sortState, pageNum + 1);
                     }
                 }
                 break;
@@ -300,7 +325,7 @@ public class PartnerInfoPopup : MonoBehaviour {
         {
             case DISPLAY_UNIT_TYPE.Servant:
                 {
-                    DisplayUnits(DISPLAY_UNIT_TYPE.Servant, sortState, Mathf.Max( pageNum - 1,0));
+                    DisplayUnits(DISPLAY_UNIT_TYPE.Servant, sortState, Mathf.Max(pageNum - 1, 0));
                 }
                 break;
             case DISPLAY_UNIT_TYPE.Monster:
