@@ -808,6 +808,19 @@ ACTION untpreregist::setmaster(eosio::name _master)
         master_auth.permission = "owner"_n;
         require_auth(master_auth);
 
+        total_token_logs total_token_log_table(_self, _self.value);
+        auto total_token_log_iter = total_token_log_table.find(system_master_iter->master.value);
+
+        if(total_token_log_iter != total_token_log_table.end())
+        {
+            total_token_log_table.emplace(_self, [&](auto &move_master)
+            {
+                move_master.owner = _master;
+                move_master.total_token_amount = total_token_log_iter->total_token_amount;
+            });
+            total_token_log_table.erase(total_token_log_iter);
+        }
+
         system_master_table.emplace(_self, [&](auto &move_master) {
             move_master.master = _master;
             move_master.state = system_state::pause;
@@ -1125,6 +1138,19 @@ ACTION untpreregist::initmaster()
     require_auth(owner_auth);
     system_master system_master_table(_self, _self.value);
     auto system_master_iter = system_master_table.begin();
+
+    total_token_logs total_token_log_table(_self, _self.value);
+    auto total_token_log_iter = total_token_log_table.find(system_master_iter->master.value);
+
+    if (total_token_log_iter != total_token_log_table.end())
+    {
+        total_token_log_table.emplace(_self, [&](auto &move_master) {
+            move_master.owner = _self;
+            move_master.total_token_amount = total_token_log_iter->total_token_amount;
+        });
+        total_token_log_table.erase(total_token_log_iter);
+    }
+
     system_master_table.erase(system_master_iter);
 
     system_master_table.emplace(_self, [&](auto &owner_master)
@@ -2019,51 +2045,6 @@ ACTION untpreregist::setpause(uint64_t _state)
 
 #pragma endregion
 
-ACTION untpreregist::deletemas()
-{
-    master master_table(_self, _self.value);
-    auto master_iter = master_table.begin();
-
-    auth_users user_auth_table(_self, _self.value);
-    auto owner_iter = user_auth_table.find(master_iter->master.value);
-
-    user_auth_table.erase(owner_iter);
-
-    master_table.erase(master_iter);
-}
-
-
-ACTION untpreregist::movetest()
-{
-    auth_users user_auth_table(_self, _self.value);
-    auto auth_user_iter = user_auth_table.begin();
-    
-    pre_users pre_user_table(_self, _self.value);
-    pre_user_table.emplace(_self, [&](auto &move)
-    {
-        move.user = auth_user_iter->user;
-        move.state = auth_user_iter->state;
-    });
-
-    user_auth_table.erase(auth_user_iter);
-
-
-    user_logs user_log_table(_self, _self.value);
-    auto user_log_iter = user_log_table.begin();
-
-    pre_logs pre_log_table(_self, _self.value);
-    pre_log_table.emplace(_self, [&](auto &log_move)
-    {
-        log_move.user = user_log_iter->user;
-        log_move.servant_num = user_log_iter->servant_num;
-        log_move.monster_num = user_log_iter->monster_num;
-        log_move.item_num = user_log_iter->item_num;
-        log_move.gacha_num = user_log_iter->gacha_num;
-        log_move.use_eos = user_log_iter->use_eos;
-    });
-
-    user_log_table.erase(user_log_iter);
-}
 
 #pragma endresion
 
@@ -2092,4 +2073,4 @@ ACTION untpreregist::movetest()
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(untpreregist, (movetest)(create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(deleteuser)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase)(dbinit)(deletemas))
+EOSIO_DISPATCH(untpreregist, (create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(deleteuser)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase)(dbinit))
