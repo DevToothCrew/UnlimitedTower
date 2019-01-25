@@ -301,7 +301,7 @@ public class InventoryInfoPopup : MonoBehaviour
         }
 
 
-        DisplayItems(ITEMINVENTORY_ITEM_TYPE.EquipMent, sortType, 0);
+        DisplayItems(ITEMINVENTORY_ITEM_TYPE.ETC, sortType, 0);
     }
 
 

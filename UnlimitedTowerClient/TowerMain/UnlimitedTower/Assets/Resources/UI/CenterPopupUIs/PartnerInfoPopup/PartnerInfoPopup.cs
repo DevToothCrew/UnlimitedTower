@@ -19,7 +19,7 @@ public class PartnerInfoPopup : MonoBehaviour
 
 
     const DISPLAY_UNIT_TYPE defaultUnitType = DISPLAY_UNIT_TYPE.Servant;
-    const SORT_TYPE defaultSortType = SORT_TYPE.Grade;
+    const SORT_TYPE defaultSortType = SORT_TYPE.Level;
     const int defaultPageNum = 0;
 
 
@@ -119,6 +119,7 @@ public class PartnerInfoPopup : MonoBehaviour
                         list.Add(UserDataManager.Inst.ServantList[i]);
                     }
 
+                    // 
                     List<Value> sortedSlotList = list.ConvertAll((servantdata) =>
                     {
                         switch (sortState)
@@ -132,6 +133,19 @@ public class PartnerInfoPopup : MonoBehaviour
                             default:
                                 return new Value(servantdata, servantdata.index);
                         }
+                    });
+                    // 
+                    sortedSlotList.Sort((a, b) => {
+                        if (a.value < b.value)
+                        {
+                            return 1;
+                        }
+                        else if (a.value == b.value)
+                        {
+                            return 0;
+                        }
+                        else
+                            return -1;
                     });
 
                     // 디스플레이
@@ -172,7 +186,6 @@ public class PartnerInfoPopup : MonoBehaviour
                 }
                 break;
         }
-
     }
 
     // SORT_STATE
@@ -199,6 +212,7 @@ public class PartnerInfoPopup : MonoBehaviour
         // 이미같은 sort면 -> return
         if (sortstateNum == (int)this.sortState)
         {
+            Debug.Log("click");
             return;
         }
 
