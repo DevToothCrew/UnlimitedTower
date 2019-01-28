@@ -60,7 +60,6 @@ public class GachaManager : MonoBehaviour {
             // Request to server
             // this interface can be changed
             UTUMSProvider.Instance.RequestGacha();
-
             GetComponent<Animator>()?.SetTrigger("Glowing");
         });
     }

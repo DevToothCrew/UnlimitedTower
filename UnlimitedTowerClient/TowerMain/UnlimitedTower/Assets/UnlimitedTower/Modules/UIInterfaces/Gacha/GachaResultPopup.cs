@@ -8,13 +8,13 @@ public class GachaResultPopup : MonoBehaviour {
     public static GachaResultPopup Instance = null;
 
     [SerializeField]
-    private Image resultImage;
+    private RawImage resultImage;
 
     [SerializeField]
-    private Text resultObjectName;
+    private Text resultName;
 
     [SerializeField]
-    private Text resultExplanation;
+    private Text resultType;
 
     [SerializeField]
     private Text resultStrStat;
