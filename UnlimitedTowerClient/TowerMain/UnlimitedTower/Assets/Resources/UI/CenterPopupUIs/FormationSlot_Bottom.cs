@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 
 public class FormationSlot_Bottom : MonoBehaviour, IPointerClickHandler
 {
-
     /// <summary>
     /// 클릭시, 현재 formationinfopopup의 대기칸이 있다면 거기로 배치된다.
     /// 
@@ -134,28 +133,53 @@ public class FormationSlot_Bottom : MonoBehaviour, IPointerClickHandler
                 case SlotType.none:
                     break;
                 case SlotType.servant:
-
-                    // 이미 배치되어있다면 return
-                    if (servantdata.isPlaced)
                     {
-                        return;
+                        // 이미 배치되어있다면 return
+                        if (servantdata.isPlaced)
+                        {
+                            return;
+                        }
+
+                        // 배치가능한 서번트자리가 없다면 return
+                        int curPartyNum = FormationInfoPopup.instance.curTeamNum;
+                        UserFormationData formdata = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.partyIndex == curPartyNum && rowdata.formationIndex <= DEFINE.ServantMaxFormationNum && rowdata.formationIndex >= DEFINE.ServantMinFormationNum && !rowdata.isPlaced; });
+                        if (formdata == null)
+                        {
+                            return;
+                        }
+
+
+
+                        FormationInfoPopup.instance.registeredServantData = servantdata;
+                        FormationInfoPopup.instance.SetPlaceMode(FormationInfoPopup.PlaceMode.SERVANT_PLACE);
                     }
-
-                    FormationInfoPopup.instance.registeredServantData = servantdata;
-                    FormationInfoPopup.instance.SetPlaceMode(FormationInfoPopup.PlaceMode.SERVANT_PLACE);
-
                     break;
                 case SlotType.monster:
-
-                    // 이미 배치되어있다면 return
-                    if (monsterdata.isPlaced)
                     {
-                        return;
-                    }
+                        // 이미 배치되어있다면 return
+                        if (monsterdata.isPlaced)
+                        {
+                            return;
+                        }
 
-                    FormationInfoPopup.instance.registeredMonsterData = monsterdata;
-                    FormationInfoPopup.instance.SetPlaceMode(FormationInfoPopup.PlaceMode.MONSTER_PLACE);
-                    break;
+                        // 배치가능한 몬스터자리가 1개라도 있어야 함.
+                        // 조건1: 몬스터자리index에 포함되기
+                        // 조건2: 해당하는 서번트자리가 배치완료되어있어야함.
+                        // 조건3: 해당자리는 배치가 아직안되어있어야함.
+                        int curPartyNum = FormationInfoPopup.instance.curTeamNum;
+                        UserFormationData formdata = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.partyIndex == curPartyNum && rowdata.formationIndex <= DEFINE.MonsterMaxFormationNum && rowdata.formationIndex >= DEFINE.MonsterMinFormationNum && GameDataManager.instance.isPlacedAt(curPartyNum,rowdata.formationIndex-5) && !rowdata.isPlaced; });
+                        if (formdata == null)
+                        {
+                            return;
+                        }
+
+
+
+
+                        FormationInfoPopup.instance.registeredMonsterData = monsterdata;
+                        FormationInfoPopup.instance.SetPlaceMode(FormationInfoPopup.PlaceMode.MONSTER_PLACE);
+                        break;
+                    }
             }
         }
         // 우클릭
