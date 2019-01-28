@@ -942,19 +942,8 @@ ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
 
     eosiotoken_transfer(sender, receiver, [&](const auto &ad) {
         eosio_assert(ad.action.size() != 0,"Wrong Action");
-        if (ad.action == action_signup)
-        {
-            system_master system_master_table(_self, _self.value);
-            auto system_master_iter = system_master_table.begin();
-            eosio_assert(system_master_iter->state != system_state::pause, "Server Pause 1");
-
-            total_token_logs total_token_log_table(_self, _self.value);
-            auto total_token_log_iter = total_token_log_table.find(system_master_iter->master.value);
-            eosio_assert(total_token_log_iter == total_token_log_table.end(), "Need Presignup");
-
-            signup(sender);
-        }
-        else if (ad.action == action_preregist_signup)
+        eosio_assert(ad.action != action_signup,"Need Presignup");
+        if (ad.action == action_preregist_signup)
         {
             system_master system_master_table(_self, _self.value);
             auto system_master_iter = system_master_table.begin();
@@ -962,7 +951,7 @@ ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
 
             total_token_logs total_token_log_table(_self, _self.value);
             auto total_token_log_iter = total_token_log_table.find(system_master_iter->master.value);
-            eosio_assert(total_token_log_iter != total_token_log_table.end(), "Preregist Time Over");
+            eosio_assert(total_token_log_iter != total_token_log_table.end(), "End Preregist 3");
 
             presignup(sender, ad.type);
 
@@ -983,7 +972,7 @@ ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
             }
             else
             {
-                eosio_assert(limt_check < limit_token_amount, "End Preregist");
+                eosio_assert(limt_check < limit_token_amount, "End Preregist 1");
             }
         }
         else if (ad.action == action_gacha)
@@ -994,57 +983,44 @@ ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
 
             total_token_logs total_token_log_table(_self, _self.value);
             auto total_token_log_iter = total_token_log_table.find(system_master_iter->master.value);
-            if (total_token_log_iter == total_token_log_table.end())
+            eosio_assert(total_token_log_iter != total_token_log_table.end(), "End Preregist 2");
+
+            preregist_gacha(sender, ad.type);
+
+            pre_logs pre_log_table(_self, _self.value);
+            auto user_log_iter = pre_log_table.find(sender.value);
+            eosio_assert(user_log_iter != pre_log_table.end(), "Not Exist User Log 2");
+
+            pre_log_table.modify(user_log_iter, _self, [&](auto &buy_log) {
+                buy_log.use_eos += ad.quantity.amount;
+            });
+
+            asset gacha_reward(0, symbol(symbol_code("UTG"), 4));
+            if (total_token_log_iter->total_token_amount < 300000000000) //1만eos 제한 300000000000
             {
-                start_gacha(sender, ad.type);
-
-                user_logs user_log_table(_self, _self.value);
-                auto user_log_iter = user_log_table.find(sender.value);
-                eosio_assert(user_log_iter != user_log_table.end(), "Not Exist User Log 1");
-
-                user_log_table.modify(user_log_iter, _self, [&](auto &buy_log) {
-                    buy_log.use_eos += ad.quantity.amount;
-                });
+                gacha_reward.amount = 30000000;
+            }
+            else if (total_token_log_iter->total_token_amount < 900000000000) //3만eos 제한 900000000000
+            {
+                gacha_reward.amount = 20000000;
+            }
+            else if (total_token_log_iter->total_token_amount < 1500000000000) //6만eos 제한 1500000000000
+            {
+                gacha_reward.amount = 10000000;
             }
             else
             {
-                preregist_gacha(sender, ad.type);
-
-                pre_logs pre_log_table(_self, _self.value);
-                auto user_log_iter = pre_log_table.find(sender.value);
-                eosio_assert(user_log_iter != pre_log_table.end(), "Not Exist User Log 2");
-
-                pre_log_table.modify(user_log_iter, _self, [&](auto &buy_log) {
-                    buy_log.use_eos += ad.quantity.amount;
-                });
-
-                asset gacha_reward(0, symbol(symbol_code("UTG"), 4));
-                if (total_token_log_iter->total_token_amount < 300000000000) //1만eos 제한 300000000000
-                {
-                    gacha_reward.amount = 30000000;
-                }
-                else if (total_token_log_iter->total_token_amount < 900000000000) //3만eos 제한 900000000000
-                {
-                    gacha_reward.amount = 20000000;
-                }
-                else if (total_token_log_iter->total_token_amount < 1500000000000) //6만eos 제한 1500000000000
-                {
-                    gacha_reward.amount = 10000000;
-                }
-                else
-                {
-                    gacha_reward.amount = 5000000;
-                }
-
-                total_token_log_table.modify(total_token_log_iter, _self, [&](auto &update_participation_list) {
-                    update_participation_list.total_token_amount += gacha_reward.amount;
-                });
-
-                action(permission_level{get_self(), "active"_n},
-                       get_self(), "transfer"_n,
-                       std::make_tuple(_self, sender, gacha_reward, std::string("preregist gacha reward")))
-                    .send();
+                gacha_reward.amount = 5000000;
             }
+
+            total_token_log_table.modify(total_token_log_iter, _self, [&](auto &update_participation_list) {
+                update_participation_list.total_token_amount += gacha_reward.amount;
+            });
+
+            action(permission_level{get_self(), "active"_n},
+                   get_self(), "transfer"_n,
+                   std::make_tuple(_self, sender, gacha_reward, std::string("preregist gacha reward")))
+                .send();
         }
     });
 }
