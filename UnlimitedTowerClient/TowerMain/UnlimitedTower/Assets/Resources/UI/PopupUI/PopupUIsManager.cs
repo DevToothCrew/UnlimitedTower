@@ -23,11 +23,13 @@ public class PopupUIsManager : MonoBehaviour {
     }
 
     
+
     /* PopupUIs */
 
     public ItemInfoPannel iteminfopannel;
     public GameObject PopupStringObj;
     
+
     /* CenterPopup 들 */
     //
     public HeroInfoPopup heroInfoPopup;
@@ -52,8 +54,7 @@ public class PopupUIsManager : MonoBehaviour {
         UserServantData servantdata = UserDataManager.Inst.ServantList.Find((rowdata) => { return rowdata.isMainHero; });
         heroInfoPopup.ToRegistered(servantdata);
     }
-
-
+    
 
     // 팝업창 띄우기
     public void CreatePopupText(string textString)

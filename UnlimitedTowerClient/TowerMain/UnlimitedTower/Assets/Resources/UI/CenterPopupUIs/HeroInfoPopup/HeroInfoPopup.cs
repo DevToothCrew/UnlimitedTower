@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class HeroInfoPopup : MonoBehaviour
 {
-
     /// <summary>
     /// HeroInfoPopup 윈도우 스크립트 입니다. (인스펙터에 HeroInfoPopup 검색시 어떤 오브젝트에 붙어있는것인지 나옴)
     /// 
@@ -178,10 +177,5 @@ public class HeroInfoPopup : MonoBehaviour
 
         SubCamera.instance.Deregister();
     }
-
-
-
-
-
-
+    
 }
