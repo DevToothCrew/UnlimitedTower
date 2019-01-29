@@ -177,7 +177,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public void EnterGachaScene(int gachaNum)
     {
-        GachaScene.SetActivateWithAnimation(true);
+        GachaScene.SetActive(true);
 
         RightPopup.SetActivateWithAnimation(false);
         TowerGrid.SetActivateWithAnimation(false);
@@ -188,7 +188,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public void OnClickExitGacha()
     {
-        GachaScene.SetActivateWithAnimation(false);
+        GachaScene.SetActive(false);
 
         RightPopup.SetActivateWithAnimation(true);
         TowerGrid.SetActivateWithAnimation(true);

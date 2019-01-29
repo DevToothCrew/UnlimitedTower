@@ -79,7 +79,6 @@ public class GachaManager : MonoBehaviour {
     public void CloseGachaResult()
     {
         SetButtonActivate(true);
-
         GetComponent<Animator>()?.SetTrigger("Invisible");
     }
 

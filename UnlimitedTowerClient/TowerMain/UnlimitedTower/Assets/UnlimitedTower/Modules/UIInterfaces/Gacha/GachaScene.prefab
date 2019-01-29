@@ -1199,6 +1199,8 @@ MonoBehaviour:
   resultStrStat: {fileID: 114110950304328308}
   resultDexStat: {fileID: 114570422183345500}
   resultIntStat: {fileID: 114242570343289560}
+  retryButton: {fileID: 114341103760741528}
+  exitButton: {fileID: 114866290204730654}
 --- !u!114 &114414380344157706
 MonoBehaviour:
   m_ObjectHideFlags: 1
