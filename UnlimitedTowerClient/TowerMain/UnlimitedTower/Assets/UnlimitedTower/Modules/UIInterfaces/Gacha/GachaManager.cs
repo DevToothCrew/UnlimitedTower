@@ -15,7 +15,13 @@ public class GachaManager : MonoBehaviour {
 
     [SerializeField]
     private RawImage glowingFxPanel;
-    
+
+    [SerializeField]
+    private Button backButton;
+
+    [SerializeField]
+    private Button startButton;
+
     public float glowingFxPanelAlpha = 0.0f;
 
     private void Awake()
@@ -50,9 +56,15 @@ public class GachaManager : MonoBehaviour {
         Instance = Instance == this ? null : Instance;
     }
 
+    public void SetButtonActivate(bool value)
+    {
+        backButton.interactable = value;
+        startButton.interactable = value;
+    }
+
     public void ExecuteGacha(bool withoutAnimation = false)
     {
-        //GachaResultPopup.Instance.gameObject.SetActivateWithAnimation(true);
+        SetButtonActivate(false);
 
         GetComponent<Animator>()?.SetTrigger("Particle");
         particleController.BeginSummonAnimation(()=>
@@ -66,11 +78,14 @@ public class GachaManager : MonoBehaviour {
 
     public void CloseGachaResult()
     {
+        SetButtonActivate(true);
+
         GetComponent<Animator>()?.SetTrigger("Invisible");
     }
 
     public void ExitGachaScene()
     {
+        GetComponent<Animator>()?.SetTrigger("Invisible");
     }
 
 }

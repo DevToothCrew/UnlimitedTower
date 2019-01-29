@@ -35,19 +35,43 @@ public class GachaResultPopup : MonoBehaviour {
         Instance = null;
     }
 
+    public void Retry()
+    {
+        gameObject.SetActivateWithAnimation(false);
+        GachaManager.Instance.ExecuteGacha();
+    }
+
     public void Exit()
     {
         gameObject.SetActivateWithAnimation(false);
+        GachaManager.Instance.CloseGachaResult();
     }
 
-    public void Popup()
+    public void Popup(servantData result)
     {
+        resultName.text = result.servant.name;
+        resultType.text = result.servant.isLegend ? "Legendary" : "Normal";
+        resultStrStat.text = result.servant.status.basic_str.ToString();
+        resultIntStat.text = result.servant.status.basic_int.ToString();
+        resultDexStat.text = result.servant.status.basic_dex.ToString();
+
         gameObject.SetActivateWithAnimation(true);
     }
 
-    void SetResultObject(object result)
+    public void Popup(monsterData result)
     {
-        //need to be implemented
+        resultName.text = result.monster.name;
+        resultType.text = result.monster.grade.ToString();
+        resultStrStat.text = result.monster.status.basic_str.ToString();
+        resultIntStat.text = result.monster.status.basic_int.ToString();
+        resultDexStat.text = result.monster.status.basic_dex.ToString();
+
+        gameObject.SetActivateWithAnimation(true);
+    }
+
+    public void Popup(itemData result)
+    {
+        gameObject.SetActivateWithAnimation(true);
         throw new System.NotImplementedException();
     }
 }
