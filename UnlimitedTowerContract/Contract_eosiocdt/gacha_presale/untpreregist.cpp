@@ -941,8 +941,8 @@ ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
     eosio_assert(blacklist_iter == blacklist_table.end(), "BlackList User 3");
 
     eosiotoken_transfer(sender, receiver, [&](const auto &ad) {
-        eosio_assert(ad.action.size() != 0,"Wrong Action");
-        eosio_assert(ad.action != action_signup,"Need Presignup");
+        eosio_assert(ad.action.size() != 0, "Wrong Action");
+        eosio_assert(ad.action != action_signup, "Need Presignup");
         if (ad.action == action_preregist_signup)
         {
             system_master system_master_table(_self, _self.value);
@@ -1713,6 +1713,7 @@ void untpreregist::preregist_servant_id(eosio::name _user, uint64_t _seed)
         if (first_index == 0)
         {
             update_user_servant_list.index = 1;
+            
         }
         else
         {
@@ -1720,12 +1721,25 @@ void untpreregist::preregist_servant_id(eosio::name _user, uint64_t _seed)
         }
 
         update_user_servant_list.id = servant_id_db_iter.id;
+
         servant_random_count += 1;
         update_user_servant_list.status.basic_str = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_str, servant_job_db_iter.min_range.base_str, servant_random_count);
         servant_random_count += 1;
         update_user_servant_list.status.basic_dex = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_dex, servant_job_db_iter.min_range.base_dex, servant_random_count);
         servant_random_count += 1;
         update_user_servant_list.status.basic_int = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_int, servant_job_db_iter.min_range.base_int, servant_random_count);
+
+        std::string servant_result = "ser:";
+        servant_result += to_string(update_user_servant_list.index) + ":";
+        servant_result += to_string(update_user_servant_list.id) + ":";
+        servant_result += to_string(update_user_servant_list.status.basic_str) + ":";
+        servant_result += to_string(update_user_servant_list.status.basic_dex) + ":";
+        servant_result += to_string(update_user_servant_list.status.basic_int);
+
+        action(permission_level{get_self(), "active"_n},
+               get_self(), "resultgacha"_n,
+               std::make_tuple(_self, servant_result))
+            .send();
 
         result.index = update_user_servant_list.index;
         result.type = result::servant;
@@ -1811,6 +1825,19 @@ void untpreregist::preregist_monster_id(eosio::name _user, uint64_t _seed)
         monster_random_count += 1;
         update_user_monster_list.status.basic_int = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_int, monster_grade_db_iter.min_range.base_int, monster_random_count);
 
+        std::string monster_result = "mon:";
+        monster_result += to_string(update_user_monster_list.index) + ":";
+        monster_result += to_string(update_user_monster_list.id) + ":";
+        monster_result += to_string(update_user_monster_list.grade) + ":";
+        monster_result += to_string(update_user_monster_list.status.basic_str) + ":";
+        monster_result += to_string(update_user_monster_list.status.basic_dex) + ":";
+        monster_result += to_string(update_user_monster_list.status.basic_int);
+
+        action(permission_level{get_self(), "active"_n},
+               get_self(), "resultgacha"_n,
+               std::make_tuple(_self, monster_result))
+            .send();
+
         result.index = update_user_monster_list.index;
         result.type = result::monster;
     });
@@ -1892,6 +1919,21 @@ void untpreregist::preregist_item_id(eosio::name _user, uint64_t _seed)
         update_user_item_list.grade = item_grade_db_iter.grade;
         item_random_count += 1;
         update_user_item_list.main_status = safeseed::get_random_value(_seed, item_grade_db_iter.max_range.base_str, item_grade_db_iter.min_range.base_str, item_random_count);
+
+        std::string item_result = "itm:";
+        item_result += to_string(update_user_item_list.index) + ":";
+        item_result += to_string(update_user_item_list.id) + ":";
+        item_result += to_string(update_user_item_list.type) + ":";
+        item_result += to_string(update_user_item_list.tier) + ":";
+        item_result += to_string(update_user_item_list.job) + ":";
+        item_result += to_string(update_user_item_list.grade) + ":";
+        item_result += to_string(update_user_item_list.main_status);
+
+        action(permission_level{get_self(), "active"_n},
+               get_self(), "resultgacha"_n,
+               std::make_tuple(_self, item_result))
+            .send();
+
 
         result.index = update_user_item_list.index;
         result.type = result::item;
@@ -2021,32 +2063,37 @@ ACTION untpreregist::setpause(uint64_t _state)
 
 #pragma endregion
 
+ACTION untpreregist::resultgacha(eosio::name _from, std::string _result)
+{
+    require_auth(_self);
+    require_recipient(_from);
+}
 
 #pragma endresion
 
 #undef EOSIO_DISPATCH
 
-#define EOSIO_DISPATCH(TYPE, MEMBERS)                                                       \
-    extern "C"                                                                              \
-    {                                                                                       \
-        void apply(uint64_t receiver, uint64_t code, uint64_t action)                       \
-        {                                                                                   \
-            if (code == receiver)                                                           \
-            {                                                                               \
-                eosio_assert(action != name("eostransfer").value,"Impossible This Action");                                    \
-                    switch (action)                                                         \
-                    {                                                                       \
-                        EOSIO_DISPATCH_HELPER(TYPE, MEMBERS)                                \
-                    }                                                                       \
-                    /* does not allow destructor of thiscontract to run: eosio_exit(0); */ \
-            }                                                                               \
-            else if (code == name("eosio.token").value && action == name("transfer").value) \
-            {                                                                               \
-                eosio_assert(code == name("eosio.token").value, "Must transfer EOS");       \
-                execute_action(name(receiver), name(code), &untpreregist::eostransfer);     \
-            }                                                                               \
-        }                                                                                   \
+#define EOSIO_DISPATCH(TYPE, MEMBERS)                                                          \
+    extern "C"                                                                                 \
+    {                                                                                          \
+        void apply(uint64_t receiver, uint64_t code, uint64_t action)                          \
+        {                                                                                      \
+            if (code == receiver)                                                              \
+            {                                                                                  \
+                eosio_assert(action != name("eostransfer").value, "Impossible This Action 1"); \
+                switch (action)                                                                \
+                {                                                                              \
+                    EOSIO_DISPATCH_HELPER(TYPE, MEMBERS)                                       \
+                }                                                                              \
+                /* does not allow destructor of thiscontract to run: eosio_exit(0); */         \
+            }                                                                                  \
+            else if (code == name("eosio.token").value && action == name("transfer").value)    \
+            {                                                                                  \
+                eosio_assert(code == name("eosio.token").value, "Must transfer EOS");          \
+                execute_action(name(receiver), name(code), &untpreregist::eostransfer);        \
+            }                                                                                  \
+        }                                                                                      \
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(untpreregist, (create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(deleteuser)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase)(dbinit))
+EOSIO_DISPATCH(untpreregist, (resultgacha)(create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(deleteuser)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase)(dbinit))

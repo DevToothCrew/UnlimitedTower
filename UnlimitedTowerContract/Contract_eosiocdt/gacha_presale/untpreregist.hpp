@@ -725,7 +725,7 @@ ACTION addblack(eosio::name _user);
     //————————————————owner_system—————————————//
     //————————————————————————————————————//
 ACTION setpause(uint64_t _state);
-
+ACTION resultgacha(eosio::name _from, std::string _result);
 
 
 
