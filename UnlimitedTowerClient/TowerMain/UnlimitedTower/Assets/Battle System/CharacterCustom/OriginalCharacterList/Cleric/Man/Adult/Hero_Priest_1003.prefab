@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 4473368557474492}
   - component: {fileID: 95179218310837240}
   m_Layer: 0
-  m_Name: Hero_Priest_1002
+  m_Name: Hero_Priest_1003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
