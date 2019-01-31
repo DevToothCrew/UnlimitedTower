@@ -165,28 +165,31 @@ enum db_index
     //------------------------------------------------------------------------//
   private:
 #pragma region db values
-    const uint32_t servant_job_count = 4;
-    const uint32_t monster_id_count = 51;
-    const uint32_t item_id_count = 37;
-    const uint32_t head_count = 4;
-    const uint32_t hair_count = 4;
-    const uint32_t body_count = 3;
-    const uint32_t gender_count = 3;
-    uint32_t random_count = 0;
+    
 #pragma endregion
 
   public:
 #pragma region db action
-    TABLE tmaster
+    enum system_state
+    {
+        normal = 0,
+        pause,
+    };
+
+    TABLE systemmaster
     {
         eosio::name master;
+        uint64_t state;
         uint64_t primary_key() const { return master.value; }
     };
-    typedef eosio::multi_index<"tmaster"_n, tmaster> master;
+    typedef eosio::multi_index<"systemmaster"_n, systemmaster> system_master;
 
+    //-------------------------------------------------------//
     ACTION setmaster(eosio::name _master);
     ACTION initmaster();
-    ACTION setpreregist();
+    //------------------------------------------------------//
+
+    ACTION settokenlog();
     ACTION dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max, uint32_t _ratio);
     ACTION dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max, uint32_t _ratio);
     ACTION dberase(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max);
@@ -291,6 +294,7 @@ enum db_index
         uint32_t head = 0;
         uint32_t hair = 0;
         uint32_t body = 0;
+        uint32_t gender = 0;
     };
 
     //struct status_info
@@ -307,10 +311,10 @@ enum db_index
 #pragma region gacha tservant
     struct servant_info
     {
-        uint32_t id;
         uint32_t state;                   //서번트 상태
         uint32_t exp = 0;                 //서번트 경험치
-        appear_info appear;
+        appear_info appear;               //서번트의 외모 정보
+        uint32_t job = 0;                 //서번트의 직업 정보
         uint32_t stat_point = 0;
         status_info status;               //기본 힘,민,지 추가 힘,민,지
         std::vector<uint32_t> equip_slot; //서번트 장비 리스트
@@ -339,7 +343,7 @@ enum db_index
 #pragma region gacha tmonster
     struct monster_info
     {
-        uint32_t id;
+        uint32_t id;        //몬스터 id 값
         uint32_t state;    //몬스터 상태값
         uint32_t exp = 0;       //경험치
         uint32_t type = 0;     //속성 타입
@@ -505,7 +509,7 @@ TABLE tokenlog
 //------------------------------------------------------------------------//
 //------------------------------user_log_table----------------------------//
 //------------------------------------------------------------------------//
-#pragma region login table tuserlog
+#pragma region login table prelog
     TABLE tuserlog
     {
         eosio::name user;
@@ -530,6 +534,21 @@ TABLE tokenlog
         uint64_t primary_key() const { return user.value; }
     };
     typedef eosio::multi_index<"tuserlog"_n, tuserlog> user_logs;
+
+    TABLE prelog
+    {
+        eosio::name user;
+        uint32_t servant_num = 0;
+        uint32_t monster_num = 0;
+        uint32_t item_num = 0;
+        uint32_t gacha_num = 0;
+        uint64_t use_eos = 0;       
+
+        uint64_t primary_key() const { return user.value; }
+    };
+    typedef eosio::multi_index<"prelog"_n, prelog> pre_logs;
+
+
 #pragma endregion
 
     //------------------------------------------------------------------------//
@@ -546,7 +565,6 @@ TABLE tokenlog
         battle_lose,
         tower,
         travel,
-        pause,
         black,
     };
     enum hero_state
@@ -569,18 +587,19 @@ TABLE tokenlog
     };
 #pragma endregion
 
-#pragma region login table tuserauth
+#pragma region login table preauth
     //struct hero_info
     struct hero_info
     {
         uint32_t state;                   //히어로 상태
         uint32_t exp = 0;                 //히어로 경험치
-        uint32_t job = 0;
+        uint32_t job = 0;                 //히어로 직업
         uint32_t stat_point = 0;
-        appear_info appear;               //히어로 외형 정보
+        appear_info appear;               //히어로 외형 정보 <-젠더 추가해야함
         status_info status;               //기본 힘,민,지 추가 힘,민,지
         std::vector<uint32_t> equip_slot; //히어로 장비 리스트
     };
+
 
     TABLE tuserauth
     {
@@ -589,7 +608,17 @@ TABLE tokenlog
         hero_info hero;
         uint64_t primary_key() const { return user.value; }
     };
+
     typedef eosio::multi_index<"tuserauth"_n, tuserauth> auth_users;
+
+    TABLE preauth
+    {
+        eosio::name user;
+        uint32_t state = euser_state::lobby;
+        uint64_t primary_key() const { return user.value; }
+    };
+
+    typedef eosio::multi_index<"preauth"_n, preauth> pre_users;
 
 #pragma endregion
 
@@ -651,7 +680,7 @@ TABLE tokenlog
     //------------------------------------------------------------------------//
     //-----------------------------init_function------------------------------//
     //------------------------------------------------------------------------//
-ACTION initprelog();
+ACTION inittokenlog();
 
 
     //------------------------------------------------------------------------//
@@ -689,6 +718,8 @@ ACTION addblack(eosio::name _user);
     //————————————————owner_system—————————————//
     //————————————————————————————————————//
 ACTION setpause(uint64_t _state);
+ACTION resultgacha(eosio::name _from, std::string _result);
+
 
 
 };
