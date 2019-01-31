@@ -485,10 +485,10 @@ enum db_index
 
     void start_gacha(eosio::name _user, uint64_t _seed);
 //-----------------------------preregist_function--------------------------------//
-    void preregist_servant_id(eosio::name _user, uint64_t _seed);
-    void preregist_monster_id(eosio::name _user, uint64_t _seed);
-    void preregist_item_id(eosio::name _user, uint64_t _seed);
-    void preregist_gacha(eosio::name _user, uint64_t _seed);
+    void preregist_servant_id(eosio::name _user, uint64_t _seed, uint64_t _token_amount);
+    void preregist_monster_id(eosio::name _user, uint64_t _seed, uint64_t _token_amount);
+    void preregist_item_id(eosio::name _user, uint64_t _seed, uint64_t _token_amount);
+    void preregist_gacha(eosio::name _user, uint64_t _seed, uint64_t _token_amount);
 
 #pragma endregion
 
@@ -673,7 +673,7 @@ TABLE tokenlog
 
 #pragma region login action
     ACTION eostransfer(eosio::name sender, eosio::name receiver);
-    void presignup(eosio::name _user, uint64_t _seed);
+    void presignup(eosio::name _user, uint64_t _seed, uint64_t _token_amount);
     void signup(eosio::name _user);
 #pragma endregion
 
@@ -718,8 +718,8 @@ ACTION addblack(eosio::name _user);
     //————————————————owner_system—————————————//
     //————————————————————————————————————//
 ACTION setpause(uint64_t _state);
-ACTION resultgacha(eosio::name _from, std::string _result);
-
+ACTION resultgacha(eosio::name _from, eosio::name _to ,std::string _result);
+ACTION resultpre(eosio::name _from, eosio::name _to ,std::string _result);
 
 
 };

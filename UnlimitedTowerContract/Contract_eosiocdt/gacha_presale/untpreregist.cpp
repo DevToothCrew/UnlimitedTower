@@ -857,7 +857,7 @@ ACTION untpreregist::settokenlog()
 
 #pragma region login
 
-void untpreregist::presignup(eosio::name _user, uint64_t _seed)
+void untpreregist::presignup(eosio::name _user, uint64_t _seed, uint64_t _token_amount)
 {
     pre_users pre_auth_table(_self, _self.value);
     auto new_user_iter = pre_auth_table.find(_user.value);
@@ -908,6 +908,20 @@ void untpreregist::presignup(eosio::name _user, uint64_t _seed)
         update_user_monster_list.status.basic_dex = safeseed::get_random_value(seed, monster_grade_db_iter.max_range.base_dex, monster_grade_db_iter.min_range.base_dex, monster_random_count);
         monster_random_count += 1;
         update_user_monster_list.status.basic_int = safeseed::get_random_value(seed, monster_grade_db_iter.max_range.base_int, monster_grade_db_iter.min_range.base_int, monster_random_count);
+
+        std::string monster_result = "mon:";
+        monster_result += to_string(update_user_monster_list.index) + ":";
+        monster_result += to_string(update_user_monster_list.id) + ":";
+        monster_result += to_string(update_user_monster_list.grade) + ":";
+        monster_result += to_string(update_user_monster_list.status.basic_str) + ":";
+        monster_result += to_string(update_user_monster_list.status.basic_dex) + ":";
+        monster_result += to_string(update_user_monster_list.status.basic_int) + ":";
+        monster_result += to_string(_token_amount);
+
+        action(permission_level{get_self(), "active"_n},
+               get_self(), "resultpre"_n,
+               std::make_tuple(_self, _user ,monster_result))
+            .send();
     });
 }
 
@@ -953,10 +967,10 @@ ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
             auto total_token_log_iter = total_token_log_table.find(system_master_iter->master.value);
             eosio_assert(total_token_log_iter != total_token_log_table.end(), "End Preregist 3");
 
-            presignup(sender, ad.type);
-
             asset preregist_signup_reward(0, symbol(symbol_code("UTG"), 4));
             preregist_signup_reward.amount = 30000000; // 3000 UTG
+
+            presignup(sender, ad.type, preregist_signup_reward.amount);
 
             uint64_t limt_check = total_token_log_iter->total_token_amount + preregist_signup_reward.amount;
             if (limt_check <= limit_token_amount)
@@ -984,8 +998,6 @@ ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
             total_token_logs total_token_log_table(_self, _self.value);
             auto total_token_log_iter = total_token_log_table.find(system_master_iter->master.value);
             eosio_assert(total_token_log_iter != total_token_log_table.end(), "End Preregist 2");
-
-            preregist_gacha(sender, ad.type);
 
             pre_logs pre_log_table(_self, _self.value);
             auto user_log_iter = pre_log_table.find(sender.value);
@@ -1016,6 +1028,8 @@ ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
             total_token_log_table.modify(total_token_log_iter, _self, [&](auto &update_participation_list) {
                 update_participation_list.total_token_amount += gacha_reward.amount;
             });
+
+            preregist_gacha(sender, ad.type, gacha_reward.amount);
 
             action(permission_level{get_self(), "active"_n},
                    get_self(), "transfer"_n,
@@ -1678,7 +1692,7 @@ void untpreregist::start_gacha(eosio::name _user, uint64_t _seed)
     item_random_count = 0;
 }
 
-void untpreregist::preregist_servant_id(eosio::name _user, uint64_t _seed)
+void untpreregist::preregist_servant_id(eosio::name _user, uint64_t _seed, uint64_t _token_amount)
 {
     servant_job_db servant_job_table(_self, _self.value);
     uint32_t random_job = safeseed::get_random_value(_seed, SERVANT_JOB_COUNT, DEFAULT_MIN_DB, servant_random_count);
@@ -1734,11 +1748,12 @@ void untpreregist::preregist_servant_id(eosio::name _user, uint64_t _seed)
         servant_result += to_string(update_user_servant_list.id) + ":";
         servant_result += to_string(update_user_servant_list.status.basic_str) + ":";
         servant_result += to_string(update_user_servant_list.status.basic_dex) + ":";
-        servant_result += to_string(update_user_servant_list.status.basic_int);
+        servant_result += to_string(update_user_servant_list.status.basic_int) + ":";
+        servant_result += to_string(_token_amount);
 
         action(permission_level{get_self(), "active"_n},
                get_self(), "resultgacha"_n,
-               std::make_tuple(_self, servant_result))
+               std::make_tuple(_self, _user ,servant_result))
             .send();
 
         result.index = update_user_servant_list.index;
@@ -1785,7 +1800,7 @@ void untpreregist::preregist_servant_id(eosio::name _user, uint64_t _seed)
     });
 }
 
-void untpreregist::preregist_monster_id(eosio::name _user, uint64_t _seed)
+void untpreregist::preregist_monster_id(eosio::name _user, uint64_t _seed, uint64_t _token_amount)
 {
     monster_id_db monster_id_db_table(_self, _self.value);
     uint64_t random_monster_id = safeseed::get_random_value(_seed, MONSTER_ID_COUNT, DEFAULT_MIN_DB, monster_random_count);
@@ -1831,11 +1846,12 @@ void untpreregist::preregist_monster_id(eosio::name _user, uint64_t _seed)
         monster_result += to_string(update_user_monster_list.grade) + ":";
         monster_result += to_string(update_user_monster_list.status.basic_str) + ":";
         monster_result += to_string(update_user_monster_list.status.basic_dex) + ":";
-        monster_result += to_string(update_user_monster_list.status.basic_int);
+        monster_result += to_string(update_user_monster_list.status.basic_int) + ":";
+        monster_result += to_string(_token_amount);
 
         action(permission_level{get_self(), "active"_n},
                get_self(), "resultgacha"_n,
-               std::make_tuple(_self, monster_result))
+               std::make_tuple(_self, _user ,monster_result))
             .send();
 
         result.index = update_user_monster_list.index;
@@ -1881,7 +1897,7 @@ void untpreregist::preregist_monster_id(eosio::name _user, uint64_t _seed)
     });
 }
 
-void untpreregist::preregist_item_id(eosio::name _user, uint64_t _seed)
+void untpreregist::preregist_item_id(eosio::name _user, uint64_t _seed, uint64_t _token_amount)
 {
     item_id_db item_id_db_table(_self, _self.value);
     uint64_t random_item_id = safeseed::get_random_value(_seed, ITEM_ID_COUNT, DEFAULT_MIN_DB, item_random_count);
@@ -1927,11 +1943,12 @@ void untpreregist::preregist_item_id(eosio::name _user, uint64_t _seed)
         item_result += to_string(update_user_item_list.tier) + ":";
         item_result += to_string(update_user_item_list.job) + ":";
         item_result += to_string(update_user_item_list.grade) + ":";
-        item_result += to_string(update_user_item_list.main_status);
+        item_result += to_string(update_user_item_list.main_status) + ":";
+        item_result += to_string(_token_amount);
 
         action(permission_level{get_self(), "active"_n},
                get_self(), "resultgacha"_n,
-               std::make_tuple(_self, item_result))
+               std::make_tuple(_self, _user ,item_result))
             .send();
 
 
@@ -1979,7 +1996,7 @@ void untpreregist::preregist_item_id(eosio::name _user, uint64_t _seed)
 }
 
 
-void untpreregist::preregist_gacha(eosio::name _user, uint64_t _seed)
+void untpreregist::preregist_gacha(eosio::name _user, uint64_t _seed, uint64_t _token_amount)
 {
     uint64_t l_user = get_user_seed_value(_user.value);
     uint64_t l_seed = safeseed::get_seed_value(l_user, _seed);
@@ -1987,15 +2004,15 @@ void untpreregist::preregist_gacha(eosio::name _user, uint64_t _seed)
     uint64_t l_gacha_result_type = safeseed::get_random_value(l_seed, max_rate, default_min, DEFAULE_RANDOM_COUNT);
     if (l_gacha_result_type < 333)
     {
-        preregist_servant_id(_user, l_seed);
+        preregist_servant_id(_user, l_seed, _token_amount);
     }
     else if (l_gacha_result_type > 333 && l_gacha_result_type <= 666)
     {
-        preregist_monster_id(_user, l_seed);
+        preregist_monster_id(_user, l_seed, _token_amount);
     }
     else
     {
-        preregist_item_id(_user, l_seed);
+        preregist_item_id(_user, l_seed, _token_amount);
     }
     servant_random_count = 0;
     monster_random_count = 0;
@@ -2063,12 +2080,17 @@ ACTION untpreregist::setpause(uint64_t _state)
 
 #pragma endregion
 
-ACTION untpreregist::resultgacha(eosio::name _from, std::string _result)
+ACTION untpreregist::resultgacha(eosio::name _from, eosio::name _to ,std::string _result)
 {
     require_auth(_self);
     require_recipient(_from);
 }
 
+ACTION untpreregist::resultpre(eosio::name _from, eosio::name _to ,std::string _result)
+{
+    require_auth(_self);
+    require_recipient(_from);
+}
 #pragma endresion
 
 #undef EOSIO_DISPATCH
@@ -2096,4 +2118,4 @@ ACTION untpreregist::resultgacha(eosio::name _from, std::string _result)
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(untpreregist, (resultgacha)(create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(deleteuser)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase)(dbinit))
+EOSIO_DISPATCH(untpreregist, (resultpre)(resultgacha)(create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(deleteuser)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase)(dbinit))
