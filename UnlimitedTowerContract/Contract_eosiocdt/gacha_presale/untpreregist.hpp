@@ -165,14 +165,7 @@ enum db_index
     //------------------------------------------------------------------------//
   private:
 #pragma region db values
-    const uint32_t servant_job_count = 4;
-    const uint32_t monster_id_count = 51;
-    const uint32_t item_id_count = 37;
-    const uint32_t head_count = 4;
-    const uint32_t hair_count = 4;
-    const uint32_t body_count = 3;
-    const uint32_t gender_count = 3;
-    uint32_t random_count = 0;
+    
 #pragma endregion
 
   public:

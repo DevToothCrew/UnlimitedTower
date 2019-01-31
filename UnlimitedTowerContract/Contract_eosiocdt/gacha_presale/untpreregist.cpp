@@ -1310,7 +1310,7 @@ uint32_t untpreregist::get_servant_index(uint32_t _job, uint32_t _body, uint32_t
 void untpreregist::gacha_servant_id(eosio::name _user, uint64_t _seed)
 {
     servant_job_db servant_job_table(_self, _self.value);
-    uint32_t random_job = safeseed::get_random_value(_seed, servant_job_count, default_min, servant_random_count);
+    uint32_t random_job = safeseed::get_random_value(_seed, SERVANT_JOB_COUNT, default_min, servant_random_count);
     const auto &servant_job_db_iter = servant_job_table.get(random_job, "Not Get Servant Job Data 1");
 
     servant_random_count += 1;
@@ -1318,7 +1318,7 @@ void untpreregist::gacha_servant_id(eosio::name _user, uint64_t _seed)
 
     servant_random_count += 1;
     gender_db gender_table(_self, _self.value);
-    uint32_t random_gender = safeseed::get_random_value(_seed, gender_count, DEFAULT_MIN_DB, servant_random_count);
+    uint32_t random_gender = safeseed::get_random_value(_seed, GEMDER_COUNT, DEFAULT_MIN_DB, servant_random_count);
     const auto &gender_db_iter = gender_table.get(random_gender, "Not Get Gender Data 1");
 
     servant_random_count += 1;
@@ -1415,7 +1415,7 @@ void untpreregist::gacha_servant_id(eosio::name _user, uint64_t _seed)
 uint8_t untpreregist::gacha_servant_head(uint64_t _seed, uint32_t _count)
 {
     head_db head_db_table(_self, _self.value);
-    uint8_t random_head = safeseed::get_random_value(_seed, head_count, DEFAULT_MIN_DB, _count);
+    uint8_t random_head = safeseed::get_random_value(_seed, HEAD_COUNT, DEFAULT_MIN_DB, _count);
     const auto &head_db_iter = head_db_table.get(random_head, "Not Exist Head Info");
     return head_db_iter.head;
 }
@@ -1423,7 +1423,7 @@ uint8_t untpreregist::gacha_servant_head(uint64_t _seed, uint32_t _count)
 uint8_t untpreregist::gacha_servant_hair(uint64_t _seed, uint32_t _count)
 {
     hair_db hair_db_table(_self, _self.value);
-    uint8_t random_hair = safeseed::get_random_value(_seed, hair_count, DEFAULT_MIN_DB, _count);
+    uint8_t random_hair = safeseed::get_random_value(_seed, HAIR_COUNT, DEFAULT_MIN_DB, _count);
     const auto &hair_db_iter = hair_db_table.get(random_hair, "Not Exist Hair Info");
     return hair_db_iter.hair;
 }
@@ -1431,7 +1431,7 @@ uint8_t untpreregist::gacha_servant_hair(uint64_t _seed, uint32_t _count)
 uint8_t untpreregist::gacha_servant_body(uint64_t _seed, uint32_t _count)
 {
     body_db body_db_table(_self, _self.value);
-    uint8_t random_body = safeseed::get_random_value(_seed, body_count, DEFAULT_MIN_DB, _count);
+    uint8_t random_body = safeseed::get_random_value(_seed, BODY_COUNT, DEFAULT_MIN_DB, _count);
     const auto &body_db_iter = body_db_table.get(random_body, "Not Exist Body Info");
     return body_db_iter.body;
 }
@@ -1439,7 +1439,7 @@ uint8_t untpreregist::gacha_servant_body(uint64_t _seed, uint32_t _count)
 void untpreregist::gacha_monster_id(eosio::name _user, uint64_t _seed)
 {
     monster_id_db monster_id_db_table(_self, _self.value);
-    uint32_t random_monster_id = safeseed::get_random_value(_seed, monster_id_count, default_min, monster_random_count);
+    uint32_t random_monster_id = safeseed::get_random_value(_seed, MONSTER_ID_COUNT, default_min, monster_random_count);
     random_monster_id += 20000;
     const auto &monster_id_db_iter = monster_id_db_table.get(random_monster_id, "Not Exist Monster ID 1");
 
@@ -1527,7 +1527,7 @@ void untpreregist::gacha_monster_id(eosio::name _user, uint64_t _seed)
 void untpreregist::gacha_item_id(eosio::name _user, uint64_t _seed)
 {
     item_id_db item_id_db_table(_self, _self.value);
-    uint32_t random_item_id = safeseed::get_random_value(_seed, item_id_count, default_min, item_random_count);
+    uint32_t random_item_id = safeseed::get_random_value(_seed, ITEM_ID_COUNT, default_min, item_random_count);
     random_item_id += 30000;
     const auto &item_id_db_iter = item_id_db_table.get(random_item_id, "Not Exist Item ID 1");
 
@@ -1681,7 +1681,7 @@ void untpreregist::start_gacha(eosio::name _user, uint64_t _seed)
 void untpreregist::preregist_servant_id(eosio::name _user, uint64_t _seed)
 {
     servant_job_db servant_job_table(_self, _self.value);
-    uint32_t random_job = safeseed::get_random_value(_seed, servant_job_count, DEFAULT_MIN_DB, servant_random_count);
+    uint32_t random_job = safeseed::get_random_value(_seed, SERVANT_JOB_COUNT, DEFAULT_MIN_DB, servant_random_count);
     const auto &servant_job_db_iter = servant_job_table.get(random_job, "Not Get Servant Job Data 2");
 
     servant_random_count += 1;
@@ -1689,7 +1689,7 @@ void untpreregist::preregist_servant_id(eosio::name _user, uint64_t _seed)
 
     servant_random_count += 1;
     gender_db gender_table(_self, _self.value);
-    uint32_t random_gender = safeseed::get_random_value(_seed, gender_count, DEFAULT_MIN_DB, servant_random_count);
+    uint32_t random_gender = safeseed::get_random_value(_seed, GEMDER_COUNT, DEFAULT_MIN_DB, servant_random_count);
     const auto &gender_db_iter = gender_table.get(random_gender, "Not Get Gender Data 2");
 
     servant_random_count += 1;
@@ -1788,8 +1788,8 @@ void untpreregist::preregist_servant_id(eosio::name _user, uint64_t _seed)
 void untpreregist::preregist_monster_id(eosio::name _user, uint64_t _seed)
 {
     monster_id_db monster_id_db_table(_self, _self.value);
-    uint64_t random_monster_id = safeseed::get_random_value(_seed, monster_id_count, DEFAULT_MIN_DB, monster_random_count);
-    random_monster_id += 20000;
+    uint64_t random_monster_id = safeseed::get_random_value(_seed, MONSTER_ID_COUNT, DEFAULT_MIN_DB, monster_random_count);
+    random_monster_id += MONSTER_ID_START;
     const auto &monster_id_db_iter = monster_id_db_table.get(random_monster_id, "Not Exist Monster ID 2");
 
     monster_random_count += 1;
@@ -1884,8 +1884,8 @@ void untpreregist::preregist_monster_id(eosio::name _user, uint64_t _seed)
 void untpreregist::preregist_item_id(eosio::name _user, uint64_t _seed)
 {
     item_id_db item_id_db_table(_self, _self.value);
-    uint64_t random_item_id = safeseed::get_random_value(_seed, item_id_count, DEFAULT_MIN_DB, item_random_count);
-    random_item_id += 30000;
+    uint64_t random_item_id = safeseed::get_random_value(_seed, ITEM_ID_COUNT, DEFAULT_MIN_DB, item_random_count);
+    random_item_id += ITEM_ID_START;
     const auto &item_id_db_iter = item_id_db_table.get(random_item_id, "Not Exist Item ID 2");
 
     item_random_count += 1;
