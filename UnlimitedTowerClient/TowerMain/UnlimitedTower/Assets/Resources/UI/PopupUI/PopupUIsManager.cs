@@ -22,15 +22,13 @@ public class PopupUIsManager : MonoBehaviour {
         instance = null;
     }
 
-
+    
 
     /* PopupUIs */
 
     public ItemInfoPannel iteminfopannel;
-
-
-
-
+    public GameObject PopupStringObj;
+    
 
     /* CenterPopup 들 */
     //
@@ -55,5 +53,15 @@ public class PopupUIsManager : MonoBehaviour {
         
         UserServantData servantdata = UserDataManager.Inst.ServantList.Find((rowdata) => { return rowdata.isMainHero; });
         heroInfoPopup.ToRegistered(servantdata);
+    }
+    
+
+    // 팝업창 띄우기
+    public void CreatePopupText(string textString)
+    {
+        PopupString script = Instantiate(PopupStringObj).GetComponent<PopupString>();
+        script.popupString.text = textString;
+        script.transform.SetParent(transform);
+        script.transform.localPosition = new Vector3(0, 0, 0);
     }
 }

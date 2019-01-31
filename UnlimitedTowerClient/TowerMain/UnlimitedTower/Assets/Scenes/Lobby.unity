@@ -118365,6 +118365,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iteminfopannel: {fileID: 331749316}
+  PopupStringObj: {fileID: 1581037029412110, guid: aaae0a3816368f14faca03337430bc6e,
+    type: 2}
   heroInfoPopup: {fileID: 170685064}
   partnerInfoPopup: {fileID: 1324943361}
   formationInfoPopup: {fileID: 1434154574}
