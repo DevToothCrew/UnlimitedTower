@@ -177,8 +177,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             UserServantData getServant = ParseServant(gachaData.data.index, gachaData.data.servant);
 
             UserDataManager.Inst.AddServantData(getServant);
-
-            GachaImage.Inst.SetServantGachaImage(getServant);
+            GachaResultPopup.Instance.Popup(gachaData.data);
         }
         else if (type == (int)GACHA_RESULT_TYPE.Monster)
         {
@@ -187,8 +186,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             UserMonsterData getMonster = ParseMonster(gachaData.data.index, gachaData.data.monster);
 
             UserDataManager.Inst.AddMonsterData(getMonster);
-
-            GachaImage.Inst.SetMonsterGachaImage(getMonster);
+            GachaResultPopup.Instance.Popup(gachaData.data);
         }
         else if (type == (int)GACHA_RESULT_TYPE.Item)
         {
@@ -197,8 +195,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             UserMountItemData getItem = ParseItem(gachaData.data.index, gachaData.data.item);
 
             //UserDataManager.Inst.SetItemInfo(getItem);
-
-            //GachaImage.Inst.SetItemGachaImage(getItem);
+            GachaResultPopup.Instance.Popup(gachaData.data);
         }
     }
 
