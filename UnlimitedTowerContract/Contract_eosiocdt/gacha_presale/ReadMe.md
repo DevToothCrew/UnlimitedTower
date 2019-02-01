@@ -4,7 +4,6 @@
 ##### dbinsert : db 내용 선택 추가 함수 (Only Master Active)
 ##### dbmodify : db 내용 선택 수정 함수 (Only Master Active)
 ##### deleteblack : 블랙리스트에서 사용자 계정 삭제 함수 (Only Master Active)
-##### deleteuser : 유저 정보 삭제 함수(Only Master Active)
 ##### eostransfer : eosio.token 컨트랙트 트랜스퍼 실행 함수
 ##### initmaster : Master 초기화 함수 (Only Contract Owner)
 ##### inittokenlog : PreRegist Log 초기화 함수 (Only Master Active)
@@ -66,10 +65,6 @@ jungle_test_net_contract  - unlimittest1
 
 3. inittokenlog()
 * prelog를 초기화해주는 액션입니다.
-
-4. deleteuser(eosio::name _user)
-* 유저의 기본정보를 지워주는 액션입니다.
-* 인자값으로는 지울 계정명을 넣어줍니다.
 
 5. deleteblack(eosio::name _user)
 * 블랙리스트에서 해당 유저를 지워주는 액션입니다.

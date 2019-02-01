@@ -683,15 +683,6 @@ TABLE tokenlog
 ACTION inittokenlog();
 
 
-    //------------------------------------------------------------------------//
-    //-----------------------------delete_function----------------------------//
-    //------------------------------------------------------------------------//
-void delete_user_balance(eosio::name _user);
-void delete_user_data(eosio::name _user);
-void delete_user_object_data(eosio::name _user);
-void delete_user_gacha_result_data(eosio::name _user);
-void delete_user_preregist_data(eosio::name _user);
-ACTION deleteuser(eosio::name _user);
 
     //------------------------------------------------------------------------//
     //-----------------------------blacklist_table---------------------------//
