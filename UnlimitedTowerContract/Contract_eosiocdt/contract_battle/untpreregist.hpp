@@ -165,35 +165,35 @@ enum db_index
     //------------------------------------------------------------------------//
   private:
 #pragma region db values
-    const uint32_t servant_job_count = 4;
-    const uint32_t monster_id_count = 51;
-    const uint32_t item_id_count = 37;
-    const uint32_t head_count = 4;
-    const uint32_t hair_count = 4;
-    const uint32_t body_count = 3;
-    const uint32_t gender_count = 3;
-    uint32_t random_count = 0;
+    
 #pragma endregion
 
   public:
 #pragma region db action
-    TABLE tmaster
+    enum system_state
+    {
+        normal = 0,
+        pause,
+    };
+
+    TABLE systemmaster
     {
         eosio::name master;
+        uint64_t state;
         uint64_t primary_key() const { return master.value; }
     };
-    typedef eosio::multi_index<"tmaster"_n, tmaster> master;
+    typedef eosio::multi_index<"systemmaster"_n, systemmaster> system_master;
 
+    //-------------------------------------------------------//
     ACTION setmaster(eosio::name _master);
-    ACTION initmaster(eosio::name _master);
-    ACTION setpreregist();
+    ACTION initmaster();
+    //------------------------------------------------------//
+
+    ACTION settokenlog();
     ACTION dbinsert(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max, uint32_t _ratio);
     ACTION dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max, uint32_t _ratio);
     ACTION dberase(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max);
     ACTION dbinit();
-    ACTION stageinsert(uint32_t _kind, uint32_t _stage_num, uint32_t _id, uint32_t _str, uint32_t _dex, uint32_t _int);
-    ACTION stagemodify(uint32_t _stage_num, uint32_t _id, uint32_t _str, uint32_t _dex, uint32_t _int);
-    ACTION stageerease(uint32_t _kind, uint32_t _stage_num, uint32_t _id);
 #pragma endregion
 
   public:
@@ -210,8 +210,7 @@ enum db_index
     void insert_item_id(uint32_t id, uint32_t type, uint32_t _job, uint32_t tier);
     void insert_item_grade(uint32_t _grade, uint32_t _min, uint32_t _max); 
     void insert_grade_ratio(uint32_t _grade, uint32_t _ratio);
-    void insert_stage(uint64_t _stage_num);
-    void insert_stage_monster(uint64_t _stage_num, uint32_t _id, uint32_t _str, uint32_t _dex, uint32_t _int);
+
 
     void modify_job(uint32_t _job, uint32_t _min, uint32_t _max);
     void modify_head(uint32_t _appear);
@@ -224,7 +223,6 @@ enum db_index
     void modify_item_id(uint32_t id, uint32_t type, uint32_t _job, uint32_t tier);
     void modify_item_grade(uint32_t _grade, uint32_t _min, uint32_t _max); 
     void modify_grade_ratio(uint32_t _grade, uint32_t _ratio);
-    void modify_stage_monster(uint64_t _stage_num, uint32_t _id, uint32_t _str, uint32_t _dex, uint32_t _int);    
 
     void erase_job(uint32_t _job);
     void erase_head(uint32_t _appear);
@@ -237,8 +235,6 @@ enum db_index
     void erase_item_id(uint32_t id);
     void erase_item_grade(uint32_t _grade);
     void erase_grade_ratio(uint32_t _grade);
-    void erase_stage(uint64_t _stage_num);
-    void erase_stage_monster(uint64_t _stage_num, uint32_t _id);
 
 #pragma endregion
 
@@ -248,23 +244,23 @@ enum db_index
   private:
 #pragma region token account
   private:
-    TABLE account
+    TABLE accounts
     {
         asset balance;
         uint64_t primary_key() const { return balance.symbol.code().raw(); }
     };
-    typedef eosio::multi_index<"account"_n, account> accounts;
+    typedef eosio::multi_index<"accounts"_n, accounts> account;
 #pragma endregion
 
 #pragma region token stats
-    TABLE stats
+    TABLE stat
     {
         asset supply;
         asset max_supply;
         eosio::name issuer;
         uint64_t primary_key() const { return supply.symbol.code().raw(); }
     };
-    typedef eosio::multi_index<"stats"_n, stats> stat;
+    typedef eosio::multi_index<"stat"_n, stat> stats;
 #pragma endregion
 
     //------------------------------------------------------------------------//
@@ -272,24 +268,22 @@ enum db_index
     //------------------------------------------------------------------------//
   public:
 #pragma region token function
-    void sub_balance(name _user, asset _value);
-    void add_balance(name _user, asset _value, name _ram_payer);
+    void sub_balance(name user, asset value);
+    void add_balance(name user, asset value, name ram_payer);
 #pragma endregion
 
 #pragma region token action
-    ACTION create(name _issuer, asset _maximum_supply);
-    ACTION issue(name _to, asset _quantity, string _memo);
-    ACTION transfer(name _from, name _to, asset _quantity, string _memo);
-    ACTION inittoken(asset _token);
+    ACTION create(name issuer, asset maximum_supply);
+    ACTION issue(name to, asset quantity, string memo);
+    ACTION transfer(name from, name to, asset quantity, string memo);
 #pragma endregion
 
 
 
-#pragma region token delete init
-    void delete_user_balance(eosio::name _user);
-    void init_stat(asset _token);
-    void init_all_balance();
-#pragma endregion
+
+    
+
+
     //------------------------------------------------------------------------//
     //-----------------------------gacha_table--------------------------------//
     //------------------------------------------------------------------------//
@@ -300,6 +294,7 @@ enum db_index
         uint32_t head = 0;
         uint32_t hair = 0;
         uint32_t body = 0;
+        uint32_t gender = 0;
     };
 
     //struct status_info
@@ -316,10 +311,10 @@ enum db_index
 #pragma region gacha tservant
     struct servant_info
     {
-        uint32_t id;
         uint32_t state;                   //서번트 상태
         uint32_t exp = 0;                 //서번트 경험치
-        appear_info appear;
+        appear_info appear;               //서번트의 외모 정보
+        uint32_t job = 0;                 //서번트의 직업 정보
         uint32_t stat_point = 0;
         status_info status;               //기본 힘,민,지 추가 힘,민,지
         std::vector<uint32_t> equip_slot; //서번트 장비 리스트
@@ -348,7 +343,7 @@ enum db_index
 #pragma region gacha tmonster
     struct monster_info
     {
-        uint32_t id;
+        uint32_t id;        //몬스터 id 값
         uint32_t state;    //몬스터 상태값
         uint32_t exp = 0;       //경험치
         uint32_t type = 0;     //속성 타입
@@ -458,7 +453,6 @@ enum db_index
   private:
 #pragma region gacha values
     const char *action_gacha="gacha";
-    const char *action_preregist_signup="presignup";
     const char *action_signup="signup";
 
     uint32_t servant_random_count;
@@ -468,33 +462,24 @@ enum db_index
     const uint32_t default_min = 0;
     const uint32_t max_rate = 1000;
 
-
-
-    const uint64_t limit_token_amount = 800000000;
-
 #pragma endregion
 
   public:
 #pragma region gacha function
     uint32_t get_random_grade(uint64_t _rate);
-
     uint32_t get_servant_index(uint32_t _job, uint32_t _body, uint32_t _gender, uint32_t _head, uint32_t _hair);
+
     void gacha_servant_id(eosio::name _user, uint64_t _seed);
     uint8_t gacha_servant_head(uint64_t _seed, uint32_t _count);
     uint8_t gacha_servant_hair(uint64_t _seed, uint32_t _count);
     uint8_t gacha_servant_body(uint64_t _seed, uint32_t _count);
+
     void gacha_monster_id(eosio::name _user, uint64_t _seed);
     void gacha_item_id(eosio::name _user, uint64_t _seed);
     
     uint64_t get_user_seed_value(uint64_t _user);
 
     void start_gacha(eosio::name _user, uint64_t _seed);
-//-----------------------------preregist_function--------------------------------//
-    void preregist_servant_id(eosio::name _user, uint64_t _seed);
-    void preregist_monster_id(eosio::name _user, uint64_t _seed);
-    void preregist_item_id(eosio::name _user, uint64_t _seed);
-    void preregist_gacha(eosio::name _user, uint64_t _seed);
-
 #pragma endregion
 
 
@@ -514,7 +499,7 @@ TABLE tokenlog
 //------------------------------------------------------------------------//
 //------------------------------user_log_table----------------------------//
 //------------------------------------------------------------------------//
-#pragma region login table tuserlog
+#pragma region login table prelog
     TABLE tuserlog
     {
         eosio::name user;
@@ -524,9 +509,7 @@ TABLE tokenlog
         uint32_t gacha_num = 0;
         uint32_t login_time = 0;
         uint32_t get_gold = 0;
-        //asset get_eos = eosio::asset(0, symbol(symbol_code("EOS"),4));;
         uint32_t use_gold = 0;
-        //asset use_eos = eosio::asset(0, symbol(symbol_code("EOS"),4)); 
         uint64_t use_eos = 0;       
         uint32_t battle_count = 0;
         uint32_t last_stage_num = 0;
@@ -539,6 +522,21 @@ TABLE tokenlog
         uint64_t primary_key() const { return user.value; }
     };
     typedef eosio::multi_index<"tuserlog"_n, tuserlog> user_logs;
+
+    TABLE prelog
+    {
+        eosio::name user;
+        uint32_t servant_num = 0;
+        uint32_t monster_num = 0;
+        uint32_t item_num = 0;
+        uint32_t gacha_num = 0;
+        uint64_t use_eos = 0;       
+
+        uint64_t primary_key() const { return user.value; }
+    };
+    typedef eosio::multi_index<"prelog"_n, prelog> pre_logs;
+
+
 #pragma endregion
 
     //------------------------------------------------------------------------//
@@ -546,7 +544,7 @@ TABLE tokenlog
     //------------------------------------------------------------------------//
   private:
 #pragma region login enum
-    enum euser_state
+    enum user_state
     {        
         pre_regist = 1,        
         lobby,
@@ -555,7 +553,6 @@ TABLE tokenlog
         battle_lose,
         tower,
         travel,
-        pause,
         black,
     };
     enum hero_state
@@ -568,7 +565,7 @@ TABLE tokenlog
         set_travel_party,
     };
 
-    enum eobject_state
+    enum object_state
     {
         on_inventory = 1,
         on_equip_slot,
@@ -578,27 +575,38 @@ TABLE tokenlog
     };
 #pragma endregion
 
-#pragma region login table tuserauth
+#pragma region login table preauth
     //struct hero_info
     struct hero_info
     {
         uint32_t state;                   //히어로 상태
         uint32_t exp = 0;                 //히어로 경험치
-        uint32_t job = 0;
+        uint32_t job = 0;                 //히어로 직업
         uint32_t stat_point = 0;
-        appear_info appear;               //히어로 외형 정보
+        appear_info appear;               //히어로 외형 정보 <-젠더 추가해야함
         status_info status;               //기본 힘,민,지 추가 힘,민,지
         std::vector<uint32_t> equip_slot; //히어로 장비 리스트
     };
 
+
     TABLE tuserauth
     {
         eosio::name user;
-        uint32_t state = euser_state::lobby;
+        uint32_t state = user_state::lobby;
         hero_info hero;
         uint64_t primary_key() const { return user.value; }
     };
+
     typedef eosio::multi_index<"tuserauth"_n, tuserauth> auth_users;
+
+    TABLE preauth
+    {
+        eosio::name user;
+        uint32_t state = user_state::lobby;
+        uint64_t primary_key() const { return user.value; }
+    };
+
+    typedef eosio::multi_index<"preauth"_n, preauth> pre_users;
 
 #pragma endregion
 
@@ -653,281 +661,14 @@ TABLE tokenlog
 
 #pragma region login action
     ACTION eostransfer(eosio::name sender, eosio::name receiver);
-    void presignup(eosio::name _user, uint64_t _seed);
     void signup(eosio::name _user);
-    ACTION preregistmov(eosio::name _user);
 #pragma endregion
 
     //------------------------------------------------------------------------//
     //-----------------------------init_function------------------------------//
     //------------------------------------------------------------------------//
-ACTION initprelog();
+ACTION inittokenlog();
 
-
-    //------------------------------------------------------------------------//
-    //-----------------------------delete_function----------------------------//
-    //------------------------------------------------------------------------//
-void delete_user_data(eosio::name _user);
-void delete_user_object_data(eosio::name _user);
-void delete_user_gacha_result_data(eosio::name _user);
-void delete_user_preregist_data(eosio::name _user);
-ACTION deleteuser(eosio::name _user);
-
-
-#pragma endregion
-
-    //------------------------------------------------------------------------//
-    //-------------------------------party_table------------------------------//
-    //------------------------------------------------------------------------//
-
-#pragma region party_table 
-
-enum party_state
-{
-    on_wait = 1,
-    on_tower_defense,
-};
-TABLE tparty
-{
-public:
-    uint32_t index;
-    uint32_t state = party_state::on_wait;
-    std::vector<uint64_t> party;
-
-    uint64_t primary_key() const {return index;}
-};
-
-typedef eosio::multi_index<"tparty"_n,tparty> user_partys;
-
-#pragma endregion
-
-    //------------------------------------------------------------------------//
-    //-------------------------------party_system-----------------------------//
-    //------------------------------------------------------------------------//
-#pragma region party_system
-    public:
-    const uint32_t max_servant_slot = 5;
-    const uint32_t hero_partner_slot = 5;
-    const uint32_t max_monster_slot = 10;
-    const uint32_t pair_slot = 5;
-    const uint32_t hero_party_location = 0;
-    const uint32_t empty_party_slot = 0;
-
-	void party_init(eosio::name _user);
-    void set_party(uint64_t _user, uint8_t _party_number, const std::vector<uint32_t> &_party_list);
-    void add_party_list(eosio::name _user);
-
-
-#pragma region reset
-
-    void reset_user_party_data(uint64_t _user);
-    void reset_all_user_party_data();
-    void delete_party_data(uint64_t _user);
-   
-#pragma endregion
-
-#pragma region party cheat
-
-    void set_automatic_party(uint64_t _user);
-     
-#pragma endregion
-
-    //------------------------------------------------------------------------//
-    //-------------------------Item_equipment_function------------------------//
-    //------------------------------------------------------------------------//
-#pragma region item system 
-
-
-void sell_servant(eosio::name _user, uint32_t _index);
-void sell_monster(eosio::name _user, uint32_t _index);
-void sell_item(eosio::name _user, uint32_t _index);
-ACTION sellobject(eosio::name _user, uint32_t _type, uint32_t _index);
-
-ACTION equipment(eosio::name _user, uint32_t _type ,uint32_t _servant_index ,uint32_t _item_index);
-ACTION unequipment(eosio::name _user, uint32_t _type ,uint32_t _servant_index ,uint32_t _item_index);
-void unequip_servant(eosio::name _user, uint32_t _servant_index ,uint32_t _item_index);
-void equip_servant(eosio::name _user, uint32_t _servant_index ,uint32_t _item_index);
-void unequip_hero(eosio::name _user, uint32_t _item_index);
-void equip_hero(eosio::name _user, uint32_t _item_index);
-
-#pragma endregion
-
-
-
-    //------------------------------------------------------------------------//
-    //---------------------- -------battle_state_table-------------------------//
-    //------------------------------------------------------------------------//
-#pragma region battle state table
-
-enum battle_action_state
-{
-    wait = 0,
-    attack,
-    defense,
-    state_count,
-};
-
-enum battle_buff_state
-{
-    none = 0,
-    sleep,
-    poison,
-    strength_collect_wait,
-};
-
-enum active_skill_list
-{
-    none_active = 0,
-    double_attack, //더블 어택 - 15% 확률로 2번 공격한다.
-    all_attack,    //참격 - 적 앞라인 전체 적을 공격력의 35%로 공격한다.
-    heal,          //치유 - 대상 아군을 지능 수치의 100%만큼 치유한다.
-    no_think,      //무아지경 - 공격력의 50%로 랜덤한 적 4개체 타격 (같은 개체 타격 가능)
-    poison_arrow,  //독화살 - 적에게 공격력 40%의 데미지를 입히고, 상태이상 : 중독을 건다 (중독 : 4턴 동안 턴 마다 공격력의 30%의 데미지를 입힌다.)
-    active_skill_count,
-};
-
-enum passive_skill_list
-{
-    none_passive = 0,
-    iron_wall,      //철벽 - 방어율 10% 상승 (방어력 아님)
-    blood_attack,   //피의 일격 - 치명타 시 데미지 10%만큼 회복
-    deceiver,       //기만자 - HP 100%일 때 자신의 속도 10 증가
-    strength_flag,  //힘의 깃발 - 자신의 양 옆 캐릭터에게 공격력 15% 상승 버프를 부여
-    sniper,         //저격수 - 자신의 앞에 캐릭터가 존재할 경우 공격력 50% 증가
-    strength_collect,//힘모으기 - 방어시 다음 턴 공격력 25% 증가
-    passive_skill_count,
-};
-
-// 4 + 4 + 4 + 4 + 4 + 4 + 8 + sbattle_member_state(9) = 41
-// sbattle_member_state 당 9 총 5개의 버프창이 있으면 45 + 32 = 77
-private:
-    const uint32_t warrior_speed = 34;
-    const uint32_t wizard_speed = 29;
-    const uint32_t priest_speed = 32;
-    const uint32_t archer_speed = 42;
-    const uint32_t thief_speed = 50;
-    const uint32_t beginner_speed = 25;
-
-  private:
-    const uint32_t oper_hp = 240;
-    const uint32_t oper_attack = 20;
-    const uint32_t oper_defense = 50;
-    const uint32_t oper_critical = 10;
-    const uint32_t defense_constant = 200;
-
-    const uint32_t decimal = 100;
-    const uint32_t max_battle_member_count = 20;
-    const uint32_t max_party_count = 10;
-    
-  private:
-    std::vector<uint32_t> battle_location_list;
-  public:
-
-    struct battle_state
-    {
-        uint32_t index;
-        uint32_t now_hp;
-        uint32_t attack;
-        uint32_t defense;
-        uint32_t crit_per;
-        uint32_t crit_dmg;
-        uint32_t avoid;
-        uint32_t state;
-        uint32_t speed;
-    };
-
-    TABLE tbattlestate
-    {
-    eosio::name user;
-    uint32_t turn;
-    std::vector<battle_state> user_battle_state_list;  
-
-    uint64_t primary_key() const { return user.value; }
-    };
-
-typedef eosio::multi_index<"tbattlestate"_n, tbattlestate> battle_state_list;
-#pragma endregion
-
-    
-    //------------------------------------------------------------------------//
-    //---------------------------battle_action_table--------------------------//
-    //------------------------------------------------------------------------//
-#pragma region battle action table
-struct battle_action
-{
-     uint32_t target_index;
-     uint32_t avoid;
-     uint32_t critical;
-     uint32_t damage;
-};
-struct battle_action_info
-{
-    uint32_t index;
-    uint32_t action_type;
-    std::vector<battle_action> battle_action_list;
-};
-    TABLE tbattleact
-    {
-    eosio::name user;
-    uint32_t turn;
-    std::vector<battle_action_info> battle_info_list;   
-    uint64_t primary_key() const { return user.value; }
-
-    };
-typedef eosio::multi_index<"tbattleact"_n, tbattleact> battle_infos;
-#pragma endregion
-
-enum db_battle_choice
-{
-    db_stage_num =1,
-    db_stage_monster,    
-};
-
-TABLE dbstage
-{
-    uint64_t stage_num;
-    std::vector<monster_info> enemy_list;
-    uint64_t primary_key()const { return stage_num; }
-   
-};
-typedef eosio::multi_index<"dbstage"_n, dbstage> stage_db;
-
-
-
-    //------------------------------------------------------------------------//
-    //---------------------------battle_reward_table--------------------------//
-    //------------------------------------------------------------------------//
-#pragma region battle action table
-    TABLE tclearreward
-    {
-        eosio::name user;
-        uint64_t reward_money;
-        std::vector<uint32_t> get_exp_list;
-        std::vector<servant_info> get_servant_list;
-        std::vector<monster_info> get_monster_list;
-        std::vector<item_info> get_item_list;
-        uint64_t primary_key() const { return user.value; }
-    };
-typedef eosio::multi_index<"tclearreward"_n, tclearreward> battle_reward_list;
-#pragma endregion
-    //------------------------------------------------------------------------//
-    //-------------------------------battle_function--------------------------//
-    //------------------------------------------------------------------------//
-#pragma region battle function 
-void set_stage_data();
-uint32_t get_attack(uint32_t _job, status_info _status);
-uint32_t get_speed(uint32_t _job);
-uint64_t get_damage(uint32_t _atk, uint32_t _dfs);
-uint32_t get_buff_turn(uint32_t _buff);
-
-void active_turn(eosio::name _user, uint8_t _hero_action, uint8_t _monster_action, uint8_t _hero_target, uint8_t _monster_target);
-void win_reward(eosio::name _user);
-void fail_reward(eosio::name _user);
-void init_abll_battle_data();
-void init_stage_data();
-ACTION startbattle(eosio::name _user, uint8_t _party_number, uint8_t _stage);
-
-#pragma endregion
 
 
     //------------------------------------------------------------------------//
@@ -955,6 +696,8 @@ ACTION addblack(eosio::name _user);
     //————————————————owner_system—————————————//
     //————————————————————————————————————//
 ACTION setpause(uint64_t _state);
+ACTION resultgacha(eosio::name _from, eosio::name _to ,std::string _result);
+ACTION resultpre(eosio::name _from, eosio::name _to ,std::string _result);
 
 
 };
