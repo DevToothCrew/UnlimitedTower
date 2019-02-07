@@ -21,7 +21,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     public GameObject testEffect;
 
     public UTLobbyUIManager UTLobbyUIManager_;
-    private int[] positionOrder = { 2, 1, 3, 0, 4, 7, 6, 8, 5, 9 };
+    public int[] positionOrder = { 2, 1, 3, 0, 4, 7, 6, 8, 5, 9 };
 
     public struct BattleInformation
     {

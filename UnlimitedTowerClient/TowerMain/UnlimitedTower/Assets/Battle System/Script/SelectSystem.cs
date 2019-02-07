@@ -15,7 +15,8 @@ public class SelectSystem : MonoSingleton<SelectSystem>
     private Ray ray;
     private CheckSelectAnimation temp;
     private bool isStart = false;
-    
+    public int[] positionOrder = { 3, 1, 0, 2, 4, 8, 6, 5, 7, 9 };
+
     // 추후 최적화 작업, timeScale도 바꿔야함
     void Update()
     {
@@ -82,13 +83,14 @@ public class SelectSystem : MonoSingleton<SelectSystem>
                 {
                     selectHpBar.fillAmount = (float)BattleSystem.Inst.PlayerCharacterControl[selectIndex].NowHp / BattleSystem.Inst.PlayerCharacterControl[selectIndex].MaxHp;
                     selectHpText.text = BattleSystem.Inst.PlayerCharacterControl[selectIndex].NowHp.ToString();
+                    selectCharacterImage.sprite = BattleSystem.Inst.prefabList.prefabList[BattleSystem.Inst.stageStateData.info_list[positionOrder[selectIndex]].index].sprite;
                 }
                 else
                 {
                     selectHpBar.fillAmount = (float)BattleSystem.Inst.EnemyCharacterControl[selectIndex - 10].NowHp / BattleSystem.Inst.EnemyCharacterControl[selectIndex - 10].MaxHp;
                     selectHpText.text = BattleSystem.Inst.EnemyCharacterControl[selectIndex - 10].NowHp.ToString();
+                    selectCharacterImage.sprite = BattleSystem.Inst.prefabList.prefabList[BattleSystem.Inst.stageStateData.info_list[positionOrder[selectIndex - 10] + 10].index].sprite;
                 }
-                selectCharacterImage.sprite = BattleSystem.Inst.prefabList.prefabList[201 + selectIndex].sprite;
             }
         }
     }
