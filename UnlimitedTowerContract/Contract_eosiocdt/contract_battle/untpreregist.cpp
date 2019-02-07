@@ -2397,6 +2397,17 @@ uint32_t untpreregist::get_speed(uint32_t _job)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma region active turn 
 
+bool untpreregist::compare(battle_order_struct a, battle_order_struct b)
+{
+    if(a.speed == b.speed){
+        return a.second_speed < b.second_speed;
+    }
+    else{
+        return a.speed < b.speed ;
+    }
+}
+
+
 void untpreregist::active_turn(eosio::name _user, uint8_t _hero_action, uint8_t _monster_action, uint8_t _hero_target, uint8_t _monster_target)
     {
         require_auth(_user);
@@ -2415,16 +2426,13 @@ void untpreregist::active_turn(eosio::name _user, uint8_t _hero_action, uint8_t 
         eosio_assert(user_battle_state_iter != battle_state_list_table.end(),"end battle");
 
         battle_infos battle_infos_table(owner,owner.value);
-        auto user_battle_iter = battle_infos_table.find(_user);
+        auto user_battle_action_iter = battle_infos_table.find(_user);
 
 
-        eosio_assert(user_battle_iter != battle_infos_table.end(),"not setting battle data");
-        battle_infos_table.modify(user_battle_iter, owner, [&](auto &battle_state) {
-            uint32_t battle_preference = safeseed::get_random_battle_value(seed, 2, 0, 0);
-            //battle_state.preference = battle_preference;
+        eosio_assert(user_battle_action_iter != battle_infos_table.end(),"not setting battle data");
+        battle_infos_table.modify(user_battle_action_iter, owner, [&](auto &battle_state) {
             battle_state.turn += 1;
 
-            
             std::vector<battle_order_struct> speed_order_list;
             for(uint32_t i = 0; i < user_battle_state_iter->state_list.size(); ++i)
             {
@@ -2437,208 +2445,41 @@ void untpreregist::active_turn(eosio::name _user, uint8_t _hero_action, uint8_t 
                 new_order.battle_location = i; 
                 speed_order_list.push_back(new_order);
             }
-            std::sort(speed_order_list.begin(),speed_order_list.end(),
-                    [&](new_order.speed a, new_order.speed b){
-                        return  a < b ;
-                    });
             
+            std::sort(speed_order_list.begin(), speed_order_list.end(), compare);
 
-            for (uint32_t i = 0; i < max_party_count; ++i)
-            {
-                temp_order_list[i].member_array_index = i;
-                temp_order_list[i].member_speed = user_battle_iter->my_party_status_list[i].speed;
-            }
-
-            for (uint32_t i = 0; i < max_party_count; ++i)
-            {
-                temp_order_list[i + max_party_count].member_array_index = i + max_party_count;
-                temp_order_list[i + max_party_count].member_speed = user_battle_iter->enemy_party_status_lzist[i].speed;
-            }
- 
-            if (battle_preference == user)
-            {
-                std::sort(temp_order_list.begin(), temp_order_list.end(),
-                          [&](attack_speed a, attack_speed b) {
-                              return a.member_array_index < b.member_array_index;
-                          });
-            }
-            else if (battle_preference == enemy)
-            {
-                std::sort(temp_order_list.begin(), temp_order_list.end(),
-                          [&](attack_speed a, attack_speed b) {
-                              return a.member_array_index > b.member_array_index;
-                          });
-            }
-            std::sort(temp_order_list.begin(), temp_order_list.end(),
-                      [&](attack_speed a, attack_speed b) {
-                          return a.member_speed > b.member_speed;
-                      });
-
-            //여기서 부터 1차 스피드 정렬 이후 랜덤 시드로 배치
-
-            uint64_t l_user = get_user_seed_value(_user.value);
-            uint64_t l_seed = safeseed::get_seed_value(l_user, _seed);
-
-            uint64_t random_sort_result_type = safeseed::get_random_value(l_seed, max_rate, default_min, DEFAULT_MAX);
-
-          for (uint32_t i = 0; i < max_party_count; ++i)
-            {
-                temp_order_list[i].member_array_index = i;
-                temp_order_list[i].member_speed = user_battle_iter->my_party_status_list[i].speed;
-                temp_order_list[i].member_spped = safeseed::get_random_value(l_seed, max_rate, default_min, DEFAULT_MAX);
-
-            }
-
-
-            uint32_t user_action;
-            for (uint32_t i = 0; i < max_battle_member_count; ++i)
-            {
-                battle_state.attack_order_list[i] = temp_order_list[i].member_array_index;
-
-                uint32_t index = temp_order_list[i].member_array_index;
-                if (index < max_party_count)         //자기 파티에 대한 처리
+            battle_infos_table.modify(user_battle_action_iter, _self, [&](auto &update_action) {
+                uint32_t user_action;
+                for (uint32_t i = 0; i < speed_order_list.size(); ++i)
                 {
-                    if(battle_state.my_party_status_list[index].now_hp == 0)
+                    uint32_t index = speed_order_list[i].battle_location;
+                    if (index < max_party_count) //자기 파티에 대한 처리
                     {
-                        continue;
-                    }
-                    if (index == battle_location_list[0])
-                    {
-                        eosio_assert(battle_state.enemy_party_status_list[_hero_target].now_hp != 0 , "hero target is dead");
-                        battle_state.my_party_status_list[index].state = _hero_action;
-                        if (_hero_action == battle_action_state::attack)
+                        if (index == HERO_LOCATION)
                         {
-                            uint32_t damage = get_damage(battle_state.my_party_status_list[index].attack, battle_state.enemy_party_status_list[_hero_target].defense);
-
-                            battle_state.my_party_status_list[index].target = _hero_target;
-
-                            if (battle_state.enemy_party_status_list[_hero_target].now_hp <= damage)
-                            {
-                                battle_state.enemy_party_status_list[_hero_target].now_hp = 0;
-                            }
-                            else
-                            {
-                                battle_state.enemy_party_status_list[_hero_target].now_hp -= damage;
-                            }
-                        }
-                        else if ( _hero_action == battle_action_state::defense)
-                        {
-                            battle_state.my_party_status_list[index].now_hp += 2;
-                        }
-                        continue;
-                    }
-                    else if (index == battle_location_list[party_controller.hero_partner_monster_slot])
-                    {
-                        eosio_assert(battle_state.enemy_party_status_list[_monster_target].now_hp != 0 , "monster target is dead");
-                        battle_state.my_party_status_list[index].state = _monster_action;
-                        if (_monster_action == battle_action_state::attack)
-                        {
-                            uint32_t damage = get_damage(battle_state.my_party_status_list[index].attack, battle_state.enemy_party_status_list[_monster_target].defense);
-
-                            battle_state.my_party_status_list[index].target = _monster_target;
-                            if (battle_state.enemy_party_status_list[_monster_target].now_hp <= damage)
-                            {
-                                battle_state.enemy_party_status_list[_monster_target].now_hp = 0;
-                            }
-                            else
-                            {
-                                battle_state.enemy_party_status_list[_monster_target].now_hp -= damage;
-                            }
-                        }
-                        else if(_monster_action == battle_action_state::defense)
-                        {
-                            battle_state.my_party_status_list[index].now_hp += 2;
-                        }
-                        continue;
-                    }
-
-                    user_action = safeseed::get_random_battle_value(seed, battle_action_state::state_count, battle_action_state::attack, i);
-                    for (uint32_t enemy = 0; enemy < max_party_count; ++enemy)
-                    {
-                        if (battle_state.enemy_party_status_list[enemy].now_hp == 0)
-                        {
-                            continue;
-                        }
-                        if (user_action == battle_action_state::attack)
-                        {
-                            battle_state.my_party_status_list[index].state = battle_action_state::attack;
-                            battle_state.my_party_status_list[index].target = enemy;
-
-                            uint32_t damage = get_damage(battle_state.my_party_status_list[index].attack, battle_state.enemy_party_status_list[enemy].defense);;
-                            if (battle_state.enemy_party_status_list[enemy].now_hp <= damage)
-                            {
-                                battle_state.enemy_party_status_list[enemy].now_hp = 0;
-                            }
-                            else
-                            {
-                                battle_state.enemy_party_status_list[enemy].now_hp -= damage;
-                            }
-                            break;
-                        }
-                        else if (user_action == battle_action_state::defense)
-                        {
-                            battle_state.my_party_status_list[index].now_hp += 2;
-                            break;
+                            eosio_assert(battle_state.enemy_party_status_list[_hero_target].now_hp != 0, "hero target is dead");
                         }
                     }
                 }
-                else if(index >= 10) 
+                //게임의 종료 여부 체크
+                for (uint32_t i = 0; i < max_battle_member_count; ++i)
                 {
-                    index = index - 10;
-                    if (battle_state.enemy_party_status_list[index].now_hp == 0)
+                    if (i < max_party_count)
                     {
-                        continue;
+                        if (battle_state_list_iter->state_list[i].now_hp == 0)
+                        {
+                            user_dead_count += 1;
+                        }
                     }
-
-                    user_action = safeseed::get_random_battle_value(seed, battle_action_state::state_count, battle_action_state::attack, i);
-                    for (uint32_t enemy = 0; enemy < max_party_count; ++enemy)
+                    else
                     {
-                        if (battle_state.my_party_status_list[enemy].now_hp == 0)
+                        if (battle_state_list_iter->state_list[i].now_hp == 0)
                         {
-                            continue;
-                        }
-                        if (user_action == battle_action_state::attack)
-                        {
-                            battle_state.enemy_party_status_list[index].state = battle_action_state::attack;
-                            battle_state.enemy_party_status_list[index].target = enemy;
-
-                            uint32_t damage = get_damage(battle_state.enemy_party_status_list[index].attack, battle_state.my_party_status_list[enemy].defense);;
-                            if (battle_state.my_party_status_list[enemy].now_hp <= damage)
-                            {
-                                battle_state.my_party_status_list[enemy].now_hp = 0;
-                            }
-                            else
-                            {
-                                battle_state.my_party_status_list[enemy].now_hp -= damage;
-                            }
-                            break;
-                        }
-                        else if (user_action == battle_action_state::defense)
-                        {
-                            battle_state.enemy_party_status_list[index].now_hp += 2;
-                            break;
+                            enemy_dead_count += 1;
                         }
                     }
                 }
-            }
-            //게임의 종료 여부 체크 
-            for (uint32_t i = 0; i < max_battle_member_count; ++i)
-            {
-                if (i < max_party_count)
-                {
-                    if (battle_state.my_party_status_list[i].now_hp == 0)
-                    {
-                        user_dead_count += 1;
-                    }
-                }
-                else
-                {
-                    if (battle_state.enemy_party_status_list[i - 10].now_hp == 0)
-                    {
-                        enemy_dead_count += 1;
-                    }
-                }
-            }
+            });
         });
         if (enemy_dead_count == 10)
         {
@@ -2649,6 +2490,7 @@ void untpreregist::active_turn(eosio::name _user, uint8_t _hero_action, uint8_t 
             fail_reward(_user);
         }
     }
+
 
 #pragma endregion
 

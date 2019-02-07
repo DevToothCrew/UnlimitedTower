@@ -947,6 +947,7 @@ uint32_t get_speed(uint32_t _job);
 uint64_t get_damage(uint32_t _atk, uint32_t _dfs);
 uint32_t get_buff_turn(uint32_t _buff);
 
+bool compare(battle_order_struct a, battle_order_struct b);
 void active_turn(eosio::name _user, uint8_t _hero_action, uint8_t _monster_action, uint8_t _hero_target, uint8_t _monster_target);
 void win_reward(eosio::name _user);
 void fail_reward(eosio::name _user);
