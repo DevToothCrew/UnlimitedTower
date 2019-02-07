@@ -700,4 +700,82 @@ ACTION resultgacha(eosio::name _from, eosio::name _to ,std::string _result);
 ACTION resultpre(eosio::name _from, eosio::name _to ,std::string _result);
 
 
+    //------------------------------------------------------------------------//
+    //-------------------------------party_table------------------------------//
+    //------------------------------------------------------------------------//
+
+#pragma region party_table 
+
+enum party_state
+{
+    on_wait = 1,
+    on_tower_defense,
+};
+TABLE tparty
+{
+public:
+    uint32_t index;
+    uint32_t state = party_state::on_wait;
+    std::vector<uint64_t> party;
+
+    uint64_t primary_key() const {return index;}
+};
+
+typedef eosio::multi_index<"tparty"_n,tparty> user_partys;
+
+#pragma endregion
+
+    //------------------------------------------------------------------------//
+    //-------------------------------party_system-----------------------------//
+    //------------------------------------------------------------------------//
+#pragma region party_system
+    public:
+    const uint32_t max_servant_slot = 5;
+    const uint32_t hero_partner_slot = 5;
+    const uint32_t max_monster_slot = 10;
+    const uint32_t pair_slot = 5;
+    const uint32_t hero_party_location = 0;
+    const uint32_t empty_party_slot = 0;
+
+	void party_init(eosio::name _user);
+    void set_party(uint64_t _user, uint8_t _party_number, const std::vector<uint32_t> &_party_list);
+    void add_party_list(eosio::name _user);
+
+
+#pragma region reset
+
+    void reset_user_party_data(uint64_t _user);
+    void reset_all_user_party_data();
+    void delete_party_data(uint64_t _user);
+   
+#pragma endregion
+
+#pragma region party cheat
+
+    void set_automatic_party(uint64_t _user);
+     
+#pragma endregion
+
+    //------------------------------------------------------------------------//
+    //-------------------------Item_equipment_function------------------------//
+    //------------------------------------------------------------------------//
+#pragma region item system 
+
+
+void sell_servant(eosio::name _user, uint32_t _index);
+void sell_monster(eosio::name _user, uint32_t _index);
+void sell_item(eosio::name _user, uint32_t _index);
+ACTION sellobject(eosio::name _user, uint32_t _type, uint32_t _index);
+
+ACTION equipment(eosio::name _user, uint32_t _type ,uint32_t _servant_index ,uint32_t _item_index);
+ACTION unequipment(eosio::name _user, uint32_t _type ,uint32_t _servant_index ,uint32_t _item_index);
+void unequip_servant(eosio::name _user, uint32_t _servant_index ,uint32_t _item_index);
+void equip_servant(eosio::name _user, uint32_t _servant_index ,uint32_t _item_index);
+void unequip_hero(eosio::name _user, uint32_t _item_index);
+void equip_hero(eosio::name _user, uint32_t _item_index);
+
+#pragma endregion
+
+
+
 };

@@ -1482,7 +1482,396 @@ ACTION untpreregist::resultpre(eosio::name _from, eosio::name _to ,std::string _
     require_auth(_self);
     require_recipient(_from);
 }
+
 #pragma endresion
+
+
+
+#pragma region party function
+
+//------------------------------------------------------------------------//
+//-------------------------------party_function---------------------------//
+//------------------------------------------------------------------------//
+
+	void untpreregist::party_init(eosio::name _user)
+    {
+            require_auth(_user);
+            user_partys user_party_table(owner, _user.value);
+            user_party_table.emplace(owner, [&](auto &new_party)
+            {
+                uint32_t first_index = user_party_table.available_primary_key();
+                if(first_index == 0)
+                {
+                    new_party.index = 1;
+                }
+                else
+                {
+                    new_party.index = user_party_table.available_primary_key();
+                }
+                new_party.party.resize(10);
+            });
+        } 
+    void untpreregist::set_party(uint64_t _user, uint8_t _party_number, const std::vector<uint32_t> &_party_list)
+    {
+            require_auth(_user);
+            eosio_assert(_party_number > 0 ,"wrong party_number");          //잘못된 파티 넘버 체크 
+            user_partys user_party_table(owner, _user);                     //
+            auto user_party_iter = user_party_table.find(_party_number);   //유저 파티 이터레이터는 파티 테이블 번호
+            eosio_assert(user_party_iter != user_party_table.end(), "not exist party"); //유저 파티 이터레이터를 기준으로 테이블 조회 시 없으면 
+            eosio_assert(user_party_iter->state != party_state::on_tower_defense,"this party on tower unmodified"); //유저 파티 상태가 타워 디펜스중이 아닐시 
+            user_servants user_servant_table(owner, _user);
+            user_monsters user_monster_table(owner, _user);
+
+            for (uint32_t i = 1; i < max_servant_slot; ++i)             //서번트 (4개) 까지 for문 
+            {
+                if(user_party_iter->party[i] != empty_party_slot && 
+                user_party_iter->party[i] != _party_list[i])
+                {
+                    auto user_servant_iter = user_servant_table.find(user_party_iter->party[i]);
+                    eosio_assert(user_servant_iter != user_servant_table.end(),"fatal party data mis");
+                    user_servant_table.modify(user_servant_iter, owner, [&](auto &set_party) {
+                        set_party.party_number = EMPTY_PARTY;
+                    });
+                }
+            }
+            for (uint32_t i = max_servant_slot; i < max_monster_slot; ++i)
+            {
+                if (user_party_iter->party[i] != empty_party_slot &&
+                    user_party_iter->party[i] != _party_list[i])
+                {
+                    auto user_monster_iter = user_monster_table.find(user_party_iter->party[i]);
+                    eosio_assert(user_monster_iter != user_monster_table.end(), "fatal party data mis");
+                    user_monster_table.modify(user_monster_iter, owner, [&](auto &set_party) {
+                        set_party.party_number = EMPTY_PARTY;
+                    });
+                }
+            }
+            user_party_table.modify(user_party_iter, owner, [&](auto &save_party) {
+ 
+                for (uint32_t i = 1; i < max_servant_slot; ++i)
+                {
+                    if (_party_list[i] == empty_party_slot)
+                    {
+                        save_party.party[i] = _party_list[i];
+                        continue;
+                    }
+                    auto user_servant_iter = user_servant_table.find(_party_list[i]);
+                    eosio_assert(user_servant_iter != user_servant_table.end(), "not exist servant data");
+                    eosio_assert(user_servant_iter->party_number == EMPTY_PARTY || user_servant_iter->party_number == _party_number, "already in party member servant");
+                    user_servant_table.modify(user_servant_iter, owner, [&](auto &set_party) {
+                      set_party.party_number = _party_number;
+                    });
+                    save_party.party[i] = _party_list[i];
+                }
+                for (uint32_t i = max_servant_slot; i < max_monster_slot; ++i)
+                {
+                    if (_party_list[i] == empty_party_slot)
+                    {
+                        save_party.party[i] = _party_list[i];
+                        continue;
+                    }
+                    if (i != hero_partner_slot)
+                    {
+                        eosio_assert(_party_list[i - pair_slot] != empty_party_slot ,"need set servant");
+                    }
+                    auto user_monster_iter = user_monster_table.find(_party_list[i]);
+                    eosio_assert(user_monster_iter != user_monster_table.end(), "not exist monster data");
+                    eosio_assert(user_monster_iter->party_number == EMPTY_PARTY || user_monster_iter->party_number == _party_number, "already in party member monster");
+                    user_monster_table.modify(user_monster_iter, owner, [&](auto &set_party) {
+                        set_party.party_number = _party_number;
+                    });
+                    save_party.party[i] = _party_list[i];
+                }
+            });
+        }
+
+        void untpreregist::add_party_list(eosio::name _user)
+        {
+	    user_logs user_log_table(owner, owner.value);
+
+            auto user_log_iter = user_log_table.find(_user.value);
+            eosio_assert(user_log_iter != user_log_table.end(),"not find user information to log");
+            uint32_t l_p_count = user_log_iter->add_party_count;
+            l_p_count++;
+            user_log_table.modify(user_log_iter,owner,[&](auto &buy_party_log)
+            {
+                buy_party_log.add_party_count = l_p_count;
+            });
+            user_partys user_party_table(owner, _user.value);
+            user_party_table.emplace(owner, [&](auto &new_party)
+            {
+                new_party.index = user_party_table.available_primary_key();
+                new_party.party.resize(10);
+            });
+        }
+#pragma region party cheat
+
+        void untpreregist::set_automatic_party(uint64_t _user)
+        {
+            uint32_t first_party = 1;
+            user_partys user_party_table(owner, _user);
+            auto user_party_iter = user_party_table.find(first_party);
+            eosio_assert(user_party_iter != user_party_table.end(), "not exist party list");
+         
+            user_servants user_servant_table(owner, _user);
+            user_monsters user_monster_table(owner, _user);
+            user_party_table.modify(user_party_iter, owner, [&](auto &automatic_party)
+            {
+                for(uint32_t i=1; i<10; ++i)
+                {
+                    if (i < 5)
+                    {
+                        automatic_party.party[i] = i;
+
+                        auto user_servant_iter = user_servant_table.find(i);
+                        user_servant_table.modify(user_servant_iter, owner, [&](auto &set_party) {
+                            set_party.party_number = first_party;
+                        });
+                    }
+                    else
+                    {
+                        uint32_t monster_index = i - 4;
+                        automatic_party.party[i] = monster_index;
+                 
+                        auto user_monster_iter = user_monster_table.find(monster_index);
+                        user_monster_table.modify(user_monster_iter, owner, [&](auto &set_party) {
+                            set_party.party_number = first_party;
+                       });
+                    }
+                }
+            });
+       }
+
+#pragma endregion
+
+#pragma region item equipment function
+//------------------------------------------------------------------------//
+//-------------------------item_equipment_function------------------------//
+//------------------------------------------------------------------------//
+ACTION untpreregist::sellobject(eosio::name _user, uint32_t _type, uint32_t _index)
+{
+   require_auth(_user);
+
+   switch(_type)
+   {
+   case result::servant:
+   {
+       sell_servant(_user, _index);
+       break;
+   }
+   case result::monster:
+   {
+       sell_monster(_user, _index);
+       break;
+   }
+   case result::item:
+   {
+       sell_item(_user, _index);
+       break;
+   }
+   default:
+   {
+       eosio_assert(_type < 4, "wrong sell type");
+       break;
+   }
+   };
+}
+
+void untpreregist::sell_servant(eosio::name _user, uint32_t _index)
+{
+   user_servants user_servant_table(owner, _user.value);
+   auto user_servant_iter = user_servant_table.find(_index);
+   eosio_assert(user_servant_iter != user_servant_table.end(),"not exist servant info");
+   eosio_assert(user_servant_iter->party_number == 0,"this servant already in party");
+
+   asset servant_sell_result(0, symbol(symbol_code("UTG"), 4));
+   servant_sell_result.amount = 10000000;
+
+   action(permission_level{get_self(), "active"_n},
+          get_self(), "tokentrans"_n,
+          std::make_tuple(owner, _user, servant_sell_result, std::string("servant sell result")))
+       .send();
+
+   user_servant_table.erase(user_servant_iter);
+}
+
+void untpreregist::sell_monster(eosio::name _user, uint32_t _index)
+{
+   user_monsters user_monster_table(owner, _user.value);
+   auto user_monster_iter = user_monster_table.find(_index);
+   eosio_assert(user_monster_iter != user_monster_table.end(),"not exist servant info");
+   eosio_assert(user_monster_iter->party_number == 0,"this servant already in party");
+
+   asset monster_sell_result(0, symbol(symbol_code("UTG"), 4));
+   monster_sell_result.amount = 10000000;
+
+   action(permission_level{get_self(), "active"_n},
+          get_self(), "tokentrans"_n,
+          std::make_tuple(owner, _user, monster_sell_result, std::string("monster sell result")))
+       .send();
+
+   user_monster_table.erase(user_monster_iter);
+}
+
+void untpreregist::sell_item(eosio::name _user, uint32_t _index)
+{
+   user_items user_item_table(owner, _user.value);
+   auto user_item_iter = user_item_table.find(_index);
+   eosio_assert(user_item_iter != user_item_table.end(),"not exist item info");
+   eosio_assert(user_item_iter->item.state != eobject_state::on_equip_slot,"item is equip");
+
+   asset item_sell_result(0, symbol(symbol_code("UTG"), 4));
+   item_sell_result.amount = 10000000;
+
+   action(permission_level{get_self(), "active"_n},
+          get_self(), "tokentrans"_n,
+          std::make_tuple(owner, _user, item_sell_result, std::string("item sell result")))
+       .send();
+
+   user_item_table.erase(user_item_iter);
+}
+
+ACTION untpreregist::equipment(eosio::name _user, uint32_t _type ,uint32_t _servant_index ,uint32_t _item_index)
+{
+   require_auth(_user);
+   switch (_type)
+   {
+   case 1:
+       equip_servant(_user, _servant_index, _item_index);
+       break;
+   case 2:
+       equip_hero(_user, _item_index);
+       break;
+   default:
+   eosio_assert(_type < 3 ,"not exsit this action type");
+       break;
+   }
+}
+
+ACTION untpreregist::unequipment(eosio::name _user, uint32_t _type ,uint32_t _servant_index ,uint32_t _item_index)
+{
+   require_auth(_user);
+   switch (_type)
+   {
+   case 1:
+       unequip_servant(_user, _servant_index, _item_index);
+       break;
+   case 2:
+       unequip_hero(_user, _item_index);
+       break;
+   default:
+   eosio_assert(_type < 3 ,"not exsit this action type");
+       break;
+   }
+}
+
+void untpreregist::unequip_servant(eosio::name _user, uint32_t _servant_index ,uint32_t _item_index)
+{
+   user_items user_item_table(owner, _user.value);
+   auto user_item_iter = user_item_table.find(_item_index);
+   eosio_assert(user_item_iter != user_item_table.end(), "not exist item info");
+   eosio_assert(user_item_iter->item.state == eobject_state::on_equip_slot, "already unequip this item");
+
+   uint32_t slot = user_item_iter->item.type - 1;
+   user_item_table.modify(user_item_iter, owner, [&](auto &unequip_item)
+   {
+       unequip_item.item.state = eobject_state::on_inventory;
+   });
+
+   user_servants user_servant_table(owner, _user.value);
+   auto user_servant_iter = user_servant_table.find(_servant_index);
+   eosio_assert(user_servant_iter != user_servant_table.end(),"not exist servant info");
+
+   user_servant_table.modify(user_servant_iter, owner, [&](auto &unequip_servant)
+   {
+       unequip_servant.servant.status.plus_str -= user_item_iter->item.status.basic_str;
+       unequip_servant.servant.status.plus_dex -= user_item_iter->item.status.basic_dex;
+       unequip_servant.servant.status.plus_int -= user_item_iter->item.status.basic_int;
+       unequip_servant.servant.equip_slot[slot] = 0;
+   });
+}
+
+void untpreregist::equip_servant(eosio::name _user, uint32_t _servant_index ,uint32_t _item_index)
+{
+   user_items user_item_table(owner, _user.value);
+   auto user_item_iter = user_item_table.find(_item_index);
+   eosio_assert(user_item_iter != user_item_table.end(), "not exist item info");
+   eosio_assert(user_item_iter->item.state != eobject_state::on_equip_slot, "already equip this item");
+
+   uint32_t slot = user_item_iter->item.type - 1;
+   user_item_table.modify(user_item_iter, owner, [&](auto &unequip_item)
+   {
+       unequip_item.item.state = eobject_state::on_equip_slot;
+   });
+
+   user_servants user_servant_table(owner, _user.value);
+   auto user_servant_iter = user_servant_table.find(_servant_index);
+   eosio_assert(user_servant_iter != user_servant_table.end(),"not exist servant info");
+
+   user_servant_table.modify(user_servant_iter, owner, [&](auto &unequip_servant)
+   {
+       unequip_servant.servant.status.plus_str += user_item_iter->item.status.basic_str;
+       unequip_servant.servant.status.plus_dex += user_item_iter->item.status.basic_dex;
+       unequip_servant.servant.status.plus_int += user_item_iter->item.status.basic_int;
+       unequip_servant.servant.equip_slot[slot] = _item_index;
+   });
+}
+void untpreregist::unequip_hero(eosio::name _user, uint32_t _item_index)
+{
+   user_items user_item_table(owner, _user.value);
+   auto user_item_iter = user_item_table.find(_item_index);
+   eosio_assert(user_item_iter != user_item_table.end(), "not exist item info");
+   eosio_assert(user_item_iter->item.state == eobject_state::on_equip_slot, "already unequip this item");
+
+   uint32_t slot = user_item_iter->item.type - 1;
+   user_item_table.modify(user_item_iter, owner, [&](auto &unequip_item)
+   {
+       unequip_item.item.state = eobject_state::on_inventory;
+   });
+
+   auth_users user_auth_table(owner, owner.value);
+   auto user_auth_iter = user_auth_table.find(_user.value);
+   eosio_assert(user_auth_iter != user_auth_table.end(),"not exist user info");
+
+   user_auth_table.modify(user_auth_iter, owner, [&](auto &unequip_hero)
+   {
+       unequip_hero.hero.status.plus_str -= user_item_iter->item.status.basic_str;
+       unequip_hero.hero.status.plus_dex -= user_item_iter->item.status.basic_dex;
+       unequip_hero.hero.status.plus_int -= user_item_iter->item.status.basic_int;
+       unequip_hero.hero.equip_slot[slot] = 0;
+   });
+}
+
+void untpreregist::equip_hero(eosio::name _user, uint32_t _item_index)
+{
+   user_items user_item_table(owner, _user.value);
+   auto user_item_iter = user_item_table.find(_item_index);
+   eosio_assert(user_item_iter != user_item_table.end(), "not exist item info");
+   eosio_assert(user_item_iter->item.state != eobject_state::on_equip_slot, "already equip this item");
+
+   uint32_t slot = user_item_iter->item.type - 1;
+   user_item_table.modify(user_item_iter, owner, [&](auto &unequip_item)
+   {
+       unequip_item.item.state = eobject_state::on_equip_slot;
+   });
+
+   auth_users user_auth_table(owner, owner.value);
+   auto user_auth_iter = user_auth_table.find(_user.value);
+   eosio_assert(user_auth_iter != user_auth_table.end(),"not exist user info");
+
+   user_auth_table.modify(user_auth_iter, owner, [&](auto &unequip_hero)
+   {
+       unequip_hero.hero.status.plus_str += user_item_iter->item.status.basic_str;
+       unequip_hero.hero.status.plus_dex += user_item_iter->item.status.basic_dex;
+       unequip_hero.hero.status.plus_int += user_item_iter->item.status.basic_int;
+       unequip_hero.hero.equip_slot[slot] = _item_index;
+   });
+}
+
+
+#pragma endregion
+
+
 
 #undef EOSIO_DISPATCH
 
