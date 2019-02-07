@@ -17,20 +17,28 @@
 #define NOT_APPEAR              0
 #define EMPTY_PARTY             0
 #define DEFAULT_MIN_DB          1
-         
-
-#define  MONSTER_ID_START       20000
-#define  ITEM_ID_START          30000
 
 
-#define SERVANT_JOB_COUNT       4
-#define MONSTER_ID_COUNT        51
-#define ITEM_ID_COUNT           33
-#define HEAD_COUNT              4
-#define HAIR_COUNT              4
-#define BODY_COUNT              3
-#define GEMDER_COUNT            3
+#define HERO_POSITION           8
+#define SERVANT_POSITION_1      7
+#define SERVANT_POSITION_2      9    
+#define SERVANT_POSITION_3      6    
+#define SERVANT_POSITION_4      10    
+#define MONSTER_POSITION_5      3
+#define MONSTER_POSITION_6      2
+#define MONSTER_POSITION_7      4    
+#define MONSTER_POSITION_8      1    
+#define MONSTER_POSITION_9      5            
 
+
+#define START_ITEM_ID           30001
+#define END_ITEM_ID             30036
+
+#define START_MONSTER_ID        20001
+#define END_MONSTER_ID          20051
+
+#define START_SERVANT_LOOK      10001
+#define END_SERVANT_LOOK        10072
 
 using namespace std;
 using namespace eosio;
