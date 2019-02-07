@@ -194,6 +194,9 @@ enum db_index
     ACTION dbmodify(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _index, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max, uint32_t _ratio);
     ACTION dberase(uint32_t _kind, uint32_t _appear, uint32_t _id, uint32_t _job, uint32_t _tier, uint32_t _type, uint32_t _grade, uint32_t _min, uint32_t _max);
     ACTION dbinit();
+    ACTION stageinsert(uint32_t _kind, uint32_t _stage_num, uint32_t _id, uint32_t _str, uint32_t _dex, uint32_t _int);
+    ACTION stagemodify(uint32_t _stage_num, uint32_t _id, uint32_t _str, uint32_t _dex, uint32_t _int);
+    ACTION stageerease(uint32_t _kind, uint32_t _stage_num, uint32_t _id);
 #pragma endregion
 
   public:
@@ -210,6 +213,8 @@ enum db_index
     void insert_item_id(uint32_t id, uint32_t type, uint32_t _job, uint32_t tier);
     void insert_item_grade(uint32_t _grade, uint32_t _min, uint32_t _max); 
     void insert_grade_ratio(uint32_t _grade, uint32_t _ratio);
+    void insert_stage(uint64_t _stage_num);
+    void insert_stage_monster(uint64_t _stage_num, uint32_t _id, uint32_t _str, uint32_t _dex, uint32_t _int);
 
 
     void modify_job(uint32_t _job, uint32_t _min, uint32_t _max);
@@ -223,6 +228,8 @@ enum db_index
     void modify_item_id(uint32_t id, uint32_t type, uint32_t _job, uint32_t tier);
     void modify_item_grade(uint32_t _grade, uint32_t _min, uint32_t _max); 
     void modify_grade_ratio(uint32_t _grade, uint32_t _ratio);
+    void modify_stage_monster(uint64_t _stage_num, uint32_t _id, uint32_t _str, uint32_t _dex, uint32_t _int);    
+
 
     void erase_job(uint32_t _job);
     void erase_head(uint32_t _appear);
@@ -235,7 +242,8 @@ enum db_index
     void erase_item_id(uint32_t id);
     void erase_item_grade(uint32_t _grade);
     void erase_grade_ratio(uint32_t _grade);
-
+    void erase_stage(uint64_t _stage_num);
+    void erase_stage_monster(uint64_t _stage_num, uint32_t _id);
 #pragma endregion
 
     //------------------------------------------------------------------------//
@@ -762,6 +770,191 @@ void equip_hero(eosio::name _user, uint32_t _item_index);
 
 #pragma endregion
 
+
+
+
+
+    //------------------------------------------------------------------------//
+    //---------------------- -------battle_state_table-------------------------//
+    //------------------------------------------------------------------------//
+#pragma region battle state table
+
+enum battle_action_state
+{
+    wait = 0,
+    attack,
+    defense,
+    state_count,
+};
+
+enum battle_buff_state
+{
+    none = 0,
+    sleep,
+    poison,
+    strength_collect_wait,
+};
+
+enum active_skill_list
+{
+    none_active = 0,
+    double_attack, //더블 어택 - 15% 확률로 2번 공격한다.
+    all_attack,    //참격 - 적 앞라인 전체 적을 공격력의 35%로 공격한다.
+    heal,          //치유 - 대상 아군을 지능 수치의 100%만큼 치유한다.
+    no_think,      //무아지경 - 공격력의 50%로 랜덤한 적 4개체 타격 (같은 개체 타격 가능)
+    poison_arrow,  //독화살 - 적에게 공격력 40%의 데미지를 입히고, 상태이상 : 중독을 건다 (중독 : 4턴 동안 턴 마다 공격력의 30%의 데미지를 입힌다.)
+    active_skill_count,
+};
+
+enum passive_skill_list
+{
+    none_passive = 0,
+    iron_wall,      //철벽 - 방어율 10% 상승 (방어력 아님)
+    blood_attack,   //피의 일격 - 치명타 시 데미지 10%만큼 회복
+    deceiver,       //기만자 - HP 100%일 때 자신의 속도 10 증가
+    strength_flag,  //힘의 깃발 - 자신의 양 옆 캐릭터에게 공격력 15% 상승 버프를 부여
+    sniper,         //저격수 - 자신의 앞에 캐릭터가 존재할 경우 공격력 50% 증가
+    strength_collect,//힘모으기 - 방어시 다음 턴 공격력 25% 증가
+    passive_skill_count,
+};
+
+// 4 + 4 + 4 + 4 + 4 + 4 + 8 + sbattle_member_state(9) = 41
+// sbattle_member_state 당 9 총 5개의 버프창이 있으면 45 + 32 = 77
+private:
+    const uint32_t warrior_speed = 34;
+    const uint32_t wizard_speed = 29;
+    const uint32_t priest_speed = 32;
+    const uint32_t archer_speed = 42;
+    const uint32_t thief_speed = 50;
+    const uint32_t beginner_speed = 25;
+
+  private:
+    const uint32_t oper_hp = 240;
+    const uint32_t oper_attack = 20;
+    const uint32_t oper_defense = 50;
+    const uint32_t oper_critical = 10;
+    const uint32_t defense_constant = 200;
+
+    const uint32_t decimal = 100;
+    const uint32_t max_battle_member_count = 20;
+    const uint32_t max_party_count = 10;
+    
+  private:
+    std::vector<uint32_t> battle_location_list;
+  public:
+
+    struct battle_state
+    {
+        uint32_t index;
+        uint32_t now_hp;
+        uint32_t attack;
+        uint32_t defense;
+        uint32_t crit_per;
+        uint32_t crit_dmg;
+        uint32_t avoid;
+        uint32_t state;
+        uint32_t speed;
+    };
+
+    TABLE tbattlestate
+    {
+    eosio::name user;
+    uint32_t turn;
+    std::vector<battle_state> state_list;  
+
+    uint64_t primary_key() const { return user.value; }
+    };
+
+typedef eosio::multi_index<"tbattlestate"_n, tbattlestate> battle_state_list;
+#pragma endregion
+
+    
+    //------------------------------------------------------------------------//
+    //---------------------------battle_action_table--------------------------//
+    //------------------------------------------------------------------------//
+#pragma region battle action table
+struct battle_action
+{
+     uint32_t target_index;
+     uint32_t avoid;
+     uint32_t critical;
+     uint32_t damage;
+};
+struct battle_order_struct
+{
+    uint32_t speed;
+    uint32_t battle_loaction;
+    uint32_t second_speed;
+}
+
+struct battle_action_info
+{
+    uint32_t index;
+    uint32_t action_type;
+    std::vector<battle_action> battle_action_list;
+};
+    TABLE tbattleact
+    {
+    eosio::name user;
+    uint32_t turn;
+    std::vector<battle_action_info> battle_info_list;   
+    uint64_t primary_key() const { return user.value; }
+
+    };
+typedef eosio::multi_index<"tbattleact"_n, tbattleact> battle_infos;
+#pragma endregion
+
+enum db_battle_choice
+{
+    db_stage_num =1,
+    db_stage_monster,    
+};
+
+TABLE dbstage
+{
+    uint64_t stage_num;
+    std::vector<monster_info> enemy_list;
+    uint64_t primary_key()const { return stage_num; }
+   
+};
+typedef eosio::multi_index<"dbstage"_n, dbstage> stage_db;
+
+
+
+    //------------------------------------------------------------------------//
+    //---------------------------battle_reward_table--------------------------//
+    //------------------------------------------------------------------------//
+#pragma region battle action table
+    TABLE tclearreward
+    {
+        eosio::name user;
+        uint64_t reward_money;
+        std::vector<uint32_t> get_exp_list;
+        std::vector<servant_info> get_servant_list;
+        std::vector<monster_info> get_monster_list;
+        std::vector<item_info> get_item_list;
+        uint64_t primary_key() const { return user.value; }
+    };
+typedef eosio::multi_index<"tclearreward"_n, tclearreward> battle_reward_list;
+#pragma endregion
+    //------------------------------------------------------------------------//
+    //-------------------------------battle_function--------------------------//
+    //------------------------------------------------------------------------//
+#pragma region battle function 
+void set_stage_data();
+uint32_t get_attack(uint32_t _job, status_info _status);
+uint32_t get_speed(uint32_t _job);
+uint64_t get_damage(uint32_t _atk, uint32_t _dfs);
+uint32_t get_buff_turn(uint32_t _buff);
+
+void active_turn(eosio::name _user, uint8_t _hero_action, uint8_t _monster_action, uint8_t _hero_target, uint8_t _monster_target);
+void win_reward(eosio::name _user);
+void fail_reward(eosio::name _user);
+void init_abll_battle_data();
+void init_stage_data();
+ACTION startbattle(eosio::name _user, uint8_t _party_number, uint8_t _stage);
+
+#pragma endregion
 
 
 };
