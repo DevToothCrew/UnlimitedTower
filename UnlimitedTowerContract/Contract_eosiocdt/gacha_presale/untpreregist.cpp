@@ -1008,15 +1008,15 @@ ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
             });
 
             asset gacha_reward(0, symbol(symbol_code("UTG"), 4));
-            if (total_token_log_iter->total_token_amount < 300000000000) //1만eos 제한 300000000000
+            if (total_token_log_iter->total_token_amount <= 300000000000) //1만eos 제한 300000000000
             {
                 gacha_reward.amount = 30000000;
             }
-            else if (total_token_log_iter->total_token_amount < 900000000000) //3만eos 제한 900000000000
+            else if (total_token_log_iter->total_token_amount <= 900000000000) //3만eos 제한 900000000000
             {
                 gacha_reward.amount = 20000000;
             }
-            else if (total_token_log_iter->total_token_amount < 1500000000000) //6만eos 제한 1500000000000
+            else if (total_token_log_iter->total_token_amount <= 1500000000000) //6만eos 제한 1500000000000
             {
                 gacha_reward.amount = 10000000;
             }
