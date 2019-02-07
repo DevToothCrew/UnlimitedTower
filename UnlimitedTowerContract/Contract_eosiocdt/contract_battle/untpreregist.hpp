@@ -839,8 +839,6 @@ private:
     const uint32_t max_battle_member_count = 20;
     const uint32_t max_party_count = 10;
     
-  private:
-    std::vector<uint32_t> battle_location_list;
   public:
 
     struct battle_state
@@ -873,34 +871,35 @@ typedef eosio::multi_index<"tbattlestate"_n, tbattlestate> battle_state_list;
     //---------------------------battle_action_table--------------------------//
     //------------------------------------------------------------------------//
 #pragma region battle action table
-struct battle_action
-{
-     uint32_t target_index;
-     uint32_t avoid;
-     uint32_t critical;
-     uint32_t damage;
-};
+
 struct battle_order_struct
 {
     uint32_t speed;
-    uint32_t battle_loaction;
+    uint32_t battle_location;
     uint32_t second_speed;
-}
+};
+
+struct battle_action
+{
+     uint32_t target_index = 0;
+     uint32_t avoid = 0;
+     uint32_t critical = 0;
+     uint32_t damage = 0;
+};
 
 struct battle_action_info
 {
-    uint32_t index;
-    uint32_t action_type;
+    uint32_t index = 0;
+    uint32_t action_type = 0;
     std::vector<battle_action> battle_action_list;
 };
-    TABLE tbattleact
-    {
-    eosio::name user;
-    uint32_t turn;
-    std::vector<battle_action_info> battle_info_list;   
-    uint64_t primary_key() const { return user.value; }
 
-    };
+TABLE tbattleact
+{
+    eosio::name user;
+    std::vector<battle_action_info> battle_info_list;
+    uint64_t primary_key() const { return user.value; }
+};
 typedef eosio::multi_index<"tbattleact"_n, tbattleact> battle_infos;
 #pragma endregion
 
@@ -925,16 +924,16 @@ typedef eosio::multi_index<"dbstage"_n, dbstage> stage_db;
     //---------------------------battle_reward_table--------------------------//
     //------------------------------------------------------------------------//
 #pragma region battle action table
-    TABLE tclearreward
-    {
-        eosio::name user;
-        uint64_t reward_money;
-        std::vector<uint32_t> get_exp_list;
-        std::vector<servant_info> get_servant_list;
-        std::vector<monster_info> get_monster_list;
-        std::vector<item_info> get_item_list;
-        uint64_t primary_key() const { return user.value; }
-    };
+TABLE tclearreward
+{
+    eosio::name user;
+    uint64_t reward_money;
+    std::vector<uint32_t> get_exp_list;
+    std::vector<servant_info> get_servant_list;
+    std::vector<monster_info> get_monster_list;
+    std::vector<item_info> get_item_list;
+    uint64_t primary_key() const { return user.value; }
+};
 typedef eosio::multi_index<"tclearreward"_n, tclearreward> battle_reward_list;
 #pragma endregion
     //------------------------------------------------------------------------//
@@ -947,8 +946,10 @@ uint32_t get_speed(uint32_t _job);
 uint64_t get_damage(uint32_t _atk, uint32_t _dfs);
 uint32_t get_buff_turn(uint32_t _buff);
 
-bool compare(battle_order_struct a, battle_order_struct b);
-void active_turn(eosio::name _user, uint8_t _hero_action, uint8_t _monster_action, uint8_t _hero_target, uint8_t _monster_target);
+
+
+static bool sort_compare(battle_order_struct a, battle_order_struct b);
+ACTION activeturn(eosio::name _user, uint8_t _hero_action, uint8_t _monster_action, uint8_t _hero_target, uint8_t _monster_target);
 void win_reward(eosio::name _user);
 void fail_reward(eosio::name _user);
 void init_abll_battle_data();
