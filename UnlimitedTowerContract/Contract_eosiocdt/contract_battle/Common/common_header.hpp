@@ -17,7 +17,12 @@
 #define NOT_APPEAR              0
 #define EMPTY_PARTY             0
 #define DEFAULT_MIN_DB          1
-         
+#define MAX_PARTY_MEMBER        10
+#define HERO_LOCATION           0
+#define PAIR_SLOT               5
+
+#define MAX_SERVANT_SLOT        5
+#define MAX_MONSTER_SLOT        10         
 
 #define  MONSTER_ID_START       20000
 #define  ITEM_ID_START          30000

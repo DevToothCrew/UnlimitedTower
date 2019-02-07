@@ -730,29 +730,15 @@ typedef eosio::multi_index<"tparty"_n,tparty> user_partys;
     //------------------------------------------------------------------------//
 #pragma region party_system
     public:
-    const uint32_t max_servant_slot = 5;
-    const uint32_t hero_partner_slot = 5;
-    const uint32_t max_monster_slot = 10;
-    const uint32_t pair_slot = 5;
-    const uint32_t hero_party_location = 0;
-    const uint32_t empty_party_slot = 0;
-
-	void party_init(eosio::name _user);
-    void set_party(uint64_t _user, uint8_t _party_number, const std::vector<uint32_t> &_party_list);
+    ACTION setparty(eosio::name _user, uint32_t _party_number, const std::vector<uint32_t> &_party_list);
     void add_party_list(eosio::name _user);
 
 
-#pragma region reset
-
-    void reset_user_party_data(uint64_t _user);
-    void reset_all_user_party_data();
-    void delete_party_data(uint64_t _user);
-   
-#pragma endregion
-
 #pragma region party cheat
 
-    void set_automatic_party(uint64_t _user);
+    ACTION partycheat(eosio::name _user);
+    ACTION herocheat(eosio::name _user);
+    ACTION setdata();
      
 #pragma endregion
 
