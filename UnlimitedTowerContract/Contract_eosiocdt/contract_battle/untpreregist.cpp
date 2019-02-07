@@ -2280,6 +2280,7 @@ ACTION untpreregist::startbattle(eosio::name _user, uint8_t _party_number, uint8
         user_battle_table.emplace(owner, [&](auto &new_battle_set) {
             new_battle_set.user = _user;
             new_battle_set.turn = START_BATTLE;
+            new_battle_set.state_list.resize(20);
             //new_battle_set.preference = 0;
             //new_battle_set.reward_list.clear();
 
@@ -2353,6 +2354,7 @@ ACTION untpreregist::startbattle(eosio::name _user, uint8_t _party_number, uint8
         user_battle_table.modify(user_battle_iter, owner, [&](auto &new_battle_set) {
             new_battle_set.user = _user;
             new_battle_set.turn = START_BATTLE;
+            new_battle_set.state_list.resize(20);
 
             new_battle_set.state_list[0].now_hp = (user_auth_iter->hero.status.basic_str + user_auth_iter->hero.status.plus_str) * oper_hp;
             new_battle_set.state_list[0].defense = (user_auth_iter->hero.status.basic_dex + user_auth_iter->hero.status.plus_dex) * oper_defense;
