@@ -900,7 +900,7 @@ TABLE tbattleact
     std::vector<battle_action_info> battle_info_list;
     uint64_t primary_key() const { return user.value; }
 };
-typedef eosio::multi_index<"tbattleact"_n, tbattleact> battle_infos;
+typedef eosio::multi_index<"tbattleact"_n, tbattleact> battle_actions;
 #pragma endregion
 
 enum db_battle_choice
@@ -948,14 +948,16 @@ uint32_t get_buff_turn(uint32_t _buff);
 
 
 
-static bool sort_compare(battle_order_struct a, battle_order_struct b);
-ACTION activeturn(eosio::name _user, uint8_t _hero_action, uint8_t _monster_action, uint8_t _hero_target, uint8_t _monster_target);
+static bool sort_compare(const battle_order_struct &a,const battle_order_struct &b);
+ACTION activeturn(eosio::name _user, uint32_t _hero_action, uint32_t _monster_action, uint32_t _hero_target, uint32_t _monster_target, uint64_t _seed);
 void win_reward(eosio::name _user);
 void fail_reward(eosio::name _user);
 void init_abll_battle_data();
 void init_stage_data();
-ACTION startbattle(eosio::name _user, uint8_t _party_number, uint8_t _stage);
+ACTION startbattle(eosio::name _user, uint32_t _party_number, uint32_t _stage);
 
+//테스트용 함수
+ACTION deletebattle(eosio::name _user);
 #pragma endregion
 
 
