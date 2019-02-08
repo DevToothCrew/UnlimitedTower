@@ -70,6 +70,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224108420524749080}
+  - component: {fileID: 114833385077727104}
   m_Layer: 5
   m_Name: Floor Button Panel
   m_TagString: Untagged
@@ -286,6 +287,20 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 13f
+--- !u!114 &114833385077727104
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1713539667521280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a071e67b6bb939f448b87801342cd3b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiFloor: {fileID: 114810589678514790}
+  uiUserId: {fileID: 114568186760110702}
+  uiScore: {fileID: 114977333042569810}
 --- !u!114 &114977333042569810
 MonoBehaviour:
   m_ObjectHideFlags: 1
