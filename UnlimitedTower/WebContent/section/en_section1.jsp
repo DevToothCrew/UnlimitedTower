@@ -15,7 +15,8 @@
 			<div class="sec1-r">
 				<div class="sec1-r-cont">
 					<h1>The New Blockchain Dapp</h1>
-					<p>The Next Generation On-Chain SRPG Dapp<br>Upgrade Your Party and Compete at the Unlimited Tower</p>
+					<p>The Next Generation On-Chain SRPG Dapp</p>
+					<p>Upgrade Your Party and Compete at the Unlimited Tower</p>
 					<div class="sec1-btn">
 						<span><a href="javascript:goMenu('2')">Watch Video</a></span>
 						<span><a href="javascript:goMenu('4')">Play Gacha</a></span>

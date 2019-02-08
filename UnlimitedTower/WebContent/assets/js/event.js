@@ -5,6 +5,21 @@ function goMenu(seq){
 	$('html, body').animate({scrollTop : offset.top}, 400); 
 }
   
+$(".icon-wrap").click(function(){
+	$(".icon").toggleClass("animation");
+	$(".header-r").toggleClass("open");
+});
+
+$(".section").click(function(){;
+	$(".icon").removeClass("animation");
+	$(".header-r").removeClass("open");
+});
+
+$(".cate ul li").click(function(){;
+	$(".icon").removeClass("animation");
+	$(".header-r").removeClass("open");
+});
+  
 //slide animation
 function goCountry(){
     $(".lan-cate").slideToggle();
@@ -207,61 +222,9 @@ $(".section1").ready(function(){
     loop();
 });
 function loop(){
-    $(".tower1").animate({ top: "-1120%" },2000)
-                .delay(3000).animate({ top: "-1100%" },2000)
-                .delay(3000).animate({ top: "-1080%" },2000)
-                .delay(3000).animate({ top: "-1060%" },2000)
-                .delay(3000).animate({ top: "-1040%" },2000)
-                .delay(3000).animate({ top: "-1020%" },2000)
-                .delay(3000).animate({ top: "-1000%" },2000)
-                .delay(3000).animate({ top: "-980%" },2000)
-                .delay(3000).animate({ top: "-960%" },2000)
-                .delay(3000).animate({ top: "-940%" },2000)
-                .delay(3000).animate({ top: "-920%" },2000)
-                .delay(3000).animate({ top: "-900%" },2000)
-                .delay(3000).animate({ top: "-880%" },2000)
-                .delay(3000).animate({ top: "-860%" },2000)
-                .delay(3000).animate({ top: "-840%" },2000)           
-                .delay(3000).animate({ top: "-820%" },2000)
-                .delay(3000).animate({ top: "-800%" },2000)
-                .delay(3000).animate({ top: "-780%" },2000)
-                .delay(3000).animate({ top: "-760%" },2000)
-                .delay(3000).animate({ top: "-740%" },2000)
-                .delay(3000).animate({ top: "-720%" },2000)
-                .delay(3000).animate({ top: "-700%" },2000)
-                .delay(3000).animate({ top: "-680%" },2000)
-                .delay(3000).animate({ top: "-660%" },2000)
-                .delay(3000).animate({ top: "-640%" },2000)
-                .delay(3000).animate({ top: "-620%" },2000)
-                .delay(3000).animate({ top: "-600%" },2000)
-                .delay(3000).animate({ top: "-580%" },2000)               
-    $(".tower1").delay(3000).animate({ top: "-560%" },2000)
-                .delay(3000).animate({ top: "-540%" },2000)
-                .delay(3000).animate({ top: "-520%" },2000)
-                .delay(3000).animate({ top: "-500%" },2000)
-                .delay(3000).animate({ top: "-480%" },2000)
-                .delay(3000).animate({ top: "-460%" },2000)
-                .delay(3000).animate({ top: "-440%" },2000)
-                .delay(3000).animate({ top: "-420%" },2000)
-                .delay(3000).animate({ top: "-400%" },2000)
-                .delay(3000).animate({ top: "-380%" },2000)
-                .delay(3000).animate({ top: "-360%" },2000)
-                .delay(3000).animate({ top: "-340%" },2000)
-                .delay(3000).animate({ top: "-320%" },2000)
-                .delay(3000).animate({ top: "-300%" },2000)
-                .delay(3000).animate({ top: "-280%" },2000)
-                .delay(3000).animate({ top: "-260%" },2000)
-                .delay(3000).animate({ top: "-240%" },2000)
-                .delay(3000).animate({ top: "-220%" },2000)
-                .delay(3000).animate({ top: "-200%" },2000)
-                .delay(3000).animate({ top: "-180%" },2000)
-                .delay(3000).animate({ top: "-160%" },2000)
-                .delay(3000).animate({ top: "-140%" },2000)
-                .delay(3000).animate({ top: "-120%" },2000,loop)
+    $(".tower1").delay(3000).animate({ top : "+=20%"},2000,loop)
+
 }
-
-
-
 $('.slide-wrap').slick({
     dots: true,
     slidesToShow: 5,

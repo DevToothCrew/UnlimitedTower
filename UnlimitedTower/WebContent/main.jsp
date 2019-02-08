@@ -15,7 +15,7 @@ if(country != null){}else{country = "en";}
 <% if(country.equals("ch")){ %>	
 	<link rel="stylesheet"  href="assets/css/ch_style.css?ver=1">
 <% }else{ %>
-	<link rel="stylesheet"  href="assets/css/style.css?ver=5">
+	<link rel="stylesheet"  href="assets/css/style.css?ver=7">
 <% } %>
 	<link rel="stylesheet"  href="assets/slick/slick.css"/>
  	<link rel="stylesheet"  href="assets/slick/slick-theme.css"/>

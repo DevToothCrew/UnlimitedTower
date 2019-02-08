@@ -7,10 +7,10 @@
 			<div class="logo">
 				<a href="javascript:goMenu('1')"><img src="assets/img/hlogo.png" alt=""></a>
 			</div>
-			<div class="header-r">
 			<div class="icon-wrap"">
 				<div class="icon"></div>
 			</div>
+			<div class="header-r">			
 			<div class="cate">
 				<ul>
 					<li><a href="javascript:goMenu('2')" >Video</a></li>
