@@ -11,7 +11,7 @@ function addJavascript(jsname) {
 	th.appendChild(s);
 }
 
-addJavascript('assets/js/conversion.js?ver=7');
+addJavascript('assets/js/conversion.js?ver=8');
 //addJavascript('assets/slick/slick.min.js');
 
 function scatter_login(){	
@@ -407,6 +407,11 @@ function gacha(){
 		    		console.log('gacha:'+data.num+':'+data.seed);
 		    		eos.transfer(account.name, 'untowermain1', '1.0000 EOS', 'gacha:'+data.num+':'+data.seed, transactionOptions).then(trx => {
 					console.log(`Transaction ID: ${trx.transaction_id}`);
+					
+					$(".section4").css({"display" :"none"});			    		
+		    		$(".section4-1").css({"height" :"1084px","opacity" :"1"});	                    
+                    $(".section4-3").css({"display" :"block"});
+                    
 				}).catch(error => {
 					var er = JSON.parse(error);
 					console.log(er.error.details[0].message);
@@ -539,12 +544,9 @@ function gacha(){
 
 			    			$(".card-rota").append(html);
 			    			//$('.slide-wrap').slick('slickAdd',html2);
-			    		}
+			    		}	    		
 			    		
-			    		$(".section4").css({"display" :"none"});			    		
-			    		$(".section4-1").css({"height" :"1084px","opacity" :"1"});	                    
-	                    $(".section4-3").css({"display" :"block"});
-	                    $(".sec4-1").addClass("show4-1");
+			    		$(".sec4-1").addClass("show4-1");
 			    	}else{
 			    		console.log('gacha 거부!');
 			    		//$(".sec4-btn1").css({"display":"block"}); //Play Gacha

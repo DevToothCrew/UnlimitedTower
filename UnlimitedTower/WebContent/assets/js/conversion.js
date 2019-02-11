@@ -2,9 +2,9 @@ function cnvs_name(id){
 	var name = "";
 	
 	/* servant */
-	if(id > '10000' && id < '10037'){ name = "warrior";}
-	if(id > '10036' && id < '10073'){ name = "thief";}
-	if(id > '10072' && id < '10109'){ name = "cleric";}
+	if(id > '10000' && id < '10037'){ name = "Warrior";}
+	if(id > '10036' && id < '10073'){ name = "Thief";}
+	if(id > '10072' && id < '10109'){ name = "Cleric";}
 	
 	/* monster */
 	if(id == '20001'){name = "Panda";}
@@ -45,7 +45,7 @@ function cnvs_name(id){
 	if(id == '20036'){name = "Tow";}
 	if(id == '20037'){name = "Tarok";}
 	if(id == '20038'){name = "G'rul";}
-	if(id == '20039'){name = "Shuturul";}
+	if(id == '20039'){name = "Shu-turul";}
 	if(id == '20040'){name = "Bobon";}
 	if(id == '20041'){name = "Gund";}
 	if(id == '20042'){name = "Croll";}
@@ -65,36 +65,32 @@ function cnvs_name(id){
     if(id == '30004'){name = "Novice Heavy Armor";}
     if(id == '30005'){name = "Novice Light Armor";}
     if(id == '30006'){name = "Novice Necklace";}
-    if(id == '30007'){name = "Novice Ring";}
-    if(id == '30008'){name = "Novice Robe";}
-    if(id == '30009'){name = "Novice Sword";}
-    if(id == '30010'){name = "Blunt of Forest";}
-    if(id == '30011'){name = "Dagger of Forest";}
-    if(id == '30012'){name = "Earing of Forest";}
-    if(id == '30013'){name = "Heavy Armor of Forest";}
-    if(id == '30014'){name = "Light Armor of Forest";}
-    if(id == '30015'){name = "Necklace of Forest";}
-    if(id == '30016'){name = "Ring of Forest";}
-    if(id == '30017'){name = "Robe of Forest";}
-    if(id == '30018'){name = "Sword of Forest";}
-    if(id == '30019'){name = "Forsaken Blunt";}
-    if(id == '30020'){name = "Forsaken Dagger";}
-    if(id == '30021'){name = "Forsaken Earing";}
-    if(id == '30022'){name = "Forsaken Heavy Armor";}
-    if(id == '30023'){name = "Forsaken Light Armor";}
-    if(id == '30024'){name = "Forsaken Necklace";}
-    if(id == '30025'){name = "Forsaken Ring";}
-    if(id == '30026'){name = "Forsaken Robe";}
-    if(id == '30027'){name = "Forsaken Sword";}
-    if(id == '30028'){name = "Royal Blunt";}
-    if(id == '30029'){name = "Royal Dagger";}
-    if(id == '30030'){name = "Royal Earing";}
-    if(id == '30031'){name = "Royal Heavy Armor";}
-    if(id == '30032'){name = "Royal Light Armor";}
-    if(id == '30033'){name = "Royal Necklace";}
-    if(id == '30034'){name = "Royal Ring";}
-    if(id == '30035'){name = "Royal Robe";}
-    if(id == '30036'){name = "Royal Sword";}
+    if(id == '30007'){name = "Novice Ring";}    
+    if(id == '30008'){name = "Novice Sword";}
+    if(id == '30009'){name = "Blunt of Forest";}
+    if(id == '30010'){name = "Dagger of Forest";}
+    if(id == '30011'){name = "Earing of Forest";}
+    if(id == '30012'){name = "Heavy Armor of Forest";}
+    if(id == '30013'){name = "Light Armor of Forest";}
+    if(id == '30014'){name = "Necklace of Forest";}
+    if(id == '30015'){name = "Ring of Forest";}    
+    if(id == '30016'){name = "Sword of Forest";}
+    if(id == '30017'){name = "Forsaken Blunt";}
+    if(id == '30018'){name = "Forsaken Dagger";}
+    if(id == '30019'){name = "Forsaken Earing";}
+    if(id == '30020'){name = "Forsaken Heavy Armor";}
+    if(id == '30021'){name = "Forsaken Light Armor";}
+    if(id == '30022'){name = "Forsaken Necklace";}
+    if(id == '30023'){name = "Forsaken Ring";}    
+    if(id == '30024'){name = "Forsaken Sword";}
+    if(id == '30025'){name = "Royal Blunt";}
+    if(id == '30026'){name = "Royal Dagger";}
+    if(id == '30027'){name = "Royal Earing";}
+    if(id == '30028'){name = "Royal Heavy Armor";}
+    if(id == '30029'){name = "Royal Light Armor";}
+    if(id == '30030'){name = "Royal Necklace";}
+    if(id == '30031'){name = "Royal Ring";}    
+    if(id == '30032'){name = "Royal Sword";}
     
     return name;
 }
@@ -103,11 +99,11 @@ function cnvs_grade(grade){
 	var grade_name = "";
 	
 	/* grade */
-	if(grade == '1'){grade_name = "Legendary";}
-	if(grade == '2'){grade_name = "Unique";}
-	if(grade == '3'){grade_name = "Rare";}
-	if(grade == '4'){grade_name = "Uncommon";}
-	if(grade == '5'){grade_name = "Common";}
+	if(grade == '1'){grade_name = "Legendary.png";}
+	if(grade == '2'){grade_name = "Unique.png";}
+	if(grade == '3'){grade_name = "Rare.png";}
+	if(grade == '4'){grade_name = "Uncommon.png";}
+	if(grade == '5'){grade_name = "Common.png";}
 
 	return grade_name;
 }
@@ -172,7 +168,7 @@ function cnvs_img(id){
 	if(id == '20023'){img_name = "Mst_Egg_2.png";}
 	if(id == '20024'){img_name = "Mst_Egg_3.png";}
 	if(id == '20025'){img_name = "Mst_Fairy_Fire.png";}
-	if(id == '20026'){img_name = "Mst_Fairy_Leef.png";}
+	if(id == '20026'){img_name = "Mst_Fairy_Leaf.png";}
 	if(id == '20027'){img_name = "Mst_Fairy_Water.png";}
 	if(id == '20028'){img_name = "Mst_Gangsi.png";}
 	if(id == '20029'){img_name = "Mst_Golem_Moss.png";}
@@ -205,36 +201,32 @@ function cnvs_img(id){
 	if(id == '30004'){img_name = "tier1_HeavyA.png";}
 	if(id == '30005'){img_name = "tier1_LightA.png";}
 	if(id == '30006'){img_name = "tier1_necklace.png";}
-	if(id == '30007'){img_name = "tier1_ring.png";}
-	if(id == '30008'){img_name = "tier1_robe.png";}
-	if(id == '30009'){img_name = "tier1_sword.png";}
-	if(id == '30010'){img_name = "tier2_blunt.png";}
-	if(id == '30011'){img_name = "tier2_dagger.png";}
-	if(id == '30012'){img_name = "tier2_earing.png";}
-	if(id == '30013'){img_name = "tier2_HeavyA.png";}
-	if(id == '30014'){img_name = "tier2_LightA.png";}
-	if(id == '30015'){img_name = "tier2_necklace.png";}
-	if(id == '30016'){img_name = "tier2_ring.png";}
-	if(id == '30017'){img_name = "tier2_robe.png";}
-	if(id == '30018'){img_name = "tier2_sword.png";}
-	if(id == '30019'){img_name = "tier3_blunt.png";}
-	if(id == '30020'){img_name = "tier3_dagger.png";}
-	if(id == '30021'){img_name = "tier3_earing.png";}
-	if(id == '30022'){img_name = "tier3_HeavyA.png";}
-	if(id == '30023'){img_name = "tier3_LightA.png";}
-	if(id == '30024'){img_name = "tier3_necklace.png";}
-	if(id == '30025'){img_name = "tier3_ring.png";}
-	if(id == '30026'){img_name = "tier3_robe.png";}
-	if(id == '30027'){img_name = "tier3_sword.png";}
-	if(id == '30028'){img_name = "tier4_blunt.png";}
-	if(id == '30029'){img_name = "tier4_dagger.png";}
-	if(id == '30030'){img_name = "tier4_earing.png";}
-	if(id == '30031'){img_name = "tier4_HeavyA.png";}
-	if(id == '30032'){img_name = "tier4_LightA.png";}
-	if(id == '30033'){img_name = "tier4_necklace.png";}
-	if(id == '30034'){img_name = "tier4_ring.png";}
-	if(id == '30035'){img_name = "tier4_robe.png";}
-	if(id == '30036'){img_name = "tier4_sword.png";}
+	if(id == '30007'){img_name = "tier1_ring.png";}	
+	if(id == '30008'){img_name = "tier1_sword.png";}
+	if(id == '30009'){img_name = "tier2_blunt.png";}
+	if(id == '30010'){img_name = "tier2_dagger.png";}
+	if(id == '30011'){img_name = "tier2_earing.png";}
+	if(id == '30012'){img_name = "tier2_HeavyA.png";}
+	if(id == '30013'){img_name = "tier2_LightA.png";}
+	if(id == '30014'){img_name = "tier2_necklace.png";}
+	if(id == '30015'){img_name = "tier2_ring.png";}	
+	if(id == '30016'){img_name = "tier2_sword.png";}
+	if(id == '30017'){img_name = "tier3_blunt.png";}
+	if(id == '30018'){img_name = "tier3_dagger.png";}
+	if(id == '30019'){img_name = "tier3_earing.png";}
+	if(id == '30020'){img_name = "tier3_HeavyA.png";}
+	if(id == '30021'){img_name = "tier3_LightA.png";}
+	if(id == '30022'){img_name = "tier3_necklace.png";}
+	if(id == '30023'){img_name = "tier3_ring.png";}	
+	if(id == '30024'){img_name = "tier3_sword.png";}
+	if(id == '30025'){img_name = "tier4_blunt.png";}
+	if(id == '30026'){img_name = "tier4_dagger.png";}
+	if(id == '30027'){img_name = "tier4_earing.png";}
+	if(id == '30028'){img_name = "tier4_HeavyA.png";}
+	if(id == '30029'){img_name = "tier4_LightA.png";}
+	if(id == '30030'){img_name = "tier4_necklace.png";}
+	if(id == '30031'){img_name = "tier4_ring.png";}	
+	if(id == '30032'){img_name = "tier4_sword.png";}
 	
 	return img_name;
 }
@@ -266,9 +258,11 @@ function cnvs_tier(tier){
 function cnvs_type(type){	
 	var img_name = "";
 	
-	if(type == '1'){img_name = "icon_item_type_weapon.png";}
-	if(type == '2'){img_name = "icon_item_type_armor.png";}
-	if(type == '3'){img_name = "icon_item_type_ac.png";}
+	if(type == '1'){img_name = "icon_stat_atk.png";}
+	if(type == '2'){img_name = "icon_stat_def.png";}
+	if(type == '3'){img_name = "icon_stat_str.png";}
+	if(type == '4'){img_name = "icon_stat_dex.png";}
+	if(type == '5'){img_name = "icon_stat_int.png";}
 	
 	return img_name;
 }
