@@ -840,7 +840,6 @@ private:
     const uint32_t max_party_count = 10;
     
   public:
-
     struct battle_state
     {
         uint32_t index;
@@ -856,14 +855,15 @@ private:
 
     TABLE tbattlestate
     {
-    eosio::name user;
-    uint32_t turn;
-    std::vector<battle_state> state_list;  
+        eosio::name user;
+        uint32_t turn;
+        uint32_t party_number;
+        std::vector<battle_state> state_list;
 
-    uint64_t primary_key() const { return user.value; }
+        uint64_t primary_key() const { return user.value; }
     };
 
-typedef eosio::multi_index<"tbattlestate"_n, tbattlestate> battle_state_list;
+    typedef eosio::multi_index<"tbattlestate"_n, tbattlestate> battle_state_list;
 #pragma endregion
 
     
@@ -940,21 +940,24 @@ typedef eosio::multi_index<"tclearreward"_n, tclearreward> battle_reward_list;
     //-------------------------------battle_function--------------------------//
     //------------------------------------------------------------------------//
 #pragma region battle function 
-void set_stage_data();
+
 uint32_t get_attack(uint32_t _job, status_info _status);
 uint32_t get_speed(uint32_t _job);
 uint64_t get_damage(uint32_t _atk, uint32_t _dfs);
 uint32_t get_buff_turn(uint32_t _buff);
 
+ACTION startbattle(eosio::name _user, uint32_t _party_number, uint32_t _stage);
 
+int get_random_target(const std::vector<battle_state> &_state_list, uint64_t _seed, uint32_t _max, uint32_t _min);
 
 static bool sort_compare(const battle_order_struct &a,const battle_order_struct &b);
 ACTION activeturn(eosio::name _user, uint32_t _hero_action, uint32_t _monster_action, uint32_t _hero_target, uint32_t _monster_target, uint64_t _seed);
 void win_reward(eosio::name _user);
 void fail_reward(eosio::name _user);
-void init_abll_battle_data();
-void init_stage_data();
-ACTION startbattle(eosio::name _user, uint32_t _party_number, uint32_t _stage);
+
+
+ACTION exitbattle(eosio::name _user);
+ACTION getreward(eosio::name _user);
 
 //테스트용 함수
 ACTION deletebattle(eosio::name _user);
