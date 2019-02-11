@@ -184,6 +184,9 @@ public class Cheat : MonoSingleton<Cheat>
     {
         UserLoginData userLoginData = new UserLoginData();
 
+        userLoginData.gameMoney.balance.symbol_name = "UTG";
+        userLoginData.gameMoney.balance.amount = 10000000;
+
         userLoginData.userinfo.user = user;
         userLoginData.userinfo.state = 2;
         userLoginData.userinfo.hero = GetRandomServant(GetRandomServantJob());
@@ -333,7 +336,24 @@ public class Cheat : MonoSingleton<Cheat>
     }
     public string TestGetPartyData(int index, int state)
     {
-        return null;
+        partyData partydata = new partyData();
+        partydata.index = index;
+        partydata.state = 0;
+
+        for (int forma_index = 0; forma_index < DEFINE.PARTY_MAX_NUM; forma_index++)
+        {
+            // 메인히어로는 모든 2번자리에 배치되어 있음.
+            if (forma_index == 2)
+            {
+                partydata.party.Add(0);
+            }
+            else
+            {
+                partydata.party.Add(0);
+            }
+        }
+
+        return JsonMapper.ToJson(partydata);
     }   
 
     public string GetBattleActionData(int heroTarget, int heroAction, int monsterTarget, int monsterAction)
