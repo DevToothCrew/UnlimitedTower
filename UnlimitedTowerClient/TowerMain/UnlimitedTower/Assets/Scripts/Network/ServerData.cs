@@ -49,8 +49,9 @@ public class servantInfo
 public class monsterInfo
 {
     public int state;
-    public int type;    
-    public int look;
+    public int type;
+    //public int look;
+    public int id;
     public int exp;
     public int grade;
     public int upgrade;
