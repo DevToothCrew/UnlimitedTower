@@ -8,7 +8,7 @@
 			<div class="sec7">
 				<h2>Partners</h2>
 				<div class="partner-wrap">
-					<img src="m_assets/img/partner1.png" alt="">
+					<img src="assets/img/partner1.png" alt="">
 				</div>
 			</div>
 		</div>

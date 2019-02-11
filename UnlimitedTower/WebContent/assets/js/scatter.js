@@ -12,6 +12,7 @@ function addJavascript(jsname) {
 }
 
 addJavascript('assets/js/conversion.js?ver=7');
+//addJavascript('assets/slick/slick.min.js');
 
 function scatter_login(){	
 	//$(".cbtn").css({"display" :"none"});
@@ -98,25 +99,7 @@ function scatter_login(){
 		    		$(".sec4-btn").css({"display":"none"});   //Register first
 		    		
 		    		$(".section4-3").css({"display" :"block"})
-		    		
-		    		if(data.item_list.length > 0){
-			    		console.log('itemOK');
-			    		for(var i = 0;data.item_list.length > i;i++){
-			    			var html = "";
 
-			    			html = "<div class='slick slick-slide'>";
-							html = html + "<img class='scard-bg legendary' src='assets/img/"+cnvs_cd(data.item_list[i].grade)+"' alt=''>";
-							html = html + "<img class='stier' src='assets/img/icon/tier/"+cnvs_tier(data.item_list[i].tier)+"' alt=''>";
-							html = html + "<h2>"+cnvs_name(data.item_list[i].id)+"</h2>";
-							html = html + "<img class='smonster' src='assets/img/characters/item/"+cnvs_img(data.item_list[i].id)+"' alt=''>";
-							html = html + "<div class='ability'>";							
-							html = html + "<div class='sabil'><img src='assets/img/"+cnvs_type(data.item_list[i].type)+"' alt=''><p>"+cnvs_rank(data.item_list[i].main_status)+"</p></div>";
-							html = html + "</div>";
-							html = html + "</div>";
-							
-							$('.slide-wrap').slick('slickAdd',html)
-			    		}
-			    	}
 			    	if(data.monster_list.length > 0){
 			    		for(var i = 0;data.monster_list.length > i;i++){
 			    			var html = "";
@@ -132,7 +115,7 @@ function scatter_login(){
 			    			html = html + "</div>";
 			    			html = html + "</div>";
 
-							$('.slide-wrap').slick('slickAdd',html)
+							$('.slide-wrap').slick('slickAdd',html);
 			    			
 			    		}
 			    		console.log('monsterOK');
@@ -152,10 +135,28 @@ function scatter_login(){
 			    			html = html + "</div>";
 			    			html = html + "</div>";
 			    			
-			    			$('.slide-wrap').slick('slickAdd',html)
+			    			$('.slide-wrap').slick('slickAdd',html);
 
 			    		}
 			    		console.log('servantOK');
+			    	}		    		
+		    		if(data.item_list.length > 0){
+			    		console.log('itemOK');
+			    		for(var i = 0;data.item_list.length > i;i++){
+			    			var html = "";
+
+			    			html = "<div class='slick slick-slide'>";
+							html = html + "<img class='scard-bg legendary' src='assets/img/"+cnvs_cd(data.item_list[i].grade)+"' alt=''>";
+							html = html + "<img class='stier' src='assets/img/icon/tier/"+cnvs_tier(data.item_list[i].tier)+"' alt=''>";
+							html = html + "<h2>"+cnvs_name(data.item_list[i].id)+"</h2>";
+							html = html + "<img class='smonster' src='assets/img/characters/item/"+cnvs_img(data.item_list[i].id)+"' alt=''>";
+							html = html + "<div class='ability'>";							
+							html = html + "<div class='sabil'><img src='assets/img/"+cnvs_type(data.item_list[i].type)+"' alt=''><p>"+cnvs_rank(data.item_list[i].main_status)+"</p></div>";
+							html = html + "</div>";
+							html = html + "</div>";
+							
+							$('.slide-wrap').slick('slickAdd',html);
+			    		}
 			    	}
 		    	}
 		    });
@@ -287,7 +288,7 @@ function register(){
 			    			html = html + "</div>";
 			    			html = html + "</div>";
 
-							$('.slide-wrap').slick('slickAdd',html)
+							$('.slide-wrap').slick('slickAdd',html);
 			    			
 			    		}
 			    		console.log('monsterOK');
@@ -307,7 +308,7 @@ function register(){
 			    			html = html + "</div>";
 			    			html = html + "</div>";
 			    			
-			    			$('.slide-wrap').slick('slickAdd',html)
+			    			$('.slide-wrap').slick('slickAdd',html);
 
 			    		}
 			    		if(data.item_list.length > 0){
@@ -325,7 +326,7 @@ function register(){
 								html = html + "</div>";
 								html = html + "</div>";
 								
-								$('.slide-wrap').slick('slickAdd',html)
+								$('.slide-wrap').slick('slickAdd',html);
 				    		}
 				    	}
 			    		console.log('servantOK');

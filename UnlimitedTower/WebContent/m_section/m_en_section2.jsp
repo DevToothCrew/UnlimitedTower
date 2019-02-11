@@ -7,7 +7,7 @@
 		<div class="container">
 			<div class="sec2">
 				<h1>Watch Video</h1>
-				<p>Become the Final Hero at the Unlimited Tower</p>
+				<p>Become the Final Hero<br>at the Unlimited Tower</p>
 				<div class="video">                     
 					<iframe  src="https://www.youtube.com/embed/YFHD_F_DkIs" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 				</div>

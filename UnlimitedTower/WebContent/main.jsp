@@ -82,7 +82,7 @@ if(country != null){}else{country = "en";}
 <script src="assets/js/jquery-1.12.4.js"></script>
 <script src="assets/js/jquery-ui-1.12.1.min.js"></script>
 <script src="assets/slick/slick.min.js"></script>
-<script src="assets/js/event.js?ver=5"></script>
-<script src="assets/js/scatter.js?ver=33"></script>
+<script src="assets/js/event.js?ver=6"></script>
+<script src="assets/js/scatter.js?ver=35"></script>
 <script src="assets/js/html5shiv.js"></script>
 </html>

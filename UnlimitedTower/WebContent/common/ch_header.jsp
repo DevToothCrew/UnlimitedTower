@@ -18,15 +18,14 @@
 					<li><a href="javascript:goMenu('4')" class="cate-2">召喚</a></li>
 					<li><a href="javascript:goMenu('5')" class="cate-3">游戏规则 </a></li>
 					<li><a href="javascript:goMenu('6')" class="cate-3">路线图 </a></li>
-					<li><a href="javascript:goMenu('7')" class="cate-3">伙伴 </a></li>
-					<li><a href="javascript:goMenu('8')" class="cate-3">联络</a></li>
+					<li><a href="javascript:goMenu('7')" class="cate-3">联络</a></li>
 				</ul>
 			</div>
 			<div class="language">
             <%if(country.equals("en")){ %>
                 <div class="En"><a href="javascript:goCountry();"><img src="assets/img/En.png" alt=""><span>En</span></a></div>
             <%}else if(country.equals("ko")){ %>
-                <div class="ko"><a href="javascript:goCountry();"><img src="assets/img/Ko.png" alt=""><span>한국어</span></a></div>
+                <div class="ko"><a href="javascript:goCountry();"><img src="assets/img/Ko.png" alt=""><span>한</span></a></div>
         	<%}else if(country.equals("ch")){ %>
                 <div class="ch"><a href="javascript:goCountry();"><img src="assets/img/china.png" alt=""><span>中文</span></a></div>
             <%} %>

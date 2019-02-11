@@ -18,8 +18,7 @@
 					<li><a href="javascript:goMenu('4')" class="cate-2">Gacha</a></li>
 					<li><a href="javascript:goMenu('5')" class="cate-3">How to Play</a></li>
 					<li><a href="javascript:goMenu('6')" class="cate-3">Roadmap</a></li>
-					<li><a href="javascript:goMenu('7')" class="cate-4">Partner</a></li>
-					<li><a href="javascript:goMenu('8')" class="cate-3">Contact</a></li>
+					<li><a href="javascript:goMenu('7')" class="cate-3">Contact</a></li>
 				</ul>
 			</div>
 			<div class="language">

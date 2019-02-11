@@ -65,12 +65,12 @@ $(function() {
     });  
 });
 $(function () {
-    $('.sec1-sns li:eq(0) a img').mousedown(function () {
-        $('.f-sns li:eq(0) a img').attr('src', 'assets/img/twitter-p.png');
-    });
-    $('.sec1-sns li:eq(0) a img').mouseup(function () {
-        $('.f-sns li:eq(0) a img').attr('src', 'assets/img/twitter.png');
-    });
+	$('.sec1-sns li:eq(0) a img').mousedown(function () {
+	       $('sec1-sns li:eq(0) a img').attr('src', 'assets/img/twitter-p.png');
+	   });
+	   $('.sec1-sns li:eq(0) a img').mouseup(function () {
+	       $('.sec1-sns li:eq(0) a img').attr('src', 'assets/img/twitter.png');
+	   });
     //eq : 0과 같다면 (index번호) img의 src 속성값을 2.jpg로 바꿔라
     $('.sec1-sns li:eq(1) a img').mousedown(function () {
         $('.sec1-sns li:eq(1) a img').attr('src', 'assets/img/tele(en)-p.png');
@@ -88,7 +88,7 @@ $(function () {
         $('.sec1-sns li:eq(3) a img').attr('src', 'assets/img/kakao-p.png');
     });
     $('.sec1-sns li:eq(3) a img').mouseup(function () {
-        $('.sec1-sns li:eq(3) a img').attr('src', 'assets/img/kakao-png');
+        $('.sec1-sns li:eq(3) a img').attr('src', 'assets/img/kakao.png');
     });
     $('.sec1-sns li:eq(4) a img').mousedown(function () {
         $('.sec1-sns li:eq(4) a img').attr('src', 'assets/img/md-p.png');

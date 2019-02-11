@@ -23,7 +23,6 @@ $(".cate ul li").click(function(){;
 //slide animation
 function goCountry(){
     $(".lan-cate").slideToggle();
-    $(".login").toggleClass("margin");
 }
 $(".section").click(function(){;
     $(".lan-cate").slideUp();
@@ -88,7 +87,7 @@ $(function () {
         $('.sec1-sns li:eq(3) a img').attr('src', 'assets/img/kakao-p.png');
     });
     $('.sec1-sns li:eq(3) a img').mouseup(function () {
-        $('.sec1-sns li:eq(3) a img').attr('src', 'assets/img/kakao-png');
+        $('.sec1-sns li:eq(3) a img').attr('src', 'assets/img/kakao.png');
     });
     $('.sec1-sns li:eq(4) a img').mousedown(function () {
         $('.sec1-sns li:eq(4) a img').attr('src', 'assets/img/md-p.png');
@@ -109,8 +108,6 @@ $(function () {
         $('.sec1-sns li:eq(6) a img').attr('src', 'assets/img/yt.png');
     });
 });
-
-
 $(function() { 
     $(".f-sns li a img").hover(function(){ 
         $(this).attr("src", $(this).attr("src").replace(".png", "-h.png")); 
@@ -208,9 +205,6 @@ $(window).scroll(function(){
     }
 });
 
-
-
-
 /*tower animation*/
 $(".section1").ready(function(){
     loop();
@@ -220,4 +214,9 @@ function loop(){
 
 }
 
+$('.slide-wrap').slick({
+    dots: true,
+    slidesToShow: 5,
+    slidesToScroll: 5,
+});
 

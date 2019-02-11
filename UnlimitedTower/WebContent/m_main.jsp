@@ -16,7 +16,7 @@ if(country != null){}else{country = "en";}
 	<title>UnlimtedTower</title>
     <link rel="shortcut icon" href="m_assets/img/logo32.png">
 	<link rel="stylesheet"  href="m_assets/css/reset.css?ver=3">
-	<link rel="stylesheet"  href="m_assets/css/style.css?ver=13">
+	<link rel="stylesheet"  href="m_assets/css/style.css?ver=11">
 	<link rel="stylesheet"  href="m_assets/slick/slick.css"/>
  	<link rel="stylesheet"  href="m_assets/slick/slick-theme.css"/>
 	</head>
