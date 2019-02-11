@@ -113,6 +113,7 @@ public class assetInfo
 [Serializable]
 public class UserLoginData
 {
+    public goldData gameMoney = new goldData();
     public userData userinfo = new userData();
     public List<servantData> servant_list = new List<servantData>();
     public List<monsterData> monster_list = new List<monsterData>();
@@ -120,6 +121,11 @@ public class UserLoginData
     public List<partyData> party_list = new List<partyData>();
 }
 
+[Serializable]
+public class goldData
+{
+    public assetInfo balance = new assetInfo();
+}
 
 [Serializable]
 public class userData
