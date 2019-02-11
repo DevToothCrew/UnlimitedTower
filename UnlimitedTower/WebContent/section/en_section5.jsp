@@ -15,7 +15,7 @@
 					<div class="ex-txt">
 						<img class="bar-t" src="assets/img/bar.png" alt="">
 						<h3>Form Your Party</h3>
-						<p>Build a team of unique servants <br>and monsters via Gacha. All dataremain <br>transparent using the blockchain technology.</p>
+						<p>Build a team of unique servants <br>and monsters via Gacha. All data<br>remain transparent using the <br>blockchain technology.</p>
 						<img class="bar-b" src="assets/img/bar.png" alt="">
 					</div>
 				</div>	
