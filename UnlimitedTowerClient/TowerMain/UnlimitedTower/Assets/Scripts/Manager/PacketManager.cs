@@ -163,6 +163,27 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Login(userLoginData);
     }
 
+    public void TestResponseLogin(string getLoginInfo)
+    {
+        // 
+        if (getLoginInfo.StartsWith("{\"sign"))
+        {
+            SignUp();
+            return;
+        }
+
+        // 
+        UserLoginData userLoginData = JsonUtility.FromJson<UserLoginData>(getLoginInfo);
+        if (userLoginData == null)
+        {
+            Debug.Log("Invalid Login Data : " + getLoginInfo);
+        }
+
+
+        Login(userLoginData);
+    }
+
+
     public void ResponseGacha(string getGachaInfo)
     {
         Debug.Log("ResponseGacha : " + getGachaInfo);
