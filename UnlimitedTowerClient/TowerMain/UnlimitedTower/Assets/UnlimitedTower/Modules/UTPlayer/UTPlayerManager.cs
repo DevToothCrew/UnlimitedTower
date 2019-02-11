@@ -33,7 +33,21 @@ public class UTPlayerManager : MonoBehaviour {
         public string ToJson()
         {
             //JsonData data = Cheat.Inst.GetUserLoginData(user, gameMoney);
-            JsonData data = Cheat.Inst.TestGetUserLoginData(user, gameMoney);
+            JsonData data = Cheat.Inst.TestGetUserLoginData(user);
+
+            return data.ToString();
+        }
+    }
+
+    public class UTPartyData : IJSONableData
+    {
+        public int index;
+        public int state;
+
+        public string ToJson()
+        {
+            //JsonData data = Cheat.Inst.GetUserLoginData(user, gameMoney);
+            JsonData data = Cheat.Inst.TestGetPartyData(index, state);
 
             return data.ToString();
         }
@@ -200,7 +214,8 @@ public class UTPlayerManager : MonoBehaviour {
                     thisUser = data as UTPlayerData ?? thisUser;
                     string loginInfo = thisUser.ToJson();
                     Debug.Log("[SUCCESS] user login :" + loginInfo);
-                    PacketManager.Inst.ResponseLogin(loginInfo);
+                    //PacketManager.Inst.ResponseLogin(loginInfo);
+                    PacketManager.Inst.TestResponseLogin(loginInfo);
                 }
             };
 
