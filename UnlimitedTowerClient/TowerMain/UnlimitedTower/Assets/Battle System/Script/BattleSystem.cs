@@ -48,13 +48,21 @@ public class BattleSystem : MonoSingleton<BattleSystem>
 
         for (int i = 0; i < 20; i++)
         {
-            if (i == 0)
-                Instantiate(prefabList.prefabList[5].Prefab, PlayerCharacter[positionOrder[i]].transform);
-            else if (i < 10)
+            if (i < 10)
                 Instantiate(prefabList.prefabList[stageStateData.info_list[i].index].Prefab, PlayerCharacter[positionOrder[i]].transform);
             else
                 Instantiate(prefabList.prefabList[stageStateData.info_list[i].index].Prefab, EnemyCharacter[positionOrder[i - 10]].transform);
         }
+
+        // for (int i = 0; i < 20; i++)
+        // {
+        //     if (i == 0)
+        //         Instantiate(prefabList.prefabList[5].Prefab, PlayerCharacter[positionOrder[i]].transform);
+        //     else if (i < 10)
+        //         Instantiate(prefabList.prefabList[201 + Random.Range(0,29)].Prefab, PlayerCharacter[positionOrder[i]].transform);
+        //     else
+        //         Instantiate(prefabList.prefabList[201 + Random.Range(0, 29)].Prefab, EnemyCharacter[positionOrder[i - 10]].transform);
+        // }
 
         for (int i = 0; i < 10; i++)
         {

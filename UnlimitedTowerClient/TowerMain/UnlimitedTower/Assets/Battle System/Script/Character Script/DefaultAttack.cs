@@ -44,14 +44,12 @@ public class DefaultAttack : MonoBehaviour {
         }
         attackerStartPos = attacker.transform.position;
         
-        // float MoveSpeed = (Vector3.Distance(attacker.position, target.position) - 0.7f) * 0.01f;
         attacker.LookAt(target);
         ani.SetTrigger("isRun");
 
         for (int i = 0; i < 100; i += BattleSystem.Inst.TimeScale)
         {
             attacker.transform.position = Vector3.Lerp(attackerStartPos, target.transform.position, i * 0.0095f);
-            // attacker.Translate(0, 0, MoveSpeed * BattleSystem.Inst.TimeScale);
             yield return new WaitForSeconds(0.015f);
         }
 
@@ -64,6 +62,7 @@ public class DefaultAttack : MonoBehaviour {
             // 데미지 텍스트 표시와 데미지 주기
             DamageTextSystem.Inst.DamageShow(sendValue.Target, !sendValue.isPlayer, sendValue.Damage, Random.Range(0,2) == 0 ? true : false);
 
+            // 이펙트 보류
             // if (sendValue.isPlayer)
             //     Instantiate(effect, BattleSystem.Inst.EnemyCharacter[sendValue.Target].transform.position +
             //         new Vector3(0, BattleSystem.Inst.EnemyCharacter[sendValue.Target].transform.GetChild(0).GetComponent<CharacterInformation>().Height * 0.3f, 0), transform.rotation);
