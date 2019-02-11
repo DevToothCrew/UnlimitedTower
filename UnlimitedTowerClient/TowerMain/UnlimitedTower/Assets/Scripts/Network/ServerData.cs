@@ -98,12 +98,44 @@ public class itemInfo
     public statusInfo status = new statusInfo();
 }
 
+[Serializable]
 public class assetInfo
 {
-    string symbol_name;
+    public string symbol_name;
     public int amount;
 }
 
+//battle
+[Serializable]
+public class battleState
+{
+    public int index;
+    public int now_hp;
+    public int attack;
+    public int defense;
+    public int crit_per;
+    public int crit_dmg;
+    public int avoid;
+    public int state;
+    public int speed;
+}
+
+[Serializable]
+public class battleAction
+{
+    public int target_index;
+    public int avoid;
+    public int critical;
+    public int damage;
+}
+
+[Serializable]
+public class battleActionInfo
+{
+    public int index;
+    public int action_type;
+    public List<battleAction> battle_action_list = new List<battleAction>();
+}
 #endregion
 
 
@@ -189,7 +221,32 @@ public class partyData
     public List<int> party = new List<int>();
 }
 
+[Serializable]
+public class battleStateData
+{
+    public string user;
+    public int turn;
+    public int party_number;
+    public List<battleState> state_list = new List<battleState>();
+}
 
+[Serializable]
+public class battleActionInfoData
+{
+    public string user;
+    public List<battleActionInfo> state_list = new List<battleActionInfo>();
+}
+
+[Serializable]
+public class battleRewardData
+{
+    public string user;
+    public int reward_money;
+    public List<int> get_exp_list = new List<int>();
+    public List<servantInfo> get_servant_list = new List<servantInfo>();
+    public List<monsterInfo> get_monster_list = new List<monsterInfo>();
+    public List<itemInfo> get_item_list = new List<itemInfo>();
+}
 
 #endregion
 
