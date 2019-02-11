@@ -549,7 +549,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         monster.index = getMonsterIndex;
 
-        monster.monsterNum = getMonsterInfo.look;
+        //monster.monsterNum = getMonsterInfo.look;
         monster.name = getMonsterInfo.name;
 
         monster.exp = getMonsterInfo.exp;
