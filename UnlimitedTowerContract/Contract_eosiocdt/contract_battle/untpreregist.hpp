@@ -832,9 +832,11 @@ private:
     const uint32_t oper_hp = 240;
     const uint32_t oper_attack = 20;
     const uint32_t oper_defense = 50;
-    const uint32_t oper_critical = 10;
+    const uint32_t oper_critical = 500;
+    const uint32_t oper_critical_damage = 15000;
+    const uint32_t oper_avoid = 500;
     const uint32_t defense_constant = 200;
-
+    
     const uint32_t decimal = 100;
     const uint32_t max_battle_member_count = 20;
     const uint32_t max_party_count = 10;
@@ -885,6 +887,7 @@ struct battle_action
      uint32_t avoid = 0;
      uint32_t critical = 0;
      uint32_t damage = 0;
+     uint32_t critical_damage =0;
 };
 
 struct battle_action_info
@@ -945,6 +948,8 @@ uint32_t get_attack(uint32_t _job, status_info _status);
 uint32_t get_speed(uint32_t _job);
 uint64_t get_damage(uint32_t _atk, uint32_t _dfs);
 uint32_t get_buff_turn(uint32_t _buff);
+bool check_critical(uint64_t _seed);
+bool check_avoid(uint64_t _seed);
 
 ACTION startbattle(eosio::name _user, uint32_t _party_number, uint32_t _stage);
 

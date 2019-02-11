@@ -2226,6 +2226,27 @@ uint64_t untpreregist::get_damage(uint32_t _atk, uint32_t _dfs)
     return damage;
 }
 
+bool untpreregist::check_critical(uint64_t _seed)
+{   
+    uint64_t rand_critical_percent = safeseed::percent_rand(_seed);    
+    if(oper_critical < rand_critical_percent){
+        return false;
+    }
+    else{
+        return true;
+    }
+}
+
+bool untpreregist::check_avoid(uint64_t _seed)
+{
+    uint64_t rand_avoid_percent = safeseed::percent_rand(_seed);
+    if(oper_avoid < rand_avoid_percent){
+        return false;
+    }
+    else{
+        return true;
+    }
+}
 // uint32_t unlimitgacha::get_buff_turn(uint32_t _buff)
 // {
 //     if( _buff == battle_buff_state::poison )
@@ -2284,9 +2305,11 @@ ACTION untpreregist::startbattle(eosio::name _user, uint32_t _party_number, uint
         new_battle_set.state_list.resize(20);
 
         new_battle_set.state_list[0].now_hp = (user_auth_iter->hero.status.basic_str + user_auth_iter->hero.status.plus_str) * oper_hp;
-        new_battle_set.state_list[0].defense = (user_auth_iter->hero.status.basic_dex + user_auth_iter->hero.status.plus_dex) * oper_defense;
-        new_battle_set.state_list[0].crit_per = (user_auth_iter->hero.status.basic_int + user_auth_iter->hero.status.plus_int) * oper_critical;
         new_battle_set.state_list[0].attack = get_attack(user_auth_iter->hero.job, user_auth_iter->hero.status);
+        new_battle_set.state_list[0].defense = (user_auth_iter->hero.status.basic_dex + user_auth_iter->hero.status.plus_dex) * oper_defense;
+        new_battle_set.state_list[0].crit_per = oper_critical;
+        new_battle_set.state_list[0].crit_dmg = get_attack(user_auth_iter->hero.job, user_auth_iter->hero.status) * oper_critical_damage;
+        new_battle_set.state_list[0].avoid =  oper_avoid;          
         new_battle_set.state_list[0].speed = get_speed(user_auth_iter->hero.job);
         new_battle_set.state_list[0].index = 0;
         new_battle_set.state_list[0].state = battle_action_state::wait;
@@ -2301,7 +2324,9 @@ ACTION untpreregist::startbattle(eosio::name _user, uint32_t _party_number, uint
 
             new_battle_set.state_list[i].now_hp = (user_servant_iter.servant.status.basic_str + user_servant_iter.servant.status.plus_str) * oper_hp;
             new_battle_set.state_list[i].defense = (user_servant_iter.servant.status.basic_dex + user_servant_iter.servant.status.plus_dex) * oper_defense;
-            new_battle_set.state_list[i].crit_per = (user_servant_iter.servant.status.basic_int + user_servant_iter.servant.status.plus_int) * oper_critical;
+            new_battle_set.state_list[i].crit_per = oper_critical;
+            new_battle_set.state_list[i].crit_dmg = get_attack(user_servant_iter.servant.job, user_servant_iter.servant.status) * oper_critical_damage;
+            new_battle_set.state_list[i].avoid = oper_avoid;
             new_battle_set.state_list[i].attack = get_attack(user_servant_iter.servant.job, user_servant_iter.servant.status);
             new_battle_set.state_list[i].speed = get_speed(user_servant_iter.servant.job);
             new_battle_set.state_list[i].index = user_servant_iter.index;
@@ -2317,7 +2342,9 @@ ACTION untpreregist::startbattle(eosio::name _user, uint32_t _party_number, uint
 
             new_battle_set.state_list[i].now_hp = (user_monster_iter.monster.status.basic_str + user_monster_iter.monster.status.plus_str) * oper_hp;
             new_battle_set.state_list[i].defense = (user_monster_iter.monster.status.basic_dex + user_monster_iter.monster.status.plus_dex) * oper_defense;
-            new_battle_set.state_list[i].crit_per = (user_monster_iter.monster.status.basic_int + user_monster_iter.monster.status.plus_int) * oper_critical;
+            new_battle_set.state_list[i].crit_per = oper_critical;
+            new_battle_set.state_list[i].crit_dmg = get_attack(beginner, user_monster_iter.monster.status) * oper_critical_damage;
+            new_battle_set.state_list[i].avoid = oper_avoid;
             new_battle_set.state_list[i].attack = get_attack(beginner, user_monster_iter.monster.status);
             new_battle_set.state_list[i].speed = get_speed(beginner);
             new_battle_set.state_list[i].index = user_monster_iter.index;
@@ -2341,6 +2368,8 @@ ACTION untpreregist::startbattle(eosio::name _user, uint32_t _party_number, uint
             new_battle_set.state_list[i + 10].now_hp = 1000;
             new_battle_set.state_list[i + 10].defense = 1;
             new_battle_set.state_list[i + 10].crit_per = 1;
+            new_battle_set.state_list[i + 10].crit_dmg = 1;
+            new_battle_set.state_list[i + 10].avoid = 1;
             new_battle_set.state_list[i + 10].attack = 10000;
             new_battle_set.state_list[i + 10].speed = beginner_speed;
             new_battle_set.state_list[i + 10].index = i + 10;
@@ -2449,13 +2478,14 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
                         {
                             //공격할 경우
                             uint32_t cur_damage = get_damage(user_battle_state_iter->state_list[index].attack, user_battle_state_iter->state_list[_hero_target].defense);
-
+                            
                             //배틀 액션에 테이블 과정 추가
                             battle_action new_action;
                             new_action.target_index = _hero_target;
                             new_action.avoid = 0;
                             new_action.critical = 0;
                             new_action.damage = cur_damage;
+                            new_action.critical_damage = cur_damage * 150;
 
                             battle_action_info new_action_info;
                             new_action_info.index = HERO_LOCATION;
