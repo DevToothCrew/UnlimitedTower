@@ -129,6 +129,7 @@ public class userData
 public class servantData
 {
     public int index;
+    public int party_number;
     public servantInfo servant = new servantInfo();
 }
 
@@ -136,6 +137,7 @@ public class servantData
 public class monsterData
 {
     public int index;
+    public int party_number;
     public monsterInfo monster = new monsterInfo();
 }
 
