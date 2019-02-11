@@ -9,6 +9,7 @@ public class appearInfo
     public int head;
     public int hair;
     public int body;
+    public int gender;
 };
 
 [Serializable]
