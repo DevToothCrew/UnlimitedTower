@@ -180,7 +180,7 @@ public class Cheat : MonoSingleton<Cheat>
 
 
 
-    public string TestGetUserLoginData(string user, int gameMoney)
+    public string TestGetUserLoginData(string user)
     {
         UserLoginData userLoginData = new UserLoginData();
 
@@ -331,6 +331,10 @@ public class Cheat : MonoSingleton<Cheat>
         }
 
     }
+    public string TestGetPartyData(int index, int state)
+    {
+        return null;
+    }   
 
     public string GetBattleActionData(int heroTarget, int heroAction, int monsterTarget, int monsterAction)
     {
