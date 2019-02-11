@@ -98,6 +98,11 @@ public class itemInfo
     public statusInfo status = new statusInfo();
 }
 
+public class assetInfo
+{
+    string symbol_name;
+    public int amount;
+}
 
 #endregion
 
