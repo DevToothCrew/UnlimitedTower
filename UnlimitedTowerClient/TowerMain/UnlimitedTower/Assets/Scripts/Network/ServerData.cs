@@ -89,7 +89,8 @@ public class itemInfo
     /// </summary>
     public int state;
     public int id;
-    public int slot;
+    //public int slot;
+    public int type;
     public int job;
     public int grade;
     public int atk;
