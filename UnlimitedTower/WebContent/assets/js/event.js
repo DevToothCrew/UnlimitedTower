@@ -23,6 +23,7 @@ $(".cate ul li").click(function(){;
 //slide animation
 function goCountry(){
     $(".lan-cate").slideToggle();
+    $(".login").toggleClass("margin");
 }
 $(".section").click(function(){;
     $(".lan-cate").slideUp();
@@ -108,6 +109,8 @@ $(function () {
         $('.sec1-sns li:eq(6) a img').attr('src', 'assets/img/yt.png');
     });
 });
+
+
 $(function() { 
     $(".f-sns li a img").hover(function(){ 
         $(this).attr("src", $(this).attr("src").replace(".png", "-h.png")); 
@@ -171,51 +174,42 @@ $(function () {
 
 
 
+
 // 스크롤 애니메이션 
 $(window).scroll(function(){
     var wScroll = $(this).scrollTop();
 
     if(wScroll >= $(".sec2").offset().top -$(window).height()/1.1){
         $(".sec2").addClass("show2");
-    }else {
-        $(".sec2").removeClass("show2");
     }
     if(wScroll >= $(".sec3").offset().top -$(window).height()/1.1){
         $(".sec3").addClass("show3");
-    }else {
-        $(".sec3").removeClass("show3");
     }
     if(wScroll >= $(".sec4").offset().top -$(window).height()/1.1){
         $(".sec4").addClass("show4");
-    }else {
-        $(".sec4").removeClass("show4");
     }
     if(wScroll >= $(".sec5").offset().top -$(window).height()/1.1){
         $(".sec5").addClass("show5");
-    }else {
-        $(".sec5").removeClass("show5");
     }
     if(wScroll >= $(".explain1").offset().top -$(window).height()/1.1){
         $(".sec5").addClass("show5-1");
-    }else {
-        $(".sec5").removeClass("show5-1");
     }
     if(wScroll >= $(".explain2").offset().top -$(window).height()/1.1){
         $(".sec5").addClass("show5-2");
-    }else {
-        $(".sec5").removeClass("show5-2");
     }
     if(wScroll >= $(".explain3").offset().top -$(window).height()/1.1){
         $(".sec5").addClass("show5-3");
-    }else {
-        $(".sec5").removeClass("show5-3");
     }
     if(wScroll >= $(".sec6").offset().top -$(window).height()/1.1){
         $(".sec6").addClass("show6");
-    }else {
-        $(".sec6").removeClass("show6");
+    }
+    if(wScroll >= $(".sec7").offset().top -$(window).height()/1.1){
+        $(".sec7").addClass("show7");
     }
 });
+
+
+
 
 /*tower animation*/
 $(".section1").ready(function(){
@@ -225,9 +219,5 @@ function loop(){
     $(".tower1").delay(3000).animate({ top : "+=20%"},2000,loop)
 
 }
-$('.slide-wrap').slick({
-    dots: true,
-    slidesToShow: 5,
-    slidesToScroll: 5,
-});
+
 

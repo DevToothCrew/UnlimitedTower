@@ -13,7 +13,7 @@ function addJavascript(jsname) {
 
 addJavascript('assets/js/conversion.js?ver=7');
 
-function scatter_login(){
+function scatter_login(){	
 	//$(".cbtn").css({"display" :"none"});
 	scatterJS.plugins( new scatterEOS() );
 
@@ -351,8 +351,11 @@ function register(){
 }
 
 function scatter_logout(){
-	if(this.scatter.identity){
-		this.scatter.forgetIdentity();
+	//if(this.scatter.identity){
+		//this.scatter.forgetIdentity();
+		const scatter = scatterJS.scatter;
+		
+		scatter.logout();
 		
 		$(".slide-wrap").empty();
 		
@@ -367,7 +370,7 @@ function scatter_logout(){
 		$(".sec4-btn1").css({"display":"none"}); //Play Gacha
 		$(".sec4-btn2").css({"display":"block"});  //Please login first
 		$(".sec4-btn").css({"display":"none"});   //Register first
-	}
+	//}
 }
 
 var html2 = ""; 
