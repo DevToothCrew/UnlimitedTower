@@ -32,7 +32,8 @@ public class UTPlayerManager : MonoBehaviour {
 
         public string ToJson()
         {
-            JsonData data = Cheat.Inst.GetUserLoginData(user, gameMoney);
+            //JsonData data = Cheat.Inst.GetUserLoginData(user, gameMoney);
+            JsonData data = Cheat.Inst.TestGetUserLoginData(user, gameMoney);
 
             return data.ToString();
         }
