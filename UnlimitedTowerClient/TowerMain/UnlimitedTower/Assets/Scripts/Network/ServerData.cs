@@ -98,13 +98,6 @@ public class itemInfo
     public statusInfo status = new statusInfo();
 }
 
-//add by canie
-[Serializable]
-public class partyInfo
-{
-    public int state;
-    public List<int> indexList = new List<int>();
-}
 
 #endregion
 
