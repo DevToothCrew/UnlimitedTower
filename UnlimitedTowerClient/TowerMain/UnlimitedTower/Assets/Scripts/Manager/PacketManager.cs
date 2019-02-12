@@ -719,17 +719,34 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
 
     #region TestResponse
-    //battle 테스트 함수 
+    //battle 테스트 함수
+    public void TestResponseAction(string getBattleActionInfo)
+    {
+        battleActionInfoData actiondata = JsonUtility.FromJson<battleActionInfoData>(getBattleActionInfo);
+        if (actiondata == null)
+        {
+            Debug.Log("Invalid Battle Action Data : " + getBattleActionInfo);
+        }
+
+
+        TestAction(actiondata);
+    }
+
+    public void TestAction(battleActionInfoData getBattleStateData)
+    {
+
+    }
+
     public void TestResponseBatte(string getBattleStateInfo)
     {
-        battleStateData battleStateData = JsonUtility.FromJson<battleStateData>(getBattleStateInfo);
-        if (battleStateData == null)
+        battleStateData battlestatedata = JsonUtility.FromJson<battleStateData>(getBattleStateInfo);
+        if (battlestatedata == null)
         {
             Debug.Log("Invalid Battle Data : " + getBattleStateInfo);
         }
 
 
-        TestBattleStart(battleStateData);
+        TestBattleStart(battlestatedata);
     }
 
     
