@@ -586,7 +586,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         UserMonsterData monster = new UserMonsterData();
 
 
-        monster.monsterNum = getMonsterInfo.look;
+        monster.monsterNum = getMonsterInfo.id;
 
 
         monster.index = getMonsterIndex;
@@ -628,7 +628,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         item.state = getItemInfo.state;
         item.id = getItemInfo.id;
-        item.slot = getItemInfo.slot;
+        item.slot = getItemInfo.type;
         item.tier = getItemInfo.tier;
         item.job = getItemInfo.job;
         item.grade = getItemInfo.grade;
@@ -711,9 +711,416 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
 
 
-  
 
-    public void SetBattleAction(BattleActionData getBattleActionData)
+
+
+
+
+
+
+    #region TestResponse
+    public void TestResponseLogin(string getLoginInfo)
+    {
+        // 
+        if (getLoginInfo.StartsWith("{\"sign"))
+        {
+            SignUp();
+            return;
+        }
+
+        // 
+        UserLoginData userLoginData = JsonUtility.FromJson<UserLoginData>(getLoginInfo);
+        if (userLoginData == null)
+        {
+            Debug.Log("Invalid Login Data : " + getLoginInfo);
+        }
+
+
+        TestLogin(userLoginData);
+    }
+
+
+    public void TestLogin(UserLoginData getUserLoginData)
+    {
+        if (Application.platform == RuntimePlatform.WindowsEditor)
+        {
+            Debug.Log("유니티 로그인!");
+
+            // 유저인포
+            UserInfo userInfo = new UserInfo();
+            if (TestParseUserInfo(getUserLoginData.userinfo, ref userInfo) == false)
+            {
+                Debug.Log("Invalid ParseUserInfo Info");
+                // 재 로그인 시켜야함
+            }
+
+            TestParseGoldInfo(getUserLoginData.gameMoney, ref userInfo);
+
+            UserDataManager.Inst.SetUserInfo(userInfo);
+            LeftInfoPopup.Inst.SetLeftInfoUserInfoUpdate(userInfo);
+
+            // 서번트 생성 
+            for (int i = 0; i < 7; i++)
+            {
+                UserServantData userservantdata = new UserServantData();
+                userservantdata.index = i;
+                UserDataManager.Inst.AddServantData(userservantdata);
+
+                if (i == 0)
+                {
+                    userservantdata.isMainHero = true;
+                }
+                userservantdata.body = Random.Range(0, 4);
+                userservantdata.hairNum = Random.Range(0, 3);
+                userservantdata.headNum = Random.Range(0, 3);
+                userservantdata.jobNum = Random.Range(0, 2);
+                userservantdata.status.basicStr = Random.Range(5, 10);
+                userservantdata.status.basicDex = Random.Range(5, 10);
+                userservantdata.status.basicInt = Random.Range(5, 10);
+            }
+
+            // 몬스터 생성
+            for (int i = 0; i < 9; i++)
+            {
+                UserMonsterData monsterdata = new UserMonsterData();
+                monsterdata.index = i;
+                UserDataManager.Inst.AddMonsterData(monsterdata);
+
+                monsterdata.monsterNum = Random.Range(0, 3);
+                monsterdata.monsterTypeNum = Random.Range(0, 3);
+                monsterdata.enforceNum = Random.Range(0, 5);
+                monsterdata.gradeNum = Random.Range(0, 4);
+            }
+
+            // 배치 데이터 생성
+            int maxteamindex = 3;
+            for (int teamindex = 0; teamindex <= maxteamindex; teamindex++)
+            {
+                for (int forma_index = 0; forma_index < 10; forma_index++)
+                {
+                    UserFormationData userformationdata = new UserFormationData();
+                    UserDataManager.Inst.UserFormationList.Add(userformationdata);
+                    userformationdata.partyIndex = teamindex;
+                    userformationdata.formationIndex = forma_index;
+                }
+            }
+
+            // 파티 데이터 생성
+            for (int i = 0; i < maxteamindex; i++)
+            {
+                //UserPartyData userformationdata = new UserPartyData();
+                //UserDataManager.Inst.UserFormationList.Add(userformationdata);
+            }
+
+
+            // 모든 데이터가 저장이 된 후 화면 전환
+            LobbyManager.Inst.ChangeSceneState(userInfo.sceneState);
+        }
+        // 웹이라면, 서버데이터 받아오는것으로
+        else
+        {
+            UserInfo userInfo = new UserInfo();
+            if (ParseUserInfo(getUserLoginData.userinfo, ref userInfo) == false)
+            {
+                Debug.Log("Invalid ParseUserInfo Info");
+                // 재 로그인 시켜야함
+            }
+            UserDataManager.Inst.SetUserInfo(userInfo);
+            LeftInfoPopup.Inst.SetLeftInfoUserInfoUpdate(userInfo);
+
+            // 서번트
+            Dictionary<int, UserServantData> servantList = new Dictionary<int, UserServantData>();
+            if (ParseServantList(getUserLoginData.servant_list, ref servantList) == false)
+            {
+                Debug.Log("Invalid ParseServantList Info");
+                // 재 로그인 시켜야함
+            }
+            foreach (var item in servantList)
+            {
+                UserDataManager.Inst.AddServantData(item.Value);
+            }
+
+            // 몬스터
+            Dictionary<int, UserMonsterData> monsterList = new Dictionary<int, UserMonsterData>();
+            if (ParseMonsterList(getUserLoginData.monster_list, ref monsterList) == false)
+            {
+                Debug.Log("Invalid ParseMonsterList Info");
+                // 재 로그인 시켜야함
+            }
+            foreach (var item in monsterList)
+            {
+                UserDataManager.Inst.AddMonsterData(item.Value);
+            }
+
+            // 아이템
+            Dictionary<int, Item> itemDic = new Dictionary<int, Item>();
+            if (ParseItemList(getUserLoginData.item_list, ref itemDic) == false)
+            {
+                Debug.Log("Invalid ParseItemList Info");
+                // 재 로그인 시켜야함
+            }
+
+            Dictionary<int, Party> partyDic = new Dictionary<int, Party>();
+            if (ParsePartyList(getUserLoginData.party_list, ref partyDic) == false)
+            {
+                Debug.Log("invalid ParsePartyList info");
+                // 재 로그인 시켜야함
+            }
+
+
+            // 모든 데이터가 저장이 된 후 화면 전환
+            LobbyManager.Inst.ChangeSceneState(userInfo.sceneState);
+        }
+
+    }
+
+    public bool TestParseUserInfo(userData getUserData, ref UserInfo userInfo)
+    {
+        userInfo.userName = getUserData.user;
+        userInfo.userEOS = 0;
+        // TODO : EOS는 따로 구하는 코드 추가 필요?
+        // userInfo.userEOS = ??
+        userInfo.userMoney = 0;
+        userInfo.sceneState = (SCENE_STATE)getUserData.state;
+
+        Debug.Log("State : " + (SCENE_STATE)getUserData.state);
+
+        userInfo.userHero = TestParseServant(0, 0, getUserData.hero);
+        if (userInfo.userHero == null)
+        {
+            Debug.Log("Invalid UserHero Info");
+            return false;
+        }
+
+        return true;
+    }
+
+    public bool TestParseGoldInfo(goldData getgoldData, ref UserInfo userInfo)
+    {
+        userInfo.userMoney = getgoldData.balance.amount;
+
+        Debug.Log("Gold : " + getgoldData.balance.amount);
+
+        return true;
+    }
+
+    public bool TestParseServantList(List<servantData> getServantList, ref Dictionary<int, UserServantData> servantList)
+    {
+        for (int i = 0; i < getServantList.Count; i++)
+        {
+            UserServantData servant = TestParseServant(getServantList[i].index, getServantList[i].party_number, getServantList[i].servant);
+            if (servant == null)
+            {
+                Debug.Log("Invalid Servant Info");
+                return false;
+            }
+
+            servantList.Add(servant.index, servant);
+        }
+
+        return true;
+    }
+    public UserServantData TestParseServant(int getServantIndex, int getPartyNum, servantInfo getServantInfo)
+    {
+        if (getServantInfo == null)
+        {
+            return null;
+        }
+
+        UserServantData userServant = new UserServantData();
+
+        userServant.index = getServantIndex;
+
+        userServant.jobNum = getServantInfo.job;
+        userServant.isMainHero = getServantIndex == 0 ? true : false;
+        userServant.exp = getServantInfo.exp;
+
+        userServant.body = getServantInfo.appear.body;
+        userServant.headNum = getServantInfo.appear.head;
+        userServant.hairNum = getServantInfo.appear.hair;
+        userServant.gender = getServantInfo.appear.gender;
+
+        userServant.partyNum = getPartyNum;
+
+        //TODO : 임시 코드 
+        userServant.status = TestParseStatus(getServantInfo.status);
+        if (userServant.status == null)
+        {
+            Debug.Log("Invalid Status Info");
+            return null;
+        }
+
+
+        return userServant;
+    }
+
+    public bool TestParseMonsterList(List<monsterData> getMonsterList, ref Dictionary<int, UserMonsterData> monsterList)
+    {
+        for (int i = 0; i < getMonsterList.Count; i++)
+        {
+            UserMonsterData monster = TestParseMonster(getMonsterList[i].index, getMonsterList[i].party_number, getMonsterList[i].monster);
+            if (monster == null)
+            {
+                Debug.Log("Invalid Monster Info");
+                return false;
+            }
+
+            monsterList.Add(monster.index, monster);
+        }
+
+        return true;
+    }
+    public UserMonsterData TestParseMonster(int getMonsterIndex, int getPartyNum, monsterInfo getMonsterInfo)
+    {
+        if (getMonsterInfo == null)
+        {
+            return null;
+        }
+
+        UserMonsterData monster = new UserMonsterData();
+
+        monster.index = getMonsterIndex;
+
+        //monster.monsterNum = getMonsterInfo.look;
+        monster.name = getMonsterInfo.name;
+
+        monster.exp = getMonsterInfo.exp;
+
+        monster.monsterTypeNum = getMonsterInfo.type;
+        monster.gradeNum = getMonsterInfo.grade;
+        monster.enforceNum = getMonsterInfo.upgrade;
+
+        monster.teamNum = getPartyNum;
+
+        //몬스터 스테이터스도 서버로 부터 받아 올 거기 때문에 추가
+        monster.status = TestParseStatus(getMonsterInfo.status);
+        if (monster.status == null)
+        {
+            Debug.Log("Invalid Status Info");
+            return null;
+        }
+
+        return monster;
+    }
+
+    public bool TestParseItemList(List<itemData> getItemList, ref Dictionary<int, UserMountItemData> itemDic)
+    {
+        for (int i = 0; i < getItemList.Count; i++)
+        {
+            UserMountItemData item = TestParseItem(getItemList[i].index, getItemList[i].item);
+            if (item == null)
+            {
+                Debug.Log("Invalid Item Info");
+                return false;
+            }
+            itemDic.Add(item.index, item);
+        }
+
+        return true;
+    }
+    public UserMountItemData TestParseItem(int getItemIndex, itemInfo getItemInfo)
+    {
+        if (getItemInfo == null)
+        {
+            return null;
+        }
+
+        UserMountItemData item = new UserMountItemData();
+        item.index = getItemIndex;
+        item.mountitemNum = getItemInfo.id;
+        item.tierNum = getItemInfo.tier;
+        item.upgradeCount = getItemInfo.upgrade;
+
+
+        return item;
+    }
+
+    public bool TestParsePartyList(List<partyData> getPartyList, ref Dictionary<int, UserPartyData> partyDic)
+    {
+        for (int i = 0; i < getPartyList.Count; i++)
+        {
+            UserPartyData party = TestParseParty(getPartyList[i].index, getPartyList[i]);
+
+            if (party == null)
+            {
+                Debug.Log("Invalid party Info");
+                return false;
+            }
+
+            partyDic.Add(party.partyIndex, party);
+        }
+
+        return true;
+    }
+    public UserPartyData TestParseParty(int getPartyIndex, partyData getParty)
+    {
+        // 
+        UserPartyData party = new UserPartyData();
+        party.partyIndex = getPartyIndex;
+
+        for (int i = 0; i < getParty.party.Count; ++i)
+        {
+            UserFormationData member = new UserFormationData();
+            member.partyIndex = getPartyIndex;
+            if (getParty.party[i] == 0 && i != 0)      //받아온 파티 정보에 0이 있으면 컨트랙트 상에는 비어있는것
+            {
+                member.isPlaced = false;
+                member.index = 0;
+            }
+            else
+            {
+                member.isPlaced = true;
+                if (i == 0)
+                {
+                    member.formationIndex = 2;
+                }
+                else if (i < 5)
+                {
+                    if (i == 2)
+                    {
+                        member.formationIndex = 0;
+                    }
+                }
+                else
+                {
+                    member.formationIndex = i;
+                }
+                member.index = i;
+            }
+            party.UserFormationList.Add(member);
+
+        }
+
+        return party;
+    }
+
+
+
+    public Status TestParseStatus(statusInfo getStatusInfo)
+    {
+        if (getStatusInfo == null)
+        {
+            return null;
+        }
+
+        Status status = new Status();
+
+        status.basicStr = getStatusInfo.basic_str;
+        status.basicDex = getStatusInfo.basic_dex;
+        status.basicInt = getStatusInfo.basic_int;
+
+        status.plusStr = getStatusInfo.plus_str;
+        status.plusDex = getStatusInfo.plus_dex;
+        status.plusInt = getStatusInfo.plus_int;
+
+        return status;
+    }
+    #endregion
+
+
+
+
+public void SetBattleAction(BattleActionData getBattleActionData)
     {
 
     }
@@ -728,7 +1135,5 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
 
     }
-
-#endregion
 }
 
