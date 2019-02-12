@@ -248,6 +248,7 @@ public class Cheat : MonoSingleton<Cheat>
         {
             partyData partydata = new partyData();
             partydata.index = partyNum;
+            partydata.state = 0;
 
             for (int forma_index = 0; forma_index < DEFINE.PARTY_MAX_NUM; forma_index++)
             {
@@ -334,10 +335,10 @@ public class Cheat : MonoSingleton<Cheat>
         }
 
     }
-    public string TestGetPartyData(int index, int state)
+    public string TestGetPartyData(int partyNum)
     {
         partyData partydata = new partyData();
-        partydata.index = index;
+        partydata.index = partyNum;
         partydata.state = 0;
 
         for (int forma_index = 0; forma_index < DEFINE.PARTY_MAX_NUM; forma_index++)
