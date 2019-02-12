@@ -97,6 +97,98 @@ public class Cheat : MonoSingleton<Cheat>
         }
 
     }
+
+    public string TestGetUserLoginData(string user)
+    {
+        UserLoginData userLoginData = new UserLoginData();
+
+        userLoginData.gameMoney.balance.symbol_name = "UTG";
+        userLoginData.gameMoney.balance.amount = 10000000;
+
+        userLoginData.userinfo.user = user;
+        userLoginData.userinfo.state = 2;
+        userLoginData.userinfo.hero = GetRandomServant(GetRandomServantJob());
+        servantData mainherodata = new servantData();
+        mainherodata.servant = userLoginData.userinfo.hero;
+        mainherodata.index = 0;
+
+        // 서번트 생성 ㅇㅋ
+        for (int i = 0; i < 51; i++)
+        {
+            // 서번트 정보
+            servantInfo info = GetRandomServant(GetRandomServantJob());
+
+            // 서번트 데이터
+            servantData servantdata = new servantData();
+            servantdata.index = 1 + i;
+            servantdata.servant = info;
+            servantdata.party_number = 0;
+
+            userLoginData.servant_list.Add(servantdata);
+        }
+        userLoginData.servant_list.Add(mainherodata);   // 메인히어로 추가
+
+        // 몬스터 생성
+        for (int i = 0; i < 9; i++)
+        {
+            MonsterEntity.Param param = ErdManager.instance.MonsterEntityTable.param[UnityEngine.Random.Range(0, ErdManager.instance.MonsterEntityTable.param.Count)];
+
+            monsterData monsterdata = GetRandomMonster(i);
+            monsterdata.index = i;
+            monsterdata.party_number = 0;
+
+            userLoginData.monster_list.Add(monsterdata);
+        }
+
+        // 아이템 생성
+        for (int i = 0; i < 130; i++)
+        {
+            itemData itemdata = new itemData();
+            itemdata.index = i;
+
+            itemInfo iteminfo = new itemInfo();
+            iteminfo.itemnum = UnityEngine.Random.Range(0, 7);
+            iteminfo.tier = UnityEngine.Random.Range(0, 4);
+            iteminfo.upgrade = UnityEngine.Random.Range(0, 4);
+            iteminfo.id = UnityEngine.Random.Range(30001, 30032);
+
+            itemdata.item = iteminfo;
+
+
+            userLoginData.item_list.Add(itemdata);
+        }
+
+        // 배치 데이터 생성
+        int maxteamindex = 3;
+
+        // 파티,포메이션 추가
+        for (int partyNum = 0; partyNum < maxteamindex; partyNum++)
+        {
+            partyData partydata = new partyData();
+            partydata.index = partyNum;
+            partydata.state = 0;
+
+            for (int forma_index = 0; forma_index < DEFINE.PARTY_MAX_NUM; forma_index++)
+            {
+                // 메인히어로는 모든 2번자리에 배치되어 있음.
+                if (forma_index == 2)
+                {
+                    partydata.party.Add(0);
+                }
+                else
+                {
+                    partydata.party.Add(0);
+                }
+            }
+
+
+            userLoginData.party_list.Add(partydata);
+        }
+
+        return JsonMapper.ToJson(userLoginData);
+    }
+
+
     public string TestGetPartyData(int partyNum)
     {
         partyData partydata = new partyData();
@@ -117,7 +209,7 @@ public class Cheat : MonoSingleton<Cheat>
         }
 
         return JsonMapper.ToJson(partydata);
-    }   
+    }
 
     public string GetBattleActionData(int heroTarget, int heroAction, int monsterTarget, int monsterAction)
     {
@@ -259,7 +351,7 @@ public class Cheat : MonoSingleton<Cheat>
         monsterData.monster.exp = rand.Next(0, DEFINE.MAX_EXP);
 
         monsterData.monster.type = 0;
-        monsterData.monster.look = rand.Next(0, 3);
+        monsterData.monster.id = rand.Next(0, 3);
         monsterData.monster.grade = rand.Next(0, 4);
         monsterData.monster.upgrade = 0;
         monsterData.monster.status = GetRandomStatusInfo();
