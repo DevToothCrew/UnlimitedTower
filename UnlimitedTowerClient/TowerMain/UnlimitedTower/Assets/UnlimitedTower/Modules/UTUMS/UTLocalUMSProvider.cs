@@ -31,9 +31,9 @@ public class UTLocalUMSProvider : UTUMSProvider
         PacketManager.Inst.RequestBattleAction(heroTarget, heroAction, monsterTarget, monsterAction);
     }
 
-    public override void RequestStageStart(int stageNum, int partyNum)
+    public override void RequestStageStart(int getStageNum, int getPartyNum)
     {
-        PacketManager.Inst.RequestStageStart(stageNum, partyNum);
+        UTEventPoolInterface.SendEventData("stagestart", new UTPlayerManager.UTStageStartData() { stageNum = getStageNum, partyNum = getPartyNum });
     }
 
     public override void RequestStageResult(int stageNum)

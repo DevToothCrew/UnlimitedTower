@@ -26,8 +26,11 @@ public class DefaultAttack : MonoBehaviour {
 
     IEnumerator NearAttackAction(SendValue sendValue)
     {
+        // 공격자와 타겟의 위치
         Transform attacker;
         Transform target;
+        Vector3 attackerStartPos;
+        Vector3 attackerEndPos;
 
         if (sendValue.isPlayer)
         {
@@ -39,41 +42,56 @@ public class DefaultAttack : MonoBehaviour {
             attacker = BattleSystem.Inst.EnemyCharacter[sendValue.Attacker].transform;
             target = BattleSystem.Inst.PlayerCharacter[sendValue.Target].transform;
         }
-
-        float MoveSpeed = (Vector3.Distance(attacker.position, target.position) - 0.7f) * 0.01f;
+        attackerStartPos = attacker.transform.position;
+        
         attacker.LookAt(target);
         ani.SetTrigger("isRun");
 
         for (int i = 0; i < 100; i += BattleSystem.Inst.TimeScale)
         {
-            attacker.Translate(0, 0, MoveSpeed * BattleSystem.Inst.TimeScale);
+            attacker.transform.position = Vector3.Lerp(attackerStartPos, target.transform.position, i * 0.0095f);
             yield return new WaitForSeconds(0.015f);
         }
 
         ani.SetTrigger("isAttack");
 
         yield return new WaitForSeconds(characterInformation.AttackDelay);
-        
-        DamageTextSystem.Inst.DamageShow(sendValue.Target, !sendValue.isPlayer, sendValue.Damage, Random.Range(0,2) == 0 ? true : false);
 
-        if (sendValue.isPlayer)
-            Instantiate(effect, BattleSystem.Inst.EnemyCharacter[sendValue.Target].transform.position +
-                new Vector3(0, BattleSystem.Inst.EnemyCharacter[sendValue.Target].transform.GetChild(0).GetComponent<CharacterInformation>().Height * 0.3f, 0), transform.rotation);
+        if (!sendValue.isAvoid)
+        {
+            // 데미지 텍스트 표시와 데미지 주기
+            DamageTextSystem.Inst.DamageShow(sendValue.Target, !sendValue.isPlayer, sendValue.Damage, Random.Range(0,2) == 0 ? true : false);
+
+            // 이펙트 보류
+            // if (sendValue.isPlayer)
+            //     Instantiate(effect, BattleSystem.Inst.EnemyCharacter[sendValue.Target].transform.position +
+            //         new Vector3(0, BattleSystem.Inst.EnemyCharacter[sendValue.Target].transform.GetChild(0).GetComponent<CharacterInformation>().Height * 0.3f, 0), transform.rotation);
+            // else
+            //     Instantiate(effect, BattleSystem.Inst.PlayerCharacter[sendValue.Target].transform.position +
+            //         new Vector3(0, BattleSystem.Inst.PlayerCharacter[sendValue.Target].transform.GetChild(0).GetComponent<CharacterInformation>().Height * 0.3f, 0), transform.rotation);
+
+            target.GetChild(0).GetComponent<Animator>().SetTrigger("isHit");
+        }
         else
-            Instantiate(effect, BattleSystem.Inst.PlayerCharacter[sendValue.Target].transform.position +
-                new Vector3(0, BattleSystem.Inst.PlayerCharacter[sendValue.Target].transform.GetChild(0).GetComponent<CharacterInformation>().Height * 0.3f, 0), transform.rotation);
-
-        target.GetChild(0).GetComponent<Animator>().SetTrigger("isHit");
+        {
+            // Miss 텍스트
+            DamageTextSystem.Inst.Avoid(sendValue.Target, !sendValue.isPlayer);
+            if (sendValue.isPlayer)
+                BattleSystem.Inst.EnemyCharacterControl[sendValue.Target].Miss();
+            else
+                BattleSystem.Inst.PlayerCharacterControl[sendValue.Target].Miss();
+        }
 
         yield return new WaitForSeconds(characterInformation.AttackAfterDelay);
 
         ani.SetTrigger("isRun");
 
         attacker.Rotate(0, 180, 0);
+        attackerEndPos = attacker.transform.position;
 
         for (int i = 0; i < 100; i += BattleSystem.Inst.TimeScale)
         {
-            attacker.Translate(0, 0, MoveSpeed * BattleSystem.Inst.TimeScale);
+            attacker.transform.position = Vector3.Lerp(attackerEndPos, attackerStartPos, i * 0.01f);
             yield return new WaitForSeconds(0.015f);
         }
 
@@ -87,6 +105,7 @@ public class DefaultAttack : MonoBehaviour {
         BattleSystem.Inst.battleInformation.AttackerIndex = -1;
     }
 
+    // 원거리 공격은 보류
     IEnumerator FarAttackAction(SendValue sendValue)
     {
         Transform attacker;

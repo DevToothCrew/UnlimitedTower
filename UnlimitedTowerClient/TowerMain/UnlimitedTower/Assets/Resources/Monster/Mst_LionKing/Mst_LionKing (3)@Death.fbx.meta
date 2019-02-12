@@ -1,0 +1,225 @@
+fileFormatVersion: 2
+guid: 7226f2e26f1173a4593604a2d524cdff
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: foot_L
+    100002: foot_R
+    100004: forearm_L
+    100006: forearm_R
+    100008: hand_L
+    100010: hand_R
+    100012: heel_02_L
+    100014: heel_02_R
+    100016: metarig
+    100018: //RootNode
+    100020: Mst_LionKing_Arm_001
+    100022: Mst_LionKing_Arm_002
+    100024: Mst_LionKing_Arm_003
+    100026: Mst_LionKing_Arm_004
+    100028: Mst_LionKing_Arm_005
+    100030: Mst_LionKing_Arm_006
+    100032: Mst_LionKing_Arm_010
+    100034: Mst_LionKing_body
+    100036: Mst_LionKing_body_001
+    100038: Mst_LionKing_body_2
+    100040: Mst_LionKing_Head_6_001
+    100042: Mst_LionKing_Leg_002
+    100044: Mst_LionKing_Leg_003
+    100046: Mst_LionKing_Leg_004
+    100048: Mst_LionKing_Leg_010
+    100050: Mst_LionKing_Leg_011
+    100052: Mst_LionKing_Leg_012
+    100054: Mst_LionKing_Weapon_2_001
+    100056: shin_L
+    100058: shin_R
+    100060: shoulder_L
+    100062: shoulder_R
+    100064: spine
+    100066: spine_001
+    100068: spine_002
+    100070: spine_003
+    100072: spine_004
+    100074: spine_005
+    100076: spine_006
+    100078: thigh_L
+    100080: thigh_R
+    100082: toe_L
+    100084: toe_R
+    100086: upper_arm_L
+    100088: upper_arm_R
+    400000: foot_L
+    400002: foot_R
+    400004: forearm_L
+    400006: forearm_R
+    400008: hand_L
+    400010: hand_R
+    400012: heel_02_L
+    400014: heel_02_R
+    400016: metarig
+    400018: //RootNode
+    400020: Mst_LionKing_Arm_001
+    400022: Mst_LionKing_Arm_002
+    400024: Mst_LionKing_Arm_003
+    400026: Mst_LionKing_Arm_004
+    400028: Mst_LionKing_Arm_005
+    400030: Mst_LionKing_Arm_006
+    400032: Mst_LionKing_Arm_010
+    400034: Mst_LionKing_body
+    400036: Mst_LionKing_body_001
+    400038: Mst_LionKing_body_2
+    400040: Mst_LionKing_Head_6_001
+    400042: Mst_LionKing_Leg_002
+    400044: Mst_LionKing_Leg_003
+    400046: Mst_LionKing_Leg_004
+    400048: Mst_LionKing_Leg_010
+    400050: Mst_LionKing_Leg_011
+    400052: Mst_LionKing_Leg_012
+    400054: Mst_LionKing_Weapon_2_001
+    400056: shin_L
+    400058: shin_R
+    400060: shoulder_L
+    400062: shoulder_R
+    400064: spine
+    400066: spine_001
+    400068: spine_002
+    400070: spine_003
+    400072: spine_004
+    400074: spine_005
+    400076: spine_006
+    400078: thigh_L
+    400080: thigh_R
+    400082: toe_L
+    400084: toe_R
+    400086: upper_arm_L
+    400088: upper_arm_R
+    2100000: palette_015__Mst_LionKing_Weapon_2_png_001
+    2100002: palette_014__Mst_LionKing_Weapon_png_001
+    2100004: palette_013__Mst_LionKing_Arm_png_004
+    2100006: palette_017__Mst_LionKing_Head_6_png_001
+    2100008: palette_002__Mst_LionKing_body_png
+    2100010: palette__Mst_LionKing_body_2_png
+    2100012: palette_011__Mst_LionKing_Leg_png_002
+    2100014: palette_012__Mst_LionKing_Leg_png_003
+    2100016: palette_003__Mst_LionKing_Arm_png
+    2100018: palette_005__Mst_LionKing_Arm_png_002
+    2100020: palette_004__Mst_LionKing_Arm_png_001
+    4300000: Mst_LionKing_Weapon_2_001
+    4300002: Mst_LionKing_Head_6_001
+    4300004: Mst_LionKing_body
+    4300006: Mst_LionKing_body_001
+    4300008: Mst_LionKing_body_2
+    4300010: Mst_LionKing_Leg_011
+    4300012: Mst_LionKing_Leg_010
+    4300014: Mst_LionKing_Leg_012
+    4300016: Mst_LionKing_Leg_002
+    4300018: Mst_LionKing_Leg_003
+    4300020: Mst_LionKing_Leg_004
+    4300022: Mst_LionKing_Arm_001
+    4300024: Mst_LionKing_Arm_002
+    4300026: Mst_LionKing_Arm_003
+    4300028: Mst_LionKing_Arm_010
+    4300030: Mst_LionKing_Arm_006
+    4300032: Mst_LionKing_Arm_005
+    4300034: Mst_LionKing_Arm_004
+    7400000: Default Take
+    7400002: mixamo.com
+    9500000: //RootNode
+    13700000: Mst_LionKing_Arm_001
+    13700002: Mst_LionKing_Arm_002
+    13700004: Mst_LionKing_Arm_003
+    13700006: Mst_LionKing_Arm_004
+    13700008: Mst_LionKing_Arm_005
+    13700010: Mst_LionKing_Arm_006
+    13700012: Mst_LionKing_Arm_010
+    13700014: Mst_LionKing_body
+    13700016: Mst_LionKing_body_001
+    13700018: Mst_LionKing_body_2
+    13700020: Mst_LionKing_Head_6_001
+    13700022: Mst_LionKing_Leg_002
+    13700024: Mst_LionKing_Leg_003
+    13700026: Mst_LionKing_Leg_004
+    13700028: Mst_LionKing_Leg_010
+    13700030: Mst_LionKing_Leg_011
+    13700032: Mst_LionKing_Leg_012
+    13700034: Mst_LionKing_Weapon_2_001
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

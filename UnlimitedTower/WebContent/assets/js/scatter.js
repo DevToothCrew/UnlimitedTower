@@ -11,9 +11,10 @@ function addJavascript(jsname) {
 	th.appendChild(s);
 }
 
-addJavascript('assets/js/conversion.js?ver=7');
+addJavascript('assets/js/conversion.js?ver=8');
+//addJavascript('assets/slick/slick.min.js');
 
-function scatter_login(){
+function scatter_login(){	
 	//$(".cbtn").css({"display" :"none"});
 	scatterJS.plugins( new scatterEOS() );
 
@@ -98,25 +99,7 @@ function scatter_login(){
 		    		$(".sec4-btn").css({"display":"none"});   //Register first
 		    		
 		    		$(".section4-3").css({"display" :"block"})
-		    		
-		    		if(data.item_list.length > 0){
-			    		console.log('itemOK');
-			    		for(var i = 0;data.item_list.length > i;i++){
-			    			var html = "";
 
-			    			html = "<div class='slick slick-slide'>";
-							html = html + "<img class='scard-bg legendary' src='assets/img/"+cnvs_cd(data.item_list[i].grade)+"' alt=''>";
-							html = html + "<img class='stier' src='assets/img/icon/tier/"+cnvs_tier(data.item_list[i].tier)+"' alt=''>";
-							html = html + "<h2>"+cnvs_name(data.item_list[i].id)+"</h2>";
-							html = html + "<img class='smonster' src='assets/img/characters/item/"+cnvs_img(data.item_list[i].id)+"' alt=''>";
-							html = html + "<div class='ability'>";							
-							html = html + "<div class='sabil'><img src='assets/img/"+cnvs_type(data.item_list[i].type)+"' alt=''><p>"+cnvs_rank(data.item_list[i].main_status)+"</p></div>";
-							html = html + "</div>";
-							html = html + "</div>";
-							
-							$('.slide-wrap').slick('slickAdd',html)
-			    		}
-			    	}
 			    	if(data.monster_list.length > 0){
 			    		for(var i = 0;data.monster_list.length > i;i++){
 			    			var html = "";
@@ -132,7 +115,7 @@ function scatter_login(){
 			    			html = html + "</div>";
 			    			html = html + "</div>";
 
-							$('.slide-wrap').slick('slickAdd',html)
+							$('.slide-wrap').slick('slickAdd',html);
 			    			
 			    		}
 			    		console.log('monsterOK');
@@ -152,10 +135,28 @@ function scatter_login(){
 			    			html = html + "</div>";
 			    			html = html + "</div>";
 			    			
-			    			$('.slide-wrap').slick('slickAdd',html)
+			    			$('.slide-wrap').slick('slickAdd',html);
 
 			    		}
 			    		console.log('servantOK');
+			    	}		    		
+		    		if(data.item_list.length > 0){
+			    		console.log('itemOK');
+			    		for(var i = 0;data.item_list.length > i;i++){
+			    			var html = "";
+
+			    			html = "<div class='slick slick-slide'>";
+							html = html + "<img class='scard-bg legendary' src='assets/img/"+cnvs_cd(data.item_list[i].grade)+"' alt=''>";
+							html = html + "<img class='stier' src='assets/img/icon/tier/"+cnvs_tier(data.item_list[i].tier)+"' alt=''>";
+							html = html + "<h2>"+cnvs_name(data.item_list[i].id)+"</h2>";
+							html = html + "<img class='smonster' src='assets/img/characters/item/"+cnvs_img(data.item_list[i].id)+"' alt=''>";
+							html = html + "<div class='ability'>";							
+							html = html + "<div class='sabil'><img src='assets/img/"+cnvs_type(data.item_list[i].type)+"' alt=''><p>"+cnvs_rank(data.item_list[i].main_status)+"</p></div>";
+							html = html + "</div>";
+							html = html + "</div>";
+							
+							$('.slide-wrap').slick('slickAdd',html);
+			    		}
 			    	}
 		    	}
 		    });
@@ -287,7 +288,7 @@ function register(){
 			    			html = html + "</div>";
 			    			html = html + "</div>";
 
-							$('.slide-wrap').slick('slickAdd',html)
+							$('.slide-wrap').slick('slickAdd',html);
 			    			
 			    		}
 			    		console.log('monsterOK');
@@ -307,7 +308,7 @@ function register(){
 			    			html = html + "</div>";
 			    			html = html + "</div>";
 			    			
-			    			$('.slide-wrap').slick('slickAdd',html)
+			    			$('.slide-wrap').slick('slickAdd',html);
 
 			    		}
 			    		if(data.item_list.length > 0){
@@ -325,7 +326,7 @@ function register(){
 								html = html + "</div>";
 								html = html + "</div>";
 								
-								$('.slide-wrap').slick('slickAdd',html)
+								$('.slide-wrap').slick('slickAdd',html);
 				    		}
 				    	}
 			    		console.log('servantOK');
@@ -351,8 +352,11 @@ function register(){
 }
 
 function scatter_logout(){
-	if(this.scatter.identity){
-		this.scatter.forgetIdentity();
+	//if(this.scatter.identity){
+		//this.scatter.forgetIdentity();
+		const scatter = scatterJS.scatter;
+		
+		scatter.logout();
 		
 		$(".slide-wrap").empty();
 		
@@ -367,7 +371,7 @@ function scatter_logout(){
 		$(".sec4-btn1").css({"display":"none"}); //Play Gacha
 		$(".sec4-btn2").css({"display":"block"});  //Please login first
 		$(".sec4-btn").css({"display":"none"});   //Register first
-	}
+	//}
 }
 
 var html2 = ""; 
@@ -403,6 +407,11 @@ function gacha(){
 		    		console.log('gacha:'+data.num+':'+data.seed);
 		    		eos.transfer(account.name, 'untowermain1', '1.0000 EOS', 'gacha:'+data.num+':'+data.seed, transactionOptions).then(trx => {
 					console.log(`Transaction ID: ${trx.transaction_id}`);
+					
+					$(".section4").css({"display" :"none"});			    		
+		    		$(".section4-1").css({"height" :"1084px","opacity" :"1"});	                    
+                    $(".section4-3").css({"display" :"block"});
+                    
 				}).catch(error => {
 					var er = JSON.parse(error);
 					console.log(er.error.details[0].message);
@@ -535,12 +544,9 @@ function gacha(){
 
 			    			$(".card-rota").append(html);
 			    			//$('.slide-wrap').slick('slickAdd',html2);
-			    		}
+			    		}	    		
 			    		
-			    		$(".section4").css({"display" :"none"});			    		
-			    		$(".section4-1").css({"height" :"1084px","opacity" :"1"});	                    
-	                    $(".section4-3").css({"display" :"block"});
-	                    $(".sec4-1").addClass("show4-1");
+			    		$(".sec4-1").addClass("show4-1");
 			    	}else{
 			    		console.log('gacha 거부!');
 			    		//$(".sec4-btn1").css({"display":"block"}); //Play Gacha

@@ -15,7 +15,7 @@ if(country != null){}else{country = "en";}
 <% if(country.equals("ch")){ %>	
 	<link rel="stylesheet"  href="assets/css/ch_style.css?ver=1">
 <% }else{ %>
-	<link rel="stylesheet"  href="assets/css/style.css?ver=7">
+	<link rel="stylesheet"  href="assets/css/style.css?ver=8">
 <% } %>
 	<link rel="stylesheet"  href="assets/slick/slick.css"/>
  	<link rel="stylesheet"  href="assets/slick/slick-theme.css"/>
@@ -43,6 +43,7 @@ if(country != null){}else{country = "en";}
 		<%@include file = "section/en_section4_3.jsp"%>
 		<%@include file = "section/en_section5.jsp"%>
 		<%@include file = "section/en_section6.jsp"%>
+		<%@include file = "section/en_section7.jsp"%>
 	</div>	
 <% }else if(country.equals("ko")){ %>
 <%@include file = "common/header.jsp"%>
@@ -55,6 +56,7 @@ if(country != null){}else{country = "en";}
 		<%@include file = "section/ko_section4_3.jsp"%>
 		<%@include file = "section/ko_section5.jsp"%>
 		<%@include file = "section/ko_section6.jsp"%>
+		<%@include file = "section/ko_section7.jsp"%>
 	</div>
 <% }else if(country.equals("ch")){ %>
 <%@include file = "common/ch_header.jsp"%>
@@ -66,7 +68,8 @@ if(country != null){}else{country = "en";}
 		<%@include file = "section/ch_section4_1.jsp"%>
 		<%@include file = "section/ch_section4_3.jsp"%>
 		<%@include file = "section/ch_section5.jsp"%>
-		<%@include file = "section/ch_section6.jsp"%>	
+		<%@include file = "section/ch_section6.jsp"%>
+		<%@include file = "section/ch_section7.jsp"%>
 	</div>
 <% } %>
 
@@ -79,7 +82,7 @@ if(country != null){}else{country = "en";}
 <script src="assets/js/jquery-1.12.4.js"></script>
 <script src="assets/js/jquery-ui-1.12.1.min.js"></script>
 <script src="assets/slick/slick.min.js"></script>
-<script src="assets/js/event.js?ver=5"></script>
-<script src="assets/js/scatter.js?ver=32"></script>
+<script src="assets/js/event.js?ver=6"></script>
+<script src="assets/js/scatter.js?ver=37"></script>
 <script src="assets/js/html5shiv.js"></script>
 </html>

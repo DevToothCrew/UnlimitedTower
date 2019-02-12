@@ -5,267 +5,29 @@ public class Cheat : MonoSingleton<Cheat>
 {
     private Random rand = new Random();
 
-    //
     public string GetUserLoginData(string user, int gameMoney)
     {
         UserLoginData userLoginData = new UserLoginData();
 
         userLoginData.userinfo.user = user;
-        //userLoginData.userinfo.game_money = 0;
-
+        userLoginData.userinfo.game_money = gameMoney;
         userLoginData.userinfo.state = 2;
         userLoginData.userinfo.hero = GetRandomServant(GetRandomServantJob());
-        servantData mainherodata = new servantData();
-        mainherodata.servant = userLoginData.userinfo.hero;
-        mainherodata.index = 0;
 
-        // 서번트 생성 ㅇㅋ
-        for (int i = 0; i < 51; i++)
+        for (int i = 1; i <= 5; i++)
         {
-            // 서번트 정보
-            servantInfo info = GetRandomServant(GetRandomServantJob());
-
-            // 서번트 데이터
-            servantData servantdata = new servantData();
-            servantdata.index = 1 + i;
-            servantdata.servant = info;
-
+            servantData servantdata = GetRandomServantData(i, GetRandomServantJob());
             userLoginData.servant_list.Add(servantdata);
-        }
-        userLoginData.servant_list.Add(mainherodata);   // 메인히어로 추가
 
-        // 몬스터 생성
-        for (int i = 0; i < 9; i++)
-        {
-            MonsterEntity.Param param = ErdManager.instance.MonsterEntityTable.param[UnityEngine.Random.Range(0, ErdManager.instance.MonsterEntityTable.param.Count)];
-
-            monsterData monsterdata = GetRandomMonster(i);
-            monsterdata.index = i;
-
-            userLoginData.monster_list.Add(monsterdata);
+            userLoginData.monster_list.Add(GetRandomMonster(i));
         }
 
-        // 아이템 생성
-        for (int i = 0; i < 130; i++)
-        {
-            itemData itemdata = new itemData();
-            itemdata.index = i;
+        partyData partyData = new partyData();
+        partyData.index = 1;
+        partyData.state = 0;
+        partyData.party.Add(0);
 
-            itemInfo iteminfo = new itemInfo();
-            iteminfo.itemnum = UnityEngine.Random.Range(0, 7);
-            iteminfo.tier = UnityEngine.Random.Range(0, 4);
-            iteminfo.upgrade = UnityEngine.Random.Range(0, 4);
-
-            itemdata.item = iteminfo;
-
-
-            userLoginData.item_list.Add(itemdata);
-        }
-
-        // 배치 데이터 생성
-        int maxteamindex = 3;
-
-        // 파티,포메이션 추가
-        for (int partyNum = 0; partyNum < maxteamindex; partyNum++)
-        {
-            partyData partydata = new partyData();
-            partydata.index = partyNum;
-
-            for (int forma_index = 0; forma_index < DEFINE.PARTY_MAX_NUM; forma_index++)
-            {
-                // 메인히어로는 모든 2번자리에 배치되어 있음.
-                if (forma_index == 2)
-                {
-                    partydata.party.Add(0);
-                }
-                else
-                {
-                    partydata.party.Add(0);
-                }
-            }
-
-
-            userLoginData.party_list.Add(partydata);
-        }
-
-
-            //// 서번트 생성 
-            //for (int i = 0; i < 7; i++)
-            //{
-            //    UserServantData userservantdata = new UserServantData();
-            //    userservantdata.index = i;
-            //    UserDataManager.Inst.AddServantData(userservantdata);
-
-            //    if (i == 0)
-            //    {
-            //        userservantdata.isMainHero = true;
-            //    }
-            //    userservantdata.charNum = UnityEngine.Random.Range(0, 3);
-            //    userservantdata.jobNum = UnityEngine.Random.Range(0, 2);
-            //    userservantdata.status.basicStr = UnityEngine.Random.Range(5, 10);
-            //    userservantdata.status.basicDex = UnityEngine.Random.Range(5, 10);
-            //    userservantdata.status.basicInt = UnityEngine.Random.Range(5, 10);
-            //}
-
-            //// 몬스터 생성
-            //for (int i = 0; i < 9; i++)
-            //{
-            //    UserMonsterData monsterdata = new UserMonsterData();
-            //    monsterdata.index = i;
-            //    UserDataManager.Inst.AddMonsterData(monsterdata);
-
-            //    MonsterEntity.Param param = ErdManager.instance.MonsterEntityTable.param[UnityEngine.Random.Range(0, ErdManager.instance.MonsterEntityTable.param.Count)];
-
-            //    monsterdata.monsterNum = param.monsterNum;
-            //    monsterdata.monsterTypeNum = param.typeNum;
-            //    monsterdata.enforceNum = UnityEngine.Random.Range(0, 5);
-            //    monsterdata.gradeNum = UnityEngine.Random.Range(0, 4);
-            //}
-
-            //// 아이템 생성
-            //for (int i = 0; i < 9; i++)
-            //{
-            //    UserMountItemData item = new UserMountItemData();
-            //    item.index = i;
-            //    item.mountitemNum = Random.Range(0, 7);
-            //    item.tearNum = Random.Range(0, 4);
-            //    item.enforceCount = Random.Range(0, 4);
-
-            //    UserDataManager.Inst.AddMountitemData(item);
-            //}
-
-            //// 배치 데이터 생성
-            //int maxteamindex = 3;
-
-            //// 포메이션 추가
-            //for (int partyNum = 0; partyNum < maxteamindex; partyNum++)
-            //{
-            //    for (int forma_index = 0; forma_index < 10; forma_index++)
-            //    {
-            //        UserFormationData userformationdata = new UserFormationData();
-
-            //        if (forma_index == 2)
-            //        {
-            //            userformationdata.isPlaced = true;
-            //            userformationdata.index = 0;
-            //        }
-            //        userformationdata.partyIndex = partyNum;
-            //        userformationdata.formationIndex = forma_index;
-
-
-            //        UserDataManager.Inst.UserFormationList.Add(userformationdata);
-
-
-            //    }
-            //}
-
-            //// 파티 데이터 생성
-            //for (int i = 0; i < maxteamindex; i++)
-            //{
-            //    // 파티 추가
-            //    UserPartyData userpartydata = new UserPartyData();
-            //    userpartydata.partyIndex = i;
-
-            //    UserDataManager.Inst.partyDic.Add(userpartydata.partyIndex, userpartydata);
-            //    UserDataManager.Inst.partyList.Add(userpartydata);
-
-
-            //}
-
-
-
-
-            return JsonMapper.ToJson(userLoginData);
-    }
-
-
-
-    public string TestGetUserLoginData(string user)
-    {
-        UserLoginData userLoginData = new UserLoginData();
-
-        userLoginData.gameMoney.balance.symbol_name = "UTG";
-        userLoginData.gameMoney.balance.amount = 10000000;
-
-        userLoginData.userinfo.user = user;
-        userLoginData.userinfo.state = 2;
-        userLoginData.userinfo.hero = GetRandomServant(GetRandomServantJob());
-        servantData mainherodata = new servantData();
-        mainherodata.servant = userLoginData.userinfo.hero;
-        mainherodata.index = 0;
-
-        // 서번트 생성 ㅇㅋ
-        for (int i = 0; i < 51; i++)
-        {
-            // 서번트 정보
-            servantInfo info = GetRandomServant(GetRandomServantJob());
-
-            // 서번트 데이터
-            servantData servantdata = new servantData();
-            servantdata.index = 1 + i;
-            servantdata.servant = info;
-            servantdata.party_number = 0;
-
-            userLoginData.servant_list.Add(servantdata);
-        }
-        userLoginData.servant_list.Add(mainherodata);   // 메인히어로 추가
-
-        // 몬스터 생성
-        for (int i = 0; i < 9; i++)
-        {
-            MonsterEntity.Param param = ErdManager.instance.MonsterEntityTable.param[UnityEngine.Random.Range(0, ErdManager.instance.MonsterEntityTable.param.Count)];
-
-            monsterData monsterdata = GetRandomMonster(i);
-            monsterdata.index = i;
-            monsterdata.party_number = 0;
-
-            userLoginData.monster_list.Add(monsterdata);
-        }
-
-        // 아이템 생성
-        for (int i = 0; i < 130; i++)
-        {
-            itemData itemdata = new itemData();
-            itemdata.index = i;
-
-            itemInfo iteminfo = new itemInfo();
-            iteminfo.itemnum = UnityEngine.Random.Range(0, 7);
-            iteminfo.tier = UnityEngine.Random.Range(0, 4);
-            iteminfo.upgrade = UnityEngine.Random.Range(0, 4);
-            iteminfo.id = UnityEngine.Random.Range(30001, 30032);
-
-            itemdata.item = iteminfo;
-
-
-            userLoginData.item_list.Add(itemdata);
-        }
-
-        // 배치 데이터 생성
-        int maxteamindex = 3;
-
-        // 파티,포메이션 추가
-        for (int partyNum = 0; partyNum < maxteamindex; partyNum++)
-        {
-            partyData partydata = new partyData();
-            partydata.index = partyNum;
-            partydata.state = 0;
-
-            for (int forma_index = 0; forma_index < DEFINE.PARTY_MAX_NUM; forma_index++)
-            {
-                // 메인히어로는 모든 2번자리에 배치되어 있음.
-                if (forma_index == 2)
-                {
-                    partydata.party.Add(0);
-                }
-                else
-                {
-                    partydata.party.Add(0);
-                }
-            }
-
-
-            userLoginData.party_list.Add(partydata);
-        }
+        userLoginData.party_list.Add(partyData);
 
         return JsonMapper.ToJson(userLoginData);
     }
@@ -364,7 +126,86 @@ public class Cheat : MonoSingleton<Cheat>
 
     public string GetStageStartData(int stageNum, int partyNum)
     {
-        return null;
+        StageStateData stateData = new StageStateData();
+        stateData.turn = 0;
+
+        // 파티데이터를 넣어서 쓰는건 아직 정리중
+        //UserPartyData partyData = UserDataManager.Inst.GetUserPartyInfo(partyNum);
+        //if(partyData == null)
+        //{
+        //    return null;
+        //}
+
+        // 아군 영웅
+        stageStateInfo heroStateInfo = GetRandomStageStateInfo(0, GetRandomStatus(), rand.Next(0, DEFINE.MAX_EXP), (int)CHAR_TYPE.HERO);
+        stateData.info_list.Add(heroStateInfo);
+
+        // 아군 서번트
+        for(int i = 1; i< 5; i++)
+        {
+            stageStateInfo servantStateInfo = GetRandomStageStateInfo(i, GetRandomStatus(), rand.Next(0, DEFINE.MAX_EXP), (int)CHAR_TYPE.SERVANT);
+            stateData.info_list.Add(servantStateInfo);
+        }
+
+        // 아군 몬스터
+        for(int i = 5; i < 10; i++)
+        {
+            stageStateInfo monsterStateInfo = GetRandomStageStateInfo(i, GetRandomStatus(), rand.Next(0, DEFINE.MAX_EXP), (int)CHAR_TYPE.MONSTER);
+            stateData.info_list.Add(monsterStateInfo);
+        }
+
+        // 적군 서번트
+        for (int i = 10; i < 15; i++)
+        {
+            stageStateInfo servantStateInfo = GetRandomStageStateInfo(i, GetRandomStatus(), rand.Next(0, DEFINE.MAX_EXP), (int)CHAR_TYPE.SERVANT);
+            stateData.info_list.Add(servantStateInfo);
+        }
+
+        // 적군 몬스터
+        for (int i = 15; i < 20; i++)
+        {
+            stageStateInfo monsterStateInfo = GetRandomStageStateInfo(i, GetRandomStatus(), rand.Next(0, DEFINE.MAX_EXP), (int)CHAR_TYPE.MONSTER);
+            stateData.info_list.Add(monsterStateInfo);
+        }
+
+        return JsonMapper.ToJson(stateData);
+    }
+
+    public stageStateInfo GetRandomStageStateInfo(int party_index, Status status, int exp, int type)
+    {
+        stageStateInfo stateInfo = new stageStateInfo();
+
+        stateInfo.party_index = party_index;
+        stateInfo.state = 0;
+
+        // DB 나오기 전까지 임시로 사용
+        stateInfo.status = status;
+        stateInfo.status_type = rand.Next(0, 3);
+        stateInfo.exp = exp;
+        stateInfo.speed = rand.Next(10, 50);
+
+        stateInfo.now_hp = Calculator.GetMaxHp(stateInfo.status);
+        stateInfo.damage = Calculator.GetDamage((STATUS_TYPE)stateInfo.status_type, stateInfo.status);
+        stateInfo.defence = Calculator.GetDefence(stateInfo.status);
+        stateInfo.crit_per = Calculator.GetCriticalPer(stateInfo.status);
+        stateInfo.crit_dmg = 150;
+        stateInfo.avoid = Calculator.GetAvoid(stateInfo.status);
+
+        stateInfo.type = type;
+        if (type == (int)CHAR_TYPE.HERO)
+        {
+            stateInfo.index = 105;
+        }
+        else if (type == (int)CHAR_TYPE.SERVANT)
+        {
+            stateInfo.index = rand.Next(105, 109);
+        }
+        else if (type == (int)CHAR_TYPE.MONSTER)
+        {
+            stateInfo.index = rand.Next(201, 230);
+        }
+
+        return stateInfo;
     }
 
     public string GetStageResultData(int stageNum)
@@ -400,7 +241,10 @@ public class Cheat : MonoSingleton<Cheat>
         servant.job = (int)job;
         servant.stat_point = (Calculator.GetLevelForExp(servant.exp) - 1) * DEFINE.BONUS_STAT;
         servant.appear = GetRandomAppear();
-        servant.status = GetRandomStatus();
+        servant.status = GetRandomStatusInfo();
+        servant.equip_slot.Add(0);
+        servant.equip_slot.Add(0);
+        servant.equip_slot.Add(0);
 
         return servant;
     }
@@ -410,17 +254,15 @@ public class Cheat : MonoSingleton<Cheat>
         monsterData monsterData = new monsterData();
         monsterData.index = index;
 
-        MonsterEntity.Param param = ErdManager.instance.MonsterEntityTable.param[UnityEngine.Random.Range(0, ErdManager.instance.MonsterEntityTable.param.Count)];
-
-
         monsterData.monster = new monsterInfo();
         monsterData.monster.state = 0;
         monsterData.monster.exp = rand.Next(0, DEFINE.MAX_EXP);
-        monsterData.monster.type = param.typeNum;
-        monsterData.monster.id = param.monsterNum;
-        monsterData.monster.grade = UnityEngine.Random.Range(0, 4);
-        monsterData.monster.upgrade = UnityEngine.Random.Range(0, 5);
-        monsterData.monster.status = GetRandomStatus();
+
+        monsterData.monster.type = 0;
+        monsterData.monster.look = rand.Next(0, 3);
+        monsterData.monster.grade = rand.Next(0, 4);
+        monsterData.monster.upgrade = 0;
+        monsterData.monster.status = GetRandomStatusInfo();
         // TODO : 업그레이드에 따른 스테이터스 가중치 추가 필요
 
         return monsterData;
@@ -437,7 +279,7 @@ public class Cheat : MonoSingleton<Cheat>
         return appear;
     }
 
-    public statusInfo GetRandomStatus()
+    public statusInfo GetRandomStatusInfo()
     {
         statusInfo status = new statusInfo();
         status.basic_str = rand.Next(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
@@ -447,6 +289,20 @@ public class Cheat : MonoSingleton<Cheat>
         status.plus_str = 0;
         status.plus_dex = 0;
         status.plus_int = 0;
+
+        return status;
+    }
+
+    public Status GetRandomStatus()
+    {
+        Status status = new Status();
+        status.basicStr = rand.Next(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
+        status.basicDex = rand.Next(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
+        status.basicInt = rand.Next(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
+
+        status.plusStr = 0;
+        status.plusDex = 0;
+        status.plusInt = 0;
 
         return status;
     }

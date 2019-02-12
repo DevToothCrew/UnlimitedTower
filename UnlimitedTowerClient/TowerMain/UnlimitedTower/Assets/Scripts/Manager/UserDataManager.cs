@@ -178,6 +178,17 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
         return userInfo.userHero;
     }
+
+    public UserPartyData GetUserPartyInfo(int partyNum)
+    {
+        if(partyDic.ContainsKey(partyNum) == false)
+        {
+            Debug.Log("Invalid PartyNum");
+            return null;
+        }
+
+        return partyDic[partyNum];
+    }
     
     #endregion
 }

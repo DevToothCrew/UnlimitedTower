@@ -8,8 +8,6 @@ public class DieCameraMove : MonoSingleton<DieCameraMove>
     public Camera camera_C;
     public Vector3 distance;
     public Vector3 startPos;
-    [Range(0.08f, 0.1f)]
-    public float value;
 
     private void Start()
     {
@@ -18,8 +16,7 @@ public class DieCameraMove : MonoSingleton<DieCameraMove>
         startPos = camera_Obj.transform.position;
         distance = new Vector3(-11.2f, 11.8f, -12.1f);
     }
-
-    [ContextMenu("text")]
+    
     public void Test(int target, bool isPlayer)
     {
         StartCoroutine(Move(target, isPlayer));
@@ -41,7 +38,7 @@ public class DieCameraMove : MonoSingleton<DieCameraMove>
             yield return null;
         }
 
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSeconds(4.0f);
 
         temp = camera_Obj.transform.position;
         for (int i = 0; i < 25; i++)

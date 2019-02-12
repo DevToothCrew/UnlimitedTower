@@ -1,5 +1,21 @@
 fileFormatVersion: 2
 guid: 068d96146ac18164da19616f1dc044db
+labels:
+- Architecture
+- Audio
+- Character
+- Concrete
+- Effect
+- Ground
+- Prop
+- Road
+- Sky
+- Terrain
+- Vegetation
+- Vehicle
+- Wall
+- Water
+- Weapon
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:

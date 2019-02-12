@@ -168,7 +168,7 @@ function cnvs_img(id){
 	if(id == '20023'){img_name = "Mst_Egg_2.png";}
 	if(id == '20024'){img_name = "Mst_Egg_3.png";}
 	if(id == '20025'){img_name = "Mst_Fairy_Fire.png";}
-	if(id == '20026'){img_name = "Mst_Fairy_Leef.png";}
+	if(id == '20026'){img_name = "Mst_Fairy_Leaf.png";}
 	if(id == '20027'){img_name = "Mst_Fairy_Water.png";}
 	if(id == '20028'){img_name = "Mst_Gangsi.png";}
 	if(id == '20029'){img_name = "Mst_Golem_Moss.png";}
