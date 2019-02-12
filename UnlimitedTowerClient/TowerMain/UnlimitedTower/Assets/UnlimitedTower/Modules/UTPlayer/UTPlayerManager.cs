@@ -74,8 +74,8 @@ public class UTPlayerManager : MonoBehaviour {
 
         public string ToJson()
         {
-            JsonData data = Cheat.Inst.GetBattleActionData(heroTarget, heroAction, monsterTarget, monsterAction);
-
+            //JsonData data = Cheat.Inst.GetBattleActionData(heroTarget, heroAction, monsterTarget, monsterAction);
+            JsonData data = Cheat.Inst.TestGetBattleActionData("devtooth",heroTarget, heroAction, monsterTarget, monsterAction);
             return data.ToString();
         }
     }
@@ -88,8 +88,8 @@ public class UTPlayerManager : MonoBehaviour {
 
         public string ToJson()
         {
-            JsonData data = Cheat.Inst.GetStageStartData(stageNum, partyNum);
-
+            //JsonData data = Cheat.Inst.GetStageStartData(stageNum, partyNum);
+            JsonData data = Cheat.Inst.TestGetStageStartData("devtooth", stageNum, partyNum);
             return data.ToString();
         }
     }

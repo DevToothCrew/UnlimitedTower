@@ -210,9 +210,60 @@ public class Cheat : MonoSingleton<Cheat>
 
         return JsonMapper.ToJson(partydata);
     }
+    public string TestGetBattleActionData(string user, int heroTarget, int heroAction, int monsterTarget, int monsterAction)
+    {
+        battleActionInfoData battleactiondata = new battleActionInfoData();
+        battleactiondata.user = user;
+
+        for(int i=0; i<20; ++i)
+        {
+            actionInfo action = new actionInfo();
+            action.target_index = UnityEngine.Random.Range(i , 20);
+            action.avoid = false;
+            action.critical = false;
+            action.damage = 1;
+
+            battleActionInfo actioninfo = new battleActionInfo();
+            actioninfo.index = i;
+            actioninfo.action_type = 1;
+            actioninfo.battle_action_list.Add(action);
+
+
+            battleactiondata.battle_info_list.Add(actioninfo);
+        }
+
+
+        return JsonMapper.ToJson(battleactiondata);
+    }
+    public string TestGetStageStartData(string user, int stageNum, int partyNum)
+    {
+        battleStateData battlestatedata = new battleStateData();
+        battlestatedata.user = user;
+        battlestatedata.party_number = partyNum;
+        battlestatedata.turn = 1;
+
+        for (int i=0; i<20; ++i)
+        {
+            battleState newMember = new battleState();
+            newMember.index = i;
+            newMember.now_hp = 100;
+            newMember.attack = 10;
+            newMember.defense = 10;
+            newMember.crit_dmg = 1;
+            newMember.crit_per = 5;
+            newMember.avoid = 5;
+            newMember.state = 0;
+            newMember.speed = 25;
+
+            battlestatedata.state_list.Add(newMember);
+        }
+
+        return JsonMapper.ToJson(battlestatedata);
+    }
 
     public string GetBattleActionData(int heroTarget, int heroAction, int monsterTarget, int monsterAction)
     {
+
         return null;
     }
 

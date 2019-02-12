@@ -719,6 +719,44 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
 
     #region TestResponse
+    //battle 테스트 함수 
+    public void TestResponseBatte(string getBattleStateInfo)
+    {
+        battleStateData battleStateData = JsonUtility.FromJson<battleStateData>(getBattleStateInfo);
+        if (battleStateData == null)
+        {
+            Debug.Log("Invalid Battle Data : " + getBattleStateInfo);
+        }
+
+
+        TestBattleStart(battleStateData);
+    }
+
+    
+    public void TestBattleStart(battleStateData getBattleStateData)
+    {
+        if (Application.platform == RuntimePlatform.WindowsEditor)
+        {
+            Debug.Log("배틀 스타트!");
+
+
+            //// 유저인포
+            //UserInfo userInfo = new UserInfo();
+            //if (TestParseUserInfo(getUserLoginData.userinfo, ref userInfo) == false)
+            //{
+            //    Debug.Log("Invalid ParseUserInfo Info");
+            //    // 재 로그인 시켜야함
+            //}
+
+        }
+        // 웹이라면, 서버데이터 받아오는것으로
+        else
+        {
+
+        }
+    }
+
+    //login 테스트 함수
     public void TestResponseLogin(string getLoginInfo)
     {
         // 
@@ -820,17 +858,20 @@ public class PacketManager : MonoSingleton<PacketManager> {
         else
         {
             UserInfo userInfo = new UserInfo();
-            if (ParseUserInfo(getUserLoginData.userinfo, ref userInfo) == false)
+            if (TestParseUserInfo(getUserLoginData.userinfo, ref userInfo) == false)
             {
                 Debug.Log("Invalid ParseUserInfo Info");
                 // 재 로그인 시켜야함
             }
+
+            TestParseGoldInfo(getUserLoginData.gameMoney, ref userInfo);
+
             UserDataManager.Inst.SetUserInfo(userInfo);
             LeftInfoPopup.Inst.SetLeftInfoUserInfoUpdate(userInfo);
 
             // 서번트
             Dictionary<int, UserServantData> servantList = new Dictionary<int, UserServantData>();
-            if (ParseServantList(getUserLoginData.servant_list, ref servantList) == false)
+            if (TestParseServantList(getUserLoginData.servant_list, ref servantList) == false)
             {
                 Debug.Log("Invalid ParseServantList Info");
                 // 재 로그인 시켜야함
@@ -842,7 +883,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
             // 몬스터
             Dictionary<int, UserMonsterData> monsterList = new Dictionary<int, UserMonsterData>();
-            if (ParseMonsterList(getUserLoginData.monster_list, ref monsterList) == false)
+            if (TestParseMonsterList(getUserLoginData.monster_list, ref monsterList) == false)
             {
                 Debug.Log("Invalid ParseMonsterList Info");
                 // 재 로그인 시켜야함
@@ -854,14 +895,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
             // 아이템
             Dictionary<int, Item> itemDic = new Dictionary<int, Item>();
-            if (ParseItemList(getUserLoginData.item_list, ref itemDic) == false)
+            if (TestParseItemList(getUserLoginData.item_list, ref itemDic) == false)
             {
                 Debug.Log("Invalid ParseItemList Info");
                 // 재 로그인 시켜야함
             }
 
             Dictionary<int, Party> partyDic = new Dictionary<int, Party>();
-            if (ParsePartyList(getUserLoginData.party_list, ref partyDic) == false)
+            if (TestParsePartyList(getUserLoginData.party_list, ref partyDic) == false)
             {
                 Debug.Log("invalid ParsePartyList info");
                 // 재 로그인 시켜야함
@@ -1003,11 +1044,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return monster;
     }
 
-    public bool TestParseItemList(List<itemData> getItemList, ref Dictionary<int, UserMountItemData> itemDic)
+    public bool TestParseItemList(List<itemData> getItemList, ref Dictionary<int, Item> itemDic)
     {
         for (int i = 0; i < getItemList.Count; i++)
         {
-            UserMountItemData item = TestParseItem(getItemList[i].index, getItemList[i].item);
+            Item item = TestParseItem(getItemList[i].index, getItemList[i].item);
             if (item == null)
             {
                 Debug.Log("Invalid Item Info");
@@ -1018,28 +1059,43 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         return true;
     }
-    public UserMountItemData TestParseItem(int getItemIndex, itemInfo getItemInfo)
+
+    public Item TestParseItem(int getItemIndex, itemInfo getItemInfo)
     {
         if (getItemInfo == null)
         {
             return null;
         }
 
-        UserMountItemData item = new UserMountItemData();
-        item.index = getItemIndex;
-        item.mountitemNum = getItemInfo.id;
-        item.tierNum = getItemInfo.tier;
-        item.upgradeCount = getItemInfo.upgrade;
+        Item item = new Item();
 
+        item.index = getItemIndex;
+
+        item.state = getItemInfo.state;
+        item.id = getItemInfo.id;
+        item.slot = getItemInfo.type;
+        item.tier = getItemInfo.tier;
+        item.job = getItemInfo.job;
+        item.grade = getItemInfo.grade;
+        item.upgrade = getItemInfo.upgrade;
+        item.atk = getItemInfo.atk;
+        item.def = getItemInfo.def;
+
+        item.status = ParseStatus(getItemInfo.status);
+        if (item.status == null)
+        {
+            Debug.Log("Invalid Status Info");
+            return null;
+        }
 
         return item;
     }
 
-    public bool TestParsePartyList(List<partyData> getPartyList, ref Dictionary<int, UserPartyData> partyDic)
+    public bool TestParsePartyList(List<partyData> getPartyList, ref Dictionary<int, Party> partyDic)
     {
         for (int i = 0; i < getPartyList.Count; i++)
         {
-            UserPartyData party = TestParseParty(getPartyList[i].index, getPartyList[i]);
+            Party party = TestParseParty(getPartyList[i].index, getPartyList[i]);
 
             if (party == null)
             {
@@ -1052,43 +1108,44 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         return true;
     }
-    public UserPartyData TestParseParty(int getPartyIndex, partyData getParty)
+
+    public Party TestParseParty(int getPartyIndex, partyData getParty)
     {
-        // 
-        UserPartyData party = new UserPartyData();
+        if (getParty == null)
+        {
+            return null;
+        }
+
+        Party party = new Party();
+
         party.partyIndex = getPartyIndex;
+        party.state = getParty.state;
 
         for (int i = 0; i < getParty.party.Count; ++i)
         {
-            UserFormationData member = new UserFormationData();
-            member.partyIndex = getPartyIndex;
-            if (getParty.party[i] == 0 && i != 0)      //받아온 파티 정보에 0이 있으면 컨트랙트 상에는 비어있는것
+            PartyCharacterInfo partyInfo = new PartyCharacterInfo();
+
+            if (i == 0)
             {
-                member.isPlaced = false;
-                member.index = 0;
+                partyInfo.type = CHAR_TYPE.HERO;
+            }
+            else if (i < 5)
+            {
+                partyInfo.type = CHAR_TYPE.SERVANT;
+            }
+            else if (i < DEFINE.PARTY_MAX_NUM)
+            {
+                partyInfo.type = CHAR_TYPE.MONSTER;
             }
             else
             {
-                member.isPlaced = true;
-                if (i == 0)
-                {
-                    member.formationIndex = 2;
-                }
-                else if (i < 5)
-                {
-                    if (i == 2)
-                    {
-                        member.formationIndex = 0;
-                    }
-                }
-                else
-                {
-                    member.formationIndex = i;
-                }
-                member.index = i;
+                return null;
             }
-            party.UserFormationList.Add(member);
 
+            partyInfo.partyPosition = i;
+            partyInfo.index = getParty.party[i];
+
+            party.characterList.Add(i, partyInfo);
         }
 
         return party;
@@ -1120,7 +1177,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
 
 
-public void SetBattleAction(BattleActionData getBattleActionData)
+    public void SetBattleAction(BattleActionData getBattleActionData)
     {
 
     }
