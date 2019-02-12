@@ -146,7 +146,6 @@ public class goldData
 public class userData
 {
     public string user;
-    public int game_money;
     public int state; //씬 상태
     public servantInfo hero = new servantInfo();
 }
