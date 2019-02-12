@@ -178,7 +178,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             gachaServantData gachaData = JsonUtility.FromJson<gachaServantData>(getGachaInfo);
             UserServantData getServant = ParseServant(gachaData.data.index, gachaData.data.servant);
 
-            UserDataManager.Inst.addServantData(getServant);
+            UserDataManager.Inst.AddServantData(getServant);
 
             GachaImage.Inst.SetServantGachaImage(getServant);
         }
@@ -189,7 +189,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             gachaMonsterData gachaData = JsonUtility.FromJson<gachaMonsterData>(getGachaInfo);
             UserMonsterData getMonster = ParseMonster(gachaData.data.index, gachaData.data.monster);
 
-            UserDataManager.Inst.addMonsterData(getMonster);
+            UserDataManager.Inst.AddMonsterData(getMonster);
 
             GachaImage.Inst.SetMonsterGachaImage(getMonster);
         }
@@ -353,17 +353,19 @@ public class PacketManager : MonoSingleton<PacketManager> {
             {
                 UserServantData userservantdata = new UserServantData();
                 userservantdata.index = i;
-                UserDataManager.Inst.addServantData(userservantdata);
+                UserDataManager.Inst.AddServantData(userservantdata);
 
                 if (i == 0)
                 {
                     userservantdata.isMainHero = true;
                 }
-                userservantdata.charNum = UnityEngine.Random.Range(0, 3);
-                userservantdata.jobNum = UnityEngine.Random.Range(0, 2);
-                userservantdata.status.basicStr = UnityEngine.Random.Range(5, 10);
-                userservantdata.status.basicDex = UnityEngine.Random.Range(5, 10);
-                userservantdata.status.basicInt = UnityEngine.Random.Range(5, 10);
+                userservantdata.body = Random.Range(0, 4);
+                userservantdata.hairNum = Random.Range(0, 3);
+                userservantdata.headNum = Random.Range(0, 3);
+                userservantdata.jobNum = Random.Range(0, 2);
+                userservantdata.status.basicStr = Random.Range(5, 10);
+                userservantdata.status.basicDex = Random.Range(5, 10);
+                userservantdata.status.basicInt = Random.Range(5, 10);
             }
 
             // 몬스터 생성
@@ -371,12 +373,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
             {
                 UserMonsterData monsterdata = new UserMonsterData();
                 monsterdata.index = i;
-                UserDataManager.Inst.addMonsterData(monsterdata);
+                UserDataManager.Inst.AddMonsterData(monsterdata);
 
-                monsterdata.monsterNum = UnityEngine.Random.Range(0, 3);
-                monsterdata.monsterTypeNum = UnityEngine.Random.Range(0, 3);
-                monsterdata.enforceNum = UnityEngine.Random.Range(0, 5);
-                monsterdata.gradeNum = UnityEngine.Random.Range(0, 4);
+                monsterdata.monsterNum = Random.Range(0, 3);
+                monsterdata.monsterTypeNum = Random.Range(0, 3);
+                monsterdata.enforceNum = Random.Range(0, 5);
+                monsterdata.gradeNum = Random.Range(0, 4);
             }
 
             // 배치 데이터 생성
@@ -387,16 +389,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 {
                     UserFormationData userformationdata = new UserFormationData();
                     UserDataManager.Inst.UserFormationList.Add(userformationdata);
-
-                    if (forma_index == 2)
-                    {
-                        userformationdata.isPlaced = true;
-                        userformationdata.isServant = true;
-                        userformationdata.index = 0;
-                    }
                     userformationdata.partyIndex = teamindex;
                     userformationdata.formationIndex = forma_index;
-
                 }
             }
 
@@ -432,7 +426,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             }
             foreach (var item in servantList)
             {
-                UserDataManager.Inst.addServantData(item.Value);
+                UserDataManager.Inst.AddServantData(item.Value);
             }
 
             // 몬스터
@@ -444,7 +438,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             }
             foreach (var item in monsterList)
             {
-                UserDataManager.Inst.addMonsterData(item.Value);
+                UserDataManager.Inst.AddMonsterData(item.Value);
             }
 
             // 아이템
@@ -519,12 +513,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         servant.jobNum = getServantInfo.job;
 
-        servant.isMainHero = getServantInfo.isMainServant;
+        // TODO : 버그 수정 필요
+        //servant.isMainHero = getServantInfo.isMainServant;
 
         servant.index = getServantIndex;
         servant.exp = getServantInfo.exp;
-        // TODO : 추후 Servant Exp에 따른 Level 공식을 추가해 레벨 적용 필요
-        servant.level = Calculator.GetLevelForExp(getServantInfo.exp);
         servant.jobNum = getServantInfo.job;
 
         // TODO : 추후 Appear의 값에 따른 리소스가 저장되어야함
@@ -596,8 +589,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         monster.index = getMonsterIndex;
         monster.exp = getMonsterInfo.exp;
-        // TODO : 추후 Servant Exp에 따른 Level 공식을 추가해 레벨 적용 필요
-        monster.level = Calculator.GetLevelForExp(getMonsterInfo.exp);
         monster.monsterTypeNum = getMonsterInfo.type;
         monster.gradeNum = getMonsterInfo.grade;
         monster.enforceNum = getMonsterInfo.upgrade;
