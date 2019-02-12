@@ -5,7 +5,7 @@ using UnityEngine;
 public class Etc : MonoBehaviour
 {
     public const int MainServantFormationNum = 2;
-
+    public const int maxItemUpgradeNum = 9;
     // singleton
     public static Etc instance;
     private void Awake()
@@ -20,6 +20,7 @@ public class Etc : MonoBehaviour
             return;
         }
     }
+
 
     // 힘 민 지
     public double Getstr(UserServantData servant)
@@ -125,6 +126,441 @@ public class Etc : MonoBehaviour
         return 30;
     }
 
+    public StatInfo getTotalstat(List<MountItemStatEntity.Param> list)
+    {
+        StatInfo newstat = new StatInfo();
+
+        for (int i = 0; i < list.Count; i++)
+        {
+            switch (list[i].statType)
+            {
+                case StatType.Str:
+                    newstat.str += list[i].plusValue;
+                    break;
+                case StatType.Dex:
+                    newstat.dex += list[i].plusValue;
+                    break;
+                case StatType.Int:
+                    newstat.INT += list[i].plusValue;
+                    break;
+                case StatType.Def:
+                    newstat.def += list[i].plusValue;
+                    break;
+                case StatType.Atk:
+                    newstat.atk += list[i].plusValue;
+                    break;
+                case StatType.CriDmg:
+                    newstat.cridmg += list[i].plusValue;
+                    break;
+                case StatType.CriPercent:
+                    newstat.criprob += list[i].plusValue;
+                    break;
+                case StatType.Spd:
+                    newstat.spd += list[i].plusValue;
+                    break;
+                case StatType.Hp:
+                    newstat.hp += list[i].plusValue;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return newstat;
+    }
+
+    
+    public void SortTotal(UNIT_TYPE playertype, sortType sorttype)
+    {
+        switch (playertype)
+        {
+            case UNIT_TYPE.SERVANT:
+                {
+                    switch (sorttype)
+                    {
+                        case sortType.Grade:
+                            {
+                                UserDataManager.Inst.ServantList.Sort((a, b) =>
+                                {
+                                    double aValue = a.isLegend ? 10 : 1;
+                                    double bValue = b.isLegend ? 10 : 1;
+                                    if (aValue < bValue)
+                                    {
+                                        return 1;
+                                    }
+                                    else if (aValue == bValue)
+                                    {
+                                        return 0;
+                                    }
+                                    else
+                                    {
+                                        return -1;
+                                    }
+
+                                });
+                            }
+                            break;
+                        case sortType.Level:
+                            {
+                                UserDataManager.Inst.ServantList.Sort((a, b) =>
+                                {
+                                    if (a.exp < b.exp)
+                                    {
+                                        return 1;
+                                    }
+                                    else if (a.exp == b.exp)
+                                    {
+                                        return 0;
+                                    }
+                                    else
+                                    {
+                                        return -1;
+                                    }
+
+                                });
+                            }
+                            break;
+                        case sortType.Power:
+                            {
+                                UserDataManager.Inst.ServantList.Sort((a, b) =>
+                                {
+                                    double aPower = Etc.instance.Getatk(a);
+                                    double bPower = Etc.instance.Getatk(b);
+                                    if (aPower < bPower)
+                                    {
+                                        return 1;
+                                    }
+                                    else if (aPower == bPower)
+                                    {
+                                        return 0;
+                                    }
+                                    else
+                                    {
+                                        return -1;
+                                    }
+
+                                });
+                            }
+                            break;
+                        case sortType.Obtain:
+                            {
+                                UserDataManager.Inst.ServantList.Sort((a, b) =>
+                                {
+                                    double aValue = a.index;
+                                    double bValue = b.index;
+                                    if (aValue < bValue)
+                                    {
+                                        return 1;
+                                    }
+                                    else if (aValue == bValue)
+                                    {
+                                        return 0;
+                                    }
+                                    else
+                                    {
+                                        return -1;
+                                    }
+
+                                });
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                break;
+            case UNIT_TYPE.MONSTER:
+                {
+
+                    switch (sorttype)
+                    {
+                        case sortType.Grade:
+                            {
+                                UserDataManager.Inst.MonsterList.Sort((a, b) =>
+                                {
+                                    double aValue = a.gradeNum;
+                                    double bValue = b.gradeNum;
+                                    if (aValue < bValue)
+                                    {
+                                        return 1;
+                                    }
+                                    else if (aValue == bValue)
+                                    {
+                                        return 0;
+                                    }
+                                    else
+                                    {
+                                        return -1;
+                                    }
+
+                                });
+                            }
+                            break;
+                        case sortType.Level:
+                            {
+                                UserDataManager.Inst.MonsterList.Sort((a, b) =>
+                                {
+                                    double aValue = a.level;
+                                    double bValue = b.level;
+                                    if (aValue < bValue)
+                                    {
+                                        return 1;
+                                    }
+                                    else if (aValue == bValue)
+                                    {
+                                        return 0;
+                                    }
+                                    else
+                                    {
+                                        return -1;
+                                    }
+
+                                });
+                            }
+                            break;
+                        case sortType.Power:
+                            {
+                                UserDataManager.Inst.MonsterList.Sort((a, b) =>
+                                {
+                                    double aPower = Etc.instance.Getatk(a);
+                                    double bPower = Etc.instance.Getatk(b);
+                                    if (aPower < bPower)
+                                    {
+                                        return 1;
+                                    }
+                                    else if (aPower == bPower)
+                                    {
+                                        return 0;
+                                    }
+                                    else
+                                    {
+                                        return -1;
+                                    }
+
+                                });
+                            }
+                            break;
+                        case sortType.Obtain:
+                            {
+                                UserDataManager.Inst.MonsterList.Sort((a, b) =>
+                                {
+                                    double aValue = a.index;
+                                    double bValue = b.index;
+                                    if (aValue < bValue)
+                                    {
+                                        return 1;
+                                    }
+                                    else if (aValue == bValue)
+                                    {
+                                        return 0;
+                                    }
+                                    else
+                                    {
+                                        return -1;
+                                    }
+
+                                });
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                break;
+        }
+    }
+    public void SortByType(List<UserServantData> servantList, sortType sortType)
+    {
+        switch (sortType)
+        {
+            case sortType.Grade:
+                {
+                    servantList.Sort((a, b) =>
+                    {
+                        double aValue = a.isLegend ? 10 : 1;
+                        double bValue = b.isLegend ? 10 : 1;
+                        if (aValue < bValue)
+                        {
+                            return 1;
+                        }
+                        else if (aValue == bValue)
+                        {
+                            return 0;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+
+                    });
+                }
+                break;
+            case sortType.Level:
+                {
+                    servantList.Sort((a, b) =>
+                    {
+                        if (a.exp < b.exp)
+                        {
+                            return 1;
+                        }
+                        else if (a.exp == b.exp)
+                        {
+                            return 0;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+
+                    });
+                }
+                break;
+            case sortType.Power:
+                {
+                    servantList.Sort((a, b) =>
+                    {
+                        double aPower = Etc.instance.Getatk(a);
+                        double bPower = Etc.instance.Getatk(b);
+                        if (aPower < bPower)
+                        {
+                            return 1;
+                        }
+                        else if (aPower == bPower)
+                        {
+                            return 0;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+
+                    });
+                }
+                break;
+            case sortType.Obtain:
+                {
+                    servantList.Sort((a, b) =>
+                    {
+                        double aValue = a.index;
+                        double bValue = b.index;
+                        if (aValue < bValue)
+                        {
+                            return 1;
+                        }
+                        else if (aValue == bValue)
+                        {
+                            return 0;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+
+                    });
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    public void SortByType(List<UserMonsterData> monsterList, sortType sortType)
+    {
+
+        switch (sortType)
+        {
+            case sortType.Grade:
+                {
+                    monsterList.Sort((a, b) =>
+                    {
+                        double aValue = a.gradeNum;
+                        double bValue = b.gradeNum;
+                        if (aValue < bValue)
+                        {
+                            return 1;
+                        }
+                        else if (aValue == bValue)
+                        {
+                            return 0;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+
+                    });
+                }
+                break;
+            case sortType.Level:
+                {
+                    monsterList.Sort((a, b) =>
+                    {
+                        double aValue = a.level;
+                        double bValue = b.level;
+                        if (aValue < bValue)
+                        {
+                            return 1;
+                        }
+                        else if (aValue == bValue)
+                        {
+                            return 0;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+
+                    });
+                }
+                break;
+            case sortType.Power:
+                {
+                    monsterList.Sort((a, b) =>
+                    {
+                        double aPower = Etc.instance.Getatk(a);
+                        double bPower = Etc.instance.Getatk(b);
+                        if (aPower < bPower)
+                        {
+                            return 1;
+                        }
+                        else if (aPower == bPower)
+                        {
+                            return 0;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+
+                    });
+                }
+                break;
+            case sortType.Obtain:
+                {
+                    monsterList.Sort((a, b) =>
+                    {
+                        double aValue = a.index;
+                        double bValue = b.index;
+                        if (aValue < bValue)
+                        {
+                            return 1;
+                        }
+                        else if (aValue == bValue)
+                        {
+                            return 0;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+
+                    });
+                }
+                break;
+            default:
+                break;
+        }
+
+    }
 }
 
 // Event보유하고있는 클래스
@@ -146,7 +582,7 @@ public enum MountitemType
 {
     Weapon,
     Defense,
-    Accesory
+    Accessory
 }
 public enum StatType
 {
@@ -162,8 +598,19 @@ public enum StatType
     Hp,
 
 }
-public enum PlayerType
+
+// 토탈스탯
+public class StatInfo
 {
-    servant,
-    monster
+    public double str;
+    public double dex;
+    public double INT;
+
+    public double atk;
+    public double def;
+    public double spd;
+    public double hp;
+    public double criprob;
+    public double cridmg;
+
 }

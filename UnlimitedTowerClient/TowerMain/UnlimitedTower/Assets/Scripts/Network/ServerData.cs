@@ -20,47 +20,76 @@ public class statusInfo
     public int plus_str = 0;
     public int plus_dex = 0;
     public int plus_int = 0;
+    
 };
 
 [Serializable]
 public class servantInfo
 {
-    public int state;
-    public int exp;
+    public int state;           
+    public int exp;             
+    public int stat_point;        
     public int job;
-    public int stat_point;
-    public bool onformation;
-    public int formationindex;
-
-    public bool isMainServant;
 
     public appearInfo appear = new appearInfo();
     public statusInfo status = new statusInfo();
     public List<int> equip_slot = new List<int>();
+
+    /// <summary>
+    ///  새로 추가된 데이터
+    ///  islegend : 해당서번트가 전설직업을 갖는 서번트인지 
+    ///  name: 해당서번트에게 유저가 붙인 이름
+    /// </summary>
+    public bool islegend;   
+    public string name;
 };
 
 [Serializable]
 public class monsterInfo
 {
     public int state;
-    public int exp;
-    public int type;
+    public int type;    
     public int look;
+    public int exp;
     public int grade;
     public int upgrade;
+
     public statusInfo status = new statusInfo();
+
+
+    /// <summary>
+    /// 추가된 데이터
+    /// </summary>
+    public string name;
 }
 
 [Serializable]
 public class itemInfo
 {
+    /// <summary>
+    /// 추가된 데이터
+    /// </summary>
+    public int itemnum;
+
+    public bool ismounted;
+    public int mounted_serv_num;
+
+
+    /// <summary>
+    /// 기존데이터 중 사용하는 데이터
+    /// </summary>
+    public int tier;
+    public int upgrade;
+
+
+    /// <summary>
+    /// 기존데이터중 사용하지않는 데이터
+    /// </summary>
     public int state;
     public int id;
     public int slot;
-    public int tier;
     public int job;
     public int grade;
-    public int upgrade;
     public int atk;
     public int def;
     public statusInfo status = new statusInfo();
@@ -76,13 +105,26 @@ public class partyInfo
 
 #endregion
 
+
+
 #region Data
+
+[Serializable]
+public class UserLoginData
+{
+    public userData userinfo = new userData();
+    public List<servantData> servant_list = new List<servantData>();
+    public List<monsterData> monster_list = new List<monsterData>();
+    public List<itemData> item_list = new List<itemData>();
+    public List<partyData> party_list = new List<partyData>();
+}
+
 
 [Serializable]
 public class userData
 {
     public string user;
-    public int game_money;
+    //public int game_money;
     public int state; //씬 상태
     public servantInfo hero = new servantInfo();
 }
@@ -138,15 +180,7 @@ public class partyData
     public List<int> party = new List<int>();
 }
 
-[Serializable]
-public class UserLoginData
-{
-    public userData userinfo = new userData();
-    public List<servantData> servant_list = new List<servantData>();
-    public List<monsterData> monster_list = new List<monsterData>();
-    public List<itemData> item_list = new List<itemData>();
-    public List<partyData> party_list = new List<partyData>();
-}
+
 
 [Serializable]
 public class actionInfo

@@ -3,9 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HeroInfoPopup : MonoBehaviour {
-    
-    // UI
+public class HeroInfoPopup : MonoBehaviour
+{
+    /// <summary>
+    /// HeroInfoPopup 윈도우 스크립트 입니다. (인스펙터에 HeroInfoPopup 검색시 어떤 오브젝트에 붙어있는것인지 나옴)
+    /// 
+    /// STATE 1: Registered
+    ///     weaponSlot,armorSlot,accessorySlot이 현재 해당윈도우에 연결된 servantdata의 mountItemListChangeEvent에 콜백을 등록해놓은 상태.
+    ///     registered == true, servantdata에 UserServantData가 입력된 상태
+    ///     
+    /// STATE 2. DeRegistered
+    ///      UI가 꺼진 상태
+    ///      registered == false
+    /// </summary>
+
+    // 스탯 UI들
     [SerializeField] Text powertext;        // 공격력
     [SerializeField] Text hptext;           // 생명력
     [SerializeField] Text deftext;          // 방어력
@@ -19,30 +31,64 @@ public class HeroInfoPopup : MonoBehaviour {
     [SerializeField] Text levelText;           // 레벨
     [SerializeField] Text nameText;            // 이름
 
-    [SerializeField] Image WeaponImage;              // 무기칸
-    [SerializeField] Image DefenseImage;             // 방어구칸
-    [SerializeField] Image AccesoryImage;            // 악세서리칸
+    // 무기,방어구,악세서리 슬롯
+    [SerializeField] HeroinfoItemSlot weaponSlot;
+    [SerializeField] HeroinfoItemSlot armorSlot;
+    [SerializeField] HeroinfoItemSlot accessorySlot;
 
-    //
-    [SerializeField] GameObject CharCamera;
-    [SerializeField] Vector3 CharPos;
+    // 인벤토리 창
+    [SerializeField] public Heroinfo_InvenPannel heroinfo_invenpannel;
+    public void SetHeroinfoPannel(bool active)
+    {
+        heroinfo_invenpannel.gameObject.SetActive(active);
+    }
 
-        
+    // 싱글톤
+    public static HeroInfoPopup instance;
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Destroy(this);
+            return;
+        }
+        else
+        {
+            instance = this;
+        }
+
+    }
+    private void OnDestroy()
+    {
+        instance = null;
+    }
+
+
+
+    private void OnDisable()
+    {
+        ToDeregistered();
+    }
+
+
+
+    // FSM 이동 함수
+    // 상태 1: 활성화 상태
+    // 상태 2: 비활성화 상태
     [Space(15)]
     [Header("DEBUG DATAS")]
-    public UserServantData servant;
-    public bool registered = false;
-    public GameObject _CharObj;
-    public void to_registered(UserServantData servant)
+    public UserServantData servantData;
+    public UserMonsterData monsterData;
+    public UNIT_TYPE unitType;
+    public bool isRegistered = false;
+    public void ToRegistered(UserServantData servant)
     {
-        if (registered)
+        if (isRegistered)
         {
             return;
         }
-        registered = true;
-
-        
-        this.servant = servant;
+        isRegistered = true;
+        this.servantData = servant;
 
         // 능력치 창
         powertext.text = ((int)Etc.instance.Getatk(servant)).ToString();
@@ -54,7 +100,7 @@ public class HeroInfoPopup : MonoBehaviour {
         strtext.text = ((int)Etc.instance.Getstr(servant)).ToString();
         dextext.text = ((int)Etc.instance.Getdex(servant)).ToString();
         wistext.text = ((int)Etc.instance.Getint(servant)).ToString();
-        
+
         // 레벨 이름
         levelText.text = "lv." + servant.level;
         nameText.text = servant.name;
@@ -63,94 +109,73 @@ public class HeroInfoPopup : MonoBehaviour {
         SubCamera.instance.Register(servant);
 
         // 무기칸
-        foreach (var mountitem in UserDataManager.Inst.mountitemDic.Values)
-        {
-            // DB에없는 아이템일경우 continue
-            MountItemEntity.Param param = ErdManager.instance.getmountitemEntityTable_nullPossible(mountitem.mountitemNum);
-            if (param == null)
-            {
-                continue;
-            }
-
-            // 현재 해당서번트가 착용한 무기가맞다면 등록해주기
-            if (mountitem.isMounted && mountitem.mountServantIndex == servant.index && param.mountitemType == MountitemType.Weapon)
-            {
-                // 해당 무기칸 슬롯에다가 이 무기자체를 등록해줘야함.
-                WeaponImage.sprite = ErdManager.instance.MountitemSprite[mountitem.mountitemNum];
-                break;
-            }
-        }
+        weaponSlot.gameObject.SetActive(true);
+        weaponSlot.ToRegister(servant);
 
         // 방어구칸
-        foreach (var mountitem in UserDataManager.Inst.mountitemDic.Values)
-        {
-            //
-            MountItemEntity.Param param = ErdManager.instance.getmountitemEntityTable_nullPossible(mountitem.mountitemNum);
-            if (param == null)
-            {
-                continue;
-            }
-
-            // 현재 해당서번트가 착용한 방어구마 맞다면 등록해주기 
-            if (mountitem.isMounted && mountitem.mountServantIndex == servant.index && param.mountitemType == MountitemType.Defense)
-            {
-                // 해당 방어구슬롯자체에 이 방어구를 등록해줘야함.
-                WeaponImage.sprite = ErdManager.instance.MountitemSprite[mountitem.mountitemNum];
-                break;
-            }
-        }
+        armorSlot.gameObject.SetActive(true);
+        armorSlot.ToRegister(servant);
 
         // 악세서리칸
-        foreach (var mountitem in UserDataManager.Inst.mountitemDic.Values)
-        {
-            //
-            MountItemEntity.Param param = ErdManager.instance.getmountitemEntityTable_nullPossible(mountitem.mountitemNum);
-            if (param == null)
-            {
-                continue;
-            }
+        accessorySlot.gameObject.SetActive(true);
+        accessorySlot.ToRegister(servant);
 
-            // 현재 해당서번트가 착용한 방어구마 맞다면 등록해주기 
-            if (mountitem.isMounted && mountitem.mountServantIndex == servant.index && param.mountitemType == MountitemType.Accesory)
-            {
-                // 해당 악세서리슬롯 자체에 이 악세서리를 등록해줘야함.
-                WeaponImage.sprite = ErdManager.instance.MountitemSprite[mountitem.mountitemNum];
-                break;
-            }
-        }
-        
+        gameObject.SetActivateWithAnimation(true);
     }
-    public void to_deregistered()
+    public void ToRegistered(UserMonsterData monster)
     {
-        if (!registered)
+        if (isRegistered)
         {
             return;
         }
-        registered = false;
-        SubCamera.instance.Deregister();
+        isRegistered = true;
+        this.monsterData = monster;
+
+        // 능력치 창
+        powertext.text = ((int)Etc.instance.Getatk(monsterData)).ToString();
+        hptext.text = (int)Etc.instance.GetHP(monsterData) + "";
+        deftext.text = ((int)Etc.instance.GetDef(monsterData)).ToString();
+        criProbtext.text = ((int)Etc.instance.GetCriticalProb(monsterData)).ToString();
+        criValuetext.text = "";
+        //Speedtext.text = ErdManager.instance.getServantJobEntityTable_nullPossible(monsterData.jobNum).speed.ToString();
+        strtext.text = ((int)Etc.instance.Getstr(monsterData)).ToString();
+        dextext.text = ((int)Etc.instance.Getdex(monsterData)).ToString();
+        wistext.text = ((int)Etc.instance.Getint(monsterData)).ToString();
+
+        // 레벨 이름
+        levelText.text = "lv." + monsterData.level;
+        nameText.text = monsterData.name;
+
+        // 캐릭터프리팹
+        SubCamera.instance.Register(monsterData);
+
+        gameObject.SetActivateWithAnimation(true);
     }
-
-
-    private void OnEnable()
+    public void ToDeregistered()
     {
-        if (registered == false)
+        if (!isRegistered)
         {
-            UserServantData servantdata = UserDataManager.Inst.ServantList.Find((rowdata) => { return rowdata.isMainHero; });
-            to_registered(servantdata);
+            return;
         }
-    }
-    private void OnDisable()
-    {
-        to_deregistered();
-    }
+        isRegistered = false;
 
+        switch (unitType)
+        {
+            case UNIT_TYPE.SERVANT:
+                {
+                    weaponSlot.gameObject.SetActive(false);
+                    armorSlot.gameObject.SetActive(false);
+                    accessorySlot.gameObject.SetActive(false);
+                }
+                break;
+            case UNIT_TYPE.MONSTER:
+                {
 
-    
-    //
-    public void register(UserServantData servant)
-    {
-        registered = true;
-        
+                }
+                break;
+        }
+
+        SubCamera.instance.Deregister();
     }
     
 }

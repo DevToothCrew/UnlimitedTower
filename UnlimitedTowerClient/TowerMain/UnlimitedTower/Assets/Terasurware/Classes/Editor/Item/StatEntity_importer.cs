@@ -36,7 +36,7 @@ public class StatEntity_importer : AssetPostprocessor
                     var data = (StatEntity)AssetDatabase.LoadAssetAtPath(exportPath, typeof(StatEntity));
                     if (data == null)
                     {
-					     //�����丮�� ���ٸ� �������ش�
+					     //���丮�� ���ٸ� ������ش�
                         if (!Directory.Exists(Path.GetDirectoryName(exportPath).Replace("\\", "/")))
                             Directory.CreateDirectory(Path.GetDirectoryName(exportPath).Replace("\\", "/"));
 

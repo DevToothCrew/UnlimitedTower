@@ -14,73 +14,85 @@ MonoBehaviour:
   param:
   - monsterNum: 0
     typeNum: 0
-    monsterName: "\uBD88\uD398\uC5B4\uB9AC"
-    mainstatTypenum: 0
+    monsterName: Anubis
+    mainstatTypenum: 30
     apearNum: 0
-    sizeNum: 0
-  - monsterNum: 0
-    typeNum: 1
-    monsterName: "\uBB3C\uD398\uC5B4\uB9AC"
-    mainstatTypenum: 1
-    apearNum: 1
-    sizeNum: 0
-  - monsterNum: 0
-    typeNum: 2
-    monsterName: "\uB545\uD398\uC5B4\uB9AC"
-    mainstatTypenum: 2
-    apearNum: 2
     sizeNum: 0
   - monsterNum: 1
     typeNum: 0
-    monsterName: "\uBD88\uC880\uBE44"
+    monsterName: "\uBD88\uCE74\uB4DC"
+    mainstatTypenum: 0
+    apearNum: 1
+    sizeNum: 0
+  - monsterNum: 1
+    typeNum: 1
+    monsterName: "\uBB3C\uCE74\uB4DC"
+    mainstatTypenum: 1
+    apearNum: 2
+    sizeNum: 0
+  - monsterNum: 2
+    typeNum: 0
+    monsterName: "\uAC80\uACE0\uC591\uC774"
     mainstatTypenum: 0
     apearNum: 3
     sizeNum: 0
-  - monsterNum: 1
-    typeNum: 1
-    monsterName: "\uBB3C\uC880\uBE44"
+  - monsterNum: 2
+    typeNum: 2
+    monsterName: "\uAC08\uACE0\uC591\uC774"
     mainstatTypenum: 1
     apearNum: 4
     sizeNum: 0
-  - monsterNum: 1
-    typeNum: 2
-    monsterName: "\uB545\uC880\uBE44"
+  - monsterNum: 3
+    typeNum: 0
+    monsterName: "\uB2E4\uD06C\uC790\uC774\uC5B8\uD2B8"
     mainstatTypenum: 2
     apearNum: 5
     sizeNum: 0
-  - monsterNum: 2
+  - monsterNum: 4
     typeNum: 0
-    monsterName: "\uBD88\uB098\uBC29"
+    monsterName: "\uB2E4\uD06C\uB9E4\uC9C0\uC158"
     mainstatTypenum: 0
     apearNum: 6
     sizeNum: 0
-  - monsterNum: 2
-    typeNum: 1
-    monsterName: "\uBB3C\uB098\uBC29"
+  - monsterNum: 5
+    typeNum: 0
+    monsterName: "\uB370\uC2A4"
     mainstatTypenum: 1
     apearNum: 7
     sizeNum: 0
-  - monsterNum: 2
-    typeNum: 2
-    monsterName: "\uB545\uB098\uBC29"
+  - monsterNum: 6
+    typeNum: 0
+    monsterName: "\uBD88\uC5D0\uADF8"
     mainstatTypenum: 2
     apearNum: 8
     sizeNum: 0
-  - monsterNum: 3
-    typeNum: 0
-    monsterName: "\uBD88\uACE0\uBE14\uB9B0"
+  - monsterNum: 6
+    typeNum: 1
+    monsterName: "\uBB3C\uC5D0\uADF8"
     mainstatTypenum: 0
     apearNum: 9
     sizeNum: 0
-  - monsterNum: 3
-    typeNum: 1
-    monsterName: "\uBB3C\uACE0\uBE14\uB9B0"
+  - monsterNum: 6
+    typeNum: 2
+    monsterName: "\uB545\uC5D0\uADF8"
     mainstatTypenum: 1
     apearNum: 10
     sizeNum: 0
-  - monsterNum: 3
-    typeNum: 2
-    monsterName: "\uB545\uACE0\uBE14\uB9B0"
+  - monsterNum: 7
+    typeNum: 0
+    monsterName: "\uBD88\uBC84\uC12F"
     mainstatTypenum: 2
     apearNum: 11
+    sizeNum: 0
+  - monsterNum: 7
+    typeNum: 1
+    monsterName: "\uBB3C\uBC84\uC12F"
+    mainstatTypenum: 0
+    apearNum: 12
+    sizeNum: 0
+  - monsterNum: 7
+    typeNum: 2
+    monsterName: "\uB545\uBC84\uC12F"
+    mainstatTypenum: 1
+    apearNum: 13
     sizeNum: 0

@@ -1,148 +1,397 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class PartnerInfoPopup : MonoBehaviour {
+public class PartnerInfoPopup : MonoBehaviour
+{
 
     // 해당 윈도우의 상태는 2개의 변수로 정의됩니다
     // 1. windowstate -> 현재 Servant만 보여주고있는지, Monster만 보여주고있는지 결정
     // 2. sortstate   -> 현재 어떠한 값을 기준으로 정렬중인지 결정
-    
+
     // 슬롯 리스트 //
     [SerializeField] List<SlotScript> SlotList = new List<SlotScript>();
-    
-    // FSM 변수 //
-    public enum WindowState
+
+    [SerializeField] Text pageText;
+    [SerializeField] GameObject SellingModeObj;
+    [SerializeField] GameObject DisplayModeObj;
+
+
+    const DISPLAY_UNIT_TYPE defaultUnitType = DISPLAY_UNIT_TYPE.Servant;
+    const SORT_TYPE defaultSortType = SORT_TYPE.Level;
+    const int defaultPageNum = 0;
+
+
+    /* FSM 변수 */
+
+    // UNIT_TYPE
+    public enum DISPLAY_UNIT_TYPE
     {
         Servant,
         Monster
     }
-    public WindowState windowstate;
+    public DISPLAY_UNIT_TYPE unitType;
+    [SerializeField] int _pageNum;
+    int pageNum
+    {
+        get
+        {
+            return _pageNum;
+        }
+        set
+        {
+            _pageNum = value;
 
-    public enum SortState
+            switch (unitType)
+            {
+                case DISPLAY_UNIT_TYPE.Servant:
+                    pageText.text = (_pageNum + 1) + "/" + (Mathf.FloorToInt(UserDataManager.Inst.ServantList.Count / SlotList.Count) + 1);
+                    break;
+                case DISPLAY_UNIT_TYPE.Monster:
+                    pageText.text = (_pageNum + 1) + "/" + (Mathf.FloorToInt(UserDataManager.Inst.MonsterList.Count / SlotList.Count) + 1);
+                    break;
+            }
+        }
+    }
+
+    // SORT
+    public enum SORT_TYPE
     {
         Grade,
         Level,
         Power,
-        Obtain  
+        Obtain
     }
-    public SortState sortstate;
+    public SORT_TYPE sortState;
     
+    // MODE 
+    public enum MODE_TYPE
+    {
+        JUST_DISPLAY,
+        SELLING
+    }
+    public MODE_TYPE modeType;
+    public List<UserMonsterData> sellingMonsterList;
+    public List<UserServantData> sellingServantList;
+    public static System.Action<UserMonsterData> monsterListChanged;
+    public static System.Action<UserServantData> servantListChanged;
+    public static System.Action modeChanged;
+
     private void OnEnable()
     {
-        // 
-        switch (windowstate)
-        {
-            case WindowState.Servant:
-                toServantState();
-                break;
-            case WindowState.Monster:
-                toMonsterState();
-                break;
-        }
+        ToJustDisplayMode();
+        DisplayUnits(PartnerInfoPopup.defaultUnitType, PartnerInfoPopup.defaultSortType, PartnerInfoPopup.defaultPageNum);
     }
 
 
-    // FSM 상태이동 함수들 // 
-    // WindowState 이동
-    public void toServantState()
+
+
+
+
+    /* FSM 상태이동 함수*/
+
+    // UNIT_TYPE
+    public void DisplayUnits(DISPLAY_UNIT_TYPE unitType, SORT_TYPE sortType, int pageNum)
     {
+        this.unitType = unitType;
+        this.sortState = sortType;
+        this.pageNum = pageNum;
+
         // 창 초기화
         for (int i = 0; i < SlotList.Count; i++)
         {
             SlotList[i].LockSlot();
         }
+        
 
-        // 서번트 등록
-        int index = 0;
-        foreach (var servantpair in UserDataManager.Inst.servantDic)
+        // 정렬 
+        int startIndex = SlotList.Count * pageNum;
+        int endIndex = SlotList.Count * (pageNum + 1);
+        switch (unitType)
         {
-            SlotList[index].register(servantpair.Value);
-            index++;
-        }
-
-        // 다시정렬
-        setSortState((int)sortstate);
-
-        windowstate = WindowState.Servant;
-    }
-    public void toMonsterState()
-    {
-        // 창 초기화
-        for (int i = 0; i < SlotList.Count; i++)
-        {
-            SlotList[i].LockSlot();
-        }
-
-        // 몬스터 등록
-        // 서번트 등록
-        int index = 0;
-        foreach (var monsterpair in UserDataManager.Inst.monsterDic)
-        {
-            SlotList[index].register(monsterpair.Value);
-            index++;
-        }
-
-        // 다시정렬
-        setSortState((int)sortstate);
-
-        windowstate = WindowState.Monster;
-    }
-    // sortState 이동
-    [SerializeField] List<Slot_Value_Tuple> _TupleList = new List<Slot_Value_Tuple>();
-    public List<Slot_Value_Tuple> _tupleList
-    {
-        get
-        {
-            // 슬롯이 등록안되어있다면 일단 등록해줌
-            if (_TupleList.Count < SlotList.Count)
-            {
-                for (int i = 0; i < SlotList.Count; i++)
+            case DISPLAY_UNIT_TYPE.Servant:
                 {
-                    Slot_Value_Tuple newval = new Slot_Value_Tuple(SlotList[i]);
-                    _TupleList.Add(newval);
-                }
-            }
+                    List<UserServantData> list = new List<UserServantData>();
+                    for (int i = startIndex; i < endIndex && i < UserDataManager.Inst.ServantList.Count; i++)
+                    {
+                        list.Add(UserDataManager.Inst.ServantList[i]);
+                    }
 
-            return _TupleList;
-            
-        }
-        set
-        {
-            _TupleList = value;
+                    // 
+                    List<Value> sortedSlotList = list.ConvertAll((servantdata) =>
+                    {
+                        switch (sortState)
+                        {
+                            case SORT_TYPE.Grade:
+                                return new Value(servantdata, servantdata.isLegend ? 1 : 0);
+                            case SORT_TYPE.Level:
+                                return new Value(servantdata, servantdata.level);
+                            case SORT_TYPE.Power:
+                                return new Value(servantdata, Etc.instance.Getatk(servantdata));
+                            default:
+                                return new Value(servantdata, servantdata.index);
+                        }
+                    });
+                    // 
+                    sortedSlotList.Sort((a, b) => {
+                        if (a.value < b.value)
+                        {
+                            return 1;
+                        }
+                        else if (a.value == b.value)
+                        {
+                            return 0;
+                        }
+                        else
+                            return -1;
+                    });
+
+                    // 디스플레이
+                    for (int i = 0; i < SlotList.Count && i < sortedSlotList.Count; i++)
+                    {
+                        SlotList[i].Register(sortedSlotList[i].servantdata);
+                    }
+                }
+                break;
+            case DISPLAY_UNIT_TYPE.Monster:
+                {
+                    List<UserMonsterData> list = new List<UserMonsterData>();
+                    for (int i = startIndex; i < endIndex && i < UserDataManager.Inst.MonsterList.Count; i++)
+                    {
+                        list.Add(UserDataManager.Inst.MonsterList[i]);
+                    }
+
+                    List<Value> sortedSlotList = list.ConvertAll((monsterdata) =>
+                    {
+                        switch (sortState)
+                        {
+                            case SORT_TYPE.Grade:
+                                return new Value(monsterdata, monsterdata.gradeNum);
+                            case SORT_TYPE.Level:
+                                return new Value(monsterdata, monsterdata.level);
+                            case SORT_TYPE.Power:
+                                return new Value(monsterdata, Etc.instance.Getatk(monsterdata));
+                            default:
+                                return new Value(monsterdata, monsterdata.index);
+                        }
+                    });
+                    sortedSlotList.Sort((a, b) => {
+                        if (a.value < b.value)
+                        {
+                            return 1;
+                        }
+                        else if (a.value == b.value)
+                        {
+                            return 0;
+                        }
+                        else
+                            return -1;
+                    });
+                    // 디스플레이
+                    for (int i = 0; i < SlotList.Count && i < sortedSlotList.Count; i++)
+                    {
+                        SlotList[i].Register(sortedSlotList[i].monsterdata);
+                    }
+                }
+                break;
         }
     }
-    public void setSortState(int sortstateNum)
-    {
-        this.sortstate = (SortState)sortstateNum;
 
-        // 값 세팅하기
-        for (int i = 0; i < _tupleList.Count; i++)
+    // SORT_STATE
+    public void SortByGrade()
+    {
+        DisplayUnits(unitType, SORT_TYPE.Grade, pageNum);
+    }
+    public void SortByLevel()
+    {
+        DisplayUnits(unitType, SORT_TYPE.Level, pageNum);
+    }
+    public void SortByPower()
+    {
+        DisplayUnits(unitType, SORT_TYPE.Power, pageNum);
+    }
+    public void SortByObtain()
+    {
+        DisplayUnits(unitType, SORT_TYPE.Obtain, pageNum);
+    }
+    public void SetSortState(int sortstateNum)
+    {
+        Debug.Log("click");
+
+        // 이미같은 sort면 -> return
+        if (sortstateNum == (int)this.sortState)
         {
-            _tupleList[i].setValue(this.sortstate);
+            Debug.Log("click");
+            return;
         }
 
-        // 내림차순 정렬
-        _tupleList.Sort((a, b) =>
-        {
-            if (a.value < b.value)
-            {
-                return 1;
-            }
-            else if (a.value == b.value)
-            {
-                return 0;
-            }
-            else
-            {
-                return -1;
-            }
-        });
 
-        // display
-        for (int i = 0; i < _tupleList.Count; i++)
+        DisplayUnits(unitType, (SORT_TYPE)sortstateNum, pageNum);
+    }
+
+    // MODE_TYPE
+    public void ToJustDisplayMode()
+    {
+        modeType = MODE_TYPE.JUST_DISPLAY;
+
+        sellingMonsterList = new List<UserMonsterData>();
+        sellingServantList = new List<UserServantData>();
+
+        if (modeChanged != null)
         {
-            _tupleList[i].slotscript.transform.SetAsLastSibling();
+            modeChanged();
+        }
+
+        // 셀링버튼 업데이트
+        SellingModeObj.SetActive(false);
+        DisplayModeObj.SetActive(true);
+    }
+    public void ToSellingMode()
+    {
+        modeType = MODE_TYPE.SELLING;
+
+        if (modeChanged != null)
+        {
+            modeChanged();
+        }
+
+        // 셀링버튼 업데이트
+        SellingModeObj.SetActive(true);
+        DisplayModeObj.SetActive(false);
+    }
+
+
+
+
+    /* 버튼 온클릭 함수 */
+
+    // 상단버튼 온클릭
+    public void OnClickServantBtn()
+    {
+        if (unitType == DISPLAY_UNIT_TYPE.Servant)
+        {
+            return;
+        }
+
+        DisplayUnits(DISPLAY_UNIT_TYPE.Servant, sortState, 0);
+    }
+    public void OnClickMonsterBtn()
+    {
+        if (unitType == DISPLAY_UNIT_TYPE.Monster)
+        {
+            return;
+        }
+
+        DisplayUnits(DISPLAY_UNIT_TYPE.Monster, sortState, 0);
+    }
+
+    // 우측화살표, 좌측화살표 버튼 온클릭
+    public void OnClickRightArrow()
+    {
+        // 다음윈도우안에 서번트 혹은 몬스터가 있다면 넘어간다.
+        int startIndex = (pageNum + 1) * SlotList.Count;
+        int endIndex = (pageNum + 2) * SlotList.Count;
+        switch (unitType)
+        {
+            case DISPLAY_UNIT_TYPE.Servant:
+                {
+                    if (UserDataManager.Inst.ServantList.Count - 1 >= startIndex)
+                    {
+                        DisplayUnits(DISPLAY_UNIT_TYPE.Servant, sortState, pageNum + 1);
+                    }
+                }
+                break;
+            case DISPLAY_UNIT_TYPE.Monster:
+                {
+                    if (UserDataManager.Inst.MonsterList.Count - 1 >= startIndex)
+                    {
+                        DisplayUnits(DISPLAY_UNIT_TYPE.Monster, sortState, pageNum + 1);
+                    }
+                }
+                break;
+        }
+    }
+    public void OnClickLeftArrow()
+    {
+        // 이미 페이지가 0페이지면 -> return
+        if (pageNum == 0)
+        {
+            return;
+        }
+
+
+        switch (unitType)
+        {
+            case DISPLAY_UNIT_TYPE.Servant:
+                {
+                    DisplayUnits(DISPLAY_UNIT_TYPE.Servant, sortState, Mathf.Max(pageNum - 1, 0));
+                }
+                break;
+            case DISPLAY_UNIT_TYPE.Monster:
+                {
+                    DisplayUnits(DISPLAY_UNIT_TYPE.Monster, sortState, Mathf.Max(pageNum - 1, 0));
+                }
+                break;
+        }
+    }
+
+    // 셀링모드일때 버튼 클릭시
+    public void OnClickSellingBtn()
+    {
+        if (modeType == MODE_TYPE.JUST_DISPLAY)
+        {
+            ToSellingMode();
+        }
+        else
+        {
+            ToJustDisplayMode();
+        }
+    }
+    public void OnClickInSellingmode(UserServantData servantdata)
+    {
+        if (modeType != MODE_TYPE.SELLING)
+        {
+            return;
+        }
+
+        Debug.Log("servant Onclick! : " + servantdata.index);
+
+        if (sellingServantList.Contains(servantdata))
+        {
+            sellingServantList.Remove(servantdata);
+        }
+        else
+        {
+            sellingServantList.Add(servantdata);
+        }
+
+        if (servantListChanged != null)
+        {
+            servantListChanged(servantdata);
+        }
+    }
+    public void OnClickInSellingmode(UserMonsterData monsterdata)
+    {
+        if (modeType != MODE_TYPE.SELLING)
+        {
+            return;
+        }
+
+
+        if (sellingMonsterList.Contains(monsterdata))
+        {
+            sellingMonsterList.Remove(monsterdata);
+        }
+        else
+        {
+            sellingMonsterList.Add(monsterdata);
+        }
+
+
+        if (monsterListChanged != null)
+        {
+            monsterListChanged(monsterdata);
         }
     }
 
@@ -151,90 +400,21 @@ public class PartnerInfoPopup : MonoBehaviour {
 
     // 정렬할때 transform 과 각칸의 value를 함께 갖는 클래스
     [System.Serializable]
-    public class Slot_Value_Tuple
+    public class Value
     {
-        public SlotScript slotscript;
+        public UserServantData servantdata;
+        public UserMonsterData monsterdata;
         public double value;
-
-        public void setValue(SortState sortstate)
+        
+        public Value(UserServantData servantdata, double value)
         {
-            // Early Exit 조건 => slot이 unlock상태이면, 가장 낮은값을 주고 나간다.
-            if (slotscript.slottype == SlotScript.SlotType.locked)
-            {
-                value = double.MinValue;
-                return;
-            }
-
-
-            // 분류방법에 따라서 어떻게 값을 할당할지 정한다.
-            switch (sortstate)
-            {
-                case SortState.Grade:   // 등급순
-                    {
-                        switch (slotscript.slottype)
-                        {
-                            case SlotScript.SlotType.servant:
-                                {
-                                    // 서번트가 영웅이면 grade 1
-                                    // 영웅이 아니면 grade 0
-                                    value = slotscript.servant.isLegend ? 1 : 0;
-                                }
-                                break;
-                                
-                            case SlotScript.SlotType.monster:
-                                {
-                                    value = slotscript.monster.gradeNum;
-                                }
-                                break;
-                        }
-                    }
-                    break;
-                case SortState.Level:   // 레벨순
-                    {
-                        switch (slotscript.slottype)
-                        {
-                            case SlotScript.SlotType.servant:
-                                {
-                                    value = slotscript.servant.level;
-                                }
-                                break;
-
-                            case SlotScript.SlotType.monster:
-                                {
-                                    value = slotscript.monster.level;
-                                }
-                                break;
-                        }
-                    }
-                    break;
-                case SortState.Power:   // 파워순
-                    {
-                        switch (slotscript.slottype)
-                        {
-                            case SlotScript.SlotType.servant:
-                                {
-                                    value = Etc.instance.Getatk(slotscript.servant);
-                                }
-                                break;
-
-                            case SlotScript.SlotType.monster:
-                                {
-                                    value = Etc.instance.Getatk(slotscript.monster);
-                                }
-                                break;
-                        }
-                    }
-                    break;
-                case SortState.Obtain:  // 이 캐릭터를 얻은순서를 의미하는것인지 ... 
-                    {
-
-                    }
-                    break;
-            }
+            this.servantdata = servantdata;
+            this.value = value;
         }
-        public Slot_Value_Tuple(SlotScript trans)
+        public Value(UserMonsterData monsterdata, double value)
         {
-            this.slotscript = trans;
+            this.monsterdata = monsterdata;
+            this.value = value;
         }
     }
 }

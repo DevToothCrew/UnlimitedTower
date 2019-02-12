@@ -60,7 +60,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public void ChangeSceneState(SCENE_STATE state)
     {
-        Debug.Log(state + "==>");
         UserDataManager.Inst.SetSceneState(state);
 
         switch (state)
@@ -97,7 +96,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     
     public void SetRightPopup(GameObject obj)
     {
-        Debug.Log("dz2");
         LoginPopup.SetActivateWithAnimation(false);
         RightPopup.SetActivateWithAnimation(false);
         CenterPopup.SetActivateWithAnimation(false);
@@ -179,7 +177,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public void EnterGachaScene(int gachaNum)
     {
-        GachaScene.SetActivateWithAnimation(true);
+        GachaScene.SetActive(true);
 
         RightPopup.SetActivateWithAnimation(false);
         TowerGrid.SetActivateWithAnimation(false);
@@ -190,7 +188,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public void OnClickExitGacha()
     {
-        GachaScene.SetActivateWithAnimation(false);
+        GachaScene.SetActive(false);
 
         RightPopup.SetActivateWithAnimation(true);
         TowerGrid.SetActivateWithAnimation(true);

@@ -36,7 +36,7 @@ public class MountItemGradeEntity_importer : AssetPostprocessor
                     var data = (MountItemGradeEntity)AssetDatabase.LoadAssetAtPath(exportPath, typeof(MountItemGradeEntity));
                     if (data == null)
                     {
-					     //�����丮�� ���ٸ� �������ش�
+					     //���丮�� ���ٸ� ������ش�
                         if (!Directory.Exists(Path.GetDirectoryName(exportPath).Replace("\\", "/")))
                             Directory.CreateDirectory(Path.GetDirectoryName(exportPath).Replace("\\", "/"));
 

@@ -36,7 +36,7 @@ public class MountItemStatEntity_importer : AssetPostprocessor
                     var data = (MountItemStatEntity)AssetDatabase.LoadAssetAtPath(exportPath, typeof(MountItemStatEntity));
                     if (data == null)
                     {
-					     //�����丮�� ���ٸ� �������ش�
+					     //���丮�� ���ٸ� ������ش�
                         if (!Directory.Exists(Path.GetDirectoryName(exportPath).Replace("\\", "/")))
                             Directory.CreateDirectory(Path.GetDirectoryName(exportPath).Replace("\\", "/"));
 

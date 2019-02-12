@@ -15,16 +15,22 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public List<UserMountItemData> MountItemList = new List<UserMountItemData>();
 
     public Dictionary<int, UserEtcItemData> etcitemDic = new Dictionary<int, UserEtcItemData>();
+    public List<UserEtcItemData> EtcItemList = new List<UserEtcItemData>();
+    
+    public Dictionary<int, UserPartyData> partyDic = new Dictionary<int, UserPartyData>();
+    public List<UserPartyData> partyList = new List<UserPartyData>();
     
     public List<UserFormationData> UserFormationList = new List<UserFormationData>();
-    public Dictionary<int, UserPartyData> partyDic = new Dictionary<int, UserPartyData>();
-    
+
+
+
+
     public int usingPartyNum = 1;
 
 
 
     // Add Remove
-    public void addServantData(UserServantData getServant)
+    public void AddServantData(UserServantData getServant)
     {
         if (servantDic.ContainsKey(getServant.index) == false)
         {
@@ -36,20 +42,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
             Debug.Log("Invalid SetServant Info : " + getServant.index);
         }
     }
-    public void addMonsterData(UserMonsterData getMonster)
-    {
-        if (monsterDic.ContainsKey(getMonster.index) == false)
-        {
-            monsterDic.Add(getMonster.index, getMonster);
-            MonsterList.Add(getMonster);
-        }
-        else
-        {
-            Debug.Log("Invalid SetMonster Info : " + getMonster.index);
-        }
-    }
-
-    public void removeServantData(int index)
+    public void RemoveServantData(int index)
     {
         if (servantDic.ContainsKey(index))
         {
@@ -62,7 +55,20 @@ public class UserDataManager : MonoSingleton<UserDataManager>
             }
         }
     }
-    public void removeMonsterData(int index)
+
+    public void AddMonsterData(UserMonsterData getMonster)
+    {
+        if (monsterDic.ContainsKey(getMonster.index) == false)
+        {
+            monsterDic.Add(getMonster.index, getMonster);
+            MonsterList.Add(getMonster);
+        }
+        else
+        {
+            Debug.Log("Invalid SetMonster Info : " + getMonster.index);
+        }
+    }
+    public void RemoveMonsterData(int index)
     {
         if (monsterDic.ContainsKey(index))
         {
@@ -75,6 +81,29 @@ public class UserDataManager : MonoSingleton<UserDataManager>
             }
         }
     }
+
+    public void AddMountitemData(UserMountItemData mountitemdata)
+    {
+        MountItemList.Add(mountitemdata);
+        mountitemDic.Add(mountitemdata.index, mountitemdata);
+    }
+    public void RemoveMountiemData(UserMountItemData mountitemdata)
+    {
+        // list
+        if (MountItemList.Contains(mountitemdata))
+        {
+            MountItemList.Remove(mountitemdata);
+        }
+        // dictionary
+        if (mountitemDic.ContainsKey(mountitemdata.index))
+        {
+            mountitemDic.Remove(mountitemdata.index);
+        }
+
+    }
+    
+
+
 
     public UserServantData GetServantInfo(int index)
     {
@@ -103,10 +132,11 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
 
     // get
-    public UserFormationData getFormaData_nullPossible(int team, int formindex)
+    public UserFormationData GetFormaData_nullPossible(int team, int formindex)
     {
         return UserFormationList.Find((rowdata) => { return rowdata.partyIndex == team && rowdata.formationIndex == formindex; });
     }
+
     #region SetFunction
 
     public void SetUserInfo(UserInfo getUserInfo)

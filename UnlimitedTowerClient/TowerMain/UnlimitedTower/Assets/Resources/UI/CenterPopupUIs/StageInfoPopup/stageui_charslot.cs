@@ -18,21 +18,27 @@ public class stageui_charslot : MonoBehaviour {
     //
     [SerializeField] int formationIndex;
 
-    
-    public void to_servant(UserServantData servantdata)
+    // For Debug
+    [SerializeField] UserMonsterData monsterdata;
+    [SerializeField] UserServantData servantdata;
+
+
+    public void ToServant(UserServantData servantdata)
     {
-        UiInitialize();
+        this.servantdata = servantdata;
+        InitializeUI();
 
         charimage.gameObject.SetActive(true);
-        charimage.sprite = ErdManager.instance.GetServantIconSprite(servantdata.isLegend, servantdata.charNum, servantdata.jobNum);
+        charimage.sprite = ErdManager.instance.GetServantIconSprite(servantdata.isLegend, servantdata.body, servantdata.jobNum);
         LefttopImage.gameObject.SetActive(true);
         LefttopImage.sprite = ErdManager.instance.JobIcons[servantdata.jobNum];
         levelText.gameObject.SetActive(true);
         levelText.text = "Lv." + servantdata.level;
     }
-    public void to_monster(UserMonsterData monsterdata)
+    public void ToMonster(UserMonsterData monsterdata)
     {
-        UiInitialize();
+        this.monsterdata = monsterdata;
+        InitializeUI();
 
         MonsterGradeImgage.gameObject.SetActive(true);
         MonsterGradeImgage.sprite = ErdManager.instance.monstergradeIcons[monsterdata.gradeNum];
@@ -46,15 +52,15 @@ public class stageui_charslot : MonoBehaviour {
         levelText.text = "Lv." + monsterdata.level;
 
     }
-    public void to_empty()
+    public void ToEmpty()
     {
-        UiInitialize();
+        InitializeUI();
 
         emptyImage.gameObject.SetActive(true);
     }
 
     // 사용되는  UI초기화
-    public void UiInitialize()
+    public void InitializeUI()
     {
         MonsterEnfCountText.gameObject.SetActive(false);
         emptyImage.gameObject.SetActive(false);
