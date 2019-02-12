@@ -218,7 +218,7 @@ public class battleStateData
 public class battleActionInfoData
 {
     public string user;
-    public List<battleActionInfo> state_list = new List<battleActionInfo>();
+    public List<battleActionInfo> battle_info_list = new List<battleActionInfo>();
 }
 
 //add by canie
