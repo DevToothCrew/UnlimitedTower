@@ -163,6 +163,7 @@ public class UserServantData
     public int body;
     public int headNum;
     public int hairNum;
+    public int gender;
 
     public Status status = new Status();
     public int leftStatPoint;

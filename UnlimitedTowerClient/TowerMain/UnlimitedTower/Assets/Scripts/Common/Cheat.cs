@@ -32,6 +32,8 @@ public class Cheat : MonoSingleton<Cheat>
         return JsonMapper.ToJson(userLoginData);
     }
 
+
+
     public SERVANT_JOB GetRandomServantJob()
     {
         int job = rand.Next(0, 6);
@@ -95,6 +97,27 @@ public class Cheat : MonoSingleton<Cheat>
         }
 
     }
+    public string TestGetPartyData(int partyNum)
+    {
+        partyData partydata = new partyData();
+        partydata.index = partyNum;
+        partydata.state = 0;
+
+        for (int forma_index = 0; forma_index < DEFINE.PARTY_MAX_NUM; forma_index++)
+        {
+            // 메인히어로는 모든 2번자리에 배치되어 있음.
+            if (forma_index == 2)
+            {
+                partydata.party.Add(0);
+            }
+            else
+            {
+                partydata.party.Add(0);
+            }
+        }
+
+        return JsonMapper.ToJson(partydata);
+    }   
 
     public string GetBattleActionData(int heroTarget, int heroAction, int monsterTarget, int monsterAction)
     {
@@ -234,6 +257,7 @@ public class Cheat : MonoSingleton<Cheat>
         monsterData.monster = new monsterInfo();
         monsterData.monster.state = 0;
         monsterData.monster.exp = rand.Next(0, DEFINE.MAX_EXP);
+
         monsterData.monster.type = 0;
         monsterData.monster.look = rand.Next(0, 3);
         monsterData.monster.grade = rand.Next(0, 4);
@@ -250,6 +274,7 @@ public class Cheat : MonoSingleton<Cheat>
         appear.hair = rand.Next(0, (int)APPEAR_HAIR.MAX);
         appear.head = rand.Next(0, (int)APPEAR_HEAD.MAX);
         appear.body = rand.Next(0, (int)APPEAR_BODY.MAX);
+        appear.gender = rand.Next(0, 1);
 
         return appear;
     }

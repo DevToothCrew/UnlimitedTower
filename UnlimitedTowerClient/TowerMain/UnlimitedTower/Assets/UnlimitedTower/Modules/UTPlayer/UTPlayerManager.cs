@@ -32,7 +32,22 @@ public class UTPlayerManager : MonoBehaviour {
 
         public string ToJson()
         {
-            JsonData data = Cheat.Inst.GetUserLoginData(user, gameMoney);
+            //JsonData data = Cheat.Inst.GetUserLoginData(user, gameMoney);
+            JsonData data = Cheat.Inst.TestGetUserLoginData(user);
+
+            return data.ToString();
+        }
+    }
+
+    //파티 저장 로컬 테스트용
+    public class UTPartyData : IJSONableData
+    {
+        public int partyNum;
+
+        public string ToJson()
+        {
+            //JsonData data = Cheat.Inst.GetUserLoginData(user, gameMoney);
+            JsonData data = Cheat.Inst.TestGetPartyData(partyNum);
 
             return data.ToString();
         }
@@ -160,6 +175,9 @@ public class UTPlayerManager : MonoBehaviour {
     /// </summary>
     public event Listener OnTowerResult;
 
+    //현재 저장하려는 파티 정보를 가져 옵니다.
+    public UTPartyData thisParty { get; private set; }
+
     //현재 로그인중인 유저의 정보를 가져옵니다.
     public UTPlayerData thisUser { get; private set; }
     
@@ -199,7 +217,8 @@ public class UTPlayerManager : MonoBehaviour {
                     thisUser = data as UTPlayerData ?? thisUser;
                     string loginInfo = thisUser.ToJson();
                     Debug.Log("[SUCCESS] user login :" + loginInfo);
-                    PacketManager.Inst.ResponseLogin(loginInfo);
+                    //PacketManager.Inst.ResponseLogin(loginInfo);
+                    PacketManager.Inst.TestResponseLogin(loginInfo);
                 }
             };
 
@@ -226,8 +245,11 @@ public class UTPlayerManager : MonoBehaviour {
                 }
                 else
                 {
-                    thisUser = data as UTPlayerData ?? thisUser;
-                    Debug.Log("[SUCCESS] user saveParty :" + thisUser.ToJson());
+                    //thisUser = data as UTPlayerData ?? thisUser;
+                    //Debug.Log("[SUCCESS] user saveParty :" + thisUser.ToJson());
+                    thisParty = data as UTPartyData ?? thisParty;
+                    Debug.Log("[SUCCESS] party saveParty :" + thisParty.ToJson());
+                    //원래 리스폰스 함수는 없었음
                 }
             };
 

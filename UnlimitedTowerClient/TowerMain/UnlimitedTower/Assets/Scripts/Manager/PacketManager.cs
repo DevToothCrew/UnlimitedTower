@@ -585,7 +585,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         UserMonsterData monster = new UserMonsterData();
 
+
         monster.monsterNum = getMonsterInfo.look;
+
 
         monster.index = getMonsterIndex;
         monster.exp = getMonsterInfo.exp;
@@ -704,6 +706,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return party;
     }
 
+
+    #endregion
+
+
+
+  
+
     public void SetBattleAction(BattleActionData getBattleActionData)
     {
 
@@ -714,6 +723,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         BattleSystem.Inst.stageStateData = getStageStateData;
     }
 
+
     public void SetStageResult(StageResultData getStageResultData)
     {
 
@@ -721,3 +731,4 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
 #endregion
 }
+

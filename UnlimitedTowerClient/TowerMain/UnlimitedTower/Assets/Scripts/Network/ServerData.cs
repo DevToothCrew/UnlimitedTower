@@ -9,6 +9,7 @@ public class appearInfo
     public int head;
     public int hair;
     public int body;
+    public int gender;
 };
 
 [Serializable]
@@ -48,8 +49,9 @@ public class servantInfo
 public class monsterInfo
 {
     public int state;
-    public int type;    
-    public int look;
+    public int type;
+    //public int look;
+    public int id;
     public int exp;
     public int grade;
     public int upgrade;
@@ -87,7 +89,8 @@ public class itemInfo
     /// </summary>
     public int state;
     public int id;
-    public int slot;
+    //public int slot;
+    public int type;
     public int job;
     public int grade;
     public int atk;
@@ -95,14 +98,44 @@ public class itemInfo
     public statusInfo status = new statusInfo();
 }
 
-//add by canie
 [Serializable]
-public class partyInfo
+public class assetInfo
 {
-    public int state;
-    public List<int> indexList = new List<int>();
+    public string symbol_name;
+    public int amount;
 }
 
+//battle
+[Serializable]
+public class battleState
+{
+    public int index;
+    public int now_hp;
+    public int attack;
+    public int defense;
+    public int crit_per;
+    public int crit_dmg;
+    public int avoid;
+    public int state;
+    public int speed;
+}
+
+[Serializable]
+public class battleAction
+{
+    public int target_index;
+    public int avoid;
+    public int critical;
+    public int damage;
+}
+
+[Serializable]
+public class battleActionInfo
+{
+    public int index;
+    public int action_type;
+    public List<battleAction> battle_action_list = new List<battleAction>();
+}
 #endregion
 
 
@@ -112,6 +145,7 @@ public class partyInfo
 [Serializable]
 public class UserLoginData
 {
+    public goldData gameMoney = new goldData();
     public userData userinfo = new userData();
     public List<servantData> servant_list = new List<servantData>();
     public List<monsterData> monster_list = new List<monsterData>();
@@ -119,6 +153,11 @@ public class UserLoginData
     public List<partyData> party_list = new List<partyData>();
 }
 
+[Serializable]
+public class goldData
+{
+    public assetInfo balance = new assetInfo();
+}
 
 [Serializable]
 public class userData
@@ -133,6 +172,7 @@ public class userData
 public class servantData
 {
     public int index;
+    public int party_number;
     public servantInfo servant = new servantInfo();
 }
 
@@ -140,6 +180,7 @@ public class servantData
 public class monsterData
 {
     public int index;
+    public int party_number;
     public monsterInfo monster = new monsterInfo();
 }
 
@@ -180,7 +221,32 @@ public class partyData
     public List<int> party = new List<int>();
 }
 
+[Serializable]
+public class battleStateData
+{
+    public string user;
+    public int turn;
+    public int party_number;
+    public List<battleState> state_list = new List<battleState>();
+}
 
+[Serializable]
+public class battleActionInfoData
+{
+    public string user;
+    public List<battleActionInfo> state_list = new List<battleActionInfo>();
+}
+
+[Serializable]
+public class battleRewardData
+{
+    public string user;
+    public int reward_money;
+    public List<int> get_exp_list = new List<int>();
+    public List<servantInfo> get_servant_list = new List<servantInfo>();
+    public List<monsterInfo> get_monster_list = new List<monsterInfo>();
+    public List<itemInfo> get_item_list = new List<itemInfo>();
+}
 
 [Serializable]
 public class actionInfo
