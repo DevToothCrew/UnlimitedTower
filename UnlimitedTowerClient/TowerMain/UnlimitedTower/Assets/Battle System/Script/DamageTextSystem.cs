@@ -9,6 +9,7 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
     public Sprite[] numberSprite = new Sprite[10];
     public GameObject[] TextPool = new GameObject[50];
     public DamageText[] chsing = new DamageText[50];
+    public GameObject MissText; 
 
     private int Index = 0;
     private GameObject Camera_;
@@ -19,14 +20,31 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
     {
         for (int i = 0; i < 50; i++)
         {
-            TextPool[i] = transform.GetChild(i).gameObject;
+            TextPool[i] = transform.GetChild(0).GetChild(i).gameObject;
             chsing[i] = TextPool[i].GetComponent<DamageText>();
             TextPool[i].SetActive(false);
         }
         Camera_ = GameObject.Find("Main Camera");
     }
 
-    public void DamageShow(int target, bool isPlayer, int damage, bool isCritical)
+    public void Avoid(int target, bool isPlayer) // 피한 대상의 인덱스와 플레이어 여부
+    {
+        MissText.transform.GetChild(0).gameObject.SetActive(true);
+        if (isPlayer)
+        {
+            MissText.transform.position =
+                  Camera.main.WorldToScreenPoint(BattleSystem.Inst.PlayerCharacter[target].transform.position +
+                  new Vector3(0, BattleSystem.Inst.PlayerCharacterControl[target].child.GetComponent<CharacterInformation>().Height, 0));
+        }
+        else
+        {
+            MissText.transform.position =
+                  Camera.main.WorldToScreenPoint(BattleSystem.Inst.EnemyCharacter[target].transform.position +
+                  new Vector3(0, BattleSystem.Inst.EnemyCharacterControl[target].child.GetComponent<CharacterInformation>().Height, 0));
+        }
+    }
+
+    public void DamageShow(int target, bool isPlayer, int damage, bool isCritical) // 맞은 대상의 인덱스와 플레이어 여부, 데미지, 크리티컬 여부
     {
         numberIndex[0] = damage % 10;
         numberIndex[1] = (damage % 100 - numberIndex[0]) / 10;

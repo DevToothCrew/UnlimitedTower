@@ -109,7 +109,86 @@ public class Cheat : MonoSingleton<Cheat>
 
     public string GetStageStartData(int stageNum, int partyNum)
     {
-        return null;
+        StageStateData stateData = new StageStateData();
+        stateData.turn = 0;
+
+        // 파티데이터를 넣어서 쓰는건 아직 정리중
+        //UserPartyData partyData = UserDataManager.Inst.GetUserPartyInfo(partyNum);
+        //if(partyData == null)
+        //{
+        //    return null;
+        //}
+
+        // 아군 영웅
+        stageStateInfo heroStateInfo = GetRandomStageStateInfo(0, GetRandomStatus(), rand.Next(0, DEFINE.MAX_EXP), (int)CHAR_TYPE.HERO);
+        stateData.info_list.Add(heroStateInfo);
+
+        // 아군 서번트
+        for(int i = 1; i< 5; i++)
+        {
+            stageStateInfo servantStateInfo = GetRandomStageStateInfo(i, GetRandomStatus(), rand.Next(0, DEFINE.MAX_EXP), (int)CHAR_TYPE.SERVANT);
+            stateData.info_list.Add(servantStateInfo);
+        }
+
+        // 아군 몬스터
+        for(int i = 5; i < 10; i++)
+        {
+            stageStateInfo monsterStateInfo = GetRandomStageStateInfo(i, GetRandomStatus(), rand.Next(0, DEFINE.MAX_EXP), (int)CHAR_TYPE.MONSTER);
+            stateData.info_list.Add(monsterStateInfo);
+        }
+
+        // 적군 서번트
+        for (int i = 10; i < 15; i++)
+        {
+            stageStateInfo servantStateInfo = GetRandomStageStateInfo(i, GetRandomStatus(), rand.Next(0, DEFINE.MAX_EXP), (int)CHAR_TYPE.SERVANT);
+            stateData.info_list.Add(servantStateInfo);
+        }
+
+        // 적군 몬스터
+        for (int i = 15; i < 20; i++)
+        {
+            stageStateInfo monsterStateInfo = GetRandomStageStateInfo(i, GetRandomStatus(), rand.Next(0, DEFINE.MAX_EXP), (int)CHAR_TYPE.MONSTER);
+            stateData.info_list.Add(monsterStateInfo);
+        }
+
+        return JsonMapper.ToJson(stateData);
+    }
+
+    public stageStateInfo GetRandomStageStateInfo(int party_index, Status status, int exp, int type)
+    {
+        stageStateInfo stateInfo = new stageStateInfo();
+
+        stateInfo.party_index = party_index;
+        stateInfo.state = 0;
+
+        // DB 나오기 전까지 임시로 사용
+        stateInfo.status = status;
+        stateInfo.status_type = rand.Next(0, 3);
+        stateInfo.exp = exp;
+        stateInfo.speed = rand.Next(10, 50);
+
+        stateInfo.now_hp = Calculator.GetMaxHp(stateInfo.status);
+        stateInfo.damage = Calculator.GetDamage((STATUS_TYPE)stateInfo.status_type, stateInfo.status);
+        stateInfo.defence = Calculator.GetDefence(stateInfo.status);
+        stateInfo.crit_per = Calculator.GetCriticalPer(stateInfo.status);
+        stateInfo.crit_dmg = 150;
+        stateInfo.avoid = Calculator.GetAvoid(stateInfo.status);
+
+        stateInfo.type = type;
+        if (type == (int)CHAR_TYPE.HERO)
+        {
+            stateInfo.index = 105;
+        }
+        else if (type == (int)CHAR_TYPE.SERVANT)
+        {
+            stateInfo.index = rand.Next(105, 109);
+        }
+        else if (type == (int)CHAR_TYPE.MONSTER)
+        {
+            stateInfo.index = rand.Next(201, 230);
+        }
+
+        return stateInfo;
     }
 
     public string GetStageResultData(int stageNum)
@@ -145,7 +224,7 @@ public class Cheat : MonoSingleton<Cheat>
         servant.job = (int)job;
         servant.stat_point = (Calculator.GetLevelForExp(servant.exp) - 1) * DEFINE.BONUS_STAT;
         servant.appear = GetRandomAppear();
-        servant.status = GetRandomStatus();
+        servant.status = GetRandomStatusInfo();
         servant.equip_slot.Add(0);
         servant.equip_slot.Add(0);
         servant.equip_slot.Add(0);
@@ -165,7 +244,7 @@ public class Cheat : MonoSingleton<Cheat>
         monsterData.monster.look = rand.Next(0, 3);
         monsterData.monster.grade = rand.Next(0, 4);
         monsterData.monster.upgrade = 0;
-        monsterData.monster.status = GetRandomStatus();
+        monsterData.monster.status = GetRandomStatusInfo();
         // TODO : 업그레이드에 따른 스테이터스 가중치 추가 필요
 
         return monsterData;
@@ -181,7 +260,7 @@ public class Cheat : MonoSingleton<Cheat>
         return appear;
     }
 
-    public statusInfo GetRandomStatus()
+    public statusInfo GetRandomStatusInfo()
     {
         statusInfo status = new statusInfo();
         status.basic_str = rand.Next(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
@@ -191,6 +270,20 @@ public class Cheat : MonoSingleton<Cheat>
         status.plus_str = 0;
         status.plus_dex = 0;
         status.plus_int = 0;
+
+        return status;
+    }
+
+    public Status GetRandomStatus()
+    {
+        Status status = new Status();
+        status.basicStr = rand.Next(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
+        status.basicDex = rand.Next(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
+        status.basicInt = rand.Next(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
+
+        status.plusStr = 0;
+        status.plusDex = 0;
+        status.plusInt = 0;
 
         return status;
     }

@@ -230,17 +230,35 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void ResponseBattleAction(string getBattleActionInfo)
     {
+        BattleActionData actionData = JsonUtility.FromJson<BattleActionData>(getBattleActionInfo);
+        if (actionData == null)
+        {
+            Debug.Log("Invalid ResponseBattleAction Data : " + getBattleActionInfo);
+        }
 
+        SetBattleAction(actionData);
     }
 
     public void ResponseStageStart(string getStageStartInfo)
     {
+        StageStateData stateData = JsonUtility.FromJson<StageStateData>(getStageStartInfo);
+        if (stateData == null)
+        {
+            Debug.Log("Invalid ResponseStageStart Data : " + getStageStartInfo);
+        }
 
+        SetStageState(stateData);
     }
 
     public void ResponseStageResult(string getStageResultInfo)
     {
+        StageResultData resultData = JsonUtility.FromJson<StageResultData>(getStageResultInfo);
+        if(resultData == null)
+        {
+            Debug.Log("Invalid ResponseStageResult Data : " + getStageResultInfo);
+        }
 
+        SetStageResult(resultData);
     }
 
     public void ResponseTowerStart(string getTowerStartInfo)
@@ -693,6 +711,21 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
 
         return party;
+    }
+
+    public void SetBattleAction(BattleActionData getBattleActionData)
+    {
+
+    }
+
+    public void SetStageState(StageStateData getStageStateData)
+    {
+        BattleSystem.Inst.stageStateData = getStageStateData;
+    }
+
+    public void SetStageResult(StageResultData getStageResultData)
+    {
+
     }
 
 #endregion
