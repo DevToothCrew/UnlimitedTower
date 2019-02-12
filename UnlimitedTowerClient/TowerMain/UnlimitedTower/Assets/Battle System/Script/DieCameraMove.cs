@@ -30,9 +30,9 @@ public class DieCameraMove : MonoSingleton<DieCameraMove>
         for (int i = 0; i < 25; i++)
         {
             if (isPlayer)
-                camera_Obj.transform.position = Vector3.Lerp(temp, BattleSystem.Inst.PlayerCharacter[target].transform.position + distance, i * 0.04f);
+                camera_Obj.transform.position = Vector3.Lerp(temp, BattleSystem.Inst.playerCharacter[target].transform.position + distance, i * 0.04f);
             else
-                camera_Obj.transform.position = Vector3.Lerp(temp, BattleSystem.Inst.EnemyCharacter[target].transform.position + distance, i * 0.04f);
+                camera_Obj.transform.position = Vector3.Lerp(temp, BattleSystem.Inst.enemyCharacter[target].transform.position + distance, i * 0.04f);
             if (camera_C.orthographicSize > 1.0f)
             camera_C.orthographicSize -= 0.16f;
             yield return null;
