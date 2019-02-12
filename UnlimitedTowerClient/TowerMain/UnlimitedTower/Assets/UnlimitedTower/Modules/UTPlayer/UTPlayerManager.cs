@@ -277,7 +277,8 @@ public class UTPlayerManager : MonoBehaviour {
                     thisBattleAction = data as UTBattleActionData ?? thisBattleAction;
                     string battleActionInfo = thisBattleAction.ToJson();
                     Debug.Log("[SUCCESS] user battleaction :" + battleActionInfo);
-                    PacketManager.Inst.ResponseBattleAction(battleActionInfo);
+                    //PacketManager.Inst.ResponseBattleAction(battleActionInfo);
+                    PacketManager.Inst.TestResponseAction(battleActionInfo);
                 }
             };
 
@@ -292,7 +293,8 @@ public class UTPlayerManager : MonoBehaviour {
                     thisStageStart = data as UTStageStartData ?? thisStageStart;
                     string stageStartInfo = thisStageStart.ToJson();
                     Debug.Log("[SUCCESS] user stagestart :" + stageStartInfo);
-                    PacketManager.Inst.ResponseStageStart(stageStartInfo);
+                    //PacketManager.Inst.ResponseStageStart(stageStartInfo);
+                    PacketManager.Inst.TestResponseBatte(stageStartInfo);
                 }
             };
 
