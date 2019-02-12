@@ -315,6 +315,7 @@ public class UserMountItemData
     public int gradeNum;
     public int tierNum;
     public int upgradeCount;
+    public int value;
 
     bool _isMounted;
     public bool isMounted
@@ -419,37 +420,6 @@ public class UserPartyData
     public List<UserFormationData> UserFormationList = new List<UserFormationData>();
 }
 
-
-
-
-
-
-// 사용안함...
-public class Item
-{
-    // 서버에 저장되어야할 고유 index
-    public int index;
-
-    // 장비템인지 아닌지
-    public bool isMountingItem;
-    public bool itemNum;
-
-    // 착용상태인지 아닌지
-    public bool isMounted;
-    public bool mountingServantIndex;
-
-    public int state;
-    public int id;
-    public int slot;
-    public int tier;
-    public int job;
-    public int grade;
-    public int upgrade;
-    public int atk;
-    public int def;
-
-    public Status status;
-}
 public class Party
 {
     public int partyIndex;

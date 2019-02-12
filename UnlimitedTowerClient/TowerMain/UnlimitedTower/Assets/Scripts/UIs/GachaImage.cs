@@ -199,13 +199,15 @@ public class GachaImage : MonoSingleton<GachaImage>
         fadeOutFlag = false;
     }
 
-    public void SetItemGachaImage(Item getItem)
+    public void SetItemGachaImage(UserMountItemData getItem)
     {
         Sprite sprite = null;
-        SetGachaResultInfo(getItem.status);
+
+        // 아이템 가챠는 아이콘 보여주는게 다름
+        //SetGachaResultInfo(getItem.value);
         // TODO : 아이템 이름 등이 확정되면 수정필요.
 
-        CharNameText.text = getItem.id.ToString();
+        CharNameText.text = getItem.index.ToString();
         charImage.GetComponent<Image>().sprite = sprite;
         fadeOutFlag = false;
     }

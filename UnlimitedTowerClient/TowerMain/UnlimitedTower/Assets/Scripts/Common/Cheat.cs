@@ -152,7 +152,7 @@ public class Cheat : MonoSingleton<Cheat>
             iteminfo.itemnum = UnityEngine.Random.Range(0, 7);
             iteminfo.tier = UnityEngine.Random.Range(0, 4);
             iteminfo.upgrade = UnityEngine.Random.Range(0, 4);
-            iteminfo.id = UnityEngine.Random.Range(30001, 30032);
+            iteminfo.itemnum = UnityEngine.Random.Range(30001, 30032);
 
             itemdata.item = iteminfo;
 

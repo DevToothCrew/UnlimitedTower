@@ -198,9 +198,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
             // Debug.Log(getGachaInfo);
 
             gachaItemData gachaData = JsonUtility.FromJson<gachaItemData>(getGachaInfo);
-            Item getItem = ParseItem(gachaData.data.index, gachaData.data.item);
+            UserMountItemData getItem = ParseItem(gachaData.data.index, gachaData.data.item);
 
-            //UserDataManager.Inst.SetItemInfo(getItem);
+            UserDataManager.Inst.AddMountitemData(getItem);
 
             GachaImage.Inst.SetItemGachaImage(getItem);
         }
@@ -442,7 +442,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             }
 
             // 아이템
-            Dictionary<int, Item> itemDic = new Dictionary<int, Item>();
+            Dictionary<int, UserMountItemData> itemDic = new Dictionary<int, UserMountItemData>();
             if (ParseItemList(getUserLoginData.item_list, ref itemDic) == false)
             {
                 Debug.Log("Invalid ParseItemList Info");
@@ -598,11 +598,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return monster;
     }
 
-    public bool ParseItemList(List<itemData> getItemList, ref Dictionary<int, Item> itemDic)
+    public bool ParseItemList(List<itemData> getItemList, ref Dictionary<int, UserMountItemData> itemDic)
     {
         for (int i = 0; i < getItemList.Count; i++)
         {
-            Item item = ParseItem(getItemList[i].index, getItemList[i].item);
+            UserMountItemData item = ParseItem(getItemList[i].index, getItemList[i].item);
             if (item == null)
             {
                 Debug.Log("Invalid Item Info");
@@ -614,33 +614,20 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return true;
     }
 
-    public Item ParseItem(int getItemIndex, itemInfo getItemInfo)
+    public UserMountItemData ParseItem(int getItemIndex, itemInfo getItemInfo)
     {
         if (getItemInfo == null)
         {
             return null;
         }
 
-        Item item = new Item();
+        UserMountItemData item = new UserMountItemData();
 
         item.index = getItemIndex;
 
-        item.state = getItemInfo.state;
-        item.id = getItemInfo.id;
-        item.slot = getItemInfo.type;
-        item.tier = getItemInfo.tier;
-        item.job = getItemInfo.job;
-        item.grade = getItemInfo.grade;
-        item.upgrade = getItemInfo.upgrade;
-        item.atk = getItemInfo.atk;
-        item.def = getItemInfo.def;
-
-        item.status = ParseStatus(getItemInfo.status);
-        if (item.status == null)
-        {
-            Debug.Log("Invalid Status Info");
-            return null;
-        }
+        item.index = getItemInfo.itemnum;
+        item.tierNum = getItemInfo.tier;
+        item.upgradeCount = getItemInfo.upgrade;
 
         return item;
     }
@@ -913,7 +900,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             }
 
             // 아이템
-            Dictionary<int, Item> itemDic = new Dictionary<int, Item>();
+            Dictionary<int, UserMountItemData> itemDic = new Dictionary<int, UserMountItemData>();
             if (TestParseItemList(getUserLoginData.item_list, ref itemDic) == false)
             {
                 Debug.Log("Invalid ParseItemList Info");
@@ -1066,11 +1053,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return monster;
     }
 
-    public bool TestParseItemList(List<itemData> getItemList, ref Dictionary<int, Item> itemDic)
+    public bool TestParseItemList(List<itemData> getItemList, ref Dictionary<int, UserMountItemData> itemDic)
     {
         for (int i = 0; i < getItemList.Count; i++)
         {
-            Item item = TestParseItem(getItemList[i].index, getItemList[i].item);
+            UserMountItemData item = TestParseItem(getItemList[i].index, getItemList[i].item);
             if (item == null)
             {
                 Debug.Log("Invalid Item Info");
@@ -1082,33 +1069,20 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return true;
     }
 
-    public Item TestParseItem(int getItemIndex, itemInfo getItemInfo)
+    public UserMountItemData TestParseItem(int getItemIndex, itemInfo getItemInfo)
     {
         if (getItemInfo == null)
         {
             return null;
         }
 
-        Item item = new Item();
+        UserMountItemData item = new UserMountItemData();
 
         item.index = getItemIndex;
 
-        item.state = getItemInfo.state;
-        item.id = getItemInfo.id;
-        item.slot = getItemInfo.type;
-        item.tier = getItemInfo.tier;
-        item.job = getItemInfo.job;
-        item.grade = getItemInfo.grade;
-        item.upgrade = getItemInfo.upgrade;
-        item.atk = getItemInfo.atk;
-        item.def = getItemInfo.def;
-
-        item.status = ParseStatus(getItemInfo.status);
-        if (item.status == null)
-        {
-            Debug.Log("Invalid Status Info");
-            return null;
-        }
+        item.index = getItemInfo.itemnum;
+        item.tierNum = getItemInfo.tier;
+        item.upgradeCount = getItemInfo.upgrade;
 
         return item;
     }

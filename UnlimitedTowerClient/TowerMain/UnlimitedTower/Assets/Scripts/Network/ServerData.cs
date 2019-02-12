@@ -81,20 +81,6 @@ public class itemInfo
     /// </summary>
     public int tier;
     public int upgrade;
-
-
-    /// <summary>
-    /// 기존데이터중 사용하지않는 데이터
-    /// </summary>
-    public int state;
-    public int id;
-    //public int slot;
-    public int type;
-    public int job;
-    public int grade;
-    public int atk;
-    public int def;
-    public statusInfo status = new statusInfo();
 }
 
 [Serializable]
