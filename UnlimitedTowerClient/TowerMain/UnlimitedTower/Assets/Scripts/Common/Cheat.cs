@@ -9,8 +9,10 @@ public class Cheat : MonoSingleton<Cheat>
     {
         UserLoginData userLoginData = new UserLoginData();
 
+        userLoginData.gameMoney.balance.symbol_name = "UTG";
+        userLoginData.gameMoney.balance.amount = 10000000;
+
         userLoginData.userinfo.user = user;
-        userLoginData.userinfo.game_money = gameMoney;
         userLoginData.userinfo.state = 2;
         userLoginData.userinfo.hero = GetRandomServant(GetRandomServantJob());
 

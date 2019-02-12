@@ -469,8 +469,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         userInfo.userName = getUserData.user;
         userInfo.userEOS = 0;
         // TODO : EOS는 따로 구하는 코드 추가 필요?
-        // userInfo.userEOS = ??
-        userInfo.userMoney = getUserData.game_money;
+        // userInfo.userEOS = ?
         userInfo.sceneState = (SCENE_STATE)getUserData.state;
 
         Debug.Log("State : " + (SCENE_STATE)getUserData.state);
@@ -737,6 +736,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     }
 
+
+
     public void TestResponseBatte(string getBattleStateInfo)
     {
         battleStateData battlestatedata = JsonUtility.FromJson<battleStateData>(getBattleStateInfo);
@@ -772,6 +773,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         }
     }
+
 
     //login 테스트 함수
     public void TestResponseLogin(string getLoginInfo)
@@ -960,6 +962,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         return true;
     }
+    
 
     public bool TestParseServantList(List<servantData> getServantList, ref Dictionary<int, UserServantData> servantList)
     {
@@ -977,6 +980,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         return true;
     }
+
     public UserServantData TestParseServant(int getServantIndex, int getPartyNum, servantInfo getServantInfo)
     {
         if (getServantInfo == null)
@@ -997,7 +1001,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
         userServant.hairNum = getServantInfo.appear.hair;
         userServant.gender = getServantInfo.appear.gender;
 
+
         userServant.partyNum = getPartyNum;
+
 
         //TODO : 임시 코드 
         userServant.status = TestParseStatus(getServantInfo.status);
