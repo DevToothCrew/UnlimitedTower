@@ -206,10 +206,10 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                 if (battleData[i].info_list[j].index < 10)
                 {
                     battleInformation.AttackerIndex = battleData[i].info_list[j].index;
-                    battleInformation.TargetIndex = battleData[i].info_list[j].action_list[0].target_index;
-                    battleInformation.Damage = battleData[i].info_list[j].action_list[0].damage;
-                    battleInformation.isCritical = battleData[i].info_list[j].action_list[0].critical;
-                    battleInformation.isAvoid = battleData[i].info_list[j].action_list[0].avoid;
+                    battleInformation.TargetIndex = battleData[i].info_list[j].battle_action_list[0].target_index;
+                    battleInformation.Damage = battleData[i].info_list[j].battle_action_list[0].damage;
+                    battleInformation.isCritical = battleData[i].info_list[j].battle_action_list[0].critical;
+                    battleInformation.isAvoid = battleData[i].info_list[j].battle_action_list[0].avoid;
                     battleInformation.isPlayerTurn = true;
 
                     PlayerCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(
@@ -223,10 +223,10 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                 else
                 {
                     battleInformation.AttackerIndex = battleData[i].info_list[j].index - 10;
-                    battleInformation.TargetIndex = battleData[i].info_list[j].action_list[0].target_index - 10;
-                    battleInformation.Damage = battleData[i].info_list[j].action_list[0].damage;
-                    battleInformation.isCritical = battleData[i].info_list[j].action_list[0].critical;
-                    battleInformation.isAvoid = battleData[i].info_list[j].action_list[0].avoid;
+                    battleInformation.TargetIndex = battleData[i].info_list[j].battle_action_list[0].target_index - 10;
+                    battleInformation.Damage = battleData[i].info_list[j].battle_action_list[0].damage;
+                    battleInformation.isCritical = battleData[i].info_list[j].battle_action_list[0].critical;
+                    battleInformation.isAvoid = battleData[i].info_list[j].battle_action_list[0].avoid;
                     battleInformation.isPlayerTurn = false;
 
                     EnemyCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(
