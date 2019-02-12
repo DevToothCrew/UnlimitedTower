@@ -23,7 +23,7 @@ public class UTLocalUMSProvider : UTUMSProvider
 
     public override void RequestSaveParty(Party partyInfo)
     {
-        UTEventPoolInterface.SendEventData("login", new UTPlayerManager.UTPlayerData() { user = "devtooth", gameMoney = 999999 });
+        UTEventPoolInterface.SendEventData("saveparty", new UTPlayerManager.UTPartyData() { partyNum = 1});
     }
 
     public override void RequestBattleAction(int heroTarget, int heroAction, int monsterTarget, int monsterAction)
