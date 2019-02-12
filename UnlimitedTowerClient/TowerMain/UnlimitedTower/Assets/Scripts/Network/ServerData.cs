@@ -50,7 +50,6 @@ public class monsterInfo
 {
     public int state;
     public int type;
-    //public int look;
     public int id;
     public int exp;
     public int grade;
@@ -120,22 +119,6 @@ public class battleState
     public int speed;
 }
 
-[Serializable]
-public class battleAction
-{
-    public int target_index;
-    public int avoid;
-    public int critical;
-    public int damage;
-}
-
-[Serializable]
-public class battleActionInfo
-{
-    public int index;
-    public int action_type;
-    public List<battleAction> battle_action_list = new List<battleAction>();
-}
 #endregion
 
 
@@ -230,6 +213,7 @@ public class battleStateData
     public List<battleState> state_list = new List<battleState>();
 }
 
+//add by canie
 [Serializable]
 public class battleActionInfoData
 {
@@ -237,6 +221,7 @@ public class battleActionInfoData
     public List<battleActionInfo> state_list = new List<battleActionInfo>();
 }
 
+//add by canie
 [Serializable]
 public class battleRewardData
 {
@@ -263,8 +248,9 @@ public class battleActionInfo
     public int index;
     public int action_type;
 
-    public List<actionInfo> action_list = new List<actionInfo>();
+    public List<actionInfo> battle_action_list = new List<actionInfo>();
 }
+
 
 [Serializable]
 public class BattleActionData
