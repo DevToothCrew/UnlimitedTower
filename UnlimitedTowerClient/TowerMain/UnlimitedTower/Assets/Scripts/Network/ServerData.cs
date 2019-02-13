@@ -64,7 +64,35 @@ public class monsterInfo
     public string name;
 }
 
+[Serializable]
+public class TestItemInfo
+{
+    public int id;          //아이템 리소스 아이디
+    public int state;       //아이템 현재 상태
+    public int type;        //장착 타입
+    public int tier;        //티어
+    public int job;         //직업제한
+    public int grade;       //아이템 등급
+    public int upgrade; //아이템 강화 수치
+    public int atk;
+    public int def;
+    public statusInfo status = new statusInfo(); //기본 힘,민,지 추가 힘,민,지
+};
 
+[Serializable]
+public class TestItemData
+{
+    public int index;
+    public TestItemInfo item = new TestItemInfo();
+}
+
+
+[Serializable]
+public class TestGachaItemData
+{
+    public int result_type;
+    public TestItemData data = new TestItemData();
+}
 
 
 [Serializable]
