@@ -121,12 +121,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Json action : " + json);
     }
 
-    public void RequestStageInfo(int stageNum)
-    {
-        Debug.Log("Request Stage Info");
-        GetStageInfo(stageNum);
-    }
-
     public void RequestStageStart(int stageNum, int partyNum)
     {
         Debug.Log("Request Start Battle");
