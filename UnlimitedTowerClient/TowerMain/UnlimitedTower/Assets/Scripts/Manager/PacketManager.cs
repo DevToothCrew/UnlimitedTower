@@ -39,6 +39,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
     [DllImport("__Internal")]
     private static extern void StartBattle (int stage_num, int party_num);
 
+    [DllImport("__Internal")]
+    private static extern void GetReward();
+
     public bool receiveGacha = false;
 
 
@@ -118,14 +121,22 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Json action : " + json);
     }
 
-    public void RequestStageStart(int stageNum, int partyNum)
+    public void RequestStageInfo(int stageNum)
     {
-
+        Debug.Log("Request Stage Info");
+        GetStageInfo(stageNum);
     }
 
-    public void RequestStageResult(int stageNum)
+    public void RequestStageStart(int stageNum, int partyNum)
     {
+        Debug.Log("Request Start Battle");
+        StartBattle(stageNum, partyNum);
+    }
 
+    public void RequestStageResult()
+    {
+        Debug.Log("Request Get Battle Reward");
+        GetReward();
     }
 
     public void RequestTowerStart(int towerFloor, int partyNum)
