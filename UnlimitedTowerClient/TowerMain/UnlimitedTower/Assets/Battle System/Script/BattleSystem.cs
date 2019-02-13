@@ -169,7 +169,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     [ContextMenu("AttackTest")]
     public void AttackTest()
     {
-        StartCoroutine(BattleTest());
+        StartCoroutine(BattleTestTarget());
     }
 
     private void Update()
