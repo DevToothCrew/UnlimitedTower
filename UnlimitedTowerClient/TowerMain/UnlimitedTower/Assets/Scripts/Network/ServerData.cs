@@ -64,6 +64,9 @@ public class monsterInfo
     public string name;
 }
 
+
+
+
 [Serializable]
 public class itemInfo
 {
@@ -190,7 +193,7 @@ public class partyData
 }
 
 [Serializable]
-public class battleStateData
+public class TestbattleStateData
 {
     public string user;
     public int turn;
@@ -200,7 +203,7 @@ public class battleStateData
 
 //add by canie
 [Serializable]
-public class battleActionInfoData
+public class TestbattleActionInfoData
 {
     public string user;
     public List<battleActionInfo> battle_info_list = new List<battleActionInfo>();
@@ -208,7 +211,7 @@ public class battleActionInfoData
 
 //add by canie
 [Serializable]
-public class battleRewardData
+public class TestbattleRewardData
 {
     public string user;
     public int reward_money;
@@ -216,6 +219,14 @@ public class battleRewardData
     public List<servantInfo> get_servant_list = new List<servantInfo>();
     public List<monsterInfo> get_monster_list = new List<monsterInfo>();
     public List<itemInfo> get_item_list = new List<itemInfo>();
+}
+
+
+[Serializable]
+public class TestStageData
+{
+    public int stage_num;
+    public List<monsterInfo> enemy_list = new List<monsterInfo>();
 }
 
 [Serializable]
@@ -236,13 +247,14 @@ public class battleActionInfo
     public List<actionInfo> battle_action_list = new List<actionInfo>();
 }
 
-
+//------------------현재 배틀 시스템에서 사용중이라 제거를 못함-----------//
 [Serializable]
 public class BattleActionData
 {
     public int turn;
     public List<battleActionInfo> info_list = new List<battleActionInfo>();
 }
+
 
 [Serializable]
 public class stageStateInfo
