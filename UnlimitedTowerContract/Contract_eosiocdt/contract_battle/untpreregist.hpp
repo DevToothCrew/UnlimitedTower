@@ -826,15 +826,15 @@ private:
     const uint32_t priest_speed = 32;
     const uint32_t archer_speed = 42;
     const uint32_t thief_speed = 50;
-    const uint32_t beginner_speed = 25;
+    const uint32_t beginner_speed = 30;
 
   private:
-    const uint32_t oper_hp = 240;
+    const uint32_t oper_hp = 220;
     const uint32_t oper_attack = 20;
-    const uint32_t oper_defense = 50;
-    const uint32_t oper_critical = 500;
+    const uint32_t oper_defense = 10;
+    const uint32_t oper_critical = 5;
     const uint32_t oper_critical_damage = 15000;
-    const uint32_t oper_avoid = 500;
+    const uint32_t oper_avoid = 5;
     const uint32_t defense_constant = 200;
     
     const uint32_t decimal = 100;
@@ -887,7 +887,6 @@ struct battle_action
      uint32_t avoid = 0;
      uint32_t critical = 0;
      uint32_t damage = 0;
-     uint32_t critical_damage =0;
 };
 
 struct battle_action_info
@@ -948,8 +947,8 @@ uint32_t get_attack(uint32_t _job, status_info _status);
 uint32_t get_speed(uint32_t _job);
 uint64_t get_damage(uint32_t _atk, uint32_t _dfs);
 uint32_t get_buff_turn(uint32_t _buff);
-bool check_critical(uint64_t _seed);
-bool check_avoid(uint64_t _seed);
+bool check_critical(uint64_t _critcal_per, uint64_t _seed);
+bool check_avoid(uint64_t _avoid_per,uint64_t _seed);
 
 ACTION startbattle(eosio::name _user, uint32_t _party_number, uint32_t _stage);
 
