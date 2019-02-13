@@ -241,35 +241,38 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void ResponseBattleAction(string getBattleActionInfo)
     {
-        BattleActionData actionData = JsonUtility.FromJson<BattleActionData>(getBattleActionInfo);
+        TestbattleActionInfoData actionData = JsonUtility.FromJson<TestbattleActionInfoData>(getBattleActionInfo);
         if (actionData == null)
         {
             Debug.Log("Invalid ResponseBattleAction Data : " + getBattleActionInfo);
         }
-
-        SetBattleAction(actionData);
     }
 
     public void ResponseStageStart(string getStageStartInfo)
     {
-        StageStateData stateData = JsonUtility.FromJson<StageStateData>(getStageStartInfo);
+        TestbattleStateData stateData = JsonUtility.FromJson<TestbattleStateData>(getStageStartInfo);
         if (stateData == null)
         {
             Debug.Log("Invalid ResponseStageStart Data : " + getStageStartInfo);
         }
+    }
 
-        SetStageState(stateData);
+    public void ResponseGetStageInfo(string getStageInfo)
+    {
+        TestStageData stageInfo = JsonUtility.FromJson<TestStageData>(getStageInfo);
+        if(stageInfo == null)
+        {
+            Debug.Log("Invalid ResponseStageInfo Data : " + getStageInfo);
+        }
     }
 
     public void ResponseStageResult(string getStageResultInfo)
     {
-        StageResultData resultData = JsonUtility.FromJson<StageResultData>(getStageResultInfo);
+        TestbattleRewardData resultData = JsonUtility.FromJson<TestbattleRewardData>(getStageResultInfo);
         if(resultData == null)
         {
             Debug.Log("Invalid ResponseStageResult Data : " + getStageResultInfo);
         }
-
-        SetStageResult(resultData);
     }
 
     public void ResponseTowerStart(string getTowerStartInfo)
