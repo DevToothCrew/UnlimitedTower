@@ -41,16 +41,10 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         Application.targetFrameRate = 60;
         UTLobbyUIManager_ = GameObject.Find("Framework").GetComponent<UTLobbyUIManager>();
 
-        characterisVoid[3] = true;
-        characterisVoid[0] = true;
-        characterisVoid[4] = true;
-        characterisVoid[8] = true;
-        characterisVoid[5] = true;
-        characterisVoid[9] = true;
-        characterisVoid[11] = true;
-        characterisVoid[12] = true;
-        characterisVoid[16] = true;
-        characterisVoid[17] = true;
+        for (int i = 0; i < 20; i++)
+        {
+            characterisVoid[i] = true;
+        }
 
         playerCharacter[0] = GameObject.Find("CharacterPlayer03").gameObject;
         playerCharacter[1] = GameObject.Find("CharacterPlayer02").gameObject;
@@ -91,17 +85,30 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                 enemyCharacter[i]?.AddComponent<CharacterControl>();
         }
 
-        Debug.Log(stageStateData.info_list[0].index);
         // 캐릭터 인덱스를 받아와 playerCharacter 오브젝트를 부모로 소환
+        // 데이터 들어오면 주석 해제
+        // for (int i = 0; i < 10; i++)
+        // {
+        //     if (characterisVoid[i] == true)
+        //     {
+        //         Instantiate(prefabList.prefabList[stageStateData.info_list[i].index].Prefab, playerCharacter[i].transform);
+        //     }
+        //     if (characterisVoid[i + 10] == true)
+        //     {
+        //         Instantiate(prefabList.prefabList[stageStateData.info_list[i].index].Prefab, enemyCharacter[i].transform);
+        //     }
+        // }
+
+        // 임시
         for (int i = 0; i < 10; i++)
         {
             if (characterisVoid[i] == true)
             {
-                Instantiate(prefabList.prefabList[stageStateData.info_list[i].index].Prefab, playerCharacter[i].transform);
+                Instantiate(prefabList.prefabList[5].Prefab, playerCharacter[i].transform);
             }
             if (characterisVoid[i + 10] == true)
             {
-                Instantiate(prefabList.prefabList[stageStateData.info_list[i].index].Prefab, enemyCharacter[i].transform);
+                Instantiate(prefabList.prefabList[5].Prefab, enemyCharacter[i].transform);
             }
         }
 
@@ -142,15 +149,17 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         {
             if (characterisVoid[i] == true)
             {
-                playerCharacterControl[i].maxHp = stageStateData.info_list[i].now_hp; // 나중에 최대체력 변경
-                playerCharacterControl[i].nowHp = stageStateData.info_list[i].now_hp;
+                // 데이터 들어오면 주석 해제
+                // playerCharacterControl[i].maxHp = stageStateData.info_list[i].now_hp; // 나중에 최대체력 변경
+                // playerCharacterControl[i].nowHp = stageStateData.info_list[i].now_hp;
                 playerCharacterControl[i].maxHp = 300;
                 playerCharacterControl[i].nowHp = 300;
             }
             if (characterisVoid[i + 10] == true)
             {
-                enemyCharacterControl[i].maxHp = stageStateData.info_list[i].now_hp;  // 나중에 최대체력 변경
-                enemyCharacterControl[i].nowHp = stageStateData.info_list[i].now_hp;
+                // 데이터 들어오면 주석 해제
+                // enemyCharacterControl[i].maxHp = stageStateData.info_list[i].now_hp;  // 나중에 최대체력 변경
+                // enemyCharacterControl[i].nowHp = stageStateData.info_list[i].now_hp;
                 enemyCharacterControl[i].maxHp = 300;
                 enemyCharacterControl[i].nowHp = 300;
             }

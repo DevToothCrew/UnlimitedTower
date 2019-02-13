@@ -77,9 +77,10 @@ public class SelectSystem : MonoSingleton<SelectSystem>
                             selectIndex = hit.transform.GetComponent<CharacterControl>().index + 10;
                             chsing[selectIndex].Click();
                         }
-                        attackDamageText.text = BattleSystem.Inst.stageStateData.info_list[selectIndex].damage.ToString();
-                        defenceText.text = BattleSystem.Inst.stageStateData.info_list[selectIndex].defence.ToString();
-                        speedText.text = BattleSystem.Inst.stageStateData.info_list[selectIndex].speed.ToString();
+                        // 데이터 들어오면 주석 해제
+                        // attackDamageText.text = BattleSystem.Inst.stageStateData.info_list[selectIndex].damage.ToString();
+                        // defenceText.text = BattleSystem.Inst.stageStateData.info_list[selectIndex].defence.ToString();
+                        // speedText.text = BattleSystem.Inst.stageStateData.info_list[selectIndex].speed.ToString();
                     }
                 }
             }
@@ -90,13 +91,15 @@ public class SelectSystem : MonoSingleton<SelectSystem>
                 {
                     selectHpBar.fillAmount = (float)BattleSystem.Inst.playerCharacterControl[selectIndex].nowHp / BattleSystem.Inst.playerCharacterControl[selectIndex].maxHp;
                     selectHpText.text = BattleSystem.Inst.playerCharacterControl[selectIndex]?.nowHp.ToString();
-                    selectCharacterImage.sprite = BattleSystem.Inst.prefabList.prefabList[BattleSystem.Inst.stageStateData.info_list[selectIndex].index]?.sprite;
+                    // 데이터 들어오면 주석 해제
+                    // selectCharacterImage.sprite = BattleSystem.Inst.prefabList.prefabList[BattleSystem.Inst.stageStateData.info_list[selectIndex].index]?.sprite;
                 }
                 else
                 {
                     selectHpBar.fillAmount = (float)BattleSystem.Inst.enemyCharacterControl[selectIndex - 10].nowHp / BattleSystem.Inst.enemyCharacterControl[selectIndex - 10].maxHp;
                     selectHpText.text = BattleSystem.Inst.enemyCharacterControl[selectIndex - 10]?.nowHp.ToString();
-                    selectCharacterImage.sprite = BattleSystem.Inst.prefabList.prefabList[BattleSystem.Inst.stageStateData.info_list[selectIndex - 10].index]?.sprite;
+                    // 데이터 들어오면 주석 해제
+                    // selectCharacterImage.sprite = BattleSystem.Inst.prefabList.prefabList[BattleSystem.Inst.stageStateData.info_list[selectIndex - 10].index]?.sprite;
                 }
             }
         }
