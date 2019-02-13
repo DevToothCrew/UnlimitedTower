@@ -38,7 +38,8 @@ public class UTLocalUMSProvider : UTUMSProvider
 
     public override void RequestStageResult(int stageNum)
     {
-        PacketManager.Inst.RequestStageResult(stageNum);
+        //PacketManager.Inst.RequestStageResult(stageNum);
+        PacketManager.Inst.RequestStageResult();
     }
 
     public override void RequestTowerStart()

@@ -722,7 +722,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     //battle 테스트 함수
     public void TestResponseAction(string getBattleActionInfo)
     {
-        battleActionInfoData actiondata = JsonUtility.FromJson<battleActionInfoData>(getBattleActionInfo);
+        TestbattleActionInfoData actiondata = JsonUtility.FromJson<TestbattleActionInfoData>(getBattleActionInfo);
         if (actiondata == null)
         {
             Debug.Log("Invalid Battle Action Data : " + getBattleActionInfo);
@@ -732,7 +732,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         TestAction(actiondata);
     }
 
-    public void TestAction(battleActionInfoData getBattleStateData)
+    public void TestAction(TestbattleActionInfoData getBattleStateData)
     {
 
     }
@@ -741,7 +741,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void TestResponseBatte(string getBattleStateInfo)
     {
-        battleStateData battlestatedata = JsonUtility.FromJson<battleStateData>(getBattleStateInfo);
+        TestbattleStateData battlestatedata = JsonUtility.FromJson<TestbattleStateData>(getBattleStateInfo);
         if (battlestatedata == null)
         {
             Debug.Log("Invalid Battle Data : " + getBattleStateInfo);
@@ -752,7 +752,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     
-    public void TestBattleStart(battleStateData getBattleStateData)
+    public void TestBattleStart(TestbattleStateData getBattleStateData)
     {
         if (Application.platform == RuntimePlatform.WindowsEditor)
         {

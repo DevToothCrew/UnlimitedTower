@@ -214,7 +214,7 @@ public class Cheat : MonoSingleton<Cheat>
     }
     public string TestGetBattleActionData(string user, int heroTarget, int heroAction, int monsterTarget, int monsterAction)
     {
-        battleActionInfoData battleactiondata = new battleActionInfoData();
+        TestbattleActionInfoData battleactiondata = new TestbattleActionInfoData();
         battleactiondata.user = user;
 
         for(int i=0; i<20; ++i)
@@ -239,7 +239,7 @@ public class Cheat : MonoSingleton<Cheat>
     }
     public string TestGetStageStartData(string user, int stageNum, int partyNum)
     {
-        battleStateData battlestatedata = new battleStateData();
+        TestbattleStateData battlestatedata = new TestbattleStateData();
         battlestatedata.user = user;
         battlestatedata.party_number = partyNum;
         battlestatedata.turn = 1;
