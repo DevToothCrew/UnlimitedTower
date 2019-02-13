@@ -27,6 +27,12 @@ public class UTCloudUMSProvider : UTUMSProvider
         PacketManager.Inst.RequestSaveParty(partyInfo);
     }
 
+    //로컬 프로바이더에는 없음
+    public void RequestStageInfo(int stageNum)
+    {
+        PacketManager.Inst.RequestStageInfo(stageNum);
+    }
+
     public override void RequestBattleAction(int heroTarget, int heroAction, int monsterTarget, int monsterAction)
     {
         PacketManager.Inst.RequestBattleAction(heroTarget, heroAction, monsterTarget, monsterAction);
