@@ -11,23 +11,26 @@ public class BattleSystem : MonoSingleton<BattleSystem>
 
     public List<BattleActionData> battleData;
 
-    public GameObject[] PlayerCharacter = new GameObject[10];
-    public CharacterControl[] PlayerCharacterControl = new CharacterControl[10];
+    public GameObject[] playerCharacter = new GameObject[10];
+    public CharacterControl[] playerCharacterControl = new CharacterControl[10];
 
-    public GameObject[] EnemyCharacter = new GameObject[10];
-    public CharacterControl[] EnemyCharacterControl = new CharacterControl[10];
+    public GameObject[] enemyCharacter = new GameObject[10];
+    public CharacterControl[] enemyCharacterControl = new CharacterControl[10];
 
     public int TimeScale = 1;
     public GameObject testEffect;
 
     public UTLobbyUIManager UTLobbyUIManager_;
-    public int[] positionOrder = { 2, 1, 3, 0, 4, 7, 6, 8, 5, 9 };
+    public readonly int[] positionOrder = { 2, 1, 3, 0, 4, 7, 6, 8, 5, 9 };
+
+    // 0~9는 플레이어, 10~19는 적
+    public bool[] characterisVoid = new bool[20];
 
     public struct BattleInformation
     {
-        public int AttackerIndex;
-        public int TargetIndex;
-        public int Damage;
+        public int attackerIndex;
+        public int targetIndex;
+        public int damage;
         public bool isAvoid;
         public bool isCritical;
         public bool isPlayerTurn;
@@ -37,72 +40,119 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     {
         Application.targetFrameRate = 60;
         UTLobbyUIManager_ = GameObject.Find("Framework").GetComponent<UTLobbyUIManager>();
+
+        characterisVoid[3] = true;
+        characterisVoid[0] = true;
+        characterisVoid[4] = true;
+        characterisVoid[8] = true;
+        characterisVoid[5] = true;
+        characterisVoid[9] = true;
+        characterisVoid[11] = true;
+        characterisVoid[12] = true;
+        characterisVoid[16] = true;
+        characterisVoid[17] = true;
+
+        playerCharacter[0] = GameObject.Find("CharacterPlayer03").gameObject;
+        playerCharacter[1] = GameObject.Find("CharacterPlayer02").gameObject;
+        playerCharacter[2] = GameObject.Find("CharacterPlayer04").gameObject;
+        playerCharacter[3] = GameObject.Find("CharacterPlayer01").gameObject;
+        playerCharacter[4] = GameObject.Find("CharacterPlayer05").gameObject;
+        playerCharacter[5] = GameObject.Find("CharacterPlayer08").gameObject;
+        playerCharacter[6] = GameObject.Find("CharacterPlayer07").gameObject;
+        playerCharacter[7] = GameObject.Find("CharacterPlayer09").gameObject;
+        playerCharacter[8] = GameObject.Find("CharacterPlayer06").gameObject;
+        playerCharacter[9] = GameObject.Find("CharacterPlayer10").gameObject;
+
+        enemyCharacter[0] = GameObject.Find("CharacterEnemy03").gameObject;
+        enemyCharacter[1] = GameObject.Find("CharacterEnemy02").gameObject;
+        enemyCharacter[2] = GameObject.Find("CharacterEnemy04").gameObject;
+        enemyCharacter[3] = GameObject.Find("CharacterEnemy01").gameObject;
+        enemyCharacter[4] = GameObject.Find("CharacterEnemy05").gameObject;
+        enemyCharacter[5] = GameObject.Find("CharacterEnemy08").gameObject;
+        enemyCharacter[6] = GameObject.Find("CharacterEnemy07").gameObject;
+        enemyCharacter[7] = GameObject.Find("CharacterEnemy09").gameObject;
+        enemyCharacter[8] = GameObject.Find("CharacterEnemy06").gameObject;
+        enemyCharacter[9] = GameObject.Find("CharacterEnemy10").gameObject;
     }
 
     public void Start()
     {
         UTLobbyUIManager_.StageStart();
 
-        battleInformation.AttackerIndex = -1;
+        battleInformation.attackerIndex = -1;
         prefabList = GetComponent<PrefabList>();
 
-        for (int i = 0; i < 20; i++)
+        // 캐릭터 컨트롤 스크립트 추가
+        for (int i = 0; i < 10; i++)
         {
-            if (i < 10)
-                Instantiate(prefabList.prefabList[stageStateData.info_list[i].index].Prefab, PlayerCharacter[positionOrder[i]].transform);
-            else
-                Instantiate(prefabList.prefabList[stageStateData.info_list[i].index].Prefab, EnemyCharacter[positionOrder[i - 10]].transform);
+            if (characterisVoid[i] == true)
+                playerCharacter[i]?.AddComponent<CharacterControl>();
+            if (characterisVoid[i + 10] == true)
+                enemyCharacter[i]?.AddComponent<CharacterControl>();
         }
 
-        // for (int i = 0; i < 20; i++)
-        // {
-        //     if (i == 0)
-        //         Instantiate(prefabList.prefabList[5].Prefab, PlayerCharacter[positionOrder[i]].transform);
-        //     else if (i < 10)
-        //         Instantiate(prefabList.prefabList[201 + Random.Range(0,29)].Prefab, PlayerCharacter[positionOrder[i]].transform);
-        //     else
-        //         Instantiate(prefabList.prefabList[201 + Random.Range(0, 29)].Prefab, EnemyCharacter[positionOrder[i - 10]].transform);
-        // }
+        Debug.Log(stageStateData.info_list[0].index);
+        // 캐릭터 인덱스를 받아와 playerCharacter 오브젝트를 부모로 소환
+        for (int i = 0; i < 10; i++)
+        {
+            if (characterisVoid[i] == true)
+            {
+                Instantiate(prefabList.prefabList[stageStateData.info_list[i].index].Prefab, playerCharacter[i].transform);
+            }
+            if (characterisVoid[i + 10] == true)
+            {
+                Instantiate(prefabList.prefabList[stageStateData.info_list[i].index].Prefab, enemyCharacter[i].transform);
+            }
+        }
 
+        // 캐릭터 위치 배치
         for (int i = 0; i < 10; i++)
         {
             if (i < 5)
             {
-                PlayerCharacter[i].transform.position = new Vector3(-4.2f + 2.1f * (i % 5), 0, -4.2f);
-                EnemyCharacter[i].transform.position = new Vector3(4.2f - 2.1f * (i % 5), 0, 4.2f);
+                playerCharacter[i].transform.position = new Vector3(-4.2f + 2.1f * (positionOrder[i] % 5), 0, -4.2f);
+                enemyCharacter[i].transform.position = new Vector3(4.2f - 2.1f * (positionOrder[i] % 5), 0, 4.2f);
             }
             else
             {
-                PlayerCharacter[i].transform.position = new Vector3(-4.2f + 2.1f * (i % 5), 0, -2.1f);
-                EnemyCharacter[i].transform.position = new Vector3(4.2f - 2.1f * (i % 5), 0, 2.1f);
+                playerCharacter[i].transform.position = new Vector3(-4.2f + 2.1f * (positionOrder[i] % 5), 0, -2.1f);
+                enemyCharacter[i].transform.position = new Vector3(4.2f - 2.1f * (positionOrder[i] % 5), 0, 2.1f);
             }
         }
 
+        // 캐릭터별 스크립트 캐싱
         for (int i = 0; i < 10; i++)
         {
-            PlayerCharacterControl[i] = PlayerCharacter[i].GetComponent<CharacterControl>();
-            EnemyCharacterControl[i] = EnemyCharacter[i].GetComponent<CharacterControl>();
-            PlayerCharacterControl[i].index = i;
-            EnemyCharacterControl[i].index = i;
-            PlayerCharacterControl[i].isPlayer = true;
-            EnemyCharacterControl[i].isPlayer = false;
+            if (characterisVoid[i] == true)
+            {
+                playerCharacterControl[i] = playerCharacter[i].GetComponent<CharacterControl>();
+                playerCharacterControl[i].index = i;
+                playerCharacterControl[i].isPlayer = true;
+            }
+            if (characterisVoid[i + 10] == true)
+            {
+                enemyCharacterControl[i] = enemyCharacter[i].GetComponent<CharacterControl>();
+                enemyCharacterControl[i].index = i;
+                enemyCharacterControl[i].isPlayer = false;
+            }
         }
 
-        for (int i = 0; i < 20; i++)
+        // 캐릭터별 체력 설정
+        for (int i = 0; i < 10; i++)
         {
-            if (i < 10)
+            if (characterisVoid[i] == true)
             {
-                PlayerCharacterControl[i].MaxHp = stageStateData.info_list[positionOrder[i]].now_hp; // 나중에 최대체력 변경
-                PlayerCharacterControl[i].NowHp = stageStateData.info_list[positionOrder[i]].now_hp;
-                PlayerCharacterControl[i].MaxHp = 300;
-                PlayerCharacterControl[i].NowHp = 300;
+                playerCharacterControl[i].maxHp = stageStateData.info_list[i].now_hp; // 나중에 최대체력 변경
+                playerCharacterControl[i].nowHp = stageStateData.info_list[i].now_hp;
+                playerCharacterControl[i].maxHp = 300;
+                playerCharacterControl[i].nowHp = 300;
             }
-            else
+            if (characterisVoid[i + 10] == true)
             {
-                EnemyCharacterControl[i - 10].MaxHp = stageStateData.info_list[positionOrder[i - 10]].now_hp;  // 나중에 최대체력 변경
-                EnemyCharacterControl[i - 10].NowHp = stageStateData.info_list[positionOrder[i - 10]].now_hp;
-                EnemyCharacterControl[i - 10].MaxHp = 300;
-                EnemyCharacterControl[i - 10].NowHp = 300;
+                enemyCharacterControl[i].maxHp = stageStateData.info_list[i].now_hp;  // 나중에 최대체력 변경
+                enemyCharacterControl[i].nowHp = stageStateData.info_list[i].now_hp;
+                enemyCharacterControl[i].maxHp = 300;
+                enemyCharacterControl[i].nowHp = 300;
             }
         }
     }
@@ -110,7 +160,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     [ContextMenu("AttackTest")]
     public void AttackTest()
     {
-        StartCoroutine(BattleTestTarget());
+        StartCoroutine(BattleTest());
     }
 
     private void Update()
@@ -121,36 +171,72 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         }
     }
 
+    // 0번과 1번이 번갈아 공격
+    IEnumerator BattleTest()
+    {
+        battleInformation.attackerIndex = 0;
+        battleInformation.targetIndex = 1;
+        battleInformation.damage = 10;
+        battleInformation.isCritical = Random.Range(0, 2) == 1 ? true : false;
+        battleInformation.isAvoid = false;
+        battleInformation.isPlayerTurn = true;
+
+        playerCharacterControl[battleInformation.attackerIndex].Attack(new SendValue(
+            battleInformation.attackerIndex,
+            battleInformation.targetIndex,
+            battleInformation.damage,
+            battleInformation.isCritical,
+            battleInformation.isAvoid,
+            battleInformation.isPlayerTurn));
+        yield return new WaitForSeconds(7);
+        battleInformation.attackerIndex = 1;
+        battleInformation.targetIndex = 0;
+        battleInformation.damage = 10;
+        battleInformation.isCritical = Random.Range(0, 2) == 1 ? true : false;
+        battleInformation.isAvoid = false;
+        battleInformation.isPlayerTurn = false;
+
+        enemyCharacterControl[battleInformation.attackerIndex].Attack(new SendValue(
+            battleInformation.attackerIndex,
+            battleInformation.targetIndex,
+            battleInformation.damage,
+            battleInformation.isCritical,
+            battleInformation.isAvoid,
+            battleInformation.isPlayerTurn));
+        yield return new WaitForSeconds(7);
+    }
+
+    // 1번부터 10번까지 번갈아 가며 공격
     IEnumerator BattleTestTarget()
     {
         for (int i = 0; i < 10; i++)
         {
-            battleInformation.AttackerIndex = i;
-            battleInformation.TargetIndex = i;
-            battleInformation.Damage = 10;
+            battleInformation.attackerIndex = i;
+            battleInformation.targetIndex = i;
+            battleInformation.damage = 10;
             battleInformation.isCritical = Random.Range(0, 2) == 1 ? true : false;
             battleInformation.isAvoid = false;
             battleInformation.isPlayerTurn = true;
 
-            PlayerCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(
-                battleInformation.AttackerIndex,
-                battleInformation.TargetIndex,
-                battleInformation.Damage,
+            playerCharacterControl[battleInformation.attackerIndex].Attack(new SendValue(
+                battleInformation.attackerIndex,
+                battleInformation.targetIndex,
+                battleInformation.damage,
                 battleInformation.isCritical,
                 battleInformation.isAvoid,
                 battleInformation.isPlayerTurn));
             yield return new WaitForSeconds(7);
-            battleInformation.AttackerIndex = i;
-            battleInformation.TargetIndex = i;
-            battleInformation.Damage = 10;
+            battleInformation.attackerIndex = i;
+            battleInformation.targetIndex = i;
+            battleInformation.damage = 10;
             battleInformation.isCritical = Random.Range(0, 2) == 1 ? true : false;
             battleInformation.isAvoid = false;
             battleInformation.isPlayerTurn = false;
 
-            EnemyCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(
-                battleInformation.AttackerIndex,
-                battleInformation.TargetIndex,
-                battleInformation.Damage,
+            enemyCharacterControl[battleInformation.attackerIndex].Attack(new SendValue(
+                battleInformation.attackerIndex,
+                battleInformation.targetIndex,
+                battleInformation.damage,
                 battleInformation.isCritical,
                 battleInformation.isAvoid,
                 battleInformation.isPlayerTurn));
@@ -158,37 +244,38 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         }
     }
 
+    // 랜덤하게 번갈아가며 공격
     IEnumerator BattleTestRandom()
     {
         for (int i = 0; i < 10; i++)
         {
-            battleInformation.AttackerIndex = Random.Range(0, 10);
-            battleInformation.TargetIndex = Random.Range(0, 10);
-            battleInformation.Damage = Random.Range(100, 200);
+            battleInformation.attackerIndex = Random.Range(0, 10);
+            battleInformation.targetIndex = Random.Range(0, 10);
+            battleInformation.damage = Random.Range(100, 200);
             battleInformation.isCritical = Random.Range(0, 2) == 1 ? true : false;
             battleInformation.isAvoid = Random.Range(0, 5) == 1 ? true : false;
             battleInformation.isPlayerTurn = true;
 
-            PlayerCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(
-                battleInformation.AttackerIndex,
-                battleInformation.TargetIndex,
-                battleInformation.Damage,
+            playerCharacterControl[battleInformation.attackerIndex].Attack(new SendValue(
+                battleInformation.attackerIndex,
+                battleInformation.targetIndex,
+                battleInformation.damage,
                 battleInformation.isCritical,
                 battleInformation.isAvoid,
                 battleInformation.isPlayerTurn));
             yield return new WaitForSeconds(7);
             {
-                battleInformation.AttackerIndex = Random.Range(0, 10);
-                battleInformation.TargetIndex = Random.Range(0, 10);
-                battleInformation.Damage = Random.Range(100, 200);
+                battleInformation.attackerIndex = Random.Range(0, 10);
+                battleInformation.targetIndex = Random.Range(0, 10);
+                battleInformation.damage = Random.Range(100, 200);
                 battleInformation.isCritical = Random.Range(0, 2) == 1 ? true : false;
                 battleInformation.isAvoid = Random.Range(0, 5) == 1 ? true : false;
                 battleInformation.isPlayerTurn = false;
 
-                EnemyCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(
-                    battleInformation.AttackerIndex,
-                    battleInformation.TargetIndex,
-                    battleInformation.Damage,
+                enemyCharacterControl[battleInformation.attackerIndex].Attack(new SendValue(
+                    battleInformation.attackerIndex,
+                    battleInformation.targetIndex,
+                    battleInformation.damage,
                     battleInformation.isCritical,
                     battleInformation.isAvoid,
                     battleInformation.isPlayerTurn));
@@ -197,6 +284,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         }
     }
 
+    // 배틀데이터를 받아와 공격 ( 메인 배틀 )
     IEnumerator BattleStart()
     {
         for (int i = 0; i < battleData.Count; i++)
@@ -205,34 +293,34 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             {
                 if (battleData[i].info_list[j].index < 10)
                 {
-                    battleInformation.AttackerIndex = battleData[i].info_list[j].index;
-                    battleInformation.TargetIndex = battleData[i].info_list[j].battle_action_list[0].target_index;
-                    battleInformation.Damage = battleData[i].info_list[j].battle_action_list[0].damage;
+                    battleInformation.attackerIndex = battleData[i].info_list[j].index;
+                    battleInformation.targetIndex = battleData[i].info_list[j].battle_action_list[0].target_index;
+                    battleInformation.damage = battleData[i].info_list[j].battle_action_list[0].damage;
                     battleInformation.isCritical = battleData[i].info_list[j].battle_action_list[0].critical;
                     battleInformation.isAvoid = battleData[i].info_list[j].battle_action_list[0].avoid;
                     battleInformation.isPlayerTurn = true;
 
-                    PlayerCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(
-                        battleInformation.AttackerIndex,
-                        battleInformation.TargetIndex,
-                        battleInformation.Damage,
+                    playerCharacterControl[battleInformation.attackerIndex].Attack(new SendValue(
+                        battleInformation.attackerIndex,
+                        battleInformation.targetIndex,
+                        battleInformation.damage,
                         battleInformation.isCritical,
                         battleInformation.isAvoid,
                         battleInformation.isPlayerTurn));
                 }
                 else
                 {
-                    battleInformation.AttackerIndex = battleData[i].info_list[j].index - 10;
-                    battleInformation.TargetIndex = battleData[i].info_list[j].battle_action_list[0].target_index - 10;
-                    battleInformation.Damage = battleData[i].info_list[j].battle_action_list[0].damage;
+                    battleInformation.attackerIndex = battleData[i].info_list[j].index - 10;
+                    battleInformation.targetIndex = battleData[i].info_list[j].battle_action_list[0].target_index - 10;
+                    battleInformation.damage = battleData[i].info_list[j].battle_action_list[0].damage;
                     battleInformation.isCritical = battleData[i].info_list[j].battle_action_list[0].critical;
                     battleInformation.isAvoid = battleData[i].info_list[j].battle_action_list[0].avoid;
                     battleInformation.isPlayerTurn = false;
 
-                    EnemyCharacterControl[battleInformation.AttackerIndex].Attack(new SendValue(
-                        battleInformation.AttackerIndex,
-                        battleInformation.TargetIndex,
-                        battleInformation.Damage,
+                    enemyCharacterControl[battleInformation.attackerIndex].Attack(new SendValue(
+                        battleInformation.attackerIndex,
+                        battleInformation.targetIndex,
+                        battleInformation.damage,
                         battleInformation.isCritical,
                         battleInformation.isAvoid,
                         battleInformation.isPlayerTurn));
@@ -242,10 +330,3 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         }
     }
 }
-/*
- public interface IVisibleListener
-{
-    void IVisibleListener_OnVisible(bool bIsVisible);
-}
-     
-     */

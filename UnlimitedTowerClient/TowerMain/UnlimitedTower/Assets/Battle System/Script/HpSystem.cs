@@ -11,8 +11,8 @@ public class HpSystem : MonoBehaviour
     private Image[] enemyHpImage = new Image[10];
     private Image attackerImage;
     private Image targetImage;
-    private Color on = new Color(1, 1, 1, 1);
-    private Color off = new Color(1, 1, 1, 0);
+    private readonly Color on = new Color(1, 1, 1, 1);
+    private readonly Color off = new Color(1, 1, 1, 0);
 
     void Start () {
         for (int i = 0; i < 10; i++)
@@ -28,19 +28,20 @@ public class HpSystem : MonoBehaviour
 
     void Update()
     {
-        if (BattleSystem.Inst.battleInformation.AttackerIndex != -1)
+        // 추후 최적화 작업
+        if (BattleSystem.Inst.battleInformation.attackerIndex != -1)
         {
             attackerImage.color = on;
             targetImage.color = on;
             if (BattleSystem.Inst.battleInformation.isPlayerTurn)
             {
-                attackerImage.transform.position = playerHp[BattleSystem.Inst.battleInformation.AttackerIndex].transform.position + new Vector3(0, 50, 0);
-                targetImage.transform.position = enemyHp[BattleSystem.Inst.battleInformation.TargetIndex].transform.position + new Vector3(0, 50, 0);
+                attackerImage.transform.position = playerHp[BattleSystem.Inst.battleInformation.attackerIndex].transform.position + new Vector3(0, 50, 0);
+                targetImage.transform.position = enemyHp[BattleSystem.Inst.battleInformation.targetIndex].transform.position + new Vector3(0, 50, 0);
             }
             else
             {
-                attackerImage.transform.position = enemyHp[BattleSystem.Inst.battleInformation.AttackerIndex].transform.position + new Vector3(0, 50, 0);
-                targetImage.transform.position = playerHp[BattleSystem.Inst.battleInformation.TargetIndex].transform.position + new Vector3(0, 50, 0);
+                attackerImage.transform.position = enemyHp[BattleSystem.Inst.battleInformation.attackerIndex].transform.position + new Vector3(0, 50, 0);
+                targetImage.transform.position = playerHp[BattleSystem.Inst.battleInformation.targetIndex].transform.position + new Vector3(0, 50, 0);
             }
         }
         else
@@ -51,21 +52,33 @@ public class HpSystem : MonoBehaviour
         
         for (int i = 0; i < 10; i++)
         {
-            playerHp[i].transform.position = Camera.main.WorldToScreenPoint(
-                BattleSystem.Inst.PlayerCharacter[i].transform.position + 
-                new Vector3(0, BattleSystem.Inst.PlayerCharacterControl[i].transform.GetChild(0).GetComponent<CharacterInformation>().Height, 0));
-                
-            enemyHp[i].transform.position = Camera.main.WorldToScreenPoint(
-                BattleSystem.Inst.EnemyCharacter[i].transform.position + 
-                new Vector3(0, BattleSystem.Inst.EnemyCharacterControl[i].transform.GetChild(0).GetComponent<CharacterInformation>().Height, 0));
-            
-            playerHpImage[i].fillAmount = (float)BattleSystem.Inst.PlayerCharacterControl[i].NowHp / BattleSystem.Inst.PlayerCharacterControl[i].MaxHp;
-            enemyHpImage[i].fillAmount = (float)BattleSystem.Inst.EnemyCharacterControl[i].NowHp / BattleSystem.Inst.EnemyCharacterControl[i].MaxHp;
-        
-            if (BattleSystem.Inst.PlayerCharacterControl[i].NowHp <= 0)
+            if (BattleSystem.Inst.characterisVoid[i] == true)
+            {
+                playerHp[i].transform.position = Camera.main.WorldToScreenPoint(
+                  BattleSystem.Inst.playerCharacter[i].transform.position +
+                  new Vector3(0, BattleSystem.Inst.playerCharacterControl[i].transform.GetChild(0).GetComponent<CharacterInformation>().Height, 0));
+                playerHpImage[i].fillAmount = (float)BattleSystem.Inst.playerCharacterControl[i].nowHp / BattleSystem.Inst.playerCharacterControl[i].maxHp;
+                if (BattleSystem.Inst.playerCharacterControl[i].nowHp <= 0)
+                    playerHp[i].SetActive(false);
+            }
+            else
+            {
                 playerHp[i].SetActive(false);
-            if (BattleSystem.Inst.EnemyCharacterControl[i].NowHp <= 0)
+            }
+
+            if (BattleSystem.Inst.characterisVoid[i + 10] == true)
+            {
+                enemyHp[i].transform.position = Camera.main.WorldToScreenPoint(
+                 BattleSystem.Inst.enemyCharacter[i].transform.position +
+                 new Vector3(0, BattleSystem.Inst.enemyCharacterControl[i].transform.GetChild(0).GetComponent<CharacterInformation>().Height, 0));
+                enemyHpImage[i].fillAmount = (float)BattleSystem.Inst.enemyCharacterControl[i].nowHp / BattleSystem.Inst.enemyCharacterControl[i].maxHp;
+                if (BattleSystem.Inst.enemyCharacterControl[i].nowHp <= 0)
+                    enemyHp[i].SetActive(false);
+            }
+            else
+            {
                 enemyHp[i].SetActive(false);
+            }
         }
     }
 

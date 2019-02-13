@@ -14,6 +14,8 @@ public class DamageText : MonoBehaviour {
     private void OnEnable()
     {
         StartCoroutine(OFF());
+        for (int i = 0; i < 5; i++)
+            image[i] = transform.GetChild(i).GetChild(0).GetComponent<Image>();
     }
 
     IEnumerator OFF()

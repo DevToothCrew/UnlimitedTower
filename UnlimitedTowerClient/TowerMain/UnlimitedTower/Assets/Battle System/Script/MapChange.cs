@@ -3,33 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapChange : MonoBehaviour {
-    public GameObject[] MapPack = new GameObject[3];
+    public GameObject[] MapPack;
+
+    // 임시로 만든 맵 변경, 추후 삭제
 
     private void Start()
     {
-        MapPack[0] = transform.GetChild(0).gameObject;
-        MapPack[1] = transform.GetChild(1).gameObject;
-        MapPack[2] = transform.GetChild(2).gameObject;
+        for (int i = 0; i < transform.childCount; i++)
+            MapPack[i] = transform.GetChild(i).gameObject;
     }
 
     void Update () {
 		if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            MapPack[0].SetActive(true);
-            MapPack[1].SetActive(false);
-            MapPack[2].SetActive(false);
+            MapEneble(0);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            MapPack[0].SetActive(false);
-            MapPack[1].SetActive(true);
-            MapPack[2].SetActive(false);
+            MapEneble(1);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            MapPack[0].SetActive(false);
-            MapPack[1].SetActive(false);
-            MapPack[2].SetActive(true);
+            MapEneble(2);
         }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            MapEneble(3);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            MapEneble(4);
+        }
+    }
+
+    private void MapEneble(int index)
+    {
+        foreach (GameObject a in MapPack)
+        {
+            a.SetActive(false);
+        }
+        MapPack[index].SetActive(true);
     }
 }

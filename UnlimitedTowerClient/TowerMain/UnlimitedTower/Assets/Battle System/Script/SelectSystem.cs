@@ -11,11 +11,23 @@ public class SelectSystem : MonoSingleton<SelectSystem>
     public Image selectHpBar;
     public Text selectHpText;
     public Image selectCharacterImage;
+
+    [Header("- Character State")]
+    public Text attackDamageText;
+    public Text defenceText;
+    public Text speedText;
+
     private RaycastHit hit;
     private Ray ray;
     private CheckSelectAnimation temp;
     private bool isStart = false;
-    public int[] positionOrder = { 3, 1, 0, 2, 4, 8, 6, 5, 7, 9 };
+
+    private void Start()
+    {
+        attackDamageText = GameObject.Find("StatueAttackText").GetComponent<Text>();
+        defenceText = GameObject.Find("StatueDefenceText").GetComponent<Text>();
+        speedText = GameObject.Find("StatueSpeedText").GetComponent<Text>();
+    }
 
     // 추후 최적화 작업, timeScale도 바꿔야함
     void Update()
@@ -25,21 +37,21 @@ public class SelectSystem : MonoSingleton<SelectSystem>
             selectCharacterImage = GameObject.Find("Character Portrait Image").GetComponent<Image>();
             for (int i = 0; i < 10; i++)
             {
-                chsing[i] = BattleSystem.Inst.PlayerCharacterControl[i].select.GetComponent<CheckSelectAnimation>();
-            }
-            for (int i = 0; i < 10; i++)
-            {
-                chsing[i + 10] = BattleSystem.Inst.EnemyCharacterControl[i].select.GetComponent<CheckSelectAnimation>();
+                if (BattleSystem.Inst.characterisVoid[i] == true)
+                    chsing[i] = BattleSystem.Inst.playerCharacterControl[i].select.GetComponent<CheckSelectAnimation>();
+                if (BattleSystem.Inst.characterisVoid[i + 10] == true)
+                    chsing[i + 10] = BattleSystem.Inst.enemyCharacterControl[i].select.GetComponent<CheckSelectAnimation>();
             }
             selectHpBar = GameObject.Find("Hp Bar").GetComponent<Image>();
             selectHpText = GameObject.Find("Hp Text").GetComponent<Text>();
+            isStart = true;
         }
 
         if (BattleSystem.Inst.TimeScale != 0)
         {
             for (int i = 0; i < 20; i++)
                 if (i != selectIndex)
-                    chsing[i].gameObject.SetActive(false);
+                    chsing[i]?.gameObject.SetActive(false);
 
             ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -50,16 +62,8 @@ public class SelectSystem : MonoSingleton<SelectSystem>
                     temp = hit.transform.GetComponent<CharacterControl>().select.GetComponent<CheckSelectAnimation>();
                     isPlayer = hit.transform.GetComponent<CharacterControl>().isPlayer;
 
-                    if (isPlayer)
-                    {
-                        temp.gameObject.SetActive(true);
-                        temp.AniStart();
-                    }
-                    else
-                    {
-                        temp.gameObject.SetActive(true);
-                        temp.AniStart();
-                    }
+                    temp.gameObject.SetActive(true);
+                    temp.AniStart();
 
                     if (Input.GetMouseButtonDown(0))
                     {
@@ -73,6 +77,9 @@ public class SelectSystem : MonoSingleton<SelectSystem>
                             selectIndex = hit.transform.GetComponent<CharacterControl>().index + 10;
                             chsing[selectIndex].Click();
                         }
+                        attackDamageText.text = BattleSystem.Inst.stageStateData.info_list[selectIndex].damage.ToString();
+                        defenceText.text = BattleSystem.Inst.stageStateData.info_list[selectIndex].defence.ToString();
+                        speedText.text = BattleSystem.Inst.stageStateData.info_list[selectIndex].speed.ToString();
                     }
                 }
             }
@@ -81,15 +88,15 @@ public class SelectSystem : MonoSingleton<SelectSystem>
             {
                 if (selectIndex < 10)
                 {
-                    selectHpBar.fillAmount = (float)BattleSystem.Inst.PlayerCharacterControl[selectIndex].NowHp / BattleSystem.Inst.PlayerCharacterControl[selectIndex].MaxHp;
-                    selectHpText.text = BattleSystem.Inst.PlayerCharacterControl[selectIndex].NowHp.ToString();
-                    selectCharacterImage.sprite = BattleSystem.Inst.prefabList.prefabList[BattleSystem.Inst.stageStateData.info_list[positionOrder[selectIndex]].index].sprite;
+                    selectHpBar.fillAmount = (float)BattleSystem.Inst.playerCharacterControl[selectIndex].nowHp / BattleSystem.Inst.playerCharacterControl[selectIndex].maxHp;
+                    selectHpText.text = BattleSystem.Inst.playerCharacterControl[selectIndex]?.nowHp.ToString();
+                    selectCharacterImage.sprite = BattleSystem.Inst.prefabList.prefabList[BattleSystem.Inst.stageStateData.info_list[selectIndex].index]?.sprite;
                 }
                 else
                 {
-                    selectHpBar.fillAmount = (float)BattleSystem.Inst.EnemyCharacterControl[selectIndex - 10].NowHp / BattleSystem.Inst.EnemyCharacterControl[selectIndex - 10].MaxHp;
-                    selectHpText.text = BattleSystem.Inst.EnemyCharacterControl[selectIndex - 10].NowHp.ToString();
-                    selectCharacterImage.sprite = BattleSystem.Inst.prefabList.prefabList[BattleSystem.Inst.stageStateData.info_list[positionOrder[selectIndex - 10] + 10].index].sprite;
+                    selectHpBar.fillAmount = (float)BattleSystem.Inst.enemyCharacterControl[selectIndex - 10].nowHp / BattleSystem.Inst.enemyCharacterControl[selectIndex - 10].maxHp;
+                    selectHpText.text = BattleSystem.Inst.enemyCharacterControl[selectIndex - 10]?.nowHp.ToString();
+                    selectCharacterImage.sprite = BattleSystem.Inst.prefabList.prefabList[BattleSystem.Inst.stageStateData.info_list[selectIndex - 10].index]?.sprite;
                 }
             }
         }
