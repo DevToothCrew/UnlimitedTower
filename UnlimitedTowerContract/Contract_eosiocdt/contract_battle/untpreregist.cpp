@@ -2918,6 +2918,7 @@ ACTION untpreregist::getreward(eosio::name _user)
     user_auth_table.modify(user_auth_iter, _self, [&](auto &upadate_hero_exp)
     {
         upadate_hero_exp.hero.exp = user_battle_reward_iter->get_exp_list[0];
+        upadate_hero_exp.state= user_state::lobby;
     });
 
     user_servants user_servant_table(_self, _user.value);
