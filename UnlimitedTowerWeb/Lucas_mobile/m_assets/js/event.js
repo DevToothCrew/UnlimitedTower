@@ -28,9 +28,9 @@ function goCountry(){
 $(".section").click(function(){;
     $(".lan-cate").slideUp();
 });
-/*$(".login").click(function(){;
+$(".login").click(function(){;
     $(".lan-cate").slideUp();
-});*/
+});
 function country_action(str){
 	document.main.country.value = str;
 	
@@ -108,12 +108,6 @@ $(function () {
       $('.sec1-sns li:eq(6) a img').mouseup(function () {
         $('.sec1-sns li:eq(6) a img').attr('src', 'assets/img/github.png');
     });
-    $('.sec1-sns li:eq(7) a img').mousedown(function () {
-        $('.sec1-sns li:eq(7) a img').attr('src', 'assets/img/yt-p.png');
-    });
-     $('.sec1-sns li:eq(7) a img').mouseup(function () {
-        $('.sec1-sns li:eq(7) a img').attr('src', 'assets/img/yt.png');
-    });
 });
 $(function() { 
     $(".f-sns li a img").hover(function(){ 
@@ -166,12 +160,6 @@ $(function () {
     });
       $('.f-sns li:eq(6) a img').mouseup(function () {
         $('.f-sns li:eq(6) a img').attr('src', 'assets/img/github.png');
-    });
-    $('.f-sns li:eq(7) a img').mousedown(function () {
-        $('.f-sns li:eq(7) a img').attr('src', 'assets/img/yt-p.png');
-    });
-     $('.f-sns li:eq(7) a img').mouseup(function () {
-        $('.f-sns li:eq(7) a img').attr('src', 'assets/img/yt.png');
     });
 });
 

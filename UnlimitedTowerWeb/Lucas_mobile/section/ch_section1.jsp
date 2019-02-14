@@ -28,7 +28,6 @@
 						<li><a href="https://open.kakao.com/o/gEclhcdb"><img src="assets/img/kakao.png" alt=""></a></li>
 						<li><a href="https://medium.com/unlimitedtower"><img src="assets/img/md.png" alt=""></a></li>
 						<li><a href="https://github.com/DevToothCrew"><img src="assets/img/github.png" alt=""></a></li>
-						<li><a href="https://www.youtube.com/channel/UCn4VtDfcAjBHeVM7STdV72A"><img src="assets/img/yt.png" alt=""></a></li>
 					</ul>
 				</div>
 			</div>

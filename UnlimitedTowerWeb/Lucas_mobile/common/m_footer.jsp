@@ -14,7 +14,6 @@
 					<li><a href="https://open.kakao.com/o/gEclhcdb" target="_blank"><img src="assets/img/kakao.png" alt=""></a></li>
 					<li><a href="https://medium.com/unlimitedtower" target="_blank"><img src="assets/img/md.png" alt=""></a></li>
 					<li><a href="https://github.com/DevToothCrew" target="_blank"><img src="assets/img/github.png" alt=""></a></li>
-					<li><a href="https://www.youtube.com/channel/UCn4VtDfcAjBHeVM7STdV72A" target="_blank"><img src="assets/img/yt.png" alt=""></a></li>
 					<!--li><a href="#"><img src="assets/img/mail.png" alt=""></a></li -->
 				</ul>
 				<span>Contact : official@unlimitedtower.com </br></span>

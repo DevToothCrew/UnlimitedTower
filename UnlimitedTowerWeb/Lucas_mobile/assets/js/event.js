@@ -23,7 +23,6 @@ $(".cate ul li").click(function(){;
 //slide animation
 function goCountry(){
     $(".lan-cate").slideToggle();
-	$(".logout").slideUp();
 }
 $(".section").click(function(){;
     $(".lan-cate").slideUp();
@@ -39,7 +38,6 @@ function country_action(str){
 
 function name_click(){
 	$(".logout").slideToggle();
-	$(".lan-cate").slideUp();
 }
 $(".section").click(function(){;
     $(".logout").slideUp();
@@ -109,12 +107,6 @@ $(function () {
       $('.sec1-sns li:eq(6) a img').mouseup(function () {
         $('.sec1-sns li:eq(6) a img').attr('src', 'assets/img/github.png');
     });
-    $('.sec1-sns li:eq(7) a img').mousedown(function () {
-        $('.sec1-sns li:eq(7) a img').attr('src', 'assets/img/yt-p.png');
-    });
-     $('.sec1-sns li:eq(7) a img').mouseup(function () {
-        $('.sec1-sns li:eq(7) a img').attr('src', 'assets/img/yt.png');
-    });
 });
 $(function() { 
     $(".f-sns li a img").hover(function(){ 
@@ -168,12 +160,6 @@ $(function () {
       $('.f-sns li:eq(6) a img').mouseup(function () {
         $('.f-sns li:eq(6) a img').attr('src', 'assets/img/github.png');
     });
-    $('.f-sns li:eq(7) a img').mousedown(function () {
-        $('.f-sns li:eq(7) a img').attr('src', 'assets/img/yt-p.png');
-    });
-     $('.f-sns li:eq(7) a img').mouseup(function () {
-        $('.f-sns li:eq(7) a img').attr('src', 'assets/img/yt.png');
-    });
 });
 
 
@@ -219,44 +205,49 @@ $(".section1").ready(function(){
 });
 function loop(){
     $(".tower1").delay(3000).animate({ top : "+=20%"},2000,loop)
-    $(".tower1 img:nth-child(2)").delay(160000).animate({ top : "-=13294px"},loop)
-     $(".tower1 img:nth-child(1)").delay(320000).animate({ top : "-=13294px"},loop)
 
 }
 
 $('.slide-wrap').slick({
-  dots: true,
-  infinite: false,
-  speed: 300,
-  slidesToShow: 5,
-  slidesToScroll: 5,
-  responsive: [
-    {
-      breakpoint: 1400,
-      settings: {
-        slidesToShow: 4,
-        slidesToScroll: 4,
-        infinite: true,
-        dots: true
-      }
-    },
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 3
-      }
-    },
-    {
-		breakpoint: 750,
-		settings: {
-		centerMode: true,
-		centerPadding: '60px',
-		slidesToShow: 1,
-		dots: false,
-      }
-    }
-  ]
+ dots: true,
+ infinite: false,
+ speed: 300,
+ slidesToShow: 5,
+ slidesToScroll: 5,
+ responsive: [
+   {
+     breakpoint: 1400,
+     settings: {
+       slidesToShow: 4,
+       slidesToScroll: 4,
+       infinite: true,
+       dots: true
+     }
+   },
+   {
+     breakpoint: 1024,
+     settings: {
+       slidesToShow: 3,
+       slidesToScroll: 3
+     }
+   },
+   {
+     breakpoint: 600,
+     settings: {
+       slidesToShow: 2,
+       slidesToScroll: 2
+     }
+   },
+   {
+     breakpoint: 400,
+     settings: {
+        centerMode: true,
+        centerPadding: '60px',
+        slidesToShow: 1,
+        dots: false, 
+     }
+   }
+
+
+ ]
 });
-
-

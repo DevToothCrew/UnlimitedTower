@@ -332,9 +332,9 @@ body{background-color: #fff}
 
 
 /*footer*/
-footer{height: 390px;background-color: #172335;}
+footer{height: 400px;background-color: #172335;}
 .footer{text-align: center;line-height: 2;}
-.footer .footer-logo{width: 132px;padding-top: 63px;}
+.footer .footer-logo{width: 132px;padding-top: 50px;}
 .footer .f-sns{margin-top: 50px;}
 .footer .f-sns li {display: inline;}
 .footer .f-sns li a img{width: 27px; margin:0 4px;}
