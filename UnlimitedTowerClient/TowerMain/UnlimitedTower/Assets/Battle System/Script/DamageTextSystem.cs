@@ -7,40 +7,40 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
 {
     public int[] numberIndex = new int[5];
     public Sprite[] numberSprite = new Sprite[10];
-    public GameObject[] TextPool = new GameObject[50];
+    public GameObject[] textPool = new GameObject[50];
     public DamageText[] chsing = new DamageText[50];
-    public GameObject MissText; 
+    public GameObject missText; 
 
     private int Index = 0;
     private GameObject Camera_;
-    private Color RedColor = new Color(1, 0, 0, 1);
-    private Color YellowColor = new Color(1, 1, 0, 1);
+    private readonly Color RedColor = new Color(1, 0, 0, 1);
+    private readonly Color YellowColor = new Color(1, 1, 0, 1);
 
     private void Start()
     {
         for (int i = 0; i < 50; i++)
         {
-            TextPool[i] = transform.GetChild(0).GetChild(i).gameObject;
-            chsing[i] = TextPool[i].GetComponent<DamageText>();
-            TextPool[i].SetActive(false);
+            textPool[i] = transform.GetChild(0).GetChild(i).gameObject;
+            chsing[i] = textPool[i].GetComponent<DamageText>();
+            textPool[i].SetActive(false);
         }
         Camera_ = GameObject.Find("Main Camera");
     }
 
     public void Avoid(int target, bool isPlayer) // 피한 대상의 인덱스와 플레이어 여부
     {
-        MissText.transform.GetChild(0).gameObject.SetActive(true);
+        missText.transform.GetChild(0).gameObject.SetActive(true);
         if (isPlayer)
         {
-            MissText.transform.position =
-                  Camera.main.WorldToScreenPoint(BattleSystem.Inst.PlayerCharacter[target].transform.position +
-                  new Vector3(0, BattleSystem.Inst.PlayerCharacterControl[target].child.GetComponent<CharacterInformation>().Height, 0));
+            missText.transform.position =
+                  Camera.main.WorldToScreenPoint(BattleSystem.Inst.playerCharacter[target].transform.position +
+                  new Vector3(0, BattleSystem.Inst.playerCharacterControl[target].child.GetComponent<CharacterInformation>().Height, 0));
         }
         else
         {
-            MissText.transform.position =
-                  Camera.main.WorldToScreenPoint(BattleSystem.Inst.EnemyCharacter[target].transform.position +
-                  new Vector3(0, BattleSystem.Inst.EnemyCharacterControl[target].child.GetComponent<CharacterInformation>().Height, 0));
+            missText.transform.position =
+                  Camera.main.WorldToScreenPoint(BattleSystem.Inst.enemyCharacter[target].transform.position +
+                  new Vector3(0, BattleSystem.Inst.enemyCharacterControl[target].child.GetComponent<CharacterInformation>().Height, 0));
         }
     }
 
@@ -52,20 +52,20 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
         numberIndex[3] = (damage % 10000 - numberIndex[0] - numberIndex[1] * 10 - numberIndex[2] * 100) / 1000;
         numberIndex[4] = (damage - numberIndex[0] - numberIndex[1] * 10 - numberIndex[2] * 100 - numberIndex[4] * 1000) / 10000;
 
-        TextPool[Index].SetActive(true);
+        textPool[Index].SetActive(true);
         if (isPlayer)
         {
-            TextPool[Index].transform.position =
-                  Camera.main.WorldToScreenPoint(BattleSystem.Inst.PlayerCharacter[target].transform.position +
-                  new Vector3(0, BattleSystem.Inst.PlayerCharacterControl[target].child.GetComponent<CharacterInformation>().Height, 0));
-            BattleSystem.Inst.PlayerCharacterControl[target].NowHp -= damage;
+            textPool[Index].transform.position =
+                  Camera.main.WorldToScreenPoint(BattleSystem.Inst.playerCharacter[target].transform.position +
+                  new Vector3(0, BattleSystem.Inst.playerCharacterControl[target].child.GetComponent<CharacterInformation>().Height, 0));
+            BattleSystem.Inst.playerCharacterControl[target].nowHp -= damage;
         }
         else
         {
-            TextPool[Index].transform.position =
-                  Camera.main.WorldToScreenPoint(BattleSystem.Inst.EnemyCharacter[target].transform.position +
-                  new Vector3(0, BattleSystem.Inst.EnemyCharacterControl[target].child.GetComponent<CharacterInformation>().Height, 0));
-            BattleSystem.Inst.EnemyCharacterControl[target].NowHp -= damage;
+            textPool[Index].transform.position =
+                  Camera.main.WorldToScreenPoint(BattleSystem.Inst.enemyCharacter[target].transform.position +
+                  new Vector3(0, BattleSystem.Inst.enemyCharacterControl[target].child.GetComponent<CharacterInformation>().Height, 0));
+            BattleSystem.Inst.enemyCharacterControl[target].nowHp -= damage;
         }
 
         for (int i = 0; i < 5; i++)
@@ -81,25 +81,25 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
             chsing[Index].image[2].gameObject.SetActive(false);
             chsing[Index].image[3].gameObject.SetActive(false);
             chsing[Index].image[4].gameObject.SetActive(false);
-            TextPool[Index].GetComponent<RectTransform>().position += new Vector3(-66.0f, 0, 0);
+            textPool[Index].GetComponent<RectTransform>().position += new Vector3(-66.0f, 0, 0);
         }
         else if (damage < 100)
         {
             chsing[Index].image[2].gameObject.SetActive(false);
             chsing[Index].image[3].gameObject.SetActive(false);
             chsing[Index].image[4].gameObject.SetActive(false);
-            TextPool[Index].GetComponent<RectTransform>().position += new Vector3(-49.5f, 0, 0);
+            textPool[Index].GetComponent<RectTransform>().position += new Vector3(-49.5f, 0, 0);
         }
         else if (damage < 1000)
         {
             chsing[Index].image[3].gameObject.SetActive(false);
             chsing[Index].image[4].gameObject.SetActive(false);
-            TextPool[Index].GetComponent<RectTransform>().position += new Vector3(-33.0f, 0, 0);
+            textPool[Index].GetComponent<RectTransform>().position += new Vector3(-33.0f, 0, 0);
         }
         else if (damage < 10000)
         {
             chsing[Index].image[4].gameObject.SetActive(false);
-            TextPool[Index].GetComponent<RectTransform>().position += new Vector3(-16.5f, 0, 0);
+            textPool[Index].GetComponent<RectTransform>().position += new Vector3(-16.5f, 0, 0);
         }
 
         if (isCritical)

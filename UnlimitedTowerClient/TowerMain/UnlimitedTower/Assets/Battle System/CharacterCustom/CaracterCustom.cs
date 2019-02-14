@@ -13,10 +13,11 @@ public class CaracterCustom : MonoBehaviour
     /// 4는 마법사
     /// 5는 사제
     /// 키 입력으로 ++ -- 해야해서 임시로 int형 선언
+    /// 아래 값들을 변경한 후 Refrash()
     /// </summary>
-    public int JobIndex;
-    public int HeadIndex;
-    public int HairIndex;
+    public int jobIndex;
+    public int headIndex;
+    public int hairIndex;
     public int isMan;
     public int isChildren;
 
@@ -41,28 +42,29 @@ public class CaracterCustom : MonoBehaviour
     [FormerlySerializedAs("CharacterSkinnedMeshList")]
     public CharacterSkinnedMeshList characterSkinnedMeshList = new CharacterSkinnedMeshList();
 
-    public GameObject DefultCharacter;
+    public GameObject defultCharacter;
 
-    public HeadParts[] AdultManHead = new HeadParts[9];
-    public HeadParts[] AdultWomanHead = new HeadParts[9];
-    public HeadParts[] ChildrenManHead = new HeadParts[9];
-    public HeadParts[] ChildrenWomanHead = new HeadParts[9];
+    public HeadParts[] adultManHead = new HeadParts[9];
+    public HeadParts[] adultWomanHead = new HeadParts[9];
+    public HeadParts[] childrenManHead = new HeadParts[9];
+    public HeadParts[] childrenWomanHead = new HeadParts[9];
 
     public ParticleSystem RingEffect;
-    public GameObject AdultBodyEffect;
-    public GameObject AdultHeadEffect;
-    public GameObject ChildrenBodyEffect;
-    public GameObject ChildrenHeadEffect;
+    public GameObject adultBodyEffect;
+    public GameObject adultHeadEffect;
+    public GameObject childrenBodyEffect;
+    public GameObject childrenHeadEffect;
 
-    private Color[] JobColor = new Color[6];
+    private readonly Color[] JobColor = {
+        new Color(0, 0, 0, 0),
+        new Color(0.188f, 0.188f, 0.2f, 1.0f),
+        new Color(0.4f, 0.152f, 0, 1.0f),
+        new Color(0.6f, 0.4f, 0, 1.0f),
+        new Color(0.388f, 0.494f, 0.741f, 1.0f),
+        new Color(1, 0.309f, 0.309f, 1.0f) };
 
     private void Awake()
     {
-        JobColor[1] = new Color(0.188f, 0.188f, 0.2f, 1.0f);
-        JobColor[2] = new Color(0.4f, 0.152f, 0, 1.0f);
-        JobColor[3] = new Color(0.6f, 0.4f, 0, 1.0f);
-        JobColor[4] = new Color(0.388f, 0.494f, 0.741f, 1.0f);
-        JobColor[5] = new Color(1, 0.309f, 0.309f, 1.0f);
         Refresh();
         StartCoroutine(ColorChange());
     }
@@ -188,24 +190,12 @@ public class CaracterCustom : MonoBehaviour
         {
             List<Transform> OriginalList = new List<Transform>();
             List<Transform> CopyList = new List<Transform>();
-            ValueLead(OriginalList, Original);
-            ValueLead(CopyList, Copy);
-
+            OriginalList.AddRange(Original.GetComponentsInChildren<Transform>());
+            CopyList.AddRange(Copy.GetComponentsInChildren<Transform>());
             for (int i = 0; i < OriginalList.Count; i++)
             {
                 OriginalList[i].SetPositionAndRotation(CopyList[i].position, CopyList[i].rotation);
                 OriginalList[i].localScale = CopyList[i].localScale;
-            }
-        }
-
-        // Transform 재귀함수
-        public void ValueLead(List<Transform> transformList, Transform tf)
-        {
-            transformList.Add(tf);
-            if (tf.childCount > 0)
-            {
-                for (int i = 0; i < tf.childCount; i++)
-                    ValueLead(transformList, tf.GetChild(i));
             }
         }
     }
@@ -214,108 +204,109 @@ public class CaracterCustom : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Keypad1))
         {
-            if (JobIndex > 1)
+            if (jobIndex > 1)
             {
-                JobIndex--;
+                jobIndex--;
                 Refresh();
-                BodyChangeEffect();
+                // BodyChangeEffect();
             }
         }
         if (Input.GetKeyDown(KeyCode.Keypad3))
         {
-            if (JobIndex < 5)
+            if (jobIndex < 5)
             {
-                JobIndex++;
+                jobIndex++;
                 Refresh();
-                BodyChangeEffect();
+                // BodyChangeEffect();
             }
         }
         if (Input.GetKeyDown(KeyCode.Keypad4))
         {
-            if (HeadIndex > 0)
+            if (headIndex > 0)
             {
-                HeadIndex--;
+                headIndex--;
                 Refresh();
-                HeadChangeEffect();
+                // HeadChangeEffect();
             }
         }
         if (Input.GetKeyDown(KeyCode.Keypad6))
         {
-            if (HeadIndex < 2)
+            if (headIndex < 2)
             {
-                HeadIndex++;
+                headIndex++;
                 Refresh();
-                HeadChangeEffect();
+                // HeadChangeEffect();
             }
         }
         if (Input.GetKeyDown(KeyCode.Keypad7))
         {
-            if (HairIndex > 0)
+            if (hairIndex > 0)
             {
-                HairIndex--;
+                hairIndex--;
                 Refresh();
-                HeadChangeEffect();
+                // HeadChangeEffect();
             }
         }
         if (Input.GetKeyDown(KeyCode.Keypad9))
         {
-            if (HairIndex < 2)
+            if (hairIndex < 2)
             {
-                HairIndex++;
+                hairIndex++;
                 Refresh();
-                HeadChangeEffect();
+                // HeadChangeEffect();
             }
         }
         if (Input.GetKeyDown(KeyCode.Keypad5))
         {
             isMan = isMan == 0 ? 1 : 0;
             Refresh();
-            BodyChangeEffect();
+            // BodyChangeEffect();
         }
         if (Input.GetKeyDown(KeyCode.Keypad8))
         {
             isChildren = isChildren == 0 ? 1 : 0;
             Refresh();
-            BodyChangeEffect();
+            // BodyChangeEffect();
         }
 
         if (Input.GetMouseButton(0))
         {
-            DefultCharacter.transform.Rotate(0, -Input.GetAxis("Mouse X") * 10, 0);
+            defultCharacter.transform.Rotate(0, -Input.GetAxis("Mouse X") * 10, 0);
         }
     }
 
-    private void HeadChangeEffect()
-    {
-        if (isChildren == 0)
-        {
-            AdultHeadEffect.SetActive(false);
-            AdultHeadEffect.SetActive(true);
-        }
-        else
-        {
-            ChildrenHeadEffect.SetActive(false);
-            ChildrenHeadEffect.SetActive(true);
-        }
-    }
-
-    private void BodyChangeEffect()
-    {
-        if (isChildren == 0)
-        {
-            AdultBodyEffect.SetActive(false);
-            AdultBodyEffect.SetActive(true);
-        }
-        else
-        {
-            ChildrenBodyEffect.SetActive(false);
-            ChildrenBodyEffect.SetActive(true);
-        }
-    }
+    // 이펙트 제거
+    // private void HeadChangeEffect()
+    // {
+    //     if (isChildren == 0)
+    //     {
+    //         adultHeadEffect.SetActive(false);
+    //         adultHeadEffect.SetActive(true);
+    //     }
+    //     else
+    //     {
+    //         childrenHeadEffect.SetActive(false);
+    //         childrenHeadEffect.SetActive(true);
+    //     }
+    // }
+    // 
+    // private void BodyChangeEffect()
+    // {
+    //     if (isChildren == 0)
+    //     {
+    //         adultBodyEffect.SetActive(false);
+    //         adultBodyEffect.SetActive(true);
+    //     }
+    //     else
+    //     {
+    //         childrenBodyEffect.SetActive(false);
+    //         childrenBodyEffect.SetActive(true);
+    //     }
+    // }
 
     private void Refresh()
     {
-        switch (JobIndex)
+        switch (jobIndex)
         {
             case 0:
                 characterSkinnedMeshList.MeshChange(WhiteHandCharacterMeshList[isMan + isChildren * 2]);
@@ -339,16 +330,16 @@ public class CaracterCustom : MonoBehaviour
         if (isMan == 1)
         {
             if (isChildren == 0)
-                characterSkinnedMeshList.HeadChange(AdultManHead[HeadIndex * 3 + HairIndex]);
+                characterSkinnedMeshList.HeadChange(adultManHead[headIndex * 3 + hairIndex]);
             else
-                characterSkinnedMeshList.HeadChange(ChildrenManHead[HeadIndex * 3 + HairIndex]);
+                characterSkinnedMeshList.HeadChange(childrenManHead[headIndex * 3 + hairIndex]);
         }
         else
         {
             if (isChildren == 0)
-                characterSkinnedMeshList.HeadChange(AdultWomanHead[HeadIndex * 3 + HairIndex]);
+                characterSkinnedMeshList.HeadChange(adultWomanHead[headIndex * 3 + hairIndex]);
             else
-                characterSkinnedMeshList.HeadChange(ChildrenWomanHead[HeadIndex * 3 + HairIndex]);
+                characterSkinnedMeshList.HeadChange(childrenWomanHead[headIndex * 3 + hairIndex]);
         }
     }
     
@@ -356,7 +347,7 @@ public class CaracterCustom : MonoBehaviour
     {
         while (true)
         {
-            RingEffect.startColor = Color.Lerp(RingEffect.startColor, JobColor[JobIndex], 0.2f);
+            RingEffect.startColor = Color.Lerp(RingEffect.startColor, JobColor[jobIndex], 0.2f);
             yield return null;
         }
     }

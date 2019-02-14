@@ -5,13 +5,11 @@ using UnityEngine;
 public class DefaultAttack : MonoBehaviour {
     public bool isOneDeal;
     public GameObject Arrow;
-    public GameObject effect;
     private CharacterInformation characterInformation;
     private Animator ani;
 
     private void Start()
     {
-        effect = BattleSystem.Inst.testEffect;
         ani = GetComponent<Animator>();
         characterInformation = GetComponent<CharacterInformation>();
     }
@@ -34,13 +32,13 @@ public class DefaultAttack : MonoBehaviour {
 
         if (sendValue.isPlayer)
         {
-            attacker = BattleSystem.Inst.PlayerCharacter[sendValue.Attacker].transform;
-            target = BattleSystem.Inst.EnemyCharacter[sendValue.Target].transform;
+            attacker = BattleSystem.Inst.playerCharacter[sendValue.Attacker].transform;
+            target = BattleSystem.Inst.enemyCharacter[sendValue.Target].transform;
         }
         else
         {
-            attacker = BattleSystem.Inst.EnemyCharacter[sendValue.Attacker].transform;
-            target = BattleSystem.Inst.PlayerCharacter[sendValue.Target].transform;
+            attacker = BattleSystem.Inst.enemyCharacter[sendValue.Attacker].transform;
+            target = BattleSystem.Inst.playerCharacter[sendValue.Target].transform;
         }
         attackerStartPos = attacker.transform.position;
         
@@ -64,11 +62,11 @@ public class DefaultAttack : MonoBehaviour {
 
             // 이펙트 보류
             // if (sendValue.isPlayer)
-            //     Instantiate(effect, BattleSystem.Inst.EnemyCharacter[sendValue.Target].transform.position +
-            //         new Vector3(0, BattleSystem.Inst.EnemyCharacter[sendValue.Target].transform.GetChild(0).GetComponent<CharacterInformation>().Height * 0.3f, 0), transform.rotation);
+            //     Instantiate(effect, BattleSystem.Inst.enemyCharacter[sendValue.Target].transform.position +
+            //         new Vector3(0, BattleSystem.Inst.enemyCharacter[sendValue.Target].transform.GetChild(0).GetComponent<CharacterInformation>().Height * 0.3f, 0), transform.rotation);
             // else
-            //     Instantiate(effect, BattleSystem.Inst.PlayerCharacter[sendValue.Target].transform.position +
-            //         new Vector3(0, BattleSystem.Inst.PlayerCharacter[sendValue.Target].transform.GetChild(0).GetComponent<CharacterInformation>().Height * 0.3f, 0), transform.rotation);
+            //     Instantiate(effect, BattleSystem.Inst.playerCharacter[sendValue.Target].transform.position +
+            //         new Vector3(0, BattleSystem.Inst.playerCharacter[sendValue.Target].transform.GetChild(0).GetComponent<CharacterInformation>().Height * 0.3f, 0), transform.rotation);
 
             target.GetChild(0).GetComponent<Animator>().SetTrigger("isHit");
         }
@@ -77,9 +75,9 @@ public class DefaultAttack : MonoBehaviour {
             // Miss 텍스트
             DamageTextSystem.Inst.Avoid(sendValue.Target, !sendValue.isPlayer);
             if (sendValue.isPlayer)
-                BattleSystem.Inst.EnemyCharacterControl[sendValue.Target].Miss();
+                BattleSystem.Inst.enemyCharacterControl[sendValue.Target].Miss();
             else
-                BattleSystem.Inst.PlayerCharacterControl[sendValue.Target].Miss();
+                BattleSystem.Inst.playerCharacterControl[sendValue.Target].Miss();
         }
 
         yield return new WaitForSeconds(characterInformation.AttackAfterDelay);
@@ -102,7 +100,7 @@ public class DefaultAttack : MonoBehaviour {
         else
             attacker.rotation = Quaternion.Euler(0, 180, 0);
 
-        BattleSystem.Inst.battleInformation.AttackerIndex = -1;
+        BattleSystem.Inst.battleInformation.attackerIndex = -1;
     }
 
     // 원거리 공격은 보류
@@ -113,13 +111,13 @@ public class DefaultAttack : MonoBehaviour {
 
         if (sendValue.isPlayer)
         {
-            attacker = BattleSystem.Inst.PlayerCharacter[sendValue.Attacker].transform;
-            target = BattleSystem.Inst.EnemyCharacter[sendValue.Target].transform;
+            attacker = BattleSystem.Inst.playerCharacter[sendValue.Attacker].transform;
+            target = BattleSystem.Inst.enemyCharacter[sendValue.Target].transform;
         }
         else
         {
-            attacker = BattleSystem.Inst.EnemyCharacter[sendValue.Attacker].transform;
-            target = BattleSystem.Inst.PlayerCharacter[sendValue.Target].transform;
+            attacker = BattleSystem.Inst.enemyCharacter[sendValue.Attacker].transform;
+            target = BattleSystem.Inst.playerCharacter[sendValue.Target].transform;
         }
 
         attacker.transform.LookAt(target);

@@ -9,31 +9,22 @@ public class CharacterControl : MonoBehaviour
     public GameObject select;
     public int index;
     public bool isPlayer;
-    public int MaxHp;
-    public int NowHp;
+    public int maxHp;
+    public int nowHp;
     public bool isDie;
     private bool isStart = false;
     
     private void FixedUpdate()
     {
-
-        ///
-        /// 이건 증말루다가 갓갓갓갓갓이다
-        ///
-        // int[] 숫자배열 = new int[10];
-        // int maxSum = 0, currentSum = 0;
-        // for (int i = 0; i < 숫자배열.Length; i++) {
-        //     currentSum = currentSum + 숫자배열[i] > 숫자배열[i] ? currentSum + 숫자배열[i] : 숫자배열[i];
-        //     maxSum = currentSum > maxSum ? currentSum : maxSum; }
-        
         if (!isStart)
         {
             isStart = true;
             checkBox = GetComponent<BoxCollider>();
+            checkBox.enabled = true;
             select = transform.GetChild(0).GetChild(0).gameObject;
             child = transform.GetChild(0).gameObject;
         }
-        if (NowHp <= 0)
+        if (nowHp <= 0)
         {
             if (!isDie)
             {
@@ -61,25 +52,24 @@ public class CharacterControl : MonoBehaviour
         {
             if (isPlayer)
             {
-                if (BattleSystem.Inst.EnemyCharacterControl[sendValue.Target].NowHp - sendValue.Damage <= 0)
+                if (BattleSystem.Inst.enemyCharacterControl[sendValue.Target].nowHp - sendValue.Damage <= 0)
                 {
                     DieCameraMove.Inst.Test(sendValue.Target, !isPlayer);
                 }
             }
-            else if (BattleSystem.Inst.PlayerCharacterControl[sendValue.Target].NowHp - sendValue.Damage <= 0)
+            else if (BattleSystem.Inst.playerCharacterControl[sendValue.Target].nowHp - sendValue.Damage <= 0)
             {
                 DieCameraMove.Inst.Test(sendValue.Target, !isPlayer);
             }
         }
-
     }
-
-    [ContextMenu("test")]
+    
     public void Miss()
     {
         StartCoroutine(Avoid());
     }
-
+    
+    // 바꿔라아ㅏㅏ
     IEnumerator Avoid()
     {
         for (int i = 0; i < 25; i += BattleSystem.Inst.TimeScale)
