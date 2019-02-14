@@ -8,7 +8,7 @@
 				<div class="sec1-l">
 					<div class="tower">
 						<div class="ov">
-							<div class="tower1"><img src="assets/img/tower.png" alt=""></div>
+							<div class="tower1"><img src="assets/img/tower.png" alt=""><img src="assets/img/tower.png" alt=""></div>
 						</div>
 					</div>	
 				</div>
