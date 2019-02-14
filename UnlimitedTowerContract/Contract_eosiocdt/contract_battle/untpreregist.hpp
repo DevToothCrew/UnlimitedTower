@@ -857,7 +857,6 @@ private:
     TABLE tbattlestate
     {
         eosio::name user;
-        uint32_t turn;
         uint32_t party_number;
         std::vector<battle_state> state_list;
 
@@ -898,6 +897,7 @@ struct battle_action_info
 TABLE tbattleact
 {
     eosio::name user;
+    uint32_t turn;
     std::vector<battle_action_info> battle_info_list;
     uint64_t primary_key() const { return user.value; }
 };

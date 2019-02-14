@@ -2292,13 +2292,14 @@ ACTION untpreregist::startbattle(eosio::name _user, uint32_t _party_number, uint
     user_battle_action_table.emplace(_self, [&](auto &new_battle_action)
     {
         new_battle_action.user = _user;
+        new_battle_action.turn = START_BATTLE;
     });
 
     auto user_battle_iter = user_battle_table.find(_user.value);
     eosio_assert(user_battle_iter == user_battle_table.end(),"already battle 2");
     user_battle_table.emplace(owner, [&](auto &new_battle_set) {
         new_battle_set.user = _user;
-        new_battle_set.turn = START_BATTLE;
+        
         new_battle_set.party_number = _party_number;
         new_battle_set.state_list.resize(20);
 
@@ -2437,18 +2438,19 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
     battle_state_list battle_state_list_table(_self, _self.value);
     auto user_battle_state_iter = battle_state_list_table.find(_user.value);
     eosio_assert(user_battle_state_iter != battle_state_list_table.end(), "end battle 1");
-    eosio_assert(user_battle_state_iter->turn != 0, "end battle 3");
+    
 
     battle_actions battle_action_table(_self, _self.value);
     auto user_battle_action_iter = battle_action_table.find(_user.value);
     eosio_assert(user_battle_action_iter != battle_action_table.end(), "end battle 2");
+    eosio_assert(user_battle_action_iter->turn != 0, "end battle 3");
 
     std::vector<uint64_t> order_random_list;
     safeseed::get_battle_rand_list(order_random_list, battle_seed);
 
     //배틀의 상태를 바꿔주는 부분
     battle_state_list_table.modify(user_battle_state_iter, _self, [&](auto &battle_state) {
-        battle_state.turn += 1;
+        
         //공격순서 정렬하는 부분
         std::vector<battle_order_struct> speed_order_list;
         for (uint32_t i = 0; i < user_battle_state_iter->state_list.size(); ++i)
@@ -2469,6 +2471,7 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
 
         //배틀에 액션테이블에 데이터를 추가해주는 부분
         battle_action_table.modify(user_battle_action_iter, _self, [&](auto &update_action) {
+            update_action.turn += 1;
             update_action.battle_info_list.clear();
             for (uint32_t i = 0; i < speed_order_list.size(); ++i)
             {
@@ -2487,7 +2490,7 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
                             continue;
                         }
                         
-                    
+                     
                         battle_action new_action;
                         if (_hero_action == battle_action_state::attack)
                         {
@@ -2814,10 +2817,12 @@ void untpreregist::win_reward(eosio::name _user)
         update_log.battle_count += 1;
     });
 
-    battle_state_list user_battle_state_table(_self, _self.value);
-    auto user_battle_iter = user_battle_state_table.find(_user.value);
-    eosio_assert(user_battle_iter != user_battle_state_table.end(), "Not Exist Battle 1");
-    user_battle_state_table.modify(user_battle_iter, _self, [&](auto &add_win_reward) {
+
+    battle_actions battle_action_table(_self, _self.value);
+    auto user_battle_action_iter = battle_action_table.find(_user.value);
+    eosio_assert(user_battle_action_iter != battle_action_table.end(), "Not Exist Battle 1");
+    battle_action_table.modify(user_battle_action_iter, _self, [&](auto &add_win_reward)
+    {
         add_win_reward.turn = END_BATTLE;
     });
 
@@ -2860,10 +2865,11 @@ void untpreregist::fail_reward(eosio::name _user)
         update_log.battle_count += 1;
     });
 
-    battle_state_list user_battle_state_table(_self, _self.value);
-    auto user_battle_iter = user_battle_state_table.find(_user.value);
-    eosio_assert(user_battle_iter != user_battle_state_table.end(), "Not Exist Battle 1");
-    user_battle_state_table.modify(user_battle_iter, _self, [&](auto &add_win_reward) {
+    battle_actions battle_action_table(_self, _self.value);
+    auto user_battle_action_iter = battle_action_table.find(_user.value);
+    eosio_assert(user_battle_action_iter != battle_action_table.end(), "Not Exist Battle 1");
+    battle_action_table.modify(user_battle_action_iter, _self, [&](auto &add_win_reward)
+    {
         add_win_reward.turn = END_BATTLE;
     });
 
