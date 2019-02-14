@@ -24,7 +24,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     public readonly int[] positionOrder = { 2, 1, 3, 0, 4, 7, 6, 8, 5, 9 };
 
     // 0~9는 플레이어, 10~19는 적
-    public bool[] characterisVoid = new bool[20];
+    public bool[] characterisPlace = new bool[20];
 
     public struct BattleInformation
     {
@@ -43,7 +43,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
 
         for (int i = 0; i < 20; i++)
         {
-            characterisVoid[i] = true;
+            characterisPlace[i] = true;
         }
 
         playerCharacter[0] = GameObject.Find("CharacterPlayer03").gameObject;
@@ -77,23 +77,32 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         prefabList = GetComponent<PrefabList>();
 
         // 캐릭터 컨트롤 스크립트 추가
+        // 나중엔 아래에서 초기화 하는 것들 전부 여기서 초기화
         for (int i = 0; i < 10; i++)
         {
-            if (characterisVoid[i] == true)
-                playerCharacter[i]?.AddComponent<CharacterControl>();
-            if (characterisVoid[i + 10] == true)
-                enemyCharacter[i]?.AddComponent<CharacterControl>();
+            if (characterisPlace[i] == true)
+            {
+                playerCharacterControl[i] = playerCharacter[i]?.AddComponent<CharacterControl>();
+                playerCharacterControl[i].index = i;
+                playerCharacterControl[i].isPlayer = true;
+            }
+            if (characterisPlace[i + 10] == true)
+            {
+                enemyCharacterControl[i] = enemyCharacter[i]?.AddComponent<CharacterControl>();
+                enemyCharacterControl[i].index = i;
+                enemyCharacterControl[i].isPlayer = false;
+            }
         }
 
         // 캐릭터 인덱스를 받아와 playerCharacter 오브젝트를 부모로 소환
         // 데이터 들어오면 주석 해제
         // for (int i = 0; i < 10; i++)
         // {
-        //     if (characterisVoid[i] == true)
+        //     if (characterisPlace[i] == true)
         //     {
         //         Instantiate(prefabList.prefabList[stageStateData.info_list[i].index].Prefab, playerCharacter[i].transform);
         //     }
-        //     if (characterisVoid[i + 10] == true)
+        //     if (characterisPlace[i + 10] == true)
         //     {
         //         Instantiate(prefabList.prefabList[stageStateData.info_list[i].index].Prefab, enemyCharacter[i].transform);
         //     }
@@ -102,11 +111,11 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         // 임시
         for (int i = 0; i < 10; i++)
         {
-            if (characterisVoid[i] == true)
+            if (characterisPlace[i] == true)
             {
                 Instantiate(prefabList.prefabList[5].Prefab, playerCharacter[i].transform);
             }
-            if (characterisVoid[i + 10] == true)
+            if (characterisPlace[i + 10] == true)
             {
                 Instantiate(prefabList.prefabList[5].Prefab, enemyCharacter[i].transform);
             }
@@ -128,26 +137,27 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         }
 
         // 캐릭터별 스크립트 캐싱
-        for (int i = 0; i < 10; i++)
-        {
-            if (characterisVoid[i] == true)
-            {
-                playerCharacterControl[i] = playerCharacter[i].GetComponent<CharacterControl>();
-                playerCharacterControl[i].index = i;
-                playerCharacterControl[i].isPlayer = true;
-            }
-            if (characterisVoid[i + 10] == true)
-            {
-                enemyCharacterControl[i] = enemyCharacter[i].GetComponent<CharacterControl>();
-                enemyCharacterControl[i].index = i;
-                enemyCharacterControl[i].isPlayer = false;
-            }
-        }
+        // 위에서 그냥 한번에 해줬다
+        // for (int i = 0; i < 10; i++)
+        // {
+        //     if (characterisPlace[i] == true)
+        //     {
+        //         playerCharacterControl[i] = playerCharacter[i].GetComponent<CharacterControl>();
+        //         playerCharacterControl[i].index = i;
+        //         playerCharacterControl[i].isPlayer = true;
+        //     }
+        //     if (characterisPlace[i + 10] == true)
+        //     {
+        //         enemyCharacterControl[i] = enemyCharacter[i].GetComponent<CharacterControl>();
+        //         enemyCharacterControl[i].index = i;
+        //         enemyCharacterControl[i].isPlayer = false;
+        //     }
+        // }
 
         // 캐릭터별 체력 설정
         for (int i = 0; i < 10; i++)
         {
-            if (characterisVoid[i] == true)
+            if (characterisPlace[i] == true)
             {
                 // 데이터 들어오면 주석 해제
                 // playerCharacterControl[i].maxHp = stageStateData.info_list[i].now_hp; // 나중에 최대체력 변경
@@ -155,7 +165,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                 playerCharacterControl[i].maxHp = 300;
                 playerCharacterControl[i].nowHp = 300;
             }
-            if (characterisVoid[i + 10] == true)
+            if (characterisPlace[i + 10] == true)
             {
                 // 데이터 들어오면 주석 해제
                 // enemyCharacterControl[i].maxHp = stageStateData.info_list[i].now_hp;  // 나중에 최대체력 변경

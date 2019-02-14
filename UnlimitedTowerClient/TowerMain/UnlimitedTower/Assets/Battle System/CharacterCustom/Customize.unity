@@ -1556,6 +1556,11 @@ Transform:
   m_Father: {fileID: 616686843}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!137 &171009199 stripped
+SkinnedMeshRenderer:
+  m_PrefabParentObject: {fileID: 13700024, guid: 98956fa6ecefc6743831edeb80a5202f,
+    type: 3}
+  m_PrefabInternal: {fileID: 747205791}
 --- !u!1 &171103702
 GameObject:
   m_ObjectHideFlags: 0
@@ -8863,7 +8868,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3.95
+  orthographic size: 0.56
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -9353,6 +9358,120 @@ Transform:
   m_Father: {fileID: 1244817484}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &747205791
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1332625095}
+    m_Modifications:
+    - target: {fileID: 400016, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.5839844
+      objectReference: {fileID: 0}
+    - target: {fileID: 400016, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.78125
+      objectReference: {fileID: 0}
+    - target: {fileID: 400016, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.5507812
+      objectReference: {fileID: 0}
+    - target: {fileID: 400016, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400016, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400016, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400016, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400016, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 13700010, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6f5c994837ef48940ad9dad3b9c994fa, type: 2}
+    - target: {fileID: 13700016, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6f5c994837ef48940ad9dad3b9c994fa, type: 2}
+    - target: {fileID: 13700004, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6f5c994837ef48940ad9dad3b9c994fa, type: 2}
+    - target: {fileID: 13700002, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6f5c994837ef48940ad9dad3b9c994fa, type: 2}
+    - target: {fileID: 13700006, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6f5c994837ef48940ad9dad3b9c994fa, type: 2}
+    - target: {fileID: 13700008, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6f5c994837ef48940ad9dad3b9c994fa, type: 2}
+    - target: {fileID: 13700022, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6f5c994837ef48940ad9dad3b9c994fa, type: 2}
+    - target: {fileID: 13700024, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6f5c994837ef48940ad9dad3b9c994fa, type: 2}
+    - target: {fileID: 13700026, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6f5c994837ef48940ad9dad3b9c994fa, type: 2}
+    - target: {fileID: 13700028, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6f5c994837ef48940ad9dad3b9c994fa, type: 2}
+    - target: {fileID: 13700012, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6f5c994837ef48940ad9dad3b9c994fa, type: 2}
+    - target: {fileID: 13700020, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6f5c994837ef48940ad9dad3b9c994fa, type: 2}
+    - target: {fileID: 13700014, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6f5c994837ef48940ad9dad3b9c994fa, type: 2}
+    - target: {fileID: 13700000, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6f5c994837ef48940ad9dad3b9c994fa, type: 2}
+    - target: {fileID: 13700018, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6f5c994837ef48940ad9dad3b9c994fa, type: 2}
+    - target: {fileID: 100016, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_Name
+      value: DefultCaracter
+      objectReference: {fileID: 0}
+    - target: {fileID: 100016, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 84bc7efa1741dd442b0e2a25c874228a, type: 2}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+  m_IsPrefabParent: 0
 --- !u!1 &749424461
 GameObject:
   m_ObjectHideFlags: 0
@@ -10263,6 +10382,11 @@ Transform:
   m_Father: {fileID: 2147148060}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!137 &848257150 stripped
+SkinnedMeshRenderer:
+  m_PrefabParentObject: {fileID: 13700000, guid: 98956fa6ecefc6743831edeb80a5202f,
+    type: 3}
+  m_PrefabInternal: {fileID: 747205791}
 --- !u!1 &848842701
 GameObject:
   m_ObjectHideFlags: 0
@@ -10674,6 +10798,11 @@ Transform:
   m_Father: {fileID: 172872052}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!137 &892591596 stripped
+SkinnedMeshRenderer:
+  m_PrefabParentObject: {fileID: 13700028, guid: 98956fa6ecefc6743831edeb80a5202f,
+    type: 3}
+  m_PrefabInternal: {fileID: 747205791}
 --- !u!1 &897947208
 GameObject:
   m_ObjectHideFlags: 0
@@ -14604,7 +14733,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100016, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9500000, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
       propertyPath: m_Controller
@@ -14793,7 +14922,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &956721541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14805,9 +14934,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca1779fed4b1fc45bd5fa69265069a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JobIndex: 5
-  HeadIndex: 0
-  HairIndex: 0
+  jobIndex: 5
+  headIndex: 0
+  hairIndex: 0
   isMan: 0
   isChildren: 0
   WhiteHandCharacterMeshList:
@@ -15290,77 +15419,77 @@ MonoBehaviour:
     LeftFoot: {fileID: 929235712}
     RightLeg: {fileID: 929235715}
     RightFoot: {fileID: 929235716}
-  DefultCharacter: {fileID: 1621764427}
-  AdultManHead:
-  - material: {fileID: 2100000, guid: 074b80db181a2f74e902ba4dea29d862, type: 2}
-    mesh: {fileID: 4300000, guid: 2fee5e5f1dde0da409467d0a98be8d1f, type: 3}
-  - material: {fileID: 2100000, guid: f846604f8f6e5514c9061122446f97e0, type: 2}
-    mesh: {fileID: 4300000, guid: dd65ed02784eb2b4d950d0c46d8e82ae, type: 3}
-  - material: {fileID: 2100000, guid: b0c9c29e8d78e4b4a9847cd43c677664, type: 2}
-    mesh: {fileID: 4300000, guid: 87d4a31b7f8212644831b16184aac4c0, type: 3}
+  defultCharacter: {fileID: 1621764427}
+  adultManHead:
   - material: {fileID: 2100000, guid: a7b9c245ac2215a4c96d7066a313d41b, type: 2}
     mesh: {fileID: 4300000, guid: ca763616022a7994cb74c9fb21937364, type: 3}
   - material: {fileID: 2100000, guid: 7e770d0e34bc8b54cb22835cdd60a084, type: 2}
     mesh: {fileID: 4300000, guid: 7dbda50384cdd5d43a6a03a59c63875c, type: 3}
   - material: {fileID: 2100000, guid: 4eddbc46e46cc0040bca043fa799b002, type: 2}
     mesh: {fileID: 4300000, guid: 523dcb7090cb1b44996d3d09e22a768a, type: 3}
-  - material: {fileID: 2100000, guid: 2cb62f0e14339b148a4f9a3165016e8f, type: 2}
-    mesh: {fileID: 4300000, guid: 940b1ec924a356549bbcc76cbc937539, type: 3}
+  - material: {fileID: 2100000, guid: 074b80db181a2f74e902ba4dea29d862, type: 2}
+    mesh: {fileID: 4300000, guid: 2fee5e5f1dde0da409467d0a98be8d1f, type: 3}
   - material: {fileID: 2100000, guid: ef84104723f02784487555c4a21bf6c2, type: 2}
     mesh: {fileID: 4300000, guid: 0e2c97e6c878c074ea0a5c5c99ffa3bf, type: 3}
+  - material: {fileID: 2100000, guid: b0c9c29e8d78e4b4a9847cd43c677664, type: 2}
+    mesh: {fileID: 4300000, guid: 87d4a31b7f8212644831b16184aac4c0, type: 3}
+  - material: {fileID: 2100000, guid: 2cb62f0e14339b148a4f9a3165016e8f, type: 2}
+    mesh: {fileID: 4300000, guid: 940b1ec924a356549bbcc76cbc937539, type: 3}
+  - material: {fileID: 2100000, guid: f846604f8f6e5514c9061122446f97e0, type: 2}
+    mesh: {fileID: 4300000, guid: dd65ed02784eb2b4d950d0c46d8e82ae, type: 3}
   - material: {fileID: 2100000, guid: 14d5c1c1acc52d8489ae7f2402d1a7fe, type: 2}
     mesh: {fileID: 4300000, guid: 402fac7aa530a234a8698756c9c55f41, type: 3}
-  AdultWomanHead:
-  - material: {fileID: 2100000, guid: ea05d6fa3a170bc47a9568f04ac39922, type: 2}
-    mesh: {fileID: 4300000, guid: 565d9646db7b42d4fa4b6d644465d780, type: 3}
-  - material: {fileID: 2100000, guid: 0b6058a5fbfbfd241b715aa056d5eb20, type: 2}
-    mesh: {fileID: 4300000, guid: 9d5735483fdebc246a097b339bd6323b, type: 3}
-  - material: {fileID: 2100000, guid: cdfe99ac75cbb1743a41a45597bd6e81, type: 2}
-    mesh: {fileID: 4300000, guid: a4d281badab8cbd499b6dafb263b31e0, type: 3}
+  adultWomanHead:
   - material: {fileID: 2100000, guid: 694db4ef505335d40bd1d5afd233e103, type: 2}
     mesh: {fileID: 4300000, guid: bf28a64985a801742b394da8ca03f020, type: 3}
   - material: {fileID: 2100000, guid: 3afe564afaaf3c140a3163e751b36758, type: 2}
     mesh: {fileID: 4300000, guid: 0e12aeaff47a86f4a9b3400f173e4df8, type: 3}
   - material: {fileID: 2100000, guid: c58b4847799129647a73665b5d987d60, type: 2}
     mesh: {fileID: 4300000, guid: 2ecb7e4cd42fa0847a9ea3a9aaf699dd, type: 3}
+  - material: {fileID: 2100000, guid: ea05d6fa3a170bc47a9568f04ac39922, type: 2}
+    mesh: {fileID: 4300000, guid: 565d9646db7b42d4fa4b6d644465d780, type: 3}
+  - material: {fileID: 2100000, guid: 0b6058a5fbfbfd241b715aa056d5eb20, type: 2}
+    mesh: {fileID: 4300000, guid: 9d5735483fdebc246a097b339bd6323b, type: 3}
+  - material: {fileID: 2100000, guid: cdfe99ac75cbb1743a41a45597bd6e81, type: 2}
+    mesh: {fileID: 4300000, guid: a4d281badab8cbd499b6dafb263b31e0, type: 3}
   - material: {fileID: 2100000, guid: a7a3c4a34d5ced749b03b7d66d4e0bbc, type: 2}
     mesh: {fileID: 4300000, guid: cb39c2563ff6a37448a976d266329403, type: 3}
   - material: {fileID: 2100000, guid: 9622268c4d2af544fa4a47dd20704a38, type: 2}
     mesh: {fileID: 4300000, guid: d8fbffcc8c27cba4589a405cd5ff4ea0, type: 3}
   - material: {fileID: 2100000, guid: ee0633fe8d7d4964680b4be96a41f683, type: 2}
     mesh: {fileID: 4300000, guid: e722e57fb08296646b15c474532cb089, type: 3}
-  ChildrenManHead:
-  - material: {fileID: 2100000, guid: c31fd7753182c0b47885bf296a9cccd2, type: 2}
-    mesh: {fileID: 4300000, guid: 87ff4e01b25d0544fba1e1831994f588, type: 3}
-  - material: {fileID: 2100000, guid: 2cccbe8c208bca24f90aadc711ddc160, type: 2}
-    mesh: {fileID: 4300000, guid: c0d91fd71739cbf43bbfc917d47cf946, type: 3}
-  - material: {fileID: 2100000, guid: 358004b636243494b93924202bf3e086, type: 2}
-    mesh: {fileID: 4300000, guid: 2feb8ca23e2029c45ba455db07246535, type: 3}
-  - material: {fileID: 2100000, guid: 92f2d862b58074444ac7ad5248be4d4d, type: 2}
-    mesh: {fileID: 4300000, guid: 7defbdd6b801ea44fa6fc1a9a6ba4b89, type: 3}
+  childrenManHead:
   - material: {fileID: 2100000, guid: d6485876d8b3f37409b996f57aa6c563, type: 2}
     mesh: {fileID: 4300000, guid: 5fa245804fa129749b1fd9e09f673e78, type: 3}
+  - material: {fileID: 2100000, guid: 92f2d862b58074444ac7ad5248be4d4d, type: 2}
+    mesh: {fileID: 4300000, guid: 7defbdd6b801ea44fa6fc1a9a6ba4b89, type: 3}
   - material: {fileID: 2100000, guid: 1521cd19c662a9047ae5927b8748883a, type: 2}
     mesh: {fileID: 4300000, guid: 12a6ca022b4173e48809094d46abf4b9, type: 3}
-  - material: {fileID: 2100000, guid: 5e69f34e2ac5e024cb394c257ff6ee48, type: 2}
-    mesh: {fileID: 4300000, guid: 1a3e4c70800c7d148aab00641ff57ff3, type: 3}
+  - material: {fileID: 2100000, guid: 2cccbe8c208bca24f90aadc711ddc160, type: 2}
+    mesh: {fileID: 4300000, guid: c0d91fd71739cbf43bbfc917d47cf946, type: 3}
+  - material: {fileID: 2100000, guid: c31fd7753182c0b47885bf296a9cccd2, type: 2}
+    mesh: {fileID: 4300000, guid: 87ff4e01b25d0544fba1e1831994f588, type: 3}
+  - material: {fileID: 2100000, guid: 358004b636243494b93924202bf3e086, type: 2}
+    mesh: {fileID: 4300000, guid: 2feb8ca23e2029c45ba455db07246535, type: 3}
   - material: {fileID: 2100000, guid: 09fc6bb244ae9e547ad2303ec2abab2b, type: 2}
     mesh: {fileID: 4300000, guid: 0b09be4c63fd8a34ebc3b5ecf77c2807, type: 3}
+  - material: {fileID: 2100000, guid: 5e69f34e2ac5e024cb394c257ff6ee48, type: 2}
+    mesh: {fileID: 4300000, guid: 1a3e4c70800c7d148aab00641ff57ff3, type: 3}
   - material: {fileID: 2100000, guid: 9251e302aa946074bb121579ac224055, type: 2}
     mesh: {fileID: 4300000, guid: 5f6312756a527964fb8ce76f1770b786, type: 3}
-  ChildrenWomanHead:
-  - material: {fileID: 2100000, guid: 228cadca3ceabd24a8a20dd4f7df4308, type: 2}
-    mesh: {fileID: 4300000, guid: 43f72c430c11acc4ba4d6d62e5045fe9, type: 3}
-  - material: {fileID: 2100000, guid: 7234307f27e3b2249925eba782a25528, type: 2}
-    mesh: {fileID: 4300000, guid: 3598bc3c9c04f1d43b99ebaa1b7f1125, type: 3}
-  - material: {fileID: 2100000, guid: 7a649d5caa77c644c80dc9220d5ecc80, type: 2}
-    mesh: {fileID: 4300000, guid: 8ff3222b6adc91344a2ecee8bb2a6d22, type: 3}
+  childrenWomanHead:
   - material: {fileID: 2100000, guid: 5ccb2cf036220e2499e682c50a5014ff, type: 2}
     mesh: {fileID: 4300000, guid: cab2513bce47b42408614aca281dc9f6, type: 3}
   - material: {fileID: 2100000, guid: 642fbbc0f5629d54c8d8d4fb6a632feb, type: 2}
     mesh: {fileID: 4300000, guid: 079337b176af2cb43a8b7adfa09afd21, type: 3}
   - material: {fileID: 2100000, guid: faff21af5696a1441a8bccd365b09ea4, type: 2}
     mesh: {fileID: 4300000, guid: 3585e8c6d9f2f0b45b88ee241bb4e73c, type: 3}
+  - material: {fileID: 2100000, guid: 228cadca3ceabd24a8a20dd4f7df4308, type: 2}
+    mesh: {fileID: 4300000, guid: 43f72c430c11acc4ba4d6d62e5045fe9, type: 3}
+  - material: {fileID: 2100000, guid: 7234307f27e3b2249925eba782a25528, type: 2}
+    mesh: {fileID: 4300000, guid: 3598bc3c9c04f1d43b99ebaa1b7f1125, type: 3}
+  - material: {fileID: 2100000, guid: 7a649d5caa77c644c80dc9220d5ecc80, type: 2}
+    mesh: {fileID: 4300000, guid: 8ff3222b6adc91344a2ecee8bb2a6d22, type: 3}
   - material: {fileID: 2100000, guid: 161cda01c516e7b46bc87f56a8887d2d, type: 2}
     mesh: {fileID: 4300000, guid: c4c3ae496ccce7846a5d540157ff73c8, type: 3}
   - material: {fileID: 2100000, guid: e6fbce0f592fd0447b33baac07e07ffc, type: 2}
@@ -15368,10 +15497,10 @@ MonoBehaviour:
   - material: {fileID: 2100000, guid: 2a2f6f9f7f3280a4fbda505a22d9278b, type: 2}
     mesh: {fileID: 4300000, guid: 355f46183c850f045b4bba21249d5774, type: 3}
   RingEffect: {fileID: 1734159751}
-  AdultBodyEffect: {fileID: 903837828}
-  AdultHeadEffect: {fileID: 639529209}
-  ChildrenBodyEffect: {fileID: 1732230885}
-  ChildrenHeadEffect: {fileID: 1957817611}
+  adultBodyEffect: {fileID: 0}
+  adultHeadEffect: {fileID: 0}
+  childrenBodyEffect: {fileID: 0}
+  childrenHeadEffect: {fileID: 0}
 --- !u!4 &956721542
 Transform:
   m_ObjectHideFlags: 0
@@ -16370,6 +16499,11 @@ Transform:
   m_Father: {fileID: 2112122298}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!137 &1075771901 stripped
+SkinnedMeshRenderer:
+  m_PrefabParentObject: {fileID: 13700020, guid: 98956fa6ecefc6743831edeb80a5202f,
+    type: 3}
+  m_PrefabInternal: {fileID: 747205791}
 --- !u!1 &1078572581
 GameObject:
   m_ObjectHideFlags: 0
@@ -16696,6 +16830,11 @@ Transform:
   m_Father: {fileID: 1464844645}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!137 &1115365380 stripped
+SkinnedMeshRenderer:
+  m_PrefabParentObject: {fileID: 13700010, guid: 98956fa6ecefc6743831edeb80a5202f,
+    type: 3}
+  m_PrefabInternal: {fileID: 747205791}
 --- !u!1 &1118108839
 GameObject:
   m_ObjectHideFlags: 0
@@ -16782,6 +16921,11 @@ Transform:
   m_Father: {fileID: 195825296}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!137 &1119828155 stripped
+SkinnedMeshRenderer:
+  m_PrefabParentObject: {fileID: 13700014, guid: 98956fa6ecefc6743831edeb80a5202f,
+    type: 3}
+  m_PrefabInternal: {fileID: 747205791}
 --- !u!1 &1119883154
 GameObject:
   m_ObjectHideFlags: 0
@@ -17432,6 +17576,11 @@ Transform:
   m_Father: {fileID: 439563529}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!137 &1200050905 stripped
+SkinnedMeshRenderer:
+  m_PrefabParentObject: {fileID: 13700002, guid: 98956fa6ecefc6743831edeb80a5202f,
+    type: 3}
+  m_PrefabInternal: {fileID: 747205791}
 --- !u!1 &1209893157
 GameObject:
   m_ObjectHideFlags: 0
@@ -18289,6 +18438,614 @@ Transform:
   - {fileID: 1118108840}
   m_Father: {fileID: 1721172759}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1332625093
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1332625095}
+  - component: {fileID: 1332625094}
+  m_Layer: 0
+  m_Name: CharacterCustomInstance
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1332625094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1332625093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bca1779fed4b1fc45bd5fa69265069a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jobIndex: 5
+  headIndex: 0
+  hairIndex: 0
+  isMan: 0
+  isChildren: 0
+  WhiteHandCharacterMeshList:
+  - Name: 
+    avatar: {fileID: 0}
+    frame: {fileID: 0}
+    material: {fileID: 0}
+    Head: {fileID: 0}
+    Neck: {fileID: 0}
+    Body: {fileID: 0}
+    LeftHand: {fileID: 0}
+    LeftWrist: {fileID: 0}
+    LeftArm: {fileID: 0}
+    LeftShoulder: {fileID: 0}
+    RightHand: {fileID: 0}
+    RightWrist: {fileID: 0}
+    RightArm: {fileID: 0}
+    RightShoulder: {fileID: 0}
+    LeftLeg: {fileID: 0}
+    LeftFoot: {fileID: 0}
+    RightLeg: {fileID: 0}
+    RightFoot: {fileID: 0}
+  - Name: 
+    avatar: {fileID: 0}
+    frame: {fileID: 0}
+    material: {fileID: 0}
+    Head: {fileID: 0}
+    Neck: {fileID: 0}
+    Body: {fileID: 0}
+    LeftHand: {fileID: 0}
+    LeftWrist: {fileID: 0}
+    LeftArm: {fileID: 0}
+    LeftShoulder: {fileID: 0}
+    RightHand: {fileID: 0}
+    RightWrist: {fileID: 0}
+    RightArm: {fileID: 0}
+    RightShoulder: {fileID: 0}
+    LeftLeg: {fileID: 0}
+    LeftFoot: {fileID: 0}
+    RightLeg: {fileID: 0}
+    RightFoot: {fileID: 0}
+  - Name: 
+    avatar: {fileID: 0}
+    frame: {fileID: 0}
+    material: {fileID: 0}
+    Head: {fileID: 0}
+    Neck: {fileID: 0}
+    Body: {fileID: 0}
+    LeftHand: {fileID: 0}
+    LeftWrist: {fileID: 0}
+    LeftArm: {fileID: 0}
+    LeftShoulder: {fileID: 0}
+    RightHand: {fileID: 0}
+    RightWrist: {fileID: 0}
+    RightArm: {fileID: 0}
+    RightShoulder: {fileID: 0}
+    LeftLeg: {fileID: 0}
+    LeftFoot: {fileID: 0}
+    RightLeg: {fileID: 0}
+    RightFoot: {fileID: 0}
+  - Name: 
+    avatar: {fileID: 0}
+    frame: {fileID: 0}
+    material: {fileID: 0}
+    Head: {fileID: 0}
+    Neck: {fileID: 0}
+    Body: {fileID: 0}
+    LeftHand: {fileID: 0}
+    LeftWrist: {fileID: 0}
+    LeftArm: {fileID: 0}
+    LeftShoulder: {fileID: 0}
+    RightHand: {fileID: 0}
+    RightWrist: {fileID: 0}
+    RightArm: {fileID: 0}
+    RightShoulder: {fileID: 0}
+    LeftLeg: {fileID: 0}
+    LeftFoot: {fileID: 0}
+    RightLeg: {fileID: 0}
+    RightFoot: {fileID: 0}
+  WarriorCharacterMeshList:
+  - Name: AdultWoman
+    avatar: {fileID: 9000000, guid: db12ac0d8f7fc5a4d89bbb0c49637129, type: 3}
+    frame: {fileID: 1756502680}
+    material: {fileID: 2100000, guid: 4f89acc49afd7bb4789564bd64ca18ca, type: 2}
+    Head: {fileID: 4300028, guid: db12ac0d8f7fc5a4d89bbb0c49637129, type: 3}
+    Neck: {fileID: 4300026, guid: db12ac0d8f7fc5a4d89bbb0c49637129, type: 3}
+    Body: {fileID: 4300024, guid: db12ac0d8f7fc5a4d89bbb0c49637129, type: 3}
+    LeftHand: {fileID: 4300016, guid: db12ac0d8f7fc5a4d89bbb0c49637129, type: 3}
+    LeftWrist: {fileID: 4300018, guid: db12ac0d8f7fc5a4d89bbb0c49637129, type: 3}
+    LeftArm: {fileID: 4300020, guid: db12ac0d8f7fc5a4d89bbb0c49637129, type: 3}
+    LeftShoulder: {fileID: 4300022, guid: db12ac0d8f7fc5a4d89bbb0c49637129, type: 3}
+    RightHand: {fileID: 4300008, guid: db12ac0d8f7fc5a4d89bbb0c49637129, type: 3}
+    RightWrist: {fileID: 4300010, guid: db12ac0d8f7fc5a4d89bbb0c49637129, type: 3}
+    RightArm: {fileID: 4300012, guid: db12ac0d8f7fc5a4d89bbb0c49637129, type: 3}
+    RightShoulder: {fileID: 4300014, guid: db12ac0d8f7fc5a4d89bbb0c49637129, type: 3}
+    LeftLeg: {fileID: 4300004, guid: db12ac0d8f7fc5a4d89bbb0c49637129, type: 3}
+    LeftFoot: {fileID: 4300000, guid: db12ac0d8f7fc5a4d89bbb0c49637129, type: 3}
+    RightLeg: {fileID: 4300006, guid: db12ac0d8f7fc5a4d89bbb0c49637129, type: 3}
+    RightFoot: {fileID: 4300002, guid: db12ac0d8f7fc5a4d89bbb0c49637129, type: 3}
+  - Name: AdultMan
+    avatar: {fileID: 9000000, guid: ad373bfe1bcc06f4ba73b9d769849d48, type: 3}
+    frame: {fileID: 399223788}
+    material: {fileID: 2100000, guid: 276240a60b6b3e54995b4e4223c3def1, type: 2}
+    Head: {fileID: 4300028, guid: ad373bfe1bcc06f4ba73b9d769849d48, type: 3}
+    Neck: {fileID: 4300016, guid: ad373bfe1bcc06f4ba73b9d769849d48, type: 3}
+    Body: {fileID: 4300026, guid: ad373bfe1bcc06f4ba73b9d769849d48, type: 3}
+    LeftHand: {fileID: 4300018, guid: ad373bfe1bcc06f4ba73b9d769849d48, type: 3}
+    LeftWrist: {fileID: 4300020, guid: ad373bfe1bcc06f4ba73b9d769849d48, type: 3}
+    LeftArm: {fileID: 4300022, guid: ad373bfe1bcc06f4ba73b9d769849d48, type: 3}
+    LeftShoulder: {fileID: 4300024, guid: ad373bfe1bcc06f4ba73b9d769849d48, type: 3}
+    RightHand: {fileID: 4300000, guid: ad373bfe1bcc06f4ba73b9d769849d48, type: 3}
+    RightWrist: {fileID: 4300010, guid: ad373bfe1bcc06f4ba73b9d769849d48, type: 3}
+    RightArm: {fileID: 4300012, guid: ad373bfe1bcc06f4ba73b9d769849d48, type: 3}
+    RightShoulder: {fileID: 4300014, guid: ad373bfe1bcc06f4ba73b9d769849d48, type: 3}
+    LeftLeg: {fileID: 4300004, guid: ad373bfe1bcc06f4ba73b9d769849d48, type: 3}
+    LeftFoot: {fileID: 4300002, guid: ad373bfe1bcc06f4ba73b9d769849d48, type: 3}
+    RightLeg: {fileID: 4300008, guid: ad373bfe1bcc06f4ba73b9d769849d48, type: 3}
+    RightFoot: {fileID: 4300006, guid: ad373bfe1bcc06f4ba73b9d769849d48, type: 3}
+  - Name: ChildrenWoman
+    avatar: {fileID: 9000000, guid: 84dbe04bf8a37fe458605a48f79d0df2, type: 3}
+    frame: {fileID: 114477204}
+    material: {fileID: 2100000, guid: c5a4db6d9f1e90b4888d76529467a46a, type: 2}
+    Head: {fileID: 4300028, guid: 84dbe04bf8a37fe458605a48f79d0df2, type: 3}
+    Neck: {fileID: 4300026, guid: 84dbe04bf8a37fe458605a48f79d0df2, type: 3}
+    Body: {fileID: 4300024, guid: 84dbe04bf8a37fe458605a48f79d0df2, type: 3}
+    LeftHand: {fileID: 4300016, guid: 84dbe04bf8a37fe458605a48f79d0df2, type: 3}
+    LeftWrist: {fileID: 4300018, guid: 84dbe04bf8a37fe458605a48f79d0df2, type: 3}
+    LeftArm: {fileID: 4300020, guid: 84dbe04bf8a37fe458605a48f79d0df2, type: 3}
+    LeftShoulder: {fileID: 4300022, guid: 84dbe04bf8a37fe458605a48f79d0df2, type: 3}
+    RightHand: {fileID: 4300008, guid: 84dbe04bf8a37fe458605a48f79d0df2, type: 3}
+    RightWrist: {fileID: 4300010, guid: 84dbe04bf8a37fe458605a48f79d0df2, type: 3}
+    RightArm: {fileID: 4300012, guid: 84dbe04bf8a37fe458605a48f79d0df2, type: 3}
+    RightShoulder: {fileID: 4300014, guid: 84dbe04bf8a37fe458605a48f79d0df2, type: 3}
+    LeftLeg: {fileID: 4300006, guid: 84dbe04bf8a37fe458605a48f79d0df2, type: 3}
+    LeftFoot: {fileID: 4300004, guid: 84dbe04bf8a37fe458605a48f79d0df2, type: 3}
+    RightLeg: {fileID: 4300002, guid: 84dbe04bf8a37fe458605a48f79d0df2, type: 3}
+    RightFoot: {fileID: 4300000, guid: 84dbe04bf8a37fe458605a48f79d0df2, type: 3}
+  - Name: ChildrenMan
+    avatar: {fileID: 9000000, guid: ab633e2ce02fb084d989c7c83bad9013, type: 3}
+    frame: {fileID: 1234867640}
+    material: {fileID: 2100000, guid: 43e2f9639c783604bb19eed45500f583, type: 2}
+    Head: {fileID: 4300028, guid: ab633e2ce02fb084d989c7c83bad9013, type: 3}
+    Neck: {fileID: 4300026, guid: ab633e2ce02fb084d989c7c83bad9013, type: 3}
+    Body: {fileID: 4300024, guid: ab633e2ce02fb084d989c7c83bad9013, type: 3}
+    LeftHand: {fileID: 4300016, guid: ab633e2ce02fb084d989c7c83bad9013, type: 3}
+    LeftWrist: {fileID: 4300018, guid: ab633e2ce02fb084d989c7c83bad9013, type: 3}
+    LeftArm: {fileID: 4300020, guid: ab633e2ce02fb084d989c7c83bad9013, type: 3}
+    LeftShoulder: {fileID: 4300022, guid: ab633e2ce02fb084d989c7c83bad9013, type: 3}
+    RightHand: {fileID: 4300008, guid: ab633e2ce02fb084d989c7c83bad9013, type: 3}
+    RightWrist: {fileID: 4300010, guid: ab633e2ce02fb084d989c7c83bad9013, type: 3}
+    RightArm: {fileID: 4300012, guid: ab633e2ce02fb084d989c7c83bad9013, type: 3}
+    RightShoulder: {fileID: 4300014, guid: ab633e2ce02fb084d989c7c83bad9013, type: 3}
+    LeftLeg: {fileID: 4300002, guid: ab633e2ce02fb084d989c7c83bad9013, type: 3}
+    LeftFoot: {fileID: 4300000, guid: ab633e2ce02fb084d989c7c83bad9013, type: 3}
+    RightLeg: {fileID: 4300006, guid: ab633e2ce02fb084d989c7c83bad9013, type: 3}
+    RightFoot: {fileID: 4300004, guid: ab633e2ce02fb084d989c7c83bad9013, type: 3}
+  ArcherCharacterMeshList:
+  - Name: AdultWoman
+    avatar: {fileID: 9000000, guid: 2504d21f0d935a1428bb7fa56c082a61, type: 3}
+    frame: {fileID: 429059422}
+    material: {fileID: 2100000, guid: 7d7de05e8af0dd044af0bb1b2f20b1e4, type: 2}
+    Head: {fileID: 4300028, guid: 2504d21f0d935a1428bb7fa56c082a61, type: 3}
+    Neck: {fileID: 4300026, guid: 2504d21f0d935a1428bb7fa56c082a61, type: 3}
+    Body: {fileID: 4300024, guid: 2504d21f0d935a1428bb7fa56c082a61, type: 3}
+    LeftHand: {fileID: 4300016, guid: 2504d21f0d935a1428bb7fa56c082a61, type: 3}
+    LeftWrist: {fileID: 4300018, guid: 2504d21f0d935a1428bb7fa56c082a61, type: 3}
+    LeftArm: {fileID: 4300020, guid: 2504d21f0d935a1428bb7fa56c082a61, type: 3}
+    LeftShoulder: {fileID: 4300022, guid: 2504d21f0d935a1428bb7fa56c082a61, type: 3}
+    RightHand: {fileID: 4300000, guid: 2504d21f0d935a1428bb7fa56c082a61, type: 3}
+    RightWrist: {fileID: 4300010, guid: 2504d21f0d935a1428bb7fa56c082a61, type: 3}
+    RightArm: {fileID: 4300012, guid: 2504d21f0d935a1428bb7fa56c082a61, type: 3}
+    RightShoulder: {fileID: 4300014, guid: 2504d21f0d935a1428bb7fa56c082a61, type: 3}
+    LeftLeg: {fileID: 4300004, guid: 2504d21f0d935a1428bb7fa56c082a61, type: 3}
+    LeftFoot: {fileID: 4300002, guid: 2504d21f0d935a1428bb7fa56c082a61, type: 3}
+    RightLeg: {fileID: 4300008, guid: 2504d21f0d935a1428bb7fa56c082a61, type: 3}
+    RightFoot: {fileID: 4300006, guid: 2504d21f0d935a1428bb7fa56c082a61, type: 3}
+  - Name: AdultMan
+    avatar: {fileID: 9000000, guid: 2e573f1bb9135f643a78c75f8531b115, type: 3}
+    frame: {fileID: 655607173}
+    material: {fileID: 2100000, guid: a75f698053c775b47a8215fb89ef7821, type: 2}
+    Head: {fileID: 4300000, guid: 2e573f1bb9135f643a78c75f8531b115, type: 3}
+    Neck: {fileID: 4300002, guid: 2e573f1bb9135f643a78c75f8531b115, type: 3}
+    Body: {fileID: 4300004, guid: 2e573f1bb9135f643a78c75f8531b115, type: 3}
+    LeftHand: {fileID: 4300012, guid: 2e573f1bb9135f643a78c75f8531b115, type: 3}
+    LeftWrist: {fileID: 4300010, guid: 2e573f1bb9135f643a78c75f8531b115, type: 3}
+    LeftArm: {fileID: 4300008, guid: 2e573f1bb9135f643a78c75f8531b115, type: 3}
+    LeftShoulder: {fileID: 4300006, guid: 2e573f1bb9135f643a78c75f8531b115, type: 3}
+    RightHand: {fileID: 4300020, guid: 2e573f1bb9135f643a78c75f8531b115, type: 3}
+    RightWrist: {fileID: 4300018, guid: 2e573f1bb9135f643a78c75f8531b115, type: 3}
+    RightArm: {fileID: 4300016, guid: 2e573f1bb9135f643a78c75f8531b115, type: 3}
+    RightShoulder: {fileID: 4300014, guid: 2e573f1bb9135f643a78c75f8531b115, type: 3}
+    LeftLeg: {fileID: 4300022, guid: 2e573f1bb9135f643a78c75f8531b115, type: 3}
+    LeftFoot: {fileID: 4300024, guid: 2e573f1bb9135f643a78c75f8531b115, type: 3}
+    RightLeg: {fileID: 4300028, guid: 2e573f1bb9135f643a78c75f8531b115, type: 3}
+    RightFoot: {fileID: 4300026, guid: 2e573f1bb9135f643a78c75f8531b115, type: 3}
+  - Name: ChildrenWoman
+    avatar: {fileID: 9000000, guid: 782b0e777b0748640b87599a646a5294, type: 3}
+    frame: {fileID: 538161736}
+    material: {fileID: 2100000, guid: 301bf66f290735e43ad7b6f590768c62, type: 2}
+    Head: {fileID: 4300028, guid: 782b0e777b0748640b87599a646a5294, type: 3}
+    Neck: {fileID: 4300026, guid: 782b0e777b0748640b87599a646a5294, type: 3}
+    Body: {fileID: 4300024, guid: 782b0e777b0748640b87599a646a5294, type: 3}
+    LeftHand: {fileID: 4300016, guid: 782b0e777b0748640b87599a646a5294, type: 3}
+    LeftWrist: {fileID: 4300018, guid: 782b0e777b0748640b87599a646a5294, type: 3}
+    LeftArm: {fileID: 4300020, guid: 782b0e777b0748640b87599a646a5294, type: 3}
+    LeftShoulder: {fileID: 4300022, guid: 782b0e777b0748640b87599a646a5294, type: 3}
+    RightHand: {fileID: 4300008, guid: 782b0e777b0748640b87599a646a5294, type: 3}
+    RightWrist: {fileID: 4300010, guid: 782b0e777b0748640b87599a646a5294, type: 3}
+    RightArm: {fileID: 4300012, guid: 782b0e777b0748640b87599a646a5294, type: 3}
+    RightShoulder: {fileID: 4300014, guid: 782b0e777b0748640b87599a646a5294, type: 3}
+    LeftLeg: {fileID: 4300000, guid: 782b0e777b0748640b87599a646a5294, type: 3}
+    LeftFoot: {fileID: 4300002, guid: 782b0e777b0748640b87599a646a5294, type: 3}
+    RightLeg: {fileID: 4300006, guid: 782b0e777b0748640b87599a646a5294, type: 3}
+    RightFoot: {fileID: 4300004, guid: 782b0e777b0748640b87599a646a5294, type: 3}
+  - Name: ChildrenMan
+    avatar: {fileID: 9000000, guid: 487756fb689b49544a4f2d91b20b27ad, type: 3}
+    frame: {fileID: 232964835}
+    material: {fileID: 2100000, guid: 9c1e27aa7c091af498383f29a0e21456, type: 2}
+    Head: {fileID: 4300028, guid: 487756fb689b49544a4f2d91b20b27ad, type: 3}
+    Neck: {fileID: 4300026, guid: 487756fb689b49544a4f2d91b20b27ad, type: 3}
+    Body: {fileID: 4300000, guid: 487756fb689b49544a4f2d91b20b27ad, type: 3}
+    LeftHand: {fileID: 4300018, guid: 487756fb689b49544a4f2d91b20b27ad, type: 3}
+    LeftWrist: {fileID: 4300020, guid: 487756fb689b49544a4f2d91b20b27ad, type: 3}
+    LeftArm: {fileID: 4300022, guid: 487756fb689b49544a4f2d91b20b27ad, type: 3}
+    LeftShoulder: {fileID: 4300024, guid: 487756fb689b49544a4f2d91b20b27ad, type: 3}
+    RightHand: {fileID: 4300010, guid: 487756fb689b49544a4f2d91b20b27ad, type: 3}
+    RightWrist: {fileID: 4300012, guid: 487756fb689b49544a4f2d91b20b27ad, type: 3}
+    RightArm: {fileID: 4300014, guid: 487756fb689b49544a4f2d91b20b27ad, type: 3}
+    RightShoulder: {fileID: 4300016, guid: 487756fb689b49544a4f2d91b20b27ad, type: 3}
+    LeftLeg: {fileID: 4300008, guid: 487756fb689b49544a4f2d91b20b27ad, type: 3}
+    LeftFoot: {fileID: 4300006, guid: 487756fb689b49544a4f2d91b20b27ad, type: 3}
+    RightLeg: {fileID: 4300004, guid: 487756fb689b49544a4f2d91b20b27ad, type: 3}
+    RightFoot: {fileID: 4300002, guid: 487756fb689b49544a4f2d91b20b27ad, type: 3}
+  TheifCharacterMeshList:
+  - Name: AdultWoman
+    avatar: {fileID: 9000000, guid: 5a1c8cf606cedda45863cad71e65eabf, type: 3}
+    frame: {fileID: 1013815036}
+    material: {fileID: 2100000, guid: 3d0249e06b8b89242ab88c7d466fb7b5, type: 2}
+    Head: {fileID: 4300026, guid: 5a1c8cf606cedda45863cad71e65eabf, type: 3}
+    Neck: {fileID: 4300024, guid: 5a1c8cf606cedda45863cad71e65eabf, type: 3}
+    Body: {fileID: 4300022, guid: 5a1c8cf606cedda45863cad71e65eabf, type: 3}
+    LeftHand: {fileID: 4300028, guid: 5a1c8cf606cedda45863cad71e65eabf, type: 3}
+    LeftWrist: {fileID: 4300016, guid: 5a1c8cf606cedda45863cad71e65eabf, type: 3}
+    LeftArm: {fileID: 4300018, guid: 5a1c8cf606cedda45863cad71e65eabf, type: 3}
+    LeftShoulder: {fileID: 4300020, guid: 5a1c8cf606cedda45863cad71e65eabf, type: 3}
+    RightHand: {fileID: 4300008, guid: 5a1c8cf606cedda45863cad71e65eabf, type: 3}
+    RightWrist: {fileID: 4300010, guid: 5a1c8cf606cedda45863cad71e65eabf, type: 3}
+    RightArm: {fileID: 4300012, guid: 5a1c8cf606cedda45863cad71e65eabf, type: 3}
+    RightShoulder: {fileID: 4300014, guid: 5a1c8cf606cedda45863cad71e65eabf, type: 3}
+    LeftLeg: {fileID: 4300002, guid: 5a1c8cf606cedda45863cad71e65eabf, type: 3}
+    LeftFoot: {fileID: 4300000, guid: 5a1c8cf606cedda45863cad71e65eabf, type: 3}
+    RightLeg: {fileID: 4300006, guid: 5a1c8cf606cedda45863cad71e65eabf, type: 3}
+    RightFoot: {fileID: 4300004, guid: 5a1c8cf606cedda45863cad71e65eabf, type: 3}
+  - Name: AdultMan
+    avatar: {fileID: 9000000, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
+    frame: {fileID: 1248485143}
+    material: {fileID: 2100000, guid: ec3c972a6398463479947ee77cdd6a1b, type: 2}
+    Head: {fileID: 4300026, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
+    Neck: {fileID: 4300024, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
+    Body: {fileID: 4300022, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
+    LeftHand: {fileID: 4300028, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
+    LeftWrist: {fileID: 4300016, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
+    LeftArm: {fileID: 4300018, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
+    LeftShoulder: {fileID: 4300020, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
+    RightHand: {fileID: 4300008, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
+    RightWrist: {fileID: 4300010, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
+    RightArm: {fileID: 4300012, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
+    RightShoulder: {fileID: 4300014, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
+    LeftLeg: {fileID: 4300006, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
+    LeftFoot: {fileID: 4300004, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
+    RightLeg: {fileID: 4300002, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
+    RightFoot: {fileID: 4300000, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
+  - Name: ChildrenWoman
+    avatar: {fileID: 9000000, guid: 51ecdef158813454aa0fd203b95ccf9f, type: 3}
+    frame: {fileID: 1249474752}
+    material: {fileID: 2100000, guid: 2bd922ee0a23ad14a837a01cb0516e79, type: 2}
+    Head: {fileID: 4300028, guid: 51ecdef158813454aa0fd203b95ccf9f, type: 3}
+    Neck: {fileID: 4300026, guid: 51ecdef158813454aa0fd203b95ccf9f, type: 3}
+    Body: {fileID: 4300024, guid: 51ecdef158813454aa0fd203b95ccf9f, type: 3}
+    LeftHand: {fileID: 4300008, guid: 51ecdef158813454aa0fd203b95ccf9f, type: 3}
+    LeftWrist: {fileID: 4300010, guid: 51ecdef158813454aa0fd203b95ccf9f, type: 3}
+    LeftArm: {fileID: 4300012, guid: 51ecdef158813454aa0fd203b95ccf9f, type: 3}
+    LeftShoulder: {fileID: 4300014, guid: 51ecdef158813454aa0fd203b95ccf9f, type: 3}
+    RightHand: {fileID: 4300000, guid: 51ecdef158813454aa0fd203b95ccf9f, type: 3}
+    RightWrist: {fileID: 4300002, guid: 51ecdef158813454aa0fd203b95ccf9f, type: 3}
+    RightArm: {fileID: 4300004, guid: 51ecdef158813454aa0fd203b95ccf9f, type: 3}
+    RightShoulder: {fileID: 4300006, guid: 51ecdef158813454aa0fd203b95ccf9f, type: 3}
+    LeftLeg: {fileID: 4300022, guid: 51ecdef158813454aa0fd203b95ccf9f, type: 3}
+    LeftFoot: {fileID: 4300020, guid: 51ecdef158813454aa0fd203b95ccf9f, type: 3}
+    RightLeg: {fileID: 4300018, guid: 51ecdef158813454aa0fd203b95ccf9f, type: 3}
+    RightFoot: {fileID: 4300016, guid: 51ecdef158813454aa0fd203b95ccf9f, type: 3}
+  - Name: ChildrenMan
+    avatar: {fileID: 9000000, guid: 2428d5e88d9ff5441acce4647032a60c, type: 3}
+    frame: {fileID: 2090871051}
+    material: {fileID: 2100000, guid: b81c2061c31d0404aa018c28a925b321, type: 2}
+    Head: {fileID: 4300028, guid: 2428d5e88d9ff5441acce4647032a60c, type: 3}
+    Neck: {fileID: 4300026, guid: 2428d5e88d9ff5441acce4647032a60c, type: 3}
+    Body: {fileID: 4300024, guid: 2428d5e88d9ff5441acce4647032a60c, type: 3}
+    LeftHand: {fileID: 4300016, guid: 2428d5e88d9ff5441acce4647032a60c, type: 3}
+    LeftWrist: {fileID: 4300018, guid: 2428d5e88d9ff5441acce4647032a60c, type: 3}
+    LeftArm: {fileID: 4300020, guid: 2428d5e88d9ff5441acce4647032a60c, type: 3}
+    LeftShoulder: {fileID: 4300022, guid: 2428d5e88d9ff5441acce4647032a60c, type: 3}
+    RightHand: {fileID: 4300008, guid: 2428d5e88d9ff5441acce4647032a60c, type: 3}
+    RightWrist: {fileID: 4300010, guid: 2428d5e88d9ff5441acce4647032a60c, type: 3}
+    RightArm: {fileID: 4300012, guid: 2428d5e88d9ff5441acce4647032a60c, type: 3}
+    RightShoulder: {fileID: 4300014, guid: 2428d5e88d9ff5441acce4647032a60c, type: 3}
+    LeftLeg: {fileID: 4300006, guid: 2428d5e88d9ff5441acce4647032a60c, type: 3}
+    LeftFoot: {fileID: 4300004, guid: 2428d5e88d9ff5441acce4647032a60c, type: 3}
+    RightLeg: {fileID: 4300002, guid: 2428d5e88d9ff5441acce4647032a60c, type: 3}
+    RightFoot: {fileID: 4300000, guid: 2428d5e88d9ff5441acce4647032a60c, type: 3}
+  MagicianCharacterMeshList:
+  - Name: AdultWoman
+    avatar: {fileID: 9000000, guid: 072d759898c34d34a83ad782869daba8, type: 3}
+    frame: {fileID: 839541975}
+    material: {fileID: 2100000, guid: 331b983868cbc1c418c69c2578084905, type: 2}
+    Head: {fileID: 4300028, guid: 072d759898c34d34a83ad782869daba8, type: 3}
+    Neck: {fileID: 4300026, guid: 072d759898c34d34a83ad782869daba8, type: 3}
+    Body: {fileID: 4300024, guid: 072d759898c34d34a83ad782869daba8, type: 3}
+    LeftHand: {fileID: 4300016, guid: 072d759898c34d34a83ad782869daba8, type: 3}
+    LeftWrist: {fileID: 4300018, guid: 072d759898c34d34a83ad782869daba8, type: 3}
+    LeftArm: {fileID: 4300020, guid: 072d759898c34d34a83ad782869daba8, type: 3}
+    LeftShoulder: {fileID: 4300022, guid: 072d759898c34d34a83ad782869daba8, type: 3}
+    RightHand: {fileID: 4300008, guid: 072d759898c34d34a83ad782869daba8, type: 3}
+    RightWrist: {fileID: 4300010, guid: 072d759898c34d34a83ad782869daba8, type: 3}
+    RightArm: {fileID: 4300012, guid: 072d759898c34d34a83ad782869daba8, type: 3}
+    RightShoulder: {fileID: 4300014, guid: 072d759898c34d34a83ad782869daba8, type: 3}
+    LeftLeg: {fileID: 4300002, guid: 072d759898c34d34a83ad782869daba8, type: 3}
+    LeftFoot: {fileID: 4300000, guid: 072d759898c34d34a83ad782869daba8, type: 3}
+    RightLeg: {fileID: 4300006, guid: 072d759898c34d34a83ad782869daba8, type: 3}
+    RightFoot: {fileID: 4300004, guid: 072d759898c34d34a83ad782869daba8, type: 3}
+  - Name: AdultMan
+    avatar: {fileID: 9000000, guid: 6dada90b6beb6494ca97d2e4f1c1631d, type: 3}
+    frame: {fileID: 1632390238}
+    material: {fileID: 2100000, guid: 7987f141b1cee964ea6df3c978cd23a5, type: 2}
+    Head: {fileID: 4300028, guid: 6dada90b6beb6494ca97d2e4f1c1631d, type: 3}
+    Neck: {fileID: 4300026, guid: 6dada90b6beb6494ca97d2e4f1c1631d, type: 3}
+    Body: {fileID: 4300024, guid: 6dada90b6beb6494ca97d2e4f1c1631d, type: 3}
+    LeftHand: {fileID: 4300016, guid: 6dada90b6beb6494ca97d2e4f1c1631d, type: 3}
+    LeftWrist: {fileID: 4300018, guid: 6dada90b6beb6494ca97d2e4f1c1631d, type: 3}
+    LeftArm: {fileID: 4300020, guid: 6dada90b6beb6494ca97d2e4f1c1631d, type: 3}
+    LeftShoulder: {fileID: 4300022, guid: 6dada90b6beb6494ca97d2e4f1c1631d, type: 3}
+    RightHand: {fileID: 4300008, guid: 6dada90b6beb6494ca97d2e4f1c1631d, type: 3}
+    RightWrist: {fileID: 4300010, guid: 6dada90b6beb6494ca97d2e4f1c1631d, type: 3}
+    RightArm: {fileID: 4300012, guid: 6dada90b6beb6494ca97d2e4f1c1631d, type: 3}
+    RightShoulder: {fileID: 4300014, guid: 6dada90b6beb6494ca97d2e4f1c1631d, type: 3}
+    LeftLeg: {fileID: 4300006, guid: 6dada90b6beb6494ca97d2e4f1c1631d, type: 3}
+    LeftFoot: {fileID: 4300004, guid: 6dada90b6beb6494ca97d2e4f1c1631d, type: 3}
+    RightLeg: {fileID: 4300002, guid: 6dada90b6beb6494ca97d2e4f1c1631d, type: 3}
+    RightFoot: {fileID: 4300000, guid: 6dada90b6beb6494ca97d2e4f1c1631d, type: 3}
+  - Name: ChildrenWoman
+    avatar: {fileID: 9000000, guid: ec89e7d89c830a84ea96f26c4c70015c, type: 3}
+    frame: {fileID: 1340250516}
+    material: {fileID: 2100000, guid: c923369865ec5f2448f3ace77b807c1e, type: 2}
+    Head: {fileID: 4300028, guid: ec89e7d89c830a84ea96f26c4c70015c, type: 3}
+    Neck: {fileID: 4300026, guid: ec89e7d89c830a84ea96f26c4c70015c, type: 3}
+    Body: {fileID: 4300024, guid: ec89e7d89c830a84ea96f26c4c70015c, type: 3}
+    LeftHand: {fileID: 4300016, guid: ec89e7d89c830a84ea96f26c4c70015c, type: 3}
+    LeftWrist: {fileID: 4300018, guid: ec89e7d89c830a84ea96f26c4c70015c, type: 3}
+    LeftArm: {fileID: 4300020, guid: ec89e7d89c830a84ea96f26c4c70015c, type: 3}
+    LeftShoulder: {fileID: 4300022, guid: ec89e7d89c830a84ea96f26c4c70015c, type: 3}
+    RightHand: {fileID: 4300008, guid: ec89e7d89c830a84ea96f26c4c70015c, type: 3}
+    RightWrist: {fileID: 4300010, guid: ec89e7d89c830a84ea96f26c4c70015c, type: 3}
+    RightArm: {fileID: 4300012, guid: ec89e7d89c830a84ea96f26c4c70015c, type: 3}
+    RightShoulder: {fileID: 4300014, guid: ec89e7d89c830a84ea96f26c4c70015c, type: 3}
+    LeftLeg: {fileID: 4300002, guid: ec89e7d89c830a84ea96f26c4c70015c, type: 3}
+    LeftFoot: {fileID: 4300000, guid: ec89e7d89c830a84ea96f26c4c70015c, type: 3}
+    RightLeg: {fileID: 4300006, guid: ec89e7d89c830a84ea96f26c4c70015c, type: 3}
+    RightFoot: {fileID: 4300004, guid: ec89e7d89c830a84ea96f26c4c70015c, type: 3}
+  - Name: ChildrenMan
+    avatar: {fileID: 9000000, guid: b489f0441ca34ff47897a7b53debf900, type: 3}
+    frame: {fileID: 1587198852}
+    material: {fileID: 2100000, guid: e0a0e4502ddd27441a0d4b9f7b7c9592, type: 2}
+    Head: {fileID: 4300028, guid: b489f0441ca34ff47897a7b53debf900, type: 3}
+    Neck: {fileID: 4300026, guid: b489f0441ca34ff47897a7b53debf900, type: 3}
+    Body: {fileID: 4300024, guid: b489f0441ca34ff47897a7b53debf900, type: 3}
+    LeftHand: {fileID: 4300008, guid: b489f0441ca34ff47897a7b53debf900, type: 3}
+    LeftWrist: {fileID: 4300010, guid: b489f0441ca34ff47897a7b53debf900, type: 3}
+    LeftArm: {fileID: 4300012, guid: b489f0441ca34ff47897a7b53debf900, type: 3}
+    LeftShoulder: {fileID: 4300014, guid: b489f0441ca34ff47897a7b53debf900, type: 3}
+    RightHand: {fileID: 4300000, guid: b489f0441ca34ff47897a7b53debf900, type: 3}
+    RightWrist: {fileID: 4300002, guid: b489f0441ca34ff47897a7b53debf900, type: 3}
+    RightArm: {fileID: 4300004, guid: b489f0441ca34ff47897a7b53debf900, type: 3}
+    RightShoulder: {fileID: 4300006, guid: b489f0441ca34ff47897a7b53debf900, type: 3}
+    LeftLeg: {fileID: 4300022, guid: b489f0441ca34ff47897a7b53debf900, type: 3}
+    LeftFoot: {fileID: 4300020, guid: b489f0441ca34ff47897a7b53debf900, type: 3}
+    RightLeg: {fileID: 4300018, guid: b489f0441ca34ff47897a7b53debf900, type: 3}
+    RightFoot: {fileID: 4300016, guid: b489f0441ca34ff47897a7b53debf900, type: 3}
+  ClericCharacterMeshList:
+  - Name: AdultWoman
+    avatar: {fileID: 9000000, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+    frame: {fileID: 1059608359}
+    material: {fileID: 2100000, guid: 6f5c994837ef48940ad9dad3b9c994fa, type: 2}
+    Head: {fileID: 4300028, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+    Neck: {fileID: 4300026, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+    Body: {fileID: 4300024, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+    LeftHand: {fileID: 4300016, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+    LeftWrist: {fileID: 4300018, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+    LeftArm: {fileID: 4300020, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+    LeftShoulder: {fileID: 4300022, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+    RightHand: {fileID: 4300008, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+    RightWrist: {fileID: 4300010, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+    RightArm: {fileID: 4300012, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+    RightShoulder: {fileID: 4300014, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+    LeftLeg: {fileID: 4300002, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+    LeftFoot: {fileID: 4300000, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+    RightLeg: {fileID: 4300006, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+    RightFoot: {fileID: 4300004, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+  - Name: AdultMan
+    avatar: {fileID: 9000000, guid: d06c239a0c2cb044695bcb676e11190e, type: 3}
+    frame: {fileID: 370325890}
+    material: {fileID: 2100000, guid: c1ff7a712b394ab4fbb53db416e1d9bd, type: 2}
+    Head: {fileID: 4300028, guid: d06c239a0c2cb044695bcb676e11190e, type: 3}
+    Neck: {fileID: 4300026, guid: d06c239a0c2cb044695bcb676e11190e, type: 3}
+    Body: {fileID: 4300024, guid: d06c239a0c2cb044695bcb676e11190e, type: 3}
+    LeftHand: {fileID: 4300016, guid: d06c239a0c2cb044695bcb676e11190e, type: 3}
+    LeftWrist: {fileID: 4300018, guid: d06c239a0c2cb044695bcb676e11190e, type: 3}
+    LeftArm: {fileID: 4300020, guid: d06c239a0c2cb044695bcb676e11190e, type: 3}
+    LeftShoulder: {fileID: 4300022, guid: d06c239a0c2cb044695bcb676e11190e, type: 3}
+    RightHand: {fileID: 4300008, guid: d06c239a0c2cb044695bcb676e11190e, type: 3}
+    RightWrist: {fileID: 4300010, guid: d06c239a0c2cb044695bcb676e11190e, type: 3}
+    RightArm: {fileID: 4300012, guid: d06c239a0c2cb044695bcb676e11190e, type: 3}
+    RightShoulder: {fileID: 4300014, guid: d06c239a0c2cb044695bcb676e11190e, type: 3}
+    LeftLeg: {fileID: 4300006, guid: d06c239a0c2cb044695bcb676e11190e, type: 3}
+    LeftFoot: {fileID: 4300004, guid: d06c239a0c2cb044695bcb676e11190e, type: 3}
+    RightLeg: {fileID: 4300002, guid: d06c239a0c2cb044695bcb676e11190e, type: 3}
+    RightFoot: {fileID: 4300000, guid: d06c239a0c2cb044695bcb676e11190e, type: 3}
+  - Name: ChildrenWoman
+    avatar: {fileID: 9000000, guid: 77b2ddb5cca73704490b86ea77d29feb, type: 3}
+    frame: {fileID: 1140836744}
+    material: {fileID: 2100000, guid: a1be374c107d9ca4689f18f651c326a0, type: 2}
+    Head: {fileID: 4300028, guid: 77b2ddb5cca73704490b86ea77d29feb, type: 3}
+    Neck: {fileID: 4300026, guid: 77b2ddb5cca73704490b86ea77d29feb, type: 3}
+    Body: {fileID: 4300024, guid: 77b2ddb5cca73704490b86ea77d29feb, type: 3}
+    LeftHand: {fileID: 4300016, guid: 77b2ddb5cca73704490b86ea77d29feb, type: 3}
+    LeftWrist: {fileID: 4300018, guid: 77b2ddb5cca73704490b86ea77d29feb, type: 3}
+    LeftArm: {fileID: 4300020, guid: 77b2ddb5cca73704490b86ea77d29feb, type: 3}
+    LeftShoulder: {fileID: 4300022, guid: 77b2ddb5cca73704490b86ea77d29feb, type: 3}
+    RightHand: {fileID: 4300008, guid: 77b2ddb5cca73704490b86ea77d29feb, type: 3}
+    RightWrist: {fileID: 4300010, guid: 77b2ddb5cca73704490b86ea77d29feb, type: 3}
+    RightArm: {fileID: 4300012, guid: 77b2ddb5cca73704490b86ea77d29feb, type: 3}
+    RightShoulder: {fileID: 4300014, guid: 77b2ddb5cca73704490b86ea77d29feb, type: 3}
+    LeftLeg: {fileID: 4300004, guid: 77b2ddb5cca73704490b86ea77d29feb, type: 3}
+    LeftFoot: {fileID: 4300000, guid: 77b2ddb5cca73704490b86ea77d29feb, type: 3}
+    RightLeg: {fileID: 4300006, guid: 77b2ddb5cca73704490b86ea77d29feb, type: 3}
+    RightFoot: {fileID: 4300002, guid: 77b2ddb5cca73704490b86ea77d29feb, type: 3}
+  - Name: ChildrenMan
+    avatar: {fileID: 9000000, guid: 11225d736eb44c64c8b223102710e86a, type: 3}
+    frame: {fileID: 1916643084}
+    material: {fileID: 2100000, guid: 58e2b2f96af7c6b4084d8687022e244b, type: 2}
+    Head: {fileID: 4300028, guid: 11225d736eb44c64c8b223102710e86a, type: 3}
+    Neck: {fileID: 4300026, guid: 11225d736eb44c64c8b223102710e86a, type: 3}
+    Body: {fileID: 4300000, guid: 11225d736eb44c64c8b223102710e86a, type: 3}
+    LeftHand: {fileID: 4300018, guid: 11225d736eb44c64c8b223102710e86a, type: 3}
+    LeftWrist: {fileID: 4300020, guid: 11225d736eb44c64c8b223102710e86a, type: 3}
+    LeftArm: {fileID: 4300022, guid: 11225d736eb44c64c8b223102710e86a, type: 3}
+    LeftShoulder: {fileID: 4300024, guid: 11225d736eb44c64c8b223102710e86a, type: 3}
+    RightHand: {fileID: 4300010, guid: 11225d736eb44c64c8b223102710e86a, type: 3}
+    RightWrist: {fileID: 4300012, guid: 11225d736eb44c64c8b223102710e86a, type: 3}
+    RightArm: {fileID: 4300014, guid: 11225d736eb44c64c8b223102710e86a, type: 3}
+    RightShoulder: {fileID: 4300016, guid: 11225d736eb44c64c8b223102710e86a, type: 3}
+    LeftLeg: {fileID: 4300006, guid: 11225d736eb44c64c8b223102710e86a, type: 3}
+    LeftFoot: {fileID: 4300004, guid: 11225d736eb44c64c8b223102710e86a, type: 3}
+    RightLeg: {fileID: 4300008, guid: 11225d736eb44c64c8b223102710e86a, type: 3}
+    RightFoot: {fileID: 4300002, guid: 11225d736eb44c64c8b223102710e86a, type: 3}
+  characterSkinnedMeshList:
+    animator: {fileID: 1895766704}
+    frame: {fileID: 1983050100}
+    Head: {fileID: 1115365380}
+    Neck: {fileID: 1707756520}
+    Body: {fileID: 1692356608}
+    LeftHand: {fileID: 892591596}
+    LeftWrist: {fileID: 2120971079}
+    LeftArm: {fileID: 171009199}
+    LeftShoulder: {fileID: 1802085875}
+    RightHand: {fileID: 1550258795}
+    RightWrist: {fileID: 1200050905}
+    RightArm: {fileID: 1736750815}
+    RightShoulder: {fileID: 1556428558}
+    LeftLeg: {fileID: 848257150}
+    LeftFoot: {fileID: 1075771901}
+    RightLeg: {fileID: 1119828155}
+    RightFoot: {fileID: 1968820278}
+  defultCharacter: {fileID: 1895766702}
+  adultManHead:
+  - material: {fileID: 2100000, guid: a7b9c245ac2215a4c96d7066a313d41b, type: 2}
+    mesh: {fileID: 4300000, guid: ca763616022a7994cb74c9fb21937364, type: 3}
+  - material: {fileID: 2100000, guid: 7e770d0e34bc8b54cb22835cdd60a084, type: 2}
+    mesh: {fileID: 4300000, guid: 7dbda50384cdd5d43a6a03a59c63875c, type: 3}
+  - material: {fileID: 2100000, guid: 4eddbc46e46cc0040bca043fa799b002, type: 2}
+    mesh: {fileID: 4300000, guid: 523dcb7090cb1b44996d3d09e22a768a, type: 3}
+  - material: {fileID: 2100000, guid: 074b80db181a2f74e902ba4dea29d862, type: 2}
+    mesh: {fileID: 4300000, guid: 2fee5e5f1dde0da409467d0a98be8d1f, type: 3}
+  - material: {fileID: 2100000, guid: ef84104723f02784487555c4a21bf6c2, type: 2}
+    mesh: {fileID: 4300000, guid: 0e2c97e6c878c074ea0a5c5c99ffa3bf, type: 3}
+  - material: {fileID: 2100000, guid: b0c9c29e8d78e4b4a9847cd43c677664, type: 2}
+    mesh: {fileID: 4300000, guid: 87d4a31b7f8212644831b16184aac4c0, type: 3}
+  - material: {fileID: 2100000, guid: 2cb62f0e14339b148a4f9a3165016e8f, type: 2}
+    mesh: {fileID: 4300000, guid: 940b1ec924a356549bbcc76cbc937539, type: 3}
+  - material: {fileID: 2100000, guid: f846604f8f6e5514c9061122446f97e0, type: 2}
+    mesh: {fileID: 4300000, guid: dd65ed02784eb2b4d950d0c46d8e82ae, type: 3}
+  - material: {fileID: 2100000, guid: 14d5c1c1acc52d8489ae7f2402d1a7fe, type: 2}
+    mesh: {fileID: 4300000, guid: 402fac7aa530a234a8698756c9c55f41, type: 3}
+  adultWomanHead:
+  - material: {fileID: 2100000, guid: 694db4ef505335d40bd1d5afd233e103, type: 2}
+    mesh: {fileID: 4300000, guid: bf28a64985a801742b394da8ca03f020, type: 3}
+  - material: {fileID: 2100000, guid: 3afe564afaaf3c140a3163e751b36758, type: 2}
+    mesh: {fileID: 4300000, guid: 0e12aeaff47a86f4a9b3400f173e4df8, type: 3}
+  - material: {fileID: 2100000, guid: c58b4847799129647a73665b5d987d60, type: 2}
+    mesh: {fileID: 4300000, guid: 2ecb7e4cd42fa0847a9ea3a9aaf699dd, type: 3}
+  - material: {fileID: 2100000, guid: ea05d6fa3a170bc47a9568f04ac39922, type: 2}
+    mesh: {fileID: 4300000, guid: 565d9646db7b42d4fa4b6d644465d780, type: 3}
+  - material: {fileID: 2100000, guid: 0b6058a5fbfbfd241b715aa056d5eb20, type: 2}
+    mesh: {fileID: 4300000, guid: 9d5735483fdebc246a097b339bd6323b, type: 3}
+  - material: {fileID: 2100000, guid: cdfe99ac75cbb1743a41a45597bd6e81, type: 2}
+    mesh: {fileID: 4300000, guid: a4d281badab8cbd499b6dafb263b31e0, type: 3}
+  - material: {fileID: 2100000, guid: a7a3c4a34d5ced749b03b7d66d4e0bbc, type: 2}
+    mesh: {fileID: 4300000, guid: cb39c2563ff6a37448a976d266329403, type: 3}
+  - material: {fileID: 2100000, guid: 9622268c4d2af544fa4a47dd20704a38, type: 2}
+    mesh: {fileID: 4300000, guid: d8fbffcc8c27cba4589a405cd5ff4ea0, type: 3}
+  - material: {fileID: 2100000, guid: ee0633fe8d7d4964680b4be96a41f683, type: 2}
+    mesh: {fileID: 4300000, guid: e722e57fb08296646b15c474532cb089, type: 3}
+  childrenManHead:
+  - material: {fileID: 2100000, guid: d6485876d8b3f37409b996f57aa6c563, type: 2}
+    mesh: {fileID: 4300000, guid: 5fa245804fa129749b1fd9e09f673e78, type: 3}
+  - material: {fileID: 2100000, guid: 92f2d862b58074444ac7ad5248be4d4d, type: 2}
+    mesh: {fileID: 4300000, guid: 7defbdd6b801ea44fa6fc1a9a6ba4b89, type: 3}
+  - material: {fileID: 2100000, guid: 1521cd19c662a9047ae5927b8748883a, type: 2}
+    mesh: {fileID: 4300000, guid: 12a6ca022b4173e48809094d46abf4b9, type: 3}
+  - material: {fileID: 2100000, guid: 2cccbe8c208bca24f90aadc711ddc160, type: 2}
+    mesh: {fileID: 4300000, guid: c0d91fd71739cbf43bbfc917d47cf946, type: 3}
+  - material: {fileID: 2100000, guid: c31fd7753182c0b47885bf296a9cccd2, type: 2}
+    mesh: {fileID: 4300000, guid: 87ff4e01b25d0544fba1e1831994f588, type: 3}
+  - material: {fileID: 2100000, guid: 358004b636243494b93924202bf3e086, type: 2}
+    mesh: {fileID: 4300000, guid: 2feb8ca23e2029c45ba455db07246535, type: 3}
+  - material: {fileID: 2100000, guid: 09fc6bb244ae9e547ad2303ec2abab2b, type: 2}
+    mesh: {fileID: 4300000, guid: 0b09be4c63fd8a34ebc3b5ecf77c2807, type: 3}
+  - material: {fileID: 2100000, guid: 5e69f34e2ac5e024cb394c257ff6ee48, type: 2}
+    mesh: {fileID: 4300000, guid: 1a3e4c70800c7d148aab00641ff57ff3, type: 3}
+  - material: {fileID: 2100000, guid: 9251e302aa946074bb121579ac224055, type: 2}
+    mesh: {fileID: 4300000, guid: 5f6312756a527964fb8ce76f1770b786, type: 3}
+  childrenWomanHead:
+  - material: {fileID: 2100000, guid: 5ccb2cf036220e2499e682c50a5014ff, type: 2}
+    mesh: {fileID: 4300000, guid: cab2513bce47b42408614aca281dc9f6, type: 3}
+  - material: {fileID: 2100000, guid: 642fbbc0f5629d54c8d8d4fb6a632feb, type: 2}
+    mesh: {fileID: 4300000, guid: 079337b176af2cb43a8b7adfa09afd21, type: 3}
+  - material: {fileID: 2100000, guid: faff21af5696a1441a8bccd365b09ea4, type: 2}
+    mesh: {fileID: 4300000, guid: 3585e8c6d9f2f0b45b88ee241bb4e73c, type: 3}
+  - material: {fileID: 2100000, guid: 228cadca3ceabd24a8a20dd4f7df4308, type: 2}
+    mesh: {fileID: 4300000, guid: 43f72c430c11acc4ba4d6d62e5045fe9, type: 3}
+  - material: {fileID: 2100000, guid: 7234307f27e3b2249925eba782a25528, type: 2}
+    mesh: {fileID: 4300000, guid: 3598bc3c9c04f1d43b99ebaa1b7f1125, type: 3}
+  - material: {fileID: 2100000, guid: 7a649d5caa77c644c80dc9220d5ecc80, type: 2}
+    mesh: {fileID: 4300000, guid: 8ff3222b6adc91344a2ecee8bb2a6d22, type: 3}
+  - material: {fileID: 2100000, guid: 161cda01c516e7b46bc87f56a8887d2d, type: 2}
+    mesh: {fileID: 4300000, guid: c4c3ae496ccce7846a5d540157ff73c8, type: 3}
+  - material: {fileID: 2100000, guid: e6fbce0f592fd0447b33baac07e07ffc, type: 2}
+    mesh: {fileID: 4300000, guid: 9754133a2665a5b4da87b8309009f724, type: 3}
+  - material: {fileID: 2100000, guid: 2a2f6f9f7f3280a4fbda505a22d9278b, type: 2}
+    mesh: {fileID: 4300000, guid: 355f46183c850f045b4bba21249d5774, type: 3}
+  RingEffect: {fileID: 1734159751}
+  adultBodyEffect: {fileID: 0}
+  adultHeadEffect: {fileID: 0}
+  childrenBodyEffect: {fileID: 0}
+  childrenHeadEffect: {fileID: 0}
+--- !u!4 &1332625095
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1332625093}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.5839844, y: -3.78125, z: -1.5507812}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1895766703}
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1332708239
 GameObject:
@@ -20030,6 +20787,11 @@ Transform:
   m_Father: {fileID: 1096003796}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!137 &1550258795 stripped
+SkinnedMeshRenderer:
+  m_PrefabParentObject: {fileID: 13700004, guid: 98956fa6ecefc6743831edeb80a5202f,
+    type: 3}
+  m_PrefabInternal: {fileID: 747205791}
 --- !u!1 &1555160604
 GameObject:
   m_ObjectHideFlags: 0
@@ -20174,6 +20936,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!137 &1556428558 stripped
+SkinnedMeshRenderer:
+  m_PrefabParentObject: {fileID: 13700008, guid: 98956fa6ecefc6743831edeb80a5202f,
+    type: 3}
+  m_PrefabInternal: {fileID: 747205791}
 --- !u!1 &1561221945
 GameObject:
   m_ObjectHideFlags: 0
@@ -21036,6 +21803,11 @@ Transform:
   m_Father: {fileID: 1242097670}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!137 &1692356608 stripped
+SkinnedMeshRenderer:
+  m_PrefabParentObject: {fileID: 13700016, guid: 98956fa6ecefc6743831edeb80a5202f,
+    type: 3}
+  m_PrefabInternal: {fileID: 747205791}
 --- !u!1 &1692906992
 GameObject:
   m_ObjectHideFlags: 0
@@ -21182,6 +21954,11 @@ Transform:
   m_Father: {fileID: 1941690301}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!137 &1707756520 stripped
+SkinnedMeshRenderer:
+  m_PrefabParentObject: {fileID: 13700018, guid: 98956fa6ecefc6743831edeb80a5202f,
+    type: 3}
+  m_PrefabInternal: {fileID: 747205791}
 --- !u!1 &1712039924
 GameObject:
   m_ObjectHideFlags: 0
@@ -24960,7 +25737,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -294158546
+  randomSeed: 1015894258
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -28274,6 +29051,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!137 &1736750815 stripped
+SkinnedMeshRenderer:
+  m_PrefabParentObject: {fileID: 13700006, guid: 98956fa6ecefc6743831edeb80a5202f,
+    type: 3}
+  m_PrefabInternal: {fileID: 747205791}
 --- !u!1 &1737161044
 GameObject:
   m_ObjectHideFlags: 0
@@ -28718,6 +29500,11 @@ Transform:
   m_Father: {fileID: 1369632285}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!137 &1802085875 stripped
+SkinnedMeshRenderer:
+  m_PrefabParentObject: {fileID: 13700022, guid: 98956fa6ecefc6743831edeb80a5202f,
+    type: 3}
+  m_PrefabInternal: {fileID: 747205791}
 --- !u!1 &1806459862
 GameObject:
   m_ObjectHideFlags: 0
@@ -29474,6 +30261,19 @@ Transform:
   m_Father: {fileID: 655607173}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1895766702 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100016, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+  m_PrefabInternal: {fileID: 747205791}
+--- !u!4 &1895766703 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 400016, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+  m_PrefabInternal: {fileID: 747205791}
+--- !u!95 &1895766704 stripped
+Animator:
+  m_PrefabParentObject: {fileID: 9500000, guid: 98956fa6ecefc6743831edeb80a5202f,
+    type: 3}
+  m_PrefabInternal: {fileID: 747205791}
 --- !u!1 &1897443727
 GameObject:
   m_ObjectHideFlags: 0
@@ -33596,6 +34396,11 @@ Transform:
   m_Father: {fileID: 1442414432}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!137 &1968820278 stripped
+SkinnedMeshRenderer:
+  m_PrefabParentObject: {fileID: 13700012, guid: 98956fa6ecefc6743831edeb80a5202f,
+    type: 3}
+  m_PrefabInternal: {fileID: 747205791}
 --- !u!1 &1977414524
 GameObject:
   m_ObjectHideFlags: 0
@@ -33711,6 +34516,10 @@ Transform:
   m_Father: {fileID: 1129674651}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1983050100 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 400048, guid: 98956fa6ecefc6743831edeb80a5202f, type: 3}
+  m_PrefabInternal: {fileID: 747205791}
 --- !u!1 &1986183897
 GameObject:
   m_ObjectHideFlags: 0
@@ -34937,6 +35746,11 @@ Transform:
   m_Father: {fileID: 60848428}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!137 &2120971079 stripped
+SkinnedMeshRenderer:
+  m_PrefabParentObject: {fileID: 13700026, guid: 98956fa6ecefc6743831edeb80a5202f,
+    type: 3}
+  m_PrefabInternal: {fileID: 747205791}
 --- !u!1 &2121657892
 GameObject:
   m_ObjectHideFlags: 0

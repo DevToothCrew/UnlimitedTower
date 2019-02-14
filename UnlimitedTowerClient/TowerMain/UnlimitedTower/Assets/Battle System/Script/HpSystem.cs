@@ -52,7 +52,7 @@ public class HpSystem : MonoBehaviour
         
         for (int i = 0; i < 10; i++)
         {
-            if (BattleSystem.Inst.characterisVoid[i] == true)
+            if (BattleSystem.Inst.characterisPlace[i] == true)
             {
                 playerHp[i].transform.position = Camera.main.WorldToScreenPoint(
                   BattleSystem.Inst.playerCharacter[i].transform.position +
@@ -66,7 +66,7 @@ public class HpSystem : MonoBehaviour
                 playerHp[i].SetActive(false);
             }
 
-            if (BattleSystem.Inst.characterisVoid[i + 10] == true)
+            if (BattleSystem.Inst.characterisPlace[i + 10] == true)
             {
                 enemyHp[i].transform.position = Camera.main.WorldToScreenPoint(
                  BattleSystem.Inst.enemyCharacter[i].transform.position +

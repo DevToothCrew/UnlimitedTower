@@ -6,9 +6,11 @@ using UnityEngine;
 public class CharacterCSVData : MonoBehaviour
 {
     public Dictionary<int, DBCharacterData> monsterDataBaseDic = new Dictionary<int, DBCharacterData>();
+    public List<DBCharacterData> monsterDataBaseDic_ = new List<DBCharacterData>();
     private TextAsset monsterData;
     private TextAsset servantData;
     
+    [System.Serializable]
     public class DBCharacterData
     {
         public int indexNumber;
@@ -72,6 +74,11 @@ public class CharacterCSVData : MonoBehaviour
             if (textValue[0] != string.Empty)
             monsterDataBaseDic.Add(int.Parse(textValue[0]), new DBCharacterData(textValue));
             textLine = sr.ReadLine();
+        }
+
+        foreach (DBCharacterData asdf in monsterDataBaseDic.Values)
+        {
+            monsterDataBaseDic_.Add(asdf);
         }
     }
 }

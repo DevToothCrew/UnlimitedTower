@@ -16,13 +16,6 @@ public class CharacterControl : MonoBehaviour
     
     private void FixedUpdate()
     {
-        
-        // int[] 숫자배열 = new int[10];
-        // int maxSum = 0, currentSum = 0;
-        // for (int i = 0; i < 숫자배열.Length; i++) {
-        //     currentSum = currentSum + 숫자배열[i] > 숫자배열[i] ? currentSum + 숫자배열[i] : 숫자배열[i];
-        //     maxSum = currentSum > maxSum ? currentSum : maxSum; }
-        
         if (!isStart)
         {
             isStart = true;
@@ -69,7 +62,6 @@ public class CharacterControl : MonoBehaviour
                 DieCameraMove.Inst.Test(sendValue.Target, !isPlayer);
             }
         }
-
     }
     
     public void Miss()

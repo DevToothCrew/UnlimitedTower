@@ -13,6 +13,7 @@ public class CaracterCustom : MonoBehaviour
     /// 4는 마법사
     /// 5는 사제
     /// 키 입력으로 ++ -- 해야해서 임시로 int형 선언
+    /// 아래 값들을 변경한 후 Refrash()
     /// </summary>
     public int jobIndex;
     public int headIndex;
@@ -207,7 +208,7 @@ public class CaracterCustom : MonoBehaviour
             {
                 jobIndex--;
                 Refresh();
-                BodyChangeEffect();
+                // BodyChangeEffect();
             }
         }
         if (Input.GetKeyDown(KeyCode.Keypad3))
@@ -216,7 +217,7 @@ public class CaracterCustom : MonoBehaviour
             {
                 jobIndex++;
                 Refresh();
-                BodyChangeEffect();
+                // BodyChangeEffect();
             }
         }
         if (Input.GetKeyDown(KeyCode.Keypad4))
@@ -225,7 +226,7 @@ public class CaracterCustom : MonoBehaviour
             {
                 headIndex--;
                 Refresh();
-                HeadChangeEffect();
+                // HeadChangeEffect();
             }
         }
         if (Input.GetKeyDown(KeyCode.Keypad6))
@@ -234,7 +235,7 @@ public class CaracterCustom : MonoBehaviour
             {
                 headIndex++;
                 Refresh();
-                HeadChangeEffect();
+                // HeadChangeEffect();
             }
         }
         if (Input.GetKeyDown(KeyCode.Keypad7))
@@ -243,7 +244,7 @@ public class CaracterCustom : MonoBehaviour
             {
                 hairIndex--;
                 Refresh();
-                HeadChangeEffect();
+                // HeadChangeEffect();
             }
         }
         if (Input.GetKeyDown(KeyCode.Keypad9))
@@ -252,20 +253,20 @@ public class CaracterCustom : MonoBehaviour
             {
                 hairIndex++;
                 Refresh();
-                HeadChangeEffect();
+                // HeadChangeEffect();
             }
         }
         if (Input.GetKeyDown(KeyCode.Keypad5))
         {
             isMan = isMan == 0 ? 1 : 0;
             Refresh();
-            BodyChangeEffect();
+            // BodyChangeEffect();
         }
         if (Input.GetKeyDown(KeyCode.Keypad8))
         {
             isChildren = isChildren == 0 ? 1 : 0;
             Refresh();
-            BodyChangeEffect();
+            // BodyChangeEffect();
         }
 
         if (Input.GetMouseButton(0))
@@ -274,33 +275,34 @@ public class CaracterCustom : MonoBehaviour
         }
     }
 
-    private void HeadChangeEffect()
-    {
-        if (isChildren == 0)
-        {
-            adultHeadEffect.SetActive(false);
-            adultHeadEffect.SetActive(true);
-        }
-        else
-        {
-            childrenHeadEffect.SetActive(false);
-            childrenHeadEffect.SetActive(true);
-        }
-    }
-
-    private void BodyChangeEffect()
-    {
-        if (isChildren == 0)
-        {
-            adultBodyEffect.SetActive(false);
-            adultBodyEffect.SetActive(true);
-        }
-        else
-        {
-            childrenBodyEffect.SetActive(false);
-            childrenBodyEffect.SetActive(true);
-        }
-    }
+    // 이펙트 제거
+    // private void HeadChangeEffect()
+    // {
+    //     if (isChildren == 0)
+    //     {
+    //         adultHeadEffect.SetActive(false);
+    //         adultHeadEffect.SetActive(true);
+    //     }
+    //     else
+    //     {
+    //         childrenHeadEffect.SetActive(false);
+    //         childrenHeadEffect.SetActive(true);
+    //     }
+    // }
+    // 
+    // private void BodyChangeEffect()
+    // {
+    //     if (isChildren == 0)
+    //     {
+    //         adultBodyEffect.SetActive(false);
+    //         adultBodyEffect.SetActive(true);
+    //     }
+    //     else
+    //     {
+    //         childrenBodyEffect.SetActive(false);
+    //         childrenBodyEffect.SetActive(true);
+    //     }
+    // }
 
     private void Refresh()
     {

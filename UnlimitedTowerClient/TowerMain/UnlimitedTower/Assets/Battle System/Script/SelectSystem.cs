@@ -37,9 +37,9 @@ public class SelectSystem : MonoSingleton<SelectSystem>
             selectCharacterImage = GameObject.Find("Character Portrait Image").GetComponent<Image>();
             for (int i = 0; i < 10; i++)
             {
-                if (BattleSystem.Inst.characterisVoid[i] == true)
+                if (BattleSystem.Inst.characterisPlace[i] == true)
                     chsing[i] = BattleSystem.Inst.playerCharacterControl[i].select.GetComponent<CheckSelectAnimation>();
-                if (BattleSystem.Inst.characterisVoid[i + 10] == true)
+                if (BattleSystem.Inst.characterisPlace[i + 10] == true)
                     chsing[i + 10] = BattleSystem.Inst.enemyCharacterControl[i].select.GetComponent<CheckSelectAnimation>();
             }
             selectHpBar = GameObject.Find("Hp Bar").GetComponent<Image>();

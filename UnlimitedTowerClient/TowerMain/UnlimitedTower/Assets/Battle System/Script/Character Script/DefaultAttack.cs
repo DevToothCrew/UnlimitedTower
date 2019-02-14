@@ -5,13 +5,11 @@ using UnityEngine;
 public class DefaultAttack : MonoBehaviour {
     public bool isOneDeal;
     public GameObject Arrow;
-    public GameObject effect;
     private CharacterInformation characterInformation;
     private Animator ani;
 
     private void Start()
     {
-        effect = BattleSystem.Inst.testEffect;
         ani = GetComponent<Animator>();
         characterInformation = GetComponent<CharacterInformation>();
     }
