@@ -1,0 +1,16 @@
+/* reset */
+body,div,ul,li,ol,dl,dt,dd,h1,h2,h3,h4,h5,h6,form,fieldset,legend,textarea,p,
+select,button,figure{margin:0;padding:0;}
+em,address{font-style:normal;}
+ul,li,ol{list-style:none;}
+h1,h2,h3,h4,h5,h6{font-size:12px;font-weight:normal; color:#000;}
+a, span, ul, li, p{color:#000;text-decoration:none;}
+img,fieldset{border:0;}
+body{background:#140f30;direction:ltr;-webkit-text-size-adjust:none;}
+table{width:100%;border-spacing:0;border-collapse:collapse;}
+.ir_pm {display:block;overflow:hidden;font-size:0px;line-height:0;text-indent:-9999px} /* 占싼딆뒠占쏙옙 占쎈�占쏙쭪占쏙옙占� 占쎌꼶占쏙옙�뜄�뮉 占쎈씮�뮞占쎈챷�벥 占쏙옙筌ｋ똾�볩옙�끋�뱜�몴占� 占쎌뮄�궗占쎌쥓釉� */
+.ir_wa {display:block;overflow:hidden;position:relative;z-index:-1;width:100%;height:100%} /* 餓λ쵐�뒄占쏙옙 占쎈�占쏙쭪占� 占쏙옙筌ｋ똾�볩옙�끋�뱜嚥∽옙 占쎈�占쏙쭪占퐋ff占쎌뮇肉됵옙占� 占쏙옙筌ｏ옙 占쎈씮�뮞占쎈챶占� 癰귣똻肉т틠�눊�э옙占� 占쎌쥓釉� */
+.screen_out {overflow:hidden;position:absolute;width:0;height:0;line-height:0;text-indent:-9999px} /* 占쏙옙筌ｋ똾�볩옙�끋�뱜揶쏉옙 占쎄쑬�빒 占쎈쵌�젏占쎄퉮�뱽 占쎄쑵釉� 占썩몿占쏙옙�씮�뮞占쎈챶占� 占쎌뮄�궗占쎌쥓釉� */
+.clearfix {*zoom:1;} /* ie7 占쏙옙*/ 
+.clearfix:before, .clearfix:after {display: table; content: ''; line-height: 0;} 
+.clearfix:after {clear:both;}
