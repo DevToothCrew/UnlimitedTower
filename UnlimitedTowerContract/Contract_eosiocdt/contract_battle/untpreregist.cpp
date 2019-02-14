@@ -1374,9 +1374,6 @@ void untpreregist::gacha_item_id(eosio::name _user, uint64_t _seed)
 }
 uint64_t untpreregist::get_user_seed_value(uint64_t _user)
 {
-    total_token_logs total_token_log_table(_self, _self.value);
-    auto total_token_iter = total_token_log_table.begin();
-
     uint64_t user;
 
     user_logs user_log_table(_self, _self.value);
@@ -2274,7 +2271,8 @@ ACTION untpreregist::startbattle(eosio::name _user, uint32_t _party_number, uint
     auth_users user_auth_table(_self, _self.value);
     auto user_auth_iter = user_auth_table.find(_user.value);
     eosio_assert(user_auth_iter != user_auth_table.end(), "not exist user info");
-    eosio_assert(user_auth_iter->state != user_state::travel && user_auth_iter->state != user_state::tower, "playing battle....");
+    eosio_assert(user_auth_iter->state != user_state::travel && user_auth_iter->state != user_state::tower, "playing battle");
+    eosio_assert(user_auth_iter->state != user_state::battle_win && user_auth_iter->state != user_state::battle_lose, "Need Get Reward 3");
 
     user_auth_table.modify(user_auth_iter, _self, [&](auto &user_state_change) {
         user_state_change.state = user_state::travel;
@@ -2414,14 +2412,24 @@ bool untpreregist::sort_compare(const battle_order_struct &a,const battle_order_
     }
 }
 
-ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32_t _monster_action, uint32_t _hero_target, uint32_t _monster_target, uint64_t _seed)
+ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32_t _monster_action, uint32_t _hero_target, uint32_t _monster_target, std::string _seed)
 {
     require_auth(_user);
 
+    size_t center = _seed.find(':');
+    size_t end = _seed.length() - (center + 1);
+    eosio_assert(_seed.find(':') != std::string::npos, "Wrong Seed Error");
+
+    std::string result_seed = _seed.substr(0 , center);
+    std::string result_sha = _seed.substr(center + 1, end);
+
+    uint64_t check_result = safeseed::check_seed(result_seed, result_sha);
+    uint64_t user = get_user_seed_value(_user.value);
+    uint64_t battle_seed = safeseed::get_seed_value(user, check_result);
+
     auth_users user_auth_table(_self, _self.value);
     auto user_auth_iter = user_auth_table.find(_user.value);
-
-    eosio_assert(user_auth_iter->state == user_state::travel || user_auth_iter->state == user_state::tower, "already over battle");
+    eosio_assert(user_auth_iter->state == user_state::travel || user_auth_iter->state == user_state::tower, "Battle Over");
 
     uint32_t user_dead_count = 0;
     uint32_t enemy_dead_count = 0;
@@ -2429,13 +2437,14 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
     battle_state_list battle_state_list_table(_self, _self.value);
     auto user_battle_state_iter = battle_state_list_table.find(_user.value);
     eosio_assert(user_battle_state_iter != battle_state_list_table.end(), "end battle 1");
+    eosio_assert(user_battle_state_iter->turn != 0, "end battle 3");
 
     battle_actions battle_action_table(_self, _self.value);
     auto user_battle_action_iter = battle_action_table.find(_user.value);
     eosio_assert(user_battle_action_iter != battle_action_table.end(), "end battle 2");
 
     std::vector<uint64_t> order_random_list;
-    safeseed::get_battle_rand_list(order_random_list, _seed);
+    safeseed::get_battle_rand_list(order_random_list, battle_seed);
 
     //배틀의 상태를 바꿔주는 부분
     battle_state_list_table.modify(user_battle_state_iter, _self, [&](auto &battle_state) {
@@ -2444,7 +2453,7 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
         std::vector<battle_order_struct> speed_order_list;
         for (uint32_t i = 0; i < user_battle_state_iter->state_list.size(); ++i)
         {
-            if (user_battle_state_iter->state_list[i].now_hp <= 0)
+            if ((user_battle_state_iter->state_list[i].now_hp <= 0) || ((user_battle_state_iter->state_list[i].index == 0) && (i != 0)) )
             {
                 continue;
             }
@@ -2468,12 +2477,16 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
                 {
                     if (index == HERO_LOCATION)
                     {
-                        if (battle_state.state_list[index].now_hp == 0)
+                        eosio_assert(_hero_target >= 10, "target is user party");
+                        if (user_battle_state_iter->state_list[index].now_hp == 0)
                         {
                             continue;
                         }
-                        eosio_assert(_hero_target >= 10, "target is user party");
-                        //eosio_assert(user_battle_state_iter->state_list[_hero_target].now_hp != 0, "hero target is dead");
+                        else if (user_battle_state_iter->state_list[_hero_target].now_hp == 0)
+                        {
+                            continue;
+                        }
+                        
                     
                         battle_action new_action;
                         if (_hero_action == battle_action_state::attack)
@@ -2526,16 +2539,26 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
                         else
                         {
                             //방어할 경우
+                            battle_action_info new_action_info;
+                            new_action_info.index = HERO_LOCATION;
+                            new_action_info.action_type = battle_action_state::defense;
+
+                            update_action.battle_info_list.push_back(new_action_info);
                         }
                     }
 
                     else if (index == PAIR_SLOT) //히어로의 페어 몬스터일 경우
                     {
-                        if (battle_state.state_list[index].now_hp == 0)
+                        eosio_assert(_monster_target >= 10, "target is user party");
+                        if (user_battle_state_iter->state_list[index].now_hp == 0)
                         {
                             continue;
                         }
-                        eosio_assert(_monster_target >= 10, "target is user party");
+                        else if (user_battle_state_iter->state_list[_monster_target].now_hp == 0)
+                        {
+                            continue;
+                        }
+                        
                         //eosio_assert(user_battle_state_iter->state_list[_monster_target].now_hp != 0, "monster target is dead");
 
                         battle_action new_action;
@@ -2589,11 +2612,16 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
                         else
                         {
                             //방어할 경우
+                            battle_action_info new_action_info;
+                            new_action_info.index = PAIR_SLOT;
+                            new_action_info.action_type = battle_action_state::defense;
+
+                            update_action.battle_info_list.push_back(new_action_info);
                         }
                     }
                     else //다른 몬스터의 경우
                     {
-                        if (battle_state.state_list[index].now_hp == 0)
+                        if (user_battle_state_iter->state_list[index].now_hp == 0)
                         {
                             continue;
                         }
@@ -2664,7 +2692,7 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
 
                 else   // 상대 파티의 경우
                 {
-                    if (battle_state.state_list[index].now_hp == 0)
+                    if (user_battle_state_iter->state_list[index].now_hp == 0)
                     {
                         continue;
                     }
@@ -2770,7 +2798,7 @@ void untpreregist::win_reward(eosio::name _user)
     eosio_assert(user_auth_iter != user_auth_table.end(), "Not Exist User 1");
 
     user_auth_table.modify(user_auth_iter, _self, [&](auto &user_state) {
-        user_state.state = user_state::lobby;
+        user_state.state = user_state::battle_win;
     });
 
     user_logs user_log_table(_self, _self.value);
@@ -2795,7 +2823,7 @@ void untpreregist::win_reward(eosio::name _user)
 
     battle_reward_list battle_reward_list_table(_self, _self.value);
     auto battle_reward_iter = battle_reward_list_table.find(_user.value);
-    eosio_assert(battle_reward_iter == battle_reward_list_table.end(),"Need Get Reward");
+    eosio_assert(battle_reward_iter == battle_reward_list_table.end(),"Need Get Reward 1");
     battle_reward_list_table.emplace(_self, [&](auto &set_reward)
     {
         set_reward.user = _user;
@@ -2816,7 +2844,7 @@ void untpreregist::fail_reward(eosio::name _user)
     eosio_assert(user_auth_iter != user_auth_table.end(), "Not Exist User 1");
 
     user_auth_table.modify(user_auth_iter, _self, [&](auto &user_state) {
-        user_state.state = user_state::lobby;
+        user_state.state = user_state::battle_lose;
     });
 
     user_logs user_log_table(_self, _self.value);
@@ -2837,6 +2865,13 @@ void untpreregist::fail_reward(eosio::name _user)
     eosio_assert(user_battle_iter != user_battle_state_table.end(), "Not Exist Battle 1");
     user_battle_state_table.modify(user_battle_iter, _self, [&](auto &add_win_reward) {
         add_win_reward.turn = END_BATTLE;
+    });
+
+    battle_reward_list battle_reward_list_table(_self, _self.value);
+    auto battle_reward_iter = battle_reward_list_table.find(_user.value);
+    eosio_assert(battle_reward_iter == battle_reward_list_table.end(), "Need Get Reward 2");
+    battle_reward_list_table.emplace(_self, [&](auto &set_reward) {
+        set_reward.user = _user;
     });
 }
 
@@ -2912,12 +2947,12 @@ ACTION untpreregist::getreward(eosio::name _user)
         });
     }
 
-    asset servant_sell_result(0, symbol(symbol_code("UTG"), 4));
-    servant_sell_result.amount = user_battle_reward_iter->reward_money;
+    asset battle_result(0, symbol(symbol_code("UTG"), 4));
+    battle_result.amount = user_battle_reward_iter->reward_money;
 
     action(permission_level{get_self(), "active"_n},
            get_self(), "transfer"_n,
-           std::make_tuple(_self, _user, servant_sell_result, std::string("battle reward")))
+           std::make_tuple(_self, _user, battle_result, std::string("battle reward")))
         .send();
 
     user_battle_reward_table.erase(user_battle_reward_iter);

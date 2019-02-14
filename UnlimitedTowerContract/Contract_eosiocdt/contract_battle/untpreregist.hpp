@@ -561,7 +561,6 @@ TABLE tokenlog
         battle_lose,
         tower,
         travel,
-        black,
     };
     enum hero_state
     {
@@ -955,7 +954,7 @@ ACTION startbattle(eosio::name _user, uint32_t _party_number, uint32_t _stage);
 int get_random_target(const std::vector<battle_state> &_state_list, uint64_t _seed, uint32_t _max, uint32_t _min);
 
 static bool sort_compare(const battle_order_struct &a,const battle_order_struct &b);
-ACTION activeturn(eosio::name _user, uint32_t _hero_action, uint32_t _monster_action, uint32_t _hero_target, uint32_t _monster_target, uint64_t _seed);
+ACTION activeturn(eosio::name _user, uint32_t _hero_action, uint32_t _monster_action, uint32_t _hero_target, uint32_t _monster_target, std::string _seed);
 void win_reward(eosio::name _user);
 void fail_reward(eosio::name _user);
 
