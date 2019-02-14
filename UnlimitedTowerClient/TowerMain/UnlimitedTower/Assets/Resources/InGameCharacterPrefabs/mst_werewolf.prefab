@@ -391,7 +391,7 @@ GameObject:
   - component: {fileID: 114273217459688050}
   - component: {fileID: 114470672371403670}
   m_Layer: 0
-  m_Name: Wolfman
+  m_Name: mst_werewolf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

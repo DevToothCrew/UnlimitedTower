@@ -533,7 +533,7 @@ GameObject:
   - component: {fileID: 114564271576405140}
   - component: {fileID: 114520596602680988}
   m_Layer: 0
-  m_Name: Minotaurus
+  m_Name: mst_minotours_red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

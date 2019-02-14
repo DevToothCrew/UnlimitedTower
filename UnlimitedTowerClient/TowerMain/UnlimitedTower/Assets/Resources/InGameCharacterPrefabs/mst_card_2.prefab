@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 114109714409978578}
   - component: {fileID: 114175325286156222}
   m_Layer: 0
-  m_Name: Card_Red
+  m_Name: mst_card_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

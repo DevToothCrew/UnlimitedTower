@@ -685,7 +685,7 @@ GameObject:
   - component: {fileID: 114026291195414858}
   - component: {fileID: 114008551683189426}
   m_Layer: 0
-  m_Name: Gangsi
+  m_Name: mst_gangsi
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

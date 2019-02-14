@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114100380482660056}
   - component: {fileID: 114633760090747874}
   m_Layer: 0
-  m_Name: Leaf_Fairy
+  m_Name: mst_fairy_leaf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

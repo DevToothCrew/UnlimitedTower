@@ -210,7 +210,7 @@ GameObject:
   - component: {fileID: 114402444061415172}
   - component: {fileID: 114551481113342672}
   m_Layer: 0
-  m_Name: Card_Black
+  m_Name: mst_card_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

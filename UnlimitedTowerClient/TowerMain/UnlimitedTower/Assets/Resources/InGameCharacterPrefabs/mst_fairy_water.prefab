@@ -407,7 +407,7 @@ GameObject:
   - component: {fileID: 114382299647164726}
   - component: {fileID: 114097790306177576}
   m_Layer: 0
-  m_Name: WaterFairy
+  m_Name: mst_fairy_water
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

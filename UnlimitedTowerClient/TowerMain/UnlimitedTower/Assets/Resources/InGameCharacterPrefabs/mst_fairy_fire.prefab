@@ -194,7 +194,7 @@ GameObject:
   - component: {fileID: 114685520102542796}
   - component: {fileID: 114398540492437840}
   m_Layer: 0
-  m_Name: FireFairy
+  m_Name: mst_fairy_fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

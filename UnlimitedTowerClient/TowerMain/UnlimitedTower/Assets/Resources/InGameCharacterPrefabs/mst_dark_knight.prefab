@@ -625,7 +625,7 @@ GameObject:
   - component: {fileID: 114693920481544292}
   - component: {fileID: 114757899919999894}
   m_Layer: 0
-  m_Name: DarkKnight
+  m_Name: mst_dark_knight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

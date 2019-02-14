@@ -653,7 +653,7 @@ GameObject:
   - component: {fileID: 114823572181145604}
   - component: {fileID: 114498828254122062}
   m_Layer: 0
-  m_Name: DarkMagician
+  m_Name: mst_dark_magician
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
