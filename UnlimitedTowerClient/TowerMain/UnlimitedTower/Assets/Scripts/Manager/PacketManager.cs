@@ -37,7 +37,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     private static extern void BattleAction (string battleAction);
 
     [DllImport("__Internal")]
-    private static extern void StartBattle (int stage_num, int party_num);
+    private static extern void StartBattle (string battleStart);
 
     [DllImport("__Internal")]
     private static extern void GetReward();
@@ -111,20 +111,37 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("RequestBattleAction");
 
-        List<JsonBattleAction> actionList = new List<JsonBattleAction>();
-        actionList.Add(new JsonBattleAction(heroTarget, heroAction));
-        actionList.Add(new JsonBattleAction(monsterTarget, monsterAction));
+        //List<JsonBattleAction> actionList = new List<JsonBattleAction>();
+        //actionList.Add(new JsonBattleAction(heroTarget, heroAction));
+        //actionList.Add(new JsonBattleAction(monsterTarget, monsterAction));
 
-        string json = JsonUtility.ToJson(actionList);
+        //string json = JsonUtility.ToJson(actionList);
+        TestJsonBattleAction action = new TestJsonBattleAction();
+        action.heroTargetIndex = heroTarget;
+        action.heroActionType = heroAction;
+        action.monsterTargetIndex = monsterTarget;
+        action.monsterActionType = monsterAction;
 
-        BattleAction(json);
+
+        string json = JsonUtility.ToJson(action);
+
         Debug.Log("Json action : " + json);
+        BattleAction(json);
+        
     }
 
     public void RequestStageStart(int stageNum, int partyNum)
     {
         Debug.Log("Request Start Battle");
-        StartBattle(stageNum, partyNum);
+
+        TestJsonStartBattle startBattle = new TestJsonStartBattle();
+        startBattle.stageNum = stageNum;
+        startBattle.partyNum = partyNum;
+
+        string json = JsonUtility.ToJson(startBattle);
+
+        Debug.Log("Json start : " + json);
+        StartBattle(json);
     }
 
     public void RequestStageResult()

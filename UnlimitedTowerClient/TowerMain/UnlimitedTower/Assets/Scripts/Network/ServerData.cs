@@ -330,6 +330,8 @@ public class StageResultData
 #endregion
 
 
+
+#region ScatterData
 [System.Serializable]
 public class JsonParty
 {
@@ -348,3 +350,23 @@ public class JsonBattleAction
         this.actionType = actionType;
     }
 }
+
+
+[System.Serializable]
+public class TestJsonBattleAction
+{
+    public int heroTargetIndex = 0;
+    public int heroActionType = 0;
+
+    public int monsterTargetIndex = 0;
+    public int monsterActionType = 0;
+
+}
+
+[System.Serializable]
+public class TestJsonStartBattle
+{
+    public int stageNum = 0;
+    public int partyNum = 0;
+}
+#endregion
