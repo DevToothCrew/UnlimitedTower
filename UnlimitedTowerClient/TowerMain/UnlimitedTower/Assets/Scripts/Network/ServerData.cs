@@ -224,7 +224,6 @@ public class partyData
 public class TestbattleStateData
 {
     public string user;
-    public int turn;
     public int party_number;
     public List<battleState> state_list = new List<battleState>();
 }
@@ -234,6 +233,7 @@ public class TestbattleStateData
 public class TestbattleActionInfoData
 {
     public string user;
+    public int turn;
     public List<battleActionInfo> battle_info_list = new List<battleActionInfo>();
 }
 

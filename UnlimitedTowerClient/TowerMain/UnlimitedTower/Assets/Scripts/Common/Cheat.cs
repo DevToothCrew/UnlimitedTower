@@ -216,8 +216,9 @@ public class Cheat : MonoSingleton<Cheat>
     {
         TestbattleActionInfoData battleactiondata = new TestbattleActionInfoData();
         battleactiondata.user = user;
+        battleactiondata.turn = 1;
 
-        for(int i=0; i<20; ++i)
+        for (int i=0; i<20; ++i)
         {
             actionInfo action = new actionInfo();
             action.target_index = UnityEngine.Random.Range(i , 20);
@@ -242,7 +243,6 @@ public class Cheat : MonoSingleton<Cheat>
         TestbattleStateData battlestatedata = new TestbattleStateData();
         battlestatedata.user = user;
         battlestatedata.party_number = partyNum;
-        battlestatedata.turn = 1;
 
         for (int i=0; i<20; ++i)
         {
