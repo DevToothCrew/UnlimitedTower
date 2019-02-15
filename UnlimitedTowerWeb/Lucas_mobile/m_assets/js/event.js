@@ -192,7 +192,7 @@ $(window).scroll(function(){
 });
 
 $('.slide-wrap').slick({
-   dots: true,
+   dots: false,
    centerMode: true,
    centerPadding: '60px',
    slidesToShow: 1,

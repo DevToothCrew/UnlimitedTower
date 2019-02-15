@@ -119,8 +119,8 @@ body{background-color: #fff}
 .section3 .sec3 .sec3-monster .sm3-l p { font-family: 'Noto Sans', sans-serif;;font-size: 32px;font-weight: bold;color: #373d3f;}
 .section3 .sec3 .sec3-monster .sm3-l em{color: #555f61;font-size: 14px;}
 .section3 .sec3 .sec3-monster .sm3-r{float: right;}
-.section3 .sec3 .sec3-monster .sm3-r img{width: 87px;}
-.section3 .sec3 .sec3-monster .sm3-r h3 { font-weight: 600;font-family:'Noto Sans', sans-serif; font-size: 20px;margin-top: 28px;color: #373d3f;}
+.section3 .sec3 .sec3-monster .sm3-r img{width: 94px;}
+.section3 .sec3 .sec3-monster .sm3-r h3 { font-weight: 600;font-family:'Noto Sans', sans-serif; font-size: 20px;margin-top: 17px;color: #373d3f;}
 .section3 .sec3 .sec3-monster .sm3-r p {font-family:'Noto Sans', sans-serif;font-size:32px;font-weight: bold;color: #373d3f;}
 .section3 .sec3 .sec3-monster .sm3-r em{color: #555f61;font-size: 14px;}
 .section3 .sec3 .sec3-btn {display:none;font-family:'Noto Sans', sans-serif;opacity: 0;	margin: 40px 0 60px;}
@@ -132,7 +132,7 @@ body{background-color: #fff}
 .section3 .sec3 .sec3-btn1 a:hover{border:solid 2px #FF9A91; color:#FF9A91}
 .section3 .sec3 .sec3-btn1 a:active{border:solid 2px #BF6159; color:#BF6159}
 .section3 .sec3 .sec3-btn2 {display:none;font-family:'Noto Sans', sans-serif;opacity: 0;	margin: 40px 0 60px;}
-.section3 .sec3 .sec3-btn2 a{ font-size: 21px;font-weight: bold; height: 60px;line-height: 60px;margin: 0 auto;display: block; width: 210px; color:#373d3f; background-color: #fff;border:solid 2px #373d3f;border-radius: 5px}
+.section3 .sec3 .sec3-btn2 span{ font-size: 21px;font-weight: bold; height: 60px;line-height: 60px;margin: 0 auto;display: block; width: 210px; color:#373d3f; background-color: #fff;border:solid 2px #373d3f;border-radius: 5px}
 .section3 .sec3 em{opacity: 0; font-size: 14px;line-height: 2;font-family: 'Noto Sans', sans-serif;color:#555f61;}
 .section3 .sec3 h4{opacity: 0; font-size: 14px;color:#ff001f;font-family: 'Noto Sans', sans-serif;margin-top: 5px;}
 
@@ -204,9 +204,9 @@ body{background-color: #fff}
 .section4-1 .sec4-1 .card-rota .card-bg{position: relative;top: -120px;z-index: 101;}
 .section4-1 .sec4-1 .card-rota .card-bg img{width: 250px;}
 .section4-1 .sec4-1 .card-rota .card{position: absolute;top:-16%;left: -17%;text-align: center;width: 341px;z-index: 102;}
-.section4-1 .sec4-1 .card-rota .card .bservant{height: 190px;}
-.section4-1 .sec4-1 .card-rota .card .bmonster{height: 190px;}
-.section4-1 .sec4-1 .card-rota .card .bitem{height:190px  }   
+.section4-1 .sec4-1 .card-rota .card .bservant{height: 120px;}
+.section4-1 .sec4-1 .card-rota .card .bmonster{height: 120px;}
+.section4-1 .sec4-1 .card-rota .card .bitem{height:120px  }   
 .section4-1 .sec4-1 .card-rota .card .tier{width: 25px;position: absolute;top: 1%;left: 19%;}
 .section4-1 .sec4-1 .card-rota .card .cname{font-family:'Noto Sans', sans-serif;font-size: 14px;font-weight: bold;margin-bottom: 13px;}
 .section4-1 .sec4-1 .card-rota .card .value{overflow: hidden;margin-top: 10px;position: absolute;top: 158px;left: 64px;width: 211px;z-index: 102;}
@@ -217,7 +217,7 @@ body{background-color: #fff}
 .section4-1 .sec4-1 .card-rota .sec4-2btn a{line-height: 60px;font-size: 21px;font-weight: bold;display:inline-block; width: 220px;height: 60px;color:#000; background-color: #ff6d63;border-radius:10px;color:#fff;box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.5) }
 .section4-1 .sec4-1 .card-rota .sec4-2btn a:hover{background-color: #FF9A91;}
 .section4-1 .sec4-1 .card-rota .sec4-2btn a:active{background-color: #BF6159}
-.section4-1 .sec4-1 .card-b{position: absolute; top: 20%; left: 17%;right: 0;z-index: 100;}
+.section4-1 .sec4-1 .card-b{position: absolute; top: 20%; left: 0%;right: 0;z-index: 100;}
 .section4-1 .sec4-1 .card-b img{width: 250px;}
 
 /*section4-1 animation*/

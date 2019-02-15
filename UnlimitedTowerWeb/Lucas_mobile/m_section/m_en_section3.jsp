@@ -22,7 +22,7 @@
 						<em>Win Chance</em>
 					</div>
 				</div>				
-				<div class="sec3-btn"><a href="javascript:register();">Pre-Register</a></div>
+				<div class="sec3-btn"><a href="javascript:register();">Pre-Register<img src="assets/img/gacha.png" alt=""><span>1</span></a></div>
 				<div class="sec3-btn2"><span>Already Registered</span></div>
 				<div class="sec3-btn1"><a href="">Login Required</a></div>				
 				<em>With the vision to bring mass adoption of<br>blockchain, EOS accumulated during the pre-<br>registration period will be used for development<br>and operation, EOS mainnet computing resources,<br>and Unlimited Tower early benefits.</em>	

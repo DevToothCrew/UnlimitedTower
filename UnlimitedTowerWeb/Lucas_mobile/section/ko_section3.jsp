@@ -7,7 +7,7 @@
 		<div class="container">
 			<div class="sec3">
 				<h1>Pre-Register Now</h1>
-				<h2>지금 사전예약에 참여하고 한정판 판다와<br>보너스 3,000 UTG를 획득하세요!</h2>
+				<h2>지금 사전예약에 참여하고 한정판 판다와<br>보너스 3000 UTG를 획득하세요!</h2>
 				<div class="sec3-monster">
 					<div class="sm3-l">
 						<img src="assets/img/mst-panda.png" alt="">
@@ -22,7 +22,7 @@
 						<em>Win Chance</em>
 					</div>
 				</div>
-				<div class="sec3-btn"><a href="javascript:register();">Pre-Register 1 EOS</a></div>
+				<div class="sec3-btn"><a href="javascript:register();">Pre-Register<img src="assets/img/gacha.png" alt=""><span>1</span></a></div>
 				<div class="sec3-btn2"><span>Already Registered</span></div>
 				<div class="sec3-btn1"><a href="">Please Login First</a></div>
 				<em>사전예약 기간동안 누적된 EOS는 블록체인 산업의 대중화라는 비전으로 개발 및 운영, <br>EOS 메인넷의 컴퓨터 자원 및 Unlimited Tower의 초기 보상에 사용될 예정입니다.</em>
