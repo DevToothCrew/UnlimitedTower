@@ -22,7 +22,7 @@
 						<em> 赢得机会</em>
 					</div>
 				</div>
-				<div class="sec3-btn"><a href="javascript:register();">预先注册<img src="assets/img/gacha.png" alt=""><span>1</span></a></div>
+				<div class="sec3-btn"><a href="javascript:register('<%=ref_id%>');">预先注册<img src="assets/img/gacha.png" alt=""><span>1</span></a></div>
 				<div class="sec3-btn2"><span> 已注册</span></div>
 				<div class="sec3-btn1"><a href="">验证登录</a></div>
 				<em>提前预定中积累的EOS将在运营开发块链大众化蓝图和EOS主网资源及Unlimited Tower 初期奖励中使用。</em>	
