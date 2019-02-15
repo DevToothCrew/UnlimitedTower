@@ -24,6 +24,7 @@ $(".cate ul li").click(function(){;
 function goCountry(){
     $(".lan-cate").slideToggle();
     $(".login").toggleClass("margin");
+    $(".logout").slideUp();
 }
 $(".section").click(function(){;
     $(".lan-cate").slideUp();
@@ -39,6 +40,7 @@ function country_action(str){
 
 function name_click(){
 	$(".logout").slideToggle();
+	$(".lan-cate").slideUp();
 }
 $(".section").click(function(){;
     $(".logout").slideUp();

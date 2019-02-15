@@ -23,6 +23,7 @@ $(".cate ul li").click(function(){;
 //slide animation
 function goCountry(){
     $(".lan-cate").slideToggle();
+    $(".logout").slideUp();
 }
 $(".section").click(function(){;
     $(".lan-cate").slideUp();
@@ -38,6 +39,7 @@ function country_action(str){
 
 function name_click(){
 	$(".logout").slideToggle();
+	$(".lan-cate").slideUp();
 }
 $(".section").click(function(){;
     $(".logout").slideUp();

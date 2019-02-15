@@ -8,7 +8,6 @@
 			<div class="sec4-3">
 				<h1>My Gacha History</h1>
 				<div class="slide-wrap">
-					<div class="slick">
 
 				</div>
 			</div>
