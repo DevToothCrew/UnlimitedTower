@@ -25,7 +25,6 @@
 						<li><a href="https://t.me/UnlimitedTower_EN" target="_blank"><img src="assets/img/tele(en).png" alt=""></a></li>
 						<li><a href="https://t.me/UnlimitedTower_Kr" target="_blank"><img src="assets/img/tele(kr).png" alt=""></a></li>
 						<li><a href="https://t.me/UnlimitedTower" target="_blank"><img src="assets/img/telegram.png" alt=""></a></li>
-						<li><a href="https://open.kakao.com/o/gEclhcdb" target="_blank"><img src="assets/img/kakao.png" alt=""></a></li>
 						<li><a href="https://medium.com/unlimitedtower" target="_blank"><img src="assets/img/md.png" alt=""></a></li>
 						<li><a href="https://github.com/DevToothCrew" target="_blank"><img src="assets/img/github.png" alt=""></a></li>
 					</ul>

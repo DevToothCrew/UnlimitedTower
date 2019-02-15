@@ -75,7 +75,7 @@ body{background-color: #fff}
 .section1 .sec1 .sec1-r .sec1-r-cont p{font-family:'Noto Sans', sans-serif;font-size: 20px;line-height: 1.63;color: #555f61;font-weight: 500;text-align: center;padding-bottom: 14px;}
 .section1 .sec1 .sec1-r .sec1-r-cont .sec1-btn{text-align: center;margin: 40px 0;}
 .section1 .sec1 .sec1-r .sec1-r-cont .sec1-btn span{display: block;margin: 24px 0;}
-.section1 .sec1 .sec1-r .sec1-r-cont .sec1-btn span a{border-radius: 5px;color:#fff;font-size: 21px;font-weight: bold; height: 60px;line-height: 60px;margin: 0 auto;display: block; width: 210px; background-color: #ff6d63;}
+.section1 .sec1 .sec1-r .sec1-r-cont .sec1-btn span a{font-family:'Noto Sans', sans-serif;border-radius: 5px;color:#fff;font-size: 21px;font-weight: bold; height: 60px;line-height: 60px;margin: 0 auto;display: block; width: 210px; background-color: #ff6d63;}
 .section1 .sec1 .sec1-r .sec1-r-cont .sec1-btn span:nth-child(1) a:hover{background-color: #FF9A91;}
 .section1 .sec1 .sec1-r .sec1-r-cont .sec1-btn span:nth-child(1) a:hover {color:#fff;}
 .section1 .sec1 .sec1-r .sec1-r-cont .sec1-btn span:nth-child(1) a:active{background-color: #BF6159}

@@ -90,22 +90,16 @@ $(function () {
         $('.sec1-sns li:eq(3) a img').attr('src', 'assets/img/telegram.png');
     });
     $('.sec1-sns li:eq(4) a img').mousedown(function () {
-        $('.sec1-sns li:eq(4) a img').attr('src', 'assets/img/kakao-p.png');
+        $('.sec1-sns li:eq(4) a img').attr('src', 'assets/img/md-p.png');
     });
-    $('.sec1-sns li:eq(4) a img').mouseup(function () {
-        $('.sec1-sns li:eq(4) a img').attr('src', 'assets/img/kakao.png');
+     $('.sec1-sns li:eq(4) a img').mouseup(function () {
+        $('.sec1-sns li:eq(4) a img').attr('src', 'assets/img/md.png');
     });
-    $('.sec1-sns li:eq(5) a img').mousedown(function () {
-        $('.sec1-sns li:eq(5) a img').attr('src', 'assets/img/md-p.png');
+     $('.sec1-sns li:eq(5) a img').mousedown(function () {
+        $('.sec1-sns li:eq(5) a img').attr('src', 'assets/img/github-p.png');
     });
-     $('.sec1-sns li:eq(5) a img').mouseup(function () {
-        $('.sec1-sns li:eq(5) a img').attr('src', 'assets/img/md.png');
-    });
-     $('.sec1-sns li:eq(6) a img').mousedown(function () {
-        $('.sec1-sns li:eq(6) a img').attr('src', 'assets/img/github-p.png');
-    });
-      $('.sec1-sns li:eq(6) a img').mouseup(function () {
-        $('.sec1-sns li:eq(6) a img').attr('src', 'assets/img/github.png');
+      $('.sec1-sns li:eq(5) a img').mouseup(function () {
+        $('.sec1-sns li:eq(5) a img').attr('src', 'assets/img/github.png');
     });
 });
 $(function() { 
@@ -143,22 +137,16 @@ $(function () {
         $('.f-sns li:eq(3) a img').attr('src', 'assets/img/telegram.png');
     });
     $('.f-sns li:eq(4) a img').mousedown(function () {
-        $('.f-sns li:eq(4) a img').attr('src', 'assets/img/kakao-p.png');
+        $('.f-sns li:eq(4) a img').attr('src', 'assets/img/md-p.png');
     });
-    $('.f-sns li:eq(4) a img').mouseup(function () {
-        $('.f-sns li:eq(4) a img').attr('src', 'assets/img/kakao.png');
+     $('.f-sns li:eq(4) a img').mouseup(function () {
+        $('.f-sns li:eq(4) a img').attr('src', 'assets/img/md.png');
     });
-    $('.f-sns li:eq(5) a img').mousedown(function () {
-        $('.f-sns li:eq(5) a img').attr('src', 'assets/img/md-p.png');
+     $('.f-sns li:eq(5) a img').mousedown(function () {
+        $('.f-sns li:eq(5) a img').attr('src', 'assets/img/github-p.png');
     });
-     $('.f-sns li:eq(5) a img').mouseup(function () {
-        $('.f-sns li:eq(5) a img').attr('src', 'assets/img/md.png');
-    });
-     $('.f-sns li:eq(6) a img').mousedown(function () {
-        $('.f-sns li:eq(6) a img').attr('src', 'assets/img/github-p.png');
-    });
-      $('.f-sns li:eq(6) a img').mouseup(function () {
-        $('.f-sns li:eq(6) a img').attr('src', 'assets/img/github.png');
+      $('.f-sns li:eq(5) a img').mouseup(function () {
+        $('.f-sns li:eq(5) a img').attr('src', 'assets/img/github.png');
     });
 });
 
