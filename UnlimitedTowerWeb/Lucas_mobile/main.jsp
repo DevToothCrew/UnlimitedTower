@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
-String country = request.getParameter("country");
+String country = (request.getParameter("country") == null) ? "en" : request.getParameter("country");
+String ref_id = (request.getParameter("ref_id") == null) ? "" : request.getParameter("ref_id"); 
 
+System.out.println("ref_id : " + ref_id);
 if(country != null){}else{country = "en";}
 %>
 <html lang="en">
@@ -14,9 +16,9 @@ if(country != null){}else{country = "en";}
 	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700" rel="stylesheet">
 	<link rel="stylesheet"  href="assets/css/reset.css?ver=1">
 <% if(country.equals("ch")){ %>	
-	<link rel="stylesheet"  href="assets/css/ch_style.css?ver=6">
+	<link rel="stylesheet"  href="assets/css/ch_style.css?ver=8">
 <% }else{ %>
-	<link rel="stylesheet"  href="assets/css/style.css?ver=27">
+	<link rel="stylesheet"  href="assets/css/style.css?ver=28">
 <% } %>
 	<link rel="stylesheet"  href="assets/slick/slick.css"/>
  	<link rel="stylesheet"  href="assets/slick/slick-theme.css"/>
@@ -32,6 +34,7 @@ if(country != null){}else{country = "en";}
 <form id="main" name="main" action="main.jsp" method="post">
 <input type="hidden" id="country" name="country" value="en">
 <input type="hidden" id="userId" name="userId" value="">
+<input type="hidden" id="userId" name="refId" value="<%=ref_id%>">
 
 <% if(country.equals("en")){ %>
 <%@include file = "common/header.jsp"%>
@@ -84,6 +87,6 @@ if(country != null){}else{country = "en";}
 <script src="assets/js/jquery-ui-1.12.1.min.js"></script>
 <script src="assets/slick/slick.min.js"></script>
 <script src="assets/js/event.js?ver=17"></script>
-<script src="assets/js/scatter.js?ver=42"></script>
+<script src="assets/js/scatter.js?ver=58"></script>
 <script src="assets/js/html5shiv.js"></script>
 </html>

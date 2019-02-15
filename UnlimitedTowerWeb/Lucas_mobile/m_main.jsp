@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
+String country = (request.getParameter("country") == null) ? "en" : request.getParameter("country");
+String ref_id = (request.getParameter("ref_id") == null) ? "" : request.getParameter("ref_id"); 
 
-String country = request.getParameter("country");
-
+System.out.println("ref_id : " + ref_id);
 if(country != null){}else{country = "en";}
-
 %>
 <html lang="en">
 	<head>
@@ -76,10 +76,13 @@ if(country != null){}else{country = "en";}
 <%@include file = "common/m_footer.jsp"%>
 </form>
 </body>
+<script src="https://cdn.scattercdn.com/file/scatter-cdn/js/latest/scatterjs-core.min.js"></script>
+<script src="https://cdn.scattercdn.com/file/scatter-cdn/js/latest/scatterjs-plugin-eosjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.9/lib/eos.min.js" crossorigin="anonymous"></script>
 <script src="m_assets/js/jquery-1.12.4.js"></script>
 <script src="m_assets/js/jquery-ui-1.12.1.min.js"></script>
 <script src="m_assets/slick/slick.min.js"></script>
-<script src="m_assets/js/event.js?ver=12"></script>
-<script src="m_assets/js/scatter.js?ver=12"></script>
+<script src="m_assets/js/event.js?ver=13"></script>
+<script src="m_assets/js/scatter.js?ver=13"></script>
 <script src="m_assets/js/html5shiv.js"></script>
 </html>
