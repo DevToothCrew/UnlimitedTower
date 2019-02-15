@@ -324,8 +324,10 @@ body{background-color: #fff}
 
 /*section7*/
 .section7{height: 600px;}
+.section7 .sec7{height: 600px;position: relative;}
 .section7 .sec7 h2{opacity: 0;font-family:'Noto Sans', sans-serif;text-align: center;font-size: 60px;line-height: 1.9;font-weight: bold;padding-top: 65px; transform: translateY(0);color:#131516;}
-.section7 .sec7 .partner-wrap{text-align: center;margin-top: 150px;}
+.section7 .show7 .partner-wrap{width:100%; position:absolute;top:50%;left:50%; transform:translate(-50%,-50%);text-align: center;}
+.section7 .show7 .partner-wrap li{display:inline-block;margin: 0 3%;}
 .section7 .sec7 .partner-wrap img{opacity: 0;width: 250px}
 
 /*section7 animation*/
@@ -576,7 +578,8 @@ footer{height: 390px;background-color: #172335;}
 .section6 .sec6 .map-wrap .map:nth-child(8){top: 59%;left: 65%;}
 .section6 .sec6 .map-wrap .map:nth-child(9){top: 8%; left: 68%;}
 .section7{height: 400px;}
-.section7 .sec7 .partner-wrap{text-align: center;margin-top: 100px;}
+.section7 .sec7{height: 400px;}
+.section7 .sec7 .partner-wrap{text-align: center;}
 .section7 .sec7 h2{font-size: 36px;padding-top: 10px;}
 .section7 .sec7 .partner-wrap img{width: 200px}
 }
@@ -631,9 +634,10 @@ footer{height: 390px;background-color: #172335;}
 .section1 .sec1 .sec1-l .tower{width: 100%;left: 0;}
 .section1 .sec1 .sec1-l .tower .ov .tower1 img:nth-child(2){top:-3998px}
 .section1 .sec1 .sec1-l .tower .ov{height: 300px;left: 0%;right:0;width:100%}
-.section1 .sec1 .sec1-l .tower .ov:before{height: 300px;left: 22%;}
+.section1 .sec1 .sec1-l .tower .ov:before{height: 300px;left: 0%;width:100%}
 .section1 .sec1 .sec1-l .tower .ov .tower1 {width: 100%;}
 .section1 .sec1 .sec1-l .tower .ov .tower1 img{margin: 0 auto;left: 0;right: 0;}
+.section1 .sec1 .sec1-l .tower .ov .tower1 img:nth-child(1){left: 0;}
 .section1 .sec1 .sec1-r{width: 100%;}
 .section1 .sec1 .sec1-r .sec1-r-cont{left: 50%;text-align: center;top: 65%;}
 .section1 .sec1 .sec1-bott{left: 41%;bottom:20px    }
@@ -719,6 +723,10 @@ footer{height: 390px;background-color: #172335;}
 .section6 .show6 .map-wrap .map:nth-child(7){transform: translateY(10px);}
 .section6 .show6 .map-wrap .map:nth-child(8){transform: translateY(10px);}
 .section6 .show6 .map-wrap .map:nth-child(9){transform: translateY(10px);}
+
+.section7{height: 500px;}
+.section7 .sec7{height:500px}
+.section7 .show7 .partner-wrap li{display:block;margin: 3% 3%;}
 
 footer{height: 400px;background-color: #172335;}
 .footer .footer-logo{width: 132px;padding-top: 50px;}

@@ -20,7 +20,7 @@ body{background-color: #fff}
 .header .header-r{transition: all 1s 0.2s ease;opacity: 0;width: 139px;height: 100vh;position: absolute;top: 0;right: -140px;background-color: #fff;box-shadow:  -4px 6px 8px 0 rgba(0,0,0,0.15);}
 .header .open{right: 0;opacity: 1; transition: all 1s 0.2s ease;}
 .header .header-r .cate{margin-top: 73px;}
-.header .header-r .cate li{width: 139px;text-align: center; font-size: 16px;font-family: 'Noto Sans', sans-serif;height: 42px;line-height: 42px;}
+.header .header-r .cate li{width: 139px;text-align: center; font-size: 16px;font-family: 'Noto Sans', sans-serif;height: 42px;line-height: 42px;} 
 .header .header-r .cate li a{color:#373d3f;}
 .header .header-r .cate li:nth-child(2){background-color:#ff6d63;border-radius: 5px;width: 140px;}
 .header .header-r .cate li:nth-child(2) a{color:#fff;}
@@ -29,16 +29,20 @@ body{background-color: #fff}
 .header .header-r .cate li:nth-child(2):active{background-color: #BF6159}
 .header .header-r .cate li:nth-child(2):active span{color:#BF6159;}
 .header .header-r .cate li:hover a{color:#172335;font-weight: bold;}
-.header .header-r .language{padding: 0 38px;height: 42px;width: 120px;}
-.header .header-r .language .En{position: relative;}
-.header .header-r .language .En span{position: absolute;top: 6px;right: 55px;font-size: 16px;color:#373d3f;}
+ .header .header-r .language{width: 140px;} 
+
+.header .header-r .language .En{position: relative;margin-left: 37px;]}
+
+
+.header .header-r .language .En span{position: absolute;top: 6px;right: 41px;font-size: 16px;color:#373d3f;}
 .header .header-r .language .ko{position: relative;}
 .header .header-r .language .ko span{position: absolute;top: 6px;right: 34px;font-size: 14px;}
 .header .header-r .language .ch{position: relative;}
 .header .header-r .language .ch span{position: absolute;top: 6px;right: 51px;font-size: 14px;}
-.header .header-r .language .lan-cate{display: none; }
-.header .header-r .language .lan-cate li{width: 120px;position: relative;}
-.header .header-r .language .lan-cate li span{position: absolute;top: 6px;left: 38px;}
+.header .header-r .language .lan-cate{box-shadow: none;display: none;position: static;background-color:none;width: 140px;}
+.header .header-r .language .lan-cate li{width: 120px;position: relative;height: 35px;padding:4px;line-height: 19px }
+.header .header-r .language .lan-cate li img{position: absolute;top: 5px;left: 17px;}
+.header .header-r .language .lan-cate li span{position: absolute;top: 9px;left: 66px;}
 .header .header-r .language .lan-cate li:hover{}
 .header .header-r .login{float: left;border:2px solid #373d3f; border-radius: 5px;width: 123px;padding: 6px;text-align: center;background-color: #fff;}
 .header .header-r .login.margin{margin-top: 115px;}
@@ -55,6 +59,10 @@ body{background-color: #fff}
 .header .header-r .name:active a{color:#BF6159;}
 .header .header-r .logout{font-size: 14px; margin-top: 39px;padding: 8px 0;text-align: center;background-color: #fff;display: none;}
 .header .header-r .logout a:hover{font-weight: bold;}
+
+
+
+
 
 
 
@@ -321,10 +329,12 @@ body{background-color: #fff}
 .section6 .show6 .map-wrap .map:nth-child(9){opacity: 1; transform: translateY(10px); transition: all 0.8s 2.8s ease;}
 
 /*section7*/
-.section7{height: 500px;}
+.section7{height: 600px;}
+.section7 .sec7{height: 600px;position: relative;}
 .section7 .sec7 h2{opacity: 0;font-family:'Noto Sans', sans-serif;text-align: center;font-size:32px;line-height: 1.9;font-weight: bold;padding-top: 65px; transform: translateY(0);color:#131516;}
-.section7 .sec7 .partner-wrap{height: 100px;text-align: center;margin-top: 100px;}
-.section7 .sec7 .partner-wrap img{opacity: 0;width: 200px}
+.section7 .show7 .partner-wrap{width:100%; position:absolute;top:50%;left:50%; transform:translate(-50%,-50%);text-align: center;}
+.section7 .show7 .partner-wrap li{margin: 3% 3%;}
+.section7 .sec7 .partner-wrap img{opacity: 0;width: 250px}
 
 /*section7 animation*/
 .section7 .show7 h2{font-family:'Noto Sans', sans-serif;opacity: 1; transform: translateY(20px); transition: all 0.8s 0.5s ease;}
