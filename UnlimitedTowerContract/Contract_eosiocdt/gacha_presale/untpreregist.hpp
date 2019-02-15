@@ -455,6 +455,7 @@ enum db_index
     const char *action_gacha="gacha";
     const char *action_preregist_signup="presignup";
     const char *action_signup="signup";
+    const char *action_referer="refpresignup";
 
     uint32_t servant_random_count;
     uint32_t monster_random_count;
@@ -630,11 +631,11 @@ TABLE tokenlog
 #pragma region login enum
     struct transfer_action
     {
-        name from;
+        eosio::name from;
         std::string action;
         std::string param;
         uint32_t type;
-        name to;
+        eosio::name to;
         asset quantity;
     };
     enum job_list
@@ -712,5 +713,17 @@ ACTION setpause(uint64_t _state);
 ACTION resultgacha(eosio::name _from, eosio::name _to ,std::string _result);
 ACTION resultpre(eosio::name _from, eosio::name _to ,std::string _result);
 
+    //————————————————————————————————————//
+    //————————————————refer_system—————————————//
+    //————————————————————————————————————//
+TABLE treferlist
+{
+    eosio::name referer;
+    uint64_t primary_key() const { return referer.value; }
+};
+typedef eosio::multi_index<"treferlist"_n, treferlist> referlist;
+
+ACTION addrefer(eosio::name _referer);
+ACTION deleterefer(eosio::name _referer);
 
 };

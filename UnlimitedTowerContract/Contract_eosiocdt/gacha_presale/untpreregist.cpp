@@ -989,6 +989,56 @@ ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
                 eosio_assert(limt_check < limit_token_amount, "End Preregist 1");
             }
         }
+        else if (ad.action == action_referer)           //레퍼럴 등록
+        {
+            system_master system_master_table(_self, _self.value);
+            auto system_master_iter = system_master_table.begin();
+            eosio_assert(system_master_iter->state != system_state::pause, "Server Pause 2");
+
+            referlist referlist_table(_self, _self.value);
+            auto referlist_iter = referlist_table.find(ad.to.value);
+            eosio_assert(referlist_iter != referlist_table.end(), "Wrong Referer");
+
+            total_token_logs total_token_log_table(_self, _self.value);
+            auto total_token_log_iter = total_token_log_table.find(system_master_iter->master.value);
+            eosio_assert(total_token_log_iter != total_token_log_table.end(), "End Preregist 3");
+
+            asset preregist_signup_reward(0, symbol(symbol_code("UTG"), 4));
+            preregist_signup_reward.amount = 31000000; // 3000 UTG + 100 UTG
+
+            asset refer_reward(0, symbol(symbol_code("UTG"), 4));
+            refer_reward.amount = 1000000; // 100 UTG
+
+            presignup(sender, ad.type, preregist_signup_reward.amount);
+
+            uint64_t limt_check = total_token_log_iter->total_token_amount + preregist_signup_reward.amount + refer_reward.amount;
+            if (limt_check <= limit_token_amount)
+            {
+                total_token_log_table.modify(total_token_log_iter, _self, [&](auto &update_participation_list) {
+                    update_participation_list.total_token_amount += (preregist_signup_reward.amount + refer_reward.amount);
+                });
+
+                referlist referlist_table(_self, referlist_iter->referer.value);
+                referlist_table.emplace(_self, [&](auto &regist_user)
+                {
+                    regist_user.referer = sender;
+                });
+
+                action(permission_level{get_self(), "active"_n},
+                       get_self(), "transfer"_n,
+                       std::make_tuple(_self, sender, preregist_signup_reward, std::string("preregist refer signup reward")))
+                    .send();
+
+                action(permission_level{get_self(), "active"_n},
+                       get_self(), "transfer"_n,
+                       std::make_tuple(_self, ad.to, refer_reward, std::string("preregist refer reward")))
+                    .send();
+            }
+            else
+            {
+                eosio_assert(limt_check < limit_token_amount, "End Preregist 1");
+            }
+        }
         else if (ad.action == action_gacha)
         {
             system_master system_master_table(_self, _self.value);
@@ -1101,6 +1151,32 @@ void untpreregist::eosiotoken_transfer(eosio::name sender, eosio::name receiver,
         eosio_assert(system_master_iter->state != system_state::pause, "Server Pause 6");
 
         eosio_assert(transfer_data.quantity.amount == 10000, "signup need 1.0000 EOS");
+    }
+    else if(res.action == "refpresignup")
+    {
+        system_master system_master_table(_self, _self.value);
+        auto system_master_iter = system_master_table.begin();
+        eosio_assert(system_master_iter->state != system_state::pause, "Server Pause 7");
+
+        size_t l_account = transfer_data.memo.find(':', l_center + 1); //계정명
+        size_t l_next =  transfer_data.memo.find(':',l_account + 1); //시드
+        size_t l_end = transfer_data.memo.length() - (l_next + 1); //샤
+
+        eosio_assert(transfer_data.memo.find(':') != std::string::npos, "Seed Memo [:] Error 1");
+        eosio_assert(transfer_data.memo.find(':', l_center + 1) != std::string::npos, "Seed Memo [:] Error 2");
+        eosio_assert(transfer_data.memo.find(':', l_account + 1) != std::string::npos, "Seed Memo [:] Error 3");
+        eosio_assert(transfer_data.quantity.amount == 10000, "Presignup need 1.0000 EOS");
+
+        std::string l_seed = transfer_data.memo.substr(l_account + 1, (l_next - l_account - 1));
+        std::string l_sha = transfer_data.memo.substr(l_next + 1, l_end);
+
+        res.type = safeseed::check_seed(l_seed, l_sha);
+        std::string refer = transfer_data.memo.substr(l_center + 1, (l_account - l_center - 1) );
+
+        eosio::name refer_account(refer);
+        res.to = refer_account;
+
+        eosio_assert(res.type != 0, "Wrong seed");
     }
     else
     {
@@ -1960,8 +2036,6 @@ ACTION untpreregist::setpause(uint64_t _state)
     });
 }
 
-#pragma endregion
-
 ACTION untpreregist::resultgacha(eosio::name _from, eosio::name _to ,std::string _result)
 {
     require_auth(_self);
@@ -1973,7 +2047,38 @@ ACTION untpreregist::resultpre(eosio::name _from, eosio::name _to ,std::string _
     require_auth(_self);
     require_recipient(_from);
 }
+
+ACTION untpreregist::addrefer(eosio::name _referer)
+{
+    require_auth(owner_auth);
+
+    referlist referlist_tabe(_self, _self.value);
+    auto referlist_iter = referlist_tabe.find(_referer.value);
+    eosio_assert(referlist_iter == referlist_tabe.end(), "Exist Referer");
+    referlist_tabe.emplace(_self, [&](auto &new_refer)
+    {
+        new_refer.referer = _referer;
+    });
+}
+
+ACTION untpreregist::deleterefer(eosio::name _referer)
+{
+    require_auth(owner_auth);
+
+    referlist referlist_tabe(_self, _self.value);
+    auto referlist_iter = referlist_tabe.find(_referer.value);
+    eosio_assert(referlist_iter != referlist_tabe.end(), "Not Referer");
+    referlist_tabe.erase(referlist_iter);
+}
+
+
+
 #pragma endresion
+
+
+
+
+
 
 #undef EOSIO_DISPATCH
 
@@ -2000,4 +2105,4 @@ ACTION untpreregist::resultpre(eosio::name _from, eosio::name _to ,std::string _
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(untpreregist, (resultpre)(resultgacha)(create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase)(dbinit))
+EOSIO_DISPATCH(untpreregist, (addrefer)(deleterefer)(resultpre)(resultgacha)(create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase)(dbinit))
