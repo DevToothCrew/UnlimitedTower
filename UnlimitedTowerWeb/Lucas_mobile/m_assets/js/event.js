@@ -22,8 +22,7 @@ $(".cate ul li").click(function(){;
   
 //slide animation
 function goCountry(){
-    $(".lan-cate").slideToggle();
-    $(".login").toggleClass("margin");
+    $(".lan-cate").slideToggle();    
     $(".logout").slideUp();
 }
 $(".section").click(function(){;
