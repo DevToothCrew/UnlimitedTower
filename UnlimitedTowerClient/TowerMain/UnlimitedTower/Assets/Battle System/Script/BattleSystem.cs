@@ -11,6 +11,9 @@ public class BattleSystem : MonoSingleton<BattleSystem>
 
     public List<BattleActionData> battleData;
 
+    // test
+    public TestbattleStateData testbattleStateData;
+
     public GameObject[] playerCharacter = new GameObject[10];
     public CharacterControl[] playerCharacterControl = new CharacterControl[10];
 
@@ -26,6 +29,8 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     // 0~9는 플레이어, 10~19는 적
     public bool[] characterisPlace = new bool[20];
 
+    private CaracterCustom caracterCustom;
+
     public struct BattleInformation
     {
         public int attackerIndex;
@@ -39,12 +44,9 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     private void Awake()
     {
         Application.targetFrameRate = 60;
-        UTLobbyUIManager_ = GameObject.Find("Framework").GetComponent<UTLobbyUIManager>();
+        UTLobbyUIManager_ = GameObject.Find("Framework")?.GetComponent<UTLobbyUIManager>();
+        caracterCustom = GameObject.Find("CharacterCustomInstance").GetComponent<CaracterCustom>();
 
-        for (int i = 0; i < 20; i++)
-        {
-            characterisPlace[i] = true;
-        }
 
         playerCharacter[0] = GameObject.Find("CharacterPlayer03").gameObject;
         playerCharacter[1] = GameObject.Find("CharacterPlayer02").gameObject;
@@ -71,10 +73,15 @@ public class BattleSystem : MonoSingleton<BattleSystem>
 
     public void Start()
     {
-        UTLobbyUIManager_.StageStart();
+        UTLobbyUIManager_?.StageStart();
 
         battleInformation.attackerIndex = -1;
         prefabList = GetComponent<PrefabList>();
+
+        for (int i = 1; i < 20; i++)
+        {
+            characterisPlace[i] = testbattleStateData.state_list[i].index == 0 ? false : true;
+        }
 
         // 캐릭터 컨트롤 스크립트 추가
         // 나중엔 아래에서 초기화 하는 것들 전부 여기서 초기화
@@ -113,11 +120,39 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         {
             if (characterisPlace[i] == true)
             {
-                Instantiate(prefabList.prefabList[5].Prefab, playerCharacter[i].transform);
+                // 헤드 바디 직업 등등 정보 받아와서 소환하도록 바꿔야함
+                if (i < 5)
+                {
+                    // 서번트 형태 불러와서 생성
+                    Instantiate(caracterCustom.Create(
+                        UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].jobNum,
+                        UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].headNum,
+                        UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].hairNum,
+                        UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].gender == 1 ? 1 : 0,
+                        UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].body == 1 ? 0 : 1
+                        ), playerCharacter[i].transform);
+                }
+                else
+                {
+                    Instantiate(Resources.Load(CharacterCSVData.Inst.monsterDataBaseDic[UserDataManager.Inst.monsterDic[testbattleStateData.state_list[i].index].index].resource) as GameObject, playerCharacter[i].transform);
+                }
             }
             if (characterisPlace[i + 10] == true)
             {
-                Instantiate(prefabList.prefabList[5].Prefab, enemyCharacter[i].transform);
+                if (i < 5)
+                {
+                    Instantiate(caracterCustom.Create(
+                        UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].jobNum,
+                        UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].headNum,
+                        UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].hairNum,
+                        UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].gender == 1 ? 1 : 0,
+                        UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].body == 1 ? 0 : 1
+                        ), playerCharacter[i].transform);
+                }
+                else
+                {
+                    Instantiate(Resources.Load(CharacterCSVData.Inst.monsterDataBaseDic[UserDataManager.Inst.monsterDic[testbattleStateData.state_list[i + 10].index].index].resource) as GameObject, playerCharacter[i].transform);
+                }
             }
         }
 
@@ -159,19 +194,13 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         {
             if (characterisPlace[i] == true)
             {
-                // 데이터 들어오면 주석 해제
-                // playerCharacterControl[i].maxHp = stageStateData.info_list[i].now_hp; // 나중에 최대체력 변경
-                // playerCharacterControl[i].nowHp = stageStateData.info_list[i].now_hp;
-                playerCharacterControl[i].maxHp = 300;
-                playerCharacterControl[i].nowHp = 300;
+                playerCharacterControl[i].maxHp = testbattleStateData.state_list[i].now_hp;
+                playerCharacterControl[i].nowHp = testbattleStateData.state_list[i].now_hp;
             }
             if (characterisPlace[i + 10] == true)
             {
-                // 데이터 들어오면 주석 해제
-                // enemyCharacterControl[i].maxHp = stageStateData.info_list[i].now_hp;  // 나중에 최대체력 변경
-                // enemyCharacterControl[i].nowHp = stageStateData.info_list[i].now_hp;
-                enemyCharacterControl[i].maxHp = 300;
-                enemyCharacterControl[i].nowHp = 300;
+                enemyCharacterControl[i].maxHp = testbattleStateData.state_list[i + 10].now_hp;
+                enemyCharacterControl[i].nowHp = testbattleStateData.state_list[i + 10].now_hp;
             }
         }
     }
@@ -179,7 +208,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     [ContextMenu("AttackTest")]
     public void AttackTest()
     {
-        StartCoroutine(BattleTestTarget());
+        StartCoroutine(BattleStart());
     }
 
     private void Update()

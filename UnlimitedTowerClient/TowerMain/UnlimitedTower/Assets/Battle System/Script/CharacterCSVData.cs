@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class CharacterCSVData : MonoBehaviour
+public class CharacterCSVData : MonoSingleton<CharacterCSVData>
 {
     public Dictionary<int, DBCharacterData> monsterDataBaseDic = new Dictionary<int, DBCharacterData>();
+
+    //  인스펙터에서 보여주기 위한...
     public List<DBCharacterData> monsterDataBaseDic_ = new List<DBCharacterData>();
     private TextAsset monsterData;
     private TextAsset servantData;
@@ -76,6 +78,7 @@ public class CharacterCSVData : MonoBehaviour
             textLine = sr.ReadLine();
         }
 
+        //  인스펙터에서 보여주기 위한...
         foreach (DBCharacterData asdf in monsterDataBaseDic.Values)
         {
             monsterDataBaseDic_.Add(asdf);

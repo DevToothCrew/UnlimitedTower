@@ -1,14 +1,14 @@
 fileFormatVersion: 2
-guid: 3e33507670020a547b170b1949ab24b0
+guid: 3b337675d0187804687e7735dadc05ed
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: palette_013__Map_cold_png
+    2100000: palette_018__Map_cold_png_001
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Map_cold
+    4300000: Map_cold_001
     7400000: Default Take
     9500000: //RootNode
   externalObjects: {}
