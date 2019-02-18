@@ -15,6 +15,7 @@ public class CaracterCustom : MonoBehaviour
     /// 키 입력으로 ++ -- 해야해서 임시로 int형 선언
     /// 아래 값들을 변경한 후 Refrash()
     /// </summary>
+    [Header("- Value Index")]
     public int jobIndex;
     public int headIndex;
     public int hairIndex;
@@ -25,6 +26,7 @@ public class CaracterCustom : MonoBehaviour
     // List[1] -> AdultMan
     // List[2] -> ChildrenWoman
     // List[3] -> ChildrenMan
+    [Header("- Change Mesh")]
     [FormerlySerializedAs("WhiteHandCharacterMeshList")]
     public List<CharacterMeshList> WhiteHandCharacterMeshList = new List<CharacterMeshList>();
 
@@ -45,19 +47,23 @@ public class CaracterCustom : MonoBehaviour
 
     [FormerlySerializedAs("CharacterSkinnedMeshList")]
     public CharacterSkinnedMeshList characterSkinnedMeshList = new CharacterSkinnedMeshList();
-
+    
     public GameObject defultCharacter;
 
+    [Header("- Head Mash")]
     public HeadParts[] adultManHead = new HeadParts[9];
     public HeadParts[] adultWomanHead = new HeadParts[9];
     public HeadParts[] childrenManHead = new HeadParts[9];
     public HeadParts[] childrenWomanHead = new HeadParts[9];
 
+    [Header("- Dump Effect")]
     public ParticleSystem RingEffect;
     public GameObject adultBodyEffect;
     public GameObject adultHeadEffect;
     public GameObject childrenBodyEffect;
     public GameObject childrenHeadEffect;
+
+    public RuntimeAnimatorController[] animatorController = new RuntimeAnimatorController[6];
 
     private readonly CharacterInformation[] characterInformation = {
         new CharacterInformation(0.9f,1.0f,1.5f),
@@ -79,7 +85,6 @@ public class CaracterCustom : MonoBehaviour
 
     private void Awake()
     {
-
         WarriorCharacterMeshList[0].frame = GameObject.Find("WarriorFrame")?.transform.GetChild(1).GetChild(0).GetChild(0);
         WarriorCharacterMeshList[1].frame = GameObject.Find("WarriorFrame")?.transform.GetChild(0).GetChild(0).GetChild(0);
         WarriorCharacterMeshList[2].frame = GameObject.Find("WarriorFrame")?.transform.GetChild(1).GetChild(1).GetChild(0);
@@ -405,6 +410,7 @@ public class CaracterCustom : MonoBehaviour
             else
                 characterSkinnedMeshList.HeadChange(childrenWomanHead[headIndex * 3 + hairIndex]);
         }
+        defultCharacter.GetComponent<Animator>().runtimeAnimatorController = animatorController[jobIndex];
     }
 
     // IEnumerator ColorChange()
