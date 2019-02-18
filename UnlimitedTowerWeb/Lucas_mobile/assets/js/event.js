@@ -193,10 +193,23 @@ $(window).scroll(function(){
 $(".section1").ready(function(){
     loop();
 });
+
 function loop(){
     $(".tower1").delay(3000).animate({ top : "+=20%"},2000,loop)
 
 }
+
+$(function(){
+	 $("input").each(function(){
+	   $(this).bind("focus", function(){
+	       $(".header-r").css("position", "absolute");
+	   });
+	   
+	   $(this).bind("blur",function(){
+	       $(".header-r").css("position", "fixed");
+	   	});
+	 });
+});
 
 $('.slide-wrap').slick({
  dots: true,
