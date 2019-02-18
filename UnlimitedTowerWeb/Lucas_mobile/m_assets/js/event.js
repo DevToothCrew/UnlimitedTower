@@ -169,9 +169,6 @@ $(window).scroll(function(){
     if(wScroll >= $(".sec4").offset().top -$(window).height()/1.1){
         $(".sec4").addClass("show4");
     }
-    if(wScroll >= $(".sec4-1").offset().top -$(window).height()/1.1){
-        $(".sec4-1").addClass("show4-1");
-    }
     if(wScroll >= $(".sec5").offset().top -$(window).height()/1.1){
         $(".sec5").addClass("show5");
     }
