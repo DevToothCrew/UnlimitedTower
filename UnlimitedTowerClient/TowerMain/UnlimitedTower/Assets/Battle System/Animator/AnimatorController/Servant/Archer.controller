@@ -5,7 +5,7 @@ AnimatorController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: LionKing
+  m_Name: Archer
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: isIdle
@@ -237,7 +237,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: e550b50b7a725f24fb23b423b024f054, type: 2}
+  m_Motion: {fileID: 7400000, guid: 58bd431ac941fb946b45b46cc60b0b80, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -263,7 +263,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: caa014ace38f7bf47afa9e93cf7fc758, type: 2}
+  m_Motion: {fileID: 7400000, guid: fa84ee179aa2d024f8d53273838b24a6, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -289,7 +289,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: f7aa7de0bd8031a4c856bb8a0b3f5277, type: 2}
+  m_Motion: {fileID: 7400000, guid: 3a391fec91d6bdc4e974ba26a73e7646, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -314,7 +314,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 23e4f72eb0b993f4a95e1a1a5990db43, type: 2}
+  m_Motion: {fileID: 7400000, guid: d26eb86b08b90fe4f8a651fcea422ed2, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -341,7 +341,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: b6b51887108676b4294902f97c77a509, type: 2}
+  m_Motion: {fileID: 7400000, guid: 2920a74b077ce654bb3de4574aa2d117, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

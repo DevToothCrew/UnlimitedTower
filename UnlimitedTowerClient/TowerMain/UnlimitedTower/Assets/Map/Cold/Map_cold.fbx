@@ -10,10 +10,10 @@ FBXHeaderExtension:  {
 		Version: 1000
 		Year: 2019
 		Month: 02
-		Day: 07
-		Hour: 21
-		Minute: 32
-		Second: 37
+		Day: 12
+		Hour: 18
+		Minute: 56
+		Second: 35
 		Millisecond: 0
 	}
 	Creator: "FBX SDK/FBX Plugins build 20070228"
@@ -21,7 +21,7 @@ FBXHeaderExtension:  {
 		FlagPLE: 0
 	}
 }
-CreationTime: "2019-02-07 21:32:37:000"
+CreationTime: "2019-02-12 18:56:35:000"
 Creator: "Blender version 2.79 (sub 0)"
 
 ; Object definitions
@@ -142,7 +142,7 @@ Objects:  {
 		CameraName: 100
 		CameraIndexName:
 	}
-	Model: "Model::Map_cold", "Mesh" {
+	Model: "Model::Map_cold_001", "Mesh" {
 		Version: 232
 		Properties60:  {
 			Property: "QuaternionInterpolate", "bool", "",0
@@ -6236,7 +6236,7 @@ Objects:  {
 		AudioColor: 0,1,0
 		CameraOrthoZoom: 1
 	}
-	Material: "Material::palette_013__Map_cold_png", "" {
+	Material: "Material::palette_018__Map_cold_png_001", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -6266,7 +6266,7 @@ Objects:  {
 			Property: "Reflectivity", "double", "",0
 		}
 	}
-	Video: "Video::Map_cold_png", "Clip" {
+	Video: "Video::Map_cold_png_001", "Clip" {
 		Type: "Clip"
 		Properties60:  {
 			Property: "FrameRate", "double", "",0
@@ -6287,10 +6287,10 @@ Objects:  {
 		Filename: "Map_cold.png"
 		RelativeFilename: "C:\Users\Morris-pc\Desktop\MagicaVoxel-0.99.2-alpha-win64\export\map\map_ice\Map_cold.png"
 	}
-	Texture: "Texture::Map_cold_png", "TextureVideoClip" {
+	Texture: "Texture::Map_cold_png_001", "TextureVideoClip" {
 		Type: "TextureVideoClip"
 		Version: 202
-		TextureName: "Texture::Map_cold_png"
+		TextureName: "Texture::Map_cold_png_001"
 		Properties60:  {
 			Property: "Translation", "Vector", "A+",0,0,0
 			Property: "Rotation", "Vector", "A+",0,0,0
@@ -6308,7 +6308,7 @@ Objects:  {
 			Property: "TextureScalingPivot", "Vector3D", "",0,0,0
 			Property: "VideoProperty", "object", ""
 		}
-		Media: "Video::Map_cold_png"
+		Media: "Video::Map_cold_png_001"
 		FileName: "Map_cold.png"
 		RelativeFilename: "C:\Users\Morris-pc\Desktop\MagicaVoxel-0.99.2-alpha-win64\export\map\map_ice\Map_cold.png"
 		ModelUVTranslation: 0,0
@@ -6323,7 +6323,7 @@ Objects:  {
 		}
 		NbPoseNodes: 1
 		PoseNode:  {
-			Node: "Model::Map_cold"
+			Node: "Model::Map_cold_001"
 			Matrix: 0.000000075497901,1.000000000000000,0.000000162920685,0.000000000000000,-1.000000000000000,0.000000075497901,0.000000000000012,0.000000000000000,0.000000000000000,-0.000000162920685,1.000000000000000,0.000000000000000,0.000000000000000,0.000000000000000,0.000000000000000,1.000000000000000
 		}
 	}
@@ -6345,7 +6345,7 @@ Objects:  {
 ;------------------------------------------------------------------
 
 Relations:  {
-	Model: "Model::Map_cold", "Mesh" {
+	Model: "Model::Map_cold_001", "Mesh" {
 	}
 	Model: "Model::Producer Perspective", "Camera" {
 	}
@@ -6363,11 +6363,11 @@ Relations:  {
 	}
 	Model: "Model::Camera Switcher", "CameraSwitcher" {
 	}
-	Material: "Material::palette_013__Map_cold_png", "" {
+	Material: "Material::palette_018__Map_cold_png_001", "" {
 	}
-	Texture: "Texture::Map_cold_png", "TextureVideoClip" {
+	Texture: "Texture::Map_cold_png_001", "TextureVideoClip" {
 	}
-	Video: "Video::Map_cold_png", "Clip" {
+	Video: "Video::Map_cold_png_001", "Clip" {
 	}
 }
 
@@ -6375,10 +6375,10 @@ Relations:  {
 ;------------------------------------------------------------------
 
 Connections:  {
-	Connect: "OO", "Model::Map_cold", "Model::Scene"
-	Connect: "OO", "Material::palette_013__Map_cold_png", "Model::Map_cold"
-	Connect: "OO", "Texture::Map_cold_png", "Model::Map_cold"
-	Connect: "OO", "Video::Map_cold_png", "Texture::Map_cold_png"
+	Connect: "OO", "Model::Map_cold_001", "Model::Scene"
+	Connect: "OO", "Material::palette_018__Map_cold_png_001", "Model::Map_cold_001"
+	Connect: "OO", "Texture::Map_cold_png_001", "Model::Map_cold_001"
+	Connect: "OO", "Video::Map_cold_png_001", "Texture::Map_cold_png_001"
 }
 ;Takes and animation section
 ;----------------------------------------------------
@@ -6392,7 +6392,7 @@ Takes:  {
 
 		;Models animation
 		;----------------------------------------------------
-		Model: "Model::Map_cold" {
+		Model: "Model::Map_cold_001" {
 			Version: 1.1
 			Channel: "Transform" {
 				Channel: "T" {

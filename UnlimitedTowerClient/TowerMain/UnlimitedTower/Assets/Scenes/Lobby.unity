@@ -191,6 +191,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -2221,6 +2222,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -4591,6 +4593,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -4965,6 +4968,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -6532,6 +6536,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -8172,6 +8177,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -10263,6 +10269,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -11730,6 +11737,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -11912,6 +11920,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -15668,6 +15677,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -17339,6 +17349,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -21160,6 +21171,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -21425,6 +21437,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -22420,6 +22433,7 @@ MonoBehaviour:
     gradeNum: 0
     tierNum: 0
     upgradeCount: 0
+    value: 0
     mountServantIndex: 0
   itemname: {fileID: 1241795610}
   itemimage: {fileID: 1627537733}
@@ -22771,6 +22785,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -24749,6 +24764,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -26273,6 +26289,7 @@ Transform:
   - {fileID: 1496532083}
   - {fileID: 77275843}
   - {fileID: 1037899089}
+  - {fileID: 1657051555}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -27288,6 +27305,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -30444,6 +30462,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -30549,6 +30568,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -30567,6 +30587,7 @@ MonoBehaviour:
     gradeNum: 0
     tierNum: 0
     upgradeCount: 0
+    value: 0
     mountServantIndex: 0
   isRegistered: 0
 --- !u!114 &477704076
@@ -31389,6 +31410,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -31753,6 +31775,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -32513,6 +32536,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -34172,6 +34196,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -36222,6 +36247,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -38887,6 +38913,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -41536,6 +41563,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -42263,6 +42291,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -42281,6 +42310,7 @@ MonoBehaviour:
     gradeNum: 0
     tierNum: 0
     upgradeCount: 0
+    value: 0
     mountServantIndex: 0
   isRegistered: 0
 --- !u!114 &680005543
@@ -43109,6 +43139,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -49038,6 +49069,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -49299,6 +49331,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -50382,6 +50415,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -50570,6 +50604,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -51064,12 +51099,12 @@ Prefab:
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 248
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -891
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
@@ -51089,7 +51124,7 @@ Prefab:
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
@@ -51099,7 +51134,7 @@ Prefab:
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
@@ -53852,6 +53887,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -54989,6 +55025,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -55901,6 +55938,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -56217,6 +56255,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -56661,6 +56700,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -58258,6 +58298,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -59413,6 +59454,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -59834,6 +59876,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -60278,6 +60321,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -63263,12 +63307,12 @@ Prefab:
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 248
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -379
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
@@ -63288,7 +63332,7 @@ Prefab:
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
@@ -63298,7 +63342,7 @@ Prefab:
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
@@ -66753,6 +66797,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -68533,6 +68578,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -75697,12 +75743,12 @@ Prefab:
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 248
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -123
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
@@ -75722,7 +75768,7 @@ Prefab:
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
@@ -75732,7 +75778,7 @@ Prefab:
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
@@ -79986,6 +80032,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -80747,6 +80794,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -81138,6 +81186,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -81636,6 +81685,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -81790,6 +81840,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -83103,6 +83154,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -83500,6 +83552,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -86470,6 +86523,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -88247,6 +88301,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -88487,6 +88542,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -88748,6 +88804,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -89324,6 +89381,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -91449,6 +91507,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -94298,6 +94357,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -95653,6 +95713,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -96332,6 +96393,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -97621,6 +97683,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -98471,6 +98534,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -98558,12 +98622,12 @@ Prefab:
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 248
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -635
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
@@ -98583,7 +98647,7 @@ Prefab:
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
@@ -98593,7 +98657,7 @@ Prefab:
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
@@ -101440,6 +101504,47 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1656192655}
+--- !u!1 &1657051554
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1657051555}
+  - component: {fileID: 1657051556}
+  m_Layer: 0
+  m_Name: CharacterData
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1657051555
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1657051554}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 411062243}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1657051556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1657051554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7029871bedc6f2a40a7bb3a8061a89c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterDataBaseDic_: []
 --- !u!1 &1658416160
 GameObject:
   m_ObjectHideFlags: 0
@@ -106185,6 +106290,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -108090,6 +108196,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -108414,6 +108521,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -108957,6 +109065,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -110359,6 +110468,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -110845,6 +110955,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -116991,6 +117102,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -118533,6 +118645,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -118687,6 +118800,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -121696,6 +121810,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -124914,6 +125029,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -127683,6 +127799,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1
@@ -127701,6 +127818,7 @@ MonoBehaviour:
     gradeNum: 0
     tierNum: 0
     upgradeCount: 0
+    value: 0
     mountServantIndex: 0
   isRegistered: 0
 --- !u!114 &2106873538
@@ -128425,6 +128543,7 @@ MonoBehaviour:
     body: 0
     headNum: 0
     hairNum: 0
+    gender: 0
     status:
       basicStr: 1
       basicDex: 1

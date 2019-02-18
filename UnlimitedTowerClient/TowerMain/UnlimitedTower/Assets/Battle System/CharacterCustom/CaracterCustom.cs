@@ -8,19 +8,25 @@ public class CaracterCustom : MonoBehaviour
     /// <summary>
     /// 0은 백수
     /// 1은 워리어
-    /// 2는 아처
-    /// 3은 엘프
-    /// 4는 마법사
-    /// 5는 사제
+    /// 2는 도적
+    /// 3은 사제
+    /// 4는 아처
+    /// 5는 마법사
     /// 키 입력으로 ++ -- 해야해서 임시로 int형 선언
     /// 아래 값들을 변경한 후 Refrash()
     /// </summary>
+    [Header("- Value Index")]
     public int jobIndex;
     public int headIndex;
     public int hairIndex;
     public int isMan;
     public int isChildren;
-
+    
+    // List[0] -> AdultWoman
+    // List[1] -> AdultMan
+    // List[2] -> ChildrenWoman
+    // List[3] -> ChildrenMan
+    [Header("- Change Mesh")]
     [FormerlySerializedAs("WhiteHandCharacterMeshList")]
     public List<CharacterMeshList> WhiteHandCharacterMeshList = new List<CharacterMeshList>();
 
@@ -41,19 +47,32 @@ public class CaracterCustom : MonoBehaviour
 
     [FormerlySerializedAs("CharacterSkinnedMeshList")]
     public CharacterSkinnedMeshList characterSkinnedMeshList = new CharacterSkinnedMeshList();
-
+    
     public GameObject defultCharacter;
 
+    [Header("- Head Mash")]
     public HeadParts[] adultManHead = new HeadParts[9];
     public HeadParts[] adultWomanHead = new HeadParts[9];
     public HeadParts[] childrenManHead = new HeadParts[9];
     public HeadParts[] childrenWomanHead = new HeadParts[9];
 
+    [Header("- Dump Effect")]
     public ParticleSystem RingEffect;
     public GameObject adultBodyEffect;
     public GameObject adultHeadEffect;
     public GameObject childrenBodyEffect;
     public GameObject childrenHeadEffect;
+
+    public RuntimeAnimatorController[] animatorController = new RuntimeAnimatorController[6];
+
+    private readonly CharacterInformation[] characterInformation = {
+        new CharacterInformation(0.9f,1.0f,1.5f),
+        new CharacterInformation(1000f,1.0f,1.5f),
+        new CharacterInformation(0.9f,1.0f,1.5f),
+        new CharacterInformation(0.9f,1.0f,1.5f),
+        new CharacterInformation(0.9f,1.0f,1.5f),
+        new CharacterInformation(0.9f,1.0f,1.5f)
+    };
 
     private readonly Color[] JobColor = {
         new Color(0, 0, 0, 0),
@@ -61,12 +80,37 @@ public class CaracterCustom : MonoBehaviour
         new Color(0.4f, 0.152f, 0, 1.0f),
         new Color(0.6f, 0.4f, 0, 1.0f),
         new Color(0.388f, 0.494f, 0.741f, 1.0f),
-        new Color(1, 0.309f, 0.309f, 1.0f) };
+        new Color(1, 0.309f, 0.309f, 1.0f)
+    };
 
     private void Awake()
     {
+        WarriorCharacterMeshList[0].frame = GameObject.Find("WarriorFrame")?.transform.GetChild(1).GetChild(0).GetChild(0);
+        WarriorCharacterMeshList[1].frame = GameObject.Find("WarriorFrame")?.transform.GetChild(0).GetChild(0).GetChild(0);
+        WarriorCharacterMeshList[2].frame = GameObject.Find("WarriorFrame")?.transform.GetChild(1).GetChild(1).GetChild(0);
+        WarriorCharacterMeshList[3].frame = GameObject.Find("WarriorFrame")?.transform.GetChild(0).GetChild(1).GetChild(0);
+
+        ArcherCharacterMeshList[0].frame = GameObject.Find("ArcherFrame")?.transform.GetChild(1).GetChild(0).GetChild(0);
+        ArcherCharacterMeshList[1].frame = GameObject.Find("ArcherFrame")?.transform.GetChild(0).GetChild(0).GetChild(0);
+        ArcherCharacterMeshList[2].frame = GameObject.Find("ArcherFrame")?.transform.GetChild(1).GetChild(1).GetChild(0);
+        ArcherCharacterMeshList[3].frame = GameObject.Find("ArcherFrame")?.transform.GetChild(0).GetChild(1).GetChild(0);
+
+        TheifCharacterMeshList[0].frame = GameObject.Find("TheifFrame")?.transform.GetChild(1).GetChild(0).GetChild(0);
+        TheifCharacterMeshList[1].frame = GameObject.Find("TheifFrame")?.transform.GetChild(0).GetChild(0).GetChild(0);
+        TheifCharacterMeshList[2].frame = GameObject.Find("TheifFrame")?.transform.GetChild(1).GetChild(1).GetChild(0);
+        TheifCharacterMeshList[3].frame = GameObject.Find("TheifFrame")?.transform.GetChild(0).GetChild(1).GetChild(0);
+
+        MagicianCharacterMeshList[0].frame = GameObject.Find("MagicianFrame")?.transform.GetChild(1).GetChild(0).GetChild(0);
+        MagicianCharacterMeshList[1].frame = GameObject.Find("MagicianFrame")?.transform.GetChild(0).GetChild(0).GetChild(0);
+        MagicianCharacterMeshList[2].frame = GameObject.Find("MagicianFrame")?.transform.GetChild(1).GetChild(1).GetChild(0);
+        MagicianCharacterMeshList[3].frame = GameObject.Find("MagicianFrame")?.transform.GetChild(0).GetChild(1).GetChild(0);
+
+        ClericCharacterMeshList[0].frame = GameObject.Find("ClericFrame")?.transform.GetChild(1).GetChild(0).GetChild(0);
+        ClericCharacterMeshList[1].frame = GameObject.Find("ClericFrame")?.transform.GetChild(0).GetChild(0).GetChild(0);
+        ClericCharacterMeshList[2].frame = GameObject.Find("ClericFrame")?.transform.GetChild(1).GetChild(1).GetChild(0);
+        ClericCharacterMeshList[3].frame = GameObject.Find("ClericFrame")?.transform.GetChild(0).GetChild(1).GetChild(0);
+
         Refresh();
-        StartCoroutine(ColorChange());
     }
 
     [System.Serializable]
@@ -77,7 +121,7 @@ public class CaracterCustom : MonoBehaviour
     }
 
     [System.Serializable]
-    public struct CharacterMeshList
+    public class CharacterMeshList
     {
         public string Name;
         public Avatar avatar;
@@ -303,6 +347,31 @@ public class CaracterCustom : MonoBehaviour
     //         childrenBodyEffect.SetActive(true);
     //     }
     // }
+    [ContextMenu("asfgsdf")]
+    public void asfd()
+    {
+        Refresh();
+        CharacterInformation CharacterInformationTemp = defultCharacter.GetComponent<CharacterInformation>();
+        CharacterInformationTemp.AttackDelay = characterInformation[jobIndex].AttackDelay;
+        CharacterInformationTemp.AttackAfterDelay = characterInformation[jobIndex].AttackAfterDelay;
+        CharacterInformationTemp.Height = characterInformation[jobIndex].Height;
+        Instantiate(defultCharacter, transform);
+    }
+    
+    public GameObject Create(int jobIndex, int headIndex, int hairIndex, int isMan, int isChildren)
+    {
+        this.jobIndex = jobIndex;
+        this.headIndex = headIndex;
+        this.hairIndex = hairIndex;
+        this.isMan = isMan;
+        this.isChildren = isChildren;
+        Refresh();
+        CharacterInformation CharacterInformationTemp = defultCharacter.GetComponent<CharacterInformation>();
+        CharacterInformationTemp.AttackDelay = characterInformation[jobIndex].AttackDelay;
+        CharacterInformationTemp.AttackAfterDelay = characterInformation[jobIndex].AttackAfterDelay;
+        CharacterInformationTemp.Height = characterInformation[jobIndex].Height;
+        return defultCharacter;
+    }
 
     private void Refresh()
     {
@@ -315,16 +384,16 @@ public class CaracterCustom : MonoBehaviour
                 characterSkinnedMeshList.MeshChange(WarriorCharacterMeshList[isMan + isChildren * 2]);
                 break;
             case 2:
-                characterSkinnedMeshList.MeshChange(ArcherCharacterMeshList[isMan + isChildren * 2]);
-                break;
-            case 3:
                 characterSkinnedMeshList.MeshChange(TheifCharacterMeshList[isMan + isChildren * 2]);
                 break;
+            case 3:
+                characterSkinnedMeshList.MeshChange(ClericCharacterMeshList[isMan + isChildren * 2]);
+                break;
             case 4:
-                characterSkinnedMeshList.MeshChange(MagicianCharacterMeshList[isMan + isChildren * 2]);
+                characterSkinnedMeshList.MeshChange(ArcherCharacterMeshList[isMan + isChildren * 2]);
                 break;
             case 5:
-                characterSkinnedMeshList.MeshChange(ClericCharacterMeshList[isMan + isChildren * 2]);
+                characterSkinnedMeshList.MeshChange(MagicianCharacterMeshList[isMan + isChildren * 2]);
                 break;
         }
         if (isMan == 1)
@@ -341,14 +410,15 @@ public class CaracterCustom : MonoBehaviour
             else
                 characterSkinnedMeshList.HeadChange(childrenWomanHead[headIndex * 3 + hairIndex]);
         }
+        defultCharacter.GetComponent<Animator>().runtimeAnimatorController = animatorController[jobIndex];
     }
-    
-    IEnumerator ColorChange()
-    {
-        while (true)
-        {
-            RingEffect.startColor = Color.Lerp(RingEffect.startColor, JobColor[jobIndex], 0.2f);
-            yield return null;
-        }
-    }
+
+    // IEnumerator ColorChange()
+    // {
+    //     while (true)
+    //     {
+    //         RingEffect.startColor = Color.Lerp(RingEffect.startColor, JobColor[jobIndex], 0.2f);
+    //         yield return null;
+    //     }
+    // }
 }

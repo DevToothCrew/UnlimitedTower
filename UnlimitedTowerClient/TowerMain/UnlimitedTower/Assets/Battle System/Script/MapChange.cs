@@ -2,20 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapChange : MonoBehaviour {
+public class MapChange : MonoBehaviour
+{
     public GameObject[] MapPack;
+    private Camera main_Camera;
+    private readonly Color[] backgroundColor = {
+        new Color(0.0f,0.0f,0.0f,1.0f),
+        new Color(0.29f,1.0f,1.0f,1.0f),
+        new Color(1.0f,1.0f,1.0f,1.0f),
+        new Color(0.71f,0.71f,0.71f,1.0f),
+        new Color(0.84f, 0.98f, 1.0f, 1.0f)
+        };
 
     // 임시로 만든 맵 변경, 추후 삭제
 
     private void Start()
     {
+        main_Camera = Camera.main;
         MapPack = new GameObject[transform.childCount];
         for (int i = 0; i < transform.childCount; i++)
             MapPack[i] = transform.GetChild(i).gameObject;
     }
 
-    void Update () {
-		if (Input.GetKeyDown(KeyCode.Alpha1))
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             MapEneble(0);
         }
@@ -44,5 +55,6 @@ public class MapChange : MonoBehaviour {
             a.SetActive(false);
         }
         MapPack[index].SetActive(true);
+        main_Camera.backgroundColor = backgroundColor[index];
     }
 }

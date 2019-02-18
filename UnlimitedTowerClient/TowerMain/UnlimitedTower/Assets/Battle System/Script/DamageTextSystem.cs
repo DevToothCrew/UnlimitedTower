@@ -27,6 +27,25 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
         Camera_ = GameObject.Find("Main Camera");
     }
 
+    public void TextAction(SendValue sendValue, Transform target)
+    {
+        if (!sendValue.isAvoid)
+        {
+            // 데미지 텍스트 표시와 데미지 주기
+            DamageShow(sendValue.Target, !sendValue.isPlayer, sendValue.Damage, Random.Range(0, 2) == 0 ? true : false);
+            target.GetChild(0).GetComponent<Animator>().SetTrigger("isHit");
+        }
+        else
+        {
+            // Miss 텍스트
+            Avoid(sendValue.Target, !sendValue.isPlayer);
+            if (sendValue.isPlayer)
+                BattleSystem.Inst.enemyCharacterControl[sendValue.Target].Miss();
+            else
+                BattleSystem.Inst.playerCharacterControl[sendValue.Target].Miss();
+        }
+    }
+
     public void Avoid(int target, bool isPlayer) // 피한 대상의 인덱스와 플레이어 여부
     {
         missText.transform.GetChild(0).gameObject.SetActive(true);
