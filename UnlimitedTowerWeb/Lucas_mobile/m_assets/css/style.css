@@ -193,7 +193,7 @@ body{background-color: #fff}
 
 
 /*section4-1*/
-.section4-1 {height: 1080px;position: relative;opacity: 1;}
+.section4-1 {height: 1px;position: relative;opacity: 0;}
 .section4-1 .sec4-1{text-align: center;display: block;}
 .section4-1 .sec4-1 h1{font-family:'Noto Sans', sans-serif;font-size:32px;font-weight: bold;padding-top: 66px;color:#131516;}
 .section4-1 .sec4-1 h2{font-family:'Noto Sans', sans-serif; font-size: 20px; padding: 30px 0;line-height: 1.57;font-weight: 600;color: #373d3f;}
