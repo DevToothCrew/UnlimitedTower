@@ -350,17 +350,17 @@ public class Status
     public int plusDex;
     public int plusInt;
 }
-// erd완
+
 [System.Serializable]
 public class UserFormationData
 {
     // 인덱스
     public int partyIndex;
+
     public int formationIndex;
 
-
-
     public bool isPlaced;
+
     public CHAR_TYPE charType
     {
         get
@@ -378,22 +378,12 @@ public class UserFormationData
             return CHAR_TYPE.MONSTER;
         }
     }
+
+    // 이 인덱스는 몬스터 또는 서번트의 인덱스이다. 하지만 몬스터 데이터와 서번트 데이터를 Formation Data가 또 포함해야 하는가?
     public int index;
 
-    public UserServantData servantdata
-    {
-        get
-        {
-            return UserDataManager.Inst.servantDic[index];
-        }
-    }
-    public UserMonsterData monsterdata
-    {
-        get
-        {
-            return UserDataManager.Inst.monsterDic[index];
-        }
-    }
+    // 그냥 겟으로만 참조할꺼면 밖에서 필요할때만 찾으면 되는데...?
+    // 그래서 삭제
 }
 
 
@@ -402,13 +392,12 @@ public class UserFormationData
 [System.Serializable]
 public class UserEtcItemData
 {
-    //
     public int index;
 
     public int etcItemNum;
     public int Count;
 }
-// erd완
+
 [System.Serializable]
 public class UserPartyData
 {

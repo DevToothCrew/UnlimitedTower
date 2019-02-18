@@ -222,7 +222,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             gachaItemData gachaData = JsonUtility.FromJson<gachaItemData>(getGachaInfo);
             UserMountItemData getItem = ParseItem(gachaData.data.index, gachaData.data.item);
 
-            UserDataManager.Inst.AddMountitemData(getItem);
+            UserDataManager.Inst.AddMountItemData(getItem);
 
             GachaImage.Inst.SetItemGachaImage(getItem);
         }
@@ -304,189 +304,56 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 여기서그냥 데이터를 원하는대로 생성해버리면 되겠네. 
     public void Login(UserLoginData getUserLoginData)
     {
-        //UserInfo userInfo = new UserInfo();
-        //if (ParseUserInfo(getUserLoginData.userinfo, ref userInfo) == false)
-        //{
-        //    Debug.Log("Invalid ParseUserInfo Info");
-        //    // 재 로그인 시켜야함
-        //}
-        //UserDataManager.Inst.SetUserInfo(userInfo);
-        //LeftInfoPopup.Inst.SetLeftInfoUserInfoUpdate(userInfo);
-
-        //// 서번트
-        //Dictionary<int, UserServantData> servantList = new Dictionary<int, UserServantData>();
-        //if (ParseServantList(getUserLoginData.servant_list, ref servantList) == false)
-        //{
-        //    Debug.Log("Invalid ParseServantList Info");
-        //    // 재 로그인 시켜야함
-        //}
-        //foreach (var item in servantList)
-        //{
-        //    UserDataManager.Inst.addServantData(item.Value);
-        //}
-
-        //// 몬스터
-        //Dictionary<int, UserMonsterData> monsterList = new Dictionary<int, UserMonsterData>();
-        //if (ParseMonsterList(getUserLoginData.monster_list, ref monsterList) == false)
-        //{
-        //    Debug.Log("Invalid ParseMonsterList Info");
-        //    // 재 로그인 시켜야함
-        //}
-        //foreach (var item in monsterList)
-        //{
-        //    UserDataManager.Inst.addMonsterData(item.Value);
-        //}
-
-        //// 아이템
-        //Dictionary<int, Item> itemDic = new Dictionary<int, Item>();
-        //if (ParseItemList(getUserLoginData.item_list, ref itemDic) == false)
-        //{
-        //    Debug.Log("Invalid ParseItemList Info");
-        //    // 재 로그인 시켜야함
-        //}
-
-        //Dictionary<int, Party> partyDic = new Dictionary<int, Party>();
-        //if (ParsePartyList(getUserLoginData.party_list, ref partyDic) == false)
-        //{
-        //    Debug.Log("invalid ParsePartyList info");
-        //    // 재 로그인 시켜야함
-        //}
-
-
-        //// 모든 데이터가 저장이 된 후 화면 전환
-        //LobbyManager.Inst.ChangeSceneState(userInfo.sceneState);
-
-
-
-        // 유니티 에디터이면, 편하게 데이터 생성
-        if (Application.platform == RuntimePlatform.WindowsEditor)
+        UserInfo userInfo = new UserInfo();
+        if (ParseUserInfo(getUserLoginData.userinfo, ref userInfo) == false)
         {
-            Debug.Log("유니티 로그인!");
-
-            // 유저인포
-            UserInfo userInfo = new UserInfo();
-            if (ParseUserInfo(getUserLoginData.userinfo, ref userInfo) == false)
-            {
-                Debug.Log("Invalid ParseUserInfo Info");
-                // 재 로그인 시켜야함
-            }
-            UserDataManager.Inst.SetUserInfo(userInfo);
-            LeftInfoPopup.Inst.SetLeftInfoUserInfoUpdate(userInfo);
-
-            // 서번트 생성 
-            for (int i = 0; i < 7; i++)
-            {
-                UserServantData userservantdata = new UserServantData();
-                userservantdata.index = i;
-                UserDataManager.Inst.AddServantData(userservantdata);
-
-                if (i == 0)
-                {
-                    userservantdata.isMainHero = true;
-                }
-                userservantdata.body = Random.Range(0, 4);
-                userservantdata.hairNum = Random.Range(0, 3);
-                userservantdata.headNum = Random.Range(0, 3);
-                userservantdata.jobNum = Random.Range(0, 2);
-                userservantdata.status.basicStr = Random.Range(5, 10);
-                userservantdata.status.basicDex = Random.Range(5, 10);
-                userservantdata.status.basicInt = Random.Range(5, 10);
-            }
-
-            // 몬스터 생성
-            for (int i = 0; i < 9; i++)
-            {
-                UserMonsterData monsterdata = new UserMonsterData();
-                monsterdata.index = i;
-                UserDataManager.Inst.AddMonsterData(monsterdata);
-
-                monsterdata.monsterNum = Random.Range(0, 3);
-                monsterdata.monsterTypeNum = Random.Range(0, 3);
-                monsterdata.enforceNum = Random.Range(0, 5);
-                monsterdata.gradeNum = Random.Range(0, 4);
-            }
-
-            // 배치 데이터 생성
-            int maxteamindex = 3;
-            for (int teamindex = 0; teamindex <= maxteamindex; teamindex++)
-            {
-                for (int forma_index = 0; forma_index < 10; forma_index++)
-                {
-                    UserFormationData userformationdata = new UserFormationData();
-                    UserDataManager.Inst.UserFormationList.Add(userformationdata);
-                    userformationdata.partyIndex = teamindex;
-                    userformationdata.formationIndex = forma_index;
-                }
-            }
-
-            // 파티 데이터 생성
-            for (int i = 0; i < maxteamindex; i++)
-            {
-                //UserPartyData userformationdata = new UserPartyData();
-                //UserDataManager.Inst.UserFormationList.Add(userformationdata);
-            }
-
-
-            // 모든 데이터가 저장이 된 후 화면 전환
-            LobbyManager.Inst.ChangeSceneState(userInfo.sceneState);
+            Debug.Log("Invalid ParseUserInfo Info");
+            // 재 로그인 시켜야함
         }
-        // 웹이라면, 서버데이터 받아오는것으로
-        else
+        UserDataManager.Inst.SetUserInfo(userInfo);
+        LeftInfoPopup.Inst.SetLeftInfoUserInfoUpdate(userInfo);
+
+        // 서번트
+        Dictionary<int, UserServantData> servantList = new Dictionary<int, UserServantData>();
+        if (ParseServantList(getUserLoginData.servant_list, ref servantList) == false)
         {
-            UserInfo userInfo = new UserInfo();
-            if (ParseUserInfo(getUserLoginData.userinfo, ref userInfo) == false)
-            {
-                Debug.Log("Invalid ParseUserInfo Info");
-                // 재 로그인 시켜야함
-            }
-            UserDataManager.Inst.SetUserInfo(userInfo);
-            LeftInfoPopup.Inst.SetLeftInfoUserInfoUpdate(userInfo);
-
-            // 서번트
-            Dictionary<int, UserServantData> servantList = new Dictionary<int, UserServantData>();
-            if (ParseServantList(getUserLoginData.servant_list, ref servantList) == false)
-            {
-                Debug.Log("Invalid ParseServantList Info");
-                // 재 로그인 시켜야함
-            }
-            foreach (var item in servantList)
-            {
-                UserDataManager.Inst.AddServantData(item.Value);
-            }
-
-            // 몬스터
-            Dictionary<int, UserMonsterData> monsterList = new Dictionary<int, UserMonsterData>();
-            if (ParseMonsterList(getUserLoginData.monster_list, ref monsterList) == false)
-            {
-                Debug.Log("Invalid ParseMonsterList Info");
-                // 재 로그인 시켜야함
-            }
-            foreach (var item in monsterList)
-            {
-                UserDataManager.Inst.AddMonsterData(item.Value);
-            }
-
-            // 아이템
-            Dictionary<int, UserMountItemData> itemDic = new Dictionary<int, UserMountItemData>();
-            if (ParseItemList(getUserLoginData.item_list, ref itemDic) == false)
-            {
-                Debug.Log("Invalid ParseItemList Info");
-                // 재 로그인 시켜야함
-            }
-
-            Dictionary<int, Party> partyDic = new Dictionary<int, Party>();
-            if (ParsePartyList(getUserLoginData.party_list, ref partyDic) == false)
-            {
-                Debug.Log("invalid ParsePartyList info");
-                // 재 로그인 시켜야함
-            }
-
-
-            // 모든 데이터가 저장이 된 후 화면 전환
-            LobbyManager.Inst.ChangeSceneState(userInfo.sceneState);
+            Debug.Log("Invalid ParseServantList Info");
+            // 재 로그인 시켜야함
+        }
+        foreach (var item in servantList)
+        {
+            UserDataManager.Inst.AddServantData(item.Value);
         }
 
+        // 몬스터
+        Dictionary<int, UserMonsterData> monsterList = new Dictionary<int, UserMonsterData>();
+        if (ParseMonsterList(getUserLoginData.monster_list, ref monsterList) == false)
+        {
+            Debug.Log("Invalid ParseMonsterList Info");
+            // 재 로그인 시켜야함
+        }
+        foreach (var item in monsterList)
+        {
+            UserDataManager.Inst.AddMonsterData(item.Value);
+        }
 
+        // 아이템
+        Dictionary<int, UserMountItemData> itemDic = new Dictionary<int, UserMountItemData>();
+        if (ParseItemList(getUserLoginData.item_list, ref itemDic) == false)
+        {
+            Debug.Log("Invalid ParseItemList Info");
+            // 재 로그인 시켜야함
+        }
+
+        Dictionary<int, Party> partyDic = new Dictionary<int, Party>();
+        if (ParsePartyList(getUserLoginData.party_list, ref partyDic) == false)
+        {
+            Debug.Log("invalid ParsePartyList info");
+            // 재 로그인 시켜야함
+        }
+
+        // 모든 데이터가 저장이 된 후 화면 전환
+        LobbyManager.Inst.ChangeSceneState(userInfo.sceneState);
     }
 
     public bool ParseUserInfo(userData getUserData, ref UserInfo userInfo)
@@ -808,141 +675,54 @@ public class PacketManager : MonoSingleton<PacketManager> {
         TestLogin(userLoginData);
     }
 
-
+    // TODO : 병신같은 로그인부터 다시만들어야함, 포메이션 정보에 대한 세팅값이 모두 잘못되어있음.
     public void TestLogin(UserLoginData getUserLoginData)
     {
-        if (Application.platform == RuntimePlatform.WindowsEditor)
+        // 로그인에서 플랫폼이 유니티일때 새로 만드는게 아닌 하나의 String으로 모두 받아 오고 동일한 Login 트리를 탈수있도록 짜야함.
+        // 즉, 같은 데이터에서 접근 방법만 다를 뿐 데이터 처리 방식은 항상 같아야함.
+        
+        UserInfo userInfo = new UserInfo();
+        if (TestParseUserInfo(getUserLoginData.userinfo, ref userInfo) == false)
         {
-            Debug.Log("유니티 로그인!");
-
-            // 유저인포
-            UserInfo userInfo = new UserInfo();
-            if (TestParseUserInfo(getUserLoginData.userinfo, ref userInfo) == false)
-            {
-                Debug.Log("Invalid ParseUserInfo Info");
-                // 재 로그인 시켜야함
-            }
-
-            TestParseGoldInfo(getUserLoginData.gameMoney, ref userInfo);
-
-            UserDataManager.Inst.SetUserInfo(userInfo);
-            LeftInfoPopup.Inst.SetLeftInfoUserInfoUpdate(userInfo);
-
-            // 서번트 생성 
-            for (int i = 0; i < 7; i++)
-            {
-                UserServantData userservantdata = new UserServantData();
-                userservantdata.index = i;
-                UserDataManager.Inst.AddServantData(userservantdata);
-
-                if (i == 0)
-                {
-                    userservantdata.isMainHero = true;
-                }
-                userservantdata.body = Random.Range(0, 4);
-                userservantdata.hairNum = Random.Range(0, 3);
-                userservantdata.headNum = Random.Range(0, 3);
-                userservantdata.jobNum = Random.Range(0, 2);
-                userservantdata.status.basicStr = Random.Range(5, 10);
-                userservantdata.status.basicDex = Random.Range(5, 10);
-                userservantdata.status.basicInt = Random.Range(5, 10);
-            }
-
-            // 몬스터 생성
-            for (int i = 0; i < 9; i++)
-            {
-                UserMonsterData monsterdata = new UserMonsterData();
-                monsterdata.index = i;
-                UserDataManager.Inst.AddMonsterData(monsterdata);
-
-                monsterdata.monsterNum = Random.Range(0, 3);
-                monsterdata.monsterTypeNum = Random.Range(0, 3);
-                monsterdata.enforceNum = Random.Range(0, 5);
-                monsterdata.gradeNum = Random.Range(0, 4);
-            }
-
-            // 배치 데이터 생성
-            int maxteamindex = 3;
-            for (int teamindex = 0; teamindex <= maxteamindex; teamindex++)
-            {
-                for (int forma_index = 0; forma_index < 10; forma_index++)
-                {
-                    UserFormationData userformationdata = new UserFormationData();
-                    UserDataManager.Inst.UserFormationList.Add(userformationdata);
-                    userformationdata.partyIndex = teamindex;
-                    userformationdata.formationIndex = forma_index;
-                }
-            }
-
-            // 파티 데이터 생성
-            for (int i = 0; i < maxteamindex; i++)
-            {
-                //UserPartyData userformationdata = new UserPartyData();
-                //UserDataManager.Inst.UserFormationList.Add(userformationdata);
-            }
-
-
-            // 모든 데이터가 저장이 된 후 화면 전환
-            LobbyManager.Inst.ChangeSceneState(userInfo.sceneState);
+            Debug.Log("Invalid ParseUserInfo Info");
         }
-        // 웹이라면, 서버데이터 받아오는것으로
-        else
+
+        TestParseGoldInfo(getUserLoginData.gameMoney, ref userInfo);
+
+        UserDataManager.Inst.SetUserInfo(userInfo);
+        LeftInfoPopup.Inst.SetLeftInfoUserInfoUpdate(userInfo);
+
+        // 한글로 설명을 적어두지 말고 영어를 읽자
+        Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
+        if (TestParseServantList(getUserLoginData.servant_list, ref servantDic) == false)
         {
-            UserInfo userInfo = new UserInfo();
-            if (TestParseUserInfo(getUserLoginData.userinfo, ref userInfo) == false)
-            {
-                Debug.Log("Invalid ParseUserInfo Info");
-                // 재 로그인 시켜야함
-            }
-
-            TestParseGoldInfo(getUserLoginData.gameMoney, ref userInfo);
-
-            UserDataManager.Inst.SetUserInfo(userInfo);
-            LeftInfoPopup.Inst.SetLeftInfoUserInfoUpdate(userInfo);
-
-            // 서번트
-            Dictionary<int, UserServantData> servantList = new Dictionary<int, UserServantData>();
-            if (TestParseServantList(getUserLoginData.servant_list, ref servantList) == false)
-            {
-                Debug.Log("Invalid ParseServantList Info");
-                // 재 로그인 시켜야함
-            }
-            foreach (var item in servantList)
-            {
-                UserDataManager.Inst.AddServantData(item.Value);
-            }
-
-            // 몬스터
-            Dictionary<int, UserMonsterData> monsterList = new Dictionary<int, UserMonsterData>();
-            if (TestParseMonsterList(getUserLoginData.monster_list, ref monsterList) == false)
-            {
-                Debug.Log("Invalid ParseMonsterList Info");
-                // 재 로그인 시켜야함
-            }
-            foreach (var item in monsterList)
-            {
-                UserDataManager.Inst.AddMonsterData(item.Value);
-            }
-
-            // 아이템
-            Dictionary<int, UserMountItemData> itemDic = new Dictionary<int, UserMountItemData>();
-            if (TestParseItemList(getUserLoginData.item_list, ref itemDic) == false)
-            {
-                Debug.Log("Invalid ParseItemList Info");
-                // 재 로그인 시켜야함
-            }
-
-            Dictionary<int, Party> partyDic = new Dictionary<int, Party>();
-            if (TestParsePartyList(getUserLoginData.party_list, ref partyDic) == false)
-            {
-                Debug.Log("invalid ParsePartyList info");
-                // 재 로그인 시켜야함
-            }
-
-
-            // 모든 데이터가 저장이 된 후 화면 전환
-            LobbyManager.Inst.ChangeSceneState(userInfo.sceneState);
+            Debug.Log("Invalid ParseServantList Info");
         }
+        // 포이치로 servantList를 Add한다? 그냥 뒤집어 씌워야한다. 이전 로그인 기록이 있을수 있으니.
+        UserDataManager.Inst.SetServantDic(servantDic);
+
+        Dictionary<int, UserMonsterData> monsterDic = new Dictionary<int, UserMonsterData>();
+        if (TestParseMonsterList(getUserLoginData.monster_list, ref monsterDic) == false)
+        {
+            Debug.Log("Invalid ParseMonsterList Info");
+        }
+        UserDataManager.Inst.SetMonsterDic(monsterDic);
+
+        Dictionary<int, UserMountItemData> itemDic = new Dictionary<int, UserMountItemData>();
+        if (TestParseItemList(getUserLoginData.item_list, ref itemDic) == false)
+        {
+            Debug.Log("Invalid ParseItemList Info");
+        }
+        // 아이템 정보는 왜 추가 안함
+        UserDataManager.Inst.SetItemDic(itemDic);
+
+        Dictionary<int, Party> partyDic = new Dictionary<int, Party>();
+        if (TestParsePartyList(getUserLoginData.party_list, ref partyDic) == false)
+        {
+            Debug.Log("invalid ParsePartyList info");
+        }
+
+        LobbyManager.Inst.ChangeSceneState(userInfo.sceneState);
 
     }
 
@@ -975,7 +755,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return true;
     }
     
-
+    // Servant List 에서 Dic으로 바꼈으니 이름 변경 필요
     public bool TestParseServantList(List<servantData> getServantList, ref Dictionary<int, UserServantData> servantList)
     {
         for (int i = 0; i < getServantList.Count; i++)
@@ -1029,6 +809,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return userServant;
     }
 
+    // MonsterList를 Dic으로 바꿨으니 Dic으로 이름 변경 필요
     public bool TestParseMonsterList(List<monsterData> getMonsterList, ref Dictionary<int, UserMonsterData> monsterList)
     {
         for (int i = 0; i < getMonsterList.Count; i++)
@@ -1078,6 +859,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return monster;
     }
 
+    // Item List를 Dic으로 변경 필요
     public bool TestParseItemList(List<itemData> getItemList, ref Dictionary<int, UserMountItemData> itemDic)
     {
         for (int i = 0; i < getItemList.Count; i++)

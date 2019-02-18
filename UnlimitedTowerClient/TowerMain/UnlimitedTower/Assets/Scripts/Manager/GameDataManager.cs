@@ -41,6 +41,8 @@ public class GameDataManager : MonoBehaviour
 
         // 
         Debug.Log(type + " " + index + " " + teamnum + " " + formationIndex);
+        
+        // 널에 대한 예외처리 안되어있음
         UserFormationData formdata = UserDataManager.Inst.GetFormaData_nullPossible(teamnum, formationIndex);
         formdata.isPlaced = true;
         formdata.index = index;
