@@ -949,6 +949,8 @@ uint32_t get_buff_turn(uint32_t _buff);
 bool check_critical(uint64_t _critcal_per, uint64_t _seed);
 bool check_avoid(uint64_t _avoid_per,uint64_t _seed);
 
+battle_action get_attack_action(const std::vector<battle_state> &_state_list, uint64_t _seed, uint64_t _index, uint64_t _target);
+
 ACTION startbattle(eosio::name _user, uint32_t _party_number, uint32_t _stage);
 
 int get_random_target(const std::vector<battle_state> &_state_list, uint64_t _seed, uint32_t _max, uint32_t _min);

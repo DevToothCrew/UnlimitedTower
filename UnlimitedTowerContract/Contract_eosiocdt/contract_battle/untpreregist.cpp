@@ -2270,33 +2270,36 @@ ACTION untpreregist::startbattle(eosio::name _user, uint32_t _party_number, uint
 
     auth_users user_auth_table(_self, _self.value);
     auto user_auth_iter = user_auth_table.find(_user.value);
-    eosio_assert(user_auth_iter != user_auth_table.end(), "not exist user info");
-    eosio_assert(user_auth_iter->state != user_state::travel && user_auth_iter->state != user_state::tower, "playing battle");
-    eosio_assert(user_auth_iter->state != user_state::battle_win && user_auth_iter->state != user_state::battle_lose, "Need Get Reward 3");
+    eosio_assert(user_auth_iter != user_auth_table.end(), "Not Exist User 3");
+    eosio_assert(user_auth_iter->state != user_state::travel && user_auth_iter->state != user_state::tower, "Already Battle");
 
+    battle_reward_list battle_reward_table(_self, _self.value);
+    auto battle_reward_iter = battle_reward_table.find(_user.value);
+    eosio_assert(battle_reward_iter == battle_reward_table.end(), "Need Get Reward 3");
     user_auth_table.modify(user_auth_iter, _self, [&](auto &user_state_change) {
         user_state_change.state = user_state::travel;
     });
 
     user_partys user_party_table(_self, _user.value);
-    const auto &user_party_iter = user_party_table.get(_party_number, "not exist user party data");
-    eosio_assert(user_party_iter.state != party_state::on_tower_defense, "this party impossible battle");
+    const auto &user_party_iter = user_party_table.get(_party_number, "Not Exist Party 1");
+    eosio_assert(user_party_iter.state != party_state::on_tower_defense, "Party Impossible Battle");
 
     user_servants user_servant_table(_self, _user.value);
     user_monsters user_monster_table(_self, _user.value);
 
-    battle_state_list user_battle_table(_self, _self.value);
+    
     battle_actions user_battle_action_table(_self, _self.value);
     auto user_battle_action_iter = user_battle_action_table.find(_user.value);
-    eosio_assert(user_battle_action_iter == user_battle_action_table.end(),"already battle 1");
+    eosio_assert(user_battle_action_iter == user_battle_action_table.end(),"Already battle 1");
     user_battle_action_table.emplace(_self, [&](auto &new_battle_action)
     {
         new_battle_action.user = _user;
         new_battle_action.turn = START_BATTLE;
     });
 
+    battle_state_list user_battle_table(_self, _self.value);
     auto user_battle_iter = user_battle_table.find(_user.value);
-    eosio_assert(user_battle_iter == user_battle_table.end(),"already battle 2");
+    eosio_assert(user_battle_iter == user_battle_table.end(),"Already battle 2");
     user_battle_table.emplace(owner, [&](auto &new_battle_set) {
         new_battle_set.user = _user;
         
@@ -2319,7 +2322,7 @@ ACTION untpreregist::startbattle(eosio::name _user, uint32_t _party_number, uint
             {
                 continue;
             }
-            const auto &user_servant_iter = user_servant_table.get(user_party_iter.party[i], "not exist servant data");
+            const auto &user_servant_iter = user_servant_table.get(user_party_iter.party[i], "Not Exist Servant 1");
 
             new_battle_set.state_list[i].now_hp = (user_servant_iter.servant.status.basic_str + user_servant_iter.servant.status.plus_str) * oper_hp;
             new_battle_set.state_list[i].defense = (user_servant_iter.servant.status.basic_dex + user_servant_iter.servant.status.plus_dex) * oper_defense;
@@ -2337,7 +2340,7 @@ ACTION untpreregist::startbattle(eosio::name _user, uint32_t _party_number, uint
             {
                 continue;
             }
-            const auto &user_monster_iter = user_monster_table.get(user_party_iter.party[i], "not exist monster data");
+            const auto &user_monster_iter = user_monster_table.get(user_party_iter.party[i], "Not Exist Monster 1");
 
             new_battle_set.state_list[i].now_hp = (user_monster_iter.monster.status.basic_str + user_monster_iter.monster.status.plus_str) * oper_hp;
             new_battle_set.state_list[i].defense = (user_monster_iter.monster.status.basic_dex + user_monster_iter.monster.status.plus_dex) * oper_defense;
@@ -2413,6 +2416,40 @@ bool untpreregist::sort_compare(const battle_order_struct &a,const battle_order_
     }
 }
 
+untpreregist::battle_action untpreregist::get_attack_action(const std::vector<battle_state> &_state_list, uint64_t _seed, uint64_t _index, uint64_t _target)
+{
+    battle_action new_action;
+    if (true == check_avoid(_state_list[_target].avoid, _seed))
+    {
+        new_action.target_index = _target;
+        new_action.avoid = 1;
+        new_action.critical = 0;
+        new_action.damage = 0;
+    }
+    else
+    {
+        uint32_t cur_damage;
+        if (false == check_critical(_state_list[_index].crit_per, _seed))
+        {
+            cur_damage = get_damage(_state_list[_index].attack, _state_list[_target].defense);
+            new_action.target_index = _target;
+            new_action.avoid = 0;
+            new_action.critical = 0;
+            new_action.damage = cur_damage;
+        }
+        else
+        {
+            cur_damage = get_damage(_state_list[_index].crit_dmg, _state_list[_target].defense);
+            new_action.target_index = _target;
+            new_action.avoid = 0;
+            new_action.critical = 1;
+            new_action.damage = cur_damage;
+        }
+    }
+    return new_action;
+}
+
+
 ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32_t _monster_action, uint32_t _hero_target, uint32_t _monster_target, std::string _seed)
 {
     require_auth(_user);
@@ -2428,22 +2465,17 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
     uint64_t user = get_user_seed_value(_user.value);
     uint64_t battle_seed = safeseed::get_seed_value(user, check_result);
 
-    auth_users user_auth_table(_self, _self.value);
-    auto user_auth_iter = user_auth_table.find(_user.value);
-    eosio_assert(user_auth_iter->state == user_state::travel || user_auth_iter->state == user_state::tower, "Battle Over");
-
     uint32_t user_dead_count = 0;
     uint32_t enemy_dead_count = 0;
 
     battle_state_list battle_state_list_table(_self, _self.value);
     auto user_battle_state_iter = battle_state_list_table.find(_user.value);
-    eosio_assert(user_battle_state_iter != battle_state_list_table.end(), "end battle 1");
+    eosio_assert(user_battle_state_iter != battle_state_list_table.end(), "End Battle 1");
     
-
     battle_actions battle_action_table(_self, _self.value);
     auto user_battle_action_iter = battle_action_table.find(_user.value);
-    eosio_assert(user_battle_action_iter != battle_action_table.end(), "end battle 2");
-    eosio_assert(user_battle_action_iter->turn != 0, "end battle 3");
+    eosio_assert(user_battle_action_iter != battle_action_table.end(), "End Battle 2");
+    eosio_assert(user_battle_action_iter->turn != 0, "End Battle 3");
 
     std::vector<uint64_t> order_random_list;
     safeseed::get_battle_rand_list(order_random_list, battle_seed);
@@ -2480,56 +2512,33 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
                 {
                     if (index == HERO_LOCATION)
                     {
-                        eosio_assert(_hero_target >= 10, "target is user party");
                         if (user_battle_state_iter->state_list[index].now_hp == 0)
                         {
                             continue;
                         }
                         else if (user_battle_state_iter->state_list[_hero_target].now_hp == 0)
                         {
-                            continue;
+                            int enemy = get_random_target(user_battle_state_iter->state_list, speed_order_list[i].second_speed, 10, 0);
+                            if (enemy == -1) //상대 파티가 모두 죽은 상태
+                            {
+                                break;
+                            }
+                            _hero_target = enemy;
                         }
                         
-                     
                         battle_action new_action;
                         if (_hero_action == battle_action_state::attack)
                         {
-                            //공격할 경우
-                            if(true == check_avoid(user_battle_state_iter->state_list[_hero_target].avoid, speed_order_list[i].second_speed))
+                            eosio_assert(_hero_target >= 10, "Impossible Attack 1");
+                            new_action = get_attack_action(user_battle_state_iter->state_list, speed_order_list[i].second_speed, index, _hero_target);
+                            //배틀 스테이트테이블에 결과 반영
+                            if (user_battle_state_iter->state_list[_hero_target].now_hp <= new_action.damage)
                             {
-                                new_action.target_index = _hero_target;
-                                new_action.avoid = 1;
-                                new_action.critical = 0;
-                                new_action.damage = 0;
+                                battle_state.state_list[_hero_target].now_hp = 0;
                             }
                             else
                             {
-                                uint32_t cur_damage;
-                                if (false == check_critical(user_battle_state_iter->state_list[index].crit_per, speed_order_list[i].second_speed))
-                                {
-                                    cur_damage = get_damage(user_battle_state_iter->state_list[index].attack, user_battle_state_iter->state_list[_hero_target].defense);
-                                    new_action.target_index = _hero_target;
-                                    new_action.avoid = 0;
-                                    new_action.critical = 0;
-                                    new_action.damage = cur_damage;
-                                }
-                                else
-                                {
-                                    cur_damage = get_damage(user_battle_state_iter->state_list[index].crit_dmg, user_battle_state_iter->state_list[_hero_target].defense);
-                                    new_action.target_index = _hero_target;
-                                    new_action.avoid = 0;
-                                    new_action.critical = 1;
-                                    new_action.damage = cur_damage;
-                                }
-                                //배틀 스테이트테이블에 결과 반영
-                                if (user_battle_state_iter->state_list[_hero_target].now_hp <= cur_damage)
-                                {
-                                    battle_state.state_list[_hero_target].now_hp = 0;
-                                }
-                                else
-                                {
-                                    battle_state.state_list[_hero_target].now_hp -= cur_damage;
-                                }
+                                battle_state.state_list[_hero_target].now_hp -= new_action.damage;
                             }
 
                             battle_action_info new_action_info;
@@ -2552,57 +2561,35 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
 
                     else if (index == PAIR_SLOT) //히어로의 페어 몬스터일 경우
                     {
-                        eosio_assert(_monster_target >= 10, "target is user party");
+                        
                         if (user_battle_state_iter->state_list[index].now_hp == 0)
                         {
                             continue;
                         }
                         else if (user_battle_state_iter->state_list[_monster_target].now_hp == 0)
                         {
-                            continue;
+                            int enemy = get_random_target(user_battle_state_iter->state_list, speed_order_list[i].second_speed, 10, 0);
+                            if (enemy == -1) //상대 파티가 모두 죽은 상태
+                            {
+                                break;
+                            }
+                            _monster_target = enemy;
                         }
                         
-                        //eosio_assert(user_battle_state_iter->state_list[_monster_target].now_hp != 0, "monster target is dead");
-
                         battle_action new_action;
                         if (_monster_action == battle_action_state::attack)
                         {
                             //공격할 경우
-                            if(true == check_avoid(user_battle_state_iter->state_list[_monster_target].avoid, speed_order_list[i].second_speed))
+                            eosio_assert(_monster_target >= 10, "Impossible Attack 2");
+                            new_action = get_attack_action(user_battle_state_iter->state_list, speed_order_list[i].second_speed, index, _monster_target);
+                            //배틀 스테이트테이블에 결과 반영
+                            if (user_battle_state_iter->state_list[_monster_target].now_hp <= new_action.damage)
                             {
-                                new_action.target_index = _monster_target;
-                                new_action.avoid = 1;
-                                new_action.critical = 0;
-                                new_action.damage = 0;
+                                battle_state.state_list[_monster_target].now_hp = 0;
                             }
                             else
                             {
-                                uint32_t cur_damage;
-                                if (false == check_critical(user_battle_state_iter->state_list[index].crit_per, speed_order_list[i].second_speed))
-                                {
-                                    cur_damage = get_damage(user_battle_state_iter->state_list[index].attack, user_battle_state_iter->state_list[_hero_target].defense);
-                                    new_action.target_index = _monster_target;
-                                    new_action.avoid = 0;
-                                    new_action.critical = 0;
-                                    new_action.damage = cur_damage;
-                                }
-                                else
-                                {
-                                    cur_damage = get_damage(user_battle_state_iter->state_list[index].crit_dmg, user_battle_state_iter->state_list[_hero_target].defense);
-                                    new_action.target_index = _monster_target;
-                                    new_action.avoid = 0;
-                                    new_action.critical = 1;
-                                    new_action.damage = cur_damage;
-                                }
-                                //배틀 스테이트테이블에 결과 반영
-                                if (user_battle_state_iter->state_list[_monster_target].now_hp <= cur_damage)
-                                {
-                                    battle_state.state_list[_monster_target].now_hp = 0;
-                                }
-                                else
-                                {
-                                    battle_state.state_list[_monster_target].now_hp -= cur_damage;
-                                }
+                                battle_state.state_list[_monster_target].now_hp -= new_action.damage;
                             }
 
                             battle_action_info new_action_info;
@@ -2629,6 +2616,7 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
                             continue;
                         }
                         uint32_t monster_action = safeseed::get_random_value(speed_order_list[i].second_speed, battle_action_state::state_count, battle_action_state::attack,0);
+                        battle_action new_action;
                         if (monster_action == battle_action_state::attack)
                         {
                             int enemy = get_random_target(user_battle_state_iter->state_list, speed_order_list[i].second_speed, 20, 10);
@@ -2637,42 +2625,16 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
                                 break;
                             }
                             //공격할 경우
-                            battle_action new_action;
-                            if (true == check_avoid(user_battle_state_iter->state_list[enemy].avoid, speed_order_list[i].second_speed))
+                            new_action = get_attack_action(user_battle_state_iter->state_list, speed_order_list[i].second_speed, index, enemy);
+
+                            //배틀 스테이트테이블에 결과 반영
+                            if (user_battle_state_iter->state_list[enemy].now_hp <= new_action.damage)
                             {
-                                new_action.target_index = enemy;
-                                new_action.avoid = 1;
-                                new_action.critical = 0;
-                                new_action.damage = 0;
+                                battle_state.state_list[enemy].now_hp = 0;
                             }
                             else
                             {
-                                uint32_t cur_damage;
-                                if (false == check_critical(user_battle_state_iter->state_list[index].crit_per, speed_order_list[i].second_speed))
-                                {
-                                    cur_damage = get_damage(user_battle_state_iter->state_list[index].attack, user_battle_state_iter->state_list[_hero_target].defense);
-                                    new_action.target_index = enemy;
-                                    new_action.avoid = 0;
-                                    new_action.critical = 0;
-                                    new_action.damage = cur_damage;
-                                }
-                                else
-                                {
-                                    cur_damage = get_damage(user_battle_state_iter->state_list[index].crit_dmg, user_battle_state_iter->state_list[_hero_target].defense);
-                                    new_action.target_index = enemy;
-                                    new_action.avoid = 0;
-                                    new_action.critical = 1;
-                                    new_action.damage = cur_damage;
-                                }
-                                //배틀 스테이트테이블에 결과 반영
-                                if (user_battle_state_iter->state_list[enemy].now_hp <= cur_damage)
-                                {
-                                    battle_state.state_list[enemy].now_hp = 0;
-                                }
-                                else
-                                {
-                                    battle_state.state_list[enemy].now_hp -= cur_damage;
-                                }
+                                battle_state.state_list[enemy].now_hp -= new_action.damage;
                             }
 
                             battle_action_info new_action_info;
@@ -2700,7 +2662,7 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
                         continue;
                     }
                     uint32_t monster_action = safeseed::get_random_value(speed_order_list[i].second_speed, battle_action_state::state_count, battle_action_state::attack, 0);
-
+                    battle_action new_action;
                     if (monster_action == battle_action_state::attack)
                     {
                         int enemy = get_random_target(user_battle_state_iter->state_list, speed_order_list[i].second_speed, 10, 0);
@@ -2708,43 +2670,16 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
                         {
                             break;
                         }
-                        //공격할 경우
-                        battle_action new_action;
-                        if (true == check_avoid(user_battle_state_iter->state_list[enemy].avoid, speed_order_list[i].second_speed))
+                        new_action = get_attack_action(user_battle_state_iter->state_list, speed_order_list[i].second_speed, index, enemy);
+
+                        //배틀 스테이트테이블에 결과 반영
+                        if (user_battle_state_iter->state_list[enemy].now_hp <= new_action.damage)
                         {
-                            new_action.target_index = enemy;
-                            new_action.avoid = 1;
-                            new_action.critical = 0;
-                            new_action.damage = 0;
+                            battle_state.state_list[enemy].now_hp = 0;
                         }
                         else
                         {
-                            uint32_t cur_damage;
-                            if (false == check_critical(user_battle_state_iter->state_list[index].crit_per, speed_order_list[i].second_speed))
-                            {
-                                cur_damage = get_damage(user_battle_state_iter->state_list[index].attack, user_battle_state_iter->state_list[_hero_target].defense);
-                                new_action.target_index = enemy;
-                                new_action.avoid = 0;
-                                new_action.critical = 0;
-                                new_action.damage = cur_damage;
-                            }
-                            else
-                            {
-                                cur_damage = get_damage(user_battle_state_iter->state_list[index].crit_dmg, user_battle_state_iter->state_list[_hero_target].defense);
-                                new_action.target_index = enemy;
-                                new_action.avoid = 0;
-                                new_action.critical = 1;
-                                new_action.damage = cur_damage;
-                            }
-                            //배틀 스테이트테이블에 결과 반영
-                            if (user_battle_state_iter->state_list[enemy].now_hp <= cur_damage)
-                            {
-                                battle_state.state_list[enemy].now_hp = 0;
-                            }
-                            else
-                            {
-                                battle_state.state_list[enemy].now_hp -= cur_damage;
-                            }
+                            battle_state.state_list[enemy].now_hp -= new_action.damage;
                         }
 
                         battle_action_info new_action_info;
