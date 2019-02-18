@@ -228,7 +228,7 @@ footer{width: 100%;}
 .section4-1 .sec4-1 .card-rota .card .value .val{float: center;padding: 10px;display: inline-block;}
 .section4-1 .sec4-1 .card-rota .card .value .val p{color:#fff;margin-top: 10px;font-family:'Noto Sans', sans-serif; font-size: 18px;}
 .section4-1 .sec4-1 .card-rota .sec4-2btn {margin-top: 45%;}
-.section4-1 .sec4-1 .card-rota .sec4-2btn a{font-size: 21px;font-weight: bold;height: 60px;line-height: 60px;margin: 0 auto;display: block; width: 210px;  color:#000; background-color: #ff6d63;border-radius:10px;color:#fff;box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.5) }
+.section4-1 .sec4-1 .card-rota .sec4-2btn a{font-family: 'Noto Sans', sans-serif;font-size: 21px;font-weight: bold;height: 60px;line-height: 60px;margin: 0 auto;display: block; width: 210px;  color:#000; background-color: #ff6d63;border-radius:10px;color:#fff;box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.5) }
 .section4-1 .sec4-1 .card-rota .sec4-2btn a:hover{background-color: #FF9A91;}
 .section4-1 .sec4-1 .card-rota .sec4-2btn a:active{background-color: #BF6159}
 .section4-1 .sec4-1 .card-b{position: absolute;top: 21.5%;left: 0%;right:0;z-index: 100;}
