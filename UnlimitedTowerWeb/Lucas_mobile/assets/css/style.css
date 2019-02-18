@@ -338,8 +338,8 @@ footer{width: 100%;}
 .section7 .sec7{height: 600px;position: relative;}
 .section7 .sec7 h2{opacity: 0;font-family:'Noto Sans', sans-serif;text-align: center;font-size: 60px;line-height: 1.9;font-weight: bold;padding-top: 65px; transform: translateY(0);color:#131516;}
 .section7 .show7 .partner-wrap{width:100%; position:absolute;top:50%;left:50%; transform:translate(-50%,-50%);text-align: center;-webkit-transform: translate(-50%, -50%);}
-.section7 .show7 .partner-wrap li{display:inline-block;margin: 0 3%;}
-.section7 .sec7 .partner-wrap img{opacity: 0;width: 250px}
+.section7 .show7 .partner-wrap li{display:inline-block;margin: 0 3%;width:17%}
+.section7 .sec7 .partner-wrap img{opacity: 0;width: 200px}
 
 /*section7 animation*/
 .section7 .show7 h2{font-family:'Noto Sans', sans-serif;opacity: 1; transform: translateY(20px); transition: all 0.8s 0.5s ease;}
@@ -619,7 +619,7 @@ footer{height: 390px;background-color: #172335;}
 
 .section7{height: 500px;}
 .section7 .sec7{height:500px}
-.section7 .show7 .partner-wrap li{display:block;margin: 3% 3%;}
+.section7 .show7 .partner-wrap li{display:block;margin: 3% 3%; width:100%;}
 
 footer{height: 400px;background-color: #172335;}
 .footer .footer-logo{width: 132px;padding-top: 50px;}

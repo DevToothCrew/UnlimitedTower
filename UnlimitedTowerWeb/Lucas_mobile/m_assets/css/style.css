@@ -78,7 +78,7 @@ body{background-color: #fff}
 .section1 .sec1 .sec1-l .tower .ov .tower1 img:nth-child(1){position: absolute;top: -650px;left: 18px;}
 .section1 .sec1 .sec1-l .tower .ov .tower1 img:nth-child(2){position: absolute;top: -5304px;left: 18px;}
 .section1 .sec1 .sec1-r{width: 375px;position: relative;top: 235px;height: 600px;z-index: 200;}
-.section1 .sec1 .sec1-r .sec1-r-cont{position: absolute;top: 50%;left: 50%;transform: translate(-50%,-50%);width: 100%;}
+.section1 .sec1 .sec1-r .sec1-r-cont{position: absolute;top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);transform: translate(-50%,-50%);width: 100%;}
 .section1 .sec1 .sec1-r .sec1-r-cont h1{font-family:'Noto Sans', sans-serif;font-size:38px;font-weight: bold; color:#373d3f;text-align: center;padding-bottom: 40px;text-align: center;}
 .section1 .sec1 .sec1-r .sec1-r-cont p{font-family:'Noto Sans', sans-serif;font-size: 20px;line-height: 1.63;color: #555f61;font-weight: 500;text-align: center;padding-bottom: 14px;}
 .section1 .sec1 .sec1-r .sec1-r-cont .sec1-btn{text-align: center;margin: 40px 0;}
@@ -193,7 +193,7 @@ body{background-color: #fff}
 
 
 /*section4-1*/
-.section4-1 {height: 1px;position: relative;opacity: 0;}
+.section4-1 {height: 1080px;position: relative;opacity: 1;}
 .section4-1 .sec4-1{text-align: center;display: block;}
 .section4-1 .sec4-1 h1{font-family:'Noto Sans', sans-serif;font-size:32px;font-weight: bold;padding-top: 66px;color:#131516;}
 .section4-1 .sec4-1 h2{font-family:'Noto Sans', sans-serif; font-size: 20px; padding: 30px 0;line-height: 1.57;font-weight: 600;color: #373d3f;}
@@ -222,15 +222,15 @@ body{background-color: #fff}
 .section4-1 .sec4-1 .card-rota .card .value .val img{width: 27px;}
 .section4-1 .sec4-1 .card-rota .card .value .val p{color:#fff;margin-top: 10px;font-family:'Noto Sans', sans-serif; font-size: 18px;}
 .section4-1 .sec4-1 .card-rota .sec4-2btn { position: absolute;top: 78%;left: 5%;}
-.section4-1 .sec4-1 .card-rota .sec4-2btn a{line-height: 60px;font-size: 21px;font-weight: bold;display:inline-block; width: 220px;height: 60px;color:#000; background-color: #ff6d63;border-radius:10px;color:#fff;box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.5) }
+.section4-1 .sec4-1 .card-rota .sec4-2btn a{font-family: 'Noto Sans', sans-serif;line-height: 60px;font-size: 21px;font-weight: bold;display:inline-block; width: 220px;height: 60px;color:#000; background-color: #ff6d63;border-radius:10px;color:#fff;box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.5) }
 .section4-1 .sec4-1 .card-rota .sec4-2btn a:hover{background-color: #FF9A91;}
 .section4-1 .sec4-1 .card-rota .sec4-2btn a:active{background-color: #BF6159}
 .section4-1 .sec4-1 .card-b{position: absolute; top: 20%; left: 0%;right: 0;z-index: 100;}
 .section4-1 .sec4-1 .card-b img{width: 250px;}
 
 /*section4-1 animation*/
-.section4-1:before{content: '';width: 100%;height: 100%;background-color: rgba(0,0,0,0.8);position: absolute;top: 0;left: 0px;z-index: 100;transition: all  0.5s ease-in-out}
-.section4-1 .show4-1 .card-b{transform: rotateY(2520deg); transition: all  5s ease-in-out;}
+.section4-1:before{content: '';width: 100%;height: 100%;background-color: rgba(0,0,0,0.8);position: absolute;top: 0;left: 0px;z-index: 100;-webkit-transition: all  0.5s ease-in-out}
+.section4-1 .show4-1 .card-b{transform: rotateY(2520deg); transition: all  5s ease-in-out;-webkit-transform: rotateY(2520deg);-webkit- transition: all  5s ease-in-out;}
 .section4-1 .show4-1 .card-rota{opacity: 1; transition: all  1s 4.4s ease-in-out;}
 
 
@@ -252,7 +252,7 @@ body{background-color: #fff}
 /*section5*/
 .section5 {height: 2500px;background: url(../img/sec5-bg.png)  no-repeat center top;}
 .section5 .sec5{text-align: center;padding-top: 215px; color: #373d3f;font-weight: bold;}
-.section5 .sec5 h1{font-family: 'Noto Sans', sans-serif;;font-size:32px;font-weight: bold;opacity: 0;	}
+.section5 .sec5 h1{font-family: 'Noto Sans', sans-serif;font-size:32px;font-weight: bold;opacity: 0;	}
 .section5 .sec5 h2{ font-family: 'Noto Sans', sans-serif;; font-size:20px;margin:20px 0 40px;opacity: 0;	font-weight: 600;}
 .section5 .sec5 .explain {width: 100%;}
 .section5 .sec5 .explain .ex-img{opacity: 0;}
@@ -295,7 +295,7 @@ body{background-color: #fff}
 .section6{background: url(../img/sec6-bg.png)  no-repeat center top;height: 1500px;}
 .section6 .sec6{position: relative;height: 1500px;}
 .section6 .sec6 h2{opacity: 0;font-family:'Noto Sans', sans-serif;text-align: center;font-size: 32px;line-height: 1.9;font-weight: bold; padding-top: 65px; transform: translateY(0);color:#131516;}
-.section6 .sec6 .map-img{opacity: 0;position: absolute;top:37%;left: 47%;transform:translate(-50%,-50%);}
+.section6 .sec6 .map-img{opacity: 0;position: absolute;top:37%;left: 47%;transform:translate(-50%,-50%);-webkit-transform: translate(-50%, -50%);}
 .section6 .sec6 .map-img img{}
 .section6 .sec6 .map-wrap{width: 100%;height: 500px;position: relative;margin-top: 30px;}
 .section6 .sec6 .map-wrap .map{display: inline-block;position: absolute;	}
@@ -329,10 +329,10 @@ body{background-color: #fff}
 .section6 .show6 .map-wrap .map:nth-child(9){opacity: 1; transform: translateY(10px); transition: all 0.8s 2.8s ease;}
 
 /*section7*/
-.section7{height: 600px;}
-.section7 .sec7{height: 600px;position: relative;}
-.section7 .sec7 h2{opacity: 0;font-family:'Noto Sans', sans-serif;text-align: center;font-size:32px;line-height: 1.9;font-weight: bold;padding-top: 65px; transform: translateY(0);color:#131516;}
-.section7 .show7 .partner-wrap{width:100%; position:absolute;top:50%;left:50%; transform:translate(-50%,-50%);text-align: center;}
+.section7{height:700px;}
+.section7 .sec7{height: 700px;position: relative;}
+.section7 .sec7 h2{opacity: 0;font-family:'Noto Sans', sans-serif;text-align: center;font-size:32px;line-height: 1.9;font-weight: bold; transform: translateY(0);color:#131516;}
+.section7 .show7 .partner-wrap{width:100%; position:absolute;top:50%;left:50%; transform:translate(-50%,-50%);text-align: center;-webkit-transform: translate(-50%, -50%);}
 .section7 .show7 .partner-wrap li{margin: 3% 3%;}
 .section7 .sec7 .partner-wrap img{opacity: 0;width: 250px}
 
