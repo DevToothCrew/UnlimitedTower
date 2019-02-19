@@ -141,7 +141,7 @@ public class Cheat : MonoSingleton<Cheat>
         }
 
         // 아이템 생성
-        for (int i = 0; i < 130; i++)
+        for (int i = 0; i < 10; i++)
         {
             itemData itemdata = new itemData();
             itemdata.index = i;
@@ -158,32 +158,25 @@ public class Cheat : MonoSingleton<Cheat>
             userLoginData.item_list.Add(itemdata);
         }
 
-        // 배치 데이터 생성
-        int maxteamindex = 3;
+        // 파티,포메이션 추가 하나만
+        partyData partydata = new partyData();
+        partydata.index = 1;
+        partydata.state = 0;
 
-        // 파티,포메이션 추가
-        for (int partyNum = 0; partyNum < maxteamindex; partyNum++)
+        for (int forma_index = 0; forma_index < DEFINE.PARTY_MAX_NUM; forma_index++)
         {
-            partyData partydata = new partyData();
-            partydata.index = partyNum;
-            partydata.state = 0;
-
-            for (int forma_index = 0; forma_index < DEFINE.PARTY_MAX_NUM; forma_index++)
+            // 메인히어로는 모든 2번자리에 배치되어 있음.
+            if (forma_index == 2)
             {
-                // 메인히어로는 모든 2번자리에 배치되어 있음.
-                if (forma_index == 2)
-                {
-                    partydata.party.Add(0);
-                }
-                else
-                {
-                    partydata.party.Add(0);
-                }
+                partydata.party.Add(0);
             }
-
-
-            userLoginData.party_list.Add(partydata);
+            else
+            {
+                partydata.party.Add(0);
+            }
         }
+
+        userLoginData.party_list.Add(partydata);
 
         return JsonMapper.ToJson(userLoginData);
     }

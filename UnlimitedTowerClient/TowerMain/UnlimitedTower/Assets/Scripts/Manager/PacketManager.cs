@@ -886,8 +886,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
         UserMountItemData item = new UserMountItemData();
 
         item.index = getItemIndex;
-
-        item.index = getItemInfo.itemnum;
         item.tierNum = getItemInfo.tier;
         item.upgradeCount = getItemInfo.upgrade;
 
