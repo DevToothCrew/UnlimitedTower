@@ -68,10 +68,10 @@ public class InventoryInfoPopup : MonoBehaviour
             switch (inventoryState)
             {
                 case ITEMINVENTORY_ITEM_TYPE.EquipMent:
-                    pageText.text = (_curDisplayNum + 1) + "/" + (UserDataManager.Inst.MountItemList.Count / slotparent.childCount + 1) + "P";
+                    pageText.text = (_curDisplayNum + 1) + "/" + (UserDataManager.Inst.GetMonsterCount() / slotparent.childCount + 1) + "P";
                     break;
                 case ITEMINVENTORY_ITEM_TYPE.ETC:
-                    pageText.text = (_curDisplayNum + 1) + "/" + (UserDataManager.Inst.EtcItemList.Count / slotparent.childCount + 1) + "P";
+                    pageText.text = (_curDisplayNum + 1) + "/" + (UserDataManager.Inst.GetMountItemCount() / slotparent.childCount + 1) + "P";
                     break;
             }
         }
@@ -128,69 +128,73 @@ public class InventoryInfoPopup : MonoBehaviour
             // 정렬 후 디스플레이
             case ITEMINVENTORY_ITEM_TYPE.EquipMent:
                 {
-                    // 정렬
-                    switch (sortType)
+                    List<UserMountItemData> mountItemList = UserDataManager.Inst.GetMountItemList();
+                    if (mountItemList != null)
                     {
-                        case ITEMINVENTORY_SORT_TYPE.GRADE:
-                            UserDataManager.Inst.MountItemList.Sort(
-                                (a, b) =>
-                                {
+                        // 정렬
+                        switch (sortType)
+                        {
+                            case ITEMINVENTORY_SORT_TYPE.GRADE:
+                                mountItemList.Sort(
+                                    (a, b) =>
+                                    {
                                     // grade가 같다면 -> index순으로
                                     if (a.gradeNum == b.gradeNum)
+                                        {
+                                            return (a.index < b.index) ? 1 : -1;
+                                        }
+                                        else
+                                        {
+                                            return a.gradeNum < b.gradeNum ? 1 : -1;
+                                        }
+                                    });
+                                break;
+                            case ITEMINVENTORY_SORT_TYPE.TIER:
+                                mountItemList.Sort(
+                                    (a, b) =>
                                     {
-                                        return (a.index < b.index) ? 1 : -1;
-                                    }
-                                    else
-                                    {
-                                        return a.gradeNum < b.gradeNum ? 1 : -1;
-                                    }
-                                });
-                            break;
-                        case ITEMINVENTORY_SORT_TYPE.TIER:
-                            UserDataManager.Inst.MountItemList.Sort(
-                                (a, b) =>
-                                {
                                     // grade가 같다면 -> index순으로
                                     if (a.tierNum == b.tierNum)
+                                        {
+                                            return (a.index < b.index) ? 1 : -1;
+                                        }
+                                        else
+                                        {
+                                            return a.tierNum < b.tierNum ? 1 : -1;
+                                        }
+                                    });
+                                break;
+                            case ITEMINVENTORY_SORT_TYPE.UPGRADE:
+                                mountItemList.Sort(
+                                    (a, b) =>
                                     {
-                                        return (a.index < b.index) ? 1 : -1;
-                                    }
-                                    else
-                                    {
-                                        return a.tierNum < b.tierNum ? 1 : -1;
-                                    }
-                                });
-                            break;
-                        case ITEMINVENTORY_SORT_TYPE.UPGRADE:
-                            UserDataManager.Inst.MountItemList.Sort(
-                                (a, b) =>
-                                {
                                     // grade가 같다면 -> index순으로
                                     if (a.upgradeCount == b.upgradeCount)
+                                        {
+                                            return (a.index < b.index) ? 1 : -1;
+                                        }
+                                        else
+                                        {
+                                            return a.upgradeCount < b.upgradeCount ? 1 : -1;
+                                        }
+                                    });
+                                break;
+                            case ITEMINVENTORY_SORT_TYPE.OBTAIN:
+                                mountItemList.Sort(
+                                    (a, b) =>
                                     {
                                         return (a.index < b.index) ? 1 : -1;
-                                    }
-                                    else
-                                    {
-                                        return a.upgradeCount < b.upgradeCount ? 1 : -1;
-                                    }
-                                });
-                            break;
-                        case ITEMINVENTORY_SORT_TYPE.OBTAIN:
-                            UserDataManager.Inst.MountItemList.Sort(
-                                (a, b) =>
-                                {
-                                    return (a.index < b.index) ? 1 : -1;
-                                });
-                            break;
+                                    });
+                                break;
+                        }
                     }
 
                     // 디스플레이
-                    for (int itemIndex = startindex; itemIndex < endindex && itemIndex < UserDataManager.Inst.MountItemList.Count; itemIndex++)
+                    for (int itemIndex = startindex; itemIndex < endindex && itemIndex < mountItemList.Count; itemIndex++)
                     {
                         int iconIndex = itemIndex - startindex;
                         InventorySlotScript slot = invenslotlist[iconIndex];
-                        slot.Register(UserDataManager.Inst.MountItemList[itemIndex]);
+                        slot.Register(mountItemList[itemIndex]);
                     }
 
                     // 정렬버튼 보이기
@@ -204,11 +208,15 @@ public class InventoryInfoPopup : MonoBehaviour
             // 디스플레이 
             case ITEMINVENTORY_ITEM_TYPE.ETC:
                 {
-                    for (int itemIndex = startindex; itemIndex < endindex && itemIndex < UserDataManager.Inst.EtcItemList.Count; itemIndex++)
+                    List<UserEtcItemData> etcItemList = UserDataManager.Inst.GetEtcItemList();
+                    if (etcItemList != null)
                     {
-                        int iconIndex = itemIndex - curDisplayNum * totalIconCount;
-                        InventorySlotScript slot = invenslotlist[iconIndex];
-                        slot.Register(UserDataManager.Inst.EtcItemList[itemIndex]);
+                        for (int itemIndex = startindex; itemIndex < endindex && itemIndex < etcItemList.Count; itemIndex++)
+                        {
+                            int iconIndex = itemIndex - curDisplayNum * totalIconCount;
+                            InventorySlotScript slot = invenslotlist[iconIndex];
+                            slot.Register(etcItemList[itemIndex]);
+                        }
                     }
 
                     // 정렬버튼 없애기
@@ -320,7 +328,7 @@ public class InventoryInfoPopup : MonoBehaviour
             case ITEMINVENTORY_ITEM_TYPE.EquipMent:
                 {
                     // 오른쪽 윈도우인덱스에 표시될 아이템이 있다면
-                    if (UserDataManager.Inst.MountItemList.Count - 1 >= startindex)
+                    if (UserDataManager.Inst.GetMountItemCount() - 1 >= startindex)
                     {
                         DisplayItems(ITEMINVENTORY_ITEM_TYPE.EquipMent, sortType, curDisplayNum + 1);
                     }
@@ -329,7 +337,7 @@ public class InventoryInfoPopup : MonoBehaviour
             case ITEMINVENTORY_ITEM_TYPE.ETC:
                 {
                     // 오른쪽 윈도우인덱스에 표시될 아이템이 있다면
-                    if (UserDataManager.Inst.EtcItemList.Count - 1 >= startindex)
+                    if (UserDataManager.Inst.GetEtcItemCount() - 1 >= startindex)
                     {
                         DisplayItems(ITEMINVENTORY_ITEM_TYPE.ETC, sortType, curDisplayNum + 1);
                     }

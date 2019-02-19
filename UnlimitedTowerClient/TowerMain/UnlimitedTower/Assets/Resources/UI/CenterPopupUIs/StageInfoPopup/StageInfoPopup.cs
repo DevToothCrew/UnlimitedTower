@@ -116,7 +116,7 @@ public class StageInfoPopup : MonoBehaviour {
         CRIPERCENT.text = Etc.instance.GetCriticalProb(servantdata).ToString();
         CRIDMG.text = Etc.instance.Getstr(servantdata).ToString();
 
-        // 캐릭터 프리팹ㅁ
+        // 캐릭터 프리팹
         SubCamera.instance.Register(servantdata);
 
         // 아이템칸 켜기
@@ -132,7 +132,7 @@ public class StageInfoPopup : MonoBehaviour {
             item.Deregister();
         }
         // 아이템창 초기화
-        List<UserMountItemData> mountitemList = UserDataManager.Inst.MountItemList.FindAll((rowdata) => { return rowdata.isMounted && rowdata.mountServantIndex == servantdata.index; });
+        List<UserMountItemData> mountitemList = UserDataManager.Inst.GetMountItemList().FindAll((rowdata) => { return rowdata.isMounted && rowdata.mountServantIndex == servantdata.index; });
         // 아이템창 등록
         foreach (var item in mountitemList)
         {

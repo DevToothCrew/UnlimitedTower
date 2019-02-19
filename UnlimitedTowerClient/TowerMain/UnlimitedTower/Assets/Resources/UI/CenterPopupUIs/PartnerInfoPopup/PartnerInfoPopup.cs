@@ -46,10 +46,10 @@ public class PartnerInfoPopup : MonoBehaviour
             switch (unitType)
             {
                 case DISPLAY_UNIT_TYPE.Servant:
-                    pageText.text = (_pageNum + 1) + "/" + (Mathf.FloorToInt(UserDataManager.Inst.ServantList.Count / SlotList.Count) + 1);
+                    pageText.text = (_pageNum + 1) + "/" + (Mathf.FloorToInt(UserDataManager.Inst.GetServantCount() / SlotList.Count) + 1);
                     break;
                 case DISPLAY_UNIT_TYPE.Monster:
-                    pageText.text = (_pageNum + 1) + "/" + (Mathf.FloorToInt(UserDataManager.Inst.MonsterList.Count / SlotList.Count) + 1);
+                    pageText.text = (_pageNum + 1) + "/" + (Mathf.FloorToInt(UserDataManager.Inst.GetMonsterCount() / SlotList.Count) + 1);
                     break;
             }
         }
@@ -113,9 +113,13 @@ public class PartnerInfoPopup : MonoBehaviour
             case DISPLAY_UNIT_TYPE.Servant:
                 {
                     List<UserServantData> list = new List<UserServantData>();
-                    for (int i = startIndex; i < endIndex && i < UserDataManager.Inst.ServantList.Count; i++)
+                    List<UserServantData> servantList = UserDataManager.Inst.GetServantList();
+                    if (servantList != null)
                     {
-                        list.Add(UserDataManager.Inst.ServantList[i]);
+                        for (int i = startIndex; i < endIndex && i < UserDataManager.Inst.GetServantCount(); i++)
+                        {
+                            list.Add(servantList[i]);
+                        }
                     }
 
                     // 
@@ -157,9 +161,13 @@ public class PartnerInfoPopup : MonoBehaviour
             case DISPLAY_UNIT_TYPE.Monster:
                 {
                     List<UserMonsterData> list = new List<UserMonsterData>();
-                    for (int i = startIndex; i < endIndex && i < UserDataManager.Inst.MonsterList.Count; i++)
+                    List<UserMonsterData> monsterList = UserDataManager.Inst.GetMonsterList();
+                    if (monsterList != null)
                     {
-                        list.Add(UserDataManager.Inst.MonsterList[i]);
+                        for (int i = startIndex; i < endIndex && i < UserDataManager.Inst.GetMonsterCount(); i++)
+                        {
+                            list.Add(monsterList[i]);
+                        }
                     }
 
                     List<Value> sortedSlotList = list.ConvertAll((monsterdata) =>
@@ -296,7 +304,7 @@ public class PartnerInfoPopup : MonoBehaviour
         {
             case DISPLAY_UNIT_TYPE.Servant:
                 {
-                    if (UserDataManager.Inst.ServantList.Count - 1 >= startIndex)
+                    if (UserDataManager.Inst.GetServantCount() - 1 >= startIndex)
                     {
                         DisplayUnits(DISPLAY_UNIT_TYPE.Servant, sortState, pageNum + 1);
                     }
@@ -304,7 +312,7 @@ public class PartnerInfoPopup : MonoBehaviour
                 break;
             case DISPLAY_UNIT_TYPE.Monster:
                 {
-                    if (UserDataManager.Inst.MonsterList.Count - 1 >= startIndex)
+                    if (UserDataManager.Inst.GetMonsterCount() - 1 >= startIndex)
                     {
                         DisplayUnits(DISPLAY_UNIT_TYPE.Monster, sortState, pageNum + 1);
                     }

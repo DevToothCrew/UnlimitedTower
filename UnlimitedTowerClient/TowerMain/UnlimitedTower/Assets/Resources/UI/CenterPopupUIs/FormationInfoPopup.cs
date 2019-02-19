@@ -100,13 +100,14 @@ public class FormationInfoPopup : MonoBehaviour
         {
             case UNIT_TYPE.SERVANT:
                 {
-                    int maxPageNum = Mathf.CeilToInt(UserDataManager.Inst.ServantList.Count / bottomslotParent.childCount);
+                    // Servant List의 Count가 없을때 오류가 생길 수 있음
+                    int maxPageNum = Mathf.CeilToInt(UserDataManager.Inst.GetServantCount() / bottomslotParent.childCount);
                     pageText.text = (bottomWindowPageNum + 1) + "/" + (maxPageNum + 1) + "P";
                 }
                 break;
             case UNIT_TYPE.MONSTER:
                 {
-                    int maxPageNum = Mathf.CeilToInt(UserDataManager.Inst.MonsterList.Count / bottomslotParent.childCount);
+                    int maxPageNum = Mathf.CeilToInt(UserDataManager.Inst.GetMonsterCount() / bottomslotParent.childCount);
                     pageText.text = (bottomWindowPageNum + 1) + "/" + (maxPageNum + 1) + "P";
                 }
                 break;
@@ -128,9 +129,13 @@ public class FormationInfoPopup : MonoBehaviour
                     int startIndex = bottomWindowPageNum * bottomslotlist.Count;
                     int endIndex = (bottomWindowPageNum + 1) * (bottomslotlist.Count);
                     List<UserServantData> list = new List<UserServantData>();
-                    for (int i = startIndex; i < endIndex && i < UserDataManager.Inst.ServantList.Count; i++)
+                    List<UserServantData> servantList = UserDataManager.Inst.GetServantList();
+                    if(servantList != null)
                     {
-                        list.Add(UserDataManager.Inst.ServantList[i]);
+                        for (int i = startIndex; i < endIndex && i < servantList.Count; i++)
+                        {
+                            list.Add(servantList[i]);
+                        }
                     }
 
                     // sort하기
@@ -152,9 +157,13 @@ public class FormationInfoPopup : MonoBehaviour
                     int startIndex = bottomWindowPageNum * bottomslotlist.Count;
                     int endIndex = (bottomWindowPageNum + 1) * (bottomslotlist.Count);
                     List<UserMonsterData> list = new List<UserMonsterData>();
-                    for (int i = startIndex; i < endIndex && i < UserDataManager.Inst.MonsterList.Count; i++)
+                    List<UserMonsterData> monsterList = UserDataManager.Inst.GetMonsterList();
+                    if (monsterList != null)
                     {
-                        list.Add(UserDataManager.Inst.MonsterList[i]);
+                        for (int i = startIndex; i < endIndex && i < monsterList.Count; i++)
+                        {
+                            list.Add(monsterList[i]);
+                        }
                     }
 
                     // sort하기
@@ -230,7 +239,7 @@ public class FormationInfoPopup : MonoBehaviour
                 {
                     // 다음윈도우안에 보여줄수있는애가 있으면, 다음으로 넘긴다.
                     int startindex = bottomslotParent.childCount * (bottomWindowPageNum + 1);
-                    if (UserDataManager.Inst.ServantList.Count - 1 >= startindex)
+                    if (UserDataManager.Inst.GetServantCount() - 1 >= startindex)
                     {
                         DisplayBottomUnits(sortType, UNIT_TYPE.SERVANT, bottomWindowPageNum + 1);
                     }
@@ -240,7 +249,7 @@ public class FormationInfoPopup : MonoBehaviour
                 {
                     // 다음윈도우안에 보여줄수있는애가 있으면, 다음으로 넘긴다.
                     int startindex = bottomslotParent.childCount * (bottomWindowPageNum + 1);
-                    if (UserDataManager.Inst.MonsterList.Count - 1 >= startindex)
+                    if (UserDataManager.Inst.GetMonsterCount() - 1 >= startindex)
                     {
                         DisplayBottomUnits(sortType, UNIT_TYPE.MONSTER, bottomWindowPageNum + 1);
                     }

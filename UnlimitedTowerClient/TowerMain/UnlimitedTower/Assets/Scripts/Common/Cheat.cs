@@ -34,8 +34,6 @@ public class Cheat : MonoSingleton<Cheat>
         return JsonMapper.ToJson(userLoginData);
     }
 
-
-
     public SERVANT_JOB GetRandomServantJob()
     {
         int job = rand.Next(0, 6);

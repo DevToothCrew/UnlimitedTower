@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class UserDataManager : MonoSingleton<UserDataManager>
@@ -124,6 +125,76 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         }
 
         return null;
+    }
+
+    public UserFormationData GetFormationData(int index)
+    {
+        if(formationDic.ContainsKey(index) == false)
+        {
+            return null;
+        }
+
+        return formationDic[index];
+    }
+
+    public int GetServantCount()
+    {
+        return servantDic.Count;
+    }
+
+    public int GetMonsterCount()
+    {
+        return monsterDic.Count;
+    }
+
+    public int GetMountItemCount()
+    {
+        return mountItemDic.Count;
+    }
+
+    public int GetEtcItemCount()
+    {
+        return etcItemDic.Count;
+    }
+
+    public List<UserServantData> GetServantList()
+    {
+        if(servantDic.Count == 0)
+        {
+            return null;
+        }
+
+        return servantDic.Values.ToList();
+    }
+
+    public List<UserMonsterData> GetMonsterList()
+    {
+        if(monsterDic.Count == 0)
+        {
+            return null;
+        }
+
+        return monsterDic.Values.ToList();
+    }
+
+    public List<UserMountItemData> GetMountItemList()
+    {
+        if(mountItemDic.Count == 0)
+        {
+            return null;
+        }
+
+        return mountItemDic.Values.ToList();
+    }
+
+    public List<UserEtcItemData> GetEtcItemList()
+    {
+        if(etcItemDic.Count == 0)
+        {
+            return null;
+        }
+
+        return etcItemDic.Values.ToList();
     }
 
     #endregion

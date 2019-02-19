@@ -51,7 +51,7 @@ public class PopupUIsManager : MonoBehaviour {
         LobbyManager.Inst.InitCenterPopup();
         LobbyManager.Inst.CenterPopup.SetActivateWithAnimation(true);
         
-        UserServantData servantdata = UserDataManager.Inst.ServantList.Find((rowdata) => { return rowdata.isMainHero; });
+        UserServantData servantdata = UserDataManager.Inst.GetServantList().Find((rowdata) => { return rowdata.isMainHero; });
         heroInfoPopup.ToRegistered(servantdata);
     }
     

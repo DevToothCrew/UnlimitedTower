@@ -357,6 +357,7 @@ public class UserFormationData
     // 인덱스
     public int partyIndex;
 
+    // 파티 정보를 가져올것인지 포메이션 정보를 가져올것인지... 포메이션 정보를 가져올꺼면 파티 하나당 10개의 정보가 필요한게 아닌지?
     public int formationIndex;
 
     public bool isPlaced;
@@ -381,9 +382,6 @@ public class UserFormationData
 
     // 이 인덱스는 몬스터 또는 서번트의 인덱스이다. 하지만 몬스터 데이터와 서번트 데이터를 Formation Data가 또 포함해야 하는가?
     public int index;
-
-    // 그냥 겟으로만 참조할꺼면 밖에서 필요할때만 찾으면 되는데...?
-    // 그래서 삭제
 }
 
 

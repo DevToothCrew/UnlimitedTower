@@ -91,18 +91,18 @@ public class GameDataManager : MonoBehaviour
         // ERD 데이터 업데이트
         switch (type)
         {
-            case UNIT_TYPE.SERVANT:
-                {
-                    UserFormationData formData = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isPlaced && rowdata.index == playerindex && rowdata.charType == CHAR_TYPE.SERVANT; });
-                    formData.isPlaced = false;
-                }
-                break;
-            case UNIT_TYPE.MONSTER:
-                {
-                    UserFormationData formData = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isPlaced && rowdata.index == playerindex && rowdata.charType == CHAR_TYPE.MONSTER; });
-                    formData.isPlaced = false;
-                }
-                break;
+            //case UNIT_TYPE.SERVANT:
+            //    {
+            //        UserFormationData formData = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isPlaced && rowdata.index == playerindex && rowdata.charType == CHAR_TYPE.SERVANT; });
+            //        formData.isPlaced = false;
+            //    }
+            //    break;
+            //case UNIT_TYPE.MONSTER:
+            //    {
+            //        UserFormationData formData = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isPlaced && rowdata.index == playerindex && rowdata.charType == CHAR_TYPE.MONSTER; });
+            //        formData.isPlaced = false;
+            //    }
+            //    break;
         }
 
         // ERD 역참조데이터 업데이트 
@@ -135,14 +135,16 @@ public class GameDataManager : MonoBehaviour
     // 배치 조회
     public bool isPlacedAt(int teamNum, int formationIndex)
     {
-        UserFormationData formationdata = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isPlaced && rowdata.partyIndex == teamNum && rowdata.formationIndex == formationIndex; });
-        if (formationdata != null)
-        {
-
-            return formationdata.isPlaced;
-        }
-
         return false;
+
+        //UserFormationData formationdata = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isPlaced && rowdata.partyIndex == teamNum && rowdata.formationIndex == formationIndex; });
+        //if (formationdata != null)
+        //{
+
+        //    return formationdata.isPlaced;
+        //}
+
+        //return false;
     }
     public bool isPlaced(UNIT_TYPE type, int index)
     {
@@ -160,39 +162,43 @@ public class GameDataManager : MonoBehaviour
     // 배치된놈 가져오기
     public UserServantData getServantPlacedAt_nullPossible(int teamNum, int formationindex)
     {
-        UserFormationData formData = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isPlaced && rowdata.partyIndex == teamNum && rowdata.formationIndex == formationindex; });
-        // 그자리에 배치 안되어있을경우 return
-        if (!formData.isPlaced)
-        {
-            Debug.Log("버그");
-            return null;
-        }
+        return null;
 
-        // 서번트가아닐경우 return
-        if (formData.charType == CHAR_TYPE.MONSTER)
-        {
-            return null;
-        }
+        //UserFormationData formData = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isPlaced && rowdata.partyIndex == teamNum && rowdata.formationIndex == formationindex; });
+        //// 그자리에 배치 안되어있을경우 return
+        //if (!formData.isPlaced)
+        //{
+        //    Debug.Log("버그");
+        //    return null;
+        //}
 
-        return UserDataManager.Inst.ServantList.Find((rowdata) => { return rowdata.index == formData.index; });
+        //// 서번트가아닐경우 return
+        //if (formData.charType == CHAR_TYPE.MONSTER)
+        //{
+        //    return null;
+        //}
+
+        //return UserDataManager.Inst.ServantList.Find((rowdata) => { return rowdata.index == formData.index; });
     }
     public UserMonsterData getMonsterPlacedAt_nullPossible(int teamNum, int formationindex)
     {
-        UserFormationData formData = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isPlaced && rowdata.partyIndex == teamNum && rowdata.formationIndex == formationindex; });
-        // 그자리에 배치 안되어있을경우 return
-        if (!formData.isPlaced)
-        {
-            Debug.Log("버그");
-            return null;
-        }
+        return null;
 
-        // 몬스터일경우 return
-        if (formData.charType != CHAR_TYPE.MONSTER)
-        {
-            return null;
-        }
+        //UserFormationData formData = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isPlaced && rowdata.partyIndex == teamNum && rowdata.formationIndex == formationindex; });
+        //// 그자리에 배치 안되어있을경우 return
+        //if (!formData.isPlaced)
+        //{
+        //    Debug.Log("버그");
+        //    return null;
+        //}
 
-        return UserDataManager.Inst.MonsterList.Find((rowdata) => { return rowdata.index == formData.index; });
+        //// 몬스터일경우 return
+        //if (formData.charType != CHAR_TYPE.MONSTER)
+        //{
+        //    return null;
+        //}
+
+        //return UserDataManager.Inst.MonsterList.Find((rowdata) => { return rowdata.index == formData.index; });
     }
 
     // 배치가능 조회

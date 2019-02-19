@@ -51,20 +51,22 @@ public class Heroinfo_InvenPannel : MonoBehaviour {
 
     private void OnEnable()
     {
-        // 장착되지않은아이템 or 해당서번트에게 장착된아이템만 띄워준다.
-        List<UserMountItemData> list = UserDataManager.Inst.MountItemList.FindAll((rowdata)=> {
+        // List 탐색은 나쁜 예제
 
-            MountItemEntity.Param itemparam = ErdManager.instance.getmountitemEntityTable_nullPossible(rowdata.mountitemNum);
-            return (!rowdata.isMounted || (rowdata.isMounted && rowdata.mountServantIndex == HeroInfoPopup.instance.servantData.index)) && itemparam.mountitemType == displayType;
-        });
-        for (int i = 0; i < list.Count; i++)
-        {
-            HeroInfoInventoryItemicon icon = GetIcon();
-            icon.Register(list[i]);
+        //// 장착되지않은아이템 or 해당서번트에게 장착된아이템만 띄워준다.
+        //List<UserMountItemData> list = UserDataManager.Inst.MountItemList.FindAll((rowdata)=> {
 
-            icon.transform.SetParent(itemParent);
-            icon.transform.SetAsLastSibling();
-        }
+        //    MountItemEntity.Param itemparam = ErdManager.instance.getmountitemEntityTable_nullPossible(rowdata.mountitemNum);
+        //    return (!rowdata.isMounted || (rowdata.isMounted && rowdata.mountServantIndex == HeroInfoPopup.instance.servantData.index)) && itemparam.mountitemType == displayType;
+        //});
+        //for (int i = 0; i < list.Count; i++)
+        //{
+        //    HeroInfoInventoryItemicon icon = GetIcon();
+        //    icon.Register(list[i]);
+
+        //    icon.transform.SetParent(itemParent);
+        //    icon.transform.SetAsLastSibling();
+        //}
     }
     private void OnDisable()
     {

@@ -140,13 +140,13 @@ public class FormationSlot_Bottom : MonoBehaviour, IPointerClickHandler
                             return;
                         }
 
+                        // TODO : 배치에 관해 다시 작업 필요
                         // 배치가능한 서번트자리가 없다면 return
-                        int curPartyNum = FormationInfoPopup.instance.curTeamNum;
-                        UserFormationData formdata = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.partyIndex == curPartyNum && rowdata.formationIndex <= DEFINE.ServantMaxFormationNum && rowdata.formationIndex >= DEFINE.ServantMinFormationNum && !rowdata.isPlaced; });
-                        if (formdata == null)
-                        {
-                            return;
-                        }
+                        //UserFormationData formdata = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.partyIndex == curPartyNum && rowdata.formationIndex <= DEFINE.ServantMaxFormationNum && rowdata.formationIndex >= DEFINE.ServantMinFormationNum && !rowdata.isPlaced; });
+                        //if (formdata == null)
+                        //{
+                        //    return;
+                        //}
 
 
 
@@ -166,12 +166,12 @@ public class FormationSlot_Bottom : MonoBehaviour, IPointerClickHandler
                         // 조건1: 몬스터자리index에 포함되기
                         // 조건2: 해당하는 서번트자리가 배치완료되어있어야함.
                         // 조건3: 해당자리는 배치가 아직안되어있어야함.
-                        int curPartyNum = FormationInfoPopup.instance.curTeamNum;
-                        UserFormationData formdata = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.partyIndex == curPartyNum && rowdata.formationIndex <= DEFINE.MonsterMaxFormationNum && rowdata.formationIndex >= DEFINE.MonsterMinFormationNum && GameDataManager.instance.isPlacedAt(curPartyNum,rowdata.formationIndex-5) && !rowdata.isPlaced; });
-                        if (formdata == null)
-                        {
-                            return;
-                        }
+                        //int curPartyNum = FormationInfoPopup.instance.curTeamNum;
+                        //UserFormationData formdata = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.partyIndex == curPartyNum && rowdata.formationIndex <= DEFINE.MonsterMaxFormationNum && rowdata.formationIndex >= DEFINE.MonsterMinFormationNum && GameDataManager.instance.isPlacedAt(curPartyNum,rowdata.formationIndex-5) && !rowdata.isPlaced; });
+                        //if (formdata == null)
+                        //{
+                        //    return;
+                        //}
 
 
 
