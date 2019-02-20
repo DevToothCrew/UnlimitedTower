@@ -382,7 +382,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
         userServant.index = getServantIndex;
 
         userServant.jobNum = getServantInfo.job;
-        userServant.isMainHero = getServantIndex == 0 ? true : false;
         userServant.exp = getServantInfo.exp;
 
         userServant.body = getServantInfo.appear.body;

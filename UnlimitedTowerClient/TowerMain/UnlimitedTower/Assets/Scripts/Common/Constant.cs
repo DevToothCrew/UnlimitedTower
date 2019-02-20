@@ -140,9 +140,6 @@ public class UserServantData
     // 캐릭터를 구분하는 고유값이 되어야함
     public int index;
 
-    // 메인히어로인지 아닌지
-    public bool isMainHero;
-
     // 영웅서번트인지 아닌지
     public bool isLegend;
 

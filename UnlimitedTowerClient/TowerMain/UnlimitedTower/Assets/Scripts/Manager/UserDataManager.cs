@@ -6,8 +6,6 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 {
     public UserInfo userInfo = new UserInfo();
 
-    public UserServantData heroInfo = new UserServantData();
-
     public Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
    
     public Dictionary<int, UserMonsterData> monsterDic = new Dictionary<int, UserMonsterData>();

@@ -50,7 +50,6 @@ public class Etc : MonoBehaviour
         return 0;
     }
 
-
     // 공격력 방어력 생명력 치확 치피 속도
     public double Getatk(UserServantData servant)
     {
@@ -75,6 +74,7 @@ public class Etc : MonoBehaviour
                 return 0;
         }
     }
+
     public double Getatk(UserMonsterData monster)
     {
         // 아직 미정인상태
