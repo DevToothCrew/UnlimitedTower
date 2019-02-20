@@ -342,6 +342,16 @@ public class JsonParty
 }
 
 [System.Serializable]
+public class TestParty
+{
+    public int partyNum = 0;
+    public List<int> servantList = new List<int>();
+    public List<int> monsterList = new List<int>();
+}
+
+
+
+[System.Serializable]
 public class JsonBattleAction
 {
     public int targetIndex = 0;
