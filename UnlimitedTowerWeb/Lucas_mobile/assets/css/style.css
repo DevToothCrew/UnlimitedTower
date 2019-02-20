@@ -1,6 +1,4 @@
-@font-face {font-family: Noto Sans; src: url(https://tistory2.daumcdn.net/tistory/2905650/skin/images/NotoSans-Regular.woff) format('woff')}
-@import url('https://fonts.googleapis.com/css?family=Noto+Sans:400,700');/*font-family: 'Noto Sans', sans-serif;*/
-@import url('https://fonts.googleapis.com/css?family=Noto+Sans+SC:400,500,700&subset=chinese-simplified');/*font-family: 'Noto Sans SC', sans-serif;*/
+
 
 
 body{background-color: #fff;position:relative;}
@@ -201,8 +199,8 @@ footer{width: 100%;}
 .section4 .show4 em{opacity: 1; transform: translateY(15px); transition: all 1s 1.2s ease;}
 
 /*section4-1*/
-.section4-1 {height: 1px;width:100%;position: relative;opacity:0 ;}
-.section4-1 .sec4-1{text-align: center;display: block;}
+.section4-1 {height: 0px;position: relative;opacity:0 ;}
+.section4-1 .sec4-1{text-align: center;}
 .section4-1 .sec4-1 h1{font-family:'Noto Sans', sans-serif;font-size:60px;font-weight: bold;padding-top: 66px;color:#131516;}
 .section4-1 .sec4-1 h2{font-family:'Noto Sans', sans-serif; font-size: 28px; padding: 30px 0;line-height: 1.57;font-weight: 500;color: #373d3f;}
 .section4-1 .sec4-1 .sec4-mon{margin: 60px 0;margin-left: -58px;position: relative;}
@@ -235,22 +233,22 @@ footer{width: 100%;}
 
 /*section4-1 animation*/
 .section4-1:before{content: '';width: 100%;height: 100%;background-color: rgba(0,0,0,0.8);position: absolute;top: 0;left: 0px;z-index: 100;-webkit-transition: all  0.5s ease-in-out;transition: all  0.5s ease-in-out;}
-.section4-1 .show4-1 .card-b{-webkit-transform: rotateY(2520deg); transform: rotateY(2520deg);-webkit-transition: all  5s ease-in-out;-webkit-transform:all  5s ease-in-out;}
-.section4-1 .show4-1 .card-rota{opacity: 1; transition: all  1s 4.4s ease-in-out;-webkit-transition: all  1s 4.4s ease-in-out;}
+.section4-1 .show4-1 .card-b{-webkit-transform: rotateY(2520deg); transform: rotateY(2520deg);-webkit-transition: all  5s ease-in-out;-webkit-transition:  5s ease-in-out;}
+.section4-1 .show4-1 .card-rota{opacity: 1; transition: all 1s 5.4s ease-in-out;-webkit-transition: all 1s 5.4s ease-in-out;}
 
 /*section4-3*/
 .section4-3{display: none;  height: 500px;}
 .section4-3 .sec4-3{text-align: center;}
 .section4-3 .sec4-3 h1{font-family: 'Noto Sans', sans-serif;font-size: 60px;font-weight: bold;margin: 80px 0;color:#131516;}
 .section4-3 .sec4-3 .slide-wrap .slick{position: relative;width: 200px;}
-.section4-3 .sec4-3 .slide-wrap .slick h2{font-family: 'Noto Sans', sans-serif;font-size: 11px; font-weight: bold; position: absolute; top: 23%; left: 42%;transform: translate(-50%,-50%);}
-.section4-3 .sec4-3 .slide-wrap .slick .smonster{position: absolute;top: 45%;left: 42%;transform: translate(-50%,-50%);height: 90px;}
-.section4-3 .sec4-3 .slide-wrap .slick .ability{position: absolute;top: 75%;left: 42%;transform: translate(-50%,-50%);width: 200px;}
+.section4-3 .sec4-3 .slide-wrap .slick h2{font-family: 'Noto Sans', sans-serif;font-size: 11px; font-weight: bold; position: absolute; top: 23%; left: 103px;transform: translate(-50%,-50%);}
+.section4-3 .sec4-3 .slide-wrap .slick .smonster{position: absolute;top: 45%;left: 103px;transform: translate(-50%,-50%);height: 90px;}
+.section4-3 .sec4-3 .slide-wrap .slick .ability{position: absolute;top: 75%;left: 103px;transform: translate(-50%,-50%);width: 200px;}
 .section4-3 .sec4-3 .slide-wrap .slick .ability .sabil{display:inline-block;margin: 0 8px;}
 .section4-3 .sec4-3 .slide-wrap .slick .ability .sabil img{width: 25px;}
 .section4-3 .sec4-3 .slide-wrap .slick .ability .sabil p{color:#fff}
-.section4-3 .sec4-3 .slide-wrap .slick .slick-servant{height: 90px;position: absolute;top: 45%;left: 42%;transform: translate(-50%,-50%);}
-.section4-3 .sec4-3 .slide-wrap .slick .sitem{height: 70px;position: absolute;top: 45%;left: 42%;transform: translate(-50%,-50%);}
+.section4-3 .sec4-3 .slide-wrap .slick .slick-servant{height: 90px;position: absolute;top: 45%;left: 103px;transform: translate(-50%,-50%);}
+.section4-3 .sec4-3 .slide-wrap .slick .sitem{height: 70px;position: absolute;top: 45%;left: 103px;transform: translate(-50%,-50%);}
 .section4-3 .sec4-3 .slide-wrap .slick .stier{position: absolute;top: 57px;left: 19px;width: 20px;}
 
 /*section5*/
@@ -501,8 +499,8 @@ footer{height: 390px;background-color: #172335;}
 .section1 .sec1 .sec1-r .sec1-r-cont p{width: 286px; padding:10px 0;  }
 .section1 .sec1 .sec1-r .sec1-r-cont .sec1-btn{margin-top:0;padding-top: 0;}
 .section1 .sec1 .sec1-r .sec1-r-cont .sec1-btn span{display: block;margin: 54px 0;}
-.section5 .sec5 .explain .ex-txt .bar-t{left: 12%;}
-.section5 .sec5 .explain .ex-txt .bar-b{left: 12%;}
+.section5 .sec5 .explain .ex-txt .bar-t{left: 13%;}
+.section5 .sec5 .explain .ex-txt .bar-b{left: 13%;}
 }
 @media(max-width:770px){
 .section6 {background:none;}
@@ -518,7 +516,7 @@ footer{height: 390px;background-color: #172335;}
 .section6 .sec6 .map-wrap .map:nth-child(9){top: 8%; left: 75%;}
 }
 @media(max-width:750px){
-.container{width: 375px;}
+.container{width:100%;}
 /*section1*/
 .section1{height: 935px;}
 .section1 .sec1{height: 935px;}
@@ -542,7 +540,7 @@ footer{height: 390px;background-color: #172335;}
 .section2 .sec2 .video iframe{width: 364px;height: 200px;}
 
 /*section3*/
-.section3{height: 860px;}
+.section3{height: 890px;}
 .section3 .show3 .sec3-monster{width: 100%;}
 .section3 .sec3 .sec3-monster .sm3-l p{margin: 0;}
 .section3 .sec3 .sec3-monster .sm3-r p{margin: 0;}
@@ -556,13 +554,12 @@ footer{height: 390px;background-color: #172335;}
 .section4 .sec4 .sec4-item:before{height: 50px;} 
 
 /*section4-1*/
-
 .section4-1 .sec4-1 .sec-monster{margin: 10px 0;}
 .section4-1 .sec4-1 .sec4-mon{margin: 0;}
 .section4-1 .sec4-1 .sec4-mon:before{height: 50px;}
 .section4-1 .sec4-1 .sec4-item{margin: 0;}
 .section4-1 .sec4-1 .sec4-item:before{height: 50px;}
-.section4-1 .sec4-1 .card-rota {opacity: 0;top: 49%;}
+.section4-1 .sec4-1 .card-rota {top: 49%;}
 .section4-1 .sec4-1 .card-rota .card-bg img{width: 250px;}
 .section4-1 .sec4-1 .card-rota .card{width: 250px;}
 .section4-1 .sec4-1 .card-rota .card .cname{font-size: 13px;}
@@ -574,9 +571,6 @@ footer{height: 390px;background-color: #172335;}
 .section4-1 .sec4-1 .card-rota .card .value .val img{width:30px;}
 .section4-1 .sec4-1 .card-b{position: absolute; top: 15%; left: 0%;right:0}
 .section4-1 .sec4-1 .card-b img{width: 250px;}
-
-.section4-1 .show4-1 .card-rota{opacity: 1; transition: all  1s 4.4s ease-in-out;}
-
 
 /*section5*/
 .section5{height: 2500px;background: url(../img/m-sec5-bg.png)  no-repeat center top;}
