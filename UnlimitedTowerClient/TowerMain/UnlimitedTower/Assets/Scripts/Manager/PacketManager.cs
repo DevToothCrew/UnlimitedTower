@@ -84,6 +84,26 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         Debug.Log("RequestSaveParty");
 
+        TestParty data = new TestParty();
+        data.partyNum = partyInfo.partyIndex;
+        for(int i=0; i< partyInfo.formationDataDic.Count; ++i)
+        {
+            //비어있는 경우 index는 0 이다.
+            //파티 하나 고정 히어로도 고정이기 때문에 히어로에 대한 처리는 안해준다.
+            if (partyInfo.formationDataDic[i].formationIndex == 0)
+            {
+                continue;
+            }
+            else if(partyInfo.formationDataDic[i].formationIndex <= 4)
+            {
+                data.servantList.Add(partyInfo.formationDataDic[i].index);
+            }
+            else
+            {
+                data.monsterList.Add(partyInfo.formationDataDic[i].index);
+            }
+        }
+
         //JsonParty data = new JsonParty();
         //data.partyNum = partyInfo.partyIndex;
 
@@ -92,7 +112,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         //    data.partyList.Add(partyInfo.characterList[i].index);
         //}
 
-        string json = JsonUtility.ToJson(" ");
+        string json = JsonUtility.ToJson(data);
         Debug.Log("print Jsson : : " + json);
 
         SetFormation(json);
