@@ -498,6 +498,7 @@ footer{height: 390px;background-color: #172335;}
 .section5 .sec5 .explain .ex-txt .bar-b{left: 13%;}
 }
 @media(max-width:770px){
+	.container{width:375px}
 .section6 {background:none;}
 .section5 .sec5 .explain1 .ex-img img{width: 450px;}
 .section6 .sec6 .map-wrap .map:nth-child(1){top: 8%; left: 13%;}
@@ -510,8 +511,12 @@ footer{height: 390px;background-color: #172335;}
 .section6 .sec6 .map-wrap .map:nth-child(8){top: 59%;left: 68%;}
 .section6 .sec6 .map-wrap .map:nth-child(9){top: 8%; left: 75%;}
 }
+@media(max-width:550px){
+		.container{width:100%;}
+
+	}
 @media(max-width:750px){
-.container{width:375px}
+
 /*section1*/
 .section1{height: 935px;}
 .section1 .sec1{height: 935px;}
