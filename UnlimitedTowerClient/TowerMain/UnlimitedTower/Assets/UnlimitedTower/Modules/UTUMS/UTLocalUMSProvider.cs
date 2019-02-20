@@ -21,7 +21,7 @@ public class UTLocalUMSProvider : UTUMSProvider
         UTEventPoolInterface.SendEventData("gacha", new UTPlayerManager.UTGachaData() { });
     }
 
-    public override void RequestSaveParty(Party partyInfo)
+    public override void RequestSaveParty(UserPartyData partyInfo)
     {
         UTEventPoolInterface.SendEventData("saveparty", new UTPlayerManager.UTPartyData() { partyNum = 1});
     }

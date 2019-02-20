@@ -231,6 +231,7 @@ public class UserServantData
 
     }
 }
+
 [System.Serializable]
 public class UserMonsterData
 {
@@ -302,7 +303,7 @@ public class UserMonsterData
         status.basicInt = DEFINE.TEST_STATUS_VALUE;
     }
 }
-// erd완
+
 [System.Serializable]
 public class UserMountItemData
 {
@@ -355,7 +356,7 @@ public class Status
 public class UserFormationData
 {
     // 인덱스
-    public int partyIndex;
+    public int index;
 
     // 파티 정보를 가져올것인지 포메이션 정보를 가져올것인지... 포메이션 정보를 가져올꺼면 파티 하나당 10개의 정보가 필요한게 아닌지?
     public int formationIndex;
@@ -379,9 +380,6 @@ public class UserFormationData
             return CHAR_TYPE.MONSTER;
         }
     }
-
-    // 이 인덱스는 몬스터 또는 서번트의 인덱스이다. 하지만 몬스터 데이터와 서번트 데이터를 Formation Data가 또 포함해야 하는가?
-    public int index;
 }
 
 
@@ -399,20 +397,13 @@ public class UserEtcItemData
 [System.Serializable]
 public class UserPartyData
 {
-    public int partyIndex;
-    public bool isFixedAtFloor;
-    
-    // 역참조 초기화o, 역참조 업데이트o
+    // 지금은 파티 1개만 하는걸로 
+    // public int partyIndex;
+    public int partyState;
+
     public Dictionary<int, UserFormationData> formationDataDic = new Dictionary<int, UserFormationData>();
-    public List<UserFormationData> UserFormationList = new List<UserFormationData>();
 }
 
-public class Party
-{
-    public int partyIndex;
-    public int state;
-    public Dictionary<int, PartyCharacterInfo> characterList = new Dictionary<int, PartyCharacterInfo>();
-}
 public class PartyCharacterInfo
 {
     public CHAR_TYPE type;

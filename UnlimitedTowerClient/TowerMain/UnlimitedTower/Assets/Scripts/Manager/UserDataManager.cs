@@ -6,9 +6,10 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 {
     public UserInfo userInfo = new UserInfo();
 
-    public Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
-    // 사실 Dic가 있으면 그냥 toList로 불러 올수있음, 그리고 왜 이걸 대문자로 받아서 하지?
+    public UserServantData heroInfo = new UserServantData();
 
+    public Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
+   
     public Dictionary<int, UserMonsterData> monsterDic = new Dictionary<int, UserMonsterData>();
 
     // 장비와 기타 아이템 소모품 등은 Equipment와 Item으로 변경 필요
@@ -16,9 +17,8 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
     public Dictionary<int, UserEtcItemData> etcItemDic = new Dictionary<int, UserEtcItemData>();
     
-    public Dictionary<int, UserPartyData> partyDic = new Dictionary<int, UserPartyData>();
-    
-    public Dictionary<int, UserFormationData> formationDic = new Dictionary<int, UserFormationData>();
+    // 현재 파티는 1개, 파티 안에 Formation Info 포함
+    public UserPartyData partyInfo = new UserPartyData();
 
     public int usingPartyNum = 1;
 
@@ -49,9 +49,9 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         userInfo.sceneState = state;
     }
 
-    public void SetFormationDic(Dictionary<int, UserFormationData> userInformationDic)
+    public void SetPartyInfo(UserPartyData getPartyInfo)
     {
-        formationDic = userInformationDic;
+        partyInfo = getPartyInfo;
     }
 
     #endregion
@@ -79,15 +79,9 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return userInfo.userHero;
     }
 
-    public UserPartyData GetUserPartyInfo(int partyNum)
+    public UserPartyData GetUserPartyInfo()
     {
-        if(partyDic.ContainsKey(partyNum) == false)
-        {
-            Debug.Log("Invalid PartyNum");
-            return null;
-        }
-
-        return partyDic[partyNum];
+        return partyInfo;
     }
 
     public UserServantData GetServantInfo(int index)
@@ -112,29 +106,29 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     }
 
     // 이름이 병신같음
-    public UserFormationData GetFormaData_nullPossible(int team, int formationIndex)
+    public UserFormationData GetFormationData(int formationIndex)
     {
         // TODO : 이런식으로 쓸꺼면 team을 Dictionary의 Key로 사용
 
-        if(formationDic.ContainsKey(team) == true)
+        if(partyInfo == null)
         {
-            if(formationDic[team].formationIndex == formationIndex)
-            {
-                return formationDic[team];
-            }
-        }
-
-        return null;
-    }
-
-    public UserFormationData GetFormationData(int index)
-    {
-        if(formationDic.ContainsKey(index) == false)
-        {
+            Debug.Log("Invalid GetFormaData_nullPossible_1");
             return null;
         }
 
-        return formationDic[index];
+        if(partyInfo.formationDataDic == null)
+        {
+            Debug.Log("Invalid GetFormaData_nullPossible_2");
+            return null;
+        }
+
+        if (partyInfo.formationDataDic.ContainsKey(formationIndex) == false)
+        {
+            Debug.Log("Invalid GetFormaData_nullPossible_3");
+            return null;
+        }
+
+        return partyInfo.formationDataDic[formationIndex];
     }
 
     public int GetServantCount()
