@@ -164,7 +164,7 @@ public class userData
 {
     public string user;
     public int state; //씬 상태
-    public servantInfo hero = new servantInfo();
+    public servantInfo hero = new servantInfo();    // Hero는 Index 0 , Party_Num 1 을 무조건 포함
 }
 
 [Serializable]
