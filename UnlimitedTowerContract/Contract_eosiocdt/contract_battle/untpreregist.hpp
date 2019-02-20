@@ -213,7 +213,7 @@ enum db_index
     void insert_item_id(uint32_t id, uint32_t type, uint32_t _job, uint32_t tier);
     void insert_item_grade(uint32_t _grade, uint32_t _min, uint32_t _max); 
     void insert_grade_ratio(uint32_t _grade, uint32_t _ratio);
-    void insert_stage(uint64_t _stage_num);
+    void insert_stage(uint64_t _stage_type);
     void insert_stage_monster(uint64_t _stage_num, uint32_t _id, uint32_t _str, uint32_t _dex, uint32_t _int);
 
 
@@ -723,12 +723,13 @@ TABLE tparty
 public:
     uint32_t index;
     uint32_t state = party_state::on_wait;
-    std::vector<uint64_t> party;
+    std::vector<uint64_t> servant_list;
+    std::vector<uint64_t> monster_list;
 
     uint64_t primary_key() const {return index;}
 };
 
-typedef eosio::multi_index<"tparty"_n,tparty> user_partys;
+typedef eosio::multi_index<"tpartylist"_n,tparty> user_partys;
 
 #pragma endregion
 
@@ -737,7 +738,7 @@ typedef eosio::multi_index<"tparty"_n,tparty> user_partys;
     //------------------------------------------------------------------------//
 #pragma region party_system
     public:
-    ACTION setparty(eosio::name _user, uint32_t _party_number, const std::vector<uint32_t> &_party_list);
+    ACTION setparty(eosio::name _user, uint32_t _party_number, const std::vector<uint64_t> &_servant_list, const std::vector<uint64_t> &_monster_list);
     void add_party_list(eosio::name _user);
 
 
@@ -843,6 +844,7 @@ private:
   public:
     struct battle_state
     {
+        uint32_t party_position;
         uint32_t index;
         uint32_t now_hp;
         uint32_t attack;
@@ -857,8 +859,11 @@ private:
     TABLE tbattlestate
     {
         eosio::name user;
-        uint32_t party_number;
-        std::vector<battle_state> state_list;
+        uint64_t stage_type; // Tower / Field 1~5
+        eosio::name enemy_user; // if : Tower = account Name / else : untowermain1
+        uint64_t stage_number;
+        std::vector<battle_state> my_state_list;
+        std::vector<battle_state> enemy_state_list;
 
         uint64_t primary_key() const { return user.value; }
     };
@@ -876,12 +881,13 @@ struct battle_order_struct
 {
     uint32_t speed;
     uint32_t battle_location;
+    uint32_t party_position;
     uint32_t second_speed;
 };
 
 struct battle_action
 {
-     uint32_t target_index = 0;
+     uint32_t target_position = 0;
      uint32_t avoid = 0;
      uint32_t critical = 0;
      uint32_t damage = 0;
@@ -889,7 +895,7 @@ struct battle_action
 
 struct battle_action_info
 {
-    uint32_t index = 0;
+    uint32_t my_position = 0;
     uint32_t action_type = 0;
     std::vector<battle_action> battle_action_list;
 };
@@ -910,11 +916,26 @@ enum db_battle_choice
     db_stage_monster,    
 };
 
+struct stage_monster_info
+{
+    uint64_t index;
+    uint64_t level;
+    status_info status;
+    uint64_t count;
+    std::vector<uint64_t> position_list;
+};
+
+struct stage_info
+{
+    uint64_t index;
+    std::vector<stage_monster_info> monster_list;
+};
+
 TABLE dbstage
 {
-    uint64_t stage_num;
-    std::vector<monster_info> enemy_list;
-    uint64_t primary_key()const { return stage_num; }
+    uint64_t stage_type;
+    std::vector<stage_info> enemy_list;
+    uint64_t primary_key()const { return stage_type; }
    
 };
 typedef eosio::multi_index<"dbstage"_n, dbstage> stage_db;
@@ -949,11 +970,11 @@ uint32_t get_buff_turn(uint32_t _buff);
 bool check_critical(uint64_t _critcal_per, uint64_t _seed);
 bool check_avoid(uint64_t _avoid_per,uint64_t _seed);
 
-battle_action get_attack_action(const std::vector<battle_state> &_state_list, uint64_t _seed, uint64_t _index, uint64_t _target);
+battle_action get_attack_action(const std::vector<battle_state> &_my_state_list, const std::vector<battle_state> &_enemy_state_list,uint64_t _seed, uint64_t _my_position, uint64_t _target_position);
 
 ACTION startbattle(eosio::name _user, uint32_t _party_number, uint32_t _stage);
 
-int get_random_target(const std::vector<battle_state> &_state_list, uint64_t _seed, uint32_t _max, uint32_t _min);
+int get_random_target(const std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint32_t _max, uint32_t _min);
 
 static bool sort_compare(const battle_order_struct &a,const battle_order_struct &b);
 ACTION activeturn(eosio::name _user, uint32_t _hero_action, uint32_t _monster_action, uint32_t _hero_target, uint32_t _monster_target, std::string _seed);
@@ -966,6 +987,8 @@ ACTION getreward(eosio::name _user);
 
 //테스트용 함수
 ACTION deletebattle(eosio::name _user);
+ACTION deleteuser(eosio::name _user);
+
 #pragma endregion
 
 
