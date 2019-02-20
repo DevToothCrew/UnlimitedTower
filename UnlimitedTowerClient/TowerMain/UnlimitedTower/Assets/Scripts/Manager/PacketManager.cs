@@ -506,9 +506,36 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
 
         UserPartyData partyInfo = new UserPartyData();
+        partyInfo.partyIndex = getPartyData.index;
         partyInfo.partyState = getPartyData.state;
 
-        // TODO : 정보 추가
+        UserFormationData heroFormationData = new UserFormationData();
+        heroFormationData.index = 0;
+        heroFormationData.formationIndex = 0;
+
+        partyInfo.formationDataDic.Add(0, heroFormationData);
+
+        for(int i = 0; i < getPartyData.servant_list.Count; i++)
+        {
+            if(getPartyData.servant_list[i] > 0)
+            {
+                UserFormationData servantFormationData = new UserFormationData();
+                servantFormationData.index = getPartyData.servant_list[i];
+                servantFormationData.formationIndex = i + 1;
+                partyInfo.formationDataDic.Add(servantFormationData.formationIndex, servantFormationData);
+            }
+        }
+
+        for (int i = 0; i < getPartyData.monster_list.Count; i++)
+        {
+            if (getPartyData.monster_list[i] > 0)
+            {
+                UserFormationData monsterFormationData = new UserFormationData();
+                monsterFormationData.index = getPartyData.monster_list[i];
+                monsterFormationData.formationIndex = i + 5;
+                partyInfo.formationDataDic.Add(monsterFormationData.formationIndex, monsterFormationData);
+            }
+        }
 
         return partyInfo;
     }

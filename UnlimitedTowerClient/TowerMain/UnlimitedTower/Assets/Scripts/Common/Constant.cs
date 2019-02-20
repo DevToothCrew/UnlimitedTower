@@ -361,13 +361,11 @@ public class UserFormationData
     // 파티 정보를 가져올것인지 포메이션 정보를 가져올것인지... 포메이션 정보를 가져올꺼면 파티 하나당 10개의 정보가 필요한게 아닌지?
     public int formationIndex;
 
-    public bool isPlaced;
-
     public CHAR_TYPE charType
     {
         get
         {
-            if (formationIndex == 2)
+            if (formationIndex == 0)
             {
                 return CHAR_TYPE.HERO;
             }
@@ -397,8 +395,7 @@ public class UserEtcItemData
 [System.Serializable]
 public class UserPartyData
 {
-    // 지금은 파티 1개만 하는걸로 
-    // public int partyIndex;
+    public int partyIndex;
     public int partyState;
 
     public Dictionary<int, UserFormationData> formationDataDic = new Dictionary<int, UserFormationData>();
