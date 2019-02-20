@@ -16,19 +16,22 @@ public class Cheat : MonoSingleton<Cheat>
         userLoginData.userinfo.state = 2;
         userLoginData.userinfo.hero = GetRandomServant(GetRandomServantJob());
 
-        for (int i = 1; i <= 5; i++)
+        for (int i = 1; i < 10; i++)
         {
-            servantData servantdata = GetRandomServantData(i, GetRandomServantJob());
-            userLoginData.servant_list.Add(servantdata);
+            userLoginData.servant_list.Add(GetRandomServantData(i, GetRandomServantJob()));
+        }
 
+        for (int i = 1; i < 10; i++)
+        {
             userLoginData.monster_list.Add(GetRandomMonster(i));
         }
 
-        // 몬스터 아이템 추가 
+        // Item 추가 예정
 
         partyData partyData = new partyData();
         partyData.index = 1;
         partyData.state = 0;
+        // 비어있는 파티 정보로
 
         userLoginData.party_info = partyData;
 

@@ -512,7 +512,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
         UserFormationData heroFormationData = new UserFormationData();
         heroFormationData.index = 0;
         heroFormationData.formationIndex = 0;
-
         partyInfo.formationDataDic.Add(0, heroFormationData);
 
         for(int i = 0; i < getPartyData.servant_list.Count; i++)
