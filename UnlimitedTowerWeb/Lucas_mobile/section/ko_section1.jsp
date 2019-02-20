@@ -30,6 +30,10 @@
 					</ul>
 				</div>
 			</div>
+			<a class="sec1-bott" href="javascript:goMenu('2')">
+				<h4>Scroll Down</h4>
+				<img class="scroll" src="assets/img/scroll.png" alt="">
+			</a>	
 		</div>
 	</div>
 </div>
