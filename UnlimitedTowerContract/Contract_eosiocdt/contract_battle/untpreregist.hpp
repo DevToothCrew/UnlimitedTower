@@ -856,7 +856,7 @@ private:
         uint32_t speed;
     };
 
-    TABLE tbattlestate
+    TABLE tstagestate
     {
         eosio::name user;
         uint64_t stage_type; // Tower / Field 1~5
@@ -868,7 +868,7 @@ private:
         uint64_t primary_key() const { return user.value; }
     };
 
-    typedef eosio::multi_index<"tbattlestate"_n, tbattlestate> battle_state_list;
+    typedef eosio::multi_index<"tstagestate"_n, tstagestate> battle_state_list;
 #pragma endregion
 
     
@@ -880,7 +880,7 @@ private:
 struct battle_order_struct
 {
     uint32_t speed;
-    uint32_t battle_location;
+    uint32_t key;
     uint32_t party_position;
     uint32_t second_speed;
 };
@@ -975,6 +975,7 @@ battle_action get_attack_action(const std::vector<battle_state> &_my_state_list,
 ACTION startbattle(eosio::name _user, uint32_t _party_number, uint32_t _stage);
 
 int get_random_target(const std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint32_t _max, uint32_t _min);
+int get_target_key(const std::vector<battle_state> &_enemy_state_list,  uint64_t _target_position);
 
 static bool sort_compare(const battle_order_struct &a,const battle_order_struct &b);
 ACTION activeturn(eosio::name _user, uint32_t _hero_action, uint32_t _monster_action, uint32_t _hero_target, uint32_t _monster_target, std::string _seed);
