@@ -2397,20 +2397,20 @@ ACTION untpreregist::startbattle(eosio::name _user, uint32_t _party_number, uint
 #pragma region active turn 
 int untpreregist::get_random_target(const std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint32_t _max, uint32_t _min)
 {
-    int target_position = safeseed::get_random_value(_seed, _max, _min, 0);
-    if (_enemy_state_list[target_position].now_hp == 0)
+    int target_key = safeseed::get_random_value(_seed, _max, _min, 0);
+    if (_enemy_state_list[target_key].now_hp == 0)
     {
-        target_position = -1;
+        target_key = -1;
         for(uint32_t i = _min; i < _max; i++)
         {
             if(_enemy_state_list[i].now_hp != 0)
             {
-                target_position = i;
+                target_key = i;
                 break;
             }
         }
     }
-    return target_position;
+    return target_key;
 }
 
 bool untpreregist::sort_compare(const battle_order_struct &a,const battle_order_struct &b)
@@ -2548,14 +2548,14 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
             update_action.battle_info_list.clear();
             for (uint32_t i = 0; i < speed_order_list.size(); ++i)
             {
-                uint32_t battle_position_key = speed_order_list[i].key;
+                uint32_t my_key = speed_order_list[i].key;
                 if (speed_order_list[i].position < max_party_count) //자기 파티에 대한 처리
                 {
-                    if (user_battle_state_iter->my_state_list[battle_position_key].position == HERO_LOCATION)     //히어로 처리
+                    if (user_battle_state_iter->my_state_list[my_key].position == HERO_LOCATION)     //히어로 처리
                     {
                         int target_key = get_target_key(user_battle_state_iter->enemy_state_list, _hero_target);
                         eosio_assert(target_key != -1, "Wrong Target 1");
-                        if (user_battle_state_iter->my_state_list[battle_position_key].now_hp == 0)
+                        if (user_battle_state_iter->my_state_list[my_key].now_hp == 0)
                         {
                             continue;
                         }
@@ -2572,7 +2572,7 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
                         battle_action new_action;
                         if (_hero_action == battle_action_state::attack)
                         {
-                            new_action = get_attack_action(user_battle_state_iter->my_state_list, user_battle_state_iter->enemy_state_list ,speed_order_list[i].second_speed, battle_position_key, target_key);
+                            new_action = get_attack_action(user_battle_state_iter->my_state_list, user_battle_state_iter->enemy_state_list ,speed_order_list[i].second_speed, my_key, target_key);
                             //배틀 스테이트테이블에 결과 반영
                             if (user_battle_state_iter->enemy_state_list[target_key].now_hp <= new_action.damage)
                             {
@@ -2584,7 +2584,7 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
                             }
 
                             battle_action_info new_action_info;
-                            new_action_info.my_position = user_battle_state_iter->my_state_list[battle_position_key].position;
+                            new_action_info.my_position = user_battle_state_iter->my_state_list[my_key].position;
                             new_action_info.action_type = battle_action_state::attack;
                             new_action_info.battle_action_list.push_back(new_action);
 
@@ -2594,18 +2594,18 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
                         {
                             //방어할 경우
                             battle_action_info new_action_info;
-                            new_action_info.my_position = user_battle_state_iter->my_state_list[battle_position_key].position;
+                            new_action_info.my_position = user_battle_state_iter->my_state_list[my_key].position;
                             new_action_info.action_type = battle_action_state::defense;
 
                             update_action.battle_info_list.push_back(new_action_info);
                         }
                     }
 
-                    else if (user_battle_state_iter->my_state_list[battle_position_key].position == PAIR_SLOT) //히어로의 페어 몬스터일 경우
+                    else if (user_battle_state_iter->my_state_list[my_key].position == PAIR_SLOT) //히어로의 페어 몬스터일 경우
                     {
                         int target_key = get_target_key(user_battle_state_iter->enemy_state_list, _monster_target);
                         eosio_assert(target_key != -1, "Wrong Target 2");
-                        if (user_battle_state_iter->my_state_list[battle_position_key].now_hp == 0)
+                        if (user_battle_state_iter->my_state_list[my_key].now_hp == 0)
                         {
                             continue;
                         }
@@ -2623,7 +2623,7 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
                         if (_monster_action == battle_action_state::attack)
                         {
                             //공격할 경우
-                            new_action = get_attack_action(user_battle_state_iter->my_state_list, user_battle_state_iter->enemy_state_list,speed_order_list[i].second_speed, battle_position_key, target_key);
+                            new_action = get_attack_action(user_battle_state_iter->my_state_list, user_battle_state_iter->enemy_state_list,speed_order_list[i].second_speed, my_key, target_key);
                             //배틀 스테이트테이블에 결과 반영
                             if (user_battle_state_iter->enemy_state_list[target_key].now_hp <= new_action.damage)
                             {
@@ -2635,7 +2635,7 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
                             }
 
                             battle_action_info new_action_info;
-                            new_action_info.my_position = user_battle_state_iter->my_state_list[battle_position_key].position;
+                            new_action_info.my_position = user_battle_state_iter->my_state_list[my_key].position;
                             new_action_info.action_type = battle_action_state::attack;
                             new_action_info.battle_action_list.push_back(new_action);
 
@@ -2645,7 +2645,7 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
                         {
                             //방어할 경우
                             battle_action_info new_action_info;
-                            new_action_info.my_position = user_battle_state_iter->my_state_list[battle_position_key].position;
+                            new_action_info.my_position = user_battle_state_iter->my_state_list[my_key].position;
                             new_action_info.action_type = battle_action_state::defense;
 
                             update_action.battle_info_list.push_back(new_action_info);
@@ -2653,7 +2653,7 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
                     }
                     else //다른 몬스터의 경우
                     {
-                        if (user_battle_state_iter->my_state_list[battle_position_key].now_hp == 0)
+                        if (user_battle_state_iter->my_state_list[my_key].now_hp == 0)
                         {
                             continue;
                         }
@@ -2667,7 +2667,7 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
                                 break;
                             }
                             //공격할 경우
-                            new_action = get_attack_action(user_battle_state_iter->my_state_list, user_battle_state_iter->enemy_state_list, speed_order_list[i].second_speed, battle_position_key, enemy_key);
+                            new_action = get_attack_action(user_battle_state_iter->my_state_list, user_battle_state_iter->enemy_state_list, speed_order_list[i].second_speed, my_key, enemy_key);
 
                             //배틀 스테이트테이블에 결과 반영
                             if (user_battle_state_iter->enemy_state_list[enemy_key].now_hp <= new_action.damage)
@@ -2680,7 +2680,7 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
                             }
 
                             battle_action_info new_action_info;
-                            new_action_info.my_position = user_battle_state_iter->my_state_list[battle_position_key].position;
+                            new_action_info.my_position = user_battle_state_iter->my_state_list[my_key].position;
                             new_action_info.action_type = battle_action_state::attack;
                             new_action_info.battle_action_list.push_back(new_action);
 
@@ -2689,7 +2689,7 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
                         else
                         {
                             battle_action_info new_action_info;
-                            new_action_info.my_position = user_battle_state_iter->my_state_list[battle_position_key].position;
+                            new_action_info.my_position = user_battle_state_iter->my_state_list[my_key].position;
                             new_action_info.action_type = monster_action;
 
                             update_action.battle_info_list.push_back(new_action_info);
@@ -2699,7 +2699,7 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
 
                 else   // 상대 파티의 경우
                 {
-                    if (user_battle_state_iter->enemy_state_list[battle_position_key].now_hp == 0)
+                    if (user_battle_state_iter->enemy_state_list[my_key].now_hp == 0)
                     {
                         continue;
                     }
@@ -2712,7 +2712,7 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
                         {
                             break;
                         }
-                        new_action = get_attack_action(user_battle_state_iter->enemy_state_list, user_battle_state_iter->my_state_list, speed_order_list[i].second_speed, battle_position_key, enemy_key);
+                        new_action = get_attack_action(user_battle_state_iter->enemy_state_list, user_battle_state_iter->my_state_list, speed_order_list[i].second_speed, my_key, enemy_key);
 
                         //배틀 스테이트테이블에 결과 반영
                         if (user_battle_state_iter->my_state_list[enemy_key].now_hp <= new_action.damage)
@@ -2725,7 +2725,7 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
                         }
 
                         battle_action_info new_action_info;
-                        new_action_info.my_position = user_battle_state_iter->enemy_state_list[battle_position_key].position;
+                        new_action_info.my_position = user_battle_state_iter->enemy_state_list[my_key].position;
                         new_action_info.action_type = battle_action_state::attack;
                         new_action_info.battle_action_list.push_back(new_action);
 
@@ -2734,7 +2734,7 @@ ACTION untpreregist::activeturn(eosio::name _user, uint32_t _hero_action, uint32
                     else
                     {
                         battle_action_info new_action_info;
-                        new_action_info.my_position = user_battle_state_iter->enemy_state_list[battle_position_key].position;
+                        new_action_info.my_position = user_battle_state_iter->enemy_state_list[my_key].position;
                         new_action_info.action_type = monster_action;
 
                         update_action.battle_info_list.push_back(new_action_info);
