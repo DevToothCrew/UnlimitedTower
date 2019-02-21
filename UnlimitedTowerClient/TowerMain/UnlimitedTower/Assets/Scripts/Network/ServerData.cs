@@ -126,6 +126,7 @@ public class assetInfo
 public class battleState
 {
     public int index;
+    public int position;
     public int now_hp;
     public int attack;
     public int defense;

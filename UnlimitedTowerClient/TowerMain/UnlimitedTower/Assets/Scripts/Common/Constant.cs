@@ -144,6 +144,7 @@ public class UserServantData
     public bool isLegend;
 
     public string name;
+    public int partyIndex;
 
     // TODO : Servant별 State 추가 필요
     public int exp;

@@ -50,6 +50,26 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public void SetPartyInfo(UserPartyData getPartyInfo)
     {
         partyInfo = getPartyInfo;
+
+        foreach(KeyValuePair<int, UserFormationData> dic in partyInfo.formationDataDic)
+        {
+            if(dic.Key > 0 && dic.Key <= DEFINE.ServantMaxFormationNum)
+            {
+                if(servantDic.ContainsKey(dic.Value.index) == false)
+                {
+                    Debug.LogError("Invalid Servant Index : " + dic.Value.index);
+                }
+                servantDic[dic.Value.index].isPlaced = true;
+            }
+            else if (dic.Key > DEFINE.ServantMaxFormationNum && dic.Key <= DEFINE.MonsterMaxFormationNum)
+            {
+                if (monsterDic.ContainsKey(dic.Value.index) == false)
+                {
+                    Debug.LogError("Invalid Monster Index : " + dic.Value.index);
+                }
+                monsterDic[dic.Value.index].isPlaced = true;
+            }
+        }
     }
 
     #endregion
@@ -92,6 +112,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
         return servantDic[index];
     }
+
     public UserMonsterData GetMonsterInfo(int index)
     {
         if (monsterDic.ContainsKey(index) == false)
@@ -103,11 +124,8 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return monsterDic[index];
     }
 
-    // 이름이 병신같음
     public UserFormationData GetFormationData(int formationIndex)
     {
-        // TODO : 이런식으로 쓸꺼면 team을 Dictionary의 Key로 사용
-
         if(partyInfo == null)
         {
             Debug.Log("Invalid GetFormaData_nullPossible_1");
@@ -127,6 +145,49 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         }
 
         return partyInfo.formationDataDic[formationIndex];
+    }
+
+    public bool GetFomationIsPlaced(int formationIndex)
+    {
+        UserFormationData formationdata = GetFormationData(formationIndex);
+        if (formationdata == null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public bool GetServantIsPlaced(int servantIndex)
+    {
+        if(servantDic.ContainsKey(servantIndex) == false)
+        {
+            Debug.LogError("Invalid Servant Index : " + servantIndex);
+            return false;
+        }
+
+        return servantDic[servantIndex].isPlaced;
+    }
+
+    public bool GetMonsterIsPlaced(int monsterIndex)
+    {
+        if (monsterDic.ContainsKey(monsterIndex) == false)
+        {
+            Debug.LogError("Invalid Monster Index : " + monsterIndex);
+            return false;
+        }
+
+        return monsterDic[monsterIndex].isPlaced;
+    }
+
+    public int GetServantEmptyFormation()
+    {
+        return 0;
+    }
+
+    public int GetMonsterEmptyFormation()
+    {
+        return 0;
     }
 
     public int GetServantCount()

@@ -31,12 +31,26 @@ public class GameDataManager : MonoBehaviour
     public System.Action placeChangedEvent;
 
     // 배치 요청
-    public void request_Placement(UNIT_TYPE type, int index, int teamnum, int formationIndex)
+    public bool request_Placement(UNIT_TYPE type, int index, int teamnum, int formationIndex)
     {
         // 이미 배치된친구라면 return
-        if (isPlaced(type, index))
+        if (type == UNIT_TYPE.SERVANT)
         {
-            return;
+            if (UserDataManager.Inst.GetServantIsPlaced(index) == true)
+            {
+                return false;
+            }
+        }
+        else if (type == UNIT_TYPE.MONSTER)
+        {
+            if (UserDataManager.Inst.GetMonsterIsPlaced(index) == true)
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
         }
 
         // 
@@ -69,21 +83,32 @@ public class GameDataManager : MonoBehaviour
         {
             GameDataManager.instance.placeChangedEvent();
         }
+
+        return true;
     }
     // 배치해제 요청
-    public void request_deplace(UNIT_TYPE type, int playerindex)
+    public bool request_deplace(UNIT_TYPE type, int playerindex)
     {
         // 배치되어있지않다면 return
-        if (!isPlaced(type, playerindex))
+        if (type == UNIT_TYPE.SERVANT)
         {
-            Debug.Log("걘 배치 안되어있는데?");
-            return;
+            if (UserDataManager.Inst.GetServantIsPlaced(playerindex) == false)
+            {
+                return false;
+            }
+        }
+        else if (type == UNIT_TYPE.MONSTER)
+        {
+            if (UserDataManager.Inst.GetMonsterIsPlaced(playerindex) == false)
+            {
+                return false;
+            }
         }
 
         // 메인히어로를 빼려고한다면 return
         if (type == UNIT_TYPE.SERVANT && playerindex == 0)
         {
-            return;
+            return false;
         }
 
 
@@ -130,34 +155,10 @@ public class GameDataManager : MonoBehaviour
             Debug.Log("이벤트완료");
             GameDataManager.instance.placeChangedEvent();
         }
+
+        return true;
     }
 
-    // 배치 조회
-    public bool isPlacedAt(int teamNum, int formationIndex)
-    {
-        return false;
-
-        //UserFormationData formationdata = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isPlaced && rowdata.partyIndex == teamNum && rowdata.formationIndex == formationIndex; });
-        //if (formationdata != null)
-        //{
-
-        //    return formationdata.isPlaced;
-        //}
-
-        //return false;
-    }
-    public bool isPlaced(UNIT_TYPE type, int index)
-    {
-        if (type == UNIT_TYPE.SERVANT)
-        {
-            return UserDataManager.Inst.servantDic[index].isPlaced;
-        }
-        else
-        {
-            return UserDataManager.Inst.monsterDic[index].isPlaced;
-        }
-
-    }
 
     // 배치된놈 가져오기
     public UserServantData getServantPlacedAt_nullPossible(int teamNum, int formationindex)
@@ -200,64 +201,6 @@ public class GameDataManager : MonoBehaviour
 
         //return UserDataManager.Inst.MonsterList.Find((rowdata) => { return rowdata.index == formData.index; });
     }
-
-    // 배치가능 조회
-    public bool isServantPlaceExist(int teamNum)
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            if (isPlacedAt(teamNum, i) == false)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-    public bool isMonsterPlaceExist(int teamNum)
-    {
-        for (int i = 5; i < 10; i++)
-        {
-            if (isPlacedAt(teamNum, i) == false)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-    // 배치가능자리 가져오기
-    public int GetServantPlaceExist(int teamNum)
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            if (isPlacedAt(teamNum, i) == false)
-            {
-                return i;
-            }
-        }
-
-        Debug.Log("자리 잘못된요청");
-        return -1;
-    }
-    public int GetMonsterPlaceExist(int teamNum)
-    {
-        for (int i = 5; i < 10; i++)
-        {
-            if (isPlacedAt(teamNum, i) == false)
-            {
-                return i;
-            }
-        }
-
-        Debug.Log("버그");
-        return -1;
-    }
-
-
-
-
-
 
     /* 아이템 */
 

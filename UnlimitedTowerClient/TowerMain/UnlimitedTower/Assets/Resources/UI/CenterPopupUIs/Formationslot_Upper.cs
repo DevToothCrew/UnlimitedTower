@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Formationslot_Upper : MonoBehaviour
+public class FormationSlot_Upper : MonoBehaviour
 {
     /// <summary>
     /// 클릭시, (메인히어로가 아니면)현재 배치가되어있는 칸이라면 배치를 해제한다
@@ -18,7 +18,7 @@ public class Formationslot_Upper : MonoBehaviour
     public Text monsterEnforceText;
     public GameObject possibleCheckObj;
     
-    [SerializeField] int FormationIndex;
+    [SerializeField] int formationIndex;
 
     // 현재 자리넘버가 어떻게 되는지
     [Header("debugdata")]
@@ -30,16 +30,16 @@ public class Formationslot_Upper : MonoBehaviour
     public void SetDisplayteam(int curTeamNum)
     {
         // 배치된 아이가 있다면 -> 배치표시후 return
-        bool isplaced = GameDataManager.instance.isPlacedAt(FormationInfoPopup.instance.curTeamNum, FormationIndex);
-        Debug.Log(FormationInfoPopup.instance.curTeamNum + "/" + FormationIndex);
+        bool isplaced = UserDataManager.Inst.GetFomationIsPlaced(formationIndex);
+        Debug.Log(FormationInfoPopup.instance.curTeamNum + "/" + formationIndex);
+
         if (isplaced)
         {
             // 몬스터
-            if (FormationIndex >= 5)
+            if (formationIndex >= 5)
             {
                 isPlaced = true;
-                curMonster = GameDataManager.instance.getMonsterPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, FormationIndex);
-
+                curMonster = GameDataManager.instance.getMonsterPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, formationIndex);
 
                 InitializeUI();
                 charImage.gameObject.SetActive(true);
@@ -53,14 +53,13 @@ public class Formationslot_Upper : MonoBehaviour
                 monsterEnforceText.gameObject.SetActive(true);
                 monsterEnforceText.text = curMonster.enforceNum > 0 ? "+" + curMonster.enforceNum : "";
 
-
                 return;
             }
             // 서번트
             else
             {
                 isPlaced = true;
-                curServant = GameDataManager.instance.getServantPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, FormationIndex);
+                curServant = GameDataManager.instance.getServantPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, formationIndex);
 
                 InitializeUI();
                 charImage.gameObject.SetActive(true);
@@ -69,8 +68,6 @@ public class Formationslot_Upper : MonoBehaviour
                 lefttopImage.sprite = ErdManager.instance.JobIcons[curServant.jobNum];
                 leftbottomleveltext.gameObject.SetActive(true);
                 leftbottomleveltext.text = "lv." + curServant.level;
-
-
 
                 return;
             }
@@ -127,23 +124,20 @@ public class Formationslot_Upper : MonoBehaviour
             case FormationInfoPopup.PlaceMode.SERVANT_PLACE:
                 {
                     // 몬스터자리면 return
-                    if (FormationIndex <= DEFINE.MonsterMaxFormationNum && FormationIndex >= DEFINE.MonsterMinFormationNum)
+                    if (formationIndex <= DEFINE.MonsterMaxFormationNum && formationIndex >= DEFINE.MonsterMinFormationNum)
                     {
                         possibleCheckObj.SetActive(false);
                         return;
                     }
 
-
                     // 서번트가 배치되어있는경우
                     if (isPlaced )
                     {
                         possibleCheckObj.SetActive(false);
-
                     }
                     // 아닌경우
                     else
                     {
-
                         possibleCheckObj.SetActive(true);
                     }
                 }
@@ -152,7 +146,7 @@ public class Formationslot_Upper : MonoBehaviour
             case FormationInfoPopup.PlaceMode.MONSTER_PLACE:
                 {
                     // 서번트자리일경우 return
-                    if (FormationIndex >= DEFINE.ServantMinFormationNum && FormationIndex <= DEFINE.ServantMaxFormationNum)
+                    if (formationIndex >= DEFINE.ServantMinFormationNum && formationIndex <= DEFINE.ServantMaxFormationNum)
                     {
                         possibleCheckObj.SetActive(false);
                         return;
@@ -166,11 +160,10 @@ public class Formationslot_Upper : MonoBehaviour
                     }
 
                     // 앞에 서번트가 배치안되어있는경우
-                    if (!GameDataManager.instance.isPlacedAt(FormationInfoPopup.instance.curTeamNum, FormationIndex-5))
+                    if (UserDataManager.Inst.GetFomationIsPlaced(formationIndex - 5) == false)
                     {
                         return;
-                    }
-                    
+                    }                    
                     
                     // 클릭활성화 표시 하기
                     possibleCheckObj.SetActive(true);
@@ -194,36 +187,36 @@ public class Formationslot_Upper : MonoBehaviour
     public void OnClick()
     {
         // 메인히어로가 배치된 자리라면, return
-        if (FormationIndex == 2)
+        if (formationIndex == 2)
         {
+            PopupUIsManager.instance.CreatePopupText("불가능합니다.");
             return;
         }
-
 
         switch (FormationInfoPopup.instance.placeMode)
         {
             case FormationInfoPopup.PlaceMode.JUST_DISPLAY:
                 // 
                 // 배치되어있다면, 배치 풀기 요청
-                if (GameDataManager.instance.isPlacedAt(FormationInfoPopup.instance.curTeamNum, FormationIndex))
+                if (UserDataManager.Inst.GetFomationIsPlaced(formationIndex) == true)
                 {
                     Debug.Log("배치되어있엇음");
                     // 몬스터 일경우
-                    if (FormationIndex >= DEFINE.MonsterMinFormationNum)
+                    if (formationIndex >= DEFINE.MonsterMinFormationNum)
                     {
-                        UserMonsterData monsterdata = GameDataManager.instance.getMonsterPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, FormationIndex);
+                        UserMonsterData monsterdata = GameDataManager.instance.getMonsterPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, formationIndex);
                         GameDataManager.instance.request_deplace(UNIT_TYPE.MONSTER, monsterdata.index);
                     }
                     // 서번트 일경우
                     else
                     {
-                        UserServantData servantdata = GameDataManager.instance.getServantPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, FormationIndex);
+                        UserServantData servantdata = GameDataManager.instance.getServantPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, formationIndex);
                         GameDataManager.instance.request_deplace(UNIT_TYPE.SERVANT, servantdata.index);
 
                         // 앞에 몬스터가 배치되어있었다면
                         int monsterTeamNum = FormationInfoPopup.instance.curTeamNum;
-                        int monsterFormNum = FormationIndex + 5;
-                        if (GameDataManager.instance.isPlacedAt(monsterTeamNum, monsterFormNum))
+                        int monsterFormNum = formationIndex + 5;
+                        if (UserDataManager.Inst.GetFomationIsPlaced(monsterFormNum) == true)
                         {
                             GameDataManager.instance.request_deplace(UNIT_TYPE.MONSTER, GameDataManager.instance.getMonsterPlacedAt_nullPossible(monsterTeamNum, monsterFormNum).index) ;
                         }
@@ -238,22 +231,21 @@ public class Formationslot_Upper : MonoBehaviour
             case FormationInfoPopup.PlaceMode.SERVANT_PLACE:
 
                 // 몬스터자리라면 return
-                if (FormationIndex >= DEFINE.MonsterMinFormationNum && FormationIndex <= DEFINE.MonsterMaxFormationNum)
+                if (formationIndex >= DEFINE.MonsterMinFormationNum && formationIndex <= DEFINE.MonsterMaxFormationNum)
                 {
                     PopupUIsManager.instance.CreatePopupText("불가능합니다.");
                     return;
                 }
 
                 // 배치되어있다면 return
-                if (GameDataManager.instance.isPlacedAt(FormationInfoPopup.instance.curTeamNum, FormationIndex))
+                if (UserDataManager.Inst.GetFomationIsPlaced(formationIndex) == true)
                 {
                     PopupUIsManager.instance.CreatePopupText("불가능합니다.");
                     return;
                 }
 
-
                 // 배치 요청하기
-                GameDataManager.instance.request_Placement(UNIT_TYPE.SERVANT, FormationInfoPopup.instance.registeredServantData.index, FormationInfoPopup.instance.curTeamNum, FormationIndex);
+                GameDataManager.instance.request_Placement(UNIT_TYPE.SERVANT, FormationInfoPopup.instance.registeredServantData.index, FormationInfoPopup.instance.curTeamNum, formationIndex);
                 // 모드 돌려놓기
                 FormationInfoPopup.instance.SetPlaceMode(FormationInfoPopup.PlaceMode.JUST_DISPLAY);
 
@@ -261,39 +253,35 @@ public class Formationslot_Upper : MonoBehaviour
             case FormationInfoPopup.PlaceMode.MONSTER_PLACE:
 
                 // 서번트자리라면 return
-                if (FormationIndex >= DEFINE.ServantMinFormationNum && FormationIndex <= DEFINE.ServantMaxFormationNum)
+                if (formationIndex >= DEFINE.ServantMinFormationNum && formationIndex <= DEFINE.ServantMaxFormationNum)
                 {
                     PopupUIsManager.instance.CreatePopupText("불가능합니다.");
                     return;
                 }
 
                 // 배치되어있다면 return
-                if (GameDataManager.instance.isPlacedAt(FormationInfoPopup.instance.curTeamNum, FormationIndex))
+                if (UserDataManager.Inst.GetFomationIsPlaced(formationIndex) == true)
                 {
                     PopupUIsManager.instance.CreatePopupText("불가능합니다.");
                     return;
                 }
 
                 // 해당하는 서번트자리가 비어있다면 return
-                if (!GameDataManager.instance.isPlacedAt(FormationManager.Inst.targetPartyNum, FormationIndex-5))
+                if (UserDataManager.Inst.GetFomationIsPlaced(formationIndex-5) == true)
                 {
                     PopupUIsManager.instance.CreatePopupText("불가능합니다.");
                     return;
                 }
 
-
-
                 // 배치 요청하기
-                GameDataManager.instance.request_Placement(UNIT_TYPE.MONSTER, FormationInfoPopup.instance.registeredMonsterData.index, FormationInfoPopup.instance.curTeamNum, FormationIndex);
+                GameDataManager.instance.request_Placement(UNIT_TYPE.MONSTER, FormationInfoPopup.instance.registeredMonsterData.index, FormationInfoPopup.instance.curTeamNum, formationIndex);
                 // 모드 돌려놓기
                 FormationInfoPopup.instance.SetPlaceMode(FormationInfoPopup.PlaceMode.JUST_DISPLAY);
 
                 break;
-        }
-
-        
+        }        
 
         // formaioninfoPopup에 서 TryWaiting
-        FormationInfoPopup.instance.TryWaiting(FormationIndex);
+        FormationInfoPopup.instance.TryWaiting(formationIndex);
     }
 }

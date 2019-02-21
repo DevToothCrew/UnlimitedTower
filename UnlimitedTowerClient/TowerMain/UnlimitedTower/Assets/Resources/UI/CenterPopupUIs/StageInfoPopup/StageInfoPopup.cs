@@ -46,25 +46,31 @@ public class StageInfoPopup : MonoBehaviour {
             int formationIndex = i;
 
             // 배치되어있다면, 이미지로 띄워주기
-            if (GameDataManager.instance.isPlacedAt(curDisplayTeam, formationIndex))
+            // 서번트
+            if (formationIndex <= 4)
             {
-                // 서번트
-                if (formationIndex <= 4)
+                if (UserDataManager.Inst.GetServantIsPlaced(formationIndex) == true)
                 {
                     UserServantData servantdata = GameDataManager.instance.getServantPlacedAt_nullPossible(curDisplayTeam, formationIndex);
                     charslotList[i].ToServant(servantdata);
                 }
-                // 몬스터
                 else
+                {
+                    charslotList[i].ToEmpty();
+                }
+            }
+            // 몬스터
+            else
+            {
+                if (UserDataManager.Inst.GetMonsterIsPlaced(formationIndex) == true)
                 {
                     UserMonsterData servantdata = GameDataManager.instance.getMonsterPlacedAt_nullPossible(curDisplayTeam, formationIndex);
                     charslotList[i].ToMonster(servantdata);
                 }
-            }
-            // 배치되어있지 않다면, 흰아이콘으로
-            else
-            {
-                charslotList[i].ToEmpty();
+                else
+                {
+                    charslotList[i].ToEmpty();
+                }
             }
         }
 
@@ -79,25 +85,27 @@ public class StageInfoPopup : MonoBehaviour {
         // 일단 모두 디셀렉트
         DeselectAll();
 
-        // 선택된 칸에 캐릭터가 없으면, return
-        if (!GameDataManager.instance.isPlacedAt(curDisplayTeam, formNum))
-        {
-            return;
-        }
-
-
-
-
+        // 아니 왜 어디는 몬스터먼저고 어디는 서번트먼저고 그리고 참조하는 값도 다 다르고 이게뭐야
 
         // 해당칸이 어딘지에 따라 -> 몬스터
         if (formNum >= 5)
         {
+            if (UserDataManager.Inst.GetMonsterIsPlaced(formNum) == false)
+            {
+                return;
+            }
+
             UserMonsterData monsterdata = GameDataManager.instance.getMonsterPlacedAt_nullPossible(curDisplayTeam, formNum);
             UpdateCharacterWindow(monsterdata);
         }
         // -> 서번트
         else
         {
+            if (UserDataManager.Inst.GetServantIsPlaced(formNum) == false)
+            {
+                return;
+            }
+
             UserServantData servantdata = GameDataManager.instance.getServantPlacedAt_nullPossible(curDisplayTeam, formNum);
             UpdateCharacterWindow(servantdata);
         }
