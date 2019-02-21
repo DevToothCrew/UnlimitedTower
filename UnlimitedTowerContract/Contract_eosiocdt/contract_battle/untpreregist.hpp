@@ -844,7 +844,7 @@ private:
   public:
     struct battle_state
     {
-        uint32_t party_position;
+        uint32_t position;
         uint32_t index;
         uint32_t now_hp;
         uint32_t attack;
@@ -881,7 +881,7 @@ struct battle_order_struct
 {
     uint32_t speed;
     uint32_t key;
-    uint32_t party_position;
+    uint32_t position;
     uint32_t second_speed;
 };
 
