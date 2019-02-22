@@ -34,6 +34,10 @@
 				<h4>Scroll Down</h4>
 				<img class="scroll" src="assets/img/scroll.png" alt="">
 			</a>	
+			<div class="att-check">
+				<img  src="assets/img/att-btn.png" alt="">
+				<img  src="assets/img/att-btn-m.png" alt="">
+			</div>
 		</div>
 	</div>
 </div>
