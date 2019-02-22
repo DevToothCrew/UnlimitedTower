@@ -26,7 +26,7 @@
 		        			</div>
 		        			<div class="date">
 		        				<h2>Day 3</h2>
-		        				<img src="assets/img/servant1.png" alt="">
+		        				<img src="assets/img/c-servant1.png" alt="">
 		        				<p>Servant</p>
 		        			</div>
 		        			<div class="date">
@@ -42,27 +42,27 @@
 		        			<div class="date">
 		        				<h2>Day 6</h2>
 		        				<img src="assets/img/UTGcoin.png" alt="">
-		        				<p>50UTG</p>
+		        				<p>150UTG</p>
 		        			</div>
 		        			<div class="date">
 		        				<h2>Day 7</h2>
-		        				<img src="assets/img/UTGcoin.png" alt="">
-		        				<p>100UTG</p>
+		        				<img src="assets/img/c-monster1.png" alt="">
+		        				<p>Monster</p>
 		        			</div>
 		        			<div class="date">
 		        				<h2>Day 8</h2>
-		        				<img src="assets/img/item1.png" alt="">
-		        				<p>Item</p>
+		        				<img src="assets/img/UTGcoin.png" alt="">
+		        				<p>50UTG</p>
 		        			</div>
 		        			<div class="date">
 		        				<h2>Day 9</h2>
 		        				<img src="assets/img/UTGcoin.png" alt="">
-		        				<p>50UTG</p>
+		        				<p>100UTG</p>
 		        			</div>
 		        			<div class="date">
 		        				<h2>Day 10</h2>
-		        				<img src="assets/img/UTGcoin.png" alt="">
-		        				<p>100UTG</p>
+		        				<img src="assets/img/c-item1.png" alt="">
+		        				<p>Item</p>
 		        			</div>
 		        			<div class="date">
 		        				<h2>Day 11</h2>
@@ -76,8 +76,8 @@
 		        			</div>
 		        			<div class="date">
 		        				<h2>Day 13</h2>
-		        				<img src="assets/img/servant1.png" alt="">
-		        				<p>Servant</p>
+		        				<img src="assets/img/UTGcoin.png" alt="">
+		        				<p>150UTG</p>
 		        			</div>
 		        			<div class="date">
 		        				<h2>Day 14</h2>
@@ -87,67 +87,67 @@
 		        			<div class="date">
 		        				<h2>Day 15</h2>
 		        				<img src="assets/img/UTGcoin.png" alt="">
-		        				<p>100UTG</p>
+		        				<p>50UTG</p>
 		        			</div>
 		        			<div class="date">
 		        				<h2>Day 16</h2>
 		        				<img src="assets/img/UTGcoin.png" alt="">
-		        				<p>50UTG</p>
-		        			</div>
-		        			<div class="date">
-		        				<h2>Day 17</h2>
-		        				<img src="assets/img/UTGcoin.png" alt="">
 		        				<p>100UTG</p>
 		        			</div>
 		        			<div class="date">
+		        				<h2>Day 17</h2>
+		        				<img src="assets/img/c-servant2.png" alt="">
+		        				<p>Servant</p>
+		        			</div>
+		        			<div class="date">
 		        				<h2>Day 18</h2>
-		        				<img src="assets/img/item1.png" alt="">
-		        				<p>Item</p>
+		        				<img src="assets/img/UTGcoin.png" alt="">
+		        				<p>50UTG</p>
 		        			</div>
 		        			<div class="date">
 		        				<h2>Day 19</h2>
 		        				<img src="assets/img/UTGcoin.png" alt="">
-		        				<p>50UTG</p>
+		        				<p>100UTG</p>
 		        			</div>
 		        			<div class="date">
 		        				<h2>Day 20</h2>
 		        				<img src="assets/img/UTGcoin.png" alt="">
-		        				<p>100UTG</p>
+		        				<p>150UTG</p>
 		        			</div>
 		        			<div class="date">
 		        				<h2>Day 21</h2>
-		        				<img src="assets/img/UTGcoin.png" alt="">
-		        				<p>50UTG</p>
+		        				<img src="assets/img/c-monster2.png" alt="">
+		        				<p>Monster</p>
 		        			</div>
 		        			<div class="date">
 		        				<h2>Day 22</h2>
 		        				<img src="assets/img/UTGcoin.png" alt="">
-		        				<p>100UTG</p>
+		        				<p>50UTG</p>
 		        			</div>
 		        			<div class="date">
 		        				<h2>Day 3</h2>
 		        				<img src="assets/img/UTGcoin.png" alt="">
-		        				<p>Item</p>
+		        				<p>100UTG</p>
 		        			</div>
 		        			<div class="date">
 		        				<h2>Day 24</h2>
-		        				<img src="assets/img/UTGcoin.png" alt="">
-		        				<p>50UTG</p>
+		        				<img src="assets/img/c-item2.png" alt="">
+		        				<p>Item</p>
 		        			</div>
 		        			<div class="date">
 		        				<h2>Day 25</h2>
 		        				<img src="assets/img/UTGcoin.png" alt="">
-		        				<p>100UTG</p>
+		        				<p>50UTG</p>
 		        			</div>
 		        			<div class="date">
 		        				<h2>Day 26</h2>
 		        				<img src="assets/img/UTGcoin.png" alt="">
-		        				<p>50UTG</p>
+		        				<p>100UTG</p>
 		        			</div>
 		        			<div class="date">
 		        				<h2>Day 27</h2>
 		        				<img src="assets/img/UTGcoin.png" alt="">
-		        				<p>100UTG</p>
+		        				<p>150UTG</p>
 		        			</div>
 		        			<div class="date">
 		        				<h2>Day 28</h2>
@@ -167,8 +167,38 @@
         			</div>
 					<div class="pop-add">
 						<div class="add-cont">
-							<img src="assets/img/big-coin.png" alt="">
-							<p>100 UTG 획득!</p>
+		  					<div class="add-coin">
+								<img src="assets/img/big-coin.png" alt="">
+							</div>  
+							<div class="add-conts">
+								<img class="add-bg" src="assets/img/card4.png" alt="">
+								<h4>warrior</h4>
+								<img class="add-monster" src="assets/img/c-monster1.png" alt="">
+								<div class="adddd">
+									<div class="saddd"><img src="assets/img/icon_stat_str.png" alt=""><p>s+</p></div>
+									<div class="saddd"><img src="assets/img/icon_stat_dex.png" alt=""><p>A</p></div>
+									<div class="saddd"><img src="assets/img/icon_stat_int.png" alt=""><p>C</p></div>
+								</div> 
+							</div> 
+ 							<div class="add-conts">
+								<img class="add-bg" src="assets/img/card4.png" alt="">
+								<h4>panda</h4>
+								<img class="add-servant" src="assets/img/c-servant1.png" alt="">
+								<div class="adddd">
+									<div class="saddd"><img src="assets/img/icon_stat_str.png" alt=""><p>s+</p></div>
+									<div class="saddd"><img src="assets/img/icon_stat_dex.png" alt=""><p>A</p></div>
+									<div class="saddd"><img src="assets/img/icon_stat_int.png" alt=""><p>C</p></div>
+								</div>
+							</div> 
+							<div class="add-conts">
+								<img class="add-bg" src="assets/img/card4.png" alt="">
+								<h4></h4>
+								<img class="add-item" src="assets/img/c-item1.png" alt="">
+								<div class="adddd">
+									<div class="saddd"><img src="assets/img/icon_stat_int.png" alt=""><p>A</p></div>
+								</div>
+							</div> 
+							<em>100 UTG 획득!</em>
 							<div class="add-btn"><a href="">OK</a></div>
 						</div>
 					</div>
