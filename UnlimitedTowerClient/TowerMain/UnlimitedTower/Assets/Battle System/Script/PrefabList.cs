@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 
 public class PrefabList : MonoBehaviour {
     [FormerlySerializedAs("prefabList")]
-    public CharacterList[] prefabList = new CharacterList[400];
+    public GameObject[] prefabList = new GameObject[400];
 
     [System.Serializable]
     public class CharacterList
@@ -16,11 +16,11 @@ public class PrefabList : MonoBehaviour {
         public Sprite sprite;
     }
 
-    private void Start()
-    {
-        for (int i = 0; i < prefabList.Length; i++)
-        {
-            prefabList[i].Index = i;
-        }
-    }
+    // private void Start()
+    // {
+    //     for (int i = 0; i < prefabList.Length; i++)
+    //     {
+    //         prefabList[i].Index = i;
+    //     }
+    // }
 }

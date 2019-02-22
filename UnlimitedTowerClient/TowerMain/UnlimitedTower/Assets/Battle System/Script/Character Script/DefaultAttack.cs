@@ -27,19 +27,27 @@ public class DefaultAttack : MonoBehaviour
     {
         Transform attacker;
         Transform target;
+        Vector3 attackerStartPos;
+        Vector3 attackerEndPos;
 
         attacker = sendValue.isPlayer == true ? BattleSystem.Inst.playerCharacter[sendValue.Attacker].transform : BattleSystem.Inst.enemyCharacter[sendValue.Attacker].transform;
         target = sendValue.isPlayer == true ? BattleSystem.Inst.enemyCharacter[sendValue.Target].transform : BattleSystem.Inst.playerCharacter[sendValue.Target].transform;
 
-        yield return StartCoroutine(AttackMove(attacker, target));
-        
+        attackerStartPos = attacker.position;
+        attackerEndPos = target.position;
+        Debug.Log(attackerEndPos - attackerEndPos.normalized * characterInformation.AttackRange);
+        yield return StartCoroutine(AttackMove(attacker, target, attackerStartPos, attackerEndPos - attackerEndPos.normalized * characterInformation.AttackRange));
+
+        attackerEndPos = attackerStartPos;
+        attackerStartPos = attacker.position;
+
         yield return new WaitForSeconds(characterInformation.AttackDelay);
 
         DamageTextSystem.Inst.TextAction(sendValue, target);
 
         yield return new WaitForSeconds(characterInformation.AttackAfterDelay);
 
-        yield return AttackRecall(attacker, target);
+        yield return AttackRecall(attacker, target, attackerEndPos, attackerStartPos);
         
         attacker.rotation = sendValue.isPlayer == true ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0);
 
@@ -47,29 +55,26 @@ public class DefaultAttack : MonoBehaviour
     }
 
     // 공격하러 이동시킴
-    IEnumerator AttackMove(Transform attacker, Transform target)
+    IEnumerator AttackMove(Transform attacker, Transform target, Vector3 attackerStartPos, Vector3 attackerEndPos)
     {
-        Vector3 attackerStartPos = attacker.position;
         attacker.LookAt(target);
         ani.SetTrigger("isRun");
         for (int i = 0; i < 100; i += BattleSystem.Inst.TimeScale)
         {
-            attacker.transform.position = Vector3.Lerp(attackerStartPos, target.transform.position, i * 0.0095f);
+            attacker.transform.position = Vector3.Lerp(attackerStartPos, attackerEndPos, i * 0.01f);
             yield return new WaitForSeconds(0.015f);
         }
         ani.SetTrigger("isAttack");
     }
 
     // 공격후 제자리로 귀환
-    IEnumerator AttackRecall(Transform attacker, Transform target)
+    IEnumerator AttackRecall(Transform attacker, Transform target, Vector3 attackerStartPos, Vector3 attackerEndPos)
     {
-        Vector3 attackerStartPos = attacker.position;
-        Vector3 attackerEndPos = target.position;
         attacker.Rotate(0, 180, 0);
         ani.SetTrigger("isRun");
         for (int i = 0; i < 100; i += BattleSystem.Inst.TimeScale)
         {
-            attacker.transform.position = Vector3.Lerp(attackerStartPos, attackerEndPos, i * 0.01f);
+            attacker.transform.position = Vector3.Lerp(attackerEndPos, attackerStartPos, i * 0.01f);
             yield return new WaitForSeconds(0.015f);
         }
         ani.SetTrigger("isIdle");
