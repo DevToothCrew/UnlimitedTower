@@ -1,10 +1,7 @@
 $(document).ready(function(){
-	 $(".att-check").click(function(){
-			$("#m-popup").css({"display":"block"});
-		});    
-    $(".event-btn p").click(function(){
+/*    $(".event-btn p").click(function(){
 		$(".pop-add").css({"display":"block"});
-	});    
+	});*/
 	$(".check-icon img").click(function(){
 		$("#m-popup").css({"display":"none"});
 	});      

@@ -1,5 +1,6 @@
 const scatterEOS = window.ScatterEOS;
 const scatterJS = window.ScatterJS;
+scatterJS.plugins( new scatterEOS() );
 
 const network = {
     blockchain:'eos',
@@ -21,9 +22,7 @@ function addJavascript(jsname) {
 
 addJavascript('assets/js/conversion.js?ver=8');
 
-function scatter_login(){
-	scatterJS.plugins( new scatterEOS() );
-	
+function scatter_login(){	
 	scatterJS.scatter.connect('My-App').then(connected => {
 		const scatter = scatterJS.scatter;
 		
@@ -43,6 +42,8 @@ function scatter_login(){
 			
 			$(".login").css({"display":"none"});
 			$(".name").css({"display":"block"});
+			$(".att-check").css({"display":"block"});
+			
 			
 			var html = "<a href='javascript:name_click();'>"+account.name+"</a>";
 			$(".name").empty();
@@ -165,8 +166,6 @@ function scatter_login(){
 function register(ref_id){
 	var ref = "";
 	
-	scatterJS.plugins( new scatterEOS() );
-
 	scatterJS.scatter.connect('My-App').then(connected => {
 		const scatter = scatterJS.scatter;
 		
@@ -223,6 +222,12 @@ function register(ref_id){
 		    		$.post("https://dcugl.com:5000/mainpresignup", { user:account.name })
 				    .done(function(data){
 				    	console.log(data);
+				    	
+			    		if(data == 'ERR:Time Out'){
+				    		console.log('signup TimeOut');				    		
+				    		return;
+			    		}	
+				    	
 			    		$(".sec3-btn1").css({"display":"none"});  //Please login first
 			    		$(".sec3-btn2").css({"display":"block"}); //Already Registered
 			    		$(".sec3-btn").css({"display":"none"});   //Pre-Register
@@ -232,18 +237,18 @@ function register(ref_id){
 			    		$(".sec4-btn").css({"display":"none"});   //Register first
 			    		
 			    		if(data.result == "mon"){
-			    			var html2 = "";
+			    			var html = "";
 			    			
-			    			html2 = "<div class='slick'>";
-			    			html2 = html2 + "<img class='scard-bg' src='assets/img/"+cnvs_cd(data.grade)+"' alt=''>";
-			    			html2 = html2 + "<h2>"+cnvs_name(data.id)+"</h2>";
-			    			html2 = html2 + "<img class='smonster' src='assets/img/characters/monster/"+cnvs_img(data.id)+"' alt=''>";
-			    			html2 = html2 + "<div class='ability'>";
-			    			html2 = html2 + "<div class='sabil'><img src='assets/img/icon_stat_str.png' alt=''><p>"+cnvs_rank(data.b_str)+"</p></div>";
-			    			html2 = html2 + "<div class='sabil'><img src='assets/img/icon_stat_dex.png' alt=''><p>"+cnvs_rank(data.b_dex)+"</p></div>";
-			    			html2 = html2 + "<div class='sabil'><img src='assets/img/icon_stat_int.png' alt=''><p>"+cnvs_rank(data.b_int)+"</p></div>";
-			    			html2 = html2 + "</div>";
-			    			html2 = html2 + "</div>";
+			    			html = "<div class='slick'>";
+			    			html = html + "<img class='scard-bg' src='assets/img/"+cnvs_cd(data.grade)+"' alt=''>";
+			    			html = html + "<h2>"+cnvs_name(data.id)+"</h2>";
+			    			html = html + "<img class='smonster' src='assets/img/characters/monster/"+cnvs_img(data.id)+"' alt=''>";
+			    			html = html + "<div class='ability'>";
+			    			html = html + "<div class='sabil'><img src='assets/img/icon_stat_str.png' alt=''><p>"+cnvs_rank(data.b_str)+"</p></div>";
+			    			html = html + "<div class='sabil'><img src='assets/img/icon_stat_dex.png' alt=''><p>"+cnvs_rank(data.b_dex)+"</p></div>";
+			    			html = html + "<div class='sabil'><img src='assets/img/icon_stat_int.png' alt=''><p>"+cnvs_rank(data.b_int)+"</p></div>";
+			    			html = html + "</div>";
+			    			html = html + "</div>";
 
 							$('.slide-wrap').slick('slickAdd',html2);
 			    		}
@@ -305,7 +310,7 @@ function register(ref_id){
 				    			html = "<div class='slick slick-slide'>";
 								html = html + "<img class='scard-bg legendary' src='assets/img/"+cnvs_cd(data.item_list[i].grade)+"' alt=''>";
 								html = html + "<img class='stier' src='assets/img/icon/tier/"+cnvs_tier(data.item_list[i].tier)+"' alt=''>";
-								html = html + "<h2>"+cnvs_name(result.data.id)+"</h2>";
+								html = html + "<h2>"+cnvs_name(data.item_list[i].id)+"</h2>";
 								html = html + "<img class='smonster' src='assets/img/characters/item/"+cnvs_img(data.item_list[i].id)+"' alt=''>";
 								html = html + "<div class='ability'>";							
 								html = html + "<div class='sabil'><img src='assets/img/"+cnvs_type(data.item_list[i].type)+"' alt=''><p>"+cnvs_rank(data.item_list[i].main_status)+"</p></div>";
@@ -362,8 +367,6 @@ function scatter_logout(){
 var html2 = ""; 
 
 function gacha(){
-	scatterJS.plugins( new scatterEOS() );
-
 	scatterJS.scatter.connect('My-App').then(connected => {	
 		const scatter = scatterJS.scatter;
 		
@@ -535,4 +538,45 @@ function gacha_ok(result){
 	
 	$('.slide-wrap').slick('slickAdd',html2);
 	html2 = "";
+}
+
+function daily_open(){
+	$("#popup").css({"display":"block"});
+}
+
+function daily_check(){
+	alert("Check!");
+/*	scatterJS.scatter.connect('My-App').then(connected => {
+		const scatter = scatterJS.scatter;
+		
+		var main_form = document.main;
+		
+		if(!connected) return false;
+		
+		const requiredFields = { accounts:[network] };
+	
+		scatter.getIdentity(requiredFields).then(() => {
+			const account = scatter.identity.accounts.find(x => x.blockchain === 'eos');
+			const eosOptions = { expireInSeconds:60 };
+			const eos = scatter.eos(network, Eos, eosOptions);
+			const transactionOptions = { authorization:[`${account.name}@${account.authority}`] };
+			
+			main_form.userId.value = account.name;
+						
+			console.log(account.name);
+
+			var check_seed;
+			var check_num;
+			$.post("https://dcugl.com:5000/seed", {})
+			.done(function(data){
+				login_seed = data.seed;
+				login_num = data.num;
+			});
+
+			$.post("https://dcugl.com:5000/dailycheck", { user:account.name, seed:check_seed })
+		    .done(function(data){
+		    	console.log(data);
+		    });
+		});
+	});*/
 }
