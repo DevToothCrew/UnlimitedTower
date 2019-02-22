@@ -277,6 +277,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
     }
 
+    public void ResponseBatte(string getBattleStateInfo)
+    {
+        TestbattleStateData battlestatedata = JsonUtility.FromJson<TestbattleStateData>(getBattleStateInfo);
+        if (battlestatedata == null)
+        {
+            Debug.Log("Invalid Battle Data : " + getBattleStateInfo);
+        }
+
+        BattleStart(battlestatedata);
+    }
+
     public void ResponseStageResult(string getStageResultInfo)
     {
         TestbattleRewardData resultData = JsonUtility.FromJson<TestbattleRewardData>(getStageResultInfo);
@@ -579,17 +590,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void Action(TestbattleActionInfoData getBattleStateData)
     {
 
-    }
-
-    public void ResponseBatte(string getBattleStateInfo)
-    {
-        TestbattleStateData battlestatedata = JsonUtility.FromJson<TestbattleStateData>(getBattleStateInfo);
-        if (battlestatedata == null)
-        {
-            Debug.Log("Invalid Battle Data : " + getBattleStateInfo);
-        }
-
-        BattleStart(battlestatedata);
     }
 
     public void BattleStart(TestbattleStateData getBattleStateData)
