@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using LitJson;
+using UnityEngine;
 
 public class Cheat : MonoSingleton<Cheat>
 {
-    private Random rand = new Random();
+    private System.Random rand = new System.Random();
 
     public string GetUserLoginData(string user, int gameMoney)
     {
@@ -49,7 +51,7 @@ public class Cheat : MonoSingleton<Cheat>
 
     public SERVANT_JOB GetRandomServantJob()
     {
-        int job = rand.Next(0, 6);
+        int job = rand.Next(1, 6);
 
         if (job == 1)
         {
@@ -307,7 +309,15 @@ public class Cheat : MonoSingleton<Cheat>
         monsterData.monster.exp = rand.Next(0, DEFINE.MAX_EXP);
 
         monsterData.monster.type = 0;
-        monsterData.monster.id = rand.Next(0, 3);
+
+        List<int> monsterIndexList = CharacterCSVData.Inst.GetMonsterIndexList();
+        if(monsterIndexList == null)
+        {
+            Debug.LogError("MonsterDataBaseDic Error");
+            return null;
+        }
+        int monsterNum = rand.Next(0, monsterIndexList.Count);
+        monsterData.monster.id = monsterIndexList[monsterNum];
         monsterData.monster.grade = rand.Next(0, 4);
         monsterData.monster.upgrade = 0;
         monsterData.monster.status = GetRandomStatusInfo();

@@ -18,6 +18,9 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     // 현재 파티는 1개, 파티 안에 Formation Info 포함
     public UserPartyData partyInfo = new UserPartyData();
 
+    // TODO : Test용
+    public TestbattleStateData stageState = new TestbattleStateData();
+
     public int usingPartyNum = 1;
 
     #region SetFunction
@@ -70,6 +73,11 @@ public class UserDataManager : MonoSingleton<UserDataManager>
                 monsterDic[dic.Value.index].isPlaced = true;
             }
         }
+    }
+
+    public void SetStageState(TestbattleStateData testStageState)
+    {
+        stageState = testStageState;
     }
 
     #endregion
@@ -283,6 +291,17 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         }
 
         return etcItemDic.Values.ToList();
+    }
+
+    public TestbattleStateData GetStageState()
+    {
+        if(stageState == null)
+        {
+            Debug.LogError("버그");
+            return null;
+        }
+
+        return stageState;
     }
 
     #endregion

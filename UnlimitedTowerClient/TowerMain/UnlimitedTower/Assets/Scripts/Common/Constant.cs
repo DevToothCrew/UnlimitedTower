@@ -583,16 +583,16 @@ public enum CHARACTER_NUM
 public enum SERVANT_JOB
 {
     // STR
-    WhiteHand = 5,
-    Warrior = 0,
+    WhiteHand = 0,
+    Warrior = 1,
 
     // DEX
     Theif = 2,
-    Archer = 1,
+    Archer = 4,
 
     // INT
-    Magician = 3,
-    Cleric = 4,
+    Cleric = 3,
+    Magician = 5,
 }
 
 public enum ACTION_TYPE

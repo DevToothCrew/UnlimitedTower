@@ -44,7 +44,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     private void Awake()
     {
         Application.targetFrameRate = 60;
-        UTLobbyUIManager_ = GameObject.Find("Framework")?.GetComponent<UTLobbyUIManager>();
+        //UTLobbyUIManager_ = GameObject.Find("Framework")?.GetComponent<UTLobbyUIManager>();
         caracterCustom = GameObject.Find("CharacterCustomInstance").GetComponent<CaracterCustom>();
         
         playerCharacter[0] = GameObject.Find("CharacterPlayer03").gameObject;
@@ -72,11 +72,14 @@ public class BattleSystem : MonoSingleton<BattleSystem>
 
     public void Start()
     {
-        UTLobbyUIManager_?.StageStart();
+        //UTLobbyUIManager_?.StageStart();
 
         battleInformation.attackerIndex = -1;
 
-        for (int i = 1; i < 20; i++)
+        //TODO : 임시
+        testbattleStateData = UserDataManager.Inst.GetStageState();
+
+        for (int i = 0; i < 20; i++)
         {
             characterisPlace[i] = testbattleStateData.state_list[i].index == 0 ? false : true;
         }
@@ -104,15 +107,42 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         {
             if (characterisPlace[i] == true)
             {
-                if (i < 5)
+                if (i == 0)
                 {
                     // 서번트 형태 불러와서 생성
+                    UserServantData heroInfo = UserDataManager.Inst.GetHeroInfo();
+                    if (heroInfo == null)
+                    {
+                        Debug.LogError("버그다");
+                        return;
+                    }
+
                     Instantiate(caracterCustom.Create(
-                        UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].jobNum,
-                        UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].headNum,
-                        UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].hairNum,
-                        UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].gender == 1 ? 1 : 0,
-                        UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].body == 1 ? 0 : 1
+                        heroInfo.jobNum,
+                        heroInfo.headNum,
+                        heroInfo.hairNum,
+                        heroInfo.gender == 1 ? 1 : 0,
+                        heroInfo.body == 1 ? 0 : 1
+                        ), playerCharacter[i].transform);
+                }
+                else if (i < 5)
+                {
+                    // 서번트 형태 불러와서 생성
+                    UserServantData servantInfo = UserDataManager.Inst.GetServantInfo(testbattleStateData.state_list[i].index);
+                    if(servantInfo == null)
+                    {
+                        Debug.LogError("버그다");
+                        return;
+                    }
+
+                    Debug.Log(servantInfo.jobNum.ToString() + " / " + servantInfo.headNum + " / " + servantInfo.hairNum + " / " + servantInfo.gender + " / " + servantInfo.body);
+
+                    Instantiate(caracterCustom.Create(
+                        servantInfo.jobNum,
+                        servantInfo.headNum,
+                        servantInfo.hairNum,
+                        servantInfo.gender == 1 ? 1 : 0,
+                        servantInfo.body == 1 ? 0 : 1
                         ), playerCharacter[i].transform);
                 }
                 else
@@ -122,15 +152,19 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             }
             if (characterisPlace[i + 10] == true)
             {
-                if (i < 5)
+                if( i == 0)
                 {
-                    Instantiate(caracterCustom.Create(
-                        UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].jobNum,
-                        UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].headNum,
-                        UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].hairNum,
-                        UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].gender == 1 ? 1 : 0,
-                        UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].body == 1 ? 0 : 1
-                        ), playerCharacter[i].transform);
+
+                }
+                else if (i < 5)
+                {
+                    //Instantiate(caracterCustom.Create(
+                    //    UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].jobNum,
+                    //    UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].headNum,
+                    //    UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].hairNum,
+                    //    UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].gender == 1 ? 1 : 0,
+                    //    UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].body == 1 ? 0 : 1
+                    //    ), playerCharacter[i].transform);
                 }
                 else
                 {

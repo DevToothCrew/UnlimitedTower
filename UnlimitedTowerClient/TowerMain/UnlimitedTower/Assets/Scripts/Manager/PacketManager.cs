@@ -595,7 +595,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void BattleStart(TestbattleStateData getBattleStateData)
     {
         Debug.Log("배틀 스타트!");
-
+        UserDataManager.Inst.SetStageState(getBattleStateData);
         SceneManager.LoadScene("CharacterBattleScene");
     }
 
