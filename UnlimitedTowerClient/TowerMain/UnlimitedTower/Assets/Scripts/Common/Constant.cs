@@ -140,13 +140,11 @@ public class UserServantData
     // 캐릭터를 구분하는 고유값이 되어야함
     public int index;
 
-    // 메인히어로인지 아닌지
-    public bool isMainHero;
-
     // 영웅서번트인지 아닌지
     public bool isLegend;
 
     public string name;
+    public int partyIndex;
 
     // TODO : Servant별 State 추가 필요
     public int exp;
@@ -231,6 +229,7 @@ public class UserServantData
 
     }
 }
+
 [System.Serializable]
 public class UserMonsterData
 {
@@ -302,7 +301,7 @@ public class UserMonsterData
         status.basicInt = DEFINE.TEST_STATUS_VALUE;
     }
 }
-// erd완
+
 [System.Serializable]
 public class UserMountItemData
 {
@@ -355,18 +354,16 @@ public class Status
 public class UserFormationData
 {
     // 인덱스
-    public int partyIndex;
+    public int index;
 
     // 파티 정보를 가져올것인지 포메이션 정보를 가져올것인지... 포메이션 정보를 가져올꺼면 파티 하나당 10개의 정보가 필요한게 아닌지?
     public int formationIndex;
-
-    public bool isPlaced;
 
     public CHAR_TYPE charType
     {
         get
         {
-            if (formationIndex == 2)
+            if (formationIndex == 0)
             {
                 return CHAR_TYPE.HERO;
             }
@@ -379,9 +376,6 @@ public class UserFormationData
             return CHAR_TYPE.MONSTER;
         }
     }
-
-    // 이 인덱스는 몬스터 또는 서번트의 인덱스이다. 하지만 몬스터 데이터와 서번트 데이터를 Formation Data가 또 포함해야 하는가?
-    public int index;
 }
 
 
@@ -400,19 +394,11 @@ public class UserEtcItemData
 public class UserPartyData
 {
     public int partyIndex;
-    public bool isFixedAtFloor;
-    
-    // 역참조 초기화o, 역참조 업데이트o
+    public int partyState;
+
     public Dictionary<int, UserFormationData> formationDataDic = new Dictionary<int, UserFormationData>();
-    public List<UserFormationData> UserFormationList = new List<UserFormationData>();
 }
 
-public class Party
-{
-    public int partyIndex;
-    public int state;
-    public Dictionary<int, PartyCharacterInfo> characterList = new Dictionary<int, PartyCharacterInfo>();
-}
 public class PartyCharacterInfo
 {
     public CHAR_TYPE type;
@@ -597,16 +583,16 @@ public enum CHARACTER_NUM
 public enum SERVANT_JOB
 {
     // STR
-    WhiteHand = 5,
-    Warrior = 0,
+    WhiteHand = 0,
+    Warrior = 1,
 
     // DEX
     Theif = 2,
-    Archer = 1,
+    Archer = 4,
 
     // INT
-    Magician = 3,
-    Cleric = 4,
+    Cleric = 3,
+    Magician = 5,
 }
 
 public enum ACTION_TYPE

@@ -18,6 +18,7 @@ public class stageui_charslot : MonoBehaviour {
     //
     [SerializeField] int formationIndex;
 
+    // 여긴 왜 또 Hero가 없는데
     // For Debug
     [SerializeField] UserMonsterData monsterdata;
     [SerializeField] UserServantData servantdata;

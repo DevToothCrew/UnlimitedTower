@@ -183,9 +183,9 @@ MonoBehaviour:
   slottype: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -2210,13 +2210,13 @@ MonoBehaviour:
   leftbottomleveltext: {fileID: 1517189140}
   monsterEnforceText: {fileID: 1740863854}
   possibleCheckObj: {fileID: 1206616235}
-  FormationIndex: 7
+  formationIndex: 0
   isPlaced: 0
   curServant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -4585,9 +4585,9 @@ MonoBehaviour:
     formationNum: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -4960,9 +4960,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -6528,9 +6528,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -8165,13 +8165,13 @@ MonoBehaviour:
   leftbottomleveltext: {fileID: 1332826285}
   monsterEnforceText: {fileID: 515840239}
   possibleCheckObj: {fileID: 1968948067}
-  FormationIndex: 0
+  formationIndex: 0
   isPlaced: 0
   curServant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -8491,8 +8491,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1723061315}
-  - {fileID: 551037684}
-  - {fileID: 1003029203}
   m_Father: {fileID: 1716200427}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10261,9 +10259,9 @@ MonoBehaviour:
   slottype: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -11729,9 +11727,9 @@ MonoBehaviour:
   heroinfo_invenpannel: {fileID: 1436255015}
   servantData:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -11912,9 +11910,9 @@ MonoBehaviour:
   slottype: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -15669,9 +15667,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -17341,9 +17339,9 @@ MonoBehaviour:
   slottype: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -21163,9 +21161,9 @@ MonoBehaviour:
     formationNum: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -21425,13 +21423,13 @@ MonoBehaviour:
   leftbottomleveltext: {fileID: 1848568058}
   monsterEnforceText: {fileID: 14469768}
   possibleCheckObj: {fileID: 1459039152}
-  FormationIndex: 3
+  formationIndex: 0
   isPlaced: 0
   curServant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -22777,9 +22775,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -24756,9 +24754,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -27297,9 +27295,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -30454,9 +30452,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -30560,9 +30558,9 @@ MonoBehaviour:
   upgradeText: {fileID: 72081726}
   servantData:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -31402,9 +31400,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -31767,9 +31765,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -32528,9 +32526,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -34184,13 +34182,13 @@ MonoBehaviour:
   leftbottomleveltext: {fileID: 1288364689}
   monsterEnforceText: {fileID: 2077057403}
   possibleCheckObj: {fileID: 438226131}
-  FormationIndex: 9
+  formationIndex: 0
   isPlaced: 0
   curServant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -35015,128 +35013,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 549028043}
---- !u!1 &551037683
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 551037684}
-  - component: {fileID: 551037687}
-  - component: {fileID: 551037686}
-  - component: {fileID: 551037685}
-  m_Layer: 5
-  m_Name: team (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &551037684
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 551037683}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 586703339}
-  m_Father: {fileID: 119873104}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 180, y: -20.275}
-  m_SizeDelta: {x: 100, y: 40.55}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &551037685
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 551037683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 551037686}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1285505473}
-        m_MethodName: TeambtnOnclick
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &551037686
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 551037683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.509}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
---- !u!222 &551037687
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 551037683}
 --- !u!1 &552359373
 GameObject:
   m_ObjectHideFlags: 0
@@ -36235,13 +36111,13 @@ MonoBehaviour:
   leftbottomleveltext: {fileID: 304075103}
   monsterEnforceText: {fileID: 1433552002}
   possibleCheckObj: {fileID: 1811944430}
-  FormationIndex: 6
+  formationIndex: 0
   isPlaced: 0
   curServant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -37569,80 +37445,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 585340304}
---- !u!1 &586703338
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 586703339}
-  - component: {fileID: 586703341}
-  - component: {fileID: 586703340}
-  m_Layer: 5
-  m_Name: Text
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &586703339
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 586703338}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
-  m_Children: []
-  m_Father: {fileID: 551037684}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &586703340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 586703338}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_FontData:
-    m_Font: {fileID: 12800000, guid: 5b32d666611f3ce47bfadb29df26f864, type: 3}
-    m_FontSize: 100
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 0
-    m_MaxSize: 100
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 1
-    m_VerticalOverflow: 1
-    m_LineSpacing: 1
-  m_Text: Team2
---- !u!222 &586703341
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 586703338}
 --- !u!1 &587891275
 GameObject:
   m_ObjectHideFlags: 0
@@ -38905,9 +38707,9 @@ MonoBehaviour:
   slottype: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -41555,9 +41357,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -42283,9 +42085,9 @@ MonoBehaviour:
   upgradeText: {fileID: 771076150}
   servantData:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -43131,9 +42933,9 @@ MonoBehaviour:
   slottype: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -49061,9 +48863,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -49323,9 +49125,9 @@ MonoBehaviour:
   slottype: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -50407,9 +50209,9 @@ MonoBehaviour:
     formationNum: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -50596,9 +50398,9 @@ MonoBehaviour:
     formationNum: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -51099,12 +50901,12 @@ Prefab:
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 248
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -891
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
@@ -51124,7 +50926,7 @@ Prefab:
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
@@ -51134,7 +50936,7 @@ Prefab:
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
@@ -53879,9 +53681,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -55017,9 +54819,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -55926,13 +55728,13 @@ MonoBehaviour:
   leftbottomleveltext: {fileID: 166173734}
   monsterEnforceText: {fileID: 224756739}
   possibleCheckObj: {fileID: 1842576508}
-  FormationIndex: 2
+  formationIndex: 0
   isPlaced: 0
   curServant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -56247,9 +56049,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -56692,9 +56494,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -58290,9 +58092,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -59446,9 +59248,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -59868,9 +59670,9 @@ MonoBehaviour:
     formationNum: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -60313,9 +60115,9 @@ MonoBehaviour:
   slottype: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -61882,128 +61684,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1000739437}
---- !u!1 &1003029202
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1003029203}
-  - component: {fileID: 1003029206}
-  - component: {fileID: 1003029205}
-  - component: {fileID: 1003029204}
-  m_Layer: 5
-  m_Name: team (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1003029203
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1003029202}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1690969871}
-  m_Father: {fileID: 119873104}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 310, y: -20.275}
-  m_SizeDelta: {x: 100, y: 40.55}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1003029204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1003029202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 1003029205}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1285505473}
-        m_MethodName: TeambtnOnclick
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &1003029205
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1003029202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.509}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
---- !u!222 &1003029206
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1003029202}
 --- !u!1 &1005204103
 GameObject:
   m_ObjectHideFlags: 0
@@ -63307,12 +62987,12 @@ Prefab:
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 248
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -379
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
@@ -63332,7 +63012,7 @@ Prefab:
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
@@ -63342,7 +63022,7 @@ Prefab:
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
@@ -66789,9 +66469,9 @@ MonoBehaviour:
   slottype: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -68566,13 +68246,13 @@ MonoBehaviour:
   leftbottomleveltext: {fileID: 529937794}
   monsterEnforceText: {fileID: 417960628}
   possibleCheckObj: {fileID: 1169020582}
-  FormationIndex: 1
+  formationIndex: 0
   isPlaced: 0
   curServant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -71088,7 +70768,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1139360483}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1223251366}
+        m_MethodName: StageStart
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1139360483
@@ -75743,12 +75434,12 @@ Prefab:
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 248
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -123
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
@@ -75768,7 +75459,7 @@ Prefab:
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
@@ -75778,7 +75469,7 @@ Prefab:
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
@@ -79032,7 +78723,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1285505472
 RectTransform:
   m_ObjectHideFlags: 0
@@ -80024,9 +79715,9 @@ MonoBehaviour:
     formationNum: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -80786,9 +80477,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -81178,9 +80869,9 @@ MonoBehaviour:
   slottype: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -81677,9 +81368,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -81832,9 +81523,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -83146,9 +82837,9 @@ MonoBehaviour:
   slottype: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -83544,9 +83235,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -86515,9 +86206,9 @@ MonoBehaviour:
     formationNum: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -88293,9 +87984,9 @@ MonoBehaviour:
   placeMode: 0
   registeredServantData:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -88534,9 +88225,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -88796,9 +88487,9 @@ MonoBehaviour:
   slottype: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -89373,9 +89064,9 @@ MonoBehaviour:
   slottype: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -91495,13 +91186,13 @@ MonoBehaviour:
   leftbottomleveltext: {fileID: 291374692}
   monsterEnforceText: {fileID: 86979897}
   possibleCheckObj: {fileID: 1826124656}
-  FormationIndex: 8
+  formationIndex: 0
   isPlaced: 0
   curServant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -94349,9 +94040,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -95705,9 +95396,9 @@ MonoBehaviour:
     formationNum: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -96385,9 +96076,9 @@ MonoBehaviour:
   slottype: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -97675,9 +97366,9 @@ MonoBehaviour:
     formationNum: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -98526,9 +98217,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -98622,12 +98313,12 @@ Prefab:
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 248
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -635
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
@@ -98647,7 +98338,7 @@ Prefab:
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
@@ -98657,7 +98348,7 @@ Prefab:
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224889861099247770, guid: bb9324f69d4763f43874652ebe113106,
         type: 2}
@@ -101544,7 +101235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7029871bedc6f2a40a7bb3a8061a89c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterDataBaseDic_: []
+  monsterDataInspector: []
 --- !u!1 &1658416160
 GameObject:
   m_ObjectHideFlags: 0
@@ -104064,80 +103755,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1690781081}
---- !u!1 &1690969870
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1690969871}
-  - component: {fileID: 1690969873}
-  - component: {fileID: 1690969872}
-  m_Layer: 5
-  m_Name: Text
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1690969871
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1690969870}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1003029203}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1690969872
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1690969870}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_FontData:
-    m_Font: {fileID: 12800000, guid: 5b32d666611f3ce47bfadb29df26f864, type: 3}
-    m_FontSize: 100
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 0
-    m_MaxSize: 100
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 1
-    m_VerticalOverflow: 1
-    m_LineSpacing: 1
-  m_Text: Team3
---- !u!222 &1690969873
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1690969870}
 --- !u!1 &1691079666
 GameObject:
   m_ObjectHideFlags: 0
@@ -106278,13 +105895,13 @@ MonoBehaviour:
   leftbottomleveltext: {fileID: 95669585}
   monsterEnforceText: {fileID: 654705670}
   possibleCheckObj: {fileID: 1826325419}
-  FormationIndex: 4
+  formationIndex: 0
   isPlaced: 0
   curServant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -108188,9 +107805,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -108513,9 +108130,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -109057,9 +108674,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -110460,9 +110077,9 @@ MonoBehaviour:
     formationNum: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -110947,9 +110564,9 @@ MonoBehaviour:
   slottype: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -117094,9 +116711,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -118637,9 +118254,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -118792,9 +118409,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -121802,9 +121419,9 @@ MonoBehaviour:
   slottype: 0
   servantdata:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -125021,9 +124638,9 @@ MonoBehaviour:
   slottype: 0
   servant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -127791,9 +127408,9 @@ MonoBehaviour:
   upgradeText: {fileID: 1180216868}
   servantData:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0
@@ -128531,13 +128148,13 @@ MonoBehaviour:
   leftbottomleveltext: {fileID: 1045779521}
   monsterEnforceText: {fileID: 1274643123}
   possibleCheckObj: {fileID: 1319657}
-  FormationIndex: 5
+  formationIndex: 0
   isPlaced: 0
   curServant:
     index: 0
-    isMainHero: 0
     isLegend: 0
     name: 
+    partyIndex: 0
     exp: 0
     jobNum: 0
     body: 0

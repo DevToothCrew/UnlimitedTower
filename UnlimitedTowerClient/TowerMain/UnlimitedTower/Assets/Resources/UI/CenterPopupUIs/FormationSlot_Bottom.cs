@@ -82,8 +82,8 @@ public class FormationSlot_Bottom : MonoBehaviour, IPointerClickHandler
     public void placedUpdate()
     {
         // 배치중
-        if ((slottype == SlotType.servant && GameDataManager.instance.isPlaced(UNIT_TYPE.SERVANT, servantdata.index)) ||
-            slottype == SlotType.monster && GameDataManager.instance.isPlaced(UNIT_TYPE.MONSTER, monsterdata.index))
+        if ((slottype == SlotType.servant && UserDataManager.Inst.GetServantIsPlaced(servantdata.index)) ||
+            slottype == SlotType.monster && UserDataManager.Inst.GetMonsterIsPlaced(monsterdata.index))
         {
             charImage.color = new Color(1f, 1f, 1f, 0.4f);
         }
@@ -186,11 +186,11 @@ public class FormationSlot_Bottom : MonoBehaviour, IPointerClickHandler
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
             // 이미 배치된 녀석이면, return
-            if (slottype == SlotType.monster && GameDataManager.instance.isPlaced(UNIT_TYPE.MONSTER, monsterdata.index))
+            if (slottype == SlotType.servant && UserDataManager.Inst.GetServantIsPlaced(servantdata.index))
             {
                 return;
             }
-            if (slottype == SlotType.servant && GameDataManager.instance.isPlaced(UNIT_TYPE.SERVANT, servantdata.index))
+            if (slottype == SlotType.monster && UserDataManager.Inst.GetMonsterIsPlaced(monsterdata.index))
             {
                 return;
             }
@@ -208,16 +208,16 @@ public class FormationSlot_Bottom : MonoBehaviour, IPointerClickHandler
             if (!FormationInfoPopup.instance.isWaiting)
             {
                 // 서번트이고, 0~4중남은칸이 있다면
-                if (slottype == SlotType.servant && GameDataManager.instance.isServantPlaceExist(curTeamNum))
+                if (slottype == SlotType.servant && UserDataManager.Inst.GetServantEmptyFormation() > 0)
                 {
                     // 거기로 배치 요청하기
-                    GameDataManager.instance.request_Placement(UNIT_TYPE.SERVANT, servantdata.index, curTeamNum, GameDataManager.instance.GetServantPlaceExist(curTeamNum));
+                    GameDataManager.instance.request_Placement(UNIT_TYPE.SERVANT, servantdata.index, curTeamNum, UserDataManager.Inst.GetServantEmptyFormation());
                 }
                 // 몬스터이고, 5~9중 남은칸이 있다면
-                else if (slottype == SlotType.monster && GameDataManager.instance.isMonsterPlaceExist(curTeamNum))
+                else if (slottype == SlotType.monster && UserDataManager.Inst.GetMonsterEmptyFormation() > 0)
                 {
                     // 거기로 배치 요청하기
-                    GameDataManager.instance.request_Placement(UNIT_TYPE.MONSTER, monsterdata.index, curTeamNum, GameDataManager.instance.GetMonsterPlaceExist(curTeamNum));
+                    GameDataManager.instance.request_Placement(UNIT_TYPE.MONSTER, monsterdata.index, curTeamNum, UserDataManager.Inst.GetMonsterEmptyFormation());
                 }
                 // 남은 칸이 없다면
                 else

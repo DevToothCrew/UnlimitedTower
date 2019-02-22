@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using System.Linq;
 
 public class CharacterCSVData : MonoSingleton<CharacterCSVData>
 {
@@ -90,5 +91,16 @@ public class CharacterCSVData : MonoSingleton<CharacterCSVData>
     public void asdf()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public List<int> GetMonsterIndexList()
+    {
+        if(monsterDataBaseDic == null)
+        {
+            Debug.LogError("MonsterDataBaseDic Error");
+            return null;
+        }
+
+        return monsterDataBaseDic.Keys.ToList();
     }
 }

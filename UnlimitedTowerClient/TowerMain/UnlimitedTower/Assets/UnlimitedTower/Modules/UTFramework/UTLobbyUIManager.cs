@@ -17,7 +17,7 @@ public class UTLobbyUIManager : MonoBehaviour {
     public void SaveParty()
     {
         // TODO : 파티 상황을 로컬에서 저장
-        Party party = new Party();
+        UserPartyData party = new UserPartyData();
         UTUMSProvider.Instance.RequestSaveParty(party);
     }
 
@@ -34,7 +34,7 @@ public class UTLobbyUIManager : MonoBehaviour {
     [ContextMenu("Start")]
     public void StageStart()
     {
-        int stageNum = 0;
+        int stageNum = 1;
         int partyNum = 1;
         UTUMSProvider.Instance.RequestStageStart(stageNum, partyNum);
     }

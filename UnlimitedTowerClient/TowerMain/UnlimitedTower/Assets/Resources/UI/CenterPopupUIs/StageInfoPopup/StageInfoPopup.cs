@@ -12,7 +12,7 @@ public class StageInfoPopup : MonoBehaviour {
         instance = this;
     }
 
-    // 이미지 슬롯들
+    // 이미지 슬롯들 이름은 또 왜이런데 진짜
     public List<stageui_charslot> charslotList;
 
     // 캐릭터윈도우
@@ -41,30 +41,54 @@ public class StageInfoPopup : MonoBehaviour {
     public void SetDisplayTeamnum(int teamNum)
     {
         // 캐릭터 창 업데이트
-        for (int i = 0; i < charslotList.Count; i++)
+        for (int formationIndex = 0; formationIndex < charslotList.Count; formationIndex++)
         {
-            int formationIndex = i;
-
-            // 배치되어있다면, 이미지로 띄워주기
-            if (GameDataManager.instance.isPlacedAt(curDisplayTeam, formationIndex))
+            if(formationIndex == 0)
             {
-                // 서번트
-                if (formationIndex <= 4)
+                UserServantData heroInfo = UserDataManager.Inst.GetHeroInfo();
+                if(heroInfo == null)
                 {
-                    UserServantData servantdata = GameDataManager.instance.getServantPlacedAt_nullPossible(curDisplayTeam, formationIndex);
-                    charslotList[i].ToServant(servantdata);
+                    Debug.Log("버그");
+                    return;
                 }
-                // 몬스터
+
+                charslotList[formationIndex].ToServant(heroInfo);
+            }
+            else if (formationIndex <= DEFINE.ServantMaxFormationNum)
+            {
+                if (UserDataManager.Inst.GetServantIsPlaced(formationIndex) == true)
+                {
+                    UserServantData servantInfo = UserDataManager.Inst.GetServantInfoFromFormation(formationIndex);
+                    if(servantInfo == null)
+                    {
+                        Debug.Log("버그");
+                        return;
+                    }
+
+                    charslotList[formationIndex].ToServant(servantInfo);
+                }
                 else
                 {
-                    UserMonsterData servantdata = GameDataManager.instance.getMonsterPlacedAt_nullPossible(curDisplayTeam, formationIndex);
-                    charslotList[i].ToMonster(servantdata);
+                    charslotList[formationIndex].ToEmpty();
                 }
             }
-            // 배치되어있지 않다면, 흰아이콘으로
             else
             {
-                charslotList[i].ToEmpty();
+                if (UserDataManager.Inst.GetMonsterIsPlaced(formationIndex) == true)
+                {
+                    UserMonsterData monsterInfo = UserDataManager.Inst.GetMonsterInfoFromFormation(formationIndex);
+                    if(monsterInfo == null)
+                    {
+                        Debug.Log("버그");
+                        return;
+                    }
+
+                    charslotList[formationIndex].ToMonster(monsterInfo);
+                }
+                else
+                {
+                    charslotList[formationIndex].ToEmpty();
+                }
             }
         }
 
@@ -74,35 +98,45 @@ public class StageInfoPopup : MonoBehaviour {
     
     // 현재 팀에서 선택된 자리넘버
     public int selectedFormationNum;
-    public void SetFormationNum(int formNum)
+    public void SetFormationNum(int formationIndex)
     {
         // 일단 모두 디셀렉트
         DeselectAll();
-
-        // 선택된 칸에 캐릭터가 없으면, return
-        if (!GameDataManager.instance.isPlacedAt(curDisplayTeam, formNum))
+        
+        if(formationIndex <= DEFINE.ServantMaxFormationNum)
         {
-            return;
+            if (UserDataManager.Inst.GetServantIsPlaced(formationIndex) == false)
+            {
+                return;
+            }
+
+            UserServantData servantInfo = UserDataManager.Inst.GetServantInfoFromFormation(formationIndex);
+            if (servantInfo == null)
+            {
+                Debug.Log("버그");
+                return;
+            }
+
+            UpdateCharacterWindow(servantInfo);
         }
-
-
-
-
-
-        // 해당칸이 어딘지에 따라 -> 몬스터
-        if (formNum >= 5)
-        {
-            UserMonsterData monsterdata = GameDataManager.instance.getMonsterPlacedAt_nullPossible(curDisplayTeam, formNum);
-            UpdateCharacterWindow(monsterdata);
-        }
-        // -> 서번트
         else
         {
-            UserServantData servantdata = GameDataManager.instance.getServantPlacedAt_nullPossible(curDisplayTeam, formNum);
-            UpdateCharacterWindow(servantdata);
+            if (UserDataManager.Inst.GetMonsterIsPlaced(formationIndex) == false)
+            {
+                return;
+            }
+
+            UserMonsterData monsterInfo = UserDataManager.Inst.GetMonsterInfoFromFormation(formationIndex);
+            if (monsterInfo == null)
+            {
+                Debug.Log("버그");
+                return;
+            }
+
+            UpdateCharacterWindow(monsterInfo);
         }
 
-        charslotList[formNum].selectedObj.SetActive(true);
+        charslotList[formationIndex].selectedObj.SetActive(true);
     }
     public void UpdateCharacterWindow(UserServantData servantdata)
     {
@@ -132,26 +166,26 @@ public class StageInfoPopup : MonoBehaviour {
             item.Deregister();
         }
         // 아이템창 초기화
-        List<UserMountItemData> mountitemList = UserDataManager.Inst.GetMountItemList().FindAll((rowdata) => { return rowdata.isMounted && rowdata.mountServantIndex == servantdata.index; });
-        // 아이템창 등록
-        foreach (var item in mountitemList)
-        {
-            MountItemEntity.Param param = ErdManager.instance.getmountitemEntityTable_nullPossible(item.mountitemNum);
-            switch (param.mountitemType)
-            {
-                case MountitemType.Weapon:
-                    stagewindowItemList[0].RegisterItem(item);
-                    break;
+        //List<UserMountItemData> mountitemList = UserDataManager.Inst.GetMountItemList().FindAll((rowdata) => { return rowdata.isMounted && rowdata.mountServantIndex == servantdata.index; });
+        //// 아이템창 등록
+        //foreach (var item in mountitemList)
+        //{
+        //    MountItemEntity.Param param = ErdManager.instance.getmountitemEntityTable_nullPossible(item.mountitemNum);
+        //    switch (param.mountitemType)
+        //    {
+        //        case MountitemType.Weapon:
+        //            stagewindowItemList[0].RegisterItem(item);
+        //            break;
 
-                case MountitemType.Defense:
-                    stagewindowItemList[1].RegisterItem(item);
-                    break;
+        //        case MountitemType.Defense:
+        //            stagewindowItemList[1].RegisterItem(item);
+        //            break;
                     
-                case MountitemType.Accessory:
-                    stagewindowItemList[2].RegisterItem(item);
-                    break;
-            }
-        }
+        //        case MountitemType.Accessory:
+        //            stagewindowItemList[2].RegisterItem(item);
+        //            break;
+        //    }
+        //}
     }
     public void UpdateCharacterWindow(UserMonsterData monsterdata)
     {

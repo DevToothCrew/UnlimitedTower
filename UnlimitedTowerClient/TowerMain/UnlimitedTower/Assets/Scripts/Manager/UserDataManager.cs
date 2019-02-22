@@ -7,8 +7,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public UserInfo userInfo = new UserInfo();
 
     public Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
-    // 사실 Dic가 있으면 그냥 toList로 불러 올수있음, 그리고 왜 이걸 대문자로 받아서 하지?
-
+   
     public Dictionary<int, UserMonsterData> monsterDic = new Dictionary<int, UserMonsterData>();
 
     // 장비와 기타 아이템 소모품 등은 Equipment와 Item으로 변경 필요
@@ -16,9 +15,11 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
     public Dictionary<int, UserEtcItemData> etcItemDic = new Dictionary<int, UserEtcItemData>();
     
-    public Dictionary<int, UserPartyData> partyDic = new Dictionary<int, UserPartyData>();
-    
-    public Dictionary<int, UserFormationData> formationDic = new Dictionary<int, UserFormationData>();
+    // 현재 파티는 1개, 파티 안에 Formation Info 포함
+    public UserPartyData partyInfo = new UserPartyData();
+
+    // TODO : Test용
+    public TestbattleStateData stageState = new TestbattleStateData();
 
     public int usingPartyNum = 1;
 
@@ -49,9 +50,34 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         userInfo.sceneState = state;
     }
 
-    public void SetFormationDic(Dictionary<int, UserFormationData> userInformationDic)
+    public void SetPartyInfo(UserPartyData getPartyInfo)
     {
-        formationDic = userInformationDic;
+        partyInfo = getPartyInfo;
+
+        foreach(KeyValuePair<int, UserFormationData> dic in partyInfo.formationDataDic)
+        {
+            if(dic.Key > 0 && dic.Key <= DEFINE.ServantMaxFormationNum)
+            {
+                if(servantDic.ContainsKey(dic.Value.index) == false)
+                {
+                    Debug.LogError("Invalid Servant Index : " + dic.Value.index);
+                }
+                servantDic[dic.Value.index].isPlaced = true;
+            }
+            else if (dic.Key > DEFINE.ServantMaxFormationNum && dic.Key <= DEFINE.MonsterMaxFormationNum)
+            {
+                if (monsterDic.ContainsKey(dic.Value.index) == false)
+                {
+                    Debug.LogError("Invalid Monster Index : " + dic.Value.index);
+                }
+                monsterDic[dic.Value.index].isPlaced = true;
+            }
+        }
+    }
+
+    public void SetStageState(TestbattleStateData testStageState)
+    {
+        stageState = testStageState;
     }
 
     #endregion
@@ -79,15 +105,9 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return userInfo.userHero;
     }
 
-    public UserPartyData GetUserPartyInfo(int partyNum)
+    public UserPartyData GetUserPartyInfo()
     {
-        if(partyDic.ContainsKey(partyNum) == false)
-        {
-            Debug.Log("Invalid PartyNum");
-            return null;
-        }
-
-        return partyDic[partyNum];
+        return partyInfo;
     }
 
     public UserServantData GetServantInfo(int index)
@@ -100,6 +120,24 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
         return servantDic[index];
     }
+
+    public UserServantData GetServantInfoFromFormation(int formationIndex)
+    {
+        if(formationIndex < 0 || formationIndex > DEFINE.ServantMaxFormationNum)
+        {
+            return null;
+        }
+
+        UserFormationData formationData = GetFormationData(formationIndex);
+        if (formationData == null)
+        {
+            Debug.Log("버그");
+            return null;
+        }
+
+        return GetServantInfo(formationData.index);
+    }
+
     public UserMonsterData GetMonsterInfo(int index)
     {
         if (monsterDic.ContainsKey(index) == false)
@@ -111,30 +149,88 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return monsterDic[index];
     }
 
-    // 이름이 병신같음
-    public UserFormationData GetFormaData_nullPossible(int team, int formationIndex)
+    public UserMonsterData GetMonsterInfoFromFormation(int formationIndex)
     {
-        // TODO : 이런식으로 쓸꺼면 team을 Dictionary의 Key로 사용
-
-        if(formationDic.ContainsKey(team) == true)
-        {
-            if(formationDic[team].formationIndex == formationIndex)
-            {
-                return formationDic[team];
-            }
-        }
-
-        return null;
-    }
-
-    public UserFormationData GetFormationData(int index)
-    {
-        if(formationDic.ContainsKey(index) == false)
+        if (formationIndex < DEFINE.MonsterMinFormationNum || formationIndex > DEFINE.MonsterMaxFormationNum)
         {
             return null;
         }
 
-        return formationDic[index];
+        UserFormationData formationData = GetFormationData(formationIndex);
+        if (formationData == null)
+        {
+            Debug.Log("버그");
+            return null;
+        }
+
+        return GetMonsterInfo(formationData.index);
+    }
+
+    public UserFormationData GetFormationData(int formationIndex)
+    {
+        if(partyInfo == null)
+        {
+            Debug.Log("Invalid GetFormaData_nullPossible_1");
+            return null;
+        }
+
+        if(partyInfo.formationDataDic == null)
+        {
+            Debug.Log("Invalid GetFormaData_nullPossible_2");
+            return null;
+        }
+
+        if (partyInfo.formationDataDic.ContainsKey(formationIndex) == false)
+        {
+            Debug.Log("Invalid GetFormaData_nullPossible_3");
+            return null;
+        }
+
+        return partyInfo.formationDataDic[formationIndex];
+    }
+
+    public bool GetFomationIsPlaced(int formationIndex)
+    {
+        UserFormationData formationdata = GetFormationData(formationIndex);
+        if (formationdata == null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public bool GetServantIsPlaced(int servantIndex)
+    {
+        if(servantDic.ContainsKey(servantIndex) == false)
+        {
+            Debug.LogError("Invalid Servant Index : " + servantIndex);
+            return false;
+        }
+
+        return servantDic[servantIndex].isPlaced;
+    }
+
+    public bool GetMonsterIsPlaced(int monsterIndex)
+    {
+        if (monsterDic.ContainsKey(monsterIndex) == false)
+        {
+            Debug.LogError("Invalid Monster Index : " + monsterIndex);
+            return false;
+        }
+
+        return monsterDic[monsterIndex].isPlaced;
+    }
+
+
+    public int GetServantEmptyFormation()
+    {
+        return 0;
+    }
+
+    public int GetMonsterEmptyFormation()
+    {
+        return 0;
     }
 
     public int GetServantCount()
@@ -195,6 +291,17 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         }
 
         return etcItemDic.Values.ToList();
+    }
+
+    public TestbattleStateData GetStageState()
+    {
+        if(stageState == null)
+        {
+            Debug.LogError("버그");
+            return null;
+        }
+
+        return stageState;
     }
 
     #endregion

@@ -30,7 +30,7 @@ public abstract class UTUMSProvider
     public abstract void RequestLogout();
 
     public abstract void RequestGacha();
-    public abstract void RequestSaveParty(Party partyInfo);
+    public abstract void RequestSaveParty(UserPartyData partyInfo);
 
     public abstract void RequestBattleAction(int heroTarget, int heroAction, int monsterTarget, int monsterAction);
     public abstract void RequestStageStart(int stageNum, int partyNum);

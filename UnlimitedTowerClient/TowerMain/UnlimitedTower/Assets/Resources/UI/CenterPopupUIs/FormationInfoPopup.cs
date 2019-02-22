@@ -21,7 +21,7 @@ public class FormationInfoPopup : MonoBehaviour
 
     [Header("debugdata")]
     public List<FormationSlot_Bottom> bottomslotlist;
-    public List<Formationslot_Upper> upperslotlist;
+    public List<FormationSlot_Upper> upperslotlist;
 
 
 

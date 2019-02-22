@@ -22,7 +22,7 @@ public class UTCloudUMSProvider : UTUMSProvider
         PacketManager.Inst.RequestGacha();
     }
 
-    public override void RequestSaveParty(Party partyInfo)
+    public override void RequestSaveParty(UserPartyData partyInfo)
     {
         PacketManager.Inst.RequestSaveParty(partyInfo);
     }

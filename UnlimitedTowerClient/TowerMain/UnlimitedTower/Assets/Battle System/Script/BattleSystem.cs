@@ -45,7 +45,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     private void Awake()
     {
         Application.targetFrameRate = 60;
-        UTLobbyUIManager_ = GameObject.Find("Framework")?.GetComponent<UTLobbyUIManager>();
+        //UTLobbyUIManager_ = GameObject.Find("Framework")?.GetComponent<UTLobbyUIManager>();
         caracterCustom = GameObject.Find("CharacterCustomInstance").GetComponent<CaracterCustom>();
         
         playerCharacter[0] = GameObject.Find("CharacterPlayer03").gameObject;
@@ -77,7 +77,6 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         UTLobbyUIManager_?.StageStart();
 
         battleInformation.attackerIndex = -1;
-
         for (int i = 0; i < 20; i++)
         {
             // characterisPlace[i] = testbattleStateData.state_list[i].index == 0 ? false : true;
@@ -107,7 +106,25 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         {
             if (characterisPlace[i] == true)
             {
-                if (i < 5)
+                if (i == 0)
+                {
+                    // 서번트 형태 불러와서 생성
+                    UserServantData heroInfo = UserDataManager.Inst.GetHeroInfo();
+                    if (heroInfo == null)
+                    {
+                        Debug.LogError("버그다");
+                        return;
+                    }
+
+                    Instantiate(caracterCustom.Create(
+                        heroInfo.jobNum,
+                        heroInfo.headNum,
+                        heroInfo.hairNum,
+                        heroInfo.gender == 1 ? 1 : 0,
+                        heroInfo.body == 1 ? 0 : 1
+                        ), playerCharacter[i].transform);
+                }
+                else if (i < 5)
                 {
 
                     // 서번트 형태 불러와서 생성
@@ -123,7 +140,6 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                         Instantiate(prefabList.prefabList[22], playerCharacter[i].transform);
                     else
                     Instantiate(prefabList.prefabList[Random.Range(0,57)], playerCharacter[i].transform);
-                    
                 }
                 else
                 {
@@ -134,7 +150,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             }
             if (characterisPlace[i + 10] == true)
             {
-                if (i < 5)
+                if( i == 0)
                 {
                     // Instantiate(caracterCustom.Create(
                     //     UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].jobNum,

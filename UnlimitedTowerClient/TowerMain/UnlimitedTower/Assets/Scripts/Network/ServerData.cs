@@ -126,6 +126,7 @@ public class assetInfo
 public class battleState
 {
     public int index;
+    public int position;
     public int now_hp;
     public int attack;
     public int defense;
@@ -150,7 +151,7 @@ public class UserLoginData
     public List<servantData> servant_list = new List<servantData>();
     public List<monsterData> monster_list = new List<monsterData>();
     public List<itemData> item_list = new List<itemData>();
-    public List<partyData> party_list = new List<partyData>();
+    public partyData party_info = new partyData();
 }
 
 [Serializable]
@@ -164,7 +165,7 @@ public class userData
 {
     public string user;
     public int state; //씬 상태
-    public servantInfo hero = new servantInfo();
+    public servantInfo hero = new servantInfo();    // Hero는 Index 0 , Party_Num 1 을 무조건 포함
 }
 
 [Serializable]
@@ -211,13 +212,13 @@ public class gachaItemData
     public itemData data = new itemData();
 }
 
-//add by canie
 [Serializable]
 public class partyData
 {
     public int index;
     public int state;
-    public List<int> party = new List<int>();
+    public List<int> servant_list = new List<int>();
+    public List<int> monster_list = new List<int>();
 }
 
 [Serializable]
@@ -299,9 +300,7 @@ public class stageStateInfo
 
     public int state;
 
-    // 버프 리스트, 디버프 리스트, 스킬 리스트 추가 예정
-
-    // DB 나오기 전까지 임시로 사용
+    // TODO : 타워배틀에서 전부 다 필요
     public Status status;
     public int status_type;
     public int exp;
@@ -314,7 +313,11 @@ public class stageStateInfo
 public class StageStateData
 {
     public int turn;
-    public List<stageStateInfo> info_list = new List<stageStateInfo>();
+
+    public int party_num;
+    public int stage_num;
+    public List<stageStateInfo> my_team_list = new List<stageStateInfo>();
+    public List<stageStateInfo> enemy_team_list = new List<stageStateInfo>();
 }
 
 [Serializable]
@@ -338,6 +341,17 @@ public class JsonParty
     public int partyNum = 0;
     public List<int> partyList = new List<int>();
 }
+
+[System.Serializable]
+public class TestParty
+{
+    public int partyNum = 0;
+    public List<int> servantList = new List<int>();
+    public List<int> monsterList = new List<int>();
+}
+
+
+
 [System.Serializable]
 public class JsonBattleAction
 {

@@ -33,7 +33,7 @@ public class UTPlayerManager : MonoBehaviour {
         public string ToJson()
         {
             //JsonData data = Cheat.Inst.GetUserLoginData(user, gameMoney);
-            JsonData data = Cheat.Inst.TestGetUserLoginData(user);
+            JsonData data = Cheat.Inst.GetUserLoginData(user, gameMoney);
 
             return data.ToString();
         }
@@ -46,8 +46,8 @@ public class UTPlayerManager : MonoBehaviour {
 
         public string ToJson()
         {
-            //JsonData data = Cheat.Inst.GetUserLoginData(user, gameMoney);
-            JsonData data = Cheat.Inst.TestGetPartyData(partyNum);
+            // TODO : 작업필요
+            JsonData data = null;
 
             return data.ToString();
         }
@@ -217,8 +217,7 @@ public class UTPlayerManager : MonoBehaviour {
                     thisUser = data as UTPlayerData ?? thisUser;
                     string loginInfo = thisUser.ToJson();
                     Debug.Log("[SUCCESS] user login :" + loginInfo);
-                    //PacketManager.Inst.ResponseLogin(loginInfo);
-                    PacketManager.Inst.TestResponseLogin(loginInfo);
+                    PacketManager.Inst.ResponseLogin(loginInfo);
                 }
             };
 
@@ -277,8 +276,7 @@ public class UTPlayerManager : MonoBehaviour {
                     thisBattleAction = data as UTBattleActionData ?? thisBattleAction;
                     string battleActionInfo = thisBattleAction.ToJson();
                     Debug.Log("[SUCCESS] user battleaction :" + battleActionInfo);
-                    //PacketManager.Inst.ResponseBattleAction(battleActionInfo);
-                    PacketManager.Inst.TestResponseAction(battleActionInfo);
+                    PacketManager.Inst.ResponseAction(battleActionInfo);
                 }
             };
 
@@ -293,8 +291,7 @@ public class UTPlayerManager : MonoBehaviour {
                     thisStageStart = data as UTStageStartData ?? thisStageStart;
                     string stageStartInfo = thisStageStart.ToJson();
                     Debug.Log("[SUCCESS] user stagestart :" + stageStartInfo);
-                    //PacketManager.Inst.ResponseStageStart(stageStartInfo);
-                    PacketManager.Inst.TestResponseBatte(stageStartInfo);
+                    PacketManager.Inst.ResponseBatte(stageStartInfo);
                 }
             };
 
