@@ -1,0 +1,215 @@
+fileFormatVersion: 2
+guid: e04597869694a0840b204df6ab5a9e95
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: foot_L
+    100002: foot_R
+    100004: forearm_L
+    100006: forearm_R
+    100008: hand_L
+    100010: hand_R
+    100012: heel_02_L
+    100014: heel_02_R
+    100016: metarig
+    100018: Mst_Sea_Turtle
+    100020: //RootNode
+    100022: Mst_Sea_Turtle_002
+    100024: Mst_Sea_Turtle_003
+    100026: Mst_Sea_Turtle_004
+    100028: Mst_Sea_Turtle_005
+    100030: Mst_Sea_Turtle_006
+    100032: Mst_Sea_Turtle_007
+    100034: Mst_Sea_Turtle_008
+    100036: Mst_Sea_Turtle_009
+    100038: Mst_Sea_Turtle_011
+    100040: Mst_Sea_Turtle_012
+    100042: Mst_Sea_Turtle_013
+    100044: Mst_Sea_Turtle_014
+    100046: Mst_Sea_Turtle_015
+    100048: Mst_Sea_Turtle_016
+    100050: Mst_Sea_Turtle_017
+    100052: Mst_Sea_Turtle_026
+    100054: Mst_Sea_Turtle_027
+    100056: shin_L
+    100058: shin_R
+    100060: shoulder_L
+    100062: shoulder_R
+    100064: spine
+    100066: spine_001
+    100068: spine_002
+    100070: spine_003
+    100072: spine_004
+    100074: spine_005
+    100076: spine_006
+    100078: thigh_L
+    100080: thigh_R
+    100082: toe_L
+    100084: toe_R
+    100086: upper_arm_L
+    100088: upper_arm_R
+    400000: foot_L
+    400002: foot_R
+    400004: forearm_L
+    400006: forearm_R
+    400008: hand_L
+    400010: hand_R
+    400012: heel_02_L
+    400014: heel_02_R
+    400016: metarig
+    400018: //RootNode
+    400020: Mst_Sea_Turtle
+    400022: Mst_Sea_Turtle_002
+    400024: Mst_Sea_Turtle_003
+    400026: Mst_Sea_Turtle_004
+    400028: Mst_Sea_Turtle_005
+    400030: Mst_Sea_Turtle_006
+    400032: Mst_Sea_Turtle_007
+    400034: Mst_Sea_Turtle_008
+    400036: Mst_Sea_Turtle_009
+    400038: Mst_Sea_Turtle_011
+    400040: Mst_Sea_Turtle_012
+    400042: Mst_Sea_Turtle_013
+    400044: Mst_Sea_Turtle_014
+    400046: Mst_Sea_Turtle_015
+    400048: Mst_Sea_Turtle_016
+    400050: Mst_Sea_Turtle_017
+    400052: Mst_Sea_Turtle_026
+    400054: Mst_Sea_Turtle_027
+    400056: shin_L
+    400058: shin_R
+    400060: shoulder_L
+    400062: shoulder_R
+    400064: spine
+    400066: spine_001
+    400068: spine_002
+    400070: spine_003
+    400072: spine_004
+    400074: spine_005
+    400076: spine_006
+    400078: thigh_L
+    400080: thigh_R
+    400082: toe_L
+    400084: toe_R
+    400086: upper_arm_L
+    400088: upper_arm_R
+    2100000: palette_002__Mst_Sea_Turtle_png_002
+    2100002: palette__Mst_Sea_Turtle_png
+    4300000: Mst_Sea_Turtle_026
+    4300002: Mst_Sea_Turtle_027
+    4300004: Mst_Sea_Turtle_009
+    4300006: Mst_Sea_Turtle_011
+    4300008: Mst_Sea_Turtle_017
+    4300010: Mst_Sea_Turtle_016
+    4300012: Mst_Sea_Turtle_014
+    4300014: Mst_Sea_Turtle_013
+    4300016: Mst_Sea_Turtle_007
+    4300018: Mst_Sea_Turtle_006
+    4300020: Mst_Sea_Turtle_004
+    4300022: Mst_Sea_Turtle_003
+    4300024: Mst_Sea_Turtle_008
+    4300026: Mst_Sea_Turtle_005
+    4300028: Mst_Sea_Turtle_002
+    4300030: Mst_Sea_Turtle
+    4300032: Mst_Sea_Turtle_015
+    4300034: Mst_Sea_Turtle_012
+    7400000: Default Take
+    9500000: //RootNode
+    13700000: Mst_Sea_Turtle
+    13700002: Mst_Sea_Turtle_002
+    13700004: Mst_Sea_Turtle_003
+    13700006: Mst_Sea_Turtle_004
+    13700008: Mst_Sea_Turtle_005
+    13700010: Mst_Sea_Turtle_006
+    13700012: Mst_Sea_Turtle_007
+    13700014: Mst_Sea_Turtle_008
+    13700016: Mst_Sea_Turtle_009
+    13700018: Mst_Sea_Turtle_011
+    13700020: Mst_Sea_Turtle_012
+    13700022: Mst_Sea_Turtle_013
+    13700024: Mst_Sea_Turtle_014
+    13700026: Mst_Sea_Turtle_015
+    13700028: Mst_Sea_Turtle_016
+    13700030: Mst_Sea_Turtle_017
+    13700032: Mst_Sea_Turtle_026
+    13700034: Mst_Sea_Turtle_027
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 100
+    normalImportMode: 1
+    tangentImportMode: 2
+    normalCalculationMode: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

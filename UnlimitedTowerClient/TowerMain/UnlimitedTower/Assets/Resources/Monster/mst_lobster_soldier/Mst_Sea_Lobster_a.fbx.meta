@@ -1,0 +1,206 @@
+fileFormatVersion: 2
+guid: 01d8208e79c46b443b807181b2972c59
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: foot_L
+    100002: foot_R
+    100004: forearm_L
+    100006: forearm_R
+    100008: hand_L
+    100010: hand_R
+    100012: heel_02_L
+    100014: heel_02_R
+    100016: metarig
+    100018: Mst_Sea_Lobster_3
+    100020: Mst_Sea_Lobster_3_001
+    100022: Mst_Sea_Lobster_3_002
+    100024: Mst_Sea_Lobster_3_003
+    100026: Mst_Sea_Lobster_3_006
+    100028: Mst_Sea_Lobster_3_007
+    100030: Mst_Sea_Lobster_3_010
+    100032: Mst_Sea_Lobster_3_011
+    100034: Mst_Sea_Lobster_3_013
+    100036: Mst_Sea_Lobster_3_014
+    100038: Mst_Sea_Lobster_3_017
+    100040: Mst_Sea_Lobster_3_018
+    100042: Mst_Sea_Lobster_3_019
+    100044: Mst_Sea_Lobster_3_020
+    100046: Mst_Sea_Lobster_3_037
+    100048: //RootNode
+    100050: shin_L
+    100052: shin_R
+    100054: shoulder_L
+    100056: shoulder_R
+    100058: spine
+    100060: spine_001
+    100062: spine_002
+    100064: spine_003
+    100066: spine_004
+    100068: spine_005
+    100070: spine_006
+    100072: thigh_L
+    100074: thigh_R
+    100076: toe_L
+    100078: toe_R
+    100080: upper_arm_L
+    100082: upper_arm_R
+    400000: foot_L
+    400002: foot_R
+    400004: forearm_L
+    400006: forearm_R
+    400008: hand_L
+    400010: hand_R
+    400012: heel_02_L
+    400014: heel_02_R
+    400016: metarig
+    400018: Mst_Sea_Lobster_3
+    400020: Mst_Sea_Lobster_3_001
+    400022: Mst_Sea_Lobster_3_002
+    400024: Mst_Sea_Lobster_3_003
+    400026: Mst_Sea_Lobster_3_006
+    400028: Mst_Sea_Lobster_3_007
+    400030: Mst_Sea_Lobster_3_010
+    400032: Mst_Sea_Lobster_3_011
+    400034: Mst_Sea_Lobster_3_013
+    400036: Mst_Sea_Lobster_3_014
+    400038: Mst_Sea_Lobster_3_017
+    400040: Mst_Sea_Lobster_3_018
+    400042: Mst_Sea_Lobster_3_019
+    400044: Mst_Sea_Lobster_3_020
+    400046: Mst_Sea_Lobster_3_037
+    400048: //RootNode
+    400050: shin_L
+    400052: shin_R
+    400054: shoulder_L
+    400056: shoulder_R
+    400058: spine
+    400060: spine_001
+    400062: spine_002
+    400064: spine_003
+    400066: spine_004
+    400068: spine_005
+    400070: spine_006
+    400072: thigh_L
+    400074: thigh_R
+    400076: toe_L
+    400078: toe_R
+    400080: upper_arm_L
+    400082: upper_arm_R
+    2100000: palette_004__Mst_Sea_Lobster_3_png
+    2100002: palette_008__Mst_Sea_Lobster_3_png_004
+    2100004: palette_009__Mst_Sea_Lobster_3_png_005
+    2100006: palette_011__Mst_Sea_Lobster_3_png_007
+    2100008: palette_010__Mst_Sea_Lobster_3_png_006
+    4300000: Mst_Sea_Lobster_3_006
+    4300002: Mst_Sea_Lobster_3_007
+    4300004: Mst_Sea_Lobster_3_014
+    4300006: Mst_Sea_Lobster_3_020
+    4300008: Mst_Sea_Lobster_3_037
+    4300010: Mst_Sea_Lobster_3_001
+    4300012: Mst_Sea_Lobster_3_002
+    4300014: Mst_Sea_Lobster_3_010
+    4300016: Mst_Sea_Lobster_3_003
+    4300018: Mst_Sea_Lobster_3
+    4300020: Mst_Sea_Lobster_3_019
+    4300022: Mst_Sea_Lobster_3_017
+    4300024: Mst_Sea_Lobster_3_018
+    4300026: Mst_Sea_Lobster_3_013
+    4300028: Mst_Sea_Lobster_3_011
+    7400000: Default Take
+    9500000: //RootNode
+    13700000: Mst_Sea_Lobster_3
+    13700002: Mst_Sea_Lobster_3_001
+    13700004: Mst_Sea_Lobster_3_002
+    13700006: Mst_Sea_Lobster_3_003
+    13700008: Mst_Sea_Lobster_3_006
+    13700010: Mst_Sea_Lobster_3_007
+    13700012: Mst_Sea_Lobster_3_010
+    13700014: Mst_Sea_Lobster_3_011
+    13700016: Mst_Sea_Lobster_3_013
+    13700018: Mst_Sea_Lobster_3_014
+    13700020: Mst_Sea_Lobster_3_017
+    13700022: Mst_Sea_Lobster_3_018
+    13700024: Mst_Sea_Lobster_3_019
+    13700026: Mst_Sea_Lobster_3_020
+    13700028: Mst_Sea_Lobster_3_037
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 100
+    normalImportMode: 1
+    tangentImportMode: 2
+    normalCalculationMode: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

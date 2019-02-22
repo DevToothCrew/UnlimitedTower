@@ -696,7 +696,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1382675742342252}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -946,7 +946,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isOneDeal: 0
   Arrow: {fileID: 0}
-  effect: {fileID: 0}
 --- !u!114 &114902703097907726
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -961,6 +960,7 @@ MonoBehaviour:
   AttackDelay: 0.1
   AttackAfterDelay: 1
   Height: 1.2
+  AttackRange: 0
 --- !u!114 &114932312812564230
 MonoBehaviour:
   m_ObjectHideFlags: 1
