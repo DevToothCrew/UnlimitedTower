@@ -74,13 +74,17 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     public void Start()
     {
         prefabList = GetComponent<PrefabList>();
-        UTLobbyUIManager_?.StageStart();
+
+        testbattleStateData = UserDataManager.Inst.GetStageState();
+        if(testbattleStateData == null)
+        {
+            Debug.LogError("버그");
+        }
 
         battleInformation.attackerIndex = -1;
         for (int i = 0; i < 20; i++)
         {
-            // characterisPlace[i] = testbattleStateData.state_list[i].index == 0 ? false : true;
-            characterisPlace[i] = true;
+            characterisPlace[i] = testbattleStateData.state_list[i].index == 0 ? false : true;
         }
 
         // 캐릭터 컨트롤 스크립트 추가
