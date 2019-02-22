@@ -589,31 +589,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log("Invalid Battle Data : " + getBattleStateInfo);
         }
 
-
         BattleStart(battlestatedata);
     }
 
     public void BattleStart(TestbattleStateData getBattleStateData)
     {
-        if (Application.platform == RuntimePlatform.WindowsEditor)
-        {
-            Debug.Log("배틀 스타트!");
+        Debug.Log("배틀 스타트!");
 
-
-            //// 유저인포
-            //UserInfo userInfo = new UserInfo();
-            //if (TestParseUserInfo(getUserLoginData.userinfo, ref userInfo) == false)
-            //{
-            //    Debug.Log("Invalid ParseUserInfo Info");
-            //    // 재 로그인 시켜야함
-            //}
-
-        }
-        // 웹이라면, 서버데이터 받아오는것으로
-        else
-        {
-
-        }
+        SceneManager.LoadScene("CharacterBattleScene");
     }
 
     #endregion

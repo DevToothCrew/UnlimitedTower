@@ -113,6 +113,23 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return servantDic[index];
     }
 
+    public UserServantData GetServantInfoFromFormation(int formationIndex)
+    {
+        if(formationIndex < 0 || formationIndex > DEFINE.ServantMaxFormationNum)
+        {
+            return null;
+        }
+
+        UserFormationData formationData = GetFormationData(formationIndex);
+        if (formationData == null)
+        {
+            Debug.Log("버그");
+            return null;
+        }
+
+        return GetServantInfo(formationData.index);
+    }
+
     public UserMonsterData GetMonsterInfo(int index)
     {
         if (monsterDic.ContainsKey(index) == false)
@@ -122,6 +139,23 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         }
 
         return monsterDic[index];
+    }
+
+    public UserMonsterData GetMonsterInfoFromFormation(int formationIndex)
+    {
+        if (formationIndex < DEFINE.MonsterMinFormationNum || formationIndex > DEFINE.MonsterMaxFormationNum)
+        {
+            return null;
+        }
+
+        UserFormationData formationData = GetFormationData(formationIndex);
+        if (formationData == null)
+        {
+            Debug.Log("버그");
+            return null;
+        }
+
+        return GetMonsterInfo(formationData.index);
     }
 
     public UserFormationData GetFormationData(int formationIndex)
@@ -179,6 +213,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
         return monsterDic[monsterIndex].isPlaced;
     }
+
 
     public int GetServantEmptyFormation()
     {

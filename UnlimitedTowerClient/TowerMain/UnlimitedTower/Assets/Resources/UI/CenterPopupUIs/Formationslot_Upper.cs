@@ -35,11 +35,35 @@ public class FormationSlot_Upper : MonoBehaviour
 
         if (isplaced)
         {
-            // 몬스터
-            if (formationIndex >= 5)
+            if(formationIndex <= DEFINE.ServantMaxFormationNum)
             {
                 isPlaced = true;
-                curMonster = GameDataManager.instance.getMonsterPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, formationIndex);
+                curServant = UserDataManager.Inst.GetServantInfoFromFormation(formationIndex);
+                if (curServant == null)
+                {
+                    Debug.Log("버그");
+                    return;
+                }
+
+                InitializeUI();
+                charImage.gameObject.SetActive(true);
+                charImage.sprite = ErdManager.instance.GetServantIconSprite(curServant.isLegend, curServant.body, curServant.jobNum);
+                lefttopImage.gameObject.SetActive(true);
+                lefttopImage.sprite = ErdManager.instance.JobIcons[curServant.jobNum];
+                leftbottomleveltext.gameObject.SetActive(true);
+                leftbottomleveltext.text = "lv." + curServant.level;
+
+                return;
+            }
+            else
+            {
+                isPlaced = true;
+                curMonster = UserDataManager.Inst.GetMonsterInfoFromFormation(formationIndex);
+                if (curMonster == null)
+                {
+                    Debug.Log("버그");
+                    return;
+                }
 
                 InitializeUI();
                 charImage.gameObject.SetActive(true);
@@ -55,23 +79,6 @@ public class FormationSlot_Upper : MonoBehaviour
 
                 return;
             }
-            // 서번트
-            else
-            {
-                isPlaced = true;
-                curServant = GameDataManager.instance.getServantPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, formationIndex);
-
-                InitializeUI();
-                charImage.gameObject.SetActive(true);
-                charImage.sprite = ErdManager.instance.GetServantIconSprite(curServant.isLegend, curServant.body, curServant.jobNum);
-                lefttopImage.gameObject.SetActive(true);
-                lefttopImage.sprite = ErdManager.instance.JobIcons[curServant.jobNum];
-                leftbottomleveltext.gameObject.SetActive(true);
-                leftbottomleveltext.text = "lv." + curServant.level;
-
-                return;
-            }
-
         }
 
         // 없다면 lock상태로
@@ -201,25 +208,42 @@ public class FormationSlot_Upper : MonoBehaviour
                 if (UserDataManager.Inst.GetFomationIsPlaced(formationIndex) == true)
                 {
                     Debug.Log("배치되어있엇음");
-                    // 몬스터 일경우
-                    if (formationIndex >= DEFINE.MonsterMinFormationNum)
+                    if (formationIndex <= DEFINE.ServantMaxFormationNum)
                     {
-                        UserMonsterData monsterdata = GameDataManager.instance.getMonsterPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, formationIndex);
-                        GameDataManager.instance.request_deplace(UNIT_TYPE.MONSTER, monsterdata.index);
-                    }
-                    // 서번트 일경우
-                    else
-                    {
-                        UserServantData servantdata = GameDataManager.instance.getServantPlacedAt_nullPossible(FormationInfoPopup.instance.curTeamNum, formationIndex);
-                        GameDataManager.instance.request_deplace(UNIT_TYPE.SERVANT, servantdata.index);
+                        UserServantData servantInfo = UserDataManager.Inst.GetServantInfoFromFormation(formationIndex);
+                        if (servantInfo == null)
+                        {
+                            Debug.Log("버그");
+                            return;
+                        }
+
+                        GameDataManager.instance.request_deplace(UNIT_TYPE.SERVANT, servantInfo.index);
 
                         // 앞에 몬스터가 배치되어있었다면
                         int monsterTeamNum = FormationInfoPopup.instance.curTeamNum;
                         int monsterFormNum = formationIndex + 5;
                         if (UserDataManager.Inst.GetFomationIsPlaced(monsterFormNum) == true)
                         {
-                            GameDataManager.instance.request_deplace(UNIT_TYPE.MONSTER, GameDataManager.instance.getMonsterPlacedAt_nullPossible(monsterTeamNum, monsterFormNum).index) ;
+                            UserMonsterData monsterInfo = UserDataManager.Inst.GetMonsterInfoFromFormation(formationIndex + 5);
+                            if (monsterInfo == null)
+                            {
+                                Debug.Log("버그");
+                                return;
+                            }
+
+                            GameDataManager.instance.request_deplace(UNIT_TYPE.MONSTER, monsterInfo.index);
                         }
+                    }
+                    else
+                    {
+                        UserMonsterData monsterInfo = UserDataManager.Inst.GetMonsterInfoFromFormation(formationIndex);
+                        if (monsterInfo == null)
+                        {
+                            Debug.Log("버그");
+                            return;
+                        }
+
+                        GameDataManager.instance.request_deplace(UNIT_TYPE.MONSTER, monsterInfo.index);
                     }
                 }
                 else

@@ -34,7 +34,7 @@ public class UTLobbyUIManager : MonoBehaviour {
     [ContextMenu("Start")]
     public void StageStart()
     {
-        int stageNum = 0;
+        int stageNum = 1;
         int partyNum = 1;
         UTUMSProvider.Instance.RequestStageStart(stageNum, partyNum);
     }

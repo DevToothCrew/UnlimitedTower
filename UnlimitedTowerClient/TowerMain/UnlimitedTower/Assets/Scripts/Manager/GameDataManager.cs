@@ -159,49 +159,6 @@ public class GameDataManager : MonoBehaviour
         return true;
     }
 
-
-    // 배치된놈 가져오기
-    public UserServantData getServantPlacedAt_nullPossible(int teamNum, int formationindex)
-    {
-        return null;
-
-        //UserFormationData formData = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isPlaced && rowdata.partyIndex == teamNum && rowdata.formationIndex == formationindex; });
-        //// 그자리에 배치 안되어있을경우 return
-        //if (!formData.isPlaced)
-        //{
-        //    Debug.Log("버그");
-        //    return null;
-        //}
-
-        //// 서번트가아닐경우 return
-        //if (formData.charType == CHAR_TYPE.MONSTER)
-        //{
-        //    return null;
-        //}
-
-        //return UserDataManager.Inst.ServantList.Find((rowdata) => { return rowdata.index == formData.index; });
-    }
-    public UserMonsterData getMonsterPlacedAt_nullPossible(int teamNum, int formationindex)
-    {
-        return null;
-
-        //UserFormationData formData = UserDataManager.Inst.UserFormationList.Find((rowdata) => { return rowdata.isPlaced && rowdata.partyIndex == teamNum && rowdata.formationIndex == formationindex; });
-        //// 그자리에 배치 안되어있을경우 return
-        //if (!formData.isPlaced)
-        //{
-        //    Debug.Log("버그");
-        //    return null;
-        //}
-
-        //// 몬스터일경우 return
-        //if (formData.charType != CHAR_TYPE.MONSTER)
-        //{
-        //    return null;
-        //}
-
-        //return UserDataManager.Inst.MonsterList.Find((rowdata) => { return rowdata.index == formData.index; });
-    }
-
     /* 아이템 */
 
     public void DemountItem(UserMountItemData mountitem)

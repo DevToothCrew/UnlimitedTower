@@ -16,22 +16,31 @@ public class Cheat : MonoSingleton<Cheat>
         userLoginData.userinfo.state = 2;
         userLoginData.userinfo.hero = GetRandomServant(GetRandomServantJob());
 
+        partyData partyData = new partyData();
+        partyData.index = 1;
+        partyData.state = 0;
+
         for (int i = 1; i < 10; i++)
         {
             userLoginData.servant_list.Add(GetRandomServantData(i, GetRandomServantJob()));
+
+            if (i < 5)
+            {
+                partyData.servant_list.Add(i);
+            }
         }
 
         for (int i = 1; i < 10; i++)
         {
             userLoginData.monster_list.Add(GetRandomMonster(i));
+
+            if (i < 6)
+            {
+                partyData.monster_list.Add(i);
+            }
         }
 
         // Item 추가 예정
-
-        partyData partyData = new partyData();
-        partyData.index = 1;
-        partyData.state = 0;
-        // 비어있는 파티 정보로
 
         userLoginData.party_info = partyData;
 
@@ -127,6 +136,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         return JsonMapper.ToJson(battleactiondata);
     }
+
     public string TestGetStageStartData(string user, int stageNum, int partyNum)
     {
         TestbattleStateData battlestatedata = new TestbattleStateData();
