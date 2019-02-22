@@ -1,3 +1,14 @@
+$(document).ready(function(){
+	 $(".att-check").click(function(){
+			$("#popup").css({"display":"block"});
+		});    
+    $(".event-btn p").click(function(){
+		$(".pop-add").css({"display":"block"});
+	});    
+	$(".check-icon img").click(function(){
+		$("#popup").css({"display":"none"});
+	});      
+});			
 
 //cate go
 function goMenu(seq){       
@@ -19,7 +30,9 @@ $(".cate ul li").click(function(){;
 	$(".icon").removeClass("animation");
 	$(".header-r").removeClass("open");
 });
-  
+
+
+
 //slide animation
 function goCountry(){
     $(".lan-cate").slideToggle();
@@ -193,23 +206,10 @@ $(window).scroll(function(){
 $(".section1").ready(function(){
     loop();
 });
-
 function loop(){
     $(".tower1").delay(3000).animate({ top : "+=20%"},2000,loop)
 
 }
-
-$(function(){
-	 $("input").each(function(){
-	   $(this).bind("focus", function(){
-	       $(".header-r").css("position", "absolute");
-	   });
-	   
-	   $(this).bind("blur",function(){
-	       $(".header-r").css("position", "fixed");
-	   	});
-	 });
-});
 
 $('.slide-wrap').slick({
  dots: true,
@@ -235,14 +235,16 @@ $('.slide-wrap').slick({
      }
    },
    {
-     breakpoint: 600,
+     breakpoint: 650,
      settings: {
-       slidesToShow: 2,
-       slidesToScroll: 2
+    	 centerMode: true,
+         centerPadding: '60px',
+         slidesToShow: 1,
+         dots: false, 
      }
    },
    {
-     breakpoint: 400,
+     breakpoint: 430,
      settings: {
         centerMode: true,
         centerPadding: '60px',

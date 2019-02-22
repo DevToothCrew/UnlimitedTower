@@ -36,6 +36,7 @@ if(country != null){}else{country = "en";}
 <% if(country.equals("en")){ %>
 <%@include file = "common/m_header.jsp"%>
 	<div class="section">	
+		<%@include file = "popup/m_popup.jsp"%>
 		<%@include file = "m_section/m_en_section1.jsp"%>
 		<%@include file = "m_section/m_en_section2.jsp"%>
 		<%@include file = "m_section/m_en_section3.jsp"%>
@@ -49,6 +50,7 @@ if(country != null){}else{country = "en";}
 <% }else if(country.equals("ko")){ %>
 <%@include file = "common/m_header.jsp"%>
 	<div class="section">	
+		<%@include file = "popup/m_popup.jsp"%>
 		<%@include file = "m_section/m_ko_section1.jsp"%>
 		<%@include file = "m_section/m_ko_section2.jsp"%>
 		<%@include file = "m_section/m_ko_section3.jsp"%>
@@ -62,6 +64,7 @@ if(country != null){}else{country = "en";}
 <% }else if(country.equals("ch")){ %>
 <%@include file = "common/m_ch_header.jsp"%>
 	<div class="section">
+		<%@include file = "popup/m_popup.jsp"%>
 		<%@include file = "m_section/m_ch_section1.jsp"%>
 		<%@include file = "m_section/m_ch_section2.jsp"%>
 		<%@include file = "m_section/m_ch_section3.jsp"%>

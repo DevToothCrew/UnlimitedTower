@@ -12,6 +12,7 @@
 							<li><a href="https://eoscannon.io" target="_blank"><img src="assets/img/cannon.png" alt=""></a></li>
 							<li><a href="https://eospark.com" target="_blank"><img src="assets/img/EOSPark.png" alt=""></a></li>
 							<li><a href="https://spider.store/" target="_blank"><img src="assets/img/SpiderStore.png" alt=""></a></li>
+							<li><a href="https://spider.store/" target="_blank"><img src="assets/img/partner5.png" alt=""></a></li>
 					</ul>
 			</div>
 		</div>

@@ -39,6 +39,7 @@ if(country != null){}else{country = "en";}
 <% if(country.equals("en")){ %>
 <%@include file = "common/header.jsp"%>
 	<div class="section">
+		<%@include file = "popup/popup.jsp"%>
 		<%@include file = "section/en_section1.jsp"%>
 		<%@include file = "section/en_section2.jsp"%>
 		<%@include file = "section/en_section3.jsp"%>
@@ -52,6 +53,7 @@ if(country != null){}else{country = "en";}
 <% }else if(country.equals("ko")){ %>
 <%@include file = "common/header.jsp"%>
 	<div class="section">
+		<%@include file = "popup/popup.jsp"%>
 		<%@include file = "section/ko_section1.jsp"%>
 		<%@include file = "section/ko_section2.jsp"%>
 		<%@include file = "section/ko_section3.jsp"%>
@@ -65,6 +67,7 @@ if(country != null){}else{country = "en";}
 <% }else if(country.equals("ch")){ %>
 <%@include file = "common/ch_header.jsp"%>
 	<div class="section">
+		<%@include file = "popup/popup.jsp"%>
 		<%@include file = "section/ch_section1.jsp"%>
 		<%@include file = "section/ch_section2.jsp"%>
 		<%@include file = "section/ch_section3.jsp"%>
@@ -86,7 +89,7 @@ if(country != null){}else{country = "en";}
 <script src="assets/js/jquery-1.12.4.js"></script>
 <script src="assets/js/jquery-ui-1.12.1.min.js"></script>
 <script src="assets/slick/slick.min.js"></script>
-<script src="assets/js/event.js?ver=17"></script>
+<script src="assets/js/event.js?ver=18"></script>
 <script src="assets/js/scatter.js?ver=58"></script>
 <script src="assets/js/html5shiv.js"></script>
 </html>
