@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class BattleSystem : MonoSingleton<BattleSystem>
 {
+    public PrefabList prefabList;
     public BattleInformation battleInformation;
     public StageStateData stageStateData;
 
@@ -72,16 +73,14 @@ public class BattleSystem : MonoSingleton<BattleSystem>
 
     public void Start()
     {
-        //UTLobbyUIManager_?.StageStart();
+        prefabList = GetComponent<PrefabList>();
+        UTLobbyUIManager_?.StageStart();
 
         battleInformation.attackerIndex = -1;
-
-        //TODO : 임시
-        testbattleStateData = UserDataManager.Inst.GetStageState();
-
         for (int i = 0; i < 20; i++)
         {
-            characterisPlace[i] = testbattleStateData.state_list[i].index == 0 ? false : true;
+            // characterisPlace[i] = testbattleStateData.state_list[i].index == 0 ? false : true;
+            characterisPlace[i] = true;
         }
 
         // 캐릭터 컨트롤 스크립트 추가
@@ -127,48 +126,49 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                 }
                 else if (i < 5)
                 {
+
                     // 서번트 형태 불러와서 생성
-                    UserServantData servantInfo = UserDataManager.Inst.GetServantInfo(testbattleStateData.state_list[i].index);
-                    if(servantInfo == null)
-                    {
-                        Debug.LogError("버그다");
-                        return;
-                    }
-
-                    Debug.Log(servantInfo.jobNum.ToString() + " / " + servantInfo.headNum + " / " + servantInfo.hairNum + " / " + servantInfo.gender + " / " + servantInfo.body);
-
-                    Instantiate(caracterCustom.Create(
-                        servantInfo.jobNum,
-                        servantInfo.headNum,
-                        servantInfo.hairNum,
-                        servantInfo.gender == 1 ? 1 : 0,
-                        servantInfo.body == 1 ? 0 : 1
-                        ), playerCharacter[i].transform);
+                    // Instantiate(caracterCustom.Create(
+                    //     UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].jobNum,
+                    //     UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].headNum,
+                    //     UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].hairNum,
+                    //     UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].gender == 1 ? 1 : 0,
+                    //     UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].body == 1 ? 0 : 1
+                    //     ), playerCharacter[i].transform);
+                    
+                    if (i == 0)
+                        Instantiate(prefabList.prefabList[22], playerCharacter[i].transform);
+                    else
+                    Instantiate(prefabList.prefabList[Random.Range(0,57)], playerCharacter[i].transform);
                 }
                 else
                 {
-                    Instantiate(Resources.Load(CharacterCSVData.Inst.monsterDataBaseDic[UserDataManager.Inst.monsterDic[testbattleStateData.state_list[i].index].index].resource) as GameObject, playerCharacter[i].transform);
+                    // Instantiate(Resources.Load("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataBaseDic[UserDataManager.Inst.monsterDic[testbattleStateData.state_list[i].index].index].resource) as GameObject, playerCharacter[i].transform);
+                    
+                    Instantiate(prefabList.prefabList[Random.Range(0, 57)], playerCharacter[i].transform);
                 }
             }
             if (characterisPlace[i + 10] == true)
             {
                 if( i == 0)
                 {
-
-                }
-                else if (i < 5)
-                {
-                    //Instantiate(caracterCustom.Create(
-                    //    UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].jobNum,
-                    //    UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].headNum,
-                    //    UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].hairNum,
-                    //    UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].gender == 1 ? 1 : 0,
-                    //    UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].body == 1 ? 0 : 1
-                    //    ), playerCharacter[i].transform);
+                    // Instantiate(caracterCustom.Create(
+                    //     UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].jobNum,
+                    //     UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].headNum,
+                    //     UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].hairNum,
+                    //     UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].gender == 1 ? 1 : 0,
+                    //     UserDataManager.Inst.servantDic[testbattleStateData.state_list[i].index].body == 1 ? 0 : 1
+                    //     ), playerCharacter[i].transform);
+                    if (i == 0)
+                    Instantiate(prefabList.prefabList[30], enemyCharacter[i].transform);
+                    else
+                    Instantiate(prefabList.prefabList[Random.Range(0, 57)], enemyCharacter[i].transform);
                 }
                 else
                 {
-                    Instantiate(Resources.Load("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataBaseDic[UserDataManager.Inst.monsterDic[testbattleStateData.state_list[i + 10].index].index].resource) as GameObject, playerCharacter[i].transform);
+                    // Instantiate(Resources.Load("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataBaseDic[UserDataManager.Inst.monsterDic[testbattleStateData.state_list[i + 10].index].index].resource) as GameObject, playerCharacter[i].transform);
+                    
+                    Instantiate(prefabList.prefabList[Random.Range(0, 57)], enemyCharacter[i].transform);
                 }
             }
         }
@@ -193,13 +193,17 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         {
             if (characterisPlace[i] == true)
             {
-                playerCharacterControl[i].maxHp = testbattleStateData.state_list[i].now_hp;
-                playerCharacterControl[i].nowHp = testbattleStateData.state_list[i].now_hp;
+                // playerCharacterControl[i].maxHp = testbattleStateData.state_list[i].now_hp;
+                // playerCharacterControl[i].nowHp = testbattleStateData.state_list[i].now_hp;
+                playerCharacterControl[i].maxHp = 1000;
+                playerCharacterControl[i].nowHp = 1000;
             }
             if (characterisPlace[i + 10] == true)
             {
-                enemyCharacterControl[i].maxHp = testbattleStateData.state_list[i + 10].now_hp;
-                enemyCharacterControl[i].nowHp = testbattleStateData.state_list[i + 10].now_hp;
+                // enemyCharacterControl[i].maxHp = testbattleStateData.state_list[i + 10].now_hp;
+                // enemyCharacterControl[i].nowHp = testbattleStateData.state_list[i + 10].now_hp;
+                enemyCharacterControl[i].maxHp = 1000;
+                enemyCharacterControl[i].nowHp = 1000;
             }
         }
     }
@@ -207,7 +211,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     [ContextMenu("AttackTest")]
     public void AttackTest()
     {
-        StartCoroutine(BattleStart());
+        StartCoroutine(BattleTestTarget());
     }
 
     private void Update()

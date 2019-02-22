@@ -999,7 +999,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1702940548872162}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1348,7 +1348,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isOneDeal: 0
   Arrow: {fileID: 0}
-  effect: {fileID: 0}
 --- !u!114 &114564271576405140
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1360,9 +1359,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf3448e36193f01438e35548abb37413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackDelay: 0.44
-  AttackAfterDelay: 1.5
-  Height: 1.875
+  AttackDelay: 0.5
+  AttackAfterDelay: 1
+  Height: 1.6
+  AttackRange: 0.8
 --- !u!137 &137075911093290408
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

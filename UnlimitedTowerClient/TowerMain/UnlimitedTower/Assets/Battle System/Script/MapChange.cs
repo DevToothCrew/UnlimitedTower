@@ -46,6 +46,14 @@ public class MapChange : MonoBehaviour
         {
             MapEneble(4);
         }
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            MapEneble(5);
+        }
+        // if (Input.GetKeyDown(KeyCode.Alpha7))
+        // {
+        //     MapEneble(6);
+        // }
     }
 
     private void MapEneble(int index)

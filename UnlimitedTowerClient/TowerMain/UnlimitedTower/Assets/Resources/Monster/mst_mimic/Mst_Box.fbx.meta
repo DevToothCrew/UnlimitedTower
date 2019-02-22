@@ -1,0 +1,230 @@
+fileFormatVersion: 2
+guid: dcfbdecc6510f5c4ca53389a25fe0002
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: f_index_01_L
+    100002: f_index_01_R
+    100004: f_index_02_L
+    100006: f_index_02_R
+    100008: f_index_03_L
+    100010: f_index_03_R
+    100012: f_middle_01_L
+    100014: f_middle_01_R
+    100016: f_middle_02_L
+    100018: f_middle_02_R
+    100020: f_middle_03_L
+    100022: f_middle_03_R
+    100024: f_pinky_01_L
+    100026: f_pinky_01_R
+    100028: f_pinky_02_L
+    100030: f_pinky_02_R
+    100032: f_pinky_03_L
+    100034: f_pinky_03_R
+    100036: f_ring_01_L
+    100038: f_ring_01_R
+    100040: f_ring_02_L
+    100042: f_ring_02_R
+    100044: f_ring_03_L
+    100046: f_ring_03_R
+    100048: foot_L
+    100050: foot_R
+    100052: forearm_L
+    100054: forearm_R
+    100056: hand_L
+    100058: hand_R
+    100060: heel_02_L
+    100062: heel_02_R
+    100064: metarig
+    100066: //RootNode
+    100068: mst_boxmst_a_000
+    100070: mst_boxmst_a_491
+    100072: palm_01_L
+    100074: palm_01_R
+    100076: palm_02_L
+    100078: palm_02_R
+    100080: palm_03_L
+    100082: palm_03_R
+    100084: palm_04_L
+    100086: palm_04_R
+    100088: pelvis_L
+    100090: pelvis_R
+    100092: shin_L
+    100094: shin_R
+    100096: shoulder_L
+    100098: shoulder_R
+    100100: spine
+    100102: spine_001
+    100104: spine_002
+    100106: spine_003
+    100108: spine_004
+    100110: spine_005
+    100112: spine_006
+    100114: thigh_L
+    100116: thigh_R
+    100118: thumb_01_L
+    100120: thumb_01_R
+    100122: thumb_02_L
+    100124: thumb_02_R
+    100126: thumb_03_L
+    100128: thumb_03_R
+    100130: toe_L
+    100132: toe_R
+    100134: upper_arm_L
+    100136: upper_arm_R
+    400000: f_index_01_L
+    400002: f_index_01_R
+    400004: f_index_02_L
+    400006: f_index_02_R
+    400008: f_index_03_L
+    400010: f_index_03_R
+    400012: f_middle_01_L
+    400014: f_middle_01_R
+    400016: f_middle_02_L
+    400018: f_middle_02_R
+    400020: f_middle_03_L
+    400022: f_middle_03_R
+    400024: f_pinky_01_L
+    400026: f_pinky_01_R
+    400028: f_pinky_02_L
+    400030: f_pinky_02_R
+    400032: f_pinky_03_L
+    400034: f_pinky_03_R
+    400036: f_ring_01_L
+    400038: f_ring_01_R
+    400040: f_ring_02_L
+    400042: f_ring_02_R
+    400044: f_ring_03_L
+    400046: f_ring_03_R
+    400048: foot_L
+    400050: foot_R
+    400052: forearm_L
+    400054: forearm_R
+    400056: hand_L
+    400058: hand_R
+    400060: heel_02_L
+    400062: heel_02_R
+    400064: metarig
+    400066: //RootNode
+    400068: mst_boxmst_a_000
+    400070: mst_boxmst_a_491
+    400072: palm_01_L
+    400074: palm_01_R
+    400076: palm_02_L
+    400078: palm_02_R
+    400080: palm_03_L
+    400082: palm_03_R
+    400084: palm_04_L
+    400086: palm_04_R
+    400088: pelvis_L
+    400090: pelvis_R
+    400092: shin_L
+    400094: shin_R
+    400096: shoulder_L
+    400098: shoulder_R
+    400100: spine
+    400102: spine_001
+    400104: spine_002
+    400106: spine_003
+    400108: spine_004
+    400110: spine_005
+    400112: spine_006
+    400114: thigh_L
+    400116: thigh_R
+    400118: thumb_01_L
+    400120: thumb_01_R
+    400122: thumb_02_L
+    400124: thumb_02_R
+    400126: thumb_03_L
+    400128: thumb_03_R
+    400130: toe_L
+    400132: toe_R
+    400134: upper_arm_L
+    400136: upper_arm_R
+    2100000: palette_010__mst_boxmst_a_png_002
+    4300000: mst_boxmst_a_491
+    4300002: mst_boxmst_a_000
+    7400000: Default Take
+    9500000: //RootNode
+    13700000: mst_boxmst_a_000
+    13700002: mst_boxmst_a_491
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 100
+    normalImportMode: 1
+    tangentImportMode: 2
+    normalCalculationMode: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

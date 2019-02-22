@@ -66,12 +66,12 @@ public class CaracterCustom : MonoBehaviour
     public RuntimeAnimatorController[] animatorController = new RuntimeAnimatorController[6];
 
     private readonly CharacterInformation[] characterInformation = {
-        new CharacterInformation(0.9f,1.0f,1.5f),
-        new CharacterInformation(1000f,1.0f,1.5f),
-        new CharacterInformation(0.9f,1.0f,1.5f),
-        new CharacterInformation(0.9f,1.0f,1.5f),
-        new CharacterInformation(0.9f,1.0f,1.5f),
-        new CharacterInformation(0.9f,1.0f,1.5f)
+        new CharacterInformation(0.9f,1.0f,1.5f, 0.95f),
+        new CharacterInformation(1000f,1.0f,1.5f, 0.95f),
+        new CharacterInformation(0.9f,1.0f,1.5f, 0.95f),
+        new CharacterInformation(0.9f,1.0f,1.5f, 0.95f),
+        new CharacterInformation(0.9f,1.0f,1.5f, 0.95f),
+        new CharacterInformation(0.9f,1.0f,1.5f, 0.95f)
     };
 
     private readonly Color[] JobColor = {

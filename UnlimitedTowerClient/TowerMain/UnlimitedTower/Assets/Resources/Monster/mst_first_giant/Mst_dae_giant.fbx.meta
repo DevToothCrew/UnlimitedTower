@@ -1,0 +1,216 @@
+fileFormatVersion: 2
+guid: 50834c43d0eaa3f47b8f33649d7a7714
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: foot_L
+    100002: foot_R
+    100004: forearm_L
+    100006: forearm_R
+    100008: hand_L
+    100010: hand_R
+    100012: heel_02_L
+    100014: heel_02_R
+    100016: metarig
+    100018: //RootNode
+    100020: Mst_dae_giant_arm_left_000
+    100022: Mst_dae_giant_arm_left_002
+    100024: Mst_dae_giant_arm_left_003
+    100026: Mst_dae_giant_arm_left_004
+    100028: Mst_dae_giant_arm_right_001
+    100030: Mst_dae_giant_arm_right_002
+    100032: Mst_dae_giant_arm_right_003
+    100034: Mst_dae_giant_arm_right_006
+    100036: Mst_dae_giant_body_1
+    100038: Mst_dae_giant_body_2
+    100040: Mst_dae_giant_face
+    100042: Mst_dae_giant_leg_2_001
+    100044: Mst_dae_giant_leg_2_002
+    100046: Mst_dae_giant_leg_2_003
+    100048: Mst_dae_giant_leg_2_006
+    100050: Mst_dae_giant_leg_2_007
+    100052: Mst_dae_giant_leg_2_008
+    100054: shin_L
+    100056: shin_R
+    100058: shoulder_L
+    100060: shoulder_R
+    100062: spine
+    100064: spine_001
+    100066: spine_002
+    100068: spine_003
+    100070: spine_004
+    100072: spine_005
+    100074: spine_006
+    100076: thigh_L
+    100078: thigh_R
+    100080: toe_L
+    100082: toe_R
+    100084: upper_arm_L
+    100086: upper_arm_R
+    400000: foot_L
+    400002: foot_R
+    400004: forearm_L
+    400006: forearm_R
+    400008: hand_L
+    400010: hand_R
+    400012: heel_02_L
+    400014: heel_02_R
+    400016: metarig
+    400018: //RootNode
+    400020: Mst_dae_giant_arm_left_000
+    400022: Mst_dae_giant_arm_left_002
+    400024: Mst_dae_giant_arm_left_003
+    400026: Mst_dae_giant_arm_left_004
+    400028: Mst_dae_giant_arm_right_001
+    400030: Mst_dae_giant_arm_right_002
+    400032: Mst_dae_giant_arm_right_003
+    400034: Mst_dae_giant_arm_right_006
+    400036: Mst_dae_giant_body_1
+    400038: Mst_dae_giant_body_2
+    400040: Mst_dae_giant_face
+    400042: Mst_dae_giant_leg_2_001
+    400044: Mst_dae_giant_leg_2_002
+    400046: Mst_dae_giant_leg_2_003
+    400048: Mst_dae_giant_leg_2_006
+    400050: Mst_dae_giant_leg_2_007
+    400052: Mst_dae_giant_leg_2_008
+    400054: shin_L
+    400056: shin_R
+    400058: shoulder_L
+    400060: shoulder_R
+    400062: spine
+    400064: spine_001
+    400066: spine_002
+    400068: spine_003
+    400070: spine_004
+    400072: spine_005
+    400074: spine_006
+    400076: thigh_L
+    400078: thigh_R
+    400080: toe_L
+    400082: toe_R
+    400084: upper_arm_L
+    400086: upper_arm_R
+    2100000: palette_001__Mst_dae_giant_face_png
+    2100002: palette__Mst_dae_giant_body_1_png
+    2100004: palette_002__Mst_dae_giant_body_2_png
+    2100006: palette_008__Mst_dae_giant_leg_2_png_001
+    2100008: palette_007__Mst_dae_giant_leg_2_png
+    2100010: palette_006__Mst_dae_giant_arm_right_png
+    2100012: palette_005__Mst_dae_giant_arm_left_png_002
+    4300000: Mst_dae_giant_face
+    4300002: Mst_dae_giant_body_1
+    4300004: Mst_dae_giant_body_2
+    4300006: Mst_dae_giant_leg_2_007
+    4300008: Mst_dae_giant_leg_2_008
+    4300010: Mst_dae_giant_leg_2_006
+    4300012: Mst_dae_giant_leg_2_002
+    4300014: Mst_dae_giant_leg_2_001
+    4300016: Mst_dae_giant_leg_2_003
+    4300018: Mst_dae_giant_arm_right_001
+    4300020: Mst_dae_giant_arm_right_002
+    4300022: Mst_dae_giant_arm_right_003
+    4300024: Mst_dae_giant_arm_right_006
+    4300026: Mst_dae_giant_arm_left_004
+    4300028: Mst_dae_giant_arm_left_000
+    4300030: Mst_dae_giant_arm_left_002
+    4300032: Mst_dae_giant_arm_left_003
+    7400000: Default Take
+    9500000: //RootNode
+    13700000: Mst_dae_giant_arm_left_000
+    13700002: Mst_dae_giant_arm_left_002
+    13700004: Mst_dae_giant_arm_left_003
+    13700006: Mst_dae_giant_arm_left_004
+    13700008: Mst_dae_giant_arm_right_001
+    13700010: Mst_dae_giant_arm_right_002
+    13700012: Mst_dae_giant_arm_right_003
+    13700014: Mst_dae_giant_arm_right_006
+    13700016: Mst_dae_giant_body_1
+    13700018: Mst_dae_giant_body_2
+    13700020: Mst_dae_giant_face
+    13700022: Mst_dae_giant_leg_2_001
+    13700024: Mst_dae_giant_leg_2_002
+    13700026: Mst_dae_giant_leg_2_003
+    13700028: Mst_dae_giant_leg_2_006
+    13700030: Mst_dae_giant_leg_2_007
+    13700032: Mst_dae_giant_leg_2_008
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 100
+    normalImportMode: 1
+    tangentImportMode: 2
+    normalCalculationMode: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

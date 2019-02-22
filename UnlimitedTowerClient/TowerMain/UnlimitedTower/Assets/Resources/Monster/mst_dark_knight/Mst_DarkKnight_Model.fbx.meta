@@ -1,0 +1,219 @@
+fileFormatVersion: 2
+guid: 71f63ee9247e99b4a90cf6c7f8988807
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: foot_L
+    100002: foot_R
+    100004: forearm_L
+    100006: forearm_R
+    100008: hand_L
+    100010: hand_R
+    100012: heel_02_L
+    100014: heel_02_R
+    100016: metarig
+    100018: //RootNode
+    100020: mst_darkknight_001
+    100022: mst_darkknight_002
+    100024: mst_darkknight_003
+    100026: mst_darkknight_004
+    100028: mst_darkknight_005
+    100030: mst_darkknight_006
+    100032: mst_darkknight_007
+    100034: mst_darkknight_008
+    100036: mst_darkknight_009
+    100038: mst_darkknight_010
+    100040: mst_darkknight_011
+    100042: mst_darkknight_012
+    100044: mst_darkknight_013
+    100046: mst_darkknight_014
+    100048: mst_darkknight_015
+    100050: mst_darkknight_016
+    100052: mst_darkknight_017
+    100054: mst_darkknight_019
+    100056: shin_L
+    100058: shin_R
+    100060: shoulder_L
+    100062: shoulder_R
+    100064: spine
+    100066: spine_001
+    100068: spine_002
+    100070: spine_003
+    100072: spine_004
+    100074: spine_005
+    100076: spine_006
+    100078: thigh_L
+    100080: thigh_R
+    100082: toe_L
+    100084: toe_R
+    100086: upper_arm_L
+    100088: upper_arm_R
+    400000: foot_L
+    400002: foot_R
+    400004: forearm_L
+    400006: forearm_R
+    400008: hand_L
+    400010: hand_R
+    400012: heel_02_L
+    400014: heel_02_R
+    400016: metarig
+    400018: //RootNode
+    400020: mst_darkknight_001
+    400022: mst_darkknight_002
+    400024: mst_darkknight_003
+    400026: mst_darkknight_004
+    400028: mst_darkknight_005
+    400030: mst_darkknight_006
+    400032: mst_darkknight_007
+    400034: mst_darkknight_008
+    400036: mst_darkknight_009
+    400038: mst_darkknight_010
+    400040: mst_darkknight_011
+    400042: mst_darkknight_012
+    400044: mst_darkknight_013
+    400046: mst_darkknight_014
+    400048: mst_darkknight_015
+    400050: mst_darkknight_016
+    400052: mst_darkknight_017
+    400054: mst_darkknight_019
+    400056: shin_L
+    400058: shin_R
+    400060: shoulder_L
+    400062: shoulder_R
+    400064: spine
+    400066: spine_001
+    400068: spine_002
+    400070: spine_003
+    400072: spine_004
+    400074: spine_005
+    400076: spine_006
+    400078: thigh_L
+    400080: thigh_R
+    400082: toe_L
+    400084: toe_R
+    400086: upper_arm_L
+    400088: upper_arm_R
+    2100000: palette__mst_darkknight_png
+    4300000: mst_darkknight_008
+    4300002: mst_darkknight_010
+    4300004: mst_darkknight_007
+    4300006: mst_darkknight_009
+    4300008: mst_darkknight_012
+    4300010: mst_darkknight_013
+    4300012: mst_darkknight_011
+    4300014: mst_darkknight_006
+    4300016: mst_darkknight_017
+    4300018: mst_darkknight_005
+    4300020: mst_darkknight_014
+    4300022: mst_darkknight_019
+    4300024: mst_darkknight_016
+    4300026: mst_darkknight_015
+    4300028: mst_darkknight_004
+    4300030: mst_darkknight_003
+    4300032: mst_darkknight_001
+    4300034: mst_darkknight_002
+    7400000: Default Take
+    9500000: //RootNode
+    13700000: mst_darkknight_001
+    13700002: mst_darkknight_002
+    13700004: mst_darkknight_003
+    13700006: mst_darkknight_004
+    13700008: mst_darkknight_005
+    13700010: mst_darkknight_006
+    13700012: mst_darkknight_007
+    13700014: mst_darkknight_008
+    13700016: mst_darkknight_009
+    13700018: mst_darkknight_010
+    13700020: mst_darkknight_011
+    13700022: mst_darkknight_012
+    13700024: mst_darkknight_013
+    13700026: mst_darkknight_014
+    13700028: mst_darkknight_015
+    13700030: mst_darkknight_016
+    13700032: mst_darkknight_017
+    13700034: mst_darkknight_019
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: palette__mst_darkknight_png
+    second: {fileID: 2100000, guid: c5f0e323960019b42be4a07f104704e4, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 100
+    normalImportMode: 1
+    tangentImportMode: 2
+    normalCalculationMode: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
