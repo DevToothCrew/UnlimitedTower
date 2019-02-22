@@ -34,7 +34,7 @@ if(country != null){}else{country = "en";}
 <form id="main" name="main" action="main.jsp" method="post">
 <input type="hidden" id="country" name="country" value="en">
 <input type="hidden" id="userId" name="userId" value="">
-<input type="hidden" id="userId" name="refId" value="<%=ref_id%>">
+<input type="hidden" id="ref_id" name="ref_id" value="<%=ref_id%>">
 
 <% if(country.equals("en")){ %>
 <%@include file = "common/header.jsp"%>
