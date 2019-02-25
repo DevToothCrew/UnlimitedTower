@@ -3,8 +3,13 @@ $(document).ready(function(){
 		$(".pop-add").css({"display":"block"});
 	}); */   
 	$(".check-icon img").click(function(){
-		$("#popup").css({"display":"none"});
+
+		$("#popup").removeClass("pop-animation");
 	});      
+	$(".att-check img").click(function(){
+		$("#popup").toggleClass("pop-animation");
+
+	});  
 });			
 
 //cate go
@@ -205,7 +210,11 @@ $(".section1").ready(function(){
 });
 function loop(){
     $(".tower1").delay(3000).animate({ top : "+=20%"},2000,loop)
-
+    $(".tower1 img:nth-child(2)").delay(260000).animate({ top : "-3989px"},2000)
+    $(".tower1 img:nth-child(1)").delay(260000).animate({ top : "-7978px"},2000)
+    $(".tower1 img:nth-child(2)").delay(260000).animate({ top : "-11966px"},2000)
+    $(".tower1 img:nth-child(1)").delay(260000).animate({ top : "-15954px"},2000)
+    
 }
 
 $('.slide-wrap').slick({

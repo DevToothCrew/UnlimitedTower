@@ -9,11 +9,11 @@
 	        			<% if(country.equals("en")){ %>
 	        			<h1><img src="assets/img/tit.png" alt=""></h1>
 	        			<em><strong>Date</strong>2018.02.13 ~ 2018.04.01</em>
-	        			<span>스캐터로 로그인 하신 후 하단의 출석하기 버튼을 누르면 참여 완료!!<br>출석 횟수에 따라 다양한 보상을 드립니다!<br>출석 일수는 UTC+0 기준 0:00 AM에 갱신됩니다.</span>
-	        			<p>*사전 등록을 마친 계정만 이벤트에 참여 가능합니다.</p>
+	        			<span>After the sign-in, press the attendance button at the bottom to complete the participation! Compensation will be given according to the number of attendance! Attendance days will be updated at 0:00 AM on UTC + 0.</span>
+	        			<p>* Only pre-registered accounts can participate in the event.</p>
 	        			<% }else if(country.equals("ko")){ %>
 	        			<h1><img src="assets/img/tit.png" alt=""></h1>
-	        			<em><strong>Date</strong>2018.02.13 ~ 2018.04.01</em>
+	        			<em><strong>Date</strong>2018.02.25 ~ 2018.04.01</em>
 	        			<span>스캐터로 로그인 하신 후 하단의 출석하기 버튼을 누르면 참여 완료!!<br>출석 횟수에 따라 다양한 보상을 드립니다!<br>출석 일수는 UTC+0 기준 0:00 AM에 갱신됩니다.</span>
 	        			<p>*사전 등록을 마친 계정만 이벤트에 참여 가능합니다.</p>
 	        			<% }else if(country.equals("ch")){ %>
@@ -176,9 +176,9 @@
 	        		</div>
         			<div class="event-btn">
         				<% if(country.equals("en")){ %>
-	        			<p onclick="daily_check()">Attendance Now</p>
+	        			<p onclick="daily_check()">Check-in Now!</p>
 	        			<% }else if(country.equals("ko")){ %>
-	        			<p onclick="daily_check()">Attendance Now</p>
+	        			<p onclick="daily_check()">Check-in Now!</p>
 	        			<% }else if(country.equals("ch")){ %>
 	        			<p onclick="daily_check()">现在出席</p>
 	        			<%} %>

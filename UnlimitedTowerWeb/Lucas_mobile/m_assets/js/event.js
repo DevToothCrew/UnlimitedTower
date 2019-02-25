@@ -1,11 +1,16 @@
 $(document).ready(function(){
 /*    $(".event-btn p").click(function(){
 		$(".pop-add").css({"display":"block"});
-	});*/
+	}); */   
 	$(".check-icon img").click(function(){
-		$("#m-popup").css({"display":"none"});
+
+		$("#m-popup").removeClass("pop-animation");
 	});      
-});			
+	$(".att-check img").click(function(){
+		$("#m-popup").toggleClass("pop-animation");
+
+	});  
+});		
 
 //cate go
 function goMenu(seq){       
