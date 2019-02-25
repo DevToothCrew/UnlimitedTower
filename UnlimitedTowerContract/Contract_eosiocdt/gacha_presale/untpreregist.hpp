@@ -491,6 +491,15 @@ enum db_index
     void preregist_item_id(eosio::name _user, uint64_t _seed, uint64_t _token_amount);
     void preregist_gacha(eosio::name _user, uint64_t _seed, uint64_t _token_amount);
 
+
+    void daily_gacha_monster(eosio::name _user, uint64_t _seed);
+    void daily_gacha_monster2(eosio::name _user, uint64_t _seed);
+    void daily_gacha_item(eosio::name _user, uint64_t _seed);
+    void daily_gacha_item2(eosio::name _user, uint64_t _seed);
+    void daily_gacha_servant(eosio::name _user, uint64_t _seed);
+    void daily_gacha_servant2(eosio::name _user, uint64_t _seed);
+    void daily_gacha_common(eosio::name _user, uint64_t _seed);
+
 #pragma endregion
 
 
@@ -507,6 +516,32 @@ TABLE tokenlog
 };
     typedef eosio::multi_index<"tokenlog"_n, tokenlog> total_token_logs;
 #pragma endregion
+
+//------------------------------------------------------------------------//
+//--------------------------daily_check_table-----------------------------//
+//------------------------------------------------------------------------//
+
+#pragma region dailycheck 
+
+    TABLE tdaily
+    {        
+        eosio::name user;
+        uint64_t total_day; 
+        uint64_t check_time;
+        uint64_t primary_key() const { return user.value; }
+    };
+    typedef eosio::multi_index<"tdaily"_n, tdaily> dailychecks;
+   
+
+    ACTION dailycheck(eosio::name _user, string _seed);
+    bool timecheck(uint64_t user_checktime);
+    void daily_check_reward(eosio::name _user, uint64_t totalday,uint64_t _seed);
+
+
+#pragma endregion
+
+
+
 //------------------------------------------------------------------------//
 //------------------------------user_log_table----------------------------//
 //------------------------------------------------------------------------//
