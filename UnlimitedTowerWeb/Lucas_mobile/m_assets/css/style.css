@@ -189,6 +189,7 @@ body{background-color: #fff}
 .section3 .sec3 .sec3-btn {display:none;font-family:'Noto Sans', sans-serif;opacity: 0;	margin: 40px 0 60px;position: relative;}
 .section3 .sec3 .sec3-btn a{ font-size: 21px;font-weight: bold; height: 60px;line-height: 60px;margin: 0 auto;display: block; width: 210px; color:#fff; background-color: #ff6d63;border-radius: 5px}
 .section3 .sec3 .sec3-btn a img{position: absolute;top: 33%;left: 247px;}
+.section3 .sec3 .ch-sec3-btn a img{left: 224px}
 .section3 .sec3 .sec3-btn a span{font-size: 21px;font-weight: bold; color:#fff;margin-left: 33px;}
 .section3 .sec3 .sec3-btn a:hover{background-color: #FF9A91;}
 .section3 .sec3 .sec3-btn a:active{background-color: #BF6159}
@@ -229,6 +230,7 @@ body{background-color: #fff}
 .section4 .sec4 .sec4-btn1 {display:none;font-family:'Noto Sans', sans-serif; opacity: 0;	margin: 60px 0 60px;}
 .section4 .sec4 .sec4-btn1 a{position: relative;font-size: 21px;font-weight: bold;height: 60px;line-height: 60px;margin: 0 auto;display: block; width: 210px; color:#fff; background-color: #ff6d63;border-radius: 5px}
 .section4 .sec4 .sec4-btn1 a img{position: absolute;top: 33%;left: 153px;}
+.section4 .sec4 .ch-sec4-btn1 a img{left: 143px;}
 .section4 .sec4 .sec4-btn1 a span{font-size: 21px;font-weight: bold; color:#fff;margin-left: 33px;}
 .section4 .sec4 .sec4-btn1 a:hover{background-color: #FF9A91;}
 .section4 .sec4 .sec4-btn1 a:active{background-color: #BF6159}

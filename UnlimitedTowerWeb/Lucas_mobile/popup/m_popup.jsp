@@ -176,11 +176,11 @@
 	        		</div>
         			<div class="event-btn">
         				<% if(country.equals("en")){ %>
-	        			<p onclick="daily_check()">Check-in Now!</p>
+	        			<a href="javascript:daily_check();"><p >Check-in Now!</p></a>
 	        			<% }else if(country.equals("ko")){ %>
-	        			<p onclick="daily_check()">Check-in Now!</p>
+	        			<a href="javascript:daily_check();"><p >Check-in Now!</p></a>
 	        			<% }else if(country.equals("ch")){ %>
-	        			<p onclick="daily_check()">现在出席</p>
+	        			<a href="javascript:daily_check();"><p >现在出席</p></a>
 	        			<%} %>
         			</div>
 					<div class="pop-add">
