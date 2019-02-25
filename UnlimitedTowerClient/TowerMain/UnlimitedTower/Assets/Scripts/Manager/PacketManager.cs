@@ -608,7 +608,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void SetStageState(StageStateData getStageStateData)
     {
-        BattleSystem.Inst.stageStateData = getStageStateData;
+        // BattleSystem.Inst.stageStateData = getStageStateData;
     }
 
 

@@ -14,10 +14,10 @@ public class BattleSystem : MonoSingleton<BattleSystem>
 
     public PrefabList prefabList;
     public BattleInformation battleInformation;
-    public StageStateData stageStateData;
+    // public StageStateData stageStateData;
 
     // test
-    public TestbattleStateData testbattleStateData;
+    // public TestbattleStateData testbattleStateData;
 
     public GameObject[] playerCharacter = new GameObject[10];
     public CharacterControl[] playerCharacterControl = new CharacterControl[10];
@@ -80,7 +80,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     public void Start()
     {
         prefabList = GetComponent<PrefabList>();
-        testbattleStateData = UserDataManager.Inst.GetStageState();
+        // testbattleStateData = UserDataManager.Inst.GetStageState();
 
         battleInformation.attackerIndex = -1;
 
@@ -136,7 +136,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                 }
                 else if (i < 5)
                 {
-                    UserServantData servantInfo = UserDataManager.Inst.GetServantInfo(testbattleStateData.state_list[i].index);
+                    UserServantData servantInfo = UserDataManager.Inst.GetServantInfo(testStageStateData.my_state_list[i].index);
                     if (servantInfo == null)
                     {
                         Debug.LogError("버그다");
@@ -184,13 +184,13 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         {
             if (characterisPlace[i] == true)
             {
-                playerCharacterControl[i].maxHp = testbattleStateData.state_list[i].now_hp;
-                playerCharacterControl[i].nowHp = testbattleStateData.state_list[i].now_hp;
+                playerCharacterControl[i].maxHp = testStageStateData.my_state_list[i].now_hp;
+                playerCharacterControl[i].nowHp = testStageStateData.my_state_list[i].now_hp;
             }
             if (characterisPlace[i + 10] == true)
             {
-                enemyCharacterControl[i].maxHp = testbattleStateData.state_list[i + 10].now_hp;
-                enemyCharacterControl[i].nowHp = testbattleStateData.state_list[i + 10].now_hp;
+                enemyCharacterControl[i].maxHp = testStageStateData.enemy_state_list[i].now_hp;
+                enemyCharacterControl[i].nowHp = testStageStateData.enemy_state_list[i].now_hp;
             }
         }
     }
