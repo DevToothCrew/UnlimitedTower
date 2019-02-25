@@ -6,13 +6,26 @@ public class MapChange : MonoBehaviour
 {
     public GameObject[] MapPack;
     private Camera main_Camera;
-    private readonly Color[] backgroundColor = {
+    private readonly Color[] backgroundColor = 
+        {
         new Color(0.0f,0.0f,0.0f,1.0f),
         new Color(0.29f,1.0f,1.0f,1.0f),
         new Color(1.0f,1.0f,1.0f,1.0f),
         new Color(0.71f,0.71f,0.71f,1.0f),
+        new Color(0.84f, 0.98f, 1.0f, 1.0f),
+        new Color(0.7f, 0.64f, 0.57f, 1.0f),
         new Color(0.84f, 0.98f, 1.0f, 1.0f)
         };
+    private readonly Vector3[] cameraPosition =
+    {
+        new Vector3(-10, 8, -10),
+        new Vector3(-10, 8, -10),
+        new Vector3(-10, 8, -10),
+        new Vector3(-10, 8, -10),
+        new Vector3(-10, 8, -10),
+        new Vector3(-10, 8, -10),
+        new Vector3(-10, 10, -10)
+    };
 
     // 임시로 만든 맵 변경, 추후 삭제
 
@@ -50,6 +63,10 @@ public class MapChange : MonoBehaviour
         {
             MapEneble(5);
         }
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            MapEneble(6);
+        }
         // if (Input.GetKeyDown(KeyCode.Alpha7))
         // {
         //     MapEneble(6);
@@ -64,5 +81,6 @@ public class MapChange : MonoBehaviour
         }
         MapPack[index].SetActive(true);
         main_Camera.backgroundColor = backgroundColor[index];
+        main_Camera.transform.position = cameraPosition[index];
     }
 }
