@@ -321,7 +321,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
         ParseGoldInfo(getUserLoginData.gameMoney, ref userInfo);
 
         UserDataManager.Inst.SetUserInfo(userInfo);
-        LeftInfoPopup.Inst.SetLeftInfoUserInfoUpdate(userInfo);
 
         Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
         if (ParseServantDic(getUserLoginData.servant_list, ref servantDic) == false)
@@ -351,7 +350,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
         UserDataManager.Inst.SetPartyInfo(partyInfo);
 
-        LobbyManager.Inst.ChangeSceneState(userInfo.sceneState);
+        SceneManager.LoadScene("Lobby");
     }
 
     public bool ParseUserInfo(userData getUserData, ref UserInfo userInfo)

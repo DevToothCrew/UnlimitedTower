@@ -90,16 +90,19 @@ public class HeroInfoPopup : MonoBehaviour
         isRegistered = true;
         this.servantData = servant;
 
+        // 왜 Calculator 만들어두고 ETC로 또만들었지?
         // 능력치 창
-        powertext.text = ((int)Etc.instance.Getatk(servant)).ToString();
-        hptext.text = (int)Etc.instance.GetHP(servant) + "";
-        deftext.text = ((int)Etc.instance.GetDef(servant)).ToString();
-        criProbtext.text = ((int)Etc.instance.GetCriticalProb(servant)).ToString();
-        criValuetext.text = "";
-        Speedtext.text = ErdManager.instance.getServantJobEntityTable_nullPossible(servant.jobNum).speed.ToString();
-        strtext.text = ((int)Etc.instance.Getstr(servant)).ToString();
-        dextext.text = ((int)Etc.instance.Getdex(servant)).ToString();
-        wistext.text = ((int)Etc.instance.Getint(servant)).ToString();
+        //powertext.text = ((int)Etc.instance.Getatk(servant)).ToString();
+        //hptext.text = (int)Etc.instance.GetHP(servant) + "";
+        //deftext.text = ((int)Etc.instance.GetDef(servant)).ToString();
+        //criProbtext.text = ((int)Etc.instance.GetCriticalProb(servant)).ToString();
+        //criValuetext.text = "";
+        
+        //// Servant Job Possible
+        ////Speedtext.text = ErdManager.instance.getServantJobEntityTable_nullPossible(servant.jobNum).speed.ToString();
+        //strtext.text = ((int)Etc.instance.Getstr(servant)).ToString();
+        //dextext.text = ((int)Etc.instance.Getdex(servant)).ToString();
+        //wistext.text = ((int)Etc.instance.Getint(servant)).ToString();
 
         // 레벨 이름
         levelText.text = "lv." + servant.level;
@@ -132,15 +135,15 @@ public class HeroInfoPopup : MonoBehaviour
         this.monsterData = monster;
 
         // 능력치 창
-        powertext.text = ((int)Etc.instance.Getatk(monsterData)).ToString();
-        hptext.text = (int)Etc.instance.GetHP(monsterData) + "";
-        deftext.text = ((int)Etc.instance.GetDef(monsterData)).ToString();
-        criProbtext.text = ((int)Etc.instance.GetCriticalProb(monsterData)).ToString();
-        criValuetext.text = "";
-        //Speedtext.text = ErdManager.instance.getServantJobEntityTable_nullPossible(monsterData.jobNum).speed.ToString();
-        strtext.text = ((int)Etc.instance.Getstr(monsterData)).ToString();
-        dextext.text = ((int)Etc.instance.Getdex(monsterData)).ToString();
-        wistext.text = ((int)Etc.instance.Getint(monsterData)).ToString();
+        //powertext.text = ((int)Etc.instance.Getatk(monsterData)).ToString();
+        //hptext.text = (int)Etc.instance.GetHP(monsterData) + "";
+        //deftext.text = ((int)Etc.instance.GetDef(monsterData)).ToString();
+        //criProbtext.text = ((int)Etc.instance.GetCriticalProb(monsterData)).ToString();
+        //criValuetext.text = "";
+        ////Speedtext.text = ErdManager.instance.getServantJobEntityTable_nullPossible(monsterData.jobNum).speed.ToString();
+        //strtext.text = ((int)Etc.instance.Getstr(monsterData)).ToString();
+        //dextext.text = ((int)Etc.instance.Getdex(monsterData)).ToString();
+        //wistext.text = ((int)Etc.instance.Getint(monsterData)).ToString();
 
         // 레벨 이름
         levelText.text = "lv." + monsterData.level;

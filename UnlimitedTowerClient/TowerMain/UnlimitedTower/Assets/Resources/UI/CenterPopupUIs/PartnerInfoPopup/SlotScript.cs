@@ -41,9 +41,13 @@ public class SlotScript : MonoBehaviour {
         bool isLegend = servant.isLegend;
         int bodyNum = servant.body;
         int jobNum = servant.jobNum;
-        charimage.sprite = ErdManager.instance.GetServantIconSprite(isLegend, bodyNum, jobNum);
+        
+        // Servant Image
+        //charimage.sprite = ErdManager.instance.GetServantIconSprite(isLegend, bodyNum, jobNum);
         lefttopimage.gameObject.SetActive(true);
-        lefttopimage.sprite = ErdManager.instance.JobIcons[servant.jobNum];
+        
+        // Servant Job Icon
+        //lefttopimage.sprite = ErdManager.instance.JobIcons[servant.jobNum];
         leveltext.gameObject.SetActive(true);
         leveltext.text = "Lv." + servant.level;
 
@@ -72,15 +76,21 @@ public class SlotScript : MonoBehaviour {
         InitializeUI();
 
         charimage.gameObject.SetActive(true);
-        charimage.sprite = ErdManager.instance.getMonsterImage(monster.monsterNum,monster.monsterTypeNum);
+        
+        // Monster Image
+        //charimage.sprite = ErdManager.instance.getMonsterImage(monster.monsterNum,monster.monsterTypeNum);
         lefttopimage.gameObject.SetActive(true);
-        lefttopimage.sprite = ErdManager.instance.TypeIcons[monster.monsterTypeNum];
+        
+        // Monster Type Icon
+        //lefttopimage.sprite = ErdManager.instance.TypeIcons[monster.monsterTypeNum];
         leveltext.gameObject.SetActive(true);
         leveltext.text = "Lv." + monster.level;
         EnforceCountText.gameObject.SetActive(true);
         EnforceCountText.text = monster.enforceNum > 0 ? "+" + monster.enforceNum : "";
         MonsterGradeBG.gameObject.SetActive(true);
-        MonsterGradeBG.sprite = ErdManager.instance.monstergradeIcons[monster.gradeNum];
+        
+        // Monster Grade Icon
+        //MonsterGradeBG.sprite = ErdManager.instance.monstergradeIcons[monster.gradeNum];
 
         // 해당 몬스터가 판매리스트에 포함되어있다면
         if (PopupUIsManager.instance.partnerInfoPopup.sellingMonsterList.Contains(monster) &&

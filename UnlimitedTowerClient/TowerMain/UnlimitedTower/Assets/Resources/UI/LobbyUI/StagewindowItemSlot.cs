@@ -26,7 +26,9 @@ public class StagewindowItemSlot : MonoBehaviour {
 
 
         itemimage.gameObject.SetActive(true);
-        itemimage.sprite = ErdManager.instance.MountitemSprite[itemdata.mountitemNum];
+        
+        // Mount Item Image
+        //itemimage.sprite = ErdManager.instance.MountitemSprite[itemdata.mountitemNum];
         tearText.gameObject.SetActive(true);
         tearText.text = itemdata.tierNum + "T";
         upgradeText.gameObject.SetActive(true);
