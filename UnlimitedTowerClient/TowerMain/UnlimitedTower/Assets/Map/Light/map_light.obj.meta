@@ -1,16 +1,16 @@
 fileFormatVersion: 2
-guid: 26eb974c84b385a479422e5af7fc1e51
+guid: 045419e2480155044a183317ea647256
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: map_light
+    100000: map_light_4
     100002: //RootNode
-    400000: map_light
+    400000: map_light_4
     400002: //RootNode
-    2100000: map_lightMat
-    2300000: map_light
-    3300000: map_light
-    4300000: map_light
+    2100000: map_light_4Mat
+    2300000: map_light_4
+    3300000: map_light_4
+    4300000: map_light_4
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -62,9 +62,9 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
-    normalSmoothAngle: 100
-    normalImportMode: 1
-    tangentImportMode: 2
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
     normalCalculationMode: 4
   importAnimation: 1
   copyAvatar: 0

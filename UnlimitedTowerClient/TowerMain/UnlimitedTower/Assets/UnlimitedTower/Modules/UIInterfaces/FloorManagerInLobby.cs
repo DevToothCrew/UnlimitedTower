@@ -30,11 +30,12 @@ public class FloorManagerInLobby : MonoBehaviour {
 
     public void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            AddFloor(_debugIndex, "User" + _debugIndex, UnityEngine.Random.Range(0, int.MaxValue) + "");
-            _debugIndex++;
-        }
+        // Kagura - 버튼이 겹쳐 임시로 주석처리
+        // if(Input.GetKeyDown(KeyCode.Alpha1))
+        // {
+        //     AddFloor(_debugIndex, "User" + _debugIndex, UnityEngine.Random.Range(0, int.MaxValue) + "");
+        //     _debugIndex++;
+        // }
     }
 
     public void AddFloor(int floor, string userId, string score)

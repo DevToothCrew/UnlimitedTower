@@ -35,7 +35,7 @@ public class DefaultAttack : MonoBehaviour
 
         attackerStartPos = attacker.position;
         attackerEndPos = target.position;
-        Debug.Log(attackerEndPos - attackerEndPos.normalized * characterInformation.AttackRange);
+
         yield return StartCoroutine(AttackMove(attacker, target, attackerStartPos, attackerEndPos - attackerEndPos.normalized * characterInformation.AttackRange));
 
         attackerEndPos = attackerStartPos;

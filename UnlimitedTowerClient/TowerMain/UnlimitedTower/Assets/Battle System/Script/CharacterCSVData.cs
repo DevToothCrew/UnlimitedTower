@@ -7,7 +7,7 @@ using System.Linq;
 
 public class CharacterCSVData : MonoSingleton<CharacterCSVData>
 {
-    public Dictionary<int, DBCharacterData> monsterDataBaseDic = new Dictionary<int, DBCharacterData>();
+    public Dictionary<int, DBCharacterData> monsterDataDic = new Dictionary<int, DBCharacterData>();
 
     //  인스펙터에서 보여주기 위한...
     public List<DBCharacterData> monsterDataInspector = new List<DBCharacterData>();
@@ -61,7 +61,7 @@ public class CharacterCSVData : MonoSingleton<CharacterCSVData>
     {
         DontDestroyOnLoad(gameObject);
 
-        monsterData = Resources.Load("CSV/DB_monster") as TextAsset;
+        monsterData = Resources.Load("CSV/MonsterData") as TextAsset;
         StringReader sr = new StringReader(monsterData.text);
         string textLine;
         string[] textValue;
@@ -76,12 +76,12 @@ public class CharacterCSVData : MonoSingleton<CharacterCSVData>
         {
             textValue = textLine.Split(',');
             if (textValue[0] != string.Empty)
-            monsterDataBaseDic.Add(int.Parse(textValue[0]), new DBCharacterData(textValue));
+            monsterDataDic.Add(int.Parse(textValue[0]), new DBCharacterData(textValue));
             textLine = sr.ReadLine();
         }
 
         //  인스펙터에서 보여주기 위한...
-        foreach (DBCharacterData asdf in monsterDataBaseDic.Values)
+        foreach (DBCharacterData asdf in monsterDataDic.Values)
         {
             monsterDataInspector.Add(asdf);
         }
@@ -95,12 +95,12 @@ public class CharacterCSVData : MonoSingleton<CharacterCSVData>
 
     public List<int> GetMonsterIndexList()
     {
-        if(monsterDataBaseDic == null)
+        if(monsterDataDic == null)
         {
             Debug.LogError("MonsterDataBaseDic Error");
             return null;
         }
 
-        return monsterDataBaseDic.Keys.ToList();
+        return monsterDataDic.Keys.ToList();
     }
 }

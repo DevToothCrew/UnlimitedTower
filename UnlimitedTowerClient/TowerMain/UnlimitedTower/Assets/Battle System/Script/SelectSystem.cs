@@ -38,9 +38,9 @@ public class SelectSystem : MonoSingleton<SelectSystem>
             for (int i = 0; i < 10; i++)
             {
                 if (BattleSystem.Inst.characterisPlace[i] == true)
-                    chsing[i] = BattleSystem.Inst.playerCharacterControl[i].select.GetComponent<CheckSelectAnimation>();
+                    chsing[i] = BattleSystem.Inst.playerCharacterControl[i]?.select.GetComponent<CheckSelectAnimation>();
                 if (BattleSystem.Inst.characterisPlace[i + 10] == true)
-                    chsing[i + 10] = BattleSystem.Inst.enemyCharacterControl[i].select.GetComponent<CheckSelectAnimation>();
+                    chsing[i + 10] = BattleSystem.Inst.enemyCharacterControl[i]?.select.GetComponent<CheckSelectAnimation>();
             }
             selectHpBar = GameObject.Find("Hp Bar").GetComponent<Image>();
             selectHpText = GameObject.Find("Hp Text").GetComponent<Text>();
@@ -71,16 +71,18 @@ public class SelectSystem : MonoSingleton<SelectSystem>
                         {
                             selectIndex = hit.transform.GetComponent<CharacterControl>().index;
                             chsing[selectIndex].Click();
+                            // attackDamageText.text = BattleSystem.Inst.testStageStateData.my_state_list[selectIndex].attack.ToString();
+                            // defenceText.text = BattleSystem.Inst.testbattleStateData.my_state_list[selectIndex].defense.ToString();
+                            // speedText.text = BattleSystem.Inst.testbattleStateData.my_state_list[selectIndex].speed.ToString();
                         }
                         else
                         {
                             selectIndex = hit.transform.GetComponent<CharacterControl>().index + 10;
                             chsing[selectIndex].Click();
                         }
-                        // 데이터 들어오면 주석 해제
-                        // attackDamageText.text = BattleSystem.Inst.stageStateData.info_list[selectIndex].damage.ToString();
-                        // defenceText.text = BattleSystem.Inst.stageStateData.info_list[selectIndex].defence.ToString();
-                        // speedText.text = BattleSystem.Inst.stageStateData.info_list[selectIndex].speed.ToString();
+                         // attackDamageText.text = BattleSystem.Inst.testStageStateData.my_state_list[selectIndex].attack.ToString();
+                         // defenceText.text = BattleSystem.Inst.testbattleStateData.my_state_list[selectIndex].defense.ToString();
+                         // speedText.text = BattleSystem.Inst.testbattleStateData.my_state_list[selectIndex].speed.ToString();
                     }
                 }
             }

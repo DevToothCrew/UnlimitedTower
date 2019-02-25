@@ -252,20 +252,22 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void ResponseBattleAction(string getBattleActionInfo)
     {
-        TestbattleActionInfoData actionData = JsonUtility.FromJson<TestbattleActionInfoData>(getBattleActionInfo);
+        TestStageActionInfoData actionData = JsonUtility.FromJson<TestStageActionInfoData>(getBattleActionInfo);
         if (actionData == null)
         {
             Debug.Log("Invalid ResponseBattleAction Data : " + getBattleActionInfo);
         }
+        UpdateAction(actionData);
     }
 
     public void ResponseStageStart(string getStageStartInfo)
     {
-        TestbattleStateData stateData = JsonUtility.FromJson<TestbattleStateData>(getStageStartInfo);
+        TestStageStateData stateData = JsonUtility.FromJson<TestStageStateData>(getStageStartInfo);
         if (stateData == null)
         {
             Debug.Log("Invalid ResponseStageStart Data : " + getStageStartInfo);
         }
+        BattleStart(stateData);
     }
 
     public void ResponseGetStageInfo(string getStageInfo)
@@ -290,11 +292,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void ResponseStageResult(string getStageResultInfo)
     {
-        TestbattleRewardData resultData = JsonUtility.FromJson<TestbattleRewardData>(getStageResultInfo);
+        TestStageRewardData resultData = JsonUtility.FromJson<TestStageRewardData>(getStageResultInfo);
         if(resultData == null)
         {
             Debug.Log("Invalid ResponseStageResult Data : " + getStageResultInfo);
         }
+        GetReward(resultData);
     }
 
     public void ResponseTowerStart(string getTowerStartInfo)
@@ -591,28 +594,75 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
 
     }
+    
+    public void ResponseBatte(string getBattleStateInfo)
+    {
+        TestbattleStateData battlestatedata = JsonUtility.FromJson<TestbattleStateData>(getBattleStateInfo);
+        if (battlestatedata == null)
+        {
+            Debug.Log("Invalid Battle Data : " + getBattleStateInfo);
+        }
 
-    public void BattleStart(TestbattleStateData getBattleStateData)
+        //BattleStart(battlestatedata);
+    }
+
+    //public void BattleStart(TestbattleStateData getBattleStateData)
+    //{
+    //    Debug.Log("배틀 스타트!");
+    //    UserDataManager.Inst.SetStageState(getBattleStateData);
+    //    SceneManager.LoadScene("CharacterBattleScene");
+    //}
+
+    public void BattleStart(TestStageStateData getBattleStateData)
     {
         Debug.Log("배틀 스타트!");
         UserDataManager.Inst.SetStageState(getBattleStateData);
         SceneManager.LoadScene("CharacterBattleScene");
     }
 
+    public void UpdateAction(TestStageActionInfoData getBattleActionData)
+    {
+        Debug.Log("턴 진행!");
+        UserDataManager.Inst.SetStageAction(getBattleActionData);
+        BattleSystem.Inst.StartCoroutine(BattleSystem.Inst.BattleStart());
+    }
+
+    public void GetReward(TestStageRewardData getReward)
+    {
+        Debug.Log("배틀 끝 보상 획득!");
+        UserDataManager.Inst.SetStageReward(getReward);
+    }
+
     #endregion
 
-    public void SetBattleAction(BattleActionData getBattleActionData)
+    //public void SetBattleAction(BattleActionData getBattleActionData)
+    //{
+
+    //}
+
+    //public void SetStageState(StageStateData getStageStateData)
+    //{
+    //    // BattleSystem.Inst.stageStateData = getStageStateData;
+    //}
+
+
+    //public void SetStageResult(StageResultData getStageResultData)
+    //{
+
+    //}
+
+    public void SetBattleAction(TestStageActionInfoData getBattleActionData)
     {
 
     }
 
-    public void SetStageState(StageStateData getStageStateData)
+    public void SetStageState(TestStageStateData getStageStateData)
     {
-        BattleSystem.Inst.stageStateData = getStageStateData;
+        //BattleSystem.Inst.StageStateData = getStageStateData;
     }
 
 
-    public void SetStageResult(StageResultData getStageResultData)
+    public void SetStageResult(TestStageRewardData getStageResultData)
     {
 
     }
