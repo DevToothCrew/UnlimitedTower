@@ -781,7 +781,8 @@ void equip_hero(eosio::name _user, uint32_t _item_index);
 
 enum battle_action_state
 {
-    wait = 0,
+    live = 0,
+    dead,
     attack,
     defense,
     state_count,
@@ -940,8 +941,6 @@ TABLE dbstage
 };
 typedef eosio::multi_index<"dbstage"_n, dbstage> stage_db;
 
-
-
     //------------------------------------------------------------------------//
     //---------------------------battle_reward_table--------------------------//
     //------------------------------------------------------------------------//
@@ -965,22 +964,23 @@ typedef eosio::multi_index<"tclearreward"_n, tclearreward> battle_reward_list;
 
 uint32_t get_attack(uint32_t _job, status_info _status);
 uint32_t get_speed(uint32_t _job);
-uint64_t get_damage(uint32_t _atk, uint32_t _dfs);
-uint32_t get_buff_turn(uint32_t _buff);
-bool check_critical(uint64_t _critcal_per, uint64_t _seed);
-bool check_avoid(uint64_t _avoid_per,uint64_t _seed);
-
-battle_action get_attack_action(const std::vector<battle_state> &_my_state_list, const std::vector<battle_state> &_enemy_state_list,uint64_t _seed, uint64_t _my_position, uint64_t _target_position);
-
+battle_state get_stage_state(status_info _status, uint64_t _job, uint64_t _index, uint64_t _position);
 ACTION startbattle(eosio::name _user, uint32_t _party_number, uint32_t _stage);
 
+
+uint32_t get_buff_turn(uint32_t _buff);
+uint64_t get_damage(uint32_t _atk, uint32_t _dfs);
+bool check_critical(uint64_t _critcal_per, uint64_t _seed);
+bool check_avoid(uint64_t _avoid_per,uint64_t _seed);
+battle_action get_target_action(const std::vector<battle_state> &_my_state_list, const std::vector<battle_state> &_enemy_state_list,uint64_t _seed, uint64_t _my_position, uint64_t _target_position);
+battle_action_info get_action_info(uint64_t _my_pos, uint64_t _action_type, battle_action _action);
 int get_random_target(const std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint32_t _max, uint32_t _min);
 int get_target_key(const std::vector<battle_state> &_enemy_state_list,  uint64_t _target_position);
-
 static bool sort_compare(const battle_order_struct &a,const battle_order_struct &b);
-ACTION activeturn(eosio::name _user, uint32_t _hero_action, uint32_t _monster_action, uint32_t _hero_target, uint32_t _monster_target, std::string _seed);
 void win_reward(eosio::name _user);
 void fail_reward(eosio::name _user);
+ACTION activeturn(eosio::name _user, uint32_t _hero_action, uint32_t _monster_action, uint32_t _hero_target, uint32_t _monster_target, std::string _seed);
+
 
 
 ACTION exitbattle(eosio::name _user);
