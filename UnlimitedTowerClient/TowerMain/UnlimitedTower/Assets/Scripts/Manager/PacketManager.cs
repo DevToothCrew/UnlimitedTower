@@ -613,6 +613,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("턴 진행!");
         UserDataManager.Inst.SetStageAction(getBattleActionData);
+        BattleSystem.Inst.StartCoroutine(BattleSystem.Inst.BattleStart());
     }
 
     public void GetReward(TestStageRewardData getReward)

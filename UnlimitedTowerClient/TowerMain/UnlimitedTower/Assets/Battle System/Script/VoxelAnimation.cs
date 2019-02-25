@@ -7,7 +7,7 @@ public class VoxelAnimation : MonoBehaviour {
     public int startIndex;
     public float animationDelay;
 
-    private void Start()
+    private void OnEnable()
     {
         StartCoroutine(AnimationStart());
     }

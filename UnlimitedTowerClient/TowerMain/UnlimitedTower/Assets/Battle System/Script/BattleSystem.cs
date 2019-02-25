@@ -34,6 +34,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     private CaracterCustom caracterCustom;
 
     // Test
+    public int turn;
     public TestStageStateData testStageStateData;
     public TestStageActionInfoData testStageActionInfoData;
     public TestStageRewardData testStageRewardData;
@@ -80,6 +81,12 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     public void Start()
     {
         prefabList = GetComponent<PrefabList>();
+
+        testStageStateData = UserDataManager.Inst.GetStageState();
+        testStageActionInfoData = UserDataManager.Inst.GetStageAction();
+        turn = testStageActionInfoData.turn;
+        testStageRewardData = UserDataManager.Inst.GetStageReward();
+
         // testbattleStateData = UserDataManager.Inst.GetStageState();
 
         battleInformation.attackerIndex = -1;
@@ -205,7 +212,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            AttackTest();
+            PacketManager.Inst.RequestBattleAction(12, 2, 15, 2);
         }
     }
 
@@ -288,7 +295,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     }
 
     // 배틀데이터를 받아와 공격 ( 메인 배틀 한턴 )
-    IEnumerator BattleStart()
+    public IEnumerator BattleStart()
     {
         for (int i = 0; i < testStageActionInfoData.battle_info_list.Count; i++)
         {
