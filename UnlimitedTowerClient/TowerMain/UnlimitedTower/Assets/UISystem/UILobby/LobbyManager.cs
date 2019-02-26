@@ -27,6 +27,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public GameObject topUI;
     public GameObject leftUI;
     public GameObject bottomUI;
+    public GameObject rightUI;
+    public GameObject chatUI;
 
     public void Awake()
     {
@@ -50,6 +52,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                 centerUI.SetActivateWithAnimation(true);
                 topUI.SetActivateWithAnimation(true);
                 bottomUI.SetActivateWithAnimation(true);
+                rightUI.SetActivateWithAnimation(true);
+                chatUI.SetActivateWithAnimation(true);
                 break;
 
             case SCENE_STATE.Login:
