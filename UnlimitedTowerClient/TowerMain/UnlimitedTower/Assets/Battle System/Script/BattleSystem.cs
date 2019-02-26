@@ -214,6 +214,15 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         {
             PacketManager.Inst.RequestBattleAction(12, 2, 15, 2);
         }
+        else if(Input.GetKeyDown(KeyCode.R))
+        {
+            PacketManager.Inst.RequestStageResult();
+        }
+        else if(Input.GetKeyDown(KeyCode.G))
+        {
+            //나가기 패킷 보내기
+        }
+
     }
 
     // 1번부터 10번까지 번갈아 가며 공격
