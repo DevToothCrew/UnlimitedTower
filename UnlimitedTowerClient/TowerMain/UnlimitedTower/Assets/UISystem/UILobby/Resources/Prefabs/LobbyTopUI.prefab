@@ -67,6 +67,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224091549405896480}
+  - component: {fileID: 114413636896085538}
   m_Layer: 5
   m_Name: LobbyTopUI
   m_TagString: Untagged
@@ -380,7 +381,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114637464715986900}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114413636896085538}
+        m_MethodName: OnClickAccountButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114141463871220038
@@ -490,6 +502,21 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114413636896085538
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1184781752763758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd0133829517b7d4abf6951a86840b5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heroLevel: {fileID: 114927660499038850}
+  accountName: {fileID: 114662350001843954}
+  EOSCount: {fileID: 114193838037570252}
+  UTGCount: {fileID: 114141463871220038}
 --- !u!114 &114429740000472020
 MonoBehaviour:
   m_ObjectHideFlags: 1

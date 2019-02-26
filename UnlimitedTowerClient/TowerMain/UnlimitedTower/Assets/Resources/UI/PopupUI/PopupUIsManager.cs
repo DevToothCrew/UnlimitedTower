@@ -22,8 +22,6 @@ public class PopupUIsManager : MonoBehaviour {
         instance = null;
     }
 
-    
-
     /* PopupUIs */
 
     public ItemInfoPannel iteminfopannel;
