@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!--popup-->
+<!DOCTYPE html>
+<!--section1-->
 	<div id="m-popup">
 		<div class="m-popup">
 	        <div class="m-container">
@@ -16,12 +17,12 @@
 	        			<span>스캐터로 로그인 하신 후 하단의 출석하기 버튼을 누르면 참여 완료!!<br>출석 횟수에 따라 다양한 보상을 드립니다!<br>출석 일수는 UTC+0 기준 0:00 AM에 갱신됩니다.</span>
 	        			<p>*사전 등록을 마친 계정만 이벤트에 참여 가능합니다.</p>
 	        			<% }else if(country.equals("ch")){ %>
-	        			<h1><img src="assets/img/ch-tit.png" alt=""></h1>
+	        			<h1 class="ch-tit"><img src="assets/img/ch-tit.png" alt=""></h1>
 	        			<em><strong>Date</strong>2018.02.13 ~ 2018.04.01</em>
 	        			<span>以分散方式登录后，单击底部的“出勤”按钮并加入！<br>将根据出席人数给予补偿！<br>出勤日期将在UTC + 0的凌晨0:00更新。</span>
 	        			<p>*只有预先注册的帐户才能参加活动。.</p>
 	        			<%} %>
-	        			<div class="check-icon"><a href="javascript:closePopup();"><img src="assets/img/close-icon.png" alt=""></a></div>
+	        			<div class="check-icon"><a href="#"><img src="assets/img/close-icon.png" alt=""></a></div>
 	        		</div>
 	        		<div class="event-cont">
 	        			<div class="date-wrap">
@@ -193,4 +194,4 @@
 	        </div>
 	    </div>
 	</div>
-<!--popup-->
+<!--section1-->
