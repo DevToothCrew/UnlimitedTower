@@ -2,14 +2,12 @@ $(document).ready(function(){
 /*    $(".event-btn p").click(function(){
 		$(".pop-add").css({"display":"block"});
 	}); */   
-	$(".check-icon img").click(function(){
-
-		$("#m-popup").removeClass("pop-animation");
-	});      
-	$(".att-check img").click(function(){
-		$("#m-popup").toggleClass("pop-animation");
-
-	});  
+	$(".att-check").click(function(){
+    	$("#m-popup").css({"display":"block"});
+    }); 
+	$(".check-icon a img").click(function(){
+		$("#m-popup").css({"display":"none"});
+	}); 
 });		
 
 //cate go

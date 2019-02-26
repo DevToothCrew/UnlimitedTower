@@ -61,11 +61,9 @@ footer{width: 100%;}
 .header .header-r .logout{display:none;font-size: 14px; padding: 8px 0;position: fixed;top: 73px;right: 40px;text-align: center ;text-align: center;width: 135px;box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);background-color: #fff;}
 .header .header-r .logout:hover{background-color: #f5f5f5;}
 
-#popup{width: 100%;height: 100%;position: fixed;top: 0;left: 0;background-color: rgba(0,0,0,0.6);z-index:-1;opacity:0; }
-#popup.pop-animation{opacity: 1;transition: all 0s 1s ease;z-index:10000}
+#popup{width: 100%;height: 100%;position: fixed;top: 0;left: 0;background-color: rgba(0,0,0,0.6);z-index:10000;display:none; }
 .p-container{ margin: 0 auto; z-index: 100;width: 600px;}
-.pop-animation .popup{top: 50%; transition: all 0.8s 1s ease; opacity: 1;}
-.popup{opacity:0;position: absolute; top: 45%;left: 50%;transform: translate(-50%,-50%);background-image: linear-gradient(to bottom, #ff6d63, #d8d8d8);background-repeat : no-repeat;height: 943px;width: 600px;border-radius: 20px}
+.popup{position: absolute; top: 50%;left: 50%;transform: translate(-50%,-50%);background-image: linear-gradient(to bottom, #ff6d63, #d8d8d8);background-repeat : no-repeat;height: 943px;width: 600px;border-radius: 20px}
 .popup .pop{text-align: center;}
 
 .popup .pop .event-tit{font-family:'Noto Sans', sans-serif;position: relative;padding-top:25px;background: url(../img/tit-bg.png) no-repeat center top;}
@@ -80,10 +78,10 @@ footer{width: 100%;}
 .popup .pop .event-cont .date-wrap{width: 500px;margin: 0 auto;}
 .popup .pop .event-cont .date-wrap .date{width: 100px;height:90px;margin: 0 auto;float:left;}
 .popup .pop .event-cont .date-wrap .date:nth-child(14){background: linear-gradient(140deg, #cd5b55,#172335);}
-.popup .pop .event-cont .date-wrap .date:nth-child(14) img{width:60px;}
+.popup .pop .event-cont .date-wrap .date:nth-child(14) img{height:45px}
 .popup .pop .event-cont .date-wrap .date:nth-child(14) p{color:#f2f3f4;}
 .popup .pop .event-cont .date-wrap .date:nth-child(28){background: linear-gradient(140deg, #cd5b55,#172335);}
-.popup .pop .event-cont .date-wrap .date:nth-child(28) img{width:60px;}
+.popup .pop .event-cont .date-wrap .date:nth-child(28) img{height:45px}
 .popup .pop .event-cont .date-wrap .date:nth-child(28) p{color:#f2f3f4;}
 .popup .pop .event-cont .date-wrap .date h2{background-color: #172335; color:#c1c7c9;font-weight: normal;width: 100%;height: 22px;line-height: 22px;}
 .popup .pop .event-cont .date-wrap .date img{height: 45px;}
@@ -692,12 +690,12 @@ footer{height: 400px;background-color: #172335;}
 .popup .pop .event-tit h1{padding-top: 0px;}
 .popup .pop .event-tit h1 img{width: 300px;}
 .popup .pop .event-tit em strong{color:#373d3f;font-size: 14px;padding-right: 20px;}
-.popup .pop .event-tit em{line-height: 29px;margin:4px auto;font-size: 14px;width:224px;height: 26px;}
+.popup .pop .event-tit em{line-height: 25px;margin:4px auto;font-size: 14px;width:224px;height: 26px;}
 .popup .pop .event-tit span{color:#f2f3f4;font-size: 10px;}
 .popup .pop .event-tit p{color:#ff001f;font-size: 10px;}
 .popup .pop .event-tit .check-icon{position: absolute;top: 10px;right: 10px;}
 .popup .pop .event-tit .check-icon img{width: 24px;}
-
+.popup .pop .event-cont .date-wrap .check:before{content:'';width: 100px;height: 90px;position: absolute;top: 0;left: 0;background: url(../img/m-check.png) no-repeat center top;}
 .popup .pop .event-cont{width:375px;height: 404px;margin: 0 auto;background: url(../img/m-table-bg.png) no-repeat center top;padding-top: 15px;overflow: hidden;}
 .popup .pop .event-cont .date-wrap{width:315px;margin: 0 auto;}
 .popup .pop .event-cont .date-wrap .date{width: 63px;height:66px;margin: 0 auto;float:left;}
@@ -713,7 +711,7 @@ footer{height: 400px;background-color: #172335;}
 .popup .pop .event-cont .date-wrap .active{border:2px solid #ff6d63;box-sizing: border-box;}
 .popup .pop .event-cont .date-wrap .active h2{background-image: linear-gradient(108deg, #ff6d63, #172335);height: 20px;font-weight: bold;color:#fff;line-height: 20px;}
 .popup .pop .event-cont .date-wrap .check{position: relative;}
-.popup .pop .event-cont .date-wrap .check:before{content:'';width: 100px;height: 90px;position: absolute;top: 0;left: 0;background: url(../img/check.png) no-repeat center top;}
+.popup .pop .event-cont .date-wrap .check:before{content:'';width: 63px;height: 66px;position: absolute;top: 2px;left: 0;background: url(../img/m-check.png) no-repeat center top;}
 
 .popup .pop .event-btn p{height:44px;line-height:44px;margin:7px auto;}
 

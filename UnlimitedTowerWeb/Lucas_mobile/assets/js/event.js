@@ -2,14 +2,13 @@ $(document).ready(function(){
 /*    $(".event-btn p").click(function(){
 		$(".pop-add").css({"display":"block"});
 	}); */   
-	$(".check-icon img").click(function(){
 
-		$("#popup").removeClass("pop-animation");
-	});      
-	$(".att-check img").click(function(){
-		$("#popup").toggleClass("pop-animation");
-
-	});  
+		$(".att-check").click(function(){
+	    	$("#popup").css({"display":"block"});
+	    }); 
+	$(".check-icon").click(function(){
+    	$("#popup").css({"display":"none"});
+    }); 
 });			
 
 //cate go
