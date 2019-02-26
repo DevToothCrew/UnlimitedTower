@@ -1,6 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html lang="en">
 <!--section6-->
 <div id="section6">
 	<div class="section6">
@@ -56,4 +54,3 @@
 	</div>
 </div>
 <!--section6-->
-</html>

@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<!--section1-->
+<!--popup-->
 	<div id="m-popup">
 		<div class="m-popup">
 	        <div class="m-container">
@@ -22,7 +21,7 @@
 	        			<span>以分散方式登录后，单击底部的“出勤”按钮并加入！<br>将根据出席人数给予补偿！<br>出勤日期将在UTC + 0的凌晨0:00更新。</span>
 	        			<p>*只有预先注册的帐户才能参加活动。.</p>
 	        			<%} %>
-	        			<div class="check-icon"><img src="assets/img/close-icon.png" alt=""></div>
+	        			<div class="check-icon"><a href="javascript:closePopup();"><img src="assets/img/close-icon.png" alt=""></a></div>
 	        		</div>
 	        		<div class="event-cont">
 	        			<div class="date-wrap">
@@ -194,4 +193,4 @@
 	        </div>
 	    </div>
 	</div>
-<!--section1-->
+<!--popup-->

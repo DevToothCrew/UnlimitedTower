@@ -1,13 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html lang="en">
 <!--section3-->
 <div id="section3">
 	<div class="section3">
 		<div class="container">
 			<div class="sec3">
 				<h1>立即预注册</h1>
-				<h2> 马上提前预定参与,<br>抢先获得限量版熊猫灵兽和3000 UTG。</h2>
+				<h2> 马上提前预定参与,<br>抢先获得限量版熊猫灵兽和3,000 UTG。</h2>
 				<div class="sec3-monster">
 					<div class="sm3-l">
 						<img src="assets/img/mst-panda.png" alt="">
@@ -31,5 +29,4 @@
 		</div>
 	</div>
 </div>
-<!--section3-->
-</html> 
+<!--section3--> 

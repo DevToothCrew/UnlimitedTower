@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 <!--section1-->
 <div id="section1">
 	<div class="section1">
@@ -35,8 +34,8 @@
 				<img class="scroll" src="assets/img/scroll.png" alt="">
 			</a>	
 			<div class="att-check">
-				<img  src="assets/img/att-btn.png" alt="">
-				<img  src="assets/img/att-btn-m.png" alt="">
+				<a href="javascript:daily_open();"><img  src="assets/img/att-btn.png" alt=""></a>
+				<img src="assets/img/att-btn-m.png" alt="">
 			</div>
 		</div>
 	</div>
