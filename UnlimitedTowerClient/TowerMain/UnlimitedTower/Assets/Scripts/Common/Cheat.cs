@@ -141,14 +141,31 @@ public class Cheat : MonoSingleton<Cheat>
 
     public string TestGetStageStartData(string user, int stageNum, int partyNum)
     {
-        TestbattleStateData battlestatedata = new TestbattleStateData();
+        TestStageStateData battlestatedata = new TestStageStateData();
         battlestatedata.user = user;
-        battlestatedata.party_number = partyNum;
+        battlestatedata.stage_type = 0;
+        battlestatedata.enemy_user = user;
+        battlestatedata.stage_number = 0;
 
-        for (int i=0; i<20; ++i)
+ 
+        for (int i = 0; i < 10; ++i)
         {
-            battleState newMember = new battleState();
-            newMember.index = i;
+            TestStageState newMember = new TestStageState();
+            if (i == 0)
+            {
+                newMember.position = 0;
+                newMember.index = 0;
+            }
+            else if (i != 0 && i < 5)
+            {
+                newMember.position = i;
+                newMember.index = i;
+            }
+            else
+            {
+                newMember.position = i;
+                newMember.index = i - 4;
+            }
             newMember.now_hp = 100;
             newMember.attack = 10;
             newMember.defense = 10;
@@ -158,7 +175,24 @@ public class Cheat : MonoSingleton<Cheat>
             newMember.state = 0;
             newMember.speed = 25;
 
-            battlestatedata.state_list.Add(newMember);
+            battlestatedata.my_state_list.Add(newMember);
+        }
+
+        for (int i = 0; i < 10; ++i)
+        {
+            TestStageState newMember = new TestStageState();
+            newMember.position = i + 10;
+            newMember.index = 100001;
+            newMember.now_hp = 100;
+            newMember.attack = 10;
+            newMember.defense = 10;
+            newMember.crit_dmg = 1;
+            newMember.crit_per = 5;
+            newMember.avoid = 5;
+            newMember.state = 0;
+            newMember.speed = 25;
+
+            battlestatedata.enemy_state_list.Add(newMember);
         }
 
         return JsonMapper.ToJson(battlestatedata);
