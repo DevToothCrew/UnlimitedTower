@@ -150,8 +150,8 @@ footer{width: 100%;}
 .section1 .sec1 .sec1-bott h4{ font-size: 16px;  color: #b3b3b3;font-family:'Noto Sans', sans-serif;margin-bottom: 13px;}
 .section1 .sec1 .sec1-bott .scroll{position: relative;top: 0;}
 .section1 .sec1 .att-check{display:none;position:absolute;bottom:29px;right:2%;z-index:801;}
-.section1 .sec1 .att-check img:nth-child(1){width:300px}
-.section1 .sec1 .att-check img:nth-child(2){width:70px;display:none;}
+.section1 .sec1 .att-check a:nth-child(1) img{width:300px}
+.section1 .sec1 .att-check a:nth-child(2) img{width:70px;display:none;}
 
 /*section2*/
 .section2 {height: 1030px;background-color: #172335;}
