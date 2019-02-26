@@ -279,16 +279,16 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
     }
 
-    public void ResponseBatte(string getBattleStateInfo)
-    {
-        TestbattleStateData battlestatedata = JsonUtility.FromJson<TestbattleStateData>(getBattleStateInfo);
-        if (battlestatedata == null)
-        {
-            Debug.Log("Invalid Battle Data : " + getBattleStateInfo);
-        }
+    //public void ResponseBatte(string getBattleStateInfo)
+    //{
+    //    TestbattleStateData battlestatedata = JsonUtility.FromJson<TestbattleStateData>(getBattleStateInfo);
+    //    if (battlestatedata == null)
+    //    {
+    //        Debug.Log("Invalid Battle Data : " + getBattleStateInfo);
+    //    }
 
-        BattleStart(battlestatedata);
-    }
+    //    BattleStart(battlestatedata);
+    //}
 
     public void ResponseStageResult(string getStageResultInfo)
     {
@@ -484,7 +484,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         monster.index = getMonsterIndex;
 
-        //monster.monsterNum = getMonsterInfo.look;
+        monster.monsterNum = getMonsterInfo.id;
         monster.name = getMonsterInfo.name;
 
         monster.exp = getMonsterInfo.exp;
@@ -595,16 +595,16 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     }
     
-    public void ResponseBatte(string getBattleStateInfo)
-    {
-        TestbattleStateData battlestatedata = JsonUtility.FromJson<TestbattleStateData>(getBattleStateInfo);
-        if (battlestatedata == null)
-        {
-            Debug.Log("Invalid Battle Data : " + getBattleStateInfo);
-        }
+    //public void ResponseBatte(string getBattleStateInfo)
+    //{
+    //    TestbattleStateData battlestatedata = JsonUtility.FromJson<TestbattleStateData>(getBattleStateInfo);
+    //    if (battlestatedata == null)
+    //    {
+    //        Debug.Log("Invalid Battle Data : " + getBattleStateInfo);
+    //    }
 
-        //BattleStart(battlestatedata);
-    }
+    //    //BattleStart(battlestatedata);
+    //}
 
     //public void BattleStart(TestbattleStateData getBattleStateData)
     //{
