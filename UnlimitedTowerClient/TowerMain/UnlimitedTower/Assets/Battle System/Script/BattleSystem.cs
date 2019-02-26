@@ -161,7 +161,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                 else
                 {
                     Instantiate(Resources.Load("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataDic
-                        [UserDataManager.Inst.GetMonsterInfo(testStageStateData.my_state_list[i].index).index + 80000].resource) as GameObject, playerCharacter[i].transform);
+                        [UserDataManager.Inst.GetMonsterInfo(testStageStateData.my_state_list[i].index).monsterNum + 80000].resource) as GameObject, playerCharacter[i].transform);
                 }
             }
             if (characterisPlace[i + 10] == true)
