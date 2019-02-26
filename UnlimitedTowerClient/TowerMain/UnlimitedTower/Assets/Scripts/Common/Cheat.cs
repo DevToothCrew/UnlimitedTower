@@ -118,10 +118,27 @@ public class Cheat : MonoSingleton<Cheat>
         battleactiondata.user = user;
         battleactiondata.turn += 1;
 
-        for (int i=0; i<20; ++i)
+        for (int i = 0; i < 10; ++i)
         {
             TestActionInfo action = new TestActionInfo();
-            action.target_position = UnityEngine.Random.Range(i , 20);
+            action.target_position = UnityEngine.Random.Range(10, 20);
+            action.avoid = false;
+            action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
+            action.damage = 5;
+
+            TestBattleActionInfo actioninfo = new TestBattleActionInfo();
+            actioninfo.my_position = i;
+            actioninfo.action_type = 2;
+            actioninfo.battle_action_list.Add(action);
+
+
+            battleactiondata.battle_info_list.Add(actioninfo);
+        }
+
+        for (int i = 10; i < 20; ++i)
+        {
+            TestActionInfo action = new TestActionInfo();
+            action.target_position = UnityEngine.Random.Range(0, 10);
             action.avoid = false;
             action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
             action.damage = 5;
