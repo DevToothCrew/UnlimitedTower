@@ -8,12 +8,7 @@ public class CharacterInformation : MonoBehaviour
     public float AttackAfterDelay;
     public float Height;
     public float AttackRange;
-
-    public CharacterInformation()
-    {
-
-    }
-
+    
     public CharacterInformation(float AttackDelay, float AttackAfterDelay, float Height, float AttackRange)
     {
         this.AttackDelay = AttackDelay;

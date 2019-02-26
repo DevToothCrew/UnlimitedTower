@@ -220,6 +220,79 @@ public class partyData
     public List<int> servant_list = new List<int>();
     public List<int> monster_list = new List<int>();
 }
+//--------------battle fix--------------------//
+//add by canie
+//-----------------------------------------------------------------------//
+
+[Serializable]
+public class TestActionInfo
+{
+    public int target_position;
+    public bool avoid;
+    public bool critical;
+    public int damage;
+}
+
+[Serializable]
+public class TestBattleActionInfo
+{
+    public int my_position;
+    public int action_type;
+
+    public List<TestActionInfo> battle_action_list = new List<TestActionInfo>();
+}
+
+[Serializable]
+public class TestStageActionInfoData
+{
+    public string user;
+    public int turn;
+    public List<TestBattleActionInfo> battle_info_list = new List<TestBattleActionInfo>();
+}
+
+
+[Serializable]
+public class TestStageState
+{
+    public int position;
+    public int index;
+    public int now_hp;
+    public int attack;
+    public int defense;
+    public int crit_per;
+    public int crit_dmg;
+    public int avoid;
+    public int state;
+    public int speed;
+}
+[Serializable]
+public class TestStageStateData
+{
+    public string user;
+    public int stage_type;
+    public string enemy_user;
+    public int stage_number;
+    public List<TestStageState> my_state_list = new List<TestStageState>();
+    public List<TestStageState> enemy_state_list = new List<TestStageState>();
+}
+
+
+//add by canie
+[Serializable]
+public class TestStageRewardData
+{
+    public string user;
+    public int reward_money;
+    public List<int> get_exp_list = new List<int>();
+    public List<servantInfo> get_servant_list = new List<servantInfo>();
+    public List<monsterInfo> get_monster_list = new List<monsterInfo>();
+    public List<itemInfo> get_item_list = new List<itemInfo>();
+}
+//--------------battle fix--------------------//
+//-----------------------------------------------------------------------//
+//-----------------------------------------------------------------------//
+
+
 
 [Serializable]
 public class TestbattleStateData

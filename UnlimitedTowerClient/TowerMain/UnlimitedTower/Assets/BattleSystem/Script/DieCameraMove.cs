@@ -25,6 +25,7 @@ public class DieCameraMove : MonoSingleton<DieCameraMove>
     {
         yield return new WaitForSeconds(1.0f);
 
+        startPos = camera_Obj.transform.position;
         Vector3 temp = camera_Obj.transform.position;
         for (int i = 0; i < 25; i++)
         {
