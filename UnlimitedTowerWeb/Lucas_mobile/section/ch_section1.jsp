@@ -35,7 +35,7 @@
 			</a>	
 			<div class="att-check">
 				<a href="javascript:daily_open();"><img  src="assets/img/att-btn.png" alt=""></a>
-				<img src="assets/img/att-btn-m.png" alt="">
+				<a href="javascript:daily_open();"><img src="assets/img/att-btn-m.png" alt=""></a>
 			</div>
 		</div>
 	</div>

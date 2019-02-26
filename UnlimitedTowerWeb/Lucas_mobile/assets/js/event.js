@@ -1,15 +1,6 @@
-$(document).ready(function(){
-/*    $(".event-btn p").click(function(){
-		$(".pop-add").css({"display":"block"});
-	}); */   
-
-		$(".att-check").click(function(){
-	    	$("#popup").css({"display":"block"});
-	    }); 
-	$(".check-icon").click(function(){
-    	$("#popup").css({"display":"none"});
-    }); 
-});			
+function closePopup(){
+	$("#popup").css({"display":"none"});
+}
 
 //cate go
 function goMenu(seq){       
