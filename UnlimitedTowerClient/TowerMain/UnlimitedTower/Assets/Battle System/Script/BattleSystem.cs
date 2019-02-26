@@ -160,8 +160,11 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                 }
                 else
                 {
+                    // Instantiate(Resources.Load("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataDic
+                    //     [UserDataManager.Inst.GetMonsterInfo(testStageStateData.my_state_list[i].index).monsterNum].resource) as GameObject, playerCharacter[i].transform);
                     Instantiate(Resources.Load("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataDic
-                        [UserDataManager.Inst.GetMonsterInfo(testStageStateData.my_state_list[i].index).monsterNum + 80000].resource) as GameObject, playerCharacter[i].transform);
+                        [100001].resource) as GameObject, playerCharacter[i].transform);
+
                 }
             }
             if (characterisPlace[i + 10] == true)
