@@ -94,7 +94,7 @@ footer{width: 100%;}
 
 .popup .pop .event-btn{}
 .popup .pop .event-btn{}
-.popup .pop .event-btn p{font-size: 21px;height: 60px;line-height: 60px;margin: 0 auto;display: block;width: 210px; color:#fff; background-color: #ff6d63;border-radius: 5px}
+.popup .pop .event-btn p{font-family:'Noto Sans', sans-serif;font-size: 21px;height: 60px;line-height: 60px;margin: 0 auto;display: block;width: 210px; color:#fff; background-color: #ff6d63;border-radius: 5px}
 .popup .pop .event-btn p:hover{background-color: #FF9A91;}
 .popup .pop .event-btn p:active{background-color: #BF6159;}
 
@@ -110,7 +110,7 @@ footer{width: 100%;}
 .popup .pop .pop-add .add-cont .add-conts  .adddd{overflow:hidden;    margin-top: -97px;}
 .popup .pop .pop-add .add-cont .add-conts .adddd .saddd{float: center;padding: 10px;display: inline-block;}
 .popup .pop .pop-add .add-cont .add-conts .adddd .saddd img{width:30px;}
-.popup .pop .pop-add .add-cont .add-conts .adddd .saddd p{color:#fff}
+.popup .pop .pop-add .add-cont .add-conts .adddd .saddd p{color:#fff;font-family:'Noto Sans', sans-serif;}
 /*.popup .pop .pop-add .add-cont:before{content:'';width: 142px;height: 145px;border-radius: 50%;background-color: #fff;position: absolute;left:50%;transform:translate(-50%,0);box-shadow: 0px 0px 100px 30px rgba(255,255,255,0.8);z-index: -1;}*/
 .popup .pop .pop-add .add-cont em{font-size: 26px;font-weight: bold;color:#fff;margin-top: 20px;}
 .popup .pop .pop-add .add-btn{margin-top: 60px;}
