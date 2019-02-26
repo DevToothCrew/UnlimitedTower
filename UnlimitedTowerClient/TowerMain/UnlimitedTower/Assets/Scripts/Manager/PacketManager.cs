@@ -137,8 +137,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
         string json = JsonUtility.ToJson(action);
 
         Debug.Log("Json action : " + json);
-        BattleAction(json);
-        
+        //BattleAction(json);
+
+        JsonData data = Cheat.Inst.TestGetBattleActionData("devtooth", 12, 2, 15, 2);
+        PacketManager.Inst.ResponseBattleAction(data.ToString());
+
     }
 
     public void RequestStageStart(int stageNum, int partyNum)

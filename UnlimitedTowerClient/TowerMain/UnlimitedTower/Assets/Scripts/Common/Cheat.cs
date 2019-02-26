@@ -114,21 +114,21 @@ public class Cheat : MonoSingleton<Cheat>
 
     public string TestGetBattleActionData(string user, int heroTarget, int heroAction, int monsterTarget, int monsterAction)
     {
-        TestbattleActionInfoData battleactiondata = new TestbattleActionInfoData();
+        TestStageActionInfoData battleactiondata = new TestStageActionInfoData();
         battleactiondata.user = user;
-        battleactiondata.turn = 1;
+        battleactiondata.turn += 1;
 
         for (int i=0; i<20; ++i)
         {
-            actionInfo action = new actionInfo();
-            action.target_index = UnityEngine.Random.Range(i , 20);
-            action.avoid = false;
-            action.critical = false;
-            action.damage = 1;
+            TestActionInfo action = new TestActionInfo();
+            action.target_position = UnityEngine.Random.Range(i , 20);
+            action.avoid = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
+            action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
+            action.damage = 5;
 
-            battleActionInfo actioninfo = new battleActionInfo();
-            actioninfo.index = i;
-            actioninfo.action_type = 1;
+            TestBattleActionInfo actioninfo = new TestBattleActionInfo();
+            actioninfo.my_position = i;
+            actioninfo.action_type = 2;
             actioninfo.battle_action_list.Add(action);
 
 
@@ -350,7 +350,7 @@ public class Cheat : MonoSingleton<Cheat>
             Debug.LogError("MonsterDataBaseDic Error");
             return null;
         }
-        int monsterNum = rand.Next(0, monsterIndexList.Count);
+        int monsterNum = rand.Next(0, 63);
         monsterData.monster.id = monsterIndexList[monsterNum];
         monsterData.monster.grade = rand.Next(0, 4);
         monsterData.monster.upgrade = 0;
