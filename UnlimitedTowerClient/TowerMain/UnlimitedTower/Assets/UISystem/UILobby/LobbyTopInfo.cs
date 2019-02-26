@@ -28,4 +28,9 @@ public class LobbyTopInfo : MonoBehaviour {
         // 임시로 치트키 추가
         Cheat.Inst.SetLoginCheat();
     }
+
+    public void OnClickLogoutButton()
+    {
+        UTUMSProvider.Instance.RequestLogout();
+    }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using UnityEngine.SceneManagement;
 using UnityEngine;
 
 #region Extensions 
@@ -50,6 +50,9 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                 CenterUI.SetActivateWithAnimation(true);
                 TopUI.SetActivateWithAnimation(true);
                 BottomUI.SetActivateWithAnimation(true);
+                break;
+
+            case SCENE_STATE.Login:
                 break;
         }
     }

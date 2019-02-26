@@ -23,6 +23,21 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
     public int usingPartyNum = 1;
 
+    #region InitFunction
+
+    public void InitUserInfo()
+    {
+        userInfo = new UserInfo();
+        servantDic = new Dictionary<int, UserServantData>();
+        monsterDic = new Dictionary<int, UserMonsterData>();
+        mountItemDic = new Dictionary<int, UserMountItemData>();
+        etcItemDic = new Dictionary<int, UserEtcItemData>();
+        partyInfo = new UserPartyData();
+        stageState = new TestbattleStateData();
+    }
+
+    #endregion
+
     #region SetFunction
 
     public void SetUserInfo(UserInfo getUserInfo)

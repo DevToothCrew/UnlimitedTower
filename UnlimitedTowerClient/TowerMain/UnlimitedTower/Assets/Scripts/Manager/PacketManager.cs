@@ -4,7 +4,6 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
-using Random = UnityEngine.Random;
 
 
 [Serializable]
@@ -247,7 +246,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void ResponseLogout()
     {
         Debug.Log("ResponseLogout");
-        LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Login);
+        UserDataManager.Inst.InitUserInfo();
+        SceneManager.LoadScene("Login");
     }
 
     public void ResponseBattleAction(string getBattleActionInfo)
