@@ -93,7 +93,9 @@ public class StageInfoPopup : MonoBehaviour {
         }
 
         // 메인서번트 정보 띄우기
-        SetFormationNum(Etc.MainServantFormationNum);
+        SetFormationNum(2);
+        // 이건 DEFINE 있는데 왜 이걸씀?
+        //SetFormationNum(Etc.MainServantFormationNum);
     }
     
     // 현재 팀에서 선택된 자리넘버
@@ -141,14 +143,14 @@ public class StageInfoPopup : MonoBehaviour {
     public void UpdateCharacterWindow(UserServantData servantdata)
     {
 
-        STR.text = Etc.instance.Getstr(servantdata).ToString();
-        DEX.text = Etc.instance.Getdex(servantdata).ToString();
-        INT.text = Etc.instance.Getint(servantdata).ToString();
-        ATK.text = Etc.instance.Getatk(servantdata).ToString();
-        DEF.text = Etc.instance.GetDef(servantdata).ToString();
-        SPD.text = Etc.instance.GetSpd(servantdata).ToString();
-        CRIPERCENT.text = Etc.instance.GetCriticalProb(servantdata).ToString();
-        CRIDMG.text = Etc.instance.Getstr(servantdata).ToString();
+        //STR.text = Etc.instance.Getstr(servantdata).ToString();
+        //DEX.text = Etc.instance.Getdex(servantdata).ToString();
+        //INT.text = Etc.instance.Getint(servantdata).ToString();
+        //ATK.text = Etc.instance.Getatk(servantdata).ToString();
+        //DEF.text = Etc.instance.GetDef(servantdata).ToString();
+        //SPD.text = Etc.instance.GetSpd(servantdata).ToString();
+        //CRIPERCENT.text = Etc.instance.GetCriticalProb(servantdata).ToString();
+        //CRIDMG.text = Etc.instance.Getstr(servantdata).ToString();
 
         // 캐릭터 프리팹
         SubCamera.instance.Register(servantdata);
@@ -189,14 +191,14 @@ public class StageInfoPopup : MonoBehaviour {
     }
     public void UpdateCharacterWindow(UserMonsterData monsterdata)
     {
-        STR.text = Etc.instance.Getstr(monsterdata).ToString();
-        DEX.text = Etc.instance.Getdex(monsterdata).ToString();
-        INT.text = Etc.instance.Getint(monsterdata).ToString();
-        ATK.text = Etc.instance.Getatk(monsterdata).ToString();
-        DEF.text = Etc.instance.GetDef(monsterdata).ToString();
-        SPD.text = Etc.instance.GetSpd(monsterdata).ToString();
-        CRIPERCENT.text = Etc.instance.GetCriticalProb(monsterdata).ToString();
-        CRIDMG.text = Etc.instance.Getstr(monsterdata).ToString();
+        //STR.text = Etc.instance.Getstr(monsterdata).ToString();
+        //DEX.text = Etc.instance.Getdex(monsterdata).ToString();
+        //INT.text = Etc.instance.Getint(monsterdata).ToString();
+        //ATK.text = Etc.instance.Getatk(monsterdata).ToString();
+        //DEF.text = Etc.instance.GetDef(monsterdata).ToString();
+        //SPD.text = Etc.instance.GetSpd(monsterdata).ToString();
+        //CRIPERCENT.text = Etc.instance.GetCriticalProb(monsterdata).ToString();
+        //CRIDMG.text = Etc.instance.Getstr(monsterdata).ToString();
 
         // 프리팹
         SubCamera.instance.Register(monsterdata);

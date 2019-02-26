@@ -39,7 +39,8 @@ public class InventorySlotScript : MonoBehaviour
         teartext.gameObject.SetActive(true);
         upgradetext.gameObject.SetActive(true);
 
-        ItemImage.sprite = ErdManager.instance.MountitemSprite[mountitemdata.mountitemNum];
+        // Mount Item Image
+        //ItemImage.sprite = ErdManager.instance.MountitemSprite[mountitemdata.mountitemNum];
         teartext.text = mountitemdata.tierNum + "T";
         upgradetext.text = "+" + mountitemdata.upgradeCount;
 
@@ -64,7 +65,9 @@ public class InventorySlotScript : MonoBehaviour
         OffAllImages();
 
         ItemImage.gameObject.SetActive(true);
-        ItemImage.sprite = ErdManager.instance.etcitemSprite[etcitemdata.etcItemNum];
+        
+        // ETC Item Image
+        //ItemImage.sprite = ErdManager.instance.etcitemSprite[etcitemdata.etcItemNum];
 
         // 해당 서번트가 판매리스트에 포함되어있다면
         if (PopupUIsManager.instance.inventoryInfoPopup.sellingETCItemList.Contains(etcitemdata) &&

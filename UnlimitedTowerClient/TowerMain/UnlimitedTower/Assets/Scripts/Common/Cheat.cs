@@ -364,4 +364,33 @@ public class Cheat : MonoSingleton<Cheat>
 
         return status;
     }
+
+    // Button Cheat
+
+
+    public void SetLoginCheat()
+    {
+        if (UserDataManager.Inst.GetUserInfo().userName == null)
+        {
+            Debug.Log("Start SetLoginCheat");
+            UTUMSProvider.Instance.RequestLoginWithScatter();
+        }
+        else
+        {
+            Debug.Log("Already Get UserInfo");
+        }
+    }
+
+    public void SetStageStartCheat()
+    {
+        if (UserDataManager.Inst.GetUserInfo().userName == null)
+        {
+            Debug.Log("Invalid UserName, Please First SetLoginCheat");
+        }
+        else
+        {
+            Debug.Log("Start SetStageStartCheat");
+            UTUMSProvider.Instance.RequestStageStart(1, 1);
+        }
+    }
 }

@@ -47,9 +47,13 @@ public class FormationSlot_Upper : MonoBehaviour
 
                 InitializeUI();
                 charImage.gameObject.SetActive(true);
-                charImage.sprite = ErdManager.instance.GetServantIconSprite(curServant.isLegend, curServant.body, curServant.jobNum);
+                
+                // Servant Icon
+                //charImage.sprite = ErdManager.instance.GetServantIconSprite(curServant.isLegend, curServant.body, curServant.jobNum);
                 lefttopImage.gameObject.SetActive(true);
-                lefttopImage.sprite = ErdManager.instance.JobIcons[curServant.jobNum];
+                
+                // Servant Job Icon
+                //lefttopImage.sprite = ErdManager.instance.JobIcons[curServant.jobNum];
                 leftbottomleveltext.gameObject.SetActive(true);
                 leftbottomleveltext.text = "lv." + curServant.level;
 
@@ -67,13 +71,19 @@ public class FormationSlot_Upper : MonoBehaviour
 
                 InitializeUI();
                 charImage.gameObject.SetActive(true);
-                charImage.sprite = ErdManager.instance.getMonsterImage(curMonster.monsterNum, curMonster.monsterTypeNum);
+                
+                // Monster Image
+                //charImage.sprite = ErdManager.instance.getMonsterImage(curMonster.monsterNum, curMonster.monsterTypeNum);
                 lefttopImage.gameObject.SetActive(true);
-                lefttopImage.sprite = ErdManager.instance.TypeIcons[curMonster.monsterTypeNum];
+                
+                // Monster Type Icon
+                //lefttopImage.sprite = ErdManager.instance.TypeIcons[curMonster.monsterTypeNum];
                 leftbottomleveltext.gameObject.SetActive(true);
                 leftbottomleveltext.text = "lv." + curMonster.level;
                 monsterBGimage.gameObject.SetActive(true);
-                monsterBGimage.sprite = ErdManager.instance.monstergradeIcons[curMonster.gradeNum];
+                
+                // Monster Grade Icon
+                //monsterBGimage.sprite = ErdManager.instance.monstergradeIcons[curMonster.gradeNum];
                 monsterEnforceText.gameObject.SetActive(true);
                 monsterEnforceText.text = curMonster.enforceNum > 0 ? "+" + curMonster.enforceNum : "";
 
@@ -96,7 +106,8 @@ public class FormationSlot_Upper : MonoBehaviour
 
     private void OnEnable()
     {
-        GameDataManager.instance.placeChangedEvent += monsterPlaceChanged;
+        // Place Change
+        //GameDataManager.instance.placeChangedEvent += monsterPlaceChanged;
         FormationInfoPopup.placeModeChanged += placeModeChanged;
         placeModeChanged();
     }
@@ -104,7 +115,9 @@ public class FormationSlot_Upper : MonoBehaviour
     private void OnDisable()
     {
         ToDeregister();
-        GameDataManager.instance.placeChangedEvent -= monsterPlaceChanged;
+        
+        // Place Change
+        //GameDataManager.instance.placeChangedEvent -= monsterPlaceChanged;
         FormationInfoPopup.placeModeChanged -= placeModeChanged;
     }
 
@@ -217,10 +230,10 @@ public class FormationSlot_Upper : MonoBehaviour
                             return;
                         }
 
-                        GameDataManager.instance.request_deplace(UNIT_TYPE.SERVANT, servantInfo.index);
+                        // Place
+                        //GameDataManager.instance.request_deplace(UNIT_TYPE.SERVANT, servantInfo.index);
 
                         // 앞에 몬스터가 배치되어있었다면
-                        int monsterTeamNum = FormationInfoPopup.instance.curTeamNum;
                         int monsterFormNum = formationIndex + 5;
                         if (UserDataManager.Inst.GetFomationIsPlaced(monsterFormNum) == true)
                         {
@@ -230,8 +243,9 @@ public class FormationSlot_Upper : MonoBehaviour
                                 Debug.Log("버그");
                                 return;
                             }
-
-                            GameDataManager.instance.request_deplace(UNIT_TYPE.MONSTER, monsterInfo.index);
+                            
+                            // Place
+                            //GameDataManager.instance.request_deplace(UNIT_TYPE.MONSTER, monsterInfo.index);
                         }
                     }
                     else
@@ -243,7 +257,8 @@ public class FormationSlot_Upper : MonoBehaviour
                             return;
                         }
 
-                        GameDataManager.instance.request_deplace(UNIT_TYPE.MONSTER, monsterInfo.index);
+                        // Place
+                        //GameDataManager.instance.request_deplace(UNIT_TYPE.MONSTER, monsterInfo.index);
                     }
                 }
                 else
@@ -269,7 +284,7 @@ public class FormationSlot_Upper : MonoBehaviour
                 }
 
                 // 배치 요청하기
-                GameDataManager.instance.request_Placement(UNIT_TYPE.SERVANT, FormationInfoPopup.instance.registeredServantData.index, FormationInfoPopup.instance.curTeamNum, formationIndex);
+                //GameDataManager.instance.request_Placement(UNIT_TYPE.SERVANT, FormationInfoPopup.instance.registeredServantData.index, FormationInfoPopup.instance.curTeamNum, formationIndex);
                 // 모드 돌려놓기
                 FormationInfoPopup.instance.SetPlaceMode(FormationInfoPopup.PlaceMode.JUST_DISPLAY);
 
@@ -298,7 +313,7 @@ public class FormationSlot_Upper : MonoBehaviour
                 }
 
                 // 배치 요청하기
-                GameDataManager.instance.request_Placement(UNIT_TYPE.MONSTER, FormationInfoPopup.instance.registeredMonsterData.index, FormationInfoPopup.instance.curTeamNum, formationIndex);
+                //GameDataManager.instance.request_Placement(UNIT_TYPE.MONSTER, FormationInfoPopup.instance.registeredMonsterData.index, FormationInfoPopup.instance.curTeamNum, formationIndex);
                 // 모드 돌려놓기
                 FormationInfoPopup.instance.SetPlaceMode(FormationInfoPopup.PlaceMode.JUST_DISPLAY);
 

@@ -34,57 +34,58 @@ public class ItemInfoPannel : MonoBehaviour
 
     public void Register(UserMountItemData mountitemdata)
     {
-        this.mountitemdata = mountitemdata;
-        MountItemEntity.Param param = ErdManager.instance.getmountitemEntityTable_nullPossible(mountitemdata.mountitemNum);
+        // 이건 뭐지
+        //this.mountitemdata = mountitemdata;
+        //MountItemEntity.Param param = ErdManager.instance.getmountitemEntityTable_nullPossible(mountitemdata.mountitemNum);
 
 
-        // 아이템 아이콘, 티어, 
-        itemname.text = param.itemName;
-        itemimage.sprite = ErdManager.instance.MountitemSprite[mountitemdata.mountitemNum];
-        teartext.text = mountitemdata.tierNum + "T";
-        upgradeText.text = "+" + mountitemdata.upgradeCount;
+        //// 아이템 아이콘, 티어, 
+        //itemname.text = param.itemName;
+        //itemimage.sprite = ErdManager.instance.MountitemSprite[mountitemdata.mountitemNum];
+        //teartext.text = mountitemdata.tierNum + "T";
+        //upgradeText.text = "+" + mountitemdata.upgradeCount;
 
-        teartext2.text = mountitemdata.tierNum + "T";
-        upgradetext2.text = "+" + mountitemdata.upgradeCount +"/"+ Etc.maxItemUpgradeNum;
+        //teartext2.text = mountitemdata.tierNum + "T";
+        //upgradetext2.text = "+" + mountitemdata.upgradeCount +"/"+ Etc.maxItemUpgradeNum;
 
-        // job
-        for (int i = 0; i < jobimageList.Count; i++)
-        {
-            jobimageList[i].gameObject.SetActive(false);
-        }
-        jobimageList[param.possibleJobNum].gameObject.SetActive(true);
+        //// job
+        //for (int i = 0; i < jobimageList.Count; i++)
+        //{
+        //    jobimageList[i].gameObject.SetActive(false);
+        //}
+        //jobimageList[param.possibleJobNum].gameObject.SetActive(true);
 
 
-        // 스탯
-        List<MountItemStatEntity.Param> statlist = ErdManager.instance.getMountItemStatEntityTable_nullPossible(mountitemdata.mountitemNum);
-        StatInfo statclass = Etc.instance.getTotalstat(statlist);
+        //// 스탯
+        //List<MountItemStatEntity.Param> statlist = ErdManager.instance.getMountItemStatEntityTable_nullPossible(mountitemdata.mountitemNum);
+        //StatInfo statclass = Etc.instance.getTotalstat(statlist);
 
-        str.gameObject.SetActive(statclass.str > 0);
-        str.text = (int)statclass.str + "";
+        //str.gameObject.SetActive(statclass.str > 0);
+        //str.text = (int)statclass.str + "";
 
-        dex.gameObject.SetActive(statclass.dex > 0);
-        dex.text = (int)statclass.dex + "";
+        //dex.gameObject.SetActive(statclass.dex > 0);
+        //dex.text = (int)statclass.dex + "";
 
-        INT.gameObject.SetActive(statclass.INT > 0);
-        INT.text = (int)statclass.INT + "";
+        //INT.gameObject.SetActive(statclass.INT > 0);
+        //INT.text = (int)statclass.INT + "";
 
-        ATK.gameObject.SetActive(statclass.atk > 0);
-        ATK.text = (int)statclass.atk + "";
+        //ATK.gameObject.SetActive(statclass.atk > 0);
+        //ATK.text = (int)statclass.atk + "";
 
-        DEF.gameObject.SetActive(statclass.def > 0);
-        DEF.text = (int)statclass.def + "";
+        //DEF.gameObject.SetActive(statclass.def > 0);
+        //DEF.text = (int)statclass.def + "";
 
-        SPD.gameObject.SetActive(statclass.spd > 0);
-        SPD.text = (int)statclass.spd + "";
+        //SPD.gameObject.SetActive(statclass.spd > 0);
+        //SPD.text = (int)statclass.spd + "";
 
-        HP.gameObject.SetActive(statclass.hp > 0);
-        HP.text = (int)statclass.hp + "";
+        //HP.gameObject.SetActive(statclass.hp > 0);
+        //HP.text = (int)statclass.hp + "";
 
-        CRIPROB.gameObject.SetActive(statclass.criprob > 0);
-        CRIPROB.text = (int)statclass.criprob + "%";
+        //CRIPROB.gameObject.SetActive(statclass.criprob > 0);
+        //CRIPROB.text = (int)statclass.criprob + "%";
 
-        CRIDMG.gameObject.SetActive(statclass.cridmg > 0);
-        CRIDMG.text = (int)statclass.cridmg + "";
+        //CRIDMG.gameObject.SetActive(statclass.cridmg > 0);
+        //CRIDMG.text = (int)statclass.cridmg + "";
 
         gameObject.SetActive(true);
     }

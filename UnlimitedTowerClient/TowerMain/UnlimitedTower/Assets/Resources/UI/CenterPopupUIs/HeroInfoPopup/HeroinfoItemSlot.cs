@@ -6,9 +6,6 @@ using UnityEngine.UI;
 
 public class HeroinfoItemSlot : MonoBehaviour
 {
-
-    [SerializeField] MountitemType mountItemType;
-
     [SerializeField] HeroInfoPopup heroinfopopup;
 
     public Image itemImage;
@@ -29,8 +26,8 @@ public class HeroinfoItemSlot : MonoBehaviour
         isRegistered = true;
 
         this.servantData = servantData;
-        servantData.mountItemListChangeEvent += mountitemchanged;
-        mountitemchanged();
+        //servantData.mountItemListChangeEvent += mountitemchanged;
+        //mountitemchanged();
     }
     public void ToDeregister()
     {
@@ -40,7 +37,7 @@ public class HeroinfoItemSlot : MonoBehaviour
         }
         isRegistered = false;
 
-        servantData.mountItemListChangeEvent -= mountitemchanged;
+        //servantData.mountItemListChangeEvent -= mountitemchanged;
     }
 
     private void OnDisable()
@@ -49,47 +46,47 @@ public class HeroinfoItemSlot : MonoBehaviour
     }
 
 
-    public void mountitemchanged()
-    {
-        UserMountItemData mountItemData = servantData.mountItemList.Find((rowdata) => {
+    //public void mountitemchanged()
+    //{
+    //    UserMountItemData mountItemData = servantData.mountItemList.Find((rowdata) => {
 
-            MountItemEntity.Param info = ErdManager.instance.getmountitemEntityTable_nullPossible(rowdata.mountitemNum);
-            MountitemType itemtype = info.mountitemType;
+    //        MountItemEntity.Param info = ErdManager.instance.getmountitemEntityTable_nullPossible(rowdata.mountitemNum);
+    //        MountitemType itemtype = info.mountitemType;
 
-            return rowdata.isMounted && HeroInfoPopup.instance.servantData.index == rowdata.mountServantIndex && itemtype == mountItemType;
-        });
-        if (mountItemData != null)
-        {
-            this.mountItemData = mountItemData;
+    //        return rowdata.isMounted && HeroInfoPopup.instance.servantData.index == rowdata.mountServantIndex && itemtype == mountItemType;
+    //    });
+    //    if (mountItemData != null)
+    //    {
+    //        this.mountItemData = mountItemData;
 
-            itemImage.gameObject.SetActive(true);
-            tearText.gameObject.SetActive(true);
-            upgradeText.gameObject.SetActive(true);
-            lockImage.gameObject.SetActive(false);
+    //        itemImage.gameObject.SetActive(true);
+    //        tearText.gameObject.SetActive(true);
+    //        upgradeText.gameObject.SetActive(true);
+    //        lockImage.gameObject.SetActive(false);
 
-            tearText.text = mountItemData.tierNum + "T";
-            upgradeText.text = "+" + mountItemData.upgradeCount;
-            itemImage.sprite = ErdManager.instance.MountitemSprite[mountItemData.mountitemNum];
+    //        tearText.text = mountItemData.tierNum + "T";
+    //        upgradeText.text = "+" + mountItemData.upgradeCount;
+    //        itemImage.sprite = ErdManager.instance.MountitemSprite[mountItemData.mountitemNum];
 
-        }
-        else
-        {
-            itemImage.gameObject.SetActive(false);
-            tearText.gameObject.SetActive(false);
-            upgradeText.gameObject.SetActive(false);
-            lockImage.gameObject.SetActive(true);
-        }
-    }
+    //    }
+    //    else
+    //    {
+    //        itemImage.gameObject.SetActive(false);
+    //        tearText.gameObject.SetActive(false);
+    //        upgradeText.gameObject.SetActive(false);
+    //        lockImage.gameObject.SetActive(true);
+    //    }
+    //}
 
 
-    // 버튼클릭시
-    public void OnClick()
-    {
-        // 껏다가
-        HeroInfoPopup.instance.SetHeroinfoPannel(false);
+    //// 버튼클릭시
+    //public void OnClick()
+    //{
+    //    // 껏다가
+    //    HeroInfoPopup.instance.SetHeroinfoPannel(false);
 
-        // 켜기
-        HeroInfoPopup.instance.heroinfo_invenpannel.displayType = mountItemType;
-        HeroInfoPopup.instance.SetHeroinfoPannel(true);
-    }
+    //    // 켜기
+    //    HeroInfoPopup.instance.heroinfo_invenpannel.displayType = mountItemType;
+    //    HeroInfoPopup.instance.SetHeroinfoPannel(true);
+    //}
 }

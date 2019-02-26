@@ -132,7 +132,8 @@ public class PartnerInfoPopup : MonoBehaviour
                             case SORT_TYPE.Level:
                                 return new Value(servantdata, servantdata.level);
                             case SORT_TYPE.Power:
-                                return new Value(servantdata, Etc.instance.Getatk(servantdata));
+                                //return new Value(servantdata, Etc.instance.Getatk(servantdata));
+                                return new Value(servantdata, 10);
                             default:
                                 return new Value(servantdata, servantdata.index);
                         }
@@ -179,7 +180,8 @@ public class PartnerInfoPopup : MonoBehaviour
                             case SORT_TYPE.Level:
                                 return new Value(monsterdata, monsterdata.level);
                             case SORT_TYPE.Power:
-                                return new Value(monsterdata, Etc.instance.Getatk(monsterdata));
+                                //return new Value(monsterdata, Etc.instance.Getatk(monsterdata));
+                                return new Value(monsterdata, 10);
                             default:
                                 return new Value(monsterdata, monsterdata.index);
                         }

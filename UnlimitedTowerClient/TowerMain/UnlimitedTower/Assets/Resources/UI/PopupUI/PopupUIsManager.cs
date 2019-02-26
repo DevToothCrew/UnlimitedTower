@@ -22,8 +22,6 @@ public class PopupUIsManager : MonoBehaviour {
         instance = null;
     }
 
-    
-
     /* PopupUIs */
 
     public ItemInfoPannel iteminfopannel;
@@ -46,10 +44,6 @@ public class PopupUIsManager : MonoBehaviour {
         {
             return;
         }
-        
-
-        LobbyManager.Inst.InitCenterPopup();
-        LobbyManager.Inst.CenterPopup.SetActivateWithAnimation(true);
 
         UserServantData servantdata = UserDataManager.Inst.GetHeroInfo();
         heroInfoPopup.ToRegistered(servantdata);

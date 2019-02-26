@@ -23,7 +23,8 @@ public class HeroInfoInventoryItemicon : MonoBehaviour , IPointerClickHandler
         this.mountItemData = mountitemdata;
         isRegistered = true;
         
-        itemimage.sprite = ErdManager.instance.MountitemSprite[mountitemdata.mountitemNum];
+        // Mount Item Image
+        //itemimage.sprite = ErdManager.instance.MountitemSprite[mountitemdata.mountitemNum];
         teartext.text = mountitemdata.tierNum + "T";
         upgradetext.text = "+"+ mountitemdata.upgradeCount;
 
@@ -65,12 +66,14 @@ public class HeroInfoInventoryItemicon : MonoBehaviour , IPointerClickHandler
             // 장착되어있다면 -> 해제
             if (mountItemData.isMounted)
             {
-                GameDataManager.instance.DemountItem(mountItemData);
+                // DeMount Item -> UnEquip Item
+                //GameDataManager.instance.DemountItem(mountItemData);
             }
             // 장착안되어있다면 -> 해당 서번트에게 장착
             else
             {
-                GameDataManager.instance.MountItem(mountItemData, HeroInfoPopup.instance.servantData);
+                // Mount Item -> Equip Item
+                //GameDataManager.instance.MountItem(mountItemData, HeroInfoPopup.instance.servantData);
             }
         }
     }

@@ -122,7 +122,7 @@ public class DEFINE
 }
 
 
-// 서번트 클래스에 히로도 포함된다.
+// 서번트 클래스에 히어로도 포함된다.
 [System.Serializable]
 public class UserInfo
 {

@@ -23,7 +23,9 @@ public class SubCamera : MonoBehaviour {
 
 
         // 캐릭터 카메라
-        _CharObj = Instantiate(ErdManager.instance.ServantBodyPrefabs[servant.body]);
+        
+        // Servant Body Prefab
+        //_CharObj = Instantiate(ErdManager.instance.ServantBodyPrefabs[servant.body]);
         _CharObj.transform.position = CharPos;
         _CharObj.transform.eulerAngles = new Vector3(0, -160, 0);
     }
@@ -36,7 +38,8 @@ public class SubCamera : MonoBehaviour {
 
 
         // 캐릭터 카메라
-        _CharObj = Instantiate(ErdManager.instance.getMonsterPrefabs(monster.monsterNum, monster.monsterTypeNum));
+        // Monster Body Prefabs
+        //_CharObj = Instantiate(ErdManager.instance.getMonsterPrefabs(monster.monsterNum, monster.monsterTypeNum));
         _CharObj.transform.position = CharPos;
         _CharObj.transform.eulerAngles = new Vector3(0, -160, 0);
     }

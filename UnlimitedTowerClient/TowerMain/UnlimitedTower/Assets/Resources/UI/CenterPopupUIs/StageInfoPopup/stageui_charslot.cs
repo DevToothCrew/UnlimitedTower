@@ -30,9 +30,13 @@ public class stageui_charslot : MonoBehaviour {
         InitializeUI();
 
         charimage.gameObject.SetActive(true);
-        charimage.sprite = ErdManager.instance.GetServantIconSprite(servantdata.isLegend, servantdata.body, servantdata.jobNum);
+        
+        // Servant Image
+        //charimage.sprite = ErdManager.instance.GetServantIconSprite(servantdata.isLegend, servantdata.body, servantdata.jobNum);
         LefttopImage.gameObject.SetActive(true);
-        LefttopImage.sprite = ErdManager.instance.JobIcons[servantdata.jobNum];
+        
+        // Servant Job Icon
+        //LefttopImage.sprite = ErdManager.instance.JobIcons[servantdata.jobNum];
         levelText.gameObject.SetActive(true);
         levelText.text = "Lv." + servantdata.level;
     }
@@ -42,13 +46,19 @@ public class stageui_charslot : MonoBehaviour {
         InitializeUI();
 
         MonsterGradeImgage.gameObject.SetActive(true);
-        MonsterGradeImgage.sprite = ErdManager.instance.monstergradeIcons[monsterdata.gradeNum];
+        
+        // Monster Grade Icon
+        //MonsterGradeImgage.sprite = ErdManager.instance.monstergradeIcons[monsterdata.gradeNum];
         MonsterEnfCountText.gameObject.SetActive(true);
         MonsterEnfCountText.text = monsterdata.enforceNum > 0 ? "+" + monsterdata.enforceNum : "";
         charimage.gameObject.SetActive(true);
-        charimage.sprite = ErdManager.instance.getMonsterImage(monsterdata.monsterNum, monsterdata.monsterTypeNum);
+        
+        // Monster Image
+        //charimage.sprite = ErdManager.instance.getMonsterImage(monsterdata.monsterNum, monsterdata.monsterTypeNum);
         LefttopImage.gameObject.SetActive(true);
-        LefttopImage.sprite = ErdManager.instance.TypeIcons[monsterdata.monsterTypeNum];
+        
+        // Monster Type Icon
+        //LefttopImage.sprite = ErdManager.instance.TypeIcons[monsterdata.monsterTypeNum];
         levelText.gameObject.SetActive(true);
         levelText.text = "Lv." + monsterdata.level;
 

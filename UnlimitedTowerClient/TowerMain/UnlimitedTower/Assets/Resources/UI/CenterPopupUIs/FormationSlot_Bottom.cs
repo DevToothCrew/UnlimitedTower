@@ -40,9 +40,13 @@ public class FormationSlot_Bottom : MonoBehaviour, IPointerClickHandler
 
         InitializeUI();
         charImage.gameObject.SetActive(true);
-        charImage.sprite = ErdManager.instance.GetServantIconSprite(servantdata.isLegend, servantdata.body, servantdata.jobNum);
+
+        // Servant Icon
+        //charImage.sprite = ErdManager.instance.GetServantIconSprite(servantdata.isLegend, servantdata.body, servantdata.jobNum);
         lefttopImage.gameObject.SetActive(true);
-        lefttopImage.sprite = ErdManager.instance.JobIcons[servantdata.jobNum];
+        
+        // Servant Job Icon
+        //lefttopImage.sprite = ErdManager.instance.JobIcons[servantdata.jobNum];
         leftbottomleveltext.gameObject.SetActive(true);
         leftbottomleveltext.text = "lv." + servantdata.level;
 
@@ -57,13 +61,19 @@ public class FormationSlot_Bottom : MonoBehaviour, IPointerClickHandler
 
         InitializeUI();
         charImage.gameObject.SetActive(true);
-        charImage.sprite = ErdManager.instance.getMonsterImage(monsterdata.monsterNum, monsterdata.monsterTypeNum);
+        
+        // Monster Image
+        //charImage.sprite = ErdManager.instance.getMonsterImage(monsterdata.monsterNum, monsterdata.monsterTypeNum);
         lefttopImage.gameObject.SetActive(true);
-        lefttopImage.sprite = ErdManager.instance.TypeIcons[monsterdata.monsterTypeNum];
+        
+        // Monster Type Icon
+        //lefttopImage.sprite = ErdManager.instance.TypeIcons[monsterdata.monsterTypeNum];
         leftbottomleveltext.gameObject.SetActive(true);
         leftbottomleveltext.text = "lv." + monsterdata.level;
         monsterBGimage.gameObject.SetActive(true);
-        monsterBGimage.sprite = ErdManager.instance.monstergradeIcons[monsterdata.gradeNum];
+        
+        // Monster Grade Icon
+        //monsterBGimage.sprite = ErdManager.instance.monstergradeIcons[monsterdata.gradeNum];
         monsterEnforceText.gameObject.SetActive(true);
         monsterEnforceText.text = monsterdata.enforceNum > 0 ? "+" + monsterdata.enforceNum : "";
 
@@ -110,14 +120,16 @@ public class FormationSlot_Bottom : MonoBehaviour, IPointerClickHandler
 
     private void OnEnable()
     {
-        GameDataManager.instance.placeChangedEvent += placedUpdate;
+        // place Change
+        //GameDataManager.instance.placeChangedEvent += placedUpdate;
     }
     private void OnDisable()
     {
         ToNone();
         placedUpdate();
 
-        GameDataManager.instance.placeChangedEvent -= placedUpdate;
+        // place Change
+        //GameDataManager.instance.placeChangedEvent -= placedUpdate;
     }
 
 
@@ -201,9 +213,6 @@ public class FormationSlot_Bottom : MonoBehaviour, IPointerClickHandler
                 return;
             }
 
-
-            int curTeamNum = FormationInfoPopup.instance.curTeamNum;
-
             // father에 웨이팅칸이 없다면 -> 가장 앞에서부터 채워나가기
             if (!FormationInfoPopup.instance.isWaiting)
             {
@@ -211,13 +220,13 @@ public class FormationSlot_Bottom : MonoBehaviour, IPointerClickHandler
                 if (slottype == SlotType.servant && UserDataManager.Inst.GetServantEmptyFormation() > 0)
                 {
                     // 거기로 배치 요청하기
-                    GameDataManager.instance.request_Placement(UNIT_TYPE.SERVANT, servantdata.index, curTeamNum, UserDataManager.Inst.GetServantEmptyFormation());
+                    //GameDataManager.instance.request_Placement(UNIT_TYPE.SERVANT, servantdata.index, curTeamNum, UserDataManager.Inst.GetServantEmptyFormation());
                 }
                 // 몬스터이고, 5~9중 남은칸이 있다면
                 else if (slottype == SlotType.monster && UserDataManager.Inst.GetMonsterEmptyFormation() > 0)
                 {
                     // 거기로 배치 요청하기
-                    GameDataManager.instance.request_Placement(UNIT_TYPE.MONSTER, monsterdata.index, curTeamNum, UserDataManager.Inst.GetMonsterEmptyFormation());
+                    //GameDataManager.instance.request_Placement(UNIT_TYPE.MONSTER, monsterdata.index, curTeamNum, UserDataManager.Inst.GetMonsterEmptyFormation());
                 }
                 // 남은 칸이 없다면
                 else

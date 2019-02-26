@@ -139,7 +139,7 @@ public class FormationInfoPopup : MonoBehaviour
                     }
 
                     // sort하기
-                    Etc.instance.SortByType(list, sortType);
+                    //Etc.instance.SortByType(list, sortType);
 
                     // display 하기
                     for (int i = 0; i < bottomslotlist.Count && i < list.Count; i++)
@@ -167,7 +167,7 @@ public class FormationInfoPopup : MonoBehaviour
                     }
 
                     // sort하기
-                    Etc.instance.SortByType(list, sortType);
+                    //Etc.instance.SortByType(list, sortType);
 
                     // display 하기
                     for (int i = 0; i < bottomslotlist.Count && i < list.Count; i++)
