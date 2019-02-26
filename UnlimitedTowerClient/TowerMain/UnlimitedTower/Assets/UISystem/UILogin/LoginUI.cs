@@ -1,29 +1,34 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class LoginPopupUI : MonoBehaviour {
-
+public class LoginUI : MonoBehaviour {
+    
     public Text LoginText;
     private int state = 0;
 
-	void OnEnable () {
+    public GameObject bannerImage;
+    public GameObject loginPopup;
+
+	public void Awake () {
         LoginText.text = "Scatter Login";
         state = 0;
-	}
+        bannerImage.SetActivateWithAnimation(true);
+        loginPopup.SetActivateWithAnimation(true);
+    }
 
-    public void ScatterLogin()
+    public void OnClickScatterLogin()
     {
         LoginText.text = "Scatter Login";
         state = 0;
     }
 
-    public void EOSTockLogin()
+    public void OnClickEOSTockLogin()
     {
         LoginText.text = "EOSTock Login";
         state = 1;
     }
 
-    public void ETCLogin()
+    public void OnClickETCLogin()
     {
         LoginText.text = "ETC Login";
         state = 2;

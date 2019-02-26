@@ -3,7 +3,7 @@ using UnityEngine;
 
 #region Extensions 
 
-static public class LobbyAnimationManager
+static public class ActiveAnimationManager
 {
     static public void SetActivateWithAnimation(this GameObject uiGO, bool value)
     {
@@ -23,10 +23,10 @@ static public class LobbyAnimationManager
 
 public class LobbyManager : MonoSingleton<LobbyManager> {
 
-    public GameObject CenterUI;
-    public GameObject TopUI;
-    public GameObject LeftUI;
-    public GameObject BottomUI;
+    public GameObject centerUI;
+    public GameObject topUI;
+    public GameObject leftUI;
+    public GameObject bottomUI;
 
     public void Awake()
     {
@@ -46,10 +46,10 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         switch (state)
         {
             case SCENE_STATE.Lobby:
-                LeftUI.SetActivateWithAnimation(true);
-                CenterUI.SetActivateWithAnimation(true);
-                TopUI.SetActivateWithAnimation(true);
-                BottomUI.SetActivateWithAnimation(true);
+                leftUI.SetActivateWithAnimation(true);
+                centerUI.SetActivateWithAnimation(true);
+                topUI.SetActivateWithAnimation(true);
+                bottomUI.SetActivateWithAnimation(true);
                 break;
 
             case SCENE_STATE.Login:
