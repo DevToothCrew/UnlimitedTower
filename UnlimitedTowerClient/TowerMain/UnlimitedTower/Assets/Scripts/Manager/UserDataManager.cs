@@ -36,7 +36,6 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         mountItemDic = new Dictionary<int, UserMountItemData>();
         etcItemDic = new Dictionary<int, UserEtcItemData>();
         partyInfo = new UserPartyData();
-        stageState = new TestbattleStateData();
     }
 
     #endregion
