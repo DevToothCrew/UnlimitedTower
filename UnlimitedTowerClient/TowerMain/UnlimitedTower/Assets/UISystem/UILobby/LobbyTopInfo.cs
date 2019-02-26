@@ -8,7 +8,8 @@ public class LobbyTopInfo : MonoBehaviour {
     public Text EOSCount;
     public Text UTGCount;
 
-    void Awake () {
+    void Awake ()
+    {
         if (UserDataManager.Inst.GetUserInfo().userName != null)
         {
             SetTopInfo(UserDataManager.Inst.GetUserInfo());
