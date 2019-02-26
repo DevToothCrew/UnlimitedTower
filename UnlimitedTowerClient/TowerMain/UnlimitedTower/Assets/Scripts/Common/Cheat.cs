@@ -122,7 +122,7 @@ public class Cheat : MonoSingleton<Cheat>
         {
             TestActionInfo action = new TestActionInfo();
             action.target_position = UnityEngine.Random.Range(i , 20);
-            action.avoid = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
+            action.avoid = false;
             action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
             action.damage = 5;
 
@@ -350,7 +350,7 @@ public class Cheat : MonoSingleton<Cheat>
             Debug.LogError("MonsterDataBaseDic Error");
             return null;
         }
-        int monsterNum = rand.Next(0, 63);
+        int monsterNum = rand.Next(0, monsterIndexList.Count);
         monsterData.monster.id = monsterIndexList[monsterNum];
         monsterData.monster.grade = rand.Next(0, 4);
         monsterData.monster.upgrade = 0;

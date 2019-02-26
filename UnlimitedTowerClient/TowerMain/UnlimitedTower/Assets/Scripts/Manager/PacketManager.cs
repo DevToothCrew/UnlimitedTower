@@ -627,6 +627,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("턴 진행!");
         UserDataManager.Inst.SetStageAction(getBattleActionData);
+        BattleSystem.Inst.testStageActionInfoData = UserDataManager.Inst.GetStageAction();
         BattleSystem.Inst.StartCoroutine(BattleSystem.Inst.BattleStart());
     }
 

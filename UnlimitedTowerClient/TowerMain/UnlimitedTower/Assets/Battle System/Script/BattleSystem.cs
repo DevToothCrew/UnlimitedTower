@@ -160,11 +160,12 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                 }
                 else
                 {
+                    // Debug.Log(CharacterCSVData.Inst.monsterDataDic
+                    //     [UserDataManager.Inst.GetMonsterInfo(testStageStateData.my_state_list[i].index).monsterNum].resource);
                     // Instantiate(Resources.Load("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataDic
                     //     [UserDataManager.Inst.GetMonsterInfo(testStageStateData.my_state_list[i].index).monsterNum].resource) as GameObject, playerCharacter[i].transform);
                     Instantiate(Resources.Load("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataDic
                         [100001].resource) as GameObject, playerCharacter[i].transform);
-
                 }
             }
             if (characterisPlace[i + 10] == true)
@@ -324,7 +325,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                     battleInformation.isPlayerTurn = true;
                     playerCharacterControl[battleInformation.attackerIndex].Attack(new SendValue(
                             battleInformation.attackerIndex,
-                            battleInformation.targetIndex,
+                            battleInformation.targetIndex - 10,
                             battleInformation.damage,
                             battleInformation.isCritical,
                             battleInformation.isAvoid,
@@ -333,8 +334,8 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                 else
                 {
                     battleInformation.isPlayerTurn = false;
-                    enemyCharacterControl[battleInformation.attackerIndex].Attack(new SendValue(
-                             battleInformation.attackerIndex,
+                    enemyCharacterControl[battleInformation.attackerIndex-10].Attack(new SendValue(
+                             battleInformation.attackerIndex-10,
                              battleInformation.targetIndex,
                              battleInformation.damage,
                              battleInformation.isCritical,
