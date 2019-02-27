@@ -31,6 +31,8 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     // 0~9는 플레이어, 10~19는 적
     public bool[] characterisPlace = new bool[20];
 
+    public TargetSettingInfo targetSettingInfo = new TargetSettingInfo();
+
     private CaracterCustom caracterCustom;
 
     // Test
@@ -48,6 +50,15 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         public bool isAvoid;
         public bool isCritical;
         public bool isPlayerTurn;
+    }
+
+    [System.Serializable]
+    public class TargetSettingInfo
+    {
+        public int heroTargetIndex;
+        public int heroAction;
+        public int monsterTargetIndex;
+        public int monsterAction;
     }
 
     private void Awake()
@@ -160,12 +171,8 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                 }
                 else
                 {
-                    Debug.Log(CharacterCSVData.Inst.monsterDataDic
-                        [UserDataManager.Inst.GetMonsterInfo(testStageStateData.my_state_list[i].index).monsterNum].resource);
                     Instantiate(Resources.Load("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataDic
                         [UserDataManager.Inst.GetMonsterInfo(testStageStateData.my_state_list[i].index).monsterNum].resource) as GameObject, playerCharacter[i].transform);
-                    // Instantiate(Resources.Load("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataDic
-                    //     [100001].resource) as GameObject, playerCharacter[i].transform);
                 }
             }
             if (characterisPlace[i + 10] == true)
@@ -216,7 +223,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            PacketManager.Inst.RequestBattleAction(12, 2, 15, 2);
+            PacketManager.Inst.RequestBattleAction(targetSettingInfo.heroTargetIndex, targetSettingInfo.heroAction, targetSettingInfo.monsterTargetIndex, targetSettingInfo.monsterAction);
         }
         else if(Input.GetKeyDown(KeyCode.R))
         {

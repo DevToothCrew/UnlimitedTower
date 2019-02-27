@@ -341,6 +341,7 @@ public class CaracterCustom : MonoBehaviour
         return defultCharacter;
     }
 
+    [ContextMenu("test")]
     private void Refresh()
     {
         switch (jobIndex)

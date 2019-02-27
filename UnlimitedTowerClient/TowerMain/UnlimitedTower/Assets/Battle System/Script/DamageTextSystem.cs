@@ -48,18 +48,21 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
 
     public void Avoid(int target, bool isPlayer) // 피한 대상의 인덱스와 플레이어 여부
     {
-        missText.transform.GetChild(0).gameObject.SetActive(true);
-        if (isPlayer)
+        if (missText != null)
         {
-            missText.transform.position =
-                  Camera.main.WorldToScreenPoint(BattleSystem.Inst.playerCharacter[target].transform.position +
-                  new Vector3(0, BattleSystem.Inst.playerCharacterControl[target].child.GetComponent<CharacterInformation>().Height, 0));
-        }
-        else
-        {
-            missText.transform.position =
-                  Camera.main.WorldToScreenPoint(BattleSystem.Inst.enemyCharacter[target].transform.position +
-                  new Vector3(0, BattleSystem.Inst.enemyCharacterControl[target].child.GetComponent<CharacterInformation>().Height, 0));
+            missText.transform.GetChild(0).gameObject.SetActive(true);
+            if (isPlayer)
+            {
+                missText.transform.position =
+                      Camera.main.WorldToScreenPoint(BattleSystem.Inst.playerCharacter[target].transform.position +
+                      new Vector3(0, BattleSystem.Inst.playerCharacterControl[target].child.GetComponent<CharacterInformation>().Height, 0));
+            }
+            else
+            {
+                missText.transform.position =
+                      Camera.main.WorldToScreenPoint(BattleSystem.Inst.enemyCharacter[target].transform.position +
+                      new Vector3(0, BattleSystem.Inst.enemyCharacterControl[target].child.GetComponent<CharacterInformation>().Height, 0));
+            }
         }
     }
 
