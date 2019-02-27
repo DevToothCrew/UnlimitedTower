@@ -628,6 +628,7 @@ public enum LOBBY_RIGHT_BUTTON
     Setting = 7,
     Max = 8,
 }
+
 public enum SCENE_STATE
 {
     None = 0,
@@ -638,6 +639,8 @@ public enum SCENE_STATE
     TowerBattle = 5,
     Max = 6,
 }
+
+
 //  가챠 타입은 무료, 특수, 이벤트 등을 의미한다.
 public enum GACHA_TYPE
 {

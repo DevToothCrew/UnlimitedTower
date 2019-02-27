@@ -60,4 +60,8 @@ MonoBehaviour:
   popupUI: {fileID: 0}
   accountInfoUI: {fileID: 0}
   popupInfoUI: {fileID: 0}
-  popupName: {fileID: 0}
+  popupTitle: {fileID: 0}
+  popupMenu: {fileID: 0}
+  popupState: 0
+  heroMenu: {fileID: 0}
+  shopMenu: {fileID: 0}
