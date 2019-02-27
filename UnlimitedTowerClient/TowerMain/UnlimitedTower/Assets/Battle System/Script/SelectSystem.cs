@@ -22,9 +22,9 @@ public class SelectSystem : MonoSingleton<SelectSystem>
     private RaycastHit hit;
     private Ray ray;
     private CheckSelectAnimation temp;
-    private bool isStart = false;
+    public bool isStart = false;
     // 실험중
-    private bool startCheck = false;
+    private bool startCheck = true;
 
     private void Start()
     {
@@ -101,11 +101,18 @@ public class SelectSystem : MonoSingleton<SelectSystem>
                                     UserDataManager.Inst.GetMonsterInfo(
                                     BattleSystem.Inst.testStageStateData.my_state_list[selectIndex < 5 ? 5 + selectIndex : selectIndex].index).monsterNum].inGameIconName);
 
-                                levelText.text = selectIndex < 5 ?
-                                    UserDataManager.Inst.GetServantInfo(
-                                    BattleSystem.Inst.testStageStateData.my_state_list[selectIndex].index).level.ToString() :
-                                     UserDataManager.Inst.GetMonsterInfo(
-                                    BattleSystem.Inst.testStageStateData.my_state_list[selectIndex].index).level.ToString();
+                                if (selectIndex != 0)
+                                {
+                                    levelText.text = selectIndex < 5 ?
+                                      UserDataManager.Inst.GetServantInfo(
+                                      BattleSystem.Inst.testStageStateData.my_state_list[selectIndex].index).level.ToString() :
+                                       UserDataManager.Inst.GetMonsterInfo(
+                                      BattleSystem.Inst.testStageStateData.my_state_list[selectIndex].index).level.ToString();
+                                }
+                                else
+                                {
+                                    levelText.text = UserDataManager.Inst.GetHeroInfo().level.ToString();
+                                }
 
                                 nemeText.text = CharacterCSVData.Inst.monsterDataDic[
                                     UserDataManager.Inst.GetMonsterInfo(
