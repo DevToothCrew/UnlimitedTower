@@ -85,8 +85,8 @@ footer{width: 100%;}
 .popup .pop .event-cont .date-wrap .date:nth-child(28) img{height:45px}
 .popup .pop .event-cont .date-wrap .date:nth-child(28) p{color:#f2f3f4;}
 .popup .pop .event-cont .date-wrap .date h2{background-color: #172335; color:#c1c7c9;font-weight: normal;width: 100%;height: 22px;line-height: 22px;}
-.popup .pop .event-cont .date-wrap .date img{height: 45px;}
-.popup .pop .event-cont .date-wrap .date p{font-size: 12px;color: #999999;}
+.popup .pop .event-cont .date-wrap .date img{height: 45px;margin-top: 5px;}
+.popup .pop .event-cont .date-wrap .date p{font-size: 12px;color: #999999;margin-top: -5px;}
 .popup .pop .event-cont .date-wrap .active{border:2px solid #ff6d63;box-sizing: border-box;}
 .popup .pop .event-cont .date-wrap .active h2{background-image: linear-gradient(108deg, #ff6d63, #172335);height: 20px;font-weight: bold;color:#fff;line-height: 20px;}
 .popup .pop .event-cont .date-wrap .check{position: relative;}
@@ -696,7 +696,7 @@ footer{height: 400px;background-color: #172335;}
 .popup .pop .event-tit p{color:#ff001f;font-size: 10px;}
 .popup .pop .event-tit .check-icon{position: absolute;top: 10px;right: 10px;}
 .popup .pop .event-tit .check-icon img{width: 24px;}
-.popup .pop .event-cont .date-wrap .check:before{content:'';width: 100px;height: 90px;position: absolute;top: 0;left: 0;background: url(../img/m-check.png) no-repeat center top;}
+.popup .pop .event-cont .date-wrap .check:before{content:'';width: 63px;height: 64px;position: absolute;top: 0;left: 0;background: url(../img/m-check.png) no-repeat center top;}
 .popup .pop .event-cont{width:375px;height: 404px;margin: 0 auto;background: url(../img/m-table-bg.png) no-repeat center top;padding-top: 15px;overflow: hidden;}
 .popup .pop .event-cont .date-wrap{width:315px;margin: 0 auto;}
 .popup .pop .event-cont .date-wrap .date{width: 63px;height:66px;margin: 0 auto;float:left;}
@@ -707,8 +707,8 @@ footer{height: 400px;background-color: #172335;}
 .popup .pop .event-cont .date-wrap .date:nth-child(28) img{height: 30px;}
 .popup .pop .event-cont .date-wrap .date:nth-child(28) p{color:#f2f3f4;}
 .popup .pop .event-cont .date-wrap .date h2{background-color: #172335; color:#c1c7c9;font-weight: normal;width: 100%;height:17px;line-height: 17px;font-size: 10px;font-family: 'Noto Sans', sans-serif}
-.popup .pop .event-cont .date-wrap .date img{height: 30px;}
-.popup .pop .event-cont .date-wrap .date p{font-size: 8px;color: #9999;font-family: 'Noto Sans', sans-serif}
+.popup .pop .event-cont .date-wrap .date img{height: 30px;margin-top:4px; box-sizing: border-box;margin-top: 5px;}
+.popup .pop .event-cont .date-wrap .date p{font-size: 8px;color: #9999;font-family: 'Noto Sans', sans-serif; margin-top:-5px}
 .popup .pop .event-cont .date-wrap .active{border:2px solid #ff6d63;box-sizing: border-box;}
 .popup .pop .event-cont .date-wrap .active h2{background-image: linear-gradient(108deg, #ff6d63, #172335);height: 15px;font-weight: bold;color:#fff;line-height: 15px;}
 .popup .pop .event-cont .date-wrap .check{position: relative;}

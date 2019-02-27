@@ -87,8 +87,8 @@ body{background-color: #fff}
 .m-popup .m-pop .event-cont .date-wrap .date:nth-child(28) img{height: 30px;}
 .m-popup .m-pop .event-cont .date-wrap .date:nth-child(28) p{color:#f2f3f4;}
 .m-popup .m-pop .event-cont .date-wrap .date h2{background-color: #172335; color:#c1c7c9;font-weight: normal;width: 100%;height:17px;line-height: 17px;font-size: 10px;font-family: 'Noto Sans', sans-serif}
-.m-popup .m-pop .event-cont .date-wrap .date img{height: 30px;}
-.m-popup .m-pop .event-cont .date-wrap .date p{font-size: 8px;color: #999999;font-family: 'Noto Sans', sans-serif}
+.m-popup .m-pop .event-cont .date-wrap .date img{height: 30px;margin-top:4px;box-sizing: border-box;}
+.m-popup .m-pop .event-cont .date-wrap .date p{font-size: 8px;color: #999999;font-family: 'Noto Sans', sans-serif;margin-top: -4px;}
 .m-popup .m-pop .event-cont .date-wrap .active{border:2px solid #ff6d63;box-sizing: border-box;}
 .m-popup .m-pop .event-cont .date-wrap .active h2{background-image: linear-gradient(108deg, #ff6d63, #172335);height: 15px;font-weight: bold;color:#fff;line-height:15px;}
 .m-popup .m-pop .event-cont .date-wrap .check{position: relative;}
