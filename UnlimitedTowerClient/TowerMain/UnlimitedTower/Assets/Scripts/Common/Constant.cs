@@ -164,9 +164,6 @@ public class UserServantData
     public int gender;
 
     public Status status = new Status();
-    public int leftStatPoint;
-
-
 
     /* 조회용 데이터 __________________________________________________________ */
 
