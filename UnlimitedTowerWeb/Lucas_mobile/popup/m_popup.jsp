@@ -39,7 +39,13 @@
 		        			<div id="day3" class="date">
 		        				<h2>Day 3</h2>
 		        				<img src="assets/img/c-servant1.png" alt="">
+		        				<% if(country.equals("en")){ %>
 		        				<p>Servant</p>
+								<% }else if(country.equals("ko")){ %>
+								<p>Servant</p>
+								<% }else if(country.equals("ch")){ %>
+		        				<p>从者</p>
+		        				<%} %>
 		        			</div>
 		        			<div id="day4" class="date">
 		        				<h2>Day 4</h2>
@@ -59,7 +65,13 @@
 		        			<div id="day7" class="date">
 		        				<h2>Day 7</h2>
 		        				<img src="assets/img/c-monster1.png" alt="">
+		        				<% if(country.equals("en")){ %>
 		        				<p>Monster</p>
+								<% }else if(country.equals("ko")){ %>
+								<p>Monster</p>
+								<% }else if(country.equals("ch")){ %>
+		        				<p>怪兽</p>
+		        				<%} %>
 		        			</div>
 		        			<div id="day8" class="date">
 		        				<h2>Day 8</h2>
@@ -74,7 +86,13 @@
 		        			<div id="day10" class="date">
 		        				<h2>Day 10</h2>
 		        				<img src="assets/img/c-item1.png" alt="">
+		        				<% if(country.equals("en")){ %>
 		        				<p>Item</p>
+								<% }else if(country.equals("ko")){ %>
+								<p>Item</p>
+								<% }else if(country.equals("ch")){ %>
+		        				<p>物品</p>
+		        				<%} %>
 		        			</div>
 		        			<div id="day11" class="date">
 		        				<h2>Day 11</h2>
@@ -94,7 +112,13 @@
 		        			<div id="day14" class="date">
 		        				<h2>Day 14</h2>
 		        				<img src="assets/img/free-gacha.png" alt="">
+		        				<% if(country.equals("en")){ %>
 		        				<p>1Free Gacha</p>
+								<% }else if(country.equals("ko")){ %>
+								<p>1Free Gacha</p>
+								<% }else if(country.equals("ch")){ %>
+		        				<p>1免费召喚 </p>
+		        				<%} %>
 		        			</div>
 		        			<div id="day15" class="date">
 		        				<h2>Day 15</h2>
@@ -109,7 +133,13 @@
 		        			<div id="day17" class="date">
 		        				<h2>Day 17</h2>
 		        				<img src="assets/img/c-servant2.png" alt="">
+		        				<% if(country.equals("en")){ %>
 		        				<p>Servant</p>
+								<% }else if(country.equals("ko")){ %>
+								<p>Servant</p>
+								<% }else if(country.equals("ch")){ %>
+		        				<p>从者</p>
+		        				<%} %>
 		        			</div>
 		        			<div id="day18" class="date">
 		        				<h2>Day 18</h2>
@@ -129,7 +159,13 @@
 		        			<div id="day21" class="date">
 		        				<h2>Day 21</h2>
 		        				<img src="assets/img/c-monster2.png" alt="">
+		        				<% if(country.equals("en")){ %>
 		        				<p>Monster</p>
+								<% }else if(country.equals("ko")){ %>
+								<p>Monster</p>
+								<% }else if(country.equals("ch")){ %>
+		        				<p>怪兽</p>
+		        				<%} %>
 		        			</div>
 		        			<div id="day22" class="date">
 		        				<h2>Day 22</h2>
@@ -144,7 +180,13 @@
 		        			<div id="day24" class="date">
 		        				<h2>Day 24</h2>
 		        				<img src="assets/img/c-item2.png" alt="">
+		        				<% if(country.equals("en")){ %>
 		        				<p>Item</p>
+								<% }else if(country.equals("ko")){ %>
+								<p>Item</p>
+								<% }else if(country.equals("ch")){ %>
+		        				<p>物品</p>
+		        				<%} %>
 		        			</div>
 		        			<div id="day25" class="date">
 		        				<h2>Day 25</h2>
@@ -164,13 +206,19 @@
 		        			<div id="day28" class="date">
 		        				<h2>Day 28</h2>
 		        				<img src="assets/img/free-gacha.png" alt="">
+		        				<% if(country.equals("en")){ %>
 		        				<p>1Free Gacha</p>
+								<% }else if(country.equals("ko")){ %>
+								<p>1Free Gacha</p>
+								<% }else if(country.equals("ch")){ %>
+		        				<p>1免费召喚 </p>
+		        				<%} %>
 		        			</div>
 		        			<div id="day1" class="date">  
-		        				<h2></h2>
+		        				<h2></h2>   				
 		        			</div>
 		        			<div id="day1" class="date">
-		        				<h2></h2>
+		        				<h2></h2>   
 		        			</div>
 		        		</div>
 	        		</div>
