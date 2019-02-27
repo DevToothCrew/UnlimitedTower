@@ -8,8 +8,8 @@
 	        		<div class="event-tit">
 	        			<% if(country.equals("en")){ %>
 	        			<h1><img src="assets/img/tit.png" alt=""></h1>
-	        			<em><strong>Date</strong>2018.02.25 ~ 2018.04.01</em>
-	        			<span>After the sign-in, press the attendance button at the bottom to complete<br>the participation! Compensation will be given according to the number of<br>attendance! Attendance days will be updated at 0:00 AM on UTC + 0.</span>
+	        			<em><strong>Date</strong>2019.02.25 ~ 2019.04.01</em>
+	        			<span>After the sign-in, press the attendance button at the bottom to complete<br>the participation! Compensation will be given according to the number<br>of attendance! Attendance days will be updated at 0:00 AM on UTC + 0.</span>
 	        			<p>* Only pre-registered accounts can participate in the event.</p>
 	        			<% }else if(country.equals("ko")){ %>
 	        			<h1><img src="assets/img/tit.png" alt=""></h1>
