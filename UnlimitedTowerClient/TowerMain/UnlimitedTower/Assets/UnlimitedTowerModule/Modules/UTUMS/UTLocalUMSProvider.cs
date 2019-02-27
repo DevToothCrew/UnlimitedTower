@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 
 /// <summary>
@@ -6,6 +7,20 @@
 /// </summary>
 public class UTLocalUMSProvider : UTUMSProvider
 {
+    private bool isLoginFinished = false;
+
+
+    //local setup
+    public UTLocalUMSProvider()
+    {
+        UTEventPoolInterface.AddEventListener("login", (ret) => isLoginFinished = true);
+    }
+
+    private IEnumerator OnLoginLoading()
+    {
+
+    }
+
     public override void RequestLoginWithScatter()
     {
         UTEventPoolInterface.SendEventData("login", new UTPlayerManager.UTPlayerData() { user = "devtooth", gameMoney = 999999 });

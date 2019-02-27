@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UTLoadingManager : MonoBehaviour {
 
@@ -14,6 +15,13 @@ public class UTLoadingManager : MonoBehaviour {
         public IEnumerator OnProgressAsync = null;
         public Action OnSuccess = null;
     }
+
+    public Text uiComment;
+    public Image uiInside;
+
+    private float uiInsideFullWidth;
+    private float uiInsideNextWidth;
+    private float uiInsideCurrWidth;
 
     private Queue<Description> wrkQ = new Queue<Description>();
 
@@ -62,22 +70,36 @@ public class UTLoadingManager : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Alpha1)) BeginScene(wrkFake1(), () => { Debug.Log("WRK FAKE 1 IS DONE!"); });
         if (Input.GetKeyDown(KeyCode.Alpha2)) BeginScene(wrkFake2(), () => { Debug.Log("WRK FAKE 2 IS DONE!"); });
+
+        // scale update
+        uiInsideCurrWidth = Mathf.LerpUnclamped(uiInsideCurrWidth, uiInsideNextWidth, Time.deltaTime * 8.0f);
+        uiInside?.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, uiInsideCurrWidth);
     }
 
     private IEnumerator wrkFlow()
     {
         Debug.Log("wrkFlow start");
+
+        uiInsideFullWidth = uiInside.rectTransform.rect.width;
+
         while (this != null)
         {
             if (wrkQ.Count > 0)
             {
                 var desc = wrkQ.Dequeue();
+
+                gameObject.SetActivateWithAnimation(true);
+
+                uiInsideCurrWidth = 0.0f;
+                SetProgress(0.0f, "Loading ...");
+
                 yield return desc.OnProgressAsync;
 
                 SetProgress(1.0f, "Done!");
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(1.0f);
 
                 desc.OnSuccess?.Invoke();
+                gameObject.SetActivateWithAnimation(false);
             }
             else
             {
@@ -111,9 +133,10 @@ public class UTLoadingManager : MonoBehaviour {
     /// </summary>
     /// <param name="t"></param>
     /// <param name="cmnt"></param>
-    public void SetProgress(float t, string cmnt = "...")
+    public void SetProgress(float t, string cmnt = "Loading ...")
     {
-        Debug.Log("PROG : " + (t * 100.0f) + "%, COMMENT : " + cmnt);
+        uiInsideNextWidth = uiInsideFullWidth * t;
+        uiComment.text = cmnt;
     }
 
 }
