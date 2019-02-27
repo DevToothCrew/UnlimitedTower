@@ -35,7 +35,12 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public GameObject popupUI;
     public GameObject accountInfoUI;
     public GameObject popupInfoUI;
-    public Text popupName;
+    public Text popupTitle;
+    public Text popupMenu;
+
+    public POPUP_STATE popupState;
+    public GameObject heroMenu;
+    public GameObject shopMenu;
 
     public void Awake()
     {
@@ -45,7 +50,17 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
             state = SCENE_STATE.Lobby;
             UserDataManager.Inst.SetSceneState(state);
         }
-        ChangeSceneState(state);
+
+        EtcSetActiveWithAnimation(true);
+        topUI.SetActivateWithAnimation(true);
+        chatUI.SetActivateWithAnimation(true);
+        popupUI.SetActive(false);
+        accountInfoUI.SetActive(true);
+        popupInfoUI.SetActive(false);
+
+        popupState = POPUP_STATE.Hero;
+        heroMenu.SetActive(true);
+        shopMenu.SetActive(false);
     }
 
     public void ChangeSceneState(SCENE_STATE state)
@@ -53,9 +68,9 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         switch (state)
         {
             case SCENE_STATE.Lobby:
+                EtcSetActiveWithAnimation(true);
                 topUI.SetActivateWithAnimation(true);
                 chatUI.SetActivateWithAnimation(true);
-                EtcSetActiveWithAnimation(true);
                 popupUI.SetActive(false);
                 accountInfoUI.SetActive(true);
                 popupInfoUI.SetActive(false);
@@ -76,28 +91,77 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public void OnClickPartyButton()
     {
-        popupName.text = "PartyInfo";
+        SetPopupTitle("Party");
+        SetPopupMenu("Hero");
 
         EtcSetActiveWithAnimation(false);
 
         popupUI.SetActive(true);
         accountInfoUI.SetActive(false);
         popupInfoUI.SetActive(true);
+
+        heroMenu.SetActive(true);
+        shopMenu.SetActive(false);
     }
 
     public void OnClickShopButton()
     {
-        popupName.text = "ShopInfo";
+        SetPopupTitle("Store");
+        SetPopupMenu("EOS");
 
         EtcSetActiveWithAnimation(false);
 
         popupUI.SetActive(true);
         accountInfoUI.SetActive(false);
         popupInfoUI.SetActive(true);
+
+        heroMenu.SetActive(false);
+        shopMenu.SetActive(true);
     }
 
     public void OnClickBackButton()
     {
-        ChangeSceneState(SCENE_STATE.Lobby);
+        EtcSetActiveWithAnimation(true);
+        popupUI.SetActive(false);
+
+        accountInfoUI.SetActive(true);
+        popupInfoUI.SetActive(false);
     }
+
+    public void SetPopupTitle(string text)
+    {
+        popupTitle.text = text;
+    }
+
+    public void SetPopupMenu(string text)
+    {
+        popupMenu.text = text;
+    }
+
+    public void OnClickMenu(int getState)
+    {
+        // 버튼과 현재 상태가 다를 경우만 반응
+        if (popupState != (POPUP_STATE)getState)
+        {
+            popupState = (POPUP_STATE)getState;
+            SetPopupMenu(popupState.ToString());
+        }
+    }
+}
+
+public enum POPUP_STATE
+{
+    None = 0,
+
+    // Hero
+    Hero = 1,
+    Servant = 2,
+    Monster = 3,
+    Item = 4,
+    Formation = 5,
+
+    // Shop
+    EOS = 11,
+    UTG = 12,
+    Gacha = 13,
 }
