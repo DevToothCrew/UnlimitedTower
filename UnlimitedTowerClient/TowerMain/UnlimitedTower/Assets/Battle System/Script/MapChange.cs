@@ -14,7 +14,8 @@ public class MapChange : MonoBehaviour
         new Color(0.71f,0.71f,0.71f,1.0f),
         new Color(0.84f, 0.98f, 1.0f, 1.0f),
         new Color(0.7f, 0.64f, 0.57f, 1.0f),
-        new Color(0.84f, 0.98f, 1.0f, 1.0f)
+        new Color(0.84f, 0.98f, 1.0f, 1.0f),
+        new Color(0.24f, 0.22f, 0.19f, 1.0f)
         };
     private readonly Vector3[] cameraPosition =
     {
@@ -24,6 +25,7 @@ public class MapChange : MonoBehaviour
         new Vector3(-10, 8, -10),
         new Vector3(-10, 8, -10),
         new Vector3(-10, 8, -10),
+        new Vector3(-10, 10, -10),
         new Vector3(-10, 10, -10)
     };
 
@@ -67,10 +69,10 @@ public class MapChange : MonoBehaviour
         {
             MapEneble(6);
         }
-        // if (Input.GetKeyDown(KeyCode.Alpha7))
-        // {
-        //     MapEneble(6);
-        // }
+        if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            MapEneble(7);
+        }
     }
 
     private void MapEneble(int index)

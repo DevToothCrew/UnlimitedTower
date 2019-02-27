@@ -16,17 +16,23 @@ public class SelectSystem : MonoSingleton<SelectSystem>
     public Text attackDamageText;
     public Text defenceText;
     public Text speedText;
+    public Text levelText;
+    public Text nemeText;
 
     private RaycastHit hit;
     private Ray ray;
     private CheckSelectAnimation temp;
     private bool isStart = false;
+    // 실험중
+    private bool startCheck = false;
 
     private void Start()
     {
         attackDamageText = GameObject.Find("StatueAttackText").GetComponent<Text>();
         defenceText = GameObject.Find("StatueDefenceText").GetComponent<Text>();
         speedText = GameObject.Find("StatueSpeedText").GetComponent<Text>();
+        levelText = GameObject.Find("LevelText").GetComponent<Text>();
+        nemeText = GameObject.Find("NameText").GetComponent<Text>();
     }
 
     // 추후 최적화 작업, timeScale도 바꿔야함
@@ -71,39 +77,58 @@ public class SelectSystem : MonoSingleton<SelectSystem>
                         {
                             selectIndex = hit.transform.GetComponent<CharacterControl>().index;
                             chsing[selectIndex].Click();
-                            // attackDamageText.text = BattleSystem.Inst.testStageStateData.my_state_list[selectIndex].attack.ToString();
-                            // defenceText.text = BattleSystem.Inst.testbattleStateData.my_state_list[selectIndex].defense.ToString();
-                            // speedText.text = BattleSystem.Inst.testbattleStateData.my_state_list[selectIndex].speed.ToString();
+                            attackDamageText.text = BattleSystem.Inst.testStageStateData.my_state_list[selectIndex].attack.ToString();
+                            defenceText.text = BattleSystem.Inst.testStageStateData.my_state_list[selectIndex].defense.ToString();
+                            speedText.text = BattleSystem.Inst.testStageStateData.my_state_list[selectIndex].speed.ToString();
                         }
                         else
                         {
                             selectIndex = hit.transform.GetComponent<CharacterControl>().index + 10;
                             chsing[selectIndex].Click();
+                            attackDamageText.text = BattleSystem.Inst.testStageStateData.enemy_state_list[selectIndex - 10].attack.ToString();
+                            defenceText.text = BattleSystem.Inst.testStageStateData.enemy_state_list[selectIndex - 10].defense.ToString();
+                            speedText.text = BattleSystem.Inst.testStageStateData.enemy_state_list[selectIndex - 10].speed.ToString();
                         }
-                         // attackDamageText.text = BattleSystem.Inst.testStageStateData.my_state_list[selectIndex].attack.ToString();
-                         // defenceText.text = BattleSystem.Inst.testbattleStateData.my_state_list[selectIndex].defense.ToString();
-                         // speedText.text = BattleSystem.Inst.testbattleStateData.my_state_list[selectIndex].speed.ToString();
+                        if (selectIndex != -1)
+                        {
+                            if (selectIndex < 10)
+                            {
+                                selectHpBar.fillAmount = (float)BattleSystem.Inst.playerCharacterControl[selectIndex].nowHp / BattleSystem.Inst.playerCharacterControl[selectIndex].maxHp;
+                                selectHpText.text = BattleSystem.Inst.playerCharacterControl[selectIndex]?.nowHp.ToString();
+                                selectCharacterImage.sprite =
+                                    Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" +
+                                    CharacterCSVData.Inst.monsterDataDic[
+                                    UserDataManager.Inst.GetMonsterInfo(
+                                    BattleSystem.Inst.testStageStateData.my_state_list[selectIndex < 5 ? 5 + selectIndex : selectIndex].index).monsterNum].inGameIconName);
+
+                                levelText.text = selectIndex < 5 ?
+                                    UserDataManager.Inst.GetServantInfo(
+                                    BattleSystem.Inst.testStageStateData.my_state_list[selectIndex].index).level.ToString() :
+                                     UserDataManager.Inst.GetMonsterInfo(
+                                    BattleSystem.Inst.testStageStateData.my_state_list[selectIndex].index).level.ToString();
+
+                                nemeText.text = CharacterCSVData.Inst.monsterDataDic[
+                                    UserDataManager.Inst.GetMonsterInfo(
+                                    BattleSystem.Inst.testStageStateData.my_state_list[selectIndex < 5 ? 5 + selectIndex : selectIndex].index).monsterNum].engName;
+                            }
+                            else
+                            {
+                                selectHpBar.fillAmount = (float)BattleSystem.Inst.enemyCharacterControl[selectIndex - 10].nowHp / BattleSystem.Inst.enemyCharacterControl[selectIndex - 10].maxHp;
+                                selectHpText.text = BattleSystem.Inst.enemyCharacterControl[selectIndex - 10]?.nowHp.ToString();
+                                selectCharacterImage.sprite =
+                                    Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" +
+                                    CharacterCSVData.Inst.monsterDataDic[
+                                    BattleSystem.Inst.testStageStateData.enemy_state_list[selectIndex - 10].index].inGameIconName);
+
+                                nemeText.text = CharacterCSVData.Inst.monsterDataDic[
+                                    BattleSystem.Inst.testStageStateData.enemy_state_list[selectIndex - 10].index].engName;
+                            }
+                        }
                     }
                 }
             }
 
-            if (selectIndex != -1)
-            {
-                if (selectIndex < 10)
-                {
-                    selectHpBar.fillAmount = (float)BattleSystem.Inst.playerCharacterControl[selectIndex].nowHp / BattleSystem.Inst.playerCharacterControl[selectIndex].maxHp;
-                    selectHpText.text = BattleSystem.Inst.playerCharacterControl[selectIndex]?.nowHp.ToString();
-                    // 데이터 들어오면 주석 해제
-                    // selectCharacterImage.sprite = BattleSystem.Inst.prefabList.prefabList[BattleSystem.Inst.stageStateData.info_list[selectIndex].index]?.sprite;
-                }
-                else
-                {
-                    selectHpBar.fillAmount = (float)BattleSystem.Inst.enemyCharacterControl[selectIndex - 10].nowHp / BattleSystem.Inst.enemyCharacterControl[selectIndex - 10].maxHp;
-                    selectHpText.text = BattleSystem.Inst.enemyCharacterControl[selectIndex - 10]?.nowHp.ToString();
-                    // 데이터 들어오면 주석 해제
-                    // selectCharacterImage.sprite = BattleSystem.Inst.prefabList.prefabList[BattleSystem.Inst.stageStateData.info_list[selectIndex - 10].index]?.sprite;
-                }
-            }
+            
         }
     }
 }

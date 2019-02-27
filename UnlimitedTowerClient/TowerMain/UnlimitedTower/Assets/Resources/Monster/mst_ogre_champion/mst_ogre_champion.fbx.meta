@@ -1,0 +1,216 @@
+fileFormatVersion: 2
+guid: 3850a961333eee344867cc53e6e149bb
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: face
+    100002: foot_L
+    100004: foot_R
+    100006: forearm_L
+    100008: forearm_R
+    100010: hand_L
+    100012: hand_R
+    100014: heel_02_L
+    100016: heel_02_R
+    100018: metarig
+    100020: Mst_Ettin_2
+    100022: Mst_Ettin_2_001
+    100024: Mst_Ettin_2_002
+    100026: Mst_Ettin_2_003
+    100028: Mst_Ettin_2_004
+    100030: Mst_Ettin_2_005
+    100032: Mst_Ettin_2_012
+    100034: Mst_Ettin_2_013
+    100036: Mst_Ettin_2_014
+    100038: Mst_Ettin_2_015
+    100040: Mst_Ettin_2_016
+    100042: Mst_Ettin_2_017
+    100044: Mst_Ettin_2_018
+    100046: Mst_Ettin_2_019
+    100048: Mst_Ettin_2_022
+    100050: Mst_Ettin_2_023
+    100052: Mst_Ettin_2_024
+    100054: Mst_Ettin_2_025
+    100056: //RootNode
+    100058: shin_L
+    100060: shin_R
+    100062: shoulder_L
+    100064: shoulder_R
+    100066: spine
+    100068: spine_001
+    100070: spine_002
+    100072: spine_003
+    100074: spine_004
+    100076: spine_005
+    100078: spine_006
+    100080: thigh_L
+    100082: thigh_R
+    100084: toe_L
+    100086: toe_R
+    100088: upper_arm_L
+    100090: upper_arm_R
+    400000: face
+    400002: foot_L
+    400004: foot_R
+    400006: forearm_L
+    400008: forearm_R
+    400010: hand_L
+    400012: hand_R
+    400014: heel_02_L
+    400016: heel_02_R
+    400018: metarig
+    400020: Mst_Ettin_2
+    400022: Mst_Ettin_2_001
+    400024: Mst_Ettin_2_002
+    400026: Mst_Ettin_2_003
+    400028: Mst_Ettin_2_004
+    400030: Mst_Ettin_2_005
+    400032: Mst_Ettin_2_012
+    400034: Mst_Ettin_2_013
+    400036: Mst_Ettin_2_014
+    400038: Mst_Ettin_2_015
+    400040: Mst_Ettin_2_016
+    400042: Mst_Ettin_2_017
+    400044: Mst_Ettin_2_018
+    400046: Mst_Ettin_2_019
+    400048: Mst_Ettin_2_022
+    400050: Mst_Ettin_2_023
+    400052: Mst_Ettin_2_024
+    400054: Mst_Ettin_2_025
+    400056: //RootNode
+    400058: shin_L
+    400060: shin_R
+    400062: shoulder_L
+    400064: shoulder_R
+    400066: spine
+    400068: spine_001
+    400070: spine_002
+    400072: spine_003
+    400074: spine_004
+    400076: spine_005
+    400078: spine_006
+    400080: thigh_L
+    400082: thigh_R
+    400084: toe_L
+    400086: toe_R
+    400088: upper_arm_L
+    400090: upper_arm_R
+    2100000: palette_001__Mst_Ettin_2_png
+    4300000: Mst_Ettin_2_024
+    4300002: Mst_Ettin_2_023
+    4300004: Mst_Ettin_2_022
+    4300006: Mst_Ettin_2_017
+    4300008: Mst_Ettin_2_003
+    4300010: Mst_Ettin_2_001
+    4300012: Mst_Ettin_2_005
+    4300014: Mst_Ettin_2_012
+    4300016: Mst_Ettin_2_013
+    4300018: Mst_Ettin_2_002
+    4300020: Mst_Ettin_2_004
+    4300022: Mst_Ettin_2_025
+    4300024: Mst_Ettin_2
+    4300026: Mst_Ettin_2_018
+    4300028: Mst_Ettin_2_015
+    4300030: Mst_Ettin_2_019
+    4300032: Mst_Ettin_2_014
+    4300034: Mst_Ettin_2_016
+    7400000: Default Take
+    9500000: //RootNode
+    13700000: Mst_Ettin_2
+    13700002: Mst_Ettin_2_001
+    13700004: Mst_Ettin_2_002
+    13700006: Mst_Ettin_2_003
+    13700008: Mst_Ettin_2_004
+    13700010: Mst_Ettin_2_005
+    13700012: Mst_Ettin_2_012
+    13700014: Mst_Ettin_2_013
+    13700016: Mst_Ettin_2_014
+    13700018: Mst_Ettin_2_015
+    13700020: Mst_Ettin_2_016
+    13700022: Mst_Ettin_2_017
+    13700024: Mst_Ettin_2_018
+    13700026: Mst_Ettin_2_019
+    13700028: Mst_Ettin_2_022
+    13700030: Mst_Ettin_2_023
+    13700032: Mst_Ettin_2_024
+    13700034: Mst_Ettin_2_025
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

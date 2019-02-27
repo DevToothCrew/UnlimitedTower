@@ -160,12 +160,12 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                 }
                 else
                 {
-                    // Debug.Log(CharacterCSVData.Inst.monsterDataDic
-                    //     [UserDataManager.Inst.GetMonsterInfo(testStageStateData.my_state_list[i].index).monsterNum].resource);
-                    // Instantiate(Resources.Load("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataDic
-                    //     [UserDataManager.Inst.GetMonsterInfo(testStageStateData.my_state_list[i].index).monsterNum].resource) as GameObject, playerCharacter[i].transform);
+                    Debug.Log(CharacterCSVData.Inst.monsterDataDic
+                        [UserDataManager.Inst.GetMonsterInfo(testStageStateData.my_state_list[i].index).monsterNum].resource);
                     Instantiate(Resources.Load("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataDic
-                        [100001].resource) as GameObject, playerCharacter[i].transform);
+                        [UserDataManager.Inst.GetMonsterInfo(testStageStateData.my_state_list[i].index).monsterNum].resource) as GameObject, playerCharacter[i].transform);
+                    // Instantiate(Resources.Load("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataDic
+                    //     [100001].resource) as GameObject, playerCharacter[i].transform);
                 }
             }
             if (characterisPlace[i + 10] == true)
@@ -322,10 +322,15 @@ public class BattleSystem : MonoSingleton<BattleSystem>
 
                 if (battleInformation.attackerIndex < 10)
                 {
+                    battleInformation.attackerIndex = testStageActionInfoData.battle_info_list[i].my_position;
+                    battleInformation.targetIndex = testStageActionInfoData.battle_info_list[i].battle_action_list[0].target_position - 10;
+                    battleInformation.damage = testStageActionInfoData.battle_info_list[i].battle_action_list[0].damage;
+                    battleInformation.isCritical = testStageActionInfoData.battle_info_list[i].battle_action_list[0].critical;
+                    battleInformation.isAvoid = testStageActionInfoData.battle_info_list[i].battle_action_list[0].avoid;
                     battleInformation.isPlayerTurn = true;
                     playerCharacterControl[battleInformation.attackerIndex].Attack(new SendValue(
                             battleInformation.attackerIndex,
-                            battleInformation.targetIndex - 10,
+                            battleInformation.targetIndex,
                             battleInformation.damage,
                             battleInformation.isCritical,
                             battleInformation.isAvoid,
@@ -333,9 +338,15 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                 }
                 else
                 {
+                    battleInformation.attackerIndex = testStageActionInfoData.battle_info_list[i].my_position - 10;
+                    battleInformation.targetIndex = testStageActionInfoData.battle_info_list[i].battle_action_list[0].target_position;
+                    battleInformation.damage = testStageActionInfoData.battle_info_list[i].battle_action_list[0].damage;
+                    battleInformation.isCritical = testStageActionInfoData.battle_info_list[i].battle_action_list[0].critical;
+                    battleInformation.isAvoid = testStageActionInfoData.battle_info_list[i].battle_action_list[0].avoid;
                     battleInformation.isPlayerTurn = false;
-                    enemyCharacterControl[battleInformation.attackerIndex-10].Attack(new SendValue(
-                             battleInformation.attackerIndex-10,
+
+                    enemyCharacterControl[battleInformation.attackerIndex].Attack(new SendValue(
+                             battleInformation.attackerIndex,
                              battleInformation.targetIndex,
                              battleInformation.damage,
                              battleInformation.isCritical,

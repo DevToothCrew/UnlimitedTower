@@ -21492,7 +21492,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1223251366}
+      - m_Target: {fileID: 411062248}
         m_MethodName: Login
         m_Mode: 1
         m_Arguments:
@@ -26116,6 +26116,7 @@ GameObject:
   - component: {fileID: 411062245}
   - component: {fileID: 411062244}
   - component: {fileID: 411062247}
+  - component: {fileID: 411062248}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -26445,6 +26446,17 @@ MonoBehaviour:
   prefabFloorButtonInterface: {fileID: 1713539667521280, guid: adcc2f879d0a91a4dba9e065334b2fda,
     type: 2}
   targetContent: {fileID: 443431402}
+--- !u!114 &411062248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 411062242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8cf6d22eade2da4fb8a221aef958a97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &411140152
 GameObject:
   m_ObjectHideFlags: 0
@@ -70418,7 +70430,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1223251366}
+      - m_Target: {fileID: 411062248}
         m_MethodName: StageStart
         m_Mode: 1
         m_Arguments:
@@ -75338,12 +75350,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1222660564}
---- !u!114 &1223251366 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114800265631409792, guid: f3178c8a19e54b840a74512a0097109f,
-    type: 2}
-  m_PrefabInternal: {fileID: 1381770077}
-  m_Script: {fileID: 11500000, guid: b8cf6d22eade2da4fb8a221aef958a97, type: 3}
 --- !u!1 &1225074968
 GameObject:
   m_ObjectHideFlags: 0
@@ -84307,48 +84313,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1381328172}
---- !u!1001 &1381770077
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4549527917281180, guid: f3178c8a19e54b840a74512a0097109f, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4549527917281180, guid: f3178c8a19e54b840a74512a0097109f, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4549527917281180, guid: f3178c8a19e54b840a74512a0097109f, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4549527917281180, guid: f3178c8a19e54b840a74512a0097109f, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4549527917281180, guid: f3178c8a19e54b840a74512a0097109f, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4549527917281180, guid: f3178c8a19e54b840a74512a0097109f, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4549527917281180, guid: f3178c8a19e54b840a74512a0097109f, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4549527917281180, guid: f3178c8a19e54b840a74512a0097109f, type: 2}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: f3178c8a19e54b840a74512a0097109f, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &1382349307
 GameObject:
   m_ObjectHideFlags: 0
@@ -100821,7 +100785,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1657051556
 MonoBehaviour:
@@ -120228,7 +120192,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1223251366}
+      - m_Target: {fileID: 0}
         m_MethodName: Logout
         m_Mode: 1
         m_Arguments:
