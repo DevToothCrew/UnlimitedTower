@@ -337,8 +337,8 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         }
         GameObject servant = Instantiate(caracterCustom.Create(
             heroInfo.jobNum,
-            heroInfo.headNum,
-            heroInfo.hairNum,
+            heroInfo.headNum - 1,
+            heroInfo.hairNum - 1,
             heroInfo.gender == 1 ? 1 : 0,
             heroInfo.body == 1 ? 0 : 1
             ), playerCharacter[0].transform);
@@ -361,8 +361,8 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                 }
                 GameObject servant = Instantiate(caracterCustom.Create(
                     servantInfo.jobNum,
-                    servantInfo.headNum,
-                    servantInfo.hairNum,
+                    servantInfo.headNum - 1,
+                    servantInfo.hairNum - 1,
                     servantInfo.gender == 1 ? 1 : 0,
                     servantInfo.body == 1 ? 0 : 1
                     ), playerCharacter[testStageStateData.my_state_list[i].position].transform);
