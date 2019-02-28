@@ -1506,7 +1506,7 @@ uint32_t untpreregist::get_servant_index(uint32_t _job, uint32_t _body, uint32_t
     uint32_t result_id;
     result_id = (_job * 1000000) + (_body * 100000) + (_gender * 10000) + (_head * 100) + (_hair * 1);
     return result_id;
-}
+} 
 
 void untpreregist::gacha_servant_id(eosio::name _user, uint64_t _seed)
 {
@@ -2195,17 +2195,8 @@ void untpreregist::daily_gacha_item2(eosio::name _user, uint64_t _seed)
 void untpreregist::daily_gacha_servant(eosio::name _user, uint64_t _seed)
 {
     servant_job_db servant_job_table(_self, _self.value);
-    uint32_t random_job = 2;
+    uint32_t random_job = 1;
     const auto &servant_job_db_iter = servant_job_table.get(random_job, "Not Get Servant Job Data 2");
-
-    uint32_t random_body = 1;
-
-    gender_db gender_table(_self, _self.value);
-    uint32_t random_gender = 2;
-    const auto &gender_db_iter = gender_table.get(random_gender, "Not Get Gender Data 2");
-
-    uint32_t random_head = 1;
-    uint32_t random_hair = 1;
 
     servant_id_db servant_id_table(_self, _self.value);
     uint32_t servant_index = 1110202;
@@ -2297,17 +2288,8 @@ void untpreregist::daily_gacha_servant(eosio::name _user, uint64_t _seed)
 void untpreregist::daily_gacha_servant2(eosio::name _user, uint64_t _seed)
 {
     servant_job_db servant_job_table(_self, _self.value);
-    uint32_t random_job = 2;
+    uint32_t random_job = 3;
     const auto &servant_job_db_iter = servant_job_table.get(random_job, "Not Get Servant Job Data 2");
-
-    uint32_t random_body = 2;
-
-    gender_db gender_table(_self, _self.value);
-    uint32_t random_gender = 2;
-    const auto &gender_db_iter = gender_table.get(random_gender, "Not Get Gender Data 2");
-
-    uint32_t random_head = 3;
-    uint32_t random_hair = 1;
 
     servant_id_db servant_id_table(_self, _self.value);
     uint32_t servant_index = 3120202;
