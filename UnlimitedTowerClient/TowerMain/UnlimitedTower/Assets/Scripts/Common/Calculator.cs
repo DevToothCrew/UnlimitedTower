@@ -50,7 +50,7 @@ public class Calculator : MonoBehaviour {
         {
             return 34;
         }
-        else if(job == SERVANT_JOB.Theif)
+        else if(job == SERVANT_JOB.Thief)
         {
             return 50;
         }

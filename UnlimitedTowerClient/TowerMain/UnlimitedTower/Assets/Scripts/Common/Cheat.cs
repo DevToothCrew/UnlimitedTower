@@ -22,7 +22,7 @@ public class Cheat : MonoSingleton<Cheat>
         partyData.index = 1;
         partyData.state = 0;
 
-        for (int i = 1; i < 10; i++)
+        for (int i = 1; i < 100; i++)
         {
             userLoginData.servant_list.Add(GetRandomServantData(i, GetRandomServantJob()));
 
@@ -59,7 +59,7 @@ public class Cheat : MonoSingleton<Cheat>
         }
         else if (job == 2)
         {
-            return SERVANT_JOB.Theif;
+            return SERVANT_JOB.Thief;
         }
         else if (job == 3)
         {

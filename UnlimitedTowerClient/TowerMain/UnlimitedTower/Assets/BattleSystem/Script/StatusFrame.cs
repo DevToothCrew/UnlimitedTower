@@ -11,7 +11,7 @@
         Hp = (status.basicStr + status.plusStr) * 22;
         Defence = (status.basicDex + status.plusDex) * 1;
 
-        if (Job == SERVANT_JOB.Archer || Job == SERVANT_JOB.Theif)
+        if (Job == SERVANT_JOB.Archer || Job == SERVANT_JOB.Thief)
             Ad = (status.basicDex + status.plusDex) * 2;
         else if (Job == SERVANT_JOB.Magician || Job == SERVANT_JOB.Cleric)
             Ad = (status.basicInt + status.plusInt) * 2;
@@ -26,7 +26,7 @@
             case SERVANT_JOB.Warrior:
                 Speed = 34;
                 break;
-            case SERVANT_JOB.Theif:
+            case SERVANT_JOB.Thief:
                 Speed = 50;
                 break;
             case SERVANT_JOB.Archer:

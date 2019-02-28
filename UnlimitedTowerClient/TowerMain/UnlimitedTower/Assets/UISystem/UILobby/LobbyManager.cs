@@ -39,8 +39,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public Text popupMenu;
 
     public POPUP_STATE popupState;
-    public GameObject heroMenu;
-    public GameObject shopMenu;
+    public GameObject partyPage;
+    public GameObject shopPage;
 
     public void Awake()
     {
@@ -59,8 +59,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         popupInfoUI.SetActive(false);
 
         popupState = POPUP_STATE.Hero;
-        heroMenu.SetActive(true);
-        shopMenu.SetActive(false);
+        partyPage.SetActive(true);
+        shopPage.SetActive(false);
     }
 
     public void ChangeSceneState(SCENE_STATE state)
@@ -100,8 +100,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         accountInfoUI.SetActive(false);
         popupInfoUI.SetActive(true);
 
-        heroMenu.SetActive(true);
-        shopMenu.SetActive(false);
+        partyPage.SetActive(true);
+        shopPage.SetActive(false);
     }
 
     public void OnClickShopButton()
@@ -115,8 +115,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         accountInfoUI.SetActive(false);
         popupInfoUI.SetActive(true);
 
-        heroMenu.SetActive(false);
-        shopMenu.SetActive(true);
+        partyPage.SetActive(false);
+        shopPage.SetActive(true);
     }
 
     public void OnClickBackButton()
