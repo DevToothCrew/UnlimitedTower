@@ -22,9 +22,7 @@ public abstract class UTUMSProvider
             return instance;
         }
     }
-
-    public bool isLoggedIn = false;
-
+    
     /// <summary>
     /// Request login via Scatter
     /// </summary>
