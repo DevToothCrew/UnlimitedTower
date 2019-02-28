@@ -18,12 +18,21 @@ public class UTLocalUMSProvider : UTUMSProvider
 
     private IEnumerator OnLoginLoading()
     {
+        UTLoadingManager.Instance.SetProgress(0.25f, "Requesting User Token ... ");
+        yield return new WaitForSeconds(1.5f);
 
+        UTLoadingManager.Instance.SetProgress(0.50f, "Requesting User Information ... ");
+        yield return new WaitForSeconds(1.5f);
+
+        UTLoadingManager.Instance.SetProgress(0.75f, "Receiving Datas ... ");
+        yield return new WaitForSeconds(1.5f);
+
+        UTEventPoolInterface.SendEventData("login", new UTPlayerManager.UTPlayerData() { user = "devtooth", gameMoney = 999999 });
     }
 
     public override void RequestLoginWithScatter()
     {
-        UTEventPoolInterface.SendEventData("login", new UTPlayerManager.UTPlayerData() { user = "devtooth", gameMoney = 999999 });
+        UTLoadingManager.Instance.BeginScene(OnLoginLoading(), () => Debug.Log("LOGIN SUCCEED"));
     }
 
     public override void RequestLogout()

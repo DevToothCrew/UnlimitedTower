@@ -72,7 +72,7 @@ public class UTLoadingManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Alpha2)) BeginScene(wrkFake2(), () => { Debug.Log("WRK FAKE 2 IS DONE!"); });
 
         // scale update
-        uiInsideCurrWidth = Mathf.LerpUnclamped(uiInsideCurrWidth, uiInsideNextWidth, Time.deltaTime * 8.0f);
+        uiInsideCurrWidth = Mathf.Lerp(uiInsideCurrWidth, uiInsideNextWidth, 0.1f);
         uiInside?.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, uiInsideCurrWidth);
     }
 
