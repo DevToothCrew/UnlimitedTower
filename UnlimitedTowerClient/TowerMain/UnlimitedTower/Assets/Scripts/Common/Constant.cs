@@ -584,7 +584,7 @@ public enum SERVANT_JOB
     Warrior = 1,
 
     // DEX
-    Theif = 2,
+    Thief = 2,
     Archer = 4,
 
     // INT

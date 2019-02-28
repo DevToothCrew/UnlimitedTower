@@ -11,29 +11,34 @@ public class ServantObject : MonoBehaviour {
 
     public UserServantData servantData;
 
-    private string resourcePath = "UISystem/UIPopup/Resources/Images/";
-    private string servantPath = "Resources/UI/CharacterImage/";
+    private string resourcePath = "Inventory/";
+    private string servantPath = "UI/CharacterImage/";
 
-    public void Awake()
+    public void SetServantData(UserServantData getServantData)
     {
-        servantData = new UserServantData();
-        SetServantData(servantData);
-    }
+        if(getServantData == null)
+        {
+            return;
+        }
 
-    public void SetServantData(UserServantData servantData)
-    {
-        gradeImage.GetComponent<Image>().sprite = GetGradeResources(5);
+        servantData = getServantData;
+
+        gradeImage.GetComponent<Image>().sprite = GetGradeImage(5);
         gradeImage.SetActive(true);
 
-        servantImage.GetComponent<Image>().sprite = GetServantImage(servantData.jobNum);
+        servantImage.GetComponent<Image>().sprite = GetServantImage(getServantData.jobNum);
         servantImage.SetActive(true);
 
-        jobImage.SetActive(false);
-        level.SetActive(false);
+        jobImage.GetComponent<Image>().sprite = GetServantJobIcon(getServantData.jobNum);
+        jobImage.SetActive(true);
+
+        level.GetComponent<Text>().text = "Lv." + getServantData.level.ToString();
+        level.SetActive(true);
+
         maxLevel.SetActive(false);
     }
 
-    public Sprite GetGradeResources(int grade)
+    public Sprite GetGradeImage(int grade)
     {
         Sprite sprite = new Sprite();
 
@@ -65,13 +70,14 @@ public class ServantObject : MonoBehaviour {
     public Sprite GetServantImage(int job)
     {
         Sprite sprite = new Sprite();
+
         switch (job)
         {
             case (int)SERVANT_JOB.Warrior:
                 sprite = Resources.Load<Sprite>(servantPath + "1_Warrior_1") as Sprite;
                 break;
 
-            case (int)SERVANT_JOB.Theif:
+            case (int)SERVANT_JOB.Thief:
                 sprite = Resources.Load<Sprite>(servantPath + "3_Thief_1") as Sprite;
                 break;
 
@@ -87,9 +93,35 @@ public class ServantObject : MonoBehaviour {
                 sprite = Resources.Load<Sprite>(servantPath + "4_Magician_1") as Sprite;
 
                 break;
+        }
 
-            default:
-                sprite = Resources.Load<Sprite>(resourcePath + "1_EmptyInventory") as Sprite;
+        return sprite;
+    }
+
+    public Sprite GetServantJobIcon(int job)
+    {
+        Sprite sprite = new Sprite();
+
+        switch (job)
+        {
+            case (int)SERVANT_JOB.Warrior:
+                sprite = Resources.Load<Sprite>(resourcePath + "13_Job_Warrior") as Sprite;
+                break;
+
+            case (int)SERVANT_JOB.Thief:
+                sprite = Resources.Load<Sprite>(resourcePath + "15_Job_Thief") as Sprite;
+                break;
+
+            case (int)SERVANT_JOB.Cleric:
+                sprite = Resources.Load<Sprite>(resourcePath + "16_Job_Cleric") as Sprite;
+                break;
+
+            case (int)SERVANT_JOB.Archer:
+                sprite = Resources.Load<Sprite>(resourcePath + "14_Job_Archer") as Sprite;
+                break;
+
+            case (int)SERVANT_JOB.Magician:
+                sprite = Resources.Load<Sprite>(resourcePath + "17_Job_Magician") as Sprite;
                 break;
         }
 

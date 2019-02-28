@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class ServantPage : MonoBehaviour {
 
     public GameObject[] page = new GameObject[3];
     public GameObject servantObject;
+    public Transform servnatListTransform;
 
     public SERVANT_PAGE_STATE state;
 
@@ -17,17 +17,6 @@ public class ServantPage : MonoBehaviour {
 
     public void OnClickButton(int num)
     {
-        if(num == (int)SERVANT_PAGE_STATE.LIST)
-        {
-            List<UserServantData> servantList = UserDataManager.Inst.GetServantList();
-            for(int i = 0; i < servantList.Count; i++)
-            {
-                var newServant = Instantiate(servantObject);
-                newServant.transform.SetParent(this.transform);
-                newServant.GetComponent<ServantObject>().SetServantData(servantList[i]);                
-            }
-        }
-
         for(int i = 0; i < (int)SERVANT_PAGE_STATE.MAX; i++)
         {
             if (i == num)
@@ -37,6 +26,34 @@ public class ServantPage : MonoBehaviour {
             else
             {
                 page[i].SetActive(false);
+            }
+        }
+
+        if (num == (int)SERVANT_PAGE_STATE.LIST)
+        {
+            List<UserServantData> servantList = UserDataManager.Inst.GetServantList();
+
+            if(servantList == null)
+            {
+                return;
+            }
+
+            GameObject newObject;
+            ServantObject servantObjectTemp;
+
+            int servantCount = servantList.Count;
+            if(servantCount > 50)
+            {
+                servantCount = 50;
+            }
+
+            for (int i = 0; i < servantCount; i++)
+            {
+                newObject = Instantiate(servantObject) as GameObject;
+                servantObjectTemp = newObject.GetComponent<ServantObject>();
+                servantObjectTemp.SetServantData(servantList[i]);
+
+                newObject.transform.SetParent(this.servnatListTransform);
             }
         }
     }
