@@ -38,7 +38,7 @@ footer{width: 100%;}
 .header .header-r .cate li:hover a{color:#172335;font-weight: bold;}
 .header .header-r .language{float: left;margin:0 52px 0 2px;width:65px;}
 .header .header-r .language .En{position: relative;}
-.header .header-r .language .En span{position: absolute;top: 8px;right: 1px;font-size: 14px;color:#373d3f;}
+.header .header-r .language .En span{position: absolute;top: 8px;right: -19px;font-size: 14px;color:#373d3f;}
 .header .header-r .language .ko{position: relative;}
 .header .header-r .language .ko span{position: absolute;top: 8px;right: -22px;font-size: 14px;}
 .header .header-r .language .ch{position: relative;}

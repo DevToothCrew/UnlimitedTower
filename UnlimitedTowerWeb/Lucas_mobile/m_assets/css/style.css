@@ -32,7 +32,7 @@ body{background-color: #fff}
 .header .header-r .cate li:hover a{color:#172335;font-weight: bold;}
  .header .header-r .language{width: 140px;} 
 
-.header .header-r .language .En{position: relative;margin-left: 37px;]}
+.header .header-r .language .En{position: relative;}
 
 
 .header .header-r .language .En span{position: absolute;top: 6px;right: 41px;font-size: 16px;color:#373d3f;}
