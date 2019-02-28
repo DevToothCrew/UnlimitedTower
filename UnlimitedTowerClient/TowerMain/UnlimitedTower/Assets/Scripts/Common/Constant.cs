@@ -613,16 +613,16 @@ public enum GACHA_RESULT_TYPE
 
 public enum APPEAR_HAIR
 {
-    BASE = 0,
+    BASE = 1,
 
-    MAX = 2
+    MAX = 4
 }
 
 public enum APPEAR_HEAD
 {
-    BASE = 0,
+    BASE = 1,
 
-    MAX = 2
+    MAX = 4
 }
 
 public enum APPEAR_BODY

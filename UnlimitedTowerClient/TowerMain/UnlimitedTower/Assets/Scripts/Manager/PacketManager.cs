@@ -109,14 +109,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
             }
         }
 
-        //JsonParty data = new JsonParty();
-        //data.partyNum = partyInfo.partyIndex;
-
-        //for (int i=0; i< partyInfo.characterList.Count; ++i)
-        //{
-        //    data.partyList.Add(partyInfo.characterList[i].index);
-        //}
-
         string json = JsonUtility.ToJson(data);
         Debug.Log("print Jsson : : " + json);
 
@@ -126,12 +118,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void RequestBattleAction(int heroTarget, int heroAction, int monsterTarget, int monsterAction)
     {
         Debug.Log("RequestBattleAction");
-
-        //List<JsonBattleAction> actionList = new List<JsonBattleAction>();
-        //actionList.Add(new JsonBattleAction(heroTarget, heroAction));
-        //actionList.Add(new JsonBattleAction(monsterTarget, monsterAction));
-
-        //string json = JsonUtility.ToJson(actionList);
         TestJsonBattleAction action = new TestJsonBattleAction();
         action.heroTargetIndex = heroTarget;
         action.heroActionType = heroAction;

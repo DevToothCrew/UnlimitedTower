@@ -111,28 +111,31 @@ public class SelectSystem : MonoSingleton<SelectSystem>
                             {
                                 selectHpBar.fillAmount = (float)BattleSystem.Inst.playerCharacterControl[selectIndex].nowHp / BattleSystem.Inst.playerCharacterControl[selectIndex].maxHp;
                                 selectHpText.text = BattleSystem.Inst.playerCharacterControl[selectIndex]?.nowHp.ToString();
+                                // TODO : testStageStateData가 NULL일때 버그를 알 수 없습니다.
                                 selectCharacterImage.sprite =
                                     Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" +
                                     CharacterCSVData.Inst.monsterDataDic[
                                     UserDataManager.Inst.GetMonsterInfo(
-                                    BattleSystem.Inst.testStageStateData.my_state_list[selectIndex < 5 ? 5 + selectIndex : selectIndex].index).id].inGameIconName);
+                                    UserDataManager.Inst.GetStageState().my_state_list[selectIndex < 5 ? 5 + selectIndex : selectIndex].index).id].inGameIconName);
 
                                 if (selectIndex != 0)
                                 {
+                                    // TODO : testStageStateData가 NULL일때 버그를 알 수 없습니다.
                                     levelText.text = selectIndex < 5 ?
                                       UserDataManager.Inst.GetServantInfo(
-                                      BattleSystem.Inst.testStageStateData.my_state_list[selectIndex].index).level.ToString() :
+                                      UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).level.ToString() :
                                        UserDataManager.Inst.GetMonsterInfo(
-                                      BattleSystem.Inst.testStageStateData.my_state_list[selectIndex].index).level.ToString();
+                                      UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).level.ToString();
                                 }
                                 else
                                 {
                                     levelText.text = UserDataManager.Inst.GetHeroInfo().level.ToString();
                                 }
 
+                                // TODO : testStageStateData가 NULL일때 버그를 알 수 없습니다.
                                 nemeText.text = CharacterCSVData.Inst.monsterDataDic[
                                     UserDataManager.Inst.GetMonsterInfo(
-                                    BattleSystem.Inst.testStageStateData.my_state_list[selectIndex < 5 ? 5 + selectIndex : selectIndex].index).id].engName;
+                                    UserDataManager.Inst.GetStageState().my_state_list[selectIndex < 5 ? 5 + selectIndex : selectIndex].index).id].engName;
                             }
                             else
                             {

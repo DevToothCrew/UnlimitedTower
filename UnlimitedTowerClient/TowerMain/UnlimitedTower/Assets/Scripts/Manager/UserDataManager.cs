@@ -18,11 +18,9 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     // 현재 파티는 1개, 파티 안에 Formation Info 포함
     public UserPartyData partyInfo = new UserPartyData();
 
-    // TODO : Test용
-    //public TestbattleStateData stageState = new TestbattleStateData();
-    public TestStageStateData StageStateData =  new TestStageStateData();
-    public TestStageActionInfoData StageActionInfoData = new TestStageActionInfoData();
-    public TestStageRewardData StageRewardData = new TestStageRewardData();
+    public TestStageStateData stageStateData =  new TestStageStateData();
+    public TestStageActionInfoData stageActionInfoData = new TestStageActionInfoData();
+    public TestStageRewardData stageRewardData = new TestStageRewardData();
 
     public int usingPartyNum = 1;
 
@@ -99,17 +97,17 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
     public void SetStageState(TestStageStateData testStageState)
     {
-        StageStateData = testStageState;
+        stageStateData = testStageState;
     }
 
     public void SetStageAction(TestStageActionInfoData testStageState)
     {
-        StageActionInfoData = testStageState;
+        stageActionInfoData = testStageState;
     }
 
     public void SetStageReward(TestStageRewardData testStageState)
     {
-        StageRewardData = testStageState;
+        stageRewardData = testStageState;
     }
 
     #endregion
@@ -330,51 +328,38 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return etcItemDic.Values.ToList();
     }
 
-    //public TestbattleStateData GetStageState()
-    //{
-    //    if(stageState == null)
-    //    {
-    //        Debug.LogError("버그");
-    //        return null;
-    //    }
-
-    //    return stageState;
-    //}
-
     public TestStageStateData GetStageState()
     {
-        if (StageStateData == null)
+        if (stageStateData == null)
         {
             Debug.LogError("버그");
             return null;
         }
 
-        return StageStateData;
+        return stageStateData;
     }
 
     public TestStageActionInfoData GetStageAction()
     {
-        if (StageActionInfoData == null)
+        if (stageActionInfoData == null)
         {
             Debug.LogError("버그");
             return null;
         }
 
-        return StageActionInfoData;
+        return stageActionInfoData;
     }
 
     public TestStageRewardData GetStageReward()
     {
-        if (StageRewardData == null)
+        if (stageRewardData == null)
         {
             Debug.LogError("버그");
             return null;
         }
 
-        return StageRewardData;
+        return stageRewardData;
     }
-
-
 
     #endregion
 

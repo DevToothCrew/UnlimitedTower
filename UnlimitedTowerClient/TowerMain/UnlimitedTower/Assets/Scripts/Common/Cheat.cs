@@ -379,9 +379,9 @@ public class Cheat : MonoSingleton<Cheat>
     public appearInfo GetRandomAppear()
     {
         appearInfo appear = new appearInfo();
-        appear.hair = rand.Next(0, (int)APPEAR_HAIR.MAX);
-        appear.head = rand.Next(0, (int)APPEAR_HEAD.MAX);
-        appear.body = rand.Next(0, (int)APPEAR_BODY.MAX);
+        appear.hair = rand.Next((int)APPEAR_HAIR.BASE, (int)APPEAR_HAIR.MAX);
+        appear.head = rand.Next((int)APPEAR_HEAD.BASE, (int)APPEAR_HEAD.MAX);
+        appear.body = rand.Next((int)APPEAR_BODY.BASE, (int)APPEAR_BODY.MAX);
         appear.gender = rand.Next(0, 1);
 
         return appear;
