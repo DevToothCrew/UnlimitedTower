@@ -11,8 +11,7 @@ public class Cheat : MonoSingleton<Cheat>
     {
         UserLoginData userLoginData = new UserLoginData();
 
-        userLoginData.gameMoney.balance.symbol_name = "UTG";
-        userLoginData.gameMoney.balance.amount = 10000000;
+        userLoginData.token.balance = "1000.0000 UTG";
 
         userLoginData.userinfo.user = user;
         userLoginData.userinfo.state = 2;
@@ -124,7 +123,7 @@ public class Cheat : MonoSingleton<Cheat>
             action.target_position = UnityEngine.Random.Range(10, 20);
             action.avoid = false;
             action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
-            action.damage = 100;
+            action.damage = 5;
 
             TestBattleActionInfo actioninfo = new TestBattleActionInfo();
             actioninfo.my_position = i;
@@ -135,7 +134,7 @@ public class Cheat : MonoSingleton<Cheat>
             battleactiondata.battle_info_list.Add(actioninfo);
         }
 
-        for (int i = 10; i < 15; ++i)
+        for (int i = 10; i < 20; ++i)
         {
             TestActionInfo action = new TestActionInfo();
             action.target_position = UnityEngine.Random.Range(0, 10);
@@ -195,11 +194,10 @@ public class Cheat : MonoSingleton<Cheat>
             battlestatedata.my_state_list.Add(newMember);
         }
 
-        int[] temp = { 14, 12, 10, 11, 13, 19, 17, 15, 16, 18 };
         for (int i = 0; i < 10; ++i)
         {
             TestStageState newMember = new TestStageState();
-            newMember.position = temp[i];
+            newMember.position = i + 10;
             newMember.index = 100001;
             newMember.now_hp = 100;
             newMember.attack = 10;
@@ -222,93 +220,93 @@ public class Cheat : MonoSingleton<Cheat>
         return null;
     }
 
-    public string GetStageStartData(int stageNum, int partyNum)
-    {
-        StageStateData stageStateData = new StageStateData();
-        stageStateData.turn = 0;
-        stageStateData.party_num = partyNum;
-        stageStateData.stage_num = stageNum;
+    //public string GetStageStartData(int stageNum, int partyNum)
+    //{
+    //    StageStateData stageStateData = new StageStateData();
+    //    stageStateData.turn = 0;
+    //    stageStateData.party_num = partyNum;
+    //    stageStateData.stage_num = stageNum;
 
-        // 아군 영웅
-        stageStateInfo heroStateInfo = GetRandomStageStateInfo(0, GetRandomStatus(), rand.Next(0, DEFINE.MAX_EXP), (int)CHAR_TYPE.HERO);
-        stageStateData.my_team_list.Add(heroStateInfo);
+    //    // 아군 영웅
+    //    stageStateInfo heroStateInfo = GetRandomStageStateInfo(0, GetRandomStatus(), rand.Next(0, DEFINE.MAX_EXP), (int)CHAR_TYPE.HERO);
+    //    stageStateData.my_team_list.Add(heroStateInfo);
 
-        // 아군 서번트
-        for(int i = 1; i< 5; i++)
-        {
-            int charType = (int)CHAR_TYPE.SERVANT;
-            // 영웅 정보
-            if (i == 2)
-            {
-                charType = (int)CHAR_TYPE.HERO;
-            }
+    //    // 아군 서번트
+    //    for(int i = 1; i< 5; i++)
+    //    {
+    //        int charType = (int)CHAR_TYPE.SERVANT;
+    //        // 영웅 정보
+    //        if (i == 2)
+    //        {
+    //            charType = (int)CHAR_TYPE.HERO;
+    //        }
 
-            stageStateInfo servantStateInfo = GetRandomStageStateInfo(i, GetRandomStatus(), rand.Next(0, DEFINE.MAX_EXP), charType);
-            stageStateData.my_team_list.Add(servantStateInfo);
-        }
+    //        stageStateInfo servantStateInfo = GetRandomStageStateInfo(i, GetRandomStatus(), rand.Next(0, DEFINE.MAX_EXP), charType);
+    //        stageStateData.my_team_list.Add(servantStateInfo);
+    //    }
 
-        // 아군 몬스터
-        for(int i = 5; i < 10; i++)
-        {
-            stageStateInfo monsterStateInfo = GetRandomStageStateInfo(i, GetRandomStatus(), rand.Next(0, DEFINE.MAX_EXP), (int)CHAR_TYPE.MONSTER);
-            stageStateData.my_team_list.Add(monsterStateInfo);
-        }
+    //    // 아군 몬스터
+    //    for(int i = 5; i < 10; i++)
+    //    {
+    //        stageStateInfo monsterStateInfo = GetRandomStageStateInfo(i, GetRandomStatus(), rand.Next(0, DEFINE.MAX_EXP), (int)CHAR_TYPE.MONSTER);
+    //        stageStateData.my_team_list.Add(monsterStateInfo);
+    //    }
 
-        // 적군 서번트
-        for (int i = 10; i < 15; i++)
-        {
-            stageStateInfo servantStateInfo = GetRandomStageStateInfo(i, GetRandomStatus(), rand.Next(0, DEFINE.MAX_EXP), (int)CHAR_TYPE.SERVANT);
-            stageStateData.enemy_team_list.Add(servantStateInfo);
-        }
+    //    // 적군 서번트
+    //    for (int i = 10; i < 15; i++)
+    //    {
+    //        stageStateInfo servantStateInfo = GetRandomStageStateInfo(i, GetRandomStatus(), rand.Next(0, DEFINE.MAX_EXP), (int)CHAR_TYPE.SERVANT);
+    //        stageStateData.enemy_team_list.Add(servantStateInfo);
+    //    }
 
-        // 적군 몬스터
-        for (int i = 15; i < 20; i++)
-        {
-            stageStateInfo monsterStateInfo = GetRandomStageStateInfo(i, GetRandomStatus(), rand.Next(0, DEFINE.MAX_EXP), (int)CHAR_TYPE.MONSTER);
-            stageStateData.enemy_team_list.Add(monsterStateInfo);
-        }
+    //    // 적군 몬스터
+    //    for (int i = 15; i < 20; i++)
+    //    {
+    //        stageStateInfo monsterStateInfo = GetRandomStageStateInfo(i, GetRandomStatus(), rand.Next(0, DEFINE.MAX_EXP), (int)CHAR_TYPE.MONSTER);
+    //        stageStateData.enemy_team_list.Add(monsterStateInfo);
+    //    }
 
-        return JsonMapper.ToJson(stageStateData);
-    }
+    //    return JsonMapper.ToJson(stageStateData);
+    //}
 
-    public stageStateInfo GetRandomStageStateInfo(int party_index, Status status, int exp, int type)
-    {
-        stageStateInfo stateInfo = new stageStateInfo();
+    //public stageStateInfo GetRandomStageStateInfo(int party_index, Status status, int exp, int type)
+    //{
+    //    stageStateInfo stateInfo = new stageStateInfo();
 
-        stateInfo.party_index = party_index;
-        stateInfo.state = 0;
+    //    stateInfo.party_index = party_index;
+    //    stateInfo.state = 0;
 
-        // DB 나오기 전까지 임시로 사용
-        stateInfo.status = status;
-        stateInfo.status_type = rand.Next(0, 3);
-        stateInfo.exp = exp;
-        stateInfo.speed = rand.Next(10, 50);
+    //    // DB 나오기 전까지 임시로 사용
+    //    stateInfo.status = status;
+    //    stateInfo.status_type = rand.Next(0, 3);
+    //    stateInfo.exp = exp;
+    //    stateInfo.speed = rand.Next(10, 50);
 
-        stateInfo.now_hp = Calculator.GetMaxHp(stateInfo.status);
-        stateInfo.damage = Calculator.GetDamage((STATUS_TYPE)stateInfo.status_type, stateInfo.status);
-        stateInfo.defence = Calculator.GetDefence(stateInfo.status);
-        stateInfo.crit_per = Calculator.GetCriticalPer(stateInfo.status);
-        stateInfo.crit_dmg = 150;
-        stateInfo.avoid = Calculator.GetAvoid(stateInfo.status);
+    //    stateInfo.now_hp = Calculator.GetMaxHp(stateInfo.status);
+    //    stateInfo.damage = Calculator.GetDamage((STATUS_TYPE)stateInfo.status_type, stateInfo.status);
+    //    stateInfo.defence = Calculator.GetDefence(stateInfo.status);
+    //    stateInfo.crit_per = Calculator.GetCriticalPer(stateInfo.status);
+    //    stateInfo.crit_dmg = 150;
+    //    stateInfo.avoid = Calculator.GetAvoid(stateInfo.status);
 
-        stateInfo.type = type;
-        if (type == (int)CHAR_TYPE.HERO)
-        {
-            stateInfo.index = 105;
-        }
-        else if (type == (int)CHAR_TYPE.SERVANT)
-        {
-            // index 넣는 부분
-            stateInfo.index = rand.Next(105, 109);
-        }
-        else if (type == (int)CHAR_TYPE.MONSTER)
-        {
-            // index 넣는 부분
-            stateInfo.index = rand.Next(201, 230);
-        }
+    //    stateInfo.type = type;
+    //    if (type == (int)CHAR_TYPE.HERO)
+    //    {
+    //        stateInfo.index = 105;
+    //    }
+    //    else if (type == (int)CHAR_TYPE.SERVANT)
+    //    {
+    //        // index 넣는 부분
+    //        stateInfo.index = rand.Next(105, 109);
+    //    }
+    //    else if (type == (int)CHAR_TYPE.MONSTER)
+    //    {
+    //        // index 넣는 부분
+    //        stateInfo.index = rand.Next(201, 230);
+    //    }
 
-        return stateInfo;
-    }
+    //    return stateInfo;
+    //}
 
     public string GetStageResultData(int stageNum)
     {
@@ -334,9 +332,9 @@ public class Cheat : MonoSingleton<Cheat>
         return servant;
     }
 
-    public servantInfo GetRandomServant(SERVANT_JOB job)
+    public testServantInfo GetRandomServant(SERVANT_JOB job)
     {
-        servantInfo servant = new servantInfo();
+        testServantInfo servant = new testServantInfo();
 
         servant.state = 0;
         servant.exp = rand.Next(0, DEFINE.MAX_EXP);
@@ -356,7 +354,7 @@ public class Cheat : MonoSingleton<Cheat>
         monsterData monsterData = new monsterData();
         monsterData.index = index;
 
-        monsterData.monster = new monsterInfo();
+        monsterData.monster = new testMonsterInfo();
         monsterData.monster.state = 0;
         monsterData.monster.exp = rand.Next(0, DEFINE.MAX_EXP);
 
