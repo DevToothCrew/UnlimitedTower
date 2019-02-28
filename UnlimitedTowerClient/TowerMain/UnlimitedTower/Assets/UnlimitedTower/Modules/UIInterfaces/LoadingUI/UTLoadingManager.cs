@@ -48,41 +48,12 @@ public class UTLoadingManager : MonoBehaviour {
 
     private void OnDestroy()
     {
-        if (Instance == this) Instance = null;
-    }
-
-    private IEnumerator wrkFake1()
-    {
-        yield return new WaitForSeconds(1.0f);
-        SetProgress(0.1f, "Step1");
-        yield return new WaitForSeconds(1.0f);
-        SetProgress(0.2f, "Step2");
-        yield return new WaitForSeconds(1.0f);
-        SetProgress(0.3f, "Step3");
-        yield return new WaitForSeconds(1.0f);
-        SetProgress(0.4f, "Step4");
-        yield return new WaitForSeconds(1.0f);
-        SetProgress(0.5f, "Step5");
-    }
-    private IEnumerator wrkFake2()
-    {
-        yield return new WaitForSeconds(2.0f);
-        SetProgress(0.2f, "Step1");
-        yield return new WaitForSeconds(2.0f);
-        SetProgress(0.4f, "Step2");
-        yield return new WaitForSeconds(2.0f);
-        SetProgress(0.6f, "Step3");
-        yield return new WaitForSeconds(2.0f);
-        SetProgress(0.8f, "Step4");
-        yield return new WaitForSeconds(2.0f);
-        SetProgress(0.9f, "Step5");
+        if (Instance == this)
+            Instance = null;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) BeginScene(wrkFake1(), () => { Debug.Log("WRK FAKE 1 IS DONE!"); });
-        if (Input.GetKeyDown(KeyCode.Alpha2)) BeginScene(wrkFake2(), () => { Debug.Log("WRK FAKE 2 IS DONE!"); });
-
         // scale update
         uiInsideCurrWidth = Mathf.Lerp(uiInsideCurrWidth, uiInsideNextWidth, 0.1f);
         uiInside?.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, uiInsideCurrWidth);
