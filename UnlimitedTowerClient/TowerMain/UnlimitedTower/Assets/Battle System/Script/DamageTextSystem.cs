@@ -32,7 +32,7 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
         if (!sendValue.isAvoid)
         {
             // 데미지 텍스트 표시와 데미지 주기
-            DamageShow(sendValue.Target, !sendValue.isPlayer, sendValue.Damage, Random.Range(0, 2) == 0 ? true : false);
+            DamageShow(sendValue.Target, !sendValue.isPlayer, sendValue.Damage, sendValue.isCritical);
             target.GetChild(0).GetComponent<Animator>().SetTrigger("isHit");
         }
         else

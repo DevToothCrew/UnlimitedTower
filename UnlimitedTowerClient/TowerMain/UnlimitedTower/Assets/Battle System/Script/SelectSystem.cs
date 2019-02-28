@@ -25,8 +25,6 @@ public class SelectSystem : MonoSingleton<SelectSystem>
     private Ray ray;
     private CheckSelectAnimation temp;
     public bool isStart = false;
-    // 실험중
-    private bool startCheck = true;
 
     public enum ActionState
     {
@@ -43,6 +41,9 @@ public class SelectSystem : MonoSingleton<SelectSystem>
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
         nemeText = GameObject.Find("NameText").GetComponent<Text>();
         controlButton = GameObject.Find("ControlButton").GetComponent<Animator>();
+        selectCharacterImage = GameObject.Find("Character Portrait Image").GetComponent<Image>();
+        selectHpBar = GameObject.Find("Hp Bar").GetComponent<Image>();
+        selectHpText = GameObject.Find("Hp Text").GetComponent<Text>();
     }
 
     // 추후 최적화 작업, timeScale도 바꿔야함
@@ -52,18 +53,13 @@ public class SelectSystem : MonoSingleton<SelectSystem>
         {
             if (BattleSystem.Inst.playerCharacterControl[0].select != null)
             {
-                selectCharacterImage = GameObject.Find("Character Portrait Image").GetComponent<Image>();
                 for (int i = 0; i < 10; i++)
                 {
-                    if (BattleSystem.Inst.characterisPlace[i] == true)
-                        Debug.Log(i + " : " + BattleSystem.Inst.playerCharacterControl[i].select);
                     if (BattleSystem.Inst.characterisPlace[i] == true)
                         chsing[i] = BattleSystem.Inst.playerCharacterControl[i]?.select.GetComponent<CheckSelectAnimation>();
                     if (BattleSystem.Inst.characterisPlace[i + 10] == true)
                         chsing[i + 10] = BattleSystem.Inst.enemyCharacterControl[i]?.select.GetComponent<CheckSelectAnimation>();
                 }
-                selectHpBar = GameObject.Find("Hp Bar").GetComponent<Image>();
-                selectHpText = GameObject.Find("Hp Text").GetComponent<Text>();
                 isStart = true;
             }
             else
@@ -95,18 +91,19 @@ public class SelectSystem : MonoSingleton<SelectSystem>
                         if (isPlayer)
                         {
                             selectIndex = hit.transform.GetComponent<CharacterControl>().index;
-                            chsing[selectIndex].Click();
-                            attackDamageText.text = BattleSystem.Inst.testStageStateData.my_state_list[selectIndex].attack.ToString();
-                            defenceText.text = BattleSystem.Inst.testStageStateData.my_state_list[selectIndex].defense.ToString();
-                            speedText.text = BattleSystem.Inst.testStageStateData.my_state_list[selectIndex].speed.ToString();
+                            chsing[BattleSystem.Inst.GetServant(selectIndex).position].Click();
+                            attackDamageText.text = BattleSystem.Inst.GetServant(selectIndex).attack.ToString();
+                            defenceText.text = BattleSystem.Inst.GetServant(selectIndex).defense.ToString();
+                            speedText.text = BattleSystem.Inst.GetServant(selectIndex).speed.ToString();
                         }
                         else
                         {
                             selectIndex = hit.transform.GetComponent<CharacterControl>().index + 10;
-                            chsing[selectIndex].Click();
-                            attackDamageText.text = BattleSystem.Inst.testStageStateData.enemy_state_list[selectIndex - 10].attack.ToString();
-                            defenceText.text = BattleSystem.Inst.testStageStateData.enemy_state_list[selectIndex - 10].defense.ToString();
-                            speedText.text = BattleSystem.Inst.testStageStateData.enemy_state_list[selectIndex - 10].speed.ToString();
+                            chsing[BattleSystem.Inst.GetMonster(selectIndex).position].Click();
+                            // 나중에 Get 한번만하게
+                            attackDamageText.text = BattleSystem.Inst.GetMonster(selectIndex).attack.ToString();
+                            defenceText.text = BattleSystem.Inst.GetMonster(selectIndex).defense.ToString();
+                            speedText.text = BattleSystem.Inst.GetMonster(selectIndex).speed.ToString();
                         }
                         if (selectIndex != -1)
                         {
@@ -144,10 +141,10 @@ public class SelectSystem : MonoSingleton<SelectSystem>
                                 selectCharacterImage.sprite =
                                     Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" +
                                     CharacterCSVData.Inst.monsterDataDic[
-                                    BattleSystem.Inst.testStageStateData.enemy_state_list[selectIndex - 10].index].inGameIconName);
+                                    BattleSystem.Inst.GetMonster(selectIndex).index].inGameIconName);
 
                                 nemeText.text = CharacterCSVData.Inst.monsterDataDic[
-                                    BattleSystem.Inst.testStageStateData.enemy_state_list[selectIndex - 10].index].engName;
+                                    BattleSystem.Inst.GetMonster(selectIndex).index].engName;
                             }
                         }
 

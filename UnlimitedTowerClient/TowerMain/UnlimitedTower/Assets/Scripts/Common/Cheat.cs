@@ -135,7 +135,7 @@ public class Cheat : MonoSingleton<Cheat>
             battleactiondata.battle_info_list.Add(actioninfo);
         }
 
-        for (int i = 10; i < 20; ++i)
+        for (int i = 10; i < 15; ++i)
         {
             TestActionInfo action = new TestActionInfo();
             action.target_position = UnityEngine.Random.Range(0, 10);
@@ -195,10 +195,11 @@ public class Cheat : MonoSingleton<Cheat>
             battlestatedata.my_state_list.Add(newMember);
         }
 
+        int[] temp = { 14, 12, 10, 11, 13, 19, 17, 15, 16, 18 };
         for (int i = 0; i < 10; ++i)
         {
             TestStageState newMember = new TestStageState();
-            newMember.position = i + 10;
+            newMember.position = temp[i];
             newMember.index = 100001;
             newMember.now_hp = 100;
             newMember.attack = 10;

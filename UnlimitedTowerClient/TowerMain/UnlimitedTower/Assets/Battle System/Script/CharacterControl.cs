@@ -18,11 +18,13 @@ public class CharacterControl : MonoBehaviour
     {
         if (!isStart)
         {
-            isStart = true;
             checkBox = GetComponent<BoxCollider>();
             checkBox.enabled = true;
-            select = transform.GetChild(0).GetChild(0).gameObject;
-            child = transform.GetChild(0).gameObject;
+            select = transform.GetChild(0)?.GetChild(0)?.gameObject;
+            child = transform.GetChild(0)?.gameObject;
+
+            if (checkBox != null && select != null && child != null)
+                isStart = true;
         }
         if (nowHp <= 0)
         {
