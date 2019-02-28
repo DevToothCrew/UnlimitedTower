@@ -23,6 +23,8 @@ public abstract class UTUMSProvider
         }
     }
 
+    public bool isLoggedIn = false;
+
     /// <summary>
     /// Request login via Scatter
     /// </summary>

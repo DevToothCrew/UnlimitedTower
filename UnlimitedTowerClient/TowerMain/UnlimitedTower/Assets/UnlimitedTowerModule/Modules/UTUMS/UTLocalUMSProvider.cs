@@ -7,32 +7,23 @@ using UnityEngine;
 /// </summary>
 public class UTLocalUMSProvider : UTUMSProvider
 {
-    private bool isLoginFinished = false;
-
-
-    //local setup
-    public UTLocalUMSProvider()
+    IEnumerator WaitAndLogin()
     {
-        UTEventPoolInterface.AddEventListener("login", (ret) => isLoginFinished = true);
-    }
-
-    private IEnumerator OnLoginLoading()
-    {
-        UTLoadingManager.Instance.SetProgress(0.25f, "Requesting User Token ... ");
-        yield return new WaitForSeconds(1.5f);
-
-        UTLoadingManager.Instance.SetProgress(0.50f, "Requesting User Information ... ");
-        yield return new WaitForSeconds(1.5f);
-
-        UTLoadingManager.Instance.SetProgress(0.75f, "Receiving Datas ... ");
-        yield return new WaitForSeconds(1.5f);
-
+        yield return new WaitForSeconds(2.0f);
         UTEventPoolInterface.SendEventData("login", new UTPlayerManager.UTPlayerData() { user = "devtooth", gameMoney = 999999 });
     }
 
     public override void RequestLoginWithScatter()
     {
-        UTLoadingManager.Instance.BeginScene(OnLoginLoading(), () => Debug.Log("LOGIN SUCCEED"));
+        UTLoadingManager.Description desc = new UTLoadingManager.Description
+        {
+            startComment = "Try to login ...",
+            finishedComment = "Success!",
+            predicate = () => UserDataManager.Inst.userInfo != default(UserInfo),
+        };
+
+        UTLoadingManager.Instance.BeginScene(desc);
+        UTLoadingManager.Instance.StartCoroutine(WaitAndLogin());
     }
 
     public override void RequestLogout()
