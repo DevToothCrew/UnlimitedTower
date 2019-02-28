@@ -69,8 +69,8 @@ public class GachaResultPopup : MonoBehaviour {
     {
         SetActiveButtons(true);
 
-        resultName.text = result.servant.name;
-        resultType.text = result.servant.islegend ? "Legendary" : "Normal";
+        //resultName.text = result.servant.name;
+        //resultType.text = result.servant.islegend ? "Legendary" : "Normal";
         resultStrStat.text = result.servant.status.basic_str.ToString();
         resultIntStat.text = result.servant.status.basic_int.ToString();
         resultDexStat.text = result.servant.status.basic_dex.ToString();
@@ -82,7 +82,7 @@ public class GachaResultPopup : MonoBehaviour {
     {
         SetActiveButtons(true);
 
-        resultName.text = result.monster.name;
+        //resultName.text = result.monster.name;
         resultType.text = result.monster.grade.ToString();
         resultStrStat.text = result.monster.status.basic_str.ToString();
         resultIntStat.text = result.monster.status.basic_int.ToString();

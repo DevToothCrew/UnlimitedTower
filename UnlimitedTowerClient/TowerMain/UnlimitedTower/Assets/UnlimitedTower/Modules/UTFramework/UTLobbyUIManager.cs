@@ -7,9 +7,9 @@ public class UTLobbyUIManager : MonoBehaviour {
 
     public void Login()
     {
-        //UTUMSProvider.Instance.RequestLoginWithScatter();
-        JsonData data = Cheat.Inst.GetUserLoginData("devtooth", 10000);
-        PacketManager.Inst.ResponseLogin(data.ToString());
+        UTUMSProvider.Instance.RequestLoginWithScatter();
+        //JsonData data = Cheat.Inst.GetUserLoginData("devtooth", 10000);
+        //PacketManager.Inst.ResponseLogin(data.ToString());
     }
 
     public void Gacha()
@@ -39,9 +39,9 @@ public class UTLobbyUIManager : MonoBehaviour {
     {
         int stageNum = 1;
         int partyNum = 1;
-        //UTUMSProvider.Instance.RequestStageStart(stageNum, partyNum);
-        JsonData data = Cheat.Inst.TestGetStageStartData("devtooth", stageNum, partyNum);
-        PacketManager.Inst.ResponseStageStart(data.ToString());
+        UTUMSProvider.Instance.RequestStageStart(stageNum, partyNum);
+        //JsonData data = Cheat.Inst.TestGetStageStartData("devtooth", stageNum, partyNum);
+        //PacketManager.Inst.ResponseStageStart(data.ToString());
 
     }
 
