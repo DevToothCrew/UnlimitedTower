@@ -150,7 +150,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         startBattle.stageNum = stageNum;
         startBattle.partyNum = partyNum;
 
-        string json = JsonUtility.ToJson(startBattle).ToString();
+        string json = JsonUtility.ToJson(startBattle);
         Debug.Log("Json start : " + json);
         StartBattle(json);
     }

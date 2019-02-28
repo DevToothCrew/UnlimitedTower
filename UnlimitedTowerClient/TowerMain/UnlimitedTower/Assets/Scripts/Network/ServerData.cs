@@ -451,8 +451,5 @@ public class TestJsonStartBattle
 {
     public int partyNum = 0;
     public int stageNum = 0;
-
-    public int testNum1 = 0;
-    public int testNum2 = 0;
 }
 #endregion

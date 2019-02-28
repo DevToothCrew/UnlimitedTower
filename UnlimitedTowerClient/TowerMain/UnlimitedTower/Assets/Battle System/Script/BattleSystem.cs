@@ -290,6 +290,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         else
         {
             StartCoroutine(TestMyTurn());
+            isBattleStart = false;
         }
     }
     
