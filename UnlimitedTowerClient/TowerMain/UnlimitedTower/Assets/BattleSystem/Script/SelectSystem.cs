@@ -115,7 +115,7 @@ public class SelectSystem : MonoSingleton<SelectSystem>
                                     Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" +
                                     CharacterCSVData.Inst.monsterDataDic[
                                     UserDataManager.Inst.GetMonsterInfo(
-                                    BattleSystem.Inst.testStageStateData.my_state_list[selectIndex < 5 ? 5 + selectIndex : selectIndex].index).monsterNum].inGameIconName);
+                                    BattleSystem.Inst.testStageStateData.my_state_list[selectIndex < 5 ? 5 + selectIndex : selectIndex].index).id].inGameIconName);
 
                                 if (selectIndex != 0)
                                 {
@@ -132,7 +132,7 @@ public class SelectSystem : MonoSingleton<SelectSystem>
 
                                 nemeText.text = CharacterCSVData.Inst.monsterDataDic[
                                     UserDataManager.Inst.GetMonsterInfo(
-                                    BattleSystem.Inst.testStageStateData.my_state_list[selectIndex < 5 ? 5 + selectIndex : selectIndex].index).monsterNum].engName;
+                                    BattleSystem.Inst.testStageStateData.my_state_list[selectIndex < 5 ? 5 + selectIndex : selectIndex].index).id].engName;
                             }
                             else
                             {

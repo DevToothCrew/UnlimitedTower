@@ -193,8 +193,11 @@ public class GachaImage : MonoSingleton<GachaImage>
     {
         Sprite sprite = null;
 
-        CharNameText.text = getMonster.name;
-        sprite = Resources.Load<Sprite>("UI/MonsterImage/" + getMonster.name);
+        // TODO : ID를 이용해 CSV에서 Name을 가져오는 것 추가 필요
+        CharNameText.text = getMonster.id.ToString();
+
+        // TODO : ID를 이용해 CSV에서 Name을 가져오는 것 추가 필요
+        sprite = Resources.Load<Sprite>("UI/MonsterImage/" + getMonster.id);
         charImage.GetComponent<Image>().sprite = sprite;
         fadeOutFlag = false;
     }

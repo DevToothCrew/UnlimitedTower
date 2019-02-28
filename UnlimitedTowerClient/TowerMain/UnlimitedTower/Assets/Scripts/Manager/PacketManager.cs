@@ -43,9 +43,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public bool receiveGacha = false;
 
-
-
-
     void Start()
     {
     }
@@ -271,15 +268,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
         BattleStart(stateData);
     }
 
-    public void ResponseGetStageInfo(string getStageInfo)
-    {
-        TestStageData stageInfo = JsonUtility.FromJson<TestStageData>(getStageInfo);
-        if(stageInfo == null)
-        {
-            Debug.Log("Invalid ResponseStageInfo Data : " + getStageInfo);
-        }
-    }
-
     public void ResponseStageResult(string getStageResultInfo)
     {
         TestStageRewardData resultData = JsonUtility.FromJson<TestStageRewardData>(getStageResultInfo);
@@ -311,7 +299,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         {
             Debug.Log("Invalid ParseUserInfo Info");
         }
-        ParseGoldInfo(getUserLoginData.gameMoney, ref userInfo);
+        ParseGoldInfo(getUserLoginData.token, ref userInfo);
 
         UserDataManager.Inst.SetUserInfo(userInfo);
 
@@ -367,11 +355,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public bool ParseGoldInfo(goldData getgoldData, ref UserInfo userInfo)
     {
+        char[] splitchar = { ' ' };
+        char[] splitmoney = { '.' };
+
         // TODO : EOS도 여기다 넣어야 하는지 생각 필요
 
-        userInfo.userMoney = getgoldData.balance.amount;
+        string[] token = getgoldData.balance.Split(splitchar);
+        string[] money = token[0].Split(splitmoney);
 
-        Debug.Log("Gold : " + getgoldData.balance.amount);
+        userInfo.userMoney = Int32.Parse(money[0]);
+
+        Debug.Log("Gold : " + userInfo.userMoney);
 
         return true;
     }
@@ -473,12 +467,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         monster.index = getMonsterIndex;
 
-        //monster.monsterNum = getMonsterInfo.look;
-        monster.name = getMonsterInfo.name;
+        monster.id = getMonsterInfo.id;
 
         monster.exp = getMonsterInfo.exp;
 
         monster.monsterTypeNum = getMonsterInfo.type;
+
         monster.gradeNum = getMonsterInfo.grade;
         monster.enforceNum = getMonsterInfo.upgrade;
 
@@ -567,22 +561,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         return partyInfo;
     }
-
-    public void ResponseAction(string getBattleActionInfo)
-    {
-        TestbattleActionInfoData actiondata = JsonUtility.FromJson<TestbattleActionInfoData>(getBattleActionInfo);
-        if (actiondata == null)
-        {
-            Debug.Log("Invalid Battle Action Data : " + getBattleActionInfo);
-        }
-
-        Action(actiondata);
-    }
-
-    public void Action(TestbattleActionInfoData getBattleStateData)
-    {
-
-    }
     
     public void BattleStart(TestStageStateData getBattleStateData)
     {
@@ -605,37 +583,5 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     #endregion
-
-    //public void SetBattleAction(BattleActionData getBattleActionData)
-    //{
-
-    //}
-
-    //public void SetStageState(StageStateData getStageStateData)
-    //{
-    //    // BattleSystem.Inst.stageStateData = getStageStateData;
-    //}
-
-
-    //public void SetStageResult(StageResultData getStageResultData)
-    //{
-
-    //}
-
-    public void SetBattleAction(TestStageActionInfoData getBattleActionData)
-    {
-
-    }
-
-    public void SetStageState(TestStageStateData getStageStateData)
-    {
-        //BattleSystem.Inst.StageStateData = getStageStateData;
-    }
-
-
-    public void SetStageResult(TestStageRewardData getStageResultData)
-    {
-
-    }
 }
 

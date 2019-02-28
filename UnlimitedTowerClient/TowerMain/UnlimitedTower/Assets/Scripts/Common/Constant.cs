@@ -233,8 +233,10 @@ public class UserMonsterData
     // 서버에서 캐릭터를 구분하는 고유값
     public int index;
 
-    // 몬스터, 타입
-    public int monsterNum;
+    // 몬스터ID
+    public int id;
+
+    // TODO : 추후 추가 예정
     public int monsterTypeNum;
 
     // TODO : Monster별 State 추가 필요
@@ -251,52 +253,9 @@ public class UserMonsterData
 
     public Status status = new Status();
 
-    public string name;
-
-
-
-
-    // 조회용 데이터(ERD 역 참조값들)
     public bool isPlaced;
     public int teamNum;
     public int formationNum;
-
-
-
-
-    //TODO : TestCode
-    public UserMonsterData()
-    {
-        exp = 0;
-        
-        // job값으로 현재는 서번트 구분 추후에 합의하여 수정해야할듯.
-        CHARACTER_NUM charNum = CHARACTER_NUM.Mst_BirdMan;
-
-        // 리소스 인덱스
-        index = (int)charNum;
-        //UniqueIndex = servantinfo.s_index - 1;
-        
-        name = charNum.ToString();
-
-        status = new Status();
-        status.basicStr = DEFINE.TEST_STATUS_VALUE;
-        status.basicDex = DEFINE.TEST_STATUS_VALUE;
-        status.basicInt = DEFINE.TEST_STATUS_VALUE;
-    }
-    public UserMonsterData(int index)
-    {
-        exp = 0;
-        
-        // 리소스 인덱스
-        this.index = index;
-
-        name = index.ToString();
-
-        status = new Status();
-        status.basicStr = DEFINE.TEST_STATUS_VALUE;
-        status.basicDex = DEFINE.TEST_STATUS_VALUE;
-        status.basicInt = DEFINE.TEST_STATUS_VALUE;
-    }
 }
 
 [System.Serializable]

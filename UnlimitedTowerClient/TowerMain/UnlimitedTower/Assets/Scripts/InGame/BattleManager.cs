@@ -483,13 +483,12 @@ public class BattleManager : MonoSingleton<BattleManager> {
       
             if (i < 5)
             {
-                UserServantData servant = new UserServantData(characterList[i]);
                 status = new CharacterBattleStatus();
                 charIndex = 0;
             }
             else
             {
-                UserMonsterData monster = new UserMonsterData(characterList[i]);
+                UserMonsterData monster = new UserMonsterData();
                 status = new CharacterBattleStatus();
                 charIndex = monster.index;
             }

@@ -25,7 +25,7 @@ public class statusInfo
 };
 
 [Serializable]
-public class testServantInfo
+public class servantInfo
 {
     public int state;
     public int exp;
@@ -38,7 +38,7 @@ public class testServantInfo
 
 
 [Serializable]
-public class testMonsterInfo
+public class monsterInfo
 {
     public int state;
     public int type;
@@ -51,7 +51,7 @@ public class testMonsterInfo
 
 
 [Serializable]
-public class testItemInfo
+public class itemInfo
 {
     public int id;          //아이템 리소스 아이디
     public int state;       //아이템 현재 상태
@@ -177,7 +177,7 @@ public class userData
 {
     public string user;
     public int state; //씬 상태
-    public testServantInfo hero = new testServantInfo();    // Hero는 Index 0 , Party_Num 1 을 무조건 포함
+    public servantInfo hero = new servantInfo();    // Hero는 Index 0 , Party_Num 1 을 무조건 포함
 }
 
 [Serializable]
@@ -185,7 +185,7 @@ public class servantData
 {
     public int index;
     public int party_number;
-    public testServantInfo servant = new testServantInfo();
+    public servantInfo servant = new servantInfo();
 }
 
 [Serializable]
@@ -193,14 +193,14 @@ public class monsterData
 {
     public int index;
     public int party_number;
-    public testMonsterInfo monster = new testMonsterInfo();
+    public monsterInfo monster = new monsterInfo();
 }
 
 [Serializable]
 public class itemData
 {
     public int index;
-    public testItemInfo item = new testItemInfo();
+    public itemInfo item = new itemInfo();
 }
 
 [Serializable]
@@ -296,130 +296,15 @@ public class TestStageRewardData
     public string user;
     public int reward_money;
     public List<int> get_exp_list = new List<int>();
-    public List<testServantInfo> get_servant_list = new List<testServantInfo>();
-    public List<testMonsterInfo> get_monster_list = new List<testMonsterInfo>();
-    public List<testItemInfo> get_item_list = new List<testItemInfo>();
+    public List<servantInfo> get_servant_list = new List<servantInfo>();
+    public List<monsterInfo> get_monster_list = new List<monsterInfo>();
+    public List<itemInfo> get_item_list = new List<itemInfo>();
 }
-//--------------battle fix--------------------//
-//-----------------------------------------------------------------------//
-//-----------------------------------------------------------------------//
-
-
-
-//[Serializable]
-//public class TestbattleStateData
-//{
-//    public string user;
-//    public int party_number;
-//    public List<battleState> state_list = new List<battleState>();
-//}
-
-////add by canie
-//[Serializable]
-//public class TestbattleActionInfoData
-//{
-//    public string user;
-//    public int turn;
-//    public List<battleActionInfo> battle_info_list = new List<battleActionInfo>();
-//}
-
-////add by canie
-//[Serializable]
-//public class TestbattleRewardData
-//{
-//    public string user;
-//    public int reward_money;
-//    public List<int> get_exp_list = new List<int>();
-//    public List<servantInfo> get_servant_list = new List<servantInfo>();
-//    public List<monsterInfo> get_monster_list = new List<monsterInfo>();
-//    public List<itemInfo> get_item_list = new List<itemInfo>();
-//}
-
-
-//[Serializable]
-//public class TestStageData
-//{
-//    public int stage_num;
-//    public List<monsterInfo> enemy_list = new List<monsterInfo>();
-//}
-
-//[Serializable]
-//public class actionInfo
-//{
-//    public int target_index;
-//    public bool avoid;
-//    public bool critical;
-//    public int damage;
-//}
-
-//[Serializable]
-//public class battleActionInfo
-//{
-//    public int index;
-//    public int action_type;
-
-//    public List<actionInfo> battle_action_list = new List<actionInfo>();
-//}
-
-////------------------현재 배틀 시스템에서 사용중이라 제거를 못함-----------//
-//[Serializable]
-//public class BattleActionData
-//{
-//    public int turn;
-//    public List<battleActionInfo> info_list = new List<battleActionInfo>();
-//}
-
-
-//[Serializable]
-//public class stageStateInfo
-//{
-//    public int party_index;
-
-//    public int now_hp;
-//    public int damage;
-//    public int defence;
-
-//    public int crit_per;
-//    public int crit_dmg;
-//    public int avoid;    
-
-//    public int state;
-
-//    // TODO : 타워배틀에서 전부 다 필요
-//    public Status status;
-//    public int status_type;
-//    public int exp;
-//    public int speed;
-//    public int type;
-//    public int index;
-//}
-
-//[Serializable]
-//public class StageStateData
-//{
-//    public int turn;
-
-//    public int party_num;
-//    public int stage_num;
-//    public List<stageStateInfo> my_team_list = new List<stageStateInfo>();
-//    public List<stageStateInfo> enemy_team_list = new List<stageStateInfo>();
-//}
-
-//[Serializable]
-//public class StageResultData
-//{
-//    public int get_gold;
-//    public List<int> get_exp_list = new List<int>();
-//    public List<servantData> get_servant_list = new List<servantData>();
-//    public List<monsterData> get_monster_list = new List<monsterData>();
-//    public List<itemData> get_item_list = new List<itemData>();
-//}
 
 #endregion
 
-
-
 #region ScatterData
+
 [System.Serializable]
 public class JsonParty
 {
@@ -452,4 +337,5 @@ public class TestJsonStartBattle
     public int partyNum = 0;
     public int stageNum = 0;
 }
+
 #endregion

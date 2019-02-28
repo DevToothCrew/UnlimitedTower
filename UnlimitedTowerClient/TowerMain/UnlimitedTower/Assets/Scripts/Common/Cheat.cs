@@ -332,9 +332,9 @@ public class Cheat : MonoSingleton<Cheat>
         return servant;
     }
 
-    public testServantInfo GetRandomServant(SERVANT_JOB job)
+    public servantInfo GetRandomServant(SERVANT_JOB job)
     {
-        testServantInfo servant = new testServantInfo();
+        servantInfo servant = new servantInfo();
 
         servant.state = 0;
         servant.exp = rand.Next(0, DEFINE.MAX_EXP);
@@ -354,7 +354,7 @@ public class Cheat : MonoSingleton<Cheat>
         monsterData monsterData = new monsterData();
         monsterData.index = index;
 
-        monsterData.monster = new testMonsterInfo();
+        monsterData.monster = new monsterInfo();
         monsterData.monster.state = 0;
         monsterData.monster.exp = rand.Next(0, DEFINE.MAX_EXP);
 

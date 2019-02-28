@@ -371,8 +371,9 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             }
             else
             {
+                // TODO : 안될수도
                 Instantiate(Resources.Load("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataDic
-                    [UserDataManager.Inst.GetMonsterInfo(testStageStateData.my_state_list[i].index).monsterNum].resource) as GameObject, 
+                    [UserDataManager.Inst.GetMonsterInfo(testStageStateData.my_state_list[i].index).id].resource) as GameObject, 
                     playerCharacter[testStageStateData.my_state_list[i].position].transform);
             }
         }
