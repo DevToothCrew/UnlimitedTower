@@ -278,13 +278,13 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             temp += " : " + testStageRewardData.get_exp_list[i].ToString();
             temp += "\nServant";
             for (int i = 0; i < testStageRewardData.get_servant_list.Count; i++)
-                temp += " : " + testStageRewardData.get_servant_list[i].name;
+                temp += " : " + testStageRewardData.get_servant_list[i].job;
             temp += "\nMonster";
             for (int i = 0; i < testStageRewardData.get_monster_list.Count; i++)
-                temp += " : " + testStageRewardData.get_monster_list[i].name;
+                temp += " : " + testStageRewardData.get_monster_list[i].id;
             temp += "\nItem";
             for (int i = 0; i < testStageRewardData.get_item_list.Count; i++)
-                temp += " : " + testStageRewardData.get_item_list[i].itemnum;
+                temp += " : " + testStageRewardData.get_item_list[i].id;
             testReward.transform.GetChild(0).GetComponent<Text>().text = temp;
         }
         else
