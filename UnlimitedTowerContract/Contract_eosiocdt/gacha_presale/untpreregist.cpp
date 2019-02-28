@@ -851,6 +851,235 @@ ACTION untpreregist::settokenlog()
 
 #pragma endregion
 
+
+//------------------------------------------------------------------------//
+//--------------------------dailycheck_action-----------------------------//
+//------------------------------------------------------------------------//
+#pragma region dailycheck
+
+ACTION untpreregist::dailycheck(name _user, string _seed)
+{
+    require_auth(_user);
+    
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
+    eosio_assert(system_master_iter->state != system_state::pause, "Server Pause 6");
+
+    pre_users pre_auth_user_table(_self, _self.value);
+    auto user_iter = pre_auth_user_table.find(_user.value);
+    eosio_assert(user_iter != pre_auth_user_table.end(), "No presignup user");
+
+    blacklist blacklist_table(_self, _self.value);
+    auto blacklist_iter = blacklist_table.find(_user.value);
+    eosio_assert(blacklist_iter == blacklist_table.end(), "BlackList User 3");
+
+    size_t center = _seed.find(':');
+    size_t end = _seed.length() - (center + 1);
+    eosio_assert(_seed.find(':') != std::string::npos, "Wrong Seed Error");
+
+    std::string result_seed = _seed.substr(0, center);
+    std::string result_sha = _seed.substr(center + 1, end);
+
+    uint64_t seed_check_result = safeseed::check_seed(result_seed, result_sha);
+
+    dailychecks daily_check_table(_self, _self.value);
+    auto user_daily_check_iter = daily_check_table.find(_user.value);
+    
+    if(user_daily_check_iter == daily_check_table.end())
+    {
+        daily_check_table.emplace(_user, [&](auto &check_result){
+            check_result.user = _user;
+            check_result.total_day = 1;
+            check_result.check_time = ( now() + 32400 )/86400 ; 
+            daily_check_reward(_user,1,seed_check_result);
+        });
+    }
+    else
+    {       
+        auto iter = *user_daily_check_iter;
+        eosio_assert(timecheck(iter.check_time), "your already daily checked");
+        daily_check_table.modify(user_daily_check_iter, _user, [&](auto &check_result){
+            check_result.user = _user;
+            check_result.total_day += 1;
+            check_result.check_time = ( now() + 32400 )/ 86400 ;    
+            daily_check_reward(_user,check_result.total_day,seed_check_result);
+        });
+    }   
+
+}
+
+bool untpreregist::timecheck(uint64_t user_checktime)
+{    
+    uint64_t server_standard_time = now();    
+    uint64_t server_check_time = ( server_standard_time + 32400) / 86400 ;           
+
+    if(user_checktime == server_check_time)
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
+void untpreregist::daily_check_reward(eosio::name _user, uint64_t total_day, uint64_t _seed)
+{
+    switch(total_day)
+    {
+        case 1:       //50UTG
+        case 4:
+        case 8:
+        case 11:
+        case 15:
+        case 18:
+        case 22:
+        case 25:
+        {
+            system_master system_master_table(_self, _self.value);
+            auto system_master_iter = system_master_table.begin();
+            eosio_assert(system_master_iter->state != system_state::pause, "Server Pause 9");
+
+            total_token_logs total_token_log_table(_self, _self.value);
+            auto total_token_log_iter = total_token_log_table.find(system_master_iter->master.value);
+            eosio_assert(total_token_log_iter != total_token_log_table.end(), "End Preregist 2");
+
+
+            asset daily_check_result(0, symbol(symbol_code("UTG"), 4));
+            daily_check_result.amount = 500000;
+
+            action(permission_level{get_self(), "active"_n},
+                   get_self(), "transfer"_n,
+                   std::make_tuple(_self, _user, daily_check_result, std::string("Today is 50 UTG")))
+                .send();
+            
+            total_token_log_table.modify(total_token_log_iter, _self, [&](auto &update_participation_list) {
+                update_participation_list.total_token_amount += daily_check_result.amount;
+            });
+
+            break;
+        }
+        
+        case 2:     //100UTG
+        case 5:
+        case 9:
+        case 12:
+        case 16:
+        case 19:
+        case 23:
+        case 26:
+        {
+            system_master system_master_table(_self, _self.value);
+            auto system_master_iter = system_master_table.begin();
+            eosio_assert(system_master_iter->state != system_state::pause, "Server Pause 9");
+
+            total_token_logs total_token_log_table(_self, _self.value);
+            auto total_token_log_iter = total_token_log_table.find(system_master_iter->master.value);
+            eosio_assert(total_token_log_iter != total_token_log_table.end(), "End Preregist 2");
+
+            asset daily_check_result2(0, symbol(symbol_code("UTG"), 4));
+            daily_check_result2.amount = 1000000;
+
+            action(permission_level{get_self(), "active"_n},
+                   get_self(), "transfer"_n,
+                   std::make_tuple(_self, _user, daily_check_result2, std::string("Today is 100 UTG")))
+                .send();
+            
+            total_token_log_table.modify(total_token_log_iter, _self, [&](auto &update_participation_list) {
+                update_participation_list.total_token_amount += daily_check_result2.amount;
+            });
+
+
+            break;
+        }
+        case 3:     //서번트 워리어
+        {
+            uint64_t l_user = get_user_seed_value(_user.value);
+            uint64_t l_seed = safeseed::get_seed_value(l_user, _seed);
+            daily_gacha_servant(_user, l_seed);
+            break;
+        }
+        break;
+        case 17:    //서번트 클래릭
+        {
+            uint64_t l_user = get_user_seed_value(_user.value);
+            uint64_t l_seed = safeseed::get_seed_value(l_user, _seed);
+            daily_gacha_servant2(_user, l_seed);
+            break;
+        }
+        case 6:     //150UTG
+        case 13:
+        case 20:
+        case 27:
+        {
+            system_master system_master_table(_self, _self.value);
+            auto system_master_iter = system_master_table.begin();
+            eosio_assert(system_master_iter->state != system_state::pause, "Server Pause 9");
+
+            total_token_logs total_token_log_table(_self, _self.value);
+            auto total_token_log_iter = total_token_log_table.find(system_master_iter->master.value);
+            eosio_assert(total_token_log_iter != total_token_log_table.end(), "End Preregist 2");
+
+            asset daily_check_result3(0, symbol(symbol_code("UTG"), 4));
+            daily_check_result3.amount = 1500000;
+
+            action(permission_level{get_self(), "active"_n},
+                   get_self(), "transfer"_n,
+                   std::make_tuple(_self, _user, daily_check_result3, std::string("Today is 150 UTG")))
+                .send();
+
+            total_token_log_table.modify(total_token_log_iter, _self, [&](auto &update_participation_list) {
+                update_participation_list.total_token_amount += daily_check_result3.amount;
+            });
+            break;
+        }
+        case 7:      //몬스터 판다
+        {
+            uint64_t l_user = get_user_seed_value(_user.value);
+            uint64_t l_seed = safeseed::get_seed_value(l_user, _seed);
+            daily_gacha_monster(_user, l_seed);
+            break;
+        }
+        case 21:    //몬스터 살라맨더 
+        {
+            uint64_t l_user = get_user_seed_value(_user.value);
+            uint64_t l_seed = safeseed::get_seed_value(l_user, _seed);
+            daily_gacha_monster2(_user, l_seed);
+            break;
+        }
+        case 10:     //아이템 모험자의 검 
+                {
+            uint64_t l_user = get_user_seed_value(_user.value);
+            uint64_t l_seed = safeseed::get_seed_value(l_user, _seed);
+            daily_gacha_item(_user, l_seed);
+            break;
+        }
+        case 24:    //아이템 모험자의 둔기
+        {
+            uint64_t l_user = get_user_seed_value(_user.value);
+            uint64_t l_seed = safeseed::get_seed_value(l_user, _seed);
+            daily_gacha_item2(_user, l_seed);
+            break;
+        }
+        case 14:     //가차         
+        case 28:
+        {
+           uint64_t l_user = get_user_seed_value(_user.value);
+           uint64_t l_seed = safeseed::get_seed_value(l_user, _seed);
+            daily_gacha_common(_user, l_seed);
+        break;
+        }   
+        default:
+        {
+        eosio_assert(0==1, "You can not longer daily check ");
+        break;
+        }
+    }
+}
+
+
+
+#pragma endregion
 //------------------------------------------------------------------------//
 //-------------------------------login_action-----------------------------//
 //------------------------------------------------------------------------//
@@ -1277,7 +1506,7 @@ uint32_t untpreregist::get_servant_index(uint32_t _job, uint32_t _body, uint32_t
     uint32_t result_id;
     result_id = (_job * 1000000) + (_body * 100000) + (_gender * 10000) + (_head * 100) + (_hair * 1);
     return result_id;
-}
+} 
 
 void untpreregist::gacha_servant_id(eosio::name _user, uint64_t _seed)
 {
@@ -1496,6 +1725,7 @@ void untpreregist::gacha_monster_id(eosio::name _user, uint64_t _seed)
     });
 }
 
+
 void untpreregist::gacha_item_id(eosio::name _user, uint64_t _seed)
 {
     item_id_db item_id_db_table(_self, _self.value);
@@ -1585,6 +1815,599 @@ void untpreregist::gacha_item_id(eosio::name _user, uint64_t _seed)
         update_log.gacha_num += 1;
     });
 }
+
+void untpreregist::daily_gacha_monster(eosio::name _user, uint64_t _seed)
+{
+    monster_id_db monster_id_db_table(_self, _self.value);
+    uint64_t random_monster_id = 20001;
+    const auto &monster_id_db_iter = monster_id_db_table.get(random_monster_id, "Not Exist Monster ID 2");
+
+    uint32_t random_grade = 4;
+
+    monster_grade_db monster_grade_db_table(_self, _self.value);
+    const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "Not Exist Monster Grade 2");
+
+    pre_logs pre_log_table(_self, _self.value);
+    auto user_log_iter = pre_log_table.find(_user.value);
+    eosio_assert(user_log_iter != pre_log_table.end(), "Not Exist User Log 9");
+
+    result_info result;
+    user_preregist_monsters user_monster_table(_self, _user.value);
+    user_monster_table.emplace(_self, [&](auto &update_user_monster_list) {
+        uint32_t first_index = user_monster_table.available_primary_key();
+        if (first_index == 0)
+        {
+            update_user_monster_list.index = 1;
+        }
+        else
+        {
+            update_user_monster_list.index = user_monster_table.available_primary_key();
+        }
+
+        update_user_monster_list.id = monster_id_db_iter.id;
+        update_user_monster_list.grade = monster_grade_db_iter.grade;
+        monster_random_count += 1;
+        update_user_monster_list.status.basic_str = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_str, monster_grade_db_iter.min_range.base_str, monster_random_count);
+        monster_random_count += 1;
+        update_user_monster_list.status.basic_dex = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_dex, monster_grade_db_iter.min_range.base_dex, monster_random_count);
+        monster_random_count += 1;
+        update_user_monster_list.status.basic_int = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_int, monster_grade_db_iter.min_range.base_int, monster_random_count);
+
+        std::string monster_result = "mon:";
+        monster_result += to_string(update_user_monster_list.index) + ":";
+        monster_result += to_string(update_user_monster_list.id) + ":";
+        monster_result += to_string(update_user_monster_list.grade) + ":";
+        monster_result += to_string(update_user_monster_list.status.basic_str) + ":";
+        monster_result += to_string(update_user_monster_list.status.basic_dex) + ":";
+        monster_result += to_string(update_user_monster_list.status.basic_int) + ":";
+
+        action(permission_level{get_self(), "active"_n},
+               get_self(), "resultgacha"_n,
+               std::make_tuple(_self, _user, monster_result))
+            .send();
+
+        result.index = update_user_monster_list.index;
+        result.type = result::monster;
+    });
+
+    user_gacha_results user_gacha_result_table(_self, _self.value);
+    user_gacha_totals user_gacha_total_table(_self, _self.value);
+
+    auto user_gacha_result_iter = user_gacha_result_table.find(_user.value);
+    if (user_gacha_result_iter == user_gacha_result_table.end())
+    {
+        user_gacha_result_table.emplace(_self, [&](auto &new_result) {
+            new_result.user = _user;
+            new_result.result = result;
+        });
+    }
+    else
+    {
+        user_gacha_result_table.modify(user_gacha_result_iter, _self, [&](auto &new_result) {
+            new_result.result = result;
+        });
+    }
+
+    auto user_gacha_total_iter = user_gacha_total_table.find(_user.value);
+    if (user_gacha_total_iter == user_gacha_total_table.end())
+    {
+        user_gacha_total_table.emplace(_self, [&](auto &new_result) {
+            new_result.user = _user;
+            new_result.result_list.push_back(result);
+        });
+    }
+    else
+    {
+        user_gacha_total_table.modify(user_gacha_total_iter, _self, [&](auto &new_result) {
+            new_result.result_list.push_back(result);
+        });
+    }
+
+    pre_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
+        update_log.gacha_num += 1;
+        update_log.monster_num += 1;
+    });
+}
+
+
+
+void untpreregist::daily_gacha_monster2(eosio::name _user, uint64_t _seed)
+{
+    monster_id_db monster_id_db_table(_self, _self.value);
+    uint64_t random_monster_id = 20025;
+    const auto &monster_id_db_iter = monster_id_db_table.get(random_monster_id, "Not Exist Monster ID 2");
+
+    uint32_t random_grade = 4;
+
+    monster_grade_db monster_grade_db_table(_self, _self.value);
+    const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "Not Exist Monster Grade 2");
+
+    pre_logs pre_log_table(_self, _self.value);
+    auto user_log_iter = pre_log_table.find(_user.value);
+    eosio_assert(user_log_iter != pre_log_table.end(), "Not Exist User Log 9");
+
+    result_info result;
+    user_preregist_monsters user_monster_table(_self, _user.value);
+    user_monster_table.emplace(_self, [&](auto &update_user_monster_list) {
+        uint32_t first_index = user_monster_table.available_primary_key();
+        if (first_index == 0)
+        {
+            update_user_monster_list.index = 1;
+        }
+        else
+        {
+            update_user_monster_list.index = user_monster_table.available_primary_key();
+        }
+
+        update_user_monster_list.id = monster_id_db_iter.id;
+        update_user_monster_list.grade = monster_grade_db_iter.grade;
+        monster_random_count += 1;
+        update_user_monster_list.status.basic_str = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_str, monster_grade_db_iter.min_range.base_str, monster_random_count);
+        monster_random_count += 1;
+        update_user_monster_list.status.basic_dex = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_dex, monster_grade_db_iter.min_range.base_dex, monster_random_count);
+        monster_random_count += 1;
+        update_user_monster_list.status.basic_int = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_int, monster_grade_db_iter.min_range.base_int, monster_random_count);
+
+        std::string monster_result = "mon:";
+        monster_result += to_string(update_user_monster_list.index) + ":";
+        monster_result += to_string(update_user_monster_list.id) + ":";
+        monster_result += to_string(update_user_monster_list.grade) + ":";
+        monster_result += to_string(update_user_monster_list.status.basic_str) + ":";
+        monster_result += to_string(update_user_monster_list.status.basic_dex) + ":";
+        monster_result += to_string(update_user_monster_list.status.basic_int) + ":";
+
+        action(permission_level{get_self(), "active"_n},
+               get_self(), "resultgacha"_n,
+               std::make_tuple(_self, _user, monster_result))
+            .send();
+
+        result.index = update_user_monster_list.index;
+        result.type = result::monster;
+    });
+
+    user_gacha_results user_gacha_result_table(_self, _self.value);
+    user_gacha_totals user_gacha_total_table(_self, _self.value);
+
+    auto user_gacha_result_iter = user_gacha_result_table.find(_user.value);
+    if (user_gacha_result_iter == user_gacha_result_table.end())
+    {
+        user_gacha_result_table.emplace(_self, [&](auto &new_result) {
+            new_result.user = _user;
+            new_result.result = result;
+        });
+    }
+    else
+    {
+        user_gacha_result_table.modify(user_gacha_result_iter, _self, [&](auto &new_result) {
+            new_result.result = result;
+        });
+    }
+
+    auto user_gacha_total_iter = user_gacha_total_table.find(_user.value);
+    if (user_gacha_total_iter == user_gacha_total_table.end())
+    {
+        user_gacha_total_table.emplace(_self, [&](auto &new_result) {
+            new_result.user = _user;
+            new_result.result_list.push_back(result);
+        });
+    }
+    else
+    {
+        user_gacha_total_table.modify(user_gacha_total_iter, _self, [&](auto &new_result) {
+            new_result.result_list.push_back(result);
+        });
+    }
+
+    pre_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
+        update_log.gacha_num += 1;
+        update_log.monster_num += 1;
+    });
+}
+
+void untpreregist::daily_gacha_item(eosio::name _user, uint64_t _seed)
+{
+    item_id_db item_id_db_table(_self, _self.value);
+    uint64_t random_item_id = 30008;
+    const auto &item_id_db_iter = item_id_db_table.get(random_item_id, "Not Exist Item ID 2");
+
+    uint32_t random_grade = 4;
+
+    item_grade_db item_grade_db_table(_self, _self.value);
+    const auto &item_grade_db_iter = item_grade_db_table.get(random_grade, "Not Exist Tier 2");
+
+    pre_logs pre_log_table(_self, _self.value);
+    auto user_log_iter = pre_log_table.find(_user.value);
+    eosio_assert(user_log_iter != pre_log_table.end(), "Not Exist User Log 10");
+
+    result_info result;
+    user_preregist_items user_item_table(_self, _user.value);
+    user_item_table.emplace(_self, [&](auto &update_user_item_list) {
+        uint32_t first_index = user_item_table.available_primary_key();
+        if (first_index == 0)
+        {
+            update_user_item_list.index = 1;
+        }
+        else
+        {
+            update_user_item_list.index = user_item_table.available_primary_key();
+        }
+
+        update_user_item_list.id = item_id_db_iter.id;
+        update_user_item_list.type = item_id_db_iter.type;
+        update_user_item_list.tier = item_id_db_iter.tier;
+        update_user_item_list.job = item_id_db_iter.job;
+        update_user_item_list.grade = item_grade_db_iter.grade;
+        item_random_count += 1;
+        update_user_item_list.main_status = safeseed::get_random_value(_seed, item_grade_db_iter.max_range.base_str, item_grade_db_iter.min_range.base_str, item_random_count);
+
+        std::string item_result = "itm:";
+        item_result += to_string(update_user_item_list.index) + ":";
+        item_result += to_string(update_user_item_list.id) + ":";
+        item_result += to_string(update_user_item_list.type) + ":";
+        item_result += to_string(update_user_item_list.tier) + ":";
+        item_result += to_string(update_user_item_list.job) + ":";
+        item_result += to_string(update_user_item_list.grade) + ":";
+        item_result += to_string(update_user_item_list.main_status) + ":";
+
+        action(permission_level{get_self(), "active"_n},
+               get_self(), "resultgacha"_n,
+               std::make_tuple(_self, _user ,item_result))
+            .send();
+
+
+        result.index = update_user_item_list.index;
+        result.type = result::item;
+    });
+
+    user_gacha_results user_gacha_result_table(_self, _self.value);
+    user_gacha_totals user_gacha_total_table(_self, _self.value);
+
+    auto user_gacha_result_iter = user_gacha_result_table.find(_user.value);
+    if (user_gacha_result_iter == user_gacha_result_table.end())
+    {
+        user_gacha_result_table.emplace(_self, [&](auto &new_result) {
+            new_result.user = _user;
+            new_result.result = result;
+        });
+    }
+    else
+    {
+        user_gacha_result_table.modify(user_gacha_result_iter, _self, [&](auto &new_result) {
+            new_result.result = result;
+        });
+    }
+
+    auto user_gacha_total_iter = user_gacha_total_table.find(_user.value);
+    if (user_gacha_total_iter == user_gacha_total_table.end())
+    {
+        user_gacha_total_table.emplace(_self, [&](auto &new_result) {
+            new_result.user = _user;
+            new_result.result_list.push_back(result);
+        });
+    }
+    else
+    {
+        user_gacha_total_table.modify(user_gacha_total_iter, _self, [&](auto &new_result) {
+            new_result.result_list.push_back(result);
+        });
+    }
+
+    pre_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
+        update_log.item_num += 1;
+        update_log.gacha_num += 1;
+    });
+}
+
+void untpreregist::daily_gacha_item2(eosio::name _user, uint64_t _seed)
+{
+     item_id_db item_id_db_table(_self, _self.value);
+    uint64_t random_item_id = 30001;
+    const auto &item_id_db_iter = item_id_db_table.get(random_item_id, "Not Exist Item ID 2");
+
+    uint32_t random_grade = 4;
+
+    item_grade_db item_grade_db_table(_self, _self.value);
+    const auto &item_grade_db_iter = item_grade_db_table.get(random_grade, "Not Exist Tier 2");
+
+    pre_logs pre_log_table(_self, _self.value);
+    auto user_log_iter = pre_log_table.find(_user.value);
+    eosio_assert(user_log_iter != pre_log_table.end(), "Not Exist User Log 10");
+
+    result_info result;
+    user_preregist_items user_item_table(_self, _user.value);
+    user_item_table.emplace(_self, [&](auto &update_user_item_list) {
+        uint32_t first_index = user_item_table.available_primary_key();
+        if (first_index == 0)
+        {
+            update_user_item_list.index = 1;
+        }
+        else
+        {
+            update_user_item_list.index = user_item_table.available_primary_key();
+        }
+
+        update_user_item_list.id = item_id_db_iter.id;
+        update_user_item_list.type = item_id_db_iter.type;
+        update_user_item_list.tier = item_id_db_iter.tier;
+        update_user_item_list.job = item_id_db_iter.job;
+        update_user_item_list.grade = item_grade_db_iter.grade;
+        item_random_count += 1;
+        update_user_item_list.main_status = safeseed::get_random_value(_seed, item_grade_db_iter.max_range.base_str, item_grade_db_iter.min_range.base_str, item_random_count);
+
+        std::string item_result = "itm:";
+        item_result += to_string(update_user_item_list.index) + ":";
+        item_result += to_string(update_user_item_list.id) + ":";
+        item_result += to_string(update_user_item_list.type) + ":";
+        item_result += to_string(update_user_item_list.tier) + ":";
+        item_result += to_string(update_user_item_list.job) + ":";
+        item_result += to_string(update_user_item_list.grade) + ":";
+        item_result += to_string(update_user_item_list.main_status) + ":";
+
+        action(permission_level{get_self(), "active"_n},
+               get_self(), "resultgacha"_n,
+               std::make_tuple(_self, _user ,item_result))
+            .send();
+
+
+        result.index = update_user_item_list.index;
+        result.type = result::item;
+    });
+
+    user_gacha_results user_gacha_result_table(_self, _self.value);
+    user_gacha_totals user_gacha_total_table(_self, _self.value);
+
+    auto user_gacha_result_iter = user_gacha_result_table.find(_user.value);
+    if (user_gacha_result_iter == user_gacha_result_table.end())
+    {
+        user_gacha_result_table.emplace(_self, [&](auto &new_result) {
+            new_result.user = _user;
+            new_result.result = result;
+        });
+    }
+    else
+    {
+        user_gacha_result_table.modify(user_gacha_result_iter, _self, [&](auto &new_result) {
+            new_result.result = result;
+        });
+    }
+
+    auto user_gacha_total_iter = user_gacha_total_table.find(_user.value);
+    if (user_gacha_total_iter == user_gacha_total_table.end())
+    {
+        user_gacha_total_table.emplace(_self, [&](auto &new_result) {
+            new_result.user = _user;
+            new_result.result_list.push_back(result);
+        });
+    }
+    else
+    {
+        user_gacha_total_table.modify(user_gacha_total_iter, _self, [&](auto &new_result) {
+            new_result.result_list.push_back(result);
+        });
+    }
+
+    pre_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
+        update_log.item_num += 1;
+        update_log.gacha_num += 1;
+    });
+}
+
+void untpreregist::daily_gacha_servant(eosio::name _user, uint64_t _seed)
+{
+    servant_job_db servant_job_table(_self, _self.value);
+    uint32_t random_job = 1;
+    const auto &servant_job_db_iter = servant_job_table.get(random_job, "Not Get Servant Job Data 2");
+
+    servant_id_db servant_id_table(_self, _self.value);
+    uint32_t servant_index = 1110202;
+    const auto &servant_id_db_iter = servant_id_table.get(servant_index, "Not Exist Servant ID 2");
+
+    pre_logs pre_log_table(_self, _self.value);
+    auto user_log_iter = pre_log_table.find(_user.value);
+    eosio_assert(user_log_iter != pre_log_table.end(), "Not Exist User Log 8");
+
+    result_info result;
+    user_preregist_servants user_servant_table(_self, _user.value);
+    user_servant_table.emplace(_self, [&](auto &update_user_servant_list) {
+        uint32_t first_index = user_servant_table.available_primary_key();
+        if (first_index == 0)
+        {
+            update_user_servant_list.index = 1;
+            
+        }
+        else
+        {
+            update_user_servant_list.index = user_servant_table.available_primary_key();
+        }
+
+        update_user_servant_list.id = servant_id_db_iter.id;
+
+        servant_random_count += 1;
+        update_user_servant_list.status.basic_str = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_str, servant_job_db_iter.min_range.base_str, servant_random_count);
+        servant_random_count += 1;
+        update_user_servant_list.status.basic_dex = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_dex, servant_job_db_iter.min_range.base_dex, servant_random_count);
+        servant_random_count += 1;
+        update_user_servant_list.status.basic_int = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_int, servant_job_db_iter.min_range.base_int, servant_random_count);
+
+        std::string servant_result = "ser:";
+        servant_result += to_string(update_user_servant_list.index) + ":";
+        servant_result += to_string(update_user_servant_list.id) + ":";
+        servant_result += to_string(update_user_servant_list.status.basic_str) + ":";
+        servant_result += to_string(update_user_servant_list.status.basic_dex) + ":";
+        servant_result += to_string(update_user_servant_list.status.basic_int) + ":";
+
+        action(permission_level{get_self(), "active"_n},
+               get_self(), "resultgacha"_n,
+               std::make_tuple(_self, _user ,servant_result))
+            .send();
+
+        result.index = update_user_servant_list.index;
+        result.type = result::servant;
+    });
+
+    user_gacha_results user_gacha_result_table(_self, _self.value);
+    user_gacha_totals user_gacha_total_table(_self, _self.value);
+
+    auto user_gacha_result_iter = user_gacha_result_table.find(_user.value);
+    if (user_gacha_result_iter == user_gacha_result_table.end())
+    {
+        user_gacha_result_table.emplace(_self, [&](auto &new_result) {
+            new_result.user = _user;
+            new_result.result = result;
+        });
+    }
+    else
+    {
+        user_gacha_result_table.modify(user_gacha_result_iter, _self, [&](auto &new_result) {
+            new_result.result = result;
+        });
+    }
+
+    auto user_gacha_total_iter = user_gacha_total_table.find(_user.value);
+    if (user_gacha_total_iter == user_gacha_total_table.end())
+    {
+        user_gacha_total_table.emplace(_self, [&](auto &new_result) {
+            new_result.user = _user;
+            new_result.result_list.push_back(result);
+        });
+    }
+    else
+    {
+        user_gacha_total_table.modify(user_gacha_total_iter, _self, [&](auto &new_result) {
+            new_result.result_list.push_back(result);
+        });
+    }
+
+    //로그 남기는 부분
+    pre_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
+        update_log.servant_num += 1;
+        update_log.gacha_num += 1;
+    });
+}
+
+void untpreregist::daily_gacha_servant2(eosio::name _user, uint64_t _seed)
+{
+    servant_job_db servant_job_table(_self, _self.value);
+    uint32_t random_job = 3;
+    const auto &servant_job_db_iter = servant_job_table.get(random_job, "Not Get Servant Job Data 2");
+
+    servant_id_db servant_id_table(_self, _self.value);
+    uint32_t servant_index = 3120202;
+    const auto &servant_id_db_iter = servant_id_table.get(servant_index, "Not Exist Servant ID 2");
+
+    pre_logs pre_log_table(_self, _self.value);
+    auto user_log_iter = pre_log_table.find(_user.value);
+    eosio_assert(user_log_iter != pre_log_table.end(), "Not Exist User Log 8");
+
+    result_info result;
+    user_preregist_servants user_servant_table(_self, _user.value);
+    user_servant_table.emplace(_self, [&](auto &update_user_servant_list) {
+        uint32_t first_index = user_servant_table.available_primary_key();
+        if (first_index == 0)
+        {
+            update_user_servant_list.index = 1;
+            
+        }
+        else
+        {
+            update_user_servant_list.index = user_servant_table.available_primary_key();
+        }
+
+        update_user_servant_list.id = servant_id_db_iter.id;
+
+        servant_random_count += 1;
+        update_user_servant_list.status.basic_str = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_str, servant_job_db_iter.min_range.base_str, servant_random_count);
+        servant_random_count += 1;
+        update_user_servant_list.status.basic_dex = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_dex, servant_job_db_iter.min_range.base_dex, servant_random_count);
+        servant_random_count += 1;
+        update_user_servant_list.status.basic_int = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_int, servant_job_db_iter.min_range.base_int, servant_random_count);
+
+        std::string servant_result = "ser:";
+        servant_result += to_string(update_user_servant_list.index) + ":";
+        servant_result += to_string(update_user_servant_list.id) + ":";
+        servant_result += to_string(update_user_servant_list.status.basic_str) + ":";
+        servant_result += to_string(update_user_servant_list.status.basic_dex) + ":";
+        servant_result += to_string(update_user_servant_list.status.basic_int) + ":";
+
+        action(permission_level{get_self(), "active"_n},
+               get_self(), "resultgacha"_n,
+               std::make_tuple(_self, _user ,servant_result))
+            .send();
+
+        result.index = update_user_servant_list.index;
+        result.type = result::servant;
+    });
+
+    user_gacha_results user_gacha_result_table(_self, _self.value);
+    user_gacha_totals user_gacha_total_table(_self, _self.value);
+
+    auto user_gacha_result_iter = user_gacha_result_table.find(_user.value);
+    if (user_gacha_result_iter == user_gacha_result_table.end())
+    {
+        user_gacha_result_table.emplace(_self, [&](auto &new_result) {
+            new_result.user = _user;
+            new_result.result = result;
+        });
+    }
+    else
+    {
+        user_gacha_result_table.modify(user_gacha_result_iter, _self, [&](auto &new_result) {
+            new_result.result = result;
+        });
+    }
+
+    auto user_gacha_total_iter = user_gacha_total_table.find(_user.value);
+    if (user_gacha_total_iter == user_gacha_total_table.end())
+    {
+        user_gacha_total_table.emplace(_self, [&](auto &new_result) {
+            new_result.user = _user;
+            new_result.result_list.push_back(result);
+        });
+    }
+    else
+    {
+        user_gacha_total_table.modify(user_gacha_total_iter, _self, [&](auto &new_result) {
+            new_result.result_list.push_back(result);
+        });
+    }
+
+    //로그 남기는 부분
+    pre_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
+        update_log.servant_num += 1;
+        update_log.gacha_num += 1;
+    });
+
+}
+
+void untpreregist::daily_gacha_common(eosio::name _user, uint64_t _seed)
+{
+    pre_logs user_log_table(_self, _self.value);
+    auto user_log_iter = user_log_table.find(_user.value);
+    eosio_assert(user_log_iter != user_log_table.end(), "Not Exist User Log 7");
+
+    uint64_t l_user = get_user_seed_value(_user.value);
+    uint64_t l_seed = safeseed::get_seed_value(l_user, _seed);
+
+    uint64_t l_gacha_result_type = safeseed::get_random_value(l_seed, max_rate, default_min, DEFAULE_RANDOM_COUNT);
+    if (l_gacha_result_type < 333)
+    {
+        preregist_servant_id(_user, l_seed,0);
+    }
+    else if (l_gacha_result_type > 333 && l_gacha_result_type <= 666)
+    {
+        preregist_monster_id(_user, l_seed,0);
+    }
+    else
+    {
+        preregist_item_id(_user, l_seed,0);
+    }
+    servant_random_count = 0;
+    monster_random_count = 0;
+    item_random_count = 0;
+}
+
+
+
 uint64_t untpreregist::get_user_seed_value(uint64_t _user)
 {
     total_token_logs total_token_log_table(_self, _self.value);
@@ -2105,4 +2928,4 @@ ACTION untpreregist::deleterefer(eosio::name _referer)
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(untpreregist, (addrefer)(deleterefer)(resultpre)(resultgacha)(create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase)(dbinit))
+EOSIO_DISPATCH(untpreregist, (addrefer)(deleterefer)(resultpre)(resultgacha)(create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dbmodify)(dberase)(dbinit)(dailycheck))

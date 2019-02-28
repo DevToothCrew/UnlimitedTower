@@ -21,7 +21,7 @@ public class Cheat : MonoSingleton<Cheat>
         partyData.index = 1;
         partyData.state = 0;
 
-        for (int i = 1; i < 10; i++)
+        for (int i = 1; i < 100; i++)
         {
             userLoginData.servant_list.Add(GetRandomServantData(i, GetRandomServantJob()));
 
@@ -58,7 +58,7 @@ public class Cheat : MonoSingleton<Cheat>
         }
         else if (job == 2)
         {
-            return SERVANT_JOB.Theif;
+            return SERVANT_JOB.Thief;
         }
         else if (job == 3)
         {
@@ -413,5 +413,37 @@ public class Cheat : MonoSingleton<Cheat>
         status.plusInt = 0;
 
         return status;
+    }
+
+    // Button Cheat
+
+
+    public void SetLoginCheat()
+    {
+        if (UserDataManager.Inst.GetUserInfo() == null)
+        {
+            Debug.Log("Start SetLoginCheat");
+
+            string loginInfo = GetUserLoginData("devtooth", 10000).ToString();
+            Debug.Log("[SUCCESS] user login :" + loginInfo);
+            PacketManager.Inst.ResponseLogin(loginInfo);
+        }
+        else
+        {
+            Debug.Log("Already Get UserInfo");
+        }
+    }
+
+    public void SetStageStartCheat()
+    {
+        if (UserDataManager.Inst.GetUserInfo() == null)
+        {
+            Debug.Log("Invalid UserInfo, Please First SetLoginCheat");
+        }
+        else
+        {
+            Debug.Log("Start SetStageStartCheat");
+            UTUMSProvider.Instance.RequestStageStart(1, 1);
+        }
     }
 }

@@ -122,7 +122,7 @@ public class DEFINE
 }
 
 
-// 서번트 클래스에 히로도 포함된다.
+// 서번트 클래스에 히어로도 포함된다.
 [System.Serializable]
 public class UserInfo
 {
@@ -164,9 +164,6 @@ public class UserServantData
     public int gender;
 
     public Status status = new Status();
-    public int leftStatPoint;
-
-
 
     /* 조회용 데이터 __________________________________________________________ */
 
@@ -587,7 +584,7 @@ public enum SERVANT_JOB
     Warrior = 1,
 
     // DEX
-    Theif = 2,
+    Thief = 2,
     Archer = 4,
 
     // INT
@@ -628,6 +625,7 @@ public enum LOBBY_RIGHT_BUTTON
     Setting = 7,
     Max = 8,
 }
+
 public enum SCENE_STATE
 {
     None = 0,
@@ -638,6 +636,8 @@ public enum SCENE_STATE
     TowerBattle = 5,
     Max = 6,
 }
+
+
 //  가챠 타입은 무료, 특수, 이벤트 등을 의미한다.
 public enum GACHA_TYPE
 {

@@ -4,7 +4,6 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
-using Random = UnityEngine.Random;
 
 
 [Serializable]
@@ -42,9 +41,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
     [DllImport("__Internal")]
     private static extern void GetReward();
 
-    [DllImport("__Internal")]
-    private static extern void ExitBattle();
-
     public bool receiveGacha = false;
 
 
@@ -60,6 +56,15 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void RequestLoginWithScatter()
     {
+        UTLoadingManager.Description desc = new UTLoadingManager.Description
+        {
+            startComment = "Try to login ...",
+            finishedComment = "Success!",
+            predicate = () => UserDataManager.Inst.userInfo != default(UserInfo),
+        };
+
+        UTLoadingManager.Instance.BeginScene(desc);
+
         Debug.Log("RequestLoginWithScatter");
         Login();
     }
@@ -125,6 +130,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("RequestBattleAction");
 
+        //List<JsonBattleAction> actionList = new List<JsonBattleAction>();
+        //actionList.Add(new JsonBattleAction(heroTarget, heroAction));
+        //actionList.Add(new JsonBattleAction(monsterTarget, monsterAction));
+
+        //string json = JsonUtility.ToJson(actionList);
         TestJsonBattleAction action = new TestJsonBattleAction();
         action.heroTargetIndex = heroTarget;
         action.heroActionType = heroAction;
@@ -136,10 +146,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         Debug.Log("Json action : " + json);
         BattleAction(json);
-
-        //JsonData data = Cheat.Inst.TestGetBattleActionData("devtooth", 12, 2, 15, 2);
-        //PacketManager.Inst.ResponseBattleAction(data.ToString());
-
+        
     }
 
     public void RequestStageStart(int stageNum, int partyNum)
@@ -151,21 +158,15 @@ public class PacketManager : MonoSingleton<PacketManager> {
         startBattle.partyNum = partyNum;
 
         string json = JsonUtility.ToJson(startBattle);
+
         Debug.Log("Json start : " + json);
         StartBattle(json);
     }
-
 
     public void RequestStageResult()
     {
         Debug.Log("Request Get Battle Reward");
         GetReward();
-    }
-
-    public void RequestExitBattle()
-    {
-        Debug.Log("Request Exit Battle");
-        ExitBattle();
     }
 
     public void RequestTowerStart(int towerFloor, int partyNum)
@@ -192,10 +193,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
             return;
         }
         
-        UserLoginData userLoginData = JsonUtility.FromJson<UserLoginData>(getLoginInfo);
-        Debug.Log("Login Data : " + getLoginInfo);
-
-        if (userLoginData == null)
+        UserLoginData userLoginData = JsonUtility.FromJson<UserLoginData>(getLoginInfo); 
+        if(userLoginData == null)
         {
             Debug.Log("Invalid Login Data : " + getLoginInfo);
         }
@@ -245,24 +244,16 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
     }
 
-    public void ResponseGetParty(string getPartyInfo)
-    {
-        Debug.Log("ResponseGetParty : " + getPartyInfo);
-        partyData partyInfo = JsonUtility.FromJson<partyData>(getPartyInfo);
-
-        // 수정 필요
-    }
-
     public void ResponseLogout()
     {
         Debug.Log("ResponseLogout");
-        LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Login);
+        UserDataManager.Inst.InitUserInfo();
+        SceneManager.LoadScene("Login");
     }
 
     public void ResponseBattleAction(string getBattleActionInfo)
     {
         TestStageActionInfoData actionData = JsonUtility.FromJson<TestStageActionInfoData>(getBattleActionInfo);
-        Debug.Log("ResponseBattleAction Data : " + actionData.ToString());
         if (actionData == null)
         {
             Debug.Log("Invalid ResponseBattleAction Data : " + getBattleActionInfo);
@@ -273,7 +264,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void ResponseStageStart(string getStageStartInfo)
     {
         TestStageStateData stateData = JsonUtility.FromJson<TestStageStateData>(getStageStartInfo);
-        Debug.Log("ResponseStageStart Data : " + getStageStartInfo);
         if (stateData == null)
         {
             Debug.Log("Invalid ResponseStageStart Data : " + getStageStartInfo);
@@ -281,6 +271,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
         BattleStart(stateData);
     }
 
+    public void ResponseGetStageInfo(string getStageInfo)
+    {
+        TestStageData stageInfo = JsonUtility.FromJson<TestStageData>(getStageInfo);
+        if(stageInfo == null)
+        {
+            Debug.Log("Invalid ResponseStageInfo Data : " + getStageInfo);
+        }
+    }
 
     public void ResponseStageResult(string getStageResultInfo)
     {
@@ -289,12 +287,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         {
             Debug.Log("Invalid ResponseStageResult Data : " + getStageResultInfo);
         }
-        SetReward(resultData);
-    }
-
-    public void ResponseExitBattle()
-    {
-        LobbyManager.Inst.ChangeSceneState(SCENE_STATE.Lobby);
+        GetReward(resultData);
     }
 
     public void ResponseTowerStart(string getTowerStartInfo)
@@ -314,13 +307,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void Login(UserLoginData getUserLoginData)
     {
         UserInfo userInfo = new UserInfo();
-        ParseGoldInfo(getUserLoginData.token, ref userInfo);
         if (ParseUserInfo(getUserLoginData.userinfo, ref userInfo) == false)
         {
             Debug.Log("Invalid ParseUserInfo Info");
         }
+        ParseGoldInfo(getUserLoginData.gameMoney, ref userInfo);
+
         UserDataManager.Inst.SetUserInfo(userInfo);
-        LeftInfoPopup.Inst.SetLeftInfoUserInfoUpdate(userInfo);
 
         Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
         if (ParseServantDic(getUserLoginData.servant_list, ref servantDic) == false)
@@ -350,7 +343,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
         UserDataManager.Inst.SetPartyInfo(partyInfo);
 
-        LobbyManager.Inst.ChangeSceneState(userInfo.sceneState);
+        SceneManager.LoadScene("Lobby");
     }
 
     public bool ParseUserInfo(userData getUserData, ref UserInfo userInfo)
@@ -374,14 +367,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public bool ParseGoldInfo(goldData getgoldData, ref UserInfo userInfo)
     {
-        char[] splitchar = { ' ' };
-        char[] splitmoney = { '.' };
         // TODO : EOS도 여기다 넣어야 하는지 생각 필요
-        string[] token = getgoldData.balance.Split(splitchar);
-        string[] money = token[0].Split(splitmoney);
-        userInfo.userMoney = Int32.Parse(money[0]);
 
-        Debug.Log("Gold : " + userInfo.userMoney);
+        userInfo.userMoney = getgoldData.balance.amount;
+
+        Debug.Log("Gold : " + getgoldData.balance.amount);
 
         return true;
     }
@@ -396,8 +386,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 Debug.Log("Invalid Servant Info");
                 return false;
             }
-            Debug.Log("Servant :" + servant.index);
-            Debug.Log("getServant : " + getServantList[i].index);
 
             servantDic.Add(servant.index, servant);
         }
@@ -405,7 +393,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return true;
     }
 
-    public UserServantData ParseServant(int getServantIndex, int getPartyNum, testServantInfo getServantInfo)
+    public UserServantData ParseServant(int getServantIndex, int getPartyNum, servantInfo getServantInfo)
     {
         if (getServantInfo == null)
         {
@@ -467,9 +455,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 Debug.Log("Invalid Monster Info");
                 return false;
             }
-            Debug.Log("Monster index :" + monster.index);
-            Debug.Log("Monster id :" + monster.monsterNum);
-            Debug.Log("getMonster : " + getMonsterList[i].monster.id);
 
             monsterDic.Add(monster.index, monster);
         }
@@ -477,7 +462,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return true;
     }
     
-    public UserMonsterData ParseMonster(int getMonsterIndex, int getPartyNum, testMonsterInfo getMonsterInfo)
+    public UserMonsterData ParseMonster(int getMonsterIndex, int getPartyNum, monsterInfo getMonsterInfo)
     {
         if (getMonsterInfo == null)
         {
@@ -488,8 +473,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         monster.index = getMonsterIndex;
 
-        monster.monsterNum = getMonsterInfo.id;
-        //monster.name = getMonsterInfo.name;
+        //monster.monsterNum = getMonsterInfo.look;
+        monster.name = getMonsterInfo.name;
 
         monster.exp = getMonsterInfo.exp;
 
@@ -526,7 +511,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return true;
     }
 
-    public UserMountItemData ParseItem(int getItemIndex, testItemInfo getItemInfo)
+    public UserMountItemData ParseItem(int getItemIndex, itemInfo getItemInfo)
     {
         if (getItemInfo == null)
         {
@@ -583,8 +568,22 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return partyInfo;
     }
 
+    public void ResponseAction(string getBattleActionInfo)
+    {
+        TestbattleActionInfoData actiondata = JsonUtility.FromJson<TestbattleActionInfoData>(getBattleActionInfo);
+        if (actiondata == null)
+        {
+            Debug.Log("Invalid Battle Action Data : " + getBattleActionInfo);
+        }
 
+        Action(actiondata);
+    }
 
+    public void Action(TestbattleActionInfoData getBattleStateData)
+    {
+
+    }
+    
     public void BattleStart(TestStageStateData getBattleStateData)
     {
         Debug.Log("배틀 스타트!");
@@ -596,11 +595,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("턴 진행!");
         UserDataManager.Inst.SetStageAction(getBattleActionData);
-        BattleSystem.Inst.testStageActionInfoData = UserDataManager.Inst.GetStageAction();
         BattleSystem.Inst.StartCoroutine(BattleSystem.Inst.BattleStart());
     }
 
-    public void SetReward(TestStageRewardData getReward)
+    public void GetReward(TestStageRewardData getReward)
     {
         Debug.Log("배틀 끝 보상 획득!");
         UserDataManager.Inst.SetStageReward(getReward);

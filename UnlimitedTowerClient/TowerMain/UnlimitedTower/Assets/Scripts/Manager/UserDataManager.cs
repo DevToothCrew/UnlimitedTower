@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UserDataManager : MonoSingleton<UserDataManager>
 {
-    public UserInfo userInfo = new UserInfo();
+    public UserInfo userInfo = default(UserInfo);
 
     public Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
    
@@ -25,6 +25,20 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public TestStageRewardData StageRewardData = new TestStageRewardData();
 
     public int usingPartyNum = 1;
+
+    #region InitFunction
+
+    public void InitUserInfo()
+    {
+        userInfo = new UserInfo();
+        servantDic = new Dictionary<int, UserServantData>();
+        monsterDic = new Dictionary<int, UserMonsterData>();
+        mountItemDic = new Dictionary<int, UserMountItemData>();
+        etcItemDic = new Dictionary<int, UserEtcItemData>();
+        partyInfo = new UserPartyData();
+    }
+
+    #endregion
 
     #region SetFunction
 
@@ -104,6 +118,11 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
     public SCENE_STATE GetSceneState()
     {
+        if(userInfo == null)
+        {
+            return SCENE_STATE.Lobby;
+        }
+
         return userInfo.sceneState;
     }
 
