@@ -22,7 +22,7 @@ public abstract class UTUMSProvider
             return instance;
         }
     }
-
+    
     /// <summary>
     /// Request login via Scatter
     /// </summary>

@@ -56,6 +56,15 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void RequestLoginWithScatter()
     {
+        UTLoadingManager.Description desc = new UTLoadingManager.Description
+        {
+            startComment = "Try to login ...",
+            finishedComment = "Success!",
+            predicate = () => UserDataManager.Inst.userInfo != default(UserInfo),
+        };
+
+        UTLoadingManager.Instance.BeginScene(desc);
+
         Debug.Log("RequestLoginWithScatter");
         Login();
     }

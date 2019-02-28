@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UserDataManager : MonoSingleton<UserDataManager>
 {
-    public UserInfo userInfo = new UserInfo();
+    public UserInfo userInfo = default(UserInfo);
 
     public Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
    
