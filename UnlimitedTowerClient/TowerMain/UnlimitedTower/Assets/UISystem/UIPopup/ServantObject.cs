@@ -38,6 +38,8 @@ public class ServantObject : MonoBehaviour {
         maxLevel.SetActive(false);
     }
 
+    #region 추후 CSV 연결로 변경
+
     public Sprite GetGradeImage(int grade)
     {
         Sprite sprite = new Sprite();
@@ -127,4 +129,6 @@ public class ServantObject : MonoBehaviour {
 
         return sprite;
     }
+
+    #endregion
 }

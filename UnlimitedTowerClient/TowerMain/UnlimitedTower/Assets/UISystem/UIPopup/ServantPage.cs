@@ -53,7 +53,7 @@ public class ServantPage : MonoBehaviour {
                 servantObjectTemp = newObject.GetComponent<ServantObject>();
                 servantObjectTemp.SetServantData(servantList[i]);
 
-                newObject.transform.SetParent(this.servnatListTransform);
+                newObject.transform.SetParent(servnatListTransform);
             }
         }
     }
@@ -61,8 +61,8 @@ public class ServantPage : MonoBehaviour {
 
 public enum SERVANT_PAGE_STATE
 {
-    LIST = 0,
-    DETAIL = 1,
-    GRIND = 2,
-    MAX = 3,
+    LIST    = 0,
+    DETAIL  = 1,
+    GRIND   = 2,
+    MAX     = 3,
 }

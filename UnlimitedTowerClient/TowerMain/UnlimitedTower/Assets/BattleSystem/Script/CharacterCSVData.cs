@@ -103,4 +103,14 @@ public class CharacterCSVData : MonoSingleton<CharacterCSVData>
 
         return monsterDataDic.Keys.ToList();
     }
+
+    public string GetMonsterDBResource(int index)
+    {
+        if(monsterDataDic.ContainsKey(index) == false)
+        {
+            return null;
+        }
+
+        return monsterDataDic[index].resource;
+    }
 }
