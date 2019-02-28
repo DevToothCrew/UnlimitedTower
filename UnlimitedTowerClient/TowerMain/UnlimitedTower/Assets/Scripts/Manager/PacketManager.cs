@@ -244,14 +244,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
     }
 
-    public void ResponseGetParty(string getPartyInfo)
-    {
-        Debug.Log("ResponseGetParty : " + getPartyInfo);
-        partyData partyInfo = JsonUtility.FromJson<partyData>(getPartyInfo);
-
-        // 수정 필요
-    }
-
     public void ResponseLogout()
     {
         Debug.Log("ResponseLogout");

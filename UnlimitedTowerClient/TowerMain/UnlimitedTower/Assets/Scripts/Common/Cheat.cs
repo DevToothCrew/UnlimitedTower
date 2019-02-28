@@ -370,10 +370,13 @@ public class Cheat : MonoSingleton<Cheat>
 
     public void SetLoginCheat()
     {
-        if (UserDataManager.Inst.GetUserInfo().userName == null)
+        if (UserDataManager.Inst.GetUserInfo() == null)
         {
             Debug.Log("Start SetLoginCheat");
-            UTUMSProvider.Instance.RequestLoginWithScatter();
+
+            string loginInfo = GetUserLoginData("devtooth", 10000).ToString();
+            Debug.Log("[SUCCESS] user login :" + loginInfo);
+            PacketManager.Inst.ResponseLogin(loginInfo);
         }
         else
         {
@@ -383,9 +386,9 @@ public class Cheat : MonoSingleton<Cheat>
 
     public void SetStageStartCheat()
     {
-        if (UserDataManager.Inst.GetUserInfo().userName == null)
+        if (UserDataManager.Inst.GetUserInfo() == null)
         {
-            Debug.Log("Invalid UserName, Please First SetLoginCheat");
+            Debug.Log("Invalid UserInfo, Please First SetLoginCheat");
         }
         else
         {

@@ -8,7 +8,7 @@ public class HeroPage : MonoBehaviour {
     private void OnEnable()
     {
         UserInfo userInfo = UserDataManager.Inst.GetUserInfo();
-        if (userInfo.userName != null)
+        if (userInfo != null)
         {
             string userAccountInfo = "UserName : " + userInfo.userName + "\n" + "UserMoney : " + userInfo.userMoney + "\n" + "UserEOS : " + userInfo.userEOS + "\n";
             string userHeroInfo = "UserHero - Name : " + userInfo.userHero.name + "\n" + "Index : " + userInfo.userHero.index + "\n" 

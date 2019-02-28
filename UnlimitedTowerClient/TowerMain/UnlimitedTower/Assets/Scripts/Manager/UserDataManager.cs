@@ -118,6 +118,11 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
     public SCENE_STATE GetSceneState()
     {
+        if(userInfo == null)
+        {
+            return SCENE_STATE.Lobby;
+        }
+
         return userInfo.sceneState;
     }
 

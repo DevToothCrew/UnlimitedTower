@@ -10,7 +10,7 @@ public class LobbyTopInfo : MonoBehaviour {
 
     void Awake ()
     {
-        if (UserDataManager.Inst.GetUserInfo().userName != null)
+        if (UserDataManager.Inst.GetUserInfo() != null)
         {
             SetTopInfo(UserDataManager.Inst.GetUserInfo());
         }
