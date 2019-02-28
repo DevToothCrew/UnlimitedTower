@@ -32,7 +32,7 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
         if (!sendValue.isAvoid)
         {
             // 데미지 텍스트 표시와 데미지 주기
-            DamageShow(sendValue.Target, !sendValue.isPlayer, sendValue.Damage, Random.Range(0, 2) == 0 ? true : false);
+            DamageShow(sendValue.Target, !sendValue.isPlayer, sendValue.Damage, sendValue.isCritical);
             target.GetChild(0).GetComponent<Animator>().SetTrigger("isHit");
         }
         else
@@ -48,18 +48,21 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
 
     public void Avoid(int target, bool isPlayer) // 피한 대상의 인덱스와 플레이어 여부
     {
-        missText.transform.GetChild(0).gameObject.SetActive(true);
-        if (isPlayer)
+        if (missText != null)
         {
-            missText.transform.position =
-                  Camera.main.WorldToScreenPoint(BattleSystem.Inst.playerCharacter[target].transform.position +
-                  new Vector3(0, BattleSystem.Inst.playerCharacterControl[target].child.GetComponent<CharacterInformation>().Height, 0));
-        }
-        else
-        {
-            missText.transform.position =
-                  Camera.main.WorldToScreenPoint(BattleSystem.Inst.enemyCharacter[target].transform.position +
-                  new Vector3(0, BattleSystem.Inst.enemyCharacterControl[target].child.GetComponent<CharacterInformation>().Height, 0));
+            missText.transform.GetChild(0).gameObject.SetActive(true);
+            if (isPlayer)
+            {
+                missText.transform.position =
+                      Camera.main.WorldToScreenPoint(BattleSystem.Inst.playerCharacter[target].transform.position +
+                      new Vector3(0, BattleSystem.Inst.playerCharacterControl[target].child.GetComponent<CharacterInformation>().Height, 0));
+            }
+            else
+            {
+                missText.transform.position =
+                      Camera.main.WorldToScreenPoint(BattleSystem.Inst.enemyCharacter[target].transform.position +
+                      new Vector3(0, BattleSystem.Inst.enemyCharacterControl[target].child.GetComponent<CharacterInformation>().Height, 0));
+            }
         }
     }
 

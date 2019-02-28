@@ -61,15 +61,6 @@ public class CaracterCustom : MonoBehaviour
 
     public RuntimeAnimatorController[] animatorController = new RuntimeAnimatorController[6];
 
-    private readonly CharacterInformation[] characterInformation = {
-        new CharacterInformation(0.9f,1.0f,1.5f, 0.95f),
-        new CharacterInformation(1000f,1.0f,1.5f, 0.95f),
-        new CharacterInformation(0.9f,1.0f,1.5f, 0.95f),
-        new CharacterInformation(0.9f,1.0f,1.5f, 0.95f),
-        new CharacterInformation(0.9f,1.0f,1.5f, 0.95f),
-        new CharacterInformation(0.9f,1.0f,1.5f, 0.95f)
-    };
-
     private readonly Color[] JobColor = {
         new Color(0, 0, 0, 0),
         new Color(0.188f, 0.188f, 0.2f, 1.0f),
@@ -79,6 +70,26 @@ public class CaracterCustom : MonoBehaviour
         new Color(1, 0.309f, 0.309f, 1.0f)
     };
 
+    private readonly CharacterInfo[] characterInformation = new CharacterInfo[6];
+
+    // 데이터 저장용
+    [System.Serializable]
+    public class CharacterInfo
+    {
+        public float AttackDelay;
+        public float AttackAfterDelay;
+        public float Height;
+        public float AttackRange;
+
+        public CharacterInfo(float AttackDelay, float AttackAfterDelay, float Height, float AttackRange)
+        {
+            this.AttackDelay = AttackDelay;
+            this.AttackAfterDelay = AttackAfterDelay;
+            this.Height = Height;
+            this.AttackRange = AttackRange;
+        }
+    }
+    
     private void Awake()
     {
         WarriorCharacterMeshList[0].frame = GameObject.Find("WarriorFrame")?.transform.GetChild(1).GetChild(0).GetChild(0);
@@ -105,6 +116,13 @@ public class CaracterCustom : MonoBehaviour
         ClericCharacterMeshList[1].frame = GameObject.Find("ClericFrame")?.transform.GetChild(0).GetChild(0).GetChild(0);
         ClericCharacterMeshList[2].frame = GameObject.Find("ClericFrame")?.transform.GetChild(1).GetChild(1).GetChild(0);
         ClericCharacterMeshList[3].frame = GameObject.Find("ClericFrame")?.transform.GetChild(0).GetChild(1).GetChild(0);
+        
+        characterInformation[0] = new CharacterInfo(0.9f, 1.0f, 1.5f, 0.2f);
+        characterInformation[1] = new CharacterInfo(0.9f, 1.0f, 1.5f, 0.7f);
+        characterInformation[2] = new CharacterInfo(0.9f, 1.0f, 1.5f, 0.7f);
+        characterInformation[3] = new CharacterInfo(0.9f, 1.0f, 1.5f, 0.6f);
+        characterInformation[4] = new CharacterInfo(1.1f, 1.0f, 1.5f, 0.7f);
+        characterInformation[5] = new CharacterInfo(0.5f, 1.0f, 1.5f, 0.7f);
 
         Refresh();
     }
@@ -319,9 +337,11 @@ public class CaracterCustom : MonoBehaviour
         CharacterInformationTemp.AttackDelay = characterInformation[jobIndex].AttackDelay;
         CharacterInformationTemp.AttackAfterDelay = characterInformation[jobIndex].AttackAfterDelay;
         CharacterInformationTemp.Height = characterInformation[jobIndex].Height;
+        CharacterInformationTemp.AttackRange = characterInformation[jobIndex].AttackRange;
         return defultCharacter;
     }
 
+    [ContextMenu("test")]
     private void Refresh()
     {
         switch (jobIndex)

@@ -1,0 +1,219 @@
+fileFormatVersion: 2
+guid: 3c1a5780663c00f46addf51e79abcac4
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: foot_L
+    100002: foot_R
+    100004: forearm_L
+    100006: forearm_R
+    100008: hand_L
+    100010: hand_R
+    100012: heel_02_L
+    100014: heel_02_R
+    100016: metarig
+    100018: //RootNode
+    100020: mst_dongyang
+    100022: mst_dongyang_001
+    100024: mst_dongyang_002
+    100026: mst_dongyang_003
+    100028: mst_dongyang_004
+    100030: mst_dongyang_005
+    100032: mst_dongyang_006
+    100034: mst_dongyang_007
+    100036: mst_dongyang_008
+    100038: mst_dongyang_010
+    100040: mst_dongyang_011
+    100042: mst_dongyang_012
+    100044: mst_dongyang_013
+    100046: mst_dongyang_014
+    100048: mst_dongyang_015
+    100050: mst_dongyang_016
+    100052: mst_dongyang_017
+    100054: mst_dongyang_018
+    100056: mst_dongyang_028
+    100058: shin_L
+    100060: shin_R
+    100062: shoulder_L
+    100064: shoulder_R
+    100066: spine
+    100068: spine_001
+    100070: spine_002
+    100072: spine_003
+    100074: spine_004
+    100076: spine_005
+    100078: spine_006
+    100080: thigh_L
+    100082: thigh_R
+    100084: toe_L
+    100086: toe_R
+    100088: upper_arm_L
+    100090: upper_arm_R
+    400000: foot_L
+    400002: foot_R
+    400004: forearm_L
+    400006: forearm_R
+    400008: hand_L
+    400010: hand_R
+    400012: heel_02_L
+    400014: heel_02_R
+    400016: metarig
+    400018: //RootNode
+    400020: mst_dongyang
+    400022: mst_dongyang_001
+    400024: mst_dongyang_002
+    400026: mst_dongyang_003
+    400028: mst_dongyang_004
+    400030: mst_dongyang_005
+    400032: mst_dongyang_006
+    400034: mst_dongyang_007
+    400036: mst_dongyang_008
+    400038: mst_dongyang_010
+    400040: mst_dongyang_011
+    400042: mst_dongyang_012
+    400044: mst_dongyang_013
+    400046: mst_dongyang_014
+    400048: mst_dongyang_015
+    400050: mst_dongyang_016
+    400052: mst_dongyang_017
+    400054: mst_dongyang_018
+    400056: mst_dongyang_028
+    400058: shin_L
+    400060: shin_R
+    400062: shoulder_L
+    400064: shoulder_R
+    400066: spine
+    400068: spine_001
+    400070: spine_002
+    400072: spine_003
+    400074: spine_004
+    400076: spine_005
+    400078: spine_006
+    400080: thigh_L
+    400082: thigh_R
+    400084: toe_L
+    400086: toe_R
+    400088: upper_arm_L
+    400090: upper_arm_R
+    2100000: palette_009__mst_dongyang_png_001
+    2100002: palette_013__mst_dongyang_png
+    4300000: mst_dongyang_028
+    4300002: mst_dongyang_012
+    4300004: mst_dongyang_008
+    4300006: mst_dongyang_010
+    4300008: mst_dongyang_011
+    4300010: mst_dongyang_015
+    4300012: mst_dongyang_014
+    4300014: mst_dongyang_013
+    4300016: mst_dongyang_005
+    4300018: mst_dongyang_006
+    4300020: mst_dongyang_007
+    4300022: mst_dongyang_004
+    4300024: mst_dongyang_003
+    4300026: mst_dongyang_002
+    4300028: mst_dongyang_001
+    4300030: mst_dongyang_016
+    4300032: mst_dongyang_017
+    4300034: mst_dongyang_018
+    4300036: mst_dongyang
+    7400000: Default Take
+    9500000: //RootNode
+    13700000: mst_dongyang
+    13700002: mst_dongyang_001
+    13700004: mst_dongyang_002
+    13700006: mst_dongyang_003
+    13700008: mst_dongyang_004
+    13700010: mst_dongyang_005
+    13700012: mst_dongyang_006
+    13700014: mst_dongyang_007
+    13700016: mst_dongyang_008
+    13700018: mst_dongyang_010
+    13700020: mst_dongyang_011
+    13700022: mst_dongyang_012
+    13700024: mst_dongyang_013
+    13700026: mst_dongyang_014
+    13700028: mst_dongyang_015
+    13700030: mst_dongyang_016
+    13700032: mst_dongyang_017
+    13700034: mst_dongyang_018
+    13700036: mst_dongyang_028
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

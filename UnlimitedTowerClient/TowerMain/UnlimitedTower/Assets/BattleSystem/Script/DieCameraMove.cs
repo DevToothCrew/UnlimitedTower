@@ -6,7 +6,7 @@ public class DieCameraMove : MonoSingleton<DieCameraMove>
 {
     public GameObject camera_Obj;
     public Camera camera_C;
-    public readonly Vector3 _DISTANCE = new Vector3(-11.2f, 11.8f, -12.1f);
+    public readonly Vector3 _DISTANCE = new Vector3(-11.1f, 10.0f, -11.1f);
     public Vector3 startPos;
 
     private void Start()
@@ -30,9 +30,9 @@ public class DieCameraMove : MonoSingleton<DieCameraMove>
         for (int i = 0; i < 25; i++)
         {
             if (isPlayer)
-                camera_Obj.transform.position = Vector3.Lerp(temp, BattleSystem.Inst.playerCharacter[target].transform.position + _DISTANCE, i * 0.04f);
+                camera_Obj.transform.position = Vector3.Lerp(temp, _DISTANCE + BattleSystem.Inst.playerCharacter[target].transform.position, i * 0.04f);
             else
-                camera_Obj.transform.position = Vector3.Lerp(temp, BattleSystem.Inst.enemyCharacter[target].transform.position + _DISTANCE, i * 0.04f);
+                camera_Obj.transform.position = Vector3.Lerp(temp, _DISTANCE + BattleSystem.Inst.enemyCharacter[target].transform.position, i * 0.04f);
             if (camera_C.orthographicSize > 1.0f)
             camera_C.orthographicSize -= 0.16f;
             yield return null;
@@ -44,7 +44,7 @@ public class DieCameraMove : MonoSingleton<DieCameraMove>
         for (int i = 0; i < 25; i++)
         {
             camera_Obj.transform.position = Vector3.Lerp(temp, startPos, i * 0.04f);
-            if (camera_C.orthographicSize < 5.0f)
+            if (camera_C.orthographicSize < 6.0f)
                 camera_C.orthographicSize += 0.16f;
             yield return null;
         }
