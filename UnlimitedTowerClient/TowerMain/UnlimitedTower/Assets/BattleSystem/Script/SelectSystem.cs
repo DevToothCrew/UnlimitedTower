@@ -184,7 +184,7 @@ public class SelectSystem : MonoSingleton<SelectSystem>
         characterInfo.SetActive(true);
         selectIndex = hit.transform.GetComponent<CharacterControl>().index;
         selectAnimation.Click();
-        TestStageState selectStateInfo;
+        stageState selectStateInfo;
         if (selectIndex < 10)
         {
             selectStateInfo = BattleSystem.Inst.GetMyState(selectIndex);
