@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 
 //공통 사항을 모아둔 클래스.
@@ -127,8 +128,8 @@ public class DEFINE
 public class UserInfo
 {
     public string userName;
-    public int userMoney;
-    public int userEOS;
+    public ulong userMoney;
+    public ulong userEOS;
     public UserServantData userHero = new UserServantData();
     public SCENE_STATE sceneState;
 }
