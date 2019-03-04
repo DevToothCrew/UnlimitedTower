@@ -34,6 +34,7 @@ public class FrameChecker : MonoBehaviour
         {
             yield return new WaitForSeconds(15f);
             worstFps = 100f;
+           
         }
     }
 
@@ -51,7 +52,7 @@ public class FrameChecker : MonoBehaviour
 
         if (fps < worstFps)  //새로운 최저 fps가 나왔다면 worstFps 바꿔줌.
             worstFps = fps;
-        text = msec.ToString("F1") + "ms (" + fps.ToString("F1") + ") //worst : " + worstFps.ToString("F1");
+        text = msec.ToString("F1") + "ms (" + fps.ToString("F1") + ") // " + (int)(1 / Time.deltaTime) + "FPS";
         GUI.Label(rect, text, style);
     }
 }
