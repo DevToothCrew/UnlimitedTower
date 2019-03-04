@@ -12,7 +12,7 @@ public class CheckSelectAnimation : MonoBehaviour {
     private readonly Color Yellow = new Color(1, 1, 0, 1);
     private readonly Color Red = new Color(1, 0, 0, 1);
 
-    void Start () {
+    void Awake () {
         tf = gameObject.transform;
         ScaleVector = tf.transform.localScale;
         sprite = transform.GetChild(0).GetComponent<SpriteRenderer>();
@@ -35,6 +35,11 @@ public class CheckSelectAnimation : MonoBehaviour {
         sprite.color = Yellow;
     }
 
+    public void OnEnable()
+    {
+        StartCoroutine(AniRotate());
+    }
+    
     public void Click()
     {
         sprite.color = Red;

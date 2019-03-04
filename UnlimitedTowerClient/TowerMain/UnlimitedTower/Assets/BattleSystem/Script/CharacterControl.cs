@@ -8,12 +8,11 @@ public class CharacterControl : MonoBehaviour
     public BoxCollider checkBox;
     public GameObject select;
     public int index;
-    public bool isPlayer;
     public int maxHp;
     public int nowHp;
     public bool isDie;
     private bool isStart = false;
-    
+
     private void FixedUpdate()
     {
         if (!isStart)
@@ -52,25 +51,18 @@ public class CharacterControl : MonoBehaviour
 
         if (!sendValue.isAvoid)
         {
-            if (isPlayer)
+            if (BattleSystem.Inst.characterControl[sendValue.Target].nowHp - sendValue.Damage <= 0)
             {
-                if (BattleSystem.Inst.enemyCharacterControl[sendValue.Target].nowHp - sendValue.Damage <= 0)
-                {
-                    DieCameraMove.Inst.Test(sendValue.Target, !isPlayer);
-                }
-            }
-            else if (BattleSystem.Inst.playerCharacterControl[sendValue.Target].nowHp - sendValue.Damage <= 0)
-            {
-                DieCameraMove.Inst.Test(sendValue.Target, !isPlayer);
+                DieCameraMove.Inst.Test(sendValue.Target);
             }
         }
     }
-    
+
     public void Miss()
     {
         StartCoroutine(Avoid());
     }
-    
+
     // 바꿔라아ㅏㅏ
     IEnumerator Avoid()
     {
