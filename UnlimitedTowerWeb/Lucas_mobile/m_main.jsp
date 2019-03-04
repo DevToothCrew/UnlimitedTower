@@ -16,16 +16,18 @@ if(country != null){}else{country = "en";}
 	<title>Unlimited Tower - The New Blockchain Battle Dapp</title>
 	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700" rel="stylesheet">
     <link rel="shortcut icon" href="m_assets/img/logo32.png">
-	<link rel="stylesheet"  href="m_assets/css/reset.css?ver=3">
-	<link rel="stylesheet"  href="m_assets/css/style.css?ver=12">
+	<link rel="stylesheet"  href="m_assets/css/reset.css">
+	<link rel="stylesheet"  href="m_assets/css/style.css">
 	<link rel="stylesheet"  href="m_assets/slick/slick.css"/>
  	<link rel="stylesheet"  href="m_assets/slick/slick-theme.css"/>
+ 	<script src="m_assets/js/scatterjs-core.min.js"></script>
+	<script src="m_assets/js/scatterjs-plugin-eosjs.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.9/lib/eos.min.js" crossorigin="anonymous"></script>
 	</head>
 <script type="text/javascript">
 	window.onload = function(){
 		document.main.country.value = '<%=country%>';
-		//scatter_login();	// scatter.js
-		
+		scatter_login();	// scatter.js		
 	}
 </script>
 
@@ -81,13 +83,10 @@ if(country != null){}else{country = "en";}
 <%@include file = "common/m_footer.jsp"%>
 </form>
 </body>
-<script src="https://cdn.scattercdn.com/file/scatter-cdn/js/latest/scatterjs-core.min.js"></script>
-<script src="https://cdn.scattercdn.com/file/scatter-cdn/js/latest/scatterjs-plugin-eosjs.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.9/lib/eos.min.js" crossorigin="anonymous"></script>
 <script src="m_assets/js/jquery-1.12.4.js"></script>
 <script src="m_assets/js/jquery-ui-1.12.1.min.js"></script>
 <script src="m_assets/slick/slick.min.js"></script>
-<script src="m_assets/js/event.js?ver=13"></script>
-<script src="m_assets/js/scatter.js?ver=13"></script>
+<script src="m_assets/js/event.js"></script>
+<script src="m_assets/js/scatter.js?ver=4"></script>
 <script src="m_assets/js/html5shiv.js"></script>
 </html>

@@ -16,13 +16,16 @@ if(country != null){}else{country = "en";}
 	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700" rel="stylesheet">
 	<link rel="stylesheet"  href="assets/css/reset.css?ver=1">
 <% if(country.equals("ch")){ %>	
-	<link rel="stylesheet"  href="assets/css/ch_style.css?ver=8">
+	<link rel="stylesheet"  href="assets/css/ch_style.css?ver=10">
 <% }else{ %>
-	<link rel="stylesheet"  href="assets/css/style.css?ver=28">
+	<link rel="stylesheet"  href="assets/css/style.css?ver=34">
 <% } %>
 	<link rel="stylesheet"  href="assets/slick/slick.css"/>
  	<link rel="stylesheet"  href="assets/slick/slick-theme.css"/>
  	<link rel="shortcut icon" href="assets/img/logo32.png">
+ 	<script src="assets/js/scatterjs-core.min.js"></script>
+	<script src="assets/js/scatterjs-plugin-eosjs.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.9/lib/eos.min.js" crossorigin="anonymous"></script>
 </head>
 <script type="text/javascript">
 	window.onload = function(){
@@ -83,13 +86,10 @@ if(country != null){}else{country = "en";}
 <%@include file = "common/footer.jsp"%>
 </form>
 </body>
-<script src="https://cdn.scattercdn.com/file/scatter-cdn/js/latest/scatterjs-core.min.js"></script>
-<script src="https://cdn.scattercdn.com/file/scatter-cdn/js/latest/scatterjs-plugin-eosjs.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.9/lib/eos.min.js" crossorigin="anonymous"></script>
 <script src="assets/js/jquery-1.12.4.js"></script>
 <script src="assets/js/jquery-ui-1.12.1.min.js"></script>
 <script src="assets/slick/slick.min.js"></script>
-<script src="assets/js/event.js?ver=18"></script>
-<script src="assets/js/scatter.js?ver=58"></script>
+<script src="assets/js/event.js?ver=21"></script>
+<script src="assets/js/scatter.js?ver=47"></script>
 <script src="assets/js/html5shiv.js"></script>
 </html>
