@@ -5,7 +5,7 @@
 		<div class="container">
 			<div class="sec3">
 				<h1>Pre-Register Now</h1>
-				<h2>지금 사전예약에 참여하고 한정판 판다와<br>보너스 3000 UTG를 획득하세요!</h2>
+				<h2>지금 사전예약에 참여하고 한정판 판다와<br>보너스 3,000 UTG를 획득하세요!</h2>
 				<div class="sec3-monster">
 					<div class="sm3-l">
 						<img src="assets/img/mst-panda.png" alt="">
