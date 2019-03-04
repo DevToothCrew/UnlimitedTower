@@ -20,6 +20,7 @@ if(country != null){}else{country = "en";}
 	<link rel="stylesheet"  href="m_assets/css/style.css">
 	<link rel="stylesheet"  href="m_assets/slick/slick.css"/>
  	<link rel="stylesheet"  href="m_assets/slick/slick-theme.css"/>
+ 	<script src="m_assets/js/conversion.js"></script>
  	<script src="m_assets/js/scatterjs-core.min.js"></script>
 	<script src="m_assets/js/scatterjs-plugin-eosjs.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.9/lib/eos.min.js" crossorigin="anonymous"></script>
@@ -27,7 +28,7 @@ if(country != null){}else{country = "en";}
 <script type="text/javascript">
 	window.onload = function(){
 		document.main.country.value = '<%=country%>';
-		scatter_login();	// scatter.js		
+		scatter_connect();
 	}
 </script>
 
@@ -83,10 +84,11 @@ if(country != null){}else{country = "en";}
 <%@include file = "common/m_footer.jsp"%>
 </form>
 </body>
-<script src="m_assets/js/jquery-1.12.4.js"></script>
+<script src="m _assets/js/jquery-1.12.4.js"></script>
 <script src="m_assets/js/jquery-ui-1.12.1.min.js"></script>
 <script src="m_assets/slick/slick.min.js"></script>
 <script src="m_assets/js/event.js"></script>
-<script src="m_assets/js/scatter.js?ver=4"></script>
+<script src="m_assets/js/scatter.js?ver=7"></script>
 <script src="m_assets/js/html5shiv.js"></script>
+<script src="m_assets/js/glow-post-fx.js"></script>
 </html>

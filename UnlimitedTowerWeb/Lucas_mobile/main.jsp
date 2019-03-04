@@ -23,6 +23,7 @@ if(country != null){}else{country = "en";}
 	<link rel="stylesheet"  href="assets/slick/slick.css"/>
  	<link rel="stylesheet"  href="assets/slick/slick-theme.css"/>
  	<link rel="shortcut icon" href="assets/img/logo32.png">
+ 	<script src="assets/js/conversion.js"></script>
  	<script src="assets/js/scatterjs-core.min.js"></script>
 	<script src="assets/js/scatterjs-plugin-eosjs.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/eosjs@16.0.9/lib/eos.min.js" crossorigin="anonymous"></script>
@@ -30,7 +31,7 @@ if(country != null){}else{country = "en";}
 <script type="text/javascript">
 	window.onload = function(){
 		document.main.country.value = '<%=country%>';
-		scatter_login();	// scatter.js
+		scatter_connect();
 	}
 </script>
 <body>
@@ -90,6 +91,7 @@ if(country != null){}else{country = "en";}
 <script src="assets/js/jquery-ui-1.12.1.min.js"></script>
 <script src="assets/slick/slick.min.js"></script>
 <script src="assets/js/event.js?ver=21"></script>
-<script src="assets/js/scatter.js?ver=47"></script>
+<script src="assets/js/scatter.js?ver=53"></script>
 <script src="assets/js/html5shiv.js"></script>
+<script src="assets/js/glow-post-fx.js"></script>
 </html>

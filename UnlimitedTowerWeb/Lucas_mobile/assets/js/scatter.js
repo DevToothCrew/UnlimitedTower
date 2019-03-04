@@ -1,8 +1,6 @@
 const scatterEOS = window.ScatterEOS;
 const scatterJS = window.ScatterJS;
 
-addJavascript('assets/js/scatterjs-core.min.js');
-
 ScatterJS.plugins( new ScatterEOS() );
 
 let scatter,requiredFields;
@@ -15,14 +13,18 @@ const network = {
     chainId:'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906'
 }
 
-scatterJS.scatter.connect('My-App').then(connected => {
-	scatter = scatterJS.scatter;
-	if(!connected) return false;
-	requiredFields = { accounts:[network] };
-	
-	console.log('connect');
-	console.log(scatter);
-});
+function scatter_connect(){
+	scatterJS.scatter.connect('My-App').then(connected => {
+		scatter = scatterJS.scatter;
+		if(!connected) return false;
+		requiredFields = { accounts:[network] };
+			
+		console.log('connect');
+		console.log(scatter);
+		
+		scatter_login();
+	});
+}
 
 var contract = "untowermain1";
 var signup = "";
@@ -40,9 +42,6 @@ function addJavascript(jsname) {
 	s.setAttribute('src',jsname);
 	th.appendChild(s);
 }
-
-addJavascript('assets/js/conversion.js?ver=8');
-
 
 function scatter_login(){	
 	var main_form = document.main;
@@ -150,19 +149,6 @@ function scatter_login(){
 	    			}
 	    		}
 	    	}
-	    }).catch(error => {
-			if(error.code != '402'){
-				console.log(error);
-				if(error.code == '423'){
-					console.log('scatter 잠김 !!');
-					console.log(error);
-				}else{
-					document.main.submit();
-				}
-			}else{
-				console.log('login 거부 !!');
-				console.log(error);
-			}
 	    });
 	});
 }
@@ -346,10 +332,14 @@ function register(ref_id){
 
 function scatter_logout(){	
 	const scatter = scatterJS.scatter;
+	var slideIndex=10000;
 	
 	scatter.logout();
 	
-	$(".slide-wrap").empty();
+	$('.slide-wrap').slick('slickRemove',slideIndex - 10000);
+	 if (slideIndex !== 0){
+	   slideIndex--;
+	 }
 	
 	$(".logout").slideToggle();
 	$(".login").css({"display":"block"});
