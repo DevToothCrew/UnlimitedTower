@@ -24,7 +24,7 @@
 				</div>
 				<div class="language">
 	            <%if(country.equals("en")){ %>
-	                <div class="En"><a href="javascript:goCountry();"><img src="assets/img/En.png" alt=""><span>En</span></a></div>
+	                <div class="En"><a href="javascript:goCountry();"><img src="assets/img/En.png" alt=""><span>English</span></a></div>
 	            <%}else if(country.equals("ko")){ %>
 	                <div class="ko"><a href="javascript:goCountry();"><img src="assets/img/Ko.png" alt=""><span>한국어</span></a></div>
 	        	<%}else if(country.equals("ch")){ %>
