@@ -91,5 +91,6 @@ if(country != null){}else{country = "en";}
 <script src="assets/slick/slick.min.js"></script>
 <script src="assets/js/event.js?ver=21"></script>
 <script src="assets/js/scatter.js?ver=47"></script>
+<script src="assets/js/glow-post-fx.js?ver=1"></script>
 <script src="assets/js/html5shiv.js"></script>
 </html>
