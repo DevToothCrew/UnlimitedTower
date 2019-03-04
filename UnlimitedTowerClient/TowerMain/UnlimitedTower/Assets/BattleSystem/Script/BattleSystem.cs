@@ -91,7 +91,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         prefabList = GetComponent<PrefabList>();        
         battleInformation.attackerIndex = -1;
 
-        TestStageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
+       stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
         if (stageStateInfo == null)
         {
             Debug.LogError("버그 : stageStateInfo is NULL");
@@ -214,7 +214,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     // 배틀데이터를 받아와 공격 ( 메인 배틀 한턴 )
     public IEnumerator BattleStart()
     {
-        TestStageActionInfoData stageActionInfo = UserDataManager.Inst.GetStageAction();
+        stageActionInfoData stageActionInfo = UserDataManager.Inst.GetStageAction();
         if(stageActionInfo == null)
         {
             Debug.LogError("버그 : stageActionInfo is Null");
@@ -274,7 +274,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
 
         if (stageActionInfo.turn == 0)
         {
-            TestStageRewardData rewardData = UserDataManager.Inst.GetStageReward();
+            stageRewardData rewardData = UserDataManager.Inst.GetStageReward();
             if(rewardData == null)
             {
                 Debug.LogError("버그 : rewardData is Null");
@@ -307,7 +307,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     }
     
     // 캐릭터 존재 여부 체크
-    public void IsPlaceCheck(TestStageStateData stageStateInfo)
+    public void IsPlaceCheck(stageStateData stageStateInfo)
     {
         for (int i = 0; i < stageStateInfo.my_state_list.Count; i++)
         {
@@ -321,7 +321,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     }
 
     // 모든 캐릭터 스크립트 생성 
-    public void SettingScript(TestStageStateData stageStateInfo)
+    public void SettingScript(stageStateData stageStateInfo)
     {
         for (int i = 0; i < stageStateInfo.my_state_list.Count; i++)
         {
@@ -359,7 +359,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     }
 
     // 히어로를 제외한 파티 셋팅
-    public void SettingCharacter(TestStageStateData stageStateInfo)
+    public void SettingCharacter(stageStateData stageStateInfo)
     {
         for (int i = 1; i < stageStateInfo.my_state_list.Count; i++)
         {
@@ -392,7 +392,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     }
 
     // 몬스터 정보 셋팅
-    public void SettingMonster(TestStageStateData stageStateInfo)
+    public void SettingMonster(stageStateData stageStateInfo)
     {
         for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
         {
@@ -421,7 +421,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     }
 
     // 캐릭터별 체력 설정
-    public void SettingHp(TestStageStateData stageStateInfo)
+    public void SettingHp(stageStateData stageStateInfo)
     {
         for (int i = 0; i < stageStateInfo.my_state_list.Count; i++)
         {
@@ -437,9 +437,9 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     }
 
     // TODO : 몬스터의 상태를 가져오는 함수는 GetMonsterState로 변경 필요
-    public TestStageState GetMonster(int position)
+    public stageState GetMonster(int position)
     {
-        TestStageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
+        stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
         if (stageStateInfo == null)
         {
             Debug.LogError("버그 : stageStateInfo is NULL");
@@ -458,9 +458,9 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         return null;
     }
 
-    public TestStageState GetServant(int position)
+    public stageState GetServant(int position)
     {
-        TestStageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
+        stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
         if (stageStateInfo == null)
         {
             Debug.LogError("버그 : stageStateInfo is NULL");

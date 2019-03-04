@@ -237,7 +237,7 @@ public class partyData
 //-----------------------------------------------------------------------//
 
 [Serializable]
-public class TestActionInfo
+public class actionInfo
 {
     public int target_position;
     public bool avoid;
@@ -246,25 +246,25 @@ public class TestActionInfo
 }
 
 [Serializable]
-public class TestBattleActionInfo
+public class battleActionInfo
 {
     public int my_position;
     public int action_type;
 
-    public List<TestActionInfo> battle_action_list = new List<TestActionInfo>();
+    public List<actionInfo> battle_action_list = new List<actionInfo>();
 }
 
 [Serializable]
-public class TestStageActionInfoData
+public class stageActionInfoData
 {
     public string user;
     public int turn;
-    public List<TestBattleActionInfo> battle_info_list = new List<TestBattleActionInfo>();
+    public List<battleActionInfo> battle_info_list = new List<battleActionInfo>();
 }
 
 
 [Serializable]
-public class TestStageState
+public class stageState
 {
     public int position;
     public int index;
@@ -278,20 +278,20 @@ public class TestStageState
     public int speed;
 }
 [Serializable]
-public class TestStageStateData
+public class stageStateData
 {
     public string user;
     public int stage_type;
     public string enemy_user;
     public int stage_number;
-    public List<TestStageState> my_state_list = new List<TestStageState>();
-    public List<TestStageState> enemy_state_list = new List<TestStageState>();
+    public List<stageState> my_state_list = new List<stageState>();
+    public List<stageState> enemy_state_list = new List<stageState>();
 }
 
 
 //add by canie
 [Serializable]
-public class TestStageRewardData
+public class stageRewardData
 {
     public string user;
     public int reward_money;

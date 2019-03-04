@@ -28,8 +28,12 @@ mergeInto(LibraryManager.library, {
     ReactUnityWebGL.BattleAction(Pointer_stringify(battleAction));
   },
 
-  StartBattle : function(stage_num, party_num) {
-    ReactUnityWebGL.StartBattle(stage_num, party_num);
+  StartBattle : function(battleStart) {
+    ReactUnityWebGL.StartBattle(Pointer_stringify(battleStart));
+  },
+
+  GetReward : function() {
+    ReactUnityWebGL.GetReward();
   },
 
   GetServant : function() {

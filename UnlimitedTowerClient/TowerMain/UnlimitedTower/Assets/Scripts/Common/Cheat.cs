@@ -111,21 +111,21 @@ public class Cheat : MonoSingleton<Cheat>
         }
     }
 
-    public string TestGetBattleActionData(string user, int heroTarget, int heroAction, int monsterTarget, int monsterAction)
+    public string GetBattleActionData(string user, int heroTarget, int heroAction, int monsterTarget, int monsterAction)
     {
-        TestStageActionInfoData battleactiondata = new TestStageActionInfoData();
+        stageActionInfoData battleactiondata = new stageActionInfoData();
         battleactiondata.user = user;
         battleactiondata.turn += 1;
 
         for (int i = 0; i < 10; ++i)
         {
-            TestActionInfo action = new TestActionInfo();
+            actionInfo action = new actionInfo();
             action.target_position = UnityEngine.Random.Range(10, 20);
             action.avoid = false;
             action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
             action.damage = 5;
 
-            TestBattleActionInfo actioninfo = new TestBattleActionInfo();
+            battleActionInfo actioninfo = new battleActionInfo();
             actioninfo.my_position = i;
             actioninfo.action_type = 2;
             actioninfo.battle_action_list.Add(action);
@@ -136,13 +136,13 @@ public class Cheat : MonoSingleton<Cheat>
 
         for (int i = 10; i < 20; ++i)
         {
-            TestActionInfo action = new TestActionInfo();
+            actionInfo action = new actionInfo();
             action.target_position = UnityEngine.Random.Range(0, 10);
             action.avoid = false;
             action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
             action.damage = 5;
 
-            TestBattleActionInfo actioninfo = new TestBattleActionInfo();
+            battleActionInfo actioninfo = new battleActionInfo();
             actioninfo.my_position = i;
             actioninfo.action_type = 2;
             actioninfo.battle_action_list.Add(action);
@@ -155,9 +155,9 @@ public class Cheat : MonoSingleton<Cheat>
         return JsonMapper.ToJson(battleactiondata);
     }
 
-    public string TestGetStageStartData(string user, int stageNum, int partyNum)
+    public string GetStageStartData(string user, int stageNum, int partyNum)
     {
-        TestStageStateData battlestatedata = new TestStageStateData();
+        stageStateData battlestatedata = new stageStateData();
         battlestatedata.user = user;
         battlestatedata.stage_type = 0;
         battlestatedata.enemy_user = user;
@@ -166,7 +166,7 @@ public class Cheat : MonoSingleton<Cheat>
  
         for (int i = 0; i < 10; ++i)
         {
-            TestStageState newMember = new TestStageState();
+            stageState newMember = new stageState();
             if (i == 0)
             {
                 newMember.position = 0;
@@ -196,7 +196,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         for (int i = 0; i < 10; ++i)
         {
-            TestStageState newMember = new TestStageState();
+            stageState newMember = new stageState();
             newMember.position = i + 10;
             newMember.index = 100001;
             newMember.now_hp = 100;

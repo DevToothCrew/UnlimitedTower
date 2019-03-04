@@ -236,7 +236,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void ResponseBattleAction(string getBattleActionInfo)
     {
-        TestStageActionInfoData actionData = JsonUtility.FromJson<TestStageActionInfoData>(getBattleActionInfo);
+        stageActionInfoData actionData = JsonUtility.FromJson<stageActionInfoData>(getBattleActionInfo);
         if (actionData == null)
         {
             Debug.Log("Invalid ResponseBattleAction Data : " + getBattleActionInfo);
@@ -246,7 +246,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void ResponseStageStart(string getStageStartInfo)
     {
-        TestStageStateData stateData = JsonUtility.FromJson<TestStageStateData>(getStageStartInfo);
+        stageStateData stateData = JsonUtility.FromJson<stageStateData>(getStageStartInfo);
         if (stateData == null)
         {
             Debug.Log("Invalid ResponseStageStart Data : " + getStageStartInfo);
@@ -256,7 +256,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void ResponseStageResult(string getStageResultInfo)
     {
-        TestStageRewardData resultData = JsonUtility.FromJson<TestStageRewardData>(getStageResultInfo);
+        stageRewardData resultData = JsonUtility.FromJson<stageRewardData>(getStageResultInfo);
         if(resultData == null)
         {
             Debug.Log("Invalid ResponseStageResult Data : " + getStageResultInfo);
@@ -548,21 +548,21 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return partyInfo;
     }
     
-    public void BattleStart(TestStageStateData getBattleStateData)
+    public void BattleStart(stageStateData getBattleStateData)
     {
         Debug.Log("배틀 스타트!");
         UserDataManager.Inst.SetStageState(getBattleStateData);
         SceneManager.LoadScene("CharacterBattleScene");
     }
 
-    public void UpdateAction(TestStageActionInfoData getBattleActionData)
+    public void UpdateAction(stageActionInfoData getBattleActionData)
     {
         Debug.Log("턴 진행!");
         UserDataManager.Inst.SetStageAction(getBattleActionData);
         BattleSystem.Inst.StartCoroutine(BattleSystem.Inst.BattleStart());
     }
 
-    public void GetReward(TestStageRewardData getReward)
+    public void GetReward(stageRewardData getReward)
     {
         Debug.Log("배틀 끝 보상 획득!");
         UserDataManager.Inst.SetStageReward(getReward);
