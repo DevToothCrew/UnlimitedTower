@@ -6,11 +6,11 @@ using UnityEngine.UI;
 public class SelectSystem : MonoSingleton<SelectSystem>
 {
     public CheckSelectAnimation[] chsing = new CheckSelectAnimation[20];
+    public int mouseIndex = -1;
     public int selectIndex = -1;
     public bool isPlayer;
     public Image selectHpBar;
     public Text selectHpText;
-    public Image selectCharacterImage;
     public Animator controlButton;
     public ActionState actionState;
 
@@ -20,17 +20,21 @@ public class SelectSystem : MonoSingleton<SelectSystem>
     public Text speedText;
     public Text levelText;
     public Text nemeText;
+    public Image selectCharacterImage;
+    public GameObject characterInfo;
 
     private RaycastHit hit;
     private Ray ray;
-    private CheckSelectAnimation temp;
+    private CheckSelectAnimation selectAnimation;
     public bool isStart = false;
 
     public enum ActionState
     {
         Non,
         HeroSelected,
-        MonsterSelected
+        HeroTargetSelected,
+        MonsterSelected,
+        MonsterTargetSelected
     }
 
     private void Start()
@@ -44,6 +48,8 @@ public class SelectSystem : MonoSingleton<SelectSystem>
         selectCharacterImage = GameObject.Find("Character Portrait Image").GetComponent<Image>();
         selectHpBar = GameObject.Find("Hp Bar").GetComponent<Image>();
         selectHpText = GameObject.Find("Hp Text").GetComponent<Text>();
+        characterInfo = GameObject.Find("Character Information");
+        characterInfo.SetActive(false);
     }
 
     // 추후 최적화 작업, timeScale도 바꿔야함
@@ -51,20 +57,14 @@ public class SelectSystem : MonoSingleton<SelectSystem>
     {
         if (!isStart)
         {
-            if (BattleSystem.Inst.playerCharacterControl[0].select != null)
+            if (BattleSystem.Inst.characterControl[0].select != null)
             {
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 20; i++)
                 {
                     if (BattleSystem.Inst.characterisPlace[i] == true)
-                        chsing[i] = BattleSystem.Inst.playerCharacterControl[i]?.select.GetComponent<CheckSelectAnimation>();
-                    if (BattleSystem.Inst.characterisPlace[i + 10] == true)
-                        chsing[i + 10] = BattleSystem.Inst.enemyCharacterControl[i]?.select.GetComponent<CheckSelectAnimation>();
+                        chsing[i] = BattleSystem.Inst.characterControl[i]?.select.GetComponent<CheckSelectAnimation>();
                 }
                 isStart = true;
-            }
-            else
-            {
-                Debug.Log("오류다~~");
             }
         }
 
@@ -80,114 +80,68 @@ public class SelectSystem : MonoSingleton<SelectSystem>
             {
                 if (hit.transform.CompareTag("Character"))
                 {
-                    temp = hit.transform.GetComponent<CharacterControl>().select.GetComponent<CheckSelectAnimation>();
-                    isPlayer = hit.transform.GetComponent<CharacterControl>().isPlayer;
-
-                    temp.gameObject.SetActive(true);
-                    temp.AniStart();
+                    selectAnimation = hit.transform.GetComponent<CharacterControl>().select.GetComponent<CheckSelectAnimation>();
+                    selectAnimation.gameObject.SetActive(true);
+                    mouseIndex = hit.transform.GetComponent<CharacterControl>().index;
 
                     if (Input.GetMouseButtonUp(0))
                     {
-                        if (isPlayer)
-                        {
-                            selectIndex = hit.transform.GetComponent<CharacterControl>().index;
-                            chsing[BattleSystem.Inst.GetServant(selectIndex).position].Click();
-                            attackDamageText.text = BattleSystem.Inst.GetServant(selectIndex).attack.ToString();
-                            defenceText.text = BattleSystem.Inst.GetServant(selectIndex).defense.ToString();
-                            speedText.text = BattleSystem.Inst.GetServant(selectIndex).speed.ToString();
-                        }
-                        else
-                        {
-                            selectIndex = hit.transform.GetComponent<CharacterControl>().index + 10;
-                            chsing[BattleSystem.Inst.GetMonster(selectIndex).position].Click();
-                            // 나중에 Get 한번만하게
-                            attackDamageText.text = BattleSystem.Inst.GetMonster(selectIndex).attack.ToString();
-                            defenceText.text = BattleSystem.Inst.GetMonster(selectIndex).defense.ToString();
-                            speedText.text = BattleSystem.Inst.GetMonster(selectIndex).speed.ToString();
-                        }
-                        if (selectIndex != -1)
-                        {
-                            if (selectIndex < 10)
-                            {
-                                selectHpBar.fillAmount = (float)BattleSystem.Inst.playerCharacterControl[selectIndex].nowHp / BattleSystem.Inst.playerCharacterControl[selectIndex].maxHp;
-                                selectHpText.text = BattleSystem.Inst.playerCharacterControl[selectIndex]?.nowHp.ToString();
-                                // TODO : testStageStateData가 NULL일때 버그를 알 수 없습니다.
-                                selectCharacterImage.sprite =
-                                    Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" +
-                                    CharacterCSVData.Inst.monsterDataDic[
-                                    UserDataManager.Inst.GetMonsterInfo(
-                                    UserDataManager.Inst.GetStageState().my_state_list[selectIndex < 5 ? 5 + selectIndex : selectIndex].index).id].inGameIconName);
-
-                                if (selectIndex != 0)
-                                {
-                                    // TODO : testStageStateData가 NULL일때 버그를 알 수 없습니다.
-                                    levelText.text = selectIndex < 5 ?
-                                      UserDataManager.Inst.GetServantInfo(
-                                      UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).level.ToString() :
-                                       UserDataManager.Inst.GetMonsterInfo(
-                                      UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).level.ToString();
-                                }
-                                else
-                                {
-                                    levelText.text = UserDataManager.Inst.GetHeroInfo().level.ToString();
-                                }
-
-                                // TODO : testStageStateData가 NULL일때 버그를 알 수 없습니다.
-                                nemeText.text = CharacterCSVData.Inst.monsterDataDic[
-                                    UserDataManager.Inst.GetMonsterInfo(
-                                    UserDataManager.Inst.GetStageState().my_state_list[selectIndex < 5 ? 5 + selectIndex : selectIndex].index).id].engName;
-                            }
-                            else
-                            {
-                                selectHpBar.fillAmount = (float)BattleSystem.Inst.enemyCharacterControl[selectIndex - 10].nowHp / BattleSystem.Inst.enemyCharacterControl[selectIndex - 10].maxHp;
-                                selectHpText.text = BattleSystem.Inst.enemyCharacterControl[selectIndex - 10]?.nowHp.ToString();
-                                selectCharacterImage.sprite =
-                                    Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" +
-                                    CharacterCSVData.Inst.monsterDataDic[
-                                    BattleSystem.Inst.GetMonster(selectIndex).index].inGameIconName);
-
-                                nemeText.text = CharacterCSVData.Inst.monsterDataDic[
-                                    BattleSystem.Inst.GetMonster(selectIndex).index].engName;
-                            }
-                        }
+                        CharacterClick();
 
                         if (selectIndex == 0)
                         {
-                            controlButton.SetTrigger("On");
+                            controlButton.SetBool("isOn", true);
                             actionState = ActionState.HeroSelected;
                         }
                         else if (selectIndex == 5)
                         {
-                            controlButton.SetTrigger("On");
+                            controlButton.SetBool("isOn", true);
                             actionState = ActionState.MonsterSelected;
                         }
-
-                        if (selectIndex > 10)
+                        else
                         {
-                            if (actionState == ActionState.HeroSelected)
+                            controlButton.SetBool("isOn", false);
+                        }
+
+                        if (actionState == ActionState.HeroTargetSelected)
+                        {
+                            if (selectIndex > 9)
                             {
-                                BattleSystem.Inst.targetSettingInfo.heroTargetIndex = selectIndex;
                                 BattleSystem.Inst.targetSettingInfo.heroAction = 2;
-                                actionState = ActionState.Non;
+                                BattleSystem.Inst.targetSettingInfo.heroTargetIndex = selectIndex;
                             }
-                            else if (actionState == ActionState.MonsterSelected)
-                            {
-                                BattleSystem.Inst.targetSettingInfo.monsterTargetIndex = selectIndex;
-                                BattleSystem.Inst.targetSettingInfo.monsterAction = 2;
-                                actionState = ActionState.Non;
-                            }
+                            actionState = ActionState.Non;
                         }
-                        else if (selectIndex != 0 && selectIndex != 5)
+                        else if (actionState == ActionState.MonsterTargetSelected)
                         {
-                            if (actionState != ActionState.Non)
+                            if (selectIndex > 9)
                             {
-                                actionState = ActionState.Non;
-                                controlButton.SetTrigger("Off");
+                                BattleSystem.Inst.targetSettingInfo.monsterAction = 2;
+                                BattleSystem.Inst.targetSettingInfo.monsterTargetIndex = selectIndex;
                             }
+                            actionState = ActionState.Non;
                         }
-
-
                     }
+                }
+                else
+                {
+                    mouseIndex = -1;
+
+                    if (Input.GetMouseButtonUp(0))
+                    {
+                        selectIndex = -1;
+                        characterInfo.SetActive(false);
+                    }
+                }
+            }
+            else
+            {
+                mouseIndex = -1;
+
+                if (Input.GetMouseButtonUp(0))
+                {
+                    selectIndex = -1;
+                    characterInfo.SetActive(false);
                 }
             }
 
@@ -195,9 +149,8 @@ public class SelectSystem : MonoSingleton<SelectSystem>
             {
                 selectIndex = -1;
                 actionState = ActionState.Non;
-                controlButton.SetTrigger("Off");
+                controlButton.SetBool("isOn", false);
             }
-
         }
     }
 
@@ -208,20 +161,86 @@ public class SelectSystem : MonoSingleton<SelectSystem>
         else if (actionState == ActionState.MonsterSelected)
             BattleSystem.Inst.targetSettingInfo.monsterAction = 3;
         actionState = ActionState.Non;
-        controlButton.SetTrigger("Off");
+        controlButton.SetBool("isOn", false);
     }
 
     public void AttackChick()
     {
         if (selectIndex == 0)
         {
-            actionState = ActionState.HeroSelected;
-            controlButton.SetTrigger("Off");
+            actionState = ActionState.HeroTargetSelected;
+            controlButton.SetBool("isOn", false);
         }
         else if (selectIndex == 5)
         {
-            actionState = ActionState.MonsterSelected;
-            controlButton.SetTrigger("Off");
+            actionState = ActionState.MonsterTargetSelected;
+            controlButton.SetBool("isOn", false);
+        }
+    }
+
+    public void CharacterClick()
+    {
+
+        characterInfo.SetActive(true);
+        selectIndex = hit.transform.GetComponent<CharacterControl>().index;
+        selectAnimation.Click();
+        TestStageState selectStateInfo;
+        if (selectIndex < 10)
+        {
+            selectStateInfo = BattleSystem.Inst.GetMyState(selectIndex);
+        }
+        else
+        {
+            selectStateInfo = BattleSystem.Inst.GetEnemyState(selectIndex);
+        }
+
+        attackDamageText.text = selectStateInfo.attack.ToString();
+        defenceText.text = selectStateInfo.defense.ToString();
+        speedText.text = selectStateInfo.speed.ToString();
+
+        if (selectIndex < 10)
+        {
+            if (selectIndex != 0)
+            {
+                levelText.text = selectIndex < 5 ?
+            UserDataManager.Inst.GetServantInfo(
+            UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).level.ToString() :
+            UserDataManager.Inst.GetMonsterInfo(
+            UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).level.ToString();
+            }
+            else
+            {
+                levelText.text = UserDataManager.Inst.GetHeroInfo().level.ToString();
+            }
+        }
+        
+        if (selectIndex == 0)
+        {
+
+        }
+        else if (selectIndex < 5)
+        {
+
+        }
+        else if (selectIndex < 10)
+        {
+            nemeText.text = CharacterCSVData.Inst.monsterDataDic[
+            UserDataManager.Inst.GetMonsterInfo(
+            UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).id].engName;
+
+            selectCharacterImage.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" +
+                CharacterCSVData.Inst.monsterDataDic[
+            UserDataManager.Inst.GetMonsterInfo(
+            UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).id].inGameIconName);
+
+        }
+        else
+        {
+            nemeText.text = CharacterCSVData.Inst.monsterDataDic[selectStateInfo.index].engName;
+            
+            selectCharacterImage.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" +
+                CharacterCSVData.Inst.monsterDataDic[
+            BattleSystem.Inst.GetEnemyState(selectIndex).index].inGameIconName);
         }
     }
 }

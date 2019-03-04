@@ -486,6 +486,7 @@ RectTransform:
   m_Children:
   - {fileID: 949755047}
   - {fileID: 1922670076}
+  - {fileID: 674732097}
   m_Father: {fileID: 1247079427}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4795,6 +4796,75 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 664400958}
   m_Mesh: {fileID: 4300000, guid: 3102c76b3a1a5dc4ab17f33c0fc75e5d, type: 3}
+--- !u!1 &674732096
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 674732097}
+  - component: {fileID: 674732099}
+  - component: {fileID: 674732098}
+  m_Layer: 5
+  m_Name: "\uACF5\uACA9\uB300\uC0C1"
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &674732097
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 674732096}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1332720175}
+  m_Father: {fileID: 64273345}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 521.5, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &674732098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 674732096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &674732099
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 674732096}
 --- !u!1 &683724894
 GameObject:
   m_ObjectHideFlags: 0
@@ -10756,6 +10826,80 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3ed1eaf3e88cd084fbdf54df7b72b435, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1332720174
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1332720175}
+  - component: {fileID: 1332720177}
+  - component: {fileID: 1332720176}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1332720175
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1332720174}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 674732097}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 550, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1332720176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1332720174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 40
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 3
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: "\uACF5\uACA9\uB300\uC0C1\uC744 \uC120\uD0DD\uD574\uC8FC\uC138\uC694"
+--- !u!222 &1332720177
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1332720174}
 --- !u!1 &1335083992
 GameObject:
   m_ObjectHideFlags: 0
@@ -14649,7 +14793,7 @@ MonoBehaviour:
     isAvoid: 0
     isCritical: 0
     isPlayerTurn: 0
-  playerCharacter:
+  characterObject:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -14660,7 +14804,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  playerCharacterControl:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -14671,7 +14814,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  enemyCharacter:
+  characterControl:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -14682,7 +14825,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  enemyCharacterControl:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -14693,44 +14835,17 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  TimeScale: 1
   characterisPlace: 0000000000000000000000000000000000000000
+  TimeScale: 1
   targetSettingInfo:
     heroTargetIndex: 0
     heroAction: 0
     monsterTargetIndex: 0
     monsterAction: 0
   turn: 0
-  testStageStateData:
-    user: 
-    stage_type: 0
-    enemy_user: 
-    stage_number: 0
-    my_state_list: []
-    enemy_state_list:
-    - position: 0
-      index: 0
-      now_hp: 0
-      attack: 0
-      defense: 0
-      crit_per: 0
-      crit_dmg: 0
-      avoid: 0
-      state: 0
-      speed: 0
-  testStageActionInfoData:
-    user: 
-    turn: 0
-    battle_info_list: []
-  testStageRewardData:
-    user: 
-    reward_money: 0
-    get_exp_list: 
-    get_servant_list: []
-    get_monster_list: []
-    get_item_list: []
   testMyTurn: {fileID: 0}
   testReward: {fileID: 0}
+  testReTageting: {fileID: 0}
 --- !u!4 &1616318302
 Transform:
   m_ObjectHideFlags: 0
@@ -14845,11 +14960,11 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  mouseIndex: -1
   selectIndex: -1
   isPlayer: 0
   selectHpBar: {fileID: 0}
   selectHpText: {fileID: 0}
-  selectCharacterImage: {fileID: 0}
   controlButton: {fileID: 0}
   actionState: 0
   attackDamageText: {fileID: 0}
@@ -14857,6 +14972,8 @@ MonoBehaviour:
   speedText: {fileID: 0}
   levelText: {fileID: 0}
   nemeText: {fileID: 0}
+  selectCharacterImage: {fileID: 0}
+  characterInfo: {fileID: 0}
   isStart: 0
 --- !u!114 &1616318307
 MonoBehaviour:

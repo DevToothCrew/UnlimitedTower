@@ -16,12 +16,12 @@ public class DieCameraMove : MonoSingleton<DieCameraMove>
         startPos = camera_Obj.transform.position;
     }
     
-    public void Test(int target, bool isPlayer)
+    public void Test(int target)
     {
-        StartCoroutine(Move(target, isPlayer));
+        StartCoroutine(Move(target));
     }
 
-    IEnumerator Move(int target, bool isPlayer)
+    IEnumerator Move(int target)
     {
         yield return new WaitForSeconds(1.0f);
 
@@ -29,10 +29,7 @@ public class DieCameraMove : MonoSingleton<DieCameraMove>
         Vector3 temp = camera_Obj.transform.position;
         for (int i = 0; i < 25; i++)
         {
-            if (isPlayer)
-                camera_Obj.transform.position = Vector3.Lerp(temp, _DISTANCE + BattleSystem.Inst.playerCharacter[target].transform.position, i * 0.04f);
-            else
-                camera_Obj.transform.position = Vector3.Lerp(temp, _DISTANCE + BattleSystem.Inst.enemyCharacter[target].transform.position, i * 0.04f);
+                camera_Obj.transform.position = Vector3.Lerp(temp, _DISTANCE + BattleSystem.Inst.characterControl[target].transform.position, i * 0.04f);
             if (camera_C.orthographicSize > 1.0f)
             camera_C.orthographicSize -= 0.16f;
             yield return null;

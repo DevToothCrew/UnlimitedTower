@@ -17,10 +17,10 @@ public class DefaultAttack : MonoBehaviour
 
     public void Attack(SendValue sendValue)
     {
-        if (isOneDeal)
-            StartCoroutine(FarAttackAction(sendValue));
-        else
-            StartCoroutine(NearAttackAction(sendValue));
+        // if (isOneDeal)
+        //     StartCoroutine(FarAttackAction(sendValue));
+        // else
+        StartCoroutine(NearAttackAction(sendValue));
     }
 
     IEnumerator NearAttackAction(SendValue sendValue)
@@ -30,8 +30,8 @@ public class DefaultAttack : MonoBehaviour
         Vector3 attackerStartPos;
         Vector3 attackerEndPos;
 
-        attacker = sendValue.isPlayer == true ? BattleSystem.Inst.playerCharacter[sendValue.Attacker].transform : BattleSystem.Inst.enemyCharacter[sendValue.Attacker].transform;
-        target = sendValue.isPlayer == true ? BattleSystem.Inst.enemyCharacter[sendValue.Target].transform : BattleSystem.Inst.playerCharacter[sendValue.Target].transform;
+        attacker = BattleSystem.Inst.characterObject[sendValue.Attacker].transform;
+        target = BattleSystem.Inst.characterObject[sendValue.Target].transform;
 
         attackerStartPos = attacker.position;
         attackerEndPos = target.position;
@@ -48,8 +48,8 @@ public class DefaultAttack : MonoBehaviour
         yield return new WaitForSeconds(characterInformation.AttackAfterDelay);
 
         yield return AttackRecall(attacker, target, attackerEndPos, attackerStartPos);
-        
-        attacker.rotation = sendValue.isPlayer == true ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0);
+
+        attacker.rotation = sendValue.Attacker < 10 ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0);
 
         BattleSystem.Inst.battleInformation.attackerIndex = -1;
     }
@@ -92,51 +92,51 @@ public class DefaultAttack : MonoBehaviour
 
 
     // 원거리 공격은 보류
-    IEnumerator FarAttackAction(SendValue sendValue)
-    {
-        Transform attacker;
-        Transform target;
-
-        if (sendValue.isPlayer)
-        {
-            attacker = BattleSystem.Inst.playerCharacter[sendValue.Attacker].transform;
-            target = BattleSystem.Inst.enemyCharacter[sendValue.Target].transform;
-        }
-        else
-        {
-            attacker = BattleSystem.Inst.enemyCharacter[sendValue.Attacker].transform;
-            target = BattleSystem.Inst.playerCharacter[sendValue.Target].transform;
-        }
-
-        attacker.transform.LookAt(target);
-
-        ani.SetTrigger("isAttack");
-
-        yield return new WaitForSeconds(characterInformation.AttackDelay);
-
-        StartCoroutine(ArrowShot(target.position));
-
-        ani.SetTrigger("isIdle");
-
-        if (sendValue.isPlayer)
-            attacker.rotation = Quaternion.Euler(0, 0, 0);
-        else
-            attacker.rotation = Quaternion.Euler(0, 180, 0);
-
-        yield return new WaitForSeconds(0.7f);
-
-        DamageTextSystem.Inst.DamageShow(sendValue.Target, !sendValue.isPlayer, 10, false);
-    }
-
-    IEnumerator ArrowShot(Vector3 target)
-    {
-        GameObject arrow = Instantiate(Arrow, transform.position + new Vector3(0, 0.4f, 0), transform.rotation);
-        float Speed = Vector3.Distance(arrow.transform.position, target) * 0.02f;
-        for (int i = 0; i < 50; i += BattleSystem.Inst.TimeScale)
-        {
-            arrow.transform.Translate(0, 0, Speed * BattleSystem.Inst.TimeScale);
-            yield return new WaitForSeconds(0.01f);
-        }
-        Destroy(arrow);
-    }
+    // IEnumerator FarAttackAction(SendValue sendValue)
+    // {
+    //     Transform attacker;
+    //     Transform target;
+    // 
+    //     if (sendValue.isPlayer)
+    //     {
+    //         attacker = BattleSystem.Inst.playerCharacter[sendValue.Attacker].transform;
+    //         target = BattleSystem.Inst.enemyCharacter[sendValue.Target].transform;
+    //     }
+    //     else
+    //     {
+    //         attacker = BattleSystem.Inst.enemyCharacter[sendValue.Attacker].transform;
+    //         target = BattleSystem.Inst.playerCharacter[sendValue.Target].transform;
+    //     }
+    // 
+    //     attacker.transform.LookAt(target);
+    // 
+    //     ani.SetTrigger("isAttack");
+    // 
+    //     yield return new WaitForSeconds(characterInformation.AttackDelay);
+    // 
+    //     StartCoroutine(ArrowShot(target.position));
+    // 
+    //     ani.SetTrigger("isIdle");
+    // 
+    //     if (sendValue.isPlayer)
+    //         attacker.rotation = Quaternion.Euler(0, 0, 0);
+    //     else
+    //         attacker.rotation = Quaternion.Euler(0, 180, 0);
+    // 
+    //     yield return new WaitForSeconds(0.7f);
+    // 
+    //     DamageTextSystem.Inst.DamageShow(sendValue.Target, !sendValue.isPlayer, 10, false);
+    // }
+    // 
+    // IEnumerator ArrowShot(Vector3 target)
+    // {
+    //     GameObject arrow = Instantiate(Arrow, transform.position + new Vector3(0, 0.4f, 0), transform.rotation);
+    //     float Speed = Vector3.Distance(arrow.transform.position, target) * 0.02f;
+    //     for (int i = 0; i < 50; i += BattleSystem.Inst.TimeScale)
+    //     {
+    //         arrow.transform.Translate(0, 0, Speed * BattleSystem.Inst.TimeScale);
+    //         yield return new WaitForSeconds(0.01f);
+    //     }
+    //     Destroy(arrow);
+    // }
 }
