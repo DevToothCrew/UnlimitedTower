@@ -4,6 +4,7 @@ const scatterJS = window.ScatterJS;
 ScatterJS.plugins( new ScatterEOS() );
 
 let scatter,requiredFields;
+let connect_yn = "n";
 
 const network = {
     blockchain:'eos',
@@ -18,12 +19,16 @@ function scatter_connect(){
 		scatter = scatterJS.scatter;
 		if(!connected) return false;
 		requiredFields = { accounts:[network] };
-			
+
 		console.log('connect');
 		console.log(scatter);
-		
+
 		scatter_login();
+	}).catch(error => {
+		console.log(error);
 	});
+	
+	connect_yn = "y";
 }
 
 var contract = "untowermain1";
@@ -45,52 +50,56 @@ function addJavascript(jsname) {
 
 function scatter_login(){	
 	var main_form = document.main;
-	
-	console.log(scatter);
-	
+
+	if(connect_yn != 'y'){
+		scatter_connect();
+	}
+
+	console.log('login');
+
 	scatter.getIdentity(requiredFields).then(() => {
 		const account = scatter.identity.accounts.find(x => x.blockchain === 'eos');
 		const eosOptions = { expireInSeconds:60 };
 		const eos = scatter.eos(network, Eos, eosOptions);
 		const transactionOptions = { authorization:[`${account.name}@${account.authority}`] };
-	
+
 		main_form.userId.value = account.name;
-			
+
 		$(".login").css({"display":"none"});
 		$(".name").css({"display":"block"});			
-		
+
 		var html = "<a href='javascript:name_click();'>"+account.name+"</a>";
 		$(".name").empty();
 		$(".name").append(html);
-					
+
 		$.post("https://dcugl.com/prelogin", { user:account.name })
 	    .done(function(data){
 	    	const result_data = data;
 	    	signup = data.signup;
 	    	login_yn = "y";
 	    	console.log(result_data);
-	    	
+
 	    	if(result_data.signup != true){
 	    		$(".sec3-btn1").css({"display":"none"}); //Please login first
 	    		$(".sec3-btn2").css({"display":"none"}); //Already Registered
 	    		$(".sec3-btn").css({"display":"block"}); //Pre-Register
-	
+
 	    		$(".sec4-btn1").css({"display":"none"}); //Play Gacha
 	    		$(".sec4-btn2").css({"display":"none"}); //Please login first
 	    		$(".sec4-btn").css({"display":"block"}); //Register first
-	
-	    		console.log('tiger');
+
+	    		console.log('signup:null');
 	    	}else{
 	    		$(".sec3-btn1").css({"display":"none"});  //Please login first
 	    		$(".sec3-btn2").css({"display":"block"}); //Already Registered
 	    		$(".sec3-btn").css({"display":"none"});   //Pre-Register
-	
+
 	    		$(".sec4-btn1").css({"display":"block"}); //Play Gacha
 	    		$(".sec4-btn2").css({"display":"none"});  //Please login first
 	    		$(".sec4-btn").css({"display":"none"});   //Register first
-	
+
 	    		$(".section4-3").css({"display" :"block"});
-	
+
 	    		if(result_data.monster_list.length > 0){
 	    			for(var i = 0;result_data.monster_list.length > i;i++){
 	    				var html = "";
@@ -190,9 +199,7 @@ function register(ref_id){
 	    		$(".sec4-btn1").css({"display":"none"}); //Play Gacha
 	    		$(".sec4-btn2").css({"display":"none"}); //Please login first
 	    		$(".sec4-btn").css({"display":"block"}); //Register first
-	    		
-	    		console.log('tiger');
-	    		
+
 	    		eos.transfer(account.name, contract , '1.0000 EOS', ref+login_num+':'+login_seed, transactionOptions).then(trx => {
 					console.log(`Transaction ID: ${trx.transaction_id}`);
 				}).catch(error => {
@@ -312,19 +319,6 @@ function register(ref_id){
 		    		console.log('servantOK');
 		    	}
 	    	}
-		}).catch(error => {
-			if(error.code != '402'){
-				console.log(error);
-				if(error.code == '423'){
-					console.log('scatter 잠김 !!');
-					console.log(error);					
-				}else{
-					document.main.submit();					
-				}
-			}else{
-				console.log('login 거부 !!');
-				console.log(error);
-			}
 		});
 	});
 }
@@ -373,10 +367,8 @@ function gacha(){
 		
 		$.post("https://dcugl.com/seed", {})
 	    .done(function(data){
-	    		console.log('data_num -->' + data.num);
-	    		console.log('data_seed -->' + data.seed);
-	    		console.log('gacha:'+data.num+':'+data.seed);
-	    		eos.transfer(account.name, contract , '1.0000 EOS', 'gacha:'+data.num+':'+data.seed, transactionOptions).then(trx => {
+	    	console.log('gacha:'+data.num+':'+data.seed);
+	    	eos.transfer(account.name, contract , '1.0000 EOS', 'gacha:'+data.num+':'+data.seed, transactionOptions).then(trx => {
 				console.log(`Transaction ID: ${trx.transaction_id}`);
 				
 				$(".section4").css({"display" :"none"});			    		
@@ -398,7 +390,7 @@ function gacha(){
 		    .done(function(result,result_type){
 		    	const result_data = result;
 		    	
-		    	console.log('gacha!!:');
+		    	console.log('gacha');
 		    	
 		    	console.log(result_data);
 				if(result_data != 'Fail to get gacha data'){
@@ -414,8 +406,6 @@ function gacha(){
 		    		if(result_data.result == 'mon'){
 		    			var html = "";
 
-		    			console.log(cnvs_name(result_data.id));			    			
-		    			
 		    			html2 = "<div class='slick'>";
 		    			html2 = html2 + "<img class='scard-bg' src='assets/img/"+cnvs_cd(result_data.grade)+"' alt=''>";
 		    			html2 = html2 + "<h2>"+cnvs_name(result_data.id)+"</h2>";
@@ -446,8 +436,6 @@ function gacha(){
 		    		if(result_data.result == 'ser'){
 		    			var html = "";
 
-		    			console.log(cnvs_name(result_data.id));
-		    			
 		    			html2 = "<div class='slick'>";
 		    			html2 = html2 + "<img class='scard-bg' src='assets/img/card5.png' alt=''>";
 		    			html2 = html2 + "<h2>"+cnvs_name(result_data.id)+"</h2>";
@@ -478,8 +466,6 @@ function gacha(){
 		    		if(result_data.result == 'itm'){
 		    			var html = "";
 
-		    			console.log(cnvs_name(result_data.id));
-		    			
 		    			html2 = "<div class='slick slick-slide'>";
 		    			html2 = html2 + "<img class='scard-bg legendary' src='assets/img/"+cnvs_cd(result_data.grade)+"' alt=''>";
 		    			html2 = html2 + "<img class='stier' src='assets/img/icon/tier/"+cnvs_tier(result_data.tier)+"' alt=''>";
@@ -508,7 +494,7 @@ function gacha(){
 		    		
 		    		$(".sec4-1").addClass("show4-1");
 		    	}else{
-		    		console.log('gacha 거부!');
+		    		console.log('gacha Deny');
 
 		    		$('.sec4-btn1').unbind('click', false); //Play Gacha
 		    		$(".sec4-1").removeClass("show4-1");
@@ -562,7 +548,6 @@ function daily_open(){
 		    			$("#day"+(i+1)).addClass("check");
 		    		}
 		    	}else{
-		    		console.log('비정상접근');
 		    		$("#day1").addClass("active");
 		    		user_check_yn = 'n';
 		    		return;
@@ -606,7 +591,6 @@ function daily_check(){
 		if(user_time != server_time || user_check_yn == 'n'){
 			$.post("https://dcugl.com/seed", {})
 			.done(function(data){
-				console.log(data.seed);
 				daily_seed = data.num+':'+data.seed;
 				console.log(daily_seed);
 				

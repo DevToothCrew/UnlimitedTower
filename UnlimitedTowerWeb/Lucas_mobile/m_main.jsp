@@ -88,7 +88,6 @@ if(country != null){}else{country = "en";}
 <script src="m_assets/js/jquery-ui-1.12.1.min.js"></script>
 <script src="m_assets/slick/slick.min.js"></script>
 <script src="m_assets/js/event.js"></script>
-<script src="m_assets/js/scatter.js?ver=7"></script>
+<script src="m_assets/js/scatter.js?ver=8"></script>
 <script src="m_assets/js/html5shiv.js"></script>
-<script src="m_assets/js/glow-post-fx.js"></script>
 </html>
