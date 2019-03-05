@@ -85,6 +85,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         testMyTurn.SetActive(false);
         testReward.SetActive(false);
         testReTageting.SetActive(false);
+        UserDataManager.Inst.stageReward = null;
     }
 
     public void Start()
@@ -133,7 +134,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                 ((targetSettingInfo.monsterAction == 2 && targetSettingInfo.monsterTargetIndex > 9) || targetSettingInfo.monsterAction == 3))
                 {
                     UTUMSProvider.Instance.RequestBattleAction(targetSettingInfo.heroTargetIndex, targetSettingInfo.heroAction, targetSettingInfo.monsterTargetIndex, targetSettingInfo.monsterAction);
-                    targetSettingInfo = new TargetSettingInfo();
+                   targetSettingInfo = new TargetSettingInfo();
                     isBattleStart = true;
                 }
                 else
@@ -143,7 +144,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         else if (Input.GetKeyDown(KeyCode.G))
         {
             //나가기 패킷 보내기
-            SceneManager.LoadScene("Lobby");
+            PacketManager.Inst.RequestStageExit();
         }
     }
 
@@ -232,6 +233,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     // 배틀데이터를 받아와 공격 ( 메인 배틀 한턴 )
     public IEnumerator BattleStart()
     {
+        stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
         stageActionInfoData stageActionInfo = UserDataManager.Inst.GetStageAction();
         if (stageActionInfo == null)
         {
@@ -268,7 +270,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             yield return new WaitForSeconds(7.0f);
         }
 
-        if (stageActionInfo.turn == 0)
+        if (UserDataManager.Inst.GetStageReward() != null)
         {
             stageRewardData rewardData = UserDataManager.Inst.GetStageReward();
             if (rewardData == null)
@@ -277,7 +279,6 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                 yield break;
             }
 
-            PacketManager.Inst.RequestStageResult();
             string temp = "";
             testReward.SetActive(true);
             temp += "User Name : " + rewardData.user + "\n";
@@ -294,6 +295,8 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             for (int i = 0; i < rewardData.get_item_list.Count; i++)
                 temp += " : " + rewardData.get_item_list[i].id;
             testReward.transform.GetChild(0).GetComponent<Text>().text = temp;
+
+            UserDataManager.Inst.stageReward = null;
         }
         else
         {

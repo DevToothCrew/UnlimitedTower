@@ -90,11 +90,6 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         }
     }
 
-    //public void SetStageState(TestbattleStateData testStageState)
-    //{
-    //    stageState = testStageState;
-    //}
-
     public void SetStageState(stageStateData getStageState)
     {
         stageState = getStageState;
@@ -332,7 +327,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     {
         if (stageState == null)
         {
-            Debug.LogError("버그");
+            Debug.LogError("스테이지 스테이트 버그");
             return null;
         }
 
@@ -343,7 +338,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     {
         if (stageActionInfo == null)
         {
-            Debug.LogError("버그");
+            Debug.LogError("액션 버그");
             return null;
         }
 
@@ -354,7 +349,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     {
         if (stageReward == null)
         {
-            Debug.LogError("버그");
+            Debug.LogError("보상 버그");
             return null;
         }
 
