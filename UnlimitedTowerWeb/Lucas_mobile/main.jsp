@@ -90,7 +90,6 @@ if(country != null){}else{country = "en";}
 <script src="assets/js/jquery-ui-1.12.1.min.js"></script>
 <script src="assets/slick/slick.min.js"></script>
 <script src="assets/js/event.js?ver=21"></script>
-<script src="assets/js/scatter.js?ver=53"></script>
+<script src="assets/js/scatter.js?ver=61"></script>
 <script src="assets/js/html5shiv.js"></script>
-<script src="assets/js/glow-post-fx.js"></script>
 </html>
