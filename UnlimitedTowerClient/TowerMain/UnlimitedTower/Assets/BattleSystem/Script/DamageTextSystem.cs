@@ -103,7 +103,9 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
             textPool[Index].GetComponent<RectTransform>().position += new Vector3(-16.5f, 0, 0);
         }
 
-        if (isCritical)
+        if (!isCritical) 
+            StartCoroutine(NotCriticalAttackEffect());
+        else
             StartCoroutine(CriticalAttackEffect());
 
         Index++;
@@ -111,9 +113,31 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
             Index = 0;
     }
 
+    IEnumerator NotCriticalAttackEffect()
+    {
+        Vector2 temp = new Vector2(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f));
+        temp = temp.normalized;
+
+        for (int i = 0; i < 5; i++)
+        {
+            Camera_.transform.Translate(temp.x * 0.03f, temp.y * 0.03f, 0);
+            yield return new WaitForSeconds(0.01f);
+        }
+        for (int i = 0; i < 10; i++)
+        {
+            Camera_.transform.Translate(-temp.x * 0.03f, -temp.y * 0.03f, 0);
+            yield return new WaitForSeconds(0.01f);
+        }
+        for (int i = 0; i < 5; i++)
+        {
+            Camera_.transform.Translate(temp.x * 0.03f, temp.y * 0.03f, 0);
+            yield return new WaitForSeconds(0.01f);
+        }
+    }
+
     IEnumerator CriticalAttackEffect()
     {
-        Vector2 temp = new Vector2(Random.Range(0.0f, 2.0f), Random.Range(0.0f, 2.0f));
+        Vector2 temp = new Vector2(Random.Range(0.0f, 6.0f), Random.Range(0.0f, 6.0f));
         temp = temp.normalized;
 
         for (int i = 0; i < 5; i++)

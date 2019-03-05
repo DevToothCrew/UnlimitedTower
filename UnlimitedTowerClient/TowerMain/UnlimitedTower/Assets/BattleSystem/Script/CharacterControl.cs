@@ -32,6 +32,7 @@ public class CharacterControl : MonoBehaviour
                 // 바꿔라아ㅏㅏㅏㅏㅏㅏㅏ
                 child.GetComponent<Animator>().SetTrigger("isDie");
                 isDie = true;
+                nowHp = 0;
             }
         }
     }

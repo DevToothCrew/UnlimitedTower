@@ -6,15 +6,17 @@ using UnityEngine.SceneManagement;
 
 public class BattleSystem : MonoSingleton<BattleSystem>
 {
+    [HideInInspector]
     public PrefabList prefabList;
+    [HideInInspector]
     public BattleInformation battleInformation;
 
-    // 와 쉬발 이게 오류없이 한번에 바뀌네
     public GameObject[] characterObject = new GameObject[20];
     public CharacterControl[] characterControl = new CharacterControl[20];
     public bool[] characterisPlace = new bool[20];
-
+    [HideInInspector]
     public int TimeScale = 1;
+    [HideInInspector]
     public readonly int[] positionOrder = { 2, 1, 3, 0, 4, 7, 6, 8, 5, 9 };
 
     public TargetSettingInfo targetSettingInfo = new TargetSettingInfo();
@@ -23,11 +25,11 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     private bool isBattleStart;
 
     // Test
-    public int turn;
+    private int turn;
 
-    public GameObject testMyTurn;
-    public GameObject testReward;
-    public GameObject testReTageting;
+    private GameObject testMyTurn;
+    private GameObject testReward;
+    private GameObject testReTageting;
 
     [System.Serializable]
     public struct BattleInformation
@@ -90,7 +92,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         prefabList = GetComponent<PrefabList>();
         battleInformation.attackerIndex = -1;
 
-       stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
+        stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
         if (stageStateInfo == null)
         {
             Debug.LogError("버그 : stageStateInfo is NULL");
@@ -118,8 +120,17 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         {
             if (isBattleStart == false)
             {
+                if (characterControl[0].nowHp < 0)
+                {
+                    targetSettingInfo.heroAction = 3;
+                }
+                if (characterControl[5].nowHp < 0)
+                {
+                    targetSettingInfo.monsterAction = 3;
+                }
+
                 if (((targetSettingInfo.heroAction == 2 && targetSettingInfo.heroTargetIndex > 9) || targetSettingInfo.heroAction == 3) &&
-                    ((targetSettingInfo.monsterAction == 2 && targetSettingInfo.monsterTargetIndex > 9) || targetSettingInfo.monsterAction == 3))
+                ((targetSettingInfo.monsterAction == 2 && targetSettingInfo.monsterTargetIndex > 9) || targetSettingInfo.monsterAction == 3))
                 {
                     UTUMSProvider.Instance.RequestBattleAction(targetSettingInfo.heroTargetIndex, targetSettingInfo.heroAction, targetSettingInfo.monsterTargetIndex, targetSettingInfo.monsterAction);
                     targetSettingInfo = new TargetSettingInfo();
@@ -222,7 +233,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     public IEnumerator BattleStart()
     {
         stageActionInfoData stageActionInfo = UserDataManager.Inst.GetStageAction();
-        if(stageActionInfo == null)
+        if (stageActionInfo == null)
         {
             Debug.LogError("버그 : stageActionInfo is Null");
             yield break;
@@ -260,7 +271,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         if (stageActionInfo.turn == 0)
         {
             stageRewardData rewardData = UserDataManager.Inst.GetStageReward();
-            if(rewardData == null)
+            if (rewardData == null)
             {
                 Debug.LogError("버그 : rewardData is Null");
                 yield break;
@@ -417,7 +428,6 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         }
     }
 
-    // TODO : 몬스터의 상태를 가져오는 함수는 GetMonsterState로 변경 필요
     public stageState GetEnemyState(int position)
     {
         stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
