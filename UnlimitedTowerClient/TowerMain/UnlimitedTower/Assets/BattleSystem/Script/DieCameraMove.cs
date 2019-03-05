@@ -27,7 +27,8 @@ public class DieCameraMove : MonoSingleton<DieCameraMove>
 
         startPos = camera_Obj.transform.position;
         Vector3 temp = camera_Obj.transform.position;
-        for (int i = 0; i < 25; i++)
+        Vector3 dump = temp;
+        for (int i = 0; i < 25; i += BattleSystem.Inst.TimeScale)
         {
                 camera_Obj.transform.position = Vector3.Lerp(temp, _DISTANCE + BattleSystem.Inst.characterControl[target].transform.position, i * 0.04f);
             if (camera_C.orthographicSize > 1.0f)
@@ -38,12 +39,13 @@ public class DieCameraMove : MonoSingleton<DieCameraMove>
         yield return new WaitForSeconds(4.0f);
 
         temp = camera_Obj.transform.position;
-        for (int i = 0; i < 25; i++)
+        for (int i = 0; i < 25; i += BattleSystem.Inst.TimeScale)
         {
             camera_Obj.transform.position = Vector3.Lerp(temp, startPos, i * 0.04f);
             if (camera_C.orthographicSize < 6.0f)
                 camera_C.orthographicSize += 0.16f;
             yield return null;
         }
+        camera_Obj.transform.position = dump;
     }
 }

@@ -30,6 +30,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     private GameObject testMyTurn;
     private GameObject testReward;
     private GameObject testReTageting;
+    private GameObject testDefeat;
 
     [System.Serializable]
     public struct BattleInformation
@@ -81,10 +82,12 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         testMyTurn = GameObject.Find("마이턴");
         testReward = GameObject.Find("보상");
         testReTageting = GameObject.Find("공격대상");
+        testDefeat = GameObject.Find("패배보상");
 
         testMyTurn.SetActive(false);
         testReward.SetActive(false);
         testReTageting.SetActive(false);
+        testDefeat.SetActive(false);
         UserDataManager.Inst.stageReward = null;
     }
 
@@ -270,7 +273,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             yield return new WaitForSeconds(7.0f);
         }
 
-        if (UserDataManager.Inst.GetStageReward() != null)
+        if (UserDataManager.Inst.stageReward != null)
         {
             stageRewardData rewardData = UserDataManager.Inst.GetStageReward();
             if (rewardData == null)
@@ -281,20 +284,28 @@ public class BattleSystem : MonoSingleton<BattleSystem>
 
             string temp = "";
             testReward.SetActive(true);
-            temp += "User Name : " + rewardData.user + "\n";
-            temp += "Reward Money : " + rewardData.reward_money.ToString() + "\nExp";
-            for (int i = 0; i < rewardData.get_exp_list.Count; i++)
-                temp += " : " + rewardData.get_exp_list[i].ToString();
-            temp += "\nServant";
-            for (int i = 0; i < rewardData.get_servant_list.Count; i++)
-                temp += " : " + rewardData.get_servant_list[i].job;
-            temp += "\nMonster";
-            for (int i = 0; i < rewardData.get_monster_list.Count; i++)
-                temp += " : " + rewardData.get_monster_list[i].id;
-            temp += "\nItem";
-            for (int i = 0; i < rewardData.get_item_list.Count; i++)
-                temp += " : " + rewardData.get_item_list[i].id;
-            testReward.transform.GetChild(0).GetComponent<Text>().text = temp;
+
+            if (rewardData.get_exp_list.Count != 0)
+            {
+                temp += "User Name : " + rewardData.user + "\n";
+                temp += "Reward Money : " + rewardData.reward_money.ToString() + "\nExp";
+                for (int i = 0; i < rewardData.get_exp_list.Count; i++)
+                    temp += " : " + rewardData.get_exp_list[i].ToString();
+                temp += "\nServant";
+                for (int i = 0; i < rewardData.get_servant_list.Count; i++)
+                    temp += " : " + rewardData.get_servant_list[i].job;
+                temp += "\nMonster";
+                for (int i = 0; i < rewardData.get_monster_list.Count; i++)
+                    temp += " : " + rewardData.get_monster_list[i].id;
+                temp += "\nItem";
+                for (int i = 0; i < rewardData.get_item_list.Count; i++)
+                    temp += " : " + rewardData.get_item_list[i].id;
+                testReward.transform.GetChild(0).GetComponent<Text>().text = temp;
+            }
+            else
+            {
+                testDefeat.SetActive(true);
+            }
 
             UserDataManager.Inst.stageReward = null;
         }

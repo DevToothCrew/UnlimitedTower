@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BattleUIManager : MonoBehaviour {
     private GameObject testReTageting;
@@ -14,7 +15,7 @@ public class BattleUIManager : MonoBehaviour {
     public void BattleLeave()
     {
         // 나가기 버튼
-        Debug.Log("나가기 버튼 클릭");
+        PacketManager.Inst.RequestLoginWithScatter();
     }
 
     public void TimeScaleX10()

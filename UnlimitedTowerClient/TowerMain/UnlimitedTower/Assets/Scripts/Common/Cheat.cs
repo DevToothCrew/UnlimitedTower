@@ -122,7 +122,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         for (int i = 0; i < 10; ++i)
         {
-            if (stageStateInfo.enemy_state_list[i].now_hp == 0)
+            if (BattleSystem.Inst.characterControl[i].nowHp == 0)
             {
                 continue;
             }
@@ -130,7 +130,7 @@ public class Cheat : MonoSingleton<Cheat>
             action.target_position = UnityEngine.Random.Range(10, 20);
             action.avoid = false;
             action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
-            action.damage = 5;
+            action.damage = 100;
 
             battleActionInfo actioninfo = new battleActionInfo();
             actioninfo.my_position = i;
@@ -143,7 +143,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         for (int i = 10; i < 20; ++i)
         {
-            if (stageStateInfo.my_state_list[i-10].now_hp == 0)
+            if (BattleSystem.Inst.characterControl[i].nowHp == 0)
             {
                 continue;
             }
@@ -207,7 +207,7 @@ public class Cheat : MonoSingleton<Cheat>
             battlestatedata.my_state_list.Add(newMember);
         }
 
-        for (int i = 0; i < 1; ++i)
+        for (int i = 0; i < 10; ++i)
         {
             stageState newMember = new stageState();
             newMember.position = i + 10;
