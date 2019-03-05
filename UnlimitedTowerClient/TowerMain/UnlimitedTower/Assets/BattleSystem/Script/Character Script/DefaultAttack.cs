@@ -64,6 +64,7 @@ public class DefaultAttack : MonoBehaviour
             attacker.transform.position = Vector3.Lerp(attackerStartPos, attackerEndPos, i * 0.01f);
             yield return new WaitForSeconds(0.015f);
         }
+        attacker.transform.position = attackerEndPos;
         ani.SetTrigger("isAttack");
     }
 
@@ -77,6 +78,7 @@ public class DefaultAttack : MonoBehaviour
             attacker.transform.position = Vector3.Lerp(attackerEndPos, attackerStartPos, i * 0.01f);
             yield return new WaitForSeconds(0.015f);
         }
+        attacker.transform.position = attackerStartPos;
         ani.SetTrigger("isIdle");
     }
 

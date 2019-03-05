@@ -10,7 +10,6 @@ public class SelectSystem : MonoSingleton<SelectSystem>
     public int selectIndex = -1;
     public bool isPlayer;
     public Image selectHpBar;
-    public Text selectHpText;
     public Animator controlButton;
     public ActionState actionState;
 
@@ -20,6 +19,7 @@ public class SelectSystem : MonoSingleton<SelectSystem>
     public Text speedText;
     public Text levelText;
     public Text nemeText;
+    public Text selectHpText;
     public Image selectCharacterImage;
     public GameObject characterInfo;
 
@@ -107,8 +107,11 @@ public class SelectSystem : MonoSingleton<SelectSystem>
                         {
                             if (selectIndex > 9)
                             {
-                                BattleSystem.Inst.targetSettingInfo.heroAction = 2;
-                                BattleSystem.Inst.targetSettingInfo.heroTargetIndex = selectIndex;
+                                if (BattleSystem.Inst.characterControl[selectIndex].nowHp > 0)
+                                {
+                                    BattleSystem.Inst.targetSettingInfo.heroAction = 2;
+                                    BattleSystem.Inst.targetSettingInfo.heroTargetIndex = selectIndex;
+                                }
                             }
                             actionState = ActionState.Non;
                         }
@@ -116,8 +119,11 @@ public class SelectSystem : MonoSingleton<SelectSystem>
                         {
                             if (selectIndex > 9)
                             {
-                                BattleSystem.Inst.targetSettingInfo.monsterAction = 2;
-                                BattleSystem.Inst.targetSettingInfo.monsterTargetIndex = selectIndex;
+                                if (BattleSystem.Inst.characterControl[selectIndex].nowHp > 0)
+                                {
+                                    BattleSystem.Inst.targetSettingInfo.monsterAction = 2;
+                                    BattleSystem.Inst.targetSettingInfo.monsterTargetIndex = selectIndex;
+                                }
                             }
                             actionState = ActionState.Non;
                         }
@@ -152,6 +158,8 @@ public class SelectSystem : MonoSingleton<SelectSystem>
                 controlButton.SetBool("isOn", false);
             }
         }
+        if (selectIndex != -1)
+        selectHpText.text = BattleSystem.Inst.characterControl[selectIndex].nowHp.ToString();
     }
 
     public void DefenceChick()
@@ -185,6 +193,7 @@ public class SelectSystem : MonoSingleton<SelectSystem>
         selectIndex = hit.transform.GetComponent<CharacterControl>().index;
         selectAnimation.Click();
         stageState selectStateInfo;
+
         if (selectIndex < 10)
         {
             selectStateInfo = BattleSystem.Inst.GetMyState(selectIndex);
@@ -197,30 +206,17 @@ public class SelectSystem : MonoSingleton<SelectSystem>
         attackDamageText.text = selectStateInfo.attack.ToString();
         defenceText.text = selectStateInfo.defense.ToString();
         speedText.text = selectStateInfo.speed.ToString();
-
-        if (selectIndex < 10)
-        {
-            if (selectIndex != 0)
-            {
-                levelText.text = selectIndex < 5 ?
-            UserDataManager.Inst.GetServantInfo(
-            UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).level.ToString() :
-            UserDataManager.Inst.GetMonsterInfo(
-            UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).level.ToString();
-            }
-            else
-            {
-                levelText.text = UserDataManager.Inst.GetHeroInfo().level.ToString();
-            }
-        }
+        selectHpText.text = BattleSystem.Inst.characterControl[selectIndex].nowHp.ToString();
         
         if (selectIndex == 0)
         {
-
+            levelText.text = UserDataManager.Inst.GetHeroInfo().level.ToString();
         }
         else if (selectIndex < 5)
         {
+            levelText.text = UserDataManager.Inst.GetServantInfo(UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).level.ToString();
 
+            selectCharacterImage.sprite = null;
         }
         else if (selectIndex < 10)
         {
@@ -233,6 +229,7 @@ public class SelectSystem : MonoSingleton<SelectSystem>
             UserDataManager.Inst.GetMonsterInfo(
             UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).id].inGameIconName);
 
+            levelText.text = UserDataManager.Inst.GetMonsterInfo(UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).level.ToString();
         }
         else
         {
@@ -241,6 +238,8 @@ public class SelectSystem : MonoSingleton<SelectSystem>
             selectCharacterImage.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" +
                 CharacterCSVData.Inst.monsterDataDic[
             BattleSystem.Inst.GetEnemyState(selectIndex).index].inGameIconName);
+
+            levelText.text = "?";
         }
     }
 }
