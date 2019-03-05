@@ -101,7 +101,7 @@ public class UTPlayerManager : MonoBehaviour {
 
         public string ToJson()
         {
-            JsonData data = Cheat.Inst.GetStageResultData(stageNum);
+            JsonData data = Cheat.Inst.GetStageResultData();
 
             return data.ToString();
         }
