@@ -14,7 +14,6 @@ if(country != null){}else{country = "en";}
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> 
 	<meta name="description" content="Unlimited Tower is the next generation on-chain SRPG Dapp. Upgrade your party and compete at the Unlimited Tower. Win EOS and leave your legacy now!">
 	<title>Unlimited Tower - The New Blockchain Battle Dapp</title>
-	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700" rel="stylesheet">
     <link rel="shortcut icon" href="m_assets/img/logo32.png">
 	<link rel="stylesheet"  href="m_assets/css/reset.css">
 	<link rel="stylesheet"  href="m_assets/css/style.css">
