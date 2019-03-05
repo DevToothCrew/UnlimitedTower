@@ -22,7 +22,7 @@ public class Cheat : MonoSingleton<Cheat>
         partyData.index = 1;
         partyData.state = 0;
 
-        for (int i = 1; i < 4; i++)
+        for (int i = 1; i < 5; i++)
         {
             userLoginData.servant_list.Add(GetRandomServantData(i, GetRandomServantJob()));
 
@@ -32,7 +32,7 @@ public class Cheat : MonoSingleton<Cheat>
             }
         }
 
-        for (int i = 1; i < 5; i++)
+        for (int i = 1; i < 6; i++)
         {
             userLoginData.monster_list.Add(GetRandomMonster(i));
 
