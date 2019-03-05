@@ -84,7 +84,7 @@ if(country != null){}else{country = "en";}
 <%@include file = "common/m_footer.jsp"%>
 </form>
 </body>
-<script src="m _assets/js/jquery-1.12.4.js"></script>
+<script src="m_assets/js/jquery-1.12.4.js"></script>
 <script src="m_assets/js/jquery-ui-1.12.1.min.js"></script>
 <script src="m_assets/slick/slick.min.js"></script>
 <script src="m_assets/js/event.js"></script>
