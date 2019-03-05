@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
-
+using System.Collections;
 
 [Serializable]
 public class PacketManager : MonoSingleton<PacketManager> {
@@ -53,15 +53,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void RequestLoginWithScatter()
     {
-        UTLoadingManager.Description desc = new UTLoadingManager.Description
-        {
-            startComment = "Try to login ...",
-            finishedComment = "Success!",
-            predicate = () => UserDataManager.Inst.userInfo != default(UserInfo),
-        };
-
-        UTLoadingManager.Instance.BeginScene(desc);
-
         Debug.Log("RequestLoginWithScatter");
         Login();
     }
@@ -143,6 +134,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         string json = JsonUtility.ToJson(startBattle);
 
         Debug.Log("Json start : " + json);
+
         StartBattle(json);
     }
 
@@ -231,7 +223,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("ResponseLogout");
         UserDataManager.Inst.InitUserInfo();
-        SceneManager.LoadScene("Login");
+        StartCoroutine(LoadSceneAsync("login", "Loading scene ... "));
     }
 
     public void ResponseBattleAction(string getBattleActionInfo)
@@ -317,7 +309,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
         UserDataManager.Inst.SetPartyInfo(partyInfo);
 
-        SceneManager.LoadScene("Lobby");
+        StartCoroutine(LoadSceneAsync("Lobby", "Logging in ... "));
     }
 
     public bool ParseUserInfo(userData getUserData, ref UserInfo userInfo)
@@ -547,12 +539,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         return partyInfo;
     }
+
     
     public void BattleStart(TestStageStateData getBattleStateData)
     {
         Debug.Log("배틀 스타트!");
         UserDataManager.Inst.SetStageState(getBattleStateData);
-        SceneManager.LoadScene("CharacterBattleScene");
+        StartCoroutine(LoadSceneAsync("CharacterBattleScene", "Now, Loading bettle field ... "));
     }
 
     public void UpdateAction(TestStageActionInfoData getBattleActionData)
@@ -566,6 +559,30 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("배틀 끝 보상 획득!");
         UserDataManager.Inst.SetStageReward(getReward);
+    }
+
+    private IEnumerator LoadSceneAsync(string name, string loadingMsg)
+    {
+        AsyncOperation ao = null;
+
+        UTLoadingManager.Description desc = new UTLoadingManager.Description
+        {
+            startComment = loadingMsg,
+            finishedComment = loadingMsg,
+            predicate = () => ao?.isDone ?? false,
+        };
+
+        UTLoadingManager.Instance.BeginScene(desc);
+
+        yield return new WaitForSeconds(1.0f);
+
+        ao = SceneManager.LoadSceneAsync(name);
+
+        while (!ao.isDone)
+        {
+            UTLoadingManager.Instance.SetProgress(ao?.progress ?? 0.0f, loadingMsg);
+            yield return null;
+        }
     }
 
     #endregion

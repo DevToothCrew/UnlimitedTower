@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 /// <summary>
@@ -7,23 +8,9 @@ using UnityEngine;
 /// </summary>
 public class UTLocalUMSProvider : UTUMSProvider
 {
-    IEnumerator WaitAndLogin()
-    {
-        yield return new WaitForSeconds(2.0f);
-        UTEventPoolInterface.SendEventData("login", new UTPlayerManager.UTPlayerData() { user = "devtooth", gameMoney = 999999 });
-    }
-
     public override void RequestLoginWithScatter()
     {
-        UTLoadingManager.Description desc = new UTLoadingManager.Description
-        {
-            startComment = "Try to login ...",
-            finishedComment = "Success!",
-            predicate = () => UserDataManager.Inst.userInfo != default(UserInfo),
-        };
-
-        UTLoadingManager.Instance.BeginScene(desc);
-        UTLoadingManager.Instance.StartCoroutine(WaitAndLogin());
+        UTEventPoolInterface.SendEventData("login", new UTPlayerManager.UTPlayerData() { user = "devtooth", gameMoney = 999999 });
     }
 
     public override void RequestLogout()
@@ -53,7 +40,6 @@ public class UTLocalUMSProvider : UTUMSProvider
 
     public override void RequestStageResult(int stageNum)
     {
-        //PacketManager.Inst.RequestStageResult(stageNum);
         PacketManager.Inst.RequestStageResult();
     }
 
