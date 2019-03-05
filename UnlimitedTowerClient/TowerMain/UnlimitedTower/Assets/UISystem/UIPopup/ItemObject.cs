@@ -1,51 +1,45 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class MonsterObject : MonoBehaviour {
+public class ItemObject : MonoBehaviour {
 
     public GameObject gradeImage;
-    public GameObject monsterImage;
-    public GameObject typeImage;
+    public GameObject itemImage;
+    public GameObject tierText;
     public GameObject upgradeText;
-    public GameObject level;
-    public GameObject maxLevel;
 
-    public UserMonsterData monsterData;
+    public UserMountItemData itemData;
 
     private string resourcePath = "Inventory/";
     private string monsterPath = "UI/CharacterImage/";
 
-    public void SetMonsterData(UserMonsterData getMonsterData)
+    public void SetMountItemData(UserMountItemData getMountItemData)
     {
-        if (getMonsterData == null)
+        if(getMountItemData == null)
         {
             return;
         }
 
-        monsterData = getMonsterData;
+        itemData = getMountItemData;
 
-        gradeImage.GetComponent<Image>().sprite = GetGradeImage(monsterData.gradeNum);
+        gradeImage.GetComponent<Image>().sprite = GetGradeImage(itemData.gradeNum);
         gradeImage.SetActive(true);
 
-        typeImage.SetActive(false);
+        itemImage.GetComponent<Image>().sprite = GetMountItemImage(itemData.mountitemNum);
+        itemImage.SetActive(true);
 
-        monsterImage.GetComponent<Image>().sprite = GetMonsterImage(getMonsterData.index);
-        monsterImage.SetActive(true);
+        tierText.GetComponent<Text>().text = itemData.tierNum.ToString() + "T";
+        tierText.SetActive(true);
 
-        level.GetComponent<Text>().text = "Lv." + getMonsterData.level.ToString();
-        level.SetActive(true);
-
-        if(getMonsterData.upgradeCount > 0)
+        if(itemData.upgradeCount > 0)
         {
-            upgradeText.GetComponent<Text>().text = "+" + getMonsterData.upgradeCount.ToString();
+            upgradeText.GetComponent<Text>().text = "+" + itemData.upgradeCount.ToString();
             upgradeText.SetActive(true);
         }
         else
         {
             upgradeText.SetActive(false);
         }
-
-        maxLevel.SetActive(false);
     }
 
     #region 추후 CSV 연결로 변경
@@ -79,12 +73,12 @@ public class MonsterObject : MonoBehaviour {
         return sprite;
     }
 
-    public Sprite GetMonsterImage(int index)
+    public Sprite GetMountItemImage(int index)
     {
         Sprite sprite = new Sprite();
 
         string resource = CharacterCSVData.Inst.GetMonsterDBResource(index);
-        if(resource != null)
+        if (resource != null)
         {
             sprite = Resources.Load<Sprite>(monsterPath + resource) as Sprite;
         }

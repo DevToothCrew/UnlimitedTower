@@ -460,7 +460,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         monster.monsterTypeNum = getMonsterInfo.type;
 
         monster.gradeNum = getMonsterInfo.grade;
-        monster.enforceNum = getMonsterInfo.upgrade;
+        monster.upgradeCount = getMonsterInfo.upgrade;
 
         monster.teamNum = getPartyNum;
 
