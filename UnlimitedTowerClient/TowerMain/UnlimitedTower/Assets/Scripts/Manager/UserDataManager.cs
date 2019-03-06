@@ -7,7 +7,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public UserInfo userInfo = default(UserInfo);
 
     public Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
-   
+
     public Dictionary<int, UserMonsterData> monsterDic = new Dictionary<int, UserMonsterData>();
 
     // 장비와 기타 아이템 소모품 등은 Equipment와 Item으로 변경 필요

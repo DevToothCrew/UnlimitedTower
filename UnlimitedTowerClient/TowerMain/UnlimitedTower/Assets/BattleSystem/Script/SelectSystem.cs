@@ -112,6 +112,10 @@ public class SelectSystem : MonoSingleton<SelectSystem>
                                     BattleSystem.Inst.targetSettingInfo.heroAction = 2;
                                     BattleSystem.Inst.targetSettingInfo.heroTargetIndex = selectIndex;
                                 }
+                                else
+                                {
+                                    StartCoroutine(BattleSystem.Inst.TestTargetDie());
+                                }
                             }
                             actionState = ActionState.Non;
                         }
@@ -123,6 +127,10 @@ public class SelectSystem : MonoSingleton<SelectSystem>
                                 {
                                     BattleSystem.Inst.targetSettingInfo.monsterAction = 2;
                                     BattleSystem.Inst.targetSettingInfo.monsterTargetIndex = selectIndex;
+                                }
+                                else
+                                {
+                                    StartCoroutine(BattleSystem.Inst.TestTargetDie());
                                 }
                             }
                             actionState = ActionState.Non;

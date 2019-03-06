@@ -1,20 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BattleUIManager : MonoBehaviour {
-    private GameObject testReTageting;
-
     public void Start()
     {
-        testReTageting = GameObject.Find("죽은대상");
-        testReTageting.SetActive(false);
     }
 
     public void BattleLeave()
     {
         // 나가기 버튼
-        Debug.Log("나가기 버튼 클릭");
+        PacketManager.Inst.RequestLoginWithScatter();
     }
 
     public void TimeScaleX10()
@@ -32,16 +29,5 @@ public class BattleUIManager : MonoBehaviour {
             Time.timeScale = 1;
         }
     }
-
-    public void DieSelect()
-    {
-        StartCoroutine(TestReTargeting());
-    }
-
-    IEnumerator TestReTargeting()
-    {
-        testReTageting.SetActive(true);
-        yield return new WaitForSeconds(2.0f);
-        testReTageting.SetActive(false);
-    }
+    
 }
