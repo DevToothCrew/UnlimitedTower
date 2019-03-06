@@ -317,7 +317,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
         UserDataManager.Inst.SetPartyInfo(partyInfo);
 
-        SceneManager.LoadScene("Lobby");
+        if (userInfo.sceneState == SCENE_STATE.StageBattle)
+        {
+
+        }
+        else
+        {
+            SceneManager.LoadScene("Lobby");
+        }
     }
 
     public bool ParseUserInfo(userData getUserData, ref UserInfo userInfo)
