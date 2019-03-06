@@ -42,9 +42,9 @@ public class DefenceEffect : MonoBehaviour {
         for (int i = 0; i < 20; i++)
         {
             transform.position = Vector3.Lerp(startPos, endPos, i * 0.05f);
-            for (int j = 0; j < 4; j++)
+            foreach (SpriteRenderer sp in sprite)
             {
-                sprite[j].color = new Color(1, 1, 1, 0.05f * i);
+                sp.color = new Color(1, 1, 1, 0.05f * i);
             }
             yield return new WaitForSeconds(0.02f);
         }
