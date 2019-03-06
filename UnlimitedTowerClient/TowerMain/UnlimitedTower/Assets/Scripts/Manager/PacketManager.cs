@@ -545,7 +545,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("배틀 스타트!");
         UserDataManager.Inst.SetStageState(getBattleStateData);
-        StartCoroutine(LoadSceneAsync("CharacterBattleScene", "Now, Loading bettle field ... "));
+        StartCoroutine(LoadSceneAsync("CharacterBattleScene", "Now, Loading battle field ... "));
     }
 
     public void UpdateAction(TestStageActionInfoData getBattleActionData)
