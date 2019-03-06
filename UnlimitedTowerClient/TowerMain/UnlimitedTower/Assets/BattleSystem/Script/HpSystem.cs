@@ -9,7 +9,7 @@ public class HpSystem : MonoBehaviour
     private Image[] hpImage = new Image[20];
     private Image attackerImage;
     private Image targetImage;
-    private readonly Color on = new Color(1, 1, 1, 1);
+    // private readonly Color on = new Color(1, 1, 1, 1);
     private readonly Color off = new Color(1, 1, 1, 0);
 
     void Start()

@@ -11,7 +11,8 @@ public class Cheat : MonoSingleton<Cheat>
     {
         UserLoginData userLoginData = new UserLoginData();
 
-        userLoginData.token.balance = "1000.0000 UTG";
+        userLoginData.token = "10000000";
+        userLoginData.eos = "15400000";
 
         userLoginData.userinfo.user = user;
         userLoginData.userinfo.state = 2;
@@ -21,7 +22,7 @@ public class Cheat : MonoSingleton<Cheat>
         partyData.index = 1;
         partyData.state = 0;
 
-        for (int i = 1; i < 100; i++)
+        for (int i = 1; i < 5; i++)
         {
             userLoginData.servant_list.Add(GetRandomServantData(i, GetRandomServantJob()));
 
@@ -31,7 +32,7 @@ public class Cheat : MonoSingleton<Cheat>
             }
         }
 
-        for (int i = 1; i < 10; i++)
+        for (int i = 1; i < 6; i++)
         {
             userLoginData.monster_list.Add(GetRandomMonster(i));
 
@@ -113,17 +114,23 @@ public class Cheat : MonoSingleton<Cheat>
 
     public string GetBattleActionData(string user, int heroTarget, int heroAction, int monsterTarget, int monsterAction)
     {
+        stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
+
         stageActionInfoData battleactiondata = new stageActionInfoData();
         battleactiondata.user = user;
         battleactiondata.turn += 1;
 
         for (int i = 0; i < 10; ++i)
         {
+            if (BattleSystem.Inst.characterControl[i].nowHp == 0)
+            {
+                continue;
+            }
             actionInfo action = new actionInfo();
             action.target_position = UnityEngine.Random.Range(10, 20);
             action.avoid = false;
             action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
-            action.damage = 5;
+            action.damage = 100;
 
             battleActionInfo actioninfo = new battleActionInfo();
             actioninfo.my_position = i;
@@ -136,6 +143,10 @@ public class Cheat : MonoSingleton<Cheat>
 
         for (int i = 10; i < 20; ++i)
         {
+            if (BattleSystem.Inst.characterControl[i].nowHp == 0)
+            {
+                continue;
+            }
             actionInfo action = new actionInfo();
             action.target_position = UnityEngine.Random.Range(0, 10);
             action.avoid = false;
@@ -162,8 +173,10 @@ public class Cheat : MonoSingleton<Cheat>
         battlestatedata.stage_type = 0;
         battlestatedata.enemy_user = user;
         battlestatedata.stage_number = 0;
+        battlestatedata.state = 1;
 
- 
+
+
         for (int i = 0; i < 10; ++i)
         {
             stageState newMember = new stageState();
@@ -183,7 +196,7 @@ public class Cheat : MonoSingleton<Cheat>
                 newMember.index = i - 4;
             }
             newMember.now_hp = 100;
-            newMember.attack = 10;
+            newMember.attack = 10000;
             newMember.defense = 10;
             newMember.crit_dmg = 1;
             newMember.crit_per = 5;
@@ -307,10 +320,23 @@ public class Cheat : MonoSingleton<Cheat>
 
     //    return stateInfo;
     //}
-
-    public string GetStageResultData(int stageNum)
+    public string GetStageExit()
     {
         return null;
+    }
+
+    public string GetStageResultData()
+    {
+        stageRewardData rewardData = new stageRewardData();
+        rewardData.user = "devtooth";
+        rewardData.reward_money = 100000;
+
+        for (int i = 0; i < 10; ++i)
+        {
+            rewardData.get_exp_list.Add(100);
+        }
+
+        return JsonMapper.ToJson(rewardData);
     }
 
     public string GetTowerStartData()

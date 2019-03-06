@@ -6,28 +6,34 @@ using UnityEngine.SceneManagement;
 
 public class BattleSystem : MonoSingleton<BattleSystem>
 {
+    [HideInInspector]
     public PrefabList prefabList;
+    [HideInInspector]
     public BattleInformation battleInformation;
+    [HideInInspector]
+    public int TimeScale = 1;
+    [HideInInspector]
+    public readonly int[] positionOrder = { 2, 1, 3, 0, 4, 7, 6, 8, 5, 9 };
 
-    // 와 쉬발 이게 오류없이 한번에 바뀌네
     public GameObject[] characterObject = new GameObject[20];
     public CharacterControl[] characterControl = new CharacterControl[20];
     public bool[] characterisPlace = new bool[20];
 
-    public int TimeScale = 1;
-    public readonly int[] positionOrder = { 2, 1, 3, 0, 4, 7, 6, 8, 5, 9 };
-
     public TargetSettingInfo targetSettingInfo = new TargetSettingInfo();
 
     private CaracterCustom caracterCustom;
+    private DefenceEffect defenceEffect;
     private bool isBattleStart;
+    private bool isSpaceCheck;
 
     // Test
-    public int turn;
+    private int turn;
 
-    public GameObject testMyTurn;
-    public GameObject testReward;
-    public GameObject testReTageting;
+    private GameObject testMyTurn;
+    private GameObject testReward;
+    private GameObject testReTageting;
+    private GameObject testDefeat;
+    private GameObject testTargetDie;
 
     [System.Serializable]
     public struct BattleInformation
@@ -76,13 +82,22 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         characterObject[18] = GameObject.Find("CharacterEnemy06").gameObject;
         characterObject[19] = GameObject.Find("CharacterEnemy10").gameObject;
 
+        defenceEffect = GameObject.Find("DefenceActionObject").GetComponent<DefenceEffect>();
+
+        defenceEffect.gameObject.SetActive(false);
+
         testMyTurn = GameObject.Find("마이턴");
         testReward = GameObject.Find("보상");
         testReTageting = GameObject.Find("공격대상");
+        testDefeat = GameObject.Find("패배보상");
+        testTargetDie = GameObject.Find("죽은대상");
 
         testMyTurn.SetActive(false);
         testReward.SetActive(false);
         testReTageting.SetActive(false);
+        testDefeat.SetActive(false);
+        testTargetDie.SetActive(false);
+        UserDataManager.Inst.stageReward = null;
     }
 
     public void Start()
@@ -90,7 +105,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         prefabList = GetComponent<PrefabList>();
         battleInformation.attackerIndex = -1;
 
-       stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
+        stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
         if (stageStateInfo == null)
         {
             Debug.LogError("버그 : stageStateInfo is NULL");
@@ -118,12 +133,25 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         {
             if (isBattleStart == false)
             {
-                if (((targetSettingInfo.heroAction == 2 && targetSettingInfo.heroTargetIndex > 9) || targetSettingInfo.heroAction == 3) &&
-                    ((targetSettingInfo.monsterAction == 2 && targetSettingInfo.monsterTargetIndex > 9) || targetSettingInfo.monsterAction == 3))
+               
+                if (characterControl[0].nowHp < 0)
                 {
-                    UTUMSProvider.Instance.RequestBattleAction(targetSettingInfo.heroTargetIndex, targetSettingInfo.heroAction, targetSettingInfo.monsterTargetIndex, targetSettingInfo.monsterAction);
-                    targetSettingInfo = new TargetSettingInfo();
-                    isBattleStart = true;
+                    targetSettingInfo.heroAction = 3;
+                }
+                if (characterControl[5].nowHp < 0)
+                {
+                    targetSettingInfo.monsterAction = 3;
+                }
+
+                if (((targetSettingInfo.heroAction == 2 && targetSettingInfo.heroTargetIndex > 9) || targetSettingInfo.heroAction == 3) &&
+                ((targetSettingInfo.monsterAction == 2 && targetSettingInfo.monsterTargetIndex > 9) || targetSettingInfo.monsterAction == 3))
+                {
+                    if (isSpaceCheck == false)
+                    {
+                        isBattleStart = true;
+                        UTUMSProvider.Instance?.RequestBattleAction(targetSettingInfo.heroTargetIndex, targetSettingInfo.heroAction, targetSettingInfo.monsterTargetIndex, targetSettingInfo.monsterAction);
+                        targetSettingInfo = new TargetSettingInfo();
+                    }
                 }
                 else
                     StartCoroutine(TestReTargeting());
@@ -132,6 +160,10 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         else if (Input.GetKeyDown(KeyCode.G))
         {
             //나가기 패킷 보내기
+            PacketManager.Inst.RequestStageExit();
+        }
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
             SceneManager.LoadScene("Lobby");
         }
     }
@@ -221,8 +253,10 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     // 배틀데이터를 받아와 공격 ( 메인 배틀 한턴 )
     public IEnumerator BattleStart()
     {
+        isSpaceCheck = false;
+        stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
         stageActionInfoData stageActionInfo = UserDataManager.Inst.GetStageAction();
-        if(stageActionInfo == null)
+        if (stageActionInfo == null)
         {
             Debug.LogError("버그 : stageActionInfo is Null");
             yield break;
@@ -237,7 +271,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                 battleInformation.damage = stageActionInfo.battle_info_list[i].battle_action_list[0].damage;
                 battleInformation.isCritical = stageActionInfo.battle_info_list[i].battle_action_list[0].critical;
                 battleInformation.isAvoid = stageActionInfo.battle_info_list[i].battle_action_list[0].avoid;
-
+            
                 battleInformation.attackerIndex = stageActionInfo.battle_info_list[i].my_position;
                 battleInformation.targetIndex = stageActionInfo.battle_info_list[i].battle_action_list[0].target_position;
                 battleInformation.damage = stageActionInfo.battle_info_list[i].battle_action_list[0].damage;
@@ -249,40 +283,53 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                         battleInformation.damage,
                         battleInformation.isCritical,
                         battleInformation.isAvoid));
+                yield return new WaitForSeconds(7.0f);
             }
             else
             {
-                Debug.Log("막기");
+                defenceEffect.gameObject.transform.position = characterObject[stageActionInfo.battle_info_list[i].my_position].transform.position + new Vector3(0,0.1f,0);
+                defenceEffect.transform.localScale = characterControl[stageActionInfo.battle_info_list[i].my_position].select.transform.localScale * 2;
+                defenceEffect.gameObject.SetActive(true);
+                defenceEffect.EffectAction();
+                yield return new WaitForSeconds(4.0f);
             }
-            yield return new WaitForSeconds(7.0f);
         }
 
-        if (stageActionInfo.turn == 0)
+        if (UserDataManager.Inst.stageReward != null)
         {
             stageRewardData rewardData = UserDataManager.Inst.GetStageReward();
-            if(rewardData == null)
+            if (rewardData == null)
             {
                 Debug.LogError("버그 : rewardData is Null");
                 yield break;
             }
 
-            PacketManager.Inst.RequestStageResult();
             string temp = "";
             testReward.SetActive(true);
-            temp += "User Name : " + rewardData.user + "\n";
-            temp += "Reward Money : " + rewardData.reward_money.ToString() + "\nExp";
-            for (int i = 0; i < rewardData.get_exp_list.Count; i++)
-                temp += " : " + rewardData.get_exp_list[i].ToString();
-            temp += "\nServant";
-            for (int i = 0; i < rewardData.get_servant_list.Count; i++)
-                temp += " : " + rewardData.get_servant_list[i].job;
-            temp += "\nMonster";
-            for (int i = 0; i < rewardData.get_monster_list.Count; i++)
-                temp += " : " + rewardData.get_monster_list[i].id;
-            temp += "\nItem";
-            for (int i = 0; i < rewardData.get_item_list.Count; i++)
-                temp += " : " + rewardData.get_item_list[i].id;
-            testReward.transform.GetChild(0).GetComponent<Text>().text = temp;
+
+            if (rewardData.get_exp_list.Count != 0)
+            {
+                temp += "User Name : " + rewardData.user + "\n";
+                temp += "Reward Money : " + rewardData.reward_money.ToString() + "\nExp";
+                for (int i = 0; i < rewardData.get_exp_list.Count; i++)
+                    temp += " : " + rewardData.get_exp_list[i].ToString();
+                temp += "\nServant";
+                for (int i = 0; i < rewardData.get_servant_list.Count; i++)
+                    temp += " : " + rewardData.get_servant_list[i].job;
+                temp += "\nMonster";
+                for (int i = 0; i < rewardData.get_monster_list.Count; i++)
+                    temp += " : " + rewardData.get_monster_list[i].id;
+                temp += "\nItem";
+                for (int i = 0; i < rewardData.get_item_list.Count; i++)
+                    temp += " : " + rewardData.get_item_list[i].id;
+                testReward.transform.GetChild(0).GetComponent<Text>().text = temp;
+            }
+            else
+            {
+                testDefeat.SetActive(true);
+            }
+
+            UserDataManager.Inst.stageReward = null;
         }
         else
         {
@@ -417,7 +464,6 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         }
     }
 
-    // TODO : 몬스터의 상태를 가져오는 함수는 GetMonsterState로 변경 필요
     public stageState GetEnemyState(int position)
     {
         stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
@@ -460,17 +506,24 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         return null;
     }
 
-    IEnumerator TestMyTurn()
+    public IEnumerator TestMyTurn()
     {
         testMyTurn.SetActive(true);
         yield return new WaitForSeconds(2.0f);
         testMyTurn.SetActive(false);
     }
 
-    IEnumerator TestReTargeting()
+    public IEnumerator TestReTargeting()
     {
         testReTageting.SetActive(true);
         yield return new WaitForSeconds(2.0f);
         testReTageting.SetActive(false);
+    }
+
+    public IEnumerator TestTargetDie()
+    {
+        testTargetDie.SetActive(true);
+        yield return new WaitForSeconds(2.0f);
+        testTargetDie.SetActive(false);
     }
 }

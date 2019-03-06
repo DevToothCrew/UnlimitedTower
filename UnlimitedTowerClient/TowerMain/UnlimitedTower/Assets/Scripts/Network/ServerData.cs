@@ -4,6 +4,14 @@ using System.Collections.Generic;
 #region Info
 
 [Serializable]
+public class cpuLimit
+{
+    public UInt64 used;
+    public UInt64 available;
+    public UInt64 max;
+};
+
+[Serializable]
 public class appearInfo
 {
     public int head;
@@ -47,7 +55,7 @@ public class monsterInfo
     public int grade;
     public int upgrade;
     public statusInfo status = new statusInfo();
-}
+};
 
 
 [Serializable]
@@ -65,90 +73,6 @@ public class itemInfo
     public statusInfo status = new statusInfo(); //기본 힘,민,지 추가 힘,민,지
 };
 
-
-//[Serializable]
-//public class servantInfo
-//{
-//    public int state;
-//    public int exp;
-//    public int stat_point;
-//    public int job;
-
-//    public appearInfo appear = new appearInfo();
-//    public statusInfo status = new statusInfo();
-//    public List<int> equip_slot = new List<int>();
-
-//    /// <summary>
-//    ///  새로 추가된 데이터
-//    ///  islegend : 해당서번트가 전설직업을 갖는 서번트인지 
-//    ///  name: 해당서번트에게 유저가 붙인 이름
-//    /// </summary>
-//    public bool islegend;
-//    public string name;
-//};
-
-//[Serializable]
-//public class monsterInfo
-//{
-//    public int state;
-//    public int type;
-//    public int id;
-//    public int exp;
-//    public int grade;
-//    public int upgrade;
-
-//    public statusInfo status = new statusInfo();
-
-
-//    /// <summary>
-//    /// 추가된 데이터
-//    /// </summary>
-//    public string name;
-//}
-
-
-//[Serializable]
-//public class itemInfo
-//{
-//    /// <summary>
-//    /// 추가된 데이터
-//    /// </summary>
-//    public int itemnum;
-
-//    public bool ismounted;
-//    public int mounted_serv_num;
-
-
-//    /// <summary>
-//    /// 기존데이터 중 사용하는 데이터
-//    /// </summary>
-//    public int tier;
-//    public int upgrade;
-//}
-
-//[Serializable]
-//public class assetInfo
-//{
-//    public string symbol_name;
-//    public int amount;
-//}
-
-////battle
-//[Serializable]
-//public class battleState
-//{
-//    public int index;
-//    public int position;
-//    public int now_hp;
-//    public int attack;
-//    public int defense;
-//    public int crit_per;
-//    public int crit_dmg;
-//    public int avoid;
-//    public int state;
-//    public int speed;
-//}
-
 #endregion
 
 
@@ -161,15 +85,10 @@ public class UserLoginData
     public List<servantData> servant_list = new List<servantData>();
     public List<monsterData> monster_list = new List<monsterData>();
     public List<itemData> item_list = new List<itemData>();
-    public goldData token = new goldData();
+    public string  token;
     public partyData party_info = new partyData();
     public userData userinfo = new userData();
-}
-
-[Serializable]
-public class goldData
-{
-    public string balance;
+    public string eos;
 }
 
 [Serializable]
@@ -284,6 +203,7 @@ public class stageStateData
     public int stage_type;
     public string enemy_user;
     public int stage_number;
+    public int state;
     public List<stageState> my_state_list = new List<stageState>();
     public List<stageState> enemy_state_list = new List<stageState>();
 }
@@ -294,12 +214,26 @@ public class stageStateData
 public class stageRewardData
 {
     public string user;
-    public int reward_money;
+    public UInt64 reward_money;
     public List<int> get_exp_list = new List<int>();
     public List<servantInfo> get_servant_list = new List<servantInfo>();
     public List<monsterInfo> get_monster_list = new List<monsterInfo>();
     public List<itemInfo> get_item_list = new List<itemInfo>();
 }
+
+
+
+[Serializable]
+public class userResourceData
+{
+    public UInt64 ram_quota;        //총 램
+    public UInt64 net_weight;       
+    public UInt64 cpu_weight;
+    public cpuLimit net_limit;      //넷밴드위스 사용 정보
+    public cpuLimit cpu_limit;      //시피유 사용 정보
+    public UInt64 ram_usage;        //사용중 램 용량
+};
+
 
 #endregion
 

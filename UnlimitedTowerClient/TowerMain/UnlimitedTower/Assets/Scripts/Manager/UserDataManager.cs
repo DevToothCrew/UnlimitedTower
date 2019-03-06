@@ -7,7 +7,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public UserInfo userInfo = default(UserInfo);
 
     public Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
-   
+
     public Dictionary<int, UserMonsterData> monsterDic = new Dictionary<int, UserMonsterData>();
 
     // 장비와 기타 아이템 소모품 등은 Equipment와 Item으로 변경 필요
@@ -89,11 +89,6 @@ public class UserDataManager : MonoSingleton<UserDataManager>
             }
         }
     }
-
-    //public void SetStageState(TestbattleStateData testStageState)
-    //{
-    //    stageState = testStageState;
-    //}
 
     public void SetStageState(stageStateData getStageState)
     {
@@ -332,7 +327,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     {
         if (stageState == null)
         {
-            Debug.LogError("버그");
+            Debug.LogError("스테이지 스테이트 버그");
             return null;
         }
 
@@ -343,7 +338,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     {
         if (stageActionInfo == null)
         {
-            Debug.LogError("버그");
+            Debug.LogError("액션 버그");
             return null;
         }
 
@@ -354,7 +349,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     {
         if (stageReward == null)
         {
-            Debug.LogError("버그");
+            Debug.LogError("보상 버그");
             return null;
         }
 

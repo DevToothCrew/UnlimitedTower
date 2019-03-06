@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
-
+using System.Collections;
 
 [Serializable]
 public class PacketManager : MonoSingleton<PacketManager> {
@@ -41,6 +41,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
     [DllImport("__Internal")]
     private static extern void GetReward();
 
+    [DllImport("__Internal")]
+    private static extern void ExitBattle();
+
+    [DllImport("__Internal")]
+    private static extern void ResourceInfo();
+
     public bool receiveGacha = false;
 
     void Start()
@@ -50,18 +56,15 @@ public class PacketManager : MonoSingleton<PacketManager> {
     #endregion
 
     #region Request
+    public void RequestResourceData()
+    {
+        Debug.Log("Resource Request");
+        ResourceInfo();
+    }
+
 
     public void RequestLoginWithScatter()
     {
-        UTLoadingManager.Description desc = new UTLoadingManager.Description
-        {
-            startComment = "Try to login ...",
-            finishedComment = "Success!",
-            predicate = () => UserDataManager.Inst.userInfo != default(UserInfo),
-        };
-
-        UTLoadingManager.Instance.BeginScene(desc);
-
         Debug.Log("RequestLoginWithScatter");
         Login();
     }
@@ -143,6 +146,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         string json = JsonUtility.ToJson(startBattle);
 
         Debug.Log("Json start : " + json);
+
         StartBattle(json);
     }
 
@@ -151,6 +155,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Request Get Battle Reward");
         GetReward();
     }
+
+    public void RequestStageExit()
+    {
+        Debug.Log("Request Battle Exit");
+        ExitBattle();
+    }
+
 
     public void RequestTowerStart(int towerFloor, int partyNum)
     {
@@ -167,6 +178,15 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
 
     #region Response
+    public void ResponseResourceData(string getResource)
+    {
+        userResourceData userResource = JsonUtility.FromJson<userResourceData>(getResource);
+        Debug.Log("Resource Data : " + getResource);
+        if (userResource == null)
+        {
+            Debug.Log("Invalid Resource Data : " + getResource);
+        }
+    }
 
     public void ResponseLogin(string getLoginInfo)
     {
@@ -175,7 +195,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
             SignUp();
             return;
         }
-        
+        Debug.Log("Login Data : " + getLoginInfo);
+
         UserLoginData userLoginData = JsonUtility.FromJson<UserLoginData>(getLoginInfo); 
         if(userLoginData == null)
         {
@@ -231,7 +252,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("ResponseLogout");
         UserDataManager.Inst.InitUserInfo();
-        SceneManager.LoadScene("Login");
+        StartCoroutine(LoadSceneAsync("login", "Loading scene ... "));
     }
 
     public void ResponseBattleAction(string getBattleActionInfo)
@@ -257,11 +278,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void ResponseStageResult(string getStageResultInfo)
     {
         stageRewardData resultData = JsonUtility.FromJson<stageRewardData>(getStageResultInfo);
-        if(resultData == null)
+        Debug.Log("Result : " + getStageResultInfo);
+        if (resultData == null)
         {
             Debug.Log("Invalid ResponseStageResult Data : " + getStageResultInfo);
         }
         GetReward(resultData);
+    }
+
+    public void ResponseExit()
+    {
+        SceneManager.LoadScene("Lobby");
     }
 
     public void ResponseTowerStart(string getTowerStartInfo)
@@ -285,7 +312,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         {
             Debug.Log("Invalid ParseUserInfo Info");
         }
-        ParseGoldInfo(getUserLoginData.token, ref userInfo);
+        ParseGoldInfo(getUserLoginData.token, getUserLoginData.eos, ref userInfo);
 
         UserDataManager.Inst.SetUserInfo(userInfo);
 
@@ -323,7 +350,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
         else
         {
-            SceneManager.LoadScene("Lobby");
+            StartCoroutine(LoadSceneAsync("Lobby", "Logging in ... "));
         }
     }
 
@@ -346,18 +373,15 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return true;
     }
 
-    public bool ParseGoldInfo(goldData getgoldData, ref UserInfo userInfo)
+    public bool ParseGoldInfo(string getgoldData, string getEOS , ref UserInfo userInfo)
     {
-        char[] splitchar = { ' ' };
-        char[] splitmoney = { '.' };
+        userInfo.userEOS = ulong.Parse(getEOS);
+        userInfo.userMoney = ulong.Parse(getgoldData);
 
-        // TODO : EOS도 여기다 넣어야 하는지 생각 필요
+        Debug.Log("getEOS : " + getEOS);
+        Debug.Log("getGold : " + getgoldData);
 
-        string[] token = getgoldData.balance.Split(splitchar);
-        string[] money = token[0].Split(splitmoney);
-
-        userInfo.userMoney = Int32.Parse(money[0]);
-
+        Debug.Log("EOS : " + userInfo.userEOS);
         Debug.Log("Gold : " + userInfo.userMoney);
 
         return true;
@@ -554,12 +578,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         return partyInfo;
     }
+
     
     public void BattleStart(stageStateData getBattleStateData)
     {
         Debug.Log("배틀 스타트!");
         UserDataManager.Inst.SetStageState(getBattleStateData);
-        SceneManager.LoadScene("CharacterBattleScene");
+        StartCoroutine(LoadSceneAsync("CharacterBattleScene", "Now, Loading battle field ... "));
     }
 
     public void UpdateAction(stageActionInfoData getBattleActionData)
@@ -573,6 +598,30 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("배틀 끝 보상 획득!");
         UserDataManager.Inst.SetStageReward(getReward);
+    }
+
+    private IEnumerator LoadSceneAsync(string name, string loadingMsg)
+    {
+        AsyncOperation ao = null;
+
+        UTLoadingManager.Description desc = new UTLoadingManager.Description
+        {
+            startComment = loadingMsg,
+            finishedComment = loadingMsg,
+            predicate = () => ao?.isDone ?? false,
+        };
+
+        UTLoadingManager.Instance.BeginScene(desc);
+
+        yield return new WaitForSeconds(1.0f);
+
+        ao = SceneManager.LoadSceneAsync(name);
+
+        while (!ao.isDone)
+        {
+            UTLoadingManager.Instance.SetProgress(ao?.progress ?? 0.0f, loadingMsg);
+            yield return null;
+        }
     }
 
     #endregion
