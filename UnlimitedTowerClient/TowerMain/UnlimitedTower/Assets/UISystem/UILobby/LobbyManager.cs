@@ -61,6 +61,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         popupState = POPUP_STATE.Hero;
         partyPage.SetActive(true);
         shopPage.SetActive(false);
+
+        Time.timeScale = 1.0f;
     }
 
     public void ChangeSceneState(SCENE_STATE state)

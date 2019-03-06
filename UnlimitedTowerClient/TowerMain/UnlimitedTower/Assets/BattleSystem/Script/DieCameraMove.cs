@@ -16,6 +16,14 @@ public class DieCameraMove : MonoSingleton<DieCameraMove>
         startPos = camera_Obj.transform.position;
     }
     
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            camera_C.orthographicSize += 5.0f;
+        }
+    }
+
     public void Test(int target)
     {
         StartCoroutine(Move(target));
@@ -26,6 +34,7 @@ public class DieCameraMove : MonoSingleton<DieCameraMove>
         yield return new WaitForSeconds(1.0f);
 
         startPos = camera_Obj.transform.position;
+        float startSize = camera_C.orthographicSize;
         Vector3 temp = camera_Obj.transform.position;
         Vector3 dump = temp;
         for (int i = 0; i < 25; i += BattleSystem.Inst.TimeScale)
@@ -46,6 +55,7 @@ public class DieCameraMove : MonoSingleton<DieCameraMove>
                 camera_C.orthographicSize += 0.16f;
             yield return null;
         }
-        camera_Obj.transform.position = dump;
+        camera_C.orthographicSize = startSize;
+        camera_Obj.transform.position = startPos;
     }
 }
