@@ -338,7 +338,7 @@ Gacha.pregacha = function(req, res){
                                 // 타입이 같고, 인덱스도 같으면 적용되지 않은 것이므로 타이머를 다시 시작
                                 else{
                                     count += 1;
-                                    if(count >= 10){
+                                    if(count >= 60){
                                         clearInterval(timer);
                                         console.log("Timer Time Out!");
                                         callback('error');
@@ -360,6 +360,83 @@ Gacha.pregacha = function(req, res){
             console.log(config.color.green, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
             res.status(200).send(result);
         }
+    });
+}
+
+/**
+ *  Pre Gacha
+ * 
+ * @param req
+ * @param res
+ */
+Gacha.mainPreGacha = function(req, res){
+    var func = 'mainPreGacha';
+
+    var user = req.body.user;
+
+    const MongoOplog = require('mongo-oplog');
+    const oplog = MongoOplog('mongodb://devTooth:U0S91ydQ0uYPSaOqHz3T@eos-sg-00-00-mongo-01.itam.games:27017/local?replicaSet=eos-01&authSource=admin', 
+        { ns: 'EOS.action_traces', reconnectTries: 60, reconnectInterval: 1000 });
+    
+    oplog.tail();
+
+    var count = 0;
+    var timer = setInterval(function(){
+        if(count == 60){
+            clearInterval(timer);
+            oplog.stop();
+            res.status(200).send("ERR:Time Out");
+        }
+        else{
+            count++;
+        }
+    }, 1000);
+
+    oplog.on('insert', doc => {
+        const actionInfo = doc.o;
+        const action = actionInfo.act;
+
+        if(action.account == 'untowermain1' && action.name == 'resultgacha' && action.data._from == 'untowermain1' && action.data._to == user){
+            console.log(config.color.green, 'user : ', user, ', func : ', func, ', time : ', new Date(new Date().toUTCString()));
+            var temp = action.data._result.split(':');
+            var data = { result : temp[0] }
+            if(data.result == 'ser'){
+                data.index = temp[1];
+                data.id = temp[2];
+                data.b_str = temp[3];
+                data.b_dex = temp[4];
+                data.b_int = temp[5];
+                data.token = temp[6];
+
+            }
+            else if(data.result == 'mon'){
+                data.index = temp[1];
+                data.id = temp[2];
+                data.grade = temp[3];
+                data.b_str = temp[4];
+                data.b_dex = temp[5];
+                data.b_int = temp[6];
+                data.token = temp[7];
+
+            }
+            else{
+                data.index = temp[1];
+                data.id = temp[2];
+                data.type = temp[3];
+                data.tier = temp[4];
+                data.job = temp[5];
+                data.grade = temp[6];
+                data.main_status = temp[7];
+                data.token = temp[8];
+            }
+            res.status(200).send(data);
+            oplog.stop();
+            clearInterval(timer);
+        }
+    });
+
+    oplog.on('error', error => {
+        console.log(config.color.red, 'user : ', user, ', func : ', func, ' err : ', error, ' time : ', new Date(new Date().toUTCString()));
     });
 }
 module.exports = Gacha;

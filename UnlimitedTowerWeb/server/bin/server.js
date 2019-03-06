@@ -6,30 +6,31 @@
 
 var app = require('../app');
 var debug = require('debug')('devtooth:server');
-//var http = require('http');
+var http = require('http');
 
 var fs = require('fs');
-var https = require('https');
-var options = {
-  key : fs.readFileSync('/etc/letsencrypt/live/dcugl.com/privkey.pem'),
-  cert : fs.readFileSync('/etc/letsencrypt/live/dcugl.com/cert.pem'),
-  ca : fs.readFileSync('/etc/letsencrypt/live/dcugl.com/chain.pem'),
-};
+
+// var https = require('https');
+// var options = {
+//   key : fs.readFileSync('/etc/letsencrypt/live/dcugl.com/privkey.pem'),
+//   cert : fs.readFileSync('/etc/letsencrypt/live/dcugl.com/cert.pem'),
+//   ca : fs.readFileSync('/etc/letsencrypt/live/dcugl.com/chain.pem'),
+// };
 
 
 /**WWW
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '5000');
+var port = normalizePort(process.env.PORT || '80');
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-//var server = http.createServer(app);
-var server = https.createServer(options, app);
+var server = http.createServer(app);
+//var server = https.createServer(options, app);
 
 /**
  * Listen on provided port, on all network interfaces.

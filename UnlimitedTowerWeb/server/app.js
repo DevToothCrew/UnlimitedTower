@@ -14,6 +14,7 @@ var battle = require('./routes/battle');
 var user = require('./routes/user');
 var party = require('./routes/party.js');
 var seed = require('./routes/seed');
+var test =  require('./routes/test');
 
 var Logger = require('./lib/Logger');
 global.logger = new Logger();
@@ -33,15 +34,13 @@ app.get('/', function(req, res) {
 
 // 유저 정보 관련 API
 app.post('/login', user.getLoginInfo);
-app.post('/signup', user.signUp);
-app.post('/getServant', user.getServantTable);
-app.post('/getItem', user.getItemTable);
-app.post('/getMonster', user.getMonsterTable);
 app.post('/prelogin', user.getPreLogindata);
-app.post('/presignup', user.preSignUp);
+app.post('/signup', user.signUp);
 
 // 전투 관련 API
 app.post('/battle', battle.battleAction);
+app.post('/battlestart', battle.battleStart);
+app.post('/battlereward', battle.battleReward);
 app.post('/getStage', battle.getStageInfo);
 
 // 가챠 API
@@ -53,5 +52,18 @@ app.post('/setFormation', party.setFormation);
 
 // 시드 관련 API
 app.post('/seed', seed.createSeed);
+
+// 메인넷 관련 API
+app.post('/mainpresignup', user.mainPreSignup);
+app.post('/mainpregacha', gacha.mainPreGacha);
+
+// 테스트
+app.post('/test', test.test);
+app.post('/string', test.string);
+app.post('/timer', test.timer);
+app.post('/geteos', test.getEos);
+app.post('/t1', test.table1);
+app.post('/t2', test.table2);
+app.post('/t3', test.table3);
 
 module.exports = app;
