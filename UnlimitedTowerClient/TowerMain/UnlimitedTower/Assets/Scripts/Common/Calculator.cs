@@ -9,7 +9,7 @@ public class Calculator : MonoBehaviour {
         return DEFINE.HP_MIN_VALUE + ((status.basicStr + status.plusStr) * DEFINE.HP_MULTI_VALUE);
     }
 
-    public static int GetDamage(STATUS_TYPE statusType, Status status)
+    public static int GetAttack(STATUS_TYPE statusType, Status status)
     {
         if (statusType == STATUS_TYPE.STR)
         {
