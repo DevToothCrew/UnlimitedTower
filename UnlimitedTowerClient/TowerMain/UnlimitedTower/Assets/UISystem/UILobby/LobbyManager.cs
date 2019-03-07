@@ -159,7 +159,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         popupMenu.text = ((POPUP_STATE)pageNum).ToString();
     }
 
-    public void OnClickMenu(int getState)
+    public void SetChangeMenu(int getState)
     {
         // 버튼과 현재 상태가 다를 경우만 반응
         if (popupState != (POPUP_STATE)getState)
@@ -172,22 +172,20 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
 public enum POPUP_STATE
 {
-    None = 0,
-
     // Hero
-    Hero        = 1,
-    Servant     = 2,
-    Monster     = 3,
-    Formation   = 4,
+    Hero        = 0,
+    Servant     = 1,
+    Monster     = 2,
+    Formation   = 3,
 
     // Inventory
-    Weapon      = 11,
-    Armor       = 12,
-    Accesory    = 13,
-    Etc         = 14,
+    Weapon      = 10,
+    Armor       = 11,
+    Accesory    = 12,
+    ETC         = 13,
 
     // Shop
-    EOS     = 21,
-    UTG     = 22,
-    Gacha   = 23,
+    EOS     = 20,
+    UTG     = 21,
+    Gacha   = 22,
 }
