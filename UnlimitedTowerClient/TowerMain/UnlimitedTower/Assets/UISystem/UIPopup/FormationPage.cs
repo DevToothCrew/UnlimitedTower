@@ -7,21 +7,25 @@ public class FormationPage : MonoBehaviour {
     public GameObject[] monsterObject = new GameObject[5];
     public GameObject[] servantObject = new GameObject[5];
 
+    public GameObject monsterObjectList;
+    public GameObject servantObjectList;
+
     public readonly int[] positionOrder = { 2, 1, 3, 0, 4, 2, 1, 3, 0, 4 };
+    public UserPartyData partyInfo;
 
     public void OnEnable()
     {
         SetFormationData();
-        SetServantList(true);
-        SetMonsterList(false);
+        OnClickServantListButton();
     }
     
     public void SetFormationData()
     {
-        UserPartyData partyInfo = UserDataManager.Inst.GetUserPartyInfo();
+        partyInfo = UserDataManager.Inst.GetUserPartyInfo();
         if (partyInfo == null)
         {
             Debug.Log("Invalid Request Party Info is Empty");
+            return;
         }
 
         for (int i = 0; i < 10; i++)
@@ -96,5 +100,22 @@ public class FormationPage : MonoBehaviour {
     {
         SetServantList(false);
         SetMonsterList(true);
+    }
+
+    public void OnClickMonsterButton(int num)
+    {
+        Debug.Log("Monster Button Num : " + num + ", position : " + positionOrder[num]);
+        //monsterObject[positionOrder[num]].SetActive(false);
+    }
+
+    public void OnClickServantButton(int num)
+    {
+        Debug.Log("Servant Button Num : " + num + ", position : " + positionOrder[num]);
+        //servantObject[positionOrder[num]].SetActive(false);
+    }
+
+    public void OnClickHeroButton()
+    {
+        Debug.Log("Hero's position cannot be changed.");
     }
 }
