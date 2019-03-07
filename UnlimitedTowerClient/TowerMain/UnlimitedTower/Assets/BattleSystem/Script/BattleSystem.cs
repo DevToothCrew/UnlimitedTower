@@ -26,6 +26,9 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     private bool isBattleStart;
     private bool isSpaceCheck;
 
+    [HideInInspector]
+    public GameObject delayImage;
+
     // Test
     private int turn;
 
@@ -83,8 +86,10 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         characterObject[19] = GameObject.Find("CharacterEnemy10").gameObject;
 
         defenceEffect = GameObject.Find("DefenceActionObject").GetComponent<DefenceEffect>();
+        delayImage = GameObject.Find("DelayImage");
 
         defenceEffect.gameObject.SetActive(false);
+        delayImage.SetActive(false);
 
         testMyTurn = GameObject.Find("마이턴");
         testReward = GameObject.Find("보상");
@@ -134,11 +139,11 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             if (isBattleStart == false)
             {
                
-                if (characterControl[0].nowHp < 0)
+                if (characterControl[0].nowHp <= 0)
                 {
                     targetSettingInfo.heroAction = 3;
                 }
-                if (characterControl[5].nowHp < 0)
+                if (characterControl[5].nowHp <= 0)
                 {
                     targetSettingInfo.monsterAction = 3;
                 }
@@ -149,6 +154,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                     if (isSpaceCheck == false)
                     {
                         isBattleStart = true;
+                        delayImage.SetActive(true);
                         UTUMSProvider.Instance?.RequestBattleAction(targetSettingInfo.heroTargetIndex, targetSettingInfo.heroAction, targetSettingInfo.monsterTargetIndex, targetSettingInfo.monsterAction);
                         targetSettingInfo = new TargetSettingInfo();
                     }
@@ -160,10 +166,12 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         else if (Input.GetKeyDown(KeyCode.G))
         {
             //나가기 패킷 보내기
+            delayImage.SetActive(true);
             PacketManager.Inst.RequestStageExit();
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
+            delayImage.SetActive(true);
             SceneManager.LoadScene("Lobby");
         }
     }
@@ -253,6 +261,8 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     // 배틀데이터를 받아와 공격 ( 메인 배틀 한턴 )
     public IEnumerator BattleStart()
     {
+        delayImage.SetActive(false);
+
         isSpaceCheck = false;
         stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
         stageActionInfoData stageActionInfo = UserDataManager.Inst.GetStageAction();

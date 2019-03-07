@@ -9,7 +9,6 @@ public class SelectSystem : MonoSingleton<SelectSystem>
     public int mouseIndex = -1;
     public int selectIndex = -1;
     public bool isPlayer;
-    public Image selectHpBar;
     public Animator controlButton;
     public ActionState actionState;
 
@@ -20,6 +19,7 @@ public class SelectSystem : MonoSingleton<SelectSystem>
     public Text levelText;
     public Text nemeText;
     public Text selectHpText;
+    public Image selectHpBar;
     public Image selectCharacterImage;
     public GameObject characterInfo;
 
@@ -249,5 +249,7 @@ public class SelectSystem : MonoSingleton<SelectSystem>
 
             levelText.text = "?";
         }
+
+        selectHpBar.fillAmount = (float)BattleSystem.Inst.characterControl[selectIndex].nowHp / BattleSystem.Inst.characterControl[selectIndex].maxHp;
     }
 }
