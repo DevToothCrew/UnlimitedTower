@@ -9,6 +9,8 @@ public class MonsterPage : MonoBehaviour {
 
     public MONSTER_PAGE_STATE state;
 
+    private List<UserMonsterData> monsterList;
+
     public void OnEnable()
     {
         state = MONSTER_PAGE_STATE.LIST;
@@ -31,7 +33,12 @@ public class MonsterPage : MonoBehaviour {
 
         if (num == (int)MONSTER_PAGE_STATE.LIST)
         {
-            List<UserMonsterData> monsterList = UserDataManager.Inst.GetMonsterList();
+            if(monsterList != null)
+            {
+                return;
+            }
+
+            monsterList = UserDataManager.Inst.GetMonsterList();
 
             if (monsterList == null)
             {
