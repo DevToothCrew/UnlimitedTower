@@ -116,8 +116,13 @@ public class CaracterCustom : MonoBehaviour
         ClericCharacterMeshList[1].frame = GameObject.Find("ClericFrame")?.transform.GetChild(0).GetChild(0).GetChild(0);
         ClericCharacterMeshList[2].frame = GameObject.Find("ClericFrame")?.transform.GetChild(1).GetChild(1).GetChild(0);
         ClericCharacterMeshList[3].frame = GameObject.Find("ClericFrame")?.transform.GetChild(0).GetChild(1).GetChild(0);
-        
-        characterInformation[0] = new CharacterInfo(0.9f, 1.0f, 1.5f, 0.2f);
+
+        WhiteHandCharacterMeshList[0].frame = GameObject.Find("WhiteHandFrame")?.transform.GetChild(1).GetChild(0).GetChild(0);
+        WhiteHandCharacterMeshList[1].frame = GameObject.Find("WhiteHandFrame")?.transform.GetChild(0).GetChild(0).GetChild(0);
+        WhiteHandCharacterMeshList[2].frame = GameObject.Find("WhiteHandFrame")?.transform.GetChild(1).GetChild(1).GetChild(0);
+        WhiteHandCharacterMeshList[3].frame = GameObject.Find("WhiteHandFrame")?.transform.GetChild(0).GetChild(1).GetChild(0);
+
+        characterInformation[0] = new CharacterInfo(0.65f, 1.0f, 1.5f, 1.0f);
         characterInformation[1] = new CharacterInfo(0.9f, 1.0f, 1.5f, 0.7f);
         characterInformation[2] = new CharacterInfo(0.9f, 1.0f, 1.5f, 0.7f);
         characterInformation[3] = new CharacterInfo(0.9f, 1.0f, 1.5f, 0.6f);

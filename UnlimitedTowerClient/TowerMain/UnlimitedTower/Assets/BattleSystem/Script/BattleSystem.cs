@@ -216,7 +216,9 @@ public class BattleSystem : MonoSingleton<BattleSystem>
 
     public void TestSettingMonster()
     {
-        Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataInspector[66].resource), characterObject[0].transform);
+        GameObject servant = Instantiate(caracterCustom.Create(5, 0, 0, 0, 0), characterObject[0].transform);
+        servant.transform.position = characterObject[0].transform.position;
+        
         Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataInspector[0].resource), characterObject[10].transform);
     }
 
