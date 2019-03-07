@@ -130,8 +130,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4484250124362694}
   - component: {fileID: 95956329902787466}
-  - component: {fileID: 114265563419900102}
   - component: {fileID: 114243603819229680}
+  - component: {fileID: 114265563419900102}
   m_Layer: 0
   m_Name: mst_skeleton_berserker
   m_TagString: Untagged
@@ -853,7 +853,7 @@ Transform:
   m_GameObject: {fileID: 1636651517969886}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.27892298, y: 0.27892312, z: 0.27892312}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4790886008860948}
   m_Father: {fileID: 4484250124362694}
@@ -1395,10 +1395,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf3448e36193f01438e35548abb37413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackDelay: 0.4
+  AttackDelay: 1.2
   AttackAfterDelay: 1.5
   Height: 1.8
-  AttackRange: 0
+  AttackRange: 1
 --- !u!114 &114265563419900102
 MonoBehaviour:
   m_ObjectHideFlags: 1

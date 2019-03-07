@@ -218,8 +218,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4996829754283518}
   - component: {fileID: 95560563719819802}
-  - component: {fileID: 114388593389022558}
   - component: {fileID: 114745906348726130}
+  - component: {fileID: 114388593389022558}
   m_Layer: 0
   m_Name: mst_panda_gold
   m_TagString: Untagged

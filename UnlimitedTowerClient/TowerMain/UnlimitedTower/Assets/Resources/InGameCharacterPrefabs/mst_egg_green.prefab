@@ -1302,7 +1302,7 @@ MonoBehaviour:
   AttackDelay: 0.44
   AttackAfterDelay: 1.5
   Height: 0.9
-  AttackRange: 0.3
+  AttackRange: 0.5
 --- !u!137 &137046522306253146
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

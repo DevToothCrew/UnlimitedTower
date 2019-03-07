@@ -559,8 +559,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4420020667174626}
   - component: {fileID: 95323581027495182}
-  - component: {fileID: 114484401720344420}
   - component: {fileID: 114962112988364500}
+  - component: {fileID: 114484401720344420}
   m_Layer: 0
   m_Name: mst_skeleton_giant
   m_TagString: Untagged
@@ -825,7 +825,7 @@ Transform:
   m_GameObject: {fileID: 1494809979760582}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3570089, y: 0.35700908, z: 0.35700908}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children:
   - {fileID: 4780247833350536}
   m_Father: {fileID: 4420020667174626}
@@ -1419,10 +1419,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf3448e36193f01438e35548abb37413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackDelay: 0.4
+  AttackDelay: 0.8
   AttackAfterDelay: 1.5
-  Height: 1.8
-  AttackRange: 0
+  Height: 2
+  AttackRange: 1
 --- !u!137 &137008413817826750
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

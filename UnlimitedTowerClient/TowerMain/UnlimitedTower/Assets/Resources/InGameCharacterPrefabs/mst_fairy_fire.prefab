@@ -191,8 +191,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4619653551949804}
   - component: {fileID: 95440526841367246}
-  - component: {fileID: 114685520102542796}
   - component: {fileID: 114398540492437840}
+  - component: {fileID: 114685520102542796}
   m_Layer: 0
   m_Name: mst_fairy_fire
   m_TagString: Untagged

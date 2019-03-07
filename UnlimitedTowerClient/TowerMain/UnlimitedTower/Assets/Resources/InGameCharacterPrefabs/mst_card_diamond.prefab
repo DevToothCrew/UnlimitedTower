@@ -51,8 +51,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4623472323465848}
   - component: {fileID: 95225971306265428}
-  - component: {fileID: 114999569526853042}
   - component: {fileID: 114514564018095772}
+  - component: {fileID: 114999569526853042}
   m_Layer: 0
   m_Name: mst_card_diamond
   m_TagString: Untagged
@@ -1310,7 +1310,7 @@ MonoBehaviour:
   AttackDelay: 0.5
   AttackAfterDelay: 1
   Height: 1.5
-  AttackRange: 0.5
+  AttackRange: 0.7
 --- !u!114 &114930781048421496
 MonoBehaviour:
   m_ObjectHideFlags: 1

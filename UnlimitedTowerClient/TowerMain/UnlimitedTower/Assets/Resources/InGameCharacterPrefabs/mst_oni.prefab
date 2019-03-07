@@ -1388,10 +1388,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf3448e36193f01438e35548abb37413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackDelay: 0.8
+  AttackDelay: 1.2
   AttackAfterDelay: 1.5
-  Height: 1.875
-  AttackRange: 1.2
+  Height: 1.4
+  AttackRange: 0.7
 --- !u!137 &137064368952006986
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

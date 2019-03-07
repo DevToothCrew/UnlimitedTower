@@ -253,8 +253,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4877569695965622}
   - component: {fileID: 95359229116425052}
-  - component: {fileID: 114059480040077490}
   - component: {fileID: 114850351388033922}
+  - component: {fileID: 114059480040077490}
   m_Layer: 0
   m_Name: mst_skeleton_archer
   m_TagString: Untagged
@@ -1422,7 +1422,7 @@ MonoBehaviour:
   AttackDelay: 0.4
   AttackAfterDelay: 1.5
   Height: 1.8
-  AttackRange: 0
+  AttackRange: 0.5
 --- !u!137 &137067153338711804
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

@@ -573,8 +573,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4881158645644762}
   - component: {fileID: 95443055712322224}
-  - component: {fileID: 114991479711532914}
   - component: {fileID: 114515515429315670}
+  - component: {fileID: 114991479711532914}
   m_Layer: 0
   m_Name: mst_zombie
   m_TagString: Untagged
@@ -1348,7 +1348,7 @@ MonoBehaviour:
   AttackDelay: 1.2
   AttackAfterDelay: 1.5
   Height: 1.2
-  AttackRange: 0
+  AttackRange: 0.8
 --- !u!114 &114991479711532914
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -299,8 +299,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4952528402327094}
   - component: {fileID: 95997764431560222}
-  - component: {fileID: 114745515320677114}
   - component: {fileID: 114791378289230906}
+  - component: {fileID: 114745515320677114}
   m_Layer: 0
   m_Name: mst_anubis
   m_TagString: Untagged

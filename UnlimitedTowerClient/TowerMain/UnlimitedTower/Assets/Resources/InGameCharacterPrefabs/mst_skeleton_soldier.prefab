@@ -714,8 +714,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4063748235632240}
   - component: {fileID: 95037163057609622}
-  - component: {fileID: 114150948096875204}
   - component: {fileID: 114533778031112150}
+  - component: {fileID: 114150948096875204}
   m_Layer: 0
   m_Name: mst_skeleton_soldier
   m_TagString: Untagged
@@ -1185,7 +1185,7 @@ Transform:
   m_GameObject: {fileID: 1136933726044330}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3570089, y: 0.35700908, z: 0.35700908}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4437149241115864}
   m_Father: {fileID: 4063748235632240}
@@ -1408,10 +1408,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf3448e36193f01438e35548abb37413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackDelay: 0.4
+  AttackDelay: 0.8
   AttackAfterDelay: 1.5
   Height: 1.8
-  AttackRange: 0
+  AttackRange: 1
 --- !u!114 &114997317257147436
 MonoBehaviour:
   m_ObjectHideFlags: 1

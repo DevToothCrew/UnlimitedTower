@@ -96,8 +96,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4781617816954046}
   - component: {fileID: 95313629974189136}
-  - component: {fileID: 114291885511181058}
   - component: {fileID: 114425938307579926}
+  - component: {fileID: 114291885511181058}
   m_Layer: 0
   m_Name: mst_ogre_twinhead
   m_TagString: Untagged
@@ -1326,7 +1326,7 @@ Transform:
   m_GameObject: {fileID: 1142457943170022}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.49568465, y: 0.49568543, z: 0.49568543}
+  m_LocalScale: {x: 0.55, y: 0.55, z: 0.55}
   m_Children:
   - {fileID: 4108525440088520}
   m_Father: {fileID: 4781617816954046}
@@ -1471,7 +1471,7 @@ MonoBehaviour:
   AttackDelay: 0.8
   AttackAfterDelay: 1.5
   Height: 1.875
-  AttackRange: 1.2
+  AttackRange: 1.5
 --- !u!114 &114439289339130288
 MonoBehaviour:
   m_ObjectHideFlags: 1

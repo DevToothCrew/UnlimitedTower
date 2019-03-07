@@ -2458,7 +2458,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0.58823526, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2478,7 +2478,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC8FD\uC740 \uB300\uC0C1\uC785\uB2C8\uB2E4"
+  m_Text: Target is Die
 --- !u!222 &314472629
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3916,7 +3916,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uD328 \uBC30 !"
+  m_Text: Defeat !
 --- !u!222 &457517432
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11800,7 +11800,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uACF5\uACA9\uB300\uC0C1\uC744 \uC120\uD0DD\uD574\uC8FC\uC138\uC694"
+  m_Text: Target Choice !
 --- !u!222 &1332720177
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -300,8 +300,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4417681855432804}
   - component: {fileID: 95046065660356860}
-  - component: {fileID: 114147656676079152}
   - component: {fileID: 114956481965669022}
+  - component: {fileID: 114147656676079152}
   m_Layer: 0
   m_Name: mst_ranubis
   m_TagString: Untagged

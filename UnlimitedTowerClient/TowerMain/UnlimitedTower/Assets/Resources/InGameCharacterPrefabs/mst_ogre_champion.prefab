@@ -1248,7 +1248,7 @@ Transform:
   m_GameObject: {fileID: 1638834098422150}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5694064, y: 0.5694065, z: 0.5694065}
+  m_LocalScale: {x: 0.55, y: 0.55, z: 0.55}
   m_Children:
   - {fileID: 4548981595483236}
   m_Father: {fileID: 4838255762476056}
@@ -1482,7 +1482,7 @@ MonoBehaviour:
   AttackDelay: 0.8
   AttackAfterDelay: 1.5
   Height: 1.875
-  AttackRange: 1.2
+  AttackRange: 1.5
 --- !u!137 &137038562541401508
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
