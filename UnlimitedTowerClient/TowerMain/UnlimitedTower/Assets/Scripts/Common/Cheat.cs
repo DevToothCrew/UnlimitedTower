@@ -394,7 +394,7 @@ public class Cheat : MonoSingleton<Cheat>
         }
         int monsterNum = rand.Next(0, monsterIndexList.Count);
         monsterData.monster.id = monsterIndexList[monsterNum];
-        monsterData.monster.grade = rand.Next(0, 4);
+        monsterData.monster.grade = rand.Next(1, 6);
         monsterData.monster.upgrade = 0;
         monsterData.monster.status = GetRandomStatusInfo();
         // TODO : 업그레이드에 따른 스테이터스 가중치 추가 필요
