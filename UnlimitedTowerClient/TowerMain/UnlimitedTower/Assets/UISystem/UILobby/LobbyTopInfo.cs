@@ -20,8 +20,9 @@ public class LobbyTopInfo : MonoBehaviour {
     {
         heroLevel.text = userInfo.userHero.level.ToString();
         accountName.text = userInfo.userName;
-        EOSCount.text = userInfo.userEOS.ToString();
-        UTGCount.text = userInfo.userMoney.ToString();
+
+        EOSCount.text = userInfo.userEOS.ToString("N4") + " EOS";
+        UTGCount.text = userInfo.userMoney.ToString("N4") + " UTG";
     }
 
     public void OnClickAccountButton()
