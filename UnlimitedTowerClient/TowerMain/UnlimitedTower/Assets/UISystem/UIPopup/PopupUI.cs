@@ -5,7 +5,7 @@ public class PopupUI : MonoBehaviour {
 
     public GameObject[] popupPages = new GameObject[4];
 
-    public void Awake()
+    public void OnEnable()
     {
         for (int i = 0; i < 4; i++)
         {
