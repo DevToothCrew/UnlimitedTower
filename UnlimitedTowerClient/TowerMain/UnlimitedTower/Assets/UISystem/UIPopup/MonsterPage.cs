@@ -9,10 +9,10 @@ public class MonsterPage : MonoBehaviour {
 
     public MONSTER_PAGE_STATE state;
 
-    public void Awake()
+    public void OnEnable()
     {
         state = MONSTER_PAGE_STATE.LIST;
-        OnClickButton(0);
+        OnClickButton((int)state);
     }
 
     public void OnClickButton(int num)

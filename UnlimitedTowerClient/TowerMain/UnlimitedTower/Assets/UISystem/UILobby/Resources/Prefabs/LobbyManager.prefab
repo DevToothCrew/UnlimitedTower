@@ -63,5 +63,7 @@ MonoBehaviour:
   popupTitle: {fileID: 0}
   popupMenu: {fileID: 0}
   popupState: 0
-  heroMenu: {fileID: 0}
-  shopMenu: {fileID: 0}
+  popupPage:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
