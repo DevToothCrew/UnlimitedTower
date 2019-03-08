@@ -390,10 +390,10 @@ footer{width: 100%;}
 .section6 .show6 .map-wrap .map:nth-child(9){opacity: 1; transform: translateY(10px); transition: all 0.8s 2.8s ease;}
 
 /*section7*/
-.section7{height: 600px;}
+.section7{height: 700px;}
 .section7 .sec7{height: 700px;position: relative;}
 .section7 .sec7 h2{opacity: 0;font-family:'Noto Sans', sans-serif;text-align: center;font-size: 60px;line-height: 1.9;font-weight: bold;padding-top: 65px; transform: translateY(0);color:#131516;}
-.section7 .show7 .partner-wrap{width:100%; position:absolute;top:50%;left:50%; transform:translate(-50%,-50%);text-align: center;-webkit-transform: translate(-50%, -50%);}
+.section7 .show7 .partner-wrap{width:100%; position:absolute;top:55%;left:50%; transform:translate(-50%,-50%);text-align: center;-webkit-transform: translate(-50%, -50%);}
 .section7 .show7 .partner-wrap li{display:inline-block;margin: 25px 3%;width:18%}
 .section7 .sec7 .partner-wrap img{opacity: 0;width: 200px}
 
