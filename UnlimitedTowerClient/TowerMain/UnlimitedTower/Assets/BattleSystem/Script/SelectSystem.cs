@@ -228,24 +228,19 @@ public class SelectSystem : MonoSingleton<SelectSystem>
         }
         else if (selectIndex < 10)
         {
-            nemeText.text = CharacterCSVData.Inst.monsterDataDic[
-            UserDataManager.Inst.GetMonsterInfo(
-            UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).id].engName;
+            nemeText.text = CharacterCSVData.Inst.monsterDataDic[selectStateInfo.id].engName;
 
             selectCharacterImage.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" +
-                CharacterCSVData.Inst.monsterDataDic[
-            UserDataManager.Inst.GetMonsterInfo(
-            UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).id].inGameIconName);
+                CharacterCSVData.Inst.monsterDataDic[selectStateInfo.id].inGameIconName);
 
             levelText.text = UserDataManager.Inst.GetMonsterInfo(UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).level.ToString();
         }
         else
         {
-            nemeText.text = CharacterCSVData.Inst.monsterDataDic[selectStateInfo.index].engName;
+            nemeText.text = CharacterCSVData.Inst.monsterDataDic[selectStateInfo.id].engName;
             
             selectCharacterImage.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" +
-                CharacterCSVData.Inst.monsterDataDic[
-            BattleSystem.Inst.GetEnemyState(selectIndex).index].inGameIconName);
+                CharacterCSVData.Inst.monsterDataDic[selectStateInfo.id].inGameIconName);
 
             levelText.text = "?";
         }

@@ -43,8 +43,9 @@ public class CaracterCustom : MonoBehaviour
 
     [FormerlySerializedAs("CharacterSkinnedMeshList")]
     public CharacterSkinnedMeshList characterSkinnedMeshList = new CharacterSkinnedMeshList();
-    
+
     public GameObject defultCharacter;
+    public GameObject defultCharacterParent;
 
     [Header("- Head Mash")]
     public HeadParts[] adultManHead = new HeadParts[9];
@@ -267,7 +268,7 @@ public class CaracterCustom : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Keypad1))
         {
-            if (jobIndex > 1)
+            if (jobIndex > 0)
             {
                 jobIndex--;
                 Refresh();
@@ -346,7 +347,7 @@ public class CaracterCustom : MonoBehaviour
         return defultCharacter;
     }
 
-    [ContextMenu("test")]
+    [ContextMenu("Refresh")]
     private void Refresh()
     {
         switch (jobIndex)
@@ -387,12 +388,63 @@ public class CaracterCustom : MonoBehaviour
         defultCharacter.GetComponent<Animator>().runtimeAnimatorController = animatorController[jobIndex];
     }
 
-    // IEnumerator ColorChange()
-    // {
-    //     while (true)
-    //     {
-    //         RingEffect.startColor = Color.Lerp(RingEffect.startColor, JobColor[jobIndex], 0.2f);
-    //         yield return null;
-    //     }
-    // }
+    public void ManIndexChange()
+    {
+        isMan = 1;
+        Refresh();
+    }
+
+    public void WomanIndexChange()
+    {
+        isMan = 0;
+        Refresh();
+    }
+
+    public void ChildrenIndexChange()
+    {
+        isChildren = 1;
+        Refresh();
+    }
+
+    public void AdultIndexChange()
+    {
+        isChildren = 0;
+        Refresh();
+    }
+
+    public void FaceIndexUp()
+    {
+        if (hairIndex < 2)
+        {
+            hairIndex++;
+            Refresh();
+        }
+    }
+
+    public void FaceIndexDown()
+    {
+        if (hairIndex > 0)
+        {
+            hairIndex--;
+            Refresh();
+        }
+    }
+
+    public void HairIndexUp()
+    {
+        if (headIndex < 2)
+        {
+            headIndex++;
+            Refresh();
+        }
+    }
+
+    public void HairIndexDown()
+    {
+        if (headIndex > 0)
+        {
+            headIndex--;
+            Refresh();
+        }
+    }
 }

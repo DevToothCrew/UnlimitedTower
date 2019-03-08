@@ -118,9 +118,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             Debug.LogError("버그 : stageStateInfo is NULL");
             return;
         }
-
-
-
+        
         if (!isTestPlay)
         {
             IsPlaceCheck(stageStateInfo);
@@ -139,12 +137,6 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             TestSettingHp();
             SettingPosition();
         }
-    }
-
-    [ContextMenu("AttackTest")]
-    public void AttackTest()
-    {
-        StartCoroutine(BattleStart());
     }
 
     private void Update()
@@ -450,7 +442,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             else
             {
                 Instantiate(Resources.Load("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataDic
-                    [UserDataManager.Inst.GetMonsterInfo(stageStateInfo.my_state_list[i].index).id].resource) as GameObject,
+                    [stageStateInfo.my_state_list[i].id].resource) as GameObject,
                     characterObject[stageStateInfo.my_state_list[i].position].transform);
             }
         }
@@ -462,7 +454,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
         {
             Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataDic
-                    [stageStateInfo.enemy_state_list[i].index].resource),
+                    [stageStateInfo.enemy_state_list[i].id].resource),
                     characterObject[stageStateInfo.enemy_state_list[i].position].transform);
         }
     }
