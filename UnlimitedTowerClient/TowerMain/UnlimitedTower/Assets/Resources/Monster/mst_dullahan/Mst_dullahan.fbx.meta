@@ -1,0 +1,199 @@
+fileFormatVersion: 2
+guid: b428cc07fd924974984ab83c2014b8c3
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: foot_L
+    100002: foot_R
+    100004: forearm_L
+    100006: forearm_R
+    100008: hand_L
+    100010: hand_R
+    100012: heel_02_L
+    100014: heel_02_R
+    100016: metarig
+    100018: //RootNode
+    100020: Mst_durahan
+    100022: Mst_durahan_002
+    100024: Mst_durahan_003
+    100026: Mst_durahan_005
+    100028: Mst_durahan_006
+    100030: Mst_durahan_007
+    100032: Mst_durahan_008
+    100034: Mst_durahan_009
+    100036: Mst_durahan_010
+    100038: Mst_durahan_012
+    100040: Mst_durahan_013
+    100042: Mst_durahan_015
+    100044: Mst_durahan_018
+    100046: Mst_durahan_025
+    100048: shin_L
+    100050: shin_R
+    100052: shoulder_L
+    100054: shoulder_R
+    100056: spine
+    100058: spine_001
+    100060: spine_002
+    100062: spine_003
+    100064: spine_004
+    100066: spine_005
+    100068: spine_006
+    100070: thigh_L
+    100072: thigh_R
+    100074: toe_L
+    100076: toe_R
+    100078: upper_arm_L
+    100080: upper_arm_R
+    400000: foot_L
+    400002: foot_R
+    400004: forearm_L
+    400006: forearm_R
+    400008: hand_L
+    400010: hand_R
+    400012: heel_02_L
+    400014: heel_02_R
+    400016: metarig
+    400018: //RootNode
+    400020: Mst_durahan
+    400022: Mst_durahan_002
+    400024: Mst_durahan_003
+    400026: Mst_durahan_005
+    400028: Mst_durahan_006
+    400030: Mst_durahan_007
+    400032: Mst_durahan_008
+    400034: Mst_durahan_009
+    400036: Mst_durahan_010
+    400038: Mst_durahan_012
+    400040: Mst_durahan_013
+    400042: Mst_durahan_015
+    400044: Mst_durahan_018
+    400046: Mst_durahan_025
+    400048: shin_L
+    400050: shin_R
+    400052: shoulder_L
+    400054: shoulder_R
+    400056: spine
+    400058: spine_001
+    400060: spine_002
+    400062: spine_003
+    400064: spine_004
+    400066: spine_005
+    400068: spine_006
+    400070: thigh_L
+    400072: thigh_R
+    400074: toe_L
+    400076: toe_R
+    400078: upper_arm_L
+    400080: upper_arm_R
+    2100000: palette_014__Mst_durahan_png_001
+    2100002: palette_013__Mst_durahan_png
+    4300000: Mst_durahan_015
+    4300002: Mst_durahan_025
+    4300004: Mst_durahan_018
+    4300006: Mst_durahan
+    4300008: Mst_durahan_013
+    4300010: Mst_durahan_012
+    4300012: Mst_durahan_003
+    4300014: Mst_durahan_002
+    4300016: Mst_durahan_005
+    4300018: Mst_durahan_006
+    4300020: Mst_durahan_010
+    4300022: Mst_durahan_009
+    4300024: Mst_durahan_007
+    4300026: Mst_durahan_008
+    7400000: Default Take
+    9500000: //RootNode
+    13700000: Mst_durahan
+    13700002: Mst_durahan_002
+    13700004: Mst_durahan_003
+    13700006: Mst_durahan_005
+    13700008: Mst_durahan_006
+    13700010: Mst_durahan_007
+    13700012: Mst_durahan_008
+    13700014: Mst_durahan_009
+    13700016: Mst_durahan_010
+    13700018: Mst_durahan_012
+    13700020: Mst_durahan_013
+    13700022: Mst_durahan_015
+    13700024: Mst_durahan_018
+    13700026: Mst_durahan_025
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

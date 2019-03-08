@@ -1,11 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GachaImage : MonoSingleton<GachaImage>
 {
-
     public Animator GachaImageAnimator;
 
     public Animator LightEffectCircle01Animator;
@@ -27,21 +25,32 @@ public class GachaImage : MonoSingleton<GachaImage>
 
     public GameObject GachaButton;
     public GameObject ExitButton;
+    public GameObject Test10GachaButton;
 
     private bool reGachaflag = false;
+    private bool fadeOutFlag = false;
 
 
+    // 가챠 결과 마지막에 깜빡이는 부분
     IEnumerator FADE_OUT()
     {
-        do
+        if (fadeOutFlag == false)
         {
-            yield return null;
+            Debug.Log("Start Fade Out ");
+            do
+            {
+                yield return null;
+            }
+            while (GachaImageAnimator.GetCurrentAnimatorStateInfo(0).IsName("FadeOut") &&
+         GachaImageAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
+
+            Debug.Log("End Fade Out ");
+            GachaImageAnimator.SetBool("Play", false);
+            fadeOutFlag = true;
+
+            UTUMSProvider.Instance.RequestGacha();
         }
-        while (GachaImageAnimator.GetCurrentAnimatorStateInfo(0).IsName("FadeOut") &&
-     GachaImageAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
 
-
-        GachaImageAnimator.SetBool("Play", false);
         yield break;
     }
 
@@ -58,7 +67,6 @@ public class GachaImage : MonoSingleton<GachaImage>
         GachaImageAnimator.SetBool("Play", true);
         yield return StartCoroutine("FADE_OUT");
     }
-
     IEnumerator WAVE_LIGHT_EFFECT_CIRCLE02()
     {
         do
@@ -83,7 +91,7 @@ public class GachaImage : MonoSingleton<GachaImage>
 
 
         LightEffectCircle02Animator.SetBool("Play", true);
-         yield return StartCoroutine("WAVE_LIGHT_EFFECT_CIRCLE02");
+        yield return StartCoroutine("WAVE_LIGHT_EFFECT_CIRCLE02");
     }
     IEnumerator WAVE_LIGHT_EFFECT_CIRCLE04()
     {
@@ -101,7 +109,6 @@ public class GachaImage : MonoSingleton<GachaImage>
     }
     #endregion
 
-
     #region LightCircles FadeIn Coroutine
     IEnumerator FADE_IN_LIGHT_EFFECT_CIRCLE01()
     {
@@ -116,7 +123,6 @@ public class GachaImage : MonoSingleton<GachaImage>
         ReTryGacha();
         yield break;
     }
-
     IEnumerator FADE_IN_LIGHT_EFFECT_CIRCLE02()
     {
         do
@@ -144,12 +150,12 @@ public class GachaImage : MonoSingleton<GachaImage>
     }
     IEnumerator FADE_IN_LIGHT_EFFECT_CIRCLE04()
     {
-       do
+        do
         {
             yield return null;
         }
         while (LightEffectCircle04Animator.GetCurrentAnimatorStateInfo(0).IsName("Stop") &&
-      LightEffectCircle04Animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
+       LightEffectCircle04Animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1.0f);
 
 
         LightEffectCircle03Animator.SetBool("Play", false);
@@ -157,73 +163,96 @@ public class GachaImage : MonoSingleton<GachaImage>
     }
     #endregion
 
-
-    public void ReGacha()
-    {
-        reGachaflag = true ;
-
-        GachaResultPopup.SetActive(false);
-        LightEffectCircle04Animator.SetBool("Play", false);
-        StartCoroutine("FADE_IN_LIGHT_EFFECT_CIRCLE04");
-
-        PurpleCircleAnimator.SetBool("Play", false);
-        BlackHoleAnimator.SetBool("Play", false);
-    }
-
     public void ReTryGacha()
     {
-        if (reGachaflag)
-        {
-            GoGacha();
-        }
+        // TODO : 정상적으로 작동하지 않음
+        LightEffectCircle04Animator.SetBool("Play", true);
+        BlackHoleAnimator.SetBool("Play", true);
+        PurpleCircleAnimator.SetBool("Play", true);
+
+        StopAllCoroutines();
+        StartCoroutine("WAVE_LIGHT_EFFECT_CIRCLE04");
+
+        GachaButton.SetActive(false);
+        ExitButton.SetActive(false);
+
     }
 
-    public void SetGachaReult(Character newChar)
+    public void SetServantGachaImage(UserServantData getServant)
+    {
+        Sprite sprite = null;
+        SetGachaResultInfo(getServant.status);
+
+        CharNameText.text = getServant.name;
+        sprite = Resources.Load<Sprite>("UI/CharaterImage/" + getServant.name);
+        charImage.GetComponent<Image>().sprite = sprite;
+        fadeOutFlag = false;
+    }
+
+    public void SetMonsterGachaImage(UserMonsterData getMonster)
+    {
+        Sprite sprite = null;
+
+        // TODO : ID를 이용해 CSV에서 Name을 가져오는 것 추가 필요
+        CharNameText.text = getMonster.id.ToString();
+
+        // TODO : ID를 이용해 CSV에서 Name을 가져오는 것 추가 필요
+        sprite = Resources.Load<Sprite>("UI/MonsterImage/" + getMonster.id);
+        charImage.GetComponent<Image>().sprite = sprite;
+        fadeOutFlag = false;
+    }
+
+    public void SetItemGachaImage(UserMountItemData getItem)
+    {
+        Sprite sprite = null;
+
+        // 아이템 가챠는 아이콘 보여주는게 다름
+        //SetGachaResultInfo(getItem.value);
+        // TODO : 아이템 이름 등이 확정되면 수정필요.
+
+        CharNameText.text = getItem.index.ToString();
+        charImage.GetComponent<Image>().sprite = sprite;
+        fadeOutFlag = false;
+    }
+
+    private void SetGachaResultInfo(Status getStatus)
     {
         GachaResultPopup.SetActive(true);
- 
-        CharNameText.text = newChar.Name;
-        StatusStrText.text = newChar.Str.ToString();
-        StatusDexText.text = newChar.Dex.ToString();
-        StatusIntText.text = newChar.Int.ToString();
 
-
-        Sprite sprite = Resources.Load<Sprite>("UI/CharaterImage/" + newChar.Name);
-        charImage.GetComponent<Image>().sprite = sprite;
-    }
-    public void ShowGachaResult()
-    {
-        reGachaflag = false;
-        PacketManager.Inst.Request_Gacha();
+        StatusStrText.text = getStatus.basicStr.ToString();
+        StatusDexText.text = getStatus.basicDex.ToString();
+        StatusIntText.text = getStatus.basicInt.ToString();
     }
 
-
-    public void OnClickCheckGacha()
+    public void OnClickGachaOKButton()
     {
+        fadeOutFlag = false;
         LightEffectCircle04Animator.SetBool("Play", false);
+
+        StopAllCoroutines();
         StartCoroutine("FADE_IN_LIGHT_EFFECT_CIRCLE04");
 
         GachaButton.SetActive(true);
         ExitButton.SetActive(true);
         GachaResultPopup.SetActive(false);
 
-
         PurpleCircleAnimator.SetBool("Play", false);
         BlackHoleAnimator.SetBool("Play", false);
     }
 
-
-    public void GoGacha()
+    public void OnClickCheckButton()
     {
-        LightEffectCircle04Animator.SetBool("Play", true);
-        BlackHoleAnimator.SetBool("Play", true);
-        PurpleCircleAnimator.SetBool("Play", true);
-        StartCoroutine("WAVE_LIGHT_EFFECT_CIRCLE04");
+        fadeOutFlag = false;
 
-        GachaButton.SetActive(false);
-        ExitButton.SetActive(false);
+        StopAllCoroutines();
+        LightEffectCircle04Animator.SetBool("Play", false);
+        PurpleCircleAnimator.SetBool("Play", false);
+        BlackHoleAnimator.SetBool("Play", false);
+
+        GachaButton.SetActive(true);
+        ExitButton.SetActive(true);
+        GachaResultPopup.SetActive(false);
     }
-
 }
 
 

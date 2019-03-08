@@ -1,0 +1,221 @@
+fileFormatVersion: 2
+guid: abf9b401f316dbe4ab1330871830cb3e
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Map_ice_2_029
+    100004: Map_ice_2_041
+    100006: Map_ice_2_042
+    100008: Map_ice_2_043
+    100010: Map_ice_3
+    100012: Map_ice_fence
+    100014: Map_ice_fence_001
+    100016: Map_ice_fence_002
+    100018: Map_ice_fence_003
+    100020: Map_ice_fence_004
+    100022: Map_ice_fence_005
+    100024: Map_ice_rock
+    100026: Map_ice_rock_001
+    100028: Map_ice_rock_002
+    100030: Map_ice_rock_003
+    100032: Map_ice_snowman
+    100034: Map_ice_tree
+    100036: Map_ice_tree_001
+    100038: Map_ice_tree_002
+    100040: Map_ice_tree_down
+    100042: Map_ice_tree_down_001
+    100044: Map_ice_tree_down_002
+    400000: //RootNode
+    400002: Map_ice_2_029
+    400004: Map_ice_2_041
+    400006: Map_ice_2_042
+    400008: Map_ice_2_043
+    400010: Map_ice_3
+    400012: Map_ice_fence
+    400014: Map_ice_fence_001
+    400016: Map_ice_fence_002
+    400018: Map_ice_fence_003
+    400020: Map_ice_fence_004
+    400022: Map_ice_fence_005
+    400024: Map_ice_rock
+    400026: Map_ice_rock_001
+    400028: Map_ice_rock_002
+    400030: Map_ice_rock_003
+    400032: Map_ice_snowman
+    400034: Map_ice_tree
+    400036: Map_ice_tree_001
+    400038: Map_ice_tree_002
+    400040: Map_ice_tree_down
+    400042: Map_ice_tree_down_001
+    400044: Map_ice_tree_down_002
+    2100000: palette_035__Map_ice_3_png
+    2100002: palette_013__Map_ice_2_png
+    2100004: palette_021__Map_ice_tree_down_png
+    2100006: palette_020__Map_ice_tree_png
+    2100008: palette_019__Map_ice_snowman_png
+    2100010: palette_018__Map_ice_rock_png
+    2100012: palette_015__Map_ice_fence_png
+    2100014: palette_016__Map_ice_fence_png_001
+    2100016: palette_017__Map_ice_fence_png_002
+    2100018: palette_022__Map_ice_tree_png_001
+    2100020: palette_023__Map_ice_fence_png_003
+    2100022: palette_024__Map_ice_fence_png_004
+    2100024: palette_025__Map_ice_fence_png_005
+    2100026: palette_026__Map_ice_rock_png_001
+    2100028: palette_028__Map_ice_rock_png_003
+    2100030: palette_027__Map_ice_rock_png_002
+    2100032: palette_029__Map_ice_tree_png_002
+    2100034: palette_030__Map_ice_tree_down_png_001
+    2100036: palette_031__Map_ice_2_png_001
+    2100038: palette_032__Map_ice_2_png_002
+    2100040: palette_033__Map_ice_2_png_003
+    2100042: palette_034__Map_ice_tree_down_png_002
+    2300000: Map_ice_2_029
+    2300002: Map_ice_2_041
+    2300004: Map_ice_2_042
+    2300006: Map_ice_2_043
+    2300008: Map_ice_3
+    2300010: Map_ice_fence
+    2300012: Map_ice_fence_001
+    2300014: Map_ice_fence_002
+    2300016: Map_ice_fence_003
+    2300018: Map_ice_fence_004
+    2300020: Map_ice_fence_005
+    2300022: Map_ice_rock
+    2300024: Map_ice_rock_001
+    2300026: Map_ice_rock_002
+    2300028: Map_ice_rock_003
+    2300030: Map_ice_snowman
+    2300032: Map_ice_tree
+    2300034: Map_ice_tree_001
+    2300036: Map_ice_tree_002
+    2300038: Map_ice_tree_down
+    2300040: Map_ice_tree_down_001
+    2300042: Map_ice_tree_down_002
+    3300000: Map_ice_2_029
+    3300002: Map_ice_2_041
+    3300004: Map_ice_2_042
+    3300006: Map_ice_2_043
+    3300008: Map_ice_3
+    3300010: Map_ice_fence
+    3300012: Map_ice_fence_001
+    3300014: Map_ice_fence_002
+    3300016: Map_ice_fence_003
+    3300018: Map_ice_fence_004
+    3300020: Map_ice_fence_005
+    3300022: Map_ice_rock
+    3300024: Map_ice_rock_001
+    3300026: Map_ice_rock_002
+    3300028: Map_ice_rock_003
+    3300030: Map_ice_snowman
+    3300032: Map_ice_tree
+    3300034: Map_ice_tree_001
+    3300036: Map_ice_tree_002
+    3300038: Map_ice_tree_down
+    3300040: Map_ice_tree_down_001
+    3300042: Map_ice_tree_down_002
+    4300000: Map_ice_3
+    4300002: Map_ice_2_029
+    4300004: Map_ice_tree_down
+    4300006: Map_ice_tree
+    4300008: Map_ice_snowman
+    4300010: Map_ice_rock
+    4300012: Map_ice_fence
+    4300014: Map_ice_fence_001
+    4300016: Map_ice_fence_002
+    4300018: Map_ice_tree_001
+    4300020: Map_ice_fence_003
+    4300022: Map_ice_fence_004
+    4300024: Map_ice_fence_005
+    4300026: Map_ice_rock_001
+    4300028: Map_ice_rock_003
+    4300030: Map_ice_rock_002
+    4300032: Map_ice_tree_002
+    4300034: Map_ice_tree_down_001
+    4300036: Map_ice_2_041
+    4300038: Map_ice_2_042
+    4300040: Map_ice_2_043
+    4300042: Map_ice_tree_down_002
+    7400000: Default Take
+    9500000: //RootNode
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

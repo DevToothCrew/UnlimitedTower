@@ -1,37 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 
 //공통 사항을 모아둔 클래스.
-
 public class DEFINE
 {
+    public static readonly int MonsterMinFormationNum = 5;
+    public static readonly int MonsterMaxFormationNum = 9;
+    public static readonly int ServantMinFormationNum = 0;
+    public static readonly int ServantMaxFormationNum = 4;
+    public static readonly int MAINHERO_FORMINDEX = 2;
 
-	// GACHA COST
-	public readonly int GACHA_COST = 1;
-    
 	// MIN - MAX Status
-	public static readonly int MIN_STATUS = 10;
-	public static readonly int MAX_STATUS = 30;
+	public static readonly int MIN_STATUS = 0;
+	public static readonly int MAX_STATUS = 9;
     public static readonly int RAND_STATUS = 10;
-
-    // MIN - MAX Exp
-    public static readonly int MIN_EXP = 0;
-    public static readonly int MAX_EXP = 1024;
+    public static readonly int MAX_LEVEL = 50;
+    public static readonly int MAX_EXP = 5000;
+    public static readonly int BONUS_STAT = 1;
 
     // SHADER Name
     public static readonly string OUTLINE_SHADER = "Outlined/UltimateOutline";
     public static readonly string BASIC_SHADER = "Mobile/Unlit (Supports Lightmap)";
 
-    // Status posOffset
-    public static readonly int MAX_HP_MULTI_posOffset = 1;
-    public static readonly int AVOID_MULTI_posOffset = 1;
-    public static readonly int SPEED_MULTI_posOffset = 1;
+    // Status Formula
+    public static readonly int HP_MIN_VALUE = 300;
+    public static readonly int HP_MULTI_VALUE = 22;
+    public static readonly int DAMAGE_MUlTI_VALUE = 2;
+    public static readonly int DEFENCE_MULTI_VALUE = 1;
+    public static readonly int CRITICAL_PER_MULTI_VALUE = 1;
+    public static readonly float AVOID_MULTI_VALUE = 0.1f;
 
-    public static readonly int DAMAGE_STR_MUlTI_posOffset = 3;
-    public static readonly int DAMAGE_DEX_MUlTI_posOffset = 2;
-    public static readonly int DAMAGE_INT_MUlTI_posOffset = 1;
 
     // Party Info
     public static readonly int PARTY_MAX_NUM = 10;
@@ -55,26 +55,23 @@ public class DEFINE
     public static Vector3 PLAYER_BACKLINE_CENTER_POS = new Vector3(0.0f, 0.0f, -5.0f);
     public static Vector3 ENEMY_BACKLINE_CENTER_POS = new Vector3(0.0f, 0.0f, 5.0f);
 
+    public static readonly int HERO_FORMATION_NUM = 7;
+    public static readonly int TEST_STATUS_VALUE = 1;
 
 
 
-    public static Vector3 GetBattlePosition(int partyIndex, CHAR_TYPE type, int num)
+    public static Vector3 GetBattlePosition(int partyIndex, FORMATION_TYPE type, int num)
     {
         Vector3 position = new Vector3();
         int posOffset = 0;
         float y = 0.0f;
-        if(type == CHAR_TYPE.PLAYER)
+        if(type == FORMATION_TYPE.PLAYER)
         {
             posOffset = 1;
         }
         else
         {
             posOffset = -1;
-        }
-
-        if(num == (int)CHARACTER_NUM.Mst_Chest)
-        {
-            y = 0.1f;
         }
 
         switch (partyIndex)
@@ -101,117 +98,282 @@ public class DEFINE
 
         return position;
     }
-}
 
-public class Character
-{
-	public int Exp;
-	public int Level;
-	public int Str;
-	public int Dex;
-	public int Int;
-    public int Job;
-    public SIZE_TYPE Size;
-    
-	public string Name;
-
-    //캐릭터 구분하는 값
-    public int Index;
-    public int Appear;
-
-    public Character(int getExp, int getLv, int getStr, int getDex, int getInt, 
-        int getJob, string getName, int getChartIndex, SIZE_TYPE getSizeType)
+    //임시코드 : 추후에 적절하게 수정 필요
+    public static SIZE_TYPE GetCharacterSize(CHARACTER_NUM charType)
     {
-        Exp = getExp;
-        Level = getLv;
-        Str = getStr;
-        Dex = getDex;
-        Int = getInt;
-        Job = getJob;
-        Name = getName;
-        Index = getChartIndex;
-        Size = getSizeType;
-    }
-    public Character(int index)
-    {
-        List<CHARACTER_NUM> myIndexList = new List<CHARACTER_NUM>();
+        SIZE_TYPE charSize;
 
-        myIndexList.Add(CHARACTER_NUM.Hero_Novice_1001);
-        myIndexList.Add(CHARACTER_NUM.Hero_Novice_1002);
-        myIndexList.Add(CHARACTER_NUM.Hero_Novice_1003);
-        myIndexList.Add(CHARACTER_NUM.Hero_Novice_1004);
-
-        int myIndex = Random.Range(0, myIndexList.Count);
-        CHARACTER_NUM charType = myIndexList[myIndex];
-
-        Size = SIZE_TYPE.SMALL;
-
-        Exp = 0;
-        Level = 1;
-
-        Str = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
-        Dex = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
-        Int = DEFINE.MIN_STATUS + Random.Range(0, DEFINE.RAND_STATUS);
-
-        Job = Random.Range(0, 3) * 100 + Random.Range(1, 3);
-
- 
-        Name = charType.ToString();
-        Index = (int)charType;
-
-        Appear = Random.Range(0, 9999);
-    }
-
-    public int GetMaxHp()
-    {
-        return Str * DEFINE.MAX_HP_MULTI_posOffset;
-    }
-    public int GetAvoid()
-    {
-        return Dex * DEFINE.AVOID_MULTI_posOffset;
-    }
-    public int GetDamage()
-    {
-        if (Job / 100 == 0)
+        if (charType == CHARACTER_NUM.Mst_Knight || charType == CHARACTER_NUM.Mst_Anubis || charType == CHARACTER_NUM.Mst_DarkKnight
+            || charType == CHARACTER_NUM.Mst_WolfMan || charType == CHARACTER_NUM.Mst_Robot || charType == CHARACTER_NUM.Mst_Minotaurus
+            || charType == CHARACTER_NUM.Mst_Robot_2)
         {
-            return Str * DEFINE.DAMAGE_STR_MUlTI_posOffset;
+            charSize = SIZE_TYPE.MIDDLE;
         }
-        else if (Job / 100 == 1)
+        else if (charType == CHARACTER_NUM.Mst_Death || charType == CHARACTER_NUM.Mst_Giant || charType == CHARACTER_NUM.Mst_BirdMan)
         {
-            return Dex * DEFINE.DAMAGE_DEX_MUlTI_posOffset;
-        }
-        else if (Job / 100 == 2)
-        {
-            return Int * DEFINE.DAMAGE_INT_MUlTI_posOffset;
+            charSize = SIZE_TYPE.BIG;
         }
         else
         {
-            return 0;
+            charSize = SIZE_TYPE.SMALL;
+        }
+        return charSize;
+    }    
+}
+
+
+// 서번트 클래스에 히어로도 포함된다.
+[System.Serializable]
+public class UserInfo
+{
+    public string userName;
+    public ulong userMoney;
+    public ulong userEOS;
+    public UserServantData userHero = new UserServantData();
+    public SCENE_STATE sceneState;
+}
+
+// erd완
+[System.Serializable]
+public class UserServantData
+{
+    // 캐릭터를 구분하는 고유값이 되어야함
+    public int index;
+
+    // 영웅서번트인지 아닌지
+    public bool isLegend;
+
+    public string name;
+    public int partyIndex;
+
+    // TODO : Servant별 State 추가 필요
+    public int exp;
+    public int level
+    {
+        get
+        {
+            return Calculator.GetLevelForExp(exp);
         }
     }
-    public int GetSpeed()
+    public int jobNum;
+
+    // 현재는 appear를 통해 간단히 사용하고 추후 appearInfo와 job을 통해 캐릭터 생성이 되어야함
+    public int body;
+    public int headNum;
+    public int hairNum;
+    public int gender;
+
+    public Status status = new Status();
+
+    /* 조회용 데이터 __________________________________________________________ */
+
+    // 착용 아이템 리스트 -> 역참조초기화x, 역참조업데이트x
+    public List<UserMountItemData> mountItemList = new List<UserMountItemData>();
+    public event System.Action mountItemListChangeEvent;
+    public void Mount(UserMountItemData usermountitemdata)
     {
-        return Dex * DEFINE.SPEED_MULTI_posOffset;
+        mountItemList.Add(usermountitemdata);
+
+        if (mountItemListChangeEvent != null)
+        {
+            mountItemListChangeEvent();
+        }
+    }
+    public void Demount(UserMountItemData usermountitemdata)
+    {
+        // 장착하고있는 아이템이 아닐경우 -> return
+        if (!mountItemList.Contains(usermountitemdata))
+        {
+            return;
+        }
+
+        // 장착 해제
+        mountItemList.Remove(usermountitemdata);
+
+        if (mountItemListChangeEvent != null)
+        {
+            mountItemListChangeEvent();
+        }
+    }
+
+    // 배치 데이터 
+    public bool isPlaced;       
+    public int partyNum;
+    public int formationNum;
+    
+
+
+
+
+    public UserServantData()
+    {
+        exp = 0;
+
+        status = new Status();
+        status.basicStr = DEFINE.TEST_STATUS_VALUE;
+        status.basicDex = DEFINE.TEST_STATUS_VALUE;
+        status.basicInt = DEFINE.TEST_STATUS_VALUE;
+    }
+    public UserServantData(int getCharNum)
+    {
+        body = getCharNum;
+        exp = 0;
+
+        status = new Status();
+        status.basicStr = DEFINE.TEST_STATUS_VALUE;
+        status.basicDex = DEFINE.TEST_STATUS_VALUE;
+        status.basicInt = DEFINE.TEST_STATUS_VALUE;
+
     }
 }
 
-public class PartyInfo
+[System.Serializable]
+public class UserMonsterData
 {
-    public int partyNum;
-    public Dictionary<int, int> partyDic;
+    // 서버에서 캐릭터를 구분하는 고유값
+    public int index;
+
+    // 몬스터ID
+    public int id;
+
+    // TODO : 추후 추가 예정
+    public int monsterTypeNum;
+
+    // TODO : Monster별 State 추가 필요
+    public int gradeNum;
+    public int upgradeCount;
+    public int exp;
+    public int level
+    {
+        get
+        {
+            return Calculator.GetLevelForExp(exp);
+        }
+    }
+
+    public Status status = new Status();
+
+    public bool isPlaced;
+    public int teamNum;
+    public int formationNum;
+}
+
+[System.Serializable]
+public class UserMountItemData
+{
+    // 
+    public int index;
+
+    //
+    public int mountitemNum;
+
+    public int gradeNum;
+    public int tierNum;
+    public int upgradeCount;
+    public int value;
+
+    bool _isMounted;
+    public bool isMounted
+    {
+        get
+        {
+            return _isMounted;
+        }
+        set
+        {
+            _isMounted = value;
+
+            if (mountedChanged != null)
+            {
+                mountedChanged();
+            }
+        }
+    }
+    public System.Action mountedChanged;
+
+    public int mountServantIndex;
+}
+
+[System.Serializable]
+public class Status
+{
+    public int basicStr;
+    public int basicDex;
+    public int basicInt;
+
+    public int plusStr;
+    public int plusDex;
+    public int plusInt;
+}
+
+[System.Serializable]
+public class UserFormationData
+{
+    // 인덱스
+    public int index;
+
+    // 파티 정보를 가져올것인지 포메이션 정보를 가져올것인지... 포메이션 정보를 가져올꺼면 파티 하나당 10개의 정보가 필요한게 아닌지?
+    public int formationIndex;
+
+    public CHAR_TYPE charType
+    {
+        get
+        {
+            if (formationIndex == 0)
+            {
+                return CHAR_TYPE.HERO;
+            }
+
+            if (formationIndex <= 4)
+            {
+                return CHAR_TYPE.SERVANT;
+            }
+
+            return CHAR_TYPE.MONSTER;
+        }
+    }
+}
+
+
+
+
+[System.Serializable]
+public class UserEtcItemData
+{
+    public int index;
+
+    public int etcItemNum;
+    public int Count;
+}
+
+[System.Serializable]
+public class UserPartyData
+{
+    public int partyIndex;
+    public int partyState;
+
+    public Dictionary<int, UserFormationData> formationDataDic = new Dictionary<int, UserFormationData>();
+}
+
+public class PartyCharacterInfo
+{
+    public CHAR_TYPE type;
+    public int partyPosition;
+    public int index;
 }
 
 // 배틀시 각 캐릭터 정보
-public class Battle_Character_Status 
+public class CharacterBattleStatus
 {
     public int partyIndex;
-
-    public Character character;
+    public int index;
 
     public int maxHp;
     public int nowHp;
 
     public int damage;
+    public int defense;
 
     public int avoid;
     public int speed;
@@ -228,36 +390,9 @@ public class Battle_Character_Status
     // 캐릭터 크기
     public SIZE_TYPE sizeType;
 
-    // 캐릭터 최초 위치.
-   // public Vector3 firstPos;
-    //public Vector3 firstDir;
+    public string name;
 
-
-
-    public Battle_Character_Status(Character getChar, int getPartyIndex, int getCharacterIndex, SIZE_TYPE getSizeType)
-    {
-        if (getPartyIndex < 0 || getPartyIndex > DEFINE.PARTY_MAX_NUM)
-        {
-            return;
-        }
-        partyIndex = getPartyIndex;
-
-        // 캐릭터 수치.
-        character = getChar;
-
-        maxHp = character.GetMaxHp();
-        nowHp = maxHp;
-
-        damage = character.GetDamage();
-
-        avoid = character.GetAvoid();
-        speed = character.GetSpeed();
-
-        stateType = STATE_TYPE.IDLE;
-        sizeType = getSizeType;
-
-        lived = true;
-    }
+    public int level;
 }
 
 public class CharacterAction
@@ -265,22 +400,71 @@ public class CharacterAction
     public int myIndex;
     public int targetIndex;
     public ACTION_TYPE actionType;
-    public CHAR_TYPE charType;
-    public CharacterAction(int _myIndex, int _targetIndex, ACTION_TYPE _actionType, CHAR_TYPE _charType)
+    public FORMATION_TYPE formationType;
+    public CharacterAction(int _myIndex, int _targetIndex, ACTION_TYPE _actionType, FORMATION_TYPE _formationType)
     {
         myIndex = _myIndex;
         targetIndex = _targetIndex;
         actionType = _actionType;
-        charType = _charType;
+        formationType = _formationType;
     }
 }
 
+public static class ExtensionMethod
+{
+    public static T GetReferenceTo<T>(this GameObject go, T instance)
+    {
+        if (instance == null)
+        {
+            instance = go.GetComponent<T>();
+        }
+        return instance;
+    }
+    public static T CheckReferenceTo<T>( T instance)
+    {
+        return instance;
+
+    }
+    public static bool IsNull(this object obj)//literally all i did was add "this"
+    {
+        return obj == null || ReferenceEquals(obj, null) || obj.Equals(null);
+    }
+}
+
+
 #region ENUM
+
+// 유닛타입
+public enum UNIT_TYPE
+{
+    SERVANT,
+    MONSTER
+}
+// UI에서 사용하는 Sorting 타입
+public enum sortType
+{
+    Grade,
+    Level,
+    Power,
+    Obtain
+}
+public enum PARTY_STATE
+{
+    FREE,
+    FIXED
+}
+// Battle Formation Type
+public enum FORMATION_TYPE
+{
+    PLAYER = 0,
+    ENEMY
+}
 
 public enum CHAR_TYPE
 {
-    PLAYER = 0,
-    ENEMY = 1,
+    HERO    = 1,
+    SERVANT = 2,
+    MONSTER = 3
 }
 
 public enum STATE_TYPE
@@ -325,9 +509,6 @@ public enum CHARACTER_NUM
     Mst_Cat             = 201,
     Mst_Demon,
     Mst_Giant,
-    Mst_Monkey,
-    Mst_Wolf,
-    Mst_Chest,
     Mst_Anubis,
     Mst_Ninja,
     Mst_Fire_Fairy,
@@ -340,7 +521,7 @@ public enum CHARACTER_NUM
     Mst_Egg,
     Mst_Goblin_Blue,
     Mst_Goblin_Green,
-    Mst_Card,
+    Mst_Card_Black,
     Mst_Card_Green,
     Mst_Card_Red,
     Mst_Card_Yellow,
@@ -354,25 +535,21 @@ public enum CHARACTER_NUM
     Mst_Minotaurus,
     Mst_Meka,
     Mst_Snail
-
-
 }
 
-public enum CHARACTER_JOB
+public enum SERVANT_JOB
 {
-    WhiteHand = 0,
-
     // STR
-    Knight = 1,
-    SwordMan = 2,
+    WhiteHand = 0,
+    Warrior = 1,
 
     // DEX
-    Thief = 101,
-    Archer = 102,
+    Thief = 2,
+    Archer = 4,
 
     // INT
-    MAGICIAN = 201,
-    CLERIC = 202,
+    Cleric = 3,
+    Magician = 5,
 }
 
 public enum ACTION_TYPE
@@ -404,9 +581,11 @@ public enum LOBBY_RIGHT_BUTTON
     Formation = 3,
     Gacha = 4,
     Stage = 5,
-    Setting = 6,
-    Max = 7,
+    Inventory = 6,
+    Setting = 7,
+    Max = 8,
 }
+
 public enum SCENE_STATE
 {
     None = 0,
@@ -416,6 +595,49 @@ public enum SCENE_STATE
     StageBattle = 4,
     TowerBattle = 5,
     Max = 6,
+}
+
+
+//  가챠 타입은 무료, 특수, 이벤트 등을 의미한다.
+public enum GACHA_TYPE
+{
+    // TODO : 예시로 쓴 부분임
+    Default,
+    Specail
+}
+public enum GACHA_RESULT_TYPE
+{
+    Servant = 1,
+    Monster,
+    Item,
+}
+
+public enum APPEAR_HAIR
+{
+    BASE = 1,
+
+    MAX = 4
+}
+
+public enum APPEAR_HEAD
+{
+    BASE = 1,
+
+    MAX = 4
+}
+
+public enum APPEAR_BODY
+{
+    BASE = 0,
+
+    MAX = 3
+}
+
+public enum STATUS_TYPE
+{
+    STR = 0,
+    DEX = 1,
+    INT = 2
 }
 
 #endregion

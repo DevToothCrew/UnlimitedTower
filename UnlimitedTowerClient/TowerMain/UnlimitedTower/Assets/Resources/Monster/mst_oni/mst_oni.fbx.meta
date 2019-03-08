@@ -1,0 +1,206 @@
+fileFormatVersion: 2
+guid: c8dc3b09ec81c514cb639fee78815578
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: foot_L
+    100002: foot_R
+    100004: forearm_L
+    100006: forearm_R
+    100008: hand_L
+    100010: hand_R
+    100012: heel_02_L
+    100014: heel_02_R
+    100016: metarig
+    100018: Mst_oneeye_2
+    100020: Mst_oneeye_2_001
+    100022: Mst_oneeye_2_002
+    100024: Mst_oneeye_2_003
+    100026: Mst_oneeye_2_004
+    100028: Mst_oneeye_2_005
+    100030: Mst_oneeye_2_006
+    100032: Mst_oneeye_2_007
+    100034: Mst_oneeye_2_008
+    100036: Mst_oneeye_2_009
+    100038: Mst_oneeye_2_010
+    100040: Mst_oneeye_2_011
+    100042: Mst_oneeye_2_012
+    100044: Mst_oneeye_2_013
+    100046: Mst_oneeye_2_014
+    100048: Mst_oneeye_2_015
+    100050: //RootNode
+    100052: shin_L
+    100054: shin_R
+    100056: shoulder_L
+    100058: shoulder_R
+    100060: spine
+    100062: spine_001
+    100064: spine_002
+    100066: spine_003
+    100068: spine_004
+    100070: spine_005
+    100072: spine_006
+    100074: thigh_L
+    100076: thigh_R
+    100078: toe_L
+    100080: toe_R
+    100082: upper_arm_L
+    100084: upper_arm_R
+    400000: foot_L
+    400002: foot_R
+    400004: forearm_L
+    400006: forearm_R
+    400008: hand_L
+    400010: hand_R
+    400012: heel_02_L
+    400014: heel_02_R
+    400016: metarig
+    400018: Mst_oneeye_2
+    400020: Mst_oneeye_2_001
+    400022: Mst_oneeye_2_002
+    400024: Mst_oneeye_2_003
+    400026: Mst_oneeye_2_004
+    400028: Mst_oneeye_2_005
+    400030: Mst_oneeye_2_006
+    400032: Mst_oneeye_2_007
+    400034: Mst_oneeye_2_008
+    400036: Mst_oneeye_2_009
+    400038: Mst_oneeye_2_010
+    400040: Mst_oneeye_2_011
+    400042: Mst_oneeye_2_012
+    400044: Mst_oneeye_2_013
+    400046: Mst_oneeye_2_014
+    400048: Mst_oneeye_2_015
+    400050: //RootNode
+    400052: shin_L
+    400054: shin_R
+    400056: shoulder_L
+    400058: shoulder_R
+    400060: spine
+    400062: spine_001
+    400064: spine_002
+    400066: spine_003
+    400068: spine_004
+    400070: spine_005
+    400072: spine_006
+    400074: thigh_L
+    400076: thigh_R
+    400078: toe_L
+    400080: toe_R
+    400082: upper_arm_L
+    400084: upper_arm_R
+    2100000: palette_013__Mst_oneeye_2_png
+    4300000: Mst_oneeye_2_005
+    4300002: Mst_oneeye_2_006
+    4300004: Mst_oneeye_2_013
+    4300006: Mst_oneeye_2_014
+    4300008: Mst_oneeye_2_015
+    4300010: Mst_oneeye_2
+    4300012: Mst_oneeye_2_004
+    4300014: Mst_oneeye_2_003
+    4300016: Mst_oneeye_2_002
+    4300018: Mst_oneeye_2_001
+    4300020: Mst_oneeye_2_012
+    4300022: Mst_oneeye_2_011
+    4300024: Mst_oneeye_2_010
+    4300026: Mst_oneeye_2_009
+    4300028: Mst_oneeye_2_008
+    4300030: Mst_oneeye_2_007
+    7400000: Default Take
+    9500000: //RootNode
+    13700000: Mst_oneeye_2
+    13700002: Mst_oneeye_2_001
+    13700004: Mst_oneeye_2_002
+    13700006: Mst_oneeye_2_003
+    13700008: Mst_oneeye_2_004
+    13700010: Mst_oneeye_2_005
+    13700012: Mst_oneeye_2_006
+    13700014: Mst_oneeye_2_007
+    13700016: Mst_oneeye_2_008
+    13700018: Mst_oneeye_2_009
+    13700020: Mst_oneeye_2_010
+    13700022: Mst_oneeye_2_011
+    13700024: Mst_oneeye_2_012
+    13700026: Mst_oneeye_2_013
+    13700028: Mst_oneeye_2_014
+    13700030: Mst_oneeye_2_015
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 100
+    normalImportMode: 1
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

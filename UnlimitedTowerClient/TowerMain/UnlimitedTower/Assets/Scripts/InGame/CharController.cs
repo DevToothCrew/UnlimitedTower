@@ -4,12 +4,12 @@ using UnityEngine;
 public class CharController : MonoBehaviour
 {
     
-    private Battle_Character_Status _status = null;
+    private CharacterBattleStatus _status = null;
     // for lazy setting
-    public Battle_Character_Status status {
+    public CharacterBattleStatus status {
         set {
 
-            if(_status == null && healthGaze != null)
+            if(_status != value && healthGaze != null)
             {
                 healthGaze.SetMaxHealth(value.maxHp);
                 UpdateHealthUI = () =>
@@ -37,7 +37,7 @@ public class CharController : MonoBehaviour
 
 
     public STATE_TYPE stateType;
-    public CHAR_TYPE charType;
+    public FORMATION_TYPE formationType;
     public SIZE_TYPE charSize;
 
     public int battleDicIndex;
@@ -47,7 +47,7 @@ public class CharController : MonoBehaviour
 
     #region UIs
 
-    static private readonly string _HEALTHGAZE_PREFAB_PATH = "Prefabs/UIs/HealthGaze";
+    static private readonly string _HEALTHGAZE_PREFAB_PATH = "Prefabs/UIs/InGameHealthGaze";
     static private GameObject prefHealthGaze = null;
 
     private InGameCharHealthGaze healthGaze = null;
@@ -218,8 +218,8 @@ public class CharController : MonoBehaviour
                 break;
             case ACTION_TYPE.Attack:
                 {
-                    Debug.Log(charType.ToString() + " : 공격 성공");
-                    BattleManager.Inst.CheckCharBeHit(charAction.charType, charAction.myIndex, charAction.targetIndex);                
+                    Debug.Log(formationType.ToString() + " : 공격 성공");
+                    BattleManager.Inst.CheckCharBeHit(charAction.formationType, charAction.myIndex, charAction.targetIndex);                
                     break;
                 }
             case ACTION_TYPE.Defence:

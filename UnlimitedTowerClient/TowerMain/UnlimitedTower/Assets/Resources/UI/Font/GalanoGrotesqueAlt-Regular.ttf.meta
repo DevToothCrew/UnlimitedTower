@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 8803ddb2da6b1044eb9b43a4e62ed120
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: GalanoGrotesqueAlt-Regular
+  fontNames:
+  - GalanoGrotesqueAlt-Regular
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,156 +1,398 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class UserDataManager : MonoSingleton<UserDataManager> {
+public class UserDataManager : MonoSingleton<UserDataManager>
+{
+    public UserInfo userInfo = default(UserInfo);
 
-    // TODO : Test Flag
-    public bool UserLoginFlag;
-    public bool CreatePlayerFlag;
-    public SCENE_STATE sceneState = SCENE_STATE.None;
+    public Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
 
-    public Dictionary<int, Character> characterDic = new Dictionary<int, Character>();
-    public Dictionary<int, Character> formationDic = new Dictionary<int, Character>();
+    public Dictionary<int, UserMonsterData> monsterDic = new Dictionary<int, UserMonsterData>();
 
-    public List<int> userCharsKeyList = new List<int>();
-    public List<int> formationOrderList = new List<int>()
+    // 장비와 기타 아이템 소모품 등은 Equipment와 Item으로 변경 필요
+    public Dictionary<int, UserMountItemData> mountItemDic = new Dictionary<int, UserMountItemData>();
+
+    public Dictionary<int, UserEtcItemData> etcItemDic = new Dictionary<int, UserEtcItemData>();
+    
+    // 현재 파티는 1개, 파티 안에 Formation Info 포함
+    public UserPartyData partyInfo = new UserPartyData();
+
+    public stageStateData stageState =  new stageStateData();
+    public stageActionInfoData stageActionInfo = new stageActionInfoData();
+    public stageRewardData stageReward = new stageRewardData();
+
+    public int usingPartyNum = 1;
+
+    #region InitFunction
+
+    public void InitUserInfo()
     {
-        2, 1, 3, 0, 4, 7, 6, 8, 5, 9
-    };
-
-
-    // TODO : 확실히 필요없다고 판단되면 삭제할것
-    //public GameObject LobbyBackGround;
-    //public GameObject StageBackGround;
-    // public GameObject StageList;
-
-    public int characterIndex = 0;
-
-    public void Awake()
-    {
-        Character newChar = new Character(UserDataManager.Inst.GetCharacterIndex() + 1);
-        UserDataManager.Inst.SetCharacter(newChar);
-        UserDataManager.Inst.AddNewCharImage(newChar.Name);
-        InitFlag();
-        // TODO : 확실히 필요없다고 판단되면 삭제할것
-        //LobbyBackGround.SetActive(true);
-        //StageBackGround.SetActive(false);
-        //StageList.SetActive(false);
+        userInfo = new UserInfo();
+        servantDic = new Dictionary<int, UserServantData>();
+        monsterDic = new Dictionary<int, UserMonsterData>();
+        mountItemDic = new Dictionary<int, UserMountItemData>();
+        etcItemDic = new Dictionary<int, UserEtcItemData>();
+        partyInfo = new UserPartyData();
     }
 
-    public void InitFlag()
+    #endregion
+
+    #region SetFunction
+
+    public void SetUserInfo(UserInfo getUserInfo)
     {
-        Debug.Log("InitFlag");
-        UserLoginFlag = false;
-        CreatePlayerFlag = false;
- 
+        userInfo = getUserInfo;
     }
 
-    public void SetUserLoginFlag(bool flag)
+    public void SetServantDic(Dictionary<int, UserServantData> getServantDic)
     {
-        UserLoginFlag = flag;
+        servantDic = getServantDic;
     }
 
-    public void SetCreatePlayerFlag(bool flag)
+    public void SetMonsterDic(Dictionary<int, UserMonsterData> getMonsterDic)
     {
-        CreatePlayerFlag = flag;
+        monsterDic = getMonsterDic;
     }
 
-    public bool CheckEnterLobby()
+    public void SetItemDic(Dictionary<int, UserMountItemData> getItemDic)
     {
-        // TEST
-        //if(UserLoginFlag == true && CreatePlayerFlag == true)
-        //{
-        //    return true;
-        //}
+        mountItemDic = getItemDic;
+    }
+    
+    public void SetSceneState(SCENE_STATE state)
+    {
+        userInfo.sceneState = state;
+    }
 
-        //return false;
+    public void SetPartyInfo(UserPartyData getPartyInfo)
+    {
+        partyInfo = getPartyInfo;
+
+        foreach(KeyValuePair<int, UserFormationData> dic in partyInfo.formationDataDic)
+        {
+            if(dic.Key > 0 && dic.Key <= DEFINE.ServantMaxFormationNum)
+            {
+                if(servantDic.ContainsKey(dic.Value.index) == false)
+                {
+                    Debug.LogError("Invalid Servant Index : " + dic.Value.index);
+                }
+                servantDic[dic.Value.index].isPlaced = true;
+            }
+            else if (dic.Key > DEFINE.ServantMaxFormationNum && dic.Key <= DEFINE.MonsterMaxFormationNum)
+            {
+                if (monsterDic.ContainsKey(dic.Value.index) == false)
+                {
+                    Debug.LogError("Invalid Monster Index : " + dic.Value.index);
+                }
+                monsterDic[dic.Value.index].isPlaced = true;
+            }
+        }
+    }
+
+    public void SetStageState(stageStateData getStageState)
+    {
+        stageState = getStageState;
+    }
+
+    public void SetStageAction(stageActionInfoData getStageState)
+    {
+        stageActionInfo = getStageState;
+    }
+
+    public void SetStageReward(stageRewardData getStageState)
+    {
+        stageReward = getStageState;
+    }
+
+    #endregion
+
+    #region GetFunction
+
+    public SCENE_STATE GetSceneState()
+    {
+        if(userInfo == null)
+        {
+            return SCENE_STATE.Lobby;
+        }
+
+        return userInfo.sceneState;
+    }
+
+    public UserInfo GetUserInfo()
+    {
+        return userInfo;
+    }
+
+    public UserServantData GetHeroInfo()
+    {
+        if (userInfo == null)
+        {
+            Debug.Log("Invalid UserInfo");
+            return null;
+        }
+
+        return userInfo.userHero;
+    }
+
+    public UserPartyData GetUserPartyInfo()
+    {
+        return partyInfo;
+    }
+
+    public UserServantData GetServantInfo(int index)
+    {
+        if (servantDic.ContainsKey(index) == false)
+        {
+            Debug.Log("Invalid GetServantInfo : " + index);
+            return null;
+        }
+
+        return servantDic[index];
+    }
+
+    public UserServantData GetServantInfoFromFormation(int formationIndex)
+    {
+        if(formationIndex < 0 || formationIndex > DEFINE.ServantMaxFormationNum)
+        {
+            return null;
+        }
+
+        UserFormationData formationData = GetFormationData(formationIndex);
+        if (formationData == null)
+        {
+            Debug.Log("버그");
+            return null;
+        }
+
+        return GetServantInfo(formationData.index);
+    }
+
+    public UserMonsterData GetMonsterInfo(int index)
+    {
+        if (monsterDic.ContainsKey(index) == false)
+        {
+            Debug.Log("Invalid GetMonsterInfo : " + index);
+            return null;
+        }
+
+        return monsterDic[index];
+    }
+
+    public UserMonsterData GetMonsterInfoFromFormation(int formationIndex)
+    {
+        if (formationIndex < DEFINE.MonsterMinFormationNum || formationIndex > DEFINE.MonsterMaxFormationNum)
+        {
+            return null;
+        }
+
+        UserFormationData formationData = GetFormationData(formationIndex);
+        if (formationData == null)
+        {
+            Debug.Log("버그");
+            return null;
+        }
+
+        return GetMonsterInfo(formationData.index);
+    }
+
+    public UserFormationData GetFormationData(int formationIndex)
+    {
+        if(partyInfo == null)
+        {
+            Debug.Log("Invalid GetFormaData_nullPossible_1");
+            return null;
+        }
+
+        if(partyInfo.formationDataDic == null)
+        {
+            Debug.Log("Invalid GetFormaData_nullPossible_2");
+            return null;
+        }
+
+        if (partyInfo.formationDataDic.ContainsKey(formationIndex) == false)
+        {
+            Debug.Log("Invalid GetFormaData_nullPossible_3");
+            return null;
+        }
+
+        return partyInfo.formationDataDic[formationIndex];
+    }
+
+    public bool GetFomationIsPlaced(int formationIndex)
+    {
+        UserFormationData formationdata = GetFormationData(formationIndex);
+        if (formationdata == null)
+        {
+            return false;
+        }
 
         return true;
     }
 
-
-   
-    public void ChangeSceneState(SCENE_STATE state)
+    public bool GetServantIsPlaced(int servantIndex)
     {
-        sceneState = state;
-
-        //TODO : Test Code
-        //switch (state)
-        //{
-        //    case SCENE_STATE.Lobby:
-        //        StageBackGround.SetActive(false);
-        //        StageList.SetActive(false);
-        //        LobbyBackGround.SetActive(true);
-        //        break;
-        //    case SCENE_STATE.Stage:
-        //        LobbyBackGround.SetActive(false);
-        //        StageBackGround.SetActive(true);
-        //        StageList.SetActive(true);
-        //        break;
-        //}
-    }
-
-    public int GetCharacterIndex()
-    {
-        return characterIndex;
-    }
-
-    public void SetCharacter(Character newChar)
-    {
-       
-        characterDic.Add(characterIndex, newChar);
-        characterIndex += 1;
-    }
-
-    // TODO : Test Code if deleted
-    public void SetChar(Dictionary<int, Character> getCharcterDic)
-    {
-        characterDic = getCharcterDic;
-    }
-
-
-    public void LoadCharList()
-    {
-        int charDicCount = characterDic.Count;
-
-        for (int i = 0; i < charDicCount; i++)
+        if(servantDic.ContainsKey(servantIndex) == false)
         {
-            var instance = Instantiate(Resources.Load("Prefabs/CharElement") as GameObject);
-            if (instance.GetComponent<Image>())
-            {
-                instance.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + characterDic[i].Name);
-                instance.transform.SetParent(LobbyManager.Inst.CharacterListContent.transform.transform);
-            }
-
+            Debug.LogError("Invalid Servant Index : " + servantIndex);
+            return false;
         }
+
+        return servantDic[servantIndex].isPlaced;
     }
-    public void AddNewCharImage(string getChar)
+
+    public bool GetMonsterIsPlaced(int monsterIndex)
     {
-        var instance = Instantiate(Resources.Load("Prefabs/CharElement") as GameObject);
-        if (instance.GetComponent<Image>())
+        if (monsterDic.ContainsKey(monsterIndex) == false)
         {
-            instance.GetComponent<Image>().sprite = Resources.Load<Sprite>("UI/CharaterImage/" + getChar);
+            Debug.LogError("Invalid Monster Index : " + monsterIndex);
+            return false;
         }
-        instance.transform.SetParent(LobbyManager.Inst.CharacterListContent.transform.transform);
 
-       SetFormation();
+        return monsterDic[monsterIndex].isPlaced;
     }
 
-    // TODO : Test Code if deleted
-    private void SetFormation()
+
+    public int GetServantEmptyFormation()
     {
-        // 지금은 들어가는 순서대로 세팅.
-        userCharsKeyList.Add(characterDic.Count - 1);
+        return 0;
     }
 
-    public void RemoveUserInfo()
+    public int GetMonsterEmptyFormation()
     {
-        Debug.Log("Remove UserInfo");
-        characterDic.Clear();
-        userCharsKeyList.Clear();
-        characterIndex = 0;
+        return 0;
     }
 
+    public int GetServantCount()
+    {
+        return servantDic.Count;
+    }
+
+    public int GetMonsterCount()
+    {
+        return monsterDic.Count;
+    }
+
+    public int GetMountItemCount()
+    {
+        return mountItemDic.Count;
+    }
+
+    public int GetEtcItemCount()
+    {
+        return etcItemDic.Count;
+    }
+
+    public List<UserServantData> GetServantList()
+    {
+        if(servantDic.Count == 0)
+        {
+            return null;
+        }
+
+        return servantDic.Values.ToList();
+    }
+
+    public List<UserMonsterData> GetMonsterList()
+    {
+        if(monsterDic.Count == 0)
+        {
+            return null;
+        }
+
+        return monsterDic.Values.ToList();
+    }
+
+    public List<UserMountItemData> GetMountItemList()
+    {
+        if(mountItemDic.Count == 0)
+        {
+            return null;
+        }
+
+        return mountItemDic.Values.ToList();
+    }
+
+    public List<UserEtcItemData> GetEtcItemList()
+    {
+        if(etcItemDic.Count == 0)
+        {
+            return null;
+        }
+
+        return etcItemDic.Values.ToList();
+    }
+
+    public stageStateData GetStageState()
+    {
+        if (stageState == null)
+        {
+            Debug.LogError("스테이지 스테이트 버그");
+            return null;
+        }
+
+        return stageState;
+    }
+
+    public stageActionInfoData GetStageAction()
+    {
+        if (stageActionInfo == null)
+        {
+            Debug.LogError("액션 버그");
+            return null;
+        }
+
+        return stageActionInfo;
+    }
+
+    public stageRewardData GetStageReward()
+    {
+        if (stageReward == null)
+        {
+            Debug.LogError("보상 버그");
+            return null;
+        }
+
+        return stageReward;
+    }
+
+    #endregion
+
+    #region AddFunction
+
+    // 이름 겹치는 버그에 대한 널처리 필요
+    public bool AddServantData(UserServantData servantData)
+    {
+        if(servantDic.ContainsKey(servantData.index) == true)
+        {
+            return false;
+        }
+
+        servantDic.Add(servantData.index, servantData);
+        return true;
+    }
+
+    public bool AddMonsterData(UserMonsterData monsterData)
+    {
+        if(monsterDic.ContainsKey(monsterData.index) == true)
+        {
+            return false;
+        }
+
+        monsterDic.Add(monsterData.index, monsterData);
+        return true;
+    }
+
+    public bool AddMountItemData(UserMountItemData itemData)
+    {
+        if (mountItemDic.ContainsKey(itemData.index) == true)
+        {
+            return false;
+        }
+
+        mountItemDic.Add(itemData.index, itemData);
+        return true;
+    }
+
+    #endregion
 }

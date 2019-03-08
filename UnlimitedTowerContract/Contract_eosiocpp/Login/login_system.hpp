@@ -1,8 +1,8 @@
 #pragma once
 #include "../Common/common_header.hpp"
+#include "../Common/common_seed.hpp"
 #include "../Table/log_table.hpp"
 #include "../Table/auth_user_table.hpp"
-#include "../Table/test_static_data_table.hpp"
 #include "../Table/test_static_stage_table.hpp"
 // need login & login time log
 struct transfer_action {
@@ -10,19 +10,31 @@ struct transfer_action {
     std::string action;
     std::string param;
     uint32_t type;
-    name seller;
+    name to;
     asset quantity;
 };
+enum job_list
+{
+    beginner = 0,
+    warrior,
+    archer,
+    wizard,
+    priest,
+    thief,
+};
+
 class clogin_system
 {
   private:
     account_name owner;
-    auth_user_table players;
-    user_log_table log;
+    auth_users auth_user_table;
+    user_logs user_log_table;
+    cdb_system &db_controller;
 
   private:
-    static_data_table data;
     battle_data_table stage;
+    const uint32_t max_charcterslot = 3;
+    const uint32_t max_equip_slot = 3;
 
   public:
     struct st_transfer
@@ -33,152 +45,217 @@ class clogin_system
         string memo;
     };
   public:
-    clogin_system(account_name _self)
+    clogin_system(account_name _self,cdb_system &_db_controller)
         : owner(_self),
-          players(_self, _self),
-          log(_self, _self),
-          data(_self,_self),
+          db_controller(_db_controller),
+          auth_user_table(_self, _self),
+          user_log_table(_self, _self),
           stage(_self,_self)
     {
     }
-    static_data_table &get_static_data_table()
-    {
-        return data;
-    }
+
     battle_data_table &get_battle_stage_table()
     {
         return stage;
     }
-    auth_user_table &get_auth_user_table()
+
+    auth_users &get_auth_user_table()
     {
-        return players;
+        return auth_user_table;
     }
-    user_log_table &get_log_table()
+
+    user_logs &get_log_table()
     {
-        return log;
+        return user_log_table;
     }
+
     template<typename T>
     void eosiotoken_transfer(account_name sender, account_name receiver, T func) 
     {
+        //require_auth2(sender,N(active));
+        require_auth(sender);
         auto transfer_data = eosio::unpack_action_data<st_transfer>();
         eosio_assert(transfer_data.quantity.symbol == S(4, EOS), "only accepts EOS for deposits");
         eosio_assert(transfer_data.quantity.is_valid(), "Invalid token transfer");
         eosio_assert(transfer_data.quantity.amount > 0, "Quantity must be positive");
 
-        auto log_find_iter = log.find(sender);
-        log.modify(log_find_iter,owner,[&](auto &buy_log)
-        {
-            buy_log.l_use_eos+=transfer_data.quantity;
-        });
         transfer_action res;
         size_t l_center = transfer_data.memo.find(':');
-        size_t l_next = transfer_data.memo.find(':',l_center + 1);
+        size_t l_next = transfer_data.memo.find(':', center + 1);
 
-        res.action = transfer_data.memo.substr(0, l_center);;
-        if(l_next != std::string::npos)
+        res.action = transfer_data.memo.substr(0, l_center);
+        if(res.action == "gacha")
         {
-            res.type = atoi(transfer_data.memo.substr(l_center+1).c_str()); 
+            eosio_assert(transfer_data.quantity.amount == 10000,"gacha need 1.0000 EOS");
         }
-        else
+        else if(res.action == "addhero")
         {
-            
+            eosio_assert(transfer_data.quantity.amount == 10000,"add hero need 1.0000 EOS");
         }
+        else if(res.action == "changestat")
+        {
+            eosio_assert(transfer_data.memo.find(':')!=std::string::npos,"change stat memo [:] error");
+            eosio_assert(transfer_data.quantity.amount == 1000,"change stat need 0.1000 EOS");
+            eosio_assert(l_center+1!=transfer_data.memo.length(),"change stat need hero slot number error");
+
+            res.type = atoi(transfer_data.memo.substr(l_center + 1).c_str());
+            if(res.type == 0)
+            {
+                 eosio_assert(transfer_data.memo.find('0')!=std::string::npos,"this hero slot wrong");
+            }
+            eosio_assert(res.type <= max_charcterslot - 1, "overflow");
+        }
+        else if(res.action == "addparty")
+        {
+            eosio_assert(transfer_data.quantity.amount == 10000,"add party need 1.0000 EOS");
+        }
+
+        res.to.value = receiver;
         res.from.value = sender;
+
+        auto user_log_iter = user_log_table.find(sender);
+        eosio_assert(user_log_iter != user_log_table.end(),"not exist user log data");
+        user_log_table.modify(user_log_iter, owner, [&](auto &buy_log) {
+            buy_log.l_use_eos += transfer_data.quantity;
+        });
         func(res);
     }
+
     void create_account(const account_name _user)
     {
-        auto cur_player_itr = players.find(_user);
-        eosio_assert(cur_player_itr == players.end(), "exist account");
-        players.emplace(owner, [&](auto &new_user) {
+        require_auth(_user);
+        auto new_user_iter = auth_user_table.find(_user);
+        eosio_assert(new_user_iter == auth_user_table.end(), "exist account");
+        auth_user_table.emplace(owner, [&](auto &new_user) {
             new_user.auth_set_user(_user);
-            new_user.a_state = static_cast<uint8_t>(euser_state::look);
+            new_user.a_state = euser_state::login;
+
+            shero_info first_hero;
+            first_hero.h_equip_slot.resize(max_equip_slot);
+            first_hero.h_state = ehero_state::set_look;
+            
+            new_user.a_hero_list.push_back(first_hero);
         });
 
-        auto log_iter = log.find(_user);
-        eosio_assert(log_iter == log.end(), "exist account");
-        log.emplace(owner, [&](auto &l_log) {
-            l_log.log_set_user(_user);
-        });
-    }
-    void set_look(const account_name _user, uint8_t _character_slot, uint8_t _head, uint8_t _face,uint8_t _body)
-    {
-        const auto &log_iter = log.get(_user);
-        eosio_assert((log_iter.l_character_count) < _character_slot + 1, "need buy character slot");
-
-        const auto &cur_user_data = players.get(_user);
-        uint8_t l_current_slot_data = cur_user_data.a_hero_list[_character_slot].look.head;
-        eosio_assert(l_current_slot_data == 0, "exist look data");
-
-        auto cur_player_itr = players.find(_user);
-        eosio_assert(cur_player_itr != players.end(), "unknown account");
-
-        players.modify(cur_player_itr, owner, [&](auto &user) {
-            user.a_state = static_cast<uint8_t>(euser_state::status);
-            user.a_hero_list[_character_slot].look.head = _head;
-            user.a_hero_list[_character_slot].look.face = _face;
-            user.a_hero_list[_character_slot].look.body = _body;
+        auto user_log_iter = user_log_table.find(_user);
+        eosio_assert(user_log_iter == user_log_table.end(), "exist account");
+        user_log_table.emplace(owner, [&](auto &new_log) {
+            new_log.log_set_user(_user);
         });
     }
-    void set_status(const account_name _user, uint8_t _character_slot)
-    {
-        auto cur_player_itr = players.find(_user);
-        eosio_assert(cur_player_itr != players.end(), "unknown account");
 
-        players.modify(cur_player_itr, owner, [&](auto &user) {
-            user.a_state = static_cast<uint8_t>(euser_state::lobby);
-            user.a_hero_list[_character_slot].status.strength = random_value(10);
-            user.a_hero_list[_character_slot].status.dexterity = random_value(10);
-            user.a_hero_list[_character_slot].status.intelligence = random_value(10);
+    void set_look(const account_name _user, uint8_t _hero_slot, uint8_t _head, uint8_t _hair,uint8_t _body)
+    {
+        require_auth(_user);
+
+        auto &user_head_db = db_controller.get_head_db_table();
+        const auto &head_db_iter = user_head_db.get(_head, "not exist head info");
+
+        auto &user_hair_db = db_controller.get_hair_db_table();
+        const auto &hair_db_iter = user_hair_db.get(_hair, "not exist hair info");
+
+        auto &user_body_db = db_controller.get_body_db_table();
+        const auto &body_db_iter = user_body_db.get(_body, "not exist body info");
+
+        auto user_iter = auth_user_table.find(_user);
+        eosio_assert(user_iter != auth_user_table.end(), "unknown account");
+        eosio_assert(user_iter->a_hero_slot >= _hero_slot,"need more hero slot");
+        eosio_assert(user_iter->a_hero_list[_hero_slot].h_state == ehero_state::set_look,"already completed look setting");
+
+        auth_user_table.modify(user_iter, owner, [&](auto &hero_look_set) {
+            hero_look_set.a_hero_list[_hero_slot].h_state = ehero_state::set_status;
+            hero_look_set.a_hero_list[_hero_slot].h_appear.head = _head;
+            hero_look_set.a_hero_list[_hero_slot].h_appear.hair = _hair;
+            hero_look_set.a_hero_list[_hero_slot].h_appear.body = _body;
         });
     }
-    uint64_t random_value(uint32_t _range)
+
+    void set_status(account_name _user, uint8_t _hero_slot)
     {
-        checksum256 l_result;
-        uint64_t l_source = tapos_block_num() * tapos_block_prefix();
-        sha256((char *)&l_source, sizeof(l_source), &l_result);
-        uint64_t *l_p = reinterpret_cast<uint64_t *>(&l_result.hash);
-        uint64_t l_random_result = *l_p % _range;
-        if (l_random_result == 0)
+        require_auth(_user);
+        auto user_iter = auth_user_table.find(_user);
+        eosio_assert(user_iter != auth_user_table.end(), "unknown account");
+        eosio_assert(user_iter->a_hero_slot >= _hero_slot,"need more hero slot");
+        eosio_assert(user_iter->a_hero_list[_hero_slot].h_state == ehero_state::set_status,"free roulette completed status setting");
+
+        uint64_t l_seed = safeseed::get_seed(_user);
+        auth_user_table.modify(user_iter, owner, [&](auto &hero_status_set) {
+            hero_status_set.a_hero_list[_hero_slot].h_state = ehero_state::set_change_status;
+            hero_status_set.a_hero_list[_hero_slot].h_status.basic_str = safeseed::get_random_value(l_seed,10,1,1);
+            hero_status_set.a_hero_list[_hero_slot].h_status.basic_dex = safeseed::get_random_value(l_seed,10,1,2);
+            hero_status_set.a_hero_list[_hero_slot].h_status.basic_int = safeseed::get_random_value(l_seed,10,1,3);
+        });
+    }
+
+    void change_status(account_name _user,uint8_t _hero_slot)
+    {
+        auto user_iter = auth_user_table.find(_user);
+        eosio_assert(user_iter != auth_user_table.end(), "unknown account");
+        eosio_assert(user_iter->a_hero_slot >= _hero_slot, "need more hero slot");
+        eosio_assert(user_iter->a_hero_list[_hero_slot].h_state == ehero_state::set_change_status, "already completed status setting");
+
+        uint64_t l_seed = safeseed::get_seed(_user);
+        auth_user_table.modify(user_iter, owner, [&](auto &hero_status_change) {
+            hero_status_change.a_hero_list[_hero_slot].h_status.basic_str = safeseed::get_random_value(l_seed,10,1,1);
+            hero_status_change.a_hero_list[_hero_slot].h_status.basic_dex = safeseed::get_random_value(l_seed,10,1,2);
+            hero_status_change.a_hero_list[_hero_slot].h_status.basic_int = safeseed::get_random_value(l_seed,10,1,3);
+        });
+    }
+
+    void complete_hero_set(account_name _user, uint8_t _hero_slot)
+    {
+        require_auth(_user);
+        auto user_iter = auth_user_table.find(_user);
+        eosio_assert(user_iter != auth_user_table.end(), "unknown account");
+        eosio_assert(user_iter->a_hero_slot >= _hero_slot,"need more hero slot");
+        eosio_assert(user_iter->a_hero_list[_hero_slot].h_state == ehero_state::set_change_status || user_iter->a_hero_list[_hero_slot].h_state == ehero_state::set_status,"need to look setting & status setting");
+    
+        auth_user_table.modify(user_iter, owner, [&](auto &hero_state_set) {
+            hero_state_set.a_hero_list[_hero_slot].h_state = ehero_state::set_complete;
+        });
+    }
+
+    void add_hero_slot(account_name _user)
+    {
+        auto user_iter = auth_user_table.find(_user);
+        eosio_assert(user_iter != auth_user_table.end(),"not find user info");
+        if (user_iter->a_hero_slot < max_charcterslot)
         {
-            l_random_result++;
-        }
-        return l_random_result;
-    }
-    void add_chacater_slot(account_name _user)
-    {
-        auto log_iter = log.find(_user);
-        eosio_assert(log_iter != log.end(), "not exist account");
+            auth_user_table.modify(user_iter, owner, [&](auto &user_add_hero) {
+                shero_info new_hero;
+                new_hero.h_equip_slot.resize(max_equip_slot);
+                new_hero.h_state = ehero_state::set_look;
 
-        const auto &log_data_iter = log.get(_user);
-        if (log_data_iter.l_character_count < 3)
-        {
-            log.modify(log_iter, owner, [&](auto &user_log) {
-                user_log.l_character_count++;
+                user_add_hero.a_hero_list.push_back(new_hero);
+                user_add_hero.a_hero_slot+=1;
             });
         }
     }
-    #pragma region static data test
-    void init_static_data()
+    
+#pragma region reset
+    void reset_all_user_auth_data()
     {
-        for(uint32_t i = 0; i<200;++i)
+        require_auth2(owner, N(owner));
+        for (auto user_auth_iter = auth_user_table.begin(); user_auth_iter != auth_user_table.end();)
         {
-            auto cur_data_iter = data.find(i);
-            eosio_assert(cur_data_iter == data.end(),"exist data");
-
-            data.emplace(owner, [&](auto &new_data) {
-                new_data.type = i;
-                new_data.gacha_rate = i + 1;
-                new_data.status.s_str = random_value(10) + i + 1;
-                new_data.status.s_dex = random_value(10) + i + 1;
-                new_data.status.s_int = random_value(10) + i + 1;
-                if (i > 100)
-                {
-                    new_data.status.s_job = random_value(10);
-                }
-            });
+            auto iter = auth_user_table.find(user_auth_iter->primary_key());
+            user_auth_iter++;
+            auth_user_table.erase(iter);
         }
     }
+    void reset_all_user_log_data()
+    {
+        require_auth2(owner, N(owner));
+        for (auto user_log_iter = user_log_table.begin(); user_log_iter != user_log_table.end();)
+        {
+            auto iter = user_log_table.find(user_log_iter->primary_key());
+            user_log_iter++;
+            user_log_table.erase(iter);
+        }
+    }
+#pragma endregion
+
+#pragma region static data test
     void init_stage_data()
     {
         uint32_t l_stage_count = 0;
@@ -188,13 +265,12 @@ class clogin_system
             {
                 l_stage_count++;
             }
-            const auto &cur_get_iter = data.get(j);
             stage_info enemy_info;
-            enemy_info.type_index = cur_get_iter.type;
-            enemy_info.s_str = cur_get_iter.status.s_str + l_stage_count;
-            enemy_info.s_dex = cur_get_iter.status.s_dex + l_stage_count;
-            enemy_info.s_int = cur_get_iter.status.s_int + l_stage_count;
-            enemy_info.s_job = cur_get_iter.status.s_job;
+            enemy_info.type_index = j;
+            enemy_info.base_str = j + l_stage_count;
+            enemy_info.base_dex = j + l_stage_count;
+            enemy_info.base_int = j + l_stage_count;
+            enemy_info.base_job = j;
 
             auto cur_stage_iter = stage.find(l_stage_count);
             if (cur_stage_iter == stage.end())
