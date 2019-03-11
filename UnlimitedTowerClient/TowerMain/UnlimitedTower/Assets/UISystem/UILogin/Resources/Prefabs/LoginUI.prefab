@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 224085587598261356}
   - component: {fileID: 114718684989720234}
   - component: {fileID: 114882405663476584}
+  - component: {fileID: 95761027137308504}
   m_Layer: 5
   m_Name: NodeButton
   m_TagString: Untagged
@@ -533,6 +534,23 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!95 &95761027137308504
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1076113119288922}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cd8514a859f43424186081169c6e16dc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114131521927544610
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -735,7 +753,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 8ca0bc72782faa74e99b5d2529e5a7e5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a7aa8526e585ca44da92cb462441cdc1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -918,6 +936,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bannerImage: {fileID: 1092686650474284}
   loginPopup: {fileID: 1620019367456712}
+  nodeButton: {fileID: 1076113119288922}
 --- !u!114 &114464675122572756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2122,7 +2141,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -130}
-  m_SizeDelta: {x: 600, y: 150}
+  m_SizeDelta: {x: 841, y: 179}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224299548986343182
 RectTransform:
