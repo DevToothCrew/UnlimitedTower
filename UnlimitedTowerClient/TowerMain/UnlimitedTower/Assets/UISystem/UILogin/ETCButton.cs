@@ -21,5 +21,6 @@ public class ETCButton : MonoBehaviour
     {
         Debug.Log("ETC Click");
         UTUMSProvider.Instance.RequestLoginWithScatter();
+        objectImage.sprite = Resources.Load<Sprite>(imagePath + "7_EtcOffButton") as Sprite;
     }
 }

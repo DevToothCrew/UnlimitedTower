@@ -122,6 +122,12 @@ public class DEFINE
     }    
 }
 
+[System.Serializable]
+public class NodeInfo
+{
+    public NODE_LIST nodeName;
+    public int nodeSpeed; // 00 ms
+}
 
 // 서번트 클래스에 히어로도 포함된다.
 [System.Serializable]
@@ -433,6 +439,14 @@ public static class ExtensionMethod
 
 
 #region ENUM
+
+public enum NODE_LIST
+{
+    ITAM = 0,
+    EOSYS = 1,
+    EOSeoul = 2,
+    MAX = 3,
+}
 
 // 유닛타입
 public enum UNIT_TYPE

@@ -20,5 +20,6 @@ public class EOStockButton : MonoBehaviour {
     {
         Debug.Log("EOStock Click");
         UTUMSProvider.Instance.RequestLoginWithScatter();
+        objectImage.sprite = Resources.Load<Sprite>(imagePath + "6_EOStockOffButton") as Sprite;
     }
 }

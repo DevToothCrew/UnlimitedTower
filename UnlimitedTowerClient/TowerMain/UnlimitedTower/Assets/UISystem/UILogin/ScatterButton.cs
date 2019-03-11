@@ -20,5 +20,6 @@ public class ScatterButton : MonoBehaviour {
     {
         Debug.Log("Scatter Click");
         UTUMSProvider.Instance.RequestLoginWithScatter();
+        objectImage.sprite = Resources.Load<Sprite>(imagePath + "5_ScatterOffButton") as Sprite;
     }
 }

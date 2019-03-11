@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class NodeButton : MonoBehaviour {
 
     public GameObject nodeList;
     public GameObject backButton;
+
+    public List<NodeInfo> nodeInfoList;
+
     public Text nodeName;
-    public Text nodeSpeed;
 
     private void OnEnable()
     {
@@ -16,6 +19,7 @@ public class NodeButton : MonoBehaviour {
 
     public void OnClickNodeButton()
     {
+
         nodeList.SetActive(true);
         backButton.SetActive(true);
     }
@@ -25,18 +29,15 @@ public class NodeButton : MonoBehaviour {
         switch((NODE_LIST)nodeNum)
         {
             case NODE_LIST.ITAM:
-                nodeName.text = "Node - " + NODE_LIST.ITAM.ToString();
-                nodeSpeed.text = "10 ms";
+                nodeName.text = NODE_LIST.ITAM.ToString();
                 break;
 
             case NODE_LIST.EOSYS:
-                nodeName.text = "Node - " + NODE_LIST.EOSYS.ToString();
-                nodeSpeed.text = "50 ms";
+                nodeName.text = NODE_LIST.EOSYS.ToString();
                 break;
 
             case NODE_LIST.EOSeoul:
-                nodeName.text = "Node - " + NODE_LIST.EOSeoul.ToString();
-                nodeSpeed.text = "90 ms";
+                nodeName.text = NODE_LIST.EOSeoul.ToString();
                 break;
 
             default:
@@ -46,11 +47,4 @@ public class NodeButton : MonoBehaviour {
         nodeList.SetActive(false);
         backButton.SetActive(false);
     }
-}
-
-public enum NODE_LIST
-{
-    ITAM = 0,
-    EOSYS = 1,
-    EOSeoul = 2,
 }

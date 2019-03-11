@@ -2,21 +2,39 @@
 using UnityEngine.UI;
 
 public class NodeObject : MonoBehaviour {
-
-    public Image objectImage;
+    public Text nameText;
+    public Text speedText;
 
     public void OnEnable()
     {
-        objectImage.color = new Color(255, 255, 255, 0);
+        SetSpeed();
     }
 
-    public void NodeObjectOn()
+    public void SetSpeed()
     {
-        objectImage.color = new Color(255, 255, 255, 100);
+        int speedValue = Random.Range(10, 300);
+        Color speedTextColor;
+
+        if(speedValue < 100)
+        {
+            speedTextColor = new Color(0, 255, 0);
+        }
+        else if(speedValue < 200)
+        {
+            speedTextColor = new Color(255, 255, 0);
+        }
+        else
+        {
+            speedTextColor = new Color(255, 0, 0);
+        }
+
+        speedText.text = speedValue + " ms";
+        speedText.color = speedTextColor;
     }
 
-    public void NodeObjectOff()
+    public void SetNodeText(NodeInfo nodeInfo)
     {
-        objectImage.color = new Color(255, 255, 255, 0);
+        nameText.text = nodeInfo.nodeName.ToString();
+        speedText.text = nodeInfo.nodeSpeed.ToString() + " ms";
     }
 }
