@@ -6,20 +6,29 @@ public class ScatterButton : MonoBehaviour {
     private string imagePath = "UI/LoginUI/";
     public Image objectImage;
 
+    private Sprite scatterOn;
+    private Sprite scatterOff;
+
+    public void Awake()
+    {
+        scatterOn = Resources.Load<Sprite>(imagePath + "2_ScatterOnButton") as Sprite;
+        scatterOff = Resources.Load<Sprite>(imagePath + "5_ScatterOffButton") as Sprite;
+    }
+
     public void ScatterButtonOn()
     {
-        objectImage.sprite = Resources.Load<Sprite>(imagePath + "2_ScatterOnButton") as Sprite;
+        objectImage.sprite = scatterOn;
     }
 
     public void ScatterButtonOff()
     {
-        objectImage.sprite = Resources.Load<Sprite>(imagePath + "5_ScatterOffButton") as Sprite;
+        objectImage.sprite = scatterOff;
     }
 
     public void ScatterButtonClick()
     {
         Debug.Log("Scatter Click");
         UTUMSProvider.Instance.RequestLoginWithScatter();
-        objectImage.sprite = Resources.Load<Sprite>(imagePath + "5_ScatterOffButton") as Sprite;
+        objectImage.sprite = scatterOff;
     }
 }
