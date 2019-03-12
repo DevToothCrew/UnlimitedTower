@@ -2167,6 +2167,230 @@ ACTION battletest::setdata()
 //------------------------------------------------------------------------//
 //---------------------------------battle_function------------------------//
 //------------------------------------------------------------------------//
+uint32_t battletest::get_monster_attack(uint64_t _id, status_info _status)
+{
+    uint32_t attack = 0;
+    monster_db monster_db_table(_self,_self.value);
+    auto monster_iter = monster_db_table.find(_id);
+    eosio_assert(monster_iter != monster_db_table.end(),"Not Exist Monster ID 3");
+    if (monster_iter->main_status == 1)     //힘
+    {
+        attack = (_status.basic_str + _status.plus_str) * oper_attack;
+        return attack;
+    }
+    else if (monster_iter->main_status == 2)    //민
+    {
+        attack = (_status.basic_dex + _status.plus_dex) * oper_attack;
+        return attack;
+    }
+    else if (monster_iter->main_status == 3)    //지
+    {
+        attack = (_status.basic_int + _status.plus_int) * oper_attack;
+        return attack;
+    }
+    else
+    {
+        return attack;
+    }
+
+    return attack;
+}
+
+
+battletest::status_info battletest::get_level_up_monster_status(uint64_t _id, uint64_t _grade, status_info _status)
+{
+    status_info status = _status;
+    monster_db monster_db_table(_self, _self.value);
+    auto monster_iter = monster_db_table.find(_id);
+    eosio_assert(monster_iter != monster_db_table.end(), "Not Exist Monster ID 3");
+    if (monster_iter->main_status == 1) //힘
+    {
+        if (_grade == 1)
+        {
+            status.basic_str += common_str[0];
+            status.basic_dex += common_str[1];
+            status.basic_int += common_str[2];
+        }
+        else if (_grade == 2)
+        {
+            status.basic_str += uncommon_str[0];
+            status.basic_dex += uncommon_str[1];
+            status.basic_int += uncommon_str[2];
+        }
+        else if (_grade == 3)
+        {
+            status.basic_str += rare_str[0];
+            status.basic_dex += rare_str[1];
+            status.basic_int += rare_str[2];
+        }
+        else if (_grade == 4)
+        {
+            status.basic_str += unique_str[0];
+            status.basic_dex += unique_str[1];
+            status.basic_int += unique_str[2];
+        }
+        else if (_grade == 5)
+        {
+            status.basic_str += legenary_str[0];
+            status.basic_dex += legenary_str[1];
+            status.basic_int += legenary_str[2];
+        }
+        return status;
+    }
+    else if (monster_iter->main_status == 2) //민
+    {
+        if (_grade == 1)
+        {
+            status.basic_str += common_dex[0];
+            status.basic_dex += common_dex[1];
+            status.basic_int += common_dex[2];
+        }
+        else if (_grade == 2)
+        {
+            status.basic_str += uncommon_dex[0];
+            status.basic_dex += uncommon_dex[1];
+            status.basic_int += uncommon_dex[2];
+        }
+        else if (_grade == 3)
+        {
+            status.basic_str += rare_dex[0];
+            status.basic_dex += rare_dex[1];
+            status.basic_int += rare_dex[2];
+        }
+        else if (_grade == 4)
+        {
+            status.basic_str += unique_dex[0];
+            status.basic_dex += unique_dex[1];
+            status.basic_int += unique_dex[2];
+        }
+        else if (_grade == 5)
+        {
+            status.basic_str += legenary_dex[0];
+            status.basic_dex += legenary_dex[1];
+            status.basic_int += legenary_dex[2];
+        }
+        return status;
+    }
+    else if (monster_iter->main_status == 3) //지
+    {
+        if (_grade == 1)
+        {
+            status.basic_str += common_int[0];
+            status.basic_dex += common_int[1];
+            status.basic_int += common_int[2];
+        }
+        else if (_grade == 2)
+        {
+            status.basic_str += uncommon_int[0];
+            status.basic_dex += uncommon_int[1];
+            status.basic_int += uncommon_int[2];
+        }
+        else if (_grade == 3)
+        {
+            status.basic_str += rare_int[0];
+            status.basic_dex += rare_int[1];
+            status.basic_int += rare_int[2];
+        }
+        else if (_grade == 4)
+        {
+            status.basic_str += unique_int[0];
+            status.basic_dex += unique_int[1];
+            status.basic_int += unique_int[2];
+        }
+        else if (_grade == 5)
+        {
+            status.basic_str += legenary_int[0];
+            status.basic_dex += legenary_int[1];
+            status.basic_int += legenary_int[2];
+        }
+        return status;
+    }
+    return status;
+}
+battletest::status_info battletest::get_level_up_servant_status(uint64_t _job, status_info _status)
+{
+    status_info status = _status;
+
+    if (_job == job_list::warrior)
+    {
+        status.basic_str += warrior_level_up[0];
+        status.basic_dex += warrior_level_up[1];
+        status.basic_int += warrior_level_up[2];
+        return status;
+    }
+    else if(_job == job_list::thief)
+    {
+        status.basic_str += thief_level_up[0];
+        status.basic_dex += thief_level_up[1];
+        status.basic_int += thief_level_up[2];
+        return status;
+    }
+    else if (_job == job_list::archer )
+    {
+        status.basic_str += archer_level_up[0];
+        status.basic_dex += archer_level_up[1];
+        status.basic_int += archer_level_up[2];
+        return status;
+    }
+    else if(_job == job_list::priest)
+    {
+        status.basic_str += cleric_level_up[0];
+        status.basic_dex += cleric_level_up[1];
+        status.basic_int += cleric_level_up[2];
+        return status;
+    }
+    else if (_job == job_list::wizard)
+    {
+        status.basic_str += magician_level_up[0];
+        status.basic_dex += magician_level_up[1];
+        status.basic_int += magician_level_up[2];
+        return status;
+    }
+    return status;
+}
+
+battletest::status_info battletest::get_grade_status(uint64_t _grade, status_info _status)
+{
+    status_info status;
+    if(_grade == 0)
+    {
+        status.basic_str = servant_status_list[_status.basic_str];
+        status.basic_dex = servant_status_list[_status.basic_dex];
+        status.basic_int = servant_status_list[_status.basic_int];
+    }
+    else if (_grade == 1)
+    {
+        status.basic_str = monster_legendary_status_list[_status.basic_str];
+        status.basic_dex = monster_legendary_status_list[_status.basic_dex];
+        status.basic_int = monster_legendary_status_list[_status.basic_int];
+    }
+    else if (_grade == 2)
+    {
+        status.basic_str = monster_unique_status_list[_status.basic_str];
+        status.basic_dex = monster_unique_status_list[_status.basic_dex];
+        status.basic_int = monster_unique_status_list[_status.basic_int];
+    }
+    else if (_grade == 3)
+    {
+        status.basic_str = monster_rare_status_list[_status.basic_str];
+        status.basic_dex = monster_rare_status_list[_status.basic_dex];
+        status.basic_int = monster_rare_status_list[_status.basic_int];
+    }
+    else if (_grade == 4)
+    {
+        status.basic_str = monster_uncommon_status_list[_status.basic_str];
+        status.basic_dex = monster_uncommon_status_list[_status.basic_dex];
+        status.basic_int = monster_uncommon_status_list[_status.basic_int];
+    }
+    else if (_grade == 5)
+    {
+        status.basic_str = monster_common_status_list[_status.basic_str];
+        status.basic_dex = monster_common_status_list[_status.basic_dex];
+        status.basic_int = monster_common_status_list[_status.basic_int];
+    }
+    return status;
+}
+
 
 uint32_t battletest::get_attack(uint32_t _job, status_info _status)
 {
@@ -2232,16 +2456,27 @@ uint64_t battletest::get_damage(uint32_t _atk, uint32_t _dfs)
 
 battletest::battle_state battletest::get_stage_state(status_info _status, uint64_t _job, uint64_t _index, uint64_t _id, uint64_t _position)
 {
+    monster_db monster_db_table(_self, _self.value);
+    auto monster_iter = monster_db_table.find(_id);
+
     battle_state get_state;
-    get_state.now_hp = (_status.basic_str + _status.plus_str) * oper_hp;
+    get_state.now_hp = ((_status.basic_str + _status.plus_str) * 140) + ((_status.basic_dex + _status.plus_dex) * 50) + ((_status.basic_int + _status.plus_int) * 30);
     if (get_state.now_hp == 0)
     {
         get_state.now_hp = 10;
     }
-    get_state.attack = get_attack(_job, _status);
+    if(monster_iter == monster_db_table.end())
+    {
+         get_state.attack = get_attack(_job, _status);
+        get_state.crit_dmg = get_attack(_job, _status) * oper_critical_damage / 10000;
+    }
+    else
+    {
+        get_state.attack = get_monster_attack(_id, _status);
+        get_state.crit_dmg = get_monster_attack(_id, _status) * oper_critical_damage / 10000;
+    }
     get_state.defense = (_status.basic_dex + _status.plus_dex) * oper_defense;
     get_state.crit_per = oper_critical;
-    get_state.crit_dmg = get_attack(_job, _status) * oper_critical_damage / 10000;
     get_state.avoid = 5;
     get_state.speed = get_speed(_job);
     get_state.index = _index;
@@ -2955,6 +3190,7 @@ void battletest::win_reward(eosio::name _user)
     user_auth_table.modify(user_auth_iter, _self, [&](auto &upadate_hero_exp) {
         if (true == check_level_up(cur_exp, pre_exp))
         {
+            upadate_hero_exp.hero.status = get_level_up_servant_status(user_auth_iter->hero.job, user_auth_iter->hero.status);
             upadate_hero_exp.hero.stat_point += 1;
             upadate_hero_exp.hero.exp += 100;
         }
@@ -2978,6 +3214,7 @@ void battletest::win_reward(eosio::name _user)
         user_servant_table.modify(user_servant_iter, _self, [&](auto &update_servant_exp) {
             if (true == check_level_up(cur_exp, pre_exp))
             {
+                update_servant_exp.servant.status = get_level_up_servant_status(user_servant_iter->servant.job, user_servant_iter->servant.status);
                 update_servant_exp.servant.stat_point += 1;
                 update_servant_exp.servant.exp += 100;
             }
@@ -3001,6 +3238,7 @@ void battletest::win_reward(eosio::name _user)
         user_monster_table.modify(user_monster_iter, _self, [&](auto &update_monster_exp) {
             if (true == check_level_up(cur_exp, pre_exp))
             {
+                update_monster_exp.monster.status = get_level_up_monster_status(user_monster_iter->monster.id, user_monster_iter->monster.grade, user_monster_iter->monster.status);
                 update_monster_exp.monster.exp += 100;
             }
             else
@@ -4227,7 +4465,7 @@ ACTION battletest::balancetest(eosio::name _user)
         auto user_servant_iter = user_servant_table.find(iter->primary_key());
         user_servant_table.modify(user_servant_iter, _self, [&](auto &set_servant_status)
         {
-
+            set_servant_status.servant.status = get_grade_status(0, user_servant_iter->servant.status);
         });
         iter++;
     }
@@ -4238,7 +4476,7 @@ ACTION battletest::balancetest(eosio::name _user)
         auto user_monster_iter = user_monster_table.find(iter->primary_key());
         user_monster_table.modify(user_monster_iter, _self, [&](auto &set_monster_status)
         {
-
+            set_monster_status.monster.status = get_grade_status(user_monster_iter->monster.grade, user_monster_iter->monster.status);
         });
         iter++;
     }
