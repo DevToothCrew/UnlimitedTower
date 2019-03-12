@@ -176,22 +176,22 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
     uint32_t value;
     if (_table == "dbbody")
     {
-        value = atoi(_value.c_str());
+        value = atoll(_value.c_str());
         insert_body(value);
     }
     else if (_table == "dbhair")
     {
-        value = atoi(_value.c_str());
+        value = atoll(_value.c_str());
         insert_hair(value);
     }
     else if (_table == "dbhead")
     {
-        value = atoi(_value.c_str());
+        value = atoll(_value.c_str());
         insert_head(value);
     }
     else if (_table == "dbgender")
     {
-        value = atoi(_value.c_str());
+        value = atoll(_value.c_str());
         insert_gender(value);
     }
     else if (_table == "dbmonsterup")
@@ -207,17 +207,17 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
     else if (_table == "dbservantjob")
     {
         substr_value(_value, value_list, size_list, 4);
-        insert_job(value_list[0], atoi(value_list[1].c_str()), atoi(value_list[2].c_str()), atoi(value_list[3].c_str()));
+        insert_job(value_list[0], atoll(value_list[1].c_str()), atoll(value_list[2].c_str()), atoll(value_list[3].c_str()));
     }
     else if (_table == "dbitemgrade")
     {
         substr_value(_value, value_list, size_list, 4);
-        insert_item_grade(value_list[0], atoi(value_list[1].c_str()), atoi(value_list[2].c_str()), atoi(value_list[3].c_str()));
+        insert_item_grade(value_list[0], atoll(value_list[1].c_str()), atoll(value_list[2].c_str()), atoll(value_list[3].c_str()));
     }
     else if (_table == "dbmonstergd")
     {
         substr_value(_value, value_list, size_list, 4);
-        insert_monster_grade(value_list[0], atoi(value_list[1].c_str()), atoi(value_list[2].c_str()), atoi(value_list[3].c_str()));
+        insert_monster_grade(value_list[0], atoll(value_list[1].c_str()), atoll(value_list[2].c_str()), atoll(value_list[3].c_str()));
     }
     else if (_table == "dbgraderatio")
     {
@@ -270,7 +270,7 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
                              atoll(value_list[9].c_str()));
     }
 }
-void battletest::insert_job(std::string _status, uint32_t _job, uint32_t _min, uint32_t _max)
+void battletest::insert_job(std::string _status, uint64_t _job, uint64_t _min, uint64_t _max)
 {
     servant_job_db servant_job_db_table(_self, _self.value);
     auto servant_job_iter = servant_job_db_table.find(_job);
@@ -337,7 +337,7 @@ void battletest::insert_job(std::string _status, uint32_t _job, uint32_t _min, u
     }
 }
 
-void battletest::insert_body(uint32_t _appear)
+void battletest::insert_body(uint64_t _appear)
 {
     body_db body_db_table(_self, _self.value);
     body_db_table.emplace(_self, [&](auto &new_body) {
@@ -345,14 +345,14 @@ void battletest::insert_body(uint32_t _appear)
     });
 }
 
-void battletest::insert_hair(uint32_t _appear)
+void battletest::insert_hair(uint64_t _appear)
 {
     hair_db hair_db_table(_self, _self.value);
     hair_db_table.emplace(_self, [&](auto &new_hair) {
         new_hair.hair = _appear;
     });
 }
-void battletest::insert_head(uint32_t _appear)
+void battletest::insert_head(uint64_t _appear)
 {
     head_db head_db_table(_self, _self.value);
     head_db_table.emplace(_self, [&](auto &new_head) {
@@ -360,7 +360,7 @@ void battletest::insert_head(uint32_t _appear)
     });
 }
 
-void battletest::insert_gender(uint32_t _appear)
+void battletest::insert_gender(uint64_t _appear)
 {
     gender_db gender_db_table(_self, _self.value);
     gender_db_table.emplace(_self, [&](auto &new_gender) {
@@ -428,7 +428,7 @@ void battletest::insert_monster_id(uint64_t _monster_id, uint64_t _gacha_id, uin
     }
 }
 
-void battletest::insert_monster_grade(std::string _status, uint32_t _grade, uint32_t _min, uint32_t _max)
+void battletest::insert_monster_grade(std::string _status, uint64_t _grade, uint64_t _min, uint64_t _max)
 {
     monster_grade_db monster_grade_db_table(_self, _self.value);
     auto monster_grade_iter = monster_grade_db_table.find(_grade);
@@ -559,7 +559,7 @@ void battletest::insert_common_item_id(uint64_t _item_id, uint64_t _item_gacha_i
     }
 }
 
-void battletest::insert_item_grade(std::string _status, uint32_t _grade, uint32_t _min, uint32_t _max)
+void battletest::insert_item_grade(std::string _status, uint64_t _grade, uint64_t _min, uint64_t _max)
 {
     item_grade_db item_grade_db_table(_self, _self.value);
     auto item_grade_iter = item_grade_db_table.find(_grade);
@@ -625,7 +625,7 @@ void battletest::insert_item_grade(std::string _status, uint32_t _grade, uint32_
     }
 }
 
-void battletest::insert_grade_ratio(uint32_t _grade, uint32_t _ratio)
+void battletest::insert_grade_ratio(uint64_t _grade, uint64_t _ratio)
 {
     grade_ratio_db grade_ratio_db_table(_self, _self.value);
     auto grade_ratio_iter = grade_ratio_db_table.find(_grade);
@@ -735,22 +735,22 @@ ACTION battletest::dberase(std::string _table, std::string _value)
     uint64_t value;
     if (_table == "dbbody")
     {
-        value = atoi(_value.c_str());
+        value = atoll(_value.c_str());
         erase_body(value);
     }
     else if (_table == "dbhair")
     {
-        value = atoi(_value.c_str());
+        value = atoll(_value.c_str());
         erase_hair(value);
     }
     else if (_table == "dbhead")
     {
-        value = atoi(_value.c_str());
+        value = atoll(_value.c_str());
         erase_head(value);
     }
     else if (_table == "dbgender")
     {
-        value = atoi(_value.c_str());
+        value = atoll(_value.c_str());
         erase_gender(value);
     }
     else if (_table == "dbmonsterup")
@@ -765,22 +765,22 @@ ACTION battletest::dberase(std::string _table, std::string _value)
     }
     else if (_table == "dbservantjob")
     {
-        value = atoi(_value.c_str());
+        value = atoll(_value.c_str());
         erase_job(value);
     }
     else if (_table == "dbitemgrade")
     {
-        value = atoi(_value.c_str());
+        value = atoll(_value.c_str());
         erase_item_grade(value);
     }
     else if (_table == "dbmonstergd")
     {
-        value = atoi(_value.c_str());
+        value = atoll(_value.c_str());
         erase_monster_grade(value);
     }
     else if (_table == "dbgraderatio")
     {
-        value = atoi(_value.c_str());
+        value = atoll(_value.c_str());
         erase_grade_ratio(value);
     }
     else if (_table == "dbitemup")
@@ -813,7 +813,7 @@ ACTION battletest::dberase(std::string _table, std::string _value)
     }
 }
 
-void battletest::erase_job(uint32_t _job)
+void battletest::erase_job(uint64_t _job)
 {
     servant_job_db servant_job_db_table(_self, _self.value);
     auto job_iter = servant_job_db_table.find(_job);
@@ -821,7 +821,7 @@ void battletest::erase_job(uint32_t _job)
     servant_job_db_table.erase(job_iter);
 }
 
-void battletest::erase_body(uint32_t _appear)
+void battletest::erase_body(uint64_t _appear)
 {
     body_db body_db_table(_self, _self.value);
     auto body_iter = body_db_table.find(_appear);
@@ -829,7 +829,7 @@ void battletest::erase_body(uint32_t _appear)
     body_db_table.erase(body_iter);
 }
 
-void battletest::erase_hair(uint32_t _appear)
+void battletest::erase_hair(uint64_t _appear)
 {
     hair_db hair_db_table(_self, _self.value);
     auto hair_iter = hair_db_table.find(_appear);
@@ -837,7 +837,7 @@ void battletest::erase_hair(uint32_t _appear)
     hair_db_table.erase(hair_iter);
 }
 
-void battletest::erase_head(uint32_t _appear)
+void battletest::erase_head(uint64_t _appear)
 {
     head_db head_db_table(_self, _self.value);
     auto head_iter = head_db_table.find(_appear);
@@ -845,7 +845,7 @@ void battletest::erase_head(uint32_t _appear)
     head_db_table.erase(head_iter);
 }
 
-void battletest::erase_gender(uint32_t _appear)
+void battletest::erase_gender(uint64_t _appear)
 {
     gender_db gender_db_table(_self, _self.value);
     auto gender_iter = gender_db_table.find(_appear);
@@ -869,7 +869,7 @@ void battletest::erase_monster_id(uint64_t _id)
     monster_id_db_table.erase(monster_id_iter);
 }
 
-void battletest::erase_monster_grade(uint32_t _grade)
+void battletest::erase_monster_grade(uint64_t _grade)
 {
     monster_grade_db monster_grade_db_table(_self, _self.value);
     auto monster_grade_iter = monster_grade_db_table.find(_grade);
@@ -877,7 +877,7 @@ void battletest::erase_monster_grade(uint32_t _grade)
     monster_grade_db_table.erase(monster_grade_iter);
 }
 
-void battletest::erase_item_grade(uint32_t _grade)
+void battletest::erase_item_grade(uint64_t _grade)
 {
     item_grade_db item_grade_db_table(_self, _self.value);
     auto item_grade_iter = item_grade_db_table.find(_grade);
@@ -901,7 +901,7 @@ void battletest::erase_common_item_id(uint64_t _id)
     item_id_db_table.erase(item_id_iter);
 }
 
-void battletest::erase_grade_ratio(uint32_t _grade)
+void battletest::erase_grade_ratio(uint64_t _grade)
 {
     grade_ratio_db grade_ratio_db_table(_self, _self.value);
     auto grade_ratio_db_iter = grade_ratio_db_table.find(_grade);
@@ -1315,9 +1315,9 @@ ACTION battletest::inittokenlog()
 //------------------------------------------------------------------------//
 //-------------------------------gacha_function---------------------------//
 //------------------------------------------------------------------------//
-uint32_t battletest::get_random_grade(uint64_t _rate)
+uint64_t battletest::get_random_grade(uint64_t _rate)
 {
-    uint32_t grade;
+    uint64_t grade;
     grade_ratio_db grade_ratio_db_table(_self, _self.value);
     for (auto iter = grade_ratio_db_table.begin(); iter != grade_ratio_db_table.end();)
     {
@@ -1470,14 +1470,14 @@ uint8_t battletest::gacha_servant_body(uint64_t _seed, uint32_t _count)
 void battletest::gacha_monster_id(eosio::name _user, uint64_t _seed)
 {
     monster_db monster_id_db_table(_self, _self.value);
-    uint32_t random_monster_id = safeseed::get_random_value(_seed, MONSTER_ID_COUNT, DEFAULT_MIN_DB, monster_random_count);
-    random_monster_id += 20000;
+    uint64_t random_monster_id = safeseed::get_random_value(_seed, MONSTER_ID_COUNT, DEFAULT_MIN_DB, monster_random_count);
+    random_monster_id += MONSTER_GACHA_ID_START;
     auto monster_second = monster_id_db_table.get_index<"second"_n>();
     const auto &monster_id_db_iter = monster_second.get(random_monster_id, "Not Exist Monster ID 1");
 
     monster_random_count += 1;
-    uint32_t random_rate = safeseed::get_random_value(_seed, max_rate, default_min, monster_random_count);
-    uint32_t random_grade = get_random_grade(random_rate);
+    uint64_t random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, DEFAULT_MIN, monster_random_count);
+    uint64_t random_grade = get_random_grade(random_rate);
 
     monster_grade_db monster_grade_db_table(_self, _self.value);
     const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "Not Exist Monster Grade 4");
@@ -1559,8 +1559,8 @@ void battletest::gacha_monster_id(eosio::name _user, uint64_t _seed)
 void battletest::gacha_item_id(eosio::name _user, uint64_t _seed)
 {
     commonitem_db item_id_db_table(_self, _self.value);
-    uint32_t random_item_id = safeseed::get_random_value(_seed, ITEM_ID_COUNT, default_min, item_random_count);
-    random_item_id += 30000;
+    uint32_t random_item_id = safeseed::get_random_value(_seed, ITEM_ID_COUNT, DEFAULT_MIN, item_random_count);
+    random_item_id += ITEM_GACHA_ID_START;
     auto item_second = item_id_db_table.get_index<"second"_n>();
     const auto &item_id_db_iter = item_second.get(random_item_id, "Not Exist Item ID 1");
 
@@ -1568,8 +1568,8 @@ void battletest::gacha_item_id(eosio::name _user, uint64_t _seed)
     const auto &equip_item_iter = equip_item_table.get(item_id_db_iter.item_id, "Not Exist Equip ID 1");
 
     item_random_count += 1;
-    uint32_t random_rate = safeseed::get_random_value(_seed, max_rate, default_min, item_random_count);
-    uint32_t random_grade = get_random_grade(random_rate);
+    uint64_t random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, DEFAULT_MIN, item_random_count);
+    uint64_t random_grade = get_random_grade(random_rate);
 
     item_grade_db item_grade_db_table(_self, _self.value);
     const auto &item_grade_db_iter = item_grade_db_table.get(random_grade, "Not Exist Tier 1");
@@ -1680,7 +1680,7 @@ void battletest::start_gacha(eosio::name _user, uint64_t _seed)
     }
     else
     {
-        uint64_t l_gacha_result_type = safeseed::get_random_value(l_seed, max_rate, default_min, DEFAULE_RANDOM_COUNT);
+        uint64_t l_gacha_result_type = safeseed::get_random_value(l_seed, GACHA_MAX_RATE, DEFAULT_MIN, DEFAULT_RANDOM_COUNT);
         if (l_gacha_result_type < 333)
         {
             gacha_servant_id(_user, l_seed);
@@ -2388,7 +2388,7 @@ ACTION battletest::startbattle(eosio::name _user, uint32_t _party_number, uint32
             for (uint32_t i = 0; i < enemy_count; ++i)
             {
                 uint64_t enemy_index = safeseed::get_random_value(random_list[count], 64, 1, 0);
-                enemy_index += 20000;
+                enemy_index += MONSTER_GACHA_ID_START;
                 monster_db monster_id_db_table(_self, _self.value);
                 auto monster_second = monster_id_db_table.get_index<"second"_n>();
                 auto monster_id_iter = monster_second.find(enemy_index);
@@ -2457,7 +2457,7 @@ ACTION battletest::startbattle(eosio::name _user, uint32_t _party_number, uint32
             for (uint32_t i = 0; i < enemy_count; ++i)
             {
                 uint64_t enemy_index = safeseed::get_random_value(random_list[count], 64, 1, 0);
-                enemy_index += 20000;
+                enemy_index += MONSTER_GACHA_ID_START;
                 monster_db monster_id_db_table(_self, _self.value);
                 auto monster_second = monster_id_db_table.get_index<"second"_n>();
                 auto monster_id_iter = monster_second.find(enemy_index);
@@ -3418,8 +3418,8 @@ void battletest::upgrade_monster(eosio::name _user, uint32_t _monster_index, uin
     eosio_assert(user_monster_iter->index != user_monster_iter2->index, "same monster not use");
 
     uint64_t l_seed = safeseed::get_seed_value(_user.value, now());
-    uint64_t upgrade_ratio = safeseed::get_random_value(l_seed, MONSTER_UPGRADE_RATE, default_min, DEFAULE_RANDOM_COUNT);
-    uint64_t fail_upgrade = safeseed::get_random_value(l_seed, user_monster_iter->monster.upgrade + 1, default_min, DEFAULE_RANDOM_COUNT);
+    uint64_t upgrade_ratio = safeseed::get_random_value(l_seed, MONSTER_UPGRADE_RATE, DEFAULT_MIN, DEFAULT_RANDOM_COUNT);
+    uint64_t fail_upgrade = safeseed::get_random_value(l_seed, user_monster_iter->monster.upgrade + 1, DEFAULT_MIN, DEFAULT_RANDOM_COUNT);
 
     eosio_assert(user_monster_iter->monster.grade == user_monster_iter2->monster.grade, "sub monster grade is high by main monster");       //메인보다 서브가 높을 수 없다.
     eosio_assert(user_monster_iter->monster.upgrade >= user_monster_iter2->monster.upgrade, "sub monster upgrade is high by main monster"); //메인보다 서브가 높을 수 없다.
@@ -3464,7 +3464,7 @@ void battletest::upgrade_item(eosio::name _user, uint32_t _item, uint32_t _item2
     eosio_assert(user_item_iter->item.upgrade != 9, "this item upgrade is MAX");
 
     uint64_t l_seed = safeseed::get_seed_value(_user.value, now());
-    uint64_t upgrade_ratio = safeseed::get_random_value(l_seed, ITEM_UPGRADE_RATE, default_min, DEFAULE_RANDOM_COUNT);
+    uint64_t upgrade_ratio = safeseed::get_random_value(l_seed, ITEM_UPGRADE_RATE, DEFAULT_MIN, DEFAULT_RANDOM_COUNT);
     uint64_t updatecheck = 0;
 
     user_item_table.modify(user_item_iter, _self, [&](auto &upgrade_item) {
