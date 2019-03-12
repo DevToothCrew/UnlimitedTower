@@ -256,36 +256,36 @@ struct skill_object
     ACTION dberase(std::string _table , std::string _value);
     ACTION dbinit();
 
-    void insert_job(std::string _status, uint32_t _job, uint32_t _min, uint32_t _max);
-    void insert_head(uint32_t _appear);
-    void insert_hair(uint32_t _appear);
-    void insert_body(uint32_t _appear);
-    void insert_gender(uint32_t _appear);
+    void insert_job(std::string _status, uint64_t _job, uint64_t _min, uint64_t _max);
+    void insert_head(uint64_t _appear);
+    void insert_hair(uint64_t _appear);
+    void insert_body(uint64_t _appear);
+    void insert_gender(uint64_t _appear);
     void insert_servant_id(uint64_t _servant_id, uint64_t _gacha_id);
     void insert_monster_id(uint64_t _monster_id, uint64_t _gacha_id, uint64_t _type, uint64_t _main_status, uint64_t _skill1, uint64_t _skill2, uint64_t _skill3);
-    void insert_monster_grade(std::string _status ,uint32_t _grade, uint32_t _min, uint32_t _max);
+    void insert_monster_grade(std::string _status ,uint64_t _grade, uint64_t _min, uint64_t _max);
     void insert_equip_item_id(uint64_t _item_id, uint64_t _item_set_id, uint64_t _job, uint64_t _type, uint64_t _tier, uint64_t _option,uint32_t _status_value_min
 , uint32_t _status_value_max, uint32_t _upgrade_status_value, uint64_t _random_option_id);
     void insert_common_item_id(uint64_t _item_id, uint64_t _item_gacha_id, uint32_t _type, uint32_t _param_1, uint32_t _param_2, uint32_t _param_3, uint64_t _sell_id, uint64_t _sell_cost);
-    void insert_item_grade(std::string _status, uint32_t _grade, uint32_t _min, uint32_t _max);
-    void insert_grade_ratio(uint32_t _grade, uint32_t _ratio);
+    void insert_item_grade(std::string _status, uint64_t _grade, uint64_t _min, uint64_t _max);
+    void insert_grade_ratio(uint64_t _grade, uint64_t _ratio);
     void insert_upgrade_monster_ratio(uint32_t _main);
     void insert_upgrade_item_ratio(uint64_t _main, uint32_t _material, uint64_t _ratio);
     void insert_consumables_id(uint32_t _id, uint32_t _type, uint64_t _price);
     void insert_level(uint32_t _id);
 
-    void erase_job(uint32_t _job);
-    void erase_head(uint32_t _appear);
-    void erase_hair(uint32_t _appear);
-    void erase_body(uint32_t _appear);
-    void erase_gender(uint32_t _appear);
+    void erase_job(uint64_t _job);
+    void erase_head(uint64_t _appear);
+    void erase_hair(uint64_t _appear);
+    void erase_body(uint64_t _appear);
+    void erase_gender(uint64_t _appear);
     void erase_servant_id(uint64_t _id);
     void erase_monster_id(uint64_t _id);
-    void erase_monster_grade(uint32_t _grade);
+    void erase_monster_grade(uint64_t _grade);
     void erase_equip_item_id(uint64_t _id);
     void erase_common_item_id(uint64_t _id);
-    void erase_item_grade(uint32_t _grade);
-    void erase_grade_ratio(uint32_t _grade);
+    void erase_item_grade(uint64_t _grade);
+    void erase_grade_ratio(uint64_t _grade);
     void erase_upgrade_monster_ratio(uint32_t _main);
     void erase_upgrade_item_ratio(uint32_t _main);
     void erase_consumables_id(uint32_t _id);
@@ -539,14 +539,11 @@ struct skill_object
     uint32_t monster_random_count;
     uint32_t item_random_count;
 
-    const uint32_t default_min = 0;
-    const uint32_t max_rate = 1000;
-
 #pragma endregion
 
   public:
 #pragma region gacha function
-    uint32_t get_random_grade(uint64_t _rate);
+    uint64_t get_random_grade(uint64_t _rate);
     uint32_t get_servant_index(uint32_t _job, uint32_t _body, uint32_t _gender, uint32_t _head, uint32_t _hair);
 
     void gacha_servant_id(eosio::name _user, uint64_t _seed);
@@ -600,7 +597,7 @@ struct skill_object
     enum user_state
     {
         pre_regist = 1,
-        lobby,
+        lobby = 2,
         tower,
         stage,
     };
@@ -610,17 +607,12 @@ struct skill_object
         set_status,
         set_change_status,
         set_complete,
-        set_tower_party,
-        set_travel_party,
     };
 
     enum object_state
     {
         on_inventory = 1,
         on_equip_slot,
-        on_party,
-        on_tower,
-        object_preregist,
     };
 #pragma endregion
 
@@ -676,9 +668,6 @@ struct skill_object
 #pragma endregion
 
 #pragma region login values
-    const uint32_t max_equip_slot = 3;
-    const uint32_t hero_min_status = 1;
-    uint32_t hero_total_status = 24;
 
     struct st_transfer
     {
@@ -760,6 +749,7 @@ struct skill_object
         on_wait = 1,
         on_tower_defense,
     };
+    
     TABLE tparty
     {
       public:
@@ -783,11 +773,6 @@ struct skill_object
     ACTION setparty(eosio::name _user, uint32_t _party_number, const std::vector<uint64_t> &_servant_list, const std::vector<uint64_t> &_monster_list);
     void add_party_list(eosio::name _user);
 
-#pragma region party cheat
-
-    ACTION partycheat(eosio::name _user);
-    ACTION herocheat(eosio::name _user);
-    ACTION setdata();
 
 #pragma endregion
 
@@ -1024,6 +1009,10 @@ struct skill_object
     ACTION exitbattle(eosio::name _user);
 
     //테스트용 함수
+    ACTION partycheat(eosio::name _user);
+    ACTION herocheat(eosio::name _user);
+    ACTION setdata();
+
     ACTION deletebattle(eosio::name _user);
     ACTION deleteuser(eosio::name _user);
 
