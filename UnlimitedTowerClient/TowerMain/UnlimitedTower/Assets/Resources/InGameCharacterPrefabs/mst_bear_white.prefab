@@ -650,8 +650,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4228741704057544}
   - component: {fileID: 95563565156447526}
-  - component: {fileID: 114901029368917430}
   - component: {fileID: 114516954920586940}
+  - component: {fileID: 114901029368917430}
   m_Layer: 0
   m_Name: mst_bear_white
   m_TagString: Untagged

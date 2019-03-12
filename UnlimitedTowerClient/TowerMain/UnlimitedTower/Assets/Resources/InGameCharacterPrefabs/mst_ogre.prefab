@@ -543,8 +543,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4365329042431606}
   - component: {fileID: 95096834669031224}
-  - component: {fileID: 114466109175075450}
   - component: {fileID: 114263831923108684}
+  - component: {fileID: 114466109175075450}
   m_Layer: 0
   m_Name: mst_ogre
   m_TagString: Untagged
@@ -1076,7 +1076,7 @@ Transform:
   m_GameObject: {fileID: 1341079557341120}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.49568465, y: 0.49568543, z: 0.49568543}
+  m_LocalScale: {x: 0.55, y: 0.55, z: 0.55}
   m_Children:
   - {fileID: 4364658035768634}
   m_Father: {fileID: 4365329042431606}

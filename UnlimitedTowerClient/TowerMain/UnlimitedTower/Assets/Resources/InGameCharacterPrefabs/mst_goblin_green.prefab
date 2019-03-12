@@ -251,8 +251,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4422110701402762}
   - component: {fileID: 95870568799708914}
-  - component: {fileID: 114156061696731142}
   - component: {fileID: 114079104029857984}
+  - component: {fileID: 114156061696731142}
   m_Layer: 0
   m_Name: mst_goblin_green
   m_TagString: Untagged
@@ -1153,7 +1153,7 @@ Transform:
   m_GameObject: {fileID: 1880943374360582}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5963446, y: 0.5963451, z: 0.5963451}
+  m_LocalScale: {x: 0.55, y: 0.55, z: 0.55}
   m_Children:
   - {fileID: 4777500181081090}
   m_Father: {fileID: 4422110701402762}

@@ -128,8 +128,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4881034299031054}
   - component: {fileID: 95070317231006704}
-  - component: {fileID: 114431527871545224}
   - component: {fileID: 114699028445100654}
+  - component: {fileID: 114431527871545224}
   m_Layer: 0
   m_Name: Mst_dullahan
   m_TagString: Untagged
@@ -1328,9 +1328,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf3448e36193f01438e35548abb37413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackDelay: 1
+  AttackDelay: 0.7
   AttackAfterDelay: 1.5
-  Height: 1.7
+  Height: 1.3
   AttackRange: 1
 --- !u!137 &137033188421172742
 SkinnedMeshRenderer:

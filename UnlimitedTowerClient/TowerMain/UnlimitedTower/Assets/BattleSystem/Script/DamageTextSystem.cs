@@ -137,22 +137,22 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
 
     IEnumerator CriticalAttackEffect()
     {
-        Vector2 temp = new Vector2(Random.Range(0.0f, 6.0f), Random.Range(0.0f, 6.0f));
+        Vector2 temp = new Vector2(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f));
         temp = temp.normalized;
 
         for (int i = 0; i < 5; i++)
         {
-            Camera_.transform.Translate(temp.x * 0.03f, temp.y * 0.03f, 0);
+            Camera_.transform.Translate(temp.x * 0.09f, temp.y * 0.09f, 0);
             yield return new WaitForSeconds(0.01f);
         }
         for (int i = 0; i < 10; i++)
         {
-            Camera_.transform.Translate(-temp.x * 0.03f, -temp.y * 0.03f, 0);
+            Camera_.transform.Translate(-temp.x * 0.09f, -temp.y * 0.09f, 0);
             yield return new WaitForSeconds(0.01f);
         }
         for (int i = 0; i < 5; i++)
         {
-            Camera_.transform.Translate(temp.x * 0.03f, temp.y * 0.03f, 0);
+            Camera_.transform.Translate(temp.x * 0.09f, temp.y * 0.09f, 0);
             yield return new WaitForSeconds(0.01f);
         }
     }

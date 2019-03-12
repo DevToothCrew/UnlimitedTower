@@ -877,9 +877,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1846092335645590}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.28381532, y: 0.28381532, z: 0.2838154}
+  m_LocalScale: {x: 0.55, y: 0.55, z: 0.55}
   m_Children:
   - {fileID: 4403647808316460}
   m_Father: {fileID: 4450283390325750}
@@ -1369,7 +1369,7 @@ MonoBehaviour:
   AttackDelay: 0.8
   AttackAfterDelay: 1.5
   Height: 1.2
-  AttackRange: 0.4
+  AttackRange: 0.5
 --- !u!114 &114616631619021750
 MonoBehaviour:
   m_ObjectHideFlags: 1

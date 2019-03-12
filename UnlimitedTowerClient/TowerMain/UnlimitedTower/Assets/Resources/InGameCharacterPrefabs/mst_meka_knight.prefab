@@ -1369,7 +1369,7 @@ MonoBehaviour:
   AttackDelay: 0.44
   AttackAfterDelay: 1.5
   Height: 1.2
-  AttackRange: 0.6
+  AttackRange: 1
 --- !u!114 &114189517005514326
 MonoBehaviour:
   m_ObjectHideFlags: 1

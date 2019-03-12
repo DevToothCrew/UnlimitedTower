@@ -61,7 +61,7 @@ public class CharacterCSVData : MonoSingleton<CharacterCSVData>
     {
         DontDestroyOnLoad(gameObject);
 
-        monsterData = Resources.Load("CSV/MonsterData") as TextAsset;
+        monsterData = Resources.Load<TextAsset>("CSV/MonsterData");
         StringReader sr = new StringReader(monsterData.text);
         string textLine;
         string[] textValue;
@@ -71,7 +71,6 @@ public class CharacterCSVData : MonoSingleton<CharacterCSVData>
         textLine = sr.ReadLine();
         textLine = sr.ReadLine();
         textLine = sr.ReadLine();
-
         while (textLine != null)
         {
             textValue = textLine.Split(',');
@@ -86,13 +85,7 @@ public class CharacterCSVData : MonoSingleton<CharacterCSVData>
             monsterDataInspector.Add(asdf);
         }
     }
-
-    [ContextMenu("asdf")]
-    public void asdf()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
+    
     public List<int> GetMonsterIndexList()
     {
         if(monsterDataDic == null)

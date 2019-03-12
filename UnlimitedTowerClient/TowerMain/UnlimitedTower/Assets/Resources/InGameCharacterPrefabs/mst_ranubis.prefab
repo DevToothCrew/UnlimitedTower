@@ -300,8 +300,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4417681855432804}
   - component: {fileID: 95046065660356860}
-  - component: {fileID: 114147656676079152}
   - component: {fileID: 114956481965669022}
+  - component: {fileID: 114147656676079152}
   m_Layer: 0
   m_Name: mst_ranubis
   m_TagString: Untagged
@@ -1042,7 +1042,7 @@ Transform:
   m_GameObject: {fileID: 1300208799148778}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.43301085, y: 0.433011, z: 0.433011}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4076276622099428}
   m_Father: {fileID: 4417681855432804}
@@ -1422,7 +1422,7 @@ MonoBehaviour:
   AttackDelay: 1
   AttackAfterDelay: 1.5
   Height: 1.75
-  AttackRange: 0.8
+  AttackRange: 1
 --- !u!137 &137112355683658402
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

@@ -187,6 +187,7 @@ public class stageState
 {
     public int position;
     public int index;
+    public int id;
     public int now_hp;
     public int attack;
     public int defense;

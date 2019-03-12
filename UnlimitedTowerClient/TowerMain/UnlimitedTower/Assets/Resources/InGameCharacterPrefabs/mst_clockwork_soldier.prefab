@@ -191,8 +191,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4350937193247874}
   - component: {fileID: 95040731675732900}
-  - component: {fileID: 114736996565471542}
   - component: {fileID: 114924262176683514}
+  - component: {fileID: 114736996565471542}
   m_Layer: 0
   m_Name: mst_clockwork_soldier
   m_TagString: Untagged
@@ -1479,7 +1479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf3448e36193f01438e35548abb37413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackDelay: 1
+  AttackDelay: 0.8
   AttackAfterDelay: 1.5
   Height: 1.7
   AttackRange: 1

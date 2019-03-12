@@ -11,6 +11,7 @@ public class BattleUIManager : MonoBehaviour {
     public void BattleLeave()
     {
         // 나가기 버튼
+        BattleSystem.Inst.delayImage.SetActive(false);
         PacketManager.Inst.RequestLoginWithScatter();
     }
 

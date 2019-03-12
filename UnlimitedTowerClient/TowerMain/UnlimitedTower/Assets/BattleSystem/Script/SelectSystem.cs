@@ -9,7 +9,6 @@ public class SelectSystem : MonoSingleton<SelectSystem>
     public int mouseIndex = -1;
     public int selectIndex = -1;
     public bool isPlayer;
-    public Image selectHpBar;
     public Animator controlButton;
     public ActionState actionState;
 
@@ -20,6 +19,7 @@ public class SelectSystem : MonoSingleton<SelectSystem>
     public Text levelText;
     public Text nemeText;
     public Text selectHpText;
+    public Image selectHpBar;
     public Image selectCharacterImage;
     public GameObject characterInfo;
 
@@ -228,26 +228,23 @@ public class SelectSystem : MonoSingleton<SelectSystem>
         }
         else if (selectIndex < 10)
         {
-            nemeText.text = CharacterCSVData.Inst.monsterDataDic[
-            UserDataManager.Inst.GetMonsterInfo(
-            UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).id].engName;
+            nemeText.text = CharacterCSVData.Inst.monsterDataDic[selectStateInfo.id].engName;
 
             selectCharacterImage.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" +
-                CharacterCSVData.Inst.monsterDataDic[
-            UserDataManager.Inst.GetMonsterInfo(
-            UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).id].inGameIconName);
+                CharacterCSVData.Inst.monsterDataDic[selectStateInfo.id].inGameIconName);
 
             levelText.text = UserDataManager.Inst.GetMonsterInfo(UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).level.ToString();
         }
         else
         {
-            nemeText.text = CharacterCSVData.Inst.monsterDataDic[selectStateInfo.index].engName;
+            nemeText.text = CharacterCSVData.Inst.monsterDataDic[selectStateInfo.id].engName;
             
             selectCharacterImage.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" +
-                CharacterCSVData.Inst.monsterDataDic[
-            BattleSystem.Inst.GetEnemyState(selectIndex).index].inGameIconName);
+                CharacterCSVData.Inst.monsterDataDic[selectStateInfo.id].inGameIconName);
 
             levelText.text = "?";
         }
+
+        selectHpBar.fillAmount = (float)BattleSystem.Inst.characterControl[selectIndex].nowHp / BattleSystem.Inst.characterControl[selectIndex].maxHp;
     }
 }

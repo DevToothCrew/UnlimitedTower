@@ -35,8 +35,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4648130341721512}
   - component: {fileID: 95529557729405900}
-  - component: {fileID: 114085711499929162}
   - component: {fileID: 114789323378093928}
+  - component: {fileID: 114085711499929162}
   m_Layer: 0
   m_Name: mst_skeleton_rich
   m_TagString: Untagged
@@ -1209,10 +1209,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf3448e36193f01438e35548abb37413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackDelay: 0.4
+  AttackDelay: 1.2
   AttackAfterDelay: 1.5
   Height: 1.8
-  AttackRange: 0
+  AttackRange: 0.7
 --- !u!137 &137014026313082510
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
