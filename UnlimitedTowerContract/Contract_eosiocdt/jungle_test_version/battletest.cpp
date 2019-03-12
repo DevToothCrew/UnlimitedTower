@@ -1357,7 +1357,7 @@ void battletest::gacha_servant_id(eosio::name _user, uint64_t _seed)
     servant_random_count += 1;
     uint32_t random_hair = gacha_servant_hair(_seed, servant_random_count);
 
-    servant_id_db servant_id_table(_self, _self.value);
+    servnt_db servant_id_table(_self, _self.value);
     uint32_t servant_index = get_servant_index(random_job, random_body, random_gender, random_head, random_hair);
     const auto &servant_id_db_iter = servant_id_table.get(servant_index, "Not Exist Servant ID 1");
 
@@ -2004,7 +2004,6 @@ ACTION battletest::partycheat(eosio::name _user)
         user_party_table.modify(user_party_iter, _self, [&](auto &automatic_party) {
             for (uint32_t i = 0; i < 4; ++i)
             {
-
                 automatic_party.servant_list[i] = i + 1;
             }
             for (uint32_t i = 0; i < 5; ++i)

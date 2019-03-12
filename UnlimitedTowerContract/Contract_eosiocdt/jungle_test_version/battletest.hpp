@@ -26,7 +26,6 @@ CONTRACT battletest : public contract
     }
 #pragma endregion
 
-
     //------------------------------------------------------------------------//
     //-----------------------------db_table-----------------------------------//
     //------------------------------------------------------------------------//
@@ -84,7 +83,6 @@ CONTRACT battletest : public contract
     };
     typedef eosio::multi_index<"dbmonstergd"_n, dbmonstergd> monster_grade_db;
 
-
     TABLE dbservantjob
     {
         uint64_t job;
@@ -133,7 +131,6 @@ CONTRACT battletest : public contract
     };
     typedef eosio::multi_index<"dbconsumable"_n, dbconsumable> user_consumables_db;
 
-
     TABLE dblevel
     {
         uint32_t lv;
@@ -142,82 +139,80 @@ CONTRACT battletest : public contract
     };
     typedef eosio::multi_index<"dblevel"_n, dblevel> lv_exp;
 
-
-
 /////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////NEW DB ///////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
 #pragma region db dbmonster
 
-struct skill_object
-{
-   uint64_t skill_1;
-   uint64_t skill_2;
-   uint64_t skill_3;
-};
+    struct skill_object
+    {
+        uint64_t skill_1;
+        uint64_t skill_2;
+        uint64_t skill_3;
+    };
 
-   TABLE monsterdb
-   {
-       uint64_t gacha_id;
-       uint64_t monster_id;
-       uint64_t type;
-       uint64_t main_status;
-       std::vector<skill_object> skills;
-       uint64_t primary_key() const { return monster_id; }
-       uint64_t secondary_key() const { return gacha_id; }
-   };
-   typedef eosio::multi_index<"dbmonster"_n, monsterdb, indexed_by<"second"_n, const_mem_fun<monsterdb, uint64_t, &monsterdb::secondary_key>>> monster_db;
+    TABLE monsterdb
+    {
+        uint64_t gacha_id;
+        uint64_t monster_id;
+        uint64_t type;
+        uint64_t main_status;
+        std::vector<skill_object> skills;
+        uint64_t primary_key() const { return monster_id; }
+        uint64_t secondary_key() const { return gacha_id; }
+    };
+    typedef eosio::multi_index<"dbmonster"_n, monsterdb, indexed_by<"second"_n, const_mem_fun<monsterdb, uint64_t, &monsterdb::secondary_key>>> monster_db;
 #pragma endregion
 
 #pragma region db dbitemcommon
-   TABLE commonitemdb
-   {
-       uint64_t gacha_id;
-       uint64_t item_id;
-       uint32_t type;
-       uint32_t param_1;
-       uint32_t param_2;
-       uint32_t param_3;
-       uint64_t sell_id;
-       uint64_t sell_cost;
-       uint64_t primary_key() const { return item_id; }
-       uint64_t secondary_key() const { return gacha_id; }
-   };
-   typedef eosio::multi_index<"dbcommonitem"_n, commonitemdb, indexed_by<"second"_n, const_mem_fun<commonitemdb, uint64_t, &commonitemdb::secondary_key>>> commonitem_db;
+    TABLE commonitemdb
+    {
+        uint64_t gacha_id;
+        uint64_t item_id;
+        uint32_t type;
+        uint32_t param_1;
+        uint32_t param_2;
+        uint32_t param_3;
+        uint64_t sell_id;
+        uint64_t sell_cost;
+        uint64_t primary_key() const { return item_id; }
+        uint64_t secondary_key() const { return gacha_id; }
+    };
+    typedef eosio::multi_index<"dbcommonitem"_n, commonitemdb, indexed_by<"second"_n, const_mem_fun<commonitemdb, uint64_t, &commonitemdb::secondary_key>>> commonitem_db;
 #pragma endregion
 
 #pragma region db dbitemequip
-   TABLE equipitemdb
-   {
-       uint64_t item_id;
-       uint64_t set_id;
-       uint64_t type;
-       uint64_t tier;
-       uint64_t job;
-       uint64_t option;
-       uint32_t status_value_min;
-       uint32_t status_value_max;
-       uint32_t upgrade_status_value;
-       uint64_t random_option_id;
+    TABLE equipitemdb
+    {
+        uint64_t item_id;
+        uint64_t set_id;
+        uint64_t type;
+        uint64_t tier;
+        uint64_t job;
+        uint64_t option;
+        uint32_t status_value_min;
+        uint32_t status_value_max;
+        uint32_t upgrade_status_value;
+        uint64_t random_option_id;
 
-       uint64_t primary_key() const { return item_id; }
-       uint64_t secondary_key() const { return set_id; }
-   };
-   typedef eosio::multi_index<"dbequipitem"_n, equipitemdb, indexed_by<"second"_n, const_mem_fun<equipitemdb, uint64_t, &equipitemdb::secondary_key>>> equipitem_db;
+        uint64_t primary_key() const { return item_id; }
+        uint64_t secondary_key() const { return set_id; }
+    };
+    typedef eosio::multi_index<"dbequipitem"_n, equipitemdb, indexed_by<"second"_n, const_mem_fun<equipitemdb, uint64_t, &equipitemdb::secondary_key>>> equipitem_db;
 #pragma endregion
 
 #pragma region db dbservant
-   TABLE servantdb
-   {
-       uint64_t gacha_id;
-       uint64_t servant_id;
-       uint64_t primary_key() const { return servant_id; }
-       uint64_t secondary_key() const{ return gacha_id;}
-   };
-   typedef eosio::multi_index<"dbservant"_n, servantdb, indexed_by<"second"_n, const_mem_fun<servantdb, uint64_t, &servantdb::secondary_key>>> servnt_db;
+    TABLE servantdb
+    {
+        uint64_t gacha_id;
+        uint64_t servant_id;
+        uint64_t primary_key() const { return servant_id; }
+        uint64_t secondary_key() const { return gacha_id; }
+    };
+    typedef eosio::multi_index<"dbservant"_n, servantdb, indexed_by<"second"_n, const_mem_fun<servantdb, uint64_t, &servantdb::secondary_key>>> servnt_db;
 #pragma endregion
-//servant_db servant_db_table(_self, _self.value);
-//auto servant_db_iter = servant_db_table.get_index<"second"_n>();   //샘플
+    //servant_db servant_db_table(_self, _self.value);
+    //auto servant_db_iter = servant_db_table.get_index<"second"_n>();   //샘플
 
     //------------------------------------------------------------------------//
     //----------------------------db_system-----------------------------------//
@@ -243,7 +238,6 @@ struct skill_object
     };
     typedef eosio::multi_index<"systemmaster"_n, systemmaster> system_master;
 
-
     ACTION setmaster(eosio::name _master);
     ACTION initmaster();
 #pragma endregion
@@ -251,9 +245,9 @@ struct skill_object
   public:
 #pragma region db function
 
-    void substr_value(std::string _value, std::vector<std::string> &_value_list, std::vector<size_t> &_size_list, uint32_t _size );
+    void substr_value(std::string _value, std::vector<std::string> & _value_list, std::vector<size_t> & _size_list, uint32_t _size);
     ACTION dbinsert(std::string _table, std::string _value);
-    ACTION dberase(std::string _table , std::string _value);
+    ACTION dberase(std::string _table, std::string _value);
     ACTION dbinit();
 
     void insert_job(std::string _status, uint64_t _job, uint64_t _min, uint64_t _max);
@@ -263,9 +257,8 @@ struct skill_object
     void insert_gender(uint64_t _appear);
     void insert_servant_id(uint64_t _servant_id, uint64_t _gacha_id);
     void insert_monster_id(uint64_t _monster_id, uint64_t _gacha_id, uint64_t _type, uint64_t _main_status, uint64_t _skill1, uint64_t _skill2, uint64_t _skill3);
-    void insert_monster_grade(std::string _status ,uint64_t _grade, uint64_t _min, uint64_t _max);
-    void insert_equip_item_id(uint64_t _item_id, uint64_t _item_set_id, uint64_t _job, uint64_t _type, uint64_t _tier, uint64_t _option,uint32_t _status_value_min
-, uint32_t _status_value_max, uint32_t _upgrade_status_value, uint64_t _random_option_id);
+    void insert_monster_grade(std::string _status, uint64_t _grade, uint64_t _min, uint64_t _max);
+    void insert_equip_item_id(uint64_t _item_id, uint64_t _item_set_id, uint64_t _job, uint64_t _type, uint64_t _tier, uint64_t _option, uint32_t _status_value_min, uint32_t _status_value_max, uint32_t _upgrade_status_value, uint64_t _random_option_id);
     void insert_common_item_id(uint64_t _item_id, uint64_t _item_gacha_id, uint32_t _type, uint32_t _param_1, uint32_t _param_2, uint32_t _param_3, uint64_t _sell_id, uint64_t _sell_cost);
     void insert_item_grade(std::string _status, uint64_t _grade, uint64_t _min, uint64_t _max);
     void insert_grade_ratio(uint64_t _grade, uint64_t _ratio);
@@ -454,7 +447,6 @@ struct skill_object
     };
     typedef eosio::multi_index<"tmonster"_n, tmonster> user_monsters;
 
-
 #pragma endregion
 
 #pragma region gacha titem
@@ -488,7 +480,6 @@ struct skill_object
         uint64_t primary_key() const { return id; }
     };
     typedef eosio::multi_index<"tconsumable"_n, tconsumable> user_consumables;
-
 
 #pragma endregion
 
@@ -558,7 +549,6 @@ struct skill_object
 
     void start_gacha(eosio::name _user, uint64_t _seed);
 #pragma endregion
-
 
 //------------------------------------------------------------------------//
 //------------------------------user_log_table----------------------------//
@@ -639,7 +629,6 @@ struct skill_object
 
     typedef eosio::multi_index<"tuserauth"_n, tuserauth> auth_users;
 
-
 #pragma endregion
 
     //------------------------------------------------------------------------//
@@ -693,9 +682,9 @@ struct skill_object
 #pragma endregion
 
     //------------------------------------------------------------------------//
-    //-----------------------------init_function------------------------------//
+    //-----------------------------whitelist------------------------------//
     //------------------------------------------------------------------------//
-    ACTION inittokenlog();
+    
 
 #pragma region whitelist
     TABLE twhitelist
@@ -749,7 +738,7 @@ struct skill_object
         on_wait = 1,
         on_tower_defense,
     };
-    
+
     TABLE tparty
     {
       public:
@@ -772,7 +761,6 @@ struct skill_object
   public:
     ACTION setparty(eosio::name _user, uint32_t _party_number, const std::vector<uint64_t> &_servant_list, const std::vector<uint64_t> &_monster_list);
     void add_party_list(eosio::name _user);
-
 
 #pragma endregion
 
@@ -1008,14 +996,6 @@ struct skill_object
 
     ACTION exitbattle(eosio::name _user);
 
-    //테스트용 함수
-    ACTION partycheat(eosio::name _user);
-    ACTION herocheat(eosio::name _user);
-    ACTION setdata();
-
-    ACTION deletebattle(eosio::name _user);
-    ACTION deleteuser(eosio::name _user);
-
 #pragma endregion
 
 #pragma region tower_system
@@ -1044,22 +1024,18 @@ struct skill_object
     ACTION towersnap();
     ACTION claim(eosio::name _user, uint64_t _snapcount);
     ACTION settower(eosio::name _loser, eosio::name _winner, uint64_t _loser_party_num, uint64_t _winner_party_num);
-    ACTION testsnap();
 
 #pragma endregion
 
+    //테스트용 함수
+    ACTION testsnap();
 
+    ACTION partycheat(eosio::name _user);
+    ACTION herocheat(eosio::name _user);
+    ACTION setdata();
 
-
-
-
-
-
-
-
-
-
-
+    ACTION deletebattle(eosio::name _user);
+    ACTION deleteuser(eosio::name _user);
 
     //-------------------------------------------------------------------------------//
     //-----------------------------preregist_table-----------------------------------//
@@ -1159,11 +1135,7 @@ struct skill_object
         uint64_t primary_key() const { return owner.value; }
     };
     typedef eosio::multi_index<"tokenlog"_n, tokenlog> total_token_logs;
-
+ACTION inittokenlog();
     ACTION settokenlog();
 #pragma endregion
-
-
-
-
 };
