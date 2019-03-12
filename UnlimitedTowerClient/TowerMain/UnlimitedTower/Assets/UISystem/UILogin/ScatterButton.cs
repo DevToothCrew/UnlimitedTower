@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class ScatterButton : MonoBehaviour {
-
-    private string imagePath = "UI/LoginUI/";
+public class ScatterButton : MonoBehaviour
+{
+    private readonly string imagePath = "UI/LoginUI/";
     public Image objectImage;
 
     private Sprite scatterOn;

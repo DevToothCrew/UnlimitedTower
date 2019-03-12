@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class NodeObject : MonoBehaviour {
+public class NodeObject : MonoBehaviour
+{
     public Text nameText;
     public Text speedText;
 

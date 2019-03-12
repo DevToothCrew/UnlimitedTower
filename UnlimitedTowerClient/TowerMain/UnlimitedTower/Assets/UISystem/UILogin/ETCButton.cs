@@ -3,8 +3,7 @@ using UnityEngine.UI;
 
 public class ETCButton : MonoBehaviour
 {
-
-    private string imagePath = "UI/LoginUI/";
+    private readonly string imagePath = "UI/LoginUI/";
     public Image objectImage;
 
     private Sprite etcOn;

@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class EOStockButton : MonoBehaviour {
-
-    private string imagePath = "UI/LoginUI/";
+public class EOStockButton : MonoBehaviour
+{
+    private readonly string imagePath = "UI/LoginUI/";
     public Image objectImage;
 
     private Sprite eostockOn;

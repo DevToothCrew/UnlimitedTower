@@ -2,7 +2,8 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-public class NodeButton : MonoBehaviour {
+public class NodeButton : MonoBehaviour
+{
 
     public GameObject nodeList;
     public GameObject backButton;
@@ -29,15 +30,15 @@ public class NodeButton : MonoBehaviour {
         switch((NODE_LIST)nodeNum)
         {
             case NODE_LIST.ITAM:
-                nodeName.text = NODE_LIST.ITAM.ToString();
+                nodeName.text = "ITAM";
                 break;
 
             case NODE_LIST.EOSYS:
-                nodeName.text = NODE_LIST.EOSYS.ToString();
+                nodeName.text = "EOSYS";
                 break;
 
             case NODE_LIST.EOSeoul:
-                nodeName.text = NODE_LIST.EOSeoul.ToString();
+                nodeName.text = "EOSeoul";
                 break;
 
             default:
