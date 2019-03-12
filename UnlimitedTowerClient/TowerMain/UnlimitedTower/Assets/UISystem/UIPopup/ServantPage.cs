@@ -9,6 +9,8 @@ public class ServantPage : MonoBehaviour {
 
     public SERVANT_PAGE_STATE state;
 
+    private List<UserServantData> servantList;
+
     public void Awake()
     {
         state = SERVANT_PAGE_STATE.LIST;
@@ -31,7 +33,12 @@ public class ServantPage : MonoBehaviour {
 
         if (num == (int)SERVANT_PAGE_STATE.LIST)
         {
-            List<UserServantData> servantList = UserDataManager.Inst.GetServantList();
+            if(servantList != null)
+            {
+                return;
+            }
+
+            servantList = UserDataManager.Inst.GetServantList();
 
             if(servantList == null)
             {

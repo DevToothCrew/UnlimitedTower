@@ -344,7 +344,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
         UserDataManager.Inst.SetPartyInfo(partyInfo);
 
-        StartCoroutine(LoadSceneAsync("Lobby", "Logging in ... "));
+        if (userInfo.sceneState == SCENE_STATE.StageBattle)
+        {
+
+        }
+        else
+        {
+            StartCoroutine(LoadSceneAsync("Lobby", "Logging in ... "));
+        }
     }
 
     public bool ParseUserInfo(userData getUserData, ref UserInfo userInfo)
@@ -484,7 +491,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         monster.monsterTypeNum = getMonsterInfo.type;
 
         monster.gradeNum = getMonsterInfo.grade;
-        monster.enforceNum = getMonsterInfo.upgrade;
+        monster.upgradeCount = getMonsterInfo.upgrade;
 
         monster.teamNum = getPartyNum;
 

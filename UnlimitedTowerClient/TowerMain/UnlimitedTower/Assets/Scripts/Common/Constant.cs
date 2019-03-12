@@ -242,7 +242,7 @@ public class UserMonsterData
 
     // TODO : Monster별 State 추가 필요
     public int gradeNum;
-    public int enforceNum;
+    public int upgradeCount;
     public int exp;
     public int level
     {

@@ -1,315 +1,171 @@
 Eos = require('eosjs')
 config = require('../config/')
 
-var async = require('async');
-
 function Test() {}
 
-Test.get_table = function(req, res){
-    var func = "Get EOS Table";
-    
-    //var user = req.body.user;
+/**
+ * Create Seed number
+ * 
+ * @param req
+ * @param res
+ */
+Test.test = function(req, res){
+    const MongoOplog = require('mongo-oplog');
+    const oplog = MongoOplog('mongodb://devTooth:U0S91ydQ0uYPSaOqHz3T@eos-sg-00-00-mongo-00.itam.games:27017/local?replicaSet=eos-00&authSource=admin', 
+        { ns: 'EOS.action_traces', reconnectTries: 60, reconnectInterval: 1000 });
+    // 아래의 명령어를 통해 oplog 트리거 시작
+    oplog.tail();
+
+    oplog.on('insert', doc => {
+        const actionInfo = doc.o;
+        const action = actionInfo.act;
+        if(action.account == 'untowermain1'){
+            console.log(action.data._result);
+            res.status(200).send(action.data._result);
+            oplog.stop();
+        }
+    });
+
+    oplog.on('error', error => {
+        console.log(error);
+    });
+}
+
+Test.string = function(req, res){
+    var text = 'mon:2:20024:3:4:3:3';
+    let array = text.split(':');
+    var data = {
+        type : array[0],
+        index : array[1],
+        num : array[2],
+        grade : array[3],
+        str : array[4],
+        dex : array[5],
+        int : array[6]
+    }
+
+    res.status(200).send(data);
+}
+
+Test.timer = function(req, res){
+    const MongoOplog = require('mongo-oplog');
+    const oplog = MongoOplog('mongodb://devTooth:U0S91ydQ0uYPSaOqHz3T@eos-sg-00-00-mongo-00.itam.games:27017/local?replicaSet=eos-00&authSource=admin', 
+        { ns: 'EOS.action_traces', reconnectTries: 60, reconnectInterval: 1000 });
+    // 아래의 명령어를 통해 oplog 트리거 시작
+    oplog.tail();
+
+    oplog.on('insert', doc => {
+        const actionInfo = doc.o;
+        const action = actionInfo.act;
+        console.log(action);
+    });
+
+    var count = 0;
+    var timer = setInterval(function(){
+        if(count == 3){
+            clearInterval(timer);
+            oplog.stop();
+            res.status(200).send("gooog");
+        }
+        else{
+            count++;
+        }
+    }, 1000);
+
+    oplog.on('error', error => {
+        console.log(error);
+    });
+}
+
+
+Test.getEos = function(req, res){
 
     eos = Eos(config.eos);
 
-    async.parallel([
-        function(next){
-            eos.getTableRows({
-                code : 'canietest111',
-                scope : 'canietest111',
-                table : 'cservant',
-                json : true
-            }, function(err, servant){
-                if(err){
-                    next(err);
-                }
-                else{
-                    next(null, servant);
-                }
-            });
-        },
-        function(next){
-            eos.getTableRows({
-                code : 'canietest111',
-                scope : 'canietest111',
-                table : 'citem',
-                json : true
-            }, function(err, item){
-                if(err){
-                    next(err);
-                }
-                else{
-                    next(null, item);
-                }
-            });
-        },
-        function(next){
-            eos.getTableRows({
-                code : 'canietest111',
-                scope : 'canietest111',
-                table : 'cmonster',
-                json : true
-            }, function(err, monster){
-                if(err){
-                    next(err);
-                }
-                else{
-                    next(null, monster);
-                }
-            });
-        }
-    ],
-    function(err, tableData){
+    var user  = req.body.user;
+
+    eos.getTableRows({
+        code : 'eosio.token',
+        scope : user,
+        table : 'accounts',
+        limit : 100,
+        json : true
+    }, function(err, result){
         if(err){
-            console.log("Get Table Error");
+            res.status(200).send('Error');
         }
         else{
-            var user_data = {
-                servant: tableData[0],
-                item: tableData[1],
-                monster: tableData[2]
+            res.status(200).send(result);
+        }
+    });
+}
+
+Test.table1 = function(req, res){
+
+    eos = Eos(config.eos_jungle);
+
+    var user  = req.body.user;
+
+    eos.getTableRows({
+        code : config.contract.dev,
+        scope : config.contract.dev,
+        table : 'tclearreward',
+        lower_bound : user,
+        limit : 1,
+        json : true
+    }, function(err, result){
+        if(err){
+            res.status(200).send('Error');
+        }
+        else{
+            res.status(200).send(result.rows[0]);
+        }
+    });
+}
+
+Test.table2 = function(req, res){
+
+    eos = Eos(config.eos_jungle);
+
+    var user  = req.body.user;
+
+    eos.getTableRows({
+        code : config.contract.dev,
+        scope : config.contract.dev,
+        table : 'tbattlestate',
+        lower_bound : user,
+        limit : 1,
+        json : true
+    }, function(err, result){
+        if(err){
+            res.status(200).send('Error');
+        }
+        else{
+            res.status(200).send(result.rows[0]);
+        }
+    });
+}
+
+Test.table3 = function(req, res){
+
+    eos = Eos(config.eos_jungle);
+
+    var user  = req.body.user;
+
+    eos.getAccount(user, function(err, result){
+        if(err){
+            res.status(200).send('Error');
+        }
+        else{
+            var data = {
+                ram_quota : result.ram_quota,
+                net_weight : result.net_weight,
+                cpu_weight : result.cpu_weight,
+                net_limit : result.net_limit,
+                cpu_limit : result.cpu_limit,
+                ram_usage : result.ram_usage 
             }
-            res.status(200).send(user_data);
-        }
-    });
-}
-
-Test.table_update = function(req, res){
-    var func = "Table Update Test";
-
-    var user = req.body.user;
-    eos = Eos(config.eos);
-
-    async.waterfall([
-        // 테이블 정보 먼저 불러옴
-        function(callback){
-            eos.getTableRows({
-                code : 'doraemonydwy',
-                scope : user,
-                table : 'scores',
-                json : true
-            }, function(err, oldTable){
-                if(err){
-                    console.error("Fail to get table.");
-                }
-                else{
-                    console.log('Old Table : ',oldTable);
-                    callback(null, oldTable);
-                }
-            });
-        },
-        // 이전 테이블 정보과 현재 테이블 정보가 차이가 나면 될때까지 2초마다 새로운 테이블 불러옴
-        function(oldTable, callback){
-            /*
-            setTimeout(function(){
-                clearInterval(timer);
-                callback('error');
-            }, 10000);
-            */
-
-            var timer = setInterval(function(){
-                eos.getTableRows({
-                    code : 'doraemonydwy',
-                    scope : user,
-                    table : 'scores',
-                    json : true
-                }, function(err, newTable){
-                    console.log('New Table : ',newTable);
-                    if(err){
-                        console.error("Fail to get Table.");
-                    }
-                    else{
-                        if(oldTable.rows[0].num != newTable.rows[0].num){
-                            clearInterval(timer);
-                            callback(null, newTable);
-                        }
-                    }
-            })}, 1000);
-        }
-    ],
-    function(err, result){
-        if(err){
-            res.status(200).send("Get Table Test fail.");
-        }
-        else{
-            res.status(200).send(result);
-        }
-    });
-}
-
-Test.gacha = function(req, res){
-    var func = "gacha";
-
-    var user = req.body.user;
-    eos = Eos(config.eos);
-
-    async.waterfall([
-        function(callback){
-            async.parallel([
-                function(next){
-                    eos.getTableRows({
-                        code : 'canietest444',
-                        scope : 'canietest444',
-                        table : 'cservant',
-                        lower_bound : user,
-                        limit : 1,
-                        json : true
-                    }, function(err, servant){
-                        if(err){
-                            next(err);
-                        }
-                        else{
-                            next(null, servant);
-                        }
-                    });
-                },
-                function(next){
-                    eos.getTableRows({
-                        code : 'canietest444',
-                        scope : 'canietest444',
-                        table : 'citem',
-                        lower_bound : user,
-                        limit : 1,
-                        json : true
-                    }, function(err, item){
-                        if(err){
-                            next(err);
-                        }
-                        else{
-                            next(null, item);
-                        }
-                    });
-                },
-                function(next){
-                    eos.getTableRows({
-                        code : 'canietest444',
-                        scope : 'canietest444',
-                        table : 'cmonster',
-                        lower_bound : user,
-                        limit : 1,
-                        json : true
-                    }, function(err, monster){
-                        if(err){
-                            next(err);
-                        }
-                        else{
-                            next(null, monster);
-                        }
-                    });
-                }
-            ],
-            function(err, tableData){
-                if(err){
-                    console.log("Get Table Error");
-                }
-                else{
-                    var old_data = {
-                        servant: tableData[0],
-                        item: tableData[1],
-                        monster: tableData[2]
-                    }
-                    callback(null, old_data);
-                }
-            });
-        },
-        // 이전 테이블 정보과 현재 테이블 정보가 차이가 나면 될때까지 2초마다 새로운 테이블 불러옴
-        function(old_data, callback){
-            var count = 0;
-        
-            var timer = setInterval(function(){
-                async.parallel([
-                    function(next){
-                        eos.getTableRows({
-                            code : 'canietest444',
-                            scope : 'canietest444',
-                            table : 'cservant',
-                            lower_bound : user,
-                            limit : 1,
-                            json : true
-                        }, function(err, servant){
-                            if(err){
-                                next(err);
-                            }
-                            else{
-                                next(null, servant);
-                            }
-                        });
-                    },
-                    function(next){
-                        eos.getTableRows({
-                            code : 'canietest444',
-                            scope : 'canietest444',
-                            table : 'citem',
-                            lower_bound : user,
-                            limit : 1,
-                            json : true
-                        }, function(err, item){
-                            if(err){
-                                next(err);
-                            }
-                            else{
-                                next(null, item);
-                            }
-                        });
-                    },
-                    function(next){
-                        eos.getTableRows({
-                            code : 'canietest444',
-                            scope : 'canietest444',
-                            table : 'cmonster',
-                            lower_bound : user,
-                            limit : 1,
-                            json : true
-                        }, function(err, monster){
-                            if(err){
-                                next(err);
-                            }
-                            else{
-                                next(null, monster);
-                            }
-                        });
-                    }
-                ],
-                function(err, tableData){
-                    count += 1;
-                    if(err){
-                        console.log("Get Table Error");
-                    }
-                    else{
-                        var new_data = {
-                            servant: tableData[0],
-                            item: tableData[1],
-                            monster: tableData[2]
-                        }
-                        if(old_data.servant.rows[0].servant_list.length != new_data.servant.rows[0].servant_list.length){
-                            clearInterval(timer);
-                            new_data.servant.rows[0].servant_list[new_data.servant.rows[0].servant_list.length-1].result = "s";
-                            callback(null, new_data.servant.rows[0].servant_list[new_data.servant.rows[0].servant_list.length-1]);
-                        }
-                        if(old_data.item.rows[0].item_list.length != new_data.item.rows[0].item_list.length){
-                            clearInterval(timer);
-                            new_data.item.rows[0].item_list[new_data.item.rows[0].item_list.length-1].result = "i";
-                            callback(null, new_data.item.rows[0].item_list[new_data.item.rows[0].item_list.length-1]);
-                        }
-                        if(old_data.monster.rows[0].monster_list.length != new_data.monster.rows[0].monster_list.length){
-                            clearInterval(timer);
-                            new_data.monster.rows[0].monster_list[new_data.monster.rows[0].monster_list.length-1].result = "m";
-                            callback(null, new_data.monster.rows[0].monster_list[new_data.monster.rows[0].monster_list.length-1]);
-                        }
-                        if(count >= 5){
-                            clearInterval(timer);
-                            callback('error');
-                        }
-                    }
-                })}, 2000);
-        }
-    ],
-    function(err, result){
-        if(err){
-            res.status(200).send("Fail to get gacha data");
-        }
-        else{
-            res.status(200).send(result);
+            res.status(200).send(data);
         }
     });
 }

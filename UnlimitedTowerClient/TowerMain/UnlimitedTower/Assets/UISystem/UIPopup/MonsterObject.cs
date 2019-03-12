@@ -24,7 +24,7 @@ public class MonsterObject : MonoBehaviour {
 
         monsterData = getMonsterData;
 
-        gradeImage.GetComponent<Image>().sprite = GetGradeImage(5);
+        gradeImage.GetComponent<Image>().sprite = GetGradeImage(monsterData.gradeNum);
         gradeImage.SetActive(true);
 
         typeImage.SetActive(false);
@@ -34,6 +34,16 @@ public class MonsterObject : MonoBehaviour {
 
         level.GetComponent<Text>().text = "Lv." + getMonsterData.level.ToString();
         level.SetActive(true);
+
+        if(getMonsterData.upgradeCount > 0)
+        {
+            upgradeText.GetComponent<Text>().text = "+" + getMonsterData.upgradeCount.ToString();
+            upgradeText.SetActive(true);
+        }
+        else
+        {
+            upgradeText.SetActive(false);
+        }
 
         maxLevel.SetActive(false);
     }
