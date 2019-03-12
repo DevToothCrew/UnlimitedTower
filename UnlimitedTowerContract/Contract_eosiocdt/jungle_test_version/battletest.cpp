@@ -2403,7 +2403,6 @@ ACTION battletest::startbattle(eosio::name _user, uint32_t _party_number, uint32
                 monster_battle_state.speed = beginner_speed;
                 monster_battle_state.index = 0;
                 monster_battle_state.id = monster_id_iter->monster_id;
-                ;
                 monster_battle_state.position = enemy_pos_list[i];
                 monster_battle_state.state = battle_action_state::live;
                 new_battle_set.enemy_state_list.push_back(monster_battle_state);
@@ -2870,6 +2869,31 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _hero_action, uint32_t
     }
 }
 
+bool battletest::check_level_up(uint64_t _cur_exp, uint64_t _pre_exp)
+{
+    lv_exp lv_exp_table(_self, _self.value);
+
+    uint64_t level_up_line;
+    for(auto iter = lv_exp_table.begin(); iter != lv_exp_table.end();)
+    {
+        if(iter->exp > _cur_exp)
+        {
+            level_up_line = iter->exp;
+            break;
+        }
+        iter++;
+    }
+
+    if (level_up_line <= _pre_exp)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 void battletest::win_reward(eosio::name _user)
 {
     user_logs user_log_table(_self, _self.value);
@@ -2926,11 +2950,21 @@ void battletest::win_reward(eosio::name _user)
     auth_users user_auth_table(_self, _self.value);
     auto user_auth_iter = user_auth_table.find(_user.value);
     eosio_assert(user_auth_iter != user_auth_table.end(), "Not Exist Hero");
+    uint64_t cur_exp = user_auth_iter->hero.exp + 100;
+    uint64_t pre_exp = user_auth_iter->hero.exp;
     user_auth_table.modify(user_auth_iter, _self, [&](auto &upadate_hero_exp) {
-        upadate_hero_exp.hero.exp += 100;
+        if (true == check_level_up(cur_exp, pre_exp))
+        {
+            upadate_hero_exp.hero.stat_point += 1;
+            upadate_hero_exp.hero.exp += 100;
+        }
+        else{
+            upadate_hero_exp.hero.exp += 100;
+        }
         upadate_hero_exp.state = user_state::lobby;
     });
 
+    lv_exp lv_exp_table(_self, _self.value);
     user_servants user_servant_table(_self, _user.value);
     for (uint32_t i = 0; i < 4; ++i)
     {
@@ -2939,8 +2973,18 @@ void battletest::win_reward(eosio::name _user)
             continue;
         }
         auto user_servant_iter = user_servant_table.find(user_party_iter->servant_list[i]);
+        uint64_t cur_exp = user_servant_iter->servant.exp + 100;
+        uint64_t pre_exp = user_servant_iter->servant.exp;
         user_servant_table.modify(user_servant_iter, _self, [&](auto &update_servant_exp) {
-            update_servant_exp.servant.exp += 100;
+            if (true == check_level_up(cur_exp, pre_exp))
+            {
+                update_servant_exp.servant.stat_point += 1;
+                update_servant_exp.servant.exp += 100;
+            }
+            else
+            {
+                update_servant_exp.servant.exp += 100;
+            }
         });
     }
 
@@ -2952,8 +2996,17 @@ void battletest::win_reward(eosio::name _user)
             continue;
         }
         auto user_monster_iter = user_monster_table.find(user_party_iter->monster_list[i]);
+        uint64_t cur_exp = user_monster_iter->monster.exp + 100;
+        uint64_t pre_exp = user_monster_iter->monster.exp;
         user_monster_table.modify(user_monster_iter, _self, [&](auto &update_monster_exp) {
-            update_monster_exp.monster.exp += 100;
+            if (true == check_level_up(cur_exp, pre_exp))
+            {
+                update_monster_exp.monster.exp += 100;
+            }
+            else
+            {
+                update_monster_exp.monster.exp += 100;
+            }
         });
     }
 
@@ -4165,6 +4218,43 @@ ACTION battletest::deleteuser(eosio::name _user)
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+ACTION battletest::balancetest(eosio::name _user)
+{
+    user_servants user_servant_table(_self, _user.value);
+    for(auto iter = user_servant_table.begin(); iter != user_servant_table.end();)
+    {
+        auto user_servant_iter = user_servant_table.find(iter->primary_key());
+        user_servant_table.modify(user_servant_iter, _self, [&](auto &set_servant_status)
+        {
+
+        });
+        iter++;
+    }
+
+    user_monsters user_monster_table(_self, _user.value);
+    for(auto iter = user_monster_table.begin(); iter != user_monster_table.end();)
+    {
+        auto user_monster_iter = user_monster_table.find(iter->primary_key());
+        user_monster_table.modify(user_monster_iter, _self, [&](auto &set_monster_status)
+        {
+
+        });
+        iter++;
+    }
+
+    // user_items user_item_table(_self, _user.value);
+    // for(auto iter = user_item_table.begin(); iter != user_item_table.end();)
+    // {
+    //     auto user_item_iter = user_item_table.find(iter->primary_key());
+    //     user_item_table.modify(user_item_iter, _self, [&](auto &set_item_status)
+    //     {
+
+    //     });
+    //     iter++;
+    // }
+}
+
 #undef EOSIO_DISPATCH
 
 #define EOSIO_DISPATCH(TYPE, MEMBERS)                                                          \
@@ -4190,4 +4280,4 @@ ACTION battletest::deleteuser(eosio::name _user)
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(battletest, (testsnap)(towersnap)(claim)(settower)(equipment)(unequipment)(itemstore)(sellobject)(upgrade)(dberasestg)(dbinsertstg)(deletewhite)(addwhite)(deleteuser)(exitbattle)(deletebattle)(startbattle)(activeturn)(setdata)(herocheat)(partycheat)(resultpre)(resultgacha)(create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dberase)(dbinit))
+EOSIO_DISPATCH(battletest, (balancetest)(testsnap)(towersnap)(claim)(settower)(equipment)(unequipment)(itemstore)(sellobject)(upgrade)(dberasestg)(dbinsertstg)(deletewhite)(addwhite)(deleteuser)(exitbattle)(deletebattle)(startbattle)(activeturn)(setdata)(herocheat)(partycheat)(resultpre)(resultgacha)(create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dberase)(dbinit))

@@ -26,6 +26,9 @@ CONTRACT battletest : public contract
     }
 #pragma endregion
 
+
+
+
     //------------------------------------------------------------------------//
     //-----------------------------db_table-----------------------------------//
     //------------------------------------------------------------------------//
@@ -990,6 +993,7 @@ CONTRACT battletest : public contract
     int get_random_target(const std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint32_t _max, uint32_t _min);
     int get_target_key(const std::vector<battle_state> &_enemy_state_list, uint64_t _target_position);
     static bool sort_compare(const battle_order_struct &a, const battle_order_struct &b);
+    bool check_level_up(uint64_t _cur_exp, uint64_t _pre_exp);
     void win_reward(eosio::name _user);
     void fail_reward(eosio::name _user);
     ACTION activeturn(eosio::name _user, uint32_t _hero_action, uint32_t _monster_action, uint32_t _hero_target, uint32_t _monster_target, std::string _seed);
@@ -1034,6 +1038,7 @@ CONTRACT battletest : public contract
     ACTION herocheat(eosio::name _user);
     ACTION setdata();
 
+    ACTION balancetest(eosio::name _user);
     ACTION deletebattle(eosio::name _user);
     ACTION deleteuser(eosio::name _user);
 
