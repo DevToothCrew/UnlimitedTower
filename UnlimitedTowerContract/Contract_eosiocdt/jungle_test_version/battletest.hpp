@@ -26,7 +26,6 @@ CONTRACT battletest : public contract
     }
 #pragma endregion
 
-
     std::vector<uint32_t> servant_status_list = {10, 12, 15, 18, 22, 25, 30, 35, 50, 70};
 
     std::vector<uint32_t> monster_common_status_list = {25, 27, 30, 32, 35, 37, 40, 42, 45, 47};
@@ -35,27 +34,27 @@ CONTRACT battletest : public contract
     std::vector<uint32_t> monster_unique_status_list = {100, 105, 110, 115, 120, 125, 130, 135, 140, 145};
     std::vector<uint32_t> monster_legendary_status_list = {150, 160, 170, 180, 190, 200, 210, 220, 230, 240};
 
-    std::vector<uint32_t> warrior_level_up = {9,4,2};
-    std::vector<uint32_t> thief_level_up = {4,9,2};
-    std::vector<uint32_t> cleric_level_up = {5,3,7};
-    std::vector<uint32_t> archer_level_up = {4,7,4};
-    std::vector<uint32_t> magician_level_up = {3,3,9};
+    std::vector<uint32_t> warrior_level_up = {9, 4, 2};
+    std::vector<uint32_t> thief_level_up = {4, 9, 2};
+    std::vector<uint32_t> cleric_level_up = {5, 3, 7};
+    std::vector<uint32_t> archer_level_up = {4, 7, 4};
+    std::vector<uint32_t> magician_level_up = {3, 3, 9};
 
-    std::vector<uint32_t> common_str = {6,2,2};
-    std::vector<uint32_t> common_dex = {2,6,2};
-    std::vector<uint32_t> common_int = {2,2,6};
+    std::vector<uint32_t> common_str = {6, 2, 2};
+    std::vector<uint32_t> common_dex = {2, 6, 2};
+    std::vector<uint32_t> common_int = {2, 2, 6};
 
-    std::vector<uint32_t> uncommon_str = {9,3,3};
-    std::vector<uint32_t> uncommon_dex = {3,9,3};
-    std::vector<uint32_t> uncommon_int = {3,3,9};
+    std::vector<uint32_t> uncommon_str = {9, 3, 3};
+    std::vector<uint32_t> uncommon_dex = {3, 9, 3};
+    std::vector<uint32_t> uncommon_int = {3, 3, 9};
 
-    std::vector<uint32_t> rare_str = {12,5,5};
-    std::vector<uint32_t> rare_dex = {5,12,5};
-    std::vector<uint32_t> rare_int = {5,5,12};
+    std::vector<uint32_t> rare_str = {12, 5, 5};
+    std::vector<uint32_t> rare_dex = {5, 12, 5};
+    std::vector<uint32_t> rare_int = {5, 5, 12};
 
-    std::vector<uint32_t> unique_str = {15,7,7};
-    std::vector<uint32_t> unique_dex = {7,15,7};
-    std::vector<uint32_t> unique_int = {7,7,15};
+    std::vector<uint32_t> unique_str = {15, 7, 7};
+    std::vector<uint32_t> unique_dex = {7, 15, 7};
+    std::vector<uint32_t> unique_int = {7, 7, 15};
 
     std::vector<uint32_t> legenary_str = {24, 9, 9};
     std::vector<uint32_t> legenary_dex = {9, 24, 9};
@@ -719,7 +718,6 @@ CONTRACT battletest : public contract
     //------------------------------------------------------------------------//
     //-----------------------------whitelist------------------------------//
     //------------------------------------------------------------------------//
-    
 
 #pragma region whitelist
     TABLE twhitelist
@@ -1010,9 +1008,9 @@ CONTRACT battletest : public contract
     //-------------------------------battle_function--------------------------//
     //------------------------------------------------------------------------//
 #pragma region battle function
-    status_info get_level_up_monster_status(uint64_t _id, uint64_t _grade ,status_info _status);
+    status_info get_level_up_monster_status(uint64_t _id, uint64_t _grade, status_info _status);
     status_info get_level_up_servant_status(uint64_t _job, status_info _status);
-    status_info get_grade_status(uint64_t _grade ,status_info _status);
+    status_info get_grade_status(uint64_t _grade, status_info _status);
     uint32_t get_monster_attack(uint64_t _id, status_info _status);
     uint32_t get_attack(uint32_t _job, status_info _status);
     uint32_t get_speed(uint32_t _job);
@@ -1074,6 +1072,8 @@ CONTRACT battletest : public contract
     ACTION setdata();
 
     ACTION balancetest(eosio::name _user);
+    ACTION change(eosio::name _user, std::string _kind, uint64_t _grade, uint64_t _id, std::string _status);
+
     ACTION deletebattle(eosio::name _user);
     ACTION deleteuser(eosio::name _user);
 
@@ -1175,7 +1175,7 @@ CONTRACT battletest : public contract
         uint64_t primary_key() const { return owner.value; }
     };
     typedef eosio::multi_index<"tokenlog"_n, tokenlog> total_token_logs;
-ACTION inittokenlog();
+    ACTION inittokenlog();
     ACTION settokenlog();
 #pragma endregion
 };
