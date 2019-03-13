@@ -1317,6 +1317,18 @@ ACTION battletest::settokenlog()
 //------------------------------------------------------------------------//
 
 #pragma region login
+ACTION battletest::completehero(eosio::name _user)
+{
+    auth_users auth_user_table(_self, _self.value);
+    auto auth_user_iter = auth_user_table.find(_user.value);
+    eosio_assert(auth_user_iter != auth_user_table.end(), "Not exist User info");
+    eosio_assert(auth_user_iter->state == user_state::dice, "Already Complete Hero");
+    auth_user_table.modify(auth_user_iter, _self, [&](auto &set_user)
+    {
+        set_user.state = user_state::lobby;
+    });
+}
+
 
 ACTION battletest::lookset(eosio::name _user, uint64_t _body, uint64_t _head, uint64_t _hair, uint64_t _gender, std::string _seed)
 {
@@ -1334,9 +1346,7 @@ ACTION battletest::lookset(eosio::name _user, uint64_t _body, uint64_t _head, ui
     uint64_t status_seed = safeseed::get_seed_value(user, check_result);
 
     std::vector<uint64_t> status_list;
-    uint64_t temp_seed = safeseed::get_random_value(status_seed, hero_total_status, hero_total_status, DEFAULE_RANDOM_COUNT);
-
-    safeseed::get_total_rand(status_list, temp_seed);
+    safeseed::get_total_rand(status_list, hero_total_status ,status_seed);
 
     auth_users auth_user_table(_self, _self.value);
     auto auth_user_iter = auth_user_table.find(_user.value);
@@ -1354,25 +1364,22 @@ ACTION battletest::lookset(eosio::name _user, uint64_t _body, uint64_t _head, ui
     gender_db gender_db_table(_self, _self.value);
     auto gender_db_iter = gender_db_table.get(_gender, "not exist gender info");
 
-       eosio_assert(auth_user_iter->state == hero_state::set_look,"already completed look setting");
+    eosio_assert(auth_user_iter->state == user_state::look, "already completed look setting");
 
-        auth_user_table.modify(auth_user_iter, _self, [&](auto &hero_look_set) {
-            hero_look_set.state = hero_state::set_status;
-            hero_look_set.hero.appear.head = _head;
-            hero_look_set.hero.appear.hair = _hair;
-            hero_look_set.hero.appear.body = _body;
-            hero_look_set.hero.appear.gender = _gender;
-            hero_look_set.hero.status.basic_str = status_list[0];
-            hero_look_set.hero.status.basic_dex = status_list[1];
-            hero_look_set.hero.status.basic_int = status_list[2];
-            hero_look_set.hero.status.plus_str = 0;
-            hero_look_set.hero.status.plus_dex = 0;
-            hero_look_set.hero.status.plus_int = 0;
+    auth_user_table.modify(auth_user_iter, _self, [&](auto &hero_look_set) {
+        hero_look_set.state = user_state::dice;
 
-        }); 
-        
-
-
+        hero_look_set.hero.appear.head = _head;
+        hero_look_set.hero.appear.hair = _hair;
+        hero_look_set.hero.appear.body = _body;
+        hero_look_set.hero.appear.gender = _gender;
+        hero_look_set.hero.status.basic_str = status_list[0];
+        hero_look_set.hero.status.basic_dex = status_list[1];
+        hero_look_set.hero.status.basic_int = status_list[2];
+        hero_look_set.hero.status.plus_str = 0;
+        hero_look_set.hero.status.plus_dex = 0;
+        hero_look_set.hero.status.plus_int = 0;
+    });
 }
 
 void battletest::signup(eosio::name _user)
@@ -1383,10 +1390,10 @@ void battletest::signup(eosio::name _user)
 
     auth_user_table.emplace(_self, [&](auto &new_user) {
         new_user.user = _user;
-        new_user.state = user_state::lobby;
+        new_user.state = user_state::look;
 
         hero_info new_hero;
-        new_hero.state = hero_state::set_look;
+        new_hero.state = object_state::on_inventory;
         new_hero.equip_slot.resize(3);
 
         new_user.hero = new_hero;
@@ -1415,29 +1422,25 @@ void battletest::signup(eosio::name _user)
     });
 }
 
-
 void battletest::change_status(eosio::name _user, uint64_t _seed)
 {
 
     auth_users auth_user_table(_self, _self.value);
     auto auth_user_iter = auth_user_table.find(_user.value);
     eosio_assert(auth_user_iter != auth_user_table.end(), "Not Exist auth user log");
+    eosio_assert(auth_user_iter->state == user_state::dice, "Impossible Status Dice");
 
     uint64_t l_user = get_user_seed_value(_user.value);
     uint64_t l_seed = safeseed::get_seed_value(l_user, _seed);
 
     std::vector<uint64_t> status_list;
-    uint64_t temp_seed = safeseed::get_random_value(l_seed, hero_total_status, hero_total_status, DEFAULE_RANDOM_COUNT);
-
-    safeseed::get_total_rand(status_list, temp_seed);
+    safeseed::get_total_rand(status_list, hero_total_status, l_seed);
 
     auth_user_table.modify(auth_user_iter, _self, [&](auto &hero_look_set) {
-            hero_look_set.hero.status.basic_str = status_list[0];
-            hero_look_set.hero.status.basic_dex = status_list[1];
-            hero_look_set.hero.status.basic_int = status_list[2];
-
-        }); 
-        
+        hero_look_set.hero.status.basic_str = status_list[0];
+        hero_look_set.hero.status.basic_dex = status_list[1];
+        hero_look_set.hero.status.basic_int = status_list[2];
+    });
 }
 
 // eosio.token recipient
@@ -1456,7 +1459,7 @@ ACTION battletest::eostransfer(eosio::name sender, eosio::name receiver)
 
     eosiotoken_transfer(sender, receiver, [&](const auto &ad) {
         eosio_assert(ad.action.size() != 0, "Wrong Action");
-        eosio_assert(ad.action != action_signup, "Need Presignup");
+        //eosio_assert(ad.action != action_signup, "Need Presignup");
         if (ad.action == action_signup)
         {
             signup(sender);
@@ -1503,7 +1506,6 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
         std::string l_sha = transfer_data.memo.substr(l_next + 1, l_end);
 
         res.type = safeseed::check_seed(l_seed, l_sha);
-        res.quantity = transfer_data.quantity;
 
         eosio_assert(res.type != 0, "Wrong seed convert");
     }
@@ -1541,7 +1543,6 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
         std::string l_sha = transfer_data.memo.substr(l_next + 1, l_end);
 
         res.type = safeseed::check_seed(l_seed, l_sha);
-        res.quantity = transfer_data.quantity;
 
         eosio_assert(res.type != 0, "Wrong seed convert");
     }
@@ -2223,7 +2224,7 @@ ACTION battletest::herocheat(eosio::name _user)
         new_user.state = user_state::lobby;
 
         hero_info new_hero;
-        new_hero.state = hero_state::set_complete;
+        new_hero.state = object_state::on_inventory;
         new_hero.appear.body = 1;
         new_hero.appear.head = 1;
         new_hero.appear.hair = 1;
@@ -2851,7 +2852,7 @@ ACTION battletest::startbattle(eosio::name _user, uint32_t _party_number, uint32
     auth_users user_auth_table(_self, _self.value);
     auto user_auth_iter = user_auth_table.find(_user.value);
     eosio_assert(user_auth_iter != user_auth_table.end(), "Not Exist User 3");
-    eosio_assert(user_auth_iter->state != user_state::stage && user_auth_iter->state != user_state::tower, "Already Battle");
+    eosio_assert(user_auth_iter->state == user_state::lobby, "Already Battle");
     user_auth_table.modify(user_auth_iter, _self, [&](auto &user_state_change) {
         user_state_change.state = user_state::stage;
     });
@@ -4942,4 +4943,4 @@ ACTION battletest::change(eosio::name _user, std::string _kind , uint64_t _grade
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(battletest, (lookset)(dbmove)(change)(balancetest)(testsnap)(towersnap)(claim)(settower)(equipment)(unequipment)(itemstore)(sellobject)(upgrade)(dberasestg)(dbinsertstg)(deletewhite)(addwhite)(deleteuser)(exitbattle)(deletebattle)(startbattle)(activeturn)(setdata)(herocheat)(partycheat)(resultpre)(resultgacha)(create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dberase)(dbinit))
+EOSIO_DISPATCH(battletest, (completehero)(lookset)(dbmove)(change)(balancetest)(testsnap)(towersnap)(claim)(settower)(equipment)(unequipment)(itemstore)(sellobject)(upgrade)(dberasestg)(dbinsertstg)(deletewhite)(addwhite)(deleteuser)(exitbattle)(deletebattle)(startbattle)(activeturn)(setdata)(herocheat)(partycheat)(resultpre)(resultgacha)(create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dberase)(dbinit))

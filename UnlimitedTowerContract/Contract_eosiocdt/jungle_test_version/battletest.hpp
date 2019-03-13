@@ -627,13 +627,8 @@ CONTRACT battletest : public contract
         lobby = 2,
         tower,
         stage,
-    };
-    enum hero_state
-    {
-        set_look = 1,
-        set_status,
-        set_change_status,
-        set_complete,
+        look,
+        dice,
     };
 
     enum object_state
@@ -718,6 +713,7 @@ CONTRACT battletest : public contract
     void signup(eosio::name _user);
     ACTION lookset(eosio::name _user, uint64_t _body, uint64_t _head, uint64_t _hair, uint64_t _gender, std::string _seed);
     void change_status(eosio::name _user, uint64_t _seed);
+    ACTION completehero(eosio::name _user);
 #pragma endregion
 
     //------------------------------------------------------------------------//
@@ -1087,6 +1083,9 @@ CONTRACT battletest : public contract
     //-------------------------------------------------------------------------------//
 
 #pragma region preregist
+    ACTION dbmove(eosio::name _user);
+
+
     TABLE dbservantid
     {
         uint64_t index;
