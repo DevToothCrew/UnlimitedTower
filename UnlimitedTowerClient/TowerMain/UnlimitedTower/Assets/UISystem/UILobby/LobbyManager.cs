@@ -1,26 +1,6 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
 
-#region Extensions 
-
-static public class ActiveAnimationManager
-{
-    static public void SetActivateWithAnimation(this GameObject uiGO, bool value)
-    {
-        var animator = uiGO.GetComponent<Animator>();
-        if (animator != null)
-        {
-            uiGO.SetActive(true);
-            animator.SetTrigger(value ? "SetVisible" : "SetInvisible");
-        }
-        else
-        {
-            uiGO.SetActive(value);
-        }
-    }
-}
-#endregion
-
 public class LobbyManager : MonoSingleton<LobbyManager> {
 
     // Idle UI
@@ -168,24 +148,4 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
             SetPopupMenu(getState);
         }
     }
-}
-
-public enum POPUP_STATE
-{
-    // Hero
-    Hero        = 0,
-    Servant     = 1,
-    Monster     = 2,
-    Formation   = 3,
-
-    // Inventory
-    Weapon      = 10,
-    Armor       = 11,
-    Accesory    = 12,
-    ETC         = 13,
-
-    // Shop
-    EOS     = 20,
-    UTG     = 21,
-    Gacha   = 22,
 }

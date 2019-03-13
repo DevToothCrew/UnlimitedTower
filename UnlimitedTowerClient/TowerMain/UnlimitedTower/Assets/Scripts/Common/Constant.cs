@@ -2,6 +2,26 @@
 using UnityEngine;
 using System;
 
+#region Extensions
+
+static public class ActiveAnimationManager
+{
+    static public void SetActivateWithAnimation(this GameObject uiGO, bool value)
+    {
+        var animator = uiGO.GetComponent<Animator>();
+        if (animator != null)
+        {
+            uiGO.SetActive(true);
+            animator.SetTrigger(value ? "SetVisible" : "SetInvisible");
+        }
+        else
+        {
+            uiGO.SetActive(value);
+        }
+    }
+}
+
+#endregion
 
 //공통 사항을 모아둔 클래스.
 public class DEFINE
@@ -652,6 +672,26 @@ public enum STATUS_TYPE
     STR = 0,
     DEX = 1,
     INT = 2
+}
+
+public enum POPUP_STATE
+{
+    // Hero
+    Hero = 0,
+    Servant = 1,
+    Monster = 2,
+    Formation = 3,
+
+    // Inventory
+    Weapon = 10,
+    Armor = 11,
+    Accesory = 12,
+    ETC = 13,
+
+    // Shop
+    EOS = 20,
+    UTG = 21,
+    Gacha = 22,
 }
 
 #endregion
