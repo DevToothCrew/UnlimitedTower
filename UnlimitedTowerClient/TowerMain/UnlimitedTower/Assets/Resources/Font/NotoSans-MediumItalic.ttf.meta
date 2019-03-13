@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b678ab7e98608894b9bd7b9cc7453fd2
+guid: 44426e426434781479e4a6cb97f3259f
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -8,10 +8,11 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: GalanoGrotesqueDEMO-Bold
+  fontName: Noto Sans
   fontNames:
-  - GalanoGrotesqueDEMO-Bold
-  fallbackFontReferences: []
+  - Noto Sans
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 6dcc29a7d9330c34ea0decc8523495fc, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1
