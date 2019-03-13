@@ -900,13 +900,12 @@ CONTRACT battletest : public contract
     const uint32_t beginner_speed = 12;
 
   private:
-    const uint32_t oper_hp = 220;
-    const uint32_t oper_attack = 20;
-    const uint32_t oper_defense = 10;
+    const uint32_t oper_attack = 2;
+    const uint32_t oper_defense = 1;
     const uint32_t oper_critical = 5;
     const uint32_t oper_critical_damage = 15000;
     const uint32_t oper_avoid = 5;
-    const uint32_t defense_constant = 200;
+    const uint32_t defense_constant = 2000;
 
     const uint32_t decimal = 100;
     const uint32_t max_battle_member_count = 20;

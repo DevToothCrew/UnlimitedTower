@@ -2482,24 +2482,25 @@ uint32_t battletest::get_monster_attack(uint64_t _id, status_info _status)
     if (monster_iter->main_status == 1)     //힘
     {
         attack = (_status.basic_str + _status.plus_str) * oper_attack;
+        attack = attack * decimal;
         return attack;
     }
     else if (monster_iter->main_status == 2)    //민
     {
         attack = (_status.basic_dex + _status.plus_dex) * oper_attack;
+        attack = attack * decimal;
         return attack;
     }
     else if (monster_iter->main_status == 3)    //지
     {
         attack = (_status.basic_int + _status.plus_int) * oper_attack;
+        attack = attack * decimal;
         return attack;
     }
     else
     {
         return attack;
     }
-
-    return attack;
 }
 
 
@@ -2704,16 +2705,19 @@ uint32_t battletest::get_attack(uint32_t _job, status_info _status)
     if (_job == job_list::warrior || _job == job_list::beginner)
     {
         attack = (_status.basic_str + _status.plus_str) * oper_attack;
+        attack = attack * decimal;
         return attack;
     }
     else if (_job == job_list::archer || _job == job_list::thief)
     {
         attack = (_status.basic_dex + _status.plus_dex) * oper_attack;
+        attack = attack * decimal;
         return attack;
     }
     else if (_job == job_list::wizard || _job == job_list::priest)
     {
         attack = (_status.basic_int + _status.plus_int) * oper_attack;
+        attack = attack * decimal;
         return attack;
     }
     else
@@ -2756,7 +2760,7 @@ uint32_t battletest::get_speed(uint32_t _job)
 
 uint64_t battletest::get_damage(uint32_t _atk, uint32_t _dfs)
 {
-    uint32_t damage = (_atk * ((defense_constant * decimal) / (defense_constant + _dfs))) / decimal;
+    uint32_t damage = (_atk * ((defense_constant * decimal) / (defense_constant + _dfs)));
     return damage;
 }
 
@@ -2766,7 +2770,7 @@ battletest::battle_state battletest::get_stage_state(status_info _status, uint64
     auto monster_iter = monster_db_table.find(_id);
 
     battle_state get_state;
-    get_state.now_hp = ((_status.basic_str + _status.plus_str) * 1400) + ((_status.basic_dex + _status.plus_dex) * 500) + ((_status.basic_int + _status.plus_int) * 300);
+    get_state.now_hp =( ((_status.basic_str + _status.plus_str) * 14) + ((_status.basic_dex + _status.plus_dex) * 5) + ((_status.basic_int + _status.plus_int) * 3) ) * decimal;
     if (get_state.now_hp == 0)
     {
         get_state.now_hp = 10;
@@ -2781,7 +2785,7 @@ battletest::battle_state battletest::get_stage_state(status_info _status, uint64
         get_state.attack = get_monster_attack(_id, _status);
         get_state.crit_dmg = get_monster_attack(_id, _status) * oper_critical_damage / 10000;
     }
-    get_state.defense = (_status.basic_dex + _status.plus_dex) * oper_defense;
+    get_state.defense = (_status.basic_dex + _status.plus_dex) * oper_defense * decimal;
     get_state.crit_per = oper_critical;
     get_state.avoid = 5;
     get_state.speed = get_speed(_job);
