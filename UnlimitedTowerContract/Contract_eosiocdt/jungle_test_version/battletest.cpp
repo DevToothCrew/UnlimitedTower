@@ -2760,7 +2760,8 @@ uint32_t battletest::get_speed(uint32_t _job)
 
 uint64_t battletest::get_damage(uint32_t _atk, uint32_t _dfs)
 {
-    uint32_t damage = (_atk * ((defense_constant * decimal) / (defense_constant + _dfs)));
+    _atk = _atk / decimal;
+    uint32_t damage = (_atk * ((defense_constant * decimal) / (defense_constant + (_dfs / decimal))));
     return damage;
 }
 
@@ -2785,7 +2786,7 @@ battletest::battle_state battletest::get_stage_state(status_info _status, uint64
         get_state.attack = get_monster_attack(_id, _status);
         get_state.crit_dmg = get_monster_attack(_id, _status) * oper_critical_damage / 10000;
     }
-    get_state.defense = (_status.basic_dex + _status.plus_dex) * oper_defense * decimal;
+    get_state.defense = ((_status.basic_dex + _status.plus_dex) * oper_defense) * decimal;
     get_state.crit_per = oper_critical;
     get_state.avoid = 5;
     get_state.speed = get_speed(_job);
