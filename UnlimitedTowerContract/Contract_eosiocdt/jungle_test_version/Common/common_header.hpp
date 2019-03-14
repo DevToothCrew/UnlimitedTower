@@ -18,6 +18,7 @@
 #define EMPTY_PARTY             0
 #define HERO_LOCATION           0
 #define PAIR_SLOT               5
+#define WRONG_TARGET            100000
 
 //============Gacha==============//
 //최대값의 + 1로 지정해야한다

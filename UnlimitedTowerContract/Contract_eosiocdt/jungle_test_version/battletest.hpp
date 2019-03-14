@@ -25,6 +25,34 @@ CONTRACT battletest : public contract
         owner_auth.permission = "owner"_n;
     }
 #pragma endregion
+    enum grade_list
+    {
+        ser = 0,
+        legenary = 1,
+        unique,
+        rare,
+        uncommon,
+        common = 5,
+    };
+    enum status_grade_list
+    {
+        common_d = 0,
+        plus_d,
+        common_c,
+        plus_c,
+        common_b,
+        plus_b,
+        common_a,
+        plus_a,
+        common_s,
+        plus_s = 9,
+    };
+    enum monster_main_status
+    {
+        main_str = 1,
+        main_dex = 2,
+        main_int = 3,
+    };
 
     std::vector<uint32_t> servant_status_list = {10, 12, 15, 18, 22, 25, 30, 35, 50, 70};
 
@@ -180,9 +208,9 @@ CONTRACT battletest : public contract
 
     struct skill_object
     {
-        uint64_t skill_1;
-        uint64_t skill_2;
-        uint64_t skill_3;
+        uint64_t passive_skill_1 = 0;
+        uint64_t active_skill_2 = 0;
+        uint64_t active_skill_3 = 0;
     };
 
     TABLE monsterdb
@@ -245,6 +273,7 @@ CONTRACT battletest : public contract
     };
     typedef eosio::multi_index<"dbservant"_n, servantdb, indexed_by<"second"_n, const_mem_fun<servantdb, uint64_t, &servantdb::secondary_key>>> servant_db;
 #pragma endregion
+
     //servant_db servant_db_table(_self, _self.value);
     //auto servant_db_iter = servant_db_table.get_index<"second"_n>();   //샘플
 
@@ -886,6 +915,11 @@ CONTRACT battletest : public contract
         strength_flag,    //힘의 깃발 - 자신의 양 옆 캐릭터에게 공격력 15% 상승 버프를 부여
         sniper,           //저격수 - 자신의 앞에 캐릭터가 존재할 경우 공격력 50% 증가
         strength_collect, //힘모으기 - 방어시 다음 턴 공격력 25% 증가
+        attack_increase,    //공격력 영구 증가
+        defense_increase,   //방어력 영구 증가
+        hp_increase,        //체력 일정량 증가
+        widespread,         //체력 30%이하 감소시 공격력 2배 증가
+        nemesis,            //천적 직업 타격시 공격력 2배 증가
         passive_skill_count,
     };
 
@@ -1017,11 +1051,13 @@ CONTRACT battletest : public contract
     battle_state get_stage_state(status_info _status, uint64_t _job, uint64_t _index, uint64_t _id, uint64_t _position);
     ACTION startbattle(eosio::name _user, uint32_t _party_number, uint32_t _stage);
 
+
+    bool check_passive(uint64_t _id);
     uint32_t get_buff_turn(uint32_t _buff);
     uint64_t get_damage(uint32_t _atk, uint32_t _dfs);
     bool check_critical(uint64_t _critcal_per, uint64_t _seed);
     bool check_avoid(uint64_t _avoid_per, uint64_t _seed);
-    battle_action get_target_action(const std::vector<battle_state> &_my_state_list, const std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint64_t _my_position, uint64_t _target_position);
+    battle_action get_target_action(eosio::name _user,const std::vector<battle_state> &_my_state_list, const std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint64_t _my_position, uint64_t _target_position);
     battle_action_info get_action_info(uint64_t _my_pos, uint64_t _action_type, battle_action _action);
     int get_random_target(const std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint32_t _max, uint32_t _min);
     int get_target_key(const std::vector<battle_state> &_enemy_state_list, uint64_t _target_position);
