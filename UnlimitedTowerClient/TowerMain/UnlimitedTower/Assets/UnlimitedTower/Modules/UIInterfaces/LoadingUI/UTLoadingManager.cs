@@ -95,7 +95,7 @@ public class UTLoadingManager : MonoBehaviour {
                 }
 
                 SetProgress(1.0f, desc.finishedComment);
-                yield return new WaitForSeconds(1.0f);
+                yield return new WaitForSecondsRealtime(1.0f);
 
                 desc.OnSuccess?.Invoke();
 
