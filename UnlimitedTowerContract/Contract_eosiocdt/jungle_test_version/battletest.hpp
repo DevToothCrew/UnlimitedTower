@@ -243,7 +243,7 @@ CONTRACT battletest : public contract
         uint64_t primary_key() const { return servant_id; }
         uint64_t secondary_key() const { return gacha_id; }
     };
-    typedef eosio::multi_index<"dbservant"_n, servantdb, indexed_by<"second"_n, const_mem_fun<servantdb, uint64_t, &servantdb::secondary_key>>> servnt_db;
+    typedef eosio::multi_index<"dbservant"_n, servantdb, indexed_by<"second"_n, const_mem_fun<servantdb, uint64_t, &servantdb::secondary_key>>> servant_db;
 #pragma endregion
     //servant_db servant_db_table(_self, _self.value);
     //auto servant_db_iter = servant_db_table.get_index<"second"_n>();   //샘플

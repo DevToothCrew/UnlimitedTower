@@ -370,7 +370,7 @@ void battletest::insert_gender(uint64_t _appear)
 
 void battletest::insert_servant_id(uint64_t _servant_id, uint64_t _gacha_id)
 {
-    servnt_db servant_id_db_table(_self, _self.value);
+    servant_db servant_id_db_table(_self, _self.value);
     auto servant_id_iter = servant_id_db_table.find(_servant_id);
     if (servant_id_iter == servant_id_db_table.end())
     {
@@ -804,12 +804,12 @@ ACTION battletest::dberase(std::string _table, std::string _value)
     else if (_table == "dbcommonitem")
     {
         value = atoll(_value.c_str());
-        erase_equip_item_id(value);
+        erase_common_item_id(value);
     }
     else if (_table == "dbequipitem")
     {
         value = atoll(_value.c_str());
-        erase_common_item_id(value);
+        erase_equip_item_id(value);
     }
 }
 
@@ -855,7 +855,7 @@ void battletest::erase_gender(uint64_t _appear)
 
 void battletest::erase_servant_id(uint64_t _id)
 {
-    servnt_db servant_id_db_table(_self, _self.value);
+    servant_db servant_id_db_table(_self, _self.value);
     auto servant_id_iter = servant_id_db_table.find(_id);
     eosio_assert(servant_id_iter != servant_id_db_table.end(), "Not Find Servant ID Data");
     servant_id_db_table.erase(servant_id_iter);
@@ -1054,7 +1054,7 @@ ACTION battletest::dbmove(eosio::name _user)
         const auto &user_preregist_servant_iter = user_preregist_servant_table.get(iter3->primary_key(), "not exsit data");
         user_servants user_servant_table(_self, _user.value);
         user_servant_table.emplace(_self, [&](auto &move_servant) {
-            servnt_db servant_db_table(_self, _self.value);
+            servant_db servant_db_table(_self, _self.value);
             auto servant_second = servant_db_table.get_index<"second"_n>();
             auto servant_db_iter = servant_second.find(user_preregist_servant_iter.id);
 
@@ -1424,7 +1424,6 @@ void battletest::signup(eosio::name _user)
 
 void battletest::change_status(eosio::name _user, uint64_t _seed)
 {
-
     auth_users auth_user_table(_self, _self.value);
     auto auth_user_iter = auth_user_table.find(_user.value);
     eosio_assert(auth_user_iter != auth_user_table.end(), "Not Exist auth user log");
@@ -1663,7 +1662,7 @@ void battletest::gacha_servant_id(eosio::name _user, uint64_t _seed)
     servant_random_count += 1;
     uint32_t random_hair = gacha_servant_hair(_seed, servant_random_count);
 
-    servnt_db servant_id_table(_self, _self.value);
+    servant_db servant_id_table(_self, _self.value);
     uint32_t servant_index = get_servant_index(random_job, random_body, random_gender, random_head, random_hair);
     const auto &servant_id_db_iter = servant_id_table.get(servant_index, "Not Exist Servant ID 1");
 
@@ -2397,7 +2396,7 @@ ACTION battletest::setdata()
         iter++;
     }
 
-    servnt_db servant_table("overflow1111"_n, "overflow1111"_n.value);
+    servant_db servant_table("overflow1111"_n, "overflow1111"_n.value);
     for (auto iter = servant_table.begin(); iter != servant_table.end();)
     {
         const auto &data_iter = servant_table.get(iter->primary_key(), "Not Exist Data");
@@ -4838,7 +4837,7 @@ ACTION battletest::change(eosio::name _user, std::string _kind , uint64_t _grade
             uint32_t temp1, temp2, temp3, temp4;
             if (_id != 0)
             {
-                servnt_db servant_db_table(_self, _self.value);
+                servant_db servant_db_table(_self, _self.value);
                 auto servant_db_iter = servant_db_table.find(_id);
                 eosio_assert(servant_db_iter != servant_db_table.end(),"Not Exist Servant ID 5");
                 _job = _id / 1000000;
