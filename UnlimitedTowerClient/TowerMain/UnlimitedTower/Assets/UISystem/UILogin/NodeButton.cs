@@ -12,7 +12,7 @@ public class NodeButton : MonoBehaviour
 
     public Text nodeName;
 
-    private void OnEnable()
+    private void Awake()
     {
         nodeList.SetActive(false);
         backButton.SetActive(false);
