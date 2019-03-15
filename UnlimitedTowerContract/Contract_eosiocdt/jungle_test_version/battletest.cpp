@@ -2917,6 +2917,7 @@ ACTION battletest::startbattle(eosio::name _user, uint32_t _party_number, uint32
 
             uint32_t servant_id_index = get_servant_index(user_auth_iter->hero.job, user_auth_iter->hero.appear.body, user_auth_iter->hero.appear.gender, user_auth_iter->hero.appear.head, user_auth_iter->hero.appear.hair);
             battle_state hero_battle_state = get_stage_state(user_auth_iter->hero.status, user_auth_iter->hero.job, 0, servant_id_index, 0);
+            hero_battle_state.state = battle_action_state::dead;
             new_battle_set.my_state_list.push_back(hero_battle_state);
 
             for (uint32_t i = 0; i < 4; ++i)
@@ -2973,6 +2974,7 @@ ACTION battletest::startbattle(eosio::name _user, uint32_t _party_number, uint32
 
             uint32_t servant_id_index = get_servant_index(user_auth_iter->hero.job, user_auth_iter->hero.appear.body, user_auth_iter->hero.appear.gender, user_auth_iter->hero.appear.head, user_auth_iter->hero.appear.hair);
             battle_state hero_battle_state = get_stage_state(user_auth_iter->hero.status, user_auth_iter->hero.job, 0, servant_id_index, 0);
+            hero_battle_state.state = battle_action_state::dead;
             new_battle_set.my_state_list.push_back(hero_battle_state);
 
 
@@ -3032,14 +3034,18 @@ int battletest::get_random_target(const std::vector<battle_state> &_enemy_state_
         target_key = -1;
         for (uint32_t i = _min; i < _max; i++)
         {
-            if (_enemy_state_list[i].now_hp != 0 && _enemy_state_list[target_key].state != battle_action_state::dead)
+            if ( (_enemy_state_list[i].now_hp != 0) && (_enemy_state_list[target_key].state != battle_action_state::dead) )
             {
                 target_key = i;
-                break;
+                return target_key;
             }
         }
+        return target_key;
     }
-    return target_key;
+    else
+    {
+        return target_key;
+    }
 }
 
 bool battletest::sort_compare(const battle_order_struct &a, const battle_order_struct &b)
