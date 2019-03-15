@@ -3029,12 +3029,12 @@ ACTION battletest::startbattle(eosio::name _user, uint32_t _party_number, uint32
 int battletest::get_random_target(const std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint32_t _max, uint32_t _min)
 {
     int target_key = safeseed::get_random_value(_seed, _max, _min, 0);
-    if (_enemy_state_list[target_key].now_hp == 0 || _enemy_state_list[target_key].state == battle_action_state::dead)
+    if ((_enemy_state_list[target_key].state == battle_action_state::dead))
     {
         target_key = -1;
         for (uint32_t i = _min; i < _max; i++)
         {
-            if ( (_enemy_state_list[i].now_hp != 0) && (_enemy_state_list[target_key].state != battle_action_state::dead) )
+            if ( (_enemy_state_list[i].state != battle_action_state::dead) )
             {
                 target_key = i;
                 return target_key;
@@ -3102,22 +3102,7 @@ battletest::battle_action battletest::get_target_action(eosio::name _user, const
 {
     uint32_t cur_target_key = _target_key;
     battle_action new_action;
-    if(_enemy_state_list[_target_key].now_hp == 0 || _enemy_state_list[_target_key].state == battle_action_state::dead)
-    {
-        int target = get_target_key(_enemy_state_list, _enemy_state_list[_target_key].position);
-        if(-1 == target)
-        {
-            new_action.target_position = WRONG_TARGET;
-            new_action.avoid = 0;
-            new_action.critical = 0;
-            new_action.damage = 0;
-            return new_action;
-        }
-        cur_target_key = target;
-    }
-    
-
-    else if (true == check_avoid(_enemy_state_list[cur_target_key].avoid, _seed))
+    if (true == check_avoid(_enemy_state_list[cur_target_key].avoid, _seed))
     {
         new_action.target_position = _enemy_state_list[cur_target_key].position;
         new_action.avoid = 1;
@@ -3284,9 +3269,10 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _hero_action, uint32_t
         //공격순서 정렬하는 부분
         std::vector<battle_order_struct> defense_order_list;
         std::vector<battle_order_struct> attack_order_list;
+        //데드리스트 추가
         for (uint32_t i = 0; i < user_battle_state_iter->my_state_list.size(); ++i)
         {
-            if ((battle_state.my_state_list[i].state == battle_action_state::dead) || ((battle_state.my_state_list[i].index == 0) && (i != 0)))
+            if ((user_battle_state_iter->my_state_list[i].state == battle_action_state::dead))
             {
                 continue;
             }
@@ -3321,27 +3307,22 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _hero_action, uint32_t
             for (uint32_t i = 0; i < defense_order_list.size(); ++i)
             {
                 uint32_t my_key = defense_order_list[i].key;
-                battle_action new_action;
-                battle_action_info new_action_info;
-
                 if (defense_order_list[i].position < max_party_count)
                 {
-                    if(battle_state.my_state_list[my_key].state == battle_action_state::dead)
+                    if (battle_state.my_state_list[my_key].position == HERO_LOCATION) //히어로 처리
                     {
-                        continue;
-                    }
-                    else if (battle_state.my_state_list[my_key].position == HERO_LOCATION) //히어로 처리
-                    {
-                        if (_hero_action != battle_action_state::defense)
+                        if (_hero_action == battle_action_state::attack)
                         {
+                            defense_order_list.erase(defense_order_list.begin() + i);
                             attack_order_list.push_back(defense_order_list[i]);
                             continue;
                         }
                     }
                     else if (user_battle_state_iter->my_state_list[my_key].position == PAIR_SLOT) //히어로의 페어 몬스터일 경우
                     {
-                        if (_monster_action != battle_action_state::defense)
+                        if (_monster_action == battle_action_state::attack)
                         {
+                            defense_order_list.erase(defense_order_list.begin() + i);
                             attack_order_list.push_back(defense_order_list[i]);
                             continue;
                         }
@@ -3349,30 +3330,29 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _hero_action, uint32_t
                     else
                     {
                         uint32_t monster_action = safeseed::get_random_value(defense_order_list[i].second_speed, battle_action_state::state_count, battle_action_state::attack, 0);
-                        if (monster_action != battle_action_state::defense)
+                        if (monster_action == battle_action_state::attack)
                         {
+                            defense_order_list.erase(defense_order_list.begin() + i);
                             attack_order_list.push_back(defense_order_list[i]);
                             continue;
                         }
                     }
-                    new_action_info = get_action_info(user_battle_state_iter->my_state_list[my_key].position, battle_action_state::defense, new_action);
+                    battle_action new_action;
+                    battle_action_info new_action_info = get_action_info(user_battle_state_iter->my_state_list[my_key].position, battle_action_state::defense, new_action);
                     update_action.battle_info_list.push_back(new_action_info);
                     battle_state.my_state_list[my_key].state = battle_action_state::defense;
                 }
                 else
                 {
-                    if (battle_state.enemy_state_list[my_key].state == battle_action_state::dead)
-                    {
-                        continue;
-                    }
                     uint32_t monster_action = safeseed::get_random_value(defense_order_list[i].second_speed, battle_action_state::state_count, battle_action_state::attack, 0);
-                    if (monster_action != battle_action_state::defense)
+                    if (monster_action == battle_action_state::attack)
                     {
+                        defense_order_list.erase(defense_order_list.begin() + i);
                         attack_order_list.push_back(defense_order_list[i]);
                         continue;
                     }
-
-                    new_action_info = get_action_info(user_battle_state_iter->enemy_state_list[my_key].position, battle_action_state::defense, new_action);
+                    battle_action new_action;
+                    battle_action_info new_action_info = get_action_info(user_battle_state_iter->enemy_state_list[my_key].position, battle_action_state::defense, new_action);
                     update_action.battle_info_list.push_back(new_action_info);
                     battle_state.enemy_state_list[my_key].state = battle_action_state::defense;
                 }
@@ -3384,15 +3364,15 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _hero_action, uint32_t
                 uint32_t my_key = attack_order_list[i].key;
                 if (attack_order_list[i].position < max_party_count) //자기 파티에 대한 처리
                 {
-                    if (user_battle_state_iter->my_state_list[my_key].position == HERO_LOCATION) //히어로 처리
+                    if (battle_state.my_state_list[my_key].state == battle_action_state::dead)
                     {
-                        int target_key = get_target_key(user_battle_state_iter->enemy_state_list, _hero_target);
+                        continue;
+                    }
+                    else if (battle_state.my_state_list[my_key].position == HERO_LOCATION) //히어로 처리
+                    {
+                        int target_key = get_target_key(battle_state.enemy_state_list, _hero_target);
                         eosio_assert(target_key != -1, "Wrong Target 1");
-                        if (battle_state.my_state_list[my_key].state == battle_action_state::dead)
-                        {
-                            continue;
-                        }
-                        else if (battle_state.enemy_state_list[target_key].state == battle_action_state::dead)
+                        if (battle_state.enemy_state_list[target_key].state == battle_action_state::dead)
                         {
                             int enemy_key = get_random_target(battle_state.enemy_state_list, attack_order_list[i].second_speed, battle_state.enemy_state_list.size(), 0);
                             if (enemy_key == -1) //상대 파티가 모두 죽은 상태
@@ -3402,12 +3382,6 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _hero_action, uint32_t
                             target_key = enemy_key;
                         }
                         battle_action new_action = get_target_action(_user, battle_state.my_state_list, battle_state.enemy_state_list, attack_order_list[i].second_speed, my_key, target_key);
-                        //같은 적을 공격하는 경우가 생겨서 추가한 코드
-                        if(new_action.target_position == WRONG_TARGET)
-                        {
-                            break;
-                        }
-
                         if (battle_state.enemy_state_list[target_key].now_hp <= new_action.damage)
                         {
                             battle_state.enemy_state_list[target_key].now_hp = 0;
@@ -3425,11 +3399,7 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _hero_action, uint32_t
                     {
                         int target_key = get_target_key(battle_state.enemy_state_list, _monster_target);
                         eosio_assert(target_key != -1, "Wrong Target 2");
-                        if (battle_state.my_state_list[my_key].state == battle_action_state::dead)
-                        {
-                            continue;
-                        }
-                        else if (battle_state.enemy_state_list[target_key].state == battle_action_state::dead)
+                        if (battle_state.enemy_state_list[target_key].state == battle_action_state::dead)
                         {
                             int enemy_key = get_random_target(battle_state.enemy_state_list, attack_order_list[i].second_speed, battle_state.enemy_state_list.size(), 0);
                             if (enemy_key == -1) //상대 파티가 모두 죽은 상태
@@ -3460,10 +3430,6 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _hero_action, uint32_t
                     }
                     else //다른 몬스터의 경우
                     {
-                        if (battle_state.my_state_list[my_key].state == battle_action_state::dead)
-                        {
-                            continue;
-                        }
                         int enemy_key = get_random_target(battle_state.enemy_state_list, attack_order_list[i].second_speed, battle_state.enemy_state_list.size(), 0);
                         if (enemy_key == -1) //상대 파티가 모두 죽은 상태
                         {
@@ -3471,11 +3437,6 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _hero_action, uint32_t
                         }
                         //공격할 경우
                         battle_action new_action = get_target_action(_user, battle_state.my_state_list, battle_state.enemy_state_list, attack_order_list[i].second_speed, my_key, enemy_key);
-                        //같은 적을 공격하는 경우가 생겨서 추가한 코드
-                        if (new_action.target_position == WRONG_TARGET)
-                        {
-                            break;
-                        }
                         //배틀 스테이트테이블에 결과 반영
                         if (battle_state.enemy_state_list[enemy_key].now_hp <= new_action.damage)
                         {
@@ -3504,12 +3465,6 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _hero_action, uint32_t
                         break;
                     }
                     battle_action new_action = get_target_action(_user, battle_state.enemy_state_list, battle_state.my_state_list, attack_order_list[i].second_speed, my_key, enemy_key);
-                    //같은 적을 공격하는 경우가 생겨서 추가한 코드
-                    if (new_action.target_position == WRONG_TARGET)
-                    {
-                        break;
-                    }
-
                     if (battle_state.my_state_list[enemy_key].now_hp <= new_action.damage)
                     {
                         battle_state.my_state_list[enemy_key].now_hp = 0;
