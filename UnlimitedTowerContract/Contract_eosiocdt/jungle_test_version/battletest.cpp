@@ -982,7 +982,8 @@ ACTION battletest::dbmove(eosio::name _user)
         auth_user.hero.status.basic_int = 0;
         auth_user.hero.status.plus_str = 0;
         auth_user.hero.status.plus_dex = 0;
-        auth_user.hero.status.plus_int = 0;        
+        auth_user.hero.status.plus_int = 0;     
+        auth_user.hero.equip_slot.resize(3);   
     });
     //pre_user_table.erase(_user.value);
 
@@ -1030,7 +1031,7 @@ ACTION battletest::dbmove(eosio::name _user)
             move_monster.index = user_preregist_monster_iter.index;
             move_monster.monster.id = monster_id_db_iter->monster_id;
             move_monster.party_number = 0;
-            move_monster.monster.state = 0;
+            move_monster.monster.state = 1;
             move_monster.monster.exp = 0;
             move_monster.monster.type = 0;
             move_monster.monster.grade = user_preregist_monster_iter.grade;
@@ -1078,7 +1079,7 @@ ACTION battletest::dbmove(eosio::name _user)
 
             move_servant.index = user_preregist_servant_iter.index;
             move_servant.party_number = 0;
-            move_servant.servant.state = 0;
+            move_servant.servant.state = 1;
             move_servant.servant.exp = 0;
 
             move_servant.servant.appear.head = _head;
@@ -1117,7 +1118,7 @@ ACTION battletest::dbmove(eosio::name _user)
             
             move_item.index = user_preregist_item_iter.index;
             move_item.item.id = common_item_db_iter->item_id;
-            move_item.item.state = 0;
+            move_item.item.state = 1;
             move_item.item.type = user_preregist_item_iter.type;
             move_item.item.tier = user_preregist_item_iter.tier;
             move_item.item.job = user_preregist_item_iter.job;
@@ -3756,6 +3757,14 @@ ACTION battletest::exitbattle(eosio::name _user)
 //------------------------------------------------------------------------//
 ACTION battletest::sellobject(eosio::name _user, uint32_t _type, uint32_t _index)
 {
+    blacklist blacklist_table(_self, _self.value);
+    auto blacklist_iter = blacklist_table.find(from.value);
+    eosio_assert(blacklist_iter == blacklist_table.end(), "black list user");
+
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
+    eosio_assert(system_master_iter->state != system_state::pause, "Server Pause");
+
     require_auth(_user);
 
     switch (_type)
@@ -3860,6 +3869,14 @@ void battletest::sell_item(eosio::name _user, uint32_t _index)
 
 ACTION battletest::equipment(eosio::name _user, uint32_t _type, uint32_t _servant_index, uint32_t _item_index)
 {
+    blacklist blacklist_table(_self, _self.value);
+    auto blacklist_iter = blacklist_table.find(from.value);
+    eosio_assert(blacklist_iter == blacklist_table.end(), "black list user");
+
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
+    eosio_assert(system_master_iter->state != system_state::pause, "Server Pause");
+
     require_auth(_user);
     switch (_type)
     {
@@ -3877,6 +3894,14 @@ ACTION battletest::equipment(eosio::name _user, uint32_t _type, uint32_t _servan
 
 ACTION battletest::unequipment(eosio::name _user, uint32_t _type, uint32_t _servant_index, uint32_t _item_index)
 {
+    blacklist blacklist_table(_self, _self.value);
+    auto blacklist_iter = blacklist_table.find(from.value);
+    eosio_assert(blacklist_iter == blacklist_table.end(), "black list user");
+
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
+    eosio_assert(system_master_iter->state != system_state::pause, "Server Pause");
+
     require_auth(_user);
     switch (_type)
     {
@@ -4091,6 +4116,14 @@ bool battletest::compare_item(uint32_t _user_servant, uint32_t _user_item)
 
 ACTION battletest::upgrade(eosio::name _user, uint32_t _type, uint32_t _index, uint32_t _index2)
 {
+    blacklist blacklist_table(_self, _self.value);
+    auto blacklist_iter = blacklist_table.find(from.value);
+    eosio_assert(blacklist_iter == blacklist_table.end(), "black list user");
+
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
+    eosio_assert(system_master_iter->state != system_state::pause, "Server Pause");
+
     require_auth(_user);
     switch (_type)
     {
@@ -4208,6 +4241,14 @@ void battletest::upgrade_item(eosio::name _user, uint32_t _item, uint32_t _item2
 
 ACTION battletest::itemstore(eosio::name _user, uint32_t _type, uint32_t _count)
 {
+    blacklist blacklist_table(_self, _self.value);
+    auto blacklist_iter = blacklist_table.find(from.value);
+    eosio_assert(blacklist_iter == blacklist_table.end(), "black list user");
+
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
+    eosio_assert(system_master_iter->state != system_state::pause, "Server Pause");
+
     require_auth(_user);
 
     switch (_type)
