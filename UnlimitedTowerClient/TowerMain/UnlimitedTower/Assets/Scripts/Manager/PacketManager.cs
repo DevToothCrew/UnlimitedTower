@@ -47,6 +47,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
     [DllImport("__Internal")]
     private static extern void ResourceInfo();
 
+    [DllImport("__Internal")]
+    private static extern void GetBattle();
+
     public bool receiveGacha = false;
 
     void Start()
@@ -346,7 +349,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         if (userInfo.sceneState == SCENE_STATE.StageBattle)
         {
-            UTUMSProvider.Instance.RequestStageStart(1, 1);
+            GetBattle();
         }
         else
         {
