@@ -487,12 +487,20 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     // 캐릭터별 체력 설정
     public void SettingHp(stageStateData stageStateInfo)
     {
-        for (int i = 0; i < stageStateInfo.my_state_list.Count; i++)
+        characterControl[0].maxHp = Calculator.GetMaxHp(UserDataManager.Inst.GetHeroInfo().status);
+        characterControl[stageStateInfo.my_state_list[0].position].nowHp = stageStateInfo.my_state_list[0].now_hp / 100;
+
+        for (int i = 1; i < stageStateInfo.my_state_list.Count; i++)
         {
-            characterControl[stageStateInfo.my_state_list[i].position].maxHp = stageStateInfo.my_state_list[i].now_hp / 100;
+            int index = stageStateInfo.my_state_list[i].index;
+            int position = stageStateInfo.my_state_list[i].position;
+            if (position < 5)
+                characterControl[stageStateInfo.my_state_list[i].position].maxHp = Calculator.GetMaxHp(UserDataManager.Inst.GetServantInfo(index).status);
+            else
+                characterControl[stageStateInfo.my_state_list[i].position].maxHp = Calculator.GetMaxHp(UserDataManager.Inst.GetMonsterInfo(index).status);
             characterControl[stageStateInfo.my_state_list[i].position].nowHp = stageStateInfo.my_state_list[i].now_hp / 100;
         }
-
+        
         for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
         {
             characterControl[stageStateInfo.enemy_state_list[i].position].maxHp = stageStateInfo.enemy_state_list[i].now_hp / 100;

@@ -26,7 +26,9 @@ public class SelectSystem : MonoSingleton<SelectSystem>
 
     // Test
     public Text testAd;
-    public Text testDe;
+    public Text testAp;
+    public Text testDd;
+    public Text testDp;
     public Text testSp;
 
     public enum ActionState
@@ -49,7 +51,9 @@ public class SelectSystem : MonoSingleton<SelectSystem>
         characterInfo.SetActive(false);
 
         testAd = GameObject.Find("Test Ad").GetComponent<Text>();
-        testDe = GameObject.Find("Test De").GetComponent<Text>();
+        testAp = GameObject.Find("Test Ap").GetComponent<Text>();
+        testDd = GameObject.Find("Test Dd").GetComponent<Text>();
+        testDp = GameObject.Find("Test Dp").GetComponent<Text>();
         testSp = GameObject.Find("Test Sp").GetComponent<Text>();
     }
 
@@ -232,8 +236,10 @@ public class SelectSystem : MonoSingleton<SelectSystem>
             levelText.text = "?";
         }
 
-        testAd.text = (selectStateInfo.attack / 100).ToString();
-        testDe.text = (selectStateInfo.defense / 100).ToString();
+        testAd.text = (selectStateInfo.physical_attack / 100).ToString();
+        testAp.text = (selectStateInfo.magic_attack / 100).ToString();
+        testDd.text = (selectStateInfo.physical_defense / 100).ToString();
+        testDp.text = (selectStateInfo.magic_defense / 100).ToString();
         testSp.text = selectStateInfo.speed.ToString();
 
         selectHpBar.fillAmount = (float)BattleSystem.Inst.characterControl[selectIndex].nowHp / BattleSystem.Inst.characterControl[selectIndex].maxHp;
