@@ -238,6 +238,12 @@ public class userResourceData
     public UInt64 ram_usage;        //사용중 램 용량
 };
 
+[Serializable]
+public class errorCode
+{
+    public string code;
+    public string message;        
+};
 
 #endregion
 

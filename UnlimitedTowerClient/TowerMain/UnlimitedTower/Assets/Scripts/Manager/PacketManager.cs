@@ -303,6 +303,18 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
 
     }
+    public void ResponseError(string errorMessage)
+    {
+        errorCode error = JsonUtility.FromJson<errorCode>(errorMessage);
+        if(error.code == "battle")
+        {
+            BattleSystem.Inst.delayImage.SetActive(false);
+            if (BattleSystem.Inst.isAuto)
+            {
+                BattleSystem.Inst.isAuto = false;
+            }
+        }
+    }
 
     #endregion
 
