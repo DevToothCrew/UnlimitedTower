@@ -15,7 +15,7 @@ public class Cheat : MonoSingleton<Cheat>
         userLoginData.eos = "15400000";
 
         userLoginData.userinfo.user = user;
-        userLoginData.userinfo.state = 2;
+        userLoginData.userinfo.state = 4;
         userLoginData.userinfo.hero = GetRandomServant(GetRandomServantJob());
 
         partyData partyData = new partyData();
@@ -197,7 +197,7 @@ public class Cheat : MonoSingleton<Cheat>
             }
 
             newMember.id = CharacterCSVData.Inst.monsterDataInspector[UnityEngine.Random.Range(0, CharacterCSVData.Inst.monsterDataInspector.Count)].indexNumber; 
-            newMember.now_hp = 100;
+            newMember.now_hp = 10000;
             newMember.attack = 10000;
             newMember.defense = 10;
             newMember.crit_dmg = 1;
@@ -215,7 +215,7 @@ public class Cheat : MonoSingleton<Cheat>
             newMember.position = i + 10;
             newMember.index = 0;
             newMember.id = CharacterCSVData.Inst.monsterDataInspector[UnityEngine.Random.Range(0, CharacterCSVData.Inst.monsterDataInspector.Count)].indexNumber;
-            newMember.now_hp = 100;
+            newMember.now_hp = 10000;
             newMember.attack = 10;
             newMember.defense = 10;
             newMember.crit_dmg = 1;

@@ -346,7 +346,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         if (userInfo.sceneState == SCENE_STATE.StageBattle)
         {
-
+            UTUMSProvider.Instance.RequestStageStart(1, 1);
         }
         else
         {

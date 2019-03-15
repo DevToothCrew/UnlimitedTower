@@ -15,7 +15,7 @@ public class DelayEffect : MonoBehaviour {
         for (; ; )
         {
             Instantiate(effect[Random.Range(0, effect.Length)], transform).transform.position = transform.position + new Vector3(Random.Range(-150, 150), Random.Range(-150, 150), 0);
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSecondsRealtime(0.2f);
         }
     }
 }

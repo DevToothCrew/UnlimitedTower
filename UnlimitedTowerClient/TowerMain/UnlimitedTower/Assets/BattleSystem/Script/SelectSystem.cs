@@ -9,13 +9,9 @@ public class SelectSystem : MonoSingleton<SelectSystem>
     public int mouseIndex = -1;
     public int selectIndex = -1;
     public bool isPlayer;
-    public Animator controlButton;
     public ActionState actionState;
 
     [Header("- Character State")]
-    public Text attackDamageText;
-    public Text defenceText;
-    public Text speedText;
     public Text levelText;
     public Text nemeText;
     public Text selectHpText;
@@ -28,6 +24,11 @@ public class SelectSystem : MonoSingleton<SelectSystem>
     private CheckSelectAnimation selectAnimation;
     public bool isStart = false;
 
+    // Test
+    public Text testAd;
+    public Text testDe;
+    public Text testSp;
+
     public enum ActionState
     {
         Non,
@@ -39,17 +40,17 @@ public class SelectSystem : MonoSingleton<SelectSystem>
 
     private void Start()
     {
-        attackDamageText = GameObject.Find("StatueAttackText").GetComponent<Text>();
-        defenceText = GameObject.Find("StatueDefenceText").GetComponent<Text>();
-        speedText = GameObject.Find("StatueSpeedText").GetComponent<Text>();
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
         nemeText = GameObject.Find("NameText").GetComponent<Text>();
-        controlButton = GameObject.Find("ControlButton").GetComponent<Animator>();
         selectCharacterImage = GameObject.Find("Character Portrait Image").GetComponent<Image>();
         selectHpBar = GameObject.Find("Hp Bar").GetComponent<Image>();
         selectHpText = GameObject.Find("Hp Text").GetComponent<Text>();
         characterInfo = GameObject.Find("Character Information");
         characterInfo.SetActive(false);
+
+        testAd = GameObject.Find("Test Ad").GetComponent<Text>();
+        testDe = GameObject.Find("Test De").GetComponent<Text>();
+        testSp = GameObject.Find("Test Sp").GetComponent<Text>();
     }
 
     // 추후 최적화 작업, timeScale도 바꿔야함
@@ -88,52 +89,24 @@ public class SelectSystem : MonoSingleton<SelectSystem>
                     {
                         CharacterClick();
 
-                        if (selectIndex == 0)
+                        if (!BattleSystem.Inst.isBattleStart)
                         {
-                            controlButton.SetBool("isOn", true);
-                            actionState = ActionState.HeroSelected;
-                        }
-                        else if (selectIndex == 5)
-                        {
-                            controlButton.SetBool("isOn", true);
-                            actionState = ActionState.MonsterSelected;
-                        }
-                        else
-                        {
-                            controlButton.SetBool("isOn", false);
-                        }
-
-                        if (actionState == ActionState.HeroTargetSelected)
-                        {
-                            if (selectIndex > 9)
+                            if (actionState == ActionState.HeroSelected || actionState == ActionState.MonsterSelected)
                             {
-                                if (BattleSystem.Inst.characterControl[selectIndex].nowHp > 0)
+                                if (selectIndex > 9)
                                 {
-                                    BattleSystem.Inst.targetSettingInfo.heroAction = 2;
-                                    BattleSystem.Inst.targetSettingInfo.heroTargetIndex = selectIndex;
+                                    if (BattleSystem.Inst.characterControl[selectIndex].nowHp > 0)
+                                    {
+                                        BattleUIManager.Inst.attackButtonani.SetBool("isOn", true);
+                                        BattleUIManager.Inst.attackButtonani.SetBool("isOff", false);
+                                    }
                                 }
                                 else
                                 {
-                                    StartCoroutine(BattleSystem.Inst.TestTargetDie());
+                                    BattleUIManager.Inst.attackButtonani.SetBool("isOn", false);
+                                    BattleUIManager.Inst.attackButtonani.SetBool("isOff", true);
                                 }
                             }
-                            actionState = ActionState.Non;
-                        }
-                        else if (actionState == ActionState.MonsterTargetSelected)
-                        {
-                            if (selectIndex > 9)
-                            {
-                                if (BattleSystem.Inst.characterControl[selectIndex].nowHp > 0)
-                                {
-                                    BattleSystem.Inst.targetSettingInfo.monsterAction = 2;
-                                    BattleSystem.Inst.targetSettingInfo.monsterTargetIndex = selectIndex;
-                                }
-                                else
-                                {
-                                    StartCoroutine(BattleSystem.Inst.TestTargetDie());
-                                }
-                            }
-                            actionState = ActionState.Non;
                         }
                     }
                 }
@@ -163,7 +136,6 @@ public class SelectSystem : MonoSingleton<SelectSystem>
             {
                 selectIndex = -1;
                 actionState = ActionState.Non;
-                controlButton.SetBool("isOn", false);
             }
         }
         if (selectIndex != -1)
@@ -173,30 +145,50 @@ public class SelectSystem : MonoSingleton<SelectSystem>
     public void DefenceChick()
     {
         if (actionState == ActionState.HeroSelected)
+        {
             BattleSystem.Inst.targetSettingInfo.heroAction = 3;
+            BattleUIManager.Inst.heroTargetBorder.SetActive(false);
+            BattleUIManager.Inst.heroTargetImage.sprite = BattleUIManager.Inst.defenceImage;
+        }
         else if (actionState == ActionState.MonsterSelected)
+        {
             BattleSystem.Inst.targetSettingInfo.monsterAction = 3;
+            BattleUIManager.Inst.monsterTargetBorder.SetActive(false);
+            BattleUIManager.Inst.monsterTargetImage.sprite = BattleUIManager.Inst.defenceImage;
+        }
         actionState = ActionState.Non;
-        controlButton.SetBool("isOn", false);
+        BattleUIManager.Inst.defenceButtonani.SetBool("isOff", true);
+        BattleUIManager.Inst.defenceButtonani.SetBool("isOn", false);
+        BattleUIManager.Inst.attackButtonani.SetBool("isOff", true);
+        BattleUIManager.Inst.attackButtonani.SetBool("isOn", false);
     }
 
     public void AttackChick()
     {
-        if (selectIndex == 0)
+        if (actionState == ActionState.HeroSelected)
         {
+            // BattleSystem.Inst.targetSettingInfo.heroTargetIndex = selectIndex;
+            // BattleSystem.Inst.targetSettingInfo.heroAction = 2;
+            // BattleUIManager.Inst.SetHeroTargetImage(BattleSystem.Inst.GetEnemyState(selectIndex).id);
+            // BattleUIManager.Inst.heroTargetBorder.SetActive(false);
             actionState = ActionState.HeroTargetSelected;
-            controlButton.SetBool("isOn", false);
         }
-        else if (selectIndex == 5)
+        else if (actionState == ActionState.MonsterSelected)
         {
+            // BattleSystem.Inst.targetSettingInfo.monsterAction = 2;
+            // BattleSystem.Inst.targetSettingInfo.monsterTargetIndex = selectIndex;
+            // BattleUIManager.Inst.SetMonsterTargetImage(BattleSystem.Inst.GetEnemyState(selectIndex).id);
+            // BattleUIManager.Inst.monsterTargetBorder.SetActive(false);
             actionState = ActionState.MonsterTargetSelected;
-            controlButton.SetBool("isOn", false);
         }
+        // BattleUIManager.Inst.attackButtonani.SetBool("isOff", true);
+        // BattleUIManager.Inst.attackButtonani.SetBool("isOn", false);
+        // BattleUIManager.Inst.defenceButtonani.SetBool("isOff", true);
+        // BattleUIManager.Inst.defenceButtonani.SetBool("isOn", false);
     }
 
     public void CharacterClick()
     {
-
         characterInfo.SetActive(true);
         selectIndex = hit.transform.GetComponent<CharacterControl>().index;
         selectAnimation.Click();
@@ -210,11 +202,6 @@ public class SelectSystem : MonoSingleton<SelectSystem>
         {
             selectStateInfo = BattleSystem.Inst.GetEnemyState(selectIndex);
         }
-
-        attackDamageText.text = selectStateInfo.attack.ToString();
-        defenceText.text = selectStateInfo.defense.ToString();
-        speedText.text = selectStateInfo.speed.ToString();
-        selectHpText.text = BattleSystem.Inst.characterControl[selectIndex].nowHp.ToString();
         
         if (selectIndex == 0)
         {
@@ -245,6 +232,29 @@ public class SelectSystem : MonoSingleton<SelectSystem>
             levelText.text = "?";
         }
 
+        testAd.text = (selectStateInfo.attack / 100).ToString();
+        testDe.text = (selectStateInfo.defense / 100).ToString();
+        testSp.text = selectStateInfo.speed.ToString();
+
         selectHpBar.fillAmount = (float)BattleSystem.Inst.characterControl[selectIndex].nowHp / BattleSystem.Inst.characterControl[selectIndex].maxHp;
     }
+
+    public void ChoiceEndChick()
+    {
+        if (actionState == ActionState.HeroTargetSelected)
+        {
+            BattleSystem.Inst.targetSettingInfo.heroTargetIndex = selectIndex;
+            BattleSystem.Inst.targetSettingInfo.heroAction = 2;
+            BattleUIManager.Inst.SetHeroTargetImage(BattleSystem.Inst.GetEnemyState(selectIndex).id);
+            actionState = ActionState.Non;
+        }
+        else if (actionState == ActionState.MonsterTargetSelected)
+        {
+            BattleSystem.Inst.targetSettingInfo.monsterAction = 2;
+            BattleSystem.Inst.targetSettingInfo.monsterTargetIndex = selectIndex;
+            BattleUIManager.Inst.SetMonsterTargetImage(BattleSystem.Inst.GetEnemyState(selectIndex).id);
+            actionState = ActionState.Non;
+        }
+    }
 }
+
