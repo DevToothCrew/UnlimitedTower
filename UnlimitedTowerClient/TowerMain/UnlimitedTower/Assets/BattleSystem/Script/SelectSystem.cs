@@ -30,6 +30,8 @@ public class SelectSystem : MonoSingleton<SelectSystem>
     public Text testDd;
     public Text testDp;
     public Text testSp;
+    public Text testMaxHp;
+    public Text testNowHp;
 
     public enum ActionState
     {
@@ -55,6 +57,8 @@ public class SelectSystem : MonoSingleton<SelectSystem>
         testDd = GameObject.Find("Test Dd").GetComponent<Text>();
         testDp = GameObject.Find("Test Dp").GetComponent<Text>();
         testSp = GameObject.Find("Test Sp").GetComponent<Text>();
+        testMaxHp = GameObject.Find("Test MaxHp").GetComponent<Text>();
+        testNowHp = GameObject.Find("Test NowHp").GetComponent<Text>();
     }
 
     // 추후 최적화 작업, timeScale도 바꿔야함
@@ -134,12 +138,6 @@ public class SelectSystem : MonoSingleton<SelectSystem>
                     selectIndex = -1;
                     characterInfo.SetActive(false);
                 }
-            }
-
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                selectIndex = -1;
-                actionState = ActionState.Non;
             }
         }
         if (selectIndex != -1)
@@ -236,6 +234,9 @@ public class SelectSystem : MonoSingleton<SelectSystem>
             levelText.text = "?";
         }
 
+
+        testMaxHp.text = BattleSystem.Inst.characterControl[selectIndex].maxHp.ToString();
+        testNowHp.text = BattleSystem.Inst.characterControl[selectIndex].nowHp.ToString();
         testAd.text = (selectStateInfo.physical_attack / 100).ToString();
         testAp.text = (selectStateInfo.magic_attack / 100).ToString();
         testDd.text = (selectStateInfo.physical_defense / 100).ToString();
@@ -247,19 +248,22 @@ public class SelectSystem : MonoSingleton<SelectSystem>
 
     public void ChoiceEndChick()
     {
-        if (actionState == ActionState.HeroTargetSelected)
+        if (selectIndex > 9)
         {
-            BattleSystem.Inst.targetSettingInfo.heroTargetIndex = selectIndex;
-            BattleSystem.Inst.targetSettingInfo.heroAction = 2;
-            BattleUIManager.Inst.SetHeroTargetImage(BattleSystem.Inst.GetEnemyState(selectIndex).id);
-            actionState = ActionState.Non;
-        }
-        else if (actionState == ActionState.MonsterTargetSelected)
-        {
-            BattleSystem.Inst.targetSettingInfo.monsterAction = 2;
-            BattleSystem.Inst.targetSettingInfo.monsterTargetIndex = selectIndex;
-            BattleUIManager.Inst.SetMonsterTargetImage(BattleSystem.Inst.GetEnemyState(selectIndex).id);
-            actionState = ActionState.Non;
+            if (actionState == ActionState.HeroTargetSelected)
+            {
+                BattleSystem.Inst.targetSettingInfo.heroTargetIndex = selectIndex;
+                BattleSystem.Inst.targetSettingInfo.heroAction = 2;
+                BattleUIManager.Inst.SetHeroTargetImage(BattleSystem.Inst.GetEnemyState(selectIndex).id);
+                actionState = ActionState.Non;
+            }
+            else if (actionState == ActionState.MonsterTargetSelected)
+            {
+                BattleSystem.Inst.targetSettingInfo.monsterAction = 2;
+                BattleSystem.Inst.targetSettingInfo.monsterTargetIndex = selectIndex;
+                BattleUIManager.Inst.SetMonsterTargetImage(BattleSystem.Inst.GetEnemyState(selectIndex).id);
+                actionState = ActionState.Non;
+            }
         }
     }
 }
