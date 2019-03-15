@@ -343,6 +343,15 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         }
     }
 
+    public void ReTargeting()
+    {
+        isAuto = false;
+        delayImage.SetActive(false);
+        BattleUIManager.Inst.ResetTargetImage();
+        BattleUIManager.Inst.BattleEndAction();
+        isBattleStart = false;
+    }
+
     public void AutoTargeting()
     {
         List<int> Live = new List<int>();
@@ -413,6 +422,8 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             TestBattleTarget();
         }
     }
+
+
 
     // 캐릭터 존재 여부 체크
     public void IsPlaceCheck(stageStateData stageStateInfo)
