@@ -2477,6 +2477,37 @@ ACTION battletest::setdata()
 //------------------------------------------------------------------------//
 //---------------------------------battle_function------------------------//
 //------------------------------------------------------------------------//
+uint32_t battletest::get_max_hp(status_info _status)
+{
+    uint32_t hp;
+    hp = (((_status.basic_str + _status.plus_str) * 14) + ((_status.basic_dex + _status.plus_dex) * 5) + ((_status.basic_int + _status.plus_int) * 3)) * decimal;
+    return hp;
+}
+uint32_t battletest::get_magic_attack(status_info _status)
+{
+    uint32_t magic_attack;
+    magic_attack = (_status.basic_int + _status.plus_int) * 220; //2.2 * 100
+    return magic_attack;
+}
+uint32_t battletest::get_physical_attack(status_info _status)
+{
+    uint32_t physical_attack;
+    physical_attack = (_status.basic_str + _status.plus_str + _status.basic_dex + _status.plus_dex) * 140; //1.4 * 100
+    return physical_attack;
+}
+uint32_t battletest::get_magic_defense(status_info _status)
+{
+    uint32_t magic_defense;
+    magic_defense = (_status.basic_int + _status.plus_int) * 100; //1 * 100
+    return magic_defense;
+}
+uint32_t battletest::get_physical_defense(status_info _status)
+{
+    uint32_t physical_defense;
+    physical_defense = (_status.basic_dex + _status.plus_dex) * 100; //1 * 100
+    return physical_defense;
+}
+
 uint32_t battletest::get_monster_attack(uint64_t _id, status_info _status)
 {
     uint32_t attack = 0;
@@ -2777,30 +2808,26 @@ battletest::battle_state battletest::get_stage_state(status_info _status, uint64
     auto monster_iter = monster_db_table.find(_id);
 
     battle_state get_state;
-    get_state.now_hp = (((_status.basic_str + _status.plus_str) * 14) + ((_status.basic_dex + _status.plus_dex) * 5) + ((_status.basic_int + _status.plus_int) * 3)) * decimal;
+    get_state.now_hp = get_max_hp(_status);
     //체력 일정 증가 패시브 적용
     if(monster_iter->gacha_id > MONSTER_GACHA_ID_START)
     {
         get_state.now_hp += (get_state.now_hp * 2);
     }
 
-    if(monster_iter == monster_db_table.end())
+    get_state.physical_attack = get_physical_attack(_status);
+    get_state.crit_physical_dmg = get_physical_attack(_status) * oper_critical_damage / 10000;
+    get_state.physical_defense = get_physical_defense(_status);
+    //사제나 마법사의 경우 방어력 2배 증가 패시브 적용
+    if (_job == job_list::priest || _job == job_list::wizard)
     {
-        get_state.attack = get_attack(_job, _status);
-        get_state.crit_dmg = get_attack(_job, _status) * oper_critical_damage / 10000;
-        get_state.defense = ((_status.basic_dex + _status.plus_dex) * oper_defense) * decimal;
-        if(_job == job_list::priest || _job == job_list::wizard)
-        {
-            get_state.defense += get_state.defense * 2;
-        }
+        get_state.physical_defense += get_state.physical_defense * 2;
     }
-    else
-    {
-        get_state.attack = get_monster_attack(_id, _status);
-        get_state.crit_dmg = get_monster_attack(_id, _status) * oper_critical_damage / 10000;
-        get_state.defense = ((_status.basic_dex + _status.plus_dex) * oper_defense) * decimal;
-    }
-    
+
+    get_state.magic_attack = get_magic_attack(_status);
+    get_state.crit_magic_dmg = get_magic_attack(_status) * oper_critical_damage / 10000;
+    get_state.magic_defense = get_magic_defense(_status);
+
     get_state.crit_per = oper_critical;
     get_state.avoid = 5;
     get_state.speed = get_speed(_job);
@@ -3108,9 +3135,10 @@ battletest::battle_action battletest::get_target_action(eosio::name _user, const
     }
     else
     {
+        //직업이나 몬스터 종족에 따라 데미지 계산식이 바뀌어야 함
         uint32_t cur_damage;
-        uint64_t cur_attack = _my_state_list[_my_key].attack;
-        uint64_t cur_cirtical = _my_state_list[_my_key].crit_dmg;
+        uint64_t cur_attack = _my_state_list[_my_key].physical_attack;
+        uint64_t cur_cirtical = _my_state_list[_my_key].crit_physical_dmg;
         uint64_t max_hp = 0;
         uint64_t cur_hp = _my_state_list[_my_key].now_hp;
 
@@ -3121,13 +3149,11 @@ battletest::battle_action battletest::get_target_action(eosio::name _user, const
             auth_users user_auth_table(_self, _self.value);
             auto user_auth_iter = user_auth_table.find(_user.value);
             eosio_assert(user_auth_iter != user_auth_table.end(),"Not Exist Servant 1");
-            max_hp = (((user_auth_iter->hero.status.basic_str + user_auth_iter->hero.status.plus_str) * 14) 
-            + ((user_auth_iter->hero.status.basic_dex + user_auth_iter->hero.status.plus_dex) * 5) 
-            + ((user_auth_iter->hero.status.basic_int + user_auth_iter->hero.status.plus_int) * 3)) * decimal;
-            //hp 기준을 확인
-            if ((max_hp * 30 / 100) > cur_hp)
+            max_hp = get_max_hp(user_auth_iter->hero.status);
+            //스킬 보유 여부 확인
+            if (true == check_passive(user_auth_iter->hero.job))
             {
-                if (true == check_passive(user_auth_iter->hero.job))
+                if ((max_hp * 30 / 100) > cur_hp)
                 {
                     cur_attack = cur_attack * 2;
                     cur_cirtical = cur_cirtical * 2;
@@ -3140,14 +3166,12 @@ battletest::battle_action battletest::get_target_action(eosio::name _user, const
             user_servants user_servant_table(_self, _user.value);
             auto user_servant_iter = user_servant_table.find(_my_state_list[_my_key].index);
             eosio_assert(user_servant_iter != user_servant_table.end(),"Not Exist Servant 2");
-            max_hp = (((user_servant_iter->servant.status.basic_str + user_servant_iter->servant.status.plus_str) * 14) 
-            + ((user_servant_iter->servant.status.basic_dex + user_servant_iter->servant.status.plus_dex) * 5) 
-            + ((user_servant_iter->servant.status.basic_int + user_servant_iter->servant.status.plus_int) * 3)) * decimal;
+            max_hp = get_max_hp(user_servant_iter->servant.status);
         
-            //hp 기준을 확인
-            if ((max_hp * 30 / 100) > cur_hp)
+            //스킬 보유 여부 확인
+            if (true == check_passive(user_servant_iter->servant.job))
             {
-                if (true == check_passive(user_servant_iter->servant.job))
+                if ((max_hp * 30 / 100) > cur_hp)
                 {
                     cur_attack = cur_attack * 2;
                     cur_cirtical = cur_cirtical * 2;
@@ -3160,14 +3184,12 @@ battletest::battle_action battletest::get_target_action(eosio::name _user, const
             user_monsters user_monster_table(_self, _user.value);
             auto user_monster_iter = user_monster_table.find(_my_state_list[_my_key].index);
             eosio_assert(user_monster_iter != user_monster_table.end(), "Not Exist monster 2");
-            max_hp = (((user_monster_iter->monster.status.basic_str + user_monster_iter->monster.status.plus_str) * 14) 
-            + ((user_monster_iter->monster.status.basic_dex + user_monster_iter->monster.status.plus_dex) * 5) 
-            + ((user_monster_iter->monster.status.basic_int + user_monster_iter->monster.status.plus_int) * 3)) * decimal;
+            max_hp = get_max_hp(user_monster_iter->monster.status);
             
-            //hp 기준을 확인
-            if ((max_hp * 30 / 100) > cur_hp)
+            //스킬 보유 여부 확인
+            if (true == check_passive(user_monster_iter->monster.id))
             {
-                if (true == check_passive(user_monster_iter->monster.id))
+                if ((max_hp * 30 / 100) > cur_hp)
                 {
                     cur_attack = cur_attack * 2;
                     cur_cirtical = cur_cirtical * 2;
@@ -3179,17 +3201,15 @@ battletest::battle_action battletest::get_target_action(eosio::name _user, const
             //적에 대한 정보 읽어오기
         }
 
-
-
         if (false == check_critical(_my_state_list[_my_key].crit_per, _seed))
         {
             if (_enemy_state_list[cur_target_key].state == battle_action_state::defense)
             {
-                cur_damage = get_damage(cur_attack, _enemy_state_list[cur_target_key].defense + (_enemy_state_list[cur_target_key].defense / 2));
+                cur_damage = get_damage(cur_attack, _enemy_state_list[cur_target_key].physical_defense + (_enemy_state_list[cur_target_key].physical_defense / 2));
             }
             else
             {
-                cur_damage = get_damage(cur_attack, _enemy_state_list[cur_target_key].defense);
+                cur_damage = get_damage(cur_attack, _enemy_state_list[cur_target_key].physical_defense);
             }
 
             new_action.target_position = _enemy_state_list[cur_target_key].position;
@@ -3201,11 +3221,11 @@ battletest::battle_action battletest::get_target_action(eosio::name _user, const
         {
             if (_enemy_state_list[cur_target_key].state == battle_action_state::defense)
             {
-                cur_damage = get_damage(cur_cirtical, _enemy_state_list[cur_target_key].defense + (_enemy_state_list[cur_target_key].defense / 2));
+                cur_damage = get_damage(cur_cirtical, _enemy_state_list[cur_target_key].physical_defense + (_enemy_state_list[cur_target_key].physical_defense / 2));
             }
             else
             {
-                cur_damage = get_damage(cur_cirtical, _enemy_state_list[cur_target_key].defense);
+                cur_damage = get_damage(cur_cirtical, _enemy_state_list[cur_target_key].physical_defense);
             }
             new_action.target_position = _enemy_state_list[cur_target_key].position;
             new_action.avoid = 0;

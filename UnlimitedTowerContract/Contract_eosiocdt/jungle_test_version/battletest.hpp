@@ -959,10 +959,13 @@ CONTRACT battletest : public contract
         uint32_t index;
         uint32_t id;
         uint32_t now_hp;
-        uint32_t attack;
-        uint32_t defense;
+        uint32_t physical_attack;
+        uint32_t magic_attack;
+        uint32_t physical_defense;
+        uint32_t magic_defense;
         uint32_t crit_per;
-        uint32_t crit_dmg;
+        uint32_t crit_physical_dmg;
+        uint32_t crit_magic_dmg;
         uint32_t avoid;
         uint32_t state;
         uint32_t speed;
@@ -1045,8 +1048,15 @@ CONTRACT battletest : public contract
     status_info get_level_up_monster_status(uint64_t _id, uint64_t _grade, status_info _status);
     status_info get_level_up_servant_status(uint64_t _job, status_info _status);
     status_info get_grade_status(uint64_t _grade, status_info _status);
+    uint32_t get_max_hp(status_info _status);
+    uint32_t get_magic_attack(status_info _status);
+    uint32_t get_physical_attack(status_info _status);
+    uint32_t get_magic_defense(status_info _status);
+    uint32_t get_physical_defense(status_info _status); 
+    // 주스탯 관련 공격력 구하는 함수 //
     uint32_t get_monster_attack(uint64_t _id, status_info _status);
     uint32_t get_attack(uint32_t _job, status_info _status);
+    // ---------------------------//
     uint32_t get_speed(uint32_t _job);
     battle_state get_stage_state(status_info _status, uint64_t _job, uint64_t _index, uint64_t _id, uint64_t _position);
     ACTION startbattle(eosio::name _user, uint32_t _party_number, uint32_t _stage);
