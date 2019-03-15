@@ -1869,7 +1869,7 @@ void battletest::gacha_monster_id(eosio::name _user, uint64_t _seed)
 void battletest::gacha_item_id(eosio::name _user, uint64_t _seed)
 {
     commonitem_db item_id_db_table(_self, _self.value);
-    uint32_t random_item_id = safeseed::get_random_value(_seed, ITEM_ID_COUNT, DEFAULT_MIN, item_random_count);
+    uint32_t random_item_id = safeseed::get_random_value(_seed, ITEM_ID_COUNT, DEFAULT_MIN_DB, item_random_count);
     random_item_id += ITEM_GACHA_ID_START;
     auto item_second = item_id_db_table.get_index<"second"_n>();
     const auto &item_id_db_iter = item_second.get(random_item_id, "Not Exist Item ID 1");
@@ -2917,7 +2917,6 @@ ACTION battletest::startbattle(eosio::name _user, uint32_t _party_number, uint32
 
             uint32_t servant_id_index = get_servant_index(user_auth_iter->hero.job, user_auth_iter->hero.appear.body, user_auth_iter->hero.appear.gender, user_auth_iter->hero.appear.head, user_auth_iter->hero.appear.hair);
             battle_state hero_battle_state = get_stage_state(user_auth_iter->hero.status, user_auth_iter->hero.job, 0, servant_id_index, 0);
-            hero_battle_state.state = battle_action_state::dead;
             new_battle_set.my_state_list.push_back(hero_battle_state);
 
             for (uint32_t i = 0; i < 4; ++i)
@@ -2974,9 +2973,7 @@ ACTION battletest::startbattle(eosio::name _user, uint32_t _party_number, uint32
 
             uint32_t servant_id_index = get_servant_index(user_auth_iter->hero.job, user_auth_iter->hero.appear.body, user_auth_iter->hero.appear.gender, user_auth_iter->hero.appear.head, user_auth_iter->hero.appear.hair);
             battle_state hero_battle_state = get_stage_state(user_auth_iter->hero.status, user_auth_iter->hero.job, 0, servant_id_index, 0);
-            hero_battle_state.state = battle_action_state::dead;
             new_battle_set.my_state_list.push_back(hero_battle_state);
-
 
             for (uint32_t i = 0; i < 4; ++i)
             {
@@ -3313,7 +3310,6 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _hero_action, uint32_t
                     {
                         if (_hero_action == battle_action_state::attack)
                         {
-                            defense_order_list.erase(defense_order_list.begin() + i);
                             attack_order_list.push_back(defense_order_list[i]);
                             continue;
                         }
@@ -3322,7 +3318,6 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _hero_action, uint32_t
                     {
                         if (_monster_action == battle_action_state::attack)
                         {
-                            defense_order_list.erase(defense_order_list.begin() + i);
                             attack_order_list.push_back(defense_order_list[i]);
                             continue;
                         }
@@ -3332,7 +3327,6 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _hero_action, uint32_t
                         uint32_t monster_action = safeseed::get_random_value(defense_order_list[i].second_speed, battle_action_state::state_count, battle_action_state::attack, 0);
                         if (monster_action == battle_action_state::attack)
                         {
-                            defense_order_list.erase(defense_order_list.begin() + i);
                             attack_order_list.push_back(defense_order_list[i]);
                             continue;
                         }
@@ -3347,7 +3341,6 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _hero_action, uint32_t
                     uint32_t monster_action = safeseed::get_random_value(defense_order_list[i].second_speed, battle_action_state::state_count, battle_action_state::attack, 0);
                     if (monster_action == battle_action_state::attack)
                     {
-                        defense_order_list.erase(defense_order_list.begin() + i);
                         attack_order_list.push_back(defense_order_list[i]);
                         continue;
                     }
