@@ -10,7 +10,6 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     public PrefabList prefabList;
     [HideInInspector]
     public BattleInformation battleInformation;
-    [HideInInspector]
     public int TimeScale = 1;
     [HideInInspector]
     public readonly int[] positionOrder = { 2, 1, 3, 0, 4, 7, 6, 8, 5, 9 };
@@ -27,18 +26,18 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     private DefenceEffect defenceEffect;
     public bool isBattleStart;
     private bool isSpaceCheck;
+    public bool isAuto;
 
     [HideInInspector]
     public GameObject delayImage;
 
     // Test
-    private int turn;
-
     private GameObject testMyTurn;
     private GameObject testReward;
     private GameObject testReTageting;
     private GameObject testDefeat;
     private GameObject testTargetDie;
+
 
     [System.Serializable]
     public struct BattleInformation
@@ -62,6 +61,8 @@ public class BattleSystem : MonoSingleton<BattleSystem>
 
     private void Awake()
     {
+        TimeScale = (int)System.Math.Round(Time.timeScale);
+        
         Application.targetFrameRate = 60;
         caracterCustom = GameObject.Find("CharacterCustomInstance").GetComponent<CaracterCustom>();
 
@@ -333,21 +334,60 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             StartCoroutine(TestMyTurn());
             BattleUIManager.Inst.BattleEndAction();
             isBattleStart = false;
+
+            if (isAuto)
+            {
+                AutoTargeting();
+                TurnEnd();
+            }
         }
     }
 
-    public void TrunEnd()
+    public void AutoTargeting()
     {
+        List<int> Live = new List<int>();
+        for (int i = 10; i < 20; i++)
+            if (characterControl[i]?.nowHp > 0)
+                Live.Add(i);
+
+        if (characterControl[0]?.nowHp > 0)
+        {
+            targetSettingInfo.heroAction = 2;
+            targetSettingInfo.heroTargetIndex = Live[Random.Range(0, 10) % Live.Count];
+        }
+        else
+        {
+            targetSettingInfo.heroAction = 3;
+        }
+
+        if (characterControl[5]?.nowHp > 0)
+        {
+            targetSettingInfo.monsterAction = 2;
+            targetSettingInfo.monsterTargetIndex = Live[Random.Range(0, 10) % Live.Count];
+        }
+        else
+        {
+            targetSettingInfo.monsterAction = 3;
+        }
+    }
+
+    public void TurnEnd()
+    {
+        // 다중 if문 추후 수정 필요할듯
+
+        Debug.Log("isAuto : " + isAuto);
+        Debug.Log("isTestPlay : " + isTestPlay);
+
         if (!isTestPlay)
         {
             if (isBattleStart == false)
             {
 
-                if (characterControl[0].nowHp <= 0)
+                if (characterControl[0]?.nowHp <= 0)
                 {
                     targetSettingInfo.heroAction = 3;
                 }
-                if (characterControl[5].nowHp <= 0)
+                if (characterControl[5]?.nowHp <= 0)
                 {
                     targetSettingInfo.monsterAction = 3;
                 }

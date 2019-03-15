@@ -181,5 +181,24 @@ public class BattleUIManager : MonoSingleton<BattleUIManager>
             Time.timeScale = 1;
         }
     }
+
+    public void AutoCheck()
+    {
+        BattleSystem battleSystem = BattleSystem.Inst;
+
+        if (battleSystem.isAuto)
+        {
+            battleSystem.isAuto = false;
+        }
+        else
+        {
+            if (!battleSystem.isBattleStart)
+            {
+                battleSystem.AutoTargeting();
+                battleSystem.TurnEnd();
+                battleSystem.isAuto = true;
+            }
+        }
+    }
     
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class SelectSystem : MonoSingleton<SelectSystem>
 {
@@ -135,8 +136,11 @@ public class SelectSystem : MonoSingleton<SelectSystem>
 
                 if (Input.GetMouseButtonUp(0))
                 {
-                    selectIndex = -1;
-                    characterInfo.SetActive(false);
+                    if (!EventSystem.current.IsPointerOverGameObject())
+                    {
+                        selectIndex = -1;
+                        characterInfo.SetActive(false);
+                    }
                 }
             }
         }
