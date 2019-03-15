@@ -4,7 +4,6 @@ using UnityEngine.UI;
 public class LobbyTopInfo : MonoBehaviour {
 
     public Text accountName;
-    public Text heroExp;
     public Text EOSCount;
     public Text UTGCount;
 
@@ -19,7 +18,7 @@ public class LobbyTopInfo : MonoBehaviour {
     public void SetTopInfo(UserInfo userInfo)
     {
         accountName.text = "LV." + userInfo.userHero.level + " " + userInfo.userName;
-        heroExp.text = userInfo.userHero.exp.ToString() + " / 128000" + " EXP";
+        //heroExp.text = userInfo.userHero.exp.ToString() + " / 128000" + " EXP";
 
         EOSCount.text = userInfo.userEOS.ToString("N4");
         UTGCount.text = userInfo.userMoney.ToString("N4");
@@ -29,10 +28,5 @@ public class LobbyTopInfo : MonoBehaviour {
     {
         // 임시로 치트키 추가
         Cheat.Inst.SetLoginCheat();
-    }
-
-    public void OnClickLogoutButton()
-    {
-        UTUMSProvider.Instance.RequestLogout();
     }
 }
