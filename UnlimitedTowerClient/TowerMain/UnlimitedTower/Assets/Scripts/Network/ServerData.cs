@@ -189,10 +189,13 @@ public class stageState
     public int index;
     public int id;
     public int now_hp;
-    public int attack;
-    public int defense;
+    public int physical_attack;
+    public int magic_attack;
+    public int physical_defense;
+    public int magic_defense;
     public int crit_per;
-    public int crit_dmg;
+    public int crit_physical_dmg;
+    public int crit_magic_dmg;
     public int avoid;
     public int state;
     public int speed;
