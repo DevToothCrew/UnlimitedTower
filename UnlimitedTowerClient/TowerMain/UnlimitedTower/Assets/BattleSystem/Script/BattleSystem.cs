@@ -37,7 +37,8 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     private GameObject testReTageting;
     private GameObject testDefeat;
     private GameObject testTargetDie;
-
+    public Text ErrorText;
+    public GameObject ErrorBox;
 
     [System.Serializable]
     public struct BattleInformation
@@ -100,11 +101,15 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         testDefeat = GameObject.Find("패배보상");
         testTargetDie = GameObject.Find("죽은대상");
 
+        ErrorBox = GameObject.Find("Error Box");
+        ErrorText = ErrorBox.transform.GetChild(0).GetComponent<Text>();
+
         testMyTurn.SetActive(false);
         testReward.SetActive(false);
         testReTageting.SetActive(false);
         testDefeat.SetActive(false);
         testTargetDie.SetActive(false);
+        ErrorBox.SetActive(false);
         UserDataManager.Inst.stageReward = null;
 
 
@@ -423,7 +428,11 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         }
     }
 
-
+    public void ErrorLog(string error)
+    {
+        ErrorBox.SetActive(true);
+        ErrorText.text = error;
+    }
 
     // 캐릭터 존재 여부 체크
     public void IsPlaceCheck(stageStateData stageStateInfo)

@@ -311,6 +311,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         {
             BattleSystem.Inst.ReTargeting();
         }
+        BattleSystem.Inst.ErrorLog(error.message);
     }
 
     #endregion
