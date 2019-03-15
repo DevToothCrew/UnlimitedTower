@@ -2499,13 +2499,13 @@ uint32_t battletest::get_physical_attack(status_info _status)
 uint32_t battletest::get_magic_defense(status_info _status)
 {
     uint32_t magic_defense;
-    magic_defense = (_status.basic_int + _status.plus_int) * 100; //1 * 100
+    magic_defense = (_status.basic_int + _status.plus_int) * 130; //1.3 * 100
     return magic_defense;
 }
 uint32_t battletest::get_physical_defense(status_info _status)
 {
     uint32_t physical_defense;
-    physical_defense = (_status.basic_dex + _status.plus_dex) * 100; //1 * 100
+    physical_defense = (_status.basic_dex + _status.plus_dex) * 130; //1.3 * 100
     return physical_defense;
 }
 
@@ -2811,10 +2811,10 @@ battletest::battle_state battletest::get_stage_state(status_info _status, uint64
     battle_state get_state;
     get_state.now_hp = get_max_hp(_status);
     //체력 일정 증가 패시브 적용
-    if(monster_iter->gacha_id > MONSTER_GACHA_ID_START)
-    {
-        get_state.now_hp += (get_state.now_hp * 2);
-    }
+    // if(monster_iter->gacha_id > MONSTER_GACHA_ID_START)
+    // {
+    //     get_state.now_hp += (get_state.now_hp * 2);
+    // }
 
     get_state.physical_attack = get_physical_attack(_status);
     get_state.crit_physical_dmg = get_physical_attack(_status) * oper_critical_damage / 10000;
@@ -2973,9 +2973,9 @@ ACTION battletest::startbattle(eosio::name _user, uint32_t _party_number, uint32
             for(uint32_t i = 0; i < stage_db_iter->monster_list.size(); ++i)
             {
                 status_info status;
-                status.basic_str = monster_rare_status_list[4];
-                status.basic_dex = monster_rare_status_list[4];
-                status.basic_int = monster_rare_status_list[4];
+                status.basic_str = monster_common_status_list[4];
+                status.basic_dex = monster_common_status_list[4];
+                status.basic_int = monster_common_status_list[4];
                 uint64_t level = safeseed::get_random_value(now(), stage_db_iter->monster_level_max, stage_db_iter->monster_level_min, 0);
                 for(uint32_t j=2; j<=level; ++j)
                 {
@@ -3030,9 +3030,9 @@ ACTION battletest::startbattle(eosio::name _user, uint32_t _party_number, uint32
             for(uint32_t i = 0; i < stage_db_iter->monster_list.size(); ++i)
             {
                 status_info status;
-                status.basic_str = monster_rare_status_list[4];
-                status.basic_dex = monster_rare_status_list[4];
-                status.basic_int = monster_rare_status_list[4];
+                status.basic_str = monster_common_status_list[4];
+                status.basic_dex = monster_common_status_list[4];
+                status.basic_int = monster_common_status_list[4];
 
                 uint64_t level = safeseed::get_random_value(now(), stage_db_iter->monster_level_max, stage_db_iter->monster_level_min, 0);
                 for (uint32_t j = 2; j <= level; ++j)
@@ -3758,7 +3758,7 @@ ACTION battletest::exitbattle(eosio::name _user)
 ACTION battletest::sellobject(eosio::name _user, uint32_t _type, uint32_t _index)
 {
     blacklist blacklist_table(_self, _self.value);
-    auto blacklist_iter = blacklist_table.find(from.value);
+    auto blacklist_iter = blacklist_table.find(_user.value);
     eosio_assert(blacklist_iter == blacklist_table.end(), "black list user");
 
     system_master system_master_table(_self, _self.value);
@@ -3870,7 +3870,7 @@ void battletest::sell_item(eosio::name _user, uint32_t _index)
 ACTION battletest::equipment(eosio::name _user, uint32_t _type, uint32_t _servant_index, uint32_t _item_index)
 {
     blacklist blacklist_table(_self, _self.value);
-    auto blacklist_iter = blacklist_table.find(from.value);
+    auto blacklist_iter = blacklist_table.find(_user.value);
     eosio_assert(blacklist_iter == blacklist_table.end(), "black list user");
 
     system_master system_master_table(_self, _self.value);
@@ -3895,7 +3895,7 @@ ACTION battletest::equipment(eosio::name _user, uint32_t _type, uint32_t _servan
 ACTION battletest::unequipment(eosio::name _user, uint32_t _type, uint32_t _servant_index, uint32_t _item_index)
 {
     blacklist blacklist_table(_self, _self.value);
-    auto blacklist_iter = blacklist_table.find(from.value);
+    auto blacklist_iter = blacklist_table.find(_user.value);
     eosio_assert(blacklist_iter == blacklist_table.end(), "black list user");
 
     system_master system_master_table(_self, _self.value);
@@ -4117,7 +4117,7 @@ bool battletest::compare_item(uint32_t _user_servant, uint32_t _user_item)
 ACTION battletest::upgrade(eosio::name _user, uint32_t _type, uint32_t _index, uint32_t _index2)
 {
     blacklist blacklist_table(_self, _self.value);
-    auto blacklist_iter = blacklist_table.find(from.value);
+    auto blacklist_iter = blacklist_table.find(_user.value);
     eosio_assert(blacklist_iter == blacklist_table.end(), "black list user");
 
     system_master system_master_table(_self, _self.value);
@@ -4242,7 +4242,7 @@ void battletest::upgrade_item(eosio::name _user, uint32_t _item, uint32_t _item2
 ACTION battletest::itemstore(eosio::name _user, uint32_t _type, uint32_t _count)
 {
     blacklist blacklist_table(_self, _self.value);
-    auto blacklist_iter = blacklist_table.find(from.value);
+    auto blacklist_iter = blacklist_table.find(_user.value);
     eosio_assert(blacklist_iter == blacklist_table.end(), "black list user");
 
     system_master system_master_table(_self, _self.value);
