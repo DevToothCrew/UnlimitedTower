@@ -14,12 +14,15 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     // Low UI
     public GameObject popupUI;
     public GameObject accountInfoUI;
+
     public GameObject popupInfoUI;
     public Text popupTitle;
-    public Text popupMenu;
 
     public POPUP_STATE popupState;
-    public GameObject[] popupPage = new GameObject[3];
+    public GameObject[] popupPage = new GameObject[1];
+
+    // 추후 추가할때마다 숫자 변경
+    readonly public int popupCount = 1;
 
     public void OnEnable()
     {
@@ -38,7 +41,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         popupInfoUI.SetActive(false);
 
         popupState = POPUP_STATE.Hero;
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < popupCount; i++)
         {
             popupPage[i].SetActive(false);
         }
@@ -79,21 +82,18 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
             case POPUP_STATE.Hero:
                 {
                     SetPopupTitle("Party");
-                    SetPopupMenu(num);
                 }
                 break;
 
             case POPUP_STATE.Weapon:
                 {
                     SetPopupTitle("Inventory");
-                    SetPopupMenu(num);
                 }
                 break;
 
             case POPUP_STATE.EOS:
                 {
                     SetPopupTitle("Shop");
-                    SetPopupMenu(num);
                 }
                 break;
 
@@ -107,7 +107,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         accountInfoUI.SetActive(false);
         popupInfoUI.SetActive(true);
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < popupCount; i++)
         {
             if (i == num / 10)
             {
@@ -132,20 +132,5 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public void SetPopupTitle(string text)
     {
         popupTitle.text = text;
-    }
-
-    public void SetPopupMenu(int pageNum)
-    {
-        popupMenu.text = ((POPUP_STATE)pageNum).ToString();
-    }
-
-    public void SetChangeMenu(int getState)
-    {
-        // 버튼과 현재 상태가 다를 경우만 반응
-        if (popupState != (POPUP_STATE)getState)
-        {
-            popupState = (POPUP_STATE)getState;
-            SetPopupMenu(getState);
-        }
     }
 }

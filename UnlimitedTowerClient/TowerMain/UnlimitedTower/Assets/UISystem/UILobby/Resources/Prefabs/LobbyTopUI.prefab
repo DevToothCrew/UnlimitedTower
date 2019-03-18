@@ -507,7 +507,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1905934981400446
 GameObject:
   m_ObjectHideFlags: 1
@@ -878,7 +878,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   accountName: {fileID: 114442751377633716}
-  heroExp: {fileID: 0}
   EOSCount: {fileID: 114193838037570252}
   UTGCount: {fileID: 114141463871220038}
 --- !u!114 &114429740000472020
