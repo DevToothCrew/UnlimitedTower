@@ -125,7 +125,7 @@ public class GachaBoxParticleController : MonoBehaviour
     {
         var go = Instantiate(particlePrefab, transform);
         particles.Add(go);
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSecondsRealtime(time);
 
         go.GetComponent<GachaBoxParticle>()?.BeginSummon();
     }

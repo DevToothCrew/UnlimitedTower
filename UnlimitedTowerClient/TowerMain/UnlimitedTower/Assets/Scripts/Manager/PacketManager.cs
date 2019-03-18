@@ -634,7 +634,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         UTLoadingManager.Instance.BeginScene(desc);
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSecondsRealtime(1.0f);
 
         ao = SceneManager.LoadSceneAsync(name);
 
