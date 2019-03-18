@@ -197,10 +197,13 @@ public class Cheat : MonoSingleton<Cheat>
             }
 
             newMember.id = CharacterCSVData.Inst.monsterDataInspector[UnityEngine.Random.Range(0, CharacterCSVData.Inst.monsterDataInspector.Count)].indexNumber; 
-            newMember.now_hp = 100;
-            newMember.attack = 10000;
-            newMember.defense = 10;
-            newMember.crit_dmg = 1;
+            newMember.now_hp = 10000;
+            newMember.physical_attack = 10000;
+            newMember.physical_defense = 10;
+            newMember.crit_physical_dmg = 1;
+            newMember.magic_attack = 10000;
+            newMember.magic_defense = 10;
+            newMember.crit_magic_dmg = 1;
             newMember.crit_per = 5;
             newMember.avoid = 5;
             newMember.state = 0;
@@ -215,10 +218,13 @@ public class Cheat : MonoSingleton<Cheat>
             newMember.position = i + 10;
             newMember.index = 0;
             newMember.id = CharacterCSVData.Inst.monsterDataInspector[UnityEngine.Random.Range(0, CharacterCSVData.Inst.monsterDataInspector.Count)].indexNumber;
-            newMember.now_hp = 100;
-            newMember.attack = 10;
-            newMember.defense = 10;
-            newMember.crit_dmg = 1;
+            newMember.now_hp = 10000;
+            newMember.physical_attack = 10000;
+            newMember.physical_defense = 10;
+            newMember.crit_physical_dmg = 1;
+            newMember.magic_attack = 10000;
+            newMember.magic_defense = 10;
+            newMember.crit_magic_dmg = 1;
             newMember.crit_per = 5;
             newMember.avoid = 5;
             newMember.state = 0;

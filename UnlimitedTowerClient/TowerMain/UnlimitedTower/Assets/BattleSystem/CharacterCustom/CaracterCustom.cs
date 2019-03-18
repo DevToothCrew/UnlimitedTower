@@ -264,73 +264,73 @@ public class CaracterCustom : MonoBehaviour
         }
     }
 
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Keypad1))
-        {
-            if (jobIndex > 0)
-            {
-                jobIndex--;
-                Refresh();
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad3))
-        {
-            if (jobIndex < 5)
-            {
-                jobIndex++;
-                Refresh();
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad4))
-        {
-            if (headIndex > 0)
-            {
-                headIndex--;
-                Refresh();
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad6))
-        {
-            if (headIndex < 2)
-            {
-                headIndex++;
-                Refresh();
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad7))
-        {
-            if (hairIndex > 0)
-            {
-                hairIndex--;
-                Refresh();
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad9))
-        {
-            if (hairIndex < 2)
-            {
-                hairIndex++;
-                Refresh();
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad5))
-        {
-            isMan = isMan == 0 ? 1 : 0;
-            Refresh();
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad8))
-        {
-            isChildren = isChildren == 0 ? 1 : 0;
-            Refresh();
-        }
+    //public void Update()
+    //{
+    //if (Input.GetKeyDown(KeyCode.Keypad1))
+    //{
+    //if (jobIndex > 0)
+    //{
+    //jobIndex--;
+    //Refresh();
+    //}
+    //}
+    //if (Input.GetKeyDown(KeyCode.Keypad3))
+    //{
+    //if (jobIndex < 5)
+    //{
+    //jobIndex++;
+    //Refresh();
+    //}
+    //}
+    //if (Input.GetKeyDown(KeyCode.Keypad4))
+    //{
+    //if (headIndex > 0)
+    //{
+    //headIndex--;
+    //Refresh();
+    //}
+    //}
+    //if (Input.GetKeyDown(KeyCode.Keypad6))
+    //{
+    //if (headIndex < 2)
+    //{
+    //headIndex++;
+    //Refresh();
+    //}
+    //}
+    //if (Input.GetKeyDown(KeyCode.Keypad7))
+    //{
+    //if (hairIndex > 0)
+    //{
+    //hairIndex--;
+    //Refresh();
+    //}
+    //}
+    //if (Input.GetKeyDown(KeyCode.Keypad9))
+    //{
+    //if (hairIndex < 2)
+    //{
+    //hairIndex++;
+    //Refresh();
+    //}
+    //}
+    //if (Input.GetKeyDown(KeyCode.Keypad5))
+    //{
+    //isMan = isMan == 0 ? 1 : 0;
+    //Refresh();
+    //}
+    //if (Input.GetKeyDown(KeyCode.Keypad8))
+    //{
+    //isChildren = isChildren == 0 ? 1 : 0;
+    //Refresh();
+    //}
 
-        if (Input.GetMouseButton(0))
-        {
-            defultCharacter.transform.Rotate(0, -Input.GetAxis("Mouse X") * 10, 0);
-        }
-    }
-    
+    //if (Input.GetMouseButton(0))
+    //{
+    //defultCharacter.transform.Rotate(0, -Input.GetAxis("Mouse X") * 10, 0);
+    //}
+    //}
+
     public GameObject Create(int jobIndex, int headIndex, int hairIndex, int isMan, int isChildren)
     {
         this.jobIndex = jobIndex;
