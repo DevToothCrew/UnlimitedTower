@@ -895,33 +895,13 @@ CONTRACT battletest : public contract
         strength_collect_wait,
     };
 
-    enum active_skill_list
+    enum active_skill
     {
-        none_active = 0,
-        double_attack, //더블 어택 - 15% 확률로 2번 공격한다.
-        all_attack,    //참격 - 적 앞라인 전체 적을 공격력의 35%로 공격한다.
-        heal,          //치유 - 대상 아군을 지능 수치의 100%만큼 치유한다.
-        no_think,      //무아지경 - 공격력의 50%로 랜덤한 적 4개체 타격 (같은 개체 타격 가능)
-        poison_arrow,  //독화살 - 적에게 공격력 40%의 데미지를 입히고, 상태이상 : 중독을 건다 (중독 : 4턴 동안 턴 마다 공격력의 30%의 데미지를 입힌다.)
-        active_skill_count,
+        double_attack = 302,
+        all_attack,
+        all_headl,
     };
 
-    enum passive_skill_list
-    {
-        none_passive = 0,
-        iron_wall,        //철벽 - 방어율 10% 상승 (방어력 아님)
-        blood_attack,     //피의 일격 - 치명타 시 데미지 10%만큼 회복
-        deceiver,         //기만자 - HP 100%일 때 자신의 속도 10 증가
-        strength_flag,    //힘의 깃발 - 자신의 양 옆 캐릭터에게 공격력 15% 상승 버프를 부여
-        sniper,           //저격수 - 자신의 앞에 캐릭터가 존재할 경우 공격력 50% 증가
-        strength_collect, //힘모으기 - 방어시 다음 턴 공격력 25% 증가
-        attack_increase,    //공격력 영구 증가
-        defense_increase,   //방어력 영구 증가
-        hp_increase,        //체력 일정량 증가
-        widespread,         //체력 30%이하 감소시 공격력 2배 증가
-        nemesis,            //천적 직업 타격시 공격력 2배 증가
-        passive_skill_count,
-    };
 
     // 4 + 4 + 4 + 4 + 4 + 4 + 8 + sbattle_member_state(9) = 41
     // sbattle_member_state 당 9 총 5개의 버프창이 있으면 45 + 32 = 77
@@ -969,6 +949,9 @@ CONTRACT battletest : public contract
         uint32_t avoid;
         uint32_t state;
         uint32_t speed;
+        std::vector<uint32_t> passive_skill_list;
+        std::vector<uint32_t> active_skill_list;
+        status_info status;
     };
 
     TABLE tstagestate
