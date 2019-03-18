@@ -376,8 +376,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4826634350867978}
   - component: {fileID: 95297282874203898}
-  - component: {fileID: 114416580044393002}
   - component: {fileID: 114712990538047744}
+  - component: {fileID: 114416580044393002}
   m_Layer: 0
   m_Name: mst_cat_white
   m_TagString: Untagged
@@ -1013,7 +1013,7 @@ Transform:
   m_GameObject: {fileID: 1045875968556308}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.34956464, y: 0.34956464, z: 0.34956464}
+  m_LocalScale: {x: 0.5604719, y: 0.56047225, z: 0.56047225}
   m_Children:
   - {fileID: 4999962401311050}
   m_Father: {fileID: 4826634350867978}

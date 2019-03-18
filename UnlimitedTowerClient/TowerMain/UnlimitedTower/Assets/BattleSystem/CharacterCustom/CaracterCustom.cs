@@ -43,8 +43,9 @@ public class CaracterCustom : MonoBehaviour
 
     [FormerlySerializedAs("CharacterSkinnedMeshList")]
     public CharacterSkinnedMeshList characterSkinnedMeshList = new CharacterSkinnedMeshList();
-    
+
     public GameObject defultCharacter;
+    public GameObject defultCharacterParent;
 
     [Header("- Head Mash")]
     public HeadParts[] adultManHead = new HeadParts[9];
@@ -116,8 +117,13 @@ public class CaracterCustom : MonoBehaviour
         ClericCharacterMeshList[1].frame = GameObject.Find("ClericFrame")?.transform.GetChild(0).GetChild(0).GetChild(0);
         ClericCharacterMeshList[2].frame = GameObject.Find("ClericFrame")?.transform.GetChild(1).GetChild(1).GetChild(0);
         ClericCharacterMeshList[3].frame = GameObject.Find("ClericFrame")?.transform.GetChild(0).GetChild(1).GetChild(0);
-        
-        characterInformation[0] = new CharacterInfo(0.9f, 1.0f, 1.5f, 0.2f);
+
+        WhiteHandCharacterMeshList[0].frame = GameObject.Find("WhiteHandFrame")?.transform.GetChild(1).GetChild(0).GetChild(0);
+        WhiteHandCharacterMeshList[1].frame = GameObject.Find("WhiteHandFrame")?.transform.GetChild(0).GetChild(0).GetChild(0);
+        WhiteHandCharacterMeshList[2].frame = GameObject.Find("WhiteHandFrame")?.transform.GetChild(1).GetChild(1).GetChild(0);
+        WhiteHandCharacterMeshList[3].frame = GameObject.Find("WhiteHandFrame")?.transform.GetChild(0).GetChild(1).GetChild(0);
+
+        characterInformation[0] = new CharacterInfo(0.65f, 1.0f, 1.5f, 1.0f);
         characterInformation[1] = new CharacterInfo(0.9f, 1.0f, 1.5f, 0.7f);
         characterInformation[2] = new CharacterInfo(0.9f, 1.0f, 1.5f, 0.7f);
         characterInformation[3] = new CharacterInfo(0.9f, 1.0f, 1.5f, 0.6f);
@@ -258,73 +264,73 @@ public class CaracterCustom : MonoBehaviour
         }
     }
 
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Keypad1))
-        {
-            if (jobIndex > 1)
-            {
-                jobIndex--;
-                Refresh();
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad3))
-        {
-            if (jobIndex < 5)
-            {
-                jobIndex++;
-                Refresh();
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad4))
-        {
-            if (headIndex > 0)
-            {
-                headIndex--;
-                Refresh();
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad6))
-        {
-            if (headIndex < 2)
-            {
-                headIndex++;
-                Refresh();
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad7))
-        {
-            if (hairIndex > 0)
-            {
-                hairIndex--;
-                Refresh();
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad9))
-        {
-            if (hairIndex < 2)
-            {
-                hairIndex++;
-                Refresh();
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad5))
-        {
-            isMan = isMan == 0 ? 1 : 0;
-            Refresh();
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad8))
-        {
-            isChildren = isChildren == 0 ? 1 : 0;
-            Refresh();
-        }
+    //public void Update()
+    //{
+    //if (Input.GetKeyDown(KeyCode.Keypad1))
+    //{
+    //if (jobIndex > 0)
+    //{
+    //jobIndex--;
+    //Refresh();
+    //}
+    //}
+    //if (Input.GetKeyDown(KeyCode.Keypad3))
+    //{
+    //if (jobIndex < 5)
+    //{
+    //jobIndex++;
+    //Refresh();
+    //}
+    //}
+    //if (Input.GetKeyDown(KeyCode.Keypad4))
+    //{
+    //if (headIndex > 0)
+    //{
+    //headIndex--;
+    //Refresh();
+    //}
+    //}
+    //if (Input.GetKeyDown(KeyCode.Keypad6))
+    //{
+    //if (headIndex < 2)
+    //{
+    //headIndex++;
+    //Refresh();
+    //}
+    //}
+    //if (Input.GetKeyDown(KeyCode.Keypad7))
+    //{
+    //if (hairIndex > 0)
+    //{
+    //hairIndex--;
+    //Refresh();
+    //}
+    //}
+    //if (Input.GetKeyDown(KeyCode.Keypad9))
+    //{
+    //if (hairIndex < 2)
+    //{
+    //hairIndex++;
+    //Refresh();
+    //}
+    //}
+    //if (Input.GetKeyDown(KeyCode.Keypad5))
+    //{
+    //isMan = isMan == 0 ? 1 : 0;
+    //Refresh();
+    //}
+    //if (Input.GetKeyDown(KeyCode.Keypad8))
+    //{
+    //isChildren = isChildren == 0 ? 1 : 0;
+    //Refresh();
+    //}
 
-        if (Input.GetMouseButton(0))
-        {
-            defultCharacter.transform.Rotate(0, -Input.GetAxis("Mouse X") * 10, 0);
-        }
-    }
-    
+    //if (Input.GetMouseButton(0))
+    //{
+    //defultCharacter.transform.Rotate(0, -Input.GetAxis("Mouse X") * 10, 0);
+    //}
+    //}
+
     public GameObject Create(int jobIndex, int headIndex, int hairIndex, int isMan, int isChildren)
     {
         this.jobIndex = jobIndex;
@@ -341,7 +347,7 @@ public class CaracterCustom : MonoBehaviour
         return defultCharacter;
     }
 
-    [ContextMenu("test")]
+    [ContextMenu("Refresh")]
     private void Refresh()
     {
         switch (jobIndex)
@@ -382,12 +388,63 @@ public class CaracterCustom : MonoBehaviour
         defultCharacter.GetComponent<Animator>().runtimeAnimatorController = animatorController[jobIndex];
     }
 
-    // IEnumerator ColorChange()
-    // {
-    //     while (true)
-    //     {
-    //         RingEffect.startColor = Color.Lerp(RingEffect.startColor, JobColor[jobIndex], 0.2f);
-    //         yield return null;
-    //     }
-    // }
+    public void ManIndexChange()
+    {
+        isMan = 1;
+        Refresh();
+    }
+
+    public void WomanIndexChange()
+    {
+        isMan = 0;
+        Refresh();
+    }
+
+    public void ChildrenIndexChange()
+    {
+        isChildren = 1;
+        Refresh();
+    }
+
+    public void AdultIndexChange()
+    {
+        isChildren = 0;
+        Refresh();
+    }
+
+    public void FaceIndexUp()
+    {
+        if (hairIndex < 2)
+        {
+            hairIndex++;
+            Refresh();
+        }
+    }
+
+    public void FaceIndexDown()
+    {
+        if (hairIndex > 0)
+        {
+            hairIndex--;
+            Refresh();
+        }
+    }
+
+    public void HairIndexUp()
+    {
+        if (headIndex < 2)
+        {
+            headIndex++;
+            Refresh();
+        }
+    }
+
+    public void HairIndexDown()
+    {
+        if (headIndex > 0)
+        {
+            headIndex--;
+            Refresh();
+        }
+    }
 }

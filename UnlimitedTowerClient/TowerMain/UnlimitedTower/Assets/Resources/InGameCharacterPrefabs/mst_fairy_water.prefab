@@ -404,8 +404,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4283765407809466}
   - component: {fileID: 95735187363336534}
-  - component: {fileID: 114382299647164726}
   - component: {fileID: 114097790306177576}
+  - component: {fileID: 114382299647164726}
   m_Layer: 0
   m_Name: mst_fairy_water
   m_TagString: Untagged

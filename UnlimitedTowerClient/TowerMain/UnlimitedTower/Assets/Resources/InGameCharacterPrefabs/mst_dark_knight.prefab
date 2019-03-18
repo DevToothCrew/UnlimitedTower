@@ -1438,8 +1438,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackDelay: 0.6
   AttackAfterDelay: 1.5
-  Height: 1.2
-  AttackRange: 0.5
+  Height: 1.7
+  AttackRange: 0.8
 --- !u!114 &114757899919999894
 MonoBehaviour:
   m_ObjectHideFlags: 1

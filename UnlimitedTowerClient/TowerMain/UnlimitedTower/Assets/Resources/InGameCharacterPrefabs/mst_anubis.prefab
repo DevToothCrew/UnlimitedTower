@@ -299,8 +299,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4952528402327094}
   - component: {fileID: 95997764431560222}
-  - component: {fileID: 114745515320677114}
   - component: {fileID: 114791378289230906}
+  - component: {fileID: 114745515320677114}
   m_Layer: 0
   m_Name: mst_anubis
   m_TagString: Untagged
@@ -961,7 +961,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1435480334711764}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.0000000010843, z: 0.000000034697}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.31304973, y: 0.31304976, z: 0.31304976}
   m_Children:
   - {fileID: 4189770638598342}

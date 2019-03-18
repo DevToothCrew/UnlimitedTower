@@ -605,8 +605,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4490691746585670}
   - component: {fileID: 95999742944061848}
-  - component: {fileID: 114269341183207084}
   - component: {fileID: 114406434063482202}
+  - component: {fileID: 114269341183207084}
   m_Layer: 0
   m_Name: mst_panda
   m_TagString: Untagged

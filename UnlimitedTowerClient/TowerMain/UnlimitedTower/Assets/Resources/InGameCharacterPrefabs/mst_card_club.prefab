@@ -465,8 +465,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4725475471893922}
   - component: {fileID: 95176704003634430}
-  - component: {fileID: 114455543461476188}
   - component: {fileID: 114337220943319944}
+  - component: {fileID: 114455543461476188}
   m_Layer: 0
   m_Name: mst_card_club
   m_TagString: Untagged
@@ -1320,7 +1320,7 @@ MonoBehaviour:
   AttackDelay: 0.5
   AttackAfterDelay: 1
   Height: 1.5
-  AttackRange: 0.5
+  AttackRange: 0.7
 --- !u!114 &114455543461476188
 MonoBehaviour:
   m_ObjectHideFlags: 1

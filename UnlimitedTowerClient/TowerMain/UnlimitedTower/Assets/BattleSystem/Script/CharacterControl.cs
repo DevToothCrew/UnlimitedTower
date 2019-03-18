@@ -29,11 +29,10 @@ public class CharacterControl : MonoBehaviour
         {
             if (!isDie)
             {
-                // 바꿔라아ㅏㅏㅏㅏㅏㅏㅏ
                 child.GetComponent<Animator>().SetTrigger("isDie");
                 isDie = true;
-                nowHp = 0;
             }
+            nowHp = 0;
         }
     }
 

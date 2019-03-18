@@ -10,7 +10,6 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     public PrefabList prefabList;
     [HideInInspector]
     public BattleInformation battleInformation;
-    [HideInInspector]
     public int TimeScale = 1;
     [HideInInspector]
     public readonly int[] positionOrder = { 2, 1, 3, 0, 4, 7, 6, 8, 5, 9 };
@@ -21,19 +20,25 @@ public class BattleSystem : MonoSingleton<BattleSystem>
 
     public TargetSettingInfo targetSettingInfo = new TargetSettingInfo();
 
+    public bool isTestPlay;
+
     private CaracterCustom caracterCustom;
     private DefenceEffect defenceEffect;
-    private bool isBattleStart;
+    public bool isBattleStart;
     private bool isSpaceCheck;
+    public bool isAuto;
+
+    [HideInInspector]
+    public GameObject delayImage;
 
     // Test
-    private int turn;
-
     private GameObject testMyTurn;
     private GameObject testReward;
     private GameObject testReTageting;
     private GameObject testDefeat;
     private GameObject testTargetDie;
+    public Text ErrorText;
+    public GameObject ErrorBox;
 
     [System.Serializable]
     public struct BattleInformation
@@ -57,6 +62,8 @@ public class BattleSystem : MonoSingleton<BattleSystem>
 
     private void Awake()
     {
+        TimeScale = (int)System.Math.Round(Time.timeScale);
+        
         Application.targetFrameRate = 60;
         caracterCustom = GameObject.Find("CharacterCustomInstance").GetComponent<CaracterCustom>();
 
@@ -83,8 +90,10 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         characterObject[19] = GameObject.Find("CharacterEnemy10").gameObject;
 
         defenceEffect = GameObject.Find("DefenceActionObject").GetComponent<DefenceEffect>();
+        delayImage = GameObject.Find("DelayImage");
 
         defenceEffect.gameObject.SetActive(false);
+        delayImage.SetActive(false);
 
         testMyTurn = GameObject.Find("마이턴");
         testReward = GameObject.Find("보상");
@@ -92,16 +101,18 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         testDefeat = GameObject.Find("패배보상");
         testTargetDie = GameObject.Find("죽은대상");
 
+        ErrorBox = GameObject.Find("Error Box");
+        ErrorText = ErrorBox.transform.GetChild(0).GetComponent<Text>();
+
         testMyTurn.SetActive(false);
         testReward.SetActive(false);
         testReTageting.SetActive(false);
         testDefeat.SetActive(false);
         testTargetDie.SetActive(false);
+        ErrorBox.SetActive(false);
         UserDataManager.Inst.stageReward = null;
-    }
 
-    public void Start()
-    {
+
         prefabList = GetComponent<PrefabList>();
         battleInformation.attackerIndex = -1;
 
@@ -112,101 +123,89 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             return;
         }
 
-        IsPlaceCheck(stageStateInfo);
-        SettingScript(stageStateInfo);
-        SettingHero();
-        SettingCharacter(stageStateInfo);
-        SettingMonster(stageStateInfo);
-        SettingHp(stageStateInfo);
-        SettingPosition();
+        if (!isTestPlay)
+        {
+            IsPlaceCheck(stageStateInfo);
+            SettingScript(stageStateInfo);
+            SettingHero();
+            SettingCharacter(stageStateInfo);
+            SettingMonster(stageStateInfo);
+            SettingHp(stageStateInfo);
+            SettingPosition();
+        }
+        else
+        {
+            TestIsPlaceCheck();
+            TestSettingScript();
+            TestSettingMonster();
+            TestSettingHp();
+            SettingPosition();
+        }
     }
 
-    [ContextMenu("AttackTest")]
-    public void AttackTest()
+    public void Start()
     {
-        StartCoroutine(BattleStart());
+        
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (isBattleStart == false)
-            {
-               
-                if (characterControl[0].nowHp < 0)
-                {
-                    targetSettingInfo.heroAction = 3;
-                }
-                if (characterControl[5].nowHp < 0)
-                {
-                    targetSettingInfo.monsterAction = 3;
-                }
-
-                if (((targetSettingInfo.heroAction == 2 && targetSettingInfo.heroTargetIndex > 9) || targetSettingInfo.heroAction == 3) &&
-                ((targetSettingInfo.monsterAction == 2 && targetSettingInfo.monsterTargetIndex > 9) || targetSettingInfo.monsterAction == 3))
-                {
-                    if (isSpaceCheck == false)
-                    {
-                        isBattleStart = true;
-                        UTUMSProvider.Instance?.RequestBattleAction(targetSettingInfo.heroTargetIndex, targetSettingInfo.heroAction, targetSettingInfo.monsterTargetIndex, targetSettingInfo.monsterAction);
-                        targetSettingInfo = new TargetSettingInfo();
-                    }
-                }
-                else
-                    StartCoroutine(TestReTargeting());
-            }
-        }
-        else if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.G))
         {
             //나가기 패킷 보내기
+            delayImage.SetActive(true);
             PacketManager.Inst.RequestStageExit();
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
+            delayImage.SetActive(true);
             SceneManager.LoadScene("Lobby");
         }
     }
 
     #region 테스트용
 
+    public void TestIsPlaceCheck()
+    {
+        characterisPlace[0] = true;
+        characterisPlace[10] = true;
+    }
+
+    public void TestSettingScript()
+    {
+        characterControl[0] = characterObject[0]?.AddComponent<CharacterControl>();
+        characterControl[0].index = 0;
+        characterControl[10] = characterObject[10]?.AddComponent<CharacterControl>();
+        characterControl[10].index = 10;
+    }
+
+    public void TestSettingMonster()
+    {
+        GameObject servant = Instantiate(caracterCustom.Create(5, 0, 0, 0, 0), characterObject[0].transform);
+        servant.transform.position = characterObject[0].transform.position;
+        
+        Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataInspector[0].resource), characterObject[10].transform);
+    }
+
+    public void TestSettingHp()
+    {
+        characterControl[0].maxHp = 1000;
+        characterControl[0].nowHp = 1000;
+        characterControl[10].maxHp = 1000;
+        characterControl[10].nowHp = 1000;
+    }
+
     // 1번부터 10번까지 번갈아 가며 공격
-    //IEnumerator BattleTestTarget()
-    //{
-    //    for (int i = 0; i < 10; i++)
-    //    {
-    //        battleInformation.attackerIndex = i;
-    //        battleInformation.targetIndex = i;
-    //        battleInformation.damage = 10;
-    //        battleInformation.isCritical = Random.Range(0, 2) == 1 ? true : false;
-    //        battleInformation.isAvoid = false;
-    //        battleInformation.isPlayerTurn = true;
+    public void TestBattleTarget()
+    {
+        battleInformation.attackerIndex = 0;
+        battleInformation.targetIndex = 10;
+        battleInformation.damage = 10;
+        battleInformation.isCritical = false;
+        battleInformation.isAvoid = false;
 
-    //        playerCharacterControl[battleInformation.attackerIndex].Attack(new SendValue(
-    //            battleInformation.attackerIndex,
-    //            battleInformation.targetIndex,
-    //            battleInformation.damage,
-    //            battleInformation.isCritical,
-    //            battleInformation.isAvoid,
-    //            battleInformation.isPlayerTurn));
-    //        yield return new WaitForSeconds(7);
-    //        battleInformation.attackerIndex = i;
-    //        battleInformation.targetIndex = i;
-    //        battleInformation.damage = 10;
-    //        battleInformation.isCritical = Random.Range(0, 2) == 1 ? true : false;
-    //        battleInformation.isAvoid = false;
-    //        battleInformation.isPlayerTurn = false;
-
-    //        enemyCharacterControl[battleInformation.attackerIndex].Attack(new SendValue(
-    //            battleInformation.attackerIndex,
-    //            battleInformation.targetIndex,
-    //            battleInformation.damage,
-    //            battleInformation.isCritical,
-    //            battleInformation.isAvoid,
-    //            battleInformation.isPlayerTurn));
-    //        yield return new WaitForSeconds(7);
-    //    }
-    //}
+        characterControl[0].Attack(new SendValue(0, 10, 10, false, false));
+    }
 
     //// 랜덤하게 번갈아가며 공격
     //IEnumerator BattleTestRandom()
@@ -248,11 +247,14 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     //    }
     //}
 
+
     #endregion
 
     // 배틀데이터를 받아와 공격 ( 메인 배틀 한턴 )
     public IEnumerator BattleStart()
     {
+        delayImage.SetActive(false);
+
         isSpaceCheck = false;
         stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
         stageActionInfoData stageActionInfo = UserDataManager.Inst.GetStageAction();
@@ -274,7 +276,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             
                 battleInformation.attackerIndex = stageActionInfo.battle_info_list[i].my_position;
                 battleInformation.targetIndex = stageActionInfo.battle_info_list[i].battle_action_list[0].target_position;
-                battleInformation.damage = stageActionInfo.battle_info_list[i].battle_action_list[0].damage;
+                battleInformation.damage = (int)(stageActionInfo.battle_info_list[i].battle_action_list[0].damage * 0.01f);
                 battleInformation.isCritical = stageActionInfo.battle_info_list[i].battle_action_list[0].critical;
                 battleInformation.isAvoid = stageActionInfo.battle_info_list[i].battle_action_list[0].avoid;
                 characterControl[battleInformation.attackerIndex].Attack(new SendValue(
@@ -333,9 +335,104 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         }
         else
         {
+            BattleUIManager.Inst.ResetTargetImage();
             StartCoroutine(TestMyTurn());
+            BattleUIManager.Inst.BattleEndAction();
             isBattleStart = false;
+
+            if (isAuto)
+            {
+                AutoTargeting();
+                TurnEnd();
+            }
         }
+    }
+
+    public void ReTargeting()
+    {
+        isAuto = false;
+        delayImage.SetActive(false);
+        BattleUIManager.Inst.ResetTargetImage();
+        BattleUIManager.Inst.BattleEndAction();
+        isBattleStart = false;
+    }
+
+    public void AutoTargeting()
+    {
+        List<int> Live = new List<int>();
+        for (int i = 10; i < 20; i++)
+            if (characterControl[i]?.nowHp > 0)
+                Live.Add(i);
+
+        if (characterControl[0]?.nowHp > 0)
+        {
+            targetSettingInfo.heroAction = 2;
+            targetSettingInfo.heroTargetIndex = Live[Random.Range(0, 10) % Live.Count];
+        }
+        else
+        {
+            targetSettingInfo.heroAction = 3;
+        }
+
+        if (characterControl[5]?.nowHp > 0)
+        {
+            targetSettingInfo.monsterAction = 2;
+            targetSettingInfo.monsterTargetIndex = Live[Random.Range(0, 10) % Live.Count];
+        }
+        else
+        {
+            targetSettingInfo.monsterAction = 3;
+        }
+    }
+
+    public void TurnEnd()
+    {
+        // 다중 if문 추후 수정 필요할듯
+
+        Debug.Log("isAuto : " + isAuto);
+        Debug.Log("isTestPlay : " + isTestPlay);
+
+        if (!isTestPlay)
+        {
+            if (isBattleStart == false)
+            {
+
+                if (characterControl[0]?.nowHp <= 0)
+                {
+                    targetSettingInfo.heroAction = 3;
+                }
+                if (characterControl[5]?.nowHp <= 0)
+                {
+                    targetSettingInfo.monsterAction = 3;
+                }
+
+                if (((targetSettingInfo.heroAction == 2 && targetSettingInfo.heroTargetIndex > 9) || targetSettingInfo.heroAction == 3) &&
+                ((targetSettingInfo.monsterAction == 2 && targetSettingInfo.monsterTargetIndex > 9) || targetSettingInfo.monsterAction == 3))
+                {
+                    if (isSpaceCheck == false)
+                    {
+                        isBattleStart = true;
+                        delayImage.SetActive(true);
+                        UTUMSProvider.Instance?.RequestBattleAction(targetSettingInfo.heroTargetIndex, targetSettingInfo.heroAction, targetSettingInfo.monsterTargetIndex, targetSettingInfo.monsterAction);
+                        targetSettingInfo = new TargetSettingInfo();
+                        BattleUIManager.Inst.BattleStartAction();
+                    }
+                }
+                else
+                    StartCoroutine(TestReTargeting());
+            }
+        }
+        else
+        {
+            TestBattleTarget();
+        }
+    }
+
+    // 에러 로그
+    public void ErrorLog(string error)
+    {
+        ErrorBox.SetActive(true);
+        ErrorText.text = error;
     }
 
     // 캐릭터 존재 여부 체크
@@ -413,7 +510,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             else
             {
                 Instantiate(Resources.Load("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataDic
-                    [UserDataManager.Inst.GetMonsterInfo(stageStateInfo.my_state_list[i].index).id].resource) as GameObject,
+                    [stageStateInfo.my_state_list[i].id].resource) as GameObject,
                     characterObject[stageStateInfo.my_state_list[i].position].transform);
             }
         }
@@ -424,8 +521,8 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     {
         for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
         {
-            Instantiate(Resources.Load("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataDic
-                    [stageStateInfo.enemy_state_list[i].index].resource) as GameObject,
+            Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataDic
+                    [stageStateInfo.enemy_state_list[i].id].resource),
                     characterObject[stageStateInfo.enemy_state_list[i].position].transform);
         }
     }
@@ -451,16 +548,24 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     // 캐릭터별 체력 설정
     public void SettingHp(stageStateData stageStateInfo)
     {
-        for (int i = 0; i < stageStateInfo.my_state_list.Count; i++)
-        {
-            characterControl[stageStateInfo.my_state_list[i].position].maxHp = stageStateInfo.my_state_list[i].now_hp;
-            characterControl[stageStateInfo.my_state_list[i].position].nowHp = stageStateInfo.my_state_list[i].now_hp;
-        }
+        characterControl[0].maxHp = Calculator.GetMaxHp(UserDataManager.Inst.GetHeroInfo().status);
+        characterControl[stageStateInfo.my_state_list[0].position].nowHp = stageStateInfo.my_state_list[0].now_hp / 100;
 
+        for (int i = 1; i < stageStateInfo.my_state_list.Count; i++)
+        {
+            int index = stageStateInfo.my_state_list[i].index;
+            int position = stageStateInfo.my_state_list[i].position;
+            if (position < 5)
+                characterControl[stageStateInfo.my_state_list[i].position].maxHp = Calculator.GetMaxHp(UserDataManager.Inst.GetServantInfo(index).status);
+            else
+                characterControl[stageStateInfo.my_state_list[i].position].maxHp = Calculator.GetMaxHp(UserDataManager.Inst.GetMonsterInfo(index).status);
+            characterControl[stageStateInfo.my_state_list[i].position].nowHp = stageStateInfo.my_state_list[i].now_hp / 100;
+        }
+        
         for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
         {
-            characterControl[stageStateInfo.enemy_state_list[i].position].maxHp = stageStateInfo.enemy_state_list[i].now_hp;
-            characterControl[stageStateInfo.enemy_state_list[i].position].nowHp = stageStateInfo.enemy_state_list[i].now_hp;
+            characterControl[stageStateInfo.enemy_state_list[i].position].maxHp = stageStateInfo.enemy_state_list[i].now_hp / 100;
+            characterControl[stageStateInfo.enemy_state_list[i].position].nowHp = stageStateInfo.enemy_state_list[i].now_hp / 100;
         }
     }
 

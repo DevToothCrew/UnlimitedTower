@@ -6,7 +6,7 @@ public class Calculator : MonoBehaviour {
 
     public static int GetMaxHp(Status status)
     {
-        return DEFINE.HP_MIN_VALUE + ((status.basicStr + status.plusStr) * DEFINE.HP_MULTI_VALUE);
+        return ((status.basicStr + status.plusStr) * 14) + ((status.basicDex + status.plusDex) * 5) + ((status.basicInt + status.plusInt) * 3);
     }
 
     public static int GetAttack(STATUS_TYPE statusType, Status status)

@@ -1335,10 +1335,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf3448e36193f01438e35548abb37413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackDelay: 0.4
+  AttackDelay: 0.8
   AttackAfterDelay: 1.5
-  Height: 1.8
-  AttackRange: 0
+  Height: 1.3
+  AttackRange: 0.6
 --- !u!114 &114443267945385774
 MonoBehaviour:
   m_ObjectHideFlags: 1

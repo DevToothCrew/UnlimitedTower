@@ -66,8 +66,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4432222680530390}
   - component: {fileID: 95654041314970412}
-  - component: {fileID: 114990229467394316}
   - component: {fileID: 114211363010819718}
+  - component: {fileID: 114990229467394316}
   m_Layer: 0
   m_Name: mst_skeleton_king
   m_TagString: Untagged
@@ -757,7 +757,7 @@ Transform:
   m_GameObject: {fileID: 1233897746261440}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3570089, y: 0.35700908, z: 0.35700908}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children:
   - {fileID: 4590123603207196}
   m_Father: {fileID: 4432222680530390}
@@ -1397,10 +1397,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf3448e36193f01438e35548abb37413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackDelay: 0.4
+  AttackDelay: 0.7
   AttackAfterDelay: 1.5
   Height: 1.8
-  AttackRange: 0
+  AttackRange: 1.2
 --- !u!114 &114754448020539676
 MonoBehaviour:
   m_ObjectHideFlags: 1
