@@ -168,7 +168,8 @@ public class actionInfo
 public class battleActionInfo
 {
     public int my_position;
-    public int action_type;
+    public int action_type;         //2 공격 , 3 방어 , 202 광폭화[공격증가], 203 자연치유[체력회복]
+    public List<int> skill_type;
 
     public List<actionInfo> battle_action_list = new List<actionInfo>();
 }
@@ -197,8 +198,10 @@ public class stageState
     public int crit_physical_dmg;
     public int crit_magic_dmg;
     public int avoid;
-    public int state;
+    public int state;       //0 살있음, 1 죽어있음, 2 공격했음, 3 방어했음, 
     public int speed;
+    public List<int> skill_list;
+    public statusInfo status;
 }
 [Serializable]
 public class stageStateData

@@ -428,6 +428,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         }
     }
 
+    // 에러 로그
     public void ErrorLog(string error)
     {
         ErrorBox.SetActive(true);

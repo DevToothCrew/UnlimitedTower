@@ -603,8 +603,16 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void UpdateAction(stageActionInfoData getBattleActionData)
     {
         Debug.Log("턴 진행!");
-        UserDataManager.Inst.SetStageAction(getBattleActionData);
-        BattleSystem.Inst.StartCoroutine(BattleSystem.Inst.BattleStart());
+        if (getBattleActionData.turn == UserDataManager.Inst.stageActionInfo.turn)
+        {
+            Debug.Log("데이터 중복");
+            return;
+        }
+        else
+        {
+            UserDataManager.Inst.SetStageAction(getBattleActionData);
+            BattleSystem.Inst.StartCoroutine(BattleSystem.Inst.BattleStart());
+        }
     }
 
     public void GetReward(stageRewardData getReward)
