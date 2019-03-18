@@ -49,7 +49,7 @@
 			{
 				fixed4 col = tex2D(_MainTex, i.uv);
 				fixed2 co = (i.uv - 0.5);
-				float rad = (atan2(-co.x, -co.y) + 3.141592) / (3.141592 * 2.0);
+				float rad = (atan2(co.x, -co.y) + 3.141592) / (3.141592 * 2.0);
 				rad = smoothstep(uProgress + 0.001, uProgress - 0.001, rad);
 				col.a *= rad * uAlpha;
 				return col;

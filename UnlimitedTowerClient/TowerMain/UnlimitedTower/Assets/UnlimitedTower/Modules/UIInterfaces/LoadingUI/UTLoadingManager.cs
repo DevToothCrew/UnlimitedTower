@@ -66,7 +66,7 @@ public class UTLoadingManager : MonoBehaviour {
         float rad = Mathf.PI * 2.0f * uiInsideCurrGage;
 
         uiGageFx.anchoredPosition =
-            Vector2.right * gageRadius * Mathf.Sin(rad) +
+            Vector2.left * gageRadius * Mathf.Sin(rad) +
             Vector2.up * gageRadius * Mathf.Cos(rad);
     }
 
