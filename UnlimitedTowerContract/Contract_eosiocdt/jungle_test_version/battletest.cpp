@@ -2810,12 +2810,6 @@ battletest::battle_state battletest::get_stage_state(status_info _status, uint64
 
     battle_state get_state;
     get_state.now_hp = get_max_hp(_status);
-    //체력 일정 증가 패시브 적용
-    // if(monster_iter->gacha_id > MONSTER_GACHA_ID_START)
-    // {
-    //     get_state.now_hp += (get_state.now_hp * 2);
-    // }
-
     get_state.physical_attack = get_physical_attack(_status);
     get_state.crit_physical_dmg = get_physical_attack(_status) * oper_critical_damage / 10000;
     get_state.physical_defense = get_physical_defense(_status);
@@ -2836,6 +2830,12 @@ battletest::battle_state battletest::get_stage_state(status_info _status, uint64
     get_state.id = _id;
     get_state.position = _position;
     get_state.state = battle_action_state::live;
+
+    get_state.active_skill_list.push_back(active_skill::all_attack);
+    get_state.active_skill_list.push_back(active_skill::all_headl);
+    get_state.active_skill_list.push_back(active_skill::double_attack);
+
+    get_state.status = _status;
     return get_state;
 }
 
@@ -3140,67 +3140,8 @@ battletest::battle_action battletest::get_target_action(eosio::name _user, const
         uint32_t cur_damage;
         uint64_t cur_attack = _my_state_list[_my_key].physical_attack;
         uint64_t cur_cirtical = _my_state_list[_my_key].crit_physical_dmg;
-        uint64_t max_hp = 0;
+        uint64_t max_hp = get_max_hp(_my_state_list[_my_key].status);
         uint64_t cur_hp = _my_state_list[_my_key].now_hp;
-
-        //각 배틀 멤버의 최대 체력을 구하고 특정 패시브의 적용 확인
-        if(_my_state_list[_my_key].position == 0)
-        {
-            //히어로 정보 읽어오기
-            auth_users user_auth_table(_self, _self.value);
-            auto user_auth_iter = user_auth_table.find(_user.value);
-            eosio_assert(user_auth_iter != user_auth_table.end(),"Not Exist Servant 1");
-            max_hp = get_max_hp(user_auth_iter->hero.status);
-            //스킬 보유 여부 확인
-            if (true == check_passive(user_auth_iter->hero.job))
-            {
-                if ((max_hp * 30 / 100) > cur_hp)
-                {
-                    cur_attack = cur_attack * 2;
-                    cur_cirtical = cur_cirtical * 2;
-                }
-            }
-        }
-        else if(_my_state_list[_my_key].position < 5)
-        {
-            //내 서번트 정보 읽어오기
-            user_servants user_servant_table(_self, _user.value);
-            auto user_servant_iter = user_servant_table.find(_my_state_list[_my_key].index);
-            eosio_assert(user_servant_iter != user_servant_table.end(),"Not Exist Servant 2");
-            max_hp = get_max_hp(user_servant_iter->servant.status);
-        
-            //스킬 보유 여부 확인
-            if (true == check_passive(user_servant_iter->servant.job))
-            {
-                if ((max_hp * 30 / 100) > cur_hp)
-                {
-                    cur_attack = cur_attack * 2;
-                    cur_cirtical = cur_cirtical * 2;
-                }
-            }
-        }
-        else if(_my_state_list[_my_key].position < 10)
-        {
-            //내 몬스터 정보 읽어오기
-            user_monsters user_monster_table(_self, _user.value);
-            auto user_monster_iter = user_monster_table.find(_my_state_list[_my_key].index);
-            eosio_assert(user_monster_iter != user_monster_table.end(), "Not Exist monster 2");
-            max_hp = get_max_hp(user_monster_iter->monster.status);
-            
-            //스킬 보유 여부 확인
-            if (true == check_passive(user_monster_iter->monster.id))
-            {
-                if ((max_hp * 30 / 100) > cur_hp)
-                {
-                    cur_attack = cur_attack * 2;
-                    cur_cirtical = cur_cirtical * 2;
-                }
-            }
-        }
-        else
-        {
-            //적에 대한 정보 읽어오기
-        }
 
         if (false == check_critical(_my_state_list[_my_key].crit_per, _seed))
         {
@@ -3243,10 +3184,11 @@ battletest::battle_action_info battletest::get_action_info(uint64_t _my_pos, uin
     battle_action_info action_info;
     action_info.my_position = _my_pos;
     action_info.action_type = _action_type;
-    if (_action_type == battle_action_state::attack)
+    if (_action_type == battle_action_state::defense)
     {
         action_info.battle_action_list.push_back(_action);
     }
+    
     return action_info;
 }
 
@@ -3424,12 +3366,6 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _hero_action, uint32_t
                         }
                         //공격할 경우
                         battle_action new_action = get_target_action(_user, battle_state.my_state_list, battle_state.enemy_state_list, attack_order_list[i].second_speed, my_key, target_key);
-                        //같은 적을 공격하는 경우가 생겨서 추가한 코드
-                        if (new_action.target_position == WRONG_TARGET)
-                        {
-                            break;
-                        }
-                        //배틀 스테이트테이블에 결과 반영
                         if (battle_state.enemy_state_list[target_key].now_hp <= new_action.damage)
                         {
                             battle_state.enemy_state_list[target_key].now_hp = 0;
@@ -3451,7 +3387,6 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _hero_action, uint32_t
                         }
                         //공격할 경우
                         battle_action new_action = get_target_action(_user, battle_state.my_state_list, battle_state.enemy_state_list, attack_order_list[i].second_speed, my_key, enemy_key);
-                        //배틀 스테이트테이블에 결과 반영
                         if (battle_state.enemy_state_list[enemy_key].now_hp <= new_action.damage)
                         {
                             battle_state.enemy_state_list[enemy_key].now_hp = 0;
