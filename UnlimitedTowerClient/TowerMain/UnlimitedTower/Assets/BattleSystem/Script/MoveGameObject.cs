@@ -37,7 +37,7 @@ public class MoveGameObject : MonoBehaviour {
         for (int i = 0; i < 10; i++)
         {
             image.color += new Color(0, 0, 0, 0.1f);
-            yield return new WaitForSeconds(0.02f);
+            yield return new WaitForSecondsRealtime(0.02f);
         }
 
         yield return new WaitUntil(() => {
@@ -48,7 +48,7 @@ public class MoveGameObject : MonoBehaviour {
         for (int i = 0; i < 10; i++)
         {
             image.color -= new Color(0, 0, 0, 0.1f);
-            yield return new WaitForSeconds(0.02f);
+            yield return new WaitForSecondsRealtime(0.02f);
         }
     }
 }

@@ -40,6 +40,10 @@ mergeInto(LibraryManager.library, {
     ReactUnityWebGL.ExitBattle();
   },
 
+  GetBattle : function() {
+    ReactUnityWebGL.GetBattle();
+  },
+
   GetServant : function() {
 	ReactUnityWebGL.GetServant();
   },
@@ -51,5 +55,6 @@ mergeInto(LibraryManager.library, {
   GetMonster : function() {
 	ReactUnityWebGL.GetMonster();
   }
+
 
 });

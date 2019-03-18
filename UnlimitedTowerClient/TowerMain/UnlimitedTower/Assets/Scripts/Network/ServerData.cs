@@ -168,7 +168,8 @@ public class actionInfo
 public class battleActionInfo
 {
     public int my_position;
-    public int action_type;
+    public int action_type;         //2 공격 , 3 방어 , 202 광폭화[공격증가], 203 자연치유[체력회복]
+    public List<int> skill_type;
 
     public List<actionInfo> battle_action_list = new List<actionInfo>();
 }
@@ -189,13 +190,18 @@ public class stageState
     public int index;
     public int id;
     public int now_hp;
-    public int attack;
-    public int defense;
+    public int physical_attack;
+    public int magic_attack;
+    public int physical_defense;
+    public int magic_defense;
     public int crit_per;
-    public int crit_dmg;
+    public int crit_physical_dmg;
+    public int crit_magic_dmg;
     public int avoid;
-    public int state;
+    public int state;       //0 살있음, 1 죽어있음, 2 공격했음, 3 방어했음, 
     public int speed;
+    public List<int> skill_list;
+    public statusInfo status;
 }
 [Serializable]
 public class stageStateData
@@ -235,6 +241,12 @@ public class userResourceData
     public UInt64 ram_usage;        //사용중 램 용량
 };
 
+[Serializable]
+public class errorCode
+{
+    public string code;
+    public string message;        
+};
 
 #endregion
 

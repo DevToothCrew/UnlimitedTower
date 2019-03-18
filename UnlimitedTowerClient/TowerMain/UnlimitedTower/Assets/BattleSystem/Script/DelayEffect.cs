@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DelayEffect : MonoBehaviour {
-
     public GameObject[] effect;
-
+    public Animator characterImage;
+  
     public void Begin()
     {
+        characterImage = GameObject.Find("DelayCharacter").GetComponent<Animator>();
         StartCoroutine(EffectInstante());
+        characterImage.SetFloat("Speed", 1.0f / Time.timeScale);
     }
 
     public void End()
