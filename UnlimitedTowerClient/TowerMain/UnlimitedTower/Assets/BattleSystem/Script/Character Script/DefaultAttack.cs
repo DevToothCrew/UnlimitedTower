@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class DefaultAttack : MonoBehaviour
 {
+    public bool isOnedeal;
+    public GameObject bullet;
     private CharacterInformation characterInformation;
     private Animator ani;
-
+    
     private void Start()
     {
         ani = GetComponent<Animator>();
@@ -15,7 +17,10 @@ public class DefaultAttack : MonoBehaviour
 
     public void Attack(battleActionInfo attackInfo)
     {
-        StartCoroutine(NearAttackAction(attackInfo));
+        if (!isOnedeal)
+            StartCoroutine(NearAttackAction(attackInfo));
+        else 
+            StartCoroutine(FarAttackAction(attackInfo));
     }
 
     IEnumerator NearAttackAction(battleActionInfo attackInfo)
@@ -39,7 +44,6 @@ public class DefaultAttack : MonoBehaviour
         yield return new WaitForSeconds(characterInformation.AttackDelay);
 
         DamageTextSystem.Inst.DamageTextAction(attackInfo.battle_action_list[0]);
-        // target.GetComponent<Animator>().SetTrigger("isHit");
 
         yield return new WaitForSeconds(characterInformation.AttackAfterDelay);
 
@@ -75,64 +79,41 @@ public class DefaultAttack : MonoBehaviour
         attacker.transform.position = attackerStartPos;
         ani.SetTrigger("isIdle");
     }
+    
+    IEnumerator FarAttackAction(battleActionInfo attackInfo)
+    {
+        Transform attacker;
+        Transform target;
 
+        attacker = BattleSystem.Inst.characterObject[attackInfo.my_position].transform;
+        target = BattleSystem.Inst.characterObject[attackInfo.battle_action_list[0].target_position].transform;
 
+        attacker.transform.LookAt(target);
+    
+        ani.SetTrigger("isAttack");
+    
+        yield return new WaitForSeconds(characterInformation.AttackDelay);
+    
+        StartCoroutine(ArrowShot(target.position));
+    
+        ani.SetTrigger("isIdle");
 
+        attacker.rotation = attackInfo.my_position < 10 ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0);
+        
+        yield return new WaitForSeconds(characterInformation.AttackAfterDelay);
 
-
-
-
-
-
-
-
-
-    // 원거리 공격은 보류
-    // IEnumerator FarAttackAction(battleActionInfo attackInfo)
-    // {
-    //     Transform attacker;
-    //     Transform target;
-    // 
-    //     if (sendValue.isPlayer)
-    //     {
-    //         attacker = BattleSystem.Inst.playerCharacter[sendValue.Attacker].transform;
-    //         target = BattleSystem.Inst.enemyCharacter[sendValue.Target].transform;
-    //     }
-    //     else
-    //     {
-    //         attacker = BattleSystem.Inst.enemyCharacter[sendValue.Attacker].transform;
-    //         target = BattleSystem.Inst.playerCharacter[sendValue.Target].transform;
-    //     }
-    // 
-    //     attacker.transform.LookAt(target);
-    // 
-    //     ani.SetTrigger("isAttack");
-    // 
-    //     yield return new WaitForSeconds(characterInformation.AttackDelay);
-    // 
-    //     StartCoroutine(ArrowShot(target.position));
-    // 
-    //     ani.SetTrigger("isIdle");
-    // 
-    //     if (sendValue.isPlayer)
-    //         attacker.rotation = Quaternion.Euler(0, 0, 0);
-    //     else
-    //         attacker.rotation = Quaternion.Euler(0, 180, 0);
-    // 
-    //     yield return new WaitForSeconds(0.7f);
-    // 
-    //     DamageTextSystem.Inst.DamageShow(sendValue.Target, !sendValue.isPlayer, 10, false);
-    // }
-    // 
-    // IEnumerator ArrowShot(Vector3 target)
-    // {
-    //     GameObject arrow = Instantiate(Arrow, transform.position + new Vector3(0, 0.4f, 0), transform.rotation);
-    //     float Speed = Vector3.Distance(arrow.transform.position, target) * 0.02f;
-    //     for (int i = 0; i < 50; i += BattleSystem.Inst.TimeScale)
-    //     {
-    //         arrow.transform.Translate(0, 0, Speed * BattleSystem.Inst.TimeScale);
-    //         yield return new WaitForSeconds(0.01f);
-    //     }
-    //     Destroy(arrow);
-    // }
+        DamageTextSystem.Inst.DamageTextAction(attackInfo.battle_action_list[0]);
+    }
+    
+    IEnumerator ArrowShot(Vector3 target)
+    {
+        GameObject arrow = Instantiate(bullet, transform.position + new Vector3(0, 0.4f, 0), transform.rotation);
+        float Speed = Vector3.Distance(arrow.transform.position, target) * 0.02f;
+        for (int i = 0; i < 50; i += BattleSystem.Inst.TimeScale)
+        {
+            arrow.transform.Translate(0, 0, Speed * BattleSystem.Inst.TimeScale);
+            yield return new WaitForSeconds(0.01f);
+        }
+        Destroy(arrow);
+    }
 }

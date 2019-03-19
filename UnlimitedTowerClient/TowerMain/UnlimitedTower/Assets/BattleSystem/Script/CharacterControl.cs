@@ -34,6 +34,7 @@ public class CharacterControl : MonoBehaviour
             {
                 child.GetComponent<Animator>().SetTrigger("isDie");
                 isDie = true;
+                BattleSystem.Inst.TumbCreate(index);
             }
             nowHp = 0;
         }

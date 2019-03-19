@@ -18133,11 +18133,9 @@ MonoBehaviour:
     heroAction: 0
     monsterTargetIndex: 0
     monsterAction: 0
+  tumb: {fileID: 1505251197317596, guid: 1011baae6a869514589b575230ccd427, type: 2}
   isBattleStart: 0
   isAuto: 0
-  ErrorText: {fileID: 0}
-  ErrorBox: {fileID: 0}
-  testskill: {fileID: 1616318306}
   delayImage: {fileID: 0}
 --- !u!4 &1616318302
 Transform:

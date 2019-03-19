@@ -130,7 +130,7 @@ public class Cheat : MonoSingleton<Cheat>
             action.target_position = UnityEngine.Random.Range(10, 20);
             action.avoid = false;
             action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
-            action.damage = 10;
+            action.damage = 100000;
 
             battleActionInfo actioninfo = new battleActionInfo();
             actioninfo.my_position = i;
@@ -151,7 +151,7 @@ public class Cheat : MonoSingleton<Cheat>
             action.target_position = UnityEngine.Random.Range(0, 10);
             action.avoid = false;
             action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
-            action.damage = 5;
+            action.damage = 100000;
 
             battleActionInfo actioninfo = new battleActionInfo();
             actioninfo.my_position = i;

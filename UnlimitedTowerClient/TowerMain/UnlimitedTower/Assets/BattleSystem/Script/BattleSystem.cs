@@ -12,6 +12,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     public CharacterControl[] characterControl = new CharacterControl[20];
     public bool[] characterisPlace = new bool[20];
     public TargetSettingInfo targetSettingInfo = new TargetSettingInfo();
+    public GameObject tumb;
     private CaracterCustom characterCustom;
     private DefenceEffect defenceEffect;
     
@@ -358,17 +359,6 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         {
             characterControl[stageStateInfo.my_state_list[i].position] = characterObject[stageStateInfo.my_state_list[i].position]?.AddComponent<CharacterControl>();
             characterControl[stageStateInfo.my_state_list[i].position].index = stageStateInfo.my_state_list[i].position;
-
-            // for (int j = 0; j < stageStateInfo.my_state_list[i].active_skill_list.Count; j++)
-            // {
-            //     if (stageStateInfo.my_state_list[i].active_skill_list[j] == 303)
-            //         characterControl[stageStateInfo.my_state_list[i].position].skill_01 += SkillManager.Skill_303();
-            // }z
-            // 
-            // if (stageStateInfo.my_state_list[i].active_skill_list.Count > 0)
-            // {
-            // 
-            // }
         }
 
         for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
@@ -514,6 +504,11 @@ public class BattleSystem : MonoSingleton<BattleSystem>
 
         Debug.LogError(position + "번째 서번트의 정보가 없는 오류");
         return null;
+    }
+
+    public void TumbCreate(int index)
+    {
+        Instantiate(tumb, characterObject[index].transform);
     }
 
     public IEnumerator TestMyTurn()
