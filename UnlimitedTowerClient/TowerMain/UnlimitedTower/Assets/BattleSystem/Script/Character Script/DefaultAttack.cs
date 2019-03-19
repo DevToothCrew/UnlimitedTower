@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class DefaultAttack : MonoBehaviour
 {
-    public bool isOneDeal;
-    public GameObject Arrow;
     private CharacterInformation characterInformation;
     private Animator ani;
 
@@ -15,23 +13,20 @@ public class DefaultAttack : MonoBehaviour
         characterInformation = GetComponent<CharacterInformation>();
     }
 
-    public void Attack(SendValue sendValue)
+    public void Attack(battleActionInfo attackInfo)
     {
-        // if (isOneDeal)
-        //     StartCoroutine(FarAttackAction(sendValue));
-        // else
-        StartCoroutine(NearAttackAction(sendValue));
+        StartCoroutine(NearAttackAction(attackInfo));
     }
 
-    IEnumerator NearAttackAction(SendValue sendValue)
+    IEnumerator NearAttackAction(battleActionInfo attackInfo)
     {
         Transform attacker;
         Transform target;
         Vector3 attackerStartPos;
         Vector3 attackerEndPos;
 
-        attacker = BattleSystem.Inst.characterObject[sendValue.Attacker].transform;
-        target = BattleSystem.Inst.characterObject[sendValue.Target].transform;
+        attacker = BattleSystem.Inst.characterObject[attackInfo.my_position].transform;
+        target = BattleSystem.Inst.characterObject[attackInfo.battle_action_list[0].target_position].transform;
 
         attackerStartPos = attacker.position;
         attackerEndPos = target.position;
@@ -43,15 +38,14 @@ public class DefaultAttack : MonoBehaviour
 
         yield return new WaitForSeconds(characterInformation.AttackDelay);
 
-        DamageTextSystem.Inst.TextAction(sendValue, target);
+        DamageTextSystem.Inst.DamageTextAction(attackInfo.battle_action_list[0]);
+        // target.GetComponent<Animator>().SetTrigger("isHit");
 
         yield return new WaitForSeconds(characterInformation.AttackAfterDelay);
 
         yield return AttackRecall(attacker, target, attackerEndPos, attackerStartPos);
 
-        attacker.rotation = sendValue.Attacker < 10 ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0);
-
-        BattleSystem.Inst.battleInformation.attackerIndex = -1;
+        attacker.rotation = attackInfo.my_position < 10 ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0);
     }
 
     // 공격하러 이동시킴
@@ -94,7 +88,7 @@ public class DefaultAttack : MonoBehaviour
 
 
     // 원거리 공격은 보류
-    // IEnumerator FarAttackAction(SendValue sendValue)
+    // IEnumerator FarAttackAction(battleActionInfo attackInfo)
     // {
     //     Transform attacker;
     //     Transform target;

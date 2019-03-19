@@ -15,6 +15,14 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
     private GameObject Camera_;
     private readonly Color RedColor = new Color(1, 0, 0, 1);
     private readonly Color YellowColor = new Color(1, 1, 0, 1);
+    private readonly Color GreenColor = new Color(0, 1, 0, 1);
+
+    public enum Attribute
+    {
+        DEFAULT,
+        CRITICAL,
+        HEAL
+    };
 
     private void Start()
     {
@@ -28,20 +36,25 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
         missText = GameObject.Find("Miss");
     }
 
-    public void TextAction(SendValue sendValue, Transform target)
+    public void DamageTextAction(actionInfo attackInfo)
     {
-        if (!sendValue.isAvoid)
+        if (!attackInfo.avoid)
         {
             // 데미지 텍스트 표시와 데미지 주기
-            DamageShow(sendValue.Target, sendValue.Damage, sendValue.isCritical);
-            target.GetChild(0).GetComponent<Animator>().SetTrigger("isHit");
+            DamageShow(attackInfo.target_position, attackInfo.damage / 100, attackInfo.critical == false ? Attribute.DEFAULT : Attribute.CRITICAL);
+            BattleSystem.Inst.characterControl[attackInfo.target_position].transform.GetChild(0).GetComponent<Animator>().SetTrigger("isHit");
         }
         else
         {
             // Miss 텍스트
-            Avoid(sendValue.Target);
-            BattleSystem.Inst.characterControl[sendValue.Target].Miss();
+            Avoid(attackInfo.target_position);
+            BattleSystem.Inst.characterControl[attackInfo.target_position].Miss();
         }
+    }
+
+    public void HealTextAction(actionInfo attackInfo)
+    {
+        DamageShow(attackInfo.target_position, attackInfo.damage / 100, Attribute.HEAL);
     }
 
     public void Avoid(int target) // 피한 대상의 인덱스와 플레이어 여부
@@ -55,7 +68,7 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
         }
     }
 
-    public void DamageShow(int target, int damage, bool isCritical) // 맞은 대상의 인덱스와 플레이어 여부, 데미지, 크리티컬 여부
+    public void DamageShow(int target, int damage, Attribute attribute) // 맞은 대상의 인덱스와 플레이어 여부, 데미지, 크리티컬, 힐 여부
     {
         numberIndex[0] = damage % 10;
         numberIndex[1] = (damage % 100 - numberIndex[0]) / 10;
@@ -67,13 +80,38 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
         textPool[Index].transform.position =
               Camera.main.WorldToScreenPoint(BattleSystem.Inst.characterObject[target].transform.position +
               new Vector3(0, BattleSystem.Inst.characterControl[target].child.GetComponent<CharacterInformation>().Height, 0));
-        BattleSystem.Inst.characterControl[target].nowHp -= damage;
 
         for (int i = 0; i < 5; i++)
         {
             chsing[Index].image[i].gameObject.SetActive(true);
-            chsing[Index].image[i].color = isCritical ? YellowColor : RedColor;
+            switch (attribute)
+            {
+                case Attribute.DEFAULT:
+                    chsing[Index].image[i].color = RedColor;
+                    break;
+                case Attribute.CRITICAL:
+                    chsing[Index].image[i].color = YellowColor;
+                    break;
+                case Attribute.HEAL:
+                    chsing[Index].image[i].color = GreenColor;
+                    break;
+
+            }
             chsing[Index].image[i].sprite = numberSprite[numberIndex[i]];
+        }
+
+        switch (attribute)
+        {
+            case Attribute.DEFAULT:
+                BattleSystem.Inst.characterControl[target].nowHp -= damage;
+                break;
+            case Attribute.CRITICAL:
+                BattleSystem.Inst.characterControl[target].nowHp -= damage;
+                break;
+            case Attribute.HEAL:
+                BattleSystem.Inst.characterControl[target].nowHp += damage;
+                break;
+
         }
 
         if (damage < 10)
@@ -103,9 +141,9 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
             textPool[Index].GetComponent<RectTransform>().position += new Vector3(-16.5f, 0, 0);
         }
 
-        if (!isCritical) 
+        if (attribute == Attribute.DEFAULT) 
             StartCoroutine(NotCriticalAttackEffect());
-        else
+        else if (attribute == Attribute.CRITICAL)
             StartCoroutine(CriticalAttackEffect());
 
         Index++;

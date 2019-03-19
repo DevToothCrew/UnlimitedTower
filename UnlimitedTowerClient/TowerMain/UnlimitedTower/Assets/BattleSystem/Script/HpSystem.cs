@@ -28,26 +28,26 @@ public class HpSystem : MonoBehaviour
     void Update()
     {
         // 추후 최적화 작업
-        if (BattleSystem.Inst.battleInformation.attackerIndex != -1)
-        {
-            // attackerImage.color = on;
-            // targetImage.color = on;
-            // if (BattleSystem.Inst.battleInformation.isPlayerTurn)
-            // {
-            //     attackerImage.transform.position = playerHp[BattleSystem.Inst.battleInformation.attackerIndex].transform.position + new Vector3(0, 50, 0);
-            //     targetImage.transform.position = enemyHp[BattleSystem.Inst.battleInformation.targetIndex].transform.position + new Vector3(0, 50, 0);
-            // }
-            // else
-            // {
-            //     attackerImage.transform.position = enemyHp[BattleSystem.Inst.battleInformation.attackerIndex].transform.position + new Vector3(0, 50, 0);
-            //     targetImage.transform.position = playerHp[BattleSystem.Inst.battleInformation.targetIndex].transform.position + new Vector3(0, 50, 0);
-            // }
-        }
-        else
-        {
-            attackerImage.color = off;
-            targetImage.color = off;
-        }
+        // if (BattleSystem.Inst.battleInformation.attackerIndex != -1)
+        // {
+        //     // attackerImage.color = on;
+        //     // targetImage.color = on;
+        //     // if (BattleSystem.Inst.battleInformation.isPlayerTurn)
+        //     // {
+        //     //     attackerImage.transform.position = playerHp[BattleSystem.Inst.battleInformation.attackerIndex].transform.position + new Vector3(0, 50, 0);
+        //     //     targetImage.transform.position = enemyHp[BattleSystem.Inst.battleInformation.targetIndex].transform.position + new Vector3(0, 50, 0);
+        //     // }
+        //     // else
+        //     // {
+        //     //     attackerImage.transform.position = enemyHp[BattleSystem.Inst.battleInformation.attackerIndex].transform.position + new Vector3(0, 50, 0);
+        //     //     targetImage.transform.position = playerHp[BattleSystem.Inst.battleInformation.targetIndex].transform.position + new Vector3(0, 50, 0);
+        //     // }
+        // }
+        // else
+        // {
+        //     attackerImage.color = off;
+        //     targetImage.color = off;
+        // }
 
         for (int i = 0; i < 20; i++)
         {

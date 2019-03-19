@@ -1605,6 +1605,22 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cc7db4ec84d80b64cb4a6dc79fb662e4, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &193791286 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1346308027570302, guid: cc7db4ec84d80b64cb4a6dc79fb662e4,
+    type: 2}
+  m_PrefabInternal: {fileID: 193791285}
+--- !u!114 &193791287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 193791286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54d5d0b8e2eb49a4fb9088225930f758, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &197777309
 GameObject:
   m_ObjectHideFlags: 0
@@ -15523,6 +15539,14 @@ Prefab:
       propertyPath: m_MatchWidthOrHeight
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1833726757311460, guid: a70e3955b15dc1245a6b155f6e4f9d4b, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1425590507535206, guid: a70e3955b15dc1245a6b155f6e4f9d4b, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a70e3955b15dc1245a6b155f6e4f9d4b, type: 2}
   m_IsPrefabParent: 0
@@ -18035,13 +18059,13 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1616318302}
-  - component: {fileID: 1616318308}
+  - component: {fileID: 1616318307}
   - component: {fileID: 1616318301}
   - component: {fileID: 1616318305}
-  - component: {fileID: 1616318304}
-  - component: {fileID: 1616318307}
   - component: {fileID: 1616318303}
+  - component: {fileID: 1616318308}
   - component: {fileID: 1616318306}
+  - component: {fileID: 1616318304}
   m_Layer: 0
   m_Name: BattleManager
   m_TagString: Untagged
@@ -18060,14 +18084,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1660d716c3066bf4faafb728bc3a8927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabList: {fileID: 0}
-  battleInformation:
-    attackerIndex: 0
-    targetIndex: 0
-    damage: 0
-    isAvoid: 0
-    isCritical: 0
-    isPlayerTurn: 0
   TimeScale: 1
   characterObject:
   - {fileID: 0}
@@ -18117,11 +18133,12 @@ MonoBehaviour:
     heroAction: 0
     monsterTargetIndex: 0
     monsterAction: 0
-  isTestPlay: 0
   isBattleStart: 0
   isAuto: 0
-  delayImage: {fileID: 0}
   ErrorText: {fileID: 0}
+  ErrorBox: {fileID: 0}
+  testskill: {fileID: 1616318306}
+  delayImage: {fileID: 0}
 --- !u!4 &1616318302
 Transform:
   m_ObjectHideFlags: 0
@@ -18282,13 +18299,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1616318300}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0b6397fa0fcea147992fc47c568bb92, type: 3}
+  m_Script: {fileID: 11500000, guid: ce502359fc2a31542bd64afe56d0d907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  userServantData: []
-  userMonsterData: []
-  userMountItemData: []
-  userEtcItemData: []
 --- !u!114 &1616318307
 MonoBehaviour:
   m_ObjectHideFlags: 0

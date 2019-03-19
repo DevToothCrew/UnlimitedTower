@@ -324,11 +324,13 @@ public class CaracterCustom : MonoBehaviour
     //isChildren = isChildren == 0 ? 1 : 0;
     //Refresh();
     //}
-
-    //if (Input.GetMouseButton(0))
-    //{
-    //defultCharacter.transform.Rotate(0, -Input.GetAxis("Mouse X") * 10, 0);
-    //}
+    public void Update()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            defultCharacter.transform.Rotate(0, -Input.GetAxis("Mouse X") * 10, 0);
+        }
+    }
     //}
 
     public GameObject Create(int jobIndex, int headIndex, int hairIndex, int isMan, int isChildren)

@@ -11,6 +11,9 @@ public class CharacterControl : MonoBehaviour
     public int maxHp;
     public int nowHp;
     public bool isDie;
+    public delegate void Skill(battleActionInfo attackInfo);
+    public Skill skill_01;
+    public Skill skill_02;
     private bool isStart = false;
 
     private void FixedUpdate()
@@ -45,19 +48,19 @@ public class CharacterControl : MonoBehaviour
             child = transform.GetChild(0).gameObject;
     }
 
-    public void Attack(SendValue sendValue)
+    public void Attack(battleActionInfo attackInfo)
     {
-        child.SendMessage("Attack", sendValue);
+        child.SendMessage("Attack", attackInfo);
 
-        if (!sendValue.isAvoid)
+        if (!attackInfo.battle_action_list[0].avoid)
         {
-            if (BattleSystem.Inst.characterControl[sendValue.Target].nowHp - sendValue.Damage <= 0)
+            if (BattleSystem.Inst.characterControl[attackInfo.battle_action_list[0].target_position].nowHp - attackInfo.battle_action_list[0].damage <= 0)
             {
-                DieCameraMove.Inst.Test(sendValue.Target);
+                DieCameraMove.Inst.Test(attackInfo.battle_action_list[0].target_position);
             }
         }
     }
-
+    
     public void Miss()
     {
         StartCoroutine(Avoid());

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class UISystem : MonoBehaviour {
+    // BattleUIManager 와 합쳐야함
     private GameObject Pause;
     private Image PauseBack;
     private Animator PauseAni;
