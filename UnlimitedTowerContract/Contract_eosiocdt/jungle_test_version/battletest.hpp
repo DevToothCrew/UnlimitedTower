@@ -884,6 +884,7 @@ CONTRACT battletest : public contract
         dead,
         attack,
         defense,
+        skill,
         state_count,
     };
 
@@ -899,7 +900,7 @@ CONTRACT battletest : public contract
     {
         double_attack = 302,
         all_attack,
-        all_headl,
+        all_heal,
     };
 
 
@@ -980,6 +981,7 @@ CONTRACT battletest : public contract
         uint32_t speed;
         uint32_t key;
         uint32_t position;
+        uint32_t action = 0;
         uint32_t second_speed;
     };
 
@@ -1045,13 +1047,16 @@ CONTRACT battletest : public contract
     ACTION startbattle(eosio::name _user, uint32_t _party_number, uint32_t _stage);
 
 
+    bool check_active(std::vector<uint32_t> _skill_list, uint32_t _skill);
     bool check_passive(uint64_t _id);
     uint32_t get_buff_turn(uint32_t _buff);
     uint64_t get_damage(uint32_t _atk, uint32_t _dfs);
     bool check_critical(uint64_t _critcal_per, uint64_t _seed);
     bool check_avoid(uint64_t _avoid_per, uint64_t _seed);
-    battle_action get_target_action(eosio::name _user,const std::vector<battle_state> &_my_state_list, const std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint64_t _my_position, uint64_t _target_position);
-    battle_action_info get_action_info(uint64_t _my_pos, uint64_t _action_type, battle_action _action);
+
+
+    battle_action_info get_action(uint32_t _action, std::vector<battle_state> &_my_state_list, std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint64_t _my_key, uint64_t _target_key);
+    battle_action get_target_action(uint32_t _type , std::vector<battle_state> &_my_state_list, std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint64_t _my_key, uint64_t _target_key);
     int get_random_target(const std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint32_t _max, uint32_t _min);
     int get_target_key(const std::vector<battle_state> &_enemy_state_list, uint64_t _target_position);
     static bool sort_compare(const battle_order_struct &a, const battle_order_struct &b);
