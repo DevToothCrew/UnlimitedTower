@@ -691,7 +691,7 @@ CONTRACT battletest : public contract
         eosio::name user;
         uint32_t state = user_state::lobby;
         uint32_t exp = 0;
-        //hero_info hero;
+        hero_info hero;
         uint64_t primary_key() const { return user.value; }
     };
 
@@ -796,6 +796,7 @@ CONTRACT battletest : public contract
     ACTION setpause(uint64_t _state);
     ACTION resultgacha(eosio::name _from, eosio::name _to, std::string _result);
     ACTION resultpre(eosio::name _from, eosio::name _to, std::string _result);
+    ACTION resultbattle(eosio::name _to, std::vector<std::string> &_my_state_list, std::vector<std::string> &_enemy_state_list);
 
     //------------------------------------------------------------------------//
     //-------------------------------party_table------------------------------//
@@ -940,11 +941,11 @@ CONTRACT battletest : public contract
         win,
         lose,
     };
-    struct skill
+    struct skill_info
     {
-        uint32_t skill_id;
-        uint32_t skill_per;
-    }
+        uint32_t skill_id = 0;
+        uint32_t skill_per = 0;
+    };
 
     struct battle_state
     {
@@ -964,8 +965,8 @@ CONTRACT battletest : public contract
         uint32_t speed;
         uint32_t type;
         uint32_t job_class;
-        uint32_t passive_skill_list;
-        uint32_t active_skill_list;
+        std::vector<skill_info> passive_skill_list;
+        std::vector<skill_info> active_skill_list;
         status_info status;
     };
 
@@ -1057,7 +1058,8 @@ CONTRACT battletest : public contract
     uint32_t get_attack(uint32_t _job, status_info _status);
     // ---------------------------//
     uint32_t get_speed(uint32_t _job);
-    battle_state get_stage_state(status_info _status, uint64_t _job, uint64_t _index, uint64_t _id, uint64_t _position);
+    battle_state get_stage_state(eosio::name _user, std::string _type, uint64_t _index, uint32_t _position, uint64_t _stage_id, std::vector<std::string> &_state);
+    battle_state get_stage_state(eosio::name _user, std::string _type, uint64_t _index, uint32_t _position, uint64_t _stage_id, std::vector<std::string> &_state);
     ACTION startbattle(eosio::name _user, uint32_t _party_number, uint32_t _stage);
 
 
@@ -1231,16 +1233,4 @@ CONTRACT battletest : public contract
 #pragma endregion
 
 
-#pragma region
-TABLE actiondata
-{
-    uint64_t index;
-    eosio::name to;
-    eosio::name receiver;
-    uint64_t primary_key() const { return index; }
-};
-
-typedef eosio::multi_index<"actiondata"_n, actiondata> action_data;
-
-#pragma endregion
 };

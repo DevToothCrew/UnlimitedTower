@@ -1485,15 +1485,7 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
 {
     require_auth(sender);
     auto transfer_data = eosio::unpack_action_data<st_transfer>();
-
-        action_data action_data_table(_self, _self.value);
-    action_data_table.emplace(_self, [&](auto &new_data)
-    {
-        new_data.index = action_data_table.available_primary_key();
-        new_data.to = transfer_data.to;
-        new_data.receiver = receiver;
-    });
-
+    eosio_assert(transfer_data.to == receiver, "Wrong Action 1");
     eosio_assert(transfer_data.quantity.symbol == symbol("EOS", 4), "Only Accepts EOS for deposits");
     eosio_assert(transfer_data.quantity.is_valid(), "Invalid token transfer");
     eosio_assert(transfer_data.quantity.amount > 0, "Quantity must be positive");
@@ -2130,6 +2122,12 @@ ACTION battletest::resultpre(eosio::name _from, eosio::name _to, std::string _re
     require_recipient(_from);
 }
 
+ACTION battletest::resultbattle(eosio::name _to, std::vector<std::string> &_my_state_list, std::vector<std::string> &_enemy_state_list)
+{
+    require_auth(_self);
+    require_recipient(_self);
+}
+
 #pragma endresion
 
 #pragma region party function
@@ -2236,22 +2234,6 @@ ACTION battletest::herocheat(eosio::name _user)
     auth_user_table.emplace(_self, [&](auto &new_user) {
         new_user.user = _user;
         new_user.state = user_state::lobby;
-
-        hero_info new_hero;
-        new_hero.state = object_state::on_inventory;
-        new_hero.appear.body = 1;
-        new_hero.appear.head = 1;
-        new_hero.appear.hair = 1;
-        new_hero.appear.gender = 1;
-        new_hero.job = 1;
-
-        new_hero.status.basic_str = 100;
-        new_hero.status.basic_dex = 100;
-        new_hero.status.basic_int = 100;
-
-        new_hero.equip_slot.resize(3);
-
-        new_user.hero = new_hero;
     });
 
     user_logs user_log_table(_self, _self.value);
@@ -2272,7 +2254,7 @@ ACTION battletest::herocheat(eosio::name _user)
         {
             new_party.index = user_party_table.available_primary_key();
         }
-        new_party.servant_list.resize(4);
+        new_party.servant_list.resize(5);
         new_party.monster_list.resize(5);
     });
 }
@@ -2290,7 +2272,7 @@ ACTION battletest::partycheat(eosio::name _user)
         new_consumables.count = 100;
     });
 
-    for (uint32_t i = 0; i < 4; ++i)
+    for (uint32_t i = 0; i < 5; ++i)
     {
         gacha_servant_id(_user, seed);
     }
@@ -2309,7 +2291,7 @@ ACTION battletest::partycheat(eosio::name _user)
     {
         user_party_table.emplace(_self, [&](auto &automatic_party) {
             automatic_party.index = 1;
-            for (uint32_t i = 0; i < 4; ++i)
+            for (uint32_t i = 0; i < 5; ++i)
             {
                 automatic_party.servant_list[i] = i + 1;
             }
@@ -2322,7 +2304,7 @@ ACTION battletest::partycheat(eosio::name _user)
     else
     {
         user_party_table.modify(user_party_iter, _self, [&](auto &automatic_party) {
-            for (uint32_t i = 0; i < 4; ++i)
+            for (uint32_t i = 0; i < 5; ++i)
             {
                 automatic_party.servant_list[i] = i + 1;
             }
@@ -2812,39 +2794,117 @@ uint64_t battletest::get_damage(uint32_t _atk, uint32_t _dfs)
     return damage;
 }
 
-battletest::battle_state battletest::get_stage_state(status_info _status, uint64_t _job, uint64_t _index, uint64_t _id, uint64_t _position)
-{
-    monster_db monster_db_table(_self, _self.value);
-    auto monster_iter = monster_db_table.find(_id);
 
+
+
+battletest::battle_state battletest::get_stage_state(eosio::name _user, std::string _type, uint64_t _index, uint32_t _position, uint64_t _stage_id, std::vector<std::string> &_state)
+{
     battle_state get_state;
-    get_state.now_hp = get_max_hp(_status);
-    get_state.physical_attack = get_physical_attack(_status);
-    get_state.crit_physical_dmg = get_physical_attack(_status) * oper_critical_damage / 10000;
-    get_state.physical_defense = get_physical_defense(_status);
-    //사제나 마법사의 경우 방어력 2배 증가 패시브 적용
-    if (_job == job_list::priest || _job == job_list::wizard)
+    status_info status;
+    skill_info passive;
+    skill_info active;
+
+    if(_type == "ser")
     {
-        get_state.physical_defense += get_state.physical_defense * 2;
+        user_servants user_servant_table(_self, _user.value);
+        auto user_servant_iter = user_servant_table.find(_index);
+        eosio_assert(user_servant_iter != user_servant_table.end(),"Not Exist Servant 10");
+
+        status = user_servant_iter->servant.status;
+        passive.skill_id = user_servant_iter->servant.passive_skill[0];
+        active.skill_id = user_servant_iter->servant.active_skill[0];
+
+        get_state.speed = get_speed(user_servant_iter->servant.job);
+        get_state.index = _index;
+        get_state.id = get_servant_index(user_servant_iter->servant.job, user_servant_iter->servant.appear.body, user_servant_iter->servant.appear.gender, user_servant_iter->servant.appear.head, user_servant_iter->servant.appear.hair);
+        get_state.type = 0;
+        get_state.job_class = 0;
+        get_state.position = _position;
+    }
+    else if(_type == "mon")
+    {
+        user_monsters user_monster_table(_self, _user.value);
+        auto user_monster_iter = user_monster_table.find(_index);
+        eosio_assert(user_monster_iter != user_monster_table.end(),"Not Exist Monster 10");
+
+        status = user_monster_iter->monster.status;
+        passive.skill_id = user_monster_iter->monster.passive_skill[0];
+        active.skill_id = user_monster_iter->monster.active_skill[0];
+
+        get_state.speed = get_speed(beginner);
+        get_state.index = _index;
+        get_state.id = user_monster_iter->monster.id;
+        get_state.type = user_monster_iter->monster.type;
+        get_state.job_class = user_monster_iter->monster.monster_class;
+        get_state.position = _position;
+    }
+    else if(_type == "stage")
+    {
+        stage_db stage_db_table(_self, _self.value);
+        auto stage_db_iter = stage_db_table.find(_stage_id);
+        eosio_assert(stage_db_iter != stage_db_table.end(), "Not Exist Stage ID 2");
+        for (uint32_t i = 0; i < stage_db_iter->monster_list.size(); ++i)
+        {
+            status.basic_str = monster_common_status_list[4];
+            status.basic_dex = monster_common_status_list[4];
+            status.basic_int = monster_common_status_list[4];
+
+            uint64_t level = safeseed::get_random_value(now(), stage_db_iter->monster_level_max, stage_db_iter->monster_level_min, 0);
+            for (uint32_t j = 2; j <= level; ++j)
+            {
+                status = get_level_up_monster_status(stage_db_iter->monster_list[i].monster_id, grade_list::rare, status);
+            }
+            get_state.speed = get_speed(beginner);
+            get_state.id = stage_db_iter->monster_list[i].monster_id;
+            get_state.index = 0;
+            get_state.position = stage_db_iter->monster_list[i].position;
+        }
     }
 
-    get_state.magic_attack = get_magic_attack(_status);
-    get_state.crit_magic_dmg = get_magic_attack(_status) * oper_critical_damage / 10000;
-    get_state.magic_defense = get_magic_defense(_status);
-
+    get_state.now_hp = get_max_hp(status);
+    get_state.physical_attack = get_physical_attack(status);
+    get_state.crit_physical_dmg = get_physical_attack(status) * oper_critical_damage / 10000;
+    get_state.physical_defense = get_physical_defense(status);
+    get_state.magic_attack = get_magic_attack(status);
+    get_state.crit_magic_dmg = get_magic_attack(status) * oper_critical_damage / 10000;
+    get_state.magic_defense = get_magic_defense(status);
     get_state.crit_per = oper_critical;
     get_state.avoid = 5;
-    get_state.speed = get_speed(_job);
-    get_state.index = _index;
-    get_state.id = _id;
-    get_state.position = _position;
+
     get_state.state = battle_action_state::live;
+    get_state.passive_skill_list.push_back(passive);
+    get_state.active_skill_list.push_back(active);
+    get_state.status = status;
 
-    get_state.active_skill_list.push_back(active_skill::all_attack);
-    get_state.active_skill_list.push_back(active_skill::all_heal);
-    get_state.active_skill_list.push_back(active_skill::double_attack);
+    std::string state;
+    state += to_string(get_state.position) + ":";
+    state += to_string(get_state.index) + ":";
+    state += to_string(get_state.id) + ":";
+    state += to_string(get_state.now_hp) + ":";
+    state += to_string(get_state.physical_attack) + ":";
+    state += to_string(get_state.magic_attack) + ":";
+    state += to_string(get_state.physical_defense) + ":";
+    state += to_string(get_state.magic_defense) + ":";
+    state += to_string(get_state.crit_per) + ":";
+    state += to_string(get_state.crit_physical_dmg) + ":";
+    state += to_string(get_state.crit_magic_dmg) + ":";
+    state += to_string(get_state.avoid) + ":";
+    state += to_string(get_state.state) + ":";
+    state += to_string(get_state.speed) + ":";
+    state += to_string(get_state.type) + ":";
+    state += to_string(get_state.job_class) + ":";
+    state += to_string(get_state.passive_skill_list[0].skill_id) + ":";
+    state += to_string(get_state.passive_skill_list[0].skill_per) + ":";
+    state += to_string(get_state.active_skill_list[0].skill_id) + ":";
+    state += to_string(get_state.active_skill_list[0].skill_per) + ":";
+    state += to_string(get_state.status.basic_str) + ":";
+    state += to_string(get_state.status.basic_dex) + ":";
+    state += to_string(get_state.status.basic_int) + ":";
+    state += to_string(get_state.status.plus_str) + ":";
+    state += to_string(get_state.status.plus_dex) + ":";
+    state += to_string(get_state.status.plus_int);
 
-    get_state.status = _status;
+    _state.push_back(state);
     return get_state;
 }
 
@@ -2897,7 +2957,7 @@ ACTION battletest::startbattle(eosio::name _user, uint32_t _party_number, uint32
     auto whitelist_iter = whitelist_table.find(_user.value);
     eosio_assert(whitelist_iter != whitelist_table.end(), "Not White User 3");
 
-    std::vector<uint32_t> servant_pos_list = {1, 2, 3, 4};
+    std::vector<uint32_t> servant_pos_list = {0, 1, 2, 3, 4};
     std::vector<uint32_t> monster_pos_list = {5, 6, 7, 8, 9};
     std::vector<uint32_t> enemy_pos_list = {14, 12, 10, 11, 13, 19, 17, 15, 16, 18};
 
@@ -2918,9 +2978,6 @@ ACTION battletest::startbattle(eosio::name _user, uint32_t _party_number, uint32
     const auto &user_party_iter = user_party_table.get(_party_number, "Not Exist Party 1");
     eosio_assert(user_party_iter.state == party_state::on_wait, "Party Impossible Battle");
 
-    user_servants user_servant_table(_self, _user.value);
-    user_monsters user_monster_table(_self, _user.value);
-
     battle_actions user_battle_action_table(_self, _self.value);
     auto user_battle_action_iter = user_battle_action_table.find(_user.value);
     if (user_battle_action_iter == user_battle_action_table.end())
@@ -2939,12 +2996,13 @@ ACTION battletest::startbattle(eosio::name _user, uint32_t _party_number, uint32
         });
     }
 
+    std::vector<std::string> my_state;
+    std::vector<std::string> enemy_state;
+
     battle_state_list user_battle_table(_self, _self.value);
     auto user_battle_iter = user_battle_table.find(_user.value);
     if (user_battle_iter == user_battle_table.end())
     {
-        std::vector<uint64_t> random_list;
-        safeseed::get_battle_rand_list(random_list, now() + _user.value);
         user_battle_table.emplace(_self, [&](auto &new_battle_set) {
             new_battle_set.user = _user;
             new_battle_set.stage_type = stage_db_iter->stage_type;
@@ -2952,19 +3010,13 @@ ACTION battletest::startbattle(eosio::name _user, uint32_t _party_number, uint32
             new_battle_set.stage_number = stage_db_iter->stage_id;
             new_battle_set.state = stage_state::start;
 
-            uint32_t servant_id_index = get_servant_index(user_auth_iter->hero.job, user_auth_iter->hero.appear.body, user_auth_iter->hero.appear.gender, user_auth_iter->hero.appear.head, user_auth_iter->hero.appear.hair);
-            battle_state hero_battle_state = get_stage_state(user_auth_iter->hero.status, user_auth_iter->hero.job, 0, servant_id_index, 0);
-            new_battle_set.my_state_list.push_back(hero_battle_state);
-
-            for (uint32_t i = 0; i < 4; ++i)
+            for (uint32_t i = 0; i < 5; ++i)
             {
                 if (user_party_iter.servant_list[i] == 0) //파티 멤버가 비어있으면
                 {
                     continue;
                 }
-                const auto &user_servant_iter = user_servant_table.get(user_party_iter.servant_list[i], "Not Exist Servant 1");
-                uint32_t servant_id_index = get_servant_index(user_servant_iter.servant.job, user_servant_iter.servant.appear.body, user_servant_iter.servant.appear.gender, user_servant_iter.servant.appear.head, user_servant_iter.servant.appear.hair);
-                battle_state servant_battle_state = get_stage_state(user_servant_iter.servant.status, user_servant_iter.servant.job, user_servant_iter.index, servant_id_index, servant_pos_list[i]);
+                battle_state servant_battle_state = get_stage_state(_user, "ser",user_party_iter.servant_list[i],servant_pos_list[i],0,my_state);
                 new_battle_set.my_state_list.push_back(servant_battle_state);
             }
             for (uint32_t i = 0; i < 5; ++i)
@@ -2973,33 +3025,16 @@ ACTION battletest::startbattle(eosio::name _user, uint32_t _party_number, uint32
                 {
                     continue;
                 }
-                const auto &user_monster_iter = user_monster_table.get(user_party_iter.monster_list[i], "Not Exist Monster 1");
-                battle_state monster_battle_state = get_stage_state(user_monster_iter.monster.status, beginner, user_monster_iter.index, user_monster_iter.monster.id, monster_pos_list[i]);
+                battle_state monster_battle_state = get_stage_state(_user, "mon",user_party_iter.monster_list[i], monster_pos_list[i],0,my_state);
                 new_battle_set.my_state_list.push_back(monster_battle_state);
             }
 
-            //stage setting
-            for(uint32_t i = 0; i < stage_db_iter->monster_list.size(); ++i)
-            {
-                status_info status;
-                status.basic_str = monster_common_status_list[4];
-                status.basic_dex = monster_common_status_list[4];
-                status.basic_int = monster_common_status_list[4];
-                uint64_t level = safeseed::get_random_value(now(), stage_db_iter->monster_level_max, stage_db_iter->monster_level_min, 0);
-                for(uint32_t j=2; j<=level; ++j)
-                {
-                    status = get_level_up_monster_status(stage_db_iter->monster_list[i].monster_id, 3, status);
-                }
-
-                battle_state monster_battle_state = get_stage_state(status, beginner, 0, stage_db_iter->monster_list[i].monster_id, stage_db_iter->monster_list[i].position);
-                new_battle_set.enemy_state_list.push_back(monster_battle_state);
-            }
+            battle_state stage_monster_battle_state = get_stage_state(_user, "stage", 0, 0,stage_db_iter->stage_id,enemy_state);
+            new_battle_set.enemy_state_list.push_back(stage_monster_battle_state);
         });
     }
     else
     {
-        std::vector<uint64_t> random_list;
-        safeseed::get_battle_rand_list(random_list, now() + _user.value);
         user_battle_table.modify(user_battle_iter, _self, [&](auto &new_battle_set) {
             new_battle_set.stage_type = stage_db_iter->stage_type;
             new_battle_set.enemy_user = _user;
@@ -3008,19 +3043,13 @@ ACTION battletest::startbattle(eosio::name _user, uint32_t _party_number, uint32
             new_battle_set.my_state_list.clear();
             new_battle_set.enemy_state_list.clear();
 
-            uint32_t servant_id_index = get_servant_index(user_auth_iter->hero.job, user_auth_iter->hero.appear.body, user_auth_iter->hero.appear.gender, user_auth_iter->hero.appear.head, user_auth_iter->hero.appear.hair);
-            battle_state hero_battle_state = get_stage_state(user_auth_iter->hero.status, user_auth_iter->hero.job, 0, servant_id_index, 0);
-            new_battle_set.my_state_list.push_back(hero_battle_state);
-
-            for (uint32_t i = 0; i < 4; ++i)
+            for (uint32_t i = 0; i < 5; ++i)
             {
                 if (user_party_iter.servant_list[i] == 0) //파티 멤버가 비어있으면
                 {
                     continue;
                 }
-                const auto &user_servant_iter = user_servant_table.get(user_party_iter.servant_list[i], "Not Exist Servant 1");
-                uint32_t servant_id_index = get_servant_index(user_servant_iter.servant.job, user_servant_iter.servant.appear.body, user_servant_iter.servant.appear.gender, user_servant_iter.servant.appear.head, user_servant_iter.servant.appear.hair);
-                battle_state servant_battle_state = get_stage_state(user_servant_iter.servant.status, user_servant_iter.servant.job, user_servant_iter.index, servant_id_index, servant_pos_list[i]);
+                battle_state servant_battle_state = get_stage_state(_user, "ser",user_party_iter.servant_list[i],servant_pos_list[i],0,my_state);
                 new_battle_set.my_state_list.push_back(servant_battle_state);
             }
             for (uint32_t i = 0; i < 5; ++i)
@@ -3029,31 +3058,18 @@ ACTION battletest::startbattle(eosio::name _user, uint32_t _party_number, uint32
                 {
                     continue;
                 }
-                const auto &user_monster_iter = user_monster_table.get(user_party_iter.monster_list[i], "Not Exist Monster 1");
-                battle_state monster_battle_state = get_stage_state(user_monster_iter.monster.status, beginner, user_monster_iter.index, user_monster_iter.monster.id, monster_pos_list[i]);
+                battle_state monster_battle_state = get_stage_state(_user, "mon",user_party_iter.monster_list[i], monster_pos_list[i],0,my_state);
                 new_battle_set.my_state_list.push_back(monster_battle_state);
             }
 
-
-            //stage setting
-            for(uint32_t i = 0; i < stage_db_iter->monster_list.size(); ++i)
-            {
-                status_info status;
-                status.basic_str = monster_common_status_list[4];
-                status.basic_dex = monster_common_status_list[4];
-                status.basic_int = monster_common_status_list[4];
-
-                uint64_t level = safeseed::get_random_value(now(), stage_db_iter->monster_level_max, stage_db_iter->monster_level_min, 0);
-                for (uint32_t j = 2; j <= level; ++j)
-                {
-                    status = get_level_up_monster_status(stage_db_iter->monster_list[i].monster_id, 3, status);
-                }
-
-                battle_state monster_battle_state = get_stage_state(status, beginner, 0, stage_db_iter->monster_list[i].monster_id, stage_db_iter->monster_list[i].position);
-                new_battle_set.enemy_state_list.push_back(monster_battle_state);
-            }
+            battle_state stage_monster_battle_state = get_stage_state(_user, "stage", 0, 0,stage_db_iter->stage_id,enemy_state);
+            new_battle_set.enemy_state_list.push_back(stage_monster_battle_state);
         });
     }
+        action(permission_level{get_self(), "active"_n},
+               get_self(), "resultbattle"_n,
+               std::make_tuple(_user,my_state ,enemy_state)).send();
+
 }
 
 #pragma endregion
@@ -3165,62 +3181,6 @@ battletest::battle_action_info battletest::get_action(uint32_t _action, std::vec
             _enemy_state_list[_target_key].now_hp -= new_action.damage;
         }
         action_info.battle_action_list.push_back(new_action);
-    }
-    else if (_action == active_skill::all_attack)
-    {
-        if (true == check_active(_my_state_list[_my_key].active_skill_list, active_skill::all_attack))
-        {
-            uint64_t seed = safeseed::get_seed_value(now(),_seed);
-            for(uint32_t i = 0; i < _enemy_state_list.size(); ++i)
-            {
-                battle_action new_action;
-                if(_enemy_state_list[i].state == battle_action_state::dead)
-                {
-                    continue;
-                }
-
-                new_action = get_target_action(battle_action_state::attack, _my_state_list, _enemy_state_list, seed, _my_key, i);
-                if (_enemy_state_list[i].now_hp <= new_action.damage)
-                {
-                    _enemy_state_list[i].now_hp = 0;
-                    _enemy_state_list[i].state = battle_action_state::dead;
-                }
-                else
-                {
-                    _enemy_state_list[i].now_hp -= new_action.damage;
-                }
-
-                action_info.battle_action_list.push_back(new_action);
-                seed = seed >> 1;
-            }
-        }
-    }
-    else if (_action == active_skill::all_heal)
-    {
-        if (true == check_active(_my_state_list[_my_key].active_skill_list, active_skill::all_heal))
-        {
-            uint64_t seed = safeseed::get_seed_value(now(), _seed);
-            for (uint32_t i = 0; i < _my_state_list.size(); ++i)
-            {
-                battle_action new_action;
-                if (_my_state_list[i].state == battle_action_state::dead)
-                {
-                    continue;
-                }
-
-                new_action = get_target_action(battle_action_state::defense, _my_state_list, _my_state_list, seed, _my_key, i);
-                uint64_t max_hp = get_max_hp(_my_state_list[i].status);
-                if (max_hp > _my_state_list[i].now_hp + new_action.damage)
-                {
-                    _my_state_list[i].now_hp += new_action.damage;
-                }
-                else
-                {
-                    _my_state_list[i].now_hp = 0;
-                }
-                action_info.battle_action_list.push_back(new_action);
-            }
-        }
     }
 
     return action_info;
@@ -5086,4 +5046,4 @@ ACTION battletest::change(eosio::name _user, std::string _kind , uint64_t _grade
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(battletest, (completehero)(lookset)(dbmove)(change)(balancetest)(testsnap)(towersnap)(claim)(settower)(equipment)(unequipment)(itemstore)(sellobject)(upgrade)(dberasestg)(dbinsertstg)(deletewhite)(addwhite)(deleteuser)(exitbattle)(deletebattle)(startbattle)(activeturn)(setdata)(herocheat)(partycheat)(resultpre)(resultgacha)(create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dberase)(dbinit))
+EOSIO_DISPATCH(battletest, (resultbattle)(completehero)(lookset)(dbmove)(change)(balancetest)(testsnap)(towersnap)(claim)(settower)(equipment)(unequipment)(itemstore)(sellobject)(upgrade)(dberasestg)(dbinsertstg)(deletewhite)(addwhite)(deleteuser)(exitbattle)(deletebattle)(startbattle)(activeturn)(setdata)(herocheat)(partycheat)(resultpre)(resultgacha)(create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dberase)(dbinit))
