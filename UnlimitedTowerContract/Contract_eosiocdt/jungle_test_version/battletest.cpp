@@ -1485,6 +1485,15 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
 {
     require_auth(sender);
     auto transfer_data = eosio::unpack_action_data<st_transfer>();
+
+        action_data action_data_table(_self, _self.value);
+    action_data_table.emplace(_self, [&](auto &new_data)
+    {
+        new_data.index = action_data_table.available_primary_key();
+        new_data.to = transfer_data.to;
+        new_data.receiver = receiver;
+    });
+
     eosio_assert(transfer_data.quantity.symbol == symbol("EOS", 4), "Only Accepts EOS for deposits");
     eosio_assert(transfer_data.quantity.is_valid(), "Invalid token transfer");
     eosio_assert(transfer_data.quantity.amount > 0, "Quantity must be positive");

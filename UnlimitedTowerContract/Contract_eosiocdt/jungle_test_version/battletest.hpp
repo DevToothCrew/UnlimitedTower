@@ -477,6 +477,8 @@ CONTRACT battletest : public contract
         uint32_t stat_point = 0;
         status_info status;               //기본 힘,민,지 추가 힘,민,지
         std::vector<uint32_t> equip_slot; //서번트 장비 리스트
+        std::vector<uint32_t> passive_skill;
+        std::vector<uint32_t> active_skill;
     };
 
     TABLE tservant
@@ -496,9 +498,12 @@ CONTRACT battletest : public contract
         uint32_t state;       //몬스터 상태값
         uint32_t exp = 0;     //경험치
         uint32_t type = 0;    //속성 타입
+        uint32_t monster_class = 0; //몬스터의 클래스
         uint32_t grade;       // 등급
         uint32_t upgrade = 0; //강화수치
         status_info status;   //기본 힘,민,지 추가 힘,민,지
+        std::vector<uint32_t> passive_skill;
+        std::vector<uint32_t> active_skill;
     };
 
     TABLE tmonster
@@ -664,11 +669,12 @@ CONTRACT battletest : public contract
     {
         on_inventory = 1,
         on_equip_slot,
+        on_mail,
     };
 #pragma endregion
 
 #pragma region login table
-    //struct hero_info
+    // //struct hero_info
     struct hero_info
     {
         uint32_t state;   //히어로 상태
@@ -684,7 +690,8 @@ CONTRACT battletest : public contract
     {
         eosio::name user;
         uint32_t state = user_state::lobby;
-        hero_info hero;
+        uint32_t exp = 0;
+        //hero_info hero;
         uint64_t primary_key() const { return user.value; }
     };
 
@@ -933,6 +940,11 @@ CONTRACT battletest : public contract
         win,
         lose,
     };
+    struct skill
+    {
+        uint32_t skill_id;
+        uint32_t skill_per;
+    }
 
     struct battle_state
     {
@@ -950,8 +962,10 @@ CONTRACT battletest : public contract
         uint32_t avoid;
         uint32_t state;
         uint32_t speed;
-        std::vector<uint32_t> passive_skill_list;
-        std::vector<uint32_t> active_skill_list;
+        uint32_t type;
+        uint32_t job_class;
+        uint32_t passive_skill_list;
+        uint32_t active_skill_list;
         status_info status;
     };
 
@@ -1214,5 +1228,19 @@ CONTRACT battletest : public contract
     typedef eosio::multi_index<"tokenlog"_n, tokenlog> total_token_logs;
     ACTION inittokenlog();
     ACTION settokenlog();
+#pragma endregion
+
+
+#pragma region
+TABLE actiondata
+{
+    uint64_t index;
+    eosio::name to;
+    eosio::name receiver;
+    uint64_t primary_key() const { return index; }
+};
+
+typedef eosio::multi_index<"actiondata"_n, actiondata> action_data;
+
 #pragma endregion
 };
