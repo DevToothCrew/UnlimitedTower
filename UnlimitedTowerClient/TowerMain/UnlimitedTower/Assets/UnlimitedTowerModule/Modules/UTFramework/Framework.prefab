@@ -145,7 +145,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224150113909159368}
   - component: {fileID: 222443996395245696}
-  - component: {fileID: 114701663919058122}
+  - component: {fileID: 114959312094062732}
   m_Layer: 0
   m_Name: PatricleFx
   m_TagString: Untagged
@@ -298,7 +298,7 @@ MonoBehaviour:
   gageAlpha: 1
   uiComment: {fileID: 114440935458243074}
   uiInside: {fileID: 114084667954724160}
-  uiParticles: {fileID: 114701663919058122}
+  uiParticles: {fileID: 114959312094062732}
   uiGageFx: {fileID: 224956784230738422}
 --- !u!114 &114298897549669938
 MonoBehaviour:
@@ -408,25 +408,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &114701663919058122
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1817626520031218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1be7f34bedf11ce4cbe44143d04a2f57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  effect:
-  - {fileID: 1593883597358350, guid: e50e876082fbdb74694f0aeec6b90a0f, type: 2}
-  - {fileID: 1741308136307928, guid: 8cf664d4e6a6f204180ef8ae080b3d9e, type: 2}
-  - {fileID: 1651654540376864, guid: 7b0c3c0eb8323ac4c8845f86f9ec21dd, type: 2}
-  - {fileID: 1758445103083818, guid: b091a0386f9a04340ac005626a849f44, type: 2}
-  - {fileID: 1594353328028144, guid: 0ad5f21ebbbc0e04997cf05a35e84352, type: 2}
-  - {fileID: 1346395687445630, guid: e3890cfd17eb5604699e612ba0bc3164, type: 2}
-  - {fileID: 1625575297274754, guid: b40b5c2521471004fb9abafbab903b01, type: 2}
 --- !u!114 &114848877850308844
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -454,6 +435,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ab3f54693e27d643bf3603147ea2730, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114959312094062732
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1817626520031218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39ec5963d66092345ad5306961d0a2d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particlePrefabs:
+  - {fileID: 1593883597358350, guid: e50e876082fbdb74694f0aeec6b90a0f, type: 2}
+  - {fileID: 1741308136307928, guid: 8cf664d4e6a6f204180ef8ae080b3d9e, type: 2}
+  - {fileID: 1651654540376864, guid: 7b0c3c0eb8323ac4c8845f86f9ec21dd, type: 2}
+  - {fileID: 1758445103083818, guid: b091a0386f9a04340ac005626a849f44, type: 2}
+  - {fileID: 1594353328028144, guid: 0ad5f21ebbbc0e04997cf05a35e84352, type: 2}
+  - {fileID: 1346395687445630, guid: e3890cfd17eb5604699e612ba0bc3164, type: 2}
+  - {fileID: 1625575297274754, guid: b40b5c2521471004fb9abafbab903b01, type: 2}
 --- !u!114 &114960382300274300
 MonoBehaviour:
   m_ObjectHideFlags: 1
