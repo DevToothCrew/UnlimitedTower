@@ -1602,25 +1602,21 @@ Prefab:
       propertyPath: m_Name
       value: CharacterCustomInstance
       objectReference: {fileID: 0}
+    - target: {fileID: 114738839130650396, guid: cc7db4ec84d80b64cb4a6dc79fb662e4,
+        type: 2}
+      propertyPath: ArcherArrow
+      value: 
+      objectReference: {fileID: 1203161791995306, guid: 9cb915b3e8777b540b8ddc36d8500a2a,
+        type: 2}
+    - target: {fileID: 114738839130650396, guid: cc7db4ec84d80b64cb4a6dc79fb662e4,
+        type: 2}
+      propertyPath: MagicianBullet
+      value: 
+      objectReference: {fileID: 1182157038485074, guid: e23b9b8d991971d42910163127a8c864,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cc7db4ec84d80b64cb4a6dc79fb662e4, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &193791286 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1346308027570302, guid: cc7db4ec84d80b64cb4a6dc79fb662e4,
-    type: 2}
-  m_PrefabInternal: {fileID: 193791285}
---- !u!114 &193791287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 193791286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54d5d0b8e2eb49a4fb9088225930f758, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &197777309
 GameObject:
   m_ObjectHideFlags: 0

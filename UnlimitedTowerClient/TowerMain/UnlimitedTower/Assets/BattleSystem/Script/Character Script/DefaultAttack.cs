@@ -109,7 +109,7 @@ public class DefaultAttack : MonoBehaviour
     {
         GameObject arrow = Instantiate(bullet, transform.position + new Vector3(0, 0.4f, 0), transform.rotation);
         float Speed = Vector3.Distance(arrow.transform.position, target) * 0.02f;
-        for (int i = 0; i < 50; i += BattleSystem.Inst.TimeScale)
+        for (int i = 0; i < 45; i += BattleSystem.Inst.TimeScale)
         {
             arrow.transform.Translate(0, 0, Speed * BattleSystem.Inst.TimeScale);
             yield return new WaitForSeconds(0.01f);

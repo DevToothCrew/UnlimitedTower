@@ -53,24 +53,12 @@ public class CaracterCustom : MonoBehaviour
     public HeadParts[] childrenManHead = new HeadParts[9];
     public HeadParts[] childrenWomanHead = new HeadParts[9];
 
-    [Header("- Dump Effect")]
-    public ParticleSystem RingEffect;
-    public GameObject adultBodyEffect;
-    public GameObject adultHeadEffect;
-    public GameObject childrenBodyEffect;
-    public GameObject childrenHeadEffect;
+    [Header("- Bullet")]
+    public GameObject ArcherArrow;
+    public GameObject MagicianBullet;
 
     public RuntimeAnimatorController[] animatorController = new RuntimeAnimatorController[6];
-
-    // private readonly Color[] JobColor = {
-    //     new Color(0, 0, 0, 0),
-    //     new Color(0.188f, 0.188f, 0.2f, 1.0f),
-    //     new Color(0.4f, 0.152f, 0, 1.0f),
-    //     new Color(0.6f, 0.4f, 0, 1.0f),
-    //     new Color(0.388f, 0.494f, 0.741f, 1.0f),
-    //     new Color(1, 0.309f, 0.309f, 1.0f)
-    // };
-
+    
     private readonly CharacterInfo[] characterInformation = new CharacterInfo[6];
 
     // 데이터 저장용
@@ -127,8 +115,8 @@ public class CaracterCustom : MonoBehaviour
         characterInformation[1] = new CharacterInfo(0.9f, 1.0f, 1.5f, 0.7f);
         characterInformation[2] = new CharacterInfo(0.9f, 1.0f, 1.5f, 0.7f);
         characterInformation[3] = new CharacterInfo(0.9f, 1.0f, 1.5f, 0.6f);
-        characterInformation[4] = new CharacterInfo(1.1f, 1.0f, 1.5f, 0.7f);
-        characterInformation[5] = new CharacterInfo(0.5f, 1.0f, 1.5f, 0.7f);
+        characterInformation[4] = new CharacterInfo(2.0f, 0.7f, 1.5f, 0.0f);
+        characterInformation[5] = new CharacterInfo(0.8f, 0.7f, 1.5f, 0.0f);
 
         Refresh();
     }
@@ -264,66 +252,6 @@ public class CaracterCustom : MonoBehaviour
         }
     }
 
-    //public void Update()
-    //{
-    //if (Input.GetKeyDown(KeyCode.Keypad1))
-    //{
-    //if (jobIndex > 0)
-    //{
-    //jobIndex--;
-    //Refresh();
-    //}
-    //}
-    //if (Input.GetKeyDown(KeyCode.Keypad3))
-    //{
-    //if (jobIndex < 5)
-    //{
-    //jobIndex++;
-    //Refresh();
-    //}
-    //}
-    //if (Input.GetKeyDown(KeyCode.Keypad4))
-    //{
-    //if (headIndex > 0)
-    //{
-    //headIndex--;
-    //Refresh();
-    //}
-    //}
-    //if (Input.GetKeyDown(KeyCode.Keypad6))
-    //{
-    //if (headIndex < 2)
-    //{
-    //headIndex++;
-    //Refresh();
-    //}
-    //}
-    //if (Input.GetKeyDown(KeyCode.Keypad7))
-    //{
-    //if (hairIndex > 0)
-    //{
-    //hairIndex--;
-    //Refresh();
-    //}
-    //}
-    //if (Input.GetKeyDown(KeyCode.Keypad9))
-    //{
-    //if (hairIndex < 2)
-    //{
-    //hairIndex++;
-    //Refresh();
-    //}
-    //}
-    //if (Input.GetKeyDown(KeyCode.Keypad5))
-    //{
-    //isMan = isMan == 0 ? 1 : 0;
-    //Refresh();
-    //}
-    //if (Input.GetKeyDown(KeyCode.Keypad8))
-    //{
-    //isChildren = isChildren == 0 ? 1 : 0;
-    //Refresh();
-    //}
     public void Update()
     {
         if (Input.GetMouseButton(0))
@@ -331,7 +259,6 @@ public class CaracterCustom : MonoBehaviour
             defultCharacter.transform.Rotate(0, -Input.GetAxis("Mouse X") * 10, 0);
         }
     }
-    //}
 
     public GameObject Create(int jobIndex, int headIndex, int hairIndex, int isMan, int isChildren)
     {
@@ -346,6 +273,23 @@ public class CaracterCustom : MonoBehaviour
         CharacterInformationTemp.AttackAfterDelay = characterInformation[jobIndex].AttackAfterDelay;
         CharacterInformationTemp.Height = characterInformation[jobIndex].Height;
         CharacterInformationTemp.AttackRange = characterInformation[jobIndex].AttackRange;
+
+        if (jobIndex == 4)
+        {
+            defultCharacter.GetComponent<DefaultAttack>().isOnedeal = true;
+            defultCharacter.GetComponent<DefaultAttack>().bullet = ArcherArrow;
+        }
+        else if (jobIndex == 5)
+        {
+            defultCharacter.GetComponent<DefaultAttack>().isOnedeal = true;
+            defultCharacter.GetComponent<DefaultAttack>().bullet = MagicianBullet;
+        }
+        else
+        {
+            defultCharacter.GetComponent<DefaultAttack>().isOnedeal = false;
+            defultCharacter.GetComponent<DefaultAttack>().bullet = null;
+        }
+
         return defultCharacter;
     }
 
