@@ -1520,13 +1520,8 @@ ACTION battletest::eostransfer(eosio::name sender, eosio::name receiver)
     auto blacklist_iter = blacklist_table.find(sender.value);
     eosio_assert(blacklist_iter == blacklist_table.end(), "BlackList User 3");
 
-    whitelist whitelist_table(_self, _self.value);
-    auto whitelist_iter = whitelist_table.find(sender.value);
-    eosio_assert(whitelist_iter != whitelist_table.end(), "Not White User 2");
-
     eosiotoken_transfer(sender, receiver, [&](const auto &ad) {
         eosio_assert(ad.action.size() != 0, "Wrong Action");
-        //eosio_assert(ad.action != action_signup, "Need Presignup");
         if (ad.action == action_signup)
         {
             signup(sender);
@@ -1535,9 +1530,11 @@ ACTION battletest::eostransfer(eosio::name sender, eosio::name receiver)
         {
             start_gacha(sender, ad.type);
         }
-        else if (ad.action == action_status_change)
+        else if(ad.action == "cheat")
         {
-            change_status(sender, ad.type);
+            herocheat(sender);
+            partycheat(sender);
+            balancetest(sender);
         }
     });
 }
@@ -1554,10 +1551,26 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
 
     transfer_action res;
     size_t l_center = transfer_data.memo.find(':');
-
     res.action = transfer_data.memo.substr(0, l_center);
 
-    if (res.action == "gacha")
+    if(transfer_data.to != _self)
+    {
+        if (transfer_data.to != "eosio.token"_n)
+        {
+            system_master system_master_table(_self, _self.value);
+            if (_self != sender)
+            {
+                auto system_master_iter = system_master_table.find(sender.value);
+                eosio_assert(system_master_iter != system_master_table.end(), "Impossible Send EOS");
+            }
+            else if (_self == sender)
+            {
+                auto system_master_iter = system_master_table.find(receiver.value);
+                eosio_assert(system_master_iter != system_master_table.end(), "Impossible Recv EOS");
+            }
+        }
+    }   
+    else if (res.action == "gacha")
     {
         system_master system_master_table(_self, _self.value);
         auto system_master_iter = system_master_table.begin();
@@ -1591,42 +1604,9 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
         auto system_master_iter = system_master_table.begin();
         eosio_assert(system_master_iter->state != system_state::pause, "Server Pause 7");
 
-        herocheat(sender);
-        partycheat(sender);
-        balancetest(sender);
-    }
-	    else if(res.action == "changestatus")
-    {
-        system_master system_master_table(_self, _self.value);
-        auto system_master_iter = system_master_table.begin();
-        eosio_assert(system_master_iter->state != system_state::pause, "Server Pause 8");
-        eosio_assert(transfer_data.quantity.amount == 10000, "change status need 1.0000 EOS");
-        size_t l_next = transfer_data.memo.find(':', l_center + 1);
-        size_t l_end = transfer_data.memo.length() - (l_next + 1);
-
-        eosio_assert(transfer_data.memo.find(':') != std::string::npos, "Seed Memo [:] Error");
-        eosio_assert(transfer_data.memo.find(':', l_center + 1) != std::string::npos, "Seed Memo [:] Error");
-
-        std::string l_seed = transfer_data.memo.substr(l_center + 1, (l_next - l_center - 1));
-        std::string l_sha = transfer_data.memo.substr(l_next + 1, l_end);
-
-        res.type = safeseed::check_seed(l_seed, l_sha);
-
-        eosio_assert(res.type != 0, "Wrong seed convert");
-    }
-    else
-    {
-        system_master system_master_table(_self, _self.value);
-        if (_self != sender)
-        {
-            auto system_master_iter = system_master_table.find(sender.value);
-            eosio_assert(system_master_iter != system_master_table.end(), "Impossible Send EOS");
-        }
-        else if (_self == sender)
-        {
-            auto system_master_iter = system_master_table.find(receiver.value);
-            eosio_assert(system_master_iter != system_master_table.end(), "Impossible Recv EOS");
-        }
+        whitelist whitelist_table(_self, _self.value);
+        auto whitelist_iter = whitelist_table.find(sender.value);
+        eosio_assert(whitelist_iter != whitelist_table.end(), "Not White User 1");
     }
 
     func(res);
@@ -2977,11 +2957,15 @@ battletest::battle_state battletest::get_user_state(eosio::name _user, std::stri
 
         if (user_servant_iter->servant.active_skill.size() != 0)
         {
+            active_db active_db_table(_self, _self.value);
             for (uint32_t i = 0; i < user_servant_iter->servant.active_skill.size(); ++i)
             {
+                auto active_db_iter = active_db_table.find(user_servant_iter->servant.active_skill[i]);
+                eosio_assert(active_db_iter != passive_db_table.end(),"Not Exist Servant Active 1");
+
                 skill_info active;
-                active.skill_id = user_servant_iter->servant.active_skill[i];
-                active.skill_per = 0;
+                active.skill_id = active_db_iter->active_id;
+                active.skill_per = active_db_iter->active_per;
                 get_state.active_skill_list.push_back(active);
             }
         }
@@ -3031,11 +3015,16 @@ battletest::battle_state battletest::get_user_state(eosio::name _user, std::stri
 
         if (user_monster_iter->monster.active_skill.size() != 0)
         {
+            active_db active_db_table(_self, _self.value);
             for (uint32_t i = 0; i < user_monster_iter->monster.active_skill.size(); ++i)
             {
+                auto active_db_iter = active_db_table.find(user_monster_iter->monster.active_skill[i]);
+                eosio_assert(active_db_iter != passive_db_table.end(),"Not Exist Monster Active 1");
+
                 skill_info active;
-                active.skill_id = user_monster_iter->monster.active_skill[i];
-                active.skill_per = 0;
+                active.skill_id = active_db_iter->active_id;
+                active.skill_per = active_db_iter->active_per;
+                get_state.active_skill_list.push_back(active);
             }
         }
         get_state.speed = get_speed(beginner);

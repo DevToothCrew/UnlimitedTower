@@ -215,6 +215,24 @@ CONTRACT battletest : public contract
     };
     typedef eosio::multi_index<"dbpassive"_n, dbpassive> passive_db;
 
+    TABLE dbactive
+    {
+        uint64_t active_id = 0;
+        uint32_t unique = 0;
+        uint32_t active_per = 0;
+        uint32_t skill_type = 0;
+        uint32_t attack_type = 0;
+        uint32_t target = 0;
+        uint32_t hit_count = 0;
+        uint32_t atk_per = 0;
+        uint32_t atk_per_add = 0;
+        uint32_t heal_per = 0;
+        uint32_t heal_per_add = 0;
+        std::vector<uint32_t> array_option_id_list;
+        std::vector<uint32_t> array_buff_id_list;
+        uint64_t primary_key() const {return active_id;}    
+    };
+    typedef eosio::multi_index<"dbactive"_n, dbactive> active_db;
 /////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////NEW DB ///////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
