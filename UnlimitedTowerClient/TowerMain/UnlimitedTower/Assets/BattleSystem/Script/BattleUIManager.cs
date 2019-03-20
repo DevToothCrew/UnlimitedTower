@@ -55,6 +55,14 @@ public class BattleUIManager : MonoSingleton<BattleUIManager>
         }
     }
 
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            AutoCheck();
+        }
+    }
+
     public void SetHeroTargetImage(int TargetCode)
     {
         heroTargetObject.SetActive(true);

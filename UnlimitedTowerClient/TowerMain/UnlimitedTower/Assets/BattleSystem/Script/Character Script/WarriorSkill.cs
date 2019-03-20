@@ -2,36 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DefaultAttack : MonoBehaviour
-{
-    public bool isOnedeal;
-    public GameObject bullet;
+public class WarriorSkill : MonoBehaviour {
     private CharacterInformation characterInformation;
     private Animator ani;
-    
+
     private void Start()
     {
         ani = GetComponent<Animator>();
         characterInformation = GetComponent<CharacterInformation>();
     }
 
-    public void Attack(battleActionInfo attackInfo)
+    public void Skill_1(battleActionInfo attackInfo)
     {
-        if (!attackInfo.battle_action_list[0].avoid)
-        {
-            if (BattleSystem.Inst.characterControl[attackInfo.battle_action_list[0].target_position].nowHp - attackInfo.battle_action_list[0].damage / 100 <= 0)
-            {
-                DieCameraMove.Inst.Test(attackInfo.battle_action_list[0].target_position);
-            }
-        }
-
-        if (!isOnedeal)
-            StartCoroutine(NearAttackAction(attackInfo));
-        else 
-            StartCoroutine(FarAttackAction(attackInfo));
+        StartCoroutine(Skill_1_co(attackInfo));
     }
 
-    IEnumerator NearAttackAction(battleActionInfo attackInfo)
+    IEnumerator Skill_1_co(battleActionInfo attackInfo)
     {
         Transform attacker;
         Transform target;
@@ -49,12 +35,16 @@ public class DefaultAttack : MonoBehaviour
         attackerEndPos = attackerStartPos;
         attackerStartPos = attacker.position;
 
-        yield return new WaitForSeconds(characterInformation.AttackDelay);
-
+        yield return new WaitForSeconds(1.0f);
+        
         DamageTextSystem.Inst.DamageTextAction(attackInfo.battle_action_list[0]);
         BattleSystem.Inst.characterControl[attackInfo.battle_action_list[0].target_position].transform.GetChild(0).GetComponent<Animator>().SetTrigger("isHit");
 
-        yield return new WaitForSeconds(characterInformation.AttackAfterDelay);
+        yield return new WaitForSeconds(0.5f);
+
+        DamageTextSystem.Inst.DamageTextAction(attackInfo.battle_action_list[1]);
+
+        yield return new WaitForSeconds(2.0f);
 
         yield return AttackRecall(attacker, target, attackerEndPos, attackerStartPos);
 
@@ -76,7 +66,7 @@ public class DefaultAttack : MonoBehaviour
             yield return new WaitForSeconds(0.015f);
         }
         attacker.transform.position = attackerEndPos;
-        ani.SetTrigger("isAttack");
+        ani.SetTrigger("isDoubleAttack");
     }
 
     // 공격후 제자리로 귀환
@@ -91,47 +81,5 @@ public class DefaultAttack : MonoBehaviour
         }
         attacker.transform.position = attackerStartPos;
         ani.SetTrigger("isIdle");
-    }
-    
-    IEnumerator FarAttackAction(battleActionInfo attackInfo)
-    {
-        Transform attacker;
-        Transform target;
-
-        attacker = BattleSystem.Inst.characterObject[attackInfo.my_position].transform;
-        target = BattleSystem.Inst.characterObject[attackInfo.battle_action_list[0].target_position].transform;
-
-        attacker.transform.LookAt(target);
-    
-        ani.SetTrigger("isAttack");
-    
-        yield return new WaitForSeconds(characterInformation.AttackDelay);
-    
-        StartCoroutine(ArrowShot(target.position));
-    
-        ani.SetTrigger("isIdle");
-
-        attacker.rotation = attackInfo.my_position < 10 ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0);
-        
-        yield return new WaitForSeconds(characterInformation.AttackAfterDelay);
-
-        DamageTextSystem.Inst.DamageTextAction(attackInfo.battle_action_list[0]);
-        BattleSystem.Inst.characterControl[attackInfo.battle_action_list[0].target_position].transform.GetChild(0).GetComponent<Animator>().SetTrigger("isHit");
-
-        yield return new WaitForSeconds(1.0f);
-
-        BattleSystem.Inst.isAttackAfterDelay = true;
-    }
-    
-    IEnumerator ArrowShot(Vector3 target)
-    {
-        GameObject arrow = Instantiate(bullet, transform.position + new Vector3(0, 0.4f, 0), transform.rotation);
-        float Speed = Vector3.Distance(arrow.transform.position, target) * 0.02f;
-        for (int i = 0; i < 45; i += BattleSystem.Inst.TimeScale)
-        {
-            arrow.transform.Translate(0, 0, Speed * BattleSystem.Inst.TimeScale);
-            yield return new WaitForSeconds(0.01f);
-        }
-        Destroy(arrow);
     }
 }

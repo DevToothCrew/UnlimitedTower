@@ -127,17 +127,19 @@ public class Cheat : MonoSingleton<Cheat>
                 continue;
             }
             actionInfo action = new actionInfo();
-            action.target_position = UnityEngine.Random.Range(10, 20);
+            do
+            {
+                action.target_position = UnityEngine.Random.Range(10, 20);
+            } while (BattleSystem.Inst.characterControl[action.target_position].nowHp == 0);
             action.avoid = false;
             action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
-            action.damage = 10;
+            action.damage = rand.Next(200,500);
 
             battleActionInfo actioninfo = new battleActionInfo();
             actioninfo.my_position = i;
             actioninfo.action_type = 2;
             actioninfo.battle_action_list.Add(action);
-
-
+            
             battleactiondata.battle_info_list.Add(actioninfo);
         }
 
@@ -148,17 +150,19 @@ public class Cheat : MonoSingleton<Cheat>
                 continue;
             }
             actionInfo action = new actionInfo();
-            action.target_position = UnityEngine.Random.Range(0, 10);
+            do
+            {
+                action.target_position = UnityEngine.Random.Range(0, 10);
+            } while (BattleSystem.Inst.characterControl[action.target_position].nowHp == 0);
             action.avoid = false;
             action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
-            action.damage = 10;
-
+            action.damage = rand.Next(200, 500);
+            
             battleActionInfo actioninfo = new battleActionInfo();
             actioninfo.my_position = i;
             actioninfo.action_type = 2;
             actioninfo.battle_action_list.Add(action);
-
-
+            
             battleactiondata.battle_info_list.Add(actioninfo);
         }
 
@@ -373,7 +377,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         servant.state = 0;
         servant.exp = rand.Next(0, DEFINE.MAX_EXP);
-        servant.job = 5;
+        servant.job = 1; // rand.Next(0, 6);
         servant.stat_point = (Calculator.GetLevelForExp(servant.exp) - 1) * DEFINE.BONUS_STAT;
         servant.appear = GetRandomAppear();
         servant.status = GetRandomStatusInfo();
@@ -417,7 +421,7 @@ public class Cheat : MonoSingleton<Cheat>
         appear.hair = rand.Next((int)APPEAR_HAIR.BASE, (int)APPEAR_HAIR.MAX);
         appear.head = rand.Next((int)APPEAR_HEAD.BASE, (int)APPEAR_HEAD.MAX);
         appear.body = rand.Next((int)APPEAR_BODY.BASE, (int)APPEAR_BODY.MAX);
-        appear.gender = rand.Next(0, 1);
+        appear.gender = rand.Next(0, 2);
 
         return appear;
     }

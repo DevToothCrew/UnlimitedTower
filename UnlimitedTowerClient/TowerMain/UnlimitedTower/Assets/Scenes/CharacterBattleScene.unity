@@ -2403,6 +2403,22 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1 &277190454 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1346308027570302, guid: cc7db4ec84d80b64cb4a6dc79fb662e4,
+    type: 2}
+  m_PrefabInternal: {fileID: 193791285}
+--- !u!114 &277190455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 277190454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8a20cac1d1577e49819f1c41bf3d8b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &278344962
 GameObject:
   m_ObjectHideFlags: 0
@@ -18130,6 +18146,8 @@ MonoBehaviour:
     monsterTargetIndex: 0
     monsterAction: 0
   tumb: {fileID: 1505251197317596, guid: 1011baae6a869514589b575230ccd427, type: 2}
+  isAttackAfterDelay: 0
+  isTestPlay: 1
   isBattleStart: 0
   isAuto: 0
   delayImage: {fileID: 0}

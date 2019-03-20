@@ -55,7 +55,7 @@ public class CharacterControl : MonoBehaviour
 
         if (!attackInfo.battle_action_list[0].avoid)
         {
-            if (BattleSystem.Inst.characterControl[attackInfo.battle_action_list[0].target_position].nowHp - attackInfo.battle_action_list[0].damage <= 0)
+            if (BattleSystem.Inst.characterControl[attackInfo.battle_action_list[0].target_position].nowHp - attackInfo.battle_action_list[0].damage / 100 <= 0)
             {
                 DieCameraMove.Inst.Test(attackInfo.battle_action_list[0].target_position);
             }
@@ -66,8 +66,7 @@ public class CharacterControl : MonoBehaviour
     {
         StartCoroutine(Avoid());
     }
-
-    // 바꿔라아ㅏㅏ
+    
     IEnumerator Avoid()
     {
         for (int i = 0; i < 25; i += BattleSystem.Inst.TimeScale)

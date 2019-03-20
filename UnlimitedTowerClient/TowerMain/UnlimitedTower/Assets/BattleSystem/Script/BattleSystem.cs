@@ -13,6 +13,8 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     public bool[] characterisPlace = new bool[20];
     public TargetSettingInfo targetSettingInfo = new TargetSettingInfo();
     public GameObject tumb;
+    public bool isAttackAfterDelay;
+    public bool isTestPlay;
     private CaracterCustom characterCustom;
     private DefenceEffect defenceEffect;
     
@@ -75,6 +77,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         characterCustom = GameObject.Find("CharacterCustomInstance").GetComponent<CaracterCustom>();
         defenceEffect = GameObject.Find("DefenceActionObject").GetComponent<DefenceEffect>();
         delayImage = GameObject.Find("DelayImage");
+        testskill = GetComponent<SkillManager>();
 
         defenceEffect.gameObject.SetActive(false);
         delayImage.SetActive(false);
@@ -102,15 +105,75 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             Debug.LogError("버그 : stageStateInfo is NULL");
             return;
         }
-        
-        IsPlaceCheck(stageStateInfo);
-        SettingScript(stageStateInfo);
-        SettingHero();
-        SettingCharacter(stageStateInfo);
-        SettingMonster(stageStateInfo);
-        SettingHp(stageStateInfo);
-        SettingPosition();
+
+        if (!isTestPlay)
+        {
+            IsPlaceCheck(stageStateInfo);
+            SettingScript(stageStateInfo);
+            SettingHero();
+            SettingCharacter(stageStateInfo);
+            SettingMonster(stageStateInfo);
+            SettingHp(stageStateInfo);
+            SettingPosition();
+        }
+        else
+        {
+            TestIsPlaceCheck();
+            TestSettingScript();
+            TestSettingMonster();
+            TestSettingHp();
+            SettingPosition();
+        }
     }
+
+
+    #region 테스트용
+
+    public void TestIsPlaceCheck()
+    {
+        characterisPlace[0] = true;
+        characterisPlace[10] = true;
+    }
+
+    public void TestSettingScript()
+    {
+        characterControl[0] = characterObject[0]?.AddComponent<CharacterControl>();
+        characterControl[0].index = 0;
+        characterControl[10] = characterObject[10]?.AddComponent<CharacterControl>();
+        characterControl[10].index = 10;
+    }
+
+    public void TestSettingMonster()
+    {
+        GameObject servant = Instantiate(characterCustom.Create(1, 0, 0, 0, 0), characterObject[0].transform);
+        servant.transform.position = characterObject[0].transform.position;
+
+        Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataInspector[0].resource), characterObject[10].transform);
+    }
+
+    public void TestSettingHp()
+    {
+        characterControl[0].maxHp = 1000;
+        characterControl[0].nowHp = 1000;
+        characterControl[10].maxHp = 1000;
+        characterControl[10].nowHp = 1000;
+    }
+
+    // 1번부터 10번까지 번갈아 가며 공격
+    public void TestBattleTarget()
+    {
+        battleActionInfo battleActionInfo = new battleActionInfo();
+        actionInfo actionInfo = new actionInfo();
+        actionInfo.target_position = 10;
+        actionInfo.damage = 1000;
+        battleActionInfo.action_type = 302;
+        battleActionInfo.battle_action_list.Add(actionInfo);
+        battleActionInfo.battle_action_list.Add(actionInfo);
+        battleActionInfo.my_position = 0;
+        characterControl[0].child.SendMessage("Skill_1", battleActionInfo);
+    }
+    #endregion
+
 
     private void Update()
     {
@@ -119,6 +182,10 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             //나가기 패킷 보내기
             delayImage.SetActive(true);
             PacketManager.Inst.RequestStageExit();
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            TestBattleTarget();
         }
     }
     
@@ -160,7 +227,6 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         {
             DamageTextSystem.Inst.HealTextAction(actionInfo_);
         }
-
     }
 
     // 배틀데이터를 받아와 공격 ( 메인 배틀 한턴 )
@@ -181,8 +247,10 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         {
             if (stageActionInfo.battle_info_list[i].action_type == 2)
             {
-                characterControl[stageActionInfo.battle_info_list[i].my_position].Attack(stageActionInfo.battle_info_list[i]);
-                yield return new WaitForSeconds(7.0f);
+                characterControl[stageActionInfo.battle_info_list[i].my_position].child.SendMessage("Attack", stageActionInfo.battle_info_list[i]);
+
+                yield return new WaitUntil(() => isAttackAfterDelay == true);
+                isAttackAfterDelay = false;
             }
             else if (stageActionInfo.battle_info_list[i].action_type == 3)
             {
@@ -192,21 +260,19 @@ public class BattleSystem : MonoSingleton<BattleSystem>
                 defenceEffect.EffectAction();
                 yield return new WaitForSeconds(4.0f);
             }
-            else if (stageActionInfo.battle_info_list[i].action_type == 303)
+            else if (stageActionInfo.battle_info_list[i].action_type == 302)
             {
-                testskill.Skill_303(stageActionInfo.battle_info_list[i]);
-                yield return new WaitForSeconds(7.0f);
+                characterControl[stageActionInfo.battle_info_list[i].my_position].child.SendMessage("Skill_1", stageActionInfo.battle_info_list[i]);
+                yield return new WaitUntil(() => isAttackAfterDelay == true);
+                isAttackAfterDelay = false;
             }
-            else if (stageActionInfo.battle_info_list[i].action_type == 304)
+            else
             {
-                testskill.Skill_304(stageActionInfo.battle_info_list[i]);
-                yield return new WaitForSeconds(7.0f);
+                testskill.SendMessage("Skill_" + stageActionInfo.battle_info_list[i].action_type.ToString(), stageActionInfo.battle_info_list[i]);
+
+                yield return new WaitUntil(() => isAttackAfterDelay == true);
+                isAttackAfterDelay = false;
             }
-            // else if (stageActionInfo.battle_info_list[i].action_type == 303)
-            // {
-            //     characterControl[stageActionInfo.battle_info_list[i].my_position].skill_01 (stageActionInfo.battle_info_list[i]);
-            //     yield return new WaitForSeconds(7.0f);
-            // }
         }
 
         if (UserDataManager.Inst.stageReward != null)

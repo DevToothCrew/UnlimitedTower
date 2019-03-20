@@ -42,7 +42,6 @@ public class DamageTextSystem : MonoSingleton<DamageTextSystem>
         {
             // 데미지 텍스트 표시와 데미지 주기
             DamageShow(attackInfo.target_position, attackInfo.damage / 100, attackInfo.critical == false ? Attribute.DEFAULT : Attribute.CRITICAL);
-            BattleSystem.Inst.characterControl[attackInfo.target_position].transform.GetChild(0).GetComponent<Animator>().SetTrigger("isHit");
         }
         else
         {
