@@ -3396,7 +3396,7 @@ battletest::battle_action_info battletest::get_action(uint32_t _action, std::vec
     if(_action == action_type::attack)
     {
         battle_action new_action;
-        new_action = get_target_action(action_type::attack ,_my_state_list,_enemy_state_list,_seed,_my_key,_target_key);
+        new_action = get_target_action(action_type::attack , 0,_my_state_list,_enemy_state_list,_seed,_my_key,_target_key);
         if (_enemy_state_list[_target_key].now_hp <= new_action.damage)
         {
             _enemy_state_list[_target_key].now_hp = 0;
@@ -3411,12 +3411,13 @@ battletest::battle_action_info battletest::get_action(uint32_t _action, std::vec
     else if(_action == action_type::skill)
     {
         battle_action new_action;
+        new_action = get_target_action(action_type::skill , _my_state_list[_my_key].active_skill_list[0].skill_id,_my_state_list,_enemy_state_list,_seed,_my_key,_target_key);
     }
 
     return action_info;
 }
 
-battletest::battle_action battletest::get_target_action(uint32_t _type, std::vector<battle_state> &_my_state_list, std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint64_t _my_key, uint64_t _target_key)
+battletest::battle_action battletest::get_target_action(uint32_t _type, uint32_t _active_id ,std::vector<battle_state> &_my_state_list, std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint64_t _my_key, uint64_t _target_key)
 {
     uint32_t cur_target_key = _target_key;
     battle_action new_action;
@@ -3487,6 +3488,29 @@ battletest::battle_action battletest::get_target_action(uint32_t _type, std::vec
                 new_action.critical = 1;
                 new_action.damage = cur_damage;
             }
+        }
+    }
+    else
+    {
+        if(_active_id == 200002)
+        {
+
+        }
+        else if(_active_id == 200004)
+        {
+
+        }
+        else if(_active_id == 200006)
+        {
+
+        }
+        else if(_active_id == 200007)
+        {
+
+        }
+        else
+        {
+
         }
     }
 
