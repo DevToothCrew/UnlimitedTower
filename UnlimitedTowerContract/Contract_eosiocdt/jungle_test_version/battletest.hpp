@@ -201,6 +201,20 @@ CONTRACT battletest : public contract
     };
     typedef eosio::multi_index<"dblevel"_n, dblevel> lv_exp;
 
+    TABLE dbpassive
+    {
+        uint64_t passive_id;
+        uint32_t enable_stack;
+        uint32_t max_stack;
+        uint32_t effect_type;
+        uint32_t effect_value;
+        uint32_t effect_value_add;
+        uint32_t target;
+        uint32_t role_target;
+        uint64_t primary_key() const {return passive_id;}        
+    };
+    typedef eosio::multi_index<"dbpassive"_n, dbpassive> passive_db;
+
 /////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////NEW DB ///////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
@@ -280,13 +294,9 @@ CONTRACT battletest : public contract
     //------------------------------------------------------------------------//
     //----------------------------db_system-----------------------------------//
     //------------------------------------------------------------------------//
-  private:
-#pragma region db values
-
-#pragma endregion
 
   public:
-#pragma region db action
+#pragma region master
     enum system_state
     {
         normal = 0,
@@ -305,9 +315,8 @@ CONTRACT battletest : public contract
     ACTION initmaster();
 #pragma endregion
 
-  public:
 #pragma region db function
-
+public:
     void substr_value(std::string _value, std::vector<std::string> & _value_list, std::vector<size_t> & _size_list, uint32_t _size);
     ACTION dbinsert(std::string _table, std::string _value);
     ACTION dberase(std::string _table, std::string _value);
@@ -329,6 +338,10 @@ CONTRACT battletest : public contract
     void insert_upgrade_item_ratio(uint64_t _main, uint32_t _material, uint64_t _ratio);
     void insert_consumables_id(uint32_t _id, uint32_t _type, uint64_t _price);
     void insert_level(uint32_t _id);
+    void insert_passive(uint64_t _id, uint32_t _enable_stack, uint32_t _max_stack,
+    uint32_t _effect_type, uint32_t _effect_value, uint32_t _effect_value_add, uint32_t _target, uint32_t _role_target);
+
+
 
     void erase_job(uint64_t _job);
     void erase_head(uint64_t _appear);
@@ -346,6 +359,7 @@ CONTRACT battletest : public contract
     void erase_upgrade_item_ratio(uint32_t _main);
     void erase_consumables_id(uint32_t _id);
     void erase_level(uint32_t _id);
+    void erase_passive(uint64_t _id);
 #pragma endregion
 
 #pragma region stage
@@ -796,7 +810,9 @@ CONTRACT battletest : public contract
     ACTION setpause(uint64_t _state);
     ACTION resultgacha(eosio::name _from, eosio::name _to, std::string _result);
     ACTION resultpre(eosio::name _from, eosio::name _to, std::string _result);
-    ACTION resultbattle(eosio::name _to, std::vector<std::string> &_my_state_list, std::vector<std::string> &_enemy_state_list);
+    ACTION battlestate(eosio::name _who, std::vector<std::string> &_my_state_list, std::vector<std::string> &_enemy_state_list);
+    ACTION battleaction(eosio::name _who, std::vector<std::string> &_action_data);
+
 
     //------------------------------------------------------------------------//
     //-------------------------------party_table------------------------------//
@@ -808,6 +824,7 @@ CONTRACT battletest : public contract
     {
         on_wait = 1,
         on_tower_defense,
+        on_stage,
     };
 
     TABLE tparty
@@ -886,31 +903,6 @@ CONTRACT battletest : public contract
     //------------------------------------------------------------------------//
 #pragma region battle state table
 
-    enum battle_action_state
-    {
-        live = 0,
-        dead,
-        attack,
-        defense,
-        skill,
-        state_count,
-    };
-
-    enum battle_buff_state
-    {
-        none = 0,
-        sleep,
-        poison,
-        strength_collect_wait,
-    };
-
-    enum active_skill
-    {
-        double_attack = 302,
-        all_attack,
-        all_heal,
-    };
-
 
     // 4 + 4 + 4 + 4 + 4 + 4 + 8 + sbattle_member_state(9) = 41
     // sbattle_member_state 당 9 총 5개의 버프창이 있으면 45 + 32 = 77
@@ -946,6 +938,12 @@ CONTRACT battletest : public contract
         uint32_t skill_id = 0;
         uint32_t skill_per = 0;
     };
+    struct total_status
+    {
+        uint32_t total_str = 0;
+        uint32_t total_dex = 0;
+        uint32_t total_int = 0;
+    };
 
     struct battle_state
     {
@@ -967,7 +965,7 @@ CONTRACT battletest : public contract
         uint32_t job_class;
         std::vector<skill_info> passive_skill_list;
         std::vector<skill_info> active_skill_list;
-        status_info status;
+        total_status status;
     };
 
     TABLE tstagestate
@@ -990,13 +988,24 @@ CONTRACT battletest : public contract
     //---------------------------battle_action_table--------------------------//
     //------------------------------------------------------------------------//
 #pragma region battle action table
+    enum battle_member_state
+    {
+        live = 0,
+        dead,
+        defense = 3,
+    };
+
+    enum action_type
+    {
+        attack = 2,
+        skill,
+    };
 
     struct battle_order_struct
     {
         uint32_t speed;
         uint32_t key;
         uint32_t position;
-        uint32_t action = 0;
         uint32_t second_speed;
     };
 
@@ -1048,21 +1057,17 @@ CONTRACT battletest : public contract
     status_info get_level_up_monster_status(uint64_t _id, uint64_t _grade, status_info _status);
     status_info get_level_up_servant_status(uint64_t _job, status_info _status);
     status_info get_grade_status(uint64_t _grade, status_info _status);
-    uint32_t get_max_hp(status_info _status);
-    uint32_t get_magic_attack(status_info _status);
-    uint32_t get_physical_attack(status_info _status);
-    uint32_t get_magic_defense(status_info _status);
-    uint32_t get_physical_defense(status_info _status); 
-    // 주스탯 관련 공격력 구하는 함수 //
-    uint32_t get_monster_attack(uint64_t _id, status_info _status);
-    uint32_t get_attack(uint32_t _job, status_info _status);
-    // ---------------------------//
+    uint32_t get_max_hp(total_status _status);
+    uint32_t get_magic_attack(total_status _status);
+    uint32_t get_physical_attack(total_status _status);
+    uint32_t get_magic_defense(total_status _status);
+    uint32_t get_physical_defense(total_status _status); 
     uint32_t get_speed(uint32_t _job);
-    battle_state get_stage_state(eosio::name _user, std::string _type, uint64_t _index, uint32_t _position, uint64_t _stage_id, std::vector<std::string> &_state);
-    battle_state get_stage_state(eosio::name _user, std::string _type, uint64_t _index, uint32_t _position, uint64_t _stage_id, std::vector<std::string> &_state);
+    void set_stage_state(uint64_t _stage_id, std::vector<battle_state> &_enemy_state_list, std::vector<std::string> &_state);
+    battle_state get_user_state(eosio::name _user, std::string _type, uint64_t _index, uint32_t _position, std::vector<std::string> &_state);
     ACTION startbattle(eosio::name _user, uint32_t _party_number, uint32_t _stage);
 
-
+    bool check_activate_skill(battle_state _member, uint64_t _rate);
     bool check_active(std::vector<uint32_t> _skill_list, uint32_t _skill);
     bool check_passive(uint64_t _id);
     uint32_t get_buff_turn(uint32_t _buff);
@@ -1079,7 +1084,7 @@ CONTRACT battletest : public contract
     bool check_level_up(uint64_t _cur_exp, uint64_t _pre_exp);
     void win_reward(eosio::name _user);
     void fail_reward(eosio::name _user);
-    ACTION activeturn(eosio::name _user, uint32_t _hero_action, uint32_t _monster_action, uint32_t _hero_target, uint32_t _monster_target, std::string _seed);
+    ACTION activeturn(eosio::name _user, uint32_t _turn, std::string _seed);
 
     ACTION exitbattle(eosio::name _user);
 
