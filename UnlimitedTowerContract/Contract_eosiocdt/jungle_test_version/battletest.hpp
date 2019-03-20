@@ -951,6 +951,11 @@ public:
         win,
         lose,
     };
+    enum buff_state
+    {
+        defense = 1,
+    };
+
     struct skill_info
     {
         uint32_t skill_id = 0;
@@ -961,6 +966,11 @@ public:
         uint32_t total_str = 0;
         uint32_t total_dex = 0;
         uint32_t total_int = 0;
+    };
+    struct buff_info
+    {
+        uint32_t buff_id = 0;
+        uint32_t turn_count = 0;
     };
 
     struct battle_state
@@ -981,6 +991,7 @@ public:
         uint32_t speed;
         uint32_t type;
         uint32_t job_class;
+        std::vector<buff_info> buff_list;
         std::vector<skill_info> passive_skill_list;
         std::vector<skill_info> active_skill_list;
         total_status status;
@@ -1010,7 +1021,6 @@ public:
     {
         live = 0,
         dead,
-        defense = 3,
     };
 
     enum action_type
@@ -1025,6 +1035,7 @@ public:
         uint32_t key;
         uint32_t position;
         uint32_t second_speed;
+        uint32_t action = 0;
     };
 
     struct battle_action
@@ -1085,10 +1096,8 @@ public:
     battle_state get_user_state(eosio::name _user, std::string _type, uint64_t _index, uint32_t _position, std::vector<std::string> &_state);
     ACTION startbattle(eosio::name _user, uint32_t _party_number, uint32_t _stage);
 
-    bool check_activate_skill(battle_state _member, uint64_t _rate);
-    bool check_active(std::vector<uint32_t> _skill_list, uint32_t _skill);
-    bool check_passive(uint64_t _id);
-    uint32_t get_buff_turn(uint32_t _buff);
+    bool check_buff_state(buff_info &_buff);
+    bool check_activate_skill(skill_info _skill, uint64_t _rate);
     uint64_t get_damage(uint32_t _atk, uint32_t _dfs);
     bool check_critical(uint64_t _critcal_per, uint64_t _seed);
     bool check_avoid(uint64_t _avoid_per, uint64_t _seed);
