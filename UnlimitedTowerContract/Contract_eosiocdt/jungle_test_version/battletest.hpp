@@ -222,7 +222,10 @@ CONTRACT battletest : public contract
         uint32_t active_per = 0;
         uint32_t skill_type = 0;
         uint32_t attack_type = 0;
+        uint32_t dmg_type = 0;
         uint32_t target = 0;
+        uint32_t target_count = 0;
+        uint32_t target_range = 0;
         uint32_t hit_count = 0;
         uint32_t atk_per = 0;
         uint32_t atk_per_add = 0;
@@ -966,15 +969,28 @@ public:
         win,
         lose,
     };
+
     enum buff_state
     {
         defense = 1,
     };
 
+    enum target_type
+    {
+        self = 0,
+        enemy,
+        ally,
+        global,
+    };
+
     struct skill_info
     {
-        uint32_t skill_id = 0;
-        uint32_t skill_per = 0;
+        uint32_t id = 0;
+        uint32_t per = 0;
+        uint32_t attack_type = 0;
+        uint32_t dmg_type = 0;
+        uint32_t target = 0;
+        uint32_t target_count = 0;
     };
     struct total_status
     {
@@ -984,8 +1000,8 @@ public:
     };
     struct buff_info
     {
-        uint32_t buff_id = 0;
-        uint32_t turn_count = 0;
+        uint32_t id = 0;
+        uint32_t turn = 0;
     };
 
     struct battle_state
@@ -1120,6 +1136,7 @@ public:
     bool check_critical(uint64_t _critcal_per, uint64_t _seed);
     bool check_avoid(uint64_t _avoid_per, uint64_t _seed);
 
+    void set_attack_type(uint32_t _skill_id, battle_state &_state ,uint32_t &_attack, uint32_t &_cri_dmg, uint32_t &_cri_per, uint32_t &_defense);
     bool set_action(uint32_t _action,uint64_t _seed,
                                                       std::vector<battle_state> &_my_state_list,
                                                       std::vector<battle_state> &_enemy_state_list,

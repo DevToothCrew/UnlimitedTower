@@ -2945,14 +2945,18 @@ void battletest::set_stage_state(uint64_t _stage_id, std::vector<battle_state> &
             state += "[";
             for (uint32_t i = 0; i < get_state.passive_skill_list.size(); ++i)
             {
-                state += to_string(get_state.passive_skill_list[i].skill_id) + ":";
+                state += to_string(get_state.passive_skill_list[i].id) + ":";
+                state += to_string(get_state.passive_skill_list[i].per) + ":";
+                state += to_string(get_state.passive_skill_list[i].attack_type) + ":";
+                state += to_string(get_state.passive_skill_list[i].dmg_type) + ":";
+                state += to_string(get_state.passive_skill_list[i].target) + ":";
                 if (get_state.passive_skill_list.size() - 1 == i)
                 {
-                    state += to_string(get_state.passive_skill_list[i].skill_per);
+                    state += to_string(get_state.passive_skill_list[i].target_count);
                 }
                 else
                 {
-                    state += to_string(get_state.passive_skill_list[i].skill_per) + ":";
+                    state += to_string(get_state.passive_skill_list[i].target_count) + ":";
                 }
             }
             state += "]";
@@ -2970,14 +2974,18 @@ void battletest::set_stage_state(uint64_t _stage_id, std::vector<battle_state> &
             state += "[";
             for (uint32_t i = 0; i < get_state.active_skill_list.size(); ++i)
             {
-                state += to_string(get_state.active_skill_list[i].skill_id) + ":";
+                state += to_string(get_state.active_skill_list[i].id) + ":";
+                state += to_string(get_state.active_skill_list[i].per) + ":";
+                state += to_string(get_state.active_skill_list[i].attack_type) + ":";
+                state += to_string(get_state.active_skill_list[i].dmg_type) + ":";
+                state += to_string(get_state.active_skill_list[i].target) + ":";
                 if (get_state.active_skill_list.size() - 1 == i)
                 {
-                    state += to_string(get_state.active_skill_list[i].skill_per);
+                    state += to_string(get_state.active_skill_list[i].target_count);
                 }
                 else
                 {
-                    state += to_string(get_state.active_skill_list[i].skill_per) + ":";
+                    state += to_string(get_state.active_skill_list[i].target_count) + ":";
                 }
             }
             state += "]";
@@ -3028,8 +3036,8 @@ battletest::battle_state battletest::get_user_state(eosio::name _user, std::stri
                     status.total_int += (status.total_int * passive_db_iter->effect_value) / 100;
                 }
                 skill_info passive;
-                passive.skill_id = user_servant_iter->servant.passive_skill[i];
-                passive.skill_per = 100;
+                passive.id = user_servant_iter->servant.passive_skill[i];
+                passive.per = 100;
                 get_state.passive_skill_list.push_back(passive);
             }
         }
@@ -3043,8 +3051,12 @@ battletest::battle_state battletest::get_user_state(eosio::name _user, std::stri
                 eosio_assert(active_db_iter != active_db_table.end(),"Not Exist Servant Active 1");
 
                 skill_info active;
-                active.skill_id = active_db_iter->active_id;
-                active.skill_per = active_db_iter->active_per;
+                active.id = active_db_iter->active_id;
+                active.per = active_db_iter->active_per;
+                active.attack_type = active_db_iter->attack_type;
+                active.dmg_type = active_db_iter->dmg_type;
+                active.target = active_db_iter->target;
+                active.target_count = active_db_iter->target_count;
                 get_state.active_skill_list.push_back(active);
             }
         }
@@ -3086,8 +3098,8 @@ battletest::battle_state battletest::get_user_state(eosio::name _user, std::stri
                     status.total_int += (status.total_int * passive_db_iter->effect_value) / 100;
                 }
                 skill_info passive;
-                passive.skill_id = user_monster_iter->monster.passive_skill[i];
-                passive.skill_per = 100;
+                passive.id = user_monster_iter->monster.passive_skill[i];
+                passive.per = 100;
                 get_state.passive_skill_list.push_back(passive);
             }
         }
@@ -3101,8 +3113,12 @@ battletest::battle_state battletest::get_user_state(eosio::name _user, std::stri
                 eosio_assert(active_db_iter != active_db_table.end(),"Not Exist Monster Active 1");
 
                 skill_info active;
-                active.skill_id = active_db_iter->active_id;
-                active.skill_per = active_db_iter->active_per;
+                active.id = active_db_iter->active_id;
+                active.per = active_db_iter->active_per;
+                active.attack_type = active_db_iter->attack_type;
+                active.dmg_type = active_db_iter->dmg_type;
+                active.target = active_db_iter->target;
+                active.target_count = active_db_iter->target_count;
                 get_state.active_skill_list.push_back(active);
             }
         }
@@ -3133,7 +3149,7 @@ battletest::battle_state battletest::get_user_state(eosio::name _user, std::stri
         for (uint32_t i = 0; i < get_state.passive_skill_list.size(); ++i)
         {
             passive_db passive_db_table(_self, _self.value);
-            auto passive_db_iter = passive_db_table.find(get_state.passive_skill_list[i].skill_id);
+            auto passive_db_iter = passive_db_table.find(get_state.passive_skill_list[i].id);
             eosio_assert(passive_db_iter != passive_db_table.end(),"Not Exist Passive Skill");
             if (passive_db_iter->passive_id == 100001) //물공 n%증가
             {
@@ -3190,14 +3206,18 @@ battletest::battle_state battletest::get_user_state(eosio::name _user, std::stri
         state += "[";
         for (uint32_t i = 0; i < get_state.passive_skill_list.size(); ++i)
         {
-            state += to_string(get_state.passive_skill_list[i].skill_id) + ":";
+            state += to_string(get_state.passive_skill_list[i].id) + ":";
+            state += to_string(get_state.passive_skill_list[i].per) + ":";
+            state += to_string(get_state.passive_skill_list[i].attack_type) + ":";
+            state += to_string(get_state.passive_skill_list[i].dmg_type) + ":";
+            state += to_string(get_state.passive_skill_list[i].target) + ":";
             if (get_state.passive_skill_list.size() - 1 == i)
             {
-                state += to_string(get_state.passive_skill_list[i].skill_per);
+                state += to_string(get_state.passive_skill_list[i].target_count);
             }
             else
             {
-                state += to_string(get_state.passive_skill_list[i].skill_per) + ":";
+                state += to_string(get_state.passive_skill_list[i].target_count) + ":";
             }
         }
         state += "]";
@@ -3215,14 +3235,18 @@ battletest::battle_state battletest::get_user_state(eosio::name _user, std::stri
         state += "[";
         for (uint32_t i = 0; i < get_state.active_skill_list.size(); ++i)
         {
-            state += to_string(get_state.active_skill_list[i].skill_id) + ":";
+            state += to_string(get_state.active_skill_list[i].id) + ":";
+            state += to_string(get_state.active_skill_list[i].per) + ":";
+            state += to_string(get_state.active_skill_list[i].attack_type) + ":";
+            state += to_string(get_state.active_skill_list[i].dmg_type) + ":";
+            state += to_string(get_state.active_skill_list[i].target) + ":";
             if(get_state.active_skill_list.size() - 1 == i)
             {
-                state += to_string(get_state.active_skill_list[i].skill_per);
+                state += to_string(get_state.active_skill_list[i].target_count);
             }
             else
             {
-                state += to_string(get_state.active_skill_list[i].skill_per) + ":";
+                state += to_string(get_state.active_skill_list[i].target_count) + ":";
             }
             
         }
@@ -3441,7 +3465,7 @@ int battletest::get_target_key(const std::vector<battle_state> &_enemy_state_lis
 
 bool battletest::check_activate_skill(skill_info _skill, uint64_t _rate)
 {
-    if(_skill.skill_per > _rate)
+    if(_skill.per > _rate)
     {
         return true;
     }
@@ -3453,7 +3477,7 @@ bool battletest::check_activate_skill(skill_info _skill, uint64_t _rate)
 
 bool battletest::check_buff_state(buff_info &_buff)
 {
-    if(_buff.turn_count == 0)
+    if(_buff.turn == 0)
     {
         return false;
     }
@@ -3465,7 +3489,7 @@ bool battletest::check_buff_state(buff_info &_buff)
 
 void battletest::init_buff_effect(battle_state &_state, buff_info _buff)
 {
-    if(_buff.buff_id == buff_state::defense)
+    if(_buff.id == buff_state::defense)
     {
         
     }
@@ -3479,13 +3503,13 @@ void battletest::init_buff_turn(std::vector<battle_state> &_state_list)
         {
             for (uint32_t buff = 0; buff < _state_list[i].buff_list.size(); ++buff)
             {
-                if(_state_list[i].buff_list[buff].turn_count - 1 <= 0)
+                if(_state_list[i].buff_list[buff].turn - 1 <= 0)
                 {
                     _state_list[i].buff_list.erase(_state_list[i].buff_list.begin() + buff);
                 }
                 else
                 {
-                    _state_list[i].buff_list[buff].turn_count -= 1;
+                    _state_list[i].buff_list[buff].turn -= 1;
                 }
             }
         }
@@ -3526,9 +3550,9 @@ bool battletest::set_action(uint32_t _action,
     }
     else if (_action == action_type::skill)
     {
-        if (_my_state_list[_my_key].active_skill_list[0].skill_id == active_name::active_multi_shot) //2인 공격
+        if (_my_state_list[_my_key].active_skill_list[0].id == active_name::active_multi_shot) //2인 공격
         {
-            for (uint32_t i = 0; i < 2; ++i)
+            for (uint32_t i = 0; i < _my_state_list[_my_key].active_skill_list[0].target_count; ++i)
             {
                 uint64_t new_seed = safeseed::get_seed_value(now(),_seed);
                 int enemy_key = get_random_target(_my_state_list, new_seed, _enemy_state_list.size(), 0);
@@ -3539,7 +3563,7 @@ bool battletest::set_action(uint32_t _action,
                 new_seed = new_seed >> 1;
 
                 battle_action new_action;
-                new_action = get_target_action(_my_state_list[_my_key].active_skill_list[0].skill_id,
+                new_action = get_target_action(_my_state_list[_my_key].active_skill_list[0].id,
                                                _my_state_list, _enemy_state_list, _seed, _my_key, enemy_key);
                 if (_enemy_state_list[enemy_key].now_hp <= new_action.damage)
                 {
@@ -3553,7 +3577,7 @@ bool battletest::set_action(uint32_t _action,
                 _action_info.battle_action_list.push_back(new_action);
             }
         }
-        else if(_my_state_list[_my_key].active_skill_list[0].skill_id == active_name::active_heal)        //힐스킬
+        else if(_my_state_list[_my_key].active_skill_list[0].id == active_name::active_heal)        //힐스킬
         {
             int enemy_key = get_random_target(_my_state_list, _seed, _my_state_list.size(), 0);
             if (enemy_key == -1) //상대 파티가 모두 죽은 상태
@@ -3561,7 +3585,7 @@ bool battletest::set_action(uint32_t _action,
                 return false;
             }
             battle_action new_action;
-            new_action = get_target_action(_my_state_list[_my_key].active_skill_list[0].skill_id,
+            new_action = get_target_action(_my_state_list[_my_key].active_skill_list[0].id,
                                            _my_state_list, _my_state_list, _seed, _my_key, enemy_key);
             uint32_t max_hp = get_max_hp(_my_state_list[enemy_key].status);
             if (max_hp > _my_state_list[enemy_key].now_hp + new_action.damage)
@@ -3570,7 +3594,7 @@ bool battletest::set_action(uint32_t _action,
             }
             _action_info.battle_action_list.push_back(new_action);
         }
-        else
+        else   //1인 스킬
         {
             int enemy_key = get_random_target(_my_state_list, _seed, _enemy_state_list.size(), 0);
             if (enemy_key == -1) //상대 파티가 모두 죽은 상태
@@ -3578,7 +3602,7 @@ bool battletest::set_action(uint32_t _action,
                 return false;
             }
             battle_action new_action;
-            new_action = get_target_action(_my_state_list[_my_key].active_skill_list[0].skill_id,
+            new_action = get_target_action(_my_state_list[_my_key].active_skill_list[0].id,
                                            _my_state_list, _enemy_state_list, _seed, _my_key, enemy_key);
             if (_enemy_state_list[enemy_key].now_hp <= new_action.damage)
             {
@@ -3595,15 +3619,27 @@ bool battletest::set_action(uint32_t _action,
     return true;
 }
 
+void battletest::set_attack_type(uint32_t _skill_id, battle_state &_state ,uint32_t &_attack, uint32_t &_cri_dmg, uint32_t &_cri_per, uint32_t &_defense)
+{
+    switch (_skill_id)
+    {
+        case action_type::attack:
+            break;
+    
+        default:
+            break;
+    }
+}
+
 
 battletest::battle_action battletest::get_target_action(uint32_t _active_id ,std::vector<battle_state> &_my_state_list, std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint64_t _my_key, uint64_t _target_key)
 {
     uint32_t cur_target_key = _target_key;
-    //직업이나 몬스터 종족에 따라 데미지 계산식이 바뀌어야 함
     uint32_t cur_damage = 0;
     uint32_t cur_attack = 0;
     uint32_t cur_cirtical = 0;
     uint32_t cur_cri_per = 0;
+    uint32_t cur_defense = 0;
     uint32_t max_hp = 0;
     uint32_t cur_hp = 0;
 
@@ -3611,12 +3647,15 @@ battletest::battle_action battletest::get_target_action(uint32_t _active_id ,std
     {
         cur_attack = _my_state_list[_my_key].physical_attack;
         cur_cirtical = _my_state_list[_my_key].crit_physical_dmg;
+        cur_cri_per = _my_state_list[_my_key].physical_crit_per;
+        cur_defense = _my_state_list[_my_key].physical_defense;
     }
     else if (_active_id == active_name::active_bash) //적 1인에게 물리 공격력의 210% 물리 피해를 줍니다.
     {
         cur_attack = (_my_state_list[_my_key].physical_attack * 210) / 100;
         cur_cirtical = (_my_state_list[_my_key].crit_physical_dmg * 210) / 100;
         cur_cri_per = _my_state_list[_my_key].physical_crit_per;
+        cur_defense = _my_state_list[_my_key].physical_defense;
 
         battle_action new_action;
         if (true == check_avoid(_enemy_state_list[cur_target_key].avoid, _seed))
@@ -3633,6 +3672,7 @@ battletest::battle_action battletest::get_target_action(uint32_t _active_id ,std
         cur_attack = _my_state_list[_my_key].physical_attack;
         cur_cirtical = _my_state_list[_my_key].crit_physical_dmg;
         cur_cri_per = _my_state_list[_my_key].physical_crit_per;
+        cur_defense = _my_state_list[_my_key].physical_defense;
 
         battle_action new_action;
         if (true == check_avoid(_enemy_state_list[cur_target_key].avoid, _seed))
@@ -3666,7 +3706,7 @@ battletest::battle_action battletest::get_target_action(uint32_t _active_id ,std
             {
                 if (true == check_buff_state(_enemy_state_list[cur_target_key].buff_list[i]))
                 {
-                    if (_enemy_state_list[cur_target_key].buff_list[i].buff_id == buff_state::defense)
+                    if (_enemy_state_list[cur_target_key].buff_list[i].id == buff_state::defense)
                     {
                         cur_damage = get_damage(cur_cirtical, _enemy_state_list[cur_target_key].physical_defense + (_enemy_state_list[cur_target_key].physical_defense / 2));
                     }
@@ -3731,7 +3771,7 @@ battletest::battle_action battletest::get_target_action(uint32_t _active_id ,std
             {
                 if (true == check_buff_state(_enemy_state_list[cur_target_key].buff_list[i]))
                 {
-                    if (_enemy_state_list[cur_target_key].buff_list[i].buff_id == buff_state::defense)
+                    if (_enemy_state_list[cur_target_key].buff_list[i].id == buff_state::defense)
                     {
                         cur_damage = get_damage(cur_attack, _enemy_state_list[cur_target_key].physical_defense + (_enemy_state_list[cur_target_key].physical_defense / 2));
                     }
@@ -3756,7 +3796,7 @@ battletest::battle_action battletest::get_target_action(uint32_t _active_id ,std
             {
                 if (true == check_buff_state(_enemy_state_list[cur_target_key].buff_list[i]))
                 {
-                    if (_enemy_state_list[cur_target_key].buff_list[i].buff_id == buff_state::defense)
+                    if (_enemy_state_list[cur_target_key].buff_list[i].id == buff_state::defense)
                     {
                         cur_damage = get_damage(cur_cirtical, _enemy_state_list[cur_target_key].physical_defense + (_enemy_state_list[cur_target_key].physical_defense / 2));
                     }
@@ -3863,16 +3903,16 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                     uint64_t action_rate = safeseed::get_random_value(skill_order_list[i].second_speed, 100, 0, 0);
                     if (true == check_activate_skill(battle_state.my_state_list[my_key].active_skill_list[0], action_rate)) //액티브 스킬이 발동하면
                     {
-                        if (battle_state.my_state_list[my_key].active_skill_list[0].skill_id == active_name::active_fast_attack) //패스트 어택
+                        if (battle_state.my_state_list[my_key].active_skill_list[0].id == active_name::active_fast_attack) //패스트 어택
                         {
                             skill_order_list[i].action = action_type::skill;
                             attack_order_list.push_back(skill_order_list[i]);
                         }
-                        else if (battle_state.my_state_list[my_key].active_skill_list[0].skill_id == active_name::active_defense)    //버프 스킬
+                        else if (battle_state.my_state_list[my_key].active_skill_list[0].id == active_name::active_defense)    //버프 스킬
                         {
                             buff_info new_buff;
-                            new_buff.buff_id = buff_state::defense;
-                            new_buff.turn_count = 1;
+                            new_buff.id = buff_state::defense;
+                            new_buff.turn = 1;
                             battle_state.my_state_list[my_key].buff_list.push_back(new_buff);
 
                             battle_action_info action_info;
@@ -3880,7 +3920,7 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                             action_info.action_type = action_type::skill;
                             update_action.battle_info_list.push_back(action_info);
                         }
-                        else if (battle_state.my_state_list[my_key].active_skill_list[0].skill_id == active_name::active_heal)    //힐 스킬
+                        else if (battle_state.my_state_list[my_key].active_skill_list[0].id == active_name::active_heal)    //힐 스킬
                         {
                             battle_action_info action_info;
                             if(false == set_action(action_type::skill,
