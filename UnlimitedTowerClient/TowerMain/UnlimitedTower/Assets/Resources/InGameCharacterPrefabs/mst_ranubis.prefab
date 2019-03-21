@@ -237,14 +237,13 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4490246263227846}
-  - component: {fileID: 114389553917456196}
   m_Layer: 0
   m_Name: Select
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1304236633370798
 GameObject:
   m_ObjectHideFlags: 1
@@ -301,7 +300,6 @@ GameObject:
   - component: {fileID: 4417681855432804}
   - component: {fileID: 95046065660356860}
   - component: {fileID: 114956481965669022}
-  - component: {fileID: 114147656676079152}
   m_Layer: 0
   m_Name: mst_ranubis
   m_TagString: Untagged
@@ -1384,30 +1382,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114147656676079152
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1341657779224368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f64d9e7a856d4bb4a9d8d4b84ee4e389, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isOneDeal: 0
-  Arrow: {fileID: 0}
---- !u!114 &114389553917456196
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1300208799148778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3965e4d25a439ee42bda281d94463f58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114956481965669022
 MonoBehaviour:
   m_ObjectHideFlags: 1

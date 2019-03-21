@@ -65,14 +65,13 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4530368963034660}
-  - component: {fileID: 114823188149452734}
   m_Layer: 0
   m_Name: Select
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1092296121443896
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,7 +376,6 @@ GameObject:
   - component: {fileID: 4826634350867978}
   - component: {fileID: 95297282874203898}
   - component: {fileID: 114712990538047744}
-  - component: {fileID: 114416580044393002}
   m_Layer: 0
   m_Name: mst_cat_white
   m_TagString: Untagged
@@ -1355,19 +1353,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114416580044393002
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1585550718721478}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f64d9e7a856d4bb4a9d8d4b84ee4e389, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isOneDeal: 0
-  Arrow: {fileID: 0}
 --- !u!114 &114712990538047744
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1383,17 +1368,6 @@ MonoBehaviour:
   AttackAfterDelay: 1.5
   Height: 0.96
   AttackRange: 0.4
---- !u!114 &114823188149452734
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1045875968556308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3965e4d25a439ee42bda281d94463f58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!137 &137053826973315680
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

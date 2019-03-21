@@ -122,7 +122,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         for (int i = 0; i < 10; ++i)
         {
-            if (BattleSystem.Inst.characterControl[i].nowHp == 0)
+            if (BattleManager.Inst.NowHp[i] == 0)
             {
                 continue;
             }
@@ -130,22 +130,22 @@ public class Cheat : MonoSingleton<Cheat>
             do
             {
                 action.target_position = UnityEngine.Random.Range(10, 20);
-            } while (BattleSystem.Inst.characterControl[action.target_position].nowHp == 0);
+            } while (BattleManager.Inst.NowHp[action.target_position] == 0);
             action.avoid = false;
             action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
-            action.damage = rand.Next(200,500);
+            action.damage = rand.Next(200, 500);
 
             battleActionInfo actioninfo = new battleActionInfo();
             actioninfo.my_position = i;
             actioninfo.action_type = 2;
             actioninfo.battle_action_list.Add(action);
-            
+
             battleactiondata.battle_info_list.Add(actioninfo);
         }
 
         for (int i = 10; i < 20; ++i)
         {
-            if (BattleSystem.Inst.characterControl[i].nowHp == 0)
+            if (BattleManager.Inst.NowHp[i] == 0)
             {
                 continue;
             }
@@ -153,16 +153,16 @@ public class Cheat : MonoSingleton<Cheat>
             do
             {
                 action.target_position = UnityEngine.Random.Range(0, 10);
-            } while (BattleSystem.Inst.characterControl[action.target_position].nowHp == 0);
+            } while (BattleManager.Inst.NowHp[action.target_position] == 0);
             action.avoid = false;
             action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
             action.damage = rand.Next(200, 500);
-            
+
             battleActionInfo actioninfo = new battleActionInfo();
             actioninfo.my_position = i;
             actioninfo.action_type = 2;
             actioninfo.battle_action_list.Add(action);
-            
+
             battleactiondata.battle_info_list.Add(actioninfo);
         }
 

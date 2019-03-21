@@ -190,14 +190,13 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4326456607012192}
-  - component: {fileID: 114154349001586030}
   m_Layer: 0
   m_Name: Select
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1286935504577956
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,7 +207,6 @@ GameObject:
   - component: {fileID: 4704957871943604}
   - component: {fileID: 95179346128387948}
   - component: {fileID: 114402444061415172}
-  - component: {fileID: 114551481113342672}
   m_Layer: 0
   m_Name: mst_card_spade
   m_TagString: Untagged
@@ -1296,17 +1294,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114154349001586030
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1282125533647036}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3965e4d25a439ee42bda281d94463f58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114402444061415172
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1322,19 +1309,6 @@ MonoBehaviour:
   AttackAfterDelay: 1
   Height: 1.5
   AttackRange: 0.7
---- !u!114 &114551481113342672
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1286935504577956}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f64d9e7a856d4bb4a9d8d4b84ee4e389, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isOneDeal: 0
-  Arrow: {fileID: 0}
 --- !u!137 &137068318641565860
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
