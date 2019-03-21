@@ -6,21 +6,88 @@ using System.Linq;
 
 public class CSVData : MonoSingleton<CSVData> {
 
-    public Dictionary<int, DBMonsterData> monsterDataDic = new Dictionary<int, DBMonsterData>();
-    public Dictionary<int, DBLocalizationData> localDataDic = new Dictionary<int, DBLocalizationData>();
+    public Dictionary<int, DBStageData> DBStageDataDic = new Dictionary<int, DBStageData>();
+    public Dictionary<int, DBLocalizationData> DBLocalDataDic = new Dictionary<int, DBLocalizationData>();
     private LOCALIZATION_TYPE localType;
+    public Dictionary<int, DBMonsterData> DBMonsterDataDic = new Dictionary<int, DBMonsterData>();
 
     //  인스펙터에서 보여주기 위한...
     public List<DBMonsterData> monsterDataInspector = new List<DBMonsterData>();
 
     void Start()
     {
+        //SetStageData();
         //SetLocalizationData();
         SetMonsterData();
         localType = LOCALIZATION_TYPE.EN;
     }
 
     #region SetFunction
+
+    public void SetStageData()
+    {
+        List<Dictionary<string, object>> data = CSVReader.Read("CSV/DBStageData");
+
+        for (var i = 3; i < data.Count; i++)
+        {
+            Debug.Log("index " + (i).ToString()
+                + " : " + data[i]["id"]
+                + " " + data[i]["type"]
+                + " " + data[i]["stage_string"]
+                + " " + data[i]["need_stage_id"]
+                + " " + data[i]["next_stage_id"]
+                + " " + data[i]["stage_group_list"]
+                + " " + data[i]["need_entrance_item_id"]
+                + " " + data[i]["need_entrance_item_count"]
+                + " " + data[i]["monster_level_min"]
+                + " " + data[i]["monster_level_max"]
+                + " " + data[i]["monster_id_list"]
+                + " " + data[i]["monster_position"]
+                + " " + data[i]["boss_monster_level"]
+                + " " + data[i]["boss_passive_list"]
+                + " " + data[i]["boss_skill_list"]
+                + " " + data[i]["char_exp"]
+                + " " + data[i]["reward_id_list"]
+                + " " + data[i]["reward_count_list"]
+                + " " + data[i]["first_reward_id"]
+                + " " + data[i]["first_reward_count"]
+                + " " + data[i]["map_filename"]
+                + " " + data[i]["bgm_sound_id"]
+                );
+
+            DBStageData stageData = new DBStageData();
+            stageData.id = Convert.ToInt32(data[i]["id"]);
+            stageData.type = Convert.ToInt32(data[i]["type"]);
+            stageData.stageString = Convert.ToString(data[i]["stage_string"]);
+            stageData.needStageId = Convert.ToInt32(data[i]["need_stage_id"]);
+            stageData.nextStageId = Convert.ToInt32(data[i]["next_stage_id"]);
+            stageData.stageGroupList = Convert.ToInt32(data[i]["stage_group_list"]);
+            stageData.needEntranceItemId = Convert.ToInt32(data[i]["need_entrance_item_id"]);
+            stageData.needEntranceItemCount = Convert.ToInt32(data[i]["need_entrance_item_count"]);
+            stageData.monsterLevelMin = Convert.ToInt32(data[i]["monster_level_min"]);
+            stageData.monsterLevelMax = Convert.ToInt32(data[i]["monster_level_max"]);
+            stageData.monsterIdList = new List<int>();
+            // List로 넣기 data[i]["monster_id_list"]
+            stageData.monsterPositionList = new List<int>();
+            // List로 넣기 data[i]["monster_position_list"]
+            stageData.bossMonsterLevel = Convert.ToInt32(data[i]["boss_monster_level"]);
+            stageData.bossPassiveList = new List<int>();
+            // List로 넣기 data[i]["boss_passive_list"]
+            stageData.bossSkillList = new List<int>();
+            // List로 넣기 data[i]["boss_skill_list"]
+            stageData.charExp = Convert.ToInt32(data[i]["char_exp"]);
+            stageData.rewardIdList = new List<int>();
+            // List로 넣기 data[i]["reward_id"]
+            stageData.rewardIdList = new List<int>();
+            // List로 넣기 data[i]["reward_count"]
+            stageData.firstRewardId = Convert.ToInt32(data[i]["first_reward_id"]);
+            stageData.firstRewardCount = Convert.ToInt32(data[i]["first_reward_count"]);
+            stageData.mapFileName = Convert.ToString(data[i]["map_filename"]);
+            stageData.bgmSoundId = Convert.ToInt32(data[i]["bgm_sound_id"]);
+
+            DBStageDataDic.Add(stageData.id, stageData);
+        }
+    }
 
     public void SetLocalizationData()
     {
@@ -41,7 +108,7 @@ public class CSVData : MonoSingleton<CSVData> {
             localData.chText    = Convert.ToString(data[i]["ch"]);
             localData.enText    = Convert.ToString(data[i]["en"]);
 
-            localDataDic.Add(localData.index, localData);
+            DBLocalDataDic.Add(localData.index, localData);
         }
     }
 
@@ -67,7 +134,7 @@ public class CSVData : MonoSingleton<CSVData> {
             monsterData.resource        = Convert.ToString(data[i]["resource_base"]);
             monsterData.inGameIconName  = Convert.ToString(data[i]["potrait_base"]);
 
-            monsterDataDic.Add(monsterData.indexNumber, monsterData);
+            DBMonsterDataDic.Add(monsterData.indexNumber, monsterData);
             monsterDataInspector.Add(monsterData);
         }
     }
@@ -75,26 +142,49 @@ public class CSVData : MonoSingleton<CSVData> {
     #endregion
 
     #region GetFunction
+    
+    public string GetLocalizationText(int index)
+    {
+        if (DBLocalDataDic.ContainsKey(index) == false)
+        {
+            return null;
+        }
+
+        switch (localType)
+        {
+            case LOCALIZATION_TYPE.KR:
+                return DBLocalDataDic[index].krText;
+
+            case LOCALIZATION_TYPE.CH:
+                return DBLocalDataDic[index].chText;
+
+            case LOCALIZATION_TYPE.EN:
+                return DBLocalDataDic[index].enText;
+
+            default:
+                return null;
+        }
+    }
 
     public List<int> GetMonsterIndexList()
     {
-        if (monsterDataDic == null)
+        if (DBMonsterDataDic == null)
         {
             Debug.LogError("MonsterDataBaseDic Error");
             return null;
         }
 
-        return monsterDataDic.Keys.ToList();
+        return DBMonsterDataDic.Keys.ToList();
     }
 
     public string GetMonsterDBResource(int index)
     {
-        if (monsterDataDic.ContainsKey(index) == false)
+        if (DBMonsterDataDic.ContainsKey(index) == false)
         {
             return null;
         }
 
-        return monsterDataDic[index].resource;
+        return DBMonsterDataDic[index].resource;
     }
 
     public int GetRandomMonsterIndex()
@@ -106,45 +196,22 @@ public class CSVData : MonoSingleton<CSVData> {
 
     public string GetMonsterInGameIconName(int index)
     {
-        if (monsterDataDic.ContainsKey(index) == false)
+        if (DBMonsterDataDic.ContainsKey(index) == false)
         {
             return null;
         }
 
-        return monsterDataDic[index].inGameIconName;
-    }
-
-    public string GetLocalizationText(int index)
-    {
-        if(localDataDic.ContainsKey(index) == false)
-        {
-            return null;
-        }
-
-        switch(localType)
-        {
-            case LOCALIZATION_TYPE.KR:
-                return localDataDic[index].krText;
-
-            case LOCALIZATION_TYPE.CH:
-                return localDataDic[index].chText;
-
-            case LOCALIZATION_TYPE.EN:
-                return localDataDic[index].enText;
-
-            default:
-                return null;
-        }
+        return DBMonsterDataDic[index].inGameIconName;
     }
 
     public string GetMonsterName(int monsterIndex)
     {
-        if(monsterDataDic.ContainsKey(monsterIndex) == false)
+        if(DBMonsterDataDic.ContainsKey(monsterIndex) == false)
         {
             return null;
         }
 
-        string monsterName = monsterDataDic[monsterIndex].name;
+        string monsterName = DBMonsterDataDic[monsterIndex].name;
 
         return monsterName;
 

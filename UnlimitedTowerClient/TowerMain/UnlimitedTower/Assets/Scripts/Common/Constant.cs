@@ -723,4 +723,31 @@ public class DBLocalizationData
     public string enText;
 }
 
+[Serializable]
+public class DBStageData
+{
+    public int id;
+    public int type;
+    public string stageString;
+    public int needStageId;
+    public int nextStageId;
+    public int stageGroupList;
+    public int needEntranceItemId;
+    public int needEntranceItemCount;
+    public int monsterLevelMin;
+    public int monsterLevelMax;
+    public List<int> monsterIdList;
+    public List<int> monsterPositionList;
+    public int bossMonsterLevel;
+    public List<int> bossPassiveList;
+    public List<int> bossSkillList;
+    public int charExp;
+    public List<int> rewardIdList;
+    public List<int> rewardCountList;
+    public int firstRewardId;
+    public int firstRewardCount;
+    public string mapFileName;
+    public int bgmSoundId;
+}
+
 #endregion
