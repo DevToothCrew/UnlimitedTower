@@ -6,55 +6,128 @@ using UnityEngine.SceneManagement;
 using System;
 using System.Collections;
 
+using PairedDelegates = System.Collections.Generic.KeyValuePair<System.Delegate, System.Action<string>>;
+
 [Serializable]
 public class PacketManager : MonoSingleton<PacketManager> {
 
-    #region ServerConnect
+    #region Server design
 
+    /// <summary>
+    /// 앞으로 Client => Blockchain 으로 보내는 유일한 Packet 통로가 됩니다.
+    /// </summary>
+    /// <param name="header"></param>
+    /// <param name="body"></param>
     [DllImport("__Internal")]
-    private static extern void Login();
+    private static extern void SendPacket(string header, string body);
+    
 
-    [DllImport("__Internal")]
-    private static extern void SignUp();
+    private static Dictionary<string, PairedDelegates>  _recvCbs = new Dictionary<string, PairedDelegates>();
+    private static Dictionary<string, string>           _recvDatas = new Dictionary<string, string>();
+    private const float _MAX_LIMIT_TIME = 20.0f;
 
-    [DllImport("__Internal")]
-    private static extern void Logout();
-
-    [DllImport("__Internal")]
-    private static extern void Gacha();
-
-    [DllImport("__Internal")]
-    private static extern void GetItem();
-
-    [DllImport("__Internal")]
-    private static extern void SetFormation(string formation);
-
-    [DllImport("__Internal")]
-    private static extern void GetStageInfo (int stage_num);
-
-    [DllImport("__Internal")]
-    private static extern void BattleAction (string battleAction);
-
-    [DllImport("__Internal")]
-    private static extern void StartBattle (string battleStart);
-
-    [DllImport("__Internal")]
-    private static extern void GetReward();
-
-    [DllImport("__Internal")]
-    private static extern void ExitBattle();
-
-    [DllImport("__Internal")]
-    private static extern void ResourceInfo();
-
-    [DllImport("__Internal")]
-    private static extern void GetBattle();
-
-    public bool receiveGacha = false;
-
-    void Start()
+    /// <summary>
+    /// 아래의 형태로 데이터를 받아야 합니다.
+    /// </summary>
+    [Serializable]
+    private class DefaultPacket
     {
+        // 모든 패킷을 분류하는 기준이 됩니다.
+        public string header;
+
+        // 패킷에 저장된 내용입니다. (실패시에는 실패 메시지가 될 수 있습니다.)
+        public string body;
+
+        // 패킷 요청 성공 여부입니다.
+        public bool isSuccess;
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"> 반환 받을 데이터의 형태입니다. </typeparam>
+    /// <param name="header"></param>
+    /// <param name="body"></param>
+    /// <param name="onSuccess"></param>
+    /// <param name="onFailed"></param>
+    static public void Request<T>(string header, string body = "", Action<T> onSuccess = null, Action<string> onFailed = null)
+        => Inst.StartCoroutine(Inst.RequestRoutine(header, body, onSuccess, onFailed));
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="header"></param>
+    /// <param name="body"></param>
+    /// <param name="onSuccess"></param>
+    /// <param name="onFailed"></param>
+    static public void Request(string header, string body = "", Action onSuccess = null, Action<string> onFailed = null) 
+        => Inst.StartCoroutine(Inst.RequestRoutine(header, body, onSuccess, onFailed));
+
+    /// <summary>
+    /// 모든 결과는 이곳으로 전송이 되어야 합니다.
+    /// pakcet의 형태는 DefaultPacket의 형태를 따릅니다.
+    /// </summary>
+    /// <param name="packet"></param>
+    public void Response(string packet)
+    {
+        DefaultPacket packedData = JsonUtility.FromJson<DefaultPacket>(packet);
+        _recvDatas.Add(packedData.header, packet);
+    }
+
+    private IEnumerator WaitResponse(string header, string body = "", Action<string> onSuccess = null, Action<string> onFailed = null)
+    {
+        yield return new WaitUntil(() => !_recvCbs.ContainsKey(header));
+
+        PairedDelegates pair = new PairedDelegates(onSuccess, onFailed);
+        _recvCbs.Add(header, pair);
+        SendPacket(header, body);
+
+        float timer = _MAX_LIMIT_TIME;
+        yield return new WaitUntil(() => _recvDatas.ContainsKey(header) || (timer -= Time.unscaledDeltaTime) < 0.0f);
+
+        string packet = _recvDatas[header];
+        DefaultPacket packedData = JsonUtility.FromJson<DefaultPacket>(packet);
+
+        //time limited or failed
+        if (timer < 0.0f)
+        {
+            onFailed?.Invoke("EXCEEDED MAXIMUM TIME");
+        }
+        else if (!packedData.isSuccess)
+        {
+            onFailed?.Invoke(packedData.body);
+        }
+        else
+        {
+            onSuccess?.Invoke(packedData.body);
+        }
+    }
+    
+    private IEnumerator RequestRoutine<T>(string header, string body = "", Action<T> onSuccess = null, Action<string> onFailed = null)
+    {
+        yield return WaitResponse(header, body,
+            onSuccess: res =>
+            {
+                T data = JsonUtility.FromJson<T>(res);
+
+                if (data != null)
+                {
+                    onSuccess?.Invoke(data);
+                }
+                else
+                {
+                    onFailed?.Invoke($"UNEXPECTED TYPE : {res}");
+                }
+            },
+            onFailed: onFailed);
+    }
+
+    private IEnumerator RequestRoutine(string header, string body = "", Action onSuccess = null, Action<string> onFailed = null)
+    {
+        yield return WaitResponse(header, body, onSuccess: res => onSuccess?.Invoke(), onFailed: onFailed);
+
+    }
+
 
     #endregion
 
@@ -62,20 +135,51 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void RequestResourceData()
     {
         Debug.Log("Resource Request");
-        ResourceInfo();
+        //ResourceInfo();
+
+        // 사용 예시 
+        // Header 부분에 호출할 함수를 적어서 데이터를 보냅니다.
+        // Blockchain 부분에서 Header를 기준으로 데이터를 나누어서 Invoke해줍니다.
+        // 이와 동시에 별도의 Response 함수를 구현할 필요가 없어집니다.
+        // 이곳 뿐만아니라 어떤 스크립트 내부에서도 사용할 수 있습니다.
+
+        PacketManager.Request<userResourceData>("ResourceInfo",
+            onSuccess: data =>
+            {
+                if (data == null)
+                {
+                    Debug.Log($"Invalid Resource Data : {data}");
+                }
+            }, 
+            onFailed: msg =>
+            {
+                Debug.LogError($"[Failed Requesting ResourceInfo] {msg}");
+            });
     }
 
 
     public void RequestLoginWithScatter()
     {
         Debug.Log("RequestLoginWithScatter");
-        Login();
+
+        PacketManager.Request<UserLoginData>("Login", 
+            onSuccess: Login /* 이미 정의된 함수가 있다면 이렇게 대입만 해주어도 됩니다.*/,
+            onFailed: msg => /* 람다 함수를 사용하는 경우 */
+            {
+                Debug.LogError($"[Failed Requesting Login] {msg}");
+            });
     }
 
     public void RequestLogout()
     {
         Debug.Log("RequestLogout");
-        Logout();
+
+        PacketManager.Request("Logout",
+            onSuccess: ResponseLogout,
+            onFailed: msg => {
+                Debug.LogError($"[Failed Requesting Logout] {msg}");
+            });
+
         ResponseLogout();
     }
 
@@ -164,8 +268,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Request Battle Exit");
         ExitBattle();
     }
-
-
+    
     public void RequestTowerStart(int towerFloor, int partyNum)
     {
 
@@ -180,17 +283,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
 
 
-    #region Response
-    public void ResponseResourceData(string getResource)
-    {
-        userResourceData userResource = JsonUtility.FromJson<userResourceData>(getResource);
-        Debug.Log("Resource Data : " + getResource);
-        if (userResource == null)
-        {
-            Debug.Log("Invalid Resource Data : " + getResource);
-        }
-    }
 
+
+
+    #region Response
+    
     public void ResponseLogin(string getLoginInfo)
     {
         if (getLoginInfo.StartsWith("{\"sign"))
