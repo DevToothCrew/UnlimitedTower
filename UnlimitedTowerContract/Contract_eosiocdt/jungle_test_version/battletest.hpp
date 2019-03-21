@@ -218,7 +218,7 @@ CONTRACT battletest : public contract
     TABLE dbactive
     {
         uint64_t active_id = 0;
-        uint32_t unique = 0;
+        uint32_t job = 0;
         uint32_t active_per = 0;
         uint32_t skill_type = 0;
         uint32_t attack_type = 0;
@@ -358,7 +358,9 @@ public:
     void insert_level(uint32_t _id);
     void insert_passive(uint64_t _id, uint32_t _enable_stack, uint32_t _max_stack,
     uint32_t _effect_type, uint32_t _effect_value, uint32_t _effect_value_add, uint32_t _target, uint32_t _role_target);
-
+    void insert_active(uint64_t _id, uint32_t _job, uint32_t _active_per,
+    uint32_t _skill_type, uint32_t _attack_type, uint32_t _target, 
+    uint32_t _hit_count, uint32_t _atk_per, uint32_t _atk_per_add, uint32_t _heal_per, uint32_t _heal_per_add);
 
 
     void erase_job(uint64_t _job);
@@ -378,6 +380,7 @@ public:
     void erase_consumables_id(uint32_t _id);
     void erase_level(uint32_t _id);
     void erase_passive(uint64_t _id);
+    void erase_active(uint64_t _id);
 #pragma endregion
 
 #pragma region stage
@@ -1096,15 +1099,19 @@ public:
     battle_state get_user_state(eosio::name _user, std::string _type, uint64_t _index, uint32_t _position, std::vector<std::string> &_state);
     ACTION startbattle(eosio::name _user, uint32_t _party_number, uint32_t _stage);
 
+    void init_buff_effect(battle_state &_state, buff_info _buff);
+    void init_buff_turn(std::vector<battle_state> &_state_list);
     bool check_buff_state(buff_info &_buff);
     bool check_activate_skill(skill_info _skill, uint64_t _rate);
     uint64_t get_damage(uint32_t _atk, uint32_t _dfs);
     bool check_critical(uint64_t _critcal_per, uint64_t _seed);
     bool check_avoid(uint64_t _avoid_per, uint64_t _seed);
 
-
-    battle_action_info get_action(uint32_t _action, std::vector<battle_state> &_my_state_list, std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint64_t _my_key, uint64_t _target_key);
-    battle_action get_target_action(uint32_t _type , uint32_t _actvie_id , std::vector<battle_state> &_my_state_list, std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint64_t _my_key, uint64_t _target_key);
+    bool set_action(uint32_t _action,uint64_t _seed,
+                                                      std::vector<battle_state> &_my_state_list,
+                                                      std::vector<battle_state> &_enemy_state_list,
+                                                      uint64_t _my_key, battle_action_info &_action_info);
+    battle_action get_target_action(uint32_t _actvie_id , std::vector<battle_state> &_my_state_list, std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint64_t _my_key, uint64_t _target_key);
     int get_random_target(const std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint32_t _max, uint32_t _min);
     int get_target_key(const std::vector<battle_state> &_enemy_state_list, uint64_t _target_position);
     static bool sort_compare(const battle_order_struct &a, const battle_order_struct &b);
