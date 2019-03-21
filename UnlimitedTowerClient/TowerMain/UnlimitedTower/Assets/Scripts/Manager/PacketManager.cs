@@ -162,8 +162,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("RequestLoginWithScatter");
 
-        PacketManager.Request<UserLoginData>("Login", 
-            onSuccess: Login /* 이미 정의된 함수가 있다면 이렇게 대입만 해주어도 됩니다.*/,
+        Request<string>("Login", 
+            onSuccess: ResponseLogin /* 이미 정의된 함수가 있다면 이렇게 대입만 해주어도 됩니다.*/,
             onFailed: msg => /* 람다 함수를 사용하는 경우 */
             {
                 Debug.LogError($"[Failed Requesting Login] {msg}");
@@ -174,7 +174,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("RequestLogout");
 
-        PacketManager.Request("Logout",
+        Request("Logout",
             onSuccess: ResponseLogout,
             onFailed: msg => {
                 Debug.LogError($"[Failed Requesting Logout] {msg}");
@@ -186,7 +186,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void RequestGacha()
     {
         Debug.Log("RequestGacha");
-        Gacha();
+        Request<string>("Gacha",
+            onSuccess: ResponseGacha,
+            onFailed: msg =>
+            {
+                Debug.LogError($"[Failed Requesting Gacha] {msg}");
+            });
     }
 
     // TODO : 수정 필요
@@ -222,7 +227,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
         string json = JsonUtility.ToJson(data);
         Debug.Log("print Jsson : : " + json);
 
-        SetFormation(json);
+        // TODO : Party Save Response
+        // SetFormation(json);
     }
 
     public void RequestBattleAction(int heroTarget, int heroAction, int monsterTarget, int monsterAction)
@@ -234,12 +240,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
         action.monsterTargetIndex = monsterTarget;
         action.monsterActionType = monsterAction;
 
-
         string json = JsonUtility.ToJson(action);
-
-        Debug.Log("Json action : " + json);
-        BattleAction(json);
-        
+        Request<stageActionInfoData>("BattleAction", 
+                body: json,
+                onSuccess: ResponseBattleAction,
+                onFailed: msg => { Debug.LogError($"[Failed Requesting BattleAction] {msg}"); }
+                );
     }
 
     public void RequestStageStart(int stageNum, int partyNum)
@@ -254,37 +260,38 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         Debug.Log("Json start : " + json);
 
-        StartBattle(json);
+        Request<stageStateData>("StageStart",
+                body: json,
+                onSuccess: ResponseStageStart,
+                onFailed: msg => { Debug.LogError($"[Failed Requesting StageStart] {msg}"); }
+                );
     }
 
     public void RequestStageResult()
     {
         Debug.Log("Request Get Battle Reward");
-        GetReward();
+
+        Request<stageRewardData>("StageResult",
+            onSuccess: ResponseStageReward,
+            onFailed: msg =>
+            {
+                Debug.LogError($"[Failed Requesting StageResult] {msg}");
+            });
     }
 
     public void RequestStageExit()
     {
         Debug.Log("Request Battle Exit");
-        ExitBattle();
-    }
-    
-    public void RequestTowerStart(int towerFloor, int partyNum)
-    {
 
-    }
-
-    public void RequestTowerResult(int towerFloor)
-    {
-
+        Request("StageResult",
+            onSuccess: ResponseStageExit,
+            onFailed: msg =>
+            {
+                Debug.LogError($"[Failed Requesting StageResult] {msg}");
+            });
     }
 
     #endregion
-
-
-
-
-
 
     #region Response
     
@@ -292,7 +299,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         if (getLoginInfo.StartsWith("{\"sign"))
         {
-            SignUp();
+            Request<string>("SignUp",
+                onSuccess: ResponseLogin,
+                onFailed: msg => { Debug.LogError($"[Failed Requesting SignUp] {msg}"); }
+                );
             return;
         }
         Debug.Log("Login Data : " + getLoginInfo);
@@ -304,6 +314,58 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
 
         Login(userLoginData);
+    }
+
+    public void Login(UserLoginData getUserLoginData)
+    {
+        UserInfo userInfo = new UserInfo();
+        if (ParseUserInfo(getUserLoginData.userinfo, ref userInfo) == false)
+        {
+            Debug.Log("Invalid ParseUserInfo Info");
+        }
+        ParseGoldInfo(getUserLoginData.token, getUserLoginData.eos, ref userInfo);
+
+        UserDataManager.Inst.SetUserInfo(userInfo);
+
+        Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
+        if (ParseServantDic(getUserLoginData.servant_list, ref servantDic) == false)
+        {
+            Debug.Log("Invalid ParseServantList Info");
+        }
+        UserDataManager.Inst.SetServantDic(servantDic);
+
+        Dictionary<int, UserMonsterData> monsterDic = new Dictionary<int, UserMonsterData>();
+        if (ParseMonsterDic(getUserLoginData.monster_list, ref monsterDic) == false)
+        {
+            Debug.Log("Invalid ParseMonsterList Info");
+        }
+        UserDataManager.Inst.SetMonsterDic(monsterDic);
+
+        Dictionary<int, UserMountItemData> itemDic = new Dictionary<int, UserMountItemData>();
+        if (ParseItemDic(getUserLoginData.item_list, ref itemDic) == false)
+        {
+            Debug.Log("Invalid ParseItemList Info");
+        }
+        UserDataManager.Inst.SetItemDic(itemDic);
+
+        UserPartyData partyInfo = ParsePartyInfo(getUserLoginData.party_info);
+        if (partyInfo == null)
+        {
+            Debug.Log("invalid ParsePartyList info");
+        }
+        UserDataManager.Inst.SetPartyInfo(partyInfo);
+
+        if (userInfo.sceneState == SCENE_STATE.StageBattle)
+        {
+            Request<stageStateData>("GetBattle",
+                    onSuccess: ResponseStageStart,
+                    onFailed: msg => { Debug.LogError($"[Failed Requesting GetBattle] {msg}"); }
+                    );
+        }
+        else
+        {
+            StartCoroutine(LoadSceneAsync("Lobby", "Logging in ... "));
+        }
     }
 
     public void ResponseGacha(string getGachaInfo)
@@ -355,51 +417,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
         StartCoroutine(LoadSceneAsync("login", "Loading scene ... "));
     }
 
-    public void ResponseBattleAction(string getBattleActionInfo)
-    {
-        stageActionInfoData actionData = JsonUtility.FromJson<stageActionInfoData>(getBattleActionInfo);
-        if (actionData == null)
-        {
-            Debug.Log("Invalid ResponseBattleAction Data : " + getBattleActionInfo);
-        }
-        UpdateAction(actionData);
-    }
-
-    public void ResponseStageStart(string getStageStartInfo)
-    {
-        stageStateData stateData = JsonUtility.FromJson<stageStateData>(getStageStartInfo);
-        if (stateData == null)
-        {
-            Debug.Log("Invalid ResponseStageStart Data : " + getStageStartInfo);
-        }
-        BattleStart(stateData);
-    }
-
-    public void ResponseStageResult(string getStageResultInfo)
-    {
-        stageRewardData resultData = JsonUtility.FromJson<stageRewardData>(getStageResultInfo);
-        Debug.Log("Result : " + getStageResultInfo);
-        if (resultData == null)
-        {
-            Debug.Log("Invalid ResponseStageResult Data : " + getStageResultInfo);
-        }
-        GetReward(resultData);
-    }
-
-    public void ResponseExit()
-    {
-        SceneManager.LoadScene("Lobby");
-    }
-
-    public void ResponseTowerStart(string getTowerStartInfo)
-    {
-
-    }
-
-    public void ResponseTowerResult(string getTowerResultInfo)
-    {
-
-    }
     public void ResponseError(string errorMessage)
     {
         errorCode error = JsonUtility.FromJson<errorCode>(errorMessage);
@@ -411,58 +428,43 @@ public class PacketManager : MonoSingleton<PacketManager> {
         BattleSystem.Inst.ErrorLog(error.message);
     }
 
-    #endregion
 
-    #region Function
-
-    public void Login(UserLoginData getUserLoginData)
+    public void ResponseStageStart(stageStateData getBattleStateData)
     {
-        UserInfo userInfo = new UserInfo();
-        if (ParseUserInfo(getUserLoginData.userinfo, ref userInfo) == false)
-        {
-            Debug.Log("Invalid ParseUserInfo Info");
-        }
-        ParseGoldInfo(getUserLoginData.token, getUserLoginData.eos, ref userInfo);
+        Debug.Log("배틀 스타트!");
+        UserDataManager.Inst.SetStageState(getBattleStateData);
+        StartCoroutine(LoadSceneAsync("CharacterBattleScene", "Now, Loading battle field ... "));
+    }
 
-        UserDataManager.Inst.SetUserInfo(userInfo);
-
-        Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
-        if (ParseServantDic(getUserLoginData.servant_list, ref servantDic) == false)
+    public void ResponseBattleAction(stageActionInfoData getBattleActionData)
+    {
+        Debug.Log("턴 진행!");
+        if (getBattleActionData.turn == UserDataManager.Inst.stageActionInfo.turn)
         {
-            Debug.Log("Invalid ParseServantList Info");
-        }
-        UserDataManager.Inst.SetServantDic(servantDic);
-
-        Dictionary<int, UserMonsterData> monsterDic = new Dictionary<int, UserMonsterData>();
-        if (ParseMonsterDic(getUserLoginData.monster_list, ref monsterDic) == false)
-        {
-            Debug.Log("Invalid ParseMonsterList Info");
-        }
-        UserDataManager.Inst.SetMonsterDic(monsterDic);
-
-        Dictionary<int, UserMountItemData> itemDic = new Dictionary<int, UserMountItemData>();
-        if (ParseItemDic(getUserLoginData.item_list, ref itemDic) == false)
-        {
-            Debug.Log("Invalid ParseItemList Info");
-        }
-        UserDataManager.Inst.SetItemDic(itemDic);
-
-        UserPartyData partyInfo = ParsePartyInfo(getUserLoginData.party_info);
-        if (partyInfo == null)
-        {
-            Debug.Log("invalid ParsePartyList info");
-        }
-        UserDataManager.Inst.SetPartyInfo(partyInfo);
-
-        if (userInfo.sceneState == SCENE_STATE.StageBattle)
-        {
-            GetBattle();
+            Debug.Log("데이터 중복");
+            return;
         }
         else
         {
-            StartCoroutine(LoadSceneAsync("Lobby", "Logging in ... "));
+            UserDataManager.Inst.SetStageAction(getBattleActionData);
+            BattleSystem.Inst.StartCoroutine(BattleSystem.Inst.BattleStart());
         }
     }
+
+    public void ResponseStageReward(stageRewardData getReward)
+    {
+        Debug.Log("배틀 끝 보상 획득!");
+        UserDataManager.Inst.SetStageReward(getReward);
+    }
+
+    public void ResponseStageExit()
+    {
+        SceneManager.LoadScene("Lobby");
+    }
+
+    #endregion
+
+    #region Function
 
     public bool ParseUserInfo(userData getUserData, ref UserInfo userInfo)
     {
@@ -688,36 +690,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         return partyInfo;
     }
-
     
-    public void BattleStart(stageStateData getBattleStateData)
-    {
-        Debug.Log("배틀 스타트!");
-        UserDataManager.Inst.SetStageState(getBattleStateData);
-        StartCoroutine(LoadSceneAsync("CharacterBattleScene", "Now, Loading battle field ... "));
-    }
-
-    public void UpdateAction(stageActionInfoData getBattleActionData)
-    {
-        Debug.Log("턴 진행!");
-        if (getBattleActionData.turn == UserDataManager.Inst.stageActionInfo.turn)
-        {
-            Debug.Log("데이터 중복");
-            return;
-        }
-        else
-        {
-            UserDataManager.Inst.SetStageAction(getBattleActionData);
-            BattleSystem.Inst.StartCoroutine(BattleSystem.Inst.BattleStart());
-        }
-    }
-
-    public void GetReward(stageRewardData getReward)
-    {
-        Debug.Log("배틀 끝 보상 획득!");
-        UserDataManager.Inst.SetStageReward(getReward);
-    }
-
     private IEnumerator LoadSceneAsync(string name, string loadingMsg)
     {
         AsyncOperation ao = null;
