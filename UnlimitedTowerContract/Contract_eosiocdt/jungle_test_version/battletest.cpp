@@ -3856,10 +3856,10 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
             for(uint32_t i = 0; i<skill_order_list.size(); ++i)
             {
                 uint32_t my_key = skill_order_list[i].key;
-                if (skill_order_list[i].position < max_party_count)
+                if (skill_order_list[i].position < max_party_count) //내 파티인데
                 {
                     uint64_t action_rate = safeseed::get_random_value(skill_order_list[i].second_speed, 100, 0, 0);
-                    if (true == check_activate_skill(battle_state.my_state_list[my_key].active_skill_list[0], action_rate))
+                    if (true == check_activate_skill(battle_state.my_state_list[my_key].active_skill_list[0], action_rate)) //액티브 스킬이 발동하면
                     {
                         if (battle_state.my_state_list[my_key].active_skill_list[0].skill_id == 200003) //패스트 어택
                         {
@@ -3897,8 +3897,13 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                             second_attack_order_list.push_back(skill_order_list[i]);
                         }
                     }
-                }
-                else
+                    else    //스킬이 발동하지 않으면
+                    {
+                        skill_order_list[i].action = action_type::attack;
+                        second_attack_order_list.push_back(skill_order_list[i]);
+                    }
+                }   
+                else    //적의 경우
                 {
                     skill_order_list[i].action = action_type::attack;
                     second_attack_order_list.push_back(skill_order_list[i]);
@@ -3921,7 +3926,6 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                                             battle_state.enemy_state_list,
                                             my_key, action_info))
                     {
-                        update_action.battle_info_list.push_back(action_info);
                         break;
                     }
                     update_action.battle_info_list.push_back(action_info);
@@ -3939,13 +3943,12 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                                             battle_state.my_state_list,
                                             my_key, action_info))
                     {
-                        update_action.battle_info_list.push_back(action_info);
                         break;
                     }
                     update_action.battle_info_list.push_back(action_info);
                 }
             }
-            //기본 공격 처리
+            //그냥 일반 공격하는 애들에 대한 처리 ===============================================================
             for (uint32_t i = 0; i < second_attack_order_list.size(); ++i)
             {
                 uint32_t my_key = second_attack_order_list[i].key;
@@ -3962,7 +3965,6 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                                             battle_state.enemy_state_list,
                                             my_key, action_info))
                     {
-                        update_action.battle_info_list.push_back(action_info);
                         break;
                     }
                     update_action.battle_info_list.push_back(action_info);
@@ -3980,7 +3982,6 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                                             battle_state.my_state_list,
                                             my_key, action_info))
                     {
-                        update_action.battle_info_list.push_back(action_info);
                         break;
                     }
                     update_action.battle_info_list.push_back(action_info);
