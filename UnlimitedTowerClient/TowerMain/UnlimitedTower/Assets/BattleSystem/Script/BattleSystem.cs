@@ -184,7 +184,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
         GameObject servant = Instantiate(caracterCustom.Create(5, 0, 0, 0, 0), characterObject[0].transform);
         servant.transform.position = characterObject[0].transform.position;
         
-        Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataInspector[0].resource), characterObject[10].transform);
+        Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CSVData.Inst.monsterDataInspector[0].resource), characterObject[10].transform);
     }
 
     public void TestSettingHp()
@@ -509,8 +509,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
             }
             else
             {
-                Instantiate(Resources.Load("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataDic
-                    [stageStateInfo.my_state_list[i].id].resource) as GameObject,
+                Instantiate(Resources.Load("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResource(stageStateInfo.my_state_list[i].id)) as GameObject,
                     characterObject[stageStateInfo.my_state_list[i].position].transform);
             }
         }
@@ -521,8 +520,7 @@ public class BattleSystem : MonoSingleton<BattleSystem>
     {
         for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
         {
-            Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataDic
-                    [stageStateInfo.enemy_state_list[i].id].resource),
+            Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResource(stageStateInfo.enemy_state_list[i].id)),
                     characterObject[stageStateInfo.enemy_state_list[i].position].transform);
         }
     }

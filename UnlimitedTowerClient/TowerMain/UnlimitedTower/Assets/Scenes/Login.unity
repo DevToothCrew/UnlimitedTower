@@ -195,6 +195,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 31.57, y: 42.9, z: 0}
+--- !u!1 &397142090 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1142649546162810, guid: c3af066363e49e24488d6e2ccf130a62,
+    type: 2}
+  m_PrefabInternal: {fileID: 1484351081}
+--- !u!114 &397142095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 397142090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8228b3f72447f94eb06f780a3a2d20b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterDataInspector: []
 --- !u!224 &673741670 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224149383961940292, guid: fb333b9f2e6885c48ae57a9cfe9900ec,

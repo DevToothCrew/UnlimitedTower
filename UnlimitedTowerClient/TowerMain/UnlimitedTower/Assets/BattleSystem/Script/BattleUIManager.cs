@@ -36,8 +36,8 @@ public class BattleUIManager : MonoSingleton<BattleUIManager>
         monsterTargetBorder = monsterTargetObject.transform.GetChild(1).GetChild(1).gameObject;
         targetAni = GameObject.Find("Target Select").GetComponent<Animator>();
         // 히어로 이미지 설정
-        // heroImage.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" + CharacterCSVData.Inst.monsterDataDic[HeroCode.Value].inGameIconName);
-        monsterImage.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" + CharacterCSVData.Inst.monsterDataDic[BattleSystem.Inst.GetMyState(5).id].inGameIconName);
+        // heroImage.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" + CSVData.Inst.monsterDataDic[HeroCode.Value].inGameIconName);
+        monsterImage.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" + CSVData.Inst.GetMonsterInGameIconName(BattleSystem.Inst.GetMyState(5).id));
         attackButtonani.SetBool("isOff", true);
         attackButtonani.SetBool("isOn", false);
         defenceButtonani.SetBool("isOff", true);
@@ -58,7 +58,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager>
     public void SetHeroTargetImage(int TargetCode)
     {
         heroTargetObject.SetActive(true);
-        heroTargetImage.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" + CharacterCSVData.Inst.monsterDataDic[TargetCode].inGameIconName);
+        heroTargetImage.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" + CSVData.Inst.GetMonsterInGameIconName(TargetCode));
         heroTargetBorder.SetActive(false);
         attackButtonani.SetBool("isOff", true);
         attackButtonani.SetBool("isOn", false);
@@ -69,7 +69,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager>
     public void SetMonsterTargetImage(int TargetCode)
     {
         monsterTargetObject.SetActive(true);
-        monsterTargetImage.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" + CharacterCSVData.Inst.monsterDataDic[TargetCode].inGameIconName);
+        monsterTargetImage.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" + CSVData.Inst.GetMonsterInGameIconName(TargetCode));
         monsterTargetBorder.SetActive(false);
         attackButtonani.SetBool("isOff", true);
         attackButtonani.SetBool("isOn", false);

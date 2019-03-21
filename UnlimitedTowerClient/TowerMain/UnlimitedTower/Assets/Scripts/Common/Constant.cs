@@ -23,6 +23,8 @@ static public class ActiveAnimationManager
 
 #endregion
 
+#region DEFINE
+
 //공통 사항을 모아둔 클래스.
 public class DEFINE
 {
@@ -141,6 +143,10 @@ public class DEFINE
         return charSize;
     }    
 }
+
+#endregion
+
+#region Info
 
 [System.Serializable]
 public class NodeInfo
@@ -457,8 +463,16 @@ public static class ExtensionMethod
     }
 }
 
+#endregion
 
 #region ENUM
+
+public enum LOCALIZATION_TYPE
+{
+    KR = 0,
+    CH = 1,
+    EN = 2,
+}
 
 public enum NODE_LIST
 {
@@ -474,14 +488,7 @@ public enum UNIT_TYPE
     SERVANT,
     MONSTER
 }
-// UI에서 사용하는 Sorting 타입
-public enum sortType
-{
-    Grade,
-    Level,
-    Power,
-    Obtain
-}
+
 public enum PARTY_STATE
 {
     FREE,
@@ -692,6 +699,28 @@ public enum POPUP_STATE
     EOS = 20,
     UTG = 21,
     Gacha = 22,
+}
+
+#endregion
+
+#region DBClass
+
+[Serializable]
+public class DBMonsterData
+{
+    public int indexNumber;
+    public string name;
+    public string resource;
+    public string inGameIconName;
+}
+
+[Serializable]
+public class DBLocalizationData
+{
+    public int index;
+    public string krText;
+    public string chText;
+    public string enText;
 }
 
 #endregion
