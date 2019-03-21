@@ -948,6 +948,18 @@ public:
     const uint32_t max_party_count = 10;
 
   public:
+    enum active_name
+    {
+        active_defense = 200001,
+        active_bash,
+        active_fast_attack,
+        active_critical_strike,
+        active_heal,
+        active_magic_strike,
+        active_multi_shot,
+        active_guided_arrow,
+    };
+
     enum stage_state
     {
         start = 1,
@@ -986,7 +998,8 @@ public:
         uint32_t magic_attack;
         uint32_t physical_defense;
         uint32_t magic_defense;
-        uint32_t crit_per;
+        uint32_t physical_crit_per;
+        uint32_t magic_crit_per;
         uint32_t crit_physical_dmg;
         uint32_t crit_magic_dmg;
         uint32_t avoid;

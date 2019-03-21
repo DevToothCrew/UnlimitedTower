@@ -2906,7 +2906,8 @@ void battletest::set_stage_state(uint64_t _stage_id, std::vector<battle_state> &
         get_state.magic_attack = get_magic_attack(status);
         get_state.crit_magic_dmg = get_magic_attack(status) * oper_critical_damage / 10000;
         get_state.magic_defense = get_magic_defense(status);
-        get_state.crit_per = oper_critical;
+        get_state.physical_crit_per = oper_critical;
+        get_state.magic_crit_per = oper_critical;
         get_state.avoid = 5;
         get_state.state = battle_member_state::live;
         get_state.status = status;
@@ -2921,7 +2922,8 @@ void battletest::set_stage_state(uint64_t _stage_id, std::vector<battle_state> &
         state += to_string(get_state.magic_attack) + ":";
         state += to_string(get_state.physical_defense) + ":";
         state += to_string(get_state.magic_defense) + ":";
-        state += to_string(get_state.crit_per) + ":";
+        state += to_string(get_state.physical_crit_per) + ":";
+        state += to_string(get_state.magic_crit_per) + ":";
         state += to_string(get_state.crit_physical_dmg) + ":";
         state += to_string(get_state.crit_magic_dmg) + ":";
         state += to_string(get_state.avoid) + ":";
@@ -3119,7 +3121,8 @@ battletest::battle_state battletest::get_user_state(eosio::name _user, std::stri
     get_state.magic_attack = get_magic_attack(status);
     get_state.crit_magic_dmg = get_magic_attack(status) * oper_critical_damage / 10000;
     get_state.magic_defense = get_magic_defense(status);
-    get_state.crit_per = oper_critical;
+    get_state.physical_crit_per = oper_critical;
+    get_state.magic_crit_per = oper_critical;
     get_state.avoid = 5;
     get_state.state = battle_member_state::live;
     get_state.status = status;
@@ -3164,7 +3167,8 @@ battletest::battle_state battletest::get_user_state(eosio::name _user, std::stri
     state += to_string(get_state.magic_attack) + ":";
     state += to_string(get_state.physical_defense) + ":";
     state += to_string(get_state.magic_defense) + ":";
-    state += to_string(get_state.crit_per) + ":";
+    state += to_string(get_state.physical_crit_per) + ":";
+    state += to_string(get_state.magic_crit_per) + ":";
     state += to_string(get_state.crit_physical_dmg) + ":";
     state += to_string(get_state.crit_magic_dmg) + ":";
     state += to_string(get_state.avoid) + ":";
@@ -3522,7 +3526,7 @@ bool battletest::set_action(uint32_t _action,
     }
     else if (_action == action_type::skill)
     {
-        if (_my_state_list[_my_key].active_skill_list[0].skill_id == 200007) //2인 공격
+        if (_my_state_list[_my_key].active_skill_list[0].skill_id == active_name::active_multi_shot) //2인 공격
         {
             for (uint32_t i = 0; i < 2; ++i)
             {
@@ -3549,7 +3553,7 @@ bool battletest::set_action(uint32_t _action,
                 _action_info.battle_action_list.push_back(new_action);
             }
         }
-        else if(_my_state_list[_my_key].active_skill_list[0].skill_id == 200005)        //힐스킬
+        else if(_my_state_list[_my_key].active_skill_list[0].skill_id == active_name::active_heal)        //힐스킬
         {
             int enemy_key = get_random_target(_my_state_list, _seed, _my_state_list.size(), 0);
             if (enemy_key == -1) //상대 파티가 모두 죽은 상태
@@ -3597,20 +3601,22 @@ battletest::battle_action battletest::get_target_action(uint32_t _active_id ,std
     uint32_t cur_target_key = _target_key;
     //직업이나 몬스터 종족에 따라 데미지 계산식이 바뀌어야 함
     uint32_t cur_damage = 0;
-    uint64_t cur_attack = 0;
-    uint64_t cur_cirtical = 0;
-    uint64_t max_hp = 0;
-    uint64_t cur_hp = 0;
+    uint32_t cur_attack = 0;
+    uint32_t cur_cirtical = 0;
+    uint32_t cur_cri_per = 0;
+    uint32_t max_hp = 0;
+    uint32_t cur_hp = 0;
 
     if(_active_id == action_type::attack)
     {
         cur_attack = _my_state_list[_my_key].physical_attack;
         cur_cirtical = _my_state_list[_my_key].crit_physical_dmg;
     }
-    else if (_active_id == 200002) //적 1인에게 물리 공격력의 210% 물리 피해를 줍니다.
+    else if (_active_id == active_name::active_bash) //적 1인에게 물리 공격력의 210% 물리 피해를 줍니다.
     {
         cur_attack = (_my_state_list[_my_key].physical_attack * 210) / 100;
         cur_cirtical = (_my_state_list[_my_key].crit_physical_dmg * 210) / 100;
+        cur_cri_per = _my_state_list[_my_key].physical_crit_per;
 
         battle_action new_action;
         if (true == check_avoid(_enemy_state_list[cur_target_key].avoid, _seed))
@@ -3622,10 +3628,11 @@ battletest::battle_action battletest::get_target_action(uint32_t _active_id ,std
             return new_action;
         }
     }
-    else if (_active_id == 200003) //스킬 발동 시 가장 먼저 적을 공격합니다.
+    else if (_active_id == active_name::active_fast_attack) //스킬 발동 시 가장 먼저 적을 공격합니다.
     {
         cur_attack = _my_state_list[_my_key].physical_attack;
         cur_cirtical = _my_state_list[_my_key].crit_physical_dmg;
+        cur_cri_per = _my_state_list[_my_key].physical_crit_per;
 
         battle_action new_action;
         if (true == check_avoid(_enemy_state_list[cur_target_key].avoid, _seed))
@@ -3637,11 +3644,12 @@ battletest::battle_action battletest::get_target_action(uint32_t _active_id ,std
             return new_action;
         }
     }
-    else if (_active_id == 200004) //적 1인에게 100% 확률로 치명타가 발생하는 물리 피해를 가합니다.
+    else if (_active_id == active_name::active_critical_strike) //적 1인에게 100% 확률로 치명타가 발생하는 물리 피해를 가합니다.
     {
         battle_action new_action;
         cur_attack = _my_state_list[_my_key].physical_attack;
         cur_cirtical = _my_state_list[_my_key].crit_physical_dmg;
+        cur_cri_per = _my_state_list[_my_key].physical_crit_per;
 
         if (true == check_avoid(_enemy_state_list[cur_target_key].avoid, _seed))
         {
@@ -3675,7 +3683,7 @@ battletest::battle_action battletest::get_target_action(uint32_t _active_id ,std
         new_action.damage = cur_damage;
         return new_action;
     }
-    else if (_active_id == 200005) //아군 1인에게 마법 공격력의 150% 수치만큼 생명력을 회복시켜줍니다.
+    else if (_active_id == active_name::active_heal) //아군 1인에게 마법 공격력의 150% 수치만큼 생명력을 회복시켜줍니다.
     {
         battle_action new_action;
         cur_attack = _my_state_list[_my_key].magic_attack;
@@ -3685,24 +3693,17 @@ battletest::battle_action battletest::get_target_action(uint32_t _active_id ,std
         new_action.damage = (cur_attack * 150) / 100;
         return new_action;
     }
-    else if (_active_id == 200006) //적 1인에게 마법 공격력의 180% 마법 피해를 줍니다.
+    else if (_active_id == active_name::active_magic_strike) //적 1인에게 마법 공격력의 180% 마법 피해를 줍니다.
     {
         cur_attack = (_my_state_list[_my_key].magic_attack * 180) / 100;
         cur_cirtical = (_my_state_list[_my_key].crit_magic_dmg * 180) / 100;
-        battle_action new_action;
-        if (true == check_avoid(_enemy_state_list[cur_target_key].avoid, _seed))
-        {
-            new_action.target_position = _enemy_state_list[cur_target_key].position;
-            new_action.avoid = 1;
-            new_action.critical = 0;
-            new_action.damage = 0;
-            return new_action;
-        }
+        cur_cri_per = _my_state_list[_my_key].magic_crit_per;
     }
-    else if (_active_id == 200007) //랜덤한 적 2인에게 각각 물리 공격력의 125% 물리 피해를 줍니다.
+    else if (_active_id == active_name::active_multi_shot) //랜덤한 적 2인에게 각각 물리 공격력의 125% 물리 피해를 줍니다.
     {
         cur_attack = (_my_state_list[_my_key].physical_attack * 125) / 100;
         cur_cirtical = (_my_state_list[_my_key].crit_physical_dmg * 125) / 100;
+        cur_cri_per = _my_state_list[_my_key].physical_crit_per;
         battle_action new_action;
         if (true == check_avoid(_enemy_state_list[cur_target_key].avoid, _seed))
         {
@@ -3713,15 +3714,16 @@ battletest::battle_action battletest::get_target_action(uint32_t _active_id ,std
             return new_action;
         }
     }
-    else if (_active_id == 200008) //적 1인에게 물리 공격력의 150% 물리 피해를 줍니다. (회피 무시 스킬))
+    else if (_active_id == active_name::active_guided_arrow) //적 1인에게 물리 공격력의 150% 물리 피해를 줍니다. (회피 무시 스킬))
     {
         cur_attack = (_my_state_list[_my_key].physical_attack * 150) / 100;
         cur_cirtical = (_my_state_list[_my_key].crit_physical_dmg * 150) / 100;
+        cur_cri_per = _my_state_list[_my_key].physical_crit_per;
     }
 
 
     battle_action new_action;
-    if (false == check_critical(_my_state_list[_my_key].crit_per, _seed))
+    if (false == check_critical(cur_cri_per, _seed))
     {
         if (_enemy_state_list[cur_target_key].buff_list.size() != 0) //버프가 있는지 확인
         {
@@ -3861,12 +3863,12 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                     uint64_t action_rate = safeseed::get_random_value(skill_order_list[i].second_speed, 100, 0, 0);
                     if (true == check_activate_skill(battle_state.my_state_list[my_key].active_skill_list[0], action_rate)) //액티브 스킬이 발동하면
                     {
-                        if (battle_state.my_state_list[my_key].active_skill_list[0].skill_id == 200003) //패스트 어택
+                        if (battle_state.my_state_list[my_key].active_skill_list[0].skill_id == active_name::active_fast_attack) //패스트 어택
                         {
                             skill_order_list[i].action = action_type::skill;
                             attack_order_list.push_back(skill_order_list[i]);
                         }
-                        else if (battle_state.my_state_list[my_key].active_skill_list[0].skill_id == 200001)    //버프 스킬
+                        else if (battle_state.my_state_list[my_key].active_skill_list[0].skill_id == active_name::active_defense)    //버프 스킬
                         {
                             buff_info new_buff;
                             new_buff.buff_id = buff_state::defense;
@@ -3878,7 +3880,7 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                             action_info.action_type = action_type::skill;
                             update_action.battle_info_list.push_back(action_info);
                         }
-                        else if (battle_state.my_state_list[my_key].active_skill_list[0].skill_id == 200005)    //힐 스킬
+                        else if (battle_state.my_state_list[my_key].active_skill_list[0].skill_id == active_name::active_heal)    //힐 스킬
                         {
                             battle_action_info action_info;
                             if(false == set_action(action_type::skill,
