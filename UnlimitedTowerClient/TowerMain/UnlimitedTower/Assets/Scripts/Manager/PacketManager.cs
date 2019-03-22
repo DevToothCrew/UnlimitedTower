@@ -33,7 +33,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     private static extern void GetStageInfo (int stage_num);
 
     [DllImport("__Internal")]
-    private static extern void BattleAction (string battleAction);
+    private static extern void BattleAction (int turn);
 
     [DllImport("__Internal")]
     private static extern void StartBattle (string battleStart);
@@ -124,10 +124,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void RequestBattleAction(int turn)
     {
         Debug.Log("RequestBattleAction");
-        string json = JsonUtility.ToJson(turn);
 
-        Debug.Log("Json action : " + json);
-        BattleAction(json);
+        Debug.Log("Json action : " + turn);
+        BattleAction(turn);
         
     }
 

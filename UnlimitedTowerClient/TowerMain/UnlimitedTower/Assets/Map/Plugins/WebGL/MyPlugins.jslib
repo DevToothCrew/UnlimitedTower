@@ -24,8 +24,8 @@ mergeInto(LibraryManager.library, {
     ReactUnityWebGL.GetStageInfo(stage_num);
   },
 
-  BattleAction : function(battleAction) {
-    ReactUnityWebGL.BattleAction(Pointer_stringify(battleAction));
+  BattleAction : function(turn) {
+    ReactUnityWebGL.BattleAction(turn));
   },
 
   StartBattle : function(battleStart) {
