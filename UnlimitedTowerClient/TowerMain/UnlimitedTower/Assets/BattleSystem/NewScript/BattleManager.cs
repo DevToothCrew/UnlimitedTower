@@ -17,7 +17,6 @@ public class BattleManager : MonoSingleton<BattleManager>
     private int turnIndex = 1;
     private bool isSpaceCheck;
     private GameObject CharacterParent;
-    private GameObject delayImage;
     private SkillManager skillManager;
     private CharacterCustom characterCustom;
 
@@ -41,11 +40,9 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         testReward = GameObject.Find("보상");
         testDefeat = GameObject.Find("패배보상");
-        delayImage = GameObject.Find("DelayImage");
 
         testReward.SetActive(false);
         testDefeat.SetActive(false);
-        delayImage.SetActive(false);
         
         UserDataManager.Inst.stageReward = null;
     }
@@ -77,11 +74,11 @@ public class BattleManager : MonoSingleton<BattleManager>
             //     // TestBattleTarget();
             //     isSpaceCheck = true;
             // }
+            BattleUIManager.Inst.OnDelay();
 
             string battleActionInfo = Cheat.Inst.GetBattleActionData("devtooth", turnIndex);
             Debug.Log("[SUCCESS] user battleaction :" + battleActionInfo);
             PacketManager.Inst.ResponseBattleAction(battleActionInfo);
-            BattleUIManager.Inst.OnDelay();
         }
     }
 
@@ -121,6 +118,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         turnIndex++;
         isSpaceCheck = false;
+        BattleUIManager.Inst.MyTurn();
 
         if (UserDataManager.Inst.stageReward != null)
         {

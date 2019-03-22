@@ -1998,7 +1998,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &108224803
 GameObject:
   m_ObjectHideFlags: 0
@@ -18744,7 +18744,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &949755047
 RectTransform:
   m_ObjectHideFlags: 0
@@ -28654,6 +28654,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1340082876}
+  - component: {fileID: 1340082877}
   m_Layer: 0
   m_Name: WaterDropSpawner
   m_TagString: Untagged
@@ -28674,6 +28675,18 @@ Transform:
   m_Father: {fileID: 1413865959}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1340082877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1340082875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc62ad088d8f56842a77b9fb8d54cce4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Rain: {fileID: 1255754116506864, guid: 8396e21ddc9fcc346adfa2ee633af672, type: 2}
 --- !u!1 &1341131079
 GameObject:
   m_ObjectHideFlags: 0
@@ -32321,7 +32334,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1516827289
 Transform:
   m_ObjectHideFlags: 0
@@ -34393,6 +34406,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ac1d69264819243bbbb754d701d09c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  delayImage: {fileID: 0}
+  myTrun: {fileID: 0}
 --- !u!114 &1616318306
 MonoBehaviour:
   m_ObjectHideFlags: 0
