@@ -716,9 +716,6 @@ public class DBItemData
     public int tier;
     public string itemType;
     public List<int> itemParamIDList;
-    public List<int> itemParamValueList;
-    public List<int> sellItemIdList;
-    public List<int> sellItemCountList;
 }
 
 [Serializable]
@@ -728,10 +725,8 @@ public class DBMonsterData
     public string name;
     public int elementType;
     public int classType;
-    public string resource;
+    public string resourceModel;
     public string resourceIcon;
-    public List<int> sellItemIdList;
-    public List<int> sellItemCountList;
 }
 
 [Serializable]
@@ -740,13 +735,10 @@ public class DBServantData
     public int id;
     public string name;
     public string job;
-    public string bodyType;
+    public string resourceBody;
     public string resourceHead;
     public string resourceHair;
-    public string resourceWeapon;
     public string resourceIcon;
-    public List<int> grindItemIdList;
-    public List<int> grindItemCountList;
 }
 
 [Serializable]
@@ -762,26 +754,27 @@ public class DBLocalizationData
 public class DBStageData
 {
     public int id;
-    public int type;
+    public int stageType;
+    public int stageFloor;
     public string stageString;
     public int needStageId;
-    public int nextStageId;
-    public int stageGroupList;
+    public int stageGroupIndex;
     public int needEntranceItemId;
     public int needEntranceItemCount;
-    public int monsterLevelMin;
-    public int monsterLevelMax;
-    public List<int> monsterIdList;
-    public List<int> monsterPositionList;
-    public int bossMonsterLevel;
+    public int enemyLevelMin;
+    public int enemyLevelMax;
+    public List<int> enemyIdList;
+    public List<int> enemyPositionList;
+    public int bossLevel;
     public List<int> bossPassiveList;
-    public List<int> bossSkillList;
+    public List<int> bossActiveList;
+    public int rankExp;
     public int charExp;
     public List<int> rewardIdList;
     public List<int> rewardCountList;
     public int firstRewardId;
     public int firstRewardCount;
-    public string mapFileName;
+    public string mapResource;
     public int bgmSoundId;
 }
 

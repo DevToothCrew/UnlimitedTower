@@ -50,8 +50,6 @@ public class CSVData : MonoSingleton<CSVData> {
                 + " " + data[i]["item_param_value_2"]
                 + " " + data[i]["item_param_id_3"]
                 + " " + data[i]["item_param_value_3"]
-                + " " + data[i]["sell_item_id"]
-                + " " + data[i]["sell_item_count"]
                 );
 
             DBItemData itemData = new DBItemData();
@@ -63,43 +61,24 @@ public class CSVData : MonoSingleton<CSVData> {
             itemData.itemType = Convert.ToString(data[i]["item_type"]);
 
             itemData.itemParamIDList = new List<int>();
-            itemData.itemParamValueList = new List<int>();
 
             int itemParamId_1 = Convert.ToInt32(data[i]["item_param_id_1"]);
-            int itemParamValue_1 = Convert.ToInt32(data[i]["item_param_value_1"]);
             // Param 검사 추가 필요
-            if(itemParamId_1 > 0 && itemParamValue_1 > 0)
+            if(itemParamId_1 > 0)
             {
                 itemData.itemParamIDList.Add(itemParamId_1);
-                itemData.itemParamValueList.Add(itemParamValue_1);
             }
 
             int itemParamId_2 = Convert.ToInt32(data[i]["item_param_id_2"]);
-            int itemParamValue_2 = Convert.ToInt32(data[i]["item_param_value_2"]);
-            // Param 검사 추가 필요
-            if (itemParamId_2 > 0 && itemParamValue_2 > 0)
+            if (itemParamId_2 > 0)
             {
                 itemData.itemParamIDList.Add(itemParamId_2);
-                itemData.itemParamValueList.Add(itemParamValue_2);
             }
 
             int itemParamId_3 = Convert.ToInt32(data[i]["item_param_id_3"]);
-            int itemParamValue_3 = Convert.ToInt32(data[i]["item_param_value_3"]);
-            // Param 검사 추가 필요
-            if (itemParamId_3 > 0 && itemParamValue_3 > 0)
+            if (itemParamId_3 > 0)
             {
                 itemData.itemParamIDList.Add(itemParamId_3);
-                itemData.itemParamValueList.Add(itemParamValue_3);
-            }
-
-            itemData.sellItemIdList = new List<int>();
-            itemData.sellItemCountList = new List<int>();
-            int itemID_1 = Convert.ToInt32(data[i]["sell_item_id"]);
-            int itemCount_1 = Convert.ToInt32(data[i]["sell_item_count"]);
-            if(itemID_1 > 0 && itemCount_1 > 0)
-            {
-                itemData.sellItemIdList.Add(itemID_1);
-                itemData.sellItemCountList.Add(itemCount_1);
             }
 
             DBItemDataDic.Add(itemData.id, itemData);
@@ -114,57 +93,59 @@ public class CSVData : MonoSingleton<CSVData> {
         {
             Debug.Log("index " + (i).ToString()
                 + " : " + data[i]["id"]
-                + " " + data[i]["type"]
+                + " " + data[i]["stage_type"]
+                + " " + data[i]["stage_floor"]
                 + " " + data[i]["stage_string"]
                 + " " + data[i]["need_stage_id"]
-                + " " + data[i]["next_stage_id"]
-                + " " + data[i]["stage_group_list"]
+                + " " + data[i]["stage_group_index"]
                 + " " + data[i]["need_entrance_item_id"]
                 + " " + data[i]["need_entrance_item_count"]
-                + " " + data[i]["monster_level_min"]
-                + " " + data[i]["monster_level_max"]
-                + " " + data[i]["monster_id_list"]
-                + " " + data[i]["monster_position"]
-                + " " + data[i]["boss_monster_level"]
+                + " " + data[i]["enemy_level_min"]
+                + " " + data[i]["enemy_level_max"]
+                + " " + data[i]["enemy_id_list"]
+                + " " + data[i]["enemy_position"]
+                + " " + data[i]["boss_level"]
                 + " " + data[i]["boss_passive_list"]
-                + " " + data[i]["boss_skill_list"]
+                + " " + data[i]["boss_active_list"]
+                + " " + data[i]["rank_exp"]
                 + " " + data[i]["char_exp"]
                 + " " + data[i]["reward_id_list"]
                 + " " + data[i]["reward_count_list"]
                 + " " + data[i]["first_reward_id"]
                 + " " + data[i]["first_reward_count"]
-                + " " + data[i]["map_filename"]
+                + " " + data[i]["map_resource"]
                 + " " + data[i]["bgm_sound_id"]
                 );
 
             DBStageData stageData = new DBStageData();
             stageData.id = Convert.ToInt32(data[i]["id"]);
-            stageData.type = Convert.ToInt32(data[i]["type"]);
+            stageData.stageType = Convert.ToInt32(data[i]["stage_type"]);
+            stageData.stageFloor = Convert.ToInt32(data[i]["stage_floor"]);
             stageData.stageString = Convert.ToString(data[i]["stage_string"]);
             stageData.needStageId = Convert.ToInt32(data[i]["need_stage_id"]);
-            stageData.nextStageId = Convert.ToInt32(data[i]["next_stage_id"]);
-            stageData.stageGroupList = Convert.ToInt32(data[i]["stage_group_list"]);
+            stageData.stageGroupIndex = Convert.ToInt32(data[i]["stage_group_index"]);
             stageData.needEntranceItemId = Convert.ToInt32(data[i]["need_entrance_item_id"]);
             stageData.needEntranceItemCount = Convert.ToInt32(data[i]["need_entrance_item_count"]);
-            stageData.monsterLevelMin = Convert.ToInt32(data[i]["monster_level_min"]);
-            stageData.monsterLevelMax = Convert.ToInt32(data[i]["monster_level_max"]);
-            stageData.monsterIdList = new List<int>();
+            stageData.enemyLevelMin = Convert.ToInt32(data[i]["enemy_level_min"]);
+            stageData.enemyLevelMax = Convert.ToInt32(data[i]["enemy_level_max"]);
+            stageData.enemyIdList = new List<int>();
             // List로 넣기 data[i]["monster_id_list"]
-            stageData.monsterPositionList = new List<int>();
+            stageData.enemyPositionList = new List<int>();
             // List로 넣기 data[i]["monster_position_list"]
-            stageData.bossMonsterLevel = Convert.ToInt32(data[i]["boss_monster_level"]);
+            stageData.bossLevel = Convert.ToInt32(data[i]["boss_level"]);
             stageData.bossPassiveList = new List<int>();
             // List로 넣기 data[i]["boss_passive_list"]
-            stageData.bossSkillList = new List<int>();
+            stageData.bossActiveList = new List<int>();
             // List로 넣기 data[i]["boss_skill_list"]
+            stageData.rankExp = Convert.ToInt32(data[i]["rank_exp"]);
             stageData.charExp = Convert.ToInt32(data[i]["char_exp"]);
             stageData.rewardIdList = new List<int>();
             // List로 넣기 data[i]["reward_id"]
-            stageData.rewardIdList = new List<int>();
+            stageData.rewardCountList = new List<int>();
             // List로 넣기 data[i]["reward_count"]
             stageData.firstRewardId = Convert.ToInt32(data[i]["first_reward_id"]);
             stageData.firstRewardCount = Convert.ToInt32(data[i]["first_reward_count"]);
-            stageData.mapFileName = Convert.ToString(data[i]["map_filename"]);
+            stageData.mapResource = Convert.ToString(data[i]["map_resource"]);
             stageData.bgmSoundId = Convert.ToInt32(data[i]["bgm_sound_id"]);
 
             DBStageDataDic.Add(stageData.id, stageData);
@@ -181,44 +162,20 @@ public class CSVData : MonoSingleton<CSVData> {
                 + " : " + data[i]["id"]
                 + " " + data[i]["name"]
                 + " " + data[i]["job"]
-                + " " + data[i]["body_type"]
+                + " " + data[i]["resource_body"]
                 + " " + data[i]["resource_head"]
                 + " " + data[i]["resource_hair"]
-                + " " + data[i]["resource_weapon"]
-                + " " + data[i]["ingame_icon_name"]
-                + " " + data[i]["grind_item_id_1"]
-                + " " + data[i]["grind_item_id_2"]
-                + " " + data[i]["grind_item_count_1"]
-                + " " + data[i]["grind_item_count_2"]
+                + " " + data[i]["resource_icon"]
                 );
 
             DBServantData servantData = new DBServantData();
             servantData.id = Convert.ToInt32(data[i]["id"]);
             servantData.name = Convert.ToString(data[i]["name"]);
             servantData.job = Convert.ToString(data[i]["job"]);
-            servantData.bodyType = Convert.ToString(data[i]["body_type"]);
+            servantData.resourceBody = Convert.ToString(data[i]["resource_body"]);
             servantData.resourceHead = Convert.ToString(data[i]["resource_head"]);
             servantData.resourceHair = Convert.ToString(data[i]["resource_hair"]);
-            servantData.resourceWeapon = Convert.ToString(data[i]["resource_weapon"]);
             servantData.resourceIcon = Convert.ToString(data[i]["ingame_icon_name"]);
-            servantData.grindItemIdList = new List<int>();
-            servantData.grindItemCountList = new List<int>();
-            int itemID_1 = Convert.ToInt32(data[i]["grind_item_id_1"]);
-            int itemCount_1 = Convert.ToInt32(data[i]["grind_item_ count_1"]);
-            // 추후 이 아이템이 아이템 리스트에 있는지 확인
-            if (itemID_1 > 0 && itemCount_1 > 0)
-            {
-                servantData.grindItemIdList.Add(itemID_1);
-                servantData.grindItemCountList.Add(itemCount_1);
-            }
-            int itemID_2 = Convert.ToInt32(data[i]["grind_item_id_2"]);
-            int itemCount_2 = Convert.ToInt32(data[i]["grind_item_ count_2"]);
-            // 추후 이 아이템이 아이템 리스트에 있는지 확인
-            if (itemID_2 > 0 && itemCount_2 > 0)
-            {
-                servantData.grindItemIdList.Add(itemID_1);
-                servantData.grindItemCountList.Add(itemCount_1);
-            }
 
             DBServantDataDic.Add(servantData.id, servantData);
         }
@@ -253,21 +210,24 @@ public class CSVData : MonoSingleton<CSVData> {
 
         for (var i = 3; i < data.Count; i++)
         {
-            //Debug.Log("index " + (i).ToString()
-            //    + " : " + data[i]["id"]
-            //    + " " + data[i]["name"]
-            //    + " " + data[i]["resource_base"]
-            //    + " " + data[i]["potrait_base"]
-            //    + " " + data[i]["stat_main"]
-            //    );
+            Debug.Log("index " + (i).ToString()
+                + " : " + data[i]["id"]
+                + " " + data[i]["name"]
+                + " " + data[i]["element_type"]
+                + " " + data[i]["class_type"]
+                + " " + data[i]["resource_model"]
+                + " " + data[i]["resource_icon"]
+                );
 
             DBMonsterData monsterData = new DBMonsterData();
             monsterData.id     = Convert.ToInt32(data[i]["id"]);
             monsterData.name = Convert.ToString(data[i]["enname"]);
             // TODO : 로컬 적용 후 아래로 변경
             // monsterData.name            = Convert.ToString(data[i]["name"]);
-            monsterData.resource        = Convert.ToString(data[i]["resource_base"]);
-            monsterData.resourceIcon  = Convert.ToString(data[i]["potrait_base"]);
+            monsterData.elementType = Convert.ToInt32(data[i]["element_type"]);
+            monsterData.classType = Convert.ToInt32(data[i]["class_type"]);
+            monsterData.resourceModel = Convert.ToString(data[i]["resource_model"]);
+            monsterData.resourceIcon = Convert.ToString(data[i]["resource_icon"]);
 
             DBMonsterDataDic.Add(monsterData.id, monsterData);
             monsterDataInspector.Add(monsterData);
@@ -312,14 +272,14 @@ public class CSVData : MonoSingleton<CSVData> {
         return DBMonsterDataDic.Keys.ToList();
     }
 
-    public string GetMonsterDBResource(int index)
+    public string GetMonsterDBResourceModel(int index)
     {
         if (DBMonsterDataDic.ContainsKey(index) == false)
         {
             return null;
         }
 
-        return DBMonsterDataDic[index].resource;
+        return DBMonsterDataDic[index].resourceModel;
     }
 
     public int GetRandomMonsterIndex()
