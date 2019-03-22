@@ -291,7 +291,7 @@ public class CSVData : MonoSingleton<CSVData> {
         return monsterIndex;
     }
 
-    public string GetMonsterInGameIconName(int index)
+    public string GetMonsterIcon(int index)
     {
         if (DBMonsterDataDic.ContainsKey(index) == false)
         {
