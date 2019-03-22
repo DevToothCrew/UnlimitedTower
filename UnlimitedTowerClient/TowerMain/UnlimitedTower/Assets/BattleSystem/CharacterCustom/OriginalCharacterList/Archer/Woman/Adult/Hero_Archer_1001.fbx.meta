@@ -1,18 +1,18 @@
 fileFormatVersion: 2
-guid: 2504d21f0d935a1428bb7fa56c082a61
+guid: 6092bbee59e964043b72efd286fa797a
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: bow
-    100002: foot_L
-    100004: foot_R
-    100006: forearm_L
-    100008: forearm_R
-    100010: hand_L
-    100012: hand_R
-    100014: heel_02_L
-    100016: heel_02_R
-    100018: //RootNode
+    100000: foot_L
+    100002: foot_R
+    100004: forearm_L
+    100006: forearm_R
+    100008: hand_L
+    100010: hand_R
+    100012: heel_02_L
+    100014: heel_02_R
+    100016: //RootNode
+    100018: hero_archer_1001_001
     100020: hero_archer_1001_image_001
     100022: hero_archer_1001_image_002
     100024: hero_archer_1001_image_003
@@ -45,16 +45,16 @@ ModelImporter:
     100078: toe_R
     100080: upper_arm_L
     100082: upper_arm_R
-    400000: bow
-    400002: foot_L
-    400004: foot_R
-    400006: forearm_L
-    400008: forearm_R
-    400010: hand_L
-    400012: hand_R
-    400014: heel_02_L
-    400016: heel_02_R
-    400018: //RootNode
+    400000: foot_L
+    400002: foot_R
+    400004: forearm_L
+    400006: forearm_R
+    400008: hand_L
+    400010: hand_R
+    400012: heel_02_L
+    400014: heel_02_R
+    400016: //RootNode
+    400018: hero_archer_1001_001
     400020: hero_archer_1001_image_001
     400022: hero_archer_1001_image_002
     400024: hero_archer_1001_image_003
@@ -87,9 +87,9 @@ ModelImporter:
     400078: toe_R
     400080: upper_arm_L
     400082: upper_arm_R
-    2100000: palette_008__bow_png
+    2100000: palette__hero_archer_1001_png
     2100002: palette_007__hero_archer_1001_image_png
-    4300000: bow
+    4300000: hero_archer_1001_001
     4300002: hero_archer_1001_image_009
     4300004: hero_archer_1001_image_011
     4300006: hero_archer_1001_image_005
@@ -106,7 +106,7 @@ ModelImporter:
     4300028: hero_archer_1001_image_004
     7400000: Default Take
     9500000: //RootNode
-    13700000: bow
+    13700000: hero_archer_1001_001
     13700002: hero_archer_1001_image_001
     13700004: hero_archer_1001_image_002
     13700006: hero_archer_1001_image_003
@@ -172,10 +172,10 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
-    normalSmoothAngle: 100
-    normalImportMode: 1
-    tangentImportMode: 2
-    normalCalculationMode: 0
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
   importAnimation: 1
   copyAvatar: 0
   humanDescription:

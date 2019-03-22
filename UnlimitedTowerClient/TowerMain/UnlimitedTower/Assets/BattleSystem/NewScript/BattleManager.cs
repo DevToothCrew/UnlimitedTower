@@ -14,6 +14,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     public bool isAfterDelay;
     public int TimeScale = 1;
 
+    private int turnIndex = 1;
     private bool isSpaceCheck;
     private GameObject CharacterParent;
     private GameObject delayImage;
@@ -80,7 +81,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             //     isSpaceCheck = true;
             // }
 
-            string battleActionInfo = Cheat.Inst.GetBattleActionData("devtooth", 1);
+            string battleActionInfo = Cheat.Inst.GetBattleActionData("devtooth", turnIndex);
             Debug.Log("[SUCCESS] user battleaction :" + battleActionInfo);
             PacketManager.Inst.ResponseBattleAction(battleActionInfo);
         }
@@ -120,6 +121,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             }
         }
 
+        turnIndex++;
         isSpaceCheck = false;
 
         if (UserDataManager.Inst.stageReward != null)

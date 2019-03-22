@@ -119,10 +119,10 @@ public class SkillManager : MonoSingleton<SkillManager> {
         yield return new WaitForSeconds(0.2f);
 
         DamageManager.Inst.DamageAciton(battleInfo.battle_action_list[1], false);
-        if (BattleManager.Inst.NowHp[battleInfo.battle_action_list[0].target_position] > 0)
-            BattleManager.Inst.animator[battleInfo.battle_action_list[0].target_position].SetTrigger("isHit");
+        if (BattleManager.Inst.NowHp[battleInfo.battle_action_list[1].target_position] > 0)
+            BattleManager.Inst.animator[battleInfo.battle_action_list[1].target_position].SetTrigger("isHit");
         else
-            BattleManager.Inst.animator[battleInfo.battle_action_list[0].target_position].SetTrigger("isDie");
+            BattleManager.Inst.animator[battleInfo.battle_action_list[1].target_position].SetTrigger("isDie");
 
         yield return new WaitForSeconds(1.0f);
 
