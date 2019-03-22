@@ -41,9 +41,11 @@ public class BattleManager : MonoSingleton<BattleManager>
         characterCustom = GameObject.Find("CharacterCustomInstance").GetComponent<CharacterCustom>();
 
         testReward = GameObject.Find("보상");
+        testDefeat = GameObject.Find("패배보상");
         delayImage = GameObject.Find("DelayImage");
 
         testReward.SetActive(false);
+        testDefeat.SetActive(false);
         delayImage.SetActive(false);
 
 
@@ -72,8 +74,8 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            // TestBattleTarget();
-            StartCoroutine(BattleStart());
+            TestBattleTarget();
+            // StartCoroutine(BattleStart());
         }
     }
 
@@ -174,8 +176,9 @@ public class BattleManager : MonoSingleton<BattleManager>
     public void SettingBoxCollider(GameObject charactor)
     {
         BoxCollider box = charactor.AddComponent<BoxCollider>();
-        charactor.GetComponent<BoxCollider>().size = new Vector3(0.8f, 0.8f, 0.8f);
-        charactor.GetComponent<BoxCollider>().center = new Vector3(0.0f, 0.4f, 0.0f);
+        box.size = new Vector3(0.8f, 0.8f, 0.8f);
+        box.center = new Vector3(0.0f, 0.4f, 0.0f);
+        box.isTrigger = true;
         charactor.tag = "Character";
     }
 

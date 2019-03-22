@@ -377,7 +377,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         servant.state = 0;
         servant.exp = rand.Next(0, DEFINE.MAX_EXP);
-        servant.job = 1; // rand.Next(0, 6);
+        servant.job = 4; // rand.Next(0, 6);
         servant.stat_point = (Calculator.GetLevelForExp(servant.exp) - 1) * DEFINE.BONUS_STAT;
         servant.appear = GetRandomAppear();
         servant.status = GetRandomStatusInfo();

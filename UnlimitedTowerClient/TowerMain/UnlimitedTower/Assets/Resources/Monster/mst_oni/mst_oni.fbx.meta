@@ -178,7 +178,7 @@ ModelImporter:
     normalSmoothAngle: 100
     normalImportMode: 1
     tangentImportMode: 3
-    normalCalculationMode: 4
+    normalCalculationMode: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:

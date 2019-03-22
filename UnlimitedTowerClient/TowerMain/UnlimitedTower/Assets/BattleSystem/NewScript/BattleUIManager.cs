@@ -18,4 +18,9 @@ public class BattleUIManager : MonoBehaviour {
             Time.timeScale = 1;
         }
     }
+
+    public void BattleOut()
+    {
+
+    }
 }
