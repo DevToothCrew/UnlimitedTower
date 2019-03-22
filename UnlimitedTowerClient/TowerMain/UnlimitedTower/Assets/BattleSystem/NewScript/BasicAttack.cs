@@ -41,7 +41,10 @@ public class BasicAttack : MonoBehaviour {
         yield return new WaitForSeconds(charInfo.AttackDelay);
 
         DamageManager.Inst.DamageAciton(attackInfo.battle_action_list[0], false);
-        BattleManager.Inst.animator[attackInfo.battle_action_list[0].target_position].SetTrigger("isHit");
+        if (BattleManager.Inst.NowHp[attackInfo.battle_action_list[0].target_position] > 0)
+            BattleManager.Inst.animator[attackInfo.battle_action_list[0].target_position].SetTrigger("isHit");
+        else
+            BattleManager.Inst.animator[attackInfo.battle_action_list[0].target_position].SetTrigger("isDie");
 
         yield return new WaitForSeconds(charInfo.AttackAfterDelay);
 
@@ -105,8 +108,11 @@ public class BasicAttack : MonoBehaviour {
         yield return new WaitForSeconds(charInfo.AttackAfterDelay);
     
         DamageManager.Inst.DamageAciton(attackInfo.battle_action_list[0], false);
-        BattleManager.Inst.animator[attackInfo.battle_action_list[0].target_position].SetTrigger("isHit");
-    
+        if (BattleManager.Inst.NowHp[attackInfo.battle_action_list[0].target_position] > 0)
+            BattleManager.Inst.animator[attackInfo.battle_action_list[0].target_position].SetTrigger("isHit");
+        else
+            BattleManager.Inst.animator[attackInfo.battle_action_list[0].target_position].SetTrigger("isDie");
+
         yield return new WaitForSeconds(1.0f);
     
         BattleManager.Inst.isAfterDelay = true;
@@ -114,11 +120,13 @@ public class BasicAttack : MonoBehaviour {
     
     IEnumerator ArrowShot(Vector3 target)
     {
-        GameObject arrow = Instantiate(GetComponent<BulletGroup>().bullet["ArcherArrow"], transform.position + new Vector3(0, 0.4f, 0), transform.rotation);
-        float Speed = Vector3.Distance(arrow.transform.position, target) * 0.02f;
-        for (int i = 0; i < 45; i += BattleManager.Inst.TimeScale)
+        GameObject arrow = Instantiate(BulletGroup.Inst.bullet["ArcherArrow"], transform.position + new Vector3(0, 0.4f, 0), transform.rotation);
+        Vector3 startPos = arrow.transform.position;
+        Vector3 endPos = target - (target - startPos).normalized * 0.2f;
+        
+        for (int i = 0; i < 50; i += BattleManager.Inst.TimeScale)
         {
-            arrow.transform.Translate(0, 0, Speed * BattleManager.Inst.TimeScale);
+            arrow.transform.position = Vector3.Lerp(startPos, endPos, i * 0.02f);
             yield return new WaitForSecondsRealtime(0.01f);
         }
         Destroy(arrow);

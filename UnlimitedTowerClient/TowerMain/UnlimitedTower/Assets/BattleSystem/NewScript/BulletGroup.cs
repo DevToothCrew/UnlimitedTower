@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletGroup : MonoBehaviour {
+public class BulletGroup : MonoSingleton<BulletGroup> {
     public Dictionary<string, GameObject> bullet = new Dictionary<string, GameObject>();
     public List<BulletData> bulletList = new List<BulletData>();
 

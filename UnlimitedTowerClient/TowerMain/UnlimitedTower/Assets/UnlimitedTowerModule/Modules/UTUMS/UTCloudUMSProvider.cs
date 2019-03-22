@@ -27,9 +27,9 @@ public class UTCloudUMSProvider : UTUMSProvider
         PacketManager.Inst.RequestSaveParty(partyInfo);
     }
 
-    public override void RequestBattleAction(int heroTarget, int heroAction, int monsterTarget, int monsterAction)
+    public override void RequestBattleAction(int turn)
     {
-        PacketManager.Inst.RequestBattleAction(heroTarget, heroAction, monsterTarget, monsterAction);
+        PacketManager.Inst.RequestBattleAction(turn);
     }
 
     public override void RequestStageStart(int stageNum, int partyNum)

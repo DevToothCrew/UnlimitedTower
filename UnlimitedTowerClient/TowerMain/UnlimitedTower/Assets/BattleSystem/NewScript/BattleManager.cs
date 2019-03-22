@@ -17,6 +17,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     private bool isSpaceCheck;
     private GameObject CharacterParent;
     private GameObject delayImage;
+    private SkillManager skillManager;
     private CharacterCustom characterCustom;
 
     // Test
@@ -73,13 +74,15 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (isSpaceCheck == false)
-            {
-                TestBattleTarget();
-                isSpaceCheck = true;
-            }
+            // if (isSpaceCheck == false)
+            // {
+            //     // TestBattleTarget();
+            //     isSpaceCheck = true;
+            // }
 
-            // StartCoroutine(BattleStart());
+            string battleActionInfo = Cheat.Inst.GetBattleActionData("devtooth", 1);
+            Debug.Log("[SUCCESS] user battleaction :" + battleActionInfo);
+            PacketManager.Inst.ResponseBattleAction(battleActionInfo);
         }
     }
 
@@ -100,14 +103,20 @@ public class BattleManager : MonoSingleton<BattleManager>
         {
             if (stageActionInfo.battle_info_list[i].action_type == 2)
             {
-                character[0].GetComponent<BasicAttack>().Attack(stageActionInfo.battle_info_list[i]);
+                character[stageActionInfo.battle_info_list[i].my_position].GetComponent<BasicAttack>().Attack(stageActionInfo.battle_info_list[i]);
 
                 yield return new WaitUntil(() => isAfterDelay == true);
                 isAfterDelay = false;
             }
             else if (stageActionInfo.battle_info_list[i].action_type == 3)
             {
-
+                if (stageActionInfo.battle_info_list[i].my_position < 10)
+                {
+                    SkillManager.Inst.SendMessage("Skill_" + GetMyState(stageActionInfo.battle_info_list[i].my_position).active_skill_list[0].id.ToString(), stageActionInfo.battle_info_list[i]);
+                    
+                    yield return new WaitUntil(() => isAfterDelay == true);
+                    isAfterDelay = false;
+                }
             }
         }
 
@@ -337,7 +346,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             }
         }
 
-        Debug.LogError(position + "번째 몬스터의 정보가 없는 오류");
+        Debug.LogError(position + "th Monster is Null");
         return null;
     }
 
@@ -358,7 +367,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             }
         }
 
-        Debug.LogError(position + "번째 서번트의 정보가 없는 오류");
+        Debug.LogError(position + "th Servant is Null");
         return null;
     }
 }

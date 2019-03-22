@@ -51,7 +51,11 @@ public class SkillManager : MonoSingleton<SkillManager> {
         yield return new WaitForSeconds(2.0f);
 
         DamageManager.Inst.DamageAciton(battleInfo.battle_action_list[0], true);
-        
+        if (BattleManager.Inst.NowHp[battleInfo.battle_action_list[0].target_position] > 0)
+            BattleManager.Inst.animator[battleInfo.battle_action_list[0].target_position].SetTrigger("isHit");
+        else
+            BattleManager.Inst.animator[battleInfo.battle_action_list[0].target_position].SetTrigger("isDie");
+
         yield return new WaitForSeconds(2.0f);
 
         BattleManager.Inst.isAfterDelay = true;
@@ -76,56 +80,64 @@ public class SkillManager : MonoSingleton<SkillManager> {
         StartCoroutine(Skill_200007_Co(battleInfo));
     }
 
-    IEnumerator Skill_200007_Co(battleActionInfo attackInfo)
+    IEnumerator Skill_200007_Co(battleActionInfo battleInfo)
     {
         Transform attacker;
         Transform target;
 
-        attacker = BattleManager.Inst.character[attackInfo.my_position].transform;
-        target = BattleManager.Inst.character[attackInfo.battle_action_list[0].target_position].transform;
+        attacker = BattleManager.Inst.character[battleInfo.my_position].transform;
+        target = BattleManager.Inst.character[battleInfo.battle_action_list[0].target_position].transform;
 
         attacker.transform.LookAt(target);
 
-        BattleManager.Inst.animator[attackInfo.my_position].SetTrigger("isDoubleAttack");
+        BattleManager.Inst.animator[battleInfo.my_position].SetTrigger("isDoubleAttack");
 
         yield return new WaitForSeconds(2.0f);
 
-        StartCoroutine(Skill_200007_Co_Arrow(target.position));
+        StartCoroutine(Skill_200007_Co_Arrow(attacker, target));
 
-        target = BattleManager.Inst.character[attackInfo.battle_action_list[1].target_position].transform;
+        target = BattleManager.Inst.character[battleInfo.battle_action_list[1].target_position].transform;
 
         attacker.transform.LookAt(target);
 
         yield return new WaitForSeconds(0.2f);
 
-        StartCoroutine(Skill_200007_Co_Arrow(target.position));
+        StartCoroutine(Skill_200007_Co_Arrow(attacker, target));
 
-        BattleManager.Inst.animator[attackInfo.my_position].SetTrigger("isIdle");
+        BattleManager.Inst.animator[battleInfo.my_position].SetTrigger("isIdle");
 
-        attacker.rotation = attackInfo.my_position < 10 ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0);
+        attacker.rotation = battleInfo.my_position < 10 ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0);
 
         yield return new WaitForSeconds(0.7f);
 
-        DamageManager.Inst.DamageAciton(attackInfo.battle_action_list[0], false);
-        BattleManager.Inst.animator[attackInfo.battle_action_list[0].target_position].SetTrigger("isHit");
+        DamageManager.Inst.DamageAciton(battleInfo.battle_action_list[0], false);
+        if (BattleManager.Inst.NowHp[battleInfo.battle_action_list[0].target_position] > 0)
+            BattleManager.Inst.animator[battleInfo.battle_action_list[0].target_position].SetTrigger("isHit");
+        else
+            BattleManager.Inst.animator[battleInfo.battle_action_list[0].target_position].SetTrigger("isDie");
 
         yield return new WaitForSeconds(0.2f);
 
-        DamageManager.Inst.DamageAciton(attackInfo.battle_action_list[1], false);
-        BattleManager.Inst.animator[attackInfo.battle_action_list[1].target_position].SetTrigger("isHit");
+        DamageManager.Inst.DamageAciton(battleInfo.battle_action_list[1], false);
+        if (BattleManager.Inst.NowHp[battleInfo.battle_action_list[0].target_position] > 0)
+            BattleManager.Inst.animator[battleInfo.battle_action_list[0].target_position].SetTrigger("isHit");
+        else
+            BattleManager.Inst.animator[battleInfo.battle_action_list[0].target_position].SetTrigger("isDie");
 
         yield return new WaitForSeconds(1.0f);
 
         BattleManager.Inst.isAfterDelay = true;
     }
 
-    IEnumerator Skill_200007_Co_Arrow(Vector3 target)
+    IEnumerator Skill_200007_Co_Arrow(Transform attaker, Transform target)
     {
-        GameObject arrow = Instantiate(GetComponent<BulletGroup>().bullet["ArcherArrow"], transform.position + new Vector3(0, 0.4f, 0), transform.rotation);
-        float Speed = Vector3.Distance(arrow.transform.position, target) * 0.02f;
-        for (int i = 0; i < 45; i += BattleManager.Inst.TimeScale)
+        GameObject arrow = Instantiate(BulletGroup.Inst.bullet["ArcherArrow"], attaker.position + transform.position + new Vector3(0, 0.4f, 0), attaker.rotation);
+        Vector3 startPos = arrow.transform.position;
+        Vector3 endPos = target.position - (target.position - startPos).normalized * 0.2f;
+
+        for (int i = 0; i < 50; i += BattleManager.Inst.TimeScale)
         {
-            arrow.transform.Translate(0, 0, Speed * BattleManager.Inst.TimeScale);
+            arrow.transform.position = Vector3.Lerp(startPos, endPos, i * 0.02f);
             yield return new WaitForSecondsRealtime(0.01f);
         }
         Destroy(arrow);

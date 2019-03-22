@@ -23,9 +23,9 @@ public class UTLobbyUIManager : MonoBehaviour {
         UTUMSProvider.Instance.RequestLogout();
     }
 
-    public void BattleAction(int heroTarget, int heroAction, int monsterTarget, int monsterAction)
+    public void BattleAction(int turn)
     {
-        UTUMSProvider.Instance.RequestBattleAction(heroTarget, heroAction, monsterTarget, monsterAction);
+        UTUMSProvider.Instance.RequestBattleAction(turn);
     }
 
     [ContextMenu("Start")]
