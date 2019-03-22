@@ -48,13 +48,11 @@ public class SkillManager : MonoSingleton<SkillManager> {
 
     public IEnumerator Skill_200005_Co(battleActionInfo battleInfo)
     {
-        yield return new WaitForSeconds(2.0f);
+        BattleManager.Inst.animator[battleInfo.my_position].SetTrigger("isHeal");
+
+        yield return new WaitForSeconds(0.5f);
 
         DamageManager.Inst.DamageAciton(battleInfo.battle_action_list[0], true);
-        if (BattleManager.Inst.NowHp[battleInfo.battle_action_list[0].target_position] > 0)
-            BattleManager.Inst.animator[battleInfo.battle_action_list[0].target_position].SetTrigger("isHit");
-        else
-            BattleManager.Inst.animator[battleInfo.battle_action_list[0].target_position].SetTrigger("isDie");
 
         yield return new WaitForSeconds(2.0f);
 

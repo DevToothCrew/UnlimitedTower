@@ -2,7 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattleUIManager : MonoBehaviour {
+public class BattleUIManager : MonoSingleton<BattleUIManager> {
+    public GameObject delayImage;
+
+    private void Awake()
+    {
+        delayImage = GameObject.Find("DelayImage");
+    }
 
     public void TimeScaleX10()
     {
@@ -22,5 +28,15 @@ public class BattleUIManager : MonoBehaviour {
     public void BattleOut()
     {
 
+    }
+
+    public void OnDelay()
+    {
+        delayImage.SetActive(true);
+    }
+
+    public void OffDelay()
+    {
+        delayImage.SetActive(false);
     }
 }

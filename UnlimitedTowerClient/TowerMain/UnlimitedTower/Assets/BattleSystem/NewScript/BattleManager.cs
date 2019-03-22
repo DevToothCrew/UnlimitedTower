@@ -22,11 +22,8 @@ public class BattleManager : MonoSingleton<BattleManager>
     private CharacterCustom characterCustom;
 
     // Test
-    private GameObject testMyTurn;
     private GameObject testReward;
-    private GameObject testReTageting;
     private GameObject testDefeat;
-    private GameObject testTargetDie;
     private Text ErrorText;
     private GameObject ErrorBox;
     
@@ -63,7 +60,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         }
 
         IsPlaceCheck(stageStateInfo);
-        SettingHero();
+        // SettingHero();
         SettingCharacter(stageStateInfo);
         SettingMonster(stageStateInfo);
         SettingScript(stageStateInfo);
@@ -84,13 +81,14 @@ public class BattleManager : MonoSingleton<BattleManager>
             string battleActionInfo = Cheat.Inst.GetBattleActionData("devtooth", turnIndex);
             Debug.Log("[SUCCESS] user battleaction :" + battleActionInfo);
             PacketManager.Inst.ResponseBattleAction(battleActionInfo);
+            BattleUIManager.Inst.OnDelay();
         }
     }
 
     // 배틀데이터를 받아와 공격 ( 메인 배틀 한턴 )
     public IEnumerator BattleStart()
     {
-        delayImage.SetActive(false);
+        BattleUIManager.Inst.OffDelay();
         isSpaceCheck = false;
 
         stageActionInfoData stageActionInfo = UserDataManager.Inst.GetStageAction();
@@ -230,7 +228,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     // 히어로를 제외한 파티 셋팅
     public void SettingCharacter(stageStateData stageStateInfo)
     {
-        for (int i = 1; i < stageStateInfo.my_state_list.Count; i++)
+        for (int i = 0; i < stageStateInfo.my_state_list.Count; i++)
         {
             if (stageStateInfo.my_state_list[i].position < 5)
             {
