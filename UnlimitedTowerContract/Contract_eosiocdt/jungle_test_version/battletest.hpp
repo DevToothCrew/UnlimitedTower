@@ -362,8 +362,8 @@ public:
     void insert_passive(uint64_t _id, uint32_t _enable_stack, uint32_t _max_stack,
     uint32_t _effect_type, uint32_t _effect_value, uint32_t _effect_value_add, uint32_t _target, uint32_t _role_target);
     void insert_active(uint64_t _id, uint32_t _job, uint32_t _active_per,
-    uint32_t _skill_type, uint32_t _attack_type, uint32_t _target, 
-    uint32_t _hit_count, uint32_t _atk_per, uint32_t _atk_per_add, uint32_t _heal_per, uint32_t _heal_per_add);
+                               uint32_t _skill_type, uint32_t _attack_type, uint32_t _dmg_type,uint32_t _target, uint32_t _target_count, uint32_t _target_range,
+                               uint32_t _hit_count, uint32_t _atk_per, uint32_t _atk_per_add, uint32_t _heal_per, uint32_t _heal_per_add);
 
 
     void erase_job(uint64_t _job);
@@ -515,8 +515,8 @@ public:
         uint32_t stat_point = 0;
         status_info status;               //기본 힘,민,지 추가 힘,민,지
         std::vector<uint32_t> equip_slot; //서번트 장비 리스트
-        std::vector<uint32_t> passive_skill;
-        std::vector<uint32_t> active_skill;
+        // std::vector<uint32_t> passive_skill;
+        // std::vector<uint32_t> active_skill;
     };
 
     TABLE tservant
@@ -536,12 +536,12 @@ public:
         uint32_t state;       //몬스터 상태값
         uint32_t exp = 0;     //경험치
         uint32_t type = 0;    //속성 타입
-        uint32_t monster_class = 0; //몬스터의 클래스
+        //uint32_t main_status = 0; //몬스터의 클래스 -> monster_class
         uint32_t grade;       // 등급
         uint32_t upgrade = 0; //강화수치
         status_info status;   //기본 힘,민,지 추가 힘,민,지
-        std::vector<uint32_t> passive_skill;
-        std::vector<uint32_t> active_skill;
+        // std::vector<uint32_t> passive_skill;
+        // std::vector<uint32_t> active_skill;
     };
 
     TABLE tmonster
@@ -728,7 +728,7 @@ public:
     {
         eosio::name user;
         uint32_t state = user_state::lobby;
-        uint32_t exp = 0;
+        //uint32_t exp = 0;
         hero_info hero;
         uint64_t primary_key() const { return user.value; }
     };
@@ -983,6 +983,21 @@ public:
         global,
     };
 
+    enum atk_type
+    {
+        buff_none = 0,
+        physical_atk = 1,
+        magic_atk,
+        magic_physical_atk,
+    };
+
+    enum dmg_type
+    {
+        buff_heal_none = 0,
+        physical_dfs = 1,
+        magic_dfs,
+    };
+
     struct skill_info
     {
         uint32_t id = 0;
@@ -1016,8 +1031,8 @@ public:
         uint32_t magic_defense;
         uint32_t physical_crit_per;
         uint32_t magic_crit_per;
-        uint32_t crit_physical_dmg;
-        uint32_t crit_magic_dmg;
+        uint32_t physical_crit_dmg;
+        uint32_t magic_crit_dmg;
         uint32_t avoid;
         uint32_t state;
         uint32_t speed;
@@ -1135,8 +1150,13 @@ public:
     uint64_t get_damage(uint32_t _atk, uint32_t _dfs);
     bool check_critical(uint64_t _critcal_per, uint64_t _seed);
     bool check_avoid(uint64_t _avoid_per, uint64_t _seed);
-
-    void set_attack_type(uint32_t _skill_id, battle_state &_state ,uint32_t &_attack, uint32_t &_cri_dmg, uint32_t &_cri_per, uint32_t &_defense);
+    
+    //=====================skill======================//
+    void set_skill_damage(uint32_t _skill_id, battle_state &_state ,uint32_t &_attack, uint32_t &_cri_dmg);
+    void set_skill_type(skill_info _skill,battle_state &_state ,uint32_t &_attack, uint32_t &_cri_dmg, uint32_t &_cri_per, uint32_t &_defense);
+    void set_dmg_type(uint32_t _dmg_type, battle_state &_state , uint32_t &_defense);
+    void set_attack_type(uint32_t _atk_type, battle_state &_state ,uint32_t &_attack, uint32_t &_cri_dmg, uint32_t &_cri_per);
+    //================================================//
     bool set_action(uint32_t _action,uint64_t _seed,
                                                       std::vector<battle_state> &_my_state_list,
                                                       std::vector<battle_state> &_enemy_state_list,
@@ -1184,7 +1204,7 @@ public:
 #pragma endregion
 
     //테스트용 함수
-    ACTION testsnap();
+    ACTION testsnap(eosio::name _user);
 
     ACTION partycheat(eosio::name _user);
     ACTION herocheat(eosio::name _user);
