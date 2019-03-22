@@ -80,9 +80,11 @@ public class SelectManager : MonoBehaviour {
                     {
                         selectStateInfo = BattleManager.Inst.GetEnemyState(selectIndex);
                     }
-
-                    // selectHpBar.fillAmount = BattleManager.Inst.NowHp[selectIndex] / BattleManager.Inst.MaxHp[selectIndex];
-                    selectHpBar.fillAmount = BattleManager.Inst.NowHp[selectIndex] / 1;
+                    
+                    if (BattleManager.Inst.MaxHp[selectIndex] != 0)
+                        selectHpBar.fillAmount = (float)BattleManager.Inst.NowHp[selectIndex] / BattleManager.Inst.MaxHp[selectIndex];
+                    else
+                        selectHpBar.fillAmount = BattleManager.Inst.NowHp[selectIndex] / 100;
 
                     selectHpText.text = BattleManager.Inst.NowHp[selectIndex].ToString();
 

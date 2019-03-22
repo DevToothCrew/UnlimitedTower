@@ -2,7 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattleUIManager : MonoBehaviour {
+public class BattleUIManager : MonoSingleton<BattleUIManager> {
+    public GameObject delayImage;
+    public GameObject myTrun;
+
+    private void Awake()
+    {
+        delayImage = GameObject.Find("DelayImage");
+        delayImage.SetActive(false);
+
+        myTrun = GameObject.Find("마이턴");
+        myTrun.SetActive(false);
+    }
 
     public void TimeScaleX10()
     {
@@ -19,8 +30,25 @@ public class BattleUIManager : MonoBehaviour {
         }
     }
 
-    public void BattleOut()
+    public void MyTurn()
     {
+        StartCoroutine(MyTurnCo());
+    }
 
+    private IEnumerator MyTurnCo()
+    {
+        myTrun.SetActive(true);
+        yield return new WaitForSeconds(2.0f);
+        myTrun.SetActive(false);
+    }
+
+    public void OnDelay()
+    {
+        delayImage.SetActive(true);
+    }
+
+    public void OffDelay()
+    {
+        delayImage.SetActive(false);
     }
 }

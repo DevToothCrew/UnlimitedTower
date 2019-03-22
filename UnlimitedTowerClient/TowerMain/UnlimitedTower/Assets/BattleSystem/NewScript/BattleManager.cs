@@ -14,17 +14,15 @@ public class BattleManager : MonoSingleton<BattleManager>
     public bool isAfterDelay;
     public int TimeScale = 1;
 
+    private int turnIndex = 1;
     private bool isSpaceCheck;
     private GameObject CharacterParent;
-    private GameObject delayImage;
+    private SkillManager skillManager;
     private CharacterCustom characterCustom;
 
     // Test
-    private GameObject testMyTurn;
     private GameObject testReward;
-    private GameObject testReTageting;
     private GameObject testDefeat;
-    private GameObject testTargetDie;
     private Text ErrorText;
     private GameObject ErrorBox;
     
@@ -42,13 +40,10 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         testReward = GameObject.Find("보상");
         testDefeat = GameObject.Find("패배보상");
-        delayImage = GameObject.Find("DelayImage");
 
         testReward.SetActive(false);
         testDefeat.SetActive(false);
-        delayImage.SetActive(false);
-
-
+        
         UserDataManager.Inst.stageReward = null;
     }
 
@@ -62,7 +57,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         }
 
         IsPlaceCheck(stageStateInfo);
-        SettingHero();
+        // SettingHero();
         SettingCharacter(stageStateInfo);
         SettingMonster(stageStateInfo);
         SettingScript(stageStateInfo);
@@ -74,15 +69,23 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            TestBattleTarget();
-            // StartCoroutine(BattleStart());
+            // if (isSpaceCheck == false)
+            // {
+            //     // TestBattleTarget();
+            //     isSpaceCheck = true;
+            // }
+            BattleUIManager.Inst.OnDelay();
+
+            string battleActionInfo = Cheat.Inst.GetBattleActionData("devtooth", turnIndex);
+            Debug.Log("[SUCCESS] user battleaction :" + battleActionInfo);
+            PacketManager.Inst.ResponseBattleAction(battleActionInfo);
         }
     }
 
     // 배틀데이터를 받아와 공격 ( 메인 배틀 한턴 )
     public IEnumerator BattleStart()
     {
-        delayImage.SetActive(false);
+        BattleUIManager.Inst.OffDelay();
         isSpaceCheck = false;
 
         stageActionInfoData stageActionInfo = UserDataManager.Inst.GetStageAction();
@@ -96,16 +99,26 @@ public class BattleManager : MonoSingleton<BattleManager>
         {
             if (stageActionInfo.battle_info_list[i].action_type == 2)
             {
-                character[0].GetComponent<BasicAttack>().Attack(stageActionInfo.battle_info_list[i]);
+                character[stageActionInfo.battle_info_list[i].my_position].GetComponent<BasicAttack>().Attack(stageActionInfo.battle_info_list[i]);
 
                 yield return new WaitUntil(() => isAfterDelay == true);
                 isAfterDelay = false;
             }
             else if (stageActionInfo.battle_info_list[i].action_type == 3)
             {
-
+                if (stageActionInfo.battle_info_list[i].my_position < 10)
+                {
+                    SkillManager.Inst.SendMessage("Skill_" + GetMyState(stageActionInfo.battle_info_list[i].my_position).active_skill_list[0].id.ToString(), stageActionInfo.battle_info_list[i]);
+                    
+                    yield return new WaitUntil(() => isAfterDelay == true);
+                    isAfterDelay = false;
+                }
             }
         }
+
+        turnIndex++;
+        isSpaceCheck = false;
+        BattleUIManager.Inst.MyTurn();
 
         if (UserDataManager.Inst.stageReward != null)
         {
@@ -154,9 +167,15 @@ public class BattleManager : MonoSingleton<BattleManager>
         actionInfo.damage = 1000;
         battleActionInfo.action_type = 302;
         battleActionInfo.battle_action_list.Add(actionInfo);
+        actionInfo.target_position = 14;
+        actionInfo.damage = 1000;
+        battleActionInfo.action_type = 302;
         battleActionInfo.battle_action_list.Add(actionInfo);
         battleActionInfo.my_position = 0;
-        character[0].GetComponent<BasicAttack>().Attack(battleActionInfo);
+
+        SkillManager.Inst.Skill_200007(battleActionInfo);
+
+        isSpaceCheck = false;
     }
 
     // 캐릭터 존재 여부 체크
@@ -207,7 +226,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     // 히어로를 제외한 파티 셋팅
     public void SettingCharacter(stageStateData stageStateInfo)
     {
-        for (int i = 1; i < stageStateInfo.my_state_list.Count; i++)
+        for (int i = 0; i < stageStateInfo.my_state_list.Count; i++)
         {
             if (stageStateInfo.my_state_list[i].position < 5)
             {
@@ -325,7 +344,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             }
         }
 
-        Debug.LogError(position + "번째 몬스터의 정보가 없는 오류");
+        Debug.LogError(position + "th Monster is Null");
         return null;
     }
 
@@ -346,7 +365,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             }
         }
 
-        Debug.LogError(position + "번째 서번트의 정보가 없는 오류");
+        Debug.LogError(position + "th Servant is Null");
         return null;
     }
 }

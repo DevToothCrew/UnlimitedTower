@@ -87,6 +87,11 @@ public class DamageManager : MonoSingleton<DamageManager>
         else
             BattleManager.Inst.NowHp[attackInfo.target_position] -= attackInfo.damage;
 
+        if (BattleManager.Inst.NowHp[attackInfo.target_position] < 0)
+            BattleManager.Inst.NowHp[attackInfo.target_position] = 0;
+        if (BattleManager.Inst.NowHp[attackInfo.target_position] > BattleManager.Inst.MaxHp[attackInfo.target_position])
+            BattleManager.Inst.NowHp[attackInfo.target_position] = BattleManager.Inst.MaxHp[attackInfo.target_position];
+        
         if (attackInfo.damage < 10)
         {
             testInfo[Index].image[1].gameObject.SetActive(false);

@@ -168,7 +168,7 @@ public class actionInfo
 public class battleActionInfo
 {
     public int my_position;
-    public int action_type;         //2 공격 , 3 방어 , 302 더블어택, 303 전체공격, 304 전체 회복
+    public int action_type;         //2 공격 , 3 스킬
 
     public List<actionInfo> battle_action_list = new List<actionInfo>();
 }
@@ -182,6 +182,35 @@ public class stageActionInfoData
 }
 
 
+/// <summary>
+/// 배틀 상태 데이터
+/// </summary>
+[Serializable]
+public class skillInfo
+{
+    public int id;
+    public int per;
+    public int attack_type;
+    public int dmg_type;
+    public int target;
+    public int target_count;
+}
+
+[Serializable]
+public class totalStatus
+{
+    public int total_str;
+    public int total_dex;
+    public int total_int;
+}
+
+[Serializable]
+public class buffInfo
+{
+    public int id;      //1 defense
+    public int turn;
+}
+
 [Serializable]
 public class stageState
 {
@@ -193,16 +222,21 @@ public class stageState
     public int magic_attack;
     public int physical_defense;
     public int magic_defense;
-    public int crit_per;
-    public int crit_physical_dmg;
-    public int crit_magic_dmg;
+    public int physical_crit_per;
+    public int magic_crit_per;
+    public int physical_crit_dmg;
+    public int magic_crit_dmg;
     public int avoid;
-    public int state;       //0 살있음, 1 죽어있음, 2 공격했음, 3 방어했음, 
+    public int state;       //0 살있음, 1 죽어있음 
     public int speed;
-    public List<int> passive_skill_list;
-    public List<int> active_skill_list;
-    public statusInfo status;
+    public int type;
+    public int job_class;
+    public List<buffInfo> buff_list;
+    public List<skillInfo> passive_skill_list;
+    public List<skillInfo> active_skill_list;
+    public totalStatus status;
 }
+
 [Serializable]
 public class stageStateData
 {

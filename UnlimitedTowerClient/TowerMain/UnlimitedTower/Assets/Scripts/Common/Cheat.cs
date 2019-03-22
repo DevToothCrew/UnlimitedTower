@@ -16,13 +16,13 @@ public class Cheat : MonoSingleton<Cheat>
 
         userLoginData.userinfo.user = user;
         userLoginData.userinfo.state = 2;
-        userLoginData.userinfo.hero = GetRandomServant(GetRandomServantJob());
+        //userLoginData.userinfo.hero = GetRandomServant(GetRandomServantJob());
 
         partyData partyData = new partyData();
         partyData.index = 1;
         partyData.state = 0;
 
-        for (int i = 1; i < 5; i++)
+        for (int i = 1; i < 6; i++)
         {
             userLoginData.servant_list.Add(GetRandomServantData(i, GetRandomServantJob()));
 
@@ -112,36 +112,79 @@ public class Cheat : MonoSingleton<Cheat>
         }
     }
 
-    public string GetBattleActionData(string user, int heroTarget, int heroAction, int monsterTarget, int monsterAction)
+    public string GetBattleActionData(string user, int turn)
     {
         stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
-
+         
         stageActionInfoData battleactiondata = new stageActionInfoData();
         battleactiondata.user = user;
-        battleactiondata.turn += 1;
+        battleactiondata.turn = turn;
 
-        for (int i = 0; i < 10; ++i)
+        for (int i = 0; i < stageStateInfo.my_state_list.Count; ++i)
         {
             if (BattleManager.Inst.NowHp[i] == 0)
             {
                 continue;
             }
-            actionInfo action = new actionInfo();
-            do
+            if(stageStateInfo.my_state_list[i].position < 5)
             {
-                action.target_position = UnityEngine.Random.Range(10, 20);
-            } while (BattleManager.Inst.NowHp[action.target_position] == 0);
-            action.avoid = false;
-            action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
-            action.damage = rand.Next(200, 500);
+                battleActionInfo actioninfo = new battleActionInfo();
+                actioninfo.my_position = stageStateInfo.my_state_list[i].position;
+                actioninfo.action_type = 3;
 
-            battleActionInfo actioninfo = new battleActionInfo();
-            actioninfo.my_position = i;
-            actioninfo.action_type = 2;
-            actioninfo.battle_action_list.Add(action);
+                if (stageStateInfo.my_state_list[i].active_skill_list[0].id == 200005)
+                {
+                    for (int target = 0; target < 2; ++target)
+                    {
+                        actionInfo action = new actionInfo();
+                        do
+                        {
+                            action.target_position = UnityEngine.Random.Range(0, 10);
+                        } while (BattleManager.Inst.NowHp[action.target_position] == 0);
+                        action.avoid = false;
+                        action.critical = false;
+                        action.damage = rand.Next(200, 500);
+                        actioninfo.battle_action_list.Add(action);
+                    }
+                }
+                else if (stageStateInfo.my_state_list[i].active_skill_list[0].id == 200008)
+                {
+                    actionInfo action = new actionInfo();
+                    do
+                    {
+                        action.target_position = UnityEngine.Random.Range(10, 20);
+                    } while (BattleManager.Inst.NowHp[action.target_position] == 0);
+                    action.avoid = false;
+                    action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
+                    action.damage = rand.Next(200, 500);
+                    actioninfo.battle_action_list.Add(action);
+                }
+                battleactiondata.battle_info_list.Add(actioninfo);
+            }
+            else
+            {
+                if (BattleManager.Inst.NowHp[i] == 0)
+                {
+                    continue;
+                }
+                actionInfo action = new actionInfo();
+                do
+                {
+                    action.target_position = UnityEngine.Random.Range(10, 20);
+                } while (BattleManager.Inst.NowHp[action.target_position] == 0);
+                action.avoid = false;
+                action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
+                action.damage = rand.Next(200, 500);
 
-            battleactiondata.battle_info_list.Add(actioninfo);
+                battleActionInfo actioninfo = new battleActionInfo();
+                actioninfo.my_position = stageStateInfo.my_state_list[i].position;
+                actioninfo.action_type = 2;
+                actioninfo.battle_action_list.Add(action);
+
+                battleactiondata.battle_info_list.Add(actioninfo);
+            }
         }
+
 
         for (int i = 10; i < 20; ++i)
         {
@@ -184,15 +227,17 @@ public class Cheat : MonoSingleton<Cheat>
         for (int i = 0; i < 10; ++i)
         {
             stageState newMember = new stageState();
-            if (i == 0)
-            {
-                newMember.position = 0;
-                newMember.index = 0;
-            }
-            else if (i != 0 && i < 5)
+            if (i < 5)
             {
                 newMember.position = i;
-                newMember.index = i;
+                newMember.index = i + 1;
+                skillInfo skill = new skillInfo();
+                if (i < 2)
+                    skill.id = 200005;
+                else
+                    skill.id = 200008;
+                newMember.active_skill_list = new List<skillInfo>();
+                newMember.active_skill_list.Add(skill);
             }
             else
             {
@@ -204,14 +249,19 @@ public class Cheat : MonoSingleton<Cheat>
             newMember.now_hp = 10000;
             newMember.physical_attack = 10000;
             newMember.physical_defense = 10;
-            newMember.crit_physical_dmg = 1;
+            newMember.physical_crit_dmg = 1;
             newMember.magic_attack = 10000;
             newMember.magic_defense = 10;
-            newMember.crit_magic_dmg = 1;
-            newMember.crit_per = 5;
+            newMember.magic_crit_dmg = 1;
+            newMember.physical_crit_per = 5;
+            newMember.magic_crit_per = 5;
             newMember.avoid = 5;
             newMember.state = 0;
             newMember.speed = 25;
+            newMember.status = new totalStatus();
+            newMember.status.total_str = 10;
+            newMember.status.total_dex = 10;
+            newMember.status.total_int = 10;
 
             battlestatedata.my_state_list.Add(newMember);
         }
@@ -225,14 +275,20 @@ public class Cheat : MonoSingleton<Cheat>
             newMember.now_hp = 10000;
             newMember.physical_attack = 10000;
             newMember.physical_defense = 10;
-            newMember.crit_physical_dmg = 1;
+            newMember.physical_crit_dmg = 1;
             newMember.magic_attack = 10000;
             newMember.magic_defense = 10;
-            newMember.crit_magic_dmg = 1;
-            newMember.crit_per = 5;
+            newMember.magic_crit_dmg = 1;
+            newMember.physical_crit_per = 5;
+            newMember.magic_crit_per = 5;
             newMember.avoid = 5;
             newMember.state = 0;
             newMember.speed = 25;
+            newMember.status = new totalStatus();
+            newMember.status.total_str = 10;
+            newMember.status.total_dex = 10;
+            newMember.status.total_int = 10;
+
 
             battlestatedata.enemy_state_list.Add(newMember);
         }
@@ -377,7 +433,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         servant.state = 0;
         servant.exp = rand.Next(0, DEFINE.MAX_EXP);
-        servant.job = 4; // rand.Next(0, 6);
+        servant.job = 3; // rand.Next(0, 6);
         servant.stat_point = (Calculator.GetLevelForExp(servant.exp) - 1) * DEFINE.BONUS_STAT;
         servant.appear = GetRandomAppear();
         servant.status = GetRandomStatusInfo();
