@@ -1,0 +1,57 @@
+id,#관리,resource_icon,name,description,tier,item_type,item_param_list,sell_item_id,sell_item_count
+#,가챠 id,아이템 아이콘,아이템 이름,아이템 설명,티어,아이템 타입,아이템 파라미터 리스트,판매시획득재화,판매가격
+int,int,string,localize,localize,int,string,int,int,int
+100001,0,,UTG,,0,gold,0,0,0
+100100,0,,무기 강화 주문서,,0,upgrade_scroll,0,100001,1
+100101,0,,축복받은 무기 강화 주문서,,0,upgrade_scroll,0,100001,1
+100110,0,,방어구 강화 주문서,,0,upgrade_scroll,0,100001,1
+100111,0,,축복받은 방어구 강화 주문서,,0,upgrade_scroll,0,100001,1
+100120,0,,액세서리 강화 주문서,,0,upgrade_scroll,0,100001,1
+100121,0,,축복받은 액세서리 강화 주문서,,0,upgrade_scroll,0,100001,1
+110010,0,,전사의 영혼,,0,material_soul,0,100001,1
+110020,0,,도적의 영혼,,0,material_soul,0,100001,1
+110030,0,,성직자의 영혼,,0,material_soul,0,100001,1
+110040,0,,궁수의 영혼,,0,material_soul,0,100001,1
+110050,0,,마법사의 영혼,,0,material_soul,0,100001,1
+120100,0,,전사 전직서,,0,job_book,0,100001,1
+120200,0,,도적 전직서,,0,job_book,0,100001,1
+120300,0,,성직자 전직서,,0,job_book,0,100001,1
+120400,0,,궁수 전직서,,0,job_book,0,100001,1
+120500,0,,마법사 전직서,,0,job_book,0,100001,1
+130100,0,,영웅 스탯 초기화권,,0,,0,100001,1
+811101,30001,tier1_blunt.png,초심자의 둔기,Novice Blunt,1,weapon,0,100001,1
+811201,30002,tier2_blunt.png,초목의 둔기,Blunt of Forest,2,weapon,0,100001,1
+811301,30003,tier3_blunt.png,악에 물든 둔기,Forsaken Blunt,3,weapon,0,100001,1
+811401,30004,tier4_blunt.png,왕가의 둔기,Royal Blunt,4,weapon,0,100001,1
+812101,30005,tier1_dagger.png,초심자의 단검,Novice Dagger,1,weapon,0,100001,1
+812201,30006,tier2_dagger.png,초목의 단검,Dagger of Forest,2,weapon,0,100001,1
+812301,30007,tier3_dagger.png,악에 물든 단검,Forsaken Dagger,3,weapon,0,100001,1
+812401,30008,tier4_dagger.png,왕가의 단검,Royal Dagger,4,weapon,0,100001,1
+813101,30009,tier1_sword.png,초심자의 검,Novice Sword,1,weapon,0,100001,1
+813201,30010,tier2_sword.png,초목의 검,Sword of Forest,2,weapon,0,100001,1
+813301,30011,tier3_sword.png,악에 물든 검,Forsaken Sword,3,weapon,0,100001,1
+813401,30012,tier4_sword.png,왕가의 검,Royal Sword,4,weapon,0,100001,1
+851101,30013,tier1_heavy_armor.png,초심자의 헤비아머,Novice HeavyArmor,1,armor,0,100001,1
+851201,30014,tier2_heavy_armor.png,초목의 헤비아머,HeavyArmor of Forest,2,armor,0,100001,1
+851301,30015,tier3_heavy_armor.png,악에 물든 헤비아머,Forsaken HeavyArmor,3,armor,0,100001,1
+851401,30016,tier4_heavy_armor.png,왕가의 헤비아머,Royal HeavyArmor,4,armor,0,100001,1
+852101,30017,tier1_light_armor.png,초심자의 라이트아머,Novice LightArmor,1,armor,0,100001,1
+852201,30018,tier2_light_armor.png,초목의 라이트아머,LightArmor of Forest,2,armor,0,100001,1
+852301,30019,tier3_light_armor.png,악에 물든 라이트아머,Forsaken LightArmor,3,armor,0,100001,1
+852401,30020,tier4_light_armor.png,왕가의 라이트아머,Royal LightArmor,4,armor,0,100001,1
+853101,0,tier1_robe.png,초심자의 로브,Novice Robe,1,armor,0,100001,1
+853201,0,tier2_robe.png,초목의 로브,Robe of Forest,2,armor,0,100001,1
+853301,0,tier3_robe.png,악에 물든 로브,Forsaken Robe,3,armor,0,100001,1
+853401,0,tier4_robe.png,왕가의 로브,Royal Robe,4,armor,0,100001,1
+891101,30021,tier1_earing.png,초심자의 귀걸이,Novice Earing,1,ac,0,100001,1
+891201,30022,tier2_earing.png,초목의 귀걸이,Earing of Forest,2,ac,0,100001,1
+891301,30023,tier3_earing.png,악에 물든 귀걸이,Forsaken Earing,3,ac,0,100001,1
+891401,30024,tier4_earing.png,왕가의 귀걸이,Royal Earing,4,ac,0,100001,1
+892101,30025,tier1_necklace.png,초심자의 목걸이,Novice Necklace,1,ac,0,100001,1
+892201,30026,tier2_necklace.png,초목의 목걸이,Necklace of Forest,2,ac,0,100001,1
+892301,30027,tier3_necklace.png,악에 물든 목걸이,Forsaken Necklace,3,ac,0,100001,1
+892401,30028,tier4_necklace.png,왕가의 목걸이,Royal Necklace,4,ac,0,100001,1
+893101,30029,tier1_ring.png,초심자의 반지,Novice Ring,1,ac,0,100001,1
+893201,30030,tier2_ring.png,초목의 반지,Ring of Forest,2,ac,0,100001,1
+893301,30031,tier3_ring.png,악에 물든 반지,Forsaken Ring,3,ac,0,100001,1
+893401,30032,tier4_ring.png,왕가의 반지,Royal Ring,4,ac,0,100001,1

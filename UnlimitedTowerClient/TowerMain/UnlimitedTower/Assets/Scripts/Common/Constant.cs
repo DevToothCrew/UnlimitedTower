@@ -778,4 +778,12 @@ public class DBStageData
     public int bgmSoundId;
 }
 
+[Serializable]
+public class DBMonsterUpgradeData
+{
+    public int id;
+    public double successPer;
+}
+
+
 #endregion
