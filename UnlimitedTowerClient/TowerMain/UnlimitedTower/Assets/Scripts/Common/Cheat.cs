@@ -112,7 +112,7 @@ public class Cheat : MonoSingleton<Cheat>
         }
     }
 
-    public string GetBattleActionData(string user, int heroTarget, int heroAction, int monsterTarget, int monsterAction)
+    public string GetBattleActionData(string user, int turn)
     {
         stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
 
@@ -184,12 +184,7 @@ public class Cheat : MonoSingleton<Cheat>
         for (int i = 0; i < 10; ++i)
         {
             stageState newMember = new stageState();
-            if (i == 0)
-            {
-                newMember.position = 0;
-                newMember.index = 0;
-            }
-            else if (i != 0 && i < 5)
+            if (i < 5)
             {
                 newMember.position = i;
                 newMember.index = i;
@@ -204,14 +199,20 @@ public class Cheat : MonoSingleton<Cheat>
             newMember.now_hp = 10000;
             newMember.physical_attack = 10000;
             newMember.physical_defense = 10;
-            newMember.crit_physical_dmg = 1;
+            newMember.physical_crit_dmg = 1;
             newMember.magic_attack = 10000;
             newMember.magic_defense = 10;
-            newMember.crit_magic_dmg = 1;
-            newMember.crit_per = 5;
+            newMember.magic_crit_dmg = 1;
+            newMember.physical_crit_per = 5;
+            newMember.magic_crit_per = 5;
             newMember.avoid = 5;
             newMember.state = 0;
             newMember.speed = 25;
+            newMember.status = new totalStatus();
+            newMember.status.total_str = 10;
+            newMember.status.total_dex = 10;
+            newMember.status.total_int = 10;
+
 
             battlestatedata.my_state_list.Add(newMember);
         }
@@ -225,14 +226,20 @@ public class Cheat : MonoSingleton<Cheat>
             newMember.now_hp = 10000;
             newMember.physical_attack = 10000;
             newMember.physical_defense = 10;
-            newMember.crit_physical_dmg = 1;
+            newMember.physical_crit_dmg = 1;
             newMember.magic_attack = 10000;
             newMember.magic_defense = 10;
-            newMember.crit_magic_dmg = 1;
-            newMember.crit_per = 5;
+            newMember.magic_crit_dmg = 1;
+            newMember.physical_crit_per = 5;
+            newMember.magic_crit_per = 5;
             newMember.avoid = 5;
             newMember.state = 0;
             newMember.speed = 25;
+            newMember.status = new totalStatus();
+            newMember.status.total_str = 10;
+            newMember.status.total_dex = 10;
+            newMember.status.total_int = 10;
+
 
             battlestatedata.enemy_state_list.Add(newMember);
         }
