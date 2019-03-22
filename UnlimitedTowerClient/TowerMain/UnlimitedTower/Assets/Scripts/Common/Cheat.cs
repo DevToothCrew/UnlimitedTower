@@ -16,13 +16,13 @@ public class Cheat : MonoSingleton<Cheat>
 
         userLoginData.userinfo.user = user;
         userLoginData.userinfo.state = 2;
-        userLoginData.userinfo.hero = GetRandomServant(GetRandomServantJob());
+        //userLoginData.userinfo.hero = GetRandomServant(GetRandomServantJob());
 
         partyData partyData = new partyData();
         partyData.index = 1;
         partyData.state = 0;
 
-        for (int i = 1; i < 5; i++)
+        for (int i = 1; i < 6; i++)
         {
             userLoginData.servant_list.Add(GetRandomServantData(i, GetRandomServantJob()));
 
@@ -118,7 +118,7 @@ public class Cheat : MonoSingleton<Cheat>
          
         stageActionInfoData battleactiondata = new stageActionInfoData();
         battleactiondata.user = user;
-        battleactiondata.turn += 1;
+        battleactiondata.turn = turn;
 
         for (int i = 0; i < stageStateInfo.my_state_list.Count; ++i)
         {
@@ -230,7 +230,7 @@ public class Cheat : MonoSingleton<Cheat>
             if (i < 5)
             {
                 newMember.position = i;
-                newMember.index = i;
+                newMember.index = i + 1;
                 skillInfo skill = new skillInfo();
                 if (i < 2)
                     skill.id = 200005;
