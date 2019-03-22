@@ -1,4 +1,4 @@
-﻿id,#,#,#,#,#,#,name,size,resource_base,ani_directory_name,potrait_base,stat_main,skill_1,skill_2,skill_3,,
+﻿id,#,#,enname,#,#,#,name,size,resource_base,ani_directory_name,potrait_base,stat_main,skill_1,skill_2,skill_3,,
 #,애니메이션 그룹,이름(Kor),이름(Eng),보스타입 설정,종족,속성,이름,사이즈 체크,몬스터 통합 리소스,"몬스터 기본
 애니 타입",인게임 아이콘,주 스탯,스킬 1,스킬 2,스킬 3,,
 int,string,string,String,int,string,string,localize,string,string,string,string,string,string,string,string,,

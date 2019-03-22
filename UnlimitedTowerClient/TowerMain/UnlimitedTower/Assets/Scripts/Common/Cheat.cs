@@ -200,7 +200,7 @@ public class Cheat : MonoSingleton<Cheat>
                 newMember.index = i - 4;
             }
 
-            newMember.id = CharacterCSVData.Inst.monsterDataInspector[UnityEngine.Random.Range(0, CharacterCSVData.Inst.monsterDataInspector.Count)].indexNumber; 
+            newMember.id = CSVData.Inst.GetRandomMonsterIndex();
             newMember.now_hp = 10000;
             newMember.physical_attack = 10000;
             newMember.physical_defense = 10;
@@ -221,7 +221,7 @@ public class Cheat : MonoSingleton<Cheat>
             stageState newMember = new stageState();
             newMember.position = i + 10;
             newMember.index = 0;
-            newMember.id = CharacterCSVData.Inst.monsterDataInspector[UnityEngine.Random.Range(0, CharacterCSVData.Inst.monsterDataInspector.Count)].indexNumber;
+            newMember.id = CSVData.Inst.GetRandomMonsterIndex();
             newMember.now_hp = 10000;
             newMember.physical_attack = 10000;
             newMember.physical_defense = 10;
@@ -399,7 +399,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         monsterData.monster.type = 0;
 
-        List<int> monsterIndexList = CharacterCSVData.Inst.GetMonsterIndexList();
+        List<int> monsterIndexList = CSVData.Inst.GetMonsterIndexList();
         if(monsterIndexList == null)
         {
             Debug.LogError("MonsterDataBaseDic Error");

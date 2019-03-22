@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: d1ac4eda3ab9b6a49a731cdfa82a2123
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - normalSprite: {fileID: 21300000, guid: 68477ce83cbde4d42b0eacd2d766b308, type: 3}
+  - highlightedSprite: {fileID: 21300000, guid: ccdc9658d17604a43aafc33bee49437b,
+      type: 3}
+  - pressedSprite: {fileID: 21300000, guid: 25d6d926dc2846f4aaffe685806e889c, type: 3}
+  - disabledSprite: {fileID: 21300000, guid: 6bd0b0e3429512f4eae84c55c5b105bc, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

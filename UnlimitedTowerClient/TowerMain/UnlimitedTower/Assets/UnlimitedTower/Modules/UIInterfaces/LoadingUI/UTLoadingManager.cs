@@ -24,16 +24,20 @@ public class UTLoadingManager : MonoBehaviour {
         public bool isLoading = true;
     }
 
+    public float gageRadius = 110f;
+    public float gageAlpha = 1.0f;
 
     public Text uiComment;
     public Image uiInside;
+    public UTLoadingParticle uiParticles;
+    public RectTransform uiGageFx;
 
     private long lastId = 0;
     private long currId = 0;
 
-    private float uiInsideFullWidth;
-    private float uiInsideNextWidth;
-    private float uiInsideCurrWidth;
+    private float uiInsideFullGage;
+    private float uiInsideNextGage;
+    private float uiInsideCurrGage;
 
     private Queue<Description> wrkQ = new Queue<Description>();
 
@@ -43,6 +47,10 @@ public class UTLoadingManager : MonoBehaviour {
         {
             Instance = this;
             StartCoroutine(wrkFlow());
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 
@@ -55,13 +63,20 @@ public class UTLoadingManager : MonoBehaviour {
     private void Update()
     {
         // scale update
-        uiInsideCurrWidth = Mathf.Lerp(uiInsideCurrWidth, uiInsideNextWidth, 0.1f);
-        uiInside?.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, uiInsideCurrWidth);
+        uiInsideCurrGage = Mathf.Lerp(uiInsideCurrGage, uiInsideNextGage, 0.1f);
+        uiInside.material.SetFloat("uProgress", uiInsideCurrGage);
+        uiInside.material.SetFloat("uAlpha", gageAlpha);
+
+        float rad = Mathf.PI * 2.0f * uiInsideCurrGage;
+
+        uiGageFx.anchoredPosition =
+            Vector2.left * gageRadius * Mathf.Sin(rad) +
+            Vector2.up * gageRadius * Mathf.Cos(rad);
     }
 
     private IEnumerator wrkFlow()
     {
-        uiInsideFullWidth = uiInside.rectTransform.rect.width;
+        uiInsideFullGage = 1.0f;
 
         while (this != null)
         {
@@ -70,8 +85,9 @@ public class UTLoadingManager : MonoBehaviour {
                 var desc = wrkQ.Dequeue();
 
                 gameObject.SetActivateWithAnimation(true);
+                uiParticles.Begin();
 
-                uiInsideCurrWidth = 0.0f;
+                uiInsideCurrGage = 0.0f;
                 SetProgress(0.0f, desc.startComment);
 
                 if (desc.OnProgressAsync == null) {
@@ -83,9 +99,11 @@ public class UTLoadingManager : MonoBehaviour {
                 }
 
                 SetProgress(1.0f, desc.finishedComment);
-                yield return new WaitForSeconds(1.0f);
+                yield return new WaitForSecondsRealtime(1.0f);
 
                 desc.OnSuccess?.Invoke();
+
+                uiParticles.End();
                 gameObject.SetActivateWithAnimation(false);
             }
             else
@@ -134,7 +152,7 @@ public class UTLoadingManager : MonoBehaviour {
     /// <param name="cmnt"></param>
     public void SetProgress(float t, string cmnt = "Loading ...")
     {
-        uiInsideNextWidth = uiInsideFullWidth * t;
+        uiInsideNextGage = uiInsideFullGage * t;
         uiComment.text = cmnt;
     }
 

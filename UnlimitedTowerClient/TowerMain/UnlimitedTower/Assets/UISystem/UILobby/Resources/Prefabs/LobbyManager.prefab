@@ -61,7 +61,6 @@ MonoBehaviour:
   accountInfoUI: {fileID: 0}
   popupInfoUI: {fileID: 0}
   popupTitle: {fileID: 0}
-  popupMenu: {fileID: 0}
   popupState: 0
   popupPage:
   - {fileID: 0}

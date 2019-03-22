@@ -1,26 +1,6 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
 
-#region Extensions 
-
-static public class ActiveAnimationManager
-{
-    static public void SetActivateWithAnimation(this GameObject uiGO, bool value)
-    {
-        var animator = uiGO.GetComponent<Animator>();
-        if (animator != null)
-        {
-            uiGO.SetActive(true);
-            animator.SetTrigger(value ? "SetVisible" : "SetInvisible");
-        }
-        else
-        {
-            uiGO.SetActive(value);
-        }
-    }
-}
-#endregion
-
 public class LobbyManager : MonoSingleton<LobbyManager> {
 
     // Idle UI
@@ -34,12 +14,15 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     // Low UI
     public GameObject popupUI;
     public GameObject accountInfoUI;
+
     public GameObject popupInfoUI;
     public Text popupTitle;
-    public Text popupMenu;
 
     public POPUP_STATE popupState;
-    public GameObject[] popupPage = new GameObject[3];
+    public GameObject[] popupPage = new GameObject[1];
+
+    // 추후 추가할때마다 숫자 변경
+    readonly public int popupCount = 1;
 
     public void OnEnable()
     {
@@ -59,7 +42,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         popupInfoUI?.SetActive(false);
 
         popupState = POPUP_STATE.Hero;
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < popupCount; i++)
         {
             popupPage[i]?.SetActive(false);
         }
@@ -100,21 +83,18 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
             case POPUP_STATE.Hero:
                 {
                     SetPopupTitle("Party");
-                    SetPopupMenu(num);
                 }
                 break;
 
             case POPUP_STATE.Weapon:
                 {
                     SetPopupTitle("Inventory");
-                    SetPopupMenu(num);
                 }
                 break;
 
             case POPUP_STATE.EOS:
                 {
                     SetPopupTitle("Shop");
-                    SetPopupMenu(num);
                 }
                 break;
 
@@ -128,7 +108,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         accountInfoUI.SetActive(false);
         popupInfoUI.SetActive(true);
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < popupCount; i++)
         {
             if (i == num / 10)
             {
@@ -154,39 +134,4 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     {
         popupTitle.text = text;
     }
-
-    public void SetPopupMenu(int pageNum)
-    {
-        popupMenu.text = ((POPUP_STATE)pageNum).ToString();
-    }
-
-    public void SetChangeMenu(int getState)
-    {
-        // 버튼과 현재 상태가 다를 경우만 반응
-        if (popupState != (POPUP_STATE)getState)
-        {
-            popupState = (POPUP_STATE)getState;
-            SetPopupMenu(getState);
-        }
-    }
-}
-
-public enum POPUP_STATE
-{
-    // Hero
-    Hero        = 0,
-    Servant     = 1,
-    Monster     = 2,
-    Formation   = 3,
-
-    // Inventory
-    Weapon      = 10,
-    Armor       = 11,
-    Accesory    = 12,
-    ETC         = 13,
-
-    // Shop
-    EOS     = 20,
-    UTG     = 21,
-    Gacha   = 22,
 }

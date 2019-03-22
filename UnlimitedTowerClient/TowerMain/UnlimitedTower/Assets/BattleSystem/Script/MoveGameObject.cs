@@ -9,6 +9,8 @@ public class MoveGameObject : MonoBehaviour {
     public float DestroyTime;
     public Vector3 rotation;
 
+    private bool isStopped = false;
+
 	void Start () {
 		if (isRandom)
         {
@@ -23,6 +25,11 @@ public class MoveGameObject : MonoBehaviour {
         transform.Translate(Speed, 0, 0);
 	}
 
+    public void End()
+    {
+        isStopped = true;
+    }
+
     IEnumerator Move()
     {
         Image image = GetComponent<Image>();
@@ -33,7 +40,10 @@ public class MoveGameObject : MonoBehaviour {
             yield return new WaitForSecondsRealtime(0.02f);
         }
 
-        yield return new WaitForSecondsRealtime(DestroyTime - 0.6f);
+        yield return new WaitUntil(() => {
+            DestroyTime -= Time.deltaTime;
+            return DestroyTime - 0.6f < 0.0f || isStopped;
+            });
 
         for (int i = 0; i < 10; i++)
         {
