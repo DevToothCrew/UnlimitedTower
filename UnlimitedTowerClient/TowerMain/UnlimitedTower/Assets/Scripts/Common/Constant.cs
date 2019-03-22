@@ -148,7 +148,7 @@ public class DEFINE
 
 #region Info
 
-[System.Serializable]
+[Serializable]
 public class NodeInfo
 {
     public NODE_LIST nodeName;
@@ -156,7 +156,8 @@ public class NodeInfo
 }
 
 // 서번트 클래스에 히어로도 포함된다.
-[System.Serializable]
+// TODO : Servant 삭제 영웅 경험치만 포함으로 변경
+[Serializable]
 public class UserInfo
 {
     public string userName;
@@ -167,7 +168,7 @@ public class UserInfo
 }
 
 // erd완
-[System.Serializable]
+[Serializable]
 public class UserServantData
 {
     // 캐릭터를 구분하는 고유값이 되어야함
@@ -706,18 +707,52 @@ public enum POPUP_STATE
 #region DBClass
 
 [Serializable]
+public class DBItemData
+{
+    public int id;
+    public string name;
+    public string resourceIcon;
+    public string description;
+    public int tier;
+    public string itemType;
+    public List<int> itemParamIDList;
+    public List<int> itemParamValueList;
+    public List<int> sellItemIdList;
+    public List<int> sellItemCountList;
+}
+
+[Serializable]
 public class DBMonsterData
 {
-    public int indexNumber;
+    public int id;
     public string name;
+    public int elementType;
+    public int classType;
     public string resource;
-    public string inGameIconName;
+    public string resourceIcon;
+    public List<int> sellItemIdList;
+    public List<int> sellItemCountList;
+}
+
+[Serializable]
+public class DBServantData
+{
+    public int id;
+    public string name;
+    public string job;
+    public string bodyType;
+    public string resourceHead;
+    public string resourceHair;
+    public string resourceWeapon;
+    public string resourceIcon;
+    public List<int> grindItemIdList;
+    public List<int> grindItemCountList;
 }
 
 [Serializable]
 public class DBLocalizationData
 {
-    public int index;
+    public int id;
     public string krText;
     public string chText;
     public string enText;
