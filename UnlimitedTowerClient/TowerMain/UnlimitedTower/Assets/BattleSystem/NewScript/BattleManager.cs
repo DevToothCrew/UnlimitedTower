@@ -232,7 +232,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             }
             else
             {
-                character[stageStateInfo.my_state_list[i].position] = Instantiate(Resources.Load("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataDic
+                character[stageStateInfo.my_state_list[i].position] = Instantiate(Resources.Load("InGameCharacterPrefabs/" + CSVData.Inst.monsterDataDic
                     [stageStateInfo.my_state_list[i].id].resource) as GameObject,
                     CharacterParent.transform.GetChild(0));
                 character[stageStateInfo.my_state_list[i].position].name = "Monster : " + stageStateInfo.my_state_list[i].position.ToString();
@@ -248,7 +248,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
         {
-            character[stageStateInfo.enemy_state_list[i].position] = Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CharacterCSVData.Inst.monsterDataDic
+            character[stageStateInfo.enemy_state_list[i].position] = Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CSVData.Inst.monsterDataDic
                     [stageStateInfo.enemy_state_list[i].id].resource),
                     CharacterParent.transform.GetChild(1));
             character[stageStateInfo.enemy_state_list[i].position].name = "Monster : " + stageStateInfo.enemy_state_list[i].position.ToString();

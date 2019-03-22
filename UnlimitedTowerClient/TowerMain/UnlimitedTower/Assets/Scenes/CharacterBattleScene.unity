@@ -34772,27 +34772,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33b6ef429e5e3694ea2da3c5666d4f71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletList:
-  - name: edsfdsfa
-    bullet: {fileID: 0}
-  - name: 
-    bullet: {fileID: 0}
-  - name: 
-    bullet: {fileID: 0}
-  - name: 
-    bullet: {fileID: 0}
-  - name: 
-    bullet: {fileID: 0}
-  - name: 
-    bullet: {fileID: 0}
-  - name: 
-    bullet: {fileID: 0}
-  - name: 
-    bullet: {fileID: 0}
-  - name: 
-    bullet: {fileID: 0}
-  - name: 
-    bullet: {fileID: 0}
+  bulletList: []
 --- !u!114 &1616318308
 MonoBehaviour:
   m_ObjectHideFlags: 0

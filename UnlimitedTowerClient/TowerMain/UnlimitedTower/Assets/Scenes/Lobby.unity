@@ -1327,6 +1327,23 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6c7a3caf0c0870646878f110d0b68f43, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1483033564 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1142649546162810, guid: c3af066363e49e24488d6e2ccf130a62,
+    type: 2}
+  m_PrefabInternal: {fileID: 1873497665}
+--- !u!114 &1483033569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1483033564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8228b3f72447f94eb06f780a3a2d20b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterDataInspector: []
 --- !u!1 &1497820692
 GameObject:
   m_ObjectHideFlags: 0
@@ -1487,6 +1504,12 @@ RectTransform:
   m_PrefabParentObject: {fileID: 224050213300403090, guid: 1dea3b986fb87ed47817f1931ffca947,
     type: 2}
   m_PrefabInternal: {fileID: 854485776}
+--- !u!114 &1770288671 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114959312094062732, guid: c3af066363e49e24488d6e2ccf130a62,
+    type: 2}
+  m_PrefabInternal: {fileID: 1873497665}
+  m_Script: {fileID: 11500000, guid: 39ec5963d66092345ad5306961d0a2d4, type: 3}
 --- !u!1001 &1873497665
 Prefab:
   m_ObjectHideFlags: 0
@@ -1541,6 +1564,16 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114215155237850384, guid: c3af066363e49e24488d6e2ccf130a62,
+        type: 2}
+      propertyPath: uiGageFx
+      value: 
+      objectReference: {fileID: 2135572193}
+    - target: {fileID: 114215155237850384, guid: c3af066363e49e24488d6e2ccf130a62,
+        type: 2}
+      propertyPath: uiParticles
+      value: 
+      objectReference: {fileID: 1770288671}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c3af066363e49e24488d6e2ccf130a62, type: 2}
   m_IsPrefabParent: 0
@@ -1659,3 +1692,8 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fa3be9128b3300f4a8d75dbb7585f59f, type: 2}
   m_IsPrefabParent: 0
+--- !u!224 &2135572193 stripped
+RectTransform:
+  m_PrefabParentObject: {fileID: 224956784230738422, guid: c3af066363e49e24488d6e2ccf130a62,
+    type: 2}
+  m_PrefabInternal: {fileID: 1873497665}

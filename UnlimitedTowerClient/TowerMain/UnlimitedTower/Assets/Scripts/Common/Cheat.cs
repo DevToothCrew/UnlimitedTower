@@ -399,14 +399,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         monsterData.monster.type = 0;
 
-        List<int> monsterIndexList = CSVData.Inst.GetMonsterIndexList();
-        if(monsterIndexList == null)
-        {
-            Debug.LogError("MonsterDataBaseDic Error");
-            return null;
-        }
-        int monsterNum = rand.Next(0, monsterIndexList.Count);
-        monsterData.monster.id = monsterIndexList[monsterNum];
+        monsterData.monster.id = CSVData.Inst.GetRandomMonsterIndex();
         monsterData.monster.grade = rand.Next(1, 6);
         monsterData.monster.upgrade = 0;
         monsterData.monster.status = GetRandomStatusInfo();
