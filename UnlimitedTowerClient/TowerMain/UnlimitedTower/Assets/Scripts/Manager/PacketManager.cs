@@ -121,17 +121,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
         SetFormation(json);
     }
 
-    public void RequestBattleAction(int heroTarget, int heroAction, int monsterTarget, int monsterAction)
+    public void RequestBattleAction(int turn)
     {
         Debug.Log("RequestBattleAction");
-        TestJsonBattleAction action = new TestJsonBattleAction();
-        action.heroTargetIndex = heroTarget;
-        action.heroActionType = heroAction;
-        action.monsterTargetIndex = monsterTarget;
-        action.monsterActionType = monsterAction;
-
-
-        string json = JsonUtility.ToJson(action);
+        string json = JsonUtility.ToJson(turn);
 
         Debug.Log("Json action : " + json);
         BattleAction(json);
