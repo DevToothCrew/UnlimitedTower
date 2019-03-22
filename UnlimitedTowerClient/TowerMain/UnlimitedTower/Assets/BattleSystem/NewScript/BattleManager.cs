@@ -47,8 +47,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         testReward.SetActive(false);
         testDefeat.SetActive(false);
         delayImage.SetActive(false);
-
-
+        
         UserDataManager.Inst.stageReward = null;
     }
 
@@ -74,7 +73,12 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            TestBattleTarget();
+            if (isSpaceCheck == false)
+            {
+                TestBattleTarget();
+                isSpaceCheck = true;
+            }
+
             // StartCoroutine(BattleStart());
         }
     }
@@ -106,6 +110,8 @@ public class BattleManager : MonoSingleton<BattleManager>
 
             }
         }
+
+        isSpaceCheck = false;
 
         if (UserDataManager.Inst.stageReward != null)
         {
@@ -154,9 +160,15 @@ public class BattleManager : MonoSingleton<BattleManager>
         actionInfo.damage = 1000;
         battleActionInfo.action_type = 302;
         battleActionInfo.battle_action_list.Add(actionInfo);
+        actionInfo.target_position = 14;
+        actionInfo.damage = 1000;
+        battleActionInfo.action_type = 302;
         battleActionInfo.battle_action_list.Add(actionInfo);
         battleActionInfo.my_position = 0;
-        character[0].GetComponent<BasicAttack>().Attack(battleActionInfo);
+
+        SkillManager.Inst.Skill_200007(battleActionInfo);
+
+        isSpaceCheck = false;
     }
 
     // 캐릭터 존재 여부 체크

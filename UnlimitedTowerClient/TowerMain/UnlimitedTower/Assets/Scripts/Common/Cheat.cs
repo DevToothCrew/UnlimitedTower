@@ -115,7 +115,7 @@ public class Cheat : MonoSingleton<Cheat>
     public string GetBattleActionData(string user, int heroTarget, int heroAction, int monsterTarget, int monsterAction)
     {
         stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
-
+         
         stageActionInfoData battleactiondata = new stageActionInfoData();
         battleactiondata.user = user;
         battleactiondata.turn += 1;

@@ -28,7 +28,7 @@ public class DieCameraMove : MonoSingleton<DieCameraMove>
         startPos = camera_Obj.transform.position;
         float startSize = camera_C.orthographicSize;
         Vector3 temp = camera_Obj.transform.position;
-        Vector3 dump = temp;
+
         for (int i = 0; i < 25; i += BattleManager.Inst.TimeScale)
         {
             camera_Obj.transform.position = Vector3.Lerp(temp, _DISTANCE + BattleManager.Inst.character[target].transform.position, i * 0.04f);
