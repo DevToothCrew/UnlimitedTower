@@ -457,7 +457,6 @@ GameObject:
   - component: {fileID: 223874285672886610}
   - component: {fileID: 114662276065196198}
   - component: {fileID: 114110116785084848}
-  - component: {fileID: 114577923775715270}
   m_Layer: 5
   m_Name: HpUICanvas
   m_TagString: Untagged
@@ -2456,17 +2455,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114577923775715270
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1344810170877040}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8b2c2b721968e940b62c311eea1418a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114627758370829012
 MonoBehaviour:
   m_ObjectHideFlags: 1

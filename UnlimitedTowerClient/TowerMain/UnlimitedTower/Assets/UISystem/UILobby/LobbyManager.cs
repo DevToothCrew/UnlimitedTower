@@ -38,12 +38,13 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         chatUI.SetActivateWithAnimation(true);
         popupUI.SetActive(false);
         accountInfoUI.SetActive(true);
-        popupInfoUI.SetActive(false);
+        if (popupInfoUI != null)
+        popupInfoUI?.SetActive(false);
 
         popupState = POPUP_STATE.Hero;
         for (int i = 0; i < popupCount; i++)
         {
-            popupPage[i].SetActive(false);
+            popupPage[i]?.SetActive(false);
         }
 
         Time.timeScale = 1.0f;

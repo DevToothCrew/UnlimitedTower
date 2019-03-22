@@ -122,42 +122,46 @@ public class Cheat : MonoSingleton<Cheat>
 
         for (int i = 0; i < 10; ++i)
         {
-            if (BattleSystem.Inst.characterControl[i].nowHp == 0)
+            if (BattleManager.Inst.NowHp[i] == 0)
             {
                 continue;
             }
             actionInfo action = new actionInfo();
-            action.target_position = UnityEngine.Random.Range(10, 20);
+            do
+            {
+                action.target_position = UnityEngine.Random.Range(10, 20);
+            } while (BattleManager.Inst.NowHp[action.target_position] == 0);
             action.avoid = false;
             action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
-            action.damage = 100;
+            action.damage = rand.Next(200, 500);
 
             battleActionInfo actioninfo = new battleActionInfo();
             actioninfo.my_position = i;
             actioninfo.action_type = 2;
             actioninfo.battle_action_list.Add(action);
-
 
             battleactiondata.battle_info_list.Add(actioninfo);
         }
 
         for (int i = 10; i < 20; ++i)
         {
-            if (BattleSystem.Inst.characterControl[i].nowHp == 0)
+            if (BattleManager.Inst.NowHp[i] == 0)
             {
                 continue;
             }
             actionInfo action = new actionInfo();
-            action.target_position = UnityEngine.Random.Range(0, 10);
+            do
+            {
+                action.target_position = UnityEngine.Random.Range(0, 10);
+            } while (BattleManager.Inst.NowHp[action.target_position] == 0);
             action.avoid = false;
             action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
-            action.damage = 5;
+            action.damage = rand.Next(200, 500);
 
             battleActionInfo actioninfo = new battleActionInfo();
             actioninfo.my_position = i;
             actioninfo.action_type = 2;
             actioninfo.battle_action_list.Add(action);
-
 
             battleactiondata.battle_info_list.Add(actioninfo);
         }
@@ -373,7 +377,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         servant.state = 0;
         servant.exp = rand.Next(0, DEFINE.MAX_EXP);
-        servant.job = (int)job;
+        servant.job = 4; // rand.Next(0, 6);
         servant.stat_point = (Calculator.GetLevelForExp(servant.exp) - 1) * DEFINE.BONUS_STAT;
         servant.appear = GetRandomAppear();
         servant.status = GetRandomStatusInfo();
@@ -395,14 +399,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         monsterData.monster.type = 0;
 
-        List<int> monsterIndexList = CSVData.Inst.GetMonsterIndexList();
-        if(monsterIndexList == null)
-        {
-            Debug.LogError("MonsterDataBaseDic Error");
-            return null;
-        }
-        int monsterNum = rand.Next(0, monsterIndexList.Count);
-        monsterData.monster.id = monsterIndexList[monsterNum];
+        monsterData.monster.id = CSVData.Inst.GetRandomMonsterIndex();
         monsterData.monster.grade = rand.Next(1, 6);
         monsterData.monster.upgrade = 0;
         monsterData.monster.status = GetRandomStatusInfo();
@@ -417,7 +414,7 @@ public class Cheat : MonoSingleton<Cheat>
         appear.hair = rand.Next((int)APPEAR_HAIR.BASE, (int)APPEAR_HAIR.MAX);
         appear.head = rand.Next((int)APPEAR_HEAD.BASE, (int)APPEAR_HEAD.MAX);
         appear.body = rand.Next((int)APPEAR_BODY.BASE, (int)APPEAR_BODY.MAX);
-        appear.gender = rand.Next(0, 1);
+        appear.gender = rand.Next(0, 2);
 
         return appear;
     }

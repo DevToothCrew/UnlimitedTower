@@ -4,9 +4,9 @@ using System;
 
 public class Calculator : MonoBehaviour {
 
-    public static int GetMaxHp(Status status)
+    public static int GetMaxHp(statusInfo status)
     {
-        return ((status.basicStr + status.plusStr) * 14) + ((status.basicDex + status.plusDex) * 5) + ((status.basicInt + status.plusInt) * 3);
+        return ((status.basic_str + status.plus_str) * 14) + ((status.basic_dex + status.plus_dex) * 5) + ((status.basic_int + status.plus_int) * 3);
     }
 
     public static int GetAttack(STATUS_TYPE statusType, Status status)

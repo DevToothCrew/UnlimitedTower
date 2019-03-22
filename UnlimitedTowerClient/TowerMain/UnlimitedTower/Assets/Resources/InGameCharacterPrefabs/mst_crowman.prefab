@@ -127,14 +127,13 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4688540695640740}
-  - component: {fileID: 114504996869824418}
   m_Layer: 0
   m_Name: Select
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1165831430862976
 GameObject:
   m_ObjectHideFlags: 1
@@ -376,7 +375,6 @@ GameObject:
   - component: {fileID: 4348547562312924}
   - component: {fileID: 95053183348052338}
   - component: {fileID: 114083689404962848}
-  - component: {fileID: 114993982792089186}
   m_Layer: 0
   m_Name: mst_crowman
   m_TagString: Untagged
@@ -1369,30 +1367,6 @@ MonoBehaviour:
   AttackAfterDelay: 1
   Height: 2.025
   AttackRange: 1
---- !u!114 &114504996869824418
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1140247396510280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3965e4d25a439ee42bda281d94463f58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114993982792089186
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1568011147164520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f64d9e7a856d4bb4a9d8d4b84ee4e389, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isOneDeal: 0
-  Arrow: {fileID: 0}
 --- !u!137 &137121770048702720
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

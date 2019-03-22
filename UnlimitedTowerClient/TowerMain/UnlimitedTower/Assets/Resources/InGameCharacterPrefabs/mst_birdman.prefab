@@ -435,7 +435,6 @@ GameObject:
   - component: {fileID: 4341613119231938}
   - component: {fileID: 95414177601199262}
   - component: {fileID: 114212788841598680}
-  - component: {fileID: 114056483677664316}
   m_Layer: 0
   m_Name: mst_birdman
   m_TagString: Untagged
@@ -482,14 +481,13 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4799985145905852}
-  - component: {fileID: 114663456367616610}
   m_Layer: 0
   m_Name: Select
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1718444340141988
 GameObject:
   m_ObjectHideFlags: 0
@@ -1383,19 +1381,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114056483677664316
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1663940612290912}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f64d9e7a856d4bb4a9d8d4b84ee4e389, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isOneDeal: 0
-  Arrow: {fileID: 0}
 --- !u!114 &114212788841598680
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1411,17 +1396,6 @@ MonoBehaviour:
   AttackAfterDelay: 1
   Height: 2.025
   AttackRange: 1
---- !u!114 &114663456367616610
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1710996960229380}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3965e4d25a439ee42bda281d94463f58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!137 &137071558440159126
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

@@ -312,9 +312,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         if(error.code == "battle")
         {
-            BattleSystem.Inst.ReTargeting();
+            // BattleManager.Inst.ReTargeting();
         }
-        BattleSystem.Inst.ErrorLog(error.message);
+        // BattleManager.Inst.ErrorLog(error.message);
     }
 
     #endregion
@@ -614,7 +614,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         else
         {
             UserDataManager.Inst.SetStageAction(getBattleActionData);
-            BattleSystem.Inst.StartCoroutine(BattleSystem.Inst.BattleStart());
+            BattleManager.Inst.StartCoroutine(BattleManager.Inst.BattleStart());
         }
     }
 

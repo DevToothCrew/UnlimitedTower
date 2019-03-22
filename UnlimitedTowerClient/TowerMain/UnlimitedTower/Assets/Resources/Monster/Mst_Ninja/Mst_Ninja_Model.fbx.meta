@@ -186,7 +186,7 @@ ModelImporter:
   tangentSpace:
     normalSmoothAngle: 100
     normalImportMode: 1
-    tangentImportMode: 2
+    tangentImportMode: 3
     normalCalculationMode: 0
   importAnimation: 0
   copyAvatar: 0

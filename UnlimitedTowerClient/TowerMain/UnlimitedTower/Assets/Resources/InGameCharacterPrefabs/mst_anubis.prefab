@@ -300,7 +300,6 @@ GameObject:
   - component: {fileID: 4952528402327094}
   - component: {fileID: 95997764431560222}
   - component: {fileID: 114791378289230906}
-  - component: {fileID: 114745515320677114}
   m_Layer: 0
   m_Name: mst_anubis
   m_TagString: Untagged
@@ -377,14 +376,13 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4425426538535346}
-  - component: {fileID: 114236421237526090}
   m_Layer: 0
   m_Name: Select
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1439224598469084
 GameObject:
   m_ObjectHideFlags: 1
@@ -1384,30 +1382,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114236421237526090
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1435480334711764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3965e4d25a439ee42bda281d94463f58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114745515320677114
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1293462026800650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f64d9e7a856d4bb4a9d8d4b84ee4e389, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isOneDeal: 0
-  Arrow: {fileID: 0}
 --- !u!114 &114791378289230906
 MonoBehaviour:
   m_ObjectHideFlags: 1

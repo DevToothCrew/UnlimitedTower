@@ -252,7 +252,6 @@ GameObject:
   - component: {fileID: 4422110701402762}
   - component: {fileID: 95870568799708914}
   - component: {fileID: 114079104029857984}
-  - component: {fileID: 114156061696731142}
   m_Layer: 0
   m_Name: mst_goblin_green
   m_TagString: Untagged
@@ -623,14 +622,13 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4597464682661852}
-  - component: {fileID: 114526368968104164}
   m_Layer: 0
   m_Name: Select
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1931556057429860
 GameObject:
   m_ObjectHideFlags: 1
@@ -1340,30 +1338,6 @@ MonoBehaviour:
   AttackAfterDelay: 1.5
   Height: 1.2
   AttackRange: 0.3
---- !u!114 &114156061696731142
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1354930390951802}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f64d9e7a856d4bb4a9d8d4b84ee4e389, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isOneDeal: 0
-  Arrow: {fileID: 0}
---- !u!114 &114526368968104164
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1880943374360582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3965e4d25a439ee42bda281d94463f58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!137 &137004184143338472
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
