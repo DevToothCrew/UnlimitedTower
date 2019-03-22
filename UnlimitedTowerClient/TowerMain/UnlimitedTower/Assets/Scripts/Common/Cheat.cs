@@ -120,28 +120,71 @@ public class Cheat : MonoSingleton<Cheat>
         battleactiondata.user = user;
         battleactiondata.turn += 1;
 
-        for (int i = 0; i < 10; ++i)
+        for (int i = 0; i < stageStateInfo.my_state_list.Count; ++i)
         {
             if (BattleManager.Inst.NowHp[i] == 0)
             {
                 continue;
             }
-            actionInfo action = new actionInfo();
-            do
+            if(stageStateInfo.my_state_list[i].position < 5)
             {
-                action.target_position = UnityEngine.Random.Range(10, 20);
-            } while (BattleManager.Inst.NowHp[action.target_position] == 0);
-            action.avoid = false;
-            action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
-            action.damage = rand.Next(200, 500);
+                battleActionInfo actioninfo = new battleActionInfo();
+                actioninfo.my_position = stageStateInfo.my_state_list[i].position;
+                actioninfo.action_type = 3;
 
-            battleActionInfo actioninfo = new battleActionInfo();
-            actioninfo.my_position = i;
-            actioninfo.action_type = 2;
-            actioninfo.battle_action_list.Add(action);
+                if (stageStateInfo.my_state_list[i].active_skill_list[0].id == 200007)
+                {
+                    for (int target = 0; target < 2; ++target)
+                    {
+                        actionInfo action = new actionInfo();
+                        do
+                        {
+                            action.target_position = UnityEngine.Random.Range(10, 20);
+                        } while (BattleManager.Inst.NowHp[action.target_position] == 0);
+                        action.avoid = false;
+                        action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
+                        action.damage = rand.Next(200, 500);
+                        actioninfo.battle_action_list.Add(action);
+                    }
+                }
+                else if (stageStateInfo.my_state_list[i].active_skill_list[0].id == 200008)
+                {
+                    actionInfo action = new actionInfo();
+                    do
+                    {
+                        action.target_position = UnityEngine.Random.Range(10, 20);
+                    } while (BattleManager.Inst.NowHp[action.target_position] == 0);
+                    action.avoid = false;
+                    action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
+                    action.damage = rand.Next(200, 500);
+                    actioninfo.battle_action_list.Add(action);
+                }
+                battleactiondata.battle_info_list.Add(actioninfo);
+            }
+            else
+            {
+                if (BattleManager.Inst.NowHp[i] == 0)
+                {
+                    continue;
+                }
+                actionInfo action = new actionInfo();
+                do
+                {
+                    action.target_position = UnityEngine.Random.Range(10, 20);
+                } while (BattleManager.Inst.NowHp[action.target_position] == 0);
+                action.avoid = false;
+                action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
+                action.damage = rand.Next(200, 500);
 
-            battleactiondata.battle_info_list.Add(actioninfo);
+                battleActionInfo actioninfo = new battleActionInfo();
+                actioninfo.my_position = stageStateInfo.my_state_list[i].position;
+                actioninfo.action_type = 2;
+                actioninfo.battle_action_list.Add(action);
+
+                battleactiondata.battle_info_list.Add(actioninfo);
+            }
         }
+
 
         for (int i = 10; i < 20; ++i)
         {
@@ -188,6 +231,13 @@ public class Cheat : MonoSingleton<Cheat>
             {
                 newMember.position = i;
                 newMember.index = i;
+                skillInfo skill = new skillInfo();
+                if (i < 2)
+                    skill.id = 200007;
+                else
+                    skill.id = 200008;
+                newMember.active_skill_list = new List<skillInfo>();
+                newMember.active_skill_list.Add(skill);
             }
             else
             {
@@ -212,7 +262,6 @@ public class Cheat : MonoSingleton<Cheat>
             newMember.status.total_str = 10;
             newMember.status.total_dex = 10;
             newMember.status.total_int = 10;
-
 
             battlestatedata.my_state_list.Add(newMember);
         }
