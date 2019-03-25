@@ -3310,105 +3310,36 @@ battletest::status_info battletest::get_level_up_monster_status(uint64_t _id, ui
     monster_db monster_db_table(_self, _self.value);
     auto monster_iter = monster_db_table.find(_id);
     eosio_assert(monster_iter != monster_db_table.end(), "Not Exist Monster ID 4");
-   if (monster_iter->main_status == monster_main_status::main_str) //??    {
-        if (_grade == grade_list::common)
-        {
-            status.basic_str += common_str[0];
-            status.basic_dex += common_str[1];
-            status.basic_int += common_str[2];
-        }
-        else if (_grade == grade_list::uncommon)
-        {
-            status.basic_str += uncommon_str[0];
-            status.basic_dex += uncommon_str[1];
-            status.basic_int += uncommon_str[2];
-        }
-        else if (_grade == grade_list::rare)
-        {
-            status.basic_str += rare_str[0];
-            status.basic_dex += rare_str[1];
-            status.basic_int += rare_str[2];
-        }
-        else if (_grade == grade_list::unique)
-        {
-            status.basic_str += unique_str[0];
-            status.basic_dex += unique_str[1];
-            status.basic_int += unique_str[2];
-        }
-        else if (_grade == grade_list::legenary)
-        {
-            status.basic_str += legenary_str[0];
-            status.basic_dex += legenary_str[1];
-            status.basic_int += legenary_str[2];
-        }
-        return status;
-    }
-    else if (monster_iter->main_status == monster_main_status::main_dex) //誘?    {
-        if (_grade == grade_list::common)
-        {
-            status.basic_str += common_dex[0];
-            status.basic_dex += common_dex[1];
-            status.basic_int += common_dex[2];
-        }
-        else if (_grade == grade_list::uncommon)
-        {
-            status.basic_str += uncommon_dex[0];
-            status.basic_dex += uncommon_dex[1];
-            status.basic_int += uncommon_dex[2];
-        }
-        else if (_grade == grade_list::rare)
-        {
-            status.basic_str += rare_dex[0];
-            status.basic_dex += rare_dex[1];
-            status.basic_int += rare_dex[2];
-        }
-        else if (_grade == grade_list::unique)
-        {
-            status.basic_str += unique_dex[0];
-            status.basic_dex += unique_dex[1];
-            status.basic_int += unique_dex[2];
-        }
-        else if (_grade == grade_list::legenary)
-        {
-            status.basic_str += legenary_dex[0];
-            status.basic_dex += legenary_dex[1];
-            status.basic_int += legenary_dex[2];
-        }
-        return status;
-    }
-    else if (monster_iter->main_status == monster_main_status::main_int) //吏
+
+    if (_grade == grade_list::common)
     {
-        if (_grade == grade_list::common)
-        {
-            status.basic_str += common_int[0];
-            status.basic_dex += common_int[1];
-            status.basic_int += common_int[2];
-        }
-        else if (_grade == grade_list::uncommon)
-        {
-            status.basic_str += uncommon_int[0];
-            status.basic_dex += uncommon_int[1];
-            status.basic_int += uncommon_int[2];
-        }
-        else if (_grade == grade_list::rare)
-        {
-            status.basic_str += rare_int[0];
-            status.basic_dex += rare_int[1];
-            status.basic_int += rare_int[2];
-        }
-        else if (_grade == grade_list::unique)
-        {
-            status.basic_str += unique_int[0];
-            status.basic_dex += unique_int[1];
-            status.basic_int += unique_int[2];
-        }
-        else if (_grade == grade_list::legenary)
-        {
-            status.basic_str += legenary_int[0];
-            status.basic_dex += legenary_int[1];
-            status.basic_int += legenary_int[2];
-        }
-        return status;
+        status.basic_str += common_str[0];
+        status.basic_dex += common_str[1];
+        status.basic_int += common_str[2];
+    }
+    else if (_grade == grade_list::uncommon)
+    {
+        status.basic_str += uncommon_str[0];
+        status.basic_dex += uncommon_str[1];
+        status.basic_int += uncommon_str[2];
+    }
+    else if (_grade == grade_list::rare)
+    {
+        status.basic_str += rare_str[0];
+        status.basic_dex += rare_str[1];
+        status.basic_int += rare_str[2];
+    }
+    else if (_grade == grade_list::unique)
+    {
+        status.basic_str += unique_str[0];
+        status.basic_dex += unique_str[1];
+        status.basic_int += unique_str[2];
+    }
+    else if (_grade == grade_list::legenary)
+    {
+        status.basic_str += legenary_str[0];
+        status.basic_dex += legenary_str[1];
+        status.basic_int += legenary_str[2];
     }
     return status;
 }
@@ -4099,7 +4030,8 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
 
             for (uint32_t i = 0; i < 5; ++i)
             {
-                if (user_party_iter->servant_list[i] == 0) //?뚰떚 硫ㅻ쾭媛 鍮꾩뼱?덉쑝硫?                {
+                if (user_party_iter->servant_list[i] == 0) //파티 멤버가 비어있으면                
+                {
                     continue;
                 }
                 battle_state servant_battle_state = get_user_state(_user, "ser",user_party_iter->servant_list[i],servant_pos_list[i], my_state);
@@ -4107,7 +4039,8 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
             }
             for (uint32_t i = 0; i < 5; ++i)
             {
-                if (user_party_iter->monster_list[i] == 0) //?뚰떚 硫ㅻ쾭媛 鍮꾩뼱?덉쑝硫?                {
+                if (user_party_iter->monster_list[i] == 0) //파티 멤버가 비어있으면                
+                {
                     continue;
                 }
                 battle_state monster_battle_state = get_user_state(_user, "mon",user_party_iter->monster_list[i], monster_pos_list[i], my_state);
@@ -4128,7 +4061,8 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
 
             for (uint32_t i = 0; i < 5; ++i)
             {
-                if (user_party_iter->servant_list[i] == 0) //?뚰떚 硫ㅻ쾭媛 鍮꾩뼱?덉쑝硫?                {
+                if (user_party_iter->servant_list[i] == 0) //파티 멤버가 비어있으면                
+                {
                     continue;
                 }
                 battle_state servant_battle_state = get_user_state(_user, "ser",user_party_iter->servant_list[i],servant_pos_list[i], my_state);
@@ -4136,7 +4070,8 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
             }
             for (uint32_t i = 0; i < 5; ++i)
             {
-                if (user_party_iter->monster_list[i] == 0) //?뚰떚 硫ㅻ쾭媛 鍮꾩뼱?덉쑝硫?                {
+                if (user_party_iter->monster_list[i] == 0) //파티 멤버가 비어있으면               
+                {
                     continue;
                 }
                 battle_state monster_battle_state = get_user_state(_user, "mon",user_party_iter->monster_list[i], monster_pos_list[i], my_state);
@@ -4295,7 +4230,7 @@ bool battletest::set_action(uint32_t _action,
     if (_action == action_type::attack)
     {
         int enemy_key = get_random_target(_my_state_list, _seed, _enemy_state_list.size(), 0);
-        if (enemy_key == -1) //?곷? ?뚰떚媛 紐⑤몢 二쎌? ?곹깭
+        if (enemy_key == -1) //상대 파티가 모두 죽은 상태
         {
             return false;
         }
@@ -4315,13 +4250,13 @@ bool battletest::set_action(uint32_t _action,
     }
     else if (_action == action_type::skill)
     {
-        if (_my_state_list[_my_key].active_skill_list[0].id == active_name::active_multi_shot) //2??怨듦꺽
+        if (_my_state_list[_my_key].active_skill_list[0].id == active_name::active_multi_shot) //2인 공격
         {
             for (uint32_t i = 0; i < _my_state_list[_my_key].active_skill_list[0].target_count; ++i)
             {
                 uint64_t new_seed = safeseed::get_seed_value(now(),_seed);
                 int enemy_key = get_random_target(_my_state_list, new_seed, _enemy_state_list.size(), 0);
-                if (enemy_key == -1) //?곷? ?뚰떚媛 紐⑤몢 二쎌? ?곹깭
+                if (enemy_key == -1) //상대 파티가 모두 죽은 상태
                 {
                     return false;
                 }
@@ -4342,9 +4277,10 @@ bool battletest::set_action(uint32_t _action,
                 _action_info.battle_action_list.push_back(new_action);
             }
         }
-        else if(_my_state_list[_my_key].active_skill_list[0].id == active_name::active_heal)        //?먯뒪??        {
+        else if(_my_state_list[_my_key].active_skill_list[0].id == active_name::active_heal)        //힐스킬     
+        {
             int enemy_key = get_random_target(_my_state_list, _seed, _my_state_list.size(), 0);
-            if (enemy_key == -1) //?곷? ?뚰떚媛 紐⑤몢 二쎌? ?곹깭
+            if (enemy_key == -1) //상대 파티가 모두 죽은 상태
             {
                 return false;
             }
@@ -4358,10 +4294,10 @@ bool battletest::set_action(uint32_t _action,
             }
             _action_info.battle_action_list.push_back(new_action);
         }
-        else   //1???ㅽ궗
+        else  //1인 스킬
         {
             int enemy_key = get_random_target(_my_state_list, _seed, _enemy_state_list.size(), 0);
-            if (enemy_key == -1) //?곷? ?뚰떚媛 紐⑤몢 二쎌? ?곹깭
+            if (enemy_key == -1) //상대 파티가 모두 죽은 상태
             {
                 return false;
             }
@@ -4407,11 +4343,12 @@ void battletest::set_skill_damage(uint32_t _skill_id, battle_state &_state ,uint
 {
     switch (_skill_id)
     {
-    case active_name::active_defense:       //踰꾪봽 ?ㅽ궗
+    case active_name::active_defense:       //버프 스킬
     {
         break;
     }
-    case active_name::active_fast_attack:  //鍮⑤━ ?뚮━湲?    {
+    case active_name::active_fast_attack:  //빨리 때리기   
+    {
         break;
     }
     case active_name::active_bash:
@@ -4420,7 +4357,7 @@ void battletest::set_skill_damage(uint32_t _skill_id, battle_state &_state ,uint
         _cri_dmg = _cri_dmg * 210 / 100;
         break;
     }
-    case active_name::active_critical_strike:   //?뺤젙 ?щ━
+    case active_name::active_critical_strike:   //확정 크리
     {
         break;
     }
@@ -4652,7 +4589,7 @@ battletest::battle_action battletest::get_target_action(uint32_t _active_id ,std
     battle_action new_action;
     if (false == check_critical(cur_cri_per, _seed))
     {
-        if (_enemy_state_list[cur_target_key].buff_list.size() != 0) //踰꾪봽媛 ?덈뒗吏 ?뺤씤
+        if (_enemy_state_list[cur_target_key].buff_list.size() != 0) //버프가 있는지 확인
         {
             for (uint32_t i = 0; i < _enemy_state_list[cur_target_key].buff_list.size(); ++i)
             {
@@ -4737,14 +4674,15 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
     safeseed::get_battle_rand_list(order_random_list, battle_seed);
 
     std::vector<std::string> data;
-    //諛고????곹깭瑜?諛붽퓭二쇰뒗 遺遺?    battle_state_list_table.modify(user_battle_state_iter, _self, [&](auto &battle_state) {
-        //踰꾪봽 ?대???吏꾪뻾
+    //배틀의 상태를 바꿔주는 부분
+    battle_state_list_table.modify(user_battle_state_iter, _self, [&](auto &battle_state) {
+        //버프 턴부터 진행
         init_buff_turn(battle_state.my_state_list);
         init_buff_turn(battle_state.enemy_state_list);
-        //怨듦꺽?쒖꽌 ?뺣젹?섎뒗 遺遺?        std::vector<battle_order_struct> second_attack_order_list;
+        //공격순서 정렬하는 부분        
+        std::vector<battle_order_struct> second_attack_order_list;
         std::vector<battle_order_struct> attack_order_list;
         std::vector<battle_order_struct> skill_order_list;
-        //?곕뱶由ъ뒪??異붽?
         for (uint32_t i = 0; i < user_battle_state_iter->my_state_list.size(); ++i)
         {
             if ((user_battle_state_iter->my_state_list[i].state == battle_member_state::dead))
@@ -4774,24 +4712,25 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
         std::sort(skill_order_list.begin(), skill_order_list.end(), sort_compare);
         //---------------------
 
-        //諛고????≪뀡?뚯씠釉붿뿉 ?곗씠?곕? 異붽??댁＜??遺遺?        battle_action_table.modify(user_battle_action_iter, _self, [&](auto &update_action) {
+        //배틀에 액션테이블에 데이터를 추가해주는 부분    
+        battle_action_table.modify(user_battle_action_iter, _self, [&](auto &update_action) {
             update_action.turn += 1;
             update_action.battle_info_list.clear();
-            //癒쇱? ?ㅽ궗 諛쒕룞 ?щ? ?뺤씤
+            //먼저 스킬 발동 여부 확인
             for(uint32_t i = 0; i<skill_order_list.size(); ++i)
             {
                 uint32_t my_key = skill_order_list[i].key;
-                if (skill_order_list[i].position < max_party_count) //???뚰떚?몃뜲
+                if (skill_order_list[i].position < max_party_count) //내 파티인데
                 {
                     uint64_t action_rate = safeseed::get_random_value(skill_order_list[i].second_speed, 100, 0, 0);
-                    if (true == check_activate_skill(battle_state.my_state_list[my_key].active_skill_list[0], action_rate)) //?≫떚釉??ㅽ궗??諛쒕룞?섎㈃
+                    if (true == check_activate_skill(battle_state.my_state_list[my_key].active_skill_list[0], action_rate)) //액티브 스킬이 발동하면
                     {
-                        if (battle_state.my_state_list[my_key].active_skill_list[0].id == active_name::active_fast_attack) //?⑥뒪???댄깮
+                        if (battle_state.my_state_list[my_key].active_skill_list[0].id == active_name::active_fast_attack) //패스트 어택
                         {
                             skill_order_list[i].action = action_type::skill;
                             attack_order_list.push_back(skill_order_list[i]);
                         }
-                        else if (battle_state.my_state_list[my_key].active_skill_list[0].id == active_name::active_defense)    //踰꾪봽 ?ㅽ궗
+                        else if (battle_state.my_state_list[my_key].active_skill_list[0].id == active_name::active_defense)    //버프 스킬
                         {
                             buff_info new_buff;
                             new_buff.id = buff_state::defense;
@@ -4810,7 +4749,7 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                             action_data += "]";
                             data.push_back(action_data);
                         }
-                        else if (battle_state.my_state_list[my_key].active_skill_list[0].id == active_name::active_heal)    //???ㅽ궗
+                        else if (battle_state.my_state_list[my_key].active_skill_list[0].id == active_name::active_heal)    //힐 스킬
                         {
                             battle_action_info action_info;
                             if(false == set_action(action_type::skill,
@@ -4829,22 +4768,23 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                             second_attack_order_list.push_back(skill_order_list[i]);
                         }
                     }
-                    else    //?ㅽ궗??諛쒕룞?섏? ?딆쑝硫?                    {
+                    else    //스킬이 발동하지 않으면                   
+                    {
                         skill_order_list[i].action = action_type::attack;
                         second_attack_order_list.push_back(skill_order_list[i]);
                     }
                 }   
-                else    //?곸쓽 寃쎌슦
+                else    //적의 경우
                 {
                     skill_order_list[i].action = action_type::attack;
                     second_attack_order_list.push_back(skill_order_list[i]);
                 }
             }
-            //?⑥뒪???댄깮 ?좊뱾 泥섎━
+           //패스트 어택 애들 처리
             for (uint32_t i = 0; i < attack_order_list.size(); ++i)
             {
                 uint32_t my_key = attack_order_list[i].key;
-                if (attack_order_list[i].position < max_party_count) //?먭린 ?뚰떚?????泥섎━
+                if (attack_order_list[i].position < max_party_count)  //자기 파티에 대한 처리
                 {
                     if (battle_state.my_state_list[my_key].state == battle_member_state::dead)
                     {
@@ -4861,7 +4801,7 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                     }
                     update_action.battle_info_list.push_back(action_info);
                 }
-                else // ?곷? ?뚰떚??寃쎌슦
+                else// 상대 파티의 경우
                 {
                     if (battle_state.enemy_state_list[my_key].state == battle_member_state::dead)
                     {
@@ -4879,11 +4819,11 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                     update_action.battle_info_list.push_back(action_info);
                 }
             }
-            //洹몃깷 ?쇰컲 怨듦꺽?섎뒗 ?좊뱾?????泥섎━ ===============================================================
+              //그냥 일반 공격하는 애들에 대한 처리 ===============================================================
             for (uint32_t i = 0; i < second_attack_order_list.size(); ++i)
             {
                 uint32_t my_key = second_attack_order_list[i].key;
-                if (second_attack_order_list[i].position < max_party_count) //?먭린 ?뚰떚?????泥섎━
+                if (second_attack_order_list[i].position < max_party_count) //자기 파티에 대한 처리
                 {
                     if (battle_state.my_state_list[my_key].state == battle_member_state::dead)
                     {
@@ -4900,7 +4840,7 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                     }
                     update_action.battle_info_list.push_back(action_info);
                 }
-                else // ?곷? ?뚰떚??寃쎌슦
+                else // 상대 파티의 경우
                 {
                     if (battle_state.enemy_state_list[my_key].state == battle_member_state::dead)
                     {
@@ -4919,7 +4859,7 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                 }
             }
 
-            //寃뚯엫??醫낅즺 ?щ? 泥댄겕
+           //게임의 종료 여부 체크
             for (uint32_t i = 0; i < battle_state.my_state_list.size(); ++i)
             {
                 if (battle_state.my_state_list[i].state == battle_member_state::dead)
@@ -5031,7 +4971,7 @@ void battletest::win_reward(eosio::name _user)
         });
     }
 
-    //蹂댁긽 諛섏쁺
+     //보상 반영
     user_partys user_party_table(_self, _user.value);
     auto user_party_iter = user_party_table.begin();
     eosio_assert(user_party_iter != user_party_table.end(), "Not Exist Party");
@@ -5039,18 +4979,10 @@ void battletest::win_reward(eosio::name _user)
     auth_users user_auth_table(_self, _self.value);
     auto user_auth_iter = user_auth_table.find(_user.value);
     eosio_assert(user_auth_iter != user_auth_table.end(), "Not Exist Hero");
-    uint64_t cur_exp = user_auth_iter->hero.exp + stage_db_iter->char_exp;
-    uint64_t pre_exp = user_auth_iter->hero.exp;
+    uint64_t cur_exp = user_auth_iter->exp + stage_db_iter->char_exp;
+    uint64_t pre_exp = user_auth_iter->exp;
     user_auth_table.modify(user_auth_iter, _self, [&](auto &upadate_hero_exp) {
-        if (true == check_level_up(cur_exp, pre_exp))
-        {
-            upadate_hero_exp.hero.status = get_level_up_servant_status(user_auth_iter->hero.job, user_auth_iter->hero.status);
-            upadate_hero_exp.hero.stat_point += 1;
-            upadate_hero_exp.hero.exp += stage_db_iter->char_exp;
-        }
-        else{
-            upadate_hero_exp.hero.exp += stage_db_iter->char_exp;
-        }
+        upadate_hero_exp.exp += stage_db_iter->char_exp;
         upadate_hero_exp.state = user_state::lobby;
     });
 
@@ -6130,7 +6062,7 @@ ACTION battletest::dberasestg(std::string _kind, std::string _memo)
 
 #pragma region tower_system
 
-ACTION battletest::testsnap()
+ACTION battletest::testsnap(eosio::name _user)
 {
     eos_logs eos_log_table(_self, _self.value);
     eos_log_table.emplace(_self, [&](auto &new_test) {
@@ -6298,7 +6230,7 @@ ACTION battletest::deleteuser(eosio::name _user)
         }
     }
 
-    user_consumables user_consumables_table(_self, _user.value);
+    user_consumables_db user_consumables_table(_self, _user.value);
     auto user_consumables_iter = user_consumables_table.begin();
     if (user_consumables_iter != user_consumables_table.end())
     {
@@ -6546,4 +6478,4 @@ ACTION battletest::change(eosio::name _user, std::string _kind , uint64_t _grade
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(battletest, (battleaction)(battlestate)(loginuser)(movemail)(balancetest)(movedb)(change)(testsnap)(towersnap)(claim)(settower)(equipment)(unequipment)(itemstore)(sellobject)(upgrade)(dberasestg)(dbinsertstg)(deletewhite)(addwhite)(deleteuser)(deletebattle)(stageexit)(deletebattle)(saveparty)(stagestart)(activeturn)(setdata)(herocheat)(partycheat)(resultpre)(resultgacha)(create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dberase)(dbinit))
+EOSIO_DISPATCH(battletest, (battleaction)(battlestate)(loginuser)(movemail)(balancetest)(movedb)(change)(testsnap)(towersnap)(claim)(settower)(equipment)(unequipment)(itemstore)(sellobject)(upgrade)(dberasestg)(dbinsertstg)(deletewhite)(addwhite)(deleteuser)(deletebattle)(stageexit)(saveparty)(stagestart)(activeturn)(setdata)(herocheat)(partycheat)(resultpre)(resultgacha)(create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dberase)(dbinit))
