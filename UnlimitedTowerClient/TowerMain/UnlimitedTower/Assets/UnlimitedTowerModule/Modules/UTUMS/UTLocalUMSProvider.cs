@@ -18,9 +18,9 @@ public class UTLocalUMSProvider : UTUMSProvider
         PacketManager.Inst.ResponseLogout();
     }
 
-    public override void RequestGacha()
+    public override void RequestGacha(int getGachaIndex)
     {
-        UTEventPoolInterface.SendEventData("gacha", new UTPlayerManager.UTGachaData() { });
+        UTEventPoolInterface.SendEventData("gacha", new UTPlayerManager.UTGachaData() { gachaIndex = getGachaIndex });
     }
 
     public override void RequestSaveParty(UserPartyData partyInfo)

@@ -56,9 +56,11 @@ public class UTPlayerManager : MonoBehaviour {
     [SerializeField]
     public class UTGachaData : IJSONableData
     {
+        public int gachaIndex;
+
         public string ToJson()
         {
-            JsonData data = Cheat.Inst.GetGachaResultData();
+            JsonData data = Cheat.Inst.GetGachaResultData(gachaIndex);
 
             return data.ToString();
         }
@@ -273,7 +275,7 @@ public class UTPlayerManager : MonoBehaviour {
                     thisBattleAction = data as UTBattleActionData ?? thisBattleAction;
                     string battleActionInfo = thisBattleAction.ToJson();
                     Debug.Log("[SUCCESS] user battleaction :" + battleActionInfo);
-                    stageActionInfoData getBattleActionData = JsonUtility.FromJson<stageActionInfoData>(battleActionInfo);
+                    battleActionData getBattleActionData = JsonUtility.FromJson<battleActionData>(battleActionInfo);
                     PacketManager.Inst.ResponseBattleAction(getBattleActionData);
                 }
             };

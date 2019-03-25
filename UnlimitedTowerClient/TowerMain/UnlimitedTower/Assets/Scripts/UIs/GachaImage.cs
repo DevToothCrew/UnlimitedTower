@@ -48,7 +48,8 @@ public class GachaImage : MonoSingleton<GachaImage>
             GachaImageAnimator.SetBool("Play", false);
             fadeOutFlag = true;
 
-            UTUMSProvider.Instance.RequestGacha();
+            int gachaIndex = 1;
+            UTUMSProvider.Instance.RequestGacha(gachaIndex);
         }
 
         yield break;

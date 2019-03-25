@@ -17,9 +17,9 @@ public class UTCloudUMSProvider : UTUMSProvider
         PacketManager.Inst.RequestLogout();
     }
 
-    public override void RequestGacha()
+    public override void RequestGacha(int getGachaIndex)
     {
-        PacketManager.Inst.RequestGacha();
+        PacketManager.Inst.RequestGacha(getGachaIndex);
     }
 
     public override void RequestSaveParty(UserPartyData partyInfo)

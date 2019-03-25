@@ -190,11 +190,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 가챠
-    public void RequestGacha()
+    public void RequestGacha(int getGachaIndex)
     {
         Debug.Log("RequestGacha");
-        //gacha index 데이터 제이슨화 데이터 필요
+
+        GachaJson gacha = new GachaJson();
+        gacha.gachaIndex = getGachaIndex;
+
+        string json = JsonUtility.ToJson(gacha);
+
         Request<string>("Gacha",
+            body: json,
             onSuccess: ResponseGacha,
             onFailed: msg =>
             {

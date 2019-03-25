@@ -79,7 +79,7 @@ public class Cheat : MonoSingleton<Cheat>
         }
     }
 
-    public string GetGachaResultData()
+    public string GetGachaResultData(int gachaIndex)
     {
         int type = rand.Next((int)GACHA_RESULT_TYPE.Servant, (int)GACHA_RESULT_TYPE.Item);
 
