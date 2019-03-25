@@ -19,7 +19,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     /// <param name="header"></param>
     /// <param name="body"></param>
     [DllImport("__Internal")]
-    private static extern void SendPacket(string header, string body);
+    private static extern void SendPacket(string packet);
     
 
     private static Dictionary<string, PairedDelegates>  _recvCbs = new Dictionary<string, PairedDelegates>();
@@ -80,26 +80,32 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         PairedDelegates pair = new PairedDelegates(onSuccess, onFailed);
         _recvCbs.Add(header, pair);
-        SendPacket(header, body);
+
+        DefaultPacket sendPackedData = new DefaultPacket();
+        sendPackedData.header = header;
+        sendPackedData.body = body;
+        sendPackedData.isSuccess = true;
+        string sendPacket = JsonUtility.ToJson(sendPackedData);
+        SendPacket(sendPacket);
 
         float timer = _MAX_LIMIT_TIME;
         yield return new WaitUntil(() => _recvDatas.ContainsKey(header) || (timer -= Time.unscaledDeltaTime) < 0.0f);
 
         string packet = _recvDatas[header];
-        DefaultPacket packedData = JsonUtility.FromJson<DefaultPacket>(packet);
+        DefaultPacket recvPackedData = JsonUtility.FromJson<DefaultPacket>(packet);
 
         //time limited or failed
         if (timer < 0.0f)
         {
             onFailed?.Invoke("EXCEEDED MAXIMUM TIME");
         }
-        else if (!packedData.isSuccess)
+        else if (!recvPackedData.isSuccess)
         {
-            onFailed?.Invoke(packedData.body);
+            onFailed?.Invoke(recvPackedData.body);
         }
         else
         {
-            onSuccess?.Invoke(packedData.body);
+            onSuccess?.Invoke(recvPackedData.body);
         }
     }
     
@@ -128,10 +134,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     }
 
-
     #endregion
 
     #region Request
+
+    // 예제
     public void RequestResourceData()
     {
         Debug.Log("Resource Request");
@@ -143,7 +150,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         // 이와 동시에 별도의 Response 함수를 구현할 필요가 없어집니다.
         // 이곳 뿐만아니라 어떤 스크립트 내부에서도 사용할 수 있습니다.
 
-        PacketManager.Request<userResourceData>("ResourceInfo",
+        Request<userResourceData>("ResourceInfo",
             onSuccess: data =>
             {
                 if (data == null)
@@ -157,7 +164,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             });
     }
 
-
+    // 로그인
     public void RequestLoginWithScatter()
     {
         Debug.Log("RequestLoginWithScatter");
@@ -170,6 +177,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             });
     }
 
+    // 로그아웃
     public void RequestLogout()
     {
         Debug.Log("RequestLogout");
@@ -183,6 +191,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         ResponseLogout();
     }
 
+    // 가챠
     public void RequestGacha()
     {
         Debug.Log("RequestGacha");
@@ -194,6 +203,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             });
     }
 
+    // 파티 저장
     // TODO : 수정 필요
     public void RequestSaveParty(UserPartyData partyInfo)
     {
@@ -204,7 +214,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         Debug.Log("RequestSaveParty");
 
-        TestParty data = new TestParty();
+        PartySaveJson data = new PartySaveJson();
         data.partyNum = partyInfo.partyIndex;
         for(int i=0; i< partyInfo.formationDataDic.Count; ++i)
         {
@@ -231,14 +241,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
         // SetFormation(json);
     }
 
-    public void RequestBattleAction(int heroTarget, int heroAction, int monsterTarget, int monsterAction)
+    // 배틀 액션 시작
+    public void RequestBattleAction(int getTurn)
     {
         Debug.Log("RequestBattleAction");
-        TestJsonBattleAction action = new TestJsonBattleAction();
-        action.heroTargetIndex = heroTarget;
-        action.heroActionType = heroAction;
-        action.monsterTargetIndex = monsterTarget;
-        action.monsterActionType = monsterAction;
+        BattleActionJson action = new BattleActionJson();
+        action.turn = getTurn;
 
         string json = JsonUtility.ToJson(action);
         Request<stageActionInfoData>("BattleAction", 
@@ -248,11 +256,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 );
     }
 
+    // 스테이지 시작
     public void RequestStageStart(int stageNum, int partyNum)
     {
         Debug.Log("Request Start Battle");
 
-        TestJsonStartBattle startBattle = new TestJsonStartBattle();
+        StageStartJson startBattle = new StageStartJson();
         startBattle.stageNum = stageNum;
         startBattle.partyNum = partyNum;
 
@@ -267,18 +276,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 );
     }
 
-    public void RequestStageResult()
+    // 스테이지 보상
+    public void RequestStageReward()
     {
-        Debug.Log("Request Get Battle Reward");
 
-        Request<stageRewardData>("StageResult",
-            onSuccess: ResponseStageReward,
-            onFailed: msg =>
-            {
-                Debug.LogError($"[Failed Requesting StageResult] {msg}");
-            });
     }
 
+    // 스테이지 종료
     public void RequestStageExit()
     {
         Debug.Log("Request Battle Exit");
@@ -291,14 +295,112 @@ public class PacketManager : MonoSingleton<PacketManager> {
             });
     }
 
+    // 서번트 분해
+    public void RequestGrindServant()
+    {
+
+    }
+
+    // 몬스터 판매
+    public void RequestSellMonster()
+    {
+
+    }
+
+    // 장비 판매
+    public void RequestSellEquipment()
+    {
+
+    }
+
+    // 아이템 판매
+    public void RequestSellItem()
+    {
+
+    }
+
+    // 장비 장착
+    public void RequestServantEquip()
+    {
+
+    }
+
+    // 장비 해제
+    public void RequestUnequipServant()
+    {
+         
+    }
+
+    // 몬스터 강화
+    public void RequestUpgradeMonster()
+    {
+
+    }
+
+    // 아이템 강화
+    public void RequestUpgradeEquipment()
+    {
+
+    }
+
+    // 상점 아이템 구매
+    public void RequestShopBuy()
+    {
+
+    }
+
+    // 인벤토리 구매
+    public void RequestInventoryBuy()
+    {
+
+    }
+
+    // 로열 서번트 구매
+    public void RequestRoyalServantBuy()
+    {
+
+    }
+
+    // 우편 수령
+    public void RequestMailOpen()
+    {
+
+    }
+
+    // 타워 Start
+    public void RequestTowerStart()
+    {
+
+    }
+
+    // 타워 Exit
+    public void RequestTowerExit()
+    {
+
+    }
+
+    // 타워 End
+    public void RequestTowerReward()
+    {
+
+    }
+
+    // 채팅
+    public void RequestEnterChat()
+    {
+
+    }
+
     #endregion
 
     #region Response
     
+    // 로그인
     public void ResponseLogin(string getLoginInfo)
     {
         if (getLoginInfo.StartsWith("{\"sign"))
         {
+            // 가입
             Request<string>("SignUp",
                 onSuccess: ResponseLogin,
                 onFailed: msg => { Debug.LogError($"[Failed Requesting SignUp] {msg}"); }
@@ -316,6 +418,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Login(userLoginData);
     }
 
+    // 로그인 처리
     public void Login(UserLoginData getUserLoginData)
     {
         UserInfo userInfo = new UserInfo();
@@ -368,6 +471,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
     }
 
+    // 가챠
     public void ResponseGacha(string getGachaInfo)
     {
         Debug.Log("ResponseGacha : " + getGachaInfo);
@@ -410,6 +514,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
     }
 
+    // 로그아웃
     public void ResponseLogout()
     {
         Debug.Log("ResponseLogout");
@@ -417,6 +522,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         StartCoroutine(LoadSceneAsync("login", "Loading scene ... "));
     }
 
+    // 에러(???)
     public void ResponseError(string errorMessage)
     {
         errorCode error = JsonUtility.FromJson<errorCode>(errorMessage);
@@ -428,14 +534,15 @@ public class PacketManager : MonoSingleton<PacketManager> {
         BattleSystem.Inst.ErrorLog(error.message);
     }
 
-
+    // 스테이지 시작
     public void ResponseStageStart(stageStateData getBattleStateData)
     {
-        Debug.Log("배틀 스타트!");
+        Debug.Log("스테이지 시작");
         UserDataManager.Inst.SetStageState(getBattleStateData);
         StartCoroutine(LoadSceneAsync("CharacterBattleScene", "Now, Loading battle field ... "));
     }
 
+    // 배틀 액션
     public void ResponseBattleAction(stageActionInfoData getBattleActionData)
     {
         Debug.Log("턴 진행!");
@@ -451,17 +558,116 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
     }
 
+    // 스테이지 종료
+    public void ResponseStageExit()
+    {
+        SceneManager.LoadScene("Lobby");
+    }
+
+    // 스테이지 보상
     public void ResponseStageReward(stageRewardData getReward)
     {
         Debug.Log("배틀 끝 보상 획득!");
         UserDataManager.Inst.SetStageReward(getReward);
     }
 
-    public void ResponseStageExit()
+    // 서번트 분해
+    public void ResponseGrindServant()
     {
-        SceneManager.LoadScene("Lobby");
+
+    }
+    
+    // 몬스터 판매
+    public void ResponseSellMonster()
+    {
+
     }
 
+    // 장비 판매
+    public void ResponseSellEquipment()
+    {
+
+    }
+
+    // 아이템 판매
+    public void ResponseSellItem()
+    {
+
+    }
+
+    // 장비 장착
+    public void ResponseEquipServant()
+    {
+
+    }
+
+    // 장비 해제
+    public void ResponseUnequipServant()
+    {
+
+    }
+
+    // 몬스터 강화
+    public void ResponseUpgradeMonster()
+    {
+
+    }
+
+    // 아이템 강화
+    public void ResponseUpgradeEquipment()
+    {
+
+    }
+
+    // 상점 아이템 구매
+    public void ResponseShopBuy()
+    {
+
+    }
+
+    // 인벤토리 구매
+    public void ResponseInventoryBuy()
+    {
+
+    }
+
+    // 로열 서번트 구매
+    public void ResponseRoyalServantBuy()
+    {
+
+    }
+
+    // 우편 수령
+    public void ResponseMailOpen()
+    {
+
+    }
+
+    // 타워 시작
+    public void ResponseTowerStart()
+    {
+
+    }
+
+    // 타워 나가기
+    public void ResponseTowerExit()
+    {
+
+    }
+
+    // 타워 보상
+    public void ResponseTowerReward()
+    {
+
+    }
+
+    // 채팅
+    public void ResponseEnterChat()
+    {
+
+    }
+
+    
     #endregion
 
     #region Function
@@ -661,18 +867,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
         partyInfo.partyIndex = getPartyData.index;
         partyInfo.partyState = getPartyData.state;
 
-        UserFormationData heroFormationData = new UserFormationData();
-        heroFormationData.index = 0;
-        heroFormationData.formationIndex = 0;
-        partyInfo.formationDataDic.Add(0, heroFormationData);
-
         for(int i = 0; i < getPartyData.servant_list.Count; i++)
         {
             if(getPartyData.servant_list[i] > 0)
             {
                 UserFormationData servantFormationData = new UserFormationData();
                 servantFormationData.index = getPartyData.servant_list[i];
-                servantFormationData.formationIndex = i + 1;
+                servantFormationData.formationIndex = i;
                 partyInfo.formationDataDic.Add(servantFormationData.formationIndex, servantFormationData);
             }
         }

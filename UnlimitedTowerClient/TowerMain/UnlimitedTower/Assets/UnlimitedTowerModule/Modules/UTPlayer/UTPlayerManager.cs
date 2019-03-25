@@ -67,15 +67,12 @@ public class UTPlayerManager : MonoBehaviour {
     [SerializeField]
     public class UTBattleActionData : IJSONableData
     {
-        public int heroTarget;
-        public int heroAction;
-        public int monsterTarget;
-        public int monsterAction;
+        public int turn;
 
         public string ToJson()
         {
             //JsonData data = Cheat.Inst.GetBattleActionData(heroTarget, heroAction, monsterTarget, monsterAction);
-            JsonData data = Cheat.Inst.GetBattleActionData("devtooth", heroTarget, heroAction, monsterTarget, monsterAction);
+            JsonData data = Cheat.Inst.GetBattleActionData("devtooth", turn);
             return data.ToString();
         }
     }

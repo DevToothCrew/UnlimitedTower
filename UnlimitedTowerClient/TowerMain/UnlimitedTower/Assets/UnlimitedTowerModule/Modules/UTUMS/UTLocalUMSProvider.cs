@@ -28,9 +28,9 @@ public class UTLocalUMSProvider : UTUMSProvider
         UTEventPoolInterface.SendEventData("saveparty", new UTPlayerManager.UTPartyData() { partyNum = 1});
     }
 
-    public override void RequestBattleAction(int getHeroTarget, int getHeroAction, int getMonsterTarget, int getMonsterAction)
+    public override void RequestBattleAction(int getTurn)
     {
-        UTEventPoolInterface.SendEventData("battleaction", new UTPlayerManager.UTBattleActionData() { heroTarget = getHeroTarget, heroAction = getHeroAction, monsterTarget = getMonsterTarget, monsterAction = getMonsterAction });
+        UTEventPoolInterface.SendEventData("battleaction", new UTPlayerManager.UTBattleActionData() { turn = getTurn });
     }
 
     public override void RequestStageStart(int getStageNum, int getPartyNum)
@@ -38,9 +38,9 @@ public class UTLocalUMSProvider : UTUMSProvider
         UTEventPoolInterface.SendEventData("stagestart", new UTPlayerManager.UTStageStartData() { stageNum = getStageNum, partyNum = getPartyNum });
     }
 
-    public override void RequestStageResult(int stageNum)
+    public override void RequestStageExit()
     {
-        PacketManager.Inst.RequestStageResult();
+        PacketManager.Inst.RequestStageExit();
     }
 
     public override void RequestTowerStart()
