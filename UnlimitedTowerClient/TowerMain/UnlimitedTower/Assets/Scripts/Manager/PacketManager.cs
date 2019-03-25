@@ -302,13 +302,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 몬스터 판매
-    public void RequestSellMonster()
+    public void RequestMonsterSell()
     {
 
     }
 
     // 장비 판매
-    public void RequestSellEquipment()
+    public void RequestEquipmentSell()
     {
 
     }
@@ -320,7 +320,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 장비 장착
-    public void RequestServantEquip()
+    public void RequestEquipServant()
     {
 
     }
@@ -332,31 +332,31 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 몬스터 강화
-    public void RequestUpgradeMonster()
+    public void RequestMonsterUpgrade()
     {
 
     }
 
     // 아이템 강화
-    public void RequestUpgradeEquipment()
+    public void RequestEquipmentUpgrade()
     {
 
     }
 
     // 상점 아이템 구매
-    public void RequestShopBuy()
+    public void RequestBuyItem()
     {
 
     }
 
     // 인벤토리 구매
-    public void RequestInventoryBuy()
+    public void RequestBuyInventory()
     {
 
     }
 
     // 로열 서번트 구매
-    public void RequestRoyalServantBuy()
+    public void RequestBuyRoyalServant()
     {
 
     }
@@ -563,25 +563,25 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 서번트 분해
-    public void ResponseGrindServant()
+    public void ResponseServantGrind()
     {
 
     }
     
     // 몬스터 판매
-    public void ResponseSellMonster()
+    public void ResponseMonsterSell()
     {
 
     }
 
     // 장비 판매
-    public void ResponseSellEquipment()
+    public void ResponseEquipmentSell()
     {
 
     }
 
     // 아이템 판매
-    public void ResponseSellItem()
+    public void ResponseItemSell()
     {
     
     }
@@ -599,31 +599,31 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 몬스터 강화
-    public void ResponseUpgradeMonster()
+    public void ResponseMonsterUpgrade()
     {
 
     }
 
     // 아이템 강화
-    public void ResponseUpgradeEquipment()
+    public void ResponseEquipmentUpgrade()
     {
 
     }
 
     // 상점 아이템 구매
-    public void ResponseShopBuy()
+    public void ResponseBuyItem()
     {
 
     }
 
     // 인벤토리 구매
-    public void ResponseInventoryBuy()
+    public void ResponseBuyInventory()
     {
 
     }
 
     // 로열 서번트 구매
-    public void ResponseRoyalServantBuy()
+    public void ResponseBuyRoyalServant()
     {
 
     }
