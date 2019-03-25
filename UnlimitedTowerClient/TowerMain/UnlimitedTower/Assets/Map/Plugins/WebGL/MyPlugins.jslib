@@ -25,7 +25,7 @@ mergeInto(LibraryManager.library, {
   },
 
   BattleAction : function(turn) {
-    ReactUnityWebGL.BattleAction(turn));
+    ReactUnityWebGL.BattleAction(turn);
   },
 
   StartBattle : function(battleStart) {
