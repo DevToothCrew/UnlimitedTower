@@ -129,8 +129,29 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         popupInfoUI.SetActive(false);
     }
 
+    public void OnClickMessageButton()
+    {
+
+    }
+
+    public void OnClickOptionButton()
+    {
+
+    }
+
+    public void OnClickStageButton()
+    {
+
+    }
+
+    public void OnClickGachaButton()
+    {
+
+    }
+
     public void SetPopupTitle(string text)
     {
         popupTitle.text = text;
     }
+
 }
