@@ -835,7 +835,7 @@ public:
     ACTION resultgacha(eosio::name _from, eosio::name _to, std::string _result);
     ACTION resultpre(eosio::name _from, eosio::name _to, std::string _result);
     ACTION battlestate(eosio::name _who, std::vector<std::string> &_my_state_list, std::vector<std::string> &_enemy_state_list);
-    ACTION battleaction(eosio::name _who, std::vector<std::string> &_action_data);
+    ACTION battleaction(eosio::name _who, std::string _header  ,std::vector<std::string> &_action_data);
 
 
     //------------------------------------------------------------------------//
@@ -871,7 +871,7 @@ public:
     //------------------------------------------------------------------------//
 #pragma region party_system
   public:
-    ACTION setparty(eosio::name _user, uint32_t _party_number, const std::vector<uint64_t> &_servant_list, const std::vector<uint64_t> &_monster_list);
+    ACTION saveparty(eosio::name _user, uint32_t _party_number, const std::vector<uint64_t> &_servant_list, const std::vector<uint64_t> &_monster_list);
     void add_party_list(eosio::name _user);
 
 #pragma endregion
@@ -1141,7 +1141,7 @@ public:
     uint32_t get_speed(uint32_t _job);
     void set_stage_state(uint64_t _stage_id, std::vector<battle_state> &_enemy_state_list, std::vector<std::string> &_state);
     battle_state get_user_state(eosio::name _user, std::string _type, uint64_t _index, uint32_t _position, std::vector<std::string> &_state);
-    ACTION startbattle(eosio::name _user, uint32_t _party_number, uint32_t _stage);
+    ACTION stagestart(eosio::name _user, uint32_t _party_number, uint32_t _stage);
 
     void init_buff_effect(battle_state &_state, buff_info _buff);
     void init_buff_turn(std::vector<battle_state> &_state_list);
@@ -1160,7 +1160,8 @@ public:
     bool set_action(uint32_t _action,uint64_t _seed,
                                                       std::vector<battle_state> &_my_state_list,
                                                       std::vector<battle_state> &_enemy_state_list,
-                                                      uint64_t _my_key, battle_action_info &_action_info);
+                                                      uint64_t _my_key, battle_action_info &_action_info,
+                                                      std::vector<std::string> &_data);
     battle_action get_target_action(uint32_t _actvie_id , std::vector<battle_state> &_my_state_list, std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint64_t _my_key, uint64_t _target_key);
     int get_random_target(const std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint32_t _max, uint32_t _min);
     int get_target_key(const std::vector<battle_state> &_enemy_state_list, uint64_t _target_position);
@@ -1170,7 +1171,7 @@ public:
     void fail_reward(eosio::name _user);
     ACTION activeturn(eosio::name _user, uint32_t _turn, std::string _seed);
 
-    ACTION exitbattle(eosio::name _user);
+    ACTION stageexit(eosio::name _user);
 
 #pragma endregion
 

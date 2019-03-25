@@ -2261,7 +2261,7 @@ ACTION battletest::battlestate(eosio::name _who, std::vector<std::string> &_my_s
     require_recipient(_self);
 }
 
-ACTION battletest::battleaction(eosio::name _who, std::vector<std::string> &_action_data)
+ACTION battletest::battleaction(eosio::name _who, std::string _header ,std::vector<std::string> &_data)
 {
     require_auth(_self);
     require_recipient(_self);
@@ -2275,7 +2275,7 @@ ACTION battletest::battleaction(eosio::name _who, std::vector<std::string> &_act
 //-------------------------------party_function---------------------------//
 //------------------------------------------------------------------------//
 
-ACTION battletest::setparty(eosio::name _user, uint32_t _party_number, const std::vector<uint64_t> &_servant_list, const std::vector<uint64_t> &_monster_list)
+ACTION battletest::saveparty(eosio::name _user, uint32_t _party_number, const std::vector<uint64_t> &_servant_list, const std::vector<uint64_t> &_monster_list)
 {
     require_auth(_user);
     eosio_assert(_party_number > 0, "wrong party_number");                                                   //잘못된 파티 넘버 체크
@@ -3387,7 +3387,7 @@ bool battletest::check_avoid(uint64_t _avoid_per, uint64_t _seed)
     }
 }
 
-ACTION battletest::startbattle(eosio::name _user, uint32_t _party_number, uint32_t _stage)
+ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_t _stage)
 {
     require_auth(_user);
 
@@ -3623,8 +3623,10 @@ bool battletest::set_action(uint32_t _action,
                             uint64_t _seed,
                             std::vector<battle_state> &_my_state_list,
                             std::vector<battle_state> &_enemy_state_list,
-                            uint64_t _my_key, battle_action_info &_action_info)
+                            uint64_t _my_key, battle_action_info &_action_info,
+                            std::vector<std::string> &_data)
 {
+    std::string action_data;
     _action_info.my_position = _my_state_list[_my_key].position;
     _action_info.action_type = _action;
     if (_action == action_type::attack)
@@ -3716,6 +3718,26 @@ bool battletest::set_action(uint32_t _action,
             _action_info.battle_action_list.push_back(new_action);
         }
     }
+
+    action_data +=  to_string(_action_info.my_position) + ":";
+    action_data +=  to_string(_action_info.action_type) + ":";
+    action_data +=  "[";
+    for(uint32_t i=0;i<_action_info.battle_action_list.size(); ++i)
+    {
+        action_data +=  to_string(_action_info.battle_action_list[i].target_position) + ":";
+        action_data +=  to_string(_action_info.battle_action_list[i].avoid) + ":";
+        action_data +=  to_string(_action_info.battle_action_list[i].critical) + ":";
+        if(i + 1 == _action_info.battle_action_list.size()){
+        action_data +=  to_string(_action_info.battle_action_list[i].damage);
+        }
+        else
+        {
+            action_data +=  to_string(_action_info.battle_action_list[i].damage) + ":";
+        }
+    }
+    action_data += "]";
+
+    _data.push_back(action_data);
     return true;
 }
 
@@ -3867,35 +3889,25 @@ battletest::battle_action battletest::get_target_action(uint32_t _active_id ,std
     uint32_t max_hp = 0;
     uint32_t cur_hp = 0;
 
-    switch(_active_id)
+    switch (_active_id)
     {
-        case action_type::attack:
-        {
-            cur_attack = _my_state_list[_my_key].physical_attack;
-            cur_cirtical = _my_state_list[_my_key].physical_crit_dmg;
-            cur_cri_per = _my_state_list[_my_key].physical_crit_per;
-            cur_defense = _my_state_list[_my_key].physical_defense;
-            break;
-        }
-        case action_type::skill:
-        {
-            set_skill_type(_my_state_list[_my_key].active_skill_list[0], _my_state_list[_my_key], 
-            cur_attack, cur_cirtical, cur_cri_per, cur_defense);
-            set_skill_damage(_my_state_list[_my_key].active_skill_list[0].id, _my_state_list[_my_key],
-            cur_attack, cur_cirtical);
-            break;
-        }
-        default:
-
-        {
-            eosio_assert(1 == 0, "Wrong Action Type 1");
-            break;
-        }
+    case action_type::attack:
+    {
+        cur_attack = _my_state_list[_my_key].physical_attack;
+        cur_cirtical = _my_state_list[_my_key].physical_crit_dmg;
+        cur_cri_per = _my_state_list[_my_key].physical_crit_per;
+        cur_defense = _my_state_list[_my_key].physical_defense;
+        break;
     }
-
-
-    switch (_my_state_list[_my_key].active_skill_list[0].id)
+    case action_type::skill:
     {
+        set_skill_type(_my_state_list[_my_key].active_skill_list[0], _my_state_list[_my_key],
+                       cur_attack, cur_cirtical, cur_cri_per, cur_defense);
+        set_skill_damage(_my_state_list[_my_key].active_skill_list[0].id, _my_state_list[_my_key],
+                         cur_attack, cur_cirtical);
+
+        switch (_my_state_list[_my_key].active_skill_list[0].id)
+        {
         case active_name::active_bash:
         case active_name::active_fast_attack:
         case active_name::active_multi_shot:
@@ -3961,9 +3973,19 @@ battletest::battle_action battletest::get_target_action(uint32_t _active_id ,std
         }
         default:
         {
-            eosio_assert(1 == 0 , "Wrong Skill ID 2");
+            eosio_assert(1 == 0, "Wrong Skill ID 2");
             break;
         }
+        }
+
+        break;
+    }
+    default:
+
+    {
+        eosio_assert(1 == 0, "Wrong Action Type 1");
+        break;
+    }
     }
 
     battle_action new_action;
@@ -4053,6 +4075,7 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
     std::vector<uint64_t> order_random_list;
     safeseed::get_battle_rand_list(order_random_list, battle_seed);
 
+    std::vector<std::string> data;
     //배틀의 상태를 바꿔주는 부분
     battle_state_list_table.modify(user_battle_state_iter, _self, [&](auto &battle_state) {
         //버프 턴부터 진행
@@ -4121,6 +4144,13 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                             action_info.my_position = battle_state.my_state_list[my_key].position;
                             action_info.action_type = action_type::skill;
                             update_action.battle_info_list.push_back(action_info);
+
+                            std::string action_data;
+                            action_data += to_string(action_info.my_position) + ":";
+                            action_data += to_string(action_info.action_type) + ":";
+                            action_data += "[";
+                            action_data += "]";
+                            data.push_back(action_data);
                         }
                         else if (battle_state.my_state_list[my_key].active_skill_list[0].id == active_name::active_heal)    //힐 스킬
                         {
@@ -4129,7 +4159,7 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                                        skill_order_list[i].second_speed,
                                        battle_state.my_state_list,
                                        battle_state.enemy_state_list,
-                                       my_key, action_info))
+                                       my_key, action_info,data))
                                        {
                                            break;
                                        }
@@ -4168,7 +4198,7 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                                             attack_order_list[i].second_speed,
                                             battle_state.my_state_list,
                                             battle_state.enemy_state_list,
-                                            my_key, action_info))
+                                            my_key, action_info,data))
                     {
                         break;
                     }
@@ -4185,7 +4215,7 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                                             attack_order_list[i].second_speed,
                                             battle_state.enemy_state_list,
                                             battle_state.my_state_list,
-                                            my_key, action_info))
+                                            my_key, action_info,data))
                     {
                         break;
                     }
@@ -4207,7 +4237,7 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                                             second_attack_order_list[i].second_speed,
                                             battle_state.my_state_list,
                                             battle_state.enemy_state_list,
-                                            my_key, action_info))
+                                            my_key, action_info,data))
                     {
                         break;
                     }
@@ -4224,7 +4254,7 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                                             second_attack_order_list[i].second_speed,
                                             battle_state.enemy_state_list,
                                             battle_state.my_state_list,
-                                            my_key, action_info))
+                                            my_key, action_info,data))
                     {
                         break;
                     }
@@ -4258,6 +4288,11 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
     {
         fail_reward(_user);
     }
+
+    action(permission_level{get_self(), "active"_n},
+           get_self(), "battleaction"_n,
+           std::make_tuple(_user, std::string("action"), data))
+        .send();
 }
 
 bool battletest::check_level_up(uint64_t _cur_exp, uint64_t _pre_exp)
@@ -4468,7 +4503,7 @@ void battletest::fail_reward(eosio::name _user)
     }
 }
 
-ACTION battletest::exitbattle(eosio::name _user)
+ACTION battletest::stageexit(eosio::name _user)
 {
     require_auth(_user);
 
@@ -5869,4 +5904,4 @@ ACTION battletest::change(eosio::name _user, std::string _kind , uint64_t _grade
     }
 // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(battletest, (battleaction)(battlestate)(completehero)(lookset)(dbmove)(change)(balancetest)(testsnap)(towersnap)(claim)(settower)(equipment)(unequipment)(itemstore)(sellobject)(upgrade)(dberasestg)(dbinsertstg)(deletewhite)(addwhite)(deleteuser)(exitbattle)(deletebattle)(startbattle)(activeturn)(setdata)(herocheat)(partycheat)(resultpre)(resultgacha)(create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dberase)(dbinit))
+EOSIO_DISPATCH(battletest, (battleaction)(battlestate)(completehero)(lookset)(dbmove)(change)(balancetest)(testsnap)(towersnap)(claim)(settower)(equipment)(unequipment)(itemstore)(sellobject)(upgrade)(dberasestg)(dbinsertstg)(deletewhite)(addwhite)(deleteuser)(stageexit)(deletebattle)(saveparty)(stagestart)(activeturn)(setdata)(herocheat)(partycheat)(resultpre)(resultgacha)(create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dberase)(dbinit))
