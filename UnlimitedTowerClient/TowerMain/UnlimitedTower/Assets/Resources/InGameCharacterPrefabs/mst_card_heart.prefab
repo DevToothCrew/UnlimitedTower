@@ -177,7 +177,6 @@ GameObject:
   - component: {fileID: 4818850738121406}
   - component: {fileID: 95965595102468892}
   - component: {fileID: 114109714409978578}
-  - component: {fileID: 114175325286156222}
   m_Layer: 0
   m_Name: mst_card_heart
   m_TagString: Untagged
@@ -208,14 +207,13 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4772391953231118}
-  - component: {fileID: 114620943664487758}
   m_Layer: 0
   m_Name: Select
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1262621865450390
 GameObject:
   m_ObjectHideFlags: 0
@@ -1310,30 +1308,6 @@ MonoBehaviour:
   AttackAfterDelay: 1
   Height: 1.5
   AttackRange: 0.7
---- !u!114 &114175325286156222
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1220056987103016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f64d9e7a856d4bb4a9d8d4b84ee4e389, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isOneDeal: 0
-  Arrow: {fileID: 0}
---- !u!114 &114620943664487758
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1248311261863332}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3965e4d25a439ee42bda281d94463f58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!137 &137036760058442742
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

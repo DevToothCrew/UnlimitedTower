@@ -34,14 +34,13 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4972342871022698}
-  - component: {fileID: 114431875563275948}
   m_Layer: 0
   m_Name: Select
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1130099426104550
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,7 +573,6 @@ GameObject:
   - component: {fileID: 4881158645644762}
   - component: {fileID: 95443055712322224}
   - component: {fileID: 114515515429315670}
-  - component: {fileID: 114991479711532914}
   m_Layer: 0
   m_Name: mst_zombie
   m_TagString: Untagged
@@ -1323,17 +1321,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114431875563275948
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1123835825151278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3965e4d25a439ee42bda281d94463f58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114515515429315670
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1349,19 +1336,6 @@ MonoBehaviour:
   AttackAfterDelay: 1.5
   Height: 1.2
   AttackRange: 0.8
---- !u!114 &114991479711532914
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1818332499443372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f64d9e7a856d4bb4a9d8d4b84ee4e389, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isOneDeal: 0
-  Arrow: {fileID: 0}
 --- !u!137 &137038446358111712
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

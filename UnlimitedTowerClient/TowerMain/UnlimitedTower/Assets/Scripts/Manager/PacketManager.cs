@@ -481,35 +481,38 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         if (type == (int)GACHA_RESULT_TYPE.Servant)
         {
-            // Debug.Log(getGachaInfo);
+            Debug.Log(getGachaInfo);
 
             gachaServantData gachaData = JsonUtility.FromJson<gachaServantData>(getGachaInfo);
             UserServantData getServant = ParseServant(gachaData.data.index, gachaData.data.party_number, gachaData.data.servant);
 
             UserDataManager.Inst.AddServantData(getServant);
 
+            GachaResultPopup.PopupAlert(getServant);
             GachaImage.Inst.SetServantGachaImage(getServant);
         }
         else if (type == (int)GACHA_RESULT_TYPE.Monster)
         {
-            // Debug.Log(getGachaInfo);
+            Debug.Log(getGachaInfo);
 
             gachaMonsterData gachaData = JsonUtility.FromJson<gachaMonsterData>(getGachaInfo);
             UserMonsterData getMonster = ParseMonster(gachaData.data.index, gachaData.data.party_number, gachaData.data.monster);
 
             UserDataManager.Inst.AddMonsterData(getMonster);
 
+            GachaResultPopup.PopupAlert(getMonster);
             GachaImage.Inst.SetMonsterGachaImage(getMonster);
         }
         else if (type == (int)GACHA_RESULT_TYPE.Item)
         {
-            // Debug.Log(getGachaInfo);
+            Debug.Log(getGachaInfo);
 
             gachaItemData gachaData = JsonUtility.FromJson<gachaItemData>(getGachaInfo);
             UserMountItemData getItem = ParseItem(gachaData.data.index, gachaData.data.item);
 
             UserDataManager.Inst.AddMountItemData(getItem);
 
+            GachaResultPopup.PopupAlert(getItem);
             GachaImage.Inst.SetItemGachaImage(getItem);
         }
     }
@@ -592,7 +595,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 아이템 판매
     public void ResponseSellItem()
     {
-
+    
     }
 
     // 장비 장착

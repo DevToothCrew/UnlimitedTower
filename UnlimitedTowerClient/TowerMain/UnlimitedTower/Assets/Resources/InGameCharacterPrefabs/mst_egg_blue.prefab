@@ -300,7 +300,6 @@ GameObject:
   - component: {fileID: 4897137081557912}
   - component: {fileID: 95488800391932210}
   - component: {fileID: 114209467859136956}
-  - component: {fileID: 114290198779306376}
   m_Layer: 0
   m_Name: mst_egg_blue
   m_TagString: Untagged
@@ -529,14 +528,13 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4506545151728340}
-  - component: {fileID: 114508630801929352}
   m_Layer: 0
   m_Name: Select
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1804531696896730
 GameObject:
   m_ObjectHideFlags: 0
@@ -1279,30 +1277,6 @@ MonoBehaviour:
   AttackAfterDelay: 1.5
   Height: 0.9
   AttackRange: 0.5
---- !u!114 &114290198779306376
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1331528662053630}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f64d9e7a856d4bb4a9d8d4b84ee4e389, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isOneDeal: 0
-  Arrow: {fileID: 0}
---- !u!114 &114508630801929352
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1766079877598472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3965e4d25a439ee42bda281d94463f58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!137 &137036664869599600
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

@@ -51,11 +51,11 @@ public class GachaBoxParticleController : MonoBehaviour
         Vector3 nextPosition = Vector3.down * 0.1f;
         Vector3 nextScale = Vector3.one * 0.8f;
 
-        while ((timer -= Time.deltaTime) > 0)
+        while ((timer -= Time.unscaledDeltaTime) > 0)
         {
-            Cube.transform.rotation = Quaternion.Lerp(Cube.transform.rotation, nextRotation, Time.deltaTime * 0.2f);
-            Cube.transform.localScale = Vector3.Lerp(Cube.transform.localScale, nextScale, Time.deltaTime * 0.2f);
-            Cube.transform.localPosition = Vector3.Lerp(Cube.transform.localPosition, nextPosition, Time.deltaTime * 0.2f);
+            Cube.transform.rotation = Quaternion.Lerp(Cube.transform.rotation, nextRotation, Time.unscaledDeltaTime * 0.2f);
+            Cube.transform.localScale = Vector3.Lerp(Cube.transform.localScale, nextScale, Time.unscaledDeltaTime * 0.2f);
+            Cube.transform.localPosition = Vector3.Lerp(Cube.transform.localPosition, nextPosition, Time.unscaledDeltaTime * 0.2f);
             yield return new WaitForEndOfFrame();
         }
     }
@@ -65,14 +65,14 @@ public class GachaBoxParticleController : MonoBehaviour
         float timer = maxPlayTime;
         float nextIntensity = 0.0f;
 
-        while ((timer -= Time.deltaTime) > 0)
+        while ((timer -= Time.unscaledDeltaTime) > 0)
         {
             if (Mathf.Abs(bloomSettings.bloom.intensity - nextIntensity) < 0.05f)
             {
                 nextIntensity = Mathf.Max(0.0f, bloomSettings.bloom.intensity + UnityEngine.Random.Range(-0.8f, 1.2f));
             }
 
-            bloomSettings.bloom.intensity = Mathf.Lerp(bloomSettings.bloom.intensity, nextIntensity, Time.deltaTime * 16.0f);
+            bloomSettings.bloom.intensity = Mathf.Lerp(bloomSettings.bloom.intensity, nextIntensity, Time.unscaledDeltaTime * 16.0f);
 
             //set dirty
             ppb.profile.bloom.settings = bloomSettings;
@@ -110,10 +110,10 @@ public class GachaBoxParticleController : MonoBehaviour
     {
         while (true)
         {
-            Cube.transform.localRotation = Quaternion.Lerp(Cube.transform.localRotation, Quaternion.Euler(0.0f, 0.0f, 45.0f), Time.deltaTime * 8.0f);
-            Cube.transform.localScale = Vector3.Lerp(Cube.transform.localScale, Vector3.one * 2.0f, Time.deltaTime * 8.0f);
+            Cube.transform.localRotation = Quaternion.Lerp(Cube.transform.localRotation, Quaternion.Euler(0.0f, 0.0f, 45.0f), Time.unscaledDeltaTime * 8.0f);
+            Cube.transform.localScale = Vector3.Lerp(Cube.transform.localScale, Vector3.one * 2.0f, Time.unscaledDeltaTime * 8.0f);
 
-            bloomSettings.bloom.intensity = Mathf.Lerp(bloomSettings.bloom.intensity, 2.5f, Time.deltaTime * 8.0f);
+            bloomSettings.bloom.intensity = Mathf.Lerp(bloomSettings.bloom.intensity, 2.5f, Time.unscaledDeltaTime * 8.0f);
             //set dirty
             ppb.profile.bloom.settings = bloomSettings;
             yield return new WaitForEndOfFrame();

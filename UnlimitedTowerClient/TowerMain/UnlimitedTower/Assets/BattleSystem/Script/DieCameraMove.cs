@@ -15,16 +15,8 @@ public class DieCameraMove : MonoSingleton<DieCameraMove>
         camera_C = camera_Obj.GetComponent<Camera>();
         startPos = camera_Obj.transform.position;
     }
-    
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            camera_C.orthographicSize += 5.0f;
-        }
-    }
 
-    public void Test(int target)
+    public void Action(int target)
     {
         StartCoroutine(Move(target));
     }
@@ -36,19 +28,19 @@ public class DieCameraMove : MonoSingleton<DieCameraMove>
         startPos = camera_Obj.transform.position;
         float startSize = camera_C.orthographicSize;
         Vector3 temp = camera_Obj.transform.position;
-        Vector3 dump = temp;
-        for (int i = 0; i < 25; i += BattleSystem.Inst.TimeScale)
+
+        for (int i = 0; i < 25; i += BattleManager.Inst.TimeScale)
         {
-                camera_Obj.transform.position = Vector3.Lerp(temp, _DISTANCE + BattleSystem.Inst.characterControl[target].transform.position, i * 0.04f);
+            camera_Obj.transform.position = Vector3.Lerp(temp, _DISTANCE + BattleManager.Inst.character[target].transform.position, i * 0.04f);
             if (camera_C.orthographicSize > 1.0f)
-            camera_C.orthographicSize -= 0.16f;
+                camera_C.orthographicSize -= 0.16f;
             yield return null;
         }
 
         yield return new WaitForSeconds(4.0f);
 
         temp = camera_Obj.transform.position;
-        for (int i = 0; i < 25; i += BattleSystem.Inst.TimeScale)
+        for (int i = 0; i < 25; i += BattleManager.Inst.TimeScale)
         {
             camera_Obj.transform.position = Vector3.Lerp(temp, startPos, i * 0.04f);
             if (camera_C.orthographicSize < 6.0f)

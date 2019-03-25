@@ -22,7 +22,7 @@ public class MapChange : MonoBehaviour
         new Vector3(-10, 8, -10),
         new Vector3(-10, 8, -10),
         new Vector3(-10, 8, -10),
-        new Vector3(-10, 8, -10),
+        new Vector3(-10, 10, -10),
         new Vector3(-10, 8, -10),
         new Vector3(-10, 8, -10),
         new Vector3(-10, 10, -10),

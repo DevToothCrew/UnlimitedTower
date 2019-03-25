@@ -65,37 +65,58 @@ public class GachaResultPopup : MonoBehaviour {
         exitButton.interactable = value;
     }
 
-    public void Popup(servantData result)
+    public void Popup(UserServantData result)
     {
         SetActiveButtons(true);
 
         //resultName.text = result.servant.name;
         //resultType.text = result.servant.islegend ? "Legendary" : "Normal";
-        resultStrStat.text = result.servant.status.basic_str.ToString();
-        resultIntStat.text = result.servant.status.basic_int.ToString();
-        resultDexStat.text = result.servant.status.basic_dex.ToString();
-
-        gameObject.SetActivateWithAnimation(true);
+        resultStrStat.text = result.status.basicStr.ToString();
+        resultIntStat.text = result.status.basicInt.ToString();
+        resultDexStat.text = result.status.basicDex.ToString();
     }
 
-    public void Popup(monsterData result)
+    public void Popup(UserMonsterData result)
     {
         SetActiveButtons(true);
 
         //resultName.text = result.monster.name;
-        resultType.text = result.monster.grade.ToString();
-        resultStrStat.text = result.monster.status.basic_str.ToString();
-        resultIntStat.text = result.monster.status.basic_int.ToString();
-        resultDexStat.text = result.monster.status.basic_dex.ToString();
-
-        gameObject.SetActivateWithAnimation(true);
+        resultType.text = result.gradeNum.ToString();
+        resultStrStat.text = result.status.basicStr.ToString();
+        resultIntStat.text = result.status.basicInt.ToString();
+        resultDexStat.text = result.status.basicDex.ToString();
     }
 
-    public void Popup(itemData result)
+    public void Popup(UserMountItemData result)
     {
         SetActiveButtons(true);
-
-        gameObject.SetActivateWithAnimation(true);
         throw new System.NotImplementedException();
+    }
+
+    public static void PopupAlert(object result)
+    {
+        Debug.Log(result + " ?????????????? ");
+        if(result is UserServantData)
+        {
+            Instance.gameObject.SetActivateWithAnimation(true);
+            Instance.Popup(result as UserServantData);
+        }
+
+        else if (result is UserMonsterData)
+        {
+            Instance.gameObject.SetActivateWithAnimation(true);
+            Instance.Popup(result as UserMonsterData);
+        }
+
+        else if (result is UserMountItemData)
+        {
+            Instance.gameObject.SetActivateWithAnimation(true);
+            Instance.Popup(result as UserMountItemData);
+        }
+
+        else
+        {
+            throw new System.Exception("Unexpected type result object : " + result);
+        }
     }
 }

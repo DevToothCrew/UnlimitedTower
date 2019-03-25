@@ -110,14 +110,13 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4457502185192936}
-  - component: {fileID: 114782984966785048}
   m_Layer: 0
   m_Name: Select
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1085239587910414
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,7 +174,6 @@ GameObject:
   - component: {fileID: 4873421381910740}
   - component: {fileID: 95820187515764846}
   - component: {fileID: 114692767504018890}
-  - component: {fileID: 114552403393220786}
   m_Layer: 0
   m_Name: mst_bear_red
   m_TagString: Untagged
@@ -1323,19 +1321,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114552403393220786
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1245832510159626}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f64d9e7a856d4bb4a9d8d4b84ee4e389, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isOneDeal: 0
-  Arrow: {fileID: 0}
 --- !u!114 &114692767504018890
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1351,17 +1336,6 @@ MonoBehaviour:
   AttackAfterDelay: 1.5
   Height: 1.5
   AttackRange: 0.9
---- !u!114 &114782984966785048
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1071422333570272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3965e4d25a439ee42bda281d94463f58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!137 &137039371989590162
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

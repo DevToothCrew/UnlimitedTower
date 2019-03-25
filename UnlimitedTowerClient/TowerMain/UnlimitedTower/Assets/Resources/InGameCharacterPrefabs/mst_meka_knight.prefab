@@ -96,7 +96,6 @@ GameObject:
   - component: {fileID: 4351975815195926}
   - component: {fileID: 95130282108289648}
   - component: {fileID: 114051252049721494}
-  - component: {fileID: 114189517005514326}
   m_Layer: 0
   m_Name: mst_meka_knight
   m_TagString: Untagged
@@ -421,14 +420,13 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4204963551965966}
-  - component: {fileID: 114624854156211408}
   m_Layer: 0
   m_Name: Select
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1725753066498124
 GameObject:
   m_ObjectHideFlags: 0
@@ -1370,30 +1368,6 @@ MonoBehaviour:
   AttackAfterDelay: 1.5
   Height: 1.2
   AttackRange: 1
---- !u!114 &114189517005514326
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1107295070736824}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f64d9e7a856d4bb4a9d8d4b84ee4e389, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isOneDeal: 0
-  Arrow: {fileID: 0}
---- !u!114 &114624854156211408
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1725337224406146}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3965e4d25a439ee42bda281d94463f58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!137 &137006218690288016
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

@@ -494,14 +494,13 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4670130486898218}
-  - component: {fileID: 114796191237997842}
   m_Layer: 0
   m_Name: Select
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1751376006374838
 GameObject:
   m_ObjectHideFlags: 1
@@ -651,7 +650,6 @@ GameObject:
   - component: {fileID: 4228741704057544}
   - component: {fileID: 95563565156447526}
   - component: {fileID: 114516954920586940}
-  - component: {fileID: 114901029368917430}
   m_Layer: 0
   m_Name: mst_bear_white
   m_TagString: Untagged
@@ -1338,30 +1336,6 @@ MonoBehaviour:
   AttackAfterDelay: 1.5
   Height: 1.5
   AttackRange: 0.9
---- !u!114 &114796191237997842
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1741358233982436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3965e4d25a439ee42bda281d94463f58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114901029368917430
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1981727085330898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f64d9e7a856d4bb4a9d8d4b84ee4e389, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isOneDeal: 0
-  Arrow: {fileID: 0}
 --- !u!137 &137060124980934436
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

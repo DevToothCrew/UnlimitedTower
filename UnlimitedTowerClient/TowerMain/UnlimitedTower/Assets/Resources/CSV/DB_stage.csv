@@ -1,0 +1,7 @@
+id,stage_type,stage_floor,#,stage_string,need_stage_id,stage_group_index,need_entrance_item_id,need_entrance_item_count,enemy_level_min,ememy_level_max,enemy_id_list,enemy_position,boss_level,boss_passive_list,boss_active_list,rank_exp,char_exp,reward_id_list,reward_count_list,first_reward_id,first_reward_count,map_resource,bgm_sound_id
+#,?¤í…Œ?´ì? ?€??,ê´€ë¦??¤í…Œ?´ì? ?´ë¦„,?¤í…Œ?´ì? ì¡°ê±´,?¤í…Œ?´ì? ê·¸ë£¹ ë¦¬ìŠ¤???…ì¥ ?„ìš” ?„ì´???…ì¥ ?„ì´??ê°œìˆ˜,ìµœì†Œ ëª¬ìŠ¤???ˆë²¨,ìµœë? ëª¬ìŠ¤???ˆë²¨,"?¤í…Œ?´ì? ëª¬ìŠ¤??ID 
+(ëª¬ìŠ¤??ID?€ ?¤ë¦„)",ëª¬ìŠ¤???„ì¹˜,ë³´ìŠ¤ ëª¬ìŠ¤???ˆë²¨,ë³´ìŠ¤ ?¨ì‹œë¸?ë¦¬ìŠ¤??ë³´ìŠ¤ ?¡í‹°ë¸?ë¦¬ìŠ¤????¬ ê²½í—˜ì¹?ìºë¦­??ê²½í—˜ì¹??´ë¦¬??ë³´ìƒ,?´ë¦¬??ë³´ìƒ ?˜ëŸ‰,"?¤í…Œ?´ì? ìµœì´ˆ?´ë¦¬??
+ ë³´ìƒitem ID ?…ë ¥","?¤í…Œ?´ì? ìµœì´ˆ?´ë¦¬??
+ ë³´ìƒ ê°œìˆ˜",?¤í…Œ?´ì? ë§?ë¦¬ì†Œ??ID,?¤í…Œ?´ì? ?¬ìš´??,,,,,,,,
+int,string,,string,localize,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,string,int
+100101,1,1,,0,0,1,0,0,1,3,102102/102102/102102,10¿ù 11ÀÏ,,,,,150,1000/1001,02¿ù 03ÀÏ,0,0,map_iceberg_stage_01,0

@@ -29,7 +29,7 @@ public class UTLoadingManager : MonoBehaviour {
 
     public Text uiComment;
     public Image uiInside;
-    public DelayEffect uiParticles;
+    public UTLoadingParticle uiParticles;
     public RectTransform uiGageFx;
 
     private long lastId = 0;
@@ -47,6 +47,10 @@ public class UTLoadingManager : MonoBehaviour {
         {
             Instance = this;
             StartCoroutine(wrkFlow());
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 

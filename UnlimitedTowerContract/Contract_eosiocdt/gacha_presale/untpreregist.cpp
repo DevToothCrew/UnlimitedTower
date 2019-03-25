@@ -1179,6 +1179,8 @@ void untpreregist::signup(eosio::name _user)
 
 ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
 {
+    require_auth(sender);
+    
     blacklist blacklist_table(_self, _self.value);
     auto blacklist_iter = blacklist_table.find(sender.value);
     eosio_assert(blacklist_iter == blacklist_table.end(), "BlackList User 3");
@@ -1188,6 +1190,8 @@ ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
         eosio_assert(ad.action != action_signup, "Need Presignup");
         if (ad.action == action_preregist_signup)
         {
+            eosio_assert(receiver == _self, "Wrong Action 1");
+            eosio_assert(receiver == "untowermain1"_n, "Wrong Action 2");
             system_master system_master_table(_self, _self.value);
             auto system_master_iter = system_master_table.begin();
             eosio_assert(system_master_iter->state != system_state::pause, "Server Pause 2");
@@ -1220,6 +1224,8 @@ ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
         }
         else if (ad.action == action_referer)           //레퍼럴 등록
         {
+            eosio_assert(receiver == _self, "Wrong Action 3");
+            eosio_assert(receiver == "untowermain1"_n, "Wrong Action 4");
             system_master system_master_table(_self, _self.value);
             auto system_master_iter = system_master_table.begin();
             eosio_assert(system_master_iter->state != system_state::pause, "Server Pause 2");
@@ -1270,6 +1276,8 @@ ACTION untpreregist::eostransfer(eosio::name sender, eosio::name receiver)
         }
         else if (ad.action == action_gacha)
         {
+            eosio_assert(receiver == _self, "Wrong Action 5");
+            eosio_assert(receiver == "untowermain1"_n, "Wrong Action 6");
             system_master system_master_table(_self, _self.value);
             auto system_master_iter = system_master_table.begin();
             eosio_assert(system_master_iter->state != system_state::pause, "Server Pause 3");
@@ -1323,6 +1331,7 @@ void untpreregist::eosiotoken_transfer(eosio::name sender, eosio::name receiver,
 {
     require_auth(sender);
     auto transfer_data = eosio::unpack_action_data<st_transfer>();
+    eosio_assert(transfer_data.to == receiver, "Wrong Data 1");
     eosio_assert(transfer_data.quantity.symbol == symbol("EOS", 4), "Only Accepts EOS for deposits");
     eosio_assert(transfer_data.quantity.is_valid(), "Invalid token transfer");
     eosio_assert(transfer_data.quantity.amount > 0, "Quantity must be positive");
@@ -1331,96 +1340,103 @@ void untpreregist::eosiotoken_transfer(eosio::name sender, eosio::name receiver,
     size_t l_center = transfer_data.memo.find(':');
 
     res.action = transfer_data.memo.substr(0, l_center);
-
-    if (res.action == "gacha")
+    if (receiver != _self)
     {
-        system_master system_master_table(_self, _self.value);
-        auto system_master_iter = system_master_table.begin();
-        eosio_assert(system_master_iter->state != system_state::pause, "Server Pause 4");
-
-        size_t l_next = transfer_data.memo.find(':', l_center + 1);
-        size_t l_end = transfer_data.memo.length() - (l_next + 1);
-
-        eosio_assert(transfer_data.memo.find(':') != std::string::npos, "Seed Memo [:] Error");
-        eosio_assert(transfer_data.memo.find(':', l_center + 1) != std::string::npos, "Seed Memo [:] Error");
-        eosio_assert(transfer_data.quantity.amount == 10000, "Gacha need 1.0000 EOS"); 
-
-        std::string l_seed = transfer_data.memo.substr(l_center + 1, (l_next - l_center - 1));
-        std::string l_sha = transfer_data.memo.substr(l_next + 1, l_end);
-
-        res.type = safeseed::check_seed(l_seed, l_sha);
-        res.quantity = transfer_data.quantity;
-
-        eosio_assert(res.type != 0, "Wrong seed convert");
-    }
-    else if (res.action == "presignup")
-    {
-        system_master system_master_table(_self, _self.value);
-        auto system_master_iter = system_master_table.begin();
-        eosio_assert(system_master_iter->state != system_state::pause, "Server Pause 5");
-
-        size_t l_next = transfer_data.memo.find(':', l_center + 1);
-        size_t l_end = transfer_data.memo.length() - (l_next + 1);
-
-        eosio_assert(transfer_data.memo.find(':') != std::string::npos, "Seed Memo [:] Error");
-        eosio_assert(transfer_data.memo.find(':', l_center + 1) != std::string::npos, "Seed Memo [:] Error");
-        eosio_assert(transfer_data.quantity.amount == 10000, "Presignup need 1.0000 EOS");
-
-        std::string l_seed = transfer_data.memo.substr(l_center + 1, (l_next - l_center - 1));
-        std::string l_sha = transfer_data.memo.substr(l_next + 1, l_end);
-
-        res.type = safeseed::check_seed(l_seed, l_sha);
-
-        eosio_assert(res.type != 0, "Wrong seed");
-    }
-    else if (res.action == "signup")
-    {
-        system_master system_master_table(_self, _self.value);
-        auto system_master_iter = system_master_table.begin();
-        eosio_assert(system_master_iter->state != system_state::pause, "Server Pause 6");
-
-        eosio_assert(transfer_data.quantity.amount == 10000, "signup need 1.0000 EOS");
-    }
-    else if(res.action == "refpresignup")
-    {
-        system_master system_master_table(_self, _self.value);
-        auto system_master_iter = system_master_table.begin();
-        eosio_assert(system_master_iter->state != system_state::pause, "Server Pause 7");
-
-        size_t l_account = transfer_data.memo.find(':', l_center + 1); //계정명
-        size_t l_next =  transfer_data.memo.find(':',l_account + 1); //시드
-        size_t l_end = transfer_data.memo.length() - (l_next + 1); //샤
-
-        eosio_assert(transfer_data.memo.find(':') != std::string::npos, "Seed Memo [:] Error 1");
-        eosio_assert(transfer_data.memo.find(':', l_center + 1) != std::string::npos, "Seed Memo [:] Error 2");
-        eosio_assert(transfer_data.memo.find(':', l_account + 1) != std::string::npos, "Seed Memo [:] Error 3");
-        eosio_assert(transfer_data.quantity.amount == 10000, "Presignup need 1.0000 EOS");
-
-        std::string l_seed = transfer_data.memo.substr(l_account + 1, (l_next - l_account - 1));
-        std::string l_sha = transfer_data.memo.substr(l_next + 1, l_end);
-
-        res.type = safeseed::check_seed(l_seed, l_sha);
-        std::string refer = transfer_data.memo.substr(l_center + 1, (l_account - l_center - 1) );
-
-        eosio::name refer_account(refer);
-        res.to = refer_account;
-
-        eosio_assert(res.type != 0, "Wrong seed");
+        if (receiver != "eosio.token"_n)
+        {
+            system_master system_master_table(_self, _self.value);
+            if (_self != sender)
+            {
+                auto system_master_iter = system_master_table.find(sender.value);
+                eosio_assert(system_master_iter != system_master_table.end(), "Impossible Send EOS");
+            }
+            else
+            {
+                auto system_master_iter = system_master_table.find(receiver.value);
+                eosio_assert(system_master_iter != system_master_table.end(), "Impossible Recv EOS");
+            }
+        }
     }
     else
     {
-        system_master system_master_table(_self, _self.value);
-        if (_self != sender)
+        eosio_assert(receiver == "untowermain1"_n, "Wrong Action 1");
+        if (res.action == "gacha")
         {
-            auto system_master_iter = system_master_table.find(sender.value);
-            eosio_assert(system_master_iter != system_master_table.end(), "Impossible Send EOS");
+            system_master system_master_table(_self, _self.value);
+            auto system_master_iter = system_master_table.begin();
+            eosio_assert(system_master_iter->state != system_state::pause, "Server Pause 4");
+
+            size_t l_next = transfer_data.memo.find(':', l_center + 1);
+            size_t l_end = transfer_data.memo.length() - (l_next + 1);
+
+            eosio_assert(transfer_data.memo.find(':') != std::string::npos, "Seed Memo [:] Error");
+            eosio_assert(transfer_data.memo.find(':', l_center + 1) != std::string::npos, "Seed Memo [:] Error");
+            eosio_assert(transfer_data.quantity.amount == 10000, "Gacha need 1.0000 EOS"); 
+
+            std::string l_seed = transfer_data.memo.substr(l_center + 1, (l_next - l_center - 1));
+            std::string l_sha = transfer_data.memo.substr(l_next + 1, l_end);
+
+            res.type = safeseed::check_seed(l_seed, l_sha);
+            res.quantity = transfer_data.quantity;
+
+            eosio_assert(res.type != 0, "Wrong seed convert");
         }
-        else if (_self == sender)
+        else if (res.action == "presignup")
         {
-            auto system_master_iter = system_master_table.find(receiver.value);
-            eosio_assert(system_master_iter != system_master_table.end(), "Impossible Recv EOS");
+            system_master system_master_table(_self, _self.value);
+            auto system_master_iter = system_master_table.begin();
+            eosio_assert(system_master_iter->state != system_state::pause, "Server Pause 5");
+
+            size_t l_next = transfer_data.memo.find(':', l_center + 1);
+            size_t l_end = transfer_data.memo.length() - (l_next + 1);
+
+            eosio_assert(transfer_data.memo.find(':') != std::string::npos, "Seed Memo [:] Error");
+            eosio_assert(transfer_data.memo.find(':', l_center + 1) != std::string::npos, "Seed Memo [:] Error");
+            eosio_assert(transfer_data.quantity.amount == 10000, "Presignup need 1.0000 EOS");
+
+            std::string l_seed = transfer_data.memo.substr(l_center + 1, (l_next - l_center - 1));
+            std::string l_sha = transfer_data.memo.substr(l_next + 1, l_end);
+
+            res.type = safeseed::check_seed(l_seed, l_sha);
+
+            eosio_assert(res.type != 0, "Wrong seed");
+        }
+        else if (res.action == "signup")
+        {
+            system_master system_master_table(_self, _self.value);
+            auto system_master_iter = system_master_table.begin();
+            eosio_assert(system_master_iter->state != system_state::pause, "Server Pause 6");
+
+            eosio_assert(transfer_data.quantity.amount == 10000, "signup need 1.0000 EOS");
+        }
+        else if(res.action == "refpresignup")
+        {
+            system_master system_master_table(_self, _self.value);
+            auto system_master_iter = system_master_table.begin();
+            eosio_assert(system_master_iter->state != system_state::pause, "Server Pause 7");
+
+            size_t l_account = transfer_data.memo.find(':', l_center + 1); //계정명
+            size_t l_next =  transfer_data.memo.find(':',l_account + 1); //시드
+            size_t l_end = transfer_data.memo.length() - (l_next + 1); //샤
+
+            eosio_assert(transfer_data.memo.find(':') != std::string::npos, "Seed Memo [:] Error 1");
+            eosio_assert(transfer_data.memo.find(':', l_center + 1) != std::string::npos, "Seed Memo [:] Error 2");
+            eosio_assert(transfer_data.memo.find(':', l_account + 1) != std::string::npos, "Seed Memo [:] Error 3");
+            eosio_assert(transfer_data.quantity.amount == 10000, "Presignup need 1.0000 EOS");
+
+            std::string l_seed = transfer_data.memo.substr(l_account + 1, (l_next - l_account - 1));
+            std::string l_sha = transfer_data.memo.substr(l_next + 1, l_end);
+
+            res.type = safeseed::check_seed(l_seed, l_sha);
+            std::string refer = transfer_data.memo.substr(l_center + 1, (l_account - l_center - 1) );
+
+            eosio::name refer_account(refer);
+            res.to = refer_account;
+
+            eosio_assert(res.type != 0, "Wrong seed");
         }
     }
+
 
     func(res);
 }

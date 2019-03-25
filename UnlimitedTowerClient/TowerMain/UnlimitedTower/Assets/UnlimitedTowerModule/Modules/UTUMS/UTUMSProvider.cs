@@ -31,7 +31,6 @@ public abstract class UTUMSProvider
 
     public abstract void RequestGacha();
     public abstract void RequestSaveParty(UserPartyData partyInfo);
-
     public abstract void RequestBattleAction(int getTurn);
     public abstract void RequestStageStart(int stageNum, int partyNum);
     public abstract void RequestStageExit();
