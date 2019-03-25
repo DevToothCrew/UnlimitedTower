@@ -38,9 +38,9 @@ public class UTLocalUMSProvider : UTUMSProvider
         UTEventPoolInterface.SendEventData("stagestart", new UTPlayerManager.UTStageStartData() { stageNum = getStageNum, partyNum = getPartyNum });
     }
 
-    public override void RequestStageResult(int stageNum)
+    public override void RequestStageExit()
     {
-        PacketManager.Inst.RequestStageResult();
+        PacketManager.Inst.RequestStageExit();
     }
 
     public override void RequestTowerStart()

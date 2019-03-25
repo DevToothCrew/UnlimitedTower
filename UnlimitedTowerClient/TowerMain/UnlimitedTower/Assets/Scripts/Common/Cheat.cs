@@ -112,7 +112,7 @@ public class Cheat : MonoSingleton<Cheat>
         }
     }
 
-    public string GetBattleActionData(string user, int turn)
+    public string GetBattleActionData(string user, int getTurn)
     {
         stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
          

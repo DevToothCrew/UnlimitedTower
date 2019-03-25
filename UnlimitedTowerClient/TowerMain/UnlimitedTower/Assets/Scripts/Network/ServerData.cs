@@ -284,39 +284,39 @@ public class errorCode
 
 #endregion
 
-#region ScatterData
+#region RequestJsonData
 
-[System.Serializable]
-public class JsonParty
+[Serializable]
+public class GachaJson
 {
-    public int partyNum = 0;
-    public List<int> partyList = new List<int>();
+    public int gachaIndex;
 }
 
-[System.Serializable]
-public class TestParty
+[Serializable]
+public class PartySaveJson
 {
     public int partyNum = 0;
     public List<int> servantList = new List<int>();
     public List<int> monsterList = new List<int>();
 }
 
-[System.Serializable]
-public class TestJsonBattleAction
-{
-    public int heroTargetIndex = 0;
-    public int heroActionType = 0;
-
-    public int monsterTargetIndex = 0;
-    public int monsterActionType = 0;
-
-}
-
-[System.Serializable]
-public class TestJsonStartBattle
+[Serializable]
+public class StageStartJson
 {
     public int partyNum = 0;
     public int stageNum = 0;
+}
+
+[Serializable]
+public class BattleActionJson
+{
+    public int turn;
+}
+
+[Serializable]
+public class StageRewardJson
+{
+    public int turn;
 }
 
 #endregion
