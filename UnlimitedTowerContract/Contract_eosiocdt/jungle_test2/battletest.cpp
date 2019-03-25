@@ -3471,9 +3471,9 @@ uint64_t battletest::get_damage(uint32_t _atk, uint32_t _dfs)
 }
 
 
-void battletest::set_stage_state(uint64_t _stage_id, std::vector<battle_state> &_enemy_state_list ,std::vector<std::string> &_state)
+void battletest::set_stage_state(uint64_t _stage_id, std::vector<character_state_data> &_enemy_state_list ,std::vector<std::string> &_state)
 {
-    battle_state get_state;
+    character_state_data get_state;
 
     stage_db stage_db_table(_self, _self.value);
     auto stage_db_iter = stage_db_table.find(_stage_id);
@@ -3607,9 +3607,9 @@ void battletest::set_stage_state(uint64_t _stage_id, std::vector<battle_state> &
 
 
 
-battletest::battle_state battletest::get_user_state(eosio::name _user, std::string _type, uint64_t _index, uint32_t _position, std::vector<std::string> &_state)
+battletest::character_state_data battletest::get_user_state(eosio::name _user, std::string _type, uint64_t _index, uint32_t _position, std::vector<std::string> &_state)
 {
-    battle_state get_state;
+    character_state_data get_state;
     total_status status;
     
     if(_type == "ser")
@@ -4034,7 +4034,7 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
                 {
                     continue;
                 }
-                battle_state servant_battle_state = get_user_state(_user, "ser",user_party_iter->servant_list[i],servant_pos_list[i], my_state);
+                character_state_data servant_battle_state = get_user_state(_user, "ser",user_party_iter->servant_list[i],servant_pos_list[i], my_state);
                 new_battle_set.my_state_list.push_back(servant_battle_state);
             }
             for (uint32_t i = 0; i < 5; ++i)
@@ -4043,7 +4043,7 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
                 {
                     continue;
                 }
-                battle_state monster_battle_state = get_user_state(_user, "mon",user_party_iter->monster_list[i], monster_pos_list[i], my_state);
+                character_state_data monster_battle_state = get_user_state(_user, "mon",user_party_iter->monster_list[i], monster_pos_list[i], my_state);
                 new_battle_set.my_state_list.push_back(monster_battle_state);
             }
             set_stage_state(stage_db_iter->stage_id, new_battle_set.enemy_state_list, enemy_state);
@@ -4065,7 +4065,7 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
                 {
                     continue;
                 }
-                battle_state servant_battle_state = get_user_state(_user, "ser",user_party_iter->servant_list[i],servant_pos_list[i], my_state);
+                character_state_data servant_battle_state = get_user_state(_user, "ser",user_party_iter->servant_list[i],servant_pos_list[i], my_state);
                 new_battle_set.my_state_list.push_back(servant_battle_state);
             }
             for (uint32_t i = 0; i < 5; ++i)
@@ -4074,7 +4074,7 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
                 {
                     continue;
                 }
-                battle_state monster_battle_state = get_user_state(_user, "mon",user_party_iter->monster_list[i], monster_pos_list[i], my_state);
+                character_state_data monster_battle_state = get_user_state(_user, "mon",user_party_iter->monster_list[i], monster_pos_list[i], my_state);
                 new_battle_set.my_state_list.push_back(monster_battle_state);
             }
             set_stage_state(stage_db_iter->stage_id, new_battle_set.enemy_state_list, enemy_state);
@@ -4088,14 +4088,14 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
         user_battle_action_table.emplace(_self, [&](auto &new_battle_action) {
             new_battle_action.user = _user;
             new_battle_action.turn = START_BATTLE;
-            new_battle_action.battle_info_list.clear();
+            new_battle_action.character_action_list.clear();
         });
     }
     else
     {
         user_battle_action_table.modify(user_battle_action_iter, _self, [&](auto &new_battle_action) {
             new_battle_action.turn = START_BATTLE;
-            new_battle_action.battle_info_list.clear();
+            new_battle_action.character_action_list.clear();
         });
     }
 
@@ -4109,7 +4109,7 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma region active turn
-int battletest::get_random_target(const std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint32_t _max, uint32_t _min)
+int battletest::get_random_target(const std::vector<character_state_data> &_enemy_state_list, uint64_t _seed, uint32_t _max, uint32_t _min)
 {
     int target_key = safeseed::get_random_value(_seed, _max, _min, 0);
     if ((_enemy_state_list[target_key].state == battle_member_state::dead))
@@ -4147,7 +4147,7 @@ bool battletest::sort_compare(const battle_order_struct &a, const battle_order_s
     }
 }
 
-int battletest::get_target_key(const std::vector<battle_state> &_enemy_state_list, uint64_t _target_position)
+int battletest::get_target_key(const std::vector<character_state_data> &_enemy_state_list, uint64_t _target_position)
 {
     int target_key = -1;
     for (uint32_t i = 0; i < _enemy_state_list.size(); ++i)
@@ -4185,7 +4185,7 @@ bool battletest::check_buff_state(buff_info &_buff)
     }
 }
 
-void battletest::init_buff_effect(battle_state &_state, buff_info _buff)
+void battletest::init_buff_effect(character_state_data &_state, buff_info _buff)
 {
     if(_buff.id == buff_state::defense)
     {
@@ -4193,7 +4193,7 @@ void battletest::init_buff_effect(battle_state &_state, buff_info _buff)
     }
 }
 
-void battletest::init_buff_turn(std::vector<battle_state> &_state_list)
+void battletest::init_buff_turn(std::vector<character_state_data> &_state_list)
 {
     for (uint32_t i = 0; i < _state_list.size(); ++i)
     {
@@ -4219,9 +4219,9 @@ void battletest::init_buff_turn(std::vector<battle_state> &_state_list)
 
 bool battletest::set_action(uint32_t _action,
                             uint64_t _seed,
-                            std::vector<battle_state> &_my_state_list,
-                            std::vector<battle_state> &_enemy_state_list,
-                            uint64_t _my_key, battle_action_info &_action_info,
+                            std::vector<character_state_data> &_my_state_list,
+                            std::vector<character_state_data> &_enemy_state_list,
+                            uint64_t _my_key, character_action_data &_action_info,
                             std::vector<std::string> &_data)
 {
     std::string action_data;
@@ -4235,7 +4235,7 @@ bool battletest::set_action(uint32_t _action,
             return false;
         }
 
-        battle_action new_action;
+        action_info new_action;
         new_action = get_target_action(_action, _my_state_list, _enemy_state_list, _seed, _my_key, enemy_key);
         if (_enemy_state_list[enemy_key].now_hp <= new_action.damage)
         {
@@ -4246,7 +4246,7 @@ bool battletest::set_action(uint32_t _action,
         {
             _enemy_state_list[enemy_key].now_hp -= new_action.damage;
         }
-        _action_info.battle_action_list.push_back(new_action);
+        _action_info.action_info_list.push_back(new_action);
     }
     else if (_action == action_type::skill)
     {
@@ -4262,7 +4262,7 @@ bool battletest::set_action(uint32_t _action,
                 }
                 new_seed = new_seed >> 1;
 
-                battle_action new_action;
+                action_info new_action;
                 new_action = get_target_action(_action,
                                                _my_state_list, _enemy_state_list, _seed, _my_key, enemy_key);
                 if (_enemy_state_list[enemy_key].now_hp <= new_action.damage)
@@ -4274,7 +4274,7 @@ bool battletest::set_action(uint32_t _action,
                 {
                     _enemy_state_list[enemy_key].now_hp -= new_action.damage;
                 }
-                _action_info.battle_action_list.push_back(new_action);
+                _action_info.action_info_list.push_back(new_action);
             }
         }
         else if(_my_state_list[_my_key].active_skill_list[0].id == active_name::active_heal)        //힐스킬     
@@ -4284,7 +4284,7 @@ bool battletest::set_action(uint32_t _action,
             {
                 return false;
             }
-            battle_action new_action;
+            action_info new_action;
             new_action = get_target_action(_action,
                                            _my_state_list, _my_state_list, _seed, _my_key, enemy_key);
             uint32_t max_hp = get_max_hp(_my_state_list[enemy_key].status);
@@ -4292,7 +4292,7 @@ bool battletest::set_action(uint32_t _action,
             {
                 _my_state_list[enemy_key].now_hp += new_action.damage;
             }
-            _action_info.battle_action_list.push_back(new_action);
+            _action_info.action_info_list.push_back(new_action);
         }
         else  //1인 스킬
         {
@@ -4301,7 +4301,7 @@ bool battletest::set_action(uint32_t _action,
             {
                 return false;
             }
-            battle_action new_action;
+            action_info new_action;
             new_action = get_target_action(_action,
                                            _my_state_list, _enemy_state_list, _seed, _my_key, enemy_key);
             if (_enemy_state_list[enemy_key].now_hp <= new_action.damage)
@@ -4313,24 +4313,24 @@ bool battletest::set_action(uint32_t _action,
             {
                 _enemy_state_list[enemy_key].now_hp -= new_action.damage;
             }
-            _action_info.battle_action_list.push_back(new_action);
+            _action_info.action_info_list.push_back(new_action);
         }
     }
 
     action_data +=  to_string(_action_info.my_position) + ":";
     action_data +=  to_string(_action_info.action_type) + ":";
     action_data +=  "[";
-    for(uint32_t i=0;i<_action_info.battle_action_list.size(); ++i)
+    for(uint32_t i=0;i<_action_info.action_info_list.size(); ++i)
     {
-        action_data +=  to_string(_action_info.battle_action_list[i].target_position) + ":";
-        action_data +=  to_string(_action_info.battle_action_list[i].avoid) + ":";
-        action_data +=  to_string(_action_info.battle_action_list[i].critical) + ":";
-        if(i + 1 == _action_info.battle_action_list.size()){
-        action_data +=  to_string(_action_info.battle_action_list[i].damage);
+        action_data +=  to_string(_action_info.action_info_list[i].target_position) + ":";
+        action_data +=  to_string(_action_info.action_info_list[i].avoid) + ":";
+        action_data +=  to_string(_action_info.action_info_list[i].critical) + ":";
+        if(i + 1 == _action_info.action_info_list.size()){
+        action_data +=  to_string(_action_info.action_info_list[i].damage);
         }
         else
         {
-            action_data +=  to_string(_action_info.battle_action_list[i].damage) + ":";
+            action_data +=  to_string(_action_info.action_info_list[i].damage) + ":";
         }
     }
     action_data += "]";
@@ -4339,7 +4339,7 @@ bool battletest::set_action(uint32_t _action,
     return true;
 }
 
-void battletest::set_skill_damage(uint32_t _skill_id, battle_state &_state ,uint32_t &_attack, uint32_t &_cri_dmg)
+void battletest::set_skill_damage(uint32_t _skill_id, character_state_data &_state ,uint32_t &_attack, uint32_t &_cri_dmg)
 {
     switch (_skill_id)
     {
@@ -4393,7 +4393,7 @@ void battletest::set_skill_damage(uint32_t _skill_id, battle_state &_state ,uint
     }
 }
 
-void battletest::set_skill_type(skill_info _skill, battle_state &_state ,uint32_t &_attack, uint32_t &_cri_dmg, uint32_t &_cri_per, uint32_t &_defense)
+void battletest::set_skill_type(skill_info _skill, character_state_data &_state ,uint32_t &_attack, uint32_t &_cri_dmg, uint32_t &_cri_per, uint32_t &_defense)
 {
     switch (_skill.id)
     {
@@ -4418,7 +4418,7 @@ void battletest::set_skill_type(skill_info _skill, battle_state &_state ,uint32_
     }
 }
 
-void battletest::set_dmg_type(uint32_t _dmg_type, battle_state &_state , uint32_t &_defense)
+void battletest::set_dmg_type(uint32_t _dmg_type, character_state_data &_state , uint32_t &_defense)
 {
     switch (_dmg_type)
     {
@@ -4445,7 +4445,7 @@ void battletest::set_dmg_type(uint32_t _dmg_type, battle_state &_state , uint32_
 }
 
 
-void battletest::set_attack_type(uint32_t _atk_type, battle_state &_state ,uint32_t &_attack, uint32_t &_cri_dmg, uint32_t &_cri_per)
+void battletest::set_attack_type(uint32_t _atk_type, character_state_data &_state ,uint32_t &_attack, uint32_t &_cri_dmg, uint32_t &_cri_per)
 {
     switch (_atk_type)
     {
@@ -4476,7 +4476,7 @@ void battletest::set_attack_type(uint32_t _atk_type, battle_state &_state ,uint3
 }
 
 
-battletest::battle_action battletest::get_target_action(uint32_t _active_id ,std::vector<battle_state> &_my_state_list, std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint64_t _my_key, uint64_t _target_key)
+battletest::action_info battletest::get_target_action(uint32_t _active_id ,std::vector<character_state_data> &_my_state_list, std::vector<character_state_data> &_enemy_state_list, uint64_t _seed, uint64_t _my_key, uint64_t _target_key)
 {
     uint32_t cur_target_key = _target_key;
     uint32_t cur_damage = 0;
@@ -4511,7 +4511,7 @@ battletest::battle_action battletest::get_target_action(uint32_t _active_id ,std
         case active_name::active_multi_shot:
         case active_name::active_guided_arrow:
         {
-            battle_action new_action;
+            action_info new_action;
             if (true == check_avoid(_enemy_state_list[cur_target_key].avoid, _seed))
             {
                 new_action.target_position = _enemy_state_list[cur_target_key].position;
@@ -4524,7 +4524,7 @@ battletest::battle_action battletest::get_target_action(uint32_t _active_id ,std
         }
         case active_name::active_critical_strike:
         {
-            battle_action new_action;
+            action_info new_action;
             if (true == check_avoid(_enemy_state_list[cur_target_key].avoid, _seed))
             {
                 new_action.target_position = _enemy_state_list[cur_target_key].position;
@@ -4558,7 +4558,7 @@ battletest::battle_action battletest::get_target_action(uint32_t _active_id ,std
         }
         case active_name::active_heal:
         {
-            battle_action new_action;
+            action_info new_action;
             new_action.target_position = _enemy_state_list[cur_target_key].position;
             new_action.avoid = 0;
             new_action.critical = 0;
@@ -4586,7 +4586,7 @@ battletest::battle_action battletest::get_target_action(uint32_t _active_id ,std
     }
     }
 
-    battle_action new_action;
+    action_info new_action;
     if (false == check_critical(cur_cri_per, _seed))
     {
         if (_enemy_state_list[cur_target_key].buff_list.size() != 0) //버프가 있는지 확인
@@ -4675,10 +4675,10 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
 
     std::vector<std::string> data;
     //배틀의 상태를 바꿔주는 부분
-    battle_state_list_table.modify(user_battle_state_iter, _self, [&](auto &battle_state) {
+    battle_state_list_table.modify(user_battle_state_iter, _self, [&](auto &character_state_data) {
         //버프 턴부터 진행
-        init_buff_turn(battle_state.my_state_list);
-        init_buff_turn(battle_state.enemy_state_list);
+        init_buff_turn(character_state_data.my_state_list);
+        init_buff_turn(character_state_data.enemy_state_list);
         //공격순서 정렬하는 부분        
         std::vector<battle_order_struct> second_attack_order_list;
         std::vector<battle_order_struct> attack_order_list;
@@ -4715,7 +4715,7 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
         //배틀에 액션테이블에 데이터를 추가해주는 부분    
         battle_action_table.modify(user_battle_action_iter, _self, [&](auto &update_action) {
             update_action.turn += 1;
-            update_action.battle_info_list.clear();
+            update_action.character_action_list.clear();
             //먼저 스킬 발동 여부 확인
             for(uint32_t i = 0; i<skill_order_list.size(); ++i)
             {
@@ -4723,24 +4723,24 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                 if (skill_order_list[i].position < max_party_count) //내 파티인데
                 {
                     uint64_t action_rate = safeseed::get_random_value(skill_order_list[i].second_speed, 100, 0, 0);
-                    if (true == check_activate_skill(battle_state.my_state_list[my_key].active_skill_list[0], action_rate)) //액티브 스킬이 발동하면
+                    if (true == check_activate_skill(character_state_data.my_state_list[my_key].active_skill_list[0], action_rate)) //액티브 스킬이 발동하면
                     {
-                        if (battle_state.my_state_list[my_key].active_skill_list[0].id == active_name::active_fast_attack) //패스트 어택
+                        if (character_state_data.my_state_list[my_key].active_skill_list[0].id == active_name::active_fast_attack) //패스트 어택
                         {
                             skill_order_list[i].action = action_type::skill;
                             attack_order_list.push_back(skill_order_list[i]);
                         }
-                        else if (battle_state.my_state_list[my_key].active_skill_list[0].id == active_name::active_defense)    //버프 스킬
+                        else if (character_state_data.my_state_list[my_key].active_skill_list[0].id == active_name::active_defense)    //버프 스킬
                         {
                             buff_info new_buff;
                             new_buff.id = buff_state::defense;
                             new_buff.turn = 1;
-                            battle_state.my_state_list[my_key].buff_list.push_back(new_buff);
+                            character_state_data.my_state_list[my_key].buff_list.push_back(new_buff);
 
-                            battle_action_info action_info;
-                            action_info.my_position = battle_state.my_state_list[my_key].position;
+                            character_action_data action_info;
+                            action_info.my_position = character_state_data.my_state_list[my_key].position;
                             action_info.action_type = action_type::skill;
-                            update_action.battle_info_list.push_back(action_info);
+                            update_action.character_action_list.push_back(action_info);
 
                             std::string action_data;
                             action_data += to_string(action_info.my_position) + ":";
@@ -4749,18 +4749,18 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                             action_data += "]";
                             data.push_back(action_data);
                         }
-                        else if (battle_state.my_state_list[my_key].active_skill_list[0].id == active_name::active_heal)    //힐 스킬
+                        else if (character_state_data.my_state_list[my_key].active_skill_list[0].id == active_name::active_heal)    //힐 스킬
                         {
-                            battle_action_info action_info;
+                            character_action_data action_info;
                             if(false == set_action(action_type::skill,
                                        skill_order_list[i].second_speed,
-                                       battle_state.my_state_list,
-                                       battle_state.enemy_state_list,
+                                       character_state_data.my_state_list,
+                                       character_state_data.enemy_state_list,
                                        my_key, action_info,data))
                                        {
                                            break;
                                        }
-                            update_action.battle_info_list.push_back(action_info);
+                            update_action.character_action_list.push_back(action_info);
                         }
                         else
                         {
@@ -4786,37 +4786,37 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                 uint32_t my_key = attack_order_list[i].key;
                 if (attack_order_list[i].position < max_party_count)  //자기 파티에 대한 처리
                 {
-                    if (battle_state.my_state_list[my_key].state == battle_member_state::dead)
+                    if (character_state_data.my_state_list[my_key].state == battle_member_state::dead)
                     {
                         continue;
                     }
-                    battle_action_info action_info;
+                    character_action_data action_info;
                     if (false == set_action(action_type::skill,
                                             attack_order_list[i].second_speed,
-                                            battle_state.my_state_list,
-                                            battle_state.enemy_state_list,
+                                            character_state_data.my_state_list,
+                                            character_state_data.enemy_state_list,
                                             my_key, action_info,data))
                     {
                         break;
                     }
-                    update_action.battle_info_list.push_back(action_info);
+                    update_action.character_action_list.push_back(action_info);
                 }
                 else// 상대 파티의 경우
                 {
-                    if (battle_state.enemy_state_list[my_key].state == battle_member_state::dead)
+                    if (character_state_data.enemy_state_list[my_key].state == battle_member_state::dead)
                     {
                         continue;
                     }
-                    battle_action_info action_info;
+                    character_action_data action_info;
                     if (false == set_action(action_type::skill,
                                             attack_order_list[i].second_speed,
-                                            battle_state.enemy_state_list,
-                                            battle_state.my_state_list,
+                                            character_state_data.enemy_state_list,
+                                            character_state_data.my_state_list,
                                             my_key, action_info,data))
                     {
                         break;
                     }
-                    update_action.battle_info_list.push_back(action_info);
+                    update_action.character_action_list.push_back(action_info);
                 }
             }
               //그냥 일반 공격하는 애들에 대한 처리 ===============================================================
@@ -4825,52 +4825,52 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                 uint32_t my_key = second_attack_order_list[i].key;
                 if (second_attack_order_list[i].position < max_party_count) //자기 파티에 대한 처리
                 {
-                    if (battle_state.my_state_list[my_key].state == battle_member_state::dead)
+                    if (character_state_data.my_state_list[my_key].state == battle_member_state::dead)
                     {
                         continue;
                     }
-                    battle_action_info action_info;
+                    character_action_data action_info;
                     if (false == set_action(second_attack_order_list[i].action,
                                             second_attack_order_list[i].second_speed,
-                                            battle_state.my_state_list,
-                                            battle_state.enemy_state_list,
+                                            character_state_data.my_state_list,
+                                            character_state_data.enemy_state_list,
                                             my_key, action_info,data))
                     {
                         break;
                     }
-                    update_action.battle_info_list.push_back(action_info);
+                    update_action.character_action_list.push_back(action_info);
                 }
                 else // 상대 파티의 경우
                 {
-                    if (battle_state.enemy_state_list[my_key].state == battle_member_state::dead)
+                    if (character_state_data.enemy_state_list[my_key].state == battle_member_state::dead)
                     {
                         continue;
                     }
-                    battle_action_info action_info;
+                    character_action_data action_info;
                     if (false == set_action(second_attack_order_list[i].action,
                                             second_attack_order_list[i].second_speed,
-                                            battle_state.enemy_state_list,
-                                            battle_state.my_state_list,
+                                            character_state_data.enemy_state_list,
+                                            character_state_data.my_state_list,
                                             my_key, action_info,data))
                     {
                         break;
                     }
-                    update_action.battle_info_list.push_back(action_info);
+                    update_action.character_action_list.push_back(action_info);
                 }
             }
 
            //게임의 종료 여부 체크
-            for (uint32_t i = 0; i < battle_state.my_state_list.size(); ++i)
+            for (uint32_t i = 0; i < character_state_data.my_state_list.size(); ++i)
             {
-                if (battle_state.my_state_list[i].state == battle_member_state::dead)
+                if (character_state_data.my_state_list[i].state == battle_member_state::dead)
                 {
                     user_dead_count += 1;
                 }
             }
 
-            for (uint32_t i = 0; i < battle_state.enemy_state_list.size(); ++i)
+            for (uint32_t i = 0; i < character_state_data.enemy_state_list.size(); ++i)
             {
-                if (battle_state.enemy_state_list[i].state == battle_member_state::dead)
+                if (character_state_data.enemy_state_list[i].state == battle_member_state::dead)
                 {
                     enemy_dead_count += 1;
                 }

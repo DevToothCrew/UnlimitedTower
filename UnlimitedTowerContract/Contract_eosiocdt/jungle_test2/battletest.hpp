@@ -1127,7 +1127,7 @@ CONTRACT battletest : public contract
         uint32_t turn = 0;
     };
 
-    struct battle_state
+    struct character_state_data
     {
         uint32_t position;
         uint32_t index;
@@ -1159,8 +1159,8 @@ CONTRACT battletest : public contract
         eosio::name enemy_user; // if : Tower = account Name / else : untowermain1
         uint64_t stage_number;
         uint64_t state = stage_state::start;
-        std::vector<battle_state> my_state_list;
-        std::vector<battle_state> enemy_state_list;
+        std::vector<character_state_data> my_state_list;
+        std::vector<character_state_data> enemy_state_list;
 
         uint64_t primary_key() const { return user.value; }
     };
@@ -1193,7 +1193,7 @@ CONTRACT battletest : public contract
         uint32_t action = 0;
     };
 
-    struct battle_action
+    struct action_info
     {
         uint32_t target_position = 0;
         uint32_t avoid = 0;
@@ -1201,18 +1201,18 @@ CONTRACT battletest : public contract
         uint32_t damage = 0;
     };
 
-    struct battle_action_info
+    struct character_action_data
     {
         uint32_t my_position = 0;
         uint32_t action_type = 0;
-        std::vector<battle_action> battle_action_list;
+        std::vector<action_info> action_info_list;
     };
 
     TABLE tbattleact
     {
         eosio::name user;
         uint32_t turn;
-        std::vector<battle_action_info> battle_info_list;
+        std::vector<character_action_data> character_action_list;
         uint64_t primary_key() const { return user.value; }
     };
     typedef eosio::multi_index<"tbattleact"_n, tbattleact> battle_actions;
@@ -1247,12 +1247,12 @@ CONTRACT battletest : public contract
     uint32_t get_magic_defense(total_status _status);
     uint32_t get_physical_defense(total_status _status); 
     uint32_t get_speed(uint32_t _job);
-    void set_stage_state(uint64_t _stage_id, std::vector<battle_state> &_enemy_state_list, std::vector<std::string> &_state);
-    battle_state get_user_state(eosio::name _user, std::string _type, uint64_t _index, uint32_t _position, std::vector<std::string> &_state);
+    void set_stage_state(uint64_t _stage_id, std::vector<character_state_data> &_enemy_state_list, std::vector<std::string> &_state);
+    character_state_data get_user_state(eosio::name _user, std::string _type, uint64_t _index, uint32_t _position, std::vector<std::string> &_state);
     ACTION stagestart(eosio::name _user, uint32_t _party_number, uint32_t _stage);
 
-    void init_buff_effect(battle_state &_state, buff_info _buff);
-    void init_buff_turn(std::vector<battle_state> &_state_list);
+    void init_buff_effect(character_state_data &_state, buff_info _buff);
+    void init_buff_turn(std::vector<character_state_data> &_state_list);
     bool check_buff_state(buff_info &_buff);
     bool check_activate_skill(skill_info _skill, uint64_t _rate);
     uint64_t get_damage(uint32_t _atk, uint32_t _dfs);
@@ -1260,19 +1260,19 @@ CONTRACT battletest : public contract
     bool check_avoid(uint64_t _avoid_per, uint64_t _seed);
     
     //=====================skill======================//
-    void set_skill_damage(uint32_t _skill_id, battle_state &_state ,uint32_t &_attack, uint32_t &_cri_dmg);
-    void set_skill_type(skill_info _skill,battle_state &_state ,uint32_t &_attack, uint32_t &_cri_dmg, uint32_t &_cri_per, uint32_t &_defense);
-    void set_dmg_type(uint32_t _dmg_type, battle_state &_state , uint32_t &_defense);
-    void set_attack_type(uint32_t _atk_type, battle_state &_state ,uint32_t &_attack, uint32_t &_cri_dmg, uint32_t &_cri_per);
+    void set_skill_damage(uint32_t _skill_id, character_state_data &_state ,uint32_t &_attack, uint32_t &_cri_dmg);
+    void set_skill_type(skill_info _skill,character_state_data &_state ,uint32_t &_attack, uint32_t &_cri_dmg, uint32_t &_cri_per, uint32_t &_defense);
+    void set_dmg_type(uint32_t _dmg_type, character_state_data &_state , uint32_t &_defense);
+    void set_attack_type(uint32_t _atk_type, character_state_data &_state ,uint32_t &_attack, uint32_t &_cri_dmg, uint32_t &_cri_per);
     //================================================//
     bool set_action(uint32_t _action,uint64_t _seed,
-                                                      std::vector<battle_state> &_my_state_list,
-                                                      std::vector<battle_state> &_enemy_state_list,
-                                                      uint64_t _my_key, battle_action_info &_action_info,
+                                                      std::vector<character_state_data> &_my_state_list,
+                                                      std::vector<character_state_data> &_enemy_state_list,
+                                                      uint64_t _my_key, character_action_data &_action_info,
                                                       std::vector<std::string> &_data);
-    battle_action get_target_action(uint32_t _actvie_id , std::vector<battle_state> &_my_state_list, std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint64_t _my_key, uint64_t _target_key);
-    int get_random_target(const std::vector<battle_state> &_enemy_state_list, uint64_t _seed, uint32_t _max, uint32_t _min);
-    int get_target_key(const std::vector<battle_state> &_enemy_state_list, uint64_t _target_position);
+    action_info get_target_action(uint32_t _actvie_id , std::vector<character_state_data> &_my_state_list, std::vector<character_state_data> &_enemy_state_list, uint64_t _seed, uint64_t _my_key, uint64_t _target_key);
+    int get_random_target(const std::vector<character_state_data> &_enemy_state_list, uint64_t _seed, uint32_t _max, uint32_t _min);
+    int get_target_key(const std::vector<character_state_data> &_enemy_state_list, uint64_t _target_position);
     static bool sort_compare(const battle_order_struct &a, const battle_order_struct &b);
     bool check_level_up(uint64_t _cur_exp, uint64_t _pre_exp);
     void win_reward(eosio::name _user);
