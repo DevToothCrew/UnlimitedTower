@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class BattleManager : MonoSingleton<BattleManager>
 {
     public GameObject[] character = new GameObject[20];
+    public GameObject[] grid = new GameObject[20];
     public CharInfo[] charInfo = new CharInfo[20];
     public Animator[] animator = new Animator[20];
     public bool[] isPlace = new bool[20];
@@ -21,6 +22,8 @@ public class BattleManager : MonoSingleton<BattleManager>
     private CharacterCustom characterCustom;
 
     // Test
+    [Header("Test")]
+    public GameObject testGrid;
     private GameObject testReward;
     private GameObject testDefeat;
     private Text ErrorText;
@@ -75,10 +78,18 @@ public class BattleManager : MonoSingleton<BattleManager>
             //     isSpaceCheck = true;
             // }
             BattleUIManager.Inst.OnDelay();
-
-            string battleActionInfo = Cheat.Inst.GetBattleActionData("devtooth", turnIndex);
-            Debug.Log("[SUCCESS] user battleaction :" + battleActionInfo);
-            PacketManager.Inst.ResponseBattleAction(battleActionInfo);
+            #if UNITY_EDITOR
+            {
+                string battleActionInfo = Cheat.Inst.GetBattleActionData("devtooth", turnIndex);
+                Debug.Log("[SUCCESS] user battleaction :" + battleActionInfo);
+                PacketManager.Inst.ResponseBattleAction(battleActionInfo);
+            }
+            #endif
+            #if UNITY_WEBGL
+            {
+                PacketManager.Inst.RequestBattleAction(turnIndex);
+            }
+            #endif
         }
     }
 
@@ -192,13 +203,23 @@ public class BattleManager : MonoSingleton<BattleManager>
         }
     }
 
-    public void SettingBoxCollider(GameObject charactor)
+    // 캐릭터 박스 콜라이더 셋팅
+    public void SettingBoxCollider(GameObject character)
     {
-        BoxCollider box = charactor.AddComponent<BoxCollider>();
+        BoxCollider box = character.AddComponent<BoxCollider>();
         box.size = new Vector3(0.8f, 0.8f, 0.8f);
         box.center = new Vector3(0.0f, 0.4f, 0.0f);
         box.isTrigger = true;
-        charactor.tag = "Character";
+        character.tag = "Character";
+    }
+    
+    // 캐릭터 그리드 셋팅
+    public void SettinGrid(int index)
+    {
+        GameObject temp = Instantiate(testGrid, Vector3.zero, Quaternion.Euler(new Vector3(90, 0, 0)));
+        temp.transform.SetParent(character[index].transform);
+        grid[index] = temp;
+        grid[index].SetActive(false);
     }
 
     // 히어로 셋팅
@@ -223,7 +244,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         animator[0] = character[0].GetComponent<Animator>();
     }
 
-    // 히어로를 제외한 파티 셋팅
+    // 아군 파티 셋팅
     public void SettingCharacter(stageStateData stageStateInfo)
     {
         for (int i = 0; i < stageStateInfo.my_state_list.Count; i++)
@@ -251,14 +272,15 @@ public class BattleManager : MonoSingleton<BattleManager>
             }
             else
             {
-                character[stageStateInfo.my_state_list[i].position] = Instantiate(Resources.Load("InGameCharacterPrefabs/" + CSVData.Inst.monsterDataDic
-                    [stageStateInfo.my_state_list[i].id].resource) as GameObject,
+                character[stageStateInfo.my_state_list[i].position] = Instantiate(Resources.Load("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResource(stageStateInfo.my_state_list[i].id)) as GameObject,
                     CharacterParent.transform.GetChild(0));
                 character[stageStateInfo.my_state_list[i].position].name = "Monster : " + stageStateInfo.my_state_list[i].position.ToString();
                 character[stageStateInfo.my_state_list[i].position].AddComponent<CharacterIndex>().index = stageStateInfo.my_state_list[i].position;
                 SettingBoxCollider(character[stageStateInfo.my_state_list[i].position]);
                 animator[stageStateInfo.my_state_list[i].position] = character[stageStateInfo.my_state_list[i].position].GetComponent<Animator>();
             }
+            Debug.Log(i + "th MyCharacter Spawn");
+            SettinGrid(stageStateInfo.my_state_list[i].position);
         }
     }
 
@@ -267,13 +289,14 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
         {
-            character[stageStateInfo.enemy_state_list[i].position] = Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CSVData.Inst.monsterDataDic
-                    [stageStateInfo.enemy_state_list[i].id].resource),
+            character[stageStateInfo.enemy_state_list[i].position] = Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResource(stageStateInfo.enemy_state_list[i].id)),
                     CharacterParent.transform.GetChild(1));
             character[stageStateInfo.enemy_state_list[i].position].name = "Monster : " + stageStateInfo.enemy_state_list[i].position.ToString();
             character[stageStateInfo.enemy_state_list[i].position].AddComponent<CharacterIndex>().index = stageStateInfo.enemy_state_list[i].position;
             SettingBoxCollider(character[stageStateInfo.enemy_state_list[i].position]);
             animator[stageStateInfo.enemy_state_list[i].position] = character[stageStateInfo.enemy_state_list[i].position].GetComponent<Animator>();
+            SettinGrid(stageStateInfo.enemy_state_list[i].position);
+            Debug.Log(i + "th EnemyCheracter Spawn");
         }
     }
     

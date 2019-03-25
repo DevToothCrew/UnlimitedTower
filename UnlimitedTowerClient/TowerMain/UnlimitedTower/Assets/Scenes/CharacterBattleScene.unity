@@ -34239,6 +34239,27 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  grid:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   charInfo:
   - {fileID: 0}
   - {fileID: 0}
@@ -34286,6 +34307,7 @@ MonoBehaviour:
   NowHp: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   isAfterDelay: 0
   TimeScale: 1
+  testGrid: {fileID: 1672025275717866, guid: f23fc96c7e008c34e97550431016fd00, type: 2}
   isBattleStart: 0
 --- !u!4 &1616318302
 Transform:

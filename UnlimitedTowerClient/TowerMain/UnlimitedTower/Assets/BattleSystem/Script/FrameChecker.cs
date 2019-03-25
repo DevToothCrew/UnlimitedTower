@@ -34,7 +34,6 @@ public class FrameChecker : MonoBehaviour
         {
             yield return new WaitForSeconds(15f);
             worstFps = 100f;
-           
         }
     }
 
