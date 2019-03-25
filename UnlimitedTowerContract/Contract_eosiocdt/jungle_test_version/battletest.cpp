@@ -2286,7 +2286,7 @@ ACTION battletest::setparty(eosio::name _user, uint32_t _party_number, const std
     user_servants user_servant_table(_self, _user.value);
     user_monsters user_monster_table(_self, _user.value);
 
-    for (uint32_t i = 0; i < 4; ++i)
+    for (uint32_t i = 0; i < user_party_iter->servant_list.size(); ++i)
     {
         if (user_party_iter->servant_list[i] != EMPTY_PARTY &&
             user_party_iter->servant_list[i] != _servant_list[i])
@@ -2298,7 +2298,7 @@ ACTION battletest::setparty(eosio::name _user, uint32_t _party_number, const std
             });
         }
     }
-    for (uint32_t i = 0; i < 5; ++i)
+    for (uint32_t i = 0; i < user_party_iter->monster_list.size(); ++i)
     {
         if (user_party_iter->monster_list[i] != EMPTY_PARTY &&
             user_party_iter->monster_list[i] != _monster_list[i])
@@ -2311,31 +2311,30 @@ ACTION battletest::setparty(eosio::name _user, uint32_t _party_number, const std
         }
     }
     user_party_table.modify(user_party_iter, _self, [&](auto &save_party) {
-        for (uint32_t i = 0; i < 4; ++i) //서번트에 대한 파티 배치 처리
+        for (uint32_t i = 0; i < user_party_iter->servant_list.size(); ++i) //서번트에 대한 파티 배치 처리
         {
+            auto user_servant_iter = user_servant_table.find(_servant_list[i]);
+            eosio_assert(user_servant_iter != user_servant_table.end(), "not exist servant data");
             if (_servant_list[i] == EMPTY_PARTY)
             {
                 save_party.servant_list[i] = _servant_list[i];
                 continue;
             }
-            auto user_servant_iter = user_servant_table.find(_servant_list[i]);
-            eosio_assert(user_servant_iter != user_servant_table.end(), "not exist servant data");
             eosio_assert(user_servant_iter->party_number == EMPTY_PARTY || user_servant_iter->party_number == _party_number, "already in party member servant");
             user_servant_table.modify(user_servant_iter, owner, [&](auto &set_party) {
                 set_party.party_number = _party_number;
             });
             save_party.servant_list[i] = _servant_list[i];
         }
-        for (uint32_t i = 0; i < 5; ++i)
+        for (uint32_t i = 0; i < user_party_iter->monster_list.size(); ++i)
         {
+            auto user_monster_iter = user_monster_table.find(_monster_list[i]);
+            eosio_assert(user_monster_iter != user_monster_table.end(), "not exist monster data");
             if (_monster_list[i] == EMPTY_PARTY)
             {
                 save_party.monster_list[i] = _monster_list[i];
                 continue;
             }
-
-            auto user_monster_iter = user_monster_table.find(_monster_list[i]);
-            eosio_assert(user_monster_iter != user_monster_table.end(), "not exist monster data");
             eosio_assert(user_monster_iter->party_number == EMPTY_PARTY || user_monster_iter->party_number == _party_number, "already in party member monster");
             user_monster_table.modify(user_monster_iter, owner, [&](auto &set_party) {
                 set_party.party_number = _party_number;
