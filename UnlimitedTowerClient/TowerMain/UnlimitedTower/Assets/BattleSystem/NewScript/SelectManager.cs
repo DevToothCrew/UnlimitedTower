@@ -70,7 +70,7 @@ public class SelectManager : MonoBehaviour {
 
                     selectIndex = hit.transform.GetComponent<CharacterIndex>().index;
 
-                    stageState selectStateInfo;
+                    characterStateData selectStateInfo;
 
                     if (selectIndex < 10)
                     {

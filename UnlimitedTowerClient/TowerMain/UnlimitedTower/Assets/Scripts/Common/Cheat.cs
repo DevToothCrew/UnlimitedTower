@@ -226,7 +226,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         for (int i = 0; i < 10; ++i)
         {
-            stageState newMember = new stageState();
+            characterStateData newMember = new characterStateData();
             if (i < 5)
             {
                 newMember.position = i;
@@ -268,7 +268,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         for (int i = 0; i < 10; ++i)
         {
-            stageState newMember = new stageState();
+            characterStateData newMember = new characterStateData();
             newMember.position = i + 10;
             newMember.index = 0;
             newMember.id = CSVData.Inst.GetRandomMonsterIndex();

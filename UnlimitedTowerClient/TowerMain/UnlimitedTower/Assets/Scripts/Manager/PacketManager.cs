@@ -187,14 +187,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
             onFailed: msg => {
                 Debug.LogError($"[Failed Requesting Logout] {msg}");
             });
-
-        ResponseLogout();
     }
 
     // 가챠
     public void RequestGacha()
     {
         Debug.Log("RequestGacha");
+        //gacha index 데이터 제이슨화 데이터 필요
         Request<string>("Gacha",
             onSuccess: ResponseGacha,
             onFailed: msg =>
@@ -279,7 +278,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 스테이지 보상
     public void RequestStageReward()
     {
+        Debug.Log("Request Stage Reward");
 
+        Request<stageRewardData>("StageReward",
+        onSuccess: ResponseStageReward,
+        onFailed: msg => { Debug.LogError($"[Failed Requesting StageStart] {msg}"); }
+        );
     }
 
     // 스테이지 종료

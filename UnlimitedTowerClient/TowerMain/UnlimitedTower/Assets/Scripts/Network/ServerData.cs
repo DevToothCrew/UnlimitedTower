@@ -212,7 +212,7 @@ public class buffInfo
 }
 
 [Serializable]
-public class stageState
+public class characterStateData
 {
     public int position;
     public int index;
@@ -245,8 +245,8 @@ public class stageStateData
     public string enemy_user;
     public int stage_number;
     public int state;
-    public List<stageState> my_state_list = new List<stageState>();
-    public List<stageState> enemy_state_list = new List<stageState>();
+    public List<characterStateData> my_state_list = new List<characterStateData>();
+    public List<characterStateData> enemy_state_list = new List<characterStateData>();
 }
 
 

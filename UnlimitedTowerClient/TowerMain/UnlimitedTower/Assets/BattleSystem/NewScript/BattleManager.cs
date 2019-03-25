@@ -326,7 +326,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         }
     }
 
-    public stageState GetEnemyState(int position)
+    public characterStateData GetEnemyState(int position)
     {
         stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
         if (stageStateInfo == null)
@@ -347,7 +347,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         return null;
     }
 
-    public stageState GetMyState(int position)
+    public characterStateData GetMyState(int position)
     {
         stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
         if (stageStateInfo == null)
