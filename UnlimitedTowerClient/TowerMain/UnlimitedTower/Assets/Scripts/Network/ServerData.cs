@@ -96,7 +96,15 @@ public class userData
 {
     public string user;
     public int state; //씬 상태
-    public servantInfo hero = new servantInfo();    // Hero는 Index 0 , Party_Num 1 을 무조건 포함
+    public int exp;
+    public int current_servant_inventory;
+    public int current_monster_inventory;
+    public int current_equipitem_inventory;
+    public int current_item_inventory;
+    public int servant_inventory;
+    public int monster_inventory;
+    public int equipitem_inventory;
+    public int item_inventory;
 }
 
 [Serializable]

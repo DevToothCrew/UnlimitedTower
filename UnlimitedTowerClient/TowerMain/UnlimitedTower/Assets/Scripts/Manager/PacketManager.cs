@@ -676,7 +676,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         Debug.Log("State : " + (SCENE_STATE)getUserData.state);
 
-        userInfo.userHero = ParseServant(0, 1, getUserData.hero);
         if (userInfo.userHero == null)
         {
             Debug.Log("Invalid UserHero Info");
