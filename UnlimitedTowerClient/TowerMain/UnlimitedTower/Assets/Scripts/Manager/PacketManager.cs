@@ -248,7 +248,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         action.turn = getTurn;
 
         string json = JsonUtility.ToJson(action);
-        Request<stageActionInfoData>("BattleAction", 
+        Request<battleActionData>("BattleAction", 
                 body: json,
                 onSuccess: ResponseBattleAction,
                 onFailed: msg => { Debug.LogError($"[Failed Requesting BattleAction] {msg}"); }
@@ -538,7 +538,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 배틀 액션
-    public void ResponseBattleAction(stageActionInfoData getBattleActionData)
+    public void ResponseBattleAction(battleActionData getBattleActionData)
     {
         Debug.Log("턴 진행!");
         if (getBattleActionData.turn == UserDataManager.Inst.stageActionInfo.turn)

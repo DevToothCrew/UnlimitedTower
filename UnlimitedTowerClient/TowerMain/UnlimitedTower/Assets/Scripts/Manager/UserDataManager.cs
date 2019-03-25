@@ -19,7 +19,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public UserPartyData partyInfo = new UserPartyData();
 
     public stageStateData stageState =  new stageStateData();
-    public stageActionInfoData stageActionInfo = new stageActionInfoData();
+    public battleActionData stageActionInfo = new battleActionData();
     public stageRewardData stageReward = new stageRewardData();
 
     public int usingPartyNum = 1;
@@ -95,7 +95,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         stageState = getStageState;
     }
 
-    public void SetStageAction(stageActionInfoData getStageState)
+    public void SetStageAction(battleActionData getStageState)
     {
         stageActionInfo = getStageState;
     }
@@ -334,7 +334,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return stageState;
     }
 
-    public stageActionInfoData GetStageAction()
+    public battleActionData GetStageAction()
     {
         if (stageActionInfo == null)
         {

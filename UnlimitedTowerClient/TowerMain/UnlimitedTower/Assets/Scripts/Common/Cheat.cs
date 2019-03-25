@@ -115,8 +115,8 @@ public class Cheat : MonoSingleton<Cheat>
     public string GetBattleActionData(string user, int getTurn)
     {
         stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
-         
-        stageActionInfoData battleactiondata = new stageActionInfoData();
+
+        battleActionData battleactiondata = new battleActionData();
         battleactiondata.user = user;
         battleactiondata.turn = getTurn;
 
@@ -128,7 +128,7 @@ public class Cheat : MonoSingleton<Cheat>
             }
             if(stageStateInfo.my_state_list[i].position < 5)
             {
-                battleActionInfo actioninfo = new battleActionInfo();
+                characterActionData actioninfo = new characterActionData();
                 actioninfo.my_position = stageStateInfo.my_state_list[i].position;
                 actioninfo.action_type = 3;
 
@@ -144,7 +144,7 @@ public class Cheat : MonoSingleton<Cheat>
                         action.avoid = false;
                         action.critical = false;
                         action.damage = rand.Next(200, 500);
-                        actioninfo.battle_action_list.Add(action);
+                        actioninfo.action_info_list.Add(action);
                     }
                 }
                 else if (stageStateInfo.my_state_list[i].active_skill_list[0].id == 200008)
@@ -157,9 +157,9 @@ public class Cheat : MonoSingleton<Cheat>
                     action.avoid = false;
                     action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
                     action.damage = rand.Next(200, 500);
-                    actioninfo.battle_action_list.Add(action);
+                    actioninfo.action_info_list.Add(action);
                 }
-                battleactiondata.battle_info_list.Add(actioninfo);
+                battleactiondata.character_action_list.Add(actioninfo);
             }
             else
             {
@@ -176,12 +176,12 @@ public class Cheat : MonoSingleton<Cheat>
                 action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
                 action.damage = rand.Next(200, 500);
 
-                battleActionInfo actioninfo = new battleActionInfo();
+                characterActionData actioninfo = new characterActionData();
                 actioninfo.my_position = stageStateInfo.my_state_list[i].position;
                 actioninfo.action_type = 2;
-                actioninfo.battle_action_list.Add(action);
+                actioninfo.action_info_list.Add(action);
 
-                battleactiondata.battle_info_list.Add(actioninfo);
+                battleactiondata.character_action_list.Add(actioninfo);
             }
         }
 
@@ -201,12 +201,12 @@ public class Cheat : MonoSingleton<Cheat>
             action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
             action.damage = rand.Next(200, 500);
 
-            battleActionInfo actioninfo = new battleActionInfo();
+            characterActionData actioninfo = new characterActionData();
             actioninfo.my_position = i;
             actioninfo.action_type = 2;
-            actioninfo.battle_action_list.Add(action);
+            actioninfo.action_info_list.Add(action);
 
-            battleactiondata.battle_info_list.Add(actioninfo);
+            battleactiondata.character_action_list.Add(actioninfo);
         }
 
 

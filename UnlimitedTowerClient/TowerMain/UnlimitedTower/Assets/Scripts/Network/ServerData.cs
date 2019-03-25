@@ -165,20 +165,20 @@ public class actionInfo
 }
 
 [Serializable]
-public class battleActionInfo
+public class characterActionData
 {
     public int my_position;
     public int action_type;         //2 공격 , 3 스킬
 
-    public List<actionInfo> battle_action_list = new List<actionInfo>();
+    public List<actionInfo> action_info_list = new List<actionInfo>();
 }
 
 [Serializable]
-public class stageActionInfoData
+public class battleActionData
 {
     public string user;
     public int turn;
-    public List<battleActionInfo> battle_info_list = new List<battleActionInfo>();
+    public List<characterActionData> character_action_list = new List<characterActionData>();
 }
 
 
