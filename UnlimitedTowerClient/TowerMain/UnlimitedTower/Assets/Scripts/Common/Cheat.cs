@@ -118,7 +118,7 @@ public class Cheat : MonoSingleton<Cheat>
          
         stageActionInfoData battleactiondata = new stageActionInfoData();
         battleactiondata.user = user;
-        battleactiondata.turn = turn;
+        battleactiondata.turn = getTurn;
 
         for (int i = 0; i < stageStateInfo.my_state_list.Count; ++i)
         {

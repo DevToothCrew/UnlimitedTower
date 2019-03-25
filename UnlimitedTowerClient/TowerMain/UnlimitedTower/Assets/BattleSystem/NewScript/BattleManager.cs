@@ -78,7 +78,8 @@ public class BattleManager : MonoSingleton<BattleManager>
 
             string battleActionInfo = Cheat.Inst.GetBattleActionData("devtooth", turnIndex);
             Debug.Log("[SUCCESS] user battleaction :" + battleActionInfo);
-            PacketManager.Inst.ResponseBattleAction(battleActionInfo);
+            
+            PacketManager.Inst.ResponseBattleAction(JsonUtility.FromJson<stageActionInfoData>(battleActionInfo));
         }
     }
 

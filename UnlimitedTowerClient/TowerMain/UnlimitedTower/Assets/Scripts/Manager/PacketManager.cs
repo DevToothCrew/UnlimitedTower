@@ -525,18 +525,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
         StartCoroutine(LoadSceneAsync("login", "Loading scene ... "));
     }
 
-    // 에러(???)
-    public void ResponseError(string errorMessage)
-    {
-        errorCode error = JsonUtility.FromJson<errorCode>(errorMessage);
-
-        if(error.code == "battle")
-        {
-            BattleSystem.Inst.ReTargeting();
-        }
-        BattleSystem.Inst.ErrorLog(error.message);
-    }
-
     // 스테이지 시작
     public void ResponseStageStart(stageStateData getBattleStateData)
     {
@@ -557,7 +545,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         else
         {
             UserDataManager.Inst.SetStageAction(getBattleActionData);
-            BattleSystem.Inst.StartCoroutine(BattleSystem.Inst.BattleStart());
+            BattleManager.Inst.StartCoroutine(BattleManager.Inst.BattleStart());
         }
     }
 
