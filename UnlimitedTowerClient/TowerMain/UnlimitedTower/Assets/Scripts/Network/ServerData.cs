@@ -78,6 +78,7 @@ public class itemInfo
     public statusInfo status = new statusInfo(); //기본 힘,민,지 추가 힘,민,지
 };
 
+
 #endregion
 
 
@@ -128,12 +129,21 @@ public class monsterData
     public monsterInfo monster = new monsterInfo();
 }
 
-[Serializable]
+[Serializable]  //equip, item 두개로 나눠야함 
 public class itemData
 {
     public int index;
     public itemInfo item = new itemInfo();
 }
+
+[Serializable]
+public class consumableitemData
+{
+    public int id;          //아이템 리소스 아이디
+    public int type;        //장착 타입
+    public int count;       //갯수
+};
+
 
 [Serializable]
 public class gachaServantData
@@ -164,6 +174,16 @@ public class partyData
     public List<int> servant_list = new List<int>();
     public List<int> monster_list = new List<int>();
 }
+
+[Serializable]
+public class mailData
+{
+    public int mail_index;
+    public servantData servant_data = new servantData();
+    public monsterData monster_data = new monsterData();
+    public itemData item_data = new itemData();
+}
+
 //--------------battle fix--------------------//
 //add by canie
 //-----------------------------------------------------------------------//
@@ -331,5 +351,88 @@ public class StageRewardJson
 {
     public int turn;
 }
+
+//add owen
+
+[Serializable]
+public class ServantGrindJson
+{
+    public int servantNum;
+}
+
+[Serializable]
+public class MonsterSellJson
+{
+    public int monsterNum;
+}
+
+[Serializable]
+public class EquipmentSellJson
+{
+    public int equipmentNum;
+}
+
+[Serializable]
+public class ItemSellJson
+{
+    public int itemNum;
+}
+
+[Serializable]
+public class EquipServantJson
+{
+    public int servantNum;
+    public int equipitemNum;
+}
+
+[Serializable]
+public class UnequipServantJson
+{
+    public int servantNum;
+    public int equipitemNum;
+}
+
+[Serializable]
+public class MonsterUpgradeJson
+{
+    public int monsterNum;
+    public int monsterNum2;
+}
+
+[Serializable]
+public class EquipmentUpgradeJson
+{
+    public int itemNum;
+    public int itemNum2;
+}
+
+[Serializable]
+public class BuyItemJson
+{
+    public int type;
+    public int itemCount;
+}
+
+[Serializable]
+public class BuyInventoryJson
+{
+    public int type;
+    public int itemCount;
+}
+
+[Serializable]
+public class BuyRoyalservantJson
+{
+    public int servantNum;
+}
+
+[Serializable]
+public class MailOpenJson
+{
+    public int mailNum;
+}
+
+
+
 
 #endregion

@@ -306,75 +306,239 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 서번트 분해
-    public void RequestGrindServant()
+    public void RequestGrindServant(int servantNum)
     {
+        Debug.Log("Request Grind Servant");
+
+        ServantGrindJson servantgrind = new ServantGrindJson();
+        servantgrind.servantNum = servantNum;
+
+        string json = JsonUtility.ToJson(servantgrind);
+
+        Debug.Log("Json start : " + json);
+
+        Request<consumableitemData>("ServantGrind",
+                body: json,
+                onSuccess: ResponseServantGrind,
+                onFailed: msg => { Debug.LogError($"[Failed Requesting ServantGrind] {msg}"); }
+                );
 
     }
 
     // 몬스터 판매
-    public void RequestMonsterSell()
+    public void RequestMonsterSell(int monsterNum)
     {
+        Debug.Log("Request Monster Sell");
+        MonsterSellJson monstersell = new MonsterSellJson();
+        monstersell.monsterNum = monsterNum;
+
+        string json = JsonUtility.ToJson(monstersell);
+
+        Debug.Log("Json start : " + json);
+
+        Request("MonsterSell",
+                onSuccess: ResponseMonsterSell,
+                onFailed: msg => 
+                {
+                    Debug.LogError($"[Failed Requesting ServantGrind] {msg}");
+                });
 
     }
 
     // 장비 판매
-    public void RequestEquipmentSell()
+    public void RequestEquipmentSell(int equipmentNum)
     {
+        Debug.Log("Request Equipment Sell");
+        EquipmentSellJson equipmentsell = new EquipmentSellJson();
+        equipmentsell.equipmentNum = equipmentNum;
+
+        string json = JsonUtility.ToJson(equipmentsell);
+
+        Debug.Log("Json start : " + json);
+
+        Request("EquipmentSell",
+                onSuccess: ResponseEquipmentSell,
+                onFailed: msg =>
+                {
+                    Debug.LogError($"[Failed Requesting ServantGrind] {msg}");
+                });
 
     }
 
     // 아이템 판매
-    public void RequestSellItem()
+    public void RequestItemSell(int itemNum)
     {
+        Debug.Log("Request Item Sell");
+        ItemSellJson itemsell = new ItemSellJson();
+        itemsell.itemNum = itemNum;
 
+        string json = JsonUtility.ToJson(itemsell);
+
+        Debug.Log("Json start : " + json);
+
+        Request("ItemSell",
+                onSuccess: ResponseItemSell,
+                onFailed: msg =>
+                {
+                    Debug.LogError($"[Failed Requesting ServantGrind] {msg}");
+                });
     }
 
     // 장비 장착
-    public void RequestEquipServant()
+    public void RequestEquipServant(int servantNum, int equipitemNum)
     {
+        Debug.Log("Request Equip Servant");
+        EquipServantJson equipservant = new EquipServantJson();
+        equipservant.servantNum = servantNum;
+        equipservant.equipitemNum = equipitemNum;
 
+        string json = JsonUtility.ToJson(equipservant);
+
+        Debug.Log("Json start : " + json);
+
+        Request<servantData>("EquipServant",
+                onSuccess: ResponseEquipServant,
+                onFailed: msg =>
+                {
+                    Debug.LogError($"[Failed Requesting ServantGrind] {msg}");
+                });
     }
 
     // 장비 해제
-    public void RequestUnequipServant()
+    public void RequestUnequipServant(int servantNum, int equipitemNum)
     {
-         
+        Debug.Log("Request Unequip Servant");
+        UnequipServantJson unequipservant = new UnequipServantJson();
+        unequipservant.servantNum = servantNum;
+        unequipservant.equipitemNum = equipitemNum;
+
+        string json = JsonUtility.ToJson(unequipservant);
+
+        Debug.Log("Json start : " + json);
+
+        Request<servantData>("UnequipServant",
+                onSuccess: ResponseUnequipServant,
+                onFailed: msg =>
+                {
+                    Debug.LogError($"[Failed Requesting ServantGrind] {msg}");
+                });
     }
 
     // 몬스터 강화
-    public void RequestMonsterUpgrade()
+    public void RequestMonsterUpgrade(int monsterNum, int monsterNum2)
     {
+        Debug.Log("Request Monster Upgrade");
+        MonsterUpgradeJson monsterupgrade = new MonsterUpgradeJson();
+        monsterupgrade.monsterNum = monsterNum;
+        monsterupgrade.monsterNum2 = monsterNum2;
 
+        string json = JsonUtility.ToJson(monsterupgrade);
+
+        Debug.Log("Json start : " + json);
+
+        Request<monsterData>("MonsterUpgrade",
+                onSuccess: ResponseMonsterUpgrade,
+                onFailed: msg =>
+                {
+                    Debug.LogError($"[Failed Requesting ServantGrind] {msg}");
+                });
     }
 
     // 아이템 강화
-    public void RequestEquipmentUpgrade()
+    public void RequestEquipmentUpgrade(int itemNum, int itemNum2)
     {
+        Debug.Log("Request Equipment Upgrade");
+        EquipmentUpgradeJson equipmentupgrade = new EquipmentUpgradeJson();
+        equipmentupgrade.itemNum = itemNum;
+        equipmentupgrade.itemNum2 = itemNum2;
+        string json = JsonUtility.ToJson(equipmentupgrade);
 
+        Debug.Log("Json start : " + json);
+
+        Request<itemData>("EquipmentUpgrade",
+                onSuccess: ResponseEquipmentUpgrade,
+                onFailed: msg =>
+                {
+                    Debug.LogError($"[Failed Requesting ServantGrind] {msg}");
+                });
     }
 
     // 상점 아이템 구매
-    public void RequestBuyItem()
+    public void RequestBuyItem(int type, int itemCount)
     {
+        Debug.Log("Request Buy Item");
+        BuyItemJson buyitem = new BuyItemJson();
+        buyitem.type= type;
+        buyitem.itemCount = itemCount;
 
+        string json = JsonUtility.ToJson(buyitem);
+
+        Debug.Log("Json start : " + json);
+
+        Request<consumableitemData>("BuyItem",
+                onSuccess: ResponseBuyItem,
+                onFailed: msg =>
+                {
+                    Debug.LogError($"[Failed Requesting ServantGrind] {msg}");
+                });
     }
 
     // 인벤토리 구매
-    public void RequestBuyInventory()
+    public void RequestBuyInventory(int type, int itemCount)
     {
+        Debug.Log("Request Buy Inventory");
+        BuyInventoryJson buyinventory = new BuyInventoryJson();
+        buyinventory.type = type;
+        buyinventory.itemCount = itemCount;
 
+        string json = JsonUtility.ToJson(buyinventory);
+
+        Debug.Log("Json start : " + json);
+
+        Request<userData>("BuyInventory",
+                onSuccess: ResponseBuyInventory,
+                onFailed: msg =>
+                {
+                    Debug.LogError($"[Failed Requesting ServantGrind] {msg}");
+                });
     }
 
     // 로열 서번트 구매
-    public void RequestBuyRoyalServant()
+    public void RequestBuyRoyalServant(int servantNum)
     {
+        Debug.Log("Request Buy Royalservant");
+        BuyRoyalservantJson buyroyalservant = new BuyRoyalservantJson();
+        buyroyalservant.servantNum = servantNum;
+       
+        string json = JsonUtility.ToJson(buyroyalservant);
 
+        Debug.Log("Json start : " + json);
+
+        Request<servantData>("BuyRoyalServant",
+                onSuccess: ResponseBuyRoyalServant,
+                onFailed: msg =>
+                {
+                    Debug.LogError($"[Failed Requesting ServantGrind] {msg}");
+                });
     }
 
     // 우편 수령
-    public void RequestMailOpen()
+    public void RequestMailOpen(int mailNum)
     {
+        Debug.Log("Request Maill Open");
+        MailOpenJson mailopen = new MailOpenJson();
+        mailopen.mailNum = mailNum;
 
+        string json = JsonUtility.ToJson(mailopen);
+
+        Debug.Log("Json start : " + json);
+
+        Request<mailData>("MailOpen",
+                onSuccess: ResponseMailOpen,
+                onFailed: msg =>
+                {
+                    Debug.LogError($"[Failed Requesting ServantGrind] {msg}");
+                });
     }
 
     // 타워 Start
@@ -573,75 +737,75 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 서번트 분해
-    public void ResponseServantGrind()
+    public void ResponseServantGrind(consumableitemData getConsumableItemData)
     {
-
+        Debug.Log("서번트 분해, 영혼 획득!");
     }
     
     // 몬스터 판매
     public void ResponseMonsterSell()
     {
-
+        Debug.Log("몬스터 판매, UTG 획득!");
     }
 
     // 장비 판매
     public void ResponseEquipmentSell()
     {
-
+        Debug.Log("장비 판매, UTG 획득!");
     }
 
     // 아이템 판매
     public void ResponseItemSell()
     {
-    
+        Debug.Log("아이템 판매, UTG 획득!");
     }
 
     // 장비 장착
-    public void ResponseEquipServant()
+    public void ResponseEquipServant(servantData getEquipServantData)
     {
-
+        Debug.Log("서번트 장비 장착 !");
     }
 
     // 장비 해제
-    public void ResponseUnequipServant()
+    public void ResponseUnequipServant(servantData getUneqipServantData)
     {
-
+        Debug.Log("서번트 장비 장착해제 !");
     }
 
     // 몬스터 강화
-    public void ResponseMonsterUpgrade()
+    public void ResponseMonsterUpgrade(monsterData getMonsterUpgradeData)
     {
-
+        Debug.Log("몬스터 업그레이드 !");
     }
 
     // 아이템 강화
-    public void ResponseEquipmentUpgrade()
+    public void ResponseEquipmentUpgrade(itemData getEquipmentUpgradeData)
     {
-
+        Debug.Log("장비 업그레이드 !");
     }
 
     // 상점 아이템 구매
-    public void ResponseBuyItem()
+    public void ResponseBuyItem(consumableitemData getBuyItemData)
     {
-
+        Debug.Log("소모품 구매 !");
     }
 
     // 인벤토리 구매
-    public void ResponseBuyInventory()
+    public void ResponseBuyInventory(userData getBuyInventoryData)
     {
-
+        Debug.Log("인벤토리 구매 !");
     }
 
     // 로열 서번트 구매
-    public void ResponseBuyRoyalServant()
+    public void ResponseBuyRoyalServant(servantData getBuyRoyalservantData)
     {
-
+        Debug.Log("로얄 서번트 구매 !");
     }
 
     // 우편 수령
-    public void ResponseMailOpen()
+    public void ResponseMailOpen(mailData getMailData)
     {
-
+        Debug.Log("메일 오픈 !");
     }
 
     // 타워 시작
