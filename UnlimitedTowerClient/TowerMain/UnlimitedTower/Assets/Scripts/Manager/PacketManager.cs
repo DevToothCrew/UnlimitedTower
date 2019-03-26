@@ -326,10 +326,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
             return;
         }
 
-        ServantGrindJson servantgrind = new ServantGrindJson();
-        servantgrind.servantIndexList = servantIndexList;
+        ServantGrindJson servantGrind = new ServantGrindJson();
+        servantGrind.servantIndexList = servantIndexList;
 
-        string json = JsonUtility.ToJson(servantgrind);
+        string json = JsonUtility.ToJson(servantGrind);
 
         Debug.Log("Json start : " + json);
 
@@ -350,10 +350,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
             return;
         }
 
-        MonsterSellJson monstersell = new MonsterSellJson();
-        monstersell.monsterIndexList = monsterIndexList;
+        MonsterSellJson monsterSell = new MonsterSellJson();
+        monsterSell.monsterIndexList = monsterIndexList;
 
-        string json = JsonUtility.ToJson(monstersell);
+        string json = JsonUtility.ToJson(monsterSell);
 
         Debug.Log("Json start : " + json);
 
@@ -369,10 +369,16 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void RequestEquipmentSell(List<int> equipmentIndexList)
     {
         Debug.Log("Request Equipment Sell");
-        EquipmentSellJson equipmentsell = new EquipmentSellJson();
-        equipmentsell.equipmentIndexList = equipmentIndexList;
+        if (equipmentIndexList == null)
+        {
+            Debug.Log("Invalid Request");
+            return;
+        }
 
-        string json = JsonUtility.ToJson(equipmentsell);
+        EquipmentSellJson equipmentSell = new EquipmentSellJson();
+        equipmentSell.equipmentIndexList = equipmentIndexList;
+
+        string json = JsonUtility.ToJson(equipmentSell);
 
         Debug.Log("Json start : " + json);
 
@@ -386,13 +392,19 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 아이템 판매
-    public void RequestItemSell(List<int> itemIndexList)
+    public void RequestItemSell(List<int> itemIndexList, int count)
     {
         Debug.Log("Request Item Sell");
-        ItemSellJson itemsell = new ItemSellJson();
-        itemsell.itemIndexList = itemIndexList;
+        if (itemIndexList == null || count == 0)
+        {
+            Debug.Log("Invalid Request");
+            return;
+        }
 
-        string json = JsonUtility.ToJson(itemsell);
+        ItemSellJson itemSell = new ItemSellJson();
+        itemSell.itemIndexList = itemIndexList;
+        itemSell.count = count;
+        string json = JsonUtility.ToJson(itemSell);
 
         Debug.Log("Json start : " + json);
 
@@ -408,11 +420,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void RequestEquipServant(int servantIndex, int equipitemIndex)
     {
         Debug.Log("Request Equip Servant");
-        EquipServantJson equipservant = new EquipServantJson();
-        equipservant.servantIndex = servantIndex;
-        equipservant.equipitemIndex = equipitemIndex;
+        if (servantIndex == 0 || equipitemIndex == 0)
+        {
+            Debug.Log("Invalid Request");
+            return;
+        }
 
-        string json = JsonUtility.ToJson(equipservant);
+        EquipServantJson equipServant = new EquipServantJson();
+        equipServant.servantIndex = servantIndex;
+        equipServant.equipitemIndex = equipitemIndex;
+
+        string json = JsonUtility.ToJson(equipServant);
 
         Debug.Log("Json start : " + json);
 
@@ -428,11 +446,18 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void RequestUnequipServant(int servantIndex, int equipitemIndex)
     {
         Debug.Log("Request Unequip Servant");
-        UnequipServantJson unequipservant = new UnequipServantJson();
-        unequipservant.servantIndex = servantIndex;
-        unequipservant.equipitemIndex = equipitemIndex;
+        if (servantIndex == 0 || equipitemIndex == 0)
+        {
+            Debug.Log("Invalid Request");
+            return;
+        }
 
-        string json = JsonUtility.ToJson(unequipservant);
+
+        UnequipServantJson unequipServant = new UnequipServantJson();
+        unequipServant.servantIndex = servantIndex;
+        unequipServant.equipitemIndex = equipitemIndex;
+
+        string json = JsonUtility.ToJson(unequipServant);
 
         Debug.Log("Json start : " + json);
 
@@ -448,6 +473,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void RequestMonsterUpgrade(int mainMonsterIndex, int subMonsterIndex)
     {
         Debug.Log("Request Monster Upgrade");
+        if (mainMonsterIndex == 0 || subMonsterIndex == 0)
+        {
+            Debug.Log("Invalid Request");
+            return;
+        }
+
         MonsterUpgradeJson monsterUpgrade = new MonsterUpgradeJson();
         monsterUpgrade.mainMonsterIndex = mainMonsterIndex;
         monsterUpgrade.subMonsterIndex = subMonsterIndex;
@@ -468,6 +499,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void RequestEquipmentUpgrade(int mainEquipmentIndex, List<int> addItemIndexList)
     {
         Debug.Log("Request Equipment Upgrade");
+        if (mainEquipmentIndex == 0 || addItemIndexList == null)
+        {
+            Debug.Log("Invalid Request");
+            return;
+        }
+
         EquipmentUpgradeJson equipmentUpgrade = new EquipmentUpgradeJson();
         equipmentUpgrade.mainEquipmentIndex = mainEquipmentIndex;
         equipmentUpgrade.addItemIndexList = addItemIndexList;
@@ -487,6 +524,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void RequestBuyItem(int index, int itemCount)
     {
         Debug.Log("Request Buy Item");
+        if (index == 0 || itemCount == 0)
+        {
+            Debug.Log("Invalid Request");
+            return;
+        }
+
         BuyItemJson buyItem = new BuyItemJson();
         buyItem.index = index;
         buyItem.itemCount = itemCount;
@@ -507,6 +550,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void RequestBuyInventory(int type, int itemCount)
     {
         Debug.Log("Request Buy Inventory");
+        if (type == 0 || itemCount == 0)
+        {
+            Debug.Log("Invalid Request");
+            return;
+        }
+
         BuyInventoryJson buyInventory = new BuyInventoryJson();
         buyInventory.type = type;
         buyInventory.itemCount = itemCount;
@@ -527,6 +576,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void RequestBuyRoyalServant(int servantIndex)
     {
         Debug.Log("Request Buy Royalservant");
+        if (servantIndex == 0)
+        {
+            Debug.Log("Invalid Request");
+            return;
+        }
+
         BuyRoyalservantJson buyRoyalServant = new BuyRoyalservantJson();
         buyRoyalServant.servantIndex = servantIndex;
        
@@ -546,10 +601,16 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void RequestMailOpen(List<int> mailOpenIndexList)
     {
         Debug.Log("Request Maill Open");
-        MailOpenJson mailopen = new MailOpenJson();
-        mailopen.mailOpenIndexList = mailOpenIndexList;
+        if (mailOpenIndexList == null)
+        {
+            Debug.Log("Invalid Request");
+            return;
+        }
 
-        string json = JsonUtility.ToJson(mailopen);
+        MailOpenJson mailOpen = new MailOpenJson();
+        mailOpen.mailOpenIndexList = mailOpenIndexList;
+
+        string json = JsonUtility.ToJson(mailOpen);
 
         Debug.Log("Json start : " + json);
 
