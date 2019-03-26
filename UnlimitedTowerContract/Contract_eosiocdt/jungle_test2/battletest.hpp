@@ -358,6 +358,19 @@ CONTRACT battletest : public contract
     typedef eosio::multi_index<"dbservant"_n, servantdb, indexed_by<"second"_n, const_mem_fun<servantdb, uint64_t, &servantdb::secondary_key>>> servant_db;
 #pragma endregion 
 
+#pragma region db gacha pool
+    TABLE dbgachapool
+    {
+        uint64_t gacha_id;
+        uint64_t db_index;
+        uint64_t primary_key() const { return gacha_id; }
+    };
+    typedef eosio::multi_index<"dbgachapool"_n, dbgachapool> main_gacha_db;
+#pragma endregion
+
+
+
+
     //servant_db servant_db_table(_self, _self.value);
     //auto servant_db_iter = servant_db_table.get_index<"second"_n>();   //샘플
 
@@ -417,6 +430,8 @@ CONTRACT battletest : public contract
     void insert_active(uint64_t _id, uint32_t _job, uint32_t _active_per,
                                uint32_t _skill_type, uint32_t _attack_type, uint32_t _dmg_type,uint32_t _target, uint32_t _target_count, uint32_t _target_range,
                                uint32_t _hit_count, uint32_t _atk_per, uint32_t _atk_per_add, uint32_t _heal_per, uint32_t _heal_per_add);
+    void insert_gacha_pool(uint64_t _gacha_id, uint64_t _db_index);
+
 
     void erase_job(uint64_t _job);
     void erase_head(uint64_t _appear);
@@ -439,6 +454,7 @@ CONTRACT battletest : public contract
     void erase_monster_lv_status(uint64_t _type);
 	void erase_passive(uint64_t _id);
     void erase_active(uint64_t _id);
+    void erase_gacha_pool(uint64_t _id);
 #pragma endregion
 
 #pragma region stage
@@ -1313,7 +1329,7 @@ CONTRACT battletest : public contract
 
     ACTION partycheat(eosio::name _user);
     ACTION herocheat(eosio::name _user);
-    ACTION setdata(eosio::name _contract);
+    ACTION setdata(eosio::name _contract, std::string _table);
 
     ACTION balancetest(eosio::name _user);
     ACTION change(eosio::name _user, std::string _kind, uint64_t _grade, uint64_t _id, std::string _status);
