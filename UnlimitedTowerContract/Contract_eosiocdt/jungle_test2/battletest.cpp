@@ -1810,7 +1810,7 @@ void battletest::signup(eosio::name _user)
         {
             new_party.index = user_party_table.available_primary_key();
         }
-        new_party.servant_list.resize(4);
+        new_party.servant_list.resize(5);
         new_party.monster_list.resize(5);
     });
 
@@ -3015,16 +3015,7 @@ ACTION battletest::herocheat(eosio::name _user)
     auth_user_table.emplace(_self, [&](auto &new_user) {
         new_user.user = _user;
         new_user.state = user_state::lobby;
-        hero_info new_hero;
-        //new_hero.appear.body = 1;
-        //new_hero.appear.head = 1;
-        //new_hero.appear.hair = 1;
-        //new_hero.appear.gender = 1;
-        //new_hero.job = 1;
-        //new_hero.status.basic_str = 100;
-        //new_hero.status.basic_dex = 100;
-        //new_hero.status.basic_int = 100;
-        //new_hero.equip_slot.resize(3);
+
         new_user.current_servant_inventory = 0;
         new_user.current_monster_inventory = 0;
         new_user.current_item_inventory = 0;
@@ -3034,7 +3025,6 @@ ACTION battletest::herocheat(eosio::name _user)
         new_user.item_inventory = 50;
         new_user.equipitem_inventory = 50;
 
-        //new_user.hero = new_hero;
     });
 
     user_logs user_log_table(_self, _self.value);
@@ -3063,7 +3053,7 @@ ACTION battletest::herocheat(eosio::name _user)
 ACTION battletest::partycheat(eosio::name _user)
 {
     require_auth(_user);
-    uint64_t user_value = get_user_seed_value(_user.value);
+    uint64_t user_value = _user.value;
     uint64_t seed = safeseed::get_seed_value(user_value, now());
 
     user_consum_item user_consumables_table(_self, _user.value);
@@ -3127,9 +3117,16 @@ ACTION battletest::partycheat(eosio::name _user)
 
 #pragma endregion
 
-ACTION battletest::setdata()
+ACTION battletest::setdata(eosio::name _contract)
 {
-    require_auth(_self);
+    //require_auth(_self);
+    monster_db monster_db_table(_contract, _contract.value);
+    for(auto iter = monster_db_table.begin(); iter != monster_db_table.end();)
+    {
+        const auto &data_iter = monster_db_table.get(iter->primary_key(), "Not Exist Data");
+        insert_monster_id(data_iter.monster_id,data_iter.gacha_id,data_iter.gacha_type,data_iter.tribe,data_iter.type,data_iter.monster_class,0,0,0);
+        iter++;
+    }
 
     // body_db body_table("overflow1111"_n, "overflow1111"_n.value);
     // for (auto iter = body_table.begin(); iter != body_table.end();)
@@ -4663,7 +4660,11 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
     battle_state_list battle_state_list_table(_self, _self.value);
     auto user_battle_state_iter = battle_state_list_table.find(_user.value);
     eosio_assert(user_battle_state_iter != battle_state_list_table.end(), "Need Start Battle 1");
-    eosio_assert(user_battle_state_iter->state == stage_state::start, "End Battle 1");
+    
+    auth_users user_auth_table(_self, _self.value);
+    auto user_auth_iter = user_auth_table.find(_user.value);
+    eosio_assert(user_auth_iter != user_auth_table.end(),"Not Exist User 10");
+    eosio_assert(user_auth_iter->state == user_state::stage,"End Battle 10");
 
     battle_actions battle_action_table(_self, _self.value);
     auto user_battle_action_iter = battle_action_table.find(_user.value);
@@ -4879,16 +4880,16 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
     });
     if (enemy_dead_count == user_battle_state_iter->enemy_state_list.size())
     {
-        win_reward(_user);
+        win_reward(_user, user_battle_state_iter->stage_number);
     }
     else if (user_dead_count == user_battle_state_iter->my_state_list.size())
     {
-        fail_reward(_user);
+        fail_reward(_user, user_battle_state_iter->stage_number);
     }
 
     action(permission_level{get_self(), "active"_n},
            get_self(), "battleaction"_n,
-           std::make_tuple(_user, std::string("action"), data))
+           std::make_tuple(_user, std::string("battleaction"), data))
         .send();
 }
 
@@ -4926,18 +4927,10 @@ bool battletest::check_level_up(uint64_t _cur_exp, uint64_t _pre_exp)
     }
 }
 
-void battletest::win_reward(eosio::name _user)
+void battletest::win_reward(eosio::name _user ,uint64_t _stage_number)
 {
-    battle_state_list battle_state_list_table(_self, _self.value);
-    auto user_battle_state_iter = battle_state_list_table.find(_user.value);
-    eosio_assert(user_battle_state_iter != battle_state_list_table.end(), "End Battle 1");
-    eosio_assert(user_battle_state_iter->state == stage_state::start, "Already Get Reward 1");
-    battle_state_list_table.modify(user_battle_state_iter, _self, [&](auto &end_battle) {
-        end_battle.state = stage_state::win;
-    });
-
     stage_db stage_db_table(_self, _self.value);
-    auto stage_db_iter = stage_db_table.find(user_battle_state_iter->stage_number);
+    auto stage_db_iter = stage_db_table.find(_stage_number);
     eosio_assert(stage_db_iter != stage_db_table.end(),"Not Exist Stage");
 
     user_logs user_log_table(_self, _self.value);
@@ -4947,6 +4940,8 @@ void battletest::win_reward(eosio::name _user)
         update_log.last_stage_num = stage_db_iter->stage_id;
         update_log.battle_count += 1;
     });
+
+    std::vector<std::string> reward;
 
     battle_reward_list battle_reward_list_table(_self, _self.value);
     auto user_battle_reward_iter = battle_reward_list_table.find(_user.value);
@@ -5034,27 +5029,16 @@ void battletest::win_reward(eosio::name _user)
         });
     }
 
-    // asset battle_result(0, symbol(symbol_code("UTG"), 4));
-    // battle_result.amount = 10000000;
-
-    // action(permission_level{get_self(), "active"_n},
-    //        get_self(), "transfer"_n,
-    //        std::make_tuple(_self, _user, battle_result, std::string("battle reward")))
-    //     .send();
+    action(permission_level{get_self(), "active"_n},
+           get_self(), "battleaction"_n,
+           std::make_tuple(_user, std::string("stagewin"), reward))
+        .send();
 }
 
-void battletest::fail_reward(eosio::name _user)
+void battletest::fail_reward(eosio::name _user ,uint64_t _stage_number)
 {
-    battle_state_list battle_state_list_table(_self, _self.value);
-    auto user_battle_state_iter = battle_state_list_table.find(_user.value);
-    eosio_assert(user_battle_state_iter != battle_state_list_table.end(), "End Battle 1");
-    eosio_assert(user_battle_state_iter->state == stage_state::start, "Already Get Reward 2");
-    battle_state_list_table.modify(user_battle_state_iter, _self, [&](auto &end_battle) {
-        end_battle.state = stage_state::lose;
-    });
-
     stage_db stage_db_table(_self, _self.value);
-    auto stage_db_iter = stage_db_table.find(user_battle_state_iter->stage_number);
+    auto stage_db_iter = stage_db_table.find(_stage_number);
     eosio_assert(stage_db_iter != stage_db_table.end(), "Not Exist Stage");
 
     auth_users user_auth_table(_self, _self.value);
@@ -5081,6 +5065,9 @@ void battletest::fail_reward(eosio::name _user)
             set_reward.user = _user;
             set_reward.reward_money = 0;
             set_reward.get_exp_list.clear();
+            set_reward.get_servant_list.clear();
+            set_reward.get_monster_list.clear();
+            set_reward.get_item_list.clear();
         });
     }
     else
@@ -5088,8 +5075,17 @@ void battletest::fail_reward(eosio::name _user)
         battle_reward_list_table.modify(battle_reward_iter, _self, [&](auto &set_reward) {
             set_reward.reward_money = 0;
             set_reward.get_exp_list.clear();
+            set_reward.get_servant_list.clear();
+            set_reward.get_monster_list.clear();
+            set_reward.get_item_list.clear();
         });
     }
+    std::vector<std::string> reward;
+
+    action(permission_level{get_self(), "active"_n},
+           get_self(), "battleaction"_n,
+           std::make_tuple(_user, std::string("stagelose"), reward))
+        .send();
 }
 
 ACTION battletest::stageexit(eosio::name _user)
@@ -5108,7 +5104,16 @@ ACTION battletest::stageexit(eosio::name _user)
     auto user_battle_state_iter = battle_state_list_table.find(_user.value);
     eosio_assert(user_battle_state_iter != battle_state_list_table.end(), "End Battle 1");
     battle_state_list_table.modify(user_battle_state_iter, _self, [&](auto &end_battle) {
-        end_battle.state = stage_state::lose;
+        end_battle.my_state_list.clear();
+        end_battle.enemy_state_list.clear();
+    });
+
+    battle_actions battle_action_table(_self, _self.value);
+    auto user_battle_action_iter = battle_action_table.find(_user.value);
+    eosio_assert(user_battle_action_iter != battle_action_table.end(), "Need Start Battle 2");
+    battle_action_table.modify(user_battle_action_iter, _self, [&](auto &end_action)
+    {
+        end_action.character_action_list.clear();
     });
 }
 

@@ -1284,105 +1284,113 @@ ACTION battletest::dbmove(eosio::name _user)
 
 ACTION battletest::dbinit()
 {
-    system_master system_master_table(_self, _self.value);
-    auto system_master_iter = system_master_table.begin();
+    // system_master system_master_table(_self, _self.value);
+    // auto system_master_iter = system_master_table.begin();
 
-    permission_level master_auth;
-    master_auth.actor = system_master_iter->master;
-    master_auth.permission = "owner"_n;
-    require_auth(master_auth);
+    // permission_level master_auth;
+    // master_auth.actor = system_master_iter->master;
+    // master_auth.permission = "owner"_n;
+    // require_auth(master_auth);
 
-    eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 4");
+    // eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 4");
 
-    head_db head_db_table(_self, _self.value);
-    hair_db hair_db_table(_self, _self.value);
-    body_db body_db_table(_self, _self.value);
-    monster_grade_db monster_grade_db_table(_self, _self.value);
-    monster_id_db monster_id_db_table(_self, _self.value);
-    item_id_db item_id_db_table(_self, _self.value);
-    item_grade_db item_grade_db_table(_self, _self.value);
+    // head_db head_db_table(_self, _self.value);
+    // hair_db hair_db_table(_self, _self.value);
+    // body_db body_db_table(_self, _self.value);
+    // monster_grade_db monster_grade_db_table(_self, _self.value);
+    // monster_id_db monster_id_db_table(_self, _self.value);
+    // item_id_db item_id_db_table(_self, _self.value);
+    // item_grade_db item_grade_db_table(_self, _self.value);
 
-    gender_db gender_db_table(_self, _self.value);
-    servant_job_db servant_job_db_table(_self, _self.value);
-    servant_id_db servant_id_db_table(_self, _self.value);
+    // gender_db gender_db_table(_self, _self.value);
+    // servant_job_db servant_job_db_table(_self, _self.value);
+    // servant_id_db servant_id_db_table(_self, _self.value);
 
-    for (auto gender_db_table_iter = gender_db_table.begin(); gender_db_table_iter != gender_db_table.end();)
+    monster_db monster_db_table(_self, _self.value);
+    for(auto monster_db_table_iter = monster_db_table.begin(); monster_db_table_iter != monster_db_table.end();)
     {
-        auto iter = gender_db_table.find(gender_db_table_iter->primary_key());
-        gender_db_table_iter++;
-        gender_db_table.erase(iter);
+        auto iter = monster_db_table.find(monster_db_table_iter->primary_key());
+        monster_db_table_iter++;
+        monster_db_table.erase(iter);
     }
 
-    for (auto servant_id_db_table_iter = servant_id_db_table.begin(); servant_id_db_table_iter != servant_id_db_table.end();)
-    {
-        auto iter = servant_id_db_table.find(servant_id_db_table_iter->primary_key());
-        servant_id_db_table_iter++;
-        servant_id_db_table.erase(iter);
-    }
+    // for (auto gender_db_table_iter = gender_db_table.begin(); gender_db_table_iter != gender_db_table.end();)
+    // {
+    //     auto iter = gender_db_table.find(gender_db_table_iter->primary_key());
+    //     gender_db_table_iter++;
+    //     gender_db_table.erase(iter);
+    // }
 
-    for (auto servant_job_db_table_iter = servant_job_db_table.begin(); servant_job_db_table_iter != servant_job_db_table.end();)
-    {
-        auto iter = servant_job_db_table.find(servant_job_db_table_iter->primary_key());
-        servant_job_db_table_iter++;
-        servant_job_db_table.erase(iter);
-    }
+    // for (auto servant_id_db_table_iter = servant_id_db_table.begin(); servant_id_db_table_iter != servant_id_db_table.end();)
+    // {
+    //     auto iter = servant_id_db_table.find(servant_id_db_table_iter->primary_key());
+    //     servant_id_db_table_iter++;
+    //     servant_id_db_table.erase(iter);
+    // }
 
-    for (auto head_db_table_iter = head_db_table.begin(); head_db_table_iter != head_db_table.end();)
-    {
-        auto iter = head_db_table.find(head_db_table_iter->primary_key());
-        head_db_table_iter++;
-        head_db_table.erase(iter);
-    }
+    // for (auto servant_job_db_table_iter = servant_job_db_table.begin(); servant_job_db_table_iter != servant_job_db_table.end();)
+    // {
+    //     auto iter = servant_job_db_table.find(servant_job_db_table_iter->primary_key());
+    //     servant_job_db_table_iter++;
+    //     servant_job_db_table.erase(iter);
+    // }
 
-    for (auto hair_db_table_iter = hair_db_table.begin(); hair_db_table_iter != hair_db_table.end();)
-    {
-        auto iter = hair_db_table.find(hair_db_table_iter->primary_key());
-        hair_db_table_iter++;
-        hair_db_table.erase(iter);
-    }
+    // for (auto head_db_table_iter = head_db_table.begin(); head_db_table_iter != head_db_table.end();)
+    // {
+    //     auto iter = head_db_table.find(head_db_table_iter->primary_key());
+    //     head_db_table_iter++;
+    //     head_db_table.erase(iter);
+    // }
 
-    for (auto body_db_table_iter = body_db_table.begin(); body_db_table_iter != body_db_table.end();)
-    {
-        auto iter = body_db_table.find(body_db_table_iter->primary_key());
-        body_db_table_iter++;
-        body_db_table.erase(iter);
-    }
+    // for (auto hair_db_table_iter = hair_db_table.begin(); hair_db_table_iter != hair_db_table.end();)
+    // {
+    //     auto iter = hair_db_table.find(hair_db_table_iter->primary_key());
+    //     hair_db_table_iter++;
+    //     hair_db_table.erase(iter);
+    // }
 
-    for (auto monster_grade_db_table_iter = monster_grade_db_table.begin(); monster_grade_db_table_iter != monster_grade_db_table.end();)
-    {
-        auto iter = monster_grade_db_table.find(monster_grade_db_table_iter->primary_key());
-        monster_grade_db_table_iter++;
-        monster_grade_db_table.erase(iter);
-    }
+    // for (auto body_db_table_iter = body_db_table.begin(); body_db_table_iter != body_db_table.end();)
+    // {
+    //     auto iter = body_db_table.find(body_db_table_iter->primary_key());
+    //     body_db_table_iter++;
+    //     body_db_table.erase(iter);
+    // }
 
-    for (auto monster_id_db_table_iter = monster_id_db_table.begin(); monster_id_db_table_iter != monster_id_db_table.end();)
-    {
-        auto iter = monster_id_db_table.find(monster_id_db_table_iter->primary_key());
-        monster_id_db_table_iter++;
-        monster_id_db_table.erase(iter);
-    }
+    // for (auto monster_grade_db_table_iter = monster_grade_db_table.begin(); monster_grade_db_table_iter != monster_grade_db_table.end();)
+    // {
+    //     auto iter = monster_grade_db_table.find(monster_grade_db_table_iter->primary_key());
+    //     monster_grade_db_table_iter++;
+    //     monster_grade_db_table.erase(iter);
+    // }
 
-    for (auto item_id_db_table_iter = item_id_db_table.begin(); item_id_db_table_iter != item_id_db_table.end();)
-    {
-        auto iter = item_id_db_table.find(item_id_db_table_iter->primary_key());
-        item_id_db_table_iter++;
-        item_id_db_table.erase(iter);
-    }
+    // for (auto monster_id_db_table_iter = monster_id_db_table.begin(); monster_id_db_table_iter != monster_id_db_table.end();)
+    // {
+    //     auto iter = monster_id_db_table.find(monster_id_db_table_iter->primary_key());
+    //     monster_id_db_table_iter++;
+    //     monster_id_db_table.erase(iter);
+    // }
 
-    for (auto item_grade_db_table_iter = item_grade_db_table.begin(); item_grade_db_table_iter != item_grade_db_table.end();)
-    {
-        auto iter = item_grade_db_table.find(item_grade_db_table_iter->primary_key());
-        item_grade_db_table_iter++;
-        item_grade_db_table.erase(iter);
-    }
+    // for (auto item_id_db_table_iter = item_id_db_table.begin(); item_id_db_table_iter != item_id_db_table.end();)
+    // {
+    //     auto iter = item_id_db_table.find(item_id_db_table_iter->primary_key());
+    //     item_id_db_table_iter++;
+    //     item_id_db_table.erase(iter);
+    // }
 
-    commonitem_db commonitem_db_table(_self, _self.value);
-    for (auto item_grade_db_table_iter = commonitem_db_table.begin(); item_grade_db_table_iter != commonitem_db_table.end();)
-    {
-        auto iter = commonitem_db_table.find(item_grade_db_table_iter->primary_key());
-        item_grade_db_table_iter++;
-        commonitem_db_table.erase(iter);
-    }
+    // for (auto item_grade_db_table_iter = item_grade_db_table.begin(); item_grade_db_table_iter != item_grade_db_table.end();)
+    // {
+    //     auto iter = item_grade_db_table.find(item_grade_db_table_iter->primary_key());
+    //     item_grade_db_table_iter++;
+    //     item_grade_db_table.erase(iter);
+    // }
+
+    // commonitem_db commonitem_db_table(_self, _self.value);
+    // for (auto item_grade_db_table_iter = commonitem_db_table.begin(); item_grade_db_table_iter != commonitem_db_table.end();)
+    // {
+    //     auto iter = commonitem_db_table.find(item_grade_db_table_iter->primary_key());
+    //     item_grade_db_table_iter++;
+    //     commonitem_db_table.erase(iter);
+    // }
 }
 
 #pragma endresion

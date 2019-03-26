@@ -1275,8 +1275,8 @@ CONTRACT battletest : public contract
     int get_target_key(const std::vector<character_state_data> &_enemy_state_list, uint64_t _target_position);
     static bool sort_compare(const battle_order_struct &a, const battle_order_struct &b);
     bool check_level_up(uint64_t _cur_exp, uint64_t _pre_exp);
-    void win_reward(eosio::name _user);
-    void fail_reward(eosio::name _user);
+    void win_reward(eosio::name _user,uint64_t _stage_number);
+    void fail_reward(eosio::name _user,uint64_t _stage_number);
     ACTION activeturn(eosio::name _user, uint32_t _turn, std::string _seed);
 
     ACTION stageexit(eosio::name _user);
@@ -1317,7 +1317,7 @@ CONTRACT battletest : public contract
 
     ACTION partycheat(eosio::name _user);
     ACTION herocheat(eosio::name _user);
-    ACTION setdata();
+    ACTION setdata(eosio::name _contract);
 
     ACTION balancetest(eosio::name _user);
     ACTION change(eosio::name _user, std::string _kind, uint64_t _grade, uint64_t _id, std::string _status);
