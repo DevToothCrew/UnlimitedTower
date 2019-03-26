@@ -157,6 +157,7 @@ public class itemData
 public class servantGrindResultData
 {
     // 무엇이 어떻게 추가될지 모른다.
+    public List<int> grindServantIndexList = new List<int>();
     public List<itemInfo> itemList = new List<itemInfo>();
 }
 
@@ -164,6 +165,7 @@ public class servantGrindResultData
 public class sellResultData
 {
     // 무엇이 어떻게 추가될지 모른다.
+    public List<int> sellItemIndexList = new List<int>();
     public List<itemInfo> itemList = new List<itemInfo>();
 }
 

@@ -775,7 +775,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
         // 보여주기용 Reward Set
         UserDataManager.Inst.SetStageReward(getReward);
 
-
         // 경험치 추가
         if (getReward.get_exp_list.Count > 0)
         {
@@ -853,6 +852,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void ResponseServantGrind(servantGrindResultData getServantGrindData)
     {
         Debug.Log("서번트 분해, 영혼 획득!");
+
+        if(getServantGrindData.grindServantIndexList.Count == 0)
+        {
+            Debug.Log("Invalid Grind Result");
+            return;
+        }
+
+
     }
     
     // 몬스터 판매
