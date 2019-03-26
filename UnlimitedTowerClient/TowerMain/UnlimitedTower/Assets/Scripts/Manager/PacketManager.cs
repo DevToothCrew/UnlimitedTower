@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using System.Collections;
+using System.Linq;
 
 using PairedDelegates = System.Collections.Generic.KeyValuePair<System.Delegate, System.Action<string>>;
 
@@ -357,7 +358,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         Debug.Log("Json start : " + json);
 
-        Request<sellResultData>("MonsterSell",
+        Request<sellMonsterResultData>("MonsterSell",
                 onSuccess: ResponseMonsterSell,
                 onFailed: msg => 
                 {
@@ -382,7 +383,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         Debug.Log("Json start : " + json);
 
-        Request<sellResultData>("EquipmentSell",
+        Request<sellEquipmentResultData>("EquipmentSell",
                 onSuccess: ResponseEquipmentSell,
                 onFailed: msg =>
                 {
@@ -408,7 +409,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         Debug.Log("Json start : " + json);
 
-        Request<sellResultData>("ItemSell",
+        Request<sellItemResultData>("ItemSell",
                 onSuccess: ResponseItemSell,
                 onFailed: msg =>
                 {
@@ -920,24 +921,124 @@ public class PacketManager : MonoSingleton<PacketManager> {
             return;
         }
 
+        if (UserDataManager.Inst.DelServantList(getServantGrindData.grindServantIndexList) == false)
+        {
+            Debug.Log("Invalid Grind Index");
+            return;
+        }
+
+        Dictionary<int, UserItemData> getItemDataDic = new Dictionary<int, UserItemData>();
+        if (ParseItemDic(getServantGrindData.itemList, ref getItemDataDic) == false)
+        {
+            Debug.Log("Invalid ParseItemDic");
+            return;
+        }
+
+        if(UserDataManager.Inst.AddItemDataList(getItemDataDic.Values.ToList()) == false)
+        {
+            Debug.Log("Invalid AdditemDataList");
+            return;
+        }
     }
     
     // 몬스터 판매
-    public void ResponseMonsterSell(sellResultData getSellResultData)
+    public void ResponseMonsterSell(sellMonsterResultData getSellMonsterResultData)
     {
         Debug.Log("몬스터 판매, UTG 획득!");
+
+        if(getSellMonsterResultData.sellMonsterIndexList.Count == 0)
+        {
+            Debug.Log("Invalid Sell Result");
+            return;
+        }
+
+        if(UserDataManager.Inst.DelMonsterList(getSellMonsterResultData.sellMonsterIndexList) == false)
+        {
+            Debug.Log("Invalid DelMonsterList");
+            return;
+        }
+
+        Dictionary<int, UserItemData> getItemDataDic = new Dictionary<int, UserItemData>();
+        if (ParseItemDic(getSellMonsterResultData.itemList, ref getItemDataDic) == false)
+        {
+            Debug.Log("Invalid ParseItemDic");
+            return;
+        }
+
+        if (UserDataManager.Inst.AddItemDataList(getItemDataDic.Values.ToList()) == false)
+        {
+            Debug.Log("Invalid AdditemDataList");
+            return;
+        }
     }
 
     // 장비 판매
-    public void ResponseEquipmentSell(sellResultData getSellResultData)
+    public void ResponseEquipmentSell(sellEquipmentResultData getSellEquipmentResultData)
     {
         Debug.Log("장비 판매, UTG 획득!");
+
+        if(getSellEquipmentResultData.sellEquipmentIndexList.Count == 0)
+        {
+            Debug.Log("Invalid Sell Result");
+            return;
+        }
+
+        if(UserDataManager.Inst.DelEquipmentList(getSellEquipmentResultData.sellEquipmentIndexList) == false)
+        {
+            Debug.Log("Invalid DelEquipmentList");
+            return;
+        }
+
+        Dictionary<int, UserItemData> getItemDataDic = new Dictionary<int, UserItemData>();
+        if (ParseItemDic(getSellEquipmentResultData.itemList, ref getItemDataDic) == false)
+        {
+            Debug.Log("Invalid ParseItemDic");
+            return;
+        }
+
+        if (UserDataManager.Inst.AddItemDataList(getItemDataDic.Values.ToList()) == false)
+        {
+            Debug.Log("Invalid AdditemDataList");
+            return;
+        }
     }
 
     // 아이템 판매
-    public void ResponseItemSell(sellResultData getSellResultData)
+    public void ResponseItemSell(sellItemResultData getSellItemResultData)
     {
         Debug.Log("아이템 판매, UTG 획득!");
+
+        if (getSellItemResultData.sellItemDataList.Count == 0)
+        {
+            Debug.Log("Invalid Sell Result");
+            return;
+        }
+
+        Dictionary<int, UserItemData> sellItemDataDic = new Dictionary<int, UserItemData>();
+        if(ParseItemDic(getSellItemResultData.sellItemDataList, ref sellItemDataDic) == false)
+        {
+            Debug.Log("Invalid ParseItemDic");
+            return;
+        }
+
+        if (UserDataManager.Inst.DelItemList(sellItemDataDic.Values.ToList()) == false)
+        {
+            Debug.Log("Invalid DelItemList");
+            return;
+        }
+
+        Dictionary<int, UserItemData> getItemDataDic = new Dictionary<int, UserItemData>();
+        if (ParseItemDic(getSellItemResultData.itemList, ref getItemDataDic) == false)
+        {
+            Debug.Log("Invalid ParseItemDic");
+            return;
+        }
+
+        if (UserDataManager.Inst.AddItemDataList(getItemDataDic.Values.ToList()) == false)
+        {
+            Debug.Log("Invalid AdditemDataList");
+            return;
+        }
     }
 
     // 장비 장착

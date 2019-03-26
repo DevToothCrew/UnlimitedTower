@@ -97,8 +97,6 @@ public class itemInfo
 
 #endregion
 
-
-
 #region Data
 
 [Serializable]
@@ -158,15 +156,31 @@ public class servantGrindResultData
 {
     // 무엇이 어떻게 추가될지 모른다.
     public List<int> grindServantIndexList = new List<int>();
-    public List<itemInfo> itemList = new List<itemInfo>();
+    public List<itemData> itemList = new List<itemData>();
 }
 
 [Serializable]
-public class sellResultData
+public class sellMonsterResultData
 {
     // 무엇이 어떻게 추가될지 모른다.
-    public List<int> sellItemIndexList = new List<int>();
-    public List<itemInfo> itemList = new List<itemInfo>();
+    public List<int> sellMonsterIndexList = new List<int>();
+    public List<itemData> itemList = new List<itemData>();
+}
+
+[Serializable]
+public class sellEquipmentResultData
+{
+    // 무엇이 어떻게 추가될지 모른다.
+    public List<int> sellEquipmentIndexList = new List<int>();
+    public List<itemData> itemList = new List<itemData>();
+}
+
+[Serializable]
+public class sellItemResultData
+{
+    // 무엇이 어떻게 추가될지 모른다.
+    public List<itemData> sellItemDataList = new List<itemData>();
+    public List<itemData> itemList = new List<itemData>();
 }
 
 [Serializable]

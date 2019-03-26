@@ -402,10 +402,26 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     {
         if (itemDic.ContainsKey(itemData.index) == true)
         {
-            return false;
+            // 최대 개수 넘었을때에 대한 처리가 필요
+            itemDic[itemData.index].count = itemDic[itemData.index].count + itemData.count;
+        }
+        else
+        {
+            itemDic.Add(itemData.index, itemData);
+        }
+        return true;
+    }
+
+    public bool AddItemDataList(List<UserItemData> itemDataList)
+    {
+        for(int i = 0; i < itemDataList.Count; i++)
+        {
+            if(AddItemData(itemDataList[i]) == false)
+            {
+                return false;
+            }
         }
 
-        itemDic.Add(itemData.index, itemData);
         return true;
     }
 
