@@ -146,8 +146,8 @@ public class BattleManager : MonoSingleton<BattleManager>
                 for (int i = 0; i < rewardData.get_monster_list.Count; i++)
                     temp += " : " + rewardData.get_monster_list[i].id;
                 temp += "\nItem";
-                for (int i = 0; i < rewardData.get_item_list.Count; i++)
-                    temp += " : " + rewardData.get_item_list[i].id;
+                for (int i = 0; i < rewardData.get_equipment_list.Count; i++)
+                    temp += " : " + rewardData.get_equipment_list[i].id;
                 testReward.transform.GetChild(0).GetComponent<Text>().text = temp;
             }
             else

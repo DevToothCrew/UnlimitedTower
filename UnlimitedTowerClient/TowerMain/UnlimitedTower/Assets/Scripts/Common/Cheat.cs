@@ -14,8 +14,8 @@ public class Cheat : MonoSingleton<Cheat>
         userLoginData.token = "10000000";
         userLoginData.eos = "15400000";
 
-        userLoginData.userinfo.user = user;
-        userLoginData.userinfo.state = 2;
+        userLoginData.user_data.user = user;
+        userLoginData.user_data.state = 2;
         //userLoginData.userinfo.hero = GetRandomServant(GetRandomServantJob());
 
         partyData partyData = new partyData();

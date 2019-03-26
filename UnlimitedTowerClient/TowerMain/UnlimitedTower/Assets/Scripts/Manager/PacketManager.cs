@@ -209,7 +209,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 파티 저장
-    // TODO : 수정 필요
     public void RequestSaveParty(UserPartyData partyInfo)
     {
         if(partyInfo == null)
@@ -221,29 +220,41 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         PartySaveJson data = new PartySaveJson();
         data.partyNum = partyInfo.partyIndex;
-        for(int i=0; i< partyInfo.formationDataDic.Count; ++i)
+
+        for(int i = 0; i < partyInfo.formationDataDic.Count; ++i)
         {
-            //비어있는 경우 index는 0 이다.
-            //파티 하나 고정 히어로도 고정이기 때문에 히어로에 대한 처리는 안해준다.
-            if (partyInfo.formationDataDic[i].formationIndex == 0)
+            if (partyInfo.formationDataDic.ContainsKey(i) == false)
             {
-                continue;
-            }
-            else if(partyInfo.formationDataDic[i].formationIndex <= 4)
-            {
-                data.servantList.Add(partyInfo.formationDataDic[i].index);
+                if(i <= DEFINE.ServantMaxFormationNum)
+                {
+                    data.servantList.Add(0);
+                }
+                else
+                {
+                    data.monsterList.Add(0);
+                }
             }
             else
             {
-                data.monsterList.Add(partyInfo.formationDataDic[i].index);
+                if(i <= DEFINE.ServantMaxFormationNum)
+                {
+                    data.servantList.Add(partyInfo.formationDataDic[i].index);
+                }
+                else
+                {
+                    data.monsterList.Add(partyInfo.formationDataDic[i].index);
+                }
             }
         }
 
         string json = JsonUtility.ToJson(data);
         Debug.Log("print Jsson : : " + json);
 
-        // TODO : Party Save Response
-        // SetFormation(json);
+        Request<partyData>("SaveParty",
+                body: json,
+                onSuccess: ResponseSaveParty,
+                onFailed: msg => { Debug.LogError($"[Failed Requesting SaveParty] {msg}"); }
+                );
     }
 
     // 배틀 액션 시작
@@ -297,7 +308,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("Request Battle Exit");
 
-        Request("StageResult",
+        Request("StageExit",
             onSuccess: ResponseStageExit,
             onFailed: msg =>
             {
@@ -306,91 +317,100 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 서번트 분해
-    public void RequestGrindServant(int servantNum)
+    public void RequestServantGrind(List<int> servantIndexList)
     {
         Debug.Log("Request Grind Servant");
+        if(servantIndexList == null)
+        {
+            Debug.Log("Invalid Request");
+            return;
+        }
 
         ServantGrindJson servantgrind = new ServantGrindJson();
-        servantgrind.servantNum = servantNum;
+        servantgrind.servantIndexList = servantIndexList;
 
         string json = JsonUtility.ToJson(servantgrind);
 
         Debug.Log("Json start : " + json);
 
-        Request<consumableitemData>("ServantGrind",
+        Request<servantGrindResultData>("ServantGrind",
                 body: json,
                 onSuccess: ResponseServantGrind,
                 onFailed: msg => { Debug.LogError($"[Failed Requesting ServantGrind] {msg}"); }
                 );
-
     }
 
     // 몬스터 판매
-    public void RequestMonsterSell(int monsterNum)
+    public void RequestMonsterSell(List<int> monsterIndexList)
     {
         Debug.Log("Request Monster Sell");
+        if(monsterIndexList == null)
+        {
+            Debug.Log("Invalid Request");
+            return;
+        }
+
         MonsterSellJson monstersell = new MonsterSellJson();
-        monstersell.monsterNum = monsterNum;
+        monstersell.monsterIndexList = monsterIndexList;
 
         string json = JsonUtility.ToJson(monstersell);
 
         Debug.Log("Json start : " + json);
 
-        Request("MonsterSell",
+        Request<sellResultData>("MonsterSell",
                 onSuccess: ResponseMonsterSell,
                 onFailed: msg => 
                 {
-                    Debug.LogError($"[Failed Requesting ServantGrind] {msg}");
+                    Debug.LogError($"[Failed Requesting MonsterSell] {msg}");
                 });
-
     }
 
     // 장비 판매
-    public void RequestEquipmentSell(int equipmentNum)
+    public void RequestEquipmentSell(List<int> equipmentIndexList)
     {
         Debug.Log("Request Equipment Sell");
         EquipmentSellJson equipmentsell = new EquipmentSellJson();
-        equipmentsell.equipmentNum = equipmentNum;
+        equipmentsell.equipmentIndexList = equipmentIndexList;
 
         string json = JsonUtility.ToJson(equipmentsell);
 
         Debug.Log("Json start : " + json);
 
-        Request("EquipmentSell",
+        Request<sellResultData>("EquipmentSell",
                 onSuccess: ResponseEquipmentSell,
                 onFailed: msg =>
                 {
-                    Debug.LogError($"[Failed Requesting ServantGrind] {msg}");
+                    Debug.LogError($"[Failed Requesting EquipmentSell] {msg}");
                 });
 
     }
 
     // 아이템 판매
-    public void RequestItemSell(int itemNum)
+    public void RequestItemSell(List<int> itemIndexList)
     {
         Debug.Log("Request Item Sell");
         ItemSellJson itemsell = new ItemSellJson();
-        itemsell.itemNum = itemNum;
+        itemsell.itemIndexList = itemIndexList;
 
         string json = JsonUtility.ToJson(itemsell);
 
         Debug.Log("Json start : " + json);
 
-        Request("ItemSell",
+        Request<sellResultData>("ItemSell",
                 onSuccess: ResponseItemSell,
                 onFailed: msg =>
                 {
-                    Debug.LogError($"[Failed Requesting ServantGrind] {msg}");
+                    Debug.LogError($"[Failed Requesting ItemSell] {msg}");
                 });
     }
 
     // 장비 장착
-    public void RequestEquipServant(int servantNum, int equipitemNum)
+    public void RequestEquipServant(int servantIndex, int equipitemIndex)
     {
         Debug.Log("Request Equip Servant");
         EquipServantJson equipservant = new EquipServantJson();
-        equipservant.servantNum = servantNum;
-        equipservant.equipitemNum = equipitemNum;
+        equipservant.servantIndex = servantIndex;
+        equipservant.equipitemIndex = equipitemIndex;
 
         string json = JsonUtility.ToJson(equipservant);
 
@@ -400,17 +420,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 onSuccess: ResponseEquipServant,
                 onFailed: msg =>
                 {
-                    Debug.LogError($"[Failed Requesting ServantGrind] {msg}");
+                    Debug.LogError($"[Failed Requesting EquipServant] {msg}");
                 });
     }
 
     // 장비 해제
-    public void RequestUnequipServant(int servantNum, int equipitemNum)
+    public void RequestUnequipServant(int servantIndex, int equipitemIndex)
     {
         Debug.Log("Request Unequip Servant");
         UnequipServantJson unequipservant = new UnequipServantJson();
-        unequipservant.servantNum = servantNum;
-        unequipservant.equipitemNum = equipitemNum;
+        unequipservant.servantIndex = servantIndex;
+        unequipservant.equipitemIndex = equipitemIndex;
 
         string json = JsonUtility.ToJson(unequipservant);
 
@@ -420,66 +440,66 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 onSuccess: ResponseUnequipServant,
                 onFailed: msg =>
                 {
-                    Debug.LogError($"[Failed Requesting ServantGrind] {msg}");
+                    Debug.LogError($"[Failed Requesting UnequipServant] {msg}");
                 });
     }
 
     // 몬스터 강화
-    public void RequestMonsterUpgrade(int monsterNum, int monsterNum2)
+    public void RequestMonsterUpgrade(int mainMonsterIndex, int subMonsterIndex)
     {
         Debug.Log("Request Monster Upgrade");
-        MonsterUpgradeJson monsterupgrade = new MonsterUpgradeJson();
-        monsterupgrade.monsterNum = monsterNum;
-        monsterupgrade.monsterNum2 = monsterNum2;
+        MonsterUpgradeJson monsterUpgrade = new MonsterUpgradeJson();
+        monsterUpgrade.mainMonsterIndex = mainMonsterIndex;
+        monsterUpgrade.subMonsterIndex = subMonsterIndex;
 
-        string json = JsonUtility.ToJson(monsterupgrade);
+        string json = JsonUtility.ToJson(monsterUpgrade);
 
         Debug.Log("Json start : " + json);
 
-        Request<monsterData>("MonsterUpgrade",
+        Request<monsterUpgradeResultData>("MonsterUpgrade",
                 onSuccess: ResponseMonsterUpgrade,
                 onFailed: msg =>
                 {
-                    Debug.LogError($"[Failed Requesting ServantGrind] {msg}");
+                    Debug.LogError($"[Failed Requesting MonsterUpgrade] {msg}");
                 });
     }
 
     // 아이템 강화
-    public void RequestEquipmentUpgrade(int itemNum, int itemNum2)
+    public void RequestEquipmentUpgrade(int mainEquipmentIndex, List<int> addItemIndexList)
     {
         Debug.Log("Request Equipment Upgrade");
-        EquipmentUpgradeJson equipmentupgrade = new EquipmentUpgradeJson();
-        equipmentupgrade.itemNum = itemNum;
-        equipmentupgrade.itemNum2 = itemNum2;
-        string json = JsonUtility.ToJson(equipmentupgrade);
+        EquipmentUpgradeJson equipmentUpgrade = new EquipmentUpgradeJson();
+        equipmentUpgrade.mainEquipmentIndex = mainEquipmentIndex;
+        equipmentUpgrade.addItemIndexList = addItemIndexList;
+        string json = JsonUtility.ToJson(equipmentUpgrade);
 
         Debug.Log("Json start : " + json);
 
-        Request<itemData>("EquipmentUpgrade",
+        Request<equipmentUpgradeResultData>("EquipmentUpgrade",
                 onSuccess: ResponseEquipmentUpgrade,
                 onFailed: msg =>
                 {
-                    Debug.LogError($"[Failed Requesting ServantGrind] {msg}");
+                    Debug.LogError($"[Failed Requesting EquipmentUpgrade] {msg}");
                 });
     }
 
     // 상점 아이템 구매
-    public void RequestBuyItem(int type, int itemCount)
+    public void RequestBuyItem(int index, int itemCount)
     {
         Debug.Log("Request Buy Item");
-        BuyItemJson buyitem = new BuyItemJson();
-        buyitem.type= type;
-        buyitem.itemCount = itemCount;
+        BuyItemJson buyItem = new BuyItemJson();
+        buyItem.index = index;
+        buyItem.itemCount = itemCount;
 
-        string json = JsonUtility.ToJson(buyitem);
+        string json = JsonUtility.ToJson(buyItem);
 
         Debug.Log("Json start : " + json);
 
-        Request<consumableitemData>("BuyItem",
+        Request<itemInfo>("BuyItem",
                 onSuccess: ResponseBuyItem,
                 onFailed: msg =>
                 {
-                    Debug.LogError($"[Failed Requesting ServantGrind] {msg}");
+                    Debug.LogError($"[Failed Requesting BuyItem] {msg}");
                 });
     }
 
@@ -487,30 +507,30 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void RequestBuyInventory(int type, int itemCount)
     {
         Debug.Log("Request Buy Inventory");
-        BuyInventoryJson buyinventory = new BuyInventoryJson();
-        buyinventory.type = type;
-        buyinventory.itemCount = itemCount;
+        BuyInventoryJson buyInventory = new BuyInventoryJson();
+        buyInventory.type = type;
+        buyInventory.itemCount = itemCount;
 
-        string json = JsonUtility.ToJson(buyinventory);
+        string json = JsonUtility.ToJson(buyInventory);
 
         Debug.Log("Json start : " + json);
 
-        Request<userData>("BuyInventory",
+        Request<inventoryInfo>("BuyInventory",
                 onSuccess: ResponseBuyInventory,
                 onFailed: msg =>
                 {
-                    Debug.LogError($"[Failed Requesting ServantGrind] {msg}");
+                    Debug.LogError($"[Failed Requesting BuyInventory] {msg}");
                 });
     }
 
     // 로열 서번트 구매
-    public void RequestBuyRoyalServant(int servantNum)
+    public void RequestBuyRoyalServant(int servantIndex)
     {
         Debug.Log("Request Buy Royalservant");
-        BuyRoyalservantJson buyroyalservant = new BuyRoyalservantJson();
-        buyroyalservant.servantNum = servantNum;
+        BuyRoyalservantJson buyRoyalServant = new BuyRoyalservantJson();
+        buyRoyalServant.servantIndex = servantIndex;
        
-        string json = JsonUtility.ToJson(buyroyalservant);
+        string json = JsonUtility.ToJson(buyRoyalServant);
 
         Debug.Log("Json start : " + json);
 
@@ -523,17 +543,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 우편 수령
-    public void RequestMailOpen(int mailNum)
+    public void RequestMailOpen(List<int> mailOpenIndexList)
     {
         Debug.Log("Request Maill Open");
         MailOpenJson mailopen = new MailOpenJson();
-        mailopen.mailNum = mailNum;
+        mailopen.mailOpenIndexList = mailOpenIndexList;
 
         string json = JsonUtility.ToJson(mailopen);
 
         Debug.Log("Json start : " + json);
 
-        Request<mailData>("MailOpen",
+        Request<mailOpenResultData>("MailOpen",
                 onSuccess: ResponseMailOpen,
                 onFailed: msg =>
                 {
@@ -596,7 +616,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void Login(UserLoginData getUserLoginData)
     {
         UserInfo userInfo = new UserInfo();
-        if (ParseUserInfo(getUserLoginData.userinfo, ref userInfo) == false)
+        if (ParseUserInfo(getUserLoginData.user_data, ref userInfo) == false)
         {
             Debug.Log("Invalid ParseUserInfo Info");
         }
@@ -682,7 +702,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log(getGachaInfo);
 
             gachaItemData gachaData = JsonUtility.FromJson<gachaItemData>(getGachaInfo);
-            UserMountItemData getItem = ParseItem(gachaData.data.index, gachaData.data.item);
+            UserMountItemData getItem = ParseItem(gachaData.data.index, gachaData.data.equipment);
 
             UserDataManager.Inst.AddMountItemData(getItem);
 
@@ -697,6 +717,18 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("ResponseLogout");
         UserDataManager.Inst.InitUserInfo();
         StartCoroutine(LoadSceneAsync("login", "Loading scene ... "));
+    }
+
+    public void ResponseSaveParty(partyData getPartyData)
+    {
+        Debug.Log("ResponseSaveParty");
+
+        UserPartyData partyInfo = ParsePartyInfo(getPartyData);
+        if (partyInfo == null)
+        {
+            Debug.Log("invalid ParsePartyList info");
+        }
+        UserDataManager.Inst.SetPartyInfo(partyInfo);
     }
 
     // 스테이지 시작
@@ -737,61 +769,61 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 서번트 분해
-    public void ResponseServantGrind(consumableitemData getConsumableItemData)
+    public void ResponseServantGrind(servantGrindResultData getServantGrindData)
     {
         Debug.Log("서번트 분해, 영혼 획득!");
     }
     
     // 몬스터 판매
-    public void ResponseMonsterSell()
+    public void ResponseMonsterSell(sellResultData getSellResultData)
     {
         Debug.Log("몬스터 판매, UTG 획득!");
     }
 
     // 장비 판매
-    public void ResponseEquipmentSell()
+    public void ResponseEquipmentSell(sellResultData getSellResultData)
     {
         Debug.Log("장비 판매, UTG 획득!");
     }
 
     // 아이템 판매
-    public void ResponseItemSell()
+    public void ResponseItemSell(sellResultData getSellResultData)
     {
         Debug.Log("아이템 판매, UTG 획득!");
     }
 
     // 장비 장착
-    public void ResponseEquipServant(servantData getEquipServantData)
+    public void ResponseEquipServant(servantData getServantData)
     {
         Debug.Log("서번트 장비 장착 !");
     }
 
     // 장비 해제
-    public void ResponseUnequipServant(servantData getUneqipServantData)
+    public void ResponseUnequipServant(servantData getServantData)
     {
         Debug.Log("서번트 장비 장착해제 !");
     }
 
     // 몬스터 강화
-    public void ResponseMonsterUpgrade(monsterData getMonsterUpgradeData)
+    public void ResponseMonsterUpgrade(monsterUpgradeResultData getMonsterUpgradeResultData)
     {
         Debug.Log("몬스터 업그레이드 !");
     }
 
     // 아이템 강화
-    public void ResponseEquipmentUpgrade(itemData getEquipmentUpgradeData)
+    public void ResponseEquipmentUpgrade(equipmentUpgradeResultData getEquipmentUpgradeResultData)
     {
         Debug.Log("장비 업그레이드 !");
     }
 
     // 상점 아이템 구매
-    public void ResponseBuyItem(consumableitemData getBuyItemData)
+    public void ResponseBuyItem(itemInfo getBuyItemData)
     {
         Debug.Log("소모품 구매 !");
     }
 
     // 인벤토리 구매
-    public void ResponseBuyInventory(userData getBuyInventoryData)
+    public void ResponseBuyInventory(inventoryInfo getInventoryInfo)
     {
         Debug.Log("인벤토리 구매 !");
     }
@@ -803,7 +835,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 우편 수령
-    public void ResponseMailOpen(mailData getMailData)
+    public void ResponseMailOpen(mailOpenResultData getMailOpenResultData)
     {
         Debug.Log("메일 오픈 !");
     }
@@ -988,11 +1020,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return monster;
     }
 
-    public bool ParseItemDic(List<itemData> getItemList, ref Dictionary<int, UserMountItemData> itemDic)
+    public bool ParseItemDic(List<equipmentData> getItemList, ref Dictionary<int, UserMountItemData> itemDic)
     {
         for (int i = 0; i < getItemList.Count; i++)
         {
-            UserMountItemData item = ParseItem(getItemList[i].index, getItemList[i].item);
+            UserMountItemData item = ParseItem(getItemList[i].index, getItemList[i].equipment);
             if (item == null)
             {
                 Debug.Log("Invalid Item Info");
@@ -1004,7 +1036,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return true;
     }
 
-    public UserMountItemData ParseItem(int getItemIndex, itemInfo getItemInfo)
+    public UserMountItemData ParseItem(int getItemIndex, equipmentInfo getItemInfo)
     {
         if (getItemInfo == null)
         {

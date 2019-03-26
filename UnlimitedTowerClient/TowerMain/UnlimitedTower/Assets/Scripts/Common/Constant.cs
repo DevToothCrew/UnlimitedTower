@@ -32,7 +32,6 @@ public class DEFINE
     public static readonly int MonsterMaxFormationNum = 9;
     public static readonly int ServantMinFormationNum = 0;
     public static readonly int ServantMaxFormationNum = 4;
-    public static readonly int MAINHERO_FORMINDEX = 2;
 
 	// MIN - MAX Status
 	public static readonly int MIN_STATUS = 0;
