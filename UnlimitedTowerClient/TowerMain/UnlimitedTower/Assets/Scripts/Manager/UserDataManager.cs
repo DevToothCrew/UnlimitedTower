@@ -410,4 +410,116 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     }
 
     #endregion
+
+    #region DelFunction
+
+    public bool DelServant(int index)
+    {
+        if(servantDic.ContainsKey(index) == false)
+        {
+            return false;
+        }
+
+        servantDic.Remove(index);
+        return true;
+    }
+
+    public bool DelServantList(List<int> delServantIndexList)
+    {
+        for(int i = 0; i < delServantIndexList.Count; i++)
+        {
+            if(DelServant(delServantIndexList[i]) == false)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public bool DelMonster(int index)
+    {
+        if(monsterDic.ContainsKey(index) == false)
+        {
+            return false;
+        }
+
+        monsterDic.Remove(index);
+        return true;
+    }
+
+    public bool DelMonsterList(List<int> delMonsterIndexList)
+    {
+        for(int i = 0; i < delMonsterIndexList.Count; i++)
+        {
+            if(DelMonster(delMonsterIndexList[i]) == false)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public bool DelEquipment(int index)
+    {
+        if(equipmentDic.ContainsKey(index) == false)
+        {
+            return false;
+        }
+
+        equipmentDic.Remove(index);
+        return true;
+    }
+
+    public bool DelEquipmentList(List<int> delEquipmentIndexList)
+    {
+        for(int i = 0; i < delEquipmentIndexList.Count; i++)
+        {
+            if(DelEquipment(delEquipmentIndexList[i]) == false)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public bool DelItem(UserItemData itemData)
+    {
+        if(itemDic.ContainsKey(itemData.index) == false)
+        {
+            return false;
+        }
+
+        if(itemDic[itemData.index].count > itemData.count)
+        {
+            itemDic[itemData.index].count = itemDic[itemData.index].count - itemData.count;
+        }
+        else if(itemDic[itemData.index].count == itemData.count)
+        {
+            itemDic.Remove(itemData.index);
+        }
+        else
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public bool DelItemList(List<UserItemData> delItemDataList)
+    {
+        for(int i = 0; i < delItemDataList.Count; i++)
+        {
+            if(DelItem(delItemDataList[i]) == false)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    #endregion
 }
