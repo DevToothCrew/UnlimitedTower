@@ -184,15 +184,6 @@ CONTRACT battletest : public contract
     };
     typedef eosio::multi_index<"dbitemup"_n, dbitemup> upgrade_item_ratio_db;
 
-    TABLE dbconsumable
-    {
-        uint64_t id;
-        uint32_t type;
-        uint64_t price;
-        uint64_t primary_key() const { return id; }
-    };
-    typedef eosio::multi_index<"dbconsumable"_n, dbconsumable> user_consumables_db;
-
     TABLE dblevel
     {
         uint32_t lv;
@@ -416,7 +407,6 @@ CONTRACT battletest : public contract
     void insert_grade_ratio(uint64_t _grade, uint64_t _ratio);
     void insert_upgrade_monster_ratio(uint32_t _main);
     void insert_upgrade_item_ratio(uint64_t _main, uint32_t _material, uint64_t _ratio);
-    void insert_consumables_id(uint32_t _id, uint32_t _type, uint64_t _price);
     void insert_level(uint32_t _id);
     void insert_servant_lv(uint64_t _job, uint64_t _lv_up_str, uint64_t _lv_up_dex, uint64_t _lv_up_int);
     void insert_monster_lv(uint64_t _monster_class_grade, uint64_t _lv_up_str, uint64_t _lv_up_dex, uint64_t _lv_up_int);
@@ -442,7 +432,6 @@ CONTRACT battletest : public contract
     void erase_grade_ratio(uint64_t _grade);
     void erase_upgrade_monster_ratio(uint32_t _main);
     void erase_upgrade_item_ratio(uint32_t _main);
-    void erase_consumables_id(uint32_t _id);
     void erase_level(uint32_t _id);
     void erase_servant_lv(uint64_t _job);
     void erase_monster_lv(uint64_t _monster_class_grade);
@@ -646,10 +635,10 @@ CONTRACT battletest : public contract
 
     TABLE tconsumable
     {
-        uint64_t id;
+        uint64_t itemid;
         uint32_t type;
         uint64_t count;
-        uint64_t primary_key() const { return id; }
+        uint64_t primary_key() const { return itemid; }
     };
     typedef eosio::multi_index<"tconsumable"_n, tconsumable> user_consum_item;
 
@@ -719,7 +708,7 @@ CONTRACT battletest : public contract
     const char *action_gacha = "gacha";
     const char *action_signup = "signup";
     const char *action_status_change = "changestatus";
-
+    const char *action_inventory = "buyinventory";
     uint32_t servant_random_count;
     uint32_t monster_random_count;
     uint32_t item_random_count;
@@ -747,7 +736,7 @@ CONTRACT battletest : public contract
     void tutorial_servant(eosio::name _user, uint64_t _seed);
     ACTION tutorial(eosio::name _user, uint64_t _monster);
     bool check_inventory(eosio::name _user);
-    ACTION movemail(eosio::name _user, uint64_t _index);
+    ACTION mailopen(eosio::name _user, uint64_t _index);
 
 #pragma endregion
 
@@ -989,18 +978,22 @@ CONTRACT battletest : public contract
     //------------------------------------------------------------------------//
 #pragma region item system
 
-    void sell_servant(eosio::name _user, uint32_t _index);
-    void sell_monster(eosio::name _user, uint32_t _index);
-    void sell_item(eosio::name _user, uint32_t _index);
+    //void sell_servant(eosio::name _user, uint32_t _index);
+    //void sell_monster(eosio::name _user, uint32_t _index);
+    //void sell_item(eosio::name _user, uint32_t _index);
 
-    ACTION sellobject(eosio::name _user, uint32_t _type, uint32_t _index);
+   // ACTION sellobject(eosio::name _user, uint32_t _type, uint32_t _index);
+    ACTION servantgrind(eosio::name _user, uint32_t _servant);
+    ACTION monstersell(eosio::name _user, uint32_t _monster);
+    ACTION equipsell(eosio::name _nser, uint32_t _euqipitem);
+    ACTION itemsell(eosio::name _user, uint32_t _item, uint32_t _count);
 
-    ACTION equipment(eosio::name _user, uint32_t _type, uint32_t _servant_index, uint32_t _item_index);
-    ACTION unequipment(eosio::name _user, uint32_t _type, uint32_t _servant_index, uint32_t _item_index);
-    void unequip_servant(eosio::name _user, uint32_t _servant_index, uint32_t _item_index);
-    void equip_servant(eosio::name _user, uint32_t _servant_index, uint32_t _item_index);
-    void unequip_hero(eosio::name _user, uint32_t _item_index);
-    void equip_hero(eosio::name _user, uint32_t _item_index);
+    ACTION equipment(eosio::name _user, uint32_t _servant_index, uint32_t _item_index);
+    ACTION unequipment(eosio::name _user, uint32_t _servant_index, uint32_t _item_index);
+
+ //   void unequip_servant(eosio::name _user, uint32_t _servant_index, uint32_t _item_index);
+//    void equip_servant(eosio::name _user, uint32_t _servant_index, uint32_t _item_index);
+
     bool compare_item(uint32_t _user_servant, uint32_t _user_item);
 
 #pragma endregion
@@ -1011,11 +1004,11 @@ CONTRACT battletest : public contract
 
 #pragma region upgrade system
 
-    void upgrade_servant(eosio::name _user, uint32_t _servant_index, uint32_t _servant_index2);
-    void upgrade_monster(eosio::name _user, uint32_t _monster_index, uint32_t _monster_index2);
-    void upgrade_item(eosio::name _user, uint32_t _item, uint32_t _item2);
-    ACTION upgrade(eosio::name _user, uint32_t _type, uint32_t _index, uint32_t _index2);
-
+   // void upgrade_servant(eosio::name _user, uint32_t _servant_index, uint32_t _servant_index2);
+    //void upgrade_monster(eosio::name _user, uint32_t _monster_index, uint32_t _monster_index2);
+    //void upgrade_item(eosio::name _user, uint32_t _item, uint32_t _item2);
+    ACTION equipmentup(eosio::name _user, uint32_t _equipitem, uint32_t _item);
+    ACTION monsterup(eosio::name _user, uint32_t _monster, uint32_t _monster2);
 #pragma endregion
 
     //------------------------------------------------------------------------//
@@ -1026,7 +1019,10 @@ CONTRACT battletest : public contract
 
     void buy_nomal_order(eosio::name _user, uint32_t _count);
     void buy_blessing_order(eosio::name _user, uint32_t _count);
-    ACTION itemstore(eosio::name _user, uint32_t _type, uint32_t _count);
+    ACTION buyitem(eosio::name _user, uint32_t _item_id, uint32_t _count);
+    void buy_inventory(eosio::name _user, std::string _count);
+    ACTION buyservant(eosio::name _user, uint32_t _count);
+
 
 #pragma endregion
 
@@ -1259,7 +1255,7 @@ CONTRACT battletest : public contract
     bool check_critical(uint64_t _critcal_per, uint64_t _seed);
     bool check_avoid(uint64_t _avoid_per, uint64_t _seed);
     
-    //=====================skill======================//
+     //=====================skill======================//
     void set_skill_damage(uint32_t _skill_id, character_state_data &_state ,uint32_t &_attack, uint32_t &_cri_dmg);
     void set_skill_type(skill_info _skill,character_state_data &_state ,uint32_t &_attack, uint32_t &_cri_dmg, uint32_t &_cri_per, uint32_t &_defense);
     void set_dmg_type(uint32_t _dmg_type, character_state_data &_state , uint32_t &_defense);
