@@ -909,6 +909,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         }
     }
+    public void ResopnseResource(userResourceData getResourceInfo)
+    {
+        Debug.Log("Eos Account Resource Info");
+    }
 
     // 서번트 분해
     public void ResponseServantGrind(servantGrindResultData getServantGrindData)
