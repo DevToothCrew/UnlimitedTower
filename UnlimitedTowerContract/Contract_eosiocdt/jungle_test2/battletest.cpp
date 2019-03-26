@@ -3795,6 +3795,8 @@ void battletest::set_stage_state(uint64_t _stage_id, std::vector<character_state
         get_state.avoid = 5;
         get_state.state = battle_member_state::live;
         get_state.status = status;
+        get_state.type = 0;
+        get_state.job_class = 0;
         _enemy_state_list.push_back(get_state);
 
         std::string state;

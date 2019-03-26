@@ -1156,8 +1156,8 @@ CONTRACT battletest : public contract
         uint32_t avoid;
         uint32_t state;
         uint32_t speed;
-        uint32_t type;
-        uint32_t job_class;
+        uint32_t type = 0;
+        uint32_t job_class = 0;
         std::vector<buff_info> buff_list;
         std::vector<skill_info> passive_skill_list;
         std::vector<skill_info> active_skill_list;

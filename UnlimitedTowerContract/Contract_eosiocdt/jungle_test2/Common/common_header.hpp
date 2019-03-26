@@ -33,6 +33,10 @@
 #define BODY_COUNT              3
 #define GEMDER_COUNT            3
 
+#define MONSTER_GACHA_COUNT_START  2
+#define SERVANT_GACHA_COUNT_START  1
+#define ITEM_GACHA_COUNT_START  3
+
 //============Gacha==============//
 #define MONSTER_UPGRADE_RATE        10000 
 #define ITEM_UPGRADE_RATE     100
