@@ -81,7 +81,7 @@ public class Cheat : MonoSingleton<Cheat>
 
     public string GetGachaResultData(int gachaIndex)
     {
-        int type = rand.Next((int)GACHA_RESULT_TYPE.Servant, (int)GACHA_RESULT_TYPE.Item);
+        int type = rand.Next((int)GACHA_RESULT_TYPE.Servant, (int)GACHA_RESULT_TYPE.Equipment);
 
         if (type == (int)GACHA_RESULT_TYPE.Servant)
         {
@@ -99,7 +99,7 @@ public class Cheat : MonoSingleton<Cheat>
 
             return JsonMapper.ToJson(gachaResult);
         }
-        else if (type == (int)GACHA_RESULT_TYPE.Item)
+        else if (type == (int)GACHA_RESULT_TYPE.Equipment)
         {
             // 아이템은 아직
             gachaItemData gachaResult = new gachaItemData();

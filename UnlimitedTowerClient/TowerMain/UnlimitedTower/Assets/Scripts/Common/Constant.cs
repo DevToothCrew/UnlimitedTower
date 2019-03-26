@@ -650,7 +650,7 @@ public enum GACHA_RESULT_TYPE
 {
     Servant = 1,
     Monster,
-    Item,
+    Equipment,
 }
 
 public enum APPEAR_HAIR

@@ -203,7 +203,7 @@ public class GachaImage : MonoSingleton<GachaImage>
         fadeOutFlag = false;
     }
 
-    public void SetItemGachaImage(UserEquipmentData getEquipment)
+    public void SetEquipmentGachaImage(UserEquipmentData getEquipment)
     {
         Sprite sprite = null;
 

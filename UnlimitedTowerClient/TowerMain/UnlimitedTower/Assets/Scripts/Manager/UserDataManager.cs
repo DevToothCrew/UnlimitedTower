@@ -58,6 +58,11 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     {
         equipmentDic = getEquipmentDic;
     }
+
+    public void SetItemDic(Dictionary<int, UserItemData> getItemDic)
+    {
+        itemDic = getItemDic;
+    }
     
     public void SetSceneState(SCENE_STATE state)
     {

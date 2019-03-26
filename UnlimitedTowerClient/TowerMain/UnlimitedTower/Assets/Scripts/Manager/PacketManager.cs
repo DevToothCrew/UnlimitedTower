@@ -639,13 +639,18 @@ public class PacketManager : MonoSingleton<PacketManager> {
         UserDataManager.Inst.SetMonsterDic(monsterDic);
 
         Dictionary<int, UserEquipmentData> equipmentDic = new Dictionary<int, UserEquipmentData>();
-        if (ParseEquipmentDic(getUserLoginData.item_list, ref equipmentDic) == false)
+        if (ParseEquipmentDic(getUserLoginData.equipment_list, ref equipmentDic) == false)
         {
-            Debug.Log("Invalid ParseItemList Info");
+            Debug.Log("Invalid ParseEquipmentList Info");
         }
         UserDataManager.Inst.SetEquipmentDic(equipmentDic);
 
-        // ItemDic 필요
+        Dictionary<int, UserItemData> itemDic = new Dictionary<int, UserItemData>();
+        if (ParseItemDic(getUserLoginData.item_list, ref itemDic) == false)
+        {
+            Debug.Log("Invalid ParseItemList Info");
+        }
+        UserDataManager.Inst.SetItemDic(itemDic);
 
         UserPartyData partyInfo = ParsePartyInfo(getUserLoginData.party_info);
         if (partyInfo == null)
@@ -699,7 +704,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             GachaResultPopup.PopupAlert(getMonster);
             GachaImage.Inst.SetMonsterGachaImage(getMonster);
         }
-        else if (type == (int)GACHA_RESULT_TYPE.Item)
+        else if (type == (int)GACHA_RESULT_TYPE.Equipment)
         {
             Debug.Log(getGachaInfo);
 
@@ -709,7 +714,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             UserDataManager.Inst.AddEquipmentData(getEquipment);
 
             GachaResultPopup.PopupAlert(getEquipment);
-            GachaImage.Inst.SetItemGachaImage(getEquipment);
+            GachaImage.Inst.SetEquipmentGachaImage(getEquipment);
         }
     }
 
