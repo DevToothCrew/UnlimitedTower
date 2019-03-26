@@ -26,10 +26,10 @@ public class PartyListUnit : ScrollListUnit {
 
         //Todo :set Image
 
-        textLevel.text = string.Format("{0}", partyInfo.PartyInfoList[partyInfo.selected_tab][main_idx].level);
-        textStr.text = string.Format("{0}", partyInfo.PartyInfoList[partyInfo.selected_tab][main_idx].str);
-        textDex.text = string.Format("{0}", partyInfo.PartyInfoList[partyInfo.selected_tab][main_idx].dex);
-        textInt.text = string.Format("{0}", partyInfo.PartyInfoList[partyInfo.selected_tab][main_idx].mInt);
+        textLevel.text = string.Format("{0}", partyInfo.PartyInfoList[main_idx].level);
+        textStr.text = string.Format("{0}", partyInfo.PartyInfoList[main_idx].status.basicStr+ partyInfo.PartyInfoList[main_idx].status.plusStr);
+        textDex.text = string.Format("{0}", partyInfo.PartyInfoList[main_idx].status.basicDex + partyInfo.PartyInfoList[main_idx].status.plusDex);
+        textInt.text = string.Format("{0}", partyInfo.PartyInfoList[main_idx].status.basicInt + partyInfo.PartyInfoList[main_idx].status.plusInt);
 
 
     }

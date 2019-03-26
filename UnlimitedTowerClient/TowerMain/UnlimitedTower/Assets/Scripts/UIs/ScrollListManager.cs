@@ -125,7 +125,7 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     //Snap effect
     private void setSnapping()
     {
-        if (isScroll == false && isSnapping == false)
+        if (isScroll == false && isSnapping == false && scrollRect.velocity.y > 0)
         {
             if (Mathf.Abs(scrollRect.velocity.y) < unit_height / 2)
             {
@@ -135,7 +135,8 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
             if (Mathf.Abs(scrollRect.velocity.y) <= 1.0f)
             {
 
-                Debug.Log("unit : " + (unit_height * selected_main_idx) + " ::: " + rectTrScrollLayer.anchoredPosition.y);
+                //Debug.Log("unit : " + (unit_height * selected_main_idx) + " ::: " + rectTrScrollLayer.anchoredPosition.y);
+
                 scrollRect.velocity = Vector2.zero;
                 if ((unit_height * selected_main_idx < rectTrScrollLayer.anchoredPosition.y && unit_height * selected_main_idx + unit_height/2 >= rectTrScrollLayer.anchoredPosition.y) ||
                     (unit_height * selected_main_idx > rectTrScrollLayer.anchoredPosition.y && unit_height * selected_main_idx - unit_height / 2 < rectTrScrollLayer.anchoredPosition.y))
@@ -159,6 +160,7 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
             if (scrollRect.velocity == Vector2.zero)
             {
                 isSnapping = false;
+                PartyInfoVC.Inst.updateDetailInfo();
             }
         }
         
@@ -207,6 +209,7 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
 
         UpdateScrollView();
         DrawScrollView();
+        ScrollViewDidScroll();
     }
 
 
@@ -292,16 +295,24 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
         {
             int tag = int.Parse(unit_list[i].gameObject.name);
             if (tag >= 0)
-                unit_list[i].RectTr.anchoredPosition = new Vector2(0, -tag * unit_height - margin_layer_offset / 2);
+            {//Mathf.Abs(unit_list[i].RectTr.anchoredPosition.y)%20
+                float x_offset = Mathf.Abs(-default_offset - unit_list[i].RectTr.position.y);
+                float rotate_unit = -default_offset - unit_list[i].RectTr.position.y;
+
+                x_offset /= 3.5f;
+                rotate_unit /= 7f;
+                unit_list[i].RectTr.anchoredPosition = new Vector2(x_offset, -tag * unit_height - margin_layer_offset / 2);
+                unit_list[i].RectTr.eulerAngles = new Vector3(-rotate_unit, Mathf.Abs(rotate_unit / 2), 0);
+            }
+            
         }
     }
-  
+    
 
     public void ScrollViewDidScroll()
     {
         float delta = (rectTrScrollLayer.anchoredPosition.y - content_layer_offset - margin_layer_offset) / unit_height;
-
-
+        
         if (start_main_idx + unit_num < total_item_num && delta > start_main_idx + 1)
         {
             int loop_cnt = (int)delta - start_main_idx;
@@ -331,8 +342,9 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
             DrawScrollView();
         }
 
-        selectedUnit();
+        DrawScrollView();
         setSnapping();
+        selectedUnit();
         SaveScrollOffset();
     }
 
