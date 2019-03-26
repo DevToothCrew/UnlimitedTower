@@ -203,7 +203,7 @@ public class GachaImage : MonoSingleton<GachaImage>
         fadeOutFlag = false;
     }
 
-    public void SetItemGachaImage(UserMountItemData getItem)
+    public void SetItemGachaImage(UserEquipmentData getEquipment)
     {
         Sprite sprite = null;
 
@@ -211,7 +211,7 @@ public class GachaImage : MonoSingleton<GachaImage>
         //SetGachaResultInfo(getItem.value);
         // TODO : 아이템 이름 등이 확정되면 수정필요.
 
-        CharNameText.text = getItem.index.ToString();
+        CharNameText.text = getEquipment.index.ToString();
         charImage.GetComponent<Image>().sprite = sprite;
         fadeOutFlag = false;
     }

@@ -87,7 +87,7 @@ public class GachaResultPopup : MonoBehaviour {
         resultDexStat.text = result.status.basicDex.ToString();
     }
 
-    public void Popup(UserMountItemData result)
+    public void Popup(UserEquipmentData result)
     {
         SetActiveButtons(true);
         throw new System.NotImplementedException();
@@ -108,10 +108,10 @@ public class GachaResultPopup : MonoBehaviour {
             Instance.Popup(result as UserMonsterData);
         }
 
-        else if (result is UserMountItemData)
+        else if (result is UserEquipmentData)
         {
             Instance.gameObject.SetActivateWithAnimation(true);
-            Instance.Popup(result as UserMountItemData);
+            Instance.Popup(result as UserEquipmentData);
         }
 
         else

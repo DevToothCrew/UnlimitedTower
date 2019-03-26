@@ -201,27 +201,27 @@ public class UserServantData
     /* 조회용 데이터 __________________________________________________________ */
 
     // 착용 아이템 리스트 -> 역참조초기화x, 역참조업데이트x
-    public List<UserMountItemData> mountItemList = new List<UserMountItemData>();
+    public List<UserEquipmentData> equipmentList = new List<UserEquipmentData>();
     public event System.Action mountItemListChangeEvent;
-    public void Mount(UserMountItemData usermountitemdata)
+    public void Equip(UserEquipmentData userEquipmentData)
     {
-        mountItemList.Add(usermountitemdata);
+        equipmentList.Add(userEquipmentData);
 
         if (mountItemListChangeEvent != null)
         {
             mountItemListChangeEvent();
         }
     }
-    public void Demount(UserMountItemData usermountitemdata)
+    public void Unequip(UserEquipmentData userEquipmentData)
     {
         // 장착하고있는 아이템이 아닐경우 -> return
-        if (!mountItemList.Contains(usermountitemdata))
+        if (!equipmentList.Contains(userEquipmentData))
         {
             return;
         }
 
         // 장착 해제
-        mountItemList.Remove(usermountitemdata);
+        equipmentList.Remove(userEquipmentData);
 
         if (mountItemListChangeEvent != null)
         {
@@ -292,13 +292,13 @@ public class UserMonsterData
 }
 
 [System.Serializable]
-public class UserMountItemData
+public class UserEquipmentData
 {
     // 
     public int index;
 
     //
-    public int mountitemNum;
+    public int id;
 
     public int gradeNum;
     public int tierNum;
@@ -324,7 +324,7 @@ public class UserMountItemData
     }
     public System.Action mountedChanged;
 
-    public int mountServantIndex;
+    public int equipServantIndex;
 }
 
 [System.Serializable]
@@ -371,12 +371,12 @@ public class UserFormationData
 
 
 [System.Serializable]
-public class UserEtcItemData
+public class UserItemData
 {
     public int index;
 
-    public int etcItemNum;
-    public int Count;
+    public int id;
+    public int count;
 }
 
 [System.Serializable]

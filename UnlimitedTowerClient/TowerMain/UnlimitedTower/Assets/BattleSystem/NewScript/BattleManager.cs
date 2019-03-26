@@ -141,13 +141,14 @@ public class BattleManager : MonoSingleton<BattleManager>
                     temp += " : " + rewardData.get_exp_list[i].ToString();
                 temp += "\nServant";
                 for (int i = 0; i < rewardData.get_servant_list.Count; i++)
-                    temp += " : " + rewardData.get_servant_list[i].job;
+                    temp += " : " + rewardData.get_servant_list[i].servant.job;
                 temp += "\nMonster";
                 for (int i = 0; i < rewardData.get_monster_list.Count; i++)
-                    temp += " : " + rewardData.get_monster_list[i].id;
-                temp += "\nItem";
+                    temp += " : " + rewardData.get_monster_list[i].monster.id;
+                temp += "\nEquipment";
                 for (int i = 0; i < rewardData.get_equipment_list.Count; i++)
-                    temp += " : " + rewardData.get_equipment_list[i].id;
+                    temp += " : " + rewardData.get_equipment_list[i].equipment.id;
+                // item 추가 필요 및 Gold / EOS 처리 필요
                 testReward.transform.GetChild(0).GetComponent<Text>().text = temp;
             }
             else

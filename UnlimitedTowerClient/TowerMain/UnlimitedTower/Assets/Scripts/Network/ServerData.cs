@@ -299,14 +299,16 @@ public class stageStateData
 [Serializable]
 public class stageRewardData
 {
+    // RewardData에 User가 왜들어가지?
     public string user;
+    // Money는 ItemInfo로 통합?
     public UInt64 reward_money;
     public List<int> get_exp_list = new List<int>();
     // Reward에 Info로 들어가는게 맞는가? Data로 들어가야 하는게 아닌가? 인덱스를 모를텐데?
-    public List<servantInfo> get_servant_list = new List<servantInfo>();
-    public List<monsterInfo> get_monster_list = new List<monsterInfo>();
-    public List<equipmentInfo> get_equipment_list = new List<equipmentInfo>();
-    public List<itemInfo> get_item_list = new List<itemInfo>();
+    public List<servantData> get_servant_list = new List<servantData>();
+    public List<monsterData> get_monster_list = new List<monsterData>();
+    public List<equipmentData> get_equipment_list = new List<equipmentData>();
+    public List<itemData> get_item_list = new List<itemData>();
 }
 
 [Serializable]

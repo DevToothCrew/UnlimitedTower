@@ -638,12 +638,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
         UserDataManager.Inst.SetMonsterDic(monsterDic);
 
-        Dictionary<int, UserMountItemData> itemDic = new Dictionary<int, UserMountItemData>();
-        if (ParseItemDic(getUserLoginData.item_list, ref itemDic) == false)
+        Dictionary<int, UserEquipmentData> equipmentDic = new Dictionary<int, UserEquipmentData>();
+        if (ParseEquipmentDic(getUserLoginData.item_list, ref equipmentDic) == false)
         {
             Debug.Log("Invalid ParseItemList Info");
         }
-        UserDataManager.Inst.SetItemDic(itemDic);
+        UserDataManager.Inst.SetEquipmentDic(equipmentDic);
+
+        // ItemDic 필요
 
         UserPartyData partyInfo = ParsePartyInfo(getUserLoginData.party_info);
         if (partyInfo == null)
@@ -678,7 +680,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log(getGachaInfo);
 
             gachaServantData gachaData = JsonUtility.FromJson<gachaServantData>(getGachaInfo);
-            UserServantData getServant = ParseServant(gachaData.data.index, gachaData.data.party_number, gachaData.data.servant);
+            UserServantData getServant = ParseServant(gachaData.data);
 
             UserDataManager.Inst.AddServantData(getServant);
 
@@ -690,7 +692,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log(getGachaInfo);
 
             gachaMonsterData gachaData = JsonUtility.FromJson<gachaMonsterData>(getGachaInfo);
-            UserMonsterData getMonster = ParseMonster(gachaData.data.index, gachaData.data.party_number, gachaData.data.monster);
+            UserMonsterData getMonster = ParseMonster(gachaData.data);
 
             UserDataManager.Inst.AddMonsterData(getMonster);
 
@@ -702,12 +704,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log(getGachaInfo);
 
             gachaItemData gachaData = JsonUtility.FromJson<gachaItemData>(getGachaInfo);
-            UserMountItemData getItem = ParseItem(gachaData.data.index, gachaData.data.equipment);
+            UserEquipmentData getEquipment = ParseEquipment(gachaData.data);
 
-            UserDataManager.Inst.AddMountItemData(getItem);
+            UserDataManager.Inst.AddEquipmentData(getEquipment);
 
-            GachaResultPopup.PopupAlert(getItem);
-            GachaImage.Inst.SetItemGachaImage(getItem);
+            GachaResultPopup.PopupAlert(getEquipment);
+            GachaImage.Inst.SetItemGachaImage(getEquipment);
         }
     }
 
@@ -765,7 +767,81 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void ResponseStageReward(stageRewardData getReward)
     {
         Debug.Log("배틀 끝 보상 획득!");
+        // 보여주기용 Reward Set
         UserDataManager.Inst.SetStageReward(getReward);
+
+
+        // 경험치 추가
+        if (getReward.get_exp_list.Count > 0)
+        {
+            // 파티에 추가해야 하는지, 이걸 캐릭터 인덱스 + get exp로 해야하는지??
+        }
+
+        if (getReward.get_servant_list.Count > 0)
+        {
+            for (int i = 0; i < getReward.get_servant_list.Count; i++)
+            {
+                servantData servant = getReward.get_servant_list[i];
+
+                UserServantData servantData = ParseServant(servant);
+                if (servantData == null)
+                {
+                    Debug.Log("Invalid Servant Info : " + i);
+                    return;
+                }
+                UserDataManager.Inst.AddServantData(servantData);
+            }
+        }
+
+        if (getReward.get_monster_list.Count > 0)
+        {
+            for (int i = 0; i < getReward.get_monster_list.Count; i++)
+            {
+                monsterData monster = getReward.get_monster_list[i];
+
+                UserMonsterData monsterData = ParseMonster(monster);
+                if(monsterData == null)
+                {
+                    Debug.Log("Invalid Monster Info : " + i);
+                    return;
+                }
+                UserDataManager.Inst.AddMonsterData(monsterData);
+            }
+        }
+
+        if (getReward.get_equipment_list.Count > 0)
+        {
+            for(int i = 0; i < getReward.get_equipment_list.Count; i++)
+            {
+                equipmentData equipment = getReward.get_equipment_list[i];
+
+                UserEquipmentData equipmentData = ParseEquipment(equipment);
+                if(equipmentData == null)
+                {
+                    Debug.Log("Invalid Equipment Info : " + i);
+                    return;
+                }
+                UserDataManager.Inst.AddEquipmentData(equipmentData);
+            }
+
+        }
+
+        if (getReward.get_item_list.Count > 0)
+        {
+            for(int i = 0; i < getReward.get_item_list.Count; i++)
+            {
+                itemData item = getReward.get_item_list[i];
+
+                UserItemData itemData = ParseItem(item);
+                if(itemData == null)
+                {
+                    Debug.Log("Invalid Item Info : " + i);
+                    return;
+                }
+                UserDataManager.Inst.AddItemData(itemData);
+            }
+
+        }
     }
 
     // 서번트 분해
@@ -905,7 +981,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         for (int i = 0; i < getServantList.Count; i++)
         {
-            UserServantData servant = ParseServant(getServantList[i].index, getServantList[i].party_number, getServantList[i].servant);
+            UserServantData servant = ParseServant(getServantList[i]);
             if (servant == null)
             {
                 Debug.Log("Invalid Servant Info");
@@ -918,28 +994,33 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return true;
     }
 
-    public UserServantData ParseServant(int getServantIndex, int getPartyNum, servantInfo getServantInfo)
+    public UserServantData ParseServant(servantData getServantData)
     {
-        if (getServantInfo == null)
+        if (getServantData == null)
+        {
+            return null;
+        }
+
+        if(getServantData.servant == null)
         {
             return null;
         }
 
         UserServantData userServant = new UserServantData();
 
-        userServant.index = getServantIndex;
+        userServant.index = getServantData.index;
 
-        userServant.jobNum = getServantInfo.job;
-        userServant.exp = getServantInfo.exp;
+        userServant.jobNum = getServantData.servant.job;
+        userServant.exp = getServantData.servant.exp;
 
-        userServant.body = getServantInfo.appear.body;
-        userServant.headNum = getServantInfo.appear.head;
-        userServant.hairNum = getServantInfo.appear.hair;
-        userServant.gender = getServantInfo.appear.gender;
+        userServant.body = getServantData.servant.appear.body;
+        userServant.headNum = getServantData.servant.appear.head;
+        userServant.hairNum = getServantData.servant.appear.hair;
+        userServant.gender = getServantData.servant.appear.gender;
 
-        userServant.partyNum = getPartyNum;
+        userServant.partyNum = getServantData.party_number;
 
-        userServant.status = ParseStatus(getServantInfo.status);
+        userServant.status = ParseStatus(getServantData.servant.status);
         if (userServant.status == null)
         {
             Debug.Log("Invalid Status Info");
@@ -974,7 +1055,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         for (int i = 0; i < getMonsterList.Count; i++)
         {
-            UserMonsterData monster = ParseMonster(getMonsterList[i].index, getMonsterList[i].party_number, getMonsterList[i].monster);
+            UserMonsterData monster = ParseMonster(getMonsterList[i]);
             if (monster == null)
             {
                 Debug.Log("Invalid Monster Info");
@@ -987,30 +1068,35 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return true;
     }
     
-    public UserMonsterData ParseMonster(int getMonsterIndex, int getPartyNum, monsterInfo getMonsterInfo)
+    public UserMonsterData ParseMonster(monsterData getMonsterData)
     {
-        if (getMonsterInfo == null)
+        if (getMonsterData == null)
+        {
+            return null;
+        }
+
+        if(getMonsterData.monster == null)
         {
             return null;
         }
 
         UserMonsterData monster = new UserMonsterData();
 
-        monster.index = getMonsterIndex;
+        monster.index = getMonsterData.index;
 
-        monster.id = getMonsterInfo.id;
+        monster.id = getMonsterData.monster.id;
 
-        monster.exp = getMonsterInfo.exp;
+        monster.exp = getMonsterData.monster.exp;
 
-        monster.monsterTypeNum = getMonsterInfo.type;
+        monster.monsterTypeNum = getMonsterData.monster.type;
 
-        monster.gradeNum = getMonsterInfo.grade;
-        monster.upgradeCount = getMonsterInfo.upgrade;
+        monster.gradeNum = getMonsterData.monster.grade;
+        monster.upgradeCount = getMonsterData.monster.upgrade;
 
-        monster.teamNum = getPartyNum;
+        monster.teamNum = getMonsterData.party_number;
 
         //몬스터 스테이터스도 서버로 부터 받아 올 거기 때문에 추가
-        monster.status = ParseStatus(getMonsterInfo.status);
+        monster.status = ParseStatus(getMonsterData.monster.status);
         if (monster.status == null)
         {
             Debug.Log("Invalid Status Info");
@@ -1020,11 +1106,44 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return monster;
     }
 
-    public bool ParseItemDic(List<equipmentData> getItemList, ref Dictionary<int, UserMountItemData> itemDic)
+    public bool ParseEquipmentDic(List<equipmentData> getEquipmentList, ref Dictionary<int, UserEquipmentData> equipmentDic)
+    {
+        for (int i = 0; i < getEquipmentList.Count; i++)
+        {
+            UserEquipmentData item = ParseEquipment(getEquipmentList[i]);
+            if (item == null)
+            {
+                Debug.Log("Invalid Item Info");
+                return false;
+            }
+            equipmentDic.Add(item.index, item);
+        }
+
+        return true;
+    }
+
+    public UserEquipmentData ParseEquipment(equipmentData getEquipmentData)
+    {
+        if (getEquipmentData == null)
+        {
+            return null;
+        }
+
+        UserEquipmentData equipmentData = new UserEquipmentData();
+
+        equipmentData.index = getEquipmentData.index;
+        equipmentData.tierNum = getEquipmentData.equipment.tier;
+        equipmentData.upgradeCount = getEquipmentData.equipment.upgrade;
+        // 데이터 추가 필요
+
+        return equipmentData;
+    }
+
+    public bool ParseItemDic(List<itemData> getItemList, ref Dictionary<int, UserItemData> itemDic)
     {
         for (int i = 0; i < getItemList.Count; i++)
         {
-            UserMountItemData item = ParseItem(getItemList[i].index, getItemList[i].equipment);
+            UserItemData item = ParseItem(getItemList[i]);
             if (item == null)
             {
                 Debug.Log("Invalid Item Info");
@@ -1036,20 +1155,21 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return true;
     }
 
-    public UserMountItemData ParseItem(int getItemIndex, equipmentInfo getItemInfo)
+    public UserItemData ParseItem(itemData getItemData)
     {
-        if (getItemInfo == null)
+        if (getItemData == null)
         {
             return null;
         }
 
-        UserMountItemData item = new UserMountItemData();
+        UserItemData itemData = new UserItemData();
 
-        item.index = getItemIndex;
-        item.tierNum = getItemInfo.tier;
-        item.upgradeCount = getItemInfo.upgrade;
+        itemData.index = getItemData.index;
+        itemData.id = getItemData.item.id;
+        // Type이 필요한지?
+        itemData.count = getItemData.item.count;
 
-        return item;
+        return itemData;
     }
 
     public UserPartyData ParsePartyInfo(partyData getPartyData)

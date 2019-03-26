@@ -11,9 +11,8 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public Dictionary<int, UserMonsterData> monsterDic = new Dictionary<int, UserMonsterData>();
 
     // 장비와 기타 아이템 소모품 등은 Equipment와 Item으로 변경 필요
-    public Dictionary<int, UserMountItemData> mountItemDic = new Dictionary<int, UserMountItemData>();
-
-    public Dictionary<int, UserEtcItemData> etcItemDic = new Dictionary<int, UserEtcItemData>();
+    public Dictionary<int, UserEquipmentData> equipmentDic = new Dictionary<int, UserEquipmentData>();
+    public Dictionary<int, UserItemData> itemDic = new Dictionary<int, UserItemData>();
     
     // 현재 파티는 1개, 파티 안에 Formation Info 포함
     public UserPartyData partyInfo = new UserPartyData();
@@ -31,8 +30,8 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         userInfo = new UserInfo();
         servantDic = new Dictionary<int, UserServantData>();
         monsterDic = new Dictionary<int, UserMonsterData>();
-        mountItemDic = new Dictionary<int, UserMountItemData>();
-        etcItemDic = new Dictionary<int, UserEtcItemData>();
+        equipmentDic = new Dictionary<int, UserEquipmentData>();
+        itemDic = new Dictionary<int, UserItemData>();
         partyInfo = new UserPartyData();
     }
 
@@ -55,9 +54,9 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         monsterDic = getMonsterDic;
     }
 
-    public void SetItemDic(Dictionary<int, UserMountItemData> getItemDic)
+    public void SetEquipmentDic(Dictionary<int, UserEquipmentData> getEquipmentDic)
     {
-        mountItemDic = getItemDic;
+        equipmentDic = getEquipmentDic;
     }
     
     public void SetSceneState(SCENE_STATE state)
@@ -90,19 +89,19 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         }
     }
 
-    public void SetStageState(stageStateData getStageState)
+    public void SetStageState(stageStateData getStageStateData)
     {
-        stageState = getStageState;
+        stageState = getStageStateData;
     }
 
-    public void SetStageAction(battleActionData getStageState)
+    public void SetStageAction(battleActionData getBattleActionData)
     {
-        stageActionInfo = getStageState;
+        stageActionInfo = getBattleActionData;
     }
 
-    public void SetStageReward(stageRewardData getStageState)
+    public void SetStageReward(stageRewardData getStageReward)
     {
-        stageReward = getStageState;
+        stageReward = getStageReward;
     }
 
     #endregion
@@ -273,14 +272,14 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return monsterDic.Count;
     }
 
-    public int GetMountItemCount()
+    public int GetEquipmentCount()
     {
-        return mountItemDic.Count;
+        return equipmentDic.Count;
     }
 
     public int GetEtcItemCount()
     {
-        return etcItemDic.Count;
+        return itemDic.Count;
     }
 
     public List<UserServantData> GetServantList()
@@ -303,24 +302,24 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return monsterDic.Values.ToList();
     }
 
-    public List<UserMountItemData> GetMountItemList()
+    public List<UserEquipmentData> GetEquipmentList()
     {
-        if(mountItemDic.Count == 0)
+        if(equipmentDic.Count == 0)
         {
             return null;
         }
 
-        return mountItemDic.Values.ToList();
+        return equipmentDic.Values.ToList();
     }
 
-    public List<UserEtcItemData> GetEtcItemList()
+    public List<UserItemData> GetEtcItemList()
     {
-        if(etcItemDic.Count == 0)
+        if(itemDic.Count == 0)
         {
             return null;
         }
 
-        return etcItemDic.Values.ToList();
+        return itemDic.Values.ToList();
     }
 
     public stageStateData GetStageState()
@@ -383,14 +382,25 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return true;
     }
 
-    public bool AddMountItemData(UserMountItemData itemData)
+    public bool AddEquipmentData(UserEquipmentData equipmentData)
     {
-        if (mountItemDic.ContainsKey(itemData.index) == true)
+        if (equipmentDic.ContainsKey(equipmentData.index) == true)
         {
             return false;
         }
 
-        mountItemDic.Add(itemData.index, itemData);
+        equipmentDic.Add(equipmentData.index, equipmentData);
+        return true;
+    }
+
+    public bool AddItemData(UserItemData itemData)
+    {
+        if (itemDic.ContainsKey(itemData.index) == true)
+        {
+            return false;
+        }
+
+        itemDic.Add(itemData.index, itemData);
         return true;
     }
 
