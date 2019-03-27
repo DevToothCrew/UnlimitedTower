@@ -20,24 +20,7 @@ public class CSVData : MonoSingleton<CSVData> {
 
     public void Awake()
     {
-        Debug.Log("SetCSVData Start");
-
-        //SetLocalizationData();
-
-        // 스킬 데이터 추가 필요
-        // 스텟 데이터 추가 필요
-        // 기타 데이터 추가 필요
-        SetItemData();
-        Debug.Log("SetItemData Success");
-        SetStageData();
-        Debug.Log("SetStageData Success");
-        SetServantData();
-        Debug.Log("SetServantData Success");
-        SetMonsterData();
-        Debug.Log("SetMonsterData Success");
-        SetMonsterUpgradeData();
-        Debug.Log("SetMonsterUpgradeData Success");
-        localType = LOCALIZATION_TYPE.EN;
+        SetCSVData();
     }
 
     // 로딩씬에 추가가 되야할듯 임시로 로그인에 넣어둠
@@ -50,16 +33,31 @@ public class CSVData : MonoSingleton<CSVData> {
         // 스킬 데이터 추가 필요
         // 스텟 데이터 추가 필요
         // 기타 데이터 추가 필요
-        SetItemData();
-        Debug.Log("SetItemData Success");
-        SetStageData();
-        Debug.Log("SetStageData Success");
-        SetServantData();
-        Debug.Log("SetServantData Success");
-        SetMonsterData();
-        Debug.Log("SetMonsterData Success");
-        SetMonsterUpgradeData();
-        Debug.Log("SetMonsterUpgradeData Success");
+        if (DBItemDataDic.Count == 0)
+        {
+            SetItemData();
+            Debug.Log("SetItemData Success");
+        }
+        if (DBStageDataDic.Count == 0)
+        {
+            SetStageData();
+            Debug.Log("SetStageData Success");
+        }
+        if (DBServantDataDic.Count == 0)
+        {
+            SetServantData();
+            Debug.Log("SetServantData Success");
+        }
+        if (DBMonsterDataDic.Count == 0)
+        {
+            SetMonsterData();
+            Debug.Log("SetMonsterData Success");
+        }
+        if (DBMonsterUpgradeDataDic.Count == 0)
+        {
+            SetMonsterUpgradeData();
+            Debug.Log("SetMonsterUpgradeData Success");
+        }
         localType = LOCALIZATION_TYPE.EN;
     }
 
