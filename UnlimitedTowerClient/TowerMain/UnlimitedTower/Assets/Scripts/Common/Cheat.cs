@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
+using System.Linq;
 
 public class Cheat : MonoSingleton<Cheat>
 {
@@ -400,6 +401,154 @@ public class Cheat : MonoSingleton<Cheat>
         return newMonsterData;
     }
 
+    public string GetServantGrindData(List<int> grindServantIndexList)
+    {
+        sellMonsterResultData resultData = new sellMonsterResultData();
+        resultData.sellMonsterIndexList = grindServantIndexList;
+        resultData.itemList = new List<itemData>();
+
+        Dictionary<int, itemData> addItemDic = new Dictionary<int, itemData>();
+        for (int i = 0; i < grindServantIndexList.Count; i++)
+        {
+            UserServantData servantData = UserDataManager.Inst.GetServantInfo(grindServantIndexList[i]);
+            if (servantData == null)
+            {
+                Debug.Log("Invalid Servant Index : " + servantData.index);
+                return null;
+            }
+
+            if (servantData.partyNum != 0)
+            {
+                Debug.Log("Invalid Request Servant Already placed Party : " + servantData.partyNum);
+                return null;
+            }
+
+            itemData getItem = new itemData();
+            getItem.item = new itemInfo();
+            getItem.item.count = 1;
+
+            switch (servantData.jobNum)
+            {
+                case 1:
+                    getItem.item.id = 110010;
+                    break;
+
+                case 2:
+                    getItem.item.id = 110020;
+                    break;
+
+                case 3:
+                    getItem.item.id = 110030;
+                    break;
+
+                case 4:
+                    getItem.item.id = 110040;
+                    break;
+
+                case 5:
+                    getItem.item.id = 110050;
+                    break;
+
+                default:
+                    Debug.Log("Invalid Request servantData JobNum : " + servantData.jobNum);
+                    return null;
+            }
+
+            if(addItemDic.ContainsKey(getItem.item.id) == true)
+            {
+                addItemDic[getItem.item.id].item.count += getItem.item.count;
+            }
+            else
+            {
+                addItemDic.Add(getItem.item.id, getItem);
+            }
+        }
+
+        List<int> keyList = addItemDic.Keys.ToList();
+        for(int i = 0; i < keyList.Count; i++)
+        {
+            UserItemData itemData = UserDataManager.Inst.GetItemInfo(keyList[i]);
+            if (itemData == null)
+            {
+                resultData.itemList.Add(addItemDic[keyList[i]]);
+            }
+            else
+            {
+                addItemDic[keyList[i]].item.count += itemData.count;
+
+                resultData.itemList.Add(addItemDic[keyList[i]]);
+            }
+        }
+
+        return JsonMapper.ToJson(resultData).ToString();
+    }
+
+    public string GetMonsterSellData(List<int> sellMonsterIndexList)
+    {
+        itemData token = new itemData();
+        token.index = 0;
+        token.item.id = 10001;
+        token.item.count = Convert.ToInt32(UserDataManager.Inst.GetUserInfo().userMoney);
+
+        for(int i = 0; i < sellMonsterIndexList.Count; i++)
+        {
+            UserMonsterData monsterData = UserDataManager.Inst.GetMonsterInfo(sellMonsterIndexList[i]);
+            if(monsterData == null)
+            {
+                Debug.Log("Invalid Monster Index : " + monsterData.index);
+                return null;
+            }
+
+            if(monsterData.partyNum != 0)
+            {
+                Debug.Log("Invalid Request Monster Already placed Party : " + monsterData.partyNum);
+                return null;
+            }
+
+            token.item.count += 1000000;
+        }
+
+        sellMonsterResultData resultData = new sellMonsterResultData();
+        resultData.sellMonsterIndexList = sellMonsterIndexList;
+        resultData.itemList = new List<itemData>();
+        resultData.itemList.Add(token);
+
+        return JsonMapper.ToJson(resultData).ToString();
+    }
+
+    public string GetEquipmentSellData(List<int> sellEquipmentIndexList)
+    {
+        itemData token = new itemData();
+        token.index = 0;
+        token.item.id = 10001;
+        token.item.count = Convert.ToInt32(UserDataManager.Inst.GetUserInfo().userMoney);
+
+        for (int i = 0; i < sellEquipmentIndexList.Count; i++)
+        {
+            UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(sellEquipmentIndexList[i]);
+            if (equipmentData == null)
+            {
+                Debug.Log("Invalid Equipment Index : " + equipmentData.index);
+                return null;
+            }
+
+            if (equipmentData.equipServantIndex != 0)
+            {
+                Debug.Log("Invalid Request Equipment Already Equiped Servant : " + equipmentData.equipServantIndex);
+                return null;
+            }
+
+            token.item.count += 1000000;
+        }
+
+        sellEquipmentResultData resultData = new sellEquipmentResultData();
+        resultData.sellEquipmentIndexList = sellEquipmentIndexList;
+        resultData.itemList = new List<itemData>();
+        resultData.itemList.Add(token);
+
+        return JsonMapper.ToJson(resultData).ToString();
+    }
+
     public string GetBattleActionData(int heroTarget, int heroAction, int monsterTarget, int monsterAction)
     {
 
@@ -529,7 +678,7 @@ public class Cheat : MonoSingleton<Cheat>
             Debug.Log("Start SetLoginCheat");
 
             string loginJson = GetUserLoginData("devtooth", "1000", "9999999");
-            Debug.Log("[SUCCESS] user login :" + loginJson);
+            Debug.Log("[SUCCESS] User Login :" + loginJson);
 
             PacketManager.Inst.ResponseLogin(loginJson);
         }
@@ -550,19 +699,46 @@ public class Cheat : MonoSingleton<Cheat>
         Debug.Log("Start SetStageStartCheat");
 
         string stageStateJson = GetStageStartData(UserDataManager.Inst.GetUserInfo().userName, stageNum, partyNum);
-        Debug.Log("[SUCCESS] user stagestart :" + stageStateJson);
+        Debug.Log("[SUCCESS] User Stage Start :" + stageStateJson);
 
         stageStateData getBattleStageData = JsonUtility.FromJson<stageStateData>(stageStateJson);
         PacketManager.Inst.ResponseStageStart(getBattleStageData);
     }
 
-    public void RequestMonsterUpgrade(int mainMonsterIndex, int subMonsterIndex)
+    public void RequestMonsterUpgradeCheat(int mainMonsterIndex, int subMonsterIndex)
     {
         string monsterUpgradeResultJson = GetMonsterUpgradeData(mainMonsterIndex, subMonsterIndex);
-        Debug.Log("[SUCCESS] monster upgrade info : " + monsterUpgradeResultJson);
+        Debug.Log("[SUCCESS] Monster Upgrade : " + monsterUpgradeResultJson);
 
         monsterUpgradeResultData getMonsterUpgradeResultData = JsonUtility.FromJson<monsterUpgradeResultData>(monsterUpgradeResultJson);
         PacketManager.Inst.ResponseMonsterUpgrade(getMonsterUpgradeResultData);
+    }
+
+    public void RequestServantGrindCheat(List<int> servantIndexList)
+    {
+        string servantGrindResultJson = GetServantGrindData(servantIndexList);
+        Debug.Log("[SUCCESS] Servant Grind : " + servantGrindResultJson);
+
+        servantGrindResultData getServantGrindResultData = JsonUtility.FromJson<servantGrindResultData>(servantGrindResultJson);
+        PacketManager.Inst.ResponseServantGrind(getServantGrindResultData);
+    }
+
+    public void RequestMonsterSellCheat(List<int> monsterIndexList)
+    {
+        string monsterSellResultJson = GetMonsterSellData(monsterIndexList);
+        Debug.Log("[SUCCESS] Monster Sell : " + monsterSellResultJson);
+
+        sellMonsterResultData getSellMonsterResultData = JsonUtility.FromJson<sellMonsterResultData>(monsterSellResultJson);
+        PacketManager.Inst.ResponseMonsterSell(getSellMonsterResultData);
+    }
+
+    public void RequestEquipmentSellCheat(List<int> equipmentIndexList)
+    {
+        string equipmentSellResultJson = GetEquipmentSellData(equipmentIndexList);
+        Debug.Log("[SUCCESS] Equipment Sell : " + equipmentSellResultJson);
+
+        sellEquipmentResultData getSellEquipmentResultData = JsonUtility.FromJson<sellEquipmentResultData>(equipmentSellResultJson);
+        PacketManager.Inst.ResponseEquipmentSell(getSellEquipmentResultData);
     }
 
     #endregion

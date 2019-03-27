@@ -260,6 +260,27 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return GetMonsterInfo(formationData.index);
     }
 
+    public UserEquipmentData GetEquipmentInfo(int index)
+    {
+        if(equipmentDic.ContainsKey(index) == false)
+        {
+            Debug.Log("Invalid GetEquipmentInfo : " + index);
+            return null;
+        }
+
+        return equipmentDic[index];
+    }
+
+    public UserItemData GetItemInfo(int id)
+    {
+        if(itemDic.ContainsKey(id) == false)
+        {
+            return null;
+        }
+
+        return itemDic[id];
+    }
+
     public UserFormationData GetFormationData(int formationIndex)
     {
         if(partyInfo == null)
@@ -342,7 +363,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return equipmentDic.Count;
     }
 
-    public int GetEtcItemCount()
+    public int GetItemCount()
     {
         return itemDic.Count;
     }
@@ -377,7 +398,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return equipmentDic.Values.ToList();
     }
 
-    public List<UserItemData> GetEtcItemList()
+    public List<UserItemData> GetItemList()
     {
         if(itemDic.Count == 0)
         {

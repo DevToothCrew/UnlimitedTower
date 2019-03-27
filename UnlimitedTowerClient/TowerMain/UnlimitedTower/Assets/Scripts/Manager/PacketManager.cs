@@ -1358,7 +1358,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         monster.gradeNum = getMonsterData.monster.grade;
         monster.upgradeCount = getMonsterData.monster.upgrade;
 
-        monster.teamNum = getMonsterData.party_number;
+        monster.partyNum = getMonsterData.party_number;
 
         //몬스터 스테이터스도 서버로 부터 받아 올 거기 때문에 추가
         monster.status = ParseStatus(getMonsterData.monster.status);

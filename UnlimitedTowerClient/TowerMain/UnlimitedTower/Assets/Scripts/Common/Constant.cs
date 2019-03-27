@@ -287,7 +287,7 @@ public class UserMonsterData
     public Status status = new Status();
 
     public bool isPlaced;
-    public int teamNum;
+    public int partyNum;
     public int formationNum;
 }
 
