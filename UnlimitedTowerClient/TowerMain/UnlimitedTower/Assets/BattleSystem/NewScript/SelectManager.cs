@@ -81,6 +81,9 @@ public class SelectManager : MonoBehaviour {
                         selectStateInfo = BattleManager.Inst.GetEnemyState(selectIndex);
                     }
                     
+                    SelectGridReset();
+                    BattleManager.Inst.grid[selectIndex].SetActive(true);
+
                     if (BattleManager.Inst.MaxHp[selectIndex] != 0)
                         selectHpBar.fillAmount = (float)BattleManager.Inst.NowHp[selectIndex] / BattleManager.Inst.MaxHp[selectIndex];
                     else
@@ -88,11 +91,7 @@ public class SelectManager : MonoBehaviour {
 
                     selectHpText.text = BattleManager.Inst.NowHp[selectIndex].ToString();
 
-                    if (selectIndex == 0)
-                    {
-                        levelText.text = UserDataManager.Inst.GetHeroInfo().level.ToString();
-                    }
-                    else if (selectIndex < 5)
+                    if (selectIndex < 5)
                     {
                         levelText.text = UserDataManager.Inst.GetServantInfo(UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).level.ToString();
 
@@ -100,19 +99,17 @@ public class SelectManager : MonoBehaviour {
                     }
                     else if (selectIndex < 10)
                     {
-                        nemeText.text = CSVData.Inst.monsterDataDic[selectStateInfo.id].name;
+                        nemeText.text = CSVData.Inst.GetMonsterName(selectStateInfo.id);
 
-                        selectCharImg.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" +
-                            CSVData.Inst.monsterDataDic[selectStateInfo.id].inGameIconName);
+                        selectCharImg.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" + CSVData.Inst.GetMonsterInGameIconName(selectStateInfo.id));
 
                         levelText.text = UserDataManager.Inst.GetMonsterInfo(UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).level.ToString();
                     }
                     else
                     {
-                        nemeText.text = CSVData.Inst.monsterDataDic[selectStateInfo.id].name;
+                        nemeText.text = CSVData.Inst.GetMonsterName(selectStateInfo.id);
 
-                        selectCharImg.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" +
-                            CSVData.Inst.monsterDataDic[selectStateInfo.id].inGameIconName);
+                        selectCharImg.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" + CSVData.Inst.GetMonsterInGameIconName(selectStateInfo.id));
 
                         levelText.text = "?";
                     }
@@ -129,6 +126,8 @@ public class SelectManager : MonoBehaviour {
                 {
                     if (!EventSystem.current.IsPointerOverGameObject())
                     {
+                        if (selectIndex > 0)
+                            BattleManager.Inst.grid[selectIndex].SetActive(false);
                         characterInfo.SetActive(false);
                     }
                 }
@@ -137,9 +136,19 @@ public class SelectManager : MonoBehaviour {
             {
                 if (!EventSystem.current.IsPointerOverGameObject())
                 {
+                    if (selectIndex > 0)
+                        BattleManager.Inst.grid[selectIndex].SetActive(false);
                     characterInfo.SetActive(false);
                 }
             }
+        }
+    }
+
+    public void SelectGridReset()
+    {
+        for (int i = 0; i < 20; i++)
+        {
+            BattleManager.Inst.grid[i]?.SetActive(false);
         }
     }
 }

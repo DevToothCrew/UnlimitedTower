@@ -14,6 +14,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     public int[] NowHp = new int[20];
     public bool isAfterDelay;
     public int TimeScale = 1;
+    public TumbAnimation tumbAnimation;
 
     private int turnIndex = 1;
     private bool isSpaceCheck;
@@ -40,6 +41,8 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         CharacterParent = GameObject.Find("Character Object");
         characterCustom = GameObject.Find("CharacterCustomInstance").GetComponent<CharacterCustom>();
+        tumbAnimation = GetComponent<TumbAnimation>();
+
 
         testReward = GameObject.Find("보상");
         testDefeat = GameObject.Find("패배보상");
@@ -108,25 +111,29 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         for (int i = 0; i < stageActionInfo.battle_info_list.Count; i++)
         {
-            if (stageActionInfo.battle_info_list[i].action_type == 2)
+            if (NowHp[stageActionInfo.battle_info_list[i].my_position] > 0)
             {
-                character[stageActionInfo.battle_info_list[i].my_position].GetComponent<BasicAttack>().Attack(stageActionInfo.battle_info_list[i]);
-
-                yield return new WaitUntil(() => isAfterDelay == true);
-                isAfterDelay = false;
-            }
-            else if (stageActionInfo.battle_info_list[i].action_type == 3)
-            {
-                if (stageActionInfo.battle_info_list[i].my_position < 10)
+                if (stageActionInfo.battle_info_list[i].action_type == 2)
                 {
-                    SkillManager.Inst.SendMessage("Skill_" + GetMyState(stageActionInfo.battle_info_list[i].my_position).active_skill_list[0].id.ToString(), stageActionInfo.battle_info_list[i]);
-                    
+                    character[stageActionInfo.battle_info_list[i].my_position].GetComponent<BasicAttack>().Attack(stageActionInfo.battle_info_list[i]);
+
                     yield return new WaitUntil(() => isAfterDelay == true);
                     isAfterDelay = false;
+                }
+                else if (stageActionInfo.battle_info_list[i].action_type == 3)
+                {
+                    if (stageActionInfo.battle_info_list[i].my_position < 10)
+                    {
+                        SkillManager.Inst.SendMessage("Skill_" + GetMyState(stageActionInfo.battle_info_list[i].my_position).active_skill_list[0].id.ToString(), stageActionInfo.battle_info_list[i]);
+
+                        yield return new WaitUntil(() => isAfterDelay == true);
+                        isAfterDelay = false;
+                    }
                 }
             }
         }
 
+        Debug.Log("Turn++");
         turnIndex++;
         isSpaceCheck = false;
         BattleUIManager.Inst.MyTurn();
@@ -207,8 +214,8 @@ public class BattleManager : MonoSingleton<BattleManager>
     public void SettingBoxCollider(GameObject character)
     {
         BoxCollider box = character.AddComponent<BoxCollider>();
-        box.size = new Vector3(0.8f, 0.8f, 0.8f);
-        box.center = new Vector3(0.0f, 0.4f, 0.0f);
+        box.size = new Vector3(0.8f, 0.8f, 0.8f) * (1 / character.transform.localScale.x);
+        box.center = new Vector3(0.0f, 0.4f, 0.0f) * (1 / character.transform.localScale.x);
         box.isTrigger = true;
         character.tag = "Character";
     }

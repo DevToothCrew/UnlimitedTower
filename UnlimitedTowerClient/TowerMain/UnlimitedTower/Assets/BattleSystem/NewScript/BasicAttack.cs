@@ -44,8 +44,10 @@ public class BasicAttack : MonoBehaviour {
         if (BattleManager.Inst.NowHp[attackInfo.battle_action_list[0].target_position] > 0)
             BattleManager.Inst.animator[attackInfo.battle_action_list[0].target_position].SetTrigger("isHit");
         else
+        {
             BattleManager.Inst.animator[attackInfo.battle_action_list[0].target_position].SetTrigger("isDie");
-
+            BattleManager.Inst.tumbAnimation.DieTumb(attackInfo.battle_action_list[0].target_position);
+        }
         yield return new WaitForSeconds(charInfo.AttackAfterDelay);
 
         yield return AttackRecall(attacker, target, attackerEndPos, attackerStartPos);
@@ -111,8 +113,10 @@ public class BasicAttack : MonoBehaviour {
         if (BattleManager.Inst.NowHp[attackInfo.battle_action_list[0].target_position] > 0)
             BattleManager.Inst.animator[attackInfo.battle_action_list[0].target_position].SetTrigger("isHit");
         else
+        {
             BattleManager.Inst.animator[attackInfo.battle_action_list[0].target_position].SetTrigger("isDie");
-
+            BattleManager.Inst.tumbAnimation.DieTumb(attackInfo.battle_action_list[0].target_position);
+        }
         yield return new WaitForSeconds(1.0f);
     
         BattleManager.Inst.isAfterDelay = true;
