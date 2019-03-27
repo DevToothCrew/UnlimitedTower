@@ -1104,6 +1104,15 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("몬스터 업그레이드 !");
 
+        if(getMonsterUpgradeResultData.is_success == true)
+        {
+            Debug.Log("성공");
+        }
+        else
+        {
+            Debug.Log("실패");
+        }
+
         UserMonsterData monsterData = ParseMonster(getMonsterUpgradeResultData.main_monster_data);
         if (monsterData == null)
         {
@@ -1112,6 +1121,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
         UserDataManager.Inst.SetMonster(monsterData);
         UserDataManager.Inst.DelMonster(getMonsterUpgradeResultData.sub_monster_index);
+
+        for (int i = 0; i < getMonsterUpgradeResultData.need_item_list.Count; i++)
+        {
+            UserItemData itemData = ParseItem(getMonsterUpgradeResultData.need_item_list[i]);
+            if(itemData == null)
+            {
+                Debug.Log("Invalid ParseItem");
+                return;
+            }
+            UserDataManager.Inst.SetItem(itemData);
+        }
     }
 
     // 아이템 강화
