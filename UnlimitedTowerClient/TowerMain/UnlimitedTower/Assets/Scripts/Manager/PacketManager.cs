@@ -61,6 +61,16 @@ public class PacketManager : MonoSingleton<PacketManager> {
     /// <param name="body"></param>
     /// <param name="onSuccess"></param>
     /// <param name="onFailed"></param>
+    static public void Request(string header, string body = "", Action<string> onSuccess = null, Action<string> onFailed = null)
+        => Inst.StartCoroutine(Inst.RequestRoutine(header, body, onSuccess, onFailed));
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="header"></param>
+    /// <param name="body"></param>
+    /// <param name="onSuccess"></param>
+    /// <param name="onFailed"></param>
     static public void Request(string header, string body = "", Action onSuccess = null, Action<string> onFailed = null) 
         => Inst.StartCoroutine(Inst.RequestRoutine(header, body, onSuccess, onFailed));
 
@@ -129,6 +139,23 @@ public class PacketManager : MonoSingleton<PacketManager> {
             onFailed: onFailed);
     }
 
+    private IEnumerator RequestRoutine(string header, string body = "", Action<string> onSuccess = null, Action<string> onFailed = null)
+    {
+        yield return WaitResponse(header, body,
+            onSuccess: res =>
+            {
+                if (!string.IsNullOrWhiteSpace(res))
+                {
+                    onSuccess?.Invoke(res);
+                }
+                else
+                {
+                    onFailed?.Invoke($"UNEXPECTED TYPE : {res}");
+                }
+            },
+            onFailed: onFailed);
+    }
+
     private IEnumerator RequestRoutine(string header, string body = "", Action onSuccess = null, Action<string> onFailed = null)
     {
         yield return WaitResponse(header, body, onSuccess: res => onSuccess?.Invoke(), onFailed: onFailed);
@@ -136,7 +163,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     #endregion
-
+    
     #region Request
 
     // 예제
@@ -170,7 +197,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("RequestLoginWithScatter");
 
-        Request<string>("Login", 
+        //반환받을 객체가 json 자체라면 형태를 적지 않습니다.
+        Request("Login", 
             onSuccess: ResponseLogin /* 이미 정의된 함수가 있다면 이렇게 대입만 해주어도 됩니다.*/,
             onFailed: msg => /* 람다 함수를 사용하는 경우 */
             {
