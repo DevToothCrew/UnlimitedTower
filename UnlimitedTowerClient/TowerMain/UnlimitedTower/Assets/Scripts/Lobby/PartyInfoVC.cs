@@ -31,10 +31,26 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     //public Text textA
 
     //UI Set Data
-    int selectedMenu = 0;
-    int sortType = 0;
+    public enum menu_type
+    {
+        SERVANT = 0,
+        MONSTER,
+        FORMATION
+    }
+    private menu_type selectedMenu = menu_type.SERVANT;
 
-    public List<UserServantData> PartyInfoList = new List<UserServantData>();
+    enum sort_type
+    {
+        GRADE = 0,
+        LEVEL,
+        POWER,
+        OPTAIN
+    }
+    sort_type sortType = 0;
+
+
+    public List<UserServantData> ServantList = new List<UserServantData>();
+    public List<UserMonsterData> MonsterList = new List<UserMonsterData>();
 
     [HideInInspector]
     public int selected_tab = 0;
@@ -43,48 +59,110 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     //임시 데이터 생성
     void setData()
     {
-        PartyInfoList.Clear();
+        ServantList.Clear();
+        MonsterList.Clear();
 
         //for (int i = 0; i < 20; i++)
         //{
         //    UserDataManager.Inst.GetServantList();
-        //    PartyInfoList.Add(member);
+        //    ServantList.Add(member);
         //}
 
-        PartyInfoList = UserDataManager.Inst.GetServantList();
+        ServantList = UserDataManager.Inst.GetServantList();
+        MonsterList = UserDataManager.Inst.GetMonsterList();
 
     }
 
-    void Start () {
+    void Start() {
         initScrollList();
-        //updateView();
-        
-
+        updateAllView();
     }
 
-    void updateView()
+    public menu_type getMenuType()
     {
-        textOwned.text = string.Format("{0}", PartyInfoList.Count);
-        textTotal.text = string.Format("{0}", 100);
+        return selectedMenu;
     }
 
+    //화면 전체 Update (메뉴버튼, 상세정보창, 스크롤 등)
+    void updateAllView()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            buttonMenu[i].image.sprite = buttonMenu[i].spriteState.disabledSprite;
+            buttonMenu[i].GetComponentInChildren<Text>().color = Color.white;
+        }
+
+        buttonMenu[(int)selectedMenu].image.sprite = buttonMenu[(int)selectedMenu].spriteState.pressedSprite;
+        buttonMenu[(int)selectedMenu].GetComponentInChildren<Text>().color = Color.black;
+
+        if (selectedMenu == menu_type.SERVANT)
+        {
+            textOwned.text = string.Format("{0}", ServantList.Count);
+            textTotal.text = string.Format("/ {0}", 100);
+            scrollList.SetItemOrder(getOrder());
+            scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+        }
+        else if (selectedMenu == menu_type.MONSTER)
+        {
+            textOwned.text = string.Format("{0}", MonsterList.Count);
+            textTotal.text = string.Format("/ {0}", 100);
+            scrollList.SetItemOrder(getOrder());
+            scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+        }
+        else
+        {
+
+        }
+
+    }
+
+    //좌측 메뉴버튼 클릭
+    public void OnClickMenuButton(int tag)
+    {
+        if (tag == (int)menu_type.SERVANT)
+        {
+            selectedMenu = menu_type.SERVANT;
+        }
+        else if (tag == (int)menu_type.MONSTER)
+        {
+            selectedMenu = menu_type.MONSTER;
+        }
+        else
+        {
+            selectedMenu = menu_type.FORMATION;
+        }
+        updateAllView();
+
+    }
+
+    //스크롤 생성
     void initScrollList()
     {
-      
-        PartyInfoList.Clear();
-        
+
+        ServantList.Clear();
+
         setData();
-        
-        scrollList.Init(this, 20, PartyInfoList.Count, getOrder());
+
+        scrollList.Init(this, 20, ServantList.Count, getOrder());
     }
 
+
+    //스크롤 정렬
     private int[] getOrder()
     {
         int[] data_order;
-        int total_list_num;
+        int total_list_num = 0;
 
-        data_order = new int[PartyInfoList.Count];
-        total_list_num = PartyInfoList.Count;
+        if (selectedMenu == menu_type.SERVANT)
+        {
+            total_list_num = ServantList.Count;
+        }
+        else if (selectedMenu == menu_type.MONSTER)
+        {
+            total_list_num = MonsterList.Count;
+        }
+
+        data_order = new int[total_list_num];
 
         for (int i=0; i<data_order.Length; i++)
         {
@@ -98,13 +176,27 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                 {
                     for (int j = i+1; j < total_list_num; j++)
                     {
-                        if (PartyInfoList[i].level*100 + PartyInfoList[i].exp < PartyInfoList[j].level*100 + +PartyInfoList[j].exp)
+                        if (selectedMenu == menu_type.SERVANT)
                         {
-                            data_order[i]++;
+                            if (ServantList[i].level * 100 + ServantList[i].exp < ServantList[j].level * 100 + +ServantList[j].exp)
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
                         }
-                        else
+                        else if (selectedMenu == menu_type.MONSTER)
                         {
-                            data_order[j]++;
+                            if (MonsterList[i].level * 100 + MonsterList[i].exp < MonsterList[j].level * 100 + +MonsterList[j].exp)
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
                         }
                     }
                 }
@@ -117,25 +209,19 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         return data_order;
     }
 
-    public void updateDetailInfo()
+    //상세정보창 Update
+    public void updateDetailInfo(int _selected_unit_idx)
     {
-        int selected_unit_idx = scrollList.getSelectedUnitIdx();
+        int selected_unit_idx = _selected_unit_idx;
 
-        textLevel.text = string.Format("{0}", PartyInfoList[selected_unit_idx].level);
-        //xtLevel.text = string.Format("{0}", PartyInfoList[selected_unit_idx].level);
-        textCharacterName.text = string.Format("{0}", PartyInfoList[selected_unit_idx].name);
+        textLevel.text = string.Format("{0}", ServantList[selected_unit_idx].level);
+        //xtLevel.text = string.Format("{0}", ServantList[selected_unit_idx].level);
+        textCharacterName.text = string.Format("{0}", ServantList[selected_unit_idx].name);
 
-        textStr.text = string.Format("{0}", PartyInfoList[selected_unit_idx].status.basicStr + PartyInfoList[selected_unit_idx].status.plusStr);
-        textDex.text = string.Format("{0}", PartyInfoList[selected_unit_idx].status.basicDex + PartyInfoList[selected_unit_idx].status.plusDex);
-        textInt.text = string.Format("{0}", PartyInfoList[selected_unit_idx].status.basicInt + PartyInfoList[selected_unit_idx].status.plusInt);
+        textStr.text = string.Format("{0}", ServantList[selected_unit_idx].status.basicStr + ServantList[selected_unit_idx].status.plusStr);
+        textDex.text = string.Format("{0}", ServantList[selected_unit_idx].status.basicDex + ServantList[selected_unit_idx].status.plusDex);
+        textInt.text = string.Format("{0}", ServantList[selected_unit_idx].status.basicInt + ServantList[selected_unit_idx].status.plusInt);
     }
-
-    public void OnButtonBack()
-    {
-
-
-    }
-
-
+    
 	
 }

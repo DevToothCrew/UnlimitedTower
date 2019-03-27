@@ -12,17 +12,21 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public GameObject chatUI;
 
     // Low UI
-    public GameObject popupUI;
     public GameObject accountInfoUI;
+    public GameObject BackbuttonUI;
 
-    public GameObject popupInfoUI;
-    public Text popupTitle;
+    public Text textBackButton;
 
     public POPUP_STATE popupState;
     public GameObject[] popupPage = new GameObject[1];
 
     // 추후 추가할때마다 숫자 변경
     readonly public int popupCount = 1;
+
+
+    //Running sub view
+    public GameObject objSubView;
+
 
     public void OnEnable()
     {
@@ -36,16 +40,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         EtcSetActiveWithAnimation(true);
         topUI.SetActivateWithAnimation(true);
         chatUI.SetActivateWithAnimation(true);
-        popupUI.SetActive(false);
         accountInfoUI.SetActive(true);
-        if (popupInfoUI != null)
-        popupInfoUI?.SetActive(false);
-
-        popupState = POPUP_STATE.Hero;
-        for (int i = 0; i < popupCount; i++)
-        {
-            popupPage[i]?.SetActive(false);
-        }
+        BackbuttonUI.SetActive(false);
 
         Time.timeScale = 1.0f;
     }
@@ -58,9 +54,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                 EtcSetActiveWithAnimation(true);
                 topUI.SetActivateWithAnimation(true);
                 chatUI.SetActivateWithAnimation(true);
-                popupUI.SetActive(false);
                 accountInfoUI.SetActive(true);
-                popupInfoUI.SetActive(false);
                 break;
 
             case SCENE_STATE.Login:
@@ -82,19 +76,22 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         {
             case POPUP_STATE.Hero:
                 {
-                    SetPopupTitle("Party");
+                    SetTextBackButton("Party");
+                    objSubView = Instantiate(Resources.Load("UI/Lobby/PartyInfoVC")) as GameObject;
+                    objSubView.transform.SetParent(this.transform);
+                    objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                 }
                 break;
 
             case POPUP_STATE.Weapon:
                 {
-                    SetPopupTitle("Inventory");
+                    SetTextBackButton("Inventory");
                 }
                 break;
 
             case POPUP_STATE.EOS:
                 {
-                    SetPopupTitle("Shop");
+                    SetTextBackButton("Shop");
                 }
                 break;
 
@@ -104,55 +101,26 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
         EtcSetActiveWithAnimation(false);
 
-        popupUI.SetActive(true);
         accountInfoUI.SetActive(false);
-        popupInfoUI.SetActive(true);
+        BackbuttonUI.SetActive(true);
 
-        for (int i = 0; i < popupCount; i++)
-        {
-            if (i == num / 10)
-            {
-                popupPage[i].SetActive(true);
-            }
-            else
-            {
-                popupPage[i].SetActive(false);
-            }
-        }
     }
 
     public void OnClickBackButton()
     {
+        if (objSubView != null)
+            Destroy(objSubView);
+
         EtcSetActiveWithAnimation(true);
-        popupUI.SetActive(false);
 
         accountInfoUI.SetActive(true);
-        popupInfoUI.SetActive(false);
+        BackbuttonUI.SetActive(false);
     }
 
-    public void OnClickMessageButton()
+
+    public void SetTextBackButton(string text)
     {
-
-    }
-
-    public void OnClickOptionButton()
-    {
-
-    }
-
-    public void OnClickStageButton()
-    {
-
-    }
-
-    public void OnClickGachaButton()
-    {
-
-    }
-
-    public void SetPopupTitle(string text)
-    {
-        popupTitle.text = text;
+        textBackButton.text = text;
     }
 
 }

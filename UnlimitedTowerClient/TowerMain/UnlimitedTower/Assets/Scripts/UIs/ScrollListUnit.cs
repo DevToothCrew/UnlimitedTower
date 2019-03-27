@@ -30,4 +30,14 @@ public class ScrollListUnit : MonoBehaviour {
     {
 
     }
+
+    public virtual int getUnitIdx()
+    {
+        return main_idx;
+    }
+
+    public virtual void OnClickUnit()
+    {
+
+    }
 }
