@@ -726,6 +726,7 @@ public class DBMonsterData
     public int classType;
     public string resourceModel;
     public string resourceIcon;
+    public Sprite monsterIcon;
 }
 
 [Serializable]

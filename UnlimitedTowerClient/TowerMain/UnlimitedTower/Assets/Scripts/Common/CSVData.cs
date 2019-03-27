@@ -209,6 +209,11 @@ public class CSVData : MonoSingleton<CSVData> {
             monsterData.classType = Convert.ToInt32(data[i]["class_type"]);
             monsterData.resourceModel = Convert.ToString(data[i]["resource_model"]);
             monsterData.resourceIcon = Convert.ToString(data[i]["resource_icon"]);
+            monsterData.monsterIcon = Resources.Load<Sprite>("Character Portrait Image/Monster/" + monsterData.resourceIcon);
+            if(monsterData.monsterIcon == null)
+            {
+                Debug.Log("Invalid Icon Resource : " + monsterData.resourceIcon + " No : " + (monsterDataInspector.Count));
+            }
 
             DBMonsterDataDic.Add(monsterData.id, monsterData);
             monsterDataInspector.Add(monsterData);
