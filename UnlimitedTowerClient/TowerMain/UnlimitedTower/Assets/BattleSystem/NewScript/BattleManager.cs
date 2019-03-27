@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class BattleManager : MonoSingleton<BattleManager>
 {
     public GameObject[] character = new GameObject[20];
+    public GameObject[] grid = new GameObject[20];
     public CharInfo[] charInfo = new CharInfo[20];
     public Animator[] animator = new Animator[20];
     public bool[] isPlace = new bool[20];
@@ -13,6 +14,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     public int[] NowHp = new int[20];
     public bool isAfterDelay;
     public int TimeScale = 1;
+    public TumbAnimation tumbAnimation;
 
     private int turnIndex = 1;
     private bool isSpaceCheck;
@@ -21,6 +23,8 @@ public class BattleManager : MonoSingleton<BattleManager>
     private CharacterCustom characterCustom;
 
     // Test
+    [Header("Test")]
+    public GameObject testGrid;
     private GameObject testReward;
     private GameObject testDefeat;
     private Text ErrorText;
@@ -37,6 +41,8 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         CharacterParent = GameObject.Find("Character Object");
         characterCustom = GameObject.Find("CharacterCustomInstance").GetComponent<CharacterCustom>();
+        tumbAnimation = GetComponent<TumbAnimation>();
+
 
         testReward = GameObject.Find("보상");
         testDefeat = GameObject.Find("패배보상");
@@ -75,11 +81,19 @@ public class BattleManager : MonoSingleton<BattleManager>
             //     isSpaceCheck = true;
             // }
             BattleUIManager.Inst.OnDelay();
-
-            string battleActionInfo = Cheat.Inst.GetBattleActionData("devtooth", turnIndex);
+            #if UNITY_EDITOR
+            {
+                string battleActionInfo = Cheat.Inst.GetBattleActionData("devtooth", turnIndex);
             Debug.Log("[SUCCESS] user battleaction :" + battleActionInfo);
             
             PacketManager.Inst.ResponseBattleAction(JsonUtility.FromJson<battleActionData>(battleActionInfo));
+            }
+            #endif
+            #if UNITY_WEBGL
+            {
+                PacketManager.Inst.RequestBattleAction(turnIndex);
+            }
+            #endif
         }
     }
 
@@ -98,25 +112,29 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         for (int i = 0; i < stageActionInfo.character_action_list.Count; i++)
         {
-            if (stageActionInfo.character_action_list[i].action_type == 2)
+            if (NowHp[stageActionInfo.battle_info_list[i].my_position] > 0)
             {
-                character[stageActionInfo.character_action_list[i].my_position].GetComponent<BasicAttack>().Attack(stageActionInfo.character_action_list[i]);
-
-                yield return new WaitUntil(() => isAfterDelay == true);
-                isAfterDelay = false;
-            }
-            else if (stageActionInfo.character_action_list[i].action_type == 3)
-            {
-                if (stageActionInfo.character_action_list[i].my_position < 10)
+                if (stageActionInfo.battle_info_list[i].action_type == 2)
                 {
-                    SkillManager.Inst.SendMessage("Skill_" + GetMyState(stageActionInfo.character_action_list[i].my_position).active_skill_list[0].id.ToString(), stageActionInfo.character_action_list[i]);
-                    
+                    character[stageActionInfo.battle_info_list[i].my_position].GetComponent<BasicAttack>().Attack(stageActionInfo.battle_info_list[i]);
+
                     yield return new WaitUntil(() => isAfterDelay == true);
                     isAfterDelay = false;
+                }
+                else if (stageActionInfo.battle_info_list[i].action_type == 3)
+                {
+                    if (stageActionInfo.battle_info_list[i].my_position < 10)
+                    {
+                        SkillManager.Inst.SendMessage("Skill_" + GetMyState(stageActionInfo.battle_info_list[i].my_position).active_skill_list[0].id.ToString(), stageActionInfo.battle_info_list[i]);
+
+                        yield return new WaitUntil(() => isAfterDelay == true);
+                        isAfterDelay = false;
+                    }
                 }
             }
         }
 
+        Debug.Log("Turn++");
         turnIndex++;
         isSpaceCheck = false;
         BattleUIManager.Inst.MyTurn();
@@ -194,13 +212,23 @@ public class BattleManager : MonoSingleton<BattleManager>
         }
     }
 
-    public void SettingBoxCollider(GameObject charactor)
+    // 캐릭터 박스 콜라이더 셋팅
+    public void SettingBoxCollider(GameObject character)
     {
-        BoxCollider box = charactor.AddComponent<BoxCollider>();
-        box.size = new Vector3(0.8f, 0.8f, 0.8f);
-        box.center = new Vector3(0.0f, 0.4f, 0.0f);
+        BoxCollider box = character.AddComponent<BoxCollider>();
+        box.size = new Vector3(0.8f, 0.8f, 0.8f) * (1 / character.transform.localScale.x);
+        box.center = new Vector3(0.0f, 0.4f, 0.0f) * (1 / character.transform.localScale.x);
         box.isTrigger = true;
-        charactor.tag = "Character";
+        character.tag = "Character";
+    }
+    
+    // 캐릭터 그리드 셋팅
+    public void SettinGrid(int index)
+    {
+        GameObject temp = Instantiate(testGrid, Vector3.zero, Quaternion.Euler(new Vector3(90, 0, 0)));
+        temp.transform.SetParent(character[index].transform);
+        grid[index] = temp;
+        grid[index].SetActive(false);
     }
 
     // 히어로 셋팅
@@ -225,7 +253,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         animator[0] = character[0].GetComponent<Animator>();
     }
 
-    // 히어로를 제외한 파티 셋팅
+    // 아군 파티 셋팅
     public void SettingCharacter(stageStateData stageStateInfo)
     {
         for (int i = 0; i < stageStateInfo.my_state_list.Count; i++)
@@ -254,12 +282,15 @@ public class BattleManager : MonoSingleton<BattleManager>
             else
             {
                 character[stageStateInfo.my_state_list[i].position] = Instantiate(Resources.Load("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResourceModel(stageStateInfo.my_state_list[i].id)) as GameObject,
+
                     CharacterParent.transform.GetChild(0));
                 character[stageStateInfo.my_state_list[i].position].name = "Monster : " + stageStateInfo.my_state_list[i].position.ToString();
                 character[stageStateInfo.my_state_list[i].position].AddComponent<CharacterIndex>().index = stageStateInfo.my_state_list[i].position;
                 SettingBoxCollider(character[stageStateInfo.my_state_list[i].position]);
                 animator[stageStateInfo.my_state_list[i].position] = character[stageStateInfo.my_state_list[i].position].GetComponent<Animator>();
             }
+            Debug.Log(i + "th MyCharacter Spawn");
+            SettinGrid(stageStateInfo.my_state_list[i].position);
         }
     }
 
@@ -268,12 +299,14 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
         {
-            character[stageStateInfo.enemy_state_list[i].position] = Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResourceModel(stageStateInfo.enemy_state_list[i].id)),
+            character[stageStateInfo.enemy_state_list[i].position] = Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResource(stageStateInfo.enemy_state_list[i].id)),
                     CharacterParent.transform.GetChild(1));
             character[stageStateInfo.enemy_state_list[i].position].name = "Monster : " + stageStateInfo.enemy_state_list[i].position.ToString();
             character[stageStateInfo.enemy_state_list[i].position].AddComponent<CharacterIndex>().index = stageStateInfo.enemy_state_list[i].position;
             SettingBoxCollider(character[stageStateInfo.enemy_state_list[i].position]);
             animator[stageStateInfo.enemy_state_list[i].position] = character[stageStateInfo.enemy_state_list[i].position].GetComponent<Animator>();
+            SettinGrid(stageStateInfo.enemy_state_list[i].position);
+            Debug.Log(i + "th EnemyCheracter Spawn");
         }
     }
     

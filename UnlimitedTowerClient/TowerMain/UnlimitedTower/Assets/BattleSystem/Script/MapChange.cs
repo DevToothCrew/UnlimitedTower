@@ -20,7 +20,7 @@ public class MapChange : MonoBehaviour
     private readonly Vector3[] cameraPosition =
     {
         new Vector3(-10, 8, -10),
-        new Vector3(-10, 8, -10),
+        new Vector3(-10, 10, -10),
         new Vector3(-10, 8, -10),
         new Vector3(-10, 10, -10),
         new Vector3(-10, 8, -10),
