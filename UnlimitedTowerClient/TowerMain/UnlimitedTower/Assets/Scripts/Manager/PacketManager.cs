@@ -699,50 +699,44 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log("Invalid Login Data : " + getLoginInfo);
         }
 
-        Login(userLoginData);
-    }
-
-    // 로그인 처리
-    public void Login(UserLoginData getUserLoginData)
-    {
         UserInfo userInfo = new UserInfo();
-        if (ParseUserInfo(getUserLoginData.user_data, ref userInfo) == false)
+        if (ParseUserInfo(userLoginData.user_data, ref userInfo) == false)
         {
             Debug.Log("Invalid ParseUserInfo Info");
         }
-        ParseGoldInfo(getUserLoginData.token, getUserLoginData.eos, ref userInfo);
+        ParseGoldInfo(userLoginData.token, userLoginData.eos, ref userInfo);
 
         UserDataManager.Inst.SetUserInfo(userInfo);
 
         Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
-        if (ParseServantDic(getUserLoginData.servant_list, ref servantDic) == false)
+        if (ParseServantDic(userLoginData.servant_list, ref servantDic) == false)
         {
             Debug.Log("Invalid ParseServantList Info");
         }
         UserDataManager.Inst.SetServantDic(servantDic);
 
         Dictionary<int, UserMonsterData> monsterDic = new Dictionary<int, UserMonsterData>();
-        if (ParseMonsterDic(getUserLoginData.monster_list, ref monsterDic) == false)
+        if (ParseMonsterDic(userLoginData.monster_list, ref monsterDic) == false)
         {
             Debug.Log("Invalid ParseMonsterList Info");
         }
         UserDataManager.Inst.SetMonsterDic(monsterDic);
 
         Dictionary<int, UserEquipmentData> equipmentDic = new Dictionary<int, UserEquipmentData>();
-        if (ParseEquipmentDic(getUserLoginData.equipment_list, ref equipmentDic) == false)
+        if (ParseEquipmentDic(userLoginData.equipment_list, ref equipmentDic) == false)
         {
             Debug.Log("Invalid ParseEquipmentList Info");
         }
         UserDataManager.Inst.SetEquipmentDic(equipmentDic);
 
         Dictionary<int, UserItemData> itemDic = new Dictionary<int, UserItemData>();
-        if (ParseItemDic(getUserLoginData.item_list, ref itemDic) == false)
+        if (ParseItemDic(userLoginData.item_list, ref itemDic) == false)
         {
             Debug.Log("Invalid ParseItemList Info");
         }
         UserDataManager.Inst.SetItemDic(itemDic);
 
-        UserPartyData partyInfo = ParsePartyInfo(getUserLoginData.party_info);
+        UserPartyData partyInfo = ParsePartyInfo(userLoginData.party_info);
         if (partyInfo == null)
         {
             Debug.Log("invalid ParsePartyList info");

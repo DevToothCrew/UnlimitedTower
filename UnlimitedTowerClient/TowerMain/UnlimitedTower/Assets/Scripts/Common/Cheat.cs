@@ -415,8 +415,7 @@ public class Cheat : MonoSingleton<Cheat>
         return status;
     }
 
-    // Button Cheat
-
+    #region RequestPacketCheat
 
     public void RequestLoginCheat()
     {
@@ -451,4 +450,6 @@ public class Cheat : MonoSingleton<Cheat>
         stageStateData getBattleStageData = JsonUtility.FromJson<stageStateData>(stageStartInfo);
         PacketManager.Inst.ResponseStageStart(getBattleStageData);
     }
+
+    #endregion
 }
