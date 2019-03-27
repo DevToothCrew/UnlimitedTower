@@ -5552,7 +5552,8 @@ ACTION battletest::itemsell(eosio::name _user, uint32_t _item, uint32_t _count)
     auto auth_user_iter = auth_user_table.find(_user.value);
 
     eosio_assert(user_item_iter != user_item_table.end(), "not exist item info");
-    
+    eosio_assert(user_item_iter->count > 0, "not exist sell item count");
+    eosio_assert(user_item_iter->count >= _count, "not sell item count");
 
     asset item_sell_result(0, symbol(symbol_code("UTG"), 4));
     item_sell_result.amount = 1000000;
