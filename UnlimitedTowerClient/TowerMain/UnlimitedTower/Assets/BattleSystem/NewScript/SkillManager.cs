@@ -3,20 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SkillManager : MonoSingleton<SkillManager> {
+public class SkillManager : MonoSingleton<SkillManager>
+{
     public Text skillText;
+    public Dictionary<string, GameObject> effect = new Dictionary<string, GameObject>();
+    public List<EffectList> effectList = new List<EffectList>();
+
+    [System.Serializable]
+    public class EffectList
+    {
+        public string name;
+        public GameObject obj;
+    }
 
     private void Awake()
     {
         skillText = GameObject.Find("Skill Text").GetComponent<Text>();
+
+        foreach (EffectList effect in effectList)
+        {
+            this.effect.Add(effect.name, effect.obj);
+        }
     }
 
     #region Skill 200002
     // 배쉬 ( 적 1인에게 물리 공격력의 210% 물리피해를 입힙니다 )
     public void Skill_200002(characterActionData battleInfo)
     {
+        StartCoroutine(Skill_200002_Co(battleInfo));
+    }
+
+    public IEnumerator Skill_200002_Co(characterActionData battleInfo)
+    {
         BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
         skillText.text = "배쉬";
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.5f);
+        TestSkillEffect(battleInfo.action_info_list[0].target_position);
     }
     #endregion
 
@@ -24,8 +46,15 @@ public class SkillManager : MonoSingleton<SkillManager> {
     // 패스트 어택 ( 스킬 발동 시 가장 먼저 적을 공격합니다 )
     public void Skill_200003(characterActionData battleInfo)
     {
+        StartCoroutine(Skill_200003_Co(battleInfo));
+    }
+
+    public IEnumerator Skill_200003_Co(characterActionData battleInfo)
+    {
         BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
         skillText.text = "패스트 어택";
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.5f);
+        TestSkillEffect(battleInfo.action_info_list[0].target_position);
     }
     #endregion
 
@@ -33,8 +62,15 @@ public class SkillManager : MonoSingleton<SkillManager> {
     // 크리티컬 스트라이크 ( 적 1인에게 100% 확률로 치명타가 발생하는 물리 피해를 가합니다 )
     public void Skill_200004(characterActionData battleInfo)
     {
+        StartCoroutine(Skill_200004_Co(battleInfo));
+    }
+
+    public IEnumerator Skill_200004_Co(characterActionData battleInfo)
+    {
         BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
         skillText.text = "크리티컬 스트라이크";
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.5f);
+        TestSkillEffect(battleInfo.action_info_list[0].target_position);
     }
     #endregion
 
@@ -53,6 +89,10 @@ public class SkillManager : MonoSingleton<SkillManager> {
         yield return new WaitForSeconds(0.5f);
 
         DamageManager.Inst.DamageAciton(battleInfo.action_info_list[0], true);
+        Instantiate(effect["Heal"], BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform.position +
+            new Vector3(0, BattleManager.Inst.charInfo[battleInfo.action_info_list[0].target_position].Height * 0.5f, 0),
+            Quaternion.identity,
+            BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform);
 
         yield return new WaitForSeconds(2.0f);
 
@@ -64,8 +104,15 @@ public class SkillManager : MonoSingleton<SkillManager> {
     // 매직 스트라이크 ( 적 1인에게 마법 공격력의 180% 마법피해를 줍니다)
     public void Skill_200006(characterActionData battleInfo)
     {
+        StartCoroutine(Skill_200006_Co(battleInfo));
+    }
+
+    public IEnumerator Skill_200006_Co(characterActionData battleInfo)
+    {
         BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
         skillText.text = "매직 스트라이크";
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.5f);
+        TestSkillEffect(battleInfo.action_info_list[0].target_position);
     }
     #endregion
 
@@ -146,9 +193,23 @@ public class SkillManager : MonoSingleton<SkillManager> {
     // 가이디드 애로우 ( 적 1인에게 물리공격력의 150%의 물리 피해를 줍니다 )
     public void Skill_200008(characterActionData battleInfo)
     {
+        StartCoroutine(Skill_200008_Co(battleInfo));
+    }
+
+    public IEnumerator Skill_200008_Co(characterActionData battleInfo)
+    {
         BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
         skillText.text = "가이디드 애로우";
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + BattleManager.Inst.charInfo[battleInfo.my_position].AttackAfterDelay);
+        TestSkillEffect(battleInfo.action_info_list[0].target_position);
     }
     #endregion
 
+    public void TestSkillEffect(int index)
+    {
+        Instantiate(effect["Skill"], BattleManager.Inst.character[index].transform.position +
+            new Vector3(0, BattleManager.Inst.charInfo[index].Height * 0.5f, 0),
+            Quaternion.identity,
+            BattleManager.Inst.character[index].transform);
+    }
 }
