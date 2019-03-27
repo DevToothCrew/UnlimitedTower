@@ -220,7 +220,7 @@ public class Cheat : MonoSingleton<Cheat>
         battlestatedata.stage_type = 0;
         battlestatedata.enemy_user = user;
         battlestatedata.stage_number = 0;
-        battlestatedata.state = 1;
+        battlestatedata.turn = 0;
 
 
         for (int i = 0; i < 10; ++i)
