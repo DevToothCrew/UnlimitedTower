@@ -8,8 +8,13 @@ public class LobbyBottomInfo : MonoBehaviour {
 
     public void OnClickStageStartButton()
     {
-        // 임시로 치트키 추가
+        // 현재 스테이지 1,1을 바로 시작하지만 스테이지창이 추가 필요
+
+#if UNITY_EDITOR
         Cheat.Inst.SetStageStartCheat();
+#else
+        PacketManager.Inst.RequestStageStart(1, 1);
+#endif
     }
 
     public void OnClickGachaButton()

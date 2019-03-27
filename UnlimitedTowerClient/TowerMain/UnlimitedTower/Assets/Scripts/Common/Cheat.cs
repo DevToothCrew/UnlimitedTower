@@ -7,12 +7,12 @@ public class Cheat : MonoSingleton<Cheat>
 {
     private System.Random rand = new System.Random();
 
-    public string GetUserLoginData(string user, int gameMoney)
+    public string GetUserLoginData(string user, string eos, string utg)
     {
         UserLoginData userLoginData = new UserLoginData();
 
-        userLoginData.token = "10000000";
-        userLoginData.eos = "15400000";
+        userLoginData.token = utg;
+        userLoginData.eos = eos;
 
         userLoginData.user_data.user = user;
         userLoginData.user_data.state = 2;
@@ -46,7 +46,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         userLoginData.party_info = partyData;
 
-        return JsonMapper.ToJson(userLoginData);
+        return JsonMapper.ToJson(userLoginData).ToString();
     }
 
     public SERVANT_JOB GetRandomServantJob()
@@ -215,7 +215,6 @@ public class Cheat : MonoSingleton<Cheat>
 
     public string GetStageStartData(string user, int stageNum, int partyNum)
     {
-
         stageStateData battlestatedata = new stageStateData();
         battlestatedata.user = user;
         battlestatedata.stage_type = 0;
@@ -293,7 +292,7 @@ public class Cheat : MonoSingleton<Cheat>
             battlestatedata.enemy_state_list.Add(newMember);
         }
 
-        return JsonMapper.ToJson(battlestatedata);
+        return JsonMapper.ToJson(battlestatedata).ToString();
     }
 
     public string GetBattleActionData(int heroTarget, int heroAction, int monsterTarget, int monsterAction)
@@ -425,8 +424,9 @@ public class Cheat : MonoSingleton<Cheat>
         {
             Debug.Log("Start SetLoginCheat");
 
-            string loginInfo = GetUserLoginData("devtooth", 10000).ToString();
+            string loginInfo = GetUserLoginData("devtooth", "1000", "9999999");
             Debug.Log("[SUCCESS] user login :" + loginInfo);
+
             PacketManager.Inst.ResponseLogin(loginInfo);
         }
         else
@@ -440,11 +440,15 @@ public class Cheat : MonoSingleton<Cheat>
         if (UserDataManager.Inst.GetUserInfo() == null)
         {
             Debug.Log("Invalid UserInfo, Please First SetLoginCheat");
+            return;
         }
-        else
-        {
-            Debug.Log("Start SetStageStartCheat");
-            UTUMSProvider.Instance.RequestStageStart(1, 1);
-        }
+
+        Debug.Log("Start SetStageStartCheat");
+
+        string stageStartInfo = GetStageStartData(UserDataManager.Inst.GetUserInfo().userName, 1, 1);
+        Debug.Log("[SUCCESS] user stagestart :" + stageStartInfo);
+
+        stageStateData getBattleStageData = JsonUtility.FromJson<stageStateData>(stageStartInfo);
+        PacketManager.Inst.ResponseStageStart(getBattleStageData);
     }
 }
