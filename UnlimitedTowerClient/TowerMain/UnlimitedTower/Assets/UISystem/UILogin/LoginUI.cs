@@ -23,7 +23,8 @@ public class LoginUI : MonoBehaviour {
         if(buttonClick == false)
         {
             buttonClick = true;
-            UTUMSProvider.Instance.RequestLoginWithScatter();
+            // UTUMSProvider.Instance.RequestLoginWithScatter();
+            PacketManager.Inst.RequestLoginWithScatter();
         }
     }
 }

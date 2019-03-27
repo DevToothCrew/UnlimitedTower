@@ -124,7 +124,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         yield return WaitResponse(header, body,
             onSuccess: res =>
-            {
+            { 
                 T data = JsonUtility.FromJson<T>(res);
 
                 if (data != null)
