@@ -84,9 +84,9 @@ public class BattleManager : MonoSingleton<BattleManager>
             #if UNITY_EDITOR
             {
                 string battleActionInfo = Cheat.Inst.GetBattleActionData("devtooth", turnIndex);
-            Debug.Log("[SUCCESS] user battleaction :" + battleActionInfo);
+                Debug.Log("[SUCCESS] user battleaction :" + battleActionInfo);
             
-            PacketManager.Inst.ResponseBattleAction(JsonUtility.FromJson<battleActionData>(battleActionInfo));
+                PacketManager.Inst.ResponseBattleAction(JsonUtility.FromJson<battleActionData>(battleActionInfo));
             }
             #endif
             #if UNITY_WEBGL
