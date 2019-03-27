@@ -27,6 +27,6 @@ public class LobbyTopInfo : MonoBehaviour {
     public void OnClickAccountButton()
     {
         // 임시로 치트키 추가
-        Cheat.Inst.SetLoginCheat();
+        Cheat.Inst.RequestLoginCheat();
     }
 }

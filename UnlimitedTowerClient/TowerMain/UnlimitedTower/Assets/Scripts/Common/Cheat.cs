@@ -418,7 +418,7 @@ public class Cheat : MonoSingleton<Cheat>
     // Button Cheat
 
 
-    public void SetLoginCheat()
+    public void RequestLoginCheat()
     {
         if (UserDataManager.Inst.GetUserInfo() == null)
         {
@@ -435,7 +435,7 @@ public class Cheat : MonoSingleton<Cheat>
         }
     }
 
-    public void SetStageStartCheat()
+    public void RequestStageStartCheat(int stageNum, int partyNum)
     {
         if (UserDataManager.Inst.GetUserInfo() == null)
         {
@@ -445,7 +445,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         Debug.Log("Start SetStageStartCheat");
 
-        string stageStartInfo = GetStageStartData(UserDataManager.Inst.GetUserInfo().userName, 1, 1);
+        string stageStartInfo = GetStageStartData(UserDataManager.Inst.GetUserInfo().userName, stageNum, partyNum);
         Debug.Log("[SUCCESS] user stagestart :" + stageStartInfo);
 
         stageStateData getBattleStageData = JsonUtility.FromJson<stageStateData>(stageStartInfo);

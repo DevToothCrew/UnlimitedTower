@@ -25,7 +25,7 @@ public class LoginUI : MonoBehaviour {
             buttonClick = true;
 
 #if UNITY_EDITOR
-            Cheat.Inst.SetLoginCheat();
+            Cheat.Inst.RequestLoginCheat();
 #else
             PacketManager.Inst.RequestLoginWithScatter();
 #endif
