@@ -18,6 +18,28 @@ public class CSVData : MonoSingleton<CSVData> {
     public List<DBMonsterData> monsterDataInspector = new List<DBMonsterData>();
     public List<DBServantData> servantDataInspector = new List<DBServantData>();
 
+    public void Awake()
+    {
+        Debug.Log("SetCSVData Start");
+
+        //SetLocalizationData();
+
+        // 스킬 데이터 추가 필요
+        // 스텟 데이터 추가 필요
+        // 기타 데이터 추가 필요
+        SetItemData();
+        Debug.Log("SetItemData Success");
+        SetStageData();
+        Debug.Log("SetStageData Success");
+        SetServantData();
+        Debug.Log("SetServantData Success");
+        SetMonsterData();
+        Debug.Log("SetMonsterData Success");
+        SetMonsterUpgradeData();
+        Debug.Log("SetMonsterUpgradeData Success");
+        localType = LOCALIZATION_TYPE.EN;
+    }
+
     // 로딩씬에 추가가 되야할듯 임시로 로그인에 넣어둠
     public void SetCSVData()
     {
