@@ -118,7 +118,7 @@ public class userData
     public string user;
     public int state; //씬 상태
     public int exp;
-    public inventoryInfo inventory_info;
+    public inventoryInfo inventory_info = new inventoryInfo();
 }
 
 [Serializable]
@@ -295,10 +295,10 @@ public class characterStateData
     public int speed;
     public int type;
     public int job_class;
-    public List<buffInfo> buff_list;
-    public List<skillInfo> passive_skill_list;
-    public List<skillInfo> active_skill_list;
-    public totalStatus status;
+    public List<buffInfo> buff_list = new List<buffInfo>();
+    public List<skillInfo> passive_skill_list = new List<skillInfo>();
+    public List<skillInfo> active_skill_list = new List<skillInfo>();
+    public totalStatus status = new totalStatus();
 }
 
 [Serializable]
@@ -350,8 +350,8 @@ public class userResourceData
     public UInt64 ram_quota;        //총 램
     public UInt64 net_weight;       
     public UInt64 cpu_weight;
-    public cpuLimit net_limit;      //넷밴드위스 사용 정보
-    public cpuLimit cpu_limit;      //시피유 사용 정보
+    public cpuLimit net_limit = new cpuLimit();      //넷밴드위스 사용 정보
+    public cpuLimit cpu_limit = new cpuLimit();      //시피유 사용 정보
     public UInt64 ram_usage;        //사용중 램 용량
 };
 
