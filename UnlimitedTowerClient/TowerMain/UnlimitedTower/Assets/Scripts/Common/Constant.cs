@@ -40,6 +40,7 @@ public class DEFINE
     public static readonly int MAX_LEVEL = 50;
     public static readonly int MAX_EXP = 5000;
     public static readonly int BONUS_STAT = 1;
+    public static readonly int MAX_MONSTER_UPGRADE_COUNT = 9;
 
     // SHADER Name
     public static readonly string OUTLINE_SHADER = "Outlined/UltimateOutline";
@@ -52,7 +53,6 @@ public class DEFINE
     public static readonly int DEFENCE_MULTI_VALUE = 1;
     public static readonly int CRITICAL_PER_MULTI_VALUE = 1;
     public static readonly float AVOID_MULTI_VALUE = 0.1f;
-
 
     // Party Info
     public static readonly int PARTY_MAX_NUM = 10;

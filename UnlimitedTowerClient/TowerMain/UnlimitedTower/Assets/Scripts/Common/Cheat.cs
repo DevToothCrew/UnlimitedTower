@@ -295,6 +295,45 @@ public class Cheat : MonoSingleton<Cheat>
         return JsonMapper.ToJson(battlestatedata).ToString();
     }
 
+    public string GetMonsterUpgradeData(int mainMonsterIndex, int subMonsterIndex)
+    {
+        UserMonsterData mainMonster = UserDataManager.Inst.GetMonsterInfo(mainMonsterIndex);
+        if (mainMonster == null)
+        {
+            Debug.Log("Invalid Main Monster Index : " + mainMonsterIndex);
+            return null;
+        }
+
+        UserMonsterData subMonster = UserDataManager.Inst.GetMonsterInfo(subMonsterIndex);
+        if (subMonster == null)
+        {
+            Debug.Log("Invalid Sub Monster Index : " + subMonsterIndex);
+            return null;
+        }
+
+        if (mainMonster.id != subMonster.id)
+        {
+            Debug.Log("Different Monster ID Main : " + mainMonster.id + " , Sub : " + subMonster.id);
+            return null;
+        }
+
+        if (mainMonster.gradeNum != subMonster.gradeNum)
+        {
+            Debug.Log("Different Monster Grade Main : " + mainMonster.gradeNum + " , Sub : " + subMonster.gradeNum);
+            return null;
+        }
+
+        if (mainMonster.upgradeCount < subMonster.upgradeCount || mainMonster.upgradeCount >= DEFINE.MAX_MONSTER_UPGRADE_COUNT)
+        {
+            Debug.Log("InvalidUpgradeCount Monster UpgradeCount Main : " + mainMonster.gradeNum + " , Sub : " + subMonster.gradeNum);
+            return null;
+        }
+
+        monsterUpgradeResultData getMonsterUpgradeResultData = new monsterUpgradeResultData();
+
+        return JsonMapper.ToJson(getMonsterUpgradeResultData).ToString();
+    }
+
     public string GetBattleActionData(int heroTarget, int heroAction, int monsterTarget, int monsterAction)
     {
 
@@ -423,10 +462,10 @@ public class Cheat : MonoSingleton<Cheat>
         {
             Debug.Log("Start SetLoginCheat");
 
-            string loginInfo = GetUserLoginData("devtooth", "1000", "9999999");
-            Debug.Log("[SUCCESS] user login :" + loginInfo);
+            string loginJson = GetUserLoginData("devtooth", "1000", "9999999");
+            Debug.Log("[SUCCESS] user login :" + loginJson);
 
-            PacketManager.Inst.ResponseLogin(loginInfo);
+            PacketManager.Inst.ResponseLogin(loginJson);
         }
         else
         {
@@ -444,11 +483,20 @@ public class Cheat : MonoSingleton<Cheat>
 
         Debug.Log("Start SetStageStartCheat");
 
-        string stageStartInfo = GetStageStartData(UserDataManager.Inst.GetUserInfo().userName, stageNum, partyNum);
-        Debug.Log("[SUCCESS] user stagestart :" + stageStartInfo);
+        string stageStateJson = GetStageStartData(UserDataManager.Inst.GetUserInfo().userName, stageNum, partyNum);
+        Debug.Log("[SUCCESS] user stagestart :" + stageStateJson);
 
-        stageStateData getBattleStageData = JsonUtility.FromJson<stageStateData>(stageStartInfo);
+        stageStateData getBattleStageData = JsonUtility.FromJson<stageStateData>(stageStateJson);
         PacketManager.Inst.ResponseStageStart(getBattleStageData);
+    }
+
+    public void RequestMonsterUpgrade(int mainMonsterIndex, int subMonsterIndex)
+    {
+        string monsterUpgradeResultJson = GetMonsterUpgradeData(mainMonsterIndex, subMonsterIndex);
+        Debug.Log("[SUCCESS] monster upgrade info : " + monsterUpgradeResultJson);
+
+        monsterUpgradeResultData getMonsterUpgradeResultData = JsonUtility.FromJson<monsterUpgradeResultData>(monsterUpgradeResultJson);
+        PacketManager.Inst.ResponseMonsterUpgrade(getMonsterUpgradeResultData);
     }
 
     #endregion
