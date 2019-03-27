@@ -16,6 +16,7 @@ public class CSVData : MonoSingleton<CSVData> {
 
     //  인스펙터에서 보여주기 위한...
     public List<DBMonsterData> monsterDataInspector = new List<DBMonsterData>();
+    public List<DBServantData> servantDataInspector = new List<DBServantData>();
 
     void Start()
     {
@@ -151,15 +152,22 @@ public class CSVData : MonoSingleton<CSVData> {
             DBServantData servantData = new DBServantData();
             servantData.id = Convert.ToInt32(data[i]["id"]);
             servantData.name = Convert.ToString(data[i]["name"]);
+            servantData.grade = Convert.ToString(data[i]["grade"]);
             servantData.job = Convert.ToString(data[i]["job"]);
             servantData.resourceBody = Convert.ToString(data[i]["resource_body"]);
             servantData.resourceHead = Convert.ToString(data[i]["resource_head"]);
             servantData.resourceHair = Convert.ToString(data[i]["resource_hair"]);
-            // Data 추가 예정
-            //servantData.resourceIcon = Convert.ToString(data[i]["ingame_icon_name"]);
+            servantData.resourceIcon = Convert.ToString(data[i]["resource_icon"]);
+            servantData.servantIcon = Resources.Load<Sprite>("Character Portrait Image/Servant/" + servantData.resourceIcon);
+            if (servantData.servantIcon == null)
+            {
+                Debug.Log("Invalid Icon Resource : " + servantData.resourceIcon + " No : " + (DBServantDataDic.Count));
+            }
 
             DBServantDataDic.Add(servantData.id, servantData);
         }
+
+        servantDataInspector = DBServantDataDic.Values.ToList();
     }
 
     public void SetLocalizationData()
@@ -216,8 +224,9 @@ public class CSVData : MonoSingleton<CSVData> {
             }
 
             DBMonsterDataDic.Add(monsterData.id, monsterData);
-            monsterDataInspector.Add(monsterData);
         }
+
+        monsterDataInspector = DBMonsterDataDic.Values.ToList();
     }
 
     public void SetMonsterUpgradeData()

@@ -734,11 +734,13 @@ public class DBServantData
 {
     public int id;
     public string name;
+    public string grade;
     public string job;
     public string resourceBody;
     public string resourceHead;
     public string resourceHair;
     public string resourceIcon;
+    public Sprite servantIcon;
 }
 
 [Serializable]
