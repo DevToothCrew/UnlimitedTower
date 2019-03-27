@@ -308,10 +308,12 @@ public class stageStateData
     public int stage_type;
     public string enemy_user;
     public int stage_number;
-    public int state;
+    public int turn;
     public List<characterStateData> my_state_list = new List<characterStateData>();
     public List<characterStateData> enemy_state_list = new List<characterStateData>();
 }
+
+
 
 [Serializable]
 public class stageRewardData
@@ -334,6 +336,7 @@ public class monsterUpgradeResultData
     public bool is_success;
     public monsterData main_monster_data;
     public int sub_monster_index;
+    public List<itemData> need_item_list;
 }
 
 [Serializable]
