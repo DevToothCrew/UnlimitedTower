@@ -94,28 +94,18 @@ public class SelectManager : MonoBehaviour {
                     if (selectIndex < 5)
                     {
                         levelText.text = UserDataManager.Inst.GetServantInfo(UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).level.ToString();
-
-                        selectCharImg.sprite = null;
                     }
                     else if (selectIndex < 10)
                     {
                         nemeText.text = CSVData.Inst.GetMonsterName(selectStateInfo.id);
-
-                        selectCharImg.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" +
-                            CSVData.Inst.GetMonsterIcon(selectStateInfo.id));
-
                         levelText.text = UserDataManager.Inst.GetMonsterInfo(UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).level.ToString();
                     }
                     else
                     {
                         nemeText.text = CSVData.Inst.GetMonsterName(selectStateInfo.id);
-
-                        selectCharImg.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" +
-                            CSVData.Inst.GetMonsterIcon(selectStateInfo.id));
-
-
                         levelText.text = "?";
                     }
+                    selectCharImg.sprite = CSVData.Inst.DBMonsterDataDic[selectStateInfo.id].monsterIcon;
 
                     testMaxHp.text = BattleManager.Inst.MaxHp[selectIndex].ToString();
                     testNowHp.text = BattleManager.Inst.NowHp[selectIndex].ToString();
