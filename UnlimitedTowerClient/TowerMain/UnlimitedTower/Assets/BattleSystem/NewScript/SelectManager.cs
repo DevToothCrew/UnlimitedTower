@@ -70,7 +70,7 @@ public class SelectManager : MonoBehaviour {
 
                     selectIndex = hit.transform.GetComponent<CharacterIndex>().index;
 
-                    stageState selectStateInfo;
+                    characterStateData selectStateInfo;
 
                     if (selectIndex < 10)
                     {
@@ -101,7 +101,8 @@ public class SelectManager : MonoBehaviour {
                     {
                         nemeText.text = CSVData.Inst.GetMonsterName(selectStateInfo.id);
 
-                        selectCharImg.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" + CSVData.Inst.GetMonsterInGameIconName(selectStateInfo.id));
+                        selectCharImg.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" +
+                            CSVData.Inst.GetMonsterIcon(selectStateInfo.id));
 
                         levelText.text = UserDataManager.Inst.GetMonsterInfo(UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).level.ToString();
                     }
@@ -109,7 +110,9 @@ public class SelectManager : MonoBehaviour {
                     {
                         nemeText.text = CSVData.Inst.GetMonsterName(selectStateInfo.id);
 
-                        selectCharImg.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" + CSVData.Inst.GetMonsterInGameIconName(selectStateInfo.id));
+                        selectCharImg.sprite = Resources.Load<Sprite>("BattleUI/Character Portrait Image/Monster/" +
+                            CSVData.Inst.GetMonsterIcon(selectStateInfo.id));
+
 
                         levelText.text = "?";
                     }

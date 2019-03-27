@@ -12,7 +12,7 @@ public class BasicAttack : MonoBehaviour {
         ani = GetComponent<Animator>();
     }
 
-    public void Attack(battleActionInfo attackInfo)
+    public void Attack(characterActionData attackInfo)
     {
         if (charInfo.AttackRange > 0.1f)
             StartCoroutine(NearAttackAction(attackInfo));
@@ -20,7 +20,7 @@ public class BasicAttack : MonoBehaviour {
             StartCoroutine(FarAttackAction(attackInfo));
     }
 
-    IEnumerator NearAttackAction(battleActionInfo attackInfo)
+    IEnumerator NearAttackAction(characterActionData attackInfo)
     {
         Transform attacker;
         Transform target;
@@ -28,7 +28,7 @@ public class BasicAttack : MonoBehaviour {
         Vector3 attackerEndPos;
 
         attacker = BattleManager.Inst.character[attackInfo.my_position].transform;
-        target = BattleManager.Inst.character[attackInfo.battle_action_list[0].target_position].transform;
+        target = BattleManager.Inst.character[attackInfo.action_info_list[0].target_position].transform;
 
         attackerStartPos = attacker.position;
         attackerEndPos = target.position;
@@ -40,9 +40,9 @@ public class BasicAttack : MonoBehaviour {
 
         yield return new WaitForSeconds(charInfo.AttackDelay);
 
-        DamageManager.Inst.DamageAciton(attackInfo.battle_action_list[0], false);
-        if (BattleManager.Inst.NowHp[attackInfo.battle_action_list[0].target_position] > 0)
-            BattleManager.Inst.animator[attackInfo.battle_action_list[0].target_position].SetTrigger("isHit");
+        DamageManager.Inst.DamageAciton(attackInfo.action_info_list[0], false);
+        if (BattleManager.Inst.NowHp[attackInfo.action_info_list[0].target_position] > 0)
+            BattleManager.Inst.animator[attackInfo.action_info_list[0].target_position].SetTrigger("isHit");
         else
         {
             BattleManager.Inst.animator[attackInfo.battle_action_list[0].target_position].SetTrigger("isDie");
@@ -87,13 +87,13 @@ public class BasicAttack : MonoBehaviour {
         ani.SetTrigger("isIdle");
     }
 
-    IEnumerator FarAttackAction(battleActionInfo attackInfo)
+    IEnumerator FarAttackAction(characterActionData attackInfo)
     {
         Transform attacker;
         Transform target;
 
         attacker = BattleManager.Inst.character[attackInfo.my_position].transform;
-        target = BattleManager.Inst.character[attackInfo.battle_action_list[0].target_position].transform;
+        target = BattleManager.Inst.character[attackInfo.action_info_list[0].target_position].transform;
 
         attacker.transform.LookAt(target);
     
@@ -109,9 +109,9 @@ public class BasicAttack : MonoBehaviour {
     
         yield return new WaitForSeconds(charInfo.AttackAfterDelay);
     
-        DamageManager.Inst.DamageAciton(attackInfo.battle_action_list[0], false);
-        if (BattleManager.Inst.NowHp[attackInfo.battle_action_list[0].target_position] > 0)
-            BattleManager.Inst.animator[attackInfo.battle_action_list[0].target_position].SetTrigger("isHit");
+        DamageManager.Inst.DamageAciton(attackInfo.action_info_list[0], false);
+        if (BattleManager.Inst.NowHp[attackInfo.action_info_list[0].target_position] > 0)
+            BattleManager.Inst.animator[attackInfo.action_info_list[0].target_position].SetTrigger("isHit");
         else
         {
             BattleManager.Inst.animator[attackInfo.battle_action_list[0].target_position].SetTrigger("isDie");

@@ -14,8 +14,8 @@ public class Cheat : MonoSingleton<Cheat>
         userLoginData.token = "10000000";
         userLoginData.eos = "15400000";
 
-        userLoginData.userinfo.user = user;
-        userLoginData.userinfo.state = 2;
+        userLoginData.user_data.user = user;
+        userLoginData.user_data.state = 2;
         //userLoginData.userinfo.hero = GetRandomServant(GetRandomServantJob());
 
         partyData partyData = new partyData();
@@ -79,9 +79,9 @@ public class Cheat : MonoSingleton<Cheat>
         }
     }
 
-    public string GetGachaResultData()
+    public string GetGachaResultData(int gachaIndex)
     {
-        int type = rand.Next((int)GACHA_RESULT_TYPE.Servant, (int)GACHA_RESULT_TYPE.Item);
+        int type = rand.Next((int)GACHA_RESULT_TYPE.Servant, (int)GACHA_RESULT_TYPE.Equipment);
 
         if (type == (int)GACHA_RESULT_TYPE.Servant)
         {
@@ -99,7 +99,7 @@ public class Cheat : MonoSingleton<Cheat>
 
             return JsonMapper.ToJson(gachaResult);
         }
-        else if (type == (int)GACHA_RESULT_TYPE.Item)
+        else if (type == (int)GACHA_RESULT_TYPE.Equipment)
         {
             // 아이템은 아직
             gachaItemData gachaResult = new gachaItemData();
@@ -112,13 +112,13 @@ public class Cheat : MonoSingleton<Cheat>
         }
     }
 
-    public string GetBattleActionData(string user, int turn)
+    public string GetBattleActionData(string user, int getTurn)
     {
         stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
-         
-        stageActionInfoData battleactiondata = new stageActionInfoData();
+
+        battleActionData battleactiondata = new battleActionData();
         battleactiondata.user = user;
-        battleactiondata.turn = turn;
+        battleactiondata.turn = getTurn;
 
         for (int i = 0; i < stageStateInfo.my_state_list.Count; ++i)
         {
@@ -128,7 +128,7 @@ public class Cheat : MonoSingleton<Cheat>
             }
             if(stageStateInfo.my_state_list[i].position < 5)
             {
-                battleActionInfo actioninfo = new battleActionInfo();
+                characterActionData actioninfo = new characterActionData();
                 actioninfo.my_position = stageStateInfo.my_state_list[i].position;
                 actioninfo.action_type = 3;
 
@@ -144,7 +144,7 @@ public class Cheat : MonoSingleton<Cheat>
                         action.avoid = false;
                         action.critical = false;
                         action.damage = rand.Next(200, 500);
-                        actioninfo.battle_action_list.Add(action);
+                        actioninfo.action_info_list.Add(action);
                     }
                 }
                 else if (stageStateInfo.my_state_list[i].active_skill_list[0].id == 200008)
@@ -157,9 +157,9 @@ public class Cheat : MonoSingleton<Cheat>
                     action.avoid = false;
                     action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
                     action.damage = rand.Next(200, 500);
-                    actioninfo.battle_action_list.Add(action);
+                    actioninfo.action_info_list.Add(action);
                 }
-                battleactiondata.battle_info_list.Add(actioninfo);
+                battleactiondata.character_action_list.Add(actioninfo);
             }
             else
             {
@@ -176,12 +176,12 @@ public class Cheat : MonoSingleton<Cheat>
                 action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
                 action.damage = rand.Next(200, 500);
 
-                battleActionInfo actioninfo = new battleActionInfo();
+                characterActionData actioninfo = new characterActionData();
                 actioninfo.my_position = stageStateInfo.my_state_list[i].position;
                 actioninfo.action_type = 2;
-                actioninfo.battle_action_list.Add(action);
+                actioninfo.action_info_list.Add(action);
 
-                battleactiondata.battle_info_list.Add(actioninfo);
+                battleactiondata.character_action_list.Add(actioninfo);
             }
         }
 
@@ -201,12 +201,12 @@ public class Cheat : MonoSingleton<Cheat>
             action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
             action.damage = rand.Next(200, 500);
 
-            battleActionInfo actioninfo = new battleActionInfo();
+            characterActionData actioninfo = new characterActionData();
             actioninfo.my_position = i;
             actioninfo.action_type = 2;
-            actioninfo.battle_action_list.Add(action);
+            actioninfo.action_info_list.Add(action);
 
-            battleactiondata.battle_info_list.Add(actioninfo);
+            battleactiondata.character_action_list.Add(actioninfo);
         }
 
 
@@ -226,7 +226,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         for (int i = 0; i < 10; ++i)
         {
-            stageState newMember = new stageState();
+            characterStateData newMember = new characterStateData();
             if (i < 5)
             {
                 newMember.position = i;
@@ -268,7 +268,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         for (int i = 0; i < 10; ++i)
         {
-            stageState newMember = new stageState();
+            characterStateData newMember = new characterStateData();
             newMember.position = i + 10;
             newMember.index = 0;
             newMember.id = CSVData.Inst.GetRandomMonsterIndex();

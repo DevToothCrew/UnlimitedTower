@@ -71,7 +71,8 @@ public class GachaManager : MonoBehaviour {
         {
             // Request to server
             // this interface can be changed
-            UTUMSProvider.Instance.RequestGacha();
+            int gachaIndex = 1;
+            UTUMSProvider.Instance.RequestGacha(gachaIndex);
             GetComponent<Animator>()?.SetTrigger("Glowing");
         });
     }

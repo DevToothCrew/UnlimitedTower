@@ -88,7 +88,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224209764642947052}
   m_Layer: 5
-  m_Name: Start
+  m_Name: Stage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -199,7 +199,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: ca74d38af5206c749be46edaa4f6bd9e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 73e051a73fd341f40b97f0a1ab26d696, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -226,7 +226,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 6a0fd450a434b9a4abec9780016888a3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5659584124128b94897aa2d74ef43813, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -399,7 +399,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 25}
-  m_SizeDelta: {x: 331, y: 110}
+  m_SizeDelta: {x: 348, y: 136}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!224 &224369672502011818
 RectTransform:

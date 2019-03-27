@@ -11,15 +11,14 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public Dictionary<int, UserMonsterData> monsterDic = new Dictionary<int, UserMonsterData>();
 
     // 장비와 기타 아이템 소모품 등은 Equipment와 Item으로 변경 필요
-    public Dictionary<int, UserMountItemData> mountItemDic = new Dictionary<int, UserMountItemData>();
-
-    public Dictionary<int, UserEtcItemData> etcItemDic = new Dictionary<int, UserEtcItemData>();
+    public Dictionary<int, UserEquipmentData> equipmentDic = new Dictionary<int, UserEquipmentData>();
+    public Dictionary<int, UserItemData> itemDic = new Dictionary<int, UserItemData>();
     
     // 현재 파티는 1개, 파티 안에 Formation Info 포함
     public UserPartyData partyInfo = new UserPartyData();
 
     public stageStateData stageState =  new stageStateData();
-    public stageActionInfoData stageActionInfo = new stageActionInfoData();
+    public battleActionData stageActionInfo = new battleActionData();
     public stageRewardData stageReward = new stageRewardData();
 
     public int usingPartyNum = 1;
@@ -31,8 +30,8 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         userInfo = new UserInfo();
         servantDic = new Dictionary<int, UserServantData>();
         monsterDic = new Dictionary<int, UserMonsterData>();
-        mountItemDic = new Dictionary<int, UserMountItemData>();
-        etcItemDic = new Dictionary<int, UserEtcItemData>();
+        equipmentDic = new Dictionary<int, UserEquipmentData>();
+        itemDic = new Dictionary<int, UserItemData>();
         partyInfo = new UserPartyData();
     }
 
@@ -55,9 +54,14 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         monsterDic = getMonsterDic;
     }
 
-    public void SetItemDic(Dictionary<int, UserMountItemData> getItemDic)
+    public void SetEquipmentDic(Dictionary<int, UserEquipmentData> getEquipmentDic)
     {
-        mountItemDic = getItemDic;
+        equipmentDic = getEquipmentDic;
+    }
+
+    public void SetItemDic(Dictionary<int, UserItemData> getItemDic)
+    {
+        itemDic = getItemDic;
     }
     
     public void SetSceneState(SCENE_STATE state)
@@ -90,19 +94,19 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         }
     }
 
-    public void SetStageState(stageStateData getStageState)
+    public void SetStageState(stageStateData getStageStateData)
     {
-        stageState = getStageState;
+        stageState = getStageStateData;
     }
 
-    public void SetStageAction(stageActionInfoData getStageState)
+    public void SetStageAction(battleActionData getBattleActionData)
     {
-        stageActionInfo = getStageState;
+        stageActionInfo = getBattleActionData;
     }
 
-    public void SetStageReward(stageRewardData getStageState)
+    public void SetStageReward(stageRewardData getStageReward)
     {
-        stageReward = getStageState;
+        stageReward = getStageReward;
     }
 
     #endregion
@@ -273,14 +277,14 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return monsterDic.Count;
     }
 
-    public int GetMountItemCount()
+    public int GetEquipmentCount()
     {
-        return mountItemDic.Count;
+        return equipmentDic.Count;
     }
 
     public int GetEtcItemCount()
     {
-        return etcItemDic.Count;
+        return itemDic.Count;
     }
 
     public List<UserServantData> GetServantList()
@@ -303,24 +307,24 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return monsterDic.Values.ToList();
     }
 
-    public List<UserMountItemData> GetMountItemList()
+    public List<UserEquipmentData> GetEquipmentList()
     {
-        if(mountItemDic.Count == 0)
+        if(equipmentDic.Count == 0)
         {
             return null;
         }
 
-        return mountItemDic.Values.ToList();
+        return equipmentDic.Values.ToList();
     }
 
-    public List<UserEtcItemData> GetEtcItemList()
+    public List<UserItemData> GetEtcItemList()
     {
-        if(etcItemDic.Count == 0)
+        if(itemDic.Count == 0)
         {
             return null;
         }
 
-        return etcItemDic.Values.ToList();
+        return itemDic.Values.ToList();
     }
 
     public stageStateData GetStageState()
@@ -334,7 +338,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return stageState;
     }
 
-    public stageActionInfoData GetStageAction()
+    public battleActionData GetStageAction()
     {
         if (stageActionInfo == null)
         {
@@ -383,14 +387,153 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return true;
     }
 
-    public bool AddMountItemData(UserMountItemData itemData)
+    public bool AddEquipmentData(UserEquipmentData equipmentData)
     {
-        if (mountItemDic.ContainsKey(itemData.index) == true)
+        if (equipmentDic.ContainsKey(equipmentData.index) == true)
         {
             return false;
         }
 
-        mountItemDic.Add(itemData.index, itemData);
+        equipmentDic.Add(equipmentData.index, equipmentData);
+        return true;
+    }
+
+    public bool AddItemData(UserItemData itemData)
+    {
+        if (itemDic.ContainsKey(itemData.index) == true)
+        {
+            // 최대 개수 넘었을때에 대한 처리가 필요
+            itemDic[itemData.index].count = itemDic[itemData.index].count + itemData.count;
+        }
+        else
+        {
+            itemDic.Add(itemData.index, itemData);
+        }
+        return true;
+    }
+
+    public bool AddItemDataList(List<UserItemData> itemDataList)
+    {
+        for(int i = 0; i < itemDataList.Count; i++)
+        {
+            if(AddItemData(itemDataList[i]) == false)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    #endregion
+
+    #region DelFunction
+
+    public bool DelServant(int index)
+    {
+        if(servantDic.ContainsKey(index) == false)
+        {
+            return false;
+        }
+
+        servantDic.Remove(index);
+        return true;
+    }
+
+    public bool DelServantList(List<int> delServantIndexList)
+    {
+        for(int i = 0; i < delServantIndexList.Count; i++)
+        {
+            if(DelServant(delServantIndexList[i]) == false)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public bool DelMonster(int index)
+    {
+        if(monsterDic.ContainsKey(index) == false)
+        {
+            return false;
+        }
+
+        monsterDic.Remove(index);
+        return true;
+    }
+
+    public bool DelMonsterList(List<int> delMonsterIndexList)
+    {
+        for(int i = 0; i < delMonsterIndexList.Count; i++)
+        {
+            if(DelMonster(delMonsterIndexList[i]) == false)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public bool DelEquipment(int index)
+    {
+        if(equipmentDic.ContainsKey(index) == false)
+        {
+            return false;
+        }
+
+        equipmentDic.Remove(index);
+        return true;
+    }
+
+    public bool DelEquipmentList(List<int> delEquipmentIndexList)
+    {
+        for(int i = 0; i < delEquipmentIndexList.Count; i++)
+        {
+            if(DelEquipment(delEquipmentIndexList[i]) == false)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public bool DelItem(UserItemData itemData)
+    {
+        if(itemDic.ContainsKey(itemData.index) == false)
+        {
+            return false;
+        }
+
+        if(itemDic[itemData.index].count > itemData.count)
+        {
+            itemDic[itemData.index].count = itemDic[itemData.index].count - itemData.count;
+        }
+        else if(itemDic[itemData.index].count == itemData.count)
+        {
+            itemDic.Remove(itemData.index);
+        }
+        else
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public bool DelItemList(List<UserItemData> delItemDataList)
+    {
+        for(int i = 0; i < delItemDataList.Count; i++)
+        {
+            if(DelItem(delItemDataList[i]) == false)
+            {
+                return false;
+            }
+        }
+
         return true;
     }
 

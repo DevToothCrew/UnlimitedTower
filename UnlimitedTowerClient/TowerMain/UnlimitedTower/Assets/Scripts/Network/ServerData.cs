@@ -33,6 +33,15 @@ public class statusInfo
 };
 
 [Serializable]
+public class inventoryInfo
+{
+    public int servant_inventory;
+    public int monster_inventory;
+    public int equipment_inventory;
+    public int item_inventory;
+}
+
+[Serializable]
 public class servantInfo
 {
     public int state;
@@ -42,6 +51,8 @@ public class servantInfo
     public appearInfo appear = new appearInfo();
     public statusInfo status = new statusInfo();
     public List<int> equip_slot = new List<int>();
+    public List<int> passive_skill = new List<int>();
+    public List<int> active_skill = new List<int>();
 };
 
 
@@ -54,12 +65,15 @@ public class monsterInfo
     public int exp;
     public int grade;
     public int upgrade;
+    public int monster_class;
     public statusInfo status = new statusInfo();
+    public List<int> passive_skill = new List<int>();
+    public List<int> active_skill = new List<int>();
 };
 
 
 [Serializable]
-public class itemInfo
+public class equipmentInfo
 {
     public int id;          //아이템 리소스 아이디
     public int state;       //아이템 현재 상태
@@ -73,9 +87,15 @@ public class itemInfo
     public statusInfo status = new statusInfo(); //기본 힘,민,지 추가 힘,민,지
 };
 
+[Serializable]
+public class itemInfo
+{
+    public int id;          //아이템 리소스 아이디
+    public int type;        //장착 타입
+    public int count;       //갯수
+};
+
 #endregion
-
-
 
 #region Data
 
@@ -84,10 +104,11 @@ public class UserLoginData
 { 
     public List<servantData> servant_list = new List<servantData>();
     public List<monsterData> monster_list = new List<monsterData>();
+    public List<equipmentData> equipment_list = new List<equipmentData>();
     public List<itemData> item_list = new List<itemData>();
     public string  token;
     public partyData party_info = new partyData();
-    public userData userinfo = new userData();
+    public userData user_data = new userData();
     public string eos;
 }
 
@@ -96,7 +117,8 @@ public class userData
 {
     public string user;
     public int state; //씬 상태
-    public servantInfo hero = new servantInfo();    // Hero는 Index 0 , Party_Num 1 을 무조건 포함
+    public int exp;
+    public inventoryInfo inventory_info;
 }
 
 [Serializable]
@@ -115,11 +137,50 @@ public class monsterData
     public monsterInfo monster = new monsterInfo();
 }
 
+[Serializable]  //equipment
+public class equipmentData
+{
+    public int index;
+    public equipmentInfo equipment = new equipmentInfo();
+}
+
 [Serializable]
 public class itemData
 {
     public int index;
     public itemInfo item = new itemInfo();
+}
+
+[Serializable]
+public class servantGrindResultData
+{
+    // 무엇이 어떻게 추가될지 모른다.
+    public List<int> grindServantIndexList = new List<int>();
+    public List<itemData> itemList = new List<itemData>();
+}
+
+[Serializable]
+public class sellMonsterResultData
+{
+    // 무엇이 어떻게 추가될지 모른다.
+    public List<int> sellMonsterIndexList = new List<int>();
+    public List<itemData> itemList = new List<itemData>();
+}
+
+[Serializable]
+public class sellEquipmentResultData
+{
+    // 무엇이 어떻게 추가될지 모른다.
+    public List<int> sellEquipmentIndexList = new List<int>();
+    public List<itemData> itemList = new List<itemData>();
+}
+
+[Serializable]
+public class sellItemResultData
+{
+    // 무엇이 어떻게 추가될지 모른다.
+    public List<itemData> sellItemDataList = new List<itemData>();
+    public List<itemData> itemList = new List<itemData>();
 }
 
 [Serializable]
@@ -140,7 +201,7 @@ public class gachaMonsterData
 public class gachaItemData
 {
     public int result_type;
-    public itemData data = new itemData();
+    public equipmentData data = new equipmentData();
 }
 
 [Serializable]
@@ -151,9 +212,16 @@ public class partyData
     public List<int> servant_list = new List<int>();
     public List<int> monster_list = new List<int>();
 }
-//--------------battle fix--------------------//
-//add by canie
-//-----------------------------------------------------------------------//
+
+[Serializable]
+public class mailOpenResultData
+{
+    public List<int> mail_open_index_list;
+    public List<servantData> servant_data_list = new List<servantData>();
+    public List<monsterData> monster_data_list = new List<monsterData>();
+    public List<equipmentData> equip_data_list = new List<equipmentData>();
+    public List<itemData> item_data_list = new List<itemData>();
+}
 
 [Serializable]
 public class actionInfo
@@ -165,26 +233,22 @@ public class actionInfo
 }
 
 [Serializable]
-public class battleActionInfo
+public class characterActionData
 {
     public int my_position;
     public int action_type;         //2 공격 , 3 스킬
 
-    public List<actionInfo> battle_action_list = new List<actionInfo>();
+    public List<actionInfo> action_info_list = new List<actionInfo>();
 }
 
 [Serializable]
-public class stageActionInfoData
+public class battleActionData
 {
     public string user;
     public int turn;
-    public List<battleActionInfo> battle_info_list = new List<battleActionInfo>();
+    public List<characterActionData> character_action_list = new List<characterActionData>();
 }
 
-
-/// <summary>
-/// 배틀 상태 데이터
-/// </summary>
 [Serializable]
 public class skillInfo
 {
@@ -212,7 +276,7 @@ public class buffInfo
 }
 
 [Serializable]
-public class stageState
+public class characterStateData
 {
     public int position;
     public int index;
@@ -245,24 +309,40 @@ public class stageStateData
     public string enemy_user;
     public int stage_number;
     public int state;
-    public List<stageState> my_state_list = new List<stageState>();
-    public List<stageState> enemy_state_list = new List<stageState>();
+    public List<characterStateData> my_state_list = new List<characterStateData>();
+    public List<characterStateData> enemy_state_list = new List<characterStateData>();
 }
 
-
-//add by canie
 [Serializable]
 public class stageRewardData
 {
+    // RewardData에 User가 왜들어가지?
     public string user;
+    // Money는 ItemInfo로 통합?
     public UInt64 reward_money;
     public List<int> get_exp_list = new List<int>();
-    public List<servantInfo> get_servant_list = new List<servantInfo>();
-    public List<monsterInfo> get_monster_list = new List<monsterInfo>();
-    public List<itemInfo> get_item_list = new List<itemInfo>();
+    // Reward에 Info로 들어가는게 맞는가? Data로 들어가야 하는게 아닌가? 인덱스를 모를텐데?
+    public List<servantData> get_servant_list = new List<servantData>();
+    public List<monsterData> get_monster_list = new List<monsterData>();
+    public List<equipmentData> get_equipment_list = new List<equipmentData>();
+    public List<itemData> get_item_list = new List<itemData>();
 }
 
+[Serializable]
+public class monsterUpgradeResultData
+{
+    public bool is_success;
+    public monsterData main_monster_data;
+    public int sub_monster_index;
+}
 
+[Serializable]
+public class equipmentUpgradeResultData
+{
+    public bool is_success;
+    public equipmentData main_equipment_data;
+    public List<itemData> add_item_list;
+}
 
 [Serializable]
 public class userResourceData
@@ -284,39 +364,123 @@ public class errorCode
 
 #endregion
 
-#region ScatterData
+#region RequestJsonData
 
-[System.Serializable]
-public class JsonParty
+[Serializable]
+public class GachaJson
 {
-    public int partyNum = 0;
-    public List<int> partyList = new List<int>();
+    public int gachaIndex;
 }
 
-[System.Serializable]
-public class TestParty
+[Serializable]
+public class PartySaveJson
 {
     public int partyNum = 0;
     public List<int> servantList = new List<int>();
     public List<int> monsterList = new List<int>();
 }
 
-[System.Serializable]
-public class TestJsonBattleAction
-{
-    public int heroTargetIndex = 0;
-    public int heroActionType = 0;
-
-    public int monsterTargetIndex = 0;
-    public int monsterActionType = 0;
-
-}
-
-[System.Serializable]
-public class TestJsonStartBattle
+[Serializable]
+public class StageStartJson
 {
     public int partyNum = 0;
     public int stageNum = 0;
 }
+
+[Serializable]
+public class BattleActionJson
+{
+    public int turn;
+}
+
+[Serializable]
+public class StageRewardJson
+{
+    public int turn;
+}
+
+//add owen
+
+[Serializable]
+public class ServantGrindJson
+{
+    public List<int> servantIndexList;
+}
+
+[Serializable]
+public class MonsterSellJson
+{
+    public List<int> monsterIndexList;
+}
+
+[Serializable]
+public class EquipmentSellJson
+{
+    public List<int> equipmentIndexList;
+}
+
+[Serializable]
+public class ItemSellJson
+{
+    public List<int> itemIndexList;
+    public int count;
+}
+
+[Serializable]
+public class EquipServantJson
+{
+    public int servantIndex;
+    public int equipitemIndex;
+}
+
+[Serializable]
+public class UnequipServantJson
+{
+    public int servantIndex;
+    public int equipitemIndex;
+}
+
+[Serializable]
+public class MonsterUpgradeJson
+{
+    public int mainMonsterIndex;
+    public int subMonsterIndex;
+}
+
+[Serializable]
+public class EquipmentUpgradeJson
+{
+    public int mainEquipmentIndex;
+    public List<int> addItemIndexList;
+}
+
+[Serializable]
+public class BuyItemJson
+{
+    public int index;
+    public int itemCount;
+}
+
+[Serializable]
+public class BuyInventoryJson
+{
+    public int type;
+    public int itemCount;
+}
+
+[Serializable]
+public class BuyRoyalservantJson
+{
+    public int servantIndex;
+}
+
+[Serializable]
+public class MailOpenJson
+{
+    public List<int> mailOpenIndexList;
+}
+
+
+
 
 #endregion

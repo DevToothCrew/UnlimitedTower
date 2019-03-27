@@ -23,9 +23,9 @@ public class UTLobbyUIManager : MonoBehaviour {
         UTUMSProvider.Instance.RequestLogout();
     }
 
-    public void BattleAction(int turn)
+    public void BattleAction(int getTurn)
     {
-        UTUMSProvider.Instance.RequestBattleAction(turn);
+        UTUMSProvider.Instance.RequestBattleAction(getTurn);
     }
 
     [ContextMenu("Start")]
@@ -36,9 +36,9 @@ public class UTLobbyUIManager : MonoBehaviour {
         UTUMSProvider.Instance.RequestStageStart(stageNum, partyNum);
     }
 
-    public void StageResult(int stageNum)
+    public void StageExit()
     {
-        UTUMSProvider.Instance.RequestStageResult(stageNum);
+        UTUMSProvider.Instance.RequestStageExit();
     }
 
     public void TowerStart()

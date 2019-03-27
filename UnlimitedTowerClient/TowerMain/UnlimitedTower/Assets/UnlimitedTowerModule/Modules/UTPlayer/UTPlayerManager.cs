@@ -56,9 +56,11 @@ public class UTPlayerManager : MonoBehaviour {
     [SerializeField]
     public class UTGachaData : IJSONableData
     {
+        public int gachaIndex;
+
         public string ToJson()
         {
-            JsonData data = Cheat.Inst.GetGachaResultData();
+            JsonData data = Cheat.Inst.GetGachaResultData(gachaIndex);
 
             return data.ToString();
         }
@@ -273,7 +275,8 @@ public class UTPlayerManager : MonoBehaviour {
                     thisBattleAction = data as UTBattleActionData ?? thisBattleAction;
                     string battleActionInfo = thisBattleAction.ToJson();
                     Debug.Log("[SUCCESS] user battleaction :" + battleActionInfo);
-                    PacketManager.Inst.ResponseBattleAction(battleActionInfo);
+                    battleActionData getBattleActionData = JsonUtility.FromJson<battleActionData>(battleActionInfo);
+                    PacketManager.Inst.ResponseBattleAction(getBattleActionData);
                 }
             };
 
@@ -288,7 +291,8 @@ public class UTPlayerManager : MonoBehaviour {
                     thisStageStart = data as UTStageStartData ?? thisStageStart;
                     string stageStartInfo = thisStageStart.ToJson();
                     Debug.Log("[SUCCESS] user stagestart :" + stageStartInfo);
-                    PacketManager.Inst.ResponseStageStart(stageStartInfo);
+                    stageStateData getBattleStageData = JsonUtility.FromJson<stageStateData>(stageStartInfo);
+                    PacketManager.Inst.ResponseStageStart(getBattleStageData);
                 }
             };
 
@@ -303,7 +307,8 @@ public class UTPlayerManager : MonoBehaviour {
                     thisStageResult = data as UTStageResultData ?? thisStageResult;
                     string stageResultInfo = thisStageResult.ToJson();
                     Debug.Log("[SUCCESS] user stageresult :" + stageResultInfo);
-                    PacketManager.Inst.ResponseStageResult(stageResultInfo);
+                    stageRewardData getReward = JsonUtility.FromJson<stageRewardData>(stageResultInfo);
+                    PacketManager.Inst.ResponseStageReward(getReward);
                 }
             };
 
@@ -318,7 +323,7 @@ public class UTPlayerManager : MonoBehaviour {
                     thisTowerStart = data as UTTowerStartData ?? thisTowerStart;
                     string towerStartInfo = thisTowerStart.ToJson();
                     Debug.Log("[SUCCESS] user towerstart :" + towerStartInfo);
-                    PacketManager.Inst.ResponseTowerStart(towerStartInfo);
+                    //PacketManager.Inst.ResponseTowerStart(towerStartInfo);
                 }
             };
 
@@ -333,7 +338,7 @@ public class UTPlayerManager : MonoBehaviour {
                     thisTowerResult = data as UTTowerResultData ?? thisTowerResult;
                     string towerResultInfo = thisTowerResult.ToJson();
                     Debug.Log("[SUCCESS] user towerresult :" + towerResultInfo);
-                    PacketManager.Inst.ResponseTowerResult(towerResultInfo);
+                    //PacketManager.Inst.ResponseTowerResult(towerResultInfo);
                 }
             };
 
