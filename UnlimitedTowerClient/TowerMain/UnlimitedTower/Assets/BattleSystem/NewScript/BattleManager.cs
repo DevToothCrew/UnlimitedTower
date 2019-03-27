@@ -29,7 +29,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     private GameObject testDefeat;
     private Text ErrorText;
     private GameObject ErrorBox;
-    
+
     [HideInInspector]
     public bool isBattleStart;
     [HideInInspector]
@@ -49,7 +49,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         testReward.SetActive(false);
         testDefeat.SetActive(false);
-        
+
         UserDataManager.Inst.stageReward = null;
     }
 
@@ -81,19 +81,19 @@ public class BattleManager : MonoSingleton<BattleManager>
             //     isSpaceCheck = true;
             // }
             BattleUIManager.Inst.OnDelay();
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             {
                 string battleActionInfo = Cheat.Inst.GetBattleActionData("devtooth", turnIndex);
                 Debug.Log("[SUCCESS] user battleaction :" + battleActionInfo);
-            
+
                 PacketManager.Inst.ResponseBattleAction(JsonUtility.FromJson<battleActionData>(battleActionInfo));
             }
-            #endif
-            #if UNITY_WEBGL
+#endif
+#if UNITY_WEBGL
             {
                 PacketManager.Inst.RequestBattleAction(turnIndex);
             }
-            #endif
+#endif
         }
     }
 
@@ -133,14 +133,21 @@ public class BattleManager : MonoSingleton<BattleManager>
                 }
             }
         }
-
-        Debug.Log("Turn++");
+        
         turnIndex++;
         isSpaceCheck = false;
         BattleUIManager.Inst.MyTurn();
 
-        if (UserDataManager.Inst.stageReward != null)
+        int myHp = 0, enemyHp = 0;
+        for (int i = 0; i < 10; i++)
         {
+            myHp += NowHp[i];
+            enemyHp += NowHp[i];
+        }
+
+        if (myHp == 0 || enemyHp == 0)
+        {
+            PacketManager.Inst.RequestStageReward();
             stageRewardData rewardData = UserDataManager.Inst.GetStageReward();
             if (rewardData == null)
             {
@@ -173,7 +180,6 @@ public class BattleManager : MonoSingleton<BattleManager>
             {
                 testDefeat.SetActive(true);
             }
-
             UserDataManager.Inst.stageReward = null;
         }
     }
@@ -221,7 +227,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         box.isTrigger = true;
         character.tag = "Character";
     }
-    
+
     // 캐릭터 그리드 셋팅
     public void SettinGrid(int index)
     {
@@ -282,14 +288,12 @@ public class BattleManager : MonoSingleton<BattleManager>
             else
             {
                 character[stageStateInfo.my_state_list[i].position] = Instantiate(Resources.Load("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResourceModel(stageStateInfo.my_state_list[i].id)) as GameObject,
-
                     CharacterParent.transform.GetChild(0));
                 character[stageStateInfo.my_state_list[i].position].name = "Monster : " + stageStateInfo.my_state_list[i].position.ToString();
                 character[stageStateInfo.my_state_list[i].position].AddComponent<CharacterIndex>().index = stageStateInfo.my_state_list[i].position;
                 SettingBoxCollider(character[stageStateInfo.my_state_list[i].position]);
                 animator[stageStateInfo.my_state_list[i].position] = character[stageStateInfo.my_state_list[i].position].GetComponent<Animator>();
             }
-            Debug.Log(i + "th MyCharacter Spawn");
             SettinGrid(stageStateInfo.my_state_list[i].position);
         }
     }
@@ -306,10 +310,9 @@ public class BattleManager : MonoSingleton<BattleManager>
             SettingBoxCollider(character[stageStateInfo.enemy_state_list[i].position]);
             animator[stageStateInfo.enemy_state_list[i].position] = character[stageStateInfo.enemy_state_list[i].position].GetComponent<Animator>();
             SettinGrid(stageStateInfo.enemy_state_list[i].position);
-            Debug.Log(i + "th EnemyCheracter Spawn");
         }
     }
-    
+
     // 캐릭터 위치 배치
     public void SettingPosition()
     {
@@ -317,13 +320,17 @@ public class BattleManager : MonoSingleton<BattleManager>
         {
             if (i < 5)
             {
-                character[i].transform.position = new Vector3(-4.2f + 2.1f * (positionOrder[i] % 5), 0, -4.2f);
-                character[i + 10].transform.position = new Vector3(4.2f - 2.1f * (positionOrder[i] % 5), 0, 4.2f);
+                if (character[i] != null)
+                    character[i].transform.position = new Vector3(-4.2f + 2.1f * (positionOrder[i] % 5), 0, -4.2f);
+                if (character[i + 10] != null)
+                    character[i + 10].transform.position = new Vector3(4.2f - 2.1f * (positionOrder[i] % 5), 0, 4.2f);
             }
             else
             {
-                character[i].transform.position = new Vector3(-4.2f + 2.1f * (positionOrder[i] % 5), 0, -2.1f);
-                character[i + 10].transform.position = new Vector3(4.2f - 2.1f * (positionOrder[i] % 5), 0, 2.1f);
+                if (character[i] != null)
+                    character[i].transform.position = new Vector3(-4.2f + 2.1f * (positionOrder[i] % 5), 0, -2.1f);
+                if (character[i + 10] != null)
+                    character[i + 10].transform.position = new Vector3(4.2f - 2.1f * (positionOrder[i] % 5), 0, 2.1f);
             }
         }
     }
@@ -349,13 +356,13 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         for (int i = 0; i < stageStateInfo.my_state_list.Count; i++)
         {
-            MaxHp[stageStateInfo.my_state_list[i].position] = Calculator.GetMaxHp(stageStateInfo.my_state_list[i].status);
+            MaxHp[stageStateInfo.my_state_list[i].position] = Calculator.GetMaxHp(stageStateInfo.my_state_list[i].status) / 100;
             NowHp[stageStateInfo.my_state_list[i].position] = stageStateInfo.my_state_list[i].now_hp / 100;
         }
 
         for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
         {
-            MaxHp[stageStateInfo.enemy_state_list[i].position] = Calculator.GetMaxHp(stageStateInfo.enemy_state_list[i].status);
+            MaxHp[stageStateInfo.enemy_state_list[i].position] = Calculator.GetMaxHp(stageStateInfo.enemy_state_list[i].status) / 100;
             NowHp[stageStateInfo.enemy_state_list[i].position] = stageStateInfo.enemy_state_list[i].now_hp / 100;
         }
     }

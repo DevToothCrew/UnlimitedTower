@@ -5,6 +5,7 @@ using UnityEngine;
 public class DestroyTime : MonoBehaviour {
     public float time;
     public bool isFade;
+    public bool isActive;
     public float FadeTime;
 
     private void OnEnable()
@@ -26,6 +27,13 @@ public class DestroyTime : MonoBehaviour {
                 yield return new WaitForSeconds(0.01f);
             }
         }
-        Destroy(gameObject);
+        if (isActive)
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }
