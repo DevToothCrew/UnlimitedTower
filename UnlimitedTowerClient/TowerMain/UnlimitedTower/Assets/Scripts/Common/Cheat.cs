@@ -329,9 +329,75 @@ public class Cheat : MonoSingleton<Cheat>
             return null;
         }
 
+        DBMonsterUpgradeData dbMonsterUpgradeData = CSVData.Inst.GetMonsterUpgradeData(mainMonster.upgradeCount, subMonster.upgradeCount);
+        if(dbMonsterUpgradeData == null)
+        {
+            Debug.Log("Invalid Monster Key : " + ((mainMonster.upgradeCount * 100) + subMonster.upgradeCount));
+            return null;
+        }
+        
+        int successNum = Convert.ToInt32(dbMonsterUpgradeData.successPer * (double)100000);
+        Debug.Log("Success Per : " + dbMonsterUpgradeData.successPer + ", Int : " + successNum);
+        int randNum = UnityEngine.Random.Range(0, (100000 * 100));
+
         monsterUpgradeResultData getMonsterUpgradeResultData = new monsterUpgradeResultData();
+        getMonsterUpgradeResultData.main_monster_data = GetMonsterData(mainMonster);
+
+        if (randNum <= successNum)
+        {
+            Debug.Log("Success");
+            getMonsterUpgradeResultData.is_success = true;
+            getMonsterUpgradeResultData.main_monster_data.monster.upgrade += 1;
+        }
+        else
+        {
+            Debug.Log("Fail");
+            getMonsterUpgradeResultData.is_success = false;
+
+            if (getMonsterUpgradeResultData.main_monster_data.monster.upgrade > 0)
+            {
+                getMonsterUpgradeResultData.main_monster_data.monster.upgrade -= 1;
+            }
+        }
+
+        getMonsterUpgradeResultData.sub_monster_index = subMonster.index;
+        getMonsterUpgradeResultData.need_item_list = new List<itemData>();
+        itemData needItem = new itemData();
+        needItem.item = dbMonsterUpgradeData.needItem;
+        getMonsterUpgradeResultData.need_item_list.Add(needItem);
 
         return JsonMapper.ToJson(getMonsterUpgradeResultData).ToString();
+    }
+
+    public monsterData GetMonsterData(UserMonsterData getMonsterData)
+    {
+        // 임시
+        monsterData newMonsterData = new monsterData();
+        newMonsterData.index = getMonsterData.index;
+        newMonsterData.monster = new monsterInfo();
+        newMonsterData.monster.state = 0;
+        newMonsterData.monster.id = getMonsterData.id;
+        DBMonsterData monsterData = CSVData.Inst.GetMonsterData(newMonsterData.monster.id);
+        if(monsterData == null)
+        {
+            Debug.Log("Invalid monster Data");
+            return null;
+        }
+
+        newMonsterData.monster.type = monsterData.elementType;
+        newMonsterData.monster.grade = getMonsterData.gradeNum;
+        newMonsterData.monster.exp = getMonsterData.exp;
+        newMonsterData.monster.upgrade = getMonsterData.upgradeCount;
+        newMonsterData.monster.monster_class = monsterData.classType;
+        newMonsterData.monster.status.basic_str = getMonsterData.status.basicStr;
+        newMonsterData.monster.status.basic_dex = getMonsterData.status.basicDex;
+        newMonsterData.monster.status.basic_int = getMonsterData.status.basicInt;
+        newMonsterData.monster.status.plus_str = getMonsterData.status.plusStr;
+        newMonsterData.monster.status.plus_dex = getMonsterData.status.plusDex;
+        newMonsterData.monster.status.plus_int = getMonsterData.status.plusInt;
+        // 스킬 추가 필요
+
+        return newMonsterData;
     }
 
     public string GetBattleActionData(int heroTarget, int heroAction, int monsterTarget, int monsterAction)

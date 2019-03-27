@@ -334,6 +334,7 @@ public class monsterUpgradeResultData
     public bool is_success;
     public monsterData main_monster_data;
     public int sub_monster_index;
+    public List<itemData> need_item_list;
 }
 
 [Serializable]

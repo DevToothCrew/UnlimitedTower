@@ -785,6 +785,7 @@ public class DBMonsterUpgradeData
 {
     public int id;
     public double successPer;
+    public itemInfo needItem;
 }
 
 

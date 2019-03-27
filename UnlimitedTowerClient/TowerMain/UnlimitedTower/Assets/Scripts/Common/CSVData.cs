@@ -243,16 +243,21 @@ public class CSVData : MonoSingleton<CSVData> {
 
         for (var i = 3; i < data.Count; i++)
         {
-            //Debug.Log("index " + (i).ToString()
-            //    + " : " + data[i]["id"]
-            //    + " " + data[i]["grade_1"]
-            //    + " " + data[i]["grade_2"]
-            //    + " " + data[i]["success_per"]
-            //    );
+            Debug.Log("index " + (i).ToString()
+                + " : " + data[i]["id"]
+                + " " + data[i]["grade_1"]
+                + " " + data[i]["grade_2"]
+                + " " + data[i]["success_per"]
+                + " " + data[i]["upgrade_price_id"]
+                + " " + data[i]["upgrade_price_count"]
+                );
 
             DBMonsterUpgradeData upgradeData = new DBMonsterUpgradeData();
             upgradeData.id = (Convert.ToInt32(data[i]["grade_1"]) * 100) + Convert.ToInt32(data[i]["grade_2"]);
             upgradeData.successPer = Convert.ToDouble(data[i]["success_per"]);
+            upgradeData.needItem = new itemInfo();
+            upgradeData.needItem.id = Convert.ToInt32(data[i]["upgrade_price_id"]);
+            upgradeData.needItem.count = Convert.ToInt32(data[i]["upgrade_price_count"]);
 
             DBMonsterUpgradeDataDic.Add(upgradeData.id, upgradeData);
         }
@@ -339,17 +344,27 @@ public class CSVData : MonoSingleton<CSVData> {
         //return GetLocalizationText(nameIndex);
     }
 
-    public double GetMonsterUpgradePer(int mainMonsterUpgrade, int subMonsterUpgrade)
+    public DBMonsterData GetMonsterData(int id)
+    {
+        if(DBMonsterDataDic.ContainsKey(id) == false)
+        {
+            return null;
+        }
+
+        return DBMonsterDataDic[id];
+    }
+
+    public DBMonsterUpgradeData GetMonsterUpgradeData(int mainMonsterUpgrade, int subMonsterUpgrade)
     {
         int id = (mainMonsterUpgrade * 100) + subMonsterUpgrade;
 
         if (DBMonsterUpgradeDataDic.ContainsKey(id) == false)
         {
             Debug.LogError("MonsterUpgradeDataDic Error");
-            return 0;
+            return null;
         }
 
-        return DBMonsterUpgradeDataDic[id].successPer;
+        return DBMonsterUpgradeDataDic[id];
     }
 
     #endregion
