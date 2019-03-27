@@ -112,20 +112,20 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         for (int i = 0; i < stageActionInfo.character_action_list.Count; i++)
         {
-            if (NowHp[stageActionInfo.battle_info_list[i].my_position] > 0)
+            if (NowHp[stageActionInfo.character_action_list[i].my_position] > 0)
             {
-                if (stageActionInfo.battle_info_list[i].action_type == 2)
+                if (stageActionInfo.character_action_list[i].action_type == 2)
                 {
-                    character[stageActionInfo.battle_info_list[i].my_position].GetComponent<BasicAttack>().Attack(stageActionInfo.battle_info_list[i]);
+                    character[stageActionInfo.character_action_list[i].my_position].GetComponent<BasicAttack>().Attack(stageActionInfo.character_action_list[i]);
 
                     yield return new WaitUntil(() => isAfterDelay == true);
                     isAfterDelay = false;
                 }
-                else if (stageActionInfo.battle_info_list[i].action_type == 3)
+                else if (stageActionInfo.character_action_list[i].action_type == 3)
                 {
-                    if (stageActionInfo.battle_info_list[i].my_position < 10)
+                    if (stageActionInfo.character_action_list[i].my_position < 10)
                     {
-                        SkillManager.Inst.SendMessage("Skill_" + GetMyState(stageActionInfo.battle_info_list[i].my_position).active_skill_list[0].id.ToString(), stageActionInfo.battle_info_list[i]);
+                        SkillManager.Inst.SendMessage("Skill_" + GetMyState(stageActionInfo.character_action_list[i].my_position).active_skill_list[0].id.ToString(), stageActionInfo.character_action_list[i]);
 
                         yield return new WaitUntil(() => isAfterDelay == true);
                         isAfterDelay = false;
@@ -299,7 +299,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
         {
-            character[stageStateInfo.enemy_state_list[i].position] = Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResource(stageStateInfo.enemy_state_list[i].id)),
+            character[stageStateInfo.enemy_state_list[i].position] = Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResourceModel(stageStateInfo.enemy_state_list[i].id)),
                     CharacterParent.transform.GetChild(1));
             character[stageStateInfo.enemy_state_list[i].position].name = "Monster : " + stageStateInfo.enemy_state_list[i].position.ToString();
             character[stageStateInfo.enemy_state_list[i].position].AddComponent<CharacterIndex>().index = stageStateInfo.enemy_state_list[i].position;
