@@ -567,7 +567,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         Debug.Log("Json start : " + json);
 
-        Request<itemInfo>("BuyItem",
+        Request<itemData>("BuyItem",
                 onSuccess: ResponseBuyItem,
                 onFailed: msg =>
                 {
@@ -1136,7 +1136,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 상점 아이템 구매
-    public void ResponseBuyItem(itemInfo getBuyItemData)
+    public void ResponseBuyItem(itemData getBuyItemData)
     {
         Debug.Log("소모품 구매 !");
 
