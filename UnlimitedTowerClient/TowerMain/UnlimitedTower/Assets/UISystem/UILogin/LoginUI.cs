@@ -24,6 +24,9 @@ public class LoginUI : MonoBehaviour {
         {
             buttonClick = true;
 
+            // 로딩씬에 추가가 되야할듯 임시로 로그인에 넣어둠
+            CSVData.Inst.SetCSVData();
+
 #if UNITY_EDITOR
             Cheat.Inst.RequestLoginCheat();
 #else
