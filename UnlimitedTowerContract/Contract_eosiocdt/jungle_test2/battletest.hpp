@@ -404,7 +404,7 @@ CONTRACT battletest : public contract
     void substr_value(std::string _value, std::vector<std::string> & _value_list, std::vector<size_t> & _size_list, uint32_t _size);
     ACTION dbinsert(std::string _table, std::string _value);
     ACTION dberase(std::string _table, std::string _value);
-    ACTION dbinit();
+    ACTION dbinit(std::string _table);
 
     void insert_job(std::string _status, uint64_t _job, uint64_t _min, uint64_t _max);
     void insert_head(uint64_t _appear);
@@ -627,7 +627,7 @@ CONTRACT battletest : public contract
 #pragma endregion
 
 #pragma region gacha titem
-    struct item_info
+    struct equip_info
     {
         uint32_t id;          //아이템 리소스 아이디
         uint32_t state;       //아이템 현재 상태
@@ -641,13 +641,13 @@ CONTRACT battletest : public contract
         status_info status; //기본 힘,민,지 추가 힘,민,지
     };
 
-    TABLE titem
+    TABLE tequip
     {
         uint64_t index;
-        item_info item;
+        equip_info equipment;
         uint64_t primary_key() const { return index; }
     };
-    typedef eosio::multi_index<"titem"_n, titem> user_equip_items;
+    typedef eosio::multi_index<"tequip"_n, tequip> user_equip_items;
 
     TABLE tconsumable
     {
@@ -665,7 +665,7 @@ CONTRACT battletest : public contract
     {
         servant = 1,
         monster,
-        item,
+        equip,
     };
 
     struct result_info
@@ -817,18 +817,6 @@ CONTRACT battletest : public contract
 #pragma endregion
 
 #pragma region login table
-    // //struct hero_info
-    struct hero_info
-    {
-        uint32_t state;   //히어로 상태
-        uint32_t exp = 0; //히어로 경험치
-        uint32_t job = 0; //히어로 직업
-        uint32_t stat_point = 0;
-        appear_info appear;               //히어로 외형 정보 <-젠더 추가해야함
-        status_info status;               //기본 힘,민,지 추가 힘,민,지
-        std::vector<uint32_t> equip_slot; //히어로 장비 리스트
-    };
-
     TABLE tuserauth
     {
         eosio::name user;
@@ -840,10 +828,8 @@ CONTRACT battletest : public contract
         uint32_t current_item_inventory = 0;
         uint32_t servant_inventory = 50;
         uint32_t monster_inventory = 50;
-        uint32_t equipitem_inventory = 50;
+        uint32_t equipment_inventory = 50;
         uint32_t item_inventory = 50;
-        
-        //hero_info hero;
         uint64_t primary_key() const { return user.value; }
     };
 
@@ -1233,15 +1219,40 @@ CONTRACT battletest : public contract
     //------------------------------------------------------------------------//
     //---------------------------battle_reward_table--------------------------//
     //------------------------------------------------------------------------//
+    struct servant_data
+    {
+        uint64_t index;
+        uint32_t party_number;
+        servant_info servant;
+    };
+    struct monster_data
+    {
+        uint64_t index;
+        uint32_t party_number;
+        monster_info monster;
+    };
+    struct equip_data
+    {
+        uint64_t index;
+        equip_info equipment;
+    };
+    struct item_data
+    {
+        uint64_t itemid;
+        uint32_t type;
+        uint64_t count;
+    };
+
 #pragma region battle action table
     TABLE tclearreward
     {
         eosio::name user;
         uint64_t reward_money;
         std::vector<uint32_t> get_exp_list;
-        std::vector<servant_info> get_servant_list;
-        std::vector<monster_info> get_monster_list;
-        std::vector<item_info> get_item_list;
+        std::vector<servant_data> get_servant_list;
+        std::vector<monster_data> get_monster_list;
+        std::vector<equip_data> get_equipment_list;
+        std::vector<item_data> get_item_list;
         uint64_t primary_key() const { return user.value; }
     };
     typedef eosio::multi_index<"tclearreward"_n, tclearreward> battle_reward_list;
