@@ -1071,30 +1071,76 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void ResponseEquipServant(servantData getServantData)
     {
         Debug.Log("서번트 장비 장착 !");
+
+        if(getServantData.index == 0)
+        {
+            Debug.Log("Invalid Servant");
+            return;
+        }
+        
+        UserServantData equipmentServantData = ParseServant(getServantData);
+
+        if (equipmentServantData == null)
+        {
+            Debug.Log("Invalid ParseEquipment");
+            return;
+        }
+        UserDataManager.Inst.SetServant(equipmentServantData);
+        
     }
 
     // 장비 해제
     public void ResponseUnequipServant(servantData getServantData)
     {
         Debug.Log("서번트 장비 장착해제 !");
+
+        UserServantData unequipmentServantData = ParseServant(getServantData);
+
+        UserDataManager.Inst.DelEquipment(getServantData.index);
     }
 
     // 몬스터 강화
     public void ResponseMonsterUpgrade(monsterUpgradeResultData getMonsterUpgradeResultData)
     {
         Debug.Log("몬스터 업그레이드 !");
+
+        UserMonsterData monsterData = ParseMonster(getMonsterUpgradeResultData.main_monster_data);
+        if (monsterData == null)
+        {
+            Debug.Log("Invalid ParseMonster");
+            return;
+        }
+        UserDataManager.Inst.SetMonster(monsterData);
+        UserDataManager.Inst.DelMonster(getMonsterUpgradeResultData.sub_monster_index);
     }
 
     // 아이템 강화
     public void ResponseEquipmentUpgrade(equipmentUpgradeResultData getEquipmentUpgradeResultData)
     {
         Debug.Log("장비 업그레이드 !");
+
+        UserEquipmentData equipmentData = ParseEquipment(getEquipmentUpgradeResultData.main_equipment_data);
+
+        if (getEquipmentUpgradeResultData.is_success == true)
+        {
+            UserDataManager.Inst.SetEquipment(equipmentData);
+        }
+        else
+        {
+            UserDataManager.Inst.DelEquipment(getEquipmentUpgradeResultData.main_equipment_data.index);
+        }
+        for (int i = 0; i < getEquipmentUpgradeResultData.add_item_list.Count; i++)
+        {
+            UserDataManager.Inst.DelEquipment(getEquipmentUpgradeResultData.add_item_list[i].index);
+        }
     }
 
     // 상점 아이템 구매
     public void ResponseBuyItem(itemInfo getBuyItemData)
     {
         Debug.Log("소모품 구매 !");
+
+        UserItemData itemData = ParseItem(getBuyItemData);
     }
 
     // 인벤토리 구매

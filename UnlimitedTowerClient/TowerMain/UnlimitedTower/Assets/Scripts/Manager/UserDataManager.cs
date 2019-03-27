@@ -109,6 +109,66 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         stageReward = getStageReward;
     }
 
+    public void SetMonster(UserMonsterData monsterData)
+    {
+        if(monsterDic.ContainsKey(monsterData.index) == true)
+        {
+            monsterDic[monsterData.index] = monsterData;
+        }
+        else
+        {
+            monsterDic.Add(monsterData.index, monsterData);
+        }
+    }
+
+    public void SetEquipment(UserEquipmentData equipmentData)
+    {
+        if(equipmentDic.ContainsKey(equipmentData.index) == true)
+        {
+            equipmentDic[equipmentData.index] = equipmentData;
+        }
+        else
+        {
+            equipmentDic.Add(equipmentData.index, equipmentData);
+        }
+    }
+
+    public void SetServant(UserServantData servantData)
+    {
+        if (servantDic.ContainsKey(servantData.index) == true)
+        {
+            servantDic[servantData.index] = servantData;
+        }
+        else
+        {
+            servantDic.Add(servantData.index, servantData);
+        }
+    }
+
+    public void SetItem(UserItemData itemData)
+    {
+        if (itemDic.ContainsKey(itemData.index) == true)
+        {
+            itemDic[itemData.index] = itemData;
+        }
+        else
+        {
+            itemDic.Add(itemData.index, itemData);
+        }
+    }
+
+    //public void SetMail(UserMailData mailData)
+    //{
+    //    if (mailDic.ContainsKey(mailData.index) == true)
+    //    {
+    //        mailDic[mailData.index] = mailData;
+    //    }
+    //    else
+    //    {
+    //        mailDic.Add(mailData.index, mailData);
+    //    }
+    //}
+
     #endregion
 
     #region GetFunction
