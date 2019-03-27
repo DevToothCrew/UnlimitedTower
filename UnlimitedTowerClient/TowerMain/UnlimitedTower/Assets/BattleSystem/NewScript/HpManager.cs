@@ -18,11 +18,6 @@ public class HpManager : MonoBehaviour {
         }
     }
 
-    private void Start()
-    {
-        
-    }
-
     private void Update()
     {
         for (int i = 0; i < 20; i++)

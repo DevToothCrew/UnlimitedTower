@@ -125,4 +125,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   time: 2
   isFade: 1
+  isActive: 1
   FadeTime: 0.3
