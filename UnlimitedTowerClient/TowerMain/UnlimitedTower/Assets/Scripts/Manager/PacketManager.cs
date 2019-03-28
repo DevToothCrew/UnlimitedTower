@@ -219,7 +219,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         string json = JsonUtility.ToJson(gacha);
 
-        Request<string>("Gacha",
+        Request("Gacha",
             body: json,
             onSuccess: ResponseGacha,
             onFailed: msg =>
