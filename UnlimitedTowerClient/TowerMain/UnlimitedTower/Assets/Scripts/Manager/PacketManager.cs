@@ -1206,7 +1206,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         userInfo.userUTG = ulong.Parse(getUserData.token);
 
         Debug.Log("getEOS : " + getUserData.eos);
-        Debug.Log("getGold : " + getUserData.token);
+        Debug.Log("getUTG : " + getUserData.token);
 
         userInfo.sceneState = (SCENE_STATE)getUserData.user_data.state;
         Debug.Log("State : " + (SCENE_STATE)getUserData.user_data.state);

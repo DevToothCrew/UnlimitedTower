@@ -109,10 +109,10 @@ public class UserLoginData
     public List<monsterData> monster_list = new List<monsterData>();
     public List<equipmentData> equipment_list = new List<equipmentData>();
     public List<itemData> item_list = new List<itemData>();
-    public string  token;
     public partyData party_info = new partyData();
     public userData user_data = new userData();
     public string eos;
+    public string token;
 }
 
 [Serializable]

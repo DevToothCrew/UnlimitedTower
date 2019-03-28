@@ -13098,15 +13098,6 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1534023647458584, guid: ed1809116b0d2234699dd3a3497047dc, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114267759869332614, guid: ed1809116b0d2234699dd3a3497047dc,
-        type: 2}
-      propertyPath: m_Text
-      value: 1 EOS
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ed1809116b0d2234699dd3a3497047dc, type: 2}
   m_IsPrefabParent: 0
@@ -24401,7 +24392,7 @@ Prefab:
         type: 3}
     - target: {fileID: 1142649546162810, guid: c3af066363e49e24488d6e2ccf130a62, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114215155237850384, guid: c3af066363e49e24488d6e2ccf130a62,
         type: 2}
