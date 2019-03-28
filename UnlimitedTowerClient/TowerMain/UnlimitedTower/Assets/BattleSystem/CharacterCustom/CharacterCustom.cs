@@ -263,10 +263,10 @@ public class CharacterCustom : MonoBehaviour
     public GameObject Create(int jobIndex, int headIndex, int hairIndex, int isMan, int isChildren)
     {
         this.jobIndex = jobIndex;
-        this.headIndex = headIndex - 1;
-        this.hairIndex = hairIndex - 1;
-        this.isMan = isMan == 1 ? 1 : 0;
-        this.isChildren = isChildren == 1 ? 0 : 1;
+        this.headIndex = headIndex;
+        this.hairIndex = hairIndex;
+        this.isMan = isMan;
+        this.isChildren = isChildren;
         Refresh();
         CharInfo CharacterInformationTemp = defultCharacter.GetComponent<CharInfo>();
         CharacterInformationTemp.AttackDelay = characterInformation[jobIndex].AttackDelay;
@@ -283,37 +283,37 @@ public class CharacterCustom : MonoBehaviour
         switch (jobIndex)
         {
             case 0:
-                characterSkinnedMeshList.MeshChange(WhiteHandCharacterMeshList[isMan + isChildren * 2]);
+                characterSkinnedMeshList.MeshChange(WhiteHandCharacterMeshList[(isMan == 1 ? 1 : 0) + (isChildren == 1 ? 0 : 1) * 2]);
                 break;
             case 1:
-                characterSkinnedMeshList.MeshChange(WarriorCharacterMeshList[isMan + isChildren * 2]);
+                characterSkinnedMeshList.MeshChange(WarriorCharacterMeshList[(isMan == 1 ? 1 : 0) + (isChildren == 1 ? 0 : 1) * 2]);
                 break;
             case 2:
-                characterSkinnedMeshList.MeshChange(TheifCharacterMeshList[isMan + isChildren * 2]);
+                characterSkinnedMeshList.MeshChange(TheifCharacterMeshList[(isMan == 1 ? 1 : 0) + (isChildren == 1 ? 0 : 1) * 2]);
                 break;
             case 3:
-                characterSkinnedMeshList.MeshChange(ClericCharacterMeshList[isMan + isChildren * 2]);
+                characterSkinnedMeshList.MeshChange(ClericCharacterMeshList[(isMan == 1 ? 1 : 0) + (isChildren == 1 ? 0 : 1) * 2]);
                 break;
             case 4:
-                characterSkinnedMeshList.MeshChange(ArcherCharacterMeshList[isMan + isChildren * 2]);
+                characterSkinnedMeshList.MeshChange(ArcherCharacterMeshList[(isMan == 1 ? 1 : 0) + (isChildren == 1 ? 0 : 1) * 2]);
                 break;
             case 5:
-                characterSkinnedMeshList.MeshChange(MagicianCharacterMeshList[isMan + isChildren * 2]);
+                characterSkinnedMeshList.MeshChange(MagicianCharacterMeshList[(isMan == 1 ? 1 : 0) + (isChildren == 1 ? 0 : 1) * 2]);
                 break;
         }
-        if (isMan == 1)
+        if ((isMan == 1 ? 1 : 0) == 1)
         {
-            if (isChildren == 0)
-                characterSkinnedMeshList.HeadChange(adultManHead[headIndex * 3 + hairIndex]);
+            if ((isChildren == 1 ? 0 : 1) == 0)
+                characterSkinnedMeshList.HeadChange(adultManHead[(headIndex - 1) * 3 + (hairIndex - 1)]);
             else
-                characterSkinnedMeshList.HeadChange(childrenManHead[headIndex * 3 + hairIndex]);
+                characterSkinnedMeshList.HeadChange(childrenManHead[(headIndex - 1) * 3 + (hairIndex - 1)]);
         }
         else
         {
-            if (isChildren == 0)
-                characterSkinnedMeshList.HeadChange(adultWomanHead[headIndex * 3 + hairIndex]);
+            if ((isChildren == 1 ? 0 : 1) == 0)
+                characterSkinnedMeshList.HeadChange(adultWomanHead[(headIndex - 1) * 3 + (hairIndex - 1)]);
             else
-                characterSkinnedMeshList.HeadChange(childrenWomanHead[headIndex * 3 + hairIndex]);
+                characterSkinnedMeshList.HeadChange(childrenWomanHead[(headIndex - 1) * 3 + (hairIndex - 1)]);
         }
         defultCharacter.GetComponent<Animator>().runtimeAnimatorController = animatorController[jobIndex];
     }

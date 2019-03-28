@@ -53,6 +53,11 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         delayImage.SetActive(false);
     }
 
+    public void BattleStartOut()
+    {
+        SceneManager.LoadScene("Lobby");
+    }
+
     public void BattleOut()
     {
         PacketManager.Inst.RequestStageExit();

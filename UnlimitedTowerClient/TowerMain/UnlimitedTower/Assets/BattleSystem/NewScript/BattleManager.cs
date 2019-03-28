@@ -63,6 +63,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             return;
         }
 
+        // SetStartImage(stageStateInfo);
         IsPlaceCheck(stageStateInfo);
         // SettingHero();
         SettingCharacter(stageStateInfo);
@@ -134,7 +135,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 }
             }
         }
-        
+
         turnIndex++;
         isSpaceCheck = false;
         BattleUIManager.Inst.MyTurn();
@@ -208,6 +209,28 @@ public class BattleManager : MonoSingleton<BattleManager>
         SkillManager.Inst.Skill_200007(battleActionInfo);
 
         isSpaceCheck = false;
+    }
+
+    // 시작화면 파티 초상화 셋팅
+    public void SetStartImage(stageStateData stageStateInfo)
+    {
+        Image[] image = new Image[20];
+        GameObject temp = GameObject.Find("StartUI");
+        
+        for (int i = 0; i < stageStateInfo.my_state_list.Count; i++)
+        {
+            Debug.Log(stageStateInfo.my_state_list[i].id);
+            if (stageStateInfo.my_state_list[i].position < 5)
+                temp.transform.GetChild(0).GetChild(stageStateInfo.my_state_list[i].position).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[stageStateInfo.my_state_list[i].id].servantIcon;
+            else
+                temp.transform.GetChild(0).GetChild(stageStateInfo.my_state_list[i].position).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[stageStateInfo.my_state_list[i].id].monsterIcon;
+        }
+
+        for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
+        {
+            Debug.Log(stageStateInfo.enemy_state_list[i].id);
+            temp.transform.GetChild(1).GetChild(stageStateInfo.enemy_state_list[i].position - 10).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[stageStateInfo.enemy_state_list[i].id].monsterIcon;
+        }
     }
 
     // 캐릭터 존재 여부 체크
