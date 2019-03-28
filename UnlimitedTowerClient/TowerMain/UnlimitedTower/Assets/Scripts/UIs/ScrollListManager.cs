@@ -57,7 +57,7 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     private int start_main_idx;
     private int unit_num;
     private int total_item_num;
-    private int selected_main_idx = -1; //data idx
+    public int selected_main_idx = -1; //data idx
     private int selected_unit_idx = -1; //prefab unit idx
     private MonoBehaviour unit_controller;
     private int[] data_order; // data_order[data_idx] = main_idx (main_idx = order(rank))
@@ -69,13 +69,11 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     private float margin_layer_offset = 0;
     private float default_offset = 0;
 
-    private ScrollRect scrollRect;
+    public ScrollRect scrollRect;
     private bool isScroll;
     private int selected_unit_tag = 0;
 
     private Vector2 moveScrollPos = Vector2.zero;
-
-
 
 
     private void Start()
@@ -105,7 +103,7 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     }
 
     
-    private void selectedUnit()
+    public virtual void selectedUnit()
     {
         unit_list[selected_unit_tag % unit_num].Selected(false);
         selected_main_idx = item_order[(int)((rectTrScrollLayer.anchoredPosition.y + (unit_height/2)) / unit_height)];
@@ -115,7 +113,25 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
         selected_unit_idx = (int)(rectTrScrollLayer.anchoredPosition.y / unit_height);
         
         if (scrollRect.velocity.y == 0f) {
-            PartyInfoVC.Inst.updateDetailInfo(selected_main_idx);
+            if (PartyInfoVC.Inst != null)
+            {
+                PartyInfoVC partyInfo = PartyInfoVC.Inst;
+                if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.SERVANT_INFO || partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
+                {
+                    partyInfo.updateDetailInfo(selected_main_idx);
+                }
+                //else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_WEAPON || partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_ARMOR
+                //    || partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_ACC)
+                //{
+                //    partyInfo.updateDetailInfo(selected_main_idx);
+                //}
+                //else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_SERVANT || partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_MONSTER)
+                //{
+
+                //}
+
+
+            }
         }
     }
 

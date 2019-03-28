@@ -40,4 +40,9 @@ public class SubViewDeconstruction : MonoBehaviour {
 
     }
 
+    public void OnClickClose()
+    {
+        this.gameObject.SetActive(false);
+    }
+
 }
