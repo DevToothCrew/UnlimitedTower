@@ -7,8 +7,6 @@ using System;
 using System.Collections;
 using System.Linq;
 
-using PairedDelegates = System.Collections.Generic.KeyValuePair<System.Delegate, System.Action<string>>;
-
 [Serializable]
 public class PacketManager : MonoSingleton<PacketManager> {
 
@@ -22,8 +20,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
     [DllImport("__Internal")]
     private static extern void SendPacket(string packet);
     
-
-    private static Dictionary<string, PairedDelegates>  _recvCbs = new Dictionary<string, PairedDelegates>();
     private static Dictionary<string, string>           _recvDatas = new Dictionary<string, string>();
     private const float _MAX_LIMIT_TIME = 20.0f;
 
@@ -87,11 +83,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     private IEnumerator WaitResponse(string header, string body = "", Action<string> onSuccess = null, Action<string> onFailed = null)
     {
-        yield return new WaitUntil(() => !_recvCbs.ContainsKey(header));
-
-        PairedDelegates pair = new PairedDelegates(onSuccess, onFailed);
-        _recvCbs.Add(header, pair);
-
         DefaultPacket sendPackedData = new DefaultPacket();
         sendPackedData.header = header;
         sendPackedData.body = body;
