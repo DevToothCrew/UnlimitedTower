@@ -1,86 +1,85 @@
-id,#,#,#,#,#,#,enname,#,#,#,#,element_type,#,class_type,name,#,resource_model,#,resource_icon
-#,가챠 id,이벤트 가챠1,이벤트 가챠2,이벤트 가챠3,애니메이션 그룹,이름(Kor),이름(Eng),프리가챠 리스트,보스타입 설정,종족,속성,속성 타입,직업,직업 타입,이름,사이즈 체크,모델 리소스,"몬스터 기본
- 애니 타입",아이콘 리소스
-int,int,int,int,int,string,string,string,#,int,string,string,int,string,int,localize,string,string,string,string
-101101,0,,,,monster,판다,Panda,Pre,,,Earth,3,Druid,8,DB_monster_name_101101,,mst_panda,weapon_glove,ic_mst_panda
-101102,0,,,,monster,엠페러 판다,Emperor Panda,Pre,,,Light,5,Fighter,1,DB_monster_name_101102,,mst_panda_gold,weapon_glove,ic_mst_panda_gold
-101201,20001,,,,monster,아누비스,Anubis,Pre,,,Dark,6,Mage,6,DB_monster_name_101201,,mst_anubis,weapon_glove,ic_mst_anubis
-101202,20002,,,,monster,라누비스,Ranubis,Pre,,,Light,5,Priest,3,DB_monster_name_101202,,mst_ranubis,weapon_glove,ic_mst_ranubis
-101301,20003,,,,monster,우르스,Urs,Pre,,,Earth,3,Druid,8,DB_monster_name_101301,,mst_bear_brown,weapon_glove,ic_mst_bear_brown
-101302,20004,,,,monster,우르서스,Ursus,Pre,,,Wind,4,Assassin,4,DB_monster_name_101302,,mst_bear_black,weapon_glove,ic_mst_bear_black
-101303,20005,,,,monster,우르사,Ursa,Pre,,,Fire,1,Shaman,9,DB_monster_name_101303,,mst_bear_red,weapon_glove,ic_mst_bear_red
-101304,20006,,,,monster,우르시아,Ursia,Pre,,,Water,2,Hunter,5,DB_monster_name_101304,,mst_bear_white,weapon_glove,ic_mst_bear_white
-101401,20007,,,,monster,그리폰,Griffon,Pre,,,Wind,4,Hunter,5,DB_monster_name_101401,,mst_birdman,weapon_glove,ic_mst_birdman
-101402,20008,,,,monster,루크,Luke,Pre,,,Dark,6,Assassin,4,DB_monster_name_101402,,mst_crowman,weapon_glove,ic_mst_crowman
-101501,20009,,,,monster,네로,Nero,Pre,,,Dark,6,Assassin,4,DB_monster_name_101501,,mst_cat_black,weapon_glove,ic_mst_cat_black
-101502,20010,,,,monster,샤로,Sharo,Pre,,,Earth,3,Hunter,5,DB_monster_name_101502,,mst_cat_sham,weapon_glove,ic_mst_cat_sham
-101503,20011,,,,monster,하로,Haro,Pre,,,Light,5,Priest,3,DB_monster_name_101503,,mst_cat_white,weapon_glove,ic_mst_cat_white
-101601,20012,,,,monster,아르고,Argo,Pre,,,Light,5,Druid,8,DB_monster_name_101601,,mst_snail,weapon_glove,ic_mst_snail
-102101,20013,,,,monster,푸니,Puni,Pre,,,Water,2,Shaman,9,DB_monster_name_102101,,mst_goblin_blue,weapon_glove,ic_mst_goblin_blue
-102102,20014,,,,monster,보니,Boni,Pre,,,Wind,4,Hunter,5,DB_monster_name_102102,,mst_goblin_green,weapon_glove,ic_mst_goblin_green
-102103,20015,,,,monster,하니,Hani,Pre,,,Fire,1,Fighter,1,DB_monster_name_102103,,mst_goblin_red,weapon_glove,ic_mst_goblin_red
-102111,20016,,,,monster,코블린,Coblin,,,,Earth,3,Fighter,1,DB_monster_name_102111,,mst_goblin_adult,weapon_glove,ic_mst_goblin_adult
-102201,20017,,,,monster,파이노스,Phainos,Pre,,,Fire,1,Fighter,1,DB_monster_name_102201,,mst_minotours_red,weapon_glove,ic_mst_minotours_red
-102202,20018,,,,monster,불카노,Bullkano,Pre,,,Water,2,Shaman,9,DB_monster_name_102202,,mst_minotours_blue,weapon_glove,ic_mst_minotours_blue
-102203,20019,,,,monster,토우,Tow,Pre,,,Earth,3,Druid,8,DB_monster_name_102203,,mst_minotours_brown,weapon_glove,ic_mst_minotours_brown
-102301,20020,,,,monster,타록,Tarok,Pre,,,Earth,3,Fighter,1,DB_monster_name_102301,,mst_ogre,weapon_glove,ic_mst_ogre
-102311,20021,,,,monster,그룰,G'rul,Pre,,,Fire,1,Knight,2,DB_monster_name_102311,,mst_ogre_twinhead,weapon_glove,ic_mst_ogre_twinhead
-102312,20022,,,,monster,슈투룰,Shu-turul,Pre,,,Fire,1,Fighter,1,DB_monster_name_102312,,mst_ogre_champion,weapon_glove,ic_mst_ogre_champion
-102401,20023,,,,monster,바르돌프,Bardolf,Pre,,,Wind,4,Hunter,5,DB_monster_name_102401,,mst_werewolf,weapon_glove,ic_mst_werewolf
-102501,20024,,,,monster,닌자,Ninja,,,,Wind,4,Assassin,4,DB_monster_name_102501,,mst_ninja,weapon_glove,ic_mst_ninja
-103101,20025,,,,monster,샐러맨더,Salamander,Pre,,,Fire,1,Fighter,1,DB_monster_name_103101,,mst_fairy_fire,weapon_glove,ic_mst_fairy_fire
-103102,20026,,,,monster,노움,Gnome,Pre,,,Earth,3,Knight,2,DB_monster_name_103102,,mst_fairy_leaf,weapon_glove,ic_mst_fairy_leaf
-103103,20027,,,,monster,운디네,Undine,Pre,,,Water,2,Shaman,9,DB_monster_name_103103,,mst_fairy_water,weapon_glove,ic_mst_fairy_water
-103104,20028,,,,monster,실프,Sylph,,,,Wind,4,Hunter,5,DB_monster_name_103104,,mst_fairy_wind,weapon_glove,ic_mst_fairy_wind
-103105,20029,,,,monster,플루토,Pluto,,,,Dark,6,Assassin,4,DB_monster_name_103105,,mst_fairy_dark,weapon_glove,ic_mst_fairy_dark
-103106,20030,,,,monster,위습,Wisp,,,,Light,5,Priest,3,DB_monster_name_103106,,mst_fairy_light,weapon_glove,ic_mst_fairy_light
-103201,20031,,,,monster,모스 골렘,Moss Golem,Pre,,,Earth,3,Druid,8,DB_monster_name_103201,,mst_golem_moss,weapon_glove,ic_mst_golem_moss
-103202,20032,,,,monster,라바 골렘,Lava Golem,Pre,,,Fire,1,Fighter,1,DB_monster_name_103202,,mst_golem_lava,weapon_glove,ic_mst_golem_lava
-104101,20033,,,,monster,가보스터,Gaboster,Pre,,,Water,2,Knight,2,DB_monster_name_104101,,mst_lobster_soldier,weapon_glove,ic_mst_lobster_soldier
-104201,20034,,,,monster,샤크투스,Sharktooth,Pre,,,Water,2,Fighter,1,DB_monster_name_104201,,mst_shark_soldier,weapon_glove,ic_mst_shark_soldier
-104301,20035,,,,monster,노아틀,Noahtle,Pre,,,Light,5,Mage,6,DB_monster_name_104301,,mst_turtle_master,weapon_glove,ic_mst_turtle_master
-105101,20036,,,,monster,메카 나이트,Meka Knight,,,,Light,5,Knight,2,DB_monster_name_105101,,mst_meka_knight,weapon_glove,ic_mst_meka_knight
-105201,20037,,,,monster,Roball-0xb1,Roball-0xb1,,,,Fire,1,Assassin,4,DB_monster_name_105201,,mst_robot_1,weapon_glove,ic_mst_robot_1
-105202,20038,,,,monster,Roball-0xb2,Roball-0xb2,,,,Wind,4,Hunter,5,DB_monster_name_105202,,mst_robot_2,weapon_glove,ic_mst_robot_2
-105301,20039,,,,monster,태엽 전사,Clockwork Soldier,,,,Wind,4,Fighter,1,DB_monster_name_105301,,mst_clockwork_soldier,weapon_glove,ic_mst_clockwork_soldier
-106101,20040,,,,monster,브로켄,Broken,Pre,,,Dark,6,Knight,2,DB_monster_name_106101,,mst_dark_knight,weapon_glove,ic_mst_dark_knight
-106201,20041,,,,monster,데스사이즈,Deathscythe,Pre,,,Dark,6,Assassin,4,DB_monster_name_106201,,mst_death,weapon_glove,ic_mst_death
-106202,20042,,,,monster,스펙터,Spectre,Pre,,,Wind,4,Warlock,7,DB_monster_name_106202,,mst_spectre,weapon_glove,ic_mst_spectre
-106301,20043,,,,monster,강시,Gangsi,Pre,,,Earth,3,Warlock,7,DB_monster_name_106301,,mst_gangsi,weapon_glove,ic_mst_gangsi
-106401,20044,,,,monster,보본,Bobon,Pre,,,Wind,4,Hunter,5,DB_monster_name_106401,,mst_skeleton_archer,weapon_glove,ic_mst_skeleton_archer
-106402,20045,,,,monster,군드,Gund,Pre,,,Fire,1,Assassin,4,DB_monster_name_106402,,mst_skeleton_berserker,weapon_glove,ic_mst_skeleton_berserker
-106403,20046,,,,monster,스파토이,Sphatoi,Pre,,,Water,2,Knight,2,DB_monster_name_106403,,mst_skeleton_soldier,weapon_glove,ic_mst_skeleton_soldier
-106411,20047,,,,monster,매닉,Manic,,,,Dark,6,Warlock,7,DB_monster_name_106411,,mst_skeleton_rich,weapon_glove,ic_mst_skeleton_rich
-106421,20048,,,,monster,크롤,Croll,Pre,,,Dark,6,Fighter,1,DB_monster_name_106421,,mst_skeleton_giant,weapon_glove,ic_mst_skeleton_giant
-106431,20049,,,,monster,스컬본,SkullBorne,,,,Dark,6,Fighter,1,DB_monster_name_106431,,mst_skeleton_king,weapon_glove,ic_mst_skeleton_king
-106501,20050,,,,monster,좀비,Zombie,Pre,,,Water,2,Knight,2,DB_monster_name_106501,,mst_zombie,weapon_glove,ic_mst_zombie
-106601,20051,,,,monster,리빙 아머,Living Armor,,,,Wind,4,Hunter,5,DB_monster_name_106601,,mst_living_armor,weapon_glove,ic_mst_living_armor
-106701,20052,,,,monster,듀라한,Dullahan,,,,Dark,6,Knight,2,DB_monster_name_106701,,mst_dullahan,weapon_glove,ic_mst_dullahan
-107101,20053,,,,monster,키브라,Kibra,Pre,,,Dark,6,Mage,6,DB_monster_name_107101,,mst_dark_magician,weapon_glove,ic_mst_dark_magician
-107201,20054,,,,monster,서큐버스,Succubus,Pre,,,Dark,6,Warlock,7,DB_monster_name_107201,,mst_succubus,weapon_glove,ic_mst_succubus
-107301,20055,,,,monster,임프,Imp,,,,Fire,1,Assassin,4,DB_monster_name_107301,,mst_imp,weapon_glove,ic_mst_imp
-108101,20056,,,,monster,블랙 스페이드,Black Spade,Pre,,,Dark,6,Assassin,4,DB_monster_name_108101,,mst_card_spade,weapon_glove,ic_mst_card_spade
-108102,20057,,,,monster,레드 하트,Red Heart,Pre,,,Fire,1,Priest,3,DB_monster_name_108102,,mst_card_heart,weapon_glove,ic_mst_card_heart
-108103,20058,,,,monster,그린 클럽,Green Club,Pre,,,Earth,3,Mage,6,DB_monster_name_108103,,mst_card_club,weapon_glove,ic_mst_card_club
-108104,20059,,,,monster,옐로우 다이아,Yellow Diamond,Pre,,,Light,5,Warlock,7,DB_monster_name_108104,,mst_card_diamond,weapon_glove,ic_mst_card_diamond
-108201,20060,,,,monster,에그탕,Eggtang,Pre,,,Earth,3,Priest,3,DB_monster_name_108201,,mst_egg_green,weapon_glove,ic_mst_egg_green
-108202,20061,,,,monster,에그퐁,Eggpong,Pre,,,Fire,1,Warlock,7,DB_monster_name_108202,,mst_egg_red,weapon_glove,ic_mst_egg_red
-108203,20062,,,,monster,에글루,Egglue,Pre,,,Water,2,Mage,6,DB_monster_name_108203,,mst_egg_blue,weapon_glove,ic_mst_egg_blue
-108301,20063,,,,monster,미믹,Mimic,,,,Light,5,Shaman,9,DB_monster_name_108301,,mst_mimic,weapon_glove,ic_mst_mimic
-108401,20064,,,,monster,오니,Oni,,,,Wind,4,Shaman,9,DB_monster_name_108401,,mst_oni,weapon_glove,ic_mst_oni
-109101,,,,,monster,최초의 거인,The First Giant,,,,Earth,3,Fighter,1,DB_monster_name_109101,,mst_first_giant,weapon_glove,ic_mst_first_giant
-109201,,,,,monster,사자왕,Lionheart,,,,Earth,3,Knight,2,DB_monster_name_109201,,mst_lionking,weapon_glove,ic_mst_lionking
-,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,
-,,,,,,,Fire,1,,Fighter,1,,,,,,,,
-,,,,,,,Water,2,,Knight,2,,,,,,,,
-,,,,,,,Earth,3,,Priest,3,,,,,,,,
-,,,,,,,Wind,4,,Assassin,4,,,,,,,,
-,,,,,,,Light,5,,Hunter,5,,,,,,,,
-,,,,,,,Dark,6,,Mage,6,,,,,,,,
-,,,,,,,,,,Warlock,7,,,,,,,,
-,,,,,,,,,,Druid,8,,,,,,,,
-,,,,,,,,,,Shaman,9,,,,,,,,
+#,id,#,#,#,#,#,#,#,#,#,element_type,#,class_type,name,#,resource_model,#,resource_icon
+오픈 가챠 id,#,프리 가챠 id,애니메이션 그룹,이름(Kor),이름(Eng),프리가챠 리스트,정글넷 가챠 스펙,보스타입 설정,종족,속성,속성 타입,직업,직업 타입,이름,사이즈 체크,모델 리소스,몬스터 기본 애니 타입,아이콘 리소스
+int,int,int,string,string,string,#,#,int,string,string,int,string,int,localize,string,string,string,string
+20001,101101,20001,monster,판다,Panda,on,off,,,Earth,3,Druid,8,DB_monster_name_101101,,mst_panda,weapon_glove,ic_mst_panda
+20002,101102,20002,monster,엠페러 판다,Emperor Panda,on,off,,,Light,5,Fighter,1,DB_monster_name_101102,,mst_panda_gold,weapon_glove,ic_mst_panda_gold
+20003,101201,20003,monster,아누비스,Anubis,on,on,,,Dark,6,Mage,6,DB_monster_name_101201,,mst_anubis,weapon_glove,ic_mst_anubis
+20004,101202,20004,monster,라누비스,Ranubis,on,on,,,Light,5,Priest,3,DB_monster_name_101202,,mst_ranubis,weapon_glove,ic_mst_ranubis
+20005,101301,20005,monster,우르스,Urs,on,on,,,Earth,3,Druid,8,DB_monster_name_101301,,mst_bear_brown,weapon_glove,ic_mst_bear_brown
+20006,101302,20006,monster,우르서스,Ursus,on,on,,,Wind,4,Assassin,4,DB_monster_name_101302,,mst_bear_black,weapon_glove,ic_mst_bear_black
+20007,101303,20007,monster,우르사,Ursa,on,on,,,Fire,1,Shaman,9,DB_monster_name_101303,,mst_bear_red,weapon_glove,ic_mst_bear_red
+20008,101304,20008,monster,우르시아,Ursia,on,on,,,Water,2,Hunter,5,DB_monster_name_101304,,mst_bear_white,weapon_glove,ic_mst_bear_white
+20009,101401,20009,monster,그리폰,Griffon,on,on,,,Wind,4,Hunter,5,DB_monster_name_101401,,mst_birdman,weapon_glove,ic_mst_birdman
+20010,101402,20010,monster,루크,Luke,on,on,,,Dark,6,Assassin,4,DB_monster_name_101402,,mst_crowman,weapon_glove,ic_mst_crowman
+20011,101501,20011,monster,네로,Nero,on,on,,,Dark,6,Assassin,4,DB_monster_name_101501,,mst_cat_black,weapon_glove,ic_mst_cat_black
+20012,101502,20012,monster,샤로,Sharo,on,on,,,Earth,3,Hunter,5,DB_monster_name_101502,,mst_cat_sham,weapon_glove,ic_mst_cat_sham
+20013,101503,20013,monster,하로,Haro,on,on,,,Light,5,Priest,3,DB_monster_name_101503,,mst_cat_white,weapon_glove,ic_mst_cat_white
+20014,101601,20014,monster,아르고,Argo,on,on,,,Light,5,Druid,8,DB_monster_name_101601,,mst_snail,weapon_glove,ic_mst_snail
+20015,102101,20015,monster,푸니,Puni,on,on,,,Water,2,Shaman,9,DB_monster_name_102101,,mst_goblin_blue,weapon_glove,ic_mst_goblin_blue
+20016,102102,20016,monster,보니,Boni,on,on,,,Wind,4,Hunter,5,DB_monster_name_102102,,mst_goblin_green,weapon_glove,ic_mst_goblin_green
+20017,102103,20017,monster,하니,Hani,on,on,,,Fire,1,Fighter,1,DB_monster_name_102103,,mst_goblin_red,weapon_glove,ic_mst_goblin_red
+,102111,,monster,코블린,Coblin,off,off,,,Earth,3,Fighter,1,DB_monster_name_102111,,mst_goblin_adult,weapon_glove,ic_mst_goblin_adult
+20018,102201,20018,monster,파이노스,Phainos,on,on,,,Fire,1,Fighter,1,DB_monster_name_102201,,mst_minotours_red,weapon_glove,ic_mst_minotours_red
+20019,102202,20019,monster,불카노,Bullkano,on,on,,,Water,2,Shaman,9,DB_monster_name_102202,,mst_minotours_blue,weapon_glove,ic_mst_minotours_blue
+20020,102203,20020,monster,토우,Tow,on,on,,,Earth,3,Druid,8,DB_monster_name_102203,,mst_minotours_brown,weapon_glove,ic_mst_minotours_brown
+20021,102301,20021,monster,타록,Tarok,on,on,,,Earth,3,Fighter,1,DB_monster_name_102301,,mst_ogre,weapon_glove,ic_mst_ogre
+20022,102311,20022,monster,그룰,G'rul,on,on,,,Fire,1,Knight,2,DB_monster_name_102311,,mst_ogre_twinhead,weapon_glove,ic_mst_ogre_twinhead
+20023,102312,20023,monster,슈투룰,Shu-turul,on,on,,,Fire,1,Fighter,1,DB_monster_name_102312,,mst_ogre_champion,weapon_glove,ic_mst_ogre_champion
+20024,102401,20024,monster,바르돌프,Bardolf,on,on,,,Wind,4,Hunter,5,DB_monster_name_102401,,mst_werewolf,weapon_glove,ic_mst_werewolf
+,102501,,monster,닌자,Ninja,off,off,,,Wind,4,Assassin,4,DB_monster_name_102501,,mst_ninja,weapon_glove,ic_mst_ninja
+20025,103101,20025,monster,샐러맨더,Salamander,on,on,,,Fire,1,Fighter,1,DB_monster_name_103101,,mst_fairy_fire,weapon_glove,ic_mst_fairy_fire
+20026,103102,20026,monster,노움,Gnome,on,on,,,Earth,3,Knight,2,DB_monster_name_103102,,mst_fairy_leaf,weapon_glove,ic_mst_fairy_leaf
+20027,103103,20027,monster,운디네,Undine,on,on,,,Water,2,Shaman,9,DB_monster_name_103103,,mst_fairy_water,weapon_glove,ic_mst_fairy_water
+,103104,,monster,실프,Sylph,off,on,,,Wind,4,Hunter,5,DB_monster_name_103104,,mst_fairy_wind,weapon_glove,ic_mst_fairy_wind
+,103105,,monster,플루토,Pluto,off,on,,,Dark,6,Assassin,4,DB_monster_name_103105,,mst_fairy_dark,weapon_glove,ic_mst_fairy_dark
+,103106,,monster,위습,Wisp,off,on,,,Light,5,Priest,3,DB_monster_name_103106,,mst_fairy_light,weapon_glove,ic_mst_fairy_light
+20028,103201,20028,monster,모스 골렘,Moss Golem,on,on,,,Earth,3,Druid,8,DB_monster_name_103201,,mst_golem_moss,weapon_glove,ic_mst_golem_moss
+20029,103202,20029,monster,라바 골렘,Lava Golem,on,on,,,Fire,1,Fighter,1,DB_monster_name_103202,,mst_golem_lava,weapon_glove,ic_mst_golem_lava
+20030,104101,20030,monster,가보스터,Gaboster,on,on,,,Water,2,Knight,2,DB_monster_name_104101,,mst_lobster_soldier,weapon_glove,ic_mst_lobster_soldier
+20031,104201,20031,monster,샤크투스,Sharktooth,on,on,,,Water,2,Fighter,1,DB_monster_name_104201,,mst_shark_soldier,weapon_glove,ic_mst_shark_soldier
+20032,104301,20032,monster,노아틀,Noahtle,on,on,,,Light,5,Mage,6,DB_monster_name_104301,,mst_turtle_master,weapon_glove,ic_mst_turtle_master
+,105101,,monster,메카 나이트,Meka Knight,off,off,,,Light,5,Knight,2,DB_monster_name_105101,,mst_meka_knight,weapon_glove,ic_mst_meka_knight
+,105201,,monster,Roball-0xb1,Roball-0xb1,off,off,,,Fire,1,Assassin,4,DB_monster_name_105201,,mst_robot_1,weapon_glove,ic_mst_robot_1
+,105202,,monster,Roball-0xb2,Roball-0xb2,off,off,,,Wind,4,Hunter,5,DB_monster_name_105202,,mst_robot_2,weapon_glove,ic_mst_robot_2
+,105301,,monster,태엽 전사,Clockwork Soldier,off,on,,,Wind,4,Fighter,1,DB_monster_name_105301,,mst_clockwork_soldier,weapon_glove,ic_mst_clockwork_soldier
+20033,106101,20033,monster,브로켄,Broken,on,on,,,Dark,6,Knight,2,DB_monster_name_106101,,mst_dark_knight,weapon_glove,ic_mst_dark_knight
+20034,106201,20034,monster,데스사이즈,Deathscythe,on,on,,,Dark,6,Assassin,4,DB_monster_name_106201,,mst_death,weapon_glove,ic_mst_death
+20035,106202,20035,monster,스펙터,Spectre,on,on,,,Wind,4,Warlock,7,DB_monster_name_106202,,mst_spectre,weapon_glove,ic_mst_spectre
+20036,106301,20036,monster,강시,Gangsi,on,on,,,Earth,3,Warlock,7,DB_monster_name_106301,,mst_gangsi,weapon_glove,ic_mst_gangsi
+20037,106401,20037,monster,보본,Bobon,on,on,,,Wind,4,Hunter,5,DB_monster_name_106401,,mst_skeleton_archer,weapon_glove,ic_mst_skeleton_archer
+20038,106402,20038,monster,군드,Gund,on,on,,,Fire,1,Assassin,4,DB_monster_name_106402,,mst_skeleton_berserker,weapon_glove,ic_mst_skeleton_berserker
+20039,106403,20039,monster,스파토이,Sphatoi,on,on,,,Water,2,Knight,2,DB_monster_name_106403,,mst_skeleton_soldier,weapon_glove,ic_mst_skeleton_soldier
+,106411,,monster,매닉,Manic,off,off,,,Dark,6,Warlock,7,DB_monster_name_106411,,mst_skeleton_rich,weapon_glove,ic_mst_skeleton_rich
+20040,106421,20040,monster,크롤,Croll,on,on,,,Dark,6,Fighter,1,DB_monster_name_106421,,mst_skeleton_giant,weapon_glove,ic_mst_skeleton_giant
+,106431,,monster,스컬본,SkullBorne,off,off,,,Dark,6,Fighter,1,DB_monster_name_106431,,mst_skeleton_king,weapon_glove,ic_mst_skeleton_king
+20041,106501,20041,monster,좀비,Zombie,on,on,,,Water,2,Knight,2,DB_monster_name_106501,,mst_zombie,weapon_glove,ic_mst_zombie
+,106601,,monster,리빙 아머,Living Armor,off,on,,,Wind,4,Hunter,5,DB_monster_name_106601,,mst_living_armor,weapon_glove,ic_mst_living_armor
+,106701,,monster,듀라한,Dullahan,off,on,,,Dark,6,Knight,2,DB_monster_name_106701,,mst_dullahan,weapon_glove,ic_mst_dullahan
+20042,107101,20042,monster,키브라,Kibra,on,on,,,Dark,6,Mage,6,DB_monster_name_107101,,mst_dark_magician,weapon_glove,ic_mst_dark_magician
+20043,107201,20043,monster,서큐버스,Succubus,on,on,,,Dark,6,Warlock,7,DB_monster_name_107201,,mst_succubus,weapon_glove,ic_mst_succubus
+,107301,,monster,임프,Imp,off,on,,,Fire,1,Assassin,4,DB_monster_name_107301,,mst_imp,weapon_glove,ic_mst_imp
+20044,108101,20044,monster,블랙 스페이드,Black Spade,on,on,,,Dark,6,Assassin,4,DB_monster_name_108101,,mst_card_spade,weapon_glove,ic_mst_card_spade
+20045,108102,20045,monster,레드 하트,Red Heart,on,on,,,Fire,1,Priest,3,DB_monster_name_108102,,mst_card_heart,weapon_glove,ic_mst_card_heart
+20046,108103,20046,monster,그린 클럽,Green Club,on,on,,,Earth,3,Mage,6,DB_monster_name_108103,,mst_card_club,weapon_glove,ic_mst_card_club
+20047,108104,20047,monster,옐로우 다이아,Yellow Diamond,on,on,,,Light,5,Warlock,7,DB_monster_name_108104,,mst_card_diamond,weapon_glove,ic_mst_card_diamond
+20048,108201,20048,monster,에그탕,Eggtang,on,on,,,Earth,3,Priest,3,DB_monster_name_108201,,mst_egg_green,weapon_glove,ic_mst_egg_green
+20049,108202,20049,monster,에그퐁,Eggpong,on,on,,,Fire,1,Warlock,7,DB_monster_name_108202,,mst_egg_red,weapon_glove,ic_mst_egg_red
+20050,108203,20050,monster,에글루,Egglue,on,on,,,Water,2,Mage,6,DB_monster_name_108203,,mst_egg_blue,weapon_glove,ic_mst_egg_blue
+,108301,,monster,미믹,Mimic,off,on,,,Light,5,Shaman,9,DB_monster_name_108301,,mst_mimic,weapon_glove,ic_mst_mimic
+,108401,,monster,오니,Oni,off,on,,,Wind,4,Shaman,9,DB_monster_name_108401,,mst_oni,weapon_glove,ic_mst_oni
+,109101,,monster,최초의 거인,The First Giant,off,off,,,Earth,3,Fighter,1,DB_monster_name_109101,,mst_first_giant,weapon_glove,ic_mst_first_giant
+,109201,,monster,사자왕,Lionheart,off,off,,,Earth,3,Knight,2,DB_monster_name_109201,,mst_lionking,weapon_glove,ic_mst_lionking
+,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,
+,,,,,Fire,1,,,Fighter,1,,,,,,,,
+,,,,,Water,2,,,Knight,2,,,,,,,,
+,,,,,Earth,3,,,Priest,3,,,,,,,,
+,,,,,Wind,4,,,Assassin,4,,,,,,,,
+,,,,,Light,5,,,Hunter,5,,,,,,,,
+,,,,,Dark,6,,,Mage,6,,,,,,,,
+,,,,,,,,,Warlock,7,,,,,,,,
+,,,,,,,,,Druid,8,,,,,,,,
+,,,,,,,,,Shaman,9,,,,,,,,

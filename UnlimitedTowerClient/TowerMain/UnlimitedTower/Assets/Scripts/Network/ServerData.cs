@@ -281,6 +281,8 @@ public class buffInfo
 [Serializable]
 public class characterStateData
 {
+    // Grade 추가 후 Grade에 따른 가중치 Calculator에 수정 예졍
+    public int grade;
     public int position;
     public int index;
     public int id;

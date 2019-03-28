@@ -45,9 +45,9 @@ public enum FORMATION_TYPE
 
 public enum CHAR_TYPE
 {
-    HERO = 1,
-    SERVANT = 2,
-    MONSTER = 3
+    SERVANT = 1,
+    MONSTER = 2,
+    BOSS = 3,
 }
 
 public enum STATE_TYPE

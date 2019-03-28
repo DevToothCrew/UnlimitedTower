@@ -214,7 +214,7 @@ public class Cheat : MonoSingleton<Cheat>
         return JsonMapper.ToJson(battleactiondata);
     }
 
-    public string GetStageStartData(string user, int stageNum, int partyNum)
+    public string GetStageStartData(string user, int stageType, int stageFloor, int partyNum)
     {
         stageStateData battlestatedata = new stageStateData();
         battlestatedata.user = user;
@@ -223,71 +223,135 @@ public class Cheat : MonoSingleton<Cheat>
         battlestatedata.stage_number = 0;
         battlestatedata.turn = 0;
 
+        UserPartyData partyData = UserDataManager.Inst.GetUserPartyInfo();
+        if (partyData == null)
+        {
+            return null;
+        }
+        if (partyData.formationDataDic.Count != 10)
+        {
+            return null;
+        }
 
         for (int i = 0; i < 10; ++i)
         {
             characterStateData newMember = new characterStateData();
             if (i < 5)
             {
+                UserServantData servantData = UserDataManager.Inst.GetServantInfo(partyData.formationDataDic[i].index);
+                if(servantData == null)
+                {
+                    return null;
+                }
+
+                DBServantData dbServantData = CSVData.Inst.GetServantData(servantData.id);
+                if(dbServantData == null)
+                {
+                    return null;
+                }
+
                 newMember.position = i;
-                newMember.index = i + 1;
+                newMember.index = servantData.index;
+                newMember.id = servantData.id;
+
                 skillInfo skill = new skillInfo();
                 if (i < 2)
                     skill.id = 200001;
                 else
                     skill.id = 200002;
+
                 newMember.active_skill_list = new List<skillInfo>();
                 newMember.active_skill_list.Add(skill);
+
+                newMember.status = new totalStatus();
+                newMember.status.total_str = servantData.status.basicStr + servantData.status.plusStr;
+                newMember.status.total_dex = servantData.status.basicDex + servantData.status.plusDex;
+                newMember.status.total_int = servantData.status.basicInt + servantData.status.plusInt;
+                newMember.now_hp = Calculator.GetMaxHp(newMember.status);
+                newMember.physical_attack = Calculator.GetAttack(STATUS_TYPE.STR, servantData.status);
+                newMember.physical_defense = Calculator.GetDefence(servantData.status);
+                newMember.magic_attack = Calculator.GetAttack(STATUS_TYPE.INT, servantData.status);
+                newMember.magic_defense = Calculator.GetMagicDefence(servantData.status);
+                newMember.speed = dbServantData.speed;
             }
             else
             {
+                UserMonsterData monsterData = UserDataManager.Inst.GetMonsterInfo(partyData.formationDataDic[i].index);
+                if (monsterData == null)
+                {
+                    return null;
+                }
+
+                DBMonsterData dbMonsterData = CSVData.Inst.GetMonsterData(monsterData.id);
+                if (dbMonsterData == null)
+                {
+                    return null;
+                }
+
                 newMember.position = i;
-                newMember.index = i - 4;
+                newMember.index = monsterData.index;
+                newMember.id = monsterData.id;
+
+                newMember.status = new totalStatus();
+                newMember.status.total_str = monsterData.status.basicStr + monsterData.status.plusStr;
+                newMember.status.total_dex = monsterData.status.basicDex + monsterData.status.plusDex;
+                newMember.status.total_int = monsterData.status.basicInt + monsterData.status.plusInt;
+                newMember.now_hp = Calculator.GetMaxHp(newMember.status);
+                newMember.physical_attack = Calculator.GetAttack(STATUS_TYPE.STR, monsterData.status);
+                newMember.physical_defense = Calculator.GetDefence(monsterData.status);
+                newMember.magic_attack = Calculator.GetAttack(STATUS_TYPE.INT, monsterData.status);
+                newMember.magic_defense = Calculator.GetMagicDefence(monsterData.status);
+                newMember.speed = dbMonsterData.speed;
             }
 
-            newMember.id = CSVData.Inst.GetRandomMonsterIndex();
-            newMember.now_hp = 10000;
-            newMember.physical_attack = 10000;
-            newMember.physical_defense = 10;
             newMember.physical_crit_dmg = 1;
-            newMember.magic_attack = 10000;
-            newMember.magic_defense = 10;
             newMember.magic_crit_dmg = 1;
+
             newMember.physical_crit_per = 5;
             newMember.magic_crit_per = 5;
+
             newMember.avoid = 5;
             newMember.state = 0;
-            newMember.speed = 25;
-            newMember.status = new totalStatus();
-            newMember.status.total_str = 10;
-            newMember.status.total_dex = 10;
-            newMember.status.total_int = 10;
 
             battlestatedata.my_state_list.Add(newMember);
         }
 
-        for (int i = 0; i < 10; ++i)
+        DBStageData stageData = CSVData.Inst.GetStageData(stageType, stageFloor);
+        if(stageData == null)
+        {
+            return null;
+        }
+
+        for (int i = 0; i < stageData.enemyIdList.Count; ++i)
         {
             characterStateData newMember = new characterStateData();
-            newMember.position = i + 10;
+            newMember.position = stageData.enemyPositionList[i];
             newMember.index = 0;
-            newMember.id = CSVData.Inst.GetRandomMonsterIndex();
-            newMember.now_hp = 10000;
-            newMember.physical_attack = 10000;
-            newMember.physical_defense = 10;
-            newMember.physical_crit_dmg = 1;
-            newMember.magic_attack = 10000;
-            newMember.magic_defense = 10;
-            newMember.magic_crit_dmg = 1;
-            newMember.physical_crit_per = 5;
-            newMember.magic_crit_per = 5;
-            newMember.avoid = 5;
-            newMember.state = 0;
-            newMember.speed = 25;
+            newMember.id = stageData.enemyIdList[i];
+            DBStageEnemyData enemyData = CSVData.Inst.GetStageEnemyData(newMember.id);
+            if(enemyData == null)
+            {
+                Debug.Log("Invalid Enemy ID : " + newMember.id);
+                return null;
+            }
+
             newMember.status = new totalStatus();
-            newMember.status.total_str = 10;
-            newMember.status.total_dex = 10;
-            newMember.status.total_int = 10;
+            newMember.status.total_str = enemyData.status.basicStr;
+            newMember.status.total_dex = enemyData.status.basicDex;
+            newMember.status.total_int = enemyData.status.basicInt;
+
+            newMember.now_hp = Calculator.GetMaxHp(newMember.status);
+            newMember.physical_attack = Calculator.GetAttack(STATUS_TYPE.STR, enemyData.status);
+            newMember.physical_defense = Calculator.GetDefence(enemyData.status);
+            newMember.physical_crit_dmg = enemyData.criDmg;
+            newMember.magic_attack = Calculator.GetAttack(STATUS_TYPE.INT, enemyData.status);
+            newMember.magic_defense = Calculator.GetMagicDefence(enemyData.status);
+            newMember.magic_crit_dmg = enemyData.mcriDmg;
+            newMember.physical_crit_per = enemyData.criPer;
+            newMember.magic_crit_per = enemyData.mcriPer;
+            newMember.avoid = enemyData.avoid;
+            newMember.state = 0;
+            newMember.speed = enemyData.speed;
 
 
             battlestatedata.enemy_state_list.Add(newMember);
@@ -695,7 +759,7 @@ public class Cheat : MonoSingleton<Cheat>
         }
     }
 
-    public void RequestStageStartCheat(int stageNum, int partyNum)
+    public void RequestStageStartCheat(int stageType, int stageFloor, int partyNum)
     {
         if (UserDataManager.Inst.GetUserInfo() == null)
         {
@@ -705,7 +769,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         Debug.Log("Start SetStageStartCheat");
 
-        string stageStateJson = GetStageStartData(UserDataManager.Inst.GetUserInfo().userName, stageNum, partyNum);
+        string stageStateJson = GetStageStartData(UserDataManager.Inst.GetUserInfo().userName, stageType, stageFloor, partyNum);
         Debug.Log("[SUCCESS] User Stage Start :" + stageStateJson);
 
         stageStateData getBattleStageData = JsonUtility.FromJson<stageStateData>(stageStateJson);

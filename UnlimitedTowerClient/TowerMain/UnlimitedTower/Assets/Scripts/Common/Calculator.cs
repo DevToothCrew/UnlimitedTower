@@ -34,6 +34,11 @@ public class Calculator : MonoBehaviour {
         return (status.basicDex + status.plusDex) * DEFINE.DEFENCE_MULTI_VALUE;
     }
 
+    public static int GetMagicDefence(Status status)
+    {
+        return (status.basicInt + status.plusInt) * DEFINE.DEFENCE_MULTI_VALUE;
+    }
+
     public static int GetCriticalPer(Status status)
     {
         return (status.basicInt + status.plusInt) * DEFINE.CRITICAL_PER_MULTI_VALUE;

@@ -84,18 +84,20 @@ public class BattleManager : MonoSingleton<BattleManager>
             //     isSpaceCheck = true;
             // }
             BattleUIManager.Inst.OnDelay();
-#if UNITY_EDITOR
+
+            #if UNITY_EDITOR
             {
                 string battleActionInfo = Cheat.Inst.GetBattleActionData("devtooth", turnIndex);
                 Debug.Log("[SUCCESS] user battleaction :" + battleActionInfo);
 
                 PacketManager.Inst.ResponseBattleAction(JsonUtility.FromJson<battleActionData>(battleActionInfo));
             }
-#else
+            #else
             {
                 PacketManager.Inst.RequestBattleAction(turnIndex);
             }
-#endif
+            #endif
+
         }
     }
 

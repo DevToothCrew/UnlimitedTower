@@ -28,11 +28,14 @@ public class LoginUI : MonoBehaviour {
             CSVData.Inst.SetCSVData();
 
 #if UNITY_EDITOR
-            Cheat.Inst.RequestLoginCheat();
+            {
+                Cheat.Inst.RequestLoginCheat();
+            }
 #else
-            PacketManager.Inst.RequestLoginWithScatter();
+            {
+                PacketManager.Inst.RequestLoginWithScatter();
+            }
 #endif
-
         }
     }
 }

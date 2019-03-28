@@ -87,10 +87,14 @@ public class GachaManager : MonoBehaviour {
     {
         gachaResultPopup.SetActive(true);
 
-#if UNITY_EDITOR
-        Cheat.Inst.RequestGachaCheat(1);
-#else
-        PacketManager.Inst.RequestGacha(gachaIndex);
+        #if UNITY_EDITOR
+        {
+            Cheat.Inst.RequestGachaCheat(1);
+        }
+        #else
+        {
+            PacketManager.Inst.RequestGacha(gachaIndex);
+        }
 #endif
     }
 
