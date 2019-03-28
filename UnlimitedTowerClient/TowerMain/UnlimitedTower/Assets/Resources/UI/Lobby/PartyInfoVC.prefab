@@ -9356,7 +9356,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4111983013195626}
   - component: {fileID: 95619947278797896}
-  - component: {fileID: 114159248881012320}
   - component: {fileID: 114745138071725062}
   m_Layer: 9
   m_Name: DefultCaracter
@@ -26056,17 +26055,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114159248881012320
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1638247439408480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114161797765994958
 MonoBehaviour:
   m_ObjectHideFlags: 1

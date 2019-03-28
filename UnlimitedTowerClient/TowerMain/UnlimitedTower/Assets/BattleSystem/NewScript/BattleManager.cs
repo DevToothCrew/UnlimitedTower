@@ -56,6 +56,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     private void Start()
     {
         stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
+        turnIndex = stageStateInfo.turn + 1;
         if (stageStateInfo == null)
         {
             Debug.LogError("버그 : stageStateInfo is NULL");
@@ -148,42 +149,44 @@ public class BattleManager : MonoSingleton<BattleManager>
         if (myHp == 0 || enemyHp == 0)
         {
             PacketManager.Inst.RequestStageReward();
-            stageRewardData rewardData = UserDataManager.Inst.GetStageReward();
-            if (rewardData == null)
-            {
-                Debug.LogError("버그 : rewardData is Null");
-                yield break;
-            }
-
-            string temp = "";
-            testReward.SetActive(true);
-
-            if (rewardData.get_exp_list.Count != 0)
-            {
-                temp += "User Name : " + rewardData.user + "\n";
-                temp += "Reward Money : " + rewardData.reward_money.ToString() + "\nExp";
-                for (int i = 0; i < rewardData.get_exp_list.Count; i++)
-                    temp += " : " + rewardData.get_exp_list[i].ToString();
-                temp += "\nServant";
-                for (int i = 0; i < rewardData.get_servant_list.Count; i++)
-                    temp += " : " + rewardData.get_servant_list[i].servant.job;
-                temp += "\nMonster";
-                for (int i = 0; i < rewardData.get_monster_list.Count; i++)
-                    temp += " : " + rewardData.get_monster_list[i].monster.id;
-                temp += "\nEquipment";
-                for (int i = 0; i < rewardData.get_equipment_list.Count; i++)
-                    temp += " : " + rewardData.get_equipment_list[i].equipment.id;
-                // item 추가 필요 및 Gold / EOS 처리 필요
-                testReward.transform.GetChild(0).GetComponent<Text>().text = temp;
-            }
-            else
-            {
-                testDefeat.SetActive(true);
-            }
-            UserDataManager.Inst.stageReward = null;
         }
     }
 
+    public void BattleEnd()
+    {
+        stageRewardData rewardData = UserDataManager.Inst.GetStageReward();
+        if (rewardData == null)
+        {
+            Debug.LogError("버그 : rewardData is Null");
+            return;
+        }
+        string temp = "";
+        testReward.SetActive(true);
+
+        if (rewardData.get_exp_list.Count != 0)
+        {
+            temp += "User Name : " + rewardData.user + "\n";
+            temp += "Reward Money : " + rewardData.reward_money.ToString() + "\nExp";
+            for (int i = 0; i < rewardData.get_exp_list.Count; i++)
+                temp += " : " + rewardData.get_exp_list[i].ToString();
+            temp += "\nServant";
+            for (int i = 0; i < rewardData.get_servant_list.Count; i++)
+                temp += " : " + rewardData.get_servant_list[i].servant.job;
+            temp += "\nMonster";
+            for (int i = 0; i < rewardData.get_monster_list.Count; i++)
+                temp += " : " + rewardData.get_monster_list[i].monster.id;
+            temp += "\nEquipment";
+            for (int i = 0; i < rewardData.get_equipment_list.Count; i++)
+                temp += " : " + rewardData.get_equipment_list[i].equipment.id;
+            // item 추가 필요 및 Gold / EOS 처리 필요
+            testReward.transform.GetChild(0).GetComponent<Text>().text = temp;
+        }
+        else
+        {
+            testDefeat.SetActive(true);
+        }
+        UserDataManager.Inst.stageReward = null;
+    }
 
     public void TestBattleTarget()
     {
@@ -275,10 +278,10 @@ public class BattleManager : MonoSingleton<BattleManager>
                 }
                 character[stageStateInfo.my_state_list[i].position] = Instantiate(characterCustom.Create(
                     servantInfo.jobNum,
-                    servantInfo.headNum - 1,
-                    servantInfo.hairNum - 1,
-                    servantInfo.gender == 1 ? 1 : 0,
-                    servantInfo.body == 1 ? 0 : 1
+                    servantInfo.headNum,
+                    servantInfo.hairNum,
+                    servantInfo.gender,
+                    servantInfo.body
                     ), CharacterParent.transform.GetChild(0));
                 character[stageStateInfo.my_state_list[i].position].name = "Servant : " + stageStateInfo.my_state_list[i].position.ToString();
                 character[stageStateInfo.my_state_list[i].position].AddComponent<CharacterIndex>().index = stageStateInfo.my_state_list[i].position;
@@ -303,6 +306,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
         {
+            Debug.Log(stageStateInfo.enemy_state_list[i].id);
             character[stageStateInfo.enemy_state_list[i].position] = Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResourceModel(stageStateInfo.enemy_state_list[i].id)),
                     CharacterParent.transform.GetChild(1));
             character[stageStateInfo.enemy_state_list[i].position].name = "Monster : " + stageStateInfo.enemy_state_list[i].position.ToString();
