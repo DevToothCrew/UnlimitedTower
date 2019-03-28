@@ -1244,18 +1244,18 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
 
         UserServantData userServant = new UserServantData();
-
         userServant.index = getServantData.index;
+        userServant.id = CSVData.Inst.GetServantID(5, getServantData.servant.job, getServantData.servant.appear.body, getServantData.servant.appear.gender, getServantData.servant.appear.head, getServantData.servant.appear.hair);
+        userServant.grade = 5; // grade 필요, 현재는 그냥 서번트만 얻을수 있으니 일단 이렇게
+        userServant.state = getServantData.servant.state;
 
-        userServant.jobNum = getServantData.servant.job;
+        userServant.partyIndex = getServantData.party_number;
+        if(userServant.partyIndex > 0)
+        {
+            userServant.isPlaced = true;
+        }
+
         userServant.exp = getServantData.servant.exp;
-
-        userServant.body = getServantData.servant.appear.body;
-        userServant.headNum = getServantData.servant.appear.head;
-        userServant.hairNum = getServantData.servant.appear.hair;
-        userServant.gender = getServantData.servant.appear.gender;
-
-        userServant.partyNum = getServantData.party_number;
 
         userServant.status = ParseStatus(getServantData.servant.status);
         if (userServant.status == null)
@@ -1263,7 +1263,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log("Invalid Status Info");
             return null;
         }
-
 
         return userServant;
     }
@@ -1318,21 +1317,19 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
 
         UserMonsterData monster = new UserMonsterData();
-
         monster.index = getMonsterData.index;
-
         monster.id = getMonsterData.monster.id;
+        monster.grade = getMonsterData.monster.grade;
+        monster.upgrade = getMonsterData.monster.upgrade;
+        monster.state = getMonsterData.monster.state;
+
+        monster.partyIndex = getMonsterData.party_number;
+        if(monster.partyIndex > 0)
+        {
+            monster.isPlaced = true;
+        }
 
         monster.exp = getMonsterData.monster.exp;
-
-        monster.monsterTypeNum = getMonsterData.monster.type;
-
-        monster.gradeNum = getMonsterData.monster.grade;
-        monster.upgradeCount = getMonsterData.monster.upgrade;
-
-        monster.partyNum = getMonsterData.party_number;
-
-        //몬스터 스테이터스도 서버로 부터 받아 올 거기 때문에 추가
         monster.status = ParseStatus(getMonsterData.monster.status);
         if (monster.status == null)
         {
@@ -1367,11 +1364,18 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
 
         UserEquipmentData equipmentData = new UserEquipmentData();
-
         equipmentData.index = getEquipmentData.index;
-        equipmentData.tierNum = getEquipmentData.equipment.tier;
-        equipmentData.upgradeCount = getEquipmentData.equipment.upgrade;
-        // 데이터 추가 필요
+        equipmentData.id = getEquipmentData.equipment.id;
+        equipmentData.grade = getEquipmentData.equipment.grade;
+        equipmentData.upgrade = getEquipmentData.equipment.upgrade;
+        equipmentData.state = getEquipmentData.equipment.state;
+
+        equipmentData.value = getEquipmentData.equipment.value;
+        equipmentData.equipServantIndex = getEquipmentData.equipment.equipservantindex;
+        if(equipmentData.equipServantIndex > 0)
+        {
+            equipmentData.isEquiped = true;
+        }
 
         return equipmentData;
     }
@@ -1429,6 +1433,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 servantFormationData.formationIndex = i;
                 partyInfo.formationDataDic.Add(servantFormationData.formationIndex, servantFormationData);
             }
+            else
+            {
+                partyInfo.formationDataDic.Add(i, null);
+            }
         }
 
         for (int i = 0; i < getPartyData.monster_list.Count; i++)
@@ -1439,6 +1447,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 monsterFormationData.index = getPartyData.monster_list[i];
                 monsterFormationData.formationIndex = i + 5;
                 partyInfo.formationDataDic.Add(monsterFormationData.formationIndex, monsterFormationData);
+            }
+            else
+            {
+                partyInfo.formationDataDic.Add(i + 5, null);
             }
         }
 

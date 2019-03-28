@@ -32,9 +32,15 @@ public class DBMonsterData
 public class DBServantData
 {
     public int id;
+    public int job;
+    public int body;
+    public int gender;
+    public int head;
+    public int hair;
+    public GRADE_TYPE grade;
+
     public string name;
-    public string grade;
-    public string job;
+    public string jobName;
     public string resourceBody;
     public string resourceHead;
     public string resourceHair;

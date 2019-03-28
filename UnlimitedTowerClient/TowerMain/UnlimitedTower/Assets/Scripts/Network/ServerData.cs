@@ -47,8 +47,12 @@ public class servantInfo
     public int state;
     public int exp;
     public int stat_point;
+
+    // TODO : job / appear 에서 id로 변경 필요
     public int job;
     public appearInfo appear = new appearInfo();
+    // public int id;
+
     public statusInfo status = new statusInfo();
     public List<int> equip_slot = new List<int>();
     public List<int> passive_skill = new List<int>();
@@ -82,9 +86,8 @@ public class equipmentInfo
     public int job;         //직업제한
     public int grade;       //아이템 등급
     public int upgrade; //아이템 강화 수치
-    public int atk;
-    public int def;
-    public statusInfo status = new statusInfo(); //기본 힘,민,지 추가 힘,민,지
+    public int value;
+    public int equipservantindex;
 };
 
 [Serializable]

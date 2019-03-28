@@ -27,7 +27,7 @@ public class Cheat : MonoSingleton<Cheat>
         {
             userLoginData.servant_list.Add(GetRandomServantData(i, GetRandomServantJob()));
 
-            if (i < 5)
+            if (i < 6)
             {
                 partyData.servant_list.Add(i);
             }
@@ -318,22 +318,22 @@ public class Cheat : MonoSingleton<Cheat>
             return null;
         }
 
-        if (mainMonster.gradeNum != subMonster.gradeNum)
+        if (mainMonster.grade != subMonster.grade)
         {
-            Debug.Log("Different Monster Grade Main : " + mainMonster.gradeNum + " , Sub : " + subMonster.gradeNum);
+            Debug.Log("Different Monster Grade Main : " + mainMonster.grade + " , Sub : " + subMonster.grade);
             return null;
         }
 
-        if (mainMonster.upgradeCount < subMonster.upgradeCount || mainMonster.upgradeCount >= DEFINE.MAX_MONSTER_UPGRADE_COUNT)
+        if (mainMonster.upgrade < subMonster.upgrade || mainMonster.upgrade >= DEFINE.MAX_MONSTER_UPGRADE_COUNT)
         {
-            Debug.Log("InvalidUpgradeCount Monster UpgradeCount Main : " + mainMonster.gradeNum + " , Sub : " + subMonster.gradeNum);
+            Debug.Log("InvalidUpgradeCount Monster UpgradeCount Main : " + mainMonster.grade + " , Sub : " + subMonster.grade);
             return null;
         }
 
-        DBMonsterUpgradeData dbMonsterUpgradeData = CSVData.Inst.GetMonsterUpgradeData(mainMonster.upgradeCount, subMonster.upgradeCount);
+        DBMonsterUpgradeData dbMonsterUpgradeData = CSVData.Inst.GetMonsterUpgradeData(mainMonster.upgrade, subMonster.upgrade);
         if(dbMonsterUpgradeData == null)
         {
-            Debug.Log("Invalid Monster Key : " + ((mainMonster.upgradeCount * 100) + subMonster.upgradeCount));
+            Debug.Log("Invalid Monster Key : " + ((mainMonster.upgrade * 100) + subMonster.upgrade));
             return null;
         }
         
@@ -386,9 +386,9 @@ public class Cheat : MonoSingleton<Cheat>
         }
 
         newMonsterData.monster.type = monsterData.elementType;
-        newMonsterData.monster.grade = getMonsterData.gradeNum;
+        newMonsterData.monster.grade = getMonsterData.grade;
         newMonsterData.monster.exp = getMonsterData.exp;
-        newMonsterData.monster.upgrade = getMonsterData.upgradeCount;
+        newMonsterData.monster.upgrade = getMonsterData.upgrade;
         newMonsterData.monster.monster_class = monsterData.classType;
         newMonsterData.monster.status.basic_str = getMonsterData.status.basicStr;
         newMonsterData.monster.status.basic_dex = getMonsterData.status.basicDex;
@@ -417,9 +417,9 @@ public class Cheat : MonoSingleton<Cheat>
                 return null;
             }
 
-            if (servantData.partyNum != 0)
+            if (servantData.partyIndex != 0)
             {
-                Debug.Log("Invalid Request Servant Already placed Party : " + servantData.partyNum);
+                Debug.Log("Invalid Request Servant Already placed Party : " + servantData.partyIndex);
                 return null;
             }
 
@@ -427,7 +427,14 @@ public class Cheat : MonoSingleton<Cheat>
             getItem.item = new itemInfo();
             getItem.item.count = 1;
 
-            switch (servantData.jobNum)
+            DBServantData dbServantData = CSVData.Inst.GetServantData(servantData.id);
+            if(dbServantData == null)
+            {
+                Debug.Log("Invalid Request Servant DB : " + servantData.id);
+                return null;
+            }
+
+            switch (dbServantData.job)
             {
                 case 1:
                     getItem.item.id = 110010;
@@ -450,7 +457,7 @@ public class Cheat : MonoSingleton<Cheat>
                     break;
 
                 default:
-                    Debug.Log("Invalid Request servantData JobNum : " + servantData.jobNum);
+                    Debug.Log("Invalid Request servantData JobNum : " + dbServantData.job);
                     return null;
             }
 
@@ -499,9 +506,9 @@ public class Cheat : MonoSingleton<Cheat>
                 return null;
             }
 
-            if(monsterData.partyNum != 0)
+            if(monsterData.partyIndex != 0)
             {
-                Debug.Log("Invalid Request Monster Already placed Party : " + monsterData.partyNum);
+                Debug.Log("Invalid Request Monster Already placed Party : " + monsterData.partyIndex);
                 return null;
             }
 
@@ -636,7 +643,7 @@ public class Cheat : MonoSingleton<Cheat>
         appear.hair = rand.Next((int)APPEAR_HAIR.BASE, (int)APPEAR_HAIR.MAX);
         appear.head = rand.Next((int)APPEAR_HEAD.BASE, (int)APPEAR_HEAD.MAX);
         appear.body = rand.Next((int)APPEAR_BODY.BASE, (int)APPEAR_BODY.MAX);
-        appear.gender = rand.Next(0, 2);
+        appear.gender = rand.Next((int)GENDER_BODY.BASE, (int)GENDER_BODY.MAX);
 
         return appear;
     }

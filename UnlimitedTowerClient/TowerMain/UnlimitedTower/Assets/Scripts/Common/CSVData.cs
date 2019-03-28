@@ -179,9 +179,28 @@ public class CSVData : MonoSingleton<CSVData> {
 
             DBServantData servantData = new DBServantData();
             servantData.id = Convert.ToInt32(data[i]["id"]);
+            servantData.job = Convert.ToInt32(data[i]["job"]);
+            servantData.body = Convert.ToInt32(data[i]["body"]);
+            servantData.gender = Convert.ToInt32(data[i]["gender"]);
+            servantData.head = Convert.ToInt32(data[i]["head"]);
+            servantData.hair = Convert.ToInt32(data[i]["hair"]);
+
             servantData.name = Convert.ToString(data[i]["name"]);
-            servantData.grade = Convert.ToString(data[i]["grade"]);
-            servantData.job = Convert.ToString(data[i]["job"]);
+            switch(Convert.ToString(data[i]["grade"]))
+            {
+                case "legendary":
+                    servantData.grade = GRADE_TYPE.LEGENDARY;
+                    break;
+
+                case "common":
+                    servantData.grade = GRADE_TYPE.COMMON;
+                    break;
+
+                default:
+                    Debug.LogError("Invalid Request DBServant");
+                    break;
+            }
+
             servantData.resourceBody = Convert.ToString(data[i]["resource_body"]);
             servantData.resourceHead = Convert.ToString(data[i]["resource_head"]);
             servantData.resourceHair = Convert.ToString(data[i]["resource_hair"]);
@@ -397,6 +416,28 @@ public class CSVData : MonoSingleton<CSVData> {
         // User Exp Table 추가 후 수정
 
         return 1;
+    }
+
+    public int GetServantID(int grade, int job, int body, int gender, int head, int hair)
+    {
+        if (grade == 1)
+        {
+            if (job == 1)
+            {
+                return 1000001;
+            }
+            else if (job == 2)
+            {
+                return 1000002;
+            }
+            else if (job == 3)
+            {
+                return 1000003;
+            }
+        }
+
+        int id = (job * 1000000) + (body * 100000) + (gender * 10000) + (head * 100) + hair;
+        return id;
     }
 
     #endregion

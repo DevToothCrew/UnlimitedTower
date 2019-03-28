@@ -214,9 +214,16 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     {
         int selected_unit_idx = _selected_unit_idx;
 
+        DBServantData dbServantData = CSVData.Inst.GetServantData(ServantList[selected_unit_idx].id);
+        if (dbServantData == null)
+        {
+            Debug.Log("Invalid DBServantData");
+            return;
+        }
+
         textLevel.text = string.Format("{0}", ServantList[selected_unit_idx].level);
-        //xtLevel.text = string.Format("{0}", ServantList[selected_unit_idx].level);
-        textCharacterName.text = string.Format("{0}", ServantList[selected_unit_idx].name);
+
+        textCharacterName.text = string.Format("{0}", dbServantData.name);
 
         textStr.text = string.Format("{0}", ServantList[selected_unit_idx].status.basicStr + ServantList[selected_unit_idx].status.plusStr);
         textDex.text = string.Format("{0}", ServantList[selected_unit_idx].status.basicDex + ServantList[selected_unit_idx].status.plusDex);
