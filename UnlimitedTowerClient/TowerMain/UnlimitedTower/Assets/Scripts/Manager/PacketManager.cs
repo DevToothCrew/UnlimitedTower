@@ -109,6 +109,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
         {
             onSuccess?.Invoke(recvPackedData.body);
         }
+        Debug.Log("recv packet : " + _recvDatas[header]);
+        _recvDatas.Remove(header);
     }
     
     private IEnumerator RequestRoutine<T>(string header, string body = "", Action<T> onSuccess = null, Action<string> onFailed = null)
@@ -834,6 +836,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 스테이지 종료
     public void ResponseStageExit()
     {
+        UserDataManager.Inst.SetStageState(null);
+        UserDataManager.Inst.SetStageAction(null);
+        UserDataManager.Inst.SetStageReward(null);
         SceneManager.LoadScene("Lobby");
     }
 
