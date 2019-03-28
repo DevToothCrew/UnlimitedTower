@@ -74,35 +74,42 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
     public void SetPartyInfo(UserPartyData getPartyInfo)
     {
-        partyInfo = getPartyInfo;
-
-        foreach(KeyValuePair<int, UserFormationData> dic in partyInfo.formationDataDic)
+        if (partyInfo.formationDataDic.Count > 0)
         {
-            if(dic.Key > 0 && dic.Key <= DEFINE.ServantMaxFormationNum)
+            for (int i = 0; i < 10; i++)
             {
-                if(servantDic.ContainsKey(dic.Value.index) == false)
+                if (partyInfo.formationDataDic[i] != null)
                 {
-                    Debug.LogError("Invalid Servant Index : " + dic.Value.index);
-                }
-                servantDic[dic.Value.index].isPlaced = true;
-
-                if(dic.Key == 0)
-                {
-                    MainCharInfo charInfo = new MainCharInfo();
-                    charInfo.mainCharType = CHAR_TYPE.SERVANT;
-                    charInfo.mainCharID = servantDic[dic.Value.index].ServantID();
-                    charInfo.grade = servantDic[dic.Value.index].grade;
-
-                    UpdateMainCharInfo(charInfo);
+                    if (i <= DEFINE.ServantMaxFormationNum)
+                    {
+                        servantDic[partyInfo.formationDataDic[i].index].partyIndex = 0;
+                        servantDic[partyInfo.formationDataDic[i].index].isPlaced = false;
+                    }
+                    else
+                    {
+                        monsterDic[partyInfo.formationDataDic[i].index].partyIndex = 0;
+                        monsterDic[partyInfo.formationDataDic[i].index].isPlaced = false;
+                    }
                 }
             }
-            else if (dic.Key > DEFINE.ServantMaxFormationNum && dic.Key <= DEFINE.MonsterMaxFormationNum)
+        }
+
+        partyInfo = getPartyInfo;
+
+        for (int i = 0; i < 10; i++)
+        {
+            if (partyInfo.formationDataDic[i] != null)
             {
-                if (monsterDic.ContainsKey(dic.Value.index) == false)
+                if (i <= DEFINE.ServantMaxFormationNum)
                 {
-                    Debug.LogError("Invalid Monster Index : " + dic.Value.index);
+                    servantDic[partyInfo.formationDataDic[i].index].partyIndex = partyInfo.partyIndex;
+                    servantDic[partyInfo.formationDataDic[i].index].isPlaced = true;
                 }
-                monsterDic[dic.Value.index].isPlaced = true;
+                else
+                {
+                    monsterDic[partyInfo.formationDataDic[i].index].partyIndex = partyInfo.partyIndex;
+                    monsterDic[partyInfo.formationDataDic[i].index].isPlaced = true;
+                }
             }
         }
     }

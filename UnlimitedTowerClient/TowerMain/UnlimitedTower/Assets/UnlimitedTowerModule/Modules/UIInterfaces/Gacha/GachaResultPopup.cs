@@ -69,9 +69,9 @@ public class GachaResultPopup : MonoBehaviour {
     {
         SetActiveButtons(true);
 
-        DBServantData servantData = CSVData.Inst.GetServantData(result.ServantID());
+        DBServantData servantData = CSVData.Inst.GetServantData(result.id);
 
-        resultName.text = result.name;
+        resultName.text = servantData.name;
         resultType.text = result.grade.ToString();
         resultStrStat.text = result.status.basicStr.ToString();
         resultIntStat.text = result.status.basicInt.ToString();
@@ -83,7 +83,7 @@ public class GachaResultPopup : MonoBehaviour {
         SetActiveButtons(true);
 
         //resultName.text = result.name;
-        resultType.text = result.gradeNum.ToString();
+        resultType.text = result.grade.ToString();
         resultStrStat.text = result.status.basicStr.ToString();
         resultIntStat.text = result.status.basicInt.ToString();
         resultDexStat.text = result.status.basicDex.ToString();

@@ -1,4 +1,4 @@
-id,#,#,#,#,#,#,#,name,grade,job,resource_body,resource_head,resource_hair,resource_icon,#
+id,#,job,body,gender,head,hair,#,name,grade,job_name,resource_body,resource_head,resource_hair,resource_icon,#
 #,가챠 id,직업,체형,성별,얼굴,헤어,데이터별설명,이름,등급,직업,바디 리소스,헤드 리소스,헤어 리소스,아이콘 리소스,무기 리소스
 int,int,int,int,int,int,int,string,localize,string,string,string,string,string,string,string
 1000001,0,0,0,0,0,0,사자왕,DB_servant_name_1000001,legendary,warrior,,,,royal_warrior,

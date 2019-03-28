@@ -11,8 +11,6 @@ public class NodeInfo
     public int nodeSpeed; // 00 ms
 }
 
-// 서번트 클래스에 히어로도 포함된다.
-// TODO : Servant 삭제 영웅 경험치만 포함으로 변경
 [Serializable]
 public class UserInfo
 {
@@ -22,12 +20,16 @@ public class UserInfo
     public ulong userEOS;
     public SCENE_STATE sceneState;
 
-    public int Level()
+    public int level
     {
-        return CSVData.Inst.GetUserLevelByExp(userEXP);
+        get
+        {
+            return CSVData.Inst.GetUserLevelByExp(userEXP);
+        }
     }
 }
 
+[Serializable]
 public class MainCharInfo
 {
     public CHAR_TYPE mainCharType;
@@ -35,185 +37,67 @@ public class MainCharInfo
     public int grade;
 }
 
-// erd완
 [Serializable]
 public class UserServantData
 {
-    // 캐릭터를 구분하는 고유값이 되어야함
     public int index;
+    public int id;
+    public int grade;
+    public int state;
 
-
-    public string name;
     public int partyIndex;
+    public bool isPlaced;
 
-    // TODO : Servant별 State 추가 필요
+    public Status status = new Status();
+
     public int exp;
     public int level
     {
         get
         {
+            // CSV로 변경 필요
             return Calculator.GetLevelForExp(exp);
         }
-    }
-    public int jobNum;
-
-    // 현재는 appear를 통해 간단히 사용하고 추후 appearInfo와 job을 통해 캐릭터 생성이 되어야함
-    public int body;
-    public int headNum;
-    public int hairNum;
-    public int gender;
-    public int grade;
-
-    public int ServantID()
-    {
-        if (grade == 5)
-        {
-            if (jobNum == 1)
-            {
-                return 1000001;
-            }
-            else if (jobNum == 2)
-            {
-                return 1000002;
-            }
-            else if (jobNum == 3)
-            {
-                return 1000003;
-            }
-        }
-
-        int id = (jobNum * 1000000) + (body * 100000) + (gender * 10000) + (headNum * 100) + hairNum;
-        return id;
-    }
-
-    public Status status = new Status();
-
-    /* 조회용 데이터 __________________________________________________________ */
-
-    // 착용 아이템 리스트 -> 역참조초기화x, 역참조업데이트x
-    public List<UserEquipmentData> equipmentList = new List<UserEquipmentData>();
-    public event System.Action mountItemListChangeEvent;
-    public void Equip(UserEquipmentData userEquipmentData)
-    {
-        equipmentList.Add(userEquipmentData);
-
-        if (mountItemListChangeEvent != null)
-        {
-            mountItemListChangeEvent();
-        }
-    }
-    public void Unequip(UserEquipmentData userEquipmentData)
-    {
-        // 장착하고있는 아이템이 아닐경우 -> return
-        if (!equipmentList.Contains(userEquipmentData))
-        {
-            return;
-        }
-
-        // 장착 해제
-        equipmentList.Remove(userEquipmentData);
-
-        if (mountItemListChangeEvent != null)
-        {
-            mountItemListChangeEvent();
-        }
-    }
-
-    // 배치 데이터 
-    public bool isPlaced;
-    public int partyNum;
-    public int formationNum;
-
-
-
-
-
-    public UserServantData()
-    {
-        exp = 0;
-
-        status = new Status();
-        status.basicStr = DEFINE.TEST_STATUS_VALUE;
-        status.basicDex = DEFINE.TEST_STATUS_VALUE;
-        status.basicInt = DEFINE.TEST_STATUS_VALUE;
-    }
-    public UserServantData(int getCharNum)
-    {
-        body = getCharNum;
-        exp = 0;
-
-        status = new Status();
-        status.basicStr = DEFINE.TEST_STATUS_VALUE;
-        status.basicDex = DEFINE.TEST_STATUS_VALUE;
-        status.basicInt = DEFINE.TEST_STATUS_VALUE;
-
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class UserMonsterData
 {
-    // 서버에서 캐릭터를 구분하는 고유값
     public int index;
-
-    // 몬스터ID
     public int id;
+    public int grade;
+    public int upgrade;
+    public int state;
 
-    // TODO : 추후 추가 예정
-    public int monsterTypeNum;
+    public int partyIndex;
+    public bool isPlaced;
 
-    // TODO : Monster별 State 추가 필요
-    public int gradeNum;
-    public int upgradeCount;
     public int exp;
     public int level
     {
         get
         {
+            // CSV로 변경 필요
             return Calculator.GetLevelForExp(exp);
         }
     }
 
     public Status status = new Status();
-
-    public bool isPlaced;
-    public int partyNum;
-    public int formationNum;
 }
 
 [System.Serializable]
 public class UserEquipmentData
 {
-    // 
     public int index;
-
-    //
     public int id;
+    public int grade;
+    public int upgrade;
+    public int state;
 
-    public int gradeNum;
-    public int tierNum;
-    public int upgradeCount;
     public int value;
 
-    bool _isMounted;
-    public bool isMounted
-    {
-        get
-        {
-            return _isMounted;
-        }
-        set
-        {
-            _isMounted = value;
-
-            if (mountedChanged != null)
-            {
-                mountedChanged();
-            }
-        }
-    }
-    public System.Action mountedChanged;
-
+    public bool isEquiped;
     public int equipServantIndex;
 }
 
@@ -242,12 +126,7 @@ public class UserFormationData
     {
         get
         {
-            if (formationIndex == 0)
-            {
-                return CHAR_TYPE.HERO;
-            }
-
-            if (formationIndex <= 4)
+            if (formationIndex <= DEFINE.ServantMaxFormationNum)
             {
                 return CHAR_TYPE.SERVANT;
             }

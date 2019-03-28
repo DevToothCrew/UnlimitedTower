@@ -1,5 +1,14 @@
 ﻿#region ENUM
 
+public enum GRADE_TYPE
+{
+    LEGENDARY = 1,
+    UNIQUE = 2,
+    RARE = 3,
+    UNCOMMON = 4,
+    COMMON = 5,
+}
+
 public enum LOCALIZATION_TYPE
 {
     KR = 0,
@@ -202,9 +211,16 @@ public enum APPEAR_HEAD
 
 public enum APPEAR_BODY
 {
-    BASE = 0,
+    BASE = 1,
 
     MAX = 3
+}
+
+public enum GENDER_BODY
+{
+    BASE = 1,
+
+    MAX = 3,
 }
 
 public enum STATUS_TYPE

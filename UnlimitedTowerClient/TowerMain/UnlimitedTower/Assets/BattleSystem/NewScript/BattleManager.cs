@@ -257,12 +257,15 @@ public class BattleManager : MonoSingleton<BattleManager>
                     Debug.LogError("버그다");
                     return;
                 }
+
+                DBServantData dbServantData = CSVData.Inst.GetServantData(servantInfo.id);
+
                 character[stageStateInfo.my_state_list[i].position] = Instantiate(characterCustom.Create(
-                    servantInfo.jobNum,
-                    servantInfo.headNum,
-                    servantInfo.hairNum,
-                    servantInfo.gender,
-                    servantInfo.body
+                    dbServantData.job,
+                    dbServantData.head,
+                    dbServantData.hair,
+                    dbServantData.gender,
+                    dbServantData.body
                     ), CharacterParent.transform.GetChild(0));
                 character[stageStateInfo.my_state_list[i].position].name = "Servant : " + stageStateInfo.my_state_list[i].position.ToString();
                 character[stageStateInfo.my_state_list[i].position].AddComponent<CharacterIndex>().index = stageStateInfo.my_state_list[i].position;
