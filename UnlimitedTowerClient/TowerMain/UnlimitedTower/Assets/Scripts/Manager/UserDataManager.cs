@@ -188,6 +188,16 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return userInfo;
     }
 
+    public ulong GetUserEOS() /* 기본적으로 EOS와 UTG는 1이 10000으로 처리됩니다. */
+    {
+        return userInfo.userEOS;
+    }
+
+    public ulong GetUserUTG() /* 기본적으로 EOS와 UTG는 1이 10000으로 처리됩니다. */
+    {
+        return userInfo.userMoney;
+    }
+
     public UserServantData GetHeroInfo()
     {
         if (userInfo == null)

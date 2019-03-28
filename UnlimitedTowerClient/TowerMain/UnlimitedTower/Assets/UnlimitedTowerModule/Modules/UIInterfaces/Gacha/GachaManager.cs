@@ -52,10 +52,7 @@ public class GachaManager : MonoBehaviour {
         GetComponent<Animator>()?.SetTrigger("Particle");
         particleController.BeginSummonAnimation(()=>
         {
-            // Request to server
-            // this interface can be changed
-            int gachaIndex = 1;
-            PacketManager.Inst.RequestGacha(gachaIndex);
+            StartGacha(1);
             GetComponent<Animator>()?.SetTrigger("Glowing");
         });
     }
@@ -69,6 +66,26 @@ public class GachaManager : MonoBehaviour {
     public void ExitGachaScene()
     {
         GetComponent<Animator>()?.SetTrigger("Invisible");
+    }
+
+    public void StartGacha(int gachaIndex)
+    {
+        // bool 처리를 통해 Gacha 처리가 필요할수도
+
+        // GachaIndex에 따른 필요 EOS를 체크한다.
+
+        // 현재는 1EOS로 박아두기
+
+        if(UserDataManager.Inst.GetUserEOS() < 10000)
+        {
+            return;
+        }
+
+#if UNITY_EDITOR
+        Cheat.Inst.GetGachaResultData(1);
+#else
+        PacketManager.Inst.RequestGacha(gachaIndex);
+#endif
     }
 
 }

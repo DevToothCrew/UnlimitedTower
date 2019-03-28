@@ -47,9 +47,7 @@ public class GachaImage : MonoSingleton<GachaImage>
             Debug.Log("End Fade Out ");
             GachaImageAnimator.SetBool("Play", false);
             fadeOutFlag = true;
-
-            int gachaIndex = 1;
-            PacketManager.Inst.RequestGacha(gachaIndex);
+            GachaManager.Instance.StartGacha(1);
         }
 
         yield break;

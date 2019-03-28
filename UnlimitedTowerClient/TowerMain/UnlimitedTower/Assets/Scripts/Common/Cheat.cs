@@ -90,7 +90,7 @@ public class Cheat : MonoSingleton<Cheat>
             gachaResult.result_type = type;
             gachaResult.data = GetRandomServantData(UserDataManager.Inst.servantDic.Count + 1, GetRandomServantJob());
 
-            return JsonMapper.ToJson(gachaResult);
+            return JsonMapper.ToJson(gachaResult).ToString();
         }
         else if (type == (int)GACHA_RESULT_TYPE.Monster)
         {
@@ -98,14 +98,14 @@ public class Cheat : MonoSingleton<Cheat>
             gachaResult.result_type = type;
             gachaResult.data = GetRandomMonster(UserDataManager.Inst.monsterDic.Count + 1);
 
-            return JsonMapper.ToJson(gachaResult);
+            return JsonMapper.ToJson(gachaResult).ToString();
         }
         else if (type == (int)GACHA_RESULT_TYPE.Equipment)
         {
             // 아이템은 아직
             gachaItemData gachaResult = new gachaItemData();
 
-            return JsonMapper.ToJson(gachaResult);
+            return JsonMapper.ToJson(gachaResult).ToString();
         }
         else
         {
@@ -703,6 +703,19 @@ public class Cheat : MonoSingleton<Cheat>
 
         stageStateData getBattleStageData = JsonUtility.FromJson<stageStateData>(stageStateJson);
         PacketManager.Inst.ResponseStageStart(getBattleStageData);
+    }
+
+    public void RequestGachaCheat(int gachaIndex)
+    {
+        string gachaDataJson = GetGachaResultData(gachaIndex);
+        if(gachaDataJson == null)
+        {
+            Debug.Log("Invalid Request Gacha");
+            return;
+        }
+
+        Debug.Log("[SUCCESS] Gacha : " + gachaDataJson);
+        PacketManager.Inst.ResponseGacha(gachaDataJson);
     }
 
     public void RequestMonsterUpgradeCheat(int mainMonsterIndex, int subMonsterIndex)
