@@ -257,8 +257,14 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
         if (getMenuType() == menu_type.SERVANT)
         {
+            DBServantData dBServantData = CSVData.Inst.GetServantData(ServantList[selected_unit_idx].id);
+            if(dBServantData == null)
+            {
+                Debug.Log("Invalid Servant ID : " + ServantList[selected_unit_idx].id);
+            }
+
             textLevel.text = string.Format("{0}", ServantList[selected_unit_idx].level);
-            textCharacterName.text = string.Format("{0}", ServantList[selected_unit_idx].name);
+            textCharacterName.text = string.Format("{0}", dBServantData.name);
 
             textStr.text = string.Format("{0}", ServantList[selected_unit_idx].status.basicStr + ServantList[selected_unit_idx].status.plusStr);
             textDex.text = string.Format("{0}", ServantList[selected_unit_idx].status.basicDex + ServantList[selected_unit_idx].status.plusDex);
@@ -266,8 +272,14 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         }
         else if (getMenuType() == menu_type.MONSTER)
         {
+            DBMonsterData dBMonsterData = CSVData.Inst.GetMonsterData(MonsterList[selected_unit_idx].id);
+            if(dBMonsterData == null)
+            {
+                Debug.Log("Invalid Monster ID : " + MonsterList[selected_unit_idx].id);
+            }
+
             textLevel.text = string.Format("{0}", MonsterList[selected_unit_idx].level);
-            textCharacterName.text = "";
+            textCharacterName.text = string.Format("{0}", dBMonsterData.name);
 
             textStr.text = string.Format("{0}", MonsterList[selected_unit_idx].status.basicStr + MonsterList[selected_unit_idx].status.plusStr);
             textDex.text = string.Format("{0}", MonsterList[selected_unit_idx].status.basicDex + MonsterList[selected_unit_idx].status.plusDex);

@@ -408,7 +408,12 @@ public class CSVData : MonoSingleton<CSVData> {
 
     public DBServantData GetServantData(int id)
     {
-        return null;
+        if(DBServantDataDic.ContainsKey(id) == false)
+        {
+            return null;
+        }
+
+        return DBServantDataDic[id];
     }
 
     public int GetUserLevelByExp(int exp)
