@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a0c5ed1b8fd24374991b49ced7792233
+guid: 1a263a5eeccae9e489eb0f3feb4b92c8
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -12,22 +12,22 @@ ModelImporter:
     100012: heel_02_L
     100014: heel_02_R
     100016: metarig
-    100018: mst_fairy_leef
-    100020: mst_fairy_leef_001
-    100022: mst_fairy_leef_002
-    100024: mst_fairy_leef_003
-    100026: mst_fairy_leef_004
-    100028: mst_fairy_leef_005
-    100030: mst_fairy_leef_006
-    100032: mst_fairy_leef_007
-    100034: mst_fairy_leef_008
-    100036: mst_fairy_leef_009
-    100038: mst_fairy_leef_010
-    100040: mst_fairy_leef_011
-    100042: mst_fairy_leef_012
-    100044: mst_fairy_leef_013
-    100046: mst_fairy_leef_014
-    100048: mst_fairy_leef_015
+    100018: mst_fairy_air__
+    100020: mst_fairy_air___001
+    100022: mst_fairy_air___002
+    100024: mst_fairy_air___003
+    100026: mst_fairy_air___004
+    100028: mst_fairy_air___005
+    100030: mst_fairy_air___006
+    100032: mst_fairy_air___007
+    100034: mst_fairy_air___008
+    100036: mst_fairy_air___009
+    100038: mst_fairy_air___010
+    100040: mst_fairy_air___011
+    100042: mst_fairy_air___012
+    100044: mst_fairy_air___013
+    100046: mst_fairy_air___014
+    100048: mst_fairy_air___015
     100050: //RootNode
     100052: shin_L
     100054: shin_R
@@ -55,22 +55,22 @@ ModelImporter:
     400012: heel_02_L
     400014: heel_02_R
     400016: metarig
-    400018: mst_fairy_leef
-    400020: mst_fairy_leef_001
-    400022: mst_fairy_leef_002
-    400024: mst_fairy_leef_003
-    400026: mst_fairy_leef_004
-    400028: mst_fairy_leef_005
-    400030: mst_fairy_leef_006
-    400032: mst_fairy_leef_007
-    400034: mst_fairy_leef_008
-    400036: mst_fairy_leef_009
-    400038: mst_fairy_leef_010
-    400040: mst_fairy_leef_011
-    400042: mst_fairy_leef_012
-    400044: mst_fairy_leef_013
-    400046: mst_fairy_leef_014
-    400048: mst_fairy_leef_015
+    400018: mst_fairy_air__
+    400020: mst_fairy_air___001
+    400022: mst_fairy_air___002
+    400024: mst_fairy_air___003
+    400026: mst_fairy_air___004
+    400028: mst_fairy_air___005
+    400030: mst_fairy_air___006
+    400032: mst_fairy_air___007
+    400034: mst_fairy_air___008
+    400036: mst_fairy_air___009
+    400038: mst_fairy_air___010
+    400040: mst_fairy_air___011
+    400042: mst_fairy_air___012
+    400044: mst_fairy_air___013
+    400046: mst_fairy_air___014
+    400048: mst_fairy_air___015
     400050: //RootNode
     400052: shin_L
     400054: shin_R
@@ -89,41 +89,41 @@ ModelImporter:
     400080: toe_R
     400082: upper_arm_L
     400084: upper_arm_R
-    2100000: palette_001__mst_fairy_leef_png
-    4300000: mst_fairy_leef_007
-    4300002: mst_fairy_leef_006
-    4300004: mst_fairy_leef_005
-    4300006: mst_fairy_leef_008
-    4300008: mst_fairy_leef_014
-    4300010: mst_fairy_leef_009
-    4300012: mst_fairy_leef_013
-    4300014: mst_fairy_leef_001
-    4300016: mst_fairy_leef_015
-    4300018: mst_fairy_leef_003
-    4300020: mst_fairy_leef_012
-    4300022: mst_fairy_leef_011
-    4300024: mst_fairy_leef
-    4300026: mst_fairy_leef_010
-    4300028: mst_fairy_leef_004
-    4300030: mst_fairy_leef_002
+    2100000: palette_001__mst_fairy_air___png
+    4300000: mst_fairy_air___008
+    4300002: mst_fairy_air___007
+    4300004: mst_fairy_air___006
+    4300006: mst_fairy_air___009
+    4300008: mst_fairy_air___015
+    4300010: mst_fairy_air___010
+    4300012: mst_fairy_air___004
+    4300014: mst_fairy_air___005
+    4300016: mst_fairy_air___001
+    4300018: mst_fairy_air___002
+    4300020: mst_fairy_air___003
+    4300022: mst_fairy_air___014
+    4300024: mst_fairy_air__
+    4300026: mst_fairy_air___011
+    4300028: mst_fairy_air___012
+    4300030: mst_fairy_air___013
     7400000: Default Take
     9500000: //RootNode
-    13700000: mst_fairy_leef
-    13700002: mst_fairy_leef_001
-    13700004: mst_fairy_leef_002
-    13700006: mst_fairy_leef_003
-    13700008: mst_fairy_leef_004
-    13700010: mst_fairy_leef_005
-    13700012: mst_fairy_leef_006
-    13700014: mst_fairy_leef_007
-    13700016: mst_fairy_leef_008
-    13700018: mst_fairy_leef_009
-    13700020: mst_fairy_leef_010
-    13700022: mst_fairy_leef_011
-    13700024: mst_fairy_leef_012
-    13700026: mst_fairy_leef_013
-    13700028: mst_fairy_leef_014
-    13700030: mst_fairy_leef_015
+    13700000: mst_fairy_air__
+    13700002: mst_fairy_air___001
+    13700004: mst_fairy_air___002
+    13700006: mst_fairy_air___003
+    13700008: mst_fairy_air___004
+    13700010: mst_fairy_air___005
+    13700012: mst_fairy_air___006
+    13700014: mst_fairy_air___007
+    13700016: mst_fairy_air___008
+    13700018: mst_fairy_air___009
+    13700020: mst_fairy_air___010
+    13700022: mst_fairy_air___011
+    13700024: mst_fairy_air___012
+    13700026: mst_fairy_air___013
+    13700028: mst_fairy_air___014
+    13700030: mst_fairy_air___015
   externalObjects: {}
   materials:
     importMaterials: 1
