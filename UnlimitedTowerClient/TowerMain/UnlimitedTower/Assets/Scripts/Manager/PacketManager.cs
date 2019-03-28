@@ -179,7 +179,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             }, 
             onFailed: msg =>
             {
-                Debug.LogError($"[Failed Requesting ResourceInfo] {msg}");
+                Debug.Log($"[Failed Requesting ResourceInfo] {msg}");
             });
     }
 
@@ -193,7 +193,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             onSuccess: ResponseLogin /* 이미 정의된 함수가 있다면 이렇게 대입만 해주어도 됩니다.*/,
             onFailed: msg => /* 람다 함수를 사용하는 경우 */
             {
-                Debug.LogError($"[Failed Requesting Login] {msg}");
+                Debug.Log($"[Failed Requesting Login] {msg}");
             });
     }
 
@@ -205,7 +205,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Request("Logout",
             onSuccess: ResponseLogout,
             onFailed: msg => {
-                Debug.LogError($"[Failed Requesting Logout] {msg}");
+                Debug.Log($"[Failed Requesting Logout] {msg}");
             });
     }
 
@@ -224,7 +224,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             onSuccess: ResponseGacha,
             onFailed: msg =>
             {
-                Debug.LogError($"[Failed Requesting Gacha] {msg}");
+                Debug.Log($"[Failed Requesting Gacha] {msg}");
             });
     }
 
@@ -273,7 +273,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Request<partyData>("SaveParty",
                 body: json,
                 onSuccess: ResponseSaveParty,
-                onFailed: msg => { Debug.LogError($"[Failed Requesting SaveParty] {msg}"); }
+                onFailed: msg => { Debug.Log($"[Failed Requesting SaveParty] {msg}"); }
                 );
     }
 
@@ -288,7 +288,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Request<battleActionData>("BattleAction", 
                 body: json,
                 onSuccess: ResponseBattleAction,
-                onFailed: msg => { Debug.LogError($"[Failed Requesting BattleAction] {msg}"); }
+                onFailed: msg => { Debug.Log($"[Failed Requesting BattleAction] {msg}"); }
                 );
     }
 
@@ -308,7 +308,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Request<stageStateData>("StageStart",
                 body: json,
                 onSuccess: ResponseStageStart,
-                onFailed: msg => { Debug.LogError($"[Failed Requesting StageStart] {msg}"); }
+                onFailed: msg => { Debug.Log($"[Failed Requesting StageStart] {msg}"); }
                 );
     }
 
@@ -319,7 +319,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         Request<stageRewardData>("StageReward",
         onSuccess: ResponseStageReward,
-        onFailed: msg => { Debug.LogError($"[Failed Requesting StageStart] {msg}"); }
+        onFailed: msg => { Debug.Log($"[Failed Requesting StageStart] {msg}"); }
         );
     }
 
@@ -332,7 +332,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             onSuccess: ResponseStageExit,
             onFailed: msg =>
             {
-                Debug.LogError($"[Failed Requesting StageResult] {msg}");
+                Debug.Log($"[Failed Requesting StageResult] {msg}");
             });
     }
 
@@ -356,7 +356,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Request<servantGrindResultData>("ServantGrind",
                 body: json,
                 onSuccess: ResponseServantGrind,
-                onFailed: msg => { Debug.LogError($"[Failed Requesting ServantGrind] {msg}"); }
+                onFailed: msg => { Debug.Log($"[Failed Requesting ServantGrind] {msg}"); }
                 );
     }
 
@@ -381,7 +381,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 onSuccess: ResponseMonsterSell,
                 onFailed: msg => 
                 {
-                    Debug.LogError($"[Failed Requesting MonsterSell] {msg}");
+                    Debug.Log($"[Failed Requesting MonsterSell] {msg}");
                 });
     }
 
@@ -406,7 +406,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 onSuccess: ResponseEquipmentSell,
                 onFailed: msg =>
                 {
-                    Debug.LogError($"[Failed Requesting EquipmentSell] {msg}");
+                    Debug.Log($"[Failed Requesting EquipmentSell] {msg}");
                 });
 
     }
@@ -432,7 +432,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 onSuccess: ResponseItemSell,
                 onFailed: msg =>
                 {
-                    Debug.LogError($"[Failed Requesting ItemSell] {msg}");
+                    Debug.Log($"[Failed Requesting ItemSell] {msg}");
                 });
     }
 
@@ -458,7 +458,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 onSuccess: ResponseEquipServant,
                 onFailed: msg =>
                 {
-                    Debug.LogError($"[Failed Requesting EquipServant] {msg}");
+                    Debug.Log($"[Failed Requesting EquipServant] {msg}");
                 });
     }
 
@@ -485,7 +485,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 onSuccess: ResponseUnequipServant,
                 onFailed: msg =>
                 {
-                    Debug.LogError($"[Failed Requesting UnequipServant] {msg}");
+                    Debug.Log($"[Failed Requesting UnequipServant] {msg}");
                 });
     }
 
@@ -511,7 +511,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 onSuccess: ResponseMonsterUpgrade,
                 onFailed: msg =>
                 {
-                    Debug.LogError($"[Failed Requesting MonsterUpgrade] {msg}");
+                    Debug.Log($"[Failed Requesting MonsterUpgrade] {msg}");
                 });
     }
 
@@ -536,7 +536,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 onSuccess: ResponseEquipmentUpgrade,
                 onFailed: msg =>
                 {
-                    Debug.LogError($"[Failed Requesting EquipmentUpgrade] {msg}");
+                    Debug.Log($"[Failed Requesting EquipmentUpgrade] {msg}");
                 });
     }
 
@@ -562,7 +562,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 onSuccess: ResponseBuyItem,
                 onFailed: msg =>
                 {
-                    Debug.LogError($"[Failed Requesting BuyItem] {msg}");
+                    Debug.Log($"[Failed Requesting BuyItem] {msg}");
                 });
     }
 
@@ -588,7 +588,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 onSuccess: ResponseBuyInventory,
                 onFailed: msg =>
                 {
-                    Debug.LogError($"[Failed Requesting BuyInventory] {msg}");
+                    Debug.Log($"[Failed Requesting BuyInventory] {msg}");
                 });
     }
 
@@ -613,7 +613,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 onSuccess: ResponseBuyRoyalServant,
                 onFailed: msg =>
                 {
-                    Debug.LogError($"[Failed Requesting ServantGrind] {msg}");
+                    Debug.Log($"[Failed Requesting ServantGrind] {msg}");
                 });
     }
 
@@ -638,7 +638,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 onSuccess: ResponseMailOpen,
                 onFailed: msg =>
                 {
-                    Debug.LogError($"[Failed Requesting ServantGrind] {msg}");
+                    Debug.Log($"[Failed Requesting ServantGrind] {msg}");
                 });
     }
 
@@ -921,6 +921,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             }
 
         }
+        BattleManager.Inst.BattleEnd();
     }
     public void ResopnseResource(userResourceData getResourceInfo)
     {
