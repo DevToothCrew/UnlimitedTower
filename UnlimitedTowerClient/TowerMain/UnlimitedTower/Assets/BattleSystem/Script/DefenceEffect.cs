@@ -4,36 +4,18 @@ using UnityEngine;
 
 public class DefenceEffect : MonoBehaviour {
     public SpriteRenderer[] sprite = new SpriteRenderer[4];
-    private Light lighting;
     
 	void Awake () {
         for (int i = 0; i < 4; i++)
             sprite[i] = transform.GetChild(i).GetComponent<SpriteRenderer>();
-        lighting = GetComponent<Light>();
     }
     
     public void EffectAction()
     {
+        gameObject.SetActive(true);
         StartCoroutine(DefenceEffectSprite());
-        StartCoroutine(DefenceEffectLight());
     }
-
-    IEnumerator DefenceEffectLight()
-    {
-        yield return new WaitForSeconds(0.5f);
-        for (int i = 0; i < 25; i++)
-        {
-            lighting.intensity += 0.4f;
-            yield return new WaitForSeconds(0.02f);
-        }
-        yield return new WaitForSeconds(0.5f);
-        for (int i = 0; i < 25; i++)
-        {
-            lighting.intensity -= 0.4f;
-            yield return new WaitForSeconds(0.02f);
-        }
-    }
-
+    
     IEnumerator DefenceEffectSprite()
     {
         Vector3 startPos = transform.position;

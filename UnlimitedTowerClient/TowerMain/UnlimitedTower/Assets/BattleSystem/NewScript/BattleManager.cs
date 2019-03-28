@@ -70,6 +70,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         SettingScript(stageStateInfo);
         SettingHp(stageStateInfo);
         SettingPosition();
+        SettingDieCheck();
     }
 
     private void Update()
@@ -348,6 +349,22 @@ public class BattleManager : MonoSingleton<BattleManager>
         {
             MaxHp[stageStateInfo.enemy_state_list[i].position] = Calculator.GetMaxHp(stageStateInfo.enemy_state_list[i].status);
             NowHp[stageStateInfo.enemy_state_list[i].position] = stageStateInfo.enemy_state_list[i].now_hp;
+        }
+    }
+
+    // 재접속시 죽었는지 체크
+    public void SettingDieCheck()
+    {
+        for (int i = 0; i < 20; i++)
+        {
+            if (character[i])
+            {
+                if (NowHp[i] <= 0)
+                {
+                    animator[i].SetTrigger("isDie");
+                    tumbAnimation.DieTumb(i);
+                }
+            }
         }
     }
 
