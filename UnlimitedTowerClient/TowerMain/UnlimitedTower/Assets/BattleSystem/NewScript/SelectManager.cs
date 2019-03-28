@@ -109,10 +109,10 @@ public class SelectManager : MonoBehaviour {
 
                     testMaxHp.text = BattleManager.Inst.MaxHp[selectIndex].ToString();
                     testNowHp.text = BattleManager.Inst.NowHp[selectIndex].ToString();
-                    testAd.text = (selectStateInfo.physical_attack / 100).ToString();
-                    testAp.text = (selectStateInfo.magic_attack / 100).ToString();
-                    testDd.text = (selectStateInfo.physical_defense / 100).ToString();
-                    testDp.text = (selectStateInfo.magic_defense / 100).ToString();
+                    testAd.text = (selectStateInfo.physical_attack).ToString();
+                    testAp.text = (selectStateInfo.magic_attack).ToString();
+                    testDd.text = (selectStateInfo.physical_defense).ToString();
+                    testDp.text = (selectStateInfo.magic_defense).ToString();
                     testSp.text = selectStateInfo.speed.ToString();
                 }
                 else
