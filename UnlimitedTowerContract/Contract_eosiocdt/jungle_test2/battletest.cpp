@@ -1873,62 +1873,93 @@ ACTION battletest::dbinit(std::string _table)
 //             iter++;
 //         }
 //     }
-//     else if (_table == "dbmonster")
-//     {
-//         monster_db monster_table(_contract, _contract.value);
-//         for (auto iter = monster_table.begin(); iter != monster_table.end();)
-//         {
-//             const auto &data_iter = monster_table.get(iter->primary_key(), "Not Exist Data");
-//             insert_monster_id(data_iter.monster_id, data_iter.gacha_id, data_iter.gacha_type, data_iter.tribe, data_iter.type, data_iter.monster_class, 0, 0, 0);
-//             iter++;
-//         }
-//     }
-//     else if (_table == "dbservant")
-//     {
-//         servant_db servant_table(_contract, _contract.value);
-//         for (auto iter = servant_table.begin(); iter != servant_table.end();)
-//         {
-//             const auto &data_iter = servant_table.get(iter->primary_key(), "Not Exist Data");
-//             insert_servant_id(data_iter.servant_id, data_iter.gacha_id);
-//             iter++;
-//         }
-//     }
-//     else if (_table == "dbequipitems")
-//     {
-//         equipment_db equip_item_table(_contract, _contract.value);
-//         for (auto iter = equip_item_table.begin(); iter != equip_item_table.end();)
-//         {
-//             const auto &data_iter = equip_item_table.get(iter->primary_key(), "Not Exist Data");
-//             insert_equip_item_id(data_iter.item_id,
-//                                  data_iter.set_id,
-//                                  data_iter.type,
-//                                  data_iter.tier,
-//                                  data_iter.job,
-//                                  data_iter.option,
-//                                  0,
-//                                  0,
-//                                  0,
-//                                  0);
-//             iter++;
-//         }
-//     }
-//     else if (_table == "dbcommonitem")
-//     {
-//         commonitem_db common_item_table(_contract, _contract.value);
-//         for (auto iter = common_item_table.begin(); iter != common_item_table.end();)
-//         {
-//             const auto &data_iter = common_item_table.get(iter->primary_key(), "Not Exist Data");
-//             insert_common_item_id(data_iter.item_id,
-//                                   data_iter.gacha_id,
-//                                   data_iter.type,
-//                                   data_iter.param_1,
-//                                   data_iter.param_2,
-//                                   data_iter.param_3,
-//                                   data_iter.sell_id,
-//                                   data_iter.sell_cost);
-//             iter++;
-//         }
-//     }
+    // if (_table == "dbmonster")
+    // {
+    //     mon_db monster_table(_contract, _contract.value);
+    //     monster_db my_table(_self, _self.value);
+    //     for (auto iter = monster_table.begin(); iter != monster_table.end();)
+    //     {
+    //         const auto &data_iter = monster_table.get(iter->primary_key(), "Not Exist Data");
+    //         my_table.emplace(_self, [&](auto &new_monster)
+    //         {
+    //             new_monster.id = data_iter.monster_id;
+    //             new_monster.tribe = data_iter.tribe;
+    //             new_monster.type = data_iter.type;
+    //             new_monster.monster_class = data_iter.monster_class;
+    //         });
+    //         iter++;
+    //     }
+    // }
+    // else if (_table == "dbservant")
+    // {
+    //     ser_db servant_table(_contract, _contract.value);
+    //     servant_db my_table(_self, _self.value);
+    //     for (auto iter = servant_table.begin(); iter != servant_table.end();)
+    //     {
+    //         const auto &data_iter = servant_table.get(iter->primary_key(), "Not Exist Data");
+    //         my_table.emplace(_self, [&](auto &new_ser) {
+    //             uint32_t _job, _body, _gender, _head, _hair;
+    //             uint32_t temp1, temp2, temp3, temp4;
+
+    //                             _job = data_iter.servant_id / 1000000;
+    //             temp1 = data_iter.servant_id % 1000000;
+    //             _body = temp1 / 100000;
+    //             temp2 = temp1 % 100000;
+    //             _gender = temp2 / 10000;
+    //             temp3 = temp2 % 10000;
+    //             _head = temp3 / 100;
+    //             temp4 = temp3 % 100;
+    //             _hair = temp4 / 1;
+
+    //             new_ser.id = data_iter.servant_id;
+    //             new_ser.body = _body;
+    //             new_ser.head = _head;
+    //             new_ser.gender = _gender;
+    //             new_ser.head = _head;
+    //             new_ser.hair = _hair;
+    //             new_ser.job = _job;
+    //             new_ser.grade = 0;
+    //         });
+    //         iter++;
+    //     }
+    // }
+    // else if (_table == "dbequipment")
+    // {
+    //     equipitem_db equip_item_table(_contract, _contract.value);
+    //     equipment_db my_table(_self, _self.value);
+    //     for (auto iter = equip_item_table.begin(); iter != equip_item_table.end();)
+    //     {
+    //         const auto &data_iter = equip_item_table.get(iter->primary_key(), "Not Exist Data");
+    //         my_table.emplace(_self, [&](auto &new_a) {
+    //             new_a.item_id = data_iter.item_id;
+    //             new_a.set_id = data_iter.set_id;
+    //             new_a.type = data_iter.type;
+    //             new_a.tier = data_iter.tier;
+    //             new_a.job = data_iter.job;
+    //             new_a.option_list.push_back(data_iter.option);
+    //             new_a.option_value_min = data_iter.status_value_min;
+    //             new_a.option_value_max = data_iter.status_value_max;
+    //             new_a.upgrade_option_value = data_iter.upgrade_status_value;
+    //         });
+    //         iter++;
+    //     }
+    // }
+    // else if (_table == "dballitem")
+    // {
+    //     commonitem_db common_item_table(_contract, _contract.value);
+    //     allitem_db my_table(_self, _self.value);
+    //     for (auto iter = common_item_table.begin(); iter != common_item_table.end();)
+    //     {
+    //         const auto &data_iter = common_item_table.get(iter->primary_key(), "Not Exist Data");
+    //         my_table.emplace(_self, [&](auto &new_a) {
+    //             new_a.id=data_iter.item_id;
+    //             new_a.type=data_iter.type;
+    //             new_a.sell_id=data_iter.sell_id;
+    //             new_a.sell_cost=data_iter.sell_cost;
+    //         });
+    //         iter++;
+    //     }
+    // }
 //     else if (_table == "dbservantid")
 //     {
 //         servant_id_db other_table(_contract, _contract.value);
