@@ -117,8 +117,6 @@ public class CharacterCustom : MonoBehaviour
         characterInformation[3] = new CharacterInfo(0.9f, 1.0f, 1.5f, 0.6f);
         characterInformation[4] = new CharacterInfo(2.0f, 0.7f, 1.5f, 0.0f);
         characterInformation[5] = new CharacterInfo(0.8f, 0.7f, 1.5f, 0.0f);
-
-        Refresh();
     }
 
     [System.Serializable]
