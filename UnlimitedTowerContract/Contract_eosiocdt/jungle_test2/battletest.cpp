@@ -243,7 +243,7 @@ void battletest::substr_value(std::string _value, std::vector<std::string> &_val
                              atoll(value_list[2].c_str()),
                              atoll(value_list[3].c_str()));
     }
-    else if (_table == "dbequipup")
+    else if (_table == "dbitemup")
     {
 
     }
@@ -1383,27 +1383,77 @@ ACTION battletest::dbinit(std::string _table)
 
     eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 4");
 
-    head_db head_db_table(_self, _self.value);
-    hair_db hair_db_table(_self, _self.value);
-    body_db body_db_table(_self, _self.value);
-    monster_grade_db monster_grade_db_table(_self, _self.value);
-    monster_id_db monster_id_db_table(_self, _self.value);
-    item_id_db item_id_db_table(_self, _self.value);
-    item_grade_db item_grade_db_table(_self, _self.value);
-
-    gender_db gender_db_table(_self, _self.value);
-    servant_job_db servant_job_db_table(_self, _self.value);
-    servant_id_db servant_id_db_table(_self, _self.value);
-
-    monster_db monster_id_bd_table(_self,_self.value);
-
     
-    // for (auto monster_db_table_iter = monster_id_bd_table.begin(); monster_db_table_iter != monster_id_bd_table.end();)
-    // {
-    //     auto iter = monster_id_bd_table.find(monster_db_table_iter->primary_key());
-    //     monster_db_table_iter++;
-    //     monster_id_bd_table.erase(iter);
-    // }
+    if (_table == "dbbody")
+    {
+        body_db my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
+    }
+    else if (_table == "dbhair")
+    {
+        hair_db my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
+    }
+    else if (_table == "dbhead")
+    {
+        head_db my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
+    }
+    else if (_table == "dbgender")
+    {
+        gender_db my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
+    }
+    else if (_table == "dbitemgrade")
+    {
+        item_grade_db my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
+    }
+    else if (_table == "dbmonstergd")
+    {
+        monster_grade_db my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
+    }
+    else if (_table == "dbservantjob")
+    {
+        servant_job_db my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
+    }
 
     else if (_table == "dbgraderatio")
     {
@@ -2061,7 +2111,7 @@ void battletest::signup(eosio::name _user)
         new_user.current_item_inventory = 0;
         new_user.servant_inventory = 50;
         new_user.monster_inventory = 50;
-        new_user.equipitem_inventory = 50;
+        new_user.equipment_inventory = 50;
         new_user.item_inventory = 50;    
     });
     
@@ -2119,10 +2169,8 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
 {
     require_auth(sender);
     auto transfer_data = eosio::unpack_action_data<st_transfer>();
-
  	eosio_assert(transfer_data.to == receiver, "Wrong Action 1");
-
-
+    eosio_assert(transfer_data.from == sender, "Sender Miss Match 1");
     eosio_assert(transfer_data.quantity.symbol == symbol("EOS", 4), "Only Accepts EOS for deposits");
     eosio_assert(transfer_data.quantity.is_valid(), "Invalid token transfer");
     eosio_assert(transfer_data.quantity.amount > 0, "Quantity must be positive");
@@ -2183,6 +2231,7 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
         system_master system_master_table(_self, _self.value);
         auto system_master_iter = system_master_table.begin();
         eosio_assert(system_master_iter->state != system_state::pause, "Server Pause 7");
+        eosio_assert(transfer_data.from == sender, "Sender Miss Match 1");
 
         whitelist whitelist_table(_self, _self.value);
         auto whitelist_iter = whitelist_table.find(sender.value);
@@ -2564,7 +2613,7 @@ void battletest::gacha_item_id(eosio::name _user, uint64_t _seed)
         result.index = update_user_item_list.index;
         result.type = result::item;
 
-        update_user_item_list.item = new_item;
+        update_user_item_list.equipment = new_item;
     });
 
     user_gacha_results user_gacha_result_table(_self, _self.value);
@@ -2892,16 +2941,6 @@ ACTION battletest::herocheat(eosio::name _user)
     auth_user_table.emplace(_self, [&](auto &new_user) {
         new_user.user = _user;
         new_user.state = user_state::lobby;
-        hero_info new_hero;
-        //new_hero.appear.body = 1;
-        //new_hero.appear.head = 1;
-        //new_hero.appear.hair = 1;
-        //new_hero.appear.gender = 1;
-        //new_hero.job = 1;
-        //new_hero.status.basic_str = 100;
-        //new_hero.status.basic_dex = 100;
-        //new_hero.status.basic_int = 100;
-        //new_hero.equip_slot.resize(3);
         new_user.current_servant_inventory = 0;
         new_user.current_monster_inventory = 0;
         new_user.current_item_inventory = 0;
@@ -2909,9 +2948,8 @@ ACTION battletest::herocheat(eosio::name _user)
         new_user.servant_inventory = 50;
         new_user.monster_inventory = 50;
         new_user.item_inventory = 50;
-        new_user.equipitem_inventory = 50;
+        new_user.equipment_inventory = 50;
 
-        //new_user.hero = new_hero;
     });
 
     user_logs user_log_table(_self, _self.value);
@@ -3000,6 +3038,7 @@ ACTION battletest::partycheat(eosio::name _user)
 //------------------------------------------------------------------------//
 
 #pragma endregion
+
 
 
 #pragma region battle function
@@ -3252,6 +3291,8 @@ void battletest::set_stage_state(uint64_t _stage_id, std::vector<character_state
         get_state.avoid = 5;
         get_state.state = battle_member_state::live;
         get_state.status = status;
+        get_state.type = 0;
+        get_state.job_class = 0;
         _enemy_state_list.push_back(get_state);
 
         std::string state;

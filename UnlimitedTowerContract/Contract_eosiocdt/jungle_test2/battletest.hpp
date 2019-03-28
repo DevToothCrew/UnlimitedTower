@@ -88,10 +88,6 @@ CONTRACT battletest : public contract
     std::vector<uint32_t> legenary_dex = {9, 24, 9};
     std::vector<uint32_t> legenary_int = {9, 9, 24};
 
-    std::vector<uint32_t> equipment_upgrade_ratio = {100, 90, 80, 50, 35, 20, 10, 5, 3};
-    std::vector<uint32_t> equipment_upgrade_utg = {500, 500, 1000, 1200, 1500, 3000, 5000, 7500, 10000};
-
-
     //------------------------------------------------------------------------//
     //-----------------------------db_table-----------------------------------//
     //------------------------------------------------------------------------//
@@ -520,6 +516,7 @@ CONTRACT battletest : public contract
     // void erase_monster_lv_status(uint64_t _type);
 	void erase_passive(uint64_t _id);
     void erase_active(uint64_t _id);
+    void erase_gacha_pool(uint64_t _id);
 #pragma endregion
 
 #pragma region stage
@@ -867,18 +864,6 @@ CONTRACT battletest : public contract
 #pragma endregion
 
 #pragma region login table
-    // //struct hero_info
-    struct hero_info
-    {
-        uint32_t state;   //히어로 상태
-        uint32_t exp = 0; //히어로 경험치
-        uint32_t job = 0; //히어로 직업
-        uint32_t stat_point = 0;
-        appear_info appear;               //히어로 외형 정보 <-젠더 추가해야함
-        status_info status;               //기본 힘,민,지 추가 힘,민,지
-        std::vector<uint32_t> equip_slot; //히어로 장비 리스트
-    };
-
     TABLE tuserauth
     {
         eosio::name user;
@@ -890,7 +875,7 @@ CONTRACT battletest : public contract
         uint32_t current_item_inventory = 0;
         uint32_t servant_inventory = 50;
         uint32_t monster_inventory = 50;
-        uint32_t equipitem_inventory = 50;
+        uint32_t equipment_inventory = 50;
         uint32_t item_inventory = 50;
         
         uint64_t primary_key() const { return user.value; }
@@ -1034,6 +1019,7 @@ CONTRACT battletest : public contract
     void add_party_list(eosio::name _user);
 
 #pragma endregion
+
 
 
 
