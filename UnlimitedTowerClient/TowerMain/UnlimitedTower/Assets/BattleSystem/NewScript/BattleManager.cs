@@ -89,8 +89,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
                 PacketManager.Inst.ResponseBattleAction(JsonUtility.FromJson<battleActionData>(battleActionInfo));
             }
-#endif
-#if UNITY_WEBGL
+#else
             {
                 PacketManager.Inst.RequestBattleAction(turnIndex);
             }
@@ -360,14 +359,14 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         for (int i = 0; i < stageStateInfo.my_state_list.Count; i++)
         {
-            MaxHp[stageStateInfo.my_state_list[i].position] = Calculator.GetMaxHp(stageStateInfo.my_state_list[i].status) / 100;
-            NowHp[stageStateInfo.my_state_list[i].position] = stageStateInfo.my_state_list[i].now_hp / 100;
+            MaxHp[stageStateInfo.my_state_list[i].position] = Calculator.GetMaxHp(stageStateInfo.my_state_list[i].status);
+            NowHp[stageStateInfo.my_state_list[i].position] = stageStateInfo.my_state_list[i].now_hp;
         }
 
         for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
         {
-            MaxHp[stageStateInfo.enemy_state_list[i].position] = Calculator.GetMaxHp(stageStateInfo.enemy_state_list[i].status) / 100;
-            NowHp[stageStateInfo.enemy_state_list[i].position] = stageStateInfo.enemy_state_list[i].now_hp / 100;
+            MaxHp[stageStateInfo.enemy_state_list[i].position] = Calculator.GetMaxHp(stageStateInfo.enemy_state_list[i].status);
+            NowHp[stageStateInfo.enemy_state_list[i].position] = stageStateInfo.enemy_state_list[i].now_hp;
         }
     }
 
