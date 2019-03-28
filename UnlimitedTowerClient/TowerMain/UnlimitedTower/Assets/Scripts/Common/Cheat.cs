@@ -133,7 +133,7 @@ public class Cheat : MonoSingleton<Cheat>
                 actioninfo.my_position = stageStateInfo.my_state_list[i].position;
                 actioninfo.action_type = 3;
 
-                if (stageStateInfo.my_state_list[i].active_skill_list[0].id == 200002)
+                if (stageStateInfo.my_state_list[i].active_skill_list[0].id == 200001)
                 {
                     for (int target = 0; target < 2; ++target)
                     {
@@ -233,7 +233,7 @@ public class Cheat : MonoSingleton<Cheat>
                 newMember.index = i + 1;
                 skillInfo skill = new skillInfo();
                 if (i < 2)
-                    skill.id = 200002;
+                    skill.id = 200001;
                 else
                     skill.id = 200002;
                 newMember.active_skill_list = new List<skillInfo>();
@@ -606,7 +606,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         servant.state = 0;
         servant.exp = rand.Next(0, DEFINE.MAX_EXP);
-        servant.job = 3; // rand.Next(0, 6);
+        servant.job = 1; // rand.Next(0, 6);
         servant.stat_point = (Calculator.GetLevelForExp(servant.exp) - 1) * DEFINE.BONUS_STAT;
         servant.appear = GetRandomAppear();
         servant.status = GetRandomStatusInfo();
