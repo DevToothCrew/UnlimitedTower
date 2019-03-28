@@ -35,10 +35,16 @@ public class SkillManager : MonoSingleton<SkillManager>
 
     public IEnumerator Skill_200001_Co(characterActionData battleInfo)
     {
-        BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
+        BattleManager.Inst.animator[battleInfo.my_position].SetTrigger("isDefence");
         skillText.text = "디펜스";
-        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.5f);
-        TestSkillEffect(battleInfo.action_info_list[0].target_position);
+        yield return new WaitForSeconds(0.3f);
+
+        effect["Defence"].transform.position = BattleManager.Inst.character[battleInfo.my_position].transform.position;
+        effect["Defence"].GetComponent<DefenceEffect>().EffectAction();
+
+        yield return new WaitForSeconds(3.0f);
+
+        BattleManager.Inst.isAfterDelay = true;
     }
     #endregion
 
