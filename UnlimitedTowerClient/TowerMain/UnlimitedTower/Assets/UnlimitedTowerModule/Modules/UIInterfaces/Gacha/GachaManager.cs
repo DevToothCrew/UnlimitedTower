@@ -23,24 +23,7 @@ public class GachaManager : MonoBehaviour {
     private Button startButton;
 
     public float glowingFxPanelAlpha = 0.0f;
-
-    private void Awake()
-    {
-        // add event listener to get datas from server
-        // this interface can be changed
-        UTEventPoolInterface.AddEventListener("gacha", (result) =>
-        {
-            if(result is UTFailedData)
-            {
-                Debug.Log("Failed");
-            }
-            else
-            {
-                var gacha = result as UTPlayerManager.UTGachaData;
-            }
-        });
-    }
-
+    
     private void Update()
     {
         glowingFxPanel?.material?.SetFloat("_Alpha", glowingFxPanelAlpha);
@@ -72,7 +55,7 @@ public class GachaManager : MonoBehaviour {
             // Request to server
             // this interface can be changed
             int gachaIndex = 1;
-            UTUMSProvider.Instance.RequestGacha(gachaIndex);
+            PacketManager.Inst.RequestGacha(gachaIndex);
             GetComponent<Animator>()?.SetTrigger("Glowing");
         });
     }

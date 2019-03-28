@@ -645,25 +645,25 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 타워 Start
     public void RequestTowerStart()
     {
-
+        throw new NotImplementedException();
     }
 
     // 타워 Exit
     public void RequestTowerExit()
     {
-
+        throw new NotImplementedException();
     }
 
     // 타워 End
     public void RequestTowerReward()
     {
-
+        throw new NotImplementedException();
     }
 
     // 채팅
     public void RequestEnterChat()
     {
-
+        throw new NotImplementedException();
     }
 
     #endregion

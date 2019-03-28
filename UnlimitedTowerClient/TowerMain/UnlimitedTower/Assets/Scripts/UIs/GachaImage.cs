@@ -49,7 +49,7 @@ public class GachaImage : MonoSingleton<GachaImage>
             fadeOutFlag = true;
 
             int gachaIndex = 1;
-            UTUMSProvider.Instance.RequestGacha(gachaIndex);
+            PacketManager.Inst.RequestGacha(gachaIndex);
         }
 
         yield break;

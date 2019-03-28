@@ -15,17 +15,17 @@ public class UTLobbyUIManager : MonoBehaviour {
     {
         // TODO : 파티 상황을 로컬에서 저장
         UserPartyData party = new UserPartyData();
-        UTUMSProvider.Instance.RequestSaveParty(party);
+        PacketManager.Inst.RequestSaveParty(party);
     }
 
     public void Logout()
     {
-        UTUMSProvider.Instance.RequestLogout();
+        PacketManager.Inst.RequestLogout();
     }
 
     public void BattleAction(int getTurn)
     {
-        UTUMSProvider.Instance.RequestBattleAction(getTurn);
+        PacketManager.Inst.RequestBattleAction(getTurn);
     }
 
     [ContextMenu("Start")]
@@ -33,21 +33,21 @@ public class UTLobbyUIManager : MonoBehaviour {
     {
         int stageNum = 1;
         int partyNum = 1;
-        UTUMSProvider.Instance.RequestStageStart(stageNum, partyNum);
+        PacketManager.Inst.RequestStageStart(stageNum, partyNum);
     }
 
     public void StageExit()
     {
-        UTUMSProvider.Instance.RequestStageExit();
+        PacketManager.Inst.RequestStageExit();
     }
 
     public void TowerStart()
     {
-        UTUMSProvider.Instance.RequestTowerStart();
+        PacketManager.Inst.RequestTowerStart();
     }
 
     public void TowerResult()
     {
-        UTUMSProvider.Instance.RequestTowerResult();
+        PacketManager.Inst.RequestTowerReward();
     }
 }
