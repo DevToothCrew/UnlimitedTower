@@ -1028,13 +1028,19 @@ void battletest::insert_stage_enemy(uint64_t _id,
             new_enemy.magic_cri_dmg = _magic_cri_dmg;
             new_enemy.speed = _speed;
             new_enemy.avoid = _avoid;
-            new_enemy.active_list.push_back(_active);
-            new_enemy.passive_list.push_back(_passive);
+            if (_active != 0)
+            {
+                new_enemy.active_list.push_back(_active);
+            }
+            if (_passive != 0)
+            {
+                new_enemy.passive_list.push_back(_passive);
+            }
         });
     }
     else
     {
-        stage_enemy_db_table.modify(enemy_iter,_self, [&](auto &new_enemy) {
+        stage_enemy_db_table.modify(enemy_iter, _self, [&](auto &new_enemy) {
             new_enemy.grade = _grade;
             new_enemy.enemy_class = _enemy_class;
             new_enemy.enemy_str = _enemy_str;
@@ -1046,8 +1052,14 @@ void battletest::insert_stage_enemy(uint64_t _id,
             new_enemy.magic_cri_dmg = _magic_cri_dmg;
             new_enemy.speed = _speed;
             new_enemy.avoid = _avoid;
-            new_enemy.active_list.push_back(_active);
-            new_enemy.passive_list.push_back(_passive);
+            if (_active != 0)
+            {
+                new_enemy.active_list.push_back(_active);
+            }
+            if (_passive != 0)
+            {
+                new_enemy.passive_list.push_back(_passive);
+            }
         });
     }
     
