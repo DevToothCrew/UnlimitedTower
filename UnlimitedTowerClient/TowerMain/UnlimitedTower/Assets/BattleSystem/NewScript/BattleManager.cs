@@ -142,8 +142,11 @@ public class BattleManager : MonoSingleton<BattleManager>
         for (int i = 0; i < 10; i++)
         {
             myHp += NowHp[i];
-            enemyHp += NowHp[i];
+            enemyHp += NowHp[i + 10];
         }
+        Debug.Log("myHp : " + myHp);
+        Debug.Log("enemyHp : " + enemyHp);
+
 
         if (myHp == 0 || enemyHp == 0)
         {
