@@ -56,7 +56,14 @@ public class PartyListUnit : ScrollListUnit {
 
     public override void OnClickUnit()
     {
-        partyInfo.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
-        partyInfo.updateDetailInfo(getUnitIdx());
+        if (partyInfo != null)
+        {
+            partyInfo.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
+            if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.SERVANT_INFO || partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
+            {
+                partyInfo.updateDetailInfo(getUnitIdx());
+            }
+        }
+            
     }
 }

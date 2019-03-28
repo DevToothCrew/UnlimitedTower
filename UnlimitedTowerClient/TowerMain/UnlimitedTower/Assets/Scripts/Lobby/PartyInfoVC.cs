@@ -5,6 +5,13 @@ using UnityEngine.UI;
 
 public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 {
+    //SubView
+    public GameObject SubViewEquipment;
+    public GameObject SubViewDeconstruction;
+    public GameObject SubViewSkill;
+    public GameObject SubViewUpgradeMonster;
+
+
     //Menu Buttons UI
     public Text textButtonBack;
     public Button[] buttonMenu = new Button[3];
@@ -28,6 +35,19 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     public Text textDex;
     public Text textInt;
 
+    public Text textPAtk;
+    public Text textPDef;
+    public Text textPCri;
+    public Text textPCriPer;
+    public Text textMAtk;
+    public Text textMDef;
+    public Text textMCri;
+    public Text textMCriPer;
+    public Text textSpeed;
+
+    public Button[] buttonEquipment = new Button[6];
+
+
     //public Text textA
 
     //UI Set Data
@@ -37,7 +57,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         MONSTER,
         FORMATION
     }
-    private menu_type selectedMenu = menu_type.SERVANT;
+    public menu_type selectedMenu = menu_type.SERVANT;
 
     enum sort_type
     {
@@ -55,6 +75,20 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     [HideInInspector]
     public int selected_tab = 0;
     private int selected_party_arr_idx;
+
+    public enum scroll_type
+    {
+        SERVANT_INFO = 0,       //서번트 정보(기본)
+        MONSTER_INFO,           //몬스터 정보
+        EQUIPMENT_WEAPON,       //무기 설정
+        EQUIPMENT_ARMOR,        //방어구 설정
+        EQUIPMENT_ACC,          //장식품 설정
+        SKILL,                  //스킬
+        DECONSTRUCTION_SERVANT, //서번트 분해
+        DECONSTRUCTION_MONSTER  //몬스터 분해
+    }
+    public scroll_type currentScrollType = 0;
+
 
     //임시 데이터 생성
     void setData()
@@ -75,7 +109,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
     void Start() {
         initScrollList();
-        updateAllView();
+        OnClickMenuButton(0);
     }
 
     public menu_type getMenuType()
@@ -119,13 +153,20 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     //좌측 메뉴버튼 클릭
     public void OnClickMenuButton(int tag)
     {
+        for (int i = 0; i < buttonEquipment.Length; i++)
+            buttonEquipment[i].gameObject.SetActive(false);
+
         if (tag == (int)menu_type.SERVANT)
         {
             selectedMenu = menu_type.SERVANT;
+            currentScrollType = scroll_type.SERVANT_INFO;
+            for (int i = 0; i < 3; i++)
+                buttonEquipment[i].gameObject.SetActive(true);
         }
         else if (tag == (int)menu_type.MONSTER)
         {
             selectedMenu = menu_type.MONSTER;
+            currentScrollType = scroll_type.MONSTER_INFO;
         }
         else
         {
@@ -214,14 +255,99 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     {
         int selected_unit_idx = _selected_unit_idx;
 
-        textLevel.text = string.Format("{0}", ServantList[selected_unit_idx].level);
-        //xtLevel.text = string.Format("{0}", ServantList[selected_unit_idx].level);
-        textCharacterName.text = string.Format("{0}", ServantList[selected_unit_idx].name);
+        if (getMenuType() == menu_type.SERVANT)
+        {
+            textLevel.text = string.Format("{0}", ServantList[selected_unit_idx].level);
+            textCharacterName.text = string.Format("{0}", ServantList[selected_unit_idx].name);
 
-        textStr.text = string.Format("{0}", ServantList[selected_unit_idx].status.basicStr + ServantList[selected_unit_idx].status.plusStr);
-        textDex.text = string.Format("{0}", ServantList[selected_unit_idx].status.basicDex + ServantList[selected_unit_idx].status.plusDex);
-        textInt.text = string.Format("{0}", ServantList[selected_unit_idx].status.basicInt + ServantList[selected_unit_idx].status.plusInt);
+            textStr.text = string.Format("{0}", ServantList[selected_unit_idx].status.basicStr + ServantList[selected_unit_idx].status.plusStr);
+            textDex.text = string.Format("{0}", ServantList[selected_unit_idx].status.basicDex + ServantList[selected_unit_idx].status.plusDex);
+            textInt.text = string.Format("{0}", ServantList[selected_unit_idx].status.basicInt + ServantList[selected_unit_idx].status.plusInt);
+        }
+        else if (getMenuType() == menu_type.MONSTER)
+        {
+            textLevel.text = string.Format("{0}", MonsterList[selected_unit_idx].level);
+            textCharacterName.text = "";
+
+            textStr.text = string.Format("{0}", MonsterList[selected_unit_idx].status.basicStr + MonsterList[selected_unit_idx].status.plusStr);
+            textDex.text = string.Format("{0}", MonsterList[selected_unit_idx].status.basicDex + MonsterList[selected_unit_idx].status.plusDex);
+            textInt.text = string.Format("{0}", MonsterList[selected_unit_idx].status.basicInt + MonsterList[selected_unit_idx].status.plusInt);
+        }
+           
     }
     
 	
+    public void OnClickDeconstruction()
+    {
+        SubViewDeconstruction.SetActive(true);
+
+        if (selectedMenu == menu_type.SERVANT)
+            currentScrollType = scroll_type.DECONSTRUCTION_SERVANT;
+        else
+            currentScrollType = scroll_type.DECONSTRUCTION_MONSTER;
+
+    }
+
+    //장비 설정 버튼
+    public void OnClickEquipment(int btn_tag)
+    {
+        SubViewEquipment.SetActive(true);
+        
+        switch (btn_tag)
+        {
+            case 0:
+                currentScrollType = scroll_type.EQUIPMENT_WEAPON;
+                break;
+            case 1:
+                currentScrollType = scroll_type.EQUIPMENT_ARMOR;
+                break;
+            case 2:
+                currentScrollType = scroll_type.EQUIPMENT_ACC;
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    //현재 화면에 따른 스크롤 UI 재설정 
+    public void resetScroll()
+    {
+
+    }
+
+
+
+
+    //////////////////////*  Formation 관련 UI  *////////////////////////
+    public GameObject frameFormation;
+    public Button[] buttonMonsterFormation = new Button[5];
+    public Button[] buttonServantFormation = new Button[5];
+
+    public Sprite[] spriteSlot = new Sprite[7];
+
+    public Button buttonSaveFormation;
+    
+    public void updateFormation()
+    {
+
+    }
+
+    public void OnClickMonsterSlot(int btn_tag)
+    {
+
+    }
+
+    public void OnClickServantSlot(int btn_tag)
+    {
+
+    }
+
+    public void OnClickSaveFormation()
+    {
+
+    }
+
+
+
 }
