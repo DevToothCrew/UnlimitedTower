@@ -387,5 +387,17 @@ public class CSVData : MonoSingleton<CSVData> {
         return DBMonsterUpgradeDataDic[id];
     }
 
+    public DBServantData GetServantData(int id)
+    {
+        return null;
+    }
+
+    public int GetUserLevelByExp(int exp)
+    {
+        // User Exp Table 추가 후 수정
+
+        return 1;
+    }
+
     #endregion
 }

@@ -69,8 +69,10 @@ public class GachaResultPopup : MonoBehaviour {
     {
         SetActiveButtons(true);
 
-        //resultName.text = result.servant.name;
-        //resultType.text = result.servant.islegend ? "Legendary" : "Normal";
+        DBServantData servantData = CSVData.Inst.GetServantData(result.ServantID());
+
+        resultName.text = result.name;
+        resultType.text = result.grade.ToString();
         resultStrStat.text = result.status.basicStr.ToString();
         resultIntStat.text = result.status.basicInt.ToString();
         resultDexStat.text = result.status.basicDex.ToString();
@@ -80,7 +82,7 @@ public class GachaResultPopup : MonoBehaviour {
     {
         SetActiveButtons(true);
 
-        //resultName.text = result.monster.name;
+        //resultName.text = result.name;
         resultType.text = result.gradeNum.ToString();
         resultStrStat.text = result.status.basicStr.ToString();
         resultIntStat.text = result.status.basicInt.ToString();
@@ -95,7 +97,8 @@ public class GachaResultPopup : MonoBehaviour {
 
     public static void PopupAlert(object result)
     {
-        Debug.Log(result + " ?????????????? ");
+        Debug.Log(result);
+
         if(result is UserServantData)
         {
             Instance.gameObject.SetActivateWithAnimation(true);

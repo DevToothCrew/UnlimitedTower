@@ -22,6 +22,9 @@ public class GachaManager : MonoBehaviour {
     [SerializeField]
     private Button startButton;
 
+    [SerializeField]
+    private GameObject gachaResultPopup;
+
     public float glowingFxPanelAlpha = 0.0f;
     
     private void Update()
@@ -47,6 +50,17 @@ public class GachaManager : MonoBehaviour {
 
     public void ExecuteGacha(bool withoutAnimation = false)
     {
+        // bool 처리를 통해 Gacha 처리가 필요할수도
+
+        // GachaIndex에 따른 필요 EOS를 체크한다.
+
+        // 현재는 1EOS로 박아두기
+
+        if (UserDataManager.Inst.GetUserEOS() < 1)
+        {
+            return;
+        }
+
         SetButtonActivate(false);
 
         GetComponent<Animator>()?.SetTrigger("Particle");
@@ -59,6 +73,7 @@ public class GachaManager : MonoBehaviour {
 
     public void CloseGachaResult()
     {
+        gachaResultPopup.SetActive(false);
         SetButtonActivate(true);
         GetComponent<Animator>()?.SetTrigger("Invisible");
     }
@@ -70,19 +85,10 @@ public class GachaManager : MonoBehaviour {
 
     public void StartGacha(int gachaIndex)
     {
-        // bool 처리를 통해 Gacha 처리가 필요할수도
-
-        // GachaIndex에 따른 필요 EOS를 체크한다.
-
-        // 현재는 1EOS로 박아두기
-
-        if(UserDataManager.Inst.GetUserEOS() < 10000)
-        {
-            return;
-        }
+        gachaResultPopup.SetActive(true);
 
 #if UNITY_EDITOR
-        Cheat.Inst.GetGachaResultData(1);
+        Cheat.Inst.RequestGachaCheat(1);
 #else
         PacketManager.Inst.RequestGacha(gachaIndex);
 #endif

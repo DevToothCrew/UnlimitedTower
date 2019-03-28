@@ -90,8 +90,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
                 PacketManager.Inst.ResponseBattleAction(JsonUtility.FromJson<battleActionData>(battleActionInfo));
             }
-#endif
-#if UNITY_WEBGL
+#else
             {
                 PacketManager.Inst.RequestBattleAction(turnIndex);
             }
@@ -146,6 +145,9 @@ public class BattleManager : MonoSingleton<BattleManager>
             myHp += NowHp[i];
             enemyHp += NowHp[i + 10];
         }
+        Debug.Log("myHp : " + myHp);
+        Debug.Log("enemyHp : " + enemyHp);
+
 
         if (myHp == 0 || enemyHp == 0)
         {
@@ -239,28 +241,6 @@ public class BattleManager : MonoSingleton<BattleManager>
         temp.transform.SetParent(character[index].transform);
         grid[index] = temp;
         grid[index].SetActive(false);
-    }
-
-    // 히어로 셋팅
-    public void SettingHero()
-    {
-        UserServantData heroInfo = UserDataManager.Inst.GetHeroInfo();
-        if (heroInfo == null)
-        {
-            Debug.LogError("버그다");
-            return;
-        }
-        character[0] = Instantiate(characterCustom.Create(
-            heroInfo.jobNum,
-            heroInfo.headNum - 1,
-            heroInfo.hairNum - 1,
-            heroInfo.gender == 1 ? 1 : 0,
-            heroInfo.body == 1 ? 0 : 1
-            ), CharacterParent.transform.GetChild(0));
-        character[0].name = "Hero";
-        character[0].AddComponent<CharacterIndex>().index = 0;
-        SettingBoxCollider(character[0]);
-        animator[0] = character[0].GetComponent<Animator>();
     }
 
     // 아군 파티 셋팅
@@ -361,14 +341,14 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         for (int i = 0; i < stageStateInfo.my_state_list.Count; i++)
         {
-            MaxHp[stageStateInfo.my_state_list[i].position] = Calculator.GetMaxHp(stageStateInfo.my_state_list[i].status) / 100;
-            NowHp[stageStateInfo.my_state_list[i].position] = stageStateInfo.my_state_list[i].now_hp / 100;
+            MaxHp[stageStateInfo.my_state_list[i].position] = Calculator.GetMaxHp(stageStateInfo.my_state_list[i].status);
+            NowHp[stageStateInfo.my_state_list[i].position] = stageStateInfo.my_state_list[i].now_hp;
         }
 
         for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
         {
-            MaxHp[stageStateInfo.enemy_state_list[i].position] = Calculator.GetMaxHp(stageStateInfo.enemy_state_list[i].status) / 100;
-            NowHp[stageStateInfo.enemy_state_list[i].position] = stageStateInfo.enemy_state_list[i].now_hp / 100;
+            MaxHp[stageStateInfo.enemy_state_list[i].position] = Calculator.GetMaxHp(stageStateInfo.enemy_state_list[i].status);
+            NowHp[stageStateInfo.enemy_state_list[i].position] = stageStateInfo.enemy_state_list[i].now_hp;
         }
     }
 

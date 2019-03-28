@@ -488,7 +488,7 @@ public class Cheat : MonoSingleton<Cheat>
         itemData token = new itemData();
         token.index = 0;
         token.item.id = 10001;
-        token.item.count = Convert.ToInt32(UserDataManager.Inst.GetUserInfo().userMoney);
+        token.item.count = Convert.ToInt32(UserDataManager.Inst.GetUserInfo().userUTG);
 
         for(int i = 0; i < sellMonsterIndexList.Count; i++)
         {
@@ -521,7 +521,7 @@ public class Cheat : MonoSingleton<Cheat>
         itemData token = new itemData();
         token.index = 0;
         token.item.id = 10001;
-        token.item.count = Convert.ToInt32(UserDataManager.Inst.GetUserInfo().userMoney);
+        token.item.count = Convert.ToInt32(UserDataManager.Inst.GetUserInfo().userUTG);
 
         for (int i = 0; i < sellEquipmentIndexList.Count; i++)
         {
