@@ -387,5 +387,10 @@ public class CSVData : MonoSingleton<CSVData> {
         return DBMonsterUpgradeDataDic[id];
     }
 
+    public DBServantData GetServantData(int id)
+    {
+        return null;
+    }
+
     #endregion
 }

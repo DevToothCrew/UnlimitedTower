@@ -173,8 +173,6 @@ public class UserServantData
     // 캐릭터를 구분하는 고유값이 되어야함
     public int index;
 
-    // 영웅서번트인지 아닌지
-    public bool isLegend;
 
     public string name;
     public int partyIndex;
@@ -195,6 +193,29 @@ public class UserServantData
     public int headNum;
     public int hairNum;
     public int gender;
+    public int grade;
+
+    public int ServantID()
+    {
+        if(grade == 5)
+        {
+            if(jobNum == 1)
+            {
+                return 1000001;
+            }
+            else if(jobNum == 2)
+            {
+                return 1000002;
+            }
+            else if(jobNum == 3)
+            {
+                return 1000003;
+            }
+        }
+
+        int id = (jobNum * 1000000) + (body * 100000) + (gender * 10000) + (headNum * 100) + hairNum;
+        return id;
+    }
 
     public Status status = new Status();
 

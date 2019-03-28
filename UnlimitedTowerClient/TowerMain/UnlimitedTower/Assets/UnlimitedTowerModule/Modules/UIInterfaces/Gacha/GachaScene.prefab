@@ -505,7 +505,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1849317265432318
 GameObject:
   m_ObjectHideFlags: 0
@@ -997,6 +997,7 @@ MonoBehaviour:
   glowingFxPanel: {fileID: 114406575035861864}
   backButton: {fileID: 114676590679966506}
   startButton: {fileID: 114982256253550688}
+  gachaResultPopup: {fileID: 1771529662954450}
   glowingFxPanelAlpha: 0
 --- !u!114 &114302777054868794
 MonoBehaviour:

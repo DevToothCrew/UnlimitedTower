@@ -765,7 +765,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
             UserDataManager.Inst.AddServantData(getServant);
 
             GachaResultPopup.PopupAlert(getServant);
-            GachaImage.Inst.SetServantGachaImage(getServant);
         }
         else if (type == (int)GACHA_RESULT_TYPE.Monster)
         {
@@ -777,7 +776,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
             UserDataManager.Inst.AddMonsterData(getMonster);
 
             GachaResultPopup.PopupAlert(getMonster);
-            GachaImage.Inst.SetMonsterGachaImage(getMonster);
         }
         else if (type == (int)GACHA_RESULT_TYPE.Equipment)
         {
@@ -789,7 +787,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
             UserDataManager.Inst.AddEquipmentData(getEquipment);
 
             GachaResultPopup.PopupAlert(getEquipment);
-            GachaImage.Inst.SetEquipmentGachaImage(getEquipment);
         }
     }
 
