@@ -26,6 +26,22 @@ public class SkillManager : MonoSingleton<SkillManager>
         }
     }
 
+    #region Skill 200001
+    // 디펜스 ( 1턴 동안 30% 데미지 감소 효과를 얻습니다아엉ㄹ러아ㅏ아아아앙ㄹ나아ㅓㄹ아ㅓㅇㄹ니ㅏ러 )
+    public void Skill_200001(characterActionData battleInfo)
+    {
+        StartCoroutine(Skill_200001_Co(battleInfo));
+    }
+
+    public IEnumerator Skill_200001_Co(characterActionData battleInfo)
+    {
+        BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
+        skillText.text = "디펜스";
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.5f);
+        TestSkillEffect(battleInfo.action_info_list[0].target_position);
+    }
+    #endregion
+
     #region Skill 200002
     // 배쉬 ( 적 1인에게 물리 공격력의 210% 물리피해를 입힙니다 )
     public void Skill_200002(characterActionData battleInfo)

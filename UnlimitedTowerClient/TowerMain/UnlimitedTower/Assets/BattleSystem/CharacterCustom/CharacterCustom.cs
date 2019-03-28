@@ -263,10 +263,10 @@ public class CharacterCustom : MonoBehaviour
     public GameObject Create(int jobIndex, int headIndex, int hairIndex, int isMan, int isChildren)
     {
         this.jobIndex = jobIndex;
-        this.headIndex = headIndex;
-        this.hairIndex = hairIndex;
-        this.isMan = isMan;
-        this.isChildren = isChildren;
+        this.headIndex = headIndex - 1;
+        this.hairIndex = hairIndex - 1;
+        this.isMan = isMan == 1 ? 1 : 0;
+        this.isChildren = isChildren == 1 ? 0 : 1;
         Refresh();
         CharInfo CharacterInformationTemp = defultCharacter.GetComponent<CharInfo>();
         CharacterInformationTemp.AttackDelay = characterInformation[jobIndex].AttackDelay;

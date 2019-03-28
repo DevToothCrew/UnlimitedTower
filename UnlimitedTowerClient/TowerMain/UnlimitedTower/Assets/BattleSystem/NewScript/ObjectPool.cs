@@ -18,8 +18,9 @@ public class ObjectPool : MonoBehaviour {
 
     public GameObject ObjectSpawn()
     {
-        this.index++;
-        int index = this.index % pool.Length;
+        index++;
+        if (index >= pool.Length)
+            index = 0;
         pool[index].SetActive(true);
         Material material = pool[index].GetComponent<Renderer>().material;
         material.color = new Color(material.color.r, material.color.g, material.color.b, 1);

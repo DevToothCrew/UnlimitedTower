@@ -56,6 +56,5 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
     public void BattleOut()
     {
         PacketManager.Inst.RequestStageExit();
-        SceneManager.LoadScene("Lobby");
     }
 }
