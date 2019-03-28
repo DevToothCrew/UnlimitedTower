@@ -242,28 +242,6 @@ public class BattleManager : MonoSingleton<BattleManager>
         grid[index].SetActive(false);
     }
 
-    // 히어로 셋팅
-    public void SettingHero()
-    {
-        UserServantData heroInfo = UserDataManager.Inst.GetHeroInfo();
-        if (heroInfo == null)
-        {
-            Debug.LogError("버그다");
-            return;
-        }
-        character[0] = Instantiate(characterCustom.Create(
-            heroInfo.jobNum,
-            heroInfo.headNum - 1,
-            heroInfo.hairNum - 1,
-            heroInfo.gender == 1 ? 1 : 0,
-            heroInfo.body == 1 ? 0 : 1
-            ), CharacterParent.transform.GetChild(0));
-        character[0].name = "Hero";
-        character[0].AddComponent<CharacterIndex>().index = 0;
-        SettingBoxCollider(character[0]);
-        animator[0] = character[0].GetComponent<Animator>();
-    }
-
     // 아군 파티 셋팅
     public void SettingCharacter(stageStateData stageStateInfo)
     {

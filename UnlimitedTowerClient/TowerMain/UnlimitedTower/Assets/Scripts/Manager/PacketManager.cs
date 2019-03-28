@@ -412,18 +412,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 아이템 판매
-    public void RequestItemSell(List<int> itemIndexList, int count)
+    public void RequestItemSell(List<itemData> itemDataList)
     {
         Debug.Log("Request Item Sell");
-        if (itemIndexList == null || count == 0)
+        if (itemDataList == null)
         {
             Debug.Log("Invalid Request");
             return;
         }
 
         ItemSellJson itemSell = new ItemSellJson();
-        itemSell.itemIndexList = itemIndexList;
-        itemSell.count = count;
+        itemSell.itemDataList = itemDataList;
         string json = JsonUtility.ToJson(itemSell);
 
         Debug.Log("Json start : " + json);
@@ -691,12 +690,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
 
         UserInfo userInfo = new UserInfo();
-        if (ParseUserInfo(userLoginData.user_data, ref userInfo) == false)
+        if (ParseUserInfo(userLoginData, ref userInfo) == false)
         {
             Debug.Log("Invalid ParseUserInfo Info");
         }
-        ParseGoldInfo(userLoginData.token, userLoginData.eos, ref userInfo);
-
         UserDataManager.Inst.SetUserInfo(userInfo);
 
         Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
@@ -1199,34 +1196,20 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     #region Function
 
-    public bool ParseUserInfo(userData getUserData, ref UserInfo userInfo)
+    public bool ParseUserInfo(UserLoginData getUserData, ref UserInfo userInfo)
     {
-        userInfo.userName = getUserData.user;
-        userInfo.userEOS = 0;
+        userInfo.userName = getUserData.user_data.user;
+        userInfo.userEXP = getUserData.user_data.exp;
 
-        userInfo.sceneState = (SCENE_STATE)getUserData.state;
+        userInfo.userEOS = ulong.Parse(getUserData.eos);
+        // token은 UTG로 바꿀 필요가 있지 않을까요
+        userInfo.userUTG = ulong.Parse(getUserData.token);
 
-        Debug.Log("State : " + (SCENE_STATE)getUserData.state);
+        Debug.Log("getEOS : " + getUserData.eos);
+        Debug.Log("getGold : " + getUserData.token);
 
-        if (userInfo.userHero == null)
-        {
-            Debug.Log("Invalid UserHero Info");
-            return false;
-        }
-
-        return true;
-    }
-
-    public bool ParseGoldInfo(string getgoldData, string getEOS , ref UserInfo userInfo)
-    {
-        userInfo.userEOS = ulong.Parse(getEOS);
-        userInfo.userMoney = ulong.Parse(getgoldData);
-
-        Debug.Log("getEOS : " + getEOS);
-        Debug.Log("getGold : " + getgoldData);
-
-        Debug.Log("EOS : " + userInfo.userEOS);
-        Debug.Log("Gold : " + userInfo.userMoney);
+        userInfo.sceneState = (SCENE_STATE)getUserData.user_data.state;
+        Debug.Log("State : " + (SCENE_STATE)getUserData.user_data.state);
 
         return true;
     }

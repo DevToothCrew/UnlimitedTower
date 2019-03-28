@@ -17,11 +17,10 @@ public class LobbyTopInfo : MonoBehaviour {
 
     public void SetTopInfo(UserInfo userInfo)
     {
-        accountName.text = "LV." + userInfo.userHero.level + " " + userInfo.userName;
-        //heroExp.text = userInfo.userHero.exp.ToString() + " / 128000" + " EXP";
+        accountName.text = "LV." + userInfo.Level() + " " + userInfo.userName;
 
         EOSCount.text = userInfo.userEOS.ToString("N4");
-        UTGCount.text = userInfo.userMoney.ToString("N4");
+        UTGCount.text = userInfo.userUTG.ToString("N4");
     }
 
     public void OnClickAccountButton()

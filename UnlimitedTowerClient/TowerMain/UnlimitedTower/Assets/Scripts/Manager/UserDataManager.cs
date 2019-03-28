@@ -6,6 +6,9 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 {
     public UserInfo userInfo = default(UserInfo);
 
+    // 대표 캐릭터
+    public MainCharInfo userMainCharInfo = new MainCharInfo();
+
     public Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
 
     public Dictionary<int, UserMonsterData> monsterDic = new Dictionary<int, UserMonsterData>();
@@ -82,6 +85,16 @@ public class UserDataManager : MonoSingleton<UserDataManager>
                     Debug.LogError("Invalid Servant Index : " + dic.Value.index);
                 }
                 servantDic[dic.Value.index].isPlaced = true;
+
+                if(dic.Key == 0)
+                {
+                    MainCharInfo charInfo = new MainCharInfo();
+                    charInfo.mainCharType = CHAR_TYPE.SERVANT;
+                    charInfo.mainCharID = servantDic[dic.Value.index].ServantID();
+                    charInfo.grade = servantDic[dic.Value.index].grade;
+
+                    UpdateMainCharInfo(charInfo);
+                }
             }
             else if (dic.Key > DEFINE.ServantMaxFormationNum && dic.Key <= DEFINE.MonsterMaxFormationNum)
             {
@@ -92,6 +105,11 @@ public class UserDataManager : MonoSingleton<UserDataManager>
                 monsterDic[dic.Value.index].isPlaced = true;
             }
         }
+    }
+
+    public void UpdateMainCharInfo(MainCharInfo charInfo)
+    {
+        userMainCharInfo = charInfo;
     }
 
     public void SetStageState(stageStateData getStageStateData)
@@ -195,18 +213,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
     public ulong GetUserUTG() /* 기본적으로 EOS와 UTG는 1이 10000으로 처리됩니다. */
     {
-        return userInfo.userMoney;
-    }
-
-    public UserServantData GetHeroInfo()
-    {
-        if (userInfo == null)
-        {
-            Debug.Log("Invalid UserInfo");
-            return null;
-        }
-
-        return userInfo.userHero;
+        return userInfo.userUTG;
     }
 
     public UserPartyData GetUserPartyInfo()

@@ -425,8 +425,7 @@ public class EquipmentSellJson
 [Serializable]
 public class ItemSellJson
 {
-    public List<int> itemIndexList;
-    public int count;
+    public List<itemData> itemDataList;
 }
 
 [Serializable]
