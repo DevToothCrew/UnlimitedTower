@@ -31,7 +31,6 @@ int,int,int,int,int,string,string,string,#,int,string,string,int,string,int,loca
 103101,20025,,,,monster,샐러맨더,Salamander,Pre,,,Fire,1,Fighter,1,DB_monster_name_103101,,mst_fairy_fire,weapon_glove,ic_mst_fairy_fire
 103102,20026,,,,monster,노움,Gnome,Pre,,,Earth,3,Knight,2,DB_monster_name_103102,,mst_fairy_leaf,weapon_glove,ic_mst_fairy_leaf
 103103,20027,,,,monster,운디네,Undine,Pre,,,Water,2,Shaman,9,DB_monster_name_103103,,mst_fairy_water,weapon_glove,ic_mst_fairy_water
-103104,20028,,,,monster,실프,Sylph,,,,Wind,4,Hunter,5,DB_monster_name_103104,,mst_fairy_wind,weapon_glove,ic_mst_fairy_wind
 103105,20029,,,,monster,플루토,Pluto,,,,Dark,6,Assassin,4,DB_monster_name_103105,,mst_fairy_dark,weapon_glove,ic_mst_fairy_dark
 103106,20030,,,,monster,위습,Wisp,,,,Light,5,Priest,3,DB_monster_name_103106,,mst_fairy_light,weapon_glove,ic_mst_fairy_light
 103201,20031,,,,monster,모스 골렘,Moss Golem,Pre,,,Earth,3,Druid,8,DB_monster_name_103201,,mst_golem_moss,weapon_glove,ic_mst_golem_moss
