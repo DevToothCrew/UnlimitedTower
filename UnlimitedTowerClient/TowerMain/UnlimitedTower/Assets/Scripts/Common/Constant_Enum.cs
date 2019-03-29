@@ -123,7 +123,6 @@ public enum CHARACTER_NUM
 public enum SERVANT_JOB
 {
     // STR
-    WhiteHand = 0,
     Warrior = 1,
 
     // DEX
@@ -133,6 +132,19 @@ public enum SERVANT_JOB
     // INT
     Cleric = 3,
     Magician = 5,
+}
+
+public enum MONSTER_CLASS
+{
+    Fighter = 1,
+    Kngiht = 2,
+    Priest = 3,
+    Assassin = 4,
+    Hunter = 5,
+    Mage = 6,
+    Warlock = 7,
+    Druid = 8,
+    Shaman = 9,
 }
 
 public enum ACTION_TYPE

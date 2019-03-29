@@ -23,14 +23,6 @@ public class DEFINE
     public static readonly string OUTLINE_SHADER = "Outlined/UltimateOutline";
     public static readonly string BASIC_SHADER = "Mobile/Unlit (Supports Lightmap)";
 
-    // Status Formula
-    public static readonly int HP_MIN_VALUE = 300;
-    public static readonly int HP_MULTI_VALUE = 22;
-    public static readonly int DAMAGE_MUlTI_VALUE = 2;
-    public static readonly int DEFENCE_MULTI_VALUE = 1;
-    public static readonly int CRITICAL_PER_MULTI_VALUE = 1;
-    public static readonly float AVOID_MULTI_VALUE = 0.1f;
-
     // Party Info
     public static readonly int PARTY_MAX_NUM = 10;
 

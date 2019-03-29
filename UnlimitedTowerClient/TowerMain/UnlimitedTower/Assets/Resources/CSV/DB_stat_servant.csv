@@ -1,0 +1,8 @@
+id,job,speed,avoid,cri_per,cri_dmg,mcri_per,mcri_dmg
+#,서번트 직업,속도,회피 확률,물리 치명타 발생율,물리 치명타  피해율,마법 치명타 발생율,마법 치명타  피해율
+int,string,int,int,float,float,float,float
+1,warrior,22,0,10,150,10,150
+2,thief,30,0,15,200,10,150
+3,cleric,20,0,10,150,10,150
+4,archer,28,0,15,200,10,150
+5,magician,15,0,10,150,10,250

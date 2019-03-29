@@ -26,10 +26,6 @@ public class statusInfo
     public int basic_str = 0;
     public int basic_dex = 0;
     public int basic_int = 0;
-    public int plus_str = 0;
-    public int plus_dex = 0;
-    public int plus_int = 0;
-    
 };
 
 [Serializable]
@@ -46,7 +42,6 @@ public class servantInfo
 {
     public int state;
     public int exp;
-    public int stat_point;
 
     // TODO : job / appear 에서 id로 변경 필요
     public int job;
@@ -264,14 +259,6 @@ public class skillInfo
 }
 
 [Serializable]
-public class totalStatus
-{
-    public int total_str;
-    public int total_dex;
-    public int total_int;
-}
-
-[Serializable]
 public class buffInfo
 {
     public int id;      //1 defense
@@ -303,7 +290,7 @@ public class characterStateData
     public List<buffInfo> buff_list = new List<buffInfo>();
     public List<skillInfo> passive_skill_list = new List<skillInfo>();
     public List<skillInfo> active_skill_list = new List<skillInfo>();
-    public totalStatus status = new totalStatus();
+    public Status status = new Status();
 }
 
 [Serializable]

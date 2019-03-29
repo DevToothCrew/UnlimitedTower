@@ -5,6 +5,14 @@ using UnityEngine;
 #region DBClass
 
 [Serializable]
+public class DBExpData
+{
+    public int level;
+    public int rankExp;
+    public int charExp;
+}
+
+[Serializable]
 public class DBItemData
 {
     public int id;
@@ -23,10 +31,30 @@ public class DBMonsterData
     public string name;
     public int elementType;
     public int classType;
+
+    public MONSTER_CLASS classEnum;
     public int speed;
+    public int avoid;
+    public int criPer;
+    public int criDmg;
+    public int mcriPer;
+    public int mcriDmg;
+
     public string resourceModel;
     public string resourceIcon;
     public Sprite monsterIcon;
+}
+
+[Serializable]
+public class DBMonsterStatData
+{
+    public MONSTER_CLASS classEnum;
+    public int speed;
+    public int avoid;
+    public int criPer;
+    public int criDmg;
+    public int mcriPer;
+    public int mcriDmg;
 }
 
 [Serializable]
@@ -34,12 +62,20 @@ public class DBServantData
 {
     public int id;
     public int job;
+
+    public SERVANT_JOB jobEnum;
+    public int speed;
+    public int avoid;
+    public int criPer;
+    public int criDmg;
+    public int mcriPer;
+    public int mcriDmg;
+
     public int body;
     public int gender;
     public int head;
     public int hair;
     public GRADE_TYPE grade;
-    public int speed;
 
     public string name;
     public string jobName;
@@ -48,6 +84,18 @@ public class DBServantData
     public string resourceHair;
     public string resourceIcon;
     public Sprite servantIcon;
+}
+
+[Serializable]
+public class DBServantStatData
+{
+    public SERVANT_JOB jobEnum;
+    public int speed;
+    public int avoid;
+    public int criPer;
+    public int criDmg;
+    public int mcriPer;
+    public int mcriDmg;
 }
 
 [Serializable]

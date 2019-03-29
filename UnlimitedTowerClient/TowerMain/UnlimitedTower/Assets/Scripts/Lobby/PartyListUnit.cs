@@ -28,18 +28,17 @@ public class PartyListUnit : ScrollListUnit {
         if (partyInfo.getMenuType() == PartyInfoVC.menu_type.SERVANT)
         {
             textLevel.text = string.Format("{0}", partyInfo.ServantList[main_idx].level);
-            textStr.text = string.Format("{0}", partyInfo.ServantList[main_idx].status.basicStr + partyInfo.ServantList[main_idx].status.plusStr);
-            textDex.text = string.Format("{0}", partyInfo.ServantList[main_idx].status.basicDex + partyInfo.ServantList[main_idx].status.plusDex);
-            textInt.text = string.Format("{0}", partyInfo.ServantList[main_idx].status.basicInt + partyInfo.ServantList[main_idx].status.plusInt);
+            textStr.text = string.Format("{0}", partyInfo.ServantList[main_idx].status.basicStr);
+            textDex.text = string.Format("{0}", partyInfo.ServantList[main_idx].status.basicDex);
+            textInt.text = string.Format("{0}", partyInfo.ServantList[main_idx].status.basicInt);
         }
         else if (partyInfo.getMenuType() == PartyInfoVC.menu_type.MONSTER)
         {
             textLevel.text = string.Format("{0}", partyInfo.MonsterList[main_idx].level);
-            textStr.text = string.Format("{0}", partyInfo.MonsterList[main_idx].status.basicStr + partyInfo.MonsterList[main_idx].status.plusStr);
-            textDex.text = string.Format("{0}", partyInfo.MonsterList[main_idx].status.basicDex + partyInfo.MonsterList[main_idx].status.plusDex);
-            textInt.text = string.Format("{0}", partyInfo.MonsterList[main_idx].status.basicInt + partyInfo.MonsterList[main_idx].status.plusInt);
+            textStr.text = string.Format("{0}", partyInfo.MonsterList[main_idx].status.basicStr);
+            textDex.text = string.Format("{0}", partyInfo.MonsterList[main_idx].status.basicDex);
+            textInt.text = string.Format("{0}", partyInfo.MonsterList[main_idx].status.basicInt);
         }
-        
     }
 
     public override void Selected(bool selected)

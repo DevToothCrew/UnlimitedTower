@@ -1285,10 +1285,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
         status.basicDex = getStatusInfo.basic_dex;
         status.basicInt = getStatusInfo.basic_int;
 
-        status.plusStr = getStatusInfo.plus_str;
-        status.plusDex = getStatusInfo.plus_dex;
-        status.plusInt = getStatusInfo.plus_int;
-
         return status;
     }
 

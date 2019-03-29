@@ -14,7 +14,9 @@ public class CSVData : MonoSingleton<CSVData>
     public Dictionary<int, DBLocalizationData> DBLocalDataDic = new Dictionary<int, DBLocalizationData>();
     private LOCALIZATION_TYPE localType;
     public Dictionary<int, DBServantData> DBServantDataDic = new Dictionary<int, DBServantData>();
+    public Dictionary<SERVANT_JOB, DBServantStatData> DBServantStatDataDic = new Dictionary<SERVANT_JOB, DBServantStatData>();
     public Dictionary<int, DBMonsterData> DBMonsterDataDic = new Dictionary<int, DBMonsterData>();
+    public Dictionary<MONSTER_CLASS, DBMonsterStatData> DBMonsterStatDataDic = new Dictionary<MONSTER_CLASS, DBMonsterStatData>();
     public Dictionary<int, DBMonsterUpgradeData> DBMonsterUpgradeDataDic = new Dictionary<int, DBMonsterUpgradeData>();
 
     //  인스펙터에서 보여주기 위한...
@@ -54,11 +56,23 @@ public class CSVData : MonoSingleton<CSVData>
             yield return SetStageEnemyData();
             Debug.Log("SetStageEnemyData Success");
         }
+        if(DBServantStatDataDic.Count == 0)
+        {
+            Debug.Log("SetServantStatData Start");
+            yield return SetServantStatData();
+            Debug.Log("SetServantStatData Success");
+        }
         if (DBServantDataDic.Count == 0)
         {
             Debug.Log("SetServantData Start");
             yield return SetServantData();
             Debug.Log("SetServantData Success");
+        }
+        if (DBMonsterStatDataDic.Count == 0)
+        {
+            Debug.Log("SetMonsterStatData Start");
+            yield return SetMonsterStatData();
+            Debug.Log("SetMonsterStatData Success");
         }
         if (DBMonsterDataDic.Count == 0)
         {
@@ -289,6 +303,39 @@ public class CSVData : MonoSingleton<CSVData>
 
     }
 
+    public IEnumerator SetServantStatData()
+    {
+        yield return LoadSynchronizer("CSV/DB_stat_servant",
+            loadingSentence: "Setting Servant Stat Data ...",
+            onSuccess: data =>
+            {
+                for (var i = 2; i < data.Count; i++)
+                {
+                    Debug.Log("index " + (i).ToString()
+                        + " : " + data[i]["id"]
+                        + " " + data[i]["job"]
+                        + " " + data[i]["speed"]
+                        + " " + data[i]["avoid"]
+                        + " " + data[i]["cri_per"]
+                        + " " + data[i]["cri_dmg"]
+                        + " " + data[i]["mcri_per"]
+                        + " " + data[i]["mcri_dmg"]
+                        );
+
+                    DBServantStatData servantStatData = new DBServantStatData();
+                    servantStatData.jobEnum = (SERVANT_JOB)Convert.ToInt32(data[i]["id"]);
+                    servantStatData.speed = Convert.ToInt32(data[i]["speed"]);
+                    servantStatData.avoid = Convert.ToInt32(data[i]["avoid"]);
+                    servantStatData.criPer = Convert.ToInt32(data[i]["cri_per"]);
+                    servantStatData.criDmg = Convert.ToInt32(data[i]["cri_dmg"]);
+                    servantStatData.mcriPer = Convert.ToInt32(data[i]["mcri_per"]);
+                    servantStatData.mcriDmg = Convert.ToInt32(data[i]["mcri_dmg"]);
+
+                    DBServantStatDataDic.Add(servantStatData.jobEnum, servantStatData);
+                }
+            });
+    }
+
     public IEnumerator SetServantData()
     {
         yield return LoadSynchronizer("CSV/DB_servant",
@@ -392,6 +439,39 @@ public class CSVData : MonoSingleton<CSVData>
                     localData.enText = Convert.ToString(data[i]["en"]);
 
                     DBLocalDataDic.Add(localData.id, localData);
+                }
+            });
+    }
+
+    public IEnumerator SetMonsterStatData()
+    {
+        yield return LoadSynchronizer("CSV/DB_stat_monster",
+            loadingSentence: "Setting Monster Stat Data ...",
+            onSuccess: data =>
+            {
+                for (var i = 2; i < data.Count; i++)
+                {
+                    Debug.Log("index " + (i).ToString()
+                        + " : " + data[i]["id"]
+                        + " " + data[i]["class"]
+                        + " " + data[i]["speed"]
+                        + " " + data[i]["avoid"]
+                        + " " + data[i]["cri_per"]
+                        + " " + data[i]["cri_dmg"]
+                        + " " + data[i]["mcri_per"]
+                        + " " + data[i]["mcri_dmg"]
+                        );
+
+                    DBMonsterStatData monsterStatData = new DBMonsterStatData();
+                    monsterStatData.classEnum = (MONSTER_CLASS)Convert.ToInt32(data[i]["id"]);
+                    monsterStatData.speed = Convert.ToInt32(data[i]["speed"]);
+                    monsterStatData.avoid = Convert.ToInt32(data[i]["avoid"]);
+                    monsterStatData.criPer = Convert.ToInt32(data[i]["cri_per"]);
+                    monsterStatData.criDmg = Convert.ToInt32(data[i]["cri_dmg"]);
+                    monsterStatData.mcriPer = Convert.ToInt32(data[i]["mcri_per"]);
+                    monsterStatData.mcriDmg = Convert.ToInt32(data[i]["mcri_dmg"]);
+
+                    DBMonsterStatDataDic.Add(monsterStatData.classEnum, monsterStatData);
                 }
             });
     }
@@ -663,6 +743,16 @@ public class CSVData : MonoSingleton<CSVData>
         }
 
         return DBStageEnemyDataDic[id];
+    }
+
+    public int GetRankForExp(int exp)
+    {
+        return 1;
+    }
+
+    public int GetLevelForExp(int exp)
+    {
+        return 1;
     }
 
     #endregion

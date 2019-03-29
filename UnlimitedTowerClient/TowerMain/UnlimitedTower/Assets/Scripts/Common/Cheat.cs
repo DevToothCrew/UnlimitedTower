@@ -76,7 +76,7 @@ public class Cheat : MonoSingleton<Cheat>
         }
         else
         {
-            return SERVANT_JOB.WhiteHand;
+            return SERVANT_JOB.Warrior;
         }
     }
 
@@ -263,14 +263,14 @@ public class Cheat : MonoSingleton<Cheat>
                 newMember.active_skill_list = new List<skillInfo>();
                 newMember.active_skill_list.Add(skill);
 
-                newMember.status = new totalStatus();
-                newMember.status.total_str = servantData.status.basicStr + servantData.status.plusStr;
-                newMember.status.total_dex = servantData.status.basicDex + servantData.status.plusDex;
-                newMember.status.total_int = servantData.status.basicInt + servantData.status.plusInt;
+                newMember.status = new Status();
+                newMember.status.basicStr = servantData.status.basicStr;
+                newMember.status.basicDex = servantData.status.basicDex;
+                newMember.status.basicInt = servantData.status.basicInt;
                 newMember.now_hp = Calculator.GetMaxHp(newMember.status);
-                newMember.physical_attack = Calculator.GetAttack(STATUS_TYPE.STR, servantData.status);
+                newMember.physical_attack = Calculator.GetAttack(servantData.status);
                 newMember.physical_defense = Calculator.GetDefence(servantData.status);
-                newMember.magic_attack = Calculator.GetAttack(STATUS_TYPE.INT, servantData.status);
+                newMember.magic_attack = Calculator.GetMagicAttack(servantData.status);
                 newMember.magic_defense = Calculator.GetMagicDefence(servantData.status);
                 newMember.speed = dbServantData.speed;
             }
@@ -292,14 +292,14 @@ public class Cheat : MonoSingleton<Cheat>
                 newMember.index = monsterData.index;
                 newMember.id = monsterData.id;
 
-                newMember.status = new totalStatus();
-                newMember.status.total_str = monsterData.status.basicStr + monsterData.status.plusStr;
-                newMember.status.total_dex = monsterData.status.basicDex + monsterData.status.plusDex;
-                newMember.status.total_int = monsterData.status.basicInt + monsterData.status.plusInt;
+                newMember.status = new Status();
+                newMember.status.basicStr = monsterData.status.basicStr;
+                newMember.status.basicDex = monsterData.status.basicDex;
+                newMember.status.basicInt = monsterData.status.basicInt;
                 newMember.now_hp = Calculator.GetMaxHp(newMember.status);
-                newMember.physical_attack = Calculator.GetAttack(STATUS_TYPE.STR, monsterData.status);
+                newMember.physical_attack = Calculator.GetAttack(monsterData.status);
                 newMember.physical_defense = Calculator.GetDefence(monsterData.status);
-                newMember.magic_attack = Calculator.GetAttack(STATUS_TYPE.INT, monsterData.status);
+                newMember.magic_attack = Calculator.GetMagicAttack(monsterData.status);
                 newMember.magic_defense = Calculator.GetMagicDefence(monsterData.status);
                 newMember.speed = dbMonsterData.speed;
             }
@@ -335,16 +335,16 @@ public class Cheat : MonoSingleton<Cheat>
                 return null;
             }
 
-            newMember.status = new totalStatus();
-            newMember.status.total_str = enemyData.status.basicStr;
-            newMember.status.total_dex = enemyData.status.basicDex;
-            newMember.status.total_int = enemyData.status.basicInt;
+            newMember.status = new Status();
+            newMember.status.basicStr = enemyData.status.basicStr;
+            newMember.status.basicDex = enemyData.status.basicDex;
+            newMember.status.basicInt = enemyData.status.basicInt;
 
             newMember.now_hp = Calculator.GetMaxHp(newMember.status);
-            newMember.physical_attack = Calculator.GetAttack(STATUS_TYPE.STR, enemyData.status);
+            newMember.physical_attack = Calculator.GetAttack(enemyData.status);
             newMember.physical_defense = Calculator.GetDefence(enemyData.status);
             newMember.physical_crit_dmg = enemyData.criDmg;
-            newMember.magic_attack = Calculator.GetAttack(STATUS_TYPE.INT, enemyData.status);
+            newMember.magic_attack = Calculator.GetMagicAttack(enemyData.status);
             newMember.magic_defense = Calculator.GetMagicDefence(enemyData.status);
             newMember.magic_crit_dmg = enemyData.mcriDmg;
             newMember.physical_crit_per = enemyData.criPer;
@@ -457,9 +457,6 @@ public class Cheat : MonoSingleton<Cheat>
         newMonsterData.monster.status.basic_str = getMonsterData.status.basicStr;
         newMonsterData.monster.status.basic_dex = getMonsterData.status.basicDex;
         newMonsterData.monster.status.basic_int = getMonsterData.status.basicInt;
-        newMonsterData.monster.status.plus_str = getMonsterData.status.plusStr;
-        newMonsterData.monster.status.plus_dex = getMonsterData.status.plusDex;
-        newMonsterData.monster.status.plus_int = getMonsterData.status.plusInt;
         // 스킬 추가 필요
 
         return newMonsterData;
@@ -669,9 +666,8 @@ public class Cheat : MonoSingleton<Cheat>
         servantInfo servant = new servantInfo();
 
         servant.state = 0;
-        servant.exp = rand.Next(0, DEFINE.MAX_EXP);
+        servant.exp = 0;
         servant.job = 1; // rand.Next(0, 6);
-        servant.stat_point = (Calculator.GetLevelForExp(servant.exp) - 1) * DEFINE.BONUS_STAT;
         servant.appear = GetRandomAppear();
         servant.status = GetRandomStatusInfo();
         servant.equip_slot.Add(0);
@@ -688,7 +684,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         monsterData.monster = new monsterInfo();
         monsterData.monster.state = 0;
-        monsterData.monster.exp = rand.Next(0, DEFINE.MAX_EXP);
+        monsterData.monster.exp = 0;
 
         monsterData.monster.type = 0;
 
@@ -719,10 +715,6 @@ public class Cheat : MonoSingleton<Cheat>
         status.basic_dex = rand.Next(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
         status.basic_int = rand.Next(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
 
-        status.plus_str = 0;
-        status.plus_dex = 0;
-        status.plus_int = 0;
-
         return status;
     }
 
@@ -732,10 +724,6 @@ public class Cheat : MonoSingleton<Cheat>
         status.basicStr = rand.Next(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
         status.basicDex = rand.Next(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
         status.basicInt = rand.Next(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
-
-        status.plusStr = 0;
-        status.plusDex = 0;
-        status.plusInt = 0;
 
         return status;
     }

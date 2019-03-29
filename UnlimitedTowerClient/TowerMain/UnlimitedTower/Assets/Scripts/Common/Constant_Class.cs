@@ -55,8 +55,7 @@ public class UserServantData
     {
         get
         {
-            // CSV로 변경 필요
-            return Calculator.GetLevelForExp(exp);
+            return CSVData.Inst.GetLevelForExp(exp);
         }
     }
 }
@@ -78,15 +77,14 @@ public class UserMonsterData
     {
         get
         {
-            // CSV로 변경 필요
-            return Calculator.GetLevelForExp(exp);
+            return CSVData.Inst.GetLevelForExp(exp);
         }
     }
 
     public Status status = new Status();
 }
 
-[System.Serializable]
+[Serializable]
 public class UserEquipmentData
 {
     public int index;
@@ -101,19 +99,15 @@ public class UserEquipmentData
     public int equipServantIndex;
 }
 
-[System.Serializable]
+[Serializable]
 public class Status
 {
     public int basicStr;
     public int basicDex;
     public int basicInt;
-
-    public int plusStr;
-    public int plusDex;
-    public int plusInt;
 }
 
-[System.Serializable]
+[Serializable]
 public class UserFormationData
 {
     // 인덱스
@@ -139,7 +133,7 @@ public class UserFormationData
 
 
 
-[System.Serializable]
+[Serializable]
 public class UserItemData
 {
     public int index;
@@ -148,7 +142,7 @@ public class UserItemData
     public int count;
 }
 
-[System.Serializable]
+[Serializable]
 public class UserPartyData
 {
     public int partyIndex;
@@ -157,6 +151,7 @@ public class UserPartyData
     public Dictionary<int, UserFormationData> formationDataDic = new Dictionary<int, UserFormationData>();
 }
 
+[Serializable]
 public class PartyCharacterInfo
 {
     public CHAR_TYPE type;
@@ -165,6 +160,7 @@ public class PartyCharacterInfo
 }
 
 // 배틀시 각 캐릭터 정보
+[Serializable]
 public class CharacterBattleStatus
 {
     public int partyIndex;
@@ -196,6 +192,7 @@ public class CharacterBattleStatus
     public int level;
 }
 
+[Serializable]
 public class CharacterAction
 {
     public int myIndex;
@@ -211,6 +208,7 @@ public class CharacterAction
     }
 }
 
+[Serializable]
 public static class ExtensionMethod
 {
     public static T GetReferenceTo<T>(this GameObject go, T instance)

@@ -1,0 +1,12 @@
+id,class,speed,avoid,cri_per,cri_dmg,mcri_per,mcri_dmg
+#,몬스터 클래스,속도,회피 확률,물리 치명타 발생율,물리 치명타  피해율,마법 치명타 발생율,마법 치명타  피해율
+int,string,int,int,float,float,float,float
+1,Fighter,25,0,10,150,10,150
+2,Knight,22,0,10,150,10,150
+3,Priest,20,0,10,150,10,150
+4,Assassin,32,0,15,200,10,150
+5,Hunter,34,0,15,200,10,150
+6,Mage,17,0,10,150,10,250
+7,Warlock,19,0,10,150,10,250
+8,Druid,28,0,15,175,15,175
+9,Shaman,30,0,15,175,15,175

@@ -266,9 +266,9 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
             textLevel.text = string.Format("{0}", ServantList[selected_unit_idx].level);
             textCharacterName.text = string.Format("{0}", dBServantData.name);
 
-            textStr.text = string.Format("{0}", ServantList[selected_unit_idx].status.basicStr + ServantList[selected_unit_idx].status.plusStr);
-            textDex.text = string.Format("{0}", ServantList[selected_unit_idx].status.basicDex + ServantList[selected_unit_idx].status.plusDex);
-            textInt.text = string.Format("{0}", ServantList[selected_unit_idx].status.basicInt + ServantList[selected_unit_idx].status.plusInt);
+            textStr.text = string.Format("{0}", ServantList[selected_unit_idx].status.basicStr);
+            textDex.text = string.Format("{0}", ServantList[selected_unit_idx].status.basicDex);
+            textInt.text = string.Format("{0}", ServantList[selected_unit_idx].status.basicInt);
         }
         else if (getMenuType() == menu_type.MONSTER)
         {
@@ -281,9 +281,9 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
             textLevel.text = string.Format("{0}", MonsterList[selected_unit_idx].level);
             textCharacterName.text = string.Format("{0}", dBMonsterData.name);
 
-            textStr.text = string.Format("{0}", MonsterList[selected_unit_idx].status.basicStr + MonsterList[selected_unit_idx].status.plusStr);
-            textDex.text = string.Format("{0}", MonsterList[selected_unit_idx].status.basicDex + MonsterList[selected_unit_idx].status.plusDex);
-            textInt.text = string.Format("{0}", MonsterList[selected_unit_idx].status.basicInt + MonsterList[selected_unit_idx].status.plusInt);
+            textStr.text = string.Format("{0}", MonsterList[selected_unit_idx].status.basicStr);
+            textDex.text = string.Format("{0}", MonsterList[selected_unit_idx].status.basicDex);
+            textInt.text = string.Format("{0}", MonsterList[selected_unit_idx].status.basicInt);
         }
            
     }
