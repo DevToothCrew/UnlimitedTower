@@ -23,35 +23,7 @@ public class CSVData : MonoSingleton<CSVData>
     public List<DBMonsterData> monsterDataInspector = new List<DBMonsterData>();
     public List<DBServantData> servantDataInspector = new List<DBServantData>();
 
-    public List<TextAsset> textList = new List<TextAsset>();
-
-    private void Awake()
-    {
-        ReadTextAsset("CSV/DB_item");
-        ReadTextAsset("CSV/DB_monster");
-        ReadTextAsset("CSV/DB_monster_upgrade");
-        ReadTextAsset("CSV/DB_pre_gacha");
-        ReadTextAsset("CSV/DB_servant");
-        ReadTextAsset("CSV/DB_stage");
-        ReadTextAsset("CSV/DB_stage_enemy");
-        ReadTextAsset("CSV/DB_stat_monster");
-        ReadTextAsset("CSV/DB_stat_servant");
-    }
-
-    public void ReadTextAsset(string text)
-    {
-        Debug.Log("Read CSV : " + text);
-        TextAsset data = Resources.Load<TextAsset>(text);
-        textList.Add(data);
-    }
-
-    public void InitCSV()
-    {
-        StartCoroutine(SetCSVData());
-    }
-
-    // 로딩씬에 추가가 되야할듯 임시로 로그인에 넣어둠
-    public IEnumerator SetCSVData()
+    public void SetCSVData()
     {
         //Debug.Log("SetCSVData Start");
 
@@ -63,56 +35,59 @@ public class CSVData : MonoSingleton<CSVData>
         if (DBItemDataDic.Count == 0)
         {
             //Debug.Log("SetItemData Start");
-            yield return SetItemData();
+            if(SetItemData() == false)
+            {
+                Debug.Log("Invalid DBSetItemData");
+            }
             //Debug.Log("SetItemData Success");
         }
         if (DBStageDataDic.Count == 0)
         {
             //Debug.Log("SetStageData Start");
-            yield return SetStageData();
+            SetStageData();
             //Debug.Log("SetStageData Success");
         }
         if (DBStageEnemyDataDic.Count == 0)
         {
             //Debug.Log("SetStageEnemyData Start");
-            yield return SetStageEnemyData();
+            SetStageEnemyData();
             //Debug.Log("SetStageEnemyData Success");
         }
         if(DBServantStatDataDic.Count == 0)
         {
             //Debug.Log("SetServantStatData Start");
-            yield return SetServantStatData();
+            SetServantStatData();
             //Debug.Log("SetServantStatData Success");
         }
         if (DBServantDataDic.Count == 0)
         {
             //Debug.Log("SetServantData Start");
-            yield return SetServantData();
+            SetServantData();
             //Debug.Log("SetServantData Success");
         }
         if (DBMonsterStatDataDic.Count == 0)
         {
             //Debug.Log("SetMonsterStatData Start");
-            yield return SetMonsterStatData();
+            SetMonsterStatData();
             //Debug.Log("SetMonsterStatData Success");
         }
         if (DBMonsterDataDic.Count == 0)
         {
             //Debug.Log("SetMonsterData Start");
-            yield return SetMonsterData();
+            SetMonsterData();
             //Debug.Log("SetMonsterData Success");
         }
         if (DBMonsterUpgradeDataDic.Count == 0)
         {
             //Debug.Log("SetMonsterUpgradeData Start");
-            yield return SetMonsterUpgradeData();
+            SetMonsterUpgradeData();
             //Debug.Log("SetMonsterUpgradeData Success");
         }
         if (DBGradeResourceDataDic.Count == 0)
         {
-            Debug.Log("SetGradeResourceData Start");
-            yield return SetGradeResourceData();
-            Debug.Log("SetGradeResourceData Success");
+            //Debug.Log("SetGradeResourceData Start");
+            SetGradeResourceData();
+            //Debug.Log("SetGradeResourceData Success");
         }
         localType = LOCALIZATION_TYPE.EN;
 
@@ -129,460 +104,423 @@ public class CSVData : MonoSingleton<CSVData>
 
     #region SetFunction
 
-    public IEnumerator LoadSynchronizer(string file, Action<CSVReader.CSVPairsList> onSuccess, string loadingSentence = "loading ...")
+    public bool SetItemData()
     {
-        bool isFinished = false;
-        onSuccess += data => isFinished = true;
-
-        UTLoadingManager.Description desc = new UTLoadingManager.Description
+        List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_item");
+        for (var i = 2; i < data.Count; i++)
         {
-            startComment = loadingSentence,
-            finishedComment = loadingSentence,
-            predicate = () => isFinished,
-        };
-
-        UTLoadingManager.Instance.BeginScene(desc);
-
-        CSVReader.ReadAsync(
-            file,
-            onSuccess,
-            onFailed: msg =>
+             //Debug.Log("index " + (i).ToString()
+             //    + " : " + data[i]["id"]
+             //    + " " + data[i]["name"]
+             //    + " " + data[i]["resource_icon"]
+             //    + " " + data[i]["description"]
+             //    + " " + data[i]["tier"]
+             //    + " " + data[i]["item_type"]
+             //    + " " + data[i]["item_param_list"]
+             //    );
+        
+             DBItemData itemData = new DBItemData();
+            itemData.id = Convert.ToInt32(data[i]["id"]);
+            if (DBItemDataDic.ContainsKey(itemData.id) == true)
             {
-                Debug.LogError($"[Load \"{file}\" Failed] {msg}");
-            });
+                Debug.Log("Item ID가 겹쳐요 : " + itemData.id);
+                return false;
+            }
+            itemData.name = Convert.ToString(data[i]["name"]);
+            itemData.resourceIcon = Convert.ToString(data[i]["resource_icon"]);
+            itemData.description = Convert.ToString(data[i]["description"]);
+            itemData.tier = Convert.ToInt32(data[i]["tier"]);
+            itemData.itemType = Convert.ToString(data[i]["item_type"]);
+        
+            itemData.itemParamIDList = new List<int>();
+             // Param List검사 추가 필요
+        
+             DBItemDataDic.Add(itemData.id, itemData);
+        }
 
-        yield return new WaitUntil(() => isFinished);
+        return true;
     }
 
-    public IEnumerator SetItemData()
+    public bool SetStageData()
     {
-        yield return LoadSynchronizer("CSV/DB_item",
-            loadingSentence : "Setting Item Data ...",
-            onSuccess: data =>
-           {
-               for (var i = 2; i < data.Count; i++)
-               {
-                    //Debug.Log("index " + (i).ToString()
-                    //    + " : " + data[i]["id"]
-                    //    + " " + data[i]["name"]
-                    //    + " " + data[i]["resource_icon"]
-                    //    + " " + data[i]["description"]
-                    //    + " " + data[i]["tier"]
-                    //    + " " + data[i]["item_type"]
-                    //    + " " + data[i]["item_param_list"]
-                    //    );
-
-                    DBItemData itemData = new DBItemData();
-                   itemData.id = Convert.ToInt32(data[i]["id"]);
-                   if (DBItemDataDic.ContainsKey(itemData.id) == true)
-                   {
-                       Debug.Log("Item ID가 겹쳐요 : " + itemData.id);
-                   }
-                   itemData.name = Convert.ToString(data[i]["name"]);
-                   itemData.resourceIcon = Convert.ToString(data[i]["resource_icon"]);
-                   itemData.description = Convert.ToString(data[i]["description"]);
-                   itemData.tier = Convert.ToInt32(data[i]["tier"]);
-                   itemData.itemType = Convert.ToString(data[i]["item_type"]);
-
-                   itemData.itemParamIDList = new List<int>();
-                    // Param List검사 추가 필요
-
-                    DBItemDataDic.Add(itemData.id, itemData);
-               }
-           });
-    }
-
-    public IEnumerator SetStageData()
-    {
-        yield return LoadSynchronizer("CSV/DB_stage",
-            loadingSentence : "Setting Stage Data ...",
-            onSuccess: data =>
-           {
-               for (var i = 2; i < data.Count; i++)
-               {
-                   //Debug.Log("index " + (i).ToString()
-                   //    + " : " + data[i]["id"]
-                   //    + " " + data[i]["stage_type"]
-                   //    + " " + data[i]["stage_floor"]
-                   //    + " " + data[i]["stage_string"]
-                   //    + " " + data[i]["need_stage_id"]
-                   //    + " " + data[i]["stage_group_index"]
-                   //    + " " + data[i]["need_entrance_item_id"]
-                   //    + " " + data[i]["need_entrance_item_count"]
-                   //    + " " + data[i]["enemy_level_min"]
-                   //    + " " + data[i]["enemy_level_max"]
-                   //    + " " + data[i]["enemy_id_list"]
-                   //    + " " + data[i]["enemy_position"]
-                   //    + " " + data[i]["boss_level"]
-                   //    + " " + data[i]["boss_passive_list"]
-                   //    + " " + data[i]["boss_active_list"]
-                   //    + " " + data[i]["rank_exp"]
-                   //    + " " + data[i]["char_exp"]
-                   //    + " " + data[i]["reward_id_list"]
-                   //    + " " + data[i]["reward_count_list"]
-                   //    + " " + data[i]["first_reward_id"]
-                   //    + " " + data[i]["first_reward_count"]
-                   //    + " " + data[i]["map_resource"]
-                   //    + " " + data[i]["bgm_sound_id"]
-                   //    );
-
-                   DBStageData stageData = new DBStageData();
-                   stageData.id = Convert.ToInt32(data[i]["id"]);
-                   stageData.stageType = Convert.ToInt32(data[i]["stage_type"]);
-                   stageData.stageFloor = Convert.ToInt32(data[i]["stage_floor"]);
-                   stageData.stageString = Convert.ToString(data[i]["stage_string"]);
-                   stageData.needStageId = Convert.ToInt32(data[i]["need_stage_id"]);
-                   stageData.stageGroupIndex = Convert.ToInt32(data[i]["stage_group_index"]);
-                   stageData.needEntranceItemId = Convert.ToInt32(data[i]["need_entrance_item_id"]);
-                   stageData.needEntranceItemCount = Convert.ToInt32(data[i]["need_entrance_item_count"]);
-                   stageData.enemyLevelMin = Convert.ToInt32(data[i]["enemy_level_min"]);
-                   stageData.enemyLevelMax = Convert.ToInt32(data[i]["enemy_level_max"]);
-                   string[] eiList = Convert.ToString(data[i]["enemy_id_list"]).Split('/');
-                   for (int j = 0; j < eiList.Length; j++)
-                   {
-                       stageData.enemyIdList.Add(Convert.ToInt32(eiList[j]));
-                   }
-
-                   string[] epList = Convert.ToString(data[i]["enemy_position"]).Split('/');
-                   for (int j = 0; j < epList.Length; j++)
-                   {
-                       stageData.enemyPositionList.Add(Convert.ToInt32(epList[j]));
-                   }
-
-                   stageData.bossLevel = Convert.ToInt32(data[i]["boss_level"]);
-                   // List로 넣기 data[i]["boss_passive_list"]
-                   // List로 넣기 data[i]["boss_skill_list"]
-                   stageData.rankExp = Convert.ToInt32(data[i]["rank_exp"]);
-                   stageData.charExp = Convert.ToInt32(data[i]["char_exp"]);
-                   // List로 넣기 data[i]["reward_id"]
-                   // List로 넣기 data[i]["reward_count"]
-                   stageData.firstRewardId = Convert.ToInt32(data[i]["first_reward_id"]);
-                   stageData.firstRewardCount = Convert.ToInt32(data[i]["first_reward_count"]);
-                   stageData.mapResource = Convert.ToString(data[i]["map_resource"]);
-                   stageData.bgmSoundId = Convert.ToInt32(data[i]["bgm_sound_id"]);
-
-                   DBStageDataDic.Add(stageData.id, stageData);
-               }
-           });
-    }
-
-    public IEnumerator SetStageEnemyData()
-    {
-        yield return LoadSynchronizer("CSV/DB_stage_enemy",
-            loadingSentence: "Setting Stage Enemy Data ...",
-            onSuccess : data =>
+        List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_stage");
+        for (var i = 2; i < data.Count; i++)
+        {
+            //Debug.Log("index " + (i).ToString()
+            //    + " : " + data[i]["id"]
+            //    + " " + data[i]["stage_type"]
+            //    + " " + data[i]["stage_floor"]
+            //    + " " + data[i]["stage_string"]
+            //    + " " + data[i]["need_stage_id"]
+            //    + " " + data[i]["stage_group_index"]
+            //    + " " + data[i]["need_entrance_item_id"]
+            //    + " " + data[i]["need_entrance_item_count"]
+            //    + " " + data[i]["enemy_level_min"]
+            //    + " " + data[i]["enemy_level_max"]
+            //    + " " + data[i]["enemy_id_list"]
+            //    + " " + data[i]["enemy_position"]
+            //    + " " + data[i]["boss_level"]
+            //    + " " + data[i]["boss_passive_list"]
+            //    + " " + data[i]["boss_active_list"]
+            //    + " " + data[i]["rank_exp"]
+            //    + " " + data[i]["char_exp"]
+            //    + " " + data[i]["reward_id_list"]
+            //    + " " + data[i]["reward_count_list"]
+            //    + " " + data[i]["first_reward_id"]
+            //    + " " + data[i]["first_reward_count"]
+            //    + " " + data[i]["map_resource"]
+            //    + " " + data[i]["bgm_sound_id"]
+            //    );
+        
+            DBStageData stageData = new DBStageData();
+            stageData.id = Convert.ToInt32(data[i]["id"]);
+            stageData.stageType = Convert.ToInt32(data[i]["stage_type"]);
+            stageData.stageFloor = Convert.ToInt32(data[i]["stage_floor"]);
+            stageData.stageString = Convert.ToString(data[i]["stage_string"]);
+            stageData.needStageId = Convert.ToInt32(data[i]["need_stage_id"]);
+            stageData.stageGroupIndex = Convert.ToInt32(data[i]["stage_group_index"]);
+            stageData.needEntranceItemId = Convert.ToInt32(data[i]["need_entrance_item_id"]);
+            stageData.needEntranceItemCount = Convert.ToInt32(data[i]["need_entrance_item_count"]);
+            stageData.enemyLevelMin = Convert.ToInt32(data[i]["enemy_level_min"]);
+            stageData.enemyLevelMax = Convert.ToInt32(data[i]["enemy_level_max"]);
+            string[] eiList = Convert.ToString(data[i]["enemy_id_list"]).Split('/');
+            for (int j = 0; j < eiList.Length; j++)
             {
-                for (var i = 2; i < data.Count; i++)
-                {
-                    //Debug.Log("index " + (i).ToString()
-                    //    + " : " + data[i]["id"]
-                    //    + " " + data[i]["char_type"]
-                    //    + " " + data[i]["char_id"]
-                    //    + " " + data[i]["char_grade"]
-                    //    + " " + data[i]["str"]
-                    //    + " " + data[i]["dex"]
-                    //    + " " + data[i]["int"]
-                    //    + " " + data[i]["cri_per"]
-                    //    + " " + data[i]["cri_dmg"]
-                    //    + " " + data[i]["mcri_per"]
-                    //    + " " + data[i]["mcri_dmg"]
-                    //    + " " + data[i]["spd"]
-                    //    + " " + data[i]["avd"]
-                    //    + " " + data[i]["active_list"]
-                    //    + " " + data[i]["passive_list"]
-                    //    );
-
-                    DBStageEnemyData stageEnemyData = new DBStageEnemyData();
-                    stageEnemyData.id = Convert.ToInt32(data[i]["id"]);
-
-                    switch (Convert.ToString(data[i]["char_type"]))
-                    {
-                        case "monster":
-                            stageEnemyData.charType = CHAR_TYPE.MONSTER;
-                            break;
-                        case "servant":
-                            stageEnemyData.charType = CHAR_TYPE.SERVANT;
-                            break;
-                    }
-
-                    stageEnemyData.charID = Convert.ToInt32(data[i]["char_id"]);
-                    switch (Convert.ToString(data[i]["char_grade"]))
-                    {
-                        case "common":
-                            stageEnemyData.grade = GRADE_TYPE.COMMON;
-                            break;
-                        case "uncommon":
-                            stageEnemyData.grade = GRADE_TYPE.UNCOMMON;
-                            break;
-                        case "rare":
-                            stageEnemyData.grade = GRADE_TYPE.RARE;
-                            break;
-                        case "unique":
-                            stageEnemyData.grade = GRADE_TYPE.UNIQUE;
-                            break;
-                        case "legendary":
-                            stageEnemyData.grade = GRADE_TYPE.LEGENDARY;
-                            break;
-                        default:
-                            Debug.Log("Invalid Request ID : " + i + " charGrade : " + Convert.ToString(data[i]["char_grade"]));
-                            break;
-                    }
-
-                    stageEnemyData.status.basicStr = Convert.ToInt32(data[i]["str"]);
-                    stageEnemyData.status.basicDex = Convert.ToInt32(data[i]["dex"]);
-                    stageEnemyData.status.basicInt = Convert.ToInt32(data[i]["int"]);
-
-                    stageEnemyData.criPer = Convert.ToInt32(data[i]["cri_per"]);
-                    stageEnemyData.criDmg = Convert.ToInt32(data[i]["cri_dmg"]);
-                    stageEnemyData.mcriPer = Convert.ToInt32(data[i]["mcri_per"]);
-                    stageEnemyData.mcriDmg = Convert.ToInt32(data[i]["mcri_dmg"]);
-                    stageEnemyData.speed = Convert.ToInt32(data[i]["spd"]);
-                    stageEnemyData.avoid = Convert.ToInt32(data[i]["avd"]);
-
-                    DBStageEnemyDataDic.Add(stageEnemyData.id, stageEnemyData);
-                }
-            });
-
-    }
-
-    public IEnumerator SetServantStatData()
-    {
-        yield return LoadSynchronizer("CSV/DB_stat_servant",
-            loadingSentence: "Setting Servant Stat Data ...",
-            onSuccess: data =>
+                stageData.enemyIdList.Add(Convert.ToInt32(eiList[j]));
+                return false;
+            }
+        
+            string[] epList = Convert.ToString(data[i]["enemy_position"]).Split('/');
+            for (int j = 0; j < epList.Length; j++)
             {
-                for (var i = 2; i < data.Count; i++)
-                {
-                    //Debug.Log("index " + (i).ToString()
-                    //    + " : " + data[i]["id"]
-                    //    + " " + data[i]["job"]
-                    //    + " " + data[i]["speed"]
-                    //    + " " + data[i]["avoid"]
-                    //    + " " + data[i]["cri_per"]
-                    //    + " " + data[i]["cri_dmg"]
-                    //    + " " + data[i]["mcri_per"]
-                    //    + " " + data[i]["mcri_dmg"]
-                    //    );
+                stageData.enemyPositionList.Add(Convert.ToInt32(epList[j]));
+                return false;
+            }
+        
+            stageData.bossLevel = Convert.ToInt32(data[i]["boss_level"]);
+            // List로 넣기 data[i]["boss_passive_list"]
+            // List로 넣기 data[i]["boss_skill_list"]
+            stageData.rankExp = Convert.ToInt32(data[i]["rank_exp"]);
+            stageData.charExp = Convert.ToInt32(data[i]["char_exp"]);
+            // List로 넣기 data[i]["reward_id"]
+            // List로 넣기 data[i]["reward_count"]
+            stageData.firstRewardId = Convert.ToInt32(data[i]["first_reward_id"]);
+            stageData.firstRewardCount = Convert.ToInt32(data[i]["first_reward_count"]);
+            stageData.mapResource = Convert.ToString(data[i]["map_resource"]);
+            stageData.bgmSoundId = Convert.ToInt32(data[i]["bgm_sound_id"]);
+        
+            DBStageDataDic.Add(stageData.id, stageData);
+        }
 
-                    DBServantStatData servantStatData = new DBServantStatData();
-                    servantStatData.jobEnum = (SERVANT_JOB)Convert.ToInt32(data[i]["id"]);
-                    servantStatData.speed = Convert.ToInt32(data[i]["speed"]);
-                    servantStatData.avoid = Convert.ToInt32(data[i]["avoid"]);
-                    servantStatData.criPer = Convert.ToInt32(data[i]["cri_per"]);
-                    servantStatData.criDmg = Convert.ToInt32(data[i]["cri_dmg"]);
-                    servantStatData.mcriPer = Convert.ToInt32(data[i]["mcri_per"]);
-                    servantStatData.mcriDmg = Convert.ToInt32(data[i]["mcri_dmg"]);
-
-                    DBServantStatDataDic.Add(servantStatData.jobEnum, servantStatData);
-                }
-            });
+        return true;
     }
 
-    public IEnumerator SetServantData()
+    public bool SetStageEnemyData()
     {
-        yield return LoadSynchronizer("CSV/DB_servant",
-            loadingSentence: "Setting Servant Data ...",
-            onSuccess: data =>
+        List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_stage_enemy");
+        for (var i = 2; i < data.Count; i++)
+        {
+            //Debug.Log("index " + (i).ToString()
+            //    + " : " + data[i]["id"]
+            //    + " " + data[i]["char_type"]
+            //    + " " + data[i]["char_id"]
+            //    + " " + data[i]["char_grade"]
+            //    + " " + data[i]["str"]
+            //    + " " + data[i]["dex"]
+            //    + " " + data[i]["int"]
+            //    + " " + data[i]["cri_per"]
+            //    + " " + data[i]["cri_dmg"]
+            //    + " " + data[i]["mcri_per"]
+            //    + " " + data[i]["mcri_dmg"]
+            //    + " " + data[i]["spd"]
+            //    + " " + data[i]["avd"]
+            //    + " " + data[i]["active_list"]
+            //    + " " + data[i]["passive_list"]
+            //    );
+
+            DBStageEnemyData stageEnemyData = new DBStageEnemyData();
+            stageEnemyData.id = Convert.ToInt32(data[i]["id"]);
+
+            switch (Convert.ToString(data[i]["char_type"]))
             {
-                for (var i = 2; i < data.Count; i++)
-                {
-                    //Debug.Log("index " + (i).ToString()
-                    //    + " : " + data[i]["id"]
-                    //    + " " + data[i]["name"]
-                    //    + " " + data[i]["job"]
-                    //    + " " + data[i]["resource_body"]
-                    //    + " " + data[i]["resource_head"]
-                    //    + " " + data[i]["resource_hair"]
-                    //    + " " + data[i]["resource_icon"]
-                    //    );
+                case "monster":
+                    stageEnemyData.charType = CHAR_TYPE.MONSTER;
+                    break;
+                case "servant":
+                    stageEnemyData.charType = CHAR_TYPE.SERVANT;
+                    break;
 
-                    DBServantData servantData = new DBServantData();
-                    servantData.id = Convert.ToInt32(data[i]["id"]);
-                    servantData.job = Convert.ToInt32(data[i]["job"]);
+                default:
+                    return false;
+            }
 
-                    if(DBServantStatDataDic.ContainsKey((SERVANT_JOB)servantData.job) == true)
-                    {
-                        DBServantStatData statData = DBServantStatDataDic[(SERVANT_JOB)servantData.job];
-                        servantData.speed = statData.speed;
-                        servantData.avoid = statData.avoid;
-                        servantData.criPer = statData.criPer;
-                        servantData.criDmg = statData.criDmg;
-                        servantData.mcriPer = statData.mcriPer;
-                        servantData.mcriDmg = statData.mcriDmg;
-                    }
-                    else
-                    {
-                        Debug.Log("Invalid Job Num : " + servantData.job);
-                    }
-
-                    servantData.body = Convert.ToInt32(data[i]["body"]);
-                    servantData.gender = Convert.ToInt32(data[i]["gender"]);
-                    servantData.head = Convert.ToInt32(data[i]["head"]);
-                    servantData.hair = Convert.ToInt32(data[i]["hair"]);
-
-                    servantData.name = ((SERVANT_JOB)servantData.job).ToString();
-                    switch (Convert.ToString(data[i]["grade"]))
-                    {
-                        case "legendary":
-                            servantData.grade = GRADE_TYPE.LEGENDARY;
-                            break;
-
-                        case "common":
-                            servantData.grade = GRADE_TYPE.COMMON;
-                            break;
-
-                        default:
-                            Debug.LogError("Invalid Request DBServant");
-                            break;
-                    }
-
-                    servantData.resourceBody = Convert.ToString(data[i]["resource_body"]);
-                    servantData.resourceHead = Convert.ToString(data[i]["resource_head"]);
-                    servantData.resourceHair = Convert.ToString(data[i]["resource_hair"]);
-                    servantData.resourceIcon = Convert.ToString(data[i]["resource_icon"]);
-                    servantData.servantIcon = Resources.Load<Sprite>("Character Portrait Image/Servant/" + servantData.resourceIcon);
-                    if (servantData.servantIcon == null)
-                    {
-                        Debug.Log("Invalid Icon Resource : " + servantData.resourceIcon + " No : " + (DBServantDataDic.Count));
-                    }
-
-                    DBServantDataDic.Add(servantData.id, servantData);
-                }
-
-                servantDataInspector = DBServantDataDic.Values.ToList();
-            });
-    }
-
-    public IEnumerator SetLocalizationData()
-    {
-        yield return LoadSynchronizer("CSV/LocalData",
-            loadingSentence: "Setting Localization Data ...",
-            onSuccess: data =>
+            stageEnemyData.charID = Convert.ToInt32(data[i]["char_id"]);
+            switch (Convert.ToString(data[i]["char_grade"]))
             {
-                for (var i = 2; i < data.Count; i++)
-                {
-                    //Debug.Log("index " + (i).ToString()
-                    //    + " : " + data[i]["index"]
-                    //    + " " + data[i]["kr"]
-                    //    + " " + data[i]["ch"]
-                    //    + " " + data[i]["en"]
-                    //    );
+                case "common":
+                    stageEnemyData.grade = GRADE_TYPE.COMMON;
+                    break;
+                case "uncommon":
+                    stageEnemyData.grade = GRADE_TYPE.UNCOMMON;
+                    break;
+                case "rare":
+                    stageEnemyData.grade = GRADE_TYPE.RARE;
+                    break;
+                case "unique":
+                    stageEnemyData.grade = GRADE_TYPE.UNIQUE;
+                    break;
+                case "legendary":
+                    stageEnemyData.grade = GRADE_TYPE.LEGENDARY;
+                    break;
+                default:
+                    Debug.Log("Invalid Request ID : " + i + " charGrade : " + Convert.ToString(data[i]["char_grade"]));
+                    return false;
+            }
 
-                    DBLocalizationData localData = new DBLocalizationData();
-                    localData.id = Convert.ToInt32(data[i]["index"]);
-                    localData.krText = Convert.ToString(data[i]["kr"]);
-                    localData.chText = Convert.ToString(data[i]["ch"]);
-                    localData.enText = Convert.ToString(data[i]["en"]);
+            stageEnemyData.status.basicStr = Convert.ToInt32(data[i]["str"]);
+            stageEnemyData.status.basicDex = Convert.ToInt32(data[i]["dex"]);
+            stageEnemyData.status.basicInt = Convert.ToInt32(data[i]["int"]);
 
-                    DBLocalDataDic.Add(localData.id, localData);
-                }
-            });
+            stageEnemyData.criPer = Convert.ToInt32(data[i]["cri_per"]);
+            stageEnemyData.criDmg = Convert.ToInt32(data[i]["cri_dmg"]);
+            stageEnemyData.mcriPer = Convert.ToInt32(data[i]["mcri_per"]);
+            stageEnemyData.mcriDmg = Convert.ToInt32(data[i]["mcri_dmg"]);
+            stageEnemyData.speed = Convert.ToInt32(data[i]["spd"]);
+            stageEnemyData.avoid = Convert.ToInt32(data[i]["avd"]);
+
+            DBStageEnemyDataDic.Add(stageEnemyData.id, stageEnemyData);
+        }
+
+        return true;
     }
 
-    public IEnumerator SetMonsterStatData()
+    public bool SetServantStatData()
     {
-        yield return LoadSynchronizer("CSV/DB_stat_monster",
-            loadingSentence: "Setting Monster Stat Data ...",
-            onSuccess: data =>
+        List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_stat_servant");
+        for (var i = 2; i < data.Count; i++)
+        {
+            //Debug.Log("index " + (i).ToString()
+            //    + " : " + data[i]["id"]
+            //    + " " + data[i]["job"]
+            //    + " " + data[i]["speed"]
+            //    + " " + data[i]["avoid"]
+            //    + " " + data[i]["cri_per"]
+            //    + " " + data[i]["cri_dmg"]
+            //    + " " + data[i]["mcri_per"]
+            //    + " " + data[i]["mcri_dmg"]
+            //    );
+
+            DBServantStatData servantStatData = new DBServantStatData();
+            servantStatData.jobEnum = (SERVANT_JOB)Convert.ToInt32(data[i]["id"]);
+            servantStatData.speed = Convert.ToInt32(data[i]["speed"]);
+            servantStatData.avoid = Convert.ToInt32(data[i]["avoid"]);
+            servantStatData.criPer = Convert.ToInt32(data[i]["cri_per"]);
+            servantStatData.criDmg = Convert.ToInt32(data[i]["cri_dmg"]);
+            servantStatData.mcriPer = Convert.ToInt32(data[i]["mcri_per"]);
+            servantStatData.mcriDmg = Convert.ToInt32(data[i]["mcri_dmg"]);
+
+            DBServantStatDataDic.Add(servantStatData.jobEnum, servantStatData);
+        }
+
+        return true;
+    }
+
+    public bool SetServantData()
+    {
+        List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_servant");
+        for (var i = 2; i < data.Count; i++)
+        {
+            //Debug.Log("index " + (i).ToString()
+            //    + " : " + data[i]["id"]
+            //    + " " + data[i]["name"]
+            //    + " " + data[i]["job"]
+            //    + " " + data[i]["resource_body"]
+            //    + " " + data[i]["resource_head"]
+            //    + " " + data[i]["resource_hair"]
+            //    + " " + data[i]["resource_icon"]
+            //    );
+
+            DBServantData servantData = new DBServantData();
+            servantData.id = Convert.ToInt32(data[i]["id"]);
+            servantData.job = Convert.ToInt32(data[i]["job"]);
+
+            if(DBServantStatDataDic.ContainsKey((SERVANT_JOB)servantData.job) == true)
             {
-                for (var i = 2; i < data.Count; i++)
-                {
-                    //Debug.Log("index " + (i).ToString()
-                    //    + " : " + data[i]["id"]
-                    //    + " " + data[i]["class"]
-                    //    + " " + data[i]["speed"]
-                    //    + " " + data[i]["avoid"]
-                    //    + " " + data[i]["cri_per"]
-                    //    + " " + data[i]["cri_dmg"]
-                    //    + " " + data[i]["mcri_per"]
-                    //    + " " + data[i]["mcri_dmg"]
-                    //    );
-
-                    DBMonsterStatData monsterStatData = new DBMonsterStatData();
-                    monsterStatData.classEnum = (MONSTER_CLASS)Convert.ToInt32(data[i]["id"]);
-                    monsterStatData.speed = Convert.ToInt32(data[i]["speed"]);
-                    monsterStatData.avoid = Convert.ToInt32(data[i]["avoid"]);
-                    monsterStatData.criPer = Convert.ToInt32(data[i]["cri_per"]);
-                    monsterStatData.criDmg = Convert.ToInt32(data[i]["cri_dmg"]);
-                    monsterStatData.mcriPer = Convert.ToInt32(data[i]["mcri_per"]);
-                    monsterStatData.mcriDmg = Convert.ToInt32(data[i]["mcri_dmg"]);
-
-                    DBMonsterStatDataDic.Add(monsterStatData.classEnum, monsterStatData);
-                }
-            });
-    }
-
-    public IEnumerator SetMonsterData()
-    {
-        yield return LoadSynchronizer("CSV/DB_monster",
-            loadingSentence: "Setting Monster Data ...",
-            onSuccess: data =>
+                DBServantStatData statData = DBServantStatDataDic[(SERVANT_JOB)servantData.job];
+                servantData.speed = statData.speed;
+                servantData.avoid = statData.avoid;
+                servantData.criPer = statData.criPer;
+                servantData.criDmg = statData.criDmg;
+                servantData.mcriPer = statData.mcriPer;
+                servantData.mcriDmg = statData.mcriDmg;
+            }
+            else
             {
-                for (var i = 2; i < data.Count; i++)
-                {
-                    //Debug.Log("index " + (i).ToString()
-                    //    + " : " + data[i]["id"]
-                    //    + " " + data[i]["name"]
-                    //    + " " + data[i]["element_type"]
-                    //    + " " + data[i]["class_type"]
-                    //    + " " + data[i]["resource_model"]
-                    //    + " " + data[i]["resource_icon"]
-                    //    );
+                Debug.Log("Invalid Job Num : " + servantData.job);
+                return false;
+            }
 
-                    DBMonsterData monsterData = new DBMonsterData();
-                    monsterData.id = Convert.ToInt32(data[i]["id"]);
-                    monsterData.name = Convert.ToString(data[i]["enname"]);
-                    // TODO : 로컬 적용 후 아래로 변경
-                    // monsterData.name            = Convert.ToString(data[i]["name"]);
-                    monsterData.elementType = Convert.ToInt32(data[i]["element_type"]);
-                    monsterData.classType = Convert.ToInt32(data[i]["class_type"]);
+            servantData.body = Convert.ToInt32(data[i]["body"]);
+            servantData.gender = Convert.ToInt32(data[i]["gender"]);
+            servantData.head = Convert.ToInt32(data[i]["head"]);
+            servantData.hair = Convert.ToInt32(data[i]["hair"]);
 
-                    if (DBMonsterStatDataDic.ContainsKey((MONSTER_CLASS)monsterData.classType) == true)
-                    {
-                        DBMonsterStatData statData = DBMonsterStatDataDic[(MONSTER_CLASS)monsterData.classType];
-                        monsterData.speed = statData.speed;
-                        monsterData.avoid = statData.avoid;
-                        monsterData.criPer = statData.criPer;
-                        monsterData.criDmg = statData.criDmg;
-                        monsterData.mcriPer = statData.mcriPer;
-                        monsterData.mcriDmg = statData.mcriDmg;
-                    }
-                    else
-                    {
-                        Debug.Log("Invalid Class Num : " + monsterData.classType);
-                    }
+            servantData.name = ((SERVANT_JOB)servantData.job).ToString();
+            switch (Convert.ToString(data[i]["grade"]))
+            {
+                case "legendary":
+                    servantData.grade = GRADE_TYPE.LEGENDARY;
+                    break;
 
-                    monsterData.resourceModel = Convert.ToString(data[i]["resource_model"]);
-                    monsterData.resourceIcon = Convert.ToString(data[i]["resource_icon"]);
-                    monsterData.monsterIcon = Resources.Load<Sprite>("Character Portrait Image/Monster/" + monsterData.resourceIcon);
-                    if (monsterData.monsterIcon == null)
-                    {
-                        Debug.Log("Invalid Icon Resource : " + monsterData.resourceIcon + " No : " + (monsterDataInspector.Count));
-                    }
+                case "common":
+                    servantData.grade = GRADE_TYPE.COMMON;
+                    break;
 
-                    DBMonsterDataDic.Add(monsterData.id, monsterData);
-                }
+                default:
+                    Debug.LogError("Invalid Request DBServant");
+                    return false;
+            }
 
-                monsterDataInspector = DBMonsterDataDic.Values.ToList();
-            });
+            servantData.resourceBody = Convert.ToString(data[i]["resource_body"]);
+            servantData.resourceHead = Convert.ToString(data[i]["resource_head"]);
+            servantData.resourceHair = Convert.ToString(data[i]["resource_hair"]);
+            servantData.resourceIcon = Convert.ToString(data[i]["resource_icon"]);
+            servantData.servantIcon = Resources.Load<Sprite>("Character Portrait Image/Servant/" + servantData.resourceIcon);
+            if (servantData.servantIcon == null)
+            {
+                Debug.Log("Invalid Icon Resource : " + servantData.resourceIcon + " No : " + (DBServantDataDic.Count));
+            }
+
+            DBServantDataDic.Add(servantData.id, servantData);
+        }
+
+        servantDataInspector = DBServantDataDic.Values.ToList();
+
+        return true;
     }
 
-    public IEnumerator SetGradeResourceData()
+    public bool SetLocalizationData()
     {
-        yield return LoadSynchronizer("CSV/DB_monster_upgrade",
-           loadingSentence: "Setting Grade Resource Data ...",
-           onSuccess: data =>
-           {
-               for(GRADE_TYPE i = GRADE_TYPE.LEGENDARY; i <= GRADE_TYPE.COMMON; i++)
-               {
-                   DBGradeResourceData resourceData = new DBGradeResourceData();
-                   resourceData.gradeType = i;
-                   resourceData.grade = Convert.ToInt32(i);
-                   resourceData.gradeIcon = Resources.Load<Sprite>(string.Format("UI/Common/grade_{0}", resourceData.grade));
+        List<Dictionary<string, object>> data = CSVReader.Read("CSV/LocalData");
+        for (var i = 2; i < data.Count; i++)
+        {
+            //Debug.Log("index " + (i).ToString()
+            //    + " : " + data[i]["index"]
+            //    + " " + data[i]["kr"]
+            //    + " " + data[i]["ch"]
+            //    + " " + data[i]["en"]
+            //    );
 
-                   DBGradeResourceDataDic.Add(resourceData.gradeType, resourceData);
-               }
-           });
+            DBLocalizationData localData = new DBLocalizationData();
+            localData.id = Convert.ToInt32(data[i]["index"]);
+            localData.krText = Convert.ToString(data[i]["kr"]);
+            localData.chText = Convert.ToString(data[i]["ch"]);
+            localData.enText = Convert.ToString(data[i]["en"]);
+
+            DBLocalDataDic.Add(localData.id, localData);
+        }
+
+        return true;
+    }
+
+    public bool SetMonsterStatData()
+    {
+        List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_stat_monster");
+        for (var i = 2; i < data.Count; i++)
+        {
+            //Debug.Log("index " + (i).ToString()
+            //    + " : " + data[i]["id"]
+            //    + " " + data[i]["class"]
+            //    + " " + data[i]["speed"]
+            //    + " " + data[i]["avoid"]
+            //    + " " + data[i]["cri_per"]
+            //    + " " + data[i]["cri_dmg"]
+            //    + " " + data[i]["mcri_per"]
+            //    + " " + data[i]["mcri_dmg"]
+            //    );
+
+            DBMonsterStatData monsterStatData = new DBMonsterStatData();
+            monsterStatData.classEnum = (MONSTER_CLASS)Convert.ToInt32(data[i]["id"]);
+            monsterStatData.speed = Convert.ToInt32(data[i]["speed"]);
+            monsterStatData.avoid = Convert.ToInt32(data[i]["avoid"]);
+            monsterStatData.criPer = Convert.ToInt32(data[i]["cri_per"]);
+            monsterStatData.criDmg = Convert.ToInt32(data[i]["cri_dmg"]);
+            monsterStatData.mcriPer = Convert.ToInt32(data[i]["mcri_per"]);
+            monsterStatData.mcriDmg = Convert.ToInt32(data[i]["mcri_dmg"]);
+
+            DBMonsterStatDataDic.Add(monsterStatData.classEnum, monsterStatData);
+        }
+
+        return true;
+    }
+
+    public bool SetMonsterData()
+    {
+        List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_monster");
+        for (var i = 2; i < data.Count; i++)
+        {
+            //Debug.Log("index " + (i).ToString()
+            //    + " : " + data[i]["id"]
+            //    + " " + data[i]["name"]
+            //    + " " + data[i]["element_type"]
+            //    + " " + data[i]["class_type"]
+            //    + " " + data[i]["resource_model"]
+            //    + " " + data[i]["resource_icon"]
+            //    );
+
+            DBMonsterData monsterData = new DBMonsterData();
+            monsterData.id = Convert.ToInt32(data[i]["id"]);
+            monsterData.name = Convert.ToString(data[i]["enname"]);
+            // TODO : 로컬 적용 후 아래로 변경
+            // monsterData.name            = Convert.ToString(data[i]["name"]);
+            monsterData.elementType = Convert.ToInt32(data[i]["element_type"]);
+            monsterData.classType = Convert.ToInt32(data[i]["class_type"]);
+
+            if (DBMonsterStatDataDic.ContainsKey((MONSTER_CLASS)monsterData.classType) == true)
+            {
+                DBMonsterStatData statData = DBMonsterStatDataDic[(MONSTER_CLASS)monsterData.classType];
+                monsterData.speed = statData.speed;
+                monsterData.avoid = statData.avoid;
+                monsterData.criPer = statData.criPer;
+                monsterData.criDmg = statData.criDmg;
+                monsterData.mcriPer = statData.mcriPer;
+                monsterData.mcriDmg = statData.mcriDmg;
+            }
+            else
+            {
+                Debug.Log("Invalid Class Num : " + monsterData.classType);
+                return false;
+            }
+
+            monsterData.resourceModel = Convert.ToString(data[i]["resource_model"]);
+            monsterData.resourceIcon = Convert.ToString(data[i]["resource_icon"]);
+            monsterData.monsterIcon = Resources.Load<Sprite>("Character Portrait Image/Monster/" + monsterData.resourceIcon);
+            if (monsterData.monsterIcon == null)
+            {
+                Debug.Log("Invalid Icon Resource : " + monsterData.resourceIcon + " No : " + (monsterDataInspector.Count));
+                return false;
+            }
+
+            DBMonsterDataDic.Add(monsterData.id, monsterData);
+        }
+
+        monsterDataInspector = DBMonsterDataDic.Values.ToList();
+
+        return true;
+    }
+
+    public bool SetGradeResourceData()
+    {
+        for(GRADE_TYPE i = GRADE_TYPE.LEGENDARY; i <= GRADE_TYPE.COMMON; i++)
+        {
+            DBGradeResourceData resourceData = new DBGradeResourceData();
+            resourceData.gradeType = i;
+            resourceData.grade = Convert.ToInt32(i);
+            resourceData.gradeIcon = Resources.Load<Sprite>(string.Format("UI/Common/grade_{0}", resourceData.grade));
+        
+            DBGradeResourceDataDic.Add(resourceData.gradeType, resourceData);
+        }
+        return true;
     }
 
     public Sprite getSpriteGrade(GRADE_TYPE grade)
@@ -590,33 +528,31 @@ public class CSVData : MonoSingleton<CSVData>
         return DBGradeResourceDataDic[grade].gradeIcon;
     }
 
-    public IEnumerator SetMonsterUpgradeData()
+    public bool SetMonsterUpgradeData()
     {
-        yield return LoadSynchronizer("CSV/DB_monster_upgrade",
-            loadingSentence: "Setting Monster Upgrade Data ...",
-            onSuccess: data =>
-            {
-                for (var i = 2; i < data.Count; i++)
-                {
-                    //Debug.Log("index " + (i).ToString()
-                    //    + " : " + data[i]["id"]
-                    //    + " " + data[i]["grade_1"]
-                    //    + " " + data[i]["grade_2"]
-                    //    + " " + data[i]["success_per"]
-                    //    + " " + data[i]["upgrade_price_id"]
-                    //    + " " + data[i]["upgrade_price_count"]
-                    //    );
+        List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_monster_upgrade");
+        for (var i = 2; i < data.Count; i++)
+        {
+            //Debug.Log("index " + (i).ToString()
+            //    + " : " + data[i]["id"]
+            //    + " " + data[i]["grade_1"]
+            //    + " " + data[i]["grade_2"]
+            //    + " " + data[i]["success_per"]
+            //    + " " + data[i]["upgrade_price_id"]
+            //    + " " + data[i]["upgrade_price_count"]
+            //    );
 
-                    DBMonsterUpgradeData upgradeData = new DBMonsterUpgradeData();
-                    upgradeData.id = (Convert.ToInt32(data[i]["grade_1"]) * 100) + Convert.ToInt32(data[i]["grade_2"]);
-                    upgradeData.successPer = Convert.ToDouble(data[i]["success_per"]);
-                    upgradeData.needItem = new itemInfo();
-                    upgradeData.needItem.id = Convert.ToInt32(data[i]["upgrade_price_id"]);
-                    upgradeData.needItem.count = Convert.ToInt32(data[i]["upgrade_price_count"]);
+            DBMonsterUpgradeData upgradeData = new DBMonsterUpgradeData();
+            upgradeData.id = (Convert.ToInt32(data[i]["grade_1"]) * 100) + Convert.ToInt32(data[i]["grade_2"]);
+            upgradeData.successPer = Convert.ToDouble(data[i]["success_per"]);
+            upgradeData.needItem = new itemInfo();
+            upgradeData.needItem.id = Convert.ToInt32(data[i]["upgrade_price_id"]);
+            upgradeData.needItem.count = Convert.ToInt32(data[i]["upgrade_price_count"]);
 
-                    DBMonsterUpgradeDataDic.Add(upgradeData.id, upgradeData);
-                }
-            });
+            DBMonsterUpgradeDataDic.Add(upgradeData.id, upgradeData);
+        }
+
+        return true;
     }
 
     #endregion
