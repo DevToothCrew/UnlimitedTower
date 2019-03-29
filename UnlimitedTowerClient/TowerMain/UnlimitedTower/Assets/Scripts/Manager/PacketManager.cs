@@ -295,13 +295,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 스테이지 시작
-    public void RequestStageStart(int stageNum, int partyNum)
+    public void RequestStageStart(int stageType, int partyNum, int stageFloor)
     {
         Debug.Log("Request Start Battle");
 
         StageStartJson startBattle = new StageStartJson();
-        startBattle.stageNum = stageNum;
+        startBattle.stageType = stageType;
         startBattle.partyNum = partyNum;
+        startBattle.stageFloor = stageFloor;
 
         string json = JsonUtility.ToJson(startBattle);
 
@@ -683,7 +684,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 );
             return;
         }
-        Debug.Log("Login Data : " + getLoginInfo);
+        // Debug.Log("Login Data : " + getLoginInfo);
 
         UserLoginData userLoginData = JsonUtility.FromJson<UserLoginData>(getLoginInfo); 
         if(userLoginData == null)
@@ -812,7 +813,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 스테이지 시작
     public void ResponseStageStart(stageStateData getBattleStateData)
     {
-        Debug.Log("스테이지 시작");
+        //Debug.Log("스테이지 시작");
         UserDataManager.Inst.SetStageState(getBattleStateData);
         StartCoroutine(LoadSceneAsync("CharacterBattleScene", "Now, Loading battle field ... "));
     }
@@ -820,7 +821,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 배틀 액션
     public void ResponseBattleAction(battleActionData getBattleActionData)
     {
-        Debug.Log("턴 진행!");
+        //Debug.Log("턴 진행!");
         if (getBattleActionData.turn == UserDataManager.Inst.stageActionInfo.turn)
         {
             Debug.Log("데이터 중복");
@@ -1210,11 +1211,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
         // token은 UTG로 바꿀 필요가 있지 않을까요
         userInfo.userUTG = ulong.Parse(getUserData.token);
 
-        Debug.Log("getEOS : " + getUserData.eos);
-        Debug.Log("getUTG : " + getUserData.token);
+        //Debug.Log("getEOS : " + getUserData.eos);
+        //Debug.Log("getUTG : " + getUserData.token);
 
         userInfo.sceneState = (SCENE_STATE)getUserData.user_data.state;
-        Debug.Log("State : " + (SCENE_STATE)getUserData.user_data.state);
+        //Debug.Log("State : " + (SCENE_STATE)getUserData.user_data.state);
 
         return true;
     }
@@ -1250,7 +1251,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         UserServantData userServant = new UserServantData();
         userServant.index = getServantData.index;
-        userServant.id = CSVData.Inst.GetServantID(5, getServantData.servant.job, getServantData.servant.appear.body, getServantData.servant.appear.gender, getServantData.servant.appear.head, getServantData.servant.appear.hair);
+        //userServant.id = CSVData.Inst.GetServantID(5, getServantData.servant.job, getServantData.servant.appear.body, getServantData.servant.appear.gender, getServantData.servant.appear.head, getServantData.servant.appear.hair);
+        userServant.id = getServantData.servant.id;
+        if (CSVData.Inst.GetServantData(userServant.id) == null)
+        {
+            Debug.Log("Invalid Servant ID : " + userServant.id);
+        }
+
         userServant.grade = 5; // grade 필요, 현재는 그냥 서번트만 얻을수 있으니 일단 이렇게
         userServant.state = getServantData.servant.state;
 

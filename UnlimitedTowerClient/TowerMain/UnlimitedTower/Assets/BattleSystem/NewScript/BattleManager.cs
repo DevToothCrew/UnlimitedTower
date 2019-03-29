@@ -12,6 +12,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     public bool[] isPlace = new bool[20];
     public int[] MaxHp = new int[20];
     public int[] NowHp = new int[20];
+    public int[] NowAtk = new int[20];
     public bool isAfterDelay;
     public int TimeScale = 1;
     public TumbAnimation tumbAnimation;
@@ -44,11 +45,11 @@ public class BattleManager : MonoSingleton<BattleManager>
         tumbAnimation = GetComponent<TumbAnimation>();
 
 
-        testReward = GameObject.Find("보상");
-        testDefeat = GameObject.Find("패배보상");
+        //testReward = GameObject.Find("보상");
+        //testDefeat = GameObject.Find("패배보상");
 
-        testReward.SetActive(false);
-        testDefeat.SetActive(false);
+        //testReward.SetActive(false);
+        //testDefeat.SetActive(false);
 
         UserDataManager.Inst.stageReward = null;
     }
@@ -140,7 +141,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         turnIndex++;
         isSpaceCheck = false;
-        BattleUIManager.Inst.MyTurn();
+        //BattleUIManager.Inst.MyTurn();
 
         int myHp = 0, enemyHp = 0;
         for (int i = 0; i < 10; i++)
@@ -154,7 +155,12 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         if (myHp == 0 || enemyHp == 0)
         {
+#if UNITY_EDITOR
+            Cheat.Inst.RequestStageRewardCheat();
+#else
+
             PacketManager.Inst.RequestStageReward();
+#endif
         }
     }
 
@@ -177,7 +183,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 temp += " : " + rewardData.get_exp_list[i].ToString();
             temp += "\nServant";
             for (int i = 0; i < rewardData.get_servant_list.Count; i++)
-                temp += " : " + rewardData.get_servant_list[i].servant.job;
+                temp += " : " + rewardData.get_servant_list[i].servant.id;
             temp += "\nMonster";
             for (int i = 0; i < rewardData.get_monster_list.Count; i++)
                 temp += " : " + rewardData.get_monster_list[i].monster.id;
@@ -321,7 +327,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
         {
-            Debug.Log(stageStateInfo.enemy_state_list[i].id);
+            //Debug.Log(stageStateInfo.enemy_state_list[i].id);
             character[stageStateInfo.enemy_state_list[i].position] = Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResourceModel(stageStateInfo.enemy_state_list[i].id)),
                     CharacterParent.transform.GetChild(1));
             character[stageStateInfo.enemy_state_list[i].position].name = "Monster : " + stageStateInfo.enemy_state_list[i].position.ToString();
@@ -377,12 +383,14 @@ public class BattleManager : MonoSingleton<BattleManager>
         {
             MaxHp[stageStateInfo.my_state_list[i].position] = Calculator.GetMaxHp(stageStateInfo.my_state_list[i].status);
             NowHp[stageStateInfo.my_state_list[i].position] = stageStateInfo.my_state_list[i].now_hp;
+            NowAtk[stageStateInfo.my_state_list[i].position] = Calculator.GetAttack(stageStateInfo.my_state_list[i].status);
         }
 
         for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
         {
             MaxHp[stageStateInfo.enemy_state_list[i].position] = Calculator.GetMaxHp(stageStateInfo.enemy_state_list[i].status);
             NowHp[stageStateInfo.enemy_state_list[i].position] = stageStateInfo.enemy_state_list[i].now_hp;
+            NowAtk[stageStateInfo.enemy_state_list[i].position] = Calculator.GetAttack(stageStateInfo.enemy_state_list[i].status);
         }
     }
 

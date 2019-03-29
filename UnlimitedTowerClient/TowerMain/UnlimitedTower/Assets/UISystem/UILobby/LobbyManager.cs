@@ -23,7 +23,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     // 추후 추가할때마다 숫자 변경
     readonly public int popupCount = 1;
 
-
     //Running sub view
     public GameObject objSubView;
 
@@ -92,6 +91,15 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
             case POPUP_STATE.EOS:
                 {
                     SetTextBackButton("Shop");
+                }
+                break;
+
+            case POPUP_STATE.Gacha:
+                {
+                    SetTextBackButton("Gacha");
+                    objSubView = Instantiate(Resources.Load("UI/Lobby/GachaScene")) as GameObject;
+                    objSubView.transform.SetParent(this.transform);
+                    objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                 }
                 break;
 

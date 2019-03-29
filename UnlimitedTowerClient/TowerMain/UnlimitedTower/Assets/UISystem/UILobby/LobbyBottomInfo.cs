@@ -17,7 +17,7 @@ public class LobbyBottomInfo : MonoBehaviour {
         }
         #else
         {
-            PacketManager.Inst.RequestStageStart(1, 1);
+            PacketManager.Inst.RequestStageStart(1, 1, 1);
         }
 #endif
     }
@@ -25,5 +25,10 @@ public class LobbyBottomInfo : MonoBehaviour {
     public void OnClickGachaButton()
     {
         gachaScene.SetActive(true);
+    }
+
+    public void OnClickGachaBackButton()
+    {
+        gachaScene.SetActive(false);
     }
 }

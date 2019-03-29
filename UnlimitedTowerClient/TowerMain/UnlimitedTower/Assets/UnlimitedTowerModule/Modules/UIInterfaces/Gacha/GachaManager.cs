@@ -17,9 +17,6 @@ public class GachaManager : MonoBehaviour {
     private RawImage glowingFxPanel;
 
     [SerializeField]
-    private Button backButton;
-
-    [SerializeField]
     private Button startButton;
 
     [SerializeField]
@@ -44,7 +41,6 @@ public class GachaManager : MonoBehaviour {
 
     public void SetButtonActivate(bool value)
     {
-        backButton.interactable = value;
         startButton.interactable = value;
     }
 
