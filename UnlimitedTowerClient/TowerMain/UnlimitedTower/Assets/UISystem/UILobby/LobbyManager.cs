@@ -103,6 +103,15 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                 }
                 break;
 
+            case POPUP_STATE.Stage:
+                {
+                    SetTextBackButton("Stage");
+                    objSubView = Instantiate(Resources.Load("UI/Lobby/StageScene")) as GameObject;
+                    objSubView.transform.SetParent(this.transform);
+                    objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                }
+                break;
+
             default:
                 return;
         }

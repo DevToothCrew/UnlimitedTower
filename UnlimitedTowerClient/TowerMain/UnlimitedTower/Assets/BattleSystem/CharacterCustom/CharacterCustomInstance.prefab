@@ -3327,7 +3327,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4445943515002808}
   - component: {fileID: 95183469990731102}
-  - component: {fileID: 114442184302438722}
   - component: {fileID: 114016121543611562}
   m_Layer: 0
   m_Name: DefultCaracter
@@ -20744,19 +20743,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3965e4d25a439ee42bda281d94463f58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114442184302438722
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1346308027570302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f64d9e7a856d4bb4a9d8d4b84ee4e389, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isOneDeal: 0
-  Arrow: {fileID: 0}
 --- !u!114 &114738839130650396
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -21254,6 +21240,7 @@ MonoBehaviour:
     RightLeg: {fileID: 137157572561445572}
     RightFoot: {fileID: 137044612069286290}
   defultCharacter: {fileID: 1346308027570302}
+  defultCharacterParent: {fileID: 0}
   adultManHead:
   - material: {fileID: 2100000, guid: a7b9c245ac2215a4c96d7066a313d41b, type: 2}
     mesh: {fileID: 4300000, guid: ca763616022a7994cb74c9fb21937364, type: 3}
@@ -21330,11 +21317,8 @@ MonoBehaviour:
     mesh: {fileID: 4300000, guid: 9754133a2665a5b4da87b8309009f724, type: 3}
   - material: {fileID: 2100000, guid: 2a2f6f9f7f3280a4fbda505a22d9278b, type: 2}
     mesh: {fileID: 4300000, guid: 355f46183c850f045b4bba21249d5774, type: 3}
-  RingEffect: {fileID: 0}
-  adultBodyEffect: {fileID: 0}
-  adultHeadEffect: {fileID: 0}
-  childrenBodyEffect: {fileID: 0}
-  childrenHeadEffect: {fileID: 0}
+  ArcherArrow: {fileID: 0}
+  MagicianBullet: {fileID: 0}
   animatorController:
   - {fileID: 9100000, guid: c117cbb8367e3594994439ffa307348e, type: 2}
   - {fileID: 9100000, guid: cf54e56b9dc80aa41ba43d930a31e160, type: 2}

@@ -260,6 +260,9 @@ public enum POPUP_STATE
     EOS = 20,
     UTG = 21,
     Gacha = 22,
+
+    // Stage
+    Stage = 30,
 }
 
 #endregion

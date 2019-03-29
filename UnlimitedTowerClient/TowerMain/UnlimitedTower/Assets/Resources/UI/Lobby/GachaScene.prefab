@@ -455,7 +455,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1845454203600954
 GameObject:
   m_ObjectHideFlags: 1
@@ -1483,7 +1483,6 @@ MonoBehaviour:
   particleController: {fileID: 114593806024899838}
   particleFxPanel: {fileID: 114812575594528064}
   glowingFxPanel: {fileID: 114005537157282808}
-  backButton: {fileID: 0}
   startButton: {fileID: 114419955503038638}
   gachaResultPopup: {fileID: 1002269922582626}
   glowingFxPanelAlpha: 0
