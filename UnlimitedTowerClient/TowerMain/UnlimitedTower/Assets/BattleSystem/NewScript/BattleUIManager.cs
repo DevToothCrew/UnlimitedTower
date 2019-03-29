@@ -60,6 +60,11 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
 
     public void BattleOut()
     {
+#if UNITY_EDITOR
+        Cheat.Inst.RequestStageExitCheat();
+#else
         PacketManager.Inst.RequestStageExit();
+
+#endif
     }
 }

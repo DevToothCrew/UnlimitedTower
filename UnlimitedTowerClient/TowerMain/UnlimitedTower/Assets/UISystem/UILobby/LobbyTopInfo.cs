@@ -25,6 +25,6 @@ public class LobbyTopInfo : MonoBehaviour {
 
     public void OnClickAccountButton()
     {
-        CSVData.Inst.SetCSVData();
+        CSVData.Inst.InitCSVData();
     }
 }

@@ -28,6 +28,21 @@ public class CSVData : MonoSingleton<CSVData>
         SetCSVData();
     }
 
+    public void InitCSVData()
+    {
+        SetCSVData();
+
+#if UNITY_EDITOR
+        {
+            Cheat.Inst.RequestLoginCheat();
+        }
+#else
+        {
+            PacketManager.Inst.RequestLoginWithScatter();
+        }
+#endif
+    }
+
     public void SetCSVData()
     {
         //Debug.Log("SetCSVData Start");
@@ -95,16 +110,6 @@ public class CSVData : MonoSingleton<CSVData>
             //Debug.Log("SetGradeResourceData Success");
         }
         localType = LOCALIZATION_TYPE.EN;
-
-#if UNITY_EDITOR
-        {
-            Cheat.Inst.RequestLoginCheat();
-        }
-#else
-        {
-            PacketManager.Inst.RequestLoginWithScatter();
-        }
-#endif
     }
 
     #region SetFunction
