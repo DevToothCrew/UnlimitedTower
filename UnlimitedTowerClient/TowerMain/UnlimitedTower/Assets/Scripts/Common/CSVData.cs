@@ -23,6 +23,11 @@ public class CSVData : MonoSingleton<CSVData>
     public List<DBMonsterData> monsterDataInspector = new List<DBMonsterData>();
     public List<DBServantData> servantDataInspector = new List<DBServantData>();
 
+    public void Awake()
+    {
+        SetCSVData();
+    }
+
     public void SetCSVData()
     {
         //Debug.Log("SetCSVData Start");
@@ -171,7 +176,7 @@ public class CSVData : MonoSingleton<CSVData>
             //    + " " + data[i]["map_resource"]
             //    + " " + data[i]["bgm_sound_id"]
             //    );
-        
+
             DBStageData stageData = new DBStageData();
             stageData.id = Convert.ToInt32(data[i]["id"]);
             stageData.stageType = Convert.ToInt32(data[i]["stage_type"]);
@@ -187,14 +192,12 @@ public class CSVData : MonoSingleton<CSVData>
             for (int j = 0; j < eiList.Length; j++)
             {
                 stageData.enemyIdList.Add(Convert.ToInt32(eiList[j]));
-                return false;
             }
         
             string[] epList = Convert.ToString(data[i]["enemy_position"]).Split('/');
             for (int j = 0; j < epList.Length; j++)
             {
                 stageData.enemyPositionList.Add(Convert.ToInt32(epList[j]));
-                return false;
             }
         
             stageData.bossLevel = Convert.ToInt32(data[i]["boss_level"]);
