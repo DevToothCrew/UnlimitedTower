@@ -26,4 +26,9 @@ public class LobbyBottomInfo : MonoBehaviour {
     {
         gachaScene.SetActive(true);
     }
+
+    public void OnClickGachaBackButton()
+    {
+        gachaScene.SetActive(false);
+    }
 }

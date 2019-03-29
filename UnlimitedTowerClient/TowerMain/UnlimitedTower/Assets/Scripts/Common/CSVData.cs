@@ -7,7 +7,6 @@ using System.Linq;
 
 public class CSVData : MonoSingleton<CSVData>
 {
-
     public Dictionary<int, DBItemData> DBItemDataDic = new Dictionary<int, DBItemData>();
     public Dictionary<int, DBStageData> DBStageDataDic = new Dictionary<int, DBStageData>();
     public Dictionary<int, DBStageEnemyData> DBStageEnemyDataDic = new Dictionary<int, DBStageEnemyData>();
@@ -23,7 +22,7 @@ public class CSVData : MonoSingleton<CSVData>
     public List<DBMonsterData> monsterDataInspector = new List<DBMonsterData>();
     public List<DBServantData> servantDataInspector = new List<DBServantData>();
 
-    public void StartCSVData()
+    public void InitCSV()
     {
         StartCoroutine(SetCSVData());
     }
@@ -87,6 +86,18 @@ public class CSVData : MonoSingleton<CSVData>
             Debug.Log("SetMonsterUpgradeData Success");
         }
         localType = LOCALIZATION_TYPE.EN;
+
+
+
+#if UNITY_EDITOR
+        {
+            Cheat.Inst.RequestLoginCheat();
+        }
+#else
+        {
+            PacketManager.Inst.RequestLoginWithScatter();
+        }
+#endif
     }
 
     #region SetFunction
@@ -136,6 +147,10 @@ public class CSVData : MonoSingleton<CSVData>
 
                     DBItemData itemData = new DBItemData();
                    itemData.id = Convert.ToInt32(data[i]["id"]);
+                   if (DBItemDataDic.ContainsKey(itemData.id) == true)
+                   {
+                       Debug.Log("Item ID가 겹쳐요 : " + itemData.id);
+                   }
                    itemData.name = Convert.ToString(data[i]["name"]);
                    itemData.resourceIcon = Convert.ToString(data[i]["resource_icon"]);
                    itemData.description = Convert.ToString(data[i]["description"]);
@@ -615,7 +630,6 @@ public class CSVData : MonoSingleton<CSVData>
 
         return servantID;
     }
-
 
     public string GetMonsterIcon(int index)
     {

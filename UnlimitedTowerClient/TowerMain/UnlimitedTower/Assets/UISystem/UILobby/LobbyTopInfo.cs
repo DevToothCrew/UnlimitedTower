@@ -25,9 +25,6 @@ public class LobbyTopInfo : MonoBehaviour {
 
     public void OnClickAccountButton()
     {
-        // 로딩씬에 추가가 되야할듯 임시로 로그인에 넣어둠
-        CSVData.Inst.SetCSVData();
-        // 임시로 치트키 추가
-        Cheat.Inst.RequestLoginCheat();
+        CSVData.Inst.InitCSV();
     }
 }
