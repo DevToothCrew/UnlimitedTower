@@ -531,7 +531,7 @@ public class CSVData : MonoSingleton<CSVData>
         return true;
     }
 
-    public Sprite getSpriteGrade(GRADE_TYPE grade)
+    public Sprite GetSpriteGrade(GRADE_TYPE grade)
     {
         return DBGradeResourceDataDic[grade].gradeIcon;
     }

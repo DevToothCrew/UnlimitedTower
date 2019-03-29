@@ -160,7 +160,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: acountname12
+  m_Text: untowermain1
 --- !u!114 &114501500105281964
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -261,7 +261,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 23:59:59
+  m_Text: 00:00:00
 --- !u!114 &114772968503111250
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -294,11 +294,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Unlimited Tower is a new blockchain battle SRPG Dapp that let you form
-    and upgrade your party consisted of unique monsters and servants. By defending
-    your party equipped with the enhanced items and characters,\r\nyou can earn the
-    chance to become the final hero at the Unlimited Tower and win the rewards in
-    EOS. "
+  m_Text: "Welcome to the \nUnlimited Tower\nAlpha Test!\nThe Next Generation\nOn-Chain
+    Battle SRPG\nDapp built on EOS.\nUpgrade your party\nand become the final\nhero
+    at the \nUnlimited Tower. \u2694\uFE0F\n\n-Alpha On Jungle Net-"
 --- !u!222 &222031991126595318
 CanvasRenderer:
   m_ObjectHideFlags: 1

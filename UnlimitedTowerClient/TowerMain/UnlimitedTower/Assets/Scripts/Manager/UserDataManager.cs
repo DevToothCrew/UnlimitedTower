@@ -112,6 +112,13 @@ public class UserDataManager : MonoSingleton<UserDataManager>
                 }
             }
         }
+
+        if(partyInfo.formationDataDic[0].index > 0)
+        {
+            userMainCharInfo.mainCharID = servantDic[partyInfo.formationDataDic[0].index].id;
+            userMainCharInfo.mainCharType = CHAR_TYPE.SERVANT;
+            userMainCharInfo.grade = 5; // 현재는 Common Servant 뿐
+        }
     }
 
     public void UpdateMainCharInfo(MainCharInfo charInfo)
@@ -221,6 +228,11 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public ulong GetUserUTG() /* 기본적으로 EOS와 UTG는 1이 10000으로 처리됩니다. */
     {
         return userInfo.userUTG;
+    }
+
+    public MainCharInfo GetMainCharInfo()
+    {
+        return userMainCharInfo;
     }
 
     public UserPartyData GetUserPartyInfo()

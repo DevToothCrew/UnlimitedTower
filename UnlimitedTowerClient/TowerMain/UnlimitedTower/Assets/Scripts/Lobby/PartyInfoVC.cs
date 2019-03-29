@@ -368,7 +368,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
             
             if (servant.grade > 0)
             {
-                buttonServantFormation[i].image.sprite = CSVData.Inst.getSpriteGrade((GRADE_TYPE)servant.grade);
+                buttonServantFormation[i].image.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)servant.grade);
                 imageServantFormation[i].enabled = true;
                 imageServantFormation[i].sprite = CSVData.Inst.GetServantData(servant.id).servantIcon;
             }
@@ -385,7 +385,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
             if (monster.grade > 0)
             {
-                buttonMonsterFormation[i].image.sprite = CSVData.Inst.getSpriteGrade((GRADE_TYPE)monster.grade);
+                buttonMonsterFormation[i].image.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)monster.grade);
                 imageMonsterFormation[i].enabled = true;
                 imageMonsterFormation[i].sprite = CSVData.Inst.GetMonsterData(monster.id).monsterIcon;
             }
