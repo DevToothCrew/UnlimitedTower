@@ -17,6 +17,7 @@ public class CSVData : MonoSingleton<CSVData>
     public Dictionary<SERVANT_JOB, DBServantStatData> DBServantStatDataDic = new Dictionary<SERVANT_JOB, DBServantStatData>();
     public Dictionary<int, DBMonsterData> DBMonsterDataDic = new Dictionary<int, DBMonsterData>();
     public Dictionary<MONSTER_CLASS, DBMonsterStatData> DBMonsterStatDataDic = new Dictionary<MONSTER_CLASS, DBMonsterStatData>();
+    public Dictionary<GRADE_TYPE, DBGradeResourceData> DBGradeResourceDataDic = new Dictionary<GRADE_TYPE, DBGradeResourceData>();
     public Dictionary<int, DBMonsterUpgradeData> DBMonsterUpgradeDataDic = new Dictionary<int, DBMonsterUpgradeData>();
 
     //  인스펙터에서 보여주기 위한...
@@ -85,6 +86,12 @@ public class CSVData : MonoSingleton<CSVData>
             Debug.Log("SetMonsterUpgradeData Start");
             yield return SetMonsterUpgradeData();
             Debug.Log("SetMonsterUpgradeData Success");
+        }
+        if (DBGradeResourceDataDic.Count == 0)
+        {
+            Debug.Log("SetGradeResourceData Start");
+            yield return SetGradeResourceData();
+            Debug.Log("SetGradeResourceData Success");
         }
         localType = LOCALIZATION_TYPE.EN;
     }
@@ -523,6 +530,29 @@ public class CSVData : MonoSingleton<CSVData>
 
                 monsterDataInspector = DBMonsterDataDic.Values.ToList();
             });
+    }
+
+    public IEnumerator SetGradeResourceData()
+    {
+        yield return LoadSynchronizer("CSV/DB_monster_upgrade",
+           loadingSentence: "Setting Grade Resource Data ...",
+           onSuccess: data =>
+           {
+               for(GRADE_TYPE i = GRADE_TYPE.LEGENDARY; i <= GRADE_TYPE.COMMON; i++)
+               {
+                   DBGradeResourceData resourceData = new DBGradeResourceData();
+                   resourceData.gradeType = i;
+                   resourceData.grade = Convert.ToInt32(i);
+                   resourceData.gradeIcon = Resources.Load<Sprite>(string.Format("UI/Common/grade_{0}", resourceData.grade));
+
+                   DBGradeResourceDataDic.Add(resourceData.gradeType, resourceData);
+               }
+           });
+    }
+
+    public Sprite getSpriteGrade(GRADE_TYPE grade)
+    {
+        return DBGradeResourceDataDic[grade].gradeIcon;
     }
 
     public IEnumerator SetMonsterUpgradeData()

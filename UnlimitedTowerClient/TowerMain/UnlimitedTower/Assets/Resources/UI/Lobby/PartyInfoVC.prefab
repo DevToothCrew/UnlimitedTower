@@ -10309,6 +10309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dd67287ca2a07743885b1b5de5b0c11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  framePartyInfo: {fileID: 1772277661368200}
   SubViewEquipment: {fileID: 1767034849101400}
   SubViewDeconstruction: {fileID: 1703073786283072}
   SubViewSkill: {fileID: 1703073786283072}
@@ -10362,12 +10363,24 @@ MonoBehaviour:
   - {fileID: 114359296419249588}
   - {fileID: 114071521953775698}
   - {fileID: 114338202100574558}
+  imageMonsterFormation:
+  - {fileID: 114008289026377918}
+  - {fileID: 114557970935586950}
+  - {fileID: 114588026214326990}
+  - {fileID: 114385482969467578}
+  - {fileID: 114878465933163842}
   buttonServantFormation:
   - {fileID: 114149815581201264}
   - {fileID: 114870550902991606}
   - {fileID: 114055723545068834}
   - {fileID: 114851678526125502}
   - {fileID: 114808253384603772}
+  imageServantFormation:
+  - {fileID: 114433223009321594}
+  - {fileID: 114467225917113670}
+  - {fileID: 114016172805028384}
+  - {fileID: 114568525629174636}
+  - {fileID: 114386151895153376}
   spriteSlot:
   - {fileID: 21300000, guid: 1270a029005843f46af8e374653a1268, type: 3}
   - {fileID: 21300000, guid: a1824161498f87641a0a08ff00a04883, type: 3}

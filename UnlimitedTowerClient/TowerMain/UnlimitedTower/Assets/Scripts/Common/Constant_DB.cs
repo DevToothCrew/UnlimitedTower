@@ -45,6 +45,14 @@ public class DBMonsterData
 }
 
 [Serializable]
+public class DBGradeResourceData
+{
+    public int grade;
+    public GRADE_TYPE gradeType;
+    public Sprite gradeIcon;
+}
+
+[Serializable]
 public class DBMonsterStatData
 {
     public MONSTER_CLASS classEnum;

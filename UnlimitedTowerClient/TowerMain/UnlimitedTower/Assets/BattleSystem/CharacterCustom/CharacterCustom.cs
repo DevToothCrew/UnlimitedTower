@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 
 public class CharacterCustom : MonoBehaviour
 {
@@ -252,7 +253,7 @@ public class CharacterCustom : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && SceneManager.GetActiveScene().name.CompareTo("Customize") == 0)
         {
             defultCharacter.transform.Rotate(0, -Input.GetAxis("Mouse X") * 10, 0);
         }

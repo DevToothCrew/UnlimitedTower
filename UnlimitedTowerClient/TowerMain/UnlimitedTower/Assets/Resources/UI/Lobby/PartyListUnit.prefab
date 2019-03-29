@@ -672,7 +672,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 181e2be5af1ec6643b3b9c99519ec42b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  imageCharacter: {fileID: 114006246185897014}
+  ImageGrade: {fileID: 114006246185897014}
+  imageCharacter: {fileID: 114082809205465826}
   textLevel: {fileID: 114203868983490400}
   rectExp: {fileID: 224120953725505468}
   textStr: {fileID: 114142895209517984}

@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 {
+    public GameObject framePartyInfo;
+
     //SubView
     public GameObject SubViewEquipment;
     public GameObject SubViewDeconstruction;
@@ -85,7 +87,8 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         EQUIPMENT_ACC,          //장식품 설정
         SKILL,                  //스킬
         DECONSTRUCTION_SERVANT, //서번트 분해
-        DECONSTRUCTION_MONSTER  //몬스터 분해
+        DECONSTRUCTION_MONSTER,  //몬스터 분해
+        FORMATION                //포메이션
     }
     public scroll_type currentScrollType = 0;
 
@@ -162,15 +165,29 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
             currentScrollType = scroll_type.SERVANT_INFO;
             for (int i = 0; i < 3; i++)
                 buttonEquipment[i].gameObject.SetActive(true);
+
+            framePartyInfo.SetActive(true);
+            frameFormation.SetActive(false);
+            scrollList.gameObject.SetActive(true);
         }
         else if (tag == (int)menu_type.MONSTER)
         {
             selectedMenu = menu_type.MONSTER;
             currentScrollType = scroll_type.MONSTER_INFO;
+
+            framePartyInfo.SetActive(true);
+            frameFormation.SetActive(false);
+            scrollList.gameObject.SetActive(true);
         }
         else
         {
             selectedMenu = menu_type.FORMATION;
+            currentScrollType = scroll_type.FORMATION;
+
+            framePartyInfo.SetActive(false);
+            frameFormation.SetActive(true);
+            updateFormation();
+            scrollList.gameObject.SetActive(false);
         }
         updateAllView();
 
@@ -334,15 +351,81 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     //////////////////////*  Formation 관련 UI  *////////////////////////
     public GameObject frameFormation;
     public Button[] buttonMonsterFormation = new Button[5];
+    public Image[] imageMonsterFormation = new Image[5];
     public Button[] buttonServantFormation = new Button[5];
+    public Image[] imageServantFormation = new Image[5];
 
-    public Sprite[] spriteSlot = new Sprite[7];
+    public Sprite[] spriteSlot = new Sprite[2];
 
     public Button buttonSaveFormation;
-    
+
     public void updateFormation()
     {
+        UserDataManager u_data = UserDataManager.Inst;
+        for (int i = 0; i < 5; i++)
+        {
+            UserServantData servant = u_data.GetServantInfo(u_data.partyInfo.formationDataDic[i].index);
+            
+            if (servant.grade > 0)
+            {
+                buttonServantFormation[i].image.sprite = CSVData.Inst.getSpriteGrade((GRADE_TYPE)servant.grade);
+                imageServantFormation[i].enabled = true;
+                imageServantFormation[i].sprite = CSVData.Inst.GetServantData(servant.id).servantIcon;
+            }
+            else
+            {
+                buttonServantFormation[i].image.sprite = spriteSlot[0];
+                buttonServantFormation[i].GetComponentInChildren<Image>().enabled = false;
+            }
+        }
 
+        for (int i = 0; i < 5; i++)
+        {
+            UserMonsterData monster = u_data.GetMonsterInfo(u_data.partyInfo.formationDataDic[i + 5].index);
+
+            if (monster.grade > 0)
+            {
+                buttonMonsterFormation[i].image.sprite = CSVData.Inst.getSpriteGrade((GRADE_TYPE)monster.grade);
+                imageMonsterFormation[i].enabled = true;
+                imageMonsterFormation[i].sprite = CSVData.Inst.GetMonsterData(monster.id).monsterIcon;
+            }
+            else
+            {
+                buttonMonsterFormation[i].image.sprite = spriteSlot[0];
+                buttonMonsterFormation[i].GetComponentInChildren<Image>().enabled = false;
+            }
+        }
+
+        {
+            
+        }
+    }
+
+    public int updateGrade(int grade)
+    {
+        int sprite_idx = 0;
+        if (grade == (int)GRADE_TYPE.COMMON)
+        {
+            sprite_idx = 2;
+        }
+        else if (grade == (int)GRADE_TYPE.UNCOMMON)
+        {
+            sprite_idx = 3;
+        }
+        else if (grade == (int)GRADE_TYPE.RARE)
+        {
+            sprite_idx = 4;
+        }
+        else if (grade == (int)GRADE_TYPE.UNIQUE)
+        {
+            sprite_idx = 5;
+        }
+        else if (grade == (int)GRADE_TYPE.LEGENDARY)
+        {
+            sprite_idx = 6;
+        }
+
+        return sprite_idx;
     }
 
     public void OnClickMonsterSlot(int btn_tag)

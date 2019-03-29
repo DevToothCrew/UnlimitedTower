@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PartyListUnit : ScrollListUnit {
+    public Image ImageGrade;
     public Image imageCharacter;
     public Text textLevel;
     public RectTransform rectExp;
@@ -27,6 +28,8 @@ public class PartyListUnit : ScrollListUnit {
         //Todo :set Image
         if (partyInfo.getMenuType() == PartyInfoVC.menu_type.SERVANT)
         {
+            ImageGrade.sprite = CSVData.Inst.getSpriteGrade((GRADE_TYPE)partyInfo.ServantList[main_idx].grade);
+            imageCharacter.sprite = CSVData.Inst.GetServantData(partyInfo.ServantList[main_idx].id).servantIcon;
             textLevel.text = string.Format("{0}", partyInfo.ServantList[main_idx].level);
             textStr.text = string.Format("{0}", partyInfo.ServantList[main_idx].status.basicStr);
             textDex.text = string.Format("{0}", partyInfo.ServantList[main_idx].status.basicDex);
@@ -34,6 +37,8 @@ public class PartyListUnit : ScrollListUnit {
         }
         else if (partyInfo.getMenuType() == PartyInfoVC.menu_type.MONSTER)
         {
+            ImageGrade.sprite = CSVData.Inst.getSpriteGrade((GRADE_TYPE)partyInfo.MonsterList[main_idx].grade);
+            imageCharacter.sprite = CSVData.Inst.GetMonsterData(partyInfo.MonsterList[main_idx].id).monsterIcon;
             textLevel.text = string.Format("{0}", partyInfo.MonsterList[main_idx].level);
             textStr.text = string.Format("{0}", partyInfo.MonsterList[main_idx].status.basicStr);
             textDex.text = string.Format("{0}", partyInfo.MonsterList[main_idx].status.basicDex);
