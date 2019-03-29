@@ -235,18 +235,25 @@ public class Cheat : MonoSingleton<Cheat>
 
         for (int i = 0; i < 10; ++i)
         {
+            if(partyData.formationDataDic[i].index == 0)
+            {
+                break;
+            }
+
             characterStateData newMember = new characterStateData();
             if (i < 5)
             {
                 UserServantData servantData = UserDataManager.Inst.GetServantInfo(partyData.formationDataDic[i].index);
                 if(servantData == null)
                 {
+                    Debug.Log("Invalid Servant Data : " + partyData.formationDataDic[i].index);
                     return null;
                 }
 
                 DBServantData dbServantData = CSVData.Inst.GetServantData(servantData.id);
                 if(dbServantData == null)
                 {
+                    Debug.Log("Invalid Servant ID : " + servantData.id);
                     return null;
                 }
 
@@ -667,7 +674,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         servant.state = 0;
         servant.exp = 0;
-        servant.job = rand.Next(0, 5);
+        servant.job = rand.Next(1, 5);
         servant.appear = GetRandomAppear();
         servant.status = GetRandomStatusInfo();
         servant.equip_slot.Add(0);

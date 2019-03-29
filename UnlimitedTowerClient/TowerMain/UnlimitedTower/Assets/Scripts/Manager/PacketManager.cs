@@ -1251,6 +1251,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
         UserServantData userServant = new UserServantData();
         userServant.index = getServantData.index;
         userServant.id = CSVData.Inst.GetServantID(5, getServantData.servant.job, getServantData.servant.appear.body, getServantData.servant.appear.gender, getServantData.servant.appear.head, getServantData.servant.appear.hair);
+        if(CSVData.Inst.GetServantData(userServant.id) == null)
+        {
+            Debug.Log("Invalid Servant ID : " + userServant.id);
+        }
+
         userServant.grade = 5; // grade 필요, 현재는 그냥 서번트만 얻을수 있으니 일단 이렇게
         userServant.state = getServantData.servant.state;
 
