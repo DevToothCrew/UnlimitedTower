@@ -1,4 +1,4 @@
-#,id,#,#,#,enname,#,#,#,#,#,element_type,#,class_type,name,#,resource_model,#,resource_icon
+﻿#,id,#,#,#,enname,#,#,#,#,#,element_type,#,class_type,name,#,resource_model,#,resource_icon
 오픈 가챠 id,#,프리 가챠 id,애니메이션 그룹,이름(Kor),이름(Eng),프리가챠 리스트,정글넷 가챠 스펙,보스타입 설정,종족,속성,속성 타입,직업,직업 타입,이름,사이즈 체크,모델 리소스,몬스터 기본 애니 타입,아이콘 리소스
 int,int,int,string,string,string,#,#,int,string,string,int,string,int,localize,string,string,string,string
 20001,101101,20001,monster,판다,Panda,on,off,,,Earth,3,Druid,8,DB_monster_name_101101,,mst_panda,weapon_glove,ic_mst_panda

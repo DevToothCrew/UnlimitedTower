@@ -1,4 +1,4 @@
-id,#관리,resource_icon,name,description,tier,item_type,item_param_list,sell_item_id,sell_item_count
+﻿id,#관리,resource_icon,name,description,tier,item_type,item_param_list,sell_item_id,sell_item_count
 #,가챠 id,아이템 아이콘,아이템 이름,아이템 설명,티어,아이템 타입,아이템 파라미터 리스트,판매시획득재화,판매가격
 int,int,string,localize,localize,int,string,int,int,int
 100001,0,,UTG,,0,gold,0,0,0

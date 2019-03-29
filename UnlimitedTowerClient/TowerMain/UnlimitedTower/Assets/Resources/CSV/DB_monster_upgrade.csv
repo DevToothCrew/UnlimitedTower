@@ -1,4 +1,4 @@
-id,grade_1,grade_2,success_per,#,#,upgrade_price_id,upgrade_price_count
+﻿id,grade_1,grade_2,success_per,#,#,upgrade_price_id,upgrade_price_count
 #,합성 카드 등급1,합성 카드 등급 2,성공 확률,강화 재료 id,강화 재료 개수,강화 재화 id,강화 재화 개수
 int,int,int,float,int,string,int,int
 1,1,1,100,,,100001,500

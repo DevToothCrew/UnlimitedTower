@@ -1,4 +1,4 @@
-id,section,#,image,name,monster_type,servant_class,icon_servant_class,item_tier,icon_item_tier,item_type,icon_item_type,item_equip_class,,
+﻿id,section,#,image,name,monster_type,servant_class,icon_servant_class,item_tier,icon_item_tier,item_type,icon_item_type,item_equip_class,,
 #,구분,데이터 설명,가챠 결과 이미지,이름,몬스터 속성,서번트 직업,서번트 직업 아이콘,아이템 티어,아이템 티어 아이콘,아이템 타입,아이템 타입 아이콘,아이템 착용 직업,,
 int,string,string,string,string,string,string,string,string,string,string,string,string,job,type
 10001,servant,전사 성인 남성_11,servant_warrior_AM,Warrior,,warrior,icon_class_warrior,,,,,,,

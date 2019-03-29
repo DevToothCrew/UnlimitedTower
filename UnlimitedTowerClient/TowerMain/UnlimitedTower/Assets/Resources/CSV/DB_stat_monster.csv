@@ -1,4 +1,4 @@
-id,class,speed,avoid,cri_per,cri_dmg,mcri_per,mcri_dmg
+﻿id,class,speed,avoid,cri_per,cri_dmg,mcri_per,mcri_dmg
 #,몬스터 클래스,속도,회피 확률,물리 치명타 발생율,물리 치명타  피해율,마법 치명타 발생율,마법 치명타  피해율
 int,string,int,int,float,float,float,float
 1,Fighter,25,0,10,150,10,150

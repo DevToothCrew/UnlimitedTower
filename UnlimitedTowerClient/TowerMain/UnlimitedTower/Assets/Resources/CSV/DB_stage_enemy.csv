@@ -1,4 +1,4 @@
-id,char_type,char_id,#,char_grade,#,str,dex,int,cri_per,cri_dmg,mcri_per,mcri_dmg,spd,avd,active_list,#,passive_list,#
+﻿id,char_type,char_id,#,char_grade,#,str,dex,int,cri_per,cri_dmg,mcri_per,mcri_dmg,spd,avd,active_list,#,passive_list,#
 #,캐릭터 타입,캐릭터 ID,이름,캐릭터 등급,클래스,힘,민첩,지능,크리확률,크리데미지,마법크리확률,마법크리데미지,속도,회피,액티브 스킬 리스트,액티브 스킬 레벨 리스트,패시브 스킬 리스트,패시브 스킬 레벨 리스트
 int,string,int,string,string,string,int,int,int,int,int,int,int,int,int,int,int,int,int
 101301,monster,101301,우르스,uncommon,Druid,46,46,46,10,150,10,150,28,0,,,,
