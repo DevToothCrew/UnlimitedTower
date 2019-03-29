@@ -120,9 +120,10 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
                 if (PartyInfoVC.Inst != null)
                 {
                     PartyInfoVC partyInfo = PartyInfoVC.Inst;
-                    if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.SERVANT_INFO || partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
+                    if (partyInfo.selectedMenu == PartyInfoVC.menu_type.SERVANT || partyInfo.selectedMenu == PartyInfoVC.menu_type.MONSTER)
                     {
-                        partyInfo.updateDetailInfo(selected_main_idx);
+                        if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.SERVANT_INFO || partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
+                            partyInfo.updateDetailInfo(selected_main_idx);
                     }
                     //else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_WEAPON || partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_ARMOR
                     //    || partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_ACC)

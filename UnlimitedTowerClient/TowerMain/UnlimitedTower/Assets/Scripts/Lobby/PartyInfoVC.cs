@@ -26,6 +26,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     public GameObject frameSortType;
     public Button[] buttonSortType = new Button[4];
 
+    public GameObject frameScroll;
     public ScrollListManager scrollList;
 
     //Detail Info UI
@@ -76,7 +77,6 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
     [HideInInspector]
     public int selected_tab = 0;
-    private int selected_party_arr_idx;
 
     public enum scroll_type
     {
@@ -132,23 +132,33 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         buttonMenu[(int)selectedMenu].image.sprite = buttonMenu[(int)selectedMenu].spriteState.pressedSprite;
         buttonMenu[(int)selectedMenu].GetComponentInChildren<Text>().color = Color.black;
 
+        for (int i = 0; i < buttonEquipment.Length; i++)
+            buttonEquipment[i].gameObject.SetActive(false);
+
         if (selectedMenu == menu_type.SERVANT)
         {
-            textOwned.text = string.Format("{0}", ServantList.Count);
-            textTotal.text = string.Format("/ {0}", 100);
-            scrollList.SetItemOrder(getOrder());
-            scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+            frameScroll.SetActive(true);
+
+            for (int i = 0; i < 3; i++)
+                buttonEquipment[i].gameObject.SetActive(true);
+
+            framePartyInfo.SetActive(true);
+            frameFormation.SetActive(false);
         }
         else if (selectedMenu == menu_type.MONSTER)
         {
-            textOwned.text = string.Format("{0}", MonsterList.Count);
-            textTotal.text = string.Format("/ {0}", 100);
-            scrollList.SetItemOrder(getOrder());
-            scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
-        }
-        else
-        {
+            frameScroll.SetActive(true);
 
+            framePartyInfo.SetActive(true);
+            frameFormation.SetActive(false);
+        }
+        else if (selectedMenu == menu_type.FORMATION)
+        {
+            frameScroll.SetActive(false);
+
+            framePartyInfo.SetActive(false);
+            frameFormation.SetActive(true);
+            updateFormation();
         }
 
     }
@@ -156,42 +166,45 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     //좌측 메뉴버튼 클릭
     public void OnClickMenuButton(int tag)
     {
-        for (int i = 0; i < buttonEquipment.Length; i++)
-            buttonEquipment[i].gameObject.SetActive(false);
-
         if (tag == (int)menu_type.SERVANT)
         {
             selectedMenu = menu_type.SERVANT;
-            currentScrollType = scroll_type.SERVANT_INFO;
-            for (int i = 0; i < 3; i++)
-                buttonEquipment[i].gameObject.SetActive(true);
-
-            framePartyInfo.SetActive(true);
-            frameFormation.SetActive(false);
-            scrollList.gameObject.SetActive(true);
+            resetScroll(scroll_type.SERVANT_INFO);
         }
         else if (tag == (int)menu_type.MONSTER)
         {
             selectedMenu = menu_type.MONSTER;
-            currentScrollType = scroll_type.MONSTER_INFO;
-
-            framePartyInfo.SetActive(true);
-            frameFormation.SetActive(false);
-            scrollList.gameObject.SetActive(true);
+            resetScroll(scroll_type.MONSTER_INFO);
         }
         else
         {
             selectedMenu = menu_type.FORMATION;
-            currentScrollType = scroll_type.FORMATION;
-
-            framePartyInfo.SetActive(false);
-            frameFormation.SetActive(true);
-            updateFormation();
-            scrollList.gameObject.SetActive(false);
+            //currentScrollType = scroll_type.FORMATION;
         }
         updateAllView();
 
     }
+
+
+    //현재 화면에 따른 스크롤 UI 재설정 
+    public void resetScroll(scroll_type type)
+    {
+        currentScrollType = type;
+        if (currentScrollType == scroll_type.SERVANT_INFO)
+        {
+            textOwned.text = string.Format("{0}", ServantList.Count);
+            textTotal.text = string.Format("/ {0}", 100);
+        }
+        else if (currentScrollType == scroll_type.MONSTER_INFO)
+        {
+            textOwned.text = string.Format("{0}", MonsterList.Count);
+            textTotal.text = string.Format("/ {0}", 100);
+        }
+
+        scrollList.SetItemOrder(getOrder());
+        scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+    }
+
 
     //스크롤 생성
     void initScrollList()
@@ -211,11 +224,11 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         int[] data_order;
         int total_list_num = 0;
 
-        if (selectedMenu == menu_type.SERVANT)
+        if (currentScrollType == scroll_type.SERVANT_INFO)
         {
             total_list_num = ServantList.Count;
         }
-        else if (selectedMenu == menu_type.MONSTER)
+        else if (currentScrollType == scroll_type.MONSTER_INFO)
         {
             total_list_num = MonsterList.Count;
         }
@@ -234,7 +247,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                 {
                     for (int j = i+1; j < total_list_num; j++)
                     {
-                        if (selectedMenu == menu_type.SERVANT)
+                        if (currentScrollType == scroll_type.SERVANT_INFO)
                         {
                             if (ServantList[i].level * 100 + ServantList[i].exp < ServantList[j].level * 100 + +ServantList[j].exp)
                             {
@@ -245,7 +258,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                                 data_order[j]++;
                             }
                         }
-                        else if (selectedMenu == menu_type.MONSTER)
+                        else if (currentScrollType == scroll_type.MONSTER_INFO)
                         {
                             if (MonsterList[i].level * 100 + MonsterList[i].exp < MonsterList[j].level * 100 + +MonsterList[j].exp)
                             {
@@ -339,14 +352,6 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
     }
 
-    //현재 화면에 따른 스크롤 UI 재설정 
-    public void resetScroll()
-    {
-
-    }
-
-
-
 
     //////////////////////*  Formation 관련 UI  *////////////////////////
     public GameObject frameFormation;
@@ -359,14 +364,18 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
     public Button buttonSaveFormation;
 
+    public int selectedFormationSlot = -1;     //Selected formation slot idx : 0~4 : Servant, 5~9:Monster
+    private int[] formationSlot = new int[10];  //temp formation slot;
+
     public void updateFormation()
     {
         UserDataManager u_data = UserDataManager.Inst;
         for (int i = 0; i < 5; i++)
         {
             UserServantData servant = u_data.GetServantInfo(u_data.partyInfo.formationDataDic[i].index);
-            
-            if (servant.grade > 0)
+            formationSlot[i] = u_data.partyInfo.formationDataDic[i].index;
+
+            if (servant != null && servant.isPlaced && u_data.partyInfo.formationDataDic[i].index > 0)
             {
                 buttonServantFormation[i].image.sprite = CSVData.Inst.getSpriteGrade((GRADE_TYPE)servant.grade);
                 imageServantFormation[i].enabled = true;
@@ -374,16 +383,16 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
             }
             else
             {
-                buttonServantFormation[i].image.sprite = spriteSlot[0];
-                buttonServantFormation[i].GetComponentInChildren<Image>().enabled = false;
+                buttonServantFormation[i].image.sprite = spriteSlot[1];
+                imageServantFormation[i].enabled = false;
             }
         }
 
         for (int i = 0; i < 5; i++)
         {
             UserMonsterData monster = u_data.GetMonsterInfo(u_data.partyInfo.formationDataDic[i + 5].index);
-
-            if (monster.grade > 0)
+            formationSlot[i+5] = u_data.partyInfo.formationDataDic[i].index;
+            if (monster != null && monster.isPlaced && u_data.partyInfo.formationDataDic[i].index > 0)
             {
                 buttonMonsterFormation[i].image.sprite = CSVData.Inst.getSpriteGrade((GRADE_TYPE)monster.grade);
                 imageMonsterFormation[i].enabled = true;
@@ -391,8 +400,8 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
             }
             else
             {
-                buttonMonsterFormation[i].image.sprite = spriteSlot[0];
-                buttonMonsterFormation[i].GetComponentInChildren<Image>().enabled = false;
+                buttonMonsterFormation[i].image.sprite = spriteSlot[1];
+                imageMonsterFormation[i].enabled = false;
             }
         }
 
@@ -400,43 +409,90 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
             
         }
     }
-
-    public int updateGrade(int grade)
+    
+    public void OnClickFormationSlot(int btn_tag)
     {
-        int sprite_idx = 0;
-        if (grade == (int)GRADE_TYPE.COMMON)
-        {
-            sprite_idx = 2;
-        }
-        else if (grade == (int)GRADE_TYPE.UNCOMMON)
-        {
-            sprite_idx = 3;
-        }
-        else if (grade == (int)GRADE_TYPE.RARE)
-        {
-            sprite_idx = 4;
-        }
-        else if (grade == (int)GRADE_TYPE.UNIQUE)
-        {
-            sprite_idx = 5;
-        }
-        else if (grade == (int)GRADE_TYPE.LEGENDARY)
-        {
-            sprite_idx = 6;
-        }
+        UserDataManager u_data = UserDataManager.Inst;
 
-        return sprite_idx;
+        selectedFormationSlot = btn_tag;
+        if (formationSlot[selectedFormationSlot] > 0)//캐릭터가 설정되어있는 슬롯을 눌렀을때 -> 캐릭터 해제
+        {
+            selectedFormationSlot = -1;
+            frameScroll.gameObject.SetActive(false);
+
+            if (btn_tag < 5)
+            {
+                u_data.GetServantInfo(u_data.partyInfo.formationDataDic[btn_tag].index).isPlaced = false;
+                u_data.GetServantInfo(u_data.partyInfo.formationDataDic[btn_tag].index).partyIndex = 0;
+            }
+            else
+            {
+                u_data.GetMonsterInfo(u_data.partyInfo.formationDataDic[btn_tag-5].index).isPlaced = false;
+                u_data.GetMonsterInfo(u_data.partyInfo.formationDataDic[btn_tag-5].index).partyIndex = 0;
+            }
+            
+            u_data.partyInfo.formationDataDic[btn_tag].index = 0;
+            formationSlot[btn_tag] = 0;
+            updateFormation();
+        }
+        else//비어있는 슬롯을 눌렀을때 -> 캐릭터 선택 스크롤 활성화
+        {
+            selectedFormationSlot = btn_tag;
+            
+            if (btn_tag < 5)
+            {
+                currentScrollType = scroll_type.SERVANT_INFO;
+            }
+            else
+            {
+                currentScrollType = scroll_type.MONSTER_INFO;
+            }
+
+            frameScroll.gameObject.SetActive(true);
+            resetScroll(currentScrollType);
+        }
+        
     }
 
-    public void OnClickMonsterSlot(int btn_tag)
+    public void InsertUnit(int chracter_unit_idx)
     {
+        UserDataManager u_data = UserDataManager.Inst;
 
+        if (currentScrollType == scroll_type.SERVANT_INFO)
+        {
+            if (u_data.GetServantInfo(chracter_unit_idx).isPlaced)
+            {
+                Debug.Log("Warning : 이미 포메이션에 등록된 유닛 입니다.");
+                return;
+            }
+            else
+            {
+                u_data.GetServantInfo(chracter_unit_idx).isPlaced = true;
+                u_data.GetServantInfo(chracter_unit_idx).partyIndex = 1;
+            }
+            
+        }
+        else if (currentScrollType == scroll_type.MONSTER_INFO)
+        {
+            if (u_data.GetMonsterInfo(chracter_unit_idx).isPlaced)
+            {
+                Debug.Log("Warning : 이미 포메이션에 등록된 유닛 입니다.");
+                return;
+            }
+            else
+            {
+                u_data.GetMonsterInfo(chracter_unit_idx).isPlaced = true;
+                u_data.GetMonsterInfo(chracter_unit_idx).partyIndex = 1;
+            }
+            
+        }
+
+        u_data.partyInfo.formationDataDic[selectedFormationSlot].index = chracter_unit_idx;
+        formationSlot[selectedFormationSlot] = chracter_unit_idx;
+        frameScroll.SetActive(false);
+        updateFormation();
     }
 
-    public void OnClickServantSlot(int btn_tag)
-    {
-
-    }
 
     public void OnClickSaveFormation()
     {
