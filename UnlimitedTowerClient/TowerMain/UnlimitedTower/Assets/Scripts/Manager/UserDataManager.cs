@@ -80,15 +80,18 @@ public class UserDataManager : MonoSingleton<UserDataManager>
             {
                 if (partyInfo.formationDataDic[i] != null)
                 {
-                    if (i <= DEFINE.ServantMaxFormationNum)
+                    if (partyInfo.formationDataDic[i].index != 0)
                     {
-                        servantDic[partyInfo.formationDataDic[i].index].partyIndex = 0;
-                        servantDic[partyInfo.formationDataDic[i].index].isPlaced = false;
-                    }
-                    else
-                    {
-                        monsterDic[partyInfo.formationDataDic[i].index].partyIndex = 0;
-                        monsterDic[partyInfo.formationDataDic[i].index].isPlaced = false;
+                        if (i <= DEFINE.ServantMaxFormationNum)
+                        {
+                            servantDic[partyInfo.formationDataDic[i].index].partyIndex = 0;
+                            servantDic[partyInfo.formationDataDic[i].index].isPlaced = false;
+                        }
+                        else
+                        {
+                            monsterDic[partyInfo.formationDataDic[i].index].partyIndex = 0;
+                            monsterDic[partyInfo.formationDataDic[i].index].isPlaced = false;
+                        }
                     }
                 }
             }
@@ -98,7 +101,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
         for (int i = 0; i < 10; i++)
         {
-            if (partyInfo.formationDataDic[i] != null)
+            if (partyInfo.formationDataDic[i].index != 0)
             {
                 if (i <= DEFINE.ServantMaxFormationNum)
                 {

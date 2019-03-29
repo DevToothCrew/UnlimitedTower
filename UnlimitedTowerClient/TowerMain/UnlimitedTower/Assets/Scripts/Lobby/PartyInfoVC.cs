@@ -391,7 +391,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         for (int i = 0; i < 5; i++)
         {
             UserMonsterData monster = u_data.GetMonsterInfo(u_data.partyInfo.formationDataDic[i + 5].index);
-            formationSlot[i+5] = u_data.partyInfo.formationDataDic[i].index;
+            formationSlot[i+5] = u_data.partyInfo.formationDataDic[i+5].index;
             if (monster != null && monster.isPlaced && u_data.partyInfo.formationDataDic[i+5].index > 0)
             {
                 buttonMonsterFormation[i].image.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)monster.grade);
@@ -493,9 +493,11 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
     public void OnClickSaveFormation()
     {
-
+#if UNITY_EDITOR
+        Cheat.Inst.RequestSavePartyCheat();
+#else
+        PacketManager.Inst.RequestSaveParty(UserDataManager.Inst.GetUserPartyInfo());
+#endif
     }
-
-
 
 }
