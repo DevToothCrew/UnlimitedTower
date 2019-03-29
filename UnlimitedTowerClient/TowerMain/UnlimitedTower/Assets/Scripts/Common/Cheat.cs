@@ -17,7 +17,6 @@ public class Cheat : MonoSingleton<Cheat>
 
         userLoginData.user_data.user = user;
         userLoginData.user_data.state = 2;
-        //userLoginData.userinfo.hero = GetRandomServant(GetRandomServantJob());
 
         partyData partyData = new partyData();
         partyData.index = 1;
@@ -25,7 +24,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         for (int i = 1; i < 6; i++)
         {
-            userLoginData.servant_list.Add(GetRandomServantData(i, GetRandomServantJob()));
+            userLoginData.servant_list.Add(GetRandomServantData(i));
 
             if (i < 6)
             {
@@ -50,36 +49,6 @@ public class Cheat : MonoSingleton<Cheat>
         return JsonMapper.ToJson(userLoginData).ToString();
     }
 
-    public SERVANT_JOB GetRandomServantJob()
-    {
-        int job = rand.Next(1, 6);
-
-        if (job == 1)
-        {
-            return SERVANT_JOB.Warrior;
-        }
-        else if (job == 2)
-        {
-            return SERVANT_JOB.Thief;
-        }
-        else if (job == 3)
-        {
-            return SERVANT_JOB.Archer;
-        }
-        else if (job == 4)
-        {
-            return SERVANT_JOB.Magician;
-        }
-        else if (job == 5)
-        {
-            return SERVANT_JOB.Cleric;
-        }
-        else
-        {
-            return SERVANT_JOB.Warrior;
-        }
-    }
-
     public string GetGachaResultData(int gachaIndex)
     {
         int type = rand.Next((int)GACHA_RESULT_TYPE.Servant, (int)GACHA_RESULT_TYPE.Equipment);
@@ -88,7 +57,7 @@ public class Cheat : MonoSingleton<Cheat>
         {
             gachaServantData gachaResult = new gachaServantData();
             gachaResult.result_type = type;
-            gachaResult.data = GetRandomServantData(UserDataManager.Inst.servantDic.Count + 1, GetRandomServantJob());
+            gachaResult.data = GetRandomServantData(UserDataManager.Inst.servantDic.Count + 1);
 
             return JsonMapper.ToJson(gachaResult).ToString();
         }
@@ -659,16 +628,16 @@ public class Cheat : MonoSingleton<Cheat>
         return null;
     }
 
-    public servantData GetRandomServantData(int index, SERVANT_JOB job)
+    public servantData GetRandomServantData(int index)
     {
         servantData servant = new servantData();
         servant.index = index;
-        servant.servant = GetRandomServant(job);
+        servant.servant = GetRandomServant();
 
         return servant;
     }
 
-    public servantInfo GetRandomServant(SERVANT_JOB job)
+    public servantInfo GetRandomServant()
     {
         servantInfo servant = new servantInfo();
 
@@ -676,7 +645,7 @@ public class Cheat : MonoSingleton<Cheat>
         servant.exp = 0;
         servant.job = rand.Next(1, 5);
         servant.appear = GetRandomAppear();
-        servant.status = GetRandomStatusInfo();
+        servant.status = GetRandomStatusInfo(CHAR_TYPE.SERVANT);
         servant.equip_slot.Add(0);
         servant.equip_slot.Add(0);
         servant.equip_slot.Add(0);
@@ -698,7 +667,7 @@ public class Cheat : MonoSingleton<Cheat>
         monsterData.monster.id = CSVData.Inst.GetRandomMonsterIndex();
         monsterData.monster.grade = rand.Next(1, 6);
         monsterData.monster.upgrade = 0;
-        monsterData.monster.status = GetRandomStatusInfo();
+        monsterData.monster.status = GetRandomStatusInfo(CHAR_TYPE.MONSTER, monsterData.monster.grade);
         // TODO : 업그레이드에 따른 스테이터스 가중치 추가 필요
 
         return monsterData;
@@ -715,22 +684,21 @@ public class Cheat : MonoSingleton<Cheat>
         return appear;
     }
 
-    public statusInfo GetRandomStatusInfo()
+    public statusInfo GetRandomStatusInfo(CHAR_TYPE type, int grade = 5)
     {
         statusInfo status = new statusInfo();
-        status.basic_str = rand.Next(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
-        status.basic_dex = rand.Next(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
-        status.basic_int = rand.Next(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
-
-        return status;
-    }
-
-    public Status GetRandomStatus()
-    {
-        Status status = new Status();
-        status.basicStr = rand.Next(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
-        status.basicDex = rand.Next(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
-        status.basicInt = rand.Next(DEFINE.MIN_STATUS, DEFINE.MAX_STATUS);
+        if (type == CHAR_TYPE.SERVANT)
+        {
+            status.basic_str = rand.Next(DEFINE.SERVANT_MIN_STATUS, DEFINE.SERVANT_MAX_STATUS);
+            status.basic_dex = rand.Next(DEFINE.SERVANT_MIN_STATUS, DEFINE.SERVANT_MAX_STATUS);
+            status.basic_int = rand.Next(DEFINE.SERVANT_MIN_STATUS, DEFINE.SERVANT_MAX_STATUS);
+        }
+        else
+        {
+            status.basic_str = rand.Next(DEFINE.MONSTER_MIN_STATUS, DEFINE.MONSTER_MAX_STATUS) - (grade * DEFINE.MONSTER_GRADE_ADD_STATUS);
+            status.basic_dex = rand.Next(DEFINE.MONSTER_MIN_STATUS, DEFINE.MONSTER_MAX_STATUS) - (grade * DEFINE.MONSTER_GRADE_ADD_STATUS);
+            status.basic_int = rand.Next(DEFINE.MONSTER_MIN_STATUS, DEFINE.MONSTER_MAX_STATUS) - (grade * DEFINE.MONSTER_GRADE_ADD_STATUS);
+        }
 
         return status;
     }
@@ -752,6 +720,16 @@ public class Cheat : MonoSingleton<Cheat>
         {
             Debug.Log("Already Get UserInfo");
         }
+    }
+
+    public void RequestStageRewardCheat()
+    {
+        PacketManager.Inst.ResponseStageExit();
+    }
+
+    public void RequestStageExitCheat()
+    {
+        PacketManager.Inst.ResponseStageExit();
     }
 
     public void RequestStageStartCheat(int stageType, int stageFloor, int partyNum)
