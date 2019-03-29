@@ -392,7 +392,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         {
             UserMonsterData monster = u_data.GetMonsterInfo(u_data.partyInfo.formationDataDic[i + 5].index);
             formationSlot[i+5] = u_data.partyInfo.formationDataDic[i].index;
-            if (monster != null && monster.isPlaced && u_data.partyInfo.formationDataDic[i].index > 0)
+            if (monster != null && monster.isPlaced && u_data.partyInfo.formationDataDic[i+5].index > 0)
             {
                 buttonMonsterFormation[i].image.sprite = CSVData.Inst.getSpriteGrade((GRADE_TYPE)monster.grade);
                 imageMonsterFormation[i].enabled = true;
@@ -405,9 +405,6 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
             }
         }
 
-        {
-            
-        }
     }
     
     public void OnClickFormationSlot(int btn_tag)
@@ -427,8 +424,8 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
             }
             else
             {
-                u_data.GetMonsterInfo(u_data.partyInfo.formationDataDic[btn_tag-5].index).isPlaced = false;
-                u_data.GetMonsterInfo(u_data.partyInfo.formationDataDic[btn_tag-5].index).partyIndex = 0;
+                u_data.GetMonsterInfo(u_data.partyInfo.formationDataDic[btn_tag].index).isPlaced = false;
+                u_data.GetMonsterInfo(u_data.partyInfo.formationDataDic[btn_tag].index).partyIndex = 0;
             }
             
             u_data.partyInfo.formationDataDic[btn_tag].index = 0;
