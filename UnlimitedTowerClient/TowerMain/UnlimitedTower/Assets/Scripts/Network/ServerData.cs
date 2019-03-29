@@ -379,7 +379,8 @@ public class PartySaveJson
 public class StageStartJson
 {
     public int partyNum = 0;
-    public int stageNum = 0;
+    public int stageType = 0;
+    public int stageFloor = 0;
 }
 
 [Serializable]
