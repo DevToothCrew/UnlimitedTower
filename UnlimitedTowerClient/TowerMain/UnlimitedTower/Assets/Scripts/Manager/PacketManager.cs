@@ -684,7 +684,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 );
             return;
         }
-        Debug.Log("Login Data : " + getLoginInfo);
+        // Debug.Log("Login Data : " + getLoginInfo);
 
         UserLoginData userLoginData = JsonUtility.FromJson<UserLoginData>(getLoginInfo); 
         if(userLoginData == null)
@@ -1211,11 +1211,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
         // token은 UTG로 바꿀 필요가 있지 않을까요
         userInfo.userUTG = ulong.Parse(getUserData.token);
 
-        Debug.Log("getEOS : " + getUserData.eos);
-        Debug.Log("getUTG : " + getUserData.token);
+        //Debug.Log("getEOS : " + getUserData.eos);
+        //Debug.Log("getUTG : " + getUserData.token);
 
         userInfo.sceneState = (SCENE_STATE)getUserData.user_data.state;
-        Debug.Log("State : " + (SCENE_STATE)getUserData.user_data.state);
+        //Debug.Log("State : " + (SCENE_STATE)getUserData.user_data.state);
 
         return true;
     }

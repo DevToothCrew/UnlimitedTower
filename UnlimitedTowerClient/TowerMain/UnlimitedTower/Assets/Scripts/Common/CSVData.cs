@@ -30,7 +30,7 @@ public class CSVData : MonoSingleton<CSVData>
     // 로딩씬에 추가가 되야할듯 임시로 로그인에 넣어둠
     public IEnumerator SetCSVData()
     {
-        Debug.Log("SetCSVData Start");
+        //Debug.Log("SetCSVData Start");
 
         //SetLocalizationData();
 
@@ -39,55 +39,53 @@ public class CSVData : MonoSingleton<CSVData>
         // 기타 데이터 추가 필요
         if (DBItemDataDic.Count == 0)
         {
-            Debug.Log("SetItemData Start");
+            //Debug.Log("SetItemData Start");
             yield return SetItemData();
-            Debug.Log("SetItemData Success");
+            //Debug.Log("SetItemData Success");
         }
         if (DBStageDataDic.Count == 0)
         {
-            Debug.Log("SetStageData Start");
+            //Debug.Log("SetStageData Start");
             yield return SetStageData();
-            Debug.Log("SetStageData Success");
+            //Debug.Log("SetStageData Success");
         }
         if (DBStageEnemyDataDic.Count == 0)
         {
-            Debug.Log("SetStageEnemyData Start");
+            //Debug.Log("SetStageEnemyData Start");
             yield return SetStageEnemyData();
-            Debug.Log("SetStageEnemyData Success");
+            //Debug.Log("SetStageEnemyData Success");
         }
         if(DBServantStatDataDic.Count == 0)
         {
-            Debug.Log("SetServantStatData Start");
+            //Debug.Log("SetServantStatData Start");
             yield return SetServantStatData();
-            Debug.Log("SetServantStatData Success");
+            //Debug.Log("SetServantStatData Success");
         }
         if (DBServantDataDic.Count == 0)
         {
-            Debug.Log("SetServantData Start");
+            //Debug.Log("SetServantData Start");
             yield return SetServantData();
-            Debug.Log("SetServantData Success");
+            //Debug.Log("SetServantData Success");
         }
         if (DBMonsterStatDataDic.Count == 0)
         {
-            Debug.Log("SetMonsterStatData Start");
+            //Debug.Log("SetMonsterStatData Start");
             yield return SetMonsterStatData();
-            Debug.Log("SetMonsterStatData Success");
+            //Debug.Log("SetMonsterStatData Success");
         }
         if (DBMonsterDataDic.Count == 0)
         {
-            Debug.Log("SetMonsterData Start");
+            //Debug.Log("SetMonsterData Start");
             yield return SetMonsterData();
-            Debug.Log("SetMonsterData Success");
+            //Debug.Log("SetMonsterData Success");
         }
         if (DBMonsterUpgradeDataDic.Count == 0)
         {
-            Debug.Log("SetMonsterUpgradeData Start");
+            //Debug.Log("SetMonsterUpgradeData Start");
             yield return SetMonsterUpgradeData();
-            Debug.Log("SetMonsterUpgradeData Success");
+            //Debug.Log("SetMonsterUpgradeData Success");
         }
         localType = LOCALIZATION_TYPE.EN;
-
-
 
 #if UNITY_EDITOR
         {
@@ -359,15 +357,15 @@ public class CSVData : MonoSingleton<CSVData>
             {
                 for (var i = 2; i < data.Count; i++)
                 {
-                    Debug.Log("index " + (i).ToString()
-                        + " : " + data[i]["id"]
-                        + " " + data[i]["name"]
-                        + " " + data[i]["job"]
-                        + " " + data[i]["resource_body"]
-                        + " " + data[i]["resource_head"]
-                        + " " + data[i]["resource_hair"]
-                        + " " + data[i]["resource_icon"]
-                        );
+                    //Debug.Log("index " + (i).ToString()
+                    //    + " : " + data[i]["id"]
+                    //    + " " + data[i]["name"]
+                    //    + " " + data[i]["job"]
+                    //    + " " + data[i]["resource_body"]
+                    //    + " " + data[i]["resource_head"]
+                    //    + " " + data[i]["resource_hair"]
+                    //    + " " + data[i]["resource_icon"]
+                    //    );
 
                     DBServantData servantData = new DBServantData();
                     servantData.id = Convert.ToInt32(data[i]["id"]);
