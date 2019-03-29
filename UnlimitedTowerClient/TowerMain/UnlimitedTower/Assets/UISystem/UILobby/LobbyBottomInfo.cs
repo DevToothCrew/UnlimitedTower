@@ -13,7 +13,7 @@ public class LobbyBottomInfo : MonoBehaviour {
 
 #if UNITY_EDITOR
         {
-            Cheat.Inst.RequestStageStartCheat(1, Random.Range(1,11), 1);
+            Cheat.Inst.RequestStageStartCheat(1, Random.Range(1, 11), 1);
         }
         #else
         {
