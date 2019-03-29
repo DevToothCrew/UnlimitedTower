@@ -17,7 +17,7 @@ public class LobbyBottomInfo : MonoBehaviour {
         }
         #else
         {
-            PacketManager.Inst.RequestStageStart(1, 1);
+            PacketManager.Inst.RequestStageStart(1, 1, 1);
         }
 #endif
     }
