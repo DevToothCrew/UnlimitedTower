@@ -645,7 +645,7 @@ public class Cheat : MonoSingleton<Cheat>
         servant.exp = 0;
         //servant.job = rand.Next(1, 5);
         //servant.appear = GetRandomAppear();
-        servant.id = CSVData.Inst.GetServantID();
+        servant.id = CSVData.Inst.GetRandomServantID();
         servant.status = GetRandomStatusInfo(CHAR_TYPE.SERVANT);
         servant.equip_slot.Add(0);
         servant.equip_slot.Add(0);
@@ -665,7 +665,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         monsterData.monster.type = 0;
 
-        monsterData.monster.id = CSVData.Inst.GetRandomMonsterIndex();
+        monsterData.monster.id = CSVData.Inst.GetRandomMonsterID();
         monsterData.monster.grade = rand.Next(1, 6);
         monsterData.monster.upgrade = 0;
         monsterData.monster.status = GetRandomStatusInfo(CHAR_TYPE.MONSTER, monsterData.monster.grade);

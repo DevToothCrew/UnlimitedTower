@@ -602,16 +602,16 @@ public class CSVData : MonoSingleton<CSVData>
         return DBMonsterDataDic[index].resourceModel;
     }
 
-    public int GetRandomMonsterIndex()
+    public int GetRandomMonsterID()
     {
-        int monsterIndex = monsterDataInspector[UnityEngine.Random.Range(0, monsterDataInspector.Count)].id;
+        int monsterID = monsterDataInspector[UnityEngine.Random.Range(0, monsterDataInspector.Count)].id;
 
-        return monsterIndex;
+        return monsterID;
     }
 
-    public int GetServantID()
+    public int GetRandomServantID()
     {
-        int servantID = servantDataInspector[UnityEngine.Random.Range(0, servantDataInspector.Count)].id;
+        int servantID = servantDataInspector[UnityEngine.Random.Range(3, servantDataInspector.Count)].id;
 
         return servantID;
     }
