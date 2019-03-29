@@ -32,7 +32,6 @@ public class DBMonsterData
     public int elementType;
     public int classType;
 
-    public MONSTER_CLASS classEnum;
     public int speed;
     public int avoid;
     public int criPer;
@@ -63,7 +62,6 @@ public class DBServantData
     public int id;
     public int job;
 
-    public SERVANT_JOB jobEnum;
     public int speed;
     public int avoid;
     public int criPer;

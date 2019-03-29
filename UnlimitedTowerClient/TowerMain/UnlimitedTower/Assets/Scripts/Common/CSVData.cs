@@ -232,23 +232,23 @@ public class CSVData : MonoSingleton<CSVData>
             {
                 for (var i = 2; i < data.Count; i++)
                 {
-                    Debug.Log("index " + (i).ToString()
-                        + " : " + data[i]["id"]
-                        + " " + data[i]["char_type"]
-                        + " " + data[i]["char_id"]
-                        + " " + data[i]["char_grade"]
-                        + " " + data[i]["str"]
-                        + " " + data[i]["dex"]
-                        + " " + data[i]["int"]
-                        + " " + data[i]["cri_per"]
-                        + " " + data[i]["cri_dmg"]
-                        + " " + data[i]["mcri_per"]
-                        + " " + data[i]["mcri_dmg"]
-                        + " " + data[i]["spd"]
-                        + " " + data[i]["avd"]
-                        + " " + data[i]["active_list"]
-                        + " " + data[i]["passive_list"]
-                        );
+                    //Debug.Log("index " + (i).ToString()
+                    //    + " : " + data[i]["id"]
+                    //    + " " + data[i]["char_type"]
+                    //    + " " + data[i]["char_id"]
+                    //    + " " + data[i]["char_grade"]
+                    //    + " " + data[i]["str"]
+                    //    + " " + data[i]["dex"]
+                    //    + " " + data[i]["int"]
+                    //    + " " + data[i]["cri_per"]
+                    //    + " " + data[i]["cri_dmg"]
+                    //    + " " + data[i]["mcri_per"]
+                    //    + " " + data[i]["mcri_dmg"]
+                    //    + " " + data[i]["spd"]
+                    //    + " " + data[i]["avd"]
+                    //    + " " + data[i]["active_list"]
+                    //    + " " + data[i]["passive_list"]
+                    //    );
 
                     DBStageEnemyData stageEnemyData = new DBStageEnemyData();
                     stageEnemyData.id = Convert.ToInt32(data[i]["id"]);
@@ -269,7 +269,7 @@ public class CSVData : MonoSingleton<CSVData>
                         case "common":
                             stageEnemyData.grade = GRADE_TYPE.COMMON;
                             break;
-                        case "uncommon:":
+                        case "uncommon":
                             stageEnemyData.grade = GRADE_TYPE.UNCOMMON;
                             break;
                         case "rare":
@@ -282,7 +282,7 @@ public class CSVData : MonoSingleton<CSVData>
                             stageEnemyData.grade = GRADE_TYPE.LEGENDARY;
                             break;
                         default:
-                            Debug.Log("Invalid Request");
+                            Debug.Log("Invalid Request ID : " + i + " charGrade : " + Convert.ToString(data[i]["char_grade"]));
                             break;
                     }
 
@@ -311,16 +311,16 @@ public class CSVData : MonoSingleton<CSVData>
             {
                 for (var i = 2; i < data.Count; i++)
                 {
-                    Debug.Log("index " + (i).ToString()
-                        + " : " + data[i]["id"]
-                        + " " + data[i]["job"]
-                        + " " + data[i]["speed"]
-                        + " " + data[i]["avoid"]
-                        + " " + data[i]["cri_per"]
-                        + " " + data[i]["cri_dmg"]
-                        + " " + data[i]["mcri_per"]
-                        + " " + data[i]["mcri_dmg"]
-                        );
+                    //Debug.Log("index " + (i).ToString()
+                    //    + " : " + data[i]["id"]
+                    //    + " " + data[i]["job"]
+                    //    + " " + data[i]["speed"]
+                    //    + " " + data[i]["avoid"]
+                    //    + " " + data[i]["cri_per"]
+                    //    + " " + data[i]["cri_dmg"]
+                    //    + " " + data[i]["mcri_per"]
+                    //    + " " + data[i]["mcri_dmg"]
+                    //    );
 
                     DBServantStatData servantStatData = new DBServantStatData();
                     servantStatData.jobEnum = (SERVANT_JOB)Convert.ToInt32(data[i]["id"]);
@@ -357,26 +357,20 @@ public class CSVData : MonoSingleton<CSVData>
                     DBServantData servantData = new DBServantData();
                     servantData.id = Convert.ToInt32(data[i]["id"]);
                     servantData.job = Convert.ToInt32(data[i]["job"]);
-                    switch (servantData.job)
+
+                    if(DBServantStatDataDic.ContainsKey((SERVANT_JOB)servantData.job) == true)
                     {
-                        case 1:
-                            servantData.speed = 22;
-                            break;
-                        case 2:
-                            servantData.speed = 30;
-                            break;
-                        case 3:
-                            servantData.speed = 20;
-                            break;
-                        case 4:
-                            servantData.speed = 28;
-                            break;
-                        case 5:
-                            servantData.speed = 10;
-                            break;
-                        default:
-                            Debug.Log("Invalid Job Num : " + servantData.job);
-                            break;
+                        DBServantStatData statData = DBServantStatDataDic[(SERVANT_JOB)servantData.job];
+                        servantData.speed = statData.speed;
+                        servantData.avoid = statData.avoid;
+                        servantData.criPer = statData.criPer;
+                        servantData.criDmg = statData.criDmg;
+                        servantData.mcriPer = statData.mcriPer;
+                        servantData.mcriDmg = statData.mcriDmg;
+                    }
+                    else
+                    {
+                        Debug.Log("Invalid Job Num : " + servantData.job);
                     }
 
                     servantData.body = Convert.ToInt32(data[i]["body"]);
@@ -425,12 +419,12 @@ public class CSVData : MonoSingleton<CSVData>
             {
                 for (var i = 2; i < data.Count; i++)
                 {
-                    Debug.Log("index " + (i).ToString()
-                        + " : " + data[i]["index"]
-                        + " " + data[i]["kr"]
-                        + " " + data[i]["ch"]
-                        + " " + data[i]["en"]
-                        );
+                    //Debug.Log("index " + (i).ToString()
+                    //    + " : " + data[i]["index"]
+                    //    + " " + data[i]["kr"]
+                    //    + " " + data[i]["ch"]
+                    //    + " " + data[i]["en"]
+                    //    );
 
                     DBLocalizationData localData = new DBLocalizationData();
                     localData.id = Convert.ToInt32(data[i]["index"]);
@@ -451,16 +445,16 @@ public class CSVData : MonoSingleton<CSVData>
             {
                 for (var i = 2; i < data.Count; i++)
                 {
-                    Debug.Log("index " + (i).ToString()
-                        + " : " + data[i]["id"]
-                        + " " + data[i]["class"]
-                        + " " + data[i]["speed"]
-                        + " " + data[i]["avoid"]
-                        + " " + data[i]["cri_per"]
-                        + " " + data[i]["cri_dmg"]
-                        + " " + data[i]["mcri_per"]
-                        + " " + data[i]["mcri_dmg"]
-                        );
+                    //Debug.Log("index " + (i).ToString()
+                    //    + " : " + data[i]["id"]
+                    //    + " " + data[i]["class"]
+                    //    + " " + data[i]["speed"]
+                    //    + " " + data[i]["avoid"]
+                    //    + " " + data[i]["cri_per"]
+                    //    + " " + data[i]["cri_dmg"]
+                    //    + " " + data[i]["mcri_per"]
+                    //    + " " + data[i]["mcri_dmg"]
+                    //    );
 
                     DBMonsterStatData monsterStatData = new DBMonsterStatData();
                     monsterStatData.classEnum = (MONSTER_CLASS)Convert.ToInt32(data[i]["id"]);
@@ -500,38 +494,20 @@ public class CSVData : MonoSingleton<CSVData>
                     // monsterData.name            = Convert.ToString(data[i]["name"]);
                     monsterData.elementType = Convert.ToInt32(data[i]["element_type"]);
                     monsterData.classType = Convert.ToInt32(data[i]["class_type"]);
-                    switch (monsterData.classType)
+
+                    if (DBMonsterStatDataDic.ContainsKey((MONSTER_CLASS)monsterData.classType) == true)
                     {
-                        case 1: // Fighter
-                            monsterData.speed = 19;
-                            break;
-                        case 2: // Knight
-                            monsterData.speed = 18;
-                            break;
-                        case 3: // Priest
-                            monsterData.speed = 21;
-                            break;
-                        case 4: // Assassin
-                            monsterData.speed = 29;
-                            break;
-                        case 5: // Hunter
-                            monsterData.speed = 27;
-                            break;
-                        case 6: // Mage
-                            monsterData.speed = 11;
-                            break;
-                        case 7: // Warlock
-                            monsterData.speed = 12;
-                            break;
-                        case 8: // Druid
-                            monsterData.speed = 17;
-                            break;
-                        case 9: // Shaman
-                            monsterData.speed = 13;
-                            break;
-                        default:
-                            Debug.Log("Invalid Monster Class : " + monsterData.classType);
-                            break;
+                        DBMonsterStatData statData = DBMonsterStatDataDic[(MONSTER_CLASS)monsterData.classType];
+                        monsterData.speed = statData.speed;
+                        monsterData.avoid = statData.avoid;
+                        monsterData.criPer = statData.criPer;
+                        monsterData.criDmg = statData.criDmg;
+                        monsterData.mcriPer = statData.mcriPer;
+                        monsterData.mcriDmg = statData.mcriDmg;
+                    }
+                    else
+                    {
+                        Debug.Log("Invalid Class Num : " + monsterData.classType);
                     }
 
                     monsterData.resourceModel = Convert.ToString(data[i]["resource_model"]);
@@ -557,14 +533,14 @@ public class CSVData : MonoSingleton<CSVData>
             {
                 for (var i = 2; i < data.Count; i++)
                 {
-                    Debug.Log("index " + (i).ToString()
-                        + " : " + data[i]["id"]
-                        + " " + data[i]["grade_1"]
-                        + " " + data[i]["grade_2"]
-                        + " " + data[i]["success_per"]
-                        + " " + data[i]["upgrade_price_id"]
-                        + " " + data[i]["upgrade_price_count"]
-                        );
+                    //Debug.Log("index " + (i).ToString()
+                    //    + " : " + data[i]["id"]
+                    //    + " " + data[i]["grade_1"]
+                    //    + " " + data[i]["grade_2"]
+                    //    + " " + data[i]["success_per"]
+                    //    + " " + data[i]["upgrade_price_id"]
+                    //    + " " + data[i]["upgrade_price_count"]
+                    //    );
 
                     DBMonsterUpgradeData upgradeData = new DBMonsterUpgradeData();
                     upgradeData.id = (Convert.ToInt32(data[i]["grade_1"]) * 100) + Convert.ToInt32(data[i]["grade_2"]);

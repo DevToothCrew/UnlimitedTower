@@ -23,7 +23,7 @@ public class LanguageButton : MonoBehaviour {
         chinaImage = Resources.Load<Sprite>("UI/LoginUI/12_ChineseLogo") as Sprite;
         USImage = Resources.Load<Sprite>("UI/LoginUI/13_EnglishLogo") as Sprite;
 
-        languageImage.sprite = koreaImage;
+        languageImage.sprite = USImage;
     }
 
     public void OnClickLanguageButton()
