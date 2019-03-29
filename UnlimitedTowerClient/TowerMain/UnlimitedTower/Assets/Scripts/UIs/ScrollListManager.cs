@@ -106,33 +106,39 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     public virtual void selectedUnit()
     {
         unit_list[selected_unit_tag % unit_num].Selected(false);
-        selected_main_idx = item_order[(int)((rectTrScrollLayer.anchoredPosition.y + (unit_height/2)) / unit_height)];
-        selected_unit_tag = (int)((rectTrScrollLayer.anchoredPosition.y + (unit_height / 2)) / unit_height);
-        unit_list[selected_unit_tag % unit_num].Selected(true);
+        int arr_idx = (int)((rectTrScrollLayer.anchoredPosition.y + (unit_height / 2)) / unit_height);
+        if (arr_idx >= 0 && arr_idx < item_order.Length)
+        {
+            selected_main_idx = item_order[(int)((rectTrScrollLayer.anchoredPosition.y + (unit_height / 2)) / unit_height)];
+            selected_unit_tag = arr_idx;
+            unit_list[selected_unit_tag % unit_num].Selected(true);
 
-        selected_unit_idx = (int)(rectTrScrollLayer.anchoredPosition.y / unit_height);
-        
-        if (scrollRect.velocity.y == 0f) {
-            if (PartyInfoVC.Inst != null)
+            selected_unit_idx = (int)(rectTrScrollLayer.anchoredPosition.y / unit_height);
+
+            if (scrollRect.velocity.y == 0f)
             {
-                PartyInfoVC partyInfo = PartyInfoVC.Inst;
-                if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.SERVANT_INFO || partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
+                if (PartyInfoVC.Inst != null)
                 {
-                    partyInfo.updateDetailInfo(selected_main_idx);
+                    PartyInfoVC partyInfo = PartyInfoVC.Inst;
+                    if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.SERVANT_INFO || partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
+                    {
+                        partyInfo.updateDetailInfo(selected_main_idx);
+                    }
+                    //else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_WEAPON || partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_ARMOR
+                    //    || partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_ACC)
+                    //{
+                    //    partyInfo.updateDetailInfo(selected_main_idx);
+                    //}
+                    //else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_SERVANT || partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_MONSTER)
+                    //{
+
+                    //}
+
+
                 }
-                //else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_WEAPON || partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_ARMOR
-                //    || partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_ACC)
-                //{
-                //    partyInfo.updateDetailInfo(selected_main_idx);
-                //}
-                //else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_SERVANT || partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_MONSTER)
-                //{
-
-                //}
-
-
             }
         }
+        
     }
 
     public void OnBeginDrag(PointerEventData data)
