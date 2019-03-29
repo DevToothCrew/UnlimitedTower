@@ -23,6 +23,28 @@ public class CSVData : MonoSingleton<CSVData>
     public List<DBMonsterData> monsterDataInspector = new List<DBMonsterData>();
     public List<DBServantData> servantDataInspector = new List<DBServantData>();
 
+    public List<TextAsset> textList = new List<TextAsset>();
+
+    private void Awake()
+    {
+        ReadTextAsset("CSV/DB_item");
+        ReadTextAsset("CSV/DB_monster");
+        ReadTextAsset("CSV/DB_monster_upgrade");
+        ReadTextAsset("CSV/DB_pre_gacha");
+        ReadTextAsset("CSV/DB_servant");
+        ReadTextAsset("CSV/DB_stage");
+        ReadTextAsset("CSV/DB_stage_enemy");
+        ReadTextAsset("CSV/DB_stat_monster");
+        ReadTextAsset("CSV/DB_stat_servant");
+    }
+
+    public void ReadTextAsset(string text)
+    {
+        Debug.Log("Read CSV : " + text);
+        TextAsset data = Resources.Load<TextAsset>(text);
+        textList.Add(data);
+    }
+
     public void InitCSV()
     {
         StartCoroutine(SetCSVData());
