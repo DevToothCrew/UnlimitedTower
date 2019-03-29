@@ -284,6 +284,12 @@ public class BattleManager : MonoSingleton<BattleManager>
                 }
 
                 DBServantData dbServantData = CSVData.Inst.GetServantData(servantInfo.id);
+                if (dbServantData == null)
+                {
+                    Debug.LogError(servantInfo.id);
+                    Debug.LogError("버그다");
+                    return;
+                }
 
                 character[stageStateInfo.my_state_list[i].position] = Instantiate(characterCustom.Create(
                     dbServantData.job,

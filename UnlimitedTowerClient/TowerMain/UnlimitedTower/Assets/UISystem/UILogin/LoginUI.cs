@@ -16,6 +16,8 @@ public class LoginUI : MonoBehaviour {
         nodeButton.SetActivateWithAnimation(true);
 
         buttonClick = false;
+
+        CSVData.Inst.StartCSVData();
     }
 
     public void OnClickButton()

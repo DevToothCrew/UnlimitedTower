@@ -667,7 +667,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         servant.state = 0;
         servant.exp = 0;
-        servant.job = 1; // rand.Next(0, 6);
+        servant.job = rand.Next(0, 5);
         servant.appear = GetRandomAppear();
         servant.status = GetRandomStatusInfo();
         servant.equip_slot.Add(0);

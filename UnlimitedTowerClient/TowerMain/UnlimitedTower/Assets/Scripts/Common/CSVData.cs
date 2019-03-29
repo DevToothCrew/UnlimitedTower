@@ -23,7 +23,7 @@ public class CSVData : MonoSingleton<CSVData>
     public List<DBMonsterData> monsterDataInspector = new List<DBMonsterData>();
     public List<DBServantData> servantDataInspector = new List<DBServantData>();
 
-    public void Start()
+    public void StartCSVData()
     {
         StartCoroutine(SetCSVData());
     }
@@ -344,15 +344,15 @@ public class CSVData : MonoSingleton<CSVData>
             {
                 for (var i = 2; i < data.Count; i++)
                 {
-                    //Debug.Log("index " + (i).ToString()
-                    //    + " : " + data[i]["id"]
-                    //    + " " + data[i]["name"]
-                    //    + " " + data[i]["job"]
-                    //    + " " + data[i]["resource_body"]
-                    //    + " " + data[i]["resource_head"]
-                    //    + " " + data[i]["resource_hair"]
-                    //    + " " + data[i]["resource_icon"]
-                    //    );
+                    Debug.Log("index " + (i).ToString()
+                        + " : " + data[i]["id"]
+                        + " " + data[i]["name"]
+                        + " " + data[i]["job"]
+                        + " " + data[i]["resource_body"]
+                        + " " + data[i]["resource_head"]
+                        + " " + data[i]["resource_hair"]
+                        + " " + data[i]["resource_icon"]
+                        );
 
                     DBServantData servantData = new DBServantData();
                     servantData.id = Convert.ToInt32(data[i]["id"]);
@@ -378,7 +378,7 @@ public class CSVData : MonoSingleton<CSVData>
                     servantData.head = Convert.ToInt32(data[i]["head"]);
                     servantData.hair = Convert.ToInt32(data[i]["hair"]);
 
-                    servantData.name = Convert.ToString(data[i]["name"]);
+                    servantData.name = ((SERVANT_JOB)servantData.job).ToString();
                     switch (Convert.ToString(data[i]["grade"]))
                     {
                         case "legendary":
@@ -489,7 +489,7 @@ public class CSVData : MonoSingleton<CSVData>
 
                     DBMonsterData monsterData = new DBMonsterData();
                     monsterData.id = Convert.ToInt32(data[i]["id"]);
-                    monsterData.name = Convert.ToString(data[i]["name"]);
+                    monsterData.name = Convert.ToString(data[i]["enname"]);
                     // TODO : 로컬 적용 후 아래로 변경
                     // monsterData.name            = Convert.ToString(data[i]["name"]);
                     monsterData.elementType = Convert.ToInt32(data[i]["element_type"]);

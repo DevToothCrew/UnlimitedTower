@@ -6,33 +6,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-public class CSVReader : MonoBehaviour
+public class CSVReader : MonoSingleton<CSVReader>
 {
-    static private CSVReader instance = null;
-
     static readonly string SPLIT_RE = @",(?=(?:[^""]*""[^""]*"")*(?![^""]*""))";
     static readonly string LINE_SPLIT_RE = @"\r\n|\n\r|\n|\r";
     static readonly char[] TRIM_CHARS = { '\"' };
 
     public class CSVPairs : Dictionary<string, object> { };
     public class CSVPairsList : List<CSVPairs> { };
-
-    private void Awake()
-    {
-        if (instance == null)
-            instance = this;
-        else
-            Destroy(this);
-    }
-
-    private void OnDestroy()
-    {
-        instance = null;
-    }
-
+    
     public static void ReadAsync(string file, Action<CSVPairsList> onSuccess = null, Action<float> onProgress = null, Action<string> onFailed = null)
     {
-        instance.StartCoroutine(CoRead(file, onSuccess, onProgress, onFailed));
+        Inst.StartCoroutine(CoRead(file, onSuccess, onProgress, onFailed));
     }
 
     public static CSVPairsList Read(string file)

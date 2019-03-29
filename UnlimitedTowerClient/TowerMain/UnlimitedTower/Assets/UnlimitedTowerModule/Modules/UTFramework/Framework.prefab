@@ -37,9 +37,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4572890864648506}
-  - component: {fileID: 114960382300274300}
-  - component: {fileID: 114936466373427812}
-  - component: {fileID: 114592736031626398}
   m_Layer: 0
   m_Name: Framework
   m_TagString: Untagged
@@ -376,17 +373,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114592736031626398
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1142649546162810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 169727d8fb6dc5444af065cec3fa07da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114634767072905136
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -424,19 +410,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114936466373427812
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1142649546162810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8228b3f72447f94eb06f780a3a2d20b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monsterDataInspector: []
-  servantDataInspector: []
 --- !u!114 &114959312094062732
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -456,17 +429,6 @@ MonoBehaviour:
   - {fileID: 1594353328028144, guid: 0ad5f21ebbbc0e04997cf05a35e84352, type: 2}
   - {fileID: 1346395687445630, guid: e3890cfd17eb5604699e612ba0bc3164, type: 2}
   - {fileID: 1625575297274754, guid: b40b5c2521471004fb9abafbab903b01, type: 2}
---- !u!114 &114960382300274300
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1142649546162810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c15743c12afdd14cb239703afa2fe7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!222 &222443996395245696
 CanvasRenderer:
   m_ObjectHideFlags: 1
