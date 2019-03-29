@@ -20717,6 +20717,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 1142649546162810, guid: c3af066363e49e24488d6e2ccf130a62, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c3af066363e49e24488d6e2ccf130a62, type: 2}
   m_IsPrefabParent: 0
@@ -25093,6 +25097,54 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnClickLeftButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 114149068015318400, guid: fa3be9128b3300f4a8d75dbb7585f59f,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6b92ad835f02fde4987a43b58193720f,
+        type: 3}
+    - target: {fileID: 114862406447228904, guid: fa3be9128b3300f4a8d75dbb7585f59f,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3f8601094ad2eaf42a757b989c4fd186,
+        type: 3}
+    - target: {fileID: 114465666293572956, guid: fa3be9128b3300f4a8d75dbb7585f59f,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ac72eb8dc678efc4294c4a8b911aaf9c,
+        type: 3}
+    - target: {fileID: 224402878570697724, guid: fa3be9128b3300f4a8d75dbb7585f59f,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 224850481452742528, guid: fa3be9128b3300f4a8d75dbb7585f59f,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 224217020065869494, guid: fa3be9128b3300f4a8d75dbb7585f59f,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 224402878570697724, guid: fa3be9128b3300f4a8d75dbb7585f59f,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 224850481452742528, guid: fa3be9128b3300f4a8d75dbb7585f59f,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 224217020065869494, guid: fa3be9128b3300f4a8d75dbb7585f59f,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 70
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fa3be9128b3300f4a8d75dbb7585f59f, type: 2}
