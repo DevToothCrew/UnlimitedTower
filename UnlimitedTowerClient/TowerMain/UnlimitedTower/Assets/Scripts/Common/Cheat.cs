@@ -643,8 +643,9 @@ public class Cheat : MonoSingleton<Cheat>
 
         servant.state = 0;
         servant.exp = 0;
-        servant.job = rand.Next(1, 5);
-        servant.appear = GetRandomAppear();
+        //servant.job = rand.Next(1, 5);
+        //servant.appear = GetRandomAppear();
+        servant.id = CSVData.Inst.GetServantID();
         servant.status = GetRandomStatusInfo(CHAR_TYPE.SERVANT);
         servant.equip_slot.Add(0);
         servant.equip_slot.Add(0);

@@ -1250,8 +1250,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         UserServantData userServant = new UserServantData();
         userServant.index = getServantData.index;
-        userServant.id = CSVData.Inst.GetServantID(5, getServantData.servant.job, getServantData.servant.appear.body, getServantData.servant.appear.gender, getServantData.servant.appear.head, getServantData.servant.appear.hair);
-        if(CSVData.Inst.GetServantData(userServant.id) == null)
+        //userServant.id = CSVData.Inst.GetServantID(5, getServantData.servant.job, getServantData.servant.appear.body, getServantData.servant.appear.gender, getServantData.servant.appear.head, getServantData.servant.appear.hair);
+        userServant.id = getServantData.servant.id;
+        if (CSVData.Inst.GetServantData(userServant.id) == null)
         {
             Debug.Log("Invalid Servant ID : " + userServant.id);
         }
