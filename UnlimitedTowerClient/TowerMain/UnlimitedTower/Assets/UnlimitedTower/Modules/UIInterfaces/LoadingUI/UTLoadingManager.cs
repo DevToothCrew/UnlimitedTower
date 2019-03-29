@@ -78,14 +78,17 @@ public class UTLoadingManager : MonoBehaviour {
     {
         uiInsideFullGage = 1.0f;
 
+
+        yield return new WaitUntil(() => wrkQ.Count > 0);
+
+        gameObject.SetActivateWithAnimation(true);
+        uiParticles.Begin();
+
         while (this != null)
         {
             if (wrkQ.Count > 0)
             {
                 var desc = wrkQ.Dequeue();
-
-                gameObject.SetActivateWithAnimation(true);
-                uiParticles.Begin();
 
                 uiInsideCurrGage = 0.0f;
                 SetProgress(0.0f, desc.startComment);
@@ -99,16 +102,20 @@ public class UTLoadingManager : MonoBehaviour {
                 }
 
                 SetProgress(1.0f, desc.finishedComment);
-                yield return new WaitForSecondsRealtime(1.0f);
+                yield return new WaitUntil(() => Math.Abs(uiInsideCurrGage - uiInsideNextGage) < 0.01f);
 
                 desc.OnSuccess?.Invoke();
 
-                uiParticles.End();
-                gameObject.SetActivateWithAnimation(false);
             }
             else
             {
-                yield return null;
+                uiParticles.End();
+                gameObject.SetActivateWithAnimation(false);
+
+                yield return new WaitUntil(() => wrkQ.Count > 0);
+
+                gameObject.SetActivateWithAnimation(true);
+                uiParticles.Begin();
             }
         }
     }
