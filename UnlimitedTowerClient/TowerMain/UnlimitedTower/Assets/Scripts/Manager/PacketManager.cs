@@ -812,7 +812,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 스테이지 시작
     public void ResponseStageStart(stageStateData getBattleStateData)
     {
-        Debug.Log("스테이지 시작");
+        //Debug.Log("스테이지 시작");
         UserDataManager.Inst.SetStageState(getBattleStateData);
         StartCoroutine(LoadSceneAsync("CharacterBattleScene", "Now, Loading battle field ... "));
     }
@@ -820,7 +820,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 배틀 액션
     public void ResponseBattleAction(battleActionData getBattleActionData)
     {
-        Debug.Log("턴 진행!");
+        //Debug.Log("턴 진행!");
         if (getBattleActionData.turn == UserDataManager.Inst.stageActionInfo.turn)
         {
             Debug.Log("데이터 중복");

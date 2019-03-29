@@ -1207,7 +1207,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &64273345
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15640,7 +15640,7 @@ GameObject:
   - component: {fileID: 788767563}
   - component: {fileID: 788767562}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Power Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33835,6 +33835,7 @@ MonoBehaviour:
   levelText: {fileID: 0}
   nemeText: {fileID: 0}
   selectHpText: {fileID: 0}
+  selectAtkText: {fileID: 0}
   selectHpBar: {fileID: 0}
   selectCharImg: {fileID: 0}
   characterInfo: {fileID: 0}
@@ -33976,7 +33977,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91153effe524fee44bf4e27aa4f0587e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillText: {fileID: 0}
   effectList:
   - name: Heal
     obj: {fileID: 1583230284542312, guid: 4cceeac45add12f4faa7d6e21adad57f, type: 2}
@@ -36378,7 +36378,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1001 &1748141761
 Prefab:
   m_ObjectHideFlags: 0
@@ -40912,7 +40912,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2001847774
 Transform:
   m_ObjectHideFlags: 0

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class SkillManager : MonoSingleton<SkillManager>
 {
-    public Text skillText;
+    //public Text skillText;
     public Dictionary<string, GameObject> effect = new Dictionary<string, GameObject>();
     public List<EffectList> effectList = new List<EffectList>();
 
@@ -18,7 +18,7 @@ public class SkillManager : MonoSingleton<SkillManager>
 
     private void Awake()
     {
-        skillText = GameObject.Find("Skill Text").GetComponent<Text>();
+        //skillText = GameObject.Find("Skill Text").GetComponent<Text>();
 
         foreach (EffectList effect in effectList)
         {
@@ -36,7 +36,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     public IEnumerator Skill_200001_Co(characterActionData battleInfo)
     {
         BattleManager.Inst.animator[battleInfo.my_position].SetTrigger("isDefence");
-        skillText.text = "디펜스";
+        //skillText.text = "디펜스";
         yield return new WaitForSeconds(0.3f);
 
         effect["Defence"].transform.position = BattleManager.Inst.character[battleInfo.my_position].transform.position;
@@ -58,7 +58,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     public IEnumerator Skill_200002_Co(characterActionData battleInfo)
     {
         BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
-        skillText.text = "배쉬";
+        //skillText.text = "배쉬";
         yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.5f);
         TestSkillEffect(battleInfo.action_info_list[0].target_position);
     }
@@ -74,7 +74,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     public IEnumerator Skill_200003_Co(characterActionData battleInfo)
     {
         BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
-        skillText.text = "패스트 어택";
+        //skillText.text = "패스트 어택";
         yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.5f);
         TestSkillEffect(battleInfo.action_info_list[0].target_position);
     }
@@ -90,7 +90,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     public IEnumerator Skill_200004_Co(characterActionData battleInfo)
     {
         BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
-        skillText.text = "크리티컬 스트라이크";
+        //skillText.text = "크리티컬 스트라이크";
         yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.5f);
         TestSkillEffect(battleInfo.action_info_list[0].target_position);
     }
@@ -101,7 +101,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     public void Skill_200005(characterActionData battleInfo)
     {
         StartCoroutine(Skill_200005_Co(battleInfo));
-        skillText.text = "힐";
+        //skillText.text = "힐";
     }
 
     public IEnumerator Skill_200005_Co(characterActionData battleInfo)
@@ -132,7 +132,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     public IEnumerator Skill_200006_Co(characterActionData battleInfo)
     {
         BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
-        skillText.text = "매직 스트라이크";
+        //skillText.text = "매직 스트라이크";
         yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.5f);
         TestSkillEffect(battleInfo.action_info_list[0].target_position);
     }
@@ -143,7 +143,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     public void Skill_200007(characterActionData battleInfo)
     {
         // 아직 엄슴
-        skillText.text = "아직 안만듬";
+        //skillText.text = "아직 안만듬";
         StartCoroutine(Skill_200007_Co(battleInfo));
     }
 
@@ -221,7 +221,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     public IEnumerator Skill_200008_Co(characterActionData battleInfo)
     {
         BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
-        skillText.text = "가이디드 애로우";
+        //skillText.text = "가이디드 애로우";
         yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + BattleManager.Inst.charInfo[battleInfo.my_position].AttackAfterDelay);
         TestSkillEffect(battleInfo.action_info_list[0].target_position);
     }
