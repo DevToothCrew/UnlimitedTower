@@ -609,6 +609,14 @@ public class CSVData : MonoSingleton<CSVData>
         return monsterIndex;
     }
 
+    public int GetServantID()
+    {
+        int servantID = servantDataInspector[UnityEngine.Random.Range(0, servantDataInspector.Count)].id;
+
+        return servantID;
+    }
+
+
     public string GetMonsterIcon(int index)
     {
         if (DBMonsterDataDic.ContainsKey(index) == false)

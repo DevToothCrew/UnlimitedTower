@@ -44,9 +44,9 @@ public class servantInfo
     public int exp;
 
     // TODO : job / appear 에서 id로 변경 필요
-    public int job;
-    public appearInfo appear = new appearInfo();
-    // public int id;
+    //public int job;
+    //public appearInfo appear = new appearInfo();
+    public int id;
 
     public statusInfo status = new statusInfo();
     public List<int> equip_slot = new List<int>();
@@ -379,7 +379,8 @@ public class PartySaveJson
 public class StageStartJson
 {
     public int partyNum = 0;
-    public int stageNum = 0;
+    public int stageType = 0;
+    public int stageFloor = 0;
 }
 
 [Serializable]

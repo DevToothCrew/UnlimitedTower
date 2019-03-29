@@ -183,7 +183,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 temp += " : " + rewardData.get_exp_list[i].ToString();
             temp += "\nServant";
             for (int i = 0; i < rewardData.get_servant_list.Count; i++)
-                temp += " : " + rewardData.get_servant_list[i].servant.job;
+                temp += " : " + rewardData.get_servant_list[i].servant.id;
             temp += "\nMonster";
             for (int i = 0; i < rewardData.get_monster_list.Count; i++)
                 temp += " : " + rewardData.get_monster_list[i].monster.id;

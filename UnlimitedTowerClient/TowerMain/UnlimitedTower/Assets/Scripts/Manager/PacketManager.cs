@@ -295,13 +295,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 스테이지 시작
-    public void RequestStageStart(int stageNum, int partyNum)
+    public void RequestStageStart(int stageType, int partyNum, int stageFloor)
     {
         Debug.Log("Request Start Battle");
 
         StageStartJson startBattle = new StageStartJson();
-        startBattle.stageNum = stageNum;
+        startBattle.stageType = stageType;
         startBattle.partyNum = partyNum;
+        startBattle.stageFloor = stageFloor;
 
         string json = JsonUtility.ToJson(startBattle);
 
@@ -1250,8 +1251,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         UserServantData userServant = new UserServantData();
         userServant.index = getServantData.index;
-        userServant.id = CSVData.Inst.GetServantID(5, getServantData.servant.job, getServantData.servant.appear.body, getServantData.servant.appear.gender, getServantData.servant.appear.head, getServantData.servant.appear.hair);
-        if(CSVData.Inst.GetServantData(userServant.id) == null)
+        //userServant.id = CSVData.Inst.GetServantID(5, getServantData.servant.job, getServantData.servant.appear.body, getServantData.servant.appear.gender, getServantData.servant.appear.head, getServantData.servant.appear.hair);
+        userServant.id = getServantData.servant.id;
+        if (CSVData.Inst.GetServantData(userServant.id) == null)
         {
             Debug.Log("Invalid Servant ID : " + userServant.id);
         }
