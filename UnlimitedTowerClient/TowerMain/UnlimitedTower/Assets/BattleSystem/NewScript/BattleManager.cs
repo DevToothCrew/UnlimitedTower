@@ -64,7 +64,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             return;
         }
 
-        SetStartImage(stageStateInfo);
+        //SetStartImage(stageStateInfo);
         IsPlaceCheck(stageStateInfo);
         // SettingHero();
         SettingCharacter(stageStateInfo);
