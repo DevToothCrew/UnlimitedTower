@@ -452,6 +452,14 @@ CONTRACT battletest : public contract
                            uint32_t _physical_cri_dmg,
                            uint32_t _magic_cri_per,
                            uint32_t _magic_cri_dmg);
+                           
+    void insert_class_stat_passive(uint64_t _claas, uint64_t _private_id,
+                                   uint32_t _per,
+                                   uint32_t _public_id);
+    void insert_class_stat_active(uint64_t _claas, uint64_t _private_id,
+                                  uint32_t _per,
+                                  uint32_t _public_id);
+
     void erase_class_state(uint64_t _id);
 
     TABLE dbjobstat
@@ -480,6 +488,14 @@ CONTRACT battletest : public contract
                          uint32_t _physical_cri_dmg,
                          uint32_t _magic_cri_per,
                          uint32_t _magic_cri_dmg);
+    void insert_job_stat_passive(uint64_t _job, uint64_t _private_id,
+                                 uint32_t _per,
+                                 uint32_t _public_id);
+
+    void insert_job_stat_active(uint64_t _job, uint64_t _private_id,
+                                uint32_t _per,
+                                uint32_t _public_id);
+
     void erase_job_state(uint64_t _id);
 
   public:
@@ -547,6 +563,8 @@ CONTRACT battletest : public contract
                                uint32_t _skill_type, uint32_t _attack_type, uint32_t _dmg_type,uint32_t _target, uint32_t _target_count, uint32_t _target_range,
                                uint32_t _hit_count, uint32_t _atk_per, uint32_t _atk_per_add, uint32_t _heal_per, uint32_t _heal_per_add);
     void insert_gacha_pool(uint64_t _gacha_id, uint64_t _db_index);
+
+
 
     void erase_job(uint64_t _job);
     void erase_head(uint64_t _appear);
@@ -866,6 +884,11 @@ CONTRACT battletest : public contract
 #pragma region gacha function
     uint64_t get_random_grade(uint64_t _rate);
     uint32_t get_servant_index(uint32_t _job, uint32_t _body, uint32_t _gender, uint32_t _head, uint32_t _hair);
+    uint32_t get_monster_passive_skill(uint32_t _monster_class, uint32_t _seed);
+    uint32_t get_monster_active_skill(uint32_t _monster_class, uint32_t _seed);
+
+    uint32_t get_servant_passive_skill(uint32_t _job, uint32_t _seed);
+    uint32_t get_servant_active_skill(uint32_t _job, uint32_t _seed);
 
     void gacha_servant_id(eosio::name _user, uint64_t _seed);
     uint8_t gacha_servant_head(uint64_t _seed, uint32_t _count);
@@ -1419,6 +1442,8 @@ CONTRACT battletest : public contract
     //테스트용 함수
     ACTION testsnap(eosio::name _user);
 
+    void cheat_servant(eosio::name _user, uint64_t _seed);
+    void cheat_monster(eosio::name _user, uint64_t _seed);
     ACTION partycheat(eosio::name _user);
     ACTION herocheat(eosio::name _user);
     

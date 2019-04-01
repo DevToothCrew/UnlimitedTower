@@ -408,6 +408,23 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
                        atoi(value_list[5].c_str()),
                        atoi(value_list[6].c_str()));
     }
+    else if(_table == "dbclassstat_passive")
+    {
+        substr_value(_value, value_list, size_list, 4);
+        insert_class_stat_passive(atoi(value_list[0].c_str()),
+                                  atoi(value_list[1].c_str()),
+                                  atoi(value_list[2].c_str()),
+                                  atoi(value_list[3].c_str()));
+    }
+        else if(_table == "dbclassstat_active")
+    {
+        substr_value(_value, value_list, size_list, 4);
+        insert_class_stat_active(atoi(value_list[0].c_str()),
+                                  atoi(value_list[1].c_str()),
+                                  atoi(value_list[2].c_str()),
+                                  atoi(value_list[3].c_str()));
+    }
+
         else if (_table == "dbjobstat")
     {
                 substr_value(_value, value_list, size_list, 7);
@@ -418,6 +435,22 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
                        atoi(value_list[4].c_str()),
                        atoi(value_list[5].c_str()),
                        atoi(value_list[6].c_str()));
+    }
+    else if(_table == "dbjobstat_passive")
+    {
+        substr_value(_value, value_list, size_list, 4);
+        insert_job_stat_passive(atoi(value_list[0].c_str()),
+                                  atoi(value_list[1].c_str()),
+                                  atoi(value_list[2].c_str()),
+                                  atoi(value_list[3].c_str()));
+    }
+        else if(_table == "dbjobstat_active")
+    {
+        substr_value(_value, value_list, size_list, 4);
+        insert_job_stat_active(atoi(value_list[0].c_str()),
+                                  atoi(value_list[1].c_str()),
+                                  atoi(value_list[2].c_str()),
+                                  atoi(value_list[3].c_str()));
     }
     else
     {
@@ -1304,6 +1337,92 @@ void battletest::insert_job_stat(uint64_t _id,
             new_data.magic_cri_dmg = _magic_cri_dmg;
         });
     }
+}
+
+void battletest::insert_class_stat_passive(uint64_t _claas, uint64_t _private_id,
+                                           uint32_t _per,
+                                           uint32_t _public_id)
+{
+    class_stat_db class_stat_db_table(_self, _self.value);
+    auto class_iter = class_stat_db_table.find(_claas);
+    eosio_assert(class_iter != class_stat_db_table.end(), "Not Exist Claas Stat Data");
+
+    class_stat_db_table.modify(class_iter, _self, [&](auto &new_data) {
+        if (_private_id != 0)
+        {
+            new_data.passive_private_list.push_back(_private_id);
+        }
+        if (_public_id != 0)
+        {
+            new_data.passive_public_list.push_back(_public_id);
+        }
+        new_data.passive_private_per = _per;
+    });
+}
+
+void battletest::insert_class_stat_active(uint64_t _claas, uint64_t _private_id,
+                                           uint32_t _per,
+                                           uint32_t _public_id)
+{
+    class_stat_db class_stat_db_table(_self, _self.value);
+    auto class_iter = class_stat_db_table.find(_claas);
+    eosio_assert(class_iter != class_stat_db_table.end(), "Not Exist Claas Stat Data");
+
+    class_stat_db_table.modify(class_iter, _self, [&](auto &new_data) {
+        if (_private_id != 0)
+        {
+            new_data.active_private_list.push_back(_private_id);
+        }
+        if (_public_id != 0)
+        {
+            new_data.active_public_list.push_back(_public_id);
+        }
+        new_data.active_private_per = _per;
+    });
+}
+
+
+
+void battletest::insert_job_stat_passive(uint64_t _job, uint64_t _private_id,
+                                           uint32_t _per,
+                                           uint32_t _public_id)
+{
+    job_stat_db class_stat_db_table(_self, _self.value);
+    auto class_iter = class_stat_db_table.find(_job);
+    eosio_assert(class_iter != class_stat_db_table.end(), "Not Exist Job Stat Data");
+
+    class_stat_db_table.modify(class_iter, _self, [&](auto &new_data) {
+        if (_private_id != 0)
+        {
+            new_data.passive_private_list.push_back(_private_id);
+        }
+        if (_public_id != 0)
+        {
+            new_data.passive_public_list.push_back(_public_id);
+        }
+        new_data.passive_private_per = _per;
+    });
+}
+
+void battletest::insert_job_stat_active(uint64_t _job, uint64_t _private_id,
+                                           uint32_t _per,
+                                           uint32_t _public_id)
+{
+    job_stat_db class_stat_db_table(_self, _self.value);
+    auto class_iter = class_stat_db_table.find(_job);
+    eosio_assert(class_iter != class_stat_db_table.end(), "Not Exist Job Stat Data");
+
+    class_stat_db_table.modify(class_iter, _self, [&](auto &new_data) {
+        if (_private_id != 0)
+        {
+            new_data.active_private_list.push_back(_private_id);
+        }
+        if (_public_id != 0)
+        {
+            new_data.active_public_list.push_back(_public_id);
+        }
+        new_data.active_private_per = _per;
+    });
 }
 
 ACTION battletest::dberase(std::string _table, std::string _value)
@@ -2703,6 +2822,233 @@ uint32_t battletest::chang_statue(uint32_t _status_grade)
     return 0;
 }
 
+uint32_t battletest::get_monster_passive_skill(uint32_t _monster_class, uint32_t _seed)
+{
+    uint32_t passive_id = 0;
+    class_stat_db class_stat_db_table(_self, _self.value);
+    auto class_stat_db_iter = class_stat_db_table.find(_monster_class);
+    eosio_assert(class_stat_db_iter != class_stat_db_table.end(),"Not Exist Class 1");
+
+    passive_db passive_db_table(_self, _self.value);
+    if (class_stat_db_iter->passive_private_per == 0) //전용 패시브 확률이 0인데
+    {
+        if (class_stat_db_iter->passive_public_list.size() == 0) //공용 패시브 리스트가 존재 하지 않으면
+        {
+            return passive_id;
+        }
+        uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->passive_public_list.size(), 0, 1);
+        auto passive_db_iter = passive_db_table.find(class_stat_db_iter->passive_public_list[random_skill_index]);
+        eosio_assert(passive_db_iter != passive_db_table.end(), "Not Exist Passive 1");
+        passive_id = passive_db_iter->passive_id;
+        return passive_id;
+    }
+    else    //전용 패시브 확률이 0이 아닌데
+    {
+        if (class_stat_db_iter->passive_private_list.size() == 0) //전용 패시브 리스트가 존재 하지 않지만
+        {
+            if(class_stat_db_iter->passive_public_list.size() != 0) //공용 패시브 리스트가 존재하면
+            {
+                uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->passive_public_list.size(), 0, 1);
+                auto passive_db_iter = passive_db_table.find(class_stat_db_iter->passive_public_list[random_skill_index]);
+                eosio_assert(passive_db_iter != passive_db_table.end(), "Not Exist Passive 2");
+                passive_id = passive_db_iter->passive_id;
+                return passive_id;
+            }
+            return passive_id;
+        }
+        else
+        {
+            uint32_t random_private_per = safeseed::get_random_value(_seed, 100, 0, 0);
+            if (class_stat_db_iter->passive_private_per >= random_private_per)
+            {
+                uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->passive_private_list.size(), 0, 1);
+                auto passive_db_iter = passive_db_table.find(class_stat_db_iter->passive_private_list[random_skill_index]);
+                eosio_assert(passive_db_iter != passive_db_table.end(), "Not Exist Passive 3");
+                passive_id = passive_db_iter->passive_id;
+                return passive_id;
+            }
+            else
+            {
+                uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->passive_public_list.size(), 0, 1);
+                auto passive_db_iter = passive_db_table.find(class_stat_db_iter->passive_public_list[random_skill_index]);
+                eosio_assert(passive_db_iter != passive_db_table.end(), "Not Exist Passive 4");
+                passive_id = passive_db_iter->passive_id;
+                return passive_id;
+            }
+        }
+    }
+}
+
+
+uint32_t battletest::get_monster_active_skill(uint32_t _monster_class, uint32_t _seed)
+{
+    uint32_t active_id = 0;
+    class_stat_db class_stat_db_table(_self, _self.value);
+    auto class_stat_db_iter = class_stat_db_table.find(_monster_class);
+    eosio_assert(class_stat_db_iter != class_stat_db_table.end(),"Not Exist Class 1");
+
+    active_db active_db_table(_self, _self.value);
+    if(class_stat_db_iter->active_private_per == 0)  //전용 액티브 확률이 0인데
+    {
+        if(class_stat_db_iter->active_public_list.size() == 0)
+        {
+            return active_id;
+        }
+        uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->active_public_list.size(), 0, 1);
+        auto actvie_db_iter = active_db_table.find(class_stat_db_iter->active_public_list[random_skill_index]);
+        eosio_assert(actvie_db_iter != active_db_table.end(), "Not Exist Active 1");
+        active_id = actvie_db_iter->active_id;
+        return active_id;
+    }
+    else
+    {
+        if(class_stat_db_iter->active_private_list.size() == 0)
+        {
+            if(class_stat_db_iter->active_public_list.size() != 0)
+            {
+                uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->active_public_list.size(), 0, 1);
+                auto actvie_db_iter = active_db_table.find(class_stat_db_iter->active_public_list[random_skill_index]);
+                eosio_assert(actvie_db_iter != active_db_table.end(), "Not Exist Active 2");
+                active_id = actvie_db_iter->active_id;
+                return active_id;
+            }
+            return active_id;
+        }
+        uint32_t random_private_per = safeseed::get_random_value(_seed, 100, 0, 0);
+        if (class_stat_db_iter->active_private_per >= random_private_per)
+        {
+            uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->active_private_list.size(), 0, 1);
+            auto actvie_db_iter = active_db_table.find(class_stat_db_iter->active_private_list[random_skill_index]);
+            eosio_assert(actvie_db_iter != active_db_table.end(), "Not Exist Active 3");
+            active_id = actvie_db_iter->active_id;
+            return active_id;
+        }
+        else
+        {
+            uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->active_public_list.size(), 0, 1);
+            auto actvie_db_iter = active_db_table.find(class_stat_db_iter->active_public_list[random_skill_index]);
+            eosio_assert(actvie_db_iter != active_db_table.end(), "Not Exist Active 4");
+            active_id = actvie_db_iter->active_id;
+            return active_id;
+        }
+    }
+}
+
+
+uint32_t battletest::get_servant_passive_skill(uint32_t _job, uint32_t _seed)
+{
+    uint32_t passive_id = 0;
+    job_stat_db class_stat_db_table(_self, _self.value);
+    auto class_stat_db_iter = class_stat_db_table.find(_job);
+    eosio_assert(class_stat_db_iter != class_stat_db_table.end(),"Not Exist Job 1");
+
+    passive_db passive_db_table(_self, _self.value);
+    if (class_stat_db_iter->passive_private_per == 0) //전용 패시브 확률이 0인데
+    {
+        if (class_stat_db_iter->passive_public_list.size() == 0) //공용 패시브 리스트가 존재 하지 않으면
+        {
+            return passive_id;
+        }
+        uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->passive_public_list.size(), 0, 1);
+        auto passive_db_iter = passive_db_table.find(class_stat_db_iter->passive_public_list[random_skill_index]);
+        eosio_assert(passive_db_iter != passive_db_table.end(), "Not Exist Passive 1");
+        passive_id = passive_db_iter->passive_id;
+        return passive_id;
+    }
+    else    //전용 패시브 확률이 0이 아닌데
+    {
+        if (class_stat_db_iter->passive_private_list.size() == 0) //전용 패시브 리스트가 존재 하지 않지만
+        {
+            if(class_stat_db_iter->passive_public_list.size() != 0) //공용 패시브 리스트가 존재하면
+            {
+                uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->passive_public_list.size(), 0, 1);
+                auto passive_db_iter = passive_db_table.find(class_stat_db_iter->passive_public_list[random_skill_index]);
+                eosio_assert(passive_db_iter != passive_db_table.end(), "Not Exist Passive 2");
+                passive_id = passive_db_iter->passive_id;
+                return passive_id;
+            }
+            return passive_id;
+        }
+        else
+        {
+            uint32_t random_private_per = safeseed::get_random_value(_seed, 100, 0, 0);
+            if (class_stat_db_iter->passive_private_per >= random_private_per)
+            {
+                uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->passive_private_list.size(), 0, 1);
+                auto passive_db_iter = passive_db_table.find(class_stat_db_iter->passive_private_list[random_skill_index]);
+                eosio_assert(passive_db_iter != passive_db_table.end(), "Not Exist Passive 3");
+                passive_id = passive_db_iter->passive_id;
+                return passive_id;
+            }
+            else
+            {
+                uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->passive_public_list.size(), 0, 1);
+                auto passive_db_iter = passive_db_table.find(class_stat_db_iter->passive_public_list[random_skill_index]);
+                eosio_assert(passive_db_iter != passive_db_table.end(), "Not Exist Passive 4");
+                passive_id = passive_db_iter->passive_id;
+                return passive_id;
+            }
+        }
+    }
+}
+
+
+uint32_t battletest::get_servant_active_skill(uint32_t _job, uint32_t _seed)
+{
+    uint32_t active_id = 0;
+    job_stat_db class_stat_db_table(_self, _self.value);
+    auto class_stat_db_iter = class_stat_db_table.find(_job);
+    eosio_assert(class_stat_db_iter != class_stat_db_table.end(),"Not Exist Job 1");
+
+    active_db active_db_table(_self, _self.value);
+    if(class_stat_db_iter->active_private_per == 0)  //전용 액티브 확률이 0인데
+    {
+        if(class_stat_db_iter->active_public_list.size() == 0)
+        {
+            return active_id;
+        }
+        uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->active_public_list.size(), 0, 1);
+        auto actvie_db_iter = active_db_table.find(class_stat_db_iter->active_public_list[random_skill_index]);
+        eosio_assert(actvie_db_iter != active_db_table.end(), "Not Exist Active 1");
+        active_id = actvie_db_iter->active_id;
+        return active_id;
+    }
+    else
+    {
+        if(class_stat_db_iter->active_private_list.size() == 0)
+        {
+            if(class_stat_db_iter->active_public_list.size() != 0)
+            {
+                uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->active_public_list.size(), 0, 1);
+                auto actvie_db_iter = active_db_table.find(class_stat_db_iter->active_public_list[random_skill_index]);
+                eosio_assert(actvie_db_iter != active_db_table.end(), "Not Exist Active 2");
+                active_id = actvie_db_iter->active_id;
+                return active_id;
+            }
+            return active_id;
+        }
+        uint32_t random_private_per = safeseed::get_random_value(_seed, 100, 0, 0);
+        if (class_stat_db_iter->active_private_per >= random_private_per)
+        {
+            uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->active_private_list.size(), 0, 1);
+            auto actvie_db_iter = active_db_table.find(class_stat_db_iter->active_private_list[random_skill_index]);
+            eosio_assert(actvie_db_iter != active_db_table.end(), "Not Exist Active 3");
+            active_id = actvie_db_iter->active_id;
+            return active_id;
+        }
+        else
+        {
+            uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->active_public_list.size(), 0, 1);
+            auto actvie_db_iter = active_db_table.find(class_stat_db_iter->active_public_list[random_skill_index]);
+            eosio_assert(actvie_db_iter != active_db_table.end(), "Not Exist Active 4");
+            active_id = actvie_db_iter->active_id;
+            return active_id;
+        }
+    }
+
+}
+
+
 void battletest::gacha_servant_id(eosio::name _user, uint64_t _seed)
 {
     servant_job_db servant_job_table(_self, _self.value);
@@ -2766,6 +3112,18 @@ void battletest::gacha_servant_id(eosio::name _user, uint64_t _seed)
 
         new_servant.equip_slot.resize(3);
         new_servant.state = object_state::on_inventory;
+
+        uint32_t active_id = get_servant_active_skill(random_job, _seed);
+        if(active_id != 0)
+        {
+            new_servant.active_skill.push_back(active_id);
+        }
+
+        uint32_t passive_id = get_servant_passive_skill(random_job, _seed);
+        if (passive_id != 0)
+        {
+            new_servant.passive_skill.push_back(passive_id);
+        }
 
         result.index = update_user_servant_list.index;
         result.type = result::servant;
@@ -2920,6 +3278,18 @@ void battletest::gacha_monster_id(eosio::name _user, uint64_t _seed)
         new_monster.status.basic_int = chang_monster_statue(new_monster.grade, new_monster.status.basic_int);
 
         new_monster.state = object_state::on_inventory;
+
+        uint32_t active_id = get_monster_active_skill(monster_id_db_iter.monster_class, _seed);
+        if (active_id != 0)
+        {
+            new_monster.active_skill.push_back(active_id);
+        }
+
+        uint32_t passive_id = get_monster_passive_skill(monster_id_db_iter.monster_class, _seed);
+        if (passive_id != 0)
+        {
+            new_monster.passive_skill.push_back(passive_id);
+        }
 
         result.index = update_user_monster_list.index;
         result.type = result::monster;
@@ -3379,6 +3749,257 @@ ACTION battletest::herocheat(eosio::name _user)
         new_party.monster_list.resize(5);
     });
 }
+void battletest::cheat_servant(eosio::name _user, uint64_t _seed)
+{
+    servant_job_db servant_job_table(_self, _self.value);
+    uint32_t random_job = safeseed::get_random_value(_seed, SERVANT_JOB_COUNT, DEFAULT_MIN_DB, servant_random_count);
+    const auto &servant_job_db_iter = servant_job_table.get(random_job, "Not Get Servant Job Data 1");
+
+    servant_random_count += 1;
+    uint32_t random_body = gacha_servant_body(_seed, servant_random_count);
+
+    servant_random_count += 1;
+    gender_db gender_table(_self, _self.value);
+    uint32_t random_gender = safeseed::get_random_value(_seed, GEMDER_COUNT, DEFAULT_MIN_DB, servant_random_count);
+    const auto &gender_db_iter = gender_table.get(random_gender, "Not Get Gender Data 1");
+
+    servant_random_count += 1;
+    uint32_t random_head = gacha_servant_head(_seed, servant_random_count);
+
+    servant_random_count += 1;
+    uint32_t random_hair = gacha_servant_hair(_seed, servant_random_count);
+
+    servant_db servant_id_table(_self, _self.value);
+    uint32_t servant_index = get_servant_index(random_job, random_body, random_gender, random_head, random_hair);
+    const auto &servant_id_db_iter = servant_id_table.get(servant_index, "Not Exist Servant ID 1");
+
+    user_logs user_log_table(_self, _self.value);
+    auto user_log_iter = user_log_table.find(_user.value);
+
+    user_auths auth_user_table(_self, _self.value);
+    auto auth_user_iter = auth_user_table.find(_user.value);
+
+    eosio_assert(user_log_iter != user_log_table.end(), "Not Exist User Log 3");
+
+    result_info result;
+    user_servants user_servant_table(_self, _user.value);
+    user_servant_table.emplace(_self, [&](auto &update_user_servant_list) {
+        uint32_t first_index = user_servant_table.available_primary_key();
+        if (first_index == 0)
+        {
+            update_user_servant_list.index = 1;
+        }
+        else
+        {
+            update_user_servant_list.index = user_servant_table.available_primary_key();
+        }
+
+        servant_info new_servant;
+
+        new_servant.id = servant_id_db_iter.id;
+        new_servant.exp = 0;
+        servant_random_count += 1;
+
+        new_servant.status.basic_str = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_str, servant_job_db_iter.min_range.base_str, servant_random_count);
+        servant_random_count += 1;
+        new_servant.status.basic_dex = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_dex, servant_job_db_iter.min_range.base_dex, servant_random_count);
+        servant_random_count += 1;
+        new_servant.status.basic_int = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_int, servant_job_db_iter.min_range.base_int, servant_random_count);
+
+        new_servant.status.basic_str = chang_statue(new_servant.status.basic_str);
+        new_servant.status.basic_dex = chang_statue(new_servant.status.basic_dex);
+        new_servant.status.basic_int = chang_statue(new_servant.status.basic_int);
+
+        new_servant.equip_slot.resize(3);
+        new_servant.state = object_state::on_inventory;
+
+        uint32_t active_id = get_servant_active_skill(random_job, _seed);
+        if(active_id != 0)
+        {
+            new_servant.active_skill.push_back(active_id);
+        }
+
+        uint32_t passive_id = get_servant_passive_skill(random_job, _seed);
+        if (passive_id != 0)
+        {
+            new_servant.passive_skill.push_back(passive_id);
+        }
+
+        result.index = update_user_servant_list.index;
+        result.type = result::servant;
+
+        update_user_servant_list.party_number = 1;
+        update_user_servant_list.servant = new_servant;
+    });
+
+    user_gacha_results user_gacha_result_table(_self, _self.value);
+    user_gacha_totals user_gacha_total_table(_self, _self.value);
+
+    auto user_gacha_result_iter = user_gacha_result_table.find(_user.value);
+    if (user_gacha_result_iter == user_gacha_result_table.end())
+    {
+        user_gacha_result_table.emplace(_self, [&](auto &new_result) {
+            new_result.user = _user;
+            new_result.result = result;
+        });
+    }
+    else
+    {
+        user_gacha_result_table.modify(user_gacha_result_iter, _self, [&](auto &new_result) {
+            new_result.result = result;
+        });
+    }
+
+    auto user_gacha_total_iter = user_gacha_total_table.find(_user.value);
+    if (user_gacha_total_iter == user_gacha_total_table.end())
+    {
+        user_gacha_total_table.emplace(_self, [&](auto &new_result) {
+            new_result.user = _user;
+            new_result.result_list.push_back(result);
+        });
+    }
+    else
+    {
+        user_gacha_total_table.modify(user_gacha_total_iter, _self, [&](auto &new_result) {
+            new_result.result_list.push_back(result);
+        });
+    }
+
+    //로그 남기는 부분
+    user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
+        update_log.servant_num += 1;
+        update_log.gacha_num += 1;
+    });
+
+    auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
+        update_auth_user.current_servant_inventory += 1;
+    });
+}
+
+void battletest::cheat_monster(eosio::name _user, uint64_t _seed)
+{
+    main_gacha_db main_gacha_db_table(_self, _self.value);
+    auto gacha_db_iter = main_gacha_db_table.find(2); //1 ser 2 mon 3 item
+    eosio_assert(gacha_db_iter != main_gacha_db_table.end(), "Not Exist Gacha ID 3");
+    uint32_t random_monster_id = safeseed::get_random_value(_seed, gacha_db_iter->db_index, DEFAULT_MIN_DB, monster_random_count);
+    random_monster_id += MONSTER_GACHA_ID_START;
+
+    auto gacha_monster_db_iter = main_gacha_db_table.find(random_monster_id);
+    eosio_assert(gacha_monster_db_iter != main_gacha_db_table.end(), "Not Exist Db Index 3");
+
+    monster_db monster_id_db_table(_self, _self.value);
+    const auto &monster_id_db_iter = monster_id_db_table.get(gacha_monster_db_iter->db_index, "Not Exist Monster ID 1");
+
+    monster_random_count += 1;
+    uint64_t random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, DEFAULT_MIN, monster_random_count);
+    uint64_t random_grade = get_random_grade(random_rate);
+
+    monster_grade_db monster_grade_db_table(_self, _self.value);
+    const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "Not Exist Monster Grade 4");
+
+    user_logs user_log_table(_self, _self.value);
+    auto user_log_iter = user_log_table.find(_user.value);
+
+    user_auths auth_user_table(_self, _self.value);
+    auto auth_user_iter = auth_user_table.find(_user.value);
+
+    eosio_assert(user_log_iter != user_log_table.end(), "Not Exist User Log 3");
+
+    result_info result;
+    user_monsters user_monster_table(_self, _user.value);
+    user_monster_table.emplace(_self, [&](auto &update_user_monster_list) {
+        uint32_t first_index = user_monster_table.available_primary_key();
+        if (first_index == 0)
+        {
+            update_user_monster_list.index = 1;
+        }
+        else
+        {
+            update_user_monster_list.index = user_monster_table.available_primary_key();
+        }
+
+        monster_info new_monster;
+        new_monster.id = monster_id_db_iter.id;
+        new_monster.grade = monster_grade_db_iter.grade;
+        new_monster.monster_class = monster_id_db_iter.monster_class;
+        new_monster.type = monster_id_db_iter.type;
+        new_monster.exp = 0;
+        new_monster.upgrade = 0;
+        monster_random_count += 1;
+        new_monster.status.basic_str = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_str, monster_grade_db_iter.min_range.base_str, monster_random_count);
+        monster_random_count += 1;
+        new_monster.status.basic_dex = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_dex, monster_grade_db_iter.min_range.base_dex, monster_random_count);
+        monster_random_count += 1;
+        new_monster.status.basic_int = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_int, monster_grade_db_iter.min_range.base_int, monster_random_count);
+
+        new_monster.status.basic_str = chang_monster_statue(new_monster.grade, new_monster.status.basic_str);
+        new_monster.status.basic_dex = chang_monster_statue(new_monster.grade, new_monster.status.basic_dex);
+        new_monster.status.basic_int = chang_monster_statue(new_monster.grade, new_monster.status.basic_int);
+
+        new_monster.state = object_state::on_inventory;
+
+        uint32_t active_id = get_monster_active_skill(monster_id_db_iter.monster_class, _seed);
+        if (active_id != 0)
+        {
+            new_monster.active_skill.push_back(active_id);
+        }
+
+        uint32_t passive_id = get_monster_passive_skill(monster_id_db_iter.monster_class, _seed);
+        if (passive_id != 0)
+        {
+            new_monster.passive_skill.push_back(passive_id);
+        }
+
+        result.index = update_user_monster_list.index;
+        result.type = result::monster;
+
+        update_user_monster_list.party_number = 1;
+        update_user_monster_list.monster = new_monster;
+    });
+
+    user_gacha_results user_gacha_result_table(_self, _self.value);
+    user_gacha_totals user_gacha_total_table(_self, _self.value);
+
+    auto user_gacha_result_iter = user_gacha_result_table.find(_user.value);
+    if (user_gacha_result_iter == user_gacha_result_table.end())
+    {
+        user_gacha_result_table.emplace(_self, [&](auto &new_result) {
+            new_result.user = _user;
+            new_result.result = result;
+        });
+    }
+    else
+    {
+        user_gacha_result_table.modify(user_gacha_result_iter, _self, [&](auto &new_result) {
+            new_result.result = result;
+        });
+    }
+
+    auto user_gacha_total_iter = user_gacha_total_table.find(_user.value);
+    if (user_gacha_total_iter == user_gacha_total_table.end())
+    {
+        user_gacha_total_table.emplace(_self, [&](auto &new_result) {
+            new_result.user = _user;
+            new_result.result_list.push_back(result);
+        });
+    }
+    else
+    {
+        user_gacha_total_table.modify(user_gacha_total_iter, _self, [&](auto &new_result) {
+            new_result.result_list.push_back(result);
+        });
+    }
+
+    user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
+        update_log.gacha_num += 1;
+        update_log.monster_num += 1;
+    });
+
+    auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
+        update_auth_user.current_monster_inventory += 1;
+    });
+}
+
 
 ACTION battletest::partycheat(eosio::name _user)
 {
