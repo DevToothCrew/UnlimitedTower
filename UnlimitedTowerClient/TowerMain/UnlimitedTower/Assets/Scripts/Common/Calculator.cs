@@ -4,27 +4,27 @@ using System;
 
 public class Calculator : MonoBehaviour {
 
-    public static int GetMaxHp(totalStatus status)
+    public static int GetMaxHp(statusInfo status)
     {
-        return ((status.total_str) * 14) + ((status.total_dex) * 5) + ((status.total_int) * 3);
+        return ((status.basic_str) * 14) + ((status.basic_dex) * 5) + ((status.basic_int) * 3);
     }
 
-    public static int GetAttack(totalStatus status)
+    public static int GetAttack(statusInfo status)
     {
-        return (((status.total_str + status.total_dex) * 14) / 10);
+        return (((status.basic_str + status.basic_dex) * 14) / 10);
     }
-    public static int GetMagicAttack(totalStatus status)
+    public static int GetMagicAttack(statusInfo status)
     {
-        return ((status.total_int * 22) / 10);
-    }
-
-    public static int GetDefence(totalStatus status)
-    {
-        return ((status.total_dex * 13) / 10);
+        return ((status.basic_int * 22) / 10);
     }
 
-    public static int GetMagicDefence(totalStatus status)
+    public static int GetDefence(statusInfo status)
     {
-        return ((status.total_int * 13) / 10);
+        return ((status.basic_dex * 13) / 10);
+    }
+
+    public static int GetMagicDefence(statusInfo status)
+    {
+        return ((status.basic_int * 13) / 10);
     }
 }

@@ -246,13 +246,6 @@ public class battleActionData
     public int turn;
     public List<characterActionData> character_action_list = new List<characterActionData>();
 }
-[Serializable]
-public class totalStatus
-{
-    public int total_str = 0;
-    public int total_dex = 0;
-    public int total_int = 0;
-};
 
 [Serializable]
 public class skillInfo
@@ -297,7 +290,7 @@ public class characterStateData
     public List<buffInfo> buff_list = new List<buffInfo>();
     public List<skillInfo> passive_skill_list = new List<skillInfo>();
     public List<skillInfo> active_skill_list = new List<skillInfo>();
-    public totalStatus status = new totalStatus();
+    public statusInfo status = new statusInfo();
 }
 
 [Serializable]

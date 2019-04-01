@@ -239,10 +239,10 @@ public class Cheat : MonoSingleton<Cheat>
                 newMember.active_skill_list = new List<skillInfo>();
                 newMember.active_skill_list.Add(skill);
 
-                newMember.status = new totalStatus();
-                newMember.status.total_str = servantData.status.basicStr;
-                newMember.status.total_dex = servantData.status.basicDex;
-                newMember.status.total_int = servantData.status.basicInt;
+                newMember.status = new statusInfo();
+                newMember.status.basic_str = servantData.status.basicStr;
+                newMember.status.basic_dex = servantData.status.basicDex;
+                newMember.status.basic_int = servantData.status.basicInt;
                 newMember.now_hp = Calculator.GetMaxHp(newMember.status);
                 newMember.physical_attack = Calculator.GetAttack(newMember.status);
                 newMember.physical_defense = Calculator.GetDefence(newMember.status);
@@ -268,10 +268,10 @@ public class Cheat : MonoSingleton<Cheat>
                 newMember.index = monsterData.index;
                 newMember.id = monsterData.id;
 
-                newMember.status = new totalStatus();
-                newMember.status.total_str = monsterData.status.basicStr;
-                newMember.status.total_dex = monsterData.status.basicDex;
-                newMember.status.total_int = monsterData.status.basicInt;
+                newMember.status = new statusInfo();
+                newMember.status.basic_str = monsterData.status.basicStr;
+                newMember.status.basic_dex = monsterData.status.basicDex;
+                newMember.status.basic_int = monsterData.status.basicInt;
                 newMember.now_hp = Calculator.GetMaxHp(newMember.status);
                 newMember.physical_attack = Calculator.GetAttack(newMember.status);
                 newMember.physical_defense = Calculator.GetDefence(newMember.status);
@@ -311,10 +311,10 @@ public class Cheat : MonoSingleton<Cheat>
                 return null;
             }
 
-            newMember.status = new totalStatus();
-            newMember.status.total_str = enemyData.status.basicStr;
-            newMember.status.total_dex = enemyData.status.basicDex;
-            newMember.status.total_int = enemyData.status.basicInt;
+            newMember.status = new statusInfo();
+            newMember.status.basic_str = enemyData.status.basicStr;
+            newMember.status.basic_dex = enemyData.status.basicDex;
+            newMember.status.basic_int = enemyData.status.basicInt;
 
             newMember.now_hp = Calculator.GetMaxHp(newMember.status);
             newMember.physical_attack = Calculator.GetAttack(newMember.status);
