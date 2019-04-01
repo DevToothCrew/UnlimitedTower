@@ -273,6 +273,15 @@ public class CharacterCustom : MonoBehaviour
         CharacterInformationTemp.Height = characterInformation[jobIndex].Height;
         CharacterInformationTemp.AttackRange = characterInformation[jobIndex].AttackRange;
         
+        if (jobIndex == 4)
+        {
+            defultCharacter.GetComponent<Bullet>().bullet = BulletGroup.Inst.bullet["ArcherArrow"];
+        }
+        else if (jobIndex == 5)
+        {
+            defultCharacter.GetComponent<Bullet>().bullet = BulletGroup.Inst.bullet["MagicianFireBall"];
+        }
+
         return defultCharacter;
     }
 

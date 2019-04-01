@@ -17,8 +17,10 @@ public class BattleManager : MonoSingleton<BattleManager>
     public int TimeScale = 1;
     public TumbAnimation tumbAnimation;
 
+    private bool isAuto;
+    private bool isTurnEnd;
+    private bool isBattleStart;
     private int turnIndex = 1;
-    private bool isSpaceCheck;
     private GameObject CharacterParent;
     private SkillManager skillManager;
     private CharacterCustom characterCustom;
@@ -30,9 +32,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     private GameObject testDefeat;
     private Text ErrorText;
     private GameObject ErrorBox;
-
-    [HideInInspector]
-    public bool isBattleStart;
+    
     [HideInInspector]
     public readonly int[] positionOrder = { 2, 1, 3, 0, 4, 7, 6, 8, 5, 9 };
 
@@ -75,39 +75,13 @@ public class BattleManager : MonoSingleton<BattleManager>
         SettingPosition();
         SettingDieCheck();
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            // if (isSpaceCheck == false)
-            // {
-            //     // TestBattleTarget();
-            //     isSpaceCheck = true;
-            // }
-            BattleUIManager.Inst.OnDelay();
-
-            #if UNITY_EDITOR
-            {
-                string battleActionInfo = Cheat.Inst.GetBattleActionData("devtooth", turnIndex);
-                Debug.Log("[SUCCESS] user battleaction :" + battleActionInfo);
-
-                PacketManager.Inst.ResponseBattleAction(JsonUtility.FromJson<battleActionData>(battleActionInfo));
-            }
-            #else
-            {
-                PacketManager.Inst.RequestBattleAction(turnIndex);
-            }
-            #endif
-
-        }
-    }
-
+    
     // 배틀데이터를 받아와 공격 ( 메인 배틀 한턴 )
     public IEnumerator BattleStart()
     {
         BattleUIManager.Inst.OffDelay();
-        isSpaceCheck = false;
+        isTurnEnd = false;
+        isBattleStart = true;
 
         battleActionData stageActionInfo = UserDataManager.Inst.GetStageAction();
         if (stageActionInfo == null)
@@ -140,8 +114,9 @@ public class BattleManager : MonoSingleton<BattleManager>
             }
         }
 
+        isBattleStart = false;
+
         turnIndex++;
-        isSpaceCheck = false;
         BattleUIManager.Inst.MyTurn();
 
         int myHp = 0, enemyHp = 0;
@@ -161,6 +136,42 @@ public class BattleManager : MonoSingleton<BattleManager>
 #else
 
             PacketManager.Inst.RequestStageReward();
+#endif
+        }
+        else if (isAuto)
+        {
+            yield return new WaitForSeconds(2.0f);
+            TurnEnd();
+        }
+    }
+
+    public void Auto()
+    {
+        isAuto = !isAuto;
+        if (isAuto)
+        {
+            TurnEnd();
+        }
+    }
+
+    public void TurnEnd()
+    {
+        if (isTurnEnd == false && isBattleStart == false)
+        {
+            isTurnEnd = true;
+            BattleUIManager.Inst.OnDelay();
+
+#if UNITY_EDITOR
+            {
+                string battleActionInfo = Cheat.Inst.GetBattleActionData("devtooth", turnIndex);
+                Debug.Log("[SUCCESS] user battleaction :" + battleActionInfo);
+
+                PacketManager.Inst.ResponseBattleAction(JsonUtility.FromJson<battleActionData>(battleActionInfo));
+            }
+#else
+            {
+                PacketManager.Inst.RequestBattleAction(turnIndex);
+            }
 #endif
         }
     }
@@ -216,8 +227,6 @@ public class BattleManager : MonoSingleton<BattleManager>
         battleActionInfo.my_position = 0;
 
         SkillManager.Inst.Skill_200007(battleActionInfo);
-
-        isSpaceCheck = false;
     }
 
     // 시작화면 파티 초상화 셋팅

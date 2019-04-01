@@ -198,7 +198,7 @@ public class SkillManager : MonoSingleton<SkillManager>
 
     IEnumerator Skill_200007_Co_Arrow(Transform attaker, Transform target)
     {
-        GameObject arrow = Instantiate(BulletGroup.Inst.bullet["ArcherArrow"], attaker.position + transform.position + new Vector3(0, 0.4f, 0), attaker.rotation);
+        GameObject arrow = Instantiate(attaker.GetComponent<Bullet>().bullet, attaker.position + transform.position + new Vector3(0, 0.4f, 0), attaker.rotation);
         Vector3 startPos = arrow.transform.position;
         Vector3 endPos = target.position - (target.position - startPos).normalized * 0.2f;
 
