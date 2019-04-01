@@ -64,9 +64,10 @@ public class BattleManager : MonoSingleton<BattleManager>
             return;
         }
 
-        SetStartImage(stageStateInfo);
+        MapChange.Inst.MapEneble(stageStateInfo.stage_type);
+
+        StartCoroutine(SetStartImage(stageStateInfo));
         IsPlaceCheck(stageStateInfo);
-        // SettingHero();
         SettingCharacter(stageStateInfo);
         SettingMonster(stageStateInfo);
         SettingScript(stageStateInfo);
@@ -220,25 +221,26 @@ public class BattleManager : MonoSingleton<BattleManager>
     }
 
     // 시작화면 파티 초상화 셋팅
-    public void SetStartImage(stageStateData stageStateInfo)
+    public IEnumerator SetStartImage(stageStateData stageStateInfo)
     {
         Image[] image = new Image[20];
         GameObject temp = GameObject.Find("StartUI");
         
         for (int i = 0; i < stageStateInfo.my_state_list.Count; i++)
         {
-            Debug.Log(stageStateInfo.my_state_list[i].id);
             if (stageStateInfo.my_state_list[i].position < 5)
-                temp.transform.GetChild(0).GetChild(positionOrder[stageStateInfo.my_state_list[i].position]).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[stageStateInfo.my_state_list[i].id].servantIcon;
+                temp.transform.GetChild(1).GetChild(positionOrder[stageStateInfo.my_state_list[i].position] + 1).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[stageStateInfo.my_state_list[i].id].servantIcon;
             else
-                temp.transform.GetChild(0).GetChild(positionOrder[stageStateInfo.my_state_list[i].position]).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[stageStateInfo.my_state_list[i].id].monsterIcon;
+                temp.transform.GetChild(1).GetChild(positionOrder[stageStateInfo.my_state_list[i].position] + 1).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[stageStateInfo.my_state_list[i].id].monsterIcon;
         }
 
         for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
         {
-            Debug.Log(stageStateInfo.enemy_state_list[i].id);
-            temp.transform.GetChild(1).GetChild(positionOrder[stageStateInfo.enemy_state_list[i].position - 10]).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[stageStateInfo.enemy_state_list[i].id].monsterIcon;
+            temp.transform.GetChild(0).GetChild(positionOrder[stageStateInfo.enemy_state_list[i].position - 10] + 1).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[stageStateInfo.enemy_state_list[i].id].monsterIcon;
         }
+
+        yield return new WaitForSeconds(3.0f);
+        temp.SetActive(false);
     }
 
     // 캐릭터 존재 여부 체크
@@ -259,8 +261,8 @@ public class BattleManager : MonoSingleton<BattleManager>
     public void SettingBoxCollider(GameObject character)
     {
         BoxCollider box = character.AddComponent<BoxCollider>();
-        box.size = new Vector3(0.8f, 0.8f, 0.8f) * (1 / character.transform.localScale.x);
-        box.center = new Vector3(0.0f, 0.4f, 0.0f) * (1 / character.transform.localScale.x);
+        box.size = new Vector3(0.8f, 0.6f, 0.8f) * (1 / character.transform.localScale.x);
+        box.center = new Vector3(0.0f, 0.3f, 0.0f) * (1 / character.transform.localScale.x);
         box.isTrigger = true;
         character.tag = "Character";
     }
