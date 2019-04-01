@@ -19,8 +19,10 @@ public class SelectManager : MonoBehaviour
 
     private RaycastHit hit;
     private Ray ray;
+    private bool isAttribute;
 
     // Test
+    public GameObject testStats;
     public Text testAd;
     public Text testAp;
     public Text testDd;
@@ -46,8 +48,8 @@ public class SelectManager : MonoBehaviour
         selectHpBar = GameObject.Find("Hp Bar").GetComponent<Image>();
         selectHpText = GameObject.Find("Hp Text").GetComponent<Text>();
         characterInfo = GameObject.Find("Character Information");
-        characterInfo.SetActive(false);
 
+        testStats = GameObject.Find("Character Stats");
         testAd = GameObject.Find("Test Ad").GetComponent<Text>();
         testAp = GameObject.Find("Test Ap").GetComponent<Text>();
         testDd = GameObject.Find("Test Dd").GetComponent<Text>();
@@ -55,6 +57,9 @@ public class SelectManager : MonoBehaviour
         testSp = GameObject.Find("Test Sp").GetComponent<Text>();
         testMaxHp = GameObject.Find("Test MaxHp").GetComponent<Text>();
         testNowHp = GameObject.Find("Test NowHp").GetComponent<Text>();
+
+        characterInfo.SetActive(false);
+        testStats.SetActive(false);
     }
 
     private void Update()
@@ -148,6 +153,20 @@ public class SelectManager : MonoBehaviour
         for (int i = 0; i < 20; i++)
         {
             BattleManager.Inst.grid[i]?.SetActive(false);
+        }
+    }
+
+    public void OnAttribute()
+    {
+        if (isAttribute)
+        {
+            testStats.SetActive(false);
+            isAttribute = false;
+        }
+        else
+        {
+            testStats.SetActive(true);
+            isAttribute = true;
         }
     }
 }

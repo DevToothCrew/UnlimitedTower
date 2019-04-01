@@ -124,7 +124,7 @@ public class BasicAttack : MonoBehaviour {
     
     IEnumerator ArrowShot(Vector3 target)
     {
-        GameObject arrow = Instantiate(BulletGroup.Inst.bullet["ArcherArrow"], transform.position + new Vector3(0, 0.4f, 0), transform.rotation);
+        GameObject arrow = Instantiate(GetComponent<Bullet>().bullet, transform.position + new Vector3(0, 0.4f, 0), transform.rotation);
         Vector3 startPos = arrow.transform.position;
         Vector3 endPos = target - (target - startPos).normalized * 0.2f;
         

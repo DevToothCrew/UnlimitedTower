@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapChange : MonoBehaviour
+public class MapChange : MonoSingleton<MapChange>
 {
     public GameObject[] MapPack;
     private Camera main_Camera;
@@ -75,7 +75,7 @@ public class MapChange : MonoBehaviour
         }
     }
 
-    private void MapEneble(int index)
+    public void MapEneble(int index)
     {
         foreach (GameObject a in MapPack)
         {
