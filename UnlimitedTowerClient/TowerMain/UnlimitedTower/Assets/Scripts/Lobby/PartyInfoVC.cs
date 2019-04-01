@@ -278,33 +278,73 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
         if (selectedMenu == menu_type.SERVANT)
         {
-            DBServantData dBServantData = CSVData.Inst.GetServantData(ServantList[selected_unit_idx].id);
-            if(dBServantData == null)
+            UserServantData servantData = ServantList[selected_unit_idx];
+            if(servantData == null)
             {
-                Debug.Log("Invalid Servant ID : " + ServantList[selected_unit_idx].id);
+                Debug.Log("Invalid Servant Inddex : " + selected_unit_idx);
             }
 
-            textLevel.text = string.Format("{0}", ServantList[selected_unit_idx].level);
+            DBServantData dBServantData = CSVData.Inst.GetServantData(servantData.id);
+            if (dBServantData == null)
+            {
+                Debug.Log("Invalid Servant ID : " + servantData.id);
+            }
+
+            textLevel.text = string.Format("{0}", servantData.level);
             textCharacterName.text = string.Format("{0}", dBServantData.name);
 
-            textStr.text = string.Format("{0}", ServantList[selected_unit_idx].status.basicStr);
-            textDex.text = string.Format("{0}", ServantList[selected_unit_idx].status.basicDex);
-            textInt.text = string.Format("{0}", ServantList[selected_unit_idx].status.basicInt);
+            textStr.text = string.Format("{0}", servantData.status.basicStr);
+            textDex.text = string.Format("{0}", servantData.status.basicDex);
+            textInt.text = string.Format("{0}", servantData.status.basicInt);
+
+            textPAtk.text = string.Format("{0}", servantData.atk);
+            textPDef.text = string.Format("{0}", servantData.def);
+
+            textMAtk.text = string.Format("{0}", servantData.mAtk);
+            textMDef.text = string.Format("{0}", servantData.mDef);
+
+            textPCri.text = string.Format("{0}", dBServantData.criDmg);
+            textPCriPer.text = string.Format("{0}", dBServantData.criPer);
+
+            textMCri.text = string.Format("{0}", dBServantData.mcriDmg);
+            textMCriPer.text = string.Format("{0}", dBServantData.mcriPer);
+
+            textSpeed.text = string.Format("{0}", dBServantData.speed);
         }
         else if (selectedMenu == menu_type.MONSTER)
         {
-            DBMonsterData dBMonsterData = CSVData.Inst.GetMonsterData(MonsterList[selected_unit_idx].id);
-            if(dBMonsterData == null)
+            UserMonsterData monsterData = MonsterList[selected_unit_idx];
+            if (monsterData == null)
             {
-                Debug.Log("Invalid Monster ID : " + MonsterList[selected_unit_idx].id);
+                Debug.Log("Invalid Monster Inddex : " + selected_unit_idx);
             }
 
-            textLevel.text = string.Format("{0}", MonsterList[selected_unit_idx].level);
+            DBMonsterData dBMonsterData = CSVData.Inst.GetMonsterData(monsterData.id);
+            if(dBMonsterData == null)
+            {
+                Debug.Log("Invalid Monster ID : " + monsterData.id);
+            }
+
+            textLevel.text = string.Format("{0}", monsterData.level);
             textCharacterName.text = string.Format("{0}", dBMonsterData.name);
 
-            textStr.text = string.Format("{0}", MonsterList[selected_unit_idx].status.basicStr);
-            textDex.text = string.Format("{0}", MonsterList[selected_unit_idx].status.basicDex);
-            textInt.text = string.Format("{0}", MonsterList[selected_unit_idx].status.basicInt);
+            textStr.text = string.Format("{0}", monsterData.status.basicStr);
+            textDex.text = string.Format("{0}", monsterData.status.basicDex);
+            textInt.text = string.Format("{0}", monsterData.status.basicInt);
+
+            textPAtk.text = string.Format("{0}", monsterData.atk);
+            textPDef.text = string.Format("{0}", monsterData.def);
+
+            textMAtk.text = string.Format("{0}", monsterData.mAtk);
+            textMDef.text = string.Format("{0}", monsterData.mDef);
+
+            textPCri.text = string.Format("{0}", dBMonsterData.criDmg);
+            textPCriPer.text = string.Format("{0}", dBMonsterData.criPer);
+
+            textMCri.text = string.Format("{0}", dBMonsterData.mcriDmg);
+            textMCriPer.text = string.Format("{0}", dBMonsterData.mcriPer);
+
+            textSpeed.text = string.Format("{0}", dBMonsterData.speed);
         }
            
     }

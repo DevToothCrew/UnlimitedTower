@@ -790,7 +790,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
             GachaManager.Instance.ResultGacha(getEquipment);
         }
-
     }
 
     // 로그아웃
@@ -816,8 +815,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 스테이지 시작
     public void ResponseStageStart(stageStateData getBattleStateData)
     {
-        //Debug.Log("스테이지 시작");
-        UserDataManager.Inst.SetStageState(getBattleStateData);
+        UserStageStateData stageData = ParseStageStateData(getBattleStateData);
+        if(stageData == null)
+        {
+            Debug.Log("Invalid StageData");
+        }
+
+        UserDataManager.Inst.SetStageState(stageData);
         StartCoroutine(LoadSceneAsync("CharacterBattleScene", "Now, Loading battle field ... "));
     }
 
@@ -1422,6 +1426,98 @@ public class PacketManager : MonoSingleton<PacketManager> {
         itemData.count = getItemData.item.count;
 
         return itemData;
+    }
+
+    public List<UserSkillInfo> ParseSkillList(List<int> getSkillList)
+    {
+        List<UserSkillInfo> skillList = new List<UserSkillInfo>();
+
+        for (int i = 0; i < getSkillList.Count; i++)
+        {
+            // TODO : 스킬 DB 읽어오기 추가
+            UserSkillInfo skillInfo = new UserSkillInfo();
+            skillInfo.id = getSkillList[i];
+        }
+        return skillList;
+    }
+
+    public UserStageStateData ParseStageStateData(stageStateData getStageData)
+    {
+        UserStageStateData stageData = new UserStageStateData();
+        stageData.user = getStageData.user;
+        stageData.enemyUser = getStageData.enemy_user;
+        stageData.stageType = getStageData.stage_type;
+        stageData.stageFloor = getStageData.stage_number;
+        stageData.turn = getStageData.turn;
+
+        for(int i = 0; i < getStageData.my_state_list.Count; i++)
+        {
+            UserCharacterStateData stateData = ParseCharacterStateData(getStageData.my_state_list[i]);
+            if(stateData == null)
+            {
+                return null;
+            }
+
+            stageData.myStateList.Add(stateData.position, stateData);
+        }
+
+        for(int i = 0; i < getStageData.enemy_state_list.Count; i++)
+        {
+            UserCharacterStateData stateData = ParseCharacterStateData(getStageData.enemy_state_list[i]);
+            if (stateData == null)
+            {
+                return null;
+            }
+
+            stageData.enemyStateList.Add(stateData.position, stateData);
+        }
+
+        return stageData;
+    }
+
+    public UserCharacterStateData ParseCharacterStateData(characterStateData getStateData)
+    {
+        UserCharacterStateData stateData = new UserCharacterStateData();
+
+        stateData.id = getStateData.id;
+        stateData.grade = getStateData.grade;
+        stateData.position = getStateData.position;
+        stateData.index = getStateData.index;
+        stateData.nowHp = getStateData.now_hp;
+        stateData.state = getStateData.state;
+        stateData.status = ParseStatus(getStateData.status);
+        stateData.buffList = getStateData.buff_list;
+
+        if (stateData.charType == CHAR_TYPE.SERVANT)
+        {
+            DBServantData servantData = CSVData.Inst.GetServantData(getStateData.id);
+            stateData.criPer = servantData.criPer;
+            stateData.mCriPer = servantData.mcriPer;
+            stateData.criDmg = servantData.criDmg;
+            stateData.mCriDmg = servantData.mcriDmg;
+            stateData.avoid = servantData.avoid;
+            stateData.speed = servantData.speed;
+            stateData.job = servantData.job;
+        }
+        else if(stateData.charType == CHAR_TYPE.MONSTER)
+        {
+            DBMonsterData monsterData = CSVData.Inst.GetMonsterData(getStateData.id);
+            stateData.criPer = monsterData.criPer;
+            stateData.mCriPer = monsterData.mcriPer;
+            stateData.criDmg = monsterData.criDmg;
+            stateData.mCriDmg = monsterData.mcriDmg;
+            stateData.avoid = monsterData.avoid;
+            stateData.speed = monsterData.speed;
+            stateData.classType = monsterData.classType;
+            stateData.elementType = monsterData.elementType;
+        }
+        else
+        {
+            Debug.Log("Invalid Data");
+            return null;
+        }
+
+        return stateData;
     }
 
     public UserPartyData ParsePartyInfo(partyData getPartyData)

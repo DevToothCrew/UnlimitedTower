@@ -56,22 +56,23 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     private void Start()
     {
-        stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
-        turnIndex = stageStateInfo.turn + 1;
-        if (stageStateInfo == null)
+        UserStageStateData stateData = UserDataManager.Inst.GetStageState();
+        if (stateData == null)
         {
             Debug.LogError("버그 : stageStateInfo is NULL");
             return;
         }
 
-        MapChange.Inst.MapEneble(stageStateInfo.stage_type);
+        turnIndex = stateData.turn + 1;
 
-        StartCoroutine(SetStartImage(stageStateInfo));
-        IsPlaceCheck(stageStateInfo);
-        SettingCharacter(stageStateInfo);
-        SettingMonster(stageStateInfo);
-        SettingScript(stageStateInfo);
-        SettingHp(stageStateInfo);
+        MapChange.Inst.MapEneble(stateData.stageType);
+
+        StartCoroutine(SetStartImage(stateData));
+        IsPlaceCheck(stateData);
+        SettingMyTeam(stateData);
+        SettingEnemyTeam(stateData);
+        SettingScript(stateData);
+        SettingHp(stateData);
         SettingPosition();
         SettingDieCheck();
     }
@@ -89,7 +90,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             Debug.LogError("버그 : stageActionInfo is Null");
             yield break;
         }
-
+        // TODO : Skill 관련 코드 정리 필요
         for (int i = 0; i < stageActionInfo.character_action_list.Count; i++)
         {
             if (NowHp[stageActionInfo.character_action_list[i].my_position] > 0)
@@ -105,7 +106,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 {
                     if (stageActionInfo.character_action_list[i].my_position < 10)
                     {
-                        SkillManager.Inst.SendMessage("Skill_" + GetMyState(stageActionInfo.character_action_list[i].my_position).active_skill_list[0].id.ToString(), stageActionInfo.character_action_list[i]);
+                        SkillManager.Inst.SendMessage("Skill_" + GetMyState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id.ToString(), stageActionInfo.character_action_list[i]);
 
                         yield return new WaitUntil(() => isAfterDelay == true);
                         isAfterDelay = false;
@@ -189,7 +190,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         if (rewardData.get_exp_list.Count != 0)
         {
-            temp += "User Name : " + rewardData.user + "\n";
+            temp += "User Name : " + UserDataManager.Inst.GetUserInfo().userName + "\n";
             temp += "Reward Money : " + rewardData.reward_money.ToString() + "\nExp";
             for (int i = 0; i < rewardData.get_exp_list.Count; i++)
                 temp += " : " + rewardData.get_exp_list[i].ToString();
@@ -230,22 +231,57 @@ public class BattleManager : MonoSingleton<BattleManager>
     }
 
     // 시작화면 파티 초상화 셋팅
-    public IEnumerator SetStartImage(stageStateData stageStateInfo)
+    public IEnumerator SetStartImage(UserStageStateData stateData)
     {
         Image[] image = new Image[20];
         GameObject temp = GameObject.Find("StartUI");
         
-        for (int i = 0; i < stageStateInfo.my_state_list.Count; i++)
+        for (int i = 0; i < 10; i++)
         {
-            if (stageStateInfo.my_state_list[i].position < 5)
-                temp.transform.GetChild(1).GetChild(positionOrder[stageStateInfo.my_state_list[i].position] + 1).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[stageStateInfo.my_state_list[i].id].servantIcon;
-            else
-                temp.transform.GetChild(1).GetChild(positionOrder[stageStateInfo.my_state_list[i].position] + 1).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[stageStateInfo.my_state_list[i].id].monsterIcon;
+            if (stateData.myStateList.ContainsKey(i) == false)
+            {
+                continue;
+            }
+
+            if (stateData.myStateList[i].charType == CHAR_TYPE.SERVANT)
+            {
+                DBServantData servantData = CSVData.Inst.DBServantDataDic[stateData.myStateList[i].id];
+                if(servantData == null)
+                {
+                    Debug.Log("Invalid Servant ID : " + stateData.myStateList[i].id);
+                    continue;
+                }
+
+                temp.transform.GetChild(1).GetChild(positionOrder[stateData.myStateList[i].position] + 1).GetComponent<Image>().sprite = servantData.servantIcon;
+            }
+            else if (stateData.myStateList[i].charType == CHAR_TYPE.MONSTER)
+            {
+                DBMonsterData monsterData = CSVData.Inst.DBMonsterDataDic[stateData.myStateList[i].id];
+                if(monsterData == null)
+                {
+                    Debug.Log("Invalid Monster ID : " + stateData.myStateList[i].id);
+                    continue;
+                }
+
+                temp.transform.GetChild(1).GetChild(positionOrder[stateData.myStateList[i].position] + 1).GetComponent<Image>().sprite = monsterData.monsterIcon;
+            }
         }
 
-        for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
+        for (int i = 10; i < 20; i++)
         {
-            temp.transform.GetChild(0).GetChild(positionOrder[stageStateInfo.enemy_state_list[i].position - 10] + 1).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[stageStateInfo.enemy_state_list[i].id].monsterIcon;
+            if (stateData.enemyStateList.ContainsKey(i) == false)
+            {
+                continue;
+            }
+
+            DBMonsterData monsterData = CSVData.Inst.DBMonsterDataDic[stateData.enemyStateList[i].id];
+            if (monsterData == null)
+            {
+                Debug.Log("Invalid Monster ID : " + stateData.myStateList[i].id);
+                continue;
+            }
+
+            temp.transform.GetChild(0).GetChild(positionOrder[stateData.enemyStateList[i].position - 10] + 1).GetComponent<Image>().sprite = monsterData.monsterIcon;
         }
 
         yield return new WaitForSeconds(3.0f);
@@ -253,16 +289,22 @@ public class BattleManager : MonoSingleton<BattleManager>
     }
 
     // 캐릭터 존재 여부 체크
-    public void IsPlaceCheck(stageStateData stageStateInfo)
+    public void IsPlaceCheck(UserStageStateData stateData)
     {
-        for (int i = 0; i < stageStateInfo.my_state_list.Count; i++)
+        for (int i = 0; i < 10; i++)
         {
-            isPlace[stageStateInfo.my_state_list[i].position] = true;
+            if(stateData.myStateList.ContainsKey(i) == true)
+            {
+                isPlace[i] = true;
+            }
         }
 
-        for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
+        for (int i = 10; i < 20; i++)
         {
-            isPlace[stageStateInfo.enemy_state_list[i].position] = true;
+            if(stateData.enemyStateList.ContainsKey(i) == true)
+            {
+                isPlace[i] = true;
+            }
         }
     }
 
@@ -286,66 +328,106 @@ public class BattleManager : MonoSingleton<BattleManager>
     }
 
     // 아군 파티 셋팅
-    public void SettingCharacter(stageStateData stageStateInfo)
+    public void SettingMyTeam(UserStageStateData stateData)
     {
-        for (int i = 0; i < stageStateInfo.my_state_list.Count; i++)
+        // TODO : i 가 Position이 아닐 확률과 myStateList에 10개가 안올 확률이 있다...
+        for (int i = 0; i < 10; i++)
         {
-            if (stageStateInfo.my_state_list[i].position < 5)
+            if(stateData.myStateList.ContainsKey(i) == false)
             {
-                UserServantData servantInfo = UserDataManager.Inst.GetServantInfo(stageStateInfo.my_state_list[i].index);
+                continue;
+            }
+
+            if (stateData.myStateList[i].charType == CHAR_TYPE.SERVANT)
+            {
+                UserServantData servantInfo = UserDataManager.Inst.GetServantInfo(stateData.myStateList[i].index);
                 if (servantInfo == null)
                 {
-                    Debug.LogError(stageStateInfo.my_state_list[i].index);
-                    Debug.LogError("버그다");
+                    // TODO : LogError를 쓰면 Web에서 멈춘다...
+                    Debug.Log("Invalid Servant Index : " + stateData.myStateList[i].index);
                     return;
                 }
 
                 DBServantData dbServantData = CSVData.Inst.GetServantData(servantInfo.id);
                 if (dbServantData == null)
                 {
-                    Debug.LogError(servantInfo.id);
-                    Debug.LogError("버그다");
+                    Debug.Log("Invalid Servant ID : " + servantInfo.id);
                     return;
                 }
 
-                character[stageStateInfo.my_state_list[i].position] = Instantiate(characterCustom.Create(
+                character[i] = Instantiate(characterCustom.Create(
                     dbServantData.job,
                     dbServantData.head,
                     dbServantData.hair,
                     dbServantData.gender,
                     dbServantData.body
                     ), CharacterParent.transform.GetChild(0));
-                character[stageStateInfo.my_state_list[i].position].name = "Servant : " + stageStateInfo.my_state_list[i].position.ToString();
-                character[stageStateInfo.my_state_list[i].position].AddComponent<CharacterIndex>().index = stageStateInfo.my_state_list[i].position;
-                SettingBoxCollider(character[stageStateInfo.my_state_list[i].position]);
-                animator[stageStateInfo.my_state_list[i].position] = character[stageStateInfo.my_state_list[i].position].GetComponent<Animator>();
+
+                character[i].name = "Servant : " + i + " - " + dbServantData.name;
+                character[i].AddComponent<CharacterIndex>().index = i;
+                SettingBoxCollider(character[i]);
+                animator[i] = character[i].GetComponent<Animator>();
+            }
+            else if(stateData.myStateList[i].charType == CHAR_TYPE.MONSTER)
+            {
+                UserMonsterData monsterInfo = UserDataManager.Inst.GetMonsterInfo(stateData.myStateList[i].index);
+                if(monsterInfo == null)
+                {
+                    Debug.Log("Invalid Monster Index : " + stateData.myStateList[i].index);
+                    return;
+                }
+
+                DBMonsterData dbMonsterData = CSVData.Inst.GetMonsterData(monsterInfo.id);
+                if (dbMonsterData == null)
+                {
+                    Debug.Log("Invalid Monster ID : " + monsterInfo.id);
+                    return;
+                }
+
+                character[i] = Instantiate(Resources.Load("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResourceModel(monsterInfo.id)) as GameObject,
+                    CharacterParent.transform.GetChild(0));
+
+                character[i].name = "Monster : " + i + " - " +  dbMonsterData.name;
+                character[i].AddComponent<CharacterIndex>().index = i;
+                SettingBoxCollider(character[i]);
+                animator[i] = character[i].GetComponent<Animator>();
             }
             else
             {
-                character[stageStateInfo.my_state_list[i].position] = Instantiate(Resources.Load("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResourceModel(stageStateInfo.my_state_list[i].id)) as GameObject,
-                    CharacterParent.transform.GetChild(0));
-                character[stageStateInfo.my_state_list[i].position].name = "Monster : " + stageStateInfo.my_state_list[i].position.ToString();
-                character[stageStateInfo.my_state_list[i].position].AddComponent<CharacterIndex>().index = stageStateInfo.my_state_list[i].position;
-                SettingBoxCollider(character[stageStateInfo.my_state_list[i].position]);
-                animator[stageStateInfo.my_state_list[i].position] = character[stageStateInfo.my_state_list[i].position].GetComponent<Animator>();
+                Debug.Log("Invalid charType : " + stateData.myStateList[i].charType.ToString());
+                return;
             }
-            SettinGrid(stageStateInfo.my_state_list[i].position);
+            SettinGrid(i);
         }
     }
 
     // 몬스터 정보 셋팅
-    public void SettingMonster(stageStateData stageStateInfo)
+    public void SettingEnemyTeam(UserStageStateData stateData)
     {
-        for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
+        for (int i = 10; i < 20; i++)
         {
-            //Debug.Log(stageStateInfo.enemy_state_list[i].id);
-            character[stageStateInfo.enemy_state_list[i].position] = Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResourceModel(stageStateInfo.enemy_state_list[i].id)),
+            if(stateData.enemyStateList.ContainsKey(i) == false)
+            {
+                continue;
+            }
+
+            int enemyID = stateData.enemyStateList[i].id;
+
+            DBMonsterData dbMonsterData = CSVData.Inst.GetMonsterData(enemyID);
+            if (dbMonsterData == null)
+            {
+                Debug.Log("Invalid Monster ID : " + enemyID);
+                return;
+            }
+
+            character[i] = Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResourceModel(enemyID)),
                     CharacterParent.transform.GetChild(1));
-            character[stageStateInfo.enemy_state_list[i].position].name = "Monster : " + stageStateInfo.enemy_state_list[i].position.ToString();
-            character[stageStateInfo.enemy_state_list[i].position].AddComponent<CharacterIndex>().index = stageStateInfo.enemy_state_list[i].position;
-            SettingBoxCollider(character[stageStateInfo.enemy_state_list[i].position]);
-            animator[stageStateInfo.enemy_state_list[i].position] = character[stageStateInfo.enemy_state_list[i].position].GetComponent<Animator>();
-            SettinGrid(stageStateInfo.enemy_state_list[i].position);
+
+            character[i].name = "Monster : " + i + " - " + dbMonsterData.name;
+            character[i].AddComponent<CharacterIndex>().index = i;
+            SettingBoxCollider(character[i]);
+            animator[i] = character[i].GetComponent<Animator>();
+            SettinGrid(i);
         }
     }
 
@@ -372,36 +454,57 @@ public class BattleManager : MonoSingleton<BattleManager>
     }
 
     // 모든 캐릭터 스크립트 생성 
-    public void SettingScript(stageStateData stageStateInfo)
+    public void SettingScript(UserStageStateData stateData)
     {
-        for (int i = 0; i < stageStateInfo.my_state_list.Count; i++)
+        for (int i = 0; i < 10; i++)
         {
-            character[stageStateInfo.my_state_list[i].position].AddComponent<BasicAttack>();
-            charInfo[stageStateInfo.my_state_list[i].position] = character[stageStateInfo.my_state_list[i].position].GetComponent<CharInfo>();
+            if(stateData.myStateList.ContainsKey(i) == false)
+            {
+                continue;
+            }
+
+            character[i].AddComponent<BasicAttack>();
+            charInfo[i] = character[i].GetComponent<CharInfo>();
         }
 
-        for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
+        for (int i = 10; i < 20; i++)
         {
-            character[stageStateInfo.enemy_state_list[i].position].AddComponent<BasicAttack>();
-            charInfo[stageStateInfo.enemy_state_list[i].position] = character[stageStateInfo.enemy_state_list[i].position].GetComponent<CharInfo>();
+            if(stateData.enemyStateList.ContainsKey(i) == false)
+            {
+                continue;
+            }
+
+            character[i].AddComponent<BasicAttack>();
+            charInfo[i] = character[i].GetComponent<CharInfo>();
         }
     }
 
     // 캐릭터별 체력 설정
-    public void SettingHp(stageStateData stageStateInfo)
+    public void SettingHp(UserStageStateData stateData)
     {
-        for (int i = 0; i < stageStateInfo.my_state_list.Count; i++)
+        for (int i = 0; i < 10; i++)
         {
-            MaxHp[stageStateInfo.my_state_list[i].position] = Calculator.GetMaxHp(stageStateInfo.my_state_list[i].status);
-            NowHp[stageStateInfo.my_state_list[i].position] = stageStateInfo.my_state_list[i].now_hp;
-            NowAtk[stageStateInfo.my_state_list[i].position] = Calculator.GetAttack(stageStateInfo.my_state_list[i].status);
+            if(stateData.myStateList.ContainsKey(i) == false)
+            {
+                continue;
+            }
+
+            MaxHp[i] = stateData.myStateList[i].maxHP;
+            NowHp[i] = stateData.myStateList[i].nowHp;
+            NowAtk[i] = stateData.myStateList[i].atk;
+            // TODO : 추후 MATK 등등 여기서 추가
         }
 
-        for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
+        for (int i = 10; i < 20; i++)
         {
-            MaxHp[stageStateInfo.enemy_state_list[i].position] = Calculator.GetMaxHp(stageStateInfo.enemy_state_list[i].status);
-            NowHp[stageStateInfo.enemy_state_list[i].position] = stageStateInfo.enemy_state_list[i].now_hp;
-            NowAtk[stageStateInfo.enemy_state_list[i].position] = Calculator.GetAttack(stageStateInfo.enemy_state_list[i].status);
+            if(stateData.enemyStateList.ContainsKey(i) == false)
+            {
+                continue;
+            }
+
+            MaxHp[i] = stateData.enemyStateList[i].maxHP;
+            NowHp[i] = stateData.enemyStateList[i].nowHp;
+            NowAtk[i] = stateData.enemyStateList[i].atk;
         }
     }
 
@@ -421,45 +524,39 @@ public class BattleManager : MonoSingleton<BattleManager>
         }
     }
 
-    public characterStateData GetEnemyState(int position)
+    public UserCharacterStateData GetEnemyState(int position)
     {
-        stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
-        if (stageStateInfo == null)
+        UserStageStateData stateData = UserDataManager.Inst.GetStageState();
+        if (stateData == null)
         {
-            Debug.LogError("버그 : stageStateInfo is NULL");
+            Debug.LogError("버그 : stateData is NULL");
             return null;
         }
 
-        for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
+        if(stateData.enemyStateList[position] == null)
         {
-            if (stageStateInfo.enemy_state_list[i].position == position)
-            {
-                return stageStateInfo.enemy_state_list[i];
-            }
+            Debug.LogError(position + "th Monster is Null");
+            return null;
         }
 
-        Debug.LogError(position + "th Monster is Null");
-        return null;
+        return stateData.enemyStateList[position];
     }
 
-    public characterStateData GetMyState(int position)
+    public UserCharacterStateData GetMyState(int position)
     {
-        stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
-        if (stageStateInfo == null)
+        UserStageStateData stateData = UserDataManager.Inst.GetStageState();
+        if (stateData == null)
         {
-            Debug.LogError("버그 : stageStateInfo is NULL");
+            Debug.LogError("버그 : stateData is NULL");
             return null;
         }
 
-        for (int i = 0; i < stageStateInfo.my_state_list.Count; i++)
+        if (stateData.myStateList[position] == null)
         {
-            if (stageStateInfo.my_state_list[i].position == position)
-            {
-                return stageStateInfo.my_state_list[i];
-            }
+            Debug.LogError(position + "th Servant is Null");
+            return null;
         }
 
-        Debug.LogError(position + "th Servant is Null");
-        return null;
+        return stateData.myStateList[position];
     }
 }

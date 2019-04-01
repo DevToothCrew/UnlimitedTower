@@ -58,6 +58,12 @@ public class UserServantData
             return CSVData.Inst.GetLevelForExp(exp);
         }
     }
+
+    public int maxHP { get { return Calculator.GetMaxHp(status); } }
+    public int atk { get { return Calculator.GetAttack(status); } }
+    public int mAtk { get { return Calculator.GetMagicAttack(status); } }
+    public int def { get { return Calculator.GetDefence(status); } }
+    public int mDef { get { return Calculator.GetMagicDefence(status); } }
 }
 
 [Serializable]
@@ -72,6 +78,8 @@ public class UserMonsterData
     public int partyIndex;
     public bool isPlaced;
 
+    public Status status = new Status();
+
     public int exp;
     public int level
     {
@@ -81,7 +89,11 @@ public class UserMonsterData
         }
     }
 
-    public Status status = new Status();
+    public int maxHP { get { return Calculator.GetMaxHp(status); } }
+    public int atk { get { return Calculator.GetAttack(status); } }
+    public int mAtk { get { return Calculator.GetMagicAttack(status); } }
+    public int def { get { return Calculator.GetDefence(status); } }
+    public int mDef { get { return Calculator.GetMagicDefence(status); } }
 }
 
 [Serializable]
@@ -130,9 +142,6 @@ public class UserFormationData
     }
 }
 
-
-
-
 [Serializable]
 public class UserItemData
 {
@@ -159,37 +168,80 @@ public class PartyCharacterInfo
     public int index;
 }
 
-// 배틀시 각 캐릭터 정보
 [Serializable]
-public class CharacterBattleStatus
+public class UserStageStateData
 {
-    public int partyIndex;
-    public int index;
+    public string user;
+    public string enemyUser;
 
-    public int maxHp;
+    public int stageType;
+    public int stageFloor;
+
+    public int turn;
+
+    public Dictionary<int, UserCharacterStateData> myStateList = new Dictionary<int, UserCharacterStateData>(); // stateData.position, stateData
+    public Dictionary<int, UserCharacterStateData> enemyStateList = new Dictionary<int, UserCharacterStateData>(); // stateData.position, stateData
+}
+
+[Serializable]
+public class UserCharacterStateData
+{
+    public int grade;
+    public int id;
+    public int position;
+    public CHAR_TYPE charType
+    {
+        get
+        {
+            if(position <= DEFINE.ServantMaxFormationNum)
+            {
+                return CHAR_TYPE.SERVANT;
+            }
+            else
+            {
+                return CHAR_TYPE.MONSTER;
+            }
+        }
+    }
+    public int index;
     public int nowHp;
 
-    public int damage;
-    public int defense;
+    public int maxHP { get { return Calculator.GetMaxHp(status); } }
+    public int atk { get { return Calculator.GetAttack(status); } }
+    public int mAtk { get { return Calculator.GetMagicAttack(status); } }
+    public int def { get { return Calculator.GetDefence(status); } }
+    public int mDef { get { return Calculator.GetMagicDefence(status); } }
 
+    public int criPer;
+    public int mCriPer;
+    public int criDmg;
+    public int mCriDmg;
     public int avoid;
     public int speed;
 
-    // 공격 타겟의 파티 인덱스
-    public int targetIndex;
+    // Servant 전용
+    public int job;
+    // Monster 전용
+    public int classType;
+    public int elementType;
 
-    // 살아있는가
-    public bool lived;
+    public int state;       //0 살있음, 1 죽어있음 
+    public List<buffInfo> buffList = new List<buffInfo>();
+    public List<UserSkillInfo> passiveSkillList = new List<UserSkillInfo>();
+    public List<UserSkillInfo> activeSkillList = new List<UserSkillInfo>();
 
-    // 캐릭터 상태
-    public STATE_TYPE stateType;
+    public Status status = new Status();
+}
 
-    // 캐릭터 크기
-    public SIZE_TYPE sizeType;
-
-    public string name;
-
-    public int level;
+[Serializable]
+public class UserSkillInfo
+{
+    public int id;
+    public int per;
+    public int attack_type;
+    public int dmg_type;
+    public int target;
+    public int target_count;
 }
 
 [Serializable]

@@ -95,27 +95,60 @@ public class Cheat : MonoSingleton<Cheat>
 
     public string GetBattleActionData(string user, int getTurn)
     {
-        stageStateData stageStateInfo = UserDataManager.Inst.GetStageState();
+        UserStageStateData stateData = UserDataManager.Inst.GetStageState();
 
         battleActionData battleactiondata = new battleActionData();
         battleactiondata.user = user;
         battleactiondata.turn = getTurn;
 
-        for (int i = 0; i < stageStateInfo.my_state_list.Count; ++i)
+        for (int i = 0; i < 10; ++i)
         {
-            if (BattleManager.Inst.NowHp[i] == 0)
+            if (stateData.myStateList[i] == null)
             {
                 continue;
             }
-            if(stageStateInfo.my_state_list[i].position < 5)
+
+            if(stateData.myStateList[i].nowHp == 0)
+            {
+                continue;
+            }
+
+            if(stateData.myStateList[i].charType == CHAR_TYPE.SERVANT)
             {
                 characterActionData actioninfo = new characterActionData();
-                actioninfo.my_position = stageStateInfo.my_state_list[i].position;
+                actioninfo.my_position = i;
                 actioninfo.action_type = 3;
 
-                if (stageStateInfo.my_state_list[i].active_skill_list[0].id == 200001)
+                // TODO : Skill 관련 코드 정리 필요
+                if (stateData.myStateList[i].activeSkillList.Count <= 0)
                 {
-                    for (int target = 0; target < 2; ++target)
+                    // TODO : 세팅값만 있어야하는지
+                    Debug.Log("Invalid ActiveSkill List");
+                    actionInfo action = new actionInfo();
+                    action.target_position = UnityEngine.Random.Range(10, 20);
+                    action.avoid = false;
+                    action.critical = UnityEngine.Random.Range(0, 10) == 1 ? true : false;
+                    action.damage = rand.Next(200, 500);
+                    actioninfo.action_info_list.Add(action);
+                }
+                else
+                {
+                    if (stateData.myStateList[i].activeSkillList[0].id == 200001)
+                    {
+                        for (int target = 0; target < 2; ++target)
+                        {
+                            actionInfo action = new actionInfo();
+                            do
+                            {
+                                action.target_position = UnityEngine.Random.Range(10, 20);
+                            } while (BattleManager.Inst.NowHp[action.target_position] == 0);
+                            action.avoid = false;
+                            action.critical = false;
+                            action.damage = rand.Next(200, 500);
+                            actioninfo.action_info_list.Add(action);
+                        }
+                    }
+                    else if (stateData.myStateList[i].activeSkillList[0].id == 200002)
                     {
                         actionInfo action = new actionInfo();
                         do
@@ -123,23 +156,12 @@ public class Cheat : MonoSingleton<Cheat>
                             action.target_position = UnityEngine.Random.Range(10, 20);
                         } while (BattleManager.Inst.NowHp[action.target_position] == 0);
                         action.avoid = false;
-                        action.critical = false;
+                        action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
                         action.damage = rand.Next(200, 500);
                         actioninfo.action_info_list.Add(action);
                     }
                 }
-                else if (stageStateInfo.my_state_list[i].active_skill_list[0].id == 200002)
-                {
-                    actionInfo action = new actionInfo();
-                    do
-                    {
-                        action.target_position = UnityEngine.Random.Range(10, 20);
-                    } while (BattleManager.Inst.NowHp[action.target_position] == 0);
-                    action.avoid = false;
-                    action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
-                    action.damage = rand.Next(200, 500);
-                    actioninfo.action_info_list.Add(action);
-                }
+
                 battleactiondata.character_action_list.Add(actioninfo);
             }
             else
@@ -158,7 +180,7 @@ public class Cheat : MonoSingleton<Cheat>
                 action.damage = rand.Next(200, 500);
 
                 characterActionData actioninfo = new characterActionData();
-                actioninfo.my_position = stageStateInfo.my_state_list[i].position;
+                actioninfo.my_position = stateData.myStateList[i].position;
                 actioninfo.action_type = 2;
                 actioninfo.action_info_list.Add(action);
 
@@ -230,36 +252,23 @@ public class Cheat : MonoSingleton<Cheat>
                     return null;
                 }
 
-                DBServantData dbServantData = CSVData.Inst.GetServantData(servantData.id);
-                if(dbServantData == null)
-                {
-                    Debug.Log("Invalid Servant ID : " + servantData.id);
-                    return null;
-                }
-
                 newMember.position = i;
                 newMember.index = servantData.index;
                 newMember.id = servantData.id;
 
-                skillInfo skill = new skillInfo();
+                int skill = 0;
                 if (i < 2)
-                    skill.id = 200001;
+                    skill = 200001;
                 else
-                    skill.id = 200002;
+                    skill = 200002;
 
-                newMember.active_skill_list = new List<skillInfo>();
+                newMember.active_skill_list = new List<int>();
                 newMember.active_skill_list.Add(skill);
 
-                newMember.status = new statusInfo();
                 newMember.status.basic_str = servantData.status.basicStr;
                 newMember.status.basic_dex = servantData.status.basicDex;
                 newMember.status.basic_int = servantData.status.basicInt;
-                newMember.now_hp = Calculator.GetMaxHp(newMember.status);
-                newMember.physical_attack = Calculator.GetAttack(newMember.status);
-                newMember.physical_defense = Calculator.GetDefence(newMember.status);
-                newMember.magic_attack = Calculator.GetMagicAttack(newMember.status);
-                newMember.magic_defense = Calculator.GetMagicDefence(newMember.status);
-                newMember.speed = dbServantData.speed;
+                newMember.now_hp = Calculator.GetMaxHp(servantData.status);
             }
             else
             {
@@ -269,36 +278,15 @@ public class Cheat : MonoSingleton<Cheat>
                     return null;
                 }
 
-                DBMonsterData dbMonsterData = CSVData.Inst.GetMonsterData(monsterData.id);
-                if (dbMonsterData == null)
-                {
-                    return null;
-                }
-
                 newMember.position = i;
                 newMember.index = monsterData.index;
                 newMember.id = monsterData.id;
 
-                newMember.status = new statusInfo();
                 newMember.status.basic_str = monsterData.status.basicStr;
                 newMember.status.basic_dex = monsterData.status.basicDex;
                 newMember.status.basic_int = monsterData.status.basicInt;
-                newMember.now_hp = Calculator.GetMaxHp(newMember.status);
-                newMember.physical_attack = Calculator.GetAttack(newMember.status);
-                newMember.physical_defense = Calculator.GetDefence(newMember.status);
-                newMember.magic_attack = Calculator.GetMagicAttack(newMember.status);
-                newMember.magic_defense = Calculator.GetMagicDefence(newMember.status);
-                newMember.speed = dbMonsterData.speed;
+                newMember.now_hp = Calculator.GetMaxHp(monsterData.status);
             }
-
-            newMember.physical_crit_dmg = 1;
-            newMember.magic_crit_dmg = 1;
-
-            newMember.physical_crit_per = 5;
-            newMember.magic_crit_per = 5;
-
-            newMember.avoid = 5;
-            newMember.state = 0;
 
             battlestatedata.my_state_list.Add(newMember);
         }
@@ -315,6 +303,7 @@ public class Cheat : MonoSingleton<Cheat>
             newMember.position = stageData.enemyPositionList[i];
             newMember.index = 0;
             newMember.id = stageData.enemyIdList[i];
+
             DBStageEnemyData enemyData = CSVData.Inst.GetStageEnemyData(newMember.id);
             if(enemyData == null)
             {
@@ -326,20 +315,7 @@ public class Cheat : MonoSingleton<Cheat>
             newMember.status.basic_str = enemyData.status.basicStr;
             newMember.status.basic_dex = enemyData.status.basicDex;
             newMember.status.basic_int = enemyData.status.basicInt;
-
-            newMember.now_hp = Calculator.GetMaxHp(newMember.status);
-            newMember.physical_attack = Calculator.GetAttack(newMember.status);
-            newMember.physical_defense = Calculator.GetDefence(newMember.status);
-            newMember.physical_crit_dmg = enemyData.criDmg;
-            newMember.magic_attack = Calculator.GetMagicAttack(newMember.status);
-            newMember.magic_defense = Calculator.GetMagicDefence(newMember.status);
-            newMember.magic_crit_dmg = enemyData.mcriDmg;
-            newMember.physical_crit_per = enemyData.criPer;
-            newMember.magic_crit_per = enemyData.mcriPer;
-            newMember.avoid = enemyData.avoid;
-            newMember.state = 0;
-            newMember.speed = enemyData.speed;
-
+            newMember.now_hp = Calculator.GetMaxHp(enemyData.status);
 
             battlestatedata.enemy_state_list.Add(newMember);
         }
@@ -618,7 +594,6 @@ public class Cheat : MonoSingleton<Cheat>
     public string GetStageResultData()
     {
         stageRewardData rewardData = new stageRewardData();
-        rewardData.user = "devtooth";
         rewardData.reward_money = 100000;
 
         for (int i = 0; i < 10; ++i)

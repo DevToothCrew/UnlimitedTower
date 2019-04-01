@@ -21,7 +21,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     // 현재 파티는 1개, 파티 안에 Formation Info 포함
     public UserPartyData partyInfo = new UserPartyData();
 
-    public stageStateData stageState =  new stageStateData();
+    public UserStageStateData stageState =  new UserStageStateData();
     public battleActionData stageActionInfo = new battleActionData();
     public stageRewardData stageReward = new stageRewardData();
 
@@ -135,7 +135,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         userMainCharInfo = charInfo;
     }
 
-    public void SetStageState(stageStateData getStageStateData)
+    public void SetStageState(UserStageStateData getStageStateData)
     {
         stageState = getStageStateData;
     }
@@ -453,7 +453,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return itemDic.Values.ToList();
     }
 
-    public stageStateData GetStageState()
+    public UserStageStateData GetStageState()
     {
         if (stageState == null)
         {

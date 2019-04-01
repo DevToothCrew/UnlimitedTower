@@ -76,7 +76,7 @@ public class SelectManager : MonoBehaviour
 
                     selectIndex = hit.transform.GetComponent<CharacterIndex>().index;
 
-                    characterStateData selectStateInfo;
+                    UserCharacterStateData selectStateInfo;
 
                     if (selectIndex < 10)
                     {
@@ -93,13 +93,13 @@ public class SelectManager : MonoBehaviour
                     if (selectIndex < 5)
                     {
                         selectCharImg.sprite = CSVData.Inst.DBServantDataDic[selectStateInfo.id].servantIcon;
-                        levelText.text = UserDataManager.Inst.GetServantInfo(UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).level.ToString();
+                        levelText.text = UserDataManager.Inst.GetServantInfo(UserDataManager.Inst.GetStageState().myStateList[selectIndex].index).level.ToString();
                     }
                     else if (selectIndex < 10)
                     {
                         selectCharImg.sprite = CSVData.Inst.DBMonsterDataDic[selectStateInfo.id].monsterIcon;
                         nemeText.text = CSVData.Inst.GetMonsterName(selectStateInfo.id);
-                        levelText.text = UserDataManager.Inst.GetMonsterInfo(UserDataManager.Inst.GetStageState().my_state_list[selectIndex].index).level.ToString();
+                        levelText.text = UserDataManager.Inst.GetMonsterInfo(UserDataManager.Inst.GetStageState().myStateList[selectIndex].index).level.ToString();
                     }
                     else
                     {
@@ -110,10 +110,10 @@ public class SelectManager : MonoBehaviour
 
                     testMaxHp.text = BattleManager.Inst.MaxHp[selectIndex].ToString();
                     testNowHp.text = BattleManager.Inst.NowHp[selectIndex].ToString();
-                    testAd.text = (selectStateInfo.physical_attack).ToString();
-                    testAp.text = (selectStateInfo.magic_attack).ToString();
-                    testDd.text = (selectStateInfo.physical_defense).ToString();
-                    testDp.text = (selectStateInfo.magic_defense).ToString();
+                    testAd.text = (selectStateInfo.atk).ToString();
+                    testAp.text = (selectStateInfo.mAtk).ToString();
+                    testDd.text = (selectStateInfo.def).ToString();
+                    testDp.text = (selectStateInfo.mDef).ToString();
                     testSp.text = selectStateInfo.speed.ToString();
                 }
                 else

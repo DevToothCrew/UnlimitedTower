@@ -4,7 +4,7 @@ using System.Collections.Generic;
 #region Info
 
 [Serializable]
-public class cpuLimit
+public class resourceLimit
 {
     public UInt64 used;
     public UInt64 available;
@@ -248,17 +248,6 @@ public class battleActionData
 }
 
 [Serializable]
-public class skillInfo
-{
-    public int id;
-    public int per;
-    public int attack_type;
-    public int dmg_type;
-    public int target;
-    public int target_count;
-}
-
-[Serializable]
 public class buffInfo
 {
     public int id;      //1 defense
@@ -268,28 +257,16 @@ public class buffInfo
 [Serializable]
 public class characterStateData
 {
-    // Grade 추가 후 Grade에 따른 가중치 Calculator에 수정 예졍
     public int grade;
+    public int id;
     public int position;
     public int index;
-    public int id;
     public int now_hp;
-    public int physical_attack;
-    public int magic_attack;
-    public int physical_defense;
-    public int magic_defense;
-    public int physical_crit_per;
-    public int magic_crit_per;
-    public int physical_crit_dmg;
-    public int magic_crit_dmg;
-    public int avoid;
+
     public int state;       //0 살있음, 1 죽어있음 
-    public int speed;
-    public int type;
-    public int job_class;
     public List<buffInfo> buff_list = new List<buffInfo>();
-    public List<skillInfo> passive_skill_list = new List<skillInfo>();
-    public List<skillInfo> active_skill_list = new List<skillInfo>();
+    public List<int> passive_skill_list = new List<int>();
+    public List<int> active_skill_list = new List<int>();
     public statusInfo status = new statusInfo();
 }
 
@@ -305,17 +282,11 @@ public class stageStateData
     public List<characterStateData> enemy_state_list = new List<characterStateData>();
 }
 
-
-
 [Serializable]
 public class stageRewardData
 {
-    // RewardData에 User가 왜들어가지?
-    public string user;
-    // Money는 ItemInfo로 통합?
-    public UInt64 reward_money;
+    public ulong reward_money;
     public List<int> get_exp_list = new List<int>();
-    // Reward에 Info로 들어가는게 맞는가? Data로 들어가야 하는게 아닌가? 인덱스를 모를텐데?
     public List<servantData> get_servant_list = new List<servantData>();
     public List<monsterData> get_monster_list = new List<monsterData>();
     public List<equipmentData> get_equipment_list = new List<equipmentData>();
@@ -345,8 +316,8 @@ public class userResourceData
     public UInt64 ram_quota;        //총 램
     public UInt64 net_weight;       
     public UInt64 cpu_weight;
-    public cpuLimit net_limit = new cpuLimit();      //넷밴드위스 사용 정보
-    public cpuLimit cpu_limit = new cpuLimit();      //시피유 사용 정보
+    public resourceLimit net_limit = new resourceLimit();      //넷밴드위스 사용 정보
+    public resourceLimit cpu_limit = new resourceLimit();      //시피유 사용 정보
     public UInt64 ram_usage;        //사용중 램 용량
 };
 
