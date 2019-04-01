@@ -16,6 +16,21 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         myTrun.SetActive(false);
     }
 
+    public void TimeScaleX2()
+    {
+        int Speed = 2;
+        if (BattleManager.Inst.TimeScale != Speed)
+        {
+            BattleManager.Inst.TimeScale = Speed;
+            Time.timeScale = Speed;
+        }
+        else
+        {
+            BattleManager.Inst.TimeScale = 1;
+            Time.timeScale = 1;
+        }
+    }
+
     public void TimeScaleX10()
     {
         int Speed = 10;
@@ -30,7 +45,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
             Time.timeScale = 1;
         }
     }
-
+    
     public void MyTurn()
     {
         StartCoroutine(MyTurnCo());
@@ -55,16 +70,11 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
 
     public void BattleStartOut()
     {
-        SceneManager.LoadScene("Lobby");
+        PacketManager.Inst.ResponseStageExit();
     }
 
     public void BattleOut()
     {
-#if UNITY_EDITOR
-        Cheat.Inst.RequestStageExitCheat();
-#else
-        PacketManager.Inst.RequestStageExit();
-
-#endif
+        PacketManager.Inst.ResponseStageExit();
     }
 }

@@ -17,8 +17,10 @@ public class BattleManager : MonoSingleton<BattleManager>
     public int TimeScale = 1;
     public TumbAnimation tumbAnimation;
 
+    private bool isAuto;
+    private bool isTurnEnd;
+    private bool isBattleStart;
     private int turnIndex = 1;
-    private bool isSpaceCheck;
     private GameObject CharacterParent;
     private SkillManager skillManager;
     private CharacterCustom characterCustom;
@@ -30,9 +32,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     private GameObject testDefeat;
     private Text ErrorText;
     private GameObject ErrorBox;
-
-    [HideInInspector]
-    public bool isBattleStart;
+    
     [HideInInspector]
     public readonly int[] positionOrder = { 2, 1, 3, 0, 4, 7, 6, 8, 5, 9 };
 
@@ -64,9 +64,10 @@ public class BattleManager : MonoSingleton<BattleManager>
             return;
         }
 
-        //SetStartImage(stageStateInfo);
+        MapChange.Inst.MapEneble(stageStateInfo.stage_type);
+
+        StartCoroutine(SetStartImage(stageStateInfo));
         IsPlaceCheck(stageStateInfo);
-        // SettingHero();
         SettingCharacter(stageStateInfo);
         SettingMonster(stageStateInfo);
         SettingScript(stageStateInfo);
@@ -74,39 +75,13 @@ public class BattleManager : MonoSingleton<BattleManager>
         SettingPosition();
         SettingDieCheck();
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            // if (isSpaceCheck == false)
-            // {
-            //     // TestBattleTarget();
-            //     isSpaceCheck = true;
-            // }
-            BattleUIManager.Inst.OnDelay();
-
-            #if UNITY_EDITOR
-            {
-                string battleActionInfo = Cheat.Inst.GetBattleActionData("devtooth", turnIndex);
-                Debug.Log("[SUCCESS] user battleaction :" + battleActionInfo);
-
-                PacketManager.Inst.ResponseBattleAction(JsonUtility.FromJson<battleActionData>(battleActionInfo));
-            }
-            #else
-            {
-                PacketManager.Inst.RequestBattleAction(turnIndex);
-            }
-            #endif
-
-        }
-    }
-
+    
     // 배틀데이터를 받아와 공격 ( 메인 배틀 한턴 )
     public IEnumerator BattleStart()
     {
         BattleUIManager.Inst.OffDelay();
-        isSpaceCheck = false;
+        isTurnEnd = false;
+        isBattleStart = true;
 
         battleActionData stageActionInfo = UserDataManager.Inst.GetStageAction();
         if (stageActionInfo == null)
@@ -139,8 +114,9 @@ public class BattleManager : MonoSingleton<BattleManager>
             }
         }
 
+        isBattleStart = false;
+
         turnIndex++;
-        isSpaceCheck = false;
         BattleUIManager.Inst.MyTurn();
 
         int myHp = 0, enemyHp = 0;
@@ -160,6 +136,42 @@ public class BattleManager : MonoSingleton<BattleManager>
 #else
 
             PacketManager.Inst.RequestStageReward();
+#endif
+        }
+        else if (isAuto)
+        {
+            yield return new WaitForSeconds(2.0f);
+            TurnEnd();
+        }
+    }
+
+    public void Auto()
+    {
+        isAuto = !isAuto;
+        if (isAuto)
+        {
+            TurnEnd();
+        }
+    }
+
+    public void TurnEnd()
+    {
+        if (isTurnEnd == false && isBattleStart == false)
+        {
+            isTurnEnd = true;
+            BattleUIManager.Inst.OnDelay();
+
+#if UNITY_EDITOR
+            {
+                string battleActionInfo = Cheat.Inst.GetBattleActionData("devtooth", turnIndex);
+                Debug.Log("[SUCCESS] user battleaction :" + battleActionInfo);
+
+                PacketManager.Inst.ResponseBattleAction(JsonUtility.FromJson<battleActionData>(battleActionInfo));
+            }
+#else
+            {
+                PacketManager.Inst.RequestBattleAction(turnIndex);
+            }
 #endif
         }
     }
@@ -215,30 +227,29 @@ public class BattleManager : MonoSingleton<BattleManager>
         battleActionInfo.my_position = 0;
 
         SkillManager.Inst.Skill_200007(battleActionInfo);
-
-        isSpaceCheck = false;
     }
 
     // 시작화면 파티 초상화 셋팅
-    public void SetStartImage(stageStateData stageStateInfo)
+    public IEnumerator SetStartImage(stageStateData stageStateInfo)
     {
         Image[] image = new Image[20];
         GameObject temp = GameObject.Find("StartUI");
         
         for (int i = 0; i < stageStateInfo.my_state_list.Count; i++)
         {
-            Debug.Log(stageStateInfo.my_state_list[i].id);
             if (stageStateInfo.my_state_list[i].position < 5)
-                temp.transform.GetChild(0).GetChild(positionOrder[stageStateInfo.my_state_list[i].position]).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[stageStateInfo.my_state_list[i].id].servantIcon;
+                temp.transform.GetChild(1).GetChild(positionOrder[stageStateInfo.my_state_list[i].position] + 1).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[stageStateInfo.my_state_list[i].id].servantIcon;
             else
-                temp.transform.GetChild(0).GetChild(positionOrder[stageStateInfo.my_state_list[i].position]).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[stageStateInfo.my_state_list[i].id].monsterIcon;
+                temp.transform.GetChild(1).GetChild(positionOrder[stageStateInfo.my_state_list[i].position] + 1).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[stageStateInfo.my_state_list[i].id].monsterIcon;
         }
 
         for (int i = 0; i < stageStateInfo.enemy_state_list.Count; i++)
         {
-            Debug.Log(stageStateInfo.enemy_state_list[i].id);
-            temp.transform.GetChild(1).GetChild(positionOrder[stageStateInfo.enemy_state_list[i].position - 10]).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[stageStateInfo.enemy_state_list[i].id].monsterIcon;
+            temp.transform.GetChild(0).GetChild(positionOrder[stageStateInfo.enemy_state_list[i].position - 10] + 1).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[stageStateInfo.enemy_state_list[i].id].monsterIcon;
         }
+
+        yield return new WaitForSeconds(3.0f);
+        temp.SetActive(false);
     }
 
     // 캐릭터 존재 여부 체크
@@ -259,8 +270,8 @@ public class BattleManager : MonoSingleton<BattleManager>
     public void SettingBoxCollider(GameObject character)
     {
         BoxCollider box = character.AddComponent<BoxCollider>();
-        box.size = new Vector3(0.8f, 0.8f, 0.8f) * (1 / character.transform.localScale.x);
-        box.center = new Vector3(0.0f, 0.4f, 0.0f) * (1 / character.transform.localScale.x);
+        box.size = new Vector3(0.8f, 0.6f, 0.8f) * (1 / character.transform.localScale.x);
+        box.center = new Vector3(0.0f, 0.3f, 0.0f) * (1 / character.transform.localScale.x);
         box.isTrigger = true;
         character.tag = "Character";
     }
