@@ -665,10 +665,13 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
     public bool UseEOS(ulong EOSCount)
     {
-        if (userInfo.userEOS >= EOSCount)
+        if (userInfo.userEOS < EOSCount)
         {
-            userInfo.userEOS -= EOSCount;
+            return false;            
         }
+
+        userInfo.userEOS -= EOSCount;
+        LobbyTopInfo.Inst.UpdateTopInfo();
 
         return true;
     }

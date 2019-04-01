@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class LobbyTopInfo : MonoBehaviour {
+public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
 
     public Text accountName;
     public Text EOSCount;
@@ -13,7 +13,7 @@ public class LobbyTopInfo : MonoBehaviour {
     {
         if (UserDataManager.Inst.GetUserInfo() != null)
         {
-            SetTopInfo(UserDataManager.Inst.GetUserInfo());
+            UpdateTopInfo();
         }
         if(UserDataManager.Inst.GetMainCharInfo() != null)
         {
@@ -22,16 +22,22 @@ public class LobbyTopInfo : MonoBehaviour {
         }
     }
 
-    public void SetTopInfo(UserInfo userInfo)
+    public void OnClickAccountButton()
     {
+        CSVData.Inst.InitCSVData();
+    }
+
+    public void UpdateTopInfo()
+    {
+        UserInfo userInfo = UserDataManager.Inst.GetUserInfo();
+        if (userInfo == null)
+        {
+            return;
+        }
+
         accountName.text = "LV." + userInfo.level + " " + userInfo.userName;
 
         EOSCount.text = (userInfo.userEOS * 0.0001).ToString("N4");
         UTGCount.text = (userInfo.userUTG * 0.0001).ToString("N4");
-    }
-
-    public void OnClickAccountButton()
-    {
-        CSVData.Inst.InitCSVData();
     }
 }
