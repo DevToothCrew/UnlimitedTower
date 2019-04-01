@@ -958,14 +958,7 @@ CONTRACT battletest : public contract
         on_inventory = 1,
         on_equip_slot,
         on_mail,
-    };
-    enum tutorial_state
-    {
-        start_tutorial =1,
-        servant_tutorial,
-        monster_tutorial,
-        party_tutorial,
-        battle_tutorial,
+        on_tokenization,
     };
 #pragma endregion
 
@@ -1001,7 +994,7 @@ CONTRACT battletest : public contract
         name from;
         std::string action;
         std::string param;
-        uint32_t type;
+        uint64_t type;
         name to;
         asset quantity;
     };
@@ -1559,74 +1552,9 @@ CONTRACT battletest : public contract
 
 
 
-// ////복사용 테이블
-
-//     struct skill_object
-//     {
-//         uint64_t passive_skill_1 = 0;
-//         uint64_t active_skill_2 = 0;
-//         uint64_t active_skill_3 = 0;
-//     };
-
-//     TABLE monsterdb
-//     {
-//         uint64_t gacha_id;
-//         uint64_t monster_id;
-//         uint64_t gacha_type; //일반, 이벤트 구분
-//         uint64_t tribe;      //종족
-//         uint64_t type;       //수풍지화 암명
-//         uint64_t monster_class; //몬스터 타입 클래스
-//         std::vector<skill_object> skills;
-//         uint64_t primary_key() const { return monster_id; }
-//         uint64_t secondary_key() const { return gacha_id; }
-//     };
-//     typedef eosio::multi_index<"dbmonster"_n, monsterdb, indexed_by<"second"_n, const_mem_fun<monsterdb, uint64_t, &monsterdb::secondary_key>>> mon_db;
-
-// #pragma endregion
-
-// #pragma region db dbitemcommon
-//     TABLE commonitemdb
-//     {
-//         uint64_t gacha_id;
-//         uint64_t item_id;
-//         uint32_t type;
-//         uint32_t param_1;
-//         uint32_t param_2;
-//         uint32_t param_3;
-//         uint64_t sell_id;
-//         uint64_t sell_cost;
-//         uint64_t primary_key() const { return item_id; }
-//         uint64_t secondary_key() const { return gacha_id; }
-//     };
-//     typedef eosio::multi_index<"dbcommonitem"_n, commonitemdb, indexed_by<"second"_n, const_mem_fun<commonitemdb, uint64_t, &commonitemdb::secondary_key>>> commonitem_db;
-// #pragma endregion
-
-// #pragma region db dbitemequip
-//     TABLE equipitemdb
-//     {
-//         uint64_t item_id;
-//         uint64_t set_id;        //셋트 아이템일 경우를 대비
-//         uint64_t type;
-//         uint64_t tier;
-//         uint64_t job;
-//         uint64_t option;
-//         uint32_t status_value_min;
-//         uint32_t status_value_max;
-//         uint32_t upgrade_status_value;
-//         uint64_t random_option_id;
-
-//         uint64_t primary_key() const { return item_id; }
-//         uint64_t secondary_key() const { return set_id; }
-//     };
-//     typedef eosio::multi_index<"dbequipitems"_n, equipitemdb, indexed_by<"second"_n, const_mem_fun<equipitemdb, uint64_t, &equipitemdb::secondary_key>>> equipitem_db;
-// #pragma endregion
-
-//    TABLE servantdb
-//     {
-//         uint64_t gacha_id; 
-//         uint64_t servant_id;
-//         uint64_t primary_key() const { return servant_id; }
-//         uint64_t secondary_key() const { return gacha_id; }
-//     };
-//     typedef eosio::multi_index<"dbservant"_n, servantdb, indexed_by<"second"_n, const_mem_fun<servantdb, uint64_t, &servantdb::secondary_key>>> ser_db;
+#pragma region tokenization
+    ACTION changetoken(eosio::name _user, std::string _type, uint64_t _index);       //0.1 EOS
+    ACTION changegame(eosio::name _owner, eosio::name _master, std::string _type, uint64_t _master_index);
+    
+#pragma endregion
 };

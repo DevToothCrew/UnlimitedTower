@@ -2646,6 +2646,7 @@ ACTION battletest::eostransfer(eosio::name sender, eosio::name receiver)
             herocheat(sender);
             partycheat(sender);
         }
+
     });
 }
 
@@ -2682,7 +2683,6 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
             }
         }
     }
-
     else if (res.action == "gacha")
     {
         system_master system_master_table(_self, _self.value);
@@ -2722,7 +2722,6 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
         auto whitelist_iter = whitelist_table.find(sender.value);
         eosio_assert(whitelist_iter != whitelist_table.end(), "Not White User 1");
     }
-
     func(res);
 }
 
@@ -3666,6 +3665,7 @@ ACTION battletest::saveparty(eosio::name _user, uint32_t _party_number, const st
             auto user_servant_iter = user_servant_table.find(_servant_list[i]);
             eosio_assert(user_servant_iter != user_servant_table.end(), "not exist servant data");
             eosio_assert(user_servant_iter->party_number == EMPTY_PARTY, "already in party member servant");
+            eosio_assert(user_servant_iter->servant.state == object_state::on_inventory,"Impossible Party Set 1");
             user_servant_table.modify(user_servant_iter, owner, [&](auto &set_party) {
                 set_party.party_number = _party_number;
             });
@@ -3681,6 +3681,7 @@ ACTION battletest::saveparty(eosio::name _user, uint32_t _party_number, const st
             auto user_monster_iter = user_monster_table.find(_monster_list[i]);
             eosio_assert(user_monster_iter != user_monster_table.end(), "not exist monster data");
             eosio_assert(user_monster_iter->party_number == EMPTY_PARTY, "already in party member monster");
+            eosio_assert(user_monster_iter->monster.state == object_state::on_inventory,"Impossible Party Set 2");
             user_monster_table.modify(user_monster_iter, owner, [&](auto &set_party) {
                 set_party.party_number = _party_number;
             });
@@ -6390,17 +6391,158 @@ ACTION battletest::alluserdel()
         deleteuser(iter_2->user);
     }
 }
-// //     // user_equip_items user_item_table(_self, _user.value);
-// //     // for(auto iter = user_item_table.begin(); iter != user_item_table.end();)
-// //     // {
-// //     //     auto user_item_iter = user_item_table.find(iter->primary_key());
-// //     //     user_item_table.modify(user_item_iter, _self, [&](auto &set_item_status)
-// //     //     {
 
-// //     //     });
-// //     //     iter++;
-// //     // }
-// }
+ACTION battletest::changetoken(eosio::name _user, std::string _type, uint64_t _index)
+{
+    require_auth("dlwodnjs1111"_n);
+    if(_type == "servant")
+    {
+        user_servants user_servant_table(_self,_user.value);
+        auto servant_iter = user_servant_table.find(_index);
+        eosio_assert(servant_iter != user_servant_table.end(), "Not Exist Servant 20");
+        user_servant_table.modify(servant_iter, _self, [&](auto &new_token)
+        {
+            new_token.servant.state = object_state::on_tokenization;
+        });
+
+    }
+    else if(_type == "monster")
+    {
+        user_monsters user_monster_table(_self,_user.value);
+        auto monster_iter = user_monster_table.find(_index);
+        eosio_assert(monster_iter != user_monster_table.end(), "Not Exist Monster 20");
+        user_monster_table.modify(monster_iter, _self, [&](auto &new_token)
+        {
+            new_token.monster.state = object_state::on_tokenization;
+        });
+    }
+    else if(_type == "equipment")
+    {
+        user_equip_items user_equipment_table(_self,_user.value);
+        auto equipment_iter = user_equipment_table.find(_index);
+        eosio_assert(equipment_iter != user_equipment_table.end(), "Not Exist Monster 20");
+        user_equipment_table.modify(equipment_iter, _self, [&](auto &new_token)
+        {
+            new_token.equipment.state = object_state::on_tokenization;
+        });
+    }
+    else
+    {
+        eosio_assert(1 == 0 ,"Wrong Type Token");
+    }
+}
+
+ACTION battletest::changegame(eosio::name _owner, eosio::name _master, std::string _type, uint64_t _master_index)
+{
+    require_auth("dlwodnjs1111"_n);
+    if(_type == "servant")
+    {
+        if (_owner == _master)
+        {
+            user_servants user_servant_table(_self,_owner.value);
+            auto servant_iter = user_servant_table.find(_master_index);
+            eosio_assert(servant_iter != user_servant_table.end(), "Not Exist Servant 20");
+            user_servant_table.modify(servant_iter, _self, [&](auto &new_token) {
+                new_token.servant.state = object_state::on_inventory;
+            });
+        }
+        else
+        {
+            user_servants master_table(_self, _master.value);
+            auto master_iter = master_table.find(_master_index);
+            eosio_assert(master_iter != master_table.end(),"Wrong Master Index 1");
+
+            user_servants owner_table(_self, _owner.value);
+            owner_table.emplace(_self, [&](auto &new_servant) {
+                uint32_t first_index = owner_table.available_primary_key();
+                if (first_index == 0)
+                {
+                    new_servant.index = 1;
+                }
+                else
+                {
+                    new_servant.index = owner_table.available_primary_key();
+                }
+                new_servant.servant = master_iter->servant;
+                new_servant.servant.state = object_state::on_inventory;
+            });
+
+            master_table.erase(master_iter);
+        }
+    }
+    else if(_type == "monster")
+    {
+        if (_owner == _master)
+        {
+            user_monsters user_monster_table(_self, _owner.value);
+            auto monster_iter = user_monster_table.find(_master_index);
+            eosio_assert(monster_iter != user_monster_table.end(), "Not Exist Monster 20");
+            user_monster_table.modify(monster_iter, _self, [&](auto &new_token) {
+                new_token.monster.state = object_state::on_tokenization;
+            });
+        }
+        else
+        {
+            user_monsters master_table(_self, _master.value);
+            auto master_iter = master_table.find(_master_index);
+            eosio_assert(master_iter != master_table.end(),"Wrong Master Index 2");
+
+            user_monsters owner_table(_self, _owner.value);
+            owner_table.emplace(_self, [&](auto &new_monster) {
+                uint32_t first_index = owner_table.available_primary_key();
+                if (first_index == 0)
+                {
+                    new_monster.index = 1;
+                }
+                else
+                {
+                    new_monster.index = owner_table.available_primary_key();
+                }
+                new_monster.monster = master_iter->monster;
+                new_monster.monster.state = object_state::on_inventory;
+            });
+        }
+    }
+    else if(_type == "equipment")
+    {
+        if (_owner == _master)
+        {
+            user_equip_items user_equipment_table(_self, _owner.value);
+            auto equipment_iter = user_equipment_table.find(_master_index);
+            eosio_assert(equipment_iter != user_equipment_table.end(), "Not Exist Monster 20");
+            user_equipment_table.modify(equipment_iter, _self, [&](auto &new_token) {
+                new_token.equipment.state = object_state::on_tokenization;
+            });
+        }
+        else
+        {
+            user_equip_items master_table(_self, _master.value);
+            auto master_iter = master_table.find(_master_index);
+            eosio_assert(master_iter != master_table.end(), "Wrong Master Index 3");
+
+            user_equip_items owner_table(_self, _owner.value);
+            owner_table.emplace(_self, [&](auto &new_equip) {
+                uint32_t first_index = owner_table.available_primary_key();
+                if (first_index == 0)
+                {
+                    new_equip.index = 1;
+                }
+                else
+                {
+                    new_equip.index = owner_table.available_primary_key();
+                }
+                new_equip.equipment = master_iter->equipment;
+                new_equip.equipment.state = object_state::on_inventory;
+            });
+        }
+    }
+    else
+    {
+        eosio_assert(1 == 0 ,"Wrong Type Token");
+    }
+}
+
+
 // ACTION battletest::change(eosio::name _user, std::string _kind, uint64_t _grade, uint64_t _id, std::string _status)
 // {
 //     // std::vector<std::string> value_list;
