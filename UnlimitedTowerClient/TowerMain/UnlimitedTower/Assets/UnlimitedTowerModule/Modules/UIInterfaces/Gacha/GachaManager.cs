@@ -57,14 +57,15 @@ public class GachaManager : MonoBehaviour {
             return;
         }
 
-        SetButtonActivate(false);
-
-        GetComponent<Animator>()?.SetTrigger("Particle");
-        particleController.BeginSummonAnimation(()=>
+#if UNITY_EDITOR
         {
-            StartGacha(1);
-            GetComponent<Animator>()?.SetTrigger("Glowing");
-        });
+            Cheat.Inst.RequestGachaCheat(1);
+        }
+#else
+        {
+            PacketManager.Inst.RequestGacha(gachaIndex);
+        }
+#endif
     }
 
     public void CloseGachaResult()
@@ -79,19 +80,17 @@ public class GachaManager : MonoBehaviour {
         GetComponent<Animator>()?.SetTrigger("Invisible");
     }
 
-    public void StartGacha(int gachaIndex)
+    public void ResultGacha(object getObject)
     {
-        gachaResultPopup.SetActive(true);
+        SetButtonActivate(false);
 
-        #if UNITY_EDITOR
+        GetComponent<Animator>()?.SetTrigger("Particle");
+        particleController.BeginSummonAnimation(() =>
         {
-            Cheat.Inst.RequestGachaCheat(1);
-        }
-        #else
-        {
-            PacketManager.Inst.RequestGacha(gachaIndex);
-        }
-#endif
+            gachaResultPopup.SetActive(true);
+            GetComponent<Animator>()?.SetTrigger("Glowing");
+            GachaResultPopup.PopupAlert(getObject);
+        });
     }
 
 }

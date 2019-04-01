@@ -764,7 +764,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
             UserDataManager.Inst.AddServantData(getServant);
 
-            GachaResultPopup.PopupAlert(getServant);
+            GachaManager.Instance.ResultGacha(getServant);
         }
         else if (type == (int)GACHA_RESULT_TYPE.Monster)
         {
@@ -775,7 +775,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
             UserDataManager.Inst.AddMonsterData(getMonster);
 
-            GachaResultPopup.PopupAlert(getMonster);
+            GachaManager.Instance.ResultGacha(getMonster);
         }
         else if (type == (int)GACHA_RESULT_TYPE.Equipment)
         {
@@ -786,8 +786,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
             UserDataManager.Inst.AddEquipmentData(getEquipment);
 
-            GachaResultPopup.PopupAlert(getEquipment);
+            GachaManager.Instance.ResultGacha(getEquipment);
         }
+
     }
 
     // 로그아웃
@@ -1088,7 +1089,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         UserServantData unequipmentServantData = ParseServant(getServantData);
 
-        UserDataManager.Inst.DelEquipment(getServantData.index);
+        UserDataManager.Inst.DelEquipment(unequipmentServantData.index);
     }
 
     // 몬스터 강화
