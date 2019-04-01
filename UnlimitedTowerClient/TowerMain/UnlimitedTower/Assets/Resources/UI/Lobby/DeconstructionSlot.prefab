@@ -250,7 +250,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 2
+  m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -470,11 +470,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be24ad3a025378d42a7f720e3e4899c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  imageGrade: {fileID: 114765953413057190}
   imageCharacter: {fileID: 114956688129238142}
   textLevel: {fileID: 114821285532034388}
   textStr: {fileID: 114194458080519658}
   textDex: {fileID: 114229024162619776}
   textInt: {fileID: 114689990846099270}
+  imageEmptySlot: {fileID: 0}
 --- !u!114 &114765953413057190
 MonoBehaviour:
   m_ObjectHideFlags: 1

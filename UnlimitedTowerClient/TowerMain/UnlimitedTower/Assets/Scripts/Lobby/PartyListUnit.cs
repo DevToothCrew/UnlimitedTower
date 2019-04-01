@@ -26,7 +26,7 @@ public class PartyListUnit : ScrollListUnit {
         partyInfo = ((PartyInfoVC)unit_controller);
 
         //Todo :set Image
-        if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.SERVANT_INFO)
+        if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.SERVANT_INFO || partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_SERVANT)
         {
             ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)partyInfo.ServantList[main_idx].grade);
             imageCharacter.sprite = CSVData.Inst.GetServantData(partyInfo.ServantList[main_idx].id).servantIcon;
@@ -35,7 +35,7 @@ public class PartyListUnit : ScrollListUnit {
             textDex.text = string.Format("{0}", partyInfo.ServantList[main_idx].status.basicDex);
             textInt.text = string.Format("{0}", partyInfo.ServantList[main_idx].status.basicInt);
         }
-        else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
+        else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO || partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_MONSTER)
         {
             ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)partyInfo.MonsterList[main_idx].grade);
             imageCharacter.sprite = CSVData.Inst.GetMonsterData(partyInfo.MonsterList[main_idx].id).monsterIcon;
@@ -67,6 +67,20 @@ public class PartyListUnit : ScrollListUnit {
             {
                 if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.SERVANT_INFO || partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
                     partyInfo.updateDetailInfo(getUnitIdx());
+                else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_SERVANT || partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_MONSTER)
+                {
+                    int chracter_unit_idx = 0;
+                    if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_SERVANT)
+                    {
+                        chracter_unit_idx = partyInfo.ServantList[main_idx].index;
+                    }
+                    else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_MONSTER)
+                    {
+                        chracter_unit_idx = partyInfo.MonsterList[main_idx].index;
+                    }
+                    SubViewDeconstruction.Inst.InsertUnit(chracter_unit_idx);
+                }
+                
             }
             else if (partyInfo.selectedMenu == PartyInfoVC.menu_type.FORMATION)
             {
