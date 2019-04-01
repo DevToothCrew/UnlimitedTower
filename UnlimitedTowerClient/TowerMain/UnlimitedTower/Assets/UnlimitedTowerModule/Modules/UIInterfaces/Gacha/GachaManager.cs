@@ -63,7 +63,7 @@ public class GachaManager : MonoBehaviour {
         }
 #else
         {
-            PacketManager.Inst.RequestGacha(gachaIndex);
+            PacketManager.Inst.RequestGacha(1);
         }
 #endif
     }

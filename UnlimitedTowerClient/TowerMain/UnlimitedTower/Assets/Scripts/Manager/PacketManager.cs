@@ -755,6 +755,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
         JsonData getInfo = JsonMapper.ToObject(getGachaInfo);
         int type = Convert.ToInt32(getInfo["result_type"].ToString());
 
+        UserDataManager.Inst.UseEOS(10000);
+
         if (type == (int)GACHA_RESULT_TYPE.Servant)
         {
             Debug.Log(getGachaInfo);

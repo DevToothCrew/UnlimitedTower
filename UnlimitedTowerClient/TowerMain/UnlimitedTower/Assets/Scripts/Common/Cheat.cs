@@ -51,6 +51,17 @@ public class Cheat : MonoSingleton<Cheat>
 
     public string GetGachaResultData(int gachaIndex)
     {
+        UserInfo userInfo = UserDataManager.Inst.GetUserInfo();
+        if (userInfo == null)
+        {
+            return null;
+        }
+
+        if(userInfo.userEOS < 10000)
+        {
+            return null;
+        }
+
         int type = rand.Next((int)GACHA_RESULT_TYPE.Servant, (int)GACHA_RESULT_TYPE.Equipment);
 
         if (type == (int)GACHA_RESULT_TYPE.Servant)
@@ -712,7 +723,7 @@ public class Cheat : MonoSingleton<Cheat>
         {
             Debug.Log("Start SetLoginCheat");
 
-            string loginJson = GetUserLoginData("devtooth", "1000", "9999999");
+            string loginJson = GetUserLoginData("devtooth", "100000", "99999990000");
             Debug.Log("[SUCCESS] User Login :" + loginJson);
 
             PacketManager.Inst.ResponseLogin(loginJson);

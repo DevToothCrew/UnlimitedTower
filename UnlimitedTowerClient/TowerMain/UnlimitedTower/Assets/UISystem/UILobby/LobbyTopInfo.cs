@@ -26,8 +26,8 @@ public class LobbyTopInfo : MonoBehaviour {
     {
         accountName.text = "LV." + userInfo.level + " " + userInfo.userName;
 
-        EOSCount.text = userInfo.userEOS.ToString("N4");
-        UTGCount.text = userInfo.userUTG.ToString("N4");
+        EOSCount.text = (userInfo.userEOS * 0.0001).ToString("N4");
+        UTGCount.text = (userInfo.userUTG * 0.0001).ToString("N4");
     }
 
     public void OnClickAccountButton()

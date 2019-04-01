@@ -663,5 +663,15 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return true;
     }
 
+    public bool UseEOS(ulong EOSCount)
+    {
+        if (userInfo.userEOS >= EOSCount)
+        {
+            userInfo.userEOS -= EOSCount;
+        }
+
+        return true;
+    }
+
     #endregion
 }
