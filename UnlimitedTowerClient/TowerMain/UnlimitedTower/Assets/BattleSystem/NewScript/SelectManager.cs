@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class SelectManager : MonoBehaviour {
+public class SelectManager : MonoBehaviour
+{
     public int mouseIndex = -1;
     public int selectIndex = -1;
 
@@ -12,7 +13,6 @@ public class SelectManager : MonoBehaviour {
     public Text levelText;
     public Text nemeText;
     public Text selectHpText;
-    public Text selectAtkText;
     public Image selectHpBar;
     public Image selectCharImg;
     public GameObject characterInfo;
@@ -45,17 +45,16 @@ public class SelectManager : MonoBehaviour {
         selectCharImg = GameObject.Find("Character Portrait Image").GetComponent<Image>();
         selectHpBar = GameObject.Find("Hp Bar").GetComponent<Image>();
         selectHpText = GameObject.Find("Hp Text").GetComponent<Text>();
-        selectAtkText = GameObject.Find("Power Text").GetComponent<Text>();
         characterInfo = GameObject.Find("Character Information");
         characterInfo.SetActive(false);
 
-        //testAd = GameObject.Find("Test Ad").GetComponent<Text>();
-        //testAp = GameObject.Find("Test Ap").GetComponent<Text>();
-        //testDd = GameObject.Find("Test Dd").GetComponent<Text>();
-        //testDp = GameObject.Find("Test Dp").GetComponent<Text>();
-        //testSp = GameObject.Find("Test Sp").GetComponent<Text>();
-        //testMaxHp = GameObject.Find("Test MaxHp").GetComponent<Text>();
-        //testNowHp = GameObject.Find("Test NowHp").GetComponent<Text>();
+        testAd = GameObject.Find("Test Ad").GetComponent<Text>();
+        testAp = GameObject.Find("Test Ap").GetComponent<Text>();
+        testDd = GameObject.Find("Test Dd").GetComponent<Text>();
+        testDp = GameObject.Find("Test Dp").GetComponent<Text>();
+        testSp = GameObject.Find("Test Sp").GetComponent<Text>();
+        testMaxHp = GameObject.Find("Test MaxHp").GetComponent<Text>();
+        testNowHp = GameObject.Find("Test NowHp").GetComponent<Text>();
     }
 
     private void Update()
@@ -82,17 +81,9 @@ public class SelectManager : MonoBehaviour {
                     {
                         selectStateInfo = BattleManager.Inst.GetEnemyState(selectIndex);
                     }
-                    
+
                     SelectGridReset();
                     BattleManager.Inst.grid[selectIndex].SetActive(true);
-
-                    if (BattleManager.Inst.MaxHp[selectIndex] != 0)
-                        selectHpBar.fillAmount = (float)BattleManager.Inst.NowHp[selectIndex] / BattleManager.Inst.MaxHp[selectIndex];
-                    else
-                        selectHpBar.fillAmount = BattleManager.Inst.NowHp[selectIndex] / 100;
-
-                    selectHpText.text = BattleManager.Inst.NowHp[selectIndex].ToString();
-                    selectAtkText.text = BattleManager.Inst.NowAtk[selectIndex].ToString();
 
                     if (selectIndex < 5)
                     {
@@ -112,13 +103,13 @@ public class SelectManager : MonoBehaviour {
                         levelText.text = "?";
                     }
 
-                    //testMaxHp.text = BattleManager.Inst.MaxHp[selectIndex].ToString();
-                    //testNowHp.text = BattleManager.Inst.NowHp[selectIndex].ToString();
-                    //testAd.text = (selectStateInfo.physical_attack).ToString();
-                    //testAp.text = (selectStateInfo.magic_attack).ToString();
-                    //testDd.text = (selectStateInfo.physical_defense).ToString();
-                    //testDp.text = (selectStateInfo.magic_defense).ToString();
-                    //testSp.text = selectStateInfo.speed.ToString();
+                    testMaxHp.text = BattleManager.Inst.MaxHp[selectIndex].ToString();
+                    testNowHp.text = BattleManager.Inst.NowHp[selectIndex].ToString();
+                    testAd.text = (selectStateInfo.physical_attack).ToString();
+                    testAp.text = (selectStateInfo.magic_attack).ToString();
+                    testDd.text = (selectStateInfo.physical_defense).ToString();
+                    testDp.text = (selectStateInfo.magic_defense).ToString();
+                    testSp.text = selectStateInfo.speed.ToString();
                 }
                 else
                 {
@@ -139,6 +130,16 @@ public class SelectManager : MonoBehaviour {
                     characterInfo.SetActive(false);
                 }
             }
+        }
+
+        if (selectIndex != -1)
+        {
+            if (BattleManager.Inst.MaxHp[selectIndex] != 0)
+                selectHpBar.fillAmount = (float)BattleManager.Inst.NowHp[selectIndex] / BattleManager.Inst.MaxHp[selectIndex];
+            else
+                selectHpBar.fillAmount = BattleManager.Inst.NowHp[selectIndex] / 100;
+
+            selectHpText.text = BattleManager.Inst.NowHp[selectIndex].ToString();
         }
     }
 
