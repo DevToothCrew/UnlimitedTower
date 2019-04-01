@@ -88,6 +88,13 @@ CONTRACT battletest : public contract
     std::vector<uint32_t> legenary_dex = {9, 24, 9};
     std::vector<uint32_t> legenary_int = {9, 9, 24};
 
+
+    std::vector<uint32_t> public_passive = {100001,100002,100003,100004,100005,100006,100007,100008};
+    std::vector<uint32_t> public_active = {200002,200004,200006};
+
+    ACTION dbdatacheat();
+
+
     //------------------------------------------------------------------------//
     //-----------------------------db_table-----------------------------------//
     //------------------------------------------------------------------------//
@@ -724,9 +731,6 @@ CONTRACT battletest : public contract
         uint32_t basic_str = 0;
         uint32_t basic_dex = 0;
         uint32_t basic_int = 0;
-        uint32_t plus_str = 0;
-        uint32_t plus_dex = 0;
-        uint32_t plus_int = 0;
     };
 
 #pragma region gacha tservant
@@ -734,7 +738,6 @@ CONTRACT battletest : public contract
     {
         uint32_t state;     //서번트 상태
         uint32_t exp = 0;   //서번트 경험치
-        uint32_t stat_point = 0;
         uint64_t id = 0;
         status_info status;
         std::vector<uint32_t> equip_slot; //서번트 장비 리스트
@@ -1212,12 +1215,7 @@ CONTRACT battletest : public contract
         uint32_t target = 0;
         uint32_t target_count = 0;
     };
-    struct total_status
-    {
-        uint32_t total_str = 0;
-        uint32_t total_dex = 0;
-        uint32_t total_int = 0;
-    };
+
     struct buff_info
     {
         uint32_t id = 0;
@@ -1226,6 +1224,7 @@ CONTRACT battletest : public contract
 
     struct character_state_data
     {
+        uint32_t grade;
         uint32_t position;
         uint32_t index;
         uint32_t id;
@@ -1246,7 +1245,7 @@ CONTRACT battletest : public contract
         std::vector<buff_info> buff_list;
         std::vector<skill_info> passive_skill_list;
         std::vector<skill_info> active_skill_list;
-        total_status status;
+        status_info status;
     };
 
     TABLE tstagestate
@@ -1364,11 +1363,11 @@ CONTRACT battletest : public contract
     status_info get_level_up_monster_status(uint64_t _class, uint64_t _grade, status_info _status);
     status_info get_level_up_servant_status(uint64_t _job, status_info _status);
     status_info get_grade_status(uint64_t _grade, status_info _status);
-    uint32_t get_max_hp(total_status _status);
-    uint32_t get_magic_attack(total_status _status);
-    uint32_t get_physical_attack(total_status _status);
-    uint32_t get_magic_defense(total_status _status);
-    uint32_t get_physical_defense(total_status _status); 
+    uint32_t get_max_hp(status_info _status);
+    uint32_t get_magic_attack(status_info _status);
+    uint32_t get_physical_attack(status_info _status);
+    uint32_t get_magic_defense(status_info _status);
+    uint32_t get_physical_defense(status_info _status); 
     uint32_t get_speed(uint32_t _job);
     void set_stage_state(uint64_t _stage_id, std::vector<character_state_data> &_enemy_state_list, std::vector<std::string> &_state);
     character_state_data get_user_state(eosio::name _user, std::string _type, uint64_t _index, uint32_t _position, std::vector<std::string> &_state);
@@ -1451,6 +1450,7 @@ CONTRACT battletest : public contract
 
     ACTION deletebattle(eosio::name _user);
     ACTION deleteuser(eosio::name _user);
+    ACTION alluserdel();
 
     //-------------------------------------------------------------------------------//
     //-----------------------------preregist_table-----------------------------------//

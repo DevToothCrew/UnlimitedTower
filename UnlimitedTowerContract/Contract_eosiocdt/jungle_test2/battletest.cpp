@@ -4067,34 +4067,34 @@ ACTION battletest::partycheat(eosio::name _user)
 //------------------------------------------------------------------------//
 //---------------------------------battle_function------------------------//
 //------------------------------------------------------------------------//
-uint32_t battletest::get_max_hp(total_status _status)
+uint32_t battletest::get_max_hp(status_info _status)
 {
     uint32_t hp;
-    hp = ((_status.total_str * 14) + (_status.total_dex * 5) + (_status.total_int * 3));
+    hp = ((_status.basic_str * 14) + (_status.basic_dex * 5) + (_status.basic_int * 3));
     return hp;
 }
-uint32_t battletest::get_magic_attack(total_status _status)
+uint32_t battletest::get_magic_attack(status_info _status)
 {
     uint32_t magic_attack;
-    magic_attack = ((_status.total_int) * 220) / decimal; //2.2 * 100
+    magic_attack = ((_status.basic_int) * 220) / decimal; //2.2 * 100
     return magic_attack;
 }
-uint32_t battletest::get_physical_attack(total_status _status)
+uint32_t battletest::get_physical_attack(status_info _status)
 {
     uint32_t physical_attack;
-    physical_attack = ((_status.total_str + _status.total_dex) * 140) / decimal; //1.4 * 100
+    physical_attack = ((_status.basic_str + _status.basic_dex) * 140) / decimal; //1.4 * 100
     return physical_attack;
 }
-uint32_t battletest::get_magic_defense(total_status _status)
+uint32_t battletest::get_magic_defense(status_info _status)
 {
     uint32_t magic_defense;
-    magic_defense = ((_status.total_int) * 130) / decimal; //1.3 * 100
+    magic_defense = ((_status.basic_int) * 130) / decimal; //1.3 * 100
     return magic_defense;
 }
-uint32_t battletest::get_physical_defense(total_status _status)
+uint32_t battletest::get_physical_defense(status_info _status)
 {
     uint32_t physical_defense;
-    physical_defense = ((_status.total_dex) * 130) / decimal; //1.3 * 100
+    physical_defense = ((_status.basic_dex) * 130) / decimal; //1.3 * 100
     return physical_defense;
 }
 
@@ -4242,11 +4242,12 @@ void battletest::set_stage_state(uint64_t _stage_id, std::vector<character_state
             stage_status.basic_int += level_up.basic_int;
         }
 
-        total_status status;
-        status.total_str = (stage_status.basic_str + stage_status.plus_str);
-        status.total_dex = (stage_status.basic_dex + stage_status.plus_dex);
-        status.total_int = (stage_status.basic_int + stage_status.plus_int);
+        status_info status;
+        status.basic_str = (stage_status.basic_str);
+        status.basic_dex = (stage_status.basic_dex);
+        status.basic_int = (stage_status.basic_int);
 
+        get_state.grade = stage_enemy_db_iter->grade;
         get_state.speed = stage_enemy_db_iter->speed;
         get_state.id = stage_db_iter->monster_list[i].monster_id;
         get_state.index = 0;
@@ -4291,15 +4292,15 @@ void battletest::set_stage_state(uint64_t _stage_id, std::vector<character_state
             eosio_assert(passive_db_iter != passive_db_table.end(), "Not Exist Enemy Passive 1");
             if (passive_db_iter->passive_id == 100006) //??n% 利앷?
             {
-                status.total_str += (status.total_str * passive_db_iter->effect_value) / 100;
+                status.basic_str += (status.basic_str * passive_db_iter->effect_value) / 100;
             }
             else if (passive_db_iter->passive_id == 100007) //誘쇱꺽 n% 利앷?
             {
-                status.total_dex += (status.total_dex * passive_db_iter->effect_value) / 100;
+                status.basic_dex += (status.basic_dex * passive_db_iter->effect_value) / 100;
             }
             else if (passive_db_iter->passive_id == 100008) //吏??n% 利앷?
             {
-                status.total_int += (status.total_int * passive_db_iter->effect_value) / 100;
+                status.basic_int += (status.basic_int * passive_db_iter->effect_value) / 100;
             }
             skill_info passive;
             passive.id = passive_db_iter->passive_id;
@@ -4310,6 +4311,7 @@ void battletest::set_stage_state(uint64_t _stage_id, std::vector<character_state
         _enemy_state_list.push_back(get_state);
 
         std::string state;
+        state += to_string(get_state.grade) + ":";
         state += to_string(get_state.position) + ":";
         state += to_string(get_state.index) + ":";
         state += to_string(get_state.id) + ":";
@@ -4387,9 +4389,9 @@ void battletest::set_stage_state(uint64_t _stage_id, std::vector<character_state
             state += "]";
             state += ":";
         }
-        state += to_string(get_state.status.total_str) + ":";
-        state += to_string(get_state.status.total_dex) + ":";
-        state += to_string(get_state.status.total_int);
+        state += to_string(get_state.status.basic_str) + ":";
+        state += to_string(get_state.status.basic_dex) + ":";
+        state += to_string(get_state.status.basic_int);
 
         _state.push_back(state);
     }
@@ -4398,7 +4400,7 @@ void battletest::set_stage_state(uint64_t _stage_id, std::vector<character_state
 battletest::character_state_data battletest::get_user_state(eosio::name _user, std::string _type, uint64_t _index, uint32_t _position, std::vector<std::string> &_state)
 {
     character_state_data get_state;
-    total_status status;
+    status_info status;
 
     if (_type == "ser")
     {
@@ -4406,129 +4408,65 @@ battletest::character_state_data battletest::get_user_state(eosio::name _user, s
         auto user_servant_iter = user_servant_table.find(_index);
         eosio_assert(user_servant_iter != user_servant_table.end(), "Not Exist Servant 10");
 
-        status.total_str = (user_servant_iter->servant.status.basic_str + user_servant_iter->servant.status.plus_str);
-        status.total_dex = (user_servant_iter->servant.status.basic_dex + user_servant_iter->servant.status.plus_dex);
-        status.total_int = (user_servant_iter->servant.status.basic_int + user_servant_iter->servant.status.plus_int);
+        status.basic_str = (user_servant_iter->servant.status.basic_str);
+        status.basic_dex = (user_servant_iter->servant.status.basic_dex);
+        status.basic_int = (user_servant_iter->servant.status.basic_int);
+ 
+        if (user_servant_iter->servant.passive_skill.size() != 0)
+        {
+            passive_db passive_db_table(_self, _self.value);
+            for (uint32_t i = 0; i < user_servant_iter->servant.passive_skill.size(); ++i)
+            {
+                auto passive_db_iter = passive_db_table.find(user_servant_iter->servant.passive_skill[i]);
+                eosio_assert(passive_db_iter != passive_db_table.end(), "Not Exist Servant Passive 1");
+                if (passive_db_iter->passive_id == 100006) //??n% 利앷?
+                {
+                    status.basic_str += (status.basic_str * passive_db_iter->effect_value) / 100;
+                }
+                else if (passive_db_iter->passive_id == 100007) //誘쇱꺽 n% 利앷?
+                {
+                    status.basic_dex += (status.basic_dex * passive_db_iter->effect_value) / 100;
+                }
+                else if (passive_db_iter->passive_id == 100008) //吏??n% 利앷?
+                {
+                    status.basic_int += (status.basic_int * passive_db_iter->effect_value) / 100;
+                }
+                skill_info passive;
+                passive.id = user_servant_iter->servant.passive_skill[i];
+                passive.per = 100;
+                get_state.passive_skill_list.push_back(passive);
+            }
+        }
 
-        //?⑥떆釉뚯쓽 寃쎌슦 ?꾪닾吏꾩엯?쒖뿉 ?곸슜?섎뒗 寃껊쭔 ?곸슜 ?쒖폒 以섏빞 ??        // if (user_servant_iter->servant.passive_skill.size() != 0)
-        // {
-        //     passive_db passive_db_table(_self, _self.value);
-        //     for (uint32_t i = 0; i < user_servant_iter->servant.passive_skill.size(); ++i)
-        //     {
-        //         auto passive_db_iter = passive_db_table.find(user_servant_iter->servant.passive_skill[i]);
-        //         eosio_assert(passive_db_iter != passive_db_table.end(), "Not Exist Servant Passive 1");
-        //         if (passive_db_iter->passive_id == 100006) //??n% 利앷?
-        //         {
-        //             status.total_str += (status.total_str * passive_db_iter->effect_value) / 100;
-        //         }
-        //         else if (passive_db_iter->passive_id == 100007) //誘쇱꺽 n% 利앷?
-        //         {
-        //             status.total_dex += (status.total_dex * passive_db_iter->effect_value) / 100;
-        //         }
-        //         else if (passive_db_iter->passive_id == 100008) //吏??n% 利앷?
-        //         {
-        //             status.total_int += (status.total_int * passive_db_iter->effect_value) / 100;
-        //         }
-        //         skill_info passive;
-        //         passive.id = user_servant_iter->servant.passive_skill[i];
-        //         passive.per = 100;
-        //         get_state.passive_skill_list.push_back(passive);
-        //     }
-        // }
+        if (user_servant_iter->servant.active_skill.size() != 0)
+        {
+            active_db active_db_table(_self, _self.value);
+            for (uint32_t i = 0; i < user_servant_iter->servant.active_skill.size(); ++i)
+            {
+                auto active_db_iter = active_db_table.find(user_servant_iter->servant.active_skill[i]);
+                eosio_assert(active_db_iter != active_db_table.end(), "Not Exist Servant Active 1");
 
-        // if (user_servant_iter->servant.active_skill.size() != 0)
-        // {
-        //     active_db active_db_table(_self, _self.value);
-        //     for (uint32_t i = 0; i < user_servant_iter->servant.active_skill.size(); ++i)
-        //     {
+                skill_info active;
+                active.id = active_db_iter->active_id;
+                active.per = active_db_iter->active_per;
+                active.attack_type = active_db_iter->attack_type;
+                active.dmg_type = active_db_iter->dmg_type;
+                active.target = active_db_iter->target;
+                active.target_count = active_db_iter->target_count;
+                get_state.active_skill_list.push_back(active);
+            }
+        }
 
-        //         skill_info active;
-        //         if (user_servant_iter->servant.job == job_list::warrior)
-        //         {
-        //             active.id = active_name::active_defense;
-        //         }
-        //         else if (user_servant_iter->servant.job == job_list::thief)
-        //         {
-        //             active.id = (active_name::active_fast_attack);
-        //         }
-        //         else if (user_servant_iter->servant.job == job_list::archer)
-        //         {
-        //             active.id = (active_name::active_multi_shot);
-        //         }
-        //         else if (user_servant_iter->servant.job == job_list::wizard)
-        //         {
-        //             active.id = (active_name::active_magic_strike);
-        //         }
-        //         else if (user_servant_iter->servant.job == job_list::priest)
-        //         {
-        //             active.id = (active_name::active_guided_arrow);
-        //         }
-        //         else
-        //         {
-        //             active.id = active_name::active_bash);
-        //         }
-        //         // auto active_db_iter = active_db_table.find(user_servant_iter->servant.active_skill[i]);
-        //         // eosio_assert(active_db_iter != active_db_table.end(), "Not Exist Servant Active 1");
-
-        //         auto active_db_iter = active_db_table.find(active.id);
-        //         eosio_assert(active_db_iter != active_db_table.end(), "Not Exist Servant Active 1");
-
-        //         active.id = active_db_iter->active_id;
-        //         active.per = active_db_iter->active_per;
-        //         active.attack_type = active_db_iter->attack_type;
-        //         active.dmg_type = active_db_iter->dmg_type;
-        //         active.target = active_db_iter->target;
-        //         active.target_count = active_db_iter->target_count;
-        //         get_state.active_skill_list.push_back(active);
-        //     }
-        // }
         servant_db servant_db_table(_self, _self.value);
         auto servant_db_iter = servant_db_table.find(user_servant_iter->servant.id);
+        eosio_assert(servant_db_iter!= servant_db_table.end(),"Not Exist Servant ID 10");
 
-        active_db active_db_table(_self, _self.value);
-        skill_info active;
-        if (servant_db_iter->job == job_list::warrior)
-        {
-            active.id = active_name::active_defense;
-        }
-        else if (servant_db_iter->job == job_list::thief)
-        {
-            active.id = (active_name::active_fast_attack);
-        }
-        else if (servant_db_iter->job == job_list::archer)
-        {
-            active.id = (active_name::active_multi_shot);
-        }
-        else if (servant_db_iter->job == job_list::wizard)
-        {
-            active.id = (active_name::active_magic_strike);
-        }
-        else if (servant_db_iter->job == job_list::priest)
-        {
-            active.id = (active_name::active_guided_arrow);
-        }
-        else
-        {
-            active.id = (active_name::active_bash);
-        }
-        // auto active_db_iter = active_db_table.find(user_servant_iter->servant.active_skill[i]);
-        // eosio_assert(active_db_iter != active_db_table.end(), "Not Exist Servant Active 1");
-
-        auto active_db_iter = active_db_table.find(active.id);
-        eosio_assert(active_db_iter != active_db_table.end(), "Not Exist Servant Active 1");
-
-        active.id = active_db_iter->active_id;
-        active.per = active_db_iter->active_per;
-        active.attack_type = active_db_iter->attack_type;
-        active.dmg_type = active_db_iter->dmg_type;
-        active.target = active_db_iter->target;
-        active.target_count = active_db_iter->target_count;
-        get_state.active_skill_list.push_back(active);
 
         job_stat_db job_stat_db_table(_self, _self.value);
         auto job_iter = job_stat_db_table.find(servant_db_iter->job);
         eosio_assert(job_iter != job_stat_db_table.end(),"Not Exist Job Stat 1");
 
+        get_state.grade = 5;
         get_state.speed = job_iter->speed;
         get_state.index = _index;
         get_state.id = user_servant_iter->servant.id;
@@ -4552,81 +4490,61 @@ battletest::character_state_data battletest::get_user_state(eosio::name _user, s
         auto user_monster_iter = user_monster_table.find(_index);
         eosio_assert(user_monster_iter != user_monster_table.end(), "Not Exist Monster 10");
 
-        status.total_str = (user_monster_iter->monster.status.basic_str + user_monster_iter->monster.status.plus_str);
-        status.total_dex = (user_monster_iter->monster.status.basic_dex + user_monster_iter->monster.status.plus_dex);
-        status.total_int = (user_monster_iter->monster.status.basic_int + user_monster_iter->monster.status.plus_int);
+        status.basic_str = (user_monster_iter->monster.status.basic_str);
+        status.basic_dex = (user_monster_iter->monster.status.basic_dex);
+        status.basic_int = (user_monster_iter->monster.status.basic_int);
 
-        // if (user_monster_iter->monster.passive_skill.size() != 0)
-        // {
-        //     passive_db passive_db_table(_self, _self.value);
-        //     for (uint32_t i = 0; i < user_monster_iter->monster.passive_skill.size(); ++i)
-        //     {
-        //         auto passive_db_iter = passive_db_table.find(user_monster_iter->monster.passive_skill[i]);
-        //         eosio_assert(passive_db_iter != passive_db_table.end(), "Not Exist Servant Passive 1");
-        //         if (passive_db_iter->passive_id == 100006) //??n% 利앷?
-        //         {
-        //             status.total_str += (status.total_str * passive_db_iter->effect_value) / 100;
-        //         }
-        //         else if (passive_db_iter->passive_id == 100007) //誘쇱꺽 n% 利앷?
-        //         {
-        //             status.total_dex += (status.total_dex * passive_db_iter->effect_value) / 100;
-        //         }
-        //         else if (passive_db_iter->passive_id == 100008) //吏??n% 利앷?
-        //         {
-        //             status.total_int += (status.total_int * passive_db_iter->effect_value) / 100;
-        //         }
-        //         skill_info passive;
-        //         passive.id = user_monster_iter->monster.passive_skill[i];
-        //         passive.per = 100;
-        //         get_state.passive_skill_list.push_back(passive);
-        //     }
-        // }
-
-        // if (user_monster_iter->monster.active_skill.size() != 0)
-        // {
-        //     active_db active_db_table(_self, _self.value);
-        //     for (uint32_t i = 0; i < user_monster_iter->monster.active_skill.size(); ++i)
-        //     {
-        //         auto active_db_iter = active_db_table.find(user_monster_iter->monster.active_skill[i]);
-        //         eosio_assert(active_db_iter != active_db_table.end(),"Not Exist Monster Active 1");
-
-        //         skill_info active;
-        //         active.id = active_db_iter->active_id;
-        //         active.per = active_db_iter->active_per;
-        //         active.attack_type = active_db_iter->attack_type;
-        //         active.dmg_type = active_db_iter->dmg_type;
-        //         active.target = active_db_iter->target;
-        //         active.target_count = active_db_iter->target_count;
-        //         get_state.active_skill_list.push_back(active);
-        //     }
-        // }
-        active_db active_db_table(_self, _self.value);
-
-        skill_info active;
-        if (_index < 3)
+        if (user_monster_iter->monster.passive_skill.size() != 0)
         {
-            active.id = active_name::active_bash;
-        }
-        else
-        {
-            active.id = active_name::active_magic_strike;
+            passive_db passive_db_table(_self, _self.value);
+            for (uint32_t i = 0; i < user_monster_iter->monster.passive_skill.size(); ++i)
+            {
+                auto passive_db_iter = passive_db_table.find(user_monster_iter->monster.passive_skill[i]);
+                eosio_assert(passive_db_iter != passive_db_table.end(), "Not Exist Servant Passive 1");
+                if (passive_db_iter->passive_id == 100006) //??n% 利앷?
+                {
+                    status.basic_str += (status.basic_str * passive_db_iter->effect_value) / 100;
+                }
+                else if (passive_db_iter->passive_id == 100007) //誘쇱꺽 n% 利앷?
+                {
+                    status.basic_dex += (status.basic_dex * passive_db_iter->effect_value) / 100;
+                }
+                else if (passive_db_iter->passive_id == 100008) //吏??n% 利앷?
+                {
+                    status.basic_int += (status.basic_int * passive_db_iter->effect_value) / 100;
+                }
+                skill_info passive;
+                passive.id = user_monster_iter->monster.passive_skill[i];
+                passive.per = 100;
+                get_state.passive_skill_list.push_back(passive);
+            }
         }
 
-        auto active_db_iter = active_db_table.find(active.id);
-        eosio_assert(active_db_iter != active_db_table.end(), "Not Exist Monster Active 1");
+        if (user_monster_iter->monster.active_skill.size() != 0)
+        {
+            active_db active_db_table(_self, _self.value);
+            for (uint32_t i = 0; i < user_monster_iter->monster.active_skill.size(); ++i)
+            {
+                auto active_db_iter = active_db_table.find(user_monster_iter->monster.active_skill[i]);
+                eosio_assert(active_db_iter != active_db_table.end(),"Not Exist Monster Active 1");
 
-        active.id = active_db_iter->active_id;
-        active.per = active_db_iter->active_per;
-        active.attack_type = active_db_iter->attack_type;
-        active.dmg_type = active_db_iter->dmg_type;
-        active.target = active_db_iter->target;
-        active.target_count = active_db_iter->target_count;
-        get_state.active_skill_list.push_back(active);
+                skill_info active;
+                active.id = active_db_iter->active_id;
+                active.per = active_db_iter->active_per;
+                active.attack_type = active_db_iter->attack_type;
+                active.dmg_type = active_db_iter->dmg_type;
+                active.target = active_db_iter->target;
+                active.target_count = active_db_iter->target_count;
+                get_state.active_skill_list.push_back(active);
+            }
+        }
+
 
         class_stat_db class_stat_db_table(_self, _self.value);
         auto class_stat_db_iter = class_stat_db_table.find(user_monster_iter->monster.monster_class);
         eosio_assert(class_stat_db_iter != class_stat_db_table.end(),"Not Exist Monster Class 1");
 
+        get_state.grade = user_monster_iter->monster.grade;
         get_state.speed = class_stat_db_iter->speed;
         get_state.index = _index;
         get_state.id = user_monster_iter->monster.id;
@@ -4681,6 +4599,7 @@ battletest::character_state_data battletest::get_user_state(eosio::name _user, s
     }
 
     std::string state;
+    state += to_string(get_state.grade) + ":";
     state += to_string(get_state.position) + ":";
     state += to_string(get_state.index) + ":";
     state += to_string(get_state.id) + ":";
@@ -4758,9 +4677,9 @@ battletest::character_state_data battletest::get_user_state(eosio::name _user, s
         state += "]";
         state += ":";
     }
-    state += to_string(get_state.status.total_str) + ":";
-    state += to_string(get_state.status.total_dex) + ":";
-    state += to_string(get_state.status.total_int);
+    state += to_string(get_state.status.basic_str) + ":";
+    state += to_string(get_state.status.basic_dex) + ":";
+    state += to_string(get_state.status.basic_int);
 
     _state.push_back(state);
     return get_state;
@@ -4801,6 +4720,14 @@ uint32_t get_stage_id(uint32_t _stage_type, uint32_t _stage_floor)
 ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_t _stage_type, uint32_t _stage_floor)
 {
     require_auth(_user);
+
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
+    eosio_assert(system_master_iter->state != system_state::pause, "Server Pause 11");
+
+    blacklist blacklist_table(_self, _self.value);
+    auto blacklist_iter = blacklist_table.find(_user.value);
+    eosio_assert(blacklist_iter == blacklist_table.end(), "BlackList User 11");
 
     whitelist whitelist_table(_self, _self.value);
     auto whitelist_iter = whitelist_table.find(_user.value);
@@ -5450,6 +5377,15 @@ battletest::action_info battletest::get_target_action(uint32_t _active_id, std::
 ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _seed)
 {
     require_auth(_user);
+
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
+    eosio_assert(system_master_iter->state != system_state::pause, "Server Pause 10");
+
+    blacklist blacklist_table(_self, _self.value);
+    auto blacklist_iter = blacklist_table.find(_user.value);
+    eosio_assert(blacklist_iter == blacklist_table.end(), "BlackList User 10");
+
     whitelist whitelist_table(_self, _self.value);
     auto whitelist_iter = whitelist_table.find(_user.value);
     eosio_assert(whitelist_iter != whitelist_table.end(), "Not White User 4");
@@ -5959,7 +5895,6 @@ void battletest::win_reward(eosio::name _user, uint64_t _stage_number)
             if (true == check_level_up(cur_exp, pre_exp))
             {
                 update_servant_exp.servant.status = get_level_up_servant_status(servant_db_iter->job, user_servant_iter->servant.status);
-                update_servant_exp.servant.stat_point += 1;
                 update_servant_exp.servant.exp += reward_iter->char_exp;
             }
             else
@@ -6385,31 +6320,76 @@ ACTION battletest::deleteuser(eosio::name _user)
     // }
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ACTION battletest::dbdatacheat()
+{
+    // class_stat_db class_stat_db_table(_self,_self.value);
+    // for(auto iter=class_stat_db_table.begin();iter!=class_stat_db_table.end();)
+    // {
+    //     auto iter_2 = class_stat_db_table.find(iter->primary_key());
+    //     class_stat_db_table.modify(iter_2, _self, [&](auto &new_data)
+    //     {
+    //         for(int i=0;i<public_passive.size();++i)
+    //         {
+    //             new_data.passive_public_list.push_back(public_passive[i]);
+    //         }
+    //     });
+    //     iter++;
+    // }
 
-// ACTION battletest::balancetest(eosio::name _user)
-// {
-//     user_servants user_servant_table(_self, _user.value);
-//     for(auto iter = user_servant_table.begin(); iter != user_servant_table.end();)
-//     {
-//         auto user_servant_iter = user_servant_table.find(iter->primary_key());
-//         user_servant_table.modify(user_servant_iter, _self, [&](auto &set_servant_status)
-//         {
-//             set_servant_status.servant.status = get_grade_status(0, user_servant_iter->servant.status);
-//         });
-//         iter++;
-//     }
 
-//     user_monsters user_monster_table(_self, _user.value);
-//     for(auto iter = user_monster_table.begin(); iter != user_monster_table.end();)
-//     {
-//         auto user_monster_iter = user_monster_table.find(iter->primary_key());
-//         user_monster_table.modify(user_monster_iter, _self, [&](auto &set_monster_status)
-//         {
-//             set_monster_status.monster.status = get_grade_status(user_monster_iter->monster.grade, user_monster_iter->monster.status);
-//         });
-//         iter++;
-//     }
+    // job_stat_db job_stat_db_table(_self, _self.value);
+    // for(auto iter = job_stat_db_table.begin(); iter != job_stat_db_table.end();)
+    // {
+    //     auto iter_2 = job_stat_db_table.find(iter->primary_key());
+    //     job_stat_db_table.modify(iter_2, _self, [&](auto &new_data)
+    //     {
+    //         for(int i=0;i<public_passive.size();++i)
+    //         {
+    //             new_data.passive_public_list.push_back(public_passive[i]);
+    //         }
+    //         for(int i =0;i<public_active.size(); ++i){
+    //             new_data.active_public_list.push_back(public_active[i]);
+    //         }
 
+    //         if(iter_2->id == 1)
+    //         {
+    //             new_data.active_private_per = 30;
+    //             new_data.active_private_list.push_back(200001);
+    //         }
+    //         else if(iter_2->id == 2)
+    //         {
+    //             new_data.active_private_per = 30;
+    //             new_data.active_private_list.push_back(200003);
+    //         }
+    //         else if(iter_2->id == 3)
+    //         {
+    //             new_data.active_private_per = 30;
+    //             new_data.active_private_list.push_back(200005);
+    //         }
+    //         else if(iter_2->id == 4)
+    //         {
+    //             new_data.active_private_per = 30;
+    //             new_data.active_private_list.push_back(200007);
+    //             new_data.active_private_list.push_back(200008);
+    //         }
+    //     });
+    //     iter++;
+    // }
+}
+
+
+ACTION battletest::alluserdel()
+{
+    user_auths user_auth_table(_self, _self.value);
+    for(auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
+    {
+        auto iter_2 = user_auth_table.find(iter->primary_key());
+        //deletebattle(iter_2->user);
+        iter++;
+        deletebattle(iter_2->user);
+        deleteuser(iter_2->user);
+    }
+}
 // //     // user_equip_items user_item_table(_self, _user.value);
 // //     // for(auto iter = user_item_table.begin(); iter != user_item_table.end();)
 // //     // {
@@ -6555,4 +6535,5 @@ ACTION battletest::deleteuser(eosio::name _user)
 // eos 금액에 대해 체크 하는 함
 
 EOSIO_DISPATCH(battletest,
-               (battleaction)(battlestate)(testsnap)(towersnap)(claim)(settower)(deletewhite)(addwhite)(deleteuser)(stageexit)(deletebattle)(saveparty)(stagestart)(activeturn)(setdata)(herocheat)(partycheat)(resultpre)(resultgacha)(create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dberase)(dbinit))
+               (battleaction)(battlestate)(testsnap)(towersnap)(claim)(settower)(deletewhite)(addwhite)(deleteuser)(stageexit)(deletebattle)(saveparty)(stagestart)(activeturn)(setdata)(herocheat)(partycheat)(resultpre)(resultgacha)(create)(issue)(transfer)(setmaster)(settokenlog)(eostransfer)(initmaster)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dberase)(dbinit)
+               (dbdatacheat)(alluserdel))
