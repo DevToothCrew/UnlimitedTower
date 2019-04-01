@@ -10,6 +10,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public MainCharInfo userMainCharInfo = new MainCharInfo();
 
     public Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
+    public List<UserServantData> servantList = new List<UserServantData>();
 
     public Dictionary<int, UserMonsterData> monsterDic = new Dictionary<int, UserMonsterData>();
 
@@ -25,6 +26,11 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public stageRewardData stageReward = new stageRewardData();
 
     public int usingPartyNum = 1;
+
+    private void FixedUpdate()
+    {
+        servantList = servantDic.Values.ToList();
+    }
 
     #region InitFunction
 

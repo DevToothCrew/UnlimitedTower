@@ -303,16 +303,16 @@ public class CharacterCustom : MonoBehaviour
         if ((isMan == 1 ? 1 : 0) == 1)
         {
             if ((isChildren == 1 ? 0 : 1) == 0)
-                characterSkinnedMeshList.HeadChange(adultManHead[(headIndex - 1) * 3 + (hairIndex - 1)]);
+                characterSkinnedMeshList.HeadChange(adultManHead[(hairIndex - 1) * 3 + (headIndex - 1)]);
             else
-                characterSkinnedMeshList.HeadChange(childrenManHead[(headIndex - 1) * 3 + (hairIndex - 1)]);
+                characterSkinnedMeshList.HeadChange(childrenManHead[(hairIndex - 1) * 3 + (headIndex - 1)]);
         }
         else
         {
             if ((isChildren == 1 ? 0 : 1) == 0)
-                characterSkinnedMeshList.HeadChange(adultWomanHead[(headIndex - 1) * 3 + (hairIndex - 1)]);
+                characterSkinnedMeshList.HeadChange(adultWomanHead[(hairIndex - 1) * 3 + (headIndex - 1)]);
             else
-                characterSkinnedMeshList.HeadChange(childrenWomanHead[(headIndex - 1) * 3 + (hairIndex - 1)]);
+                characterSkinnedMeshList.HeadChange(childrenWomanHead[(hairIndex - 1) * 3 + (headIndex - 1)]);
         }
         defultCharacter.GetComponent<Animator>().runtimeAnimatorController = animatorController[jobIndex];
     }
