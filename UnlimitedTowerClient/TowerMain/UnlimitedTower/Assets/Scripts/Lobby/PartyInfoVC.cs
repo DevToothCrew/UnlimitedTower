@@ -115,10 +115,6 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         OnClickMenuButton(0);
     }
 
-    public menu_type getMenuType()
-    {
-        return selectedMenu;
-    }
 
     //화면 전체 Update (메뉴버튼, 상세정보창, 스크롤 등)
     void updateAllView()
@@ -136,8 +132,9 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
             buttonEquipment[i].gameObject.SetActive(false);
 
         if (selectedMenu == menu_type.SERVANT)
-        {
+        {   
             frameScroll.SetActive(true);
+            resetScroll(currentScrollType);
 
             for (int i = 0; i < 3; i++)
                 buttonEquipment[i].gameObject.SetActive(true);
@@ -148,6 +145,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         else if (selectedMenu == menu_type.MONSTER)
         {
             frameScroll.SetActive(true);
+            resetScroll(currentScrollType);
 
             framePartyInfo.SetActive(true);
             frameFormation.SetActive(false);
@@ -169,12 +167,12 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         if (tag == (int)menu_type.SERVANT)
         {
             selectedMenu = menu_type.SERVANT;
-            resetScroll(scroll_type.SERVANT_INFO);
+            currentScrollType = scroll_type.SERVANT_INFO;
         }
         else if (tag == (int)menu_type.MONSTER)
         {
             selectedMenu = menu_type.MONSTER;
-            resetScroll(scroll_type.MONSTER_INFO);
+            currentScrollType = scroll_type.MONSTER_INFO;
         }
         else
         {
@@ -285,7 +283,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     {
         int selected_unit_idx = _selected_unit_idx;
 
-        if (getMenuType() == menu_type.SERVANT)
+        if (selectedMenu == menu_type.SERVANT)
         {
             DBServantData dBServantData = CSVData.Inst.GetServantData(ServantList[selected_unit_idx].id);
             if(dBServantData == null)
@@ -300,7 +298,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
             textDex.text = string.Format("{0}", ServantList[selected_unit_idx].status.basicDex);
             textInt.text = string.Format("{0}", ServantList[selected_unit_idx].status.basicInt);
         }
-        else if (getMenuType() == menu_type.MONSTER)
+        else if (selectedMenu == menu_type.MONSTER)
         {
             DBMonsterData dBMonsterData = CSVData.Inst.GetMonsterData(MonsterList[selected_unit_idx].id);
             if(dBMonsterData == null)
