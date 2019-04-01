@@ -290,7 +290,7 @@ public class characterStateData
     public List<buffInfo> buff_list = new List<buffInfo>();
     public List<skillInfo> passive_skill_list = new List<skillInfo>();
     public List<skillInfo> active_skill_list = new List<skillInfo>();
-    public Status status = new Status();
+    public statusInfo status = new statusInfo();
 }
 
 [Serializable]

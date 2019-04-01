@@ -239,15 +239,15 @@ public class Cheat : MonoSingleton<Cheat>
                 newMember.active_skill_list = new List<skillInfo>();
                 newMember.active_skill_list.Add(skill);
 
-                newMember.status = new Status();
-                newMember.status.basicStr = servantData.status.basicStr;
-                newMember.status.basicDex = servantData.status.basicDex;
-                newMember.status.basicInt = servantData.status.basicInt;
+                newMember.status = new statusInfo();
+                newMember.status.basic_str = servantData.status.basicStr;
+                newMember.status.basic_dex = servantData.status.basicDex;
+                newMember.status.basic_int = servantData.status.basicInt;
                 newMember.now_hp = Calculator.GetMaxHp(newMember.status);
-                newMember.physical_attack = Calculator.GetAttack(servantData.status);
-                newMember.physical_defense = Calculator.GetDefence(servantData.status);
-                newMember.magic_attack = Calculator.GetMagicAttack(servantData.status);
-                newMember.magic_defense = Calculator.GetMagicDefence(servantData.status);
+                newMember.physical_attack = Calculator.GetAttack(newMember.status);
+                newMember.physical_defense = Calculator.GetDefence(newMember.status);
+                newMember.magic_attack = Calculator.GetMagicAttack(newMember.status);
+                newMember.magic_defense = Calculator.GetMagicDefence(newMember.status);
                 newMember.speed = dbServantData.speed;
             }
             else
@@ -268,15 +268,15 @@ public class Cheat : MonoSingleton<Cheat>
                 newMember.index = monsterData.index;
                 newMember.id = monsterData.id;
 
-                newMember.status = new Status();
-                newMember.status.basicStr = monsterData.status.basicStr;
-                newMember.status.basicDex = monsterData.status.basicDex;
-                newMember.status.basicInt = monsterData.status.basicInt;
+                newMember.status = new statusInfo();
+                newMember.status.basic_str = monsterData.status.basicStr;
+                newMember.status.basic_dex = monsterData.status.basicDex;
+                newMember.status.basic_int = monsterData.status.basicInt;
                 newMember.now_hp = Calculator.GetMaxHp(newMember.status);
-                newMember.physical_attack = Calculator.GetAttack(monsterData.status);
-                newMember.physical_defense = Calculator.GetDefence(monsterData.status);
-                newMember.magic_attack = Calculator.GetMagicAttack(monsterData.status);
-                newMember.magic_defense = Calculator.GetMagicDefence(monsterData.status);
+                newMember.physical_attack = Calculator.GetAttack(newMember.status);
+                newMember.physical_defense = Calculator.GetDefence(newMember.status);
+                newMember.magic_attack = Calculator.GetMagicAttack(newMember.status);
+                newMember.magic_defense = Calculator.GetMagicDefence(newMember.status);
                 newMember.speed = dbMonsterData.speed;
             }
 
@@ -311,17 +311,17 @@ public class Cheat : MonoSingleton<Cheat>
                 return null;
             }
 
-            newMember.status = new Status();
-            newMember.status.basicStr = enemyData.status.basicStr;
-            newMember.status.basicDex = enemyData.status.basicDex;
-            newMember.status.basicInt = enemyData.status.basicInt;
+            newMember.status = new statusInfo();
+            newMember.status.basic_str = enemyData.status.basicStr;
+            newMember.status.basic_dex = enemyData.status.basicDex;
+            newMember.status.basic_int = enemyData.status.basicInt;
 
             newMember.now_hp = Calculator.GetMaxHp(newMember.status);
-            newMember.physical_attack = Calculator.GetAttack(enemyData.status);
-            newMember.physical_defense = Calculator.GetDefence(enemyData.status);
+            newMember.physical_attack = Calculator.GetAttack(newMember.status);
+            newMember.physical_defense = Calculator.GetDefence(newMember.status);
             newMember.physical_crit_dmg = enemyData.criDmg;
-            newMember.magic_attack = Calculator.GetMagicAttack(enemyData.status);
-            newMember.magic_defense = Calculator.GetMagicDefence(enemyData.status);
+            newMember.magic_attack = Calculator.GetMagicAttack(newMember.status);
+            newMember.magic_defense = Calculator.GetMagicDefence(newMember.status);
             newMember.magic_crit_dmg = enemyData.mcriDmg;
             newMember.physical_crit_per = enemyData.criPer;
             newMember.magic_crit_per = enemyData.mcriPer;
