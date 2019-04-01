@@ -12,8 +12,8 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         delayImage = GameObject.Find("DelayImage");
         delayImage.SetActive(false);
 
-        //myTrun = GameObject.Find("마이턴");
-        //myTrun.SetActive(false);
+        myTrun = GameObject.Find("마이턴");
+        myTrun.SetActive(false);
     }
 
     public void TimeScaleX10()

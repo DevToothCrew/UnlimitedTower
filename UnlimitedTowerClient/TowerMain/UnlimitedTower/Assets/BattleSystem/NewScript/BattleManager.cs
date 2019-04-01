@@ -45,11 +45,11 @@ public class BattleManager : MonoSingleton<BattleManager>
         tumbAnimation = GetComponent<TumbAnimation>();
 
 
-        //testReward = GameObject.Find("보상");
-        //testDefeat = GameObject.Find("패배보상");
+        testReward = GameObject.Find("보상");
+        testDefeat = GameObject.Find("패배보상");
 
-        //testReward.SetActive(false);
-        //testDefeat.SetActive(false);
+        testReward.SetActive(false);
+        testDefeat.SetActive(false);
 
         UserDataManager.Inst.stageReward = null;
     }
