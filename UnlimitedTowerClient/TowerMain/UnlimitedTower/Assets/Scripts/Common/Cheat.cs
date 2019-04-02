@@ -64,8 +64,7 @@ public class Cheat : MonoSingleton<Cheat>
             return null;
         }
 
-        //int type = rand.Next((int)GACHA_RESULT_TYPE.Servant, (int)GACHA_RESULT_TYPE.Max);
-        int type = 3;
+        int type = rand.Next((int)GACHA_RESULT_TYPE.Servant, (int)GACHA_RESULT_TYPE.Max);
 
         if (type == (int)GACHA_RESULT_TYPE.Servant)
         {
