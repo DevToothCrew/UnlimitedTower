@@ -1437,6 +1437,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             // TODO : 스킬 DB 읽어오기 추가
             UserSkillInfo skillInfo = new UserSkillInfo();
             skillInfo.id = getSkillList[i];
+            skillList.Add(skillInfo);
         }
         return skillList;
     }
