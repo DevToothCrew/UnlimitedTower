@@ -223,17 +223,17 @@ public class BattleManager : MonoSingleton<BattleManager>
         foreach (KeyValuePair<int, UserCharacterStateData> state in stateData.myStateList)
         {
             if (state.Value.charType == CHAR_TYPE.SERVANT)
-                temp.transform.GetChild(1).GetChild(state.Value.position).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[state.Value.id].servantIcon;
+                temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[state.Value.id].servantIcon;
             else if(state.Value.charType == CHAR_TYPE.MONSTER)
-                temp.transform.GetChild(1).GetChild(state.Value.position).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
+                temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
         }
 
         foreach (KeyValuePair<int, UserCharacterStateData> state in stateData.enemyStateList)
         {
             if (state.Value.charType == CHAR_TYPE.SERVANT)
-                temp.transform.GetChild(0).GetChild(state.Value.position - 10).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[state.Value.id].servantIcon;
+                temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[state.Value.id].servantIcon;
             else if (state.Value.charType == CHAR_TYPE.MONSTER)
-                temp.transform.GetChild(0).GetChild(state.Value.position - 10).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
+                temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
         }
         
         yield return new WaitForSeconds(3.0f);

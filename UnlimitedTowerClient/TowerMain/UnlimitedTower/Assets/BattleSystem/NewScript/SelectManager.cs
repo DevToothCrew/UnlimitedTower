@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class SelectManager : MonoBehaviour
 {
@@ -20,16 +18,17 @@ public class SelectManager : MonoBehaviour
     private RaycastHit hit;
     private Ray ray;
     private bool isAttribute;
-
-    // Test
-    public GameObject testStats;
-    public Text testAd;
-    public Text testAp;
-    public Text testDd;
-    public Text testDp;
-    public Text testSp;
-    public Text testMaxHp;
-    public Text testNowHp;
+    
+    private GameObject characterStats;
+    private Text Atk;
+    private Text mAtk;
+    private Text Def;
+    private Text mDef;
+    private Text Speed;
+    private Text CriPer;
+    private Text mCriPer;
+    private Text CriDmg;
+    private Text mCriDmg;
 
     public enum ActionState
     {
@@ -49,17 +48,19 @@ public class SelectManager : MonoBehaviour
         selectHpText = GameObject.Find("Hp Text").GetComponent<Text>();
         characterInfo = GameObject.Find("Character Information");
 
-        testStats = GameObject.Find("Character Stats");
-        testAd = GameObject.Find("Test Ad").GetComponent<Text>();
-        testAp = GameObject.Find("Test Ap").GetComponent<Text>();
-        testDd = GameObject.Find("Test Dd").GetComponent<Text>();
-        testDp = GameObject.Find("Test Dp").GetComponent<Text>();
-        testSp = GameObject.Find("Test Sp").GetComponent<Text>();
-        testMaxHp = GameObject.Find("Test MaxHp").GetComponent<Text>();
-        testNowHp = GameObject.Find("Test NowHp").GetComponent<Text>();
+        characterStats = GameObject.Find("Character Stats");
+        Atk = GameObject.Find("Atk Text").GetComponent<Text>();
+        mAtk = GameObject.Find("mAtk Text").GetComponent<Text>();
+        Def = GameObject.Find("Def Text").GetComponent<Text>();
+        mDef = GameObject.Find("mDef Text").GetComponent<Text>();
+        Speed = GameObject.Find("Speed Text").GetComponent<Text>();
+        CriPer = GameObject.Find("CriPer Text").GetComponent<Text>();
+        mCriPer = GameObject.Find("mCriPer Text").GetComponent<Text>();
+        CriDmg = GameObject.Find("CriDmg Text").GetComponent<Text>();
+        mCriDmg = GameObject.Find("mCriDmg Text").GetComponent<Text>();
 
         characterInfo.SetActive(false);
-        testStats.SetActive(false);
+        characterStats.SetActive(false);
     }
 
     private void Update()
@@ -107,14 +108,16 @@ public class SelectManager : MonoBehaviour
                         nemeText.text = CSVData.Inst.GetMonsterName(selectStateInfo.id);
                         levelText.text = "?";
                     }
-
-                    testMaxHp.text = BattleManager.Inst.MaxHp[selectIndex].ToString();
-                    testNowHp.text = BattleManager.Inst.NowHp[selectIndex].ToString();
-                    testAd.text = (selectStateInfo.atk).ToString();
-                    testAp.text = (selectStateInfo.mAtk).ToString();
-                    testDd.text = (selectStateInfo.def).ToString();
-                    testDp.text = (selectStateInfo.mDef).ToString();
-                    testSp.text = selectStateInfo.speed.ToString();
+                    
+                    Atk.text = (selectStateInfo.atk).ToString();
+                    mAtk.text = (selectStateInfo.mAtk).ToString();
+                    Def.text = (selectStateInfo.def).ToString();
+                    mDef.text = (selectStateInfo.mDef).ToString();
+                    Speed.text = selectStateInfo.speed.ToString();
+                    CriPer.text = selectStateInfo.criPer.ToString();
+                    mCriPer.text = selectStateInfo.mCriPer.ToString();
+                    CriDmg.text = selectStateInfo.criDmg.ToString();
+                    mCriDmg.text = selectStateInfo.mCriDmg.ToString();
                 }
                 else
                 {
@@ -160,12 +163,12 @@ public class SelectManager : MonoBehaviour
     {
         if (isAttribute)
         {
-            testStats.SetActive(false);
+            characterStats.SetActive(false);
             isAttribute = false;
         }
         else
         {
-            testStats.SetActive(true);
+            characterStats.SetActive(true);
             isAttribute = true;
         }
     }
