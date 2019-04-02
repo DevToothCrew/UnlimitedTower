@@ -1,4 +1,6 @@
-﻿#region ENUM
+﻿using System;
+
+#region ENUM
 
 public enum GRADE_TYPE
 {
@@ -134,6 +136,17 @@ public enum SERVANT_JOB
     Magician = 5,
 }
 
+[Flags]
+public enum SERVANT_EQUIPMENT_FLAG
+{
+    All = 0,
+    Warrior = 1,
+    Thief = 2,
+    Cleric = 4,
+    Archer = 8,
+    Magician = 16,
+}
+
 public enum MONSTER_CLASS
 {
     Fighter = 1,
@@ -253,7 +266,7 @@ public enum POPUP_STATE
     // Inventory
     Weapon = 10,
     Armor = 11,
-    Accesory = 12,
+    Accessory = 12,
     ETC = 13,
 
     // Shop
@@ -263,6 +276,32 @@ public enum POPUP_STATE
 
     // Stage
     Stage = 30,
+}
+
+public enum EQUIPMENT_TYPE
+{
+    WEAPON = 0,
+    ARMOR = 1,
+    ACCESSSORY = 2,
+    MAX = 3,
+}
+
+public enum EQUIPMENT_OPTION_TYPE
+{
+    NONE = 0,
+
+    ATK = 1,
+    MATK = 2,
+    DEF = 3,
+    MDEF = 4,
+
+    HP = 5,
+
+    STR = 6,
+    DEX = 7,
+    INT = 8,
+
+    MAX = 9,
 }
 
 #endregion

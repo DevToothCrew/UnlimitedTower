@@ -1160,6 +1160,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("소모품 구매 !");
 
         UserItemData itemData = ParseItem(getBuyItemData);
+        if(itemData == null)
+        {
+            Debug.Log("Invalid getBuyItemData");
+        }
+
+        UserDataManager.Inst.AddItemData(itemData);
     }
 
     // 인벤토리 구매

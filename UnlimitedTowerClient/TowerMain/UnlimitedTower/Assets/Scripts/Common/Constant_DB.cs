@@ -17,11 +17,48 @@ public class DBItemData
 {
     public int id;
     public string name;
-    public string resourceIcon;
     public string description;
     public int tier;
     public string itemType;
+
     public List<int> itemParamIDList;
+
+    public itemInfo sellItemInfo = new itemInfo();
+
+    public string resourceIcon;
+}
+
+[Serializable]
+public class DBEquipmentData
+{
+    public int id;
+    public string name;
+    public SERVANT_EQUIPMENT_FLAG jobLimit;
+    public bool isEquipable(SERVANT_EQUIPMENT_FLAG job)
+    {
+        if(jobLimit == SERVANT_EQUIPMENT_FLAG.All)
+        {
+            return true;
+        }
+
+        if((jobLimit & job) == job && job != SERVANT_EQUIPMENT_FLAG.All)
+        {
+            return true;
+        }
+
+        return false;
+    }
+    public int tier;
+
+    public EQUIPMENT_TYPE equipmentType;
+    public EQUIPMENT_OPTION_TYPE optionType;
+    public int optionMin;
+    public int optionMax;
+    public int upgradeValue;    // 강화당 %
+    public Dictionary<GRADE_TYPE, double> gradeMultiValueDic = new Dictionary<GRADE_TYPE, double>();
+    public string resourceIcon;
+    public Sprite equipmentIcon = new Sprite();
+    public itemInfo sellItemInfo = new itemInfo();
 }
 
 [Serializable]

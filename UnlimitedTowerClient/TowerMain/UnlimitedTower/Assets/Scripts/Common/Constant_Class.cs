@@ -64,6 +64,8 @@ public class UserServantData
     public int mAtk { get { return Calculator.GetMagicAttack(status); } }
     public int def { get { return Calculator.GetDefence(status); } }
     public int mDef { get { return Calculator.GetMagicDefence(status); } }
+
+    public Dictionary<EQUIPMENT_TYPE, UserEquipmentData> EquipmentDic = new Dictionary<EQUIPMENT_TYPE, UserEquipmentData>();
 }
 
 [Serializable]
@@ -100,11 +102,15 @@ public class UserMonsterData
 public class UserEquipmentData
 {
     public int index;
+    public EQUIPMENT_TYPE equipmentType;
     public int id;
+
     public int grade;
     public int upgrade;
     public int state;
 
+
+    public EQUIPMENT_OPTION_TYPE valueType;
     public int value;
 
     public bool isEquiped;

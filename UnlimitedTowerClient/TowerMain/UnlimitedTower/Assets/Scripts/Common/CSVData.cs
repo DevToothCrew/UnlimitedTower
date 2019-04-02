@@ -8,6 +8,7 @@ using System.Linq;
 public class CSVData : MonoSingleton<CSVData>
 {
     public Dictionary<int, DBItemData> DBItemDataDic = new Dictionary<int, DBItemData>();
+    public Dictionary<int, DBEquipmentData> DBEquipmentDataDic = new Dictionary<int, DBEquipmentData>();
     public Dictionary<int, DBStageData> DBStageDataDic = new Dictionary<int, DBStageData>();
     public Dictionary<int, DBStageEnemyData> DBStageEnemyDataDic = new Dictionary<int, DBStageEnemyData>();
     public Dictionary<int, DBLocalizationData> DBLocalDataDic = new Dictionary<int, DBLocalizationData>();
@@ -60,6 +61,15 @@ public class CSVData : MonoSingleton<CSVData>
                 Debug.Log("Invalid DBSetItemData");
             }
             //Debug.Log("SetItemData Success");
+        }
+        if (DBEquipmentDataDic.Count == 0)
+        {
+            //Debug.Log("SetEquipmentData Start");
+            if (SetEquipmentData() == false)
+            {
+                Debug.Log("Invalid DBSetEquipmentData");
+            }
+            //Debug.Log("SetEquipmentData Success");
         }
         if (DBStageDataDic.Count == 0)
         {
@@ -143,9 +153,74 @@ public class CSVData : MonoSingleton<CSVData>
             itemData.itemType = Convert.ToString(data[i]["item_type"]);
         
             itemData.itemParamIDList = new List<int>();
-             // Param List검사 추가 필요
-        
-             DBItemDataDic.Add(itemData.id, itemData);
+            // Param List검사 추가 필요
+
+            itemData.sellItemInfo.id = Convert.ToInt32(data[i]["sell_item_id"]);
+            itemData.sellItemInfo.count = Convert.ToInt32(data[i]["sell_item_count"]);
+
+            DBItemDataDic.Add(itemData.id, itemData);
+        }
+
+        return true;
+    }
+
+    public bool SetEquipmentData()
+    {
+        List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_equipment");
+        for (var i = 2; i < data.Count; i++)
+        {
+            //Debug.Log("index " + (i).ToString()
+            //    + " : " + data[i]["id"]
+            //    + " " + data[i]["name"]
+            //    + " " + data[i]["job_limit_bit"]
+            //    + " " + data[i]["tier"]
+            //    + " " + data[i]["equip_type"]
+            //    + " " + data[i]["option_list"]
+            //    + " " + data[i]["option_value_min"]
+            //    + " " + data[i]["option_value_max"]
+            //    + " " + data[i]["upgrade_option_value"]
+            //    + " " + data[i]["grade_multi_list"]
+            //    + " " + data[i]["resource_icon"]
+            //    + " " + data[i]["sell_item_id"]
+            //    + " " + data[i]["sell_item_count"]
+            //    );
+
+            DBEquipmentData equipmentData = new DBEquipmentData();
+            equipmentData.id = Convert.ToInt32(data[i]["id"]);
+            if (DBEquipmentDataDic.ContainsKey(equipmentData.id) == true)
+            {
+                Debug.Log("Equipment ID가 겹쳐요 : " + equipmentData.id);
+                return false;
+            }
+            equipmentData.name = Convert.ToString(data[i]["name"]);
+            equipmentData.jobLimit = (SERVANT_EQUIPMENT_FLAG)Convert.ToInt32(Convert.ToString(data[i]["job_limit_bit"]), 2);
+            //Debug.Log("Equip Test Warrior : " + equipmentData.isEquipable(SERVANT_EQUIPMENT_FLAG.Warrior));
+            //Debug.Log("Equip Test Thief : " + equipmentData.isEquipable(SERVANT_EQUIPMENT_FLAG.Thief));
+            //Debug.Log("Equip Test Cleric : " + equipmentData.isEquipable(SERVANT_EQUIPMENT_FLAG.Cleric));
+            //Debug.Log("Equip Test Archer : " + equipmentData.isEquipable(SERVANT_EQUIPMENT_FLAG.Archer));
+            //Debug.Log("Equip Test Magician : " + equipmentData.isEquipable(SERVANT_EQUIPMENT_FLAG.Magician));
+            //Debug.Log("Equip Test All : " + equipmentData.isEquipable(SERVANT_EQUIPMENT_FLAG.All));
+
+            equipmentData.tier = Convert.ToInt32(data[i]["tier"]);
+            equipmentData.equipmentType = (EQUIPMENT_TYPE)Convert.ToInt32(data[i]["equip_type"]);
+            equipmentData.optionType = (EQUIPMENT_OPTION_TYPE)Convert.ToInt32(data[i]["option_list"]);
+            equipmentData.optionMin = Convert.ToInt32(data[i]["option_value_min"]);
+            equipmentData.optionMax = Convert.ToInt32(data[i]["option_value_max"]);
+            equipmentData.upgradeValue = Convert.ToInt32(data[i]["upgrade_option_value"]);
+
+            string[] gmList = Convert.ToString(data[i]["grade_multi_list"]).Split('/');
+            for (GRADE_TYPE j = GRADE_TYPE.COMMON; j != GRADE_TYPE.LEGENDARY; j--)
+            {
+                equipmentData.gradeMultiValueDic.Add(j, Convert.ToDouble(gmList[(5 - (int)j)]));
+            }
+
+            equipmentData.resourceIcon = Convert.ToString(data[i]["resource_icon"]);
+            equipmentData.sellItemInfo.id = Convert.ToInt32(data[i]["sell_item_id"]);
+            equipmentData.sellItemInfo.count = Convert.ToInt32(data[i]["sell_item_count"]);
+            // TODO : Type을 Item에서 받아오는걸 나중에 추가??
+            equipmentData.sellItemInfo.type = 0;
+
+            DBEquipmentDataDic.Add(equipmentData.id, equipmentData);
         }
 
         return true;
@@ -588,6 +663,28 @@ public class CSVData : MonoSingleton<CSVData>
             default:
                 return null;
         }
+    }
+
+    public DBItemData GetItemData(int id)
+    {
+        if(DBItemDataDic.ContainsKey(id) == false)
+        {
+            Debug.LogError("Invalid ItemID");
+            return null;
+        }
+
+        return DBItemDataDic[id];
+    }
+
+    public DBEquipmentData GetEquipmentData(int id)
+    {
+        if (DBEquipmentDataDic.ContainsKey(id) == false)
+        {
+            Debug.LogError("Invalid EquipmentID");
+            return null;
+        }
+
+        return DBEquipmentDataDic[id];
     }
 
     public List<int> GetMonsterIndexList()
