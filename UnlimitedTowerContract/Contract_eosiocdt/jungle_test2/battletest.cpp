@@ -5045,21 +5045,35 @@ void battletest::set_attack_type(uint32_t _atk_type, character_state_data &_stat
             eosio_assert(job_iter != job_stat_db_table.end(),"Not Exist Job ID 40");
 
             _attack = get_physical_attack(_state.status);
-            _cri_dmg = (get_physical_attack(_state.status) * job_iter->physical_cri_dmg) / 100;
+            if (_state.passive_skill_list[0] == passive_name::passive_physical_attack)
+            {
+                passive_db passive_db_table(_self, _self.value);
+                auto passive_iter = passive_db_table.find(_state.passive_skill_list[0]);
+                eosio_assert(passive_iter != passive_db_table.end(), "Not Exist Passive ID 50");
+                _attack += (_attack * passive_iter->effect_value) / 100;
+            }
+            _cri_dmg = (_attack * job_iter->physical_cri_dmg) / 100;
             _cri_per = job_iter->physical_cri_per;
         }
         else
         {
             monster_db monster_db_table(_self, _self.value);
             auto monster_iter = monster_db_table.find(_state.id);
-            eosio_assert(monster_iter  != monster_db_table.end(),"Not Exist Monster ID 40");
+            eosio_assert(monster_iter != monster_db_table.end(), "Not Exist Monster ID 40");
 
             class_stat_db class_stat_db_table(_self, _self.value);
             auto class_stat_iter = class_stat_db_table.find(monster_iter->monster_class);
-            eosio_assert(class_stat_iter != class_stat_db_table.end(),"Not Exist Class ID 40");
+            eosio_assert(class_stat_iter != class_stat_db_table.end(), "Not Exist Class ID 40");
 
             _attack = get_physical_attack(_state.status);
-            _cri_dmg = (get_physical_attack(_state.status) * class_stat_iter->physical_cri_dmg) / 100;
+            if (_state.passive_skill_list[0] == passive_name::passive_physical_attack)
+            {
+                passive_db passive_db_table(_self, _self.value);
+                auto passive_iter = passive_db_table.find(_state.passive_skill_list[0]);
+                eosio_assert(passive_iter != passive_db_table.end(), "Not Exist Passive ID 50");
+                _attack += (_attack * passive_iter->effect_value) / 100;
+            }
+            _cri_dmg = (_attack * class_stat_iter->physical_cri_dmg) / 100;
             _cri_per = class_stat_iter->physical_cri_per;
         }
         break;
@@ -5077,7 +5091,14 @@ void battletest::set_attack_type(uint32_t _atk_type, character_state_data &_stat
             eosio_assert(job_iter != job_stat_db_table.end(), "Not Exist Job ID 40");
 
             _attack = get_magic_attack(_state.status);
-            _cri_dmg = (get_magic_attack(_state.status) * job_iter->magic_cri_dmg) / 100;
+            if (_state.passive_skill_list[0] == passive_name::passive_magic_attack)
+            {
+                passive_db passive_db_table(_self, _self.value);
+                auto passive_iter = passive_db_table.find(_state.passive_skill_list[0]);
+                eosio_assert(passive_iter != passive_db_table.end(), "Not Exist Passive ID 60");
+                _attack += (_attack * passive_iter->effect_value) / 100;
+            }
+            _cri_dmg = (_attack * job_iter->magic_cri_dmg) / 100;
             _cri_per = job_iter->magic_cri_per;
         }
         else
@@ -5091,6 +5112,14 @@ void battletest::set_attack_type(uint32_t _atk_type, character_state_data &_stat
             eosio_assert(class_stat_iter != class_stat_db_table.end(), "Not Exist Class ID 40");
 
             _attack = get_magic_attack(_state.status);
+
+            if (_state.passive_skill_list[0] == passive_name::passive_magic_attack)
+            {
+                passive_db passive_db_table(_self, _self.value);
+                auto passive_iter = passive_db_table.find(_state.passive_skill_list[0]);
+                eosio_assert(passive_iter != passive_db_table.end(), "Not Exist Passive ID 70");
+                _attack += (_attack * passive_iter->effect_value) / 100;
+            }
             _cri_dmg = (get_magic_attack(_state.status) * class_stat_iter->magic_cri_dmg) / 100;
             _cri_per = class_stat_iter->magic_cri_per;
         }
@@ -5126,6 +5155,13 @@ void battletest::set_dmg_type(uint32_t _dmg_type, character_state_data &_state, 
             eosio_assert(job_iter != job_stat_db_table.end(), "Not Exist Job ID 40");
 
             _defense = get_physical_defense(_state.status);
+            if (_state.passive_skill_list[0] == passive_name::passive_physical_defense)
+            {
+                passive_db passive_db_table(_self, _self.value);
+                auto passive_iter = passive_db_table.find(_state.passive_skill_list[0]);
+                eosio_assert(passive_iter != passive_db_table.end(), "Not Exist Passive ID 100");
+                _defense += (_defense * passive_iter->effect_value) / 100;
+            }
             _avoid = job_iter->avoid;
         }
         else
@@ -5139,6 +5175,13 @@ void battletest::set_dmg_type(uint32_t _dmg_type, character_state_data &_state, 
             eosio_assert(class_stat_iter != class_stat_db_table.end(), "Not Exist Class ID 40");
 
             _defense = get_physical_defense(_state.status);
+                        if (_state.passive_skill_list[0] == passive_name::passive_physical_defense)
+            {
+                passive_db passive_db_table(_self, _self.value);
+                auto passive_iter = passive_db_table.find(_state.passive_skill_list[0]);
+                eosio_assert(passive_iter != passive_db_table.end(), "Not Exist Passive ID 200");
+                _defense += (_defense * passive_iter->effect_value) / 100;
+            }
             _avoid = class_stat_iter->avoid;
         }
         
@@ -5157,6 +5200,13 @@ void battletest::set_dmg_type(uint32_t _dmg_type, character_state_data &_state, 
             eosio_assert(job_iter != job_stat_db_table.end(), "Not Exist Job ID 40");
 
             _defense = get_magic_defense(_state.status);
+            if (_state.passive_skill_list[0] == passive_name::passive_magic_defense)
+            {
+                passive_db passive_db_table(_self, _self.value);
+                auto passive_iter = passive_db_table.find(_state.passive_skill_list[0]);
+                eosio_assert(passive_iter != passive_db_table.end(), "Not Exist Passive ID 300");
+                _defense += (_defense * passive_iter->effect_value) / 100;
+            }
             _avoid = job_iter->avoid;
         }
         else
@@ -5170,6 +5220,13 @@ void battletest::set_dmg_type(uint32_t _dmg_type, character_state_data &_state, 
             eosio_assert(class_stat_iter != class_stat_db_table.end(), "Not Exist Class ID 40");
 
             _defense = get_magic_defense(_state.status);
+            if (_state.passive_skill_list[0] == passive_name::passive_magic_defense)
+            {
+                passive_db passive_db_table(_self, _self.value);
+                auto passive_iter = passive_db_table.find(_state.passive_skill_list[0]);
+                eosio_assert(passive_iter != passive_db_table.end(), "Not Exist Passive ID 400");
+                _defense += (_defense * passive_iter->effect_value) / 100;
+            }
             _avoid = class_stat_iter->avoid;
         }
         break;
