@@ -20,13 +20,7 @@ public class UserInfo
     public ulong userEOS;
     public SCENE_STATE sceneState;
 
-    public int level
-    {
-        get
-        {
-            return CSVData.Inst.GetUserLevelByExp(userEXP);
-        }
-    }
+    public int level;
 }
 
 [Serializable]
@@ -51,13 +45,7 @@ public class UserServantData
     public Status status = new Status();
 
     public int exp;
-    public int level
-    {
-        get
-        {
-            return CSVData.Inst.GetLevelForExp(exp);
-        }
-    }
+    public int level;
 
     public int maxHP { get { return Calculator.GetMaxHp(status); } }
     public int atk { get { return Calculator.GetAttack(status); } }
@@ -85,13 +73,8 @@ public class UserMonsterData
     public Status status = new Status();
 
     public int exp;
-    public int level
-    {
-        get
-        {
-            return CSVData.Inst.GetLevelForExp(exp);
-        }
-    }
+    public int level;
+
 
     public int maxHP { get { return Calculator.GetMaxHp(status); } }
     public int atk { get { return Calculator.GetAttack(status); } }

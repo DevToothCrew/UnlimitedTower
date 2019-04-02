@@ -1222,6 +1222,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         userInfo.userEOS = ulong.Parse(getUserData.eos);
         // token은 UTG로 바꿀 필요가 있지 않을까요
         userInfo.userUTG = ulong.Parse(getUserData.token);
+        userInfo.level = getUserData.user_data.rank;
 
         //Debug.Log("getEOS : " + getUserData.eos);
         //Debug.Log("getUTG : " + getUserData.token);
@@ -1264,6 +1265,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         UserServantData userServant = new UserServantData();
         userServant.index = getServantData.index;
         userServant.id = getServantData.servant.id;
+        userServant.level = getServantData.servant.level;
         if (CSVData.Inst.GetServantData(userServant.id) == null)
         {
             Debug.Log("Invalid Servant ID : " + userServant.id);
@@ -1356,6 +1358,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         monster.grade = getMonsterData.monster.grade;
         monster.upgrade = getMonsterData.monster.upgrade;
         monster.state = getMonsterData.monster.state;
+        monster.level = getMonsterData.monster.level;
 
         monster.partyIndex = getMonsterData.party_number;
         if(monster.partyIndex > 0)
