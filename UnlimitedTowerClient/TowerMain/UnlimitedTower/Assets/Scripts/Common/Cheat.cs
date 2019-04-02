@@ -117,12 +117,13 @@ public class Cheat : MonoSingleton<Cheat>
             {
                 characterActionData actioninfo = new characterActionData();
                 actioninfo.my_position = i;
-                actioninfo.action_type = 3;
+                
 
                 // TODO : Skill 관련 코드 정리 필요
                 if (stateData.myStateList[i].activeSkillList.Count <= 0)
                 {
                     // TODO : 세팅값만 있어야하는지
+                    actioninfo.action_type = 2;
                     Debug.Log("Invalid ActiveSkill List");
                     actionInfo action = new actionInfo();
                     action.target_position = UnityEngine.Random.Range(10, 20);
@@ -135,6 +136,7 @@ public class Cheat : MonoSingleton<Cheat>
                 {
                     if (stateData.myStateList[i].activeSkillList[0].id == 200001)
                     {
+                        actioninfo.action_type = 3;
                         for (int target = 0; target < 2; ++target)
                         {
                             actionInfo action = new actionInfo();
@@ -150,6 +152,7 @@ public class Cheat : MonoSingleton<Cheat>
                     }
                     else if (stateData.myStateList[i].activeSkillList[0].id == 200002)
                     {
+                        actioninfo.action_type = 3;
                         actionInfo action = new actionInfo();
                         do
                         {
