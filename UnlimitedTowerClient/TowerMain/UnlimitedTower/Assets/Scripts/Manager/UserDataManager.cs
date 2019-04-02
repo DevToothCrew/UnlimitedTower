@@ -16,6 +16,11 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
     // 장비와 기타 아이템 소모품 등은 Equipment와 Item으로 변경 필요
     public Dictionary<int, UserEquipmentData> equipmentDic = new Dictionary<int, UserEquipmentData>();
+    public Dictionary<int, UserEquipmentData> weaponDic = new Dictionary<int, UserEquipmentData>();
+    public Dictionary<int, UserEquipmentData> armorDic = new Dictionary<int, UserEquipmentData>();
+    public Dictionary<int, UserEquipmentData> accessoryDic = new Dictionary<int, UserEquipmentData>();
+
+
     public Dictionary<int, UserItemData> itemDic = new Dictionary<int, UserItemData>();
     
     // 현재 파티는 1개, 파티 안에 Formation Info 포함
@@ -66,6 +71,27 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public void SetEquipmentDic(Dictionary<int, UserEquipmentData> getEquipmentDic)
     {
         equipmentDic = getEquipmentDic;
+
+        foreach(KeyValuePair<int,UserEquipmentData> data in getEquipmentDic)
+        {
+            if(data.Value.equipmentType == EQUIPMENT_TYPE.WEAPON)
+            {
+                weaponDic.Add(data.Key, data.Value);
+            }
+            else if(data.Value.equipmentType == EQUIPMENT_TYPE.ARMOR)
+            {
+                armorDic.Add(data.Key, data.Value);
+            }
+            else if(data.Value.equipmentType == EQUIPMENT_TYPE.ACCESSSORY)
+            {
+                accessoryDic.Add(data.Key, data.Value);
+            }
+            else
+            {
+                Debug.Log("Invalid Equipment Type : " + data.Value.equipmentType);
+                return;
+            }
+        }
     }
 
     public void SetItemDic(Dictionary<int, UserItemData> getItemDic)
@@ -167,10 +193,34 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         if(equipmentDic.ContainsKey(equipmentData.index) == true)
         {
             equipmentDic[equipmentData.index] = equipmentData;
+            if (equipmentData.equipmentType == EQUIPMENT_TYPE.WEAPON)
+            {
+                weaponDic[equipmentData.index] = equipmentData;
+            }
+            else if (equipmentData.equipmentType == EQUIPMENT_TYPE.ARMOR)
+            {
+                armorDic[equipmentData.index] = equipmentData;
+            }
+            else if (equipmentData.equipmentType == EQUIPMENT_TYPE.ACCESSSORY)
+            {
+                accessoryDic[equipmentData.index] = equipmentData;
+            }
         }
         else
         {
             equipmentDic.Add(equipmentData.index, equipmentData);
+            if (equipmentData.equipmentType == EQUIPMENT_TYPE.WEAPON)
+            {
+                weaponDic.Add(equipmentData.index, equipmentData);
+            }
+            else if (equipmentData.equipmentType == EQUIPMENT_TYPE.ARMOR)
+            {
+                armorDic.Add(equipmentData.index, equipmentData);
+            }
+            else if (equipmentData.equipmentType == EQUIPMENT_TYPE.ACCESSSORY)
+            {
+                accessoryDic.Add(equipmentData.index, equipmentData);
+            }
         }
     }
 
@@ -408,6 +458,21 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return equipmentDic.Count;
     }
 
+    public int GetWeaponCount()
+    {
+        return weaponDic.Count;
+    }
+
+    public int GetArmorCount()
+    {
+        return armorDic.Count;
+    }
+
+    public int GetAccessoryCount()
+    {
+        return accessoryDic.Count;
+    }
+
     public int GetItemCount()
     {
         return itemDic.Count;
@@ -441,6 +506,36 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         }
 
         return equipmentDic.Values.ToList();
+    }
+
+    public List<UserEquipmentData> GetWeaponList()
+    {
+        if(weaponDic.Count == 0)
+        {
+            return null;
+        }
+
+        return weaponDic.Values.ToList();
+    }
+
+    public List<UserEquipmentData> GetArmorList()
+    {
+        if(armorDic.Count == 0)
+        {
+            return null;
+        }
+
+        return armorDic.Values.ToList();
+    }
+
+    public List<UserEquipmentData> GetAccessoryList()
+    {
+        if(accessoryDic.Count == 0)
+        {
+            return null;
+        }
+
+        return accessoryDic.Values.ToList();
     }
 
     public List<UserItemData> GetItemList()
@@ -521,6 +616,20 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         }
 
         equipmentDic.Add(equipmentData.index, equipmentData);
+
+        if (equipmentData.equipmentType == EQUIPMENT_TYPE.WEAPON)
+        {
+            weaponDic.Add(equipmentData.index, equipmentData);
+        }
+        else if (equipmentData.equipmentType == EQUIPMENT_TYPE.ARMOR)
+        {
+            armorDic.Add(equipmentData.index, equipmentData);
+        }
+        else if (equipmentData.equipmentType == EQUIPMENT_TYPE.ACCESSSORY)
+        {
+            accessoryDic.Add(equipmentData.index, equipmentData);
+        }
+
         return true;
     }
 
@@ -610,7 +719,21 @@ public class UserDataManager : MonoSingleton<UserDataManager>
             return false;
         }
 
+        if (equipmentDic[index].equipmentType == EQUIPMENT_TYPE.WEAPON)
+        {
+            weaponDic.Remove(index);
+        }
+        else if (equipmentDic[index].equipmentType == EQUIPMENT_TYPE.ARMOR)
+        {
+            armorDic.Remove(index);
+        }
+        else if (equipmentDic[index].equipmentType == EQUIPMENT_TYPE.ACCESSSORY)
+        {
+            accessoryDic.Remove(index);
+        }
+
         equipmentDic.Remove(index);
+
         return true;
     }
 

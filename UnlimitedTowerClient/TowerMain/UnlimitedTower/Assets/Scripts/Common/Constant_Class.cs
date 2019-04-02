@@ -65,7 +65,7 @@ public class UserServantData
     public int def { get { return Calculator.GetDefence(status); } }
     public int mDef { get { return Calculator.GetMagicDefence(status); } }
 
-    public Dictionary<EQUIPMENT_TYPE, UserEquipmentData> EquipmentDic = new Dictionary<EQUIPMENT_TYPE, UserEquipmentData>();
+    public Dictionary<EQUIPMENT_TYPE, int> EquipmentDic = new Dictionary<EQUIPMENT_TYPE, int>();
 }
 
 [Serializable]
@@ -109,8 +109,7 @@ public class UserEquipmentData
     public int upgrade;
     public int state;
 
-
-    public EQUIPMENT_OPTION_TYPE valueType;
+    public EQUIPMENT_OPTION_TYPE optionType;
     public int value;
 
     public bool isEquiped;

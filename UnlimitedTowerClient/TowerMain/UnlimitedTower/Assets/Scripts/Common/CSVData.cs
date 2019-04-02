@@ -139,7 +139,7 @@ public class CSVData : MonoSingleton<CSVData>
              //    + " " + data[i]["item_param_list"]
              //    );
         
-             DBItemData itemData = new DBItemData();
+            DBItemData itemData = new DBItemData();
             itemData.id = Convert.ToInt32(data[i]["id"]);
             if (DBItemDataDic.ContainsKey(itemData.id) == true)
             {
