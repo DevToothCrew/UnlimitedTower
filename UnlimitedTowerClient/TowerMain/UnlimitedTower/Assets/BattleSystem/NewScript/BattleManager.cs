@@ -106,9 +106,15 @@ public class BattleManager : MonoSingleton<BattleManager>
                 {
                     if (stageActionInfo.character_action_list[i].my_position < 10)
                     {
-                        SkillManager.Inst.SendMessage("Skill_" + GetMyState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id.ToString(), stageActionInfo.character_action_list[i]);
-
-                        yield return new WaitUntil(() => isAfterDelay == true);
+                        if (GetMyState(stageActionInfo.character_action_list[i].my_position).activeSkillList.Count == 0)
+                        {
+                            Debug.Log("ActiveSkillList is Null");
+                        }
+                        else
+                        {
+                            SkillManager.Inst.SendMessage("Skill_" + GetMyState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id.ToString(), stageActionInfo.character_action_list[i]);
+                            yield return new WaitUntil(() => isAfterDelay == true);
+                        }
                         isAfterDelay = false;
                     }
                 }
@@ -126,16 +132,12 @@ public class BattleManager : MonoSingleton<BattleManager>
             myHp += NowHp[i];
             enemyHp += NowHp[i + 10];
         }
-        Debug.Log("myHp : " + myHp);
-        Debug.Log("enemyHp : " + enemyHp);
-
 
         if (myHp == 0 || enemyHp == 0)
         {
 #if UNITY_EDITOR
             Cheat.Inst.RequestStageRewardCheat();
 #else
-
             PacketManager.Inst.RequestStageReward();
 #endif
         }
@@ -212,78 +214,28 @@ public class BattleManager : MonoSingleton<BattleManager>
         }
         UserDataManager.Inst.stageReward = null;
     }
-
-    public void TestBattleTarget()
-    {
-        characterActionData battleActionInfo = new characterActionData();
-        actionInfo actionInfo = new actionInfo();
-        actionInfo.target_position = 10;
-        actionInfo.damage = 1000;
-        battleActionInfo.action_type = 302;
-        battleActionInfo.action_info_list.Add(actionInfo);
-        actionInfo.target_position = 14;
-        actionInfo.damage = 1000;
-        battleActionInfo.action_type = 302;
-        battleActionInfo.action_info_list.Add(actionInfo);
-        battleActionInfo.my_position = 0;
-
-        SkillManager.Inst.Skill_200007(battleActionInfo);
-    }
-
+    
     // 시작화면 파티 초상화 셋팅
     public IEnumerator SetStartImage(UserStageStateData stateData)
     {
-        Image[] image = new Image[20];
         GameObject temp = GameObject.Find("StartUI");
+
+        foreach (KeyValuePair<int, UserCharacterStateData> state in stateData.myStateList)
+        {
+            if (state.Value.charType == CHAR_TYPE.SERVANT)
+                temp.transform.GetChild(1).GetChild(state.Value.position).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[state.Value.id].servantIcon;
+            else if(state.Value.charType == CHAR_TYPE.MONSTER)
+                temp.transform.GetChild(1).GetChild(state.Value.position).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
+        }
+
+        foreach (KeyValuePair<int, UserCharacterStateData> state in stateData.enemyStateList)
+        {
+            if (state.Value.charType == CHAR_TYPE.SERVANT)
+                temp.transform.GetChild(0).GetChild(state.Value.position - 10).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[state.Value.id].servantIcon;
+            else if (state.Value.charType == CHAR_TYPE.MONSTER)
+                temp.transform.GetChild(0).GetChild(state.Value.position - 10).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
+        }
         
-        for (int i = 0; i < 10; i++)
-        {
-            if (stateData.myStateList.ContainsKey(i) == false)
-            {
-                continue;
-            }
-
-            if (stateData.myStateList[i].charType == CHAR_TYPE.SERVANT)
-            {
-                DBServantData servantData = CSVData.Inst.DBServantDataDic[stateData.myStateList[i].id];
-                if(servantData == null)
-                {
-                    Debug.Log("Invalid Servant ID : " + stateData.myStateList[i].id);
-                    continue;
-                }
-
-                temp.transform.GetChild(1).GetChild(positionOrder[stateData.myStateList[i].position] + 1).GetComponent<Image>().sprite = servantData.servantIcon;
-            }
-            else if (stateData.myStateList[i].charType == CHAR_TYPE.MONSTER)
-            {
-                DBMonsterData monsterData = CSVData.Inst.DBMonsterDataDic[stateData.myStateList[i].id];
-                if(monsterData == null)
-                {
-                    Debug.Log("Invalid Monster ID : " + stateData.myStateList[i].id);
-                    continue;
-                }
-
-                temp.transform.GetChild(1).GetChild(positionOrder[stateData.myStateList[i].position] + 1).GetComponent<Image>().sprite = monsterData.monsterIcon;
-            }
-        }
-
-        for (int i = 10; i < 20; i++)
-        {
-            if (stateData.enemyStateList.ContainsKey(i) == false)
-            {
-                continue;
-            }
-
-            DBMonsterData monsterData = CSVData.Inst.DBMonsterDataDic[stateData.enemyStateList[i].id];
-            if (monsterData == null)
-            {
-                Debug.Log("Invalid Monster ID : " + stateData.myStateList[i].id);
-                continue;
-            }
-
-            temp.transform.GetChild(0).GetChild(positionOrder[stateData.enemyStateList[i].position - 10] + 1).GetComponent<Image>().sprite = monsterData.monsterIcon;
-        }
-
         yield return new WaitForSeconds(3.0f);
         temp.SetActive(false);
     }
@@ -330,21 +282,15 @@ public class BattleManager : MonoSingleton<BattleManager>
     // 아군 파티 셋팅
     public void SettingMyTeam(UserStageStateData stateData)
     {
-        // TODO : i 가 Position이 아닐 확률과 myStateList에 10개가 안올 확률이 있다...
-        for (int i = 0; i < 10; i++)
+        foreach (KeyValuePair<int, UserCharacterStateData> state in stateData.myStateList)
         {
-            if(stateData.myStateList.ContainsKey(i) == false)
+            if (state.Value.charType == CHAR_TYPE.SERVANT)
             {
-                continue;
-            }
-
-            if (stateData.myStateList[i].charType == CHAR_TYPE.SERVANT)
-            {
-                UserServantData servantInfo = UserDataManager.Inst.GetServantInfo(stateData.myStateList[i].index);
+                UserServantData servantInfo = UserDataManager.Inst.GetServantInfo(state.Value.index);
                 if (servantInfo == null)
                 {
                     // TODO : LogError를 쓰면 Web에서 멈춘다...
-                    Debug.Log("Invalid Servant Index : " + stateData.myStateList[i].index);
+                    Debug.Log("Invalid Servant Index : " + stateData.myStateList[state.Value.position].index);
                     return;
                 }
 
@@ -355,7 +301,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                     return;
                 }
 
-                character[i] = Instantiate(characterCustom.Create(
+                character[state.Value.position] = Instantiate(characterCustom.Create(
                     dbServantData.job,
                     dbServantData.head,
                     dbServantData.hair,
@@ -363,17 +309,17 @@ public class BattleManager : MonoSingleton<BattleManager>
                     dbServantData.body
                     ), CharacterParent.transform.GetChild(0));
 
-                character[i].name = "Servant : " + i + " - " + dbServantData.name;
-                character[i].AddComponent<CharacterIndex>().index = i;
-                SettingBoxCollider(character[i]);
-                animator[i] = character[i].GetComponent<Animator>();
+                character[state.Value.position].name = "Servant : " + state.Value.position + " - " + dbServantData.name;
+                character[state.Value.position].AddComponent<CharacterIndex>().index = state.Value.position;
+                SettingBoxCollider(character[state.Value.position]);
+                animator[state.Value.position] = character[state.Value.position].GetComponent<Animator>();
             }
-            else if(stateData.myStateList[i].charType == CHAR_TYPE.MONSTER)
+            else if (state.Value.charType == CHAR_TYPE.MONSTER)
             {
-                UserMonsterData monsterInfo = UserDataManager.Inst.GetMonsterInfo(stateData.myStateList[i].index);
-                if(monsterInfo == null)
+                UserMonsterData monsterInfo = UserDataManager.Inst.GetMonsterInfo(state.Value.index);
+                if (monsterInfo == null)
                 {
-                    Debug.Log("Invalid Monster Index : " + stateData.myStateList[i].index);
+                    Debug.Log("Invalid Monster Index : " + stateData.myStateList[state.Value.position].index);
                     return;
                 }
 
@@ -384,20 +330,15 @@ public class BattleManager : MonoSingleton<BattleManager>
                     return;
                 }
 
-                character[i] = Instantiate(Resources.Load("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResourceModel(monsterInfo.id)) as GameObject,
+                character[state.Value.position] = Instantiate(Resources.Load("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResourceModel(monsterInfo.id)) as GameObject,
                     CharacterParent.transform.GetChild(0));
 
-                character[i].name = "Monster : " + i + " - " +  dbMonsterData.name;
-                character[i].AddComponent<CharacterIndex>().index = i;
-                SettingBoxCollider(character[i]);
-                animator[i] = character[i].GetComponent<Animator>();
+                character[state.Value.position].name = "Monster : " + state.Value.position + " - " + dbMonsterData.name;
+                character[state.Value.position].AddComponent<CharacterIndex>().index = state.Value.position;
+                SettingBoxCollider(character[state.Value.position]);
+                animator[state.Value.position] = character[state.Value.position].GetComponent<Animator>();
             }
-            else
-            {
-                Debug.Log("Invalid charType : " + stateData.myStateList[i].charType.ToString());
-                return;
-            }
-            SettinGrid(i);
+            SettinGrid(state.Value.position);
         }
     }
 
@@ -439,16 +380,16 @@ public class BattleManager : MonoSingleton<BattleManager>
             if (i < 5)
             {
                 if (character[i] != null)
-                    character[i].transform.position = new Vector3(-4.2f + 2.1f * (positionOrder[i] % 5), 0, -4.2f);
+                    character[i].transform.position = new Vector3(-4.2f + 2.1f * (i % 5), 0, -4.2f);
                 if (character[i + 10] != null)
-                    character[i + 10].transform.position = new Vector3(4.2f - 2.1f * (positionOrder[i] % 5), 0, 4.2f);
+                    character[i + 10].transform.position = new Vector3(4.2f - 2.1f * (i % 5), 0, 4.2f);
             }
             else
             {
                 if (character[i] != null)
-                    character[i].transform.position = new Vector3(-4.2f + 2.1f * (positionOrder[i] % 5), 0, -2.1f);
+                    character[i].transform.position = new Vector3(-4.2f + 2.1f * (i % 5), 0, -2.1f);
                 if (character[i + 10] != null)
-                    character[i + 10].transform.position = new Vector3(4.2f - 2.1f * (positionOrder[i] % 5), 0, 2.1f);
+                    character[i + 10].transform.position = new Vector3(4.2f - 2.1f * (i % 5), 0, 2.1f);
             }
         }
     }

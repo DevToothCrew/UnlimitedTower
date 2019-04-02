@@ -68,9 +68,9 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         delayImage.SetActive(false);
     }
 
-    public void BattleStartOut()
+    public void BattleActionOut()
     {
-        PacketManager.Inst.ResponseStageExit();
+        PacketManager.Inst.RequestStageExit();
     }
 
     public void BattleOut()
