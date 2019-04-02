@@ -208,7 +208,8 @@ CONTRACT battletest : public contract
     TABLE dblevel
     {
         uint32_t lv;
-        uint64_t exp;
+        uint64_t rank_exp;
+        uint64_t char_exp;
         uint64_t primary_key() const { return lv; }
     };
     typedef eosio::multi_index<"dblevel"_n, dblevel> lv_exp;
@@ -556,7 +557,7 @@ CONTRACT battletest : public contract
     void insert_all_item_id(uint64_t _item_id, uint32_t _type, uint32_t _param, uint64_t _sell_id, uint64_t _sell_cost);
     void insert_item_grade(std::string _status, uint64_t _grade, uint64_t _min, uint64_t _max);
     void insert_grade_ratio(uint64_t _grade, uint64_t _ratio);
-
+    void insert_level(uint32_t _level, uint32_t _rank_exp, uint32_t _char_exp);
   
 
 
@@ -587,7 +588,7 @@ CONTRACT battletest : public contract
     void erase_grade_ratio(uint64_t _grade);
     // void erase_upgrade_monster_ratio(uint32_t _main);
     // void erase_servant_grind_item(uint32_t _item_id);
-    // void erase_level(uint32_t _id);
+    void erase_level(uint32_t _id);
     // void erase_servant_lv(uint64_t _job);
     // void erase_monster_lv(uint64_t _monster_class_grade);
     // void erase_servant_lv_status(uint64_t _type);
@@ -739,6 +740,7 @@ CONTRACT battletest : public contract
         uint32_t state;     //서번트 상태
         uint32_t exp = 0;   //서번트 경험치
         uint64_t id = 0;
+        uint32_t level = 1;
         status_info status;
         std::vector<uint32_t> equip_slot; //서번트 장비 리스트
         std::vector<uint32_t> passive_skill;
@@ -765,6 +767,7 @@ CONTRACT battletest : public contract
         uint32_t monster_class = 0; //몬스터의 클래스
         uint32_t grade;       // 등급
         uint32_t upgrade = 0; //강화수치
+        uint32_t level = 1;
         status_info status;   //기본 힘,민,지 추가 힘,민,지
         std::vector<uint32_t> passive_skill;
         std::vector<uint32_t> active_skill;
@@ -968,6 +971,7 @@ CONTRACT battletest : public contract
         eosio::name user;
         uint32_t state = user_state::lobby;
         uint32_t exp = 0;
+        uint32_t rank = 1;
         uint32_t current_servant_inventory = 0;
         uint32_t current_monster_inventory = 0;
         uint32_t current_equipitem_inventory = 0;
@@ -1387,12 +1391,13 @@ CONTRACT battletest : public contract
     int get_random_target(const std::vector<character_state_data> &_enemy_state_list, uint64_t _seed, uint32_t _max, uint32_t _min);
     int get_target_key(const std::vector<character_state_data> &_enemy_state_list, uint64_t _target_position);
     static bool sort_compare(const battle_order_struct &a, const battle_order_struct &b);
-    bool check_level_up(uint64_t _cur_exp, uint64_t _pre_exp);
+    uint32_t check_char_level_up(uint32_t _cur_level, uint64_t _get_exp);
+    uint32_t check_rank_level_up(uint32_t _cur_level, uint64_t _get_exp);
 
     servant_data get_reward_servant(eosio::name _user, uint32_t _job, uint32_t _grade, uint64_t _seed);
     monster_data get_reward_monster(eosio::name _user, uint32_t _id, uint32_t _grade, uint64_t _seed);
     equip_data get_reward_equip(eosio::name _user, uint32_t _id, uint32_t _grade ,uint64_t _seed);
-    void win_reward(eosio::name _user,uint64_t _stage_number);
+    void win_reward(eosio::name _user,uint64_t _stage_number,  uint64_t _seed);
     void fail_reward(eosio::name _user,uint64_t _stage_number);
 
     void set_attack_order_list(std::vector<battle_order_struct> & _list,

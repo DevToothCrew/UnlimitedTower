@@ -201,8 +201,10 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
     }
     else if (_table == "dblevel")
     {
-        // value = atoi(_value.c_str());
-        // insert_level(value);
+        substr_value(_value, value_list, size_list, 3);
+        insert_level(atoll(value_list[0].c_str()),
+                             atoi(value_list[1].c_str()),
+                             atoi(value_list[2].c_str()));
     }
     else if (_table == "dbservantjob")
     {
@@ -882,15 +884,18 @@ void battletest::insert_grade_ratio(uint64_t _grade, uint64_t _ratio)
 //     }
 // }
 
-// void battletest::insert_level(uint32_t _id)
-// {
-//     uint64_t temp_exp = (-180 + 259 * _id + 93 * _id * _id + 8 * _id * _id * _id) * 5 / 6;
-//     lv_exp lv_exp_table(_self, _self.value);
-//     lv_exp_table.emplace(_self, [&](auto &new_lv_exp) {
-//         new_lv_exp.lv = _id + 1;
-//         new_lv_exp.exp = temp_exp;
-//     });
-// }
+void battletest::insert_level(uint32_t _level, uint32_t _rank_exp, uint32_t _char_exp)
+{
+    lv_exp lv_exp_table(_self, _self.value);
+    for (uint32_t i = 0; i < _level; ++i)
+    {
+        lv_exp_table.emplace(_self, [&](auto &new_lv_exp) {
+            new_lv_exp.lv = i + 1;
+            new_lv_exp.rank_exp = i + 5;
+            new_lv_exp.char_exp = i * 20;
+        });
+    }
+}
 
 // void battletest::insert_servant_lv(uint64_t _job, uint64_t _lv_up_str, uint64_t _lv_up_dex, uint64_t _lv_up_int)
 // {
@@ -1465,11 +1470,11 @@ ACTION battletest::dberase(std::string _table, std::string _value)
     //     value = atoi(_value.c_str());
     //     erase_upgrade_monster_ratio(value);
     // }
-    // else if (_table == "dblevel")
-    // {
-    //     value = atoi(_value.c_str());
-    //     erase_level(value);
-    // }
+    else if (_table == "dblevel")
+    {
+        value = atoi(_value.c_str());
+        erase_level(value);
+    }
     else if (_table == "dbservantjob")
     {
         value = atoll(_value.c_str());
@@ -1705,13 +1710,13 @@ void battletest::erase_grade_ratio(uint64_t _grade)
 //     upgrade_item_ratio_db_table.erase(upgrade_item_ratio_db_iter);
 // }
 
-// void battletest::erase_level(uint32_t _id)
-// {
-//     lv_exp lv_exp_table(_self, _self.value);
-//     auto lv_exp_iter = lv_exp_table.find(_id);
-//     eosio_assert(lv_exp_iter != lv_exp_table.end(), "Not exist Level to Exp Data");
-//     lv_exp_table.erase(lv_exp_iter);
-// }
+void battletest::erase_level(uint32_t _id)
+{
+    lv_exp lv_exp_table(_self, _self.value);
+    auto lv_exp_iter = lv_exp_table.find(_id);
+    eosio_assert(lv_exp_iter != lv_exp_table.end(), "Not exist Level to Exp Data");
+    lv_exp_table.erase(lv_exp_iter);
+}
 
 // void battletest::erase_servant_lv(uint64_t _job)
 // {
@@ -1839,7 +1844,7 @@ ACTION battletest::dbinit(std::string _table)
     master_auth.permission = "owner"_n;
     require_auth(master_auth);
 
-    eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 4");
+    //eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 4");
 
     if (_table == "dbbody")
     {
@@ -1942,16 +1947,16 @@ ACTION battletest::dbinit(std::string _table)
     //         my_table.erase(erase_iter);
     //     }
     // }
-    // else if (_table == "dblevel")
-    // {
-    //     lv_exp my_table(_self, _self.value);
-    //     for (auto iter = my_table.begin(); iter != my_table.end();)
-    //     {
-    //         auto erase_iter = my_table.find(iter->primary_key());
-    //         iter++;
-    //         my_table.erase(erase_iter);
-    //     }
-    // }
+    else if (_table == "dblevel")
+    {
+        lv_exp my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
+    }
     // else if (_table == "dbservantlv")
     // {
     //     servant_lv_db my_table(_self, _self.value);
@@ -2216,7 +2221,8 @@ ACTION battletest::setdata(eosio::name _contract, std::string _table)
             const auto &lv_exp_iter = other_lv_exp_table.get(iter15->primary_key(), "nost exist data");
             my_table.emplace(_self, [&](auto &new_data) {
                 new_data.lv = lv_exp_iter.lv;
-                new_data.exp = lv_exp_iter.exp;
+                new_data.rank_exp = lv_exp_iter.rank_exp;
+                new_data.char_exp = lv_exp_iter.char_exp;
             });
             iter15++;
         }
@@ -5758,7 +5764,7 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
     });
     if (enemy_dead_count == user_battle_state_iter->enemy_state_list.size())
     {
-        win_reward(_user, user_battle_state_iter->stage_number);
+        win_reward(_user, user_battle_state_iter->stage_number, battle_seed);
     }
     else if (user_dead_count == user_battle_state_iter->my_state_list.size())
     {
@@ -5771,38 +5777,54 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
         .send();
 }
 
-bool battletest::check_level_up(uint64_t _cur_exp, uint64_t _pre_exp)
+uint32_t battletest::check_char_level_up(uint32_t _cur_level, uint64_t _get_exp)
 {
+    uint32_t level_up_count = 0;
     lv_exp lv_exp_table(_self, _self.value);
-    auto lv_exp_iter = lv_exp_table.find(50);
-    if (lv_exp_iter->exp >= _cur_exp) //만렙인지 체크
+    auto lv_exp_iter = lv_exp_table.find(_cur_level);
+    if(lv_exp_iter->lv == 50)
     {
-        return false;
+        return level_up_count;
     }
 
-    uint64_t level_up_line = 0;
-    for (auto iter = lv_exp_table.begin(); iter != lv_exp_table.end();)
+    for(auto iter = lv_exp_iter; iter !=lv_exp_table.end();)
     {
-        if (iter->exp > _cur_exp)
+        if(_get_exp >= iter->char_exp)
         {
-            level_up_line = iter->exp;
-            break;
+            level_up_count+=1;
+            iter++;
         }
-        iter++;
+        else
+        {
+            return level_up_count;
+        }
+    }
+    return level_up_count;
+}
+
+uint32_t battletest::check_rank_level_up(uint32_t _cur_level, uint64_t _get_exp)
+{
+    uint32_t level_up_count = 0;
+    lv_exp lv_exp_table(_self, _self.value);
+    auto lv_exp_iter = lv_exp_table.find(_cur_level);
+    if(lv_exp_iter->lv == 50)
+    {
+        return level_up_count;
     }
 
-    if (level_up_line == 0)
+    for(auto iter = lv_exp_iter; iter !=lv_exp_table.end();)
     {
-        return false;
+        if(_get_exp >= iter->rank_exp)
+        {
+            level_up_count+=1;
+            iter++;
+        }
+        else
+        {
+            return level_up_count;
+        }
     }
-    else if (level_up_line <= _pre_exp)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return level_up_count;
 }
 battletest::servant_data battletest::get_reward_servant(eosio::name _user, uint32_t _job, uint32_t _grade ,uint64_t _seed)
 {
@@ -5987,7 +6009,7 @@ battletest::equip_data battletest::get_reward_equip(eosio::name _user, uint32_t 
     return new_data;
 }
 
-void battletest::win_reward(eosio::name _user, uint64_t _stage_number)
+void battletest::win_reward(eosio::name _user, uint64_t _stage_number, uint64_t _seed)
 {
     reward_db reward_db_table(_self,_self.value);
     auto reward_iter = reward_db_table.find(_stage_number);
@@ -5998,39 +6020,43 @@ void battletest::win_reward(eosio::name _user, uint64_t _stage_number)
     auto user_party_iter = user_party_table.begin();
     eosio_assert(user_party_iter != user_party_table.end(), "Not Exist Party");
 
+
+///유저 경험치 처리
     user_auths user_auth_table(_self, _self.value);
     auto user_auth_iter = user_auth_table.find(_user.value);
     eosio_assert(user_auth_iter != user_auth_table.end(), "Not Exist Hero");
+
+    uint32_t get_exp = user_auth_iter->exp + reward_iter->rank_exp;
+    uint32_t level_up_count = check_rank_level_up(user_auth_iter->rank, get_exp);
     user_auth_table.modify(user_auth_iter, _self, [&](auto &upadate_exp) {
-        upadate_exp.exp += reward_iter->rank_exp;
+        upadate_exp.rank += level_up_count;
+        upadate_exp.exp = get_exp;
         upadate_exp.state = user_state::lobby;
     });
 
     lv_exp lv_exp_table(_self, _self.value);
     user_servants user_servant_table(_self, _user.value);
-    for (uint32_t i = 0; i < 4; ++i)
+    for (uint32_t i = 0; i < 5; ++i)
     {
         if (user_party_iter->servant_list[i] == 0)
         {
             continue;
         }
         auto user_servant_iter = user_servant_table.find(user_party_iter->servant_list[i]);
-        uint64_t cur_exp = user_servant_iter->servant.exp + reward_iter->char_exp;
-        uint64_t pre_exp = user_servant_iter->servant.exp;
+        uint64_t get_exp = user_servant_iter->servant.exp + reward_iter->char_exp;
 
         servant_db servant_db_table(_self, _self.value);
         auto servant_db_iter = servant_db_table.find(user_servant_iter->servant.id);
         eosio_assert(servant_db_iter != servant_db_table.end(),"Not Exist Servant 1");
         user_servant_table.modify(user_servant_iter, _self, [&](auto &update_servant_exp) {
-            if (true == check_level_up(cur_exp, pre_exp))
+            uint32_t level_up_count = check_char_level_up(user_servant_iter->servant.level, get_exp);
+            for(uint32_t i = 0; i<level_up_count; ++i)
             {
                 update_servant_exp.servant.status = get_level_up_servant_status(servant_db_iter->job, user_servant_iter->servant.status);
-                update_servant_exp.servant.exp += reward_iter->char_exp;
             }
-            else
-            {
-                update_servant_exp.servant.exp += reward_iter->char_exp;
-            }
+            update_servant_exp.servant.level += level_up_count;
+            update_servant_exp.servant.exp = get_exp;
+
         });
     }
 
@@ -6042,19 +6068,49 @@ void battletest::win_reward(eosio::name _user, uint64_t _stage_number)
             continue;
         }
         auto user_monster_iter = user_monster_table.find(user_party_iter->monster_list[i]);
-        uint64_t cur_exp = user_monster_iter->monster.exp + reward_iter->char_exp;
-        uint64_t pre_exp = user_monster_iter->monster.exp;
+        uint64_t get_exp = user_monster_iter->monster.exp + reward_iter->char_exp;
         user_monster_table.modify(user_monster_iter, _self, [&](auto &update_monster_exp) {
-            if (true == check_level_up(cur_exp, pre_exp))
+            uint32_t level_up_count = check_char_level_up(user_monster_iter->monster.level, get_exp);
+            for(uint32_t i = 0; i<level_up_count; ++i)
             {
                 update_monster_exp.monster.status = get_level_up_monster_status(user_monster_iter->monster.monster_class, user_monster_iter->monster.grade, user_monster_iter->monster.status);
-                update_monster_exp.monster.exp += reward_iter->char_exp;
             }
-            else
-            {
-                update_monster_exp.monster.exp += reward_iter->char_exp;
-            }
+            update_monster_exp.monster.level += level_up_count;
+            update_monster_exp.monster.exp = get_exp;
         });
+    }
+
+//보상 상자 처리
+std::vector<monster_data> monster_list;
+std::vector<equip_data> equipment_list;
+    for(uint32_t i = 0; i<reward_iter->reward_list.size(); ++i)
+    {
+        if(reward_iter->reward_list[i].type == 1)       //servant
+        {
+
+        }
+        else if(reward_iter->reward_list[i].type == 2)  //monster
+        {
+            uint32_t random_count = 0;
+            for(uint32_t mon = 0; mon < reward_iter->reward_list[i].count; ++mon)
+            {
+                uint64_t rate = safeseed::get_random_value(_seed, 1000, 0, random_count);
+                random_count++;
+                if(reward_iter->reward_list[i].per > rate)
+                {
+                    monster_data new_monser = get_reward_monster(_user,reward_iter->reward_list[i].id ,reward_iter->reward_list[i].grade, _seed);
+                }
+
+            }
+        }
+        else if(reward_iter->reward_list[i].type == 3) //equipment
+        {
+
+        }
+        else if(reward_iter->reward_list[i].type == 4) //item
+        {
+
+        }
     }
 
     asset stage_reward_money(0, symbol(symbol_code("UTG"), 4));
