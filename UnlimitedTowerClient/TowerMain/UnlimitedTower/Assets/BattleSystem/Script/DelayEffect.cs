@@ -5,22 +5,18 @@ using UnityEngine;
 public class DelayEffect : MonoBehaviour {
     public GameObject[] effect;
     public Animator characterImage;
-  
-    public void Begin()
+
+    public void Awake()
     {
         characterImage = GameObject.Find("DelayCharacter").GetComponent<Animator>();
+    }
+
+    public void OnEnable()
+    {
         StartCoroutine(EffectInstante());
         characterImage.SetFloat("Speed", 1.0f / Time.timeScale);
     }
-
-    public void End()
-    {
-        foreach (Transform child in transform)
-            child.GetComponent<MoveGameObject>()?.End();
-
-        StopAllCoroutines();
-    }
-
+    
     IEnumerator EffectInstante()
     {
         while(true)
