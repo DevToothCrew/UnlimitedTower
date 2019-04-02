@@ -1487,6 +1487,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
         stateData.state = getStateData.state;
         stateData.status = ParseStatus(getStateData.status);
         stateData.buffList = getStateData.buff_list;
+        stateData.activeSkillList = ParseSkillList(getStateData.active_skill_list);
+        stateData.passiveSkillList = ParseSkillList(getStateData.passive_skill_list);
 
         if (stateData.charType == CHAR_TYPE.SERVANT)
         {
