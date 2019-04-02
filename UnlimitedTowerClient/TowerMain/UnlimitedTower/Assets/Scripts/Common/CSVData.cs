@@ -74,49 +74,73 @@ public class CSVData : MonoSingleton<CSVData>
         if (DBStageDataDic.Count == 0)
         {
             //Debug.Log("SetStageData Start");
-            SetStageData();
+            if(SetStageData() == false)
+            {
+                Debug.Log("Invalid DBStageData");
+            }
             //Debug.Log("SetStageData Success");
         }
         if (DBStageEnemyDataDic.Count == 0)
         {
             //Debug.Log("SetStageEnemyData Start");
-            SetStageEnemyData();
+            if(SetStageEnemyData() == false)
+            {
+                Debug.Log("Invalid DBStageEnemyData");
+            }
             //Debug.Log("SetStageEnemyData Success");
         }
         if(DBServantStatDataDic.Count == 0)
         {
             //Debug.Log("SetServantStatData Start");
-            SetServantStatData();
+            if(SetServantStatData() == false)
+            {
+                Debug.Log("Invalid DBServantStatData");
+            }
             //Debug.Log("SetServantStatData Success");
         }
         if (DBServantDataDic.Count == 0)
         {
             //Debug.Log("SetServantData Start");
-            SetServantData();
+            if(SetServantData() == false)
+            {
+                Debug.Log("Invalid DBServantData");
+            }
             //Debug.Log("SetServantData Success");
         }
         if (DBMonsterStatDataDic.Count == 0)
         {
             //Debug.Log("SetMonsterStatData Start");
-            SetMonsterStatData();
+            if(SetMonsterStatData() == false)
+            {
+                Debug.Log("Invalid DBMonsterStatData");
+            }
             //Debug.Log("SetMonsterStatData Success");
         }
         if (DBMonsterDataDic.Count == 0)
         {
             //Debug.Log("SetMonsterData Start");
-            SetMonsterData();
+            if(SetMonsterData() == false)
+            {
+                Debug.Log("Invalid DBMonsterData");
+            }
             //Debug.Log("SetMonsterData Success");
         }
         if (DBMonsterUpgradeDataDic.Count == 0)
         {
             //Debug.Log("SetMonsterUpgradeData Start");
-            SetMonsterUpgradeData();
+            if(SetMonsterUpgradeData() == false)
+            {
+                Debug.Log("Invalid DBMonsterUpgradeData");
+            }
             //Debug.Log("SetMonsterUpgradeData Success");
         }
         if (DBGradeResourceDataDic.Count == 0)
         {
             //Debug.Log("SetGradeResourceData Start");
-            SetGradeResourceData();
+            if(SetGradeResourceData() == false)
+            {
+                Debug.Log("Invalid DBGradeResourceData");
+            }
             //Debug.Log("SetGradeResourceData Success");
         }
         localType = LOCALIZATION_TYPE.EN;
@@ -167,7 +191,8 @@ public class CSVData : MonoSingleton<CSVData>
     public bool SetEquipmentData()
     {
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_equipment");
-        for (var i = 2; i < data.Count; i++)
+        // 관리 텍스트 버그로 삭제로 인한 1부터 시작
+        for (var i = 1; i < data.Count; i++)
         {
             //Debug.Log("index " + (i).ToString()
             //    + " : " + data[i]["id"]
