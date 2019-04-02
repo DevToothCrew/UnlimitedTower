@@ -14,13 +14,13 @@ public class BattleManager : MonoSingleton<BattleManager>
     public int[] NowHp = new int[20];
     public int[] NowAtk = new int[20];
     public bool isAfterDelay;
+    public int turnIndex = 1;
     public int TimeScale = 1;
     public TumbAnimation tumbAnimation;
 
     private bool isAuto;
     private bool isTurnEnd;
     private bool isBattleStart;
-    private int turnIndex = 1;
     private GameObject CharacterParent;
     private SkillManager skillManager;
     private CharacterCustom characterCustom;
@@ -81,6 +81,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     public IEnumerator BattleStart()
     {
         BattleUIManager.Inst.OffDelay();
+        BattleUIManager.Inst.StageInfoOff();
         isTurnEnd = false;
         isBattleStart = true;
 
@@ -125,6 +126,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         turnIndex++;
         BattleUIManager.Inst.MyTurn();
+        BattleUIManager.Inst.StageInfoOn();
 
         int myHp = 0, enemyHp = 0;
         for (int i = 0; i < 10; i++)
@@ -236,7 +238,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
         }
         
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(5.0f);
         temp.SetActive(false);
     }
 
