@@ -380,16 +380,16 @@ public class BattleManager : MonoSingleton<BattleManager>
             if (i < 5)
             {
                 if (character[i] != null)
-                    character[i].transform.position = new Vector3(-4.2f + 2.1f * (i % 5), 0, -4.2f);
+                    character[i].transform.position = new Vector3(-4.2f + 2.1f * (positionOrder[i] % 5), 0, -4.2f);
                 if (character[i + 10] != null)
-                    character[i + 10].transform.position = new Vector3(4.2f - 2.1f * (i % 5), 0, 4.2f);
+                    character[i + 10].transform.position = new Vector3(4.2f - 2.1f * (positionOrder[i] % 5), 0, 4.2f);
             }
             else
             {
                 if (character[i] != null)
-                    character[i].transform.position = new Vector3(-4.2f + 2.1f * (i % 5), 0, -2.1f);
+                    character[i].transform.position = new Vector3(-4.2f + 2.1f * (positionOrder[i] % 5), 0, -2.1f);
                 if (character[i + 10] != null)
-                    character[i + 10].transform.position = new Vector3(4.2f - 2.1f * (i % 5), 0, 2.1f);
+                    character[i + 10].transform.position = new Vector3(4.2f - 2.1f * (positionOrder[i] % 5), 0, 2.1f);
             }
         }
     }
