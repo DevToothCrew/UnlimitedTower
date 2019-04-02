@@ -77,6 +77,8 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
     [HideInInspector]
     public int selected_tab = 0;
+    [HideInInspector]
+    public int selected_unit_idx = 0;
 
     public enum scroll_type
     {
@@ -274,7 +276,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     //상세정보창 Update
     public void updateDetailInfo(int _selected_unit_idx)
     {
-        int selected_unit_idx = _selected_unit_idx;
+        selected_unit_idx = _selected_unit_idx;
 
         if (selectedMenu == menu_type.SERVANT)
         {
@@ -365,8 +367,6 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     //장비 설정 버튼
     public void OnClickEquipment(int btn_tag)
     {
-        SubViewEquipment.SetActive(true);
-        
         switch (btn_tag)
         {
             case 0:
@@ -382,6 +382,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                 break;
         }
 
+        SubViewEquipment.SetActive(true);
     }
 
 
