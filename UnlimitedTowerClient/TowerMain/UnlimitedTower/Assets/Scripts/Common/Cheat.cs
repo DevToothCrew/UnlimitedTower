@@ -62,7 +62,8 @@ public class Cheat : MonoSingleton<Cheat>
             return null;
         }
 
-        int type = rand.Next((int)GACHA_RESULT_TYPE.Servant, (int)GACHA_RESULT_TYPE.Equipment);
+        //int type = rand.Next((int)GACHA_RESULT_TYPE.Servant, (int)GACHA_RESULT_TYPE.Max);
+        int type = 3;
 
         if (type == (int)GACHA_RESULT_TYPE.Servant)
         {
@@ -84,6 +85,8 @@ public class Cheat : MonoSingleton<Cheat>
         {
             // 아이템은 아직
             gachaItemData gachaResult = new gachaItemData();
+            gachaResult.result_type = type;
+            gachaResult.data = GetRandomEquipment(UserDataManager.Inst.equipmentDic.Count + 1);
 
             return JsonMapper.ToJson(gachaResult).ToString();
         }
@@ -662,6 +665,33 @@ public class Cheat : MonoSingleton<Cheat>
         // TODO : 업그레이드에 따른 스테이터스 가중치 추가 필요
 
         return monsterData;
+    }
+
+    public equipmentData GetRandomEquipment(int index)
+    {
+        equipmentData equipmentData = new equipmentData();
+        equipmentData.index = index;
+
+        equipmentData.equipment = new equipmentInfo();
+        equipmentData.equipment.state = 0;
+        equipmentData.equipment.id = CSVData.Inst.GetRandomEquipmentID();
+        equipmentData.equipment.grade = rand.Next(1, 6);
+        equipmentData.equipment.upgrade = 0;
+        equipmentData.equipment.equipservantindex = 0;
+
+        DBEquipmentData dbEquipmentData = CSVData.Inst.GetEquipmentData(equipmentData.equipment.id);
+        if(dbEquipmentData == null)
+        {
+            Debug.Log("Invalid DBEquipmentData");
+            return null;
+        }
+
+        equipmentData.equipment.type = (int)dbEquipmentData.equipmentType;
+        equipmentData.equipment.job = (int)dbEquipmentData.jobLimit;
+        equipmentData.equipment.tier = dbEquipmentData.tier;
+        equipmentData.equipment.value = UnityEngine.Random.Range(dbEquipmentData.optionMin, dbEquipmentData.optionMax);
+        
+        return equipmentData;
     }
 
     public appearInfo GetRandomAppear()

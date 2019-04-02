@@ -276,6 +276,12 @@ public class CSVData : MonoSingleton<CSVData>
             }
 
             equipmentData.resourceIcon = Convert.ToString(data[i]["resource_icon"]);
+            equipmentData.equipmentIcon = Resources.Load<Sprite>("UI/ItemIcons/" + equipmentData.resourceIcon);
+            if (equipmentData.equipmentIcon == null)
+            {
+                Debug.Log("Invalid Icon Resource : " + equipmentData.resourceIcon);
+            }
+
             equipmentData.sellItemInfo.id = Convert.ToInt32(data[i]["sell_item_id"]);
             equipmentData.sellItemInfo.count = Convert.ToInt32(data[i]["sell_item_count"]);
             // TODO : Type을 Item에서 받아오는걸 나중에 추가??
@@ -978,6 +984,13 @@ public class CSVData : MonoSingleton<CSVData>
         int servantID = servantDataInspector[UnityEngine.Random.Range(3, servantDataInspector.Count)].id;
 
         return servantID;
+    }
+
+    public int GetRandomEquipmentID()
+    {
+        int equipmentID = DBEquipmentDataDic.Values.ToList()[UnityEngine.Random.Range(0, DBEquipmentDataDic.Count)].id;
+
+        return equipmentID;
     }
 
     public string GetMonsterIcon(int index)

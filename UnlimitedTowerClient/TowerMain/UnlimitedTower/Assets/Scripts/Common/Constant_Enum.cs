@@ -236,6 +236,7 @@ public enum GACHA_RESULT_TYPE
     Servant = 1,
     Monster,
     Equipment,
+    Max,
 }
 
 public enum APPEAR_HAIR
