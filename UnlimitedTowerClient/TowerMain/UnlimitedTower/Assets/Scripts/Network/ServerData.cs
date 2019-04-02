@@ -54,7 +54,6 @@ public class servantInfo
     public List<int> active_skill = new List<int>();
 };
 
-
 [Serializable]
 public class monsterInfo
 {

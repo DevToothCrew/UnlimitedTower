@@ -137,14 +137,15 @@ public enum SERVANT_JOB
 }
 
 [Flags]
-public enum SERVANT_EQUIPMENT_FLAG
+public enum SERVANT_JOB_FLAG
 {
-    All = 0,
-    Warrior = 1,
-    Thief = 2,
-    Cleric = 4,
-    Archer = 8,
-    Magician = 16,
+    None = 0,
+    All = 1,
+    Warrior = 2,
+    Thief = 4,
+    Cleric = 8,
+    Archer = 16,
+    Magician = 32,
 }
 
 public enum MONSTER_CLASS
@@ -158,6 +159,22 @@ public enum MONSTER_CLASS
     Warlock = 7,
     Druid = 8,
     Shaman = 9,
+}
+
+[Flags]
+public enum MONSTER_CLASS_FLAG
+{
+    None = 0,
+    All = 1,
+    Fighter = 2,
+    Kngiht = 4,
+    Priest = 8,
+    Assassin = 16,
+    Hunter = 32,
+    Mage = 64,
+    Warlock = 128,
+    Druid = 256,
+    Shaman = 512,
 }
 
 public enum ACTION_TYPE
@@ -302,6 +319,53 @@ public enum EQUIPMENT_OPTION_TYPE
     INT = 8,
 
     MAX = 9,
+}
+
+public enum SKILL_TYPE
+{
+    NONE = 0,
+    ATTACK = 1,
+    BUFF = 2,
+    HEAL = 3,
+    DEBUFF = 4,
+}
+
+public enum ATTACK_TYPE
+{
+    NONE = 0,
+    PHYSICAL = 1,
+    MAGICAL = 2,
+    MIX = 3,
+}
+
+public enum DAMAGE_TYPE
+{
+    NONE = 0,
+    PHYSICAL = 1,
+    MAGICAL = 2,
+    PURE = 3,
+}
+
+public enum TARGET_TYPE
+{
+    NONE = 0,
+
+    ENEMY = 1,
+    ENEMIES = 2,
+    ALLENEMY = 3,
+
+    SELF = 4,
+    MYTEAM = 5,
+    MYTEAMS = 6,
+    ALLMYTEAM = 7,
+
+    EVERY = 8,
+}
+
+public enum EFFECT_TYPE
+{
+    STATUS = 0,
+    BATTLE = 1,
 }
 
 #endregion

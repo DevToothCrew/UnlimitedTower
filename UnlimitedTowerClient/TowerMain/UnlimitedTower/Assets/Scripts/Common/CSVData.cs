@@ -20,6 +20,7 @@ public class CSVData : MonoSingleton<CSVData>
     public Dictionary<GRADE_TYPE, DBGradeResourceData> DBGradeResourceDataDic = new Dictionary<GRADE_TYPE, DBGradeResourceData>();
     public Dictionary<int, DBMonsterUpgradeData> DBMonsterUpgradeDataDic = new Dictionary<int, DBMonsterUpgradeData>();
 
+
     //  인스펙터에서 보여주기 위한...
     public List<DBMonsterData> monsterDataInspector = new List<DBMonsterData>();
     public List<DBServantData> servantDataInspector = new List<DBServantData>();
@@ -218,7 +219,7 @@ public class CSVData : MonoSingleton<CSVData>
                 return false;
             }
             equipmentData.name = Convert.ToString(data[i]["name"]);
-            equipmentData.jobLimit = (SERVANT_EQUIPMENT_FLAG)Convert.ToInt32(Convert.ToString(data[i]["job_limit_bit"]), 2);
+            equipmentData.jobLimit = (SERVANT_JOB_FLAG)Convert.ToInt32(Convert.ToString(data[i]["job_limit_bit"]), 2);
             //Debug.Log("Equip Test Warrior : " + equipmentData.isEquipable(SERVANT_EQUIPMENT_FLAG.Warrior));
             //Debug.Log("Equip Test Thief : " + equipmentData.isEquipable(SERVANT_EQUIPMENT_FLAG.Thief));
             //Debug.Log("Equip Test Cleric : " + equipmentData.isEquipable(SERVANT_EQUIPMENT_FLAG.Cleric));

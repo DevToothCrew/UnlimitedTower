@@ -65,7 +65,9 @@ public class UserServantData
     public int def { get { return Calculator.GetDefence(status); } }
     public int mDef { get { return Calculator.GetMagicDefence(status); } }
 
-    public Dictionary<EQUIPMENT_TYPE, int> EquipmentDic = new Dictionary<EQUIPMENT_TYPE, int>();
+    public Dictionary<EQUIPMENT_TYPE, int> equipmentDic = new Dictionary<EQUIPMENT_TYPE, int>();
+    public List<UserSkillInfo> passiveSkillList = new List<UserSkillInfo>();
+    public List<UserSkillInfo> activeSkillList = new List<UserSkillInfo>();
 }
 
 [Serializable]
@@ -96,6 +98,9 @@ public class UserMonsterData
     public int mAtk { get { return Calculator.GetMagicAttack(status); } }
     public int def { get { return Calculator.GetDefence(status); } }
     public int mDef { get { return Calculator.GetMagicDefence(status); } }
+
+    public List<UserSkillInfo> passiveSkillList = new List<UserSkillInfo>();
+    public List<UserSkillInfo> activeSkillList = new List<UserSkillInfo>();
 }
 
 [Serializable]
@@ -242,6 +247,9 @@ public class UserCharacterStateData
 public class UserSkillInfo
 {
     public int id;
+    public Sprite skillIcon;
+
+    // 아래는 DB 정보 참조 가능할것으로 보입니다.
     public int per;
     public int attack_type;
     public int dmg_type;

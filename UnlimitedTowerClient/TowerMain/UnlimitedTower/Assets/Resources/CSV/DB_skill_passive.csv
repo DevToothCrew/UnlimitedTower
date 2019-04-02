@@ -1,0 +1,11 @@
+id,#관리,#패시브 설명,name,explain,resource_icon,job,job_limit,class,class_limit,enable_stack,max_stack,effect_keyword,effect_type,effect_value,effect_value_add,target,role_target
+#,데이터별 설명,패시브 설명,패시브 이름,패시브 설명,패시브 아이콘,사용가능 직업,직업 비트연산,사용가능 클래스,클래스 비트연산,누적 체크     0 = 누적 X     1 = 누적 O,최대 누적,패시브 효과 키워드,효과 적용 방식  0 - 스텟 증가  (계산일괄 처리)  1 - 전투 적용,패시브 효과 값,패시브 효과 값 성장,타겟,특정 타겟 지정
+int,string,string,localize,localize,string,string,bit,string,bit,int,int,string,int,float,int,string,string
+100001,물리 공격력 n% 증가,,DB_skill_passive_name_100001,DB_skill_passive_desc_100001,ic_passive_atkPhy_up,all,1,all,1,0,0,pass_atkPhy_inc_per,0,0.08,0,self,none
+100002,마법 공격력 n% 증가,,DB_skill_passive_name_100002,DB_skill_passive_desc_100002,ic_passive_atkMag_up,all,1,all,1,0,0,pass_atkMag_inc_per,0,0.08,0,self,none
+100003,물리 방어력 n% 증가,,DB_skill_passive_name_100003,DB_skill_passive_desc_100003,ic_passive_defPhy_up,all,1,all,1,0,0,pass_defPhy_inc_per,0,0.08,0,self,none
+100004,마법 방어력 n% 증가,,DB_skill_passive_name_100004,DB_skill_passive_desc_100004,ic_passive_defMag_up,all,1,all,1,0,0,pass_defMag_inc_per,0,0.08,0,self,none
+100005,생명력 n% 증가,,DB_skill_passive_name_100005,DB_skill_passive_desc_100005,ic_passive_hp_up,all,1,all,1,0,0,pass_hp_inc_per,0,0.08,0,self,none
+100006,힘 n% 증가,,DB_skill_passive_name_100006,DB_skill_passive_desc_100006,ic_passive_str_up,all,1,all,1,0,0,pass_str_inc_per,0,0.1,0,self,none
+100007,민첩 n% 증가,,DB_skill_passive_name_100007,DB_skill_passive_desc_100007,ic_passive_dex_up,all,1,all,1,0,0,pass_dex_inc_per,0,0.1,0,self,none
+100008,지능 n% 증가,,DB_skill_passive_name_100008,DB_skill_passive_desc_100008,ic_passive_int_up,all,1,all,1,0,0,pass_int_inc_per,0,0.1,0,self,none

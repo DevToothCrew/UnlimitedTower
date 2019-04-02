@@ -33,15 +33,20 @@ public class DBEquipmentData
 {
     public int id;
     public string name;
-    public SERVANT_EQUIPMENT_FLAG jobLimit;
-    public bool isEquipable(SERVANT_EQUIPMENT_FLAG job)
+    public SERVANT_JOB_FLAG jobLimit;
+    public bool isEquipAble(SERVANT_JOB_FLAG job)
     {
-        if(jobLimit == SERVANT_EQUIPMENT_FLAG.All)
+        if (jobLimit == SERVANT_JOB_FLAG.None)
+        {
+            return false;
+        }
+
+        if (jobLimit == SERVANT_JOB_FLAG.All)
         {
             return true;
         }
 
-        if((jobLimit & job) == job && job != SERVANT_EQUIPMENT_FLAG.All)
+        if((jobLimit & job) == job)
         {
             return true;
         }
@@ -202,6 +207,129 @@ public class DBMonsterUpgradeData
     public int id;
     public double successPer;
     public itemInfo needItem;
+}
+
+[Serializable]
+public class DBSkillActiveData
+{
+    public int id;
+    public string name;
+    public string explain;
+    public string resourceIcon;
+    public SERVANT_JOB_FLAG jobLimit;
+    public bool isJobAble(SERVANT_JOB_FLAG job)
+    {
+        if (jobLimit == SERVANT_JOB_FLAG.None)
+        {
+            return false;
+        }
+
+        if (jobLimit == SERVANT_JOB_FLAG.All)
+        {
+            return true;
+        }
+
+        if ((jobLimit & job) == job)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public MONSTER_CLASS_FLAG classLimit;
+    public bool isClassAble(MONSTER_CLASS_FLAG classType)
+    {
+        if (classLimit == MONSTER_CLASS_FLAG.None)
+        {
+            return false;
+        }
+
+        if (classLimit == MONSTER_CLASS_FLAG.All)
+        {
+            return true;
+        }
+
+        if ((classLimit & classType) == classType)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public int activePer;
+    public SKILL_TYPE skillType;
+    public ATTACK_TYPE attackType;
+    public DAMAGE_TYPE damageType;
+    public TARGET_TYPE targetType;
+    public int targetCount;
+    public int hitCount;
+    public int atkPer;
+    public int atkAdd;
+    public int healPer;
+    public int healAdd;
+    public List<int> optionIDList = new List<int>();
+    public List<int> buffIDList = new List<int>();
+}
+
+[Serializable]
+public class DBSkillPassiveData
+{
+    public int id;
+    public string name;
+    public string explain;
+    public string resourceIcon;
+    public SERVANT_JOB_FLAG jobLimit;
+    public bool isJobAble(SERVANT_JOB_FLAG job)
+    {
+        if (jobLimit == SERVANT_JOB_FLAG.None)
+        {
+            return false;
+        }
+
+        if (jobLimit == SERVANT_JOB_FLAG.All)
+        {
+            return true;
+        }
+
+        if ((jobLimit & job) == job)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public MONSTER_CLASS_FLAG classLimit;
+    public bool isClassAble(MONSTER_CLASS_FLAG classType)
+    {
+        if (classLimit == MONSTER_CLASS_FLAG.None)
+        {
+            return false;
+        }
+
+        if (classLimit == MONSTER_CLASS_FLAG.All)
+        {
+            return true;
+        }
+
+        if ((classLimit & classType) == classType)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool stackAble;
+    public int maxStack;
+    public string effectKeyword;
+    public EFFECT_TYPE effectType;
+    public int effectValuePer;
+    public int effectVallueAdd;
+    public TARGET_TYPE targetType;
+    public TARGET_TYPE roleTargetType;
 }
 
 #endregion

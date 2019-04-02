@@ -1078,14 +1078,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
         
         UserServantData equipmentServantData = ParseServant(getServantData);
-
         if (equipmentServantData == null)
         {
             Debug.Log("Invalid ParseEquipment");
             return;
         }
+
         UserDataManager.Inst.SetServant(equipmentServantData);
-        
     }
 
     // 장비 해제
@@ -1264,7 +1263,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         UserServantData userServant = new UserServantData();
         userServant.index = getServantData.index;
-        //userServant.id = CSVData.Inst.GetServantID(5, getServantData.servant.job, getServantData.servant.appear.body, getServantData.servant.appear.gender, getServantData.servant.appear.head, getServantData.servant.appear.hair);
         userServant.id = getServantData.servant.id;
         if (CSVData.Inst.GetServantData(userServant.id) == null)
         {
@@ -1287,6 +1285,21 @@ public class PacketManager : MonoSingleton<PacketManager> {
         {
             Debug.Log("Invalid Status Info");
             return null;
+        }
+
+        for(int i = 0; i < getServantData.servant.equip_slot.Count; i++)
+        {
+            userServant.equipmentDic.Add((EQUIPMENT_TYPE)i, getServantData.servant.equip_slot[i]);
+        }
+
+        for(int i = 0; i < getServantData.servant.active_skill.Count; i++)
+        {
+            // Active Skill Data 넣기
+        }
+
+        for (int i = 0; i < getServantData.servant.passive_skill.Count; i++)
+        {
+            // Passive Skill Data 넣기
         }
 
         return userServant;
