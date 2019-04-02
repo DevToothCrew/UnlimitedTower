@@ -262,16 +262,16 @@ public class DBSkillActiveData
         return false;
     }
 
-    public int activePer;
+    public double activePer;
     public SKILL_TYPE skillType;
     public ATTACK_TYPE attackType;
     public DAMAGE_TYPE damageType;
     public TARGET_TYPE targetType;
     public int targetCount;
     public int hitCount;
-    public int atkPer;
+    public double atkPer;
     public int atkAdd;
-    public int healPer;
+    public double healPer;
     public int healAdd;
     public List<int> optionIDList = new List<int>();
     public List<int> buffIDList = new List<int>();

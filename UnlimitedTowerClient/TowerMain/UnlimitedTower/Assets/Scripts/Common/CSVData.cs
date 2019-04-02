@@ -705,29 +705,132 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_skill_active");
         for (var i = 2; i < data.Count; i++)
         {
-            Debug.Log("index " + (i).ToString()
-                + " : " + data[i]["id"]
-                + " " + data[i]["name"]
-                + " " + data[i]["explain"]
-                + " " + data[i]["resource_icon"]
-                + " " + data[i]["job"]
-                + " " + data[i]["job_limit"]
-                + " " + data[i]["class"]
-                + " " + data[i]["class_limit"]
-                + " " + data[i]["active_per"]
-                + " " + data[i]["skill_type"]
-                + " " + data[i]["attack_type"]
-                + " " + data[i]["dmg_type"]
-                + " " + data[i]["target_type"]
-                + " " + data[i]["target_count"]
-                + " " + data[i]["hit_count"]
-                + " " + data[i]["atk_per"]
-                + " " + data[i]["atk_add"]
-                + " " + data[i]["heal_per"]
-                + " " + data[i]["heal_add"]
-                + " " + data[i]["option_id_list"]
-                + " " + data[i]["buff_id_list"]
-                );
+            //Debug.Log("index " + (i).ToString()
+            //    + " : " + data[i]["id"]
+            //    + " " + data[i]["name"]
+            //    + " " + data[i]["explain"]
+            //    + " " + data[i]["resource_icon"]
+            //    + " " + data[i]["job"]
+            //    + " " + data[i]["job_limit"]
+            //    + " " + data[i]["class"]
+            //    + " " + data[i]["class_limit"]
+            //    + " " + data[i]["active_per"]
+            //    + " " + data[i]["skill_type"]
+            //    + " " + data[i]["attack_type"]
+            //    + " " + data[i]["dmg_type"]
+            //    + " " + data[i]["target_type"]
+            //    + " " + data[i]["target_count"]
+            //    + " " + data[i]["hit_count"]
+            //    + " " + data[i]["atk_per"]
+            //    + " " + data[i]["atk_add"]
+            //    + " " + data[i]["heal_per"]
+            //    + " " + data[i]["heal_add"]
+            //    + " " + data[i]["option_id_list"]
+            //    + " " + data[i]["buff_id_list"]
+            //    );
+
+            DBSkillActiveData activeData = new DBSkillActiveData();
+            activeData.id = Convert.ToInt32(data[i]["id"]);
+            if(DBSkillActiveDataDic.ContainsKey(activeData.id) == true)
+            {
+                Debug.Log("Invalid Active Skill ID : " + activeData.id);
+                return false;
+            }
+
+            activeData.name = Convert.ToString(data[i]["name"]);
+            activeData.explain = Convert.ToString(data[i]["explain"]);
+            activeData.resourceIcon = Convert.ToString(data[i]["resource_icon"]);
+
+            //Debug.Log("ActiveSkill Job Able : " + Convert.ToString(data[i]["job"]));
+            activeData.jobLimit = (SERVANT_JOB_FLAG)Convert.ToInt32(Convert.ToString(data[i]["job_limit"]), 2);
+            //Debug.Log("ActiveSkill Test Warrior : " + activeData.isJobAble(SERVANT_JOB_FLAG.Warrior));
+            //Debug.Log("ActiveSkill Test Thief : " + activeData.isJobAble(SERVANT_JOB_FLAG.Thief));
+            //Debug.Log("ActiveSkill Test Cleric : " + activeData.isJobAble(SERVANT_JOB_FLAG.Cleric));
+            //Debug.Log("ActiveSkill Test Archer : " + activeData.isJobAble(SERVANT_JOB_FLAG.Archer));
+            //Debug.Log("ActiveSkill Test Magician : " + activeData.isJobAble(SERVANT_JOB_FLAG.Magician));
+            //Debug.Log("ActiveSkill Test All : " + activeData.isJobAble(SERVANT_JOB_FLAG.All));
+
+            //Debug.Log("ActiveSkill Class Able : " + Convert.ToString(data[i]["class"]));
+            activeData.classLimit = (MONSTER_CLASS_FLAG)Convert.ToInt32(Convert.ToString(data[i]["class_limit"]), 2);
+            //Debug.Log("ActiveSkill Test Fighter : " + activeData.isClassAble(MONSTER_CLASS_FLAG.Fighter));
+            //Debug.Log("ActiveSkill Test Kngiht : " + activeData.isClassAble(MONSTER_CLASS_FLAG.Kngiht));
+            //Debug.Log("ActiveSkill Test Priest : " + activeData.isClassAble(MONSTER_CLASS_FLAG.Priest));
+            //Debug.Log("ActiveSkill Test Assassin : " + activeData.isClassAble(MONSTER_CLASS_FLAG.Assassin));
+            //Debug.Log("ActiveSkill Test Hunter : " + activeData.isClassAble(MONSTER_CLASS_FLAG.Hunter));
+            //Debug.Log("ActiveSkill Test Mage : " + activeData.isClassAble(MONSTER_CLASS_FLAG.Mage));
+            //Debug.Log("ActiveSkill Test Warlock : " + activeData.isClassAble(MONSTER_CLASS_FLAG.Warlock));
+            //Debug.Log("ActiveSkill Test Druid : " + activeData.isClassAble(MONSTER_CLASS_FLAG.Druid));
+            //Debug.Log("ActiveSkill Test Shaman : " + activeData.isClassAble(MONSTER_CLASS_FLAG.Shaman));
+            //Debug.Log("ActiveSkill Test All : " + activeData.isClassAble(MONSTER_CLASS_FLAG.All));
+
+            activeData.activePer = Convert.ToDouble(data[i]["active_per"]);
+
+            switch(Convert.ToString(data[i]["skill_type"]))
+            {
+                case "attack":
+                    activeData.skillType = SKILL_TYPE.ATTACK;
+                    break;
+                case "buff":
+                    activeData.skillType = SKILL_TYPE.BUFF;
+                    break;
+                case "heal":
+                    activeData.skillType = SKILL_TYPE.HEAL;
+                    break;
+                case "debuff":
+                    activeData.skillType = SKILL_TYPE.DEBUFF;
+                    break;
+
+                default:
+                    Debug.Log("Invalid Skill Type" + Convert.ToString(data[i]["skill_type"]));
+                    return false;
+            }
+
+            activeData.attackType = (ATTACK_TYPE)Convert.ToInt32(data[i]["attack_type"]);
+            activeData.damageType = (DAMAGE_TYPE)Convert.ToInt32(data[i]["dmg_type"]);
+
+            switch(Convert.ToString(data[i]["target_type"]))
+            {
+                case "enemy":
+                    activeData.targetType = TARGET_TYPE.ENEMY;
+                    break;
+                case "enemies":
+                    activeData.targetType = TARGET_TYPE.ENEMIES;
+                    break;
+                case "allenemy":
+                    activeData.targetType = TARGET_TYPE.ALLENEMY;
+                    break;
+
+                case "self":
+                    activeData.targetType = TARGET_TYPE.SELF;
+                    break;
+                case "myteam":
+                    activeData.targetType = TARGET_TYPE.MYTEAM;
+                    break;
+                case "myteams":
+                    activeData.targetType = TARGET_TYPE.MYTEAMS;
+                    break;
+                case "allmyteam":
+                    activeData.targetType = TARGET_TYPE.ALLMYTEAM;
+                    break;
+
+                case "every":
+                    activeData.targetType = TARGET_TYPE.EVERY;
+                    break;
+
+                default:
+                    Debug.Log("Invalid Target Type" + Convert.ToString(data[i]["target_type"]));
+                    return false;
+            }
+
+            activeData.targetCount = Convert.ToInt32(data[i]["target_count"]);
+            activeData.hitCount = Convert.ToInt32(data[i]["hit_count"]);
+            activeData.atkPer = Convert.ToDouble(data[i]["atk_per"]);
+            activeData.atkAdd = Convert.ToInt32(data[i]["atk_add"]);
+            activeData.healPer = Convert.ToDouble(data[i]["heal_per"]);
+            activeData.healAdd = Convert.ToInt32(data[i]["heal_add"]);
+            // Option ID List / Buff ID List는 추후 추가
+
+            DBSkillActiveDataDic.Add(activeData.id, activeData);
         }
 
         return true;
@@ -1098,7 +1201,7 @@ public class CSVData : MonoSingleton<CSVData>
     {
         if (DBStageEnemyDataDic.ContainsKey(id) == false)
         {
-            Debug.LogError("DBStageEnemyDataDic Error");
+            Debug.LogError("Invalid Request DBStageEnemyDataDic Not Contain Key : " + id);
             return null;
         }
 
@@ -1118,6 +1221,28 @@ public class CSVData : MonoSingleton<CSVData>
     public Sprite GetSpriteGrade(GRADE_TYPE grade)
     {
         return DBGradeResourceDataDic[grade].gradeIcon;
+    }
+
+    public DBSkillActiveData GetSkillActiveData(int id)
+    {
+        if(DBSkillActiveDataDic.ContainsKey(id) == false)
+        {
+            Debug.LogError("Invalid Request DBSkillActiveDataDic Not Contain Key : " + id);
+            return null;
+        }
+
+        return DBSkillActiveDataDic[id];
+    }
+
+    public DBSkillPassiveData GetSkillPassiveData(int id)
+    {
+        if (DBSkillPassiveDataDic.ContainsKey(id) == false)
+        {
+            Debug.LogError("Invalid Request DBSkillPassiveDataDic Not Contain Key : " + id);
+            return null;
+        }
+
+        return DBSkillPassiveDataDic[id];
     }
 
     #endregion
