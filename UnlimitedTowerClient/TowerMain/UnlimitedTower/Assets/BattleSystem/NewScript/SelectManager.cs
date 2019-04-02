@@ -20,6 +20,10 @@ public class SelectManager : MonoBehaviour
     private bool isAttribute;
     
     private GameObject characterStats;
+    private Text _Str;
+    private Text _Dex;
+    private Text _Int;
+
     private Text Atk;
     private Text mAtk;
     private Text Def;
@@ -49,6 +53,9 @@ public class SelectManager : MonoBehaviour
         characterInfo = GameObject.Find("Character Information");
 
         characterStats = GameObject.Find("Character Stats");
+        _Str = GameObject.Find("Str Text").GetComponent<Text>();
+        _Dex = GameObject.Find("Dex Text").GetComponent<Text>();
+        _Int = GameObject.Find("Int Text").GetComponent<Text>();
         Atk = GameObject.Find("Atk Text").GetComponent<Text>();
         mAtk = GameObject.Find("mAtk Text").GetComponent<Text>();
         Def = GameObject.Find("Def Text").GetComponent<Text>();
@@ -108,11 +115,14 @@ public class SelectManager : MonoBehaviour
                         nemeText.text = CSVData.Inst.GetMonsterName(selectStateInfo.id);
                         levelText.text = "?";
                     }
-                    
-                    Atk.text = (selectStateInfo.atk).ToString();
-                    mAtk.text = (selectStateInfo.mAtk).ToString();
-                    Def.text = (selectStateInfo.def).ToString();
-                    mDef.text = (selectStateInfo.mDef).ToString();
+
+                    _Str.text = selectStateInfo.status.basicStr.ToString();
+                    _Dex.text = selectStateInfo.status.basicDex.ToString();
+                    _Int.text = selectStateInfo.status.basicInt.ToString();
+                    Atk.text = selectStateInfo.atk.ToString();
+                    mAtk.text = selectStateInfo.mAtk.ToString();
+                    Def.text = selectStateInfo.def.ToString();
+                    mDef.text = selectStateInfo.mDef.ToString();
                     Speed.text = selectStateInfo.speed.ToString();
                     CriPer.text = selectStateInfo.criPer.ToString();
                     mCriPer.text = selectStateInfo.mCriPer.ToString();
