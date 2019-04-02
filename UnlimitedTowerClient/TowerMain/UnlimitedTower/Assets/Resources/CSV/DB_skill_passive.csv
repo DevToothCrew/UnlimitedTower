@@ -1,4 +1,4 @@
-id,#관리,#패시브 설명,name,explain,resource_icon,job,job_limit,class,class_limit,enable_stack,max_stack,effect_keyword,effect_type,effect_value,effect_value_add,target,role_target
+id,#관리,#패시브 설명,name,explain,resource_icon,job,job_limit,class,class_limit,enable_stack,max_stack,effect_keyword,effect_type,effect_per,effect_add,target,role_target
 #,데이터별 설명,패시브 설명,패시브 이름,패시브 설명,패시브 아이콘,사용가능 직업,직업 비트연산,사용가능 클래스,클래스 비트연산,누적 체크     0 = 누적 X     1 = 누적 O,최대 누적,패시브 효과 키워드,효과 적용 방식  0 - 스텟 증가  (계산일괄 처리)  1 - 전투 적용,패시브 효과 값,패시브 효과 값 성장,타겟,특정 타겟 지정
 int,string,string,localize,localize,string,string,bit,string,bit,int,int,string,int,float,int,string,string
 100001,물리 공격력 n% 증가,,DB_skill_passive_name_100001,DB_skill_passive_desc_100001,ic_passive_atkPhy_up,all,1,all,1,0,0,pass_atkPhy_inc_per,0,0.08,0,self,none

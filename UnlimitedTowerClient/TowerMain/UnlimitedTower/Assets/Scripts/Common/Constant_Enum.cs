@@ -4,6 +4,7 @@
 
 public enum GRADE_TYPE
 {
+    NONE = 0,
     LEGENDARY = 1,
     UNIQUE = 2,
     RARE = 3,

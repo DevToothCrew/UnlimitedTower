@@ -1,4 +1,4 @@
-id,#관리,#관리,#관리,name,explain,resource_icon,job,job_limit,class,class_limit,active_per,skill_type,attack_type,dmg_type,target_type,target_count,hit_count,atk_per,atk_per_add,heal_per,heal_per_add,array_option_id_list,array_buff_id_list
+id,#관리,#관리,#관리,name,explain,resource_icon,job,job_limit,class,class_limit,active_per,skill_type,attack_type,dmg_type,target_type,target_count,hit_count,atk_per,atk_add,heal_per,heal_add,option_id_list,buff_id_list
 #,데이터별 설명,데이터별 설명,데이터별 설명,스킬 이름,스킬 설명,스킬 아이콘 정보,사용가능 직업,직업 비트연산,사용가능 클래스,클래스 비트연산,스킬 발동 확률,스킬 타입,"공격 타입 (1:물리,2:마법,3:물리+마법)","피해 타입 (1:물리,2:마법,3:고정)",스킬 타겟,타겟 수,히트 수,스킬 계수,스킬 계수 상승 값,회복 계수,회복 계수 상승 값,스킬 옵션 리스트,스킬 버프 리스트
 int,string,string,string,localize,localize,string,string,bit,string,bit,float,string,int,int,string,int,int,float,int,float,float,int,int
 200001,디펜스,전사 전용,1턴 동안 30% 데미지 감소 효과를 얻습니다.,DB_skill_active_name_200001,DB_skill_active_desc_200001,ic_active_defense,warrior 2,2,none,0,0.3,buff,0,0,self,1,,0.3,0,0,0,0,0

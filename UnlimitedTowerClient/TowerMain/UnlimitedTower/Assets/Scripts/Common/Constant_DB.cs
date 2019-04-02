@@ -216,6 +216,10 @@ public class DBSkillActiveData
     public string name;
     public string explain;
     public string resourceIcon;
+
+    // Sprite 추가?
+    public Sprite activeIcon;
+
     public SERVANT_JOB_FLAG jobLimit;
     public bool isJobAble(SERVANT_JOB_FLAG job)
     {
@@ -280,6 +284,10 @@ public class DBSkillPassiveData
     public string name;
     public string explain;
     public string resourceIcon;
+    
+    // Sprite 추가?
+    public Sprite passiveIcon;
+
     public SERVANT_JOB_FLAG jobLimit;
     public bool isJobAble(SERVANT_JOB_FLAG job)
     {
@@ -326,8 +334,8 @@ public class DBSkillPassiveData
     public int maxStack;
     public string effectKeyword;
     public EFFECT_TYPE effectType;
-    public int effectValuePer;
-    public int effectVallueAdd;
+    public double effectPer;
+    public int effectAdd;
     public TARGET_TYPE targetType;
     public TARGET_TYPE roleTargetType;
 }
