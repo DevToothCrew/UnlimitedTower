@@ -635,6 +635,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         servant.state = 0;
         servant.exp = 0;
+        servant.level = 1;
         //servant.job = rand.Next(1, 5);
         //servant.appear = GetRandomAppear();
         servant.id = CSVData.Inst.GetRandomServantID();
@@ -660,6 +661,7 @@ public class Cheat : MonoSingleton<Cheat>
         monsterData.monster.id = CSVData.Inst.GetRandomMonsterID();
         monsterData.monster.grade = rand.Next(1, 6);
         monsterData.monster.upgrade = 0;
+        monsterData.monster.level = 1;
         monsterData.monster.status = GetRandomStatusInfo(CHAR_TYPE.MONSTER, monsterData.monster.grade);
         // TODO : 업그레이드에 따른 스테이터스 가중치 추가 필요
 
