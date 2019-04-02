@@ -47,6 +47,7 @@ public class servantInfo
     //public int job;
     //public appearInfo appear = new appearInfo();
     public int id;
+    public int level;
 
     public statusInfo status = new statusInfo();
     public List<int> equip_slot = new List<int>();
@@ -64,6 +65,7 @@ public class monsterInfo
     public int grade;
     public int upgrade;
     public int monster_class;
+    public int level;
     public statusInfo status = new statusInfo();
     public List<int> passive_skill = new List<int>();
     public List<int> active_skill = new List<int>();
@@ -115,6 +117,7 @@ public class userData
     public string user;
     public int state; //씬 상태
     public int exp;
+    public int rank;
     public inventoryInfo inventory_info = new inventoryInfo();
 }
 

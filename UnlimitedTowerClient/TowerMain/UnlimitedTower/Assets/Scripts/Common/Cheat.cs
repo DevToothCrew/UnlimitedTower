@@ -17,6 +17,8 @@ public class Cheat : MonoSingleton<Cheat>
 
         userLoginData.user_data.user = user;
         userLoginData.user_data.state = 2;
+        userLoginData.user_data.exp = 0;
+        userLoginData.user_data.rank = 1;
 
         partyData partyData = new partyData();
         partyData.index = 1;
