@@ -117,8 +117,6 @@ public class Cheat : MonoSingleton<Cheat>
             {
                 characterActionData actioninfo = new characterActionData();
                 actioninfo.my_position = i;
-                
-
                 // TODO : Skill 관련 코드 정리 필요
                 if (stateData.myStateList[i].activeSkillList.Count <= 0)
                 {
@@ -126,7 +124,10 @@ public class Cheat : MonoSingleton<Cheat>
                     actioninfo.action_type = 2;
                     Debug.Log("Invalid ActiveSkill List");
                     actionInfo action = new actionInfo();
-                    action.target_position = UnityEngine.Random.Range(10, 20);
+                    do
+                    {
+                        action.target_position = UnityEngine.Random.Range(10, 20);
+                    } while (BattleManager.Inst.NowHp[action.target_position] == 0);
                     action.avoid = false;
                     action.critical = UnityEngine.Random.Range(0, 10) == 1 ? true : false;
                     action.damage = rand.Next(200, 500);
