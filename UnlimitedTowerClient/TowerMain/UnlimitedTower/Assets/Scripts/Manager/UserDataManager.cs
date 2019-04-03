@@ -188,6 +188,37 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         }
     }
 
+    public void SetServantExp(int index, int getExp, int getLvup)
+    {
+        if (servantDic.ContainsKey(index) == true)
+        {
+            servantDic[index].exp = getExp;
+            servantDic[index].level += getLvup;
+            //레벨업시 스탯 증가 반영해주는 코드 필요
+        }
+        else
+        {
+            Debug.Log("Wrong Servant Index");
+            return;
+        }
+    }
+
+    public void SetMonsterExp(int index, int getExp, int getLvup)
+    {
+        if (monsterDic.ContainsKey(index) == true)
+        {
+            monsterDic[index].exp = getExp;
+            monsterDic[index].level += getLvup;
+            //레벨업시 스탯 증가 반영해주는 코드 필요
+        }
+        else
+        {
+            Debug.Log("Wrong Monster Index");
+            return;
+        }
+    }
+
+
     public void SetEquipment(UserEquipmentData equipmentData)
     {
         if(equipmentDic.ContainsKey(equipmentData.index) == true)

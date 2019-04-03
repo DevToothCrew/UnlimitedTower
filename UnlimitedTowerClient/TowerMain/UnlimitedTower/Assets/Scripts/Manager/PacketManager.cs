@@ -873,13 +873,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
                         int index = stateData.myStateList[j].index;
                         if (stateData.myStateList[j].position < 5)
                         {
-                            UserDataManager.Inst.servantDic[index].exp = getReward.get_char_exp_list[i].exp;
-                            UserDataManager.Inst.servantDic[index].level += getReward.get_char_exp_list[i].lvup;
+                            UserDataManager.Inst.SetServantExp(index, getReward.get_char_exp_list[i].exp, getReward.get_char_exp_list[i].lvup);
                         }
                         else
                         {
-                            UserDataManager.Inst.monsterDic[index].exp = getReward.get_char_exp_list[i].exp;
-                            UserDataManager.Inst.monsterDic[index].level += getReward.get_char_exp_list[i].lvup;
+                            UserDataManager.Inst.SetMonsterExp(index, getReward.get_char_exp_list[i].exp, getReward.get_char_exp_list[i].lvup);
                         }
                     }
                 }
