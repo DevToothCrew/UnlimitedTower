@@ -783,7 +783,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         {
             Debug.Log(getGachaInfo);
 
-            gachaItemData gachaData = JsonUtility.FromJson<gachaItemData>(getGachaInfo);
+            gachaEquipmentData gachaData = JsonUtility.FromJson<gachaEquipmentData>(getGachaInfo);
             UserEquipmentData getEquipment = ParseEquipment(gachaData.data);
 
             UserDataManager.Inst.AddEquipmentData(getEquipment);
@@ -857,10 +857,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
         // 보여주기용 Reward Set
         UserDataManager.Inst.SetStageReward(getReward);
 
+        UserDataManager.Inst.addUTG(getReward.reward_money);    //유저 보상 UTG 반영
+        UserDataManager.Inst.addRankExp(getReward.get_rank_exp.exp, getReward.get_rank_exp.lvup); //유저 랭크, 경험치 반영
+
         // 경험치 추가
-        if (getReward.get_exp_list.Count > 0)
+        if (getReward.get_servant_list.Count > 0)
         {
-            // 파티에 추가해야 하는지, 이걸 캐릭터 인덱스 + get exp로 해야하는지??
+            UserStageStateData stateData = UserDataManager.Inst.GetStageState();
+            for (int i = 0; i < stateData.myStateList.Count; ++i)
+            {
+
+            }
         }
 
         if (getReward.get_servant_list.Count > 0)
@@ -928,7 +935,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             }
 
         }
-        BattleManager.Inst.BattleEnd();
+        BattleManager.Inst.SetReward();
     }
     public void ResopnseResource(userResourceData getResourceInfo)
     {
@@ -1221,7 +1228,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         userInfo.userEOS = ulong.Parse(getUserData.eos);
         // token은 UTG로 바꿀 필요가 있지 않을까요
-        userInfo.userUTG = ulong.Parse(getUserData.token);
+        userInfo.userUTG = ulong.Parse(getUserData.utg);
         userInfo.level = getUserData.user_data.rank;
 
         //Debug.Log("getEOS : " + getUserData.eos);

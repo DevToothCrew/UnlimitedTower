@@ -25,13 +25,11 @@ public class BattleManager : MonoSingleton<BattleManager>
     private SkillManager skillManager;
     private CharacterCustom characterCustom;
 
-    // Test
-    [Header("Test")]
-    public GameObject testGrid;
-    private GameObject testReward;
-    private GameObject testDefeat;
-    private Text ErrorText;
-    private GameObject ErrorBox;
+    public GameObject selectEffect;
+    // Canvas
+    [Header("Canvas")]
+    private GameObject rewardParent;
+    private GameObject battleFail;
     
     [HideInInspector]
     public readonly int[] positionOrder = { 2, 1, 3, 0, 4, 7, 6, 8, 5, 9 };
@@ -44,12 +42,10 @@ public class BattleManager : MonoSingleton<BattleManager>
         characterCustom = GameObject.Find("CharacterCustomInstance").GetComponent<CharacterCustom>();
         tumbAnimation = GetComponent<TumbAnimation>();
 
-
-        testReward = GameObject.Find("보상");
-        testDefeat = GameObject.Find("패배보상");
-
-        testReward.SetActive(false);
-        testDefeat.SetActive(false);
+        rewardParent = GameObject.Find("RewardCanvas");
+        battleFail = GameObject.Find("Stage Fail");
+        rewardParent.SetActive(false);
+        battleFail.SetActive(false);
 
         UserDataManager.Inst.stageReward = null;
     }
@@ -125,7 +121,6 @@ public class BattleManager : MonoSingleton<BattleManager>
         isBattleStart = false;
 
         turnIndex++;
-        BattleUIManager.Inst.MyTurn();
         BattleUIManager.Inst.StageInfoOn();
 
         int myHp = 0, enemyHp = 0;
@@ -135,15 +130,20 @@ public class BattleManager : MonoSingleton<BattleManager>
             enemyHp += NowHp[i + 10];
         }
 
-        if (myHp == 0 || enemyHp == 0)
+        if (enemyHp == 0)
         {
 #if UNITY_EDITOR
             Cheat.Inst.RequestStageRewardCheat();
+            SetReward();
 #else
             PacketManager.Inst.RequestStageReward();
 #endif
         }
-        else if (isAuto)
+        else if (myHp == 0)
+            {
+            battleFail.SetActive(true);
+            }
+            else if (isAuto)
         {
             yield return new WaitForSeconds(2.0f);
             TurnEnd();
@@ -181,40 +181,33 @@ public class BattleManager : MonoSingleton<BattleManager>
         }
     }
 
-    public void BattleEnd()
+    // 배틀 종료 후 보상 산정
+    public void SetReward()
     {
-        stageRewardData rewardData = UserDataManager.Inst.GetStageReward();
-        if (rewardData == null)
-        {
-            Debug.LogError("버그 : rewardData is Null");
-            return;
-        }
-        string temp = "";
-        testReward.SetActive(true);
+        rewardParent.SetActive(true);
 
-        if (rewardData.get_exp_list.Count != 0)
+        UserStageStateData stateData = UserDataManager.Inst.GetStageState();
+        stageRewardData rewardData = UserDataManager.Inst.GetStageReward();
+
+        GameObject Exp = GameObject.Find("Reward Exp");
+        Text rewardUTG = GameObject.Find("Reward UTG Text").GetComponent<Text>();
+
+        foreach (KeyValuePair<int, UserCharacterStateData> state in stateData.myStateList)
         {
-            temp += "User Name : " + UserDataManager.Inst.GetUserInfo().userName + "\n";
-            temp += "Reward Money : " + rewardData.reward_money.ToString() + "\nExp";
-            for (int i = 0; i < rewardData.get_exp_list.Count; i++)
-                temp += " : " + rewardData.get_exp_list[i].ToString();
-            temp += "\nServant";
-            for (int i = 0; i < rewardData.get_servant_list.Count; i++)
-                temp += " : " + rewardData.get_servant_list[i].servant.id;
-            temp += "\nMonster";
-            for (int i = 0; i < rewardData.get_monster_list.Count; i++)
-                temp += " : " + rewardData.get_monster_list[i].monster.id;
-            temp += "\nEquipment";
-            for (int i = 0; i < rewardData.get_equipment_list.Count; i++)
-                temp += " : " + rewardData.get_equipment_list[i].equipment.id;
-            // item 추가 필요 및 Gold / EOS 처리 필요
-            testReward.transform.GetChild(0).GetComponent<Text>().text = temp;
+            if (state.Value.charType == CHAR_TYPE.SERVANT)
+                Exp.transform.GetChild(positionOrder[state.Value.position]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[state.Value.id].servantIcon;
+            else if (state.Value.charType == CHAR_TYPE.MONSTER)
+                Exp.transform.GetChild(positionOrder[state.Value.position]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
         }
-        else
+
+        for (int i = 0; i < rewardData.get_char_exp_list.Count; i++)
         {
-            testDefeat.SetActive(true);
+            Exp.transform.GetChild(rewardData.get_char_exp_list[i].pos).GetChild(1).gameObject.SetActive(true);
+            Exp.transform.GetChild(rewardData.get_char_exp_list[i].pos).GetChild(1).GetComponent<Text>().text = "+ " + rewardData.get_char_exp_list[i].exp;
         }
-        UserDataManager.Inst.stageReward = null;
+
+        rewardUTG.text = rewardData.reward_money.ToString();
+
     }
     
     // 시작화면 파티 초상화 셋팅
@@ -275,7 +268,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     // 캐릭터 그리드 셋팅
     public void SettinGrid(int index)
     {
-        GameObject temp = Instantiate(testGrid, new Vector3(0,0.1f,0), Quaternion.Euler(new Vector3(0, 0, 0)));
+        GameObject temp = Instantiate(selectEffect, new Vector3(0,0.1f,0), Quaternion.Euler(new Vector3(0, 0, 0)));
         temp.transform.SetParent(character[index].transform);
         grid[index] = temp;
         grid[index].SetActive(false);

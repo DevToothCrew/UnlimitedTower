@@ -12,7 +12,7 @@ public class Cheat : MonoSingleton<Cheat>
     {
         UserLoginData userLoginData = new UserLoginData();
 
-        userLoginData.token = utg;
+        userLoginData.utg = utg;
         userLoginData.eos = eos;
 
         userLoginData.user_data.user = user;
@@ -85,7 +85,7 @@ public class Cheat : MonoSingleton<Cheat>
         else if (type == (int)GACHA_RESULT_TYPE.Equipment)
         {
             // 아이템은 아직
-            gachaItemData gachaResult = new gachaItemData();
+            gachaEquipmentData gachaResult = new gachaEquipmentData();
             gachaResult.result_type = type;
             gachaResult.data = GetRandomEquipment(UserDataManager.Inst.equipmentDic.Count + 1);
 
@@ -606,7 +606,11 @@ public class Cheat : MonoSingleton<Cheat>
 
         for (int i = 0; i < 10; ++i)
         {
-            rewardData.get_exp_list.Add(100);
+            expInfo rewardCharExp = new expInfo();
+            rewardCharExp.pos = i;
+            rewardCharExp.exp = 100;
+            rewardCharExp.lvup = 1;
+            rewardData.get_char_exp_list.Add(rewardCharExp);
         }
 
         return JsonMapper.ToJson(rewardData);
@@ -749,7 +753,10 @@ public class Cheat : MonoSingleton<Cheat>
 
     public void RequestStageRewardCheat()
     {
-        PacketManager.Inst.ResponseStageExit();
+        string stageRewardJson = GetStageResultData();
+        Debug.Log("[SUCCESS] User Stage Reward :" + stageRewardJson);
+        stageRewardData getStageRewardData = JsonUtility.FromJson<stageRewardData>(stageRewardJson);
+        PacketManager.Inst.ResponseStageReward(getStageRewardData);
     }
 
     public void RequestStageExitCheat()

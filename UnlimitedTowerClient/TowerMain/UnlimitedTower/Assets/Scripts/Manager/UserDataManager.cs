@@ -799,5 +799,18 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return true;
     }
 
+    public void addUTG(ulong UTGCount)
+    {
+        if (UTGCount == 0)
+            return;
+        userInfo.userUTG += UTGCount;
+    }
+
+    public void addRankExp(int Exp, int Level)
+    {
+        userInfo.userEXP = Exp;
+        userInfo.level += Level;
+    }
+
     #endregion
 }
