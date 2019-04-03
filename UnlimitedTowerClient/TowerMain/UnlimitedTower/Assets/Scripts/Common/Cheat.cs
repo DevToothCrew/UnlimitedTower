@@ -606,7 +606,11 @@ public class Cheat : MonoSingleton<Cheat>
 
         for (int i = 0; i < 10; ++i)
         {
-            rewardData.get_exp_list.Add(100);
+            expInfo rewardCharExp = new expInfo();
+            rewardCharExp.pos = i;
+            rewardCharExp.exp = 100;
+            rewardCharExp.lvup = 1;
+            rewardData.get_char_exp_list.Add(rewardCharExp);
         }
 
         return JsonMapper.ToJson(rewardData);

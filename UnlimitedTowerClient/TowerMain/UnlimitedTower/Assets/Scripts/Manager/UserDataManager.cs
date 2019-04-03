@@ -806,5 +806,11 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         userInfo.userUTG += UTGCount;
     }
 
+    public void addRankExp(int Exp, int Level)
+    {
+        userInfo.userEXP = Exp;
+        userInfo.level += Level;
+    }
+
     #endregion
 }

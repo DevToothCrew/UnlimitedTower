@@ -286,10 +286,20 @@ public class stageStateData
 }
 
 [Serializable]
+public class expInfo
+{
+    public int pos;
+    public int exp;
+    public int lvup;
+}
+
+
+[Serializable]
 public class stageRewardData
 {
     public ulong reward_money;
-    public List<int> get_exp_list = new List<int>();
+    public expInfo get_rank_exp = new expInfo();
+    public List<expInfo> get_char_exp_list = new List<expInfo>();
     public List<servantData> get_servant_list = new List<servantData>();
     public List<monsterData> get_monster_list = new List<monsterData>();
     public List<equipmentData> get_equipment_list = new List<equipmentData>();

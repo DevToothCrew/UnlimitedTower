@@ -192,12 +192,12 @@ public class BattleManager : MonoSingleton<BattleManager>
         string temp = "";
         testReward.SetActive(true);
 
-        if (rewardData.get_exp_list.Count != 0)
+        if (rewardData.get_char_exp_list.Count != 0)
         {
             temp += "User Name : " + UserDataManager.Inst.GetUserInfo().userName + "\n";
             temp += "Reward Money : " + rewardData.reward_money.ToString() + "\nExp";
-            for (int i = 0; i < rewardData.get_exp_list.Count; i++)
-                temp += " : " + rewardData.get_exp_list[i].ToString();
+            for (int i = 0; i < rewardData.get_char_exp_list.Count; i++)
+                temp += " : " + rewardData.get_char_exp_list[i].ToString();
             temp += "\nServant";
             for (int i = 0; i < rewardData.get_servant_list.Count; i++)
                 temp += " : " + rewardData.get_servant_list[i].servant.id;
