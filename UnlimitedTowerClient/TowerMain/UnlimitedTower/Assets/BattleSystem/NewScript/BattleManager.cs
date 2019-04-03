@@ -275,7 +275,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     // 캐릭터 그리드 셋팅
     public void SettinGrid(int index)
     {
-        GameObject temp = Instantiate(testGrid, Vector3.zero, Quaternion.Euler(new Vector3(90, 0, 0)));
+        GameObject temp = Instantiate(testGrid, new Vector3(0,0.1f,0), Quaternion.Euler(new Vector3(0, 0, 0)));
         temp.transform.SetParent(character[index].transform);
         grid[index] = temp;
         grid[index].SetActive(false);
