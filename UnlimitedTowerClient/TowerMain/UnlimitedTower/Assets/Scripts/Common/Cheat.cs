@@ -753,7 +753,10 @@ public class Cheat : MonoSingleton<Cheat>
 
     public void RequestStageRewardCheat()
     {
-        PacketManager.Inst.ResponseStageExit();
+        string stageRewardJson = GetStageResultData();
+        Debug.Log("[SUCCESS] User Stage Reward :" + stageRewardJson);
+        stageRewardData getStageRewardData = JsonUtility.FromJson<stageRewardData>(stageRewardJson);
+        PacketManager.Inst.ResponseStageReward(getStageRewardData);
     }
 
     public void RequestStageExitCheat()
