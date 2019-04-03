@@ -8,10 +8,11 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     public GameObject framePartyInfo;
 
     //SubView
-    public GameObject SubViewEquipment;
+    public GameObject FrameSubView;
     public GameObject SubViewDeconstruction;
     public GameObject SubViewSkill;
     public GameObject SubViewUpgradeMonster;
+
 
 
     //Menu Buttons UI
@@ -94,7 +95,10 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     }
     public scroll_type currentScrollType = 0;
 
-    
+
+    private GameObject objSubView;
+
+
     void setData()
     {
         ServantList.Clear();
@@ -367,22 +371,32 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     //장비 설정 버튼
     public void OnClickEquipment(int btn_tag)
     {
-        switch (btn_tag)
+        if (objSubView == null)
         {
-            case 0:
-                currentScrollType = scroll_type.EQUIPMENT_WEAPON;
-                break;
-            case 1:
-                currentScrollType = scroll_type.EQUIPMENT_ARMOR;
-                break;
-            case 2:
-                currentScrollType = scroll_type.EQUIPMENT_ACC;
-                break;
-            default:
-                break;
+            frameScroll.SetActive(false);
+            switch (btn_tag)
+            {
+                case 0:
+                    currentScrollType = scroll_type.EQUIPMENT_WEAPON;
+                    break;
+                case 1:
+                    currentScrollType = scroll_type.EQUIPMENT_ARMOR;
+                    break;
+                case 2:
+                    currentScrollType = scroll_type.EQUIPMENT_ACC;
+                    break;
+                default:
+                    break;
+            }
+            objSubView = Instantiate(Resources.Load("UI/Lobby/SubViewEquipment")) as GameObject;
+            objSubView.transform.SetParent(FrameSubView.transform);
+            objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        }
+        else
+        {
+            Debug.Log("Running Equipment View!");
         }
 
-        SubViewEquipment.SetActive(true);
     }
 
 

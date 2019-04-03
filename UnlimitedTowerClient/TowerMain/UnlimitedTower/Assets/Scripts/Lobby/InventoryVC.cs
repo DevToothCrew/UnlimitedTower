@@ -27,25 +27,21 @@ public class InventoryVC : MonoBehaviour {
     public ScrollListManager scrollList;
 
     //Detail Info UI
-    public Text textLevel;
-    public RectTransform rectExp;
-    public Text textCharacterName;
+    public Image imageItem;
+    public Text textItemName;
+    public Text textGradeText;
+    public Text textGrade;
+    public Text textUpgradeText;
+    public Text textUpgrade;
+    public Text textTierText;
+    public Text textTier;
+    public Text textJobText;
+    public Image[] imageJobIcon = new Image[5];
 
-    public Text textStr;
-    public Text textDex;
-    public Text textInt;
+    public Text textStatsText;
+    public Image[] imageStatsIcon = new Image[3];
+    public Text[] textStats = new Text[3];
 
-    public Text textPAtk;
-    public Text textPDef;
-    public Text textPCri;
-    public Text textPCriPer;
-    public Text textMAtk;
-    public Text textMDef;
-    public Text textMCri;
-    public Text textMCriPer;
-    public Text textSpeed;
-
-    //public Text textA
 
     //UI Set Data
     public enum menu_type
@@ -264,6 +260,7 @@ public class InventoryVC : MonoBehaviour {
             currentScrollType = scroll_type.DECONSTRUCTION_ACCESSORY;
 
         scrollList.SetItemOrder(getOrder());
+
     }
 
 }
