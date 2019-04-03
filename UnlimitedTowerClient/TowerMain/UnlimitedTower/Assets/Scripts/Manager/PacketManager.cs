@@ -295,7 +295,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 스테이지 시작
-    public void RequestStageStart(int stageType, int partyNum, int stageFloor)
+    public void RequestStageStart(int stageType, int stageFloor, int partyNum)
     {
         Debug.Log("Request Start Battle");
 

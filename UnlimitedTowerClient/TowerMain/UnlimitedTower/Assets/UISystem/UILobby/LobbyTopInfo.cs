@@ -17,8 +17,12 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
         }
         if(UserDataManager.Inst.GetMainCharInfo() != null)
         {
-            MainCharImage.sprite = CSVData.Inst.GetServantData(UserDataManager.Inst.GetMainCharInfo().mainCharID).servantIcon;
-            GradeCharImage.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)UserDataManager.Inst.GetMainCharInfo().grade);
+            DBServantData servantData = CSVData.Inst.GetServantData(UserDataManager.Inst.GetMainCharInfo().mainCharID);
+            if (servantData != null)
+            {
+                MainCharImage.sprite = servantData.servantIcon;
+                GradeCharImage.sprite = CSVData.Inst.GetSpriteGrade(servantData.grade);
+            }
         }
     }
 
