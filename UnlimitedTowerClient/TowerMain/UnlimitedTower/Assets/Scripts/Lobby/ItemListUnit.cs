@@ -53,6 +53,6 @@ public class ItemListUnit : ScrollListUnit {
     public override void OnClickUnit()
     {
         SubViewEquipment.Inst.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
-        SubViewEquipment.Inst.updateChangeItemInfo(SubViewEquipment.Inst.EquipmentList[main_idx].index);
+        SubViewEquipment.Inst.updateChangeItemInfo(main_idx);
     }
 }

@@ -127,13 +127,14 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
             selectedEquipType = EQUIPMENT_TYPE.MAX;
             Debug.Log("Equipment type : max");
         }
-        List<UserEquipmentData> u_list = UserDataManager.Inst.GetEquipmentList();
+        
         for (int i = 0; i < UserDataManager.Inst.GetEquipmentList().Count; i++)
         {
             UserEquipmentData equip_info = UserDataManager.Inst.GetEquipmentList()[i];
 
             if (equip_info.equipmentType == selectedEquipType)
             {
+                Debug.Log("Item type [ " + i + " ]" + equip_info.equipmentType);
                 EquipmentList.Add(equip_info);
             }
         }
