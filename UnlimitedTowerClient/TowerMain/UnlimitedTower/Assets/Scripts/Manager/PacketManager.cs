@@ -935,7 +935,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             }
 
         }
-        BattleManager.Inst.BattleEnd();
+        BattleManager.Inst.SetReward();
     }
     public void ResopnseResource(userResourceData getResourceInfo)
     {

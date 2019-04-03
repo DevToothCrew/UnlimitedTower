@@ -80,54 +80,57 @@ public class SelectManager : MonoBehaviour
             {
                 if (hit.transform.CompareTag("Character"))
                 {
-                    characterInfo.SetActive(true);
-
-                    selectIndex = hit.transform.GetComponent<CharacterIndex>().index;
-
-                    UserCharacterStateData selectStateInfo;
-
-                    if (selectIndex < 10)
+                    if (!EventSystem.current.IsPointerOverGameObject())
                     {
-                        selectStateInfo = BattleManager.Inst.GetMyState(selectIndex);
-                    }
-                    else
-                    {
-                        selectStateInfo = BattleManager.Inst.GetEnemyState(selectIndex);
-                    }
+                        characterInfo.SetActive(true);
 
-                    SelectGridReset();
-                    BattleManager.Inst.grid[selectIndex].SetActive(true);
+                        selectIndex = hit.transform.GetComponent<CharacterIndex>().index;
 
-                    if (selectIndex < 5)
-                    {
-                        selectCharImg.sprite = CSVData.Inst.DBServantDataDic[selectStateInfo.id].servantIcon;
-                        levelText.text = UserDataManager.Inst.GetServantInfo(UserDataManager.Inst.GetStageState().myStateList[selectIndex].index).level.ToString();
-                    }
-                    else if (selectIndex < 10)
-                    {
-                        selectCharImg.sprite = CSVData.Inst.DBMonsterDataDic[selectStateInfo.id].monsterIcon;
-                        nemeText.text = CSVData.Inst.GetMonsterName(selectStateInfo.id);
-                        levelText.text = UserDataManager.Inst.GetMonsterInfo(UserDataManager.Inst.GetStageState().myStateList[selectIndex].index).level.ToString();
-                    }
-                    else
-                    {
-                        selectCharImg.sprite = CSVData.Inst.DBMonsterDataDic[selectStateInfo.id].monsterIcon;
-                        nemeText.text = CSVData.Inst.GetMonsterName(selectStateInfo.id);
-                        levelText.text = "?";
-                    }
+                        UserCharacterStateData selectStateInfo;
 
-                    _Str.text = selectStateInfo.status.basicStr.ToString();
-                    _Dex.text = selectStateInfo.status.basicDex.ToString();
-                    _Int.text = selectStateInfo.status.basicInt.ToString();
-                    Atk.text = selectStateInfo.atk.ToString();
-                    mAtk.text = selectStateInfo.mAtk.ToString();
-                    Def.text = selectStateInfo.def.ToString();
-                    mDef.text = selectStateInfo.mDef.ToString();
-                    Speed.text = selectStateInfo.speed.ToString();
-                    CriPer.text = selectStateInfo.criPer.ToString();
-                    mCriPer.text = selectStateInfo.mCriPer.ToString();
-                    CriDmg.text = selectStateInfo.criDmg.ToString();
-                    mCriDmg.text = selectStateInfo.mCriDmg.ToString();
+                        if (selectIndex < 10)
+                        {
+                            selectStateInfo = BattleManager.Inst.GetMyState(selectIndex);
+                        }
+                        else
+                        {
+                            selectStateInfo = BattleManager.Inst.GetEnemyState(selectIndex);
+                        }
+
+                        SelectGridReset();
+                        BattleManager.Inst.grid[selectIndex].SetActive(true);
+
+                        if (selectIndex < 5)
+                        {
+                            selectCharImg.sprite = CSVData.Inst.DBServantDataDic[selectStateInfo.id].servantIcon;
+                            levelText.text = UserDataManager.Inst.GetServantInfo(UserDataManager.Inst.GetStageState().myStateList[selectIndex].index).level.ToString();
+                        }
+                        else if (selectIndex < 10)
+                        {
+                            selectCharImg.sprite = CSVData.Inst.DBMonsterDataDic[selectStateInfo.id].monsterIcon;
+                            nemeText.text = CSVData.Inst.GetMonsterName(selectStateInfo.id);
+                            levelText.text = UserDataManager.Inst.GetMonsterInfo(UserDataManager.Inst.GetStageState().myStateList[selectIndex].index).level.ToString();
+                        }
+                        else
+                        {
+                            selectCharImg.sprite = CSVData.Inst.DBMonsterDataDic[selectStateInfo.id].monsterIcon;
+                            nemeText.text = CSVData.Inst.GetMonsterName(selectStateInfo.id);
+                            levelText.text = "?";
+                        }
+
+                        _Str.text = selectStateInfo.status.basicStr.ToString();
+                        _Dex.text = selectStateInfo.status.basicDex.ToString();
+                        _Int.text = selectStateInfo.status.basicInt.ToString();
+                        Atk.text = selectStateInfo.atk.ToString();
+                        mAtk.text = selectStateInfo.mAtk.ToString();
+                        Def.text = selectStateInfo.def.ToString();
+                        mDef.text = selectStateInfo.mDef.ToString();
+                        Speed.text = selectStateInfo.speed.ToString();
+                        CriPer.text = selectStateInfo.criPer.ToString();
+                        mCriPer.text = selectStateInfo.mCriPer.ToString();
+                        CriDmg.text = selectStateInfo.criDmg.ToString();
+                        mCriDmg.text = selectStateInfo.mCriDmg.ToString();
+                    }
                 }
                 else
                 {
