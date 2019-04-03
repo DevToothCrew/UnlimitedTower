@@ -1266,6 +1266,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         userServant.index = getServantData.index;
         userServant.id = getServantData.servant.id;
         userServant.level = getServantData.servant.level;
+        userServant.grade = getServantData.servant.grade;
         if (CSVData.Inst.GetServantData(userServant.id) == null)
         {
             Debug.Log("Invalid Servant ID : " + userServant.id);

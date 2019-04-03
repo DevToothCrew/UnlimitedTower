@@ -48,6 +48,7 @@ public class servantInfo
     //public appearInfo appear = new appearInfo();
     public int id;
     public int level;
+    public int grade;
 
     public statusInfo status = new statusInfo();
     public List<int> equip_slot = new List<int>();
