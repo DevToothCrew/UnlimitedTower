@@ -202,6 +202,29 @@ public class DBStageEnemyData
 }
 
 [Serializable]
+public class DBStageRewardData
+{
+    public int id;
+    public int rankExp;
+    public int charExp;
+    public DBRewardData firstRewardData;
+    public int rewardMinUTG;
+    public int rewardMaxUTG;
+    public string rewardUTGString;
+    public List<DBRewardData> rewardDataList = new List<DBRewardData>();
+}
+
+[Serializable]
+public class DBRewardData
+{
+    public int rewardID;
+    public int rewardCount;
+    public int rewardPer;
+    public REWARD_TYPE rewardType;
+    public GRADE_TYPE rewardGrade;
+}
+
+[Serializable]
 public class DBMonsterUpgradeData
 {
     public int id;

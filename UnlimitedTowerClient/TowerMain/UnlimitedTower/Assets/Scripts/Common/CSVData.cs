@@ -12,6 +12,7 @@ public class CSVData : MonoSingleton<CSVData>
     public Dictionary<int, DBEquipmentData> DBEquipmentDataDic = new Dictionary<int, DBEquipmentData>();
     public Dictionary<int, DBStageData> DBStageDataDic = new Dictionary<int, DBStageData>();
     public Dictionary<int, DBStageEnemyData> DBStageEnemyDataDic = new Dictionary<int, DBStageEnemyData>();
+    public Dictionary<int, DBStageRewardData> DBStageRewardDataDic = new Dictionary<int, DBStageRewardData>();
     public Dictionary<int, DBLocalizationData> DBLocalDataDic = new Dictionary<int, DBLocalizationData>();
     private LOCALIZATION_TYPE localType;
     public Dictionary<int, DBServantData> DBServantDataDic = new Dictionary<int, DBServantData>();
@@ -102,7 +103,16 @@ public class CSVData : MonoSingleton<CSVData>
             }
             //Debug.Log("SetStageEnemyData Success");
         }
-        if(DBServantStatDataDic.Count == 0)
+        if (DBStageRewardDataDic.Count == 0)
+        {
+            //Debug.Log("SetStageRewardData Start");
+            if (SetStageRewardData() == false)
+            {
+                Debug.Log("Invalid DBStageRewardData");
+            }
+            //Debug.Log("SetStageRewardData Success");
+        }
+        if (DBServantStatDataDic.Count == 0)
         {
             //Debug.Log("SetServantStatData Start");
             if(SetServantStatData() == false)
@@ -442,6 +452,137 @@ public class CSVData : MonoSingleton<CSVData>
         }
 
         return true;
+    }
+
+    public bool SetStageRewardData()
+    {
+        List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_stage_reward");
+        for (var i = 2; i < data.Count; i++)
+        {
+            //Debug.Log("index " + (i).ToString()
+            //    + " : " + data[i]["id"]
+            //    + " " + data[i]["rank_exp"]
+            //    + " " + data[i]["char_exp"]
+            //    + " " + data[i]["first_reward_type"]
+            //    + " " + data[i]["first_reward_id"]
+            //    + " " + data[i]["first_reward_grade"]
+            //    + " " + data[i]["first_reward_count"]
+            //    + " " + data[i]["reward_utg_min"]
+            //    + " " + data[i]["reward_utg_max"]
+            //    + " " + data[i]["reward_type_1"]
+            //    + " " + data[i]["reward_id_1"]
+            //    + " " + data[i]["reward_grade_1"]
+            //    + " " + data[i]["reward_per_1"]
+            //    + " " + data[i]["reward_count_1"]
+            //    + " " + data[i]["reward_type_2"]
+            //    + " " + data[i]["reward_id_2"]
+            //    + " " + data[i]["reward_grade_2"]
+            //    + " " + data[i]["reward_per_2"]
+            //    + " " + data[i]["reward_count_2"]
+            //    + " " + data[i]["reward_type_3"]
+            //    + " " + data[i]["reward_id_3"]
+            //    + " " + data[i]["reward_grade_3"]
+            //    + " " + data[i]["reward_per_3"]
+            //    + " " + data[i]["reward_count_3"]
+            //    + " " + data[i]["reward_type_4"]
+            //    + " " + data[i]["reward_id_4"]
+            //    + " " + data[i]["reward_grade_4"]
+            //    + " " + data[i]["reward_per_4"]
+            //    + " " + data[i]["reward_count_4"]
+            //    + " " + data[i]["reward_type_5"]
+            //    + " " + data[i]["reward_id_5"]
+            //    + " " + data[i]["reward_grade_5"]
+            //    + " " + data[i]["reward_per_5"]
+            //    + " " + data[i]["reward_count_5"]
+            //    + " " + data[i]["reward_type_6"]
+            //    + " " + data[i]["reward_id_6"]
+            //    + " " + data[i]["reward_grade_6"]
+            //    + " " + data[i]["reward_per_6"]
+            //    + " " + data[i]["reward_count_6"]
+            //    );
+
+            DBStageRewardData rewardData = new DBStageRewardData();
+            rewardData.id = Convert.ToInt32(data[i]["id"]);
+            if(DBStageRewardDataDic.ContainsKey(rewardData.id) == true)
+            {
+                Debug.LogError("Invalid Reward ID : " + rewardData.id);
+                return false;
+            }
+
+            rewardData.rankExp = Convert.ToInt32(data[i]["rank_exp"]);
+            rewardData.charExp = Convert.ToInt32(data[i]["char_exp"]);
+            rewardData.firstRewardData = new DBRewardData();
+            rewardData.firstRewardData.rewardType = GetRewardType(Convert.ToString(data[i]["first_reward_type"]));
+            if(rewardData.firstRewardData.rewardType != REWARD_TYPE.NONE)
+            {
+                rewardData.firstRewardData.rewardID = Convert.ToInt32(data[i]["first_reward_id"]);
+                rewardData.firstRewardData.rewardGrade = GetGradeType(Convert.ToString(data[i]["first_reward_grade"]));
+                rewardData.firstRewardData.rewardCount = Convert.ToInt32(data[i]["first_reward_count"]);
+            }
+
+            rewardData.rewardMinUTG = Convert.ToInt32(data[i]["reward_utg_min"]);
+            rewardData.rewardMaxUTG = Convert.ToInt32(data[i]["reward_utg_max"]);
+            rewardData.rewardUTGString = rewardData.rewardMinUTG.ToString("N0") + " ~ " + rewardData.rewardMaxUTG.ToString("N0");
+
+            for(int count = 1; count <= 6; count++)
+            {
+                DBRewardData reward = new DBRewardData();
+                reward.rewardType = GetRewardType(Convert.ToString(data[i]["reward_type_" + count]));
+                if (reward.rewardType == REWARD_TYPE.NONE)
+                {
+                    continue;
+                }
+                reward.rewardID = Convert.ToInt32(data[i]["reward_id_" + count]);
+                reward.rewardGrade = GetGradeType(Convert.ToString(data[i]["reward_grade_" + count]));
+                reward.rewardCount = Convert.ToInt32(data[i]["reward_count_" + count]);
+
+                rewardData.rewardDataList.Add(reward);
+            }
+
+            DBStageRewardDataDic.Add(rewardData.id, rewardData);
+        }
+
+        return true;
+    }
+
+    public GRADE_TYPE GetGradeType(string type)
+    {
+        switch (type)
+        {
+            case "common":
+                return GRADE_TYPE.COMMON;
+            case "uncommon":
+                return GRADE_TYPE.UNCOMMON;
+            case "rare":
+                return GRADE_TYPE.RARE;
+            case "unique":
+                return GRADE_TYPE.UNIQUE;
+            case "legendary":
+                return GRADE_TYPE.LEGENDARY;
+            default:
+                Debug.Log("Invalid Grade Type String : " + type);
+                return GRADE_TYPE.NONE;
+        }
+    }
+
+    public REWARD_TYPE GetRewardType(string type)
+    {
+        switch(type)
+        {
+            case "none":
+                return REWARD_TYPE.NONE;
+            case "servant":
+                return REWARD_TYPE.SERVANT;
+            case "monster":
+                return REWARD_TYPE.MONSTER;
+            case "equip":
+                return REWARD_TYPE.EQUIPMENT;
+            case "item":
+                return REWARD_TYPE.ITEM;
+            default:
+                Debug.Log("Invalid Reward Type String : " + type);
+                return REWARD_TYPE.NONE;
+        }
     }
 
     public bool SetServantStatData()

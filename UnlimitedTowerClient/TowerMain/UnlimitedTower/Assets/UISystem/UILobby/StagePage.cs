@@ -10,9 +10,20 @@ public class StagePage : MonoBehaviour {
     private int stageType = 0;
     private int stageFloor = 0;
 
-    void Awake () {
+    void Awake ()
+    {
         StageInfoPage.SetActive(false);
 	}
+
+    public void SetRewardInfo()
+    {
+
+    }
+
+    public void SetEnemyInfo()
+    {
+
+    }
 
     public void OnClickStageButton(int stageIndex)
     {
@@ -61,6 +72,9 @@ public class StagePage : MonoBehaviour {
                 break;
         }
 
+        SetRewardInfo();
+        SetEnemyInfo();
+
         StageInfoPage.SetActive(true);
     }
 
@@ -86,4 +100,6 @@ public class StagePage : MonoBehaviour {
         }
 #endif
     }
+
+
 }

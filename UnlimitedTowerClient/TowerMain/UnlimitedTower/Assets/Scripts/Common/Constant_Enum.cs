@@ -370,4 +370,13 @@ public enum EFFECT_TYPE
     BATTLE = 1,
 }
 
+public enum REWARD_TYPE
+{
+    NONE = 0,
+    SERVANT = 1,
+    MONSTER = 2,
+    EQUIPMENT = 3,
+    ITEM = 4,
+}
+
 #endregion
