@@ -799,5 +799,12 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return true;
     }
 
+    public void addUTG(ulong UTGCount)
+    {
+        if (UTGCount == 0)
+            return;
+        userInfo.userUTG += UTGCount;
+    }
+
     #endregion
 }

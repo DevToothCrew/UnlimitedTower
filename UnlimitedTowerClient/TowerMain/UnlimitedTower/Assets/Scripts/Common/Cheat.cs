@@ -12,7 +12,7 @@ public class Cheat : MonoSingleton<Cheat>
     {
         UserLoginData userLoginData = new UserLoginData();
 
-        userLoginData.token = utg;
+        userLoginData.utg = utg;
         userLoginData.eos = eos;
 
         userLoginData.user_data.user = user;
@@ -85,7 +85,7 @@ public class Cheat : MonoSingleton<Cheat>
         else if (type == (int)GACHA_RESULT_TYPE.Equipment)
         {
             // 아이템은 아직
-            gachaItemData gachaResult = new gachaItemData();
+            gachaEquipmentData gachaResult = new gachaEquipmentData();
             gachaResult.result_type = type;
             gachaResult.data = GetRandomEquipment(UserDataManager.Inst.equipmentDic.Count + 1);
 

@@ -109,7 +109,7 @@ public class UserLoginData
     public partyData party_info = new partyData();
     public userData user_data = new userData();
     public string eos;
-    public string token;
+    public string utg;
 }
 
 [Serializable]
@@ -199,7 +199,7 @@ public class gachaMonsterData
 }
 
 [Serializable]
-public class gachaItemData
+public class gachaEquipmentData
 {
     public int result_type;
     public equipmentData data = new equipmentData();

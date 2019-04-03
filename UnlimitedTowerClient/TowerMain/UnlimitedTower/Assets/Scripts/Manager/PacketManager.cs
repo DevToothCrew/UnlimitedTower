@@ -783,7 +783,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         {
             Debug.Log(getGachaInfo);
 
-            gachaItemData gachaData = JsonUtility.FromJson<gachaItemData>(getGachaInfo);
+            gachaEquipmentData gachaData = JsonUtility.FromJson<gachaEquipmentData>(getGachaInfo);
             UserEquipmentData getEquipment = ParseEquipment(gachaData.data);
 
             UserDataManager.Inst.AddEquipmentData(getEquipment);
@@ -1221,7 +1221,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         userInfo.userEOS = ulong.Parse(getUserData.eos);
         // token은 UTG로 바꿀 필요가 있지 않을까요
-        userInfo.userUTG = ulong.Parse(getUserData.token);
+        userInfo.userUTG = ulong.Parse(getUserData.utg);
         userInfo.level = getUserData.user_data.rank;
 
         //Debug.Log("getEOS : " + getUserData.eos);
