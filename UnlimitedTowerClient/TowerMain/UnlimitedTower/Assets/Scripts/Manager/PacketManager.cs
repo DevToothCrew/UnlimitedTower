@@ -861,12 +861,28 @@ public class PacketManager : MonoSingleton<PacketManager> {
         UserDataManager.Inst.addRankExp(getReward.get_rank_exp.exp, getReward.get_rank_exp.lvup); //유저 랭크, 경험치 반영
 
         // 경험치 추가
-        if (getReward.get_servant_list.Count > 0)
+        if (getReward.get_char_exp_list.Count > 0)
         {
             UserStageStateData stateData = UserDataManager.Inst.GetStageState();
-            for (int i = 0; i < stateData.myStateList.Count; ++i)
+            for (int i = 0; i < getReward.get_char_exp_list.Count; ++i)
             {
-
+                for (int j = 0; j < stateData.myStateList.Count; ++j)
+                {
+                    if (stateData.myStateList[j].position == getReward.get_char_exp_list[i].pos)
+                    {
+                        int index = stateData.myStateList[j].index;
+                        if (stateData.myStateList[j].position < 5)
+                        {
+                            UserDataManager.Inst.servantDic[index].exp = getReward.get_char_exp_list[i].exp;
+                            UserDataManager.Inst.servantDic[index].level += getReward.get_char_exp_list[i].lvup;
+                        }
+                        else
+                        {
+                            UserDataManager.Inst.monsterDic[index].exp = getReward.get_char_exp_list[i].exp;
+                            UserDataManager.Inst.monsterDic[index].level += getReward.get_char_exp_list[i].lvup;
+                        }
+                    }
+                }
             }
         }
 
