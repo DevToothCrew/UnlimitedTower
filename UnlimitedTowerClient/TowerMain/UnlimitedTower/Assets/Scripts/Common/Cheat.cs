@@ -259,7 +259,7 @@ public class Cheat : MonoSingleton<Cheat>
                     Debug.Log("Invalid Servant Data : " + partyData.formationDataDic[i].index);
                     return null;
                 }
-
+                newMember.grade = 5;
                 newMember.position = i;
                 newMember.index = servantData.index;
                 newMember.id = servantData.id;
@@ -285,7 +285,7 @@ public class Cheat : MonoSingleton<Cheat>
                 {
                     return null;
                 }
-
+                newMember.grade = UnityEngine.Random.Range(1, 6);
                 newMember.position = i;
                 newMember.index = monsterData.index;
                 newMember.id = monsterData.id;
@@ -308,6 +308,7 @@ public class Cheat : MonoSingleton<Cheat>
         for (int i = 0; i < stageData.enemyIdList.Count; ++i)
         {
             characterStateData newMember = new characterStateData();
+            newMember.grade = 5;
             newMember.position = stageData.enemyPositionList[i];
             newMember.index = 0;
             newMember.id = stageData.enemyIdList[i];
@@ -612,6 +613,12 @@ public class Cheat : MonoSingleton<Cheat>
             rewardCharExp.lvup = 1;
             rewardData.get_char_exp_list.Add(rewardCharExp);
         }
+
+        rewardData.get_servant_list.Add(GetRandomServantData(UserDataManager.Inst.servantDic.Count + 2));
+        rewardData.get_servant_list.Add(GetRandomServantData(UserDataManager.Inst.servantDic.Count + 3));
+
+        rewardData.get_monster_list.Add(GetRandomMonster(UserDataManager.Inst.monsterDic.Count + 2));
+        rewardData.get_monster_list.Add(GetRandomMonster(UserDataManager.Inst.monsterDic.Count + 3));
 
         return JsonMapper.ToJson(rewardData);
     }

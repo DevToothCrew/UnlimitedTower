@@ -134,7 +134,6 @@ public class BattleManager : MonoSingleton<BattleManager>
         {
 #if UNITY_EDITOR
             Cheat.Inst.RequestStageRewardCheat();
-            SetReward();
 #else
             PacketManager.Inst.RequestStageReward();
 #endif
@@ -190,6 +189,9 @@ public class BattleManager : MonoSingleton<BattleManager>
         stageRewardData rewardData = UserDataManager.Inst.GetStageReward();
 
         GameObject Exp = GameObject.Find("Reward Exp");
+        GameObject rewardItemParent = GameObject.Find("Reward Item").transform.GetChild(0).GetChild(0).GetChild(0).gameObject;
+        Image rewardItemBack = rewardItemParent.transform.GetChild(0).GetComponent<Image>();
+        Image rewardItemImage = rewardItemParent.transform.GetChild(0).GetChild(0).GetComponent<Image>();
         Text rewardUTG = GameObject.Find("Reward UTG Text").GetComponent<Text>();
 
         foreach (KeyValuePair<int, UserCharacterStateData> state in stateData.myStateList)
@@ -206,7 +208,22 @@ public class BattleManager : MonoSingleton<BattleManager>
             Exp.transform.GetChild(rewardData.get_char_exp_list[i].pos).GetChild(1).GetComponent<Text>().text = "+ " + rewardData.get_char_exp_list[i].exp;
         }
 
-        rewardUTG.text = rewardData.reward_money.ToString();
+        for (int i = 0; i < rewardData.get_servant_list.Count; i++)
+        {
+            rewardItemBack.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)rewardData.get_servant_list[i].servant.grade);
+            rewardItemImage.sprite = CSVData.Inst.GetServantData(rewardData.get_servant_list[i].servant.id).servantIcon;
+            Instantiate(rewardItemBack, rewardItemParent.transform).gameObject.SetActive(true);
+        }
+
+        for (int i = 0; i < rewardData.get_monster_list.Count; i++)
+        {
+            rewardItemBack.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)rewardData.get_monster_list[i].monster.grade);
+            rewardItemImage.sprite = CSVData.Inst.GetMonsterData(rewardData.get_monster_list[i].monster.id).monsterIcon;
+            Instantiate(rewardItemBack, rewardItemParent.transform).gameObject.SetActive(true);
+        }
+
+
+        rewardUTG.text = (rewardData.reward_money/10000.0f).ToString("#.0000");
 
     }
     
@@ -214,6 +231,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     public IEnumerator SetStartImage(UserStageStateData stateData)
     {
         GameObject temp = GameObject.Find("StartUI");
+        GameObject.Find("Player Name Text").GetComponent<Text>().text = stateData.user;
 
         foreach (KeyValuePair<int, UserCharacterStateData> state in stateData.myStateList)
         {
@@ -221,6 +239,8 @@ public class BattleManager : MonoSingleton<BattleManager>
                 temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[state.Value.id].servantIcon;
             else if(state.Value.charType == CHAR_TYPE.MONSTER)
                 temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
+            Debug.Log("등급 : " + (GRADE_TYPE)state.Value.grade);
+            temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)state.Value.grade);
         }
 
         foreach (KeyValuePair<int, UserCharacterStateData> state in stateData.enemyStateList)
@@ -229,6 +249,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[state.Value.id].servantIcon;
             else if (state.Value.charType == CHAR_TYPE.MONSTER)
                 temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
+            temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)state.Value.grade);
         }
         
         yield return new WaitForSeconds(5.0f);
