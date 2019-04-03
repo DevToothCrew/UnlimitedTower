@@ -7,6 +7,10 @@ public class StagePage : MonoBehaviour {
     public Text StageText;
     public Text StageDetailText;
 
+    public Text RewardRankExp;
+    public Text RewardCharExp;
+    public Text RewardUTG;
+
     private int stageType = 0;
     private int stageFloor = 0;
 
@@ -17,7 +21,15 @@ public class StagePage : MonoBehaviour {
 
     public void SetRewardInfo()
     {
+        DBStageRewardData rewardData = CSVData.Inst.GetStageRewardData(stageType, stageFloor);
+        if(rewardData == null)
+        {
+            return;
+        }
 
+        RewardRankExp.text = "Rank Exp - " + rewardData.rankExp;
+        RewardCharExp.text = "Char Exp - " + rewardData.charExp;
+        RewardUTG.text = rewardData.rewardUTGString;
     }
 
     public void SetEnemyInfo()

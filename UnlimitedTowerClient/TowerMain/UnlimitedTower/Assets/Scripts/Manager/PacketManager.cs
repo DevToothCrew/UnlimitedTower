@@ -1403,13 +1403,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         for (int i = 0; i < getEquipmentList.Count; i++)
         {
-            UserEquipmentData item = ParseEquipment(getEquipmentList[i]);
-            if (item == null)
+            UserEquipmentData equipment = ParseEquipment(getEquipmentList[i]);
+            if (equipment == null)
             {
                 Debug.Log("Invalid Item Info");
                 return false;
             }
-            equipmentDic.Add(item.index, item);
+            equipmentDic.Add(equipment.index, equipment);
         }
 
         return true;

@@ -45,6 +45,10 @@ public class Cheat : MonoSingleton<Cheat>
         }
 
         // Item 추가 예정
+        for(int i = 1; i < 100; i++)
+        {
+            userLoginData.equipment_list.Add(GetRandomEquipment(i));
+        }
 
         userLoginData.party_info = partyData;
 
@@ -704,8 +708,8 @@ public class Cheat : MonoSingleton<Cheat>
         equipmentData.equipment.type = (int)dbEquipmentData.equipmentType;
         equipmentData.equipment.job = (int)dbEquipmentData.jobLimit;
         equipmentData.equipment.tier = dbEquipmentData.tier;
-        equipmentData.equipment.value = UnityEngine.Random.Range(dbEquipmentData.optionMin, dbEquipmentData.optionMax);
-        
+        equipmentData.equipment.value = (int)(UnityEngine.Random.Range(dbEquipmentData.optionMin, dbEquipmentData.optionMax) * dbEquipmentData.gradeMultiValueDic[(GRADE_TYPE)equipmentData.equipment.grade]);
+
         return equipmentData;
     }
 

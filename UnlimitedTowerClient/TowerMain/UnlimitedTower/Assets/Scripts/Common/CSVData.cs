@@ -1237,14 +1237,24 @@ public class CSVData : MonoSingleton<CSVData>
         return equipmentID;
     }
 
-    public string GetMonsterIcon(int index)
+    public Sprite GetServantIcon(int id)
     {
-        if (DBMonsterDataDic.ContainsKey(index) == false)
+        if (DBServantDataDic.ContainsKey(id) == false)
         {
             return null;
         }
 
-        return DBMonsterDataDic[index].resourceIcon;
+        return DBServantDataDic[id].servantIcon;
+    }
+
+    public Sprite GetMonsterIcon(int id)
+    {
+        if (DBMonsterDataDic.ContainsKey(id) == false)
+        {
+            return null;
+        }
+
+        return DBMonsterDataDic[id].monsterIcon;
     }
 
     public string GetMonsterName(int monsterIndex)
@@ -1331,7 +1341,7 @@ public class CSVData : MonoSingleton<CSVData>
 
         if (DBStageDataDic.ContainsKey(id) == false)
         {
-            Debug.LogError("DBStageDataDic Error");
+            Debug.LogError("DBStageDataDic Error ID : " + id);
             return null;
         }
 
@@ -1347,6 +1357,19 @@ public class CSVData : MonoSingleton<CSVData>
         }
 
         return DBStageEnemyDataDic[id];
+    }
+
+    public DBStageRewardData GetStageRewardData(int stageType, int stageFloor)
+    {
+        int id = 100000 + (stageType * 100) + stageFloor;
+
+        if(DBStageRewardDataDic.ContainsKey(id) == false)
+        {
+            Debug.Log("DBStageREwardDataDic Error ID : " + id);
+            return null;
+        }
+
+        return DBStageRewardDataDic[id];
     }
 
     public int GetRankForExp(int exp)
