@@ -138,7 +138,7 @@ public class Cheat : MonoSingleton<Cheat>
                     } while (BattleManager.Inst.NowHp[action.target_position] == 0);
                     action.avoid = false;
                     action.critical = UnityEngine.Random.Range(0, 10) == 1 ? true : false;
-                    action.damage = rand.Next(200, 500);
+                    action.damage = rand.Next(stateData.myStateList[i].atk - 100, stateData.myStateList[i].atk + 100);
                     actioninfo.action_info_list.Add(action);
                 }
                 else
@@ -155,7 +155,7 @@ public class Cheat : MonoSingleton<Cheat>
                             } while (BattleManager.Inst.NowHp[action.target_position] == 0);
                             action.avoid = false;
                             action.critical = false;
-                            action.damage = rand.Next(200, 500);
+                            action.damage = rand.Next(stateData.myStateList[i].mAtk - 100, stateData.myStateList[i].mAtk + 100);
                             actioninfo.action_info_list.Add(action);
                         }
                     }
@@ -189,7 +189,7 @@ public class Cheat : MonoSingleton<Cheat>
                 } while (BattleManager.Inst.NowHp[action.target_position] == 0);
                 action.avoid = false;
                 action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
-                action.damage = rand.Next(200, 500);
+                action.damage = rand.Next(stateData.myStateList[i].atk - 100, stateData.myStateList[i].atk + 100);
 
                 characterActionData actioninfo = new characterActionData();
                 actioninfo.my_position = stateData.myStateList[i].position;
@@ -214,7 +214,7 @@ public class Cheat : MonoSingleton<Cheat>
             } while (BattleManager.Inst.NowHp[action.target_position] == 0);
             action.avoid = false;
             action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
-            action.damage = rand.Next(200, 500);
+            action.damage = rand.Next(stateData.myStateList[i].atk - 100, stateData.myStateList[i].atk + 100);
 
             characterActionData actioninfo = new characterActionData();
             actioninfo.my_position = i;
