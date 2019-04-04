@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventoryVC : MonoBehaviour {
+public class InventoryVC : MonoSingleton<InventoryVC> {
     public GameObject frameItemInfo;
 
     //SubView
-    public GameObject SubViewDeconstruction;
     public GameObject SubViewUpgrade;
 
 
@@ -36,6 +35,7 @@ public class InventoryVC : MonoBehaviour {
     public Text textTierText;
     public Text textTier;
     public Text textJobText;
+    public Text textJob;
     public Image[] imageJobIcon = new Image[5];
 
     public Text textStatsText;
@@ -62,7 +62,7 @@ public class InventoryVC : MonoBehaviour {
     sort_type sortType = 0;
 
 
-    public List<List<int>> EquipmentList = new List<List<int>>();
+    public List<List<UserEquipmentData>> EquipmentList = new List<List<UserEquipmentData>>();
 
     [HideInInspector]
     public int selected_tab = 0;
@@ -92,27 +92,26 @@ public class InventoryVC : MonoBehaviour {
 
         for (int i = 0; i < 3; i++) // 0:weapon, 1:armor, 2:acc
         {
-            List<int> item_list = new List<int>();
+            List<UserEquipmentData> item_list = new List<UserEquipmentData>();
             EquipmentList.Add(item_list);
         }
             
 
         for (int i = 0; i < UserDataManager.Inst.GetEquipmentList().Count; i++)
         {
-            UserEquipmentData equip_info = UserDataManager.Inst.GetEquipmentInfo(i);
+            UserEquipmentData equip_info = UserDataManager.Inst.GetEquipmentList()[i];
 
             if (EQUIPMENT_TYPE.WEAPON == equip_info.equipmentType)
             {
-
-                EquipmentList[(int)menu_type.WEAPON].Add(equip_info.index);
+                EquipmentList[(int)menu_type.WEAPON].Add(equip_info);
             }
             else if (EQUIPMENT_TYPE.WEAPON == equip_info.equipmentType)
             {
-                EquipmentList[(int)menu_type.ARMOR].Add(equip_info.index);
+                EquipmentList[(int)menu_type.ARMOR].Add(equip_info);
             }
             else if (EQUIPMENT_TYPE.WEAPON == equip_info.equipmentType)
             {
-                EquipmentList[(int)menu_type.ACCESSORY].Add(equip_info.index);
+                EquipmentList[(int)menu_type.ACCESSORY].Add(equip_info);
             }
             else
             {
@@ -209,7 +208,7 @@ public class InventoryVC : MonoBehaviour {
                 {
                     for (int j = i + 1; j < total_list_num; j++)
                     {
-                        if (UserDataManager.Inst.GetEquipmentInfo(EquipmentList[(int)selectedMenu][i]).grade < UserDataManager.Inst.GetEquipmentInfo(EquipmentList[(int)selectedMenu][j]).grade)
+                        if (UserDataManager.Inst.GetEquipmentInfo(EquipmentList[(int)selectedMenu][i].index).grade < UserDataManager.Inst.GetEquipmentInfo(EquipmentList[(int)selectedMenu][j].index).grade)
                         {
                             data_order[i]++;
                         }
@@ -233,7 +232,7 @@ public class InventoryVC : MonoBehaviour {
     {
         selected_unit_idx = _selected_unit_idx;
 
-        UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(EquipmentList[(int)selectedMenu][selected_unit_idx]);
+        UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(EquipmentList[(int)selectedMenu][selected_unit_idx].index);
         if (equipmentData == null)
         {
             Debug.Log("Invalid Equipment Inddex : " + selected_unit_idx);
@@ -245,12 +244,69 @@ public class InventoryVC : MonoBehaviour {
             Debug.Log("Invalid equipment ID : " + equipmentData.id);
         }
 
+        imageItem.sprite = dBEquipmentData.equipmentIcon;
+        textItemName.text = dBEquipmentData.name;
+        //textCurrentGradeText.text;
+        textGrade.text = string.Format("{0}", ((GRADE_TYPE)equipmentData.grade));
+        //textCurrentUpgradeText.text;
+        textUpgrade.text = string.Format("+{0}", (equipmentData.upgrade)); ;
+        //textCurrentTierText.text;
+        textTier.text = string.Format("{0}T", dBEquipmentData.tier);
+        //textCurrentJobText.text;
+        for (int i = 0; i < 5; i++)
+        {
+            imageJobIcon[i].enabled = false;
+        }
+
+        if (dBEquipmentData.jobLimit == SERVANT_JOB_FLAG.None)
+        {
+            textJob.text = "None";
+        }
+        else if (dBEquipmentData.jobLimit == SERVANT_JOB_FLAG.All)
+        {
+            textJob.text = "All";
+        }
+        else
+        {
+            textJob.text = "";
+            int able_job_count = 0;
+            int check_job = (int)SERVANT_JOB_FLAG.Last;
+            while (check_job >= (int)SERVANT_JOB_FLAG.First)
+            {
+                if (dBEquipmentData.isEquipAble((SERVANT_JOB_FLAG)check_job))
+                {
+                    Debug.Log("check Job :" + (SERVANT_JOB_FLAG)check_job);
+
+                    imageJobIcon[able_job_count].enabled = true;
+                    able_job_count++;
+
+                    if (able_job_count >= imageJobIcon.Length)
+                    {
+                        Debug.Log("up to 5 job");
+                        break;
+                    }
+                }
+
+                check_job = check_job >> 1;
+
+            }
+        }
+
+        for (EQUIPMENT_OPTION_TYPE type = EQUIPMENT_OPTION_TYPE.NONE; type < EQUIPMENT_OPTION_TYPE.MAX; type++)
+        {
+            if (equipmentData.optionType == type)
+            {
+                //imageStatsIcon[0].sprite = spriteStat[(int)type];
+                textStats[0].text = string.Format("{0}", equipmentData.value);
+            }
+        }
+
     }
 
 
     public void OnClickDeconstruction()
     {
-        SubViewDeconstruction.SetActive(true);
+        //SubViewDeconstruction.SetActive(true);
 
         if (selectedMenu == menu_type.WEAPON)
             currentScrollType = scroll_type.DECONSTRUCTION_WEAPON;

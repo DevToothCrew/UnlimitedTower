@@ -257,18 +257,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
             {
                 imageCurrentJob[i].enabled = false;
             }
-
-            int able_job = 0;   //착용 가능한 직업 수
-            for (SERVANT_JOB_FLAG i = SERVANT_JOB_FLAG.Magician; i > SERVANT_JOB_FLAG.None; i--)
-            {
-                if (dBEquipment.isEquipAble(i))
-                {
-                    imageCurrentJob[able_job].enabled = true;
-                    //imageCurrentJob[able_job].sprite = dBEquipment.;
-                }
-
-            }
-
+            
             if (dBEquipment.jobLimit == SERVANT_JOB_FLAG.None)
             {
                 textCurrentJob.text = "None";
@@ -280,6 +269,27 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
             else
             {
                 textCurrentJob.text = "";
+                int able_job_count = 0;
+                int check_job = (int)SERVANT_JOB_FLAG.Last;
+                while (check_job >= (int)SERVANT_JOB_FLAG.First)
+                {
+                    if (dBEquipment.isEquipAble((SERVANT_JOB_FLAG)check_job))
+                    {
+                        Debug.Log("check Job :" + (SERVANT_JOB_FLAG)check_job);
+
+                        imageCurrentJob[able_job_count].enabled = true;
+                        able_job_count++;
+
+                        if (able_job_count >= imageCurrentJob.Length)
+                        {
+                            Debug.Log("up to 5 job");
+                            break;
+                        }
+                    }
+
+                    check_job = check_job >> 1;
+
+                }
             }
             
 
