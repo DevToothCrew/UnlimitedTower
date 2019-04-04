@@ -135,12 +135,32 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
         {
             buttonMenu[i].image.sprite = buttonMenu[i].spriteState.disabledSprite;
             buttonMenu[i].GetComponentInChildren<Text>().color = Color.white;
+
+            if (EquipmentList[i].Count > 0)
+            {
+                buttonMenu[i].interactable = true;
+            }
+            else
+            {
+                buttonMenu[i].interactable = false;
+            }
         }
 
-        buttonMenu[(int)selectedMenu].image.sprite = buttonMenu[(int)selectedMenu].spriteState.pressedSprite;
-        buttonMenu[(int)selectedMenu].GetComponentInChildren<Text>().color = Color.black;
+        if (EquipmentList[(int)selectedMenu].Count > 0)
+        {
+            frameItemInfo.SetActive(true);
+            frameScroll.SetActive(true);
 
-        resetScroll(currentScrollType);
+            buttonMenu[(int)selectedMenu].image.sprite = buttonMenu[(int)selectedMenu].spriteState.pressedSprite;
+            buttonMenu[(int)selectedMenu].GetComponentInChildren<Text>().color = Color.black;
+
+            resetScroll(currentScrollType);
+        }
+        else
+        {
+            frameItemInfo.SetActive(false);
+            frameScroll.SetActive(false);
+        }
 
     }
 
