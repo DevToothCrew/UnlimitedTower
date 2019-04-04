@@ -483,7 +483,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
 
         // 장착 가능 직업 검사
-        if (dbEquipmentData.isEquipAble(dbServantData.GetJobFlag()) == false)
+        if (dbEquipmentData.isEquipAble(dbServantData.GetJobFlag) == false)
         {
             Debug.Log("Invalid Servant Equipable");
             return;

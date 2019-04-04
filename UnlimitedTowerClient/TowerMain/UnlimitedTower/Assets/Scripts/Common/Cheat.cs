@@ -324,10 +324,20 @@ public class Cheat : MonoSingleton<Cheat>
                 return null;
             }
 
+            DBMonsterData monsterData = CSVData.Inst.GetMonsterData(enemyData.charID);
+            if(monsterData == null)
+            {
+                Debug.Log("Invalid Monster ID : " + enemyData.charID);
+                return null;
+            }
+
+            int level = UnityEngine.Random.Range(stageData.enemyLevelMin, stageData.enemyLevelMax + 1);
+            Status addStatus = CSVData.Inst.GetMonsterLevelPerAddStatus(monsterData.GetClass, enemyData.grade);
+
             newMember.status = new statusInfo();
-            newMember.status.basic_str = enemyData.status.basicStr;
-            newMember.status.basic_dex = enemyData.status.basicDex;
-            newMember.status.basic_int = enemyData.status.basicInt;
+            newMember.status.basic_str = enemyData.status.basicStr + (level * addStatus.basicStr);
+            newMember.status.basic_dex = enemyData.status.basicDex + (level * addStatus.basicDex);
+            newMember.status.basic_int = enemyData.status.basicInt + (level * addStatus.basicInt);
             newMember.now_hp = Calculator.GetMaxHp(enemyData.status);
 
             battlestatedata.enemy_state_list.Add(newMember);
@@ -656,9 +666,9 @@ public class Cheat : MonoSingleton<Cheat>
         }
 
         // 장착 가능 직업 검사
-        if(dbEquipmentData.isEquipAble(dbServantData.GetJobFlag()) == false)
+        if(dbEquipmentData.isEquipAble(dbServantData.GetJobFlag) == false)
         {
-            Debug.Log("Invalid Servant Equipable Job : " + dbServantData.GetJobFlag() + ", Need Job : " + dbEquipmentData.jobLimit);
+            Debug.Log("Invalid Servant Equipable Job : " + dbServantData.GetJobFlag + ", Need Job : " + dbEquipmentData.jobLimit);
             return null;
         }
 

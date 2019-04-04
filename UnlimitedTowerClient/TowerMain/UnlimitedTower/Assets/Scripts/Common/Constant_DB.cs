@@ -73,13 +73,19 @@ public class DBMonsterData
     public string name;
     public int elementType;
     public int classType;
-    public MONSTER_CLASS GetClass()
+    public MONSTER_CLASS GetClass
     {
-        return (MONSTER_CLASS)classType;
+        get
+        {
+            return (MONSTER_CLASS)classType;
+        }
     }
-    public MONSTER_CLASS_FLAG GetClassFlag()
+    public MONSTER_CLASS_FLAG GetClassFlag
     {
-        return (MONSTER_CLASS_FLAG)Math.Pow(2, classType);
+        get
+        {
+            return (MONSTER_CLASS_FLAG)Math.Pow(2, classType);
+        }
     }
 
     public int speed;
@@ -119,13 +125,19 @@ public class DBServantData
 {
     public int id;
     public int job;
-    public SERVANT_JOB GetJob()
+    public SERVANT_JOB GetJob
     {
-        return (SERVANT_JOB)job;
+        get
+        {
+            return (SERVANT_JOB)job;
+        }
     }
-    public SERVANT_JOB_FLAG GetJobFlag()
+    public SERVANT_JOB_FLAG GetJobFlag
     {
-        return (SERVANT_JOB_FLAG)Math.Pow(2, job);
+        get
+        {
+            return (SERVANT_JOB_FLAG)Math.Pow(2, job);
+        }
     }
 
     public int speed;

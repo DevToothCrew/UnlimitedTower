@@ -1409,5 +1409,345 @@ public class CSVData : MonoSingleton<CSVData>
         return DBSkillPassiveDataDic[id];
     }
 
+    // DB 생길때까지 임시
+    public Status GetMonsterLevelPerAddStatus(MONSTER_CLASS classType, GRADE_TYPE gradeType)
+    {
+        Status addStatus = new Status();
+
+        switch(classType)
+        {
+            case MONSTER_CLASS.Fighter:
+                if (gradeType == GRADE_TYPE.COMMON)
+                {
+                    addStatus.basicStr = 7;
+                    addStatus.basicDex = 2;
+                    addStatus.basicInt = 1;
+                }
+                else if (gradeType == GRADE_TYPE.UNCOMMON)
+                {
+                    addStatus.basicStr = 7;
+                    addStatus.basicDex = 3;
+                    addStatus.basicInt = 1;
+                }
+                else if (gradeType == GRADE_TYPE.RARE)
+                {
+                    addStatus.basicStr = 8;
+                    addStatus.basicDex = 3;
+                    addStatus.basicInt = 1;
+                }
+                else if (gradeType == GRADE_TYPE.UNIQUE)
+                {
+                    addStatus.basicStr = 9;
+                    addStatus.basicDex = 3;
+                    addStatus.basicInt = 1;
+                }
+                else if (gradeType == GRADE_TYPE.LEGENDARY)
+                {
+                    addStatus.basicStr = 10;
+                    addStatus.basicDex = 4;
+                    addStatus.basicInt = 1;
+                }
+                else
+                {
+                    Debug.Log("Grade Error : " + gradeType.ToString());
+                }
+                break;
+            case MONSTER_CLASS.Kngiht:
+                if (gradeType == GRADE_TYPE.COMMON)
+                {
+                    addStatus.basicStr = 8;
+                    addStatus.basicDex = 1;
+                    addStatus.basicInt = 1;
+                }
+                else if (gradeType == GRADE_TYPE.UNCOMMON)
+                {
+                    addStatus.basicStr = 9;
+                    addStatus.basicDex = 1;
+                    addStatus.basicInt = 1;
+                }
+                else if (gradeType == GRADE_TYPE.RARE)
+                {
+                    addStatus.basicStr = 10;
+                    addStatus.basicDex = 1;
+                    addStatus.basicInt = 1;
+                }
+                else if (gradeType == GRADE_TYPE.UNIQUE)
+                {
+                    addStatus.basicStr = 10;
+                    addStatus.basicDex = 2;
+                    addStatus.basicInt = 1;
+                }
+                else if (gradeType == GRADE_TYPE.LEGENDARY)
+                {
+                    addStatus.basicStr = 12;
+                    addStatus.basicDex = 2;
+                    addStatus.basicInt = 1;
+                }
+                else
+                {
+                    Debug.Log("Grade Error : " + gradeType.ToString());
+                }
+                break;
+            case MONSTER_CLASS.Priest:
+                if (gradeType == GRADE_TYPE.COMMON)
+                {
+                    addStatus.basicStr = 2;
+                    addStatus.basicDex = 1;
+                    addStatus.basicInt = 7;
+                }
+                else if (gradeType == GRADE_TYPE.UNCOMMON)
+                {
+                    addStatus.basicStr = 2;
+                    addStatus.basicDex = 1;
+                    addStatus.basicInt = 8;
+                }
+                else if (gradeType == GRADE_TYPE.RARE)
+                {
+                    addStatus.basicStr = 3;
+                    addStatus.basicDex = 1;
+                    addStatus.basicInt = 8;
+                }
+                else if (gradeType == GRADE_TYPE.UNIQUE)
+                {
+                    addStatus.basicStr = 3;
+                    addStatus.basicDex = 1;
+                    addStatus.basicInt = 9;
+                }
+                else if (gradeType == GRADE_TYPE.LEGENDARY)
+                {
+                    addStatus.basicStr = 3;
+                    addStatus.basicDex = 1;
+                    addStatus.basicInt = 11;
+                }
+                else
+                {
+                    Debug.Log("Grade Error : " + gradeType.ToString());
+                }
+                break;
+            case MONSTER_CLASS.Assassin:
+                if (gradeType == GRADE_TYPE.COMMON)
+                {
+                    addStatus.basicStr = 1;
+                    addStatus.basicDex = 8;
+                    addStatus.basicInt = 1;
+                }
+                else if (gradeType == GRADE_TYPE.UNCOMMON)
+                {
+                    addStatus.basicStr = 1;
+                    addStatus.basicDex = 9;
+                    addStatus.basicInt = 1;
+                }
+                else if (gradeType == GRADE_TYPE.RARE)
+                {
+                    addStatus.basicStr = 1;
+                    addStatus.basicDex = 10;
+                    addStatus.basicInt = 1;
+                }
+                else if (gradeType == GRADE_TYPE.UNIQUE)
+                {
+                    addStatus.basicStr = 2;
+                    addStatus.basicDex = 10;
+                    addStatus.basicInt = 1;
+                }
+                else if (gradeType == GRADE_TYPE.LEGENDARY)
+                {
+                    addStatus.basicStr = 2;
+                    addStatus.basicDex = 12;
+                    addStatus.basicInt = 1;
+                }
+                else
+                {
+                    Debug.Log("Grade Error : " + gradeType.ToString());
+                }
+                break;
+            case MONSTER_CLASS.Hunter:
+                if (gradeType == GRADE_TYPE.COMMON)
+                {
+                    addStatus.basicStr = 3;
+                    addStatus.basicDex = 6;
+                    addStatus.basicInt = 1;
+                }
+                else if (gradeType == GRADE_TYPE.UNCOMMON)
+                {
+                    addStatus.basicStr = 3;
+                    addStatus.basicDex = 6;
+                    addStatus.basicInt = 2;
+                }
+                else if (gradeType == GRADE_TYPE.RARE)
+                {
+                    addStatus.basicStr = 3;
+                    addStatus.basicDex = 7;
+                    addStatus.basicInt = 2;
+                }
+                else if (gradeType == GRADE_TYPE.UNIQUE)
+                {
+                    addStatus.basicStr = 3;
+                    addStatus.basicDex = 8;
+                    addStatus.basicInt = 2;
+                }
+                else if (gradeType == GRADE_TYPE.LEGENDARY)
+                {
+                    addStatus.basicStr = 4;
+                    addStatus.basicDex = 9;
+                    addStatus.basicInt = 2;
+                }
+                else
+                {
+                    Debug.Log("Grade Error : " + gradeType.ToString());
+                }
+                break;
+            case MONSTER_CLASS.Mage:
+                if (gradeType == GRADE_TYPE.COMMON)
+                {
+                    addStatus.basicStr = 1;
+                    addStatus.basicDex = 1;
+                    addStatus.basicInt = 8;
+                }
+                else if (gradeType == GRADE_TYPE.UNCOMMON)
+                {
+                    addStatus.basicStr = 1;
+                    addStatus.basicDex = 1;
+                    addStatus.basicInt = 9;
+                }
+                else if (gradeType == GRADE_TYPE.RARE)
+                {
+                    addStatus.basicStr = 1;
+                    addStatus.basicDex = 1;
+                    addStatus.basicInt = 10;
+                }
+                else if (gradeType == GRADE_TYPE.UNIQUE)
+                {
+                    addStatus.basicStr = 1;
+                    addStatus.basicDex = 1;
+                    addStatus.basicInt = 11;
+                }
+                else if (gradeType == GRADE_TYPE.LEGENDARY)
+                {
+                    addStatus.basicStr = 1;
+                    addStatus.basicDex = 1;
+                    addStatus.basicInt = 13;
+                }
+                else
+                {
+                    Debug.Log("Grade Error : " + gradeType.ToString());
+                }
+                break;
+            case MONSTER_CLASS.Warlock:
+                if (gradeType == GRADE_TYPE.COMMON)
+                {
+                    addStatus.basicStr = 2;
+                    addStatus.basicDex = 1;
+                    addStatus.basicInt = 7;
+                }
+                else if (gradeType == GRADE_TYPE.UNCOMMON)
+                {
+                    addStatus.basicStr = 2;
+                    addStatus.basicDex = 1;
+                    addStatus.basicInt = 8;
+                }
+                else if (gradeType == GRADE_TYPE.RARE)
+                {
+                    addStatus.basicStr = 3;
+                    addStatus.basicDex = 1;
+                    addStatus.basicInt = 8;
+                }
+                else if (gradeType == GRADE_TYPE.UNIQUE)
+                {
+                    addStatus.basicStr = 3;
+                    addStatus.basicDex = 1;
+                    addStatus.basicInt = 9;
+                }
+                else if (gradeType == GRADE_TYPE.LEGENDARY)
+                {
+                    addStatus.basicStr = 3;
+                    addStatus.basicDex = 1;
+                    addStatus.basicInt = 11;
+                }
+                else
+                {
+                    Debug.Log("Grade Error : " + gradeType.ToString());
+                }
+                break;
+            case MONSTER_CLASS.Druid:
+                if (gradeType == GRADE_TYPE.COMMON)
+                {
+                    addStatus.basicStr = 5;
+                    addStatus.basicDex = 2;
+                    addStatus.basicInt = 3;
+                }
+                else if (gradeType == GRADE_TYPE.UNCOMMON)
+                {
+                    addStatus.basicStr = 5;
+                    addStatus.basicDex = 3;
+                    addStatus.basicInt = 3;
+                }
+                else if (gradeType == GRADE_TYPE.RARE)
+                {
+                    addStatus.basicStr = 6;
+                    addStatus.basicDex = 3;
+                    addStatus.basicInt = 3;
+                }
+                else if (gradeType == GRADE_TYPE.UNIQUE)
+                {
+                    addStatus.basicStr = 7;
+                    addStatus.basicDex = 3;
+                    addStatus.basicInt = 3;
+                }
+                else if (gradeType == GRADE_TYPE.LEGENDARY)
+                {
+                    addStatus.basicStr = 8;
+                    addStatus.basicDex = 3;
+                    addStatus.basicInt = 4;
+                }
+                else
+                {
+                    Debug.Log("Grade Error : " + gradeType.ToString());
+                }
+                break;
+            case MONSTER_CLASS.Shaman:
+                if (gradeType == GRADE_TYPE.COMMON)
+                {
+                    addStatus.basicStr = 2;
+                    addStatus.basicDex = 5;
+                    addStatus.basicInt = 3;
+                }
+                else if (gradeType == GRADE_TYPE.UNCOMMON)
+                {
+                    addStatus.basicStr = 3;
+                    addStatus.basicDex = 5;
+                    addStatus.basicInt = 3;
+                }
+                else if (gradeType == GRADE_TYPE.RARE)
+                {
+                    addStatus.basicStr = 3;
+                    addStatus.basicDex = 6;
+                    addStatus.basicInt = 3;
+                }
+                else if (gradeType == GRADE_TYPE.UNIQUE)
+                {
+                    addStatus.basicStr = 3;
+                    addStatus.basicDex = 7;
+                    addStatus.basicInt = 3;
+                }
+                else if (gradeType == GRADE_TYPE.LEGENDARY)
+                {
+                    addStatus.basicStr = 3;
+                    addStatus.basicDex = 8;
+                    addStatus.basicInt = 4;
+                }
+                else
+                {
+                    Debug.Log("Grade Error : " + gradeType.ToString());
+                }
+                break;
+
+            default:
+                Debug.Log("Class Error : " + classType.ToString());
+                break;
+        }
+
+        return addStatus;
+    }
+
     #endregion
 }
