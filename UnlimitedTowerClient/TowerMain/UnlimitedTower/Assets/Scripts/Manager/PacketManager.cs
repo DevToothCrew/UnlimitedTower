@@ -243,35 +243,16 @@ public class PacketManager : MonoSingleton<PacketManager> {
         PartySaveJson data = new PartySaveJson();
         data.partyNum = partyInfo.partyIndex;
 
-        for(int i = 0; i < partyInfo.formationDataDic.Count; ++i)
+        for(int i = 0; i < 5; ++i)
         {
-            if (partyInfo.formationDataDic.ContainsKey(i) == false)
-            {
-                if(i <= DEFINE.ServantMaxFormationNum)
-                {
-                    data.servantList.Add(0);
-                }
-                else
-                {
-                    data.monsterList.Add(0);
-                }
-            }
-            else
-            {
-                if(i <= DEFINE.ServantMaxFormationNum)
-                {
-                    data.servantList.Add(partyInfo.formationDataDic[i].index);
-                }
-                else
-                {
-                    data.monsterList.Add(partyInfo.formationDataDic[i].index);
-                }
-            }
+            data.servantList.Add(partyInfo.formationDataDic[i].index);
+            Debug.Log("Print Party Servant Formation : " + i + ", Index : " + partyInfo.formationDataDic[i].index);
+
+            data.monsterList.Add(partyInfo.formationDataDic[i + 5].index);
+            Debug.Log("Print Party Monster Formation : " + (i + 5) + ", Index : " + partyInfo.formationDataDic[i + 5].index);
         }
 
         string json = JsonUtility.ToJson(data);
-        Debug.Log("print Jsson : : " + json);
-
         Request<partyData>("SaveParty",
                 body: json,
                 onSuccess: ResponseSaveParty,

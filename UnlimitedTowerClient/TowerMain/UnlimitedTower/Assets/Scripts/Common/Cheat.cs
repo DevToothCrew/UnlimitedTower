@@ -999,12 +999,10 @@ public class Cheat : MonoSingleton<Cheat>
         partyData getPartyData = new partyData();
         getPartyData.index = userPartyInfo.partyIndex;
         getPartyData.state = 0;
+
         for (int i = 0; i < 5; i++)
         {
             getPartyData.servant_list.Add(userPartyInfo.formationDataDic[i].index);
-        }
-        for (int i = 0; i < 5; i++)
-        {
             getPartyData.monster_list.Add(userPartyInfo.formationDataDic[i + 5].index);
         }
 
