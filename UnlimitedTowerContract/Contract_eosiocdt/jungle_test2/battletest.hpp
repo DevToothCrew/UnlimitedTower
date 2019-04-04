@@ -90,6 +90,7 @@ CONTRACT battletest : public contract
     std::vector<uint32_t> legenary_int = {9, 9, 24};
 
     std::vector<uint32_t> item_in = {1,2,4,8,16,32,64,128};
+    std::vector<uint32_t> level_in = {0,1,2,4,8,16,32,64};
 
     std::vector<uint32_t> equipment_wepon_common_status_list = {22, 24, 26, 28, 30, 32, 34, 36, 38, 40};
     std::vector<uint32_t> equipment_wepon_uncommon_status_list = {33, 36, 39, 42, 45, 48, 51, 54, 57, 60};
@@ -825,7 +826,7 @@ CONTRACT battletest : public contract
         equipment_info equipment;
         uint64_t primary_key() const { return index; }
     };
-    typedef eosio::multi_index<"tequipment"_n, tequipment> user_equip_items;
+    typedef eosio::multi_index<"tequipments"_n, tequipment> user_equip_items;
 
     TABLE titem
     {
@@ -1152,7 +1153,7 @@ CONTRACT battletest : public contract
     //————————————————owner_system—————————————//
     //————————————————————————————————————//
     ACTION setpause(uint64_t _state);
-    ACTION resultgacha(eosio::name _who, eosio::name _type, std::string _result);
+    ACTION resultgacha(eosio::name _who, std::string _type, std::string _result);
     ACTION resultpre(eosio::name _from, eosio::name _to, std::string _result);
     ACTION resultparty(eosio::name _who, std::string _party_info, std::string _servant_list, std::string _monster_list);
 	ACTION battlestate(eosio::name _who, std::vector<std::string> &_my_state_list, std::vector<std::string> &_enemy_state_list);
@@ -1233,7 +1234,6 @@ CONTRACT battletest : public contract
     void buy_blessing_order(eosio::name _user, uint32_t _count);
     ACTION itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count);
     void buy_inventory(eosio::name _user, uint64_t _type);
-    ACTION servantbuy(eosio::name _user, uint32_t _count);
 
 
 #pragma endregion
@@ -1576,10 +1576,7 @@ CONTRACT battletest : public contract
     //테스트용 함수
     ACTION testsnap(eosio::name _user);
 
-    void cheat_servant(eosio::name _user, uint64_t _seed);
-    void cheat_monster(eosio::name _user, uint64_t _seed);
-    ACTION partycheat(eosio::name _user);
-    ACTION herocheat(eosio::name _user);
+    ACTION testcheat(eosio::name _user);
     
     void nftexchange(eosio::name _owner, eosio::name _master, std::string _type, uint64_t _master_index);
     ACTION nftmail(eosio::name _user, std::string _type, uint64_t _index);
