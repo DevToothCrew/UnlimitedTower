@@ -111,10 +111,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
         Debug.Log("recv packet : " + _recvDatas[header]);
         _recvDatas.Remove(header);
+
+        PacketLoadingUI.Inst.SetLoading(false);
     }
     
     private IEnumerator RequestRoutine<T>(string header, string body = "", Action<T> onSuccess = null, Action<string> onFailed = null)
     {
+        PacketLoadingUI.Inst.SetLoading(true);
+
         yield return WaitResponse(header, body,
             onSuccess: res =>
             { 
@@ -134,6 +138,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     private IEnumerator RequestRoutine(string header, string body = "", Action<string> onSuccess = null, Action<string> onFailed = null)
     {
+        PacketLoadingUI.Inst.SetLoading(true);
+
         yield return WaitResponse(header, body,
             onSuccess: res =>
             {
@@ -151,8 +157,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     private IEnumerator RequestRoutine(string header, string body = "", Action onSuccess = null, Action<string> onFailed = null)
     {
-        yield return WaitResponse(header, body, onSuccess: res => onSuccess?.Invoke(), onFailed: onFailed);
+        PacketLoadingUI.Inst.SetLoading(true);
 
+        yield return WaitResponse(header, body, onSuccess: res => onSuccess?.Invoke(), onFailed: onFailed);
     }
 
     #endregion

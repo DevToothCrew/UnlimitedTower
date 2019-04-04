@@ -35,6 +35,8 @@ public class CSVData : MonoSingleton<CSVData>
 
     public void InitCSVData()
     {
+        PacketLoadingUI.Inst.SetLoading(true);
+
         SetCSVData();
 
 #if UNITY_EDITOR
