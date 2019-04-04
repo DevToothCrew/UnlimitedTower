@@ -109,6 +109,13 @@ public class Cheat : MonoSingleton<Cheat>
         battleactiondata.user = user;
         battleactiondata.turn = getTurn;
 
+        int[] tempHp = new int[20];
+
+        for (int i = 0; i < 20; i++)
+        {
+            tempHp[i] = BattleManager.Inst.NowHp[i].GetHashCode();
+        }
+
         for (int i = 0; i < 10; ++i)
         {
             if (stateData.myStateList.ContainsKey(i) == false)
@@ -116,17 +123,29 @@ public class Cheat : MonoSingleton<Cheat>
                 continue;
             }
 
-            if(stateData.myStateList[i].nowHp == 0)
+            if (tempHp[i] <= 0)
+            {
+                continue;
+            }
+            
+            int tempHpSum = 0;
+
+            for (int j = 10; j < 20; j++)
+            {
+                tempHpSum += tempHp[j];
+            }
+
+            if (tempHpSum <= 0)
             {
                 continue;
             }
 
-            if(stateData.myStateList[i].charType == CHAR_TYPE.SERVANT)
+            if (stateData.myStateList[i].charType == CHAR_TYPE.SERVANT)
             {
                 characterActionData actioninfo = new characterActionData();
                 actioninfo.my_position = i;
                 // TODO : Skill 관련 코드 정리 필요
-                if (stateData.myStateList[i].activeSkillList.Count <= 0)
+                //if (stateData.myStateList[i].activeSkillList.Count <= 0)
                 {
                     // TODO : 세팅값만 있어야하는지
                     actioninfo.action_type = 2;
@@ -135,56 +154,56 @@ public class Cheat : MonoSingleton<Cheat>
                     do
                     {
                         action.target_position = UnityEngine.Random.Range(10, 20);
-                    } while (BattleManager.Inst.NowHp[action.target_position] == 0);
+                    } while (tempHp[action.target_position] <= 0);
                     action.avoid = false;
                     action.critical = UnityEngine.Random.Range(0, 10) == 1 ? true : false;
 
                     float atkDmg = (float)rand.Next(stateData.myStateList[i].atk, stateData.myStateList[i].atk + 200);
                     float enemyDef = 2000 / (2000 + (float)stateData.enemyStateList[action.target_position].def);
                     action.damage = (int)(atkDmg * enemyDef);
-
+                    tempHp[action.target_position] -= action.damage;
                     actioninfo.action_info_list.Add(action);
                 }
-                else
-                {
-                    if (stateData.myStateList[i].activeSkillList[0].id == 200001)
-                    {
-                        actioninfo.action_type = 3;
-                        for (int target = 0; target < 2; ++target)
-                        {
-                            actionInfo action = new actionInfo();
-                            do
-                            {
-                                action.target_position = UnityEngine.Random.Range(10, 20);
-                            } while (BattleManager.Inst.NowHp[action.target_position] == 0);
-                            action.avoid = false;
-                            action.critical = false;
-
-                            float atkDmg = (float)rand.Next(stateData.myStateList[i].mAtk, stateData.myStateList[i].mAtk + 200);
-                            float enemyDef = 2000 / (2000 + (float)stateData.enemyStateList[action.target_position].mDef);
-                            action.damage = (int)(atkDmg * enemyDef);
-
-                            actioninfo.action_info_list.Add(action);
-                        }
-                    }
-                    else if (stateData.myStateList[i].activeSkillList[0].id == 200002)
-                    {
-                        actioninfo.action_type = 3;
-                        actionInfo action = new actionInfo();
-                        do
-                        {
-                            action.target_position = UnityEngine.Random.Range(10, 20);
-                        } while (BattleManager.Inst.NowHp[action.target_position] == 0);
-                        action.avoid = false;
-                        action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
-
-                        float atkDmg = (float)rand.Next(stateData.myStateList[i].atk, stateData.myStateList[i].atk + 200);
-                        float enemyDef = 2000 / (2000 + (float)stateData.enemyStateList[action.target_position].def);
-                        action.damage = (int)(atkDmg * enemyDef);
-
-                        actioninfo.action_info_list.Add(action);
-                    }
-                }
+                // else
+                // {
+                //     if (stateData.myStateList[i].activeSkillList[0].id == 200001)
+                //     {
+                //         actioninfo.action_type = 3;
+                //         for (int target = 0; target < 1; ++target)
+                //         {
+                //             actionInfo action = new actionInfo();
+                //             do
+                //             {
+                //                 action.target_position = UnityEngine.Random.Range(10, 20);
+                //             } while (tempHp[action.target_position] <= 0);
+                //             action.avoid = false;
+                //             action.critical = false;
+                // 
+                //             float atkDmg = (float)rand.Next(stateData.myStateList[i].mAtk, stateData.myStateList[i].mAtk + 200);
+                //             float enemyDef = 2000 / (2000 + (float)stateData.enemyStateList[action.target_position].mDef);
+                //             action.damage = (int)(atkDmg * enemyDef);
+                //             tempHp[action.target_position] -= action.damage;
+                //             actioninfo.action_info_list.Add(action);
+                //         }
+                //     }
+                //     else if (stateData.myStateList[i].activeSkillList[0].id == 200002)
+                //     {
+                //         actioninfo.action_type = 3;
+                //         actionInfo action = new actionInfo();
+                //         do
+                //         {
+                //             action.target_position = UnityEngine.Random.Range(10, 20);
+                //         } while (tempHp[action.target_position] <= 0);
+                //         action.avoid = false;
+                //         action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
+                // 
+                //         float atkDmg = (float)rand.Next(stateData.myStateList[i].atk, stateData.myStateList[i].atk + 200);
+                //         float enemyDef = 2000 / (2000 + (float)stateData.enemyStateList[action.target_position].def);
+                //         action.damage = (int)(atkDmg * enemyDef);
+                //         tempHp[action.target_position] -= action.damage;
+                //         actioninfo.action_info_list.Add(action);
+                //     }
+                // }
 
                 battleactiondata.character_action_list.Add(actioninfo);
             }
@@ -198,14 +217,14 @@ public class Cheat : MonoSingleton<Cheat>
                 do
                 {
                     action.target_position = UnityEngine.Random.Range(10, 20);
-                } while (BattleManager.Inst.NowHp[action.target_position] == 0);
+                } while (tempHp[action.target_position] <= 0);
                 action.avoid = false;
                 action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
 
                 float atkDmg = (float)rand.Next(stateData.myStateList[i].atk, stateData.myStateList[i].atk + 200);
                 float enemyDef = 2000 / (2000 + (float)stateData.enemyStateList[action.target_position].def);
                 action.damage = (int)(atkDmg * enemyDef);
-
+                tempHp[action.target_position] -= action.damage;
                 characterActionData actioninfo = new characterActionData();
                 actioninfo.my_position = stateData.myStateList[i].position;
                 actioninfo.action_type = 2;
@@ -222,8 +241,21 @@ public class Cheat : MonoSingleton<Cheat>
                 continue;
             }
 
-            if (BattleManager.Inst.NowHp[i] == 0)
+            if (tempHp[i] <= 0)
             {
+                continue;
+            }
+
+            int tempHpSum = 0;
+
+            for (int j = 0; j < 10; j++)
+            {
+                tempHpSum += tempHp[j];
+            }
+
+            if (tempHpSum <= 0)
+            {
+                tempHpSum = 0;
                 continue;
             }
 
@@ -231,14 +263,14 @@ public class Cheat : MonoSingleton<Cheat>
             do
             {
                 action.target_position = UnityEngine.Random.Range(0, 10);
-            } while (BattleManager.Inst.NowHp[action.target_position] == 0);
+            } while (tempHp[action.target_position] <= 0);
             action.avoid = false;
             action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
 
             float atkDmg = (float)rand.Next(stateData.enemyStateList[i].atk, stateData.enemyStateList[i].atk + 200);
             float enemyDef = 2000 / (2000 + (float)stateData.myStateList[action.target_position].def);
             action.damage = (int)(atkDmg * enemyDef);
-
+            tempHp[action.target_position] -= action.damage;
             characterActionData actioninfo = new characterActionData();
             actioninfo.my_position = i;
             actioninfo.action_type = 2;

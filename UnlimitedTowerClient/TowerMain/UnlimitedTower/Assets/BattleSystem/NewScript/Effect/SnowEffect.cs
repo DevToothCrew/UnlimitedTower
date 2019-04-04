@@ -17,7 +17,6 @@ public class SnowEffect : MonoBehaviour {
 
     IEnumerator SnowStart()
     {
-        // 추후 필요시 오브젝트 풀링 기법 사용
         for (; ; )
         {
             yield return new WaitForSecondsRealtime(0.02f);
