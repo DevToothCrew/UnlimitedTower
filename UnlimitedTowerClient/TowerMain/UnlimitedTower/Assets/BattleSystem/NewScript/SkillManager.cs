@@ -27,7 +27,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     }
 
     #region Skill 200001
-    // 디펜스 ( 1턴 동안 30% 데미지 감소 효과를 얻습니다아엉ㄹ러아ㅏ아아아앙ㄹ나아ㅓㄹ아ㅓㅇㄹ니ㅏ러 )
+    // 디펜스 ( 1턴 동안 30% 데미지 감소 효과를 얻습니다아엉ㄹ러아ㅏ아아아앙ㄹ나아ㅓㄹ아ㅓㅇㄹ니ㅏ러뛰시ㅓ이뚱니랑널니아러니댜러냉리어ㅏㄹ )
     public void Skill_200001(characterActionData battleInfo)
     {
         StartCoroutine(Skill_200001_Co(battleInfo));

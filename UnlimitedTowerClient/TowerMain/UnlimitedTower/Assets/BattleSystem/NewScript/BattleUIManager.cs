@@ -15,6 +15,10 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
 
     public GameObject rewardWindows;
 
+    public GameObject battleOutCheck;
+
+    private float timeScale;
+
     private void Awake()
     {
         delayImage = GameObject.Find("DelayImage");
@@ -25,6 +29,9 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         StageInfoFloor = GameObject.Find("Stage Info Floor").GetComponent<Text>();
         StageInfoName = GameObject.Find("Stage Info Name").GetComponent<Text>();
         BattleTurn = GameObject.Find("Battle Turn Text").GetComponent<Text>();
+
+        battleOutCheck = GameObject.Find("Battle Exit Check Window");
+        battleOutCheck.SetActive(false);
 
         StageInfoOn();
     }
@@ -129,5 +136,20 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
     public void BattleOut()
     {
         PacketManager.Inst.ResponseStageExit();
+    }
+
+    public void BattleOutCheck()
+    {
+        timeScale = BattleManager.Inst.TimeScale;
+        BattleManager.Inst.TimeScale = 0;
+        Time.timeScale = 0;
+        battleOutCheck.SetActive(true);
+    }
+
+    public void BattleOutCheckCancel()
+    {
+        BattleManager.Inst.TimeScale = (int)timeScale;
+        Time.timeScale = timeScale;
+        battleOutCheck.SetActive(false);
     }
 }

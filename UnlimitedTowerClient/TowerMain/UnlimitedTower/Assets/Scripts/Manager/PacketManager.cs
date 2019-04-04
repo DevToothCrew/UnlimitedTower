@@ -848,6 +848,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         UserDataManager.Inst.SetStageAction(null);
         UserDataManager.Inst.SetStageReward(null);
         SceneManager.LoadScene("Lobby");
+        Time.timeScale = 1.0f;
     }
 
     // 스테이지 보상
