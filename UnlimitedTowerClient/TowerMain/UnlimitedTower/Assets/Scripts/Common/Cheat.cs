@@ -632,6 +632,13 @@ public class Cheat : MonoSingleton<Cheat>
             return null;
         }
 
+        // 장착중인 장비인지 검사
+        if(equipmentData.isEquiped == true)
+        {
+            Debug.Log("Already ServantEquiped : " + equipmentData.equipServantIndex);
+            return null;
+        }
+
         // DB 장비 ID 검사
         DBEquipmentData dbEquipmentData = CSVData.Inst.GetEquipmentData(equipmentData.id);
         if(dbEquipmentData == null)
