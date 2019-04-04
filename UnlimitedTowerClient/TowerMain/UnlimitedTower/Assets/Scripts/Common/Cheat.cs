@@ -139,9 +139,9 @@ public class Cheat : MonoSingleton<Cheat>
                     action.avoid = false;
                     action.critical = UnityEngine.Random.Range(0, 10) == 1 ? true : false;
 
-                    int atkDmg = rand.Next(stateData.myStateList[i].atk, stateData.myStateList[i].atk + 200);
-                    int enemyDef = 2000 / (2000 + stateData.enemyStateList[action.target_position].def);
-                    action.damage = atkDmg * enemyDef;
+                    float atkDmg = (float)rand.Next(stateData.myStateList[i].atk, stateData.myStateList[i].atk + 200);
+                    float enemyDef = 2000 / (2000 + (float)stateData.enemyStateList[action.target_position].def);
+                    action.damage = (int)(atkDmg * enemyDef);
 
                     actioninfo.action_info_list.Add(action);
                 }
@@ -160,9 +160,9 @@ public class Cheat : MonoSingleton<Cheat>
                             action.avoid = false;
                             action.critical = false;
 
-                            int atkDmg = rand.Next(stateData.myStateList[i].mAtk, stateData.myStateList[i].mAtk + 200);
-                            int enemyDef = 2000 / (2000 + stateData.enemyStateList[action.target_position].mDef);
-                            action.damage = atkDmg * enemyDef;
+                            float atkDmg = (float)rand.Next(stateData.myStateList[i].mAtk, stateData.myStateList[i].mAtk + 200);
+                            float enemyDef = 2000 / (2000 + (float)stateData.enemyStateList[action.target_position].mDef);
+                            action.damage = (int)(atkDmg * enemyDef);
 
                             actioninfo.action_info_list.Add(action);
                         }
@@ -178,9 +178,9 @@ public class Cheat : MonoSingleton<Cheat>
                         action.avoid = false;
                         action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
 
-                        int atkDmg = rand.Next(stateData.myStateList[i].atk, stateData.myStateList[i].atk + 200);
-                        int enemyDef = 2000 / (2000 + stateData.enemyStateList[action.target_position].def);
-                        action.damage = atkDmg * enemyDef;
+                        float atkDmg = (float)rand.Next(stateData.myStateList[i].atk, stateData.myStateList[i].atk + 200);
+                        float enemyDef = 2000 / (2000 + (float)stateData.enemyStateList[action.target_position].def);
+                        action.damage = (int)(atkDmg * enemyDef);
 
                         actioninfo.action_info_list.Add(action);
                     }
@@ -202,9 +202,9 @@ public class Cheat : MonoSingleton<Cheat>
                 action.avoid = false;
                 action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
 
-                int atkDmg = rand.Next(stateData.myStateList[i].atk, stateData.myStateList[i].atk + 200);
-                int enemyDef = 2000 / (2000 + stateData.enemyStateList[action.target_position].def);
-                action.damage = atkDmg * enemyDef;
+                float atkDmg = (float)rand.Next(stateData.myStateList[i].atk, stateData.myStateList[i].atk + 200);
+                float enemyDef = 2000 / (2000 + (float)stateData.enemyStateList[action.target_position].def);
+                action.damage = (int)(atkDmg * enemyDef);
 
                 characterActionData actioninfo = new characterActionData();
                 actioninfo.my_position = stateData.myStateList[i].position;
@@ -235,9 +235,9 @@ public class Cheat : MonoSingleton<Cheat>
             action.avoid = false;
             action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
 
-            int atkDmg = rand.Next(stateData.enemyStateList[i].atk, stateData.enemyStateList[i].atk + 200);
-            int enemyDef = 2000 / (2000 + stateData.myStateList[action.target_position].def);
-            action.damage = atkDmg * enemyDef;
+            float atkDmg = (float)rand.Next(stateData.enemyStateList[i].atk, stateData.enemyStateList[i].atk + 200);
+            float enemyDef = 2000 / (2000 + (float)stateData.myStateList[action.target_position].def);
+            action.damage = (int)(atkDmg * enemyDef);
 
             characterActionData actioninfo = new characterActionData();
             actioninfo.my_position = i;
