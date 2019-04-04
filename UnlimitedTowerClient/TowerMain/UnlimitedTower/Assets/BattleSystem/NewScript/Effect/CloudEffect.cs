@@ -18,7 +18,7 @@ public class CloudEffect : MonoBehaviour {
                 Instantiate(cloud[Random.Range(0, cloud.Length)], new Vector3(12, 5, Random.Range(-10.0f, -15.0f)), Quaternion.identity).transform.SetParent(transform);
             else
                 Instantiate(cloud[Random.Range(0, cloud.Length)], new Vector3(12, 5, Random.Range(3.0f, 7.0f)), Quaternion.identity).transform.SetParent(transform);
-            yield return new WaitForSeconds(Random.Range(3,6));
+            yield return new WaitForSecondsRealtime(Random.Range(3,6));
         }
     }
 }

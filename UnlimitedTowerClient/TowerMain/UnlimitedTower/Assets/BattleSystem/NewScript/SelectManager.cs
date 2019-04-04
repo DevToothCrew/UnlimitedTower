@@ -136,7 +136,7 @@ public class SelectManager : MonoBehaviour
                 {
                     if (!EventSystem.current.IsPointerOverGameObject())
                     {
-                        if (selectIndex > 0)
+                        if (selectIndex >= 0)
                             BattleManager.Inst.grid[selectIndex].SetActive(false);
                         characterInfo.SetActive(false);
                     }
@@ -146,7 +146,7 @@ public class SelectManager : MonoBehaviour
             {
                 if (!EventSystem.current.IsPointerOverGameObject())
                 {
-                    if (selectIndex > 0)
+                    if (selectIndex >= 0)
                         BattleManager.Inst.grid[selectIndex].SetActive(false);
                     characterInfo.SetActive(false);
                 }

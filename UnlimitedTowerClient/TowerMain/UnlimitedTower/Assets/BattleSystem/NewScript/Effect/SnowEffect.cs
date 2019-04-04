@@ -20,7 +20,7 @@ public class SnowEffect : MonoBehaviour {
         // 추후 필요시 오브젝트 풀링 기법 사용
         for (; ; )
         {
-            yield return new WaitForSeconds(0.02f);
+            yield return new WaitForSecondsRealtime(0.02f);
             pool.ObjectSpawn().transform.SetPositionAndRotation(new Vector3(Random.Range(0.0f, 14.0f) - 7, 15, Random.Range(0.0f, 14.0f) - 7), Quaternion.identity);
         }
     }

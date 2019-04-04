@@ -18,10 +18,9 @@ public class RainEffect : MonoBehaviour {
 
     IEnumerator RainStart()
     {
-        // 추후 필요시 오브젝트 풀링 기법 사용
         for (; ; )
         {
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSecondsRealtime(0.2f);
             pool.ObjectSpawn().transform.SetPositionAndRotation(new Vector3(Random.Range(0.0f, 16.0f) - 8, 15, Random.Range(0.0f, 16.0f) - 8), Quaternion.Euler(new Vector3(Random.Range(0, 180), Random.Range(0, 180), Random.Range(0, 180))));
         }
     }
