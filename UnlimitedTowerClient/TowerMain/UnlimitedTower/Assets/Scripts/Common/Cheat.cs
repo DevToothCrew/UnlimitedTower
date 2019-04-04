@@ -651,8 +651,34 @@ public class Cheat : MonoSingleton<Cheat>
         // 장착 가능 직업 검사
         if(dbEquipmentData.isEquipAble(dbServantData.GetJobFlag()) == false)
         {
-            Debug.Log("Invalid Servant Equipable");
+            Debug.Log("Invalid Servant Equipable Job : " + dbServantData.GetJobFlag() + ", Need Job : " + dbEquipmentData.jobLimit);
             return null;
+        }
+
+        // 장착 가능 레벨 검사
+        if(dbEquipmentData.tier == 2)
+        {
+            if(servantData.level <= 20)
+            {
+                Debug.Log("Invalid Servant Equipable Level : " + servantData.level + ", Need Level : 21");
+                return null;
+            }
+        }
+        else if(dbEquipmentData.tier == 3)
+        {
+            if (servantData.level <= 30)
+            {
+                Debug.Log("Invalid Servant Equipable Level : " + servantData.level + ", Need Level : 31");
+                return null;
+            }
+        }
+        else if(dbEquipmentData.tier == 4)
+        {
+            if (servantData.level <= 40)
+            {
+                Debug.Log("Invalid Servant Equipable Level : " + servantData.level + ", Need Level : 41");
+                return null;
+            }
         }
 
         servantEquipData resultData = new servantEquipData();
