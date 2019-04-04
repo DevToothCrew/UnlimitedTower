@@ -510,7 +510,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
     public void OnClickChange()
     {
         // 선택 서번트 인덱스
-        int servantIndex = partyInfo.selected_unit_idx;
+        int servantIndex = partyInfo.ServantList[partyInfo.selected_unit_idx].index;
 
 #if UNITY_EDITOR
         Cheat.Inst.RequestEquipServantCheat(servantIndex, selectedEquipType, selectedItemIdx);
