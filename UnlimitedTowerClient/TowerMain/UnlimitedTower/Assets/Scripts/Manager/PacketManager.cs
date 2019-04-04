@@ -1527,11 +1527,21 @@ public class PacketManager : MonoSingleton<PacketManager> {
         UserEquipmentData equipmentData = new UserEquipmentData();
         equipmentData.index = getEquipmentData.index;
         equipmentData.id = getEquipmentData.equipment.id;
+
+        DBEquipmentData dbEquipmentData = CSVData.Inst.GetEquipmentData(equipmentData.id);
+        if(dbEquipmentData == null)
+        {
+            Debug.Log("Invalid Equipment Data : " + equipmentData.id);
+            return null;
+        }
+
         equipmentData.grade = getEquipmentData.equipment.grade;
         equipmentData.upgrade = getEquipmentData.equipment.upgrade;
         equipmentData.state = getEquipmentData.equipment.state;
 
+        equipmentData.optionType = dbEquipmentData.optionType;
         equipmentData.value = getEquipmentData.equipment.value;
+
         equipmentData.equipServantIndex = getEquipmentData.equipment.equipservantindex;
         if(equipmentData.equipServantIndex > 0)
         {
