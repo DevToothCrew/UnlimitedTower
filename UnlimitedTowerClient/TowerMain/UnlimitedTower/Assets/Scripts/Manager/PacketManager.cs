@@ -21,7 +21,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     private static extern void SendPacket(string packet);
     
     private static Dictionary<string, string>           _recvDatas = new Dictionary<string, string>();
-    private const float _MAX_LIMIT_TIME = 20.0f;
+    private const float _MAX_LIMIT_TIME = 120.0f;
 
     /// <summary>
     /// 아래의 형태로 데이터를 받아야 합니다.
