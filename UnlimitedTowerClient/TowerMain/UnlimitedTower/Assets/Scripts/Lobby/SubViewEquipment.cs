@@ -80,7 +80,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
 
     public Sprite[] spriteStat = new Sprite[10];
 
-    private int selectedItemIdx;
+    private int selectedItemIdx = -1;
     private PartyInfoVC partyInfo;
     public List<UserEquipmentData> EquipmentList = new List<UserEquipmentData>();
 
@@ -225,7 +225,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
             current_item_idx = servantData.equipmentDic[EQUIPMENT_TYPE.MAX];
         }
 
-        if (current_item_idx >= 0)
+        if (current_item_idx > 0)
         {
             FrameCurrentItemInfo.SetActive(true);
             FrameCurrentItemNone.SetActive(false);
@@ -299,12 +299,17 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
                 }
             }
 
+            //장착된 아이템이 있을땐 Clear버튼 활성화
+            buttonClear.interactable = true;
         }
         else
         {
             Debug.Log("current item none");
             FrameCurrentItemInfo.SetActive(false);
             FrameCurrentItemNone.SetActive(true);
+
+            //장착된 아이템이 없을땐 Clear버튼 비활성화
+            buttonClear.interactable = false;
         }
 
         updateChangeItemInfo(selectedItemIdx);
@@ -417,18 +422,6 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
                     check_job = check_job >> 1;
                     
                 }
-
-                for (SERVANT_JOB_FLAG i = SERVANT_JOB_FLAG.None; i < SERVANT_JOB_FLAG.Magician; i++)
-                {
-                    //Debug.Log("Job name? :" + i);
-                    //if (dBChangeEquipment.isEquipAble(i))
-                    //{
-                    //    imageChangeJob[able_job].enabled = true;
-                    //    //imageChangeJob[able_job].sprite = dBChangeEquipment.;
-                    //    able_job++;
-                    //}
-
-                }
             }
 
             //초기화
@@ -446,12 +439,16 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
                     change_stat[(int)type] = changeEquipmentData.value;
                 }
             }
+
+            buttonChange.interactable = true;
         }
         else
         {
             Debug.Log("change item nono");
             FrameChangeItemInfo.SetActive(false);
             FrameChangeItemNone.SetActive(true);
+
+            buttonChange.interactable = false;
         }
     }
 
