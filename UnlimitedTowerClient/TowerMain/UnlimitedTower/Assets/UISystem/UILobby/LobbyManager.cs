@@ -71,7 +71,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public void OnClickLeftButton(int num)
     {
-        switch((POPUP_STATE)num)
+        popupState = (POPUP_STATE)num;
+        switch ((POPUP_STATE)num)
         {
             case POPUP_STATE.Hero:
                 {
@@ -85,6 +86,9 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
             case POPUP_STATE.Weapon:
                 {
                     SetTextBackButton("Inventory");
+                    objSubView = Instantiate(Resources.Load("UI/Lobby/InventoryVC")) as GameObject;
+                    objSubView.transform.SetParent(this.transform);
+                    objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                 }
                 break;
 

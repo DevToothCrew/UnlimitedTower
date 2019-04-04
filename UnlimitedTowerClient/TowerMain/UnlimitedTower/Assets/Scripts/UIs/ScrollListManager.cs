@@ -117,25 +117,32 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
 
             if (scrollRect.velocity.y == 0f)
             {
-                if (PartyInfoVC.Inst != null)
+                if (LobbyManager.Inst.popupState == POPUP_STATE.Hero)
                 {
-                    PartyInfoVC partyInfo = PartyInfoVC.Inst;
-                    if (partyInfo.selectedMenu == PartyInfoVC.menu_type.SERVANT || partyInfo.selectedMenu == PartyInfoVC.menu_type.MONSTER)
+                    if (PartyInfoVC.Inst != null)
                     {
-                        if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.SERVANT_INFO || partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
-                            partyInfo.updateDetailInfo(selected_main_idx);
+                        PartyInfoVC partyInfo = PartyInfoVC.Inst;
+                        if (partyInfo.selectedMenu == PartyInfoVC.menu_type.SERVANT || partyInfo.selectedMenu == PartyInfoVC.menu_type.MONSTER)
+                        {
+                            if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.SERVANT_INFO || partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
+                                partyInfo.updateDetailInfo(selected_main_idx);
+                        }
+                        //else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_WEAPON || partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_ARMOR
+                        //    || partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_ACC)
+                        //{
+                        //    partyInfo.updateDetailInfo(selected_main_idx);
+                        //}
+                        //else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_SERVANT || partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_MONSTER)
+                        //{
+
+                        //}
+
+
                     }
-                    //else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_WEAPON || partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_ARMOR
-                    //    || partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_ACC)
-                    //{
-                    //    partyInfo.updateDetailInfo(selected_main_idx);
-                    //}
-                    //else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_SERVANT || partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_MONSTER)
-                    //{
-
-                    //}
-
-
+                }
+                else if (LobbyManager.Inst.popupState == POPUP_STATE.Weapon)
+                {
+                    InventoryVC.Inst.updateDetailInfo(selected_main_idx);
                 }
             }
         }

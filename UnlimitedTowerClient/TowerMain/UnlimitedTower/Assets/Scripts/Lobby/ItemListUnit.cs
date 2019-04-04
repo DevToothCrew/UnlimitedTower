@@ -11,6 +11,7 @@ public class ItemListUnit : ScrollListUnit {
     public Text[] textStats = new Text[3];
 
     PartyInfoVC partyInfo;
+    InventoryVC inventoryInfo;
 
     protected override void Awake()
     {
@@ -21,21 +22,43 @@ public class ItemListUnit : ScrollListUnit {
     {
         main_idx = _main_idx;
 
-        partyInfo = PartyInfoVC.Inst;
-
-        //Todo :set Image
-        ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)SubViewEquipment.Inst.EquipmentList[main_idx].grade);
-        imageItem.sprite = CSVData.Inst.GetEquipmentData(SubViewEquipment.Inst.EquipmentList[main_idx].id).equipmentIcon;
-        textUpgrade.text = string.Format("+{0}", SubViewEquipment.Inst.EquipmentList[main_idx].upgrade);
-
-        for (EQUIPMENT_OPTION_TYPE type = EQUIPMENT_OPTION_TYPE.NONE; type < EQUIPMENT_OPTION_TYPE.MAX; type++)
+        if (LobbyManager.Inst.popupState == POPUP_STATE.Hero)
         {
-            if (SubViewEquipment.Inst.EquipmentList[main_idx].optionType == type)
+            partyInfo = PartyInfoVC.Inst;
+
+            //Todo :set Image
+            ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)SubViewEquipment.Inst.EquipmentList[main_idx].grade);
+            imageItem.sprite = CSVData.Inst.GetEquipmentData(SubViewEquipment.Inst.EquipmentList[main_idx].id).equipmentIcon;
+            textUpgrade.text = string.Format("+{0}", SubViewEquipment.Inst.EquipmentList[main_idx].upgrade);
+
+            for (EQUIPMENT_OPTION_TYPE type = EQUIPMENT_OPTION_TYPE.NONE; type < EQUIPMENT_OPTION_TYPE.MAX; type++)
             {
-                //imageStats[0].sprite = spriteStat[(int)type];
-                textStats[0].text = string.Format("{0}", SubViewEquipment.Inst.EquipmentList[main_idx].value);
+                if (SubViewEquipment.Inst.EquipmentList[main_idx].optionType == type)
+                {
+                    //imageStats[0].sprite = spriteStat[(int)type];
+                    textStats[0].text = string.Format("{0}", SubViewEquipment.Inst.EquipmentList[main_idx].value);
+                }
             }
         }
+        else if (LobbyManager.Inst.popupState == POPUP_STATE.Weapon)
+        {
+            inventoryInfo = InventoryVC.Inst;
+
+            //Todo :set Image
+            ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][main_idx].grade);
+            imageItem.sprite = CSVData.Inst.GetEquipmentData(inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][main_idx].id).equipmentIcon;
+            textUpgrade.text = string.Format("+{0}", inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][main_idx].upgrade);
+
+            for (EQUIPMENT_OPTION_TYPE type = EQUIPMENT_OPTION_TYPE.NONE; type < EQUIPMENT_OPTION_TYPE.MAX; type++)
+            {
+                if (inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][main_idx].optionType == type)
+                {
+                    //imageStats[0].sprite = spriteStat[(int)type];
+                    textStats[0].text = string.Format("{0}", inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][main_idx].value);
+                }
+            }
+        }
+        
     }
 
     public override void Selected(bool selected)
@@ -52,7 +75,16 @@ public class ItemListUnit : ScrollListUnit {
 
     public override void OnClickUnit()
     {
-        SubViewEquipment.Inst.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
-        SubViewEquipment.Inst.updateChangeItemInfo(main_idx);
+        if (LobbyManager.Inst.popupState == POPUP_STATE.Hero)
+        {
+            SubViewEquipment.Inst.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
+            SubViewEquipment.Inst.updateChangeItemInfo(main_idx);
+        }
+        else if (LobbyManager.Inst.popupState == POPUP_STATE.Weapon)
+        {
+            InventoryVC.Inst.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
+            InventoryVC.Inst.updateDetailInfo(main_idx);
+        }
+            
     }
 }
