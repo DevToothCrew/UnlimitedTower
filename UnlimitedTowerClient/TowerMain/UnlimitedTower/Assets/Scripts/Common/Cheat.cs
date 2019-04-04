@@ -866,6 +866,11 @@ public class Cheat : MonoSingleton<Cheat>
     public void RequestStageRewardCheat()
     {
         string stageRewardJson = GetStageResultData();
+        if (stageRewardJson == null)
+        {
+            Debug.Log("[Fail] RequestStageRewardCheat");
+            return;
+        }
         Debug.Log("[SUCCESS] User Stage Reward :" + stageRewardJson);
         stageRewardData getStageRewardData = JsonUtility.FromJson<stageRewardData>(stageRewardJson);
         PacketManager.Inst.ResponseStageReward(getStageRewardData);
@@ -896,9 +901,9 @@ public class Cheat : MonoSingleton<Cheat>
     public void RequestGachaCheat(int gachaIndex)
     {
         string gachaDataJson = GetGachaResultData(gachaIndex);
-        if(gachaDataJson == null)
+        if (gachaDataJson == null)
         {
-            Debug.Log("Invalid Request Gacha");
+            Debug.Log("[Fail] RequestGachaCheat");
             return;
         }
 
@@ -909,6 +914,11 @@ public class Cheat : MonoSingleton<Cheat>
     public void RequestMonsterUpgradeCheat(int mainMonsterIndex, int subMonsterIndex)
     {
         string monsterUpgradeResultJson = GetMonsterUpgradeData(mainMonsterIndex, subMonsterIndex);
+        if (monsterUpgradeResultJson == null)
+        {
+            Debug.Log("[Fail] RequestMonsterUpgradeCheat");
+            return;
+        }
         Debug.Log("[SUCCESS] Monster Upgrade : " + monsterUpgradeResultJson);
 
         monsterUpgradeResultData getMonsterUpgradeResultData = JsonUtility.FromJson<monsterUpgradeResultData>(monsterUpgradeResultJson);
@@ -918,6 +928,11 @@ public class Cheat : MonoSingleton<Cheat>
     public void RequestServantGrindCheat(List<int> servantIndexList)
     {
         string servantGrindResultJson = GetServantGrindData(servantIndexList);
+        if (servantGrindResultJson == null)
+        {
+            Debug.Log("[Fail] RequestServantGrindCheat");
+            return;
+        }
         Debug.Log("[SUCCESS] Servant Grind : " + servantGrindResultJson);
 
         servantGrindResultData getServantGrindResultData = JsonUtility.FromJson<servantGrindResultData>(servantGrindResultJson);
@@ -927,6 +942,11 @@ public class Cheat : MonoSingleton<Cheat>
     public void RequestMonsterSellCheat(List<int> monsterIndexList)
     {
         string monsterSellResultJson = GetMonsterSellData(monsterIndexList);
+        if (monsterSellResultJson == null)
+        {
+            Debug.Log("[Fail] RequestMonsterSellCheat");
+            return;
+        }
         Debug.Log("[SUCCESS] Monster Sell : " + monsterSellResultJson);
 
         sellMonsterResultData getSellMonsterResultData = JsonUtility.FromJson<sellMonsterResultData>(monsterSellResultJson);
@@ -936,6 +956,11 @@ public class Cheat : MonoSingleton<Cheat>
     public void RequestEquipmentSellCheat(List<int> equipmentIndexList)
     {
         string equipmentSellResultJson = GetEquipmentSellData(equipmentIndexList);
+        if (equipmentSellResultJson == null)
+        {
+            Debug.Log("[Fail] RequestEquipmentSellCheat");
+            return;
+        }
         Debug.Log("[SUCCESS] Equipment Sell : " + equipmentSellResultJson);
 
         sellEquipmentResultData getSellEquipmentResultData = JsonUtility.FromJson<sellEquipmentResultData>(equipmentSellResultJson);
@@ -963,6 +988,11 @@ public class Cheat : MonoSingleton<Cheat>
     public void RequestEquipServantCheat(int servantIndex, EQUIPMENT_TYPE type, int equipmentIndex)
     {
         string equipmentJson = GetEquipServantData(servantIndex, type, equipmentIndex);
+        if(equipmentJson == null)
+        {
+            Debug.Log("[Fail] RequestEquipServantCheat");
+            return;
+        }
         Debug.Log("[SUCCESS] Equip Servant : " + equipmentJson);
 
         servantEquipData getServantEquipResultData = JsonUtility.FromJson<servantEquipData>(equipmentJson);
@@ -972,6 +1002,11 @@ public class Cheat : MonoSingleton<Cheat>
     public void RequestUnequipServantCheat(int servantIndex, EQUIPMENT_TYPE type)
     {
         string unequipmentJson = GetUnequipServantData(servantIndex, type);
+        if (unequipmentJson == null)
+        {
+            Debug.Log("[Fail] RequestUnequipServantCheat");
+            return;
+        }
         Debug.Log("[SUCCESS] Unequip Servant : " + unequipmentJson);
 
         servantUnequipData getServantUnequipResultData = JsonUtility.FromJson<servantUnequipData>(unequipmentJson);
