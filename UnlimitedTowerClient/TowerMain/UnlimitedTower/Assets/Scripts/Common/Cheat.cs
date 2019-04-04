@@ -111,7 +111,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         for (int i = 0; i < 10; ++i)
         {
-            if (stateData.myStateList[i] == null)
+            if (stateData.myStateList.ContainsKey(i) == false)
             {
                 continue;
             }
@@ -138,7 +138,11 @@ public class Cheat : MonoSingleton<Cheat>
                     } while (BattleManager.Inst.NowHp[action.target_position] == 0);
                     action.avoid = false;
                     action.critical = UnityEngine.Random.Range(0, 10) == 1 ? true : false;
-                    action.damage = rand.Next(stateData.myStateList[i].atk - 100, stateData.myStateList[i].atk + 100);
+
+                    int atkDmg = rand.Next(stateData.myStateList[i].atk - 100, stateData.myStateList[i].atk + 100);
+                    int enemyDef = 2000 / (2000 + stateData.enemyStateList[action.target_position].def);
+                    action.damage = atkDmg * enemyDef;
+
                     actioninfo.action_info_list.Add(action);
                 }
                 else
@@ -155,7 +159,11 @@ public class Cheat : MonoSingleton<Cheat>
                             } while (BattleManager.Inst.NowHp[action.target_position] == 0);
                             action.avoid = false;
                             action.critical = false;
-                            action.damage = rand.Next(stateData.myStateList[i].mAtk - 100, stateData.myStateList[i].mAtk + 100);
+
+                            int atkDmg = rand.Next(stateData.myStateList[i].mAtk - 100, stateData.myStateList[i].mAtk + 100);
+                            int enemyDef = 2000 / (2000 + stateData.enemyStateList[action.target_position].mDef);
+                            action.damage = atkDmg * enemyDef;
+
                             actioninfo.action_info_list.Add(action);
                         }
                     }
@@ -169,7 +177,11 @@ public class Cheat : MonoSingleton<Cheat>
                         } while (BattleManager.Inst.NowHp[action.target_position] == 0);
                         action.avoid = false;
                         action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
-                        action.damage = rand.Next(200, 500);
+
+                        int atkDmg = rand.Next(stateData.myStateList[i].atk - 100, stateData.myStateList[i].atk + 100);
+                        int enemyDef = 2000 / (2000 + stateData.enemyStateList[action.target_position].def);
+                        action.damage = atkDmg * enemyDef;
+
                         actioninfo.action_info_list.Add(action);
                     }
                 }
@@ -189,7 +201,10 @@ public class Cheat : MonoSingleton<Cheat>
                 } while (BattleManager.Inst.NowHp[action.target_position] == 0);
                 action.avoid = false;
                 action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
-                action.damage = rand.Next(stateData.myStateList[i].atk - 100, stateData.myStateList[i].atk + 100);
+
+                int atkDmg = rand.Next(stateData.myStateList[i].atk - 100, stateData.myStateList[i].atk + 100);
+                int enemyDef = 2000 / (2000 + stateData.enemyStateList[action.target_position].def);
+                action.damage = atkDmg * enemyDef;
 
                 characterActionData actioninfo = new characterActionData();
                 actioninfo.my_position = stateData.myStateList[i].position;
@@ -200,13 +215,18 @@ public class Cheat : MonoSingleton<Cheat>
             }
         }
 
-
         for (int i = 10; i < 20; ++i)
         {
+            if (stateData.enemyStateList.ContainsKey(i) == false)
+            {
+                continue;
+            }
+
             if (BattleManager.Inst.NowHp[i] == 0)
             {
                 continue;
             }
+
             actionInfo action = new actionInfo();
             do
             {
@@ -214,7 +234,10 @@ public class Cheat : MonoSingleton<Cheat>
             } while (BattleManager.Inst.NowHp[action.target_position] == 0);
             action.avoid = false;
             action.critical = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
-            action.damage = rand.Next(stateData.enemyStateList[i - 10].atk - 100, stateData.enemyStateList[i - 10].atk + 100);
+
+            int atkDmg = rand.Next(stateData.enemyStateList[i].atk - 100, stateData.enemyStateList[i].atk + 100);
+            int enemyDef = 2000 / (2000 + stateData.myStateList[action.target_position].def);
+            action.damage = atkDmg * enemyDef;
 
             characterActionData actioninfo = new characterActionData();
             actioninfo.my_position = i;
