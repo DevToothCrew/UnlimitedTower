@@ -37,7 +37,22 @@ public class UserServantData
     public int index;
     public int id;
     public int grade;
+    public GRADE_TYPE gradeType
+    {
+        get
+        {
+            return (GRADE_TYPE)grade;
+        }
+    }
     public int state;
+    public int job;
+    public SERVANT_JOB jobType
+    {
+        get
+        {
+            return (SERVANT_JOB)job;
+        }
+    }
 
     public int partyIndex;
     public bool isPlaced;
@@ -64,8 +79,23 @@ public class UserMonsterData
     public int index;
     public int id;
     public int grade;
+    public GRADE_TYPE gradeType
+    {
+        get
+        {
+            return (GRADE_TYPE)grade;
+        }
+    }
     public int upgrade;
     public int state;
+    public int monsterClass;
+    public MONSTER_CLASS classType
+    {
+        get
+        {
+            return (MONSTER_CLASS)monsterClass;
+        }
+    }
 
     public int partyIndex;
     public bool isPlaced;
@@ -74,7 +104,6 @@ public class UserMonsterData
 
     public int exp;
     public int level;
-
 
     public int maxHP { get { return Calculator.GetMaxHp(status); } }
     public int atk { get { return Calculator.GetAttack(status); } }

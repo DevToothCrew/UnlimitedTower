@@ -1411,6 +1411,50 @@ public class CSVData : MonoSingleton<CSVData>
         return DBSkillPassiveDataDic[id];
     }
 
+    public Status GetServantLevelPerAddStatus(SERVANT_JOB jobType, GRADE_TYPE gradeType)
+    {
+        Status addStatus = new Status();
+
+        switch(jobType)
+        {
+            case SERVANT_JOB.Warrior:
+                addStatus.basicStr = 6;
+                addStatus.basicDex = 3;
+                addStatus.basicInt = 1;
+                break;
+
+            case SERVANT_JOB.Thief:
+                addStatus.basicStr = 1;
+                addStatus.basicDex = 8;
+                addStatus.basicInt = 1;
+                break;
+
+            case SERVANT_JOB.Cleric:
+                addStatus.basicStr = 1;
+                addStatus.basicDex = 2;
+                addStatus.basicInt = 7;
+                break;
+
+            case SERVANT_JOB.Archer:
+                addStatus.basicStr = 2;
+                addStatus.basicDex = 7;
+                addStatus.basicInt = 1;
+                break;
+
+            case SERVANT_JOB.Magician:
+                addStatus.basicStr = 1;
+                addStatus.basicDex = 1;
+                addStatus.basicInt = 8;
+                break;
+
+            default:
+                Debug.Log("Job Error : " + jobType.ToString());
+                break;
+        }
+
+        return addStatus;
+    }
+
     // DB 생길때까지 임시
     public Status GetMonsterLevelPerAddStatus(MONSTER_CLASS classType, GRADE_TYPE gradeType)
     {

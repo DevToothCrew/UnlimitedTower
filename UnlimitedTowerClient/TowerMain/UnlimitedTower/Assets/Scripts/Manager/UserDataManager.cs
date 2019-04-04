@@ -197,31 +197,47 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
     public void SetServantExp(int index, int getExp, int getLvup)
     {
-        if (servantDic.ContainsKey(index) == true)
-        {
-            servantDic[index].exp = getExp;
-            servantDic[index].level += getLvup;
-            //레벨업시 스탯 증가 반영해주는 코드 필요
-        }
-        else
+        if (servantDic.ContainsKey(index) == false)
         {
             Debug.Log("Wrong Servant Index");
             return;
+        }
+
+        servantDic[index].exp += getExp;
+
+        if (getLvup > 0)
+        {
+            servantDic[index].level += getLvup;
+            //레벨업시 스탯 증가 반영해주는 코드 필요
+
+            Status addStatus = CSVData.Inst.GetServantLevelPerAddStatus(servantDic[index].jobType, servantDic[index].gradeType);
+
+            servantDic[index].status.basicStr += (getLvup * addStatus.basicStr);
+            servantDic[index].status.basicDex += (getLvup * addStatus.basicDex);
+            servantDic[index].status.basicInt += (getLvup * addStatus.basicInt);
         }
     }
 
     public void SetMonsterExp(int index, int getExp, int getLvup)
     {
-        if (monsterDic.ContainsKey(index) == true)
-        {
-            monsterDic[index].exp = getExp;
-            monsterDic[index].level += getLvup;
-            //레벨업시 스탯 증가 반영해주는 코드 필요
-        }
-        else
+        if (monsterDic.ContainsKey(index) == false)
         {
             Debug.Log("Wrong Monster Index");
             return;
+        }
+
+        monsterDic[index].exp += getExp;
+
+        if (getLvup > 0)
+        {
+            monsterDic[index].level += getLvup;
+            //레벨업시 스탯 증가 반영해주는 코드 필요
+
+            Status addStatus = CSVData.Inst.GetMonsterLevelPerAddStatus(monsterDic[index].classType, monsterDic[index].gradeType);
+
+            monsterDic[index].status.basicStr += (getLvup * addStatus.basicStr);
+            monsterDic[index].status.basicDex += (getLvup * addStatus.basicDex);
+            monsterDic[index].status.basicInt += (getLvup * addStatus.basicInt);
         }
     }
 

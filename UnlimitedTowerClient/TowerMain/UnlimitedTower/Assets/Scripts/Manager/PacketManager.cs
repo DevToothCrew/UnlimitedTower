@@ -289,8 +289,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         StageStartJson startBattle = new StageStartJson();
         startBattle.stageType = stageType;
-        startBattle.partyNum = partyNum;
         startBattle.stageFloor = stageFloor;
+        startBattle.partyNum = partyNum;
 
         string json = JsonUtility.ToJson(startBattle);
 
@@ -1397,13 +1397,15 @@ public class PacketManager : MonoSingleton<PacketManager> {
         userServant.id = getServantData.servant.id;
         userServant.level = getServantData.servant.level;
         userServant.grade = getServantData.servant.grade;
-        if (CSVData.Inst.GetServantData(userServant.id) == null)
+        userServant.state = getServantData.servant.state;
+
+        DBServantData servantData = CSVData.Inst.GetServantData(userServant.id);
+        if (servantData == null)
         {
             Debug.Log("Invalid Servant ID : " + userServant.id);
+            return null;
         }
-
-        userServant.grade = 5; // grade 필요, 현재는 그냥 서번트만 얻을수 있으니 일단 이렇게
-        userServant.state = getServantData.servant.state;
+        userServant.job = servantData.job;
 
         userServant.partyIndex = getServantData.party_number;
         if(userServant.partyIndex > 0)
@@ -1490,6 +1492,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
         monster.upgrade = getMonsterData.monster.upgrade;
         monster.state = getMonsterData.monster.state;
         monster.level = getMonsterData.monster.level;
+
+        DBMonsterData monsterData = CSVData.Inst.GetMonsterData(monster.id);
+        if(monsterData == null)
+        {
+            Debug.Log("Invalid Monster ID : " + monster.id);
+            return null;
+        }
+        monster.monsterClass = monsterData.classType;
 
         monster.partyIndex = getMonsterData.party_number;
         if(monster.partyIndex > 0)
