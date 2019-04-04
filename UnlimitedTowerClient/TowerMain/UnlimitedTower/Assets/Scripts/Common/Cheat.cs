@@ -338,7 +338,7 @@ public class Cheat : MonoSingleton<Cheat>
             newMember.status.basic_str = enemyData.status.basicStr + (level * addStatus.basicStr);
             newMember.status.basic_dex = enemyData.status.basicDex + (level * addStatus.basicDex);
             newMember.status.basic_int = enemyData.status.basicInt + (level * addStatus.basicInt);
-            newMember.now_hp = Calculator.GetMaxHp(enemyData.status);
+            newMember.now_hp = ((newMember.status.basic_str) * 14) + ((newMember.status.basic_dex) * 5) + ((newMember.status.basic_int) * 3);
 
             battlestatedata.enemy_state_list.Add(newMember);
         }
