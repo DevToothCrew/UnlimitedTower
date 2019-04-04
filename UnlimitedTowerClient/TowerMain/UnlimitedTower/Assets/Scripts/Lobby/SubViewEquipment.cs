@@ -17,6 +17,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
     public Text textCurrentTierText;
     public Text textCurrentTier;
     public Text textCurrentJobText;
+    public Text textCurrentJob;
     public Image[] imageCurrentJob = new Image[5];
     public Text textCurrentStatsText;
     public Image[] imageCurrentStat = new Image[3];
@@ -35,6 +36,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
     public Text textChangeTierText;
     public Text textChangeTier;
     public Text textChangeJobText;
+    public Text textChangeJob;
     public Image[] imageChangeJob = new Image[5];
     public Text textChangeStatsText;
     public Image[] imageChangeStat = new Image[3];
@@ -223,7 +225,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
             current_item_idx = servantData.equipmentDic[EQUIPMENT_TYPE.MAX];
         }
 
-        if (current_item_idx > 0)
+        if (current_item_idx >= 0)
         {
             FrameCurrentItemInfo.SetActive(true);
             FrameCurrentItemNone.SetActive(false);
@@ -267,6 +269,20 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
 
             }
 
+            if (dBEquipment.jobLimit == SERVANT_JOB_FLAG.None)
+            {
+                textCurrentJob.text = "None";
+            }
+            else if (dBEquipment.jobLimit == SERVANT_JOB_FLAG.All)
+            {
+                textCurrentJob.text = "All";
+            }
+            else
+            {
+                textCurrentJob.text = "";
+            }
+            
+
             //초기화
             for (int i = 0; i < 10; i++)
             {
@@ -275,12 +291,12 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
 
             for (EQUIPMENT_OPTION_TYPE type = EQUIPMENT_OPTION_TYPE.NONE; type < EQUIPMENT_OPTION_TYPE.MAX; type++)
             {
-                //if (currentEquipmentData.optionType == type)
-                //{
-                //    imageCurrentStat[0].sprite = spriteStat[(int)type];
-                //    textCurrentStat[0].text = string.Format("{0}", currentEquipmentData.value);
-                //    current_stat[(int)type] = currentEquipmentData.value;
-                //}
+                if (currentEquipmentData.optionType == type)
+                {
+                    imageCurrentStat[0].sprite = spriteStat[(int)type];
+                    textCurrentStat[0].text = string.Format("{0}", currentEquipmentData.value);
+                    current_stat[(int)type] = currentEquipmentData.value;
+                }
             }
 
         }
@@ -336,7 +352,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         selectedItemIdx = selectedChangeItemIdx;
         int change_item_idx = selectedItemIdx;
 
-        if (change_item_idx > 0)
+        if (change_item_idx >= 0)
         {
             FrameChangeItemInfo.SetActive(true);
             FrameChangeItemNone.SetActive(false);
@@ -369,19 +385,39 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
                 imageChangeJob[i].enabled = false;
             }
 
-            if (dBChangeEquipment.isEquipAble(SERVANT_JOB_FLAG.None))
+            if (dBChangeEquipment.jobLimit == SERVANT_JOB_FLAG.None)
             {
-                Debug.Log("none job Item");
+                textChangeJob.text = "None";
             }
-            else if (dBChangeEquipment.isEquipAble(SERVANT_JOB_FLAG.All))
+            else if (dBChangeEquipment.jobLimit == SERVANT_JOB_FLAG.All)
             {
-                Debug.Log("All job Item");
-                imageChangeJob[0].enabled = true;
+                textChangeJob.text = "All";
             }
             else
             {
-                int able_job = 0;   //착용 가능한 직업 수
-                
+                textChangeJob.text = "";
+                int able_job_count = 0;
+                int check_job = (int)SERVANT_JOB_FLAG.Last;
+                while (check_job >= (int)SERVANT_JOB_FLAG.First)
+                {
+                    if (dBChangeEquipment.isEquipAble((SERVANT_JOB_FLAG)check_job))
+                    {
+                        Debug.Log("check Job :" + (SERVANT_JOB_FLAG)check_job);
+
+                        imageChangeJob[able_job_count].enabled = true;
+                        able_job_count++;
+
+                        if (able_job_count >= imageChangeJob.Length)
+                        {
+                            Debug.Log("up to 5 job");
+                            break;
+                        }
+                    }
+
+                    check_job = check_job >> 1;
+                    
+                }
+
                 for (SERVANT_JOB_FLAG i = SERVANT_JOB_FLAG.None; i < SERVANT_JOB_FLAG.Magician; i++)
                 {
                     //Debug.Log("Job name? :" + i);
@@ -394,7 +430,6 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
 
                 }
             }
-            
 
             //초기화
             for (int i = 0; i < 10; i++)

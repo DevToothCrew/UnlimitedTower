@@ -147,6 +147,8 @@ public enum SERVANT_JOB_FLAG
     Cleric = 8,
     Archer = 16,
     Magician = 32,
+    First = Warrior,
+    Last = Magician
 }
 
 public enum MONSTER_CLASS
