@@ -161,6 +161,13 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         userMainCharInfo = charInfo;
     }
 
+    public void InitStageInfo()
+    {
+        stageState = new UserStageStateData();
+        stageActionInfo = new battleActionData();
+        stageReward = new stageRewardData();
+    }
+
     public void SetStageState(UserStageStateData getStageStateData)
     {
         stageState = getStageStateData;

@@ -907,9 +907,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 스테이지 종료
     public void ResponseStageExit()
     {
-        UserDataManager.Inst.SetStageState(null);
-        UserDataManager.Inst.SetStageAction(null);
-        UserDataManager.Inst.SetStageReward(null);
+        UserDataManager.Inst.InitStageInfo();
         SceneManager.LoadScene("Lobby");
         Time.timeScale = 1.0f;
     }
