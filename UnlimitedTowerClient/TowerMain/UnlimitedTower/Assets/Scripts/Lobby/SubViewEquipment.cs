@@ -474,6 +474,14 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
 
     public void OnClickChange()
     {
+        // 선택 서번트 인덱스
+        int servantIndex = 1;
+
+#if UNITY_EDITOR
+        Cheat.Inst.RequestEquipServantCheat(servantIndex, selectedEquipType, selectedItemIdx);
+#else
+        PacketManager.Inst.RequestEquipServant(servantIndex, selectedEquipType, selectedItemIdx);        
+#endif
 
     }
 

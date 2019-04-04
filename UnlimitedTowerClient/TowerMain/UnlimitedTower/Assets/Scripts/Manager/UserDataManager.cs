@@ -843,5 +843,147 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         userInfo.level += Level;
     }
 
+    public bool EquipServant(int servantIndex, EQUIPMENT_TYPE equipmentType, int equipmentIndex)
+    {
+        if (servantDic.ContainsKey(servantIndex) == false)
+        {
+            Debug.Log("Invalid Servant Index : " + servantIndex);
+            return false;
+        }
+
+        if (equipmentDic.ContainsKey(equipmentIndex) == false)
+        {
+            Debug.Log("Invalid Equipment Index : " + equipmentIndex);
+            return false;
+        }
+
+        if (equipmentType == EQUIPMENT_TYPE.WEAPON)
+        {
+            if (weaponDic.ContainsKey(equipmentIndex) == false)
+            {
+                Debug.Log("Invalid Weapon Index : " + equipmentIndex);
+                return false;
+            }
+        }
+        else if (equipmentType == EQUIPMENT_TYPE.ARMOR)
+        {
+            if (armorDic.ContainsKey(equipmentIndex) == false)
+            {
+                Debug.Log("Invalid Armor Index : " + equipmentIndex);
+                return false;
+            }
+        }
+        else if (equipmentType == EQUIPMENT_TYPE.ACCESSSORY)
+        {
+            if (accessoryDic.ContainsKey(equipmentIndex) == false)
+            {
+                Debug.Log("Invalid Accessory Index : " + equipmentIndex);
+                return false;
+            }
+        }
+        else
+        {
+            Debug.Log("Invalid Equipment Type : " + equipmentType.ToString());
+            return false;
+        }
+
+        if (servantDic[servantIndex].equipmentDic[equipmentType] != 0)
+        {
+            Debug.Log("Invalid Equipment is Already Equip");
+            return false;
+        }
+
+        servantDic[servantIndex].equipmentDic[equipmentType] = equipmentIndex;
+        equipmentDic[equipmentIndex].equipServantIndex = servantIndex;
+        equipmentDic[equipmentIndex].isEquiped = true;
+
+        if (equipmentType == EQUIPMENT_TYPE.WEAPON)
+        {
+            weaponDic[equipmentIndex].equipServantIndex = equipmentIndex;
+            weaponDic[equipmentIndex].isEquiped = true;
+        }
+        else if (equipmentType == EQUIPMENT_TYPE.ARMOR)
+        {
+            armorDic[equipmentIndex].equipServantIndex = equipmentIndex;
+            armorDic[equipmentIndex].isEquiped = true;
+        }
+        else if (equipmentType == EQUIPMENT_TYPE.ACCESSSORY)
+        {
+            accessoryDic[equipmentIndex].equipServantIndex = equipmentIndex;
+            accessoryDic[equipmentIndex].isEquiped = true;
+        }
+
+        return true;
+    }
+
+    public bool UnequipServant(int servantIndex, EQUIPMENT_TYPE equipmentType)
+    {
+        if(servantDic.ContainsKey(servantIndex) == false)
+        {
+            Debug.Log("Invalid Servant Index : " + servantIndex);
+            return false;
+        }
+
+        int equipmentIndex = servantDic[servantIndex].equipmentDic[equipmentType];
+
+        if (equipmentDic.ContainsKey(equipmentIndex) == false)
+        {
+            Debug.Log("Invalid Equipment Index : " + equipmentIndex);
+            return false;
+        }
+
+        if(equipmentType == EQUIPMENT_TYPE.WEAPON)
+        {
+            if(weaponDic.ContainsKey(equipmentIndex) == false)
+            {
+                Debug.Log("Invalid Weapon Index : " + equipmentIndex);
+                return false;
+            }
+        }
+        else if(equipmentType == EQUIPMENT_TYPE.ARMOR)
+        {
+            if (armorDic.ContainsKey(equipmentIndex) == false)
+            {
+                Debug.Log("Invalid Armor Index : " + equipmentIndex);
+                return false;
+            }
+        }
+        else if(equipmentType == EQUIPMENT_TYPE.ACCESSSORY)
+        {
+            if (accessoryDic.ContainsKey(equipmentIndex) == false)
+            {
+                Debug.Log("Invalid Accessory Index : " + equipmentIndex);
+                return false;
+            }
+        }
+        else
+        {
+            Debug.Log("Invalid Equipment Type : " + equipmentType.ToString());
+            return false;
+        }
+
+        servantDic[servantIndex].equipmentDic[equipmentType] = 0;
+        equipmentDic[equipmentIndex].equipServantIndex = 0;
+        equipmentDic[equipmentIndex].isEquiped = false;
+
+        if(equipmentType == EQUIPMENT_TYPE.WEAPON)
+        {
+            weaponDic[equipmentIndex].equipServantIndex = 0;
+            weaponDic[equipmentIndex].isEquiped = false;
+        }
+        else if(equipmentType == EQUIPMENT_TYPE.ARMOR)
+        {
+            armorDic[equipmentIndex].equipServantIndex = 0;
+            armorDic[equipmentIndex].isEquiped = false;
+        }
+        else if(equipmentType == EQUIPMENT_TYPE.ACCESSSORY)
+        {
+            accessoryDic[equipmentIndex].equipServantIndex = 0;
+            accessoryDic[equipmentIndex].isEquiped = false;
+        }
+
+        return true;
+    }
+
     #endregion
 }
