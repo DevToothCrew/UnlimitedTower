@@ -243,35 +243,16 @@ public class PacketManager : MonoSingleton<PacketManager> {
         PartySaveJson data = new PartySaveJson();
         data.partyNum = partyInfo.partyIndex;
 
-        for(int i = 0; i < partyInfo.formationDataDic.Count; ++i)
+        for(int i = 0; i < 5; ++i)
         {
-            if (partyInfo.formationDataDic.ContainsKey(i) == false)
-            {
-                if(i <= DEFINE.ServantMaxFormationNum)
-                {
-                    data.servantList.Add(0);
-                }
-                else
-                {
-                    data.monsterList.Add(0);
-                }
-            }
-            else
-            {
-                if(i <= DEFINE.ServantMaxFormationNum)
-                {
-                    data.servantList.Add(partyInfo.formationDataDic[i].index);
-                }
-                else
-                {
-                    data.monsterList.Add(partyInfo.formationDataDic[i].index);
-                }
-            }
+            data.servantList.Add(partyInfo.formationDataDic[i].index);
+            Debug.Log("Print Party Servant Formation : " + i + ", Index : " + partyInfo.formationDataDic[i].index);
+
+            data.monsterList.Add(partyInfo.formationDataDic[i + 5].index);
+            Debug.Log("Print Party Monster Formation : " + (i + 5) + ", Index : " + partyInfo.formationDataDic[i + 5].index);
         }
 
         string json = JsonUtility.ToJson(data);
-        Debug.Log("print Jsson : : " + json);
-
         Request<partyData>("SaveParty",
                 body: json,
                 onSuccess: ResponseSaveParty,
@@ -439,24 +420,85 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 장비 장착
-    public void RequestEquipServant(int servantIndex, int equipitemIndex)
+    public void RequestEquipServant(int servantIndex, EQUIPMENT_TYPE type, int equipmentIndex)
     {
         Debug.Log("Request Equip Servant");
-        if (servantIndex == 0 || equipitemIndex == 0)
+        if (servantIndex == 0 || equipmentIndex == 0)
         {
             Debug.Log("Invalid Request");
             return;
         }
 
+        // 서번트 인덱스 검사
+        UserServantData servantData = UserDataManager.Inst.GetServantInfo(servantIndex);
+        if (servantData == null)
+        {
+            Debug.LogError("Invalid Servant Index : " + servantIndex);
+            return;
+        }
+
+        // 장비 타입 검사
+        if (servantData.equipmentDic.ContainsKey(type) == false)
+        {
+            Debug.LogError("Invalid Servant Data");
+            return;
+        }
+
+        // 서번트 동일 장비 검사
+        if (servantData.equipmentDic[type] == equipmentIndex)
+        {
+            Debug.Log("Already Equip");
+            return;
+        }
+
+        // 장비 인덱스 검사
+        UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(equipmentIndex);
+        if (equipmentData == null)
+        {
+            Debug.LogError("Invalid Equipment Index : " + equipmentIndex);
+            return;
+        }
+
+        // 장비 인덱스에 대한 타입 검사
+        if (equipmentData.equipmentType != type)
+        {
+            Debug.Log("Invalid Type : " + type.ToString() + ", ");
+            return;
+        }
+
+        // DB 장비 ID 검사
+        DBEquipmentData dbEquipmentData = CSVData.Inst.GetEquipmentData(equipmentData.id);
+        if (dbEquipmentData == null)
+        {
+            Debug.Log("Invalid Equipment Data ID : " + equipmentData.id);
+            return;
+        }
+
+        // DB 서번트 ID 검사
+        DBServantData dbServantData = CSVData.Inst.GetServantData(servantData.id);
+        if (dbServantData == null)
+        {
+            Debug.Log("Invalid Servant Data ID : " + servantData.id);
+            return;
+        }
+
+        // 장착 가능 직업 검사
+        if (dbEquipmentData.isEquipAble(dbServantData.GetJobFlag) == false)
+        {
+            Debug.Log("Invalid Servant Equipable");
+            return;
+        }
+
         EquipServantJson equipServant = new EquipServantJson();
         equipServant.servantIndex = servantIndex;
-        equipServant.equipitemIndex = equipitemIndex;
+        equipServant.equipmentSlot = (int)type;
+        equipServant.equipitemIndex = equipmentIndex;
 
         string json = JsonUtility.ToJson(equipServant);
 
         Debug.Log("Json start : " + json);
 
-        Request<servantData>("EquipServant",
+        Request<servantEquipData>("EquipServant",
                 onSuccess: ResponseEquipServant,
                 onFailed: msg =>
                 {
@@ -465,25 +507,46 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 장비 해제
-    public void RequestUnequipServant(int servantIndex, int equipitemIndex)
+    public void RequestUnequipServant(int servantIndex, EQUIPMENT_TYPE type)
     {
         Debug.Log("Request Unequip Servant");
-        if (servantIndex == 0 || equipitemIndex == 0)
+        if (servantIndex == 0)
         {
             Debug.Log("Invalid Request");
             return;
         }
 
+        // 서번트 인덱스 검사
+        UserServantData servantData = UserDataManager.Inst.GetServantInfo(servantIndex);
+        if (servantData == null)
+        {
+            Debug.LogError("Invalid Servant Index : " + servantIndex);
+            return;
+        }
+
+        // 장비 타입 검사
+        if (servantData.equipmentDic.ContainsKey(type) == false)
+        {
+            Debug.LogError("Invalid Servant Data");
+            return;
+        }
+
+        // 장비 검사
+        if (servantData.equipmentDic[type] == 0)
+        {
+            Debug.LogError("Invalid Servant Equip Data");
+            return;
+        }
 
         UnequipServantJson unequipServant = new UnequipServantJson();
         unequipServant.servantIndex = servantIndex;
-        unequipServant.equipitemIndex = equipitemIndex;
+        unequipServant.equipmentSlot = (int)type;
 
         string json = JsonUtility.ToJson(unequipServant);
 
         Debug.Log("Json start : " + json);
 
-        Request<servantData>("UnequipServant",
+        Request<servantUnequipData>("UnequipServant",
                 onSuccess: ResponseUnequipServant,
                 onFailed: msg =>
                 {
@@ -1089,34 +1152,74 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 장비 장착
-    public void ResponseEquipServant(servantData getServantData)
+    public void ResponseEquipServant(servantEquipData getServantEquipData)
     {
         Debug.Log("서번트 장비 장착 !");
 
-        if(getServantData.index == 0)
+        UserServantData servantData = UserDataManager.Inst.GetServantInfo(getServantEquipData.servant_index);
+        if(servantData == null)
         {
             Debug.Log("Invalid Servant");
             return;
         }
-        
-        UserServantData equipmentServantData = ParseServant(getServantData);
-        if (equipmentServantData == null)
+
+        EQUIPMENT_TYPE type = (EQUIPMENT_TYPE)getServantEquipData.equipment_slot;
+        if (servantData.equipmentDic.ContainsKey(type) == false)
         {
-            Debug.Log("Invalid ParseEquipment");
+            Debug.Log("Invalid Servant EquipmentDic");
             return;
         }
 
-        UserDataManager.Inst.SetServant(equipmentServantData);
+        if(servantData.equipmentDic[type] == getServantEquipData.equipment_index)
+        {
+            Debug.Log("Invalid Servant Already Equip Each Equipment");
+            return;
+        }
+
+        if(servantData.equipmentDic[type] != 0)
+        {
+            if(UserDataManager.Inst.UnequipServant(servantData.index, type) == false)
+            {
+                Debug.Log("Invalid Servant Unequip");
+                return;
+            }
+        }
+
+        if (UserDataManager.Inst.EquipServant(servantData.index, type, getServantEquipData.equipment_index) == false)
+        {
+            Debug.Log("Invalid Servant Unequip");
+            return;
+        }
     }
 
     // 장비 해제
-    public void ResponseUnequipServant(servantData getServantData)
+    public void ResponseUnequipServant(servantUnequipData getServantUnequipData)
     {
-        Debug.Log("서번트 장비 장착해제 !");
+        UserServantData servantData = UserDataManager.Inst.GetServantInfo(getServantUnequipData.servant_index);
+        if (servantData == null)
+        {
+            Debug.Log("Invalid Servant");
+            return;
+        }
 
-        UserServantData unequipmentServantData = ParseServant(getServantData);
+        EQUIPMENT_TYPE type = (EQUIPMENT_TYPE)getServantUnequipData.equipment_slot;
+        if (servantData.equipmentDic.ContainsKey(type) == false)
+        {
+            Debug.Log("Invalid Servant EquipmentDic");
+            return;
+        }
 
-        UserDataManager.Inst.DelEquipment(unequipmentServantData.index);
+        if (servantData.equipmentDic[type] == 0)
+        {
+            Debug.Log("Invalid Servant Already Equip Each Equipment");
+            return;
+        }
+
+        if (UserDataManager.Inst.UnequipServant(servantData.index, type) == false)
+        {
+            Debug.Log("Invalid Servant Unequip");
+            return;
+        }
     }
 
     // 몬스터 강화

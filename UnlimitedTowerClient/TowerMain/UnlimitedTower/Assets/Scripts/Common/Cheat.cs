@@ -324,11 +324,21 @@ public class Cheat : MonoSingleton<Cheat>
                 return null;
             }
 
+            DBMonsterData monsterData = CSVData.Inst.GetMonsterData(enemyData.charID);
+            if(monsterData == null)
+            {
+                Debug.Log("Invalid Monster ID : " + enemyData.charID);
+                return null;
+            }
+
+            int level = UnityEngine.Random.Range(stageData.enemyLevelMin, stageData.enemyLevelMax + 1);
+            Status addStatus = CSVData.Inst.GetMonsterLevelPerAddStatus(monsterData.GetClass, enemyData.grade);
+
             newMember.status = new statusInfo();
-            newMember.status.basic_str = enemyData.status.basicStr;
-            newMember.status.basic_dex = enemyData.status.basicDex;
-            newMember.status.basic_int = enemyData.status.basicInt;
-            newMember.now_hp = Calculator.GetMaxHp(enemyData.status);
+            newMember.status.basic_str = enemyData.status.basicStr + (level * addStatus.basicStr);
+            newMember.status.basic_dex = enemyData.status.basicDex + (level * addStatus.basicDex);
+            newMember.status.basic_int = enemyData.status.basicInt + (level * addStatus.basicInt);
+            newMember.now_hp = ((newMember.status.basic_str) * 14) + ((newMember.status.basic_dex) * 5) + ((newMember.status.basic_int) * 3);
 
             battlestatedata.enemy_state_list.Add(newMember);
         }
@@ -593,6 +603,140 @@ public class Cheat : MonoSingleton<Cheat>
         return JsonMapper.ToJson(resultData).ToString();
     }
 
+    public string GetEquipServantData(int servantIndex, EQUIPMENT_TYPE type, int equipmentIndex)
+    {
+        // 서번트 인덱스 검사
+        UserServantData servantData = UserDataManager.Inst.GetServantInfo(servantIndex);
+        if (servantData == null)
+        {
+            Debug.LogError("Invalid Servant Index : " + servantIndex);
+            return null;
+        }
+
+        // 장비 타입 검사
+        if (servantData.equipmentDic.ContainsKey(type) == false)
+        {
+            Debug.LogError("Invalid Servant Data");
+            return null;
+        }
+
+        // 서번트 동일 장비 검사
+        if (servantData.equipmentDic[type] == equipmentIndex)
+        {
+            Debug.Log("Already Equip");
+            return null;
+        }
+
+        // 장비 인덱스 검사
+        UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(equipmentIndex);
+        if (equipmentData == null)
+        {
+            Debug.LogError("Invalid Equipment Index : " + equipmentIndex);
+            return null;
+        }
+
+        // 장비 인덱스에 대한 타입 검사
+        if (equipmentData.equipmentType != type)
+        {
+            Debug.Log("Invalid Type : " + type.ToString() + ", ");
+            return null;
+        }
+
+        // 장착중인 장비인지 검사
+        if(equipmentData.isEquiped == true)
+        {
+            Debug.Log("Already ServantEquiped : " + equipmentData.equipServantIndex);
+            return null;
+        }
+
+        // DB 장비 ID 검사
+        DBEquipmentData dbEquipmentData = CSVData.Inst.GetEquipmentData(equipmentData.id);
+        if(dbEquipmentData == null)
+        {
+            Debug.Log("Invalid Equipment Data ID : " + equipmentData.id);
+            return null;
+        }
+
+        // DB 서번트 ID 검사
+        DBServantData dbServantData = CSVData.Inst.GetServantData(servantData.id);
+        if(dbServantData == null)
+        {
+            Debug.Log("Invalid Servant Data ID : " + servantData.id);
+            return null;
+        }
+
+        // 장착 가능 직업 검사
+        if(dbEquipmentData.isEquipAble(dbServantData.GetJobFlag) == false)
+        {
+            Debug.Log("Invalid Servant Equipable Job : " + dbServantData.GetJobFlag + ", Need Job : " + dbEquipmentData.jobLimit);
+            return null;
+        }
+
+        // 장착 가능 레벨 검사
+        if(dbEquipmentData.tier == 2)
+        {
+            if(servantData.level <= 20)
+            {
+                Debug.Log("Invalid Servant Equipable Level : " + servantData.level + ", Need Level : 21");
+                return null;
+            }
+        }
+        else if(dbEquipmentData.tier == 3)
+        {
+            if (servantData.level <= 30)
+            {
+                Debug.Log("Invalid Servant Equipable Level : " + servantData.level + ", Need Level : 31");
+                return null;
+            }
+        }
+        else if(dbEquipmentData.tier == 4)
+        {
+            if (servantData.level <= 40)
+            {
+                Debug.Log("Invalid Servant Equipable Level : " + servantData.level + ", Need Level : 41");
+                return null;
+            }
+        }
+
+        servantEquipData resultData = new servantEquipData();
+        resultData.servant_index = servantIndex;
+        resultData.equipment_slot = (int)type;
+        resultData.equipment_index = equipmentIndex;
+
+        return JsonMapper.ToJson(resultData).ToString();
+    }
+
+    public string GetUnequipServantData(int servantIndex, EQUIPMENT_TYPE type)
+    {
+        // 서번트 인덱스 검사
+        UserServantData servantData = UserDataManager.Inst.GetServantInfo(servantIndex);
+        if (servantData == null)
+        {
+            Debug.LogError("Invalid Servant Index : " + servantIndex);
+            return null;
+        }
+
+        // 장비 타입 검사
+        if (servantData.equipmentDic.ContainsKey(type) == false)
+        {
+            Debug.LogError("Invalid Servant Data");
+            return null;
+        }
+
+        // 서번트 동일 장비 검사
+        if (servantData.equipmentDic[type] == 0)
+        {
+            Debug.Log("Already Unequip");
+            return null;
+        }
+
+        servantUnequipData resultData = new servantUnequipData();
+        resultData.servant_index = servantIndex;
+        resultData.equipment_slot = (int)type;
+
+        return JsonMapper.ToJson(resultData).ToString();
+    }
+
     public string GetBattleActionData(int heroTarget, int heroAction, int monsterTarget, int monsterAction)
     {
 
@@ -765,6 +909,11 @@ public class Cheat : MonoSingleton<Cheat>
     public void RequestStageRewardCheat()
     {
         string stageRewardJson = GetStageResultData();
+        if (stageRewardJson == null)
+        {
+            Debug.Log("[Fail] RequestStageRewardCheat");
+            return;
+        }
         Debug.Log("[SUCCESS] User Stage Reward :" + stageRewardJson);
         stageRewardData getStageRewardData = JsonUtility.FromJson<stageRewardData>(stageRewardJson);
         PacketManager.Inst.ResponseStageReward(getStageRewardData);
@@ -795,9 +944,9 @@ public class Cheat : MonoSingleton<Cheat>
     public void RequestGachaCheat(int gachaIndex)
     {
         string gachaDataJson = GetGachaResultData(gachaIndex);
-        if(gachaDataJson == null)
+        if (gachaDataJson == null)
         {
-            Debug.Log("Invalid Request Gacha");
+            Debug.Log("[Fail] RequestGachaCheat");
             return;
         }
 
@@ -808,6 +957,11 @@ public class Cheat : MonoSingleton<Cheat>
     public void RequestMonsterUpgradeCheat(int mainMonsterIndex, int subMonsterIndex)
     {
         string monsterUpgradeResultJson = GetMonsterUpgradeData(mainMonsterIndex, subMonsterIndex);
+        if (monsterUpgradeResultJson == null)
+        {
+            Debug.Log("[Fail] RequestMonsterUpgradeCheat");
+            return;
+        }
         Debug.Log("[SUCCESS] Monster Upgrade : " + monsterUpgradeResultJson);
 
         monsterUpgradeResultData getMonsterUpgradeResultData = JsonUtility.FromJson<monsterUpgradeResultData>(monsterUpgradeResultJson);
@@ -817,6 +971,11 @@ public class Cheat : MonoSingleton<Cheat>
     public void RequestServantGrindCheat(List<int> servantIndexList)
     {
         string servantGrindResultJson = GetServantGrindData(servantIndexList);
+        if (servantGrindResultJson == null)
+        {
+            Debug.Log("[Fail] RequestServantGrindCheat");
+            return;
+        }
         Debug.Log("[SUCCESS] Servant Grind : " + servantGrindResultJson);
 
         servantGrindResultData getServantGrindResultData = JsonUtility.FromJson<servantGrindResultData>(servantGrindResultJson);
@@ -826,6 +985,11 @@ public class Cheat : MonoSingleton<Cheat>
     public void RequestMonsterSellCheat(List<int> monsterIndexList)
     {
         string monsterSellResultJson = GetMonsterSellData(monsterIndexList);
+        if (monsterSellResultJson == null)
+        {
+            Debug.Log("[Fail] RequestMonsterSellCheat");
+            return;
+        }
         Debug.Log("[SUCCESS] Monster Sell : " + monsterSellResultJson);
 
         sellMonsterResultData getSellMonsterResultData = JsonUtility.FromJson<sellMonsterResultData>(monsterSellResultJson);
@@ -835,6 +999,11 @@ public class Cheat : MonoSingleton<Cheat>
     public void RequestEquipmentSellCheat(List<int> equipmentIndexList)
     {
         string equipmentSellResultJson = GetEquipmentSellData(equipmentIndexList);
+        if (equipmentSellResultJson == null)
+        {
+            Debug.Log("[Fail] RequestEquipmentSellCheat");
+            return;
+        }
         Debug.Log("[SUCCESS] Equipment Sell : " + equipmentSellResultJson);
 
         sellEquipmentResultData getSellEquipmentResultData = JsonUtility.FromJson<sellEquipmentResultData>(equipmentSellResultJson);
@@ -847,16 +1016,42 @@ public class Cheat : MonoSingleton<Cheat>
         partyData getPartyData = new partyData();
         getPartyData.index = userPartyInfo.partyIndex;
         getPartyData.state = 0;
+
         for (int i = 0; i < 5; i++)
         {
             getPartyData.servant_list.Add(userPartyInfo.formationDataDic[i].index);
-        }
-        for (int i = 0; i < 5; i++)
-        {
             getPartyData.monster_list.Add(userPartyInfo.formationDataDic[i + 5].index);
         }
 
         PacketManager.Inst.ResponseSaveParty(getPartyData);
+    }
+
+    public void RequestEquipServantCheat(int servantIndex, EQUIPMENT_TYPE type, int equipmentIndex)
+    {
+        string equipmentJson = GetEquipServantData(servantIndex, type, equipmentIndex);
+        if(equipmentJson == null)
+        {
+            Debug.Log("[Fail] RequestEquipServantCheat");
+            return;
+        }
+        Debug.Log("[SUCCESS] Equip Servant : " + equipmentJson);
+
+        servantEquipData getServantEquipResultData = JsonUtility.FromJson<servantEquipData>(equipmentJson);
+        PacketManager.Inst.ResponseEquipServant(getServantEquipResultData);
+    }
+
+    public void RequestUnequipServantCheat(int servantIndex, EQUIPMENT_TYPE type)
+    {
+        string unequipmentJson = GetUnequipServantData(servantIndex, type);
+        if (unequipmentJson == null)
+        {
+            Debug.Log("[Fail] RequestUnequipServantCheat");
+            return;
+        }
+        Debug.Log("[SUCCESS] Unequip Servant : " + unequipmentJson);
+
+        servantUnequipData getServantUnequipResultData = JsonUtility.FromJson<servantUnequipData>(unequipmentJson);
+        PacketManager.Inst.ResponseUnequipServant(getServantUnequipResultData);
     }
 
     #endregion

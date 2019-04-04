@@ -225,6 +225,21 @@ public class mailOpenResultData
 }
 
 [Serializable]
+public class servantEquipData
+{
+    public int servant_index;
+    public int equipment_slot;
+    public int equipment_index;
+}
+
+[Serializable]
+public class servantUnequipData
+{
+    public int servant_index;
+    public int equipment_slot;
+}
+
+[Serializable]
 public class actionInfo
 {
     public int target_position;
@@ -409,6 +424,7 @@ public class ItemSellJson
 public class EquipServantJson
 {
     public int servantIndex;
+    public int equipmentSlot;
     public int equipitemIndex;
 }
 
@@ -416,7 +432,7 @@ public class EquipServantJson
 public class UnequipServantJson
 {
     public int servantIndex;
-    public int equipitemIndex;
+    public int equipmentSlot;
 }
 
 [Serializable]
