@@ -3571,8 +3571,8 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
 {
     require_auth(sender);
     auto transfer_data = eosio::unpack_action_data<st_transfer>();
-    eosio_assert(transfer_data.to == receiver, "Wrong Action 1");
-    eosio_assert(transfer_data.from == sender, "Sender Miss Match 1");
+    eosio_assert(transfer_data.to == receiver, "Reciver Miss Match 1");     //to 랑 receiver 가 같을 경우만 <- receiver 조작에 대한 예외 처리
+    eosio_assert(transfer_data.from == sender, "Sender Miss Match 1");      //from 이랑 sender 가 같을 경우만 <- sender 조작에 대한 예외처리
     eosio_assert(transfer_data.quantity.symbol == symbol("EOS", 4), "Only Accepts EOS for deposits");
     eosio_assert(transfer_data.quantity.is_valid(), "Invalid token transfer");
     eosio_assert(transfer_data.quantity.amount > 0, "Quantity must be positive");
@@ -3581,7 +3581,6 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
     size_t l_center = transfer_data.memo.find(':');
 
     res.action = transfer_data.memo.substr(0, l_center);
-
     if (transfer_data.to != _self)
     {
         if (transfer_data.to != "eosio.token"_n)
@@ -5529,7 +5528,7 @@ battletest::character_state_data battletest::get_user_state(eosio::name _user, s
                 get_state.active_skill_list.push_back(active_db_iter->active_id);
             }
         }
-
+        get_state.grade = user_monster_iter->monster.grade;
         get_state.index = _index;
         get_state.id = user_monster_iter->monster.id;
         get_state.position = _position;
@@ -6134,6 +6133,7 @@ void battletest::set_attack_type(eosio::name _user, uint32_t _atk_type, characte
     {
     case atk_type::buff_none:
     {
+        _attack = get_magic_attack(_state.status);  //힐 스킬 계수 반영
         break;
     }
     case atk_type::physical_atk:
