@@ -862,7 +862,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
     public void addRankExp(int Exp, int Level)
     {
-        userInfo.userEXP = Exp;
+        userInfo.userEXP += Exp;
         userInfo.level += Level;
     }
 

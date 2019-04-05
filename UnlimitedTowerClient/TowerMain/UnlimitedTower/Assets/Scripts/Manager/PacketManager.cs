@@ -933,22 +933,33 @@ public class PacketManager : MonoSingleton<PacketManager> {
         if (getReward.get_char_exp_list.Count > 0)
         {
             UserStageStateData stateData = UserDataManager.Inst.GetStageState();
+            if(stateData.turn == 0)
+            {
+                Debug.Log("Invalid State Data");
+                return;
+            }
+
             for (int i = 0; i < getReward.get_char_exp_list.Count; ++i)
             {
-                for (int j = 0; j < stateData.myStateList.Count; ++j)
+                int position = getReward.get_char_exp_list[i].pos;
+                if(stateData.myStateList.ContainsKey(position) == false)
                 {
-                    if (stateData.myStateList[j].position == getReward.get_char_exp_list[i].pos)
-                    {
-                        int index = stateData.myStateList[j].index;
-                        if (stateData.myStateList[j].position < 5)
-                        {
-                            UserDataManager.Inst.SetServantExp(index, getReward.get_char_exp_list[i].exp, getReward.get_char_exp_list[i].lvup);
-                        }
-                        else
-                        {
-                            UserDataManager.Inst.SetMonsterExp(index, getReward.get_char_exp_list[i].exp, getReward.get_char_exp_list[i].lvup);
-                        }
-                    }
+                    Debug.LogError("Invalid ExpData Position : " + position);
+                    return;
+                }
+
+                if(stateData.myStateList[position].charType == CHAR_TYPE.SERVANT)
+                {
+                    UserDataManager.Inst.SetServantExp(stateData.myStateList[position].index, getReward.get_char_exp_list[i].exp, getReward.get_char_exp_list[i].lvup);
+                }
+                else if(stateData.myStateList[position].charType == CHAR_TYPE.MONSTER)
+                {
+                    UserDataManager.Inst.SetMonsterExp(stateData.myStateList[position].index, getReward.get_char_exp_list[i].exp, getReward.get_char_exp_list[i].lvup);
+                }
+                else
+                {
+                    Debug.Log("Invalid Char Type");
+                    return;
                 }
             }
         }
@@ -1018,6 +1029,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             }
 
         }
+
         BattleManager.Inst.SetReward();
     }
     public void ResopnseResource(userResourceData getResourceInfo)
