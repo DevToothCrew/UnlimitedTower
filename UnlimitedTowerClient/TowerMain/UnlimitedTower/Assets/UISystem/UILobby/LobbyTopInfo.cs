@@ -6,8 +6,11 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
     public Text accountName;
     public Text EOSCount;
     public Text UTGCount;
+    public Text UserName;
+    public Text UserLevelText;
     public Image MainCharImage;
     public Image GradeCharImage;
+    public Image ExpSlide;
 
     void Awake ()
     {
@@ -24,6 +27,9 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
                 GradeCharImage.sprite = CSVData.Inst.GetSpriteGrade(servantData.grade);
             }
         }
+        UserName.text = "LV." + UserDataManager.Inst.userInfo.level + " " + UserDataManager.Inst.userInfo.userName;
+        UserLevelText.text = UserDataManager.Inst.userInfo.level.ToString();
+        ExpSlide.fillAmount = UserDataManager.Inst.userInfo.userEXP / (float)CSVData.Inst.DBExpDataDic[UserDataManager.Inst.userInfo.level].rankExp;
     }
 
     public void OnClickAccountButton()
