@@ -473,6 +473,7 @@ GameObject:
   - component: {fileID: 224127501042822104}
   - component: {fileID: 222996973881656526}
   - component: {fileID: 114502934791850332}
+  - component: {fileID: 114361593253402240}
   m_Layer: 5
   m_Name: ExpSlide
   m_TagString: Untagged
@@ -1093,6 +1094,17 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: PARTY INFO
+--- !u!114 &114361593253402240
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1709203530062986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 619e86dd993fa4742909cf68edd85d15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114389825395044194
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1186,8 +1198,11 @@ MonoBehaviour:
   accountName: {fileID: 114442751377633716}
   EOSCount: {fileID: 114193838037570252}
   UTGCount: {fileID: 114141463871220038}
+  UserName: {fileID: 114442751377633716}
+  UserLevelText: {fileID: 114852359183281018}
   MainCharImage: {fileID: 114121853759592868}
   GradeCharImage: {fileID: 114986814411778242}
+  ExpSlide: {fileID: 114502934791850332}
 --- !u!114 &114429740000472020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1353,18 +1368,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.11724138, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: a665d0981769e4348bb7382ccf297151, type: 3}
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
@@ -1482,7 +1497,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 248203879eaf22842b7be701f9bdd052, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2168,8 +2183,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0.22000122, y: -0.05000019}
+  m_SizeDelta: {x: -1.68, y: -1.95}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224181014359062082
 RectTransform:
