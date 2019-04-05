@@ -198,15 +198,6 @@ public class DBStageData
     public int enemyLevelMax;
     public List<int> enemyIdList = new List<int>();
     public List<int> enemyPositionList = new List<int>();
-    public int bossLevel;
-    public List<int> bossPassiveList = new List<int>();
-    public List<int> bossActiveList = new List<int>();
-    public int rankExp;
-    public int charExp;
-    public List<int> rewardIdList = new List<int>();
-    public List<int> rewardCountList = new List<int>();
-    public int firstRewardId;
-    public int firstRewardCount;
     public string mapResource;
     public int bgmSoundId;
 }

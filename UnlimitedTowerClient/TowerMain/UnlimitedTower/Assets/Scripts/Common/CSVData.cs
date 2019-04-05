@@ -323,15 +323,6 @@ public class CSVData : MonoSingleton<CSVData>
             //    + " " + data[i]["enemy_level_max"]
             //    + " " + data[i]["enemy_id_list"]
             //    + " " + data[i]["enemy_position"]
-            //    + " " + data[i]["boss_level"]
-            //    + " " + data[i]["boss_passive_list"]
-            //    + " " + data[i]["boss_active_list"]
-            //    + " " + data[i]["rank_exp"]
-            //    + " " + data[i]["char_exp"]
-            //    + " " + data[i]["reward_id_list"]
-            //    + " " + data[i]["reward_count_list"]
-            //    + " " + data[i]["first_reward_id"]
-            //    + " " + data[i]["first_reward_count"]
             //    + " " + data[i]["map_resource"]
             //    + " " + data[i]["bgm_sound_id"]
             //    );
@@ -358,16 +349,6 @@ public class CSVData : MonoSingleton<CSVData>
             {
                 stageData.enemyPositionList.Add(Convert.ToInt32(epList[j]));
             }
-        
-            stageData.bossLevel = Convert.ToInt32(data[i]["boss_level"]);
-            // List로 넣기 data[i]["boss_passive_list"]
-            // List로 넣기 data[i]["boss_skill_list"]
-            stageData.rankExp = Convert.ToInt32(data[i]["rank_exp"]);
-            stageData.charExp = Convert.ToInt32(data[i]["char_exp"]);
-            // List로 넣기 data[i]["reward_id"]
-            // List로 넣기 data[i]["reward_count"]
-            stageData.firstRewardId = Convert.ToInt32(data[i]["first_reward_id"]);
-            stageData.firstRewardCount = Convert.ToInt32(data[i]["first_reward_count"]);
             stageData.mapResource = Convert.ToString(data[i]["map_resource"]);
             stageData.bgmSoundId = Convert.ToInt32(data[i]["bgm_sound_id"]);
         
