@@ -108,6 +108,12 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         updateAllView();
     }
 
+    public void UpdateViewChangeEquipment ()
+    {
+        selectedItemIdx = -1;
+        updateAllView();
+    }
+
     void setData()
     {
         EquipmentList.Clear();
@@ -229,7 +235,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         {
             FrameCurrentItemInfo.SetActive(true);
             FrameCurrentItemNone.SetActive(false);
-            currentEquipmentData = UserDataManager.Inst.GetEquipmentList()[current_item_idx];
+            currentEquipmentData = UserDataManager.Inst.GetEquipmentInfo(current_item_idx);
 
             if (currentEquipmentData == null)
             {

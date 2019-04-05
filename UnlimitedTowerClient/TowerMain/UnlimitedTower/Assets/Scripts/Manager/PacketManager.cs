@@ -1207,6 +1207,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log("Invalid Servant Unequip");
             return;
         }
+
+        if (SubViewEquipment.Inst != null)
+        {
+            SubViewEquipment.Inst.UpdateViewChangeEquipment();
+        }
     }
 
     // 장비 해제
