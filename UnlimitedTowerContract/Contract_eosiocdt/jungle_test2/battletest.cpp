@@ -5227,9 +5227,9 @@ battletest::status_info battletest::get_grade_status(uint64_t _grade, status_inf
 
 uint64_t battletest::get_damage(uint32_t _atk, uint32_t _dfs)
 {
-    _atk = _atk;
-    uint32_t damage = (_atk * ((defense_constant * decimal) / (defense_constant + (_dfs / decimal))));
-    return damage / 100;
+    uint32_t damage = ( (_atk * ((defense_constant * decimal) / (defense_constant + _dfs))));
+    damage = damage / decimal;
+    return damage; 
 }
 
 void battletest::set_stage_state(uint64_t _stage_id, std::vector<character_state_data> &_enemy_state_list, std::vector<std::string> &_state)
@@ -6395,6 +6395,24 @@ battletest::action_info battletest::get_target_action(eosio::name _user ,uint32_
             cur_cirtical_dmg = (cur_attack * class_stat_iter->physical_cri_dmg) / 100;
             cur_cri_per = class_stat_iter->physical_cri_per;
         }
+
+        // monster_db monster_db_table(_self, _self.value);
+        // auto monster_iter = monster_db_table.find(_enemy_state_list[_target_key].id);
+        // eosio_assert(monster_iter != monster_db_table.end(), "Not Exist Monster ID 40");
+
+        // class_stat_db class_stat_db_table(_self, _self.value);
+        // auto class_stat_iter = class_stat_db_table.find(monster_iter->monster_class);
+        // eosio_assert(class_stat_iter != class_stat_db_table.end(), "Not Exist Class ID 40");
+
+        target_defense = get_physical_defense(_enemy_state_list[_target_key].status);
+        if (_enemy_state_list[_target_key].passive_skill_list[0] == passive_name::passive_physical_defense)
+        {
+            passive_db passive_db_table(_self, _self.value);
+            auto passive_iter = passive_db_table.find(_enemy_state_list[_target_key].passive_skill_list[0]);
+            eosio_assert(passive_iter != passive_db_table.end(), "Not Exist Passive ID 400");
+            target_defense += (target_defense * passive_iter->effect_value) / 100;
+        }
+        //target_avoid = class_stat_iter->avoid;
         break;
     }
     case action_type::skill:
@@ -7178,8 +7196,8 @@ void battletest::win_reward(eosio::name _user, uint64_t _stage_number, uint64_t 
     std::vector<equip_data> equipment_list;
     std::vector<servant_data> servant_list;
     std::vector<item_data> item_list;
-    std::vector<uint32_t> servant_pos_list = {3, 1, 0, 2, 4};
-    std::vector<uint32_t> monster_pos_list = {8, 6, 5, 7, 9};
+    std::vector<uint32_t> servant_pos_list = {0, 1, 2, 3, 4};
+    std::vector<uint32_t> monster_pos_list = {5, 6, 7, 8, 9};
 
     reward_db reward_db_table(_self,_self.value);
     auto reward_iter = reward_db_table.find(_stage_number);

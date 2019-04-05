@@ -1260,7 +1260,7 @@ CONTRACT battletest : public contract
     const uint32_t oper_critical = 5;
     const uint32_t oper_critical_damage = 15000;
     const uint32_t oper_avoid = 5;
-    const uint32_t defense_constant = 2000;
+    const uint32_t defense_constant = 1000;
 
     const uint32_t decimal = 100;
     const uint32_t max_battle_member_count = 20;
