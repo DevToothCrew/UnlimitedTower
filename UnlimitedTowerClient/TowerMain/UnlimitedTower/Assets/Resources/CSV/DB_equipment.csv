@@ -1,39 +1,39 @@
-#관리,id,#관리,name,#,job,job_limit,equip_type,tier,option_list,option_value_min,option_value_max,upgrade_option_value,grade_multi_list,#,resource_icon,sell_item_id,sell_item_count
-,,,,,,,,,,,,,,,,,
-int,int,string,string,int,string,bit,int,int,int,int,int,int,float,int,string,int,int
-30001,811101,초심자의 둔기,Novice Blunt,,cleric 8,1000,1,1,1,22,40,15,1/1.5/2/2.5/3,,tier1_blunt,500001,100
-30002,811201,초목의 둔기,Blunt of Forest,,cleric 8,1000,1,2,1,22,40,15,1/1.5/2/2.5/3,,tier2_blunt,500001,100
-30003,811301,악에 물든 둔기,Forsaken Blunt,,cleric 8,1000,1,3,1,22,40,15,1/1.5/2/2.5/3,,tier3_blunt,500001,100
-30004,811401,왕가의 둔기,Royal Blunt,,cleric 8,1000,1,4,1,22,40,15,1/1.5/2/2.5/3,,tier4_blunt,500001,100
-30005,812101,초심자의 단검,Novice Dagger,,thief 4,100,1,1,1,22,40,15,1/1.5/2/2.5/3,,tier1_dagger,500001,100
-30006,812201,초목의 단검,Dagger of Forest,,thief 4,100,1,2,1,22,40,15,1/1.5/2/2.5/3,,tier2_dagger,500001,100
-30007,812301,악에 물든 단검,Forsaken Dagger,,thief 4,100,1,3,1,22,40,15,1/1.5/2/2.5/3,,tier3_dagger,500001,100
-30008,812401,왕가의 단검,Royal Dagger,,thief 4 ,100,1,4,1,22,40,15,1/1.5/2/2.5/3,,tier4_dagger,500001,100
-30009,813101,초심자의 검,Novice Sword,,warrior 2,10,1,1,1,22,40,15,1/1.5/2/2.5/3,,tier1_sword,500001,100
-30010,813201,초목의 검,Sword of Forest,,warrior 2,10,1,2,1,22,40,15,1/1.5/2/2.5/3,,tier2_sword,500001,100
-30011,813301,악에 물든 검,Forsaken Sword,,warrior 2,10,1,3,1,22,40,15,1/1.5/2/2.5/3,,tier3_sword,500001,100
-30012,813401,왕가의 검,Royal Sword,,warrior 2,0,1,4,1,22,40,15,1/1.5/2/2.5/3,,tier4_sword,500001,100
-30013,851101,초심자의 헤비아머,Novice HeavyArmor,,warrior/cleric 10,1010,2,1,3,19,34,15,1/1.5/2/2.5/3,,tier1_heavy_armor,500001,100
-30014,851201,초목의 헤비아머,HeavyArmor of Forest,,warrior/cleric 10,1010,2,2,3,19,34,15,1/1.5/2/2.5/3,,tier2_heavy_armor,500001,100
-30015,851301,악에 물든 헤비아머,Forsaken HeavyArmor,,warrior/cleric 10,1010,2,3,3,19,34,15,1/1.5/2/2.5/3,,tier3_heavy_armor,500001,100
-30016,851401,왕가의 헤비아머,Royal HeavyArmor,,warrior/cleric 10,1010,2,4,3,19,34,15,1/1.5/2/2.5/3,,tier4_heavy_armor,500001,100
-30017,852101,초심자의 라이트아머,Novice LightArmor,,thief/archer 20,10100,2,1,3,19,34,15,1/1.5/2/2.5/3,,tier1_light_armor,500001,100
-30018,852201,초목의 라이트아머,LightArmor of Forest,,thief/archer 20,10100,2,2,3,19,34,15,1/1.5/2/2.5/3,,tier2_light_armor,500001,100
-30019,852301,악에 물든 라이트아머,Forsaken LightArmor,,thief/archer 20,10100,2,3,3,19,34,15,1/1.5/2/2.5/3,,tier3_light_armor,500001,100
-30020,852401,왕가의 라이트아머,Royal LightArmor,,thief/archer 20,10100,2,4,3,19,34,15,1/1.5/2/2.5/3,,tier4_light_armor,500001,100
-0,853101,초심자의 로브,Novice Robe,,magician 32,100000,2,1,4,19,34,15,1/1.5/2/2.5/3,,tier1_robe,500001,100
-0,853201,초목의 로브,Robe of Forest,,magician 32,100000,2,2,4,19,34,15,1/1.5/2/2.5/3,,tier2_robe,500001,100
-0,853301,악에 물든 로브,Forsaken Robe,,magician 32,100000,2,3,4,19,34,15,1/1.5/2/2.5/3,,tier3_robe,500001,100
-0,853401,왕가의 로브,Royal Robe,,magician 32,100000,2,4,4,19,34,15,1/1.5/2/2.5/3,,tier4_robe,500001,100
-30021,891101,초심자의 귀걸이,Novice Earing,,all 1,1,3,1,8,11,20,15,1/1.5/2/2.5/3,,tier1_earing,500001,100
-30022,891201,초목의 귀걸이,Earing of Forest,,all,1,3,2,8,11,20,15,1/1.5/2/2.5/3,,tier2_earing,500001,100
-30023,891301,악에 물든 귀걸이,Forsaken Earing,,all,1,3,3,8,11,20,15,1/1.5/2/2.5/3,,tier3_earing,500001,100
-30024,891401,왕가의 귀걸이,Royal Earing,,all,1,3,4,8,11,20,15,1/1.5/2/2.5/3,,tier4_earing,500001,100
-30025,892101,초심자의 목걸이,Novice Necklace,,all,1,3,1,7,11,20,15,1/1.5/2/2.5/3,,tier1_necklace,500001,100
-30026,892201,초목의 목걸이,Necklace of Forest,,all,1,3,2,7,11,20,15,1/1.5/2/2.5/3,,tier2_necklace,500001,100
-30027,892301,악에 물든 목걸이,Forsaken Necklace,,all,1,3,3,7,11,20,15,1/1.5/2/2.5/3,,tier3_necklace,500001,100
-30028,892401,왕가의 목걸이,Royal Necklace,,all,1,3,4,7,11,20,15,1/1.5/2/2.5/3,,tier4_necklace,500001,100
-30029,893101,초심자의 반지,Novice Ring,,all,1,3,1,6,11,20,15,1/1.5/2/2.5/3,,tier1_ring,500001,100
-30030,893201,초목의 반지,Ring of Forest,,all,1,3,2,6,11,20,15,1/1.5/2/2.5/3,,tier2_ring,500001,100
-30031,893301,악에 물든 반지,Forsaken Ring,,all,1,3,3,6,11,20,15,1/1.5/2/2.5/3,,tier3_ring,500001,100
-30032,893401,왕가의 반지,Royal Ring,,all,1,3,4,6,11,20,15,1/1.5/2/2.5/3,,tier4_ring,500001,100
+#관리,id,#관리,name,#,job,#,job_limit,equip_type,tier,option_list,option_value_min,option_value_max,upgrade_option_value,grade_multi_list,#,resource_icon,sell_item_id,sell_item_count
+,,,,,,,,,,,,,,,,,,
+int,int,string,string,int,int,string,bit,int,int,int,int,int,int,float,int,string,int,int
+30001,811101,초심자의 둔기,Novice Blunt,,8,cleric,1000,0,1,1,22,40,15,1/1.5/2/2.5/3,,tier1_blunt,500001,100
+30002,811201,초목의 둔기,Blunt of Forest,,8,cleric,1000,0,2,1,22,40,15,1/1.5/2/2.5/3,,tier2_blunt,500001,100
+30003,811301,악에 물든 둔기,Forsaken Blunt,,8,cleric,1000,0,3,1,22,40,15,1/1.5/2/2.5/3,,tier3_blunt,500001,100
+30004,811401,왕가의 둔기,Royal Blunt,,8,cleric,1000,0,4,1,22,40,15,1/1.5/2/2.5/3,,tier4_blunt,500001,100
+30005,812101,초심자의 단검,Novice Dagger,,4,thief,100,0,1,1,22,40,15,1/1.5/2/2.5/3,,tier1_dagger,500001,100
+30006,812201,초목의 단검,Dagger of Forest,,4,thief,100,0,2,1,22,40,15,1/1.5/2/2.5/3,,tier2_dagger,500001,100
+30007,812301,악에 물든 단검,Forsaken Dagger,,4,thief,100,0,3,1,22,40,15,1/1.5/2/2.5/3,,tier3_dagger,500001,100
+30008,812401,왕가의 단검,Royal Dagger,,4,thief,100,0,4,1,22,40,15,1/1.5/2/2.5/3,,tier4_dagger,500001,100
+30009,813101,초심자의 검,Novice Sword,,2,warrior,10,0,1,1,22,40,15,1/1.5/2/2.5/3,,tier1_sword,500001,100
+30010,813201,초목의 검,Sword of Forest,,2,warrior,10,0,2,1,22,40,15,1/1.5/2/2.5/3,,tier2_sword,500001,100
+30011,813301,악에 물든 검,Forsaken Sword,,2,warrior,10,0,3,1,22,40,15,1/1.5/2/2.5/3,,tier3_sword,500001,100
+30012,813401,왕가의 검,Royal Sword,,2,warrior,0,0,4,1,22,40,15,1/1.5/2/2.5/3,,tier4_sword,500001,100
+30013,851101,초심자의 헤비아머,Novice HeavyArmor,,10,warrior/cleric,1010,1,1,3,19,34,15,1/1.5/2/2.5/3,,tier1_heavy_armor,500001,100
+30014,851201,초목의 헤비아머,HeavyArmor of Forest,,10,warrior/cleric,1010,1,2,3,19,34,15,1/1.5/2/2.5/3,,tier2_heavy_armor,500001,100
+30015,851301,악에 물든 헤비아머,Forsaken HeavyArmor,,10,warrior/cleric,1010,1,3,3,19,34,15,1/1.5/2/2.5/3,,tier3_heavy_armor,500001,100
+30016,851401,왕가의 헤비아머,Royal HeavyArmor,,10,warrior/cleric,1010,1,4,3,19,34,15,1/1.5/2/2.5/3,,tier4_heavy_armor,500001,100
+30017,852101,초심자의 라이트아머,Novice LightArmor,,20,thief/archer,10100,1,1,3,19,34,15,1/1.5/2/2.5/3,,tier1_light_armor,500001,100
+30018,852201,초목의 라이트아머,LightArmor of Forest,,20,thief/archer,10100,1,2,3,19,34,15,1/1.5/2/2.5/3,,tier2_light_armor,500001,100
+30019,852301,악에 물든 라이트아머,Forsaken LightArmor,,20,thief/archer,10100,1,3,3,19,34,15,1/1.5/2/2.5/3,,tier3_light_armor,500001,100
+30020,852401,왕가의 라이트아머,Royal LightArmor,,20,thief/archer,10100,1,4,3,19,34,15,1/1.5/2/2.5/3,,tier4_light_armor,500001,100
+0,853101,초심자의 로브,Novice Robe,,32,magician,100000,1,1,4,19,34,15,1/1.5/2/2.5/3,,tier1_robe,500001,100
+0,853201,초목의 로브,Robe of Forest,,32,magician,100000,1,2,4,19,34,15,1/1.5/2/2.5/3,,tier2_robe,500001,100
+0,853301,악에 물든 로브,Forsaken Robe,,32,magician,100000,1,3,4,19,34,15,1/1.5/2/2.5/3,,tier3_robe,500001,100
+0,853401,왕가의 로브,Royal Robe,,32,magician,100000,1,4,4,19,34,15,1/1.5/2/2.5/3,,tier4_robe,500001,100
+30021,891101,초심자의 귀걸이,Novice Earing,,1,all,1,2,1,8,11,20,15,1/1.5/2/2.5/3,,tier1_earing,500001,100
+30022,891201,초목의 귀걸이,Earing of Forest,,1,all,1,2,2,8,11,20,15,1/1.5/2/2.5/3,,tier2_earing,500001,100
+30023,891301,악에 물든 귀걸이,Forsaken Earing,,1,all,1,2,3,8,11,20,15,1/1.5/2/2.5/3,,tier3_earing,500001,100
+30024,891401,왕가의 귀걸이,Royal Earing,,1,all,1,2,4,8,11,20,15,1/1.5/2/2.5/3,,tier4_earing,500001,100
+30025,892101,초심자의 목걸이,Novice Necklace,,1,all,1,2,1,7,11,20,15,1/1.5/2/2.5/3,,tier1_necklace,500001,100
+30026,892201,초목의 목걸이,Necklace of Forest,,1,all,1,2,2,7,11,20,15,1/1.5/2/2.5/3,,tier2_necklace,500001,100
+30027,892301,악에 물든 목걸이,Forsaken Necklace,,1,all,1,2,3,7,11,20,15,1/1.5/2/2.5/3,,tier3_necklace,500001,100
+30028,892401,왕가의 목걸이,Royal Necklace,,1,all,1,2,4,7,11,20,15,1/1.5/2/2.5/3,,tier4_necklace,500001,100
+30029,893101,초심자의 반지,Novice Ring,,1,all,1,2,1,6,11,20,15,1/1.5/2/2.5/3,,tier1_ring,500001,100
+30030,893201,초목의 반지,Ring of Forest,,1,all,1,2,2,6,11,20,15,1/1.5/2/2.5/3,,tier2_ring,500001,100
+30031,893301,악에 물든 반지,Forsaken Ring,,1,all,1,2,3,6,11,20,15,1/1.5/2/2.5/3,,tier3_ring,500001,100
+30032,893401,왕가의 반지,Royal Ring,,1,all,1,2,4,6,11,20,15,1/1.5/2/2.5/3,,tier4_ring,500001,100
