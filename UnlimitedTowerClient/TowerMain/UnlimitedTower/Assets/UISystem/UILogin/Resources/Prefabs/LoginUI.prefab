@@ -1785,7 +1785,6 @@ MonoBehaviour:
   loginPopup: {fileID: 1620019367456712}
   languageButton: {fileID: 1076113119288922}
   nodeButton: {fileID: 1997415406755812}
-  buttonClick: 0
 --- !u!114 &114455009260241918
 MonoBehaviour:
   m_ObjectHideFlags: 1

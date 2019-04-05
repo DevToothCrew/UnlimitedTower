@@ -82,6 +82,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         isBattleStart = true;
 
         battleActionData stageActionInfo = UserDataManager.Inst.GetStageAction();
+        UserDataManager.Inst.stageState.turn = stageActionInfo.turn;
         if (stageActionInfo == null)
         {
             Debug.LogError("버그 : stageActionInfo is Null");
