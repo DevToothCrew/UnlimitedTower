@@ -1552,6 +1552,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
             return null;
         }
 
+        equipmentData.equipmentType = dbEquipmentData.equipmentType;
+
         equipmentData.grade = getEquipmentData.equipment.grade;
         equipmentData.upgrade = getEquipmentData.equipment.upgrade;
         equipmentData.state = getEquipmentData.equipment.state;
