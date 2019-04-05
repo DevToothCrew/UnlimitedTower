@@ -50,6 +50,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     public Text textSpeed;
 
     public Button[] buttonEquipment = new Button[6];
+    public Sprite spriteEmptySlot;
 
 
     //public Text textA
@@ -295,6 +296,24 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
             {
                 Debug.Log("Invalid Servant ID : " + servantData.id);
             }
+
+            for (EQUIPMENT_TYPE type = EQUIPMENT_TYPE.WEAPON; type < EQUIPMENT_TYPE.MAX; type++)
+            {
+                UserEquipmentData equip_info = UserDataManager.Inst.GetEquipmentInfo(servantData.equipmentDic[type]);
+                if (equip_info != null)
+                {
+                    buttonEquipment[(int)type].image.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)equip_info.grade);
+                    buttonEquipment[(int)type].transform.GetChild(0).GetComponent<Image>().enabled = true;
+                    buttonEquipment[(int)type].transform.GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.GetEquipmentData(equip_info.id).equipmentIcon;
+                }
+                else
+                {
+                    buttonEquipment[(int)type].image.sprite = spriteEmptySlot;
+                    buttonEquipment[(int)type].transform.GetChild(0).GetComponent<Image>().enabled = false;
+                }
+                
+            }
+            
 
             textLevel.text = string.Format("{0}", servantData.level);
             textCharacterName.text = string.Format("{0}", dBServantData.name);

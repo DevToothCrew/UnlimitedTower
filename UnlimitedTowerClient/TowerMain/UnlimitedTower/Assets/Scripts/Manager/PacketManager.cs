@@ -1211,6 +1211,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
         if (SubViewEquipment.Inst != null)
         {
             SubViewEquipment.Inst.UpdateViewChangeEquipment();
+            if (PartyInfoVC.Inst != null)
+            {
+                PartyInfoVC.Inst.updateDetailInfo(PartyInfoVC.Inst.selected_unit_idx);
+            }
+                
         }
     }
 
