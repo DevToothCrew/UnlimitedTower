@@ -364,14 +364,14 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         UserServantData servantData = partyInfo.ServantList[partyInfo.selected_unit_idx];
         //Change Item
 
-        selectedItemIdx = selectedChangeItemIdx;
-        int change_item_idx = selectedItemIdx;
-
-        if (change_item_idx >= 0)
+        if (selectedChangeItemIdx >= 0)
         {
+            selectedItemIdx = selectedChangeItemIdx;
+            int change_item_idx = EquipmentList[selectedItemIdx].index;
+
             FrameChangeItemInfo.SetActive(true);
             FrameChangeItemNone.SetActive(false);
-            UserEquipmentData changeEquipmentData = UserDataManager.Inst.GetEquipmentList()[change_item_idx];
+            UserEquipmentData changeEquipmentData = UserDataManager.Inst.GetEquipmentInfo(change_item_idx);
 
             if (changeEquipmentData == null)
             {
