@@ -525,8 +525,10 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         // 선택 서번트 인덱스
         int servantIndex = partyInfo.ServantList[partyInfo.selected_unit_idx].index;
 
+        int equipmentIndex = EquipmentList[selectedItemIdx].index;
+
 #if UNITY_EDITOR
-        Cheat.Inst.RequestEquipServantCheat(servantIndex, selectedEquipType, selectedItemIdx);
+        Cheat.Inst.RequestEquipServantCheat(servantIndex, selectedEquipType, equipmentIndex);
 #else
         PacketManager.Inst.RequestEquipServant(servantIndex, selectedEquipType, selectedItemIdx);        
 #endif

@@ -951,7 +951,7 @@ public class Cheat : MonoSingleton<Cheat>
         {
             Debug.Log("Start SetLoginCheat");
 
-            string loginJson = GetUserLoginData("devtooth", "100000", "99999990000");
+            string loginJson = GetUserLoginData("devtooth1111", "100000", "99999990000");
             Debug.Log("[SUCCESS] User Login :" + loginJson);
 
             PacketManager.Inst.ResponseLogin(loginJson);

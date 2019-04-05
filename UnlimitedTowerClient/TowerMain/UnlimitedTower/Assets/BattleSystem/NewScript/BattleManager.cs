@@ -205,8 +205,8 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         for (int i = 0; i < rewardData.get_char_exp_list.Count; i++)
         {
-            Exp.transform.GetChild(rewardData.get_char_exp_list[i].pos).GetChild(1).gameObject.SetActive(true);
-            Exp.transform.GetChild(rewardData.get_char_exp_list[i].pos).GetChild(1).GetComponent<Text>().text = "+ " + rewardData.get_char_exp_list[i].exp;
+            Exp.transform.GetChild(positionOrder[rewardData.get_char_exp_list[i].pos]).GetChild(1).gameObject.SetActive(true);
+            Exp.transform.GetChild(positionOrder[rewardData.get_char_exp_list[i].pos]).GetChild(1).GetComponent<Text>().text = "+ " + rewardData.get_char_exp_list[i].exp;
         }
 
         for (int i = 0; i < rewardData.get_servant_list.Count; i++)

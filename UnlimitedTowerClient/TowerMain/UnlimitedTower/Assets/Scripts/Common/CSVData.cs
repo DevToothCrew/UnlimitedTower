@@ -1355,14 +1355,15 @@ public class CSVData : MonoSingleton<CSVData>
         return DBStageRewardDataDic[id];
     }
 
-    public int GetRankForExp(int exp)
+    public DBExpData GetExpData(int level)
     {
-        return 1;
-    }
+        if(DBExpDataDic.ContainsKey(level) == false)
+        {
+            Debug.Log("Invalid Exp Data Level : " + level);
+            return null;
+        }
 
-    public int GetLevelForExp(int exp)
-    {
-        return 1;
+        return DBExpDataDic[level];
     }
 
     public Sprite GetSpriteGrade(GRADE_TYPE grade)
