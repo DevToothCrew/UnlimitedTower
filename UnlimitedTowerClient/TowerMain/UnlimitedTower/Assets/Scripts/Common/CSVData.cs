@@ -398,27 +398,7 @@ public class CSVData : MonoSingleton<CSVData>
             }
 
             stageEnemyData.charID = Convert.ToInt32(data[i]["char_id"]);
-            switch (Convert.ToString(data[i]["char_grade"]))
-            {
-                case "common":
-                    stageEnemyData.grade = GRADE_TYPE.COMMON;
-                    break;
-                case "uncommon":
-                    stageEnemyData.grade = GRADE_TYPE.UNCOMMON;
-                    break;
-                case "rare":
-                    stageEnemyData.grade = GRADE_TYPE.RARE;
-                    break;
-                case "unique":
-                    stageEnemyData.grade = GRADE_TYPE.UNIQUE;
-                    break;
-                case "legendary":
-                    stageEnemyData.grade = GRADE_TYPE.LEGENDARY;
-                    break;
-                default:
-                    Debug.Log("Invalid Request ID : " + i + " charGrade : " + Convert.ToString(data[i]["char_grade"]));
-                    return false;
-            }
+            stageEnemyData.grade = (GRADE_TYPE)Convert.ToInt32(data[i]["char_grade"]);
 
             stageEnemyData.status.basicStr = Convert.ToInt32(data[i]["str"]);
             stageEnemyData.status.basicDex = Convert.ToInt32(data[i]["dex"]);
