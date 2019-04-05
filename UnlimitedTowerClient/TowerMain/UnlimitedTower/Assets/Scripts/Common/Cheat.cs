@@ -104,6 +104,7 @@ public class Cheat : MonoSingleton<Cheat>
     public string GetBattleActionData(string user, int getTurn)
     {
         UserStageStateData stateData = UserDataManager.Inst.GetStageState();
+        stateData.turn += 1;
 
         battleActionData battleactiondata = new battleActionData();
         battleactiondata.user = user;
@@ -132,7 +133,7 @@ public class Cheat : MonoSingleton<Cheat>
 
             for (int j = 10; j < 20; j++)
             {
-                tempHpSum += tempHp[j];
+                tempHpSum += tempHp[j] < 0 ? 0 : tempHp[j];
             }
 
             if (tempHpSum <= 0)
@@ -250,7 +251,7 @@ public class Cheat : MonoSingleton<Cheat>
 
             for (int j = 0; j < 10; j++)
             {
-                tempHpSum += tempHp[j];
+                tempHpSum += tempHp[j] < 0 ? 0 : tempHp[j];
             }
 
             if (tempHpSum <= 0)
@@ -302,7 +303,7 @@ public class Cheat : MonoSingleton<Cheat>
             return null;
         }
 
-        for (int i = 0; i < 10; ++i)
+        for (int i = 0; i < 7; ++i)
         {
             if(partyData.formationDataDic[i].index == 0)
             {
@@ -808,7 +809,7 @@ public class Cheat : MonoSingleton<Cheat>
         stageRewardData rewardData = new stageRewardData();
         rewardData.reward_money = 100000;
 
-        for (int i = 0; i < 10; ++i)
+        for (int i = 0; i < 5; ++i)
         {
             expInfo rewardCharExp = new expInfo();
             rewardCharExp.pos = i;
