@@ -604,7 +604,6 @@ CONTRACT battletest : public contract
     void erase_item_grade(uint64_t _grade);
     void erase_grade_ratio(uint64_t _grade);
     void erase_upgrade_monster_ratio(uint32_t _main);
-    void erase_servant_burn_item(uint32_t _item_id);
     void erase_level(uint32_t _id);
     void erase_servant_lv(uint64_t _job);
     void erase_monster_lv(uint64_t _monster_class_grade);
@@ -1249,7 +1248,6 @@ CONTRACT battletest : public contract
     void buy_blessing_order(eosio::name _user, uint32_t _count);
     ACTION itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count);
     void buy_inventory(eosio::name _user, uint64_t _type);
-    ACTION servantbuy(eosio::name _user, uint32_t _count);
 
 
 #pragma endregion
