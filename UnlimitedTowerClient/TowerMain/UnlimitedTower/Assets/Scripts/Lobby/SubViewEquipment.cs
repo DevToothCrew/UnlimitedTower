@@ -142,7 +142,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
 
             if (equip_info.equipmentType == selectedEquipType)
             {
-                Debug.Log("Item type [ " + i + " ]" + equip_info.equipmentType);
+                //Debug.Log("Item type [ " + i + " ]" + equip_info.equipmentType);
                 EquipmentList.Add(equip_info);
             }
         }
