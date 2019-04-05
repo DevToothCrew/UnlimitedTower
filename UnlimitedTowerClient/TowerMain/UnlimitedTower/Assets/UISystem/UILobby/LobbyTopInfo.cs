@@ -14,9 +14,18 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
 
     void Awake ()
     {
-        if (UserDataManager.Inst.GetUserInfo() != null)
+        UserInfo userInfo = UserDataManager.Inst.GetUserInfo();
+        if (userInfo != null)
         {
             UpdateTopInfo();
+            UserName.text = "Rank." + userInfo.level + " " + userInfo.userName;
+            UserLevelText.text = userInfo.level.ToString();
+
+            DBExpData dbExpData = CSVData.Inst.GetExpData(userInfo.level);
+            if(dbExpData != null)
+            {
+                ExpSlide.fillAmount = userInfo.userEXP / (float)dbExpData.rankExp;
+            }
         }
         if(UserDataManager.Inst.GetMainCharInfo() != null)
         {
@@ -27,9 +36,6 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
                 GradeCharImage.sprite = CSVData.Inst.GetSpriteGrade(servantData.grade);
             }
         }
-        UserName.text = "LV." + UserDataManager.Inst.userInfo.level + " " + UserDataManager.Inst.userInfo.userName;
-        UserLevelText.text = UserDataManager.Inst.userInfo.level.ToString();
-        ExpSlide.fillAmount = UserDataManager.Inst.userInfo.userEXP / (float)CSVData.Inst.DBExpDataDic[UserDataManager.Inst.userInfo.level].rankExp;
     }
 
     public void OnClickAccountButton()
