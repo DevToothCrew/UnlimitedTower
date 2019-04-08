@@ -609,7 +609,9 @@ CONTRACT battletest : public contract
     void erase_monster_lv(uint64_t _monster_class_grade);
     void erase_servant_lv_status(uint64_t _type);
     void erase_monster_lv_status(uint64_t _type);
+    void erase_monster_lv_status_list(uint64_t _type);
     void erase_equipment_lv_status(uint64_t _type);
+    void erase_equipment_lv_status_list(uint64_t _type);
 	void erase_passive(uint64_t _id);
     void erase_active(uint64_t _id);
     void erase_gacha_pool(uint64_t _id);
@@ -660,7 +662,7 @@ CONTRACT battletest : public contract
 
 
     void erase_stage(uint64_t _id);
-    void erase_stage_monster(uint64_t _id);
+    void erase_stage_monster_list(uint64_t _id);
 
     struct reward_info
     {
@@ -697,7 +699,7 @@ CONTRACT battletest : public contract
                              uint32_t _reward_utg_max);
     void insert_reward(uint64_t _stage_id, uint32_t _type, uint32_t _id, uint32_t _grade, uint32_t _per, uint32_t _count);
     void erase_stage_reward(uint64_t _id);
-    void erase_reward(uint64_t _id);
+    void erase_stage_reward_list(uint64_t _id);
 
 #pragma endregion
 
@@ -1170,8 +1172,9 @@ CONTRACT battletest : public contract
     ACTION resultgacha(eosio::name _who, std::string _type, std::string _result);
     ACTION resultpre(eosio::name _from, eosio::name _to, std::string _result);
     ACTION resultparty(eosio::name _who, std::string _party_info, std::string _servant_list, std::string _monster_list);
-	ACTION battlestate(eosio::name _who, std::vector<std::string> &_my_state_list, std::vector<std::string> &_enemy_state_list);
-    ACTION battleaction(eosio::name _who, std::string _header  ,std::vector<std::string> &_action_data);
+	ACTION battlestate(eosio::name _who, std::string _stage_info ,std::vector<std::string> &_my_state_list, std::vector<std::string> &_enemy_state_list);
+    ACTION battleaction(eosio::name _who, std::string _turn, std::vector<std::string> &_action_data);
+    ACTION battleresult(eosio::name _who, std::vector<std::string> &_reward);
 
     //------------------------------------------------------------------------//
     //-------------------------------party_table------------------------------//
