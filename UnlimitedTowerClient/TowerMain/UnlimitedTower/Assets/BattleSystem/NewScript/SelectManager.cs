@@ -103,6 +103,28 @@ public class SelectManager : MonoBehaviour
                         if (selectIndex < 5)
                         {
                             selectCharImg.sprite = CSVData.Inst.DBServantDataDic[selectStateInfo.id].servantIcon;
+
+                            switch (UserDataManager.Inst.GetStageState().myStateList[selectIndex].job)
+                            {
+                                case 0:
+                                    nemeText.text = "WhiteHand";
+                                    break;
+                                case 1:
+                                    nemeText.text = "Warrior";
+                                    break;
+                                case 2:
+                                    nemeText.text = "Theif";
+                                    break;
+                                case 3:
+                                    nemeText.text = "Cleric";
+                                    break;
+                                case 4:
+                                    nemeText.text = "Archer";
+                                    break;
+                                case 5:
+                                    nemeText.text = "Magician";
+                                    break;
+                            }
                             levelText.text = UserDataManager.Inst.GetServantInfo(UserDataManager.Inst.GetStageState().myStateList[selectIndex].index).level.ToString();
                         }
                         else if (selectIndex < 10)
