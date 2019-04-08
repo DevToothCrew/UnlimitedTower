@@ -17,6 +17,31 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
 
     public GameObject battleOutCheck;
 
+    public Animator mySkill;
+    public Animator enemySkill;
+    public Image mySklImage;
+    public Text mySkText;
+    public Image enemySklImage;
+    public Text enemySkText;
+
+    public Dictionary<int, SkillData> skillDataDic = new Dictionary<int, SkillData>();
+    public List<SkillData> skillDataList = new List<SkillData>();
+
+    [System.Serializable]
+    public struct SkillData
+    {
+        public int Index;
+        public Sprite SkillImage;
+        public string SkillText;
+
+        public SkillData(int Index, Sprite SkillImage, string SkillText)
+        {
+            this.Index = Index;
+            this.SkillImage = SkillImage;
+            this.SkillText = SkillText;
+        }
+    }
+
     private float timeScale;
 
     private void Awake()
@@ -33,9 +58,35 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         battleOutCheck = GameObject.Find("Battle Exit Check Window");
         battleOutCheck.SetActive(false);
 
+        mySkill = GameObject.Find("MySkill").GetComponent<Animator>();
+        mySklImage = mySkill.transform.GetChild(1).GetComponent<Image>();
+        mySkText = mySkill.transform.GetChild(2).GetComponent<Text>();
+        enemySkill = GameObject.Find("MySkill").GetComponent<Animator>();
+        enemySklImage = enemySkill.transform.GetChild(1).GetComponent<Image>();
+        enemySkText = enemySkill.transform.GetChild(2).GetComponent<Text>();
+
+        foreach (SkillData skillData in skillDataList)
+        {
+            skillDataDic.Add(skillData.Index, skillData);
+        }
+
         StageInfoOn();
     }
 
+    public void MySkAction(int SkillIndex)
+    {
+        mySkill.SetTrigger("Start");
+        mySklImage.sprite = skillDataDic[SkillIndex].SkillImage;
+        mySkText.text = skillDataDic[SkillIndex].SkillText;
+    }
+
+    public void EnemySkAction(int SkillIndex)
+    {
+        enemySkill.SetTrigger("Start");
+        enemySklImage.sprite = skillDataDic[SkillIndex].SkillImage;
+        enemySkText.text = skillDataDic[SkillIndex].SkillText;
+    }
+    
     public void TimeScaleX2()
     {
         int Speed = 2;

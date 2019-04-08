@@ -30,7 +30,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     [Header("Canvas")]
     private GameObject rewardParent;
     private GameObject battleFail;
-    
+
     [HideInInspector]
     public readonly int[] positionOrder = { 2, 1, 3, 0, 4, 7, 6, 8, 5, 9 };
 
@@ -72,7 +72,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         SettingPosition();
         SettingDieCheck();
     }
-    
+
     // 배틀데이터를 받아와 공격 ( 메인 배틀 한턴 )
     public IEnumerator BattleStart()
     {
@@ -110,6 +110,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                         }
                         else
                         {
+                            BattleUIManager.Inst.MySkAction(GetMyState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id);
                             SkillManager.Inst.SendMessage("Skill_" + GetMyState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id.ToString(), stageActionInfo.character_action_list[i]);
                             yield return new WaitUntil(() => isAfterDelay == true);
                         }
@@ -140,10 +141,10 @@ public class BattleManager : MonoSingleton<BattleManager>
 #endif
         }
         else if (myHp == 0)
-            {
+        {
             battleFail.SetActive(true);
-            }
-            else if (isAuto)
+        }
+        else if (isAuto)
         {
             yield return new WaitForSeconds(2.0f);
             TurnEnd();
@@ -198,9 +199,14 @@ public class BattleManager : MonoSingleton<BattleManager>
         foreach (KeyValuePair<int, UserCharacterStateData> state in stateData.myStateList)
         {
             if (state.Value.charType == CHAR_TYPE.SERVANT)
+            {
                 Exp.transform.GetChild(positionOrder[state.Value.position]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[state.Value.id].servantIcon;
+            }
             else if (state.Value.charType == CHAR_TYPE.MONSTER)
+            {
                 Exp.transform.GetChild(positionOrder[state.Value.position]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
+            }
+            Exp.transform.GetChild(positionOrder[state.Value.position]).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)state.Value.grade);
         }
 
         for (int i = 0; i < rewardData.get_char_exp_list.Count; i++)
@@ -224,10 +230,10 @@ public class BattleManager : MonoSingleton<BattleManager>
         }
 
 
-        rewardUTG.text = (rewardData.reward_money/10000.0f).ToString("#.0000");
+        rewardUTG.text = (rewardData.reward_money / 10000.0f).ToString("#.0000");
 
     }
-    
+
     // 시작화면 파티 초상화 셋팅
     public IEnumerator SetStartImage(UserStageStateData stateData)
     {
@@ -238,7 +244,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         {
             if (state.Value.charType == CHAR_TYPE.SERVANT)
                 temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[state.Value.id].servantIcon;
-            else if(state.Value.charType == CHAR_TYPE.MONSTER)
+            else if (state.Value.charType == CHAR_TYPE.MONSTER)
                 temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
             Debug.Log("등급 : " + (GRADE_TYPE)state.Value.grade);
             temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)state.Value.grade);
@@ -252,7 +258,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
             temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)state.Value.grade);
         }
-        
+
         yield return new WaitForSeconds(5.0f);
         temp.SetActive(false);
     }
@@ -262,7 +268,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         for (int i = 0; i < 10; i++)
         {
-            if(stateData.myStateList.ContainsKey(i) == true)
+            if (stateData.myStateList.ContainsKey(i) == true)
             {
                 isPlace[i] = true;
             }
@@ -270,7 +276,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         for (int i = 10; i < 20; i++)
         {
-            if(stateData.enemyStateList.ContainsKey(i) == true)
+            if (stateData.enemyStateList.ContainsKey(i) == true)
             {
                 isPlace[i] = true;
             }
@@ -290,7 +296,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     // 캐릭터 그리드 셋팅
     public void SettinGrid(int index)
     {
-        GameObject temp = Instantiate(selectEffect, new Vector3(0,0.1f,0), Quaternion.Euler(new Vector3(0, 0, 0)));
+        GameObject temp = Instantiate(selectEffect, new Vector3(0, 0.1f, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
         temp.transform.SetParent(character[index].transform);
         grid[index] = temp;
         grid[index].SetActive(false);
@@ -364,7 +370,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         for (int i = 10; i < 20; i++)
         {
-            if(stateData.enemyStateList.ContainsKey(i) == false)
+            if (stateData.enemyStateList.ContainsKey(i) == false)
             {
                 continue;
             }
@@ -416,7 +422,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         for (int i = 0; i < 10; i++)
         {
-            if(stateData.myStateList.ContainsKey(i) == false)
+            if (stateData.myStateList.ContainsKey(i) == false)
             {
                 continue;
             }
@@ -427,7 +433,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         for (int i = 10; i < 20; i++)
         {
-            if(stateData.enemyStateList.ContainsKey(i) == false)
+            if (stateData.enemyStateList.ContainsKey(i) == false)
             {
                 continue;
             }
@@ -442,7 +448,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         for (int i = 0; i < 10; i++)
         {
-            if(stateData.myStateList.ContainsKey(i) == false)
+            if (stateData.myStateList.ContainsKey(i) == false)
             {
                 continue;
             }
@@ -455,7 +461,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         for (int i = 10; i < 20; i++)
         {
-            if(stateData.enemyStateList.ContainsKey(i) == false)
+            if (stateData.enemyStateList.ContainsKey(i) == false)
             {
                 continue;
             }
@@ -491,7 +497,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             return null;
         }
 
-        if(stateData.enemyStateList[position] == null)
+        if (stateData.enemyStateList[position] == null)
         {
             Debug.LogError(position + "th Monster is Null");
             return null;
