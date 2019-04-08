@@ -944,6 +944,10 @@ Prefab:
       propertyPath: loginTransform
       value: 
       objectReference: {fileID: 673741670}
+    - target: {fileID: 1000781059177686, guid: c3af066363e49e24488d6e2ccf130a62, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c3af066363e49e24488d6e2ccf130a62, type: 2}
   m_IsPrefabParent: 0

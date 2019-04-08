@@ -504,16 +504,16 @@ public class Cheat : MonoSingleton<Cheat>
         return newMonsterData;
     }
 
-    public string GetServantGrindData(List<int> grindServantIndexList)
+    public string GetServantBurnData(List<int> burnServantIndexList)
     {
         sellMonsterResultData resultData = new sellMonsterResultData();
-        resultData.sellMonsterIndexList = grindServantIndexList;
+        resultData.sellMonsterIndexList = burnServantIndexList;
         resultData.itemList = new List<itemData>();
 
         Dictionary<int, itemData> addItemDic = new Dictionary<int, itemData>();
-        for (int i = 0; i < grindServantIndexList.Count; i++)
+        for (int i = 0; i < burnServantIndexList.Count; i++)
         {
-            UserServantData servantData = UserDataManager.Inst.GetServantInfo(grindServantIndexList[i]);
+            UserServantData servantData = UserDataManager.Inst.GetServantInfo(burnServantIndexList[i]);
             if (servantData == null)
             {
                 Debug.Log("Invalid Servant Index : " + servantData.index);
@@ -1024,17 +1024,17 @@ public class Cheat : MonoSingleton<Cheat>
         PacketManager.Inst.ResponseMonsterUpgrade(getMonsterUpgradeResultData);
     }
 
-    public void RequestServantGrindCheat(List<int> servantIndexList)
+    public void RequestServantBurnCheat(List<int> servantIndexList)
     {
-        string servantGrindResultJson = GetServantGrindData(servantIndexList);
-        if (servantGrindResultJson == null)
+        string servantBurnResultJson = GetServantBurnData(servantIndexList);
+        if (servantBurnResultJson == null)
         {
-            Debug.Log("[Fail] RequestServantGrindCheat");
+            Debug.Log("[Fail] RequestServantBurnCheat");
             return;
         }
-        Debug.Log("[SUCCESS] Servant Grind : " + servantGrindResultJson);
+        Debug.Log("[SUCCESS] Servant Burn : " + servantBurnResultJson);
 
-        servantGrindResultData getServantGrindResultData = JsonUtility.FromJson<servantGrindResultData>(servantGrindResultJson);
+        servantGrindResultData getServantGrindResultData = JsonUtility.FromJson<servantGrindResultData>(servantBurnResultJson);
         PacketManager.Inst.ResponseServantGrind(getServantGrindResultData);
     }
 

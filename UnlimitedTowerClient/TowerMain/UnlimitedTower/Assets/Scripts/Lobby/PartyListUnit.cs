@@ -43,7 +43,7 @@ public class PartyListUnit : ScrollListUnit {
             else
             {
                 int exExp = 0;
-                if (partyInfo.MonsterList[main_idx].level - 1 > 0)
+                if (partyInfo.ServantList[main_idx].level - 1 > 0)
                 {
                     DBExpData exDBExpData = CSVData.Inst.GetExpData(partyInfo.ServantList[main_idx].level - 1);
                     if (exDBExpData == null)
