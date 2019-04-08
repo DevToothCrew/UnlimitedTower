@@ -695,7 +695,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 onSuccess: ResponseBuyRoyalServant,
                 onFailed: msg =>
                 {
-                    Debug.Log($"[Failed Requesting ServantGrind] {msg}");
+                    Debug.Log($"[Failed Requesting BuyRoyalServant] {msg}");
                 });
     }
 
@@ -721,7 +721,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 onSuccess: ResponseMailOpen,
                 onFailed: msg =>
                 {
-                    Debug.Log($"[Failed Requesting ServantGrind] {msg}");
+                    Debug.Log($"[Failed Requesting MailOpen] {msg}");
                 });
     }
 
