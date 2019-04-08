@@ -109,6 +109,13 @@ public class DBGradeResourceData
 }
 
 [Serializable]
+public class DBOptionTypeResourceData
+{
+    public EQUIPMENT_OPTION_TYPE optionType;
+    public Sprite optionIcon;
+}
+
+[Serializable]
 public class DBMonsterStatData
 {
     public MONSTER_CLASS classEnum;

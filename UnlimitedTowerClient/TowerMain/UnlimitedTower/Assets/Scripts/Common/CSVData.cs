@@ -19,10 +19,13 @@ public class CSVData : MonoSingleton<CSVData>
     public Dictionary<SERVANT_JOB, DBServantStatData> DBServantStatDataDic = new Dictionary<SERVANT_JOB, DBServantStatData>();
     public Dictionary<int, DBMonsterData> DBMonsterDataDic = new Dictionary<int, DBMonsterData>();
     public Dictionary<MONSTER_CLASS, DBMonsterStatData> DBMonsterStatDataDic = new Dictionary<MONSTER_CLASS, DBMonsterStatData>();
-    public Dictionary<GRADE_TYPE, DBGradeResourceData> DBGradeResourceDataDic = new Dictionary<GRADE_TYPE, DBGradeResourceData>();
     public Dictionary<int, DBMonsterUpgradeData> DBMonsterUpgradeDataDic = new Dictionary<int, DBMonsterUpgradeData>();
     public Dictionary<int, DBSkillActiveData> DBSkillActiveDataDic = new Dictionary<int, DBSkillActiveData>();
     public Dictionary<int, DBSkillPassiveData> DBSkillPassiveDataDic = new Dictionary<int, DBSkillPassiveData>();
+
+    // Resource Data
+    public Dictionary<GRADE_TYPE, DBGradeResourceData> DBGradeResourceDataDic = new Dictionary<GRADE_TYPE, DBGradeResourceData>();
+    public Dictionary<EQUIPMENT_OPTION_TYPE, DBOptionTypeResourceData> DBOptionTypeResourceDataDic = new Dictionary<EQUIPMENT_OPTION_TYPE, DBOptionTypeResourceData>();
 
     //  인스펙터에서 보여주기 위한...
     public List<DBMonsterData> monsterDataInspector = new List<DBMonsterData>();
@@ -185,6 +188,15 @@ public class CSVData : MonoSingleton<CSVData>
                 Debug.Log("Invalid DBGradeResourceData");
             }
             //Debug.Log("SetGradeResourceData Success");
+        }
+        if (DBOptionTypeResourceDataDic.Count == 0)
+        {
+            //Debug.Log("SetOptionTypeResourceData Start");
+            if (SetOptionTypeResourceData() == false)
+            {
+                Debug.Log("Invalid DBOptionTypeResourceData");
+            }
+            //Debug.Log("SetOptionTypeResourceData Success");
         }
         localType = LOCALIZATION_TYPE.EN;
     }
@@ -764,6 +776,25 @@ public class CSVData : MonoSingleton<CSVData>
 
         monsterDataInspector = DBMonsterDataDic.Values.ToList();
 
+        return true;
+    }
+
+    public bool SetOptionTypeResourceData()
+    {
+        for (EQUIPMENT_OPTION_TYPE i = EQUIPMENT_OPTION_TYPE.ATK; i < EQUIPMENT_OPTION_TYPE.MAX; i++)
+        {
+            if(DBOptionTypeResourceDataDic.ContainsKey(i) == true)
+            {
+                Debug.Log("Invalid Key : " + i.ToString());
+                return false;
+            }
+
+            DBOptionTypeResourceData resourceData = new DBOptionTypeResourceData();
+            resourceData.optionType = i;
+            resourceData.optionIcon = Resources.Load<Sprite>(string.Format("UI/Status/Status_{0}", resourceData.optionType.ToString()));
+
+            DBOptionTypeResourceDataDic.Add(resourceData.optionType, resourceData);
+        }
         return true;
     }
 
@@ -1383,6 +1414,11 @@ public class CSVData : MonoSingleton<CSVData>
     public Sprite GetSpriteGrade(GRADE_TYPE grade)
     {
         return DBGradeResourceDataDic[grade].gradeIcon;
+    }
+
+    public Sprite GetSpriteOptionType(EQUIPMENT_OPTION_TYPE type)
+    {
+        return DBOptionTypeResourceDataDic[type].optionIcon;
     }
 
     public DBSkillActiveData GetSkillActiveData(int id)

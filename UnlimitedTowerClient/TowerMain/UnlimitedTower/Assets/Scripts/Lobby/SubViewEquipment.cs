@@ -84,6 +84,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
 
     private int[] current_stat = new int[10];
     private int[] change_stat = new int[10];
+    private Status changeStatus = new Status();
 
     private EQUIPMENT_TYPE selectedEquipType;
 
@@ -204,12 +205,6 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
             Debug.Log("Invalid Servant Inddex : " + partyInfo.selected_unit_idx);
         }
 
-        DBServantData dBServantData = CSVData.Inst.GetServantData(servantData.id);
-        if (dBServantData == null)
-        {
-            Debug.Log("Invalid Servant ID : " + servantData.id);
-        }
-
         UserEquipmentData currentEquipmentData = null;
         int current_item_idx = 0;
         if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_WEAPON)
@@ -280,7 +275,6 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
                     }
                 }
             }
-            
 
             //초기화
             for (int i = 0; i < 10; i++)
@@ -288,15 +282,9 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
                 current_stat[i] = 0;
             }
 
-            for (EQUIPMENT_OPTION_TYPE type = EQUIPMENT_OPTION_TYPE.NONE; type < EQUIPMENT_OPTION_TYPE.MAX; type++)
-            {
-                if (currentEquipmentData.optionType == type)
-                {
-                    imageCurrentStat[0].sprite = spriteStat[(int)type];
-                    textCurrentStat[0].text = string.Format("{0}", currentEquipmentData.value);
-                    current_stat[(int)type] = currentEquipmentData.value;
-                }
-            }
+            imageCurrentStat[0].sprite = spriteStat[(int)currentEquipmentData.optionType];
+            textCurrentStat[0].text = string.Format("{0}", currentEquipmentData.value);
+            current_stat[(int)currentEquipmentData.optionType] = currentEquipmentData.value;
 
             //장착된 아이템이 있을땐 Clear버튼 활성화
             buttonClear.interactable = true;
@@ -313,45 +301,11 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
 
         updateChangeItemInfo(selectedItemIdx);
 
-        /* ATK = 1,
-           MATK = 2,
-           DEF = 3,
-           MDEF = 4,
-
-           HP = 5,
-
-           STR = 6,
-           DEX = 7,
-           INT = 8,
-
-           현재 크리티컬 관련, 스피드는 없음
-         */
-        
-        textStr.text = string.Format("{0}", servantData.status.basicStr + SetChangeValue(textStrChange, current_stat[6], change_stat[6]));
-        textDex.text = string.Format("{0}", servantData.status.basicDex + SetChangeValue(textDexChange, current_stat[7], change_stat[7]));
-        textInt.text = string.Format("{0}", servantData.status.basicInt + SetChangeValue(textIntChange, current_stat[8], change_stat[8]));
-
-        textHp.text = string.Format("{0}", servantData.maxHP + SetChangeValue(textIntChange, current_stat[8], change_stat[5]));
-        textSpeed.text = string.Format("{0}", dBServantData.speed);
-
-        textPAtk.text = string.Format("{0}", servantData.atk + SetChangeValue(textPAtkChange, current_stat[1], change_stat[1]));
-        textPDef.text = string.Format("{0}", servantData.def + SetChangeValue(textPDefChange, current_stat[3], change_stat[3]));
-
-        textMAtk.text = string.Format("{0}", servantData.mAtk + SetChangeValue(textMAtkChange, current_stat[2], change_stat[2]));
-        textMDef.text = string.Format("{0}", servantData.mDef + SetChangeValue(textMDefChange, current_stat[4], change_stat[4]));
-
-        textPCri.text = string.Format("{0}", dBServantData.criDmg);
-        textPCriPer.text = string.Format("{0}", dBServantData.criPer);
-
-        textMCri.text = string.Format("{0}", dBServantData.mcriDmg);
-        textMCriPer.text = string.Format("{0}", dBServantData.mcriPer);
-
+        SetChangeAllValue();
     }
 
     public void updateChangeItemInfo(int selectedChangeItemIdx)
     {
-        UserServantData servantData = partyInfo.ServantList[partyInfo.selected_unit_idx];
-        //Change Item
 
         if (selectedChangeItemIdx >= 0)
         {
@@ -414,15 +368,9 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
                 change_stat[i] = 0;
             }
 
-            for (EQUIPMENT_OPTION_TYPE type = EQUIPMENT_OPTION_TYPE.NONE; type < EQUIPMENT_OPTION_TYPE.MAX; type++)
-            {
-                if (changeEquipmentData.optionType == type)
-                {
-                    imageChangeStat[0].sprite = spriteStat[(int)type];
-                    textChangeStat[0].text = string.Format("{0}", changeEquipmentData.value);
-                    change_stat[(int)type] = changeEquipmentData.value;
-                }
-            }
+            imageChangeStat[0].sprite = spriteStat[(int)changeEquipmentData.optionType];
+            textChangeStat[0].text = string.Format("{0}", changeEquipmentData.value);
+            change_stat[(int)changeEquipmentData.optionType] = changeEquipmentData.value;
 
             buttonChange.interactable = true;
         }
@@ -434,11 +382,77 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
 
             buttonChange.interactable = false;
         }
+
+        SetChangeAllValue();
     }
 
-    public int SetChangeValue(Text textChangeValue, int current_item_stat, int change_item_stat)
+    public void SetChangeAllValue()
     {
-        int change_value = change_item_stat- current_item_stat;
+        UserServantData servantData = partyInfo.ServantList[partyInfo.selected_unit_idx];
+        if(servantData == null)
+        {
+            Debug.Log("Invalid Select Index : " + partyInfo.ServantList[partyInfo.selected_unit_idx]);
+            return;
+        }
+
+        DBServantData dBServantData = CSVData.Inst.GetServantData(servantData.id);
+        if (dBServantData == null)
+        {
+            Debug.Log("Invalid Servant ID : " + servantData.id);
+            return;
+        }
+
+        changeStatus = new Status();
+        changeStatus.basicStr = change_stat[(int)EQUIPMENT_OPTION_TYPE.STR];
+        changeStatus.basicDex = change_stat[(int)EQUIPMENT_OPTION_TYPE.DEX];
+        changeStatus.basicInt = change_stat[(int)EQUIPMENT_OPTION_TYPE.INT];
+
+        textStr.text = string.Format("{0}", servantData.status.basicStr + SetChangeValue(textStrChange, EQUIPMENT_OPTION_TYPE.STR));
+        textDex.text = string.Format("{0}", servantData.status.basicDex + SetChangeValue(textDexChange, EQUIPMENT_OPTION_TYPE.DEX));
+        textInt.text = string.Format("{0}", servantData.status.basicInt + SetChangeValue(textIntChange, EQUIPMENT_OPTION_TYPE.INT));
+
+        textHp.text = string.Format("{0}", servantData.maxHP + SetChangeValue(textHpChange, EQUIPMENT_OPTION_TYPE.HP));
+        textSpeed.text = string.Format("{0}", dBServantData.speed);
+
+        textPAtk.text = string.Format("{0}", servantData.atk + SetChangeValue(textPAtkChange, EQUIPMENT_OPTION_TYPE.ATK));
+        textPDef.text = string.Format("{0}", servantData.def + SetChangeValue(textPDefChange, EQUIPMENT_OPTION_TYPE.DEF));
+
+        textMAtk.text = string.Format("{0}", servantData.mAtk + SetChangeValue(textMAtkChange, EQUIPMENT_OPTION_TYPE.MATK));
+        textMDef.text = string.Format("{0}", servantData.mDef + SetChangeValue(textMDefChange, EQUIPMENT_OPTION_TYPE.MDEF));
+
+        textPCri.text = string.Format("{0}", dBServantData.criDmg);
+        textPCriPer.text = string.Format("{0}", dBServantData.criPer);
+
+        textMCri.text = string.Format("{0}", dBServantData.mcriDmg);
+        textMCriPer.text = string.Format("{0}", dBServantData.mcriPer);
+    }
+
+    public int SetChangeValue(Text textChangeValue, EQUIPMENT_OPTION_TYPE type)
+    {
+        int addValue = 0;
+        if (type == EQUIPMENT_OPTION_TYPE.HP)
+        {
+            addValue = Calculator.GetMaxHp(changeStatus);
+        }
+        else if (type == EQUIPMENT_OPTION_TYPE.ATK)
+        {
+            addValue = Calculator.GetAttack(changeStatus);
+        }
+        else if (type == EQUIPMENT_OPTION_TYPE.MATK)
+        {
+            addValue = Calculator.GetMagicAttack(changeStatus);
+        }
+        else if (type == EQUIPMENT_OPTION_TYPE.DEF)
+        {
+            addValue = Calculator.GetDefence(changeStatus);
+        }
+        else if (type == EQUIPMENT_OPTION_TYPE.MDEF)
+        {
+            addValue = Calculator.GetMagicDefence(changeStatus);
+        }
+
+        int change_value = change_stat[(int)type] - current_stat[(int)type] + addValue;
+
         if (change_value > 0)
         {
             textChangeValue.gameObject.SetActive(true);

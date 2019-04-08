@@ -1,14 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 
 public class ItemListUnit : ScrollListUnit {
     public Image ImageGrade;
     public Image imageItem;
-    public Text textUpgrade;
-    public Image[] imageStats = new Image[3];
-    public Text[] textStats = new Text[3];
+    // TODO : 추후 추가
+    //public Text textUpgrade;
+    public Image imageStats;
+    public Text textStats;
 
     PartyInfoVC partyInfo;
     InventoryVC inventoryInfo;
@@ -24,21 +22,12 @@ public class ItemListUnit : ScrollListUnit {
 
         if (LobbyManager.Inst.popupState == POPUP_STATE.Hero)
         {
-            partyInfo = PartyInfoVC.Inst;
-
-            //Todo :set Image
             ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)SubViewEquipment.Inst.EquipmentList[main_idx].grade);
             imageItem.sprite = CSVData.Inst.GetEquipmentData(SubViewEquipment.Inst.EquipmentList[main_idx].id).equipmentIcon;
-            textUpgrade.text = string.Format("+{0}", SubViewEquipment.Inst.EquipmentList[main_idx].upgrade);
+            //textUpgrade.text = string.Format("+{0}", SubViewEquipment.Inst.EquipmentList[main_idx].upgrade);
 
-            for (EQUIPMENT_OPTION_TYPE type = EQUIPMENT_OPTION_TYPE.NONE; type < EQUIPMENT_OPTION_TYPE.MAX; type++)
-            {
-                if (SubViewEquipment.Inst.EquipmentList[main_idx].optionType == type)
-                {
-                    //imageStats[0].sprite = spriteStat[(int)type];
-                    textStats[0].text = string.Format("{0}", SubViewEquipment.Inst.EquipmentList[main_idx].value);
-                }
-            }
+            imageStats.sprite = CSVData.Inst.GetSpriteOptionType(SubViewEquipment.Inst.EquipmentList[main_idx].optionType);
+            textStats.text = string.Format("{0}", SubViewEquipment.Inst.EquipmentList[main_idx].value);
         }
         else if (LobbyManager.Inst.popupState == POPUP_STATE.Weapon)
         {
@@ -47,16 +36,10 @@ public class ItemListUnit : ScrollListUnit {
             //Todo :set Image
             ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][main_idx].grade);
             imageItem.sprite = CSVData.Inst.GetEquipmentData(inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][main_idx].id).equipmentIcon;
-            textUpgrade.text = string.Format("+{0}", inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][main_idx].upgrade);
+            //textUpgrade.text = string.Format("+{0}", inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][main_idx].upgrade);
 
-            for (EQUIPMENT_OPTION_TYPE type = EQUIPMENT_OPTION_TYPE.NONE; type < EQUIPMENT_OPTION_TYPE.MAX; type++)
-            {
-                if (inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][main_idx].optionType == type)
-                {
-                    //imageStats[0].sprite = spriteStat[(int)type];
-                    textStats[0].text = string.Format("{0}", inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][main_idx].value);
-                }
-            }
+            imageStats.sprite = CSVData.Inst.GetSpriteOptionType(inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][main_idx].optionType);
+            textStats.text = string.Format("{0}", inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][main_idx].value);
         }
         
     }
