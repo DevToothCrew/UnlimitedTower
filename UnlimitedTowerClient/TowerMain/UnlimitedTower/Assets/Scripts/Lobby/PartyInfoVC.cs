@@ -32,7 +32,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
     //Detail Info UI
     public Text textLevel;
-    public RectTransform rectExp;
+    public Image imageExp;
     public Text textCharacterName;
 
     public Text textStr;
@@ -299,9 +299,15 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
             for (EQUIPMENT_TYPE type = EQUIPMENT_TYPE.WEAPON; type < EQUIPMENT_TYPE.MAX; type++)
             {
-                UserEquipmentData equip_info = UserDataManager.Inst.GetEquipmentInfo(servantData.equipmentDic[type]);
-                if (equip_info != null)
+                if (servantData.equipmentDic[type] != 0)
                 {
+                    UserEquipmentData equip_info = UserDataManager.Inst.GetEquipmentInfo(servantData.equipmentDic[type]);
+                    if(equip_info == null)
+                    {
+                        Debug.LogError("Invalid Index : " + servantData.equipmentDic[type]);
+                        return;
+                    }
+
                     buttonEquipment[(int)type].image.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)equip_info.grade);
                     buttonEquipment[(int)type].transform.GetChild(0).GetComponent<Image>().enabled = true;
                     buttonEquipment[(int)type].transform.GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.GetEquipmentData(equip_info.id).equipmentIcon;
@@ -317,6 +323,30 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
             textLevel.text = string.Format("{0}", servantData.level);
             textCharacterName.text = string.Format("{0}", dBServantData.name);
+
+            DBExpData dbExpData = CSVData.Inst.GetExpData(servantData.level);
+            if (dbExpData == null)
+            {
+                Debug.Log("Invalid Level Data");
+            }
+            else
+            {
+                int exExp = 0;
+                if (servantData.level - 1 > 0)
+                {
+                    DBExpData exDBExpData = CSVData.Inst.GetExpData(servantData.level - 1);
+                    if(exDBExpData == null)
+                    {
+                        Debug.Log("Invalid Level Data");
+                    }
+                    else
+                    {
+                        exExp = exDBExpData.charExp;
+                    }
+                }
+
+                imageExp.fillAmount = (exExp - servantData.exp) / (float)(exExp - dbExpData.charExp);
+            }
 
             textStr.text = string.Format("{0}", servantData.status.basicStr);
             textDex.text = string.Format("{0}", servantData.status.basicDex);
@@ -352,6 +382,29 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
             textLevel.text = string.Format("{0}", monsterData.level);
             textCharacterName.text = string.Format("{0}", dBMonsterData.name);
+            DBExpData dbExpData = CSVData.Inst.GetExpData(monsterData.level);
+            if (dbExpData == null)
+            {
+                Debug.Log("Invalid Level Data");
+            }
+            else
+            {
+                int exExp = 0;
+                if (monsterData.level - 1 > 0)
+                {
+                    DBExpData exDBExpData = CSVData.Inst.GetExpData(monsterData.level - 1);
+                    if (exDBExpData == null)
+                    {
+                        Debug.Log("Invalid Level Data");
+                    }
+                    else
+                    {
+                        exExp = exDBExpData.charExp;
+                    }
+                }
+
+                imageExp.fillAmount = (exExp - monsterData.exp) / (float)(exExp - dbExpData.charExp);
+            }
 
             textStr.text = string.Format("{0}", monsterData.status.basicStr);
             textDex.text = string.Format("{0}", monsterData.status.basicDex);

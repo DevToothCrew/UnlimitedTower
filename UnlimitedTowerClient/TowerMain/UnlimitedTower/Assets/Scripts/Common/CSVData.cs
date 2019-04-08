@@ -1346,6 +1346,36 @@ public class CSVData : MonoSingleton<CSVData>
         return DBExpDataDic[level];
     }
 
+    public int GetRankLevelByExp(int exp)
+    {
+        foreach(KeyValuePair<int, DBExpData> data in DBExpDataDic)
+        {
+            if(exp < data.Value.rankExp)
+            {
+                return data.Key;
+            }
+        }
+
+        Debug.Log("Invalid Exp : " + exp);
+
+        return 0;
+    }
+
+    public int GetCharLevelByExp(int exp)
+    {
+        foreach (KeyValuePair<int, DBExpData> data in DBExpDataDic)
+        {
+            if (exp < data.Value.charExp)
+            {
+                return data.Key;
+            }
+        }
+
+        Debug.Log("Invalid Exp : " + exp);
+
+        return 0;
+    }
+
     public Sprite GetSpriteGrade(GRADE_TYPE grade)
     {
         return DBGradeResourceDataDic[grade].gradeIcon;

@@ -24,7 +24,21 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
             DBExpData dbExpData = CSVData.Inst.GetExpData(userInfo.level);
             if(dbExpData != null)
             {
-                ExpSlide.fillAmount = userInfo.userEXP / (float)dbExpData.rankExp;
+                int exExp = 0;
+                if (userInfo.level - 1 > 0)
+                {
+                    DBExpData exDBExpData = CSVData.Inst.GetExpData(userInfo.level - 1);
+                    if (exDBExpData == null)
+                    {
+                        Debug.Log("Invalid Level Data");
+                    }
+                    else
+                    {
+                        exExp = exDBExpData.rankExp;
+                    }
+                }
+
+                ExpSlide.fillAmount = (exExp - userInfo.userEXP) / (float)(exExp - dbExpData.rankExp);
             }
         }
         if(UserDataManager.Inst.GetMainCharInfo() != null)

@@ -17,14 +17,14 @@ public class Cheat : MonoSingleton<Cheat>
 
         userLoginData.user_data.user = user;
         userLoginData.user_data.state = 2;
-        userLoginData.user_data.exp = 0;
-        userLoginData.user_data.rank = 1;
+        userLoginData.user_data.exp = rand.Next(0, 20560);
+        userLoginData.user_data.rank = CSVData.Inst.GetRankLevelByExp(userLoginData.user_data.exp);
 
         partyData partyData = new partyData();
         partyData.index = 1;
         partyData.state = 0;
 
-        for (int i = 1; i < 6; i++)
+        for (int i = 1; i < 45; i++)
         {
             userLoginData.servant_list.Add(GetRandomServantData(i));
 
@@ -34,7 +34,7 @@ public class Cheat : MonoSingleton<Cheat>
             }
         }
 
-        for (int i = 1; i < 6; i++)
+        for (int i = 1; i < 45; i++)
         {
             userLoginData.monster_list.Add(GetRandomMonster(i));
 
@@ -851,8 +851,8 @@ public class Cheat : MonoSingleton<Cheat>
         servantInfo servant = new servantInfo();
 
         servant.state = 0;
-        servant.exp = 0;
-        servant.level = 1;
+        servant.exp = rand.Next(0, 160000);
+        servant.level = CSVData.Inst.GetCharLevelByExp(servant.exp);
         //servant.job = rand.Next(1, 5);
         //servant.appear = GetRandomAppear();
         servant.id = CSVData.Inst.GetRandomServantID();
@@ -872,14 +872,14 @@ public class Cheat : MonoSingleton<Cheat>
 
         monsterData.monster = new monsterInfo();
         monsterData.monster.state = 0;
-        monsterData.monster.exp = 0;
+        monsterData.monster.exp = rand.Next(0, 160000);
+        monsterData.monster.level = CSVData.Inst.GetCharLevelByExp(monsterData.monster.exp);
 
         monsterData.monster.type = 0;
 
         monsterData.monster.id = CSVData.Inst.GetRandomMonsterID();
         monsterData.monster.grade = rand.Next(1, 6);
         monsterData.monster.upgrade = 0;
-        monsterData.monster.level = 1;
         monsterData.monster.status = GetRandomStatusInfo(CHAR_TYPE.MONSTER, monsterData.monster.grade);
         // TODO : 업그레이드에 따른 스테이터스 가중치 추가 필요
 

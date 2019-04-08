@@ -7,7 +7,7 @@ public class PartyListUnit : ScrollListUnit {
     public Image ImageGrade;
     public Image imageCharacter;
     public Text textLevel;
-    public RectTransform rectExp;
+    public Image imageExp;
     public Text textStr;
     public Text textDex;
     public Text textInt;
@@ -34,6 +34,30 @@ public class PartyListUnit : ScrollListUnit {
             textStr.text = string.Format("{0}", partyInfo.ServantList[main_idx].status.basicStr);
             textDex.text = string.Format("{0}", partyInfo.ServantList[main_idx].status.basicDex);
             textInt.text = string.Format("{0}", partyInfo.ServantList[main_idx].status.basicInt);
+
+            DBExpData dbExpData = CSVData.Inst.GetExpData(partyInfo.ServantList[main_idx].level);
+            if (dbExpData == null)
+            {
+                Debug.Log("Invalid Level Data");
+            }
+            else
+            {
+                int exExp = 0;
+                if (partyInfo.MonsterList[main_idx].level - 1 > 0)
+                {
+                    DBExpData exDBExpData = CSVData.Inst.GetExpData(partyInfo.ServantList[main_idx].level - 1);
+                    if (exDBExpData == null)
+                    {
+                        Debug.Log("Invalid Level Data");
+                    }
+                    else
+                    {
+                        exExp = exDBExpData.charExp;
+                    }
+                }
+
+                imageExp.fillAmount = (exExp - partyInfo.ServantList[main_idx].exp) / (float)(exExp - dbExpData.charExp);
+            }
         }
         else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO || partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_MONSTER)
         {
@@ -43,6 +67,30 @@ public class PartyListUnit : ScrollListUnit {
             textStr.text = string.Format("{0}", partyInfo.MonsterList[main_idx].status.basicStr);
             textDex.text = string.Format("{0}", partyInfo.MonsterList[main_idx].status.basicDex);
             textInt.text = string.Format("{0}", partyInfo.MonsterList[main_idx].status.basicInt);
+
+            DBExpData dbExpData = CSVData.Inst.GetExpData(partyInfo.MonsterList[main_idx].level);
+            if (dbExpData == null)
+            {
+                Debug.Log("Invalid Level Data");
+            }
+            else
+            {
+                int exExp = 0;
+                if (partyInfo.MonsterList[main_idx].level - 1 > 0)
+                {
+                    DBExpData exDBExpData = CSVData.Inst.GetExpData(partyInfo.MonsterList[main_idx].level - 1);
+                    if (exDBExpData == null)
+                    {
+                        Debug.Log("Invalid Level Data");
+                    }
+                    else
+                    {
+                        exExp = exDBExpData.charExp;
+                    }
+                }
+
+                imageExp.fillAmount = (exExp - partyInfo.MonsterList[main_idx].exp) / (float)(exExp - dbExpData.charExp);
+            }
         }
     }
 
