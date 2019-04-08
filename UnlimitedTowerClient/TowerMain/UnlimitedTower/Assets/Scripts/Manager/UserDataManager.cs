@@ -22,6 +22,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
 
     public Dictionary<int, UserItemData> itemDic = new Dictionary<int, UserItemData>();
+    public Dictionary<int, List<int>> itemDicByID = new Dictionary<int, List<int>>(); // (ID, List(INDEX));
     
     // 현재 파티는 1개, 파티 안에 Formation Info 포함
     public UserPartyData partyInfo = new UserPartyData();
@@ -97,6 +98,20 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public void SetItemDic(Dictionary<int, UserItemData> getItemDic)
     {
         itemDic = getItemDic;
+
+        foreach(KeyValuePair<int, UserItemData> data in itemDic)
+        {
+            if(itemDicByID.ContainsKey(data.Value.id) == true)
+            {
+                itemDicByID[data.Value.id].Add(data.Value.index);
+            }
+            else
+            {
+                List<int> indexList = new List<int>();
+                indexList.Add(data.Value.index);
+                itemDicByID.Add(data.Value.id, indexList);
+            }
+        }
     }
     
     public void SetSceneState(SCENE_STATE state)
@@ -290,16 +305,50 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         }
     }
 
-    public void SetItem(UserItemData itemData)
+    public bool SetItem(UserItemData itemData)
     {
         if (itemDic.ContainsKey(itemData.index) == true)
         {
-            itemDic[itemData.index] = itemData;
+            if (itemData.count == 0)
+            {
+                itemDic.Remove(itemData.index);
+            }
+            else
+            {
+                itemDic[itemData.index] = itemData;
+            }
         }
         else
         {
             itemDic.Add(itemData.index, itemData);
+
+            if (itemDicByID.ContainsKey(itemData.id) == false)
+            {
+                List<int> indexList = new List<int>();
+                indexList.Add(itemData.index);
+
+                itemDicByID.Add(itemData.id, indexList);
+            }
+            else
+            {
+                // 개수 검사가 추가된다면 사용
+            }
         }
+
+        return true;
+    }
+
+    public bool SetItemList(List<UserItemData> itemDataList)
+    {
+        for(int i = 0; i < itemDataList.Count; i++)
+        {
+            if(SetItem(itemDataList[i]) == false)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     //public void SetMail(UserMailData mailData)
@@ -527,9 +576,19 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return accessoryDic.Count;
     }
 
-    public int GetItemCount()
+    public int GetItemDicCount()
     {
         return itemDic.Count;
+    }
+
+    public int GetItemIndexByID(int id)
+    {
+        if(itemDicByID.ContainsKey(id) == false)
+        {
+            return 0;
+        }
+
+        return itemDicByID[id][itemDicByID[id].Count - 1];
     }
 
     public List<UserServantData> GetServantList()
@@ -687,33 +746,6 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return true;
     }
 
-    public bool AddItemData(UserItemData itemData)
-    {
-        if (itemDic.ContainsKey(itemData.index) == true)
-        {
-            // 최대 개수 넘었을때에 대한 처리가 필요
-            itemDic[itemData.index].count = itemDic[itemData.index].count + itemData.count;
-        }
-        else
-        {
-            itemDic.Add(itemData.index, itemData);
-        }
-        return true;
-    }
-
-    public bool AddItemDataList(List<UserItemData> itemDataList)
-    {
-        for(int i = 0; i < itemDataList.Count; i++)
-        {
-            if(AddItemData(itemDataList[i]) == false)
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     #endregion
 
     #region DelFunction
@@ -796,42 +828,6 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         for(int i = 0; i < delEquipmentIndexList.Count; i++)
         {
             if(DelEquipment(delEquipmentIndexList[i]) == false)
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public bool DelItem(UserItemData itemData)
-    {
-        if(itemDic.ContainsKey(itemData.index) == false)
-        {
-            return false;
-        }
-
-        if(itemDic[itemData.index].count > itemData.count)
-        {
-            itemDic[itemData.index].count = itemDic[itemData.index].count - itemData.count;
-        }
-        else if(itemDic[itemData.index].count == itemData.count)
-        {
-            itemDic.Remove(itemData.index);
-        }
-        else
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    public bool DelItemList(List<UserItemData> delItemDataList)
-    {
-        for(int i = 0; i < delItemDataList.Count; i++)
-        {
-            if(DelItem(delItemDataList[i]) == false)
             {
                 return false;
             }

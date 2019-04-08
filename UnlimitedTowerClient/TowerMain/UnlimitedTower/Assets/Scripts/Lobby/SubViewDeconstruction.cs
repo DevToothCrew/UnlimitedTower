@@ -68,6 +68,49 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
             }
             else
             {
+                if (unitType == 0)  // Servant
+                {
+                    UserServantData servantData = UserDataManager.Inst.GetServantInfo(chracter_unit_idx);
+                    if (servantData == null)
+                    {
+                        Debug.Log("Invalid Request Servant ID : " + chracter_unit_idx);
+                        return;
+                    }
+
+                    if (servantData.state != 0)
+                    {
+                        Debug.Log("Invalid Servant State : " + servantData.state);
+                        return;
+                    }
+
+                    if (servantData.partyIndex != 0)
+                    {
+                        Debug.Log("Invalid Servant Party Index : " + servantData.partyIndex);
+                        return;
+                    }
+                }
+                else if(unitType == 1)  //Monster
+                {
+                    UserMonsterData monsterData = UserDataManager.Inst.GetMonsterInfo(chracter_unit_idx);
+                    if (monsterData == null)
+                    {
+                        Debug.Log("Invalid Request Monster ID : " + chracter_unit_idx);
+                        return;
+                    }
+
+                    if (monsterData.state != 0)
+                    {
+                        Debug.Log("Invalid Monster State : " + monsterData.state);
+                        return;
+                    }
+
+                    if (monsterData.partyIndex != 0)
+                    {
+                        Debug.Log("Invalid Monster Index : " + monsterData.partyIndex);
+                        return;
+                    }
+                }
+
                 unit_idx = chracter_unit_idx;
                 deconstructionUnitList[unit_count] = unit_idx;
                 unit_count++;
@@ -138,7 +181,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
     {
         unit_count = 0;
 
-        for (int i=0; i<deconstructionUnitList.Length; i++)
+        for (int i=0; i< deconstructionUnitList.Length; i++)
         {
             deconstructionUnitList[i] = 0;
         }
@@ -149,9 +192,74 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
         this.gameObject.SetActive(false);
     }
 
-    //TODO : 분해 (서버 요청)
     public void OnClickButtonGrind()
     {
+        if (unitType == 0)  // Servant
+        {
+            List<int> servantIndexList = new List<int>();
 
+            for (int i = 0; i < deconstructionUnitList.Length; i++)
+            {
+                UserServantData servantData = UserDataManager.Inst.GetServantInfo(deconstructionUnitList[i]);
+                if(servantData == null)
+                {
+                    Debug.Log("Invalid Request Servant ID : " + deconstructionUnitList[i]);
+                    return;
+                }
+
+                if(servantData.state != 0)
+                {
+                    Debug.Log("Invalid Servant State : " + servantData.state);
+                    return;
+                }
+
+                if(servantData.partyIndex != 0)
+                {
+                    Debug.Log("Invalid Servant Index : " + servantData.partyIndex);
+                    return;
+                }
+
+                servantIndexList.Add(deconstructionUnitList[i]);
+            }
+#if UNITY_EDITOR
+            Cheat.Inst.RequestServantBurnCheat(servantIndexList);
+#else
+            PacketManager.Inst.RequestServantGrind(servantIndexList);
+#endif
+        }
+        else if(unitType == 1)  // Monster
+        {
+            List<int> monsterIndexList = new List<int>();
+
+            for (int i = 0; i < deconstructionUnitList.Length; i++)
+            {
+                UserMonsterData monsterData = UserDataManager.Inst.GetMonsterInfo(deconstructionUnitList[i]);
+                if (monsterData == null)
+                {
+                    Debug.Log("Invalid Request Monster ID : " + deconstructionUnitList[i]);
+                    return;
+                }
+
+                if (monsterData.state != 0)
+                {
+                    Debug.Log("Invalid Monster State : " + monsterData.state);
+                    return;
+                }
+
+                if (monsterData.partyIndex != 0)
+                {
+                    Debug.Log("Invalid Monster Index : " + monsterData.partyIndex);
+                    return;
+                }
+
+                monsterIndexList.Add(deconstructionUnitList[i]);
+            }
+
+#if UNITY_EDITOR
+            Cheat.Inst.GetMonsterSellData(monsterIndexList);
+#else
+            PacketManager.Inst.RequestMonsterSell(monsterIndexList);
+#endif
+        }
     }
 }

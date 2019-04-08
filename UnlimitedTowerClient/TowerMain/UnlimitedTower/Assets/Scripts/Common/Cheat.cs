@@ -510,6 +510,7 @@ public class Cheat : MonoSingleton<Cheat>
         resultData.sellMonsterIndexList = burnServantIndexList;
         resultData.itemList = new List<itemData>();
 
+        int newIndex = 1;
         Dictionary<int, itemData> addItemDic = new Dictionary<int, itemData>();
         for (int i = 0; i < burnServantIndexList.Count; i++)
         {
@@ -570,7 +571,17 @@ public class Cheat : MonoSingleton<Cheat>
             }
             else
             {
+                int itemIndex = UserDataManager.Inst.GetItemIndexByID(getItem.item.id);
+                if (itemIndex == 0)
+                {
+                    // 개수 제한 검사
+                    itemIndex = UserDataManager.Inst.GetItemDicCount() + newIndex;
+                }
+
+                getItem.index = itemIndex;
+
                 addItemDic.Add(getItem.item.id, getItem);
+                newIndex++;
             }
         }
 
@@ -1035,6 +1046,7 @@ public class Cheat : MonoSingleton<Cheat>
         Debug.Log("[SUCCESS] Servant Burn : " + servantBurnResultJson);
 
         servantGrindResultData getServantGrindResultData = JsonUtility.FromJson<servantGrindResultData>(servantBurnResultJson);
+        getServantGrindResultData.grindServantIndexList = servantIndexList;
         PacketManager.Inst.ResponseServantGrind(getServantGrindResultData);
     }
 
