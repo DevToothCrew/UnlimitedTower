@@ -1036,7 +1036,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                     Debug.Log("Invalid Item Info : " + i);
                     return;
                 }
-                UserDataManager.Inst.AddItemData(itemData);
+                UserDataManager.Inst.SetItem(itemData);
             }
 
         }
@@ -1072,7 +1072,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             return;
         }
 
-        if(UserDataManager.Inst.AddItemDataList(getItemDataDic.Values.ToList()) == false)
+        if(UserDataManager.Inst.SetItemList(getItemDataDic.Values.ToList()) == false)
         {
             Debug.Log("Invalid AdditemDataList");
             return;
@@ -1103,7 +1103,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             return;
         }
 
-        if (UserDataManager.Inst.AddItemDataList(getItemDataDic.Values.ToList()) == false)
+        if (UserDataManager.Inst.SetItemList(getItemDataDic.Values.ToList()) == false)
         {
             Debug.Log("Invalid AdditemDataList");
             return;
@@ -1134,7 +1134,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             return;
         }
 
-        if (UserDataManager.Inst.AddItemDataList(getItemDataDic.Values.ToList()) == false)
+        if (UserDataManager.Inst.SetItemList(getItemDataDic.Values.ToList()) == false)
         {
             Debug.Log("Invalid AdditemDataList");
             return;
@@ -1159,7 +1159,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             return;
         }
 
-        if (UserDataManager.Inst.DelItemList(sellItemDataDic.Values.ToList()) == false)
+        if (UserDataManager.Inst.SetItemList(sellItemDataDic.Values.ToList()) == false)
         {
             Debug.Log("Invalid DelItemList");
             return;
@@ -1172,7 +1172,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             return;
         }
 
-        if (UserDataManager.Inst.AddItemDataList(getItemDataDic.Values.ToList()) == false)
+        if (UserDataManager.Inst.SetItemList(getItemDataDic.Values.ToList()) == false)
         {
             Debug.Log("Invalid AdditemDataList");
             return;
@@ -1337,7 +1337,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log("Invalid getBuyItemData");
         }
 
-        UserDataManager.Inst.AddItemData(itemData);
+        UserDataManager.Inst.SetItem(itemData);
     }
 
     // 인벤토리 구매
@@ -1640,7 +1640,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         itemData.index = getItemData.index;
         itemData.id = getItemData.item.id;
-        // Type이 필요한지?
         itemData.count = getItemData.item.count;
 
         return itemData;
