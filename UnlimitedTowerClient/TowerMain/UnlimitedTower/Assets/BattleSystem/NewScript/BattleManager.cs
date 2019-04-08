@@ -53,6 +53,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     private void Start()
     {
         UserStageStateData stateData = UserDataManager.Inst.GetStageState();
+        BattleUIManager.Inst.BattleTurn.text = stateData.turn.ToString();
         if (stateData == null)
         {
             Debug.LogError("버그 : stageStateInfo is NULL");

@@ -64,9 +64,9 @@ public class BasicAttack : MonoBehaviour {
     {
         attacker.LookAt(target);
         ani.SetTrigger("isRun");
-        for (int i = 0; i < 100; i += BattleManager.Inst.TimeScale)
+        for (int i = 0; i < 80; i += BattleManager.Inst.TimeScale)
         {
-            attacker.transform.position = Vector3.Lerp(attackerStartPos, attackerEndPos, i * 0.01f);
+            attacker.transform.position = Vector3.Lerp(attackerStartPos, attackerEndPos, i * 0.0125f);
             yield return new WaitForSecondsRealtime(0.015f);
         }
         attacker.transform.position = attackerEndPos;
@@ -78,9 +78,9 @@ public class BasicAttack : MonoBehaviour {
     {
         attacker.Rotate(0, 180, 0);
         ani.SetTrigger("isRun");
-        for (int i = 0; i < 100; i += BattleManager.Inst.TimeScale)
+        for (int i = 0; i < 80; i += BattleManager.Inst.TimeScale)
         {
-            attacker.transform.position = Vector3.Lerp(attackerEndPos, attackerStartPos, i * 0.01f);
+            attacker.transform.position = Vector3.Lerp(attackerEndPos, attackerStartPos, i * 0.0125f);
             yield return new WaitForSecondsRealtime(0.015f);
         }
         attacker.transform.position = attackerStartPos;
