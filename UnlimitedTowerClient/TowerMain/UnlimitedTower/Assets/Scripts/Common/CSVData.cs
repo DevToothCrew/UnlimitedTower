@@ -264,6 +264,10 @@ public class CSVData : MonoSingleton<CSVData>
 
             //Debug.Log("Equip Job Able : " + Convert.ToString(data[i]["job"]));
             equipmentData.jobLimit = (SERVANT_JOB_FLAG)Convert.ToInt32(Convert.ToString(data[i]["job_limit"]), 2);
+            if(equipmentData.jobLimit == SERVANT_JOB_FLAG.None)
+            {
+                Debug.Log("Invalid Data ID : " + equipmentData.id);
+            }
             //Debug.Log("Equip Test Warrior : " + equipmentData.isEquipAble(SERVANT_JOB_FLAG.Warrior));
             //Debug.Log("Equip Test Thief : " + equipmentData.isEquipAble(SERVANT_JOB_FLAG.Thief));
             //Debug.Log("Equip Test Cleric : " + equipmentData.isEquipAble(SERVANT_JOB_FLAG.Cleric));

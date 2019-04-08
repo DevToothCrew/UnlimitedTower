@@ -12,7 +12,7 @@ int,int,string,string,int,int,string,bit,int,int,int,int,int,int,float,int,strin
 30009,813101,초심자의 검,Novice Sword,,2,warrior,10,0,1,1,22,40,15,1/1.5/2/2.5/3,,tier1_sword,500001,100
 30010,813201,초목의 검,Sword of Forest,,2,warrior,10,0,2,1,22,40,15,1/1.5/2/2.5/3,,tier2_sword,500001,100
 30011,813301,악에 물든 검,Forsaken Sword,,2,warrior,10,0,3,1,22,40,15,1/1.5/2/2.5/3,,tier3_sword,500001,100
-30012,813401,왕가의 검,Royal Sword,,2,warrior,0,0,4,1,22,40,15,1/1.5/2/2.5/3,,tier4_sword,500001,100
+30012,813401,왕가의 검,Royal Sword,,2,warrior,10,0,4,1,22,40,15,1/1.5/2/2.5/3,,tier4_sword,500001,100
 30013,851101,초심자의 헤비아머,Novice HeavyArmor,,10,warrior/cleric,1010,1,1,3,19,34,15,1/1.5/2/2.5/3,,tier1_heavy_armor,500001,100
 30014,851201,초목의 헤비아머,HeavyArmor of Forest,,10,warrior/cleric,1010,1,2,3,19,34,15,1/1.5/2/2.5/3,,tier2_heavy_armor,500001,100
 30015,851301,악에 물든 헤비아머,Forsaken HeavyArmor,,10,warrior/cleric,1010,1,3,3,19,34,15,1/1.5/2/2.5/3,,tier3_heavy_armor,500001,100

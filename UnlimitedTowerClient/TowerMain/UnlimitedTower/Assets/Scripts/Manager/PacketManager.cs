@@ -1258,6 +1258,16 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log("Invalid Servant Unequip");
             return;
         }
+
+        if (SubViewEquipment.Inst != null)
+        {
+            SubViewEquipment.Inst.UpdateViewChangeEquipment();
+            if (PartyInfoVC.Inst != null)
+            {
+                PartyInfoVC.Inst.updateDetailInfo(PartyInfoVC.Inst.selected_unit_idx);
+            }
+
+        }
     }
 
     // 몬스터 강화

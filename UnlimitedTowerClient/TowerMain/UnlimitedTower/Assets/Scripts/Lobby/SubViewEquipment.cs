@@ -517,7 +517,13 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
 
     public void OnClickClear()
     {
+        int servantIndex = partyInfo.ServantList[partyInfo.selected_unit_idx].index;
 
+#if UNITY_EDITOR
+        Cheat.Inst.RequestUnequipServantCheat(servantIndex, selectedEquipType);
+#else
+        PacketManager.Inst.RequestUnequipServant(servantIndex, selectedEquipType);
+#endif
     }
 
     public void OnClickChange()

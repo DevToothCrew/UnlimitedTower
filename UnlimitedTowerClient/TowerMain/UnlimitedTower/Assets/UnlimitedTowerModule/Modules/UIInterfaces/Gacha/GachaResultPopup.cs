@@ -136,7 +136,7 @@ public class GachaResultPopup : MonoBehaviour {
             return;
         }
 
-        resultName.text = equipmentData.name;
+        resultName.text = equipmentData.tier + "T " + equipmentData.name;
         if(equipmentData.equipmentIcon.texture == null)
         {
             Debug.Log("Invalid Texture : " + equipmentData.name);
