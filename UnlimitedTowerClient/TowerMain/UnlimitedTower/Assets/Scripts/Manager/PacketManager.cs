@@ -369,6 +369,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Json start : " + json);
 
         Request<sellMonsterResultData>("MonsterSell",
+                body: json,
                 onSuccess: ResponseMonsterSell,
                 onFailed: msg => 
                 {
@@ -394,6 +395,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Json start : " + json);
 
         Request<sellEquipmentResultData>("EquipmentSell",
+                body: json,
                 onSuccess: ResponseEquipmentSell,
                 onFailed: msg =>
                 {
@@ -419,6 +421,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Json start : " + json);
 
         Request<sellItemResultData>("ItemSell",
+                body: json,
                 onSuccess: ResponseItemSell,
                 onFailed: msg =>
                 {
@@ -506,6 +509,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Json start : " + json);
 
         Request<servantEquipData>("EquipServant",
+                body: json,
                 onSuccess: ResponseEquipServant,
                 onFailed: msg =>
                 {
@@ -554,6 +558,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Json start : " + json);
 
         Request<servantUnequipData>("UnequipServant",
+                body: json,
                 onSuccess: ResponseUnequipServant,
                 onFailed: msg =>
                 {
@@ -580,6 +585,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Json start : " + json);
 
         Request<monsterUpgradeResultData>("MonsterUpgrade",
+                body: json,
                 onSuccess: ResponseMonsterUpgrade,
                 onFailed: msg =>
                 {
@@ -605,6 +611,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Json start : " + json);
 
         Request<equipmentUpgradeResultData>("EquipmentUpgrade",
+                body: json,
                 onSuccess: ResponseEquipmentUpgrade,
                 onFailed: msg =>
                 {
@@ -631,6 +638,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Json start : " + json);
 
         Request<itemData>("BuyItem",
+                body: json,
                 onSuccess: ResponseBuyItem,
                 onFailed: msg =>
                 {
@@ -657,6 +665,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Json start : " + json);
 
         Request<inventoryInfo>("BuyInventory",
+                body: json,
                 onSuccess: ResponseBuyInventory,
                 onFailed: msg =>
                 {
@@ -682,6 +691,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Json start : " + json);
 
         Request<servantData>("BuyRoyalServant",
+                body: json,
                 onSuccess: ResponseBuyRoyalServant,
                 onFailed: msg =>
                 {
@@ -707,6 +717,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Json start : " + json);
 
         Request<mailOpenResultData>("MailOpen",
+                body: json,
                 onSuccess: ResponseMailOpen,
                 onFailed: msg =>
                 {
