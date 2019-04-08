@@ -25,6 +25,7 @@
 #define DEFAULT_MIN_DB          1
 #define MONSTER_GACHA_ID_START  20000
 #define ITEM_GACHA_ID_START     30000
+#define SERVANT_GACHA_ID_START  10000
 #define SERVANT_JOB_COUNT       4
 #define MONSTER_ID_COUNT        51
 #define ITEM_ID_COUNT           33
