@@ -26,7 +26,7 @@ public class AccountInfoPage : MonoBehaviour {
         UserInfo userInfo = UserDataManager.Inst.GetUserInfo();
         if (userInfo != null)
         {
-            AccountText.text = "Rank." + userInfo.level + " " + userInfo.userName;
+            AccountText.text = userInfo.userName;
             RankLevelText.text = userInfo.level.ToString();
 
             DBExpData dbExpData = CSVData.Inst.GetExpData(userInfo.level);
@@ -49,6 +49,9 @@ public class AccountInfoPage : MonoBehaviour {
                 ExpSlide.fillAmount = (exExp - userInfo.userEXP) / (float)(exExp - dbExpData.rankExp);
             }
         }
+
+        EOSText.text = (userInfo.userEOS * 0.0001).ToString("N4");
+        UTGText.text = (userInfo.userUTG * 0.0001).ToString("N4");
     }
 
     public void ExitButton()

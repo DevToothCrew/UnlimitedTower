@@ -171,8 +171,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
             case POPUP_STATE.PVP:
                 {
-                    SetTextBackButton("Setting");
-                    objSubView = Instantiate(Resources.Load("UI/Lobby/MailInfoPage")) as GameObject;
+                    SetTextBackButton("PVP");
+                    objSubView = Instantiate(Resources.Load("UI/Lobby/PVPInfoPage")) as GameObject;
                     objSubView.transform.SetParent(this.transform);
                     objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
 

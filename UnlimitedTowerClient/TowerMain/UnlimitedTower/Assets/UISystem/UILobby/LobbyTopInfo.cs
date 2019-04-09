@@ -43,6 +43,9 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
 
                 ExpSlide.fillAmount = (exExp - userInfo.userEXP) / (float)(exExp - dbExpData.rankExp);
             }
+
+            EOSCount.text = (userInfo.userEOS * 0.0001).ToString("N4");
+            UTGCount.text = (userInfo.userUTG * 0.0001).ToString("N4");
         }
         if (UserDataManager.Inst.GetMainCharInfo() != null)
         {
