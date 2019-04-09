@@ -301,6 +301,7 @@ public enum POPUP_STATE
     AccountInfo = 40,
     Mail = 41,
     Setting = 42,
+    PVP = 43,
 }
 
 public enum EQUIPMENT_TYPE

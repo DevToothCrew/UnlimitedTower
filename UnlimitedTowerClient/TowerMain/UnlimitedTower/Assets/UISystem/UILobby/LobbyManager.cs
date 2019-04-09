@@ -124,22 +124,65 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         accountInfoUI.SetActive(false);
     }
 
-    public void OnClickAccountInfoButton()
+    public void OnClickTopButton(int num)
     {
-        if (UserDataManager.Inst.GetUserInfo() == null)
+        switch ((POPUP_STATE)num)
         {
-            CSVData.Inst.InitCSVData();
-            return;
-        }
-        else
-        {
-            SetTextBackButton("Account Info");
-            objSubView = Instantiate(Resources.Load("UI/Lobby/AccountInfoPage")) as GameObject;
-            objSubView.transform.SetParent(this.transform);
-            objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-        }
+            case POPUP_STATE.AccountInfo:
+                {
+                    if (UserDataManager.Inst.GetUserInfo() == null)
+                    {
+                        CSVData.Inst.InitCSVData();
+                        return;
+                    }
+                    else
+                    {
+                        SetTextBackButton("Account Info");
+                        objSubView = Instantiate(Resources.Load("UI/Lobby/AccountInfoPage")) as GameObject;
+                        objSubView.transform.SetParent(this.transform);
+                        objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
 
-        BackbuttonUI.SetActive(true);
+                        BackbuttonUI.SetActive(true);
+                    }
+                }
+                break;
+
+            case POPUP_STATE.Mail:
+                {
+                    SetTextBackButton("Mail");
+                    objSubView = Instantiate(Resources.Load("UI/Lobby/MailInfoPage")) as GameObject;
+                    objSubView.transform.SetParent(this.transform);
+                    objSubView.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -45); 
+
+                    BackbuttonUI.SetActive(true);
+                }
+                break;
+
+            case POPUP_STATE.Setting:
+                {
+                    SetTextBackButton("Setting");
+                    objSubView = Instantiate(Resources.Load("UI/Lobby/MailInfoPage")) as GameObject;
+                    objSubView.transform.SetParent(this.transform);
+                    objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+
+                    BackbuttonUI.SetActive(true);
+                }
+                break;
+
+            case POPUP_STATE.PVP:
+                {
+                    SetTextBackButton("Setting");
+                    objSubView = Instantiate(Resources.Load("UI/Lobby/MailInfoPage")) as GameObject;
+                    objSubView.transform.SetParent(this.transform);
+                    objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+
+                    BackbuttonUI.SetActive(true);
+                }
+                break;
+
+            default:
+                return;
+        }
     }
 
     public void OnClickBackButton()
