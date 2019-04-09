@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class DamageManager : MonoSingleton<DamageManager>
 {
-    public GameObject missText;
     public TextPool textPool;
-
-
+    
     private int Index = 0;
     private Camera camera_;
     private readonly Color RedColor = new Color(1, 0, 0, 1);
     private readonly Color YellowColor = new Color(1, 1, 0, 1);
     private readonly Color GreenColor = new Color(0, 1, 0, 1);
+    private readonly Color OrangeColor = new Color(1, 0.55f, 0, 1);
 
     public enum Attribute
     {
@@ -26,46 +25,43 @@ public class DamageManager : MonoSingleton<DamageManager>
         textPool = transform.GetChild(0).GetComponent<TextPool>();
 
         camera_ = Camera.main;
-        missText = GameObject.Find("Miss");
     }
 
     public void DamageAciton(actionInfo attackInfo, bool isHeal)
     {
-        if (!attackInfo.avoid)
-        {
-            // 데미지 텍스트 표시와 데미지 주기
-            DamageShow(attackInfo, isHeal);
-        }
-        else
-        {
-            // Miss 텍스트
-            // Avoid(attackInfo.target_position);
-            // BattleManager.Inst.characterControl[attackInfo.target_position].Miss();
-        }
+        DamageShow(attackInfo, isHeal);
     }
 
     public void DamageShow(actionInfo attackInfo, bool isHeal) // 맞은 대상의 인덱스와 플레이어 여부, 데미지, 크리티컬, 힐 여부
     {
         var temp = textPool.ObjectSpawn();
-        temp.text.text = attackInfo.damage.ToString();
-        temp.obj.transform.position =
-              Camera.main.WorldToScreenPoint(BattleManager.Inst.character[attackInfo.target_position].transform.position +
-              new Vector3(0, BattleManager.Inst.character[attackInfo.target_position].GetComponent<CharInfo>().Height, 0));
 
-        if (isHeal)
+        if (!attackInfo.avoid)
         {
-            temp.text.color = GreenColor;
-            BattleManager.Inst.NowHp[attackInfo.target_position] += attackInfo.damage;
+            temp.text.text = attackInfo.damage.ToString();
+            if (isHeal)
+            {
+                temp.text.color = GreenColor;
+                BattleManager.Inst.NowHp[attackInfo.target_position] += attackInfo.damage;
+            }
+            else
+            {
+                if (attackInfo.critical)
+                    temp.text.color = YellowColor;
+                else
+                    temp.text.color = RedColor;
+
+                BattleManager.Inst.NowHp[attackInfo.target_position] -= attackInfo.damage;
+            }
         }
         else
         {
-            if (attackInfo.critical)
-                temp.text.color = YellowColor;
-            else
-                temp.text.color = RedColor;
-            
-            BattleManager.Inst.NowHp[attackInfo.target_position] -= attackInfo.damage;
+            temp.text.text = "Miss";
+            temp.text.color = OrangeColor;
         }
+        temp.obj.transform.position =
+              Camera.main.WorldToScreenPoint(BattleManager.Inst.character[attackInfo.target_position].transform.position +
+              new Vector3(0, BattleManager.Inst.character[attackInfo.target_position].GetComponent<CharInfo>().Height, 0));
 
         if (BattleManager.Inst.NowHp[attackInfo.target_position] < 0)
             BattleManager.Inst.NowHp[attackInfo.target_position] = 0;
