@@ -749,10 +749,28 @@ public class PacketManager : MonoSingleton<PacketManager> {
         throw new NotImplementedException();
     }
 
+    // PVP Start
+    public void RequestPVPStart(string accountName)
+    {
+        Debug.Log("Request PVPStart");
+
+        string json = JsonUtility.ToJson(accountName);
+
+        Debug.Log("Json start : " + json);
+
+        Request<stageStateData>("PVPStart",
+                body: json,
+                onSuccess: ResponsePVPStart,
+                onFailed: msg =>
+                {
+                    Debug.Log($"[Failed Requesting PVPStart] {msg}");
+                });
+    }
+
     #endregion
 
     #region Response
-    
+
     // 로그인
     public void ResponseLogin(string getLoginInfo)
     {
@@ -1382,7 +1400,19 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     }
 
-    
+    // 스테이지 시작
+    public void ResponsePVPStart(stageStateData getBattleStateData)
+    {
+        UserStageStateData stageData = ParseStageStateData(getBattleStateData);
+        if (stageData == null)
+        {
+            Debug.Log("Invalid StageData");
+        }
+
+        UserDataManager.Inst.SetStageState(stageData);
+        StartCoroutine(LoadSceneAsync("CharacterBattleScene", "Now, Loading battle field ... "));
+    }
+
     #endregion
 
     #region Function
