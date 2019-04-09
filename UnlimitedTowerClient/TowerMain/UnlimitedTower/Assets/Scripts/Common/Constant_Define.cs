@@ -11,14 +11,14 @@ public class DEFINE
     public static readonly int ServantMaxFormationNum = 4;
 
 	// MIN - MAX Status
-	public static readonly int SERVANT_MIN_STATUS = 41;
-	public static readonly int SERVANT_MAX_STATUS = 50;
+	public static readonly int SERVANT_MIN_STATUS = 30;
+	public static readonly int SERVANT_MAX_STATUS = 60;
 
     // legendary
-    public static readonly int MONSTER_MIN_STATUS = 81;
-    public static readonly int MONSTER_MAX_STATUS = 90;
+    public static readonly int MONSTER_MIN_STATUS = 75;
+    public static readonly int MONSTER_MAX_STATUS = 150;
     // status = max_status - (monster add status * grade)
-    public static readonly int MONSTER_GRADE_ADD_STATUS = 10;
+    public static readonly int MONSTER_GRADE_ADD_STATUS = 45;
 
     public static readonly int RAND_STATUS = 10;
     public static readonly int MAX_LEVEL = 50;
