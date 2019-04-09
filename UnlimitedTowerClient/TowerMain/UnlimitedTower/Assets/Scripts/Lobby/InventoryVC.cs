@@ -8,6 +8,7 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
 
     //SubView
     public GameObject SubViewUpgrade;
+    public GameObject FrameSubView;
 
 
     //Menu Buttons UI
@@ -105,11 +106,11 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
             {
                 EquipmentList[(int)menu_type.WEAPON].Add(equip_info);
             }
-            else if (EQUIPMENT_TYPE.WEAPON == equip_info.equipmentType)
+            else if (EQUIPMENT_TYPE.ARMOR == equip_info.equipmentType)
             {
                 EquipmentList[(int)menu_type.ARMOR].Add(equip_info);
             }
-            else if (EQUIPMENT_TYPE.WEAPON == equip_info.equipmentType)
+            else if (EQUIPMENT_TYPE.ACCESSSORY == equip_info.equipmentType)
             {
                 EquipmentList[(int)menu_type.ACCESSORY].Add(equip_info);
             }
@@ -326,17 +327,14 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
 
     public void OnClickDeconstruction()
     {
-        //SubViewDeconstruction.SetActive(true);
+        frameScroll.SetActive(false);
 
-        if (selectedMenu == menu_type.WEAPON)
-            currentScrollType = scroll_type.DECONSTRUCTION_WEAPON;
-        else if (selectedMenu == menu_type.ARMOR)
-            currentScrollType = scroll_type.DECONSTRUCTION_ARMOR;
-        else if (selectedMenu == menu_type.ACCESSORY)
-            currentScrollType = scroll_type.DECONSTRUCTION_ACCESSORY;
-
-        scrollList.SetItemOrder(getOrder());
-
+        GameObject objSubView = Instantiate(Resources.Load("UI/Lobby/SubViewDeconstruction")) as GameObject;
+        objSubView.name = "SubViewDeconstruction";
+        objSubView.transform.SetParent(FrameSubView.transform);
+        objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        SubViewDeconstruction s_deconstruction = objSubView.GetComponent<SubViewDeconstruction>();
+        s_deconstruction.SetDeconstructionType(DECONSTRUCTION_TYPE.EQUIPMENT);
     }
 
 }

@@ -386,4 +386,11 @@ public enum REWARD_TYPE
     ITEM = 4,
 }
 
+public enum DECONSTRUCTION_TYPE
+{
+    SERVANT = 0,
+    MONSTER = 1,
+    EQUIPMENT = 2,
+}
+
 #endregion

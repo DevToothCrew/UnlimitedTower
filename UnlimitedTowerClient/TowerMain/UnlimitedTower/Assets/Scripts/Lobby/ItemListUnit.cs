@@ -8,7 +8,6 @@ public class ItemListUnit : ScrollListUnit {
     public Image imageStats;
     public Text textStats;
 
-    PartyInfoVC partyInfo;
     InventoryVC inventoryInfo;
 
     protected override void Awake()
@@ -40,6 +39,7 @@ public class ItemListUnit : ScrollListUnit {
 
             imageStats.sprite = CSVData.Inst.GetSpriteOptionType(inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][main_idx].optionType);
             textStats.text = string.Format("{0}", inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][main_idx].value);
+
         }
         
     }
@@ -65,8 +65,19 @@ public class ItemListUnit : ScrollListUnit {
         }
         else if (LobbyManager.Inst.popupState == POPUP_STATE.Weapon)
         {
-            InventoryVC.Inst.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
-            InventoryVC.Inst.updateDetailInfo(main_idx);
+            if (!SubViewDeconstruction.checkInst())
+            {
+                InventoryVC.Inst.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
+                InventoryVC.Inst.updateDetailInfo(main_idx);
+            }
+            else
+            {
+                SubViewDeconstruction.Inst.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
+                int item_unit_idx = 0;
+                item_unit_idx = inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][main_idx].index;
+                SubViewDeconstruction.Inst.InsertUnit(item_unit_idx);
+
+            }   
         }
     }
 }

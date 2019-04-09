@@ -40,4 +40,15 @@ public class MonoSingleton<TSelfType> : MonoBehaviour where TSelfType : MonoBeha
 		}
 	}
 
+    public static bool checkInst()
+    {
+        if (instance == null)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
 }

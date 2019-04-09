@@ -15,22 +15,168 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
     public Button buttonGrind;
     public Button buttonClear;
 
+    public GameObject prefabPartyUnit;
+    public GameObject prefabItemUnit;
+
+    public ScrollListManager scrollList;
+
+    private DECONSTRUCTION_TYPE dType = 0;
+
+
+
     //set Data
     int unitType = 0;   //0:servant , 1: monster
     int[] deconstructionUnitList = new int[9];  //분해할 유닛 idx
     int unit_count = 0;
 
-    private PartyInfoVC partyInfo;
-
-    void Awake()
+    public List<int> scrollListData = new List<int>();
+    enum sort_type
     {
-        partyInfo = PartyInfoVC.Inst;
+        GRADE = 0,
+        LEVEL,
+        POWER,
+        OPTAIN
+    }
+    sort_type sortType = 0;
+
+    private PartyInfoVC partyInfo;
+    private InventoryVC inventoryInfo;
+
+    void Start()
+    {
+
     }
 
-    private void OnEnable()
+    public DECONSTRUCTION_TYPE GetDeconstructionType()
     {
-        OnClickButtonClear();
+        return dType;
+    }
+
+    public void SetDeconstructionType(DECONSTRUCTION_TYPE type)
+    {
+        dType = type;
+
+        if (dType == DECONSTRUCTION_TYPE.SERVANT || dType == DECONSTRUCTION_TYPE.MONSTER)
+        {
+            partyInfo = PartyInfoVC.Inst;
+            scrollList.prefabUnit = prefabPartyUnit;
+        }
+        else
+        {
+            inventoryInfo = InventoryVC.Inst;
+            scrollList.prefabUnit = prefabItemUnit;
+        }
+
+        initScrollList();
         updateView();
+    }
+
+    //스크롤 생성
+    void initScrollList()
+    {
+        setData();
+
+        scrollList.Init(this, 20, scrollListData.Count, getOrder());
+    }
+
+    void setData()
+    {
+        scrollListData.Clear();
+
+        switch (dType)
+        {
+            case DECONSTRUCTION_TYPE.SERVANT:
+                for (int i=0; i < partyInfo.ServantList.Count; i++)
+                {
+                    scrollListData.Add(i);
+                }
+                break;
+            case DECONSTRUCTION_TYPE.MONSTER:
+                for (int i = 0; i < partyInfo.ServantList.Count; i++)
+                {
+                    scrollListData.Add(i);
+                }
+                break;
+            case DECONSTRUCTION_TYPE.EQUIPMENT:
+                for (int i = 0; i < inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu].Count; i++)
+                {
+                    scrollListData.Add(i);
+                }
+                break;
+            default:
+                Debug.Log("Warning : 잘못된 타입 분해!");
+                break;
+
+        }
+    }
+
+
+    //스크롤 정렬
+    private int[] getOrder()
+    {
+        int[] data_order;
+        int total_list_num = scrollListData.Count;
+
+        data_order = new int[total_list_num];
+
+        for (int i = 0; i < data_order.Length; i++)
+        {
+            data_order[i] = 0;
+        }
+
+        switch (sortType)
+        {
+            case 0:
+                for (int i = 0; i < total_list_num - 1; i++)
+                {
+                    for (int j = i + 1; j < total_list_num; j++)
+                    {
+                        if (dType == DECONSTRUCTION_TYPE.SERVANT)
+                        {
+                            if (partyInfo.ServantList[scrollListData[i]].level * 100 + partyInfo.ServantList[scrollListData[i]].exp < partyInfo.ServantList[scrollListData[j]].level * 100 + partyInfo.ServantList[scrollListData[j]].exp)
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
+                        }
+                        else if (dType == DECONSTRUCTION_TYPE.MONSTER)
+                        {
+                            if (partyInfo.MonsterList[scrollListData[i]].level * 100 + partyInfo.MonsterList[scrollListData[i]].exp < partyInfo.MonsterList[scrollListData[j]].level * 100 + partyInfo.MonsterList[scrollListData[j]].exp)
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
+                        }
+                        else if (dType == DECONSTRUCTION_TYPE.EQUIPMENT)
+                        {
+                            if (inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[i]].grade < inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[j]].grade)
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("잘못된 분해 타입!");
+                        }
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+
+
+        return data_order;
     }
 
     void updateView()
@@ -51,7 +197,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
         textUgt.text = string.Format("{0}", 0);
     }
 
-    public void InsertUnit(int chracter_unit_idx)
+    public void InsertUnit(int scroll_unit_idx)
     {
         if (unit_count >= deconstructionUnitList.Length)
         {
@@ -62,60 +208,87 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
             UserDataManager u_data = UserDataManager.Inst;
             int unit_idx = 0;
 
-            if (checkInsertedUnit(chracter_unit_idx))
+            if (checkInsertedUnit(scroll_unit_idx))
             {
                 Debug.Log("Warning : 이미 분해 슬롯에 등록된 유닛 입니다.");
             }
             else
             {
-                if (unitType == 0)  // Servant
+                if (dType == DECONSTRUCTION_TYPE.SERVANT || dType == DECONSTRUCTION_TYPE.MONSTER)
                 {
-                    UserServantData servantData = UserDataManager.Inst.GetServantInfo(chracter_unit_idx);
-                    if (servantData == null)
+                    if (dType == DECONSTRUCTION_TYPE.SERVANT)  // Servant
                     {
-                        Debug.Log("Invalid Request Servant ID : " + chracter_unit_idx);
+                        UserServantData servantData = UserDataManager.Inst.GetServantInfo(scroll_unit_idx);
+                        if (servantData == null)
+                        {
+                            Debug.Log("Invalid Request Servant ID : " + scroll_unit_idx);
+                            return;
+                        }
+
+                        if (servantData.state != 0)
+                        {
+                            Debug.Log("Invalid Servant State : " + servantData.state);
+                            return;
+                        }
+
+                        if (servantData.partyIndex != 0)
+                        {
+                            Debug.Log("Invalid Servant Party Index : " + servantData.partyIndex);
+                            return;
+                        }
+                    }
+                    else//Monster
+                    {
+                        UserMonsterData monsterData = UserDataManager.Inst.GetMonsterInfo(scroll_unit_idx);
+                        if (monsterData == null)
+                        {
+                            Debug.Log("Invalid Request Monster ID : " + scroll_unit_idx);
+                            return;
+                        }
+
+                        if (monsterData.state != 0)
+                        {
+                            Debug.Log("Invalid Monster State : " + monsterData.state);
+                            return;
+                        }
+
+                        if (monsterData.partyIndex != 0)
+                        {
+                            Debug.Log("Invalid Monster Index : " + monsterData.partyIndex);
+                            return;
+                        }
+                    }
+                }
+                else//Equip
+                {
+                    UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(scroll_unit_idx);
+                    if (equipmentData == null)
+                    {
+                        Debug.Log("Invalid Request Servant ID : " + scroll_unit_idx);
                         return;
                     }
 
-                    if (servantData.state != 0)
+                    if (equipmentData.state != 0)
                     {
-                        Debug.Log("Invalid Servant State : " + servantData.state);
+                        Debug.Log("Invalid Equip State : " + equipmentData.state);
                         return;
                     }
 
-                    if (servantData.partyIndex != 0)
+                    if (equipmentData.isEquiped)
                     {
-                        Debug.Log("Invalid Servant Party Index : " + servantData.partyIndex);
+                        Debug.Log("Invalid Equip isEquiped : " + equipmentData.isEquiped);
                         return;
                     }
                 }
-                else if(unitType == 1)  //Monster
-                {
-                    UserMonsterData monsterData = UserDataManager.Inst.GetMonsterInfo(chracter_unit_idx);
-                    if (monsterData == null)
-                    {
-                        Debug.Log("Invalid Request Monster ID : " + chracter_unit_idx);
-                        return;
-                    }
 
-                    if (monsterData.state != 0)
-                    {
-                        Debug.Log("Invalid Monster State : " + monsterData.state);
-                        return;
-                    }
+                
 
-                    if (monsterData.partyIndex != 0)
-                    {
-                        Debug.Log("Invalid Monster Index : " + monsterData.partyIndex);
-                        return;
-                    }
-                }
-
-                unit_idx = chracter_unit_idx;
+                unit_idx = scroll_unit_idx;
                 deconstructionUnitList[unit_count] = unit_idx;
                 unit_count++;
                 updateView();
             }
+
         }
         
     }
@@ -133,24 +306,6 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
         }
 
         return is_insert;
-    }
-
-    //슬롯 클릭
-    void OnClickSlot(int btn_idx)
-    {
-        //슬롯에 유닛이 있을때만 해제해주면 됨 -> 등록은 리스트에서 클릭시 등록됨.
-        if (deconstructionUnitList[btn_idx] > 0)
-        {
-            deconstructionUnitList[btn_idx] = 0;
-            unit_count--;
-
-            if (unit_count < 0)
-                unit_count = 0;
-        }
-        else
-        {
-            Debug.Log("warning : 비어있는 슬롯");
-        }
     }
 
     public void OnClickCancelSlot(int btn_idx)
@@ -185,11 +340,22 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
         {
             deconstructionUnitList[i] = 0;
         }
+
+        updateView();
     }
 
     public void OnClickClose()
     {
-        this.gameObject.SetActive(false);
+        if (PartyInfoVC.checkInst())
+        {
+            PartyInfoVC.Inst.frameScroll.SetActive(true);
+        }
+        else if (InventoryVC.checkInst())
+        {
+            InventoryVC.Inst.frameScroll.SetActive(true);
+        }
+
+        Destroy(this.gameObject);
     }
 
     public void OnClickButtonGrind()

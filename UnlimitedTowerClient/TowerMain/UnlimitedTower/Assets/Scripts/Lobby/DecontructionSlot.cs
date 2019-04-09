@@ -4,53 +4,87 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class DecontructionSlot : MonoBehaviour {
-    public Image imageGrade;
-    public Image imageCharacter;
-    public Text textLevel;
+    public GameObject FrameUnitInfo;
+    public Image imageUnitGrade;
+    public Image imageUnit;
+    public Text textUnitLevel;
     public Text textStr;
     public Text textDex;
     public Text textInt;
+
+    public GameObject FrameItemInfo;
+    public Image imageItemGrade;
+    public Image imageItem;
+    public Text textItemLevel;
+    public Image imageStat;
+    public Text textStat;
+
     public Image imageEmptySlot;
 
     public void updateSlot(int unit_idx)
     {
         if (unit_idx > 0)
         {
-            this.GetComponent<Button>().interactable = true;
-            imageEmptySlot.enabled = false;
-            PartyInfoVC party_info = PartyInfoVC.Inst;
-
-            if (party_info.selectedMenu == PartyInfoVC.menu_type.SERVANT)
+            if (SubViewDeconstruction.Inst.GetDeconstructionType() == DECONSTRUCTION_TYPE.SERVANT || SubViewDeconstruction.Inst.GetDeconstructionType() == DECONSTRUCTION_TYPE.MONSTER)
             {
-                UserServantData s_info = UserDataManager.Inst.GetServantInfo(unit_idx);
-                if (s_info == null)
+                FrameUnitInfo.SetActive(true);
+                FrameItemInfo.SetActive(false);
+                imageEmptySlot.enabled = false;
+                this.GetComponent<Button>().interactable = true;
+                
+                PartyInfoVC party_info = PartyInfoVC.Inst;
+
+                if (party_info.selectedMenu == PartyInfoVC.menu_type.SERVANT)
                 {
-                    Debug.Log("Invalid Servant ID : " + s_info.id);
+                    UserServantData s_info = UserDataManager.Inst.GetServantInfo(unit_idx);
+                    if (s_info == null)
+                    {
+                        Debug.Log("Invalid Servant ID : " + s_info.id);
+                    }
+                    imageUnitGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)s_info.grade);
+                    imageUnit.sprite = CSVData.Inst.GetServantData(s_info.id).servantIcon;
+
+                    textUnitLevel.text = string.Format("{0}", s_info.level);
+
+                    textStr.text = string.Format("{0}", s_info.status.basicStr);
+                    textDex.text = string.Format("{0}", s_info.status.basicDex);
+                    textInt.text = string.Format("{0}", s_info.status.basicInt);
                 }
-                imageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)s_info.grade);
-                imageCharacter.sprite = CSVData.Inst.GetServantData(s_info.id).servantIcon;
+                else if (party_info.selectedMenu == PartyInfoVC.menu_type.MONSTER)
+                {
+                    UserMonsterData m_info = UserDataManager.Inst.GetMonsterInfo(unit_idx);
+                    if (m_info == null)
+                    {
+                        Debug.Log("Invalid Monster ID : " + m_info.id);
+                    }
+                    imageUnitGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)m_info.grade);
+                    imageUnit.sprite = CSVData.Inst.GetMonsterData(m_info.id).monsterIcon;
 
-                textLevel.text = string.Format("{0}", s_info.level);
+                    textUnitLevel.text = string.Format("{0}", m_info.level);
 
-                textStr.text = string.Format("{0}", s_info.status.basicStr);
-                textDex.text = string.Format("{0}", s_info.status.basicDex);
-                textInt.text = string.Format("{0}", s_info.status.basicInt);
+                    textStr.text = string.Format("{0}", m_info.status.basicStr);
+                    textDex.text = string.Format("{0}", m_info.status.basicDex);
+                    textInt.text = string.Format("{0}", m_info.status.basicInt);
+                }
             }
-            else if (party_info.selectedMenu == PartyInfoVC.menu_type.MONSTER)
+            else//Equip
             {
-                UserMonsterData m_info = UserDataManager.Inst.GetMonsterInfo(unit_idx);
-                if (m_info == null)
+                FrameUnitInfo.SetActive(false);
+                FrameItemInfo.SetActive(true);
+                imageEmptySlot.enabled = false;
+
+                UserEquipmentData e_info = UserDataManager.Inst.GetEquipmentInfo(unit_idx);
+                if (e_info == null)
                 {
-                    Debug.Log("Invalid Monster ID : " + m_info.id);
+                    Debug.Log("Invalid Equip ID : " + e_info.id);
                 }
-                imageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)m_info.grade);
-                imageCharacter.sprite = CSVData.Inst.GetMonsterData(m_info.id).monsterIcon;
+                imageUnitGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)e_info.grade);
+                imageUnit.sprite = CSVData.Inst.GetEquipmentData(e_info.id).equipmentIcon;
 
-                textLevel.text = string.Format("{0}", m_info.level);
+                textUnitLevel.text = string.Format("{0}", e_info.upgrade);
 
-                textStr.text = string.Format("{0}", m_info.status.basicStr);
-                textDex.text = string.Format("{0}", m_info.status.basicDex);
-                textInt.text = string.Format("{0}", m_info.status.basicInt);
+                imageStat.sprite = CSVData.Inst.GetSpriteOptionType(e_info.optionType);
+                textStat.text = string.Format("{0}", e_info.value);
             }
         }
         else
