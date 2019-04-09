@@ -288,9 +288,9 @@ public class Cheat : MonoSingleton<Cheat>
     {
         stageStateData battlestatedata = new stageStateData();
         battlestatedata.user = user;
-        battlestatedata.stage_type = 0;
+        battlestatedata.stage_type = stageType;
         battlestatedata.enemy_user = user;
-        battlestatedata.stage_number = 0;
+        battlestatedata.stage_number = stageFloor;
         battlestatedata.turn = 0;
 
         UserPartyData partyData = UserDataManager.Inst.GetUserPartyInfo();
