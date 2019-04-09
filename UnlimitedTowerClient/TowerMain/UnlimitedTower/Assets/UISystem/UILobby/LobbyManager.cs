@@ -122,6 +122,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         popupState = (POPUP_STATE)num;
         EtcSetActiveWithAnimation(false);
         accountInfoUI.SetActive(false);
+        BackbuttonUI.SetActive(true);
     }
 
     public void OnClickTopButton(int num)

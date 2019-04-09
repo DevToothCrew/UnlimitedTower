@@ -32,6 +32,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
     //Detail Info UI
     public Text textLevel;
+    public Text textExp;
     public Image imageExp;
     public Text textCharacterName;
 
@@ -209,7 +210,6 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         scrollList.Init(this, 20, ServantList.Count, getOrder());
     }
 
-
     //스크롤 정렬
     private int[] getOrder()
     {
@@ -339,6 +339,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                     }
                 }
 
+                textExp.text = servantData.exp + " / " + dbExpData.charExp;
                 imageExp.fillAmount = (exExp - servantData.exp) / (float)(exExp - dbExpData.charExp);
             }
 
@@ -397,6 +398,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                     }
                 }
 
+                textExp.text = monsterData.exp + " / " + dbExpData.charExp;
                 imageExp.fillAmount = (exExp - monsterData.exp) / (float)(exExp - dbExpData.charExp);
             }
 
