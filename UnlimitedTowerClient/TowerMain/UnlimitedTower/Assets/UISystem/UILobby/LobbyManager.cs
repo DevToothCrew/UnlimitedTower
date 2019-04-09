@@ -79,6 +79,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                     objSubView = Instantiate(Resources.Load("UI/Lobby/PartyInfoVC")) as GameObject;
                     objSubView.transform.SetParent(this.transform);
                     objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                    BackbuttonUI.SetActive(true);
                 }
                 break;
 
@@ -88,6 +89,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                     objSubView = Instantiate(Resources.Load("UI/Lobby/InventoryVC")) as GameObject;
                     objSubView.transform.SetParent(this.transform);
                     objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                    BackbuttonUI.SetActive(true);
                 }
                 break;
 
@@ -103,6 +105,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                     objSubView = Instantiate(Resources.Load("UI/Lobby/GachaScene")) as GameObject;
                     objSubView.transform.SetParent(this.transform);
                     objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                    BackbuttonUI.SetActive(true);
                 }
                 break;
 
@@ -112,6 +115,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                     objSubView = Instantiate(Resources.Load("UI/Lobby/StageScene")) as GameObject;
                     objSubView.transform.SetParent(this.transform);
                     objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                    BackbuttonUI.SetActive(true);
                 }
                 break;
 
