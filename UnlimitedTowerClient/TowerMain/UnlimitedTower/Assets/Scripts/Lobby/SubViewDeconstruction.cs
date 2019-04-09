@@ -25,7 +25,6 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
 
 
     //set Data
-    int unitType = 0;   //0:servant , 1: monster
     int[] deconstructionUnitList = new int[9];  //분해할 유닛 idx
     int unit_count = 0;
 
@@ -344,6 +343,25 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
         updateView();
     }
 
+    //분해 완료(서버에서 응답) 후 화면 전체 갱신
+    public void updateViewFinishRequest()
+    {
+        OnClickButtonClear();
+        setData();
+        scrollList.SetItemOrder(getOrder());
+
+        if (PartyInfoVC.checkInst())
+        {
+            PartyInfoVC.Inst.selected_unit_idx = 0;
+            PartyInfoVC.Inst.updateDetailInfo(PartyInfoVC.Inst.selected_unit_idx);
+        }
+        else if (InventoryVC.checkInst())
+        {
+            InventoryVC.Inst.selected_unit_idx = 0;
+            InventoryVC.Inst.updateDetailInfo(InventoryVC.Inst.selected_unit_idx);
+        }
+    }
+
     public void OnClickClose()
     {
         if (PartyInfoVC.checkInst())
@@ -360,26 +378,26 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
 
     public void OnClickButtonGrind()
     {
-        if (unitType == 0)  // Servant
+        if (dType == DECONSTRUCTION_TYPE.SERVANT)  // Servant
         {
             List<int> servantIndexList = new List<int>();
 
             for (int i = 0; i < deconstructionUnitList.Length; i++)
             {
                 UserServantData servantData = UserDataManager.Inst.GetServantInfo(deconstructionUnitList[i]);
-                if(servantData == null)
+                if (servantData == null)
                 {
                     Debug.Log("Invalid Request Servant ID : " + deconstructionUnitList[i]);
                     return;
                 }
 
-                if(servantData.state != 0)
+                if (servantData.state != 0)
                 {
                     Debug.Log("Invalid Servant State : " + servantData.state);
                     return;
                 }
 
-                if(servantData.partyIndex != 0)
+                if (servantData.partyIndex != 0)
                 {
                     Debug.Log("Invalid Servant Index : " + servantData.partyIndex);
                     return;
@@ -393,7 +411,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
             PacketManager.Inst.RequestServantGrind(servantIndexList);
 #endif
         }
-        else if(unitType == 1)  // Monster
+        else if (dType == DECONSTRUCTION_TYPE.MONSTER)  // Monster
         {
             List<int> monsterIndexList = new List<int>();
 
@@ -426,6 +444,10 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
 #else
             PacketManager.Inst.RequestMonsterSell(monsterIndexList);
 #endif
+        }
+        else if (dType == DECONSTRUCTION_TYPE.EQUIPMENT) // Equip
+        {
+
         }
     }
 }
