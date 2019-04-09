@@ -303,7 +303,7 @@ public class Cheat : MonoSingleton<Cheat>
             return null;
         }
 
-        for (int i = 0; i < 7; ++i)
+        for (int i = 0; i < 10; ++i)
         {
             if(partyData.formationDataDic[i].index == 0)
             {

@@ -21246,6 +21246,26 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 114668480917593322, guid: ee4e3258b0d85824b8d4daa604fd3602,
+        type: 2}
+      propertyPath: headIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114668480917593322, guid: ee4e3258b0d85824b8d4daa604fd3602,
+        type: 2}
+      propertyPath: hairIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114668480917593322, guid: ee4e3258b0d85824b8d4daa604fd3602,
+        type: 2}
+      propertyPath: isMan
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114668480917593322, guid: ee4e3258b0d85824b8d4daa604fd3602,
+        type: 2}
+      propertyPath: isChildren
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ee4e3258b0d85824b8d4daa604fd3602, type: 2}
   m_IsPrefabParent: 0
