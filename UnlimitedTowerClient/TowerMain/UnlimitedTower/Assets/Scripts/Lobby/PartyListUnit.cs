@@ -7,6 +7,7 @@ public class PartyListUnit : ScrollListUnit {
     public Image ImageGrade;
     public Image imageCharacter;
     public Text textLevel;
+    public Text textExpPer;
     public Image imageExp;
     public Text textStr;
     public Text textDex;
@@ -55,8 +56,9 @@ public class PartyListUnit : ScrollListUnit {
                         exExp = exDBExpData.charExp;
                     }
                 }
-
-                imageExp.fillAmount = (exExp - partyInfo.ServantList[main_idx].exp) / (float)(exExp - dbExpData.charExp);
+                float expPer = (exExp - partyInfo.ServantList[main_idx].exp) / (float)(exExp - dbExpData.charExp);
+                textExpPer.text = (int)(expPer * 100) + "%";
+                imageExp.fillAmount = expPer;
             }
         }
         else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
@@ -89,7 +91,9 @@ public class PartyListUnit : ScrollListUnit {
                     }
                 }
 
-                imageExp.fillAmount = (exExp - partyInfo.MonsterList[main_idx].exp) / (float)(exExp - dbExpData.charExp);
+                float expPer = (exExp - partyInfo.MonsterList[main_idx].exp) / (float)(exExp - dbExpData.charExp);
+                textExpPer.text = (int)(expPer * 100) + "%";
+                imageExp.fillAmount = expPer;
             }
         }
     }
