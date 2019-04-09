@@ -121,12 +121,15 @@ public class CharacterCustom : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name == "Lobby")
         {
-            DBServantData servantData = CSVData.Inst.GetServantData(UserDataManager.Inst.GetMainCharInfo().mainCharID);
-            jobIndex = servantData.job;
-            headIndex = servantData.head;
-            hairIndex = servantData.hair;
-            isMan = servantData.gender;
-            isChildren = servantData.body;
+            if(UserDataManager.Inst.GetMainCharInfo() != null)
+            {
+                DBServantData servantData = CSVData.Inst.GetServantData(UserDataManager.Inst.GetMainCharInfo().mainCharID);
+                jobIndex = servantData.job;
+                headIndex = servantData.head;
+                hairIndex = servantData.hair;
+                isMan = servantData.gender;
+                isChildren = servantData.body;
+            }
         }
 
         Refresh();
