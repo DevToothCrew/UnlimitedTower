@@ -78,7 +78,6 @@ public class BattleManager : MonoSingleton<BattleManager>
     // 배틀데이터를 받아와 공격 ( 메인 배틀 한턴 )
     public IEnumerator BattleStart()
     {
-        BattleUIManager.Inst.OffDelay();
         BattleUIManager.Inst.StageInfoOff();
         isTurnEnd = false;
         isBattleStart = true;
@@ -167,8 +166,6 @@ public class BattleManager : MonoSingleton<BattleManager>
         if (isTurnEnd == false && isBattleStart == false)
         {
             isTurnEnd = true;
-            BattleUIManager.Inst.OnDelay();
-
 #if UNITY_EDITOR
             {
                 string battleActionInfo = Cheat.Inst.GetBattleActionData("devtooth", turnIndex);

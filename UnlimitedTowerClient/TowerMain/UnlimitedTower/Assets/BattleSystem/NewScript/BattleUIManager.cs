@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class BattleUIManager : MonoSingleton<BattleUIManager> {
-    public GameObject delayImage;
 
     public Image StageInfoBack;
     public Image StageInfoLine;
@@ -46,9 +45,6 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
 
     private void Awake()
     {
-        delayImage = GameObject.Find("DelayImage");
-        delayImage.SetActive(false);
-        
         StageInfoBack = GameObject.Find("Stage Info Back").GetComponent<Image>();
         StageInfoLine = GameObject.Find("Stage Info Line").GetComponent<Image>();
         StageInfoFloor = GameObject.Find("Stage Info Floor").GetComponent<Text>();
@@ -167,16 +163,6 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         StageInfoFloor.color = new Color(1, 1, 1, 0);
         StageInfoName.color = new Color(1, 1, 1, 0);
         BattleTurn.color = new Color(1, 1, 1, 0);
-    }
-    
-    public void OnDelay()
-    {
-        delayImage.SetActive(true);
-    }
-
-    public void OffDelay()
-    {
-        delayImage.SetActive(false);
     }
 
     public void BattleActionOut()
