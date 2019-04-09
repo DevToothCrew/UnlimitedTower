@@ -19,7 +19,7 @@ public class ItemListUnit : ScrollListUnit {
     {
         main_idx = _main_idx;
 
-        if (LobbyManager.Inst.popupState == POPUP_STATE.Hero)
+        if (LobbyManager.Inst.popupState == POPUP_STATE.Servant)
         {
             ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)SubViewEquipment.Inst.EquipmentList[main_idx].grade);
             imageItem.sprite = CSVData.Inst.GetEquipmentData(SubViewEquipment.Inst.EquipmentList[main_idx].id).equipmentIcon;
@@ -58,7 +58,7 @@ public class ItemListUnit : ScrollListUnit {
 
     public override void OnClickUnit()
     {
-        if (LobbyManager.Inst.popupState == POPUP_STATE.Hero)
+        if (LobbyManager.Inst.popupState == POPUP_STATE.Servant)
         {
             SubViewEquipment.Inst.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
             SubViewEquipment.Inst.updateChangeItemInfo(main_idx);
@@ -79,6 +79,5 @@ public class ItemListUnit : ScrollListUnit {
 
             }   
         }
-            
     }
 }

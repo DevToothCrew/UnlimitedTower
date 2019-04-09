@@ -279,10 +279,9 @@ public enum STATUS_TYPE
 public enum POPUP_STATE
 {
     // Hero
-    Hero = 0,
-    Servant = 1,
-    Monster = 2,
-    Formation = 3,
+    Servant = 0,
+    Monster = 1,
+    Formation = 2,
 
     // Inventory
     Weapon = 10,
@@ -297,6 +296,12 @@ public enum POPUP_STATE
 
     // Stage
     Stage = 30,
+
+    // TopInfo
+    AccountInfo = 40,
+    Mail = 41,
+    Setting = 42,
+    PVP = 43,
 }
 
 public enum EQUIPMENT_TYPE
