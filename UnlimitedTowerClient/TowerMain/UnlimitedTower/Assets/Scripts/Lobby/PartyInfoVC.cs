@@ -483,8 +483,21 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     public GameObject frameFormation;
     public Button[] buttonMonsterFormation = new Button[5];
     public Image[] imageMonsterFormation = new Image[5];
+
+    public GameObject[] objectMonsterInfo = new GameObject[5];
+    public Image[] imageMonsterType = new Image[5];
+    public Image[] imageMonsterExp = new Image[5];
+    public Text[] textMonsterLevel = new Text[5];
+    public Text[] textMonsterExpPer = new Text[5];
+
     public Button[] buttonServantFormation = new Button[5];
     public Image[] imageServantFormation = new Image[5];
+
+    public GameObject[] objectServantInfo = new GameObject[5];
+    public Image[] imageServantType = new Image[5];
+    public Image[] imageServantExp = new Image[5];
+    public Text[] textServantLevel = new Text[5];
+    public Text[] textServantExpPer = new Text[5];
 
     public Sprite[] spriteSlot = new Sprite[2];
 
@@ -503,14 +516,48 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
             if (servant != null && servant.isPlaced && u_data.partyInfo.formationDataDic[i].index > 0)
             {
+
+
                 buttonServantFormation[i].image.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)servant.grade);
                 imageServantFormation[i].enabled = true;
                 imageServantFormation[i].sprite = CSVData.Inst.GetServantData(servant.id).servantIcon;
+
+                imageServantType[i].sprite = CSVData.Inst.GetSpriteServantJob(servant.jobType);
+                textServantLevel[i].text = servant.level.ToString();
+
+                DBExpData dbExpData = CSVData.Inst.GetExpData(servant.level);
+                if (dbExpData == null)
+                {
+                    Debug.Log("Invalid Level Data");
+                }
+                else
+                {
+                    int exExp = 0;
+                    if (servant.level - 1 > 0)
+                    {
+                        DBExpData exDBExpData = CSVData.Inst.GetExpData(servant.level - 1);
+                        if (exDBExpData == null)
+                        {
+                            Debug.Log("Invalid Level Data");
+                        }
+                        else
+                        {
+                            exExp = exDBExpData.charExp;
+                        }
+                    }
+                    float expPer = (exExp - servant.exp) / (float)(exExp - dbExpData.charExp);
+                    textServantExpPer[i].text = (int)(expPer * 100) + "%";
+                    imageServantExp[i].fillAmount = expPer;
+                }
+
+                objectServantInfo[i].SetActive(true);
             }
             else
             {
                 buttonServantFormation[i].image.sprite = spriteSlot[1];
                 imageServantFormation[i].enabled = false;
+
+                objectServantInfo[i].SetActive(false);
             }
         }
 
@@ -523,11 +570,41 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                 buttonMonsterFormation[i].image.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)monster.grade);
                 imageMonsterFormation[i].enabled = true;
                 imageMonsterFormation[i].sprite = CSVData.Inst.GetMonsterData(monster.id).monsterIcon;
+                textMonsterLevel[i].text = monster.level.ToString();
+
+                DBExpData dbExpData = CSVData.Inst.GetExpData(monster.level);
+                if (dbExpData == null)
+                {
+                    Debug.Log("Invalid Level Data");
+                }
+                else
+                {
+                    int exExp = 0;
+                    if (monster.level - 1 > 0)
+                    {
+                        DBExpData exDBExpData = CSVData.Inst.GetExpData(monster.level - 1);
+                        if (exDBExpData == null)
+                        {
+                            Debug.Log("Invalid Level Data");
+                        }
+                        else
+                        {
+                            exExp = exDBExpData.charExp;
+                        }
+                    }
+                    float expPer = (exExp - monster.exp) / (float)(exExp - dbExpData.charExp);
+                    textMonsterExpPer[i].text = (int)(expPer * 100) + "%";
+                    imageMonsterExp[i].fillAmount = expPer;
+                }
+
+                objectMonsterInfo[i].SetActive(true);
             }
             else
             {
                 buttonMonsterFormation[i].image.sprite = spriteSlot[1];
                 imageMonsterFormation[i].enabled = false;
+
+                objectMonsterInfo[i].SetActive(false);
             }
         }
 
