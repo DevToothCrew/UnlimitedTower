@@ -55,39 +55,39 @@ CONTRACT battletest : public contract
         main_int = 3,
     };
 
-    std::vector<uint32_t> servant_status_list = {10, 12, 15, 18, 22, 25, 30, 35, 50, 70};
+    std::vector<uint32_t> servant_status_list = {30, 32, 35, 38, 41, 44, 47, 50, 55, 60};
 
-    std::vector<uint32_t> monster_common_status_list = {25, 27, 30, 32, 35, 37, 40, 42, 45, 47};
-    std::vector<uint32_t> monster_uncommon_status_list = {50, 52, 55, 57, 60, 62, 65, 67, 70, 72};
-    std::vector<uint32_t> monster_rare_status_list = {75, 77, 80, 82, 85, 87, 90, 92, 95, 97};
-    std::vector<uint32_t> monster_unique_status_list = {100, 105, 110, 115, 120, 125, 130, 135, 140, 145};
-    std::vector<uint32_t> monster_legendary_status_list = {150, 160, 170, 180, 190, 200, 210, 220, 230, 240};
+    std::vector<uint32_t> monster_common_status_list = {30, 33, 36, 39, 43, 46, 50, 53, 57, 60};
+    std::vector<uint32_t> monster_uncommon_status_list = {35, 38, 42, 46, 50, 54, 58, 62, 66, 70};
+    std::vector<uint32_t> monster_rare_status_list = {45, 50, 55, 60, 65, 70, 75, 80, 85, 90};
+    std::vector<uint32_t> monster_unique_status_list = {55, 62, 68, 74, 80, 86, 92, 98, 104, 110};
+    std::vector<uint32_t> monster_legendary_status_list = {75, 82, 90, 98, 106, 114, 124, 132, 142, 150};
 
-    std::vector<uint32_t> warrior_level_up = {9, 4, 2};
-    std::vector<uint32_t> thief_level_up = {4, 9, 2};
-    std::vector<uint32_t> cleric_level_up = {5, 3, 7};
-    std::vector<uint32_t> archer_level_up = {4, 7, 4};
-    std::vector<uint32_t> magician_level_up = {3, 3, 9};
+    // std::vector<uint32_t> warrior_level_up = {9, 4, 2};
+    // std::vector<uint32_t> thief_level_up = {4, 9, 2};
+    // std::vector<uint32_t> cleric_level_up = {5, 3, 7};
+    // std::vector<uint32_t> archer_level_up = {4, 7, 4};
+    // std::vector<uint32_t> magician_level_up = {3, 3, 9};
 
-    std::vector<uint32_t> common_str = {6, 2, 2};
-    std::vector<uint32_t> common_dex = {2, 6, 2};
-    std::vector<uint32_t> common_int = {2, 2, 6};
+    // std::vector<uint32_t> common_str = {6, 2, 2};
+    // std::vector<uint32_t> common_dex = {2, 6, 2};
+    // std::vector<uint32_t> common_int = {2, 2, 6};
 
-    std::vector<uint32_t> uncommon_str = {9, 3, 3};
-    std::vector<uint32_t> uncommon_dex = {3, 9, 3};
-    std::vector<uint32_t> uncommon_int = {3, 3, 9};
+    // std::vector<uint32_t> uncommon_str = {9, 3, 3};
+    // std::vector<uint32_t> uncommon_dex = {3, 9, 3};
+    // std::vector<uint32_t> uncommon_int = {3, 3, 9};
 
-    std::vector<uint32_t> rare_str = {12, 5, 5};
-    std::vector<uint32_t> rare_dex = {5, 12, 5};
-    std::vector<uint32_t> rare_int = {5, 5, 12};
+    // std::vector<uint32_t> rare_str = {12, 5, 5};
+    // std::vector<uint32_t> rare_dex = {5, 12, 5};
+    // std::vector<uint32_t> rare_int = {5, 5, 12};
 
-    std::vector<uint32_t> unique_str = {15, 7, 7};
-    std::vector<uint32_t> unique_dex = {7, 15, 7};
-    std::vector<uint32_t> unique_int = {7, 7, 15};
+    // std::vector<uint32_t> unique_str = {15, 7, 7};
+    // std::vector<uint32_t> unique_dex = {7, 15, 7};
+    // std::vector<uint32_t> unique_int = {7, 7, 15};
 
-    std::vector<uint32_t> legenary_str = {24, 9, 9};
-    std::vector<uint32_t> legenary_dex = {9, 24, 9};
-    std::vector<uint32_t> legenary_int = {9, 9, 24};
+    // std::vector<uint32_t> legenary_str = {24, 9, 9};
+    // std::vector<uint32_t> legenary_dex = {9, 24, 9};
+    // std::vector<uint32_t> legenary_int = {9, 9, 24};
 
     std::vector<uint32_t> item_in = {1,2,4,8,16,32,64,128};
     std::vector<uint32_t> level_in = {0,1,2,4,8,16,32,64};
@@ -578,8 +578,8 @@ CONTRACT battletest : public contract
     void insert_servant_burn_item(uint64_t _servant_job, uint64_t _result_item_id);
     void insert_servant_lv(uint64_t _job, uint64_t _lv_up_str, uint64_t _lv_up_dex, uint64_t _lv_up_int);
     void insert_monster_lv(uint64_t _monster_class_grade, uint64_t _lv_up_str, uint64_t _lv_up_dex, uint64_t _lv_up_int);
-    void insert_servant_lv_status(uint64_t _type, uint64_t _num);
-    void insert_monster_lv_status(uint64_t _type, uint64_t _num);
+    void insert_servant_lv_status(uint64_t _grade);
+    void insert_monster_lv_status(uint64_t _grade);
     void insert_equipment_lv_status(uint64_t _type);
     void insert_level(uint32_t _level, uint32_t _rank_exp, uint32_t _char_exp);
 	void insert_passive(uint64_t _id, uint32_t _job, uint32_t _monster_class, uint32_t _enable_stack, uint32_t _max_stack,
@@ -608,6 +608,7 @@ CONTRACT battletest : public contract
     void erase_servant_lv(uint64_t _job);
     void erase_monster_lv(uint64_t _monster_class_grade);
     void erase_servant_lv_status(uint64_t _type);
+    void erase_servant_lv_status_list(uint64_t _type);
     void erase_monster_lv_status(uint64_t _type);
     void erase_monster_lv_status_list(uint64_t _type);
     void erase_equipment_lv_status(uint64_t _type);
@@ -1496,7 +1497,6 @@ CONTRACT battletest : public contract
 #pragma region battle function
     status_info get_level_up_monster_status(uint64_t _class, uint64_t _grade, status_info _status);
     status_info get_level_up_servant_status(uint64_t _job, status_info _status);
-    status_info get_grade_status(uint64_t _grade, status_info _status);
     uint32_t get_max_hp(status_info _status);
     uint32_t get_magic_attack(status_info _status);
     uint32_t get_physical_attack(status_info _status);
