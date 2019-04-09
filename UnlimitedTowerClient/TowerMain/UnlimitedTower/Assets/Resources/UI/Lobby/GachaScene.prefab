@@ -1232,7 +1232,7 @@ MonoBehaviour:
   resultIntStat: {fileID: 114593904105837002}
   equipmentValue: {fileID: 1638059025773554}
   valueStatusImage: {fileID: 114219224804802672}
-  valueTypeObject: {fileID: 0}
+  valueTypeObject: {fileID: 1638059025773554}
   resultValueStat: {fileID: 114161091357258270}
   retryButton: {fileID: 114995494051279922}
   exitButton: {fileID: 114977699215506558}
@@ -2126,7 +2126,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -800, y: -450}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1600, y: 900}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224767481044348758

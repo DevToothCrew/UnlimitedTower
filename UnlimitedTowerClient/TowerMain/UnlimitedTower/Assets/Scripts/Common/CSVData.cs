@@ -25,6 +25,7 @@ public class CSVData : MonoSingleton<CSVData>
 
     // Resource Data
     public Dictionary<GRADE_TYPE, DBGradeResourceData> DBGradeResourceDataDic = new Dictionary<GRADE_TYPE, DBGradeResourceData>();
+    public Dictionary<GRADE_TYPE, DBGradeResourceData> DBGachaGradeResourceDataDic = new Dictionary<GRADE_TYPE, DBGradeResourceData>();
     public Dictionary<EQUIPMENT_OPTION_TYPE, DBOptionTypeResourceData> DBOptionTypeResourceDataDic = new Dictionary<EQUIPMENT_OPTION_TYPE, DBOptionTypeResourceData>();
     public Dictionary<ELEMENT_TYPE, DBElementResourceData> DBElementTypeResourceDataDic = new Dictionary<ELEMENT_TYPE, DBElementResourceData>();
     public Dictionary<SERVANT_JOB, DBServantJobResourceData> DBServantJobResourceDataDic = new Dictionary<SERVANT_JOB, DBServantJobResourceData>();
@@ -190,6 +191,15 @@ public class CSVData : MonoSingleton<CSVData>
                 Debug.Log("Invalid DBGradeResourceData");
             }
             //Debug.Log("SetGradeResourceData Success");
+        }
+        if(DBGachaGradeResourceDataDic.Count == 0)
+        {
+            //Debug.Log("SetGachaGradeResourceData Start");
+            if (SetGachaGradeResourceData() == false)
+            {
+                Debug.Log("Invalid DBGachaGradeResourceData");
+            }
+            //Debug.Log("SetGachaGradeResourceData Success");
         }
         if (DBOptionTypeResourceDataDic.Count == 0)
         {
@@ -840,6 +850,20 @@ public class CSVData : MonoSingleton<CSVData>
         return true;
     }
 
+    public bool SetGachaGradeResourceData()
+    {
+        for (GRADE_TYPE i = GRADE_TYPE.LEGENDARY; i <= GRADE_TYPE.COMMON; i++)
+        {
+            DBGradeResourceData resourceData = new DBGradeResourceData();
+            resourceData.gradeType = i;
+            resourceData.grade = Convert.ToInt32(i);
+            resourceData.gradeIcon = Resources.Load<Sprite>(string.Format("UI/Common/gacha_grade_{0}", resourceData.grade));
+
+            DBGachaGradeResourceDataDic.Add(resourceData.gradeType, resourceData);
+        }
+        return true;
+    }
+
     public bool SetGradeResourceData()
     {
         for(GRADE_TYPE i = GRADE_TYPE.LEGENDARY; i <= GRADE_TYPE.COMMON; i++)
@@ -1451,6 +1475,11 @@ public class CSVData : MonoSingleton<CSVData>
         Debug.Log("Invalid Exp : " + exp);
 
         return 0;
+    }
+
+    public Sprite GetSpriteGachaGrade(GRADE_TYPE grade)
+    {
+        return DBGachaGradeResourceDataDic[grade].gradeIcon;
     }
 
     public Sprite GetSpriteGrade(GRADE_TYPE grade)

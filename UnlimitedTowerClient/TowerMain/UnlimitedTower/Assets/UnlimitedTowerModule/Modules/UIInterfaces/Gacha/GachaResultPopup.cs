@@ -35,9 +35,6 @@ public class GachaResultPopup : MonoBehaviour {
     private RawImage valueStatusImage;
 
     [SerializeField]
-    private GameObject valueTypeObject;
-
-    [SerializeField]
     private Text resultValueStat;
 
     [SerializeField]
@@ -95,7 +92,7 @@ public class GachaResultPopup : MonoBehaviour {
 
         resultName.text = servantData.name;
         resultImage.texture = servantData.servantIcon.texture;
-        gradeImage.texture = CSVData.Inst.GetSpriteGrade(servantData.grade).texture;
+        gradeImage.texture = CSVData.Inst.GetSpriteGachaGrade(servantData.grade).texture;
 
         resultStrStat.text = result.status.basicStr.ToString();
         resultIntStat.text = result.status.basicInt.ToString();
@@ -115,7 +112,7 @@ public class GachaResultPopup : MonoBehaviour {
 
         resultName.text = monsterData.name;
         resultImage.texture = monsterData.monsterIcon.texture;
-        gradeImage.texture = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)result.grade).texture;
+        gradeImage.texture = CSVData.Inst.GetSpriteGachaGrade((GRADE_TYPE)result.grade).texture;
 
         resultStrStat.text = result.status.basicStr.ToString();
         resultIntStat.text = result.status.basicInt.ToString();
@@ -139,7 +136,7 @@ public class GachaResultPopup : MonoBehaviour {
             Debug.Log("Invalid Texture : " + equipmentData.name);
         }
         resultImage.texture = equipmentData.equipmentIcon.texture;
-        gradeImage.texture = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)result.grade).texture;
+        gradeImage.texture = CSVData.Inst.GetSpriteGachaGrade((GRADE_TYPE)result.grade).texture;
 
         switch(equipmentData.optionType)
         {
@@ -148,14 +145,12 @@ public class GachaResultPopup : MonoBehaviour {
             case EQUIPMENT_OPTION_TYPE.MATK:
             case EQUIPMENT_OPTION_TYPE.MDEF:
             case EQUIPMENT_OPTION_TYPE.HP:
-                valueTypeObject.SetActive(true);
                 valueStatusImage.texture = CSVData.Inst.GetSpriteOptionType(equipmentData.optionType).texture;
                 break;
 
             case EQUIPMENT_OPTION_TYPE.STR:
             case EQUIPMENT_OPTION_TYPE.DEX:
             case EQUIPMENT_OPTION_TYPE.INT:
-                valueTypeObject.SetActive(false);
                 valueStatusImage.texture = CSVData.Inst.GetSpriteOptionType(equipmentData.optionType).texture;
                 break;
 
