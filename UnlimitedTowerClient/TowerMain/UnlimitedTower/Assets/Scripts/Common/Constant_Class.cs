@@ -142,6 +142,25 @@ public class Status
 }
 
 [Serializable]
+public class BattleStatus
+{
+    public int maxHp;
+    public int atk;
+    public int mAtk;
+    public int def;
+    public int mDef;
+
+    public BattleStatus(int maxHp, int atk, int mAtk, int def, int mDef)
+    {
+        this.maxHp = maxHp;
+        this.atk = atk;
+        this.mAtk = mAtk;
+        this.def = def;
+        this.mDef = mDef;
+    }
+}
+
+[Serializable]
 public class UserFormationData
 {
     // 인덱스

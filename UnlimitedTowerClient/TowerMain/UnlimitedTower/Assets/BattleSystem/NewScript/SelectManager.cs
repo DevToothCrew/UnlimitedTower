@@ -143,10 +143,10 @@ public class SelectManager : MonoBehaviour
                         _Str.text = selectStateInfo.status.basicStr.ToString();
                         _Dex.text = selectStateInfo.status.basicDex.ToString();
                         _Int.text = selectStateInfo.status.basicInt.ToString();
-                        Atk.text = selectStateInfo.atk.ToString();
-                        mAtk.text = selectStateInfo.mAtk.ToString();
-                        Def.text = selectStateInfo.def.ToString();
-                        mDef.text = selectStateInfo.mDef.ToString();
+                        Atk.text = BattleManager.Inst.status[selectIndex].atk.ToString();
+                        mAtk.text = BattleManager.Inst.status[selectIndex].mAtk.ToString();
+                        Def.text = BattleManager.Inst.status[selectIndex].def.ToString();
+                        mDef.text = BattleManager.Inst.status[selectIndex].mDef.ToString();
                         Speed.text = selectStateInfo.speed.ToString();
                         CriPer.text = selectStateInfo.criPer.ToString();
                         mCriPer.text = selectStateInfo.mCriPer.ToString();
@@ -177,8 +177,8 @@ public class SelectManager : MonoBehaviour
 
         if (selectIndex != -1)
         {
-            if (BattleManager.Inst.MaxHp[selectIndex] != 0)
-                selectHpBar.fillAmount = (float)BattleManager.Inst.NowHp[selectIndex] / BattleManager.Inst.MaxHp[selectIndex];
+            if (BattleManager.Inst.status[selectIndex].maxHp != 0)
+                selectHpBar.fillAmount = (float)BattleManager.Inst.NowHp[selectIndex] / BattleManager.Inst.status[selectIndex].maxHp;
             else
                 selectHpBar.fillAmount = BattleManager.Inst.NowHp[selectIndex] / 100;
 

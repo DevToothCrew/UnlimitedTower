@@ -7,6 +7,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 {
     public GameObject[] character = new GameObject[20];
     public GameObject[] grid = new GameObject[20];
+    public BattleStatus[] status = new BattleStatus[20];
     public CharInfo[] charInfo = new CharInfo[20];
     public Animator[] animator = new Animator[20];
     public bool[] isPlace = new bool[20];
@@ -33,7 +34,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     [HideInInspector]
     public readonly int[] positionOrder = { 2, 1, 3, 0, 4, 7, 6, 8, 5, 9 };
-
+    
     private void Awake()
     {
         TimeScale = (int)Time.timeScale;
@@ -454,10 +455,8 @@ public class BattleManager : MonoSingleton<BattleManager>
                 continue;
             }
 
-            MaxHp[i] = stateData.myStateList[i].maxHP;
+            status[i] = Calculator.GetBattleStatus(stateData.myStateList[i], UserDataManager.Inst.GetStageState().myStateList[i].passiveSkillList);
             NowHp[i] = stateData.myStateList[i].nowHp;
-            NowAtk[i] = stateData.myStateList[i].atk;
-            // TODO : 추후 MATK 등등 여기서 추가
         }
 
         for (int i = 10; i < 20; i++)
@@ -467,9 +466,8 @@ public class BattleManager : MonoSingleton<BattleManager>
                 continue;
             }
 
-            MaxHp[i] = stateData.enemyStateList[i].maxHP;
+            status[i] = Calculator.GetBattleStatus(stateData.enemyStateList[i], UserDataManager.Inst.GetStageState().enemyStateList[i].passiveSkillList);
             NowHp[i] = stateData.enemyStateList[i].nowHp;
-            NowAtk[i] = stateData.enemyStateList[i].atk;
         }
     }
 

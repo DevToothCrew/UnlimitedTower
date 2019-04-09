@@ -65,9 +65,9 @@ public class DamageManager : MonoSingleton<DamageManager>
 
         if (BattleManager.Inst.NowHp[attackInfo.target_position] < 0)
             BattleManager.Inst.NowHp[attackInfo.target_position] = 0;
-        if (BattleManager.Inst.NowHp[attackInfo.target_position] > BattleManager.Inst.MaxHp[attackInfo.target_position])
-            BattleManager.Inst.NowHp[attackInfo.target_position] = BattleManager.Inst.MaxHp[attackInfo.target_position];
-        
+        if (BattleManager.Inst.NowHp[attackInfo.target_position] > BattleManager.Inst.status[attackInfo.target_position].maxHp)
+            BattleManager.Inst.NowHp[attackInfo.target_position] = BattleManager.Inst.status[attackInfo.target_position].maxHp;
+                
         if (!isHeal)
         {
             if (!attackInfo.critical)

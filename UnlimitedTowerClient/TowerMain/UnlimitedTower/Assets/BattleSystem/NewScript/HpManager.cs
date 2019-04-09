@@ -27,7 +27,7 @@ public class HpManager : MonoBehaviour {
                 HpObj[i].transform.position = Camera.main.WorldToScreenPoint(
                   BattleManager.Inst.character[i].transform.position +
                   new Vector3(0, BattleManager.Inst.charInfo[i].Height, 0));
-                Hpimg[i].fillAmount = (float)BattleManager.Inst.NowHp[i] / BattleManager.Inst.MaxHp[i];
+                Hpimg[i].fillAmount = (float)BattleManager.Inst.NowHp[i] / BattleManager.Inst.status[i].maxHp;
                 if (BattleManager.Inst.NowHp[i] <= 0)
                     HpObj[i].SetActive(false);
             }
