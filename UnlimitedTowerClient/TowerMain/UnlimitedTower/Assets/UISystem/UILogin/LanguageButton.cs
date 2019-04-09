@@ -19,9 +19,9 @@ public class LanguageButton : MonoBehaviour {
         languageList.SetActive(false);
         backButton.SetActive(false);
 
-        koreaImage = Resources.Load<Sprite>("UI/LoginUI/11_KoreanLogo") as Sprite;
-        chinaImage = Resources.Load<Sprite>("UI/LoginUI/12_ChineseLogo") as Sprite;
-        USImage = Resources.Load<Sprite>("UI/LoginUI/13_EnglishLogo") as Sprite;
+        koreaImage = Resources.Load<Sprite>("UI/LoginUI/ic_Korean_logo") as Sprite;
+        chinaImage = Resources.Load<Sprite>("UI/LoginUI/ic_Chinese_logo") as Sprite;
+        USImage = Resources.Load<Sprite>("UI/LoginUI/ic_Engligh_logo") as Sprite;
 
         languageImage.sprite = USImage;
     }
