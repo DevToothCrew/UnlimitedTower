@@ -34,7 +34,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224050213300403090}
-  - component: {fileID: 114922188566206200}
   - component: {fileID: 95082758195826976}
   m_Layer: 5
   m_Name: LobbyBottomUI
@@ -313,18 +312,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114922188566206200
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1223367901665352}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d76796969ccf2944a77828ac8e2eba7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gachaScene: {fileID: 0}
 --- !u!222 &222240498371269700
 CanvasRenderer:
   m_ObjectHideFlags: 1

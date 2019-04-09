@@ -117,7 +117,7 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
 
             if (scrollRect.velocity.y == 0f)
             {
-                if (LobbyManager.Inst.popupState == POPUP_STATE.Hero)
+                if (LobbyManager.Inst.popupState == POPUP_STATE.Servant)
                 {
                     if (PartyInfoVC.Inst != null)
                     {
