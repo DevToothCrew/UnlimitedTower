@@ -12,7 +12,7 @@ public class PartyListUnit : ScrollListUnit {
     public Text textDex;
     public Text textInt;
 
-    PartyInfoVC partyInfo;
+    PartyInfoVC partyInfo = null;
 
     protected override void Awake()
     {
@@ -23,10 +23,10 @@ public class PartyListUnit : ScrollListUnit {
     {
         main_idx = _main_idx;
 
-        partyInfo = ((PartyInfoVC)unit_controller);
+        partyInfo = PartyInfoVC.Inst;
 
         //Todo :set Image
-        if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.SERVANT_INFO || partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_SERVANT)
+        if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.SERVANT_INFO)
         {
             ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)partyInfo.ServantList[main_idx].grade);
             imageCharacter.sprite = CSVData.Inst.GetServantData(partyInfo.ServantList[main_idx].id).servantIcon;
@@ -59,7 +59,7 @@ public class PartyListUnit : ScrollListUnit {
                 imageExp.fillAmount = (exExp - partyInfo.ServantList[main_idx].exp) / (float)(exExp - dbExpData.charExp);
             }
         }
-        else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO || partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_MONSTER)
+        else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
         {
             ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)partyInfo.MonsterList[main_idx].grade);
             imageCharacter.sprite = CSVData.Inst.GetMonsterData(partyInfo.MonsterList[main_idx].id).monsterIcon;
@@ -110,39 +110,42 @@ public class PartyListUnit : ScrollListUnit {
     {
         if (partyInfo != null)
         {
-            partyInfo.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
-            if (partyInfo.selectedMenu == PartyInfoVC.menu_type.SERVANT || partyInfo.selectedMenu == PartyInfoVC.menu_type.MONSTER)
+            if (!SubViewDeconstruction.checkInst())
             {
-                if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.SERVANT_INFO || partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
+                partyInfo.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
+                if (partyInfo.selectedMenu == PartyInfoVC.menu_type.SERVANT || partyInfo.selectedMenu == PartyInfoVC.menu_type.MONSTER)
+                {
                     partyInfo.updateDetailInfo(getUnitIdx());
-                else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_SERVANT || partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_MONSTER)
+                }
+                else if (partyInfo.selectedMenu == PartyInfoVC.menu_type.FORMATION)
                 {
                     int chracter_unit_idx = 0;
-                    if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_SERVANT)
+                    if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.SERVANT_INFO)
                     {
                         chracter_unit_idx = partyInfo.ServantList[main_idx].index;
                     }
-                    else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_MONSTER)
+                    else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
                     {
                         chracter_unit_idx = partyInfo.MonsterList[main_idx].index;
                     }
-                    SubViewDeconstruction.Inst.InsertUnit(chracter_unit_idx);
+                    partyInfo.InsertUnit(chracter_unit_idx);
                 }
-                
             }
-            else if (partyInfo.selectedMenu == PartyInfoVC.menu_type.FORMATION)
+            else
             {
+                SubViewDeconstruction.Inst.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
                 int chracter_unit_idx = 0;
-                if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.SERVANT_INFO)
+                if (SubViewDeconstruction.Inst.GetDeconstructionType() == DECONSTRUCTION_TYPE.SERVANT)
                 {
                     chracter_unit_idx = partyInfo.ServantList[main_idx].index;
                 }
-                else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
+                else if (SubViewDeconstruction.Inst.GetDeconstructionType() == DECONSTRUCTION_TYPE.MONSTER)
                 {
                     chracter_unit_idx = partyInfo.MonsterList[main_idx].index;
                 }
-                partyInfo.InsertUnit(chracter_unit_idx);
+                SubViewDeconstruction.Inst.InsertUnit(chracter_unit_idx);
             }
+            
         }
             
     }

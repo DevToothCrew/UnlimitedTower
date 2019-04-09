@@ -90,14 +90,9 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         EQUIPMENT_ARMOR,        //방어구 설정
         EQUIPMENT_ACC,          //장식품 설정
         SKILL,                  //스킬
-        DECONSTRUCTION_SERVANT, //서번트 분해
-        DECONSTRUCTION_MONSTER,  //몬스터 분해
         FORMATION                //포메이션
     }
     public scroll_type currentScrollType = 0;
-
-
-    private GameObject objSubView;
 
 
     void setData()
@@ -114,7 +109,6 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         initScrollList();
         OnClickMenuButton(0);
     }
-
 
     //화면 전체 Update (메뉴버튼, 상세정보창, 스크롤 등)
     void updateAllView()
@@ -222,11 +216,11 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         int[] data_order;
         int total_list_num = 0;
 
-        if (currentScrollType == scroll_type.SERVANT_INFO || currentScrollType == scroll_type.DECONSTRUCTION_SERVANT)
+        if (currentScrollType == scroll_type.SERVANT_INFO)
         {
             total_list_num = ServantList.Count;
         }
-        else if (currentScrollType == scroll_type.MONSTER_INFO || currentScrollType == scroll_type.DECONSTRUCTION_MONSTER)
+        else if (currentScrollType == scroll_type.MONSTER_INFO)
         {
             total_list_num = MonsterList.Count;
         }
@@ -245,9 +239,9 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                 {
                     for (int j = i+1; j < total_list_num; j++)
                     {
-                        if (currentScrollType == scroll_type.SERVANT_INFO || currentScrollType == scroll_type.DECONSTRUCTION_SERVANT)
+                        if (currentScrollType == scroll_type.SERVANT_INFO)
                         {
-                            if (ServantList[i].level * 100 + ServantList[i].exp < ServantList[j].level * 100 + +ServantList[j].exp)
+                            if (ServantList[i].level * 100 + ServantList[i].exp < ServantList[j].level * 100 + ServantList[j].exp)
                             {
                                 data_order[i]++;
                             }
@@ -256,9 +250,9 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                                 data_order[j]++;
                             }
                         }
-                        else if (currentScrollType == scroll_type.MONSTER_INFO || currentScrollType == scroll_type.DECONSTRUCTION_MONSTER)
+                        else if (currentScrollType == scroll_type.MONSTER_INFO)
                         {
-                            if (MonsterList[i].level * 100 + MonsterList[i].exp < MonsterList[j].level * 100 + +MonsterList[j].exp)
+                            if (MonsterList[i].level * 100 + MonsterList[i].exp < MonsterList[j].level * 100 + MonsterList[j].exp)
                             {
                                 data_order[i]++;
                             }
@@ -424,50 +418,61 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
             textSpeed.text = string.Format("{0}", dBMonsterData.speed);
         }
-           
     }
     
 	
     public void OnClickDeconstruction()
     {
-        SubViewDeconstruction.SetActive(true);
+        frameScroll.SetActive(false);
 
+        GameObject objSubView = Instantiate(Resources.Load("UI/Lobby/SubViewDeconstruction")) as GameObject;
+        objSubView.name = "SubViewDeconstruction";
+        objSubView.transform.SetParent(FrameSubView.transform);
+        objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        SubViewDeconstruction s_deconstruction = objSubView.GetComponent<SubViewDeconstruction>();
         if (selectedMenu == menu_type.SERVANT)
-            currentScrollType = scroll_type.DECONSTRUCTION_SERVANT;
-        else
-            currentScrollType = scroll_type.DECONSTRUCTION_MONSTER;
+        {
+            s_deconstruction.SetDeconstructionType(DECONSTRUCTION_TYPE.SERVANT);
+        }
+        else if (selectedMenu == menu_type.MONSTER)
+        {
+            s_deconstruction.SetDeconstructionType(DECONSTRUCTION_TYPE.MONSTER);
+        }
 
-        scrollList.SetItemOrder(getOrder());
     }
+
 
     //장비 설정 버튼
     public void OnClickEquipment(int btn_tag)
     {
-        if (objSubView == null)
+        frameScroll.SetActive(false);
+        switch (btn_tag)
         {
-            frameScroll.SetActive(false);
-            switch (btn_tag)
-            {
-                case 0:
-                    currentScrollType = scroll_type.EQUIPMENT_WEAPON;
-                    break;
-                case 1:
-                    currentScrollType = scroll_type.EQUIPMENT_ARMOR;
-                    break;
-                case 2:
-                    currentScrollType = scroll_type.EQUIPMENT_ACC;
-                    break;
-                default:
-                    break;
-            }
-            objSubView = Instantiate(Resources.Load("UI/Lobby/SubViewEquipment")) as GameObject;
-            objSubView.transform.SetParent(FrameSubView.transform);
-            objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+            case 0:
+                currentScrollType = scroll_type.EQUIPMENT_WEAPON;
+                break;
+            case 1:
+                currentScrollType = scroll_type.EQUIPMENT_ARMOR;
+                break;
+            case 2:
+                currentScrollType = scroll_type.EQUIPMENT_ACC;
+                break;
+            default:
+                break;
+        }
+        GameObject objSubView = Instantiate(Resources.Load("UI/Lobby/SubViewEquipment")) as GameObject;
+        objSubView.name = "SubViewEquipment";
+        objSubView.transform.SetParent(FrameSubView.transform);
+        objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+
+        /*if (objSubView == null)
+        {
+            
         }
         else
         {
             Debug.Log("Running Equipment View!");
-        }
+        }*/
 
     }
 
