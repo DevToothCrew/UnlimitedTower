@@ -18,7 +18,7 @@ public class DEFINE
     public static readonly int MONSTER_MIN_STATUS = 75;
     public static readonly int MONSTER_MAX_STATUS = 150;
     // status = max_status - (monster add status * grade)
-    public static readonly int MONSTER_GRADE_ADD_STATUS = 45;
+    public static readonly int MONSTER_GRADE_ADD_STATUS = 10;
 
     public static readonly int RAND_STATUS = 10;
     public static readonly int MAX_LEVEL = 50;
