@@ -22,10 +22,16 @@ public class StagePage : MonoBehaviour {
     private int stageType = 0;
     private int stageFloor = 0;
 
+    public GameObject[] OnActiveImage = new GameObject[1];
+    public GameObject[] OnActiveStageList = new GameObject[1];
+    public GameObject StageScreenBackButton;
+    private int maxStageList = 1;
+
     void Awake ()
     {
         StageInfoPage.SetActive(false);
-	}
+        InitStageButton();
+    }
 
     public void SetRewardInfo()
     {
@@ -171,5 +177,28 @@ public class StagePage : MonoBehaviour {
 #endif
     }
 
+    public void InitStageButton()
+    {
+        for (int i = 0; i < maxStageList; i++)
+        {
+            OnActiveImage[i].SetActive(false);
+            OnActiveStageList[i].SetActive(false);
+        }
+        StageScreenBackButton.SetActive(false);
+    }
 
+    public void OnClickStageScreen(int stageType)
+    {
+        InitStageButton();
+
+        if (stageType >= maxStageList)
+        {
+            Debug.LogError("Invalid Stage Type : " + stageType);
+            return;
+        }
+
+        StageScreenBackButton.SetActive(true);
+        OnActiveImage[stageType].SetActive(true);
+        OnActiveStageList[stageType].SetActive(true);
+    }
 }
