@@ -284,21 +284,25 @@ public class CharacterCustom : MonoBehaviour
         CharacterInformationTemp.AttackAfterDelay = characterInformation[jobIndex].AttackAfterDelay;
         CharacterInformationTemp.Height = characterInformation[jobIndex].Height;
         CharacterInformationTemp.AttackRange = characterInformation[jobIndex].AttackRange;
-        
-        if (jobIndex == 4)
+
+        if (SceneManager.GetActiveScene().name != "Lobby")
         {
-            defultCharacter.GetComponent<Bullet>().bullet = BulletGroup.Inst.bullet["ArcherArrow"];
+            if (jobIndex == 4)
+            {
+                defultCharacter.GetComponent<Bullet>().bullet = BulletGroup.Inst.bullet["ArcherArrow"];
+            }
+            else if (jobIndex == 5)
+            {
+                defultCharacter.GetComponent<Bullet>().bullet = BulletGroup.Inst.bullet["MagicianFireBall"];
+            }
         }
-        else if (jobIndex == 5)
-        {
-            defultCharacter.GetComponent<Bullet>().bullet = BulletGroup.Inst.bullet["MagicianFireBall"];
-        }
+            
 
         return defultCharacter;
     }
 
     [ContextMenu("Refresh")]
-    private void Refresh()
+    public void Refresh()
     {
         switch (jobIndex)
         {

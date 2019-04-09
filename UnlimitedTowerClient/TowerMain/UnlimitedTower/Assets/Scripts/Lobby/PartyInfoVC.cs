@@ -420,6 +420,12 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
             textSpeed.text = string.Format("{0}", dBMonsterData.speed);
         }
+
+        if (LobbyManager.checkInst())
+        {
+            LobbyManager.Inst.ChangeSelectedUnitModel();
+        }
+        
     }
     
 	

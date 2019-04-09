@@ -2,6 +2,10 @@
 using UnityEngine;
 
 public class LobbyManager : MonoSingleton<LobbyManager> {
+    //Load Main Unit Model 
+    public CharacterCustom characterCustom;
+    private GameObject objServantModel = null;
+    private GameObject objMonsterModel = null;
 
     // Idle UI
     public GameObject centerUI;
@@ -41,8 +45,75 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         chatUI.SetActivateWithAnimation(true);
         accountInfoUI.SetActive(true);
         BackbuttonUI.SetActive(false);
-
+        ChangeMainCharacterModel();
         Time.timeScale = 1.0f;
+    }
+
+    //메인 캐릭터 모델 표시
+    public void ChangeMainCharacterModel()
+    {
+        if (objMonsterModel != null)
+        {
+            Destroy(objMonsterModel);
+        }
+
+        if (UserDataManager.Inst.GetMainCharInfo().mainCharType == CHAR_TYPE.SERVANT)
+        {
+            int servant_id = UserDataManager.Inst.GetMainCharInfo().mainCharID;
+            int job = CSVData.Inst.GetServantData(servant_id).job;
+            int head = CSVData.Inst.GetServantData(servant_id).head;
+            int hair = CSVData.Inst.GetServantData(servant_id).hair;
+            int is_man = CSVData.Inst.GetServantData(servant_id).gender;
+            int is_children = CSVData.Inst.GetServantData(servant_id).body;
+            objServantModel = characterCustom.Create(job, head, hair, is_man, is_children);
+            //characterCustom.Refresh();
+            objServantModel.SetActive(true);
+        }
+        else if (UserDataManager.Inst.GetMainCharInfo().mainCharType == CHAR_TYPE.MONSTER)
+        {
+            objServantModel.SetActive(false);
+            objMonsterModel = Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResourceModel(UserDataManager.Inst.GetMainCharInfo().mainCharID)),
+                    characterCustom.transform);
+        }
+
+        
+    }
+
+    //PartyInfo 화면에서 유닛을 선택했을때 해당 모델로 교체
+    public void ChangeSelectedUnitModel()
+    {
+        if (PartyInfoVC.checkInst())
+        {
+            PartyInfoVC partyInfo = PartyInfoVC.Inst;
+
+            if (objMonsterModel != null)
+            {
+                Destroy(objMonsterModel);
+            }
+
+            if (partyInfo.selectedMenu == PartyInfoVC.menu_type.SERVANT)
+            {
+                int servant_id = partyInfo.ServantList[partyInfo.selected_unit_idx].id;
+                int job = CSVData.Inst.GetServantData(servant_id).job;
+                int head = CSVData.Inst.GetServantData(servant_id).head;
+                int hair = CSVData.Inst.GetServantData(servant_id).hair;
+                int is_man = CSVData.Inst.GetServantData(servant_id).gender;
+                int is_children = CSVData.Inst.GetServantData(servant_id).body;
+                objServantModel = characterCustom.Create(job, head, hair, is_man, is_children);
+                //characterCustom.Refresh();
+
+                objServantModel.SetActive(true);
+            }
+            else if (partyInfo.selectedMenu == PartyInfoVC.menu_type.MONSTER)
+            {
+                objServantModel.SetActive(false);
+                objMonsterModel = Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResourceModel(partyInfo.MonsterList[partyInfo.selected_unit_idx].id)),
+                        characterCustom.transform);
+            }
+        }
+        
+
+
     }
 
     public void ChangeSceneState(SCENE_STATE state)
