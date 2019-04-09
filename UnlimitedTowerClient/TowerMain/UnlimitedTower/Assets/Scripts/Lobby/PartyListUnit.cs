@@ -12,6 +12,7 @@ public class PartyListUnit : ScrollListUnit {
     public Text textStr;
     public Text textDex;
     public Text textInt;
+    public Image imageType;
 
     PartyInfoVC partyInfo = null;
 
@@ -35,6 +36,8 @@ public class PartyListUnit : ScrollListUnit {
             textStr.text = string.Format("{0}", partyInfo.ServantList[main_idx].status.basicStr);
             textDex.text = string.Format("{0}", partyInfo.ServantList[main_idx].status.basicDex);
             textInt.text = string.Format("{0}", partyInfo.ServantList[main_idx].status.basicInt);
+
+            imageType.sprite = CSVData.Inst.GetSpriteServantJob(partyInfo.ServantList[main_idx].jobType);
 
             DBExpData dbExpData = CSVData.Inst.GetExpData(partyInfo.ServantList[main_idx].level);
             if (dbExpData == null)
@@ -69,6 +72,8 @@ public class PartyListUnit : ScrollListUnit {
             textStr.text = string.Format("{0}", partyInfo.MonsterList[main_idx].status.basicStr);
             textDex.text = string.Format("{0}", partyInfo.MonsterList[main_idx].status.basicDex);
             textInt.text = string.Format("{0}", partyInfo.MonsterList[main_idx].status.basicInt);
+
+            imageType.sprite = CSVData.Inst.GetSpriteElementType(partyInfo.MonsterList[main_idx].elementType);
 
             DBExpData dbExpData = CSVData.Inst.GetExpData(partyInfo.MonsterList[main_idx].level);
             if (dbExpData == null)

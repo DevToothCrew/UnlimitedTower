@@ -180,6 +180,16 @@ public enum MONSTER_CLASS_FLAG
     Shaman = 512,
 }
 
+public enum ELEMENT_TYPE
+{
+    Fire = 1,
+    Water = 2,
+    Earth = 3,
+    Wind = 4,
+    Light = 5,
+    Dark = 6,
+}
+
 public enum ACTION_TYPE
 {
     None = 0,

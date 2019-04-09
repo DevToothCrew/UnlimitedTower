@@ -26,6 +26,8 @@ public class CSVData : MonoSingleton<CSVData>
     // Resource Data
     public Dictionary<GRADE_TYPE, DBGradeResourceData> DBGradeResourceDataDic = new Dictionary<GRADE_TYPE, DBGradeResourceData>();
     public Dictionary<EQUIPMENT_OPTION_TYPE, DBOptionTypeResourceData> DBOptionTypeResourceDataDic = new Dictionary<EQUIPMENT_OPTION_TYPE, DBOptionTypeResourceData>();
+    public Dictionary<ELEMENT_TYPE, DBElementResourceData> DBElementTypeResourceDataDic = new Dictionary<ELEMENT_TYPE, DBElementResourceData>();
+    public Dictionary<SERVANT_JOB, DBServantJobResourceData> DBServantJobResourceDataDic = new Dictionary<SERVANT_JOB, DBServantJobResourceData>();
 
     //  인스펙터에서 보여주기 위한...
     public List<DBMonsterData> monsterDataInspector = new List<DBMonsterData>();
@@ -197,6 +199,20 @@ public class CSVData : MonoSingleton<CSVData>
                 Debug.Log("Invalid DBOptionTypeResourceData");
             }
             //Debug.Log("SetOptionTypeResourceData Success");
+        }
+        if(DBElementTypeResourceDataDic.Count == 0)
+        {
+            if(SetElementTypeResourceData() == false)
+            {
+                Debug.Log("Invalid DBElementTypeResourceData");
+            }
+        }
+        if (DBServantJobResourceDataDic.Count == 0)
+        {
+            if (SetServantJobResourceData() == false)
+            {
+                Debug.Log("Invalid DBServantJobResourceData");
+            }
         }
         localType = LOCALIZATION_TYPE.EN;
     }
@@ -743,7 +759,7 @@ public class CSVData : MonoSingleton<CSVData>
             monsterData.name = Convert.ToString(data[i]["enname"]);
             // TODO : 로컬 적용 후 아래로 변경
             // monsterData.name            = Convert.ToString(data[i]["name"]);
-            monsterData.elementType = Convert.ToInt32(data[i]["element_type"]);
+            monsterData.elementType = (ELEMENT_TYPE)Convert.ToInt32(data[i]["element_type"]);
             monsterData.classType = Convert.ToInt32(data[i]["class_type"]);
 
             if (DBMonsterStatDataDic.ContainsKey((MONSTER_CLASS)monsterData.classType) == true)
@@ -794,6 +810,32 @@ public class CSVData : MonoSingleton<CSVData>
             resourceData.optionIcon = Resources.Load<Sprite>(string.Format("UI/Status/Status_{0}", resourceData.optionType.ToString()));
 
             DBOptionTypeResourceDataDic.Add(resourceData.optionType, resourceData);
+        }
+        return true;
+    }
+
+    public bool SetElementTypeResourceData()
+    {
+        for (ELEMENT_TYPE i = ELEMENT_TYPE.Fire; i <= ELEMENT_TYPE.Dark; i++)
+        {
+            DBElementResourceData resourceData = new DBElementResourceData();
+            resourceData.elementType = i;
+            resourceData.elementIcon = Resources.Load<Sprite>(string.Format("UI/ElementType/Element_{0}", resourceData.elementType.ToString()));
+
+            DBElementTypeResourceDataDic.Add(resourceData.elementType, resourceData);
+        }
+        return true;
+    }
+
+    public bool SetServantJobResourceData()
+    {
+        for (SERVANT_JOB i = SERVANT_JOB.Warrior; i <= SERVANT_JOB.Magician; i++)
+        {
+            DBServantJobResourceData resourceData = new DBServantJobResourceData();
+            resourceData.servantJob = i;
+            resourceData.jobIcon = Resources.Load<Sprite>(string.Format("UI/ServantJob/Job_{0}", resourceData.servantJob.ToString()));
+
+            DBServantJobResourceDataDic.Add(resourceData.servantJob, resourceData);
         }
         return true;
     }
@@ -1419,6 +1461,16 @@ public class CSVData : MonoSingleton<CSVData>
     public Sprite GetSpriteOptionType(EQUIPMENT_OPTION_TYPE type)
     {
         return DBOptionTypeResourceDataDic[type].optionIcon;
+    }
+
+    public Sprite GetSpriteElementType(ELEMENT_TYPE type)
+    {
+        return DBElementTypeResourceDataDic[type].elementIcon;
+    }
+
+    public Sprite GetSpriteServantJob(SERVANT_JOB type)
+    {
+        return DBServantJobResourceDataDic[type].jobIcon;
     }
 
     public DBSkillActiveData GetSkillActiveData(int id)

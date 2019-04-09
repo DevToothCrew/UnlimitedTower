@@ -1573,6 +1573,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             return null;
         }
         monster.monsterClass = monsterData.classType;
+        monster.element = (int)monsterData.elementType;
 
         monster.partyIndex = getMonsterData.party_number;
         if(monster.partyIndex > 0)
@@ -1759,7 +1760,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             stateData.avoid = monsterData.avoid;
             stateData.speed = monsterData.speed;
             stateData.classType = monsterData.classType;
-            stateData.elementType = monsterData.elementType;
+            stateData.elementType = (int)monsterData.elementType;
         }
         else
         {

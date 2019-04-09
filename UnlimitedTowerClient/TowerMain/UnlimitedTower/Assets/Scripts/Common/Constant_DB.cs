@@ -71,7 +71,7 @@ public class DBMonsterData
 {
     public int id;
     public string name;
-    public int elementType;
+    public ELEMENT_TYPE elementType;
     public int classType;
     public MONSTER_CLASS GetClass
     {
@@ -106,6 +106,20 @@ public class DBGradeResourceData
     public int grade;
     public GRADE_TYPE gradeType;
     public Sprite gradeIcon;
+}
+
+[Serializable]
+public class DBElementResourceData
+{
+    public ELEMENT_TYPE elementType;
+    public Sprite elementIcon;
+}
+
+[Serializable]
+public class DBServantJobResourceData
+{
+    public SERVANT_JOB servantJob;
+    public Sprite jobIcon;
 }
 
 [Serializable]

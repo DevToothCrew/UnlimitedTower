@@ -96,6 +96,14 @@ public class UserMonsterData
             return (MONSTER_CLASS)monsterClass;
         }
     }
+    public int element;
+    public ELEMENT_TYPE elementType
+    {
+        get
+        {
+            return (ELEMENT_TYPE)element;
+        }
+    }
 
     public int partyIndex;
     public bool isPlaced;
