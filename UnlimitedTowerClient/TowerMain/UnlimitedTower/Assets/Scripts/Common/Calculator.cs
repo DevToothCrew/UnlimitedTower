@@ -11,11 +11,12 @@ public class Calculator : MonoBehaviour {
 
     public static int GetAttack(Status status)
     {
-        return (((status.basicStr + status.basicDex) * 14) / 10);
+        return (((status.basicStr + status.basicDex) * 22) / 10);
     }
+
     public static int GetMagicAttack(Status status)
     {
-        return ((status.basicInt * 22) / 10);
+        return ((status.basicInt * 30) / 10);
     }
 
     public static int GetDefence(Status status)
