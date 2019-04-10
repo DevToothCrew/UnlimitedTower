@@ -1,21 +1,5 @@
 fileFormatVersion: 2
 guid: 4b212d89298f1b940b4bbf5b6fb6fe14
-labels:
-- Architecture
-- Audio
-- Character
-- Done
-- Effect
-- Ground
-- Prop
-- Road
-- Sky
-- Terrain
-- Vegetation
-- Vehicle
-- Wall
-- Water
-- Weapon
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 100100000
