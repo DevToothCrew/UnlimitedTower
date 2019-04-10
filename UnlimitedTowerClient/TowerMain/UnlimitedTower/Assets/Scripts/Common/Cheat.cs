@@ -985,17 +985,16 @@ public class Cheat : MonoSingleton<Cheat>
         PacketManager.Inst.ResponseEquipmentSell(getSellEquipmentResultData);
     }
 
-    public void RequestSavePartyCheat()
+    public void RequestSavePartyCheat(int partyIndex, List<int> indexList)
     {
-        UserPartyData userPartyInfo =  UserDataManager.Inst.GetUserPartyInfo();
         partyData getPartyData = new partyData();
-        getPartyData.index = userPartyInfo.partyIndex;
+        getPartyData.index = partyIndex;
         getPartyData.state = 0;
 
         for (int i = 0; i < 5; i++)
         {
-            getPartyData.servant_list.Add(userPartyInfo.formationDataDic[i].index);
-            getPartyData.monster_list.Add(userPartyInfo.formationDataDic[i + 5].index);
+            getPartyData.servant_list.Add(indexList[i]);
+            getPartyData.monster_list.Add(indexList[i + 5]);
         }
 
         PacketManager.Inst.ResponseSaveParty(getPartyData);
