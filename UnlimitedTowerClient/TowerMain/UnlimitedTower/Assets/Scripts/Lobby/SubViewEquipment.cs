@@ -515,6 +515,99 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
 
         int equipmentIndex = EquipmentList[selectedItemIdx].index;
 
+        // 서번트 인덱스 검사
+        UserServantData servantData = UserDataManager.Inst.GetServantInfo(servantIndex);
+        if (servantData == null)
+        {
+            Debug.LogError("Invalid Servant Index : " + servantIndex);
+            return;
+        }
+
+        // 장비 타입 검사
+        if (servantData.equipmentDic.ContainsKey(selectedEquipType) == false)
+        {
+            Debug.LogError("Invalid Servant Data");
+            return;
+        }
+
+        // 서번트 동일 장비 검사
+        if (servantData.equipmentDic[selectedEquipType] == equipmentIndex)
+        {
+            Debug.Log("Already Equip");
+            return;
+        }
+
+        // 장비 인덱스 검사
+        UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(equipmentIndex);
+        if (equipmentData == null)
+        {
+            Debug.LogError("Invalid Equipment Index : " + equipmentIndex);
+            return;
+        }
+
+        // 장비 인덱스에 대한 타입 검사
+        if (equipmentData.equipmentType != selectedEquipType)
+        {
+            Debug.Log("Invalid Type : " + selectedEquipType.ToString() + ", ");
+            return;
+        }
+
+        // 장착중인 장비인지 검사
+        if (equipmentData.isEquiped == true)
+        {
+            Debug.Log("Already ServantEquiped : " + equipmentData.equipServantIndex);
+            return;
+        }
+
+        // DB 장비 ID 검사
+        DBEquipmentData dbEquipmentData = CSVData.Inst.GetEquipmentData(equipmentData.id);
+        if (dbEquipmentData == null)
+        {
+            Debug.Log("Invalid Equipment Data ID : " + equipmentData.id);
+            return;
+        }
+
+        // DB 서번트 ID 검사
+        DBServantData dbServantData = CSVData.Inst.GetServantData(servantData.id);
+        if (dbServantData == null)
+        {
+            Debug.Log("Invalid Servant Data ID : " + servantData.id);
+            return;
+        }
+
+        // 장착 가능 직업 검사
+        if (dbEquipmentData.isEquipAble(dbServantData.GetJobFlag) == false)
+        {
+            Debug.Log("Invalid Servant Equipable Job : " + dbServantData.GetJobFlag + ", Need Job : " + dbEquipmentData.jobLimit);
+            return;
+        }
+
+        // 장착 가능 레벨 검사
+        if (dbEquipmentData.tier == 2)
+        {
+            if (servantData.level <= 20)
+            {
+                Debug.Log("Invalid Servant Equipable Level : " + servantData.level + ", Need Level : 21");
+                return;
+            }
+        }
+        else if (dbEquipmentData.tier == 3)
+        {
+            if (servantData.level <= 30)
+            {
+                Debug.Log("Invalid Servant Equipable Level : " + servantData.level + ", Need Level : 31");
+                return;
+            }
+        }
+        else if (dbEquipmentData.tier == 4)
+        {
+            if (servantData.level <= 40)
+            {
+                Debug.Log("Invalid Servant Equipable Level : " + servantData.level + ", Need Level : 41");
+                return;
+            }
+        }
+
 #if UNITY_EDITOR
         Cheat.Inst.RequestEquipServantCheat(servantIndex, selectedEquipType, equipmentIndex);
 #else
