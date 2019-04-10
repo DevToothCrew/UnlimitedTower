@@ -215,6 +215,16 @@ public class partyData
 }
 
 [Serializable]
+public class lobbyInfoResultData
+{
+    public string chat_string;
+    public int mail_count;
+    public userResourceData resource_data;
+    public string eos;
+    public string utg;
+}
+
+[Serializable]
 public class mailOpenResultData
 {
     public List<int> mail_open_index_list;
