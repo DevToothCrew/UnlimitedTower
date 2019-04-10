@@ -114,54 +114,48 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
             unit_list[selected_unit_tag % unit_num].Selected(true);
 
             selected_unit_idx = (int)(rectTrScrollLayer.anchoredPosition.y / unit_height);
-
-            if (scrollRect.velocity.y == 0f)
-            {
-                if (LobbyManager.Inst.popupState == POPUP_STATE.Servant)
-                {
-                    if (PartyInfoVC.Inst != null)
-                    {
-                        PartyInfoVC partyInfo = PartyInfoVC.Inst;
-                        if (partyInfo.selectedMenu == PartyInfoVC.menu_type.SERVANT || partyInfo.selectedMenu == PartyInfoVC.menu_type.MONSTER)
-                        {
-                            if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.SERVANT_INFO || partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
-                                partyInfo.updateDetailInfo(selected_main_idx);
-                        }
-                        //else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_WEAPON || partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_ARMOR
-                        //    || partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_ACC)
-                        //{
-                        //    partyInfo.updateDetailInfo(selected_main_idx);
-                        //}
-                        //else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_SERVANT || partyInfo.currentScrollType == PartyInfoVC.scroll_type.DECONSTRUCTION_MONSTER)
-                        //{
-
-                        //}
-
-
-                    }
-                }
-                else if (LobbyManager.Inst.popupState == POPUP_STATE.Weapon)
-                {
-                    InventoryVC.Inst.updateDetailInfo(selected_main_idx);
-                }
-            }
         }
         
     }
 
+    public void updateSelectedUnitInfo()
+    {
+        if (LobbyManager.Inst.popupState == POPUP_STATE.Servant)
+        {
+            if (PartyInfoVC.Inst != null)
+            {
+                PartyInfoVC partyInfo = PartyInfoVC.Inst;
+                if (partyInfo.selectedMenu == PartyInfoVC.menu_type.SERVANT || partyInfo.selectedMenu == PartyInfoVC.menu_type.MONSTER)
+                {
+                    if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.SERVANT_INFO || partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
+                    {
+                        partyInfo.updateDetailInfo(selected_main_idx);
+                        moveScrollSelectedUnit = false;
+                    }
+                }
+            }
+        }
+        else if (LobbyManager.Inst.popupState == POPUP_STATE.Weapon)
+        {
+            InventoryVC.Inst.updateDetailInfo(selected_main_idx);
+        }
+
+    }
+
+    bool move_scroll;
     public void OnBeginDrag(PointerEventData data)
     {
-        Debug.Log("OnBeginDrag");
+        //Debug.Log("OnBeginDrag");
 
         isScroll = true;
-
-        Debug.Log("Dragging started");
+        move_scroll = true;
+        //Debug.Log("Dragging started");
     }
     
 
     public void OnEndDrag(PointerEventData data)
     {
-        Debug.Log("Stopped dragging " + this.name + "!");
+        //Debug.Log("Stopped dragging " + this.name + "!");
         isScroll = false;
     }
 
@@ -205,6 +199,12 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
         
         moveScrollPos = Vector2.zero;
 
+        if (move_scroll)
+        {
+            Debug.Log("selet by move Scroll");
+            updateSelectedUnitInfo();
+            move_scroll = false;
+        }
     }
 
     public int getSelectedUnitIdx()
@@ -388,7 +388,8 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
         if (moveScrollSelectedUnit == false)
         {
             selectedUnit();
-            setSnapping();
+            setSnapping();// if (scrollRect.velocity.y > 0f)
+                
         }
         SaveScrollOffset();
     }
@@ -409,8 +410,8 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
             rectTrScrollLayer.anchoredPosition = Vector2.Lerp(new Vector2(0, rectTrScrollLayer.anchoredPosition.y), new Vector2(0, default_offset + unit_height - movePos.y), 0.2f);
 
             if (rectTrScrollLayer.anchoredPosition.y > (default_offset + unit_height - movePos.y)- unit_height/2 && rectTrScrollLayer.anchoredPosition.y < (default_offset + unit_height - movePos.y)+ unit_height / 2) {
-                moveScrollSelectedUnit = false;
                 selectedUnit();
+                updateSelectedUnitInfo();
             }   
         }
     }
