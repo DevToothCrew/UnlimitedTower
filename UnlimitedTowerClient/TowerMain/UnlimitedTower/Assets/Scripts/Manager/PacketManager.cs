@@ -694,6 +694,16 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 });
     }
 
+    public void RequestLobbyInfo()
+    {
+        Request<lobbyInfoResultData>("LobbyInfo",
+                onSuccess: ResponseLobbyInfo,
+                onFailed: msg =>
+                {
+                    Debug.Log($"[Failed Requesting LobbyInfo] {msg}");
+                });
+    }
+
     // 우편 수령
     public void RequestMailOpen(List<int> mailOpenIndexList)
     {
@@ -1363,6 +1373,22 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void ResponseBuyRoyalServant(servantData getBuyRoyalservantData)
     {
         Debug.Log("로얄 서번트 구매 !");
+    }
+
+    public void ResponseLobbyInfo(lobbyInfoResultData getMailOpenResultData)
+    {
+        Debug.Log("로비 인포!");
+
+        Debug.Log("Chat : " + getMailOpenResultData.chat_string);
+        Debug.Log("EOS : " + getMailOpenResultData.eos);
+        Debug.Log("UTG : " + getMailOpenResultData.utg);
+        Debug.Log("Mail : " + getMailOpenResultData.mail_count);
+        Debug.Log("CPU Limit : " + getMailOpenResultData.resource_data.cpu_limit);
+        Debug.Log("CPU Weight : " + getMailOpenResultData.resource_data.cpu_weight);
+        Debug.Log("NET Limit : " + getMailOpenResultData.resource_data.net_limit);
+        Debug.Log("NET Weight : " + getMailOpenResultData.resource_data.net_weight);
+        Debug.Log("RAM Usage : " + getMailOpenResultData.resource_data.ram_usage);
+        Debug.Log("RAM Quota : " + getMailOpenResultData.resource_data.ram_quota);
     }
 
     // 우편 수령

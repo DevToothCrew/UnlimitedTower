@@ -11,7 +11,7 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
     public Image GradeCharImage;
     public Image ExpSlide;
 
-    void Awake ()
+    void OnEnable ()
     {
         UpdateTopInfo();
     }
