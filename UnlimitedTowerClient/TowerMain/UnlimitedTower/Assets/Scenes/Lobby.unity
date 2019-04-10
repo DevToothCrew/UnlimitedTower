@@ -584,7 +584,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 10}
-  m_SizeDelta: {x: 512, y: 512}
+  m_SizeDelta: {x: 700, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &499807272
 MonoBehaviour:
@@ -626,6 +626,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 501123591}
+  - component: {fileID: 501123592}
   m_Layer: 0
   m_Name: ModelView
   m_TagString: Untagged
@@ -648,6 +649,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &501123592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 501123590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e6ed7604ec0d4947be389817a22ac64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterCustom: {fileID: 90289964}
+  modelCamera: {fileID: 1939364610}
+  objServantModel: {fileID: 716163348}
 --- !u!1 &543162633 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1184781752763758, guid: b9a34b3243a52724fb791822a6dd5b54,
@@ -850,6 +865,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ee4e3258b0d85824b8d4daa604fd3602, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &716163348 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1932066358569296, guid: ee4e3258b0d85824b8d4daa604fd3602,
+    type: 2}
+  m_PrefabInternal: {fileID: 716163347}
 --- !u!1 &734762387 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1015708770317864, guid: 06cf0c57bd350f74a8019ed85252dd38,
@@ -1471,7 +1491,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94f9759bcb9574d418166a879c6ad326, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterCustom: {fileID: 90289964}
   centerUI: {fileID: 734762387}
   topUI: {fileID: 543162633}
   leftUI: {fileID: 1571980268}
@@ -1766,7 +1785,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1939364607}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.4, z: -1.2}
+  m_LocalPosition: {x: 0, y: 0.4, z: -1.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 852907790}

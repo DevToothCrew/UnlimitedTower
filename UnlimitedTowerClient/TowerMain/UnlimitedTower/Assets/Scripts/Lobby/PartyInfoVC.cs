@@ -136,6 +136,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
             framePartyInfo.SetActive(true);
             frameFormation.SetActive(false);
+            updateDetailInfo(scrollList.SelectedMainIdx);
         }
         else if (selectedMenu == menu_type.MONSTER)
         {
@@ -144,6 +145,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
             framePartyInfo.SetActive(true);
             frameFormation.SetActive(false);
+            updateDetailInfo(scrollList.SelectedMainIdx);
         }
         else if (selectedMenu == menu_type.FORMATION)
         {
@@ -421,9 +423,9 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
             textSpeed.text = string.Format("{0}", dBMonsterData.speed);
         }
 
-        if (LobbyManager.checkInst())
+        if (ModelViewManager.checkInst())
         {
-            LobbyManager.Inst.ChangeSelectedUnitModel();
+            ModelViewManager.Inst.ChangeSelectedUnitModel();
         }
         
     }
