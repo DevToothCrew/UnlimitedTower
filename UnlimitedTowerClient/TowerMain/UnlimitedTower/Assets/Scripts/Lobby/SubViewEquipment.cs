@@ -477,7 +477,6 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
     {
         List<UserEquipmentData> user_equipment_list = UserDataManager.Inst.GetEquipmentList();
         
-        int equip_idx = 0;
         for (int i = 0; i < user_equipment_list.Count; i++)
         {
 
