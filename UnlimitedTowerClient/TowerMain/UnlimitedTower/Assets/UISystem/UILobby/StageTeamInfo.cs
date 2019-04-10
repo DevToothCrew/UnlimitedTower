@@ -6,6 +6,12 @@ public class StageTeamInfo : MonoBehaviour {
     public Image[] GradeImage = new Image[10];
     public Image[] IconImage = new Image[10];
 
+    public GameObject[] objectInfo = new GameObject[10];
+    public Image[] imageType = new Image[10];
+    public Image[] imageExp = new Image[10];
+    public Text[] textLevel = new Text[10];
+    public Text[] textExpPer = new Text[10];
+
     public void OnEnable()
     {
         Sprite xSprite = Resources.Load<Sprite>("UI/Common/exit");
@@ -28,6 +34,7 @@ public class StageTeamInfo : MonoBehaviour {
             {
                 GradeImage[i].sprite = CSVData.Inst.GetSpriteGrade(GRADE_TYPE.COMMON);
                 IconImage[i].sprite = xSprite;
+                objectInfo[i].SetActive(false);
                 continue;
             }
 
@@ -39,7 +46,6 @@ public class StageTeamInfo : MonoBehaviour {
                     Debug.LogError("Invalid Servant Index : " + partyData.formationDataDic[i].index);
                 }
 
-
                 DBServantData dBServantData = CSVData.Inst.GetServantData(servantData.id);
                 if(dBServantData == null)
                 {
@@ -48,6 +54,35 @@ public class StageTeamInfo : MonoBehaviour {
 
                 GradeImage[i].sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)servantData.grade);
                 IconImage[i].sprite = dBServantData.servantIcon;
+
+                imageType[i].sprite = CSVData.Inst.GetSpriteServantJob(servantData.jobType);
+                textLevel[i].text = servantData.level.ToString();
+
+                DBExpData dbExpData = CSVData.Inst.GetExpData(servantData.level);
+                if (dbExpData == null)
+                {
+                    Debug.Log("Invalid Level Data");
+                }
+                else
+                {
+                    int exExp = 0;
+                    if (servantData.level - 1 > 0)
+                    {
+                        DBExpData exDBExpData = CSVData.Inst.GetExpData(servantData.level - 1);
+                        if (exDBExpData == null)
+                        {
+                            Debug.Log("Invalid Level Data");
+                        }
+                        else
+                        {
+                            exExp = exDBExpData.charExp;
+                        }
+                    }
+                    float expPer = (exExp - servantData.exp) / (float)(exExp - dbExpData.charExp);
+                    textExpPer[i].text = (int)(expPer * 100) + "%";
+                    imageExp[i].fillAmount = expPer;
+                }
+                objectInfo[i].SetActive(true);
             }
             else
             {
@@ -66,6 +101,35 @@ public class StageTeamInfo : MonoBehaviour {
 
                 GradeImage[i].sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)monsterData.grade);
                 IconImage[i].sprite = dbMonsterData.monsterIcon;
+
+                imageType[i].sprite = CSVData.Inst.GetSpriteElementType(monsterData.elementType);
+                textLevel[i].text = monsterData.level.ToString();
+
+                DBExpData dbExpData = CSVData.Inst.GetExpData(monsterData.level);
+                if (dbExpData == null)
+                {
+                    Debug.Log("Invalid Level Data");
+                }
+                else
+                {
+                    int exExp = 0;
+                    if (monsterData.level - 1 > 0)
+                    {
+                        DBExpData exDBExpData = CSVData.Inst.GetExpData(monsterData.level - 1);
+                        if (exDBExpData == null)
+                        {
+                            Debug.Log("Invalid Level Data");
+                        }
+                        else
+                        {
+                            exExp = exDBExpData.charExp;
+                        }
+                    }
+                    float expPer = (exExp - monsterData.exp) / (float)(exExp - dbExpData.charExp);
+                    textExpPer[i].text = (int)(expPer * 100) + "%";
+                    imageExp[i].fillAmount = expPer;
+                }
+                objectInfo[i].SetActive(true);
             }
         }
 
