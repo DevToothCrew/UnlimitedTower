@@ -60,18 +60,17 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         if (UserDataManager.Inst.GetMainCharInfo().mainCharType == CHAR_TYPE.SERVANT)
         {
             int servant_id = UserDataManager.Inst.GetMainCharInfo().mainCharID;
-            int job = CSVData.Inst.GetServantData(servant_id).job;
-            int head = CSVData.Inst.GetServantData(servant_id).head;
-            int hair = CSVData.Inst.GetServantData(servant_id).hair;
-            int is_man = CSVData.Inst.GetServantData(servant_id).gender;
-            int is_children = CSVData.Inst.GetServantData(servant_id).body;
-            objServantModel = characterCustom.Create(job, head, hair, is_man, is_children);
-            //characterCustom.Refresh();
-            objServantModel.SetActive(true);
+            characterCustom.jobIndex = CSVData.Inst.GetServantData(servant_id).job;
+            characterCustom.headIndex = CSVData.Inst.GetServantData(servant_id).head;
+            characterCustom.hairIndex = CSVData.Inst.GetServantData(servant_id).hair;
+            characterCustom.isMan = CSVData.Inst.GetServantData(servant_id).gender;
+            characterCustom.isChildren = CSVData.Inst.GetServantData(servant_id).body;
+            characterCustom.Refresh();
+            characterCustom.gameObject.SetActive(true);
         }
         else if (UserDataManager.Inst.GetMainCharInfo().mainCharType == CHAR_TYPE.MONSTER)
         {
-            objServantModel.SetActive(false);
+            characterCustom.gameObject.SetActive(false);
             objMonsterModel = Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResourceModel(UserDataManager.Inst.GetMainCharInfo().mainCharID)),
                     characterCustom.transform);
         }
@@ -82,6 +81,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     //PartyInfo 화면에서 유닛을 선택했을때 해당 모델로 교체
     public void ChangeSelectedUnitModel()
     {
+        Debug.Log("change update model");
         if (PartyInfoVC.checkInst())
         {
             PartyInfoVC partyInfo = PartyInfoVC.Inst;
@@ -93,20 +93,19 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
             if (partyInfo.selectedMenu == PartyInfoVC.menu_type.SERVANT)
             {
+                characterCustom.gameObject.SetActive(false);
                 int servant_id = partyInfo.ServantList[partyInfo.selected_unit_idx].id;
-                int job = CSVData.Inst.GetServantData(servant_id).job;
-                int head = CSVData.Inst.GetServantData(servant_id).head;
-                int hair = CSVData.Inst.GetServantData(servant_id).hair;
-                int is_man = CSVData.Inst.GetServantData(servant_id).gender;
-                int is_children = CSVData.Inst.GetServantData(servant_id).body;
-                objServantModel = characterCustom.Create(job, head, hair, is_man, is_children);
-                //characterCustom.Refresh();
-
-                objServantModel.SetActive(true);
+                characterCustom.jobIndex = CSVData.Inst.GetServantData(servant_id).job;
+                characterCustom.headIndex = CSVData.Inst.GetServantData(servant_id).head;
+                characterCustom.hairIndex = CSVData.Inst.GetServantData(servant_id).hair;
+                characterCustom.isMan = CSVData.Inst.GetServantData(servant_id).gender;
+                characterCustom.isChildren = CSVData.Inst.GetServantData(servant_id).body;
+                characterCustom.Refresh();
+                characterCustom.gameObject.SetActive(true);
             }
             else if (partyInfo.selectedMenu == PartyInfoVC.menu_type.MONSTER)
             {
-                objServantModel.SetActive(false);
+                characterCustom.gameObject.SetActive(false);
                 objMonsterModel = Instantiate(Resources.Load<GameObject>("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResourceModel(partyInfo.MonsterList[partyInfo.selected_unit_idx].id)),
                         characterCustom.transform);
             }
