@@ -68,7 +68,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         StartCoroutine(SetStartImage(stateData));
         IsPlaceCheck(stateData);
         SettingMyTeam(stateData);
-        SettingEnemyTeam(stateData);
+        //SettingEnemyTeam(stateData);
         SettingScript(stateData);
         SettingHp(stateData);
         SettingPosition();
@@ -354,6 +354,50 @@ public class BattleManager : MonoSingleton<BattleManager>
 
                 character[state.Value.position] = Instantiate(Resources.Load("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResourceModel(monsterInfo.id)) as GameObject,
                     CharacterParent.transform.GetChild(0));
+
+                character[state.Value.position].name = "Monster : " + state.Value.position + " - " + dbMonsterData.name;
+                character[state.Value.position].AddComponent<CharacterIndex>().index = state.Value.position;
+                SettingBoxCollider(character[state.Value.position]);
+                animator[state.Value.position] = character[state.Value.position].GetComponent<Animator>();
+            }
+            SettinGrid(state.Value.position);
+        }
+
+        foreach (KeyValuePair<int, UserCharacterStateData> state in stateData.enemyStateList)
+        {
+            if (state.Value.charType == CHAR_TYPE.SERVANT)
+            {
+                DBServantData dbServantData = CSVData.Inst.GetServantData(state.Value.id);
+                if (dbServantData == null)
+                {
+                    Debug.Log("Invalid Servant ID : " + state.Value.id);
+                    return;
+                }
+
+                character[state.Value.position] = Instantiate(characterCustom.Create(
+                    dbServantData.job,
+                    dbServantData.head,
+                    dbServantData.hair,
+                    dbServantData.gender,
+                    dbServantData.body
+                    ), CharacterParent.transform.GetChild(1));
+
+                character[state.Value.position].name = "Servant : " + state.Value.position + " - " + dbServantData.name;
+                character[state.Value.position].AddComponent<CharacterIndex>().index = state.Value.position;
+                SettingBoxCollider(character[state.Value.position]);
+                animator[state.Value.position] = character[state.Value.position].GetComponent<Animator>();
+            }
+            else if (state.Value.charType == CHAR_TYPE.MONSTER)
+            {
+                DBMonsterData dbMonsterData = CSVData.Inst.GetMonsterData(state.Value.id);
+                if (dbMonsterData == null)
+                {
+                    Debug.Log("Invalid Monster ID : " + state.Value.id);
+                    return;
+                }
+
+                character[state.Value.position] = Instantiate(Resources.Load("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResourceModel(state.Value.id)) as GameObject,
+                    CharacterParent.transform.GetChild(1));
 
                 character[state.Value.position].name = "Monster : " + state.Value.position + " - " + dbMonsterData.name;
                 character[state.Value.position].AddComponent<CharacterIndex>().index = state.Value.position;
