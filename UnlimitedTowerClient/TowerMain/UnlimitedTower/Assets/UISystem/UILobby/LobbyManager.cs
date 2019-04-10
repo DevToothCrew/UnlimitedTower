@@ -40,7 +40,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         chatUI.SetActivateWithAnimation(true);
         accountInfoUI.SetActive(true);
         BackbuttonUI.SetActive(false);
-        ModelViewManager.Inst.ChangeMainCharacterModel();
+        //ModelViewManager.Inst.ChangeMainCharacterModel();
         Time.timeScale = 1.0f;
     }
 
