@@ -103,7 +103,6 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
         ServantList = UserDataManager.Inst.GetServantList();
         MonsterList = UserDataManager.Inst.GetMonsterList();
-
     }
 
     void Start() {
@@ -169,13 +168,13 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
             selectedMenu = menu_type.MONSTER;
             currentScrollType = scroll_type.MONSTER_INFO;
         }
-        else
+        else if (tag == (int)menu_type.FORMATION)
         {
             selectedMenu = menu_type.FORMATION;
+            SetFormation();
             //currentScrollType = scroll_type.FORMATION;
         }
         updateAllView();
-
     }
 
 
@@ -512,16 +511,41 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     public int selectedFormationSlot = -1;     //Selected formation slot idx : 0~4 : Servant, 5~9:Monster
     private int[] formationSlot = new int[10];  //temp formation slot;
 
+    public void SetFormation()
+    {
+        UserPartyData partyInfo = UserDataManager.Inst.GetUserPartyInfo();
+        if (partyInfo == null)
+        {
+            Debug.Log("Invalid Party Info");
+            return;
+        }
+
+        for (int i = 0; i < 10; i++)
+        {
+            formationSlot[i] = partyInfo.formationDataDic[i].index;
+        }
+    }
+
     public void updateFormation()
     {
-        UserDataManager u_data = UserDataManager.Inst;
         for (int i = 0; i < 5; i++)
         {
-            UserServantData servant = u_data.GetServantInfo(u_data.partyInfo.formationDataDic[i].index);
-            formationSlot[i] = u_data.partyInfo.formationDataDic[i].index;
-
-            if (servant != null && servant.isPlaced && u_data.partyInfo.formationDataDic[i].index > 0)
+            if (formationSlot[i] == 0)
             {
+                buttonServantFormation[i].image.sprite = spriteSlot[1];
+                imageServantFormation[i].enabled = false;
+
+                objectServantInfo[i].SetActive(false);
+            }
+            else
+            {
+                UserServantData servant = UserDataManager.Inst.GetServantInfo(formationSlot[i]);
+                if(servant == null)
+                {
+                    Debug.Log("Invalid Servant ID : " + formationSlot[i]);
+                    return;
+                }
+
                 buttonServantFormation[i].image.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)servant.grade);
                 imageServantFormation[i].enabled = true;
                 imageServantFormation[i].sprite = CSVData.Inst.GetServantData(servant.id).servantIcon;
@@ -556,21 +580,26 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
                 objectServantInfo[i].SetActive(true);
             }
-            else
-            {
-                buttonServantFormation[i].image.sprite = spriteSlot[1];
-                imageServantFormation[i].enabled = false;
-
-                objectServantInfo[i].SetActive(false);
-            }
         }
 
         for (int i = 0; i < 5; i++)
         {
-            UserMonsterData monster = u_data.GetMonsterInfo(u_data.partyInfo.formationDataDic[i + 5].index);
-            formationSlot[i+5] = u_data.partyInfo.formationDataDic[i+5].index;
-            if (monster != null && monster.isPlaced && u_data.partyInfo.formationDataDic[i+5].index > 0)
+            if(formationSlot[i + 5] == 0)
             {
+                buttonMonsterFormation[i].image.sprite = spriteSlot[1];
+                imageMonsterFormation[i].enabled = false;
+
+                objectMonsterInfo[i].SetActive(false);
+            }
+            else
+            {
+                UserMonsterData monster = UserDataManager.Inst.GetMonsterInfo(formationSlot[i + 5]);
+                if (monster == null)
+                {
+                    Debug.Log("Invalid Monster ID : " + formationSlot[i + 5]);
+                    return;
+                }
+
                 buttonMonsterFormation[i].image.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)monster.grade);
                 imageMonsterFormation[i].enabled = true;
                 imageMonsterFormation[i].sprite = CSVData.Inst.GetMonsterData(monster.id).monsterIcon;
@@ -605,13 +634,6 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
                 objectMonsterInfo[i].SetActive(true);
             }
-            else
-            {
-                buttonMonsterFormation[i].image.sprite = spriteSlot[1];
-                imageMonsterFormation[i].enabled = false;
-
-                objectMonsterInfo[i].SetActive(false);
-            }
         }
 
     }
@@ -624,30 +646,22 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         }
         else
         {
-            UserDataManager u_data = UserDataManager.Inst;
-
             selectedFormationSlot = btn_tag;
             if (formationSlot[selectedFormationSlot] > 0)//캐릭터가 설정되어있는 슬롯을 눌렀을때 -> 캐릭터 해제
             {
                 selectedFormationSlot = -1;
                 frameScroll.gameObject.SetActive(false);
 
-                if (btn_tag < 5)
-                {
-                    u_data.GetServantInfo(u_data.partyInfo.formationDataDic[btn_tag].index).isPlaced = false;
-                    u_data.GetServantInfo(u_data.partyInfo.formationDataDic[btn_tag].index).partyIndex = 0;
-                }
-                else
-                {
-                    u_data.GetMonsterInfo(u_data.partyInfo.formationDataDic[btn_tag].index).isPlaced = false;
-                    u_data.GetMonsterInfo(u_data.partyInfo.formationDataDic[btn_tag].index).partyIndex = 0;
-                }
+                Debug.Log("Index : " + btn_tag + " / Ex Party Info Index : " + formationSlot[btn_tag] + " / Ex User Party Info Index : " + UserDataManager.Inst.GetUserPartyInfo().formationDataDic[btn_tag].index);
 
-                u_data.partyInfo.formationDataDic[btn_tag].index = 0;
+                formationSlot[btn_tag] = 0;
+
+                Debug.Log("Index : " + btn_tag + " / Now Party Info Index : " + formationSlot[btn_tag] + " / Ex User Party Info Index : " + UserDataManager.Inst.GetUserPartyInfo().formationDataDic[btn_tag].index);
+
                 formationSlot[btn_tag] = 0;
                 updateFormation();
             }
-            else//비어있는 슬롯을 눌렀을때 -> 캐릭터 선택 스크롤 활성화
+            else //비어있는 슬롯을 눌렀을때 -> 캐릭터 선택 스크롤 활성화
             {
                 selectedFormationSlot = btn_tag;
 
@@ -664,56 +678,82 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                 resetScroll(currentScrollType);
             }
         }
-        
-        
     }
 
-    public void InsertUnit(int chracter_unit_idx)
+    public void InsertUnit(int character_unit_idx)
     {
-        UserDataManager u_data = UserDataManager.Inst;
-
-        if (currentScrollType == scroll_type.SERVANT_INFO)
+        if(character_unit_idx == 0)
         {
-            if (u_data.GetServantInfo(chracter_unit_idx).isPlaced)
-            {
-                Debug.Log("Warning : 이미 포메이션에 등록된 유닛 입니다.");
-                return;
-            }
-            else
-            {
-                u_data.GetServantInfo(chracter_unit_idx).isPlaced = true;
-                u_data.GetServantInfo(chracter_unit_idx).partyIndex = 1;
-            }
-            
-        }
-        else if (currentScrollType == scroll_type.MONSTER_INFO)
-        {
-            if (u_data.GetMonsterInfo(chracter_unit_idx).isPlaced)
-            {
-                Debug.Log("Warning : 이미 포메이션에 등록된 유닛 입니다.");
-                return;
-            }
-            else
-            {
-                u_data.GetMonsterInfo(chracter_unit_idx).isPlaced = true;
-                u_data.GetMonsterInfo(chracter_unit_idx).partyIndex = 1;
-            }
-            
+            Debug.Log("Index is 0");
+            return;
         }
 
-        u_data.partyInfo.formationDataDic[selectedFormationSlot].index = chracter_unit_idx;
-        formationSlot[selectedFormationSlot] = chracter_unit_idx;
+        if (formationSlot[selectedFormationSlot] == character_unit_idx)
+        {
+            Debug.Log("Warning : 이미 포메이션에 등록된 유닛 입니다.");
+            return;
+        }
+
+        if (selectedFormationSlot <= DEFINE.ServantMaxFormationNum)
+        {
+            // 서번트일 경우
+            for(int i = DEFINE.ServantMinFormationNum; i <= DEFINE.ServantMaxFormationNum; i++)
+            {
+                if(i == selectedFormationSlot)
+                {
+                    continue;
+                }
+
+                if(character_unit_idx == formationSlot[i])
+                {
+                    Debug.Log("이동");
+                    formationSlot[i] = 0;
+                }
+            }
+        }
+        else if(selectedFormationSlot <= DEFINE.MonsterMaxFormationNum)
+        {
+            // 몬스터일 경우
+            for (int i = DEFINE.MonsterMinFormationNum; i <= DEFINE.MonsterMaxFormationNum; i++)
+            {
+                if (i == selectedFormationSlot)
+                {
+                    continue;
+                }
+
+                if (character_unit_idx == formationSlot[i])
+                {
+                    Debug.Log("이동");
+                    formationSlot[i] = 0;
+                }
+            }
+        }
+
+        Debug.Log("Index : " + selectedFormationSlot + " / Now Party Info Index : " + formationSlot[selectedFormationSlot] + " / Ex User Party Info Index : " + UserDataManager.Inst.GetUserPartyInfo().formationDataDic[selectedFormationSlot].index);
+
+        formationSlot[selectedFormationSlot] = character_unit_idx;
+
+        Debug.Log("Index : " + selectedFormationSlot + " / Now Party Info Index : " + formationSlot[selectedFormationSlot] + " / Ex User Party Info Index : " + UserDataManager.Inst.GetUserPartyInfo().formationDataDic[selectedFormationSlot].index);
+
         frameScroll.SetActive(false);
         updateFormation();
     }
 
-
     public void OnClickSaveFormation()
     {
+        List<int> indexList = new List<int>();
+        for(int i = 0; i < 10; i++)
+        {
+            indexList.Add(formationSlot[i]);
+        }
+
+        // TODO : 추후 파티가 늘어날수도
+        int partyIndex = 1;
+
 #if UNITY_EDITOR
-        Cheat.Inst.RequestSavePartyCheat();
+        Cheat.Inst.RequestSavePartyCheat(partyIndex, indexList);
 #else
-        PacketManager.Inst.RequestSaveParty(UserDataManager.Inst.GetUserPartyInfo());
+        PacketManager.Inst.RequestSaveParty(partyIndex, indexList);
 #endif
     }
 
