@@ -513,7 +513,6 @@ public class Cheat : MonoSingleton<Cheat>
         resultData.monsterIndexList = burnServantIndexList;
         resultData.itemList = new List<itemData>();
 
-        int newIndex = 1;
         Dictionary<int, itemData> addItemDic = new Dictionary<int, itemData>();
         for (int i = 0; i < burnServantIndexList.Count; i++)
         {
@@ -529,8 +528,6 @@ public class Cheat : MonoSingleton<Cheat>
                 Debug.Log("Invalid Request Servant Already placed Party : " + servantData.partyIndex);
                 return null;
             }
-
-            itemData getItem = new itemData();
             // TODO : Item 정리중
 
             DBServantData dbServantData = CSVData.Inst.GetServantData(servantData.id);

@@ -72,16 +72,17 @@ public class DecontructionSlot : MonoBehaviour {
                 FrameUnitInfo.SetActive(false);
                 FrameItemInfo.SetActive(true);
                 imageEmptySlot.enabled = false;
+                this.GetComponent<Button>().interactable = true;
 
                 UserEquipmentData e_info = UserDataManager.Inst.GetEquipmentInfo(unit_idx);
                 if (e_info == null)
                 {
                     Debug.Log("Invalid Equip ID : " + e_info.id);
                 }
-                imageUnitGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)e_info.grade);
-                imageUnit.sprite = CSVData.Inst.GetEquipmentData(e_info.id).equipmentIcon;
+                imageItemGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)e_info.grade);
+                imageItem.sprite = CSVData.Inst.GetEquipmentData(e_info.id).equipmentIcon;
 
-                textUnitLevel.text = string.Format("{0}", e_info.upgrade);
+                textItemLevel.text = string.Format("{0}", e_info.upgrade);
 
                 imageStat.sprite = CSVData.Inst.GetSpriteOptionType(e_info.optionType);
                 textStat.text = string.Format("{0}", e_info.value);

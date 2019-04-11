@@ -384,6 +384,11 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
 
             for (int i = 0; i < deconstructionUnitList.Length; i++)
             {
+                if (deconstructionUnitList[i] == 0)
+                {
+                    continue;
+                }
+
                 UserServantData servantData = UserDataManager.Inst.GetServantInfo(deconstructionUnitList[i]);
                 if (servantData == null)
                 {
@@ -417,6 +422,11 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
 
             for (int i = 0; i < deconstructionUnitList.Length; i++)
             {
+                if (deconstructionUnitList[i] == 0)
+                {
+                    continue;
+                }
+
                 UserMonsterData monsterData = UserDataManager.Inst.GetMonsterInfo(deconstructionUnitList[i]);
                 if (monsterData == null)
                 {
@@ -451,6 +461,11 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
 
             for (int i = 0; i < deconstructionUnitList.Length; i++)
             {
+                if(deconstructionUnitList[i] == 0)
+                {
+                    continue;
+                }
+
                 UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(deconstructionUnitList[i]);
                 if (equipmentData == null)
                 {
