@@ -679,7 +679,7 @@ GameObject:
   - component: {fileID: 114707021133340386}
   - component: {fileID: 114157045599809326}
   m_Layer: 5
-  m_Name: SkillButton
+  m_Name: UpgradeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1443,6 +1443,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224834743011039376}
+  - component: {fileID: 114103132056210620}
   m_Layer: 5
   m_Name: ServantInfoPage
   m_TagString: Untagged
@@ -3522,6 +3523,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224504104263326152}
+  - component: {fileID: 114678182922886924}
   m_Layer: 5
   m_Name: MonsterInfoPage
   m_TagString: Untagged
@@ -6490,6 +6492,55 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 1
+--- !u!114 &114103132056210620
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1297486211785362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b638c93b4f0b63469f60e0216d08dee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textUnitName: {fileID: 114899712210483804}
+  textLevel: {fileID: 114584004338390116}
+  imageExp: {fileID: 114385109416300868}
+  textExp: {fileID: 114629495368509766}
+  buttonEquip:
+  - {fileID: 114400605475780704}
+  - {fileID: 114282175292835108}
+  - {fileID: 114637760403474436}
+  - {fileID: 114522520463813494}
+  - {fileID: 114480966605527518}
+  - {fileID: 114077607310308054}
+  buttonSkill: {fileID: 114151319812667610}
+  buttonBurn: {fileID: 114834550616782956}
+  buttonEtc: {fileID: 114822142900131396}
+  textGradeText: {fileID: 114648943368240914}
+  textGrade: {fileID: 114879010366615336}
+  textJobText: {fileID: 114317829883779842}
+  imagejob: {fileID: 114504625023621742}
+  textStatsText: {fileID: 114113512835880696}
+  textStr: {fileID: 114775752899946088}
+  textDex: {fileID: 114257718938419632}
+  textInt: {fileID: 114169046368587336}
+  textHP: {fileID: 114005651580063686}
+  textSpeed: {fileID: 114905105312856656}
+  textPAtk: {fileID: 114520671000510736}
+  textPDef: {fileID: 114178366843148338}
+  textMAtk: {fileID: 114586327573434140}
+  textMDef: {fileID: 114238552452650076}
+  textPCri: {fileID: 114947214041047238}
+  textPCriPer: {fileID: 114049658043757400}
+  textMCri: {fileID: 114512555453940566}
+  textMCriPer: {fileID: 114113388198724396}
+  textSkillText: {fileID: 114805911124686540}
+  textActiveText: {fileID: 114215029931458602}
+  textPassiveText: {fileID: 114055283197876416}
+  imageActive: {fileID: 114595832008527170}
+  imagePassive: {fileID: 114639854484125416}
+  spriteEmptySlot: {fileID: 21300000, guid: a2fd6f66e897d164e83db62436b4fab4, type: 3}
 --- !u!114 &114106809284739744
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10675,6 +10726,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   framePartyInfo: {fileID: 1772277661368200}
+  FrameServantInfo: {fileID: 1297486211785362}
+  FrameMonsterInfo: {fileID: 1686550561151938}
   FrameSubView: {fileID: 1563590752363500}
   SubViewDeconstruction: {fileID: 0}
   SubViewSkill: {fileID: 0}
@@ -10695,30 +10748,6 @@ MonoBehaviour:
   - {fileID: 114835645873317530}
   frameScroll: {fileID: 1788651786066924}
   scrollList: {fileID: 114454347922636408}
-  textLevel: {fileID: 114584004338390116}
-  textExp: {fileID: 114629495368509766}
-  imageExp: {fileID: 114385109416300868}
-  textCharacterName: {fileID: 114899712210483804}
-  textStr: {fileID: 114775752899946088}
-  textDex: {fileID: 114257718938419632}
-  textInt: {fileID: 114169046368587336}
-  textPAtk: {fileID: 114520671000510736}
-  textPDef: {fileID: 114178366843148338}
-  textPCri: {fileID: 114947214041047238}
-  textPCriPer: {fileID: 114049658043757400}
-  textMAtk: {fileID: 114586327573434140}
-  textMDef: {fileID: 114238552452650076}
-  textMCri: {fileID: 114512555453940566}
-  textMCriPer: {fileID: 114113388198724396}
-  textSpeed: {fileID: 114905105312856656}
-  buttonEquipment:
-  - {fileID: 114400605475780704}
-  - {fileID: 114282175292835108}
-  - {fileID: 114637760403474436}
-  - {fileID: 114522520463813494}
-  - {fileID: 114480966605527518}
-  - {fileID: 114077607310308054}
-  spriteEmptySlot: {fileID: 21300000, guid: a2fd6f66e897d164e83db62436b4fab4, type: 3}
   selectedMenu: 0
   ServantList: []
   MonsterList: []
@@ -12549,6 +12578,46 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: / 00
+--- !u!114 &114678182922886924
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1686550561151938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 976f529ddca0bd541b3d558d0519ea92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textUnitName: {fileID: 114854301681474784}
+  textLevel: {fileID: 114547324858222370}
+  imageExp: {fileID: 114106809284739744}
+  textExp: {fileID: 114721115486846456}
+  buttonUpgrade: {fileID: 114157045599809326}
+  buttonBurn: {fileID: 114063306076710772}
+  buttonEtc: {fileID: 114926416172171954}
+  textGradeText: {fileID: 114575785929709984}
+  textGrade: {fileID: 114990363854809264}
+  textUpgradeText: {fileID: 114654295909779666}
+  textUpgrade: {fileID: 114352397961150844}
+  textClassText: {fileID: 114908369948701546}
+  imageClass: {fileID: 114511942841038732}
+  textTypeText: {fileID: 114325507483587376}
+  imageType: {fileID: 114579496732431210}
+  textStatsText: {fileID: 114654071669651704}
+  textStr: {fileID: 114766565147459200}
+  textDex: {fileID: 114934451466765776}
+  textInt: {fileID: 114633431976889188}
+  textHP: {fileID: 114179965254673380}
+  textSpeed: {fileID: 114134530594111936}
+  textPAtk: {fileID: 114207745979203684}
+  textPDef: {fileID: 114830677437461550}
+  textMAtk: {fileID: 114075014930221242}
+  textMDef: {fileID: 114148764431490322}
+  textPCri: {fileID: 114664412457035448}
+  textPCriPer: {fileID: 114357827474227530}
+  textMCri: {fileID: 114356068782576416}
+  textMCriPer: {fileID: 114885074639986044}
 --- !u!114 &114679581719168644
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -6,6 +6,10 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 {
     public GameObject framePartyInfo;
 
+    //Info
+    public GameObject FrameServantInfo;
+    public GameObject FrameMonsterInfo;
+
     //SubView
     public GameObject FrameSubView;
     public GameObject SubViewDeconstruction;
@@ -28,32 +32,6 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
     public GameObject frameScroll;
     public ScrollListManager scrollList;
-
-    //Detail Info UI
-    public Text textLevel;
-    public Text textExp;
-    public Image imageExp;
-    public Text textCharacterName;
-
-    public Text textStr;
-    public Text textDex;
-    public Text textInt;
-
-    public Text textPAtk;
-    public Text textPDef;
-    public Text textPCri;
-    public Text textPCriPer;
-    public Text textMAtk;
-    public Text textMDef;
-    public Text textMCri;
-    public Text textMCriPer;
-    public Text textSpeed;
-
-    public Button[] buttonEquipment = new Button[6];
-    public Sprite spriteEmptySlot;
-
-
-    //public Text textA
 
     //UI Set Data
     public enum menu_type
@@ -121,16 +99,12 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         buttonMenu[(int)selectedMenu].image.sprite = buttonMenu[(int)selectedMenu].spriteState.pressedSprite;
         buttonMenu[(int)selectedMenu].GetComponentInChildren<Text>().color = Color.black;
 
-        for (int i = 0; i < buttonEquipment.Length; i++)
-            buttonEquipment[i].gameObject.SetActive(false);
+        
 
         if (selectedMenu == menu_type.SERVANT)
         {   
             frameScroll.SetActive(true);
             resetScroll(currentScrollType);
-
-            for (int i = 0; i < 3; i++)
-                buttonEquipment[i].gameObject.SetActive(true);
 
             framePartyInfo.SetActive(true);
             frameFormation.SetActive(false);
@@ -279,146 +253,11 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
         if (selectedMenu == menu_type.SERVANT)
         {
-            UserServantData servantData = ServantList[selected_unit_idx];
-            if(servantData == null)
-            {
-                Debug.Log("Invalid Servant Inddex : " + selected_unit_idx);
-            }
-
-            DBServantData dBServantData = CSVData.Inst.GetServantData(servantData.id);
-            if (dBServantData == null)
-            {
-                Debug.Log("Invalid Servant ID : " + servantData.id);
-            }
-
-            for (EQUIPMENT_TYPE type = EQUIPMENT_TYPE.WEAPON; type < EQUIPMENT_TYPE.MAX; type++)
-            {
-                if (servantData.equipmentDic[type] != 0)
-                {
-                    UserEquipmentData equip_info = UserDataManager.Inst.GetEquipmentInfo(servantData.equipmentDic[type]);
-                    if(equip_info == null)
-                    {
-                        Debug.LogError("Invalid Index : " + servantData.equipmentDic[type]);
-                        return;
-                    }
-
-                    buttonEquipment[(int)type].image.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)equip_info.grade);
-                    buttonEquipment[(int)type].transform.GetChild(0).GetComponent<Image>().enabled = true;
-                    buttonEquipment[(int)type].transform.GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.GetEquipmentData(equip_info.id).equipmentIcon;
-                }
-                else
-                {
-                    buttonEquipment[(int)type].image.sprite = spriteEmptySlot;
-                    buttonEquipment[(int)type].transform.GetChild(0).GetComponent<Image>().enabled = false;
-                }
-                
-            }
-            
-
-            textLevel.text = string.Format("{0}", servantData.level);
-            textCharacterName.text = string.Format("{0}", dBServantData.name);
-
-            DBExpData dbExpData = CSVData.Inst.GetExpData(servantData.level);
-            if (dbExpData == null)
-            {
-                Debug.Log("Invalid Level Data");
-            }
-            else
-            {
-                int exExp = 0;
-                if (servantData.level - 1 > 0)
-                {
-                    DBExpData exDBExpData = CSVData.Inst.GetExpData(servantData.level - 1);
-                    if(exDBExpData == null)
-                    {
-                        Debug.Log("Invalid Level Data");
-                    }
-                    else
-                    {
-                        exExp = exDBExpData.charExp;
-                    }
-                }
-
-                textExp.text = servantData.exp + " / " + dbExpData.charExp;
-                imageExp.fillAmount = (exExp - servantData.exp) / (float)(exExp - dbExpData.charExp);
-            }
-
-            textStr.text = string.Format("{0}", servantData.status.basicStr);
-            textDex.text = string.Format("{0}", servantData.status.basicDex);
-            textInt.text = string.Format("{0}", servantData.status.basicInt);
-
-            textPAtk.text = string.Format("{0}", servantData.atk);
-            textPDef.text = string.Format("{0}", servantData.def);
-
-            textMAtk.text = string.Format("{0}", servantData.mAtk);
-            textMDef.text = string.Format("{0}", servantData.mDef);
-
-            textPCri.text = string.Format("{0}", dBServantData.criDmg);
-            textPCriPer.text = string.Format("{0}", dBServantData.criPer);
-
-            textMCri.text = string.Format("{0}", dBServantData.mcriDmg);
-            textMCriPer.text = string.Format("{0}", dBServantData.mcriPer);
-
-            textSpeed.text = string.Format("{0}", dBServantData.speed);
+            updateServantInfo(ServantList[selected_unit_idx]);
         }
         else if (selectedMenu == menu_type.MONSTER)
         {
-            UserMonsterData monsterData = MonsterList[selected_unit_idx];
-            if (monsterData == null)
-            {
-                Debug.Log("Invalid Monster Inddex : " + selected_unit_idx);
-            }
-
-            DBMonsterData dBMonsterData = CSVData.Inst.GetMonsterData(monsterData.id);
-            if(dBMonsterData == null)
-            {
-                Debug.Log("Invalid Monster ID : " + monsterData.id);
-            }
-
-            textLevel.text = string.Format("{0}", monsterData.level);
-            textCharacterName.text = string.Format("{0}", dBMonsterData.name);
-            DBExpData dbExpData = CSVData.Inst.GetExpData(monsterData.level);
-            if (dbExpData == null)
-            {
-                Debug.Log("Invalid Level Data");
-            }
-            else
-            {
-                int exExp = 0;
-                if (monsterData.level - 1 > 0)
-                {
-                    DBExpData exDBExpData = CSVData.Inst.GetExpData(monsterData.level - 1);
-                    if (exDBExpData == null)
-                    {
-                        Debug.Log("Invalid Level Data");
-                    }
-                    else
-                    {
-                        exExp = exDBExpData.charExp;
-                    }
-                }
-
-                textExp.text = monsterData.exp + " / " + dbExpData.charExp;
-                imageExp.fillAmount = (exExp - monsterData.exp) / (float)(exExp - dbExpData.charExp);
-            }
-
-            textStr.text = string.Format("{0}", monsterData.status.basicStr);
-            textDex.text = string.Format("{0}", monsterData.status.basicDex);
-            textInt.text = string.Format("{0}", monsterData.status.basicInt);
-
-            textPAtk.text = string.Format("{0}", monsterData.atk);
-            textPDef.text = string.Format("{0}", monsterData.def);
-
-            textMAtk.text = string.Format("{0}", monsterData.mAtk);
-            textMDef.text = string.Format("{0}", monsterData.mDef);
-
-            textPCri.text = string.Format("{0}", dBMonsterData.criDmg);
-            textPCriPer.text = string.Format("{0}", dBMonsterData.criPer);
-
-            textMCri.text = string.Format("{0}", dBMonsterData.mcriDmg);
-            textMCriPer.text = string.Format("{0}", dBMonsterData.mcriPer);
-
-            textSpeed.text = string.Format("{0}", dBMonsterData.speed);
+            updateMonsterInfo(MonsterList[selected_unit_idx]);
         }
 
         if (ModelViewManager.checkInst())
@@ -428,7 +267,20 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         
     }
     
-	
+	public void updateServantInfo(UserServantData s_data)
+    {
+        FrameServantInfo.GetComponent<ServantInfoManager>().updateServantInfo(s_data);
+        FrameServantInfo.SetActive(true);
+        FrameMonsterInfo.SetActive(false);
+    }
+
+    public void updateMonsterInfo(UserMonsterData m_data)
+    {   
+        FrameServantInfo.SetActive(false);
+        FrameMonsterInfo.GetComponent<MonsterInfoManager>().updateMonsterInfo(m_data);
+        FrameMonsterInfo.SetActive(true);
+    }
+
     public void OnClickDeconstruction()
     {
         frameScroll.SetActive(false);
