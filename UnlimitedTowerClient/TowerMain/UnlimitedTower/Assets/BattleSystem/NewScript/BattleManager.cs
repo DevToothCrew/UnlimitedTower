@@ -200,10 +200,14 @@ public class BattleManager : MonoSingleton<BattleManager>
             if (state.Value.charType == CHAR_TYPE.SERVANT)
             {
                 Exp.transform.GetChild(positionOrder[state.Value.position]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[state.Value.id].servantIcon;
+                Exp.transform.GetChild(positionOrder[state.Value.position]).GetChild(2).GetChild(0).GetComponent<Text>().text = UserDataManager.Inst.GetServantInfo(state.Value.index).level.ToString();
+                Exp.transform.GetChild(positionOrder[state.Value.position]).GetChild(3).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteServantJob((SERVANT_JOB)state.Value.job);
             }
             else if (state.Value.charType == CHAR_TYPE.MONSTER)
             {
                 Exp.transform.GetChild(positionOrder[state.Value.position]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
+                Exp.transform.GetChild(positionOrder[state.Value.position]).GetChild(2).GetChild(0).GetComponent<Text>().text = UserDataManager.Inst.GetMonsterInfo(state.Value.index).level.ToString();
+                Exp.transform.GetChild(positionOrder[state.Value.position]).GetChild(4).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteElementType((ELEMENT_TYPE)state.Value.elementType);
             }
             Exp.transform.GetChild(positionOrder[state.Value.position]).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)state.Value.grade);
         }
@@ -228,9 +232,13 @@ public class BattleManager : MonoSingleton<BattleManager>
             Instantiate(rewardItemBack, rewardItemParent.transform).gameObject.SetActive(true);
         }
 
-
+        for (int i = 0; i < rewardData.get_equipment_list.Count; i++)
+        {
+            rewardItemBack.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)rewardData.get_equipment_list[i].equipment.grade);
+            rewardItemImage.sprite = CSVData.Inst.GetEquipmentData(rewardData.get_equipment_list[i].equipment.id).equipmentIcon;
+            Instantiate(rewardItemBack, rewardItemParent.transform).gameObject.SetActive(true);
+        }
         rewardUTG.text = (rewardData.reward_money / 10000.0f).ToString("#.0000");
-
     }
 
     // 시작화면 파티 초상화 셋팅
@@ -238,24 +246,39 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         GameObject temp = GameObject.Find("StartUI");
         GameObject.Find("Player Name Text").GetComponent<Text>().text = stateData.user;
+        GameObject.Find("Enemy Name Text").GetComponent<Text>().text = stateData.enemyUser;
 
         foreach (KeyValuePair<int, UserCharacterStateData> state in stateData.myStateList)
         {
             if (state.Value.charType == CHAR_TYPE.SERVANT)
+            {
                 temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[state.Value.id].servantIcon;
+                temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetChild(1).GetChild(0).GetComponent<Text>().text = UserDataManager.Inst.GetServantInfo(state.Value.index).level.ToString();
+                temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetChild(2).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteServantJob((SERVANT_JOB)state.Value.job);
+            }
             else if (state.Value.charType == CHAR_TYPE.MONSTER)
+            {
                 temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
-            Debug.Log("등급 : " + (GRADE_TYPE)state.Value.grade);
+                temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetChild(1).GetChild(0).GetComponent<Text>().text = UserDataManager.Inst.GetMonsterInfo(state.Value.index).level.ToString();
+                temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetChild(3).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteElementType((ELEMENT_TYPE)state.Value.elementType);
+            }
             temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)state.Value.grade);
+            
         }
 
         foreach (KeyValuePair<int, UserCharacterStateData> state in stateData.enemyStateList)
         {
             if (state.Value.charType == CHAR_TYPE.SERVANT)
+            {
                 temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[state.Value.id].servantIcon;
+            }
             else if (state.Value.charType == CHAR_TYPE.MONSTER)
+            {
                 temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
+                temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetChild(3).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteElementType((ELEMENT_TYPE)state.Value.elementType);
+            }
             temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)state.Value.grade);
+            temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetChild(1).GetChild(0).GetComponent<Text>().text = "?";
         }
 
         yield return new WaitForSeconds(5.0f);

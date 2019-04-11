@@ -22,7 +22,7 @@ public class FrameChecker : MonoBehaviour
         style = new GUIStyle();
         style.alignment = TextAnchor.UpperLeft;
         style.fontSize = h * 4 / 100;
-        style.normal.textColor = Color.cyan;
+        style.normal.textColor = Color.black;
 
         StartCoroutine("worstReset");
     }
@@ -51,7 +51,12 @@ public class FrameChecker : MonoBehaviour
 
         if (fps < worstFps)  //새로운 최저 fps가 나왔다면 worstFps 바꿔줌.
             worstFps = fps;
-        text = msec.ToString("F1") + "ms (" + fps.ToString("F1") + ") // " + (int)(1 / Time.deltaTime) + "FPS";
+        if (Time.timeScale < 0.1f)
+        {
+            text = "Stop";
+        }
+        else
+        text = " " + (1 / Time.deltaTime).ToString("#.00") + "FPS";
         GUI.Label(rect, text, style);
     }
 }
