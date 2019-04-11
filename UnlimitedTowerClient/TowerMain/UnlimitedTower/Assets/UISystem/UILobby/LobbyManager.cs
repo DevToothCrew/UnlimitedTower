@@ -72,6 +72,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public void OnClickLeftButton(int num)
     {
+        popupState = (POPUP_STATE)num;
         switch ((POPUP_STATE)num)
         {
             case POPUP_STATE.Servant:
@@ -121,10 +122,11 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                 break;
 
             default:
+                Debug.Log("Invalid State : " + num.ToString());
+                popupState = POPUP_STATE.Servant;
                 return;
         }
 
-        popupState = (POPUP_STATE)num;
         EtcSetActiveWithAnimation(false);
         accountInfoUI.SetActive(false);
         BackbuttonUI.SetActive(true);

@@ -385,7 +385,6 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
         DrawScrollView();
         if (moveScrollSelectedUnit == false)
         {
-            Debug.Log("Move Scroll");
             selectedUnit();
             setSnapping();// if (scrollRect.velocity.y > 0f)
                 

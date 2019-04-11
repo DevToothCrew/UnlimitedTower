@@ -76,8 +76,6 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
     public Button buttonClear;
     public Button buttonChange;
 
-    public Sprite[] spriteStat = new Sprite[10];
-
     private int selectedItemIdx = -1;
     private PartyInfoVC partyInfo;
     public List<UserEquipmentData> EquipmentList = new List<UserEquipmentData>();
@@ -282,7 +280,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
                 current_stat[i] = 0;
             }
 
-            imageCurrentStat[0].sprite = spriteStat[(int)currentEquipmentData.optionType];
+            imageCurrentStat[0].sprite = CSVData.Inst.GetSpriteOptionType(currentEquipmentData.optionType);
             textCurrentStat[0].text = string.Format("{0}", currentEquipmentData.value);
             current_stat[(int)currentEquipmentData.optionType] = currentEquipmentData.value;
 
@@ -368,7 +366,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
                 change_stat[i] = 0;
             }
 
-            imageChangeStat[0].sprite = spriteStat[(int)changeEquipmentData.optionType];
+            imageChangeStat[0].sprite = CSVData.Inst.GetSpriteOptionType(changeEquipmentData.optionType);
             textChangeStat[0].text = string.Format("{0}", changeEquipmentData.value);
             change_stat[(int)changeEquipmentData.optionType] = changeEquipmentData.value;
 

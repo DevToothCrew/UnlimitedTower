@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,13 +35,12 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
     public Text textUpgrade;
     public Text textTierText;
     public Text textTier;
-    public Text textJobText;
-    public Text textJob;
     public Image[] imageJobIcon = new Image[5];
 
     public Text textStatsText;
-    public Image[] imageStatsIcon = new Image[3];
-    public Text[] textStats = new Text[3];
+    public Image imageStatsIcon;
+    public Text textStats;
+    public Sprite[] spriteStat = new Sprite[10];
 
 
     //UI Set Data
@@ -122,7 +121,7 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
 
     }
 
-    void Start()
+    void Awake()
     {
         initScrollList();
         OnClickMenuButton(0);
@@ -156,12 +155,15 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
             buttonMenu[(int)selectedMenu].GetComponentInChildren<Text>().color = Color.black;
 
             resetScroll(currentScrollType);
+
+            updateDetailInfo(EquipmentList[(int)selectedMenu][0].index);
         }
         else
         {
             frameItemInfo.SetActive(false);
             frameScroll.SetActive(false);
         }
+
 
     }
 
@@ -184,7 +186,6 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
             currentScrollType = scroll_type.ACCESSORY_INFO;
         }
         updateAllView();
-
     }
 
 
@@ -279,49 +280,27 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
             imageJobIcon[i].enabled = false;
         }
 
-        if (dBEquipmentData.jobLimit == SERVANT_JOB_FLAG.None)
+        if (dBEquipmentData.jobLimit == SERVANT_JOB_FLAG.All)
         {
-            textJob.text = "None";
-        }
-        else if (dBEquipmentData.jobLimit == SERVANT_JOB_FLAG.All)
-        {
-            textJob.text = "All";
+            for (int i = 0; i < 5; i++)
+            {
+                imageJobIcon[i].enabled = true;
+            }
         }
         else
         {
-            textJob.text = "";
-            int able_job_count = 0;
-            int check_job = (int)SERVANT_JOB_FLAG.Last;
-            while (check_job >= (int)SERVANT_JOB_FLAG.First)
+            for (int i = 0; i < 5; i++)
             {
-                if (dBEquipmentData.isEquipAble((SERVANT_JOB_FLAG)check_job))
+                SERVANT_JOB_FLAG checkJob = (SERVANT_JOB_FLAG)Math.Pow(2, (double)(i + 1));
+                if (dBEquipmentData.isEquipAble(checkJob) == true)
                 {
-                    Debug.Log("check Job :" + (SERVANT_JOB_FLAG)check_job);
-
-                    imageJobIcon[able_job_count].enabled = true;
-                    able_job_count++;
-
-                    if (able_job_count >= imageJobIcon.Length)
-                    {
-                        Debug.Log("up to 5 job");
-                        break;
-                    }
+                    imageJobIcon[i].enabled = true;
                 }
-
-                check_job = check_job >> 1;
-
             }
         }
 
-        for (EQUIPMENT_OPTION_TYPE type = EQUIPMENT_OPTION_TYPE.NONE; type < EQUIPMENT_OPTION_TYPE.MAX; type++)
-        {
-            if (equipmentData.optionType == type)
-            {
-                //imageStatsIcon[0].sprite = spriteStat[(int)type];
-                textStats[0].text = string.Format("{0}", equipmentData.value);
-            }
-        }
-
+        imageStatsIcon.sprite = CSVData.Inst.GetSpriteOptionType(dBEquipmentData.optionType);
+        textStats.text = string.Format("{0}", equipmentData.value);
     }
 
 
