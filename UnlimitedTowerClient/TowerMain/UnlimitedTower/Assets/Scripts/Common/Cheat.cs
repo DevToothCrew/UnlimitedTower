@@ -674,7 +674,7 @@ public class Cheat : MonoSingleton<Cheat>
         stageRewardData rewardData = new stageRewardData();
         rewardData.reward_money = 100000;
 
-        for (int i = 0; i < 5; ++i)
+        for (int i = 0; i < 10; ++i)
         {
             expInfo rewardCharExp = new expInfo();
             rewardCharExp.pos = i;
@@ -687,11 +687,11 @@ public class Cheat : MonoSingleton<Cheat>
         rewardData.get_equipment_list.Add(GetRandomEquipment(UserDataManager.Inst.GetEquipmentCount() + 2));
         rewardData.get_equipment_list.Add(GetRandomEquipment(UserDataManager.Inst.GetEquipmentCount() + 3));
 
-        //rewardData.get_servant_list.Add(GetRandomServantData(UserDataManager.Inst.servantDic.Count + 2));
-        //rewardData.get_servant_list.Add(GetRandomServantData(UserDataManager.Inst.servantDic.Count + 3));
+        rewardData.get_servant_list.Add(GetRandomServantData(UserDataManager.Inst.servantDic.Count + 2));
+        rewardData.get_servant_list.Add(GetRandomServantData(UserDataManager.Inst.servantDic.Count + 3));
 
-        //rewardData.get_monster_list.Add(GetRandomMonster(UserDataManager.Inst.monsterDic.Count + 2));
-        //rewardData.get_monster_list.Add(GetRandomMonster(UserDataManager.Inst.monsterDic.Count + 3));
+        rewardData.get_monster_list.Add(GetRandomMonster(UserDataManager.Inst.monsterDic.Count + 2));
+        rewardData.get_monster_list.Add(GetRandomMonster(UserDataManager.Inst.monsterDic.Count + 3));
 
         return JsonMapper.ToJson(rewardData);
     }
