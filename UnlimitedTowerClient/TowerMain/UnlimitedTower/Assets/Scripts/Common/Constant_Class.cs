@@ -24,6 +24,23 @@ public class UserInfo
 }
 
 [Serializable]
+public class UserLobbyInfo
+{
+    public resourceLimit cpuLimit;
+    public ulong cpuWeight;
+
+    public resourceLimit netLimit;
+    public ulong netWeight;
+
+    public ulong ramUsage;
+    public ulong ramQuota;
+
+    public int mailCount;
+
+    public string chatting;
+}
+
+[Serializable]
 public class MainCharInfo
 {
     public CHAR_TYPE mainCharType;

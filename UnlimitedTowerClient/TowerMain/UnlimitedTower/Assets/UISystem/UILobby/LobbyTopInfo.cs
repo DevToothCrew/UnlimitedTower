@@ -10,9 +10,19 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
     public Image MainCharImage;
     public Image GradeCharImage;
     public Image ExpSlide;
+    public Image CPUImage;
+    public Image NETImage;
+    public Image RAMImage;
+    private Sprite alertImage;
+    private Sprite notAlertImage;
 
-    void OnEnable ()
+    void Awake()
     {
+        alertImage = Resources.Load<Sprite>("UI/AccountInfo/red_button");
+        notAlertImage = Resources.Load<Sprite>("UI/AccountInfo/green_button");
+        CPUImage.sprite = notAlertImage;
+        NETImage.sprite = notAlertImage;
+        RAMImage.sprite = notAlertImage;
         UpdateTopInfo();
     }
 
@@ -55,6 +65,31 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
                 MainCharImage.sprite = servantData.servantIcon;
                 GradeCharImage.sprite = CSVData.Inst.GetSpriteGrade(servantData.grade);
             }
+        }
+
+        if (UserDataManager.Inst.IsCPUAlert() == true)
+        {
+            CPUImage.sprite = alertImage;
+        }
+        else
+        {
+            CPUImage.sprite = notAlertImage;
+        }
+        if (UserDataManager.Inst.IsNETAlert() == true)
+        {
+            NETImage.sprite = alertImage;
+        }
+        else
+        {
+            NETImage.sprite = notAlertImage;
+        }
+        if (UserDataManager.Inst.IsRAMAlert() == true)
+        {
+            RAMImage.sprite = alertImage;
+        }
+        else
+        {
+            RAMImage.sprite = notAlertImage;
         }
     }
 }

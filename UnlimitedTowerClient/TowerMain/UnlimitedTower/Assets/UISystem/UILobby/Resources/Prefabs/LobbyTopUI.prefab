@@ -1170,6 +1170,9 @@ MonoBehaviour:
   MainCharImage: {fileID: 114121853759592868}
   GradeCharImage: {fileID: 114986814411778242}
   ExpSlide: {fileID: 114502934791850332}
+  CPUImage: {fileID: 114409715124090794}
+  NETImage: {fileID: 114788319669357038}
+  RAMImage: {fileID: 114709217608381114}
 --- !u!114 &114432064789168954
 MonoBehaviour:
   m_ObjectHideFlags: 1

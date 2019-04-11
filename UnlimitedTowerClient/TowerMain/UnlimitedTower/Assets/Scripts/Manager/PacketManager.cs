@@ -1111,6 +1111,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log("Invalid AdditemDataList");
             return;
         }
+
+        SubViewDeconstruction.Inst.updateViewFinishRequest();
     }
     
     public void ResponseMonsterBurn(monsterBurnResultData getSellMonsterResultData)
@@ -1141,6 +1143,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log("Invalid AdditemDataList");
             return;
         }
+
+        SubViewDeconstruction.Inst.updateViewFinishRequest();
     }
 
     public void ResponseEquipmentBurn(equipmentBurnResultData getSellEquipmentResultData)
@@ -1171,6 +1175,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log("Invalid AdditemDataList");
             return;
         }
+
+        SubViewDeconstruction.Inst.updateViewFinishRequest();
     }
 
     public void ResponseItemBurn(itemBurnResultData getSellItemResultData)
@@ -1379,20 +1385,37 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("로얄 서번트 구매 !");
     }
 
-    public void ResponseLobbyInfo(lobbyInfoResultData getMailOpenResultData)
+    public void ResponseLobbyInfo(lobbyInfoResultData getLobbyInfo)
     {
         Debug.Log("로비 인포!");
 
-        Debug.Log("Chat : " + getMailOpenResultData.chat_string);
-        Debug.Log("EOS : " + getMailOpenResultData.eos);
-        Debug.Log("UTG : " + getMailOpenResultData.utg);
-        Debug.Log("Mail : " + getMailOpenResultData.mail_count);
-        Debug.Log("CPU Limit : " + getMailOpenResultData.resource_data.cpu_limit);
-        Debug.Log("CPU Weight : " + getMailOpenResultData.resource_data.cpu_weight);
-        Debug.Log("NET Limit : " + getMailOpenResultData.resource_data.net_limit);
-        Debug.Log("NET Weight : " + getMailOpenResultData.resource_data.net_weight);
-        Debug.Log("RAM Usage : " + getMailOpenResultData.resource_data.ram_usage);
-        Debug.Log("RAM Quota : " + getMailOpenResultData.resource_data.ram_quota);
+        Debug.Log("Chat : " + getLobbyInfo.chat_string);
+        Debug.Log("EOS : " + getLobbyInfo.eos);
+        Debug.Log("UTG : " + getLobbyInfo.utg);
+        Debug.Log("Mail : " + getLobbyInfo.mail_count);
+        Debug.Log("CPU Limit : " + getLobbyInfo.resource_data.cpu_limit);
+        Debug.Log("CPU Weight : " + getLobbyInfo.resource_data.cpu_weight);
+        Debug.Log("NET Limit : " + getLobbyInfo.resource_data.net_limit);
+        Debug.Log("NET Weight : " + getLobbyInfo.resource_data.net_weight);
+        Debug.Log("RAM Usage : " + getLobbyInfo.resource_data.ram_usage);
+        Debug.Log("RAM Quota : " + getLobbyInfo.resource_data.ram_quota);
+
+        UserLobbyInfo lobbyInfo = new UserLobbyInfo();
+        lobbyInfo.cpuLimit = getLobbyInfo.resource_data.cpu_limit;
+        lobbyInfo.cpuWeight = getLobbyInfo.resource_data.cpu_weight;
+        lobbyInfo.netLimit = getLobbyInfo.resource_data.net_limit;
+        lobbyInfo.netWeight = getLobbyInfo.resource_data.net_weight;
+        lobbyInfo.ramUsage = getLobbyInfo.resource_data.ram_usage;
+        lobbyInfo.ramQuota = getLobbyInfo.resource_data.ram_quota;
+        lobbyInfo.mailCount = getLobbyInfo.mail_count;
+        lobbyInfo.chatting = getLobbyInfo.chat_string;
+
+        UserDataManager.Inst.SetUserLobbyInfo(lobbyInfo);
+        UserDataManager.Inst.SetUserEOS(Convert.ToUInt64(getLobbyInfo.eos));
+        UserDataManager.Inst.SetUserUTG(Convert.ToUInt64(getLobbyInfo.utg));
+
+        LobbyTopInfo.Inst.UpdateTopInfo();
+        LobbyChatInfo.Inst.UpdateChatting();
     }
 
     public void ResponseMailList(mailListResultData mailList)

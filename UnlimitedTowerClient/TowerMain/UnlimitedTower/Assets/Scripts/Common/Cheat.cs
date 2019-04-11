@@ -719,7 +719,7 @@ public class Cheat : MonoSingleton<Cheat>
     {
         servantInfo servant = new servantInfo();
 
-        servant.state = 0;
+        servant.state = 1;
         servant.exp = rand.Next(0, 160000);
         servant.level = CSVData.Inst.GetCharLevelByExp(servant.exp);
         //servant.job = rand.Next(1, 5);
@@ -740,7 +740,7 @@ public class Cheat : MonoSingleton<Cheat>
         monsterData.index = index;
 
         monsterData.monster = new monsterInfo();
-        monsterData.monster.state = 0;
+        monsterData.monster.state = 1;
         monsterData.monster.exp = rand.Next(0, 160000);
         monsterData.monster.level = CSVData.Inst.GetCharLevelByExp(monsterData.monster.exp);
 
@@ -761,7 +761,7 @@ public class Cheat : MonoSingleton<Cheat>
         equipmentData.index = index;
 
         equipmentData.equipment = new equipmentInfo();
-        equipmentData.equipment.state = 0;
+        equipmentData.equipment.state = 1;
         equipmentData.equipment.id = CSVData.Inst.GetRandomEquipmentID();
         equipmentData.equipment.grade = rand.Next(1, 6);
         equipmentData.equipment.upgrade = 0;
@@ -908,7 +908,7 @@ public class Cheat : MonoSingleton<Cheat>
         PacketManager.Inst.ResponseServantBurn(getServantBurnResultData);
     }
 
-    public void RequestMonsterSellCheat(List<int> monsterIndexList)
+    public void RequestMonsterBurnCheat(List<int> monsterIndexList)
     {
         string monsterSellResultJson = GetMonsterSellData(monsterIndexList);
         if (monsterSellResultJson == null)
@@ -922,7 +922,7 @@ public class Cheat : MonoSingleton<Cheat>
         PacketManager.Inst.ResponseMonsterBurn(getSellMonsterResultData);
     }
 
-    public void RequestEquipmentSellCheat(List<int> equipmentIndexList)
+    public void RequestEquipmentBurnCheat(List<int> equipmentIndexList)
     {
         string equipmentSellResultJson = GetEquipmentSellData(equipmentIndexList);
         if (equipmentSellResultJson == null)
@@ -999,8 +999,18 @@ public class Cheat : MonoSingleton<Cheat>
         resultData.chat_string = "로컬입니다";
         resultData.mail_count = 1;
         resultData.resource_data = new userResourceData();
-        resultData.eos = UserDataManager.Inst.GetUserEOS().ToString();
-        resultData.utg = UserDataManager.Inst.GetUserUTG().ToString();
+        resultData.resource_data.cpu_limit = new resourceLimit();
+        resultData.resource_data.cpu_limit.used = 1;
+        resultData.resource_data.cpu_limit.available = 1;
+        resultData.resource_data.cpu_limit.max = 1;
+        resultData.resource_data.net_limit = new resourceLimit();
+        resultData.resource_data.net_limit.used = 1;
+        resultData.resource_data.net_limit.available = 1;
+        resultData.resource_data.net_limit.max = 1;
+        resultData.resource_data.ram_usage = 1;
+        resultData.resource_data.ram_quota = 1;
+        resultData.eos = "1000000";
+        resultData.utg = "1000000";
 
         PacketManager.Inst.ResponseLobbyInfo(resultData);
     }

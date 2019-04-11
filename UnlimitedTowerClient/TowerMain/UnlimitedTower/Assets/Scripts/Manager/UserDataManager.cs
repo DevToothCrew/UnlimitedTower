@@ -8,6 +8,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
     // 대표 캐릭터
     public MainCharInfo userMainCharInfo = new MainCharInfo();
+    public UserLobbyInfo userLobbyInfo = new UserLobbyInfo();
 
     public Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
     public List<UserServantData> servantList = new List<UserServantData>();
@@ -56,6 +57,21 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public void SetUserInfo(UserInfo getUserInfo)
     {
         userInfo = getUserInfo;
+    }
+
+    public void SetUserEOS(ulong getEOS)
+    {
+        userInfo.userEOS = getEOS;
+    }
+
+    public void SetUserUTG(ulong getUTG)
+    {
+        userInfo.userUTG = getUTG;
+    }
+
+    public void SetUserLobbyInfo(UserLobbyInfo getLobbyInfo)
+    {
+        userLobbyInfo = getLobbyInfo;
     }
 
     public void SetServantDic(Dictionary<int, UserServantData> getServantDic)
@@ -356,6 +372,59 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public ulong GetUserUTG() /* 기본적으로 EOS와 UTG는 1이 10000으로 처리됩니다. */
     {
         return userInfo.userUTG;
+    }
+
+    public UserLobbyInfo GetUserLobbyInfo()
+    {
+        return userLobbyInfo;
+    }
+
+    public bool IsCPUAlert()
+    {
+        if(userLobbyInfo.cpuLimit == null)
+        {
+            return false;
+        }
+
+        float cpuPer = userLobbyInfo.cpuLimit.used / (float)userLobbyInfo.cpuLimit.available;
+        if(cpuPer >= 0.9)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool IsNETAlert()
+    {
+        if (userLobbyInfo.netLimit == null)
+        {
+            return false;
+        }
+
+        float netPer = userLobbyInfo.netLimit.used / (float)userLobbyInfo.netLimit.available;
+        if (netPer >= 0.9)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool IsRAMAlert()
+    {
+        if (userLobbyInfo.ramUsage == 0 || userLobbyInfo.ramQuota == 0)
+        {
+            return false;
+        }
+
+        float ramPer = userLobbyInfo.ramUsage / (float)userLobbyInfo.ramQuota;
+        if (ramPer >= 0.9)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public MainCharInfo GetMainCharInfo()

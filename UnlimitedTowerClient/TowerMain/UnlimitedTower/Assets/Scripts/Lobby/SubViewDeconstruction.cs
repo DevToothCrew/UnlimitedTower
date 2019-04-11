@@ -440,14 +440,43 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
             }
 
 #if UNITY_EDITOR
-            Cheat.Inst.GetMonsterSellData(monsterIndexList);
+            Cheat.Inst.RequestMonsterBurnCheat(monsterIndexList);
 #else
             PacketManager.Inst.RequestMonsterBurn(monsterIndexList);
 #endif
         }
         else if (dType == DECONSTRUCTION_TYPE.EQUIPMENT) // Equip
         {
+            List<int> equipmentIndexList = new List<int>();
 
+            for (int i = 0; i < deconstructionUnitList.Length; i++)
+            {
+                UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(deconstructionUnitList[i]);
+                if (equipmentData == null)
+                {
+                    Debug.Log("Invalid Request Equipment ID : " + deconstructionUnitList[i]);
+                    return;
+                }
+
+                if (equipmentData.state != 1)
+                {
+                    Debug.Log("Invalid Equipment State : " + equipmentData.state);
+                    return;
+                }
+
+                if (equipmentData.equipServantIndex != 0)
+                {
+                    Debug.Log("Invalid Equipment Already Equip Servant Index : " + equipmentData.equipServantIndex);
+                    return;
+                }
+
+                equipmentIndexList.Add(deconstructionUnitList[i]);
+            }
+#if UNITY_EDITOR
+            Cheat.Inst.RequestEquipmentBurnCheat(equipmentIndexList);
+#else
+            PacketManager.Inst.RequestEquipmentBurn(equipmentIndexList);
+#endif
         }
     }
 }
