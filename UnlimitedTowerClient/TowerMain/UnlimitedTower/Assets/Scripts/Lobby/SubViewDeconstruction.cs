@@ -408,7 +408,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
 #if UNITY_EDITOR
             Cheat.Inst.RequestServantBurnCheat(servantIndexList);
 #else
-            PacketManager.Inst.RequestServantGrind(servantIndexList);
+            PacketManager.Inst.RequestServantBurn(servantIndexList);
 #endif
         }
         else if (dType == DECONSTRUCTION_TYPE.MONSTER)  // Monster
@@ -442,7 +442,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
 #if UNITY_EDITOR
             Cheat.Inst.GetMonsterSellData(monsterIndexList);
 #else
-            PacketManager.Inst.RequestMonsterSell(monsterIndexList);
+            PacketManager.Inst.RequestMonsterBurn(monsterIndexList);
 #endif
         }
         else if (dType == DECONSTRUCTION_TYPE.EQUIPMENT) // Equip

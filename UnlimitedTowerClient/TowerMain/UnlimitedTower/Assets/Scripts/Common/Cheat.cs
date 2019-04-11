@@ -903,9 +903,9 @@ public class Cheat : MonoSingleton<Cheat>
         }
         Debug.Log("[SUCCESS] Servant Burn : " + servantBurnResultJson);
 
-        servantBurnResultData getServantGrindResultData = JsonUtility.FromJson<servantBurnResultData>(servantBurnResultJson);
-        getServantGrindResultData.servantIndexList = servantIndexList;
-        PacketManager.Inst.ResponseServantBurn(getServantGrindResultData);
+        servantBurnResultData getServantBurnResultData = JsonUtility.FromJson<servantBurnResultData>(servantBurnResultJson);
+        getServantBurnResultData.servantIndexList = servantIndexList;
+        PacketManager.Inst.ResponseServantBurn(getServantBurnResultData);
     }
 
     public void RequestMonsterSellCheat(List<int> monsterIndexList)
