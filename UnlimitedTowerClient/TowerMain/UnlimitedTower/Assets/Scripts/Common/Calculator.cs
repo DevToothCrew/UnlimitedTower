@@ -11,22 +11,22 @@ public class Calculator : MonoBehaviour {
 
     public static int GetAttack(Status status)
     {
-        return (((status.basicStr + status.basicDex) * 22) / 10);
+        return (int)((status.basicStr + status.basicDex) * 2.2f);
     }
 
     public static int GetMagicAttack(Status status)
     {
-        return ((status.basicInt * 30) / 10);
+        return status.basicInt * 3;
     }
 
     public static int GetDefence(Status status)
     {
-        return ((status.basicDex * 13) / 10);
+        return (int)(status.basicDex * 1.3f);
     }
 
     public static int GetMagicDefence(Status status)
     {
-        return ((status.basicInt * 13) / 10);
+        return (int)(status.basicInt * 1.3f);
     }
 
     public static BattleStatus GetBattleStatus(UserCharacterStateData stateData, List<UserSkillInfo> passiveList)

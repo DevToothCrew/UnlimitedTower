@@ -1567,6 +1567,16 @@ public class CSVData : MonoSingleton<CSVData>
 
         return addStatus;
     }
+    
+    public DBSkillPassiveData GetDBSkillPassiveData(int id)
+    {
+        if(DBSkillPassiveDataDic.ContainsKey(id) == false)
+        {
+            return null;
+        }
+
+        return DBSkillPassiveDataDic[id];
+    }
 
     // DB 생길때까지 임시
     public Status GetMonsterLevelPerAddStatus(MONSTER_CLASS classType, GRADE_TYPE gradeType)

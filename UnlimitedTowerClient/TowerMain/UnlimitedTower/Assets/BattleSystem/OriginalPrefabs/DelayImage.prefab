@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 224750758539337318}
   - component: {fileID: 222653816141155728}
   - component: {fileID: 114531766061943192}
-  - component: {fileID: 95182865541862594}
+  - component: {fileID: 114208602175758020}
   m_Layer: 5
   m_Name: DelayCharacter
   m_TagString: Untagged
@@ -133,23 +133,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!95 &95182865541862594
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1770287894596436}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1f838883c059a044ab3b31a18e874516, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114018014382768604
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -197,6 +180,24 @@ MonoBehaviour:
   - {fileID: 1346395687445630, guid: e3890cfd17eb5604699e612ba0bc3164, type: 2}
   - {fileID: 1625575297274754, guid: b40b5c2521471004fb9abafbab903b01, type: 2}
   characterImage: {fileID: 0}
+--- !u!114 &114208602175758020
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1770287894596436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc2d7e20bcd758b4d96bffb167ac3da4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationFrame:
+  - {fileID: 21300000, guid: f130ad423c3bd2d43a758d57841b02cd, type: 3}
+  - {fileID: 21300000, guid: 56b70a4e46b66ed4d94bb9a0d36d4fe9, type: 3}
+  - {fileID: 21300000, guid: 073b783463230d546bdf69353e9b3421, type: 3}
+  - {fileID: 21300000, guid: f0ac3960d3f216f4a871608613a0bb7a, type: 3}
+  image: {fileID: 0}
+  index: 0
 --- !u!114 &114300774614651174
 MonoBehaviour:
   m_ObjectHideFlags: 1
