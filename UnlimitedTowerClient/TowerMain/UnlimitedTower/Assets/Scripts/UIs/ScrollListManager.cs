@@ -130,7 +130,6 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
                     if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.SERVANT_INFO || partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
                     {
                         partyInfo.updateDetailInfo(selected_main_idx);
-                        moveScrollSelectedUnit = false;
                     }
                 }
             }
@@ -201,7 +200,6 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
 
         if (move_scroll)
         {
-            Debug.Log("selet by move Scroll");
             updateSelectedUnitInfo();
             move_scroll = false;
         }
@@ -387,6 +385,7 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
         DrawScrollView();
         if (moveScrollSelectedUnit == false)
         {
+            Debug.Log("Move Scroll");
             selectedUnit();
             setSnapping();// if (scrollRect.velocity.y > 0f)
                 
@@ -412,6 +411,7 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
             if (rectTrScrollLayer.anchoredPosition.y > (default_offset + unit_height - movePos.y)- unit_height/2 && rectTrScrollLayer.anchoredPosition.y < (default_offset + unit_height - movePos.y)+ unit_height / 2) {
                 selectedUnit();
                 updateSelectedUnitInfo();
+                moveScrollSelectedUnit = false;
             }   
         }
     }
