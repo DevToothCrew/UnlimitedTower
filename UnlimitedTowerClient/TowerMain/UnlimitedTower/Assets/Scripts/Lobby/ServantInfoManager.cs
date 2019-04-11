@@ -145,4 +145,22 @@ public class ServantInfoManager : MonoSingleton<ServantInfoManager> {
         //imagePassive.sprite = CSVData.Inst.GetSkillPassiveData();
 
     }
+
+    //장비 설정 버튼
+    public void OnClickEquipment(int btn_tag)
+    {
+        PartyInfoVC.Inst.ShowEquipmentInfo(btn_tag);
+    }
+
+    //분해 버튼
+    public void OnClickSkill()
+    {
+        
+    }
+
+    //분해 버튼
+    public void OnClickDeconstruction()
+    {
+        PartyInfoVC.Inst.ShowDeconstruction();
+    }
 }

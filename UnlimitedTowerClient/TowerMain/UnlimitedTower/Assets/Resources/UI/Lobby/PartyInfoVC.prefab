@@ -6037,7 +6037,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114514410265579972}
+      - m_Target: {fileID: 114678182922886924}
         m_MethodName: OnClickDeconstruction
         m_Mode: 1
         m_Arguments:
@@ -6268,7 +6268,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114594959978204070}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114103132056210620}
+        m_MethodName: OnClickEquipment
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 5
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114080299475113770
@@ -7067,12 +7078,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1940376327844504}
-        m_MethodName: 
+      - m_Target: {fileID: 114103132056210620}
+        m_MethodName: OnClickSkill
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -7146,12 +7157,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1940376327844504}
-        m_MethodName: 
+      - m_Target: {fileID: 114678182922886924}
+        m_MethodName: OnClickUpgrade
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -8405,7 +8416,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114514410265579972}
+      - m_Target: {fileID: 114103132056210620}
         m_MethodName: OnClickEquipment
         m_Mode: 3
         m_Arguments:
@@ -9674,7 +9685,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114514410265579972}
+      - m_Target: {fileID: 114103132056210620}
         m_MethodName: OnClickEquipment
         m_Mode: 3
         m_Arguments:
@@ -10369,7 +10380,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114553714113193202}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114103132056210620}
+        m_MethodName: OnClickEquipment
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114485803498864216
@@ -10942,7 +10964,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114293678366378874}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114103132056210620}
+        m_MethodName: OnClickEquipment
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114536523920718656
@@ -12037,7 +12070,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114514410265579972}
+      - m_Target: {fileID: 114103132056210620}
         m_MethodName: OnClickEquipment
         m_Mode: 3
         m_Arguments:
@@ -14002,7 +14035,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1940376327844504}
+      - m_Target: {fileID: 1297486211785362}
         m_MethodName: 
         m_Mode: 1
         m_Arguments:
@@ -14174,7 +14207,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114514410265579972}
+      - m_Target: {fileID: 114103132056210620}
         m_MethodName: OnClickDeconstruction
         m_Mode: 1
         m_Arguments:
@@ -15052,7 +15085,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1940376327844504}
+      - m_Target: {fileID: 1686550561151938}
         m_MethodName: 
         m_Mode: 1
         m_Arguments:

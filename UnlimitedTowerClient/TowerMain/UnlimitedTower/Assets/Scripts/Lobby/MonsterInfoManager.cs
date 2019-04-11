@@ -112,9 +112,17 @@ public class MonsterInfoManager : MonoBehaviour {
         textPCriPer.text = string.Format("{0}", db_unit_data.criPer);
         textMCri.text = string.Format("{0}", db_unit_data.mcriDmg);
         textMCriPer.text = string.Format("{0}", db_unit_data.mcriPer);
+    }
 
-        //imageActive.sprite = CSVData.Inst.GetSkillActiveData();
-        //imagePassive.sprite = CSVData.Inst.GetSkillPassiveData();
+    //업그레이드 버튼
+    public void OnClickUpgrade()
+    {
+        
+    }
 
+    //분해 버튼
+    public void OnClickDeconstruction()
+    {
+        PartyInfoVC.Inst.ShowDeconstruction();
     }
 }

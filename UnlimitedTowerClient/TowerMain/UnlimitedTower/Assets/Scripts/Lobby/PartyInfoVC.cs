@@ -281,7 +281,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         FrameMonsterInfo.SetActive(true);
     }
 
-    public void OnClickDeconstruction()
+    public void ShowDeconstruction()
     {
         frameScroll.SetActive(false);
 
@@ -303,7 +303,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
 
     //장비 설정 버튼
-    public void OnClickEquipment(int btn_tag)
+    public void ShowEquipmentInfo(int btn_tag)
     {
         frameScroll.SetActive(false);
         switch (btn_tag)
@@ -324,16 +324,6 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         objSubView.name = "SubViewEquipment";
         objSubView.transform.SetParent(FrameSubView.transform);
         objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-
-        /*if (objSubView == null)
-        {
-            
-        }
-        else
-        {
-            Debug.Log("Running Equipment View!");
-        }*/
-
     }
 
 
