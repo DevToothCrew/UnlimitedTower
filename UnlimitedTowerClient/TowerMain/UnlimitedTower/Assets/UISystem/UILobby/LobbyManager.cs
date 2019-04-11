@@ -162,7 +162,11 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
                     BackbuttonUI.SetActive(true);
 
+#if UNITY_EDITOR
+                    Cheat.Inst.RequestMailListCheat();
+#else
                     PacketManager.Inst.RequestMailList();
+#endif
                 }
                 break;
 

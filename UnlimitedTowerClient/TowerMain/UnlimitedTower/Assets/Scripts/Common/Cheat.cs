@@ -1032,5 +1032,19 @@ public class Cheat : MonoSingleton<Cheat>
         PacketManager.Inst.ResponseUnequipServant(getServantUnequipResultData);
     }
 
+    public void RequestMailListCheat()
+    {
+        mailListResultData resultData = new mailListResultData();
+        mailData data = new mailData();
+        data.index = 1;
+        data.type = (int)REWARD_TYPE.MONSTER;
+        data.id = CSVData.Inst.GetRandomMonsterID();
+        data.count = 1;
+
+        resultData.mail_data_list.Add(data);
+
+        PacketManager.Inst.ResponseMailList(resultData);
+    }
+
     #endregion
 }

@@ -1360,7 +1360,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             UserDataManager.Inst.DelEquipment(getEquipmentUpgradeResultData.add_item_list[i].index);
         }
     }
-
+    
     // 상점 아이템 구매
     public void ResponseBuyItem(itemData getBuyItemData)
     {

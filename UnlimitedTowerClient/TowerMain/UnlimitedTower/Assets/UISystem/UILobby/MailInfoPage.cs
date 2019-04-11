@@ -8,4 +8,9 @@ public class MailInfoPage : MonoBehaviour {
     {
         LobbyManager.Inst.OnClickBackButton();
     }
+
+    public void SetMailList()
+    {
+
+    }
 }
