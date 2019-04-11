@@ -260,8 +260,8 @@ public class CSVData : MonoSingleton<CSVData>
             itemData.itemParamIDList = new List<int>();
             // Param List검사 추가 필요
 
-            itemData.sellItemInfo.id = Convert.ToInt32(data[i]["sell_item_id"]);
-            itemData.sellItemInfo.count = Convert.ToInt32(data[i]["sell_item_count"]);
+            itemData.sellItemID = Convert.ToInt32(data[i]["sell_item_id"]);
+            itemData.sellItemCount = Convert.ToInt32(data[i]["sell_item_count"]);
 
             DBItemDataDic.Add(itemData.id, itemData);
         }
@@ -336,10 +336,8 @@ public class CSVData : MonoSingleton<CSVData>
                 Debug.Log("Invalid Icon Resource : " + equipmentData.resourceIcon);
             }
 
-            equipmentData.sellItemInfo.id = Convert.ToInt32(data[i]["sell_item_id"]);
-            equipmentData.sellItemInfo.count = Convert.ToInt32(data[i]["sell_item_count"]);
-            // TODO : Type을 Item에서 받아오는걸 나중에 추가??
-            equipmentData.sellItemInfo.type = 0;
+            equipmentData.sellItemID = Convert.ToInt32(data[i]["sell_item_id"]);
+            equipmentData.sellItemCount = Convert.ToInt32(data[i]["sell_item_count"]);
 
             DBEquipmentDataDic.Add(equipmentData.id, equipmentData);
         }
@@ -895,9 +893,8 @@ public class CSVData : MonoSingleton<CSVData>
             DBMonsterUpgradeData upgradeData = new DBMonsterUpgradeData();
             upgradeData.id = (Convert.ToInt32(data[i]["grade_1"]) * 100) + Convert.ToInt32(data[i]["grade_2"]);
             upgradeData.successPer = Convert.ToDouble(data[i]["success_per"]);
-            upgradeData.needItem = new itemInfo();
-            upgradeData.needItem.id = Convert.ToInt32(data[i]["upgrade_price_id"]);
-            upgradeData.needItem.count = Convert.ToInt32(data[i]["upgrade_price_count"]);
+            upgradeData.needItemID = Convert.ToInt32(data[i]["upgrade_price_id"]);
+            upgradeData.needItemCount = Convert.ToInt32(data[i]["upgrade_price_count"]);
 
             DBMonsterUpgradeDataDic.Add(upgradeData.id, upgradeData);
         }

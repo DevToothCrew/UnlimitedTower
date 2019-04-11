@@ -194,9 +194,14 @@ public class UserFormationData
 [Serializable]
 public class UserItemData
 {
-    public int index;
-
     public int id;
+    public List<UserItemInfo> itemInfoList = new List<UserItemInfo>();
+}
+
+[Serializable]
+public class UserItemInfo
+{
+    public int index;
     public int count;
 }
 

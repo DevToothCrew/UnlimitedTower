@@ -20,9 +20,8 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public Dictionary<int, UserEquipmentData> armorDic = new Dictionary<int, UserEquipmentData>();
     public Dictionary<int, UserEquipmentData> accessoryDic = new Dictionary<int, UserEquipmentData>();
 
-
+    // Dic<ID , Data>
     public Dictionary<int, UserItemData> itemDic = new Dictionary<int, UserItemData>();
-    public Dictionary<int, List<int>> itemDicByID = new Dictionary<int, List<int>>(); // (ID, List(INDEX));
     
     // 현재 파티는 1개, 파티 안에 Formation Info 포함
     public UserPartyData partyInfo = new UserPartyData();
@@ -98,20 +97,6 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public void SetItemDic(Dictionary<int, UserItemData> getItemDic)
     {
         itemDic = getItemDic;
-
-        foreach(KeyValuePair<int, UserItemData> data in itemDic)
-        {
-            if(itemDicByID.ContainsKey(data.Value.id) == true)
-            {
-                itemDicByID[data.Value.id].Add(data.Value.index);
-            }
-            else
-            {
-                List<int> indexList = new List<int>();
-                indexList.Add(data.Value.index);
-                itemDicByID.Add(data.Value.id, indexList);
-            }
-        }
     }
     
     public void SetSceneState(SCENE_STATE state)
@@ -307,32 +292,13 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
     public bool SetItem(UserItemData itemData)
     {
-        if (itemDic.ContainsKey(itemData.index) == true)
+        if (itemDic.ContainsKey(itemData.id) == true)
         {
-            if (itemData.count == 0)
-            {
-                itemDic.Remove(itemData.index);
-            }
-            else
-            {
-                itemDic[itemData.index] = itemData;
-            }
+            itemDic[itemData.id] = itemData;
         }
         else
         {
-            itemDic.Add(itemData.index, itemData);
-
-            if (itemDicByID.ContainsKey(itemData.id) == false)
-            {
-                List<int> indexList = new List<int>();
-                indexList.Add(itemData.index);
-
-                itemDicByID.Add(itemData.id, indexList);
-            }
-            else
-            {
-                // 개수 검사가 추가된다면 사용
-            }
+            itemDic.Add(itemData.id, itemData);
         }
 
         return true;
@@ -579,16 +545,6 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public int GetItemDicCount()
     {
         return itemDic.Count;
-    }
-
-    public int GetItemIndexByID(int id)
-    {
-        if(itemDicByID.ContainsKey(id) == false)
-        {
-            return 0;
-        }
-
-        return itemDicByID[id][itemDicByID[id].Count - 1];
     }
 
     public List<UserServantData> GetServantList()

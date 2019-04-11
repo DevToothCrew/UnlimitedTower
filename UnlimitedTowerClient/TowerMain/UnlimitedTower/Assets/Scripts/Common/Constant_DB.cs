@@ -23,7 +23,8 @@ public class DBItemData
 
     public List<int> itemParamIDList;
 
-    public itemInfo sellItemInfo = new itemInfo();
+    public int sellItemID;
+    public int sellItemCount;
 
     public string resourceIcon;
 }
@@ -63,7 +64,8 @@ public class DBEquipmentData
     public Dictionary<GRADE_TYPE, double> gradeMultiValueDic = new Dictionary<GRADE_TYPE, double>();
     public string resourceIcon;
     public Sprite equipmentIcon = new Sprite();
-    public itemInfo sellItemInfo = new itemInfo();
+    public int sellItemID;
+    public int sellItemCount;
 }
 
 [Serializable]
@@ -269,7 +271,8 @@ public class DBMonsterUpgradeData
 {
     public int id;
     public double successPer;
-    public itemInfo needItem;
+    public int needItemID;
+    public int needItemCount;
 }
 
 [Serializable]

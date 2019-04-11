@@ -323,104 +323,104 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 서번트 분해
-    public void RequestServantGrind(List<int> servantIndexList)
+    public void RequestServantBurn(List<int> servantIndexList)
     {
-        Debug.Log("Request Grind Servant");
+        Debug.Log("Request Servant Burn");
         if(servantIndexList == null)
         {
             Debug.Log("Invalid Request");
             return;
         }
 
-        ServantGrindJson servantGrind = new ServantGrindJson();
-        servantGrind.servantIndexList = servantIndexList;
+        ServantBurnJson servantBurn = new ServantBurnJson();
+        servantBurn.servantIndexList = servantIndexList;
 
-        string json = JsonUtility.ToJson(servantGrind);
+        string json = JsonUtility.ToJson(servantBurn);
 
         Debug.Log("Json start : " + json);
 
-        Request<servantGrindResultData>("ServantGrind",
+        Request<servantBurnResultData>("ServantBurn",
                 body: json,
-                onSuccess: ResponseServantGrind,
-                onFailed: msg => { Debug.Log($"[Failed Requesting ServantGrind] {msg}"); }
+                onSuccess: ResponseServantBurn,
+                onFailed: msg => { Debug.Log($"[Failed Requesting ServantBurn] {msg}"); }
                 );
     }
 
     // 몬스터 판매
-    public void RequestMonsterSell(List<int> monsterIndexList)
+    public void RequestMonsterBurn(List<int> monsterIndexList)
     {
-        Debug.Log("Request Monster Sell");
+        Debug.Log("Request Monster Burn");
         if(monsterIndexList == null)
         {
             Debug.Log("Invalid Request");
             return;
         }
 
-        MonsterSellJson monsterSell = new MonsterSellJson();
-        monsterSell.monsterIndexList = monsterIndexList;
+        MonsterBurnJson monsterBurn = new MonsterBurnJson();
+        monsterBurn.monsterIndexList = monsterIndexList;
 
-        string json = JsonUtility.ToJson(monsterSell);
+        string json = JsonUtility.ToJson(monsterBurn);
 
         Debug.Log("Json start : " + json);
 
-        Request<sellMonsterResultData>("MonsterSell",
+        Request<monsterBurnResultData>("MonsterBurn",
                 body: json,
-                onSuccess: ResponseMonsterSell,
+                onSuccess: ResponseMonsterBurn,
                 onFailed: msg => 
                 {
-                    Debug.Log($"[Failed Requesting MonsterSell] {msg}");
+                    Debug.Log($"[Failed Requesting MonsterBurn] {msg}");
                 });
     }
 
     // 장비 판매
-    public void RequestEquipmentSell(List<int> equipmentIndexList)
+    public void RequestEquipmentBurn(List<int> equipmentIndexList)
     {
-        Debug.Log("Request Equipment Sell");
+        Debug.Log("Request Equipment Burn");
         if (equipmentIndexList == null)
         {
             Debug.Log("Invalid Request");
             return;
         }
 
-        EquipmentSellJson equipmentSell = new EquipmentSellJson();
-        equipmentSell.equipmentIndexList = equipmentIndexList;
+        EquipmentBurnJson equipmentBurn = new EquipmentBurnJson();
+        equipmentBurn.equipmentIndexList = equipmentIndexList;
 
-        string json = JsonUtility.ToJson(equipmentSell);
+        string json = JsonUtility.ToJson(equipmentBurn);
 
         Debug.Log("Json start : " + json);
 
-        Request<sellEquipmentResultData>("EquipmentSell",
+        Request<equipmentBurnResultData>("EquipmentBurn",
                 body: json,
-                onSuccess: ResponseEquipmentSell,
+                onSuccess: ResponseEquipmentBurn,
                 onFailed: msg =>
                 {
-                    Debug.Log($"[Failed Requesting EquipmentSell] {msg}");
+                    Debug.Log($"[Failed Requesting EquipmentBurn] {msg}");
                 });
 
     }
 
     // 아이템 판매
-    public void RequestItemSell(List<itemData> itemDataList)
+    public void RequestItemBurn(List<itemData> itemDataList)
     {
-        Debug.Log("Request Item Sell");
+        Debug.Log("Request Item Burn");
         if (itemDataList == null)
         {
             Debug.Log("Invalid Request");
             return;
         }
 
-        ItemSellJson itemSell = new ItemSellJson();
-        itemSell.itemDataList = itemDataList;
-        string json = JsonUtility.ToJson(itemSell);
+        ItemBurnJson itemBurn = new ItemBurnJson();
+        itemBurn.itemDataList = itemDataList;
+        string json = JsonUtility.ToJson(itemBurn);
 
         Debug.Log("Json start : " + json);
 
-        Request<sellItemResultData>("ItemSell",
+        Request<itemBurnResultData>("ItemBurn",
                 body: json,
-                onSuccess: ResponseItemSell,
+                onSuccess: ResponseItemBurn,
                 onFailed: msg =>
                 {
-                    Debug.Log($"[Failed Requesting ItemSell] {msg}");
+                    Debug.Log($"[Failed Requesting ItemBurn] {msg}");
                 });
     }
 
@@ -1083,25 +1083,24 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("Eos Account Resource Info");
     }
 
-    // 서번트 분해
-    public void ResponseServantGrind(servantGrindResultData getServantGrindData)
+    public void ResponseServantBurn(servantBurnResultData getServantBurnData)
     {
         Debug.Log("서번트 분해, 영혼 획득!");
 
-        if(getServantGrindData.grindServantIndexList.Count == 0)
+        if(getServantBurnData.servantIndexList.Count == 0)
         {
             Debug.Log("Invalid Grind Result");
             return;
         }
 
-        if (UserDataManager.Inst.DelServantList(getServantGrindData.grindServantIndexList) == false)
+        if (UserDataManager.Inst.DelServantList(getServantBurnData.servantIndexList) == false)
         {
             Debug.Log("Invalid Grind Index");
             return;
         }
 
         Dictionary<int, UserItemData> getItemDataDic = new Dictionary<int, UserItemData>();
-        if (ParseItemDic(getServantGrindData.itemList, ref getItemDataDic) == false)
+        if (ParseItemDic(getServantBurnData.itemList, ref getItemDataDic) == false)
         {
             Debug.Log("Invalid ParseItemDic");
             return;
@@ -1114,18 +1113,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
     }
     
-    // 몬스터 판매
-    public void ResponseMonsterSell(sellMonsterResultData getSellMonsterResultData)
+    public void ResponseMonsterBurn(monsterBurnResultData getSellMonsterResultData)
     {
         Debug.Log("몬스터 판매, UTG 획득!");
 
-        if(getSellMonsterResultData.sellMonsterIndexList.Count == 0)
+        if(getSellMonsterResultData.monsterIndexList.Count == 0)
         {
             Debug.Log("Invalid Sell Result");
             return;
         }
 
-        if(UserDataManager.Inst.DelMonsterList(getSellMonsterResultData.sellMonsterIndexList) == false)
+        if(UserDataManager.Inst.DelMonsterList(getSellMonsterResultData.monsterIndexList) == false)
         {
             Debug.Log("Invalid DelMonsterList");
             return;
@@ -1145,18 +1143,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
     }
 
-    // 장비 판매
-    public void ResponseEquipmentSell(sellEquipmentResultData getSellEquipmentResultData)
+    public void ResponseEquipmentBurn(equipmentBurnResultData getSellEquipmentResultData)
     {
         Debug.Log("장비 판매, UTG 획득!");
 
-        if(getSellEquipmentResultData.sellEquipmentIndexList.Count == 0)
+        if(getSellEquipmentResultData.equipmentIndexList.Count == 0)
         {
             Debug.Log("Invalid Sell Result");
             return;
         }
 
-        if(UserDataManager.Inst.DelEquipmentList(getSellEquipmentResultData.sellEquipmentIndexList) == false)
+        if(UserDataManager.Inst.DelEquipmentList(getSellEquipmentResultData.equipmentIndexList) == false)
         {
             Debug.Log("Invalid DelEquipmentList");
             return;
@@ -1176,19 +1173,18 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
     }
 
-    // 아이템 판매
-    public void ResponseItemSell(sellItemResultData getSellItemResultData)
+    public void ResponseItemBurn(itemBurnResultData getSellItemResultData)
     {
         Debug.Log("아이템 판매, UTG 획득!");
 
-        if (getSellItemResultData.sellItemDataList.Count == 0)
+        if (getSellItemResultData.itemDataList.Count == 0)
         {
             Debug.Log("Invalid Sell Result");
             return;
         }
 
         Dictionary<int, UserItemData> sellItemDataDic = new Dictionary<int, UserItemData>();
-        if(ParseItemDic(getSellItemResultData.sellItemDataList, ref sellItemDataDic) == false)
+        if(ParseItemDic(getSellItemResultData.itemDataList, ref sellItemDataDic) == false)
         {
             Debug.Log("Invalid ParseItemDic");
             return;
@@ -1354,10 +1350,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
         else
         {
             UserDataManager.Inst.DelEquipment(getEquipmentUpgradeResultData.main_equipment_data.index);
-        }
-        for (int i = 0; i < getEquipmentUpgradeResultData.add_item_list.Count; i++)
-        {
-            UserDataManager.Inst.DelEquipment(getEquipmentUpgradeResultData.add_item_list[i].index);
         }
     }
     
@@ -1699,7 +1691,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 Debug.Log("Invalid Item Info");
                 return false;
             }
-            itemDic.Add(item.index, item);
+            itemDic.Add(item.id, item);
         }
 
         return true;
@@ -1714,9 +1706,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         UserItemData itemData = new UserItemData();
 
-        itemData.index = getItemData.index;
-        itemData.id = getItemData.item.id;
-        itemData.count = getItemData.item.count;
+        itemData.id = getItemData.id;
+        for (int i = 0; i < getItemData.itemList.Count; i++)
+        {
+            UserItemInfo info = new UserItemInfo();
+            info.index = getItemData.itemList[i].index;
+            info.count = getItemData.itemList[i].count;
+            itemData.itemInfoList.Add(info);
+        }
 
         return itemData;
     }

@@ -470,7 +470,10 @@ public class Cheat : MonoSingleton<Cheat>
         getMonsterUpgradeResultData.sub_monster_index = subMonster.index;
         getMonsterUpgradeResultData.need_item_list = new List<itemData>();
         itemData needItem = new itemData();
-        needItem.item = dbMonsterUpgradeData.needItem;
+        needItem.id = dbMonsterUpgradeData.needItemID;
+        // TODO : 아이템 정리중
+        //needItem.itemList
+
         getMonsterUpgradeResultData.need_item_list.Add(needItem);
 
         return JsonMapper.ToJson(getMonsterUpgradeResultData).ToString();
@@ -506,8 +509,8 @@ public class Cheat : MonoSingleton<Cheat>
 
     public string GetServantBurnData(List<int> burnServantIndexList)
     {
-        sellMonsterResultData resultData = new sellMonsterResultData();
-        resultData.sellMonsterIndexList = burnServantIndexList;
+        monsterBurnResultData resultData = new monsterBurnResultData();
+        resultData.monsterIndexList = burnServantIndexList;
         resultData.itemList = new List<itemData>();
 
         int newIndex = 1;
@@ -528,8 +531,7 @@ public class Cheat : MonoSingleton<Cheat>
             }
 
             itemData getItem = new itemData();
-            getItem.item = new itemInfo();
-            getItem.item.count = 1;
+            // TODO : Item 정리중
 
             DBServantData dbServantData = CSVData.Inst.GetServantData(servantData.id);
             if(dbServantData == null)
@@ -538,51 +540,6 @@ public class Cheat : MonoSingleton<Cheat>
                 return null;
             }
 
-            switch (dbServantData.job)
-            {
-                case 1:
-                    getItem.item.id = 110010;
-                    break;
-
-                case 2:
-                    getItem.item.id = 110020;
-                    break;
-
-                case 3:
-                    getItem.item.id = 110030;
-                    break;
-
-                case 4:
-                    getItem.item.id = 110040;
-                    break;
-
-                case 5:
-                    getItem.item.id = 110050;
-                    break;
-
-                default:
-                    Debug.Log("Invalid Request servantData JobNum : " + dbServantData.job);
-                    return null;
-            }
-
-            if(addItemDic.ContainsKey(getItem.item.id) == true)
-            {
-                addItemDic[getItem.item.id].item.count += getItem.item.count;
-            }
-            else
-            {
-                int itemIndex = UserDataManager.Inst.GetItemIndexByID(getItem.item.id);
-                if (itemIndex == 0)
-                {
-                    // 개수 제한 검사
-                    itemIndex = UserDataManager.Inst.GetItemDicCount() + newIndex;
-                }
-
-                getItem.index = itemIndex;
-
-                addItemDic.Add(getItem.item.id, getItem);
-                newIndex++;
-            }
         }
 
         List<int> keyList = addItemDic.Keys.ToList();
@@ -595,8 +552,6 @@ public class Cheat : MonoSingleton<Cheat>
             }
             else
             {
-                addItemDic[keyList[i]].item.count += itemData.count;
-
                 resultData.itemList.Add(addItemDic[keyList[i]]);
             }
         }
@@ -607,9 +562,7 @@ public class Cheat : MonoSingleton<Cheat>
     public string GetMonsterSellData(List<int> sellMonsterIndexList)
     {
         itemData token = new itemData();
-        token.index = 0;
-        token.item.id = 10001;
-        token.item.count = Convert.ToInt32(UserDataManager.Inst.GetUserInfo().userUTG);
+        // TODO : Item 정리중
 
         for(int i = 0; i < sellMonsterIndexList.Count; i++)
         {
@@ -625,12 +578,10 @@ public class Cheat : MonoSingleton<Cheat>
                 Debug.Log("Invalid Request Monster Already placed Party : " + monsterData.partyIndex);
                 return null;
             }
-
-            token.item.count += 1000000;
         }
 
-        sellMonsterResultData resultData = new sellMonsterResultData();
-        resultData.sellMonsterIndexList = sellMonsterIndexList;
+        monsterBurnResultData resultData = new monsterBurnResultData();
+        resultData.monsterIndexList = sellMonsterIndexList;
         resultData.itemList = new List<itemData>();
         resultData.itemList.Add(token);
 
@@ -640,9 +591,7 @@ public class Cheat : MonoSingleton<Cheat>
     public string GetEquipmentSellData(List<int> sellEquipmentIndexList)
     {
         itemData token = new itemData();
-        token.index = 0;
-        token.item.id = 10001;
-        token.item.count = Convert.ToInt32(UserDataManager.Inst.GetUserInfo().userUTG);
+        // TODO : Item 정리중
 
         for (int i = 0; i < sellEquipmentIndexList.Count; i++)
         {
@@ -658,12 +607,10 @@ public class Cheat : MonoSingleton<Cheat>
                 Debug.Log("Invalid Request Equipment Already Equiped Servant : " + equipmentData.equipServantIndex);
                 return null;
             }
-
-            token.item.count += 1000000;
         }
 
-        sellEquipmentResultData resultData = new sellEquipmentResultData();
-        resultData.sellEquipmentIndexList = sellEquipmentIndexList;
+        equipmentBurnResultData resultData = new equipmentBurnResultData();
+        resultData.equipmentIndexList = sellEquipmentIndexList;
         resultData.itemList = new List<itemData>();
         resultData.itemList.Add(token);
 
@@ -956,9 +903,9 @@ public class Cheat : MonoSingleton<Cheat>
         }
         Debug.Log("[SUCCESS] Servant Burn : " + servantBurnResultJson);
 
-        servantGrindResultData getServantGrindResultData = JsonUtility.FromJson<servantGrindResultData>(servantBurnResultJson);
-        getServantGrindResultData.grindServantIndexList = servantIndexList;
-        PacketManager.Inst.ResponseServantGrind(getServantGrindResultData);
+        servantBurnResultData getServantGrindResultData = JsonUtility.FromJson<servantBurnResultData>(servantBurnResultJson);
+        getServantGrindResultData.servantIndexList = servantIndexList;
+        PacketManager.Inst.ResponseServantBurn(getServantGrindResultData);
     }
 
     public void RequestMonsterSellCheat(List<int> monsterIndexList)
@@ -971,8 +918,8 @@ public class Cheat : MonoSingleton<Cheat>
         }
         Debug.Log("[SUCCESS] Monster Sell : " + monsterSellResultJson);
 
-        sellMonsterResultData getSellMonsterResultData = JsonUtility.FromJson<sellMonsterResultData>(monsterSellResultJson);
-        PacketManager.Inst.ResponseMonsterSell(getSellMonsterResultData);
+        monsterBurnResultData getSellMonsterResultData = JsonUtility.FromJson<monsterBurnResultData>(monsterSellResultJson);
+        PacketManager.Inst.ResponseMonsterBurn(getSellMonsterResultData);
     }
 
     public void RequestEquipmentSellCheat(List<int> equipmentIndexList)
@@ -985,8 +932,8 @@ public class Cheat : MonoSingleton<Cheat>
         }
         Debug.Log("[SUCCESS] Equipment Sell : " + equipmentSellResultJson);
 
-        sellEquipmentResultData getSellEquipmentResultData = JsonUtility.FromJson<sellEquipmentResultData>(equipmentSellResultJson);
-        PacketManager.Inst.ResponseEquipmentSell(getSellEquipmentResultData);
+        equipmentBurnResultData getSellEquipmentResultData = JsonUtility.FromJson<equipmentBurnResultData>(equipmentSellResultJson);
+        PacketManager.Inst.ResponseEquipmentBurn(getSellEquipmentResultData);
     }
 
     public void RequestSavePartyCheat(int partyIndex, List<int> indexList)

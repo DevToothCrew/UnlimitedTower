@@ -90,9 +90,8 @@ public class equipmentInfo
 [Serializable]
 public class itemInfo
 {
-    public int id;          //아이템 리소스 아이디
-    public int type;        //장착 타입
-    public int count;       //갯수
+    public int index;
+    public int count;
 };
 
 #endregion
@@ -157,40 +156,45 @@ public class mailData
 [Serializable]
 public class itemData
 {
-    public int index;
-    public itemInfo item = new itemInfo();
+    public int id;
+    public int type;
+    public List<itemInfo> itemList = new List<itemInfo>();
 }
 
 [Serializable]
-public class servantGrindResultData
+public class servantBurnResultData
 {
     // 무엇이 어떻게 추가될지 모른다.
-    public List<int> grindServantIndexList = new List<int>();
+    public List<int> servantIndexList = new List<int>();
     public List<itemData> itemList = new List<itemData>();
+    public string utg;
 }
 
 [Serializable]
-public class sellMonsterResultData
+public class monsterBurnResultData
 {
     // 무엇이 어떻게 추가될지 모른다.
-    public List<int> sellMonsterIndexList = new List<int>();
+    public List<int> monsterIndexList = new List<int>();
     public List<itemData> itemList = new List<itemData>();
+    public string utg;
 }
 
 [Serializable]
-public class sellEquipmentResultData
+public class equipmentBurnResultData
 {
     // 무엇이 어떻게 추가될지 모른다.
-    public List<int> sellEquipmentIndexList = new List<int>();
+    public List<int> equipmentIndexList = new List<int>();
     public List<itemData> itemList = new List<itemData>();
+    public string utg;
 }
 
 [Serializable]
-public class sellItemResultData
+public class itemBurnResultData
 {
     // 무엇이 어떻게 추가될지 모른다.
-    public List<itemData> sellItemDataList = new List<itemData>();
+    public List<itemData> itemDataList = new List<itemData>();
     public List<itemData> itemList = new List<itemData>();
+    public string utg;
 }
 
 [Serializable]
@@ -422,25 +426,25 @@ public class StageRewardJson
 //add owen
 
 [Serializable]
-public class ServantGrindJson
+public class ServantBurnJson
 {
     public List<int> servantIndexList;
 }
 
 [Serializable]
-public class MonsterSellJson
+public class MonsterBurnJson
 {
     public List<int> monsterIndexList;
 }
 
 [Serializable]
-public class EquipmentSellJson
+public class EquipmentBurnJson
 {
     public List<int> equipmentIndexList;
 }
 
 [Serializable]
-public class ItemSellJson
+public class ItemBurnJson
 {
     public List<itemData> itemDataList;
 }
