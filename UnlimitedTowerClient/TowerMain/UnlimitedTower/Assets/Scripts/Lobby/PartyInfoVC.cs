@@ -87,7 +87,10 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         OnClickMenuButton(0);
 
         //몬스터가 없을경우
-        buttonMenu[1].interactable = false;
+        if (MonsterList.Count <= 0)
+        {
+            buttonMenu[1].interactable = false;
+        }
     }
 
     //화면 전체 Update (메뉴버튼, 상세정보창, 스크롤 등)
@@ -104,23 +107,15 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
         
 
-        if (selectedMenu == menu_type.SERVANT)
-        {   
-            frameScroll.SetActive(true);
-            resetScroll(currentScrollType);
-
-            framePartyInfo.SetActive(true);
-            frameFormation.SetActive(false);
-            updateDetailInfo(scrollList.SelectedMainIdx);
-        }
-        else if (selectedMenu == menu_type.MONSTER)
+        if (selectedMenu == menu_type.SERVANT || selectedMenu == menu_type.MONSTER)
         {
             frameScroll.SetActive(true);
             resetScroll(currentScrollType);
 
             framePartyInfo.SetActive(true);
             frameFormation.SetActive(false);
-            updateDetailInfo(scrollList.SelectedMainIdx);
+
+            updateDetailInfo(scrollList.getFirstItemOrder());
         }
         else if (selectedMenu == menu_type.FORMATION)
         {

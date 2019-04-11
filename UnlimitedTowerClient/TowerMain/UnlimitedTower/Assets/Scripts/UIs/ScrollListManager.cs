@@ -205,6 +205,11 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
         }
     }
 
+    public int getFirstItemOrder()
+    {
+        return item_order[0];
+    }
+
     public int getSelectedUnitIdx()
     {
         return selected_unit_idx;
@@ -385,6 +390,7 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
         DrawScrollView();
         if (moveScrollSelectedUnit == false)
         {
+            Debug.Log("Move Scroll");
             selectedUnit();
             setSnapping();// if (scrollRect.velocity.y > 0f)
                 

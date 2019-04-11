@@ -155,8 +155,7 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
             buttonMenu[(int)selectedMenu].GetComponentInChildren<Text>().color = Color.black;
 
             resetScroll(currentScrollType);
-
-            updateDetailInfo(EquipmentList[(int)selectedMenu][0].index);
+            updateDetailInfo(scrollList.getFirstItemOrder());
         }
         else
         {
