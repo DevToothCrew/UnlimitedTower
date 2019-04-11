@@ -213,4 +213,12 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         textBackButton.text = text;
     }
 
+    public void OnClickChatButton()
+    {
+#if UNITY_EDITOR
+        Cheat.Inst.RequestLobbyInfo();
+#else
+        PacketManager.Inst.RequestLobbyInfo();
+#endif
+    }
 }

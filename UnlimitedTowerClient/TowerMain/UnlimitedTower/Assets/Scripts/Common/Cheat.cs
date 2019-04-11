@@ -1046,5 +1046,17 @@ public class Cheat : MonoSingleton<Cheat>
         PacketManager.Inst.ResponseMailList(resultData);
     }
 
+    public void RequestLobbyInfo()
+    {
+        lobbyInfoResultData resultData = new lobbyInfoResultData();
+        resultData.chat_string = "로컬입니다";
+        resultData.mail_count = 1;
+        resultData.resource_data = new userResourceData();
+        resultData.eos = UserDataManager.Inst.GetUserEOS().ToString();
+        resultData.utg = UserDataManager.Inst.GetUserUTG().ToString();
+
+        PacketManager.Inst.ResponseLobbyInfo(resultData);
+    }
+
     #endregion
 }
