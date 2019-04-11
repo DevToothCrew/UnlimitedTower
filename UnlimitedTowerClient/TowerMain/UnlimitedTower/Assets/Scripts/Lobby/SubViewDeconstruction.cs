@@ -224,7 +224,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                             return;
                         }
 
-                        if (servantData.state != 0)
+                        if (servantData.state != 1)
                         {
                             Debug.Log("Invalid Servant State : " + servantData.state);
                             return;
@@ -245,7 +245,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                             return;
                         }
 
-                        if (monsterData.state != 0)
+                        if (monsterData.state != 1)
                         {
                             Debug.Log("Invalid Monster State : " + monsterData.state);
                             return;
@@ -267,7 +267,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                         return;
                     }
 
-                    if (equipmentData.state != 0)
+                    if (equipmentData.state != 1)
                     {
                         Debug.Log("Invalid Equip State : " + equipmentData.state);
                         return;
@@ -391,7 +391,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                     return;
                 }
 
-                if (servantData.state != 0)
+                if (servantData.state != 1)
                 {
                     Debug.Log("Invalid Servant State : " + servantData.state);
                     return;
@@ -424,7 +424,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                     return;
                 }
 
-                if (monsterData.state != 0)
+                if (monsterData.state != 1)
                 {
                     Debug.Log("Invalid Monster State : " + monsterData.state);
                     return;
