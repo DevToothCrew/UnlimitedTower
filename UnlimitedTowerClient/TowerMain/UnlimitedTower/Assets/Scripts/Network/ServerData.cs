@@ -146,6 +146,15 @@ public class equipmentData
 }
 
 [Serializable]
+public class mailData
+{
+    public int index;
+    public int type;
+    public int id;
+    public int count;
+}
+
+[Serializable]
 public class itemData
 {
     public int index;
@@ -227,11 +236,17 @@ public class lobbyInfoResultData
 [Serializable]
 public class mailOpenResultData
 {
-    public List<int> mail_open_index_list;
+    public List<int> mail_open_index_list = new List<int>();
     public List<servantData> servant_data_list = new List<servantData>();
     public List<monsterData> monster_data_list = new List<monsterData>();
     public List<equipmentData> equip_data_list = new List<equipmentData>();
     public List<itemData> item_data_list = new List<itemData>();
+}
+
+[Serializable]
+public class mailListResultData
+{
+    public List<mailData> mail_data_list = new List<mailData>();
 }
 
 [Serializable]

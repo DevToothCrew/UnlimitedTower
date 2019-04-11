@@ -704,6 +704,18 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 });
     }
 
+    public void RequestMailList()
+    {
+        Debug.Log("Request MAil List");
+
+        Request<mailListResultData>("MailList",
+                onSuccess: ResponseMailList,
+                onFailed: msg =>
+                {
+                    Debug.Log($"[Failed Requesting MailList] {msg}");
+                });
+    }
+
     // 우편 수령
     public void RequestMailOpen(List<int> mailOpenIndexList)
     {
@@ -1389,6 +1401,18 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("NET Weight : " + getMailOpenResultData.resource_data.net_weight);
         Debug.Log("RAM Usage : " + getMailOpenResultData.resource_data.ram_usage);
         Debug.Log("RAM Quota : " + getMailOpenResultData.resource_data.ram_quota);
+    }
+
+    public void ResponseMailList(mailListResultData mailList)
+    {
+        for(int i = 0; i < mailList.mail_data_list.Count; i++)
+        {
+            Debug.Log("Mail Num : " + i);
+            Debug.Log("Mail Index : " + mailList.mail_data_list[i].index);
+            Debug.Log("Mail TYPE : " + mailList.mail_data_list[i].type);
+            Debug.Log("Mail ID : " + mailList.mail_data_list[i].id);
+            Debug.Log("Mail COUNT : " + mailList.mail_data_list[i].count);
+        }
     }
 
     // 우편 수령

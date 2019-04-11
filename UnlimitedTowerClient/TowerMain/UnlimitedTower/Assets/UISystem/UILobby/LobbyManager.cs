@@ -161,6 +161,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                     objSubView.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -45); 
 
                     BackbuttonUI.SetActive(true);
+
+                    PacketManager.Inst.RequestMailList();
                 }
                 break;
 

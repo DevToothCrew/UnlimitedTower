@@ -736,11 +736,15 @@ public class Cheat : MonoSingleton<Cheat>
             rewardData.get_char_exp_list.Add(rewardCharExp);
         }
 
-        rewardData.get_servant_list.Add(GetRandomServantData(UserDataManager.Inst.servantDic.Count + 2));
-        rewardData.get_servant_list.Add(GetRandomServantData(UserDataManager.Inst.servantDic.Count + 3));
+        rewardData.get_equipment_list.Add(GetRandomEquipment(UserDataManager.Inst.GetEquipmentCount() + 1));
+        rewardData.get_equipment_list.Add(GetRandomEquipment(UserDataManager.Inst.GetEquipmentCount() + 2));
+        rewardData.get_equipment_list.Add(GetRandomEquipment(UserDataManager.Inst.GetEquipmentCount() + 3));
 
-        rewardData.get_monster_list.Add(GetRandomMonster(UserDataManager.Inst.monsterDic.Count + 2));
-        rewardData.get_monster_list.Add(GetRandomMonster(UserDataManager.Inst.monsterDic.Count + 3));
+        //rewardData.get_servant_list.Add(GetRandomServantData(UserDataManager.Inst.servantDic.Count + 2));
+        //rewardData.get_servant_list.Add(GetRandomServantData(UserDataManager.Inst.servantDic.Count + 3));
+
+        //rewardData.get_monster_list.Add(GetRandomMonster(UserDataManager.Inst.monsterDic.Count + 2));
+        //rewardData.get_monster_list.Add(GetRandomMonster(UserDataManager.Inst.monsterDic.Count + 3));
 
         return JsonMapper.ToJson(rewardData);
     }
