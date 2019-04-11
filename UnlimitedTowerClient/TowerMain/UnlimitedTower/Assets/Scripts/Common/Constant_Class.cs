@@ -38,6 +38,64 @@ public class UserLobbyInfo
     public int mailCount;
 
     public string chatting;
+
+
+    public bool IsCPUAlert
+    {
+        get
+        {
+            if (cpuLimit == null)
+            {
+                return false;
+            }
+
+            float cpuPer = cpuLimit.used / (float)cpuLimit.available;
+            if (cpuPer >= 0.9)
+            {
+                return true;
+            }
+
+            return false;
+        }
+    }
+
+    public bool IsNETAlert
+    {
+        get
+        {
+            if (netLimit == null)
+            {
+                return false;
+            }
+
+            float netPer = netLimit.used / (float)netLimit.available;
+            if (netPer >= 0.9)
+            {
+                return true;
+            }
+
+            return false;
+        }
+    }
+
+    public bool IsRAMAlert
+    {
+        get
+        {
+            if (ramUsage == 0 || ramQuota == 0)
+            {
+                return false;
+            }
+
+            float ramPer = ramUsage / (float)ramQuota;
+            if (ramPer >= 0.9)
+            {
+                return true;
+            }
+
+            return false;
+        }
+    }
 }
 
 [Serializable]

@@ -13,6 +13,9 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
     public Image CPUImage;
     public Image NETImage;
     public Image RAMImage;
+    public GameObject MailCountImage;
+    public Text MailCountText;
+
     private Sprite alertImage;
     private Sprite notAlertImage;
 
@@ -67,7 +70,13 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
             }
         }
 
-        if (UserDataManager.Inst.IsCPUAlert() == true)
+        UserLobbyInfo lobbyInfo = UserDataManager.Inst.GetUserLobbyInfo();
+        if(lobbyInfo == null)
+        {
+            return;
+        }
+
+        if (lobbyInfo.IsCPUAlert == true)
         {
             CPUImage.sprite = alertImage;
         }
@@ -75,7 +84,7 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
         {
             CPUImage.sprite = notAlertImage;
         }
-        if (UserDataManager.Inst.IsNETAlert() == true)
+        if (lobbyInfo.IsNETAlert == true)
         {
             NETImage.sprite = alertImage;
         }
@@ -83,13 +92,24 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
         {
             NETImage.sprite = notAlertImage;
         }
-        if (UserDataManager.Inst.IsRAMAlert() == true)
+        if (lobbyInfo.IsRAMAlert == true)
         {
             RAMImage.sprite = alertImage;
         }
         else
         {
             RAMImage.sprite = notAlertImage;
+        }
+
+        if(lobbyInfo.mailCount > 0)
+        {
+            MailCountText.text = lobbyInfo.mailCount.ToString();
+
+            MailCountImage.SetActive(true);
+        }
+        else
+        {
+            MailCountImage.SetActive(false);
         }
     }
 }
