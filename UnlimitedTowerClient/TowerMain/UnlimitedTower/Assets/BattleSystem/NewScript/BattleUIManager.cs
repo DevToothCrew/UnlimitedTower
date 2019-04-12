@@ -165,6 +165,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         BattleTurn.color = new Color(1, 1, 1, 0);
     }
 
+    // 배틀중 나가기
     public void BattleActionOut()
     {
 #if UNITY_EDITOR
@@ -174,11 +175,13 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
 #endif
     }
 
+    // 배틀 종료후 나가기
     public void BattleOut()
     {
         PacketManager.Inst.ResponseStageExit();
     }
 
+    // 일시정지 버튼
     public void BattleOutCheck()
     {
         timeScale = BattleManager.Inst.TimeScale;
@@ -187,6 +190,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         battleOutCheck.SetActive(true);
     }
 
+    // 일시정지 버튼 캔슬
     public void BattleOutCheckCancel()
     {
         BattleManager.Inst.TimeScale = (int)timeScale;
