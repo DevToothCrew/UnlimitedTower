@@ -117,7 +117,7 @@ public class MonsterInfoManager : MonoBehaviour {
     //업그레이드 버튼
     public void OnClickUpgrade()
     {
-        
+        PartyInfoVC.Inst.ShowUpgrade();
     }
 
     //분해 버튼

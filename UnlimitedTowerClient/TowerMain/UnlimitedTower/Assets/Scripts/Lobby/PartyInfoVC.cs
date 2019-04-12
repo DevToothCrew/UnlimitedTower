@@ -12,11 +12,6 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
     //SubView
     public GameObject FrameSubView;
-    public GameObject SubViewDeconstruction;
-    public GameObject SubViewSkill;
-    public GameObject SubViewUpgradeMonster;
-
-
 
     //Menu Buttons UI
     public Text textButtonBack;
@@ -277,6 +272,26 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         FrameServantInfo.SetActive(false);
         FrameMonsterInfo.GetComponent<MonsterInfoManager>().updateMonsterInfo(m_data);
         FrameMonsterInfo.SetActive(true);
+    }
+
+    public void ShowUpgrade()
+    {
+        //Upgrade는 몬스터일때만
+        if (selectedMenu == menu_type.MONSTER)
+        {
+            frameScroll.SetActive(false);
+
+            GameObject objSubView = Instantiate(Resources.Load("UI/Lobby/SubViewUpgrade")) as GameObject;
+            objSubView.name = "SubViewUpgrade";
+            objSubView.transform.SetParent(FrameSubView.transform);
+            objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+            SubViewUpgrade s_upgrade = objSubView.GetComponent<SubViewUpgrade>();
+            s_upgrade.SetUpgradeType(UPGRADE_TYPE.MONSTER);
+        }
+        else
+        {
+            Debug.Log("Warning : Montser upgrade only");
+        }
     }
 
     public void ShowDeconstruction()

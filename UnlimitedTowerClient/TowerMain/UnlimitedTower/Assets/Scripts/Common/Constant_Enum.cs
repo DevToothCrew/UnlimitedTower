@@ -403,4 +403,18 @@ public enum DECONSTRUCTION_TYPE
     EQUIPMENT = 2,
 }
 
+public enum UPGRADE_TYPE
+{
+    MONSTER = 0,
+    EQUIPMENT = 1
+}
+
+public enum SORT_TYPE
+{
+    GRADE = 0,
+    LEVEL,
+    POWER,
+    OPTAIN
+}
+
 #endregion
