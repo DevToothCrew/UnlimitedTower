@@ -706,7 +706,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void RequestMailList()
     {
-        Debug.Log("Request MAil List");
+        Debug.Log("Request Mail List");
 
         Request<mailListResultData>("MailList",
                 onSuccess: ResponseMailList,
@@ -1115,24 +1115,24 @@ public class PacketManager : MonoSingleton<PacketManager> {
         SubViewDeconstruction.Inst.updateViewFinishRequest();
     }
     
-    public void ResponseMonsterBurn(monsterBurnResultData getSellMonsterResultData)
+    public void ResponseMonsterBurn(monsterBurnResultData getBurnMonsterResultData)
     {
         Debug.Log("몬스터 판매, UTG 획득!");
 
-        if(getSellMonsterResultData.monsterIndexList.Count == 0)
+        if(getBurnMonsterResultData.monsterIndexList.Count == 0)
         {
-            Debug.Log("Invalid Sell Result");
+            Debug.Log("Invalid Burn Result");
             return;
         }
 
-        if(UserDataManager.Inst.DelMonsterList(getSellMonsterResultData.monsterIndexList) == false)
+        if(UserDataManager.Inst.DelMonsterList(getBurnMonsterResultData.monsterIndexList) == false)
         {
             Debug.Log("Invalid DelMonsterList");
             return;
         }
 
         Dictionary<int, UserItemData> getItemDataDic = new Dictionary<int, UserItemData>();
-        if (ParseItemDic(getSellMonsterResultData.itemList, ref getItemDataDic) == false)
+        if (ParseItemDic(getBurnMonsterResultData.itemList, ref getItemDataDic) == false)
         {
             Debug.Log("Invalid ParseItemDic");
             return;
@@ -1147,24 +1147,24 @@ public class PacketManager : MonoSingleton<PacketManager> {
         SubViewDeconstruction.Inst.updateViewFinishRequest();
     }
 
-    public void ResponseEquipmentBurn(equipmentBurnResultData getSellEquipmentResultData)
+    public void ResponseEquipmentBurn(equipmentBurnResultData getBurnEquipmentResultData)
     {
         Debug.Log("장비 판매, UTG 획득!");
 
-        if(getSellEquipmentResultData.equipmentIndexList.Count == 0)
+        if(getBurnEquipmentResultData.equipmentIndexList.Count == 0)
         {
-            Debug.Log("Invalid Sell Result");
+            Debug.Log("Invalid Burn Result");
             return;
         }
 
-        if(UserDataManager.Inst.DelEquipmentList(getSellEquipmentResultData.equipmentIndexList) == false)
+        if(UserDataManager.Inst.DelEquipmentList(getBurnEquipmentResultData.equipmentIndexList) == false)
         {
             Debug.Log("Invalid DelEquipmentList");
             return;
         }
 
         Dictionary<int, UserItemData> getItemDataDic = new Dictionary<int, UserItemData>();
-        if (ParseItemDic(getSellEquipmentResultData.itemList, ref getItemDataDic) == false)
+        if (ParseItemDic(getBurnEquipmentResultData.itemList, ref getItemDataDic) == false)
         {
             Debug.Log("Invalid ParseItemDic");
             return;
@@ -1179,31 +1179,31 @@ public class PacketManager : MonoSingleton<PacketManager> {
         SubViewDeconstruction.Inst.updateViewFinishRequest();
     }
 
-    public void ResponseItemBurn(itemBurnResultData getSellItemResultData)
+    public void ResponseItemBurn(itemBurnResultData getBurnItemResultData)
     {
         Debug.Log("아이템 판매, UTG 획득!");
 
-        if (getSellItemResultData.itemDataList.Count == 0)
+        if (getBurnItemResultData.itemDataList.Count == 0)
         {
-            Debug.Log("Invalid Sell Result");
+            Debug.Log("Invalid Burn Result");
             return;
         }
 
-        Dictionary<int, UserItemData> sellItemDataDic = new Dictionary<int, UserItemData>();
-        if(ParseItemDic(getSellItemResultData.itemDataList, ref sellItemDataDic) == false)
+        Dictionary<int, UserItemData> burnItemDataDic = new Dictionary<int, UserItemData>();
+        if(ParseItemDic(getBurnItemResultData.itemDataList, ref burnItemDataDic) == false)
         {
             Debug.Log("Invalid ParseItemDic");
             return;
         }
 
-        if (UserDataManager.Inst.SetItemList(sellItemDataDic.Values.ToList()) == false)
+        if (UserDataManager.Inst.SetItemList(burnItemDataDic.Values.ToList()) == false)
         {
             Debug.Log("Invalid DelItemList");
             return;
         }
 
         Dictionary<int, UserItemData> getItemDataDic = new Dictionary<int, UserItemData>();
-        if (ParseItemDic(getSellItemResultData.itemList, ref getItemDataDic) == false)
+        if (ParseItemDic(getBurnItemResultData.itemList, ref getItemDataDic) == false)
         {
             Debug.Log("Invalid ParseItemDic");
             return;
