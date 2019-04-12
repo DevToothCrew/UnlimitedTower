@@ -3190,7 +3190,7 @@ void battletest::signup(eosio::name _user)
 /////////////////////////////////mail system////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-ACTION battletest::nftmail(eosio::name _user, std::string _type, uint64_t _index)
+ACTION battletest::nftmail(eosio::name _user, std::string _type, uint64_t _token_index)
 {
     require_auth(NFT_CONTRACT);
 
@@ -3220,7 +3220,7 @@ ACTION battletest::nftmail(eosio::name _user, std::string _type, uint64_t _index
             change_type = 7;
         }
         move_mail.mail_type = change_type;
-        move_mail.type_id = _index;
+        move_mail.type_id = _token_index;
         move_mail.grade = 0;
     });
 }
@@ -9096,7 +9096,7 @@ void battletest::nftexchange(eosio::name _owner, eosio::name _master, std::strin
             eosio_assert(master_iter != master_table.end(), "nftexchange : Wrong Master Index 1");
 
             user_servants owner_table(_self, _owner.value);
-            auto user_servant_iter = owner_table.find(master_iter->index);
+            auto user_servant_iter = owner_table.find(_master_index);
 
             if (user_servant_iter == owner_table.end())
             {
