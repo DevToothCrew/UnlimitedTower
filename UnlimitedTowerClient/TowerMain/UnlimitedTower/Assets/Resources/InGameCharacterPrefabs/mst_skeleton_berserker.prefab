@@ -1336,7 +1336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackDelay: 1.2
   AttackAfterDelay: 1.5
-  Height: 1.8
+  Height: 1.5
   AttackRange: 1
 --- !u!137 &137025686104932790
 SkinnedMeshRenderer:

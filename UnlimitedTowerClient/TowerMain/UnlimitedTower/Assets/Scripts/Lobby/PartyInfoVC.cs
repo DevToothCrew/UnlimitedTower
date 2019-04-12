@@ -37,15 +37,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     }
     public menu_type selectedMenu = menu_type.SERVANT;
 
-    enum sort_type
-    {
-        GRADE = 0,
-        LEVEL,
-        POWER,
-        OPTAIN
-    }
-    sort_type sortType = 0;
-
+    SORT_TYPE sortType = 0;
 
     public List<UserServantData> ServantList = new List<UserServantData>();
     public List<UserMonsterData> MonsterList = new List<UserMonsterData>();
