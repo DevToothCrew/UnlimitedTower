@@ -14,6 +14,7 @@ public class SelectManager : MonoBehaviour
     public Image selectHpBar;
     public Image selectCharImg;
     public GameObject characterInfo;
+    public GameObject BuffImage;
 
     private RaycastHit hit;
     private Ray ray;
@@ -33,6 +34,7 @@ public class SelectManager : MonoBehaviour
     private Text mCriPer;
     private Text CriDmg;
     private Text mCriDmg;
+    private Transform BuffParent;
 
     public enum ActionState
     {
@@ -65,7 +67,7 @@ public class SelectManager : MonoBehaviour
         mCriPer = GameObject.Find("mCriPer Text").GetComponent<Text>();
         CriDmg = GameObject.Find("CriDmg Text").GetComponent<Text>();
         mCriDmg = GameObject.Find("mCriDmg Text").GetComponent<Text>();
-
+        BuffParent = GameObject.Find("Buff List").transform;
         characterInfo.SetActive(false);
         characterStats.SetActive(false);
     }
@@ -126,18 +128,57 @@ public class SelectManager : MonoBehaviour
                                     break;
                             }
                             levelText.text = UserDataManager.Inst.GetServantInfo(UserDataManager.Inst.GetStageState().myStateList[selectIndex].index).level.ToString();
+                            
+                            for (int i = 0; i < BuffParent.childCount; i++)
+                            {
+                                Destroy(BuffParent.GetChild(i).gameObject);
+                            }
+
+                            if (UserDataManager.Inst.GetStageState().myStateList[selectIndex].passiveSkillList.Count > 0)
+                            {
+                                foreach (UserSkillInfo skill in UserDataManager.Inst.GetStageState().myStateList[selectIndex].passiveSkillList)
+                                {
+                                    Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = BattleUIManager.Inst.skillDataDic[skill.id].SkillImage;
+                                }
+                            }
                         }
                         else if (selectIndex < 10)
                         {
                             selectCharImg.sprite = CSVData.Inst.DBMonsterDataDic[selectStateInfo.id].monsterIcon;
                             nemeText.text = CSVData.Inst.GetMonsterName(selectStateInfo.id);
                             levelText.text = UserDataManager.Inst.GetMonsterInfo(UserDataManager.Inst.GetStageState().myStateList[selectIndex].index).level.ToString();
+
+                            for (int i = 0; i < BuffParent.childCount; i++)
+                            {
+                                Destroy(BuffParent.GetChild(i).gameObject);
+                            }
+
+                            if (UserDataManager.Inst.GetStageState().myStateList[selectIndex].passiveSkillList.Count > 0)
+                            {
+                                foreach (UserSkillInfo skill in UserDataManager.Inst.GetStageState().myStateList[selectIndex].passiveSkillList)
+                                {
+                                    Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = BattleUIManager.Inst.skillDataDic[skill.id].SkillImage;
+                                }
+                            }
                         }
                         else
                         {
                             selectCharImg.sprite = CSVData.Inst.DBMonsterDataDic[selectStateInfo.id].monsterIcon;
                             nemeText.text = CSVData.Inst.GetMonsterName(selectStateInfo.id);
                             levelText.text = "?";
+
+                            for (int i = 0; i < BuffParent.childCount; i++)
+                            {
+                                Destroy(BuffParent.GetChild(i).gameObject);
+                            }
+
+                            if (UserDataManager.Inst.GetStageState().enemyStateList[selectIndex].passiveSkillList.Count > 0)
+                            {
+                                foreach (UserSkillInfo skill in UserDataManager.Inst.GetStageState().enemyStateList[selectIndex].passiveSkillList)
+                                {
+                                    Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = BattleUIManager.Inst.skillDataDic[skill.id].SkillImage;
+                                }
+                            }
                         }
 
                         _Str.text = selectStateInfo.status.basicStr.ToString();

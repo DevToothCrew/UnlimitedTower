@@ -330,6 +330,9 @@ public class Cheat : MonoSingleton<Cheat>
                 else
                     skill = 200002;
 
+                newMember.passive_skill_list = new List<int>();
+                newMember.passive_skill_list.Add(100005);
+
                 newMember.active_skill_list = new List<int>();
                 newMember.active_skill_list.Add(skill);
 

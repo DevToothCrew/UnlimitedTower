@@ -193,4 +193,46 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         Time.timeScale = timeScale;
         battleOutCheck.SetActive(false);
     }
+
+    public void NextStage()
+    {
+        if (UserDataManager.Inst.GetUserPartyInfo().partyIndex == 0)
+        {
+            Debug.LogError("Invalid User Data");
+        }
+
+#if UNITY_EDITOR
+        {
+            if (UserDataManager.Inst.stageState.stageFloor != 10)
+            Cheat.Inst.RequestStageStartCheat(UserDataManager.Inst.stageState.stageType, UserDataManager.Inst.stageState.stageFloor + 1, 1);
+        }
+#else
+        {
+        if (UserDataManager.Inst.stageState.stageFloor != 10)
+            PacketManager.Inst.RequestStageStart(UserDataManager.Inst.stageState.stageType, UserDataManager.Inst.stageState.stageFloor + 1, 1);
+        }
+#endif
+        Time.timeScale = 1;
+        BattleManager.Inst.rewardParent.SetActive(false);
+    }
+
+    public void StageContinue()
+    {
+        if (UserDataManager.Inst.GetUserPartyInfo().partyIndex == 0)
+        {
+            Debug.LogError("Invalid User Data");
+        }
+
+#if UNITY_EDITOR
+        {
+            Cheat.Inst.RequestStageStartCheat(UserDataManager.Inst.stageState.stageType, UserDataManager.Inst.stageState.stageFloor, 1);
+        }
+#else
+        {
+            PacketManager.Inst.RequestStageStart(UserDataManager.Inst.stageState.stageType, UserDataManager.Inst.stageState.stageFloor, 1);
+        }
+#endif
+        Time.timeScale = 1;
+        BattleManager.Inst.battleFail.SetActive(false);
+    }
 }
