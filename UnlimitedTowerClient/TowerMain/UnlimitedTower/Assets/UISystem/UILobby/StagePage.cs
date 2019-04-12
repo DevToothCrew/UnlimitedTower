@@ -22,10 +22,10 @@ public class StagePage : MonoBehaviour {
     private int stageType = 0;
     private int stageFloor = 0;
 
-    public GameObject[] OnActiveImage = new GameObject[1];
-    public GameObject[] OnActiveStageList = new GameObject[1];
+    public GameObject[] OnActiveImage = new GameObject[6];
+    public GameObject[] OnActiveStageList = new GameObject[6];
     public GameObject StageScreenBackButton;
-    private int maxStageList = 1;
+    private int maxStageList = 6;
 
     void Awake ()
     {
@@ -103,16 +103,38 @@ public class StagePage : MonoBehaviour {
 
     public void OnClickStageButton(int stageIndex)
     {
+        Debug.Log(stageIndex);
+
         stageType = stageIndex / 100;
         stageFloor = stageIndex % 100;
 
         // 임시로 때려박기
-        if(stageType == 1)
+        if (stageType == 1)
         {
             StageText.text = "Stage - Garden";
         }
+        else if (stageType == 2)
+        {
+            StageText.text = "Stage - Lava";
+        }
+        else if (stageType == 3)
+        {
+            StageText.text = "Stage - Ice";
+        }
+        else if (stageType == 4)
+        {
+            StageText.text = "Stage - Under";
+        }
+        else if (stageType == 5)
+        {
+            StageText.text = "Stage - Light";
+        }
+        else if (stageType == 6)
+        {
+            StageText.text = "Stage - Dark";
+        }
 
-        switch(stageFloor)
+        switch (stageFloor)
         {
             case 1:
                 StageDetailText.text = "1F - Grass";
