@@ -582,10 +582,23 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
     public void OnClickSaveFormation()
     {
+        bool isDiff = false;
+
+        UserPartyData partyData = UserDataManager.Inst.GetUserPartyInfo();
         List<int> indexList = new List<int>();
         for(int i = 0; i < 10; i++)
         {
             indexList.Add(formationSlot[i]);
+            if(partyData.formationDataDic[i].index != formationSlot[i])
+            {
+                isDiff = true;
+            }
+        }
+
+        if(isDiff == false)
+        {
+            Debug.Log("Party Already Save");
+            return;
         }
 
         // TODO : 추후 파티가 늘어날수도
