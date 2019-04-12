@@ -55,6 +55,7 @@ public class DamageManager : MonoSingleton<DamageManager>
         {
             if (isHeal)
             {
+                damageText.text.text = attackInfo.damage.ToString();
                 damageText.text.color = HealColor[0];
                 damageText.outLine.effectColor = HealColor[1];
                 BattleManager.Inst.NowHp[attackInfo.target_position] += attackInfo.damage;
