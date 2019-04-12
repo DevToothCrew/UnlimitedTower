@@ -548,6 +548,7 @@ CONTRACT battletest : public contract
     void substr_value(std::string _value, std::vector<std::string> & _value_list, std::vector<size_t> & _size_list, uint32_t _size);
     ACTION dbinsert(std::string _table, std::string _value);
     ACTION dberase(std::string _table, std::string _value);
+    ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
     ACTION dbinit(std::string _table);
     ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
 
@@ -1219,6 +1220,8 @@ CONTRACT battletest : public contract
     //------------------------------------------------------------------------//
 #pragma region party_system
   public:
+    bool check_same_party(eosio::name _user, uint32_t _party_number, const std::vector<uint64_t> &_servant_list, const std::vector<uint64_t> &_monster_list);
+    bool check_empty_party(const std::vector<uint64_t> &_servant_list, const std::vector<uint64_t> &_monster_list);
     ACTION saveparty(eosio::name _user, uint32_t _party_number, const std::vector<uint64_t> &_servant_list, const std::vector<uint64_t> &_monster_list);
     void add_party_list(eosio::name _user);
 
@@ -1231,7 +1234,7 @@ CONTRACT battletest : public contract
 
     ACTION servantburn(eosio::name _user, const std::vector<uint64_t> &_servant_list);
     ACTION monsterburn(eosio::name _user, const std::vector<uint64_t> &_monster_list);
-    ACTION equipburn(eosio::name _nser, const std::vector<uint64_t> &_equipment_list);
+    ACTION equipburn(eosio::name _user, const std::vector<uint64_t> &_equipment_list);
     ACTION itemburn(eosio::name _user, const std::vector<uint64_t> &_item_list, const std::vector<uint64_t> &_count_list);
 
     ACTION equip(eosio::name _user, uint32_t _servant_index, uint32_t _item_index);
@@ -1343,6 +1346,16 @@ CONTRACT battletest : public contract
         passive_warlock,
         passive_druid,
         passive_shaman,
+    };
+
+    enum monster_type
+    {
+        fire = 1,
+        water,
+        earth,
+        wind,
+        light,
+        dark,
     };
 
     enum stage_state
@@ -1555,6 +1568,8 @@ CONTRACT battletest : public contract
     uint32_t get_physical_defense(status_info _status); 
     void set_stage_state(uint64_t _stage_id, std::vector<character_state_data> &_enemy_state_list, std::vector<std::string> &_state);
     character_state_data get_user_state(eosio::name _user, std::string _type, uint64_t _index, uint32_t _position, std::vector<std::string> &_state);
+    uint32_t get_stage_id(uint32_t _stage_type, uint32_t _stage_floor);
+    bool possible_start(eosio::name _user, uint32_t _party_number);
     ACTION stagestart(eosio::name _user, uint32_t _party_number, uint32_t _stage_type, uint32_t _stage_floor);
 
     void init_buff_effect(character_state_data &_state, buff_info _buff);
@@ -1584,6 +1599,8 @@ CONTRACT battletest : public contract
     void set_dmg_type(eosio::name _user, uint32_t _dmg_type, character_state_data &_state, uint32_t &_avoid, uint32_t &_defense);
     void set_attack_type(eosio::name _user, uint32_t _atk_type, character_state_data &_state, uint32_t &_attack, uint32_t &_cri_dmg, uint32_t &_cri_per);
     //================================================//
+    bool check_type_up(eosio::name _user, uint32_t _attacker, uint32_t _defender);
+    bool check_type_down(eosio::name _user, uint32_t _attacker, uint32_t _defender);
     bool set_action(eosio::name _user, uint32_t _action,uint64_t _seed,
                                                       std::vector<character_state_data> &_my_state_list,
                                                       std::vector<character_state_data> &_enemy_state_list,
@@ -1770,4 +1787,16 @@ CONTRACT battletest : public contract
     ACTION changegame(eosio::name _owner, eosio::name _master, std::string _type, uint64_t _master_index);
     
 #pragma endregion
+
+    ACTION chat(name _user, asset _price, string _text);
+    TABLE tchat
+    {
+        name owner;
+        asset price;
+        name user;
+        string text;
+        uint64_t start_time;
+        uint64_t primary_key() const { return owner.value; }
+    };
+    typedef eosio::multi_index<"tchat"_n, tchat> chat_index;
 };
