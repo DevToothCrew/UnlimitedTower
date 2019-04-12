@@ -91,7 +91,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                 }
                 break;
             case DECONSTRUCTION_TYPE.MONSTER:
-                for (int i = 0; i < partyInfo.ServantList.Count; i++)
+                for (int i = 0; i < partyInfo.MonsterList.Count; i++)
                 {
                     scrollListData.Add(i);
                 }
