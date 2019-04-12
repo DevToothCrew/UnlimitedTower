@@ -182,6 +182,7 @@ public enum MONSTER_CLASS_FLAG
 
 public enum ELEMENT_TYPE
 {
+    Non = 0,
     Fire = 1,
     Water = 2,
     Earth = 3,

@@ -39,8 +39,8 @@ public class BasicAttack : MonoBehaviour {
         attackerStartPos = attacker.position;
 
         yield return new WaitForSeconds(charInfo.AttackDelay);
-
-        DamageManager.Inst.DamageAciton(attackInfo.action_info_list[0], false);
+        Debug.Log((ELEMENT_TYPE)BattleManager.Inst.GetCharState(attackInfo.my_position).elementType);
+        DamageManager.Inst.DamageShow(attackInfo.action_info_list[0], false, (ELEMENT_TYPE)BattleManager.Inst.GetCharState(attackInfo.my_position).elementType);
         if (BattleManager.Inst.NowHp[attackInfo.action_info_list[0].target_position] > 0)
             BattleManager.Inst.animator[attackInfo.action_info_list[0].target_position].SetTrigger("isHit");
         else
@@ -109,7 +109,7 @@ public class BasicAttack : MonoBehaviour {
     
         yield return new WaitForSeconds(charInfo.AttackAfterDelay);
     
-        DamageManager.Inst.DamageAciton(attackInfo.action_info_list[0], false);
+        DamageManager.Inst.DamageShow(attackInfo.action_info_list[0], false, (ELEMENT_TYPE)BattleManager.Inst.GetCharState(attackInfo.my_position).elementType);
         if (BattleManager.Inst.NowHp[attackInfo.action_info_list[0].target_position] > 0)
             BattleManager.Inst.animator[attackInfo.action_info_list[0].target_position].SetTrigger("isHit");
         else

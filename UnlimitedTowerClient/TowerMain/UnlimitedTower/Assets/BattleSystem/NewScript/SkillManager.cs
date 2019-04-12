@@ -110,7 +110,7 @@ public class SkillManager : MonoSingleton<SkillManager>
 
         yield return new WaitForSeconds(0.5f);
 
-        DamageManager.Inst.DamageAciton(battleInfo.action_info_list[0], true);
+        DamageManager.Inst.DamageShow(battleInfo.action_info_list[0], true, (ELEMENT_TYPE)BattleManager.Inst.GetCharState(battleInfo.my_position).elementType);
         Instantiate(effect["Heal"], BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform.position +
             new Vector3(0, BattleManager.Inst.charInfo[battleInfo.action_info_list[0].target_position].Height * 0.5f, 0),
             Quaternion.identity,
@@ -177,7 +177,7 @@ public class SkillManager : MonoSingleton<SkillManager>
 
         yield return new WaitForSeconds(0.7f);
 
-        DamageManager.Inst.DamageAciton(battleInfo.action_info_list[0], false);
+        DamageManager.Inst.DamageShow(battleInfo.action_info_list[0], false, (ELEMENT_TYPE)BattleManager.Inst.GetCharState(battleInfo.my_position).elementType);
         if (BattleManager.Inst.NowHp[battleInfo.action_info_list[0].target_position] > 0)
             BattleManager.Inst.animator[battleInfo.action_info_list[0].target_position].SetTrigger("isHit");
         else
@@ -185,7 +185,7 @@ public class SkillManager : MonoSingleton<SkillManager>
 
         yield return new WaitForSeconds(0.2f);
 
-        DamageManager.Inst.DamageAciton(battleInfo.action_info_list[1], false);
+        DamageManager.Inst.DamageShow(battleInfo.action_info_list[1], false, (ELEMENT_TYPE)BattleManager.Inst.GetCharState(battleInfo.my_position).elementType);
         if (BattleManager.Inst.NowHp[battleInfo.action_info_list[1].target_position] > 0)
             BattleManager.Inst.animator[battleInfo.action_info_list[1].target_position].SetTrigger("isHit");
         else

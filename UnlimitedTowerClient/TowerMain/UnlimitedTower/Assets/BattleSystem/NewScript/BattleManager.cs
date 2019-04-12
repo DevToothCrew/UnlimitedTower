@@ -578,4 +578,12 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         return stateData.myStateList[position];
     }
+
+    public UserCharacterStateData GetCharState(int index)
+    {
+        if (index < 10)
+            return UserDataManager.Inst.GetStageState().myStateList[index];
+        else
+            return UserDataManager.Inst.GetStageState().enemyStateList[index];
+    }
 }
