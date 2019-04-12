@@ -347,19 +347,23 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
     public void updateViewFinishRequest()
     {
         OnClickButtonClear();
-        setData();
-        scrollList.SetItemOrder(getOrder());
 
         if (PartyInfoVC.checkInst())
         {
-            PartyInfoVC.Inst.selected_unit_idx = 0;
-            PartyInfoVC.Inst.updateDetailInfo(PartyInfoVC.Inst.selected_unit_idx);
+            PartyInfoVC patyInfo = PartyInfoVC.Inst;
+            patyInfo.setData();
+            patyInfo.resetScroll(patyInfo.currentScrollType);
+            patyInfo.updateDetailInfo(patyInfo.scrollList.getFirstItemOrder());
         }
         else if (InventoryVC.checkInst())
         {
-            InventoryVC.Inst.selected_unit_idx = 0;
-            InventoryVC.Inst.updateDetailInfo(InventoryVC.Inst.selected_unit_idx);
+            InventoryVC.Inst.setData();
+            InventoryVC.Inst.updateDetailInfo(InventoryVC.Inst.scrollList.getFirstItemOrder());
         }
+
+        setData();
+        scrollList.SetItemOrder(getOrder());
+
     }
 
     public void OnClickClose()

@@ -73,7 +73,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     public scroll_type currentScrollType = 0;
 
 
-    void setData()
+    public void setData()
     {
         ServantList.Clear();
         MonsterList.Clear();

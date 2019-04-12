@@ -122,7 +122,7 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     {
         if (LobbyManager.Inst.popupState == POPUP_STATE.Servant)
         {
-            if (PartyInfoVC.Inst != null)
+            if (PartyInfoVC.checkInst() && !SubViewDeconstruction.checkInst())
             {
                 PartyInfoVC partyInfo = PartyInfoVC.Inst;
                 if (partyInfo.selectedMenu == PartyInfoVC.menu_type.SERVANT || partyInfo.selectedMenu == PartyInfoVC.menu_type.MONSTER)
@@ -390,7 +390,6 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
         DrawScrollView();
         if (moveScrollSelectedUnit == false)
         {
-            Debug.Log("Move Scroll");
             selectedUnit();
             setSnapping();// if (scrollRect.velocity.y > 0f)
                 

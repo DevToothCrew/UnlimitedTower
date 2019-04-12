@@ -81,7 +81,7 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
     public scroll_type currentScrollType = 0;
 
 
-    void setData()
+    public void setData()
     {
         for (int i=0; i< EquipmentList.Count; i++)
         {
