@@ -42,6 +42,12 @@ public class ModelViewManager : MonoSingleton<ModelViewManager>
     //PartyInfo 화면에서 유닛을 선택했을때 해당 모델로 교체
     public void ChangeSelectedUnitModel()
     {
+        //서브뷰 상태일때는 Return;
+        if (SubViewDeconstruction.checkInst() || SubViewUpgrade.checkInst())
+        {
+            return;
+        }
+
         Debug.Log("change update model");
         if (PartyInfoVC.checkInst())
         {

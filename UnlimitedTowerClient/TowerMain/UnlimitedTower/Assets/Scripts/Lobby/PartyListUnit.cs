@@ -66,16 +66,26 @@ public class PartyListUnit : ScrollListUnit {
         }
         else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
         {
-            ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)partyInfo.MonsterList[main_idx].grade);
-            imageCharacter.sprite = CSVData.Inst.GetMonsterData(partyInfo.MonsterList[main_idx].id).monsterIcon;
-            textLevel.text = string.Format("{0}", partyInfo.MonsterList[main_idx].level);
-            textStr.text = string.Format("{0}", partyInfo.MonsterList[main_idx].status.basicStr);
-            textDex.text = string.Format("{0}", partyInfo.MonsterList[main_idx].status.basicDex);
-            textInt.text = string.Format("{0}", partyInfo.MonsterList[main_idx].status.basicInt);
+            int selected_idx;
+            if (SubViewUpgrade.checkInst())
+            {
+                selected_idx = SubViewUpgrade.Inst.scrollListData[main_idx];
+            }
+            else
+            {
+                selected_idx = main_idx;
+            }
 
-            imageType.sprite = CSVData.Inst.GetSpriteElementType(partyInfo.MonsterList[main_idx].elementType);
+            ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)partyInfo.MonsterList[selected_idx].grade);
+            imageCharacter.sprite = CSVData.Inst.GetMonsterData(partyInfo.MonsterList[selected_idx].id).monsterIcon;
+            textLevel.text = string.Format("{0}", partyInfo.MonsterList[selected_idx].level);
+            textStr.text = string.Format("{0}", partyInfo.MonsterList[selected_idx].status.basicStr);
+            textDex.text = string.Format("{0}", partyInfo.MonsterList[selected_idx].status.basicDex);
+            textInt.text = string.Format("{0}", partyInfo.MonsterList[selected_idx].status.basicInt);
 
-            DBExpData dbExpData = CSVData.Inst.GetExpData(partyInfo.MonsterList[main_idx].level);
+            imageType.sprite = CSVData.Inst.GetSpriteElementType(partyInfo.MonsterList[selected_idx].elementType);
+
+            DBExpData dbExpData = CSVData.Inst.GetExpData(partyInfo.MonsterList[selected_idx].level);
             if (dbExpData == null)
             {
                 Debug.Log("Invalid Level Data");
@@ -83,9 +93,9 @@ public class PartyListUnit : ScrollListUnit {
             else
             {
                 int exExp = 0;
-                if (partyInfo.MonsterList[main_idx].level - 1 > 0)
+                if (partyInfo.MonsterList[selected_idx].level - 1 > 0)
                 {
-                    DBExpData exDBExpData = CSVData.Inst.GetExpData(partyInfo.MonsterList[main_idx].level - 1);
+                    DBExpData exDBExpData = CSVData.Inst.GetExpData(partyInfo.MonsterList[selected_idx].level - 1);
                     if (exDBExpData == null)
                     {
                         Debug.Log("Invalid Level Data");
@@ -96,7 +106,7 @@ public class PartyListUnit : ScrollListUnit {
                     }
                 }
 
-                float expPer = (exExp - partyInfo.MonsterList[main_idx].exp) / (float)(exExp - dbExpData.charExp);
+                float expPer = (exExp - partyInfo.MonsterList[selected_idx].exp) / (float)(exExp - dbExpData.charExp);
                 textExpPer.text = (int)(expPer * 100) + "%";
                 imageExp.fillAmount = expPer;
             }
@@ -139,6 +149,13 @@ public class PartyListUnit : ScrollListUnit {
                     }
                     partyInfo.InsertUnit(chracter_unit_idx);
                 }
+            }
+            else if (SubViewUpgrade.checkInst())
+            {
+                SubViewUpgrade.Inst.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
+                int selected_unit_idx = partyInfo.MonsterList[SubViewUpgrade.Inst.scrollListData[main_idx]].index;
+
+                SubViewUpgrade.Inst.InsertUnit(selected_unit_idx);
             }
             else
             {

@@ -3,16 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SubViewUpgrade : MonoBehaviour {
+public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
+{
+    //Memo
+    //19.04.12 : 장비강화의 경우, 일단 보유중인 주문서가 자동으로 삽입되도록 함. (추후, 주문서의 종류가 다양해질 경우 선택하도록 변경)
+    // -> 스크롤뷰 X
+
+
     public Text textTitle;
 
     //선택한 오브젝트 정보(이미지) : 몬스터 or 장비
     public Image FrameSelectedObject;
     public Image ImageSelectedObject;
+    public Text textSelectedObjectUpgrade;
 
     //강화에 사용되는 오브젝트 정보(이미지) : 같은 종류/등급 몬스터 or 장비 강화 주문서
     public Image FrameInsertObject;
     public Image ImageInsertObject;
+    public Text textInsertObjectUpgrade;
 
     public Text textUgt;
     public Text textSuccessPer;
@@ -20,12 +28,14 @@ public class SubViewUpgrade : MonoBehaviour {
     //강화 성공시 만들어질 오브젝트 정보(이미지)
     public Image FrameResultSlot;
     public Image imageResultSlot;
+    public Text textResultUpgrade;
 
     public Button buttonUpgrade;
 
     public GameObject prefabPartyUnit;
     public GameObject prefabItemUnit;
 
+    public GameObject FrameScroll;
     public ScrollListManager scrollList;
 
     public List<int> scrollListData = new List<int>();
@@ -37,6 +47,12 @@ public class SubViewUpgrade : MonoBehaviour {
     private UPGRADE_TYPE upgradeType = 0;
     private int selected_object_idx;    //선택된 오브젝트 Idx
     private int inserted_object_idx;    //강화에 사용할 오브젝트 Idx
+
+    //몬스터 일때
+    private UserMonsterData monsterData;
+
+    //장비 일때
+    private UserEquipmentData equipmentData;
 
     void Start()
     {
@@ -53,14 +69,24 @@ public class SubViewUpgrade : MonoBehaviour {
         upgradeType = type;
 
         if (upgradeType == UPGRADE_TYPE.MONSTER)
-        {
+        {   
             partyInfo = PartyInfoVC.Inst;
             scrollList.prefabUnit = prefabPartyUnit;
+            FrameScroll.SetActive(true);
+
+            //선택된 몬스터 Data
+            monsterData = partyInfo.MonsterList[partyInfo.selected_unit_idx];
         }
         else//upgradeType == UPGRADE_TYPE.EQUIPMENT
         {
             inventoryInfo = InventoryVC.Inst;
             scrollList.prefabUnit = prefabItemUnit;
+            FrameScroll.SetActive(false);
+
+            //선택된 장비 Data
+            equipmentData = inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][inventoryInfo.selected_unit_idx];
+
+            InsertEquipmentUpgradeScroll();
         }
 
         initScrollList();
@@ -84,14 +110,14 @@ public class SubViewUpgrade : MonoBehaviour {
             case UPGRADE_TYPE.MONSTER:
                 for (int i = 0; i < partyInfo.MonsterList.Count; i++)
                 {
-                    scrollListData.Add(i);
+                    if (monsterData.id == partyInfo.MonsterList[i].id && monsterData.grade == partyInfo.MonsterList[i].grade && monsterData.upgrade >= partyInfo.MonsterList[i].upgrade && monsterData.index != partyInfo.MonsterList[i].index)
+                    {
+                        scrollListData.Add(i);
+                    }
                 }
                 break;
             case UPGRADE_TYPE.EQUIPMENT:
-                for (int i = 0; i < inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu].Count; i++)
-                {
-                    scrollListData.Add(i);
-                }
+                //추후 아이템 중, 주문서류만 scrollListData에 삽입.
                 break;
             default:
                 Debug.Log("Warning : 잘못된 타입 분해!");
@@ -161,42 +187,93 @@ public class SubViewUpgrade : MonoBehaviour {
     void updateView()
     {
         //선택중인 오브젝트 정보
-        FrameSelectedObject.sprite = null;
-        ImageSelectedObject.sprite = null;
+        if (upgradeType == UPGRADE_TYPE.MONSTER)
+        {
+            FrameSelectedObject.sprite = CSVData.Inst.GetSpriteGrade(monsterData.gradeType);
+            ImageSelectedObject.sprite = CSVData.Inst.GetMonsterData(monsterData.id).monsterIcon;
+            textSelectedObjectUpgrade.text = string.Format("+{0}", monsterData.upgrade);
+        }
+        else
+        {
+            FrameSelectedObject.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)equipmentData.grade);
+            ImageSelectedObject.sprite = CSVData.Inst.GetEquipmentData(equipmentData.id).equipmentIcon;
+            textSelectedObjectUpgrade.text = string.Format("+{0}", equipmentData.upgrade);
+        }
 
+
+            
         if (inserted_object_idx > 0)//강화에 사용될 오브젝트를 선택했을때
         {
-            //강화에 사용될 오브젝트 정보
-            //FrameInsertObject.sprite = ;
-            //ImageInsertObject.sprite = ;
+            FrameInsertObject.gameObject.SetActive(true);
+            FrameResultSlot.gameObject.SetActive(true);
+            textUgt.gameObject.SetActive(true);
 
-            //강화 비용, 성공률
-            textUgt.text = string.Format("{0}", 0);
-            textSuccessPer.text = string.Format("{0}%", 0);
+            if (upgradeType == UPGRADE_TYPE.MONSTER)
+            {
+                //강화에 사용될 오브젝트 정보
+                UserMonsterData inserted_monster_data = UserDataManager.Inst.GetMonsterInfo(inserted_object_idx);
+                if (inserted_monster_data == null)
+                {
+                    Debug.Log("Invalid Insert monster data by SubViewUpgrade");
+                    return;
+                }
 
-            //강화 성공시 오브젝트 정보
-            FrameResultSlot.sprite = null;
-            imageResultSlot.sprite = null;
+                FrameInsertObject.sprite = CSVData.Inst.GetSpriteGrade(inserted_monster_data.gradeType);
+                ImageInsertObject.sprite = CSVData.Inst.GetMonsterData(inserted_monster_data.id).monsterIcon;
+                textInsertObjectUpgrade.text = string.Format("+{0}", inserted_monster_data.upgrade);
+
+                //강화 비용, 성공률
+                textUgt.text = string.Format("{0}", 0);
+                textSuccessPer.text = string.Format("{0}%", 0);
+
+                //강화 성공시 오브젝트 정보
+                FrameResultSlot.sprite = CSVData.Inst.GetSpriteGrade(monsterData.gradeType);
+                imageResultSlot.sprite = CSVData.Inst.GetMonsterData(monsterData.id).monsterIcon;
+                textResultUpgrade.text = string.Format("+{0}", monsterData.upgrade + 1);
+            }
+            else
+            {
+                //FrameInsertObject.sprite = 주문서 등급;
+                //ImageInsertObject.sprite = 주문서 이미지;
+                //주문서는 업그레이드 표시 X
+                textInsertObjectUpgrade.text = "";
+
+                //강화 비용, 성공률
+                textUgt.text = string.Format("{0}", 0);
+                textSuccessPer.text = string.Format("{0}%", 0);
+
+                //강화 성공시 오브젝트 정보
+                FrameResultSlot.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)equipmentData.grade);
+                imageResultSlot.sprite = CSVData.Inst.GetEquipmentData(equipmentData.id).equipmentIcon;
+                textResultUpgrade.text = string.Format("+{0}", monsterData.upgrade + 1);
+            }
+            
 
             buttonUpgrade.interactable = true;
         }
         else
         {
-            FrameInsertObject.sprite = null;
-            ImageInsertObject.sprite = null;
-            textUgt.text = "";
+            FrameInsertObject.gameObject.SetActive(false);
+            textUgt.gameObject.SetActive(false);
             textSuccessPer.text = "";
-            FrameResultSlot.sprite = null;
-            imageResultSlot.sprite = null;
+            FrameResultSlot.gameObject.SetActive(false);
 
             buttonUpgrade.interactable = false;
         }
         
     }
 
+    //19.04.12 : 장비강화의 경우, 일단 보유중인 주문서가 자동으로 삽입되도록 함. (추후, 주문서의 종류가 다양해질 경우 선택하도록 변경)
+    public void InsertEquipmentUpgradeScroll()
+    {
+        //아이템(스크롤) 보유 여부 확인
+
+        //inserted_object_idx에 아이템 idx 설정
+    }
+
     public void InsertUnit(int scroll_unit_idx)
     {
-        //다른 오브젝트로 바꿀 수 있기 때문에 필요 없을듯.
+        //재료를 다른 몬스터(또는 다른 주문서)로 바꿀 수 있기 때문에 필요 없을듯.
         //if (inserted_object_idx > 0)
         //{
         //    Debug.Log("Warning : 이미 필요한 아이템 삽입됨!");
@@ -213,45 +290,52 @@ public class SubViewUpgrade : MonoBehaviour {
         {
             if (upgradeType == UPGRADE_TYPE.MONSTER)
             {
-                UserMonsterData monsterData = UserDataManager.Inst.GetMonsterInfo(scroll_unit_idx);
-                if (monsterData == null)
+                UserMonsterData insertMonsterData = UserDataManager.Inst.GetMonsterInfo(scroll_unit_idx);
+                if (insertMonsterData == null)
                 {
                     Debug.Log("Invalid Request Monster ID : " + scroll_unit_idx);
                     return;
                 }
 
-                if (monsterData.state != 1)
+                if (insertMonsterData.state != 1)
                 {
-                    Debug.Log("Invalid Monster State : " + monsterData.state);
+                    Debug.Log("Invalid Monster State : " + insertMonsterData.state);
                     return;
                 }
 
-                if (monsterData.partyIndex != 0)
+                if (insertMonsterData.partyIndex != 0)
                 {
-                    Debug.Log("Invalid Monster Index : " + monsterData.partyIndex);
+                    Debug.Log("Invalid Monster Index : " + insertMonsterData.partyIndex);
                     return;
                 }
+
+                //같은 종류의 몬스터, 같은 등급, 선택된 몬스터보다 등급이 낮거나 같은 것들만, 
+                //if (insertMonsterData.id == partyInfo.MonsterList[i].id && insertMonsterData.grade == partyInfo.MonsterList[i].grade && insertMonsterData.upgrade >= partyInfo.MonsterList[i].upgrade)
+
+                //현재 선택된 몬스터 제외 : insertMonsterData.index >= partyInfo.MonsterList[i].index
             }
             else//Equip
             {
-                UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(scroll_unit_idx);
-                if (equipmentData == null)
+                UserEquipmentData insertEquipmentData = UserDataManager.Inst.GetEquipmentInfo(scroll_unit_idx);
+                if (insertEquipmentData == null)
                 {
                     Debug.Log("Invalid Request Servant ID : " + scroll_unit_idx);
                     return;
                 }
 
-                if (equipmentData.state != 1)
+                if (insertEquipmentData.state != 1)
                 {
-                    Debug.Log("Invalid Equip State : " + equipmentData.state);
+                    Debug.Log("Invalid Equip State : " + insertEquipmentData.state);
                     return;
                 }
 
-                if (equipmentData.isEquiped)
+                if (insertEquipmentData.isEquiped)
                 {
-                    Debug.Log("Invalid Equip isEquiped : " + equipmentData.isEquiped);
+                    Debug.Log("Invalid Equip isEquiped : " + insertEquipmentData.isEquiped);
                     return;
                 }
+
+                //같은 종류의 장비, 같은 등급, 선택된 장비보다 등급이 낮거나 같은 것들만
             }
 
             unit_idx = scroll_unit_idx;
