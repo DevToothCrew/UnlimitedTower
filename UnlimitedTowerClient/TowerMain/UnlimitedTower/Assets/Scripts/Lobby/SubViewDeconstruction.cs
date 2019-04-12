@@ -357,8 +357,10 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
         }
         else if (InventoryVC.checkInst())
         {
-            InventoryVC.Inst.setData();
-            InventoryVC.Inst.updateDetailInfo(InventoryVC.Inst.scrollList.getFirstItemOrder());
+            InventoryVC inventory = InventoryVC.Inst;
+            inventory.setData();
+            inventory.resetScroll(inventory.currentScrollType);
+            inventory.updateDetailInfo(inventory.scrollList.getFirstItemOrder());
         }
 
         setData();
