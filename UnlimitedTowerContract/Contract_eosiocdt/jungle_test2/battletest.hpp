@@ -1784,7 +1784,6 @@ CONTRACT battletest : public contract
 
 #pragma region tokenization
     ACTION changetoken(eosio::name _user, std::string _type, uint64_t _index);       //0.1 EOS
-    ACTION changegame(eosio::name _owner, eosio::name _master, std::string _type, uint64_t _master_index);
     
 #pragma endregion
 

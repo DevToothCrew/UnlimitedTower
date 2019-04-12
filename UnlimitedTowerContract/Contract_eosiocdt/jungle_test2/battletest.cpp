@@ -3404,7 +3404,9 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
             auto uts_db_iter = uts_db_table.find(mail_db_iter->type_id);
             eosio_assert(uts_db_iter != uts_db_table.end(), "mailopen : end table error");
             std::string temp_type = "servant";
-            nftexchange(uts_db_iter->owner, uts_db_iter->master, temp_type, uts_db_iter->t_idx);
+            nftexchange(uts_db_iter->owner,
+                        uts_db_iter->master, temp_type,
+                        uts_db_iter->t_idx);
             user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
                 change_auth_user.current_servant_inventory += 1;
             });
@@ -8028,6 +8030,8 @@ ACTION battletest::changetoken(eosio::name _user, std::string _type, uint64_t _i
         user_servants user_servant_table(_self, _user.value);
         auto servant_iter = user_servant_table.find(_index);
         eosio_assert(servant_iter != user_servant_table.end(), "Not Exist Servant 20");
+        eosio_assert(servant_iter->servant.state == object_state::on_inventory, "Not Inventory Servant");
+        eosio_assert(servant_iter->party_number == 0, "Already Party Servant");
         user_servant_table.modify(servant_iter, _self, [&](auto &new_token) {
             new_token.servant.state = object_state::on_tokenization;
         });
@@ -8037,6 +8041,8 @@ ACTION battletest::changetoken(eosio::name _user, std::string _type, uint64_t _i
         user_monsters user_monster_table(_self, _user.value);
         auto monster_iter = user_monster_table.find(_index);
         eosio_assert(monster_iter != user_monster_table.end(), "Not Exist Monster 20");
+        eosio_assert(monster_iter->monster.state == object_state::on_inventory, "Not Inventory Monster");
+        eosio_assert(monster_iter->party_number == 0, "Already Party Monster");
         user_monster_table.modify(monster_iter, _self, [&](auto &new_token) {
             new_token.monster.state = object_state::on_tokenization;
         });
@@ -8046,6 +8052,7 @@ ACTION battletest::changetoken(eosio::name _user, std::string _type, uint64_t _i
         user_equip_items user_equipment_table(_self, _user.value);
         auto equipment_iter = user_equipment_table.find(_index);
         eosio_assert(equipment_iter != user_equipment_table.end(), "Not Exist Monster 20");
+        eosio_assert(equipment_iter->equipment.state == object_state::on_inventory, "Not Inventory Equipment");
         user_equipment_table.modify(equipment_iter, _self, [&](auto &new_token) {
             new_token.equipment.state = object_state::on_tokenization;
         });
@@ -9096,52 +9103,33 @@ void battletest::nftexchange(eosio::name _owner, eosio::name _master, std::strin
             eosio_assert(master_iter != master_table.end(), "nftexchange : Wrong Master Index 1");
 
             user_servants owner_table(_self, _owner.value);
-            auto user_servant_iter = owner_table.find(_master_index);
-
-            if (user_servant_iter == owner_table.end())
-            {
-                owner_table.emplace(_self, [&](auto &new_servant) {
-                    uint32_t first_index = owner_table.available_primary_key();
-                    if (first_index == 0)
-                    {
-                        new_servant.index = 1;
-                    }
-                    else
-                    {
-                        new_servant.index = owner_table.available_primary_key();
-                    }
-                    // new_servant.servant = master_iter->servant;
-                    // new_servant.servant.state = object_state::on_inventory;
-                    new_servant.servant.id = master_iter->servant.id;
-                    new_servant.servant.state = object_state::on_inventory;
-                    new_servant.servant.exp = master_iter->servant.exp;
-                    new_servant.servant.grade = master_iter->servant.grade;
-                    new_servant.servant.status.basic_str = master_iter->servant.status.basic_str;
-                    new_servant.servant.status.basic_dex = master_iter->servant.status.basic_dex;
-                    new_servant.servant.status.basic_int = master_iter->servant.status.basic_int;
-                    new_servant.servant.equip_slot = master_iter->servant.equip_slot;
-                    new_servant.servant.passive_skill = master_iter->servant.passive_skill;
-                    new_servant.servant.active_skill = master_iter->servant.active_skill;
-                });
-            }
-            else
-            {
-                owner_table.modify(user_servant_iter, _self, [&](auto &new_servant) {
-                    new_servant.servant.id = master_iter->servant.id;
-                    new_servant.servant.state = object_state::on_inventory;
-                    new_servant.servant.exp = master_iter->servant.exp;
-                    new_servant.servant.grade = master_iter->servant.grade;
-                    new_servant.servant.status.basic_str = master_iter->servant.status.basic_str;
-                    new_servant.servant.status.basic_dex = master_iter->servant.status.basic_dex;
-                    new_servant.servant.status.basic_int = master_iter->servant.status.basic_int;
-                    new_servant.servant.equip_slot = master_iter->servant.equip_slot;
-                    new_servant.servant.passive_skill = master_iter->servant.passive_skill;
-                    new_servant.servant.active_skill = master_iter->servant.active_skill;
-                });
-            }
-
+            owner_table.emplace(_self, [&](auto &new_servant) {
+                uint32_t first_index = owner_table.available_primary_key();
+                if (first_index == 0)
+                {
+                    new_servant.index = 1;
+                }
+                else
+                {
+                    new_servant.index = owner_table.available_primary_key();
+                }
+                new_servant.party_number = 0;
+                new_servant.servant = master_iter->servant;
+                new_servant.servant.state = object_state::on_inventory;
+                // new_servant.servant.id = master_iter->servant.id;
+                // new_servant.servant.state = object_state::on_inventory;
+                // new_servant.servant.exp = master_iter->servant.exp;
+                // new_servant.servant.grade = master_iter->servant.grade;
+                // new_servant.servant.status.basic_str = master_iter->servant.status.basic_str;
+                // new_servant.servant.status.basic_dex = master_iter->servant.status.basic_dex;
+                // new_servant.servant.status.basic_int = master_iter->servant.status.basic_int;
+                // new_servant.servant.equip_slot = master_iter->servant.equip_slot;
+                // new_servant.servant.passive_skill = master_iter->servant.passive_skill;
+                // new_servant.servant.active_skill = master_iter->servant.active_skill;
+            });
             master_table.erase(master_iter);
         }
+       
     }
     else if(_type == "monster")
     {
