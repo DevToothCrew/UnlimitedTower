@@ -129,7 +129,29 @@ public class PartyListUnit : ScrollListUnit {
     {
         if (partyInfo != null)
         {
-            if (!SubViewDeconstruction.checkInst())
+            if (SubViewDeconstruction.checkInst())
+            {
+                SubViewDeconstruction.Inst.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
+                int chracter_unit_idx = 0;
+                if (SubViewDeconstruction.Inst.GetDeconstructionType() == DECONSTRUCTION_TYPE.SERVANT)
+                {
+                    chracter_unit_idx = partyInfo.ServantList[main_idx].index;
+                }
+                else if (SubViewDeconstruction.Inst.GetDeconstructionType() == DECONSTRUCTION_TYPE.MONSTER)
+                {
+                    chracter_unit_idx = partyInfo.MonsterList[main_idx].index;
+                }
+                SubViewDeconstruction.Inst.InsertUnit(chracter_unit_idx);
+                
+            }
+            else if (SubViewUpgrade.checkInst())
+            {
+                SubViewUpgrade.Inst.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
+                int selected_unit_idx = partyInfo.MonsterList[SubViewUpgrade.Inst.scrollListData[main_idx]].index;
+
+                SubViewUpgrade.Inst.InsertUnit(selected_unit_idx);
+            }
+            else
             {
                 partyInfo.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
                 if (partyInfo.selectedMenu == PartyInfoVC.menu_type.SERVANT || partyInfo.selectedMenu == PartyInfoVC.menu_type.MONSTER)
@@ -150,28 +172,6 @@ public class PartyListUnit : ScrollListUnit {
                     partyInfo.InsertUnit(chracter_unit_idx);
                 }
             }
-            else if (SubViewUpgrade.checkInst())
-            {
-                SubViewUpgrade.Inst.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
-                int selected_unit_idx = partyInfo.MonsterList[SubViewUpgrade.Inst.scrollListData[main_idx]].index;
-
-                SubViewUpgrade.Inst.InsertUnit(selected_unit_idx);
-            }
-            else
-            {
-                SubViewDeconstruction.Inst.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
-                int chracter_unit_idx = 0;
-                if (SubViewDeconstruction.Inst.GetDeconstructionType() == DECONSTRUCTION_TYPE.SERVANT)
-                {
-                    chracter_unit_idx = partyInfo.ServantList[main_idx].index;
-                }
-                else if (SubViewDeconstruction.Inst.GetDeconstructionType() == DECONSTRUCTION_TYPE.MONSTER)
-                {
-                    chracter_unit_idx = partyInfo.MonsterList[main_idx].index;
-                }
-                SubViewDeconstruction.Inst.InsertUnit(chracter_unit_idx);
-            }
-            
         }
             
     }

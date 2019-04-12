@@ -48,7 +48,6 @@ public class ModelViewManager : MonoSingleton<ModelViewManager>
             return;
         }
 
-        Debug.Log("change update model");
         if (PartyInfoVC.checkInst())
         {
             PartyInfoVC partyInfo = PartyInfoVC.Inst;
@@ -78,6 +77,7 @@ public class ModelViewManager : MonoSingleton<ModelViewManager>
                         characterCustom.transform);
                 changeCameraOffsetByModelHeight(objMonsterModel.GetComponent<CharInfo>().Height);
             }
+            Debug.Log("change update model");
         }
 
     }
