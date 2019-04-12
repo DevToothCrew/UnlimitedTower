@@ -103,7 +103,7 @@ public class StagePage : MonoBehaviour {
 
     public void OnClickStageButton(int stageIndex)
     {
-        Debug.Log(stageIndex);
+        //Debug.Log(stageIndex);
 
         stageType = stageIndex / 100;
         stageFloor = stageIndex % 100;
@@ -111,64 +111,30 @@ public class StagePage : MonoBehaviour {
         // 임시로 때려박기
         if (stageType == 1)
         {
-            StageText.text = "Stage - Garden";
+            StageText.text = "Stage - UnderRuins";
         }
         else if (stageType == 2)
         {
-            StageText.text = "Stage - Lava";
+            StageText.text = "Stage - LavaZone";
         }
         else if (stageType == 3)
         {
-            StageText.text = "Stage - Ice";
+            StageText.text = "Stage - IceBerg";
         }
         else if (stageType == 4)
         {
-            StageText.text = "Stage - Under";
+            StageText.text = "Stage - SkyTemple";
         }
         else if (stageType == 5)
         {
-            StageText.text = "Stage - Light";
+            StageText.text = "Stage - GrassLand";
         }
         else if (stageType == 6)
         {
-            StageText.text = "Stage - Dark";
+            StageText.text = "Stage - Cemetery";
         }
 
-        switch (stageFloor)
-        {
-            case 1:
-                StageDetailText.text = "1F - Grass";
-                break;
-            case 2:
-                StageDetailText.text = "2F - G Trio";
-                break;
-            case 3:
-                StageDetailText.text = "3F - Fever";
-                break;
-            case 4:
-                StageDetailText.text = "4F - Happy Bears";
-                break;
-            case 5:
-                StageDetailText.text = "5F - Earth";
-                break;
-            case 6:
-                StageDetailText.text = "6F - Grassland";
-                break;
-            case 7:
-                StageDetailText.text = "7F - GrassKing";
-                break;
-            case 8:
-                StageDetailText.text = "8F - Lost Earth";
-                break;
-            case 9:
-                StageDetailText.text = "9F - GrassEmperor";
-                break;
-            case 10:
-                StageDetailText.text = "10F - End of Earth";
-                break;
-            default:
-                break;
-        }
+        StageDetailText.text = stageFloor + "F - ???";
 
         SetRewardInfo();
         SetEnemyInfo();

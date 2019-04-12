@@ -754,9 +754,9 @@ public class CSVData : MonoSingleton<CSVData>
         for (var i = 2; i < data.Count; i++)
         {
             //Debug.Log("index " + (i).ToString()
-            //    + " : " + data[i]["id"]
-            //    + " " + data[i]["name"]
-            //    + " " + data[i]["element_type"]
+            //+ " : " + data[i]["id"]
+            //+ " " + data[i]["enname"]
+            //    + " " + data[i]["resource_icon"]
             //    + " " + data[i]["class_type"]
             //    + " " + data[i]["resource_model"]
             //    + " " + data[i]["resource_icon"]
