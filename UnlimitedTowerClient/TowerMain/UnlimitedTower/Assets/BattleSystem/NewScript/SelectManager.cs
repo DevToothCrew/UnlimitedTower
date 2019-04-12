@@ -13,8 +13,11 @@ public class SelectManager : MonoBehaviour
     public Text selectHpText;
     public Image selectHpBar;
     public Image selectCharImg;
+    public Image selectCharJob;
+    public Image selectCharElement;
     public GameObject characterInfo;
     public GameObject BuffImage;
+    public Sprite blankImage;
 
     private RaycastHit hit;
     private Ray ray;
@@ -50,6 +53,8 @@ public class SelectManager : MonoBehaviour
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
         nemeText = GameObject.Find("NameText").GetComponent<Text>();
         selectCharImg = GameObject.Find("Character Portrait Image").GetComponent<Image>();
+        selectCharJob = GameObject.Find("Character Portrait Job(Class)").GetComponent<Image>();
+        selectCharElement = GameObject.Find("Character Portrait  Element").GetComponent<Image>();
         selectHpBar = GameObject.Find("Hp Bar").GetComponent<Image>();
         selectHpText = GameObject.Find("Hp Text").GetComponent<Text>();
         characterInfo = GameObject.Find("Character Information");
@@ -87,20 +92,23 @@ public class SelectManager : MonoBehaviour
                         characterInfo.SetActive(true);
 
                         selectIndex = hit.transform.GetComponent<CharacterIndex>().index;
-
-                        UserCharacterStateData selectStateInfo;
-
-                        if (selectIndex < 10)
-                        {
-                            selectStateInfo = BattleManager.Inst.GetMyState(selectIndex);
-                        }
-                        else
-                        {
-                            selectStateInfo = BattleManager.Inst.GetEnemyState(selectIndex);
-                        }
+                        selectCharJob.sprite = blankImage;
+                        selectCharElement.sprite = blankImage;
+                        
+                        UserCharacterStateData selectStateInfo = BattleManager.Inst.GetCharState(selectIndex);
 
                         SelectGridReset();
+
                         BattleManager.Inst.grid[selectIndex].SetActive(true);
+
+                        if (selectStateInfo.charType == CHAR_TYPE.SERVANT)
+                        {
+                            selectCharJob.sprite = CSVData.Inst.GetSpriteServantJob((SERVANT_JOB)selectStateInfo.job);
+                        }
+                        else if (selectStateInfo.charType == CHAR_TYPE.MONSTER)
+                        {
+                            selectCharElement.sprite = CSVData.Inst.GetSpriteElementType((ELEMENT_TYPE)selectStateInfo.elementType);
+                        }
 
                         if (selectIndex < 5)
                         {
