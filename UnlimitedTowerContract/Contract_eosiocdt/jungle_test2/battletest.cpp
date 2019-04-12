@@ -400,6 +400,12 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
                       atoi(value_list[7].c_str()),
                       atoi(value_list[8].c_str()));
     }
+    else if(_table == "dbmonstergrd")
+    {
+        substr_value(_value, value_list, size_list, 2);
+        insert_monster_upgrade_status(atoll(value_list[0].c_str()),
+                        atoll(value_list[1].c_str()));
+    }
     // else if (_table == "dbrewardlist")
     // {
     //     substr_value(_value, value_list, size_list, 6);
@@ -1682,6 +1688,26 @@ void battletest::insert_job_stat_active(uint64_t _job, uint64_t _private_id,
         new_data.active_private_per = _per;
     });
 }
+
+void battletest::insert_monster_upgrade_status(uint64_t _monster_grade_upgrade, uint64_t _upgrade_status)
+{
+    monster_upgrade_status_db monster_upgrade_status_db_table(_self, _self.value);
+    auto monster_upgrade_status_db_iter = monster_upgrade_status_db_table.find(_monster_grade_upgrade);
+    eosio_assert(monster_upgrade_status_db_iter != monster_upgrade_status_db_table.end(), "Not Exist Monster upgrade & grade Data");
+
+    if(monster_upgrade_status_db_iter == monster_upgrade_status_db_table.end())
+    {
+        monster_upgrade_status_db_table.emplace(_self, [&](auto &new_data){
+            new_data.monster_grade_upgrade = _monster_grade_upgrade;
+            new_data.monster_upgrade_status = _upgrade_status;
+        });
+    }
+    monster_upgrade_status_db_table.modify(monster_upgrade_status_db_iter, _self, [&](auto &new_data){
+            new_data.monster_upgrade_status = _upgrade_status;
+    });
+}
+
+
 
 ACTION battletest::dberase(std::string _table, std::string _value)
 {

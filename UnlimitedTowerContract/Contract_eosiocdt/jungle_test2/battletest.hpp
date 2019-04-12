@@ -307,6 +307,14 @@ CONTRACT battletest : public contract
         uint64_t primary_key() const {return active_id;}    
     };
     typedef eosio::multi_index<"dbactive"_n, dbactive> active_db;
+
+    TABLE dbmonstergrd
+    {
+        uint64_t monster_grade_upgrade;
+        uint64_t monster_upgrade_status;
+        uint64_t primary_key() const {return monster_grade_upgrade;}
+    };
+    typedef eosio::multi_index<"dbmonstergrd"_n, dbmonstergrd> monster_upgrade_status_db;
 	
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -591,6 +599,7 @@ CONTRACT battletest : public contract
     void insert_gacha_pool(uint64_t _gacha_id, uint64_t _db_index);
     void insert_status_monster_up(uint64_t _type, uint64_t _first, uint64_t _second);
     void insert_itemshop(uint64_t _id, uint64_t _goods_type, uint64_t _goods_limited, uint64_t _goods_count, uint64_t _price_type, uint64_t _price_count);
+    void insert_monster_upgrade_status(uint64_t _monster_grade_upgrade, uint64_t _upgrade_status);
 
     void erase_job(uint64_t _job);
     void erase_head(uint64_t _appear);
