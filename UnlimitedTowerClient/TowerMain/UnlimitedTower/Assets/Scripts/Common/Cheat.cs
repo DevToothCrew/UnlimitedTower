@@ -517,8 +517,8 @@ public class Cheat : MonoSingleton<Cheat>
 
     public string GetServantBurnData(List<int> burnServantIndexList)
     {
-        monsterBurnResultData resultData = new monsterBurnResultData();
-        resultData.monsterIndexList = burnServantIndexList;
+        servantBurnResultData resultData = new servantBurnResultData();
+        resultData.servantIndexList = burnServantIndexList;
         resultData.itemList = new List<itemData>();
 
         Dictionary<int, itemData> addItemDic = new Dictionary<int, itemData>();
@@ -545,33 +545,69 @@ public class Cheat : MonoSingleton<Cheat>
                 return null;
             }
 
-        }
+            itemData getItemData = new itemData();
+            getItemData.itemList = new List<itemInfo>();
+            itemInfo addItem = new itemInfo();
 
-        List<int> keyList = addItemDic.Keys.ToList();
-        for(int i = 0; i < keyList.Count; i++)
-        {
-            UserItemData itemData = UserDataManager.Inst.GetItemInfo(keyList[i]);
-            if (itemData == null)
+            switch (dbServantData.GetJob)
             {
-                resultData.itemList.Add(addItemDic[keyList[i]]);
+                case SERVANT_JOB.Warrior:
+                    getItemData.id = 510010;
+                    addItem.index = 0;
+                    addItem.count = 1;
+                    getItemData.itemList.Add(addItem);
+                    break;
+                case SERVANT_JOB.Thief:
+                    getItemData.id = 510020;
+                    addItem.index = 0;
+                    addItem.count = 1;
+                    getItemData.itemList.Add(addItem);
+                    break;
+                case SERVANT_JOB.Cleric:
+                    getItemData.id = 510030;
+                    addItem.index = 0;
+                    addItem.count = 1;
+                    getItemData.itemList.Add(addItem);
+                    break;
+                case SERVANT_JOB.Archer:
+                    getItemData.id = 510040;
+                    addItem.index = 0;
+                    addItem.count = 1;
+                    getItemData.itemList.Add(addItem);
+                    break;
+                case SERVANT_JOB.Magician:
+                    getItemData.id = 510050;
+                    addItem.index = 0;
+                    addItem.count = 1;
+                    getItemData.itemList.Add(addItem);
+                    break;
+                default:
+                    break;
+            }
+
+            if (addItemDic.ContainsKey(getItemData.id) == false)
+            {
+                addItemDic.Add(getItemData.id, getItemData);
             }
             else
             {
-                resultData.itemList.Add(addItemDic[keyList[i]]);
+                addItemDic[getItemData.id].itemList[0].count += 1;
             }
         }
+
+        resultData.itemList = addItemDic.Values.ToList();
 
         return JsonMapper.ToJson(resultData).ToString();
     }
 
-    public string GetMonsterSellData(List<int> sellMonsterIndexList)
+    public string GetMonsterBurnData(List<int> burnMonsterIndexList)
     {
         itemData token = new itemData();
         // TODO : Item 정리중
 
-        for(int i = 0; i < sellMonsterIndexList.Count; i++)
+        for(int i = 0; i < burnMonsterIndexList.Count; i++)
         {
-            UserMonsterData monsterData = UserDataManager.Inst.GetMonsterInfo(sellMonsterIndexList[i]);
+            UserMonsterData monsterData = UserDataManager.Inst.GetMonsterInfo(burnMonsterIndexList[i]);
             if(monsterData == null)
             {
                 Debug.Log("Invalid Monster Index : " + monsterData.index);
@@ -586,7 +622,7 @@ public class Cheat : MonoSingleton<Cheat>
         }
 
         monsterBurnResultData resultData = new monsterBurnResultData();
-        resultData.monsterIndexList = sellMonsterIndexList;
+        resultData.monsterIndexList = burnMonsterIndexList;
         resultData.itemList = new List<itemData>();
         resultData.itemList.Add(token);
 
@@ -915,7 +951,7 @@ public class Cheat : MonoSingleton<Cheat>
 
     public void RequestMonsterBurnCheat(List<int> monsterIndexList)
     {
-        string monsterSellResultJson = GetMonsterSellData(monsterIndexList);
+        string monsterSellResultJson = GetMonsterBurnData(monsterIndexList);
         if (monsterSellResultJson == null)
         {
             Debug.Log("[Fail] RequestMonsterSellCheat");

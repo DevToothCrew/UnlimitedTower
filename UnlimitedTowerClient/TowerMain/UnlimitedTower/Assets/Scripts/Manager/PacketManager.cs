@@ -1115,6 +1115,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
 
         SubViewDeconstruction.Inst.updateViewFinishRequest();
+
+        TopUIManager.Inst.ShowBurnResult(getItemDataDic.Values.ToList(), 0);
     }
     
     public void ResponseMonsterBurn(monsterBurnResultData getBurnMonsterResultData)
@@ -1147,6 +1149,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
 
         SubViewDeconstruction.Inst.updateViewFinishRequest();
+
+        TopUIManager.Inst.ShowBurnResult(getItemDataDic.Values.ToList(), Convert.ToInt32(getBurnMonsterResultData.utg));
     }
 
     public void ResponseEquipmentBurn(equipmentBurnResultData getBurnEquipmentResultData)
@@ -1179,6 +1183,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
 
         SubViewDeconstruction.Inst.updateViewFinishRequest();
+
+        TopUIManager.Inst.ShowBurnResult(getItemDataDic.Values.ToList(), Convert.ToInt32(getBurnEquipmentResultData.utg));
     }
 
     public void ResponseItemBurn(itemBurnResultData getBurnItemResultData)
@@ -1216,6 +1222,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log("Invalid AdditemDataList");
             return;
         }
+
+        TopUIManager.Inst.ShowBurnResult(getItemDataDic.Values.ToList(), Convert.ToInt32(getBurnItemResultData.utg));
     }
 
     // 장비 장착

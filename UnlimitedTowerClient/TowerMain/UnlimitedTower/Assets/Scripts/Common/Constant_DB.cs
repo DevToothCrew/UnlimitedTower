@@ -27,6 +27,7 @@ public class DBItemData
     public int sellItemCount;
 
     public string resourceIcon;
+    public Sprite ItemIcon;
 }
 
 [Serializable]

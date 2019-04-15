@@ -251,8 +251,9 @@ public class CSVData : MonoSingleton<CSVData>
                 Debug.Log("Item ID가 겹쳐요 : " + itemData.id);
                 return false;
             }
-            itemData.name = Convert.ToString(data[i]["name"]);
+            itemData.name = Convert.ToString(data[i]["enname"]);
             itemData.resourceIcon = Convert.ToString(data[i]["resource_icon"]);
+            itemData.ItemIcon = Resources.Load<Sprite>("UI/ItemIcon/" + itemData.resourceIcon);
             itemData.description = Convert.ToString(data[i]["description"]);
             itemData.tier = Convert.ToInt32(data[i]["tier"]);
             itemData.itemType = Convert.ToString(data[i]["item_type"]);
@@ -330,7 +331,7 @@ public class CSVData : MonoSingleton<CSVData>
             }
 
             equipmentData.resourceIcon = Convert.ToString(data[i]["resource_icon"]);
-            equipmentData.equipmentIcon = Resources.Load<Sprite>("UI/ItemIcons/" + equipmentData.resourceIcon);
+            equipmentData.equipmentIcon = Resources.Load<Sprite>("UI/EquipmentIcon/" + equipmentData.resourceIcon);
             if (equipmentData.equipmentIcon == null)
             {
                 Debug.Log("Invalid Icon Resource : " + equipmentData.resourceIcon);
