@@ -260,6 +260,10 @@ public class CharacterCustom : MonoBehaviour
             List<Transform> OriginalList = new List<Transform>();
             List<Transform> CopyList = new List<Transform>();
             OriginalList.AddRange(Original.GetComponentsInChildren<Transform>());
+
+            if (Copy == null)
+                return;
+
             CopyList.AddRange(Copy.GetComponentsInChildren<Transform>());
             for (int i = 0; i < OriginalList.Count; i++)
             {
