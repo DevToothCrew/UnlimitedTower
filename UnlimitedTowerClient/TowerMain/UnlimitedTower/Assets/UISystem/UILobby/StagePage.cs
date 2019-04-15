@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class StagePage : MonoBehaviour {
+public class StagePage : MonoSingleton<StagePage> {
 
     public GameObject StageInfoPage;
     public Text StageText;
@@ -27,10 +27,16 @@ public class StagePage : MonoBehaviour {
     public GameObject StageScreenBackButton;
     private int maxStageList = 6;
 
+    public ScrollListManager scrollList;
+
     void Awake ()
     {
         StageInfoPage.SetActive(false);
         InitStageButton();
+
+        stageType = 1;
+        initScrollList();
+        scrollList.gameObject.SetActive(false);
     }
 
     public void SetRewardInfo()
@@ -172,11 +178,13 @@ public class StagePage : MonoBehaviour {
             OnActiveImage[i].SetActive(false);
             OnActiveStageList[i].SetActive(false);
         }
+        scrollList.gameObject.SetActive(false);
         StageScreenBackButton.SetActive(false);
     }
 
-    public void OnClickStageScreen(int stageType)
+    public void OnClickStageScreen(int stage_type)
     {
+        stageType = stage_type + 1;//인자값 stage_type가 0부터 시작함
         InitStageButton();
 
         if (stageType >= maxStageList)
@@ -186,7 +194,43 @@ public class StagePage : MonoBehaviour {
         }
 
         StageScreenBackButton.SetActive(true);
-        OnActiveImage[stageType].SetActive(true);
-        OnActiveStageList[stageType].SetActive(true);
+        OnActiveImage[stageType-1].SetActive(true);
+        //OnActiveStageList[stageType].SetActive(true);
+        scrollList.gameObject.SetActive(true);
+        scrollList.SetItemOrder(getOrder());
+    }
+
+    public int GetStageType()
+    {
+        return stageType;
+    }
+
+    private int total_scoll_unit_num;
+    //스크롤 생성
+    void initScrollList()
+    {
+        total_scoll_unit_num = 10; //스테이지 타입별 스테이지 갯수 (현재 고정 10개, 나중에 유동적으로 바뀔 수 있음)
+
+        scrollList.Init(this, 20, total_scoll_unit_num, getOrder());
+    }
+
+    //스크롤 정렬
+    private int[] getOrder()
+    {
+        int[] data_order;
+
+        data_order = new int[total_scoll_unit_num];
+
+        for (int i = 0; i < data_order.Length; i++)
+        {
+            data_order[i] = 0;
+        }
+
+        for (int i = 0; i < total_scoll_unit_num - 1; i++)
+        {
+            data_order[i] = i;
+        }
+
+        return data_order;
     }
 }

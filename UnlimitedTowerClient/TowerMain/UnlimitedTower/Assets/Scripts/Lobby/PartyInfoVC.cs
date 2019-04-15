@@ -145,12 +145,28 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         if (currentScrollType == scroll_type.SERVANT_INFO)
         {
             textOwned.text = string.Format("{0}", ServantList.Count);
-            textTotal.text = string.Format("/ {0}", 100);
+            textTotal.text = string.Format("/ {0}", UserDataManager.Inst.GetUserInventoryInfo().servantInventory);
+            if (ServantList.Count >= UserDataManager.Inst.GetUserInventoryInfo().servantInventory )
+            {
+                textOwned.color = Color.red;
+            }
+            else
+            {
+                textOwned.color = Color.white;
+            }
         }
         else if (currentScrollType == scroll_type.MONSTER_INFO)
         {
             textOwned.text = string.Format("{0}", MonsterList.Count);
-            textTotal.text = string.Format("/ {0}", 100);
+            textTotal.text = string.Format("/ {0}", UserDataManager.Inst.GetUserInventoryInfo().monsterInventory);
+            if (MonsterList.Count >= UserDataManager.Inst.GetUserInventoryInfo().monsterInventory)
+            {
+                textOwned.color = Color.red;
+            }
+            else
+            {
+                textOwned.color = Color.white;
+            }
         }
 
         scrollList.SetItemOrder(getOrder());

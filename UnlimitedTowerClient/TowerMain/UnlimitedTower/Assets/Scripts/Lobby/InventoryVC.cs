@@ -193,7 +193,15 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
     {
         currentScrollType = type;
         textOwned.text = string.Format("{0}", EquipmentList[(int)selectedMenu].Count);
-        textTotal.text = string.Format("/ {0}", 100);
+        textTotal.text = string.Format("/ {0}", UserDataManager.Inst.GetUserInventoryInfo().equipmentInventory);
+        if (EquipmentList[(int)selectedMenu].Count >= UserDataManager.Inst.GetUserInventoryInfo().equipmentInventory)
+        {
+            textOwned.color = Color.red;
+        }
+        else
+        {
+            textOwned.color = Color.white;
+        }
 
         scrollList.SetItemOrder(getOrder());
         scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
