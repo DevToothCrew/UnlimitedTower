@@ -297,7 +297,7 @@ GameObject:
   - component: {fileID: 95892237993546254}
   - component: {fileID: 114709964789601796}
   m_Layer: 0
-  m_Name: mst_goblen_light
+  m_Name: mst_goblin_light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

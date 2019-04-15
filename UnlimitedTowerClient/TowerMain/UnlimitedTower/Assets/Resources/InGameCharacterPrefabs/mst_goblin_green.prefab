@@ -606,7 +606,7 @@ GameObject:
   - component: {fileID: 95001777390762552}
   - component: {fileID: 114685408917176872}
   m_Layer: 0
-  m_Name: mst_goblen_green
+  m_Name: mst_goblin_green
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

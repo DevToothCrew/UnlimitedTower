@@ -314,7 +314,7 @@ GameObject:
   - component: {fileID: 95747331993657392}
   - component: {fileID: 114887605635473632}
   m_Layer: 0
-  m_Name: mst_goblen_wind
+  m_Name: mst_goblin_wind
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

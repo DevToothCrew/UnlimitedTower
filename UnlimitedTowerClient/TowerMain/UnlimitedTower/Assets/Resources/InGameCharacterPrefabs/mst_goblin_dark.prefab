@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 95324335421990266}
   - component: {fileID: 114879911219291202}
   m_Layer: 0
-  m_Name: mst_goblen_dark
+  m_Name: mst_goblin_dark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
