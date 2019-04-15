@@ -511,7 +511,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 continue;
             }
 
-            status[i] = Calculator.GetBattleStatus(stateData.myStateList[i], UserDataManager.Inst.GetStageState().myStateList[i].passiveSkillList);
+            status[i] = Calculator.GetBattleStatus(stateData.myStateList[i]);
             NowHp[i] = stateData.myStateList[i].nowHp;
         }
 
@@ -522,7 +522,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 continue;
             }
 
-            status[i] = Calculator.GetBattleStatus(stateData.enemyStateList[i], UserDataManager.Inst.GetStageState().enemyStateList[i].passiveSkillList);
+            status[i] = Calculator.GetBattleStatus(stateData.enemyStateList[i]);
             NowHp[i] = stateData.enemyStateList[i].nowHp;
         }
     }

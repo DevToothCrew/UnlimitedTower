@@ -189,13 +189,15 @@ public class SelectManager : MonoBehaviour
                             }
                         }
 
-                        _Str.text = selectStateInfo.status.basicStr.ToString();
-                        _Dex.text = selectStateInfo.status.basicDex.ToString();
-                        _Int.text = selectStateInfo.status.basicInt.ToString();
-                        Atk.text = BattleManager.Inst.status[selectIndex].atk.ToString();
-                        mAtk.text = BattleManager.Inst.status[selectIndex].mAtk.ToString();
-                        Def.text = BattleManager.Inst.status[selectIndex].def.ToString();
-                        mDef.text = BattleManager.Inst.status[selectIndex].mDef.ToString();
+                        BattleStatus status = BattleManager.Inst.status[selectIndex];
+
+                        _Str.text = status.str_.ToString();
+                        _Dex.text = status.dex_.ToString();
+                        _Int.text = status.int_.ToString();
+                        Atk.text = status.atk.ToString();
+                        mAtk.text = status.mAtk.ToString();
+                        Def.text = status.def.ToString();
+                        mDef.text = status.mDef.ToString();
                         Speed.text = selectStateInfo.speed.ToString();
                         CriPer.text = selectStateInfo.criPer.ToString();
                         mCriPer.text = selectStateInfo.mCriPer.ToString();
