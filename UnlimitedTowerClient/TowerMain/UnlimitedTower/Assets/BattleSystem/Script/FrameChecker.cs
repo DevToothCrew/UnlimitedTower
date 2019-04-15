@@ -27,7 +27,7 @@ public class FrameChecker : MonoBehaviour
             text = "Stop";
         }
         else
-        text = " " + (1 / Time.deltaTime).ToString("#.00") + "FPS";
+        text = " " + ((1 / Time.deltaTime) * Time.timeScale).ToString("#.00") + "FPS";
         GUI.Label(rect, text, style);
     }
 }
