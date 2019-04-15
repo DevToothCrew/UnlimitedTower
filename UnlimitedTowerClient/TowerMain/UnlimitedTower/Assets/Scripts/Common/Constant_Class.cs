@@ -233,13 +233,20 @@ public class BattleStatus
     public int def;
     public int mDef;
 
-    public BattleStatus(int maxHp, int atk, int mAtk, int def, int mDef)
+    public int int_;
+    public int dex_;
+    public int str_;
+
+    public BattleStatus(int maxHp, int atk, int mAtk, int def, int mDef, Status status)
     {
         this.maxHp = maxHp;
         this.atk = atk;
         this.mAtk = mAtk;
         this.def = def;
         this.mDef = mDef;
+        int_ = status.basicInt;
+        dex_ = status.basicDex;
+        str_ = status.basicStr;
     }
 }
 
