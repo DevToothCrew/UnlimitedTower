@@ -98,6 +98,10 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
             case POPUP_STATE.EOS:
                 {
                     SetTextBackButton("Shop");
+                    objSubView = Instantiate(Resources.Load("UI/Lobby/ShopInfoVC")) as GameObject;
+                    objSubView.transform.SetParent(this.transform);
+                    objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                    BackbuttonUI.SetActive(true);
                 }
                 break;
 

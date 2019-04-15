@@ -926,6 +926,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log("invalid ParsePartyList info");
         }
         UserDataManager.Inst.SetPartyInfo(partyInfo);
+
+        LobbyTopInfo.Inst.UpdateTopInfo();
     }
 
     // 스테이지 시작
