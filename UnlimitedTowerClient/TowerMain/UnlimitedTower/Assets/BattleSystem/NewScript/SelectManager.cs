@@ -161,19 +161,37 @@ public class SelectManager : MonoBehaviour
                             levelText.text = "?";
                         }
 
-                        BattleStatus status = BattleManager.Inst.status[selectIndex];
-                        _Str.text = status.str_.ToString();
-                        _Dex.text = status.dex_.ToString();
-                        _Int.text = status.int_.ToString();
-                        Atk.text = status.atk.ToString();
-                        mAtk.text = status.mAtk.ToString();
-                        Def.text = status.def.ToString();
-                        mDef.text = status.mDef.ToString();
-                        Speed.text = selectStateInfo.speed.ToString();
-                        CriPer.text = selectStateInfo.criPer.ToString();
-                        mCriPer.text = selectStateInfo.mCriPer.ToString();
-                        CriDmg.text = selectStateInfo.criDmg.ToString();
-                        mCriDmg.text = selectStateInfo.mCriDmg.ToString();
+                        if (selectIndex < 10)
+                        {
+                            BattleStatus status = BattleManager.Inst.status[selectIndex];
+                            _Str.text = status.str_.ToString();
+                            _Dex.text = status.dex_.ToString();
+                            _Int.text = status.int_.ToString();
+                            Atk.text = status.atk.ToString();
+                            mAtk.text = status.mAtk.ToString();
+                            Def.text = status.def.ToString();
+                            mDef.text = status.mDef.ToString();
+                            Speed.text = selectStateInfo.speed.ToString();
+                            CriPer.text = selectStateInfo.criPer.ToString();
+                            mCriPer.text = selectStateInfo.mCriPer.ToString();
+                            CriDmg.text = selectStateInfo.criDmg.ToString();
+                            mCriDmg.text = selectStateInfo.mCriDmg.ToString();
+                        }
+                        else
+                        {
+                            _Str.text = "?";
+                            _Dex.text = "?";
+                            _Int.text = "?";
+                            Atk.text = "?";
+                            mAtk.text = "?";
+                            Def.text = "?";
+                            mDef.text = "?";
+                            Speed.text = "?";
+                            CriPer.text = "?";
+                            mCriPer.text = "?";
+                            CriDmg.text = "?";
+                            mCriDmg.text = "?";
+                        }
                     }
                 }
                 else

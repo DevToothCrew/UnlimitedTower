@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 63fa90585e911254f9837403056229bc
+guid: 60b645f77b756db4da01dd70ff900cdc
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -12,22 +12,22 @@ ModelImporter:
     100012: heel_02_L
     100014: heel_02_R
     100016: metarig
-    100018: mst_goblen_green
+    100018: mst_goblen_dark
     100020: //RootNode
-    100022: mst_goblen_green_001
-    100024: mst_goblen_green_002
-    100026: mst_goblen_green_003
-    100028: mst_goblen_green_004
-    100030: mst_goblen_green_005
-    100032: mst_goblen_green_006
-    100034: mst_goblen_green_007
-    100036: mst_goblen_green_008
-    100038: mst_goblen_green_009
-    100040: mst_goblen_green_010
-    100042: mst_goblen_green_011
-    100044: mst_goblen_green_012
-    100046: mst_goblen_green_013
-    100048: mst_goblen_green_014
+    100022: mst_goblen_dark_001
+    100024: mst_goblen_dark_002
+    100026: mst_goblen_dark_003
+    100028: mst_goblen_dark_004
+    100030: mst_goblen_dark_005
+    100032: mst_goblen_dark_006
+    100034: mst_goblen_dark_007
+    100036: mst_goblen_dark_008
+    100038: mst_goblen_dark_009
+    100040: mst_goblen_dark_010
+    100042: mst_goblen_dark_011
+    100044: mst_goblen_dark_012
+    100046: mst_goblen_dark_013
+    100048: mst_goblen_dark_014
     100050: shin_L
     100052: shin_R
     100054: shoulder_L
@@ -54,22 +54,22 @@ ModelImporter:
     400012: heel_02_L
     400014: heel_02_R
     400016: metarig
-    400018: //RootNode
-    400020: mst_goblen_green
-    400022: mst_goblen_green_001
-    400024: mst_goblen_green_002
-    400026: mst_goblen_green_003
-    400028: mst_goblen_green_004
-    400030: mst_goblen_green_005
-    400032: mst_goblen_green_006
-    400034: mst_goblen_green_007
-    400036: mst_goblen_green_008
-    400038: mst_goblen_green_009
-    400040: mst_goblen_green_010
-    400042: mst_goblen_green_011
-    400044: mst_goblen_green_012
-    400046: mst_goblen_green_013
-    400048: mst_goblen_green_014
+    400018: mst_goblen_dark
+    400020: //RootNode
+    400022: mst_goblen_dark_001
+    400024: mst_goblen_dark_002
+    400026: mst_goblen_dark_003
+    400028: mst_goblen_dark_004
+    400030: mst_goblen_dark_005
+    400032: mst_goblen_dark_006
+    400034: mst_goblen_dark_007
+    400036: mst_goblen_dark_008
+    400038: mst_goblen_dark_009
+    400040: mst_goblen_dark_010
+    400042: mst_goblen_dark_011
+    400044: mst_goblen_dark_012
+    400046: mst_goblen_dark_013
+    400048: mst_goblen_dark_014
     400050: shin_L
     400052: shin_R
     400054: shoulder_L
@@ -87,45 +87,40 @@ ModelImporter:
     400078: toe_R
     400080: upper_arm_L
     400082: upper_arm_R
-    2100000: palette__mst_goblen_green_png
-    4300000: mst_goblen_green_008
-    4300002: mst_goblen_green_005
-    4300004: mst_goblen_green_009
-    4300006: mst_goblen_green_010
-    4300008: mst_goblen_green_011
-    4300010: mst_goblen_green_012
-    4300012: mst_goblen_green_013
-    4300014: mst_goblen_green_004
-    4300016: mst_goblen_green_003
-    4300018: mst_goblen_green_002
-    4300020: mst_goblen_green_001
-    4300022: mst_goblen_green_007
-    4300024: mst_goblen_green_006
-    4300026: mst_goblen_green
-    4300028: mst_goblen_green_014
+    2100000: palette_003__mst_goblen_dark_png
+    4300000: mst_goblen_dark_001
+    4300002: mst_goblen_dark_002
+    4300004: mst_goblen_dark_003
+    4300006: mst_goblen_dark_004
+    4300008: mst_goblen_dark_013
+    4300010: mst_goblen_dark_012
+    4300012: mst_goblen_dark_011
+    4300014: mst_goblen_dark_010
+    4300016: mst_goblen_dark_006
+    4300018: mst_goblen_dark_007
+    4300020: mst_goblen_dark_014
+    4300022: mst_goblen_dark
+    4300024: mst_goblen_dark_005
+    4300026: mst_goblen_dark_009
+    4300028: mst_goblen_dark_008
     7400000: Default Take
     9500000: //RootNode
-    13700000: mst_goblen_green
-    13700002: mst_goblen_green_001
-    13700004: mst_goblen_green_002
-    13700006: mst_goblen_green_003
-    13700008: mst_goblen_green_004
-    13700010: mst_goblen_green_005
-    13700012: mst_goblen_green_006
-    13700014: mst_goblen_green_007
-    13700016: mst_goblen_green_008
-    13700018: mst_goblen_green_009
-    13700020: mst_goblen_green_010
-    13700022: mst_goblen_green_011
-    13700024: mst_goblen_green_012
-    13700026: mst_goblen_green_013
-    13700028: mst_goblen_green_014
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: palette__mst_goblen_green_png
-    second: {fileID: 2100000, guid: 0c2dd20ad9724f143a3ec83a755cff58, type: 2}
+    13700000: mst_goblen_dark
+    13700002: mst_goblen_dark_001
+    13700004: mst_goblen_dark_002
+    13700006: mst_goblen_dark_003
+    13700008: mst_goblen_dark_004
+    13700010: mst_goblen_dark_005
+    13700012: mst_goblen_dark_006
+    13700014: mst_goblen_dark_007
+    13700016: mst_goblen_dark_008
+    13700018: mst_goblen_dark_009
+    13700020: mst_goblen_dark_010
+    13700022: mst_goblen_dark_011
+    13700024: mst_goblen_dark_012
+    13700026: mst_goblen_dark_013
+    13700028: mst_goblen_dark_014
+  externalObjects: {}
   materials:
     importMaterials: 1
     materialName: 0
