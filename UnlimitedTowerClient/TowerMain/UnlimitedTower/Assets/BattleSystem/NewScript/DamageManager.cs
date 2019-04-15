@@ -96,13 +96,18 @@ public class DamageManager : MonoSingleton<DamageManager>
                     }
                     else
                     {
-                        damageText.text.color = TextColor[0].textColor;
-                        damageText.outLine.effectColor = TextColor[0].outColor;
-
                         if (attackInfo.critical)
+                        {
                             damageText.text.text = "Critical\n" + attackInfo.damage.ToString();
+                            damageText.text.color = CriticalColor[0];
+                            damageText.outLine.effectColor = CriticalColor[1];
+                        }
                         else
+                        {
                             damageText.text.text = attackInfo.damage.ToString();
+                            damageText.text.color = TextColor[0].textColor;
+                            damageText.outLine.effectColor = TextColor[0].outColor;
+                        }
                     }
                 }
                 BattleManager.Inst.NowHp[attackInfo.target_position] -= attackInfo.damage;
