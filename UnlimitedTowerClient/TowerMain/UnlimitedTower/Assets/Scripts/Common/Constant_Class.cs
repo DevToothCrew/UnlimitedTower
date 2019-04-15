@@ -21,6 +21,16 @@ public class UserInfo
     public SCENE_STATE sceneState;
 
     public int level;
+
+    public UserInventoryInfo inventoryInfo = new UserInventoryInfo();
+}
+
+public class UserInventoryInfo
+{
+    public int servantInventory;
+    public int monsterInventory;
+    public int equipmentInventory;
+    public int itemInventory;
 }
 
 [Serializable]

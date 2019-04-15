@@ -176,7 +176,6 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     {
         userMainCharInfo = charInfo;
     }
-
     public void InitStageInfo()
     {
         stageState = new UserStageStateData();
@@ -362,6 +361,17 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public UserInfo GetUserInfo()
     {
         return userInfo;
+    }
+
+    public UserInventoryInfo GetUserInventoryInfo()
+    {
+        if (userInfo == null)
+            return null;
+
+        if (userInfo.inventoryInfo == null)
+            return null;
+
+        return userInfo.inventoryInfo;
     }
 
     public ulong GetUserEOS() /* 기본적으로 EOS와 UTG는 1이 10000으로 처리됩니다. */

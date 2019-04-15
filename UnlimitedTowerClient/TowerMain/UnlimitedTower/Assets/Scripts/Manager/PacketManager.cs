@@ -1495,6 +1495,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
         userInfo.sceneState = (SCENE_STATE)getUserData.user_data.state;
         //Debug.Log("State : " + (SCENE_STATE)getUserData.user_data.state);
 
+        userInfo.inventoryInfo.servantInventory = getUserData.user_data.inventory_info.servant_inventory;
+        userInfo.inventoryInfo.monsterInventory = getUserData.user_data.inventory_info.monster_inventory;
+        userInfo.inventoryInfo.equipmentInventory = getUserData.user_data.inventory_info.equipment_inventory;
+        userInfo.inventoryInfo.itemInventory = getUserData.user_data.inventory_info.item_inventory;
+
         return true;
     }
 

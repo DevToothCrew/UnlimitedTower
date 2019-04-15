@@ -20,6 +20,11 @@ public class Cheat : MonoSingleton<Cheat>
         userLoginData.user_data.exp = rand.Next(0, 20560);
         userLoginData.user_data.rank = CSVData.Inst.GetRankLevelByExp(userLoginData.user_data.exp);
 
+        userLoginData.user_data.inventory_info.servant_inventory = 50;
+        userLoginData.user_data.inventory_info.monster_inventory = 50;
+        userLoginData.user_data.inventory_info.equipment_inventory = 50;
+        userLoginData.user_data.inventory_info.item_inventory = 50;
+
         partyData partyData = new partyData();
         partyData.index = 1;
         partyData.state = 0;
