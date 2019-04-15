@@ -35,7 +35,7 @@ public class StagePage : MonoSingleton<StagePage> {
         InitStageButton();
 
         stageType = 1;
-        initScrollList();
+        //initScrollList();
         scrollList.gameObject.SetActive(false);
     }
 
@@ -187,17 +187,17 @@ public class StagePage : MonoSingleton<StagePage> {
         stageType = stage_type + 1;//인자값 stage_type가 0부터 시작함
         InitStageButton();
 
-        if (stageType >= maxStageList)
+        if (stageType > maxStageList)
         {
             Debug.LogError("Invalid Stage Type : " + stageType);
             return;
         }
 
         StageScreenBackButton.SetActive(true);
-        OnActiveImage[stageType-1].SetActive(true);
-        //OnActiveStageList[stageType].SetActive(true);
-        scrollList.gameObject.SetActive(true);
-        scrollList.SetItemOrder(getOrder());
+        OnActiveImage[stageType - 1].SetActive(true);
+        OnActiveStageList[stageType - 1].SetActive(true);
+        //scrollList.gameObject.SetActive(true);
+        //scrollList.SetItemOrder(getOrder());
     }
 
     public int GetStageType()
