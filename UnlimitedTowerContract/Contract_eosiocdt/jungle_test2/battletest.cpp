@@ -8645,21 +8645,27 @@ ACTION battletest::equip(eosio::name _user, uint32_t _servant_index, uint32_t _i
     
 }
 
-ACTION battletest::unequip(eosio::name _user, uint32_t _servant_index, uint32_t _item_index)
+ACTION battletest::unequip(eosio::name _user, uint32_t _servant_index, uint32_t _slot_num)
 {
     require_auth(_user);
     blacklist blacklist_table(_self, _self.value);
     auto blacklist_iter = blacklist_table.find(_user.value);
-    eosio_assert(blacklist_iter == blacklist_table.end(), "black list user");
+    eosio_assert(blacklist_iter == blacklist_table.end(), "unequip : black list user");
 
     system_master system_master_table(_self, _self.value);
     auto system_master_iter = system_master_table.begin();
-    eosio_assert(system_master_iter->state != system_state::pause, "Server Pause");
+    eosio_assert(system_master_iter->state != system_state::pause, "unequip : Server Pause");
+
+    user_servants user_servant_table(_self, _user.value);
+    auto user_servant_iter = user_servant_table.find(_servant_index);
+    eosio_assert(user_servant_iter != user_servant_table.end(), "unequip : not exist servant info");
+
+    uint64_t unequip_equipment = user_servant_iter->servant.equip_slot[_slot_num];
 
     user_equip_items user_equip_item_table(_self, _user.value);
-    auto user_equip_item_iter = user_equip_item_table.find(_item_index);
-    eosio_assert(user_equip_item_iter != user_equip_item_table.end(), "not exist item info");
-    eosio_assert(user_equip_item_iter->equipment.state == object_state::on_equip_slot, "already unequip this item");
+    auto user_equip_item_iter = user_equip_item_table.find(unequip_equipment);
+    eosio_assert(user_equip_item_iter != user_equip_item_table.end(), "unequip : not exist item info");
+    eosio_assert(user_equip_item_iter->equipment.state == object_state::on_equip_slot, "unequip : already unequip this item");
 
     uint32_t slot = user_equip_item_iter->equipment.type - 1;
     user_equip_item_table.modify(user_equip_item_iter, _self, [&](auto &unequip_item) {
@@ -8667,12 +8673,8 @@ ACTION battletest::unequip(eosio::name _user, uint32_t _servant_index, uint32_t 
         unequip_item.equipment.equipservantindex = 0;
     });
 
-    user_servants user_servant_table(_self, _user.value);
-    auto user_servant_iter = user_servant_table.find(_servant_index);
-    eosio_assert(user_servant_iter != user_servant_table.end(), "not exist servant info");
-
     user_servant_table.modify(user_servant_iter, _self, [&](auto &unequip_servant) {
-        unequip_servant.servant.equip_slot[slot] = 0;
+        unequip_servant.servant.equip_slot[_slot_num] = 0;
     });
 
     std::string contents_result;
@@ -8680,7 +8682,7 @@ ACTION battletest::unequip(eosio::name _user, uint32_t _servant_index, uint32_t 
 
     contents_result += "["+ to_string(user_servant_iter->index) + ":";
     contents_result += to_string(user_servant_iter->servant.id) + ":";
-    contents_result += to_string(user_servant_iter->servant.equip_slot[slot]) + ":";
+    contents_result += to_string(user_servant_iter->servant.equip_slot[_slot_num]) + ":";
     contents_result += to_string(user_equip_item_iter->index) + ":";
     contents_result += to_string(user_equip_item_iter->equipment.id) + ":";
     contents_result += to_string(user_equip_item_iter->equipment.state) + ":";
