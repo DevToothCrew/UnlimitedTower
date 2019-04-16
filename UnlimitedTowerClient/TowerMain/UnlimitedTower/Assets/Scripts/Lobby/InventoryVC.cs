@@ -323,4 +323,16 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
         s_deconstruction.SetDeconstructionType(DECONSTRUCTION_TYPE.EQUIPMENT);
     }
 
+    public void OnClickUpgrade()
+    {
+        frameScroll.SetActive(false);
+
+        GameObject objSubView = Instantiate(Resources.Load("UI/Lobby/SubViewUpgrade")) as GameObject;
+        objSubView.name = "SubViewUpgrade";
+        objSubView.transform.SetParent(FrameSubView.transform);
+        objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        SubViewUpgrade s_upgrade = objSubView.GetComponent<SubViewUpgrade>();
+        s_upgrade.SetUpgradeType(UPGRADE_TYPE.EQUIPMENT);
+    }
+
 }
