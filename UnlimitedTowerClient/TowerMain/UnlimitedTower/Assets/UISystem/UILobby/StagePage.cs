@@ -228,7 +228,7 @@ public class StagePage : MonoSingleton<StagePage> {
             data_order[i] = 0;
         }
 
-        for (int i = 0; i < total_scoll_unit_num - 1; i++)
+        for (int i = 0; i < total_scoll_unit_num; i++)
         {
             data_order[i] = i;
         }
