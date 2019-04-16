@@ -402,8 +402,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                     Debug.Log("Invalid Monster ID : " + state.Value.id);
                     return;
                 }
-
-                Debug.Log(state.Value.id);
+                
                 character[state.Value.position] = Instantiate(Resources.Load("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResourceModel(state.Value.id)) as GameObject, CharacterParent.transform.GetChild(1));
                 character[state.Value.position].name = "Monster : " + state.Value.position + " - " + MonsterInfo.name;
             }
