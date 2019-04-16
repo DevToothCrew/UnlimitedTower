@@ -67,7 +67,7 @@ public class PartyListUnit : ScrollListUnit {
         else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
         {
             int selected_idx;
-            if (SubViewUpgrade.checkInst())
+            if (SubViewUpgrade.checkInst() && !SubViewUpgrade.Inst.GetUpgradeResponse())
             {
                 selected_idx = SubViewUpgrade.Inst.scrollListData[main_idx];
             }

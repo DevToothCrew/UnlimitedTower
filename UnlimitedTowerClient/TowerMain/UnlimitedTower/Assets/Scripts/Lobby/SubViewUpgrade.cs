@@ -54,6 +54,8 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
     //장비 일때
     private UserEquipmentData equipmentData;
 
+    
+
     public UPGRADE_TYPE GetUpgradeType()
     {
         return upgradeType;
@@ -357,10 +359,18 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
         updateView();
     }
 
+
+    private bool is_response = false;
+
+    public bool GetUpgradeResponse()
+    {
+        return is_response;
+    }
     //강화 완료(서버에서 응답) 후 화면 전체 갱신
     public void updateViewFinishRequest()
     {
-        ResetView();
+        is_response = true;
+        //ResetView();
 
         if (PartyInfoVC.checkInst())
         {
@@ -368,6 +378,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
             patyInfo.setData();
             patyInfo.resetScroll(patyInfo.currentScrollType);
             patyInfo.updateDetailInfo(patyInfo.scrollList.getFirstItemOrder());
+            OnClickClose();
         }
         else if (InventoryVC.checkInst())
         {
@@ -377,8 +388,8 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
             inventory.updateDetailInfo(inventory.scrollList.getFirstItemOrder());
         }
 
-        setData();
-        scrollList.SetItemOrder(getOrder());
+        //setData();
+        //scrollList.SetItemOrder(getOrder());
 
     }
 
