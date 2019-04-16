@@ -1091,18 +1091,21 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("서번트 분해, 영혼 획득!");
 
-        if(getServantBurnData.servantIndexList.Count == 0)
+        Debug.Log("Start Servant IndexList Count");
+        if (getServantBurnData.servantIndexList.Count == 0)
         {
             Debug.Log("Invalid Grind Result");
             return;
         }
 
+        Debug.Log("Start Del Servant List");
         if (UserDataManager.Inst.DelServantList(getServantBurnData.servantIndexList) == false)
         {
             Debug.Log("Invalid Grind Index");
             return;
         }
 
+        Debug.Log("Start Parse Item List");
         Dictionary<int, UserItemData> getItemDataDic = new Dictionary<int, UserItemData>();
         if (ParseItemDic(getServantBurnData.itemList, ref getItemDataDic) == false)
         {
@@ -1110,14 +1113,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
             return;
         }
 
-        if(UserDataManager.Inst.SetItemList(getItemDataDic.Values.ToList()) == false)
+        Debug.Log("Start Set Item List");
+        if (UserDataManager.Inst.SetItemList(getItemDataDic.Values.ToList()) == false)
         {
             Debug.Log("Invalid AdditemDataList");
             return;
         }
 
+        Debug.Log("Start Update View");
         SubViewDeconstruction.Inst.updateViewFinishRequest();
 
+        Debug.Log("Start Show Burn Result");
         TopUIManager.Inst.ShowBurnResult(getItemDataDic.Values.ToList(), Convert.ToUInt64(getServantBurnData.utg));
     }
     
