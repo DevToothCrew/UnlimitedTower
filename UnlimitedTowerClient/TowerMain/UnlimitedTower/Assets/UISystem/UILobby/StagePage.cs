@@ -35,7 +35,7 @@ public class StagePage : MonoSingleton<StagePage> {
         InitStageButton();
 
         stageType = 1;
-        //initScrollList();
+        initScrollList();
         scrollList.gameObject.SetActive(false);
     }
 
@@ -195,9 +195,11 @@ public class StagePage : MonoSingleton<StagePage> {
 
         StageScreenBackButton.SetActive(true);
         OnActiveImage[stageType - 1].SetActive(true);
-        OnActiveStageList[stageType - 1].SetActive(true);
-        //scrollList.gameObject.SetActive(true);
-        //scrollList.SetItemOrder(getOrder());
+        //OnActiveStageList[stageType - 1].SetActive(true);
+        
+        scrollList.SetItemOrder(getOrder());
+        scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+        scrollList.gameObject.SetActive(true);
     }
 
     public int GetStageType()
