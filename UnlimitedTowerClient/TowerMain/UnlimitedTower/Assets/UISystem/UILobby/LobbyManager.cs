@@ -25,6 +25,9 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     //Running sub view
     public GameObject objSubView;
 
+    // Sound
+    public GameObject LobbySound;
+    public GameObject GachaSound;
 
     public void OnEnable()
     {
@@ -42,6 +45,9 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         BackbuttonUI.SetActive(false);
         ModelViewManager.Inst.ChangeMainCharacterModel();
         Time.timeScale = 1.0f;
+
+        LobbySound.SetActive(true);
+        GachaSound.SetActive(false);
     }
 
     
@@ -112,6 +118,9 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                     objSubView.transform.SetParent(this.transform);
                     objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                     BackbuttonUI.SetActive(true);
+
+                    LobbySound.SetActive(false);
+                    GachaSound.SetActive(true);
                 }
                 break;
 
@@ -212,6 +221,9 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
         accountInfoUI.SetActive(true);
         BackbuttonUI.SetActive(false);
+
+        LobbySound.SetActive(true);
+        GachaSound.SetActive(false);
 
         ModelViewManager.Inst.ChangeMainCharacterModel();
     }
