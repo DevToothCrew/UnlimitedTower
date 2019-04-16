@@ -31,7 +31,7 @@ public class BurnResultVC : MonoBehaviour {
             ResultItemUnits[i] = resultItem;
         }
 
-        textResultUTG.text = getUTG.ToString("N0");
+        textResultUTG.text = (getUTG * 0.0001).ToString("N4");
     }
 
     public void OnClickButtonOK()
