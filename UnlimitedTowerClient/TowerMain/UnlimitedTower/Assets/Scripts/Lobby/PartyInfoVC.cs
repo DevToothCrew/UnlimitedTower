@@ -560,10 +560,17 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
         if (selectedFormationSlot <= DEFINE.ServantMaxFormationNum)
         {
-            // 서번트일 경우
-            for(int i = DEFINE.ServantMinFormationNum; i <= DEFINE.ServantMaxFormationNum; i++)
+            if (UserDataManager.Inst.GetServantInfo(character_unit_idx).state != 1)
             {
-                if(i == selectedFormationSlot)
+                TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Servant State");
+                return;
+            }
+
+            // 서번트일 경우
+            for (int i = DEFINE.ServantMinFormationNum; i <= DEFINE.ServantMaxFormationNum; i++)
+            {
+
+                if (i == selectedFormationSlot)
                 {
                     continue;
                 }
@@ -573,13 +580,21 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                     Debug.Log("이동");
                     formationSlot[i] = 0;
                 }
+
             }
         }
         else if(selectedFormationSlot <= DEFINE.MonsterMaxFormationNum)
         {
+            if (UserDataManager.Inst.GetMonsterInfo(character_unit_idx).state != 1)
+            {
+                TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Monster State");
+                return;
+            }
+
             // 몬스터일 경우
             for (int i = DEFINE.MonsterMinFormationNum; i <= DEFINE.MonsterMaxFormationNum; i++)
             {
+
                 if (i == selectedFormationSlot)
                 {
                     continue;

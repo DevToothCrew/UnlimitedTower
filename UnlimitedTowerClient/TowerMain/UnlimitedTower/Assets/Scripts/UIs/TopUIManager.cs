@@ -23,6 +23,8 @@ public class TopUIManager : MonoSingleton<TopUIManager> {
         objSubView.transform.SetParent(this.transform);
         objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         objSubView.GetComponent<BurnResultVC>().updateView(getItemList, getUTG);
+
+        LobbyTopInfo.Inst.UpdateTopInfo();
     }
 
     public void ShowSimpleErrorPopup(string Text)
