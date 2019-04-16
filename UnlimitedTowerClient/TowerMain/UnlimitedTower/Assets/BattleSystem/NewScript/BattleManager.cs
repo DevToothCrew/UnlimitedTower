@@ -11,7 +11,6 @@ public class BattleManager : MonoSingleton<BattleManager>
     public CharInfo[] charInfo = new CharInfo[20];
     public Animator[] animator = new Animator[20];
     public bool[] isPlace = new bool[20];
-    public int[] MaxHp = new int[20];
     public int[] NowHp = new int[20];
     public int[] NowAtk = new int[20];
     public bool isAfterDelay;
@@ -76,7 +75,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.U) && Input.GetKeyDown(KeyCode.T) && Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKey(KeyCode.U) && Input.GetKeyDown(KeyCode.T) && Input.GetKey(KeyCode.LeftAlt))
         {
             if (Time.timeScale < 9)
             {
