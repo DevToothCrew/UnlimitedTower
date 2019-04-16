@@ -618,7 +618,6 @@ public class Cheat : MonoSingleton<Cheat>
         monsterBurnResultData resultData = new monsterBurnResultData();
         resultData.monsterIndexList = burnMonsterIndexList;
         resultData.itemList = new List<itemData>();
-        resultData.itemList.Add(token);
         resultData.utg = (100 * 10000 * burnMonsterIndexList.Count).ToString();
 
         return JsonMapper.ToJson(resultData).ToString();
