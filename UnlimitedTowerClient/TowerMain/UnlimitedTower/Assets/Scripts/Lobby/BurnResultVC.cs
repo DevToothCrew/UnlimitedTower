@@ -11,7 +11,7 @@ public class BurnResultVC : MonoBehaviour {
 
     public Text textResultUTG;
 
-    public void updateView(List<UserItemData> getItemList, int getUTG) 
+    public void updateView(List<UserItemData> getItemList, ulong getUTG) 
     {
         if(ResultItemList != null)
         {
