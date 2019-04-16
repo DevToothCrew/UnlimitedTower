@@ -271,9 +271,9 @@ public class DBRewardData
 public class DBMonsterUpgradeData
 {
     public int id;
+    public GRADE_TYPE grade;
     public double successPer;
-    public int needItemID;
-    public int needItemCount;
+    public int needUTGCount;
 }
 
 [Serializable]

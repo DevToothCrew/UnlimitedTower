@@ -54,11 +54,6 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
     //장비 일때
     private UserEquipmentData equipmentData;
 
-    void Start()
-    {
-
-    }
-
     public UPGRADE_TYPE GetUpgradeType()
     {
         return upgradeType;
@@ -200,8 +195,6 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
             textSelectedObjectUpgrade.text = string.Format("+{0}", equipmentData.upgrade);
         }
 
-
-            
         if (inserted_object_idx > 0)//강화에 사용될 오브젝트를 선택했을때
         {
             FrameInsertObject.gameObject.SetActive(true);
@@ -222,9 +215,16 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                 ImageInsertObject.sprite = CSVData.Inst.GetMonsterData(inserted_monster_data.id).monsterIcon;
                 textInsertObjectUpgrade.text = string.Format("+{0}", inserted_monster_data.upgrade);
 
+                DBMonsterUpgradeData upgradeData = CSVData.Inst.GetMonsterUpgradeData(monsterData.grade, monsterData.upgrade, inserted_monster_data.upgrade);
+                if(upgradeData == null)
+                {
+                    Debug.Log("Invalid Upgrade Data : " + monsterData.grade + ", " + monsterData.upgrade + ", " + inserted_monster_data.upgrade);
+                    return;
+                }
+
                 //강화 비용, 성공률
-                textUgt.text = string.Format("{0}", 0);
-                textSuccessPer.text = string.Format("{0}%", 0);
+                textUgt.text = string.Format("{0}", (upgradeData.needUTGCount / 10000) );
+                textSuccessPer.text = string.Format("{0}%", upgradeData.successPer);
 
                 //강화 성공시 오브젝트 정보
                 FrameResultSlot.sprite = CSVData.Inst.GetSpriteGrade(monsterData.gradeType);
@@ -247,7 +247,6 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                 imageResultSlot.sprite = CSVData.Inst.GetEquipmentData(equipmentData.id).equipmentIcon;
                 textResultUpgrade.text = string.Format("+{0}", monsterData.upgrade + 1);
             }
-            
 
             buttonUpgrade.interactable = true;
         }
@@ -300,12 +299,14 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                 if (insertMonsterData.state != 1)
                 {
                     Debug.Log("Invalid Monster State : " + insertMonsterData.state);
+                    TopUIManager.Inst.ShowSimpleErrorPopup("Monster Invalid Monster State");
                     return;
                 }
 
                 if (insertMonsterData.partyIndex != 0)
                 {
                     Debug.Log("Invalid Monster Index : " + insertMonsterData.partyIndex);
+                    TopUIManager.Inst.ShowSimpleErrorPopup("Monster Already In Party");
                     return;
                 }
 
@@ -399,26 +400,32 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
     {
         if (upgradeType == UPGRADE_TYPE.MONSTER)  // Monster
         {
-            UserMonsterData monsterData = UserDataManager.Inst.GetMonsterInfo(inserted_object_idx);
-            if (monsterData == null)
+            UserMonsterData subMonsterData = UserDataManager.Inst.GetMonsterInfo(inserted_object_idx);
+            if (subMonsterData == null)
             {
                 Debug.Log("Invalid Request Monster ID : " + inserted_object_idx);
                 return;
             }
 
-            if (monsterData.state != 1)
+            if (monsterData.state != 1 || subMonsterData.state != 1)
             {
-                Debug.Log("Invalid Monster State : " + monsterData.state);
+                Debug.Log("Invalid Monster State : " + subMonsterData.state);
+                TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Monster State");
                 return;
             }
 
-            if (monsterData.partyIndex != 0)
+            if (subMonsterData.partyIndex != 0)
             {
-                Debug.Log("Invalid Monster Index : " + monsterData.partyIndex);
+                Debug.Log("Invalid Monster Index : " + subMonsterData.partyIndex);
+                TopUIManager.Inst.ShowSimpleErrorPopup("Monster Already In Party");
                 return;
             }
 
-            //TODO: 서버요청
+#if UNITY_EDITOR
+            Cheat.Inst.RequestMonsterUpgradeCheat(monsterData.index, subMonsterData.index);
+#else
+            PacketManager.Inst.RequestMonsterUpgrade(monsterData.index, subMonsterData.index);
+#endif
         }
         else if (upgradeType == UPGRADE_TYPE.EQUIPMENT) // Equip
         {

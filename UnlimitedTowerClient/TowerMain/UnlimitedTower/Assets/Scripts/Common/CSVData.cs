@@ -892,10 +892,32 @@ public class CSVData : MonoSingleton<CSVData>
             //    );
 
             DBMonsterUpgradeData upgradeData = new DBMonsterUpgradeData();
-            upgradeData.id = (Convert.ToInt32(data[i]["grade_1"]) * 100) + Convert.ToInt32(data[i]["grade_2"]);
+
+            switch(Convert.ToString(data[i]["monster_grade"]))
+            {
+                case "common":
+                    upgradeData.grade = GRADE_TYPE.COMMON;
+                    break;
+                case "uncommon":
+                    upgradeData.grade = GRADE_TYPE.UNCOMMON;
+                    break;
+                case "rare":
+                    upgradeData.grade = GRADE_TYPE.RARE;
+                    break;
+                case "unique":
+                    upgradeData.grade = GRADE_TYPE.UNIQUE;
+                    break;
+                case "legendary":
+                    upgradeData.grade = GRADE_TYPE.LEGENDARY;
+                    break;
+                default:
+                    Debug.Log("Invalid Grade");
+                    return false;
+            }
+
+            upgradeData.id =((int)(upgradeData.grade) * 10000) + (Convert.ToInt32(data[i]["upgrade_1"]) * 100) + Convert.ToInt32(data[i]["upgrade_2"]);
             upgradeData.successPer = Convert.ToDouble(data[i]["success_per"]);
-            upgradeData.needItemID = Convert.ToInt32(data[i]["upgrade_price_id"]);
-            upgradeData.needItemCount = Convert.ToInt32(data[i]["upgrade_price_count"]);
+            upgradeData.needUTGCount = Convert.ToInt32(data[i]["upgrade_price_count"]) * 10000;
 
             DBMonsterUpgradeDataDic.Add(upgradeData.id, upgradeData);
         }
@@ -1280,7 +1302,7 @@ public class CSVData : MonoSingleton<CSVData>
 
     public int GetRandomMonsterID()
     {
-        int monsterID = monsterDataInspector[UnityEngine.Random.Range(0, monsterDataInspector.Count)].id;
+        int monsterID = monsterDataInspector[UnityEngine.Random.Range(0, 2)].id;
 
         return monsterID;
     }
@@ -1294,7 +1316,7 @@ public class CSVData : MonoSingleton<CSVData>
 
     public int GetRandomEquipmentID()
     {
-        int equipmentID = DBEquipmentDataDic.Values.ToList()[UnityEngine.Random.Range(0, DBEquipmentDataDic.Count)].id;
+        int equipmentID = DBEquipmentDataDic.Values.ToList()[UnityEngine.Random.Range(0, 2)].id;
 
         return equipmentID;
     }
@@ -1345,9 +1367,9 @@ public class CSVData : MonoSingleton<CSVData>
         return DBMonsterDataDic[id];
     }
 
-    public DBMonsterUpgradeData GetMonsterUpgradeData(int mainMonsterUpgrade, int subMonsterUpgrade)
+    public DBMonsterUpgradeData GetMonsterUpgradeData(int grade, int mainMonsterUpgrade, int subMonsterUpgrade)
     {
-        int id = (mainMonsterUpgrade * 100) + subMonsterUpgrade;
+        int id = (grade * 10000) + (mainMonsterUpgrade * 100) + subMonsterUpgrade;
 
         if (DBMonsterUpgradeDataDic.ContainsKey(id) == false)
         {

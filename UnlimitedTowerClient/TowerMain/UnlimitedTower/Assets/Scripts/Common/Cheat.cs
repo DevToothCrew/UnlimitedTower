@@ -444,7 +444,7 @@ public class Cheat : MonoSingleton<Cheat>
             return null;
         }
 
-        DBMonsterUpgradeData dbMonsterUpgradeData = CSVData.Inst.GetMonsterUpgradeData(mainMonster.upgrade, subMonster.upgrade);
+        DBMonsterUpgradeData dbMonsterUpgradeData = CSVData.Inst.GetMonsterUpgradeData(mainMonster.grade, mainMonster.upgrade, subMonster.upgrade);
         if(dbMonsterUpgradeData == null)
         {
             Debug.Log("Invalid Monster Key : " + ((mainMonster.upgrade * 100) + subMonster.upgrade));
@@ -476,13 +476,7 @@ public class Cheat : MonoSingleton<Cheat>
         }
 
         getMonsterUpgradeResultData.sub_monster_index = subMonster.index;
-        getMonsterUpgradeResultData.need_item_list = new List<itemData>();
-        itemData needItem = new itemData();
-        needItem.id = dbMonsterUpgradeData.needItemID;
-        // TODO : 아이템 정리중
-        //needItem.itemList
-
-        getMonsterUpgradeResultData.need_item_list.Add(needItem);
+        getMonsterUpgradeResultData.utg = UserDataManager.Inst.GetUserUTG() - (ulong)dbMonsterUpgradeData.needUTGCount;
 
         return JsonMapper.ToJson(getMonsterUpgradeResultData).ToString();
     }

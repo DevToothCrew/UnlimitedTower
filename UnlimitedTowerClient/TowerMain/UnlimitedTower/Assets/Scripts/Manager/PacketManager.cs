@@ -1347,17 +1347,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
         UserDataManager.Inst.SetMonster(monsterData);
         UserDataManager.Inst.DelMonster(getMonsterUpgradeResultData.sub_monster_index);
+        UserDataManager.Inst.SetUserUTG(getMonsterUpgradeResultData.utg);
 
-        for (int i = 0; i < getMonsterUpgradeResultData.need_item_list.Count; i++)
-        {
-            UserItemData itemData = ParseItem(getMonsterUpgradeResultData.need_item_list[i]);
-            if(itemData == null)
-            {
-                Debug.Log("Invalid ParseItem");
-                return;
-            }
-            UserDataManager.Inst.SetItem(itemData);
-        }
+        LobbyTopInfo.Inst.UpdateTopInfo();
+
+        SubViewUpgrade.Inst.updateViewFinishRequest();
     }
 
     // 아이템 강화
