@@ -590,6 +590,7 @@ public class Cheat : MonoSingleton<Cheat>
         }
 
         resultData.itemList = addItemDic.Values.ToList();
+        resultData.utg = 0.ToString();
 
         return JsonMapper.ToJson(resultData).ToString();
     }
@@ -623,14 +624,14 @@ public class Cheat : MonoSingleton<Cheat>
         return JsonMapper.ToJson(resultData).ToString();
     }
 
-    public string GetEquipmentSellData(List<int> sellEquipmentIndexList)
+    public string GetEquipmentBurnData(List<int> burnEquipmentIndexList)
     {
         itemData token = new itemData();
         // TODO : Item 정리중
 
-        for (int i = 0; i < sellEquipmentIndexList.Count; i++)
+        for (int i = 0; i < burnEquipmentIndexList.Count; i++)
         {
-            UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(sellEquipmentIndexList[i]);
+            UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(burnEquipmentIndexList[i]);
             if (equipmentData == null)
             {
                 Debug.Log("Invalid Equipment Index : " + equipmentData.index);
@@ -645,9 +646,9 @@ public class Cheat : MonoSingleton<Cheat>
         }
 
         equipmentBurnResultData resultData = new equipmentBurnResultData();
-        resultData.equipmentIndexList = sellEquipmentIndexList;
+        resultData.equipmentIndexList = burnEquipmentIndexList;
         resultData.itemList = new List<itemData>();
-        resultData.itemList.Add(token);
+        resultData.utg = (100 * 10000 * burnEquipmentIndexList.Count).ToString();
 
         return JsonMapper.ToJson(resultData).ToString();
     }
@@ -959,7 +960,7 @@ public class Cheat : MonoSingleton<Cheat>
 
     public void RequestEquipmentBurnCheat(List<int> equipmentIndexList)
     {
-        string equipmentSellResultJson = GetEquipmentSellData(equipmentIndexList);
+        string equipmentSellResultJson = GetEquipmentBurnData(equipmentIndexList);
         if (equipmentSellResultJson == null)
         {
             Debug.Log("[Fail] RequestEquipmentSellCheat");
