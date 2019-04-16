@@ -301,6 +301,7 @@ GameObject:
   - component: {fileID: 4870312424781162}
   - component: {fileID: 95702329059796626}
   - component: {fileID: 114747382775154792}
+  - component: {fileID: 114510495501210972}
   m_Layer: 0
   m_Name: mst_skeleton_archer
   m_TagString: Untagged
@@ -1323,6 +1324,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114510495501210972
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1439477657262100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b079644dadd8ca4ba0b7c5854047319, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 1275766248170486, guid: b2f794e5bc61ffc46a3045dcf652c182, type: 2}
 --- !u!114 &114747382775154792
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1334,10 +1347,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf3448e36193f01438e35548abb37413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackDelay: 0.4
-  AttackAfterDelay: 1.5
+  AttackDelay: 2
+  AttackAfterDelay: 0.7
   Height: 1.5
-  AttackRange: 0.5
+  AttackRange: 0
 --- !u!137 &137111412858991738
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
