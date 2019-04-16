@@ -200,7 +200,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         UserServantData servantData = partyInfo.ServantList[partyInfo.selected_unit_idx];
         if (servantData == null)
         {
-            Debug.Log("Invalid Servant Inddex : " + partyInfo.selected_unit_idx);
+            Debug.Log("Invalid Servant Index : " + partyInfo.selected_unit_idx);
         }
 
         UserEquipmentData currentEquipmentData = null;
@@ -517,6 +517,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         if (servantData == null)
         {
             Debug.LogError("Invalid Servant Index : " + servantIndex);
+            TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Servant Index");
             return;
         }
 
@@ -524,13 +525,15 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         if (servantData.equipmentDic.ContainsKey(selectedEquipType) == false)
         {
             Debug.LogError("Invalid Servant Data");
+            TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Servant Data");
             return;
         }
 
         // 서번트 동일 장비 검사
         if (servantData.equipmentDic[selectedEquipType] == equipmentIndex)
         {
-            Debug.Log("Already Equip");
+            Debug.Log("Already Equiped");
+            TopUIManager.Inst.ShowSimpleErrorPopup("Already Equiped");
             return;
         }
 
@@ -539,13 +542,15 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         if (equipmentData == null)
         {
             Debug.LogError("Invalid Equipment Index : " + equipmentIndex);
+            TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Equipment");
             return;
         }
 
         // 장비 인덱스에 대한 타입 검사
         if (equipmentData.equipmentType != selectedEquipType)
         {
-            Debug.Log("Invalid Type : " + selectedEquipType.ToString() + ", ");
+            Debug.Log("Invalid Equipment Type : " + selectedEquipType.ToString() + ", ");
+            TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Equipment Type");
             return;
         }
 
@@ -553,6 +558,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         if (equipmentData.isEquiped == true)
         {
             Debug.Log("Already ServantEquiped : " + equipmentData.equipServantIndex);
+            TopUIManager.Inst.ShowSimpleErrorPopup("Already Servant Equiped");
             return;
         }
 
@@ -576,31 +582,35 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         if (dbEquipmentData.isEquipAble(dbServantData.GetJobFlag) == false)
         {
             Debug.Log("Invalid Servant Equipable Job : " + dbServantData.GetJobFlag + ", Need Job : " + dbEquipmentData.jobLimit);
+            TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Servant Equipable Job");
             return;
         }
 
         // 장착 가능 레벨 검사
         if (dbEquipmentData.tier == 2)
         {
-            if (servantData.level <= 20)
+            if (servantData.level <= 10)
             {
-                Debug.Log("Invalid Servant Equipable Level : " + servantData.level + ", Need Level : 21");
+                Debug.Log("Invalid Servant Equipable Level : " + servantData.level + ", Need Level : 11");
+                TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Servant Equipable Level, Need Level : 11");
                 return;
             }
         }
         else if (dbEquipmentData.tier == 3)
         {
-            if (servantData.level <= 30)
+            if (servantData.level <= 20)
             {
-                Debug.Log("Invalid Servant Equipable Level : " + servantData.level + ", Need Level : 31");
+                Debug.Log("Invalid Servant Equipable Level : " + servantData.level + ", Need Level : 21");
+                TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Servant Equipable Level, Need Level : 21");
                 return;
             }
         }
         else if (dbEquipmentData.tier == 4)
         {
-            if (servantData.level <= 40)
+            if (servantData.level <= 30)
             {
-                Debug.Log("Invalid Servant Equipable Level : " + servantData.level + ", Need Level : 41");
+                Debug.Log("Invalid Servant Equipable Level : " + servantData.level + ", Need Level : 31");
+                TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Servant Equipable Level, Need Level : 31");
                 return;
             }
         }

@@ -621,6 +621,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         if(isDiff == false)
         {
             Debug.Log("Party Already Save");
+            TopUIManager.Inst.ShowSimpleErrorPopup("Party Already Save");
             return;
         }
 

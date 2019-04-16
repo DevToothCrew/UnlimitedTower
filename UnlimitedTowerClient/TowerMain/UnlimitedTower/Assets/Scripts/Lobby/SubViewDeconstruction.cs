@@ -104,6 +104,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                 break;
             default:
                 Debug.Log("Warning : 잘못된 타입 분해!");
+                TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Type");
                 break;
 
         }
@@ -201,6 +202,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
         if (unit_count >= deconstructionUnitList.Length)
         {
             Debug.Log("Warning : 분해 슬롯 최대치!");
+            TopUIManager.Inst.ShowSimpleErrorPopup("Max Burn List");
         }
         else
         {
@@ -210,6 +212,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
             if (checkInsertedUnit(scroll_unit_idx))
             {
                 Debug.Log("Warning : 이미 분해 슬롯에 등록된 유닛 입니다.");
+                TopUIManager.Inst.ShowSimpleErrorPopup("Already Listed");
             }
             else
             {
@@ -227,12 +230,14 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                         if (servantData.state != 1)
                         {
                             Debug.Log("Invalid Servant State : " + servantData.state);
+                            TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Servant State");
                             return;
                         }
 
                         if (servantData.partyIndex != 0)
                         {
                             Debug.Log("Invalid Servant Party Index : " + servantData.partyIndex);
+                            TopUIManager.Inst.ShowSimpleErrorPopup("Already In Party");
                             return;
                         }
                     }
@@ -248,12 +253,14 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                         if (monsterData.state != 1)
                         {
                             Debug.Log("Invalid Monster State : " + monsterData.state);
+                            TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Monster State");
                             return;
                         }
 
                         if (monsterData.partyIndex != 0)
                         {
                             Debug.Log("Invalid Monster Index : " + monsterData.partyIndex);
+                            TopUIManager.Inst.ShowSimpleErrorPopup("Already In Party");
                             return;
                         }
                     }
@@ -270,12 +277,14 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                     if (equipmentData.state != 1)
                     {
                         Debug.Log("Invalid Equip State : " + equipmentData.state);
+                        TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Equipment State");
                         return;
                     }
 
                     if (equipmentData.isEquiped)
                     {
                         Debug.Log("Invalid Equip isEquiped : " + equipmentData.isEquiped);
+                        TopUIManager.Inst.ShowSimpleErrorPopup("Already Equiped Servant");
                         return;
                     }
                 }
@@ -405,12 +414,14 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                 if (servantData.state != 1)
                 {
                     Debug.Log("Invalid Servant State : " + servantData.state);
+                    TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Servant State");
                     return;
                 }
 
                 if (servantData.partyIndex != 0)
                 {
                     Debug.Log("Invalid Servant Index : " + servantData.partyIndex);
+                    TopUIManager.Inst.ShowSimpleErrorPopup("Already In Party");
                     return;
                 }
 
@@ -443,12 +454,14 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                 if (monsterData.state != 1)
                 {
                     Debug.Log("Invalid Monster State : " + monsterData.state);
+                    TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Monster State");
                     return;
                 }
 
                 if (monsterData.partyIndex != 0)
                 {
                     Debug.Log("Invalid Monster Index : " + monsterData.partyIndex);
+                    TopUIManager.Inst.ShowSimpleErrorPopup("Already In Party");
                     return;
                 }
 
@@ -482,12 +495,14 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                 if (equipmentData.state != 1)
                 {
                     Debug.Log("Invalid Equipment State : " + equipmentData.state);
+                    TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Equipment State");
                     return;
                 }
 
                 if (equipmentData.equipServantIndex != 0)
                 {
                     Debug.Log("Invalid Equipment Already Equip Servant Index : " + equipmentData.equipServantIndex);
+                    TopUIManager.Inst.ShowSimpleErrorPopup("Already Equiped Servant");
                     return;
                 }
 

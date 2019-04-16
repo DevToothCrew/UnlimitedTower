@@ -24,4 +24,12 @@ public class TopUIManager : MonoSingleton<TopUIManager> {
         objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         objSubView.GetComponent<BurnResultVC>().updateView(getItemList, getUTG);
     }
+
+    public void ShowSimpleErrorPopup(string Text)
+    {
+        GameObject objSubView = Instantiate(Resources.Load("UI/Misc/SimpleErrorPopupVC")) as GameObject;
+        objSubView.transform.SetParent(this.transform);
+        objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        objSubView.GetComponent<SimpleErrorPopupVC>().UpdateErrorText(Text);
+    }
 }
