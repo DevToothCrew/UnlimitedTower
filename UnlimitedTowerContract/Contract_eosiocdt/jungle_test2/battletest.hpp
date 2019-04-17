@@ -308,13 +308,6 @@ CONTRACT battletest : public contract
     };
     typedef eosio::multi_index<"dbactive"_n, dbactive> active_db;
 
-    TABLE dbmonstergrd
-    {
-        uint64_t monster_grade_upgrade;
-        uint64_t monster_upgrade_status;
-        uint64_t primary_key() const {return monster_grade_upgrade;}
-    };
-    typedef eosio::multi_index<"dbmonstergrd"_n, dbmonstergrd> monster_upgrade_status_db;
 	
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -560,7 +553,7 @@ CONTRACT battletest : public contract
     ACTION dbinit(std::string _table);
     ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
 
-	ACTION setdata(eosio::name _contract, std::string _table);
+	ACTION setdata(eosio::name _contract, , eosio::name _user, std::string _table);
     void insert_job(std::string _status, uint64_t _job, uint64_t _min, uint64_t _max);
     void insert_head(uint64_t _appear);
     void insert_hair(uint64_t _appear);
@@ -599,7 +592,6 @@ CONTRACT battletest : public contract
     void insert_gacha_pool(uint64_t _gacha_id, uint64_t _db_index);
     void insert_status_monster_up(uint64_t _type, uint64_t _first, uint64_t _second);
     void insert_itemshop(uint64_t _id, uint64_t _goods_type, uint64_t _goods_limited, uint64_t _goods_count, uint64_t _price_type, uint64_t _price_count);
-    void insert_monster_upgrade_status(uint64_t _monster_grade_upgrade, uint64_t _upgrade_status);
 
     void erase_job(uint64_t _job);
     void erase_head(uint64_t _appear);
@@ -1247,7 +1239,7 @@ CONTRACT battletest : public contract
     ACTION itemburn(eosio::name _user, const std::vector<uint64_t> &_item_list, const std::vector<uint64_t> &_count_list);
 
     ACTION equip(eosio::name _user, uint32_t _servant_index, uint32_t _item_index);
-    ACTION unequip(eosio::name _user, uint32_t _servant_index, uint32_t _slot_num);
+    ACTION unequip(eosio::name _user, uint32_t _servant_index, uint32_t _slot_type);
 
     bool compare_item(uint32_t _user_servant, uint32_t _user_item);
 
