@@ -118,20 +118,21 @@ public class BattleManager : MonoSingleton<BattleManager>
                 }
                 else if (stageActionInfo.character_action_list[i].action_type == 3)
                 {
-                    if (stageActionInfo.character_action_list[i].my_position < 10)
+                    if (GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList.Count == 0)
                     {
-                        if (GetMyState(stageActionInfo.character_action_list[i].my_position).activeSkillList.Count == 0)
-                        {
-                            Debug.Log("ActiveSkillList is Null");
-                        }
-                        else
-                        {
-                            BattleUIManager.Inst.MySkAction(GetMyState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id);
-                            SkillManager.Inst.SendMessage("Skill_" + GetMyState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id.ToString(), stageActionInfo.character_action_list[i]);
-                            yield return new WaitUntil(() => isAfterDelay == true);
-                        }
-                        isAfterDelay = false;
+                        Debug.Log("ActiveSkillList is Null");
                     }
+                    else
+                    {
+                        if (stageActionInfo.character_action_list[i].my_position < 10)
+                            BattleUIManager.Inst.MySkAction(GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id);
+                        else
+                            BattleUIManager.Inst.EnemySkAction(GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id);
+
+                        SkillManager.Inst.SendMessage("Skill_" + GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id.ToString(), stageActionInfo.character_action_list[i]);
+                        yield return new WaitUntil(() => isAfterDelay == true);
+                    }
+                    isAfterDelay = false;
                 }
             }
         }
@@ -502,47 +503,15 @@ public class BattleManager : MonoSingleton<BattleManager>
         }
     }
 
-    public UserCharacterStateData GetEnemyState(int position)
-    {
-        UserStageStateData stateData = UserDataManager.Inst.GetStageState();
-        if (stateData == null)
-        {
-            Debug.LogError("버그 : stateData is NULL");
-            return null;
-        }
-
-        if (stateData.enemyStateList[position] == null)
-        {
-            Debug.LogError(position + "th Monster is Null");
-            return null;
-        }
-
-        return stateData.enemyStateList[position];
-    }
-
-    public UserCharacterStateData GetMyState(int position)
-    {
-        UserStageStateData stateData = UserDataManager.Inst.GetStageState();
-        if (stateData == null)
-        {
-            Debug.LogError("버그 : stateData is NULL");
-            return null;
-        }
-
-        if (stateData.myStateList[position] == null)
-        {
-            Debug.LogError(position + "th Servant is Null");
-            return null;
-        }
-
-        return stateData.myStateList[position];
-    }
-
     public UserCharacterStateData GetCharState(int index)
     {
         if (index < 10)
+        {
             return UserDataManager.Inst.GetStageState().myStateList[index];
+        }
         else
+        {
             return UserDataManager.Inst.GetStageState().enemyStateList[index];
+        }
     }
 }

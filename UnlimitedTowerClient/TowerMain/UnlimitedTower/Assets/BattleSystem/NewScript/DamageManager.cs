@@ -111,6 +111,9 @@ public class DamageManager : MonoSingleton<DamageManager>
                     }
                 }
                 BattleManager.Inst.NowHp[attackInfo.target_position] -= attackInfo.damage;
+                
+                if (BattleManager.Inst.NowHp[attackInfo.target_position] > BattleManager.Inst.status[attackInfo.target_position].maxHp)
+                    BattleManager.Inst.NowHp[attackInfo.target_position] = BattleManager.Inst.status[attackInfo.target_position].maxHp;
             }
         }
         else
@@ -125,8 +128,6 @@ public class DamageManager : MonoSingleton<DamageManager>
 
         if (BattleManager.Inst.NowHp[attackInfo.target_position] < 0)
             BattleManager.Inst.NowHp[attackInfo.target_position] = 0;
-        if (BattleManager.Inst.NowHp[attackInfo.target_position] > BattleManager.Inst.status[attackInfo.target_position].maxHp)
-            BattleManager.Inst.NowHp[attackInfo.target_position] = BattleManager.Inst.status[attackInfo.target_position].maxHp;
 
         if (!isHeal)
         {

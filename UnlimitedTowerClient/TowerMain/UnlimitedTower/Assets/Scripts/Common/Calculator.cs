@@ -94,8 +94,8 @@ public class Calculator : MonoBehaviour {
                 }
 
                 battleStatus.int_ = battleStatus.int_ + (int)(monster.upgrade * 0.1f);
-                battleStatus.dex_ = battleStatus.int_ + (int)(monster.upgrade * 0.1f);
-                battleStatus.str_ = battleStatus.int_ + (int)(monster.upgrade * 0.1f);
+                battleStatus.dex_ = battleStatus.dex_ + (int)(monster.upgrade * 0.1f);
+                battleStatus.str_ = battleStatus.str_ + (int)(monster.upgrade * 0.1f);
             }
         }
 
