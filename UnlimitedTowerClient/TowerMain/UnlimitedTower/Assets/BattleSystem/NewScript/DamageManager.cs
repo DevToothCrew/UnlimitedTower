@@ -59,6 +59,9 @@ public class DamageManager : MonoSingleton<DamageManager>
                 damageText.text.color = HealColor[0];
                 damageText.outLine.effectColor = HealColor[1];
                 BattleManager.Inst.NowHp[attackInfo.target_position] += attackInfo.damage;
+
+                if (BattleManager.Inst.NowHp[attackInfo.target_position] > BattleManager.Inst.status[attackInfo.target_position].maxHp)
+                    BattleManager.Inst.NowHp[attackInfo.target_position] = BattleManager.Inst.status[attackInfo.target_position].maxHp;
             }
             else
             {
@@ -111,9 +114,6 @@ public class DamageManager : MonoSingleton<DamageManager>
                     }
                 }
                 BattleManager.Inst.NowHp[attackInfo.target_position] -= attackInfo.damage;
-                
-                if (BattleManager.Inst.NowHp[attackInfo.target_position] > BattleManager.Inst.status[attackInfo.target_position].maxHp)
-                    BattleManager.Inst.NowHp[attackInfo.target_position] = BattleManager.Inst.status[attackInfo.target_position].maxHp;
             }
         }
         else
