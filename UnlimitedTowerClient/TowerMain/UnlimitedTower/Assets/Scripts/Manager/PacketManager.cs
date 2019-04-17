@@ -311,6 +311,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
         );
     }
 
+    // 스테이지 보상
+    public void RequestPVPResult()
+    {
+        Debug.Log("Request PVP Result");
+
+        Request<pvpResultData>("PVPResult",
+        onSuccess: ResponsePVPResult,
+        onFailed: msg => { Debug.Log($"[Failed Requesting StageStart] {msg}"); }
+        );
+    }
+
     // 스테이지 종료
     public void RequestStageExit()
     {
@@ -1489,9 +1500,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     }
 
-    // 스테이지 시작
+    // PVP 시작
     public void ResponsePVPStart(stageStateData getBattleStateData)
     {
+        UserDataManager.Inst.GetUserInfo().userState = 2;
+
         UserStageStateData stageData = ParseStageStateData(getBattleStateData);
         if (stageData == null)
         {
@@ -1500,6 +1513,18 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         UserDataManager.Inst.SetStageState(stageData);
         StartCoroutine(LoadSceneAsync("CharacterBattleScene", "Now, Loading battle field ... "));
+    }
+
+    // PVP 끝
+    public void ResponsePVPResult(pvpResultData getPVPResult)
+    {
+        UserDataManager.Inst.GetUserInfo().userState = 0;
+
+        Debug.Log(getPVPResult.ToString());
+
+        UserDataManager.Inst.InitStageInfo();
+        SceneManager.LoadScene("Lobby");
+        Time.timeScale = 1.0f;
     }
 
     #endregion

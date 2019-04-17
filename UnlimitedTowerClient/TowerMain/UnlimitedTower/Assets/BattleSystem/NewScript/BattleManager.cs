@@ -151,10 +151,19 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         if (enemyHp == 0)
         {
+            
 #if UNITY_EDITOR
             Cheat.Inst.RequestStageRewardCheat();
 #else
-            PacketManager.Inst.RequestStageReward();
+            if(UserDataManager.Inst.GetUserInfo().userState == 2)
+            {
+                PacketManager.Inst.RequestPVPResult();
+            }
+            else
+            {
+                PacketManager.Inst.RequestStageReward();
+            }
+            
 #endif
         }
         else if (myHp == 0)

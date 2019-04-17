@@ -351,6 +351,13 @@ public class stageRewardData
 }
 
 [Serializable]
+public class pvpResultData
+{
+    public string user_name;
+    public string result;
+}
+
+[Serializable]
 public class monsterUpgradeResultData
 {
     public bool is_success;
