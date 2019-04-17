@@ -1113,14 +1113,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
             return;
         }
 
-        // 임시로 세팅 변경
-        //Debug.Log("Start Set Item List");
-        //if (UserDataManager.Inst.SetItemList(getItemDataDic.Values.ToList()) == false)
-        //{
-        //    Debug.Log("Invalid AdditemDataList");
-        //    return;
-        //}
-
         ulong getUTG = Convert.ToUInt64(getServantBurnData.utg) - UserDataManager.Inst.GetUserUTG();
         if (getUTG > 0)
         {

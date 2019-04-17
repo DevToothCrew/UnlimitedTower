@@ -62,6 +62,8 @@ public class BurnResultVC : MonoBehaviour {
                     ResultItemUnits[i] = resultItem;
                 }
             }
+
+            UserDataManager.Inst.SetItemList(getItemList);
         }
 
         textResultUTG.text = (getUTG * 0.0001).ToString("N4");

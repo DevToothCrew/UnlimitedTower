@@ -590,6 +590,24 @@ public class Cheat : MonoSingleton<Cheat>
             }
         }
 
+        List<UserItemData> itemInfoList = UserDataManager.Inst.GetItemList();
+        if(itemInfoList != null)
+        {
+            for(int i = 0; i < itemInfoList.Count; i++)
+            {
+                int count = 0;
+                for (int j = 0; j < itemInfoList[i].itemInfoList.Count; j++)
+                {
+                    count += itemInfoList[i].itemInfoList[j].count;
+                }
+
+                if (addItemDic.ContainsKey(itemInfoList[i].id) == true)
+                {
+                    addItemDic[itemInfoList[i].id].item_list[0].count += count;
+                }
+            }
+        }
+
         resultData.itemList = addItemDic.Values.ToList();
         resultData.utg = Convert.ToString(UserDataManager.Inst.GetUserUTG());
 
