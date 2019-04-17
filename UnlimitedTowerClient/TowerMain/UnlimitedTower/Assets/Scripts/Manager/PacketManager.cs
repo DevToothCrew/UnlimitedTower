@@ -784,7 +784,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("Request PVPStart");
 
-        string json = JsonUtility.ToJson(accountName);
+        PVPJson pvpJson = new PVPJson();
+        pvpJson.enemy = accountName;
+
+        string json = JsonUtility.ToJson(pvpJson);
 
         Debug.Log("Json start : " + json);
 

@@ -403,6 +403,12 @@ public class GachaJson
 }
 
 [Serializable]
+public class PVPJson
+{
+    public string enemy;
+}
+
+[Serializable]
 public class PartySaveJson
 {
     public int partyNum = 0;
