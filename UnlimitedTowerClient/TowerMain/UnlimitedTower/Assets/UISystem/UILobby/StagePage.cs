@@ -117,30 +117,30 @@ public class StagePage : MonoSingleton<StagePage> {
         // 임시로 때려박기
         if (stageType == 1)
         {
-            StageText.text = "Stage - UnderRuins";
+            StageText.text = "Stage - Under Ruins";
         }
         else if (stageType == 2)
         {
-            StageText.text = "Stage - LavaZone";
+            StageText.text = "Stage - Lava Zone";
         }
         else if (stageType == 3)
         {
-            StageText.text = "Stage - IceBerg";
+            StageText.text = "Stage - Ice Berg";
         }
         else if (stageType == 4)
         {
-            StageText.text = "Stage - SkyTemple";
+            StageText.text = "Stage - Sky Temple";
         }
         else if (stageType == 5)
         {
-            StageText.text = "Stage - GrassLand";
+            StageText.text = "Stage - Grassland";
         }
         else if (stageType == 6)
         {
-            StageText.text = "Stage - Cemetery";
+            StageText.text = "Stage - Dark Forest";
         }
 
-        StageDetailText.text = stageFloor + "F - ???";
+        StageDetailText.text = stageFloor + "F";
 
         SetRewardInfo();
         SetEnemyInfo();

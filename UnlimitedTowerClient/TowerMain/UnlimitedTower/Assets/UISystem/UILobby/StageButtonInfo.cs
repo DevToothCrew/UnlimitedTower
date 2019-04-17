@@ -10,9 +10,9 @@ public class StageButtonInfo : ScrollListUnit {
     public override void UpdateUnit(int main_idx)
     {
         int stage_type = StagePage.Inst.GetStageType();
-        stageNum = (stage_type * 100) + 1 + main_idx;
-        DBStageData stageData = CSVData.Inst.GetStageData(stageNum / 100, stageNum % 100);
-
+        stageNum = (stage_type * 100) + main_idx + 1;
+        int stage_floor = (stageNum % 100);
+        DBStageData stageData = CSVData.Inst.GetStageData(stage_type, stage_floor);
         if (stageData == null)
         {
             Debug.Log("Invalid Stage Num : " + stageNum);
@@ -26,9 +26,32 @@ public class StageButtonInfo : ScrollListUnit {
             return;
         }
 
-        //스테이지 타입명 표시해야함.
-        textStageType.text = "Stage Type";
-        textStageFloor.text = string.Format("{0}F - {1}", stageData.stageFloor, stageData.stageString);
+        if (stage_type == 1)
+        {
+            textStageType.text = "Stage - Under Ruins";
+        }
+        else if (stage_type == 2)
+        {
+            textStageType.text = "Stage - Lava Zone";
+        }
+        else if (stage_type == 3)
+        {
+            textStageType.text = "Stage - Ice Berg";
+        }
+        else if (stage_type == 4)
+        {
+            textStageType.text = "Stage - Sky Temple";
+        }
+        else if (stage_type == 5)
+        {
+            textStageType.text = "Stage - Grassland";
+        }
+        else if (stage_type == 6)
+        {
+            textStageType.text = "Stage - Dark Forest";
+        }
+
+        textStageFloor.text = string.Format("{0}F ", stage_floor);
         enemyImage.sprite = CSVData.Inst.GetMonsterIcon(enemyID);
     }
 
