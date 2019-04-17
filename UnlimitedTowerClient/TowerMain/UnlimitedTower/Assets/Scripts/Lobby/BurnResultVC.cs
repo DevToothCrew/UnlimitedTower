@@ -29,6 +29,12 @@ public class BurnResultVC : MonoBehaviour {
             {
                 int getItemID = getItemList[i].id;
                 int getItemCount = 0;
+
+                for (int j = 0; j < getItemList[i].itemInfoList.Count; j++)
+                {
+                    getItemCount += getItemList[i].itemInfoList[j].count;
+                }
+
                 UserItemData itemData = UserDataManager.Inst.GetItemInfo(getItemID);
                 if (itemData != null)
                 {
@@ -37,12 +43,24 @@ public class BurnResultVC : MonoBehaviour {
                     {
                         nowItemCount += itemData.itemInfoList[j].count;
                     }
+
+                    if (getItemCount != nowItemCount)
+                    {
+                        getItemCount -= nowItemCount;
+                    }
+                    else
+                    {
+                        getItemCount = 0;
+                    }
                 }
 
-                GameObject resultItem = Instantiate(resultItemPrefab);
-                resultItem.transform.SetParent(ResultItemList);
-                resultItem.GetComponent<BurnResultItemInfo>().UpdateItem(getItemID, getItemCount);
-                ResultItemUnits[i] = resultItem;
+                if (getItemCount != 0)
+                {
+                    GameObject resultItem = Instantiate(resultItemPrefab);
+                    resultItem.transform.SetParent(ResultItemList);
+                    resultItem.GetComponent<BurnResultItemInfo>().UpdateItem(getItemID, getItemCount);
+                    ResultItemUnits[i] = resultItem;
+                }
             }
         }
 
