@@ -7,17 +7,17 @@ public class BurnResultItemInfo : MonoBehaviour {
     public Text ItemCount;
     public Text ItemName;
 
-    public void UpdateItem(UserItemData getItemData)
+    public void UpdateItem(int itemID, int itemCount)
     {
-        DBItemData itemData = CSVData.Inst.GetItemData(getItemData.id);
+        DBItemData itemData = CSVData.Inst.GetItemData(itemID);
         if(itemData == null)
         {
-            Debug.Log("Invalid Item ID : " + getItemData.id);
+            Debug.Log("Invalid Item ID : " + itemID);
             return;
         }
 
         ItemResourceImage.sprite = itemData.ItemIcon;
         ItemName.text = itemData.name;
-        ItemCount.text = "X" + getItemData.itemInfoList[0].count;
+        ItemCount.text = "X" + itemCount;
     }
 }

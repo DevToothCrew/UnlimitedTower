@@ -22,13 +22,27 @@ public class BurnResultVC : MonoBehaviour {
 
             ResultItemUnits = null;
         }
-        ResultItemUnits = new GameObject[getItemList.Count];
-        for (int i = 0; i < getItemList.Count; i++)
+        if (getItemList.Count > 0)
         {
-            GameObject resultItem = Instantiate(resultItemPrefab);
-            resultItem.transform.SetParent(ResultItemList);
-            resultItem.GetComponent<BurnResultItemInfo>().UpdateItem(getItemList[i]);
-            ResultItemUnits[i] = resultItem;
+            ResultItemUnits = new GameObject[getItemList.Count];
+            for (int i = 0; i < getItemList.Count; i++)
+            {
+                int getItemID = getItemList[i].id;
+                int getItemCount = 0;
+                UserItemData itemData = UserDataManager.Inst.GetItemInfo(getItemID);
+                if (itemData != null)
+                {
+                    for (int j = 0; j < itemData.itemInfoList.Count; j++)
+                    {
+                        getItemCount += itemData.itemInfoList[j].count;
+                    }
+                }
+
+                GameObject resultItem = Instantiate(resultItemPrefab);
+                resultItem.transform.SetParent(ResultItemList);
+                resultItem.GetComponent<BurnResultItemInfo>().UpdateItem(getItemID, getItemCount);
+                ResultItemUnits[i] = resultItem;
+            }
         }
 
         textResultUTG.text = (getUTG * 0.0001).ToString("N4");

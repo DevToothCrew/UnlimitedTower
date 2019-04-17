@@ -1113,12 +1113,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
             return;
         }
 
-        Debug.Log("Start Set Item List");
-        if (UserDataManager.Inst.SetItemList(getItemDataDic.Values.ToList()) == false)
-        {
-            Debug.Log("Invalid AdditemDataList");
-            return;
-        }
+        // 임시로 세팅 변경
+        //Debug.Log("Start Set Item List");
+        //if (UserDataManager.Inst.SetItemList(getItemDataDic.Values.ToList()) == false)
+        //{
+        //    Debug.Log("Invalid AdditemDataList");
+        //    return;
+        //}
 
         Debug.Log("Start Update View");
         SubViewDeconstruction.Inst.updateViewFinishRequest();
@@ -1642,6 +1643,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
         monster.upgrade = getMonsterData.monster.upgrade;
         monster.state = getMonsterData.monster.state;
         monster.level = getMonsterData.monster.level;
+        if(monster.level == 0)
+        {
+            Debug.LogError("Invalid Monster Level");
+        }
 
         DBMonsterData monsterData = CSVData.Inst.GetMonsterData(monster.id);
         if(monsterData == null)
