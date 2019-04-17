@@ -158,7 +158,7 @@ public class itemData
 {
     public int id;
     public int type;
-    public List<itemInfo> itemList = new List<itemInfo>();
+    public List<itemInfo> item_list = new List<itemInfo>();
 }
 
 [Serializable]

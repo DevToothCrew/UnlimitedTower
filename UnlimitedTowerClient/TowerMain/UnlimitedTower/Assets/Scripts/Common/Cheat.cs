@@ -541,7 +541,7 @@ public class Cheat : MonoSingleton<Cheat>
             }
 
             itemData getItemData = new itemData();
-            getItemData.itemList = new List<itemInfo>();
+            getItemData.item_list = new List<itemInfo>();
             itemInfo addItem = new itemInfo();
 
             switch (dbServantData.GetJob)
@@ -550,31 +550,31 @@ public class Cheat : MonoSingleton<Cheat>
                     getItemData.id = 510010;
                     addItem.index = 0;
                     addItem.count = 1;
-                    getItemData.itemList.Add(addItem);
+                    getItemData.item_list.Add(addItem);
                     break;
                 case SERVANT_JOB.Thief:
                     getItemData.id = 510020;
                     addItem.index = 0;
                     addItem.count = 1;
-                    getItemData.itemList.Add(addItem);
+                    getItemData.item_list.Add(addItem);
                     break;
                 case SERVANT_JOB.Cleric:
                     getItemData.id = 510030;
                     addItem.index = 0;
                     addItem.count = 1;
-                    getItemData.itemList.Add(addItem);
+                    getItemData.item_list.Add(addItem);
                     break;
                 case SERVANT_JOB.Archer:
                     getItemData.id = 510040;
                     addItem.index = 0;
                     addItem.count = 1;
-                    getItemData.itemList.Add(addItem);
+                    getItemData.item_list.Add(addItem);
                     break;
                 case SERVANT_JOB.Magician:
                     getItemData.id = 510050;
                     addItem.index = 0;
                     addItem.count = 1;
-                    getItemData.itemList.Add(addItem);
+                    getItemData.item_list.Add(addItem);
                     break;
                 default:
                     break;
@@ -586,7 +586,7 @@ public class Cheat : MonoSingleton<Cheat>
             }
             else
             {
-                addItemDic[getItemData.id].itemList[0].count += 1;
+                addItemDic[getItemData.id].item_list[0].count += 1;
             }
         }
 

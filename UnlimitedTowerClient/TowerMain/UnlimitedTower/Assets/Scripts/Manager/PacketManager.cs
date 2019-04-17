@@ -1776,11 +1776,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
         UserItemData itemData = new UserItemData();
 
         itemData.id = getItemData.id;
-        for (int i = 0; i < getItemData.itemList.Count; i++)
+        for (int i = 0; i < getItemData.item_list.Count; i++)
         {
             UserItemInfo info = new UserItemInfo();
-            info.index = getItemData.itemList[i].index;
-            info.count = getItemData.itemList[i].count;
+            info.index = getItemData.item_list[i].index;
+            info.count = getItemData.item_list[i].count;
             itemData.itemInfoList.Add(info);
         }
 
