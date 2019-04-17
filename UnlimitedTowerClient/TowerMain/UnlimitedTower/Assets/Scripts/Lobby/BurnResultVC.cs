@@ -32,9 +32,10 @@ public class BurnResultVC : MonoBehaviour {
                 UserItemData itemData = UserDataManager.Inst.GetItemInfo(getItemID);
                 if (itemData != null)
                 {
+                    int nowItemCount = 0;
                     for (int j = 0; j < itemData.itemInfoList.Count; j++)
                     {
-                        getItemCount += itemData.itemInfoList[j].count;
+                        nowItemCount += itemData.itemInfoList[j].count;
                     }
                 }
 

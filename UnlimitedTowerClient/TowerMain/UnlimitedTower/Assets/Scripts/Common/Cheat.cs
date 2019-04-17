@@ -598,9 +598,6 @@ public class Cheat : MonoSingleton<Cheat>
 
     public string GetMonsterBurnData(List<int> burnMonsterIndexList)
     {
-        itemData token = new itemData();
-        // TODO : Item 정리중
-
         for(int i = 0; i < burnMonsterIndexList.Count; i++)
         {
             UserMonsterData monsterData = UserDataManager.Inst.GetMonsterInfo(burnMonsterIndexList[i]);
@@ -627,9 +624,6 @@ public class Cheat : MonoSingleton<Cheat>
 
     public string GetEquipmentBurnData(List<int> burnEquipmentIndexList)
     {
-        itemData token = new itemData();
-        // TODO : Item 정리중
-
         for (int i = 0; i < burnEquipmentIndexList.Count; i++)
         {
             UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(burnEquipmentIndexList[i]);

@@ -21,8 +21,9 @@ public class PopupManager : MonoBehaviour {
     popup_type popupType;
 
 	void Start () {
-		
-	}
+        popupType = popup_type.NOTIVE;
+
+    }
 	
     void updateView()
     {
