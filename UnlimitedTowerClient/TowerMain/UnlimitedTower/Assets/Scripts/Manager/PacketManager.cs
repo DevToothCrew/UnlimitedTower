@@ -1121,11 +1121,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
         //    return;
         //}
 
+        ulong getUTG = Convert.ToUInt64(getServantBurnData.utg) - UserDataManager.Inst.GetUserUTG();
+        if (getUTG > 0)
+        {
+            UserDataManager.Inst.SetUserUTG(Convert.ToUInt64(getServantBurnData.utg));
+        }
+
         Debug.Log("Start Update View");
         SubViewDeconstruction.Inst.updateViewFinishRequest();
 
         Debug.Log("Start Show Burn Result");
-        TopUIManager.Inst.ShowBurnResult(getItemDataDic.Values.ToList(), Convert.ToUInt64(getServantBurnData.utg));
+        TopUIManager.Inst.ShowBurnResult(getItemDataDic.Values.ToList(), getUTG);
     }
     
     public void ResponseMonsterBurn(monsterBurnResultData getBurnMonsterResultData)
@@ -1157,9 +1163,15 @@ public class PacketManager : MonoSingleton<PacketManager> {
             return;
         }
 
+        ulong getUTG = Convert.ToUInt64(getBurnMonsterResultData.utg) - UserDataManager.Inst.GetUserUTG();
+        if (getUTG > 0)
+        {
+            UserDataManager.Inst.SetUserUTG(Convert.ToUInt64(getBurnMonsterResultData.utg));
+        }
+
         SubViewDeconstruction.Inst.updateViewFinishRequest();
 
-        TopUIManager.Inst.ShowBurnResult(getItemDataDic.Values.ToList(), Convert.ToUInt64(getBurnMonsterResultData.utg));
+        TopUIManager.Inst.ShowBurnResult(getItemDataDic.Values.ToList(), getUTG);
     }
 
     public void ResponseEquipmentBurn(equipmentBurnResultData getBurnEquipmentResultData)
@@ -1191,9 +1203,15 @@ public class PacketManager : MonoSingleton<PacketManager> {
             return;
         }
 
+        ulong getUTG = Convert.ToUInt64(getBurnEquipmentResultData.utg) - UserDataManager.Inst.GetUserUTG();
+        if (getUTG > 0)
+        {
+            UserDataManager.Inst.SetUserUTG(Convert.ToUInt64(getBurnEquipmentResultData.utg));
+        }
+
         SubViewDeconstruction.Inst.updateViewFinishRequest();
 
-        TopUIManager.Inst.ShowBurnResult(getItemDataDic.Values.ToList(), Convert.ToUInt64(getBurnEquipmentResultData.utg));
+        TopUIManager.Inst.ShowBurnResult(getItemDataDic.Values.ToList(), getUTG);
     }
 
     public void ResponseItemBurn(itemBurnResultData getBurnItemResultData)
@@ -1232,7 +1250,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
             return;
         }
 
-        TopUIManager.Inst.ShowBurnResult(getItemDataDic.Values.ToList(), Convert.ToUInt64(getBurnItemResultData.utg));
+        ulong getUTG = Convert.ToUInt64(getBurnItemResultData.utg) - UserDataManager.Inst.GetUserUTG();
+        if (getUTG > 0)
+        {
+            UserDataManager.Inst.SetUserUTG(Convert.ToUInt64(getBurnItemResultData.utg));
+        }
+
+        TopUIManager.Inst.ShowBurnResult(getItemDataDic.Values.ToList(), getUTG);
     }
 
     // 장비 장착

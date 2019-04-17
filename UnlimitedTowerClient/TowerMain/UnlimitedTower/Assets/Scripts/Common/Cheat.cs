@@ -591,7 +591,7 @@ public class Cheat : MonoSingleton<Cheat>
         }
 
         resultData.itemList = addItemDic.Values.ToList();
-        resultData.utg = 0.ToString();
+        resultData.utg = Convert.ToString(UserDataManager.Inst.GetUserUTG());
 
         return JsonMapper.ToJson(resultData).ToString();
     }
@@ -617,7 +617,7 @@ public class Cheat : MonoSingleton<Cheat>
         monsterBurnResultData resultData = new monsterBurnResultData();
         resultData.monsterIndexList = burnMonsterIndexList;
         resultData.itemList = new List<itemData>();
-        resultData.utg = (100 * 10000 * burnMonsterIndexList.Count).ToString();
+        resultData.utg = Convert.ToString( (ulong)(100 * 10000 * burnMonsterIndexList.Count) + UserDataManager.Inst.GetUserUTG());
 
         return JsonMapper.ToJson(resultData).ToString();
     }
@@ -643,7 +643,7 @@ public class Cheat : MonoSingleton<Cheat>
         equipmentBurnResultData resultData = new equipmentBurnResultData();
         resultData.equipmentIndexList = burnEquipmentIndexList;
         resultData.itemList = new List<itemData>();
-        resultData.utg = (100 * 10000 * burnEquipmentIndexList.Count).ToString();
+        resultData.utg = Convert.ToString((ulong)(100 * 10000 * burnEquipmentIndexList.Count) + UserDataManager.Inst.GetUserUTG());
 
         return JsonMapper.ToJson(resultData).ToString();
     }
