@@ -1503,7 +1503,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // PVP 시작
     public void ResponsePVPStart(stageStateData getBattleStateData)
     {
-        UserDataManager.Inst.GetUserInfo().userState = 2;
+        UserDataManager.Inst.GetUserInfo().sceneState = SCENE_STATE.PVP;
 
         UserStageStateData stageData = ParseStageStateData(getBattleStateData);
         if (stageData == null)
@@ -1518,7 +1518,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // PVP 끝
     public void ResponsePVPResult(pvpResultData getPVPResult)
     {
-        UserDataManager.Inst.GetUserInfo().userState = 0;
+        UserDataManager.Inst.GetUserInfo().sceneState = SCENE_STATE.Lobby;
 
         Debug.Log(getPVPResult.ToString());
 

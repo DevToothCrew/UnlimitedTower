@@ -19,7 +19,6 @@ public class UserInfo
     public ulong userUTG;
     public ulong userEOS;
     public SCENE_STATE sceneState;
-    public int userState;
 
     public int level;
 

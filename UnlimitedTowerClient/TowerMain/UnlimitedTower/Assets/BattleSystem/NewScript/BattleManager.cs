@@ -155,7 +155,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 #if UNITY_EDITOR
             Cheat.Inst.RequestStageRewardCheat();
 #else
-            if(UserDataManager.Inst.GetUserInfo().userState == 2)
+            if (UserDataManager.Inst.GetUserInfo().sceneState == SCENE_STATE.PVP)
             {
                 PacketManager.Inst.RequestPVPResult();
             }

@@ -233,7 +233,8 @@ public enum SCENE_STATE
     Stage = 3,
     StageBattle = 4,
     TowerBattle = 5,
-    Max = 6,
+    PVP = 6,
+    Max = 7
 }
 
 
