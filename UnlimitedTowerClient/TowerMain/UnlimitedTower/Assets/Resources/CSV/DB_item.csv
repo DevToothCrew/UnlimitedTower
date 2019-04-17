@@ -4,8 +4,8 @@ int,int,string,localize,string,string,localize,int,string,int,int,int
 0,500100,ic_upScroll_sword,DB_item_name_500100,Weapon Scroll,무기 강화 주문서,,0,upgrade_scroll,0,500001,1
 0,500110,ic_upScroll_armor,DB_item_name_500110,Armor Scroll,방어구 강화 주문서,,0,upgrade_scroll,0,500001,1
 0,500120,ic_upScroll_ac,DB_item_name_500120,Accessory Scroll,액세서리 강화 주문서,,0,upgrade_scroll,0,500001,1
-0,510010,ic_soul_warrior,DB_item_name_510010,Warrior Soul Powder,전사의 영혼,,0,material_soul,0,500001,1
-0,510020,ic_soul_thief,DB_item_name_510020,Thief Soul Powder,도적의 영혼,,0,material_soul,0,500001,1
-0,510030,ic_soul_cleric,DB_item_name_510030,Cleric Soul Powder,성직자의 영혼,,0,material_soul,0,500001,1
+0,510010,ic_warrior_soul,DB_item_name_510010,Warrior Soul Powder,전사의 영혼,,0,material_soul,0,500001,1
+0,510020,ic_thief_soul,DB_item_name_510020,Thief Soul Powder,도적의 영혼,,0,material_soul,0,500001,1
+0,510030,ic_cleric_soul,DB_item_name_510030,Cleric Soul Powder,성직자의 영혼,,0,material_soul,0,500001,1
 0,510040,ic_soul_archer,DB_item_name_510040,Archer Soul Powder,궁수의 영혼,,0,material_soul,0,500001,1
 0,510050,ic_soul_magician,DB_item_name_510050,Magician Soul Powder,마법사의 영혼,,0,material_soul,0,500001,1
