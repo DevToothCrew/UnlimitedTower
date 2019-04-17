@@ -75,7 +75,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.U) && Input.GetKeyDown(KeyCode.T) && Input.GetKey(KeyCode.LeftAlt))
+        if (Input.GetKey(KeyCode.U) && Input.GetKeyDown(KeyCode.T) && Input.GetKey(KeyCode.G))
         {
             if (Time.timeScale < 9)
             {
