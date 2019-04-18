@@ -147,10 +147,11 @@ public class equipmentData
 [Serializable]
 public class mailData
 {
-    public int index;
-    public int type;
-    public int id;
+    public int mail_index;
+    public int mail_type;
+    public int type_id;
     public int count;
+    public int icon_id;
 }
 
 [Serializable]
