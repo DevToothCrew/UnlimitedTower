@@ -16,6 +16,8 @@ public class BattleManager : MonoSingleton<BattleManager>
     public int turnIndex = 1;
     public int TimeScale = 1;
     public TumbAnimation tumbAnimation;
+    public int[] CheetKey = new int[3];
+    public int CheetIndex;
 
     private bool isAuto;
     private bool isTurnEnd;
@@ -74,17 +76,40 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.U) && Input.GetKeyDown(KeyCode.T) && Input.GetKey(KeyCode.G))
+        if (Input.anyKeyDown)
         {
-            if (Time.timeScale < 9)
+            if (Input.GetKeyDown(KeyCode.U))
             {
-                Time.timeScale = 10f;
-                TimeScale = 10;
+                CheetKey[CheetIndex % 3] = (int)KeyCode.U;
+                CheetIndex++;
+            }
+            else if (Input.GetKeyDown(KeyCode.T))
+            {
+                CheetKey[CheetIndex % 3] = (int)KeyCode.T;
+                CheetIndex++;
+            }
+            else if (Input.GetKeyDown(KeyCode.G))
+            {
+                CheetKey[CheetIndex % 3] = (int)KeyCode.G;
+                CheetIndex++;
             }
             else
             {
-                Time.timeScale = 1f;
-                TimeScale = 1;
+                CheetKey = new int[3];
+            }
+            if (CheetKey[0] + CheetKey[1] + CheetKey[2] == 336)
+            {
+                if (Time.timeScale < 9)
+                {
+                    Time.timeScale = 10f;
+                    TimeScale = 10;
+                }
+                else
+                {
+                    Time.timeScale = 1f;
+                    TimeScale = 1;
+                }
+                CheetKey = new int[3];
             }
         }
     }
