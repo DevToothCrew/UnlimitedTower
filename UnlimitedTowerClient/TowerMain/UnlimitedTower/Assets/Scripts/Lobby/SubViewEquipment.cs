@@ -279,16 +279,17 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
             textCurrentTier.text = string.Format("{0}T", dBEquipment.tier);
             //textCurrentJobText.text;
 
+            Color temp_color = imageCurrentJob[0].color;
             for (int i = 0; i < 5; i++)
             {
-                imageCurrentJob[i].enabled = false;
+                imageCurrentJob[i].color = new Color(temp_color.r, temp_color.g, temp_color.b, 0.2f);
             }
 
             if (dBEquipment.jobLimit == SERVANT_JOB_FLAG.All)
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    imageCurrentJob[i].enabled = true;
+                    imageCurrentJob[i].color = new Color(temp_color.r, temp_color.g, temp_color.b, 1f);
                 }
             }
             else
@@ -298,7 +299,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
                     SERVANT_JOB_FLAG checkJob = (SERVANT_JOB_FLAG)Math.Pow(2, (double)(i + 1));
                     if (dBEquipment.isEquipAble(checkJob) == true)
                     {
-                        imageCurrentJob[i].enabled = true;
+                        imageCurrentJob[i].color = new Color(temp_color.r, temp_color.g, temp_color.b, 1f);
                     }
                 }
             }
@@ -366,15 +367,16 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
             textChangeTier.text = string.Format("{0}T", dBChangeEquipment.tier);
             //textCurrentJobText.text;
 
+            Color temp_color = imageChangeJob[0].color;
             for (int i = 0; i < 5; i++)
             {
-                imageChangeJob[i].enabled = false;
+                imageChangeJob[i].color = new Color(temp_color.r, temp_color.g, temp_color.b, 0.2f);
             }
             if (dBChangeEquipment.jobLimit == SERVANT_JOB_FLAG.All)
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    imageChangeJob[i].enabled = true;
+                    imageChangeJob[i].color = new Color(temp_color.r, temp_color.g, temp_color.b, 1f);
                 }
             }
             else
@@ -384,7 +386,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
                     SERVANT_JOB_FLAG checkJob = (SERVANT_JOB_FLAG)Math.Pow(2, (double)(i + 1));
                     if (dBChangeEquipment.isEquipAble(checkJob) == true)
                     {
-                        imageChangeJob[i].enabled = true;
+                        imageChangeJob[i].color = new Color(temp_color.r, temp_color.g, temp_color.b, 1f);
                     }
                 }
             }

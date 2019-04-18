@@ -18,6 +18,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     public TumbAnimation tumbAnimation;
     public int[] CheetKey = new int[3];
     public int CheetIndex;
+    public bool adminMode;
 
     private bool isAuto;
     private bool isTurnEnd;
@@ -93,6 +94,11 @@ public class BattleManager : MonoSingleton<BattleManager>
                 CheetKey[CheetIndex % 3] = (int)KeyCode.G;
                 CheetIndex++;
             }
+            else if (Input.GetKeyDown(KeyCode.P))
+            {
+                CheetKey[CheetIndex % 3] = (int)KeyCode.P;
+                CheetIndex++;
+            }
             else
             {
                 CheetKey = new int[3];
@@ -103,6 +109,20 @@ public class BattleManager : MonoSingleton<BattleManager>
                 {
                     Time.timeScale = 10f;
                     TimeScale = 10;
+                }
+                else
+                {
+                    Time.timeScale = 1f;
+                    TimeScale = 1;
+                }
+                CheetKey = new int[3];
+            }
+            if (CheetKey[0] + CheetKey[1] + CheetKey[2] == 345)
+            {
+                if (Time.timeScale < 9)
+                {
+                    Time.timeScale = 20;
+                    TimeScale = 20;
                 }
                 else
                 {
