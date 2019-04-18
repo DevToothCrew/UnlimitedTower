@@ -1466,10 +1466,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
         for(int i = 0; i < mailList.mail_data_list.Count; i++)
         {
             Debug.Log("Mail Num : " + i);
-            Debug.Log("Mail Index : " + mailList.mail_data_list[i].index);
-            Debug.Log("Mail TYPE : " + mailList.mail_data_list[i].type);
-            Debug.Log("Mail ID : " + mailList.mail_data_list[i].id);
+            Debug.Log("Mail Index : " + mailList.mail_data_list[i].mail_index);
+            Debug.Log("Mail TYPE : " + mailList.mail_data_list[i].mail_type);
+            Debug.Log("Mail ID : " + mailList.mail_data_list[i].type_id);
             Debug.Log("Mail COUNT : " + mailList.mail_data_list[i].count);
+            Debug.Log("Mail ICON ID : " + mailList.mail_data_list[i].icon_id);
         }
     }
 

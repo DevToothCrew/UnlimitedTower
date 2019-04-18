@@ -1037,10 +1037,11 @@ public class Cheat : MonoSingleton<Cheat>
     {
         mailListResultData resultData = new mailListResultData();
         mailData data = new mailData();
-        data.index = 1;
-        data.type = (int)REWARD_TYPE.MONSTER;
-        data.id = CSVData.Inst.GetRandomMonsterID();
+        data.mail_index = 1;
+        data.mail_type = (int)REWARD_TYPE.MONSTER;
+        data.type_id = CSVData.Inst.GetRandomMonsterID();
         data.count = 1;
+    
 
         resultData.mail_data_list.Add(data);
 
