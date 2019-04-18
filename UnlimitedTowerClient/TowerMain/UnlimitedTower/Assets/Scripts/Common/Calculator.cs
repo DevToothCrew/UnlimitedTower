@@ -91,9 +91,9 @@ public class Calculator : MonoBehaviour {
                 Debug.Log(stateData.index + "th Monster is Null");
             }
 
-            battleStatus.int_ = stateData.status.basicInt + (int)(monster.upgrade * 0.1f);
-            battleStatus.dex_ = stateData.status.basicDex + (int)(monster.upgrade * 0.1f);
-            battleStatus.str_ = stateData.status.basicStr + (int)(monster.upgrade * 0.1f);
+            battleStatus.int_ = monster.status.basicInt + (int)(monster.upgrade * 0.1f);
+            battleStatus.dex_ = monster.status.basicDex + (int)(monster.upgrade * 0.1f);
+            battleStatus.str_ = monster.status.basicStr + (int)(monster.upgrade * 0.1f);
         }
 
         foreach (UserSkillInfo skillInfo in stateData.passiveSkillList)
