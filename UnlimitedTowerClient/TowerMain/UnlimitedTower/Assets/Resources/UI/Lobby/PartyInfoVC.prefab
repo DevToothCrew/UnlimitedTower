@@ -1851,13 +1851,14 @@ GameObject:
   - component: {fileID: 224729272830693492}
   - component: {fileID: 222631516777900414}
   - component: {fileID: 114704115754063478}
+  - component: {fileID: 111967605389141690}
   m_Layer: 5
   m_Name: FrameSortType
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1371826414405914
 GameObject:
   m_ObjectHideFlags: 1
@@ -5340,6 +5341,21 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!111 &111967605389141690
+Animation:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1371803325604538}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 87c06cdbb7dc77b41a655a689e2b38f2, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 87c06cdbb7dc77b41a655a689e2b38f2, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!114 &114002755348959550
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7005,7 +7021,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Sort Type
+  m_Text: GOT TIME
 --- !u!114 &114166622953177768
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9438,7 +9454,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Sort Type
+  m_Text: JOB
 --- !u!114 &114406565741502358
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9669,7 +9685,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114593941467734506}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114514410265579972}
+        m_MethodName: ShowFrameSort
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114433223009321594
@@ -10538,6 +10565,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a1824161498f87641a0a08ff00a04883, type: 3}
   buttonSaveFormation: {fileID: 0}
   selectedFormationSlot: -1
+  FrameSort: {fileID: 1371803325604538}
 --- !u!114 &114519882912568550
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12570,7 +12598,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: e77736a57077c6e41917b5c3f8552ef7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 17c9ef95b16ca024e9e50772bf0929ca, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -13039,7 +13067,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Sort Type
+  m_Text: LEVEL
 --- !u!114 &114758059720212780
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -14044,7 +14072,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Sort Type
+  m_Text: POWER
 --- !u!114 &114859897043424644
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -21138,7 +21166,7 @@ RectTransform:
   m_GameObject: {fileID: 1371803325604538}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 1, z: 1}
   m_Children:
   - {fileID: 224332914940311034}
   - {fileID: 224453985892791130}
@@ -21149,8 +21177,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 600, y: 48}
+  m_AnchoredPosition: {x: 8, y: 0}
+  m_SizeDelta: {x: 600, y: 64}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!224 &224739543169899374
 RectTransform:
