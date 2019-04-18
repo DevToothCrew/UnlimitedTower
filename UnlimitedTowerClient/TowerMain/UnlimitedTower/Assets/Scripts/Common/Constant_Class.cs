@@ -343,14 +343,6 @@ public class UserCharacterStateData
             {
                 return CHAR_TYPE.SERVANT;
             }
-            else if(position <= DEFINE.MonsterMaxFormationNum)
-            {
-                return CHAR_TYPE.MONSTER;
-            }
-            else if (position <= DEFINE.ServantMaxFormationNum + 10)
-            {
-                return CHAR_TYPE.SERVANT;
-            }
             else
             {
                 return CHAR_TYPE.MONSTER;
