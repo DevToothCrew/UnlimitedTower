@@ -87,19 +87,28 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
             case DECONSTRUCTION_TYPE.SERVANT:
                 for (int i=0; i < partyInfo.ServantList.Count; i++)
                 {
-                    scrollListData.Add(i);
+                    if (partyInfo.ServantList[i].state == 1 && partyInfo.ServantList[i].partyIndex == 0)
+                    {
+                        scrollListData.Add(i);
+                    }
                 }
                 break;
             case DECONSTRUCTION_TYPE.MONSTER:
                 for (int i = 0; i < partyInfo.MonsterList.Count; i++)
                 {
-                    scrollListData.Add(i);
+                    if (partyInfo.MonsterList[i].state == 1 && partyInfo.MonsterList[i].partyIndex == 0)
+                    {
+                        scrollListData.Add(i);
+                    }
                 }
                 break;
             case DECONSTRUCTION_TYPE.EQUIPMENT:
                 for (int i = 0; i < inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu].Count; i++)
                 {
-                    scrollListData.Add(i);
+                    if (inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][i].state == 1 && inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][i].equipServantIndex == 0)
+                    {
+                        scrollListData.Add(i);
+                    }
                 }
                 break;
             default:
