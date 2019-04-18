@@ -100,7 +100,7 @@ public class SelectManager : MonoBehaviour
 
                         UserCharacterStateData selectStateInfo = BattleManager.Inst.GetCharState(selectIndex);
 
-                        if (selectStateInfo.charType == CHAR_TYPE.SERVANT || (UserDataManager.Inst.GetStageState().stageType == 0 && selectIndex >= 10 && selectIndex < 15))
+                        if (selectStateInfo.charType == CHAR_TYPE.SERVANT)
                         {
                             selectCharJob.sprite = CSVData.Inst.GetSpriteServantJob((SERVANT_JOB)selectStateInfo.job);
                             selectCharImg.sprite = CSVData.Inst.DBServantDataDic[selectStateInfo.id].servantIcon;

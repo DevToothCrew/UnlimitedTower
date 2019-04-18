@@ -12,7 +12,6 @@ public class BattleManager : MonoSingleton<BattleManager>
     public Animator[] animator = new Animator[20];
     public bool[] isPlace = new bool[20];
     public int[] NowHp = new int[20];
-    public int[] NowAtk = new int[20];
     public bool isAfterDelay;
     public int turnIndex = 1;
     public int TimeScale = 1;
@@ -297,11 +296,11 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         foreach (KeyValuePair<int, UserCharacterStateData> state in stateData.enemyStateList)
         {
-            if (state.Value.charType == CHAR_TYPE.SERVANT || (stateData.stageType == 0 && state.Value.position >= 10 && state.Value.position < 15))
+            if (state.Value.charType == CHAR_TYPE.SERVANT)
             {
                 temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[state.Value.id].servantIcon;
             }
-            else
+            else if (state.Value.charType == CHAR_TYPE.MONSTER)
             {
                 temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
                 temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetChild(3).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteElementType((ELEMENT_TYPE)state.Value.elementType);
@@ -391,7 +390,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         foreach (KeyValuePair<int, UserCharacterStateData> state in stateData.enemyStateList)
         {
-            if (state.Value.charType == CHAR_TYPE.SERVANT || (stateData.stageType == 0 && state.Value.position >= 10 && state.Value.position < 15))
+            if (state.Value.charType == CHAR_TYPE.SERVANT)
             {
                 DBServantData ServantInfo = CSVData.Inst.GetServantData(state.Value.id);
                 if (ServantInfo == null)
@@ -403,7 +402,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 character[state.Value.position] = Instantiate(characterCustom.Create(ServantInfo.job, ServantInfo.head, ServantInfo.hair, ServantInfo.gender, ServantInfo.body), CharacterParent.transform.GetChild(1));
                 character[state.Value.position].name = "Servant : " + state.Value.position + " - " + ServantInfo.name;
             }
-            else
+            else if (state.Value.charType == CHAR_TYPE.MONSTER)
             {
                 DBMonsterData MonsterInfo = CSVData.Inst.GetMonsterData(state.Value.id);
                 if (MonsterInfo == null)
