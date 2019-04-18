@@ -551,9 +551,9 @@ CONTRACT battletest : public contract
     ACTION dberase(std::string _table, std::string _value);
     ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
     ACTION dbinit(std::string _table);
-    ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
+    //ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
 
-	ACTION setdata(eosio::name _contract,  eosio::name _user, std::string _table);
+	ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
     void insert_job(std::string _status, uint64_t _job, uint64_t _min, uint64_t _max);
     void insert_head(uint64_t _appear);
     void insert_hair(uint64_t _appear);
@@ -898,6 +898,22 @@ CONTRACT battletest : public contract
     };
     typedef eosio::multi_index<"dbitemshop"_n, itemshop> item_shop;
 
+    TABLE itemtshop
+    {
+        uint64_t id;
+        uint64_t goods_type;
+        uint64_t goods_id;
+        uint64_t goods_count;
+        uint64_t goods_limited;
+        uint64_t goods_limited_check;
+        uint64_t price_type;
+        uint64_t etc_type;
+        uint64_t price_count;
+
+        uint64_t primary_key() const { return id; }
+    };
+    typedef eosio::multi_index<"dbtableshop"_n, itemtshop> item_table_shop;
+
 #pragma endregion
 
     //------------------------------------------------------------------------//
@@ -909,10 +925,9 @@ CONTRACT battletest : public contract
     {
         uint64_t mail_index = 0;
         uint64_t mail_type; //서번트1, 몬스터2, 아이템 3, 재화 4
-        uint64_t type_id;
-        //uint64_t grade;
+        uint64_t type_id;   //프리에선 고유 인덱스 , nft는 토큰 인덱스
         uint64_t count;
-        //status_info status;
+        uint64_t icon_id;   //pool에 있는 db_index 
 
         uint64_t primary_key() const { return mail_index; }
     };
@@ -1008,8 +1023,8 @@ CONTRACT battletest : public contract
     void start_gacha(eosio::name _user, uint64_t _seed);
 
     bool check_inventory(eosio::name _user);
-    ACTION mailopen(eosio::name _user, const std::vector<uint64_t> &_mail_index);
-
+   // ACTION mailopen(eosio::name _user, const std::vector<uint64_t> &_mail_index);
+    ACTION mailopen(eosio::name _user, uint64_t _mail_index);
 #pragma endregion
 
 //------------------------------------------------------------------------//
@@ -1436,8 +1451,6 @@ CONTRACT battletest : public contract
         uint32_t id; //4
         uint32_t now_hp; //4
         uint32_t state; //4
-        //type
-        //upgrade
 
         std::vector<buff_info> buff_list;//8
         std::vector<uint32_t> passive_skill_list;//4
@@ -1585,7 +1598,7 @@ CONTRACT battletest : public contract
     bool check_critical(uint64_t _critcal_per, uint64_t _seed);
     bool check_avoid(uint64_t _avoid_per, uint64_t _seed);
     
-     //=====================skill======================//
+    //=====================skill======================//
     void check_physical_attack_option(eosio::name _user, uint32_t _index, uint32_t &_attack);
     void check_magic_attack_option(eosio::name _user, uint32_t _index, uint32_t &_attack);
     void check_physical_defense_option(eosio::name _user, uint32_t _index, uint32_t &_defense);
@@ -1680,7 +1693,6 @@ CONTRACT battletest : public contract
     ACTION deleteuser(eosio::name _user);
     ACTION alluserdel();
     ACTION allbattle();
-
 
     //-------------------------------------------------------------------------------//
     //-----------------------------preregist_table-----------------------------------//
