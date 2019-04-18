@@ -6119,7 +6119,7 @@ void battletest::init_buff_turn(std::vector<character_state_data> &_state_list)
     }
 }
 
-bool battletest::check_type_up(eosio::name _user, uint32_t _attacker, uint32_t _defender)
+bool battletest::check_type_up(uint32_t _attacker, uint32_t _defender)
 {
     monster_db monster_db_table(_self, _self.value);
     auto attack_monster_iter = monster_db_table.find(_attacker);
@@ -6164,7 +6164,7 @@ bool battletest::check_type_up(eosio::name _user, uint32_t _attacker, uint32_t _
     }
     
 }
-bool battletest::check_type_down(eosio::name _user, uint32_t _attacker, uint32_t _defender)
+bool battletest::check_type_down(uint32_t _attacker, uint32_t _defender)
 {
     monster_db monster_db_table(_self, _self.value);
     auto attack_monster_iter = monster_db_table.find(_attacker);
@@ -6199,7 +6199,8 @@ bool battletest::check_type_down(eosio::name _user, uint32_t _attacker, uint32_t
     }
 }
 
-bool battletest::set_action(eosio::name _user,
+bool battletest::set_action(eosio::name _from,
+                            eosio::name _to,
                             std::string _type,
                             std::string _state_type,
                             uint32_t _action,
@@ -6251,18 +6252,18 @@ bool battletest::set_action(eosio::name _user,
         }
 
         action_info new_action;
-        new_action = get_target_action(_user, _type, _state_type, _action, _my_state_list, _enemy_state_list, _seed, _my_key, enemy_key);
+        new_action = get_target_action(_from, _to, _type, _state_type, _action, _my_state_list, _enemy_state_list, _seed, _my_key, enemy_key);
 
         if ((_my_state_list[_my_key].position >= my_monster_min && _my_state_list[_my_key].position < my_monster_min + 5) &&         //my_state 가 나일때
             (_enemy_state_list[enemy_key].position >= enemy_monstser_min && _enemy_state_list[enemy_key].position < enemy_monstser_min + 5))
         {
-            if(check_type_up(_user, _my_state_list[_my_key].id , _enemy_state_list[enemy_key].id) == true)  //상성이면
+            if(check_type_up(_my_state_list[_my_key].id , _enemy_state_list[enemy_key].id) == true)  //상성이면
             {
                 new_action.damage += (new_action.damage * 50) / 100;
             }
             else
             {
-                if(check_type_down(_user, _my_state_list[_my_key].id , _enemy_state_list[enemy_key].id) == true)    //반대 상성이면
+                if(check_type_down(_my_state_list[_my_key].id , _enemy_state_list[enemy_key].id) == true)    //반대 상성이면
                 {
                     new_action.damage -= (new_action.damage * 30) / 100;
                 }
@@ -6294,7 +6295,7 @@ bool battletest::set_action(eosio::name _user,
                 return false;
             }
             action_info new_action;
-            new_action = get_target_action(_user, _type, _state_type, _action,
+            new_action = get_target_action(_from, _to, _type, _state_type, _action,
                                            _my_state_list, _my_state_list, _seed, _my_key, enemy_key);
             uint32_t max_hp = get_max_hp(_my_state_list[enemy_key].status);
             if (_my_state_list[enemy_key].passive_skill_list[0] == passive_name::passive_hp) //max hp利앷? ?⑥떆釉뚭? ?덈뒗吏 ?뺤씤
@@ -6328,19 +6329,19 @@ bool battletest::set_action(eosio::name _user,
                 new_seed = new_seed >> 1;
 
                 action_info new_action;
-                new_action = get_target_action(_user, _type, _state_type, _action,
+                new_action = get_target_action(_from, _to, _type, _state_type, _action,
                                                _my_state_list, _enemy_state_list, _seed, _my_key, enemy_key);
 
                 if ((_my_state_list[_my_key].position >= my_monster_min && _my_state_list[_my_key].position < my_monster_min + 5) && //my_state 가 나일때
                     (_enemy_state_list[enemy_key].position >= enemy_monstser_min && _enemy_state_list[enemy_key].position < enemy_monstser_min + 5))
                 {
-                    if (check_type_up(_user, _my_state_list[_my_key].id, _enemy_state_list[enemy_key].id) == true)
+                    if (check_type_up(_my_state_list[_my_key].id, _enemy_state_list[enemy_key].id) == true)
                     {
                         new_action.damage += (new_action.damage * 50) / 100;
                     }
                     else
                     {
-                        if (check_type_down(_user, _my_state_list[_my_key].id, _enemy_state_list[enemy_key].id) == true)
+                        if (check_type_down(_my_state_list[_my_key].id, _enemy_state_list[enemy_key].id) == true)
                         {
                             new_action.damage -= (new_action.damage * 30) / 100;
                         }
@@ -6442,7 +6443,7 @@ void battletest::set_skill_damage(uint32_t _skill_id, uint32_t &_attack, uint32_
     }
 }
 
-void battletest::set_skill_type(eosio::name _user, uint32_t _skill_id,
+void battletest::set_skill_type(eosio::name _from, eosio::name _to, uint32_t _skill_id,
                                 character_state_data &_my_state,
                                 character_state_data &_enemy_state,
                                 uint32_t &_attack,
@@ -6468,8 +6469,8 @@ void battletest::set_skill_type(eosio::name _user, uint32_t _skill_id,
     case active_name::active_multi_shot:
     case active_name::active_guided_arrow:
     {
-        set_attack_type(_user, active_iter->attack_type, _my_state, _attack, _cri_dmg, _cri_per, _my_servant_pos);
-        set_dmg_type(_user, active_iter->dmg_type, _enemy_state, _target_avoid, _target_defense, _enemy_servant_pos);
+        set_attack_type(_from, active_iter->attack_type, _my_state, _attack, _cri_dmg, _cri_per, _my_servant_pos);
+        set_dmg_type(_to, active_iter->dmg_type, _enemy_state, _target_avoid, _target_defense, _enemy_servant_pos);
         break;
     }
     default:
@@ -6504,7 +6505,7 @@ uint32_t _atk_type, character_state_data &_state, uint32_t &_attack, uint32_t &_
             eosio_assert(job_iter != job_stat_db_table.end(), "Attack Type Phy :  Empty Servant Job / Wrong Servant Job");
 
             _attack = get_physical_attack(_state.status);
-            //check_physical_attack_option(_user, _state.index, _attack);
+            check_physical_attack_option(_user, _state.index, _attack);
             if (_state.passive_skill_list[0] == passive_name::passive_physical_attack)
             {
                 passive_db passive_db_table(_self, _self.value);
@@ -6551,7 +6552,7 @@ uint32_t _atk_type, character_state_data &_state, uint32_t &_attack, uint32_t &_
             eosio_assert(job_iter != job_stat_db_table.end(), "Attack Type Mgc :  Empty Servant Job / Wrong Servant Job");
 
             _attack = get_magic_attack(_state.status);
-            //check_magic_attack_option(_user, _state.index, _attack);
+            check_magic_attack_option(_user, _state.index, _attack);
             if (_state.passive_skill_list[0] == passive_name::passive_magic_attack)
             {
                 passive_db passive_db_table(_self, _self.value);
@@ -6615,7 +6616,7 @@ void battletest::set_dmg_type(eosio::name _user, uint32_t _dmg_type, character_s
             eosio_assert(job_iter != job_stat_db_table.end(), "Defense Type Phy :  Empty Servant Job / Wrong Servant Job");
 
             _defense = get_physical_defense(_state.status);
-            //check_physical_defense_option(_user, _state.index, _defense);
+            check_physical_defense_option(_user, _state.index, _defense);
             if (_state.passive_skill_list[0] == passive_name::passive_physical_defense)
             {
                 passive_db passive_db_table(_self, _self.value);
@@ -6661,7 +6662,7 @@ void battletest::set_dmg_type(eosio::name _user, uint32_t _dmg_type, character_s
             eosio_assert(job_iter != job_stat_db_table.end(), "Defense Type Mgc : Empty Servant Job / Wrong Servant Job");
 
             _defense = get_magic_defense(_state.status);
-            //check_magic_defense_option(_user, _state.index, _defense);
+            check_magic_defense_option(_user, _state.index, _defense);
             if (_state.passive_skill_list[0] == passive_name::passive_magic_defense)
             {
                 passive_db passive_db_table(_self, _self.value);
@@ -6703,7 +6704,7 @@ void battletest::set_dmg_type(eosio::name _user, uint32_t _dmg_type, character_s
 }
 
 
-battletest::action_info battletest::get_target_action(eosio::name _user, std::string _type, std::string _state_type, uint32_t _active_id, std::vector<character_state_data> &_my_state_list, std::vector<character_state_data> &_enemy_state_list, uint64_t _seed, uint64_t _my_key, uint64_t _target_key)
+battletest::action_info battletest::get_target_action(eosio::name _from, eosio::name _to, std::string _type, std::string _state_type, uint32_t _active_id, std::vector<character_state_data> &_my_state_list, std::vector<character_state_data> &_enemy_state_list, uint64_t _seed, uint64_t _my_key, uint64_t _target_key)
 {
     attacker_info attack_info;
     defender_info defense_info;
@@ -6763,6 +6764,7 @@ battletest::action_info battletest::get_target_action(eosio::name _user, std::st
             eosio_assert(job_iter != job_stat_db_table.end(), "Target Action My : Empty Servant Job / Wrong Servant Job");
 
             cur_attack = get_physical_attack(_my_state_list[_my_key].status);
+            check_physical_attack_option(_from, _my_state_list[_my_key].index, cur_attack);
             cur_cirtical_dmg = (cur_attack * job_iter->physical_cri_dmg) / 100;
             cur_cri_per = job_iter->physical_cri_per;
         }
@@ -6792,6 +6794,7 @@ battletest::action_info battletest::get_target_action(eosio::name _user, std::st
             eosio_assert(job_iter != job_stat_db_table.end(), "Target Action Enemy : Empty Servant Job / Wrong Servant Job");
 
             target_defense = get_physical_defense(_enemy_state_list[_target_key].status);
+            check_physical_defense_option(_to, _enemy_state_list[_target_key].index, target_defense);
             if (_enemy_state_list[_target_key].passive_skill_list[0] == passive_name::passive_physical_defense)
             {
                 passive_db passive_db_table(_self, _self.value);
@@ -6825,7 +6828,8 @@ battletest::action_info battletest::get_target_action(eosio::name _user, std::st
     }
     case action_type::skill:
     {
-        set_skill_type(_user,
+        set_skill_type(_from,
+                        _to,
                        _my_state_list[_my_key].active_skill_list[0],
                        _my_state_list[_my_key],
                        _enemy_state_list[_target_key],
@@ -7108,6 +7112,8 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
     eosio_assert(user_battle_action_iter != battle_action_table.end(), "Actvie Turn : Empty Action Table / Not Yet Stage Start");
     eosio_assert(user_battle_action_iter->turn == _turn - 1, "Active Turn : Different Turn / Wrong Turn");
 
+    eosio::name my = user_battle_state_iter->user;
+    eosio::name enemy = user_battle_state_iter->enemy_user;
     std::string type;
     if(user_auth_iter->state == user_state::stage)
     {
@@ -7185,7 +7191,7 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                             else if (character_state_data.my_state_list[my_key].active_skill_list[0] == active_name::active_heal) //힐 스킬
                             {
                                 character_action_data action_info;
-                                if (false == set_action(_user,type, "my", action_type::skill,
+                                if (false == set_action(my, enemy ,type, "my", action_type::skill,
                                                         skill_order_list[i].second_speed,
                                                         character_state_data.my_state_list,
                                                         character_state_data.enemy_state_list,
@@ -7247,7 +7253,7 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                             else if (character_state_data.enemy_state_list[my_key].active_skill_list[0] == active_name::active_heal) //힐 스킬
                             {
                                 character_action_data action_info;
-                                if (false == set_action(_user, type, "enemy", action_type::skill,
+                                if (false == set_action(enemy, my, type, "enemy", action_type::skill,
                                                         skill_order_list[i].second_speed,
                                                         character_state_data.enemy_state_list,
                                                         character_state_data.my_state_list,
@@ -7287,7 +7293,7 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                         continue;
                     }
                     character_action_data action_info;
-                    if (false == set_action(_user, type, "my",action_type::skill,
+                    if (false == set_action(my, enemy ,type, "my",action_type::skill,
                                             attack_order_list[i].second_speed,
                                             character_state_data.my_state_list,
                                             character_state_data.enemy_state_list,
@@ -7304,7 +7310,7 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                         continue;
                     }
                     character_action_data action_info;
-                    if (false == set_action(_user, type, "enemy", action_type::skill,
+                    if (false == set_action(enemy, my, type, "enemy", action_type::skill,
                                             attack_order_list[i].second_speed,
                                             character_state_data.enemy_state_list,
                                             character_state_data.my_state_list,
@@ -7326,7 +7332,7 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                         continue;
                     }
                     character_action_data action_info;
-                    if (false == set_action(_user, type, "my", second_attack_order_list[i].action,
+                    if (false == set_action(my, enemy, type, "my", second_attack_order_list[i].action,
                                             second_attack_order_list[i].second_speed,
                                             character_state_data.my_state_list,
                                             character_state_data.enemy_state_list,
@@ -7343,7 +7349,7 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                         continue;
                     }
                     character_action_data action_info;
-                    if (false == set_action(_user, type, "enemy", second_attack_order_list[i].action,
+                    if (false == set_action(enemy, my, type, "enemy", second_attack_order_list[i].action,
                                             second_attack_order_list[i].second_speed,
                                             character_state_data.enemy_state_list,
                                             character_state_data.my_state_list,
@@ -8911,7 +8917,8 @@ ACTION battletest::equip(eosio::name _user, uint32_t _servant_index, uint32_t _i
     uint32_t slot;
     slot = user_equip_item_iter->equipment.type;
 
-    if (user_servant_iter->servant.state == object_state::on_inventory && user_equip_item_iter->equipment.state == object_state::on_inventory)  
+    if ( (user_servant_iter->servant.state == object_state::on_inventory || user_servant_iter->servant.state == object_state::on_party) && 
+    user_equip_item_iter->equipment.state == object_state::on_inventory)  
     {
         if (user_equip_item_iter->equipment.tier == 1) //모든 서번트 레벨 상관없이 착용 가능
         {

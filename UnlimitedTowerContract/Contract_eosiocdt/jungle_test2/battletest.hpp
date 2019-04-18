@@ -1593,7 +1593,8 @@ CONTRACT battletest : public contract
     void set_passive_attack_effect(character_state_data &_state, attacker_info &_attack);
     void set_passive_defense_effect(character_state_data &_state, defender_info &_defense);    
     void set_skill_damage(uint32_t _skill_id, uint32_t &_attack, uint32_t &_cri_dmg);
-    void set_skill_type(eosio::name _user,uint32_t _skill_id,
+    void set_skill_type(eosio::name _from, eosio::name _to
+                        ,uint32_t _skill_id,
                         character_state_data & _my_state,
                         character_state_data & _enemy_state, 
                         uint32_t & _attack,
@@ -1606,14 +1607,14 @@ CONTRACT battletest : public contract
     void set_dmg_type(eosio::name _user, uint32_t _dmg_type, character_state_data &_state, uint32_t &_avoid, uint32_t &_defense, uint32_t _enemy_servant_pos);
     void set_attack_type(eosio::name _user, uint32_t _atk_type, character_state_data &_state, uint32_t &_attack, uint32_t &_cri_dmg, uint32_t &_cri_per, uint32_t _my_servant_pos);
     //================================================//
-    bool check_type_up(eosio::name _user, uint32_t _attacker, uint32_t _defender);
-    bool check_type_down(eosio::name _user, uint32_t _attacker, uint32_t _defender);
-    bool set_action(eosio::name _user, std::string _type, std::string _state_type ,uint32_t _action,uint64_t _seed,
+    bool check_type_up(uint32_t _attacker, uint32_t _defender);
+    bool check_type_down(uint32_t _attacker, uint32_t _defender);
+    bool set_action(eosio::name _from, eosio::name _to, std::string _type, std::string _state_type ,uint32_t _action,uint64_t _seed,
                                                       std::vector<character_state_data> &_my_state_list,
                                                       std::vector<character_state_data> &_enemy_state_list,
                                                       uint64_t _my_key, character_action_data &_action_info,
                                                       std::vector<std::string> &_data);
-    action_info get_target_action(eosio::name _user, std::string _type, std::string _state_type, uint32_t _actvie_id , std::vector<character_state_data> &_my_state_list, std::vector<character_state_data> &_enemy_state_list, uint64_t _seed, uint64_t _my_key, uint64_t _target_key);
+    action_info get_target_action(eosio::name _from, eosio::name _to, std::string _type, std::string _state_type, uint32_t _actvie_id , std::vector<character_state_data> &_my_state_list, std::vector<character_state_data> &_enemy_state_list, uint64_t _seed, uint64_t _my_key, uint64_t _target_key);
     int get_random_target(const std::vector<character_state_data> &_enemy_state_list, uint64_t _seed, uint32_t _max, uint32_t _min);
     int get_target_key(const std::vector<character_state_data> &_enemy_state_list, uint64_t _target_position);
     static bool sort_compare(const battle_order_struct &a, const battle_order_struct &b);
