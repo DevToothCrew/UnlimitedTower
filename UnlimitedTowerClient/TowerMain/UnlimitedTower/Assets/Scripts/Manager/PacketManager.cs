@@ -1841,9 +1841,15 @@ public class PacketManager : MonoSingleton<PacketManager> {
             stageData.myStateList.Add(stateData.position, stateData);
         }
 
-        for(int i = 0; i < getStageData.enemy_state_list.Count; i++)
+        bool isMonster = false;
+        if(stageData.stageType == 0)
         {
-            UserCharacterStateData stateData = ParseCharacterStateData(getStageData.enemy_state_list[i]);
+            isMonster = true;
+        }
+
+        for (int i = 0; i < getStageData.enemy_state_list.Count; i++)
+        {
+            UserCharacterStateData stateData = ParseCharacterStateData(getStageData.enemy_state_list[i], isMonster);
             if (stateData == null)
             {
                 return null;
@@ -1855,7 +1861,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         return stageData;
     }
 
-    public UserCharacterStateData ParseCharacterStateData(characterStateData getStateData)
+    public UserCharacterStateData ParseCharacterStateData(characterStateData getStateData, bool isMonster = false)
     {
         UserCharacterStateData stateData = new UserCharacterStateData();
 
@@ -1870,9 +1876,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
         stateData.activeSkillList = ParseSkillList(getStateData.active_skill_list);
         stateData.passiveSkillList = ParseSkillList(getStateData.passive_skill_list);
 
-        if (stateData.charType == CHAR_TYPE.SERVANT)
+        if (stateData.charType == CHAR_TYPE.SERVANT && isMonster == false)
         {
             DBServantData servantData = CSVData.Inst.GetServantData(getStateData.id);
+            if(servantData == null)
+            {
+                Debug.Log("Invalid Data");
+                return null;
+            }
             stateData.criPer = servantData.criPer;
             stateData.mCriPer = servantData.mcriPer;
             stateData.criDmg = servantData.criDmg;
@@ -1881,9 +1892,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
             stateData.speed = servantData.speed;
             stateData.job = servantData.job;
         }
-        else if(stateData.charType == CHAR_TYPE.MONSTER)
+        else
         {
             DBMonsterData monsterData = CSVData.Inst.GetMonsterData(getStateData.id);
+            if (monsterData == null)
+            {
+                Debug.Log("Invalid Data");
+                return null;
+            }
             stateData.criPer = monsterData.criPer;
             stateData.mCriPer = monsterData.mcriPer;
             stateData.criDmg = monsterData.criDmg;
@@ -1892,11 +1908,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
             stateData.speed = monsterData.speed;
             stateData.classType = monsterData.classType;
             stateData.elementType = (int)monsterData.elementType;
-        }
-        else
-        {
-            Debug.Log("Invalid Data");
-            return null;
         }
 
         return stateData;
