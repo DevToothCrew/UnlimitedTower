@@ -328,6 +328,8 @@ public class Cheat : MonoSingleton<Cheat>
                 newMember.position = i;
                 newMember.index = servantData.index;
                 newMember.id = servantData.id;
+                newMember.type = 1;
+                newMember.upgrade = 0;
 
                 int skill = 0;
                 if (i < 2)
@@ -357,6 +359,8 @@ public class Cheat : MonoSingleton<Cheat>
                 newMember.position = i;
                 newMember.index = monsterData.index;
                 newMember.id = monsterData.id;
+                newMember.type = 2;
+                newMember.upgrade = monsterData.upgrade;
 
                 newMember.status.basic_str = monsterData.status.basicStr;
                 newMember.status.basic_dex = monsterData.status.basicDex;
@@ -380,6 +384,7 @@ public class Cheat : MonoSingleton<Cheat>
             newMember.position = stageData.enemyPositionList[i];
             newMember.index = 0;
             newMember.id = stageData.enemyIdList[i];
+            newMember.type = 2;
 
             DBStageEnemyData enemyData = CSVData.Inst.GetStageEnemyData(newMember.id);
             if(enemyData == null)

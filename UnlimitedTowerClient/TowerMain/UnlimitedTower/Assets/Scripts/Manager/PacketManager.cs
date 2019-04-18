@@ -1871,12 +1871,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
         stateData.index = getStateData.index;
         stateData.nowHp = getStateData.now_hp;
         stateData.state = getStateData.state;
+        stateData.type = getStateData.type;
+        stateData.upgrade = getStateData.upgrade;
         stateData.status = ParseStatus(getStateData.status);
         stateData.buffList = getStateData.buff_list;
         stateData.activeSkillList = ParseSkillList(getStateData.active_skill_list);
         stateData.passiveSkillList = ParseSkillList(getStateData.passive_skill_list);
 
-        if (stateData.charType == CHAR_TYPE.SERVANT && isMonster == false)
+        if (stateData.charType == CHAR_TYPE.SERVANT)
         {
             DBServantData servantData = CSVData.Inst.GetServantData(getStateData.id);
             if(servantData == null)

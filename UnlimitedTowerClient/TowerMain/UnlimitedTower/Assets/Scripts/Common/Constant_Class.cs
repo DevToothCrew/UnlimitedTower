@@ -335,11 +335,13 @@ public class UserCharacterStateData
     public int grade;
     public int id;
     public int position;
+    public int upgrade;
+    public int type;
     public CHAR_TYPE charType
     {
         get
         {
-            if(position <= DEFINE.ServantMaxFormationNum)
+            if(type == 1)
             {
                 return CHAR_TYPE.SERVANT;
             }
