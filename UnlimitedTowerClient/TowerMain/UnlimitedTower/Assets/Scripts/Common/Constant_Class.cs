@@ -320,7 +320,7 @@ public class UserStageStateData
     public string user;
     public string enemyUser;
 
-    public int stageType;
+    public int stageType; // PVP : 0 으로 주세요
     public int stageFloor;
 
     public int turn;
@@ -343,12 +343,21 @@ public class UserCharacterStateData
             {
                 return CHAR_TYPE.SERVANT;
             }
+            else if(position <= DEFINE.MonsterMaxFormationNum)
+            {
+                return CHAR_TYPE.MONSTER;
+            }
+            else if (position <= DEFINE.ServantMaxFormationNum + 10)
+            {
+                return CHAR_TYPE.SERVANT;
+            }
             else
             {
                 return CHAR_TYPE.MONSTER;
             }
         }
     }
+
     public int index;
     public int nowHp;
 

@@ -297,11 +297,11 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         foreach (KeyValuePair<int, UserCharacterStateData> state in stateData.enemyStateList)
         {
-            if (state.Value.charType == CHAR_TYPE.SERVANT)
+            if (stateData.stageType == 0 && state.Value.charType == CHAR_TYPE.SERVANT)
             {
                 temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[state.Value.id].servantIcon;
             }
-            else if (state.Value.charType == CHAR_TYPE.MONSTER)
+            else
             {
                 temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
                 temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetChild(3).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteElementType((ELEMENT_TYPE)state.Value.elementType);
