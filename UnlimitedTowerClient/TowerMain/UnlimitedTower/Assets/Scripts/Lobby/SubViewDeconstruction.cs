@@ -318,18 +318,13 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
 
     public void OnClickCancelSlot(int btn_idx)
     {
-        
-        if (btn_idx >= unit_count - 1)
+
+        for (int i = btn_idx; i < unit_count - 1; i++)
         {
-            deconstructionUnitList[btn_idx] = 0;
+            deconstructionUnitList[i] = deconstructionUnitList[i + 1];
         }
-        else
-        {
-            for (int i = btn_idx; i < unit_count-1; i++)
-            {
-                deconstructionUnitList[i] = deconstructionUnitList[i + 1];
-            }
-        }
+
+        deconstructionUnitList[unit_count - 1] = 0;
         
         unit_count--;
 

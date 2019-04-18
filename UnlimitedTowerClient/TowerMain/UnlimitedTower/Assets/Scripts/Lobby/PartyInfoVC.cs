@@ -171,6 +171,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
         scrollList.SetItemOrder(getOrder());
         scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+        scrollList.ScrollViewDidScroll();
     }
 
 
@@ -650,4 +651,32 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 #endif
     }
 
+
+    //스크롤 정렬 UI
+    public GameObject FrameSort;
+    bool isShowSort = false;
+    public void updateSortText()
+    {
+
+    }
+
+    public void ShowFrameSort()
+    {
+        if (isShowSort)
+        {
+            //FrameSort.GetComponent<AnimationState>().a
+            //FrameSort.GetComponent<Animation>().Play();
+            //FrameSort.SetActive(false);
+        }
+        else
+        {
+            //FrameSort.GetComponent<AnimationState>().speed = 1f;
+            //FrameSort.GetComponent<Animation>().Play();
+            // FrameSort.SetActive(true);
+        }
+
+        isShowSort = !isShowSort;
+
+
+    }
 }
