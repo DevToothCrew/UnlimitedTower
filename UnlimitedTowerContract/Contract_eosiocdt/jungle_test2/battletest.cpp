@@ -4949,6 +4949,7 @@ ACTION battletest::saveparty(eosio::name _user, uint32_t _party_number, const st
             eosio_assert(user_servant_iter != user_servant_table.end(), "Save Party : Empty Servant Table / Wrong Servant Index");
             user_servant_table.modify(user_servant_iter, _self, [&](auto &set_party) {
                 set_party.party_number = EMPTY_PARTY;
+                set_party.servant.state = object_state::on_inventory;
             });
         }
     }
@@ -4960,6 +4961,7 @@ ACTION battletest::saveparty(eosio::name _user, uint32_t _party_number, const st
             eosio_assert(user_monster_iter != user_monster_table.end(), "Save Party : Empty Monster Table / Wrong Monster Index");
             user_monster_table.modify(user_monster_iter, _self, [&](auto &set_party) {
                 set_party.party_number = EMPTY_PARTY;
+                set_party.monster.state = object_state::on_inventory;
             });
         }
     }
@@ -4988,6 +4990,8 @@ ACTION battletest::saveparty(eosio::name _user, uint32_t _party_number, const st
             eosio_assert(user_servant_iter->servant.state == object_state::on_inventory, "Save Party : Servant State Not On Inventory / Servant Not On Inventory");
             user_servant_table.modify(user_servant_iter, owner, [&](auto &set_party) {
                 set_party.party_number = _party_number;
+                set_party.servant.state = object_state::on_party;
+
             });
             uint32_t pos = servant_pos[i];
             save_party.servant_list[i] = _servant_list[pos];
@@ -5025,6 +5029,7 @@ ACTION battletest::saveparty(eosio::name _user, uint32_t _party_number, const st
             eosio_assert(user_monster_iter->monster.state == object_state::on_inventory, "Save Party : Monster State Not On Inventory / Monster Not On Inventory");
             user_monster_table.modify(user_monster_iter, owner, [&](auto &set_party) {
                 set_party.party_number = _party_number;
+                set_party.monster.state = object_state::on_party;
             });
             uint32_t pos = monster_pos[i] - 5;
             save_party.monster_list[pos] = _monster_list[i];

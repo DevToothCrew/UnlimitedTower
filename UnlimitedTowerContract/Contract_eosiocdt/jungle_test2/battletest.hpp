@@ -1063,6 +1063,7 @@ CONTRACT battletest : public contract
         on_equip_slot,
         on_mail,
         on_tokenization,
+        on_party,
     };
 #pragma endregion
 
@@ -1435,6 +1436,8 @@ CONTRACT battletest : public contract
         uint32_t id; //4
         uint32_t now_hp; //4
         uint32_t state; //4
+        //type
+        //upgrade
 
         std::vector<buff_info> buff_list;//8
         std::vector<uint32_t> passive_skill_list;//4
