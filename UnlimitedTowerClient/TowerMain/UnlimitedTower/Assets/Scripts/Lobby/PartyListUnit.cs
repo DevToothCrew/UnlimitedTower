@@ -6,12 +6,9 @@ using UnityEngine.UI;
 public class PartyListUnit : ScrollListUnit {
     public Image ImageGrade;
     public Image imageCharacter;
+    public Text textCharacterName;
     public Text textLevel;
-    public Text textExpPer;
-    public Image imageExp;
-    public Text textStr;
-    public Text textDex;
-    public Text textInt;
+    public Text textPower;
     public Image imageType;
     public Text textUpgrade;
 
@@ -33,37 +30,11 @@ public class PartyListUnit : ScrollListUnit {
         {
             ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)partyInfo.ServantList[main_idx].grade);
             imageCharacter.sprite = CSVData.Inst.GetServantData(partyInfo.ServantList[main_idx].id).servantIcon;
+            textCharacterName.text = CSVData.Inst.GetServantData(partyInfo.ServantList[main_idx].id).name;
             textLevel.text = string.Format("{0}", partyInfo.ServantList[main_idx].level);
-            textStr.text = string.Format("{0}", partyInfo.ServantList[main_idx].status.basicStr);
-            textDex.text = string.Format("{0}", partyInfo.ServantList[main_idx].status.basicDex);
-            textInt.text = string.Format("{0}", partyInfo.ServantList[main_idx].status.basicInt);
+            textPower.text = string.Format("{0}", partyInfo.ServantList[main_idx].status.basicStr);
             textUpgrade.text = string.Format(" ");
             imageType.sprite = CSVData.Inst.GetSpriteServantJob(partyInfo.ServantList[main_idx].jobType);
-
-            DBExpData dbExpData = CSVData.Inst.GetExpData(partyInfo.ServantList[main_idx].level);
-            if (dbExpData == null)
-            {
-                Debug.Log("Invalid Level Data");
-            }
-            else
-            {
-                int exExp = 0;
-                if (partyInfo.ServantList[main_idx].level - 1 > 0)
-                {
-                    DBExpData exDBExpData = CSVData.Inst.GetExpData(partyInfo.ServantList[main_idx].level - 1);
-                    if (exDBExpData == null)
-                    {
-                        Debug.Log("Invalid Level Data");
-                    }
-                    else
-                    {
-                        exExp = exDBExpData.charExp;
-                    }
-                }
-                float expPer = (exExp - partyInfo.ServantList[main_idx].exp) / (float)(exExp - dbExpData.charExp);
-                textExpPer.text = (int)(expPer * 100) + "%";
-                imageExp.fillAmount = expPer;
-            }
         }
         else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
         {
@@ -79,10 +50,9 @@ public class PartyListUnit : ScrollListUnit {
 
             ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)partyInfo.MonsterList[selected_idx].grade);
             imageCharacter.sprite = CSVData.Inst.GetMonsterData(partyInfo.MonsterList[selected_idx].id).monsterIcon;
+            textCharacterName.text = CSVData.Inst.GetMonsterData(partyInfo.MonsterList[selected_idx].id).name;
             textLevel.text = string.Format("{0}", partyInfo.MonsterList[selected_idx].level);
-            textStr.text = string.Format("{0}", partyInfo.MonsterList[selected_idx].status.basicStr);
-            textDex.text = string.Format("{0}", partyInfo.MonsterList[selected_idx].status.basicDex);
-            textInt.text = string.Format("{0}", partyInfo.MonsterList[selected_idx].status.basicInt);
+            textPower.text = string.Format("{0}", partyInfo.MonsterList[selected_idx].status.basicStr);
             string upgrade = string.Format(" ");
             if(partyInfo.MonsterList[selected_idx].upgrade > 0)
             {
@@ -91,32 +61,6 @@ public class PartyListUnit : ScrollListUnit {
             textUpgrade.text = upgrade;
 
             imageType.sprite = CSVData.Inst.GetSpriteElementType(partyInfo.MonsterList[selected_idx].elementType);
-
-            DBExpData dbExpData = CSVData.Inst.GetExpData(partyInfo.MonsterList[selected_idx].level);
-            if (dbExpData == null)
-            {
-                Debug.Log("Invalid Level Data");
-            }
-            else
-            {
-                int exExp = 0;
-                if (partyInfo.MonsterList[selected_idx].level - 1 > 0)
-                {
-                    DBExpData exDBExpData = CSVData.Inst.GetExpData(partyInfo.MonsterList[selected_idx].level - 1);
-                    if (exDBExpData == null)
-                    {
-                        Debug.Log("Invalid Level Data");
-                    }
-                    else
-                    {
-                        exExp = exDBExpData.charExp;
-                    }
-                }
-
-                float expPer = (exExp - partyInfo.MonsterList[selected_idx].exp) / (float)(exExp - dbExpData.charExp);
-                textExpPer.text = (int)(expPer * 100) + "%";
-                imageExp.fillAmount = expPer;
-            }
         }
     }
 
