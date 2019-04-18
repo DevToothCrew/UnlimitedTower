@@ -282,16 +282,18 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
         //textCurrentTierText.text;
         textTier.text = string.Format("{0}T", dBEquipmentData.tier);
         //textCurrentJobText.text;
+
+        Color temp_color = imageJobIcon[0].color;
         for (int i = 0; i < 5; i++)
         {
-            imageJobIcon[i].enabled = false;
+            imageJobIcon[i].color = new Color(temp_color.r, temp_color.g, temp_color.b, 0.2f);
         }
 
         if (dBEquipmentData.jobLimit == SERVANT_JOB_FLAG.All)
         {
             for (int i = 0; i < 5; i++)
             {
-                imageJobIcon[i].enabled = true;
+                imageJobIcon[i].color = new Color(temp_color.r, temp_color.g, temp_color.b, 1f);
             }
         }
         else
@@ -301,7 +303,7 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
                 SERVANT_JOB_FLAG checkJob = (SERVANT_JOB_FLAG)Math.Pow(2, (double)(i + 1));
                 if (dBEquipmentData.isEquipAble(checkJob) == true)
                 {
-                    imageJobIcon[i].enabled = true;
+                    imageJobIcon[i].color = new Color(temp_color.r, temp_color.g, temp_color.b, 1f);
                 }
             }
         }
