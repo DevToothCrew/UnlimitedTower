@@ -5077,10 +5077,6 @@ ACTION battletest::testcheat(eosio::name _user)
     auto system_master_iter = system_master_table.begin();
     eosio_assert(system_master_iter->state != system_state::pause, "Cheat : Server Pause");
 
-    // whitelist whitelist_table(_self, _self.value);
-    // auto whitelist_iter = whitelist_table.find(_user.value);
-    // eosio_assert(whitelist_iter != whitelist_table.end(), "Cheat : Empty WhiteList / Not Yet Add White");
-
     user_auths auth_user_table(_self, _self.value);
     auto new_user_iter = auth_user_table.find(_user.value);
     eosio_assert(new_user_iter == auth_user_table.end(), "Cheat : Already Auth Table / Already Signup");
@@ -5155,7 +5151,7 @@ ACTION battletest::testcheat(eosio::name _user)
         new_servant.status.basic_dex = change_servant_statue(new_servant.status.basic_dex);
         new_servant.status.basic_int = change_servant_statue(new_servant.status.basic_int);
         new_servant.equip_slot.resize(3);
-        new_servant.state = object_state::on_inventory;
+        new_servant.state = object_state::on_party;
 
         update_user_servant_list.party_number = 1;
         update_user_servant_list.servant = new_servant;
