@@ -135,12 +135,41 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         
         for (int i = 0; i < UserDataManager.Inst.GetEquipmentList().Count; i++)
         {
-            UserEquipmentData equip_info = UserDataManager.Inst.GetEquipmentList()[i];
+            UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentList()[i];
+            DBEquipmentData dbEquipmentData = CSVData.Inst.GetEquipmentData(equipmentData.id);
+            UserServantData servantData = partyInfo.ServantList[partyInfo.selected_unit_idx];
+            DBServantData dbServantData = CSVData.Inst.GetServantData(servantData.id);
 
-            if (equip_info.equipmentType == selectedEquipType)
+            // 장착 가능 레벨 검사
+            bool enable_equip_level = false;
+            if (dbEquipmentData.tier == 2)
             {
-                //Debug.Log("Item type [ " + i + " ]" + equip_info.equipmentType);
-                EquipmentList.Add(equip_info);
+                if (servantData.level > 10)
+                {
+                    enable_equip_level = true;
+                }
+            }
+            else if (dbEquipmentData.tier == 3)
+            {
+                if (servantData.level > 20)
+                {
+                    enable_equip_level = true;
+                }
+            }
+            else if (dbEquipmentData.tier == 4)
+            {
+                if (servantData.level > 30)
+                {
+                    enable_equip_level = true;
+                }
+            }
+
+            //선택된 파츠, 선택중인 서번트 직업, 장착가능한 레벨, 다른 서번트가 장착한 장비 , 장착할수 없는 상태인 장비
+            if (equipmentData.equipmentType == selectedEquipType && equipmentData.isEquiped == false
+                && dbEquipmentData.isEquipAble(dbServantData.GetJobFlag) && enable_equip_level
+                && equipmentData.equipServantIndex == 0)
+            {
+                EquipmentList.Add(equipmentData);
             }
         }
 
