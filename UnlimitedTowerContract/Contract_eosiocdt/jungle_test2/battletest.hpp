@@ -1678,6 +1678,7 @@ CONTRACT battletest : public contract
     void deletebattle(eosio::name _user);
     ACTION deleteuser(eosio::name _user);
     ACTION alluserdel();
+    ACTION allbattle();
 
 
     //-------------------------------------------------------------------------------//

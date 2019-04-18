@@ -8365,6 +8365,20 @@ ACTION battletest::alluserdel()
     }
 }
 
+ACTION battletest::allbattle()
+{
+    require_auth(_self);
+    user_auths user_auth_table(_self, _self.value);
+    for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
+    {
+        auto iter_2 = user_auth_table.find(iter->primary_key());
+        //deletebattle(iter_2->user);
+        iter++;
+        deletebattle(iter_2->user);
+        //deleteuser(iter_2->user);
+    }
+}
+
 ACTION battletest::changetoken(eosio::name _user, std::string _type, uint64_t _index)
 {
     require_auth("epochchasert"_n);
@@ -9975,7 +9989,7 @@ EOSIO_DISPATCH(battletest,
                (testcheat)(testsnap)(setdata)(resultpre)                                                                                                                      //test
                (create)(issue)(transfer)(changetoken)                                                                                                                         //token
                (towersnap)(claim)(settower)(chat)                                                                                                                                   //tower
-               (deletewhite)(addwhite)(setmaster)(settokenlog)(eostransfer)(initmaster)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dberase)(dbinit)(alluserdel)(dblistinsert) //db mastersystem
+               (deletewhite)(addwhite)(setmaster)(settokenlog)(eostransfer)(initmaster)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dberase)(dbinit)(alluserdel)(dblistinsert)(allbattle) //db mastersystem
                (battleaction)(battlestate)(stageexit)(stagestart)(activeturn)(pvpstart)                                                                                                 //battle
                (saveparty)(resultparty)(resultgacha)                                                                                                                          //party + gacha
                (itembuy)(monsterup)(equipmentup)(mailopen)(movedb)(equip)(unequip)(nftmail)(insertequipr)(servantburn)(monsterburn)(equipburn)(itemburn))                     //contants
