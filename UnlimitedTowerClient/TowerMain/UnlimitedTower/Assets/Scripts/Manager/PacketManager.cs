@@ -875,7 +875,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
         else
         {
-            StartCoroutine(LoadSceneAsync("Lobby", "Logging in ... "));
+            StartCoroutine(LoadSceneAsync("Lobby", "Log in ... "));
         }
     }
 
