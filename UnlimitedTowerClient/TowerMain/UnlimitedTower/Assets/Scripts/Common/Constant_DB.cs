@@ -277,6 +277,19 @@ public class DBMonsterUpgradeData
 }
 
 [Serializable]
+public class DBEquipmentUpgradeData
+{
+    public int id;
+    public EQUIPMENT_TYPE type;
+    public GRADE_TYPE grade;
+    public int upgradeLevel;
+    public double successPer;
+    public int needItemID;
+    public int needItemCount;
+    public int needUTGCount;
+}
+
+[Serializable]
 public class DBSkillActiveData
 {
     public int id;

@@ -10,6 +10,7 @@ public class CSVData : MonoSingleton<CSVData>
     public Dictionary<int, DBExpData> DBExpDataDic = new Dictionary<int, DBExpData>();
     public Dictionary<int, DBItemData> DBItemDataDic = new Dictionary<int, DBItemData>();
     public Dictionary<int, DBEquipmentData> DBEquipmentDataDic = new Dictionary<int, DBEquipmentData>();
+    public Dictionary<int, DBEquipmentUpgradeData> DBEquipmentUpgradeDataDic = new Dictionary<int, DBEquipmentUpgradeData>();
     public Dictionary<int, DBStageData> DBStageDataDic = new Dictionary<int, DBStageData>();
     public Dictionary<int, DBStageEnemyData> DBStageEnemyDataDic = new Dictionary<int, DBStageEnemyData>();
     public Dictionary<int, DBStageRewardData> DBStageRewardDataDic = new Dictionary<int, DBStageRewardData>();
@@ -90,6 +91,15 @@ public class CSVData : MonoSingleton<CSVData>
             if (SetEquipmentData() == false)
             {
                 Debug.Log("Invalid DBSetEquipmentData");
+            }
+            //Debug.Log("SetEquipmentData Success");
+        }
+        if(DBEquipmentUpgradeDataDic.Count == 0)
+        {
+            //Debug.Log("SetEquipmentUpgradeData Start");
+            if (SetEquipmentUpgradeData() == false)
+            {
+                Debug.Log("Invalid DBSetEquipmentUpgradeData");
             }
             //Debug.Log("SetEquipmentData Success");
         }
@@ -341,6 +351,84 @@ public class CSVData : MonoSingleton<CSVData>
             equipmentData.sellItemCount = Convert.ToInt32(data[i]["sell_item_count"]);
 
             DBEquipmentDataDic.Add(equipmentData.id, equipmentData);
+        }
+
+        return true;
+    }
+
+    public bool SetEquipmentUpgradeData()
+    {
+        List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_equipment_upgrade");
+        for (var i = 2; i < data.Count; i++)
+        {
+            //Debug.Log("index " + (i).ToString()
+            //    + " : " + data[i]["id"]
+            //    + " " + data[i]["item_type"]
+            //    + " " + data[i]["item_rating"]
+            //    + " " + data[i]["upgrade_level"]
+            //    + " " + data[i]["upgrade_per"]
+            //    + " " + data[i]["upgrade_item_id"]
+            //    + " " + data[i]["upgrade_item_count"]
+            //    + " " + data[i]["upgrade_price_count"]
+            //    );
+
+            DBEquipmentUpgradeData upgradeData = new DBEquipmentUpgradeData();
+            string itemType = Convert.ToString(data[i]["item_type"]);
+            switch(itemType)
+            {
+                case "weapon":
+                    upgradeData.type = EQUIPMENT_TYPE.WEAPON;
+                    break;
+                case "armor":
+                    upgradeData.type = EQUIPMENT_TYPE.ARMOR;
+                    break;
+                case "ac":
+                    upgradeData.type = EQUIPMENT_TYPE.ACCESSSORY;
+                    break;
+                default:
+                    Debug.Log("Invalid ItemType : " + itemType);
+                    return false;
+            }
+
+            string itemGrade = Convert.ToString(data[i]["item_rating"]);
+            switch(itemGrade)
+            {
+                case "common":
+                    upgradeData.grade = GRADE_TYPE.COMMON;
+                    break;
+                case "uncommon":
+                    upgradeData.grade = GRADE_TYPE.UNCOMMON;
+                    break;
+                case "rare":
+                    upgradeData.grade = GRADE_TYPE.RARE;
+                    break;
+                case "unique":
+                    upgradeData.grade = GRADE_TYPE.UNIQUE;
+                    break;
+                case "legendary":
+                    upgradeData.grade = GRADE_TYPE.LEGENDARY;
+                    break;
+                default:
+                    Debug.Log("Invalid ItemGrade : " + itemGrade);
+                    return false;
+            }
+
+            upgradeData.upgradeLevel = Convert.ToInt32(data[i]["upgrade_level"]);
+
+            int id = ((int)upgradeData.grade * 10000) + ((int)upgradeData.type * 100) + upgradeData.upgradeLevel;
+            if(DBEquipmentUpgradeDataDic.ContainsKey(id) == true)
+            {
+                Debug.Log("Already Add ID : " + id);
+                return false;
+            }
+            upgradeData.id = id;
+
+            upgradeData.successPer = Convert.ToDouble(data[i]["upgrade_per"]) / 100;
+            upgradeData.needItemID = Convert.ToInt32(data[i]["upgrade_item_id"]);
+            upgradeData.needItemCount = Convert.ToInt32(data[i]["upgrade_item_count"]);
+            upgradeData.needUTGCount = Convert.ToInt32(data[i]["upgrade_price_count"]);
+
+            DBEquipmentUpgradeDataDic.Add(upgradeData.id, upgradeData);
         }
 
         return true;
@@ -1319,6 +1407,18 @@ public class CSVData : MonoSingleton<CSVData>
         int equipmentID = DBEquipmentDataDic.Values.ToList()[UnityEngine.Random.Range(0, 2)].id;
 
         return equipmentID;
+    }
+
+    public DBEquipmentUpgradeData GetEquipmentUpgradeData(int grade, int type, int upgrade)
+    {
+        int id = (grade * 10000) + (type * 100) + upgrade;
+        if(DBEquipmentUpgradeDataDic.ContainsKey(id) == false)
+        {
+            Debug.Log("Invalid EquipmentUpgrade ID : " + id);
+            return null;
+        }
+
+        return DBEquipmentUpgradeDataDic[id];
     }
 
     public Sprite GetServantIcon(int id)
