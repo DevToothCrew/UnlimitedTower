@@ -129,7 +129,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         for (int i = 0; i < 20; i++)
         {
-            tempHp[i] = BattleManager.Inst.NowHp[i].GetHashCode();
+            tempHp[i] = BattleManager.Inst.status[i].NowHp.GetHashCode();
         }
 
         for (int i = 0; i < 10; ++i)
@@ -225,7 +225,7 @@ public class Cheat : MonoSingleton<Cheat>
             }
             else
             {
-                if (BattleManager.Inst.NowHp[i] == 0)
+                if (BattleManager.Inst.status[i].NowHp == 0)
                 {
                     continue;
                 }

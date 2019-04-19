@@ -237,26 +237,23 @@ public class Status
 [Serializable]
 public class BattleStatus
 {
-    public int maxHp;
-    public int atk;
-    public int mAtk;
-    public int def;
-    public int mDef;
+    public Dictionary<EFFECT_ID, int> Status = new Dictionary<EFFECT_ID, int>();
+    public int NowHp;
 
-    public int int_;
-    public int dex_;
-    public int str_;
-
-    public BattleStatus(int maxHp, int atk, int mAtk, int def, int mDef, Status status)
+    public BattleStatus(UserCharacterStateData data)
     {
-        this.maxHp = maxHp;
-        this.atk = atk;
-        this.mAtk = mAtk;
-        this.def = def;
-        this.mDef = mDef;
-        int_ = status.basicInt;
-        dex_ = status.basicDex;
-        str_ = status.basicStr;
+        Status.Add(EFFECT_ID.ATK, data.atk);
+        Status.Add(EFFECT_ID.MATK, data.mAtk);
+        Status.Add(EFFECT_ID.DEF, data.def);
+        Status.Add(EFFECT_ID.MDEF, data.mDef);
+        Status.Add(EFFECT_ID.HP, data.maxHP);
+        Status.Add(EFFECT_ID.STR, data.status.basicStr);
+        Status.Add(EFFECT_ID.DEX, data.status.basicDex);
+        Status.Add(EFFECT_ID.INT, data.status.basicInt);
+        Status.Add(EFFECT_ID.SPEED, data.speed);
+        Status.Add(EFFECT_ID.AVOID, data.avoid);
+        Status.Add(EFFECT_ID.CRI_PER, data.criPer);
+        Status.Add(EFFECT_ID.CRI_DMG, data.criDmg);
     }
 }
 

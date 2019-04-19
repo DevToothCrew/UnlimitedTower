@@ -31,8 +31,8 @@ public class Calculator : MonoBehaviour {
 
     public static BattleStatus GetBattleStatus(UserCharacterStateData stateData)
     {
-        BattleStatus battleStatus = new BattleStatus(stateData.maxHP, stateData.atk, stateData.mAtk, stateData.def, stateData.mDef, stateData.status);
-
+        BattleStatus battleStatus = new BattleStatus(stateData);
+        Debug.Log("패시브 계산 시작 : 01");
         if (stateData.charType == CHAR_TYPE.SERVANT)
         {
             UserServantData servant = UserDataManager.Inst.GetServantInfo(stateData.index);
@@ -55,28 +55,28 @@ public class Calculator : MonoBehaviour {
                     switch (equipmentData.optionType)
                     {
                         case EQUIPMENT_OPTION_TYPE.ATK:
-                            battleStatus.atk += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
+                            battleStatus.Status[EFFECT_ID.ATK] += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
                             break;
                         case EQUIPMENT_OPTION_TYPE.MATK:
-                            battleStatus.mAtk += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
+                            battleStatus.Status[EFFECT_ID.MATK] += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
                             break;
                         case EQUIPMENT_OPTION_TYPE.DEF:
-                            battleStatus.def += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
+                            battleStatus.Status[EFFECT_ID.DEF] += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
                             break;
                         case EQUIPMENT_OPTION_TYPE.MDEF:
-                            battleStatus.mDef += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
+                            battleStatus.Status[EFFECT_ID.MDEF] += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
                             break;
                         case EQUIPMENT_OPTION_TYPE.HP:
-                            battleStatus.maxHp += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
+                            battleStatus.Status[EFFECT_ID.HP] += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
                             break;
                         case EQUIPMENT_OPTION_TYPE.STR:
-                            battleStatus.str_ += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
+                            battleStatus.Status[EFFECT_ID.STR] += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
                             break;
                         case EQUIPMENT_OPTION_TYPE.DEX:
-                            battleStatus.dex_ += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
+                            battleStatus.Status[EFFECT_ID.DEX] += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
                             break;
                         case EQUIPMENT_OPTION_TYPE.INT:
-                            battleStatus.int_ += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
+                            battleStatus.Status[EFFECT_ID.INT] += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
                             break;
                     }
                 }
@@ -91,42 +91,19 @@ public class Calculator : MonoBehaviour {
                 Debug.Log(stateData.index + "th Monster is Null");
             }
 
-            battleStatus.int_ = monster.status.basicInt + (int)(monster.upgrade * 0.1f);
-            battleStatus.dex_ = monster.status.basicDex + (int)(monster.upgrade * 0.1f);
-            battleStatus.str_ = monster.status.basicStr + (int)(monster.upgrade * 0.1f);
+            battleStatus.Status[EFFECT_ID.INT] = monster.status.basicInt + (int)(monster.upgrade * 0.1f);
+            battleStatus.Status[EFFECT_ID.DEX] = monster.status.basicDex + (int)(monster.upgrade * 0.1f);
+            battleStatus.Status[EFFECT_ID.STR] = monster.status.basicStr + (int)(monster.upgrade * 0.1f);
         }
 
+        Debug.Log("패시브 계산 시작 : 02");
         foreach (UserSkillInfo skillInfo in stateData.passiveSkillList)
         {
-            switch (skillInfo.id)
-            {
-                case 100001:
-                    battleStatus.atk += battleStatus.atk * (int)CSVData.Inst.GetSkillPassiveData(skillInfo.id).effectAdd;
-                    break;
-                case 100002:
-                    battleStatus.mAtk += battleStatus.mAtk * (int)CSVData.Inst.GetSkillPassiveData(skillInfo.id).effectAdd;
-                    break;
-                case 100003:
-                    battleStatus.def += battleStatus.def * (int)CSVData.Inst.GetSkillPassiveData(skillInfo.id).effectAdd;
-                    break;
-                case 100004:
-                    battleStatus.mDef += battleStatus.mDef * (int)CSVData.Inst.GetSkillPassiveData(skillInfo.id).effectAdd;
-                    break;
-                case 100005:
-                    battleStatus.maxHp += battleStatus.maxHp * (int)CSVData.Inst.GetSkillPassiveData(skillInfo.id).effectAdd;
-                    break;
-                case 100006:
-                    battleStatus.str_ += battleStatus.str_ * (int)CSVData.Inst.GetSkillPassiveData(skillInfo.id).effectAdd;
-                    break;
-                case 100007:
-                    battleStatus.dex_ += battleStatus.dex_ * (int)CSVData.Inst.GetSkillPassiveData(skillInfo.id).effectAdd;
-                    break;
-                case 100008:
-                    battleStatus.int_ += battleStatus.int_ * (int)CSVData.Inst.GetSkillPassiveData(skillInfo.id).effectAdd;
-                    break;
-            }
+            DBSkillPassiveData passive = CSVData.Inst.GetDBSkillPassiveData(skillInfo.id);
+            battleStatus.Status[passive.effectID] += passive.effectAdd;
         }
 
+        Debug.Log("패시브 계산 시작 : 03");
         return battleStatus;
     }
 }

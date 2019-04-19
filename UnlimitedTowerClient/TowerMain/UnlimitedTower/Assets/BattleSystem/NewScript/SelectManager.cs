@@ -144,7 +144,7 @@ public class SelectManager : MonoBehaviour
                         {
                             foreach (UserSkillInfo skill in selectStateInfo.passiveSkillList)
                             {
-                                Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = BattleUIManager.Inst.skillDataDic[skill.id].SkillImage;
+                                Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = CSVData.Inst.GetSkillPassiveData(skill.id).passiveIcon;
                             }
                         }
 
@@ -164,18 +164,18 @@ public class SelectManager : MonoBehaviour
                         if (selectIndex < 10 || BattleManager.Inst.adminMode == true)
                         {
                             BattleStatus status = BattleManager.Inst.status[selectIndex];
-                            _Str.text = status.str_.ToString();
-                            _Dex.text = status.dex_.ToString();
-                            _Int.text = status.int_.ToString();
-                            Atk.text = status.atk.ToString();
-                            mAtk.text = status.mAtk.ToString();
-                            Def.text = status.def.ToString();
-                            mDef.text = status.mDef.ToString();
-                            Speed.text = selectStateInfo.speed.ToString();
-                            CriPer.text = selectStateInfo.criPer.ToString();
-                            mCriPer.text = selectStateInfo.mCriPer.ToString();
-                            CriDmg.text = selectStateInfo.criDmg.ToString();
-                            mCriDmg.text = selectStateInfo.mCriDmg.ToString();
+                            _Str.text = status.Status[EFFECT_ID.STR].ToString();
+                            _Dex.text = status.Status[EFFECT_ID.DEX].ToString();
+                            _Int.text = status.Status[EFFECT_ID.INT].ToString();
+                            Atk.text = status.Status[EFFECT_ID.ATK].ToString();
+                            mAtk.text = status.Status[EFFECT_ID.MATK].ToString();
+                            Def.text = status.Status[EFFECT_ID.DEF].ToString();
+                            mDef.text = status.Status[EFFECT_ID.MDEF].ToString();
+                            Speed.text = status.Status[EFFECT_ID.SPEED].ToString();
+                            CriPer.text = status.Status[EFFECT_ID.CRI_PER].ToString();
+                            mCriPer.text = status.Status[EFFECT_ID.CRI_PER].ToString();
+                            CriDmg.text = status.Status[EFFECT_ID.CRI_DMG].ToString();
+                            mCriDmg.text = status.Status[EFFECT_ID.CRI_DMG].ToString();
                         }
                         else
                         {
@@ -217,12 +217,10 @@ public class SelectManager : MonoBehaviour
 
         if (selectIndex != -1)
         {
-            if (BattleManager.Inst.status[selectIndex].maxHp != 0)
-                selectHpBar.fillAmount = (float)BattleManager.Inst.NowHp[selectIndex] / BattleManager.Inst.status[selectIndex].maxHp;
-            else
-                selectHpBar.fillAmount = BattleManager.Inst.NowHp[selectIndex] / 100;
+            if (BattleManager.Inst.status[selectIndex].Status[EFFECT_ID.HP] != 0)
+                selectHpBar.fillAmount = (float)BattleManager.Inst.status[selectIndex].NowHp / BattleManager.Inst.status[selectIndex].Status[EFFECT_ID.HP];
 
-            selectHpText.text = BattleManager.Inst.NowHp[selectIndex].ToString();
+            selectHpText.text = BattleManager.Inst.status[selectIndex].NowHp.ToString();
         }
     }
 
