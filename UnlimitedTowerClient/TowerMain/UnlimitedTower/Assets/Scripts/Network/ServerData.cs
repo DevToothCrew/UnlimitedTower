@@ -493,7 +493,7 @@ public class MonsterUpgradeJson
 public class EquipmentUpgradeJson
 {
     public int mainEquipmentIndex;
-    public List<int> addItemIndexList;
+    public List<int> addItemIDList;
 }
 
 [Serializable]

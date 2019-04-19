@@ -602,10 +602,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 아이템 강화
-    public void RequestEquipmentUpgrade(int mainEquipmentIndex, List<int> addItemIndexList)
+    public void RequestEquipmentUpgrade(int mainEquipmentIndex, List<int> addItemIDList)
     {
         Debug.Log("Request Equipment Upgrade");
-        if (mainEquipmentIndex == 0 || addItemIndexList == null)
+        if (mainEquipmentIndex == 0 || addItemIDList == null)
         {
             Debug.Log("Invalid Request");
             return;
@@ -613,7 +613,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         EquipmentUpgradeJson equipmentUpgrade = new EquipmentUpgradeJson();
         equipmentUpgrade.mainEquipmentIndex = mainEquipmentIndex;
-        equipmentUpgrade.addItemIndexList = addItemIndexList;
+        equipmentUpgrade.addItemIDList = addItemIDList;
         string json = JsonUtility.ToJson(equipmentUpgrade);
 
         Debug.Log("Json start : " + json);

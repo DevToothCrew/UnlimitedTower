@@ -507,10 +507,20 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                 return;
             }
 
+            List<int> addItem = new List<int>();
+
+            DBEquipmentUpgradeData upgradeData = CSVData.Inst.GetEquipmentUpgradeData(equipmentData.grade, (int)equipmentData.equipmentType, equipmentData.upgrade);
+            if (upgradeData == null)
+            {
+                Debug.Log("Invalid Upgrade Data : " + equipmentData.grade + ", " + equipmentData.equipmentType + ", " + equipmentData.upgrade);
+                return;
+            }
+            
+            addItem.Add(upgradeData.needItemID);
+
 #if UNITY_EDITOR
             Cheat.Inst.RequestEquipmentUpgradeCheat(userEquipmentData.index);
 #else
-            List<int> addItem = new List<int>();
             PacketManager.Inst.RequestEquipmentUpgrade(equipmentData.index, addItem);
 #endif
         }
