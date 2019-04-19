@@ -30,15 +30,25 @@ public class ItemListUnit : ScrollListUnit {
         }
         else if (LobbyManager.Inst.popupState == POPUP_STATE.Weapon)
         {
+            int selected_idx;
+            if (SubViewDeconstruction.checkInst())
+            {
+                selected_idx = SubViewDeconstruction.Inst.scrollListData[main_idx];
+            }
+            else
+            {
+                selected_idx = main_idx;
+            }
+
             inventoryInfo = InventoryVC.Inst;
 
             //Todo :set Image
-            ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][main_idx].grade);
-            imageItem.sprite = CSVData.Inst.GetEquipmentData(inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][main_idx].id).equipmentIcon;
-            //textUpgrade.text = string.Format("+{0}", inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][main_idx].upgrade);
+            ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][selected_idx].grade);
+            imageItem.sprite = CSVData.Inst.GetEquipmentData(inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][selected_idx].id).equipmentIcon;
+            //textUpgrade.text = string.Format("+{0}", inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][selected_idx].upgrade);
 
-            imageStats.sprite = CSVData.Inst.GetSpriteOptionType(inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][main_idx].optionType);
-            textStats.text = string.Format("{0}", inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][main_idx].value);
+            imageStats.sprite = CSVData.Inst.GetSpriteOptionType(inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][selected_idx].optionType);
+            textStats.text = string.Format("{0}", inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][selected_idx].value);
 
         }
         
@@ -74,7 +84,7 @@ public class ItemListUnit : ScrollListUnit {
             {
                 SubViewDeconstruction.Inst.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
                 int item_unit_idx = 0;
-                item_unit_idx = inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][main_idx].index;
+                item_unit_idx = inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][SubViewDeconstruction.Inst.scrollListData[main_idx]].index;
                 SubViewDeconstruction.Inst.InsertUnit(item_unit_idx);
 
             }   

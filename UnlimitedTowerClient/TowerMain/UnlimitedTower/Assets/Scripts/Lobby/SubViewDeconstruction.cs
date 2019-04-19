@@ -28,7 +28,9 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
     int[] deconstructionUnitList = new int[9];  //분해할 유닛 idx
     int unit_count = 0;
 
+    //분해 가능한 Unit idx만 존재하는 리스트
     public List<int> scrollListData = new List<int>();
+
     enum sort_type
     {
         GRADE = 0,
