@@ -101,28 +101,28 @@ public class Calculator : MonoBehaviour {
             switch (skillInfo.id)
             {
                 case 100001:
-                    battleStatus.atk += battleStatus.atk * (int)CSVData.Inst.GetSkillPassiveData(skillInfo.id).effectPer;
+                    battleStatus.atk += battleStatus.atk * (int)CSVData.Inst.GetSkillPassiveData(skillInfo.id).effectAdd;
                     break;
                 case 100002:
-                    battleStatus.mAtk += battleStatus.mAtk * (int)CSVData.Inst.GetSkillPassiveData(skillInfo.id).effectPer;
+                    battleStatus.mAtk += battleStatus.mAtk * (int)CSVData.Inst.GetSkillPassiveData(skillInfo.id).effectAdd;
                     break;
                 case 100003:
-                    battleStatus.def += battleStatus.def * (int)CSVData.Inst.GetSkillPassiveData(skillInfo.id).effectPer;
+                    battleStatus.def += battleStatus.def * (int)CSVData.Inst.GetSkillPassiveData(skillInfo.id).effectAdd;
                     break;
                 case 100004:
-                    battleStatus.mDef += battleStatus.mDef * (int)CSVData.Inst.GetSkillPassiveData(skillInfo.id).effectPer;
+                    battleStatus.mDef += battleStatus.mDef * (int)CSVData.Inst.GetSkillPassiveData(skillInfo.id).effectAdd;
                     break;
                 case 100005:
-                    battleStatus.maxHp += battleStatus.maxHp * (int)CSVData.Inst.GetSkillPassiveData(skillInfo.id).effectPer;
+                    battleStatus.maxHp += battleStatus.maxHp * (int)CSVData.Inst.GetSkillPassiveData(skillInfo.id).effectAdd;
                     break;
                 case 100006:
-                    battleStatus.str_ += battleStatus.str_ * (int)CSVData.Inst.GetSkillPassiveData(skillInfo.id).effectPer;
+                    battleStatus.str_ += battleStatus.str_ * (int)CSVData.Inst.GetSkillPassiveData(skillInfo.id).effectAdd;
                     break;
                 case 100007:
-                    battleStatus.dex_ += battleStatus.dex_ * (int)CSVData.Inst.GetSkillPassiveData(skillInfo.id).effectPer;
+                    battleStatus.dex_ += battleStatus.dex_ * (int)CSVData.Inst.GetSkillPassiveData(skillInfo.id).effectAdd;
                     break;
                 case 100008:
-                    battleStatus.int_ += battleStatus.int_ * (int)CSVData.Inst.GetSkillPassiveData(skillInfo.id).effectPer;
+                    battleStatus.int_ += battleStatus.int_ * (int)CSVData.Inst.GetSkillPassiveData(skillInfo.id).effectAdd;
                     break;
             }
         }

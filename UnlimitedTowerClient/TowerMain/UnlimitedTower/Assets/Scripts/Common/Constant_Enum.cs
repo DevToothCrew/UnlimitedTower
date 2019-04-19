@@ -383,10 +383,28 @@ public enum TARGET_TYPE
     EVERY = 8,
 }
 
+public enum EFFECT_ID
+{
+    ATK = 1,
+    MATK = 2,
+    DEF = 3,
+    MDEF = 4,
+    HP = 5,
+    STR = 6,
+    DEX = 7,
+    INT = 8,
+    SPEED = 9,
+    AVOID = 10,
+    CRI_PER = 11,
+    CRI_DMG = 12,
+    HEAL_MULTI = 13,
+    DEF_MDEF = 14,
+}
+
 public enum EFFECT_TYPE
 {
-    STATUS = 0,
-    BATTLE = 1,
+    ADD = 1,
+    MINUS = 1,
 }
 
 public enum REWARD_TYPE

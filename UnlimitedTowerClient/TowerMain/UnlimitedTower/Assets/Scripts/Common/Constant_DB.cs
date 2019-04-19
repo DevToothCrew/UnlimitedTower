@@ -361,63 +361,20 @@ public class DBSkillActiveData
 public class DBSkillPassiveData
 {
     public int id;
+    public int passiveType;
     public string name;
     public string explain;
     public string resourceIcon;
-    
-    // Sprite 추가?
     public Sprite passiveIcon;
 
-    public SERVANT_JOB_FLAG jobLimit;
-    public bool isJobAble(SERVANT_JOB_FLAG job)
-    {
-        if (jobLimit == SERVANT_JOB_FLAG.None)
-        {
-            return false;
-        }
-
-        if (jobLimit == SERVANT_JOB_FLAG.All)
-        {
-            return true;
-        }
-
-        if ((jobLimit & job) == job)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    public MONSTER_CLASS_FLAG classLimit;
-    public bool isClassAble(MONSTER_CLASS_FLAG classType)
-    {
-        if (classLimit == MONSTER_CLASS_FLAG.None)
-        {
-            return false;
-        }
-
-        if (classLimit == MONSTER_CLASS_FLAG.All)
-        {
-            return true;
-        }
-
-        if ((classLimit & classType) == classType)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    public bool stackAble;
-    public int maxStack;
+    public bool enableStackMax;
     public string effectKeyword;
+    public EFFECT_ID effectID;
     public EFFECT_TYPE effectType;
-    public double effectPer;
     public int effectAdd;
+    public int effectPlusAdd;
     public TARGET_TYPE targetType;
-    public TARGET_TYPE roleTargetType;
+    public int targetID;
 }
 
 #endregion
