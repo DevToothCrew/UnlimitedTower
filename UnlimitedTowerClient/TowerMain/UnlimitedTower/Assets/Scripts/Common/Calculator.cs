@@ -32,7 +32,6 @@ public class Calculator : MonoBehaviour {
     public static BattleStatus GetBattleStatus(UserCharacterStateData stateData)
     {
         BattleStatus battleStatus = new BattleStatus(stateData);
-        Debug.Log("패시브 계산 시작 : 01");
         if (stateData.charType == CHAR_TYPE.SERVANT)
         {
             UserServantData servant = UserDataManager.Inst.GetServantInfo(stateData.index);
@@ -41,6 +40,43 @@ public class Calculator : MonoBehaviour {
             {
                 Debug.Log(stateData.index + "th Servant is Null");
             }
+
+            foreach (KeyValuePair<EQUIPMENT_TYPE, int> state in servant.equipmentDic)
+            {
+                if (state.Value != 0)
+                {
+                    UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(state.Value);
+
+                    if (equipmentData == null)
+                    {
+                        Debug.Log(state.Value + "th Equipment is Null");
+                    }
+                    switch (equipmentData.optionType)
+                    {
+                        case EQUIPMENT_OPTION_TYPE.STR:
+                            battleStatus.Status[EFFECT_ID.STR] += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
+                            break;
+                        case EQUIPMENT_OPTION_TYPE.DEX:
+                            battleStatus.Status[EFFECT_ID.DEX] += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
+                            break;
+                        case EQUIPMENT_OPTION_TYPE.INT:
+                            battleStatus.Status[EFFECT_ID.INT] += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
+                            break;
+                    }
+                }
+            }
+
+            foreach (UserSkillInfo skillInfo in stateData.passiveSkillList)
+            {
+                DBSkillPassiveData passive = CSVData.Inst.GetDBSkillPassiveData(skillInfo.id);
+                if (passive.effectID != EFFECT_ID.HP && passive.effectID != EFFECT_ID.ATK && passive.effectID != EFFECT_ID.MATK && passive.effectID != EFFECT_ID.DEF && passive.effectID != EFFECT_ID.MDEF)
+                    battleStatus.Status[passive.effectID] += passive.effectAdd;
+            }
+
+            battleStatus.Status[EFFECT_ID.ATK] = GetAttack(stateData.status);
+            battleStatus.Status[EFFECT_ID.MATK] = GetAttack(stateData.status);
+            battleStatus.Status[EFFECT_ID.DEF] = GetAttack(stateData.status);
+            battleStatus.Status[EFFECT_ID.MDEF] = GetAttack(stateData.status);
 
             foreach (KeyValuePair<EQUIPMENT_TYPE, int> state in servant.equipmentDic)
             {
@@ -66,20 +102,15 @@ public class Calculator : MonoBehaviour {
                         case EQUIPMENT_OPTION_TYPE.MDEF:
                             battleStatus.Status[EFFECT_ID.MDEF] += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
                             break;
-                        case EQUIPMENT_OPTION_TYPE.HP:
-                            battleStatus.Status[EFFECT_ID.HP] += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
-                            break;
-                        case EQUIPMENT_OPTION_TYPE.STR:
-                            battleStatus.Status[EFFECT_ID.STR] += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
-                            break;
-                        case EQUIPMENT_OPTION_TYPE.DEX:
-                            battleStatus.Status[EFFECT_ID.DEX] += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
-                            break;
-                        case EQUIPMENT_OPTION_TYPE.INT:
-                            battleStatus.Status[EFFECT_ID.INT] += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
-                            break;
                     }
                 }
+            }
+
+            foreach (UserSkillInfo skillInfo in stateData.passiveSkillList)
+            {
+                DBSkillPassiveData passive = CSVData.Inst.GetDBSkillPassiveData(skillInfo.id);
+                if (passive.effectID != EFFECT_ID.HP && passive.effectID != EFFECT_ID.STR && passive.effectID != EFFECT_ID.DEX && passive.effectID != EFFECT_ID.INT)
+                    battleStatus.Status[passive.effectID] += passive.effectAdd;
             }
         }
         else if (stateData.charType == CHAR_TYPE.MONSTER && stateData.position < 10)
@@ -91,19 +122,29 @@ public class Calculator : MonoBehaviour {
                 Debug.Log(stateData.index + "th Monster is Null");
             }
 
-            battleStatus.Status[EFFECT_ID.INT] = monster.status.basicInt + (int)(monster.upgrade * 0.1f);
-            battleStatus.Status[EFFECT_ID.DEX] = monster.status.basicDex + (int)(monster.upgrade * 0.1f);
-            battleStatus.Status[EFFECT_ID.STR] = monster.status.basicStr + (int)(monster.upgrade * 0.1f);
-        }
+            battleStatus.Status[EFFECT_ID.INT] += (int)(battleStatus.Status[EFFECT_ID.INT] * (stateData.upgrade * 0.1f));
+            battleStatus.Status[EFFECT_ID.DEX] += (int)(battleStatus.Status[EFFECT_ID.DEX] * (stateData.upgrade * 0.1f));
+            battleStatus.Status[EFFECT_ID.STR] += (int)(battleStatus.Status[EFFECT_ID.STR] * (stateData.upgrade * 0.1f));
 
-        Debug.Log("패시브 계산 시작 : 02");
-        foreach (UserSkillInfo skillInfo in stateData.passiveSkillList)
-        {
-            DBSkillPassiveData passive = CSVData.Inst.GetDBSkillPassiveData(skillInfo.id);
-            battleStatus.Status[passive.effectID] += passive.effectAdd;
-        }
+            foreach (UserSkillInfo skillInfo in stateData.passiveSkillList)
+            {
+                DBSkillPassiveData passive = CSVData.Inst.GetDBSkillPassiveData(skillInfo.id);
+                if (passive.effectID != EFFECT_ID.HP && passive.effectID != EFFECT_ID.ATK && passive.effectID != EFFECT_ID.MATK && passive.effectID != EFFECT_ID.DEF && passive.effectID != EFFECT_ID.MDEF)
+                    battleStatus.Status[passive.effectID] += passive.effectAdd;
+            }
 
-        Debug.Log("패시브 계산 시작 : 03");
+            battleStatus.Status[EFFECT_ID.ATK] = GetAttack(stateData.status);
+            battleStatus.Status[EFFECT_ID.MATK] = GetAttack(stateData.status);
+            battleStatus.Status[EFFECT_ID.DEF] = GetAttack(stateData.status);
+            battleStatus.Status[EFFECT_ID.MDEF] = GetAttack(stateData.status);
+
+            foreach (UserSkillInfo skillInfo in stateData.passiveSkillList)
+            {
+                DBSkillPassiveData passive = CSVData.Inst.GetDBSkillPassiveData(skillInfo.id);
+                if (passive.effectID != EFFECT_ID.HP && passive.effectID != EFFECT_ID.STR && passive.effectID != EFFECT_ID.DEX && passive.effectID != EFFECT_ID.INT)
+                    battleStatus.Status[passive.effectID] += passive.effectAdd;
+            }
+        }
         return battleStatus;
     }
 }
