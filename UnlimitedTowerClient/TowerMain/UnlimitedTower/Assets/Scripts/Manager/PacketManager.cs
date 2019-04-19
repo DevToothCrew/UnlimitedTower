@@ -866,7 +866,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
         UserDataManager.Inst.SetPartyInfo(partyInfo);
 
-        if (userInfo.sceneState == SCENE_STATE.StageBattle)
+        if (userInfo.sceneState == SCENE_STATE.StageBattle || userInfo.sceneState == SCENE_STATE.PVP)
         {
             Request<stageStateData>("GetBattle",
                     onSuccess: ResponseStageStart,
