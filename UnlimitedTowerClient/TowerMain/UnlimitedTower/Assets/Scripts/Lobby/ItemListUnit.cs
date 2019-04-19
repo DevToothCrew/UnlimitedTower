@@ -3,8 +3,9 @@
 public class ItemListUnit : ScrollListUnit {
     public Image ImageGrade;
     public Image imageItem;
+    public Text textItemName;
     // TODO : 추후 추가
-    //public Text textUpgrade;
+    public Text textUpgrade;
     public Image imageStats;
     public Text textStats;
 
@@ -23,7 +24,14 @@ public class ItemListUnit : ScrollListUnit {
         {
             ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)SubViewEquipment.Inst.EquipmentList[main_idx].grade);
             imageItem.sprite = CSVData.Inst.GetEquipmentData(SubViewEquipment.Inst.EquipmentList[main_idx].id).equipmentIcon;
-            //textUpgrade.text = string.Format("+{0}", SubViewEquipment.Inst.EquipmentList[main_idx].upgrade);
+            textItemName.text = CSVData.Inst.GetEquipmentData(SubViewEquipment.Inst.EquipmentList[main_idx].id).name;
+
+            string upgrade = string.Format(" ");
+            if (SubViewEquipment.Inst.EquipmentList[main_idx].upgrade > 0)
+            {
+                upgrade = string.Format("+{0}", SubViewEquipment.Inst.EquipmentList[main_idx].upgrade);
+            }
+            textUpgrade.text = upgrade;
 
             imageStats.sprite = CSVData.Inst.GetSpriteOptionType(SubViewEquipment.Inst.EquipmentList[main_idx].optionType);
             textStats.text = string.Format("{0}", SubViewEquipment.Inst.EquipmentList[main_idx].value);
@@ -45,7 +53,14 @@ public class ItemListUnit : ScrollListUnit {
             //Todo :set Image
             ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][selected_idx].grade);
             imageItem.sprite = CSVData.Inst.GetEquipmentData(inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][selected_idx].id).equipmentIcon;
-            //textUpgrade.text = string.Format("+{0}", inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][selected_idx].upgrade);
+            textItemName.text = CSVData.Inst.GetEquipmentData(inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][selected_idx].id).name;
+
+            string upgrade = string.Format(" ");
+            if (inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][selected_idx].upgrade > 0)
+            {
+                upgrade = string.Format("+{0}", inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][selected_idx].upgrade);
+            }
+            textUpgrade.text = upgrade;
 
             imageStats.sprite = CSVData.Inst.GetSpriteOptionType(inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][selected_idx].optionType);
             textStats.text = string.Format("{0}", inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][selected_idx].value);
