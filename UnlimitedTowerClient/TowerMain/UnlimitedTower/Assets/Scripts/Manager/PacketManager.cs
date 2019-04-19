@@ -1378,7 +1378,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
         UserDataManager.Inst.SetMonster(monsterData);
         UserDataManager.Inst.DelMonster(getMonsterUpgradeResultData.sub_monster_index);
-        UserDataManager.Inst.SetUserUTG(getMonsterUpgradeResultData.utg);
+        UserDataManager.Inst.SetUserUTG(Convert.ToUInt64(getMonsterUpgradeResultData.utg));
 
         LobbyTopInfo.Inst.UpdateTopInfo();
 
@@ -1414,7 +1414,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             UserDataManager.Inst.SetItem(itemData);
         }
 
-        UserDataManager.Inst.SetUserUTG(getEquipmentUpgradeResultData.utg);
+        UserDataManager.Inst.SetUserUTG(Convert.ToUInt64(getEquipmentUpgradeResultData.utg));
 
         LobbyTopInfo.Inst.UpdateTopInfo();
 
