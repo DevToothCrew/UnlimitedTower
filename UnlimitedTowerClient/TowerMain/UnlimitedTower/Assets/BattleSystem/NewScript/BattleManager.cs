@@ -72,6 +72,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         SettingHp(stateData);
         SettingPosition();
         SettingDieCheck();
+        BattleUIManager.Inst.StageInfoOn();
     }
 
     private void Update()

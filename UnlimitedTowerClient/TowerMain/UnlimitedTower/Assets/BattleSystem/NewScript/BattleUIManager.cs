@@ -65,8 +65,6 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         {
             skillDataDic.Add(skillData.Index, skillData);
         }
-
-        StageInfoOn();
     }
 
     public void MySkAction(int SkillIndex)
@@ -122,7 +120,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
     {
         UserStageStateData StageData = UserDataManager.Inst.GetStageState();
         StageInfoFloor.text = "Stage " + StageData.stageType + " : " + StageData.stageFloor + "F";
-        BattleTurn.text = BattleManager.Inst.turnIndex + " Turn";
+        BattleTurn.text = StageData.turn + " Turn";
 
         Color plus = new Color(0, 0, 0, 0.02f);
         for (int i = 0; i < 50; i++)
