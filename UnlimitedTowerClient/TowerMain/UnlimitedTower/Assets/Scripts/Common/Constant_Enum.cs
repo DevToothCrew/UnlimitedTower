@@ -431,10 +431,12 @@ public enum UPGRADE_TYPE
 
 public enum SORT_TYPE
 {
-    GRADE = 0,
-    LEVEL,
-    POWER,
-    OPTAIN
+    POWER = 0,      //전투력
+    GRADE,          //등급
+    LEVEL_OR_TIER,  //장비는 Tier
+    GOT_TIME,       //획득 순서
+    JOB_OR_UPGRADE  //몬스터, 장비는 Upgrade
 }
+
 
 #endregion

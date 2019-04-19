@@ -37,8 +37,6 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     }
     public menu_type selectedMenu = menu_type.SERVANT;
 
-    SORT_TYPE sortType = 0;
-
     public List<UserServantData> ServantList = new List<UserServantData>();
     public List<UserMonsterData> MonsterList = new List<UserMonsterData>();
 
@@ -97,7 +95,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         if (selectedMenu == menu_type.SERVANT || selectedMenu == menu_type.MONSTER)
         {
             frameScroll.SetActive(true);
-            resetScroll(currentScrollType);
+            resetScroll();
 
             framePartyInfo.SetActive(true);
             frameFormation.SetActive(false);
@@ -139,9 +137,8 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
 
     //현재 화면에 따른 스크롤 UI 재설정 
-    public void resetScroll(scroll_type type)
+    public void resetScroll()
     {
-        currentScrollType = type;
         if (currentScrollType == scroll_type.SERVANT_INFO)
         {
             textOwned.text = string.Format("{0}", ServantList.Count);
@@ -208,12 +205,78 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
             data_order[i] = 0;
         }
 
-        switch (sortType)
+        if (!SortManager.checkInst())
         {
-            case 0:
+            Debug.Log("Invalid sort manager!");
+            return data_order;
+        }
+
+        switch (SortManager.Inst.GetSortType())
+        {
+            case SORT_TYPE.POWER:
                 for (int i=0; i<total_list_num-1; i++)
                 {
                     for (int j = i+1; j < total_list_num; j++)
+                    {
+                        if (currentScrollType == scroll_type.SERVANT_INFO)
+                        {
+                            if (ServantList[i].status.basicStr < ServantList[j].status.basicStr)//TODO: 임시로 STR
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
+                        }
+                        else if (currentScrollType == scroll_type.MONSTER_INFO)
+                        {
+                            if (MonsterList[i].status.basicStr < MonsterList[j].status.basicStr)//TODO: 임시로 STR
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
+                        }
+                    }
+                }
+                break;
+            case SORT_TYPE.GRADE:
+                for (int i = 0; i < total_list_num - 1; i++)
+                {
+                    for (int j = i + 1; j < total_list_num; j++)
+                    {
+                        if (currentScrollType == scroll_type.SERVANT_INFO)
+                        {
+                            if (ServantList[i].grade < ServantList[j].grade)
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
+                        }
+                        else if (currentScrollType == scroll_type.MONSTER_INFO)
+                        {
+                            if (MonsterList[i].grade < MonsterList[j].grade)
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
+                        }
+                    }
+                }
+                break;
+            case SORT_TYPE.LEVEL_OR_TIER:
+                for (int i = 0; i < total_list_num - 1; i++)
+                {
+                    for (int j = i + 1; j < total_list_num; j++)
                     {
                         if (currentScrollType == scroll_type.SERVANT_INFO)
                         {
@@ -229,6 +292,42 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                         else if (currentScrollType == scroll_type.MONSTER_INFO)
                         {
                             if (MonsterList[i].level * 100 + MonsterList[i].exp < MonsterList[j].level * 100 + MonsterList[j].exp)
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
+                        }
+                    }
+                }
+                break;
+            case SORT_TYPE.GOT_TIME:
+                for (int i = 0; i < total_list_num; i++)
+                {
+                    data_order[i] = i;
+                }
+                break;
+            case SORT_TYPE.JOB_OR_UPGRADE:
+                for (int i = 0; i < total_list_num - 1; i++)
+                {
+                    for (int j = i + 1; j < total_list_num; j++)
+                    {
+                        if (currentScrollType == scroll_type.SERVANT_INFO)//Servant는 직업 정렬
+                        {
+                            if (ServantList[i].jobType < ServantList[j].jobType)
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
+                        }
+                        else if (currentScrollType == scroll_type.MONSTER_INFO)//Monster는 업그레이드 정렬
+                        {
+                            if (MonsterList[i].upgrade < MonsterList[j].upgrade)
                             {
                                 data_order[i]++;
                             }
@@ -540,7 +639,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                 }
 
                 frameScroll.gameObject.SetActive(true);
-                resetScroll(currentScrollType);
+                resetScroll();
             }
         }
     }
@@ -651,32 +750,4 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 #endif
     }
 
-
-    //스크롤 정렬 UI
-    public GameObject FrameSort;
-    bool isShowSort = false;
-    public void updateSortText()
-    {
-
-    }
-
-    public void ShowFrameSort()
-    {
-        if (isShowSort)
-        {
-            //FrameSort.GetComponent<AnimationState>().a
-            //FrameSort.GetComponent<Animation>().Play();
-            //FrameSort.SetActive(false);
-        }
-        else
-        {
-            //FrameSort.GetComponent<AnimationState>().speed = 1f;
-            //FrameSort.GetComponent<Animation>().Play();
-            // FrameSort.SetActive(true);
-        }
-
-        isShowSort = !isShowSort;
-
-
-    }
 }

@@ -154,7 +154,7 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
             buttonMenu[(int)selectedMenu].image.sprite = buttonMenu[(int)selectedMenu].spriteState.pressedSprite;
             buttonMenu[(int)selectedMenu].GetComponentInChildren<Text>().color = Color.black;
 
-            resetScroll(currentScrollType);
+            resetScroll();
             updateDetailInfo(scrollList.getFirstItemOrder());
         }
         else
@@ -189,9 +189,8 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
 
 
     //현재 화면에 따른 스크롤 UI 재설정 
-    public void resetScroll(scroll_type type)
+    public void resetScroll()
     {
-        currentScrollType = type;
         textOwned.text = string.Format("{0}", EquipmentList[(int)selectedMenu].Count);
         textTotal.text = string.Format("/ {0}", UserDataManager.Inst.GetUserInventoryInfo().equipmentInventory);
         if (EquipmentList[(int)selectedMenu].Count >= UserDataManager.Inst.GetUserInventoryInfo().equipmentInventory)

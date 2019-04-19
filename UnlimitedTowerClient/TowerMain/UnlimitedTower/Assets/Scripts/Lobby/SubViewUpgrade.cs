@@ -415,7 +415,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
         {
             PartyInfoVC patyInfo = PartyInfoVC.Inst;
             patyInfo.setData();
-            patyInfo.resetScroll(patyInfo.currentScrollType);
+            patyInfo.resetScroll();
             patyInfo.updateDetailInfo(patyInfo.scrollList.getFirstItemOrder());
             OnClickClose();
         }
@@ -423,7 +423,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
         {
             InventoryVC inventory = InventoryVC.Inst;
             inventory.setData();
-            inventory.resetScroll(inventory.currentScrollType);
+            inventory.resetScroll();
             inventory.updateDetailInfo(inventory.scrollList.getFirstItemOrder());
             OnClickClose();
         }

@@ -367,14 +367,14 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
         {
             PartyInfoVC patyInfo = PartyInfoVC.Inst;
             patyInfo.setData();
-            patyInfo.resetScroll(patyInfo.currentScrollType);
+            patyInfo.resetScroll();
             patyInfo.updateDetailInfo(patyInfo.scrollList.getFirstItemOrder());
         }
         else if (InventoryVC.checkInst())
         {
             InventoryVC inventory = InventoryVC.Inst;
             inventory.setData();
-            inventory.resetScroll(inventory.currentScrollType);
+            inventory.resetScroll();
             inventory.updateDetailInfo(inventory.scrollList.getFirstItemOrder());
         }
 
