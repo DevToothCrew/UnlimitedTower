@@ -57,7 +57,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         mySkill = GameObject.Find("MySkill").GetComponent<Animator>();
         mySklImage = mySkill.transform.GetChild(1).GetComponent<Image>();
         mySkText = mySkill.transform.GetChild(2).GetComponent<Text>();
-        enemySkill = GameObject.Find("MySkill").GetComponent<Animator>();
+        enemySkill = GameObject.Find("EnemySkill").GetComponent<Animator>();
         enemySklImage = enemySkill.transform.GetChild(1).GetComponent<Image>();
         enemySkText = enemySkill.transform.GetChild(2).GetComponent<Text>();
 
