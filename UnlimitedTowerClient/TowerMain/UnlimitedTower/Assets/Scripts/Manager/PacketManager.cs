@@ -1391,15 +1391,19 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Debug.Log("장비 업그레이드 !");
 
         UserEquipmentData equipmentData = ParseEquipment(getEquipmentUpgradeResultData.main_equipment_data);
+        UserDataManager.Inst.SetEquipment(equipmentData);
 
-        if (getEquipmentUpgradeResultData.is_success == true)
+        for (int i = 0; i < getEquipmentUpgradeResultData.add_item_list.Count; i++)
         {
-            UserDataManager.Inst.SetEquipment(equipmentData);
+            UserItemData itemData = ParseItem(getEquipmentUpgradeResultData.add_item_list[i]);
+            UserDataManager.Inst.SetItem(itemData);
         }
-        else
-        {
-            UserDataManager.Inst.DelEquipment(getEquipmentUpgradeResultData.main_equipment_data.index);
-        }
+
+        UserDataManager.Inst.SetUserUTG(getEquipmentUpgradeResultData.utg);
+
+        LobbyTopInfo.Inst.UpdateTopInfo();
+
+        SubViewUpgrade.Inst.updateViewFinishRequest();
     }
     
     // 상점 아이템 구매

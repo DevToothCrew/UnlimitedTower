@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,6 +24,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
 
     public Text textUgt;
     public Text textSuccessPer;
+    public Text textNeedPerCount;
 
     //강화 성공시 만들어질 오브젝트 정보(이미지)
     public Image FrameResultSlot;
@@ -53,8 +54,6 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
 
     //장비 일때
     private UserEquipmentData equipmentData;
-
-    
 
     public UPGRADE_TYPE GetUpgradeType()
     {
@@ -216,6 +215,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                 FrameInsertObject.sprite = CSVData.Inst.GetSpriteGrade(inserted_monster_data.gradeType);
                 ImageInsertObject.sprite = CSVData.Inst.GetMonsterData(inserted_monster_data.id).monsterIcon;
                 textInsertObjectUpgrade.text = string.Format("+{0}", inserted_monster_data.upgrade);
+                textNeedPerCount.text = "";
 
                 DBMonsterUpgradeData upgradeData = CSVData.Inst.GetMonsterUpgradeData(monsterData.grade, monsterData.upgrade, inserted_monster_data.upgrade);
                 if(upgradeData == null)
@@ -269,6 +269,16 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
             ImageInsertObject.sprite = scrollData.ItemIcon;
             //주문서는 업그레이드 표시 X
             textInsertObjectUpgrade.text = "";
+            int itemCount = UserDataManager.Inst.GetItemCount(scrollData.id);
+            textNeedPerCount.text = upgradeData.needItemCount + "/" + itemCount;
+            if(itemCount < upgradeData.needItemCount)
+            {
+                textNeedPerCount.color = Color.red;
+            }
+            else
+            {
+                textNeedPerCount.color = Color.white;
+            }
 
             //강화 비용, 성공률
             textUgt.text = string.Format("{0}", upgradeData.needUTGCount);
@@ -415,11 +425,8 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
             inventory.setData();
             inventory.resetScroll(inventory.currentScrollType);
             inventory.updateDetailInfo(inventory.scrollList.getFirstItemOrder());
+            OnClickClose();
         }
-
-        //setData();
-        //scrollList.SetItemOrder(getOrder());
-
     }
 
     public void OnClickClose()
@@ -438,6 +445,12 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
 
     public void OnClickButtonUpgrade()
     {
+        if( (ulong)(Convert.ToInt32(textUgt.text) * 10000) > UserDataManager.Inst.GetUserUTG())
+        {
+            TopUIManager.Inst.ShowSimpleErrorPopup("Not Enough UTG");
+            return;
+        }
+
         if (upgradeType == UPGRADE_TYPE.MONSTER)  // Monster
         {
             UserMonsterData subMonsterData = UserDataManager.Inst.GetMonsterInfo(inserted_object_idx);
@@ -469,26 +482,37 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
         }
         else if (upgradeType == UPGRADE_TYPE.EQUIPMENT) // Equip
         {
-            UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(inserted_object_idx);
-            if (equipmentData == null)
+            if(textNeedPerCount.color == Color.red)
             {
-                Debug.Log("Invalid Request Equipment ID : " + inserted_object_idx);
+                TopUIManager.Inst.ShowSimpleErrorPopup("Not Enough Scroll");
                 return;
             }
 
-            if (equipmentData.state != 1)
+            UserEquipmentData userEquipmentData = UserDataManager.Inst.GetEquipmentInfo(equipmentData.index);
+            if (userEquipmentData == null)
             {
-                Debug.Log("Invalid Equipment State : " + equipmentData.state);
+                Debug.Log("Invalid Request Equipment ID : " + equipmentData.index);
                 return;
             }
 
-            if (equipmentData.equipServantIndex != 0)
+            if (userEquipmentData.state != 1)
             {
-                Debug.Log("Invalid Equipment Already Equip Servant Index : " + equipmentData.equipServantIndex);
+                Debug.Log("Invalid Equipment State : " + userEquipmentData.state);
                 return;
             }
 
-            //TODO: 서버요청
+            if (userEquipmentData.equipServantIndex != 0)
+            {
+                Debug.Log("Invalid Equipment Already Equip Servant Index : " + userEquipmentData.equipServantIndex);
+                return;
+            }
+
+#if UNITY_EDITOR
+            Cheat.Inst.RequestEquipmentUpgradeCheat(userEquipmentData.index);
+#else
+            List<int> addItem = new List<int>();
+            PacketManager.Inst.RequestEquipmentUpgrade(equipmentData.index, addItem);
+#endif
         }
     }
 }

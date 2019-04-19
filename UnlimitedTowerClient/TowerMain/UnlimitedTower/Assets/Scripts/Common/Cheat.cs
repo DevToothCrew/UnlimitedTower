@@ -55,6 +55,16 @@ public class Cheat : MonoSingleton<Cheat>
             userLoginData.equipment_list.Add(GetRandomEquipment(i));
         }
 
+        itemData newItem = new itemData();
+        newItem.id = 500100;
+        newItem.type = 1;
+        itemInfo info = new itemInfo();
+        info.index = 0;
+        info.count = 99;
+        newItem.item_list.Add(info);
+
+        userLoginData.item_list.Add(newItem);
+
         userLoginData.party_info = partyData;
 
         return JsonMapper.ToJson(userLoginData).ToString();
@@ -484,6 +494,59 @@ public class Cheat : MonoSingleton<Cheat>
         getMonsterUpgradeResultData.utg = UserDataManager.Inst.GetUserUTG() - (ulong)dbMonsterUpgradeData.needUTGCount;
 
         return JsonMapper.ToJson(getMonsterUpgradeResultData).ToString();
+    }
+
+    public string GetEquipmentUpgradeData(int equipmentIndex)
+    {
+        UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(equipmentIndex);
+        if(equipmentData == null)
+        {
+            Debug.Log("Invalid Equipment Index : " + equipmentIndex);
+            return null;
+        }
+
+        DBEquipmentUpgradeData upgradeData = CSVData.Inst.GetEquipmentUpgradeData(equipmentData.grade, (int)equipmentData.equipmentType, equipmentData.upgrade);
+        if(upgradeData == null)
+        {
+            Debug.Log("Invalid Equipment Upgrade Data");
+            return null;
+        }
+
+        bool isSuccess = false;
+        int plusUpgrade = 0;
+        float successPer = UnityEngine.Random.Range(0, 100);
+        if(upgradeData.successPer > successPer)
+        {
+            isSuccess = true;
+            plusUpgrade = 1;
+        }
+
+        ulong utg = UserDataManager.Inst.GetUserUTG() - (ulong)upgradeData.needUTGCount;
+        itemData needItemData = new itemData();
+        needItemData.id = upgradeData.needItemID;
+        needItemData.type = 1;
+        itemInfo needItemInfo = new itemInfo();
+        needItemInfo.index = 0;
+        needItemInfo.count = UserDataManager.Inst.GetItemCount(upgradeData.needItemID) - upgradeData.needItemCount;
+        needItemData.item_list.Add(needItemInfo);        
+
+        equipmentUpgradeResultData getEquipmentUpgradeResultData = new equipmentUpgradeResultData();
+        getEquipmentUpgradeResultData.is_success = isSuccess;
+        getEquipmentUpgradeResultData.main_equipment_data = new equipmentData();
+        getEquipmentUpgradeResultData.main_equipment_data.index = equipmentIndex;
+        getEquipmentUpgradeResultData.main_equipment_data.equipment = new equipmentInfo();
+        getEquipmentUpgradeResultData.main_equipment_data.equipment.id = equipmentData.id;
+        getEquipmentUpgradeResultData.main_equipment_data.equipment.type = (int)equipmentData.equipmentType;
+        getEquipmentUpgradeResultData.main_equipment_data.equipment.grade = equipmentData.grade;
+        getEquipmentUpgradeResultData.main_equipment_data.equipment.upgrade = equipmentData.upgrade + plusUpgrade;
+        getEquipmentUpgradeResultData.main_equipment_data.equipment.state = equipmentData.state;
+        getEquipmentUpgradeResultData.main_equipment_data.equipment.value = equipmentData.value;
+        getEquipmentUpgradeResultData.main_equipment_data.equipment.equipservantindex = equipmentData.equipServantIndex;
+        getEquipmentUpgradeResultData.add_item_list = new List<itemData>();
+        getEquipmentUpgradeResultData.add_item_list.Add(needItemData);
+        getEquipmentUpgradeResultData.utg = utg;
+
+        return JsonMapper.ToJson(getEquipmentUpgradeResultData).ToString();
     }
 
     public monsterData GetMonsterData(UserMonsterData getMonsterData)
@@ -945,6 +1008,20 @@ public class Cheat : MonoSingleton<Cheat>
 
         monsterUpgradeResultData getMonsterUpgradeResultData = JsonUtility.FromJson<monsterUpgradeResultData>(monsterUpgradeResultJson);
         PacketManager.Inst.ResponseMonsterUpgrade(getMonsterUpgradeResultData);
+    }
+
+    public void RequestEquipmentUpgradeCheat(int equipmentIndex)
+    {
+        string equipmentUpgradeResultJson = GetEquipmentUpgradeData(equipmentIndex);
+        if (equipmentUpgradeResultJson == null)
+        {
+            Debug.Log("[Fail] RequestEquipmentUpgradeCheat");
+            return;
+        }
+        Debug.Log("[SUCCESS] Equipment Upgrade : " + equipmentUpgradeResultJson);
+
+        equipmentUpgradeResultData getEquipmentUpgradeResultData = JsonUtility.FromJson<equipmentUpgradeResultData>(equipmentUpgradeResultJson);
+        PacketManager.Inst.ResponseEquipmentUpgrade(getEquipmentUpgradeResultData);
     }
 
     public void RequestServantBurnCheat(List<int> servantIndexList)

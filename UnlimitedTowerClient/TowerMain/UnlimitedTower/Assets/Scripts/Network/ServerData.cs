@@ -375,6 +375,7 @@ public class equipmentUpgradeResultData
     public bool is_success;
     public equipmentData main_equipment_data;
     public List<itemData> add_item_list;
+    public ulong utg;
 }
 
 [Serializable]

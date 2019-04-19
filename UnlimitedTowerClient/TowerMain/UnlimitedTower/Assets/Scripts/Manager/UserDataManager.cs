@@ -480,6 +480,23 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return itemDic[id];
     }
 
+    public int GetItemCount(int id)
+    {
+        int count = 0;
+
+        if (itemDic.ContainsKey(id) == false)
+        {
+            return count;
+        }
+
+        for(int i = 0; i < itemDic[id].itemInfoList.Count; i++)
+        {
+            count += itemDic[id].itemInfoList[i].count;
+        }
+
+        return count;
+    }
+
     public UserFormationData GetFormationData(int formationIndex)
     {
         if(partyInfo == null)
