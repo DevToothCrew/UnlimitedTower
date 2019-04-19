@@ -1390,8 +1390,29 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         Debug.Log("장비 업그레이드 !");
 
-        UserEquipmentData equipmentData = ParseEquipment(getEquipmentUpgradeResultData.main_equipment_data);
-        UserDataManager.Inst.SetEquipment(equipmentData);
+        if(getEquipmentUpgradeResultData.main_equipment_data == null)
+        {
+            Debug.Log("Invalid Main Equipment Data");
+            return;
+        }
+
+        if (getEquipmentUpgradeResultData.is_success == true)
+        {
+            UserEquipmentData equipmentData = ParseEquipment(getEquipmentUpgradeResultData.main_equipment_data);
+            if(equipmentData == null)
+            {
+                Debug.Log("Invalid Equipment Data : " + getEquipmentUpgradeResultData.main_equipment_data);
+                return;
+            }
+            UserDataManager.Inst.SetEquipment(equipmentData);
+        }
+        else
+        {
+            if(UserDataManager.Inst.DelEquipment(getEquipmentUpgradeResultData.main_equipment_data.index) == false)
+            {
+                Debug.Log("Invalid Equipment Index : " + getEquipmentUpgradeResultData.main_equipment_data.index);
+            }
+        }
 
         for (int i = 0; i < getEquipmentUpgradeResultData.add_item_list.Count; i++)
         {
