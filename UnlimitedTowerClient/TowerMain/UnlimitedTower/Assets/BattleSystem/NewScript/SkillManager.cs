@@ -178,7 +178,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         yield return new WaitForSeconds(0.7f);
 
         DamageManager.Inst.DamageShow(battleInfo.action_info_list[0], false, (ELEMENT_TYPE)BattleManager.Inst.GetCharState(battleInfo.my_position).elementType);
-        if (BattleManager.Inst.NowHp[battleInfo.action_info_list[0].target_position] > 0)
+        if (BattleManager.Inst.status[battleInfo.action_info_list[0].target_position].NowHp > 0)
             BattleManager.Inst.animator[battleInfo.action_info_list[0].target_position].SetTrigger("isHit");
         else
             BattleManager.Inst.animator[battleInfo.action_info_list[0].target_position].SetTrigger("isDie");
@@ -186,7 +186,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         yield return new WaitForSeconds(0.2f);
 
         DamageManager.Inst.DamageShow(battleInfo.action_info_list[1], false, (ELEMENT_TYPE)BattleManager.Inst.GetCharState(battleInfo.my_position).elementType);
-        if (BattleManager.Inst.NowHp[battleInfo.action_info_list[1].target_position] > 0)
+        if (BattleManager.Inst.status[battleInfo.action_info_list[1].target_position].NowHp > 0)
             BattleManager.Inst.animator[battleInfo.action_info_list[1].target_position].SetTrigger("isHit");
         else
             BattleManager.Inst.animator[battleInfo.action_info_list[1].target_position].SetTrigger("isDie");

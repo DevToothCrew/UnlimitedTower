@@ -58,10 +58,10 @@ public class DamageManager : MonoSingleton<DamageManager>
                 damageText.text.text = attackInfo.damage.ToString();
                 damageText.text.color = HealColor[0];
                 damageText.outLine.effectColor = HealColor[1];
-                BattleManager.Inst.NowHp[attackInfo.target_position] += attackInfo.damage;
+                BattleManager.Inst.status[attackInfo.target_position].NowHp += attackInfo.damage;
 
-                if (BattleManager.Inst.NowHp[attackInfo.target_position] > BattleManager.Inst.status[attackInfo.target_position].maxHp)
-                    BattleManager.Inst.NowHp[attackInfo.target_position] = BattleManager.Inst.status[attackInfo.target_position].maxHp;
+                if (BattleManager.Inst.status[attackInfo.target_position].NowHp > BattleManager.Inst.status[attackInfo.target_position].Status[EFFECT_ID.HP])
+                    BattleManager.Inst.status[attackInfo.target_position].NowHp = BattleManager.Inst.status[attackInfo.target_position].Status[EFFECT_ID.HP];
             }
             else
             {
@@ -113,7 +113,7 @@ public class DamageManager : MonoSingleton<DamageManager>
                         }
                     }
                 }
-                BattleManager.Inst.NowHp[attackInfo.target_position] -= attackInfo.damage;
+                BattleManager.Inst.status[attackInfo.target_position].NowHp -= attackInfo.damage;
             }
         }
         else
@@ -126,8 +126,8 @@ public class DamageManager : MonoSingleton<DamageManager>
               Camera.main.WorldToScreenPoint(BattleManager.Inst.character[attackInfo.target_position].transform.position +
               new Vector3(0, BattleManager.Inst.character[attackInfo.target_position].GetComponent<CharInfo>().Height, 0));
 
-        if (BattleManager.Inst.NowHp[attackInfo.target_position] < 0)
-            BattleManager.Inst.NowHp[attackInfo.target_position] = 0;
+        if (BattleManager.Inst.status[attackInfo.target_position].NowHp < 0)
+            BattleManager.Inst.status[attackInfo.target_position].NowHp = 0;
 
         if (!isHeal)
         {

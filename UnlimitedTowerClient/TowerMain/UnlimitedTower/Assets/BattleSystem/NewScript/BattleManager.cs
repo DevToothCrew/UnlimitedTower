@@ -11,7 +11,6 @@ public class BattleManager : MonoSingleton<BattleManager>
     public CharInfo[] charInfo = new CharInfo[20];
     public Animator[] animator = new Animator[20];
     public bool[] isPlace = new bool[20];
-    public int[] NowHp = new int[20];
     public bool isAfterDelay;
     public int turnIndex = 1;
     public int TimeScale = 1;
@@ -170,33 +169,30 @@ public class BattleManager : MonoSingleton<BattleManager>
         // TODO : Skill 관련 코드 정리 필요
         for (int i = 0; i < stageActionInfo.character_action_list.Count; i++)
         {
-            if (NowHp[stageActionInfo.character_action_list[i].my_position] > 0)
+            if (stageActionInfo.character_action_list[i].action_type == 2)
             {
-                if (stageActionInfo.character_action_list[i].action_type == 2)
-                {
-                    character[stageActionInfo.character_action_list[i].my_position].GetComponent<BasicAttack>().Attack(stageActionInfo.character_action_list[i]);
+                character[stageActionInfo.character_action_list[i].my_position].GetComponent<BasicAttack>().Attack(stageActionInfo.character_action_list[i]);
 
-                    yield return new WaitUntil(() => isAfterDelay == true);
-                    isAfterDelay = false;
-                }
-                else if (stageActionInfo.character_action_list[i].action_type == 3)
+                yield return new WaitUntil(() => isAfterDelay == true);
+                isAfterDelay = false;
+            }
+            else if (stageActionInfo.character_action_list[i].action_type == 3)
+            {
+                if (GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList.Count == 0)
                 {
-                    if (GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList.Count == 0)
-                    {
-                        Debug.Log("ActiveSkillList is Null");
-                    }
+                    Debug.Log("ActiveSkillList is Null");
+                }
+                else
+                {
+                    if (stageActionInfo.character_action_list[i].my_position < 10)
+                        BattleUIManager.Inst.MySkAction(GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id);
                     else
-                    {
-                        if (stageActionInfo.character_action_list[i].my_position < 10)
-                            BattleUIManager.Inst.MySkAction(GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id);
-                        else
-                            BattleUIManager.Inst.EnemySkAction(GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id);
+                        BattleUIManager.Inst.EnemySkAction(GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id);
 
-                        SkillManager.Inst.SendMessage("Skill_" + GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id.ToString(), stageActionInfo.character_action_list[i]);
-                        yield return new WaitUntil(() => isAfterDelay == true);
-                    }
-                    isAfterDelay = false;
+                    SkillManager.Inst.SendMessage("Skill_" + GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id.ToString(), stageActionInfo.character_action_list[i]);
+                    yield return new WaitUntil(() => isAfterDelay == true);
                 }
+                isAfterDelay = false;
             }
         }
 
@@ -208,8 +204,8 @@ public class BattleManager : MonoSingleton<BattleManager>
         int myHp = 0, enemyHp = 0;
         for (int i = 0; i < 10; i++)
         {
-            myHp += NowHp[i];
-            enemyHp += NowHp[i + 10];
+            myHp += status[i].NowHp;
+            enemyHp += status[i + 10].NowHp;
         }
 
         if (enemyHp == 0)
@@ -544,7 +540,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             }
 
             status[i] = Calculator.GetBattleStatus(stateData.myStateList[i]);
-            NowHp[i] = stateData.myStateList[i].nowHp;
+            status[i].NowHp = stateData.myStateList[i].nowHp;
         }
 
         for (int i = 10; i < 20; i++)
@@ -555,7 +551,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             }
 
             status[i] = Calculator.GetBattleStatus(stateData.enemyStateList[i]);
-            NowHp[i] = stateData.enemyStateList[i].nowHp;
+            status[i].NowHp = stateData.enemyStateList[i].nowHp;
         }
     }
 
@@ -566,7 +562,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         {
             if (character[i])
             {
-                if (NowHp[i] <= 0)
+                if (status[i].NowHp <= 0)
                 {
                     animator[i].SetTrigger("isDie");
                     tumbAnimation.DieTumb(i);
