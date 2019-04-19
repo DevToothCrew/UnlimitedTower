@@ -1723,6 +1723,7 @@ void battletest::insert_itemshop(uint64_t _id, uint64_t _goods_type,
             new_data.goods_type = _goods_type;
             new_data.goods_id = _goods_id;
             new_data.goods_count = _goods_count;
+            new_data.goods_limited = _goods_limited;
             new_data.price_type = _price_type;
             new_data.etc_type = _etc_type;
             new_data.price_count = _price_count;
@@ -1734,6 +1735,7 @@ void battletest::insert_itemshop(uint64_t _id, uint64_t _goods_type,
             new_data.goods_type = _goods_type;
             new_data.goods_id = _goods_id;
             new_data.goods_count = _goods_count;
+            new_data.goods_limited = _goods_limited;
             new_data.price_type = _price_type;
             new_data.etc_type = _etc_type;
             new_data.price_count = _price_count;
@@ -3401,6 +3403,8 @@ ACTION battletest::mailopen(eosio::name _user, uint64_t _mail_index)
 
     eosio_assert((mail_db_iter->mail_type == 1 || mail_db_iter->mail_type == 2 | mail_db_iter->mail_type == 3 || mail_db_iter->mail_type == 4 || mail_db_iter->mail_type == 5 || mail_db_iter->mail_type == 6 || mail_db_iter->mail_type == 7), "Not exist select type");
 
+    std::string contents_list;
+
     if (mail_db_iter->mail_type == 1) //프리가차 서번트
     {
         eosio_assert(check_inventory(_user) == true, "mailopen : your inventory is full");
@@ -3644,6 +3648,14 @@ ACTION battletest::mailopen(eosio::name _user, uint64_t _mail_index)
     }
 
     mail_db_table.erase(mail_db_iter);
+
+            std::string contents_type = "mailopen";
+        action(permission_level{get_self(), "active"_n},
+               get_self(), "contentslist"_n,
+               std::make_tuple(_user ,contents_type ,contents_list))
+            .send();
+
+
 }
 
 
@@ -4051,18 +4063,7 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
                 system_master system_master_table(_self, _self.value);
                 auto system_master_iter = system_master_table.begin();
                 eosio_assert(system_master_iter->state != system_state::pause, "Eos Transfer secret : Server Pause");
-
-                eosio_assert(transfer_data.memo.find(':') != std::string::npos, "Eos Transfer secret : Seed Memo [:] Error");
                 eosio_assert(transfer_data.quantity.amount == 10000, "Eos Transfer secret : secret need 1.0000 EOS");
-
-                size_t l_end = transfer_data.memo.length() - (l_center + 1);
-                std::string result = transfer_data.memo.substr(l_center + 1, l_end);
-
-                uint64_t result_seed = atoll(result.c_str());
-
-                res.type = result_seed;
-
-                eosio_assert(res.type != 0, "Wrong seed convert");
             }
             else
             {
@@ -9805,14 +9806,44 @@ ACTION battletest::pvpstart(eosio::name _from, eosio::name _to)
 //-------------------------------store_function---------------------------//
 //------------------------------------------------------------------------//
 
-ACTION battletest::addshop(uint64_t _index, uint64_t goods_id, uint64_t _limit_count, uint64_t _limit_max)
+ACTION battletest::addshop(uint64_t _index)
 {
+    item_shop item_shop_table(_self, _self.value);
+    auto item_shop_iter = item_shop_table.find(_index);
+    shop_list shop_list_table(_self, _self.value);
+    auto shop_list_iter = shop_list_table.find(item_shop_iter->id);
+
+    if(shop_list_iter == shop_list_table.end())
+    {
+        shop_list_table.emplace(_self, [&](auto &data) {
+            data.id = item_shop_iter->id;
+            data.goods_id = item_shop_iter->goods_id;
+            data.goods_count = item_shop_iter->goods_count;
+            data.limit_count = 0;
+            data.limit_max = item_shop_iter->goods_limited;
+        });
+    }
+    else
+    {
+        shop_list_table.modify(shop_list_iter, _self, [&](auto &data){
+            data.goods_id = item_shop_iter->goods_id;
+            data.goods_count = item_shop_iter->goods_count;
+            data.limit_count = 0;
+            data.limit_max = item_shop_iter->goods_limited;
+        });
+    }
+    
 
 }
 
-ACTION battletest::delshop(uint64_t _index, uint64_t goods_id, uint64_t _limit_count, uint64_t _limit_max)
+ACTION battletest::delshop(uint64_t _index)
 {
+    item_shop item_shop_table(_self, _self.value);
+    auto item_shop_iter = item_shop_table.find(_index);
+    shop_list shop_list_table(_self, _self.value);
+    auto shop_list_iter = shop_list_table.find(item_shop_iter->id);
     
+    shop_list_table.erase(shop_list_iter);
 }
 
 ACTION battletest::itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count)
@@ -9839,31 +9870,28 @@ ACTION battletest::itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count
     eosio_assert(user_auth_iter != user_auth_table.end(), "itembuy : Not exist user_auths data");
 
     user_items user_items_table(_self, _user.value);
-    auto user_items_iter = user_items_table.find(shop_list_iter->id);
+    auto user_items_iter = user_items_table.find(shop_list_iter->goods_id);
 
     item_info items;
     uint64_t count_diff = _count;
-    uint64_t check_inventory = 0; 
+    uint64_t check_inventory = 0;
     uint64_t original_inventory = 0;
 
-    if (item_shop_iter->goods_type == 1) // EOS 사용 하는 것들
-    {
-        utg_cheat(_user);
-    }
+    std::string contents_result;
+    std::string contents_type = "itembuy";
+
     //로얄 서번트 구매
-    else if (item_shop_iter->goods_type == 2)
+    if (item_shop_iter->goods_type == 3)
     {
     }
 
     //소모품(리스트류)
-    else if (item_shop_iter->goods_type == 4)
+    else if (item_shop_iter->goods_type == 5)
     {
-
         if (user_items_iter == user_items_table.end())
         {
-
             user_items_table.emplace(_self, [&](auto &change_consumable) {
-                change_consumable.id = shop_list_iter->id;
+                change_consumable.id = shop_list_iter->goods_id;
                 change_consumable.type = item_shop_iter->goods_type;
 
                 uint64_t sub_size = _count / 99;
@@ -9891,7 +9919,6 @@ ACTION battletest::itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count
                 }
             });
         }
-
         else
         {
             user_items_table.modify(user_items_iter, _self, [&](auto &change_consumable) {
@@ -9915,19 +9942,17 @@ ACTION battletest::itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count
                 {
                     items.index = change_consumable.item_list.size();
                     items.count += count_diff;
-                    // original_inventory += items.index;
-                    // check_inventory = original_inventory - check_inventory;
                     change_consumable.item_list.push_back(items);
                     check_inventory += 1;
                 }
             });
             asset nomal_order_buy_result(0, symbol(symbol_code("UTG"), 4));
-            nomal_order_buy_result.amount = _count * shop_list_iter->goods_count * 10000;
+            nomal_order_buy_result.amount = _count * item_shop_iter->price_count;
 
             transfer(_user, _self, nomal_order_buy_result, std::string("nomal order buy result"));
         }
+        eosio_assert(user_auth_iter->current_item_inventory >= 0, "itembuy : current_item_inventory underflow error");
         user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
-            eosio_assert(user_auth_iter->current_item_inventory >= 0, "itembuy : current_item_inventory underflow error");
             add_auth.current_item_inventory += check_inventory;
         });
 
@@ -9948,7 +9973,7 @@ ACTION battletest::itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count
     }
     else
     {
-        inventory_buy(_user, (_item_id * 10));
+        eosio_assert(0 == 1, "itembuy : Invalid purchase request");
     }
 }
 
@@ -9963,10 +9988,6 @@ void battletest::utg_cheat(eosio::name _user)
     auto system_master_iter = system_master_table.begin();
     eosio_assert(system_master_iter->state != system_state::pause, "utg_cheat : Server Pause");
 
-    user_auths user_auth_table(_self, _self.value);
-    auto user_auth_iter = user_auth_table.find(_user.value);
-
-
     asset utg_cheat_money(0, symbol(symbol_code("UTG"), 4));
     utg_cheat_money.amount = 10000 * 10000;
 
@@ -9976,7 +9997,7 @@ void battletest::utg_cheat(eosio::name _user)
         .send();
 }
 
-void battletest::inventory_buy(eosio::name _user, uint64_t _type)
+void battletest::inventory_buy(eosio::name _user, uint32_t _type)
 {
     require_auth(_user);
     blacklist blacklist_table(_self, _self.value);
@@ -9990,44 +10011,45 @@ void battletest::inventory_buy(eosio::name _user, uint64_t _type)
     user_auths user_auth_table(_self, _self.value);
     auto user_auth_iter = user_auth_table.find(_user.value);
     uint64_t plus_inventory = 5;
-    if (_type == 1) //서번트 인벤토리
-    {
-        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-            change_auth_user.servant_inventory += plus_inventory;
-        });
-    }
-    else if (_type == 2) //몬스터 인벤토리
-    {
-        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-            change_auth_user.monster_inventory += plus_inventory;
-        });
-    }
-    else if (_type == 3) //장비 인벤토리
-    {
-        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-            change_auth_user.equipment_inventory += plus_inventory;
-        });
-    }
-    else if (_type == 4) //소모품 인벤토리
-    {
-        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-            change_auth_user.item_inventory += plus_inventory;
-        });
-    }
-    else
-    {
-        eosio_assert(_type < plus_inventory, "inventory_buy : not exsit this action type");
-    }
 
-    std::string contents_result;
-    std::string contents_type = "inventorybuy";
-    contents_result += "[";
-    contents_result += to_string(_type) + ":";
-    contents_result += to_string(plus_inventory) + "]";
-    action(permission_level{get_self(), "active"_n},
-           get_self(), "contents"_n,
-           std::make_tuple(_user, contents_type, contents_result))
-        .send();  
+        if (_type == 2001) //서번트 인벤토리
+        {
+            user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+                change_auth_user.servant_inventory += plus_inventory;
+            });
+        }
+        else if (_type == 2002) //몬스터 인벤토리
+        {
+            user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+                change_auth_user.monster_inventory += plus_inventory;
+            });
+        }
+        else if (_type == 2003) //장비 인벤토리
+        {
+            user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+                change_auth_user.equipment_inventory += plus_inventory;
+            });
+        }
+        else if (_type == 2004) //소모품 인벤토리
+        {
+            user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+                change_auth_user.item_inventory += plus_inventory;
+            });
+        }
+        else
+        {
+            eosio_assert(_type < plus_inventory, "inventory_buy : not exsit this action type");
+        }
+
+        std::string contents_result;
+        std::string contents_type = "inventorybuy";
+        contents_result += "[";
+        contents_result += to_string(_type) + ":";
+        contents_result += to_string(plus_inventory) + "]";
+        action(permission_level{get_self(), "active"_n},
+               get_self(), "contents"_n,
+               std::make_tuple(_user, contents_type, contents_result))
+            .send();
 
 }
 

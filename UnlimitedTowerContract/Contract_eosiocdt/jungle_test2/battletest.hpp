@@ -896,9 +896,9 @@ CONTRACT battletest : public contract
         inventory_Monster = 12,
         inventory_Equip = 13, 
         inventory_Item = 14,
-        goods_item =4,
-        goods_servant = 2,
-        goods_utg= 1,
+        goods_item =5,
+        goods_servant = 3,
+        goods_utg= 2,
     };
 
     TABLE itemshop
@@ -1293,10 +1293,10 @@ CONTRACT battletest : public contract
 #pragma region store system
 
     ACTION itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count);
-    void inventory_buy(eosio::name _user, uint64_t _type);
+    void inventory_buy(eosio::name _user, uint32_t _type);
     void utg_cheat(eosio::name _user);
-    ACTION addshop(uint64_t _index, uint64_t goods_id, uint64_t _limit_count, uint64_t _limit_max);
-    ACTION delshop(uint64_t _index, uint64_t goods_id, uint64_t _limit_count, uint64_t _limit_max);
+    ACTION addshop(uint64_t _index);
+    ACTION delshop(uint64_t _index);
 
 
 #pragma endregion
