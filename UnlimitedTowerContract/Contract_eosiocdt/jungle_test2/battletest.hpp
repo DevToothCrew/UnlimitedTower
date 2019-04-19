@@ -549,8 +549,8 @@ CONTRACT battletest : public contract
     void substr_value(std::string _value, std::vector<std::string> & _value_list, std::vector<size_t> & _size_list, uint32_t _size);
     ACTION dbinsert(std::string _table, std::string _value);
     ACTION dberase(std::string _table, std::string _value);
-    ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
-    ACTION dbinit(std::string _table);
+    //ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
+    //ACTION dbinit(std::string _table);
     //ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
 
 	ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
@@ -591,7 +591,11 @@ CONTRACT battletest : public contract
                                uint32_t _hit_count, uint32_t _atk_per, uint32_t _atk_per_add, uint32_t _heal_per, uint32_t _heal_per_add);
     void insert_gacha_pool(uint64_t _gacha_id, uint64_t _db_index);
     void insert_status_monster_up(uint64_t _type, uint64_t _first, uint64_t _second);
-    void insert_itemshop(uint64_t _id, uint64_t _goods_type, uint64_t _goods_limited, uint64_t _goods_count, uint64_t _price_type, uint64_t _price_count);
+    void insert_itemshop(uint64_t _id, uint64_t _goods_type, 
+                                        uint64_t _goods_id, uint64_t _goods_count, 
+                                        uint64_t _goods_limited, uint64_t _price_type, 
+                                        uint64_t _etc_type, uint64_t _price_count);
+    
 
     void erase_job(uint64_t _job);
     void erase_head(uint64_t _appear);
@@ -620,6 +624,7 @@ CONTRACT battletest : public contract
     void erase_gacha_pool(uint64_t _id);
     void erase_status_monster_up(uint64_t _id);
     void erase_itemshop(uint64_t _id);
+
 #pragma endregion
 
 #pragma region stage
@@ -741,8 +746,8 @@ CONTRACT battletest : public contract
 #pragma endregion
 
 #pragma region token action
-    ACTION create(name issuer, asset maximum_supply);
-    ACTION issue(name to, asset quantity, string memo);
+    // ACTION create(name issuer, asset maximum_supply);
+    // ACTION issue(name to, asset quantity, string memo);
     ACTION transfer(name from, name to, asset quantity, string memo);
 #pragma endregion
 
@@ -885,34 +890,42 @@ CONTRACT battletest : public contract
 
 #pragma region item shop
 
-    TABLE itemshop
+    enum good_types
     {
-        uint64_t id;
-        uint64_t goods_type;
-        uint64_t goods_limited;
-        uint64_t goods_count;
-        uint64_t price_type;
-        uint64_t price_count;
-
-        uint64_t primary_key() const { return id; }
+        inventory_Servant = 11,
+        inventory_Monster = 12,
+        inventory_Equip = 13, 
+        inventory_Item = 14,
+        goods_item =4,
+        goods_servant = 2,
+        goods_utg= 1,
     };
-    typedef eosio::multi_index<"dbitemshop"_n, itemshop> item_shop;
 
-    TABLE itemtshop
+    TABLE itemshop
     {
         uint64_t id;
         uint64_t goods_type;
         uint64_t goods_id;
         uint64_t goods_count;
         uint64_t goods_limited;
-        uint64_t goods_limited_check;
         uint64_t price_type;
         uint64_t etc_type;
         uint64_t price_count;
 
         uint64_t primary_key() const { return id; }
     };
-    typedef eosio::multi_index<"dbtableshop"_n, itemtshop> item_table_shop;
+    typedef eosio::multi_index<"dbitemshop"_n, itemshop> item_shop;
+
+    TABLE tshoplist
+    {
+        uint64_t id;        
+        uint64_t goods_id;
+        uint64_t goods_count;
+        uint64_t limit_count;
+        uint64_t limit_max;
+        uint64_t primary_key() const { return id; }
+    };
+    typedef eosio::multi_index<"tshoplist"_n, tshoplist> shop_list;
 
 #pragma endregion
 
@@ -989,7 +1002,8 @@ CONTRACT battletest : public contract
 #pragma region gacha values
     const char *action_gacha = "gacha";
     const char *action_signup = "signup";
-    const char *action_inventory = "buyinventory";
+    const char *action_inventory = "inventorybuy";
+    const char *action_secret = "secret";
     uint32_t servant_random_count;
     uint32_t monster_random_count;
     uint32_t equipment_random_count;
@@ -1278,10 +1292,11 @@ CONTRACT battletest : public contract
 
 #pragma region store system
 
-    void buy_nomal_order(eosio::name _user, uint32_t _count);
-    void buy_blessing_order(eosio::name _user, uint32_t _count);
     ACTION itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count);
-    void buy_inventory(eosio::name _user, uint64_t _type);
+    void inventory_buy(eosio::name _user, uint64_t _type);
+    void utg_cheat(eosio::name _user);
+    ACTION addshop(uint64_t _index, uint64_t goods_id, uint64_t _limit_count, uint64_t _limit_max);
+    ACTION delshop(uint64_t _index, uint64_t goods_id, uint64_t _limit_count, uint64_t _limit_max);
 
 
 #pragma endregion
