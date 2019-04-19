@@ -27,16 +27,20 @@
 #define ITEM_GACHA_ID_START     30000
 #define SERVANT_GACHA_ID_START  10000
 #define SERVANT_JOB_COUNT       4
-#define MONSTER_ID_COUNT        51
-#define ITEM_ID_COUNT           33
 #define HEAD_COUNT              4
 #define HAIR_COUNT              4
 #define BODY_COUNT              3
 #define GEMDER_COUNT            3
 
-#define MONSTER_GACHA_COUNT_START  2
-#define SERVANT_GACHA_COUNT_START  1
-#define ITEM_GACHA_COUNT_START  3
+#define JOB_ACTIVE_START_ID             100
+#define JOB_PRIVATE_ACTIVE_PER_ID        99
+
+#define JOB_PASSSIVE_START_ID          200
+#define CLASS_PASSIVE_START_ID         900
+
+#define GACHA_ID                10000
+
+
 
 //============Gacha==============//
 #define MONSTER_UPGRADE_RATE        10000 

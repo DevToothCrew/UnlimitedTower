@@ -309,45 +309,45 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
     //     // insert_monster_lv_status(atoll(value_list[0].c_str()),
     //     //                  atoll(value_list[1].c_str()));
     // }
-    // else if (_table == "dbpassive")
-    // {
-    //     substr_value(_value, value_list, size_list, 10);
-    //     insert_passive(atoll(value_list[0].c_str()),
-    //                    atoi(value_list[1].c_str()),
-    //                    atoi(value_list[2].c_str()),
-    //                    atoi(value_list[3].c_str()),
-    //                    atoi(value_list[4].c_str()),
-    //                    atoi(value_list[5].c_str()),
-    //                    atoi(value_list[6].c_str()),
-    //                    atoi(value_list[7].c_str()),
-    //                    atoi(value_list[8].c_str()),
-    //                    atoi(value_list[9].c_str()));
-    // }
-    // else if (_table == "dbactive")
-    // {
-    //     substr_value(_value, value_list, size_list, 15);
-    //     insert_active(atoll(value_list[0].c_str()),
-    //                   atoi(value_list[1].c_str()),
-    //                   atoi(value_list[2].c_str()),
-    //                   atoi(value_list[3].c_str()),
-    //                   atoi(value_list[4].c_str()),
-    //                   atoi(value_list[5].c_str()),
-    //                   atoi(value_list[6].c_str()),
-    //                   atoi(value_list[7].c_str()),
-    //                   atoi(value_list[8].c_str()),
-    //                   atoi(value_list[9].c_str()),
-    //                   atoi(value_list[10].c_str()),
-    //                   atoi(value_list[11].c_str()),
-    //                   atoi(value_list[12].c_str()),
-    //                   atoi(value_list[13].c_str()),
-    //                   atoi(value_list[14].c_str()));
-    // }
-    // else if (_table == "dbgachapool")
-    // {
-    //     substr_value(_value, value_list, size_list, 2);
-    //     insert_gacha_pool(atoll(value_list[0].c_str()),
-    //                       atoll(value_list[1].c_str()));
-    // }
+    if (_table == "dbpassive")
+    {
+        substr_value(_value, value_list, size_list, 9);
+        insert_passive(atoll(value_list[0].c_str()),
+                       atoi(value_list[1].c_str()),
+                       atoi(value_list[2].c_str()),
+                       atoi(value_list[3].c_str()),
+                       atoi(value_list[4].c_str()),
+                       atoi(value_list[5].c_str()),
+                       atoi(value_list[6].c_str()),
+                       atoi(value_list[7].c_str()),
+                       atoi(value_list[8].c_str()));
+    }
+    if (_table == "dbactive")
+    {
+        substr_value(_value, value_list, size_list, 16);
+        insert_active(atoll(value_list[0].c_str()),
+                      atoi(value_list[1].c_str()),
+                      atoi(value_list[2].c_str()),
+                      atoi(value_list[3].c_str()),
+                      atoi(value_list[4].c_str()),
+                      atoi(value_list[5].c_str()),
+                      atoi(value_list[6].c_str()),
+                      atoi(value_list[7].c_str()),
+                      atoi(value_list[8].c_str()),
+                      atoi(value_list[9].c_str()),
+                      atoi(value_list[10].c_str()),
+                      atoi(value_list[11].c_str()),
+                      atoi(value_list[12].c_str()),
+                      atoi(value_list[13].c_str()),
+                      atoi(value_list[14].c_str()),
+                      atoi(value_list[15].c_str()));
+    }
+    if (_table == "dbgachapool")
+    {
+        substr_value(_value, value_list, size_list, 2);
+        insert_gacha_pool(atoll(value_list[0].c_str()),
+                          atoll(value_list[1].c_str()));
+    }
     // if (_table == "dbstageenemy")
     // {
     //     substr_value(_value, value_list, size_list, 15);
@@ -380,7 +380,6 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
     //                  atoi(value_list[7].c_str()),
     //                  atoi(value_list[8].c_str()));
     // }
-    
     // else if (_table == "dbmonsterlist")
     // {
     //     substr_value(_value, value_list, size_list, 3);
@@ -471,18 +470,18 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
     // {
     //     eosio_assert(1 == 0, "Not Exist Table");
     // }
-        if (_table == "dbitemshop")
-    {
-        substr_value(_value, value_list, size_list, 8);
-        insert_itemshop(atoll(value_list[0].c_str()),
-                     atoi(value_list[1].c_str()),
-                     atoi(value_list[2].c_str()),
-                     atoi(value_list[3].c_str()),
-                     atoi(value_list[4].c_str()),
-                     atoi(value_list[5].c_str()),
-                     atoi(value_list[6].c_str()),
-                     atoi(value_list[7].c_str()));
-    }
+    //     if (_table == "dbitemshop")
+    // {
+    //     substr_value(_value, value_list, size_list, 8);
+    //     insert_itemshop(atoll(value_list[0].c_str()),
+    //                  atoi(value_list[1].c_str()),
+    //                  atoi(value_list[2].c_str()),
+    //                  atoi(value_list[3].c_str()),
+    //                  atoi(value_list[4].c_str()),
+    //                  atoi(value_list[5].c_str()),
+    //                  atoi(value_list[6].c_str()),
+    //                  atoi(value_list[7].c_str()));
+    // }
 }
 
 // ACTION battletest::dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list)
@@ -1269,59 +1268,57 @@ void battletest::insert_equipment_lv_status(uint64_t _type) //, uint64_t _num)
     });
 }
 
-void battletest::insert_passive(uint64_t _id, uint32_t _job, uint32_t _monster_class, uint32_t _enable_stack, uint32_t _max_stack,
-                                uint32_t _effect_type, uint32_t _effect_value, uint32_t _effect_value_add, uint32_t _target, uint32_t _role_target)
+void battletest::insert_passive(uint64_t _passive_id, uint32_t _passive_type, uint32_t _job_class, uint32_t _enable_stack_max, uint32_t _effect_id,
+                                uint32_t _effect_type_id, uint32_t _effect_value_a, uint32_t _effect_value_add_b, uint32_t _target_id)
 {
     passive_db passive_db_table(_self, _self.value);
-    auto passive_db_iter = passive_db_table.find(_id);
+    auto passive_db_iter = passive_db_table.find(_passive_id);
     if (passive_db_iter == passive_db_table.end())
     {
         passive_db_table.emplace(_self, [&](auto &new_passive) {
-            new_passive.passive_id = _id;
-            new_passive.job = _job;
-            new_passive.monster_class = _monster_class;
-            new_passive.enable_stack = _enable_stack;
-            new_passive.max_stack = _max_stack;
-            new_passive.effect_type = _effect_type;
-            new_passive.effect_value = _effect_value;
-            new_passive.effect_value_add = _effect_value_add;
-            new_passive.target = _target;
-            new_passive.role_target = _role_target;
+            new_passive.passive_id = _passive_id;
+            new_passive.passive_type = _passive_type;
+            new_passive.job_class = _job_class;
+            new_passive.enable_stack_max = _enable_stack_max;
+            new_passive.effect_id = _effect_id;
+            new_passive.effect_type_id = _effect_type_id;
+            new_passive.effect_value_a = _effect_value_a;
+            new_passive.effect_value_add_b = _effect_value_add_b;
+            new_passive.target_id = _target_id;
         });
     }
     else
     {
         passive_db_table.modify(passive_db_iter, _self, [&](auto &new_passive) {
-            new_passive.job = _job;
-            new_passive.monster_class = _monster_class;
-            new_passive.enable_stack = _enable_stack;
-            new_passive.max_stack = _max_stack;
-            new_passive.effect_type = _effect_type;
-            new_passive.effect_value = _effect_value;
-            new_passive.effect_value_add = _effect_value_add;
-            new_passive.target = _target;
-            new_passive.role_target = _role_target;
+            new_passive.passive_type = _passive_type;
+            new_passive.job_class = _job_class;
+            new_passive.enable_stack_max = _enable_stack_max;
+            new_passive.effect_id = _effect_id;
+            new_passive.effect_type_id = _effect_type_id;
+            new_passive.effect_value_a = _effect_value_a;
+            new_passive.effect_value_add_b = _effect_value_add_b;
+            new_passive.target_id = _target_id;
         });
     }
 }
 
-void battletest::insert_active(uint64_t _id, uint32_t _job, uint32_t _monster_class, uint32_t _active_per,
+void battletest::insert_active(uint64_t _active_id, uint32_t _job, uint32_t _monster_class, uint32_t _active_per,
                                uint32_t _skill_type, uint32_t _attack_type, uint32_t _dmg_type, uint32_t _target, uint32_t _target_count, uint32_t _target_range,
-                               uint32_t _hit_count, uint32_t _atk_per, uint32_t _atk_per_add, uint32_t _heal_per, uint32_t _heal_per_add)
+                               uint32_t _hit_count, uint32_t _atk_per, uint32_t _atk_per_add, uint32_t _heal_per, uint32_t _heal_per_add,uint32_t _option_id)
 {
     active_db active_db_table(_self, _self.value);
-    auto active_db_iter = active_db_table.find(_id);
+    auto active_db_iter = active_db_table.find(_active_id);
     if (active_db_iter == active_db_table.end())
     {
         active_db_table.emplace(_self, [&](auto &new_active) {
-            new_active.active_id = _id;
+            new_active.active_id = _active_id;
             new_active.job = _job;
             new_active.monster_class = _monster_class;
             new_active.active_per = _active_per;
             new_active.skill_type = _skill_type;
             new_active.attack_type = _attack_type;
             new_active.dmg_type = _dmg_type;
-            new_active.target = _target;
+            new_active.target_type = _target;
             new_active.target_count = _target_count;
             new_active.target_range = _target_range;
             new_active.hit_count = _hit_count;
@@ -1329,6 +1326,7 @@ void battletest::insert_active(uint64_t _id, uint32_t _job, uint32_t _monster_cl
             new_active.atk_per_add = _atk_per_add;
             new_active.heal_per = _heal_per;
             new_active.heal_per_add = _heal_per_add;
+            new_active.option_id = _option_id;
         });
     }
     else
@@ -1340,7 +1338,7 @@ void battletest::insert_active(uint64_t _id, uint32_t _job, uint32_t _monster_cl
             new_active.skill_type = _skill_type;
             new_active.attack_type = _attack_type;
             new_active.dmg_type = _dmg_type;
-            new_active.target = _target;
+            new_active.target_type = _target;
             new_active.target_count = _target_count;
             new_active.target_range = _target_range;
             new_active.hit_count = _hit_count;
@@ -1348,6 +1346,7 @@ void battletest::insert_active(uint64_t _id, uint32_t _job, uint32_t _monster_cl
             new_active.atk_per_add = _atk_per_add;
             new_active.heal_per = _heal_per;
             new_active.heal_per_add = _heal_per_add;
+            new_active.option_id = _option_id;
         });
     }
 }
@@ -1895,11 +1894,11 @@ ACTION battletest::dberase(std::string _table, std::string _value)
     //     value = atoll(_value.c_str());
     //     erase_stage(value);
     // }
-    if (_table == "dbstage_monsterlist") //스테이지에 몬스터 리스트만 전체 날림
-    {
-        value = atoll(_value.c_str());
-        erase_stage_monster_list(value);
-    }
+    // if (_table == "dbstage_monsterlist") //스테이지에 몬스터 리스트만 전체 날림
+    // {
+    //     value = atoll(_value.c_str());
+    //     erase_stage_monster_list(value);
+    // }
     // if (_table == "dbreward") //보상 테이블을 전체 날림
     // {
     //     value = atoll(_value.c_str());
@@ -1924,11 +1923,11 @@ ACTION battletest::dberase(std::string _table, std::string _value)
     // {
     //     eosio_assert(1 == 0, "Not Exist Table");
     // }
-    if (_table == "dbitemshop")
-    {
-        value = atoll(_value.c_str());
-        erase_itemshop(value);
-    }
+    // if (_table == "dbitemshop")
+    // {
+    //     value = atoll(_value.c_str());
+    //     erase_itemshop(value);
+    // }
 
 }
 
@@ -2373,296 +2372,296 @@ ACTION battletest::movedb(eosio::name _user)
     // }
 }
 
-// ACTION battletest::dbinit(std::string _table)
-// {
-//     system_master system_master_table(_self, _self.value);
-//     auto system_master_iter = system_master_table.begin();
+ACTION battletest::dbinit(std::string _table)
+{
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
 
-//     permission_level master_auth;
-//     master_auth.actor = system_master_iter->master;
-//     master_auth.permission = "active"_n;
-//     require_auth(master_auth);
+    permission_level master_auth;
+    master_auth.actor = system_master_iter->master;
+    master_auth.permission = "active"_n;
+    require_auth(master_auth);
 
-//     eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 4");
+    eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 4");
 
-//     // if (_table == "dbitemshop")
-//     // {
-//     //     item_shop my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
+    // if (_table == "dbitemshop")
+    // {
+    //     item_shop my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
 
 
-//     // if (_table == "dbbody")
-//     // {
-//     //     body_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbhair")
-//     // {
-//     //     hair_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbhead")
-//     // {
-//     //     head_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbgender")
-//     // {
-//     //     gender_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbitemgrade")
-//     // {
-//     //     item_grade_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbmonstergd")
-//     // {
-//     //     monster_grade_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbservantjob")
-//     // {
-//     //     servant_job_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
+    // if (_table == "dbbody")
+    // {
+    //     body_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // else if (_table == "dbhair")
+    // {
+    //     hair_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // else if (_table == "dbhead")
+    // {
+    //     head_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // else if (_table == "dbgender")
+    // {
+    //     gender_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // else if (_table == "dbitemgrade")
+    // {
+    //     item_grade_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // else if (_table == "dbmonstergd")
+    // {
+    //     monster_grade_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // else if (_table == "dbservantjob")
+    // {
+    //     servant_job_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
 
-//     // else if (_table == "dbgraderatio")
-//     // {
-//     //     grade_ratio_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbequipup")
-//     // {
-//     //     upgrade_equipment_ratio_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbmonsterup")
-//     // {
-//     //     upgrade_monster_ratio_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbitemup")
-//     // {
-//     //     upgrade_item_ratio_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dblevel")
-//     // {
-//     //     lv_exp my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbservantlv")
-//     // {
-//     //     servant_lv_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbmonsterlv")
-//     // {
-//     //     monster_lv_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbstatusserv")
-//     // {
-//     //     servant_lv_status_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbstatusmon")
-//     // {
-//     //     monster_lv_status_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbpassive")
-//     // {
-//     //     passive_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbactive")
-//     // {
-//     //     active_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbmonster")
-//     // {
-//     //     monster_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbservants")
-//     // {
-//     //     servant_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbequipment")
-//     // {
-//     //     equipment_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dballitem")
-//     // {
-//     //     allitem_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbservantid")
-//     // {
-//     //     servant_id_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbmonsterid")
-//     // {
-//     //     monster_id_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbitemid")
-//     // {
-//     //     item_id_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbgachapool")
-//     // {
-//     //     main_gacha_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else
-//     // {
-//     //     eosio_assert(1 == 0, "Not Exist Table");
-//     // }
-// }
+    // else if (_table == "dbgraderatio")
+    // {
+    //     grade_ratio_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // else if (_table == "dbequipup")
+    // {
+    //     upgrade_equipment_ratio_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // else if (_table == "dbmonsterup")
+    // {
+    //     upgrade_monster_ratio_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // else if (_table == "dbitemup")
+    // {
+    //     upgrade_item_ratio_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // else if (_table == "dblevel")
+    // {
+    //     lv_exp my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // else if (_table == "dbservantlv")
+    // {
+    //     servant_lv_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // else if (_table == "dbmonsterlv")
+    // {
+    //     monster_lv_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // else if (_table == "dbstatusserv")
+    // {
+    //     servant_lv_status_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // else if (_table == "dbstatusmon")
+    // {
+    //     monster_lv_status_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // if (_table == "dbpassive")
+    // {
+    //     passive_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // if (_table == "dbactive")
+    // {
+    //     active_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // else if (_table == "dbmonster")
+    // {
+    //     monster_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // else if (_table == "dbservants")
+    // {
+    //     servant_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // else if (_table == "dbequipment")
+    // {
+    //     equipment_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // else if (_table == "dballitem")
+    // {
+    //     allitem_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // else if (_table == "dbservantid")
+    // {
+    //     servant_id_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // else if (_table == "dbmonsterid")
+    // {
+    //     monster_id_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // else if (_table == "dbitemid")
+    // {
+    //     item_id_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // if (_table == "dbgachapool")
+    // {
+    //     main_gacha_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    // else
+    // {
+    //     eosio_assert(1 == 0, "Not Exist Table");
+    // }
+}
 
 ACTION battletest::setdata(eosio::name _contract, eosio::name _user, std::string _table)
 {
@@ -4035,10 +4034,6 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
                 system_master system_master_table(_self, _self.value);
                 auto system_master_iter = system_master_table.begin();
                 eosio_assert(system_master_iter->state != system_state::pause, "Eos Transfer Cheat : Server Pause");
-
-                // whitelist whitelist_table(_self, _self.value);
-                // auto whitelist_iter = whitelist_table.find(sender.value);
-                // eosio_assert(whitelist_iter != whitelist_table.end(), "Eos Transfer Cheat : Empty White User / Not Yet White User");
             }
             else if (res.action == "inventorybuy") //인벤토리 구매
             {
@@ -4173,223 +4168,154 @@ uint32_t battletest::change_servant_statue(uint32_t _status_grade)
 uint32_t battletest::get_monster_passive_skill(uint32_t _monster_class, uint32_t _seed)
 {
     uint32_t passive_id = 0;
-    class_stat_db class_stat_db_table(_self, _self.value);
-    auto class_stat_db_iter = class_stat_db_table.find(_monster_class);
-    eosio_assert(class_stat_db_iter != class_stat_db_table.end(), "Monster Passive : Empty Class Stat Table / Not Set Class");
 
-    passive_db passive_db_table(_self, _self.value);
-    if (class_stat_db_iter->passive_private_per == 0) //전용 패시브 확률이 0인데
-    {
-        if (class_stat_db_iter->passive_public_list.size() == 0) //공용 패시브 리스트가 존재 하지 않으면
-        {
-            return passive_id;
-        }
-        uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->passive_public_list.size(), 0, 1);
-        auto passive_db_iter = passive_db_table.find(class_stat_db_iter->passive_public_list[random_skill_index]);
-        eosio_assert(passive_db_iter != passive_db_table.end(), "Monster Passive : Empty Public Active ID / Not Set Public Passive ID");
-        passive_id = passive_db_iter->passive_id;
-        return passive_id;
-    }
-    else //전용 패시브 확률이 0이 아닌데
-    {
-        if (class_stat_db_iter->passive_private_list.size() == 0) //전용 패시브 리스트가 존재 하지 않지만
-        {
-            if (class_stat_db_iter->passive_public_list.size() != 0) //공용 패시브 리스트가 존재하면
-            {
-                uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->passive_public_list.size(), 0, 1);
-                auto passive_db_iter = passive_db_table.find(class_stat_db_iter->passive_public_list[random_skill_index]);
-                eosio_assert(passive_db_iter != passive_db_table.end(), "Monster Passive : Empty Public Passive ID / Not Set Public Passive ID");
-                passive_id = passive_db_iter->passive_id;
-                return passive_id;
-            }
-            return passive_id;
-        }
-        else
-        {
-            uint32_t random_private_per = safeseed::get_random_value(_seed, 100, 0, 0);
-            if (class_stat_db_iter->passive_private_per >= random_private_per)
-            {
-                uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->passive_private_list.size(), 0, 1);
-                auto passive_db_iter = passive_db_table.find(class_stat_db_iter->passive_private_list[random_skill_index]);
-                eosio_assert(passive_db_iter != passive_db_table.end(), "Monster Passive : Empty Private Passive ID / Not Set Private Passive ID");
-                passive_id = passive_db_iter->passive_id;
-                return passive_id;
-            }
-            else
-            {
-                uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->passive_public_list.size(), 0, 1);
-                auto passive_db_iter = passive_db_table.find(class_stat_db_iter->passive_public_list[random_skill_index]);
-                eosio_assert(passive_db_iter != passive_db_table.end(), "Monster Passive : Empty Public Passive ID / Not Set Public Passive ID");
-                passive_id = passive_db_iter->passive_id;
-                return passive_id;
-            }
-        }
-    }
+    main_gacha_db main_gacha_db_table(_self, _self.value);
+    auto p_passive_iter = main_gacha_db_table.find(4);
+    eosio_assert(p_passive_iter != main_gacha_db_table.end(), "Get Monster Passive Skill : Empty Public Passive / Wrong Gacha ID");
+
+    uint32_t random_rate = safeseed::get_random_value(_seed, p_passive_iter->db_index, 0, 1);
+    random_rate += 1;
+    random_rate += (10000 * p_passive_iter->gacha_id);
+
+    auto passvie = main_gacha_db_table.find(random_rate);
+    eosio_assert(passvie != main_gacha_db_table.end(), "Get Monster Passvie Skill : Empty Gacha ID / Wrong Gacha ID");
+    passive_id = passvie->db_index;
+
+    passive_db passsive_db_table(_self, _self.value);
+    auto passive_iter = passsive_db_table.find(passive_id);
+    eosio_assert(passive_iter != passsive_db_table.end(),"Get Monster Passvie Skill : Empty Passvie ID / Wrong Passvie ID");
+
+    return passive_id;
 }
 
 uint32_t battletest::get_monster_active_skill(uint32_t _monster_class, uint32_t _seed)
 {
     uint32_t active_id = 0;
-    class_stat_db class_stat_db_table(_self, _self.value);
-    auto class_stat_db_iter = class_stat_db_table.find(_monster_class);
-    eosio_assert(class_stat_db_iter != class_stat_db_table.end(), "Monster Actvie : Empty Class Stat Table / Not Set Class");
+    main_gacha_db main_gacha_db_table(_self, _self.value);
+    auto p_active_iter = main_gacha_db_table.find(5);
+    eosio_assert(p_active_iter != main_gacha_db_table.end(), "Get Monster Active Skill : Empty Public Active / Wrong Gacha ID");
+    uint32_t random_rate = safeseed::get_random_value(_seed, p_active_iter->db_index, 0, 1);
+    random_rate += 1;
+    random_rate += (10000 * p_active_iter->gacha_id);
+    auto active = main_gacha_db_table.find(random_rate);
+    eosio_assert(active != main_gacha_db_table.end(), "Get Monster Active Skill : Empty Gacha ID / Wrong Gacha ID");
+    active_id = active->db_index;
 
     active_db active_db_table(_self, _self.value);
-    if (class_stat_db_iter->active_private_per == 0) //전용 액티브 확률이 0인데
-    {
-        if (class_stat_db_iter->active_public_list.size() == 0)
-        {
-            return active_id;
-        }
-        uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->active_public_list.size(), 0, 1);
-        auto actvie_db_iter = active_db_table.find(class_stat_db_iter->active_public_list[random_skill_index]);
-        eosio_assert(actvie_db_iter != active_db_table.end(), "Monster Active : Empty Public Active ID / Not Set Public Active ID");
-        active_id = actvie_db_iter->active_id;
-        return active_id;
-    }
-    else
-    {
-        if (class_stat_db_iter->active_private_list.size() == 0)
-        {
-            if (class_stat_db_iter->active_public_list.size() != 0)
-            {
-                uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->active_public_list.size(), 0, 1);
-                auto actvie_db_iter = active_db_table.find(class_stat_db_iter->active_public_list[random_skill_index]);
-                eosio_assert(actvie_db_iter != active_db_table.end(), "Monster Active : Empty Public Active ID / Not Set Public Active ID");
-                active_id = actvie_db_iter->active_id;
-                return active_id;
-            }
-            return active_id;
-        }
-        uint32_t random_private_per = safeseed::get_random_value(_seed, 100, 0, 0);
-        if (class_stat_db_iter->active_private_per >= random_private_per)
-        {
-            uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->active_private_list.size(), 0, 1);
-            auto actvie_db_iter = active_db_table.find(class_stat_db_iter->active_private_list[random_skill_index]);
-            eosio_assert(actvie_db_iter != active_db_table.end(), "Monster Private : Empty Public Active ID / Not Set Private Active ID");
-            active_id = actvie_db_iter->active_id;
-            return active_id;
-        }
-        else
-        {
-            uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->active_public_list.size(), 0, 1);
-            auto actvie_db_iter = active_db_table.find(class_stat_db_iter->active_public_list[random_skill_index]);
-            eosio_assert(actvie_db_iter != active_db_table.end(), "Monster Active : Empty Public Active ID / Not Set Public Active ID");
-            active_id = actvie_db_iter->active_id;
-            return active_id;
-        }
-    }
+    auto active_iter = active_db_table.find(active_id);
+    eosio_assert(active_iter != active_db_table.end(), "Get Monster Active Skill : Empty Active ID / Wrong Active ID");
+
+    return active_id;
+}
+
+uint32_t battletest::get_class_passive(uint32_t _monster_class)
+{
+    uint32_t passive_id = 0;
+
+    uint32_t class_active_gacha_id = CLASS_PASSIVE_START_ID + _monster_class;
+    main_gacha_db main_gacha_db_table(_self, _self.value);
+    auto p_passive_iter = main_gacha_db_table.find(class_active_gacha_id);
+    eosio_assert(p_passive_iter != main_gacha_db_table.end(), "Get Class Passive Skill : Empty Public Passive / Wrong Gacha ID");
+
+    uint32_t random_rate = safeseed::get_random_value(now(), p_passive_iter->db_index, 0, 1);
+    random_rate += 1;
+    random_rate += (10000 * p_passive_iter->gacha_id);
+
+    auto passvie = main_gacha_db_table.find(random_rate);
+    eosio_assert(passvie != main_gacha_db_table.end(), "Get Class Passvie Skill : Empty Gacha ID / Wrong Gacha ID");
+    passive_id = passvie->db_index;
+
+    passive_db passsive_db_table(_self, _self.value);
+    auto passive_iter = passsive_db_table.find(passive_id);
+    eosio_assert(passive_iter != passsive_db_table.end(),"Get Class Passvie Skill : Empty Passvie ID / Wrong Passvie ID");
+
+    return passive_id;
 }
 
 uint32_t battletest::get_servant_passive_skill(uint32_t _job, uint32_t _seed)
 {
     uint32_t passive_id = 0;
-    job_stat_db class_stat_db_table(_self, _self.value);
-    auto class_stat_db_iter = class_stat_db_table.find(_job);
-    eosio_assert(class_stat_db_iter != class_stat_db_table.end(), "Servant Passive : Empty Job Stat Table / Not Set Job");
 
-    passive_db passive_db_table(_self, _self.value);
-    if (class_stat_db_iter->passive_private_per == 0) //전용 패시브 확률이 0인데
-    {
-        if (class_stat_db_iter->passive_public_list.size() == 0) //공용 패시브 리스트가 존재 하지 않으면
-        {
-            return passive_id;
-        }
-        uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->passive_public_list.size(), 0, 1);
-        auto passive_db_iter = passive_db_table.find(class_stat_db_iter->passive_public_list[random_skill_index]);
-        eosio_assert(passive_db_iter != passive_db_table.end(), "Servant Passive : Empty Public Passive ID / Not Set Public Passive ID");
-        passive_id = passive_db_iter->passive_id;
-        return passive_id;
-    }
-    else //전용 패시브 확률이 0이 아닌데
-    {
-        if (class_stat_db_iter->passive_private_list.size() == 0) //전용 패시브 리스트가 존재 하지 않지만
-        {
-            if (class_stat_db_iter->passive_public_list.size() != 0) //공용 패시브 리스트가 존재하면
-            {
-                uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->passive_public_list.size(), 0, 1);
-                auto passive_db_iter = passive_db_table.find(class_stat_db_iter->passive_public_list[random_skill_index]);
-                eosio_assert(passive_db_iter != passive_db_table.end(), "Servant Passive : Empty Public Passive ID / Not Set Public Passive ID");
-                passive_id = passive_db_iter->passive_id;
-                return passive_id;
-            }
-            return passive_id;
-        }
-        else
-        {
-            uint32_t random_private_per = safeseed::get_random_value(_seed, 100, 0, 0);
-            if (class_stat_db_iter->passive_private_per >= random_private_per)
-            {
-                uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->passive_private_list.size(), 0, 1);
-                auto passive_db_iter = passive_db_table.find(class_stat_db_iter->passive_private_list[random_skill_index]);
-                eosio_assert(passive_db_iter != passive_db_table.end(), "Servant Passive : Empty Private Passive ID / Not Set Private Passive ID");
-                passive_id = passive_db_iter->passive_id;
-                return passive_id;
-            }
-            else
-            {
-                uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->passive_public_list.size(), 0, 1);
-                auto passive_db_iter = passive_db_table.find(class_stat_db_iter->passive_public_list[random_skill_index]);
-                eosio_assert(passive_db_iter != passive_db_table.end(), "Servant Passive : Empty Public Passive ID / Not Set Public Passive ID");
-                passive_id = passive_db_iter->passive_id;
-                return passive_id;
-            }
-        }
-    }
+    main_gacha_db main_gacha_db_table(_self, _self.value);
+    auto p_passive_iter = main_gacha_db_table.find(4);
+    eosio_assert(p_passive_iter != main_gacha_db_table.end(), "Get Servant Passive Skill : Empty Public Passive / Wrong Gacha ID");
+
+    uint32_t random_rate = safeseed::get_random_value(_seed, p_passive_iter->db_index, 0, 1);
+    random_rate += 1;
+    random_rate += (10000 * p_passive_iter->gacha_id);
+
+    auto passvie = main_gacha_db_table.find(random_rate);
+    eosio_assert(passvie != main_gacha_db_table.end(), "Get Servant Passvie Skill : Empty Gacha ID / Wrong Gacha ID");
+    passive_id = passvie->db_index;
+
+    passive_db passsive_db_table(_self, _self.value);
+    auto passive_iter = passsive_db_table.find(passive_id);
+    eosio_assert(passive_iter != passsive_db_table.end(),"Get Servant Passvie Skill : Empty Passvie ID / Wrong Passvie ID");
+
+    return passive_id;
 }
 
 uint32_t battletest::get_servant_active_skill(uint32_t _job, uint32_t _seed)
 {
     uint32_t active_id = 0;
-    job_stat_db class_stat_db_table(_self, _self.value);
-    auto class_stat_db_iter = class_stat_db_table.find(_job);
-     eosio_assert(class_stat_db_iter != class_stat_db_table.end(), "Servant Active : Empty Job Stat Table / Not Set Job");
+    main_gacha_db main_gacha_db_table(_self, _self.value);
+    uint32_t gacha_activ_per_id = JOB_ACTIVE_START_ID + JOB_PRIVATE_ACTIVE_PER_ID;
+    auto private_per_iter = main_gacha_db_table.find(gacha_activ_per_id);
+    eosio_assert(private_per_iter != main_gacha_db_table.end(),"Get Servant Active Skill : Empty Active Per / Wrong Gacha ID");
 
-    active_db active_db_table(_self, _self.value);
-    if (class_stat_db_iter->active_private_per == 0) //전용 액티브 확률이 0인데
+    uint32_t random_rate = safeseed::get_random_value(_seed, 100, 0 ,0);
+    if(random_rate < private_per_iter->db_index)
     {
-        if (class_stat_db_iter->active_public_list.size() == 0)
-        {
-            return active_id;
-        }
-        uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->active_public_list.size(), 0, 1);
-        auto actvie_db_iter = active_db_table.find(class_stat_db_iter->active_public_list[random_skill_index]);
-        eosio_assert(actvie_db_iter != active_db_table.end(), "Servant Active : Empty Public Active ID / Not Set Public Active ID");
-        active_id = actvie_db_iter->active_id;
-        return active_id;
+        uint32_t job_active_gacha_id = JOB_ACTIVE_START_ID + _job;
+        auto p_active_iter = main_gacha_db_table.find(job_active_gacha_id);
+        eosio_assert(p_active_iter != main_gacha_db_table.end(), "Get Servant Active Skill : Empty Theif Active / Wrong Gacha ID");
+        uint32_t random_rate = safeseed::get_random_value(_seed, p_active_iter->db_index, 0, 1);
+        random_rate += 1;
+        random_rate += (10000 * p_active_iter->gacha_id);
+        auto active = main_gacha_db_table.find(random_rate);
+        eosio_assert(active != main_gacha_db_table.end(), "Get Servant Active Skill : Empty Theif Active Gacha ID / Wrong Gacha ID");
+        active_id = active->db_index;
     }
     else
     {
-        if (class_stat_db_iter->active_private_list.size() == 0)
-        {
-            if (class_stat_db_iter->active_public_list.size() != 0)
-            {
-                uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->active_public_list.size(), 0, 1);
-                auto actvie_db_iter = active_db_table.find(class_stat_db_iter->active_public_list[random_skill_index]);
-                eosio_assert(actvie_db_iter != active_db_table.end(), "Servant Active : Empty Public Active ID / Not Set Public Active ID");
-                active_id = actvie_db_iter->active_id;
-                return active_id;
-            }
-            return active_id;
-        }
-        uint32_t random_private_per = safeseed::get_random_value(_seed, 100, 0, 0);
-        if (class_stat_db_iter->active_private_per >= random_private_per)
-        {
-            uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->active_private_list.size(), 0, 1);
-            auto actvie_db_iter = active_db_table.find(class_stat_db_iter->active_private_list[random_skill_index]);
-            eosio_assert(actvie_db_iter != active_db_table.end(), "Servant Active : Empty Private Active ID / Not Set Private Active ID");
-            active_id = actvie_db_iter->active_id;
-            return active_id;
-        }
-        else
-        {
-            uint32_t random_skill_index = safeseed::get_random_value(_seed, class_stat_db_iter->active_public_list.size(), 0, 1);
-            auto actvie_db_iter = active_db_table.find(class_stat_db_iter->active_public_list[random_skill_index]);
-            eosio_assert(actvie_db_iter != active_db_table.end(), "Servant Active : Empty Public Active ID / Not Set Public Active ID");
-            active_id = actvie_db_iter->active_id;
-            return active_id;
-        }
+        auto p_active_iter = main_gacha_db_table.find(5);
+        eosio_assert(p_active_iter != main_gacha_db_table.end(),"Get Servant Active Skill : Empty Public Active / Wrong Gacha ID");
+        uint32_t random_rate = safeseed::get_random_value(_seed, p_active_iter->db_index, 0 ,1);
+        random_rate += 1;
+        random_rate += (10000 * p_active_iter->gacha_id);
+        auto active = main_gacha_db_table.find(random_rate);
+        eosio_assert(active != main_gacha_db_table.end(),"Get Servant Active Skill : Empty Gacha ID / Wrong Gacha ID");
+        active_id = active->db_index;
     }
+    active_db active_db_table(_self, _self.value);
+    auto active_iter = active_db_table.find(active_id);
+    eosio_assert(active_iter != active_db_table.end(),"Get Servant Active Skill : Empty Active ID / Wrong Active ID");
+
+    return active_id;
+}
+
+uint32_t battletest::get_job_passiive(uint32_t _job)
+{
+    uint32_t passive_id = 0;
+
+    uint32_t job_active_gacha_id = JOB_PASSSIVE_START_ID + _job;
+    main_gacha_db main_gacha_db_table(_self, _self.value);
+    auto p_passive_iter = main_gacha_db_table.find(job_active_gacha_id);
+    eosio_assert(p_passive_iter != main_gacha_db_table.end(), "Get Job Passive Skill : Empty Public Passive / Wrong Gacha ID");
+
+    uint32_t random_rate = safeseed::get_random_value(now(), p_passive_iter->db_index, 0, 1);
+    random_rate += 1;
+    random_rate += (10000 * p_passive_iter->gacha_id);
+
+    auto passvie = main_gacha_db_table.find(random_rate);
+    eosio_assert(passvie != main_gacha_db_table.end(), "Get Job Passvie Skill : Empty Gacha ID / Wrong Gacha ID");
+    passive_id = passvie->db_index;
+
+    passive_db passsive_db_table(_self, _self.value);
+    auto passive_iter = passsive_db_table.find(passive_id);
+    eosio_assert(passive_iter != passsive_db_table.end(),"Get Job Passvie Skill : Empty Passvie ID / Wrong Passvie ID");
+
+    return passive_id;
 }
 
 void battletest::gacha_servant_id(eosio::name _user, uint64_t _seed)
@@ -4461,16 +4387,13 @@ void battletest::gacha_servant_id(eosio::name _user, uint64_t _seed)
         new_servant.state = object_state::on_inventory;
 
         uint32_t active_id = get_servant_active_skill(servant_id_db_iter.job, _seed);
-        if (active_id != 0)
-        {
-            new_servant.active_skill.push_back(active_id);
-        }
+        new_servant.active_skill.push_back(active_id);
+
+        // uint32_t job_passive = get_job_passiive(servant_id_db_iter.job);
+        // new_servant.passive_skill.push_back(job_passive);
 
         uint32_t passive_id = get_servant_passive_skill(servant_id_db_iter.job, _seed);
-        if (passive_id != 0)
-        {
-            new_servant.passive_skill.push_back(passive_id);
-        }
+        new_servant.passive_skill.push_back(passive_id);
 
         result.index = update_user_servant_list.index;
         result.type = result::servant;
@@ -4674,17 +4597,15 @@ void battletest::gacha_monster_id(eosio::name _user, uint64_t _seed)
 
         new_monster.state = object_state::on_inventory;
 
-        uint32_t active_id = get_monster_active_skill(monster_id_db_iter.monster_class, _seed);
-        if (active_id != 0)
-        {
-            new_monster.active_skill.push_back(active_id);
-        }
+        // uint32_t active_id = get_monster_active_skill(monster_id_db_iter.monster_class, _seed);
+        // new_monster.active_skill.push_back(active_id);
+
+        // uint32_t class_passive = get_class_passive(monster_id_db_iter.monster_class);
+        // new_monster.passive_skill.push_back(class_passive);
 
         uint32_t passive_id = get_monster_passive_skill(monster_id_db_iter.monster_class, _seed);
-        if (passive_id != 0)
-        {
-            new_monster.passive_skill.push_back(passive_id);
-        }
+        new_monster.passive_skill.push_back(passive_id);
+
 
         result.index = update_user_monster_list.index;
         result.type = result::monster;
@@ -5067,41 +4988,7 @@ ACTION battletest::addblack(eosio::name _user)
 
 #pragma region white action
 
-ACTION battletest::deletewhite(eosio::name _user)
-{
-    system_master system_master_table(_self, _self.value);
-    auto system_master_iter = system_master_table.begin();
 
-    permission_level master_auth;
-    master_auth.actor = system_master_iter->master;
-    master_auth.permission = "active"_n;
-    require_auth(master_auth);
-
-    whitelist white_table(_self, _self.value);
-    auto whitelist_iter = white_table.find(_user.value);
-    eosio_assert(whitelist_iter != white_table.end(), "User Not White List");
-
-    white_table.erase(whitelist_iter);
-}
-
-ACTION battletest::addwhite(eosio::name _user)
-{
-    system_master system_master_table(_self, _self.value);
-    auto system_master_iter = system_master_table.begin();
-
-    permission_level master_auth;
-    master_auth.actor = system_master_iter->master;
-    master_auth.permission = "active"_n;
-    require_auth(master_auth);
-
-    whitelist white_table(_self, _self.value);
-    auto whitelist_iter = white_table.find(_user.value);
-    eosio_assert(whitelist_iter == white_table.end(), "White List User");
-
-    white_table.emplace(_self, [&](auto &new_white_user) {
-        new_white_user.user = _user;
-    });
-}
 
 #pragma endregion
 
@@ -5298,6 +5185,7 @@ ACTION battletest::saveparty(eosio::name _user, uint32_t _party_number, const st
             user_servant_table.modify(user_servant_iter, owner, [&](auto &set_party) {
                 set_party.party_number = _party_number;
                 set_party.servant.state = object_state::on_party;
+
             });
             uint32_t pos = servant_pos[i];
             save_party.servant_list[i] = _servant_list[pos];
@@ -5329,6 +5217,7 @@ ACTION battletest::saveparty(eosio::name _user, uint32_t _party_number, const st
                 }
                 continue;
             }
+            eosio_assert(save_party.servant_list[i] != 0,"Save Party : Empty Servant / Need Set Servant");
             auto user_monster_iter = user_monster_table.find(_monster_list[i]);
             eosio_assert(user_monster_iter != user_monster_table.end(), "Save Party : Empty Monster Table / Wrong Monster Index");
             eosio_assert(user_monster_iter->party_number == EMPTY_PARTY, "Save Party : Already Set Monster / Monster Set Other Party");
@@ -5383,9 +5272,6 @@ ACTION battletest::testcheat(eosio::name _user)
     auto system_master_iter = system_master_table.begin();
     eosio_assert(system_master_iter->state != system_state::pause, "Cheat : Server Pause");
 
-    // whitelist whitelist_table(_self, _self.value);
-    // auto whitelist_iter = whitelist_table.find(_user.value);
-    // eosio_assert(whitelist_iter != whitelist_table.end(), "Cheat : Empty WhiteList / Not Yet Add White");
 
     user_auths auth_user_table(_self, _self.value);
     auto new_user_iter = auth_user_table.find(_user.value);
@@ -5491,25 +5377,32 @@ uint32_t battletest::get_max_hp(status_info _status)
 uint32_t battletest::get_magic_attack(status_info _status)
 {
     uint32_t magic_attack;
-    magic_attack = ((_status.basic_int) * 300) / decimal; //3.0 * 100
+    magic_attack = check_over_mult_flow(_status.basic_int, 3); //3.0 * 100
     return magic_attack;
 }
 uint32_t battletest::get_physical_attack(status_info _status)
 {
+    //2.2 * 100
     uint32_t physical_attack;
-    physical_attack = ((_status.basic_str + _status.basic_dex) * 220) / decimal; //2.2 * 100
+    uint32_t total_status = _status.basic_str + _status.basic_dex;
+    physical_attack = check_over_mult_flow(total_status, 220);
+    physical_attack = check_under_divide_flow(physical_attack, decimal);
     return physical_attack;
 }
 uint32_t battletest::get_magic_defense(status_info _status)
 {
+    //1.3 * 100
     uint32_t magic_defense;
-    magic_defense = ((_status.basic_int) * 130) / decimal; //1.3 * 100
+    magic_defense = check_over_mult_flow(_status.basic_int, 130);
+    magic_defense = check_under_divide_flow(magic_defense, decimal);
     return magic_defense;
 }
 uint32_t battletest::get_physical_defense(status_info _status)
 {
+    //1.3 * 100
     uint32_t physical_defense;
-    physical_defense = ((_status.basic_dex) * 130) / decimal; //1.3 * 100
+    physical_defense = check_over_mult_flow(_status.basic_dex, 130);
+    physical_defense = check_under_divide_flow(physical_defense, decimal); 
     return physical_defense;
 }
 
@@ -5630,69 +5523,6 @@ void battletest::check_magic_defense_option(eosio::name _user, uint32_t _index, 
     }
 }
 
-void battletest::set_passive_attack_effect(character_state_data &_state, attacker_info &_attack)
-{
-    for (uint32_t i = 0; i < _state.passive_skill_list.size(); ++i)
-    {
-        passive_db passive_db_table(_self, _self.value);
-        auto passive_iter = passive_db_table.find(_state.passive_skill_list[i]);
-        eosio_assert(passive_iter != passive_db_table.end(), "Passive Effect : Empty Passive ID / Wrong Passive ID");
-        if (passive_iter->passive_id == passive_name::passive_physical_attack)  
-        {
-            _attack.p_atk += (_attack.p_atk * passive_iter->effect_value) / 100;
-        }
-        else if (passive_iter->passive_id == passive_name::passive_magic_attack)
-        {
-            _attack.m_atk += (_attack.m_atk * passive_iter->effect_value) / 100;
-        }
-        else if (passive_iter->passive_id == passive_name::passive_warrior)
-        {
-            _attack.p_atk += (_attack.p_atk * passive_iter->effect_value) / 100;
-        }
-        else if (passive_iter->passive_id == passive_name::passive_thief)
-        {
-            _attack.m_atk += (_attack.p_atk * passive_iter->effect_value) / 100;
-        }
-    }
-}
-// void set_passive_defense_effect(character_state_data &_state, defender_info &_defense)
-// {
-//     for (uint32_t i = 0; i < _state.passive_skill_list.size(); ++i)
-//     {
-//         passive_db passive_db_table(_self, _self.value);
-//         auto passive_iter = passive_db_table.find(_state.passive_skill_list[i]);
-//         eosio_assert(passive_iter != passive_db_table.end(), "Passive Effect : Empty Passive ID / Wrong Passive ID");
-//         if (passive_iter->passive_id == passive_name::passive_physical_defense)  
-//         {
-//             _defense.p_dfs += (_attack.p_dfs * passive_iter->effect_value) / 100;
-//         }
-//         else if (passive_iter->passive_id == passive_name::passive_magic_defense)
-//         {
-//             _attack.m_dfs += (_attack.m_dfs * passive_iter->effect_value) / 100;
-//         }
-//         else if (passive_iter->passive_id == passive_name::passive_archer)
-//         {
-
-//         }
-//     }
-// }
-// void set_party_attack_passive_effect(std::vector<character_state_data> _state, attacker_info &_attack)
-// {
-//     for(uint32_t i = 0; i < _state.size(); ++i)
-//     {
-        
-//     }
-// }
-
-// uint32_t get_same_class_count(std::vector<character_state_data> _state)
-// {
-//     uint32_t count = 0;
-//     for (uint32_t i = 0; i < _state.size(); ++i)
-//     {
-//         if(_state[i].position < 10)
-//     }
-//     return count;
-// }
 
 battletest::status_info battletest::get_level_up_monster_status(uint64_t _class, uint64_t _grade, status_info _status)
 {
@@ -5730,8 +5560,11 @@ battletest::status_info battletest::get_level_up_servant_status(uint64_t _job, s
 }
 
 
-uint64_t battletest::get_damage(uint32_t _atk, uint32_t _dfs)
+uint32_t battletest::get_damage(uint32_t _atk, uint32_t _dfs)
 {
+    // float defen = float(defense_constant) / float(defense_constant + _dfs);
+    // float dam = float(_atk) * defen;
+    // uint32_t damage = uint32_t(dam);
     uint32_t damage = ((_atk * ((defense_constant * decimal) / (defense_constant + _dfs))));
     damage = damage / decimal;
     return damage;
@@ -5772,35 +5605,10 @@ void battletest::set_stage_state(uint64_t _stage_id, std::vector<character_state
 
         status_info basic_status = status;
 
-        passive_db passive_db_table(_self, _self.value);
-        for (uint32_t i = 0; i < stage_enemy_db_iter->passive_list.size(); ++i)
-        {
-            auto passive_db_iter = passive_db_table.find(stage_enemy_db_iter->passive_list[i]);
-            eosio_assert(passive_db_iter != passive_db_table.end(), "Set Enemy State : Empty Passive ID / Wrong Passive ID");
-            if (passive_db_iter->passive_id == passive_name::passive_str)
-            {
-                status.basic_str += (status.basic_str * passive_db_iter->effect_value) / 100;
-            }
-            else if (passive_db_iter->passive_id == passive_name::passive_dex)
-            {
-                status.basic_dex += (status.basic_dex * passive_db_iter->effect_value) / 100;
-            }
-            else if (passive_db_iter->passive_id == passive_name::passive_int)
-            {
-                status.basic_int += (status.basic_int * passive_db_iter->effect_value) / 100;
-            }
-            get_state.passive_skill_list.push_back(passive_db_iter->passive_id);
-        }
-
-
         get_state.grade = stage_enemy_db_iter->grade;
         get_state.id = stage_db_iter->monster_list[i].monster_id;
         get_state.index = 0;
         get_state.position = stage_db_iter->monster_list[i].position;
-
-        get_state.now_hp = get_max_hp(status);
-        get_state.state = battle_member_state::live;
-        get_state.status = basic_status;
 
         active_db active_db_table(_self, _self.value);
         for (uint32_t i = 0; i < stage_enemy_db_iter->active_list.size(); ++i)
@@ -5811,7 +5619,37 @@ void battletest::set_stage_state(uint64_t _stage_id, std::vector<character_state
             get_state.active_skill_list.push_back(active_db_iter->active_id);
         }
 
+        uint32_t increase_hp = 0;
+        passive_db passive_db_table(_self, _self.value);
+        for (uint32_t i = 0; i < stage_enemy_db_iter->passive_list.size(); ++i)
+        {
+            auto passive_db_iter = passive_db_table.find(stage_enemy_db_iter->passive_list[i]);
+            eosio_assert(passive_db_iter != passive_db_table.end(), "Set Enemy State : Empty Passive ID / Wrong Passive ID");
+            if (passive_db_iter->effect_id == passive_effect_id::b_str)
+            {
+                status.basic_str += passive_db_iter->effect_value_a;
+            }
+            else if (passive_db_iter->effect_id == passive_effect_id::b_dex)
+            {
+                status.basic_dex += passive_db_iter->effect_value_a;
+            }
+            else if (passive_db_iter->effect_id == passive_effect_id::b_int)
+            {
+                status.basic_int += passive_db_iter->effect_value_a;
+            }
+            else if (passive_db_iter->effect_id == passive_effect_id::hp)
+            {
+                increase_hp += passive_db_iter->effect_value_a;
+            }
+            get_state.passive_skill_list.push_back(passive_db_iter->passive_id);
+        }
 
+        get_state.now_hp = get_max_hp(status) + increase_hp;
+        get_state.max_hp = get_state.now_hp;
+        get_state.state = battle_member_state::live;
+        get_state.status = basic_status;
+        get_state.type = character_type::t_monster; 
+        get_state.upgrade = 0;
 
         _enemy_state_list.push_back(get_state);
 
@@ -5877,7 +5715,8 @@ battletest::character_state_data battletest::get_user_state(eosio::name _user, s
         status.basic_dex = (user_servant_iter->servant.status.basic_dex);
         status.basic_int = (user_servant_iter->servant.status.basic_int);
 
-        basic_status = status;
+        basic_status = user_servant_iter->servant.status;
+
         user_equip_items user_equipment_table(_self, _user.value);
         equipment_db equipment_db_table(_self, _self.value);
         for (uint32_t i = 0; i < user_servant_iter->servant.equip_slot.size(); ++i)         //서번트 장비 슬롯을 돌면서 힘민지에 대한 증가 효과 적용
@@ -5913,44 +5752,42 @@ battletest::character_state_data battletest::get_user_state(eosio::name _user, s
             }
         }
 
-        if (user_servant_iter->servant.passive_skill.size() != 0)       //서번트의 패시브 스킬들을 확인하면서 힘민지에 대한 증가 효과 적용
+        //힘민지에 대한 패시브 적용
+        for (uint32_t i = 0; i < user_servant_iter->servant.passive_skill.size(); ++i)
         {
             passive_db passive_db_table(_self, _self.value);
-            for (uint32_t i = 0; i < user_servant_iter->servant.passive_skill.size(); ++i)
+            auto passive_db_iter = passive_db_table.find(user_servant_iter->servant.passive_skill[i]);
+            eosio_assert(passive_db_iter != passive_db_table.end(), "Set User State : Empty Servant Passive ID / Wrong Servant Passive ID");
+            if (passive_db_iter->effect_id == passive_effect_id::b_str)
             {
-                auto passive_db_iter = passive_db_table.find(user_servant_iter->servant.passive_skill[i]);
-                eosio_assert(passive_db_iter != passive_db_table.end(), "Set User State : Empty Servant Passive ID / Wrong Servant Passive ID");
-                if (passive_db_iter->passive_id == passive_name::passive_str)
-                {
-                    status.basic_str += (status.basic_str * passive_db_iter->effect_value) / 100;
-                }
-                else if (passive_db_iter->passive_id == passive_name::passive_dex)
-                {
-                    status.basic_dex += (status.basic_dex * passive_db_iter->effect_value) / 100;
-                }
-                else if (passive_db_iter->passive_id == passive_name::passive_int)
-                {
-                    status.basic_int += (status.basic_int * passive_db_iter->effect_value) / 100;
-                }
-                get_state.passive_skill_list.push_back(passive_db_iter->passive_id);
+                status.basic_str += passive_db_iter->effect_value_a;
             }
+            else if (passive_db_iter->effect_id == passive_effect_id::b_dex)
+            {
+                status.basic_dex += passive_db_iter->effect_value_a;
+            }
+            else if (passive_db_iter->effect_id == passive_effect_id::b_int)
+            {
+                status.basic_int += passive_db_iter->effect_value_a;
+            }
+            else if (passive_db_iter->effect_id == passive_effect_id::hp)
+            {
+                increase_hp += passive_db_iter->effect_value_a;
+            }
+            get_state.passive_skill_list.push_back(passive_db_iter->passive_id);
         }
 
-        get_state.now_hp = get_max_hp(status);      
-        get_state.now_hp += increase_hp;
-
-        if (user_servant_iter->servant.active_skill.size() != 0)
+        //액티브 스킬의 존재 여부 확인
+        for (uint32_t i = 0; i < user_servant_iter->servant.active_skill.size(); ++i)
         {
             active_db active_db_table(_self, _self.value);
-            for (uint32_t i = 0; i < user_servant_iter->servant.active_skill.size(); ++i)
-            {
-                auto active_db_iter = active_db_table.find(user_servant_iter->servant.active_skill[i]);
-                eosio_assert(active_db_iter != active_db_table.end(), "Set User State : Empty Servant Active ID / Wrong Servant Active ID");
+            auto active_db_iter = active_db_table.find(user_servant_iter->servant.active_skill[i]);
+            eosio_assert(active_db_iter != active_db_table.end(), "Set User State : Empty Servant Active ID / Wrong Servant Active ID");
 
-                get_state.active_skill_list.push_back(active_db_iter->active_id);
-            }
+            get_state.active_skill_list.push_back(active_db_iter->active_id);
         }
 
+        //서번트 아이디가 제대로 된 아이디인지 확인
         servant_db servant_db_table(_self, _self.value);
         auto servant_db_iter = servant_db_table.find(user_servant_iter->servant.id);
         eosio_assert(servant_db_iter != servant_db_table.end(), "Set User State : Empty Servant ID / Wrong Servant ID");
@@ -5959,6 +5796,10 @@ battletest::character_state_data battletest::get_user_state(eosio::name _user, s
         get_state.index = _index;
         get_state.id = user_servant_iter->servant.id;
         get_state.position = _position;
+        get_state.now_hp = get_max_hp(status) + increase_hp;
+        get_state.max_hp = get_state.now_hp;
+        get_state.type = character_type::t_servant; 
+        get_state.upgrade = 0;
     }
     else if (_type == "mon")
     {
@@ -5970,65 +5811,61 @@ battletest::character_state_data battletest::get_user_state(eosio::name _user, s
         status.basic_dex = (user_monster_iter->monster.status.basic_dex);
         status.basic_int = (user_monster_iter->monster.status.basic_int);
 
-        basic_status = status;
+        basic_status = user_monster_iter->monster.status;
 
-        if (user_monster_iter->monster.passive_skill.size() != 0)
+        //몬스터 패시브 처리
+        for (uint32_t i = 0; i < user_monster_iter->monster.passive_skill.size(); ++i)
         {
             passive_db passive_db_table(_self, _self.value);
-            for (uint32_t i = 0; i < user_monster_iter->monster.passive_skill.size(); ++i)
+            auto passive_db_iter = passive_db_table.find(user_monster_iter->monster.passive_skill[i]);
+            eosio_assert(passive_db_iter != passive_db_table.end(), "Set User State : Empty Monster Passive ID / Wrong Monster Passive ID");
+            if (passive_db_iter->effect_id == passive_effect_id::b_str)
             {
-                auto passive_db_iter = passive_db_table.find(user_monster_iter->monster.passive_skill[i]);
-                eosio_assert(passive_db_iter != passive_db_table.end(), "Set User State : Empty Monster Passive ID / Wrong Monster Passive ID");
-                if (passive_db_iter->passive_id == passive_name::passive_str)
-                {
-                    status.basic_str += (status.basic_str * passive_db_iter->effect_value) / 100;
-                }
-                else if (passive_db_iter->passive_id == passive_name::passive_dex) //誘쇱꺽 n% 利앷?
-                {
-                    status.basic_dex += (status.basic_dex * passive_db_iter->effect_value) / 100;
-                }
-                else if (passive_db_iter->passive_id == passive_name::passive_int) //吏??n% 利앷?
-                {
-                    status.basic_int += (status.basic_int * passive_db_iter->effect_value) / 100;
-                }
-                get_state.passive_skill_list.push_back(passive_db_iter->passive_id);
+                status.basic_str += passive_db_iter->effect_value_a;
             }
+            else if (passive_db_iter->effect_id == passive_effect_id::b_dex)
+            {
+                status.basic_dex += passive_db_iter->effect_value_a;
+            }
+            else if (passive_db_iter->effect_id == passive_effect_id::b_int)
+            {
+                status.basic_int += passive_db_iter->effect_value_a;
+            }
+            else if (passive_db_iter->effect_id == passive_effect_id::hp)
+            {
+                increase_hp += passive_db_iter->effect_value_a;
+            }
+            get_state.passive_skill_list.push_back(passive_db_iter->passive_id);
         }
 
-        if (user_monster_iter->monster.active_skill.size() != 0)
+        //몬스터 액티브 스킬 확인
+        active_db active_db_table(_self, _self.value);
+        for (uint32_t i = 0; i < user_monster_iter->monster.active_skill.size(); ++i)
         {
-            active_db active_db_table(_self, _self.value);
-            for (uint32_t i = 0; i < user_monster_iter->monster.active_skill.size(); ++i)
-            {
-                auto active_db_iter = active_db_table.find(user_monster_iter->monster.active_skill[i]);
-                eosio_assert(active_db_iter != active_db_table.end(), "Set User State : Empty Monster Active ID / Wrong Monster Active ID");
+            auto active_db_iter = active_db_table.find(user_monster_iter->monster.active_skill[i]);
+            eosio_assert(active_db_iter != active_db_table.end(), "Set User State : Empty Monster Active ID / Wrong Monster Active ID");
 
-                get_state.active_skill_list.push_back(active_db_iter->active_id);
-            }
+            get_state.active_skill_list.push_back(active_db_iter->active_id);
         }
+
+        //몬스터 아이디가 제대로된 아이디인지
+        monster_db monster_db_table(_self, _self.value);
+        auto monster_db_iter = monster_db_table.find(user_monster_iter->monster.id);
+        eosio_assert(monster_db_iter != monster_db_table.end(), "Set User State : Empty Monster ID / Wrong Monster ID");
+
         get_state.grade = user_monster_iter->monster.grade;
         get_state.index = _index;
         get_state.id = user_monster_iter->monster.id;
         get_state.position = _position;
-        get_state.now_hp = get_max_hp(status);
+        get_state.now_hp = get_max_hp(status) + increase_hp;
+        get_state.max_hp = get_state.now_hp;
+        get_state.type = character_type::t_monster; 
+        get_state.upgrade = user_monster_iter->monster.upgrade;
     }
 
     get_state.state = battle_member_state::live;
     get_state.status = basic_status;
 
-    if (get_state.passive_skill_list.size() != 0)
-    {
-        for (uint32_t i = 0; i <  get_state.passive_skill_list.size(); ++i)
-        {
-            passive_db passive_db_table(_self, _self.value);
-            auto passive_db_iter = passive_db_table.find(get_state.passive_skill_list[i]);
-            eosio_assert(passive_db_iter != passive_db_table.end(), "Set User State : Empty Passive ID / Wrong Passive ID");
-            if (passive_db_iter->passive_id == passive_name::passive_hp)
-            {
-                get_state.now_hp += (get_state.now_hp * passive_db_iter->effect_value) / 100;
-            }
-        }
-    }
     //=================================영수증 처리==========================================//
     std::string state;
     state += to_string(get_state.grade) + ":";
@@ -6108,6 +5945,52 @@ uint32_t battletest::get_stage_id(uint32_t _stage_type, uint32_t _stage_floor)
     return stage_id;
 }
 
+void battletest::set_all_passive_status(
+    std::vector<character_state_data> &_my_state_list)
+{
+    uint32_t plus_hp = 0;
+    for (uint32_t i = 0; i < _my_state_list.size(); ++i)
+    {
+        for (uint32_t skill = 0; skill < _my_state_list[i].passive_skill_list.size(); ++skill)
+        {
+            passive_db passive_db_table(_self, _self.value);
+            auto passive_db_iter = passive_db_table.find(_my_state_list[i].passive_skill_list[skill]);
+            eosio_assert(passive_db_iter != passive_db_table.end(), "Stage Start Passive : Empty Passive ID / Wrong Passive ID");
+            if (passive_db_iter->effect_id == passive_effect_id::hp)
+            {
+                if (passive_db_iter->target_id == passvie_target_id::t_self_front)
+                {
+                    _my_state_list[i].now_hp += passive_db_iter->effect_value_a;
+                    int key = get_state_position_key(_my_state_list, _my_state_list[i].position + 5);
+                    if (key != -1)
+                    {
+                        _my_state_list[key].now_hp += passive_db_iter->effect_value_a;
+                    }
+                }
+                else if (passive_db_iter->target_id == passvie_target_id::t_partyall)
+                {
+                    uint32_t druid_count = get_my_class_count_state(_my_state_list, passive_db_iter->job_class);
+                    uint32_t effect_value = passive_db_iter->effect_value_a;
+                    for (uint32_t count = 0; count < druid_count; ++count)
+                    {
+                        effect_value += passive_db_iter->effect_value_add_b;
+                    }
+                    plus_hp = effect_value;
+                }
+                else if(passive_db_iter->target_id == passvie_target_id::t_self)
+                {
+                    _my_state_list[i].now_hp += passive_db_iter->effect_value_a;
+                }
+            }
+        }
+    }
+
+    for(uint32_t i = 0 ;i < _my_state_list.size(); ++i)
+    {
+        _my_state_list[i].now_hp += plus_hp;
+    }
+}
+
 bool battletest::possible_start(eosio::name _user, uint32_t _party_number)
 {
     user_partys user_party_table(_self, _user.value);
@@ -6152,12 +6035,9 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
     auto blacklist_iter = blacklist_table.find(_user.value);
     eosio_assert(blacklist_iter == blacklist_table.end(), "Stage Start : BlackList User");
 
-    // whitelist whitelist_table(_self, _self.value);
-    // auto whitelist_iter = whitelist_table.find(_user.value);
-    // eosio_assert(whitelist_iter != whitelist_table.end(), "Stage Start : Empty White / Not Refer White List");
 
     eosio_assert(check_inventory(_user) == true, "stagestart : Inventory Is Full");
-    
+
     std::vector<uint32_t> servant_pos_list = {0, 1, 2, 3, 4};
     std::vector<uint32_t> monster_pos_list = {5, 6, 7, 8, 9};
 
@@ -6223,6 +6103,8 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
                 new_battle_set.my_state_list.push_back(monster_battle_state);
             }
             set_stage_state(stage_db_iter->stage_id, new_battle_set.enemy_state_list, enemy_state);
+            //set_all_passive_status(new_battle_set.my_state_list);
+            //set_all_passive_status(new_battle_set.enemy_state_list);
         });
     }
     else
@@ -6262,6 +6144,8 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
                 new_battle_set.my_state_list.push_back(monster_battle_state);
             }
             set_stage_state(stage_db_iter->stage_id, new_battle_set.enemy_state_list, enemy_state);
+            //set_all_passive_status(new_battle_set.my_state_list);
+            //set_all_passive_status(new_battle_set.enemy_state_list);
         });
     }
 
@@ -6323,7 +6207,46 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma region active turn
-int battletest::get_random_target(const std::vector<character_state_data> &_enemy_state_list, uint64_t _seed, uint32_t _max, uint32_t _min)
+uint32_t battletest::check_under_minus_flow(uint32_t _a, uint32_t _b)
+{
+    int result = _a - _b;
+    if(result <= 0)
+    {
+        return 0;
+    }
+    return uint32_t(result);
+}
+
+uint32_t battletest::check_over_plus_flow(uint32_t _a, uint32_t _b)
+{
+    uint32_t result = _a + _b;
+    if(result < _a || result < _b)
+    {
+        return 0;
+    }
+    return result;
+}
+
+uint32_t battletest::check_over_mult_flow(uint32_t _a, uint32_t _b)
+{
+    uint32_t result = _a * _b;
+    if ( (_a != 0) && ((result / _a) != _b) )
+    {
+        return 0;
+    }
+    return result;
+}
+uint32_t battletest::check_under_divide_flow(uint32_t _a, uint32_t _b)
+{
+    uint32_t result = _a / _b;
+    if(_b == 0)
+    {
+        return 0;
+    }
+    return result;
+}
+
+int battletest::get_random_target(const std::vector<battle_status_info> &_enemy_state_list, uint64_t _seed, uint32_t _max, uint32_t _min)
 {
     int target_key = safeseed::get_random_value(_seed, _max, _min, 0);
     if ((_enemy_state_list[target_key].state == battle_member_state::dead))
@@ -6344,7 +6267,8 @@ int battletest::get_random_target(const std::vector<character_state_data> &_enem
     }
 }
 
-bool battletest::sort_compare(const battle_order_struct &a, const battle_order_struct &b)
+
+bool battletest::new_sort_compare(const battle_status_info &a, const battle_status_info &b)
 {
     if (a.speed > b.speed)
     {
@@ -6360,19 +6284,6 @@ bool battletest::sort_compare(const battle_order_struct &a, const battle_order_s
     }
 }
 
-int battletest::get_target_key(const std::vector<character_state_data> &_enemy_state_list, uint64_t _target_position)
-{
-    int target_key = -1;
-    for (uint32_t i = 0; i < _enemy_state_list.size(); ++i)
-    {
-        if (_enemy_state_list[i].position == _target_position)
-        {
-            target_key = i;
-            return target_key;
-        }
-    }
-    return target_key;
-}
 
 bool battletest::check_activate_skill(uint32_t _skill, uint64_t _rate)
 {
@@ -6401,35 +6312,24 @@ bool battletest::check_buff_state(buff_info &_buff)
     }
 }
 
-void battletest::init_buff_effect(character_state_data &_state, buff_info _buff)
-{
-    if (_buff.id == buff_state::defense)
-    {
-    }
-}
 
-void battletest::init_buff_turn(std::vector<character_state_data> &_state_list)
+void battletest::init_buff_turn_self(battle_status_info &_status)
 {
-    for (uint32_t i = 0; i < _state_list.size(); ++i)
+    for (uint32_t buff = 0; buff < _status.buff_list.size(); ++buff)
     {
-        if (_state_list[i].buff_list.size() != 0)
+        if (_status.buff_list[buff].turn - 1 <= 0)
         {
-            for (uint32_t buff = 0; buff < _state_list[i].buff_list.size(); ++buff)
-            {
-                if (_state_list[i].buff_list[buff].turn - 1 <= 0)
-                {
-                    _state_list[i].buff_list.erase(_state_list[i].buff_list.begin() + buff);
-                }
-                else
-                {
-                    _state_list[i].buff_list[buff].turn -= 1;
-                }
-            }
+            _status.buff_list.erase(_status.buff_list.begin() + buff);
+        }
+        else
+        {
+            _status.buff_list[buff].turn -= 1;
         }
     }
 }
 
-bool battletest::check_type_up(uint32_t _attacker, uint32_t _defender)
+
+bool battletest::check_type_up(eosio::name _user, uint32_t _attacker, uint32_t _defender)
 {
     monster_db monster_db_table(_self, _self.value);
     auto attack_monster_iter = monster_db_table.find(_attacker);
@@ -6474,7 +6374,7 @@ bool battletest::check_type_up(uint32_t _attacker, uint32_t _defender)
     }
     
 }
-bool battletest::check_type_down(uint32_t _attacker, uint32_t _defender)
+bool battletest::check_type_down(eosio::name _user, uint32_t _attacker, uint32_t _defender)
 {
     monster_db monster_db_table(_self, _self.value);
     auto attack_monster_iter = monster_db_table.find(_attacker);
@@ -6508,120 +6408,88 @@ bool battletest::check_type_down(uint32_t _attacker, uint32_t _defender)
         return false;
     }
 }
+void battletest::result_type_damage(eosio::name _user ,action_info &_action, std::vector<battle_status_info> &_my_status_list,
+                                    std::vector<battle_status_info> &_enemy_status_list,
+                                    uint64_t _my_key, uint32_t _enemy_key)
+{
+    if ((_my_status_list[_my_key].type == character_type::t_monster) && //둘다 몬스터 일때
+        (_enemy_status_list[_enemy_key].type == character_type::t_monster))
+    {
+        if (check_type_up(_user, _my_status_list[_my_key].id, _enemy_status_list[_enemy_key].id) == true) //상성이면
+        {
+            if (_action.damage != 0)
+            {
+                _action.damage += uint32_t((_action.damage * 50) / 100);
+            }
+        }
+        else
+        {
+            if (check_type_down(_user, _my_status_list[_my_key].id, _enemy_status_list[_enemy_key].id) == true) //반대 상성이면
+            {
+                if (_action.damage != 0)
+                {
+                    _action.damage -= uint32_t((_action.damage * 30) / 100);
+                }
+            }
+        }
+    }
+}
 
-bool battletest::set_action(eosio::name _from,
-                            eosio::name _to,
-                            std::string _type,
-                            std::string _state_type,
+bool battletest::set_action(eosio::name _user,
                             uint32_t _action,
                             uint64_t _seed,
-                            std::vector<character_state_data> &_my_state_list,
-                            std::vector<character_state_data> &_enemy_state_list,
+                            std::vector<battle_status_info> &_my_status_list,
+                            std::vector<battle_status_info> &_enemy_status_list,
                             uint64_t _my_key, character_action_data &_action_info,
                             std::vector<std::string> &_data)
 {
     std::string action_data;
-    _action_info.my_position = _my_state_list[_my_key].position;
+    _action_info.my_position = _my_status_list[_my_key].position;
     _action_info.action_type = _action;
-
-    uint32_t my_monster_min = 0;
-    uint32_t enemy_monstser_min = 0;
-    if(_type == "pvp")      //pvp 진행 상황인데 
-    {
-        if(_state_type == "my") //함수를 실행한 주체가 나이면 나의 몬스터의 최소값은 5부터 적몬스터의 최소값은 15부터시작한다
-        {
-            my_monster_min = 5;
-            enemy_monstser_min = 15;
-        }
-        else if(_state_type == "enemy")               //주가 적이면   
-        {
-            my_monster_min = 15;
-            enemy_monstser_min = 5;
-        }
-    }
-    else                //stage진행 상황일경우
-    {
-        if(_state_type == "my")
-        {
-            my_monster_min = 5;
-            enemy_monstser_min = 10;
-        }
-        else if(_state_type == "enemy")
-        {
-            my_monster_min = 10;
-            enemy_monstser_min = 5;
-        }
-    }
-
     if (_action == action_type::attack)
     {
-        int enemy_key = get_random_target(_enemy_state_list, _seed, _enemy_state_list.size(), 0);
+        int enemy_key = get_random_target(_enemy_status_list, _seed, _enemy_status_list.size(), 0);
         if (enemy_key == -1) //상대 파티가 모두 죽은 상태
         {
             return false;
         }
-
         action_info new_action;
-        new_action = get_target_action(_from, _to, _type, _state_type, _action, _my_state_list, _enemy_state_list, _seed, _my_key, enemy_key);
+        new_action = get_target_action(_action, _seed, _my_key, enemy_key, _my_status_list, _enemy_status_list);
+        result_type_damage(_user, new_action, _my_status_list, _enemy_status_list, _my_key, enemy_key);
 
-        if ((_my_state_list[_my_key].position >= my_monster_min && _my_state_list[_my_key].position < my_monster_min + 5) &&         //my_state 가 나일때
-            (_enemy_state_list[enemy_key].position >= enemy_monstser_min && _enemy_state_list[enemy_key].position < enemy_monstser_min + 5))
+        if (_enemy_status_list[enemy_key].now_hp <= new_action.damage)
         {
-            if(check_type_up(_my_state_list[_my_key].id , _enemy_state_list[enemy_key].id) == true)  //상성이면
-            {
-                new_action.damage += (new_action.damage * 50) / 100;
-            }
-            else
-            {
-                if(check_type_down(_my_state_list[_my_key].id , _enemy_state_list[enemy_key].id) == true)    //반대 상성이면
-                {
-                    new_action.damage -= (new_action.damage * 30) / 100;
-                }
-            }
-        }
-
-        if (_enemy_state_list[enemy_key].now_hp <= new_action.damage)
-        {
-            _enemy_state_list[enemy_key].now_hp = 0;
-            _enemy_state_list[enemy_key].state = battle_member_state::dead;
+            _enemy_status_list[enemy_key].now_hp = 0;
+            _enemy_status_list[enemy_key].state = battle_member_state::dead;
         }
         else
         {
-            _enemy_state_list[enemy_key].now_hp -= new_action.damage;
+            _enemy_status_list[enemy_key].now_hp -= new_action.damage;
         }
         _action_info.action_info_list.push_back(new_action);
     }
     else if (_action == action_type::skill)
     {
         active_db active_db_table(_self, _self.value);
-        auto active_iter = active_db_table.find(_my_state_list[_my_key].active_skill_list[0]);
+        auto active_iter = active_db_table.find(_my_status_list[_my_key].active_skill_list[0]);
         eosio_assert(active_iter != active_db_table.end(), "Set Action : Empty Active ID / Wrong Active ID");
 
-        if (active_iter->active_id == active_name::active_heal) //힐스킬
+        if (active_iter->skill_type == active_skill_type::type_heal) //힐스킬
         {
-            int enemy_key = get_random_target(_my_state_list, _seed, _my_state_list.size(), 0);
+            int enemy_key = get_random_target(_my_status_list, _seed, _my_status_list.size(), 0);
             if (enemy_key == -1) //상대 파티가 모두 죽은 상태
             {
                 return false;
             }
             action_info new_action;
-            new_action = get_target_action(_from, _to, _type, _state_type, _action,
-                                           _my_state_list, _my_state_list, _seed, _my_key, enemy_key);
-            uint32_t max_hp = get_max_hp(_my_state_list[enemy_key].status);
-            if (_my_state_list[enemy_key].passive_skill_list[0] == passive_name::passive_hp) //max hp利앷? ?⑥떆釉뚭? ?덈뒗吏 ?뺤씤
+            new_action = get_target_action(_action, _seed, _my_key, enemy_key, _my_status_list, _my_status_list);
+            if (_my_status_list[enemy_key].max_hp > _my_status_list[enemy_key].now_hp + new_action.damage)
             {
-                passive_db passive_db_table(_self, _self.value);
-                auto passive_iter = passive_db_table.find(_my_state_list[enemy_key].passive_skill_list[0]);
-                eosio_assert(passive_iter != passive_db_table.end(), "Set Action : Empty Passive ID / Wrong Passive ID");
-                max_hp += (max_hp * passive_iter->effect_value) / 100;
-            }
-            if (max_hp >= _my_state_list[enemy_key].now_hp + new_action.damage)
-            {
-                _my_state_list[enemy_key].now_hp += new_action.damage;
+                _my_status_list[enemy_key].now_hp += new_action.damage;
             }
             else
             {
-                _my_state_list[enemy_key].now_hp = max_hp;
+                _my_status_list[enemy_key].now_hp = _my_status_list[enemy_key].max_hp;
             }
             _action_info.action_info_list.push_back(new_action);
         }
@@ -6631,7 +6499,7 @@ bool battletest::set_action(eosio::name _from,
             for (uint32_t i = 0; i < active_iter->target_count; ++i)
             {
                 uint64_t new_seed = safeseed::get_seed_value(now(), _seed);
-                int enemy_key = get_random_target(_enemy_state_list, new_seed, _enemy_state_list.size(), 0);
+                int enemy_key = get_random_target(_enemy_status_list, new_seed, _enemy_status_list.size(), 0);
                 if (enemy_key == -1) //상대 파티가 모두 죽은 상태
                 {
                     return false;
@@ -6639,33 +6507,17 @@ bool battletest::set_action(eosio::name _from,
                 new_seed = new_seed >> 1;
 
                 action_info new_action;
-                new_action = get_target_action(_from, _to, _type, _state_type, _action,
-                                               _my_state_list, _enemy_state_list, _seed, _my_key, enemy_key);
+                new_action = get_target_action(_action, _seed, _my_key, enemy_key, _my_status_list, _enemy_status_list);
+                result_type_damage(_user, new_action, _my_status_list, _enemy_status_list, _my_key, enemy_key);
 
-                if ((_my_state_list[_my_key].position >= my_monster_min && _my_state_list[_my_key].position < my_monster_min + 5) && //my_state 가 나일때
-                    (_enemy_state_list[enemy_key].position >= enemy_monstser_min && _enemy_state_list[enemy_key].position < enemy_monstser_min + 5))
+                if (_enemy_status_list[enemy_key].now_hp <= new_action.damage)
                 {
-                    if (check_type_up(_my_state_list[_my_key].id, _enemy_state_list[enemy_key].id) == true)
-                    {
-                        new_action.damage += (new_action.damage * 50) / 100;
-                    }
-                    else
-                    {
-                        if (check_type_down(_my_state_list[_my_key].id, _enemy_state_list[enemy_key].id) == true)
-                        {
-                            new_action.damage -= (new_action.damage * 30) / 100;
-                        }
-                    }
-                }
-
-                if (_enemy_state_list[enemy_key].now_hp <= new_action.damage)
-                {
-                    _enemy_state_list[enemy_key].now_hp = 0;
-                    _enemy_state_list[enemy_key].state = battle_member_state::dead;
+                    _enemy_status_list[enemy_key].now_hp = 0;
+                    _enemy_status_list[enemy_key].state = battle_member_state::dead;
                 }
                 else
                 {
-                    _enemy_state_list[enemy_key].now_hp -= new_action.damage;
+                    _enemy_status_list[enemy_key].now_hp -= new_action.damage;
                 }
                 _action_info.action_info_list.push_back(new_action);
             }
@@ -6695,686 +6547,950 @@ bool battletest::set_action(eosio::name _from,
     return true;
 }
 
-void battletest::set_skill_damage(uint32_t _skill_id, uint32_t &_attack, uint32_t &_cri_dmg)
+void battletest::set_skill_damage(uint32_t _skill_id, uint32_t &_attack, uint32_t &_cri_dmg, uint32_t _cur_skill_per)
 {
     active_db active_db_table(_self, _self.value);
     auto active_iter = active_db_table.find(_skill_id);
     eosio_assert(active_iter != active_db_table.end(), "Skill Dmg Type : Empty Active ID / Wrong Activd ID");
 
-    switch (active_iter->active_id)
-    {
-    case active_name::active_defense: //버프 스킬
-    {
-        break;
-    }
-    case active_name::active_fast_attack: //빨리 때리기
-    {
-        break;
-    }
-    case active_name::active_bash:
+    if(active_iter->skill_type == active_skill_type::type_attack)
     {
         _attack = (_attack * active_iter->atk_per) / 100;
         _cri_dmg = (_cri_dmg * active_iter->atk_per) / 100;
-        break;
     }
-    case active_name::active_critical_strike: //확정 크리
+    else if(active_iter->skill_type == active_skill_type::type_heal)
     {
-        break;
+        uint32_t heal_per = active_iter->heal_per;
+        if (_cur_skill_per != 0)
+        {
+            heal_per += (active_iter->heal_per * _cur_skill_per) / 100;
+        }
+        _attack = (_attack * heal_per) / 100;
+        _cri_dmg = (_cri_dmg * heal_per) / 100;
     }
-    case active_name::active_heal:
+    else
     {
-        _attack = (_attack * active_iter->heal_per) / 100;
-        _cri_dmg = (_cri_dmg * active_iter->heal_per) / 100;
-        break;
+        eosio_assert(1 == 0 ,"Skill Dmg Type : Empty Skill Type / Wrong Skill Type");
     }
-    case active_name::active_magic_strike:
-    {
-        _attack = (_attack * active_iter->atk_per) / 100;
-        _cri_dmg = (_cri_dmg * active_iter->atk_per) / 100;
-        break;
-    }
-    case active_name::active_multi_shot:
-    {
-        _attack = (_attack * active_iter->atk_per) / 100;
-        _cri_dmg = (_cri_dmg * active_iter->atk_per) / 100;
-        break;
-    }
-    case active_name::active_guided_arrow:
-    {
-        _attack = (_attack * active_iter->atk_per) / 100;
-        _cri_dmg = (_cri_dmg * active_iter->atk_per) / 100;
-        break;
-    }
-    default:
-    {
-        eosio_assert(1 == 0, "Wrong Skill ID 1");
-        break;
-    }
-    }
+    
 }
 
-void battletest::set_skill_type(eosio::name _from, eosio::name _to, uint32_t _skill_id,
-                                character_state_data &_my_state,
-                                character_state_data &_enemy_state,
-                                uint32_t &_attack,
-                                uint32_t &_cri_dmg,
-                                uint32_t &_cri_per,
-                                uint32_t &_target_avoid,
-                                uint32_t &_target_defense,
-                                uint32_t _my_servant_pos,
-                                uint32_t _enemy_servant_pos)
+battletest::action_info battletest::get_target_action(uint32_t _active_id, uint64_t _seed, uint64_t _my_key, uint64_t _target_key,
+                                                      std::vector<battle_status_info> &_my_status_list, std::vector<battle_status_info> &_enemy_status_list)
 {
-    active_db active_db_table(_self, _self.value);
-    auto active_iter = active_db_table.find(_skill_id);
-    eosio_assert(active_iter != active_db_table.end(), "Skill Atk Dmg Type : Empty Active ID / Wrong Activd ID");
-
-    switch (active_iter->active_id)
-    {
-    case active_name::active_defense:
-    case active_name::active_fast_attack:
-    case active_name::active_bash:
-    case active_name::active_critical_strike:
-    case active_name::active_heal:
-    case active_name::active_magic_strike:
-    case active_name::active_multi_shot:
-    case active_name::active_guided_arrow:
-    {
-        set_attack_type(_from, active_iter->attack_type, _my_state, _attack, _cri_dmg, _cri_per, _my_servant_pos);
-        set_dmg_type(_to, active_iter->dmg_type, _enemy_state, _target_avoid, _target_defense, _enemy_servant_pos);
-        break;
-    }
-    default:
-    {
-        eosio_assert(1 == 0, "Skill Atk Dmg Type : Wrong Skill ID");
-        break;
-    }
-    }
-}
-
-void battletest::set_attack_type(eosio::name _user, 
-uint32_t _atk_type, character_state_data &_state, uint32_t &_attack, uint32_t &_cri_dmg, uint32_t &_cri_per, 
-                                uint32_t _my_servant_pos)
-{
-    switch (_atk_type)
-    {
-    case atk_type::buff_none:
-    {
-        _attack = get_magic_attack(_state.status); //힐 스킬 계수 반영
-        break;
-    }
-    case atk_type::physical_atk:
-    {
-        if (_state.position < _my_servant_pos)
-        {
-            servant_db servant_db_table(_self, _self.value);
-            auto servant_iter = servant_db_table.find(_state.id);
-            eosio_assert(servant_iter != servant_db_table.end(), "Attack Type Phy : Empty Servant ID / Wrong Servant ID");
-
-            job_stat_db job_stat_db_table(_self, _self.value);
-            auto job_iter = job_stat_db_table.find(servant_iter->job);
-            eosio_assert(job_iter != job_stat_db_table.end(), "Attack Type Phy :  Empty Servant Job / Wrong Servant Job");
-
-            _attack = get_physical_attack(_state.status);
-            check_physical_attack_option(_user, _state.index, _attack);
-            if (_state.passive_skill_list[0] == passive_name::passive_physical_attack)
-            {
-                passive_db passive_db_table(_self, _self.value);
-                auto passive_iter = passive_db_table.find(_state.passive_skill_list[0]);
-                eosio_assert(passive_iter != passive_db_table.end(), "Attack Type Phy : Empty Servant Passive ID / Wrong Servant Passive ID");
-                _attack += (_attack * passive_iter->effect_value) / 100;
-            }
-            _cri_dmg = (_attack * job_iter->physical_cri_dmg) / 100;
-            _cri_per = job_iter->physical_cri_per;
-        }
-        else
-        {
-            monster_db monster_db_table(_self, _self.value);
-            auto monster_iter = monster_db_table.find(_state.id);
-            eosio_assert(monster_iter != monster_db_table.end(), "Attack Type Phy : Empty Monster ID / Wrong Monster ID");
-
-            class_stat_db class_stat_db_table(_self, _self.value);
-            auto class_stat_iter = class_stat_db_table.find(monster_iter->monster_class);
-            eosio_assert(class_stat_iter != class_stat_db_table.end(), "Attack Type Phy : Empty Monster Class / Wrong Monster Class");
-
-            _attack = get_physical_attack(_state.status);
-            if (_state.passive_skill_list[0] == passive_name::passive_physical_attack)
-            {
-                passive_db passive_db_table(_self, _self.value);
-                auto passive_iter = passive_db_table.find(_state.passive_skill_list[0]);
-                eosio_assert(passive_iter != passive_db_table.end(), "Attack Type Phy : Empty Monster Passive ID / Wrong Monster Passive ID");
-                _attack += (_attack * passive_iter->effect_value) / 100;
-            }
-            _cri_dmg = (_attack * class_stat_iter->physical_cri_dmg) / 100;
-            _cri_per = class_stat_iter->physical_cri_per;
-        }
-        break;
-    }
-    case atk_type::magic_atk:
-    {
-        if (_state.position < _my_servant_pos)
-        {
-            servant_db servant_db_table(_self, _self.value);
-            auto servant_iter = servant_db_table.find(_state.id);
-            eosio_assert(servant_iter != servant_db_table.end(), "Attack Type Mgc : Empty Servant ID / Wrong Servant ID");
-
-            job_stat_db job_stat_db_table(_self, _self.value);
-            auto job_iter = job_stat_db_table.find(servant_iter->job);
-            eosio_assert(job_iter != job_stat_db_table.end(), "Attack Type Mgc :  Empty Servant Job / Wrong Servant Job");
-
-            _attack = get_magic_attack(_state.status);
-            check_magic_attack_option(_user, _state.index, _attack);
-            if (_state.passive_skill_list[0] == passive_name::passive_magic_attack)
-            {
-                passive_db passive_db_table(_self, _self.value);
-                auto passive_iter = passive_db_table.find(_state.passive_skill_list[0]);
-                eosio_assert(passive_iter != passive_db_table.end(), "Attack Type Mgc : Empty Servant Passive ID / Wrong Servant Passive ID");
-                _attack += (_attack * passive_iter->effect_value) / 100;
-            }
-            _cri_dmg = (_attack * job_iter->magic_cri_dmg) / 100;
-            _cri_per = job_iter->magic_cri_per;
-        }
-        else
-        {
-            monster_db monster_db_table(_self, _self.value);
-            auto monster_iter = monster_db_table.find(_state.id);
-            eosio_assert(monster_iter != monster_db_table.end(), "Attack Type Mgc : Empty Monster ID / Wrong Monster ID");
-
-            class_stat_db class_stat_db_table(_self, _self.value);
-            auto class_stat_iter = class_stat_db_table.find(monster_iter->monster_class);
-            eosio_assert(class_stat_iter != class_stat_db_table.end(), "Attack Type Mgc : Empty Monster Class / Wrong Monster Class");
-
-            _attack = get_magic_attack(_state.status);
-
-            if (_state.passive_skill_list[0] == passive_name::passive_magic_attack)
-            {
-                passive_db passive_db_table(_self, _self.value);
-                auto passive_iter = passive_db_table.find(_state.passive_skill_list[0]);
-                eosio_assert(passive_iter != passive_db_table.end(), "Attack Type Mgc : Empty Monster Passive ID / Wrong Monster Passive ID");
-                _attack += (_attack * passive_iter->effect_value) / 100;
-            }
-            _cri_dmg = (_attack * class_stat_iter->magic_cri_dmg) / 100;
-            _cri_per = class_stat_iter->magic_cri_per;
-        }
-        break;
-    }
-    default:
-    {
-        eosio_assert(1 == 0, "Attack Type : Wrong Attack Type");
-        break;
-    }
-    }
-}
-
-void battletest::set_dmg_type(eosio::name _user, uint32_t _dmg_type, character_state_data &_state, uint32_t &_avoid, uint32_t &_defense, uint32_t _enemy_servant_pos)
-{
-    switch (_dmg_type)
-    {
-    case dmg_type::buff_heal_none:
-    {
-        break;
-    }
-    case dmg_type::physical_dfs:
-    {
-        if (_state.position < _enemy_servant_pos)
-        {
-            servant_db servant_db_table(_self, _self.value);
-            auto servant_iter = servant_db_table.find(_state.id);
-            eosio_assert(servant_iter != servant_db_table.end(), "Defense Type Phy : Empty Servant ID / Wrong Servant ID");
-
-            job_stat_db job_stat_db_table(_self, _self.value);
-            auto job_iter = job_stat_db_table.find(servant_iter->job);
-            eosio_assert(job_iter != job_stat_db_table.end(), "Defense Type Phy :  Empty Servant Job / Wrong Servant Job");
-
-            _defense = get_physical_defense(_state.status);
-            check_physical_defense_option(_user, _state.index, _defense);
-            if (_state.passive_skill_list[0] == passive_name::passive_physical_defense)
-            {
-                passive_db passive_db_table(_self, _self.value);
-                auto passive_iter = passive_db_table.find(_state.passive_skill_list[0]);
-                eosio_assert(passive_iter != passive_db_table.end(), "Defense Type Phy : Empty Servant Passive ID / Wrong Servant Passive ID");
-                _defense += (_defense * passive_iter->effect_value) / 100;
-            }
-            _avoid = job_iter->avoid;
-        }
-        else
-        {
-            monster_db monster_db_table(_self, _self.value);
-            auto monster_iter = monster_db_table.find(_state.id);
-            eosio_assert(monster_iter != monster_db_table.end(), "Defense Type Phy : Empty Monster ID / Wrong Monster ID");
-
-            class_stat_db class_stat_db_table(_self, _self.value);
-            auto class_stat_iter = class_stat_db_table.find(monster_iter->monster_class);
-            eosio_assert(class_stat_iter != class_stat_db_table.end(), "Defense Type Phy : Empty Monster Class / Wrong Monster Class");
-
-            _defense = get_physical_defense(_state.status);
-            if (_state.passive_skill_list[0] == passive_name::passive_physical_defense)
-            {
-                passive_db passive_db_table(_self, _self.value);
-                auto passive_iter = passive_db_table.find(_state.passive_skill_list[0]);
-                eosio_assert(passive_iter != passive_db_table.end(), "Defense Type Phy : Empty Monster Passive ID/ Wrong Monster Passive ID");
-                _defense += (_defense * passive_iter->effect_value) / 100;
-            }
-            _avoid = class_stat_iter->avoid;
-        }
-
-        break;
-    }
-    case dmg_type::magic_dfs:
-    {
-        if (_state.position < _enemy_servant_pos)
-        {
-            servant_db servant_db_table(_self, _self.value);
-            auto servant_iter = servant_db_table.find(_state.id);
-            eosio_assert(servant_iter != servant_db_table.end(), "Defense Type Mgc : Empty Servant ID / Wrong Servant ID");
-
-            job_stat_db job_stat_db_table(_self, _self.value);
-            auto job_iter = job_stat_db_table.find(servant_iter->job);
-            eosio_assert(job_iter != job_stat_db_table.end(), "Defense Type Mgc : Empty Servant Job / Wrong Servant Job");
-
-            _defense = get_magic_defense(_state.status);
-            check_magic_defense_option(_user, _state.index, _defense);
-            if (_state.passive_skill_list[0] == passive_name::passive_magic_defense)
-            {
-                passive_db passive_db_table(_self, _self.value);
-                auto passive_iter = passive_db_table.find(_state.passive_skill_list[0]);
-                eosio_assert(passive_iter != passive_db_table.end(), "Defense Type Mgc : Empty Servant Passive ID / Wrong Servant Passive ID");
-                _defense += (_defense * passive_iter->effect_value) / 100;
-            }
-            _avoid = job_iter->avoid;
-        }
-        else
-        {
-            monster_db monster_db_table(_self, _self.value);
-            auto monster_iter = monster_db_table.find(_state.id);
-            eosio_assert(monster_iter != monster_db_table.end(), "Defense Type Mgc : Empty Monster ID / Wrong Monster ID");
-
-            class_stat_db class_stat_db_table(_self, _self.value);
-            auto class_stat_iter = class_stat_db_table.find(monster_iter->monster_class);
-            eosio_assert(class_stat_iter != class_stat_db_table.end(), "Defense Type Mgc : Empty Monster Class / Wrong Monster Class");
-
-
-            _defense = get_magic_defense(_state.status);
-            if (_state.passive_skill_list[0] == passive_name::passive_magic_defense)
-            {
-                passive_db passive_db_table(_self, _self.value);
-                auto passive_iter = passive_db_table.find(_state.passive_skill_list[0]);
-                eosio_assert(passive_iter != passive_db_table.end(), "Defense Type Mgc : Empty Monster Passive ID / Wrong Monster Passive ID");
-                _defense += (_defense * passive_iter->effect_value) / 100;
-            }
-            _avoid = class_stat_iter->avoid;
-        }
-        break;
-    }
-    default:
-    {
-        eosio_assert(1 == 0, "Defense Type : Wrong Defense Type");
-        break;
-    }
-    }
-}
-
-
-battletest::action_info battletest::get_target_action(eosio::name _from, eosio::name _to, std::string _type, std::string _state_type, uint32_t _active_id, std::vector<character_state_data> &_my_state_list, std::vector<character_state_data> &_enemy_state_list, uint64_t _seed, uint64_t _my_key, uint64_t _target_key)
-{
-    attacker_info attack_info;
-    defender_info defense_info;
-
-    uint32_t cur_target_key = _target_key;
     uint32_t cur_damage = 0;
     uint32_t cur_attack = 0;
     uint32_t cur_cirtical_dmg = 0;
+    uint32_t cur_critical_dmg_per = 0;
     uint32_t cur_cri_per = 0;
-    uint32_t max_hp = 0;
-    uint32_t cur_hp = 0;
+    uint32_t cur_heal_skill_per = _my_status_list[_my_key].add_heal_skill_value_per;
 
     uint32_t target_defense = 0;
     uint32_t target_avoid = 0;
 
-    uint32_t my_servant_max = 0;
-    uint32_t enemy_servant_max = 0;
-    if(_type == "pvp")  // pvp 이고 
-    {
-        if(_state_type == "my") // 함수를 실행 주체가 my면 서번트 맥스는 5 적의 서번트는 15
-        {
-            my_servant_max = 5;
-            enemy_servant_max = 15;
-        }
-        else if(_state_type == "enemy") //함수 실행 주체가 적이면 15, 5
-        {
-            my_servant_max = 15;
-            enemy_servant_max = 5;
-        }
-    }
-    else if(_type == "stage")   //stage 이고
-    {
-        if (_state_type == "my")
-        {
-            my_servant_max = 5;
-            enemy_servant_max = 10;
-        }
-        else if(_state_type == "enemy")
-        {
-            my_servant_max = 10;
-            enemy_servant_max = 5;
-        }
-    }
 
     switch (_active_id)
     {
     case action_type::attack:
     {
-        if (_my_state_list[_my_key].position < my_servant_max) //서번트인경우
-        {
-            servant_db servant_db_table(_self, _self.value);
-            auto servant_iter = servant_db_table.find(_my_state_list[_my_key].id);
-            eosio_assert(servant_iter != servant_db_table.end(), "Target Action My : Empty Servant ID / Wrong Servant ID");
+        cur_attack = _my_status_list[_my_key].p_atk;
+        cur_cirtical_dmg = (_my_status_list[_my_key].p_atk * _my_status_list[_my_key].p_cri_dmg_per) / 100;
+        cur_critical_dmg_per = _my_status_list[_my_key].p_cri_dmg_per;
+        cur_cri_per = _my_status_list[_my_key].p_cri_per;
 
-            job_stat_db job_stat_db_table(_self, _self.value);
-            auto job_iter = job_stat_db_table.find(servant_iter->job);
-            eosio_assert(job_iter != job_stat_db_table.end(), "Target Action My : Empty Servant Job / Wrong Servant Job");
-
-            cur_attack = get_physical_attack(_my_state_list[_my_key].status);
-            check_physical_attack_option(_from, _my_state_list[_my_key].index, cur_attack);
-            cur_cirtical_dmg = (cur_attack * job_iter->physical_cri_dmg) / 100;
-            cur_cri_per = job_iter->physical_cri_per;
-        }
-        else //스테이지포함하면 전부 몬스터니까
-        {
-            monster_db monster_db_table(_self, _self.value);
-            auto monster_iter = monster_db_table.find(_my_state_list[_my_key].id);
-            eosio_assert(monster_iter != monster_db_table.end(), "Target Action My : Empty Monster ID / Wrong Monster ID");
-
-            class_stat_db class_stat_db_table(_self, _self.value);
-            auto class_stat_iter = class_stat_db_table.find(monster_iter->monster_class);
-            eosio_assert(class_stat_iter != class_stat_db_table.end(), "Target Action My : Empty Monster Class / Wrong Monster Class");
-
-            cur_attack = get_physical_attack(_my_state_list[_my_key].status);
-            cur_cirtical_dmg = (cur_attack * class_stat_iter->physical_cri_dmg) / 100;
-            cur_cri_per = class_stat_iter->physical_cri_per;
-        }
-
-        if (_enemy_state_list[_target_key].position < enemy_servant_max)
-        {
-            servant_db servant_db_table(_self, _self.value);
-            auto servant_iter = servant_db_table.find(_enemy_state_list[_target_key].id);
-            eosio_assert(servant_iter != servant_db_table.end(), "Target Action Enemy : Empty Servant ID / Wrong Servant ID");
-
-            job_stat_db job_stat_db_table(_self, _self.value);
-            auto job_iter = job_stat_db_table.find(servant_iter->job);
-            eosio_assert(job_iter != job_stat_db_table.end(), "Target Action Enemy : Empty Servant Job / Wrong Servant Job");
-
-            target_defense = get_physical_defense(_enemy_state_list[_target_key].status);
-            check_physical_defense_option(_to, _enemy_state_list[_target_key].index, target_defense);
-            if (_enemy_state_list[_target_key].passive_skill_list[0] == passive_name::passive_physical_defense)
-            {
-                passive_db passive_db_table(_self, _self.value);
-                auto passive_iter = passive_db_table.find(_enemy_state_list[_target_key].passive_skill_list[0]);
-                eosio_assert(passive_iter != passive_db_table.end(), "Target Action Enemy : Empty Monster Passive ID / Wrong Monster Passive ID");
-                target_defense += (target_defense * passive_iter->effect_value) / 100;
-            }
-            target_avoid = job_iter->avoid;
-        }
-        else
-        {
-            monster_db monster_db_table(_self, _self.value);
-            auto monster_iter = monster_db_table.find(_enemy_state_list[_target_key].id);
-            eosio_assert(monster_iter != monster_db_table.end(), "Target Action Enemy : Empty Monster ID / Wrong Monster ID");
-
-            class_stat_db class_stat_db_table(_self, _self.value);
-            auto class_stat_iter = class_stat_db_table.find(monster_iter->monster_class);
-            eosio_assert(class_stat_iter != class_stat_db_table.end(), "Target Action Enemy : Empty Monster Class / Wrong Monster Class");
-
-            target_defense = get_physical_defense(_enemy_state_list[_target_key].status);
-            if (_enemy_state_list[_target_key].passive_skill_list[0] == passive_name::passive_physical_defense)
-            {
-                passive_db passive_db_table(_self, _self.value);
-                auto passive_iter = passive_db_table.find(_enemy_state_list[_target_key].passive_skill_list[0]);
-                eosio_assert(passive_iter != passive_db_table.end(), "Target Action Enemy : Empty Monster Passive ID / Wrong Monster Passive ID");
-                target_defense += (target_defense * passive_iter->effect_value) / 100;
-            }
-            target_avoid = class_stat_iter->avoid;
-        }
+        target_defense = _enemy_status_list[_target_key].p_dfs;
+        target_avoid = _enemy_status_list[_target_key].avoid;
         break;
     }
     case action_type::skill:
     {
-        set_skill_type(_from,
-                        _to,
-                       _my_state_list[_my_key].active_skill_list[0],
-                       _my_state_list[_my_key],
-                       _enemy_state_list[_target_key],
-                       cur_attack,
-                       cur_cirtical_dmg,
-                       cur_cri_per,
-                       target_avoid,
-                       target_defense, my_servant_max, enemy_servant_max);
-        set_skill_damage(_my_state_list[_my_key].active_skill_list[0],
-                         cur_attack, cur_cirtical_dmg);
+        active_db active_db_table(_self, _self.value);
+        auto active_iter = active_db_table.find(_my_status_list[_my_key].active_skill_list[0]);
+        eosio_assert(active_iter != active_db_table.end(), "Skill Atk Dmg Type : Empty Active ID / Wrong Activd ID");
 
-        switch (_my_state_list[_my_key].active_skill_list[0])
+        //액티브 스킬의 공격타입과 설정
+        if(active_iter->attack_type == atk_type::physical_atk)
         {
-        case active_name::active_bash:
-        case active_name::active_fast_attack:
-        case active_name::active_multi_shot:
-        case active_name::active_guided_arrow:
-        {
-            action_info new_action;
-            if (true == check_avoid(target_avoid, _seed))
-            {
-                new_action.target_position = _enemy_state_list[cur_target_key].position;
-                new_action.avoid = 1;
-                new_action.critical = 0;
-                new_action.damage = 0;
-                return new_action;
-            }
-            break;
+            cur_attack = _my_status_list[_my_key].p_atk;
+            cur_critical_dmg_per = _my_status_list[_my_key].p_cri_dmg_per;
+            cur_cri_per = _my_status_list[_my_key].p_cri_per;
         }
-        case active_name::active_critical_strike:
+        else
         {
-            action_info new_action;
-            if (true == check_avoid(target_avoid, _seed))
-            {
-                new_action.target_position = _enemy_state_list[cur_target_key].position;
-                new_action.avoid = 1;
-                new_action.critical = 0;
-                new_action.damage = 0;
-                return new_action;
-            }
-            if (_enemy_state_list[cur_target_key].buff_list.size() != 0)
-            {
-                for (uint32_t i = 0; i < _enemy_state_list[cur_target_key].buff_list.size(); ++i)
-                {
-                    if (true == check_buff_state(_enemy_state_list[cur_target_key].buff_list[i]))
-                    {
-                        if (_enemy_state_list[cur_target_key].buff_list[i].id == buff_state::defense)
-                        {
-                            cur_damage = get_damage(cur_cirtical_dmg, target_defense + ((target_defense * 30) / 100));
-                        }
-                    }
-                }
-            }
-            else
-            {
-                cur_damage = get_damage(cur_cirtical_dmg, target_defense);
-            }
-            new_action.target_position = _enemy_state_list[cur_target_key].position;
-            new_action.avoid = 0;
-            new_action.critical = 1;
-            new_action.damage = cur_damage;
-            return new_action;
+            cur_attack = _my_status_list[_my_key].m_atk;
+            cur_critical_dmg_per = _my_status_list[_my_key].m_cri_dmg_per;
+            cur_cri_per = _my_status_list[_my_key].m_cri_per;
         }
-        case active_name::active_heal:
+        //액티스 스킬의 방어타입 설정
+        if (active_iter->dmg_type == dmg_type::physical_dfs)
         {
-            action_info new_action;
-            new_action.target_position = _enemy_state_list[cur_target_key].position;
-            new_action.avoid = 0;
-            new_action.critical = 0;
-            new_action.damage = cur_attack;
-            return new_action;
+            target_defense = _enemy_status_list[_target_key].p_dfs;
+            target_avoid = _enemy_status_list[_target_key].avoid;
         }
-        case active_name::active_magic_strike:
+        else
         {
-            break;
-        }
-        default:
-        {
-            eosio_assert(1 == 0, "Target Action : Wrong Skill ID");
-            break;
-        }
+            target_defense = _enemy_status_list[_target_key].m_dfs;
+            target_avoid = _enemy_status_list[_target_key].avoid;
         }
 
+        //스킬 계수에 따른 공격력 설정
+        set_skill_damage(_my_status_list[_my_key].active_skill_list[0],
+                         cur_attack, cur_cirtical_dmg,cur_heal_skill_per);
+
+        cur_cirtical_dmg = (cur_attack * cur_critical_dmg_per) / 100;
+
+        if(active_iter->option_id == active_option::option_perfectcri)
+        {
+            cur_cri_per = 100;
+        }
+        else if(active_iter->option_id == active_option::option_ignoreevade)
+        {
+            target_avoid = 100;
+        }
         break;
     }
     default:
-
     {
         eosio_assert(1 == 0, "Target Action : Wrong Action Type");
         break;
     }
     }
 
-    action_info new_action;
-    if (false == check_critical(cur_cri_per, _seed))
+    //방어 버프 있을시 방어력 상승 적용
+    for (uint32_t i = 0; i < _enemy_status_list[_target_key].buff_list.size(); ++i)
     {
-        if (_enemy_state_list[cur_target_key].buff_list.size() != 0) //버프가 있는지 확인
+        if (true == check_buff_state(_enemy_status_list[_target_key].buff_list[i]))
         {
-            for (uint32_t i = 0; i < _enemy_state_list[cur_target_key].buff_list.size(); ++i)
+            if (_enemy_status_list[_target_key].buff_list[i].id == buff_state::defense)
             {
-                if (true == check_buff_state(_enemy_state_list[cur_target_key].buff_list[i]))
-                {
-                    if (_enemy_state_list[cur_target_key].buff_list[i].id == buff_state::defense)
-                    {
-                        cur_damage = get_damage(cur_attack, target_defense + (target_defense * 30 / 100));
-                    }
-                }
+                target_defense += (target_defense * 50) / 100;
             }
         }
-        else
-        {
-            cur_damage = get_damage(cur_attack, target_defense);
-        }
-        new_action.target_position = _enemy_state_list[cur_target_key].position;
-        new_action.avoid = 0;
+    }
+
+    action_info new_action;
+    if (true == check_avoid(target_avoid, _seed))
+    {
+        new_action.target_position = _enemy_status_list[_target_key].position;
+        new_action.avoid = 1;
         new_action.critical = 0;
-        new_action.damage = cur_damage;
+        new_action.damage = 0;
+        return new_action;
     }
     else
     {
-        if (_enemy_state_list[cur_target_key].buff_list.size() != 0)
+        if (false == check_critical(cur_cri_per, _seed))
         {
-            for (uint32_t i = 0; i < _enemy_state_list[cur_target_key].buff_list.size(); ++i)
-            {
-                if (true == check_buff_state(_enemy_state_list[cur_target_key].buff_list[i]))
-                {
-                    if (_enemy_state_list[cur_target_key].buff_list[i].id == buff_state::defense)
-                    {
-                        cur_damage = get_damage(cur_cirtical_dmg, target_defense + (target_defense * 30 / 100));
-                    }
-                }
-            }
+            cur_damage = get_damage(cur_attack, target_defense);
+            new_action.target_position = _enemy_status_list[_target_key].position;
+            new_action.avoid = 0;
+            new_action.critical = 0;
+            new_action.damage = cur_damage;
         }
         else
         {
             cur_damage = get_damage(cur_cirtical_dmg, target_defense);
+            new_action.target_position = _enemy_status_list[_target_key].position;
+            new_action.avoid = 0;
+            new_action.critical = 1;
+            new_action.damage = cur_damage;
         }
-        new_action.target_position = _enemy_state_list[cur_target_key].position;
-        new_action.avoid = 0;
-        new_action.critical = 1;
-        new_action.damage = cur_damage;
+        return new_action;
     }
-    return new_action;
 }
-void battletest::set_attack_order_list(std::string _type, std::vector<battle_order_struct> &_list,
-                                       std::vector<uint64_t> &_random_order_list,
-                                       const std::vector<character_state_data> &_my_state_list,
-                                       const std::vector<character_state_data> &_enemy_state_list)
-{   
-    uint32_t my_servant = 0;
-    uint32_t enemy_servant = 0;
-    if(_type == "pvp")      //pvp면 내 서번트 맥스 포지션은 5 상대틑 15여야한다.
-    {
-        my_servant = 5;
-        enemy_servant = 15;
-    }
-    else                //스테이지면 내서번트는 5 적은 15이다
-    {
-        my_servant = 5;
-        enemy_servant = 5;
-    }
 
+uint32_t battletest::get_my_class_count_state(std::vector<character_state_data> &_state_list, uint32_t _monster_class)
+{
+    uint32_t count  = 0;
+    for(uint32_t i = 0 ; i < _state_list.size(); ++i)
+    {
+        if(_state_list[i].type == character_type::t_monster)
+        {
+            monster_db monster_db_table(_self, _self.value);
+            auto monster_iter = monster_db_table.find(_state_list[i].id);
+            eosio_assert(monster_iter != monster_db_table.end(), "Get Class Count My : Empty Monster ID / Wrong Monster ID");
+            if(_monster_class == monster_iter->monster_class)
+            {
+                count += 1;
+            }
+        }
+    }
+    return count;
+}
+
+uint32_t battletest::get_my_class_count_status(std::vector<battle_status_info> &_state_list, uint32_t _monster_class)
+{
+    uint32_t count  = 0;
+    for(uint32_t i = 0 ; i < _state_list.size(); ++i)
+    {
+        if(_state_list[i].type == character_type::t_monster)        //몬스터일 경우만 체크
+        {
+            monster_db monster_db_table(_self, _self.value);
+            auto monster_iter = monster_db_table.find(_state_list[i].id);
+            eosio_assert(monster_iter != monster_db_table.end(), "Get Class Count My : Empty Monster ID / Wrong Monster ID");
+            if(_monster_class == monster_iter->monster_class)
+            {
+                count += 1;
+            }
+        }
+    }
+    if(count != 0)
+    {
+        return count - 1;
+    }
+    return count ;
+}
+
+int battletest::get_state_position_key(std::vector<character_state_data> &_state_list, uint32_t _position)
+{
+    int target = -1;
+    for(uint32_t i = 0 ; i < _state_list.size(); ++i)
+    {
+        if(_state_list[i].position == _position)
+        {
+            return i;
+        }
+    }
+    return target;
+}
+
+int battletest::get_status_position_key(std::vector<battle_status_info> &_status_list, uint32_t _position)
+{
+    int target = -1;
+    for(uint32_t i = 0 ; i < _status_list.size(); ++i)
+    {
+        if(_status_list[i].position == _position)
+        {
+            return i;
+        }
+    }
+    return target;
+}
+
+
+void battletest::set_equipment_basic_status(eosio::name _from,
+                                            eosio::name _to,
+                                            std::vector<uint64_t> & _second_seed_list,
+                                            std::vector<battle_status_info> &_my_status_list,
+                                            std::vector<battle_status_info> &_enemy_status_list,
+                                            const std::vector<character_state_data> &_my_state_list,
+                                            const std::vector<character_state_data> &_enemy_state_list)
+{
+    //처음 기본 스테이터스에대한 장비 장착한 스테이터스 반영
     for (uint32_t i = 0; i < _my_state_list.size(); ++i)
     {
-        if ((_my_state_list[i].state == battle_member_state::dead))
-        {
-            continue;
-        }
+        battle_status_info battle_status;
+        battle_status.status = _my_state_list[i].status;
+        battle_status.id = _my_state_list[i].id;
+        battle_status.index = _my_state_list[i].index;
+        battle_status.now_hp = _my_state_list[i].now_hp;
+        battle_status.max_hp = _my_state_list[i].max_hp;
+        battle_status.state = _my_state_list[i].state;
+        battle_status.position = _my_state_list[i].position;
+        battle_status.second_speed = _second_seed_list[i];
+        battle_status.type = _my_state_list[i].type;
+        battle_status.upgrade = _my_state_list[i].upgrade;
 
-        battle_order_struct new_order;
-        if (_my_state_list[i].position < my_servant)
+        if (_my_state_list[i].buff_list.size() != 0)
         {
+            battle_status.buff_list = _my_state_list[i].buff_list;
+        }
+        if (_my_state_list[i].passive_skill_list.size() != 0)
+        {
+            battle_status.passive_skill_list = _my_state_list[i].passive_skill_list;
+        }
+        if (_my_state_list[i].active_skill_list.size() != 0)
+        {
+            battle_status.active_skill_list = _my_state_list[i].active_skill_list;
+        }
+        if (_my_state_list[i].type == character_type::t_servant)    //아군 서번트의 경우
+        {
+            //장비 장착에 대한 기본 능력치 예외 처리 [ 힘, 민, 지]
+            user_servants user_servant_table(_self, _from.value);
+            auto user_servant_iter = user_servant_table.find(_my_state_list[i].index);
+            eosio_assert(user_servant_iter != user_servant_table.end(), "Set User State : Empty Servant Index / Wrong Servant Index");
+
+            user_equip_items user_equipment_table(_self, _from.value);
+            equipment_db equipment_db_table(_self, _self.value);
+            for (uint32_t equip = 0; equip < user_servant_iter->servant.equip_slot.size(); ++equip) //서번트 장비 슬롯을 돌면서 힘민지에 대한 증가 효과 적용
+            {
+                if (user_servant_iter->servant.equip_slot[equip] == 0)
+                {
+                    continue;
+                }
+                auto user_equipment_iter = user_equipment_table.find(user_servant_iter->servant.equip_slot[equip]);
+                eosio_assert(user_equipment_iter != user_equipment_table.end(), "Set User State : Empty Equipment Index / Wrong Equipment Index");
+
+                auto db_equipment_iter = equipment_db_table.find(user_equipment_iter->equipment.id);
+                eosio_assert(db_equipment_iter != equipment_db_table.end(), "Set User State : Empty Equipment ID / Wrong Equipment ID");
+
+                for (uint32_t a = 0; a < db_equipment_iter->option_list.size(); ++a)
+                {
+                    if (db_equipment_iter->option_list[a] == option_list::status_str) //힘 증가
+                    {
+                        battle_status.status.basic_str += user_equipment_iter->equipment.value;
+                    }
+                    else if (db_equipment_iter->option_list[a] == option_list::status_dex) //민 증가
+                    {
+                        battle_status.status.basic_dex += user_equipment_iter->equipment.value;
+                    }
+                    else if (db_equipment_iter->option_list[a] == option_list::status_int) //지 증가
+                    {
+                        battle_status.status.basic_int += user_equipment_iter->equipment.value;
+                    }
+                }
+            }
+            set_passive_basic_status_self(battle_status);
+            
             servant_db servant_db_table(_self, _self.value);
             auto servant_iter = servant_db_table.find(_my_state_list[i].id);
-            eosio_assert(servant_iter != servant_db_table.end(), "Attack Order My : Empty Servant ID / Wrong Servant ID");
+            eosio_assert(servant_iter != servant_db_table.end(), "Set Battle Status My : Empty Servant ID / Wrong Servant ID");
 
             job_stat_db job_stat_db_table(_self, _self.value);
             auto job_iter = job_stat_db_table.find(servant_iter->job);
-            eosio_assert(job_iter != job_stat_db_table.end(), "Attack Order My : Empty Servant Job / Wrong Servant Job");
+            eosio_assert(job_iter != job_stat_db_table.end(), "Set Battle Status My : Empty Servant Job / Wrong Servant Job");
 
-            new_order.speed = job_iter->speed;
+            battle_status.p_atk = get_physical_attack(battle_status.status);
+            battle_status.m_atk = get_magic_attack(battle_status.status);
+            battle_status.p_dfs = get_physical_defense(battle_status.status);
+            battle_status.m_dfs = get_magic_defense(battle_status.status);
+            battle_status.p_cri_per = job_iter->physical_cri_per;
+            battle_status.p_cri_dmg_per = job_iter->physical_cri_dmg;
+            battle_status.m_cri_per = job_iter->magic_cri_per;
+            battle_status.m_cri_dmg_per = job_iter->magic_cri_dmg;
+            battle_status.avoid = job_iter->avoid;
+            battle_status.speed = job_iter->speed;
+
+            for (uint32_t equip = 0; equip < user_servant_iter->servant.equip_slot.size(); ++equip) //서번트 장비 슬롯을 돌면서 힘민지에 대한 증가 효과 적용
+            {
+                if (user_servant_iter->servant.equip_slot[equip] == 0)
+                {
+                    continue;
+                }
+                auto user_equipment_iter = user_equipment_table.find(user_servant_iter->servant.equip_slot[equip]);
+                eosio_assert(user_equipment_iter != user_equipment_table.end(), "Set User State : Empty Equipment Index / Wrong Equipment Index");
+
+                auto db_equipment_iter = equipment_db_table.find(user_equipment_iter->equipment.id);
+                eosio_assert(db_equipment_iter != equipment_db_table.end(), "Set User State : Empty Equipment ID / Wrong Equipment ID");
+
+                for (uint32_t a = 0; a < db_equipment_iter->option_list.size(); ++a)
+                {
+                    if (db_equipment_iter->option_list[a] == option_list::physical_attack) //물공 증가
+                    {
+                        battle_status.p_atk += user_equipment_iter->equipment.value;
+                    }
+                    else if (db_equipment_iter->option_list[a] == option_list::magic_attack) //마공 증가
+                    {
+                        battle_status.m_atk += user_equipment_iter->equipment.value;
+                    }
+                    else if (db_equipment_iter->option_list[a] == option_list::physical_defense) //물방 증가
+                    {
+                        battle_status.p_dfs += user_equipment_iter->equipment.value;
+                    }
+                    else if (db_equipment_iter->option_list[a] == option_list::magic_defense) //마방 증가
+                    {
+                        battle_status.m_dfs += user_equipment_iter->equipment.value;
+                    }
+                }
+            }
         }
-        else
+        else        //아군 몬스터의 경우
         {
+            set_passive_basic_status_self(battle_status);
+
             monster_db monster_db_table(_self, _self.value);
             auto monster_iter = monster_db_table.find(_my_state_list[i].id);
-            eosio_assert(monster_iter != monster_db_table.end(), "Attack Order My : Empty Monster ID / Wrong Monster ID");
+            eosio_assert(monster_iter != monster_db_table.end(), "Set Battle Status My : Empty Monster ID / Wrong Monster ID");
 
             class_stat_db class_stat_db_table(_self, _self.value);
             auto class_stat_iter = class_stat_db_table.find(monster_iter->monster_class);
-            eosio_assert(class_stat_iter != class_stat_db_table.end(), "Attack Order My : Empty Monster Class / Wrong Monster Class");
+            eosio_assert(class_stat_iter != class_stat_db_table.end(), "Set Battle Status My : Empty Monster Class / Wrong Monster Class");
 
-            new_order.speed = class_stat_iter->speed;
+            battle_status.p_atk = get_physical_attack(battle_status.status);
+            battle_status.m_atk = get_magic_attack(battle_status.status);
+            battle_status.p_dfs = get_physical_defense(battle_status.status);
+            battle_status.m_dfs = get_magic_defense(battle_status.status);
+            battle_status.p_cri_per = class_stat_iter->physical_cri_per;
+            battle_status.p_cri_dmg_per = class_stat_iter->physical_cri_dmg;
+            battle_status.m_cri_per = class_stat_iter->magic_cri_per;
+            battle_status.m_cri_dmg_per = class_stat_iter->magic_cri_dmg;
+            battle_status.avoid = class_stat_iter->avoid;
+            battle_status.speed = class_stat_iter->speed;
         }
-        new_order.position = _my_state_list[i].position;
-        new_order.key = i;
-        new_order.second_speed = _random_order_list[i];
-        _list.push_back(new_order);
+        init_buff_turn_self(battle_status);
+
+        _my_status_list.push_back(battle_status);
     }
-    for (uint32_t i = 0; i < _enemy_state_list.size(); ++i)
+
+
+
+    for(uint32_t i = 0 ; i < _enemy_state_list.size(); ++i)
     {
-        if ((_enemy_state_list[i].state == battle_member_state::dead))
+        battle_status_info battle_status;
+        battle_status.status = _enemy_state_list[i].status;
+        battle_status.id = _enemy_state_list[i].id;
+        battle_status.index = _enemy_state_list[i].index;
+        battle_status.now_hp = _enemy_state_list[i].now_hp;
+        battle_status.max_hp = _enemy_state_list[i].max_hp;
+        battle_status.state = _enemy_state_list[i].state;
+        battle_status.position = _enemy_state_list[i].position;
+        battle_status.second_speed = _second_seed_list[i + 10];
+        battle_status.type = _enemy_state_list[i].type;
+        battle_status.upgrade = _enemy_state_list[i].upgrade;
+        if (_enemy_state_list[i].buff_list.size() != 0)
         {
-            continue;
+            battle_status.buff_list = _enemy_state_list[i].buff_list;
+        }
+        if (_enemy_state_list[i].passive_skill_list.size() != 0)
+        {
+            battle_status.passive_skill_list = _enemy_state_list[i].passive_skill_list;
+        }
+        if (_enemy_state_list[i].active_skill_list.size() != 0)
+        {
+            battle_status.active_skill_list = _enemy_state_list[i].active_skill_list;
         }
 
-        battle_order_struct new_order;
-        if (_enemy_state_list[i].position < enemy_servant)
+        if (_enemy_state_list[i].type == character_type::t_servant)     //적군 서번트의 경우
         {
+            //장비 장착에 대한 기본 능력치 예외 처리 [ 힘, 민, 지]
+            if (_to != _from)   //스테이지를 진행하는 거지만 서번트가 있을수 있으므로 체크
+            {
+                user_servants user_servant_table(_self, _to.value);
+                auto user_servant_iter = user_servant_table.find(_enemy_state_list[i].index);
+                eosio_assert(user_servant_iter != user_servant_table.end(), "Set User State : Empty Servant Index / Wrong Servant Index");
+
+                user_equip_items user_equipment_table(_self, _to.value);
+                equipment_db equipment_db_table(_self, _self.value);
+                for (uint32_t equip = 0; equip < user_servant_iter->servant.equip_slot.size(); ++equip) //서번트 장비 슬롯을 돌면서 힘민지에 대한 증가 효과 적용
+                {
+                    if (user_servant_iter->servant.equip_slot[equip] == 0)
+                    {
+                        continue;
+                    }
+                    auto user_equipment_iter = user_equipment_table.find(user_servant_iter->servant.equip_slot[equip]);
+                    eosio_assert(user_equipment_iter != user_equipment_table.end(), "Set User State : Empty Equipment Index / Wrong Equipment Index");
+
+                    auto db_equipment_iter = equipment_db_table.find(user_equipment_iter->equipment.id);
+                    eosio_assert(db_equipment_iter != equipment_db_table.end(), "Set User State : Empty Equipment ID / Wrong Equipment ID");
+
+                    for (uint32_t a = 0; a < db_equipment_iter->option_list.size(); ++a)
+                    {
+                        if (db_equipment_iter->option_list[a] == option_list::status_str) //힘 증가
+                        {
+                            battle_status.status.basic_str += user_equipment_iter->equipment.value;
+                        }
+                        else if (db_equipment_iter->option_list[a] == option_list::status_dex) //민 증가
+                        {
+                            battle_status.status.basic_dex += user_equipment_iter->equipment.value;
+                        }
+                        else if (db_equipment_iter->option_list[a] == option_list::status_int) //지 증가
+                        {
+                            battle_status.status.basic_int += user_equipment_iter->equipment.value;
+                        }
+                    }
+                }
+            }
+            set_passive_basic_status_self(battle_status);
+
             servant_db servant_db_table(_self, _self.value);
             auto servant_iter = servant_db_table.find(_enemy_state_list[i].id);
-            eosio_assert(servant_iter != servant_db_table.end(), "Attack Order Enemy : Empty Servant ID / Wrong Servant ID");
+            eosio_assert(servant_iter != servant_db_table.end(), "Set Battle Status My : Empty Servant ID / Wrong Servant ID");
 
             job_stat_db job_stat_db_table(_self, _self.value);
             auto job_iter = job_stat_db_table.find(servant_iter->job);
-            eosio_assert(job_iter != job_stat_db_table.end(), "Attack Order Enemy : Empty Servant Job / Wrong Servant Job");
+            eosio_assert(job_iter != job_stat_db_table.end(), "Set Battle Status My : Empty Servant Job / Wrong Servant Job");
 
-            new_order.speed = job_iter->speed;
+            battle_status.p_atk = get_physical_attack(battle_status.status);
+            battle_status.m_atk = get_magic_attack(battle_status.status);
+            battle_status.p_dfs = get_physical_defense(battle_status.status);
+            battle_status.m_dfs = get_magic_defense(battle_status.status);
+            battle_status.p_cri_per = job_iter->physical_cri_per;
+            battle_status.p_cri_dmg_per = job_iter->physical_cri_dmg;
+            battle_status.m_cri_per = job_iter->magic_cri_per;
+            battle_status.m_cri_dmg_per = job_iter->magic_cri_dmg;
+            battle_status.avoid = job_iter->avoid;
+            battle_status.speed = job_iter->speed;
+
+            if (_to != _from)       //스테이지를 진행하는 거지만 서번트가 있을수 있으므로 체크
+            {
+                user_servants user_servant_table(_self, _to.value);
+                auto user_servant_iter = user_servant_table.find(_enemy_state_list[i].index);
+                eosio_assert(user_servant_iter != user_servant_table.end(), "Set User State : Empty Servant Index / Wrong Servant Index");
+
+                user_equip_items user_equipment_table(_self, _to.value);
+                equipment_db equipment_db_table(_self, _self.value);
+                for (uint32_t equip = 0; equip < user_servant_iter->servant.equip_slot.size(); ++equip) //서번트 장비 슬롯을 돌면서 힘민지에 대한 증가 효과 적용
+                {
+                    if (user_servant_iter->servant.equip_slot[equip] == 0)
+                    {
+                        continue;
+                    }
+                    auto user_equipment_iter = user_equipment_table.find(user_servant_iter->servant.equip_slot[equip]);
+                    eosio_assert(user_equipment_iter != user_equipment_table.end(), "Set User State : Empty Equipment Index / Wrong Equipment Index");
+
+                    auto db_equipment_iter = equipment_db_table.find(user_equipment_iter->equipment.id);
+                    eosio_assert(db_equipment_iter != equipment_db_table.end(), "Set User State : Empty Equipment ID / Wrong Equipment ID");
+
+                    for (uint32_t a = 0; a < db_equipment_iter->option_list.size(); ++a)
+                    {
+                        if (db_equipment_iter->option_list[a] == option_list::physical_attack) //물공 증가
+                        {
+                            battle_status.p_atk += user_equipment_iter->equipment.value;
+                        }
+                        else if (db_equipment_iter->option_list[a] == option_list::magic_attack) //마공 증가
+                        {
+                            battle_status.m_atk += user_equipment_iter->equipment.value;
+                        }
+                        else if (db_equipment_iter->option_list[a] == option_list::physical_defense) //물방 증가
+                        {
+                            battle_status.p_dfs += user_equipment_iter->equipment.value;
+                        }
+                        else if (db_equipment_iter->option_list[a] == option_list::magic_defense) //마방 증가
+                        {
+                            battle_status.m_dfs += user_equipment_iter->equipment.value;
+                        }
+                    }
+                }
+            }
         }
-        else
+        else            //적군 몬스터의 경우
         {
+            set_passive_basic_status_self(battle_status);
+
             monster_db monster_db_table(_self, _self.value);
             auto monster_iter = monster_db_table.find(_enemy_state_list[i].id);
-            eosio_assert(monster_iter != monster_db_table.end(), "Attack Order Enemy : Empty Monster ID / Wrong Monster ID");
+            eosio_assert(monster_iter != monster_db_table.end(), "Set Battle Status My : Empty Monster ID / Wrong Monster ID");
 
             class_stat_db class_stat_db_table(_self, _self.value);
             auto class_stat_iter = class_stat_db_table.find(monster_iter->monster_class);
-            eosio_assert(class_stat_iter != class_stat_db_table.end(), "Attack Order Enemy : Empty Monster Class / Wrong Monster Class");
+            eosio_assert(class_stat_iter != class_stat_db_table.end(), "Set Battle Status My : Empty Monster Class / Wrong Monster Class");
 
-            new_order.speed = class_stat_iter->speed;
+            battle_status.p_atk = get_physical_attack(battle_status.status);
+            battle_status.m_atk = get_magic_attack(battle_status.status);
+            battle_status.p_dfs = get_physical_defense(battle_status.status);
+            battle_status.m_dfs = get_magic_defense(battle_status.status);
+            battle_status.p_cri_per = class_stat_iter->physical_cri_per;
+            battle_status.p_cri_dmg_per = class_stat_iter->physical_cri_dmg;
+            battle_status.m_cri_per = class_stat_iter->magic_cri_per;
+            battle_status.m_cri_dmg_per = class_stat_iter->magic_cri_dmg;
+            battle_status.avoid = class_stat_iter->avoid;
+            battle_status.speed = class_stat_iter->speed;
         }
-        new_order.position = _enemy_state_list[i].position;
-        new_order.key = i;
-        new_order.second_speed = _random_order_list[i + 10];
-        _list.push_back(new_order);
+        init_buff_turn_self(battle_status);
+        _enemy_status_list.push_back(battle_status);
+    }
+    set_passive_battle_status(_my_status_list,_enemy_status_list);
+    set_passive_battle_status(_enemy_status_list, _my_status_list);
+}
+void battletest::set_passive_basic_status_self(battle_status_info &_status)
+{
+    for (uint32_t skill = 0; skill < _status.passive_skill_list.size(); ++skill)
+    {
+        passive_db passive_db_table(_self, _self.value);
+        auto passive_db_iter = passive_db_table.find(_status.passive_skill_list[skill]);
+        eosio_assert(passive_db_iter != passive_db_table.end(), "Set Passive Effect My : Empty Passive ID / Wrong Passive ID");
+
+        switch (passive_db_iter->effect_id)
+        {
+        case passive_effect_id::b_str:
+        {
+            if (passive_db_iter->effect_type_id == passive_effect_type_id::up)
+            {
+                _status.status.basic_str = check_over_plus_flow(_status.status.basic_str, passive_db_iter->effect_value_a);
+            }
+            else
+            {
+                _status.status.basic_str = check_under_minus_flow(_status.status.basic_str, passive_db_iter->effect_value_a);
+            }
+            break;
+        }
+        case passive_effect_id::b_dex:
+        {
+            if (passive_db_iter->effect_type_id == passive_effect_type_id::up)
+            {
+                _status.status.basic_dex = check_over_plus_flow(_status.status.basic_dex, passive_db_iter->effect_value_a);
+            }
+            else
+            {
+                _status.status.basic_dex = check_under_minus_flow(_status.status.basic_dex, passive_db_iter->effect_value_a);
+            }
+            break;
+        }
+        case passive_effect_id::b_int:
+        {
+            if (passive_db_iter->effect_type_id == passive_effect_type_id::up)
+            {
+                _status.status.basic_int = check_over_plus_flow(_status.status.basic_int, passive_db_iter->effect_value_a);
+            }
+            else
+            {
+                _status.status.basic_int = check_under_minus_flow(_status.status.basic_int, passive_db_iter->effect_value_a);
+            }
+            break;
+        }
+        default:
+            break;
+        }
+    }
+}
+
+
+void battletest::set_passive_battle_status(std::vector<battle_status_info> &_my_status_list, std::vector<battle_status_info> &_enemy_status_list)
+{
+    battle_status_info plus;
+    battle_status_info minus;
+
+    for(uint32_t i = 0; i < _my_status_list.size(); ++i)
+    {
+        for(uint32_t skill = 0; skill < _my_status_list[i].passive_skill_list.size(); ++skill)
+        {
+            passive_db passive_db_table(_self, _self.value);
+            auto passive_db_iter = passive_db_table.find(_my_status_list[i].passive_skill_list[skill]);
+            eosio_assert(passive_db_iter != passive_db_table.end(),"Set Passive Effect My : Empty Passive ID / Wrong Passive ID");
+
+            switch (passive_db_iter->effect_id)
+            {
+                case passive_effect_id::p_atk:
+                {
+                    if (passive_db_iter->target_id == passvie_target_id::t_self)
+                    {
+                        _my_status_list[i].p_atk +=  passive_db_iter->effect_value_a;
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_partyall)
+                    {
+                        uint32_t fighter_count = get_my_class_count_status(_my_status_list, passive_db_iter->job_class); //같은 클래스가 몇명있는지 확인
+                        uint32_t effect_value = passive_db_iter->effect_value_a;
+                        for (uint32_t count = 0; count < fighter_count; ++count) //같은 클래스만큼 효과값을 더해준다
+                        {
+                            effect_value += passive_db_iter->effect_value_add_b;
+                        }
+                        plus.p_atk = effect_value;
+
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_self_front)
+                    {
+                        _my_status_list[i].p_atk += passive_db_iter->effect_value_a;
+                        int target_key = get_status_position_key(_my_status_list, _my_status_list[i].position + 5);
+                        if (target_key != -1)
+                        {
+                            _my_status_list[target_key].p_atk += passive_db_iter->effect_value_a;
+                        }
+                    }
+                    break;
+                }
+                case passive_effect_id::m_atk:
+                {
+                    if (passive_db_iter->target_id == passvie_target_id::t_self)
+                    {
+                        _my_status_list[i].m_atk += passive_db_iter->effect_value_a;
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_partyall)
+                    {
+                        uint32_t mage_count = get_my_class_count_status(_my_status_list, passive_db_iter->job_class); //같은 클래스가 몇명있는지 확인
+                        uint32_t effect_value = passive_db_iter->effect_value_a;
+                        for (uint32_t count = 0; count < mage_count; ++count) //같은 클래스만큼 효과값을 더해준다
+                        {
+                            effect_value += passive_db_iter->effect_value_add_b;
+                        }
+                        plus.m_atk = effect_value;
+                        
+                    }
+                    else if(passive_db_iter->target_id == passvie_target_id::t_self_front)
+                    {
+
+                    }
+                    break;
+                }
+                case passive_effect_id::p_dfs:
+                {
+                    if (passive_db_iter->target_id == passvie_target_id::t_self)
+                    {
+                        _my_status_list[i].p_dfs += passive_db_iter->effect_value_a;
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_partyall)
+                    {
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_self_front)
+                    {
+                    }
+                    break;
+                }
+                case passive_effect_id::m_dfs:
+                {
+                    if (passive_db_iter->target_id == passvie_target_id::t_self)
+                    {
+                        _my_status_list[i].m_dfs += passive_db_iter->effect_value_a;
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_partyall)
+                    {
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_self_front)
+                    {
+                    }
+                    break;
+                }
+                case passive_effect_id::speed:
+                {
+                    if (passive_db_iter->target_id == passvie_target_id::t_self)
+                    {
+
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_partyall)
+                    {
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_self_front)
+                    {
+                    }
+                    break;
+                }
+                case passive_effect_id::avoid:
+                {
+                    if (passive_db_iter->target_id == passvie_target_id::t_self)
+                    {
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_partyall)
+                    {
+                        uint32_t hunter_count = get_my_class_count_status(_my_status_list, passive_db_iter->job_class); //같은 클래스가 몇명있는지 확인
+                        uint32_t effect_value = passive_db_iter->effect_value_a;
+                        for (uint32_t count = 0; count < hunter_count; ++count) //같은 클래스만큼 효과값을 더해준다
+                        {
+                            effect_value += passive_db_iter->effect_value_add_b;
+                        }
+                        plus.avoid = effect_value;
+                        
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_self_front)
+                    {
+                        _my_status_list[i].avoid += passive_db_iter->effect_value_a;
+                        int target_key = get_status_position_key(_my_status_list, _my_status_list[i].position + 5);
+                        if (target_key != -1)
+                        {
+                            _my_status_list[target_key].avoid += passive_db_iter->effect_value_a;
+                        }
+                        break;
+                    }
+                    break;
+                }
+                case passive_effect_id::physical_cri_per:
+                {
+                    if (passive_db_iter->target_id == passvie_target_id::t_self)
+                    {
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_partyall)
+                    {
+                            uint32_t assassin_count = get_my_class_count_status(_my_status_list, passive_db_iter->job_class);  //같은 클래스가 몇명있는지 확인
+                            uint32_t effect_value = passive_db_iter->effect_value_a;
+                            for (uint32_t count = 0; count < assassin_count; ++count)                            //같은 클래스만큼 효과값을 더해준다
+                            {
+                                effect_value += passive_db_iter->effect_value_add_b;
+                            }
+                            plus.m_cri_per = effect_value;
+                            break;
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_self_front)
+                    {
+                        _my_status_list[i].p_cri_per += passive_db_iter->effect_value_a;
+                        int target_key = get_status_position_key(_my_status_list, _my_status_list[i].position + 5);
+                        if (target_key != -1)
+                        {
+                            _my_status_list[target_key].p_cri_per += passive_db_iter->effect_value_a;
+                        }
+                        break;
+                    }
+                    break;
+                }
+                case passive_effect_id::physical_cri_dmg:
+                {
+                    if (passive_db_iter->target_id == passvie_target_id::t_self)
+                    {
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_partyall)
+                    {
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_self_front)
+                    {
+                    }
+                    break;
+                }
+                case passive_effect_id::magic_cri_per:
+                {
+                    if (passive_db_iter->target_id == passvie_target_id::t_self)
+                    {
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_partyall)
+                    {
+                        uint32_t warlock_count = get_my_class_count_status(_my_status_list, passive_db_iter->job_class); //같은 클래스가 몇명있는지 확인
+                        uint32_t effect_value = passive_db_iter->effect_value_a;
+                        for (uint32_t count = 0; count < warlock_count; ++count) //같은 클래스만큼 효과값을 더해준다
+                        {
+                            effect_value += passive_db_iter->effect_value_add_b;
+                        }
+                        plus.m_cri_per = effect_value;
+
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_self_front)
+                    {
+                    }
+                    break;
+                }
+                case passive_effect_id::magic_cri_dmg:
+                {
+                    if (passive_db_iter->target_id == passvie_target_id::t_self)
+                    {
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_partyall)
+                    {
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_self_front)
+                    {
+                    }
+                    break;
+                }
+                case passive_effect_id::heal_per:
+                {
+                    if (passive_db_iter->target_id == passvie_target_id::t_self)
+                    {
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_partyall)
+                    {
+                        uint32_t priest_count = get_my_class_count_status(_my_status_list, passive_db_iter->job_class); //같은 클래스가 몇명있는지 확인
+                        uint32_t effect_value = passive_db_iter->effect_value_a;
+                        for (uint32_t count = 0; count < priest_count; ++count) //같은 클래스만큼 효과값을 더해준다
+                        {
+                            effect_value += passive_db_iter->effect_value_add_b;
+                        }
+                        plus.add_heal_skill_value_per += effect_value;
+
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_self_front)
+                    {
+                    }
+                    break;
+                }
+                case passive_effect_id::physical_magic_dfs:
+                {
+                    if (passive_db_iter->target_id == passvie_target_id::t_self)
+                    {
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_partyall)
+                    {
+                        uint32_t knight_count = get_my_class_count_status(_my_status_list, passive_db_iter->job_class); //같은 클래스가 몇명있는지 확인
+                        uint32_t effect_value = passive_db_iter->effect_value_a;
+                        for (uint32_t count = 0; count < knight_count; ++count) //같은 클래스만큼 효과값을 더해준다
+                        {
+                            effect_value += passive_db_iter->effect_value_add_b;
+                        }
+                        plus.p_dfs = effect_value;
+                        plus.m_dfs = effect_value;
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_self_front)
+                    {
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_enemyall)
+                    {
+                        uint32_t shaman_count = get_my_class_count_status(_my_status_list, passive_db_iter->job_class); //같은 클래스가 몇명있는지 확인
+                        uint32_t effect_value = passive_db_iter->effect_value_a;
+                        for (uint32_t count = 0; count < shaman_count; ++count) //같은 클래스만큼 효과값을 더해준다
+                        {
+                            effect_value += passive_db_iter->effect_value_add_b;
+                        }
+                        if (passive_db_iter->effect_type_id == passive_effect_type_id::down)
+                        {
+                            minus.p_dfs = effect_value;
+                            minus.m_dfs = effect_value;
+                        }
+                    }
+                    break;
+                }
+                case passive_effect_id::hp:
+                {
+                    if (passive_db_iter->target_id == passvie_target_id::t_self)
+                    {
+                        _my_status_list[i].max_hp += passive_db_iter->effect_value_a;
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_partyall)
+                    {
+                        uint32_t druid_count = get_my_class_count_status(_my_status_list, passive_db_iter->job_class);
+                        uint32_t effect_value = passive_db_iter->effect_value_a;
+                        for (uint32_t count = 0; count < druid_count; ++count)
+                        {
+                            effect_value += passive_db_iter->effect_value_add_b;
+                        }
+                        plus.max_hp = effect_value;
+                    }
+                    else if (passive_db_iter->target_id == passvie_target_id::t_self_front)
+                    {
+                        _my_status_list[i].max_hp += passive_db_iter->effect_value_a;
+                        int key = get_status_position_key(_my_status_list, _my_status_list[i].position + 5);
+                        if (key != -1)
+                        {
+                            _my_status_list[key].max_hp += passive_db_iter->effect_value_a;
+                        }
+                    }
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+    }
+
+
+    for(uint32_t i = 0; i < _my_status_list.size(); ++i)
+    {
+        _my_status_list[i].max_hp = check_over_plus_flow(_my_status_list[i].max_hp, plus.max_hp);
+        _my_status_list[i].p_atk = check_over_plus_flow(_my_status_list[i].p_atk, plus.p_atk);
+        _my_status_list[i].m_atk = check_over_plus_flow(_my_status_list[i].m_atk, plus.m_atk);
+        _my_status_list[i].p_dfs = check_over_plus_flow(_my_status_list[i].p_dfs, plus.p_dfs);
+        _my_status_list[i].m_dfs = check_over_plus_flow(_my_status_list[i].m_dfs, plus.m_dfs);
+        _my_status_list[i].add_heal_skill_value_per = check_over_plus_flow(_my_status_list[i].add_heal_skill_value_per, plus.add_heal_skill_value_per);
+        _my_status_list[i].avoid = check_over_plus_flow(_my_status_list[i].avoid, plus.avoid);
+        _my_status_list[i].speed = check_over_plus_flow(_my_status_list[i].speed, plus.speed);
+        _my_status_list[i].m_cri_per = check_over_plus_flow(_my_status_list[i].m_cri_per, plus.m_cri_per);
+        _my_status_list[i].p_cri_per = check_over_plus_flow(_my_status_list[i].p_cri_per, plus.p_cri_per);
+    }
+
+    for(uint32_t i = 0; i < _enemy_status_list.size(); ++i)
+    {
+        _enemy_status_list[i].p_atk = check_under_minus_flow(_enemy_status_list[i].p_atk, minus.p_atk);
+        _enemy_status_list[i].m_atk = check_under_minus_flow(_enemy_status_list[i].m_atk, minus.m_atk);
+        _enemy_status_list[i].p_dfs = check_under_minus_flow(_enemy_status_list[i].p_dfs, minus.p_dfs);
+        _enemy_status_list[i].m_dfs = check_under_minus_flow(_enemy_status_list[i].m_dfs, minus.m_dfs);
+        _enemy_status_list[i].add_heal_skill_value_per = check_under_minus_flow(_enemy_status_list[i].add_heal_skill_value_per, minus.add_heal_skill_value_per);
+        _enemy_status_list[i].avoid = check_under_minus_flow(_enemy_status_list[i].avoid, minus.avoid);
+        _enemy_status_list[i].speed = check_under_minus_flow(_enemy_status_list[i].speed, minus.speed);
+        _enemy_status_list[i].m_cri_per = check_under_minus_flow(_enemy_status_list[i].m_cri_per, minus.m_cri_per);
+        _enemy_status_list[i].p_cri_per = check_under_minus_flow(_enemy_status_list[i].p_cri_per, minus.p_cri_per);
+    }
+}
+
+void battletest::set_result_state(std::vector<battle_status_info> &_my_status_list,
+                                  std::vector<battle_status_info> &_enemy_status_list,
+                                  std::vector<character_state_data> &_my_state_list,
+                                  std::vector<character_state_data> &_enemy_state_list)
+{
+    for (uint32_t i = 0; i < _my_state_list.size(); ++i)
+    {
+        int state_key = get_status_position_key(_my_status_list, _my_state_list[i].position);
+        if (state_key != -1)
+        {
+            _my_state_list[i].buff_list.clear();
+            _my_state_list[i].buff_list = _my_status_list[state_key].buff_list;
+            _my_state_list[i].now_hp = _my_status_list[state_key].now_hp;
+            _my_state_list[i].state = _my_status_list[state_key].state;
+        }
+    }
+
+    for (uint32_t i = 0; i < _enemy_state_list.size(); ++i)
+    {
+        int state_key = get_status_position_key(_enemy_status_list, _enemy_state_list[i].position);
+        if (state_key != -1)
+        {
+            _enemy_state_list[i].buff_list.clear();
+            _enemy_state_list[i].buff_list = _enemy_status_list[state_key].buff_list;
+            _enemy_state_list[i].now_hp = _enemy_status_list[state_key].now_hp;
+            _enemy_state_list[i].state = _enemy_status_list[state_key].state;
+        }
     }
 }
 
@@ -7390,10 +7506,6 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
     auto blacklist_iter = blacklist_table.find(_user.value);
     eosio_assert(blacklist_iter == blacklist_table.end(), "Active Turn : BlackList User");
 
-    // whitelist whitelist_table(_self, _self.value);
-    // auto whitelist_iter = whitelist_table.find(_user.value);
-    // eosio_assert(whitelist_iter != whitelist_table.end(), "Actvie Turn : Not White User");
-    //?⑥닔濡?類닿린
     size_t center = _seed.find(':');
     size_t end = _seed.length() - (center + 1);
     eosio_assert(_seed.find(':') != std::string::npos, "Actvie Turn : Wrong Seed");
@@ -7422,72 +7534,86 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
     eosio_assert(user_battle_action_iter != battle_action_table.end(), "Actvie Turn : Empty Action Table / Not Yet Stage Start");
     eosio_assert(user_battle_action_iter->turn == _turn - 1, "Active Turn : Different Turn / Wrong Turn");
 
-    eosio::name my = user_battle_state_iter->user;
-    eosio::name enemy = user_battle_state_iter->enemy_user;
-    std::string type;
-    if(user_auth_iter->state == user_state::stage)
-    {
-        type = "stage";
-    }
-    else if(user_auth_iter->state == user_state::pvp)
-    {
-        type = "pvp";
-    }
-
     std::vector<uint64_t> order_random_list;
     safeseed::get_battle_rand_list(order_random_list, battle_seed);
 
     std::string turn;
     std::vector<std::string> data;
+    //공격순서 정렬하는 부분
+    std::vector<battle_status_info> second_attack_order_list;
+    std::vector<battle_status_info> attack_order_list;
+    std::vector<battle_status_info> skill_order_list;
+    //배틀에 대한 상세 능력치가 들어있는 부분
+    std::vector<battle_status_info> my_battle_status_list;
+    std::vector<battle_status_info> enemy_battle_status_list;
+
     //배틀의 상태를 바꿔주는 부분
+    set_equipment_basic_status(user_battle_state_iter->user, user_battle_state_iter->enemy_user, order_random_list, my_battle_status_list, enemy_battle_status_list, user_battle_state_iter->my_state_list, user_battle_state_iter->enemy_state_list);
+
+    skill_order_list.insert(skill_order_list.end(), my_battle_status_list.begin(), my_battle_status_list.end());
+    skill_order_list.insert(skill_order_list.end(), enemy_battle_status_list.begin(), enemy_battle_status_list.end());
+    std::sort(skill_order_list.begin(), skill_order_list.end(), new_sort_compare);
+
     battle_state_list_table.modify(user_battle_state_iter, _self, [&](auto &character_state_data) {
         character_state_data.turn += 1;
-        //버프 턴부터 진행
-        init_buff_turn(character_state_data.my_state_list);
-        init_buff_turn(character_state_data.enemy_state_list);
-        //공격순서 정렬하는 부분
-        std::vector<battle_order_struct> second_attack_order_list;
-        std::vector<battle_order_struct> attack_order_list;
-        std::vector<battle_order_struct> skill_order_list;
-
-        set_attack_order_list(type,
-                              skill_order_list,
-                              order_random_list,
-                              character_state_data.my_state_list,
-                              character_state_data.enemy_state_list);
-        std::sort(skill_order_list.begin(), skill_order_list.end(), sort_compare);
-        //---------------------
-
         //배틀에 액션테이블에 데이터를 추가해주는 부분
         battle_action_table.modify(user_battle_action_iter, _self, [&](auto &update_action) {
             update_action.turn += 1;
-            turn = to_string(update_action.turn);
+            turn += to_string(update_action.turn);
             update_action.character_action_list.clear();
             //먼저 스킬 발동 여부 확인
-            for (uint32_t i = 0; i < skill_order_list.size(); ++i)
+            for (uint32_t i = 0; i < skill_order_list.size(); ++i)  
             {
-                uint32_t my_key = skill_order_list[i].key;
-                if (skill_order_list[i].position < max_party_count) //내 파티인데
+                if (skill_order_list[i].position < max_party_count) //산 애들인데 내 파티이면
                 {
-                    if (character_state_data.my_state_list[my_key].active_skill_list.size() != 0) //액티브 스킬이 있으면
+                    int my_key = get_status_position_key(my_battle_status_list, skill_order_list[i].position); //자신의 스테이터스를 찾는다
+                    if(my_key == -1)
                     {
-                        uint64_t action_rate = safeseed::get_random_value(skill_order_list[i].second_speed, 100, 0, 0);
-                        if (true == check_activate_skill(character_state_data.my_state_list[my_key].active_skill_list[0], action_rate)) //액티브 스킬이 발동하면
+                        continue;
+                    }
+                    else if(my_battle_status_list[my_key].state == battle_member_state::dead)
+                    {
+                        continue;
+                    }
+                    else if (my_battle_status_list[my_key].active_skill_list.size() != 0) //액티브 스킬이 있으면
+                    {
+                        uint64_t action_rate = safeseed::get_random_value(skill_order_list[i].second_speed, 100, 0, 0); //액티브 스킬의 확률을 구한다
+
+                        if (true == check_activate_skill(my_battle_status_list[my_key].active_skill_list[0], action_rate)) //액티브 스킬이 발동하면
                         {
-                            if (character_state_data.my_state_list[my_key].active_skill_list[0] == active_name::active_fast_attack) //패스트 어택
+                            active_db active_db_table(_self, _self.value);
+                            auto active_iter = active_db_table.find(my_battle_status_list[my_key].active_skill_list[0]);
+                            eosio_assert(active_iter != active_db_table.end(), "Actvie Turn My : Empty Active ID / Wrong Active ID");
+                            if (active_iter->skill_type == active_skill_type::type_attack)   //공격하는 스킬
                             {
-                                skill_order_list[i].action = action_type::skill;
-                                attack_order_list.push_back(skill_order_list[i]);
+                                if (active_iter->option_id == active_option::option_fastattack) //선공 옵션이 붙은 경우
+                                {
+                                    skill_order_list[i].action = action_type::skill;
+                                    attack_order_list.push_back(skill_order_list[i]);
+                                }
+                                else
+                                {
+                                    skill_order_list[i].action = action_type::skill;
+                                    second_attack_order_list.push_back(skill_order_list[i]);
+                                }
                             }
-                            else if (character_state_data.my_state_list[my_key].active_skill_list[0] == active_name::active_defense) //버프 스킬
+                            else if (active_iter->skill_type == active_skill_type::type_buff) //버프 스킬
                             {
+                                int state_key = get_state_position_key(character_state_data.my_state_list, my_battle_status_list[my_key].position);
+                                if(state_key == -1)
+                                {
+                                    continue;
+                                }
+
                                 buff_info new_buff;
                                 new_buff.id = buff_state::defense;
                                 new_buff.turn = 1;
-                                character_state_data.my_state_list[my_key].buff_list.push_back(new_buff);
+                                character_state_data.my_state_list[state_key].buff_list.push_back(new_buff);
+                                my_battle_status_list[my_key].buff_list.push_back(new_buff);
+                                //방어력 증가 추가해야함
 
                                 character_action_data action_info;
-                                action_info.my_position = character_state_data.my_state_list[my_key].position;
+                                action_info.my_position = my_battle_status_list[my_key].position;
                                 action_info.action_type = action_type::skill;
                                 update_action.character_action_list.push_back(action_info);
 
@@ -7498,23 +7624,18 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                                 action_data += "]";
                                 data.push_back(action_data);
                             }
-                            else if (character_state_data.my_state_list[my_key].active_skill_list[0] == active_name::active_heal) //힐 스킬
+                            else if (active_iter->skill_type == active_skill_type::type_heal) //힐 스킬
                             {
                                 character_action_data action_info;
-                                if (false == set_action(my, enemy ,type, "my", action_type::skill,
-                                                        skill_order_list[i].second_speed,
-                                                        character_state_data.my_state_list,
-                                                        character_state_data.enemy_state_list,
+                                if (false == set_action(_user, action_type::skill,
+                                                        my_battle_status_list[my_key].second_speed,
+                                                        my_battle_status_list,
+                                                        enemy_battle_status_list,
                                                         my_key, action_info, data))
                                 {
                                     break;
                                 }
                                 update_action.character_action_list.push_back(action_info);
-                            }
-                            else
-                            {
-                                skill_order_list[i].action = action_type::skill;
-                                second_attack_order_list.push_back(skill_order_list[i]);
                             }
                         }
                         else //스킬이 발동하지 않으면
@@ -7531,25 +7652,52 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                 }
                 else //적의 경우
                 {
-                    if (character_state_data.enemy_state_list[my_key].active_skill_list.size() != 0) //액티브 스킬이 있으면
+                    int my_key = get_status_position_key(enemy_battle_status_list, skill_order_list[i].position); //자신의 스테이터스를 찾는다
+                    if(my_key == -1)
                     {
-                        uint64_t action_rate = safeseed::get_random_value(skill_order_list[i].second_speed, 100, 0, 0);
-                        if (true == check_activate_skill(character_state_data.enemy_state_list[my_key].active_skill_list[0], action_rate)) //액티브 스킬이 발동하면
+                        continue;
+                    }
+                    else if (enemy_battle_status_list[my_key].state == battle_member_state::dead)
+                    {
+                        continue;
+                    }
+                    else if (enemy_battle_status_list[my_key].active_skill_list.size() != 0)
+                    {
+                        uint64_t action_rate = safeseed::get_random_value(skill_order_list[i].second_speed, 100, 0, 0); //액티브 스킬의 확률을 구한다
+                        if (true == check_activate_skill(enemy_battle_status_list[my_key].active_skill_list[0], action_rate)) //액티브 스킬이 발동하면
                         {
-                            if (character_state_data.enemy_state_list[my_key].active_skill_list[0] == active_name::active_fast_attack) //패스트 어택
+                            active_db active_db_table(_self, _self.value);
+                            auto active_iter = active_db_table.find(enemy_battle_status_list[my_key].active_skill_list[0]);
+                            eosio_assert(active_iter != active_db_table.end(), "Actvie Turn My : Empty Active ID / Wrong Active ID");
+                            if (active_iter->skill_type == active_skill_type::type_attack)   //공격하는 스킬
                             {
-                                skill_order_list[i].action = action_type::skill;
-                                attack_order_list.push_back(skill_order_list[i]);
+                                if (active_iter->option_id == active_option::option_fastattack) //선공 옵션이 붙은 경우
+                                {
+                                    skill_order_list[i].action = action_type::skill;
+                                    attack_order_list.push_back(skill_order_list[i]);
+                                }
+                                else
+                                {
+                                    skill_order_list[i].action = action_type::skill;
+                                    second_attack_order_list.push_back(skill_order_list[i]);
+                                }
                             }
-                            else if (character_state_data.enemy_state_list[my_key].active_skill_list[0] == active_name::active_defense) //버프 스킬
+                            else if (active_iter->skill_type == active_skill_type::type_buff) //버프 스킬
                             {
+                                int state_key = get_state_position_key(character_state_data.enemy_state_list, enemy_battle_status_list[my_key].position);
+                                if(state_key == -1)
+                                {
+                                    continue;
+                                }
+
                                 buff_info new_buff;
                                 new_buff.id = buff_state::defense;
                                 new_buff.turn = 1;
-                                character_state_data.enemy_state_list[my_key].buff_list.push_back(new_buff);
+                                character_state_data.enemy_state_list[state_key].buff_list.push_back(new_buff);
+                                enemy_battle_status_list[my_key].buff_list.push_back(new_buff);
 
                                 character_action_data action_info;
-                                action_info.my_position = character_state_data.enemy_state_list[my_key].position;
+                                action_info.my_position = enemy_battle_status_list[my_key].position;
                                 action_info.action_type = action_type::skill;
                                 update_action.character_action_list.push_back(action_info);
 
@@ -7560,23 +7708,18 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                                 action_data += "]";
                                 data.push_back(action_data);
                             }
-                            else if (character_state_data.enemy_state_list[my_key].active_skill_list[0] == active_name::active_heal) //힐 스킬
+                            else if (active_iter->skill_type == active_skill_type::type_heal) //힐 스킬
                             {
                                 character_action_data action_info;
-                                if (false == set_action(enemy, my, type, "enemy", action_type::skill,
-                                                        skill_order_list[i].second_speed,
-                                                        character_state_data.enemy_state_list,
-                                                        character_state_data.my_state_list,
+                                if (false == set_action(_user, action_type::skill,
+                                                        enemy_battle_status_list[my_key].second_speed,
+                                                        enemy_battle_status_list,
+                                                        my_battle_status_list,
                                                         my_key, action_info, data))
                                 {
                                     break;
                                 }
                                 update_action.character_action_list.push_back(action_info);
-                            }
-                            else
-                            {
-                                skill_order_list[i].action = action_type::skill;
-                                second_attack_order_list.push_back(skill_order_list[i]);
                             }
                         }
                         else //스킬이 발동하지 않으면
@@ -7585,7 +7728,7 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                             second_attack_order_list.push_back(skill_order_list[i]);
                         }
                     }
-                    else //스킬이 없으면
+                    else    // 스킬이 없는 경우
                     {
                         skill_order_list[i].action = action_type::attack;
                         second_attack_order_list.push_back(skill_order_list[i]);
@@ -7595,19 +7738,26 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
             //패스트 어택 애들 처리
             for (uint32_t i = 0; i < attack_order_list.size(); ++i)
             {
-                uint32_t my_key = attack_order_list[i].key;
                 if (attack_order_list[i].position < max_party_count) //자기 파티에 대한 처리
                 {
-                    if (character_state_data.my_state_list[my_key].state == battle_member_state::dead)
+                    int my_key = get_status_position_key(my_battle_status_list, attack_order_list[i].position); //자신의 스테이터스를 찾는다
+                    if(my_key == -1)
+                    {
+                        continue;
+                    }
+                    else if (my_battle_status_list[my_key].state == battle_member_state::dead)
                     {
                         continue;
                     }
                     character_action_data action_info;
-                    if (false == set_action(my, enemy ,type, "my",action_type::skill,
-                                            attack_order_list[i].second_speed,
-                                            character_state_data.my_state_list,
-                                            character_state_data.enemy_state_list,
-                                            my_key, action_info, data))
+                    if (false == set_action(_user, 
+                                            action_type::skill,
+                                            my_battle_status_list[my_key].second_speed,
+                                            my_battle_status_list,
+                                            enemy_battle_status_list,
+                                            my_key, 
+                                            action_info,
+                                            data))
                     {
                         break;
                     }
@@ -7615,16 +7765,24 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                 }
                 else // 상대 파티의 경우
                 {
-                    if (character_state_data.enemy_state_list[my_key].state == battle_member_state::dead)
+                    int my_key = get_status_position_key(enemy_battle_status_list, attack_order_list[i].position); //자신의 스테이터스를 찾는다
+                    if(my_key == -1)
+                    {
+                        continue;
+                    }
+                    else if (enemy_battle_status_list[my_key].state == battle_member_state::dead)
                     {
                         continue;
                     }
                     character_action_data action_info;
-                    if (false == set_action(enemy, my, type, "enemy", action_type::skill,
-                                            attack_order_list[i].second_speed,
-                                            character_state_data.enemy_state_list,
-                                            character_state_data.my_state_list,
-                                            my_key, action_info, data))
+                    if (false == set_action(_user, 
+                                            action_type::skill,
+                                            enemy_battle_status_list[my_key].second_speed,
+                                            enemy_battle_status_list,
+                                            my_battle_status_list,
+                                            my_key, 
+                                            action_info, 
+                                            data))
                     {
                         break;
                     }
@@ -7634,19 +7792,26 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
             //그냥 일반 공격하는 애들에 대한 처리 ===============================================================
             for (uint32_t i = 0; i < second_attack_order_list.size(); ++i)
             {
-                uint32_t my_key = second_attack_order_list[i].key;
                 if (second_attack_order_list[i].position < max_party_count) //자기 파티에 대한 처리
                 {
-                    if (character_state_data.my_state_list[my_key].state == battle_member_state::dead)
+                    int my_key = get_status_position_key(my_battle_status_list, second_attack_order_list[i].position); //자신의 스테이터스를 찾는다
+                    if(my_key == -1)
+                    {
+                        continue;
+                    }
+                    else if (my_battle_status_list[my_key].state == battle_member_state::dead)
                     {
                         continue;
                     }
                     character_action_data action_info;
-                    if (false == set_action(my, enemy, type, "my", second_attack_order_list[i].action,
-                                            second_attack_order_list[i].second_speed,
-                                            character_state_data.my_state_list,
-                                            character_state_data.enemy_state_list,
-                                            my_key, action_info, data))
+                    if (false == set_action(_user, 
+                                            second_attack_order_list[i].action,
+                                            my_battle_status_list[my_key].second_speed,
+                                            my_battle_status_list,
+                                            enemy_battle_status_list,
+                                            my_key, 
+                                            action_info, 
+                                            data))
                     {
                         break;
                     }
@@ -7654,58 +7819,67 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                 }
                 else // 상대 파티의 경우
                 {
-                    if (character_state_data.enemy_state_list[my_key].state == battle_member_state::dead)
+                    int my_key = get_status_position_key(enemy_battle_status_list, second_attack_order_list[i].position); //자신의 스테이터스를 찾는다
+                    if(my_key == -1)
+                    {
+                        continue;
+                    }
+                    else if (enemy_battle_status_list[my_key].state == battle_member_state::dead)
                     {
                         continue;
                     }
                     character_action_data action_info;
-                    if (false == set_action(enemy, my, type, "enemy", second_attack_order_list[i].action,
-                                            second_attack_order_list[i].second_speed,
-                                            character_state_data.enemy_state_list,
-                                            character_state_data.my_state_list,
-                                            my_key, action_info, data))
+                    if (false == set_action(_user, 
+                                            second_attack_order_list[i].action,
+                                            enemy_battle_status_list[my_key].second_speed,
+                                            enemy_battle_status_list,
+                                            my_battle_status_list,
+                                            my_key, 
+                                            action_info, 
+                                            data))
                     {
                         break;
                     }
                     update_action.character_action_list.push_back(action_info);
                 }
             }
-
             //게임의 종료 여부 체크
-            for (uint32_t i = 0; i < character_state_data.my_state_list.size(); ++i)
+            for (uint32_t i = 0; i < my_battle_status_list.size(); ++i)
             {
-                if (character_state_data.my_state_list[i].state == battle_member_state::dead)
+                if (my_battle_status_list[i].state == battle_member_state::dead)
                 {
                     user_dead_count += 1;
                 }
             }
 
-            for (uint32_t i = 0; i < character_state_data.enemy_state_list.size(); ++i)
+            for (uint32_t i = 0; i < enemy_battle_status_list.size(); ++i)
             {
-                if (character_state_data.enemy_state_list[i].state == battle_member_state::dead)
+                if (enemy_battle_status_list[i].state == battle_member_state::dead)
                 {
                     enemy_dead_count += 1;
                 }
             }
+            //계산했던 스테이트 결과를 테이블에 넣어준다
+            set_result_state(my_battle_status_list, enemy_battle_status_list, character_state_data.my_state_list, character_state_data.enemy_state_list);
         });
     });
 
-    if (type == "stage")
+    if (user_auth_iter->state == user_state::stage)
     {
-        if (enemy_dead_count == user_battle_state_iter->enemy_state_list.size())
+        if (enemy_dead_count == enemy_battle_status_list.size())
         {
-            uint32_t stage_number = 100000 + (100 * user_battle_state_iter->stage_type) + (1 * user_battle_state_iter->stage_number);
+            uint32_t stage_number = get_stage_id(user_battle_state_iter->stage_type, user_battle_state_iter->stage_number);
             win_reward(_user, stage_number, battle_seed);
         }
-        else if (user_dead_count == user_battle_state_iter->my_state_list.size())
+        else if (user_dead_count == my_battle_status_list.size())
         {
-            uint32_t stage_number = 100000 + (100 * user_battle_state_iter->stage_type) + (1 * user_battle_state_iter->stage_number);
+            uint32_t stage_number = get_stage_id(user_battle_state_iter->stage_type, user_battle_state_iter->stage_number);
             fail_reward(_user, stage_number);
         }
     }
     else
     {
-        if (enemy_dead_count == user_battle_state_iter->enemy_state_list.size())
+        if (enemy_dead_count == enemy_battle_status_list.size())
         {
             pvp_log_index pvp_log_table(_self, _user.value);
             pvp_log_table.emplace(_user, [&](auto &data) {
@@ -7716,12 +7890,12 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
             user_auths user_auth_table(_self, _self.value);
             auto user_auth_iter = user_auth_table.find(_user.value);
             eosio_assert(user_auth_iter != user_auth_table.end(), "Pvp Result : Empty Auth Table / Not Yet Signup");
-            eosio_assert(user_auth_iter->state == user_state::stage || user_auth_iter->state == user_state::pvp, "Pvp Result ; User State Not Stage / Not Yet Stage Start");
+            eosio_assert(user_auth_iter->state == user_state::pvp, "Pvp Result ; User State Not Stage / Not Yet Stage Start");
             user_auth_table.modify(user_auth_iter, _self, [&](auto &end_pvp) {
                 end_pvp.state = user_state::lobby;
             });
         }
-        else if (user_dead_count == user_battle_state_iter->my_state_list.size())
+        else if (user_dead_count == my_battle_status_list.size())
         {
             pvp_log_index pvp_log_table(_self, _user.value);
             pvp_log_table.emplace(_user, [&](auto &data) {
@@ -7732,7 +7906,7 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
             user_auths user_auth_table(_self, _self.value);
             auto user_auth_iter = user_auth_table.find(_user.value);
             eosio_assert(user_auth_iter != user_auth_table.end(), "Pvp Result : Empty Auth Table / Not Yet Signup");
-            eosio_assert(user_auth_iter->state == user_state::stage || user_auth_iter->state == user_state::pvp, "Pvp Result ; User State Not Stage / Not Yet Stage Start");
+            eosio_assert(user_auth_iter->state == user_state::pvp, "Pvp Result ; User State Not Stage / Not Yet Stage Start");
             user_auth_table.modify(user_auth_iter, _self, [&](auto &end_pvp) {
                 end_pvp.state = user_state::lobby;
             });
@@ -7849,6 +8023,15 @@ battletest::servant_data battletest::get_reward_servant(eosio::name _user, uint3
         new_servant.status.basic_dex = change_servant_statue(new_servant.status.basic_dex);
         new_servant.status.basic_int = change_servant_statue(new_servant.status.basic_int);
 
+        uint32_t active_id = get_servant_active_skill(servant_id_db_iter.job, _seed);
+        new_servant.active_skill.push_back(active_id);
+
+        // uint32_t job_passive = get_job_passiive(servant_id_db_iter.job);
+        // new_servant.passive_skill.push_back(job_passive);
+
+        uint32_t passive_id = get_servant_passive_skill(servant_id_db_iter.job, _seed);
+        new_servant.passive_skill.push_back(passive_id);
+
         new_servant.equip_slot.resize(3);
         new_servant.state = object_state::on_inventory;
 
@@ -7916,6 +8099,15 @@ battletest::monster_data battletest::get_reward_monster(eosio::name _user, uint3
         new_monster.status.basic_str = change_monster_statue(new_monster.grade, new_monster.status.basic_str);
         new_monster.status.basic_dex = change_monster_statue(new_monster.grade, new_monster.status.basic_dex);
         new_monster.status.basic_int = change_monster_statue(new_monster.grade, new_monster.status.basic_int);
+
+        // uint32_t active_id = get_monster_active_skill(monster_id_db_iter.monster_class, _seed);
+        // new_monster.active_skill.push_back(active_id);
+
+        // uint32_t job_passive = get_class_passive(monster_id_db_iter.monster_class);
+        // new_monster.passive_skill.push_back(job_passive);
+
+        uint32_t passive_id = get_monster_passive_skill(monster_id_db_iter.monster_class, _seed);
+        new_monster.passive_skill.push_back(passive_id);
 
         new_monster.state = object_state::on_inventory;
 
@@ -9628,24 +9820,31 @@ ACTION battletest::monsterup(eosio::name _user, uint32_t _monster, uint32_t _mon
 #pragma endregion
 
 
-
 ACTION battletest::pvpstart(eosio::name _from, eosio::name _to)
 {
     require_auth(_from);
-
+    eosio_assert(_from != _to, "PVP Start : Self PVP Impossible");
     std::vector<uint32_t> servant_pos_list = {0, 1, 2, 3, 4};
     std::vector<uint32_t> monster_pos_list = {5, 6, 7, 8, 9};
+
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
+    eosio_assert(system_master_iter->state != system_state::pause, "PVP Start : Server Pause");
+
+    blacklist blacklist_table(_self, _self.value);
+    auto blacklist_iter = blacklist_table.find(_from.value);
+    eosio_assert(blacklist_iter == blacklist_table.end(), "PVP Start : BlackList User");
 
     // _from 이 유효한 계정인지, pvp가 가능한 상태인지 체크. _to 가 유효한 계정인지 체크
     user_auths user_auth(_self, _self.value);
     auto from_user_iter = user_auth.find(_from.value);
 
-    eosio_assert(from_user_iter != user_auth.end(), "Stage Start : Empty Auth Table / Not Yet Signup");
-    eosio_assert(from_user_iter->state == user_state::lobby, "Stage Start : Already Battle");
+    eosio_assert(from_user_iter != user_auth.end(), "PVP Start : Empty Auth Table / Not Yet Signup");
+    eosio_assert(from_user_iter->state == user_state::lobby, "PVP Start : Already Battle");
 
     auto to_user_iter = user_auth.find(_to.value);
 
-    eosio_assert(to_user_iter != user_auth.end(), "Stage Start : Empty Auth Table / Not Yet Signup");
+    eosio_assert(to_user_iter != user_auth.end(), "PVP Start : Empty Auth Table / Not Yet Signup");
 
     user_auth.modify(from_user_iter, _self, [&](auto &data) {
         data.state = user_state::pvp;
@@ -9655,12 +9854,12 @@ ACTION battletest::pvpstart(eosio::name _from, eosio::name _to)
     user_partys from_party(_self, _from.value);
     uint32_t from_party_num = 1;
     auto from_party_iter = from_party.find(from_party_num);
-    eosio_assert(from_party_iter != from_party.end(), "Stage Start : Empty Party Table / Not Yet Signup");
+    eosio_assert(from_party_iter != from_party.end(), "PVP Start : Empty Party Table / Not Yet Signup");
 
     user_partys to_party(_self, _to.value);
     uint32_t to_party_num = 1;
     auto to_party_iter = to_party.find(to_party_num);
-    eosio_assert(to_party_iter != to_party.end(), "Stage Start : Empty Party Table / Not Yet Signup");
+    eosio_assert(to_party_iter != to_party.end(), "PVP Start : Empty Party Table / Not Yet Signup");
 
     // stgstate 테이블에 배틀을 위한 환경 세팅
     std::string stage_info;
@@ -10379,9 +10578,9 @@ EOSIO_DISPATCH(battletest,
                (testcheat)(testsnap)(setdata)(resultpre)                                                                                                                      //test
                (transfer)(changetoken)//(create)(issue)                                                                                                                         //token
                (towersnap)(claim)(settower)(chat)                                                                                                                                   //tower
-               (deletewhite)(addwhite)(setmaster)(settokenlog)(eostransfer)(initmaster)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dberase)(alluserdel)(allbattle) //db mastersystem
+               (setmaster)(settokenlog)(eostransfer)(initmaster)(inittokenlog)(deleteblack)(addblack)(setpause)(dbinsert)(dberase)(dbinit)(alluserdel)(allbattle) //db mastersystem
                (battleaction)(battlestate)(stageexit)(stagestart)(activeturn)(pvpstart)                                                                                                 //battle
                (saveparty)(resultparty)(resultgacha)                                                                                                                          //party + gacha
                (itembuy)(monsterup)(equipmentup)(mailopen)(movedb)(equip)(unequip)(nftmail)(servantburn)(monsterburn)(equipburn)(itemburn)(deleteuser)
                (addshop)(delshop))                     //contants
-                //(dblistinsert)(dbinit)
+                //(dblistinsert)
