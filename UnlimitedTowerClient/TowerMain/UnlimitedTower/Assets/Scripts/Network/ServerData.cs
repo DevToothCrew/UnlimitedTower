@@ -312,6 +312,7 @@ public class characterStateData
     public int now_hp;
     public int type;
     public int upgrade;
+    public int max_hp;
 
     public int state;       //0 살있음, 1 죽어있음 
     public List<buffInfo> buff_list = new List<buffInfo>();

@@ -1878,6 +1878,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         stateData.state = getStateData.state;
         stateData.type = getStateData.type;
         stateData.upgrade = getStateData.upgrade;
+        stateData.maxHP = getStateData.max_hp;
         stateData.status = ParseStatus(getStateData.status);
         stateData.buffList = getStateData.buff_list;
         stateData.activeSkillList = ParseSkillList(getStateData.active_skill_list);

@@ -352,7 +352,8 @@ public class UserCharacterStateData
     public int index;
     public int nowHp;
 
-    public int maxHP { get { return Calculator.GetMaxHp(status); } }
+    public int maxHP;
+    //public int maxHP { get { return Calculator.GetMaxHp(status); } }
     public int atk { get { return Calculator.GetAttack(status); } }
     public int mAtk { get { return Calculator.GetMagicAttack(status); } }
     public int def { get { return Calculator.GetDefence(status); } }
