@@ -1183,7 +1183,7 @@ public class CSVData : MonoSingleton<CSVData>
             passiveData.name = Convert.ToString(data[i]["en_name"]);
             passiveData.explain = Convert.ToString(data[i]["explain"]);
             passiveData.resourceIcon = Convert.ToString(data[i]["resource_icon"]);
-            passiveData.passiveIcon = Resources.Load<Sprite>("UI/EquipmentIcon/" + passiveData.resourceIcon);
+            passiveData.passiveIcon = Resources.Load<Sprite>("UI/Skill/Passive/" + passiveData.resourceIcon);
             if(passiveData.passiveIcon == null)
             {
                 Debug.Log("Invalid Resource Icon : " + passiveData.resourceIcon);
@@ -1192,7 +1192,7 @@ public class CSVData : MonoSingleton<CSVData>
             passiveData.enableStackMax = Convert.ToBoolean(data[i]["enable_stack_n"]);
             passiveData.effectKeyword = Convert.ToString(data[i]["effect_keyword"]);
             passiveData.effectID = (EFFECT_ID)Convert.ToInt32(data[i]["effect_id"]);
-            passiveData.effectType = (EFFECT_TYPE)Convert.ToInt32(data[i]["effect_type"]);
+            passiveData.effectType = (EFFECT_TYPE)Convert.ToInt32(data[i]["effect_type_id"]);
             passiveData.effectAdd = Convert.ToInt32(data[i]["effect_a"]);
             passiveData.effectPlusAdd = Convert.ToInt32(data[i]["effect_b"]);
 
