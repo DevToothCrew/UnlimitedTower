@@ -99,6 +99,21 @@ public class BattleManager : MonoSingleton<BattleManager>
                 CheetKey[CheetIndex % 3] = (int)KeyCode.P;
                 CheetIndex++;
             }
+            else if (Input.GetKeyDown(KeyCode.A))
+            {
+                CheetKey[CheetIndex % 3] = (int)KeyCode.A;
+                CheetIndex++;
+            }
+            else if (Input.GetKeyDown(KeyCode.D))
+            {
+                CheetKey[CheetIndex % 3] = (int)KeyCode.D;
+                CheetIndex++;
+            }
+            else if (Input.GetKeyDown(KeyCode.M))
+            {
+                CheetKey[CheetIndex % 3] = (int)KeyCode.M;
+                CheetIndex++;
+            }
             else
             {
                 CheetKey = new int[3];
@@ -121,8 +136,8 @@ public class BattleManager : MonoSingleton<BattleManager>
             {
                 if (Time.timeScale < 9)
                 {
-                    Time.timeScale = 20;
-                    TimeScale = 20;
+                    Time.timeScale = 80;
+                    TimeScale = 80;
                 }
                 else
                 {
@@ -130,6 +145,10 @@ public class BattleManager : MonoSingleton<BattleManager>
                     TimeScale = 1;
                 }
                 CheetKey = new int[3];
+            }
+            if (CheetKey[0] + CheetKey[1] + CheetKey[2] == 306)
+            {
+                adminMode = true;
             }
         }
     }

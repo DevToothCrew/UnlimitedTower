@@ -161,7 +161,7 @@ public class SelectManager : MonoBehaviour
                             levelText.text = "?";
                         }
 
-                        if (selectIndex < 10)
+                        if (selectIndex < 10 || BattleManager.Inst.adminMode == true)
                         {
                             BattleStatus status = BattleManager.Inst.status[selectIndex];
                             _Str.text = status.str_.ToString();
