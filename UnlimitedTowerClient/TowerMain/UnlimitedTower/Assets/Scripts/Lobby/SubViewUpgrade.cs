@@ -197,14 +197,14 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
             textSelectedObjectUpgrade.text = string.Format("+{0}", equipmentData.upgrade);
         }
 
-        if (inserted_object_idx > 0)//강화에 사용될 오브젝트를 선택했을때
+        if (upgradeType == UPGRADE_TYPE.MONSTER)//강화에 사용될 오브젝트를 선택했을때
         {
-            FrameInsertObject.gameObject.SetActive(true);
-            FrameResultSlot.gameObject.SetActive(true);
-            textUgt.gameObject.SetActive(true);
-
-            if (upgradeType == UPGRADE_TYPE.MONSTER)
+            if (inserted_object_idx > 0)
             {
+                FrameInsertObject.gameObject.SetActive(true);
+                FrameResultSlot.gameObject.SetActive(true);
+                textUgt.gameObject.SetActive(true);
+
                 //강화에 사용될 오브젝트 정보
                 UserMonsterData inserted_monster_data = UserDataManager.Inst.GetMonsterInfo(inserted_object_idx);
                 if (inserted_monster_data == null)
@@ -232,23 +232,52 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                 FrameResultSlot.sprite = CSVData.Inst.GetSpriteGrade(monsterData.gradeType);
                 imageResultSlot.sprite = CSVData.Inst.GetMonsterData(monsterData.id).monsterIcon;
                 textResultUpgrade.text = string.Format("+{0}", monsterData.upgrade + 1);
+
+                buttonUpgrade.interactable = true;
             }
             else
             {
-                //FrameInsertObject.sprite = 주문서 등급;
-                //ImageInsertObject.sprite = 주문서 이미지;
-                //주문서는 업그레이드 표시 X
-                textInsertObjectUpgrade.text = "";
+                FrameInsertObject.gameObject.SetActive(false);
+                textUgt.gameObject.SetActive(false);
+                textSuccessPer.text = "";
+                FrameResultSlot.gameObject.SetActive(false);
 
-                //강화 비용, 성공률
-                textUgt.text = string.Format("{0}", 0);
-                textSuccessPer.text = string.Format("{0}%", 0);
-
-                //강화 성공시 오브젝트 정보
-                FrameResultSlot.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)equipmentData.grade);
-                imageResultSlot.sprite = CSVData.Inst.GetEquipmentData(equipmentData.id).equipmentIcon;
-                textResultUpgrade.text = string.Format("+{0}", monsterData.upgrade + 1);
+                buttonUpgrade.interactable = false;
             }
+        }
+        else if(upgradeType == UPGRADE_TYPE.EQUIPMENT)
+        {
+            FrameInsertObject.gameObject.SetActive(true);
+            FrameResultSlot.gameObject.SetActive(true);
+            textUgt.gameObject.SetActive(true);
+
+            DBEquipmentUpgradeData upgradeData = CSVData.Inst.GetEquipmentUpgradeData(equipmentData.grade, (int)equipmentData.equipmentType, equipmentData.upgrade);
+            if (upgradeData == null)
+            {
+                Debug.Log("Invalid Upgrade Data : " + equipmentData.grade + ", " + equipmentData.equipmentType + ", " + equipmentData.upgrade);
+                return;
+            }
+
+            DBItemData scrollData = CSVData.Inst.GetItemData(upgradeData.needItemID);
+            if (scrollData == null)
+            {
+                Debug.Log("Invalid Scroll Data : " + upgradeData.needItemID);
+                return;
+            }
+
+            FrameInsertObject.sprite = CSVData.Inst.GetSpriteGrade(GRADE_TYPE.COMMON);
+            ImageInsertObject.sprite = scrollData.ItemIcon;
+            //주문서는 업그레이드 표시 X
+            textInsertObjectUpgrade.text = "";
+
+            //강화 비용, 성공률
+            textUgt.text = string.Format("{0}", upgradeData.needUTGCount);
+            textSuccessPer.text = string.Format("{0}%", upgradeData.successPer);
+
+            //강화 성공시 오브젝트 정보
+            FrameResultSlot.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)equipmentData.grade);
+            imageResultSlot.sprite = CSVData.Inst.GetEquipmentData(equipmentData.id).equipmentIcon;
+            textResultUpgrade.text = string.Format("+{0}", equipmentData.upgrade + 1);
 
             buttonUpgrade.interactable = true;
         }
