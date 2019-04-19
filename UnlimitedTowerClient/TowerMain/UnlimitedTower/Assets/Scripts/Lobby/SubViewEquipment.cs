@@ -164,10 +164,10 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
                 }
             }
 
-            //선택된 파츠, 선택중인 서번트 직업, 장착가능한 레벨, 다른 서번트가 장착한 장비 , 장착할수 없는 상태인 장비
+            //선택된 파츠, 선택중인 서번트 직업, 장착가능한 레벨, 다른 서번트가 장착한 장비 , 장착할수 있는 상태인 장비
             if (equipmentData.equipmentType == selectedEquipType && equipmentData.isEquiped == false
                 && dbEquipmentData.isEquipAble(dbServantData.GetJobFlag) && enable_equip_level
-                && equipmentData.equipServantIndex == 0)
+                && equipmentData.equipServantIndex == 0 && equipmentData.state == 1)
             {
                 EquipmentList.Add(equipmentData);
             }
