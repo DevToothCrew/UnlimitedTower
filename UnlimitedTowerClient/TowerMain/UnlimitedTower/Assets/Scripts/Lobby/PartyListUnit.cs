@@ -28,13 +28,23 @@ public class PartyListUnit : ScrollListUnit {
         //Todo :set Image
         if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.SERVANT_INFO)
         {
-            ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)partyInfo.ServantList[main_idx].grade);
-            imageCharacter.sprite = CSVData.Inst.GetServantData(partyInfo.ServantList[main_idx].id).servantIcon;
-            textCharacterName.text = CSVData.Inst.GetServantData(partyInfo.ServantList[main_idx].id).name;
-            textLevel.text = string.Format("{0}", partyInfo.ServantList[main_idx].level);
-            textPower.text = string.Format("{0}", partyInfo.ServantList[main_idx].status.basicStr);
+            int selected_idx;
+            if (SubViewDeconstruction.checkInst())
+            {
+                selected_idx = SubViewDeconstruction.Inst.scrollListData[main_idx];
+            }
+            else
+            {
+                selected_idx = main_idx;
+            }
+
+            ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)partyInfo.ServantList[selected_idx].grade);
+            imageCharacter.sprite = CSVData.Inst.GetServantData(partyInfo.ServantList[selected_idx].id).servantIcon;
+            textCharacterName.text = CSVData.Inst.GetServantData(partyInfo.ServantList[selected_idx].id).name;
+            textLevel.text = string.Format("{0}", partyInfo.ServantList[selected_idx].level);
+            textPower.text = string.Format("{0}", partyInfo.ServantList[selected_idx].status.basicStr);
             textUpgrade.text = string.Format(" ");
-            imageType.sprite = CSVData.Inst.GetSpriteServantJob(partyInfo.ServantList[main_idx].jobType);
+            imageType.sprite = CSVData.Inst.GetSpriteServantJob(partyInfo.ServantList[selected_idx].jobType);
         }
         else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
         {
@@ -42,6 +52,10 @@ public class PartyListUnit : ScrollListUnit {
             if (SubViewUpgrade.checkInst() && !SubViewUpgrade.Inst.GetUpgradeResponse())
             {
                 selected_idx = SubViewUpgrade.Inst.scrollListData[main_idx];
+            }
+            else if (SubViewDeconstruction.checkInst())
+            {
+                selected_idx = SubViewDeconstruction.Inst.scrollListData[main_idx];
             }
             else
             {
@@ -82,15 +96,16 @@ public class PartyListUnit : ScrollListUnit {
         {
             if (SubViewDeconstruction.checkInst())
             {
-                SubViewDeconstruction.Inst.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
+                SubViewDeconstruction subview_deconstruction = SubViewDeconstruction.Inst;
+                subview_deconstruction.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
                 int chracter_unit_idx = 0;
-                if (SubViewDeconstruction.Inst.GetDeconstructionType() == DECONSTRUCTION_TYPE.SERVANT)
+                if (subview_deconstruction.GetDeconstructionType() == DECONSTRUCTION_TYPE.SERVANT)
                 {
-                    chracter_unit_idx = partyInfo.ServantList[main_idx].index;
+                    chracter_unit_idx = partyInfo.ServantList[subview_deconstruction.scrollListData[main_idx]].index;
                 }
-                else if (SubViewDeconstruction.Inst.GetDeconstructionType() == DECONSTRUCTION_TYPE.MONSTER)
+                else if (subview_deconstruction.GetDeconstructionType() == DECONSTRUCTION_TYPE.MONSTER)
                 {
-                    chracter_unit_idx = partyInfo.MonsterList[main_idx].index;
+                    chracter_unit_idx = partyInfo.MonsterList[subview_deconstruction.scrollListData[main_idx]].index;
                 }
                 SubViewDeconstruction.Inst.InsertUnit(chracter_unit_idx);
                 
