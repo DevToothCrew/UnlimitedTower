@@ -27,6 +27,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
     public GameObject frameScroll;
     public ScrollListManager scrollList;
+    private SORT_TYPE sort_type;
 
     //UI Set Data
     public enum menu_type
@@ -49,9 +50,6 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     {
         SERVANT_INFO = 0,       //서번트 정보(기본)
         MONSTER_INFO,           //몬스터 정보
-        EQUIPMENT_WEAPON,       //무기 설정
-        EQUIPMENT_ARMOR,        //방어구 설정
-        EQUIPMENT_ACC,          //장식품 설정
         SKILL,                  //스킬
         FORMATION                //포메이션
     }
@@ -135,6 +133,14 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         updateAllView();
     }
 
+    public void ResetScrollListBySortType(SORT_TYPE type)
+    {
+        sort_type = type;
+        scrollList.SetItemOrder(getOrder());
+        scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+        scrollList.ScrollViewDidScroll();
+        updateDetailInfo(scrollList.getFirstItemOrder());
+    }
 
     //현재 화면에 따른 스크롤 UI 재설정 
     public void resetScroll()
@@ -211,7 +217,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
             return data_order;
         }
 
-        switch (SortManager.Inst.GetSortType())
+        switch (sort_type)
         {
             case SORT_TYPE.POWER:
                 for (int i=0; i<total_list_num-1; i++)
@@ -424,19 +430,26 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
 
     //장비 설정 버튼
+    private EQUIPMENT_TYPE selectedEquipType;
+
+    public EQUIPMENT_TYPE getSelectedEquipType()
+    {
+        return selectedEquipType;
+    }
+
     public void ShowEquipmentInfo(int btn_tag)
     {
         frameScroll.SetActive(false);
         switch (btn_tag)
         {
             case 0:
-                currentScrollType = scroll_type.EQUIPMENT_WEAPON;
+                selectedEquipType = EQUIPMENT_TYPE.WEAPON;
                 break;
             case 1:
-                currentScrollType = scroll_type.EQUIPMENT_ARMOR;
+                selectedEquipType = EQUIPMENT_TYPE.ARMOR;
                 break;
             case 2:
-                currentScrollType = scroll_type.EQUIPMENT_ACC;
+                selectedEquipType = EQUIPMENT_TYPE.ACCESSSORY;
                 break;
             default:
                 break;

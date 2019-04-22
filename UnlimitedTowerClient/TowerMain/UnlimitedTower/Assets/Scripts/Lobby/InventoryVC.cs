@@ -25,6 +25,7 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
 
     public GameObject frameScroll;
     public ScrollListManager scrollList;
+    private SORT_TYPE sort_type;
 
     //Detail Info UI
     public Image imageItem;
@@ -51,16 +52,6 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
         ACCESSORY
     }
     public menu_type selectedMenu = menu_type.WEAPON;
-
-    enum sort_type
-    {
-        GRADE = 0,
-        LEVEL,
-        POWER,
-        OPTAIN
-    }
-    sort_type sortType = 0;
-
 
     public List<List<UserEquipmentData>> EquipmentList = new List<List<UserEquipmentData>>();
 
@@ -187,6 +178,14 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
         updateAllView();
     }
 
+    public void ResetScrollListBySortType(SORT_TYPE type)
+    {
+        sort_type = type;
+        scrollList.SetItemOrder(getOrder());
+        scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+        scrollList.ScrollViewDidScroll();
+        updateDetailInfo(scrollList.getFirstItemOrder());
+    }
 
     //현재 화면에 따른 스크롤 UI 재설정 
     public void resetScroll()
@@ -229,14 +228,92 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
             data_order[i] = 0;
         }
 
-        switch (sortType)
+        UserDataManager u_data = UserDataManager.Inst;
+
+        switch (sort_type)
         {
             case 0:
                 for (int i = 0; i < total_list_num - 1; i++)
                 {
                     for (int j = i + 1; j < total_list_num; j++)
                     {
-                        if (UserDataManager.Inst.GetEquipmentInfo(EquipmentList[(int)selectedMenu][i].index).grade < UserDataManager.Inst.GetEquipmentInfo(EquipmentList[(int)selectedMenu][j].index).grade)
+                        if (u_data.GetEquipmentInfo(EquipmentList[(int)selectedMenu][i].index).grade < u_data.GetEquipmentInfo(EquipmentList[(int)selectedMenu][j].index).grade)
+                        {
+                            data_order[i]++;
+                        }
+                        else
+                        {
+                            data_order[j]++;
+                        }
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+
+        switch (sort_type)
+        {
+            case SORT_TYPE.POWER:
+                for (int i = 0; i < total_list_num - 1; i++)
+                {
+                    for (int j = i + 1; j < total_list_num; j++)
+                    {
+                        if (u_data.GetEquipmentInfo(EquipmentList[(int)selectedMenu][i].index).value < u_data.GetEquipmentInfo(EquipmentList[(int)selectedMenu][j].index).value)
+                        {
+                            data_order[i]++;
+                        }
+                        else
+                        {
+                            data_order[j]++;
+                        }
+                    }
+                }
+                break;
+            case SORT_TYPE.GRADE:
+                for (int i = 0; i < total_list_num - 1; i++)
+                {
+                    for (int j = i + 1; j < total_list_num; j++)
+                    {
+                        if (u_data.GetEquipmentInfo(EquipmentList[(int)selectedMenu][i].index).grade < u_data.GetEquipmentInfo(EquipmentList[(int)selectedMenu][j].index).grade)
+                        {
+                            data_order[i]++;
+                        }
+                        else
+                        {
+                            data_order[j]++;
+                        }
+                    }
+                }
+                break;
+            case SORT_TYPE.LEVEL_OR_TIER:
+                for (int i = 0; i < total_list_num - 1; i++)
+                {
+                    for (int j = i + 1; j < total_list_num; j++)
+                    {
+                        if (CSVData.Inst.GetEquipmentData(EquipmentList[(int)selectedMenu][i].id).tier < CSVData.Inst.GetEquipmentData(EquipmentList[(int)selectedMenu][j].id).tier)
+                        {
+                            data_order[i]++;
+                        }
+                        else
+                        {
+                            data_order[j]++;
+                        }
+                    }
+                }
+                break;
+            case SORT_TYPE.GOT_TIME:
+                for (int i = 0; i < total_list_num; i++)
+                {
+                    data_order[i] = i;
+                }
+                break;
+            case SORT_TYPE.JOB_OR_UPGRADE:
+                for (int i = 0; i < total_list_num - 1; i++)
+                {
+                    for (int j = i + 1; j < total_list_num; j++)
+                    {
+                        if (u_data.GetEquipmentInfo(EquipmentList[(int)selectedMenu][i].index).upgrade < u_data.GetEquipmentInfo(EquipmentList[(int)selectedMenu][j].index).upgrade)
                         {
                             data_order[i]++;
                         }

@@ -20,7 +20,7 @@ public class SortManager : MonoSingleton<SortManager> {
     //스크롤 종류에 따른 Sort버튼 Text 업데이트
     private void updateViewText()
     {
-        if (PartyInfoVC.checkInst())
+        if (PartyInfoVC.checkInst() && !SubViewEquipment.checkInst())
         {
             PartyInfoVC party_info = PartyInfoVC.Inst;
             if (party_info.currentScrollType == PartyInfoVC.scroll_type.SERVANT_INFO)
@@ -41,7 +41,7 @@ public class SortManager : MonoSingleton<SortManager> {
             }
             
         }
-        else if (InventoryVC.checkInst())
+        else if (InventoryVC.checkInst() || SubViewEquipment.checkInst())
         {
             textSort[0].text = "POWER";
             textSort[1].text = "GRADE";
@@ -70,11 +70,20 @@ public class SortManager : MonoSingleton<SortManager> {
 
         if (PartyInfoVC.checkInst())
         {
-            PartyInfoVC.Inst.resetScroll();
+            if (SubViewEquipment.checkInst())
+            {
+                Debug.Log("Reset Equip List");
+                SubViewEquipment.Inst.ResetScrollListBySortType(sortType);
+            }
+            else {
+                Debug.Log("Reset Partyinfo List");
+                PartyInfoVC.Inst.ResetScrollListBySortType(sortType);
+            }   
         }
         else if (InventoryVC.checkInst())
         {
-            InventoryVC.Inst.resetScroll();
+            Debug.Log("Reset Inven List");
+            InventoryVC.Inst.ResetScrollListBySortType(sortType);
         }
     }
 

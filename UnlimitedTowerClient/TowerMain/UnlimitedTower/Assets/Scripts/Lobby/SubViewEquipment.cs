@@ -88,16 +88,9 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
 
     //Scroll 
     public ScrollListManager scrollList;
-    enum sort_type
-    {
-        GRADE = 0,
-        LEVEL,
-        POWER,
-        OPTAIN
-    }
-    sort_type sortType = 0;
 
-
+    private SORT_TYPE sort_type;
+    
 
     void Awake () {
         partyInfo = PartyInfoVC.Inst;
@@ -115,24 +108,13 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
     {
         EquipmentList.Clear();
 
-        if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_WEAPON)
+        if (partyInfo.getSelectedEquipType() == EQUIPMENT_TYPE.MAX)
         {
-            selectedEquipType = EQUIPMENT_TYPE.WEAPON;
+            Debug.Log("Invalid Equipment type 'MAX'");
+            return;
         }
-        else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_ARMOR)
-        {
-            selectedEquipType = EQUIPMENT_TYPE.ARMOR;
-        }
-        else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_ACC)
-        {
-            selectedEquipType = EQUIPMENT_TYPE.ACCESSSORY;
-        }
-        else
-        {
-            selectedEquipType = EQUIPMENT_TYPE.MAX;
-            Debug.Log("Equipment type : max");
-        }
-        
+        selectedEquipType = partyInfo.getSelectedEquipType();
+
         for (int i = 0; i < UserDataManager.Inst.GetEquipmentList().Count; i++)
         {
             UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentList()[i];
@@ -184,6 +166,14 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         scrollList.Init(this, 20, EquipmentList.Count, getOrder());
     }
 
+    public void ResetScrollListBySortType(SORT_TYPE type)
+    {
+        sort_type = type;
+        scrollList.SetItemOrder(getOrder());
+        scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+        scrollList.ScrollViewDidScroll();
+    }
+
 
     //스크롤 정렬
     private int[] getOrder()
@@ -198,14 +188,68 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
             data_order[i] = 0;
         }
 
-        switch (sortType)
+        switch (sort_type)
         {
-            case 0:
+            case SORT_TYPE.POWER:
+                for (int i = 0; i < total_list_num - 1; i++)
+                {
+                    for (int j = i + 1; j < total_list_num; j++)
+                    {
+                        if (EquipmentList[i].value < EquipmentList[j].value)
+                        {
+                            data_order[i]++;
+                        }
+                        else
+                        {
+                            data_order[j]++;
+                        }
+                    }
+                }
+                break;
+            case SORT_TYPE.GRADE:
                 for (int i = 0; i < total_list_num - 1; i++)
                 {
                     for (int j = i + 1; j < total_list_num; j++)
                     {
                         if (EquipmentList[i].grade < EquipmentList[j].grade)
+                        {
+                            data_order[i]++;
+                        }
+                        else
+                        {
+                            data_order[j]++;
+                        }
+                    }
+                }
+                break;
+            case SORT_TYPE.LEVEL_OR_TIER:
+                for (int i = 0; i < total_list_num - 1; i++)
+                {
+                    for (int j = i + 1; j < total_list_num; j++)
+                    {   
+                        if (CSVData.Inst.GetEquipmentData(EquipmentList[i].id).tier < CSVData.Inst.GetEquipmentData(EquipmentList[j].id).tier)
+                        {
+                            data_order[i]++;
+                        }
+                        else
+                        {
+                            data_order[j]++;
+                        }
+                    }
+                }
+                break;
+            case SORT_TYPE.GOT_TIME:
+                for (int i = 0; i < total_list_num; i++)
+                {
+                    data_order[i] = i;
+                }
+                break;
+            case SORT_TYPE.JOB_OR_UPGRADE:
+                for (int i = 0; i < total_list_num - 1; i++)
+                {
+                    for (int j = i + 1; j < total_list_num; j++)
+                    {
+                        if (EquipmentList[i].upgrade < EquipmentList[j].upgrade)
                         {
                             data_order[i]++;
                         }
@@ -233,23 +277,14 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         }
 
         UserEquipmentData currentEquipmentData = null;
-        int current_item_idx = 0;
-        if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_WEAPON)
+
+        if (partyInfo.getSelectedEquipType() == EQUIPMENT_TYPE.MAX)
         {
-            current_item_idx = servantData.equipmentDic[EQUIPMENT_TYPE.WEAPON];
+            Debug.Log("Invalid Equipment type 'MAX'");
+            return;
         }
-        else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_ARMOR)
-        {
-            current_item_idx = servantData.equipmentDic[EQUIPMENT_TYPE.ARMOR];
-        }
-        else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_ACC)
-        {
-            current_item_idx = servantData.equipmentDic[EQUIPMENT_TYPE.ACCESSSORY];
-        }
-        else//EQUIPMENT_TYPE.MAX
-        {
-            current_item_idx = servantData.equipmentDic[EQUIPMENT_TYPE.MAX];
-        }
+
+        int current_item_idx = servantData.equipmentDic[partyInfo.getSelectedEquipType()];
 
         if (current_item_idx > 0)
         {
@@ -502,28 +537,6 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         return change_value;
     }
 
-    public void SearchUnitItemIdx()
-    {
-        List<UserEquipmentData> user_equipment_list = UserDataManager.Inst.GetEquipmentList();
-        
-        for (int i = 0; i < user_equipment_list.Count; i++)
-        {
-
-        }
-
-        if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_WEAPON)
-        {
-            
-        }
-        else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_ARMOR)
-        {
-
-        }
-        else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.EQUIPMENT_ACC)
-        {
-
-        }
-    }
 
     public void OnClickClear()
     {
