@@ -438,5 +438,18 @@ public enum SORT_TYPE
     JOB_OR_UPGRADE  //몬스터, 장비는 Upgrade
 }
 
+public enum MAIL_TYPE
+{
+    NONE = 0,
+    PRE_SERVANT = 1,
+    PRE_MONSTER = 2,
+    PRE_EQUIPMENT = 3,
+    UTG = 4,
+    NFT_SERVANT = 5,
+    NFT_MONSTER = 6,
+    NFT_EQUIPMENT = 7,
+    ETC_ITEM = 8,
+    MAX = 9,
+}
 
 #endregion

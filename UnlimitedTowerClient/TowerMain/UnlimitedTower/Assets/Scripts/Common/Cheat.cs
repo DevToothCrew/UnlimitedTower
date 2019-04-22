@@ -1118,10 +1118,10 @@ public class Cheat : MonoSingleton<Cheat>
         mailListResultData resultData = new mailListResultData();
         mailData data = new mailData();
         data.mail_index = 1;
-        data.mail_type = (int)REWARD_TYPE.MONSTER;
-        data.type_id = CSVData.Inst.GetRandomMonsterID();
-        data.count = 1;
-    
+        data.mail_type = (int)MAIL_TYPE.UTG;
+        data.type_index = 0;
+        data.count = 100;
+        data.icon_id = 500001;
 
         resultData.mail_data_list.Add(data);
 

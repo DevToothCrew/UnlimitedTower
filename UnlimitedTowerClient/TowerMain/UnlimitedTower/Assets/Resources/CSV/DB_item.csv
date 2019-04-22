@@ -1,11 +1,12 @@
-#관리,id,resource_icon,name,enname,#,description,tier,item_type,item_param_list,sell_item_id,sell_item_count
-가챠 id,#,아이템 아이콘,아이템 이름,아이템 이름,아이템 이름,아이템 설명,티어,아이템 타입,아이템 파라미터 리스트,판매시획득재화,판매가격
+id,#관리,resource_icon,name,enname,#,description,tier,item_type,item_param_list,sell_item_id,sell_item_count
+#,가챠 id,아이템 아이콘,아이템 이름,아이템 이름,아이템 이름,아이템 설명,티어,아이템 타입,아이템 파라미터 리스트,판매시획득재화,판매가격
 int,int,string,localize,string,string,localize,int,string,int,int,int
-0,500100,ic_upScroll_sword,DB_item_name_500100,Weapon Scroll,무기 강화 주문서,,0,upgrade_scroll,0,500001,1
-0,500110,ic_upScroll_armor,DB_item_name_500110,Armor Scroll,방어구 강화 주문서,,0,upgrade_scroll,0,500001,1
-0,500120,ic_upScroll_ac,DB_item_name_500120,Accessory Scroll,액세서리 강화 주문서,,0,upgrade_scroll,0,500001,1
-0,510010,ic_warrior_soul,DB_item_name_510010,Warrior Soul Powder,전사의 영혼,,0,material_soul,0,500001,1
-0,510020,ic_thief_soul,DB_item_name_510020,Thief Soul Powder,도적의 영혼,,0,material_soul,0,500001,1
-0,510030,ic_cleric_soul,DB_item_name_510030,Cleric Soul Powder,성직자의 영혼,,0,material_soul,0,500001,1
-0,510040,ic_soul_archer,DB_item_name_510040,Archer Soul Powder,궁수의 영혼,,0,material_soul,0,500001,1
-0,510050,ic_soul_magician,DB_item_name_510050,Magician Soul Powder,마법사의 영혼,,0,material_soul,0,500001,1
+500001,0,ic_utg,DB_item_name_500001,Unlimited Tower Gold,골드,,0,money,0,0,0
+500100,0,ic_upScroll_sword,DB_item_name_500100,Weapon Scroll,무기 강화 주문서,,0,upgrade_scroll,0,500001,1
+500110,0,ic_upScroll_armor,DB_item_name_500110,Armor Scroll,방어구 강화 주문서,,0,upgrade_scroll,0,500001,1
+500120,0,ic_upScroll_ac,DB_item_name_500120,Accessory Scroll,액세서리 강화 주문서,,0,upgrade_scroll,0,500001,1
+510010,0,ic_soul_warrior,DB_item_name_510010,Warrior Soul Pouder,전사의 영혼,,0,material_soul,0,500001,1
+510020,0,ic_soul_thief,DB_item_name_510020,Thief Soul Pouder,도적의 영혼,,0,material_soul,0,500001,1
+510030,0,ic_soul_cleric,DB_item_name_510030,Cleric Soul Pouder,성직자의 영혼,,0,material_soul,0,500001,1
+510040,0,ic_soul_archer,DB_item_name_510040,Archer Soul Pouder,궁수의 영혼,,0,material_soul,0,500001,1
+510050,0,ic_soul_magician,DB_item_name_510050,Magician Soul Pouder,마법사의 영혼,,0,material_soul,0,500001,1
