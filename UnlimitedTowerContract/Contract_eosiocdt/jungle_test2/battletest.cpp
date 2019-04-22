@@ -5660,6 +5660,9 @@ void battletest::set_stage_state(uint64_t _stage_id, std::vector<character_state
         state += to_string(get_state.id) + ":";
         state += to_string(get_state.now_hp) + ":";
         state += to_string(get_state.state) + ":";
+        state += to_string(get_state.type) + ":";
+        state += to_string(get_state.upgrade) + ":";
+        state += to_string(get_state.max_hp) + ":";
         state += "[";
         for (uint32_t i = 0; i < get_state.passive_skill_list.size(); ++i)
         {
@@ -5874,6 +5877,9 @@ battletest::character_state_data battletest::get_user_state(eosio::name _user, s
     state += to_string(get_state.id) + ":";
     state += to_string(get_state.now_hp) + ":";
     state += to_string(get_state.state) + ":";
+    state += to_string(get_state.type) + ":";
+    state += to_string(get_state.upgrade) + ":";
+    state += to_string(get_state.max_hp) + ":";
 
     state += "[";
     for (uint32_t i = 0; i < get_state.passive_skill_list.size(); ++i)
