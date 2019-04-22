@@ -398,17 +398,9 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
         updateView();
     }
 
-
-    private bool is_response = false;
-
-    public bool GetUpgradeResponse()
-    {
-        return is_response;
-    }
     //강화 완료(서버에서 응답) 후 화면 전체 갱신
     public void updateViewFinishRequest()
     {
-        is_response = true;
         //ResetView();
 
         if (PartyInfoVC.checkInst())

@@ -29,7 +29,7 @@ public class PartyListUnit : ScrollListUnit {
         if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.SERVANT_INFO)
         {
             int selected_idx;
-            if (SubViewDeconstruction.checkInst())
+            if (SubViewDeconstruction.checkInst() && unit_controller.Equals(SubViewDeconstruction.Inst))
             {
                 selected_idx = SubViewDeconstruction.Inst.scrollListData[main_idx];
             }
@@ -49,11 +49,11 @@ public class PartyListUnit : ScrollListUnit {
         else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
         {
             int selected_idx;
-            if (SubViewUpgrade.checkInst() && !SubViewUpgrade.Inst.GetUpgradeResponse())
+            if (SubViewUpgrade.checkInst() && unit_controller.Equals(SubViewUpgrade.Inst))
             {
                 selected_idx = SubViewUpgrade.Inst.scrollListData[main_idx];
             }
-            else if (SubViewDeconstruction.checkInst())
+            else if (SubViewDeconstruction.checkInst() && unit_controller.Equals(SubViewDeconstruction.Inst))
             {
                 selected_idx = SubViewDeconstruction.Inst.scrollListData[main_idx];
             }

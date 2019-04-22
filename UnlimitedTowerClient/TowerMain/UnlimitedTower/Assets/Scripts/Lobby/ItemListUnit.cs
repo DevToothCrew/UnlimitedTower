@@ -39,7 +39,7 @@ public class ItemListUnit : ScrollListUnit {
         else if (LobbyManager.Inst.popupState == POPUP_STATE.Weapon)
         {
             int selected_idx;
-            if (SubViewDeconstruction.checkInst())
+            if (SubViewDeconstruction.checkInst() && unit_controller.Equals(SubViewDeconstruction.Inst))
             {
                 selected_idx = SubViewDeconstruction.Inst.scrollListData[main_idx];
             }
