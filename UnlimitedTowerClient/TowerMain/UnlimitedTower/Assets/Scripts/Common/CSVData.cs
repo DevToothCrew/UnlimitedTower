@@ -1303,6 +1303,17 @@ public class CSVData : MonoSingleton<CSVData>
         return DBItemDataDic[id];
     }
 
+    public Sprite GetItemIcon(int id)
+    {
+        if (DBItemDataDic.ContainsKey(id) == false)
+        {
+            Debug.LogError("Invalid ItemID");
+            return null;
+        }
+
+        return DBItemDataDic[id].ItemIcon;
+    }
+
     public DBEquipmentData GetEquipmentData(int id)
     {
         if (DBEquipmentDataDic.ContainsKey(id) == false)
@@ -1312,6 +1323,17 @@ public class CSVData : MonoSingleton<CSVData>
         }
 
         return DBEquipmentDataDic[id];
+    }
+
+    public Sprite GetEquipmentIcon(int id)
+    {
+        if (DBEquipmentDataDic.ContainsKey(id) == false)
+        {
+            Debug.LogError("Invalid EquipmentID");
+            return null;
+        }
+
+        return DBEquipmentDataDic[id].equipmentIcon;
     }
 
     public List<int> GetMonsterIndexList()

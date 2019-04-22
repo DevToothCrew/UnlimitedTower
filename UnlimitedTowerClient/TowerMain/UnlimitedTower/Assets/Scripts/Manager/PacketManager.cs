@@ -730,14 +730,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 우편 수령
-    public void RequestMailOpen(List<int> mailOpenIndexList)
+    public void RequestMailOpen(int mailIndex)
     {
         Debug.Log("Request Maill Open");
-        if (mailOpenIndexList == null)
+        if (mailIndex == 0)
         {
             Debug.Log("Invalid Request");
             return;
         }
+
+        List<int> mailOpenIndexList = new List<int>();
+        mailOpenIndexList.Add(mailIndex);
 
         MailOpenJson mailOpen = new MailOpenJson();
         mailOpen.mailOpenIndexList = mailOpenIndexList;
@@ -1482,15 +1485,27 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void ResponseMailList(mailListResultData mailList)
     {
+        List<MailInfo> mailInfoList = new List<MailInfo>();
+
         for(int i = 0; i < mailList.mail_data_list.Count; i++)
         {
             Debug.Log("Mail Num : " + i);
             Debug.Log("Mail Index : " + mailList.mail_data_list[i].mail_index);
             Debug.Log("Mail TYPE : " + mailList.mail_data_list[i].mail_type);
-            Debug.Log("Mail ID : " + mailList.mail_data_list[i].type_id);
+            Debug.Log("Mail INDEX : " + mailList.mail_data_list[i].type_index);
             Debug.Log("Mail COUNT : " + mailList.mail_data_list[i].count);
             Debug.Log("Mail ICON ID : " + mailList.mail_data_list[i].icon_id);
+
+            MailInfo mailInfo = ParseMailInfo(mailList.mail_data_list[i]);
+            if(mailInfo == null)
+            {
+                Debug.Log("Invalid Mail Info");
+                return;
+            }
+            mailInfoList.Add(mailInfo);
         }
+
+        MailInfoPage.Inst.SetMailList(mailInfoList);
     }
 
     // 우편 수령
@@ -1981,7 +1996,75 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         return partyInfo;
     }
-    
+
+    public MailInfo ParseMailInfo(mailData getMailData)
+    {
+        MailInfo mailInfo = new MailInfo();
+        mailInfo.index = getMailData.mail_index;
+        mailInfo.type = (MAIL_TYPE)getMailData.mail_type;
+        mailInfo.typeIndex = getMailData.type_index;
+        mailInfo.count = getMailData.count;
+
+        switch(mailInfo.type)
+        {
+            case MAIL_TYPE.PRE_SERVANT:
+            case MAIL_TYPE.NFT_SERVANT:
+                DBServantData dbServantData = CSVData.Inst.GetServantData(getMailData.icon_id);
+                if (dbServantData == null)
+                {
+                    Debug.Log("Invalid Servant Icon ID : " + getMailData.icon_id);
+                    return null;
+                }
+                mailInfo.name = dbServantData.name;
+                mailInfo.resourceIcon = dbServantData.servantIcon;
+                break;
+            case MAIL_TYPE.PRE_MONSTER:
+            case MAIL_TYPE.NFT_MONSTER:
+                DBMonsterData dbMonsterData = CSVData.Inst.GetMonsterData(getMailData.icon_id);
+                if(dbMonsterData == null)
+                {
+                    Debug.Log("Invalid Monster Icon ID : " + getMailData.icon_id);
+                    return null;
+                }
+                mailInfo.name = dbMonsterData.name;
+                mailInfo.resourceIcon = dbMonsterData.monsterIcon;
+                break;
+            case MAIL_TYPE.PRE_EQUIPMENT:
+            case MAIL_TYPE.NFT_EQUIPMENT:
+                DBEquipmentData dbEquipmentData = CSVData.Inst.GetEquipmentData(getMailData.icon_id);
+                if(dbEquipmentData == null)
+                {
+                    Debug.Log("Invalid Equipment Icon ID : " + getMailData.icon_id);
+                }
+                mailInfo.name = dbEquipmentData.name;
+                mailInfo.resourceIcon = dbEquipmentData.equipmentIcon;
+                break;
+            case MAIL_TYPE.UTG:
+                DBItemData dbItemData = CSVData.Inst.GetItemData(500001);
+                if (dbItemData == null)
+                {
+                    Debug.Log("Invalid UTG Icon ID : " + 500001);
+                }
+                mailInfo.name = dbItemData.name;
+                mailInfo.resourceIcon = dbItemData.ItemIcon;
+                break;
+            case MAIL_TYPE.ETC_ITEM:
+                DBItemData dbETCItemData = CSVData.Inst.GetItemData(getMailData.icon_id);
+                if (dbETCItemData == null)
+                {
+                    Debug.Log("Invalid ETC Item Icon ID : " + getMailData.icon_id);
+                }
+                mailInfo.name = dbETCItemData.name;
+                mailInfo.resourceIcon = dbETCItemData.ItemIcon;
+                break;
+            default:
+                Debug.Log("Invalid Mail Type");
+                return null;
+        }
+
+        return mailInfo;
+    }
+
     private IEnumerator LoadSceneAsync(string name, string loadingMsg)
     {
         AsyncOperation ao = null;

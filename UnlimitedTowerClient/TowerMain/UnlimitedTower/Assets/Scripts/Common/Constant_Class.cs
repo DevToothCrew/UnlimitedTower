@@ -109,6 +109,17 @@ public class UserLobbyInfo
 }
 
 [Serializable]
+public class MailInfo
+{
+    public int index;
+    public MAIL_TYPE type;
+    public int typeIndex;
+    public int count;
+    public string name;
+    public Sprite resourceIcon;
+}
+
+[Serializable]
 public class MainCharInfo
 {
     public CHAR_TYPE mainCharType;

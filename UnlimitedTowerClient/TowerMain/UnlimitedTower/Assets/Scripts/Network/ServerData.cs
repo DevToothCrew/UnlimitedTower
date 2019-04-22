@@ -149,7 +149,7 @@ public class mailData
 {
     public int mail_index;
     public int mail_type;
-    public int type_id;
+    public int type_index;
     public int count;
     public int icon_id;
 }
