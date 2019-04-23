@@ -1250,15 +1250,15 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_shop_ingame");
         for (var i = 2; i < data.Count; i++)
         {
-            Debug.Log("index " + (i).ToString()
-                + " : " + data[i]["id"]
-                + " " + data[i]["shop_type"]
-                + " " + data[i]["product_id"]
-                + " " + data[i]["product_count"]
-                + " " + data[i]["limit_max_count"]
-                + " " + data[i]["price_id"]
-                + " " + data[i]["price_count"]
-                );
+            //Debug.Log("index " + (i).ToString()
+            //    + " : " + data[i]["id"]
+            //    + " " + data[i]["shop_type"]
+            //    + " " + data[i]["product_id"]
+            //    + " " + data[i]["product_count"]
+            //    + " " + data[i]["limit_max_count"]
+            //    + " " + data[i]["price_id"]
+            //    + " " + data[i]["price_count"]
+            //    );
 
             DBShopData shopData = new DBShopData();
             shopData.id = Convert.ToInt32(data[i]["id"]);

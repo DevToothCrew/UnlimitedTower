@@ -841,7 +841,7 @@ public class Cheat : MonoSingleton<Cheat>
         servantInfo servant = new servantInfo();
 
         servant.state = 1;
-        servant.exp = rand.Next(0, 160000);
+        servant.exp = rand.Next(0, 16000);
         servant.level = CSVData.Inst.GetCharLevelByExp(servant.exp);
         //servant.job = rand.Next(1, 5);
         //servant.appear = GetRandomAppear();
