@@ -483,6 +483,18 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
 //                         atoi(value_list[6].c_str()),
 //                         atoi(value_list[7].c_str()));
 //     }
+        if(_table == "tshoplist")
+        {
+            substr_value(_value, value_list, size_list, 8);
+                    insert_itemshop(atoll(value_list[0].c_str()),
+                        atoi(value_list[1].c_str()),
+                        atoi(value_list[2].c_str()),
+                        atoi(value_list[3].c_str()),
+                        atoi(value_list[4].c_str()),
+                        atoi(value_list[5].c_str()),
+                        atoi(value_list[6].c_str()),
+                        atoi(value_list[7].c_str()));
+        }
  }
 
 // ACTION battletest::dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list)
@@ -1743,7 +1755,39 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
 //     }    
 // }
 
+void battletest::insert_itemshop(uint64_t _id, uint64_t _type, uint64_t _product_id, uint64_t _product_count, uint64_t _limit_count,
+                            uint64_t _limit_max, uint64_t _price_id, uint64_t _price_count)
+{
+    shop_list shop_list_table(_self, _self.value);
+    auto shop_list_iter = shop_list_table.find(_id);
+    if(shop_list_iter == shop_list_table.end())
+    {
+        shop_list_table.emplace(_self, [&](auto &new_data){
+            new_data.id = _id;
+            new_data.type = _type;
+            new_data.product_id = _product_id;
+            new_data.product_count = _product_count;
+            new_data.limit_count = _limit_count;
+            new_data.limit_max = _limit_max;
+            new_data.price_id = _price_id;
+            new_data.price_count = _price_count;
 
+        });
+    }
+    else
+    {
+        shop_list_table.modify(shop_list_iter, _self, [&](auto &new_data){
+            new_data.type = _type;
+            new_data.product_id = _product_id;
+            new_data.product_count = _product_count;
+            new_data.limit_count = _limit_count;
+            new_data.limit_max = _limit_max;
+            new_data.price_id = _price_id;
+            new_data.price_count = _price_count;
+        });
+    }
+    
+}
 
 
 // ACTION battletest::dberase(std::string _table, std::string _value)
@@ -3438,6 +3482,7 @@ ACTION battletest::nftmail(eosio::name _user, std::string _type, uint64_t _token
         }
         move_mail.mail_type = change_type;
         move_mail.type_index = _token_index;
+        move_mail.count = 1;
         move_mail.icon_id = _icon_id;
 
     });
@@ -10178,12 +10223,12 @@ ACTION battletest::itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count
     auto system_master_iter = system_master_table.begin();
     eosio_assert(system_master_iter->state != system_state::pause, "itembuy : Server Pause");
 
-    item_shop item_shop_table(_self, _self.value);
-    auto item_shop_iter = item_shop_table.find(_item_id);
-    eosio_assert(item_shop_iter != item_shop_table.end(), "itembuy : Not exist item_shop data");
+    // item_shop item_shop_table(_self, _self.value);
+    // auto item_shop_iter = item_shop_table.find(_item_id);
+    // eosio_assert(item_shop_iter != item_shop_table.end(), "itembuy : Not exist item_shop data");
 
     shop_list shop_list_table(_self, _self.value);
-    auto shop_list_iter = shop_list_table.find(item_shop_iter->id);
+    auto shop_list_iter = shop_list_table.find(_item_id);
     eosio_assert(shop_list_iter != shop_list_table.end(), "itembuy : Not exist item shop data");
 
     user_auths user_auth_table(_self, _self.value);
@@ -10191,7 +10236,7 @@ ACTION battletest::itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count
     eosio_assert(user_auth_iter != user_auth_table.end(), "itembuy : Not exist user_auths data");
 
     user_items user_items_table(_self, _user.value);
-    auto user_items_iter = user_items_table.find(shop_list_iter->goods_id);
+    auto user_items_iter = user_items_table.find(shop_list_iter->product_id);
 
     item_info items;
     uint64_t count_diff = _count;
@@ -10202,18 +10247,18 @@ ACTION battletest::itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count
     uint64_t UTG_Amount = 0;
 
     //로얄 서번트 구매
-    if (item_shop_iter->goods_type == 3)
+    if (shop_list_iter->type == 4)
     {
     }
 
     //소모품(리스트류)
-    else if (item_shop_iter->goods_type == 5)
+    else if (shop_list_iter->type == 2)
     {
         if (user_items_iter == user_items_table.end())
         {
             user_items_table.emplace(_self, [&](auto &change_consumable) {
-                change_consumable.id = shop_list_iter->goods_id;
-                change_consumable.type = item_shop_iter->goods_type;
+                change_consumable.id = shop_list_iter->product_id;
+                change_consumable.type = shop_list_iter->type;
 
                 uint64_t sub_size = _count / 99;
 
@@ -10243,7 +10288,7 @@ ACTION battletest::itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count
         else
         {
             user_items_table.modify(user_items_iter, _self, [&](auto &change_consumable) {
-                change_consumable.type = item_shop_iter->goods_type;
+                change_consumable.type = shop_list_iter->type;
 
                 for (uint64_t i = 0; i < change_consumable.item_list.size(); i++)
                 {
@@ -10274,11 +10319,11 @@ ACTION battletest::itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count
         });
 
         asset nomal_order_buy_result(0, symbol(symbol_code("UTG"), 4));
-        nomal_order_buy_result.amount = _count * item_shop_iter->price_count;
+        nomal_order_buy_result.amount = _count * shop_list_iter->price_count;
 
         transfer(_user, _self, nomal_order_buy_result, std::string("nomal order buy result"));
 
-        UTG_Amount = _count * item_shop_iter->price_count;
+        UTG_Amount = _count * shop_list_iter->price_count;
         contents_result += to_string(user_items_iter->id) + ":";
         contents_result += to_string(user_items_iter->type) + ":";
         for (uint64_t i = 0; i < user_items_iter->item_list.size(); i++)

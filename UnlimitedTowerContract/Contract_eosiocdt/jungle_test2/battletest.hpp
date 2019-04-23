@@ -616,7 +616,8 @@ CONTRACT battletest : public contract
     //                      uint64_t _goods_id, uint64_t _goods_count,
     //                      uint64_t _goods_limited, uint64_t _price_type,
     //                      uint64_t _etc_type, uint64_t _price_count);
-    
+       void insert_itemshop(uint64_t _id, uint64_t _type, uint64_t _product_id, uint64_t _product_count, uint64_t _limit_count,
+                            uint64_t limit_max, uint64_t price_id, uint64_t _price_count);
 
    // void erase_job(uint64_t _job);
   //  void erase_head(uint64_t _appear);
@@ -939,11 +940,14 @@ CONTRACT battletest : public contract
 
     TABLE tshoplist
     {
-        uint64_t id;        
-        uint64_t goods_id;
-        uint64_t goods_count;
+        uint64_t id;
+        uint64_t type;        
+        uint64_t product_id;
+        uint64_t product_count;
         uint64_t limit_count;
         uint64_t limit_max;
+        uint64_t price_id;
+        uint64_t price_count;
         uint64_t primary_key() const { return id; }
     };
     typedef eosio::multi_index<"tshoplist"_n, tshoplist> shop_list;
