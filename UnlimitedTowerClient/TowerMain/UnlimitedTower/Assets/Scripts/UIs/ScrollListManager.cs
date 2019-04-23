@@ -122,7 +122,13 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     {
         if (LobbyManager.Inst.popupState == POPUP_STATE.Servant)
         {
-            if (PartyInfoVC.checkInst() && !SubViewDeconstruction.checkInst())
+            bool none_subview = true;
+            if (SubViewDeconstruction.checkInst() || SubViewEquipment.checkInst() || SubViewUpgrade.checkInst())
+            {
+                none_subview = false;
+            }
+
+            if (PartyInfoVC.checkInst() && none_subview)
             {
                 PartyInfoVC partyInfo = PartyInfoVC.Inst;
                 if (partyInfo.selectedMenu == PartyInfoVC.menu_type.SERVANT || partyInfo.selectedMenu == PartyInfoVC.menu_type.MONSTER)
