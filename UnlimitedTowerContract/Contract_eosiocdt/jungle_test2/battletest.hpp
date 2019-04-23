@@ -568,13 +568,13 @@ CONTRACT battletest : public contract
 #pragma region db function
   public:
     void substr_value(std::string _value, std::vector<std::string> & _value_list, std::vector<size_t> & _size_list, uint32_t _size);
-    ACTION dbinsert(std::string _table, std::string _value);
+    //ACTION dbinsert(std::string _table, std::string _value);
     //ACTION dberase(std::string _table, std::string _value);
     //ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
     //ACTION dbinit(std::string _table);
     //ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
 
-	ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
+	//ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
     // void insert_job(std::string _status, uint64_t _job, uint64_t _min, uint64_t _max);
     // void insert_head(uint64_t _appear);
     // void insert_hair(uint64_t _appear);
@@ -938,19 +938,20 @@ CONTRACT battletest : public contract
     };
     typedef eosio::multi_index<"dbitemshop"_n, itemshop> item_shop;
 
-    TABLE tshoplist
-    {
-        uint64_t id;
-        uint64_t type;        
-        uint64_t product_id;
-        uint64_t product_count;
-        uint64_t limit_count;
-        uint64_t limit_max;
-        uint64_t price_id;
-        uint64_t price_count;
-        uint64_t primary_key() const { return id; }
-    };
-    typedef eosio::multi_index<"tshoplist"_n, tshoplist> shop_list;
+TABLE tshoplist
+   {
+       uint64_t id;
+       uint64_t type;
+       uint64_t product_id;
+       uint64_t product_count;
+       uint64_t limit_count;
+       uint64_t limit_max;
+       uint64_t price_id;
+       uint64_t price_count;
+       uint64_t primary_key() const { return id; }
+       uint64_t get_type() const { return type; }
+   };
+   typedef eosio::multi_index<"tshoplist"_n, tshoplist, indexed_by<"bytype"_n, const_mem_fun<tshoplist, uint64_t, &tshoplist::get_type>>> shop_list;
 
 #pragma endregion
 
@@ -1040,12 +1041,12 @@ CONTRACT battletest : public contract
     uint64_t get_random_grade(uint64_t _rate);
     uint32_t get_servant_index(uint32_t _job, uint32_t _body, uint32_t _gender, uint32_t _head, uint32_t _hair);
     uint32_t get_monster_passive_skill(uint32_t _monster_class, uint32_t _seed);
-    uint32_t get_monster_active_skill(uint32_t _monster_class, uint32_t _seed);
-    uint32_t get_class_passive(uint32_t _monster_class);
+    //uint32_t get_monster_active_skill(uint32_t _monster_class, uint32_t _seed);
+    //uint32_t get_class_passive(uint32_t _monster_class);
 
     uint32_t get_servant_passive_skill(uint32_t _job, uint32_t _seed);
     uint32_t get_servant_active_skill(uint32_t _job, uint32_t _seed);
-    uint32_t get_job_passiive(uint32_t _job);
+    //uint32_t get_job_passiive(uint32_t _job);
 
     void gacha_servant_id(eosio::name _user, uint64_t _seed);
     uint8_t gacha_servant_head(uint64_t _seed, uint32_t _count);
@@ -1718,7 +1719,7 @@ CONTRACT battletest : public contract
     //테스트용 함수
     ACTION testsnap(eosio::name _user);
 
-    ACTION testcheat(eosio::name _user);
+    void testcheat(eosio::name _user);
     
     void nftexchange(eosio::name _owner, eosio::name _master, std::string _type, uint64_t _master_index);
     ACTION nftmail(eosio::name _user, std::string _type, uint64_t _token_index, uint64_t _icon_id);
@@ -1830,8 +1831,8 @@ CONTRACT battletest : public contract
         uint64_t primary_key() const { return owner.value; }
     };
     typedef eosio::multi_index<"tokenlog"_n, tokenlog> total_token_logs;
-    ACTION inittokenlog();
-    ACTION settokenlog();
+    //ACTION inittokenlog();
+    //ACTION settokenlog();
 #pragma endregion
 
 
@@ -1842,7 +1843,7 @@ CONTRACT battletest : public contract
 #pragma endregion
 
 #pragma region chat
-    ACTION chat(name _user, asset _price, string _text);
+    //ACTION chat(name _user, asset _price, string _text);
     TABLE tchat
     {
         name owner;
