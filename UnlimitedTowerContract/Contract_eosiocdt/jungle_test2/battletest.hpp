@@ -1709,38 +1709,8 @@ CONTRACT battletest : public contract
 
     ACTION stageexit(eosio::name _user);
 
-
 #pragma endregion
 
-#pragma region tower_system
-
-    TABLE teoslog
-    {
-        eosio::name user;
-        uint64_t signup_eos = 0;
-        uint64_t status_change_num = 0;
-        uint64_t gacha_eos = 0;
-        uint64_t primary_key() const { return user.value; }
-    };
-    typedef eosio::multi_index<"teoslog"_n, teoslog> eos_logs;
-
-    TABLE tsnapshot
-    {
-        uint64_t snapshot_count = 0;
-        uint64_t signup_eos = 0;
-        uint64_t status_change_num = 0;
-        uint64_t gacha_eos = 0;
-        uint64_t total_eos = 0;
-        uint64_t primary_key() const { return snapshot_count; }
-    };
-    typedef eosio::multi_index<"tsnapshot"_n, tsnapshot> eos_snapshots;
-
-    ACTION towersnap();
-    ACTION claim(eosio::name _user, uint64_t _snapcount);
-    ACTION settower(eosio::name _loser, eosio::name _winner, uint64_t _loser_party_num, uint64_t _winner_party_num);
-
-#pragma endregion
- 
     //테스트용 함수
     ACTION testsnap(eosio::name _user);
 
@@ -1897,4 +1867,53 @@ CONTRACT battletest : public contract
 ACTION pvpstart(eosio::name _from, eosio::name _to);
 #pragma endregion
 
+
+#pragma region tower
+    TABLE teoslog
+    {
+        eosio::name user;
+        uint64_t signup_eos = 0;
+        uint64_t status_change_num = 0;
+        uint64_t gacha_eos = 0;
+        uint64_t primary_key() const { return user.value; }
+    };
+    typedef eosio::multi_index<"teoslog"_n, teoslog> eos_logs;
+
+    TABLE tsnapshot
+    {
+        uint64_t snapshot_count = 0;
+        uint64_t signup_eos = 0;
+        uint64_t status_change_num = 0;
+        uint64_t gacha_eos = 0;
+        uint64_t total_eos = 0;
+        eosio::name winner;
+        uint64_t primary_key() const { return snapshot_count; }
+    };
+    typedef eosio::multi_index<"tsnapshot"_n, tsnapshot> eos_snapshots;
+
+    void towersnap(uint64_t fnum);
+    void settower(eosio::name _loser, eosio::name _winner, uint64_t _loser_party_num, uint64_t _winner_party_num);
+
+    TABLE floorinfo
+    {
+        uint64_t fnum;
+        name owner;
+        uint64_t bnum;
+        uint64_t pnum;
+        string state;
+        uint64_t endtime;
+
+        uint64_t primary_key() const { return fnum; }
+    };
+    typedef eosio::multi_index<"floorinfos"_n, floorinfo> floor_index;
+
+    ACTION toweropen();                                  //1층에 아무도 없을때 우리가 열어주는 기능
+    ACTION endflag(eosio::name _winner, uint64_t _fnum); //24시간 체크
+    void resetparty(eosio::name _user, uint64_t _pnum);
+    ACTION claim(eosio::name who, uint64_t funm);        //인출하고  다음층여는기능
+    void towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint64_t bnum);
+    void towerlose(eosio::name loser);
+    void get_tower_state(uint64_t _fnum, std::vector<character_state_data> &_enemy_state_list, std::vector<std::string> &_state);
+    ACTION towerstart(eosio::name _from, uint64_t _fnum);
+#pragma endregion
 };
