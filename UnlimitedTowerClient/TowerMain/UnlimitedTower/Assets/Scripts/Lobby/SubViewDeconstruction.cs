@@ -30,15 +30,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
 
     //분해 가능한 Unit idx만 존재하는 리스트
     public List<int> scrollListData = new List<int>();
-
-    enum sort_type
-    {
-        GRADE = 0,
-        LEVEL,
-        POWER,
-        OPTAIN
-    }
-    sort_type sortType = 0;
+    private SORT_TYPE sort_type = 0;
 
     private PartyInfoVC partyInfo;
     private InventoryVC inventoryInfo;
@@ -121,6 +113,13 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
         }
     }
 
+    public void ResetScrollListBySortType(SORT_TYPE type)
+    {
+        sort_type = type;
+        scrollList.SetItemOrder(getOrder());
+        scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+        scrollList.ScrollViewDidScroll();
+    }
 
     //스크롤 정렬
     private int[] getOrder()
@@ -135,9 +134,91 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
             data_order[i] = 0;
         }
 
-        switch (sortType)
+        switch (sort_type)
         {
-            case 0:
+            case SORT_TYPE.POWER:
+                for (int i = 0; i < total_list_num - 1; i++)
+                {
+                    for (int j = i + 1; j < total_list_num; j++)
+                    {
+                        if (dType == DECONSTRUCTION_TYPE.SERVANT)
+                        {
+                            if (partyInfo.ServantList[scrollListData[i]].status.basicStr < partyInfo.ServantList[scrollListData[j]].status.basicStr)
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
+                        }
+                        else if (dType == DECONSTRUCTION_TYPE.MONSTER)
+                        {
+                            if (partyInfo.MonsterList[scrollListData[i]].status.basicStr < partyInfo.MonsterList[scrollListData[j]].status.basicStr)
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
+                        }
+                        else if (dType == DECONSTRUCTION_TYPE.EQUIPMENT)
+                        {
+                            if (inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[i]].value < inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[j]].value)
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
+                        }
+                    }
+                }
+                break;
+            case SORT_TYPE.GRADE:
+                for (int i = 0; i < total_list_num - 1; i++)
+                {
+                    for (int j = i + 1; j < total_list_num; j++)
+                    {
+                        if (dType == DECONSTRUCTION_TYPE.SERVANT)
+                        {
+                            if (partyInfo.ServantList[scrollListData[i]].grade > partyInfo.ServantList[scrollListData[j]].grade)
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
+                        }
+                        else if (dType == DECONSTRUCTION_TYPE.MONSTER)
+                        {
+                            if (partyInfo.MonsterList[scrollListData[i]].grade > partyInfo.MonsterList[scrollListData[j]].grade)
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
+                        }
+                        else if (dType == DECONSTRUCTION_TYPE.EQUIPMENT)
+                        {
+                            if (inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[i]].grade > inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[j]].grade)
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
+                        }
+                    }
+                }
+                break;
+            case SORT_TYPE.LEVEL_OR_TIER:
                 for (int i = 0; i < total_list_num - 1; i++)
                 {
                     for (int j = i + 1; j < total_list_num; j++)
@@ -165,8 +246,8 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                             }
                         }
                         else if (dType == DECONSTRUCTION_TYPE.EQUIPMENT)
-                        {
-                            if (inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[i]].grade < inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[j]].grade)
+                        {   
+                            if (CSVData.Inst.GetEquipmentData(inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[i]].id).tier < CSVData.Inst.GetEquipmentData(inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[j]].id).tier)
                             {
                                 data_order[i]++;
                             }
@@ -175,9 +256,52 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                                 data_order[j]++;
                             }
                         }
-                        else
+                    }
+                }
+                break;
+            case SORT_TYPE.GOT_TIME:
+                for (int i = 0; i < total_list_num; i++)
+                {
+                    data_order[i] = i;
+                }
+                break;
+            case SORT_TYPE.JOB_OR_UPGRADE:
+                for (int i = 0; i < total_list_num - 1; i++)
+                {
+                    for (int j = i + 1; j < total_list_num; j++)
+                    {
+                        if (dType == DECONSTRUCTION_TYPE.SERVANT)
                         {
-                            Debug.Log("잘못된 분해 타입!");
+                            if (partyInfo.ServantList[scrollListData[i]].job > partyInfo.ServantList[scrollListData[j]].job)
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
+                        }
+                        else if (dType == DECONSTRUCTION_TYPE.MONSTER)
+                        {
+                            if (partyInfo.MonsterList[scrollListData[i]].upgrade < partyInfo.MonsterList[scrollListData[j]].upgrade)
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
+                        }
+                        else if (dType == DECONSTRUCTION_TYPE.EQUIPMENT)
+                        {
+                            if (inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[i]].upgrade < inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[j]].upgrade)
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
                         }
                     }
                 }

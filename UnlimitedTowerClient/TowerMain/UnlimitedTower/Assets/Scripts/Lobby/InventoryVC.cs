@@ -211,7 +211,7 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
     {
         setData();
 
-        scrollList.Init(this, 20, EquipmentList[0].Count, getOrder());
+        scrollList.Init(this, 20, EquipmentList[(int)selectedMenu].Count, getOrder());
     }
 
 
@@ -229,28 +229,6 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
         }
 
         UserDataManager u_data = UserDataManager.Inst;
-
-        switch (sort_type)
-        {
-            case 0:
-                for (int i = 0; i < total_list_num - 1; i++)
-                {
-                    for (int j = i + 1; j < total_list_num; j++)
-                    {
-                        if (u_data.GetEquipmentInfo(EquipmentList[(int)selectedMenu][i].index).grade < u_data.GetEquipmentInfo(EquipmentList[(int)selectedMenu][j].index).grade)
-                        {
-                            data_order[i]++;
-                        }
-                        else
-                        {
-                            data_order[j]++;
-                        }
-                    }
-                }
-                break;
-            default:
-                break;
-        }
 
         switch (sort_type)
         {

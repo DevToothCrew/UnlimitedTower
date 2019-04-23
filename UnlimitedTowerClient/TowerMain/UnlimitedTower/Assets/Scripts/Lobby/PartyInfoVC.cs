@@ -256,7 +256,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                     {
                         if (currentScrollType == scroll_type.SERVANT_INFO)
                         {
-                            if (ServantList[i].grade < ServantList[j].grade)
+                            if (ServantList[i].grade > ServantList[j].grade)
                             {
                                 data_order[i]++;
                             }
@@ -322,7 +322,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                     {
                         if (currentScrollType == scroll_type.SERVANT_INFO)//Servant는 직업 정렬
                         {
-                            if (ServantList[i].jobType < ServantList[j].jobType)
+                            if (ServantList[i].jobType > ServantList[j].jobType)
                             {
                                 data_order[i]++;
                             }
