@@ -3412,9 +3412,9 @@ ACTION battletest::nftmail(eosio::name _user, std::string _type, uint64_t _token
     mail_db mail_db_table(_self, _user.value);
     mail_db_table.emplace(_self, [&](auto &move_mail) {
 
-        main_gacha_db main_gacha_db_table(_self, _self.value);
-        auto main_gacha_db_iter = main_gacha_db_table.find(user_preregist_monster_iter.id);
-        eosio_assert(main_gacha_db_iter != main_gacha_db_table.end(), "movedb : Not exist main_gacha_db_iter by monster");
+        // main_gacha_db main_gacha_db_table(_self, _self.value);
+        // auto main_gacha_db_iter = main_gacha_db_table.find(user_preregist_monster_iter.id);
+        // eosio_assert(main_gacha_db_iter != main_gacha_db_table.end(), "movedb : Not exist main_gacha_db_iter by monster");
 
         uint64_t change_type;
         uint32_t first_index = mail_db_table.available_primary_key();
@@ -5034,6 +5034,11 @@ uint64_t battletest::get_user_seed_value(uint64_t _user)
 
 void battletest::start_gacha(eosio::name _user, uint64_t _seed)
 {
+    user_auths user_auth_table(_self, _self.value);
+    auto users_auth_iter = user_auth_table.find(_user.value);
+    eosio_assert(users_auth_iter != user_auth_table.end(), "Start Gacha : Empty Auth Table / Not Yet Signup");
+    eosio_assert(users_auth_iter->state == user_state::lobby,"Start Gacha :  It Is Possible Lobby");
+
     user_logs user_log_table(_self, _self.value);
     auto user_log_iter = user_log_table.find(_user.value);
     eosio_assert(user_log_iter != user_log_table.end(), "Start Gacha : Log Table Empty / Not yet signup");
@@ -5253,6 +5258,11 @@ bool battletest::check_empty_party(const std::vector<uint64_t> &_servant_list, c
 ACTION battletest::saveparty(eosio::name _user, uint32_t _party_number, const std::vector<uint64_t> &_servant_list, const std::vector<uint64_t> &_monster_list)
 {
     require_auth(_user);
+    user_auths user_auth_table(_self, _self.value);
+    auto users_auth_iter = user_auth_table.find(_user.value);
+    eosio_assert(users_auth_iter != user_auth_table.end(), "Save Party : Empty Auth Table / Not Yet Signup");
+    eosio_assert(users_auth_iter->state == user_state::lobby, "Save Party :  It Is Possible Lobby");
+
     eosio_assert(_party_number == 1, "Save Party : Wrong Party Number / Party Number Only 1"); //잘못된 파티 넘버 체크
     eosio_assert(false == check_empty_party(_servant_list, _monster_list),"Save Party : Empty Party List");                                           
     user_partys user_party_table(_self, _user.value);                                                        //
@@ -9977,14 +9987,11 @@ ACTION battletest::pvpstart(eosio::name _from, eosio::name _to)
     // _from 이 유효한 계정인지, pvp가 가능한 상태인지 체크. _to 가 유효한 계정인지 체크
     user_auths user_auth(_self, _self.value);
     auto from_user_iter = user_auth.find(_from.value);
-
     eosio_assert(from_user_iter != user_auth.end(), "PVP Start : Empty Auth Table / Not Yet Signup");
     eosio_assert(from_user_iter->state == user_state::lobby, "PVP Start : Already Battle");
 
     auto to_user_iter = user_auth.find(_to.value);
-
     eosio_assert(to_user_iter != user_auth.end(), "PVP Start : Empty Auth Table / Not Yet Signup");
-
     user_auth.modify(from_user_iter, _self, [&](auto &data) {
         data.state = user_state::pvp;
     });
@@ -9994,11 +10001,14 @@ ACTION battletest::pvpstart(eosio::name _from, eosio::name _to)
     uint32_t from_party_num = 1;
     auto from_party_iter = from_party.find(from_party_num);
     eosio_assert(from_party_iter != from_party.end(), "PVP Start : Empty Party Table / Not Yet Signup");
+    eosio_assert(from_party_iter->state == party_state::on_wait, "PVP Start : Party State Wrong");
+    eosio_assert(true == possible_start(_from, from_party_num), "PVP Start : Empty Your Party");
 
     user_partys to_party(_self, _to.value);
     uint32_t to_party_num = 1;
     auto to_party_iter = to_party.find(to_party_num);
     eosio_assert(to_party_iter != to_party.end(), "PVP Start : Empty Party Table / Not Yet Signup");
+    eosio_assert(true == possible_start(_to, to_party_num), "PVP Start : Empty Enemy Party");
 
     // stgstate 테이블에 배틀을 위한 환경 세팅
     std::string stage_info;
