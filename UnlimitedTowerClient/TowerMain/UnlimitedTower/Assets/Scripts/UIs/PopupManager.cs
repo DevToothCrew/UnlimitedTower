@@ -12,52 +12,57 @@ public class PopupManager : MonoBehaviour {
     public Button buttonCancel;
     public Button buttonOK;
 
-    enum popup_type
+    private POPUP_TYPE popupType;
+    private int messageIdx;
+
+    public void SetPopupMasseage(POPUP_TYPE type, int message_idx)
     {
-        NOTIVE = 0, //안내 타입 팝업 : Cancel/OK 버튼 표시안함, 창 터치로 닫기 가능
-        WARNING,    //경고, 오류 타입 팝업 : Cancel/OK 버튼 표시안함, 창 터치로 닫기 가능
-        CONFIRM     //확인용 팝업 : Cancel, OK 버튼 표시, 창 터치로 닫기 불가
-    };
-    popup_type popupType;
-
-	void Start () {
-        popupType = popup_type.NOTIVE;
-
+        popupType = type;
+        messageIdx = message_idx;
+        updateView();
     }
-	
+
     void updateView()
     {
-        switch(popupType)
+        //TODO : CSVDATA의 LocalizationData에 언어별 Text가 있는데 해당 Data에 Message를 추가하거나, 아에 따로 만들어서 가져오면 될듯
+        textMessage.text = ""; //ex. getLocalizationData(messageIdx);
+
+        switch (popupType)
         {
-            case popup_type.NOTIVE:
+            case POPUP_TYPE.NOTIVE:
                 textTitle.text = "Notice";
 
-                textMessage.text = "";
-
                 buttonFrame.gameObject.SetActive(true);
                 buttonCancel.gameObject.SetActive(false);
                 buttonOK.gameObject.SetActive(false);
                 break;
-            case popup_type.WARNING:
+            case POPUP_TYPE.WARNING:
                 textTitle.text = "Warning!";
 
-                textMessage.text = "";
-
                 buttonFrame.gameObject.SetActive(true);
                 buttonCancel.gameObject.SetActive(false);
                 buttonOK.gameObject.SetActive(false);
                 break;
-            case popup_type.CONFIRM:
+            case POPUP_TYPE.CONFIRM:
                 textTitle.text = "Confirm";
-
-                textMessage.text = "";
 
                 buttonFrame.gameObject.SetActive(false);
                 buttonCancel.gameObject.SetActive(true);
                 buttonOK.gameObject.SetActive(true);
+
+                //TODO : 메세지 IDX에 따라서 OK버튼에 해당 함수를 연결하면 됨.
+                //if (messageIdx == ??) {
+                //  buttonOK.onClick.AddListener(/*해당 클래스의 해당 함수*/);
+                //}
+
                 break;
             default:
                 break;
         }
+    }
+
+    public void OnClickClose()
+    {
+        Destroy(this.gameObject);
     }
 }

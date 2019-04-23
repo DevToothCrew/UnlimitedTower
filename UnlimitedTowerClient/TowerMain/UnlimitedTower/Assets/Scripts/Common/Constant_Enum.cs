@@ -459,4 +459,11 @@ public enum SHOP_TYPE
     ETC = 3,
 }
 
+public enum POPUP_TYPE
+{
+    NOTIVE = 0, //안내 타입 팝업 : Cancel/OK 버튼 표시안함, 창 터치로 닫기 가능
+    WARNING,    //경고, 오류 타입 팝업 : Cancel/OK 버튼 표시안함, 창 터치로 닫기 가능
+    CONFIRM     //확인용 팝업 : Cancel, OK 버튼 표시, 창 터치로 닫기 불가
+}
+
 #endregion

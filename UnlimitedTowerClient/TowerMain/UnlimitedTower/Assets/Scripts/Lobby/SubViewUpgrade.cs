@@ -38,9 +38,9 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
 
     public GameObject FrameScroll;
     public ScrollListManager scrollList;
+    private SORT_TYPE sort_type;
 
     public List<int> scrollListData = new List<int>();
-    SORT_TYPE sortType = 0;
 
     private PartyInfoVC partyInfo;
     private InventoryVC inventoryInfo;
@@ -122,6 +122,13 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
         }
     }
 
+    public void ResetScrollListBySortType(SORT_TYPE type)
+    {
+        sort_type = type;
+        scrollList.SetItemOrder(getOrder());
+        scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+        scrollList.ScrollViewDidScroll();
+    }
 
     //스크롤 정렬
     private int[] getOrder()
@@ -136,9 +143,77 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
             data_order[i] = 0;
         }
 
-        switch (sortType)
+        switch (sort_type)
         {
-            case 0:
+            case SORT_TYPE.POWER:
+                for (int i = 0; i < total_list_num - 1; i++)
+                {
+                    for (int j = i + 1; j < total_list_num; j++)
+                    {
+                        if (upgradeType == UPGRADE_TYPE.MONSTER)
+                        {
+                            if (partyInfo.MonsterList[scrollListData[i]].status.basicStr < partyInfo.MonsterList[scrollListData[j]].status.basicStr)
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
+                        }
+                        else if (upgradeType == UPGRADE_TYPE.EQUIPMENT)
+                        {
+                            if (inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[i]].value < inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[j]].value)
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("잘못된 분해 타입!");
+                        }
+                    }
+                }
+                break;
+            case SORT_TYPE.GRADE:
+                for (int i = 0; i < total_list_num - 1; i++)
+                {
+                    for (int j = i + 1; j < total_list_num; j++)
+                    {
+                        if (upgradeType == UPGRADE_TYPE.MONSTER)
+                        {
+                            if (partyInfo.MonsterList[scrollListData[i]].grade > partyInfo.MonsterList[scrollListData[j]].grade)
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
+                        }
+                        else if (upgradeType == UPGRADE_TYPE.EQUIPMENT)
+                        {
+                            if (inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[i]].grade > inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[j]].grade)
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("잘못된 분해 타입!");
+                        }
+                    }
+                }
+                break;
+            case SORT_TYPE.LEVEL_OR_TIER:
                 for (int i = 0; i < total_list_num - 1; i++)
                 {
                     for (int j = i + 1; j < total_list_num; j++)
@@ -155,8 +230,48 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                             }
                         }
                         else if (upgradeType == UPGRADE_TYPE.EQUIPMENT)
+                        {   
+                            if (CSVData.Inst.GetEquipmentData(inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[i]].id).tier < CSVData.Inst.GetEquipmentData(inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[j]].id).tier)
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
+                        }
+                        else
                         {
-                            if (inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[i]].grade < inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[j]].grade)
+                            Debug.Log("잘못된 분해 타입!");
+                        }
+                    }
+                }
+                break;
+            case SORT_TYPE.GOT_TIME:
+                for (int i = 0; i < total_list_num; i++)
+                {
+                    data_order[i] = i;
+                }
+                break;
+            case SORT_TYPE.JOB_OR_UPGRADE:
+                for (int i = 0; i < total_list_num - 1; i++)
+                {
+                    for (int j = i + 1; j < total_list_num; j++)
+                    {
+                        if (upgradeType == UPGRADE_TYPE.MONSTER)
+                        {
+                            if (partyInfo.MonsterList[scrollListData[i]].upgrade < partyInfo.MonsterList[scrollListData[j]].upgrade)
+                            {
+                                data_order[i]++;
+                            }
+                            else
+                            {
+                                data_order[j]++;
+                            }
+                        }
+                        else if (upgradeType == UPGRADE_TYPE.EQUIPMENT)
+                        {
+                            if (inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[i]].upgrade < inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[j]].upgrade)
                             {
                                 data_order[i]++;
                             }

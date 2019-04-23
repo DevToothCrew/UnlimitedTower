@@ -75,10 +75,15 @@ public class SortManager : MonoSingleton<SortManager> {
                 Debug.Log("Reset Equip List");
                 SubViewEquipment.Inst.ResetScrollListBySortType(sortType);
             }
-            if (SubViewDeconstruction.checkInst())
+            else if (SubViewDeconstruction.checkInst())
             {
                 Debug.Log("Reset deconstruct List");
                 SubViewDeconstruction.Inst.ResetScrollListBySortType(sortType);
+            }
+            else if(SubViewUpgrade.checkInst())
+            {
+                Debug.Log("Reset SubViewUpgrade List");
+                SubViewUpgrade.Inst.ResetScrollListBySortType(sortType);
             }
             else {
                 Debug.Log("Reset Partyinfo List");
@@ -91,6 +96,11 @@ public class SortManager : MonoSingleton<SortManager> {
             {
                 Debug.Log("Reset deconstruct List");
                 SubViewDeconstruction.Inst.ResetScrollListBySortType(sortType);
+            }
+            else if (SubViewUpgrade.checkInst())
+            {
+                Debug.Log("Reset SubViewUpgrade List");
+                SubViewUpgrade.Inst.ResetScrollListBySortType(sortType);
             }
             else
             {
