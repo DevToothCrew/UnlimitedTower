@@ -569,6 +569,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         newMonsterData.monster.type = (int)monsterData.elementType;
         newMonsterData.monster.grade = getMonsterData.grade;
+        newMonsterData.monster.state = getMonsterData.state;
         newMonsterData.monster.level = getMonsterData.level;
         newMonsterData.monster.exp = getMonsterData.exp;
         newMonsterData.monster.upgrade = getMonsterData.upgrade;

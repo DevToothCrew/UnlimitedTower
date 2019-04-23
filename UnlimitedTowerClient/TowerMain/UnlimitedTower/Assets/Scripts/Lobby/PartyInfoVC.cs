@@ -626,6 +626,15 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
             selectedFormationSlot = btn_tag;
             if (formationSlot[selectedFormationSlot] > 0)//캐릭터가 설정되어있는 슬롯을 눌렀을때 -> 캐릭터 해제
             {
+                if(btn_tag <= DEFINE.ServantMaxFormationNum)
+                {
+                    if (formationSlot[btn_tag + 5] != 0)
+                    {
+                        TopUIManager.Inst.ShowSimpleErrorPopup("THERE IS MONSTER IN FRONT OF SERVANT");
+                        return;
+                    }
+                }
+
                 selectedFormationSlot = -1;
                 frameScroll.gameObject.SetActive(false);
 
@@ -698,6 +707,12 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         }
         else if(selectedFormationSlot <= DEFINE.MonsterMaxFormationNum)
         {
+            if(formationSlot[selectedFormationSlot - 5] == 0)
+            {
+                TopUIManager.Inst.ShowSimpleErrorPopup("THERE IS NO SERVANT IN THE BACK");
+                return;
+            }
+
             if (UserDataManager.Inst.GetMonsterInfo(character_unit_idx).state != 1)
             {
                 TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Monster State");
