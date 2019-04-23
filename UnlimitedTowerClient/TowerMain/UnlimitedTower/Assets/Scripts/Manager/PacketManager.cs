@@ -803,6 +803,26 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 });
     }
 
+    public void RequestShopInfo(SHOP_TYPE type)
+    {
+        Debug.Log("Request ShopInfo");
+
+        ShopJson shop = new ShopJson();
+        shop.type = (int)type;
+
+        string json = JsonUtility.ToJson(shop);
+
+        Debug.Log("Json start : " + json);
+
+        Request<shopInfoResultData>("ShopInfo",
+            body: json,
+            onSuccess: ResponseShopInfo,
+            onFailed: msg =>
+            {
+                Debug.Log($"[Failed Requesting ShopInfo] {msg}");
+            });
+    }
+
     #endregion
 
     #region Response
@@ -1618,9 +1638,51 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Time.timeScale = 1.0f;
     }
 
+    public void ResponseShopInfo(shopInfoResultData getShopInfo)
+    {
+        Debug.Log("Response ShopInfo : " + getShopInfo.shop_type);
+
+        List<ShopProductInfo> productInfoList = new List<ShopProductInfo>();
+        ParseShopProductInfoList(getShopInfo, ref productInfoList);
+
+        ShopInfoPage.Inst.SetShopInfo(productInfoList);
+    }
+
     #endregion
 
     #region Function
+
+    public bool ParseShopProductInfoList(shopInfoResultData getShopInfo, ref List<ShopProductInfo> productInfoList)
+    {
+        for (int i = 0; i < getShopInfo.shop_product_list.Count; i++)
+        {
+            Debug.Log("Index : " + getShopInfo.shop_product_list[i].index);
+            Debug.Log("Type : " + getShopInfo.shop_product_list[i].type);
+            Debug.Log("ID : " + getShopInfo.shop_product_list[i].id);
+            Debug.Log("Limit Count : " + getShopInfo.shop_product_list[i].limit_count);
+
+            ShopProductInfo info = ParseShopProduct(getShopInfo.shop_product_list[i]);
+            productInfoList.Add(info);
+        }
+
+        return true;
+    }
+
+    public ShopProductInfo ParseShopProduct(shopProductData getProductData)
+    {
+        ShopProductInfo info = new ShopProductInfo();
+        info.index = getProductData.index;
+        info.type = (SHOP_TYPE)getProductData.type;
+        info.id = getProductData.id;
+        info.limitCount = getProductData.limit_count;
+        info.limitMaxCount = 999;
+        info.productCount = 3000;
+        info.costID = 0;
+        info.costCount = 100;
+
+
+        return info;
+    }
 
     public bool ParseUserInfo(UserLoginData getUserData, ref UserInfo userInfo)
     {

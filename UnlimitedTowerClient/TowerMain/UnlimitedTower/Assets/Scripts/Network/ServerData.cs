@@ -392,6 +392,22 @@ public class userResourceData
 };
 
 [Serializable]
+public class shopInfoResultData
+{
+    public int shop_type;
+    public List<shopProductData> shop_product_list = new List<shopProductData>();
+}
+
+[Serializable]
+public class shopProductData
+{
+    public int index;
+    public int type;
+    public int id;
+    public int limit_count;
+}
+
+[Serializable]
 public class errorCode
 {
     public string code;
@@ -412,6 +428,12 @@ public class GachaJson
 public class PVPJson
 {
     public string enemy;
+}
+
+[Serializable]
+public class ShopJson
+{
+    public int type;
 }
 
 [Serializable]

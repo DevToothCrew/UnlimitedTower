@@ -108,6 +108,12 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                     objSubView.transform.SetParent(this.transform);
                     objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                     BackbuttonUI.SetActive(true);
+
+#if UNITY_EDITOR
+                    Cheat.Inst.RequestShopInfo(SHOP_TYPE.EOS);
+#else
+                    PacketManager.Inst.RequestShopInfo(SHOP_TYPE.EOS);
+#endif
                 }
                 break;
 

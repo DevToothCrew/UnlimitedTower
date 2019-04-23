@@ -1151,5 +1151,21 @@ public class Cheat : MonoSingleton<Cheat>
         PacketManager.Inst.ResponseLobbyInfo(resultData);
     }
 
+    public void RequestShopInfo(SHOP_TYPE type)
+    {
+        shopInfoResultData resultData = new shopInfoResultData();
+        resultData.shop_type = (int)type;
+
+        shopProductData product = new shopProductData();
+        product.index = 1;
+        product.type = (int)SHOP_TYPE.EOS;
+        product.id = 500001;
+        product.limit_count = 0;
+
+        resultData.shop_product_list.Add(product);
+
+        PacketManager.Inst.ResponseShopInfo(resultData);
+    }
+
     #endregion
 }
