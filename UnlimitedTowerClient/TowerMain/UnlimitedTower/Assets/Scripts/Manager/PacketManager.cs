@@ -979,6 +979,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
 
         UserDataManager.Inst.SetStageState(stageData);
+        UserDataManager.Inst.SetSceneState(SCENE_STATE.StageBattle);
         StartCoroutine(LoadSceneAsync("CharacterBattleScene", "Now, Loading battle field ... "));
     }
 

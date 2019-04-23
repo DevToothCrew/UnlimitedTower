@@ -185,6 +185,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         stageState = new UserStageStateData();
         stageActionInfo = new battleActionData();
         stageReward = new stageRewardData();
+        userInfo.sceneState = SCENE_STATE.Lobby;
     }
 
     public void SetStageState(UserStageStateData getStageStateData)
