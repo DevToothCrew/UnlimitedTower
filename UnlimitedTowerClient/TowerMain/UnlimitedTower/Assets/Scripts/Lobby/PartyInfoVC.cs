@@ -267,7 +267,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                         }
                         else if (currentScrollType == scroll_type.MONSTER_INFO)
                         {
-                            if (MonsterList[i].grade < MonsterList[j].grade)
+                            if (MonsterList[i].grade > MonsterList[j].grade)
                             {
                                 data_order[i]++;
                             }

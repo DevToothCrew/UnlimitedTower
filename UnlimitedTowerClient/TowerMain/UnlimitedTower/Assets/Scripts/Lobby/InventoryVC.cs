@@ -253,7 +253,7 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
                 {
                     for (int j = i + 1; j < total_list_num; j++)
                     {
-                        if (u_data.GetEquipmentInfo(EquipmentList[(int)selectedMenu][i].index).grade < u_data.GetEquipmentInfo(EquipmentList[(int)selectedMenu][j].index).grade)
+                        if (u_data.GetEquipmentInfo(EquipmentList[(int)selectedMenu][i].index).grade > u_data.GetEquipmentInfo(EquipmentList[(int)selectedMenu][j].index).grade)
                         {
                             data_order[i]++;
                         }
