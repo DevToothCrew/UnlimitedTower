@@ -1512,6 +1512,59 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void ResponseMailOpen(mailOpenResultData getMailOpenResultData)
     {
         Debug.Log("메일 오픈 !");
+
+        if(getMailOpenResultData == null)
+        {
+            Debug.Log("Invalid Result Data");
+            return;
+        }
+
+        if(getMailOpenResultData.mail_open_index_list == null || getMailOpenResultData.mail_open_index_list.Count == 0)
+        {
+            Debug.Log("Invalid Result Index");
+            return;
+        }
+        else
+        {
+            for (int i = 0; i < getMailOpenResultData.mail_open_index_list.Count; i++)
+            {
+                // 인덱스 삭제
+                Debug.Log("Index : " + getMailOpenResultData.mail_open_index_list[i]);
+            }
+        }
+
+        if (getMailOpenResultData.servant_data_list != null && getMailOpenResultData.servant_data_list.Count > 0)
+        {
+            for (int i = 0; i < getMailOpenResultData.servant_data_list.Count; i++)
+            {
+                Debug.Log("Servant : " + getMailOpenResultData.servant_data_list[i].servant.id);
+            }
+        }
+
+        if (getMailOpenResultData.monster_data_list != null && getMailOpenResultData.monster_data_list.Count > 0)
+        {
+            for (int i = 0; i < getMailOpenResultData.monster_data_list.Count; i++)
+            {
+                Debug.Log("Monster : " + getMailOpenResultData.monster_data_list[i].monster.id);
+            }
+        }
+
+        if (getMailOpenResultData.equip_data_list != null && getMailOpenResultData.equip_data_list.Count > 0)
+        {
+            for (int i = 0; i < getMailOpenResultData.equip_data_list.Count; i++)
+            {
+                Debug.Log("Equipment : " + getMailOpenResultData.equip_data_list[i].equipment.id);
+            }
+        }
+
+        if (getMailOpenResultData.item_data_list != null && getMailOpenResultData.item_data_list.Count > 0)
+        {
+            for (int i = 0; i < getMailOpenResultData.item_data_list.Count; i++)
+            {
+                Debug.Log("Item : " + getMailOpenResultData.item_data_list[i].id);
+            }
+        }
+
     }
 
     // 타워 시작
