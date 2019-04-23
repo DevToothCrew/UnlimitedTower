@@ -494,7 +494,7 @@ public class Cheat : MonoSingleton<Cheat>
         }
 
         getMonsterUpgradeResultData.sub_monster_index = subMonster.index;
-        getMonsterUpgradeResultData.utg = UserDataManager.Inst.GetUserUTG() - (ulong)dbMonsterUpgradeData.needUTGCount;
+        getMonsterUpgradeResultData.utg = Convert.ToString( UserDataManager.Inst.GetUserUTG() - (ulong)dbMonsterUpgradeData.needUTGCount);
 
         return JsonMapper.ToJson(getMonsterUpgradeResultData).ToString();
     }
@@ -547,7 +547,7 @@ public class Cheat : MonoSingleton<Cheat>
         getEquipmentUpgradeResultData.main_equipment_data.equipment.equipservantindex = equipmentData.equipServantIndex;
         getEquipmentUpgradeResultData.add_item_list = new List<itemData>();
         getEquipmentUpgradeResultData.add_item_list.Add(needItemData);
-        getEquipmentUpgradeResultData.utg = utg;
+        getEquipmentUpgradeResultData.utg = Convert.ToString(utg);
 
         return JsonMapper.ToJson(getEquipmentUpgradeResultData).ToString();
     }
