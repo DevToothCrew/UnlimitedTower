@@ -3403,7 +3403,7 @@ void battletest::signup(eosio::name _user)
 /////////////////////////////////mail system////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-ACTION battletest::nftmail(eosio::name _user, std::string _type, uint64_t _token_index)
+ACTION battletest::nftmail(eosio::name _user, std::string _type, uint64_t _token_index, uint64_t _icon_id)
 {
     require_auth(NFT_CONTRACT);
 
@@ -3412,9 +3412,7 @@ ACTION battletest::nftmail(eosio::name _user, std::string _type, uint64_t _token
     mail_db mail_db_table(_self, _user.value);
     mail_db_table.emplace(_self, [&](auto &move_mail) {
 
-        // main_gacha_db main_gacha_db_table(_self, _self.value);
-        // auto main_gacha_db_iter = main_gacha_db_table.find(user_preregist_monster_iter.id);
-        // eosio_assert(main_gacha_db_iter != main_gacha_db_table.end(), "movedb : Not exist main_gacha_db_iter by monster");
+
 
         uint64_t change_type;
         uint32_t first_index = mail_db_table.available_primary_key();
@@ -3440,6 +3438,7 @@ ACTION battletest::nftmail(eosio::name _user, std::string _type, uint64_t _token
         }
         move_mail.mail_type = change_type;
         move_mail.type_index = _token_index;
+        move_mail.icon_id = _icon_id;
 
     });
 }

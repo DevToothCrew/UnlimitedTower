@@ -1747,7 +1747,7 @@ CONTRACT battletest : public contract
     ACTION testcheat(eosio::name _user);
     
     void nftexchange(eosio::name _owner, eosio::name _master, std::string _type, uint64_t _master_index);
-    ACTION nftmail(eosio::name _user, std::string _type, uint64_t _token_index);
+    ACTION nftmail(eosio::name _user, std::string _type, uint64_t _token_index, uint64_t _icon_id);
     //ACTION change(eosio::name _user, std::string _kind, uint64_t _grade, uint64_t _id, std::string _status);
 
     void deletebattle(eosio::name _user);
