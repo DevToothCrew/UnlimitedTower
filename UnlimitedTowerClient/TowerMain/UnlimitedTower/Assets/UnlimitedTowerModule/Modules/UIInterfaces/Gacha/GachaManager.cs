@@ -51,9 +51,41 @@ public class GachaManager : MonoBehaviour {
         // GachaIndex에 따른 필요 EOS를 체크한다.
 
         // 현재는 1EOS로 박아두기
+        
+        UserInventoryInfo inventoryInfo = UserDataManager.Inst.GetUserInventoryInfo();
+        if (inventoryInfo == null)
+        {
+            Debug.Log("Invalid Inventory Info");
+            return;
+        }
+
+        if (inventoryInfo.servantInventory < UserDataManager.Inst.GetServantCount())
+        {
+            TopUIManager.Inst.ShowSimpleErrorPopup("Servant Inventory is Full");
+            return;
+        }
+
+        if (inventoryInfo.monsterInventory < UserDataManager.Inst.GetMonsterCount())
+        {
+            TopUIManager.Inst.ShowSimpleErrorPopup("Monster Inventory is Full");
+            return;
+        }
+
+        if (inventoryInfo.equipmentInventory < UserDataManager.Inst.GetEquipmentCount())
+        {
+            TopUIManager.Inst.ShowSimpleErrorPopup("Equipment Inventory is Full");
+            return;
+        }
+
+        if (inventoryInfo.itemInventory < UserDataManager.Inst.GetItemTotalCount())
+        {
+            TopUIManager.Inst.ShowSimpleErrorPopup("Item Inventory is Full");
+            return;
+        }
 
         if (UserDataManager.Inst.GetUserEOS() < 1)
         {
+            TopUIManager.Inst.ShowSimpleErrorPopup("Not Enough EOS");
             return;
         }
 

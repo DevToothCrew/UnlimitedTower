@@ -480,6 +480,11 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return itemDic[id];
     }
 
+    public int GetItemTotalCount()
+    {
+        return itemDic.Count;
+    }
+
     public int GetItemCount(int id)
     {
         int count = 0;

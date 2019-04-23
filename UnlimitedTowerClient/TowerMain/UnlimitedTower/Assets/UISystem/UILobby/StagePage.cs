@@ -58,8 +58,8 @@ public class StagePage : MonoSingleton<StagePage> {
             return;
         }
 
-        RewardRankExp.text = "Rank Exp - " + rewardData.rankExp;
-        RewardCharExp.text = "Char Exp - " + rewardData.charExp;
+        RewardRankExp.text = rewardData.rankExp.ToString();
+        RewardCharExp.text = rewardData.charExp.ToString();
         RewardUTG.text = rewardData.rewardUTGString;
 
         rewardObjects = new GameObject[rewardData.rewardDataList.Count];
@@ -157,7 +157,39 @@ public class StagePage : MonoSingleton<StagePage> {
     {
         if(UserDataManager.Inst.GetUserPartyInfo().partyIndex == 0)
         {
-            Debug.LogError("Invalid User Data");
+            TopUIManager.Inst.ShowSimpleErrorPopup("Invalid User State");
+            return;
+        }
+
+        UserInventoryInfo inventoryInfo = UserDataManager.Inst.GetUserInventoryInfo();
+        if (inventoryInfo == null)
+        {
+            Debug.Log("Invalid Inventory Info");
+            return;
+        }
+
+        if(inventoryInfo.servantInventory < UserDataManager.Inst.GetServantCount())
+        {
+            TopUIManager.Inst.ShowSimpleErrorPopup("Servant Inventory is Full");
+            return;
+        }
+
+        if (inventoryInfo.monsterInventory < UserDataManager.Inst.GetMonsterCount())
+        {
+            TopUIManager.Inst.ShowSimpleErrorPopup("Monster Inventory is Full");
+            return;
+        }
+
+        if (inventoryInfo.equipmentInventory < UserDataManager.Inst.GetEquipmentCount())
+        {
+            TopUIManager.Inst.ShowSimpleErrorPopup("Equipment Inventory is Full");
+            return;
+        }
+
+        if (inventoryInfo.itemInventory < UserDataManager.Inst.GetItemTotalCount())
+        {
+            TopUIManager.Inst.ShowSimpleErrorPopup("Item Inventory is Full");
+            return;
         }
 
 #if UNITY_EDITOR
