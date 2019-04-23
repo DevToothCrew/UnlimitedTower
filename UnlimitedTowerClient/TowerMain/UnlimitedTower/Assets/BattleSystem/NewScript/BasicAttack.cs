@@ -12,7 +12,7 @@ public class BasicAttack : MonoBehaviour {
         ani = GetComponent<Animator>();
     }
 
-    public void Attack(characterActionData attackInfo)
+    public void Attack(characterActionData attackInfo, ELEMENT_TYPE type = ELEMENT_TYPE.Non)
     {
         if (charInfo.AttackRange > 0.1f)
             StartCoroutine(NearAttackAction(attackInfo));
@@ -20,7 +20,7 @@ public class BasicAttack : MonoBehaviour {
             StartCoroutine(FarAttackAction(attackInfo));
     }
 
-    IEnumerator NearAttackAction(characterActionData attackInfo)
+    IEnumerator NearAttackAction(characterActionData attackInfo, ELEMENT_TYPE type = ELEMENT_TYPE.Non)
     {
         Transform attacker;
         Transform target;
@@ -39,7 +39,7 @@ public class BasicAttack : MonoBehaviour {
         attackerStartPos = attacker.position;
 
         yield return new WaitForSeconds(charInfo.AttackDelay);
-        DamageManager.Inst.DamageShow(attackInfo.action_info_list[0], false, (ELEMENT_TYPE)BattleManager.Inst.GetCharState(attackInfo.my_position).elementType);
+        DamageManager.Inst.DamageShow(attackInfo.action_info_list[0], false, type == ELEMENT_TYPE.Non ? (ELEMENT_TYPE)BattleManager.Inst.GetCharState(attackInfo.my_position).elementType : type);
         if (BattleManager.Inst.status[attackInfo.action_info_list[0].target_position].NowHp > 0)
             BattleManager.Inst.animator[attackInfo.action_info_list[0].target_position].SetTrigger("isHit");
         else

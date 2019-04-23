@@ -40254,6 +40254,24 @@ MonoBehaviour:
   - Index: 100008
     SkillImage: {fileID: 21300000, guid: 115352138f1be594f9f214cad85778a2, type: 3}
     SkillText: Limitless
+  - Index: 200009
+    SkillImage: {fileID: 21300000, guid: 853226be026d3944ea443b41c16f1c1b, type: 3}
+    SkillText: Fire Strike
+  - Index: 200010
+    SkillImage: {fileID: 21300000, guid: ed5b79bb3d72a8a4fb610fa2abdd2f06, type: 3}
+    SkillText: Frozen Strike
+  - Index: 200011
+    SkillImage: {fileID: 21300000, guid: 6d1983a41adafb8418a67220c4691ef9, type: 3}
+    SkillText: Earth Strike
+  - Index: 200012
+    SkillImage: {fileID: 21300000, guid: afd7761fa1d8e554f90ea1d4c7a6a76f, type: 3}
+    SkillText: Wind Strike
+  - Index: 200013
+    SkillImage: {fileID: 21300000, guid: 5461826076f4cf04ba6c4e443af2ca61, type: 3}
+    SkillText: Holy Strike
+  - Index: 200014
+    SkillImage: {fileID: 21300000, guid: e81cc56083101a148a8f763ef2138b25, type: 3}
+    SkillText: Death Strike
 --- !u!114 &1616318306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40312,6 +40330,18 @@ MonoBehaviour:
     obj: {fileID: 1294804382750878, guid: bd35429edfad79b42943e027f38fbff5, type: 2}
   - name: Defence
     obj: {fileID: 1957543745}
+  - name: 200009
+    obj: {fileID: 1886169790953024, guid: 00c1fe1038a5c494eacb4123bdfdeb3a, type: 2}
+  - name: 200010
+    obj: {fileID: 1524572438105552, guid: 80dc76d84c9ff7e45a6587777991e214, type: 2}
+  - name: 200011
+    obj: {fileID: 1023141884279458, guid: bc47963b2a8efb144a59aa60e2b7666d, type: 2}
+  - name: 200012
+    obj: {fileID: 1366691369606810, guid: 7c9c15a2ea1d7fa40b70bc3ccdbd73f3, type: 2}
+  - name: 200013
+    obj: {fileID: 1346879449314128, guid: 48a1f574d13324a49a150fd2fb98b38c, type: 2}
+  - name: 200014
+    obj: {fileID: 1786655242775346, guid: d03a362b9731a51428e628963324f8c5, type: 2}
 --- !u!1001 &1616652545
 Prefab:
   m_ObjectHideFlags: 0

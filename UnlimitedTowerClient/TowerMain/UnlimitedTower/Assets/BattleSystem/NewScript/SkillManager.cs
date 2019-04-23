@@ -221,11 +221,124 @@ public class SkillManager : MonoSingleton<SkillManager>
     public IEnumerator Skill_200008_Co(characterActionData battleInfo)
     {
         BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
-        //skillText.text = "가이디드 애로우";
         yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + BattleManager.Inst.charInfo[battleInfo.my_position].AttackAfterDelay);
         TestSkillEffect(battleInfo.action_info_list[0].target_position);
     }
     #endregion
+
+    #region Skill 200009
+    // 파이어 스트라이크 ( 적 1인에게 마법공격력의 220% 불속성 피해를 줍니다 )
+    public void Skill_200009(characterActionData battleInfo)
+    {
+        StartCoroutine(Skill_200009_Co(battleInfo));
+    }
+
+    public IEnumerator Skill_200009_Co(characterActionData battleInfo)
+    {
+        BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo, ELEMENT_TYPE.Fire);
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.5f);
+        Instantiate(effect["200009"], BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform.position +
+            new Vector3(0, BattleManager.Inst.charInfo[battleInfo.action_info_list[0].target_position].Height * 0.5f, 0),
+            Quaternion.identity,
+            BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform);
+    }
+    #endregion
+
+    #region Skill 200010
+    // 프로즌 스트라이크 ( 적 1인에게 마법공격력의 220% 물속성 피해를 줍니다 )
+    public void Skill_200010(characterActionData battleInfo)
+    {
+        StartCoroutine(Skill_200010_Co(battleInfo));
+    }
+
+    public IEnumerator Skill_200010_Co(characterActionData battleInfo)
+    {
+        BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo, ELEMENT_TYPE.Water);
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.3f);
+        Instantiate(effect["200010"], BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform.position +
+            new Vector3(0, BattleManager.Inst.charInfo[battleInfo.action_info_list[0].target_position].Height * 0.5f, 0),
+            Quaternion.identity,
+            BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform);
+    }
+    #endregion
+
+    #region Skill 200011
+    // 어스 스트라이크 ( 적 1인에게 마법공격력의 220% 땅속성 피해를 줍니다 )
+    public void Skill_200011(characterActionData battleInfo)
+    {
+        StartCoroutine(Skill_200011_Co(battleInfo));
+    }
+
+    public IEnumerator Skill_200011_Co(characterActionData battleInfo)
+    {
+        BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo, ELEMENT_TYPE.Earth);
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.3f);
+        Instantiate(effect["200011"], BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform.position +
+            new Vector3(0, BattleManager.Inst.charInfo[battleInfo.action_info_list[0].target_position].Height * 0.5f, 0),
+            Quaternion.identity,
+            BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform);
+    }
+    #endregion
+
+    #region Skill 200012
+    // 윈드 스트라이크 ( 적 1인에게 마법공격력의 220% 바람속성 피해를 줍니다 )
+    public void Skill_200012(characterActionData battleInfo)
+    {
+        StartCoroutine(Skill_200012_Co(battleInfo));
+    }
+
+    public IEnumerator Skill_200012_Co(characterActionData battleInfo)
+    {
+        BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo, ELEMENT_TYPE.Wind);
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.3f);
+        Instantiate(effect["200012"], BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform.position +
+            new Vector3(0, BattleManager.Inst.charInfo[battleInfo.action_info_list[0].target_position].Height * 0.5f, 0),
+            Quaternion.identity,
+            BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform);
+    }
+    #endregion
+
+    #region Skill 200013
+    // 홀리 스트라이크 ( 적 1인에게 마법공격력의 220% 성속성 피해를 줍니다 )
+    public void Skill_200013(characterActionData battleInfo)
+    {
+        StartCoroutine(Skill_200013_Co(battleInfo));
+    }
+
+    public IEnumerator Skill_200013_Co(characterActionData battleInfo)
+    {
+        BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo, ELEMENT_TYPE.Light);
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.3f);
+        Instantiate(effect["200013"], BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform.position +
+            new Vector3(0, BattleManager.Inst.charInfo[battleInfo.action_info_list[0].target_position].Height * 0.5f, 0),
+            Quaternion.identity,
+            BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform);
+    }
+    #endregion
+
+    #region Skill 200014
+    // 데스 스트라이크 ( 적 1인에게 마법공격력의 220% 암속성 피해를 줍니다 )
+    public void Skill_200014(characterActionData battleInfo)
+    {
+        StartCoroutine(Skill_200014_Co(battleInfo));
+    }
+
+    public IEnumerator Skill_200014_Co(characterActionData battleInfo)
+    {
+        BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo, ELEMENT_TYPE.Dark);
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.3f);
+        Instantiate(effect["200014"], BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform.position +
+            new Vector3(0, BattleManager.Inst.charInfo[battleInfo.action_info_list[0].target_position].Height * 0.5f, 0),
+            Quaternion.identity,
+            BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform);
+    }
+    #endregion
+
+
+
+
+
+
 
     public void TestSkillEffect(int index)
     {
