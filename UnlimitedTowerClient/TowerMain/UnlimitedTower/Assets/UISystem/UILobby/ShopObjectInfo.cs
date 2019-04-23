@@ -17,19 +17,23 @@ public class ShopObjectInfo : MonoBehaviour {
 
     public void SetShopObjectInfo(ShopProductInfo getInfo)
     {
+        DBShopData shopData = CSVData.Inst.GetShopData(getInfo.id);
+        if(shopData == null)
+        {
+            Debug.Log("Invalid Shop Object ID : " + getInfo.id);
+            return;
+        }
+
         index = getInfo.index;
         shopType = getInfo.type;
         id = getInfo.id;
 
-        textCount.text = "X " + getInfo.productCount;
-        textCost.text = "1,000";
+        textCount.text = "X " + shopData.productCount;
+        textCost.text = (shopData.priceCount * 0.0001).ToString("N4");
+        textName.text = CSVData.Inst.GetItemData(shopData.productID).name;
 
-        if(shopType == SHOP_TYPE.UTG)
-        {
-            imageCost.sprite = CSVData.Inst.GetItemIcon(500001);
-        }
-
-        // DB Item 정보에 따라 Sprite와 Count 설정
+        imageObject.sprite = CSVData.Inst.GetItemIcon(shopData.productID); ;
+        imageCost.sprite = CSVData.Inst.GetItemIcon(shopData.priceID);
     }
 
     public void OnClickObjectButton()

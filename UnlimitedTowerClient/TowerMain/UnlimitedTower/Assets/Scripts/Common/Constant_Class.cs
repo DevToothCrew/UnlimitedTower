@@ -411,13 +411,8 @@ public class ShopProductInfo
     public int id;
     public int index;
     public SHOP_TYPE type;
-    public int productCount;
 
     public int limitCount;
-    public int limitMaxCount;
-
-    public int costID;
-    public int costCount;
 }
 
 [Serializable]

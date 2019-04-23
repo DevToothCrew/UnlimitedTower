@@ -23,6 +23,7 @@ public class CSVData : MonoSingleton<CSVData>
     public Dictionary<int, DBMonsterUpgradeData> DBMonsterUpgradeDataDic = new Dictionary<int, DBMonsterUpgradeData>();
     public Dictionary<int, DBSkillActiveData> DBSkillActiveDataDic = new Dictionary<int, DBSkillActiveData>();
     public Dictionary<int, DBSkillPassiveData> DBSkillPassiveDataDic = new Dictionary<int, DBSkillPassiveData>();
+    public Dictionary<int, DBShopData> DBShopDataDic = new Dictionary<int, DBShopData>();
 
     // Resource Data
     public Dictionary<GRADE_TYPE, DBGradeResourceData> DBGradeResourceDataDic = new Dictionary<GRADE_TYPE, DBGradeResourceData>();
@@ -66,7 +67,7 @@ public class CSVData : MonoSingleton<CSVData>
         // 스킬 데이터 추가 필요
         // 스텟 데이터 추가 필요
         // 기타 데이터 추가 필요
-        if(DBExpDataDic.Count == 0)
+        if (DBExpDataDic.Count == 0)
         {
             //Debug.Log("SetExpData Start");
             if (SetExpData() == false)
@@ -79,7 +80,7 @@ public class CSVData : MonoSingleton<CSVData>
         if (DBItemDataDic.Count == 0)
         {
             //Debug.Log("SetItemData Start");
-            if(SetItemData() == false)
+            if (SetItemData() == false)
             {
                 Debug.Log("Invalid DBSetItemData");
             }
@@ -94,7 +95,7 @@ public class CSVData : MonoSingleton<CSVData>
             }
             //Debug.Log("SetEquipmentData Success");
         }
-        if(DBEquipmentUpgradeDataDic.Count == 0)
+        if (DBEquipmentUpgradeDataDic.Count == 0)
         {
             //Debug.Log("SetEquipmentUpgradeData Start");
             if (SetEquipmentUpgradeData() == false)
@@ -106,7 +107,7 @@ public class CSVData : MonoSingleton<CSVData>
         if (DBStageDataDic.Count == 0)
         {
             //Debug.Log("SetStageData Start");
-            if(SetStageData() == false)
+            if (SetStageData() == false)
             {
                 Debug.Log("Invalid DBStageData");
             }
@@ -115,7 +116,7 @@ public class CSVData : MonoSingleton<CSVData>
         if (DBStageEnemyDataDic.Count == 0)
         {
             //Debug.Log("SetStageEnemyData Start");
-            if(SetStageEnemyData() == false)
+            if (SetStageEnemyData() == false)
             {
                 Debug.Log("Invalid DBStageEnemyData");
             }
@@ -133,7 +134,7 @@ public class CSVData : MonoSingleton<CSVData>
         if (DBServantStatDataDic.Count == 0)
         {
             //Debug.Log("SetServantStatData Start");
-            if(SetServantStatData() == false)
+            if (SetServantStatData() == false)
             {
                 Debug.Log("Invalid DBServantStatData");
             }
@@ -142,7 +143,7 @@ public class CSVData : MonoSingleton<CSVData>
         if (DBServantDataDic.Count == 0)
         {
             //Debug.Log("SetServantData Start");
-            if(SetServantData() == false)
+            if (SetServantData() == false)
             {
                 Debug.Log("Invalid DBServantData");
             }
@@ -151,7 +152,7 @@ public class CSVData : MonoSingleton<CSVData>
         if (DBMonsterStatDataDic.Count == 0)
         {
             //Debug.Log("SetMonsterStatData Start");
-            if(SetMonsterStatData() == false)
+            if (SetMonsterStatData() == false)
             {
                 Debug.Log("Invalid DBMonsterStatData");
             }
@@ -160,7 +161,7 @@ public class CSVData : MonoSingleton<CSVData>
         if (DBMonsterDataDic.Count == 0)
         {
             //Debug.Log("SetMonsterData Start");
-            if(SetMonsterData() == false)
+            if (SetMonsterData() == false)
             {
                 Debug.Log("Invalid DBMonsterData");
             }
@@ -169,7 +170,7 @@ public class CSVData : MonoSingleton<CSVData>
         if (DBMonsterUpgradeDataDic.Count == 0)
         {
             //Debug.Log("SetMonsterUpgradeData Start");
-            if(SetMonsterUpgradeData() == false)
+            if (SetMonsterUpgradeData() == false)
             {
                 Debug.Log("Invalid DBMonsterUpgradeData");
             }
@@ -193,16 +194,25 @@ public class CSVData : MonoSingleton<CSVData>
             }
             //Debug.Log("SetSkillPassiveData Success");
         }
+        if (DBShopDataDic.Count == 0)
+        {
+            //Debug.Log("SetShopData Start");
+            if (SetShopData() == false)
+            {
+                Debug.Log("Invalid DBShopData");
+            }
+            //Debug.Log("SetShopData Success");
+        }
         if (DBGradeResourceDataDic.Count == 0)
         {
             //Debug.Log("SetGradeResourceData Start");
-            if(SetGradeResourceData() == false)
+            if (SetGradeResourceData() == false)
             {
                 Debug.Log("Invalid DBGradeResourceData");
             }
             //Debug.Log("SetGradeResourceData Success");
         }
-        if(DBGachaGradeResourceDataDic.Count == 0)
+        if (DBGachaGradeResourceDataDic.Count == 0)
         {
             //Debug.Log("SetGachaGradeResourceData Start");
             if (SetGachaGradeResourceData() == false)
@@ -220,9 +230,9 @@ public class CSVData : MonoSingleton<CSVData>
             }
             //Debug.Log("SetOptionTypeResourceData Success");
         }
-        if(DBElementTypeResourceDataDic.Count == 0)
+        if (DBElementTypeResourceDataDic.Count == 0)
         {
-            if(SetElementTypeResourceData() == false)
+            if (SetElementTypeResourceData() == false)
             {
                 Debug.Log("Invalid DBElementTypeResourceData");
             }
@@ -244,16 +254,16 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_item");
         for (var i = 2; i < data.Count; i++)
         {
-             //Debug.Log("index " + (i).ToString()
-             //    + " : " + data[i]["id"]
-             //    + " " + data[i]["name"]
-             //    + " " + data[i]["resource_icon"]
-             //    + " " + data[i]["description"]
-             //    + " " + data[i]["tier"]
-             //    + " " + data[i]["item_type"]
-             //    + " " + data[i]["item_param_list"]
-             //    );
-        
+            //Debug.Log("index " + (i).ToString()
+            //    + " : " + data[i]["id"]
+            //    + " " + data[i]["name"]
+            //    + " " + data[i]["resource_icon"]
+            //    + " " + data[i]["description"]
+            //    + " " + data[i]["tier"]
+            //    + " " + data[i]["item_type"]
+            //    + " " + data[i]["item_param_list"]
+            //    );
+
             DBItemData itemData = new DBItemData();
             itemData.id = Convert.ToInt32(data[i]["id"]);
             if (DBItemDataDic.ContainsKey(itemData.id) == true)
@@ -267,7 +277,7 @@ public class CSVData : MonoSingleton<CSVData>
             itemData.description = Convert.ToString(data[i]["description"]);
             itemData.tier = Convert.ToInt32(data[i]["tier"]);
             itemData.itemType = Convert.ToString(data[i]["item_type"]);
-        
+
             itemData.itemParamIDList = new List<int>();
             // Param List검사 추가 필요
 
@@ -313,7 +323,7 @@ public class CSVData : MonoSingleton<CSVData>
 
             //Debug.Log("Equip Job Able : " + Convert.ToString(data[i]["job"]));
             equipmentData.jobLimit = (SERVANT_JOB_FLAG)Convert.ToInt32(Convert.ToString(data[i]["job_limit"]), 2);
-            if(equipmentData.jobLimit == SERVANT_JOB_FLAG.None)
+            if (equipmentData.jobLimit == SERVANT_JOB_FLAG.None)
             {
                 Debug.Log("Invalid Data ID : " + equipmentData.id);
             }
@@ -374,7 +384,7 @@ public class CSVData : MonoSingleton<CSVData>
 
             DBEquipmentUpgradeData upgradeData = new DBEquipmentUpgradeData();
             string itemType = Convert.ToString(data[i]["item_type"]);
-            switch(itemType)
+            switch (itemType)
             {
                 case "weapon":
                     upgradeData.type = EQUIPMENT_TYPE.WEAPON;
@@ -391,7 +401,7 @@ public class CSVData : MonoSingleton<CSVData>
             }
 
             string itemGrade = Convert.ToString(data[i]["item_rating"]);
-            switch(itemGrade)
+            switch (itemGrade)
             {
                 case "common":
                     upgradeData.grade = GRADE_TYPE.COMMON;
@@ -416,7 +426,7 @@ public class CSVData : MonoSingleton<CSVData>
             upgradeData.upgradeLevel = Convert.ToInt32(data[i]["upgrade_level"]);
 
             int id = ((int)upgradeData.grade * 10000) + ((int)upgradeData.type * 100) + upgradeData.upgradeLevel;
-            if(DBEquipmentUpgradeDataDic.ContainsKey(id) == true)
+            if (DBEquipmentUpgradeDataDic.ContainsKey(id) == true)
             {
                 Debug.Log("Already Add ID : " + id);
                 return false;
@@ -472,7 +482,7 @@ public class CSVData : MonoSingleton<CSVData>
             {
                 stageData.enemyIdList.Add(Convert.ToInt32(eiList[j]));
             }
-        
+
             string[] epList = Convert.ToString(data[i]["enemy_position"]).Split('/');
             for (int j = 0; j < epList.Length; j++)
             {
@@ -480,7 +490,7 @@ public class CSVData : MonoSingleton<CSVData>
             }
             stageData.mapResource = Convert.ToString(data[i]["map_resource"]);
             stageData.bgmSoundId = Convert.ToInt32(data[i]["bgm_sound_id"]);
-        
+
             DBStageDataDic.Add(stageData.id, stageData);
         }
 
@@ -595,7 +605,7 @@ public class CSVData : MonoSingleton<CSVData>
 
             DBStageRewardData rewardData = new DBStageRewardData();
             rewardData.id = Convert.ToInt32(data[i]["id"]);
-            if(DBStageRewardDataDic.ContainsKey(rewardData.id) == true)
+            if (DBStageRewardDataDic.ContainsKey(rewardData.id) == true)
             {
                 Debug.LogError("Invalid Reward ID : " + rewardData.id);
                 return false;
@@ -605,7 +615,7 @@ public class CSVData : MonoSingleton<CSVData>
             rewardData.charExp = Convert.ToInt32(data[i]["char_exp"]);
             rewardData.firstRewardData = new DBRewardData();
             rewardData.firstRewardData.rewardType = GetRewardType(Convert.ToString(data[i]["first_reward_type"]));
-            if(rewardData.firstRewardData.rewardType != REWARD_TYPE.NONE)
+            if (rewardData.firstRewardData.rewardType != REWARD_TYPE.NONE)
             {
                 rewardData.firstRewardData.rewardID = Convert.ToInt32(data[i]["first_reward_id"]);
                 rewardData.firstRewardData.rewardGrade = GetGradeType(Convert.ToString(data[i]["first_reward_grade"]));
@@ -616,7 +626,7 @@ public class CSVData : MonoSingleton<CSVData>
             rewardData.rewardMaxUTG = Convert.ToInt32(data[i]["reward_utg_max"]);
             rewardData.rewardUTGString = rewardData.rewardMinUTG.ToString("N0") + " ~ " + rewardData.rewardMaxUTG.ToString("N0");
 
-            for(int count = 1; count <= 6; count++)
+            for (int count = 1; count <= 6; count++)
             {
                 DBRewardData reward = new DBRewardData();
                 reward.rewardType = GetRewardType(Convert.ToString(data[i]["reward_type_" + count]));
@@ -659,7 +669,7 @@ public class CSVData : MonoSingleton<CSVData>
 
     public REWARD_TYPE GetRewardType(string type)
     {
-        switch(type)
+        switch (type)
         {
             case "none":
                 return REWARD_TYPE.NONE;
@@ -727,7 +737,7 @@ public class CSVData : MonoSingleton<CSVData>
             servantData.id = Convert.ToInt32(data[i]["id"]);
             servantData.job = Convert.ToInt32(data[i]["job"]);
 
-            if(DBServantStatDataDic.ContainsKey((SERVANT_JOB)servantData.job) == true)
+            if (DBServantStatDataDic.ContainsKey((SERVANT_JOB)servantData.job) == true)
             {
                 DBServantStatData statData = DBServantStatDataDic[(SERVANT_JOB)servantData.job];
                 servantData.speed = statData.speed;
@@ -896,7 +906,7 @@ public class CSVData : MonoSingleton<CSVData>
     {
         for (EQUIPMENT_OPTION_TYPE i = EQUIPMENT_OPTION_TYPE.ATK; i < EQUIPMENT_OPTION_TYPE.MAX; i++)
         {
-            if(DBOptionTypeResourceDataDic.ContainsKey(i) == true)
+            if (DBOptionTypeResourceDataDic.ContainsKey(i) == true)
             {
                 Debug.Log("Invalid Key : " + i.ToString());
                 return false;
@@ -953,13 +963,13 @@ public class CSVData : MonoSingleton<CSVData>
 
     public bool SetGradeResourceData()
     {
-        for(GRADE_TYPE i = GRADE_TYPE.LEGENDARY; i <= GRADE_TYPE.COMMON; i++)
+        for (GRADE_TYPE i = GRADE_TYPE.LEGENDARY; i <= GRADE_TYPE.COMMON; i++)
         {
             DBGradeResourceData resourceData = new DBGradeResourceData();
             resourceData.gradeType = i;
             resourceData.grade = Convert.ToInt32(i);
             resourceData.gradeIcon = Resources.Load<Sprite>(string.Format("UI/Common/grade_{0}", resourceData.grade));
-        
+
             DBGradeResourceDataDic.Add(resourceData.gradeType, resourceData);
         }
         return true;
@@ -981,7 +991,7 @@ public class CSVData : MonoSingleton<CSVData>
 
             DBMonsterUpgradeData upgradeData = new DBMonsterUpgradeData();
 
-            switch(Convert.ToString(data[i]["monster_grade"]))
+            switch (Convert.ToString(data[i]["monster_grade"]))
             {
                 case "common":
                     upgradeData.grade = GRADE_TYPE.COMMON;
@@ -1003,7 +1013,7 @@ public class CSVData : MonoSingleton<CSVData>
                     return false;
             }
 
-            upgradeData.id =((int)(upgradeData.grade) * 10000) + (Convert.ToInt32(data[i]["upgrade_1"]) * 100) + Convert.ToInt32(data[i]["upgrade_2"]);
+            upgradeData.id = ((int)(upgradeData.grade) * 10000) + (Convert.ToInt32(data[i]["upgrade_1"]) * 100) + Convert.ToInt32(data[i]["upgrade_2"]);
             upgradeData.successPer = Convert.ToDouble(data[i]["success_per"]);
             upgradeData.needUTGCount = Convert.ToInt32(data[i]["upgrade_price_count"]) * 10000;
 
@@ -1044,7 +1054,7 @@ public class CSVData : MonoSingleton<CSVData>
 
             DBSkillActiveData activeData = new DBSkillActiveData();
             activeData.id = Convert.ToInt32(data[i]["id"]);
-            if(DBSkillActiveDataDic.ContainsKey(activeData.id) == true)
+            if (DBSkillActiveDataDic.ContainsKey(activeData.id) == true)
             {
                 Debug.Log("Invalid Active Skill ID : " + activeData.id);
                 return false;
@@ -1078,7 +1088,7 @@ public class CSVData : MonoSingleton<CSVData>
 
             activeData.activePer = Convert.ToDouble(data[i]["active_per"]);
 
-            switch(Convert.ToString(data[i]["skill_type"]))
+            switch (Convert.ToString(data[i]["skill_type"]))
             {
                 case "attack":
                     activeData.skillType = SKILL_TYPE.ATTACK;
@@ -1101,7 +1111,7 @@ public class CSVData : MonoSingleton<CSVData>
             activeData.attackType = (ATTACK_TYPE)Convert.ToInt32(data[i]["attack_type"]);
             activeData.damageType = (DAMAGE_TYPE)Convert.ToInt32(data[i]["dmg_type"]);
 
-            switch(Convert.ToString(data[i]["target_type"]))
+            switch (Convert.ToString(data[i]["target_type"]))
             {
                 case "enemy":
                     activeData.targetType = TARGET_TYPE.ENEMY;
@@ -1173,7 +1183,7 @@ public class CSVData : MonoSingleton<CSVData>
 
             DBSkillPassiveData passiveData = new DBSkillPassiveData();
             passiveData.id = Convert.ToInt32(data[i]["id"]);
-            if(DBSkillPassiveDataDic.ContainsKey(passiveData.id) == true)
+            if (DBSkillPassiveDataDic.ContainsKey(passiveData.id) == true)
             {
                 Debug.Log("겹치는 ID : " + passiveData.id);
                 return false;
@@ -1184,7 +1194,7 @@ public class CSVData : MonoSingleton<CSVData>
             passiveData.explain = Convert.ToString(data[i]["explain"]);
             passiveData.resourceIcon = Convert.ToString(data[i]["resource_icon"]);
             passiveData.passiveIcon = Resources.Load<Sprite>("UI/Skill/Passive/" + passiveData.resourceIcon);
-            if(passiveData.passiveIcon == null)
+            if (passiveData.passiveIcon == null)
             {
                 Debug.Log("Invalid Resource Icon : " + passiveData.resourceIcon);
                 return false;
@@ -1232,6 +1242,58 @@ public class CSVData : MonoSingleton<CSVData>
             passiveData.targetID = Convert.ToInt32(data[i]["target_id"]);
 
             DBSkillPassiveDataDic.Add(passiveData.id, passiveData);
+        }
+
+        return true;
+    }
+
+    public bool SetShopData()
+    {
+        List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_shop_ingame");
+        for (var i = 2; i < data.Count; i++)
+        {
+            Debug.Log("index " + (i).ToString()
+                + " : " + data[i]["id"]
+                + " " + data[i]["shop_type"]
+                + " " + data[i]["product_id"]
+                + " " + data[i]["product_count"]
+                + " " + data[i]["limit_max_count"]
+                + " " + data[i]["price_id"]
+                + " " + data[i]["price_count"]
+                );
+
+            DBShopData shopData = new DBShopData();
+            shopData.id = Convert.ToInt32(data[i]["id"]);
+            if(DBShopDataDic.ContainsKey(shopData.id) == true)
+            {
+                Debug.Log("아이디 겹침 : " + shopData.id);
+                return false;
+            }
+
+            switch(Convert.ToString(data[i]["shop_type"]))
+            {
+                case "UTG":
+                    shopData.type = SHOP_TYPE.UTG;
+                    break;
+                case "EOS":
+                    shopData.type = SHOP_TYPE.EOS;
+                    break;
+                case "ETC":
+                    shopData.type = SHOP_TYPE.ETC;
+                    break;
+
+                default:
+                    Debug.Log("Invalid Shop Type : " + Convert.ToString(data[i]["shop_type"]));
+                    return false;
+            }
+
+            shopData.productID = Convert.ToInt32(data[i]["product_id"]);
+            shopData.productCount = Convert.ToInt32(data[i]["product_count"]);
+            shopData.limitMaxCount = Convert.ToInt32(data[i]["limit_max_count"]);
+            shopData.priceID = Convert.ToInt32(data[i]["price_id"]);
+            shopData.priceCount = Convert.ToInt32(data[i]["price_count"]);
+
+            DBShopDataDic.Add(shopData.id, shopData);
         }
 
         return true;
@@ -1665,6 +1727,16 @@ public class CSVData : MonoSingleton<CSVData>
         }
 
         return DBSkillPassiveDataDic[id];
+    }
+
+    public DBShopData GetShopData(int id)
+    {
+        if(DBShopDataDic.ContainsKey(id) == false)
+        {
+            return null;
+        }
+
+        return DBShopDataDic[id];
     }
 
     // DB 생길때까지 임시

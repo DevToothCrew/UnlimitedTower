@@ -2,6 +2,11 @@ id,#관리,resource_icon,name,enname,#,description,tier,item_type,item_param_lis
 #,가챠 id,아이템 아이콘,아이템 이름,아이템 이름,아이템 이름,아이템 설명,티어,아이템 타입,아이템 파라미터 리스트,판매시획득재화,판매가격
 int,int,string,localize,string,string,localize,int,string,int,int,int
 500001,0,ic_utg,DB_item_name_500001,Unlimited Tower Gold,골드,,0,money,0,0,0
+500002,0,ic_eos,DB_item_name_500002,EOS,이오스,,0,money,0,0,0
+500010,0,ic_invenPlus_servant,DB_item_name_500010,Add Servant Inventory,서번트 인벤토리,,0,add_inventory,0,0,0
+500011,0,ic_invenPlus_monster,DB_item_name_500011,Add Monster Inventory,몬스터 인벤토리,,0,add_inventory,0,0,0
+500012,0,ic_invenPlus_equip,DB_item_name_500012,Add Equipment Inventory,장비 인벤토리,,0,add_inventory,0,0,0
+500013,0,ic_invenPlus_item,DB_item_name_500013,Add Item Inventory,아이템 인벤토리,,0,add_inventory,0,0,0
 500100,0,ic_upScroll_sword,DB_item_name_500100,Weapon Scroll,무기 강화 주문서,,0,upgrade_scroll,0,500001,1
 500110,0,ic_upScroll_armor,DB_item_name_500110,Armor Scroll,방어구 강화 주문서,,0,upgrade_scroll,0,500001,1
 500120,0,ic_upScroll_ac,DB_item_name_500120,Accessory Scroll,액세서리 강화 주문서,,0,upgrade_scroll,0,500001,1

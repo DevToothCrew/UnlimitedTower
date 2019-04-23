@@ -1156,13 +1156,32 @@ public class Cheat : MonoSingleton<Cheat>
         shopInfoResultData resultData = new shopInfoResultData();
         resultData.shop_type = (int)type;
 
-        shopProductData product = new shopProductData();
-        product.index = 1;
-        product.type = (int)SHOP_TYPE.EOS;
-        product.id = 500001;
-        product.limit_count = 0;
+        if (type == SHOP_TYPE.EOS)
+        {
+            for (int i = 4; i <= 7; i++)
+            {
+                shopProductData product = new shopProductData();
+                product.index = i;
+                product.type = (int)type;
+                product.id = i;
+                product.limit_count = 0;
 
-        resultData.shop_product_list.Add(product);
+                resultData.shop_product_list.Add(product);
+            }
+        }
+        else if(type == SHOP_TYPE.UTG)
+        {
+            for (int i = 1; i <= 3; i++)
+            {
+                shopProductData product = new shopProductData();
+                product.index = i;
+                product.type = (int)type;
+                product.id = i;
+                product.limit_count = 0;
+
+                resultData.shop_product_list.Add(product);
+            }
+        }
 
         PacketManager.Inst.ResponseShopInfo(resultData);
     }

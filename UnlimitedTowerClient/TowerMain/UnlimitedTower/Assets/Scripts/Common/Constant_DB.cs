@@ -377,4 +377,16 @@ public class DBSkillPassiveData
     public int targetID;
 }
 
+[Serializable]
+public class DBShopData
+{
+    public int id;
+    public SHOP_TYPE type;
+    public int productID;
+    public int productCount;
+    public int limitMaxCount;
+    public int priceID;
+    public int priceCount;
+}
+
 #endregion

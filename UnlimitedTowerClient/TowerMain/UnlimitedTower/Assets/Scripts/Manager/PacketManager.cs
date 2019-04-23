@@ -1675,11 +1675,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
         info.type = (SHOP_TYPE)getProductData.type;
         info.id = getProductData.id;
         info.limitCount = getProductData.limit_count;
-        info.limitMaxCount = 999;
-        info.productCount = 3000;
-        info.costID = 0;
-        info.costCount = 100;
-
 
         return info;
     }

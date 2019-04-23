@@ -31,4 +31,13 @@ public class ShopInfoPage : MonoSingleton<ShopInfoPage>
             shopObjects[i] = shopProductObject;
         }
     }
+
+    public void OnClickShopMenu(int type)
+    {
+#if UNITY_EDITOR
+        Cheat.Inst.RequestShopInfo( (SHOP_TYPE)type );
+#else
+                    PacketManager.Inst.RequestShopInfo(SHOP_TYPE.EOS);
+#endif
+    }
 }
