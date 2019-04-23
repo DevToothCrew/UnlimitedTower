@@ -9,9 +9,13 @@ public class ShopInfoPage : MonoSingleton<ShopInfoPage>
     public GameObject shopObjectPrefab;
     public GameObject[] shopObjects = null;
 
+    public GameObject shopBuyPopup;
+
     public void SetShopInfo(List<ShopProductInfo> getShopProductInfo)
     {
-        if(shopObjects != null)
+        shopBuyPopup.SetActive(false);
+
+        if (shopObjects != null)
         {
             for(int i = 0; i < shopObjects.Length; i++)
             {
@@ -37,7 +41,27 @@ public class ShopInfoPage : MonoSingleton<ShopInfoPage>
 #if UNITY_EDITOR
         Cheat.Inst.RequestShopInfo( (SHOP_TYPE)type );
 #else
-                    PacketManager.Inst.RequestShopInfo(SHOP_TYPE.EOS);
+        PacketManager.Inst.RequestShopInfo(SHOP_TYPE.EOS);
 #endif
+    }
+
+    public void SetShopBuyPopup(ShopProductInfo getProductInfo)
+    {
+        if(shopBuyPopup.activeSelf == true)
+        {
+            return;
+        }
+
+        if(shopBuyPopup.GetComponent<ShopBuyPopup>().SetShopBuyPopup(getProductInfo) == false)
+        {
+            return;
+        }
+
+        shopBuyPopup.SetActive(true);
+    }
+
+    public void OnClickPopupCancelButton()
+    {
+        shopBuyPopup.SetActive(false);
     }
 }

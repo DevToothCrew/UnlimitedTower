@@ -6,6 +6,7 @@ public class ShopObjectInfo : MonoBehaviour {
     private int index;
     private SHOP_TYPE shopType;
     private int id;
+    private ShopProductInfo shopProductInfo;
 
     public Text textName;
 
@@ -34,6 +35,8 @@ public class ShopObjectInfo : MonoBehaviour {
 
         imageObject.sprite = CSVData.Inst.GetItemIcon(shopData.productID); ;
         imageCost.sprite = CSVData.Inst.GetItemIcon(shopData.priceID);
+
+        shopProductInfo = getInfo;
     }
 
     public void OnClickObjectButton()
@@ -42,5 +45,7 @@ public class ShopObjectInfo : MonoBehaviour {
         Debug.Log(index);
         Debug.Log(shopType.ToString());
         Debug.Log(id);
+
+        ShopInfoPage.Inst.SetShopBuyPopup(shopProductInfo);
     }
 }

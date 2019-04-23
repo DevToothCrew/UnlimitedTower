@@ -628,16 +628,16 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 상점 아이템 구매
-    public void RequestBuyItem(int index, int itemCount)
+    public void RequestShopBuyItem(int index, int itemCount)
     {
-        Debug.Log("Request Buy Item");
+        Debug.Log("Request ShopBuy Item");
         if (index == 0 || itemCount == 0)
         {
             Debug.Log("Invalid Request");
             return;
         }
 
-        BuyItemJson buyItem = new BuyItemJson();
+        ShopBuyItemJson buyItem = new ShopBuyItemJson();
         buyItem.index = index;
         buyItem.itemCount = itemCount;
 
@@ -645,12 +645,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         Debug.Log("Json start : " + json);
 
-        Request<itemData>("BuyItem",
+        Request<shopBuyResultData>("ShopBuyItem",
                 body: json,
-                onSuccess: ResponseBuyItem,
+                onSuccess: ResponseShopBuyItem,
                 onFailed: msg =>
                 {
-                    Debug.Log($"[Failed Requesting BuyItem] {msg}");
+                    Debug.Log($"[Failed Requesting ShopBuyItem] {msg}");
                 });
     }
 
@@ -1466,17 +1466,20 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
     
     // 상점 아이템 구매
-    public void ResponseBuyItem(itemData getBuyItemData)
+    public void ResponseShopBuyItem(shopBuyResultData getBuyItemData)
     {
-        Debug.Log("소모품 구매 !");
+        Debug.Log("상점 아이템 구매 !");
 
-        UserItemData itemData = ParseItem(getBuyItemData);
-        if(itemData == null)
+        UserDataManager.Inst.SetUserEOS(Convert.ToUInt64(getBuyItemData.eos));
+        UserDataManager.Inst.SetUserUTG(Convert.ToUInt64(getBuyItemData.utg));
+
+        for (int i = 0; i < getBuyItemData.item_list.Count; i++)
         {
-            Debug.Log("Invalid getBuyItemData");
+            Debug.Log("item ID : " + getBuyItemData.item_list[i].id);
         }
 
-        UserDataManager.Inst.SetItem(itemData);
+        LobbyTopInfo.Inst.UpdateTopInfo();
+        ShopInfoPage.Inst.OnClickPopupCancelButton();
     }
 
     // 인벤토리 구매

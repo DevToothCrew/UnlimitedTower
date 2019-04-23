@@ -399,6 +399,14 @@ public class shopInfoResultData
 }
 
 [Serializable]
+public class shopBuyResultData
+{
+    public string eos;
+    public string utg;
+    public List<itemData> item_list = new List<itemData>();
+}
+
+[Serializable]
 public class shopProductData
 {
     public int index;
@@ -526,7 +534,7 @@ public class EquipmentUpgradeJson
 }
 
 [Serializable]
-public class BuyItemJson
+public class ShopBuyItemJson
 {
     public int index;
     public int itemCount;
