@@ -759,9 +759,24 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 타워 Start
-    public void RequestTowerStart()
+    public void RequestTowerStart(int floorNumber)
     {
-        throw new NotImplementedException();
+        Debug.Log("Request TowerStart");
+
+        TowerJson towerJson = new TowerJson();
+        towerJson.floor = floorNumber;
+
+        string json = JsonUtility.ToJson(towerJson);
+
+        Debug.Log("Json start : " + json);
+
+        Request<stageStateData>("TowerStart",
+                body: json,
+                onSuccess: ResponseTowerStart,
+                onFailed: msg =>
+                {
+                    Debug.Log($"[Failed Requesting PVPStart] {msg}");
+                });
     }
 
     // 타워 Exit
@@ -773,7 +788,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 타워 End
     public void RequestTowerReward()
     {
-        throw new NotImplementedException();
+        Debug.Log("Request Tower Result");
+
+        Request("TowerResult",
+        onSuccess: ResponseTowerReward,
+        onFailed: msg => { Debug.Log($"[Failed Requesting Tower Result] {msg}"); }
+        );
     }
 
     // 채팅
@@ -1606,9 +1626,18 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 타워 시작
-    public void ResponseTowerStart()
+    public void ResponseTowerStart(stageStateData getBattleStateData)
     {
+        UserDataManager.Inst.GetUserInfo().sceneState = SCENE_STATE.PVP;
 
+        UserStageStateData stageData = ParseStageStateData(getBattleStateData);
+        if (stageData == null)
+        {
+            Debug.Log("Invalid StageData");
+        }
+
+        UserDataManager.Inst.SetStageState(stageData);
+        StartCoroutine(LoadSceneAsync("CharacterBattleScene", "Now, Loading battle field ... "));
     }
 
     // 타워 나가기
@@ -1620,7 +1649,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 타워 보상
     public void ResponseTowerReward()
     {
-
+        UserDataManager.Inst.InitStageInfo();
+        SceneManager.LoadScene("Lobby");
+        Time.timeScale = 1.0f;
     }
 
     // 채팅

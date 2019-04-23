@@ -431,6 +431,12 @@ public class PVPJson
 }
 
 [Serializable]
+public class TowerJson
+{
+    public int floor;
+}
+
+[Serializable]
 public class ShopJson
 {
     public int type;
