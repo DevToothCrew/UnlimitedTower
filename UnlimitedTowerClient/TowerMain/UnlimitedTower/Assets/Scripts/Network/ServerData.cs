@@ -367,7 +367,7 @@ public class monsterUpgradeResultData
     public bool is_success;
     public monsterData main_monster_data;
     public int sub_monster_index;
-    public ulong utg;
+    public string utg;
 }
 
 [Serializable]
@@ -377,7 +377,7 @@ public class equipmentUpgradeResultData
     public equipmentData main_equipment_data;
     public int del_equipment_index;
     public List<itemData> add_item_list;
-    public ulong utg;
+    public string utg;
 }
 
 [Serializable]
