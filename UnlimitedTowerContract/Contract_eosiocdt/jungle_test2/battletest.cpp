@@ -8732,7 +8732,7 @@ ACTION battletest::stageexit(eosio::name _user)
     user_auths user_auth_table(_self, _self.value);
     auto user_auth_iter = user_auth_table.find(_user.value);
     eosio_assert(user_auth_iter != user_auth_table.end(), "Stage Exit : Empty Auth Table / Not Yet Signup");
-    eosio_assert(user_auth_iter->state == user_state::stage || user_auth_iter->state == user_state::pvp, "Stage Exit : Already End Stage");
+    eosio_assert(user_auth_iter->state == user_state::stage || user_auth_iter->state == user_state::pvp || user_auth_iter->state == user_state::tower, "Stage Exit : Already End Stage");
     user_auth_table.modify(user_auth_iter, _self, [&](auto &update_user) {
         update_user.state = user_state::lobby;
     });
