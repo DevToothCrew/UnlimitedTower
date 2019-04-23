@@ -236,5 +236,6 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
 #endif
         Time.timeScale = 1;
         BattleManager.Inst.battleFail.SetActive(false);
+        BattleManager.Inst.rewardParent.SetActive(false);
     }
 }

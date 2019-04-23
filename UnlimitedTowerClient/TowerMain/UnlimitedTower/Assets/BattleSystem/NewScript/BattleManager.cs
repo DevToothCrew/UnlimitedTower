@@ -333,7 +333,14 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         GameObject temp = GameObject.Find("StartUI");
         GameObject.Find("Player Name Text").GetComponent<Text>().text = stateData.user;
-        GameObject.Find("Enemy Name Text").GetComponent<Text>().text = stateData.enemyUser;
+        if (stateData.stageType == 0)
+        {
+            GameObject.Find("Enemy Name Text").GetComponent<Text>().text = stateData.enemyUser;
+        }
+        else
+        {
+            GameObject.Find("Enemy Name Text").GetComponent<Text>().text = "Floor : " + stateData.stageFloor;
+        }
 
         foreach (KeyValuePair<int, UserCharacterStateData> state in stateData.myStateList)
         {

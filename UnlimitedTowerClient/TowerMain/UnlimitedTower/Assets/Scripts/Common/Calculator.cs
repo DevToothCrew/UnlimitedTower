@@ -74,9 +74,9 @@ public class Calculator : MonoBehaviour {
             }
 
             battleStatus.Status[EFFECT_ID.ATK] = GetAttack(stateData.status);
-            battleStatus.Status[EFFECT_ID.MATK] = GetAttack(stateData.status);
-            battleStatus.Status[EFFECT_ID.DEF] = GetAttack(stateData.status);
-            battleStatus.Status[EFFECT_ID.MDEF] = GetAttack(stateData.status);
+            battleStatus.Status[EFFECT_ID.MATK] = GetMagicAttack(stateData.status);
+            battleStatus.Status[EFFECT_ID.DEF] = GetDefence(stateData.status);
+            battleStatus.Status[EFFECT_ID.MDEF] = GetMagicDefence(stateData.status);
 
             foreach (KeyValuePair<EQUIPMENT_TYPE, int> state in servant.equipmentDic)
             {
@@ -134,9 +134,9 @@ public class Calculator : MonoBehaviour {
             }
 
             battleStatus.Status[EFFECT_ID.ATK] = GetAttack(stateData.status);
-            battleStatus.Status[EFFECT_ID.MATK] = GetAttack(stateData.status);
-            battleStatus.Status[EFFECT_ID.DEF] = GetAttack(stateData.status);
-            battleStatus.Status[EFFECT_ID.MDEF] = GetAttack(stateData.status);
+            battleStatus.Status[EFFECT_ID.MATK] = GetMagicAttack(stateData.status);
+            battleStatus.Status[EFFECT_ID.DEF] = GetDefence(stateData.status);
+            battleStatus.Status[EFFECT_ID.MDEF] = GetMagicDefence(stateData.status);
 
             foreach (UserSkillInfo skillInfo in stateData.passiveSkillList)
             {
