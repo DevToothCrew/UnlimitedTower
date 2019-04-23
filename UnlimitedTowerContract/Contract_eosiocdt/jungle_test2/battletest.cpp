@@ -10973,7 +10973,9 @@ void battletest::towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint
                             npc_equipment.emplace(_self, [&](auto &equipment_data) {
                                 equipment_data.index = equipment_idx;
                                 equipment_data.equipment = user_equipment_iter.equipment;
+                                equipment_data.equipment.equipservantindex = servant_idx;
                             });
+                            npc_data.servant.equip_slot[temp_index] = equipment_idx;
                         }
                         else
                         {
@@ -10993,6 +10995,8 @@ void battletest::towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint
                                 equipment_data.index = equipment_idx;
                                 equipment_data.equipment = temp;
                             });
+
+                            npc_data.servant.equip_slot[temp_index] = 0;
                         }
                         equipment_idx++;
                         temp_index++;
@@ -11054,7 +11058,10 @@ void battletest::towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint
 
                             npc_equipment.modify(npc_temp_iter, _self, [&](auto &equipment_data) {
                                 equipment_data.equipment = user_equipment_iter.equipment;
+                                equipment_data.equipment.equipservantindex = servant_idx;
                             });
+
+                            npc_data.servant.equip_slot[temp_index] = equipment_idx;
                         }
                         else
                         {
@@ -11072,6 +11079,8 @@ void battletest::towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint
                             npc_equipment.modify(npc_temp_iter, _self, [&](auto &equipment_data) {
                                 equipment_data.equipment = temp;
                             });
+
+                            npc_data.servant.equip_slot[temp_index] = 0;
                         }
                         equipment_idx++;
                         temp_index++;
@@ -11153,7 +11162,7 @@ void battletest::towerlose(name loser)
 
 void battletest::get_tower_state(uint64_t _fnum, std::vector<character_state_data> &_enemy_state_list, std::vector<std::string> &_state)
 {
-    character_state_data get_state;
+    
     status_info status;
     status_info basic_status;
     uint32_t increase_hp = 0;
@@ -11163,9 +11172,10 @@ void battletest::get_tower_state(uint64_t _fnum, std::vector<character_state_dat
 
     user_equip_items npc_equipment(_self, _fnum);
     user_servants npc_servant(_self, _fnum);
-    for (uint32_t a = 1; a < 6; ++a)
+    for (uint32_t b = 1; b < 6; ++b)
     {
-        auto user_servant_iter = npc_servant.find(a);
+        character_state_data get_state;
+        auto user_servant_iter = npc_servant.find(b);
         eosio_assert(user_servant_iter != npc_servant.end(), "Tower User State : Empty Servant Index / Wrong Servant Index");
         if (user_servant_iter->party_number == 0)
         {
@@ -11258,7 +11268,7 @@ void battletest::get_tower_state(uint64_t _fnum, std::vector<character_state_dat
         get_state.grade = 5;
         get_state.index = user_servant_iter->index;
         get_state.id = user_servant_iter->servant.id;
-        get_state.position = servant_pos_list[a - 1];
+        get_state.position = servant_pos_list[b - 1];
         get_state.now_hp = get_max_hp(status) + increase_hp;
         get_state.max_hp = get_state.now_hp;
         get_state.type = character_type::t_servant;
@@ -11320,6 +11330,7 @@ void battletest::get_tower_state(uint64_t _fnum, std::vector<character_state_dat
     user_monsters npc_monster(_self, _fnum);
     for (uint32_t a = 1; a < 6; ++a)
     {
+        character_state_data get_state;
         auto user_monster_iter = npc_monster.find(a);
         eosio_assert(user_monster_iter != npc_monster.end(), "Tower User State : Empty Monster Index / Wrong Monster Index");
         if (user_monster_iter->party_number == 0)
@@ -11617,6 +11628,12 @@ ACTION battletest::deletetower()
         //     npc_equip.erase(s);
         //     ser++;
         // }
+        user_partys user_party_table(_self, fl->owner.value);
+        auto party = user_party_table.begin();
+        user_party_table.modify(party, _self, [&](auto &data)
+        {
+            data.state = party_state::on_wait;
+        });
 
         iter++;
         floor_index_table.erase(fl);
