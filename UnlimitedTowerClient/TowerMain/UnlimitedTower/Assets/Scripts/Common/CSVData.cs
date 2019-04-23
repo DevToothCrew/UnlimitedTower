@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System;
 using UnityEngine;
 using System.Linq;
@@ -1014,7 +1012,7 @@ public class CSVData : MonoSingleton<CSVData>
             }
 
             upgradeData.id = ((int)(upgradeData.grade) * 10000) + (Convert.ToInt32(data[i]["upgrade_1"]) * 100) + Convert.ToInt32(data[i]["upgrade_2"]);
-            upgradeData.successPer = Convert.ToDouble(data[i]["success_per"]);
+            upgradeData.successPer = Convert.ToDouble(data[i]["success_per"]) / 100;
             upgradeData.needUTGCount = Convert.ToInt32(data[i]["upgrade_price_count"]) * 10000;
 
             DBMonsterUpgradeDataDic.Add(upgradeData.id, upgradeData);

@@ -215,6 +215,18 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         }
     }
 
+    public void DelMailCount(int count)
+    {
+        if(userLobbyInfo.mailCount - count <= 0)
+        {
+            userLobbyInfo.mailCount = 0;
+        }
+        else
+        {
+            userLobbyInfo.mailCount -= count;
+        }
+    }
+
     public void SetServantExp(int index, int getExp, int getLvup)
     {
         if (servantDic.ContainsKey(index) == false)

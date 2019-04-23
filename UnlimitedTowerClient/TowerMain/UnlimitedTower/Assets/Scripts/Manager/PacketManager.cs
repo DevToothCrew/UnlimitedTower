@@ -1540,7 +1540,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             return;
         }
 
-        if(getMailOpenResultData.mail_open_index_list == null || getMailOpenResultData.mail_open_index_list.Count == 0)
+        if (getMailOpenResultData.mail_open_index_list == null || getMailOpenResultData.mail_open_index_list.Count == 0)
         {
             Debug.Log("Invalid Result Index");
             return;
@@ -1551,7 +1551,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
             {
                 // 인덱스 삭제
                 Debug.Log("Index : " + getMailOpenResultData.mail_open_index_list[i]);
+
+                MailInfoPage.Inst.DelMail(getMailOpenResultData.mail_open_index_list[i]);
             }
+
+            UserDataManager.Inst.DelMailCount(getMailOpenResultData.mail_open_index_list.Count);
         }
 
         if (getMailOpenResultData.servant_data_list != null && getMailOpenResultData.servant_data_list.Count > 0)
@@ -1559,6 +1563,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
             for (int i = 0; i < getMailOpenResultData.servant_data_list.Count; i++)
             {
                 Debug.Log("Servant : " + getMailOpenResultData.servant_data_list[i].servant.id);
+
+                UserServantData getServant = ParseServant(getMailOpenResultData.servant_data_list[i]);
+
+                UserDataManager.Inst.AddServantData(getServant);
             }
         }
 
@@ -1567,6 +1575,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
             for (int i = 0; i < getMailOpenResultData.monster_data_list.Count; i++)
             {
                 Debug.Log("Monster : " + getMailOpenResultData.monster_data_list[i].monster.id);
+
+                UserMonsterData getMonster = ParseMonster(getMailOpenResultData.monster_data_list[i]);
+
+                UserDataManager.Inst.AddMonsterData(getMonster);
             }
         }
 
@@ -1575,6 +1587,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
             for (int i = 0; i < getMailOpenResultData.equip_data_list.Count; i++)
             {
                 Debug.Log("Equipment : " + getMailOpenResultData.equip_data_list[i].equipment.id);
+
+                UserEquipmentData getEquipment = ParseEquipment(getMailOpenResultData.equip_data_list[i]);
+
+                UserDataManager.Inst.AddEquipmentData(getEquipment);
             }
         }
 
@@ -1586,6 +1602,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             }
         }
 
+        MailInfoPage.Inst.RefreshMailList();
     }
 
     // 타워 시작
