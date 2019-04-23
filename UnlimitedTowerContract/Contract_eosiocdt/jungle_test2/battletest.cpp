@@ -10852,11 +10852,11 @@ ACTION battletest::claim(name who, uint64_t fnum)
 void battletest::towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint64_t bnum)
 {
     floor_index floortable(_self, _self.value);
-    const auto &f_iter = floortable.get(fnum, "Floor info does not exist");
+    auto f_iter = floortable.find(fnum);
 
-    eosio_assert(f_iter.bnum == bnum, "Another user has already conquered.");
+    eosio_assert(f_iter->bnum == bnum, "Another user has already conquered.");
 
-    if (f_iter.owner == _self)
+    if (f_iter->owner == _self)
     {
         // 비어있는걸 차지한 경우
         uint64_t temp = 0;
@@ -10865,10 +10865,10 @@ void battletest::towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint
     else
     {
         // 도전해서 이긴 경우
-        settower(f_iter.owner, winner, f_iter.pnum, pnum);
+        settower(f_iter->owner, winner, f_iter->pnum, pnum);
     }
     // 층이 이미 정복된 경우에는 사용자 정보만 변경
-    if (f_iter.state == "end")
+    if (f_iter->state == "end")
     {
         user_logs user_log(_self, _self.value);
         auto iter = user_log.find(winner.value);
@@ -11116,7 +11116,7 @@ void battletest::towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint
             {
                 if (*iter == 0)
                 {
-                    auto temp_monster_iter = user_monster.find(monster_idx);
+                    auto temp_monster_iter = npc_monster.find(monster_idx);
                     npc_monster.modify(temp_monster_iter, _self, [&](auto &npc_data) {
                         npc_data.party_number = 0;
                     });
@@ -11125,7 +11125,9 @@ void battletest::towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint
                 }
                 auto user_monster_iter = user_monster.find(*iter);
 
-                npc_monster.modify(user_monster_iter, _self, [&](auto &npc_data) {
+                auto npc_monster_iter = npc_monster.find(monster_idx);
+
+                npc_monster.modify(npc_monster_iter, _self, [&](auto &npc_data) {
                     npc_data.index = monster_idx;
                     npc_data.party_number = fnum;
                     npc_data.monster = user_monster_iter->monster;
