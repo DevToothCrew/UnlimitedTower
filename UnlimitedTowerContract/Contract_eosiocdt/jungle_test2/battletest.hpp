@@ -959,7 +959,7 @@ CONTRACT battletest : public contract
     {
         uint64_t mail_index = 0;
         uint64_t mail_type; //서번트1, 몬스터2, 아이템 3, 재화 4
-        uint64_t type_id;   //프리에선 고유 인덱스 , nft는 토큰 인덱스
+        uint64_t type_index;   //프리에선 고유 인덱스 , nft는 토큰 인덱스
         uint64_t count;
         uint64_t icon_id;   //pool에 있는 db_index 
 
