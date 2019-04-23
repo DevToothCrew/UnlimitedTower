@@ -1919,5 +1919,7 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
     void towerlose(eosio::name loser);
     void get_tower_state(uint64_t _fnum, std::vector<character_state_data> &_enemy_state_list, std::vector<std::string> &_state);
     ACTION towerstart(eosio::name _from, uint64_t _fnum);
+
+    ACTION deletetower();
 #pragma endregion
 };
