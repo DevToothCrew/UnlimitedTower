@@ -209,7 +209,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
             case SORT_TYPE.GRADE:
                 for (int i = 0; i < total_list_num - 1; i++)
                 {
-                    for (int j = i + 1; j < total_list_num; j++)
+                    for (int j = i + 1; j > total_list_num; j++)
                     {
                         if (EquipmentList[i].grade < EquipmentList[j].grade)
                         {
