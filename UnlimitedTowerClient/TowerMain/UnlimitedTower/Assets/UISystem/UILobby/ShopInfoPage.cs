@@ -41,7 +41,7 @@ public class ShopInfoPage : MonoSingleton<ShopInfoPage>
 #if UNITY_EDITOR
         Cheat.Inst.RequestShopInfo( (SHOP_TYPE)type );
 #else
-        PacketManager.Inst.RequestShopInfo(SHOP_TYPE.EOS);
+        PacketManager.Inst.RequestShopInfo((SHOP_TYPE)type);
 #endif
     }
 
