@@ -120,6 +120,11 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
 
     public void updateSelectedUnitInfo()
     {
+        if (selected_unit_idx < 0)
+        {
+            return;
+        }
+
         if (LobbyManager.Inst.popupState == POPUP_STATE.Servant)
         {
             bool none_subview = true;
@@ -239,6 +244,16 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     public void SetItemOrder(int[] _data_order)
     {
         total_item_num = _data_order.Length;
+
+        if (total_item_num <= 0)
+        {
+            scrollRect.vertical = false;
+        }
+        else
+        {
+            scrollRect.vertical = true;
+        }
+
         if (_data_order != null)
         {
             data_order = _data_order;
@@ -375,7 +390,7 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
                     break;
             }
 
-            DrawScrollView();
+            //DrawScrollView();
         }
         else if (start_main_idx > 0 && delta < start_main_idx)
         {
@@ -389,7 +404,7 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
                     break;
             }
 
-            DrawScrollView();
+            //DrawScrollView();
         }
 
 

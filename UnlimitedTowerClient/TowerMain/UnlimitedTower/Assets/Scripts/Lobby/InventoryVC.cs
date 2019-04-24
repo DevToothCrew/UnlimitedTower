@@ -112,7 +112,7 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
 
     }
 
-    void Awake()
+    void Start()
     {
         initScrollList();
         OnClickMenuButton(0);

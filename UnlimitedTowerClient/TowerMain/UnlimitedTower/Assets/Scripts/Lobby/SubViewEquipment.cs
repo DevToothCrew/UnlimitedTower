@@ -92,7 +92,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
     private SORT_TYPE sort_type;
     
 
-    void Awake () {
+    void Start() {
         partyInfo = PartyInfoVC.Inst;
         initScrollList();
         updateAllView();
