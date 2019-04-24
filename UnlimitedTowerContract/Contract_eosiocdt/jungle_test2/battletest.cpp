@@ -4742,7 +4742,7 @@ void battletest::gacha_monster_id(eosio::name _user, uint64_t _seed)
     monster_random_count += 1;
     uint64_t random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, DEFAULT_MIN, monster_random_count);
     uint64_t random_grade = get_random_grade(random_rate);
-    set_log_data(data, "monster_grade", _seed);
+    set_log_data(data, "monster_grade", _seed >> (2 * monster_random_count));
 
     monster_grade_db monster_grade_db_table(_self, _self.value);
     const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "Gacha Monster : Empty Grade");
@@ -4927,7 +4927,7 @@ void battletest::gacha_equipment_id(eosio::name _user, uint64_t _seed)
     item_random_count += 1;
     uint64_t random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, DEFAULT_MIN, item_random_count);
     uint64_t random_grade = get_random_grade(random_rate);
-    set_log_data(data, "equipment_grade", _seed);
+    set_log_data(data, "equipment_grade", _seed >> (2 * item_random_count));
 
     item_grade_db item_grade_db_table(_self, _self.value);
     const auto &item_grade_db_iter = item_grade_db_table.get(random_grade, "Gacha Equipment : Empty Grade / Not Set Grade");
