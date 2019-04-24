@@ -909,7 +909,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
         UserDataManager.Inst.SetPartyInfo(partyInfo);
 
-        if (userInfo.sceneState == SCENE_STATE.StageBattle || userInfo.sceneState == SCENE_STATE.PVP)
+        if (userInfo.sceneState == SCENE_STATE.StageBattle || userInfo.sceneState == SCENE_STATE.PVP || userInfo.sceneState == SCENE_STATE.TowerBattle)
         {
             Request<stageStateData>("GetBattle",
                     onSuccess: ResponseStageStart,
