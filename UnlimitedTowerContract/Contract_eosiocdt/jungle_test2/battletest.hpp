@@ -1268,9 +1268,14 @@ TABLE tshoplist
     //------------------------------------------------------------------------//
 #pragma region item system
 
-    ACTION servantburn(eosio::name _user, const std::vector<uint64_t> &_servant_list);
-    ACTION monsterburn(eosio::name _user, const std::vector<uint64_t> &_monster_list);
-    ACTION equipburn(eosio::name _user, const std::vector<uint64_t> &_equipment_list);
+    ACTION burn(eosio::name _user, uint64_t _type, const std::vector<uint64_t> &_list);
+    void servantburn(eosio::name _user, const std::vector<uint64_t> &_list);
+    void monsterburn(eosio::name _user, const std::vector<uint64_t> &_list);
+    void equipburn(eosio::name _user, const std::vector<uint64_t> &_list);
+
+    //ACTION servantburn(eosio::name _user, const std::vector<uint64_t> &_servant_list);
+    //ACTION monsterburn(eosio::name _user, const std::vector<uint64_t> &_monster_list);
+   //ACTION equipburn(eosio::name _user, const std::vector<uint64_t> &_equipment_list);
     ACTION itemburn(eosio::name _user, const std::vector<uint64_t> &_item_list, const std::vector<uint64_t> &_count_list);
 
     ACTION equip(eosio::name _user, uint32_t _servant_index, uint32_t _item_index);
