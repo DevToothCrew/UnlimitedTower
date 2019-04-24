@@ -26,89 +26,28 @@ CONTRACT battletest : public contract
         owner_auth.permission = "owner"_n;
     }
 #pragma endregion
-    enum grade_list
-    {
-        ser = 0,
-        legenary = 1,
-        unique,
-        rare,
-        uncommon,
-        common = 5,
-    };
-    enum status_grade_list
-    {
-        common_d = 0,
-        plus_d,
-        common_c,
-        plus_c,
-        common_b,
-        plus_b,
-        common_a,
-        plus_a,
-        common_s,
-        plus_s = 9,
-    };
-    enum monster_main_status
-    {
-        main_str = 1,
-        main_dex = 2,
-        main_int = 3,
-    };
-
-    std::vector<uint32_t> servant_status_list = {30, 32, 35, 38, 41, 44, 47, 50, 55, 60};
-
-    std::vector<uint32_t> monster_common_status_list = {30, 33, 36, 39, 43, 46, 50, 53, 57, 60};
-    std::vector<uint32_t> monster_uncommon_status_list = {35, 38, 42, 46, 50, 54, 58, 62, 66, 70};
-    std::vector<uint32_t> monster_rare_status_list = {45, 50, 55, 60, 65, 70, 75, 80, 85, 90};
-    std::vector<uint32_t> monster_unique_status_list = {55, 62, 68, 74, 80, 86, 92, 98, 104, 110};
-    std::vector<uint32_t> monster_legendary_status_list = {75, 82, 90, 98, 106, 114, 124, 132, 142, 150};
-
-    std::vector<uint32_t> warrior_level_up = {9, 4, 2};
-    std::vector<uint32_t> thief_level_up = {4, 9, 2};
-    std::vector<uint32_t> cleric_level_up = {5, 3, 7};
-    std::vector<uint32_t> archer_level_up = {4, 7, 4};
-    std::vector<uint32_t> magician_level_up = {3, 3, 9};
-
-    std::vector<uint32_t> common_str = {6, 2, 2};
-    std::vector<uint32_t> common_dex = {2, 6, 2};
-    std::vector<uint32_t> common_int = {2, 2, 6};
-
-    std::vector<uint32_t> uncommon_str = {9, 3, 3};
-    std::vector<uint32_t> uncommon_dex = {3, 9, 3};
-    std::vector<uint32_t> uncommon_int = {3, 3, 9};
-
-    std::vector<uint32_t> rare_str = {12, 5, 5};
-    std::vector<uint32_t> rare_dex = {5, 12, 5};
-    std::vector<uint32_t> rare_int = {5, 5, 12};
-
-    std::vector<uint32_t> unique_str = {15, 7, 7};
-    std::vector<uint32_t> unique_dex = {7, 15, 7};
-    std::vector<uint32_t> unique_int = {7, 7, 15};
-
-    std::vector<uint32_t> legenary_str = {24, 9, 9};
-    std::vector<uint32_t> legenary_dex = {9, 24, 9};
-    std::vector<uint32_t> legenary_int = {9, 9, 24};
 
     std::vector<uint32_t> item_in = {1,2,4,8,16,32,64,128};
     std::vector<uint32_t> level_in = {0,1,2,4,8,16,32,64};
 
-    std::vector<uint32_t> equipment_wepon_common_status_list = {22, 24, 26, 28, 30, 32, 34, 36, 38, 40};
-    std::vector<uint32_t> equipment_wepon_uncommon_status_list = {33, 36, 39, 42, 45, 48, 51, 54, 57, 60};
-    std::vector<uint32_t> equipment_wepon_rare_status_list = {44, 48, 52, 56, 60, 64, 68, 72, 76, 80};
-    std::vector<uint32_t> equipment_wepon_unique_status_list = {55, 60, 65, 70, 75, 80, 85, 90, 95, 100};
-    std::vector<uint32_t> equipment_wepon_legendary_status_list = {66, 72, 78, 84, 90, 96, 102, 108, 114, 120};
+#pragma region seed check
+    struct seed_info
+    {
+        std::string type;
+        uint64_t seed;
+    };
 
-    std::vector<uint32_t> equipment_armor_common_status_list = {19, 20, 21, 22, 24, 26, 28, 30, 32, 34};
-    std::vector<uint32_t> equipment_armor_uncommon_status_list = {28, 30, 32, 33, 36, 39, 42, 45, 48, 51};
-    std::vector<uint32_t> equipment_armor_rare_status_list = {38, 40, 42, 44, 48, 52, 56, 60, 64, 68};
-    std::vector<uint32_t> equipment_armor_unique_status_list = {47, 49, 52, 55, 60, 65, 70, 75, 80, 85};
-    std::vector<uint32_t> equipment_armor_legendary_status_list = {57, 60, 63, 66, 72, 78, 84, 90, 96, 102};
+    TABLE tcheck
+    {
+        uint64_t index;
+        std::vector<seed_info> value;
+        uint64_t primary_key() const { return index; }
+    };
+    typedef eosio::multi_index<"tcheck"_n, tcheck> seed_log;
+    void set_seed_log(const std::vector<seed_info> _data);
+    void set_log_data(std::vector<seed_info> &_data, std::string _type, uint64_t _seed);
+#pragma endregion
 
-    std::vector<uint32_t> equipment_ac_common_status_list = {11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
-    std::vector<uint32_t> equipment_ac_uncommon_status_list = {16, 17, 18, 19, 20, 22, 24, 26, 28, 30};
-    std::vector<uint32_t> equipment_ac_rare_status_list = {22, 24, 26, 28, 30, 32, 34, 36, 38, 40};
-    std::vector<uint32_t> equipment_ac_unique_status_list = {27, 29, 31, 33, 35, 38, 41, 44, 47, 50};
-    std::vector<uint32_t> equipment_ac_legendary_status_list = {33, 36, 39, 42, 45, 48, 51, 54, 57, 60};
 
     //------------------------------------------------------------------------//
     //-----------------------------db_table-----------------------------------//
@@ -347,14 +286,6 @@ CONTRACT battletest : public contract
     };
     typedef eosio::multi_index<"dbmonsters"_n, dbmonster> monster_db;
 
-    TABLE startmonster
-    {
-        uint64_t id;
-        uint64_t type;
-        uint64_t main_status;
-        uint64_t primary_key() const { return id; }     
-    };
-    typedef eosio::multi_index<"startmonster"_n, startmonster> start_monster;
 #pragma endregion
 
 #pragma region db dbitemcommon
@@ -1217,13 +1148,13 @@ CONTRACT battletest : public contract
     ACTION setpause(uint64_t _state);
     void system_check(eosio::name _user);
     ACTION resultgacha(eosio::name _who, std::string _type, std::string _result);
-    ACTION resultpre(eosio::name _from, eosio::name _to, std::string _result);
+    //ACTION resultpre(eosio::name _from, eosio::name _to, std::string _result);
     ACTION resultparty(eosio::name _who, std::string _party_info, std::string _servant_list, std::string _monster_list);
 	ACTION battlestate(eosio::name _who, std::string _stage_info ,std::vector<std::string> &_my_state_list, std::vector<std::string> &_enemy_state_list);
     ACTION battleaction(eosio::name _who, std::string _turn, std::vector<std::string> &_action_data);
-    ACTION battleresult(eosio::name _who, std::vector<std::string> &_reward);
-    ACTION contents(eosio::name _who, std::string _type, std::string _result);
-    ACTION contentslist(eosio::name _who, std::string _type, std::string _list);
+    //ACTION battleresult(eosio::name _who, std::vector<std::string> &_reward);
+    //ACTION contents(eosio::name _who, std::string _type, std::string _result);
+    //ACTION contentslist(eosio::name _who, std::string _type, std::string _list);
     //------------------------------------------------------------------------//
     //-------------------------------party_table------------------------------//
     //------------------------------------------------------------------------//
@@ -1351,18 +1282,6 @@ CONTRACT battletest : public contract
         status_dex,
         status_int,
     };
-  
-    enum active_name
-    {
-        active_defense = 200001,
-        active_bash,
-        active_fast_attack,
-        active_critical_strike,
-        active_heal,
-        active_magic_strike,
-        active_multi_shot,
-        active_guided_arrow,
-    };
 
     enum monster_type
     {
@@ -1372,27 +1291,6 @@ CONTRACT battletest : public contract
         wind,
         light,
         dark,
-    };
-
-  enum servant_job
-    {
-        job_warrior = 1,
-        job_theif,
-        job_cleric,
-        job_archer,
-    };
-
-    enum monster_class
-    {
-        class_fighter = 1,
-        class_knight,
-        class_priest,
-        class_assassin,
-        class_hunter,
-        class_mage,
-        class_warlock,
-        class_druid,
-        class_shaman,
     };
 
     enum stage_state
