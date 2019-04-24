@@ -10351,25 +10351,25 @@ void battletest::inventory_buy(eosio::name _user, uint32_t _type)
     auto user_auth_iter = user_auth_table.find(_user.value);
     uint64_t plus_inventory = 5;
 
-        if (_type == 2001) //서번트 인벤토리
+        if (_type == 4) //서번트 인벤토리
         {
             user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
                 change_auth_user.servant_inventory += plus_inventory;
             });
         }
-        else if (_type == 2002) //몬스터 인벤토리
+        else if (_type == 5) //몬스터 인벤토리
         {
             user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
                 change_auth_user.monster_inventory += plus_inventory;
             });
         }
-        else if (_type == 2003) //장비 인벤토리
+        else if (_type == 6) //장비 인벤토리
         {
             user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
                 change_auth_user.equipment_inventory += plus_inventory;
             });
         }
-        else if (_type == 2004) //소모품 인벤토리
+        else if (_type == 7) //소모품 인벤토리
         {
             user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
                 change_auth_user.item_inventory += plus_inventory;
