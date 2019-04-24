@@ -120,8 +120,9 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
 
     public void updateSelectedUnitInfo()
     {
-        if (selected_unit_idx < 0)
+        if (selected_unit_idx < 0 || selected_unit_idx >= total_item_num)
         {
+            Debug.Log("Invalid select_unit_idx by scrollmove select");
             return;
         }
 
