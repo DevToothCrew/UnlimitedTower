@@ -4,29 +4,29 @@ using System;
 
 public class Calculator : MonoBehaviour {
 
-    public static int GetMaxHp(Status status)
+    public static int GetMaxHp(Status status, int level = 1)
     {
-        return ((status.basicStr) * 14) + ((status.basicDex) * 5) + ((status.basicInt) * 3);
+        return (int)((status.basicStr * 24) * (level / 50.0f));
     }
 
-    public static int GetAttack(Status status)
+    public static int GetAttack(Status status, int level = 1)
     {
-        return (int)((status.basicStr + status.basicDex) * 2.2f);
+        return (int)(((status.basicStr + status.basicDex) * 2.2f) * (level / 50.0f));
     }
 
-    public static int GetMagicAttack(Status status)
+    public static int GetMagicAttack(Status status, int level = 1)
     {
-        return status.basicInt * 3;
+        return (int)((status.basicInt * 3) * (level / 50.0f));
     }
 
-    public static int GetDefence(Status status)
+    public static int GetDefence(Status status, int level = 1)
     {
-        return (int)(status.basicDex * 1.3f);
+        return (int)((status.basicDex * 1.3f) * (level / 50.0f));
     }
 
-    public static int GetMagicDefence(Status status)
+    public static int GetMagicDefence(Status status, int level = 1)
     {
-        return (int)(status.basicInt * 1.3f);
+        return (int)((status.basicInt * 1.3f) * (level / 50.0f));
     }
 
     public static BattleStatus GetBattleStatus(UserCharacterStateData stateData)
@@ -73,10 +73,10 @@ public class Calculator : MonoBehaviour {
                     battleStatus.Status[passive.effectID] += passive.effectAdd;
             }
 
-            battleStatus.Status[EFFECT_ID.ATK] = GetAttack(stateData.status);
-            battleStatus.Status[EFFECT_ID.MATK] = GetMagicAttack(stateData.status);
-            battleStatus.Status[EFFECT_ID.DEF] = GetDefence(stateData.status);
-            battleStatus.Status[EFFECT_ID.MDEF] = GetMagicDefence(stateData.status);
+            battleStatus.Status[EFFECT_ID.ATK] = GetAttack(stateData.status, stateData.level);
+            battleStatus.Status[EFFECT_ID.MATK] = GetMagicAttack(stateData.status, stateData.level);
+            battleStatus.Status[EFFECT_ID.DEF] = GetDefence(stateData.status, stateData.level);
+            battleStatus.Status[EFFECT_ID.MDEF] = GetMagicDefence(stateData.status, stateData.level);
 
             foreach (KeyValuePair<EQUIPMENT_TYPE, int> state in servant.equipmentDic)
             {
@@ -133,10 +133,10 @@ public class Calculator : MonoBehaviour {
                     battleStatus.Status[passive.effectID] += passive.effectAdd;
             }
 
-            battleStatus.Status[EFFECT_ID.ATK] = GetAttack(stateData.status);
-            battleStatus.Status[EFFECT_ID.MATK] = GetMagicAttack(stateData.status);
-            battleStatus.Status[EFFECT_ID.DEF] = GetDefence(stateData.status);
-            battleStatus.Status[EFFECT_ID.MDEF] = GetMagicDefence(stateData.status);
+            battleStatus.Status[EFFECT_ID.ATK] = GetAttack(stateData.status, stateData.level);
+            battleStatus.Status[EFFECT_ID.MATK] = GetMagicAttack(stateData.status, stateData.level);
+            battleStatus.Status[EFFECT_ID.DEF] = GetDefence(stateData.status, stateData.level);
+            battleStatus.Status[EFFECT_ID.MDEF] = GetMagicDefence(stateData.status, stateData.level);
 
             foreach (UserSkillInfo skillInfo in stateData.passiveSkillList)
             {
