@@ -123,26 +123,26 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
             DBServantData dbServantData = CSVData.Inst.GetServantData(servantData.id);
 
             // 장착 가능 레벨 검사
-            bool enable_equip_level = false;
+            bool enable_equip_level = true;
             if (dbEquipmentData.tier == 2)
             {
-                if (servantData.level > 10)
+                if (servantData.level <= 10)
                 {
-                    enable_equip_level = true;
+                    enable_equip_level = false;
                 }
             }
             else if (dbEquipmentData.tier == 3)
             {
-                if (servantData.level > 20)
+                if (servantData.level <= 20)
                 {
-                    enable_equip_level = true;
+                    enable_equip_level = false;
                 }
             }
             else if (dbEquipmentData.tier == 4)
             {
-                if (servantData.level > 30)
+                if (servantData.level <= 30)
                 {
-                    enable_equip_level = true;
+                    enable_equip_level = false;
                 }
             }
 
@@ -166,12 +166,23 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         scrollList.Init(this, 20, EquipmentList.Count, getOrder());
     }
 
+    public void ResetScrollDataByChangeSetData()
+    {
+        setData();
+        ResetScrollListBySortType(sort_type);
+    }
+
     public void ResetScrollListBySortType(SORT_TYPE type)
     {
         sort_type = type;
         scrollList.SetItemOrder(getOrder());
         scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
         scrollList.ScrollViewDidScroll();
+    }
+    
+    public SORT_TYPE GetSortType()
+    {
+        return sort_type;
     }
 
 

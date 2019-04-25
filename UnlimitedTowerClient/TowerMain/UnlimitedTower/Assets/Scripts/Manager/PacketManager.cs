@@ -1352,6 +1352,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         if (SubViewEquipment.Inst != null)
         {
             SubViewEquipment.Inst.UpdateViewChangeEquipment();
+            SubViewEquipment.Inst.ResetScrollDataByChangeSetData();
             if (PartyInfoVC.Inst != null)
             {
                 PartyInfoVC.Inst.updateDetailInfo(PartyInfoVC.Inst.selected_unit_idx);
@@ -1392,6 +1393,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         if (SubViewEquipment.Inst != null)
         {
             SubViewEquipment.Inst.UpdateViewChangeEquipment();
+            SubViewEquipment.Inst.ResetScrollDataByChangeSetData();
             if (PartyInfoVC.Inst != null)
             {
                 PartyInfoVC.Inst.updateDetailInfo(PartyInfoVC.Inst.selected_unit_idx);
