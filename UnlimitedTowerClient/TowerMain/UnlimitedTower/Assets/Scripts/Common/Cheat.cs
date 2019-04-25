@@ -357,8 +357,8 @@ public class Cheat : MonoSingleton<Cheat>
                 newMember.status.basic_str = servantData.status.basicStr;
                 newMember.status.basic_dex = servantData.status.basicDex;
                 newMember.status.basic_int = servantData.status.basicInt;
-                newMember.now_hp = Calculator.GetMaxHp(servantData.status);
-                newMember.max_hp = Calculator.GetMaxHp(servantData.status);
+                newMember.now_hp = Calculator.GetMaxHp(servantData.status, newMember.level);
+                newMember.max_hp = Calculator.GetMaxHp(servantData.status, newMember.level);
             }
             else
             {
@@ -373,12 +373,13 @@ public class Cheat : MonoSingleton<Cheat>
                 newMember.id = monsterData.id;
                 newMember.type = 2;
                 newMember.upgrade = monsterData.upgrade;
+                newMember.level = 5;
 
                 newMember.status.basic_str = monsterData.status.basicStr;
                 newMember.status.basic_dex = monsterData.status.basicDex;
                 newMember.status.basic_int = monsterData.status.basicInt;
-                newMember.now_hp = Calculator.GetMaxHp(monsterData.status);
-                newMember.max_hp = Calculator.GetMaxHp(monsterData.status);
+                newMember.now_hp = Calculator.GetMaxHp(monsterData.status, newMember.level);
+                newMember.max_hp = Calculator.GetMaxHp(monsterData.status, newMember.level);
             }
 
             battlestatedata.my_state_list.Add(newMember);

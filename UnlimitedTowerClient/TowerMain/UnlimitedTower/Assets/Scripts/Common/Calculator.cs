@@ -6,27 +6,27 @@ public class Calculator : MonoBehaviour {
 
     public static int GetMaxHp(Status status, int level = 1)
     {
-        return (int)((status.basicStr * 24) * (level / 50.0f));
+        return (int)((status.basicStr * 24) * level);
     }
 
     public static int GetAttack(Status status, int level = 1)
     {
-        return (int)(((status.basicStr + status.basicDex) * 2.2f) * (level / 50.0f));
+        return (int)(((status.basicStr + status.basicDex) * 2.2f) * level);
     }
 
     public static int GetMagicAttack(Status status, int level = 1)
     {
-        return (int)((status.basicInt * 3) * (level / 50.0f));
+        return (int)((status.basicInt * 3) * level);
     }
 
     public static int GetDefence(Status status, int level = 1)
     {
-        return (int)((status.basicDex * 1.3f) * (level / 50.0f));
+        return (int)((status.basicDex * 1.3f) * level);
     }
 
     public static int GetMagicDefence(Status status, int level = 1)
     {
-        return (int)((status.basicInt * 1.3f) * (level / 50.0f));
+        return (int)((status.basicInt * 1.3f) * level);
     }
 
     public static BattleStatus GetBattleStatus(UserCharacterStateData stateData)
