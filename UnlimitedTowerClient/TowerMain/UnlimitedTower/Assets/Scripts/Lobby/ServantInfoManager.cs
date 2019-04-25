@@ -141,8 +141,25 @@ public class ServantInfoManager : MonoSingleton<ServantInfoManager> {
         textMCri.text = string.Format("{0}", db_unit_data.mcriDmg);
         textMCriPer.text = string.Format("{0}", db_unit_data.mcriPer);
 
-        //imageActive.sprite = CSVData.Inst.GetSkillActiveData();
-        //imagePassive.sprite = CSVData.Inst.GetSkillPassiveData();
+        if (unit_data.activeSkillList.Count > 0)
+        {
+            imageActive.gameObject.SetActive(true);
+            imageActive.sprite = CSVData.Inst.GetSkillActiveData(unit_data.activeSkillList[0].id).activeIcon;
+        }
+        else
+        {
+            imageActive.gameObject.SetActive(false);
+        }
+
+        if (unit_data.passiveSkillList.Count > 0)
+        {
+            imagePassive.gameObject.SetActive(true);
+            imagePassive.sprite = CSVData.Inst.GetSkillPassiveData(unit_data.passiveSkillList[0].id).passiveIcon;
+        }
+        else
+        {
+            imagePassive.gameObject.SetActive(false);
+        }
 
     }
 
