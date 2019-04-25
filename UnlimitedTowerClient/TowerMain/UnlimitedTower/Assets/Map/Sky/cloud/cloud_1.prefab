@@ -96,4 +96,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: {x: -0.03, y: 0, z: 0}
   isRealTime: 1
-  destroyTime: 20
+  destroyTime: 30

@@ -150,15 +150,45 @@ public class SelectManager : MonoBehaviour
 
                         if (selectIndex < 5)
                         {
-                            levelText.text = UserDataManager.Inst.GetServantInfo(UserDataManager.Inst.GetStageState().myStateList[selectIndex].index).level.ToString();
+                            levelText.text = selectStateInfo.level.ToString();
+
+                            if (UserDataManager.Inst.GetStageState().mySynergyList.Count > 0)
+                            {
+                                foreach (UserSkillInfo skill in UserDataManager.Inst.GetStageState().mySynergyList)
+                                {
+                                    Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = CSVData.Inst.GetSkillPassiveData(skill.id).passiveIcon;
+                                }
+                            }
                         }
                         else if (selectIndex < 10)
                         {
-                            levelText.text = UserDataManager.Inst.GetMonsterInfo(UserDataManager.Inst.GetStageState().myStateList[selectIndex].index).level.ToString();
+                            levelText.text = selectStateInfo.level.ToString();
+
+                            if (UserDataManager.Inst.GetStageState().mySynergyList.Count > 0)
+                            {
+                                foreach (UserSkillInfo skill in UserDataManager.Inst.GetStageState().mySynergyList)
+                                {
+                                    Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = CSVData.Inst.GetSkillPassiveData(skill.id).passiveIcon;
+                                }
+                            }
                         }
                         else
                         {
-                            levelText.text = "?";
+                            if (BattleManager.Inst.adminMode)
+                            {
+                                levelText.text = selectStateInfo.level.ToString();
+                            }
+                            else
+                            {
+                                levelText.text = "?";
+                            }
+                            if (UserDataManager.Inst.GetStageState().enemySynergyList.Count > 0)
+                            {
+                                foreach (UserSkillInfo skill in UserDataManager.Inst.GetStageState().enemySynergyList)
+                                {
+                                    Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = CSVData.Inst.GetSkillPassiveData(skill.id).passiveIcon;
+                                }
+                            }
                         }
 
                         if (selectIndex < 10 || BattleManager.Inst.adminMode == true)
