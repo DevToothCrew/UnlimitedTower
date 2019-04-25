@@ -249,18 +249,57 @@ public class Status
 public class BattleStatus
 {
     public Dictionary<EFFECT_ID, int> Status = new Dictionary<EFFECT_ID, int>();
+    public List<int> buff = new List<int>();
     public int NowHp;
 
     public BattleStatus(UserCharacterStateData data)
     {
+        if (data.charType == CHAR_TYPE.SERVANT)
+        {
+            if (data.job == 1) // 워리어
+            {
+                Status.Add(EFFECT_ID.STR, data.status.basicStr + (data.level - 1) * 6);
+                Status.Add(EFFECT_ID.DEX, data.status.basicDex + (data.level - 1) * 3);
+                Status.Add(EFFECT_ID.INT, data.status.basicInt + (data.level - 1) * 1);
+            }if (data.job == 2) // 도적
+            {
+                Status.Add(EFFECT_ID.STR, data.status.basicStr + (data.level - 1) * 1);
+                Status.Add(EFFECT_ID.DEX, data.status.basicDex + (data.level - 1) * 8);
+                Status.Add(EFFECT_ID.INT, data.status.basicInt + (data.level - 1) * 1);
+            }if (data.job == 3) // 사제
+            {
+                Status.Add(EFFECT_ID.STR, data.status.basicStr + (data.level - 1) * 1);
+                Status.Add(EFFECT_ID.DEX, data.status.basicDex + (data.level - 1) * 2);
+                Status.Add(EFFECT_ID.INT, data.status.basicInt + (data.level - 1) * 7);
+            }if (data.job == 4) // 아처
+            {
+                Status.Add(EFFECT_ID.STR, data.status.basicStr + (data.level - 1) * 2);
+                Status.Add(EFFECT_ID.DEX, data.status.basicDex + (data.level - 1) * 7);
+                Status.Add(EFFECT_ID.INT, data.status.basicInt + (data.level - 1) * 1);
+            }if (data.job == 5) // 마법사
+            {
+                Status.Add(EFFECT_ID.STR, data.status.basicStr + (data.level - 1) * 1);
+                Status.Add(EFFECT_ID.DEX, data.status.basicDex + (data.level - 1) * 1);
+                Status.Add(EFFECT_ID.INT, data.status.basicInt + (data.level - 1) * 8);
+            }
+            else
+            {
+                Status.Add(EFFECT_ID.STR, data.status.basicStr);
+                Status.Add(EFFECT_ID.DEX, data.status.basicDex);
+                Status.Add(EFFECT_ID.INT, data.status.basicInt);
+            }
+        }
+        else if (data.charType == CHAR_TYPE.MONSTER)
+        {
+            Status.Add(EFFECT_ID.STR, (int)(data.status.basicStr + data.status.basicStr * ((data.level - 1) * 0.1f)));
+            Status.Add(EFFECT_ID.DEX, (int)(data.status.basicDex + data.status.basicDex * ((data.level - 1) * 0.1f)));
+            Status.Add(EFFECT_ID.INT, (int)(data.status.basicInt + data.status.basicInt * ((data.level - 1) * 0.1f)));
+        }
         Status.Add(EFFECT_ID.ATK, data.atk);
         Status.Add(EFFECT_ID.MATK, data.mAtk);
         Status.Add(EFFECT_ID.DEF, data.def);
         Status.Add(EFFECT_ID.MDEF, data.mDef);
         Status.Add(EFFECT_ID.HP, data.maxHP);
-        Status.Add(EFFECT_ID.STR, data.status.basicStr);
-        Status.Add(EFFECT_ID.DEX, data.status.basicDex);
-        Status.Add(EFFECT_ID.INT, data.status.basicInt);
         Status.Add(EFFECT_ID.SPEED, data.speed);
         Status.Add(EFFECT_ID.AVOID, data.avoid);
         Status.Add(EFFECT_ID.CRI_PER, data.criPer);
@@ -335,6 +374,11 @@ public class UserStageStateData
 
     public Dictionary<int, UserCharacterStateData> myStateList = new Dictionary<int, UserCharacterStateData>(); // stateData.position, stateData
     public Dictionary<int, UserCharacterStateData> enemyStateList = new Dictionary<int, UserCharacterStateData>(); // stateData.position, stateData
+
+    public List<UserSkillInfo> mySynergyList = new List<UserSkillInfo>();
+    public List<UserSkillInfo> enemySynergyList = new List<UserSkillInfo>();
+    //내 시너지 리스트
+    //적 시너지 리스트
 }
 
 [Serializable]
@@ -362,6 +406,7 @@ public class UserCharacterStateData
 
     public int index;
     public int nowHp;
+    public int level;
 
     public int maxHP;
     //public int maxHP { get { return Calculator.GetMaxHp(status); } }
@@ -380,7 +425,7 @@ public class UserCharacterStateData
     // Servant 전용
     public int job;
     // Monster 전용
-    public int classType;
+    public int classType;   //종족으로 변환예정
     public int elementType;
 
     public int state;       //0 살있음, 1 죽어있음 
