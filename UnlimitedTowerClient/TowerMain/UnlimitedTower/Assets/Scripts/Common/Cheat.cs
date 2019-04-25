@@ -308,6 +308,11 @@ public class Cheat : MonoSingleton<Cheat>
         battlestatedata.stage_number = stageFloor;
         battlestatedata.turn = 0;
 
+        battlestatedata.my_synergy_list.Add(190033);
+        battlestatedata.my_synergy_list.Add(190043);
+
+        battlestatedata.enemy_synergy_list.Add(190012);
+
         UserPartyData partyData = UserDataManager.Inst.GetUserPartyInfo();
         if (partyData == null)
         {
