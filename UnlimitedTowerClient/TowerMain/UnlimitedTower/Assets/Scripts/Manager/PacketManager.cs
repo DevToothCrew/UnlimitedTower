@@ -2026,8 +2026,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
         stageData.stageType = getStageData.stage_type;
         stageData.stageFloor = getStageData.stage_number;
         stageData.turn = getStageData.turn;
+        stageData.mySynergyList = ParseSkillList(getStageData.my_synergy_list);
+        stageData.enemySynergyList = ParseSkillList(getStageData.enemy_synergy_list);
 
-        for(int i = 0; i < getStageData.my_state_list.Count; i++)
+        for (int i = 0; i < getStageData.my_state_list.Count; i++)
         {
             UserCharacterStateData stateData = ParseCharacterStateData(getStageData.my_state_list[i]);
             if(stateData == null)
@@ -2055,6 +2057,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             stageData.enemyStateList.Add(stateData.position, stateData);
         }
 
+
         return stageData;
     }
 
@@ -2071,6 +2074,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         stateData.type = getStateData.type;
         stateData.upgrade = getStateData.upgrade;
         stateData.maxHP = getStateData.max_hp;
+        stateData.level = getStateData.level;
         stateData.status = ParseStatus(getStateData.status);
         stateData.buffList = getStateData.buff_list;
         stateData.activeSkillList = ParseSkillList(getStateData.active_skill_list);

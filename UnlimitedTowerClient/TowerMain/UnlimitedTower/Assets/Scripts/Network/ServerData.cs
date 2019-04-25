@@ -313,6 +313,7 @@ public class characterStateData
     public int type;
     public int upgrade;
     public int max_hp;
+    public int level;
 
     public int state;       //0 살있음, 1 죽어있음 
     public List<buffInfo> buff_list = new List<buffInfo>();
@@ -331,6 +332,8 @@ public class stageStateData
     public int turn;
     public List<characterStateData> my_state_list = new List<characterStateData>();
     public List<characterStateData> enemy_state_list = new List<characterStateData>();
+    public List<int> my_synergy_list = new List<int>();
+    public List<int> enemy_synergy_list = new List<int>();
 }
 
 [Serializable]

@@ -340,6 +340,7 @@ public class Cheat : MonoSingleton<Cheat>
                 newMember.id = servantData.id;
                 newMember.type = 1;
                 newMember.upgrade = 0;
+                newMember.level = 5;
 
                 int skill = 0;
                 if (i < 2)
@@ -397,6 +398,7 @@ public class Cheat : MonoSingleton<Cheat>
             newMember.index = 0;
             newMember.id = stageData.enemyIdList[i];
             newMember.type = 2;
+            newMember.level = 5;
 
             DBStageEnemyData enemyData = CSVData.Inst.GetStageEnemyData(newMember.id);
             if(enemyData == null)
