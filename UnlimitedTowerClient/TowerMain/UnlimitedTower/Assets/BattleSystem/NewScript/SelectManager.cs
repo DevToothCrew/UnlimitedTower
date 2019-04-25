@@ -182,6 +182,7 @@ public class SelectManager : MonoBehaviour
                             {
                                 levelText.text = "?";
                             }
+
                             if (UserDataManager.Inst.GetStageState().enemySynergyList.Count > 0)
                             {
                                 foreach (UserSkillInfo skill in UserDataManager.Inst.GetStageState().enemySynergyList)

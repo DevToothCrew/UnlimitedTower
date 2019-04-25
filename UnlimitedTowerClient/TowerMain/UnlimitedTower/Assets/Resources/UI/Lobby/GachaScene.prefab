@@ -410,6 +410,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4293411765712598}
   - component: {fileID: 114593806024899838}
+  - component: {fileID: 114528911009288062}
   m_Layer: 31
   m_Name: Gacha Fx System
   m_TagString: Untagged
@@ -1101,6 +1102,21 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: GOLD PANDA
+--- !u!114 &114528911009288062
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1768868613411746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80c970f12340d7044af97c22666ca198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skipScirpt: {fileID: 114593806024899838}
+  CheetKey: 000000000000000000000000
+  CheetIndex: 0
+  adminMode: 0
 --- !u!114 &114593806024899838
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1232,7 +1248,6 @@ MonoBehaviour:
   resultIntStat: {fileID: 114593904105837002}
   equipmentValue: {fileID: 1638059025773554}
   valueStatusImage: {fileID: 114219224804802672}
-  valueTypeObject: {fileID: 1638059025773554}
   resultValueStat: {fileID: 114161091357258270}
   retryButton: {fileID: 114995494051279922}
   exitButton: {fileID: 114977699215506558}

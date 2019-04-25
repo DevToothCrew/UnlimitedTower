@@ -849,6 +849,7 @@ public class Cheat : MonoSingleton<Cheat>
         //servant.job = rand.Next(1, 5);
         //servant.appear = GetRandomAppear();
         servant.passive_skill.Add(100001);
+        Debug.Log(servant.passive_skill[0]);
         servant.active_skill.Add(200001);
         servant.id = CSVData.Inst.GetRandomServantID();
         servant.grade = 5;
@@ -869,7 +870,8 @@ public class Cheat : MonoSingleton<Cheat>
         monsterData.monster.state = 1;
         monsterData.monster.exp = rand.Next(0, 160000);
         monsterData.monster.level = CSVData.Inst.GetCharLevelByExp(monsterData.monster.exp);
-
+        monsterData.monster.passive_skill.Add(100001);
+        monsterData.monster.active_skill.Add(200001);
         monsterData.monster.type = 0;
 
         monsterData.monster.id = CSVData.Inst.GetRandomMonsterID();
