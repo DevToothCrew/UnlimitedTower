@@ -106,7 +106,8 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
             case UPGRADE_TYPE.MONSTER:
                 for (int i = 0; i < partyInfo.MonsterList.Count; i++)
                 {
-                    if (monsterData.id == partyInfo.MonsterList[i].id && monsterData.grade == partyInfo.MonsterList[i].grade && monsterData.upgrade >= partyInfo.MonsterList[i].upgrade && monsterData.index != partyInfo.MonsterList[i].index)
+                    if (monsterData.id == partyInfo.MonsterList[i].id && monsterData.grade == partyInfo.MonsterList[i].grade && monsterData.upgrade >= partyInfo.MonsterList[i].upgrade && monsterData.index != partyInfo.MonsterList[i].index
+                        && partyInfo.MonsterList[i].state == 1 && partyInfo.MonsterList[i].partyIndex == 0)
                     {
                         scrollListData.Add(i);
                     }
