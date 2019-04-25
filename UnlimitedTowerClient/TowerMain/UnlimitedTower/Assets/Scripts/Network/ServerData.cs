@@ -152,6 +152,7 @@ public class mailData
     public int type_index;
     public int count;
     public int icon_id;
+    public int get_time;
 }
 
 [Serializable]
