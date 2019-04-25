@@ -50,7 +50,7 @@ public class Cheat : MonoSingleton<Cheat>
         }
 
         // Item 추가 예정
-        for(int i = 1; i < 100; i++)
+        for(int i = 1; i < 10; i++)
         {
             userLoginData.equipment_list.Add(GetRandomEquipment(i));
         }

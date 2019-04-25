@@ -119,8 +119,17 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
     public IEnumerator StageInfoOn_Co()
     {
         UserStageStateData StageData = UserDataManager.Inst.GetStageState();
-        StageInfoFloor.text = "Stage " + StageData.stageType + " : " + StageData.stageFloor + "F";
-        BattleTurn.text = StageData.turn + " Turn";
+        if (StageData.stageType == 0)
+        {
+            StageInfoFloor.text = "PVP";
+            StageInfoName.text = StageData.user + " VS " + StageData.enemyUser;
+        }
+        else
+        {
+            StageInfoFloor.text = "Stage " + StageData.stageType + " : " + StageData.stageFloor + "F";
+            StageInfoName.text = CSVData.Inst.GetStageData(StageData.stageType, StageData.stageFloor).mapResource;
+        }
+        BattleTurn.text = (StageData.turn == 0 ? "1" : (StageData.turn + 1).ToString()) + " Turn";
 
         Color plus = new Color(0, 0, 0, 0.02f);
         for (int i = 0; i < 50; i++)
