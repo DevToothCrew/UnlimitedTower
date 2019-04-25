@@ -156,7 +156,7 @@ public class SelectManager : MonoBehaviour
                             {
                                 foreach (UserSkillInfo skill in UserDataManager.Inst.GetStageState().mySynergyList)
                                 {
-                                    Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = CSVData.Inst.GetSkillPassiveData(skill.id).passiveIcon;
+                                    Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = BattleUIManager.Inst.skillDataDic[skill.id].SkillImage;
                                 }
                             }
                         }
@@ -168,7 +168,7 @@ public class SelectManager : MonoBehaviour
                             {
                                 foreach (UserSkillInfo skill in UserDataManager.Inst.GetStageState().mySynergyList)
                                 {
-                                    Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = CSVData.Inst.GetSkillPassiveData(skill.id).passiveIcon;
+                                    Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = BattleUIManager.Inst.skillDataDic[skill.id].SkillImage;
                                 }
                             }
                         }
@@ -187,7 +187,7 @@ public class SelectManager : MonoBehaviour
                             {
                                 foreach (UserSkillInfo skill in UserDataManager.Inst.GetStageState().enemySynergyList)
                                 {
-                                    Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = CSVData.Inst.GetSkillPassiveData(skill.id).passiveIcon;
+                                    Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = BattleUIManager.Inst.skillDataDic[skill.id].SkillImage;
                                 }
                             }
                         }
