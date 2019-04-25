@@ -261,22 +261,26 @@ public class BattleStatus
                 Status.Add(EFFECT_ID.STR, data.status.basicStr + (data.level - 1) * 6);
                 Status.Add(EFFECT_ID.DEX, data.status.basicDex + (data.level - 1) * 3);
                 Status.Add(EFFECT_ID.INT, data.status.basicInt + (data.level - 1) * 1);
-            }if (data.job == 2) // 도적
+            }
+            else if (data.job == 2) // 도적
             {
                 Status.Add(EFFECT_ID.STR, data.status.basicStr + (data.level - 1) * 1);
                 Status.Add(EFFECT_ID.DEX, data.status.basicDex + (data.level - 1) * 8);
                 Status.Add(EFFECT_ID.INT, data.status.basicInt + (data.level - 1) * 1);
-            }if (data.job == 3) // 사제
+            }
+            else if (data.job == 3) // 사제
             {
                 Status.Add(EFFECT_ID.STR, data.status.basicStr + (data.level - 1) * 1);
                 Status.Add(EFFECT_ID.DEX, data.status.basicDex + (data.level - 1) * 2);
                 Status.Add(EFFECT_ID.INT, data.status.basicInt + (data.level - 1) * 7);
-            }if (data.job == 4) // 아처
+            }
+            else if (data.job == 4) // 아처
             {
                 Status.Add(EFFECT_ID.STR, data.status.basicStr + (data.level - 1) * 2);
                 Status.Add(EFFECT_ID.DEX, data.status.basicDex + (data.level - 1) * 7);
                 Status.Add(EFFECT_ID.INT, data.status.basicInt + (data.level - 1) * 1);
-            }if (data.job == 5) // 마법사
+            }
+            else if (data.job == 5) // 마법사
             {
                 Status.Add(EFFECT_ID.STR, data.status.basicStr + (data.level - 1) * 1);
                 Status.Add(EFFECT_ID.DEX, data.status.basicDex + (data.level - 1) * 1);
