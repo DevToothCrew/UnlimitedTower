@@ -65,7 +65,7 @@ public class monsterInfo
     public int exp;
     public int grade;
     public int upgrade;
-    public int monster_class;
+    public int tribe;
     public int level;
     public statusInfo status = new statusInfo();
     public List<int> passive_skill = new List<int>();

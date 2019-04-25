@@ -581,7 +581,7 @@ public class Cheat : MonoSingleton<Cheat>
         newMonsterData.monster.level = getMonsterData.level;
         newMonsterData.monster.exp = getMonsterData.exp;
         newMonsterData.monster.upgrade = getMonsterData.upgrade;
-        newMonsterData.monster.monster_class = monsterData.classType;
+        newMonsterData.monster.tribe = monsterData.classType;
         newMonsterData.monster.status.basic_str = getMonsterData.status.basicStr;
         newMonsterData.monster.status.basic_dex = getMonsterData.status.basicDex;
         newMonsterData.monster.status.basic_int = getMonsterData.status.basicInt;
