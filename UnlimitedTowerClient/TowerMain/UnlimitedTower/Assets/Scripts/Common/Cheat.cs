@@ -849,6 +849,7 @@ public class Cheat : MonoSingleton<Cheat>
         //servant.job = rand.Next(1, 5);
         //servant.appear = GetRandomAppear();
         servant.passive_skill.Add(100001);
+        servant.active_skill.Add(200001);
         servant.id = CSVData.Inst.GetRandomServantID();
         servant.grade = 5;
         servant.status = GetRandomStatusInfo(CHAR_TYPE.SERVANT);
