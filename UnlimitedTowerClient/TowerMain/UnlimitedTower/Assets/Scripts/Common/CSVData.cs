@@ -1061,6 +1061,12 @@ public class CSVData : MonoSingleton<CSVData>
             activeData.name = Convert.ToString(data[i]["name"]);
             activeData.explain = Convert.ToString(data[i]["explain"]);
             activeData.resourceIcon = Convert.ToString(data[i]["resource_icon"]);
+            activeData.activeIcon = Resources.Load<Sprite>("UI/Skill/Active/" + activeData.resourceIcon);
+            if (activeData.activeIcon == null)
+            {
+                Debug.Log("Invalid Resource Icon : " + activeData.resourceIcon);
+                return false;
+            }
 
             //Debug.Log("ActiveSkill Job Able : " + Convert.ToString(data[i]["job"]));
             activeData.jobLimit = (SERVANT_JOB_FLAG)Convert.ToInt32(Convert.ToString(data[i]["job_limit"]), 2);
