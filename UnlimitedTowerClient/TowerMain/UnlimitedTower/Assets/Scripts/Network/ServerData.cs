@@ -401,6 +401,7 @@ public class shopBuyResultData
     public string eos;
     public string utg;
     public List<itemData> item_list = new List<itemData>();
+    public inventoryInfo invetory_info;
 }
 
 [Serializable]

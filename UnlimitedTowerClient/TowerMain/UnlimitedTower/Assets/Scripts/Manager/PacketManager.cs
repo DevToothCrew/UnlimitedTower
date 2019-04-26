@@ -1320,9 +1320,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
         UserDataManager.Inst.SetUserEOS(Convert.ToUInt64(getBuyItemData.eos));
         UserDataManager.Inst.SetUserUTG(Convert.ToUInt64(getBuyItemData.utg));
 
-        for (int i = 0; i < getBuyItemData.item_list.Count; i++)
+        Dictionary<int, UserItemData> itemDic = new Dictionary<int, UserItemData>();
+        ParseItemDic(getBuyItemData.item_list, ref itemDic);
+        UserDataManager.Inst.SetItemDic(itemDic);
+
+        if (getBuyItemData.invetory_info != null)
         {
-            Debug.Log("item ID : " + getBuyItemData.item_list[i].id);
+            UserInventoryInfo info = UserDataManager.Inst.GetUserInventoryInfo();
+            info.servantInventory = getBuyItemData.invetory_info.servant_inventory;
+            info.monsterInventory = getBuyItemData.invetory_info.monster_inventory;
+            info.equipmentInventory = getBuyItemData.invetory_info.equipment_inventory;
+            info.itemInventory = getBuyItemData.invetory_info.item_inventory;
         }
 
         LobbyTopInfo.Inst.UpdateTopInfo();
@@ -1546,10 +1554,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         for (int i = 0; i < getShopInfo.shop_product_list.Count; i++)
         {
-            Debug.Log("Index : " + getShopInfo.shop_product_list[i].index);
-            Debug.Log("Type : " + getShopInfo.shop_product_list[i].type);
-            Debug.Log("ID : " + getShopInfo.shop_product_list[i].id);
-            Debug.Log("Limit Count : " + getShopInfo.shop_product_list[i].limit_count);
+            //Debug.Log("Index : " + getShopInfo.shop_product_list[i].index);
+            //Debug.Log("Type : " + getShopInfo.shop_product_list[i].type);
+            //Debug.Log("ID : " + getShopInfo.shop_product_list[i].id);
+            //Debug.Log("Limit Count : " + getShopInfo.shop_product_list[i].limit_count);
 
             ShopProductInfo info = ParseShopProduct(getShopInfo.shop_product_list[i]);
             productInfoList.Add(info);

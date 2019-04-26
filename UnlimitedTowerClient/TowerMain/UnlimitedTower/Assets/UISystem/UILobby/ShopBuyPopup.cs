@@ -74,4 +74,12 @@ public class ShopBuyPopup : MonoBehaviour {
         // 구매 신청
         PacketManager.Inst.RequestShopBuyItem(index, buyCount);
     }
+
+    public void OnClickMaxButton()
+    {
+        // 금액 맥스로 할것인지 카운트 맥스로 할것인지?
+        buyCount = 99;
+        textBuyCount.text = buyCount.ToString();
+        textCost.text = (priceCount * buyCount * 0.0001).ToString("N4");
+    }
 }
