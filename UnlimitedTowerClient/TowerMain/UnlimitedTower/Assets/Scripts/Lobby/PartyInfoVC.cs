@@ -181,9 +181,6 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     //스크롤 생성
     void initScrollList()
     {
-
-        ServantList.Clear();
-
         setData();
 
         scrollList.Init(this, 20, ServantList.Count, getOrder());
@@ -386,6 +383,22 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         FrameServantInfo.SetActive(false);
         FrameMonsterInfo.GetComponent<MonsterInfoManager>().updateMonsterInfo(m_data);
         FrameMonsterInfo.SetActive(true);
+    }
+
+    //강화 완료(서버에서 응답) 후 화면 전체 갱신
+    public void updateViewFinishRequest()
+    {
+        setData();
+        frameScroll.SetActive(true);
+        if (SubViewUpgrade.checkInst() == true)
+        {
+            Destroy(SubViewUpgrade.Inst.gameObject);
+        }
+
+        scrollList.SetItemOrder(getOrder());
+        scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+        scrollList.ScrollViewDidScroll();
+        updateDetailInfo(scrollList.getFirstItemOrder());
     }
 
     public void ShowUpgrade()

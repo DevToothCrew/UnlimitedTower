@@ -9,6 +9,9 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
     //SubView
     public GameObject SubViewUpgrade;
     public GameObject FrameSubView;
+    //Info
+    public GameObject FrameEquipmentInfo;
+    public GameObject FrameItemInfo;
 
 
     //Menu Buttons UI
@@ -49,7 +52,8 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
     {
         WEAPON = 0,
         ARMOR,
-        ACCESSORY
+        ACCESSORY,
+        ITEM
     }
     public menu_type selectedMenu = menu_type.WEAPON;
 

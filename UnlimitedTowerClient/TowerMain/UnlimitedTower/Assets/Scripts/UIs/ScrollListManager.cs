@@ -391,7 +391,7 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
                     break;
             }
 
-            //DrawScrollView();
+            DrawScrollView();
         }
         else if (start_main_idx > 0 && delta < start_main_idx)
         {
@@ -405,7 +405,7 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
                     break;
             }
 
-            //DrawScrollView();
+            DrawScrollView();
         }
 
 

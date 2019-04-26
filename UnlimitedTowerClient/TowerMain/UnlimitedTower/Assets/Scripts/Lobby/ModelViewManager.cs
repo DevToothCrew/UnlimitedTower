@@ -43,10 +43,10 @@ public class ModelViewManager : MonoSingleton<ModelViewManager>
     public void ChangeSelectedUnitModel()
     {
         //서브뷰 상태일때는 Return;
-        if (SubViewDeconstruction.checkInst() || SubViewUpgrade.checkInst())
-        {
-            return;
-        }
+        //if (SubViewDeconstruction.checkInst() || SubViewUpgrade.checkInst())
+        //{
+        //    return;
+        //}
 
         if (PartyInfoVC.checkInst())
         {
