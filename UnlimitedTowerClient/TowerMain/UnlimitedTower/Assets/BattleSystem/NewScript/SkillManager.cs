@@ -334,8 +334,35 @@ public class SkillManager : MonoSingleton<SkillManager>
     }
     #endregion
 
+    #region Skill 200015
+    // 더 밸런스 ( 적 1인에게 물리 공격력의 100% + 마법 공격력의 100%의 고정 피해를 줍니다. )
+    public void Skill_200015(characterActionData battleInfo)
+    {
+        StartCoroutine(Skill_200015_Co(battleInfo));
+    }
 
+    public IEnumerator Skill_200015_Co(characterActionData battleInfo)
+    {
+        BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.5f);
+        TestSkillEffect(battleInfo.action_info_list[0].target_position);
+    }
+    #endregion
 
+    #region Skill 200016
+    // 아머 브레이크 ( 적 1인에게 물리 공격력의 130% 물리 피해를 주고 방어력 30% 감소 디버프를 겁니다. )
+    public void Skill_200016(characterActionData battleInfo)
+    {
+        StartCoroutine(Skill_200016_Co(battleInfo));
+    }
+
+    public IEnumerator Skill_200016_Co(characterActionData battleInfo)
+    {
+        BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.5f);
+        TestSkillEffect(battleInfo.action_info_list[0].target_position);
+    }
+    #endregion
 
 
 
