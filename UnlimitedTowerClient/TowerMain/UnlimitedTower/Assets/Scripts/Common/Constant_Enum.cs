@@ -383,7 +383,9 @@ public enum EFFECT_ID
 public enum EFFECT_TYPE
 {
     ADD = 1,
-    MINUS = 1,
+    MINUS = 2,
+    ADD_PER = 3,
+    MINUS_PER = 4
 }
 
 public enum REWARD_TYPE

@@ -16,15 +16,11 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
 
     //Menu Buttons UI
     public Text textButtonBack;
-    public Button[] buttonMenu = new Button[3];
+    public Button[] buttonMenu = new Button[4];
 
     //ScrollView UI
-    public Button buttonSort;
     public Text textOwned;
     public Text textTotal;
-
-    public GameObject frameSortType;
-    public Button[] buttonSortType = new Button[4];
 
     public GameObject frameScroll;
     public ScrollListManager scrollList;
@@ -58,6 +54,7 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
     public menu_type selectedMenu = menu_type.WEAPON;
 
     public List<List<UserEquipmentData>> EquipmentList = new List<List<UserEquipmentData>>();
+    public List<UserItemData> ItemList = new List<UserItemData>();
 
     [HideInInspector]
     public int selected_tab = 0;
@@ -69,9 +66,7 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
         WEAPON_INFO = 0,      
         ARMOR_INFO,           
         ACCESSORY_INFO,
-        DECONSTRUCTION_WEAPON,
-        DECONSTRUCTION_ARMOR,
-        DECONSTRUCTION_ACCESSORY,
+        ITEM_INFO
     }
     public scroll_type currentScrollType = 0;
 
@@ -113,7 +108,6 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
                 Debug.Log("Equipment type : max");
             }
         }
-
     }
 
     void Start()

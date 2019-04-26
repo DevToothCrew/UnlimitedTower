@@ -42,7 +42,7 @@ public class PartyListUnit : ScrollListUnit {
             imageCharacter.sprite = CSVData.Inst.GetServantData(partyInfo.ServantList[selected_idx].id).servantIcon;
             textCharacterName.text = CSVData.Inst.GetServantData(partyInfo.ServantList[selected_idx].id).name;
             textLevel.text = string.Format("{0}", partyInfo.ServantList[selected_idx].level);
-            textPower.text = string.Format("{0}", partyInfo.ServantList[selected_idx].status.basicStr);
+            textPower.text = string.Format("{0}", Calculator.GetPower(partyInfo.ServantList[selected_idx].status, partyInfo.ServantList[selected_idx].level));
             textUpgrade.text = string.Format(" ");
             imageType.sprite = CSVData.Inst.GetSpriteServantJob(partyInfo.ServantList[selected_idx].jobType);
         }
@@ -66,7 +66,7 @@ public class PartyListUnit : ScrollListUnit {
             imageCharacter.sprite = CSVData.Inst.GetMonsterData(partyInfo.MonsterList[selected_idx].id).monsterIcon;
             textCharacterName.text = CSVData.Inst.GetMonsterData(partyInfo.MonsterList[selected_idx].id).name;
             textLevel.text = string.Format("{0}", partyInfo.MonsterList[selected_idx].level);
-            textPower.text = string.Format("{0}", partyInfo.MonsterList[selected_idx].status.basicStr);
+            textPower.text = string.Format("{0}", Calculator.GetPower(partyInfo.MonsterList[selected_idx].status, partyInfo.MonsterList[selected_idx].level));
             string upgrade = string.Format(" ");
             if(partyInfo.MonsterList[selected_idx].upgrade > 0)
             {

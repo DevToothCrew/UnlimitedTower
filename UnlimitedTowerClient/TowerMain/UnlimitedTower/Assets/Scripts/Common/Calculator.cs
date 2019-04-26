@@ -2,36 +2,57 @@
 using UnityEngine;
 using System;
 
-public class Calculator : MonoBehaviour {
+public class Calculator : MonoBehaviour
+{
+
+    public static int GetPower(Status status, int level = 1)
+    {
+        int attack = (int)((status.basicStr * 88.0f) * (level / (float)DEFINE.MAX_LEVEL));
+        int magic_attack = (int)((status.basicInt * 10.0f) * (level / (float)DEFINE.MAX_LEVEL));
+
+        return (attack + magic_attack);
+    }
 
     public static int GetMaxHp(Status status, int level = 1)
     {
-        return (int)((status.basicStr * 24) * level);
+        return (int)((status.basicStr * 88.0f) * (level / (float)DEFINE.MAX_LEVEL));
     }
 
     public static int GetAttack(Status status, int level = 1)
     {
-        return (int)(((status.basicStr + status.basicDex) * 2.2f) * level);
+        return (int)(((status.basicStr + status.basicDex) * 10.0f) * (level / (float)DEFINE.MAX_LEVEL));
     }
 
     public static int GetMagicAttack(Status status, int level = 1)
     {
-        return (int)((status.basicInt * 3) * level);
+        return (int)((status.basicInt * 10.0f) * (level / (float)DEFINE.MAX_LEVEL));
     }
 
     public static int GetDefence(Status status, int level = 1)
     {
-        return (int)((status.basicDex * 1.3f) * level);
+        return (int)(((status.basicStr + status.basicDex) * 5.0f) * (level / (float)DEFINE.MAX_LEVEL));
     }
 
     public static int GetMagicDefence(Status status, int level = 1)
     {
-        return (int)((status.basicInt * 1.3f) * level);
+        return (int)((status.basicInt * 5.0f) * (level / (float)DEFINE.MAX_LEVEL));
+    }
+
+    public static int GetCriticalPercent(Status status, int level = 1)
+    {
+        return (int)((status.basicInt / 500.0f) * 100 + 5);
+    }
+
+    public static int GetCriticalDamage(Status status, int level = 1)
+    {
+        return (int)((status.basicInt * 0.5f) + 120);
     }
 
     public static BattleStatus GetBattleStatus(UserCharacterStateData stateData)
     {
+        UserStageStateData statgData = UserDataManager.Inst.GetStageState();
         BattleStatus battleStatus = new BattleStatus(stateData);
+
         if (stateData.charType == CHAR_TYPE.SERVANT)
         {
             UserServantData servant = UserDataManager.Inst.GetServantInfo(stateData.index);
@@ -70,13 +91,13 @@ public class Calculator : MonoBehaviour {
             {
                 DBSkillPassiveData passive = CSVData.Inst.GetDBSkillPassiveData(skillInfo.id);
                 if (passive.effectID != EFFECT_ID.HP && passive.effectID != EFFECT_ID.ATK && passive.effectID != EFFECT_ID.MATK && passive.effectID != EFFECT_ID.DEF && passive.effectID != EFFECT_ID.MDEF)
-                    battleStatus.Status[passive.effectID] += passive.effectAdd;
+                    battleStatus.Status[passive.effectID] += battleStatus.Status[passive.effectID] * passive.effectAdd / 100;
             }
 
-            battleStatus.Status[EFFECT_ID.ATK] = GetAttack(stateData.status, stateData.level);
-            battleStatus.Status[EFFECT_ID.MATK] = GetMagicAttack(stateData.status, stateData.level);
-            battleStatus.Status[EFFECT_ID.DEF] = GetDefence(stateData.status, stateData.level);
-            battleStatus.Status[EFFECT_ID.MDEF] = GetMagicDefence(stateData.status, stateData.level);
+            battleStatus.Status[EFFECT_ID.ATK] = GetAttack(stateData.status, servant.level);
+            battleStatus.Status[EFFECT_ID.MATK] = GetMagicAttack(stateData.status, servant.level);
+            battleStatus.Status[EFFECT_ID.DEF] = GetDefence(stateData.status, servant.level);
+            battleStatus.Status[EFFECT_ID.MDEF] = GetMagicDefence(stateData.status, servant.level);
 
             foreach (KeyValuePair<EQUIPMENT_TYPE, int> state in servant.equipmentDic)
             {
@@ -110,8 +131,11 @@ public class Calculator : MonoBehaviour {
             {
                 DBSkillPassiveData passive = CSVData.Inst.GetDBSkillPassiveData(skillInfo.id);
                 if (passive.effectID != EFFECT_ID.HP && passive.effectID != EFFECT_ID.STR && passive.effectID != EFFECT_ID.DEX && passive.effectID != EFFECT_ID.INT)
-                    battleStatus.Status[passive.effectID] += passive.effectAdd;
+                    battleStatus.Status[passive.effectID] += battleStatus.Status[passive.effectID] * passive.effectAdd / 100;
             }
+
+            battleStatus.Status[EFFECT_ID.CRI_PER] = GetCriticalPercent(stateData.status, servant.level);
+            battleStatus.Status[EFFECT_ID.CRI_DMG] = GetCriticalDamage(stateData.status, servant.level);
         }
         else if (stateData.charType == CHAR_TYPE.MONSTER && stateData.position < 10)
         {
@@ -133,16 +157,43 @@ public class Calculator : MonoBehaviour {
                     battleStatus.Status[passive.effectID] += passive.effectAdd;
             }
 
-            battleStatus.Status[EFFECT_ID.ATK] = GetAttack(stateData.status, stateData.level);
-            battleStatus.Status[EFFECT_ID.MATK] = GetMagicAttack(stateData.status, stateData.level);
-            battleStatus.Status[EFFECT_ID.DEF] = GetDefence(stateData.status, stateData.level);
-            battleStatus.Status[EFFECT_ID.MDEF] = GetMagicDefence(stateData.status, stateData.level);
+            foreach (UserSkillInfo skillInfo in statgData.mySynergyList)
+            {
+                DBSkillPassiveData passive = CSVData.Inst.GetDBSkillPassiveData(skillInfo.id);
+                if (passive.effectID != EFFECT_ID.HP && passive.effectID != EFFECT_ID.ATK && passive.effectID != EFFECT_ID.MATK && passive.effectID != EFFECT_ID.DEF && passive.effectID != EFFECT_ID.MDEF)
+                {
+                    if (passive.jobClass == stateData.tribeType + 900)
+                    {
+                        battleStatus.Status[passive.effectID] += (battleStatus.Status[passive.effectID] * passive.effectAdd) / 100;
+                    }
+                }
+            }
+
+            battleStatus.Status[EFFECT_ID.ATK] = GetAttack(stateData.status, monster.level);
+            battleStatus.Status[EFFECT_ID.MATK] = GetMagicAttack(stateData.status, monster.level);
+            battleStatus.Status[EFFECT_ID.DEF] = GetDefence(stateData.status, monster.level);
+            battleStatus.Status[EFFECT_ID.MDEF] = GetMagicDefence(stateData.status, monster.level);
 
             foreach (UserSkillInfo skillInfo in stateData.passiveSkillList)
             {
                 DBSkillPassiveData passive = CSVData.Inst.GetDBSkillPassiveData(skillInfo.id);
                 if (passive.effectID != EFFECT_ID.HP && passive.effectID != EFFECT_ID.STR && passive.effectID != EFFECT_ID.DEX && passive.effectID != EFFECT_ID.INT)
                     battleStatus.Status[passive.effectID] += passive.effectAdd;
+            }
+
+            battleStatus.Status[EFFECT_ID.CRI_PER] = GetCriticalPercent(stateData.status, monster.level);
+            battleStatus.Status[EFFECT_ID.CRI_DMG] = GetCriticalDamage(stateData.status, monster.level);
+
+            foreach (UserSkillInfo skillInfo in statgData.mySynergyList)
+            {
+                DBSkillPassiveData passive = CSVData.Inst.GetDBSkillPassiveData(skillInfo.id);
+                if (passive.effectID != EFFECT_ID.HP && passive.effectID != EFFECT_ID.STR && passive.effectID != EFFECT_ID.DEX && passive.effectID != EFFECT_ID.INT)
+                {
+                    if (passive.jobClass == stateData.tribeType + 900)
+                    {
+                        battleStatus.Status[passive.effectID] += (battleStatus.Status[passive.effectID] * passive.effectAdd) / 100;
+                    }
+                }
             }
         }
         return battleStatus;

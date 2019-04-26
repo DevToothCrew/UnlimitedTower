@@ -1192,6 +1192,7 @@ public class CSVData : MonoSingleton<CSVData>
                 Debug.Log("Invalid Resource Icon : " + passiveData.resourceIcon);
                 //return false;
             }
+            passiveData.jobClass = Convert.ToInt32(data[i]["job_class"]);
             passiveData.enableStackMax = Convert.ToBoolean(data[i]["enable_stack_n"]);
             passiveData.effectKeyword = Convert.ToString(data[i]["effect_keyword"]);
             passiveData.effectID = (EFFECT_ID)Convert.ToInt32(data[i]["effect_id"]);

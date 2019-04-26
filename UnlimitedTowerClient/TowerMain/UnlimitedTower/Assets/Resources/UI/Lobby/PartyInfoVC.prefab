@@ -10557,15 +10557,8 @@ MonoBehaviour:
   - {fileID: 114377908145209720}
   - {fileID: 114406565741502358}
   - {fileID: 114278255180662974}
-  buttonSort: {fileID: 114428037753314470}
   textOwned: {fileID: 114912920994078818}
   textTotal: {fileID: 114670743273357222}
-  frameSortType: {fileID: 1371803325604538}
-  buttonSortType:
-  - {fileID: 114093397512916348}
-  - {fileID: 114070509929118698}
-  - {fileID: 114031623632542276}
-  - {fileID: 114708409672248198}
   frameScroll: {fileID: 1788651786066924}
   scrollList: {fileID: 114454347922636408}
   selectedMenu: 0
@@ -19165,7 +19158,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 300, y: 700}
+  m_SizeDelta: {x: 290, y: 700}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224359162191949136
 RectTransform:
@@ -19279,7 +19272,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -40}
-  m_SizeDelta: {x: 300, y: -80}
+  m_SizeDelta: {x: 290, y: -80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224378857913660082
 RectTransform:
@@ -22014,7 +22007,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 300, y: 780}
+  m_SizeDelta: {x: 290, y: 780}
   m_Pivot: {x: 1, y: 0}
 --- !u!224 &224825055856148816
 RectTransform:
