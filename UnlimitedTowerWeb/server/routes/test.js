@@ -1,6 +1,8 @@
 Eos = require('eosjs')
 config = require('../config/')
 
+var poolCluster = require('../lib/MySQLPoolCluster').PoolCluster;
+
 function Test() {}
 
 /**
@@ -130,10 +132,10 @@ Test.table2 = function(req, res){
     var user  = req.body.user;
 
     eos.getTableRows({
-        code : config.contract.dev,
-        scope : config.contract.dev,
-        table : 'tbattlestate',
-        lower_bound : user,
+        code : 'overflow1111',
+        scope : user,
+        table : 'tservant',
+        lower_bound : 2,
         limit : 1,
         json : true
     }, function(err, result){
@@ -166,6 +168,59 @@ Test.table3 = function(req, res){
                 ram_usage : result.ram_usage 
             }
             res.status(200).send(data);
+        }
+    });
+}
+
+Test.showdb = function(req, res){
+
+    poolCluster.getConnection(function(err, connection){
+        if(err){
+            res.status(200).send("connect fail.");
+        }
+        else{
+            var sql = "SELECT * FROM unt.log_eos";
+            connection.query(sql, function(err, result){
+                connection.release();
+                if(err){
+                    res.status(200).send("Access DB fail.");
+                }
+                else{
+                    res.status(200).send(result);
+                }
+            });
+        }
+    });
+}
+
+Test.adddb = function(req, res){
+
+    var user = req.body.user;
+    var eos = req.body.eos;
+    var type = req.body.type;
+    var data = req.body.data;
+
+    poolCluster.getConnection(function(err, connection){
+        if(err){
+            res.status(200).send("connect fail.");
+        }
+        else{
+            var logData = {
+                user : user,
+                amount : eos,
+                type : type,
+                data : data
+            };
+            var sql = "INSERT INTO unt.log_eos SET ?";
+            connection.query(sql, logData, function(err){
+                connection.release();
+                if(err){
+                    res.status(200).send("Access DB fail.");
+                }
+                else{
+                    res.status(200).send("INSERT success.");
+                }
+            });
         }
     });
 }

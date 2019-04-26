@@ -4,9 +4,9 @@ module.exports = {
     mysql: {
         master: {
             connectionLimit: 800,
-            host: "10.140.0.5",
-            user: "root",
-            password: "wB7fwfajdusk"
+            host: "127.0.0.1",
+            user: "devtooth",
+            password: "devtooth"
         }
     },
     // HTTP Communication Enc/Dec
@@ -63,6 +63,12 @@ module.exports = {
     // Contract list
     contract : {
         main : 'untowermain1',
-        dev : 'unlimitedmas'
+        dev : 'unlimitedmas',
+        tower : 'dlwodnjs1111'
+    },
+    // Main-net Full Node address
+    full_node : {
+        main_01 : 'mongodb://devTooth:U0S91ydQ0uYPSaOqHz3T@eos-sg-00-00-mongo-00.itam.games:27017/local?replicaSet=eos-00&authSource=admin',
+        main_02 : 'mongodb://devTooth:U0S91ydQ0uYPSaOqHz3T@eos-sg-00-00-mongo-01.itam.games:27017/local?replicaSet=eos-01&authSource=admin'
     }
 };
