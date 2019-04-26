@@ -748,41 +748,31 @@ public class Cheat : MonoSingleton<Cheat>
 
     public string GetEquipServantData(int servantIndex, EQUIPMENT_TYPE type, int equipmentIndex)
     {
+        UserServantData servant = UserDataManager.Inst.GetServantInfo(servantIndex);
+        if(servant == null)
+        {
+            Debug.Log("Invalid Servant Index : " + servantIndex);
+            return null;
+        }
+        if(servant.equipmentDic.ContainsKey(type) == false)
+        {
+            Debug.Log("Invalid Type : " + type.ToString());
+            return null;
+        }
+
         servantEquipData resultData = new servantEquipData();
         resultData.servant_index = servantIndex;
         resultData.equipment_slot = (int)type;
-        resultData.equipment_index = equipmentIndex;
-
-        return JsonMapper.ToJson(resultData).ToString();
-    }
-
-    public string GetUnequipServantData(int servantIndex, EQUIPMENT_TYPE type)
-    {
-        // 서번트 인덱스 검사
-        UserServantData servantData = UserDataManager.Inst.GetServantInfo(servantIndex);
-        if (servantData == null)
+        if (servant.equipmentDic[type] == equipmentIndex)
         {
-            Debug.LogError("Invalid Servant Index : " + servantIndex);
-            return null;
+            Debug.Log("Unequip");
+            resultData.equipment_index = 0;
         }
-
-        // 장비 타입 검사
-        if (servantData.equipmentDic.ContainsKey(type) == false)
+        else
         {
-            Debug.LogError("Invalid Servant Data");
-            return null;
+            Debug.Log("Equip");
+            resultData.equipment_index = equipmentIndex;
         }
-
-        // 서번트 동일 장비 검사
-        if (servantData.equipmentDic[type] == 0)
-        {
-            Debug.Log("Already Unequip");
-            return null;
-        }
-
-        servantUnequipData resultData = new servantUnequipData();
-        resultData.servant_index = servantIndex;
-        resultData.equipment_slot = (int)type;
 
         return JsonMapper.ToJson(resultData).ToString();
     }
@@ -1110,20 +1100,6 @@ public class Cheat : MonoSingleton<Cheat>
 
         servantEquipData getServantEquipResultData = JsonUtility.FromJson<servantEquipData>(equipmentJson);
         PacketManager.Inst.ResponseEquipServant(getServantEquipResultData);
-    }
-
-    public void RequestUnequipServantCheat(int servantIndex, EQUIPMENT_TYPE type)
-    {
-        string unequipmentJson = GetUnequipServantData(servantIndex, type);
-        if (unequipmentJson == null)
-        {
-            Debug.Log("[Fail] RequestUnequipServantCheat");
-            return;
-        }
-        Debug.Log("[SUCCESS] Unequip Servant : " + unequipmentJson);
-
-        servantUnequipData getServantUnequipResultData = JsonUtility.FromJson<servantUnequipData>(unequipmentJson);
-        PacketManager.Inst.ResponseUnequipServant(getServantUnequipResultData);
     }
 
     public void RequestMailListCheat()

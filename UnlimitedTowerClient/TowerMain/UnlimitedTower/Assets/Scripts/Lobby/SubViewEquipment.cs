@@ -552,11 +552,16 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
     public void OnClickClear()
     {
         int servantIndex = partyInfo.ServantList[partyInfo.selected_unit_idx].index;
+        
+        if(partyInfo.ServantList[partyInfo.selected_unit_idx].equipmentDic[selectedEquipType] == 0)
+        {
+            TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Request Unequip");
+        }
 
 #if UNITY_EDITOR
-        Cheat.Inst.RequestUnequipServantCheat(servantIndex, selectedEquipType);
+        Cheat.Inst.RequestEquipServantCheat(servantIndex, selectedEquipType, partyInfo.ServantList[partyInfo.selected_unit_idx].equipmentDic[selectedEquipType]);
 #else
-        PacketManager.Inst.RequestUnequipServant(servantIndex, selectedEquipType);
+        PacketManager.Inst.RequestEquipServant(servantIndex, selectedEquipType, partyInfo.ServantList[partyInfo.selected_unit_idx].equipmentDic[selectedEquipType]);
 #endif
     }
 

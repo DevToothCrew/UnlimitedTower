@@ -525,55 +525,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 });
     }
 
-    // 장비 해제
-    public void RequestUnequipServant(int servantIndex, EQUIPMENT_TYPE type)
-    {
-        Debug.Log("Request Unequip Servant");
-        if (servantIndex == 0)
-        {
-            Debug.Log("Invalid Request");
-            return;
-        }
-
-        // 서번트 인덱스 검사
-        UserServantData servantData = UserDataManager.Inst.GetServantInfo(servantIndex);
-        if (servantData == null)
-        {
-            Debug.LogError("Invalid Servant Index : " + servantIndex);
-            return;
-        }
-
-        // 장비 타입 검사
-        if (servantData.equipmentDic.ContainsKey(type) == false)
-        {
-            Debug.LogError("Invalid Servant Data");
-            return;
-        }
-
-        // 장비 검사
-        if (servantData.equipmentDic[type] == 0)
-        {
-            Debug.LogError("Invalid Servant Equip Data");
-            return;
-        }
-
-        UnequipServantJson unequipServant = new UnequipServantJson();
-        unequipServant.servantIndex = servantIndex;
-        unequipServant.equipmentSlot = (int)type;
-
-        string json = JsonUtility.ToJson(unequipServant);
-
-        Debug.Log("Json start : " + json);
-
-        Request<servantUnequipData>("UnequipServant",
-                body: json,
-                onSuccess: ResponseUnequipServant,
-                onFailed: msg =>
-                {
-                    Debug.Log($"[Failed Requesting UnequipServant] {msg}");
-                });
-    }
-
     // 몬스터 강화
     public void RequestMonsterUpgrade(int mainMonsterIndex, int subMonsterIndex)
     {
@@ -1328,12 +1279,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
             return;
         }
 
-        if(servantData.equipmentDic[type] == getServantEquipData.equipment_index)
-        {
-            Debug.Log("Invalid Servant Already Equip Each Equipment");
-            return;
-        }
-
         if(servantData.equipmentDic[type] != 0)
         {
             if(UserDataManager.Inst.UnequipServant(servantData.index, type) == false)
@@ -1357,48 +1302,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
             {
                 PartyInfoVC.Inst.updateDetailInfo(PartyInfoVC.Inst.selected_unit_idx);
             }
-                
-        }
-    }
-
-    // 장비 해제
-    public void ResponseUnequipServant(servantUnequipData getServantUnequipData)
-    {
-        UserServantData servantData = UserDataManager.Inst.GetServantInfo(getServantUnequipData.servant_index);
-        if (servantData == null)
-        {
-            Debug.Log("Invalid Servant");
-            return;
-        }
-
-        EQUIPMENT_TYPE type = (EQUIPMENT_TYPE)getServantUnequipData.equipment_slot;
-        if (servantData.equipmentDic.ContainsKey(type) == false)
-        {
-            Debug.Log("Invalid Servant EquipmentDic");
-            return;
-        }
-
-        if (servantData.equipmentDic[type] == 0)
-        {
-            Debug.Log("Invalid Servant Already Equip Each Equipment");
-            return;
-        }
-
-        if (UserDataManager.Inst.UnequipServant(servantData.index, type) == false)
-        {
-            Debug.Log("Invalid Servant Unequip");
-            return;
-        }
-
-        if (SubViewEquipment.Inst != null)
-        {
-            SubViewEquipment.Inst.UpdateViewChangeEquipment();
-            SubViewEquipment.Inst.ResetScrollDataByChangeSetData();
-            if (PartyInfoVC.Inst != null)
-            {
-                PartyInfoVC.Inst.updateDetailInfo(PartyInfoVC.Inst.selected_unit_idx);
-            }
-
         }
     }
 

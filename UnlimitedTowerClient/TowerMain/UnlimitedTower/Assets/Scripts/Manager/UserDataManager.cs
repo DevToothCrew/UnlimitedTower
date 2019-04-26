@@ -890,6 +890,12 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
     public bool EquipServant(int servantIndex, EQUIPMENT_TYPE equipmentType, int equipmentIndex)
     {
+        if(equipmentIndex == 0)
+        {
+            Debug.Log("Unequip");
+            return true;
+        }
+
         if (servantDic.ContainsKey(servantIndex) == false)
         {
             Debug.Log("Invalid Servant Index : " + servantIndex);

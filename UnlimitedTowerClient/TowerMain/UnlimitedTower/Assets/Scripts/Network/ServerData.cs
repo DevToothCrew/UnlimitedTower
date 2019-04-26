@@ -264,13 +264,6 @@ public class servantEquipData
 }
 
 [Serializable]
-public class servantUnequipData
-{
-    public int servant_index;
-    public int equipment_slot;
-}
-
-[Serializable]
 public class actionInfo
 {
     public int target_position;
@@ -514,13 +507,6 @@ public class EquipServantJson
     public int servantIndex;
     public int equipmentSlot;
     public int equipitemIndex;
-}
-
-[Serializable]
-public class UnequipServantJson
-{
-    public int servantIndex;
-    public int equipmentSlot;
 }
 
 [Serializable]
