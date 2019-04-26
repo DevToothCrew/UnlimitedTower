@@ -35,11 +35,13 @@
 #define JOB_ACTIVE_START_ID             100
 #define JOB_PRIVATE_ACTIVE_PER_ID        99
 
-#define JOB_PASSSIVE_START_ID          200
-#define CLASS_PASSIVE_START_ID         900
-
 #define GACHA_ID                10000
 
+#define GACHA_SERVANT_COUNT_ID  1
+#define GACHA_MONSTER_COUNT_ID  2
+#define GACHA_EQUIPMENT_COUNT_ID  3
+#define GACHA_PUBLIC_PASSIVE_COUNT_ID  4
+#define GACHA_PUBLIC_ACTIVE_COUNT_ID  5
 
 
 //============Gacha==============//
