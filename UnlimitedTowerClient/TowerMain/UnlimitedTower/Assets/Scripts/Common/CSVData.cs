@@ -1183,22 +1183,22 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_skill_passive");
         for (var i = 2; i < data.Count; i++)
         {
-            //Debug.Log("index " + (i).ToString()
-            //    + " : " + data[i]["id"]
-            //    + " " + data[i]["passive_type"]
-            //    + " " + data[i]["en_name"]
-            //    + " " + data[i]["name"]
-            //    + " " + data[i]["explain"]
-            //    + " " + data[i]["resource_icon"]
-            //    + " " + data[i]["enable_stack_n"]
-            //    + " " + data[i]["effect_keyword"]
-            //    + " " + data[i]["effect_id"]
-            //    + " " + data[i]["effect_type_id"]
-            //    + " " + data[i]["effect_a"]
-            //    + " " + data[i]["effect_b"]
-            //    + " " + data[i]["target"]
-            //    + " " + data[i]["target_id"]
-            //    );
+            Debug.Log("index " + (i).ToString()
+                + " : " + data[i]["id"]
+                + " " + data[i]["passive_type"]
+                + " " + data[i]["en_name"]
+                + " " + data[i]["name"]
+                + " " + data[i]["explain"]
+                + " " + data[i]["resource_icon"]
+                + " " + data[i]["job_class"]
+                + " " + data[i]["enable_stack_n"]
+                + " " + data[i]["effect_keyword"]
+                + " " + data[i]["effect_id"]
+                + " " + data[i]["effect_type_id"]
+                + " " + data[i]["effect_a"]
+                + " " + data[i]["effect_b"]
+                + " " + data[i]["target_id"]
+                );
 
             DBSkillPassiveData passiveData = new DBSkillPassiveData();
             passiveData.id = Convert.ToInt32(data[i]["id"]);
@@ -1216,7 +1216,7 @@ public class CSVData : MonoSingleton<CSVData>
             if (passiveData.passiveIcon == null)
             {
                 Debug.Log("Invalid Resource Icon : " + passiveData.resourceIcon);
-                return false;
+                //return false;
             }
             passiveData.enableStackMax = Convert.ToBoolean(data[i]["enable_stack_n"]);
             passiveData.effectKeyword = Convert.ToString(data[i]["effect_keyword"]);
@@ -1225,39 +1225,39 @@ public class CSVData : MonoSingleton<CSVData>
             passiveData.effectAdd = Convert.ToInt32(data[i]["effect_a"]);
             passiveData.effectPlusAdd = Convert.ToInt32(data[i]["effect_b"]);
 
-            switch (Convert.ToString(data[i]["target"]))
-            {
-                case "none":
-                    passiveData.targetType = TARGET_TYPE.NONE;
-                    break;
-                case "enemy":
-                    passiveData.targetType = TARGET_TYPE.ENEMY;
-                    break;
-                case "enemies":
-                    passiveData.targetType = TARGET_TYPE.ENEMIES;
-                    break;
-                case "allenemy":
-                    passiveData.targetType = TARGET_TYPE.ALLENEMY;
-                    break;
-                case "self":
-                    passiveData.targetType = TARGET_TYPE.SELF;
-                    break;
-                case "myteam":
-                    passiveData.targetType = TARGET_TYPE.MYTEAM;
-                    break;
-                case "myteams":
-                    passiveData.targetType = TARGET_TYPE.MYTEAMS;
-                    break;
-                case "allmyteam":
-                    passiveData.targetType = TARGET_TYPE.ALLMYTEAM;
-                    break;
-                case "every":
-                    passiveData.targetType = TARGET_TYPE.EVERY;
-                    break;
-                default:
-                    Debug.Log("Invalid Target Type");
-                    return false;
-            }
+            //switch (Convert.ToString(data[i]["target"]))
+            //{
+            //    case "none":
+            //        passiveData.targetType = TARGET_TYPE.NONE;
+            //        break;
+            //    case "enemy":
+            //        passiveData.targetType = TARGET_TYPE.ENEMY;
+            //        break;
+            //    case "enemies":
+            //        passiveData.targetType = TARGET_TYPE.ENEMIES;
+            //        break;
+            //    case "allenemy":
+            //        passiveData.targetType = TARGET_TYPE.ALLENEMY;
+            //        break;
+            //    case "self":
+            //        passiveData.targetType = TARGET_TYPE.SELF;
+            //        break;
+            //    case "myteam":
+            //        passiveData.targetType = TARGET_TYPE.MYTEAM;
+            //        break;
+            //    case "myteams":
+            //        passiveData.targetType = TARGET_TYPE.MYTEAMS;
+            //        break;
+            //    case "allmyteam":
+            //        passiveData.targetType = TARGET_TYPE.ALLMYTEAM;
+            //        break;
+            //    case "every":
+            //        passiveData.targetType = TARGET_TYPE.EVERY;
+            //        break;
+            //    default:
+            //        Debug.Log("Invalid Target Type");
+            //        return false;
+            //}
             passiveData.targetID = Convert.ToInt32(data[i]["target_id"]);
 
             DBSkillPassiveDataDic.Add(passiveData.id, passiveData);

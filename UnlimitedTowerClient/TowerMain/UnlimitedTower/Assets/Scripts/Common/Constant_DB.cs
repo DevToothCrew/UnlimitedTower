@@ -339,7 +339,7 @@ public class DBSkillPassiveData
     public EFFECT_TYPE effectType;
     public int effectAdd;
     public int effectPlusAdd;
-    public TARGET_TYPE targetType;
+    //public TARGET_TYPE targetType;
     public int targetID;
 }
 
