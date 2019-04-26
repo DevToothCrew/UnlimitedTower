@@ -421,7 +421,7 @@ public class Cheat : MonoSingleton<Cheat>
             }
 
             int level = UnityEngine.Random.Range(stageData.enemyLevelMin, stageData.enemyLevelMax + 1);
-            Status addStatus = CSVData.Inst.GetMonsterLevelPerAddStatus(monsterData.GetClass, enemyData.grade);
+            Status addStatus = new Status();
 
             newMember.status = new statusInfo();
             newMember.status.basic_str = enemyData.status.basicStr + (level * addStatus.basicStr);
@@ -581,7 +581,7 @@ public class Cheat : MonoSingleton<Cheat>
         newMonsterData.monster.level = getMonsterData.level;
         newMonsterData.monster.exp = getMonsterData.exp;
         newMonsterData.monster.upgrade = getMonsterData.upgrade;
-        newMonsterData.monster.tribe = monsterData.classType;
+        newMonsterData.monster.tribe = (int)monsterData.tribeType;
         newMonsterData.monster.status.basic_str = getMonsterData.status.basicStr;
         newMonsterData.monster.status.basic_dex = getMonsterData.status.basicDex;
         newMonsterData.monster.status.basic_int = getMonsterData.status.basicInt;
@@ -854,7 +854,7 @@ public class Cheat : MonoSingleton<Cheat>
         //servant.job = rand.Next(1, 5);
         //servant.appear = GetRandomAppear();
         servant.passive_skill.Add(100001);
-        Debug.Log(servant.passive_skill[0]);
+        //Debug.Log(servant.passive_skill[0]);
         servant.active_skill.Add(200001);
         servant.id = CSVData.Inst.GetRandomServantID();
         servant.grade = 5;

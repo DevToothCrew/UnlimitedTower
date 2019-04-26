@@ -151,44 +151,28 @@ public enum SERVANT_JOB_FLAG
     Last = Magician
 }
 
-public enum MONSTER_CLASS
-{
-    Fighter = 1,
-    Kngiht = 2,
-    Priest = 3,
-    Assassin = 4,
-    Hunter = 5,
-    Mage = 6,
-    Warlock = 7,
-    Druid = 8,
-    Shaman = 9,
-}
-
-[Flags]
-public enum MONSTER_CLASS_FLAG
-{
-    None = 0,
-    All = 1,
-    Fighter = 2,
-    Kngiht = 4,
-    Priest = 8,
-    Assassin = 16,
-    Hunter = 32,
-    Mage = 64,
-    Warlock = 128,
-    Druid = 256,
-    Shaman = 512,
-}
-
 public enum ELEMENT_TYPE
 {
-    Non = 0,
+    None = 0,
     Fire = 1,
     Water = 2,
     Earth = 3,
     Wind = 4,
     Light = 5,
     Dark = 6,
+}
+
+public enum TRIBE_TYPE
+{
+    None = 0,
+    Beast = 1,
+    Human = 2,
+    Demon = 3,
+    Spirit = 4,
+    Insect = 5,
+    Mermaid = 6,
+    Mysterious = 7,
+    Metal = 8,
 }
 
 public enum ACTION_TYPE

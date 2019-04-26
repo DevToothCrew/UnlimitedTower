@@ -1897,7 +1897,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log("Invalid Monster ID : " + monster.id);
             return null;
         }
-        monster.monsterClass = monsterData.classType;
+        monster.monsterTribe = (int)monsterData.tribeType;
         monster.element = (int)monsterData.elementType;
 
         monster.partyIndex = getMonsterData.party_number;
@@ -2112,7 +2112,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             stateData.mCriDmg = monsterData.mcriDmg;
             stateData.avoid = monsterData.avoid;
             stateData.speed = monsterData.speed;
-            stateData.classType = monsterData.classType;
+            stateData.tribeType = (int)monsterData.tribeType;
             stateData.elementType = (int)monsterData.elementType;
         }
 

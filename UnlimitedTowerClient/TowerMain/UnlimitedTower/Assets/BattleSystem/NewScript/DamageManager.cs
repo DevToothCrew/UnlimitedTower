@@ -65,7 +65,7 @@ public class DamageManager : MonoSingleton<DamageManager>
             }
             else
             {
-                if (type == ELEMENT_TYPE.Non)
+                if (type == ELEMENT_TYPE.None)
                 {
                     if (attackInfo.critical)
                     {
