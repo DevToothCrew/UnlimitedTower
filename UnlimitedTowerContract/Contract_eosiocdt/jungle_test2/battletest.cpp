@@ -3789,6 +3789,7 @@ ACTION battletest::mailopen(eosio::name _user, uint64_t _mail_index)
     else if (user_mail_iter->mail_type == 4) //UTG 및 재화
     {
         //아직 미구현
+
     }
     else if (user_mail_iter->mail_type == 5) //UTS
     {
@@ -9021,16 +9022,16 @@ ACTION battletest::deleteuser(eosio::name _user)
             auto iter2 = user_mail_table.find(iter->primary_key());
             iter = user_mail_table.erase(iter2);
         }
-        //     mail_db_table.erase(user_mail_iter);
+            user_mail_table.erase(user_mail_iter);
     }
 
-    // mail_db mail_db_table(_self, _user.value);
-    // for (auto item = mail_db_table.begin(); item != mail_db_table.end();)
-    // {
-    //     auto iter = mail_db_table.find(item->primary_key());
-    //     mail_db_table.erase(iter);
-    //     item++;
-    // }
+    mail_db mail_db_table(_self, _user.value);
+    for (auto item = mail_db_table.begin(); item != mail_db_table.end();)
+    {
+        auto iter = mail_db_table.find(item->primary_key());
+        mail_db_table.erase(iter);
+        item++;
+    }
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -10160,44 +10161,6 @@ ACTION battletest::pvpstart(eosio::name _from, eosio::name _to)
 //-------------------------------store_function---------------------------//
 //------------------------------------------------------------------------//
 
-// ACTION battletest::addshop(uint64_t _index)
-// {
-//     shop_list shop_list_table(_self, _self.value);
-//     auto shop_list_iter = shop_list_table.find(item_shop_iter->id);
-
-//     if(shop_list_iter == shop_list_table.end())
-//     {
-//         shop_list_table.emplace(_self, [&](auto &data) {
-//             data.id = item_shop_iter->id;
-//             data.goods_id = item_shop_iter->goods_id;
-//             data.goods_count = item_shop_iter->goods_count;
-//             data.limit_count = 0;
-//             data.limit_max = item_shop_iter->goods_limited;
-//         });
-//     }
-//     else
-//     {
-//         shop_list_table.modify(shop_list_iter, _self, [&](auto &data){
-//             data.goods_id = item_shop_iter->goods_id;
-//             data.goods_count = item_shop_iter->goods_count;
-//             data.limit_count = 0;
-//             data.limit_max = item_shop_iter->goods_limited;
-//         });
-//     }
-    
-
-// }
-
-// ACTION battletest::delshop(uint64_t _index)
-// {
-//     item_shop item_shop_table(_self, _self.value);
-//     auto item_shop_iter = item_shop_table.find(_index);
-//     shop_list shop_list_table(_self, _self.value);
-//     auto shop_list_iter = shop_list_table.find(item_shop_iter->id);
-    
-//     shop_list_table.erase(shop_list_iter);
-// }
-
 ACTION battletest::itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count)
 {
     system_check(_user);
@@ -10302,20 +10265,20 @@ ACTION battletest::itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count
 
         transfer(_user, _self, nomal_order_buy_result, std::string("nomal order buy result"));
 
-        UTG_Amount = _count * shop_list_iter->price_count;
-        contents_result += to_string(user_items_iter->id) + ":";
-        contents_result += to_string(user_items_iter->type) + ":";
-        for (uint64_t i = 0; i < user_items_iter->item_list.size(); i++)
-        {
-            contents_result += to_string(user_items_iter->item_list[i].index) + ":";
-            contents_result += to_string(user_items_iter->item_list[i].count) + ":";
-            }
-            contents_result += to_string(UTG_Amount) + ",";
+        // UTG_Amount = _count * shop_list_iter->price_count;
+        // contents_result += to_string(user_items_iter->id) + ":";
+        // contents_result += to_string(user_items_iter->type) + ":";
+        // for (uint64_t i = 0; i < user_items_iter->item_list.size(); i++)
+        // {
+        //     contents_result += to_string(user_items_iter->item_list[i].index) + ":";
+        //     contents_result += to_string(user_items_iter->item_list[i].count) + ":";
+        //     }
+        //     contents_result += to_string(UTG_Amount) + ",";
 
-        action(permission_level{get_self(), "active"_n},
-               get_self(), "contents"_n,
-               std::make_tuple(_user, contents_type, contents_result))
-            .send();
+        // action(permission_level{get_self(), "active"_n},
+        //        get_self(), "contents"_n,
+        //        std::make_tuple(_user, contents_type, contents_result))
+        //     .send();
     }
     else
     {
@@ -10373,14 +10336,14 @@ void battletest::inventory_buy(eosio::name _user, uint32_t _type)
             eosio_assert(0 == 1 , "inventory_buy : not exsit this action type");
         }
 
-        std::string contents_result;
-        std::string contents_type = "inventorybuy";
-        contents_result += to_string(_type) + ":";
-        contents_result += to_string(plus_inventory);
-        action(permission_level{get_self(), "active"_n},
-               get_self(), "contents"_n,
-               std::make_tuple(_user, contents_type, contents_result))
-            .send();
+        // std::string contents_result;
+        // std::string contents_type = "inventorybuy";
+        // contents_result += to_string(_type) + ":";
+        // contents_result += to_string(plus_inventory);
+        // action(permission_level{get_self(), "active"_n},
+        //        get_self(), "contents"_n,
+        //        std::make_tuple(_user, contents_type, contents_result))
+        //     .send();
 
 }
 
@@ -10621,11 +10584,11 @@ void battletest::nftexchange(eosio::name _owner, eosio::name _master, std::strin
     {
         eosio_assert(1 == 0 ,"nftexchange : Wrong Type Token");
     }
-    std::string contents_type = "nftmailopen";
-    action(permission_level{get_self(), "active"_n},
-           get_self(), "contentslist"_n,
-           std::make_tuple(_owner, contents_type, contents_list))
-        .send();
+    // std::string contents_type = "nftmailopen";
+    // action(permission_level{get_self(), "active"_n},
+    //        get_self(), "contentslist"_n,
+    //        std::make_tuple(_owner, contents_type, contents_list))
+    //     .send();
 }
 
 ACTION battletest::chat(name _user, asset _price, string _text)
