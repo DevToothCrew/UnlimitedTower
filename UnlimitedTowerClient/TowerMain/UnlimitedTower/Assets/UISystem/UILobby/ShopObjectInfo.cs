@@ -18,10 +18,10 @@ public class ShopObjectInfo : MonoBehaviour {
 
     public void SetShopObjectInfo(ShopProductInfo getInfo)
     {
-        DBShopData shopData = CSVData.Inst.GetShopData(getInfo.id);
+        DBShopData shopData = CSVData.Inst.GetShopData(getInfo.index);
         if(shopData == null)
         {
-            Debug.Log("Invalid Shop Object ID : " + getInfo.id);
+            Debug.Log("Invalid Shop Object ID : " + getInfo.index);
             return;
         }
 
@@ -41,11 +41,6 @@ public class ShopObjectInfo : MonoBehaviour {
 
     public void OnClickObjectButton()
     {
-        // 구매 팝업을 띄운다
-        Debug.Log(index);
-        Debug.Log(shopType.ToString());
-        Debug.Log(id);
-
         ShopInfoPage.Inst.SetShopBuyPopup(shopProductInfo);
     }
 }
