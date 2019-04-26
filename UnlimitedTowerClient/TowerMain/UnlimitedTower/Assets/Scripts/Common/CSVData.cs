@@ -17,7 +17,7 @@ public class CSVData : MonoSingleton<CSVData>
     public Dictionary<int, DBServantData> DBServantDataDic = new Dictionary<int, DBServantData>();
     public Dictionary<SERVANT_JOB, DBServantStatData> DBServantStatDataDic = new Dictionary<SERVANT_JOB, DBServantStatData>();
     public Dictionary<int, DBMonsterData> DBMonsterDataDic = new Dictionary<int, DBMonsterData>();
-    public Dictionary<MONSTER_CLASS, DBMonsterStatData> DBMonsterStatDataDic = new Dictionary<MONSTER_CLASS, DBMonsterStatData>();
+    public Dictionary<TRIBE_TYPE, DBMonsterStatData> DBMonsterStatDataDic = new Dictionary<TRIBE_TYPE, DBMonsterStatData>();
     public Dictionary<int, DBMonsterUpgradeData> DBMonsterUpgradeDataDic = new Dictionary<int, DBMonsterUpgradeData>();
     public Dictionary<int, DBSkillActiveData> DBSkillActiveDataDic = new Dictionary<int, DBSkillActiveData>();
     public Dictionary<int, DBSkillPassiveData> DBSkillPassiveDataDic = new Dictionary<int, DBSkillPassiveData>();
@@ -821,25 +821,27 @@ public class CSVData : MonoSingleton<CSVData>
         {
             //Debug.Log("index " + (i).ToString()
             //    + " : " + data[i]["id"]
-            //    + " " + data[i]["class"]
+            //    + " " + data[i]["tribe"]
             //    + " " + data[i]["speed"]
             //    + " " + data[i]["avoid"]
             //    + " " + data[i]["cri_per"]
             //    + " " + data[i]["cri_dmg"]
-            //    + " " + data[i]["mcri_per"]
-            //    + " " + data[i]["mcri_dmg"]
+            //    + " " + data[i]["synergy_pair"]
+            //    + " " + data[i]["synergy_triple"]
+            //    + " " + data[i]["synergy_penta"]
             //    );
 
             DBMonsterStatData monsterStatData = new DBMonsterStatData();
-            monsterStatData.classEnum = (MONSTER_CLASS)Convert.ToInt32(data[i]["id"]);
+            monsterStatData.tribeEnum = (TRIBE_TYPE)Convert.ToInt32(data[i]["id"]);
             monsterStatData.speed = Convert.ToInt32(data[i]["speed"]);
             monsterStatData.avoid = Convert.ToInt32(data[i]["avoid"]);
             monsterStatData.criPer = Convert.ToInt32(data[i]["cri_per"]);
             monsterStatData.criDmg = Convert.ToInt32(data[i]["cri_dmg"]);
-            monsterStatData.mcriPer = Convert.ToInt32(data[i]["mcri_per"]);
-            monsterStatData.mcriDmg = Convert.ToInt32(data[i]["mcri_dmg"]);
+            monsterStatData.synergePair = Convert.ToInt32(data[i]["synergy_pair"]);
+            monsterStatData.synergeTriple = Convert.ToInt32(data[i]["synergy_triple"]);
+            monsterStatData.synergePenta = Convert.ToInt32(data[i]["synergy_penta"]);
 
-            DBMonsterStatDataDic.Add(monsterStatData.classEnum, monsterStatData);
+            DBMonsterStatDataDic.Add(monsterStatData.tribeEnum, monsterStatData);
         }
 
         return true;
@@ -853,8 +855,8 @@ public class CSVData : MonoSingleton<CSVData>
             //Debug.Log("index " + (i).ToString()
             //+ " : " + data[i]["id"]
             //+ " " + data[i]["enname"]
-            //    + " " + data[i]["resource_icon"]
-            //    + " " + data[i]["class_type"]
+            //    + " " + data[i]["tribe"]
+            //    + " " + data[i]["element_type"]
             //    + " " + data[i]["resource_model"]
             //    + " " + data[i]["resource_icon"]
             //    );
@@ -865,21 +867,48 @@ public class CSVData : MonoSingleton<CSVData>
             // TODO : 로컬 적용 후 아래로 변경
             // monsterData.name            = Convert.ToString(data[i]["name"]);
             monsterData.elementType = (ELEMENT_TYPE)Convert.ToInt32(data[i]["element_type"]);
-            monsterData.classType = Convert.ToInt32(data[i]["class_type"]);
-
-            if (DBMonsterStatDataDic.ContainsKey((MONSTER_CLASS)monsterData.classType) == true)
+            switch(Convert.ToString(data[i]["tribe"]))
             {
-                DBMonsterStatData statData = DBMonsterStatDataDic[(MONSTER_CLASS)monsterData.classType];
+                case "Beast":
+                    monsterData.tribeType = TRIBE_TYPE.Beast;
+                    break;
+                case "Human":
+                    monsterData.tribeType = TRIBE_TYPE.Human;
+                    break;
+                case "Demon":
+                    monsterData.tribeType = TRIBE_TYPE.Demon;
+                    break;
+                case "Spirit":
+                    monsterData.tribeType = TRIBE_TYPE.Spirit;
+                    break;
+                case "Insect":
+                    monsterData.tribeType = TRIBE_TYPE.Insect;
+                    break;
+                case "Mermaid":
+                    monsterData.tribeType = TRIBE_TYPE.Mermaid;
+                    break;
+                case "Mysterious":
+                    monsterData.tribeType = TRIBE_TYPE.Mysterious;
+                    break;
+                case "Metal":
+                    monsterData.tribeType = TRIBE_TYPE.Metal;
+                    break;
+                default:
+                    Debug.Log("Invalid Tribe Type");
+                    return false; ;
+            }
+
+            if (DBMonsterStatDataDic.ContainsKey(monsterData.tribeType) == true)
+            {
+                DBMonsterStatData statData = DBMonsterStatDataDic[monsterData.tribeType];
                 monsterData.speed = statData.speed;
                 monsterData.avoid = statData.avoid;
                 monsterData.criPer = statData.criPer;
                 monsterData.criDmg = statData.criDmg;
-                monsterData.mcriPer = statData.mcriPer;
-                monsterData.mcriDmg = statData.mcriDmg;
             }
             else
             {
-                Debug.Log("Invalid Class Num : " + monsterData.classType);
+                Debug.Log("Invalid Tribe Num : " + monsterData.tribeType);
                 return false;
             }
 
@@ -1077,19 +1106,6 @@ public class CSVData : MonoSingleton<CSVData>
             //Debug.Log("ActiveSkill Test Magician : " + activeData.isJobAble(SERVANT_JOB_FLAG.Magician));
             //Debug.Log("ActiveSkill Test All : " + activeData.isJobAble(SERVANT_JOB_FLAG.All));
 
-            //Debug.Log("ActiveSkill Class Able : " + Convert.ToString(data[i]["class"]));
-            activeData.classLimit = (MONSTER_CLASS_FLAG)Convert.ToInt32(Convert.ToString(data[i]["class_limit"]), 2);
-            //Debug.Log("ActiveSkill Test Fighter : " + activeData.isClassAble(MONSTER_CLASS_FLAG.Fighter));
-            //Debug.Log("ActiveSkill Test Kngiht : " + activeData.isClassAble(MONSTER_CLASS_FLAG.Kngiht));
-            //Debug.Log("ActiveSkill Test Priest : " + activeData.isClassAble(MONSTER_CLASS_FLAG.Priest));
-            //Debug.Log("ActiveSkill Test Assassin : " + activeData.isClassAble(MONSTER_CLASS_FLAG.Assassin));
-            //Debug.Log("ActiveSkill Test Hunter : " + activeData.isClassAble(MONSTER_CLASS_FLAG.Hunter));
-            //Debug.Log("ActiveSkill Test Mage : " + activeData.isClassAble(MONSTER_CLASS_FLAG.Mage));
-            //Debug.Log("ActiveSkill Test Warlock : " + activeData.isClassAble(MONSTER_CLASS_FLAG.Warlock));
-            //Debug.Log("ActiveSkill Test Druid : " + activeData.isClassAble(MONSTER_CLASS_FLAG.Druid));
-            //Debug.Log("ActiveSkill Test Shaman : " + activeData.isClassAble(MONSTER_CLASS_FLAG.Shaman));
-            //Debug.Log("ActiveSkill Test All : " + activeData.isClassAble(MONSTER_CLASS_FLAG.All));
-
             activeData.activePer = Convert.ToDouble(data[i]["active_per"]);
 
             switch (Convert.ToString(data[i]["skill_type"]))
@@ -1139,7 +1155,6 @@ public class CSVData : MonoSingleton<CSVData>
                 case "allmyteam":
                     activeData.targetType = TARGET_TYPE.ALLMYTEAM;
                     break;
-
                 case "every":
                     activeData.targetType = TARGET_TYPE.EVERY;
                     break;
@@ -1168,22 +1183,22 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_skill_passive");
         for (var i = 2; i < data.Count; i++)
         {
-            //Debug.Log("index " + (i).ToString()
-            //    + " : " + data[i]["id"]
-            //    + " " + data[i]["passive_type"]
-            //    + " " + data[i]["en_name"]
-            //    + " " + data[i]["name"]
-            //    + " " + data[i]["explain"]
-            //    + " " + data[i]["resource_icon"]
-            //    + " " + data[i]["enable_stack_n"]
-            //    + " " + data[i]["effect_keyword"]
-            //    + " " + data[i]["effect_id"]
-            //    + " " + data[i]["effect_type_id"]
-            //    + " " + data[i]["effect_a"]
-            //    + " " + data[i]["effect_b"]
-            //    + " " + data[i]["target"]
-            //    + " " + data[i]["target_id"]
-            //    );
+            Debug.Log("index " + (i).ToString()
+                + " : " + data[i]["id"]
+                + " " + data[i]["passive_type"]
+                + " " + data[i]["en_name"]
+                + " " + data[i]["name"]
+                + " " + data[i]["explain"]
+                + " " + data[i]["resource_icon"]
+                + " " + data[i]["job_class"]
+                + " " + data[i]["enable_stack_n"]
+                + " " + data[i]["effect_keyword"]
+                + " " + data[i]["effect_id"]
+                + " " + data[i]["effect_type_id"]
+                + " " + data[i]["effect_a"]
+                + " " + data[i]["effect_b"]
+                + " " + data[i]["target_id"]
+                );
 
             DBSkillPassiveData passiveData = new DBSkillPassiveData();
             passiveData.id = Convert.ToInt32(data[i]["id"]);
@@ -1201,7 +1216,7 @@ public class CSVData : MonoSingleton<CSVData>
             if (passiveData.passiveIcon == null)
             {
                 Debug.Log("Invalid Resource Icon : " + passiveData.resourceIcon);
-                return false;
+                //return false;
             }
             passiveData.enableStackMax = Convert.ToBoolean(data[i]["enable_stack_n"]);
             passiveData.effectKeyword = Convert.ToString(data[i]["effect_keyword"]);
@@ -1210,39 +1225,39 @@ public class CSVData : MonoSingleton<CSVData>
             passiveData.effectAdd = Convert.ToInt32(data[i]["effect_a"]);
             passiveData.effectPlusAdd = Convert.ToInt32(data[i]["effect_b"]);
 
-            switch (Convert.ToString(data[i]["target"]))
-            {
-                case "none":
-                    passiveData.targetType = TARGET_TYPE.NONE;
-                    break;
-                case "enemy":
-                    passiveData.targetType = TARGET_TYPE.ENEMY;
-                    break;
-                case "enemies":
-                    passiveData.targetType = TARGET_TYPE.ENEMIES;
-                    break;
-                case "allenemy":
-                    passiveData.targetType = TARGET_TYPE.ALLENEMY;
-                    break;
-                case "self":
-                    passiveData.targetType = TARGET_TYPE.SELF;
-                    break;
-                case "myteam":
-                    passiveData.targetType = TARGET_TYPE.MYTEAM;
-                    break;
-                case "myteams":
-                    passiveData.targetType = TARGET_TYPE.MYTEAMS;
-                    break;
-                case "allmyteam":
-                    passiveData.targetType = TARGET_TYPE.ALLMYTEAM;
-                    break;
-                case "every":
-                    passiveData.targetType = TARGET_TYPE.EVERY;
-                    break;
-                default:
-                    Debug.Log("Invalid Target Type");
-                    return false;
-            }
+            //switch (Convert.ToString(data[i]["target"]))
+            //{
+            //    case "none":
+            //        passiveData.targetType = TARGET_TYPE.NONE;
+            //        break;
+            //    case "enemy":
+            //        passiveData.targetType = TARGET_TYPE.ENEMY;
+            //        break;
+            //    case "enemies":
+            //        passiveData.targetType = TARGET_TYPE.ENEMIES;
+            //        break;
+            //    case "allenemy":
+            //        passiveData.targetType = TARGET_TYPE.ALLENEMY;
+            //        break;
+            //    case "self":
+            //        passiveData.targetType = TARGET_TYPE.SELF;
+            //        break;
+            //    case "myteam":
+            //        passiveData.targetType = TARGET_TYPE.MYTEAM;
+            //        break;
+            //    case "myteams":
+            //        passiveData.targetType = TARGET_TYPE.MYTEAMS;
+            //        break;
+            //    case "allmyteam":
+            //        passiveData.targetType = TARGET_TYPE.ALLMYTEAM;
+            //        break;
+            //    case "every":
+            //        passiveData.targetType = TARGET_TYPE.EVERY;
+            //        break;
+            //    default:
+            //        Debug.Log("Invalid Target Type");
+            //        return false;
+            //}
             passiveData.targetID = Convert.ToInt32(data[i]["target_id"]);
 
             DBSkillPassiveDataDic.Add(passiveData.id, passiveData);
@@ -1741,346 +1756,6 @@ public class CSVData : MonoSingleton<CSVData>
         }
 
         return DBShopDataDic[id];
-    }
-
-    // DB 생길때까지 임시
-    public Status GetMonsterLevelPerAddStatus(MONSTER_CLASS classType, GRADE_TYPE gradeType)
-    {
-        Status addStatus = new Status();
-
-        switch(classType)
-        {
-            case MONSTER_CLASS.Fighter:
-                if (gradeType == GRADE_TYPE.COMMON)
-                {
-                    addStatus.basicStr = 7;
-                    addStatus.basicDex = 2;
-                    addStatus.basicInt = 1;
-                }
-                else if (gradeType == GRADE_TYPE.UNCOMMON)
-                {
-                    addStatus.basicStr = 7;
-                    addStatus.basicDex = 3;
-                    addStatus.basicInt = 1;
-                }
-                else if (gradeType == GRADE_TYPE.RARE)
-                {
-                    addStatus.basicStr = 8;
-                    addStatus.basicDex = 3;
-                    addStatus.basicInt = 1;
-                }
-                else if (gradeType == GRADE_TYPE.UNIQUE)
-                {
-                    addStatus.basicStr = 9;
-                    addStatus.basicDex = 3;
-                    addStatus.basicInt = 1;
-                }
-                else if (gradeType == GRADE_TYPE.LEGENDARY)
-                {
-                    addStatus.basicStr = 10;
-                    addStatus.basicDex = 4;
-                    addStatus.basicInt = 1;
-                }
-                else
-                {
-                    Debug.Log("Grade Error : " + gradeType.ToString());
-                }
-                break;
-            case MONSTER_CLASS.Kngiht:
-                if (gradeType == GRADE_TYPE.COMMON)
-                {
-                    addStatus.basicStr = 8;
-                    addStatus.basicDex = 1;
-                    addStatus.basicInt = 1;
-                }
-                else if (gradeType == GRADE_TYPE.UNCOMMON)
-                {
-                    addStatus.basicStr = 9;
-                    addStatus.basicDex = 1;
-                    addStatus.basicInt = 1;
-                }
-                else if (gradeType == GRADE_TYPE.RARE)
-                {
-                    addStatus.basicStr = 10;
-                    addStatus.basicDex = 1;
-                    addStatus.basicInt = 1;
-                }
-                else if (gradeType == GRADE_TYPE.UNIQUE)
-                {
-                    addStatus.basicStr = 10;
-                    addStatus.basicDex = 2;
-                    addStatus.basicInt = 1;
-                }
-                else if (gradeType == GRADE_TYPE.LEGENDARY)
-                {
-                    addStatus.basicStr = 12;
-                    addStatus.basicDex = 2;
-                    addStatus.basicInt = 1;
-                }
-                else
-                {
-                    Debug.Log("Grade Error : " + gradeType.ToString());
-                }
-                break;
-            case MONSTER_CLASS.Priest:
-                if (gradeType == GRADE_TYPE.COMMON)
-                {
-                    addStatus.basicStr = 2;
-                    addStatus.basicDex = 1;
-                    addStatus.basicInt = 7;
-                }
-                else if (gradeType == GRADE_TYPE.UNCOMMON)
-                {
-                    addStatus.basicStr = 2;
-                    addStatus.basicDex = 1;
-                    addStatus.basicInt = 8;
-                }
-                else if (gradeType == GRADE_TYPE.RARE)
-                {
-                    addStatus.basicStr = 3;
-                    addStatus.basicDex = 1;
-                    addStatus.basicInt = 8;
-                }
-                else if (gradeType == GRADE_TYPE.UNIQUE)
-                {
-                    addStatus.basicStr = 3;
-                    addStatus.basicDex = 1;
-                    addStatus.basicInt = 9;
-                }
-                else if (gradeType == GRADE_TYPE.LEGENDARY)
-                {
-                    addStatus.basicStr = 3;
-                    addStatus.basicDex = 1;
-                    addStatus.basicInt = 11;
-                }
-                else
-                {
-                    Debug.Log("Grade Error : " + gradeType.ToString());
-                }
-                break;
-            case MONSTER_CLASS.Assassin:
-                if (gradeType == GRADE_TYPE.COMMON)
-                {
-                    addStatus.basicStr = 1;
-                    addStatus.basicDex = 8;
-                    addStatus.basicInt = 1;
-                }
-                else if (gradeType == GRADE_TYPE.UNCOMMON)
-                {
-                    addStatus.basicStr = 1;
-                    addStatus.basicDex = 9;
-                    addStatus.basicInt = 1;
-                }
-                else if (gradeType == GRADE_TYPE.RARE)
-                {
-                    addStatus.basicStr = 1;
-                    addStatus.basicDex = 10;
-                    addStatus.basicInt = 1;
-                }
-                else if (gradeType == GRADE_TYPE.UNIQUE)
-                {
-                    addStatus.basicStr = 2;
-                    addStatus.basicDex = 10;
-                    addStatus.basicInt = 1;
-                }
-                else if (gradeType == GRADE_TYPE.LEGENDARY)
-                {
-                    addStatus.basicStr = 2;
-                    addStatus.basicDex = 12;
-                    addStatus.basicInt = 1;
-                }
-                else
-                {
-                    Debug.Log("Grade Error : " + gradeType.ToString());
-                }
-                break;
-            case MONSTER_CLASS.Hunter:
-                if (gradeType == GRADE_TYPE.COMMON)
-                {
-                    addStatus.basicStr = 3;
-                    addStatus.basicDex = 6;
-                    addStatus.basicInt = 1;
-                }
-                else if (gradeType == GRADE_TYPE.UNCOMMON)
-                {
-                    addStatus.basicStr = 3;
-                    addStatus.basicDex = 6;
-                    addStatus.basicInt = 2;
-                }
-                else if (gradeType == GRADE_TYPE.RARE)
-                {
-                    addStatus.basicStr = 3;
-                    addStatus.basicDex = 7;
-                    addStatus.basicInt = 2;
-                }
-                else if (gradeType == GRADE_TYPE.UNIQUE)
-                {
-                    addStatus.basicStr = 3;
-                    addStatus.basicDex = 8;
-                    addStatus.basicInt = 2;
-                }
-                else if (gradeType == GRADE_TYPE.LEGENDARY)
-                {
-                    addStatus.basicStr = 4;
-                    addStatus.basicDex = 9;
-                    addStatus.basicInt = 2;
-                }
-                else
-                {
-                    Debug.Log("Grade Error : " + gradeType.ToString());
-                }
-                break;
-            case MONSTER_CLASS.Mage:
-                if (gradeType == GRADE_TYPE.COMMON)
-                {
-                    addStatus.basicStr = 1;
-                    addStatus.basicDex = 1;
-                    addStatus.basicInt = 8;
-                }
-                else if (gradeType == GRADE_TYPE.UNCOMMON)
-                {
-                    addStatus.basicStr = 1;
-                    addStatus.basicDex = 1;
-                    addStatus.basicInt = 9;
-                }
-                else if (gradeType == GRADE_TYPE.RARE)
-                {
-                    addStatus.basicStr = 1;
-                    addStatus.basicDex = 1;
-                    addStatus.basicInt = 10;
-                }
-                else if (gradeType == GRADE_TYPE.UNIQUE)
-                {
-                    addStatus.basicStr = 1;
-                    addStatus.basicDex = 1;
-                    addStatus.basicInt = 11;
-                }
-                else if (gradeType == GRADE_TYPE.LEGENDARY)
-                {
-                    addStatus.basicStr = 1;
-                    addStatus.basicDex = 1;
-                    addStatus.basicInt = 13;
-                }
-                else
-                {
-                    Debug.Log("Grade Error : " + gradeType.ToString());
-                }
-                break;
-            case MONSTER_CLASS.Warlock:
-                if (gradeType == GRADE_TYPE.COMMON)
-                {
-                    addStatus.basicStr = 2;
-                    addStatus.basicDex = 1;
-                    addStatus.basicInt = 7;
-                }
-                else if (gradeType == GRADE_TYPE.UNCOMMON)
-                {
-                    addStatus.basicStr = 2;
-                    addStatus.basicDex = 1;
-                    addStatus.basicInt = 8;
-                }
-                else if (gradeType == GRADE_TYPE.RARE)
-                {
-                    addStatus.basicStr = 3;
-                    addStatus.basicDex = 1;
-                    addStatus.basicInt = 8;
-                }
-                else if (gradeType == GRADE_TYPE.UNIQUE)
-                {
-                    addStatus.basicStr = 3;
-                    addStatus.basicDex = 1;
-                    addStatus.basicInt = 9;
-                }
-                else if (gradeType == GRADE_TYPE.LEGENDARY)
-                {
-                    addStatus.basicStr = 3;
-                    addStatus.basicDex = 1;
-                    addStatus.basicInt = 11;
-                }
-                else
-                {
-                    Debug.Log("Grade Error : " + gradeType.ToString());
-                }
-                break;
-            case MONSTER_CLASS.Druid:
-                if (gradeType == GRADE_TYPE.COMMON)
-                {
-                    addStatus.basicStr = 5;
-                    addStatus.basicDex = 2;
-                    addStatus.basicInt = 3;
-                }
-                else if (gradeType == GRADE_TYPE.UNCOMMON)
-                {
-                    addStatus.basicStr = 5;
-                    addStatus.basicDex = 3;
-                    addStatus.basicInt = 3;
-                }
-                else if (gradeType == GRADE_TYPE.RARE)
-                {
-                    addStatus.basicStr = 6;
-                    addStatus.basicDex = 3;
-                    addStatus.basicInt = 3;
-                }
-                else if (gradeType == GRADE_TYPE.UNIQUE)
-                {
-                    addStatus.basicStr = 7;
-                    addStatus.basicDex = 3;
-                    addStatus.basicInt = 3;
-                }
-                else if (gradeType == GRADE_TYPE.LEGENDARY)
-                {
-                    addStatus.basicStr = 8;
-                    addStatus.basicDex = 3;
-                    addStatus.basicInt = 4;
-                }
-                else
-                {
-                    Debug.Log("Grade Error : " + gradeType.ToString());
-                }
-                break;
-            case MONSTER_CLASS.Shaman:
-                if (gradeType == GRADE_TYPE.COMMON)
-                {
-                    addStatus.basicStr = 2;
-                    addStatus.basicDex = 5;
-                    addStatus.basicInt = 3;
-                }
-                else if (gradeType == GRADE_TYPE.UNCOMMON)
-                {
-                    addStatus.basicStr = 3;
-                    addStatus.basicDex = 5;
-                    addStatus.basicInt = 3;
-                }
-                else if (gradeType == GRADE_TYPE.RARE)
-                {
-                    addStatus.basicStr = 3;
-                    addStatus.basicDex = 6;
-                    addStatus.basicInt = 3;
-                }
-                else if (gradeType == GRADE_TYPE.UNIQUE)
-                {
-                    addStatus.basicStr = 3;
-                    addStatus.basicDex = 7;
-                    addStatus.basicInt = 3;
-                }
-                else if (gradeType == GRADE_TYPE.LEGENDARY)
-                {
-                    addStatus.basicStr = 3;
-                    addStatus.basicDex = 8;
-                    addStatus.basicInt = 4;
-                }
-                else
-                {
-                    Debug.Log("Grade Error : " + gradeType.ToString());
-                }
-                break;
-
-            default:
-                Debug.Log("Class Error : " + classType.ToString());
-                break;
-        }
-
-        return addStatus;
     }
 
     #endregion

@@ -1593,7 +1593,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
                 UserServantData getServant = ParseServant(getMailOpenResultData.servant_data_list[i]);
 
-                UserDataManager.Inst.AddServantData(getServant);
+                if (getServant.state != 4)
+                {
+                    UserDataManager.Inst.AddServantData(getServant);
+                }
             }
         }
 
@@ -1770,7 +1773,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 return false;
             }
 
-            servantDic.Add(servant.index, servant);
+            if (servant.state != 4)
+            {
+                servantDic.Add(servant.index, servant);
+            }
         }
 
         return true;
@@ -1863,7 +1869,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 return false;
             }
 
-            monsterDic.Add(monster.index, monster);
+            if (monster.state != 4)
+            {
+                monsterDic.Add(monster.index, monster);
+            }
         }
 
         return true;
@@ -1899,7 +1908,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             Debug.Log("Invalid Monster ID : " + monster.id);
             return null;
         }
-        monster.monsterClass = monsterData.classType;
+        monster.monsterTribe = (int)monsterData.tribeType;
         monster.element = (int)monsterData.elementType;
 
         monster.partyIndex = getMonsterData.party_number;
@@ -1929,7 +1938,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 Debug.Log("Invalid Item Info");
                 return false;
             }
-            equipmentDic.Add(equipment.index, equipment);
+
+            if (equipment.state != 4)
+            {
+                equipmentDic.Add(equipment.index, equipment);
+            }
         }
 
         return true;
@@ -2114,7 +2127,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             stateData.mCriDmg = monsterData.mcriDmg;
             stateData.avoid = monsterData.avoid;
             stateData.speed = monsterData.speed;
-            stateData.classType = monsterData.classType;
+            stateData.tribeType = (int)monsterData.tribeType;
             stateData.elementType = (int)monsterData.elementType;
         }
 

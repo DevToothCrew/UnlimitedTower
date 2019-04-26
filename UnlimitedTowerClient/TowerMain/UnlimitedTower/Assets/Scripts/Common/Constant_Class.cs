@@ -184,14 +184,15 @@ public class UserMonsterData
     }
     public int upgrade;
     public int state;
-    public int monsterClass;
-    public MONSTER_CLASS classType
+    public int monsterTribe;
+    public TRIBE_TYPE tribeType
     {
         get
         {
-            return (MONSTER_CLASS)monsterClass;
+            return (TRIBE_TYPE)monsterTribe;
         }
     }
+
     public int element;
     public ELEMENT_TYPE elementType
     {
@@ -429,7 +430,7 @@ public class UserCharacterStateData
     // Servant 전용
     public int job;
     // Monster 전용
-    public int classType;   //종족으로 변환예정
+    public int tribeType;
     public int elementType;
 
     public int state;       //0 살있음, 1 죽어있음 

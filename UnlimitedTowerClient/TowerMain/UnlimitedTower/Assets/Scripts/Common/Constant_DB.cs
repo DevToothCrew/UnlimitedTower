@@ -75,21 +75,7 @@ public class DBMonsterData
     public int id;
     public string name;
     public ELEMENT_TYPE elementType;
-    public int classType;
-    public MONSTER_CLASS GetClass
-    {
-        get
-        {
-            return (MONSTER_CLASS)classType;
-        }
-    }
-    public MONSTER_CLASS_FLAG GetClassFlag
-    {
-        get
-        {
-            return (MONSTER_CLASS_FLAG)Math.Pow(2, classType);
-        }
-    }
+    public TRIBE_TYPE tribeType;
 
     public int speed;
     public int avoid;
@@ -135,13 +121,14 @@ public class DBOptionTypeResourceData
 [Serializable]
 public class DBMonsterStatData
 {
-    public MONSTER_CLASS classEnum;
+    public TRIBE_TYPE tribeEnum;
     public int speed;
     public int avoid;
     public int criPer;
     public int criDmg;
-    public int mcriPer;
-    public int mcriDmg;
+    public int synergePair;
+    public int synergeTriple;
+    public int synergePenta;
 }
 
 [Serializable]
@@ -321,27 +308,6 @@ public class DBSkillActiveData
         return false;
     }
 
-    public MONSTER_CLASS_FLAG classLimit;
-    public bool isClassAble(MONSTER_CLASS_FLAG classType)
-    {
-        if (classLimit == MONSTER_CLASS_FLAG.None)
-        {
-            return false;
-        }
-
-        if (classLimit == MONSTER_CLASS_FLAG.All)
-        {
-            return true;
-        }
-
-        if ((classLimit & classType) == classType)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
     public double activePer;
     public SKILL_TYPE skillType;
     public ATTACK_TYPE attackType;
@@ -373,7 +339,7 @@ public class DBSkillPassiveData
     public EFFECT_TYPE effectType;
     public int effectAdd;
     public int effectPlusAdd;
-    public TARGET_TYPE targetType;
+    //public TARGET_TYPE targetType;
     public int targetID;
 }
 

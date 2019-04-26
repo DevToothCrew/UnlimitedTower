@@ -265,7 +265,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
             monsterDic[index].level += getLvup;
             //레벨업시 스탯 증가 반영해주는 코드 필요
 
-            Status addStatus = CSVData.Inst.GetMonsterLevelPerAddStatus(monsterDic[index].classType, monsterDic[index].gradeType);
+            Status addStatus = new Status();
 
             monsterDic[index].status.basicStr += (getLvup * addStatus.basicStr);
             monsterDic[index].status.basicDex += (getLvup * addStatus.basicDex);

@@ -1,11 +1,32 @@
-id,passive_type,#관리,en_name,#패시브 설명,name,#,explain,resource_icon,#,enable_stack_n,effect_keyword,effect_id,effect_type_id,effect_a,effect_b,target,target_id
-#,type,데이터별 설명,,패시브 설명,패시브 이름,패시브 설명,패시브 설명,패시브 아이콘,사용가능 직업,누적 최대값,패시브 효과 키워드,,,패시브 a값,패시브 b값,타겟,
-int,int,string,,string,localize,string,localize,string,string,int,string,int,int,float,float,string,int
-100001,1,웨폰 마스터리,Weapon Mastery,공용 패시브,DB_skill_passive_name_100001,자신만 물리 공격력 a 증가,DB_skill_passive_desc_100001,ic_passive_atkPhy_up,all,0,pass_atkPhy_inc_per,1,1,100,35,self,1
-100002,1,매직 마스터리,Magic Mastery,공용 패시브,DB_skill_passive_name_100002,자신만 마법 공격력 a 증가,DB_skill_passive_desc_100002,ic_passive_atkMag_up,all,0,pass_atkMag_inc_per,2,1,110,40,self,1
-100003,1,아이언 바디,Iron Body,공용 패시브,DB_skill_passive_name_100003,자신만 물리 방어력 a 증가,DB_skill_passive_desc_100003,ic_passive_defPhy_up,all,0,pass_defPhy_inc_per,3,1,30,10,self,1
-100004,1,매직 아머,Magic Armor,공용 패시브,DB_skill_passive_name_100004,자신만 마법 방어력 a 증가,DB_skill_passive_desc_100004,ic_passive_defMag_up,all,0,pass_defMag_inc_per,4,1,30,10,self,1
-100005,1,바이탈리티,Vatality,공용 패시브,DB_skill_passive_name_100005,자신만 생명력 a 증가,DB_skill_passive_desc_100005,ic_passive_hp_up,all,0,pass_hp_inc_per,5,1,500,180,self,1
-100006,1,스트렝스 트레이닝,Strength Training,공용 패시브,DB_skill_passive_name_100006,자신만 힘 a 증가,DB_skill_passive_desc_100006,ic_passive_str_up,all,0,pass_str_inc_per,6,1,20,10,self,1
-100007,1,블레스 오브 윈드,Bless of Wind,공용 패시브,DB_skill_passive_name_100007,자신만 민첩 a 증가,DB_skill_passive_desc_100007,ic_passive_dex_up,all,0,pass_dex_inc_per,7,1,20,10,self,1
-100008,1,리미트리스,Limitless,공용 패시브,DB_skill_passive_name_100008,자신만 지능 a 증가,DB_skill_passive_desc_100008,ic_passive_int_up,all,0,pass_int_inc_per,8,1,20,10,self,1
+id,passive_type,#관리,en_name,#패시브 설명,name,#,explain,resource_icon,job_class,#,enable_stack_n,effect_keyword,effect_id,effect_type_id,effect_a,effect_b,#,target_id
+#,type,데이터별 설명,,패시브 설명,패시브 이름,패시브 설명,패시브 설명,패시브 아이콘,,,누적 최대값,패시브 효과 키워드,"능력치 아이디
+int,int,string,,string,localize,string,localize,string,int,string,int,string,int,int,float,float,string,int
+100001,1,웨폰 마스터리,Weapon Mastery,공용 패시브,DB_skill_passive_name_100001,자신만 물리 공격력 a 증가,DB_skill_passive_desc_100001,ic_passive_atkPhy_up,0,all,0,pass_atkPhy_inc_per,1,3,2,0,self,1
+100002,1,매직 마스터리,Magic Mastery,공용 패시브,DB_skill_passive_name_100002,자신만 마법 공격력 a 증가,DB_skill_passive_desc_100002,ic_passive_atkMag_up,0,all,0,pass_atkMag_inc_per,2,3,2,0,self,1
+100003,1,아이언 바디,Iron Body,공용 패시브,DB_skill_passive_name_100003,자신만 물리 방어력 a 증가,DB_skill_passive_desc_100003,ic_passive_defPhy_up,0,all,0,pass_defPhy_inc_per,3,3,2,0,self,1
+100004,1,매직 아머,Magic Armor,공용 패시브,DB_skill_passive_name_100004,자신만 마법 방어력 a 증가,DB_skill_passive_desc_100004,ic_passive_defMag_up,0,all,0,pass_defMag_inc_per,4,3,2,0,self,1
+100005,1,바이탈리티,Vatality,공용 패시브,DB_skill_passive_name_100005,자신만 생명력 a 증가,DB_skill_passive_desc_100005,ic_passive_hp_up,0,all,0,pass_hp_inc_per,5,3,2,0,self,1
+100006,1,스트렝스 트레이닝,Strength Training,공용 패시브,DB_skill_passive_name_100006,자신만 힘 a 증가,DB_skill_passive_desc_100006,ic_passive_str_up,0,all,0,pass_str_inc_per,6,3,2,0,self,1
+100007,1,블레스 오브 윈드,Bless of Wind,공용 패시브,DB_skill_passive_name_100007,자신만 민첩 a 증가,DB_skill_passive_desc_100007,ic_passive_dex_up,0,all,0,pass_dex_inc_per,7,3,2,0,self,1
+100008,1,리미트리스,Limitless,공용 패시브,DB_skill_passive_name_100008,자신만 지능 a 증가,DB_skill_passive_desc_100008,ic_passive_int_up,0,all,0,pass_int_inc_per,8,3,2,0,self,1
+190011,9,야수 : 난폭한 야성,Beast : Rage of the Wild,야수 시너지,DB_skill_passive_name_190011,야수 종족의 물리 공격력이 10% 증가합니다.,DB_skill_passive_desc_190011,ic_synergy_beast_1,901,,0,,1,3,10,0,야수 시너지,901
+190012,9,야수 : 난폭한 야성,Beast : Rage of the Wild,야수 시너지,DB_skill_passive_name_190012,야수 종족의 물리 공격력이 20% 증가합니다.,DB_skill_passive_desc_190012,ic_synergy_beast_2,901,,0,,1,3,20,0,야수 시너지,901
+190013,9,야수 : 난폭한 야성,Beast : Rage of the Wild,야수 시너지,DB_skill_passive_name_190013,야수 종족의 물리 공격력이 45% 증가합니다.,DB_skill_passive_desc_190013,ic_synergy_beast_3,901,,0,,1,3,45,0,야수 시너지,901
+190021,9,인간 : 단결된 의지,Human : Stand United,인간 시너지,DB_skill_passive_name_190021,인간 종족의 물리 방어력이 10% 증가합니다.,DB_skill_passive_desc_190021,ic_synergy_human_1,902,,0,,3,3,10,0,인간 시너지,902
+190022,9,인간 : 단결된 의지,Human : Stand United,인간 시너지,DB_skill_passive_name_190022,인간 종족의 물리 방어력이 30% 증가합니다.,DB_skill_passive_desc_190022,ic_synergy_human_2,902,,0,,3,3,30,0,인간 시너지,902
+190023,9,인간 : 단결된 의지,Human : Stand United,인간 시너지,DB_skill_passive_name_190023,인간 종족의 물리 방어력이 50% 증가합니다.,DB_skill_passive_desc_190023,ic_synergy_human_3,902,,0,,3,3,50,0,인간 시너지,902
+190031,9,악마 : 어둠의 힘,Demon : Power of Darkness,악마 시너지,DB_skill_passive_name_190031,악마 종족의 마법 공격력이 10% 증가합니다.,DB_skill_passive_desc_190031,ic_synergy_demon_1,903,,0,,2,3,10,0,악마 시너지,903
+190032,9,악마 : 어둠의 힘,Demon : Power of Darkness,악마 시너지,DB_skill_passive_name_190032,악마 종족의 마법 공격력이 20% 증가합니다.,DB_skill_passive_desc_190032,ic_synergy_demon_2,903,,0,,2,3,20,0,악마 시너지,903
+190033,9,악마 : 어둠의 힘,Demon : Power of Darkness,악마 시너지,DB_skill_passive_name_190033,악마 종족의 마법 공격력이 45% 증가합니다.,DB_skill_passive_desc_190033,ic_synergy_demon_3,903,,0,,2,3,45,0,악마 시너지,903
+190041,9,정령 : 자연의 축복,Spirit : The Blessing of Nature,정령 시너지,DB_skill_passive_name_190041,정령 종족의 체력이 10% 증가합니다.,DB_skill_passive_desc_190041,ic_synergy_spirit_1,904,,0,,5,3,10,0,정령 시너지,904
+190042,9,정령 : 자연의 축복,Spirit : The Blessing of Nature,정령 시너지,DB_skill_passive_name_190042,정령 종족의 체력이 30% 증가합니다.,DB_skill_passive_desc_190042,ic_synergy_spirit_2,904,,0,,5,3,30,0,정령 시너지,904
+190043,9,정령 : 자연의 축복,Spirit : The Blessing of Nature,정령 시너지,DB_skill_passive_name_190043,정령 종족의 체력이 50% 증가합니다.,DB_skill_passive_desc_190043,ic_synergy_spirit_3,904,,0,,5,3,50,0,정령 시너지,904
+190051,9,곤충 : 아드레날린,Insect : Adrenaline,곤충 시너지,DB_skill_passive_name_190051,곤충 종족의 회피율이 20% 증가합니다.,DB_skill_passive_desc_190051,ic_synergy_insect_1,905,,0,,10,3,20,0,곤충 시너지,905
+190052,9,곤충 : 아드레날린,Insect : Adrenaline,곤충 시너지,DB_skill_passive_name_190052,곤충 종족의 회피율이 35% 증가합니다.,DB_skill_passive_desc_190052,ic_synergy_insect_2,905,,0,,10,3,35,0,곤충 시너지,905
+190053,9,곤충 : 아드레날린,Insect : Adrenaline,곤충 시너지,DB_skill_passive_name_190053,곤충 종족의 회피율이 55% 증가합니다.,DB_skill_passive_desc_190053,ic_synergy_insect_3,905,,0,,10,3,55,0,곤충 시너지,905
+190061,9,해인 : 바다의 가호,Mermaid : Sea's Protection,해인 시너지,DB_skill_passive_name_190061,파티 전체의 마법 방어력이 10% 증가합니다.,DB_skill_passive_desc_190061,ic_synergy_mermaid_1,906,,0,,4,3,10,0,해인 시너지,2
+190062,9,해인 : 바다의 가호,Mermaid : Sea's Protection,해인 시너지,DB_skill_passive_name_190062,파티 전체의 마법 방어력이 30% 증가합니다.,DB_skill_passive_desc_190062,ic_synergy_mermaid_2,906,,0,,4,3,30,0,해인 시너지,2
+190063,9,해인 : 바다의 가호,Mermaid : Sea's Protection,해인 시너지,DB_skill_passive_name_190063,파티 전체의 마법 방어력이 50% 증가합니다.,DB_skill_passive_desc_190063,ic_synergy_mermaid_3,906,,0,,4,3,50,0,해인 시너지,2
+190071,9,미스테리어스 : 풀하우스,Mysterious : Full House,미스테리어스 시너지,DB_skill_passive_name_190071,미스테리어스 종족의 치명타율이 10% 증가합니다.,DB_skill_passive_desc_190071,ic_synergy_mysterious_1,907,,0,,11,3,10,0,미스테리어스 시너지,907
+190072,9,미스테리어스 : 풀하우스,Mysterious : Full House,미스테리어스 시너지,DB_skill_passive_name_190072,미스테리어스 종족의 치명타율이 25% 증가합니다.,DB_skill_passive_desc_190072,ic_synergy_mysterious_2,907,,0,,11,3,25,0,미스테리어스 시너지,907
+190073,9,미스테리어스 : 풀하우스,Mysterious : Full House,미스테리어스 시너지,DB_skill_passive_name_190073,미스테리어스 종족의 치명타율이 45% 증가합니다.,DB_skill_passive_desc_190073,ic_synergy_mysterious_3,907,,0,,11,3,45,0,미스테리어스 시너지,907

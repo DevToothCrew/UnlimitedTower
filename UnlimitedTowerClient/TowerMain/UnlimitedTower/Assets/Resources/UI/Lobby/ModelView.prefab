@@ -21214,24 +21214,24 @@ MonoBehaviour:
     RightLeg: {fileID: 4300006, guid: 5a1c8cf606cedda45863cad71e65eabf, type: 3}
     RightFoot: {fileID: 4300004, guid: 5a1c8cf606cedda45863cad71e65eabf, type: 3}
   - Name: AdultMan
-    avatar: {fileID: 9000000, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
+    avatar: {fileID: 9000000, guid: d57e08f467755774787b24ecc32d2904, type: 3}
     frame: {fileID: 0}
     material: {fileID: 2100000, guid: ec3c972a6398463479947ee77cdd6a1b, type: 2}
-    Head: {fileID: 4300026, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
-    Neck: {fileID: 4300024, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
-    Body: {fileID: 4300022, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
-    LeftHand: {fileID: 4300028, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
-    LeftWrist: {fileID: 4300016, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
-    LeftArm: {fileID: 4300018, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
-    LeftShoulder: {fileID: 4300020, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
-    RightHand: {fileID: 4300008, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
-    RightWrist: {fileID: 4300010, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
-    RightArm: {fileID: 4300012, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
-    RightShoulder: {fileID: 4300014, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
-    LeftLeg: {fileID: 4300006, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
-    LeftFoot: {fileID: 4300004, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
-    RightLeg: {fileID: 4300002, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
-    RightFoot: {fileID: 4300000, guid: 28c717be259479445a3c6f83c0f00b76, type: 3}
+    Head: {fileID: 4300028, guid: d57e08f467755774787b24ecc32d2904, type: 3}
+    Neck: {fileID: 4300026, guid: d57e08f467755774787b24ecc32d2904, type: 3}
+    Body: {fileID: 4300024, guid: d57e08f467755774787b24ecc32d2904, type: 3}
+    LeftHand: {fileID: 4300000, guid: d57e08f467755774787b24ecc32d2904, type: 3}
+    LeftWrist: {fileID: 4300018, guid: d57e08f467755774787b24ecc32d2904, type: 3}
+    LeftArm: {fileID: 4300020, guid: d57e08f467755774787b24ecc32d2904, type: 3}
+    LeftShoulder: {fileID: 4300022, guid: d57e08f467755774787b24ecc32d2904, type: 3}
+    RightHand: {fileID: 4300010, guid: d57e08f467755774787b24ecc32d2904, type: 3}
+    RightWrist: {fileID: 4300012, guid: d57e08f467755774787b24ecc32d2904, type: 3}
+    RightArm: {fileID: 4300016, guid: d57e08f467755774787b24ecc32d2904, type: 3}
+    RightShoulder: {fileID: 4300016, guid: d57e08f467755774787b24ecc32d2904, type: 3}
+    LeftLeg: {fileID: 4300008, guid: d57e08f467755774787b24ecc32d2904, type: 3}
+    LeftFoot: {fileID: 4300006, guid: d57e08f467755774787b24ecc32d2904, type: 3}
+    RightLeg: {fileID: 4300004, guid: d57e08f467755774787b24ecc32d2904, type: 3}
+    RightFoot: {fileID: 4300002, guid: d57e08f467755774787b24ecc32d2904, type: 3}
   - Name: ChildrenWoman
     avatar: {fileID: 9000000, guid: 51ecdef158813454aa0fd203b95ccf9f, type: 3}
     frame: {fileID: 0}
