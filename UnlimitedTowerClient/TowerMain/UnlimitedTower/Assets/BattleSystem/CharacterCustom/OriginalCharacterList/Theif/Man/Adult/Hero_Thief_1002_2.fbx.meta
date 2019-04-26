@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 28c717be259479445a3c6f83c0f00b76
+guid: d57e08f467755774787b24ecc32d2904
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -13,20 +13,20 @@ ModelImporter:
     100014: heel_02_R
     100016: //RootNode
     100018: hero_thief_1002_2__image
-    100020: hero_thief_1002_2__image_002
-    100022: hero_thief_1002_2__image_003
-    100024: hero_thief_1002_2__image_004
-    100026: hero_thief_1002_2__image_005
-    100028: hero_thief_1002_2__image_006
-    100030: hero_thief_1002_2__image_007
-    100032: hero_thief_1002_2__image_008
-    100034: hero_thief_1002_2__image_009
-    100036: hero_thief_1002_2__image_010
-    100038: hero_thief_1002_2__image_011
-    100040: hero_thief_1002_2__image_012
-    100042: hero_thief_1002_2__image_014
-    100044: hero_thief_1002_2__image_015
-    100046: hero_thief_1002_2__image_016
+    100020: hero_thief_1002_2__image_001
+    100022: hero_thief_1002_2__image_002
+    100024: hero_thief_1002_2__image_003
+    100026: hero_thief_1002_2__image_004
+    100028: hero_thief_1002_2__image_005
+    100030: hero_thief_1002_2__image_006
+    100032: hero_thief_1002_2__image_007
+    100034: hero_thief_1002_2__image_008
+    100036: hero_thief_1002_2__image_009
+    100038: hero_thief_1002_2__image_010
+    100040: hero_thief_1002_2__image_011
+    100042: hero_thief_1002_2__image_012
+    100044: hero_thief_1002_2__image_014
+    100046: hero_thief_1002_2__image_015
     100048: metarig
     100050: shin_L
     100052: shin_R
@@ -39,12 +39,13 @@ ModelImporter:
     100066: spine_004
     100068: spine_005
     100070: spine_006
-    100072: thigh_L
-    100074: thigh_R
-    100076: toe_L
-    100078: toe_R
-    100080: upper_arm_L
-    100082: upper_arm_R
+    100072: THIEF_ARM
+    100074: thigh_L
+    100076: thigh_R
+    100078: toe_L
+    100080: toe_R
+    100082: upper_arm_L
+    100084: upper_arm_R
     400000: foot_L
     400002: foot_R
     400004: forearm_L
@@ -55,20 +56,20 @@ ModelImporter:
     400014: heel_02_R
     400016: //RootNode
     400018: hero_thief_1002_2__image
-    400020: hero_thief_1002_2__image_002
-    400022: hero_thief_1002_2__image_003
-    400024: hero_thief_1002_2__image_004
-    400026: hero_thief_1002_2__image_005
-    400028: hero_thief_1002_2__image_006
-    400030: hero_thief_1002_2__image_007
-    400032: hero_thief_1002_2__image_008
-    400034: hero_thief_1002_2__image_009
-    400036: hero_thief_1002_2__image_010
-    400038: hero_thief_1002_2__image_011
-    400040: hero_thief_1002_2__image_012
-    400042: hero_thief_1002_2__image_014
-    400044: hero_thief_1002_2__image_015
-    400046: hero_thief_1002_2__image_016
+    400020: hero_thief_1002_2__image_001
+    400022: hero_thief_1002_2__image_002
+    400024: hero_thief_1002_2__image_003
+    400026: hero_thief_1002_2__image_004
+    400028: hero_thief_1002_2__image_005
+    400030: hero_thief_1002_2__image_006
+    400032: hero_thief_1002_2__image_007
+    400034: hero_thief_1002_2__image_008
+    400036: hero_thief_1002_2__image_009
+    400038: hero_thief_1002_2__image_010
+    400040: hero_thief_1002_2__image_011
+    400042: hero_thief_1002_2__image_012
+    400044: hero_thief_1002_2__image_014
+    400046: hero_thief_1002_2__image_015
     400048: metarig
     400050: shin_L
     400052: shin_R
@@ -81,29 +82,34 @@ ModelImporter:
     400066: spine_004
     400068: spine_005
     400070: spine_006
-    400072: thigh_L
-    400074: thigh_R
-    400076: toe_L
-    400078: toe_R
-    400080: upper_arm_L
-    400082: upper_arm_R
-    2100000: palette_011__hero_thief_1002_2__image_png
-    2100002: palette_012__hero_thief_1002_2__image_png_001
-    4300000: hero_thief_1002_2__image_008
-    4300002: hero_thief_1002_2__image_009
-    4300004: hero_thief_1002_2__image
-    4300006: hero_thief_1002_2__image_011
-    4300008: hero_thief_1002_2__image_003
-    4300010: hero_thief_1002_2__image_002
-    4300012: hero_thief_1002_2__image_004
-    4300014: hero_thief_1002_2__image_005
-    4300016: hero_thief_1002_2__image_015
-    4300018: hero_thief_1002_2__image_012
-    4300020: hero_thief_1002_2__image_014
-    4300022: hero_thief_1002_2__image_007
-    4300024: hero_thief_1002_2__image_010
-    4300026: hero_thief_1002_2__image_006
-    4300028: hero_thief_1002_2__image_016
+    400072: THIEF_ARM
+    400074: thigh_L
+    400076: thigh_R
+    400078: toe_L
+    400080: toe_R
+    400082: upper_arm_L
+    400084: upper_arm_R
+    2100000: palette_013__THIEF_ARM_png
+    2100002: palette_011__hero_thief_1002_2__image_png
+    2100004: palette_001__hero_thief_1002_2__image_png_002
+    2300000: hero_thief_1002_2__image_001
+    3300000: hero_thief_1002_2__image_001
+    4300000: THIEF_ARM
+    4300002: hero_thief_1002_2__image_008
+    4300004: hero_thief_1002_2__image_009
+    4300006: hero_thief_1002_2__image
+    4300008: hero_thief_1002_2__image_011
+    4300010: hero_thief_1002_2__image_003
+    4300012: hero_thief_1002_2__image_002
+    4300014: hero_thief_1002_2__image_004
+    4300016: hero_thief_1002_2__image_005
+    4300018: hero_thief_1002_2__image_015
+    4300020: hero_thief_1002_2__image_012
+    4300022: hero_thief_1002_2__image_014
+    4300024: hero_thief_1002_2__image_007
+    4300026: hero_thief_1002_2__image_010
+    4300028: hero_thief_1002_2__image_006
+    4300030: hero_thief_1002_2__image_001
     7400000: Default Take
     9500000: //RootNode
     13700000: hero_thief_1002_2__image
@@ -120,7 +126,7 @@ ModelImporter:
     13700022: hero_thief_1002_2__image_012
     13700024: hero_thief_1002_2__image_014
     13700026: hero_thief_1002_2__image_015
-    13700028: hero_thief_1002_2__image_016
+    13700028: THIEF_ARM
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -154,10 +160,10 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
-    importVisibility: 0
+    importVisibility: 1
     importBlendShapes: 1
-    importCameras: 0
-    importLights: 0
+    importCameras: 1
+    importLights: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
@@ -172,10 +178,10 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
-    normalSmoothAngle: 100
-    normalImportMode: 1
+    normalSmoothAngle: 60
+    normalImportMode: 0
     tangentImportMode: 3
-    normalCalculationMode: 0
+    normalCalculationMode: 4
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
