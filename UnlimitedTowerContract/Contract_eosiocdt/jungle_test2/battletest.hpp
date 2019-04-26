@@ -110,6 +110,25 @@ CONTRACT battletest : public contract
     std::vector<uint32_t> equipment_ac_unique_status_list = {27, 29, 31, 33, 35, 38, 41, 44, 47, 50};
     std::vector<uint32_t> equipment_ac_legendary_status_list = {33, 36, 39, 42, 45, 48, 51, 54, 57, 60};
 
+#pragma region seed check
+    struct seed_info
+    {
+        std::string type;
+        uint64_t seed;
+    };
+    
+    TABLE tcheck
+    {
+        uint64_t index;
+        std::vector<seed_info> value;
+        uint64_t primary_key() const { return index; }
+    };
+    typedef eosio::multi_index<"tcheck"_n, tcheck> seed_log;
+    void set_seed_log(const std::vector<seed_info> _data);
+    void set_log_data(std::vector<seed_info> &_data, std::string _type, uint64_t _seed);
+#pragma endregion
+
+
     //------------------------------------------------------------------------//
     //-----------------------------db_table-----------------------------------//
     //------------------------------------------------------------------------//
@@ -1121,8 +1140,9 @@ CONTRACT battletest : public contract
     {
         pre_regist = 1,
         lobby = 2,
+        empty,
+        stage, 
         tower,
-        stage,
         auth_regist,
         pvp,
     };
@@ -1230,13 +1250,13 @@ CONTRACT battletest : public contract
     ACTION setpause(uint64_t _state);
     void system_check(eosio::name _user);
     ACTION resultgacha(eosio::name _who, std::string _type, std::string _result);
-    ACTION resultpre(eosio::name _from, eosio::name _to, std::string _result);
+    //ACTION resultpre(eosio::name _from, eosio::name _to, std::string _result);
     ACTION resultparty(eosio::name _who, std::string _party_info, std::string _servant_list, std::string _monster_list);
 	ACTION battlestate(eosio::name _who, std::string _stage_info ,std::vector<std::string> &_my_state_list, std::vector<std::string> &_enemy_state_list);
     ACTION battleaction(eosio::name _who, std::string _turn, std::vector<std::string> &_action_data);
-    ACTION battleresult(eosio::name _who, std::vector<std::string> &_reward);
-    ACTION contents(eosio::name _who, std::string _type, std::string _result);
-    ACTION contentslist(eosio::name _who, std::string _type, std::string _list);
+    //ACTION battleresult(eosio::name _who, std::vector<std::string> &_reward);
+    //ACTION contents(eosio::name _who, std::string _type, std::string _result);
+    //ACTION contentslist(eosio::name _who, std::string _type, std::string _list);
     //------------------------------------------------------------------------//
     //-------------------------------party_table------------------------------//
     //------------------------------------------------------------------------//
