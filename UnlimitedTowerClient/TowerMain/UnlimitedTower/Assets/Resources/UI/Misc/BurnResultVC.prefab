@@ -176,6 +176,7 @@ GameObject:
   - component: {fileID: 224320494341302058}
   - component: {fileID: 222761967571246900}
   - component: {fileID: 114205027381562276}
+  - component: {fileID: 114871101873607284}
   m_Layer: 5
   m_Name: UTGCountText
   m_TagString: Untagged
@@ -514,6 +515,20 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: OK
+--- !u!114 &114871101873607284
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1993408296256696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 234346e2255896644be173dc1280d980, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_color1: {r: 1, g: 0.9607843, b: 0.5411765, a: 1}
+  m_color2: {r: 1, g: 0.8235294, b: 0.5411765, a: 1}
+  m_angle: 0
 --- !u!114 &114953302295158740
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -756,7 +771,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -800, y: -450}
   m_SizeDelta: {x: 1600, y: 900}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224635761797254656
