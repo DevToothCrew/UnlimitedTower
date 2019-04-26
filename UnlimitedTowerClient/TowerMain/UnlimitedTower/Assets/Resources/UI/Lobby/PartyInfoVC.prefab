@@ -2161,7 +2161,7 @@ GameObject:
   - component: {fileID: 222952843481075638}
   - component: {fileID: 114908369948701546}
   m_Layer: 5
-  m_Name: TextClassText
+  m_Name: TextTribeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2479,7 +2479,7 @@ GameObject:
   - component: {fileID: 222244002440861436}
   - component: {fileID: 114511942841038732}
   m_Layer: 5
-  m_Name: ImageClass
+  m_Name: ImageTribe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8681,7 +8681,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Monster Type
+  m_Text: Element Type
 --- !u!114 &114332095045383858
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10496,7 +10496,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 9a20ce91fcb4f38438bb0202537585d1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fce22d4cf9262ee41a6f45ae6008dc68, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -11359,7 +11359,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 9a20ce91fcb4f38438bb0202537585d1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d674171941a512141bfedfd0dd2087c9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -12431,9 +12431,9 @@ MonoBehaviour:
   textGrade: {fileID: 114990363854809264}
   textUpgradeText: {fileID: 114654295909779666}
   textUpgrade: {fileID: 114352397961150844}
-  textClassText: {fileID: 114908369948701546}
-  imageClass: {fileID: 114511942841038732}
-  textTypeText: {fileID: 114325507483587376}
+  textTribeText: {fileID: 0}
+  imageTribe: {fileID: 114511942841038732}
+  textTypeText: {fileID: 0}
   imageType: {fileID: 114579496732431210}
   textStatsText: {fileID: 114654071669651704}
   textStr: {fileID: 114766565147459200}
@@ -14729,7 +14729,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Class
+  m_Text: Tribe
 --- !u!114 &114912920994078818
 MonoBehaviour:
   m_ObjectHideFlags: 1

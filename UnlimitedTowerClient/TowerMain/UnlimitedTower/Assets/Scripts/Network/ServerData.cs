@@ -531,25 +531,9 @@ public class ShopBuyItemJson
 }
 
 [Serializable]
-public class BuyInventoryJson
-{
-    public int type;
-    public int itemCount;
-}
-
-[Serializable]
-public class BuyRoyalservantJson
-{
-    public int servantIndex;
-}
-
-[Serializable]
 public class MailOpenJson
 {
     public List<int> mailOpenIndexList;
 }
-
-
-
 
 #endregion

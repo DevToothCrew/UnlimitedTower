@@ -598,59 +598,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 });
     }
 
-    // 인벤토리 구매
-    public void RequestBuyInventory(int type, int itemCount)
-    {
-        Debug.Log("Request Buy Inventory");
-        if (type == 0 || itemCount == 0)
-        {
-            Debug.Log("Invalid Request");
-            return;
-        }
-
-        BuyInventoryJson buyInventory = new BuyInventoryJson();
-        buyInventory.type = type;
-        buyInventory.itemCount = itemCount;
-
-        string json = JsonUtility.ToJson(buyInventory);
-
-        Debug.Log("Json start : " + json);
-
-        Request<inventoryInfo>("BuyInventory",
-                body: json,
-                onSuccess: ResponseBuyInventory,
-                onFailed: msg =>
-                {
-                    Debug.Log($"[Failed Requesting BuyInventory] {msg}");
-                });
-    }
-
-    // 로열 서번트 구매
-    public void RequestBuyRoyalServant(int servantIndex)
-    {
-        Debug.Log("Request Buy Royalservant");
-        if (servantIndex == 0)
-        {
-            Debug.Log("Invalid Request");
-            return;
-        }
-
-        BuyRoyalservantJson buyRoyalServant = new BuyRoyalservantJson();
-        buyRoyalServant.servantIndex = servantIndex;
-       
-        string json = JsonUtility.ToJson(buyRoyalServant);
-
-        Debug.Log("Json start : " + json);
-
-        Request<servantData>("BuyRoyalServant",
-                body: json,
-                onSuccess: ResponseBuyRoyalServant,
-                onFailed: msg =>
-                {
-                    Debug.Log($"[Failed Requesting BuyRoyalServant] {msg}");
-                });
-    }
-
     public void RequestLobbyInfo()
     {
         Request<lobbyInfoResultData>("LobbyInfo",
@@ -1380,18 +1327,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         LobbyTopInfo.Inst.UpdateTopInfo();
         ShopInfoPage.Inst.OnClickPopupCancelButton();
-    }
-
-    // 인벤토리 구매
-    public void ResponseBuyInventory(inventoryInfo getInventoryInfo)
-    {
-        Debug.Log("인벤토리 구매 !");
-    }
-
-    // 로열 서번트 구매
-    public void ResponseBuyRoyalServant(servantData getBuyRoyalservantData)
-    {
-        Debug.Log("로얄 서번트 구매 !");
     }
 
     public void ResponseLobbyInfo(lobbyInfoResultData getLobbyInfo)

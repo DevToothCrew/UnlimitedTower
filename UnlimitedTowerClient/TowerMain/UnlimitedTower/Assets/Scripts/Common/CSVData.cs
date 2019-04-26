@@ -28,6 +28,7 @@ public class CSVData : MonoSingleton<CSVData>
     public Dictionary<GRADE_TYPE, DBGradeResourceData> DBGachaGradeResourceDataDic = new Dictionary<GRADE_TYPE, DBGradeResourceData>();
     public Dictionary<EQUIPMENT_OPTION_TYPE, DBOptionTypeResourceData> DBOptionTypeResourceDataDic = new Dictionary<EQUIPMENT_OPTION_TYPE, DBOptionTypeResourceData>();
     public Dictionary<ELEMENT_TYPE, DBElementResourceData> DBElementTypeResourceDataDic = new Dictionary<ELEMENT_TYPE, DBElementResourceData>();
+    public Dictionary<TRIBE_TYPE, DBTribeResourceData> DBTribeTypeResourceDataDic = new Dictionary<TRIBE_TYPE, DBTribeResourceData>();
     public Dictionary<SERVANT_JOB, DBServantJobResourceData> DBServantJobResourceDataDic = new Dictionary<SERVANT_JOB, DBServantJobResourceData>();
 
     //  인스펙터에서 보여주기 위한...
@@ -233,6 +234,13 @@ public class CSVData : MonoSingleton<CSVData>
             if (SetElementTypeResourceData() == false)
             {
                 Debug.Log("Invalid DBElementTypeResourceData");
+            }
+        }
+        if(DBTribeTypeResourceDataDic.Count == 0)
+        {
+            if(SetTribeTypeResourceData() == false)
+            {
+                Debug.Log("Invalid DBTribeTypeResourceData");
             }
         }
         if (DBServantJobResourceDataDic.Count == 0)
@@ -961,6 +969,19 @@ public class CSVData : MonoSingleton<CSVData>
         return true;
     }
 
+    public bool SetTribeTypeResourceData()
+    {
+        for(TRIBE_TYPE i = TRIBE_TYPE.Beast; i<= TRIBE_TYPE.Metal; i++)
+        {
+            DBTribeResourceData resourceData = new DBTribeResourceData();
+            resourceData.tribeType = i;
+            resourceData.tribeIcon = Resources.Load<Sprite>(string.Format("UI/TribeIcon/ic_{0}", resourceData.tribeType.ToString()));
+
+            DBTribeTypeResourceDataDic.Add(resourceData.tribeType, resourceData);
+        }
+        return true;
+    }
+
     public bool SetServantJobResourceData()
     {
         for (SERVANT_JOB i = SERVANT_JOB.Warrior; i <= SERVANT_JOB.Magician; i++)
@@ -1057,25 +1078,27 @@ public class CSVData : MonoSingleton<CSVData>
         {
             //Debug.Log("index " + (i).ToString()
             //    + " : " + data[i]["id"]
-            //    + " " + data[i]["name"]
+            //    + " " + data[i]["en_name"]
             //    + " " + data[i]["explain"]
             //    + " " + data[i]["resource_icon"]
             //    + " " + data[i]["job"]
-            //    + " " + data[i]["job_limit"]
-            //    + " " + data[i]["class"]
-            //    + " " + data[i]["class_limit"]
+            //    + " " + data[i]["tribe"]
             //    + " " + data[i]["active_per"]
             //    + " " + data[i]["skill_type"]
+            //    + " " + data[i]["active_turn"]
             //    + " " + data[i]["attack_type"]
             //    + " " + data[i]["dmg_type"]
+            //    + " " + data[i]["elemental_type"]
             //    + " " + data[i]["target_type"]
             //    + " " + data[i]["target_count"]
             //    + " " + data[i]["hit_count"]
-            //    + " " + data[i]["atk_per"]
-            //    + " " + data[i]["atk_add"]
+            //    + " " + data[i]["atk_per_1"]
+            //    + " " + data[i]["atk_add_1"]
+            //    + " " + data[i]["atk_per_2"]
+            //    + " " + data[i]["atk_add_2"]
             //    + " " + data[i]["heal_per"]
             //    + " " + data[i]["heal_add"]
-            //    + " " + data[i]["option_id_list"]
+            //    + " " + data[i]["option_id"]
             //    + " " + data[i]["buff_id_list"]
             //    );
 
@@ -1087,90 +1110,41 @@ public class CSVData : MonoSingleton<CSVData>
                 return false;
             }
 
-            activeData.name = Convert.ToString(data[i]["name"]);
+            activeData.name = Convert.ToString(data[i]["en_name"]);
             activeData.explain = Convert.ToString(data[i]["explain"]);
             activeData.resourceIcon = Convert.ToString(data[i]["resource_icon"]);
             activeData.activeIcon = Resources.Load<Sprite>("UI/Skill/Active/" + activeData.resourceIcon);
             if (activeData.activeIcon == null)
             {
                 Debug.Log("Invalid Resource Icon : " + activeData.resourceIcon);
-                return false;
             }
 
-            //Debug.Log("ActiveSkill Job Able : " + Convert.ToString(data[i]["job"]));
-            activeData.jobLimit = (SERVANT_JOB_FLAG)Convert.ToInt32(Convert.ToString(data[i]["job_limit"]), 2);
-            //Debug.Log("ActiveSkill Test Warrior : " + activeData.isJobAble(SERVANT_JOB_FLAG.Warrior));
-            //Debug.Log("ActiveSkill Test Thief : " + activeData.isJobAble(SERVANT_JOB_FLAG.Thief));
-            //Debug.Log("ActiveSkill Test Cleric : " + activeData.isJobAble(SERVANT_JOB_FLAG.Cleric));
-            //Debug.Log("ActiveSkill Test Archer : " + activeData.isJobAble(SERVANT_JOB_FLAG.Archer));
-            //Debug.Log("ActiveSkill Test Magician : " + activeData.isJobAble(SERVANT_JOB_FLAG.Magician));
-            //Debug.Log("ActiveSkill Test All : " + activeData.isJobAble(SERVANT_JOB_FLAG.All));
+            activeData.enableJob = (SERVANT_JOB)Convert.ToInt32(Convert.ToString(data[i]["job"]));
+            activeData.enableTribe = (TRIBE_TYPE)Convert.ToInt32(Convert.ToString(data[i]["tribe"]));
 
             activeData.activePer = Convert.ToDouble(data[i]["active_per"]);
-
-            switch (Convert.ToString(data[i]["skill_type"]))
-            {
-                case "attack":
-                    activeData.skillType = SKILL_TYPE.ATTACK;
-                    break;
-                case "buff":
-                    activeData.skillType = SKILL_TYPE.BUFF;
-                    break;
-                case "heal":
-                    activeData.skillType = SKILL_TYPE.HEAL;
-                    break;
-                case "debuff":
-                    activeData.skillType = SKILL_TYPE.DEBUFF;
-                    break;
-
-                default:
-                    Debug.Log("Invalid Skill Type" + Convert.ToString(data[i]["skill_type"]));
-                    return false;
-            }
-
+            activeData.skillType = (SKILL_TYPE)Convert.ToInt32(data[i]["skill_type"]);
+            
+            activeData.activeTurn = Convert.ToInt32(data[i]["active_turn"]);
             activeData.attackType = (ATTACK_TYPE)Convert.ToInt32(data[i]["attack_type"]);
             activeData.damageType = (DAMAGE_TYPE)Convert.ToInt32(data[i]["dmg_type"]);
-
-            switch (Convert.ToString(data[i]["target_type"]))
-            {
-                case "enemy":
-                    activeData.targetType = TARGET_TYPE.ENEMY;
-                    break;
-                case "enemies":
-                    activeData.targetType = TARGET_TYPE.ENEMIES;
-                    break;
-                case "allenemy":
-                    activeData.targetType = TARGET_TYPE.ALLENEMY;
-                    break;
-
-                case "self":
-                    activeData.targetType = TARGET_TYPE.SELF;
-                    break;
-                case "myteam":
-                    activeData.targetType = TARGET_TYPE.MYTEAM;
-                    break;
-                case "myteams":
-                    activeData.targetType = TARGET_TYPE.MYTEAMS;
-                    break;
-                case "allmyteam":
-                    activeData.targetType = TARGET_TYPE.ALLMYTEAM;
-                    break;
-                case "every":
-                    activeData.targetType = TARGET_TYPE.EVERY;
-                    break;
-
-                default:
-                    Debug.Log("Invalid Target Type" + Convert.ToString(data[i]["target_type"]));
-                    return false;
-            }
+            activeData.elementType = (ELEMENT_TYPE)Convert.ToInt32(data[i]["elemental_type"]);
+            activeData.targetType = (TARGET_TYPE)Convert.ToInt32(data[i]["target_type"]);
 
             activeData.targetCount = Convert.ToInt32(data[i]["target_count"]);
             activeData.hitCount = Convert.ToInt32(data[i]["hit_count"]);
-            activeData.atkPer = Convert.ToDouble(data[i]["atk_per"]);
-            activeData.atkAdd = Convert.ToInt32(data[i]["atk_add"]);
+            activeData.atkPer1 = Convert.ToDouble(data[i]["atk_per_1"]);
+            activeData.atkAdd1 = Convert.ToInt32(data[i]["atk_add_1"]);
+            activeData.atkPer2 = Convert.ToDouble(data[i]["atk_per_2"]);
+            activeData.atkAdd2 = Convert.ToInt32(data[i]["atk_add_2"]);
             activeData.healPer = Convert.ToDouble(data[i]["heal_per"]);
             activeData.healAdd = Convert.ToInt32(data[i]["heal_add"]);
             // Option ID List / Buff ID List는 추후 추가
+            int optionID = Convert.ToInt32(data[i]["option_id"]);
+            if (optionID != 0)
+            {
+                activeData.optionIDList.Add(optionID);
+            }
 
             DBSkillActiveDataDic.Add(activeData.id, activeData);
         }
@@ -1183,22 +1157,22 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_skill_passive");
         for (var i = 2; i < data.Count; i++)
         {
-            Debug.Log("index " + (i).ToString()
-                + " : " + data[i]["id"]
-                + " " + data[i]["passive_type"]
-                + " " + data[i]["en_name"]
-                + " " + data[i]["name"]
-                + " " + data[i]["explain"]
-                + " " + data[i]["resource_icon"]
-                + " " + data[i]["job_class"]
-                + " " + data[i]["enable_stack_n"]
-                + " " + data[i]["effect_keyword"]
-                + " " + data[i]["effect_id"]
-                + " " + data[i]["effect_type_id"]
-                + " " + data[i]["effect_a"]
-                + " " + data[i]["effect_b"]
-                + " " + data[i]["target_id"]
-                );
+            //Debug.Log("index " + (i).ToString()
+            //    + " : " + data[i]["id"]
+            //    + " " + data[i]["passive_type"]
+            //    + " " + data[i]["en_name"]
+            //    + " " + data[i]["name"]
+            //    + " " + data[i]["explain"]
+            //    + " " + data[i]["resource_icon"]
+            //    + " " + data[i]["job_class"]
+            //    + " " + data[i]["enable_stack_n"]
+            //    + " " + data[i]["effect_keyword"]
+            //    + " " + data[i]["effect_id"]
+            //    + " " + data[i]["effect_type_id"]
+            //    + " " + data[i]["effect_a"]
+            //    + " " + data[i]["effect_b"]
+            //    + " " + data[i]["target_id"]
+            //    );
 
             DBSkillPassiveData passiveData = new DBSkillPassiveData();
             passiveData.id = Convert.ToInt32(data[i]["id"]);
@@ -1440,7 +1414,7 @@ public class CSVData : MonoSingleton<CSVData>
 
     public int GetRandomMonsterID()
     {
-        int monsterID = monsterDataInspector[UnityEngine.Random.Range(0, 2)].id;
+        int monsterID = monsterDataInspector[UnityEngine.Random.Range(0, monsterDataInspector.Count)].id;
 
         return monsterID;
     }
@@ -1665,6 +1639,11 @@ public class CSVData : MonoSingleton<CSVData>
     public Sprite GetSpriteElementType(ELEMENT_TYPE type)
     {
         return DBElementTypeResourceDataDic[type].elementIcon;
+    }
+
+    public Sprite GetSpriteTribeType(TRIBE_TYPE type)
+    {
+        return DBTribeTypeResourceDataDic[type].tribeIcon;
     }
 
     public Sprite GetSpriteServantJob(SERVANT_JOB type)

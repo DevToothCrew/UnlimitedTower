@@ -10,7 +10,7 @@ int,int,int,string,string,string,#,#,int,int,string,string,int,string,int,locali
 101303,20007,20007,monster,우르사,Ursa,on,on,,1,Beast,Fire,1,Shaman,9,DB_monster_name_101303,,mst_bear_red,weapon_glove,ic_mst_bear_red,Mst_Bear_Red
 101304,20008,20008,monster,우르시아,Ursia,on,on,,1,Beast,Light,5,Hunter,5,DB_monster_name_101304,,mst_bear_white,weapon_glove,ic_mst_bear_white,Mst_Bear_White
 101305,,,monster,우르샤,Ursha,off,on,,1,Beast,Wind,4,Fighter,1,DB_monster_name_101305,,mst_bear_wind,weapon_glove,ic_mst_bear_white,Mst_Birdman
-101306,,,monster,우르소,Urso,off,on,,1,Beast,Water,2,Hunter,5,DB_monster_name_101306,,bst_bear_water,weapon_glove,ic_mst_bear_white,Mst_Crowman
+101306,,,monster,우르소,Urso,off,on,,1,Beast,Water,2,Hunter,5,DB_monster_name_101306,,mst_bear_water,weapon_glove,ic_mst_bear_white,Mst_Crowman
 101401,20009,20009,monster,그리폰,Griffon,on,on,,2,Human,Wind,4,Hunter,5,DB_monster_name_101401,,mst_birdman,weapon_glove,ic_mst_birdman,Mst_Card_1
 101402,20010,20010,monster,루크,Luke,on,on,,2,Human,Dark,6,Assassin,4,DB_monster_name_101402,,mst_crowman,weapon_glove,ic_mst_crowman,Mst_Card_2
 101501,20011,20015,monster,네로,Nero,on,on,,1,Beast,Dark,6,Priest,3,DB_monster_name_101501,,mst_cat_black,weapon_glove,ic_mst_cat_black,Mst_Card_3

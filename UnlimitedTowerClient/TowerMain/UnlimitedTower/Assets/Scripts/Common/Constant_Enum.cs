@@ -329,8 +329,8 @@ public enum EQUIPMENT_OPTION_TYPE
 public enum SKILL_TYPE
 {
     NONE = 0,
-    ATTACK = 1,
-    BUFF = 2,
+    BUFF = 1,
+    ATTACK = 2,
     HEAL = 3,
     DEBUFF = 4,
 }
@@ -355,16 +355,11 @@ public enum TARGET_TYPE
 {
     NONE = 0,
 
-    ENEMY = 1,
-    ENEMIES = 2,
-    ALLENEMY = 3,
+    SELF = 1,
+    ENEMY = 2,
+    MYTEAM = 3,
 
-    SELF = 4,
-    MYTEAM = 5,
-    MYTEAMS = 6,
-    ALLMYTEAM = 7,
-
-    EVERY = 8,
+    ENEMIES = 4,
 }
 
 public enum EFFECT_ID

@@ -1,11 +1,19 @@
-id,#관리,#관리,#관리,name,explain,resource_icon,job,job_limit,class,class_limit,active_per,skill_type,attack_type,dmg_type,target_type,target_count,hit_count,atk_per,atk_add,heal_per,heal_add,option_id_list,buff_id_list
-#,데이터별 설명,데이터별 설명,데이터별 설명,스킬 이름,스킬 설명,스킬 아이콘 정보,사용가능 직업,직업 비트연산,사용가능 클래스,클래스 비트연산,스킬 발동 확률,스킬 타입,"공격 타입 (1:물리,2:마법,3:물리+마법)","피해 타입 (1:물리,2:마법,3:고정)",스킬 타겟,타겟 수,히트 수,스킬 계수,스킬 계수 상승 값,회복 계수,회복 계수 상승 값,스킬 옵션 리스트,스킬 버프 리스트
-int,string,string,string,localize,localize,string,string,bit,string,bit,float,string,int,int,string,int,int,float,int,float,float,int,int
-200001,디펜스,전사 전용,1턴 동안 30% 데미지 감소 효과를 얻습니다.,DB_skill_active_name_200001,DB_skill_active_desc_200001,ic_active_defense,warrior 2,10,none,0,0.3,buff,0,0,self,1,1,0.3,0,0,0,0,0
-200002,배쉬,공용,적 1인에게 물리 공격력의 210% 물리 피해를 줍니다.,DB_skill_active_name_200002,DB_skill_active_desc_200002,ic_active_bash,all 1,1,none,0,0.4,attack,1,1,enemy,1,1,2.1,0,0,0,0,0
-200003,패스트 어택,도적 전용,"스킬 발동 시 가장 먼저 적을 공격합니다. (이 스킬이 동시에 발생할 경우 속도가 더 높은 캐릭터의 공격이 먼저 발동되며, 속도도 같으면 랜덤으로 공격 순서 결정)",DB_skill_active_name_200003,DB_skill_active_desc_200003,ic_active_fastAttack,thief 4,100,none,0,0.5,attack,1,1,enemy,1,1,1,0,0,0,0,0
-200004,크리티컬 스트라이크,공용,적 1인에게 100% 확률로 치명타가 발생하는 물리 피해를 가합니다.,DB_skill_active_name_200004,DB_skill_active_desc_200004,ic_active_criticalStrike,all 1,1,none,0,0.35,attack,1,1,enemy,1,1,1,0,0,0,0,0
-200005,힐,성직자 전용,아군 1인에게 마법 공격력의 150% 수치만큼 생명력을 회복시켜줍니다.,DB_skill_active_name_200005,DB_skill_active_desc_200005,ic_active_heal,cleric 8,1000,none,0,0.4,heal,2,0,myteam,1,1,1,0,1.5,0,0,0
-200006,매직 스트라이크,공용,적 1인에게 마법 공격력의 180% 마법 피해를 줍니다.,DB_skill_active_name_200006,DB_skill_active_desc_200006,ic_active_magicStrike,all 1,1,none,0,0.45,attack,2,2,enemy,1,1,1.8,0,0,0,0,0
-200007,멀티 샷,궁수 전용,랜덤한 적 2인에게 각각 물리 공격력의 125% 물리 피해를 줍니다.,DB_skill_active_name_200007,DB_skill_active_desc_200007,ic_active_multiShot,archer 16,10000,none,0,0.35,attack,1,1,enemies,2,1,1.25,0,0,0,0,0
-200008,가이디드 애로우,궁수 전용,적 1인에게 물리 공격력의 150% 물리 피해를 줍니다. (회피 무시 스킬),DB_skill_active_name_200008,DB_skill_active_desc_200008,ic_active_guidedArrow,archer 16,10000,none,0,0.4,attack,1,1,enemy,1,1,1.5,0,0,0,0,0
+id,#관리,en_name,#관리,#관리,#관리,name,explain,resource_icon,job,tribe,active_per,skill_type,#,active_turn,attack_type,dmg_type,elemental_type,target_type,#,target_count,hit_count,atk_per_1,atk_add_1,atk_per_2,atk_add_2,heal_per,heal_add,option_id,#,buff_id_list
+#,데이터별 설명,이름,데이터별 설명,데이터별 설명,,스킬 이름,스킬 설명,스킬 아이콘 정보,사용가능 직업,사용가능 종족,스킬 발동 확률,"스킬 타입
+int,string,,string,string,,localize,localize,string,string,string,float,int,string,int,int,int,int,int,string,int,int,float,int,float,int,float,float,int,string,int
+200001,디펜스,Defense,전사 전용,1턴 동안 50% 데미지 감소 효과를 얻습니다.,(active_turn)턴동안 (atk_per_1)% 데미지 감소 효과를 얻습니다.,DB_skill_active_name_200001,DB_skill_active_desc_200001,ic_active_defense,1,0,30,1,buff,1,0,0,0,1,self,1,1,50,0,0,0,0,0,1001,defense,0
+200002,배쉬,Bash,공용,적 1인에게 물리 공격력의 180% 물리 피해를 줍니다.,,DB_skill_active_name_200002,DB_skill_active_desc_200002,ic_active_bash,0,0,30,2,attack,0,1,1,0,2,enemy,1,1,180,0,0,0,0,0,0,0,0
+200003,패스트 어택,Fast Attack,도적 전용,"스킬 발동 시 적 1인에게 가장 먼저 적을 물리공격의 130%로 공격합니다. (동일 스킬 사용시 속도가 더 높은 캐릭터의 공격이 먼저 발동되며, 속도도 같으면 랜덤으로 공격 순서 결정)",,DB_skill_active_name_200003,DB_skill_active_desc_200003,ic_active_fastAttack,2,0,50,2,attack,0,1,1,0,2,enemy,1,1,150,0,0,0,0,0,2001,fastAttack,0
+200004,크리티컬 스트라이크,Critical Strike,공용,적 1인에게 100% 확률로 치명타가 발생하는 물리 피해를 가합니다.,,DB_skill_active_name_200004,DB_skill_active_desc_200004,ic_active_criticalStrike,0,0,35,2,attack,0,1,1,0,2,enemy,1,1,100,0,0,0,0,0,2002,perfectCritical,0
+200005,힐,Heal,성직자 전용,아군 1인에게 마법 공격력의 150% 수치만큼 생명력을 회복시켜줍니다.,,DB_skill_active_name_200005,DB_skill_active_desc_200005,ic_active_heal,3,0,40,3,heal,0,2,0,0,3,myteam,1,1,100,0,0,0,300,0,0,0,0
+200006,매직 스트라이크,Magic Strike,공용,적 1인에게 마법 공격력의 300% 마법 피해를 줍니다.,,DB_skill_active_name_200006,DB_skill_active_desc_200006,ic_active_magicStrike,0,0,25,2,attack,0,2,2,0,2,enemy,1,1,350,0,0,0,0,0,0,0,0
+200007,멀티 샷,Multi Shot,궁수 전용,랜덤한 적 2인에게 각각 물리 공격력의 125% 물리 피해를 줍니다.,,DB_skill_active_name_200007,DB_skill_active_desc_200007,ic_active_multiShot,4,0,35,2,attack,0,1,1,0,4,enemies,2,1,125,0,0,0,0,0,0,0,0
+200008,가이디드 애로우,Guided Arrow,궁수 전용,적 1인에게 물리 공격력의 150% 물리 피해를 줍니다. (회피 무시 스킬),,DB_skill_active_name_200008,DB_skill_active_desc_200008,ic_active_guidedArrow,4,0,40,2,attack,0,1,1,0,2,enemy,1,1,150,0,0,0,0,0,2003,ignoreEvade,0
+200009,파이어 스트라이크,Fire Strike,공용,적 1인에게 마법 공격력의 220% 불속성 마법 피해를 줍니다.,,DB_skill_active_name_200009,DB_skill_active_desc_200009,ic_active_fireStrike,0,0,25,2,attack,0,2,2,1,2,enemy,1,1,220,0,0,0,0,0,0,0,0
+200010,프로즌 스트라이크,Frozen Strike,공용,적 1인에게 마법 공격력의 220% 물속성 마법 피해를 줍니다.,,DB_skill_active_name_200010,DB_skill_active_desc_200010,ic_active_frozenStrike,0,0,25,2,attack,0,2,2,2,2,enemy,1,1,220,0,0,0,0,0,0,0,0
+200011,어스 스트라이크,Earth Strike,공용,적 1인에게 마법 공격력의 220% 땅속성 마법 피해를 줍니다.,,DB_skill_active_name_200011,DB_skill_active_desc_200011,ic_active_earthStrike,0,0,25,2,attack,0,2,2,3,2,enemy,1,1,220,0,0,0,0,0,0,0,0
+200012,윈드 스트라이크,Wind Strike,공용,적 1인에게 마법 공격력의 220% 풍속성 마법 피해를 줍니다.,,DB_skill_active_name_200012,DB_skill_active_desc_200012,ic_active_windStrike,0,0,25,2,attack,0,2,2,4,2,enemy,1,1,220,0,0,0,0,0,0,0,0
+200013,홀리 스트라이크,Holy Strike,공용,적 1인에게 마법 공격력의 220% 성속성 마법 피해를 줍니다.,,DB_skill_active_name_200013,DB_skill_active_desc_200013,ic_active_holyStrike,0,0,25,2,attack,0,2,2,5,2,enemy,1,1,220,0,0,0,0,0,0,0,0
+200014,데스 스트라이크,Death Strike,공용,적 1인에게 마법 공격력의 220% 암속성 마법 피해를 줍니다.,,DB_skill_active_name_200014,DB_skill_active_desc_200014,ic_active_deathStrike,0,0,25,2,attack,0,2,2,6,2,enemy,1,1,220,0,0,0,0,0,0,0,0
+200015,더 밸런스,The Balance,공용,적 1인에게 물리 공격력의 100% + 마법 공격력의 100%의 고정 피해를 줍니다. (치명타가 발생하지 않습니다),,DB_skill_active_name_200015,DB_skill_active_desc_200015,ic_active_theBalance,0,0,25,2,attack,0,3,3,0,2,enemy,1,1,100,0,0,0,0,0,2004,NoCritical,0
+200016,아머 브레이크,Armor Break,공용,적 1인에게 물리 공격력의 130% 물리 피해를 주고 방어력 30% 감소 디버프를 겁니다.,,DB_skill_active_name_200016,DB_skill_active_desc_200016,ic_active_armorBreak,0,0,35,4,attack+debuff,0,1,1,0,2,enemy,1,1,130,0,30,0,0,0,3001,defenseDecrease,0

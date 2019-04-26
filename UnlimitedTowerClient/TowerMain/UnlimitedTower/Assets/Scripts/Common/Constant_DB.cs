@@ -105,6 +105,13 @@ public class DBElementResourceData
 }
 
 [Serializable]
+public class DBTribeResourceData
+{
+    public TRIBE_TYPE tribeType;
+    public Sprite tribeIcon;
+}
+
+[Serializable]
 public class DBServantJobResourceData
 {
     public SERVANT_JOB servantJob;
@@ -283,40 +290,24 @@ public class DBSkillActiveData
     public string name;
     public string explain;
     public string resourceIcon;
-
-    // Sprite 추가?
     public Sprite activeIcon;
 
-    public SERVANT_JOB_FLAG jobLimit;
-    public bool isJobAble(SERVANT_JOB_FLAG job)
-    {
-        if (jobLimit == SERVANT_JOB_FLAG.None)
-        {
-            return false;
-        }
-
-        if (jobLimit == SERVANT_JOB_FLAG.All)
-        {
-            return true;
-        }
-
-        if ((jobLimit & job) == job)
-        {
-            return true;
-        }
-
-        return false;
-    }
+    public SERVANT_JOB enableJob;
+    public TRIBE_TYPE enableTribe;
 
     public double activePer;
     public SKILL_TYPE skillType;
+    public int activeTurn;
     public ATTACK_TYPE attackType;
     public DAMAGE_TYPE damageType;
+    public ELEMENT_TYPE elementType;
     public TARGET_TYPE targetType;
     public int targetCount;
     public int hitCount;
-    public double atkPer;
-    public int atkAdd;
+    public double atkPer1;
+    public int atkAdd1;
+    public double atkPer2;
+    public int atkAdd2;
     public double healPer;
     public int healAdd;
     public List<int> optionIDList = new List<int>();
