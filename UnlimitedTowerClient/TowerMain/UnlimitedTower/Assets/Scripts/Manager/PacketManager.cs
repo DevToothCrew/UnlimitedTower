@@ -1331,7 +1331,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         LobbyTopInfo.Inst.UpdateTopInfo();
 
-        SubViewUpgrade.Inst.updateViewFinishRequest();
+        //SubViewUpgrade.Inst.updateViewFinishRequest();
+        PartyInfoVC.Inst.updateViewFinishRequest();
     }
 
     // 아이템 강화
@@ -1368,8 +1369,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
         LobbyTopInfo.Inst.UpdateTopInfo();
 
         SubViewUpgrade.Inst.updateViewFinishRequest();
+        //PartyInfoVC.Inst.updateViewFinishRequest();
     }
-    
+
     // 상점 아이템 구매
     public void ResponseShopBuyItem(shopBuyResultData getBuyItemData)
     {

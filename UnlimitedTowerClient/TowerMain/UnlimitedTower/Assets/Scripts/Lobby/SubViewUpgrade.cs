@@ -524,8 +524,8 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
             PartyInfoVC patyInfo = PartyInfoVC.Inst;
             patyInfo.setData();
             patyInfo.resetScroll();
-            patyInfo.updateDetailInfo(patyInfo.scrollList.getFirstItemOrder());
-            OnClickClose();
+            //patyInfo.updateDetailInfo(patyInfo.scrollList.getFirstItemOrder());
+            //OnClickClose();
         }
         else if (InventoryVC.checkInst())
         {
@@ -533,7 +533,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
             inventory.setData();
             inventory.resetScroll();
             inventory.updateDetailInfo(inventory.scrollList.getFirstItemOrder());
-            OnClickClose();
+            //OnClickClose();
         }
     }
 
