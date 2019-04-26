@@ -462,13 +462,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
             return;
         }
 
-        // 서번트 동일 장비 검사
-        if (servantData.equipmentDic[type] == equipmentIndex)
-        {
-            Debug.Log("Already Equip");
-            return;
-        }
-
         // 장비 인덱스 검사
         UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(equipmentIndex);
         if (equipmentData == null)
