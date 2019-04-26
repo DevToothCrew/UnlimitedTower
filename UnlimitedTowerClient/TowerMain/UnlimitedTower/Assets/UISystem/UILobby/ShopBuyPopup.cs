@@ -20,10 +20,10 @@ public class ShopBuyPopup : MonoBehaviour {
 
     public bool SetShopBuyPopup(ShopProductInfo getInfo)
     {
-        DBShopData shopData = CSVData.Inst.GetShopData(getInfo.id);
+        DBShopData shopData = CSVData.Inst.GetShopData(getInfo.index);
         if (shopData == null)
         {
-            Debug.Log("Invalid Shop Object ID : " + getInfo.id);
+            Debug.Log("Invalid Shop Object ID : " + getInfo.index);
             return false;
         }
 
