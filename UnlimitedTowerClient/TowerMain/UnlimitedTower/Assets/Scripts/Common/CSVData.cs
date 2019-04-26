@@ -1183,22 +1183,22 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_skill_passive");
         for (var i = 2; i < data.Count; i++)
         {
-            Debug.Log("index " + (i).ToString()
-                + " : " + data[i]["id"]
-                + " " + data[i]["passive_type"]
-                + " " + data[i]["en_name"]
-                + " " + data[i]["name"]
-                + " " + data[i]["explain"]
-                + " " + data[i]["resource_icon"]
-                + " " + data[i]["job_class"]
-                + " " + data[i]["enable_stack_n"]
-                + " " + data[i]["effect_keyword"]
-                + " " + data[i]["effect_id"]
-                + " " + data[i]["effect_type_id"]
-                + " " + data[i]["effect_a"]
-                + " " + data[i]["effect_b"]
-                + " " + data[i]["target_id"]
-                );
+            //Debug.Log("index " + (i).ToString()
+            //    + " : " + data[i]["id"]
+            //    + " " + data[i]["passive_type"]
+            //    + " " + data[i]["en_name"]
+            //    + " " + data[i]["name"]
+            //    + " " + data[i]["explain"]
+            //    + " " + data[i]["resource_icon"]
+            //    + " " + data[i]["job_class"]
+            //    + " " + data[i]["enable_stack_n"]
+            //    + " " + data[i]["effect_keyword"]
+            //    + " " + data[i]["effect_id"]
+            //    + " " + data[i]["effect_type_id"]
+            //    + " " + data[i]["effect_a"]
+            //    + " " + data[i]["effect_b"]
+            //    + " " + data[i]["target_id"]
+            //    );
 
             DBSkillPassiveData passiveData = new DBSkillPassiveData();
             passiveData.id = Convert.ToInt32(data[i]["id"]);
@@ -1218,6 +1218,7 @@ public class CSVData : MonoSingleton<CSVData>
                 Debug.Log("Invalid Resource Icon : " + passiveData.resourceIcon);
                 //return false;
             }
+            passiveData.jobClass = Convert.ToInt32(data[i]["job_class"]);
             passiveData.enableStackMax = Convert.ToBoolean(data[i]["enable_stack_n"]);
             passiveData.effectKeyword = Convert.ToString(data[i]["effect_keyword"]);
             passiveData.effectID = (EFFECT_ID)Convert.ToInt32(data[i]["effect_id"]);

@@ -34,9 +34,7 @@ public class SelectManager : MonoBehaviour
     private Text mDef;
     private Text Speed;
     private Text CriPer;
-    private Text mCriPer;
     private Text CriDmg;
-    private Text mCriDmg;
     private Transform BuffParent;
 
     public enum ActionState
@@ -69,9 +67,7 @@ public class SelectManager : MonoBehaviour
         mDef = GameObject.Find("mDef Text").GetComponent<Text>();
         Speed = GameObject.Find("Speed Text").GetComponent<Text>();
         CriPer = GameObject.Find("CriPer Text").GetComponent<Text>();
-        mCriPer = GameObject.Find("mCriPer Text").GetComponent<Text>();
         CriDmg = GameObject.Find("CriDmg Text").GetComponent<Text>();
-        mCriDmg = GameObject.Find("mCriDmg Text").GetComponent<Text>();
         BuffParent = GameObject.Find("Buff List").transform;
         characterInfo.SetActive(false);
         characterStats.SetActive(false);
@@ -150,44 +146,37 @@ public class SelectManager : MonoBehaviour
 
                         if (selectIndex < 5)
                         {
-                            levelText.text = selectStateInfo.level.ToString();
+                            levelText.text = UserDataManager.Inst.GetServantInfo(selectStateInfo.index).level.ToString();
 
                             if (UserDataManager.Inst.GetStageState().mySynergyList.Count > 0)
                             {
                                 foreach (UserSkillInfo skill in UserDataManager.Inst.GetStageState().mySynergyList)
                                 {
-                                    Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = BattleUIManager.Inst.skillDataDic[skill.id].SkillImage;
+                                    Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = CSVData.Inst.GetSkillPassiveData(skill.id).passiveIcon;
                                 }
                             }
                         }
                         else if (selectIndex < 10)
                         {
-                            levelText.text = selectStateInfo.level.ToString();
+                            levelText.text = UserDataManager.Inst.GetMonsterInfo(selectStateInfo.index).level.ToString();
 
                             if (UserDataManager.Inst.GetStageState().mySynergyList.Count > 0)
                             {
                                 foreach (UserSkillInfo skill in UserDataManager.Inst.GetStageState().mySynergyList)
                                 {
-                                    Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = BattleUIManager.Inst.skillDataDic[skill.id].SkillImage;
+                                    Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = CSVData.Inst.GetSkillPassiveData(skill.id).passiveIcon;
                                 }
                             }
                         }
                         else
                         {
-                            if (BattleManager.Inst.adminMode)
-                            {
-                                levelText.text = selectStateInfo.level.ToString();
-                            }
-                            else
-                            {
-                                levelText.text = "?";
-                            }
+                            levelText.text = "?";
 
                             if (UserDataManager.Inst.GetStageState().enemySynergyList.Count > 0)
                             {
                                 foreach (UserSkillInfo skill in UserDataManager.Inst.GetStageState().enemySynergyList)
                                 {
-                                    Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = BattleUIManager.Inst.skillDataDic[skill.id].SkillImage;
+                                    Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = CSVData.Inst.GetSkillPassiveData(skill.id).passiveIcon;
                                 }
                             }
                         }
@@ -204,9 +193,7 @@ public class SelectManager : MonoBehaviour
                             mDef.text = status.Status[EFFECT_ID.MDEF].ToString();
                             Speed.text = status.Status[EFFECT_ID.SPEED].ToString();
                             CriPer.text = status.Status[EFFECT_ID.CRI_PER].ToString();
-                            mCriPer.text = status.Status[EFFECT_ID.CRI_PER].ToString();
                             CriDmg.text = status.Status[EFFECT_ID.CRI_DMG].ToString();
-                            mCriDmg.text = status.Status[EFFECT_ID.CRI_DMG].ToString();
                         }
                         else
                         {
@@ -219,9 +206,7 @@ public class SelectManager : MonoBehaviour
                             mDef.text = "?";
                             Speed.text = "?";
                             CriPer.text = "?";
-                            mCriPer.text = "?";
                             CriDmg.text = "?";
-                            mCriDmg.text = "?";
                         }
                     }
                 }

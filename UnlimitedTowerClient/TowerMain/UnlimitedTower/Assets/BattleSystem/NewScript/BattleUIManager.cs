@@ -23,9 +23,6 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
     public Image enemySklImage;
     public Text enemySkText;
 
-    public Dictionary<int, SkillData> skillDataDic = new Dictionary<int, SkillData>();
-    public List<SkillData> skillDataList = new List<SkillData>();
-
     [System.Serializable]
     public struct SkillData
     {
@@ -60,25 +57,20 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         enemySkill = GameObject.Find("EnemySkill").GetComponent<Animator>();
         enemySklImage = enemySkill.transform.GetChild(1).GetComponent<Image>();
         enemySkText = enemySkill.transform.GetChild(2).GetComponent<Text>();
-
-        foreach (SkillData skillData in skillDataList)
-        {
-            skillDataDic.Add(skillData.Index, skillData);
-        }
     }
 
     public void MySkAction(int SkillIndex)
     {
         mySkill.SetTrigger("Start");
-        mySklImage.sprite = skillDataDic[SkillIndex].SkillImage;
-        mySkText.text = skillDataDic[SkillIndex].SkillText;
+        mySklImage.sprite = CSVData.Inst.GetSkillActiveData(SkillIndex).activeIcon;
+        mySkText.text = CSVData.Inst.GetSkillActiveData(SkillIndex).name;
     }
 
     public void EnemySkAction(int SkillIndex)
     {
         enemySkill.SetTrigger("Start");
-        enemySklImage.sprite = skillDataDic[SkillIndex].SkillImage;
-        enemySkText.text = skillDataDic[SkillIndex].SkillText;
+        enemySklImage.sprite = CSVData.Inst.GetSkillActiveData(SkillIndex).activeIcon;
+        enemySkText.text = CSVData.Inst.GetSkillActiveData(SkillIndex).name;
     }
     
     public void TimeScaleX2()

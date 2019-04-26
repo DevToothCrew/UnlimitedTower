@@ -332,6 +332,7 @@ public class DBSkillPassiveData
     public string explain;
     public string resourceIcon;
     public Sprite passiveIcon;
+    public int jobClass;
 
     public bool enableStackMax;
     public string effectKeyword;
