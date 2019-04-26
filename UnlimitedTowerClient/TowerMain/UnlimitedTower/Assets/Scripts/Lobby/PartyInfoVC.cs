@@ -18,12 +18,8 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     public Button[] buttonMenu = new Button[3];
 
     //ScrollView UI
-    public Button buttonSort;
     public Text textOwned;
     public Text textTotal;
-
-    public GameObject frameSortType;
-    public Button[] buttonSortType = new Button[4];
 
     public GameObject frameScroll;
     public ScrollListManager scrollList;
@@ -223,7 +219,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                     {
                         if (currentScrollType == scroll_type.SERVANT_INFO)
                         {
-                            if (ServantList[i].status.basicStr < ServantList[j].status.basicStr)//TODO: 임시로 STR
+                            if (Calculator.GetPower(ServantList[i].status, ServantList[i].level) < Calculator.GetPower(ServantList[j].status, ServantList[j].level))//TODO: 임시로 STR
                             {
                                 data_order[i]++;
                             }
@@ -234,7 +230,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                         }
                         else if (currentScrollType == scroll_type.MONSTER_INFO)
                         {
-                            if (MonsterList[i].status.basicStr < MonsterList[j].status.basicStr)//TODO: 임시로 STR
+                            if (Calculator.GetPower(MonsterList[i].status, MonsterList[i].level) < Calculator.GetPower(MonsterList[j].status, MonsterList[j].level))//TODO: 임시로 STR
                             {
                                 data_order[i]++;
                             }

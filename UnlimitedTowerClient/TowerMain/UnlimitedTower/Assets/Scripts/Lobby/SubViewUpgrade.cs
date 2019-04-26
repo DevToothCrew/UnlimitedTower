@@ -153,7 +153,8 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                     {
                         if (upgradeType == UPGRADE_TYPE.MONSTER)
                         {
-                            if (partyInfo.MonsterList[scrollListData[i]].status.basicStr < partyInfo.MonsterList[scrollListData[j]].status.basicStr)
+                            if (Calculator.GetPower(partyInfo.MonsterList[scrollListData[i]].status, partyInfo.MonsterList[scrollListData[i]].level) <
+                                Calculator.GetPower(partyInfo.MonsterList[scrollListData[j]].status, partyInfo.MonsterList[scrollListData[j]].level))
                             {
                                 data_order[i]++;
                             }

@@ -143,7 +143,9 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                     {
                         if (dType == DECONSTRUCTION_TYPE.SERVANT)
                         {
-                            if (partyInfo.ServantList[scrollListData[i]].status.basicStr < partyInfo.ServantList[scrollListData[j]].status.basicStr)
+
+                            if (Calculator.GetPower(partyInfo.ServantList[scrollListData[i]].status, partyInfo.ServantList[scrollListData[i]].level) <
+                                Calculator.GetPower(partyInfo.ServantList[scrollListData[j]].status, partyInfo.ServantList[scrollListData[j]].level))
                             {
                                 data_order[i]++;
                             }
@@ -154,7 +156,8 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                         }
                         else if (dType == DECONSTRUCTION_TYPE.MONSTER)
                         {
-                            if (partyInfo.MonsterList[scrollListData[i]].status.basicStr < partyInfo.MonsterList[scrollListData[j]].status.basicStr)
+                            if (Calculator.GetPower(partyInfo.MonsterList[scrollListData[i]].status, partyInfo.MonsterList[scrollListData[i]].level) <
+                                Calculator.GetPower(partyInfo.MonsterList[scrollListData[j]].status, partyInfo.MonsterList[scrollListData[j]].level))
                             {
                                 data_order[i]++;
                             }
