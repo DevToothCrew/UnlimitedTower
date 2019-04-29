@@ -1669,15 +1669,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
             userServant.equipmentDic.Add((EQUIPMENT_TYPE)i, getServantData.servant.equip_slot[i]);
         }
 
-        for(int i = 0; i < getServantData.servant.active_skill.Count; i++)
-        {
-            // Active Skill Data 넣기
-        }
+        userServant.activeSkillList = ParseSkillList(getServantData.servant.active_skill);
+        userServant.passiveSkillList = ParseSkillList(getServantData.servant.passive_skill);
+        //for (int i = 0; i < getServantData.servant.active_skill.Count; i++)
+        //{
+        //    // Active Skill Data 넣기
+        //}
 
-        for (int i = 0; i < getServantData.servant.passive_skill.Count; i++)
-        {
-            // Passive Skill Data 넣기
-        }
+        //for (int i = 0; i < getServantData.servant.passive_skill.Count; i++)
+        //{
+        //    // Passive Skill Data 넣기
+        //}
 
         return userServant;
     }
