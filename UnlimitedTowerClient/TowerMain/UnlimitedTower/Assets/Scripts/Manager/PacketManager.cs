@@ -1362,10 +1362,22 @@ public class PacketManager : MonoSingleton<PacketManager> {
         if (getBuyItemData.invetory_info != null)
         {
             UserInventoryInfo info = UserDataManager.Inst.GetUserInventoryInfo();
-            info.servantInventory = getBuyItemData.invetory_info.servant_inventory;
-            info.monsterInventory = getBuyItemData.invetory_info.monster_inventory;
-            info.equipmentInventory = getBuyItemData.invetory_info.equipment_inventory;
-            info.itemInventory = getBuyItemData.invetory_info.item_inventory;
+            if (info.servantInventory <= getBuyItemData.invetory_info.servant_inventory)
+            {
+                info.servantInventory = getBuyItemData.invetory_info.servant_inventory;
+            }
+            if (info.monsterInventory <= getBuyItemData.invetory_info.monster_inventory)
+            {
+                info.monsterInventory = getBuyItemData.invetory_info.monster_inventory;
+            }
+            if (info.equipmentInventory <= getBuyItemData.invetory_info.equipment_inventory)
+            {
+                info.equipmentInventory = getBuyItemData.invetory_info.equipment_inventory;
+            }
+            if (info.itemInventory <= getBuyItemData.invetory_info.item_inventory)
+            {
+                info.itemInventory = getBuyItemData.invetory_info.item_inventory;
+            }
         }
 
         LobbyTopInfo.Inst.UpdateTopInfo();
