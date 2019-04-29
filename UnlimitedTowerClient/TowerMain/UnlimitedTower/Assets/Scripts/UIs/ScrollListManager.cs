@@ -148,7 +148,34 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
         }
         else if (LobbyManager.Inst.popupState == POPUP_STATE.Weapon)
         {
-            InventoryVC.Inst.updateDetailInfo(selected_main_idx);
+            if (InventoryVC.checkInst())
+            {
+                if (InventoryVC.Inst.selectedMenu == Inventory_Menu_Type.ITEM)
+                {
+                    if (ItemInfoManager.Inst.ItemList.Count > 0)
+                    {
+                        ItemInfoManager.Inst.updateItemDetailInfo(selected_main_idx);
+                    }
+                }
+                else
+                {
+                    bool none_subview = true;
+                    if (SubViewDeconstruction.checkInst() || SubViewEquipment.checkInst() || SubViewUpgrade.checkInst())
+                    {
+                        none_subview = false;
+                    }
+
+                    if (InventoryVC.checkInst() && none_subview)
+                    {
+
+                        if (EquipmentInfoManager.Inst.EquipmentList[(int)EquipmentInfoManager.Inst.GetSelectedMenu()].Count > 0)
+                        {
+                            EquipmentInfoManager.Inst.updateDetailInfo(selected_main_idx);
+                        }
+                    }
+                }
+            }
+             
         }
 
     }

@@ -4,12 +4,10 @@ public class ItemListUnit : ScrollListUnit {
     public Image ImageGrade;
     public Image imageItem;
     public Text textItemName;
-    // TODO : 추후 추가
-    public Text textUpgrade;
-    public Image imageStats;
-    public Text textStats;
+    public Text textTypeText;
+    public Text textType;
 
-    InventoryVC inventoryInfo;
+    ItemInfoManager itemInfo;
 
     protected override void Awake()
     {
@@ -20,53 +18,24 @@ public class ItemListUnit : ScrollListUnit {
     {
         main_idx = _main_idx;
 
-        if (LobbyManager.Inst.popupState == POPUP_STATE.Servant)
-        {
-            ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)SubViewEquipment.Inst.EquipmentList[main_idx].grade);
-            imageItem.sprite = CSVData.Inst.GetEquipmentData(SubViewEquipment.Inst.EquipmentList[main_idx].id).equipmentIcon;
-            textItemName.text = CSVData.Inst.GetEquipmentData(SubViewEquipment.Inst.EquipmentList[main_idx].id).name;
+        int selected_idx = main_idx;
+        //if (SubViewDeconstruction.checkInst() && unit_controller.Equals(SubViewDeconstruction.Inst))
+        //{
+        //    selected_idx = SubViewDeconstruction.Inst.scrollListData[main_idx];
+        //}
+        //else
+        //{
+        //    selected_idx = main_idx;
+        //}
 
-            string upgrade = string.Format(" ");
-            if (SubViewEquipment.Inst.EquipmentList[main_idx].upgrade > 0)
-            {
-                upgrade = string.Format("+{0}", SubViewEquipment.Inst.EquipmentList[main_idx].upgrade);
-            }
-            textUpgrade.text = upgrade;
+        itemInfo = ItemInfoManager.Inst;
 
-            imageStats.sprite = CSVData.Inst.GetSpriteOptionType(SubViewEquipment.Inst.EquipmentList[main_idx].optionType);
-            textStats.text = string.Format("{0}", SubViewEquipment.Inst.EquipmentList[main_idx].value);
-        }
-        else if (LobbyManager.Inst.popupState == POPUP_STATE.Weapon)
-        {
-            int selected_idx;
-            if (SubViewDeconstruction.checkInst() && unit_controller.Equals(SubViewDeconstruction.Inst))
-            {
-                selected_idx = SubViewDeconstruction.Inst.scrollListData[main_idx];
-            }
-            else
-            {
-                selected_idx = main_idx;
-            }
+        //Todo :set Image
+        //ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][selected_idx].grade);
+        imageItem.sprite = CSVData.Inst.GetItemData(itemInfo.ItemList[selected_idx].id).ItemIcon;
+        textItemName.text = CSVData.Inst.GetItemData(itemInfo.ItemList[selected_idx].id).name;
 
-            inventoryInfo = InventoryVC.Inst;
-
-            //Todo :set Image
-            ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][selected_idx].grade);
-            imageItem.sprite = CSVData.Inst.GetEquipmentData(inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][selected_idx].id).equipmentIcon;
-            textItemName.text = CSVData.Inst.GetEquipmentData(inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][selected_idx].id).name;
-
-            string upgrade = string.Format(" ");
-            if (inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][selected_idx].upgrade > 0)
-            {
-                upgrade = string.Format("+{0}", inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][selected_idx].upgrade);
-            }
-            textUpgrade.text = upgrade;
-
-            imageStats.sprite = CSVData.Inst.GetSpriteOptionType(inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][selected_idx].optionType);
-            textStats.text = string.Format("{0}", inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][selected_idx].value);
-
-        }
-        
+        textType.text = CSVData.Inst.GetItemData(itemInfo.ItemList[selected_idx].id).itemType;
     }
 
     public override void Selected(bool selected)
@@ -83,26 +52,7 @@ public class ItemListUnit : ScrollListUnit {
 
     public override void OnClickUnit()
     {
-        if (LobbyManager.Inst.popupState == POPUP_STATE.Servant)
-        {
-            SubViewEquipment.Inst.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
-            SubViewEquipment.Inst.updateChangeItemInfo(main_idx);
-        }
-        else if (LobbyManager.Inst.popupState == POPUP_STATE.Weapon)
-        {
-            if (!SubViewDeconstruction.checkInst())
-            {
-                InventoryVC.Inst.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
-                InventoryVC.Inst.updateDetailInfo(main_idx);
-            }
-            else
-            {
-                SubViewDeconstruction.Inst.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
-                int item_unit_idx = 0;
-                item_unit_idx = inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][SubViewDeconstruction.Inst.scrollListData[main_idx]].index;
-                SubViewDeconstruction.Inst.InsertUnit(item_unit_idx);
-
-            }   
-        }
+        ItemInfoManager.Inst.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
+        ItemInfoManager.Inst.updateItemDetailInfo(main_idx);
     }
 }

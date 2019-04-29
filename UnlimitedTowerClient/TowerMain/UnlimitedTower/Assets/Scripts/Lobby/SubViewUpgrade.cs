@@ -43,7 +43,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
     public List<int> scrollListData = new List<int>();
 
     private PartyInfoVC partyInfo;
-    private InventoryVC inventoryInfo;
+    private EquipmentInfoManager equipmentInfo;
 
     private UPGRADE_TYPE upgradeType = 0;
     private int selected_object_idx;    //선택된 오브젝트 Idx
@@ -75,12 +75,12 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
         }
         else//upgradeType == UPGRADE_TYPE.EQUIPMENT
         {
-            inventoryInfo = InventoryVC.Inst;
+            equipmentInfo = EquipmentInfoManager.Inst;
             scrollList.prefabUnit = prefabItemUnit;
             FrameScroll.SetActive(false);
 
             //선택된 장비 Data
-            equipmentData = inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][inventoryInfo.selected_unit_idx];
+            equipmentData = equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][equipmentInfo.GetUnitIdx()];
 
             InsertEquipmentUpgradeScroll();
         }
@@ -165,7 +165,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                         }
                         else if (upgradeType == UPGRADE_TYPE.EQUIPMENT)
                         {
-                            if (inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[i]].value < inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[j]].value)
+                            if (equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][scrollListData[i]].value < equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][scrollListData[j]].value)
                             {
                                 data_order[i]++;
                             }
@@ -199,7 +199,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                         }
                         else if (upgradeType == UPGRADE_TYPE.EQUIPMENT)
                         {
-                            if (inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[i]].grade > inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[j]].grade)
+                            if (equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][scrollListData[i]].grade > equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][scrollListData[j]].grade)
                             {
                                 data_order[i]++;
                             }
@@ -233,7 +233,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                         }
                         else if (upgradeType == UPGRADE_TYPE.EQUIPMENT)
                         {   
-                            if (CSVData.Inst.GetEquipmentData(inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[i]].id).tier < CSVData.Inst.GetEquipmentData(inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[j]].id).tier)
+                            if (CSVData.Inst.GetEquipmentData(equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][scrollListData[i]].id).tier < CSVData.Inst.GetEquipmentData(equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][scrollListData[j]].id).tier)
                             {
                                 data_order[i]++;
                             }
@@ -273,7 +273,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                         }
                         else if (upgradeType == UPGRADE_TYPE.EQUIPMENT)
                         {
-                            if (inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[i]].upgrade < inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[j]].upgrade)
+                            if (equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][scrollListData[i]].upgrade < equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][scrollListData[j]].upgrade)
                             {
                                 data_order[i]++;
                             }
@@ -531,10 +531,14 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
         else if (InventoryVC.checkInst())
         {
             InventoryVC inventory = InventoryVC.Inst;
-            inventory.setData();
-            inventory.resetScroll();
-            inventory.updateDetailInfo(inventory.scrollList.getFirstItemOrder());
-            //OnClickClose();
+            if (inventory.FrameEquipmentInfo.activeSelf)
+            {
+                EquipmentInfoManager equipmentInfo = EquipmentInfoManager.Inst;
+                equipmentInfo.setData();
+                equipmentInfo.resetScroll();
+                equipmentInfo.updateDetailInfo(equipmentInfo.scrollList.getFirstItemOrder());
+                //OnClickClose();
+            }
         }
     }
 
@@ -546,7 +550,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
         }
         else if (InventoryVC.checkInst())
         {
-            InventoryVC.Inst.frameScroll.SetActive(true);
+            InventoryVC.Inst.FrameMain.SetActive(true);
         }
 
         Destroy(this.gameObject);

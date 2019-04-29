@@ -447,4 +447,12 @@ public enum POPUP_TYPE
     CONFIRM     //확인용 팝업 : Cancel, OK 버튼 표시, 창 터치로 닫기 불가
 }
 
+public enum Inventory_Menu_Type
+{
+    WEAPON = 0,
+    ARMOR,
+    ACCESSORY,
+    ITEM
+}
+
 #endregion

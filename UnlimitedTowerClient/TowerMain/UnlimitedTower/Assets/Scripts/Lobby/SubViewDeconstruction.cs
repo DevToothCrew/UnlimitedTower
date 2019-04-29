@@ -33,7 +33,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
     private SORT_TYPE sort_type = 0;
 
     private PartyInfoVC partyInfo;
-    private InventoryVC inventoryInfo;
+    private EquipmentInfoManager equipmentInfo;
 
     void Start()
     {
@@ -56,7 +56,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
         }
         else
         {
-            inventoryInfo = InventoryVC.Inst;
+            equipmentInfo = EquipmentInfoManager.Inst;
             scrollList.prefabUnit = prefabItemUnit;
         }
 
@@ -97,9 +97,9 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                 }
                 break;
             case DECONSTRUCTION_TYPE.EQUIPMENT:
-                for (int i = 0; i < inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu].Count; i++)
+                for (int i = 0; i < equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()].Count; i++)
                 {
-                    if (inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][i].state == 1 && inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][i].equipServantIndex == 0)
+                    if (equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][i].state == 1 && equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][i].equipServantIndex == 0)
                     {
                         scrollListData.Add(i);
                     }
@@ -168,7 +168,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                         }
                         else if (dType == DECONSTRUCTION_TYPE.EQUIPMENT)
                         {
-                            if (inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[i]].value < inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[j]].value)
+                            if (equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][scrollListData[i]].value < equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][scrollListData[j]].value)
                             {
                                 data_order[i]++;
                             }
@@ -209,7 +209,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                         }
                         else if (dType == DECONSTRUCTION_TYPE.EQUIPMENT)
                         {
-                            if (inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[i]].grade > inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[j]].grade)
+                            if (equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][scrollListData[i]].grade > equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][scrollListData[j]].grade)
                             {
                                 data_order[i]++;
                             }
@@ -250,7 +250,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                         }
                         else if (dType == DECONSTRUCTION_TYPE.EQUIPMENT)
                         {   
-                            if (CSVData.Inst.GetEquipmentData(inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[i]].id).tier < CSVData.Inst.GetEquipmentData(inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[j]].id).tier)
+                            if (CSVData.Inst.GetEquipmentData(equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][scrollListData[i]].id).tier < CSVData.Inst.GetEquipmentData(equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][scrollListData[j]].id).tier)
                             {
                                 data_order[i]++;
                             }
@@ -297,7 +297,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                         }
                         else if (dType == DECONSTRUCTION_TYPE.EQUIPMENT)
                         {
-                            if (inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[i]].upgrade < inventoryInfo.EquipmentList[(int)inventoryInfo.selectedMenu][scrollListData[j]].upgrade)
+                            if (equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][scrollListData[i]].upgrade < equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][scrollListData[j]].upgrade)
                             {
                                 data_order[i]++;
                             }
@@ -500,9 +500,14 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
         else if (InventoryVC.checkInst())
         {
             InventoryVC inventory = InventoryVC.Inst;
-            inventory.setData();
-            inventory.resetScroll();
-            inventory.updateDetailInfo(inventory.scrollList.getFirstItemOrder());
+            if (inventory.FrameEquipmentInfo.activeSelf)
+            {
+                EquipmentInfoManager equipmentInfo = EquipmentInfoManager.Inst;
+                equipmentInfo.setData();
+                equipmentInfo.resetScroll();
+                equipmentInfo.updateDetailInfo(equipmentInfo.scrollList.getFirstItemOrder());
+                //OnClickClose();
+            }
         }
 
         setData();
@@ -518,7 +523,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
         }
         else if (InventoryVC.checkInst())
         {
-            InventoryVC.Inst.frameScroll.SetActive(true);
+            InventoryVC.Inst.FrameMain.SetActive(true);
         }
 
         Destroy(this.gameObject);

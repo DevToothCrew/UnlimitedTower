@@ -105,7 +105,7 @@ public class SortManager : MonoSingleton<SortManager> {
             else
             {
                 Debug.Log("Reset Inven List");
-                InventoryVC.Inst.ResetScrollListBySortType(sortType);
+                EquipmentInfoManager.Inst.ResetScrollListBySortType(sortType);
             }
             
         }
