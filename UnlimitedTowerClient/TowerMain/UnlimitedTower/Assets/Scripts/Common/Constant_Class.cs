@@ -244,6 +244,17 @@ public class Status
     public int basicStr;
     public int basicDex;
     public int basicInt;
+
+    public Status(int basicStr, int basicDex, int basicInt)
+    {
+        this.basicStr = basicStr;
+        this.basicDex = basicDex;
+        this.basicInt = basicInt;
+    }
+
+    public Status()
+    {
+    }
 }
 
 [Serializable]
@@ -253,68 +264,229 @@ public class BattleStatus
     public List<int> buff = new List<int>();
     public int NowHp;
 
-    public BattleStatus(UserCharacterStateData data)
+    public BattleStatus(UserCharacterStateData data, bool isMyParty)
     {
-        if (data.charType == CHAR_TYPE.SERVANT)
-        {
-            UserServantData servant = UserDataManager.Inst.GetServantInfo(data.index);
-            if (data.job == 1) // 워리어
-            {
-                Status.Add(EFFECT_ID.STR, data.status.basicStr + (servant.level - 1) * 6);
-                Status.Add(EFFECT_ID.DEX, data.status.basicDex + (servant.level - 1) * 3);
-                Status.Add(EFFECT_ID.INT, data.status.basicInt + (servant.level - 1) * 1);
-            }
-            else if (data.job == 2) // 도적
-            {
-                Status.Add(EFFECT_ID.STR, data.status.basicStr + (servant.level - 1) * 1);
-                Status.Add(EFFECT_ID.DEX, data.status.basicDex + (servant.level - 1) * 8);
-                Status.Add(EFFECT_ID.INT, data.status.basicInt + (servant.level - 1) * 1);
-            }
-            else if (data.job == 3) // 사제
-            {
-                Status.Add(EFFECT_ID.STR, data.status.basicStr + (servant.level - 1) * 1);
-                Status.Add(EFFECT_ID.DEX, data.status.basicDex + (servant.level - 1) * 2);
-                Status.Add(EFFECT_ID.INT, data.status.basicInt + (servant.level - 1) * 7);
-            }
-            else if (data.job == 4) // 아처
-            {
-                Status.Add(EFFECT_ID.STR, data.status.basicStr + (servant.level - 1) * 2);
-                Status.Add(EFFECT_ID.DEX, data.status.basicDex + (servant.level - 1) * 7);
-                Status.Add(EFFECT_ID.INT, data.status.basicInt + (servant.level - 1) * 1);
-            }
-            else if (data.job == 5) // 마법사
-            {
-                Status.Add(EFFECT_ID.STR, data.status.basicStr + (servant.level - 1) * 1);
-                Status.Add(EFFECT_ID.DEX, data.status.basicDex + (servant.level - 1) * 1);
-                Status.Add(EFFECT_ID.INT, data.status.basicInt + (servant.level - 1) * 8);
-            }
-            else
-            {
-                Status.Add(EFFECT_ID.STR, data.status.basicStr);
-                Status.Add(EFFECT_ID.DEX, data.status.basicDex);
-                Status.Add(EFFECT_ID.INT, data.status.basicInt);
-            }
-        }
-        else if (data.charType == CHAR_TYPE.MONSTER)
-        {
-            if (data.position < 10)
-            {
-                UserMonsterData monster = UserDataManager.Inst.GetMonsterInfo(data.index);
-                Debug.Log(monster);
-                Status.Add(EFFECT_ID.STR, (int)(data.status.basicStr + data.status.basicStr * ((monster.level - 1) * 0.1f)));
-                Status.Add(EFFECT_ID.DEX, (int)(data.status.basicDex + data.status.basicDex * ((monster.level - 1) * 0.1f)));
-                Status.Add(EFFECT_ID.INT, (int)(data.status.basicInt + data.status.basicInt * ((monster.level - 1) * 0.1f)));
-            }
-        }
-        Status.Add(EFFECT_ID.ATK, data.atk);
-        Status.Add(EFFECT_ID.MATK, data.mAtk);
-        Status.Add(EFFECT_ID.DEF, data.def);
-        Status.Add(EFFECT_ID.MDEF, data.mDef);
         Status.Add(EFFECT_ID.HP, data.maxHP);
         Status.Add(EFFECT_ID.SPEED, data.speed);
-        Status.Add(EFFECT_ID.AVOID, data.avoid);
-        Status.Add(EFFECT_ID.CRI_PER, data.criPer);
-        Status.Add(EFFECT_ID.CRI_DMG, data.criDmg);
+        NowHp = data.nowHp;
+
+        if (isMyParty)
+        {
+            if (data.charType == CHAR_TYPE.SERVANT)
+            {
+                UserStageStateData statgData = UserDataManager.Inst.GetStageState();
+                UserServantData servant = UserDataManager.Inst.GetServantInfo(data.index);
+                if (data.job == 1) // 워리어
+                {
+                    Status.Add(EFFECT_ID.STR, data.status.basicStr + (servant.level - 1) * 6);
+                    Status.Add(EFFECT_ID.DEX, data.status.basicDex + (servant.level - 1) * 3);
+                    Status.Add(EFFECT_ID.INT, data.status.basicInt + (servant.level - 1) * 1);
+                }
+                else if (data.job == 2) // 도적
+                {
+                    Status.Add(EFFECT_ID.STR, data.status.basicStr + (servant.level - 1) * 1);
+                    Status.Add(EFFECT_ID.DEX, data.status.basicDex + (servant.level - 1) * 8);
+                    Status.Add(EFFECT_ID.INT, data.status.basicInt + (servant.level - 1) * 1);
+                }
+                else if (data.job == 3) // 사제
+                {
+                    Status.Add(EFFECT_ID.STR, data.status.basicStr + (servant.level - 1) * 1);
+                    Status.Add(EFFECT_ID.DEX, data.status.basicDex + (servant.level - 1) * 2);
+                    Status.Add(EFFECT_ID.INT, data.status.basicInt + (servant.level - 1) * 7);
+                }
+                else if (data.job == 4) // 아처
+                {
+                    Status.Add(EFFECT_ID.STR, data.status.basicStr + (servant.level - 1) * 2);
+                    Status.Add(EFFECT_ID.DEX, data.status.basicDex + (servant.level - 1) * 7);
+                    Status.Add(EFFECT_ID.INT, data.status.basicInt + (servant.level - 1) * 1);
+                }
+                else if (data.job == 5) // 마법사
+                {
+                    Status.Add(EFFECT_ID.STR, data.status.basicStr + (servant.level - 1) * 1);
+                    Status.Add(EFFECT_ID.DEX, data.status.basicDex + (servant.level - 1) * 1);
+                    Status.Add(EFFECT_ID.INT, data.status.basicInt + (servant.level - 1) * 8);
+                }
+                else
+                {
+                    Status.Add(EFFECT_ID.STR, data.status.basicStr);
+                    Status.Add(EFFECT_ID.DEX, data.status.basicDex);
+                    Status.Add(EFFECT_ID.INT, data.status.basicInt);
+                }
+
+                Equipment(servant.equipmentDic, true);
+
+                for (int i = 0; i < statgData.mySynergyList.Count; i++)
+                {
+                    Buff(statgData.mySynergyList[i].id, true, 0);
+                }
+
+                for (int i = 0; i < servant.passiveSkillList.Count; i++)
+                {
+                    Buff(servant.passiveSkillList[i].id, true);
+                }
+
+                StatusReCalculation(servant.level);
+
+                Equipment(servant.equipmentDic, false);
+
+                for (int i = 0; i < statgData.mySynergyList.Count; i++)
+                {
+                    Buff(statgData.mySynergyList[i].id, false, 0);
+                }
+
+                for (int i = 0; i < servant.passiveSkillList.Count; i++)
+                {
+                    Buff(servant.passiveSkillList[i].id, false);
+                }
+            }
+            else if (data.charType == CHAR_TYPE.MONSTER)
+            {
+                if (data.position < 10)
+                {
+                    UserStageStateData statgData = UserDataManager.Inst.GetStageState();
+                    UserMonsterData monster = UserDataManager.Inst.GetMonsterInfo(data.index);
+                    Status.Add(EFFECT_ID.STR, (int)(data.status.basicStr + data.status.basicStr * ((monster.level - 1) * 0.1f)));
+                    Status.Add(EFFECT_ID.DEX, (int)(data.status.basicDex + data.status.basicDex * ((monster.level - 1) * 0.1f)));
+                    Status.Add(EFFECT_ID.INT, (int)(data.status.basicInt + data.status.basicInt * ((monster.level - 1) * 0.1f)));
+                    StatusReCalculation(monster.level);
+
+                    Upgrade(monster.upgrade);
+
+                    for (int i = 0; i < statgData.mySynergyList.Count; i++)
+                    {
+                        Buff(statgData.mySynergyList[i].id, true, (int)monster.tribeType);
+                    }
+
+                    for (int i = 0; i < monster.passiveSkillList.Count; i++)
+                    {
+                        Buff(monster.passiveSkillList[i].id, true);
+                    }
+
+                    StatusReCalculation(monster.level);
+
+                    for (int i = 0; i < statgData.mySynergyList.Count; i++)
+                    {
+                        Buff(statgData.mySynergyList[i].id, false, (int)monster.tribeType);
+                    }
+
+                    for (int i = 0; i < monster.passiveSkillList.Count; i++)
+                    {
+                        Buff(monster.passiveSkillList[i].id, false);
+                    }
+                }
+            }
+        }
+    }
+
+    /// <param name="isBasicStatue"> 힘민지만 계산할지 </param>
+    public void Buff(int id, bool isBasicStatue = true, int? tribeType = null)
+    {
+        DBSkillPassiveData passive = CSVData.Inst.GetSkillPassiveData(id);
+
+        if (passive.effectID == EFFECT_ID.HP)
+        {
+            buff.Add(id);
+            return;
+        }
+
+        if (tribeType == null || tribeType + 900 == passive.jobClass)
+        if ((isBasicStatue && (passive.effectID == EFFECT_ID.STR || passive.effectID == EFFECT_ID.DEX || passive.effectID == EFFECT_ID.INT)) ||
+            (!isBasicStatue && passive.effectID != EFFECT_ID.STR && passive.effectID != EFFECT_ID.DEX && passive.effectID != EFFECT_ID.INT))
+        {
+            if (passive.effectType == EFFECT_TYPE.ADD)
+            {
+                Status[passive.effectID] += passive.effectAdd;
+            }
+            else if (passive.effectType == EFFECT_TYPE.ADD_PER)
+            {
+                Status[passive.effectID] += (int)(Status[passive.effectID] * (passive.effectAdd / 100.0f));
+            }
+            else if (passive.effectType == EFFECT_TYPE.MINUS)
+            {
+                Status[passive.effectID] -= passive.effectAdd;
+            }
+            else if (passive.effectType == EFFECT_TYPE.MINUS_PER)
+            {
+                Status[passive.effectID] -= (int)(Status[passive.effectID] * (passive.effectAdd / 100.0f));
+            }
+            buff.Add(id);
+        }
+    }
+
+    /// <param name="isBasicStatue"> 힘민지만 계산할지 </param>
+    public void Equipment(Dictionary<EQUIPMENT_TYPE, int> equipmentDic, bool isBasicStatue = true)
+    {
+        foreach (KeyValuePair<EQUIPMENT_TYPE, int> state in equipmentDic)
+        {
+            if (state.Value != 0)
+            {
+                UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(state.Value);
+
+                if (isBasicStatue)
+                {
+                    switch (equipmentData.optionType)
+                    {
+                        case EQUIPMENT_OPTION_TYPE.STR:
+                            Status[EFFECT_ID.STR] += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
+                            break;
+                        case EQUIPMENT_OPTION_TYPE.DEX:
+                            Status[EFFECT_ID.DEX] += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
+                            break;
+                        case EQUIPMENT_OPTION_TYPE.INT:
+                            Status[EFFECT_ID.INT] += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (equipmentData.optionType)
+                    {
+                        case EQUIPMENT_OPTION_TYPE.ATK:
+                            Status[EFFECT_ID.ATK] += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
+                            break;
+                        case EQUIPMENT_OPTION_TYPE.MATK:
+                            Status[EFFECT_ID.MATK] += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
+                            break;
+                        case EQUIPMENT_OPTION_TYPE.DEF:
+                            Status[EFFECT_ID.DEF] += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
+                            break;
+                        case EQUIPMENT_OPTION_TYPE.MDEF:
+                            Status[EFFECT_ID.MDEF] += (int)(equipmentData.value * ((equipmentData.upgrade * 0.1f) + 1));
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    public void Upgrade(int upgrade)
+    {
+        Status[EFFECT_ID.STR] += (int)(Status[EFFECT_ID.STR] * (1.0f + upgrade * 0.1f));
+        Status[EFFECT_ID.DEX] += (int)(Status[EFFECT_ID.DEX] * (1.0f + upgrade * 0.1f));
+        Status[EFFECT_ID.INT] += (int)(Status[EFFECT_ID.INT] * (1.0f + upgrade * 0.1f));
+    }
+
+    public void StatusReCalculation(int level)
+    {
+        Status status = new Status(Status[EFFECT_ID.STR], Status[EFFECT_ID.DEX], Status[EFFECT_ID.INT]);
+        if (Status.ContainsKey(EFFECT_ID.ATK))
+        {
+            Status[EFFECT_ID.ATK] = Calculator.GetAttack(status, level);
+            Status[EFFECT_ID.MATK] = Calculator.GetMagicAttack(status, level);
+            Status[EFFECT_ID.DEF] = Calculator.GetDefence(status, level);
+            Status[EFFECT_ID.MDEF] = Calculator.GetMagicDefence(status, level);
+            Status[EFFECT_ID.CRI_PER] = Calculator.GetCriticalPercent(status, level);
+            Status[EFFECT_ID.CRI_DMG] = Calculator.GetCriticalDamage(status, level);
+        }
+        else
+        {
+            Status.Add(EFFECT_ID.ATK, Calculator.GetAttack(status, level));
+            Status.Add(EFFECT_ID.MATK, Calculator.GetMagicAttack(status, level));
+            Status.Add(EFFECT_ID.DEF, Calculator.GetDefence(status, level));
+            Status.Add(EFFECT_ID.MDEF, Calculator.GetMagicDefence(status, level));
+            Status.Add(EFFECT_ID.CRI_PER, Calculator.GetCriticalPercent(status, level));
+            Status.Add(EFFECT_ID.CRI_DMG, Calculator.GetCriticalDamage(status, level));
+        }
     }
 }
 
@@ -404,7 +576,7 @@ public class UserCharacterStateData
     {
         get
         {
-            if(type == 1)
+            if (type == 1)
             {
                 return CHAR_TYPE.SERVANT;
             }

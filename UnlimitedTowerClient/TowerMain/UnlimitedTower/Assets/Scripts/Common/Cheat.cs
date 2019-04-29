@@ -844,7 +844,6 @@ public class Cheat : MonoSingleton<Cheat>
         //servant.job = rand.Next(1, 5);
         //servant.appear = GetRandomAppear();
         servant.passive_skill.Add(100001);
-        //Debug.Log(servant.passive_skill[0]);
         servant.active_skill.Add(200001);
         servant.id = CSVData.Inst.GetRandomServantID();
         servant.grade = 5;
@@ -860,7 +859,8 @@ public class Cheat : MonoSingleton<Cheat>
     {
         monsterData monsterData = new monsterData();
         monsterData.index = index;
-
+        monsterData.monster.passive_skill.Add(100001);
+        Debug.Log(monsterData.monster.passive_skill[0]);
         monsterData.monster = new monsterInfo();
         monsterData.monster.state = 1;
         monsterData.monster.exp = rand.Next(0, 160000);

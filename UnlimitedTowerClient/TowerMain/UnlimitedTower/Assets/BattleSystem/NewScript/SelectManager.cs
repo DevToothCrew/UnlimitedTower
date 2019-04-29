@@ -22,7 +22,7 @@ public class SelectManager : MonoBehaviour
     private RaycastHit hit;
     private Ray ray;
     private bool isAttribute;
-    
+
     private GameObject characterStats;
     private Text _Str;
     private Text _Dex;
@@ -136,49 +136,35 @@ public class SelectManager : MonoBehaviour
                             Destroy(BuffParent.GetChild(i).gameObject);
                         }
 
-                        if (selectStateInfo.passiveSkillList.Count > 0)
-                        {
-                            foreach (UserSkillInfo skill in selectStateInfo.passiveSkillList)
-                            {
-                                Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = CSVData.Inst.GetSkillPassiveData(skill.id).passiveIcon;
-                            }
-                        }
-
                         if (selectIndex < 5)
                         {
                             levelText.text = UserDataManager.Inst.GetServantInfo(selectStateInfo.index).level.ToString();
 
-                            if (UserDataManager.Inst.GetStageState().mySynergyList.Count > 0)
+                            foreach (int skill in BattleManager.Inst.status[selectIndex].buff)
                             {
-                                foreach (UserSkillInfo skill in UserDataManager.Inst.GetStageState().mySynergyList)
-                                {
-                                    Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = CSVData.Inst.GetSkillPassiveData(skill.id).passiveIcon;
-                                }
+                                Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = CSVData.Inst.GetSkillPassiveData(skill).passiveIcon;
                             }
                         }
                         else if (selectIndex < 10)
                         {
                             levelText.text = UserDataManager.Inst.GetMonsterInfo(selectStateInfo.index).level.ToString();
 
-                            if (UserDataManager.Inst.GetStageState().mySynergyList.Count > 0)
+                            foreach (int skill in BattleManager.Inst.status[selectIndex].buff)
                             {
-                                foreach (UserSkillInfo skill in UserDataManager.Inst.GetStageState().mySynergyList)
-                                {
-                                    Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = CSVData.Inst.GetSkillPassiveData(skill.id).passiveIcon;
-                                }
+                                Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = CSVData.Inst.GetSkillPassiveData(skill).passiveIcon;
                             }
                         }
                         else
                         {
                             levelText.text = "?";
 
-                            if (UserDataManager.Inst.GetStageState().enemySynergyList.Count > 0)
-                            {
-                                foreach (UserSkillInfo skill in UserDataManager.Inst.GetStageState().enemySynergyList)
-                                {
-                                    Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = CSVData.Inst.GetSkillPassiveData(skill.id).passiveIcon;
-                                }
-                            }
+                            // if (UserDataManager.Inst.GetStageState().enemySynergyList.Count > 0)
+                            // {
+                            //     foreach (UserSkillInfo skill in UserDataManager.Inst.GetStageState().enemySynergyList)
+                            //     {
+                            //         Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = CSVData.Inst.GetSkillPassiveData(skill.id).passiveIcon;
+                            //     }
+                            // }
                         }
 
                         if (selectIndex < 10 || BattleManager.Inst.adminMode == true)

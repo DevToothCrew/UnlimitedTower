@@ -547,8 +547,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 continue;
             }
 
-            status[i] = Calculator.GetBattleStatus(stateData.myStateList[i]);
-            status[i].NowHp = stateData.myStateList[i].nowHp;
+            status[i] = new BattleStatus(stateData.myStateList[i], true);
         }
 
         for (int i = 10; i < 20; i++)
@@ -558,8 +557,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 continue;
             }
 
-            status[i] = Calculator.GetBattleStatus(stateData.enemyStateList[i]);
-            status[i].NowHp = stateData.enemyStateList[i].nowHp;
+            status[i] = new BattleStatus(stateData.enemyStateList[i], false);
         }
     }
 
