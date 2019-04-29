@@ -382,34 +382,36 @@ public class BattleStatus
     public void Buff(int id, bool isBasicStatue = true, int? tribeType = null)
     {
         DBSkillPassiveData passive = CSVData.Inst.GetSkillPassiveData(id);
-
-        if (passive.effectID == EFFECT_ID.HP)
+        
+        if (tribeType == null || tribeType + 900 == passive.targetID || passive.targetID == 2)
         {
-            buff.Add(id);
-            return;
-        }
-
-        if (tribeType == null || tribeType + 900 == passive.jobClass)
-        if ((isBasicStatue && (passive.effectID == EFFECT_ID.STR || passive.effectID == EFFECT_ID.DEX || passive.effectID == EFFECT_ID.INT)) ||
+            if ((isBasicStatue && (passive.effectID == EFFECT_ID.STR || passive.effectID == EFFECT_ID.DEX || passive.effectID == EFFECT_ID.INT)) ||
             (!isBasicStatue && passive.effectID != EFFECT_ID.STR && passive.effectID != EFFECT_ID.DEX && passive.effectID != EFFECT_ID.INT))
-        {
-            if (passive.effectType == EFFECT_TYPE.ADD)
             {
-                Status[passive.effectID] += passive.effectAdd;
+                if (passive.effectID == EFFECT_ID.HP)
+                {
+                    buff.Add(id);
+                    return;
+                }
+                
+                if (passive.effectType == EFFECT_TYPE.ADD)
+                {
+                    Status[passive.effectID] += passive.effectAdd;
+                }
+                else if (passive.effectType == EFFECT_TYPE.ADD_PER)
+                {
+                    Status[passive.effectID] += (int)(Status[passive.effectID] * (passive.effectAdd / 100.0f));
+                }
+                else if (passive.effectType == EFFECT_TYPE.MINUS)
+                {
+                    Status[passive.effectID] -= passive.effectAdd;
+                }
+                else if (passive.effectType == EFFECT_TYPE.MINUS_PER)
+                {
+                    Status[passive.effectID] -= (int)(Status[passive.effectID] * (passive.effectAdd / 100.0f));
+                }
+                buff.Add(id);
             }
-            else if (passive.effectType == EFFECT_TYPE.ADD_PER)
-            {
-                Status[passive.effectID] += (int)(Status[passive.effectID] * (passive.effectAdd / 100.0f));
-            }
-            else if (passive.effectType == EFFECT_TYPE.MINUS)
-            {
-                Status[passive.effectID] -= passive.effectAdd;
-            }
-            else if (passive.effectType == EFFECT_TYPE.MINUS_PER)
-            {
-                Status[passive.effectID] -= (int)(Status[passive.effectID] * (passive.effectAdd / 100.0f));
-            }
-            buff.Add(id);
         }
     }
 
@@ -461,9 +463,9 @@ public class BattleStatus
 
     public void Upgrade(int upgrade)
     {
-        Status[EFFECT_ID.STR] += (int)(Status[EFFECT_ID.STR] * (1.0f + upgrade * 0.1f));
-        Status[EFFECT_ID.DEX] += (int)(Status[EFFECT_ID.DEX] * (1.0f + upgrade * 0.1f));
-        Status[EFFECT_ID.INT] += (int)(Status[EFFECT_ID.INT] * (1.0f + upgrade * 0.1f));
+        Status[EFFECT_ID.STR] += (int)(Status[EFFECT_ID.STR] * (upgrade * 0.1f));
+        Status[EFFECT_ID.DEX] += (int)(Status[EFFECT_ID.DEX] * (upgrade * 0.1f));
+        Status[EFFECT_ID.INT] += (int)(Status[EFFECT_ID.INT] * (upgrade * 0.1f));
     }
 
     public void StatusReCalculation(int level)

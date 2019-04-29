@@ -157,17 +157,9 @@ public class SelectManager : MonoBehaviour
                         else
                         {
                             levelText.text = "?";
-
-                            // if (UserDataManager.Inst.GetStageState().enemySynergyList.Count > 0)
-                            // {
-                            //     foreach (UserSkillInfo skill in UserDataManager.Inst.GetStageState().enemySynergyList)
-                            //     {
-                            //         Instantiate(BuffImage, BuffParent).GetComponent<Image>().sprite = CSVData.Inst.GetSkillPassiveData(skill.id).passiveIcon;
-                            //     }
-                            // }
                         }
 
-                        if (selectIndex < 10 || BattleManager.Inst.adminMode == true)
+                        if (selectIndex < 10)
                         {
                             BattleStatus status = BattleManager.Inst.status[selectIndex];
                             _Str.text = status.Status[EFFECT_ID.STR].ToString();

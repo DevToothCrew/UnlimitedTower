@@ -15,7 +15,7 @@ public class BasicAttack : MonoBehaviour {
     public void Attack(characterActionData attackInfo, ELEMENT_TYPE type = ELEMENT_TYPE.None)
     {
         if (charInfo.AttackRange > 0.1f)
-            StartCoroutine(NearAttackAction(attackInfo));
+            StartCoroutine(NearAttackAction(attackInfo, type));
         else
             StartCoroutine(FarAttackAction(attackInfo));
     }

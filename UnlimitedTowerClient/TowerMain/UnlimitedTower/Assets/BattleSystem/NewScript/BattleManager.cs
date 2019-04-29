@@ -301,6 +301,11 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         for (int i = 0; i < rewardData.get_char_exp_list.Count; i++)
         {
+            if (rewardData.get_char_exp_list[i].lvup != 0)
+            {
+                Exp.transform.GetChild(positionOrder[rewardData.get_char_exp_list[i].pos]).GetChild(5).gameObject.SetActive(true);
+                Exp.transform.GetChild(positionOrder[rewardData.get_char_exp_list[i].pos]).GetChild(5).GetChild(0).GetComponent<Text>().text = "+" + rewardData.get_char_exp_list[i].lvup.ToString();
+            }
             Exp.transform.GetChild(positionOrder[rewardData.get_char_exp_list[i].pos]).GetChild(1).gameObject.SetActive(true);
             Exp.transform.GetChild(positionOrder[rewardData.get_char_exp_list[i].pos]).GetChild(1).GetComponent<Text>().text = "+ " + rewardData.get_char_exp_list[i].exp;
         }
