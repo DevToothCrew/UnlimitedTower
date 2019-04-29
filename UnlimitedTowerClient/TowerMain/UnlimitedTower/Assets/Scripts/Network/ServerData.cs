@@ -528,6 +528,7 @@ public class EquipmentUpgradeJson
 public class ShopBuyItemJson
 {
     public int index;
+    public int type;
     public int itemCount;
 }
 

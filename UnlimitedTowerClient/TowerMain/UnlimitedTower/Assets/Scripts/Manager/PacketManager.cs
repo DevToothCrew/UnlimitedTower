@@ -572,7 +572,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 상점 아이템 구매
-    public void RequestShopBuyItem(int index, int itemCount)
+    public void RequestShopBuyItem(int index, int type, int itemCount)
     {
         Debug.Log("Request ShopBuy Item");
         if (index == 0 || itemCount == 0)
@@ -583,6 +583,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         ShopBuyItemJson buyItem = new ShopBuyItemJson();
         buyItem.index = index;
+        buyItem.type = type;
         buyItem.itemCount = itemCount;
 
         string json = JsonUtility.ToJson(buyItem);

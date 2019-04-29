@@ -71,8 +71,14 @@ public class ShopBuyPopup : MonoBehaviour {
 
     public void OnClickOKButton()
     {
-        // 구매 신청
-        PacketManager.Inst.RequestShopBuyItem(index, buyCount);
+        DBShopData shopData = CSVData.Inst.GetShopData(index);
+        if(shopData == null)
+        {
+            Debug.Log("Invalid Index");
+            return;
+        }
+
+        PacketManager.Inst.RequestShopBuyItem(index, (int)shopData.type, buyCount);
     }
 
     public void OnClickMaxButton()
