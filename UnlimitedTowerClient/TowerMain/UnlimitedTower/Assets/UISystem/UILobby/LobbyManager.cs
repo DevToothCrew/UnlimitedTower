@@ -109,8 +109,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                     objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                     BackbuttonUI.SetActive(true);
 
-                    Cheat.Inst.RequestShopInfo(SHOP_TYPE.EOS);
-                    //PacketManager.Inst.RequestShopInfo(SHOP_TYPE.EOS);
+                    PacketManager.Inst.RequestLocalShopInfo(SHOP_TYPE.EOS);
                 }
                 break;
 

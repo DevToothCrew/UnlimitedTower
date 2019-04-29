@@ -38,8 +38,7 @@ public class ShopInfoPage : MonoSingleton<ShopInfoPage>
 
     public void OnClickShopMenu(int type)
     {
-        Cheat.Inst.RequestShopInfo( (SHOP_TYPE)type );
-        //PacketManager.Inst.RequestShopInfo((SHOP_TYPE)type);
+        PacketManager.Inst.RequestLocalShopInfo((SHOP_TYPE)type);
     }
 
     public void SetShopBuyPopup(ShopProductInfo getProductInfo)
