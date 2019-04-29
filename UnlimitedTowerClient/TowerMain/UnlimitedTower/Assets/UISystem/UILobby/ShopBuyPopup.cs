@@ -71,7 +71,20 @@ public class ShopBuyPopup : MonoBehaviour {
 
     public void OnClickOKButton()
     {
-        PacketManager.Inst.RequestShopBuyItem(index, (int)shopType, buyCount);
+        DBShopData shopData = CSVData.Inst.GetShopData(index);
+        if(shopData == null)
+        {
+            Debug.Log("Invalid ShopData");
+        }
+
+        if(shopData.priceID == 500001)
+        {
+            PacketManager.Inst.RequestShopBuyItem(index, 2, buyCount);
+        }
+        else
+        {
+            PacketManager.Inst.RequestShopBuyItem(index, 1, buyCount);
+        }
     }
 
     public void OnClickMaxButton()

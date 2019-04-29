@@ -38,11 +38,8 @@ public class ShopInfoPage : MonoSingleton<ShopInfoPage>
 
     public void OnClickShopMenu(int type)
     {
-#if UNITY_EDITOR
         Cheat.Inst.RequestShopInfo( (SHOP_TYPE)type );
-#else
-        PacketManager.Inst.RequestShopInfo((SHOP_TYPE)type);
-#endif
+        //PacketManager.Inst.RequestShopInfo((SHOP_TYPE)type);
     }
 
     public void SetShopBuyPopup(ShopProductInfo getProductInfo)

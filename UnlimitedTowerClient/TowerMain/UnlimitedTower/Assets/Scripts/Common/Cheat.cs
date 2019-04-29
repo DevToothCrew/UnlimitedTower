@@ -860,7 +860,7 @@ public class Cheat : MonoSingleton<Cheat>
         monsterData monsterData = new monsterData();
         monsterData.index = index;
         monsterData.monster.passive_skill.Add(100001);
-        Debug.Log(monsterData.monster.passive_skill[0]);
+        //Debug.Log(monsterData.monster.passive_skill[0]);
         monsterData.monster = new monsterInfo();
         monsterData.monster.state = 1;
         monsterData.monster.exp = rand.Next(0, 160000);
@@ -1143,10 +1143,9 @@ public class Cheat : MonoSingleton<Cheat>
     {
         shopInfoResultData resultData = new shopInfoResultData();
         resultData.shop_type = (int)type;
-
-        if (type == SHOP_TYPE.EOS)
+        if (type == SHOP_TYPE.UTG)
         {
-            for (int i = 4; i <= 7; i++)
+            for (int i = 1; i <= 3; i++)
             {
                 shopProductData product = new shopProductData();
                 product.index = i;
@@ -1157,9 +1156,9 @@ public class Cheat : MonoSingleton<Cheat>
                 resultData.shop_product_list.Add(product);
             }
         }
-        else if(type == SHOP_TYPE.UTG)
+        else if (type == SHOP_TYPE.EOS)
         {
-            for (int i = 1; i <= 3; i++)
+            for (int i = 4; i <= 7; i++)
             {
                 shopProductData product = new shopProductData();
                 product.index = i;

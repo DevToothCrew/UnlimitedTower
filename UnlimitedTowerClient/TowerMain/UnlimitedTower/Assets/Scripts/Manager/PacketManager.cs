@@ -1539,7 +1539,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void ResponseShopInfo(shopInfoResultData getShopInfo)
     {
-        Debug.Log("Response ShopInfo : " + getShopInfo.shop_type);
+        //Debug.Log("Response ShopInfo : " + getShopInfo.shop_type);
 
         List<ShopProductInfo> productInfoList = new List<ShopProductInfo>();
         ParseShopProductInfoList(getShopInfo, ref productInfoList);
