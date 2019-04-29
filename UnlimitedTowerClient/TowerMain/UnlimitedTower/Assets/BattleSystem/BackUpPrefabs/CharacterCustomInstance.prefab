@@ -21225,24 +21225,24 @@ MonoBehaviour:
     RightLeg: {fileID: 4300008, guid: 11225d736eb44c64c8b223102710e86a, type: 3}
     RightFoot: {fileID: 4300002, guid: 11225d736eb44c64c8b223102710e86a, type: 3}
   characterSkinnedMeshList:
-    animator: {fileID: 0}
-    frame: {fileID: 0}
-    Head: {fileID: 0}
-    Neck: {fileID: 0}
-    Body: {fileID: 0}
-    LeftHand: {fileID: 0}
-    LeftWrist: {fileID: 0}
-    LeftArm: {fileID: 0}
-    LeftShoulder: {fileID: 0}
-    RightHand: {fileID: 0}
-    RightWrist: {fileID: 0}
-    RightArm: {fileID: 0}
-    RightShoulder: {fileID: 0}
-    LeftLeg: {fileID: 0}
-    LeftFoot: {fileID: 0}
-    RightLeg: {fileID: 0}
-    RightFoot: {fileID: 0}
-  defultCharacter: {fileID: 0}
+    animator: {fileID: 95514890569380260}
+    frame: {fileID: 4109350230962822}
+    Head: {fileID: 137876988083624318}
+    Neck: {fileID: 137575570619699704}
+    Body: {fileID: 137787067126779446}
+    LeftHand: {fileID: 137093058933077606}
+    LeftWrist: {fileID: 137962565342322506}
+    LeftArm: {fileID: 137691112817497956}
+    LeftShoulder: {fileID: 137115781116365294}
+    RightHand: {fileID: 137867575966468664}
+    RightWrist: {fileID: 137155760471251662}
+    RightArm: {fileID: 137366843952760172}
+    RightShoulder: {fileID: 137969025962314404}
+    LeftLeg: {fileID: 137246651884244348}
+    LeftFoot: {fileID: 137668922231959734}
+    RightLeg: {fileID: 137530320178678358}
+    RightFoot: {fileID: 137725524457604576}
+  defultCharacter: {fileID: 1932066358569296}
   defultCharacterParent: {fileID: 0}
   adultManHead:
   - material: {fileID: 2100000, guid: a7b9c245ac2215a4c96d7066a313d41b, type: 2}
