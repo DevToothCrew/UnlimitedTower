@@ -3,10 +3,10 @@ using UnityEngine.UI;
 
 public class ShopObjectInfo : MonoBehaviour {
 
-    private int index;
-    private SHOP_TYPE shopType;
-    private int id;
-    private ShopProductInfo shopProductInfo;
+    public int index;
+    public SHOP_TYPE shopType;
+    public int id;
+    public ShopProductInfo shopProductInfo;
 
     public Text textName;
 

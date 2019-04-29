@@ -3,9 +3,9 @@ using UnityEngine.UI;
 
 public class ShopBuyPopup : MonoBehaviour {
 
-    private int index;
-    private SHOP_TYPE shopType;
-    private int id;
+    public int index;
+    public SHOP_TYPE shopType;
+    public int id;
     public int buyCount;
     public int priceCount;
     public Text textBuyCount;
@@ -71,14 +71,7 @@ public class ShopBuyPopup : MonoBehaviour {
 
     public void OnClickOKButton()
     {
-        DBShopData shopData = CSVData.Inst.GetShopData(index);
-        if(shopData == null)
-        {
-            Debug.Log("Invalid Index");
-            return;
-        }
-
-        PacketManager.Inst.RequestShopBuyItem(index, (int)shopData.type, buyCount);
+        PacketManager.Inst.RequestShopBuyItem(index, (int)shopType, buyCount);
     }
 
     public void OnClickMaxButton()

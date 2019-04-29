@@ -12,8 +12,8 @@ public class PopupManager : MonoBehaviour {
     public Button buttonCancel;
     public Button buttonOK;
 
-    private POPUP_TYPE popupType;
-    private int messageIdx;
+    public POPUP_TYPE popupType;
+    public int messageIdx;
 
     public void SetPopupMasseage(POPUP_TYPE type, int message_idx)
     {
