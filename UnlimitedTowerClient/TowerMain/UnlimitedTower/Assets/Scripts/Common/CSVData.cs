@@ -926,7 +926,6 @@ public class CSVData : MonoSingleton<CSVData>
             if (monsterData.monsterIcon == null)
             {
                 Debug.Log("Invalid Icon Resource : " + monsterData.resourceIcon + " No : " + (monsterDataInspector.Count));
-                return false;
             }
 
             DBMonsterDataDic.Add(monsterData.id, monsterData);
