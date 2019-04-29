@@ -3560,6 +3560,7 @@ ACTION battletest::mailopen(eosio::name _user, uint64_t _mail_index)
     else if (user_mail_iter->mail_type == 4) //UTG 및 재화
     {
         //아직 미구현
+
     }
     else if (user_mail_iter->mail_type == 5) //UTS
     {
@@ -8605,16 +8606,16 @@ ACTION battletest::deleteuser(eosio::name _user)
             auto iter2 = user_mail_table.find(iter->primary_key());
             iter = user_mail_table.erase(iter2);
         }
-        //     mail_db_table.erase(user_mail_iter);
+            user_mail_table.erase(user_mail_iter);
     }
 
-    // mail_db mail_db_table(_self, _user.value);
-    // for (auto item = mail_db_table.begin(); item != mail_db_table.end();)
-    // {
-    //     auto iter = mail_db_table.find(item->primary_key());
-    //     mail_db_table.erase(iter);
-    //     item++;
-    // }
+    mail_db mail_db_table(_self, _user.value);
+    for (auto item = mail_db_table.begin(); item != mail_db_table.end();)
+    {
+        auto iter = mail_db_table.find(item->primary_key());
+        mail_db_table.erase(iter);
+        item++;
+    }
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -9743,44 +9744,6 @@ ACTION battletest::pvpstart(eosio::name _from, eosio::name _to)
 //------------------------------------------------------------------------//
 //-------------------------------store_function---------------------------//
 //------------------------------------------------------------------------//
-
-// ACTION battletest::addshop(uint64_t _index)
-// {
-//     shop_list shop_list_table(_self, _self.value);
-//     auto shop_list_iter = shop_list_table.find(item_shop_iter->id);
-
-//     if(shop_list_iter == shop_list_table.end())
-//     {
-//         shop_list_table.emplace(_self, [&](auto &data) {
-//             data.id = item_shop_iter->id;
-//             data.goods_id = item_shop_iter->goods_id;
-//             data.goods_count = item_shop_iter->goods_count;
-//             data.limit_count = 0;
-//             data.limit_max = item_shop_iter->goods_limited;
-//         });
-//     }
-//     else
-//     {
-//         shop_list_table.modify(shop_list_iter, _self, [&](auto &data){
-//             data.goods_id = item_shop_iter->goods_id;
-//             data.goods_count = item_shop_iter->goods_count;
-//             data.limit_count = 0;
-//             data.limit_max = item_shop_iter->goods_limited;
-//         });
-//     }
-    
-
-// }
-
-// ACTION battletest::delshop(uint64_t _index)
-// {
-//     item_shop item_shop_table(_self, _self.value);
-//     auto item_shop_iter = item_shop_table.find(_index);
-//     shop_list shop_list_table(_self, _self.value);
-//     auto shop_list_iter = shop_list_table.find(item_shop_iter->id);
-    
-//     shop_list_table.erase(shop_list_iter);
-// }
 
 ACTION battletest::itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count)
 {

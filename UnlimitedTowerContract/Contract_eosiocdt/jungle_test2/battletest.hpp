@@ -977,6 +977,7 @@ CONTRACT battletest : public contract
         goods_utg= 2,
     };
 
+    // 삭제 예정 
     TABLE itemshop
     {
         uint64_t id;
@@ -1327,9 +1328,6 @@ CONTRACT battletest : public contract
     void monsterburn(eosio::name _user, const std::vector<uint64_t> &_list);
     void equipburn(eosio::name _user, const std::vector<uint64_t> &_list);
 
-    //ACTION servantburn(eosio::name _user, const std::vector<uint64_t> &_servant_list);
-    //ACTION monsterburn(eosio::name _user, const std::vector<uint64_t> &_monster_list);
-   //ACTION equipburn(eosio::name _user, const std::vector<uint64_t> &_equipment_list);
     ACTION itemburn(eosio::name _user, const std::vector<uint64_t> &_item_list, const std::vector<uint64_t> &_count_list);
 
     ACTION equip(eosio::name _user, uint32_t _servant_index, uint32_t _item_index);
@@ -1358,9 +1356,6 @@ CONTRACT battletest : public contract
     ACTION itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count);
     void inventory_buy(eosio::name _user, uint32_t _type);
     void utg_cheat(eosio::name _user);
-    //ACTION addshop(uint64_t _index);
-    //ACTION delshop(uint64_t _index);
-
 
 #pragma endregion
 
