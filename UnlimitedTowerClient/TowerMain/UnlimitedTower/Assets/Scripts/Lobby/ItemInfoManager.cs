@@ -54,6 +54,17 @@ public class ItemInfoManager : MonoSingleton<ItemInfoManager> {
                     initScrollList();
                 }
 
+                textOwned.text = string.Format("{0}", ItemList.Count);
+                textTotal.text = string.Format("/ {0}", UserDataManager.Inst.GetUserInventoryInfo().itemInventory);
+                if (ItemList.Count >= UserDataManager.Inst.GetUserInventoryInfo().itemInventory)
+                {
+                    textOwned.color = Color.red;
+                }
+                else
+                {
+                    textOwned.color = Color.white;
+                }
+
                 updateItemDetailInfo(scrollList.getFirstItemOrder());
             }
             else

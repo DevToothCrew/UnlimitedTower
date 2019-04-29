@@ -71,6 +71,17 @@ public class EquipmentInfoManager : MonoSingleton<EquipmentInfoManager>
                     initScrollList();
                 }
 
+                textOwned.text = string.Format("{0}", EquipmentList[(int)selectedMenu].Count);
+                textTotal.text = string.Format("/ {0}", UserDataManager.Inst.GetUserInventoryInfo().equipmentInventory);
+                if (EquipmentList[(int)selectedMenu].Count >= UserDataManager.Inst.GetUserInventoryInfo().equipmentInventory)
+                {
+                    textOwned.color = Color.red;
+                }
+                else
+                {
+                    textOwned.color = Color.white;
+                }
+
                 updateDetailInfo(scrollList.getFirstItemOrder());
             }
             else
