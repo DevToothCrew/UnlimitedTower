@@ -183,4 +183,9 @@ public class GachaBoxParticleController : MonoBehaviour
         bloomSettings.bloom.intensity = 0.0f;
         ppb.profile.bloom.settings = bloomSettings;
     }
+
+    public void GachaSkip()
+    {
+        FinishAnimation();
+    }
 }
