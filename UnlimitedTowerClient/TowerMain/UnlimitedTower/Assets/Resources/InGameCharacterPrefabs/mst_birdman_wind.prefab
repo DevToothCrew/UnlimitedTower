@@ -67,7 +67,7 @@ GameObject:
   - component: {fileID: 95034304269910320}
   - component: {fileID: 114042397439137356}
   m_Layer: 0
-  m_Name: mst_birdman_wind_2
+  m_Name: mst_birdman_wind
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

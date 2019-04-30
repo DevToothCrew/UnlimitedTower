@@ -236,7 +236,7 @@ GameObject:
   - component: {fileID: 95414121608520688}
   - component: {fileID: 114901135027500670}
   m_Layer: 0
-  m_Name: mst_birdman_earth_2
+  m_Name: mst_birdman_earth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
