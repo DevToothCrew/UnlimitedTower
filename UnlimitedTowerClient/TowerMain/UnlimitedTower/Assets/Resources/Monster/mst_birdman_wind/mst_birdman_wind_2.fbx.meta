@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 55551968086cb174287bb93c9bf78bc3
+guid: 4ae781248f652374b9535906984bbe94
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -11,24 +11,24 @@ ModelImporter:
     100010: hand_R
     100012: heel_02_L
     100014: heel_02_R
-    100016: metarig
-    100018: mst_birdman_earth
-    100020: //RootNode
-    100022: mst_birdman_earth_001
-    100024: mst_birdman_earth_002
-    100026: mst_birdman_earth_003
-    100028: mst_birdman_earth_004
-    100030: mst_birdman_earth_005
-    100032: mst_birdman_earth_006
-    100034: mst_birdman_earth_007
-    100036: mst_birdman_earth_008
-    100038: mst_birdman_earth_012
-    100040: mst_birdman_earth_013
-    100042: mst_birdman_earth_015
-    100044: mst_birdman_earth_016
-    100046: mst_birdman_earth_017
-    100048: mst_birdman_earth_028
-    100050: mst_birdman_earth_029
+    100016: metarig_001
+    100018: mst_birdman_wind_000
+    100020: mst_birdman_wind_001
+    100022: mst_birdman_wind_002
+    100024: mst_birdman_wind_003
+    100026: mst_birdman_wind_004
+    100028: mst_birdman_wind_005
+    100030: mst_birdman_wind_006
+    100032: mst_birdman_wind_007
+    100034: mst_birdman_wind_008
+    100036: mst_birdman_wind_009
+    100038: mst_birdman_wind_010
+    100040: mst_birdman_wind_011
+    100042: mst_birdman_wind_012
+    100044: mst_birdman_wind_013
+    100046: mst_birdman_wind_014
+    100048: mst_birdman_wind_015
+    100050: //RootNode
     100052: shin_L
     100054: shin_R
     100056: shoulder_L
@@ -54,24 +54,24 @@ ModelImporter:
     400010: hand_R
     400012: heel_02_L
     400014: heel_02_R
-    400016: metarig
-    400018: mst_birdman_earth
-    400020: //RootNode
-    400022: mst_birdman_earth_001
-    400024: mst_birdman_earth_002
-    400026: mst_birdman_earth_003
-    400028: mst_birdman_earth_004
-    400030: mst_birdman_earth_005
-    400032: mst_birdman_earth_006
-    400034: mst_birdman_earth_007
-    400036: mst_birdman_earth_008
-    400038: mst_birdman_earth_012
-    400040: mst_birdman_earth_013
-    400042: mst_birdman_earth_015
-    400044: mst_birdman_earth_016
-    400046: mst_birdman_earth_017
-    400048: mst_birdman_earth_028
-    400050: mst_birdman_earth_029
+    400016: metarig_001
+    400018: mst_birdman_wind_000
+    400020: mst_birdman_wind_001
+    400022: mst_birdman_wind_002
+    400024: mst_birdman_wind_003
+    400026: mst_birdman_wind_004
+    400028: mst_birdman_wind_005
+    400030: mst_birdman_wind_006
+    400032: mst_birdman_wind_007
+    400034: mst_birdman_wind_008
+    400036: mst_birdman_wind_009
+    400038: mst_birdman_wind_010
+    400040: mst_birdman_wind_011
+    400042: mst_birdman_wind_012
+    400044: mst_birdman_wind_013
+    400046: mst_birdman_wind_014
+    400048: mst_birdman_wind_015
+    400050: //RootNode
     400052: shin_L
     400054: shin_R
     400056: shoulder_L
@@ -89,42 +89,42 @@ ModelImporter:
     400080: toe_R
     400082: upper_arm_L
     400084: upper_arm_R
-    2100000: palette_010__mst_birdman_earth_png
-    2100002: palette_011__mst_birdman_earth_png_001
-    4300000: mst_birdman_earth_012
-    4300002: mst_birdman_earth_001
-    4300004: mst_birdman_earth_002
-    4300006: mst_birdman_earth_003
-    4300008: mst_birdman_earth_005
-    4300010: mst_birdman_earth_006
-    4300012: mst_birdman_earth_007
-    4300014: mst_birdman_earth_013
-    4300016: mst_birdman_earth_008
-    4300018: mst_birdman_earth_004
-    4300020: mst_birdman_earth_017
-    4300022: mst_birdman_earth
-    4300024: mst_birdman_earth_016
-    4300026: mst_birdman_earth_015
-    4300028: mst_birdman_earth_029
-    4300030: mst_birdman_earth_028
+    2100000: palette_008__mst_birdman_wind_png
+    2100002: palette_009__mst_birdman_wind_png_001
+    4300000: mst_birdman_wind_010
+    4300002: mst_birdman_wind_011
+    4300004: mst_birdman_wind_004
+    4300006: mst_birdman_wind_008
+    4300008: mst_birdman_wind_014
+    4300010: mst_birdman_wind_007
+    4300012: mst_birdman_wind_013
+    4300014: mst_birdman_wind_006
+    4300016: mst_birdman_wind_000
+    4300018: mst_birdman_wind_009
+    4300020: mst_birdman_wind_012
+    4300022: mst_birdman_wind_015
+    4300024: mst_birdman_wind_005
+    4300026: mst_birdman_wind_003
+    4300028: mst_birdman_wind_002
+    4300030: mst_birdman_wind_001
     7400000: Default Take
     9500000: //RootNode
-    13700000: mst_birdman_earth
-    13700002: mst_birdman_earth_001
-    13700004: mst_birdman_earth_002
-    13700006: mst_birdman_earth_003
-    13700008: mst_birdman_earth_004
-    13700010: mst_birdman_earth_005
-    13700012: mst_birdman_earth_006
-    13700014: mst_birdman_earth_007
-    13700016: mst_birdman_earth_008
-    13700018: mst_birdman_earth_012
-    13700020: mst_birdman_earth_013
-    13700022: mst_birdman_earth_015
-    13700024: mst_birdman_earth_016
-    13700026: mst_birdman_earth_017
-    13700028: mst_birdman_earth_028
-    13700030: mst_birdman_earth_029
+    13700000: mst_birdman_wind_000
+    13700002: mst_birdman_wind_001
+    13700004: mst_birdman_wind_002
+    13700006: mst_birdman_wind_003
+    13700008: mst_birdman_wind_004
+    13700010: mst_birdman_wind_005
+    13700012: mst_birdman_wind_006
+    13700014: mst_birdman_wind_007
+    13700016: mst_birdman_wind_008
+    13700018: mst_birdman_wind_009
+    13700020: mst_birdman_wind_010
+    13700022: mst_birdman_wind_011
+    13700024: mst_birdman_wind_012
+    13700026: mst_birdman_wind_013
+    13700028: mst_birdman_wind_014
+    13700030: mst_birdman_wind_015
   externalObjects: {}
   materials:
     importMaterials: 1
