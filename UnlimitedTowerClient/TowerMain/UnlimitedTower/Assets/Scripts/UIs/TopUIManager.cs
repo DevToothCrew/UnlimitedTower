@@ -1,21 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class TopUIManager : MonoSingleton<TopUIManager> {
-
-    enum popup_type
-    {
-        NOTICE = 0,
-        WARNING,
-        CONFIRM
-    };
-    private popup_type popupType;
-
-    public void ShowPopupMessage(int message_idx)
-    {
-
-    }
 
     public void ShowBurnResult(List<UserItemData> getItemList, ulong getUTG)
     {

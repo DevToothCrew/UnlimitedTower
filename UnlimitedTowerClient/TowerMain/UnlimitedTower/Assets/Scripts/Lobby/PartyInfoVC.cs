@@ -691,12 +691,6 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
         if (selectedFormationSlot <= DEFINE.ServantMaxFormationNum)
         {
-            if (UserDataManager.Inst.GetServantInfo(character_unit_idx).state != 1)
-            {
-                TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Servant State");
-                return;
-            }
-
             // 서번트일 경우
             for (int i = DEFINE.ServantMinFormationNum; i <= DEFINE.ServantMaxFormationNum; i++)
             {
