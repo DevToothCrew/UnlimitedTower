@@ -13,7 +13,8 @@ public class MailInfoPage : MonoSingleton<MailInfoPage> {
 
     public void OnClickExitButton()
     {
-        LobbyManager.Inst.OnClickBackButton();
+        LobbyManager.Inst.OnClosePopupWindow();
+        Destroy(this.gameObject);
     }
 
     public void SetMailList(List<MailInfo> getMailInfoList)

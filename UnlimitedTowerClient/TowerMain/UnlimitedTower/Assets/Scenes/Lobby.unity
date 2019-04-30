@@ -499,6 +499,7 @@ RectTransform:
   m_Children:
   - {fileID: 543162634}
   - {fileID: 1030066243}
+  - {fileID: 1762802926}
   - {fileID: 1137233321}
   - {fileID: 1322888635}
   m_Father: {fileID: 0}
@@ -1275,7 +1276,7 @@ Prefab:
     - target: {fileID: 224354056942021962, guid: 4f868131de787164390222b4120fd844,
         type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 224354056942021962, guid: 4f868131de787164390222b4120fd844,
         type: 2}
@@ -1432,7 +1433,7 @@ Prefab:
     - target: {fileID: 224200077127191400, guid: f33648de6db5c564babf084154025e25,
         type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 224200077127191400, guid: f33648de6db5c564babf084154025e25,
         type: 2}
@@ -1613,6 +1614,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   centerUI: {fileID: 734762387}
   topUI: {fileID: 543162633}
+  upperUI: {fileID: 1762802925}
   leftUI: {fileID: 1571980268}
   bottomUI: {fileID: 1715044781}
   rightUI: {fileID: 593383491}
@@ -1717,6 +1719,46 @@ RectTransform:
   m_PrefabParentObject: {fileID: 224050213300403090, guid: 1dea3b986fb87ed47817f1931ffca947,
     type: 2}
   m_PrefabInternal: {fileID: 854485776}
+--- !u!1 &1762802925
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1762802926}
+  - component: {fileID: 1762802928}
+  m_Layer: 5
+  m_Name: LobbyUpperUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1762802926
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1762802925}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 385182742}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1762802928
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1762802925}
 --- !u!1001 &1763744203
 Prefab:
   m_ObjectHideFlags: 0
