@@ -64,21 +64,6 @@ CONTRACT battletest : public contract
     std::vector<uint32_t> equipment_ac_unique_status_list = {25, 27, 30, 32, 35, 37, 40, 42, 45, 47};
     std::vector<uint32_t> equipment_ac_legendary_status_list = {30, 33, 36, 39, 42, 45, 48, 51, 54, 57};
 
-#pragma region seed check
-    struct seed_info
-    {
-        std::string type;
-        uint64_t seed;
-    };
-    
-    TABLE tcheck
-    {
-        uint64_t index;
-        std::vector<seed_info> value;
-        uint64_t primary_key() const { return index; }
-    };
-    typedef eosio::multi_index<"tcheck"_n, tcheck> seed_log;
-#pragma endregion
 
 
     //------------------------------------------------------------------------//
@@ -628,9 +613,9 @@ CONTRACT battletest : public contract
     void substr_value(std::string _value, std::vector<std::string> & _value_list, std::vector<size_t> & _size_list, uint32_t _size);
     ACTION dbinsert(std::string _table, std::string _value);
     ACTION dberase(std::string _table, std::string _value);
-    //ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
+    ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
     ACTION dbinit(std::string _table);
-    //ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
+    ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
 
 	//ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
     void insert_job(std::string _status, uint64_t _job, uint64_t _min, uint64_t _max);
@@ -680,7 +665,7 @@ CONTRACT battletest : public contract
     //  void erase_hair(uint64_t _appear);
     //  void erase_body(uint64_t _appear);
     //  void erase_gender(uint64_t _appear);
-    //  void erase_servant_id(uint64_t _id);
+    void erase_servant_id(uint64_t _id);
     void erase_monster_id(uint64_t _id);
   //  void erase_monster_grade(uint64_t _grade);
   //  void erase_equip_item_id(uint64_t _id);
@@ -1885,6 +1870,9 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
 
     ACTION addwhite(eosio::name _user);
     ACTION deletewhite(eosio::name _user);
+
+    //test action
+    ACTION premove(eosio::name _user);
 #pragma endregion
 
 

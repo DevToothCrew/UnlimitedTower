@@ -8973,7 +8973,7 @@ void battletest::monsterburn(eosio::name _user, const std::vector<uint64_t> &_li
         {
             if (user_monster_iter->monster.exp >= 960400)
             {
-                monster_burn_result.amount += 2500000;
+                monster_burn_result.amount += 1000000;
             }
             else
             {
