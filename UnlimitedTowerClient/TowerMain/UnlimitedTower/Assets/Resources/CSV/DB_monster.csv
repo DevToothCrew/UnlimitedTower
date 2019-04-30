@@ -9,8 +9,8 @@ int,int,string,string,string,#,#,int,string,int,string,int,localize,string,strin
 101302,20006,monster,우르서스,Ursus,on,on,,Beast,1,Dark,6,DB_monster_name_101302,,mst_bear_black,weapon_glove,ic_mst_bear_black
 101303,20007,monster,우르사,Ursa,on,on,,Beast,1,Fire,1,DB_monster_name_101303,,mst_bear_red,weapon_glove,ic_mst_bear_red
 101304,20008,monster,우르시아,Ursia,on,on,,Beast,1,Light,5,DB_monster_name_101304,,mst_bear_white,weapon_glove,ic_mst_bear_white
-101305,,monster,우르샤,Ursha,off,on,,Beast,1,Wind,4,DB_monster_name_101305,,mst_bear_wind,weapon_glove,ic_mst_bear_white
-101306,,monster,우르소,Urso,off,on,,Beast,1,Water,2,DB_monster_name_101306,,mst_bear_water,weapon_glove,ic_mst_bear_white
+101305,,monster,우르샤,Ursha,off,on,,Beast,1,Wind,4,DB_monster_name_101305,,mst_bear_wind,weapon_glove,ic_mst_bear_wind
+101306,,monster,우르소,Urso,off,on,,Beast,1,Water,2,DB_monster_name_101306,,mst_bear_water,weapon_glove,ic_mst_bear_water
 101401,20009,monster,그리폰,Griffon,on,on,,Human,2,Light,5,DB_monster_name_101401,,mst_birdman,weapon_glove,ic_mst_birdman
 101402,20010,monster,루크,Luke,on,on,,Human,2,Dark,6,DB_monster_name_101402,,mst_crowman,weapon_glove,ic_mst_crowman
 101403,,monster,퀘찰,Quetzal,off,on,,Human,2,Earth,3,DB_monster_name_101403,,mst_birdman_earth,weapon_glove,ic_mst_birdman_earth
