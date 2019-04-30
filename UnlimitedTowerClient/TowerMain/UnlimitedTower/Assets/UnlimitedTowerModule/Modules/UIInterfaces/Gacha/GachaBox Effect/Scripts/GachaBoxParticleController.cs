@@ -28,6 +28,7 @@ public class GachaBoxParticleController : MonoBehaviour
     public List<GameObject> particles = new List<GameObject>();
 
     private Action callback = null;
+    private bool isGachaStart = false;
 
     private void Awake()
     {
@@ -144,6 +145,8 @@ public class GachaBoxParticleController : MonoBehaviour
 
     public void BeginSummonAnimation(System.Action callback)
     {
+        isGachaStart = true;
+
         StopAllCoroutines();
         particles?.Clear();
 
@@ -174,6 +177,7 @@ public class GachaBoxParticleController : MonoBehaviour
 
     public void FinishAnimation()
     {
+        isGachaStart = false;
         StopAllCoroutines();
         callback?.Invoke();
     }
@@ -186,6 +190,9 @@ public class GachaBoxParticleController : MonoBehaviour
 
     public void GachaSkip()
     {
-        FinishAnimation();
+        if (isGachaStart)
+        {
+            FinishAnimation();
+        }
     }
 }
