@@ -10,10 +10,10 @@ FBXHeaderExtension:  {
 		Version: 1000
 		Year: 2019
 		Month: 04
-		Day: 23
-		Hour: 15
-		Minute: 36
-		Second: 26
+		Day: 30
+		Hour: 12
+		Minute: 48
+		Second: 29
 		Millisecond: 0
 	}
 	Creator: "FBX SDK/FBX Plugins build 20070228"
@@ -21,7 +21,7 @@ FBXHeaderExtension:  {
 		FlagPLE: 0
 	}
 }
-CreationTime: "2019-04-23 15:36:26:000"
+CreationTime: "2019-04-30 12:48:29:000"
 Creator: "Blender version 2.79 (sub 0)"
 
 ; Object definitions
@@ -28246,805 +28246,805 @@ Relations:  {
 	}
 	Deformer: "Deformer::Skin mst_birdman_wind_001", "Skin" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 spine", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 spine", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 spine", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 spine", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 spine", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 spine", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 spine", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 spine", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 spine", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 spine", "Cluster" {
-	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 spine", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 spine", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 spine", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 spine", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 spine", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 spine", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 spine", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 spine", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 spine", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 spine", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 spine", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 spine", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 spine", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 spine_001", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 spine", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 spine_001", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 spine", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 spine_001", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 spine", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 spine_001", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 spine", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 spine_001", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 spine_001", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 spine_001", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 spine_001", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 spine_001", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 spine_001", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 spine", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 spine_001", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 spine_001", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 spine_001", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 spine_001", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 spine_001", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 spine_001", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 spine_001", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 spine_001", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 spine_001", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 spine_001", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 spine_001", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 spine_001", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 spine_001", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 spine_002", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 spine_001", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 spine_002", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 spine_001", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 spine_002", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 spine_001", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 spine_002", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 spine_001", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 spine_002", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 spine_002", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 spine_002", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 spine_002", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 spine_002", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 spine_002", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 spine_001", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 spine_002", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 spine_002", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 spine_002", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 spine_002", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 spine_002", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 spine_002", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 spine_002", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 spine_002", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 spine_002", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 spine_002", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 spine_002", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 spine_002", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 spine_002", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 spine_003", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 spine_002", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 spine_003", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 spine_002", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 spine_003", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 spine_002", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 spine_003", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 spine_002", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 spine_003", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 spine_003", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 spine_003", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 spine_003", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 spine_003", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 spine_003", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 spine_002", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 spine_003", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 spine_003", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 spine_003", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 spine_003", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 spine_003", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 spine_003", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 spine_003", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 spine_003", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 spine_003", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 spine_003", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 spine_003", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 spine_003", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 spine_003", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 spine_004", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 spine_003", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 spine_004", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 spine_003", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 spine_004", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 spine_003", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 spine_004", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 spine_003", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 spine_004", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 spine_004", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 spine_004", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 spine_004", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 spine_004", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 spine_004", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 spine_003", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 spine_004", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 spine_004", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 spine_004", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 spine_004", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 spine_004", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 spine_004", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 spine_004", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 spine_004", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 spine_004", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 spine_004", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 spine_004", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 spine_004", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 spine_004", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 spine_005", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 spine_004", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 spine_005", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 spine_004", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 spine_005", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 spine_004", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 spine_005", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 spine_004", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 spine_005", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 spine_005", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 spine_005", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 spine_005", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 spine_005", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 spine_005", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 spine_004", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 spine_005", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 spine_005", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 spine_005", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 spine_005", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 spine_005", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 spine_005", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 spine_005", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 spine_005", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 spine_005", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 spine_005", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 spine_005", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 spine_005", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 spine_005", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 spine_006", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 spine_005", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 spine_006", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 spine_005", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 spine_006", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 spine_005", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 spine_006", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 spine_005", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 spine_006", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 spine_006", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 spine_006", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 spine_006", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 spine_006", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 spine_006", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 spine_005", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 spine_006", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 spine_006", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 spine_006", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 spine_006", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 spine_006", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 spine_006", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 spine_006", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 spine_006", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 spine_006", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 spine_006", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 spine_006", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 spine_006", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 spine_006", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 shoulder_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 spine_006", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 shoulder_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 spine_006", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 shoulder_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 spine_006", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 shoulder_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 spine_006", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 shoulder_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 shoulder_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 shoulder_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 shoulder_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 shoulder_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 shoulder_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 spine_006", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 shoulder_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 shoulder_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 shoulder_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 shoulder_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 shoulder_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 shoulder_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 shoulder_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 shoulder_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 shoulder_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 shoulder_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 shoulder_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 shoulder_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 shoulder_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 upper_arm_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 shoulder_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 upper_arm_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 shoulder_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 upper_arm_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 shoulder_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 upper_arm_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 shoulder_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 upper_arm_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 upper_arm_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 upper_arm_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 upper_arm_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 upper_arm_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 upper_arm_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 shoulder_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 upper_arm_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 upper_arm_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 upper_arm_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 upper_arm_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 upper_arm_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 upper_arm_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 upper_arm_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 upper_arm_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 upper_arm_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 upper_arm_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 upper_arm_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 upper_arm_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 upper_arm_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 forearm_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 upper_arm_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 forearm_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 upper_arm_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 forearm_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 upper_arm_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 forearm_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 upper_arm_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 forearm_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 forearm_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 forearm_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 forearm_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 forearm_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 forearm_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 upper_arm_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 forearm_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 forearm_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 forearm_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 forearm_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 forearm_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 forearm_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 forearm_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 forearm_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 forearm_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 forearm_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 forearm_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 forearm_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 forearm_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 hand_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 forearm_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 hand_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 forearm_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 hand_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 forearm_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 hand_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 forearm_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 hand_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 hand_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 hand_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 hand_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 hand_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 hand_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 forearm_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 hand_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 hand_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 hand_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 hand_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 hand_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 hand_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 hand_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 hand_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 hand_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 hand_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 hand_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 hand_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 hand_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 shoulder_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 hand_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 shoulder_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 hand_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 shoulder_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 hand_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 shoulder_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 hand_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 shoulder_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 shoulder_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 shoulder_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 shoulder_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 shoulder_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 shoulder_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 hand_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 shoulder_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 shoulder_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 shoulder_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 shoulder_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 shoulder_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 shoulder_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 shoulder_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 shoulder_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 shoulder_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 shoulder_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 shoulder_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 shoulder_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 shoulder_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 upper_arm_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 shoulder_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 upper_arm_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 shoulder_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 upper_arm_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 shoulder_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 upper_arm_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 shoulder_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 upper_arm_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 upper_arm_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 upper_arm_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 upper_arm_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 upper_arm_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 upper_arm_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 shoulder_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 upper_arm_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 upper_arm_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 upper_arm_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 upper_arm_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 upper_arm_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 upper_arm_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 upper_arm_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 upper_arm_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 upper_arm_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 upper_arm_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 upper_arm_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 upper_arm_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 upper_arm_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 forearm_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 upper_arm_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 forearm_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 upper_arm_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 forearm_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 upper_arm_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 forearm_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 upper_arm_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 forearm_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 forearm_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 forearm_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 forearm_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 forearm_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 forearm_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 upper_arm_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 forearm_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 forearm_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 forearm_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 forearm_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 forearm_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 forearm_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 forearm_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 forearm_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 forearm_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 forearm_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 forearm_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 forearm_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 forearm_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 hand_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 forearm_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 hand_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 forearm_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 hand_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 forearm_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 hand_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 forearm_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 hand_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 hand_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 hand_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 hand_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 hand_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 hand_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 forearm_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 hand_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 hand_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 hand_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 hand_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 hand_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 hand_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 hand_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 hand_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 hand_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 hand_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 hand_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 hand_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 hand_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 thigh_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 hand_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 thigh_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 hand_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 thigh_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 hand_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 thigh_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 hand_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 thigh_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 thigh_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 thigh_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 thigh_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 thigh_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 thigh_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 hand_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 thigh_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 thigh_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 thigh_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 thigh_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 thigh_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 thigh_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 thigh_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 thigh_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 thigh_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 thigh_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 thigh_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 thigh_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 thigh_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 shin_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 thigh_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 shin_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 thigh_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 shin_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 thigh_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 shin_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 thigh_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 shin_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 shin_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 shin_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 shin_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 shin_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 shin_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 thigh_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 shin_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 shin_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 shin_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 shin_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 shin_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 shin_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 shin_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 shin_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 shin_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 shin_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 shin_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 shin_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 shin_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 foot_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 shin_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 foot_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 shin_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 foot_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 shin_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 foot_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 shin_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 foot_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 foot_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 foot_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 foot_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 foot_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 foot_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 shin_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 foot_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 foot_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 foot_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 foot_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 foot_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 foot_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 foot_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 foot_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 foot_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 foot_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 foot_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 foot_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 foot_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 toe_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 foot_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 toe_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 foot_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 toe_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 foot_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 toe_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 foot_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 toe_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 toe_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 toe_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 toe_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 toe_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 toe_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 foot_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 toe_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 toe_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 toe_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 toe_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 toe_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 toe_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 toe_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 toe_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 toe_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 toe_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 toe_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 toe_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 toe_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 heel_02_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 toe_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 heel_02_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 toe_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 heel_02_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 toe_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 heel_02_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 toe_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 heel_02_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 heel_02_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 heel_02_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 heel_02_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 heel_02_L", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 heel_02_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 toe_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 heel_02_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 heel_02_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 heel_02_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 heel_02_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 heel_02_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 heel_02_L", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 heel_02_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 heel_02_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 heel_02_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 heel_02_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 heel_02_L", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 heel_02_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 heel_02_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 thigh_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 heel_02_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 thigh_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 heel_02_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 thigh_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 heel_02_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 thigh_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 heel_02_L", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 thigh_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 thigh_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 thigh_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 thigh_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 thigh_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 thigh_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 heel_02_L", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 thigh_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 thigh_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 thigh_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 thigh_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 thigh_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 thigh_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 thigh_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 thigh_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 thigh_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 thigh_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 thigh_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 thigh_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 thigh_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 shin_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 thigh_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 shin_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 thigh_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 shin_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 thigh_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 shin_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 thigh_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 shin_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 shin_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 shin_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 shin_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 shin_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 shin_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 thigh_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 shin_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 shin_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 shin_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 shin_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 shin_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 shin_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 shin_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 shin_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 shin_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 shin_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 shin_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 shin_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 shin_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 foot_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 shin_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 foot_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 shin_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 foot_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 shin_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 foot_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 shin_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 foot_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 foot_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 foot_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 foot_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 foot_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 foot_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 shin_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 foot_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 foot_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 foot_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 foot_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 foot_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 foot_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 foot_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 foot_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 foot_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 foot_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 foot_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 foot_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 foot_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 toe_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 foot_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 toe_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 foot_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 toe_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 foot_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 toe_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 foot_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 toe_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 toe_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 toe_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 toe_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 toe_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 toe_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 foot_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 toe_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 toe_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 toe_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 toe_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 toe_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 toe_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 toe_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 toe_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 toe_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 toe_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 toe_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 toe_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 toe_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 heel_02_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 toe_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 heel_02_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 toe_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 heel_02_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 toe_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 heel_02_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 toe_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 heel_02_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 heel_02_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 heel_02_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 heel_02_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 heel_02_R", "Cluster" {
-	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 heel_02_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 toe_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_013 heel_02_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_010 heel_02_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 heel_02_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 heel_02_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_015 heel_02_R", "Cluster" {
 	}
-	Deformer: "SubDeformer::Cluster mst_birdman_wind_002 heel_02_R", "Cluster" {
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_014 heel_02_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_005 heel_02_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_003 heel_02_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_008 heel_02_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_000 heel_02_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_011 heel_02_R", "Cluster" {
 	}
 	Deformer: "SubDeformer::Cluster mst_birdman_wind_006 heel_02_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_009 heel_02_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_001 heel_02_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_007 heel_02_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_012 heel_02_R", "Cluster" {
+	}
+	Deformer: "SubDeformer::Cluster mst_birdman_wind_004 heel_02_R", "Cluster" {
 	}
 }
 
@@ -29119,806 +29119,806 @@ Connections:  {
 	Connect: "OO", "Deformer::Skin mst_birdman_wind_003", "Model::mst_birdman_wind_003"
 	Connect: "OO", "Deformer::Skin mst_birdman_wind_002", "Model::mst_birdman_wind_002"
 	Connect: "OO", "Deformer::Skin mst_birdman_wind_001", "Model::mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 spine", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 spine", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 spine", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 spine", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 spine", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 spine", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 spine", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 spine", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 spine", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 spine", "Deformer::Skin mst_birdman_wind_003"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 spine", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 spine", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 spine", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 spine", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 spine", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 spine", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 spine", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 spine", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 spine", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 spine", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 spine", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 spine", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 spine", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 spine_001", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 spine_001", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 spine_001", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 spine_001", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 spine_001", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 spine_001", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 spine_001", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 spine_001", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 spine_001", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 spine_001", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 spine", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 spine", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 spine", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 spine", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 spine", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 spine_001", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 spine_001", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 spine_001", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 spine_001", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 spine_001", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 spine_001", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 spine_001", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 spine_001", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 spine_001", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 spine_001", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 spine_001", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 spine_001", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 spine_001", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 spine_002", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 spine_002", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 spine_002", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 spine_002", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 spine_002", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 spine_002", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 spine_002", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 spine_002", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 spine_002", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 spine_002", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 spine_001", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 spine_001", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 spine_001", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 spine_001", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 spine_001", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 spine_002", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 spine_002", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 spine_002", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 spine_002", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 spine_002", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 spine_002", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 spine_002", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 spine_002", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 spine_002", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 spine_002", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 spine_002", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 spine_002", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 spine_002", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 spine_003", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 spine_003", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 spine_003", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 spine_003", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 spine_003", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 spine_003", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 spine_003", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 spine_003", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 spine_003", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 spine_003", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 spine_002", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 spine_002", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 spine_002", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 spine_002", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 spine_002", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 spine_003", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 spine_003", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 spine_003", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 spine_003", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 spine_003", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 spine_003", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 spine_003", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 spine_003", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 spine_003", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 spine_003", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 spine_003", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 spine_003", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 spine_003", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 spine_004", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 spine_004", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 spine_004", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 spine_004", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 spine_004", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 spine_004", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 spine_004", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 spine_004", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 spine_004", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 spine_004", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 spine_003", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 spine_003", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 spine_003", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 spine_003", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 spine_003", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 spine_004", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 spine_004", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 spine_004", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 spine_004", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 spine_004", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 spine_004", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 spine_004", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 spine_004", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 spine_004", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 spine_004", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 spine_004", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 spine_004", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 spine_004", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 spine_005", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 spine_005", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 spine_005", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 spine_005", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 spine_005", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 spine_005", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 spine_005", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 spine_005", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 spine_005", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 spine_005", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 spine_004", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 spine_004", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 spine_004", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 spine_004", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 spine_004", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 spine_005", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 spine_005", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 spine_005", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 spine_005", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 spine_005", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 spine_005", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 spine_005", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 spine_005", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 spine_005", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 spine_005", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 spine_005", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 spine_005", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 spine_005", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 spine_006", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 spine_006", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 spine_006", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 spine_006", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 spine_006", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 spine_006", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 spine_006", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 spine_006", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 spine_006", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 spine_006", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 spine_005", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 spine_005", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 spine_005", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 spine_005", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 spine_005", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 spine_006", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 spine_006", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 spine_006", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 spine_006", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 spine_006", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 spine_006", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 spine_006", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 spine_006", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 spine_006", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 spine_006", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 spine_006", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 spine_006", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 spine_006", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 shoulder_L", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 shoulder_L", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 shoulder_L", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 shoulder_L", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 shoulder_L", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 shoulder_L", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 shoulder_L", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 shoulder_L", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 shoulder_L", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 shoulder_L", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 spine_006", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 spine_006", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 spine_006", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 spine_006", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 spine_006", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 shoulder_L", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 shoulder_L", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 shoulder_L", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 shoulder_L", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 shoulder_L", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 shoulder_L", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 shoulder_L", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 shoulder_L", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 shoulder_L", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 shoulder_L", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 shoulder_L", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 shoulder_L", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 shoulder_L", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 upper_arm_L", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 upper_arm_L", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 upper_arm_L", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 upper_arm_L", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 upper_arm_L", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 upper_arm_L", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 upper_arm_L", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 upper_arm_L", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 upper_arm_L", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 upper_arm_L", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 shoulder_L", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 shoulder_L", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 shoulder_L", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 shoulder_L", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 shoulder_L", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 upper_arm_L", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 upper_arm_L", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 upper_arm_L", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 upper_arm_L", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 upper_arm_L", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 upper_arm_L", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 upper_arm_L", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 upper_arm_L", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 upper_arm_L", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 upper_arm_L", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 upper_arm_L", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 upper_arm_L", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 upper_arm_L", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 forearm_L", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 forearm_L", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 forearm_L", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 forearm_L", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 forearm_L", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 forearm_L", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 forearm_L", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 forearm_L", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 forearm_L", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 forearm_L", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 upper_arm_L", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 upper_arm_L", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 upper_arm_L", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 upper_arm_L", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 upper_arm_L", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 forearm_L", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 forearm_L", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 forearm_L", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 forearm_L", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 forearm_L", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 forearm_L", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 forearm_L", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 forearm_L", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 forearm_L", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 forearm_L", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 forearm_L", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 forearm_L", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 forearm_L", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 hand_L", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 hand_L", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 hand_L", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 hand_L", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 hand_L", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 hand_L", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 hand_L", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 hand_L", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 hand_L", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 hand_L", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 forearm_L", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 forearm_L", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 forearm_L", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 forearm_L", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 forearm_L", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 hand_L", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 hand_L", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 hand_L", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 hand_L", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 hand_L", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 hand_L", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 hand_L", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 hand_L", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 hand_L", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 hand_L", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 hand_L", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 hand_L", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 hand_L", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 shoulder_R", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 shoulder_R", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 shoulder_R", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 shoulder_R", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 shoulder_R", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 shoulder_R", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 shoulder_R", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 shoulder_R", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 shoulder_R", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 shoulder_R", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 hand_L", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 hand_L", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 hand_L", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 hand_L", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 hand_L", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 shoulder_R", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 shoulder_R", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 shoulder_R", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 shoulder_R", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 shoulder_R", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 shoulder_R", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 shoulder_R", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 shoulder_R", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 shoulder_R", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 shoulder_R", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 shoulder_R", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 shoulder_R", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 shoulder_R", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 upper_arm_R", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 upper_arm_R", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 upper_arm_R", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 upper_arm_R", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 upper_arm_R", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 upper_arm_R", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 upper_arm_R", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 upper_arm_R", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 upper_arm_R", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 upper_arm_R", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 shoulder_R", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 shoulder_R", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 shoulder_R", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 shoulder_R", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 shoulder_R", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 upper_arm_R", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 upper_arm_R", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 upper_arm_R", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 upper_arm_R", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 upper_arm_R", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 upper_arm_R", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 upper_arm_R", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 upper_arm_R", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 upper_arm_R", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 upper_arm_R", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 upper_arm_R", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 upper_arm_R", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 upper_arm_R", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 forearm_R", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 forearm_R", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 forearm_R", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 forearm_R", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 forearm_R", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 forearm_R", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 forearm_R", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 forearm_R", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 forearm_R", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 forearm_R", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 upper_arm_R", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 upper_arm_R", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 upper_arm_R", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 upper_arm_R", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 upper_arm_R", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 forearm_R", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 forearm_R", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 forearm_R", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 forearm_R", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 forearm_R", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 forearm_R", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 forearm_R", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 forearm_R", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 forearm_R", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 forearm_R", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 forearm_R", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 forearm_R", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 forearm_R", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 hand_R", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 hand_R", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 hand_R", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 hand_R", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 hand_R", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 hand_R", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 hand_R", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 hand_R", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 hand_R", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 hand_R", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 forearm_R", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 forearm_R", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 forearm_R", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 forearm_R", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 forearm_R", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 hand_R", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 hand_R", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 hand_R", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 hand_R", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 hand_R", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 hand_R", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 hand_R", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 hand_R", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 hand_R", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 hand_R", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 hand_R", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 hand_R", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 hand_R", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 thigh_L", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 thigh_L", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 thigh_L", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 thigh_L", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 thigh_L", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 thigh_L", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 thigh_L", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 thigh_L", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 thigh_L", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 thigh_L", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 hand_R", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 hand_R", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 hand_R", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 hand_R", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 hand_R", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 thigh_L", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 thigh_L", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 thigh_L", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 thigh_L", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 thigh_L", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 thigh_L", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 thigh_L", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 thigh_L", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 thigh_L", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 thigh_L", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 thigh_L", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 thigh_L", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 thigh_L", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 shin_L", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 shin_L", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 shin_L", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 shin_L", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 shin_L", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 shin_L", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 shin_L", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 shin_L", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 shin_L", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 shin_L", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 thigh_L", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 thigh_L", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 thigh_L", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 thigh_L", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 thigh_L", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 shin_L", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 shin_L", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 shin_L", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 shin_L", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 shin_L", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 shin_L", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 shin_L", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 shin_L", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 shin_L", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 shin_L", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 shin_L", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 shin_L", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 shin_L", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 foot_L", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 foot_L", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 foot_L", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 foot_L", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 foot_L", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 foot_L", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 foot_L", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 foot_L", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 foot_L", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 foot_L", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 shin_L", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 shin_L", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 shin_L", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 shin_L", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 shin_L", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 foot_L", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 foot_L", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 foot_L", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 foot_L", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 foot_L", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 foot_L", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 foot_L", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 foot_L", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 foot_L", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 foot_L", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 foot_L", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 foot_L", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 foot_L", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 toe_L", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 toe_L", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 toe_L", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 toe_L", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 toe_L", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 toe_L", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 toe_L", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 toe_L", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 toe_L", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 toe_L", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 foot_L", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 foot_L", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 foot_L", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 foot_L", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 foot_L", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 toe_L", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 toe_L", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 toe_L", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 toe_L", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 toe_L", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 toe_L", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 toe_L", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 toe_L", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 toe_L", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 toe_L", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 toe_L", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 toe_L", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 toe_L", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 heel_02_L", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 heel_02_L", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 heel_02_L", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 heel_02_L", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 heel_02_L", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 heel_02_L", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 heel_02_L", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 heel_02_L", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 heel_02_L", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 heel_02_L", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 toe_L", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 toe_L", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 toe_L", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 toe_L", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 toe_L", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 heel_02_L", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 heel_02_L", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 heel_02_L", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 heel_02_L", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 heel_02_L", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 heel_02_L", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 heel_02_L", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 heel_02_L", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 heel_02_L", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 heel_02_L", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 heel_02_L", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 heel_02_L", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 heel_02_L", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 thigh_R", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 thigh_R", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 thigh_R", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 thigh_R", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 thigh_R", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 thigh_R", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 thigh_R", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 thigh_R", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 thigh_R", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 thigh_R", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 heel_02_L", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 heel_02_L", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 heel_02_L", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 heel_02_L", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 heel_02_L", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 thigh_R", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 thigh_R", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 thigh_R", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 thigh_R", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 thigh_R", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 thigh_R", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 thigh_R", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 thigh_R", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 thigh_R", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 thigh_R", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 thigh_R", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 thigh_R", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 thigh_R", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 shin_R", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 shin_R", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 shin_R", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 shin_R", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 shin_R", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 shin_R", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 shin_R", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 shin_R", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 shin_R", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 shin_R", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 thigh_R", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 thigh_R", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 thigh_R", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 thigh_R", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 thigh_R", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 shin_R", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 shin_R", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 shin_R", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 shin_R", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 shin_R", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 shin_R", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 shin_R", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 shin_R", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 shin_R", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 shin_R", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 shin_R", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 shin_R", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 shin_R", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 foot_R", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 foot_R", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 foot_R", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 foot_R", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 foot_R", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 foot_R", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 foot_R", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 foot_R", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 foot_R", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 foot_R", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 shin_R", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 shin_R", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 shin_R", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 shin_R", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 shin_R", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 foot_R", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 foot_R", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 foot_R", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 foot_R", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 foot_R", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 foot_R", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 foot_R", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 foot_R", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 foot_R", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 foot_R", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 foot_R", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 foot_R", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 foot_R", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 toe_R", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 toe_R", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 toe_R", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 toe_R", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 toe_R", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 toe_R", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 toe_R", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 toe_R", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 toe_R", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 toe_R", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 foot_R", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 foot_R", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 foot_R", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 foot_R", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 foot_R", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 toe_R", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 toe_R", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 toe_R", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 toe_R", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 toe_R", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 toe_R", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 toe_R", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 toe_R", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 toe_R", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 toe_R", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 toe_R", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 toe_R", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 toe_R", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 heel_02_R", "Deformer::Skin mst_birdman_wind_005"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 heel_02_R", "Deformer::Skin mst_birdman_wind_012"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 heel_02_R", "Deformer::Skin mst_birdman_wind_001"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 heel_02_R", "Deformer::Skin mst_birdman_wind_011"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 heel_02_R", "Deformer::Skin mst_birdman_wind_008"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 heel_02_R", "Deformer::Skin mst_birdman_wind_009"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 heel_02_R", "Deformer::Skin mst_birdman_wind_014"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 heel_02_R", "Deformer::Skin mst_birdman_wind_004"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 heel_02_R", "Deformer::Skin mst_birdman_wind_000"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 heel_02_R", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 toe_R", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 toe_R", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 toe_R", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 toe_R", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 toe_R", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_013 heel_02_R", "Deformer::Skin mst_birdman_wind_013"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_010 heel_02_R", "Deformer::Skin mst_birdman_wind_010"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 heel_02_R", "Deformer::Skin mst_birdman_wind_007"
-	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 heel_02_R", "Deformer::Skin mst_birdman_wind_015"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_002 heel_02_R", "Deformer::Skin mst_birdman_wind_002"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_015 heel_02_R", "Deformer::Skin mst_birdman_wind_015"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_014 heel_02_R", "Deformer::Skin mst_birdman_wind_014"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_005 heel_02_R", "Deformer::Skin mst_birdman_wind_005"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_003 heel_02_R", "Deformer::Skin mst_birdman_wind_003"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_008 heel_02_R", "Deformer::Skin mst_birdman_wind_008"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_000 heel_02_R", "Deformer::Skin mst_birdman_wind_000"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_011 heel_02_R", "Deformer::Skin mst_birdman_wind_011"
 	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_006 heel_02_R", "Deformer::Skin mst_birdman_wind_006"
-	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_005 spine"
-	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_012 spine"
-	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_001 spine"
-	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_011 spine"
-	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_008 spine"
-	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_009 spine"
-	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_014 spine"
-	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_004 spine"
-	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_000 spine"
-	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_003 spine"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_009 heel_02_R", "Deformer::Skin mst_birdman_wind_009"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_001 heel_02_R", "Deformer::Skin mst_birdman_wind_001"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_007 heel_02_R", "Deformer::Skin mst_birdman_wind_007"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_012 heel_02_R", "Deformer::Skin mst_birdman_wind_012"
+	Connect: "OO", "SubDeformer::Cluster mst_birdman_wind_004 heel_02_R", "Deformer::Skin mst_birdman_wind_004"
 	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_013 spine"
 	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_010 spine"
-	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_007 spine"
-	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_015 spine"
 	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_002 spine"
+	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_015 spine"
+	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_014 spine"
+	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_005 spine"
+	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_003 spine"
+	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_008 spine"
+	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_000 spine"
+	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_011 spine"
 	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_006 spine"
-	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_005 spine_001"
-	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_012 spine_001"
-	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_001 spine_001"
-	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_011 spine_001"
-	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_008 spine_001"
-	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_009 spine_001"
-	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_014 spine_001"
-	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_004 spine_001"
-	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_000 spine_001"
-	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_003 spine_001"
+	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_009 spine"
+	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_001 spine"
+	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_007 spine"
+	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_012 spine"
+	Connect: "OO", "Model::spine", "SubDeformer::Cluster mst_birdman_wind_004 spine"
 	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_013 spine_001"
 	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_010 spine_001"
-	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_007 spine_001"
-	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_015 spine_001"
 	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_002 spine_001"
+	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_015 spine_001"
+	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_014 spine_001"
+	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_005 spine_001"
+	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_003 spine_001"
+	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_008 spine_001"
+	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_000 spine_001"
+	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_011 spine_001"
 	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_006 spine_001"
-	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_005 spine_002"
-	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_012 spine_002"
-	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_001 spine_002"
-	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_011 spine_002"
-	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_008 spine_002"
-	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_009 spine_002"
-	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_014 spine_002"
-	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_004 spine_002"
-	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_000 spine_002"
-	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_003 spine_002"
+	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_009 spine_001"
+	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_001 spine_001"
+	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_007 spine_001"
+	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_012 spine_001"
+	Connect: "OO", "Model::spine_001", "SubDeformer::Cluster mst_birdman_wind_004 spine_001"
 	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_013 spine_002"
 	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_010 spine_002"
-	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_007 spine_002"
-	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_015 spine_002"
 	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_002 spine_002"
+	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_015 spine_002"
+	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_014 spine_002"
+	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_005 spine_002"
+	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_003 spine_002"
+	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_008 spine_002"
+	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_000 spine_002"
+	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_011 spine_002"
 	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_006 spine_002"
-	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_005 spine_003"
-	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_012 spine_003"
-	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_001 spine_003"
-	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_011 spine_003"
-	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_008 spine_003"
-	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_009 spine_003"
-	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_014 spine_003"
-	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_004 spine_003"
-	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_000 spine_003"
-	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_003 spine_003"
+	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_009 spine_002"
+	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_001 spine_002"
+	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_007 spine_002"
+	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_012 spine_002"
+	Connect: "OO", "Model::spine_002", "SubDeformer::Cluster mst_birdman_wind_004 spine_002"
 	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_013 spine_003"
 	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_010 spine_003"
-	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_007 spine_003"
-	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_015 spine_003"
 	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_002 spine_003"
+	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_015 spine_003"
+	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_014 spine_003"
+	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_005 spine_003"
+	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_003 spine_003"
+	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_008 spine_003"
+	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_000 spine_003"
+	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_011 spine_003"
 	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_006 spine_003"
-	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_005 spine_004"
-	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_012 spine_004"
-	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_001 spine_004"
-	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_011 spine_004"
-	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_008 spine_004"
-	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_009 spine_004"
-	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_014 spine_004"
-	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_004 spine_004"
-	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_000 spine_004"
-	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_003 spine_004"
+	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_009 spine_003"
+	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_001 spine_003"
+	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_007 spine_003"
+	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_012 spine_003"
+	Connect: "OO", "Model::spine_003", "SubDeformer::Cluster mst_birdman_wind_004 spine_003"
 	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_013 spine_004"
 	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_010 spine_004"
-	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_007 spine_004"
-	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_015 spine_004"
 	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_002 spine_004"
+	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_015 spine_004"
+	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_014 spine_004"
+	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_005 spine_004"
+	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_003 spine_004"
+	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_008 spine_004"
+	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_000 spine_004"
+	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_011 spine_004"
 	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_006 spine_004"
-	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_005 spine_005"
-	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_012 spine_005"
-	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_001 spine_005"
-	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_011 spine_005"
-	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_008 spine_005"
-	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_009 spine_005"
-	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_014 spine_005"
-	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_004 spine_005"
-	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_000 spine_005"
-	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_003 spine_005"
+	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_009 spine_004"
+	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_001 spine_004"
+	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_007 spine_004"
+	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_012 spine_004"
+	Connect: "OO", "Model::spine_004", "SubDeformer::Cluster mst_birdman_wind_004 spine_004"
 	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_013 spine_005"
 	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_010 spine_005"
-	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_007 spine_005"
-	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_015 spine_005"
 	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_002 spine_005"
+	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_015 spine_005"
+	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_014 spine_005"
+	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_005 spine_005"
+	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_003 spine_005"
+	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_008 spine_005"
+	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_000 spine_005"
+	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_011 spine_005"
 	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_006 spine_005"
-	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_005 spine_006"
-	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_012 spine_006"
-	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_001 spine_006"
-	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_011 spine_006"
-	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_008 spine_006"
-	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_009 spine_006"
-	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_014 spine_006"
-	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_004 spine_006"
-	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_000 spine_006"
-	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_003 spine_006"
+	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_009 spine_005"
+	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_001 spine_005"
+	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_007 spine_005"
+	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_012 spine_005"
+	Connect: "OO", "Model::spine_005", "SubDeformer::Cluster mst_birdman_wind_004 spine_005"
 	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_013 spine_006"
 	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_010 spine_006"
-	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_007 spine_006"
-	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_015 spine_006"
 	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_002 spine_006"
+	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_015 spine_006"
+	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_014 spine_006"
+	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_005 spine_006"
+	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_003 spine_006"
+	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_008 spine_006"
+	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_000 spine_006"
+	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_011 spine_006"
 	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_006 spine_006"
-	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_005 shoulder_L"
-	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_012 shoulder_L"
-	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_001 shoulder_L"
-	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_011 shoulder_L"
-	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_008 shoulder_L"
-	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_009 shoulder_L"
-	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_014 shoulder_L"
-	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_004 shoulder_L"
-	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_000 shoulder_L"
-	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_003 shoulder_L"
+	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_009 spine_006"
+	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_001 spine_006"
+	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_007 spine_006"
+	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_012 spine_006"
+	Connect: "OO", "Model::spine_006", "SubDeformer::Cluster mst_birdman_wind_004 spine_006"
 	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_013 shoulder_L"
 	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_010 shoulder_L"
-	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_007 shoulder_L"
-	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_015 shoulder_L"
 	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_002 shoulder_L"
+	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_015 shoulder_L"
+	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_014 shoulder_L"
+	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_005 shoulder_L"
+	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_003 shoulder_L"
+	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_008 shoulder_L"
+	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_000 shoulder_L"
+	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_011 shoulder_L"
 	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_006 shoulder_L"
-	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_005 upper_arm_L"
-	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_012 upper_arm_L"
-	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_001 upper_arm_L"
-	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_011 upper_arm_L"
-	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_008 upper_arm_L"
-	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_009 upper_arm_L"
-	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_014 upper_arm_L"
-	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_004 upper_arm_L"
-	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_000 upper_arm_L"
-	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_003 upper_arm_L"
+	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_009 shoulder_L"
+	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_001 shoulder_L"
+	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_007 shoulder_L"
+	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_012 shoulder_L"
+	Connect: "OO", "Model::shoulder_L", "SubDeformer::Cluster mst_birdman_wind_004 shoulder_L"
 	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_013 upper_arm_L"
 	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_010 upper_arm_L"
-	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_007 upper_arm_L"
-	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_015 upper_arm_L"
 	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_002 upper_arm_L"
+	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_015 upper_arm_L"
+	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_014 upper_arm_L"
+	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_005 upper_arm_L"
+	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_003 upper_arm_L"
+	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_008 upper_arm_L"
+	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_000 upper_arm_L"
+	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_011 upper_arm_L"
 	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_006 upper_arm_L"
-	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_005 forearm_L"
-	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_012 forearm_L"
-	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_001 forearm_L"
-	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_011 forearm_L"
-	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_008 forearm_L"
-	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_009 forearm_L"
-	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_014 forearm_L"
-	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_004 forearm_L"
-	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_000 forearm_L"
-	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_003 forearm_L"
+	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_009 upper_arm_L"
+	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_001 upper_arm_L"
+	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_007 upper_arm_L"
+	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_012 upper_arm_L"
+	Connect: "OO", "Model::upper_arm_L", "SubDeformer::Cluster mst_birdman_wind_004 upper_arm_L"
 	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_013 forearm_L"
 	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_010 forearm_L"
-	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_007 forearm_L"
-	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_015 forearm_L"
 	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_002 forearm_L"
+	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_015 forearm_L"
+	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_014 forearm_L"
+	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_005 forearm_L"
+	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_003 forearm_L"
+	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_008 forearm_L"
+	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_000 forearm_L"
+	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_011 forearm_L"
 	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_006 forearm_L"
-	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_005 hand_L"
-	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_012 hand_L"
-	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_001 hand_L"
-	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_011 hand_L"
-	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_008 hand_L"
-	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_009 hand_L"
-	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_014 hand_L"
-	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_004 hand_L"
-	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_000 hand_L"
-	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_003 hand_L"
+	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_009 forearm_L"
+	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_001 forearm_L"
+	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_007 forearm_L"
+	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_012 forearm_L"
+	Connect: "OO", "Model::forearm_L", "SubDeformer::Cluster mst_birdman_wind_004 forearm_L"
 	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_013 hand_L"
 	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_010 hand_L"
-	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_007 hand_L"
-	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_015 hand_L"
 	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_002 hand_L"
+	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_015 hand_L"
+	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_014 hand_L"
+	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_005 hand_L"
+	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_003 hand_L"
+	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_008 hand_L"
+	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_000 hand_L"
+	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_011 hand_L"
 	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_006 hand_L"
-	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_005 shoulder_R"
-	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_012 shoulder_R"
-	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_001 shoulder_R"
-	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_011 shoulder_R"
-	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_008 shoulder_R"
-	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_009 shoulder_R"
-	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_014 shoulder_R"
-	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_004 shoulder_R"
-	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_000 shoulder_R"
-	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_003 shoulder_R"
+	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_009 hand_L"
+	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_001 hand_L"
+	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_007 hand_L"
+	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_012 hand_L"
+	Connect: "OO", "Model::hand_L", "SubDeformer::Cluster mst_birdman_wind_004 hand_L"
 	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_013 shoulder_R"
 	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_010 shoulder_R"
-	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_007 shoulder_R"
-	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_015 shoulder_R"
 	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_002 shoulder_R"
+	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_015 shoulder_R"
+	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_014 shoulder_R"
+	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_005 shoulder_R"
+	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_003 shoulder_R"
+	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_008 shoulder_R"
+	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_000 shoulder_R"
+	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_011 shoulder_R"
 	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_006 shoulder_R"
-	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_005 upper_arm_R"
-	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_012 upper_arm_R"
-	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_001 upper_arm_R"
-	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_011 upper_arm_R"
-	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_008 upper_arm_R"
-	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_009 upper_arm_R"
-	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_014 upper_arm_R"
-	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_004 upper_arm_R"
-	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_000 upper_arm_R"
-	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_003 upper_arm_R"
+	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_009 shoulder_R"
+	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_001 shoulder_R"
+	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_007 shoulder_R"
+	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_012 shoulder_R"
+	Connect: "OO", "Model::shoulder_R", "SubDeformer::Cluster mst_birdman_wind_004 shoulder_R"
 	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_013 upper_arm_R"
 	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_010 upper_arm_R"
-	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_007 upper_arm_R"
-	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_015 upper_arm_R"
 	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_002 upper_arm_R"
+	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_015 upper_arm_R"
+	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_014 upper_arm_R"
+	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_005 upper_arm_R"
+	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_003 upper_arm_R"
+	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_008 upper_arm_R"
+	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_000 upper_arm_R"
+	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_011 upper_arm_R"
 	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_006 upper_arm_R"
-	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_005 forearm_R"
-	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_012 forearm_R"
-	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_001 forearm_R"
-	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_011 forearm_R"
-	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_008 forearm_R"
-	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_009 forearm_R"
-	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_014 forearm_R"
-	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_004 forearm_R"
-	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_000 forearm_R"
-	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_003 forearm_R"
+	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_009 upper_arm_R"
+	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_001 upper_arm_R"
+	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_007 upper_arm_R"
+	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_012 upper_arm_R"
+	Connect: "OO", "Model::upper_arm_R", "SubDeformer::Cluster mst_birdman_wind_004 upper_arm_R"
 	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_013 forearm_R"
 	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_010 forearm_R"
-	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_007 forearm_R"
-	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_015 forearm_R"
 	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_002 forearm_R"
+	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_015 forearm_R"
+	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_014 forearm_R"
+	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_005 forearm_R"
+	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_003 forearm_R"
+	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_008 forearm_R"
+	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_000 forearm_R"
+	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_011 forearm_R"
 	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_006 forearm_R"
-	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_005 hand_R"
-	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_012 hand_R"
-	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_001 hand_R"
-	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_011 hand_R"
-	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_008 hand_R"
-	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_009 hand_R"
-	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_014 hand_R"
-	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_004 hand_R"
-	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_000 hand_R"
-	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_003 hand_R"
+	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_009 forearm_R"
+	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_001 forearm_R"
+	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_007 forearm_R"
+	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_012 forearm_R"
+	Connect: "OO", "Model::forearm_R", "SubDeformer::Cluster mst_birdman_wind_004 forearm_R"
 	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_013 hand_R"
 	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_010 hand_R"
-	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_007 hand_R"
-	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_015 hand_R"
 	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_002 hand_R"
+	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_015 hand_R"
+	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_014 hand_R"
+	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_005 hand_R"
+	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_003 hand_R"
+	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_008 hand_R"
+	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_000 hand_R"
+	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_011 hand_R"
 	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_006 hand_R"
-	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_005 thigh_L"
-	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_012 thigh_L"
-	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_001 thigh_L"
-	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_011 thigh_L"
-	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_008 thigh_L"
-	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_009 thigh_L"
-	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_014 thigh_L"
-	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_004 thigh_L"
-	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_000 thigh_L"
-	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_003 thigh_L"
+	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_009 hand_R"
+	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_001 hand_R"
+	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_007 hand_R"
+	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_012 hand_R"
+	Connect: "OO", "Model::hand_R", "SubDeformer::Cluster mst_birdman_wind_004 hand_R"
 	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_013 thigh_L"
 	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_010 thigh_L"
-	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_007 thigh_L"
-	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_015 thigh_L"
 	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_002 thigh_L"
+	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_015 thigh_L"
+	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_014 thigh_L"
+	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_005 thigh_L"
+	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_003 thigh_L"
+	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_008 thigh_L"
+	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_000 thigh_L"
+	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_011 thigh_L"
 	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_006 thigh_L"
-	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_005 shin_L"
-	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_012 shin_L"
-	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_001 shin_L"
-	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_011 shin_L"
-	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_008 shin_L"
-	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_009 shin_L"
-	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_014 shin_L"
-	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_004 shin_L"
-	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_000 shin_L"
-	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_003 shin_L"
+	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_009 thigh_L"
+	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_001 thigh_L"
+	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_007 thigh_L"
+	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_012 thigh_L"
+	Connect: "OO", "Model::thigh_L", "SubDeformer::Cluster mst_birdman_wind_004 thigh_L"
 	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_013 shin_L"
 	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_010 shin_L"
-	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_007 shin_L"
-	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_015 shin_L"
 	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_002 shin_L"
+	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_015 shin_L"
+	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_014 shin_L"
+	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_005 shin_L"
+	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_003 shin_L"
+	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_008 shin_L"
+	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_000 shin_L"
+	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_011 shin_L"
 	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_006 shin_L"
-	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_005 foot_L"
-	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_012 foot_L"
-	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_001 foot_L"
-	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_011 foot_L"
-	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_008 foot_L"
-	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_009 foot_L"
-	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_014 foot_L"
-	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_004 foot_L"
-	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_000 foot_L"
-	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_003 foot_L"
+	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_009 shin_L"
+	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_001 shin_L"
+	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_007 shin_L"
+	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_012 shin_L"
+	Connect: "OO", "Model::shin_L", "SubDeformer::Cluster mst_birdman_wind_004 shin_L"
 	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_013 foot_L"
 	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_010 foot_L"
-	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_007 foot_L"
-	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_015 foot_L"
 	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_002 foot_L"
+	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_015 foot_L"
+	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_014 foot_L"
+	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_005 foot_L"
+	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_003 foot_L"
+	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_008 foot_L"
+	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_000 foot_L"
+	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_011 foot_L"
 	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_006 foot_L"
-	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_005 toe_L"
-	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_012 toe_L"
-	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_001 toe_L"
-	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_011 toe_L"
-	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_008 toe_L"
-	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_009 toe_L"
-	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_014 toe_L"
-	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_004 toe_L"
-	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_000 toe_L"
-	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_003 toe_L"
+	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_009 foot_L"
+	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_001 foot_L"
+	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_007 foot_L"
+	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_012 foot_L"
+	Connect: "OO", "Model::foot_L", "SubDeformer::Cluster mst_birdman_wind_004 foot_L"
 	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_013 toe_L"
 	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_010 toe_L"
-	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_007 toe_L"
-	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_015 toe_L"
 	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_002 toe_L"
+	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_015 toe_L"
+	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_014 toe_L"
+	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_005 toe_L"
+	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_003 toe_L"
+	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_008 toe_L"
+	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_000 toe_L"
+	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_011 toe_L"
 	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_006 toe_L"
-	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_005 heel_02_L"
-	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_012 heel_02_L"
-	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_001 heel_02_L"
-	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_011 heel_02_L"
-	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_008 heel_02_L"
-	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_009 heel_02_L"
-	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_014 heel_02_L"
-	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_004 heel_02_L"
-	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_000 heel_02_L"
-	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_003 heel_02_L"
+	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_009 toe_L"
+	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_001 toe_L"
+	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_007 toe_L"
+	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_012 toe_L"
+	Connect: "OO", "Model::toe_L", "SubDeformer::Cluster mst_birdman_wind_004 toe_L"
 	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_013 heel_02_L"
 	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_010 heel_02_L"
-	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_007 heel_02_L"
-	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_015 heel_02_L"
 	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_002 heel_02_L"
+	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_015 heel_02_L"
+	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_014 heel_02_L"
+	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_005 heel_02_L"
+	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_003 heel_02_L"
+	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_008 heel_02_L"
+	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_000 heel_02_L"
+	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_011 heel_02_L"
 	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_006 heel_02_L"
-	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_005 thigh_R"
-	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_012 thigh_R"
-	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_001 thigh_R"
-	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_011 thigh_R"
-	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_008 thigh_R"
-	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_009 thigh_R"
-	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_014 thigh_R"
-	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_004 thigh_R"
-	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_000 thigh_R"
-	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_003 thigh_R"
+	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_009 heel_02_L"
+	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_001 heel_02_L"
+	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_007 heel_02_L"
+	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_012 heel_02_L"
+	Connect: "OO", "Model::heel_02_L", "SubDeformer::Cluster mst_birdman_wind_004 heel_02_L"
 	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_013 thigh_R"
 	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_010 thigh_R"
-	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_007 thigh_R"
-	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_015 thigh_R"
 	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_002 thigh_R"
+	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_015 thigh_R"
+	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_014 thigh_R"
+	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_005 thigh_R"
+	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_003 thigh_R"
+	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_008 thigh_R"
+	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_000 thigh_R"
+	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_011 thigh_R"
 	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_006 thigh_R"
-	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_005 shin_R"
-	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_012 shin_R"
-	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_001 shin_R"
-	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_011 shin_R"
-	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_008 shin_R"
-	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_009 shin_R"
-	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_014 shin_R"
-	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_004 shin_R"
-	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_000 shin_R"
-	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_003 shin_R"
+	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_009 thigh_R"
+	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_001 thigh_R"
+	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_007 thigh_R"
+	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_012 thigh_R"
+	Connect: "OO", "Model::thigh_R", "SubDeformer::Cluster mst_birdman_wind_004 thigh_R"
 	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_013 shin_R"
 	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_010 shin_R"
-	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_007 shin_R"
-	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_015 shin_R"
 	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_002 shin_R"
+	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_015 shin_R"
+	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_014 shin_R"
+	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_005 shin_R"
+	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_003 shin_R"
+	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_008 shin_R"
+	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_000 shin_R"
+	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_011 shin_R"
 	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_006 shin_R"
-	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_005 foot_R"
-	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_012 foot_R"
-	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_001 foot_R"
-	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_011 foot_R"
-	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_008 foot_R"
-	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_009 foot_R"
-	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_014 foot_R"
-	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_004 foot_R"
-	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_000 foot_R"
-	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_003 foot_R"
+	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_009 shin_R"
+	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_001 shin_R"
+	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_007 shin_R"
+	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_012 shin_R"
+	Connect: "OO", "Model::shin_R", "SubDeformer::Cluster mst_birdman_wind_004 shin_R"
 	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_013 foot_R"
 	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_010 foot_R"
-	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_007 foot_R"
-	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_015 foot_R"
 	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_002 foot_R"
+	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_015 foot_R"
+	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_014 foot_R"
+	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_005 foot_R"
+	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_003 foot_R"
+	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_008 foot_R"
+	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_000 foot_R"
+	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_011 foot_R"
 	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_006 foot_R"
-	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_005 toe_R"
-	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_012 toe_R"
-	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_001 toe_R"
-	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_011 toe_R"
-	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_008 toe_R"
-	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_009 toe_R"
-	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_014 toe_R"
-	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_004 toe_R"
-	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_000 toe_R"
-	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_003 toe_R"
+	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_009 foot_R"
+	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_001 foot_R"
+	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_007 foot_R"
+	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_012 foot_R"
+	Connect: "OO", "Model::foot_R", "SubDeformer::Cluster mst_birdman_wind_004 foot_R"
 	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_013 toe_R"
 	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_010 toe_R"
-	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_007 toe_R"
-	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_015 toe_R"
 	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_002 toe_R"
+	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_015 toe_R"
+	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_014 toe_R"
+	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_005 toe_R"
+	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_003 toe_R"
+	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_008 toe_R"
+	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_000 toe_R"
+	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_011 toe_R"
 	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_006 toe_R"
-	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_005 heel_02_R"
-	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_012 heel_02_R"
-	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_001 heel_02_R"
-	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_011 heel_02_R"
-	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_008 heel_02_R"
-	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_009 heel_02_R"
-	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_014 heel_02_R"
-	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_004 heel_02_R"
-	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_000 heel_02_R"
-	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_003 heel_02_R"
+	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_009 toe_R"
+	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_001 toe_R"
+	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_007 toe_R"
+	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_012 toe_R"
+	Connect: "OO", "Model::toe_R", "SubDeformer::Cluster mst_birdman_wind_004 toe_R"
 	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_013 heel_02_R"
 	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_010 heel_02_R"
-	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_007 heel_02_R"
-	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_015 heel_02_R"
 	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_002 heel_02_R"
+	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_015 heel_02_R"
+	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_014 heel_02_R"
+	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_005 heel_02_R"
+	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_003 heel_02_R"
+	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_008 heel_02_R"
+	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_000 heel_02_R"
+	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_011 heel_02_R"
 	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_006 heel_02_R"
+	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_009 heel_02_R"
+	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_001 heel_02_R"
+	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_007 heel_02_R"
+	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_012 heel_02_R"
+	Connect: "OO", "Model::heel_02_R", "SubDeformer::Cluster mst_birdman_wind_004 heel_02_R"
 	Connect: "OO", "Model::spine", "Model::metarig"
 	Connect: "OO", "Model::spine_001", "Model::spine"
 	Connect: "OO", "Model::spine_002", "Model::spine_001"

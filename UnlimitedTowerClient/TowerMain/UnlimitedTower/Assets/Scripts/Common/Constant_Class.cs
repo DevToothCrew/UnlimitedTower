@@ -324,6 +324,7 @@ public class BattleStatus
                 {
                     Buff(servant.passiveSkillList[i].id, true);
                 }
+                Debug.Log(servant.passiveSkillList.Count);
 
                 StatusReCalculation(servant.level);
 
@@ -362,6 +363,7 @@ public class BattleStatus
                         Buff(monster.passiveSkillList[i].id, true);
                     }
 
+                    Debug.Log(monster.passiveSkillList.Count);
                     StatusReCalculation(monster.level);
 
                     for (int i = 0; i < statgData.mySynergyList.Count; i++)

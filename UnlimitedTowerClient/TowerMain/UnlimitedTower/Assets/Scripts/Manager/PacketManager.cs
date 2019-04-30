@@ -1715,8 +1715,15 @@ public class PacketManager : MonoSingleton<PacketManager> {
             userServant.equipmentDic.Add((EQUIPMENT_TYPE)i, getServantData.servant.equip_slot[i]);
         }
 
-        userServant.activeSkillList = ParseSkillList(getServantData.servant.active_skill);
-        userServant.passiveSkillList = ParseSkillList(getServantData.servant.passive_skill);
+        if (getServantData.servant.active_skill.Count != 0)
+        {
+            userServant.activeSkillList = ParseSkillList(getServantData.servant.active_skill);
+        }
+
+        if (getServantData.servant.passive_skill.Count != 0)
+        {
+            userServant.passiveSkillList = ParseSkillList(getServantData.servant.passive_skill);
+        }
         //for (int i = 0; i < getServantData.servant.active_skill.Count; i++)
         //{
         //    // Active Skill Data 넣기
@@ -1807,6 +1814,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         monster.exp = getMonsterData.monster.exp;
         monster.status = ParseStatus(getMonsterData.monster.status);
+
+        if (getMonsterData.monster.active_skill.Count != 0)
+        {
+            monster.activeSkillList = ParseSkillList(getMonsterData.monster.active_skill);
+        }
+
+        if (getMonsterData.monster.passive_skill.Count != 0)
+        {
+            monster.passiveSkillList = ParseSkillList(getMonsterData.monster.passive_skill);
+        }
+
         if (monster.status == null)
         {
             Debug.Log("Invalid Status Info");
@@ -1937,7 +1955,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
         for (int i = 0; i < getStageData.my_state_list.Count; i++)
         {
             UserCharacterStateData stateData = ParseCharacterStateData(getStageData.my_state_list[i]);
-            if(stateData == null)
+            Debug.Log(getStageData.my_state_list[i].passive_skill_list.Count);
+            if (stateData == null)
             {
                 return null;
             }
@@ -1983,6 +2002,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         stateData.buffList = getStateData.buff_list;
         stateData.activeSkillList = ParseSkillList(getStateData.active_skill_list);
         stateData.passiveSkillList = ParseSkillList(getStateData.passive_skill_list);
+        Debug.Log(stateData.passiveSkillList.Count);
 
         if (stateData.charType == CHAR_TYPE.SERVANT)
         {

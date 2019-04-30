@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7416500752daf0749adae6f98103fac2
+guid: 55551968086cb174287bb93c9bf78bc3
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -91,8 +91,6 @@ ModelImporter:
     400084: upper_arm_R
     2100000: palette_010__mst_birdman_earth_png
     2100002: palette_011__mst_birdman_earth_png_001
-    2300000: mst_birdman_earth_012
-    3300000: mst_birdman_earth_012
     4300000: mst_birdman_earth_012
     4300002: mst_birdman_earth_001
     4300004: mst_birdman_earth_002
@@ -120,12 +118,13 @@ ModelImporter:
     13700012: mst_birdman_earth_006
     13700014: mst_birdman_earth_007
     13700016: mst_birdman_earth_008
-    13700018: mst_birdman_earth_013
-    13700020: mst_birdman_earth_015
-    13700022: mst_birdman_earth_016
-    13700024: mst_birdman_earth_017
-    13700026: mst_birdman_earth_028
-    13700028: mst_birdman_earth_029
+    13700018: mst_birdman_earth_012
+    13700020: mst_birdman_earth_013
+    13700022: mst_birdman_earth_015
+    13700024: mst_birdman_earth_016
+    13700026: mst_birdman_earth_017
+    13700028: mst_birdman_earth_028
+    13700030: mst_birdman_earth_029
   externalObjects: {}
   materials:
     importMaterials: 1

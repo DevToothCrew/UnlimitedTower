@@ -39,7 +39,20 @@ public class Cheat : MonoSingleton<Cheat>
             }
         }
 
-        for (int i = 1; i < 45; i++)
+        // List<int> a = CSVData.Inst.DBMonsterDataDic.Keys.ToList();
+        // for (int i = 1; i < CSVData.Inst.DBMonsterDataDic.Count; i++)
+        // {
+        //     monsterData b = GetRandomMonster(i);
+        //     b.monster.id = a[i];
+        //     userLoginData.monster_list.Add(b);
+        // 
+        //     if (i < 6)
+        //     {
+        //         partyData.monster_list.Add(i);
+        //     }
+        // }
+
+        for (int i = 1; i < 20; i++)
         {
             userLoginData.monster_list.Add(GetRandomMonster(i));
 
@@ -50,7 +63,7 @@ public class Cheat : MonoSingleton<Cheat>
         }
 
         // Item 추가 예정
-        for(int i = 1; i < 10; i++)
+        for (int i = 1; i < 10; i++)
         {
             userLoginData.equipment_list.Add(GetRandomEquipment(i));
         }
@@ -379,6 +392,9 @@ public class Cheat : MonoSingleton<Cheat>
                 newMember.type = 2;
                 newMember.upgrade = monsterData.upgrade;
                 newMember.level = 5;
+
+                newMember.passive_skill_list = new List<int>();
+                newMember.passive_skill_list.Add(100005);
 
                 newMember.status.basic_str = monsterData.status.basicStr;
                 newMember.status.basic_dex = monsterData.status.basicDex;
@@ -943,7 +959,7 @@ public class Cheat : MonoSingleton<Cheat>
         {
             Debug.Log("Start SetLoginCheat");
 
-            string loginJson = GetUserLoginData("devtooth1111", "100000", "99999990000");
+            string loginJson = GetUserLoginData("devtooth1111", "99999999999", "99999990000");
             Debug.Log("[SUCCESS] User Login :" + loginJson);
 
             PacketManager.Inst.ResponseLogin(loginJson);
