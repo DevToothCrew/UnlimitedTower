@@ -14,7 +14,7 @@ public class RewardInfoObject : MonoBehaviour {
                 DBServantData servantData = CSVData.Inst.GetServantData(rewardData.rewardID);
                 if(servantData == null)
                 {
-                    Debug.LogError("Invalid Reward ID : " + rewardData.rewardID);
+                    DebugLog.Log(true, "Invalid Reward ID : " + rewardData.rewardID);
                     return;
                 }
 
@@ -26,7 +26,7 @@ public class RewardInfoObject : MonoBehaviour {
                 DBMonsterData monsterData = CSVData.Inst.GetMonsterData(rewardData.rewardID);
                 if(monsterData == null)
                 {
-                    Debug.LogError("Invalid Reward ID : " + rewardData.rewardID);
+                    DebugLog.Log(true, "Invalid Reward ID : " + rewardData.rewardID);
                     return;
                 }
 
@@ -38,7 +38,7 @@ public class RewardInfoObject : MonoBehaviour {
                 DBEquipmentData equipmentData = CSVData.Inst.GetEquipmentData(rewardData.rewardID);
                 if(equipmentData == null)
                 {
-                    Debug.LogError("Invalid Reard ID : " + rewardData.rewardID);
+                    DebugLog.Log(true, "Invalid Reard ID : " + rewardData.rewardID);
                     return;
                 }
 

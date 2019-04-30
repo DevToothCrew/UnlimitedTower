@@ -39,7 +39,7 @@ public class DecontructionSlot : MonoBehaviour {
                     UserServantData s_info = UserDataManager.Inst.GetServantInfo(unit_idx);
                     if (s_info == null)
                     {
-                        Debug.Log("Invalid Servant ID : " + s_info.id);
+                        DebugLog.Log(false, "Invalid Servant ID : " + s_info.id);
                     }
                     imageUnitGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)s_info.grade);
                     imageUnit.sprite = CSVData.Inst.GetServantData(s_info.id).servantIcon;
@@ -55,7 +55,7 @@ public class DecontructionSlot : MonoBehaviour {
                     UserMonsterData m_info = UserDataManager.Inst.GetMonsterInfo(unit_idx);
                     if (m_info == null)
                     {
-                        Debug.Log("Invalid Monster ID : " + m_info.id);
+                        DebugLog.Log(false, "Invalid Monster ID : " + m_info.id);
                     }
                     imageUnitGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)m_info.grade);
                     imageUnit.sprite = CSVData.Inst.GetMonsterData(m_info.id).monsterIcon;
@@ -77,7 +77,7 @@ public class DecontructionSlot : MonoBehaviour {
                 UserEquipmentData e_info = UserDataManager.Inst.GetEquipmentInfo(unit_idx);
                 if (e_info == null)
                 {
-                    Debug.Log("Invalid Equip ID : " + e_info.id);
+                    DebugLog.Log(false, "Invalid Equip ID : " + e_info.id);
                 }
                 imageItemGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)e_info.grade);
                 imageItem.sprite = CSVData.Inst.GetEquipmentData(e_info.id).equipmentIcon;

@@ -75,7 +75,7 @@ public class ItemInfoManager : MonoSingleton<ItemInfoManager> {
         }
         else
         {
-            Debug.Log("Invalid Item Menu");
+            DebugLog.Log(false, "Invalid Item Menu");
             return;
         }
 
@@ -158,13 +158,13 @@ public class ItemInfoManager : MonoSingleton<ItemInfoManager> {
         UserItemData itemData = UserDataManager.Inst.GetItemInfo(ItemList[unit_idx].id);
         if (itemData == null)
         {
-            Debug.Log("Invalid Item  Index : " + unit_idx);
+            DebugLog.Log(false, "Invalid Item  Index : " + unit_idx);
         }
 
         DBItemData dBItemData = CSVData.Inst.GetItemData(itemData.id);
         if (dBItemData == null)
         {
-            Debug.Log("Invalid equipment ID : " + dBItemData.id);
+            DebugLog.Log(false, "Invalid equipment ID : " + dBItemData.id);
         }
 
         imageItem.sprite = dBItemData.ItemIcon;

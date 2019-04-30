@@ -104,7 +104,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
             }
             else
             {
-                Debug.Log("Invalid Equipment Type : " + data.Value.equipmentType);
+                DebugLog.Log(false, "Invalid Equipment Type : " + data.Value.equipmentType);
                 return;
             }
         }
@@ -231,7 +231,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     {
         if (servantDic.ContainsKey(index) == false)
         {
-            Debug.Log("Wrong Servant Index");
+            DebugLog.Log(false, "Wrong Servant Index");
             return;
         }
 
@@ -254,7 +254,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     {
         if (monsterDic.ContainsKey(index) == false)
         {
-            Debug.Log("Wrong Monster Index");
+            DebugLog.Log(false, "Wrong Monster Index");
             return;
         }
 
@@ -420,7 +420,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     {
         if (servantDic.ContainsKey(index) == false)
         {
-            Debug.Log("Invalid GetServantInfo : " + index);
+            DebugLog.Log(false, "Invalid GetServantInfo : " + index);
             return null;
         }
 
@@ -437,7 +437,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         UserFormationData formationData = GetFormationData(formationIndex);
         if (formationData == null)
         {
-            Debug.Log("버그");
+            DebugLog.Log(false, "버그");
             return null;
         }
 
@@ -448,7 +448,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     {
         if (monsterDic.ContainsKey(index) == false)
         {
-            Debug.Log("Invalid GetMonsterInfo : " + index);
+            DebugLog.Log(false, "Invalid GetMonsterInfo : " + index);
             return null;
         }
 
@@ -465,7 +465,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         UserFormationData formationData = GetFormationData(formationIndex);
         if (formationData == null)
         {
-            Debug.Log("버그");
+            DebugLog.Log(false, "버그");
             return null;
         }
 
@@ -476,7 +476,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     {
         if(equipmentDic.ContainsKey(index) == false)
         {
-            Debug.Log("Invalid GetEquipmentInfo : " + index);
+            DebugLog.Log(false, "Invalid GetEquipmentInfo : " + index);
             return null;
         }
 
@@ -519,19 +519,19 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     {
         if(partyInfo == null)
         {
-            Debug.Log("Invalid GetFormaData_nullPossible_1");
+            DebugLog.Log(false, "Invalid GetFormaData_nullPossible_1");
             return null;
         }
 
         if(partyInfo.formationDataDic == null)
         {
-            Debug.Log("Invalid GetFormaData_nullPossible_2");
+            DebugLog.Log(false, "Invalid GetFormaData_nullPossible_2");
             return null;
         }
 
         if (partyInfo.formationDataDic.ContainsKey(formationIndex) == false)
         {
-            Debug.Log("Invalid GetFormaData_nullPossible_3");
+            DebugLog.Log(false, "Invalid GetFormaData_nullPossible_3");
             return null;
         }
 
@@ -553,7 +553,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     {
         if(servantDic.ContainsKey(servantIndex) == false)
         {
-            Debug.LogError("Invalid Servant Index : " + servantIndex);
+            DebugLog.Log(true, "Invalid Servant Index : " + servantIndex);
             return false;
         }
 
@@ -564,7 +564,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     {
         if (monsterDic.ContainsKey(monsterIndex) == false)
         {
-            Debug.LogError("Invalid Monster Index : " + monsterIndex);
+            DebugLog.Log(true, "Invalid Monster Index : " + monsterIndex);
             return false;
         }
 
@@ -691,7 +691,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     {
         if (stageState == null)
         {
-            Debug.LogError("스테이지 스테이트 버그");
+            DebugLog.Log(true, "스테이지 스테이트 버그");
             return null;
         }
 
@@ -702,7 +702,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     {
         if (stageActionInfo == null)
         {
-            Debug.LogError("액션 버그");
+            DebugLog.Log(true, "액션 버그");
             return null;
         }
 
@@ -713,7 +713,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     {
         if (stageReward == null)
         {
-            Debug.LogError("보상 버그");
+            DebugLog.Log(true, "보상 버그");
             return null;
         }
 
@@ -892,19 +892,19 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     {
         if(equipmentIndex == 0)
         {
-            Debug.Log("Unequip");
+            DebugLog.Log(false, "Unequip");
             return true;
         }
 
         if (servantDic.ContainsKey(servantIndex) == false)
         {
-            Debug.Log("Invalid Servant Index : " + servantIndex);
+            DebugLog.Log(false, "Invalid Servant Index : " + servantIndex);
             return false;
         }
 
         if (equipmentDic.ContainsKey(equipmentIndex) == false)
         {
-            Debug.Log("Invalid Equipment Index : " + equipmentIndex);
+            DebugLog.Log(false, "Invalid Equipment Index : " + equipmentIndex);
             return false;
         }
 
@@ -912,7 +912,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         {
             if (weaponDic.ContainsKey(equipmentIndex) == false)
             {
-                Debug.Log("Invalid Weapon Index : " + equipmentIndex);
+                DebugLog.Log(false, "Invalid Weapon Index : " + equipmentIndex);
                 return false;
             }
         }
@@ -920,7 +920,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         {
             if (armorDic.ContainsKey(equipmentIndex) == false)
             {
-                Debug.Log("Invalid Armor Index : " + equipmentIndex);
+                DebugLog.Log(false, "Invalid Armor Index : " + equipmentIndex);
                 return false;
             }
         }
@@ -928,19 +928,19 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         {
             if (accessoryDic.ContainsKey(equipmentIndex) == false)
             {
-                Debug.Log("Invalid Accessory Index : " + equipmentIndex);
+                DebugLog.Log(false, "Invalid Accessory Index : " + equipmentIndex);
                 return false;
             }
         }
         else
         {
-            Debug.Log("Invalid Equipment Type : " + equipmentType.ToString());
+            DebugLog.Log(false, "Invalid Equipment Type : " + equipmentType.ToString());
             return false;
         }
 
         if (servantDic[servantIndex].equipmentDic[equipmentType] != 0)
         {
-            Debug.Log("Invalid Equipment is Already Equip");
+            DebugLog.Log(false, "Invalid Equipment is Already Equip");
             return false;
         }
 
@@ -971,7 +971,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     {
         if(servantDic.ContainsKey(servantIndex) == false)
         {
-            Debug.Log("Invalid Servant Index : " + servantIndex);
+            DebugLog.Log(false, "Invalid Servant Index : " + servantIndex);
             return false;
         }
 
@@ -979,7 +979,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
         if (equipmentDic.ContainsKey(equipmentIndex) == false)
         {
-            Debug.Log("Invalid Equipment Index : " + equipmentIndex);
+            DebugLog.Log(false, "Invalid Equipment Index : " + equipmentIndex);
             return false;
         }
 
@@ -987,7 +987,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         {
             if(weaponDic.ContainsKey(equipmentIndex) == false)
             {
-                Debug.Log("Invalid Weapon Index : " + equipmentIndex);
+                DebugLog.Log(false, "Invalid Weapon Index : " + equipmentIndex);
                 return false;
             }
         }
@@ -995,7 +995,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         {
             if (armorDic.ContainsKey(equipmentIndex) == false)
             {
-                Debug.Log("Invalid Armor Index : " + equipmentIndex);
+                DebugLog.Log(false, "Invalid Armor Index : " + equipmentIndex);
                 return false;
             }
         }
@@ -1003,13 +1003,13 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         {
             if (accessoryDic.ContainsKey(equipmentIndex) == false)
             {
-                Debug.Log("Invalid Accessory Index : " + equipmentIndex);
+                DebugLog.Log(false, "Invalid Accessory Index : " + equipmentIndex);
                 return false;
             }
         }
         else
         {
-            Debug.Log("Invalid Equipment Type : " + equipmentType.ToString());
+            DebugLog.Log(false, "Invalid Equipment Type : " + equipmentType.ToString());
             return false;
         }
 

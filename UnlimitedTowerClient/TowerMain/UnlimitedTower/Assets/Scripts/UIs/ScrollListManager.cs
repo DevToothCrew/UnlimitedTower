@@ -122,7 +122,7 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     {
         if (selected_unit_idx < 0 || selected_unit_idx >= total_item_num)
         {
-            Debug.Log("Invalid select_unit_idx by scrollmove select");
+            DebugLog.Log(false, "Invalid select_unit_idx by scrollmove select");
             return;
         }
 
@@ -183,17 +183,17 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
     bool move_scroll;
     public void OnBeginDrag(PointerEventData data)
     {
-        //Debug.Log("OnBeginDrag");
+        //DebugLog.Log(false, "OnBeginDrag");
 
         isScroll = true;
         move_scroll = true;
-        //Debug.Log("Dragging started");
+        //DebugLog.Log(false, "Dragging started");
     }
     
 
     public void OnEndDrag(PointerEventData data)
     {
-        //Debug.Log("Stopped dragging " + this.name + "!");
+        //DebugLog.Log(false, "Stopped dragging " + this.name + "!");
         isScroll = false;
     }
 

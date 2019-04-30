@@ -106,7 +106,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                 }
                 break;
             default:
-                Debug.Log("Warning : 잘못된 타입 분해!");
+                DebugLog.Log(false, "Warning : 잘못된 타입 분해!");
                 SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Type");
                 break;
 
@@ -339,7 +339,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
     {
         if (unit_count >= deconstructionUnitList.Length)
         {
-            Debug.Log("Warning : 분해 슬롯 최대치!");
+            DebugLog.Log(false, "Warning : 분해 슬롯 최대치!");
             SimpleErrorPopupVC.Inst.UpdateErrorText("Max Burn List");
         }
         else
@@ -349,7 +349,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
 
             if (checkInsertedUnit(scroll_unit_idx))
             {
-                Debug.Log("Warning : 이미 분해 슬롯에 등록된 유닛 입니다.");
+                DebugLog.Log(false, "Warning : 이미 분해 슬롯에 등록된 유닛 입니다.");
                 SimpleErrorPopupVC.Inst.UpdateErrorText("Already Listed");
             }
             else
@@ -361,20 +361,20 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                         UserServantData servantData = UserDataManager.Inst.GetServantInfo(scroll_unit_idx);
                         if (servantData == null)
                         {
-                            Debug.Log("Invalid Request Servant ID : " + scroll_unit_idx);
+                            DebugLog.Log(false, "Invalid Request Servant ID : " + scroll_unit_idx);
                             return;
                         }
 
                         if (servantData.state != 1)
                         {
-                            Debug.Log("Invalid Servant State : " + servantData.state);
+                            DebugLog.Log(false, "Invalid Servant State : " + servantData.state);
                             SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Servant State");
                             return;
                         }
 
                         if (servantData.partyIndex != 0)
                         {
-                            Debug.Log("Invalid Servant Party Index : " + servantData.partyIndex);
+                            DebugLog.Log(false, "Invalid Servant Party Index : " + servantData.partyIndex);
                             SimpleErrorPopupVC.Inst.UpdateErrorText("Already In Party");
                             return;
                         }
@@ -384,20 +384,20 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                         UserMonsterData monsterData = UserDataManager.Inst.GetMonsterInfo(scroll_unit_idx);
                         if (monsterData == null)
                         {
-                            Debug.Log("Invalid Request Monster ID : " + scroll_unit_idx);
+                            DebugLog.Log(false, "Invalid Request Monster ID : " + scroll_unit_idx);
                             return;
                         }
 
                         if (monsterData.state != 1)
                         {
-                            Debug.Log("Invalid Monster State : " + monsterData.state);
+                            DebugLog.Log(false, "Invalid Monster State : " + monsterData.state);
                             SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Monster State");
                             return;
                         }
 
                         if (monsterData.partyIndex != 0)
                         {
-                            Debug.Log("Invalid Monster Index : " + monsterData.partyIndex);
+                            DebugLog.Log(false, "Invalid Monster Index : " + monsterData.partyIndex);
                             SimpleErrorPopupVC.Inst.UpdateErrorText("Already In Party");
                             return;
                         }
@@ -408,20 +408,20 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                     UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(scroll_unit_idx);
                     if (equipmentData == null)
                     {
-                        Debug.Log("Invalid Request Servant ID : " + scroll_unit_idx);
+                        DebugLog.Log(false, "Invalid Request Servant ID : " + scroll_unit_idx);
                         return;
                     }
 
                     if (equipmentData.state != 1)
                     {
-                        Debug.Log("Invalid Equip State : " + equipmentData.state);
+                        DebugLog.Log(false, "Invalid Equip State : " + equipmentData.state);
                         SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Equipment State");
                         return;
                     }
 
                     if (equipmentData.isEquiped)
                     {
-                        Debug.Log("Invalid Equip isEquiped : " + equipmentData.isEquiped);
+                        DebugLog.Log(false, "Invalid Equip isEquiped : " + equipmentData.isEquiped);
                         SimpleErrorPopupVC.Inst.UpdateErrorText("Already Equiped Servant");
                         return;
                     }
@@ -545,20 +545,20 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                 UserServantData servantData = UserDataManager.Inst.GetServantInfo(deconstructionUnitList[i]);
                 if (servantData == null)
                 {
-                    Debug.Log("Invalid Request Servant ID : " + deconstructionUnitList[i]);
+                    DebugLog.Log(false, "Invalid Request Servant ID : " + deconstructionUnitList[i]);
                     return;
                 }
 
                 if (servantData.state != 1)
                 {
-                    Debug.Log("Invalid Servant State : " + servantData.state);
+                    DebugLog.Log(false, "Invalid Servant State : " + servantData.state);
                     SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Servant State");
                     return;
                 }
 
                 if (servantData.partyIndex != 0)
                 {
-                    Debug.Log("Invalid Servant Index : " + servantData.partyIndex);
+                    DebugLog.Log(false, "Invalid Servant Index : " + servantData.partyIndex);
                     SimpleErrorPopupVC.Inst.UpdateErrorText("Already In Party");
                     return;
                 }
@@ -585,20 +585,20 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                 UserMonsterData monsterData = UserDataManager.Inst.GetMonsterInfo(deconstructionUnitList[i]);
                 if (monsterData == null)
                 {
-                    Debug.Log("Invalid Request Monster ID : " + deconstructionUnitList[i]);
+                    DebugLog.Log(false, "Invalid Request Monster ID : " + deconstructionUnitList[i]);
                     return;
                 }
 
                 if (monsterData.state != 1)
                 {
-                    Debug.Log("Invalid Monster State : " + monsterData.state);
+                    DebugLog.Log(false, "Invalid Monster State : " + monsterData.state);
                     SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Monster State");
                     return;
                 }
 
                 if (monsterData.partyIndex != 0)
                 {
-                    Debug.Log("Invalid Monster Index : " + monsterData.partyIndex);
+                    DebugLog.Log(false, "Invalid Monster Index : " + monsterData.partyIndex);
                     SimpleErrorPopupVC.Inst.UpdateErrorText("Already In Party");
                     return;
                 }
@@ -626,20 +626,20 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
                 UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(deconstructionUnitList[i]);
                 if (equipmentData == null)
                 {
-                    Debug.Log("Invalid Request Equipment ID : " + deconstructionUnitList[i]);
+                    DebugLog.Log(false, "Invalid Request Equipment ID : " + deconstructionUnitList[i]);
                     return;
                 }
 
                 if (equipmentData.state != 1)
                 {
-                    Debug.Log("Invalid Equipment State : " + equipmentData.state);
+                    DebugLog.Log(false, "Invalid Equipment State : " + equipmentData.state);
                     SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Equipment State");
                     return;
                 }
 
                 if (equipmentData.equipServantIndex != 0)
                 {
-                    Debug.Log("Invalid Equipment Already Equip Servant Index : " + equipmentData.equipServantIndex);
+                    DebugLog.Log(false, "Invalid Equipment Already Equip Servant Index : " + equipmentData.equipServantIndex);
                     SimpleErrorPopupVC.Inst.UpdateErrorText("Already Equiped Servant");
                     return;
                 }

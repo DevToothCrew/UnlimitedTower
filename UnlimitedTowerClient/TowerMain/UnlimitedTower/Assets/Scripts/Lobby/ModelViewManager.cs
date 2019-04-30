@@ -77,7 +77,7 @@ public class ModelViewManager : MonoSingleton<ModelViewManager>
                         characterCustom.transform);
                 changeCameraOffsetByModelHeight(objMonsterModel.GetComponent<CharInfo>().Height);
             }
-            Debug.Log("change update model");
+            DebugLog.Log(false, "change update model");
         }
 
     }

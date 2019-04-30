@@ -12,7 +12,7 @@ public class PVPInfoPage : MonoBehaviour {
 
     public void OnClickStartPVP()
     {
-        //Debug.Log("Enemy Account Name : " + accountName.text);
+        //DebugLog.Log(false, "Enemy Account Name : " + accountName.text);
 
         PacketManager.Inst.RequestTowerStart(1);
         //PacketManager.Inst.RequestPVPStart(accountName.text);

@@ -59,7 +59,7 @@ public class CSVData : MonoSingleton<CSVData>
 
     public void SetCSVData()
     {
-        //Debug.Log("SetCSVData Start");
+        //DebugLog.Log(false, "SetCSVData Start");
 
         //SetLocalizationData();
 
@@ -68,186 +68,186 @@ public class CSVData : MonoSingleton<CSVData>
         // 기타 데이터 추가 필요
         if (DBExpDataDic.Count == 0)
         {
-            //Debug.Log("SetExpData Start");
+            //DebugLog.Log(false, "SetExpData Start");
             if (SetExpData() == false)
             {
-                Debug.Log("Invalid DBSetExpData");
+                DebugLog.Log(false, "Invalid DBSetExpData");
             }
-            //Debug.Log("SetExpData Success");
+            //DebugLog.Log(false, "SetExpData Success");
         }
 
         if (DBItemDataDic.Count == 0)
         {
-            //Debug.Log("SetItemData Start");
+            //DebugLog.Log(false, "SetItemData Start");
             if (SetItemData() == false)
             {
-                Debug.Log("Invalid DBSetItemData");
+                DebugLog.Log(false, "Invalid DBSetItemData");
             }
-            //Debug.Log("SetItemData Success");
+            //DebugLog.Log(false, "SetItemData Success");
         }
         if (DBEquipmentDataDic.Count == 0)
         {
-            //Debug.Log("SetEquipmentData Start");
+            //DebugLog.Log(false, "SetEquipmentData Start");
             if (SetEquipmentData() == false)
             {
-                Debug.Log("Invalid DBSetEquipmentData");
+                DebugLog.Log(false, "Invalid DBSetEquipmentData");
             }
-            //Debug.Log("SetEquipmentData Success");
+            //DebugLog.Log(false, "SetEquipmentData Success");
         }
         if (DBEquipmentUpgradeDataDic.Count == 0)
         {
-            //Debug.Log("SetEquipmentUpgradeData Start");
+            //DebugLog.Log(false, "SetEquipmentUpgradeData Start");
             if (SetEquipmentUpgradeData() == false)
             {
-                Debug.Log("Invalid DBSetEquipmentUpgradeData");
+                DebugLog.Log(false, "Invalid DBSetEquipmentUpgradeData");
             }
-            //Debug.Log("SetEquipmentData Success");
+            //DebugLog.Log(false, "SetEquipmentData Success");
         }
         if (DBStageDataDic.Count == 0)
         {
-            //Debug.Log("SetStageData Start");
+            //DebugLog.Log(false, "SetStageData Start");
             if (SetStageData() == false)
             {
-                Debug.Log("Invalid DBStageData");
+                DebugLog.Log(false, "Invalid DBStageData");
             }
-            //Debug.Log("SetStageData Success");
+            //DebugLog.Log(false, "SetStageData Success");
         }
         if (DBStageEnemyDataDic.Count == 0)
         {
-            //Debug.Log("SetStageEnemyData Start");
+            //DebugLog.Log(false, "SetStageEnemyData Start");
             if (SetStageEnemyData() == false)
             {
-                Debug.Log("Invalid DBStageEnemyData");
+                DebugLog.Log(false, "Invalid DBStageEnemyData");
             }
-            //Debug.Log("SetStageEnemyData Success");
+            //DebugLog.Log(false, "SetStageEnemyData Success");
         }
         if (DBStageRewardDataDic.Count == 0)
         {
-            //Debug.Log("SetStageRewardData Start");
+            //DebugLog.Log(false, "SetStageRewardData Start");
             if (SetStageRewardData() == false)
             {
-                Debug.Log("Invalid DBStageRewardData");
+                DebugLog.Log(false, "Invalid DBStageRewardData");
             }
-            //Debug.Log("SetStageRewardData Success");
+            //DebugLog.Log(false, "SetStageRewardData Success");
         }
         if (DBServantStatDataDic.Count == 0)
         {
-            //Debug.Log("SetServantStatData Start");
+            //DebugLog.Log(false, "SetServantStatData Start");
             if (SetServantStatData() == false)
             {
-                Debug.Log("Invalid DBServantStatData");
+                DebugLog.Log(false, "Invalid DBServantStatData");
             }
-            //Debug.Log("SetServantStatData Success");
+            //DebugLog.Log(false, "SetServantStatData Success");
         }
         if (DBServantDataDic.Count == 0)
         {
-            //Debug.Log("SetServantData Start");
+            //DebugLog.Log(false, "SetServantData Start");
             if (SetServantData() == false)
             {
-                Debug.Log("Invalid DBServantData");
+                DebugLog.Log(false, "Invalid DBServantData");
             }
-            //Debug.Log("SetServantData Success");
+            //DebugLog.Log(false, "SetServantData Success");
         }
         if (DBMonsterStatDataDic.Count == 0)
         {
-            //Debug.Log("SetMonsterStatData Start");
+            //DebugLog.Log(false, "SetMonsterStatData Start");
             if (SetMonsterStatData() == false)
             {
-                Debug.Log("Invalid DBMonsterStatData");
+                DebugLog.Log(false, "Invalid DBMonsterStatData");
             }
-            //Debug.Log("SetMonsterStatData Success");
+            //DebugLog.Log(false, "SetMonsterStatData Success");
         }
         if (DBMonsterDataDic.Count == 0)
         {
-            //Debug.Log("SetMonsterData Start");
+            //DebugLog.Log(false, "SetMonsterData Start");
             if (SetMonsterData() == false)
             {
-                Debug.Log("Invalid DBMonsterData");
+                DebugLog.Log(false, "Invalid DBMonsterData");
             }
-            //Debug.Log("SetMonsterData Success");
+            //DebugLog.Log(false, "SetMonsterData Success");
         }
         if (DBMonsterUpgradeDataDic.Count == 0)
         {
-            //Debug.Log("SetMonsterUpgradeData Start");
+            //DebugLog.Log(false, "SetMonsterUpgradeData Start");
             if (SetMonsterUpgradeData() == false)
             {
-                Debug.Log("Invalid DBMonsterUpgradeData");
+                DebugLog.Log(false, "Invalid DBMonsterUpgradeData");
             }
-            //Debug.Log("SetMonsterUpgradeData Success");
+            //DebugLog.Log(false, "SetMonsterUpgradeData Success");
         }
         if (DBSkillActiveDataDic.Count == 0)
         {
-            //Debug.Log("SetSkillActiveData Start");
+            //DebugLog.Log(false, "SetSkillActiveData Start");
             if (SetSkillActiveData() == false)
             {
-                Debug.Log("Invalid DBSkillActiveData");
+                DebugLog.Log(false, "Invalid DBSkillActiveData");
             }
-            //Debug.Log("SetSkillActiveData Success");
+            //DebugLog.Log(false, "SetSkillActiveData Success");
         }
         if (DBSkillPassiveDataDic.Count == 0)
         {
-            //Debug.Log("SetSkillPassiveData Start");
+            //DebugLog.Log(false, "SetSkillPassiveData Start");
             if (SetSkillPassiveData() == false)
             {
-                Debug.Log("Invalid DBSkillPassiveData");
+                DebugLog.Log(false, "Invalid DBSkillPassiveData");
             }
-            //Debug.Log("SetSkillPassiveData Success");
+            //DebugLog.Log(false, "SetSkillPassiveData Success");
         }
         if (DBShopDataDic.Count == 0)
         {
-            //Debug.Log("SetShopData Start");
+            //DebugLog.Log(false, "SetShopData Start");
             if (SetShopData() == false)
             {
-                Debug.Log("Invalid DBShopData");
+                DebugLog.Log(false, "Invalid DBShopData");
             }
-            //Debug.Log("SetShopData Success");
+            //DebugLog.Log(false, "SetShopData Success");
         }
         if (DBGradeResourceDataDic.Count == 0)
         {
-            //Debug.Log("SetGradeResourceData Start");
+            //DebugLog.Log(false, "SetGradeResourceData Start");
             if (SetGradeResourceData() == false)
             {
-                Debug.Log("Invalid DBGradeResourceData");
+                DebugLog.Log(false, "Invalid DBGradeResourceData");
             }
-            //Debug.Log("SetGradeResourceData Success");
+            //DebugLog.Log(false, "SetGradeResourceData Success");
         }
         if (DBGachaGradeResourceDataDic.Count == 0)
         {
-            //Debug.Log("SetGachaGradeResourceData Start");
+            //DebugLog.Log(false, "SetGachaGradeResourceData Start");
             if (SetGachaGradeResourceData() == false)
             {
-                Debug.Log("Invalid DBGachaGradeResourceData");
+                DebugLog.Log(false, "Invalid DBGachaGradeResourceData");
             }
-            //Debug.Log("SetGachaGradeResourceData Success");
+            //DebugLog.Log(false, "SetGachaGradeResourceData Success");
         }
         if (DBOptionTypeResourceDataDic.Count == 0)
         {
-            //Debug.Log("SetOptionTypeResourceData Start");
+            //DebugLog.Log(false, "SetOptionTypeResourceData Start");
             if (SetOptionTypeResourceData() == false)
             {
-                Debug.Log("Invalid DBOptionTypeResourceData");
+                DebugLog.Log(false, "Invalid DBOptionTypeResourceData");
             }
-            //Debug.Log("SetOptionTypeResourceData Success");
+            //DebugLog.Log(false, "SetOptionTypeResourceData Success");
         }
         if (DBElementTypeResourceDataDic.Count == 0)
         {
             if (SetElementTypeResourceData() == false)
             {
-                Debug.Log("Invalid DBElementTypeResourceData");
+                DebugLog.Log(false, "Invalid DBElementTypeResourceData");
             }
         }
         if(DBTribeTypeResourceDataDic.Count == 0)
         {
             if(SetTribeTypeResourceData() == false)
             {
-                Debug.Log("Invalid DBTribeTypeResourceData");
+                DebugLog.Log(false, "Invalid DBTribeTypeResourceData");
             }
         }
         if (DBServantJobResourceDataDic.Count == 0)
         {
             if (SetServantJobResourceData() == false)
             {
-                Debug.Log("Invalid DBServantJobResourceData");
+                DebugLog.Log(false, "Invalid DBServantJobResourceData");
             }
         }
         localType = LOCALIZATION_TYPE.EN;
@@ -260,7 +260,7 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_item");
         for (var i = 2; i < data.Count; i++)
         {
-            //Debug.Log("index " + (i).ToString()
+            //DebugLog.Log(false, "index " + (i).ToString()
             //    + " : " + data[i]["id"]
             //    + " " + data[i]["name"]
             //    + " " + data[i]["resource_icon"]
@@ -274,7 +274,7 @@ public class CSVData : MonoSingleton<CSVData>
             itemData.id = Convert.ToInt32(data[i]["id"]);
             if (DBItemDataDic.ContainsKey(itemData.id) == true)
             {
-                Debug.Log("Item ID가 겹쳐요 : " + itemData.id);
+                DebugLog.Log(false, "Item ID가 겹쳐요 : " + itemData.id);
                 return false;
             }
             itemData.name = Convert.ToString(data[i]["enname"]);
@@ -302,7 +302,7 @@ public class CSVData : MonoSingleton<CSVData>
         // 관리 텍스트 버그로 삭제로 인한 1부터 시작
         for (var i = 1; i < data.Count; i++)
         {
-            //Debug.Log("index " + (i).ToString()
+            //DebugLog.Log(false, "index " + (i).ToString()
             //    + " : " + data[i]["id"]
             //    + " " + data[i]["name"]
             //    + " " + data[i]["job_limit_bit"]
@@ -322,23 +322,23 @@ public class CSVData : MonoSingleton<CSVData>
             equipmentData.id = Convert.ToInt32(data[i]["id"]);
             if (DBEquipmentDataDic.ContainsKey(equipmentData.id) == true)
             {
-                Debug.Log("Equipment ID가 겹쳐요 : " + equipmentData.id);
+                DebugLog.Log(false, "Equipment ID가 겹쳐요 : " + equipmentData.id);
                 return false;
             }
             equipmentData.name = Convert.ToString(data[i]["name"]);
 
-            //Debug.Log("Equip Job Able : " + Convert.ToString(data[i]["job"]));
+            //DebugLog.Log(false, "Equip Job Able : " + Convert.ToString(data[i]["job"]));
             equipmentData.jobLimit = (SERVANT_JOB_FLAG)Convert.ToInt32(Convert.ToString(data[i]["job_limit"]), 2);
             if (equipmentData.jobLimit == SERVANT_JOB_FLAG.None)
             {
-                Debug.Log("Invalid Data ID : " + equipmentData.id);
+                DebugLog.Log(false, "Invalid Data ID : " + equipmentData.id);
             }
-            //Debug.Log("Equip Test Warrior : " + equipmentData.isEquipAble(SERVANT_JOB_FLAG.Warrior));
-            //Debug.Log("Equip Test Thief : " + equipmentData.isEquipAble(SERVANT_JOB_FLAG.Thief));
-            //Debug.Log("Equip Test Cleric : " + equipmentData.isEquipAble(SERVANT_JOB_FLAG.Cleric));
-            //Debug.Log("Equip Test Archer : " + equipmentData.isEquipAble(SERVANT_JOB_FLAG.Archer));
-            //Debug.Log("Equip Test Magician : " + equipmentData.isEquipAble(SERVANT_JOB_FLAG.Magician));
-            //Debug.Log("Equip Test All : " + equipmentData.isEquipAble(SERVANT_JOB_FLAG.All));
+            //DebugLog.Log(false, "Equip Test Warrior : " + equipmentData.isEquipAble(SERVANT_JOB_FLAG.Warrior));
+            //DebugLog.Log(false, "Equip Test Thief : " + equipmentData.isEquipAble(SERVANT_JOB_FLAG.Thief));
+            //DebugLog.Log(false, "Equip Test Cleric : " + equipmentData.isEquipAble(SERVANT_JOB_FLAG.Cleric));
+            //DebugLog.Log(false, "Equip Test Archer : " + equipmentData.isEquipAble(SERVANT_JOB_FLAG.Archer));
+            //DebugLog.Log(false, "Equip Test Magician : " + equipmentData.isEquipAble(SERVANT_JOB_FLAG.Magician));
+            //DebugLog.Log(false, "Equip Test All : " + equipmentData.isEquipAble(SERVANT_JOB_FLAG.All));
 
             equipmentData.tier = Convert.ToInt32(data[i]["tier"]);
             equipmentData.equipmentType = (EQUIPMENT_TYPE)Convert.ToInt32(data[i]["equip_type"]);
@@ -350,8 +350,8 @@ public class CSVData : MonoSingleton<CSVData>
             string[] gmList = Convert.ToString(data[i]["grade_multi_list"]).Split('/');
             for (GRADE_TYPE j = GRADE_TYPE.COMMON; j != GRADE_TYPE.NONE; j--)
             {
-                //Debug.Log("Test GRADE_TYPE : " + j.ToString());
-                //Debug.Log("Test gmList : " + Convert.ToDouble(gmList[(5 - (int)j)]));
+                //DebugLog.Log(false, "Test GRADE_TYPE : " + j.ToString());
+                //DebugLog.Log(false, "Test gmList : " + Convert.ToDouble(gmList[(5 - (int)j)]));
 
                 equipmentData.gradeMultiValueDic.Add(j, Convert.ToDouble(gmList[(5 - (int)j)]));
             }
@@ -360,7 +360,7 @@ public class CSVData : MonoSingleton<CSVData>
             equipmentData.equipmentIcon = Resources.Load<Sprite>("UI/EquipmentIcon/" + equipmentData.resourceIcon);
             if (equipmentData.equipmentIcon == null)
             {
-                Debug.Log("Invalid Icon Resource : " + equipmentData.resourceIcon);
+                DebugLog.Log(false, "Invalid Icon Resource : " + equipmentData.resourceIcon);
             }
 
             equipmentData.sellItemID = Convert.ToInt32(data[i]["sell_item_id"]);
@@ -377,7 +377,7 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_equipment_upgrade");
         for (var i = 2; i < data.Count; i++)
         {
-            //Debug.Log("index " + (i).ToString()
+            //DebugLog.Log(false, "index " + (i).ToString()
             //    + " : " + data[i]["id"]
             //    + " " + data[i]["item_type"]
             //    + " " + data[i]["item_rating"]
@@ -402,7 +402,7 @@ public class CSVData : MonoSingleton<CSVData>
                     upgradeData.type = EQUIPMENT_TYPE.ACCESSSORY;
                     break;
                 default:
-                    Debug.Log("Invalid ItemType : " + itemType);
+                    DebugLog.Log(false, "Invalid ItemType : " + itemType);
                     return false;
             }
 
@@ -425,7 +425,7 @@ public class CSVData : MonoSingleton<CSVData>
                     upgradeData.grade = GRADE_TYPE.LEGENDARY;
                     break;
                 default:
-                    Debug.Log("Invalid ItemGrade : " + itemGrade);
+                    DebugLog.Log(false, "Invalid ItemGrade : " + itemGrade);
                     return false;
             }
 
@@ -434,7 +434,7 @@ public class CSVData : MonoSingleton<CSVData>
             int id = ((int)upgradeData.grade * 10000) + ((int)upgradeData.type * 100) + upgradeData.upgradeLevel;
             if (DBEquipmentUpgradeDataDic.ContainsKey(id) == true)
             {
-                Debug.Log("Already Add ID : " + id);
+                DebugLog.Log(false, "Already Add ID : " + id);
                 return false;
             }
             upgradeData.id = id;
@@ -455,7 +455,7 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_stage");
         for (var i = 2; i < data.Count; i++)
         {
-            //Debug.Log("index " + (i).ToString()
+            //DebugLog.Log(false, "index " + (i).ToString()
             //    + " : " + data[i]["id"]
             //    + " " + data[i]["stage_type"]
             //    + " " + data[i]["stage_floor"]
@@ -508,7 +508,7 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_stage_enemy");
         for (var i = 2; i < data.Count; i++)
         {
-            //Debug.Log("index " + (i).ToString()
+            //DebugLog.Log(false, "index " + (i).ToString()
             //    + " : " + data[i]["id"]
             //    + " " + data[i]["char_type"]
             //    + " " + data[i]["char_id"]
@@ -567,7 +567,7 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_stage_reward");
         for (var i = 2; i < data.Count; i++)
         {
-            //Debug.Log("index " + (i).ToString()
+            //DebugLog.Log(false, "index " + (i).ToString()
             //    + " : " + data[i]["id"]
             //    + " " + data[i]["rank_exp"]
             //    + " " + data[i]["char_exp"]
@@ -613,7 +613,7 @@ public class CSVData : MonoSingleton<CSVData>
             rewardData.id = Convert.ToInt32(data[i]["id"]);
             if (DBStageRewardDataDic.ContainsKey(rewardData.id) == true)
             {
-                Debug.LogError("Invalid Reward ID : " + rewardData.id);
+                DebugLog.Log(true, "Invalid Reward ID : " + rewardData.id);
                 return false;
             }
 
@@ -668,7 +668,7 @@ public class CSVData : MonoSingleton<CSVData>
             case "legendary":
                 return GRADE_TYPE.LEGENDARY;
             default:
-                Debug.Log("Invalid Grade Type String : " + type);
+                DebugLog.Log(false, "Invalid Grade Type String : " + type);
                 return GRADE_TYPE.NONE;
         }
     }
@@ -688,7 +688,7 @@ public class CSVData : MonoSingleton<CSVData>
             case "item":
                 return REWARD_TYPE.ITEM;
             default:
-                Debug.Log("Invalid Reward Type String : " + type);
+                DebugLog.Log(false, "Invalid Reward Type String : " + type);
                 return REWARD_TYPE.NONE;
         }
     }
@@ -698,7 +698,7 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_stat_servant");
         for (var i = 2; i < data.Count; i++)
         {
-            //Debug.Log("index " + (i).ToString()
+            //DebugLog.Log(false, "index " + (i).ToString()
             //    + " : " + data[i]["id"]
             //    + " " + data[i]["job"]
             //    + " " + data[i]["speed"]
@@ -729,7 +729,7 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_servant");
         for (var i = 2; i < data.Count; i++)
         {
-            //Debug.Log("index " + (i).ToString()
+            //DebugLog.Log(false, "index " + (i).ToString()
             //    + " : " + data[i]["id"]
             //    + " " + data[i]["name"]
             //    + " " + data[i]["job"]
@@ -755,7 +755,7 @@ public class CSVData : MonoSingleton<CSVData>
             }
             else
             {
-                Debug.Log("Invalid Job Num : " + servantData.job);
+                DebugLog.Log(false, "Invalid Job Num : " + servantData.job);
                 return false;
             }
 
@@ -776,7 +776,7 @@ public class CSVData : MonoSingleton<CSVData>
                     break;
 
                 default:
-                    Debug.LogError("Invalid Request DBServant");
+                    DebugLog.Log(true, "Invalid Request DBServant");
                     return false;
             }
 
@@ -787,7 +787,7 @@ public class CSVData : MonoSingleton<CSVData>
             servantData.servantIcon = Resources.Load<Sprite>("Character Portrait Image/Servant/" + servantData.resourceIcon);
             if (servantData.servantIcon == null)
             {
-                Debug.Log("Invalid Icon Resource : " + servantData.resourceIcon + " No : " + (DBServantDataDic.Count));
+                DebugLog.Log(false, "Invalid Icon Resource : " + servantData.resourceIcon + " No : " + (DBServantDataDic.Count));
             }
 
             DBServantDataDic.Add(servantData.id, servantData);
@@ -803,7 +803,7 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/LocalData");
         for (var i = 2; i < data.Count; i++)
         {
-            //Debug.Log("index " + (i).ToString()
+            //DebugLog.Log(false, "index " + (i).ToString()
             //    + " : " + data[i]["index"]
             //    + " " + data[i]["kr"]
             //    + " " + data[i]["ch"]
@@ -827,7 +827,7 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_stat_monster");
         for (var i = 2; i < data.Count; i++)
         {
-            //Debug.Log("index " + (i).ToString()
+            //DebugLog.Log(false, "index " + (i).ToString()
             //    + " : " + data[i]["id"]
             //    + " " + data[i]["tribe"]
             //    + " " + data[i]["speed"]
@@ -860,7 +860,7 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_monster");
         for (var i = 2; i < data.Count; i++)
         {
-            //Debug.Log("index " + (i).ToString()
+            //DebugLog.Log(false, "index " + (i).ToString()
             //+ " : " + data[i]["id"]
             //+ " " + data[i]["enname"]
             //    + " " + data[i]["tribe"]
@@ -902,7 +902,7 @@ public class CSVData : MonoSingleton<CSVData>
                     monsterData.tribeType = TRIBE_TYPE.Metal;
                     break;
                 default:
-                    Debug.Log("Invalid Tribe Type");
+                    DebugLog.Log(false, "Invalid Tribe Type");
                     return false; ;
             }
 
@@ -916,7 +916,7 @@ public class CSVData : MonoSingleton<CSVData>
             }
             else
             {
-                Debug.Log("Invalid Tribe Num : " + monsterData.tribeType);
+                DebugLog.Log(false, "Invalid Tribe Num : " + monsterData.tribeType);
                 return false;
             }
 
@@ -925,7 +925,7 @@ public class CSVData : MonoSingleton<CSVData>
             monsterData.monsterIcon = Resources.Load<Sprite>("Character Portrait Image/Monster/" + monsterData.resourceIcon);
             if (monsterData.monsterIcon == null)
             {
-                Debug.Log("Invalid Icon Resource : " + monsterData.resourceIcon + " No : " + (monsterDataInspector.Count));
+                DebugLog.Log(false, "Invalid Icon Resource : " + monsterData.resourceIcon + " No : " + (monsterDataInspector.Count));
             }
 
             DBMonsterDataDic.Add(monsterData.id, monsterData);
@@ -942,7 +942,7 @@ public class CSVData : MonoSingleton<CSVData>
         {
             if (DBOptionTypeResourceDataDic.ContainsKey(i) == true)
             {
-                Debug.Log("Invalid Key : " + i.ToString());
+                DebugLog.Log(false, "Invalid Key : " + i.ToString());
                 return false;
             }
 
@@ -1027,7 +1027,7 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_monster_upgrade");
         for (var i = 2; i < data.Count; i++)
         {
-            //Debug.Log("index " + (i).ToString()
+            //DebugLog.Log(false, "index " + (i).ToString()
             //    + " : " + data[i]["id"]
             //    + " " + data[i]["grade_1"]
             //    + " " + data[i]["grade_2"]
@@ -1056,7 +1056,7 @@ public class CSVData : MonoSingleton<CSVData>
                     upgradeData.grade = GRADE_TYPE.LEGENDARY;
                     break;
                 default:
-                    Debug.Log("Invalid Grade");
+                    DebugLog.Log(false, "Invalid Grade");
                     return false;
             }
 
@@ -1075,7 +1075,7 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_skill_active");
         for (var i = 2; i < data.Count; i++)
         {
-            //Debug.Log("index " + (i).ToString()
+            //DebugLog.Log(false, "index " + (i).ToString()
             //    + " : " + data[i]["id"]
             //    + " " + data[i]["en_name"]
             //    + " " + data[i]["explain"]
@@ -1105,7 +1105,7 @@ public class CSVData : MonoSingleton<CSVData>
             activeData.id = Convert.ToInt32(data[i]["id"]);
             if (DBSkillActiveDataDic.ContainsKey(activeData.id) == true)
             {
-                Debug.Log("Invalid Active Skill ID : " + activeData.id);
+                DebugLog.Log(false, "Invalid Active Skill ID : " + activeData.id);
                 return false;
             }
 
@@ -1115,7 +1115,7 @@ public class CSVData : MonoSingleton<CSVData>
             activeData.activeIcon = Resources.Load<Sprite>("UI/Skill/Active/" + activeData.resourceIcon);
             if (activeData.activeIcon == null)
             {
-                Debug.Log("Invalid Resource Icon : " + activeData.resourceIcon);
+                DebugLog.Log(false, "Invalid Resource Icon : " + activeData.resourceIcon);
             }
 
             activeData.enableJob = (SERVANT_JOB)Convert.ToInt32(Convert.ToString(data[i]["job"]));
@@ -1156,7 +1156,7 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_skill_passive");
         for (var i = 2; i < data.Count; i++)
         {
-            //Debug.Log("index " + (i).ToString()
+            //DebugLog.Log(false, "index " + (i).ToString()
             //    + " : " + data[i]["id"]
             //    + " " + data[i]["passive_type"]
             //    + " " + data[i]["en_name"]
@@ -1177,7 +1177,7 @@ public class CSVData : MonoSingleton<CSVData>
             passiveData.id = Convert.ToInt32(data[i]["id"]);
             if (DBSkillPassiveDataDic.ContainsKey(passiveData.id) == true)
             {
-                Debug.Log("겹치는 ID : " + passiveData.id);
+                DebugLog.Log(false, "겹치는 ID : " + passiveData.id);
                 return false;
             }
 
@@ -1188,7 +1188,7 @@ public class CSVData : MonoSingleton<CSVData>
             passiveData.passiveIcon = Resources.Load<Sprite>("UI/Skill/Passive/" + passiveData.resourceIcon);
             if (passiveData.passiveIcon == null)
             {
-                Debug.Log("Invalid Resource Icon : " + passiveData.resourceIcon);
+                DebugLog.Log(false, "Invalid Resource Icon : " + passiveData.resourceIcon);
                 //return false;
             }
             passiveData.jobClass = Convert.ToInt32(data[i]["job_class"]);
@@ -1229,7 +1229,7 @@ public class CSVData : MonoSingleton<CSVData>
             //        passiveData.targetType = TARGET_TYPE.EVERY;
             //        break;
             //    default:
-            //        Debug.Log("Invalid Target Type");
+            //        DebugLog.Log(false, "Invalid Target Type");
             //        return false;
             //}
             passiveData.targetID = Convert.ToInt32(data[i]["target_id"]);
@@ -1245,7 +1245,7 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_shop_ingame");
         for (var i = 2; i < data.Count; i++)
         {
-            //Debug.Log("index " + (i).ToString()
+            //DebugLog.Log(false, "index " + (i).ToString()
             //    + " : " + data[i]["id"]
             //    + " " + data[i]["shop_type"]
             //    + " " + data[i]["product_id"]
@@ -1259,7 +1259,7 @@ public class CSVData : MonoSingleton<CSVData>
             shopData.id = Convert.ToInt32(data[i]["id"]);
             if(DBShopDataDic.ContainsKey(shopData.id) == true)
             {
-                Debug.Log("아이디 겹침 : " + shopData.id);
+                DebugLog.Log(false, "아이디 겹침 : " + shopData.id);
                 return false;
             }
 
@@ -1276,7 +1276,7 @@ public class CSVData : MonoSingleton<CSVData>
                     break;
 
                 default:
-                    Debug.Log("Invalid Shop Type : " + Convert.ToString(data[i]["shop_type"]));
+                    DebugLog.Log(false, "Invalid Shop Type : " + Convert.ToString(data[i]["shop_type"]));
                     return false;
             }
 
@@ -1297,7 +1297,7 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_exp");
         for (var i = 2; i < data.Count; i++)
         {
-            //Debug.Log("index " + (i).ToString()
+            //DebugLog.Log(false, "index " + (i).ToString()
             //    + " : " + data[i]["level"]
             //    + " " + data[i]["rank_exp"]
             //    + " " + data[i]["char_exp"]
@@ -1307,7 +1307,7 @@ public class CSVData : MonoSingleton<CSVData>
             expData.level = Convert.ToInt32(data[i]["level"]);
             if(DBExpDataDic.ContainsKey(expData.level) == true)
             {
-                Debug.Log("겹치는 ID : " + expData.level);
+                DebugLog.Log(false, "겹치는 ID : " + expData.level);
                 return false;
             }
 
@@ -1351,7 +1351,7 @@ public class CSVData : MonoSingleton<CSVData>
     {
         if(DBItemDataDic.ContainsKey(id) == false)
         {
-            Debug.LogError("Invalid ItemID");
+            DebugLog.Log(true, "Invalid ItemID");
             return null;
         }
 
@@ -1362,7 +1362,7 @@ public class CSVData : MonoSingleton<CSVData>
     {
         if (DBItemDataDic.ContainsKey(id) == false)
         {
-            Debug.LogError("Invalid ItemID");
+            DebugLog.Log(true, "Invalid ItemID");
             return null;
         }
 
@@ -1373,7 +1373,7 @@ public class CSVData : MonoSingleton<CSVData>
     {
         if (DBEquipmentDataDic.ContainsKey(id) == false)
         {
-            Debug.LogError("Invalid EquipmentID");
+            DebugLog.Log(true, "Invalid EquipmentID");
             return null;
         }
 
@@ -1384,7 +1384,7 @@ public class CSVData : MonoSingleton<CSVData>
     {
         if (DBEquipmentDataDic.ContainsKey(id) == false)
         {
-            Debug.LogError("Invalid EquipmentID");
+            DebugLog.Log(true, "Invalid EquipmentID");
             return null;
         }
 
@@ -1395,7 +1395,7 @@ public class CSVData : MonoSingleton<CSVData>
     {
         if (DBMonsterDataDic == null)
         {
-            Debug.LogError("MonsterDataDic Error");
+            DebugLog.Log(true, "MonsterDataDic Error");
             return null;
         }
 
@@ -1438,7 +1438,7 @@ public class CSVData : MonoSingleton<CSVData>
         int id = (grade * 10000) + (type * 100) + upgrade;
         if(DBEquipmentUpgradeDataDic.ContainsKey(id) == false)
         {
-            Debug.Log("Invalid EquipmentUpgrade ID : " + id);
+            DebugLog.Log(false, "Invalid EquipmentUpgrade ID : " + id);
             return null;
         }
 
@@ -1497,7 +1497,7 @@ public class CSVData : MonoSingleton<CSVData>
 
         if (DBMonsterUpgradeDataDic.ContainsKey(id) == false)
         {
-            Debug.LogError("MonsterUpgradeDataDic Error");
+            DebugLog.Log(true, "MonsterUpgradeDataDic Error");
             return null;
         }
 
@@ -1549,7 +1549,7 @@ public class CSVData : MonoSingleton<CSVData>
 
         if (DBStageDataDic.ContainsKey(id) == false)
         {
-            Debug.LogError("DBStageDataDic Error ID : " + id);
+            DebugLog.Log(true, "DBStageDataDic Error ID : " + id);
             return null;
         }
 
@@ -1560,7 +1560,7 @@ public class CSVData : MonoSingleton<CSVData>
     {
         if (DBStageEnemyDataDic.ContainsKey(id) == false)
         {
-            Debug.LogError("Invalid Request DBStageEnemyDataDic Not Contain Key : " + id);
+            DebugLog.Log(true, "Invalid Request DBStageEnemyDataDic Not Contain Key : " + id);
             return null;
         }
 
@@ -1573,7 +1573,7 @@ public class CSVData : MonoSingleton<CSVData>
 
         if(DBStageRewardDataDic.ContainsKey(id) == false)
         {
-            Debug.Log("DBStageREwardDataDic Error ID : " + id);
+            DebugLog.Log(false, "DBStageREwardDataDic Error ID : " + id);
             return null;
         }
 
@@ -1584,7 +1584,7 @@ public class CSVData : MonoSingleton<CSVData>
     {
         if(DBExpDataDic.ContainsKey(level) == false)
         {
-            Debug.Log("Invalid Exp Data Level : " + level);
+            DebugLog.Log(false, "Invalid Exp Data Level : " + level);
             return null;
         }
 
@@ -1601,7 +1601,7 @@ public class CSVData : MonoSingleton<CSVData>
             }
         }
 
-        Debug.Log("Invalid Exp : " + exp);
+        DebugLog.Log(false, "Invalid Exp : " + exp);
 
         return 0;
     }
@@ -1616,7 +1616,7 @@ public class CSVData : MonoSingleton<CSVData>
             }
         }
 
-        Debug.Log("Invalid Exp : " + exp);
+        DebugLog.Log(false, "Invalid Exp : " + exp);
 
         return 0;
     }
@@ -1655,7 +1655,7 @@ public class CSVData : MonoSingleton<CSVData>
     {
         if(DBSkillActiveDataDic.ContainsKey(id) == false)
         {
-            Debug.LogError("Invalid Request DBSkillActiveDataDic Not Contain Key : " + id);
+            DebugLog.Log(true, "Invalid Request DBSkillActiveDataDic Not Contain Key : " + id);
             return null;
         }
 
@@ -1666,7 +1666,7 @@ public class CSVData : MonoSingleton<CSVData>
     {
         if (DBSkillPassiveDataDic.ContainsKey(id) == false)
         {
-            Debug.LogError("Invalid Request DBSkillPassiveDataDic Not Contain Key : " + id);
+            DebugLog.Log(true, "Invalid Request DBSkillPassiveDataDic Not Contain Key : " + id);
             return null;
         }
 
@@ -1710,7 +1710,7 @@ public class CSVData : MonoSingleton<CSVData>
                 break;
 
             default:
-                Debug.Log("Job Error : " + jobType.ToString());
+                DebugLog.Log(false, "Job Error : " + jobType.ToString());
                 break;
         }
 

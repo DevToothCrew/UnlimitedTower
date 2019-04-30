@@ -19,4 +19,23 @@ static public class ActiveAnimationManager
     }
 }
 
+static public class DebugLog
+{
+    static public void Log(bool error, string text)
+    {
+#if UNITY_EDITOR
+        if(error == true)
+        {
+            Debug.LogError(text);
+        }
+        else
+        {
+            Debug.Log(text);
+        }
+#else
+        return;
+#endif
+    }
+}
+
 #endregion

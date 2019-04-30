@@ -23,7 +23,7 @@ public class ShopBuyPopup : MonoBehaviour {
         DBShopData shopData = CSVData.Inst.GetShopData(getInfo.index);
         if (shopData == null)
         {
-            Debug.Log("Invalid Shop Object ID : " + getInfo.index);
+            DebugLog.Log(false, "Invalid Shop Object ID : " + getInfo.index);
             return false;
         }
 
@@ -74,7 +74,7 @@ public class ShopBuyPopup : MonoBehaviour {
         DBShopData shopData = CSVData.Inst.GetShopData(index);
         if(shopData == null)
         {
-            Debug.Log("Invalid ShopData");
+            DebugLog.Log(false, "Invalid ShopData");
         }
 
         if(shopData.priceID == 500001)

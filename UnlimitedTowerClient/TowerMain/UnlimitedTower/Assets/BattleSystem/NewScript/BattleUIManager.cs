@@ -201,7 +201,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
     {
         if (UserDataManager.Inst.GetUserPartyInfo().partyIndex == 0)
         {
-            Debug.LogError("Invalid User Data");
+            DebugLog.Log(true, "Invalid User Data");
         }
 
 #if UNITY_EDITOR
@@ -223,7 +223,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
     {
         if (UserDataManager.Inst.GetUserPartyInfo().partyIndex == 0)
         {
-            Debug.LogError("Invalid User Data");
+            DebugLog.Log(true, "Invalid User Data");
         }
 
 #if UNITY_EDITOR

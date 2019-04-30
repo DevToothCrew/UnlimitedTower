@@ -11,7 +11,7 @@ public class EnemyInfoObject : MonoBehaviour {
         DBStageEnemyData enemyData = CSVData.Inst.GetStageEnemyData(enemyID);
         if(enemyData == null)
         {
-            Debug.LogError("Invalid Enemy Data ID : " + enemyID);
+            DebugLog.Log(true, "Invalid Enemy Data ID : " + enemyID);
             return;
         }
         

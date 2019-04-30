@@ -72,21 +72,21 @@ public class SortManager : MonoSingleton<SortManager> {
         {
             if (SubViewEquipment.checkInst())
             {
-                Debug.Log("Reset Equip List");
+                DebugLog.Log(false, "Reset Equip List");
                 SubViewEquipment.Inst.ResetScrollListBySortType(sortType);
             }
             else if (SubViewDeconstruction.checkInst())
             {
-                Debug.Log("Reset deconstruct List");
+                DebugLog.Log(false, "Reset deconstruct List");
                 SubViewDeconstruction.Inst.ResetScrollListBySortType(sortType);
             }
             else if(SubViewUpgrade.checkInst())
             {
-                Debug.Log("Reset SubViewUpgrade List");
+                DebugLog.Log(false, "Reset SubViewUpgrade List");
                 SubViewUpgrade.Inst.ResetScrollListBySortType(sortType);
             }
             else {
-                Debug.Log("Reset Partyinfo List");
+                DebugLog.Log(false, "Reset Partyinfo List");
                 PartyInfoVC.Inst.ResetScrollListBySortType(sortType);
             }   
         }
@@ -94,17 +94,17 @@ public class SortManager : MonoSingleton<SortManager> {
         {
             if (SubViewDeconstruction.checkInst())
             {
-                Debug.Log("Reset deconstruct List");
+                DebugLog.Log(false, "Reset deconstruct List");
                 SubViewDeconstruction.Inst.ResetScrollListBySortType(sortType);
             }
             else if (SubViewUpgrade.checkInst())
             {
-                Debug.Log("Reset SubViewUpgrade List");
+                DebugLog.Log(false, "Reset SubViewUpgrade List");
                 SubViewUpgrade.Inst.ResetScrollListBySortType(sortType);
             }
             else
             {
-                Debug.Log("Reset Inven List");
+                DebugLog.Log(false, "Reset Inven List");
                 EquipmentInfoManager.Inst.ResetScrollListBySortType(sortType);
             }
             

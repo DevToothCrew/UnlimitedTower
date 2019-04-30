@@ -206,7 +206,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
         if (!SortManager.checkInst())
         {
-            Debug.Log("Invalid sort manager!");
+            DebugLog.Log(false, "Invalid sort manager!");
             return data_order;
         }
 
@@ -413,7 +413,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         }
         else
         {
-            Debug.Log("Warning : Montser upgrade only");
+            DebugLog.Log(false, "Warning : Montser upgrade only");
         }
     }
 
@@ -502,7 +502,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         UserPartyData partyInfo = UserDataManager.Inst.GetUserPartyInfo();
         if (partyInfo == null)
         {
-            Debug.Log("Invalid Party Info");
+            DebugLog.Log(false, "Invalid Party Info");
             return;
         }
 
@@ -528,7 +528,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                 UserServantData servant = UserDataManager.Inst.GetServantInfo(formationSlot[i]);
                 if(servant == null)
                 {
-                    Debug.Log("Invalid Servant ID : " + formationSlot[i]);
+                    DebugLog.Log(false, "Invalid Servant ID : " + formationSlot[i]);
                     return;
                 }
 
@@ -542,7 +542,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                 DBExpData dbExpData = CSVData.Inst.GetExpData(servant.level);
                 if (dbExpData == null)
                 {
-                    Debug.Log("Invalid Level Data");
+                    DebugLog.Log(false, "Invalid Level Data");
                 }
                 else
                 {
@@ -552,7 +552,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                         DBExpData exDBExpData = CSVData.Inst.GetExpData(servant.level - 1);
                         if (exDBExpData == null)
                         {
-                            Debug.Log("Invalid Level Data");
+                            DebugLog.Log(false, "Invalid Level Data");
                         }
                         else
                         {
@@ -582,7 +582,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                 UserMonsterData monster = UserDataManager.Inst.GetMonsterInfo(formationSlot[i + 5]);
                 if (monster == null)
                 {
-                    Debug.Log("Invalid Monster ID : " + formationSlot[i + 5]);
+                    DebugLog.Log(false, "Invalid Monster ID : " + formationSlot[i + 5]);
                     return;
                 }
 
@@ -596,7 +596,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                 DBExpData dbExpData = CSVData.Inst.GetExpData(monster.level);
                 if (dbExpData == null)
                 {
-                    Debug.Log("Invalid Level Data");
+                    DebugLog.Log(false, "Invalid Level Data");
                 }
                 else
                 {
@@ -606,7 +606,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                         DBExpData exDBExpData = CSVData.Inst.GetExpData(monster.level - 1);
                         if (exDBExpData == null)
                         {
-                            Debug.Log("Invalid Level Data");
+                            DebugLog.Log(false, "Invalid Level Data");
                         }
                         else
                         {
@@ -647,11 +647,11 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                 selectedFormationSlot = -1;
                 frameScroll.gameObject.SetActive(false);
 
-                Debug.Log("Index : " + btn_tag + " / Ex Party Info Index : " + formationSlot[btn_tag] + " / Ex User Party Info Index : " + UserDataManager.Inst.GetUserPartyInfo().formationDataDic[btn_tag].index);
+                DebugLog.Log(false, "Index : " + btn_tag + " / Ex Party Info Index : " + formationSlot[btn_tag] + " / Ex User Party Info Index : " + UserDataManager.Inst.GetUserPartyInfo().formationDataDic[btn_tag].index);
 
                 formationSlot[btn_tag] = 0;
 
-                Debug.Log("Index : " + btn_tag + " / Now Party Info Index : " + formationSlot[btn_tag] + " / Ex User Party Info Index : " + UserDataManager.Inst.GetUserPartyInfo().formationDataDic[btn_tag].index);
+                DebugLog.Log(false, "Index : " + btn_tag + " / Now Party Info Index : " + formationSlot[btn_tag] + " / Ex User Party Info Index : " + UserDataManager.Inst.GetUserPartyInfo().formationDataDic[btn_tag].index);
 
                 formationSlot[btn_tag] = 0;
                 updateFormation();
@@ -679,13 +679,13 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     {
         if(character_unit_idx == 0)
         {
-            Debug.Log("Index is 0");
+            DebugLog.Log(false, "Index is 0");
             return;
         }
 
         if (formationSlot[selectedFormationSlot] == character_unit_idx)
         {
-            Debug.Log("Warning : 이미 포메이션에 등록된 유닛 입니다.");
+            DebugLog.Log(false, "Warning : 이미 포메이션에 등록된 유닛 입니다.");
             return;
         }
 
@@ -702,7 +702,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
                 if(character_unit_idx == formationSlot[i])
                 {
-                    Debug.Log("이동");
+                    DebugLog.Log(false, "이동");
                     formationSlot[i] = 0;
                 }
 
@@ -733,17 +733,17 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
                 if (character_unit_idx == formationSlot[i])
                 {
-                    Debug.Log("이동");
+                    DebugLog.Log(false, "이동");
                     formationSlot[i] = 0;
                 }
             }
         }
 
-        Debug.Log("Index : " + selectedFormationSlot + " / Now Party Info Index : " + formationSlot[selectedFormationSlot] + " / Ex User Party Info Index : " + UserDataManager.Inst.GetUserPartyInfo().formationDataDic[selectedFormationSlot].index);
+        DebugLog.Log(false, "Index : " + selectedFormationSlot + " / Now Party Info Index : " + formationSlot[selectedFormationSlot] + " / Ex User Party Info Index : " + UserDataManager.Inst.GetUserPartyInfo().formationDataDic[selectedFormationSlot].index);
 
         formationSlot[selectedFormationSlot] = character_unit_idx;
 
-        Debug.Log("Index : " + selectedFormationSlot + " / Now Party Info Index : " + formationSlot[selectedFormationSlot] + " / Ex User Party Info Index : " + UserDataManager.Inst.GetUserPartyInfo().formationDataDic[selectedFormationSlot].index);
+        DebugLog.Log(false, "Index : " + selectedFormationSlot + " / Now Party Info Index : " + formationSlot[selectedFormationSlot] + " / Ex User Party Info Index : " + UserDataManager.Inst.GetUserPartyInfo().formationDataDic[selectedFormationSlot].index);
 
         frameScroll.SetActive(false);
         updateFormation();
@@ -766,7 +766,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
 
         if(isDiff == false)
         {
-            Debug.Log("Party Already Save");
+            DebugLog.Log(false, "Party Already Save");
             SimpleErrorPopupVC.Inst.UpdateErrorText("Party Already Save");
             return;
         }

@@ -111,7 +111,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         {
             onSuccess?.Invoke(recvPackedData.body);
         }
-        Debug.Log("recv packet : " + _recvDatas[header]);
+        DebugLog.Log(false, "recv packet : " + _recvDatas[header]);
         _recvDatas.Remove(header);
 
         PacketLoadingUI.Inst.SetLoading(false);
@@ -171,7 +171,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 예제
     public void RequestResourceData()
     {
-        Debug.Log("Resource Request");
+        DebugLog.Log(false, "Resource Request");
         //ResourceInfo();
 
         // 사용 예시 
@@ -185,45 +185,45 @@ public class PacketManager : MonoSingleton<PacketManager> {
             {
                 if (data == null)
                 {
-                    Debug.Log($"Invalid Resource Data : {data}");
+                    DebugLog.Log(false, $"Invalid Resource Data : {data}");
                 }
             }, 
             onFailed: msg =>
             {
-                Debug.Log($"[Failed Requesting ResourceInfo] {msg}");
+                DebugLog.Log(false, $"[Failed Requesting ResourceInfo] {msg}");
             });
     }
 
     // 로그인
     public void RequestLoginWithScatter()
     {
-        Debug.Log("RequestLoginWithScatter");
+        DebugLog.Log(false, "RequestLoginWithScatter");
 
         //반환받을 객체가 json 자체라면 형태를 적지 않습니다.
         Request("Login", 
             onSuccess: ResponseLogin /* 이미 정의된 함수가 있다면 이렇게 대입만 해주어도 됩니다.*/,
             onFailed: msg => /* 람다 함수를 사용하는 경우 */
             {
-                Debug.Log($"[Failed Requesting Login] {msg}");
+                DebugLog.Log(false, $"[Failed Requesting Login] {msg}");
             });
     }
 
     // 로그아웃
     public void RequestLogout()
     {
-        Debug.Log("RequestLogout");
+        DebugLog.Log(false, "RequestLogout");
 
         Request("Logout",
             onSuccess: ResponseLogout,
             onFailed: msg => {
-                Debug.Log($"[Failed Requesting Logout] {msg}");
+                DebugLog.Log(false, $"[Failed Requesting Logout] {msg}");
             });
     }
 
     // 가챠
     public void RequestGacha(int getGachaIndex)
     {
-        Debug.Log("RequestGacha");
+        DebugLog.Log(false, "RequestGacha");
 
         GachaJson gacha = new GachaJson();
         gacha.gachaIndex = getGachaIndex;
@@ -235,14 +235,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
             onSuccess: ResponseGacha,
             onFailed: msg =>
             {
-                Debug.Log($"[Failed Requesting Gacha] {msg}");
+                DebugLog.Log(false, $"[Failed Requesting Gacha] {msg}");
             });
     }
 
     // 파티 저장
     public void RequestSaveParty(int partyIndex, List<int> indexList)
     {
-        Debug.Log("RequestSaveParty");
+        DebugLog.Log(false, "RequestSaveParty");
 
         PartySaveJson data = new PartySaveJson();
         data.partyNum = partyIndex;
@@ -250,24 +250,24 @@ public class PacketManager : MonoSingleton<PacketManager> {
         for(int i = 0; i < 5; ++i)
         {
             data.servantList.Add(indexList[i]);
-            Debug.Log("Print Party Servant Formation : " + i + ", Index : " + indexList[i]);
+            DebugLog.Log(false, "Print Party Servant Formation : " + i + ", Index : " + indexList[i]);
 
             data.monsterList.Add(indexList[i + 5]);
-            Debug.Log("Print Party Monster Formation : " + (i + 5) + ", Index : " + indexList[i + 5]);
+            DebugLog.Log(false, "Print Party Monster Formation : " + (i + 5) + ", Index : " + indexList[i + 5]);
         }
 
         string json = JsonUtility.ToJson(data);
         Request<partyData>("SaveParty",
                 body: json,
                 onSuccess: ResponseSaveParty,
-                onFailed: msg => { Debug.Log($"[Failed Requesting SaveParty] {msg}"); }
+                onFailed: msg => { DebugLog.Log(false, $"[Failed Requesting SaveParty] {msg}"); }
                 );
     }
 
     // 배틀 액션 시작
     public void RequestBattleAction(int getTurn)
     {
-        Debug.Log("RequestBattleAction");
+        DebugLog.Log(false, "RequestBattleAction");
         BattleActionJson action = new BattleActionJson();
         action.turn = getTurn;
 
@@ -275,14 +275,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
         Request<battleActionData>("BattleAction", 
                 body: json,
                 onSuccess: ResponseBattleAction,
-                onFailed: msg => { Debug.Log($"[Failed Requesting BattleAction] {msg}"); }
+                onFailed: msg => { DebugLog.Log(false, $"[Failed Requesting BattleAction] {msg}"); }
                 );
     }
 
     // 스테이지 시작
     public void RequestStageStart(int stageType, int stageFloor, int partyNum)
     {
-        Debug.Log("Request Start Battle");
+        DebugLog.Log(false, "Request Start Battle");
 
         StageStartJson startBattle = new StageStartJson();
         startBattle.stageType = stageType;
@@ -291,57 +291,57 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         string json = JsonUtility.ToJson(startBattle);
 
-        Debug.Log("Json start : " + json);
+        DebugLog.Log(false, "Json start : " + json);
 
         Request<stageStateData>("StageStart",
                 body: json,
                 onSuccess: ResponseStageStart,
-                onFailed: msg => { Debug.Log($"[Failed Requesting StageStart] {msg}"); }
+                onFailed: msg => { DebugLog.Log(false, $"[Failed Requesting StageStart] {msg}"); }
                 );
     }
 
     // 스테이지 보상
     public void RequestStageReward()
     {
-        Debug.Log("Request Stage Reward");
+        DebugLog.Log(false, "Request Stage Reward");
 
         Request<stageRewardData>("StageReward",
         onSuccess: ResponseStageReward,
-        onFailed: msg => { Debug.Log($"[Failed Requesting StageStart] {msg}"); }
+        onFailed: msg => { DebugLog.Log(false, $"[Failed Requesting StageStart] {msg}"); }
         );
     }
 
     // 스테이지 보상
     public void RequestPVPResult()
     {
-        Debug.Log("Request PVP Result");
+        DebugLog.Log(false, "Request PVP Result");
 
         Request<pvpResultData>("PVPResult",
         onSuccess: ResponsePVPResult,
-        onFailed: msg => { Debug.Log($"[Failed Requesting StageStart] {msg}"); }
+        onFailed: msg => { DebugLog.Log(false, $"[Failed Requesting StageStart] {msg}"); }
         );
     }
 
     // 스테이지 종료
     public void RequestStageExit()
     {
-        Debug.Log("Request Battle Exit");
+        DebugLog.Log(false, "Request Battle Exit");
 
         Request("StageExit",
             onSuccess: ResponseStageExit,
             onFailed: msg =>
             {
-                Debug.Log($"[Failed Requesting StageResult] {msg}");
+                DebugLog.Log(false, $"[Failed Requesting StageResult] {msg}");
             });
     }
 
     // 서번트 분해
     public void RequestServantBurn(List<int> servantIndexList)
     {
-        Debug.Log("Request Servant Burn");
+        DebugLog.Log(false, "Request Servant Burn");
         if(servantIndexList == null)
         {
-            Debug.Log("Invalid Request");
+            DebugLog.Log(false, "Invalid Request");
             return;
         }
 
@@ -350,22 +350,22 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         string json = JsonUtility.ToJson(servantBurn);
 
-        Debug.Log("Json start : " + json);
+        DebugLog.Log(false, "Json start : " + json);
 
         Request<servantBurnResultData>("ServantBurn",
                 body: json,
                 onSuccess: ResponseServantBurn,
-                onFailed: msg => { Debug.Log($"[Failed Requesting ServantBurn] {msg}"); }
+                onFailed: msg => { DebugLog.Log(false, $"[Failed Requesting ServantBurn] {msg}"); }
                 );
     }
 
     // 몬스터 판매
     public void RequestMonsterBurn(List<int> monsterIndexList)
     {
-        Debug.Log("Request Monster Burn");
+        DebugLog.Log(false, "Request Monster Burn");
         if(monsterIndexList == null)
         {
-            Debug.Log("Invalid Request");
+            DebugLog.Log(false, "Invalid Request");
             return;
         }
 
@@ -374,24 +374,24 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         string json = JsonUtility.ToJson(monsterBurn);
 
-        Debug.Log("Json start : " + json);
+        DebugLog.Log(false, "Json start : " + json);
 
         Request<monsterBurnResultData>("MonsterBurn",
                 body: json,
                 onSuccess: ResponseMonsterBurn,
                 onFailed: msg => 
                 {
-                    Debug.Log($"[Failed Requesting MonsterBurn] {msg}");
+                    DebugLog.Log(false, $"[Failed Requesting MonsterBurn] {msg}");
                 });
     }
 
     // 장비 판매
     public void RequestEquipmentBurn(List<int> equipmentIndexList)
     {
-        Debug.Log("Request Equipment Burn");
+        DebugLog.Log(false, "Request Equipment Burn");
         if (equipmentIndexList == null)
         {
-            Debug.Log("Invalid Request");
+            DebugLog.Log(false, "Invalid Request");
             return;
         }
 
@@ -400,14 +400,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         string json = JsonUtility.ToJson(equipmentBurn);
 
-        Debug.Log("Json start : " + json);
+        DebugLog.Log(false, "Json start : " + json);
 
         Request<equipmentBurnResultData>("EquipmentBurn",
                 body: json,
                 onSuccess: ResponseEquipmentBurn,
                 onFailed: msg =>
                 {
-                    Debug.Log($"[Failed Requesting EquipmentBurn] {msg}");
+                    DebugLog.Log(false, $"[Failed Requesting EquipmentBurn] {msg}");
                 });
 
     }
@@ -415,10 +415,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 아이템 판매
     public void RequestItemBurn(List<itemData> itemDataList)
     {
-        Debug.Log("Request Item Burn");
+        DebugLog.Log(false, "Request Item Burn");
         if (itemDataList == null)
         {
-            Debug.Log("Invalid Request");
+            DebugLog.Log(false, "Invalid Request");
             return;
         }
 
@@ -426,24 +426,24 @@ public class PacketManager : MonoSingleton<PacketManager> {
         itemBurn.itemDataList = itemDataList;
         string json = JsonUtility.ToJson(itemBurn);
 
-        Debug.Log("Json start : " + json);
+        DebugLog.Log(false, "Json start : " + json);
 
         Request<itemBurnResultData>("ItemBurn",
                 body: json,
                 onSuccess: ResponseItemBurn,
                 onFailed: msg =>
                 {
-                    Debug.Log($"[Failed Requesting ItemBurn] {msg}");
+                    DebugLog.Log(false, $"[Failed Requesting ItemBurn] {msg}");
                 });
     }
 
     // 장비 장착
     public void RequestEquipServant(int servantIndex, EQUIPMENT_TYPE type, int equipmentIndex)
     {
-        Debug.Log("Request Equip Servant");
+        DebugLog.Log(false, "Request Equip Servant");
         if (servantIndex == 0 || equipmentIndex == 0)
         {
-            Debug.Log("Invalid Request");
+            DebugLog.Log(false, "Invalid Request");
             return;
         }
 
@@ -451,14 +451,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
         UserServantData servantData = UserDataManager.Inst.GetServantInfo(servantIndex);
         if (servantData == null)
         {
-            Debug.LogError("Invalid Servant Index : " + servantIndex);
+            DebugLog.Log(true, "Invalid Servant Index : " + servantIndex);
             return;
         }
 
         // 장비 타입 검사
         if (servantData.equipmentDic.ContainsKey(type) == false)
         {
-            Debug.LogError("Invalid Servant Data");
+            DebugLog.Log(true, "Invalid Servant Data");
             return;
         }
 
@@ -466,14 +466,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
         UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(equipmentIndex);
         if (equipmentData == null)
         {
-            Debug.LogError("Invalid Equipment Index : " + equipmentIndex);
+            DebugLog.Log(true, "Invalid Equipment Index : " + equipmentIndex);
             return;
         }
 
         // 장비 인덱스에 대한 타입 검사
         if (equipmentData.equipmentType != type)
         {
-            Debug.Log("Invalid Type : " + type.ToString() + ", ");
+            DebugLog.Log(false, "Invalid Type : " + type.ToString() + ", ");
             return;
         }
 
@@ -481,7 +481,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         DBEquipmentData dbEquipmentData = CSVData.Inst.GetEquipmentData(equipmentData.id);
         if (dbEquipmentData == null)
         {
-            Debug.Log("Invalid Equipment Data ID : " + equipmentData.id);
+            DebugLog.Log(false, "Invalid Equipment Data ID : " + equipmentData.id);
             return;
         }
 
@@ -489,14 +489,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
         DBServantData dbServantData = CSVData.Inst.GetServantData(servantData.id);
         if (dbServantData == null)
         {
-            Debug.Log("Invalid Servant Data ID : " + servantData.id);
+            DebugLog.Log(false, "Invalid Servant Data ID : " + servantData.id);
             return;
         }
 
         // 장착 가능 직업 검사
         if (dbEquipmentData.isEquipAble(dbServantData.GetJobFlag) == false)
         {
-            Debug.Log("Invalid Servant Equipable");
+            DebugLog.Log(false, "Invalid Servant Equipable");
             return;
         }
 
@@ -507,24 +507,24 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         string json = JsonUtility.ToJson(equipServant);
 
-        Debug.Log("Json start : " + json);
+        DebugLog.Log(false, "Json start : " + json);
 
         Request<servantEquipData>("EquipServant",
                 body: json,
                 onSuccess: ResponseEquipServant,
                 onFailed: msg =>
                 {
-                    Debug.Log($"[Failed Requesting EquipServant] {msg}");
+                    DebugLog.Log(false, $"[Failed Requesting EquipServant] {msg}");
                 });
     }
 
     // 몬스터 강화
     public void RequestMonsterUpgrade(int mainMonsterIndex, int subMonsterIndex)
     {
-        Debug.Log("Request Monster Upgrade");
+        DebugLog.Log(false, "Request Monster Upgrade");
         if (mainMonsterIndex == 0 || subMonsterIndex == 0)
         {
-            Debug.Log("Invalid Request");
+            DebugLog.Log(false, "Invalid Request");
             return;
         }
 
@@ -534,24 +534,24 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         string json = JsonUtility.ToJson(monsterUpgrade);
 
-        Debug.Log("Json start : " + json);
+        DebugLog.Log(false, "Json start : " + json);
 
         Request<monsterUpgradeResultData>("MonsterUpgrade",
                 body: json,
                 onSuccess: ResponseMonsterUpgrade,
                 onFailed: msg =>
                 {
-                    Debug.Log($"[Failed Requesting MonsterUpgrade] {msg}");
+                    DebugLog.Log(false, $"[Failed Requesting MonsterUpgrade] {msg}");
                 });
     }
 
     // 아이템 강화
     public void RequestEquipmentUpgrade(int mainEquipmentIndex, List<int> addItemIDList)
     {
-        Debug.Log("Request Equipment Upgrade");
+        DebugLog.Log(false, "Request Equipment Upgrade");
         if (mainEquipmentIndex == 0 || addItemIDList == null)
         {
-            Debug.Log("Invalid Request");
+            DebugLog.Log(false, "Invalid Request");
             return;
         }
 
@@ -560,24 +560,24 @@ public class PacketManager : MonoSingleton<PacketManager> {
         equipmentUpgrade.addItemIDList = addItemIDList;
         string json = JsonUtility.ToJson(equipmentUpgrade);
 
-        Debug.Log("Json start : " + json);
+        DebugLog.Log(false, "Json start : " + json);
 
         Request<equipmentUpgradeResultData>("EquipmentUpgrade",
                 body: json,
                 onSuccess: ResponseEquipmentUpgrade,
                 onFailed: msg =>
                 {
-                    Debug.Log($"[Failed Requesting EquipmentUpgrade] {msg}");
+                    DebugLog.Log(false, $"[Failed Requesting EquipmentUpgrade] {msg}");
                 });
     }
 
     // 상점 아이템 구매
     public void RequestShopBuyItem(int index, int type, int itemCount)
     {
-        Debug.Log("Request ShopBuy Item");
+        DebugLog.Log(false, "Request ShopBuy Item");
         if (index == 0 || itemCount == 0)
         {
-            Debug.Log("Invalid Request");
+            DebugLog.Log(false, "Invalid Request");
             return;
         }
 
@@ -588,14 +588,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         string json = JsonUtility.ToJson(buyItem);
 
-        Debug.Log("Json start : " + json);
+        DebugLog.Log(false, "Json start : " + json);
 
         Request<shopBuyResultData>("ShopBuyItem",
                 body: json,
                 onSuccess: ResponseShopBuyItem,
                 onFailed: msg =>
                 {
-                    Debug.Log($"[Failed Requesting ShopBuyItem] {msg}");
+                    DebugLog.Log(false, $"[Failed Requesting ShopBuyItem] {msg}");
                 });
     }
 
@@ -605,29 +605,29 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 onSuccess: ResponseLobbyInfo,
                 onFailed: msg =>
                 {
-                    Debug.Log($"[Failed Requesting LobbyInfo] {msg}");
+                    DebugLog.Log(false, $"[Failed Requesting LobbyInfo] {msg}");
                 });
     }
 
     public void RequestMailList()
     {
-        Debug.Log("Request Mail List");
+        DebugLog.Log(false, "Request Mail List");
 
         Request<mailListResultData>("MailList",
                 onSuccess: ResponseMailList,
                 onFailed: msg =>
                 {
-                    Debug.Log($"[Failed Requesting MailList] {msg}");
+                    DebugLog.Log(false, $"[Failed Requesting MailList] {msg}");
                 });
     }
 
     // 우편 수령
     public void RequestMailOpen(int mailIndex)
     {
-        Debug.Log("Request Maill Open");
+        DebugLog.Log(false, "Request Maill Open");
         if (mailIndex == 0)
         {
-            Debug.Log("Invalid Request");
+            DebugLog.Log(false, "Invalid Request");
             return;
         }
 
@@ -639,35 +639,35 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         string json = JsonUtility.ToJson(mailOpen);
 
-        Debug.Log("Json start : " + json);
+        DebugLog.Log(false, "Json start : " + json);
 
         Request<mailOpenResultData>("MailOpen",
                 body: json,
                 onSuccess: ResponseMailOpen,
                 onFailed: msg =>
                 {
-                    Debug.Log($"[Failed Requesting MailOpen] {msg}");
+                    DebugLog.Log(false, $"[Failed Requesting MailOpen] {msg}");
                 });
     }
 
     // 타워 Start
     public void RequestTowerStart(int floorNumber)
     {
-        Debug.Log("Request TowerStart");
+        DebugLog.Log(false, "Request TowerStart");
 
         TowerJson towerJson = new TowerJson();
         towerJson.floor = floorNumber;
 
         string json = JsonUtility.ToJson(towerJson);
 
-        Debug.Log("Json start : " + json);
+        DebugLog.Log(false, "Json start : " + json);
 
         Request<stageStateData>("TowerStart",
                 body: json,
                 onSuccess: ResponseTowerStart,
                 onFailed: msg =>
                 {
-                    Debug.Log($"[Failed Requesting PVPStart] {msg}");
+                    DebugLog.Log(false, $"[Failed Requesting PVPStart] {msg}");
                 });
     }
 
@@ -680,11 +680,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 타워 End
     public void RequestTowerReward()
     {
-        Debug.Log("Request Tower Result");
+        DebugLog.Log(false, "Request Tower Result");
 
         Request("TowerResult",
         onSuccess: ResponseTowerReward,
-        onFailed: msg => { Debug.Log($"[Failed Requesting Tower Result] {msg}"); }
+        onFailed: msg => { DebugLog.Log(false, $"[Failed Requesting Tower Result] {msg}"); }
         );
     }
 
@@ -697,21 +697,21 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // PVP Start
     public void RequestPVPStart(string accountName)
     {
-        Debug.Log("Request PVPStart");
+        DebugLog.Log(false, "Request PVPStart");
 
         PVPJson pvpJson = new PVPJson();
         pvpJson.enemy = accountName;
 
         string json = JsonUtility.ToJson(pvpJson);
 
-        Debug.Log("Json start : " + json);
+        DebugLog.Log(false, "Json start : " + json);
 
         Request<stageStateData>("PVPStart",
                 body: json,
                 onSuccess: ResponsePVPStart,
                 onFailed: msg =>
                 {
-                    Debug.Log($"[Failed Requesting PVPStart] {msg}");
+                    DebugLog.Log(false, $"[Failed Requesting PVPStart] {msg}");
                 });
     }
 
@@ -751,21 +751,21 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void RequestShopInfo(SHOP_TYPE type)
     {
-        Debug.Log("Request ShopInfo");
+        DebugLog.Log(false, "Request ShopInfo");
 
         ShopJson shop = new ShopJson();
         shop.type = (int)type;
 
         string json = JsonUtility.ToJson(shop);
 
-        Debug.Log("Json start : " + json);
+        DebugLog.Log(false, "Json start : " + json);
 
         Request<shopInfoResultData>("ShopInfo",
             body: json,
             onSuccess: ResponseShopInfo,
             onFailed: msg =>
             {
-                Debug.Log($"[Failed Requesting ShopInfo] {msg}");
+                DebugLog.Log(false, $"[Failed Requesting ShopInfo] {msg}");
             });
     }
 
@@ -781,57 +781,57 @@ public class PacketManager : MonoSingleton<PacketManager> {
             // 가입
             Request<string>("SignUp",
                 onSuccess: ResponseLogin,
-                onFailed: msg => { Debug.LogError($"[Failed Requesting SignUp] {msg}"); }
+                onFailed: msg => { DebugLog.Log(true, $"[Failed Requesting SignUp] {msg}"); }
                 );
             return;
         }
-        // Debug.Log("Login Data : " + getLoginInfo);
+        // DebugLog.Log(false, "Login Data : " + getLoginInfo);
 
         UserLoginData userLoginData = JsonUtility.FromJson<UserLoginData>(getLoginInfo); 
         if(userLoginData == null)
         {
-            Debug.Log("Invalid Login Data : " + getLoginInfo);
+            DebugLog.Log(false, "Invalid Login Data : " + getLoginInfo);
         }
 
         UserInfo userInfo = new UserInfo();
         if (ParseUserInfo(userLoginData, ref userInfo) == false)
         {
-            Debug.Log("Invalid ParseUserInfo Info");
+            DebugLog.Log(false, "Invalid ParseUserInfo Info");
         }
         UserDataManager.Inst.SetUserInfo(userInfo);
 
         Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
         if (ParseServantDic(userLoginData.servant_list, ref servantDic) == false)
         {
-            Debug.Log("Invalid ParseServantList Info");
+            DebugLog.Log(false, "Invalid ParseServantList Info");
         }
         UserDataManager.Inst.SetServantDic(servantDic);
 
         Dictionary<int, UserMonsterData> monsterDic = new Dictionary<int, UserMonsterData>();
         if (ParseMonsterDic(userLoginData.monster_list, ref monsterDic) == false)
         {
-            Debug.Log("Invalid ParseMonsterList Info");
+            DebugLog.Log(false, "Invalid ParseMonsterList Info");
         }
         UserDataManager.Inst.SetMonsterDic(monsterDic);
 
         Dictionary<int, UserEquipmentData> equipmentDic = new Dictionary<int, UserEquipmentData>();
         if (ParseEquipmentDic(userLoginData.equipment_list, ref equipmentDic) == false)
         {
-            Debug.Log("Invalid ParseEquipmentList Info");
+            DebugLog.Log(false, "Invalid ParseEquipmentList Info");
         }
         UserDataManager.Inst.SetEquipmentDic(equipmentDic);
 
         Dictionary<int, UserItemData> itemDic = new Dictionary<int, UserItemData>();
         if (ParseItemDic(userLoginData.item_list, ref itemDic) == false)
         {
-            Debug.Log("Invalid ParseItemList Info");
+            DebugLog.Log(false, "Invalid ParseItemList Info");
         }
         UserDataManager.Inst.SetItemDic(itemDic);
 
         UserPartyData partyInfo = ParsePartyInfo(userLoginData.party_info);
         if (partyInfo == null)
         {
-            Debug.Log("invalid ParsePartyList info");
+            DebugLog.Log(false, "invalid ParsePartyList info");
         }
         UserDataManager.Inst.SetPartyInfo(partyInfo);
 
@@ -839,7 +839,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         {
             Request<stageStateData>("GetBattle",
                     onSuccess: ResponseStageStart,
-                    onFailed: msg => { Debug.LogError($"[Failed Requesting GetBattle] {msg}"); }
+                    onFailed: msg => { DebugLog.Log(true, $"[Failed Requesting GetBattle] {msg}"); }
                     );
         }
         else
@@ -851,7 +851,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 가챠
     public void ResponseGacha(string getGachaInfo)
     {
-        Debug.Log("ResponseGacha : " + getGachaInfo);
+        DebugLog.Log(false, "ResponseGacha : " + getGachaInfo);
 
         JsonData getInfo = JsonMapper.ToObject(getGachaInfo);
         int type = Convert.ToInt32(getInfo["result_type"].ToString());
@@ -860,7 +860,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         if (type == (int)GACHA_RESULT_TYPE.Servant)
         {
-            Debug.Log(getGachaInfo);
+            DebugLog.Log(false, getGachaInfo);
 
             gachaServantData gachaData = JsonUtility.FromJson<gachaServantData>(getGachaInfo);
             UserServantData getServant = ParseServant(gachaData.data);
@@ -871,7 +871,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
         else if (type == (int)GACHA_RESULT_TYPE.Monster)
         {
-            Debug.Log(getGachaInfo);
+            DebugLog.Log(false, getGachaInfo);
 
             gachaMonsterData gachaData = JsonUtility.FromJson<gachaMonsterData>(getGachaInfo);
             UserMonsterData getMonster = ParseMonster(gachaData.data);
@@ -882,7 +882,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
         else if (type == (int)GACHA_RESULT_TYPE.Equipment)
         {
-            Debug.Log(getGachaInfo);
+            DebugLog.Log(false, getGachaInfo);
 
             gachaEquipmentData gachaData = JsonUtility.FromJson<gachaEquipmentData>(getGachaInfo);
             UserEquipmentData getEquipment = ParseEquipment(gachaData.data);
@@ -896,19 +896,19 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 로그아웃
     public void ResponseLogout()
     {
-        Debug.Log("ResponseLogout");
+        DebugLog.Log(false, "ResponseLogout");
         UserDataManager.Inst.InitUserInfo();
         StartCoroutine(LoadSceneAsync("login", "Loading scene ... "));
     }
 
     public void ResponseSaveParty(partyData getPartyData)
     {
-        Debug.Log("ResponseSaveParty");
+        DebugLog.Log(false, "ResponseSaveParty");
 
         UserPartyData partyInfo = ParsePartyInfo(getPartyData);
         if (partyInfo == null)
         {
-            Debug.Log("invalid ParsePartyList info");
+            DebugLog.Log(false, "invalid ParsePartyList info");
         }
         UserDataManager.Inst.SetPartyInfo(partyInfo);
 
@@ -921,7 +921,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         UserStageStateData stageData = ParseStageStateData(getBattleStateData);
         if(stageData == null)
         {
-            Debug.Log("Invalid StageData");
+            DebugLog.Log(false, "Invalid StageData");
         }
 
         UserDataManager.Inst.SetStageState(stageData);
@@ -932,10 +932,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 배틀 액션
     public void ResponseBattleAction(battleActionData getBattleActionData)
     {
-        //Debug.Log("턴 진행!");
+        //DebugLog.Log(false, "턴 진행!");
         if (getBattleActionData.turn == UserDataManager.Inst.stageActionInfo.turn)
         {
-            Debug.Log("데이터 중복");
+            DebugLog.Log(false, "데이터 중복");
             return;
         }
         else
@@ -956,7 +956,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 스테이지 보상
     public void ResponseStageReward(stageRewardData getReward)
     {
-        Debug.Log("배틀 끝 보상 획득!");
+        DebugLog.Log(false, "배틀 끝 보상 획득!");
         // 보여주기용 Reward Set
         UserDataManager.Inst.SetStageReward(getReward);
 
@@ -969,7 +969,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             UserStageStateData stateData = UserDataManager.Inst.GetStageState();
             if(stateData.turn == 0)
             {
-                Debug.Log("Invalid State Data");
+                DebugLog.Log(false, "Invalid State Data");
                 return;
             }
 
@@ -978,7 +978,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 int position = getReward.get_char_exp_list[i].pos;
                 if(stateData.myStateList.ContainsKey(position) == false)
                 {
-                    Debug.LogError("Invalid ExpData Position : " + position);
+                    DebugLog.Log(true, "Invalid ExpData Position : " + position);
                     return;
                 }
 
@@ -992,7 +992,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 }
                 else
                 {
-                    Debug.Log("Invalid Char Type");
+                    DebugLog.Log(false, "Invalid Char Type");
                     return;
                 }
             }
@@ -1007,7 +1007,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 UserServantData servantData = ParseServant(servant);
                 if (servantData == null)
                 {
-                    Debug.Log("Invalid Servant Info : " + i);
+                    DebugLog.Log(false, "Invalid Servant Info : " + i);
                     return;
                 }
                 UserDataManager.Inst.AddServantData(servantData);
@@ -1023,7 +1023,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 UserMonsterData monsterData = ParseMonster(monster);
                 if(monsterData == null)
                 {
-                    Debug.Log("Invalid Monster Info : " + i);
+                    DebugLog.Log(false, "Invalid Monster Info : " + i);
                     return;
                 }
                 UserDataManager.Inst.AddMonsterData(monsterData);
@@ -1039,7 +1039,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 UserEquipmentData equipmentData = ParseEquipment(equipment);
                 if(equipmentData == null)
                 {
-                    Debug.Log("Invalid Equipment Info : " + i);
+                    DebugLog.Log(false, "Invalid Equipment Info : " + i);
                     return;
                 }
                 UserDataManager.Inst.AddEquipmentData(equipmentData);
@@ -1056,7 +1056,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 UserItemData itemData = ParseItem(item);
                 if(itemData == null)
                 {
-                    Debug.Log("Invalid Item Info : " + i);
+                    DebugLog.Log(false, "Invalid Item Info : " + i);
                     return;
                 }
                 UserDataManager.Inst.SetItem(itemData);
@@ -1068,32 +1068,32 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
     public void ResopnseResource(userResourceData getResourceInfo)
     {
-        Debug.Log("Eos Account Resource Info");
+        DebugLog.Log(false, "Eos Account Resource Info");
     }
 
     public void ResponseServantBurn(servantBurnResultData getServantBurnData)
     {
-        Debug.Log("서번트 분해, 영혼 획득!");
+        DebugLog.Log(false, "서번트 분해, 영혼 획득!");
 
-        Debug.Log("Start Servant IndexList Count");
+        DebugLog.Log(false, "Start Servant IndexList Count");
         if (getServantBurnData.servantIndexList.Count == 0)
         {
-            Debug.Log("Invalid Grind Result");
+            DebugLog.Log(false, "Invalid Grind Result");
             return;
         }
 
-        Debug.Log("Start Del Servant List");
+        DebugLog.Log(false, "Start Del Servant List");
         if (UserDataManager.Inst.DelServantList(getServantBurnData.servantIndexList) == false)
         {
-            Debug.Log("Invalid Grind Index");
+            DebugLog.Log(false, "Invalid Grind Index");
             return;
         }
 
-        Debug.Log("Start Parse Item List");
+        DebugLog.Log(false, "Start Parse Item List");
         Dictionary<int, UserItemData> getItemDataDic = new Dictionary<int, UserItemData>();
         if (ParseItemDic(getServantBurnData.itemList, ref getItemDataDic) == false)
         {
-            Debug.Log("Invalid ParseItemDic");
+            DebugLog.Log(false, "Invalid ParseItemDic");
             return;
         }
 
@@ -1103,39 +1103,39 @@ public class PacketManager : MonoSingleton<PacketManager> {
             UserDataManager.Inst.SetUserUTG(Convert.ToUInt64(getServantBurnData.utg));
         }
 
-        Debug.Log("Start Update View");
+        DebugLog.Log(false, "Start Update View");
         SubViewDeconstruction.Inst.updateViewFinishRequest();
 
-        Debug.Log("Start Show Burn Result");
+        DebugLog.Log(false, "Start Show Burn Result");
         TopUIManager.Inst.ShowBurnResult(getItemDataDic.Values.ToList(), getUTG);
     }
     
     public void ResponseMonsterBurn(monsterBurnResultData getBurnMonsterResultData)
     {
-        Debug.Log("몬스터 판매, UTG 획득!");
+        DebugLog.Log(false, "몬스터 판매, UTG 획득!");
 
         if(getBurnMonsterResultData.monsterIndexList.Count == 0)
         {
-            Debug.Log("Invalid Burn Result");
+            DebugLog.Log(false, "Invalid Burn Result");
             return;
         }
 
         if(UserDataManager.Inst.DelMonsterList(getBurnMonsterResultData.monsterIndexList) == false)
         {
-            Debug.Log("Invalid DelMonsterList");
+            DebugLog.Log(false, "Invalid DelMonsterList");
             return;
         }
 
         Dictionary<int, UserItemData> getItemDataDic = new Dictionary<int, UserItemData>();
         if (ParseItemDic(getBurnMonsterResultData.itemList, ref getItemDataDic) == false)
         {
-            Debug.Log("Invalid ParseItemDic");
+            DebugLog.Log(false, "Invalid ParseItemDic");
             return;
         }
 
         if (UserDataManager.Inst.SetItemList(getItemDataDic.Values.ToList()) == false)
         {
-            Debug.Log("Invalid AdditemDataList");
+            DebugLog.Log(false, "Invalid AdditemDataList");
             return;
         }
 
@@ -1152,30 +1152,30 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void ResponseEquipmentBurn(equipmentBurnResultData getBurnEquipmentResultData)
     {
-        Debug.Log("장비 판매, UTG 획득!");
+        DebugLog.Log(false, "장비 판매, UTG 획득!");
 
         if(getBurnEquipmentResultData.equipmentIndexList.Count == 0)
         {
-            Debug.Log("Invalid Burn Result");
+            DebugLog.Log(false, "Invalid Burn Result");
             return;
         }
 
         if(UserDataManager.Inst.DelEquipmentList(getBurnEquipmentResultData.equipmentIndexList) == false)
         {
-            Debug.Log("Invalid DelEquipmentList");
+            DebugLog.Log(false, "Invalid DelEquipmentList");
             return;
         }
 
         Dictionary<int, UserItemData> getItemDataDic = new Dictionary<int, UserItemData>();
         if (ParseItemDic(getBurnEquipmentResultData.itemList, ref getItemDataDic) == false)
         {
-            Debug.Log("Invalid ParseItemDic");
+            DebugLog.Log(false, "Invalid ParseItemDic");
             return;
         }
 
         if (UserDataManager.Inst.SetItemList(getItemDataDic.Values.ToList()) == false)
         {
-            Debug.Log("Invalid AdditemDataList");
+            DebugLog.Log(false, "Invalid AdditemDataList");
             return;
         }
 
@@ -1192,37 +1192,37 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void ResponseItemBurn(itemBurnResultData getBurnItemResultData)
     {
-        Debug.Log("아이템 판매, UTG 획득!");
+        DebugLog.Log(false, "아이템 판매, UTG 획득!");
 
         if (getBurnItemResultData.itemDataList.Count == 0)
         {
-            Debug.Log("Invalid Burn Result");
+            DebugLog.Log(false, "Invalid Burn Result");
             return;
         }
 
         Dictionary<int, UserItemData> burnItemDataDic = new Dictionary<int, UserItemData>();
         if(ParseItemDic(getBurnItemResultData.itemDataList, ref burnItemDataDic) == false)
         {
-            Debug.Log("Invalid ParseItemDic");
+            DebugLog.Log(false, "Invalid ParseItemDic");
             return;
         }
 
         if (UserDataManager.Inst.SetItemList(burnItemDataDic.Values.ToList()) == false)
         {
-            Debug.Log("Invalid DelItemList");
+            DebugLog.Log(false, "Invalid DelItemList");
             return;
         }
 
         Dictionary<int, UserItemData> getItemDataDic = new Dictionary<int, UserItemData>();
         if (ParseItemDic(getBurnItemResultData.itemList, ref getItemDataDic) == false)
         {
-            Debug.Log("Invalid ParseItemDic");
+            DebugLog.Log(false, "Invalid ParseItemDic");
             return;
         }
 
         if (UserDataManager.Inst.SetItemList(getItemDataDic.Values.ToList()) == false)
         {
-            Debug.Log("Invalid AdditemDataList");
+            DebugLog.Log(false, "Invalid AdditemDataList");
             return;
         }
 
@@ -1238,19 +1238,19 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 장비 장착
     public void ResponseEquipServant(servantEquipData getServantEquipData)
     {
-        Debug.Log("서번트 장비 장착 !");
+        DebugLog.Log(false, "서번트 장비 장착 !");
 
         UserServantData servantData = UserDataManager.Inst.GetServantInfo(getServantEquipData.servant_index);
         if(servantData == null)
         {
-            Debug.Log("Invalid Servant");
+            DebugLog.Log(false, "Invalid Servant");
             return;
         }
 
         EQUIPMENT_TYPE type = (EQUIPMENT_TYPE)getServantEquipData.equipment_slot;
         if (servantData.equipmentDic.ContainsKey(type) == false)
         {
-            Debug.Log("Invalid Servant EquipmentDic");
+            DebugLog.Log(false, "Invalid Servant EquipmentDic");
             return;
         }
 
@@ -1258,14 +1258,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
         {
             if(UserDataManager.Inst.UnequipServant(servantData.index, type) == false)
             {
-                Debug.Log("Invalid Servant Unequip");
+                DebugLog.Log(false, "Invalid Servant Unequip");
                 return;
             }
         }
 
         if (UserDataManager.Inst.EquipServant(servantData.index, type, getServantEquipData.equipment_index) == false)
         {
-            Debug.Log("Invalid Servant Unequip");
+            DebugLog.Log(false, "Invalid Servant Unequip");
             return;
         }
 
@@ -1283,21 +1283,21 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 몬스터 강화
     public void ResponseMonsterUpgrade(monsterUpgradeResultData getMonsterUpgradeResultData)
     {
-        Debug.Log("몬스터 업그레이드 !");
+        DebugLog.Log(false, "몬스터 업그레이드 !");
 
         if(getMonsterUpgradeResultData.is_success == true)
         {
-            Debug.Log("성공");
+            DebugLog.Log(false, "성공");
         }
         else
         {
-            Debug.Log("실패");
+            DebugLog.Log(false, "실패");
         }
 
         UserMonsterData monsterData = ParseMonster(getMonsterUpgradeResultData.main_monster_data);
         if (monsterData == null)
         {
-            Debug.Log("Invalid ParseMonster");
+            DebugLog.Log(false, "Invalid ParseMonster");
             return;
         }
         UserDataManager.Inst.SetMonster(monsterData);
@@ -1313,14 +1313,14 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 아이템 강화
     public void ResponseEquipmentUpgrade(equipmentUpgradeResultData getEquipmentUpgradeResultData)
     {
-        Debug.Log("장비 업그레이드 !");
+        DebugLog.Log(false, "장비 업그레이드 !");
 
         if (getEquipmentUpgradeResultData.is_success == true)
         {
             UserEquipmentData equipmentData = ParseEquipment(getEquipmentUpgradeResultData.main_equipment_data);
             if(equipmentData == null)
             {
-                Debug.Log("Invalid Equipment Data : " + getEquipmentUpgradeResultData.main_equipment_data);
+                DebugLog.Log(false, "Invalid Equipment Data : " + getEquipmentUpgradeResultData.main_equipment_data);
                 return;
             }
             UserDataManager.Inst.SetEquipment(equipmentData);
@@ -1329,7 +1329,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         {
             if(UserDataManager.Inst.DelEquipment(getEquipmentUpgradeResultData.del_equipment_index) == false)
             {
-                Debug.Log("Invalid Equipment Index : " + getEquipmentUpgradeResultData.del_equipment_index);
+                DebugLog.Log(false, "Invalid Equipment Index : " + getEquipmentUpgradeResultData.del_equipment_index);
             }
         }
 
@@ -1350,7 +1350,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 상점 아이템 구매
     public void ResponseShopBuyItem(shopBuyResultData getBuyItemData)
     {
-        Debug.Log("상점 아이템 구매 !");
+        DebugLog.Log(false, "상점 아이템 구매 !");
 
         UserDataManager.Inst.SetUserEOS(Convert.ToUInt64(getBuyItemData.eos));
         UserDataManager.Inst.SetUserUTG(Convert.ToUInt64(getBuyItemData.utg));
@@ -1386,18 +1386,18 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void ResponseLobbyInfo(lobbyInfoResultData getLobbyInfo)
     {
-        Debug.Log("로비 인포!");
+        DebugLog.Log(false, "로비 인포!");
 
-        Debug.Log("Chat : " + getLobbyInfo.chat_string);
-        Debug.Log("EOS : " + getLobbyInfo.eos);
-        Debug.Log("UTG : " + getLobbyInfo.utg);
-        Debug.Log("Mail : " + getLobbyInfo.mail_count);
-        Debug.Log("CPU Limit : " + getLobbyInfo.resource_data.cpu_limit);
-        Debug.Log("CPU Weight : " + getLobbyInfo.resource_data.cpu_weight);
-        Debug.Log("NET Limit : " + getLobbyInfo.resource_data.net_limit);
-        Debug.Log("NET Weight : " + getLobbyInfo.resource_data.net_weight);
-        Debug.Log("RAM Usage : " + getLobbyInfo.resource_data.ram_usage);
-        Debug.Log("RAM Quota : " + getLobbyInfo.resource_data.ram_quota);
+        DebugLog.Log(false, "Chat : " + getLobbyInfo.chat_string);
+        DebugLog.Log(false, "EOS : " + getLobbyInfo.eos);
+        DebugLog.Log(false, "UTG : " + getLobbyInfo.utg);
+        DebugLog.Log(false, "Mail : " + getLobbyInfo.mail_count);
+        DebugLog.Log(false, "CPU Limit : " + getLobbyInfo.resource_data.cpu_limit);
+        DebugLog.Log(false, "CPU Weight : " + getLobbyInfo.resource_data.cpu_weight);
+        DebugLog.Log(false, "NET Limit : " + getLobbyInfo.resource_data.net_limit);
+        DebugLog.Log(false, "NET Weight : " + getLobbyInfo.resource_data.net_weight);
+        DebugLog.Log(false, "RAM Usage : " + getLobbyInfo.resource_data.ram_usage);
+        DebugLog.Log(false, "RAM Quota : " + getLobbyInfo.resource_data.ram_quota);
 
         UserLobbyInfo lobbyInfo = new UserLobbyInfo();
         lobbyInfo.cpuLimit = getLobbyInfo.resource_data.cpu_limit;
@@ -1423,17 +1423,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         for(int i = 0; i < mailList.mail_data_list.Count; i++)
         {
-            Debug.Log("Mail Num : " + i);
-            Debug.Log("Mail Index : " + mailList.mail_data_list[i].mail_index);
-            Debug.Log("Mail TYPE : " + mailList.mail_data_list[i].mail_type);
-            Debug.Log("Mail INDEX : " + mailList.mail_data_list[i].type_index);
-            Debug.Log("Mail COUNT : " + mailList.mail_data_list[i].count);
-            Debug.Log("Mail ICON ID : " + mailList.mail_data_list[i].icon_id);
+            DebugLog.Log(false, "Mail Num : " + i);
+            DebugLog.Log(false, "Mail Index : " + mailList.mail_data_list[i].mail_index);
+            DebugLog.Log(false, "Mail TYPE : " + mailList.mail_data_list[i].mail_type);
+            DebugLog.Log(false, "Mail INDEX : " + mailList.mail_data_list[i].type_index);
+            DebugLog.Log(false, "Mail COUNT : " + mailList.mail_data_list[i].count);
+            DebugLog.Log(false, "Mail ICON ID : " + mailList.mail_data_list[i].icon_id);
 
             MailInfo mailInfo = ParseMailInfo(mailList.mail_data_list[i]);
             if(mailInfo == null)
             {
-                Debug.Log("Invalid Mail Info");
+                DebugLog.Log(false, "Invalid Mail Info");
                 return;
             }
             mailInfoList.Add(mailInfo);
@@ -1445,17 +1445,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
     // 우편 수령
     public void ResponseMailOpen(mailOpenResultData getMailOpenResultData)
     {
-        Debug.Log("메일 오픈 !");
+        DebugLog.Log(false, "메일 오픈 !");
 
         if(getMailOpenResultData == null)
         {
-            Debug.Log("Invalid Result Data");
+            DebugLog.Log(false, "Invalid Result Data");
             return;
         }
 
         if (getMailOpenResultData.mail_open_index_list == null || getMailOpenResultData.mail_open_index_list.Count == 0)
         {
-            Debug.Log("Invalid Result Index");
+            DebugLog.Log(false, "Invalid Result Index");
             return;
         }
         else
@@ -1463,7 +1463,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             for (int i = 0; i < getMailOpenResultData.mail_open_index_list.Count; i++)
             {
                 // 인덱스 삭제
-                Debug.Log("Index : " + getMailOpenResultData.mail_open_index_list[i]);
+                DebugLog.Log(false, "Index : " + getMailOpenResultData.mail_open_index_list[i]);
 
                 MailInfoPage.Inst.DelMail(getMailOpenResultData.mail_open_index_list[i]);
             }
@@ -1475,7 +1475,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         {
             for (int i = 0; i < getMailOpenResultData.servant_data_list.Count; i++)
             {
-                Debug.Log("Servant : " + getMailOpenResultData.servant_data_list[i].servant.id);
+                DebugLog.Log(false, "Servant : " + getMailOpenResultData.servant_data_list[i].servant.id);
 
                 UserServantData getServant = ParseServant(getMailOpenResultData.servant_data_list[i]);
 
@@ -1490,7 +1490,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         {
             for (int i = 0; i < getMailOpenResultData.monster_data_list.Count; i++)
             {
-                Debug.Log("Monster : " + getMailOpenResultData.monster_data_list[i].monster.id);
+                DebugLog.Log(false, "Monster : " + getMailOpenResultData.monster_data_list[i].monster.id);
 
                 UserMonsterData getMonster = ParseMonster(getMailOpenResultData.monster_data_list[i]);
 
@@ -1502,7 +1502,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         {
             for (int i = 0; i < getMailOpenResultData.equip_data_list.Count; i++)
             {
-                Debug.Log("Equipment : " + getMailOpenResultData.equip_data_list[i].equipment.id);
+                DebugLog.Log(false, "Equipment : " + getMailOpenResultData.equip_data_list[i].equipment.id);
 
                 UserEquipmentData getEquipment = ParseEquipment(getMailOpenResultData.equip_data_list[i]);
 
@@ -1514,7 +1514,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         {
             for (int i = 0; i < getMailOpenResultData.item_data_list.Count; i++)
             {
-                Debug.Log("Item : " + getMailOpenResultData.item_data_list[i].id);
+                DebugLog.Log(false, "Item : " + getMailOpenResultData.item_data_list[i].id);
             }
         }
 
@@ -1529,7 +1529,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         UserStageStateData stageData = ParseStageStateData(getBattleStateData);
         if (stageData == null)
         {
-            Debug.Log("Invalid StageData");
+            DebugLog.Log(false, "Invalid StageData");
         }
 
         UserDataManager.Inst.SetStageState(stageData);
@@ -1564,7 +1564,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         UserStageStateData stageData = ParseStageStateData(getBattleStateData);
         if (stageData == null)
         {
-            Debug.Log("Invalid StageData");
+            DebugLog.Log(false, "Invalid StageData");
         }
 
         UserDataManager.Inst.SetStageState(stageData);
@@ -1576,7 +1576,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         UserDataManager.Inst.GetUserInfo().sceneState = SCENE_STATE.Lobby;
 
-        Debug.Log(getPVPResult.ToString());
+        DebugLog.Log(false, getPVPResult.ToString());
 
         UserDataManager.Inst.InitStageInfo();
         SceneManager.LoadScene("Lobby");
@@ -1585,7 +1585,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     public void ResponseShopInfo(shopInfoResultData getShopInfo)
     {
-        //Debug.Log("Response ShopInfo : " + getShopInfo.shop_type);
+        //DebugLog.Log(false, "Response ShopInfo : " + getShopInfo.shop_type);
 
         List<ShopProductInfo> productInfoList = new List<ShopProductInfo>();
         ParseShopProductInfoList(getShopInfo, ref productInfoList);
@@ -1601,10 +1601,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         for (int i = 0; i < getShopInfo.shop_product_list.Count; i++)
         {
-            //Debug.Log("Index : " + getShopInfo.shop_product_list[i].index);
-            //Debug.Log("Type : " + getShopInfo.shop_product_list[i].type);
-            //Debug.Log("ID : " + getShopInfo.shop_product_list[i].id);
-            //Debug.Log("Limit Count : " + getShopInfo.shop_product_list[i].limit_count);
+            //DebugLog.Log(false, "Index : " + getShopInfo.shop_product_list[i].index);
+            //DebugLog.Log(false, "Type : " + getShopInfo.shop_product_list[i].type);
+            //DebugLog.Log(false, "ID : " + getShopInfo.shop_product_list[i].id);
+            //DebugLog.Log(false, "Limit Count : " + getShopInfo.shop_product_list[i].limit_count);
 
             ShopProductInfo info = ParseShopProduct(getShopInfo.shop_product_list[i]);
             productInfoList.Add(info);
@@ -1634,11 +1634,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
         userInfo.userUTG = ulong.Parse(getUserData.utg);
         userInfo.level = getUserData.user_data.rank;
 
-        //Debug.Log("getEOS : " + getUserData.eos);
-        //Debug.Log("getUTG : " + getUserData.token);
+        //DebugLog.Log(false, "getEOS : " + getUserData.eos);
+        //DebugLog.Log(false, "getUTG : " + getUserData.token);
 
         userInfo.sceneState = (SCENE_STATE)getUserData.user_data.state;
-        //Debug.Log("State : " + (SCENE_STATE)getUserData.user_data.state);
+        //DebugLog.Log(false, "State : " + (SCENE_STATE)getUserData.user_data.state);
 
         userInfo.inventoryInfo.servantInventory = getUserData.user_data.inventory_info.servant_inventory;
         userInfo.inventoryInfo.monsterInventory = getUserData.user_data.inventory_info.monster_inventory;
@@ -1655,7 +1655,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             UserServantData servant = ParseServant(getServantList[i]);
             if (servant == null)
             {
-                Debug.Log("Invalid Servant Info");
+                DebugLog.Log(false, "Invalid Servant Info");
                 return false;
             }
 
@@ -1690,7 +1690,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         DBServantData servantData = CSVData.Inst.GetServantData(userServant.id);
         if (servantData == null)
         {
-            Debug.Log("Invalid Servant ID : " + userServant.id);
+            DebugLog.Log(false, "Invalid Servant ID : " + userServant.id);
             return null;
         }
         userServant.job = servantData.job;
@@ -1706,7 +1706,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         userServant.status = ParseStatus(getServantData.servant.status);
         if (userServant.status == null)
         {
-            Debug.Log("Invalid Status Info");
+            DebugLog.Log(false, "Invalid Status Info");
             return null;
         }
 
@@ -1760,7 +1760,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             UserMonsterData monster = ParseMonster(getMonsterList[i]);
             if (monster == null)
             {
-                Debug.Log("Invalid Monster Info");
+                DebugLog.Log(false, "Invalid Monster Info");
                 return false;
             }
 
@@ -1794,13 +1794,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
         monster.level = getMonsterData.monster.level;
         if(monster.level == 0)
         {
-            Debug.LogError("Invalid Monster Level");
+            DebugLog.Log(true, "Invalid Monster Level");
         }
 
         DBMonsterData monsterData = CSVData.Inst.GetMonsterData(monster.id);
         if(monsterData == null)
         {
-            Debug.Log("Invalid Monster ID : " + monster.id);
+            DebugLog.Log(false, "Invalid Monster ID : " + monster.id);
             return null;
         }
         monster.monsterTribe = (int)monsterData.tribeType;
@@ -1827,7 +1827,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         if (monster.status == null)
         {
-            Debug.Log("Invalid Status Info");
+            DebugLog.Log(false, "Invalid Status Info");
             return null;
         }
 
@@ -1841,7 +1841,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             UserEquipmentData equipment = ParseEquipment(getEquipmentList[i]);
             if (equipment == null)
             {
-                Debug.Log("Invalid Item Info");
+                DebugLog.Log(false, "Invalid Item Info");
                 return false;
             }
 
@@ -1868,7 +1868,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         DBEquipmentData dbEquipmentData = CSVData.Inst.GetEquipmentData(equipmentData.id);
         if(dbEquipmentData == null)
         {
-            Debug.Log("Invalid Equipment Data : " + equipmentData.id);
+            DebugLog.Log(false, "Invalid Equipment Data : " + equipmentData.id);
             return null;
         }
 
@@ -1897,7 +1897,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             UserItemData item = ParseItem(getItemList[i]);
             if (item == null)
             {
-                Debug.Log("Invalid Item Info");
+                DebugLog.Log(false, "Invalid Item Info");
                 return false;
             }
             itemDic.Add(item.id, item);
@@ -2008,7 +2008,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             DBServantData servantData = CSVData.Inst.GetServantData(getStateData.id);
             if(servantData == null)
             {
-                Debug.Log("Invalid Data");
+                DebugLog.Log(false, "Invalid Data");
                 return null;
             }
             stateData.criPer = servantData.criPer;
@@ -2024,7 +2024,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             DBMonsterData monsterData = CSVData.Inst.GetMonsterData(getStateData.id);
             if (monsterData == null)
             {
-                Debug.Log("Invalid Data");
+                DebugLog.Log(false, "Invalid Data");
                 return null;
             }
             stateData.criPer = monsterData.criPer;
@@ -2101,7 +2101,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 DBServantData dbServantData = CSVData.Inst.GetServantData(getMailData.icon_id);
                 if (dbServantData == null)
                 {
-                    Debug.Log("Invalid Servant Icon ID : " + getMailData.icon_id);
+                    DebugLog.Log(false, "Invalid Servant Icon ID : " + getMailData.icon_id);
                     return null;
                 }
                 mailInfo.name = dbServantData.name;
@@ -2112,7 +2112,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 DBMonsterData dbMonsterData = CSVData.Inst.GetMonsterData(getMailData.icon_id);
                 if(dbMonsterData == null)
                 {
-                    Debug.Log("Invalid Monster Icon ID : " + getMailData.icon_id);
+                    DebugLog.Log(false, "Invalid Monster Icon ID : " + getMailData.icon_id);
                     return null;
                 }
                 mailInfo.name = dbMonsterData.name;
@@ -2123,7 +2123,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 DBEquipmentData dbEquipmentData = CSVData.Inst.GetEquipmentData(getMailData.icon_id);
                 if(dbEquipmentData == null)
                 {
-                    Debug.Log("Invalid Equipment Icon ID : " + getMailData.icon_id);
+                    DebugLog.Log(false, "Invalid Equipment Icon ID : " + getMailData.icon_id);
                 }
                 mailInfo.name = dbEquipmentData.name;
                 mailInfo.resourceIcon = dbEquipmentData.equipmentIcon;
@@ -2132,7 +2132,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 DBItemData dbItemData = CSVData.Inst.GetItemData(500001);
                 if (dbItemData == null)
                 {
-                    Debug.Log("Invalid UTG Icon ID : " + 500001);
+                    DebugLog.Log(false, "Invalid UTG Icon ID : " + 500001);
                 }
                 mailInfo.name = dbItemData.name;
                 mailInfo.resourceIcon = dbItemData.ItemIcon;
@@ -2141,13 +2141,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 DBItemData dbETCItemData = CSVData.Inst.GetItemData(getMailData.icon_id);
                 if (dbETCItemData == null)
                 {
-                    Debug.Log("Invalid ETC Item Icon ID : " + getMailData.icon_id);
+                    DebugLog.Log(false, "Invalid ETC Item Icon ID : " + getMailData.icon_id);
                 }
                 mailInfo.name = dbETCItemData.name;
                 mailInfo.resourceIcon = dbETCItemData.ItemIcon;
                 break;
             default:
-                Debug.Log("Invalid Mail Type");
+                DebugLog.Log(false, "Invalid Mail Type");
                 return null;
         }
 

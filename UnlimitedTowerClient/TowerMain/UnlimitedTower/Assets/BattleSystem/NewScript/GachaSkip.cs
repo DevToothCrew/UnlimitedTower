@@ -16,19 +16,19 @@ public class GachaSkip : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.A))
             {
                 CheetKey[CheetIndex % 3] = (int)KeyCode.A;
-                Debug.Log(CheetKey[CheetIndex % 3]);
+                DebugLog.Log(false,"" + CheetKey[CheetIndex % 3]);
                 CheetIndex++;
             }
             else if (Input.GetKeyDown(KeyCode.D))
             {
                 CheetKey[CheetIndex % 3] = (int)KeyCode.D;
-                Debug.Log(CheetKey[CheetIndex % 3]);
+                DebugLog.Log(false,"" + CheetKey[CheetIndex % 3]);
                 CheetIndex++;
             }
             else if (Input.GetKeyDown(KeyCode.M))
             {
                 CheetKey[CheetIndex % 3] = (int)KeyCode.M;
-                Debug.Log(CheetKey[CheetIndex % 3]);
+                DebugLog.Log(false,"" + CheetKey[CheetIndex % 3]);
                 CheetIndex++;
             }
             else

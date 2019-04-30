@@ -38,7 +38,7 @@ public class AccountInfoPage : MonoBehaviour {
                     DBExpData exDBExpData = CSVData.Inst.GetExpData(userInfo.level - 1);
                     if (exDBExpData == null)
                     {
-                        Debug.Log("Invalid Level Data");
+                        DebugLog.Log(false, "Invalid Level Data");
                     }
                     else
                     {

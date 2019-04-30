@@ -12,7 +12,7 @@ public class BurnResultItemInfo : MonoBehaviour {
         DBItemData itemData = CSVData.Inst.GetItemData(itemID);
         if(itemData == null)
         {
-            Debug.Log("Invalid Item ID : " + itemID);
+            DebugLog.Log(false, "Invalid Item ID : " + itemID);
             return;
         }
 

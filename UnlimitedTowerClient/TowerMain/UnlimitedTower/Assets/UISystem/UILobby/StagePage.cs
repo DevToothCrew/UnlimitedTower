@@ -54,7 +54,7 @@ public class StagePage : MonoSingleton<StagePage> {
         DBStageRewardData rewardData = CSVData.Inst.GetStageRewardData(stageType, stageFloor);
         if(rewardData == null)
         {
-            Debug.LogError("Invalid Stage Type & Floor : " + stageType + " & " + stageFloor);
+            DebugLog.Log(true, "Invalid Stage Type & Floor : " + stageType + " & " + stageFloor);
             return;
         }
 
@@ -89,7 +89,7 @@ public class StagePage : MonoSingleton<StagePage> {
         DBStageData stageData = CSVData.Inst.GetStageData(stageType, stageFloor);
         if (stageData == null)
         {
-            Debug.LogError("Invalid Stage Type & Floor : " + stageType + " & " + stageFloor);
+            DebugLog.Log(true, "Invalid Stage Type & Floor : " + stageType + " & " + stageFloor);
             return;
         }
         
@@ -109,7 +109,7 @@ public class StagePage : MonoSingleton<StagePage> {
 
     public void OnClickStageButton(int stageIndex)
     {
-        //Debug.Log(stageIndex);
+        //DebugLog.Log(false, stageIndex);
 
         stageType = stageIndex / 100;
         stageFloor = stageIndex % 100;
@@ -164,7 +164,7 @@ public class StagePage : MonoSingleton<StagePage> {
         UserInventoryInfo inventoryInfo = UserDataManager.Inst.GetUserInventoryInfo();
         if (inventoryInfo == null)
         {
-            Debug.Log("Invalid Inventory Info");
+            DebugLog.Log(false, "Invalid Inventory Info");
             return;
         }
 
@@ -221,7 +221,7 @@ public class StagePage : MonoSingleton<StagePage> {
 
         if (stageType > maxStageList)
         {
-            Debug.LogError("Invalid Stage Type : " + stageType);
+            DebugLog.Log(true, "Invalid Stage Type : " + stageType);
             return;
         }
 

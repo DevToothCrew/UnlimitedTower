@@ -59,12 +59,12 @@ public class ServantInfoManager : MonoSingleton<ServantInfoManager> {
         UserServantData unit_data = s_data;// UserDataManager.Inst.GetServantInfo(unit_idx);
         if (unit_data == null)
         {
-            Debug.Log("Invalid Servant data By ServantInfoManager");
+            DebugLog.Log(false, "Invalid Servant data By ServantInfoManager");
         }
         DBServantData db_unit_data = CSVData.Inst.GetServantData(unit_data.id);
         if (db_unit_data == null)
         {
-            Debug.Log("Invalid DB_Servant data By ServantInfoManager");
+            DebugLog.Log(false, "Invalid DB_Servant data By ServantInfoManager");
         }
 
         textUnitName.text = db_unit_data.name;
@@ -78,7 +78,7 @@ public class ServantInfoManager : MonoSingleton<ServantInfoManager> {
                 UserEquipmentData equip_info = UserDataManager.Inst.GetEquipmentInfo(unit_data.equipmentDic[type]);
                 if (equip_info == null)
                 {
-                    Debug.LogError("Invalid Index : " + unit_data.equipmentDic[type]);
+                    DebugLog.Log(true, "Invalid Index : " + unit_data.equipmentDic[type]);
                     return;
                 }
 
@@ -97,7 +97,7 @@ public class ServantInfoManager : MonoSingleton<ServantInfoManager> {
         DBExpData dbExpData = CSVData.Inst.GetExpData(unit_data.level);
         if (dbExpData == null)
         {
-            Debug.Log("Invalid Level Data");
+            DebugLog.Log(false, "Invalid Level Data");
         }
         else
         {
@@ -107,7 +107,7 @@ public class ServantInfoManager : MonoSingleton<ServantInfoManager> {
                 DBExpData exDBExpData = CSVData.Inst.GetExpData(unit_data.level - 1);
                 if (exDBExpData == null)
                 {
-                    Debug.Log("Invalid Level Data");
+                    DebugLog.Log(false, "Invalid Level Data");
                 }
                 else
                 {

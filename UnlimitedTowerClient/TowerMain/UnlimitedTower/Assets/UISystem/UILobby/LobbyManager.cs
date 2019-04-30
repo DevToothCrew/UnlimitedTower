@@ -137,7 +137,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                 break;
 
             default:
-                Debug.Log("Invalid State : " + num.ToString());
+                DebugLog.Log(false, "Invalid State : " + num.ToString());
                 popupState = POPUP_STATE.Servant;
                 return;
         }

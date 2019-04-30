@@ -55,7 +55,7 @@ public class GachaManager : MonoBehaviour {
         UserInventoryInfo inventoryInfo = UserDataManager.Inst.GetUserInventoryInfo();
         if (inventoryInfo == null)
         {
-            Debug.Log("Invalid Inventory Info");
+            DebugLog.Log(false, "Invalid Inventory Info");
             return;
         }
 

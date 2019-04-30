@@ -117,7 +117,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                 //추후 아이템 중, 주문서류만 scrollListData에 삽입.
                 break;
             default:
-                Debug.Log("Warning : 잘못된 타입 분해!");
+                DebugLog.Log(false, "Warning : 잘못된 타입 분해!");
                 break;
 
         }
@@ -176,7 +176,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                         }
                         else
                         {
-                            Debug.Log("잘못된 분해 타입!");
+                            DebugLog.Log(false, "잘못된 분해 타입!");
                         }
                     }
                 }
@@ -210,7 +210,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                         }
                         else
                         {
-                            Debug.Log("잘못된 분해 타입!");
+                            DebugLog.Log(false, "잘못된 분해 타입!");
                         }
                     }
                 }
@@ -244,7 +244,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                         }
                         else
                         {
-                            Debug.Log("잘못된 분해 타입!");
+                            DebugLog.Log(false, "잘못된 분해 타입!");
                         }
                     }
                 }
@@ -284,7 +284,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                         }
                         else
                         {
-                            Debug.Log("잘못된 분해 타입!");
+                            DebugLog.Log(false, "잘못된 분해 타입!");
                         }
                     }
                 }
@@ -325,7 +325,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                 UserMonsterData inserted_monster_data = UserDataManager.Inst.GetMonsterInfo(inserted_object_idx);
                 if (inserted_monster_data == null)
                 {
-                    Debug.Log("Invalid Insert monster data by SubViewUpgrade");
+                    DebugLog.Log(false, "Invalid Insert monster data by SubViewUpgrade");
                     return;
                 }
 
@@ -337,7 +337,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                 DBMonsterUpgradeData upgradeData = CSVData.Inst.GetMonsterUpgradeData(monsterData.grade, monsterData.upgrade, inserted_monster_data.upgrade);
                 if(upgradeData == null)
                 {
-                    Debug.Log("Invalid Upgrade Data : " + monsterData.grade + ", " + monsterData.upgrade + ", " + inserted_monster_data.upgrade);
+                    DebugLog.Log(false, "Invalid Upgrade Data : " + monsterData.grade + ", " + monsterData.upgrade + ", " + inserted_monster_data.upgrade);
                     return;
                 }
 
@@ -371,14 +371,14 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
             DBEquipmentUpgradeData upgradeData = CSVData.Inst.GetEquipmentUpgradeData(equipmentData.grade, (int)equipmentData.equipmentType, equipmentData.upgrade);
             if (upgradeData == null)
             {
-                Debug.Log("Invalid Upgrade Data : " + equipmentData.grade + ", " + equipmentData.equipmentType + ", " + equipmentData.upgrade);
+                DebugLog.Log(false, "Invalid Upgrade Data : " + equipmentData.grade + ", " + equipmentData.equipmentType + ", " + equipmentData.upgrade);
                 return;
             }
 
             DBItemData scrollData = CSVData.Inst.GetItemData(upgradeData.needItemID);
             if (scrollData == null)
             {
-                Debug.Log("Invalid Scroll Data : " + upgradeData.needItemID);
+                DebugLog.Log(false, "Invalid Scroll Data : " + upgradeData.needItemID);
                 return;
             }
 
@@ -433,7 +433,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
         //재료를 다른 몬스터(또는 다른 주문서)로 바꿀 수 있기 때문에 필요 없을듯.
         //if (inserted_object_idx > 0)
         //{
-        //    Debug.Log("Warning : 이미 필요한 아이템 삽입됨!");
+        //    DebugLog.Log(false, "Warning : 이미 필요한 아이템 삽입됨!");
         //}
 
         UserDataManager u_data = UserDataManager.Inst;
@@ -441,7 +441,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
 
         if (checkInsertedObject(scroll_unit_idx))
         {
-            Debug.Log("Warning : 이미 분해 슬롯에 등록된 유닛 입니다.");
+            DebugLog.Log(false, "Warning : 이미 분해 슬롯에 등록된 유닛 입니다.");
         }
         else
         {
@@ -450,20 +450,20 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                 UserMonsterData insertMonsterData = UserDataManager.Inst.GetMonsterInfo(scroll_unit_idx);
                 if (insertMonsterData == null)
                 {
-                    Debug.Log("Invalid Request Monster ID : " + scroll_unit_idx);
+                    DebugLog.Log(false, "Invalid Request Monster ID : " + scroll_unit_idx);
                     return;
                 }
 
                 if (insertMonsterData.state != 1)
                 {
-                    Debug.Log("Invalid Monster State : " + insertMonsterData.state);
+                    DebugLog.Log(false, "Invalid Monster State : " + insertMonsterData.state);
                     SimpleErrorPopupVC.Inst.UpdateErrorText("Monster Invalid Monster State");
                     return;
                 }
 
                 if (insertMonsterData.partyIndex != 0)
                 {
-                    Debug.Log("Invalid Monster Index : " + insertMonsterData.partyIndex);
+                    DebugLog.Log(false, "Invalid Monster Index : " + insertMonsterData.partyIndex);
                     SimpleErrorPopupVC.Inst.UpdateErrorText("Monster Already In Party");
                     return;
                 }
@@ -478,19 +478,19 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                 UserEquipmentData insertEquipmentData = UserDataManager.Inst.GetEquipmentInfo(scroll_unit_idx);
                 if (insertEquipmentData == null)
                 {
-                    Debug.Log("Invalid Request Servant ID : " + scroll_unit_idx);
+                    DebugLog.Log(false, "Invalid Request Servant ID : " + scroll_unit_idx);
                     return;
                 }
 
                 if (insertEquipmentData.state != 1)
                 {
-                    Debug.Log("Invalid Equip State : " + insertEquipmentData.state);
+                    DebugLog.Log(false, "Invalid Equip State : " + insertEquipmentData.state);
                     return;
                 }
 
                 if (insertEquipmentData.isEquiped)
                 {
-                    Debug.Log("Invalid Equip isEquiped : " + insertEquipmentData.isEquiped);
+                    DebugLog.Log(false, "Invalid Equip isEquiped : " + insertEquipmentData.isEquiped);
                     return;
                 }
 
@@ -569,20 +569,20 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
             UserMonsterData subMonsterData = UserDataManager.Inst.GetMonsterInfo(inserted_object_idx);
             if (subMonsterData == null)
             {
-                Debug.Log("Invalid Request Monster ID : " + inserted_object_idx);
+                DebugLog.Log(false, "Invalid Request Monster ID : " + inserted_object_idx);
                 return;
             }
 
             if (monsterData.state != 1 || subMonsterData.state != 1)
             {
-                Debug.Log("Invalid Monster State : " + subMonsterData.state);
+                DebugLog.Log(false, "Invalid Monster State : " + subMonsterData.state);
                 SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Monster State");
                 return;
             }
 
             if (subMonsterData.partyIndex != 0)
             {
-                Debug.Log("Invalid Monster Index : " + subMonsterData.partyIndex);
+                DebugLog.Log(false, "Invalid Monster Index : " + subMonsterData.partyIndex);
                 SimpleErrorPopupVC.Inst.UpdateErrorText("Monster Already In Party");
                 return;
             }
@@ -604,19 +604,19 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
             UserEquipmentData userEquipmentData = UserDataManager.Inst.GetEquipmentInfo(equipmentData.index);
             if (userEquipmentData == null)
             {
-                Debug.Log("Invalid Request Equipment ID : " + equipmentData.index);
+                DebugLog.Log(false, "Invalid Request Equipment ID : " + equipmentData.index);
                 return;
             }
 
             if (userEquipmentData.state != 1)
             {
-                Debug.Log("Invalid Equipment State : " + userEquipmentData.state);
+                DebugLog.Log(false, "Invalid Equipment State : " + userEquipmentData.state);
                 return;
             }
 
             if (userEquipmentData.equipServantIndex != 0)
             {
-                Debug.Log("Invalid Equipment Already Equip Servant Index : " + userEquipmentData.equipServantIndex);
+                DebugLog.Log(false, "Invalid Equipment Already Equip Servant Index : " + userEquipmentData.equipServantIndex);
                 return;
             }
 
@@ -625,7 +625,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
             DBEquipmentUpgradeData upgradeData = CSVData.Inst.GetEquipmentUpgradeData(equipmentData.grade, (int)equipmentData.equipmentType, equipmentData.upgrade);
             if (upgradeData == null)
             {
-                Debug.Log("Invalid Upgrade Data : " + equipmentData.grade + ", " + equipmentData.equipmentType + ", " + equipmentData.upgrade);
+                DebugLog.Log(false, "Invalid Upgrade Data : " + equipmentData.grade + ", " + equipmentData.equipmentType + ", " + equipmentData.upgrade);
                 return;
             }
             

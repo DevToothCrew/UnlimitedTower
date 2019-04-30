@@ -86,7 +86,7 @@ public class GachaResultPopup : MonoBehaviour {
         DBServantData servantData = CSVData.Inst.GetServantData(result.id);
         if(servantData == null)
         {
-            Debug.Log("Invalid Servant ID : " + result.id);
+            DebugLog.Log(false, "Invalid Servant ID : " + result.id);
             return;
         }
 
@@ -106,7 +106,7 @@ public class GachaResultPopup : MonoBehaviour {
         DBMonsterData monsterData = CSVData.Inst.GetMonsterData(result.id);
         if(monsterData == null)
         {
-            Debug.Log("Invalid Monster ID : " + result.id);
+            DebugLog.Log(false, "Invalid Monster ID : " + result.id);
             return;
         }
 
@@ -126,14 +126,14 @@ public class GachaResultPopup : MonoBehaviour {
         DBEquipmentData equipmentData = CSVData.Inst.GetEquipmentData(result.id);
         if(equipmentData == null)
         {
-            Debug.Log("Invalid Equipment ID : " + result.id);
+            DebugLog.Log(false, "Invalid Equipment ID : " + result.id);
             return;
         }
 
         resultName.text = equipmentData.tier + "T " + equipmentData.name;
         if(equipmentData.equipmentIcon.texture == null)
         {
-            Debug.Log("Invalid Texture : " + equipmentData.name);
+            DebugLog.Log(false, "Invalid Texture : " + equipmentData.name);
         }
         resultImage.texture = equipmentData.equipmentIcon.texture;
         gradeImage.texture = CSVData.Inst.GetSpriteGachaGrade((GRADE_TYPE)result.grade).texture;
@@ -155,7 +155,7 @@ public class GachaResultPopup : MonoBehaviour {
                 break;
 
             default:
-                Debug.Log("Invalid Equipment Data");
+                DebugLog.Log(false, "Invalid Equipment Data");
                 return;
         }
         resultValueStat.text = result.value.ToString();
@@ -163,7 +163,7 @@ public class GachaResultPopup : MonoBehaviour {
 
     public static void PopupAlert(object result)
     {
-        Debug.Log(result);
+        DebugLog.Log(false, "" + result);
 
         if(result is UserServantData)
         {

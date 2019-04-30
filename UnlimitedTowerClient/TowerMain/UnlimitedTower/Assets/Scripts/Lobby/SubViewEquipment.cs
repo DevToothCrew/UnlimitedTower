@@ -110,7 +110,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
 
         if (partyInfo.getSelectedEquipType() == EQUIPMENT_TYPE.MAX)
         {
-            Debug.Log("Invalid Equipment type 'MAX'");
+            DebugLog.Log(false, "Invalid Equipment type 'MAX'");
             return;
         }
         selectedEquipType = partyInfo.getSelectedEquipType();
@@ -284,14 +284,14 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         UserServantData servantData = partyInfo.ServantList[partyInfo.selected_unit_idx];
         if (servantData == null)
         {
-            Debug.Log("Invalid Servant Index : " + partyInfo.selected_unit_idx);
+            DebugLog.Log(false, "Invalid Servant Index : " + partyInfo.selected_unit_idx);
         }
 
         UserEquipmentData currentEquipmentData = null;
 
         if (partyInfo.getSelectedEquipType() == EQUIPMENT_TYPE.MAX)
         {
-            Debug.Log("Invalid Equipment type 'MAX'");
+            DebugLog.Log(false, "Invalid Equipment type 'MAX'");
             return;
         }
 
@@ -305,14 +305,14 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
 
             if (currentEquipmentData == null)
             {
-                Debug.Log("Invalid Equipment data");
+                DebugLog.Log(false, "Invalid Equipment data");
             }
 
 
             DBEquipmentData dBEquipment = CSVData.Inst.GetEquipmentData(currentEquipmentData.id);
             if (dBEquipment == null)
             {
-                Debug.Log("Invalid equipmentData ID : " + currentEquipmentData.id);
+                DebugLog.Log(false, "Invalid equipmentData ID : " + currentEquipmentData.id);
             }
 
             imageCurrentItem.sprite = dBEquipment.equipmentIcon;
@@ -365,7 +365,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         }
         else
         {
-            Debug.Log("current item none");
+            DebugLog.Log(false, "current item none");
             FrameCurrentItemInfo.SetActive(false);
             FrameCurrentItemNone.SetActive(true);
 
@@ -392,14 +392,14 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
 
             if (changeEquipmentData == null)
             {
-                Debug.Log("Invalid Equipment data");
+                DebugLog.Log(false, "Invalid Equipment data");
             }
 
 
             DBEquipmentData dBChangeEquipment = CSVData.Inst.GetEquipmentData(changeEquipmentData.id);
             if (dBChangeEquipment == null)
             {
-                Debug.Log("Invalid equipmentData ID : " + changeEquipmentData.id);
+                DebugLog.Log(false, "Invalid equipmentData ID : " + changeEquipmentData.id);
             }
 
 
@@ -451,7 +451,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         }
         else
         {
-            Debug.Log("change item nono");
+            DebugLog.Log(false, "change item nono");
             FrameChangeItemInfo.SetActive(false);
             FrameChangeItemNone.SetActive(true);
 
@@ -466,14 +466,14 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         UserServantData servantData = partyInfo.ServantList[partyInfo.selected_unit_idx];
         if(servantData == null)
         {
-            Debug.Log("Invalid Select Index : " + partyInfo.ServantList[partyInfo.selected_unit_idx]);
+            DebugLog.Log(false, "Invalid Select Index : " + partyInfo.ServantList[partyInfo.selected_unit_idx]);
             return;
         }
 
         DBServantData dBServantData = CSVData.Inst.GetServantData(servantData.id);
         if (dBServantData == null)
         {
-            Debug.Log("Invalid Servant ID : " + servantData.id);
+            DebugLog.Log(false, "Invalid Servant ID : " + servantData.id);
             return;
         }
 
@@ -576,7 +576,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         UserServantData servantData = UserDataManager.Inst.GetServantInfo(servantIndex);
         if (servantData == null)
         {
-            Debug.LogError("Invalid Servant Index : " + servantIndex);
+            DebugLog.Log(true, "Invalid Servant Index : " + servantIndex);
             SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Servant Index");
             return;
         }
@@ -584,7 +584,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         // 장비 타입 검사
         if (servantData.equipmentDic.ContainsKey(selectedEquipType) == false)
         {
-            Debug.LogError("Invalid Servant Data");
+            DebugLog.Log(true, "Invalid Servant Data");
             SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Servant Data");
             return;
         }
@@ -592,7 +592,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         // 서번트 동일 장비 검사
         if (servantData.equipmentDic[selectedEquipType] == equipmentIndex)
         {
-            Debug.Log("Already Equiped");
+            DebugLog.Log(false, "Already Equiped");
             SimpleErrorPopupVC.Inst.UpdateErrorText("Already Equiped");
             return;
         }
@@ -601,7 +601,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(equipmentIndex);
         if (equipmentData == null)
         {
-            Debug.LogError("Invalid Equipment Index : " + equipmentIndex);
+            DebugLog.Log(true, "Invalid Equipment Index : " + equipmentIndex);
             SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Equipment");
             return;
         }
@@ -609,7 +609,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         // 장비 인덱스에 대한 타입 검사
         if (equipmentData.equipmentType != selectedEquipType)
         {
-            Debug.Log("Invalid Equipment Type : " + selectedEquipType.ToString() + ", ");
+            DebugLog.Log(false, "Invalid Equipment Type : " + selectedEquipType.ToString() + ", ");
             SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Equipment Type");
             return;
         }
@@ -617,7 +617,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         // 장착중인 장비인지 검사
         if (equipmentData.isEquiped == true)
         {
-            Debug.Log("Already ServantEquiped : " + equipmentData.equipServantIndex);
+            DebugLog.Log(false, "Already ServantEquiped : " + equipmentData.equipServantIndex);
             SimpleErrorPopupVC.Inst.UpdateErrorText("Already Servant Equiped");
             return;
         }
@@ -626,7 +626,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         DBEquipmentData dbEquipmentData = CSVData.Inst.GetEquipmentData(equipmentData.id);
         if (dbEquipmentData == null)
         {
-            Debug.Log("Invalid Equipment Data ID : " + equipmentData.id);
+            DebugLog.Log(false, "Invalid Equipment Data ID : " + equipmentData.id);
             return;
         }
 
@@ -634,14 +634,14 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         DBServantData dbServantData = CSVData.Inst.GetServantData(servantData.id);
         if (dbServantData == null)
         {
-            Debug.Log("Invalid Servant Data ID : " + servantData.id);
+            DebugLog.Log(false, "Invalid Servant Data ID : " + servantData.id);
             return;
         }
 
         // 장착 가능 직업 검사
         if (dbEquipmentData.isEquipAble(dbServantData.GetJobFlag) == false)
         {
-            Debug.Log("Invalid Servant Equipable Job : " + dbServantData.GetJobFlag + ", Need Job : " + dbEquipmentData.jobLimit);
+            DebugLog.Log(false, "Invalid Servant Equipable Job : " + dbServantData.GetJobFlag + ", Need Job : " + dbEquipmentData.jobLimit);
             SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Servant Equipable Job");
             return;
         }
@@ -651,7 +651,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         {
             if (servantData.level <= 10)
             {
-                Debug.Log("Invalid Servant Equipable Level : " + servantData.level + ", Need Level : 11");
+                DebugLog.Log(false, "Invalid Servant Equipable Level : " + servantData.level + ", Need Level : 11");
                 SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Servant Equipable Level, Need Level : 11");
                 return;
             }
@@ -660,7 +660,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         {
             if (servantData.level <= 20)
             {
-                Debug.Log("Invalid Servant Equipable Level : " + servantData.level + ", Need Level : 21");
+                DebugLog.Log(false, "Invalid Servant Equipable Level : " + servantData.level + ", Need Level : 21");
                 SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Servant Equipable Level, Need Level : 21");
                 return;
             }
@@ -669,7 +669,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         {
             if (servantData.level <= 30)
             {
-                Debug.Log("Invalid Servant Equipable Level : " + servantData.level + ", Need Level : 31");
+                DebugLog.Log(false, "Invalid Servant Equipable Level : " + servantData.level + ", Need Level : 31");
                 SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Servant Equipable Level, Need Level : 31");
                 return;
             }

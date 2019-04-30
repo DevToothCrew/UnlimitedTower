@@ -178,7 +178,7 @@ public class Cheat : MonoSingleton<Cheat>
                 {
                     // TODO : 세팅값만 있어야하는지
                     actioninfo.action_type = 2;
-                    Debug.Log("Invalid ActiveSkill List");
+                    DebugLog.Log(false, "Invalid ActiveSkill List");
                     actionInfo action = new actionInfo();
                     do
                     {
@@ -349,7 +349,7 @@ public class Cheat : MonoSingleton<Cheat>
                 UserServantData servantData = UserDataManager.Inst.GetServantInfo(partyData.formationDataDic[i].index);
                 if(servantData == null)
                 {
-                    Debug.Log("Invalid Servant Data : " + partyData.formationDataDic[i].index);
+                    DebugLog.Log(false, "Invalid Servant Data : " + partyData.formationDataDic[i].index);
                     return null;
                 }
                 newMember.grade = 5;
@@ -425,14 +425,14 @@ public class Cheat : MonoSingleton<Cheat>
             DBStageEnemyData enemyData = CSVData.Inst.GetStageEnemyData(newMember.id);
             if(enemyData == null)
             {
-                Debug.Log("Invalid Enemy ID : " + newMember.id);
+                DebugLog.Log(false, "Invalid Enemy ID : " + newMember.id);
                 return null;
             }
 
             DBMonsterData monsterData = CSVData.Inst.GetMonsterData(enemyData.charID);
             if(monsterData == null)
             {
-                Debug.Log("Invalid Monster ID : " + enemyData.charID);
+                DebugLog.Log(false, "Invalid Monster ID : " + enemyData.charID);
                 return null;
             }
 
@@ -457,44 +457,44 @@ public class Cheat : MonoSingleton<Cheat>
         UserMonsterData mainMonster = UserDataManager.Inst.GetMonsterInfo(mainMonsterIndex);
         if (mainMonster == null)
         {
-            Debug.Log("Invalid Main Monster Index : " + mainMonsterIndex);
+            DebugLog.Log(false, "Invalid Main Monster Index : " + mainMonsterIndex);
             return null;
         }
 
         UserMonsterData subMonster = UserDataManager.Inst.GetMonsterInfo(subMonsterIndex);
         if (subMonster == null)
         {
-            Debug.Log("Invalid Sub Monster Index : " + subMonsterIndex);
+            DebugLog.Log(false, "Invalid Sub Monster Index : " + subMonsterIndex);
             return null;
         }
 
         if (mainMonster.id != subMonster.id)
         {
-            Debug.Log("Different Monster ID Main : " + mainMonster.id + " , Sub : " + subMonster.id);
+            DebugLog.Log(false, "Different Monster ID Main : " + mainMonster.id + " , Sub : " + subMonster.id);
             return null;
         }
 
         if (mainMonster.grade != subMonster.grade)
         {
-            Debug.Log("Different Monster Grade Main : " + mainMonster.grade + " , Sub : " + subMonster.grade);
+            DebugLog.Log(false, "Different Monster Grade Main : " + mainMonster.grade + " , Sub : " + subMonster.grade);
             return null;
         }
 
         if (mainMonster.upgrade < subMonster.upgrade || mainMonster.upgrade >= DEFINE.MAX_MONSTER_UPGRADE_COUNT)
         {
-            Debug.Log("InvalidUpgradeCount Monster UpgradeCount Main : " + mainMonster.grade + " , Sub : " + subMonster.grade);
+            DebugLog.Log(false, "InvalidUpgradeCount Monster UpgradeCount Main : " + mainMonster.grade + " , Sub : " + subMonster.grade);
             return null;
         }
 
         DBMonsterUpgradeData dbMonsterUpgradeData = CSVData.Inst.GetMonsterUpgradeData(mainMonster.grade, mainMonster.upgrade, subMonster.upgrade);
         if(dbMonsterUpgradeData == null)
         {
-            Debug.Log("Invalid Monster Key : " + ((mainMonster.upgrade * 100) + subMonster.upgrade));
+            DebugLog.Log(false, "Invalid Monster Key : " + ((mainMonster.upgrade * 100) + subMonster.upgrade));
             return null;
         }
         
         int successNum = Convert.ToInt32(dbMonsterUpgradeData.successPer * (double)100000);
-        Debug.Log("Success Per : " + dbMonsterUpgradeData.successPer + ", Int : " + successNum);
+        DebugLog.Log(false, "Success Per : " + dbMonsterUpgradeData.successPer + ", Int : " + successNum);
         int randNum = UnityEngine.Random.Range(0, (100000 * 100));
 
         monsterUpgradeResultData getMonsterUpgradeResultData = new monsterUpgradeResultData();
@@ -502,13 +502,13 @@ public class Cheat : MonoSingleton<Cheat>
 
         if (randNum <= successNum)
         {
-            Debug.Log("Success");
+            DebugLog.Log(false, "Success");
             getMonsterUpgradeResultData.is_success = true;
             getMonsterUpgradeResultData.main_monster_data.monster.upgrade += 1;
         }
         else
         {
-            Debug.Log("Fail");
+            DebugLog.Log(false, "Fail");
             getMonsterUpgradeResultData.is_success = false;
 
             if (getMonsterUpgradeResultData.main_monster_data.monster.upgrade > 0)
@@ -528,14 +528,14 @@ public class Cheat : MonoSingleton<Cheat>
         UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(equipmentIndex);
         if(equipmentData == null)
         {
-            Debug.Log("Invalid Equipment Index : " + equipmentIndex);
+            DebugLog.Log(false, "Invalid Equipment Index : " + equipmentIndex);
             return null;
         }
 
         DBEquipmentUpgradeData upgradeData = CSVData.Inst.GetEquipmentUpgradeData(equipmentData.grade, (int)equipmentData.equipmentType, equipmentData.upgrade);
         if(upgradeData == null)
         {
-            Debug.Log("Invalid Equipment Upgrade Data");
+            DebugLog.Log(false, "Invalid Equipment Upgrade Data");
             return null;
         }
 
@@ -587,7 +587,7 @@ public class Cheat : MonoSingleton<Cheat>
         DBMonsterData monsterData = CSVData.Inst.GetMonsterData(newMonsterData.monster.id);
         if(monsterData == null)
         {
-            Debug.Log("Invalid monster Data");
+            DebugLog.Log(false, "Invalid monster Data");
             return null;
         }
 
@@ -618,13 +618,13 @@ public class Cheat : MonoSingleton<Cheat>
             UserServantData servantData = UserDataManager.Inst.GetServantInfo(burnServantIndexList[i]);
             if (servantData == null)
             {
-                Debug.Log("Invalid Servant Index : " + servantData.index);
+                DebugLog.Log(false, "Invalid Servant Index : " + servantData.index);
                 return null;
             }
 
             if (servantData.partyIndex != 0)
             {
-                Debug.Log("Invalid Request Servant Already placed Party : " + servantData.partyIndex);
+                DebugLog.Log(false, "Invalid Request Servant Already placed Party : " + servantData.partyIndex);
                 return null;
             }
             // TODO : Item 정리중
@@ -632,7 +632,7 @@ public class Cheat : MonoSingleton<Cheat>
             DBServantData dbServantData = CSVData.Inst.GetServantData(servantData.id);
             if(dbServantData == null)
             {
-                Debug.Log("Invalid Request Servant DB : " + servantData.id);
+                DebugLog.Log(false, "Invalid Request Servant DB : " + servantData.id);
                 return null;
             }
 
@@ -717,13 +717,13 @@ public class Cheat : MonoSingleton<Cheat>
             UserMonsterData monsterData = UserDataManager.Inst.GetMonsterInfo(burnMonsterIndexList[i]);
             if(monsterData == null)
             {
-                Debug.Log("Invalid Monster Index : " + monsterData.index);
+                DebugLog.Log(false, "Invalid Monster Index : " + monsterData.index);
                 return null;
             }
 
             if(monsterData.partyIndex != 0)
             {
-                Debug.Log("Invalid Request Monster Already placed Party : " + monsterData.partyIndex);
+                DebugLog.Log(false, "Invalid Request Monster Already placed Party : " + monsterData.partyIndex);
                 return null;
             }
         }
@@ -743,13 +743,13 @@ public class Cheat : MonoSingleton<Cheat>
             UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(burnEquipmentIndexList[i]);
             if (equipmentData == null)
             {
-                Debug.Log("Invalid Equipment Index : " + equipmentData.index);
+                DebugLog.Log(false, "Invalid Equipment Index : " + equipmentData.index);
                 return null;
             }
 
             if (equipmentData.equipServantIndex != 0)
             {
-                Debug.Log("Invalid Request Equipment Already Equiped Servant : " + equipmentData.equipServantIndex);
+                DebugLog.Log(false, "Invalid Request Equipment Already Equiped Servant : " + equipmentData.equipServantIndex);
                 return null;
             }
         }
@@ -767,12 +767,12 @@ public class Cheat : MonoSingleton<Cheat>
         UserServantData servant = UserDataManager.Inst.GetServantInfo(servantIndex);
         if(servant == null)
         {
-            Debug.Log("Invalid Servant Index : " + servantIndex);
+            DebugLog.Log(false, "Invalid Servant Index : " + servantIndex);
             return null;
         }
         if(servant.equipmentDic.ContainsKey(type) == false)
         {
-            Debug.Log("Invalid Type : " + type.ToString());
+            DebugLog.Log(false, "Invalid Type : " + type.ToString());
             return null;
         }
 
@@ -781,12 +781,12 @@ public class Cheat : MonoSingleton<Cheat>
         resultData.equipment_slot = (int)type;
         if (servant.equipmentDic[type] == equipmentIndex)
         {
-            Debug.Log("Unequip");
+            DebugLog.Log(false, "Unequip");
             resultData.equipment_index = 0;
         }
         else
         {
-            Debug.Log("Equip");
+            DebugLog.Log(false, "Equip");
             resultData.equipment_index = equipmentIndex;
         }
 
@@ -876,7 +876,7 @@ public class Cheat : MonoSingleton<Cheat>
         monsterData monsterData = new monsterData();
         monsterData.index = index;
         monsterData.monster.passive_skill.Add(100001);
-        //Debug.Log(monsterData.monster.passive_skill[0]);
+        //DebugLog.Log(false, monsterData.monster.passive_skill[0]);
         monsterData.monster = new monsterInfo();
         monsterData.monster.state = 1;
         monsterData.monster.exp = rand.Next(0, 160000);
@@ -909,7 +909,7 @@ public class Cheat : MonoSingleton<Cheat>
         DBEquipmentData dbEquipmentData = CSVData.Inst.GetEquipmentData(equipmentData.equipment.id);
         if(dbEquipmentData == null)
         {
-            Debug.Log("Invalid DBEquipmentData");
+            DebugLog.Log(false, "Invalid DBEquipmentData");
             return null;
         }
 
@@ -957,16 +957,16 @@ public class Cheat : MonoSingleton<Cheat>
     {
         if (UserDataManager.Inst.GetUserInfo() == null)
         {
-            Debug.Log("Start SetLoginCheat");
+            DebugLog.Log(false, "Start SetLoginCheat");
 
             string loginJson = GetUserLoginData("devtooth1111", "99999999999", "99999990000");
-            Debug.Log("[SUCCESS] User Login :" + loginJson);
+            DebugLog.Log(false, "[SUCCESS] User Login :" + loginJson);
 
             PacketManager.Inst.ResponseLogin(loginJson);
         }
         else
         {
-            Debug.Log("Already Get UserInfo");
+            DebugLog.Log(false, "Already Get UserInfo");
         }
     }
 
@@ -975,10 +975,10 @@ public class Cheat : MonoSingleton<Cheat>
         string stageRewardJson = GetStageResultData();
         if (stageRewardJson == null)
         {
-            Debug.Log("[Fail] RequestStageRewardCheat");
+            DebugLog.Log(false, "[Fail] RequestStageRewardCheat");
             return;
         }
-        Debug.Log("[SUCCESS] User Stage Reward :" + stageRewardJson);
+        DebugLog.Log(false, "[SUCCESS] User Stage Reward :" + stageRewardJson);
         stageRewardData getStageRewardData = JsonUtility.FromJson<stageRewardData>(stageRewardJson);
         PacketManager.Inst.ResponseStageReward(getStageRewardData);
     }
@@ -992,14 +992,14 @@ public class Cheat : MonoSingleton<Cheat>
     {
         if (UserDataManager.Inst.GetUserInfo() == null)
         {
-            Debug.Log("Invalid UserInfo, Please First SetLoginCheat");
+            DebugLog.Log(false, "Invalid UserInfo, Please First SetLoginCheat");
             return;
         }
 
-        Debug.Log("Start SetStageStartCheat");
+        DebugLog.Log(false, "Start SetStageStartCheat");
 
         string stageStateJson = GetStageStartData(UserDataManager.Inst.GetUserInfo().userName, stageType, stageFloor, partyNum);
-        Debug.Log("[SUCCESS] User Stage Start :" + stageStateJson);
+        DebugLog.Log(false, "[SUCCESS] User Stage Start :" + stageStateJson);
 
         stageStateData getBattleStageData = JsonUtility.FromJson<stageStateData>(stageStateJson);
         PacketManager.Inst.ResponseStageStart(getBattleStageData);
@@ -1010,11 +1010,11 @@ public class Cheat : MonoSingleton<Cheat>
         string gachaDataJson = GetGachaResultData(gachaIndex);
         if (gachaDataJson == null)
         {
-            Debug.Log("[Fail] RequestGachaCheat");
+            DebugLog.Log(false, "[Fail] RequestGachaCheat");
             return;
         }
 
-        Debug.Log("[SUCCESS] Gacha : " + gachaDataJson);
+        DebugLog.Log(false, "[SUCCESS] Gacha : " + gachaDataJson);
         PacketManager.Inst.ResponseGacha(gachaDataJson);
     }
 
@@ -1023,10 +1023,10 @@ public class Cheat : MonoSingleton<Cheat>
         string monsterUpgradeResultJson = GetMonsterUpgradeData(mainMonsterIndex, subMonsterIndex);
         if (monsterUpgradeResultJson == null)
         {
-            Debug.Log("[Fail] RequestMonsterUpgradeCheat");
+            DebugLog.Log(false, "[Fail] RequestMonsterUpgradeCheat");
             return;
         }
-        Debug.Log("[SUCCESS] Monster Upgrade : " + monsterUpgradeResultJson);
+        DebugLog.Log(false, "[SUCCESS] Monster Upgrade : " + monsterUpgradeResultJson);
 
         monsterUpgradeResultData getMonsterUpgradeResultData = JsonUtility.FromJson<monsterUpgradeResultData>(monsterUpgradeResultJson);
         PacketManager.Inst.ResponseMonsterUpgrade(getMonsterUpgradeResultData);
@@ -1037,10 +1037,10 @@ public class Cheat : MonoSingleton<Cheat>
         string equipmentUpgradeResultJson = GetEquipmentUpgradeData(equipmentIndex);
         if (equipmentUpgradeResultJson == null)
         {
-            Debug.Log("[Fail] RequestEquipmentUpgradeCheat");
+            DebugLog.Log(false, "[Fail] RequestEquipmentUpgradeCheat");
             return;
         }
-        Debug.Log("[SUCCESS] Equipment Upgrade : " + equipmentUpgradeResultJson);
+        DebugLog.Log(false, "[SUCCESS] Equipment Upgrade : " + equipmentUpgradeResultJson);
 
         equipmentUpgradeResultData getEquipmentUpgradeResultData = JsonUtility.FromJson<equipmentUpgradeResultData>(equipmentUpgradeResultJson);
         PacketManager.Inst.ResponseEquipmentUpgrade(getEquipmentUpgradeResultData);
@@ -1051,10 +1051,10 @@ public class Cheat : MonoSingleton<Cheat>
         string servantBurnResultJson = GetServantBurnData(servantIndexList);
         if (servantBurnResultJson == null)
         {
-            Debug.Log("[Fail] RequestServantBurnCheat");
+            DebugLog.Log(false, "[Fail] RequestServantBurnCheat");
             return;
         }
-        Debug.Log("[SUCCESS] Servant Burn : " + servantBurnResultJson);
+        DebugLog.Log(false, "[SUCCESS] Servant Burn : " + servantBurnResultJson);
 
         servantBurnResultData getServantBurnResultData = JsonUtility.FromJson<servantBurnResultData>(servantBurnResultJson);
         getServantBurnResultData.servantIndexList = servantIndexList;
@@ -1066,10 +1066,10 @@ public class Cheat : MonoSingleton<Cheat>
         string monsterSellResultJson = GetMonsterBurnData(monsterIndexList);
         if (monsterSellResultJson == null)
         {
-            Debug.Log("[Fail] RequestMonsterSellCheat");
+            DebugLog.Log(false, "[Fail] RequestMonsterSellCheat");
             return;
         }
-        Debug.Log("[SUCCESS] Monster Sell : " + monsterSellResultJson);
+        DebugLog.Log(false, "[SUCCESS] Monster Sell : " + monsterSellResultJson);
 
         monsterBurnResultData getSellMonsterResultData = JsonUtility.FromJson<monsterBurnResultData>(monsterSellResultJson);
         PacketManager.Inst.ResponseMonsterBurn(getSellMonsterResultData);
@@ -1080,10 +1080,10 @@ public class Cheat : MonoSingleton<Cheat>
         string equipmentSellResultJson = GetEquipmentBurnData(equipmentIndexList);
         if (equipmentSellResultJson == null)
         {
-            Debug.Log("[Fail] RequestEquipmentSellCheat");
+            DebugLog.Log(false, "[Fail] RequestEquipmentSellCheat");
             return;
         }
-        Debug.Log("[SUCCESS] Equipment Sell : " + equipmentSellResultJson);
+        DebugLog.Log(false, "[SUCCESS] Equipment Sell : " + equipmentSellResultJson);
 
         equipmentBurnResultData getSellEquipmentResultData = JsonUtility.FromJson<equipmentBurnResultData>(equipmentSellResultJson);
         PacketManager.Inst.ResponseEquipmentBurn(getSellEquipmentResultData);
@@ -1109,10 +1109,10 @@ public class Cheat : MonoSingleton<Cheat>
         string equipmentJson = GetEquipServantData(servantIndex, type, equipmentIndex);
         if(equipmentJson == null)
         {
-            Debug.Log("[Fail] RequestEquipServantCheat");
+            DebugLog.Log(false, "[Fail] RequestEquipServantCheat");
             return;
         }
-        Debug.Log("[SUCCESS] Equip Servant : " + equipmentJson);
+        DebugLog.Log(false, "[SUCCESS] Equip Servant : " + equipmentJson);
 
         servantEquipData getServantEquipResultData = JsonUtility.FromJson<servantEquipData>(equipmentJson);
         PacketManager.Inst.ResponseEquipServant(getServantEquipResultData);

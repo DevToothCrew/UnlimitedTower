@@ -57,7 +57,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         BattleUIManager.Inst.BattleTurn.text = stateData.turn.ToString();
         if (stateData == null)
         {
-            Debug.LogError("버그 : stageStateInfo is NULL");
+            DebugLog.Log(true, "버그 : stageStateInfo is NULL");
             return;
         }
 
@@ -164,7 +164,7 @@ public class BattleManager : MonoSingleton<BattleManager>
         UserDataManager.Inst.stageState.turn = stageActionInfo.turn;
         if (stageActionInfo == null)
         {
-            Debug.LogError("버그 : stageActionInfo is Null");
+            DebugLog.Log(true, "버그 : stageActionInfo is Null");
             yield break;
         }
         // TODO : Skill 관련 코드 정리 필요
@@ -181,7 +181,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             {
                 if (GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList.Count == 0)
                 {
-                    Debug.Log("ActiveSkillList is Null");
+                    DebugLog.Log(false, "ActiveSkillList is Null");
                 }
                 else
                 {
@@ -254,7 +254,7 @@ public class BattleManager : MonoSingleton<BattleManager>
 #if UNITY_EDITOR
             {
                 string battleActionInfo = Cheat.Inst.GetBattleActionData("devtooth", turnIndex);
-                Debug.Log("[SUCCESS] user battleaction :" + battleActionInfo);
+                DebugLog.Log(false, "[SUCCESS] user battleaction :" + battleActionInfo);
 
                 PacketManager.Inst.ResponseBattleAction(JsonUtility.FromJson<battleActionData>(battleActionInfo));
             }
@@ -436,7 +436,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 DBServantData ServantInfo = CSVData.Inst.GetServantData(state.Value.id);
                 if (ServantInfo == null)
                 {
-                    Debug.Log("Invalid Servant ID : " + state.Value.id);
+                    DebugLog.Log(false, "Invalid Servant ID : " + state.Value.id);
                     return;
                 }
 
@@ -448,7 +448,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 DBMonsterData MonsterInfo = CSVData.Inst.GetMonsterData(state.Value.id);
                 if (MonsterInfo == null)
                 {
-                    Debug.Log("Invalid Monster ID : " + state.Value.id);
+                    DebugLog.Log(false, "Invalid Monster ID : " + state.Value.id);
                     return;
                 }
 
@@ -468,7 +468,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 DBServantData ServantInfo = CSVData.Inst.GetServantData(state.Value.id);
                 if (ServantInfo == null)
                 {
-                    Debug.Log("Invalid Servant ID : " + state.Value.id);
+                    DebugLog.Log(false, "Invalid Servant ID : " + state.Value.id);
                     return;
                 }
 
@@ -480,7 +480,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 DBMonsterData MonsterInfo = CSVData.Inst.GetMonsterData(state.Value.id);
                 if (MonsterInfo == null)
                 {
-                    Debug.Log("Invalid Monster ID : " + state.Value.id);
+                    DebugLog.Log(false, "Invalid Monster ID : " + state.Value.id);
                     return;
                 }
                 

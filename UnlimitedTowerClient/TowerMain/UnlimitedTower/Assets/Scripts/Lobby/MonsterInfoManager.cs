@@ -49,12 +49,12 @@ public class MonsterInfoManager : MonoBehaviour {
         UserMonsterData unit_data = m_data;// UserDataManager.Inst.GetMonsterInfo(unit_idx);
         if (unit_data == null)
         {
-            Debug.Log("Invalid Monster data By MonsterInfoManager");
+            DebugLog.Log(false, "Invalid Monster data By MonsterInfoManager");
         }
         DBMonsterData db_unit_data = CSVData.Inst.GetMonsterData(unit_data.id);
         if (db_unit_data == null)
         {
-            Debug.Log("Invalid DB_Monster data By MonsterInfoManager");
+            DebugLog.Log(false, "Invalid DB_Monster data By MonsterInfoManager");
         }
 
         textUnitName.text = db_unit_data.name;
@@ -64,7 +64,7 @@ public class MonsterInfoManager : MonoBehaviour {
         DBExpData dbExpData = CSVData.Inst.GetExpData(unit_data.level);
         if (dbExpData == null)
         {
-            Debug.Log("Invalid Level Data");
+            DebugLog.Log(false, "Invalid Level Data");
         }
         else
         {
@@ -74,7 +74,7 @@ public class MonsterInfoManager : MonoBehaviour {
                 DBExpData exDBExpData = CSVData.Inst.GetExpData(unit_data.level - 1);
                 if (exDBExpData == null)
                 {
-                    Debug.Log("Invalid Level Data");
+                    DebugLog.Log(false, "Invalid Level Data");
                 }
                 else
                 {

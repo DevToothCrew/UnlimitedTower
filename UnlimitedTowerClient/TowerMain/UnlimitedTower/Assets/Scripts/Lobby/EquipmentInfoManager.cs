@@ -93,7 +93,7 @@ public class EquipmentInfoManager : MonoSingleton<EquipmentInfoManager>
         }
         else
         {   
-            Debug.Log("Invalid Equipment Menu");
+            DebugLog.Log(false, "Invalid Equipment Menu");
             return;
         }
     }
@@ -132,7 +132,7 @@ public class EquipmentInfoManager : MonoSingleton<EquipmentInfoManager>
             }
             else
             {
-                Debug.Log("Equipment type : max");
+                DebugLog.Log(false, "Equipment type : max");
             }
         }
     }
@@ -150,13 +150,13 @@ public class EquipmentInfoManager : MonoSingleton<EquipmentInfoManager>
         UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(EquipmentList[(int)selectedMenu][unit_idx].index);
         if (equipmentData == null)
         {
-            Debug.Log("Invalid Equipment Inddex : " + unit_idx);
+            DebugLog.Log(false, "Invalid Equipment Inddex : " + unit_idx);
         }
 
         DBEquipmentData dBEquipmentData = CSVData.Inst.GetEquipmentData(equipmentData.id);
         if (dBEquipmentData == null)
         {
-            Debug.Log("Invalid equipment ID : " + equipmentData.id);
+            DebugLog.Log(false, "Invalid equipment ID : " + equipmentData.id);
         }
 
         imageEquipment.sprite = dBEquipmentData.equipmentIcon;

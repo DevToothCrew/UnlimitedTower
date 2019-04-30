@@ -21,7 +21,7 @@ public class ShopObjectInfo : MonoBehaviour {
         DBShopData shopData = CSVData.Inst.GetShopData(getInfo.index);
         if(shopData == null)
         {
-            Debug.Log("Invalid Shop Object ID : " + getInfo.index);
+            DebugLog.Log(false, "Invalid Shop Object ID : " + getInfo.index);
             return;
         }
 
