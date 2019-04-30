@@ -1955,7 +1955,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         for (int i = 0; i < getStageData.my_state_list.Count; i++)
         {
             UserCharacterStateData stateData = ParseCharacterStateData(getStageData.my_state_list[i]);
-            Debug.Log(getStageData.my_state_list[i].passive_skill_list.Count);
+
             if (stateData == null)
             {
                 return null;
@@ -2002,7 +2002,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
         stateData.buffList = getStateData.buff_list;
         stateData.activeSkillList = ParseSkillList(getStateData.active_skill_list);
         stateData.passiveSkillList = ParseSkillList(getStateData.passive_skill_list);
-        Debug.Log(stateData.passiveSkillList.Count);
 
         if (stateData.charType == CHAR_TYPE.SERVANT)
         {
