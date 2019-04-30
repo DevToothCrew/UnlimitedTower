@@ -14,6 +14,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public GameObject accountInfoUI;
     public GameObject BackbuttonUI;
 
+    public Image imageBackButtonIcon;
     public Text textBackButton;
 
     public POPUP_STATE popupState;
@@ -79,6 +80,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     public void OnClickLeftButton(int num)
     {
         popupState = (POPUP_STATE)num;
+        SetImageIconBackButton(popupState);
         switch ((POPUP_STATE)num)
         {
             case POPUP_STATE.Servant:
@@ -88,6 +90,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                     objSubView.transform.SetParent(this.transform);
                     objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                     BackbuttonUI.SetActive(true);
+                    imageBackButtonIcon.sprite = Resources.Load<Sprite>("UI/Lobby/Image/icon_party_info");
                 }
                 break;
 
@@ -98,6 +101,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                     objSubView.transform.SetParent(this.transform);
                     objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                     BackbuttonUI.SetActive(true);
+                    imageBackButtonIcon.sprite = Resources.Load<Sprite>("UI/Lobby/Image/icon_inventory");
                 }
                 break;
 
@@ -108,6 +112,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                     objSubView.transform.SetParent(this.transform);
                     objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                     BackbuttonUI.SetActive(true);
+                    imageBackButtonIcon.sprite = Resources.Load<Sprite>("UI/Lobby/Image/icon_shop");
 
                     PacketManager.Inst.RequestLocalShopInfo(SHOP_TYPE.EOS);
                 }
@@ -149,6 +154,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
     public void OnClickTopButton(int num)
     {
+        SetImageIconBackButton((POPUP_STATE)num);
         switch ((POPUP_STATE)num)
         {
             case POPUP_STATE.AccountInfo:
@@ -234,6 +240,22 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     {
         textBackButton.text = text;
     }
+
+    public void SetImageIconBackButton(POPUP_STATE state)
+    {
+        if (state == POPUP_STATE.Servant || state == POPUP_STATE.Weapon || state == POPUP_STATE.EOS)
+        {
+            imageBackButtonIcon.gameObject.SetActive(true);
+            textBackButton.rectTransform.anchoredPosition = new Vector2(52, 6);
+        }
+        else
+        {
+            imageBackButtonIcon.gameObject.SetActive(false);
+            textBackButton.rectTransform.anchoredPosition = new Vector2(0, 6);
+        }
+    }
+
+
 
     public void OnClickChatButton()
     {
