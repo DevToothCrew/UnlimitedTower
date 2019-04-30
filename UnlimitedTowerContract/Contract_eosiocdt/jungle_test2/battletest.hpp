@@ -78,8 +78,6 @@ CONTRACT battletest : public contract
         uint64_t primary_key() const { return index; }
     };
     typedef eosio::multi_index<"tcheck"_n, tcheck> seed_log;
-    void set_seed_log(const std::vector<seed_info> _data);
-    void set_log_data(std::vector<seed_info> &_data, std::string _type, uint64_t _seed);
 #pragma endregion
 
 
@@ -335,6 +333,7 @@ CONTRACT battletest : public contract
         option_perfectcri,
         option_ignoreevade,
         option_nocritical,
+        option_nocri_noavoid,
 
         option_defense_decrease = 3001,
     };
@@ -628,9 +627,9 @@ CONTRACT battletest : public contract
   public:
     void substr_value(std::string _value, std::vector<std::string> & _value_list, std::vector<size_t> & _size_list, uint32_t _size);
     ACTION dbinsert(std::string _table, std::string _value);
-    //ACTION dberase(std::string _table, std::string _value);
+    ACTION dberase(std::string _table, std::string _value);
     //ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
-    //ACTION dbinit(std::string _table);
+    ACTION dbinit(std::string _table);
     //ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
 
 	//ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
@@ -642,23 +641,22 @@ CONTRACT battletest : public contract
     // void insert_servant(uint64_t _servant_id, uint32_t _job, uint32_t _body, uint32_t _gender, uint32_t _head, uint32_t _hair, uint32_t _grade);
     void insert_monster(uint64_t _monster_id, uint64_t _tribe, uint64_t _type);
     // void insert_monster_grade(std::string _status, uint64_t _grade, uint64_t _min, uint64_t _max);
-    // void insert_equip_item_id(uint64_t _item_id,
-    //                           uint64_t _item_set_id,
-    //                           uint64_t _type,
-    //                           uint64_t _tier,
-    //                           uint64_t _job,
-    //                           uint64_t _option,
-    //                           uint64_t _option_value_min,
-    //                           uint64_t _option_value_max,
-    //                           uint64_t _upgrade_option_value,
-    //                           uint64_t _random_option_id,
-    //                           std::vector<uint64_t> _grade_multi);
+    void insert_equip_item_id(uint64_t _item_id,
+                              uint64_t _item_set_id,
+                              uint64_t _type,
+                              uint64_t _tier,
+                              uint64_t _job,
+                              uint64_t _option,
+                              uint64_t _option_value_min,
+                              uint64_t _option_value_max,
+                              uint64_t _upgrade_option_value,
+                              std::vector<uint64_t> _grade_multi);
     // void insert_all_item_id(uint64_t _item_id, uint32_t _type, uint32_t _param, uint64_t _sell_id, uint64_t _sell_cost);
     // void insert_item_grade(std::string _status, uint64_t _grade, uint64_t _min, uint64_t _max);
     // void insert_grade_ratio(uint64_t _grade, uint64_t _ratio);
     // void insert_upgrade_monster_ratio(uint32_t _main, uint64_t _upgrade_price_count);
     // void insert_servant_burn_item(uint64_t _servant_job, uint64_t _result_item_id);
-    // void insert_level(uint32_t _level, uint32_t _rank_exp, uint32_t _char_exp);
+    void insert_level(uint32_t _level, uint32_t _rank_exp, uint32_t _char_exp);
 	void insert_passive(uint64_t _passive_id, uint32_t _passive_type, uint32_t _job_class, uint32_t _enable_stack_max, uint32_t _effect_id,
                                 uint32_t _effect_type_id, uint32_t _effect_value_a, uint32_t _effect_value_add_b, uint32_t _target_id);
     void insert_active(uint64_t _active_id,  uint32_t _job, uint32_t _tribe, uint32_t _active_per,
@@ -679,7 +677,7 @@ CONTRACT battletest : public contract
   //  void erase_body(uint64_t _appear);
   //  void erase_gender(uint64_t _appear);
   //  void erase_servant_id(uint64_t _id);
-  //  void erase_monster_id(uint64_t _id);
+    void erase_monster_id(uint64_t _id);
   //  void erase_monster_grade(uint64_t _grade);
   //  void erase_equip_item_id(uint64_t _id);
   //  void erase_all_item_id(uint64_t _id);
@@ -822,8 +820,8 @@ CONTRACT battletest : public contract
 #pragma endregion
 
 #pragma region token action
-    // ACTION create(name issuer, asset maximum_supply);
-    // ACTION issue(name to, asset quantity, string memo);
+    ACTION create(name issuer, asset maximum_supply);
+    ACTION issue(name to, asset quantity, string memo);
     ACTION transfer(name from, name to, asset quantity, string memo);
 #pragma endregion
 
@@ -1086,7 +1084,7 @@ CONTRACT battletest : public contract
     const char *action_gacha = "gacha";
     const char *action_signup = "signup";
     const char *action_inventory = "inventorybuy";
-    const char *action_secret = "secret";
+    const char *action_referral = "refer_signup";
     uint32_t servant_random_count;
     uint32_t monster_random_count;
     uint32_t equipment_random_count;
@@ -1212,6 +1210,7 @@ CONTRACT battletest : public contract
         std::string action;
         std::string param;
         uint64_t type;
+        uint32_t count;
         name to;
         asset quantity;
     };
@@ -1241,6 +1240,7 @@ CONTRACT battletest : public contract
 #pragma region login action
     ACTION eostransfer(eosio::name sender, eosio::name receiver);
     void signup(eosio::name _user);
+    void refer_signup(eosio::name _user, eosio::name _refer);
 #pragma endregion
 
  
@@ -1269,12 +1269,12 @@ CONTRACT battletest : public contract
     //————————————————owner_system—————————————//
     //————————————————————————————————————//
     ACTION setpause(uint64_t _state);
+    void master_active_check();
     void system_check(eosio::name _user);
     ACTION resultgacha(eosio::name _who, std::string _type, std::string _result);
-    //ACTION resultpre(eosio::name _from, eosio::name _to, std::string _result);
-    ACTION resultparty(eosio::name _who, std::string _party_info, std::string _servant_list, std::string _monster_list);
-	ACTION battlestate(eosio::name _who, std::string _stage_info ,std::vector<std::string> &_my_state_list, std::vector<std::string> &_enemy_state_list);
-    ACTION battleaction(eosio::name _who, std::string _turn, std::vector<std::string> &_action_data);
+    //ACTION resultparty(eosio::name _who, std::string _party_info, std::string _servant_list, std::string _monster_list);
+	//ACTION battlestate(eosio::name _who, std::string _stage_info ,std::vector<std::string> &_my_state_list, std::vector<std::string> &_enemy_state_list);
+    //ACTION battleaction(eosio::name _who, std::string _turn, std::vector<std::string> &_action_data);
     //ACTION battleresult(eosio::name _who, std::vector<std::string> &_reward);
     //ACTION contents(eosio::name _who, std::string _type, std::string _result);
     //ACTION contentslist(eosio::name _who, std::string _type, std::string _list);
@@ -1354,8 +1354,7 @@ CONTRACT battletest : public contract
 #pragma region store system
 
     ACTION itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count);
-    void inventory_buy(eosio::name _user, uint32_t _type);
-    void utg_cheat(eosio::name _user);
+    void inventory_buy(eosio::name _user, uint32_t _type, uint32_t _count);
 
 #pragma endregion
 
@@ -1481,6 +1480,7 @@ CONTRACT battletest : public contract
 #pragma region battle action table
     struct heal_compare
     {
+        uint32_t max_hp;
         uint32_t now_hp;
         uint32_t key;
     };
@@ -1629,7 +1629,7 @@ CONTRACT battletest : public contract
     int get_state_position_key(std::vector<character_state_data> & _state_list, uint32_t _position);
     int get_status_position_key(std::vector<battle_status_info> & _status_list, uint32_t _position);
 
-    void set_skill_damage(uint32_t _skill_id, uint32_t & _attack, uint32_t & _cri_dmg, uint32_t _cur_skill_per);
+    void set_skill_damage(uint32_t _skill_id, uint32_t & _attack, uint32_t _cur_skill_per);
 
     //================================================//
     void result_type_skill(eosio::name _user ,action_info &_action, std::vector<battle_status_info> &_my_status_list,
@@ -1674,18 +1674,12 @@ CONTRACT battletest : public contract
 #pragma endregion
 
 #pragma region tower_system
- 
-    //테스트용 함수
-    ACTION testsnap(eosio::name _user);
 
-    void testcheat(eosio::name _user);
-    
     void nftexchange(eosio::name _owner, eosio::name _master, std::string _type, uint64_t _master_index);
     ACTION nftmail(eosio::name _user, std::string _type, uint64_t _token_index,uint64_t _icon_id);
-    //ACTION change(eosio::name _user, std::string _kind, uint64_t _grade, uint64_t _id, std::string _status);
 
     void deletebattle(eosio::name _user);
-    ACTION deleteuser(eosio::name _user);
+    void deleteuser(eosio::name _user);
     ACTION alluserdel();
     ACTION allbattle();
 
@@ -1694,9 +1688,7 @@ CONTRACT battletest : public contract
     //-------------------------------------------------------------------------------//
 
 #pragma region preregist
-    ACTION movedb(eosio::name _user);
-
-
+    //ACTION movedb(eosio::name _user);
     TABLE dbservantid
     {
         uint64_t index;
@@ -1790,8 +1782,7 @@ CONTRACT battletest : public contract
         uint64_t primary_key() const { return owner.value; }
     };
     typedef eosio::multi_index<"tokenlog"_n, tokenlog> total_token_logs;
-    //ACTION inittokenlog();
-    //ACTION settokenlog();
+    ACTION inittokenlog();
 #pragma endregion
 
 
@@ -1882,5 +1873,30 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
     ACTION deletetower();
 
 #pragma endregion
+
+#pragma region refer
+    TABLE treferlist
+    {
+        eosio::name referer;
+        uint64_t primary_key() const { return referer.value; }
+    };
+    typedef eosio::multi_index<"treferlist"_n, treferlist> referlist;
+
+    ACTION addrefer(eosio::name _referer);
+    ACTION deleterefer(eosio::name _referer);
+#pragma endregion
+
+#pragma region white
+    TABLE twhitelist
+    {
+        eosio::name user;
+        uint64_t primary_key() const { return user.value; }
+    };
+    typedef eosio::multi_index<"twhitelist"_n, twhitelist> whitelist;
+
+    ACTION addwhite(eosio::name _user);
+    ACTION deletewhite(eosio::name _user);
+#pragma endregion
+
 
 };
