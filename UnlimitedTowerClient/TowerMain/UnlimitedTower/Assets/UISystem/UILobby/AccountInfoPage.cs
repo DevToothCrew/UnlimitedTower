@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class AccountInfoPage : MonoBehaviour {
+public class AccountInfoPage : MonoSingleton<AccountInfoPage>
+{
 
     public Image GradeImage;
     public Image ServantImage;
@@ -56,6 +57,7 @@ public class AccountInfoPage : MonoBehaviour {
 
     public void ExitButton()
     {
-        LobbyManager.Inst.OnClickBackButton();
+        LobbyManager.Inst.OnClosePopupWindow();
+        Destroy(this.gameObject);
     }
 }

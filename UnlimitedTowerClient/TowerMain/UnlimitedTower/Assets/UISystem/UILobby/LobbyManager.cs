@@ -5,6 +5,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     // Idle UI
     public GameObject centerUI;
     public GameObject topUI;
+    public GameObject upperUI;  //최상단 화면 전체 덮어야 하는 화면이 위치할(Parent) 곳.(Delay Image 보다는 아래임)
     public GameObject leftUI;
     public GameObject bottomUI;
     public GameObject rightUI;
@@ -41,7 +42,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
         EtcSetActiveWithAnimation(true);
         topUI.SetActivateWithAnimation(true);
-        chatUI.SetActivateWithAnimation(true);
+        //chatUI.SetActivateWithAnimation(true); //채팅창 임시 주석
         accountInfoUI.SetActive(true);
         BackbuttonUI.SetActive(false);
         ModelViewManager.Inst.ChangeMainCharacterModel();
@@ -60,7 +61,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
             case SCENE_STATE.Lobby:
                 EtcSetActiveWithAnimation(true);
                 topUI.SetActivateWithAnimation(true);
-                chatUI.SetActivateWithAnimation(true);
+                //chatUI.SetActivateWithAnimation(true); //채팅창 임시 주석
                 accountInfoUI.SetActive(true);
                 break;
 
@@ -166,41 +167,51 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                     }
                     else
                     {
-                        SetTextBackButton("Account Info");
-                        objSubView = Instantiate(Resources.Load("UI/Lobby/AccountInfoPage")) as GameObject;
-                        objSubView.transform.SetParent(this.transform);
-                        objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-
-                        BackbuttonUI.SetActive(true);
+                        if (AccountInfoPage.checkInst())
+                        {
+                            DebugLog.Log(false, "running Account Info Page");
+                        }
+                        else
+                        {
+                            SetTextBackButton("Account Info");
+                            GameObject objAccountInfoPage = Instantiate(Resources.Load("UI/Lobby/AccountInfoPage")) as GameObject;
+                            objAccountInfoPage.transform.SetParent(upperUI.transform);
+                            objAccountInfoPage.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                        }
+                        
                     }
                 }
                 break;
 
             case POPUP_STATE.Mail:
                 {
-                    SetTextBackButton("Mail");
-                    objSubView = Instantiate(Resources.Load("UI/Lobby/MailInfoPage")) as GameObject;
-                    objSubView.transform.SetParent(this.transform);
-                    objSubView.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -45); 
-
-                    BackbuttonUI.SetActive(true);
+                    if (MailInfoPage.checkInst())
+                    {
+                        DebugLog.Log(false, "running Mail Info Page");
+                    }
+                    else
+                    {
+                        SetTextBackButton("Mail");
+                        GameObject objMailInfoPage = Instantiate(Resources.Load("UI/Lobby/MailInfoPage")) as GameObject;
+                        objMailInfoPage.transform.SetParent(upperUI.transform);
+                        objMailInfoPage.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -45);
 
 #if UNITY_EDITOR
-                    Cheat.Inst.RequestMailListCheat();
+                        Cheat.Inst.RequestMailListCheat();
 #else
-                    PacketManager.Inst.RequestMailList();
+                        PacketManager.Inst.RequestMailList();
 #endif
+                    }
+
                 }
                 break;
 
             case POPUP_STATE.Setting:
                 {
-                    SetTextBackButton("Setting");
-                    objSubView = Instantiate(Resources.Load("UI/Lobby/MailInfoPage")) as GameObject;
-                    objSubView.transform.SetParent(this.transform);
-                    objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-
-                    BackbuttonUI.SetActive(true);
+                    //SetTextBackButton("Setting");
+                    //objSubView = Instantiate(Resources.Load("UI/Lobby/MailInfoPage")) as GameObject;
+                    //objSubView.transform.SetParent(this.transform);
+                    //objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                 }
                 break;
 
@@ -234,6 +245,19 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         GachaSound.SetActive(false);
 
         ModelViewManager.Inst.ChangeMainCharacterModel();
+    }
+
+    public void OnClosePopupWindow()//Main, Account Info , Setting...
+    {
+        //EtcSetActiveWithAnimation(true);
+
+        accountInfoUI.SetActive(true);
+        BackbuttonUI.SetActive(false);
+
+        LobbySound.SetActive(true);
+        GachaSound.SetActive(false);
+
+        //ModelViewManager.Inst.ChangeMainCharacterModel();
     }
 
     public void SetTextBackButton(string text)
