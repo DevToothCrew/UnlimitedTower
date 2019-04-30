@@ -81,5 +81,3 @@ int,int,string,string,string,#,#,int,string,int,string,int,localize,string,strin
 108203,20024,monster,에글루,Egglue,on,on,,Mysterious,7,Water,2,DB_monster_name_108203,,mst_egg_blue,weapon_glove,ic_mst_egg_blue
 108301,,monster,미믹,Mimic,off,on,,Mysterious,7,Light,5,DB_monster_name_108301,,mst_mimic,weapon_glove,ic_mst_mimic
 108401,,monster,오니,Oni,off,on,,Mysterious,7,Wind,4,DB_monster_name_108401,,mst_oni,weapon_glove,ic_mst_oni
-109101,,monster,최초의 거인,The First Giant,off,off,,Mysterious,7,Earth,3,DB_monster_name_109101,,mst_first_giant,weapon_glove,ic_mst_first_giant
-109201,,monster,사자왕,Lionheart,off,off,,Mysterious,7,Earth,3,DB_monster_name_109201,,mst_lionking,weapon_glove,ic_mst_lionking
