@@ -157,7 +157,7 @@ public class UTLoadingManager : MonoBehaviour {
     /// </summary>
     /// <param name="t"></param>
     /// <param name="cmnt"></param>
-    public void SetProgress(float t, string cmnt = "Loading ...")
+    public void SetProgress(float t, string cmnt = "Sync Blockchain Network ...")
     {
         uiInsideNextGage = uiInsideFullGage * t;
         uiComment.text = cmnt;

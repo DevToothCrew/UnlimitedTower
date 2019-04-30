@@ -555,7 +555,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         
         if(partyInfo.ServantList[partyInfo.selected_unit_idx].equipmentDic[selectedEquipType] == 0)
         {
-            TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Request Unequip");
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Request Unequip");
         }
 
 #if UNITY_EDITOR
@@ -577,7 +577,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         if (servantData == null)
         {
             Debug.LogError("Invalid Servant Index : " + servantIndex);
-            TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Servant Index");
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Servant Index");
             return;
         }
 
@@ -585,7 +585,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         if (servantData.equipmentDic.ContainsKey(selectedEquipType) == false)
         {
             Debug.LogError("Invalid Servant Data");
-            TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Servant Data");
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Servant Data");
             return;
         }
 
@@ -593,7 +593,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         if (servantData.equipmentDic[selectedEquipType] == equipmentIndex)
         {
             Debug.Log("Already Equiped");
-            TopUIManager.Inst.ShowSimpleErrorPopup("Already Equiped");
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Already Equiped");
             return;
         }
 
@@ -602,7 +602,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         if (equipmentData == null)
         {
             Debug.LogError("Invalid Equipment Index : " + equipmentIndex);
-            TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Equipment");
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Equipment");
             return;
         }
 
@@ -610,7 +610,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         if (equipmentData.equipmentType != selectedEquipType)
         {
             Debug.Log("Invalid Equipment Type : " + selectedEquipType.ToString() + ", ");
-            TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Equipment Type");
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Equipment Type");
             return;
         }
 
@@ -618,7 +618,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         if (equipmentData.isEquiped == true)
         {
             Debug.Log("Already ServantEquiped : " + equipmentData.equipServantIndex);
-            TopUIManager.Inst.ShowSimpleErrorPopup("Already Servant Equiped");
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Already Servant Equiped");
             return;
         }
 
@@ -642,7 +642,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         if (dbEquipmentData.isEquipAble(dbServantData.GetJobFlag) == false)
         {
             Debug.Log("Invalid Servant Equipable Job : " + dbServantData.GetJobFlag + ", Need Job : " + dbEquipmentData.jobLimit);
-            TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Servant Equipable Job");
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Servant Equipable Job");
             return;
         }
 
@@ -652,7 +652,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
             if (servantData.level <= 10)
             {
                 Debug.Log("Invalid Servant Equipable Level : " + servantData.level + ", Need Level : 11");
-                TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Servant Equipable Level, Need Level : 11");
+                SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Servant Equipable Level, Need Level : 11");
                 return;
             }
         }
@@ -661,7 +661,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
             if (servantData.level <= 20)
             {
                 Debug.Log("Invalid Servant Equipable Level : " + servantData.level + ", Need Level : 21");
-                TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Servant Equipable Level, Need Level : 21");
+                SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Servant Equipable Level, Need Level : 21");
                 return;
             }
         }
@@ -670,7 +670,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
             if (servantData.level <= 30)
             {
                 Debug.Log("Invalid Servant Equipable Level : " + servantData.level + ", Need Level : 31");
-                TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Servant Equipable Level, Need Level : 31");
+                SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Servant Equipable Level, Need Level : 31");
                 return;
             }
         }

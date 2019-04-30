@@ -457,14 +457,14 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                 if (insertMonsterData.state != 1)
                 {
                     Debug.Log("Invalid Monster State : " + insertMonsterData.state);
-                    TopUIManager.Inst.ShowSimpleErrorPopup("Monster Invalid Monster State");
+                    SimpleErrorPopupVC.Inst.UpdateErrorText("Monster Invalid Monster State");
                     return;
                 }
 
                 if (insertMonsterData.partyIndex != 0)
                 {
                     Debug.Log("Invalid Monster Index : " + insertMonsterData.partyIndex);
-                    TopUIManager.Inst.ShowSimpleErrorPopup("Monster Already In Party");
+                    SimpleErrorPopupVC.Inst.UpdateErrorText("Monster Already In Party");
                     return;
                 }
 
@@ -560,7 +560,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
     {
         if( (ulong)(Convert.ToInt32(textUgt.text) * 10000) > UserDataManager.Inst.GetUserUTG())
         {
-            TopUIManager.Inst.ShowSimpleErrorPopup("Not Enough UTG");
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Not Enough UTG");
             return;
         }
 
@@ -576,14 +576,14 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
             if (monsterData.state != 1 || subMonsterData.state != 1)
             {
                 Debug.Log("Invalid Monster State : " + subMonsterData.state);
-                TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Monster State");
+                SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Monster State");
                 return;
             }
 
             if (subMonsterData.partyIndex != 0)
             {
                 Debug.Log("Invalid Monster Index : " + subMonsterData.partyIndex);
-                TopUIManager.Inst.ShowSimpleErrorPopup("Monster Already In Party");
+                SimpleErrorPopupVC.Inst.UpdateErrorText("Monster Already In Party");
                 return;
             }
 
@@ -597,7 +597,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
         {
             if(textNeedPerCount.color == Color.red)
             {
-                TopUIManager.Inst.ShowSimpleErrorPopup("Not Enough Scroll");
+                SimpleErrorPopupVC.Inst.UpdateErrorText("Not Enough Scroll");
                 return;
             }
 

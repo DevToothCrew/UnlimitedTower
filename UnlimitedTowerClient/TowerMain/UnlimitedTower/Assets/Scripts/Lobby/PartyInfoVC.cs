@@ -639,7 +639,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                 {
                     if (formationSlot[btn_tag + 5] != 0)
                     {
-                        TopUIManager.Inst.ShowSimpleErrorPopup("THERE IS MONSTER IN FRONT OF SERVANT");
+                        SimpleErrorPopupVC.Inst.UpdateErrorText("THERE IS MONSTER IN FRONT OF SERVANT");
                         return;
                     }
                 }
@@ -712,13 +712,13 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         {
             if(formationSlot[selectedFormationSlot - 5] == 0)
             {
-                TopUIManager.Inst.ShowSimpleErrorPopup("THERE IS NO SERVANT IN THE BACK");
+                SimpleErrorPopupVC.Inst.UpdateErrorText("THERE IS NO SERVANT IN THE BACK");
                 return;
             }
 
             if (UserDataManager.Inst.GetMonsterInfo(character_unit_idx).state != 1)
             {
-                TopUIManager.Inst.ShowSimpleErrorPopup("Invalid Monster State");
+                SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Monster State");
                 return;
             }
 
@@ -767,7 +767,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         if(isDiff == false)
         {
             Debug.Log("Party Already Save");
-            TopUIManager.Inst.ShowSimpleErrorPopup("Party Already Save");
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Party Already Save");
             return;
         }
 

@@ -157,7 +157,7 @@ public class StagePage : MonoSingleton<StagePage> {
     {
         if(UserDataManager.Inst.GetUserPartyInfo().partyIndex == 0)
         {
-            TopUIManager.Inst.ShowSimpleErrorPopup("Invalid User State");
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid User State");
             return;
         }
 
@@ -170,25 +170,25 @@ public class StagePage : MonoSingleton<StagePage> {
 
         if(inventoryInfo.servantInventory < UserDataManager.Inst.GetServantCount())
         {
-            TopUIManager.Inst.ShowSimpleErrorPopup("Servant Inventory is Full");
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Servant Inventory is Full");
             return;
         }
 
         if (inventoryInfo.monsterInventory < UserDataManager.Inst.GetMonsterCount())
         {
-            TopUIManager.Inst.ShowSimpleErrorPopup("Monster Inventory is Full");
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Monster Inventory is Full");
             return;
         }
 
         if (inventoryInfo.equipmentInventory < UserDataManager.Inst.GetEquipmentCount())
         {
-            TopUIManager.Inst.ShowSimpleErrorPopup("Equipment Inventory is Full");
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Equipment Inventory is Full");
             return;
         }
 
         if (inventoryInfo.itemInventory < UserDataManager.Inst.GetItemTotalCount())
         {
-            TopUIManager.Inst.ShowSimpleErrorPopup("Item Inventory is Full");
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Item Inventory is Full");
             return;
         }
 

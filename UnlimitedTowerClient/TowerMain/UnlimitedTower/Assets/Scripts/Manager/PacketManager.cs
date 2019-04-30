@@ -99,12 +99,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
         //time limited or failed
         if (timer < 0.0f)
         {
-            TopUIManager.Inst.ShowSimpleErrorPopup("EXCEEDED MAXIMUM TIME");
+            SimpleErrorPopupVC.Inst.UpdateErrorText("EXCEEDED MAXIMUM TIME");
             onFailed?.Invoke("EXCEEDED MAXIMUM TIME");
         }
         else if (!recvPackedData.isSuccess)
         {
-            TopUIManager.Inst.ShowSimpleErrorPopup(recvPackedData.body);
+            SimpleErrorPopupVC.Inst.UpdateErrorText(recvPackedData.body);
             onFailed?.Invoke(recvPackedData.body);
         }
         else

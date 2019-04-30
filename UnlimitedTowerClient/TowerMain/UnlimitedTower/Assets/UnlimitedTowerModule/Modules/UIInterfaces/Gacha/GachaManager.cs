@@ -61,31 +61,31 @@ public class GachaManager : MonoBehaviour {
 
         if (inventoryInfo.servantInventory < UserDataManager.Inst.GetServantCount())
         {
-            TopUIManager.Inst.ShowSimpleErrorPopup("Servant Inventory is Full");
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Servant Inventory is Full");
             return;
         }
 
         if (inventoryInfo.monsterInventory < UserDataManager.Inst.GetMonsterCount())
         {
-            TopUIManager.Inst.ShowSimpleErrorPopup("Monster Inventory is Full");
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Monster Inventory is Full");
             return;
         }
 
         if (inventoryInfo.equipmentInventory < UserDataManager.Inst.GetEquipmentCount())
         {
-            TopUIManager.Inst.ShowSimpleErrorPopup("Equipment Inventory is Full");
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Equipment Inventory is Full");
             return;
         }
 
         if (inventoryInfo.itemInventory < UserDataManager.Inst.GetItemTotalCount())
         {
-            TopUIManager.Inst.ShowSimpleErrorPopup("Item Inventory is Full");
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Item Inventory is Full");
             return;
         }
 
         if (UserDataManager.Inst.GetUserEOS() < 1)
         {
-            TopUIManager.Inst.ShowSimpleErrorPopup("Not Enough EOS");
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Not Enough EOS");
             return;
         }
 
