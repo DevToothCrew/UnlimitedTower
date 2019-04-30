@@ -633,14 +633,36 @@ CONTRACT battletest : public contract
     //ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
 
 	//ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
-    // void insert_job(std::string _status, uint64_t _job, uint64_t _min, uint64_t _max);
-    // void insert_head(uint64_t _appear);
-    // void insert_hair(uint64_t _appear);
-    // void insert_body(uint64_t _appear);
-    // void insert_gender(uint64_t _appear);
-    // void insert_servant(uint64_t _servant_id, uint32_t _job, uint32_t _body, uint32_t _gender, uint32_t _head, uint32_t _hair, uint32_t _grade);
-    void insert_monster(uint64_t _monster_id, uint64_t _tribe, uint64_t _type);
-    // void insert_monster_grade(std::string _status, uint64_t _grade, uint64_t _min, uint64_t _max);
+    void insert_job(std::string _status, uint64_t _job, uint64_t _min, uint64_t _max);
+    void insert_head(uint64_t _appear);
+    void insert_hair(uint64_t _appear);
+    void insert_body(uint64_t _appear);
+    void insert_gender(uint64_t _appear);
+    void insert_servant(uint64_t _servant_id, uint32_t _job, uint32_t _body, uint32_t _gender, uint32_t _head, uint32_t _hair, uint32_t _grade);
+    
+    void insert_monster_grade(std::string _status, uint64_t _grade, uint64_t _min, uint64_t _max);
+
+    void insert_all_item_id(uint64_t _item_id, uint32_t _type, uint32_t _param, uint64_t _sell_id, uint64_t _sell_cost);
+    void insert_item_grade(std::string _status, uint64_t _grade, uint64_t _min, uint64_t _max);
+    void insert_grade_ratio(uint64_t _grade, uint64_t _ratio);
+    void insert_upgrade_monster_ratio(uint32_t _main, uint64_t _upgrade_price_count);
+    void insert_servant_burn_item(uint64_t _servant_job, uint64_t _result_item_id);
+
+    void insert_status_monster_up(uint64_t _type, uint64_t _first, uint64_t _second);
+    // void insert_itemshop(uint64_t _id, uint64_t _goods_type,
+    //                      uint64_t _goods_id, uint64_t _goods_count,
+    //                      uint64_t _goods_limited, uint64_t _price_type,
+    //                      uint64_t _etc_type, uint64_t _price_count);
+    void insert_itemshop(uint64_t _id, uint64_t _type, uint64_t _product_id, uint64_t _product_count, uint64_t _limit_count,
+                         uint64_t limit_max, uint64_t price_id, uint64_t _price_count);
+
+    void insert_level(uint32_t _level, uint32_t _rank_exp, uint32_t _char_exp);
+    void insert_passive(uint64_t _passive_id, uint32_t _passive_type, uint32_t _job_class, uint32_t _enable_stack_max, uint32_t _effect_id,
+                        uint32_t _effect_type_id, uint32_t _effect_value_a, uint32_t _effect_value_add_b, uint32_t _target_id);
+    void insert_active(uint64_t _active_id, uint32_t _job, uint32_t _tribe, uint32_t _active_per,
+                       uint32_t _skill_type, uint32_t _active_turn, uint32_t _attack_type, uint32_t _dmg_type, uint32_t _elemental_type, uint32_t _target, uint32_t _target_count,
+                       uint32_t _hit_count, uint32_t _atk_per, uint32_t _atk_per_add, uint32_t _atk_per_2, uint32_t _atk_per_add_2, uint32_t _heal_per, uint32_t _heal_per_add, uint32_t _option_id);
+    void insert_gacha_pool(uint64_t _gacha_id, uint64_t _db_index);
     void insert_equip_item_id(uint64_t _item_id,
                               uint64_t _item_set_id,
                               uint64_t _type,
@@ -651,32 +673,14 @@ CONTRACT battletest : public contract
                               uint64_t _option_value_max,
                               uint64_t _upgrade_option_value,
                               std::vector<uint64_t> _grade_multi);
-    // void insert_all_item_id(uint64_t _item_id, uint32_t _type, uint32_t _param, uint64_t _sell_id, uint64_t _sell_cost);
-    // void insert_item_grade(std::string _status, uint64_t _grade, uint64_t _min, uint64_t _max);
-    // void insert_grade_ratio(uint64_t _grade, uint64_t _ratio);
-    // void insert_upgrade_monster_ratio(uint32_t _main, uint64_t _upgrade_price_count);
-    // void insert_servant_burn_item(uint64_t _servant_job, uint64_t _result_item_id);
-    void insert_level(uint32_t _level, uint32_t _rank_exp, uint32_t _char_exp);
-	void insert_passive(uint64_t _passive_id, uint32_t _passive_type, uint32_t _job_class, uint32_t _enable_stack_max, uint32_t _effect_id,
-                                uint32_t _effect_type_id, uint32_t _effect_value_a, uint32_t _effect_value_add_b, uint32_t _target_id);
-    void insert_active(uint64_t _active_id,  uint32_t _job, uint32_t _tribe, uint32_t _active_per,
-                               uint32_t _skill_type, uint32_t _active_turn, uint32_t _attack_type, uint32_t _dmg_type, uint32_t _elemental_type, uint32_t _target, uint32_t _target_count, 
-                               uint32_t _hit_count, uint32_t _atk_per, uint32_t _atk_per_add, uint32_t _atk_per_2, uint32_t _atk_per_add_2, uint32_t _heal_per, uint32_t _heal_per_add,uint32_t _option_id);
-    void insert_gacha_pool(uint64_t _gacha_id, uint64_t _db_index);
-    // void insert_status_monster_up(uint64_t _type, uint64_t _first, uint64_t _second);
-    // void insert_itemshop(uint64_t _id, uint64_t _goods_type,
-    //                      uint64_t _goods_id, uint64_t _goods_count,
-    //                      uint64_t _goods_limited, uint64_t _price_type,
-    //                      uint64_t _etc_type, uint64_t _price_count);
-       void insert_itemshop(uint64_t _id, uint64_t _type, uint64_t _product_id, uint64_t _product_count, uint64_t _limit_count,
-                            uint64_t limit_max, uint64_t price_id, uint64_t _price_count);
+    void insert_monster(uint64_t _monster_id, uint64_t _tribe, uint64_t _type);
 
-   // void erase_job(uint64_t _job);
-  //  void erase_head(uint64_t _appear);
-  //  void erase_hair(uint64_t _appear);
-  //  void erase_body(uint64_t _appear);
-  //  void erase_gender(uint64_t _appear);
-  //  void erase_servant_id(uint64_t _id);
+    void erase_job(uint64_t _job);
+    //  void erase_head(uint64_t _appear);
+    //  void erase_hair(uint64_t _appear);
+    //  void erase_body(uint64_t _appear);
+    //  void erase_gender(uint64_t _appear);
+    //  void erase_servant_id(uint64_t _id);
     void erase_monster_id(uint64_t _id);
   //  void erase_monster_grade(uint64_t _grade);
   //  void erase_equip_item_id(uint64_t _id);
@@ -1367,23 +1371,8 @@ CONTRACT battletest : public contract
     // 4 + 4 + 4 + 4 + 4 + 4 + 8 + sbattle_member_state(9) = 41
     // sbattle_member_state 당 9 총 5개의 버프창이 있으면 45 + 32 = 77
   private:
-    const uint32_t warrior_speed = 22;
-    const uint32_t wizard_speed = 10;
-    const uint32_t priest_speed = 20;
-    const uint32_t archer_speed = 28;
-    const uint32_t thief_speed = 30;
-    const uint32_t beginner_speed = 12;
-
-  private:
-    const uint32_t oper_attack = 2;
-    const uint32_t oper_defense = 1;
-    const uint32_t oper_critical = 5;
-    const uint32_t oper_critical_damage = 15000;
-    const uint32_t oper_avoid = 5;
     const uint32_t defense_constant = 1000;
-
     const uint32_t decimal = 100;
-    const uint32_t max_battle_member_count = 20;
     const uint32_t max_party_count = 10;
 
   public:

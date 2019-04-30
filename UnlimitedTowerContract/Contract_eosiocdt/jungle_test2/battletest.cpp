@@ -4150,7 +4150,7 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
 
                 eosio_assert(transfer_data.memo.find(':') != std::string::npos, "Eos Transfer Gacha : Seed Memo [:] Error");
                 eosio_assert(transfer_data.memo.find(':', l_center + 1) != std::string::npos, "Eos Transfer Gacha : Seed Memo [:] Error");
-                eosio_assert(transfer_data.quantity.amount == 10000, "Eos Transfer Gacha : Gacha need 1.0000 EOS");
+                eosio_assert(transfer_data.quantity.amount == 10000, "Eos Transfer Gacha : Gacha need 1.0000 EOS"); //10000 EOS 로 수정해야함
 
                 std::string l_seed = transfer_data.memo.substr(l_center + 1, (l_next - l_center - 1));
                 std::string l_sha = transfer_data.memo.substr(l_next + 1, l_end);
@@ -4161,11 +4161,11 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
             }
             else if (res.action == "signup")
             {
-                eosio_assert(transfer_data.quantity.amount == 10000, "Eos Transfer Signup : Signup Need 1.0000 EOS");
+                eosio_assert(transfer_data.quantity.amount == 10000, "Eos Transfer Signup : Signup Need 1.0000 EOS"); //10000 EOS 로 수정해야함
             }
             else if (res.action == "refer_signup")
             {
-                eosio_assert(transfer_data.quantity.amount == 10000, "Eos Transfer Refer Signup : Signup Need 1.0000 EOS");
+                eosio_assert(transfer_data.quantity.amount == 10000, "Eos Transfer Refer Signup : Signup Need 1.0000 EOS"); //10000 EOS 로 수정해야함
                 size_t l_end = transfer_data.memo.length() - (l_center + 1);
                 std::string result = transfer_data.memo.substr(l_center + 1, l_end);
 
@@ -6314,7 +6314,7 @@ bool battletest::new_sort_heal_compare(const heal_compare &a, const heal_compare
 {
     float a_per = a.now_hp / a.max_hp;
     float b_per = b.now_hp / b.max_hp;
-    if (a_per < b_per)
+    if (a_per > b_per)
     {
         return true;
     }
@@ -7537,6 +7537,7 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
                                 {
                                     break;
                                 }
+                                update_action.character_action_list.push_back(action_info);
                             }
                             else if (active_iter->skill_type == active_skill_type::type_heal) //힐 스킬
                             {
