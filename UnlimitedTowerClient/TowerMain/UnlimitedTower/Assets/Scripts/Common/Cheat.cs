@@ -360,17 +360,11 @@ public class Cheat : MonoSingleton<Cheat>
                 newMember.upgrade = 0;
                 newMember.level = 5;
 
-                int skill = 0;
-                if (i < 2)
-                    skill = 200001;
-                else
-                    skill = 200002;
-
                 newMember.passive_skill_list = new List<int>();
                 newMember.passive_skill_list.Add(100005);
 
                 newMember.active_skill_list = new List<int>();
-                newMember.active_skill_list.Add(skill);
+                newMember.active_skill_list.Add(200016);
 
                 newMember.status.basic_str = servantData.status.basicStr;
                 newMember.status.basic_dex = servantData.status.basicDex;

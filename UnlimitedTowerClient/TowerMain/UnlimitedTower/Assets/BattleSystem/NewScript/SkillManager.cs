@@ -359,8 +359,11 @@ public class SkillManager : MonoSingleton<SkillManager>
     public IEnumerator Skill_200016_Co(characterActionData battleInfo)
     {
         BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
-        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.5f);
-        TestSkillEffect(battleInfo.action_info_list[0].target_position);
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay);
+        Instantiate(effect["200016"], BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform.position +
+           new Vector3(0, BattleManager.Inst.charInfo[battleInfo.action_info_list[0].target_position].Height * 0.5f, 0),
+           Quaternion.identity,
+           BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform);
     }
     #endregion
 
