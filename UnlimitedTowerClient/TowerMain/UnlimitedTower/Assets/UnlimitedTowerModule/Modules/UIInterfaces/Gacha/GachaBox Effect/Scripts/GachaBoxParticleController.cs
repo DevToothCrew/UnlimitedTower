@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.PostProcessing;
 
 public class GachaBoxParticleController : MonoBehaviour
@@ -28,7 +29,9 @@ public class GachaBoxParticleController : MonoBehaviour
     public List<GameObject> particles = new List<GameObject>();
 
     private Action callback = null;
-    private bool isGachaStart = false;
+
+    public Text gachaText;
+    public bool isGachaStart = false;
 
     private void Awake()
     {
@@ -39,7 +42,6 @@ public class GachaBoxParticleController : MonoBehaviour
         orinCubePosition = Cube.transform.localPosition;
         orinCubeRotation = Cube.transform.localRotation;
         orinCubeScale = Cube.transform.localScale;
-        
     }
 
     #region Summon 
@@ -133,18 +135,18 @@ public class GachaBoxParticleController : MonoBehaviour
 
     IEnumerator ParticleWatcher()
     {
-        while(particles.Count > particleCount / 10)
+        FinishAnimation();
+        while (particles.Count > particleCount / 10)
         {
             particles.RemoveAll(go => go == null);
             yield return new WaitForEndOfFrame();
         }
-
-        FinishAnimation();
     }
 
 
     public void BeginSummonAnimation(System.Action callback)
     {
+        gachaText.text = "Skip";
         isGachaStart = true;
 
         StopAllCoroutines();
@@ -177,6 +179,7 @@ public class GachaBoxParticleController : MonoBehaviour
 
     public void FinishAnimation()
     {
+        gachaText.text = "1 EOS";
         isGachaStart = false;
         StopAllCoroutines();
         callback?.Invoke();
@@ -186,13 +189,5 @@ public class GachaBoxParticleController : MonoBehaviour
     {
         bloomSettings.bloom.intensity = 0.0f;
         ppb.profile.bloom.settings = bloomSettings;
-    }
-
-    public void GachaSkip()
-    {
-        if (isGachaStart)
-        {
-            FinishAnimation();
-        }
     }
 }

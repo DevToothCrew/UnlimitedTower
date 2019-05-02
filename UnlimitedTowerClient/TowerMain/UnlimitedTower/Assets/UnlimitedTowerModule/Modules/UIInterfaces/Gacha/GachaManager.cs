@@ -41,7 +41,7 @@ public class GachaManager : MonoBehaviour {
 
     public void SetButtonActivate(bool value)
     {
-        startButton.interactable = value;
+        // startButton.interactable = value;
     }
 
     public void ExecuteGacha(bool withoutAnimation = false)
@@ -51,53 +51,59 @@ public class GachaManager : MonoBehaviour {
         // GachaIndex에 따른 필요 EOS를 체크한다.
 
         // 현재는 1EOS로 박아두기
-        
-        UserInventoryInfo inventoryInfo = UserDataManager.Inst.GetUserInventoryInfo();
-        if (inventoryInfo == null)
-        {
-            DebugLog.Log(false, "Invalid Inventory Info");
-            return;
-        }
 
-        if (inventoryInfo.servantInventory < UserDataManager.Inst.GetServantCount())
+        if (particleController.isGachaStart == true)
         {
-            SimpleErrorPopupVC.Inst.UpdateErrorText("Servant Inventory is Full");
-            return;
+            particleController.BeginDispersionAnimation();
         }
+        else {
+            UserInventoryInfo inventoryInfo = UserDataManager.Inst.GetUserInventoryInfo();
+            if (inventoryInfo == null)
+            {
+                DebugLog.Log(false, "Invalid Inventory Info");
+                return;
+            }
 
-        if (inventoryInfo.monsterInventory < UserDataManager.Inst.GetMonsterCount())
-        {
-            SimpleErrorPopupVC.Inst.UpdateErrorText("Monster Inventory is Full");
-            return;
-        }
+            if (inventoryInfo.servantInventory < UserDataManager.Inst.GetServantCount())
+            {
+                SimpleErrorPopupVC.Inst.UpdateErrorText("Servant Inventory is Full");
+                return;
+            }
 
-        if (inventoryInfo.equipmentInventory < UserDataManager.Inst.GetEquipmentCount())
-        {
-            SimpleErrorPopupVC.Inst.UpdateErrorText("Equipment Inventory is Full");
-            return;
-        }
+            if (inventoryInfo.monsterInventory < UserDataManager.Inst.GetMonsterCount())
+            {
+                SimpleErrorPopupVC.Inst.UpdateErrorText("Monster Inventory is Full");
+                return;
+            }
 
-        if (inventoryInfo.itemInventory < UserDataManager.Inst.GetItemTotalCount())
-        {
-            SimpleErrorPopupVC.Inst.UpdateErrorText("Item Inventory is Full");
-            return;
-        }
+            if (inventoryInfo.equipmentInventory < UserDataManager.Inst.GetEquipmentCount())
+            {
+                SimpleErrorPopupVC.Inst.UpdateErrorText("Equipment Inventory is Full");
+                return;
+            }
 
-        if (UserDataManager.Inst.GetUserEOS() < 1)
-        {
-            SimpleErrorPopupVC.Inst.UpdateErrorText("Not Enough EOS");
-            return;
-        }
+            if (inventoryInfo.itemInventory < UserDataManager.Inst.GetItemTotalCount())
+            {
+                SimpleErrorPopupVC.Inst.UpdateErrorText("Item Inventory is Full");
+                return;
+            }
+
+            if (UserDataManager.Inst.GetUserEOS() < 1)
+            {
+                SimpleErrorPopupVC.Inst.UpdateErrorText("Not Enough EOS");
+                return;
+            }
 
 #if UNITY_EDITOR
-        {
-            Cheat.Inst.RequestGachaCheat(1);
-        }
+            {
+                Cheat.Inst.RequestGachaCheat(1);
+            }
 #else
         {
             PacketManager.Inst.RequestGacha(1);
         }
 #endif
+        }
     }
 
     public void CloseGachaResult()
