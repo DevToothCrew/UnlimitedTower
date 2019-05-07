@@ -126,6 +126,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
     public void ResetScrollListBySortType(SORT_TYPE type)
     {
         sort_type = type;
+        scrollList.scrollRect.velocity = Vector2.zero;
         scrollList.SetItemOrder(getOrder());
         scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
         scrollList.ScrollViewDidScroll();

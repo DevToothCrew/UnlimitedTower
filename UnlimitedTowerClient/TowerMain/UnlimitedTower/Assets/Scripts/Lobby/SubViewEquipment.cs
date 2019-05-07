@@ -78,7 +78,6 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
 
     private int[] current_stat = new int[10];
     private int[] change_stat = new int[10];
-    private Status changeStatus = new Status();
 
     private EQUIPMENT_TYPE selectedEquipType;
 
@@ -171,6 +170,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
     public void ResetScrollListBySortType(SORT_TYPE type)
     {
         sort_type = type;
+        scrollList.scrollRect.velocity = Vector2.zero;
         scrollList.SetItemOrder(getOrder());
         scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
         scrollList.ScrollViewDidScroll();
@@ -447,7 +447,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         }
         else
         {
-            DebugLog.Log(false, "change item nono");
+            DebugLog.Log(false, "change item none");
             FrameChangeItemInfo.SetActive(false);
             FrameChangeItemNone.SetActive(true);
 
@@ -473,10 +473,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
             return;
         }
 
-        changeStatus = new Status();
-        changeStatus.basicStr = change_stat[(int)EQUIPMENT_OPTION_TYPE.STR];
-        changeStatus.basicDex = change_stat[(int)EQUIPMENT_OPTION_TYPE.DEX];
-        changeStatus.basicInt = change_stat[(int)EQUIPMENT_OPTION_TYPE.INT];
+        int[] equipmentValue = Calculator.GetStatsOnlyAllEquipment(servantData);
 
         textStr.text = string.Format("{0}", servantData.status.basicStr + SetChangeValue(textStrChange, EQUIPMENT_OPTION_TYPE.STR));
         textDex.text = string.Format("{0}", servantData.status.basicDex + SetChangeValue(textDexChange, EQUIPMENT_OPTION_TYPE.DEX));
@@ -497,27 +494,29 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
 
     public int SetChangeValue(Text textChangeValue, EQUIPMENT_OPTION_TYPE type)
     {
+        
+
         int addValue = 0;
-        if (type == EQUIPMENT_OPTION_TYPE.HP)
-        {
-            addValue = Calculator.GetMaxHp(changeStatus);
-        }
-        else if (type == EQUIPMENT_OPTION_TYPE.ATK)
-        {
-            addValue = Calculator.GetAttack(changeStatus);
-        }
-        else if (type == EQUIPMENT_OPTION_TYPE.MATK)
-        {
-            addValue = Calculator.GetMagicAttack(changeStatus);
-        }
-        else if (type == EQUIPMENT_OPTION_TYPE.DEF)
-        {
-            addValue = Calculator.GetDefence(changeStatus);
-        }
-        else if (type == EQUIPMENT_OPTION_TYPE.MDEF)
-        {
-            addValue = Calculator.GetMagicDefence(changeStatus);
-        }
+        //if (type == EQUIPMENT_OPTION_TYPE.HP)
+        //{
+        //    addValue = Calculator.GetMaxHp(changeStatus);
+        //}
+        //else if (type == EQUIPMENT_OPTION_TYPE.ATK)
+        //{
+        //    addValue = Calculator.GetAttack(changeStatus);
+        //}
+        //else if (type == EQUIPMENT_OPTION_TYPE.MATK)
+        //{
+        //    addValue = Calculator.GetMagicAttack(changeStatus);
+        //}
+        //else if (type == EQUIPMENT_OPTION_TYPE.DEF)
+        //{
+        //    addValue = Calculator.GetDefence(changeStatus);
+        //}
+        //else if (type == EQUIPMENT_OPTION_TYPE.MDEF)
+        //{
+        //    addValue = Calculator.GetMagicDefence(changeStatus);
+        //}
 
         int change_value = change_stat[(int)type] - current_stat[(int)type] + addValue;
 
