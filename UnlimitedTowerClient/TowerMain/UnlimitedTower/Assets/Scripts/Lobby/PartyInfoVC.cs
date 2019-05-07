@@ -635,16 +635,37 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         int synergyCount = 0;
         for(int i = 0; i < 8; i++)
         {
+            int idCount = 0;
             if(synergy[i] == 5)
             {
-                DBSkillPassiveData synergyData = CSVData.Inst.GetSynergyData(i + 1, 3);
-                imageSynergyIcon[synergyCount].sprite = synergyData.passiveIcon;
-                textSynergySubject[synergyCount].text = synergyData.name;
-                textSynergyDetail[synergyCount].text = synergyData.explain;
-                PartySynergy[synergyCount].SetActive(true);
+                idCount = 3;
             }
+            else if(synergy[i] == 3)
+            {
+                idCount = 2;
+            }
+            else if(synergy[i] == 2)
+            {
+                idCount = 1;
+            }
+
+            if(idCount == 0)
+            {
+                continue;
+            }
+
+            DBSkillPassiveData synergyData = CSVData.Inst.GetSynergyData(i + 1, idCount);
+            imageSynergyIcon[synergyCount].sprite = synergyData.passiveIcon;
+            textSynergySubject[synergyCount].text = synergyData.name;
+            textSynergyDetail[synergyCount].text = synergyData.explain;
+            PartySynergy[synergyCount].SetActive(true);
+            synergyCount += 1;
         }
 
+        for(int i = synergyCount; i < 3; i++)
+        {
+            PartySynergy[i].SetActive(false);
+        }
     }
     
     public void OnClickFormationSlot(int btn_tag)
