@@ -534,6 +534,7 @@ CONTRACT battletest : public contract
     TABLE dbserstat
     {
         uint64_t id;
+        uint32_t job;
         uint32_t grade;
         uint32_t base_str;
         uint32_t base_dex;
@@ -547,6 +548,7 @@ CONTRACT battletest : public contract
     typedef eosio::multi_index<"dbserstat"_n, dbserstat> serstat_db;
 
     void insert_job_stat(uint64_t _id,
+                        uint32_t _job,
                          uint32_t _grade,
                          uint32_t _base_str,
                          uint32_t _base_dex,
@@ -1798,53 +1800,53 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
 
 
 #pragma region tower
-    TABLE teoslog
-    {
-        eosio::name user;
-        uint64_t signup_eos = 0;
-        uint64_t status_change_num = 0;
-        uint64_t gacha_eos = 0;
-        uint64_t primary_key() const { return user.value; }
-    };
-    typedef eosio::multi_index<"teoslog"_n, teoslog> eos_logs;
+    // TABLE teoslog
+    // {
+    //     eosio::name user;
+    //     uint64_t signup_eos = 0;
+    //     uint64_t status_change_num = 0;
+    //     uint64_t gacha_eos = 0;
+    //     uint64_t primary_key() const { return user.value; }
+    // };
+    // typedef eosio::multi_index<"teoslog"_n, teoslog> eos_logs;
 
-    TABLE tsnapshot
-    {
-        uint64_t snapshot_count = 0;
-        uint64_t signup_eos = 0;
-        uint64_t status_change_num = 0;
-        uint64_t gacha_eos = 0;
-        uint64_t total_eos = 0;
-        eosio::name winner;
-        uint64_t primary_key() const { return snapshot_count; }
-    };
-    typedef eosio::multi_index<"tsnapshot"_n, tsnapshot> eos_snapshots;
+    // TABLE tsnapshot
+    // {
+    //     uint64_t snapshot_count = 0;
+    //     uint64_t signup_eos = 0;
+    //     uint64_t status_change_num = 0;
+    //     uint64_t gacha_eos = 0;
+    //     uint64_t total_eos = 0;
+    //     eosio::name winner;
+    //     uint64_t primary_key() const { return snapshot_count; }
+    // };
+    // typedef eosio::multi_index<"tsnapshot"_n, tsnapshot> eos_snapshots;
 
     void towersnap(uint64_t fnum);
     void settower(eosio::name _loser, eosio::name _winner, uint64_t _loser_party_num, uint64_t _winner_party_num);
 
-    TABLE floorinfo
-    {
-        uint64_t fnum;
-        name owner;
-        uint64_t bnum;
-        uint64_t pnum;
-        string state;
-        uint64_t endtime;
+    // TABLE floorinfo
+    // {
+    //     uint64_t fnum;
+    //     name owner;
+    //     uint64_t bnum;
+    //     uint64_t pnum;
+    //     string state;
+    //     uint64_t endtime;
 
-        uint64_t primary_key() const { return fnum; }
-    };
-    typedef eosio::multi_index<"floorinfos"_n, floorinfo> floor_index;
+    //     uint64_t primary_key() const { return fnum; }
+    // };
+    // typedef eosio::multi_index<"floorinfos"_n, floorinfo> floor_index;
 
-    ACTION toweropen();                                  //1층에 아무도 없을때 우리가 열어주는 기능
-    ACTION endflag(eosio::name _winner, uint64_t _fnum); //24시간 체크
+    //ACTION toweropen();                                  //1층에 아무도 없을때 우리가 열어주는 기능
+    //ACTION endflag(eosio::name _winner, uint64_t _fnum); //24시간 체크
     void resetparty(eosio::name _user, uint64_t _pnum);
-    ACTION claim(eosio::name who, uint64_t funm);        //인출하고  다음층여는기능
+    //ACTION claim(eosio::name who, uint64_t funm);        //인출하고  다음층여는기능
     void towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint64_t bnum);
     void towerlose(eosio::name loser);
     void get_tower_state(uint64_t _fnum, std::vector<character_state_data> &_enemy_state_list, std::vector<std::string> &_state);
-    ACTION towerstart(eosio::name _from, uint64_t _fnum);
-    ACTION deletetower();
+    //ACTION towerstart(eosio::name _from, uint64_t _fnum);
+    //ACTION deletetower();
 
 #pragma endregion
 
@@ -1875,5 +1877,24 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
     ACTION premove(eosio::name _user);
 #pragma endregion
 
+
+#pragma region seed check
+    struct seed_info
+    {
+        std::string type;
+        uint64_t seed;
+        uint64_t result;
+    };
+    
+    TABLE tcheck
+    {
+        uint64_t index;
+        seed_info value;
+        uint64_t primary_key() const { return index; }
+    };
+    typedef eosio::multi_index<"tcheck"_n, tcheck> seed_log;
+
+    void set_seed(std::string _type, uint64_t _seed, uint64_t _result);
+#pragma endregion
 
 };
