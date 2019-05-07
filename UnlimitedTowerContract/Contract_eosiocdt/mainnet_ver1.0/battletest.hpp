@@ -1320,8 +1320,7 @@ CONTRACT battletest : public contract
     ACTION itemburn(eosio::name _user, const std::vector<uint64_t> &_item_list, const std::vector<uint64_t> &_count_list);
 
     ACTION equip(eosio::name _user, uint32_t _servant_index, uint32_t _item_index);
-    ACTION unequip(eosio::name _user, uint32_t _servant_index, uint32_t _slot_type);
-
+    
     bool compare_item(uint32_t _user_servant, uint32_t _user_item);
 
 #pragma endregion
@@ -1662,7 +1661,8 @@ CONTRACT battletest : public contract
     //-------------------------------------------------------------------------------//
 
 #pragma region preregist
-    //ACTION movedb(eosio::name _user);
+    ACTION movedb(eosio::name _user);
+    
     TABLE dbservantid
     {
         uint64_t index;
