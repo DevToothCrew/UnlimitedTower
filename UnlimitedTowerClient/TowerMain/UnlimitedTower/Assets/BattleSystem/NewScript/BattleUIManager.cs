@@ -224,7 +224,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         }
 #endif
         Time.timeScale = 1;
-        BattleManager.Inst.rewardParent.SetActive(false);
+        // BattleManager.Inst.rewardParent.SetActive(false);
     }
 
     public void StageContinue()
@@ -250,7 +250,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         }
 #endif
         Time.timeScale = 1;
-        BattleManager.Inst.battleFail.SetActive(false);
-        BattleManager.Inst.rewardParent.SetActive(false);
+        // BattleManager.Inst.battleFail.SetActive(false);
+        // BattleManager.Inst.rewardParent.SetActive(false);
     }
 }
