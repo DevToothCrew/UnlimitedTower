@@ -87,6 +87,7 @@ public class MonsterInfoManager : MonoBehaviour {
 
         //textGradeText.text;
         textGrade.text = string.Format("{0}", unit_data.gradeType);
+        textGrade.color = DEFINE.GetGradeColor(unit_data.gradeType);
         //textUpgradeText.text;
         textUpgrade.text = string.Format("+{0}", unit_data.upgrade);
         //textClassText.text;

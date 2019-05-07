@@ -116,7 +116,35 @@ public class DEFINE
             charSize = SIZE_TYPE.SMALL;
         }
         return charSize;
-    }    
+    }
+
+    //등급에 따른 컬러값
+    public static Color GetGradeColor(GRADE_TYPE type) {
+        Color grade_color;
+        switch (type)
+        {
+            case GRADE_TYPE.COMMON:
+                grade_color = new Color(1f, 1f, 1f);
+                break;
+            case GRADE_TYPE.UNCOMMON:
+                grade_color = new Color(44 / 255f, 1f, 121 / 255f);
+                break;
+            case GRADE_TYPE.RARE:
+                grade_color = new Color(82 / 255f, 192 / 255f, 1f);
+                break;
+            case GRADE_TYPE.UNIQUE:
+                grade_color = new Color(231 / 255f, 75 / 255f, 1f);
+                break;
+            case GRADE_TYPE.LEGENDARY:
+                grade_color = new Color(1f, 150 / 250f, 39 / 255f);
+                break;
+            default:
+                grade_color = Color.black;
+                break;
+        }
+        return grade_color;
+    }
+
 }
 
 #endregion

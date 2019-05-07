@@ -163,6 +163,7 @@ public class EquipmentInfoManager : MonoSingleton<EquipmentInfoManager>
         textEquipmentName.text = dBEquipmentData.name;
         //textCurrentGradeText.text;
         textGrade.text = string.Format("{0}", ((GRADE_TYPE)equipmentData.grade));
+        textGrade.color = DEFINE.GetGradeColor((GRADE_TYPE)equipmentData.grade);
         //textCurrentUpgradeText.text;
         textUpgrade.text = string.Format("+{0}", (equipmentData.upgrade)); ;
         //textCurrentTierText.text;

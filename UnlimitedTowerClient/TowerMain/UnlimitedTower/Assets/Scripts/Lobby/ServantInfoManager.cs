@@ -120,6 +120,7 @@ public class ServantInfoManager : MonoSingleton<ServantInfoManager> {
 
         //textGradeText.text;
         textGrade.text = string.Format("{0}", unit_data.gradeType);
+        textGrade.color = DEFINE.GetGradeColor(unit_data.gradeType);
         //textJobText.text;
         imagejob.sprite = CSVData.Inst.GetSpriteServantJob(unit_data.jobType);
         //textStatsText.text;
