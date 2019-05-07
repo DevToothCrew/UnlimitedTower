@@ -1195,8 +1195,8 @@ MonoBehaviour:
   resultName: {fileID: 114509560783547188}
   characterStatus: {fileID: 1657427377593236}
   resultStrStat: {fileID: 114808335338279290}
-  resultDexStat: {fileID: 114680213267896154}
-  resultIntStat: {fileID: 114593904105837002}
+  resultDexStat: {fileID: 114593904105837002}
+  resultIntStat: {fileID: 114680213267896154}
   equipmentValue: {fileID: 1638059025773554}
   valueStatusImage: {fileID: 114219224804802672}
   resultValueStat: {fileID: 114161091357258270}
