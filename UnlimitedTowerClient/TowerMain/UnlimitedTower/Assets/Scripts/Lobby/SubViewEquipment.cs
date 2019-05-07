@@ -68,10 +68,6 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
     public Text textMAtkChange;
     public Text textMDef;
     public Text textMDefChange;
-    public Text textMCri;
-    public Text textMCriChange;
-    public Text textMCriPer;
-    public Text textMCriPerChange;
 
     public Button buttonClear;
     public Button buttonChange;
@@ -494,9 +490,6 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
 
         textPCri.text = string.Format("{0}", dBServantData.criDmg);
         textPCriPer.text = string.Format("{0}", dBServantData.criPer);
-
-        textMCri.text = string.Format("{0}", dBServantData.mcriDmg);
-        textMCriPer.text = string.Format("{0}", dBServantData.mcriPer);
     }
 
     public int SetChangeValue(Text textChangeValue, EQUIPMENT_OPTION_TYPE type)

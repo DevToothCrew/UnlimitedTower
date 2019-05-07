@@ -1,8 +1,12 @@
-﻿id,job,speed,avoid,cri_per,cri_dmg,mcri_per,mcri_dmg
-#,서번트 직업,속도,회피 확률,물리 치명타 발생율,물리 치명타  피해율,마법 치명타 발생율,마법 치명타  피해율
-int,string,int,int,float,float,float,float
-1,warrior,124,0,10,150,10,150
-2,thief,143,0,15,200,10,150
-3,cleric,114,0,10,150,10,150
-4,archer,138,0,15,200,10,150
-5,magician,110,0,10,150,10,250
+id,#,job,grade,base_str,base_dex,base_int,speed,avoid,cri_per,cri_dmg
+#,서번트 직업,서번트 직업,등급,힘,민,지,속도,회피 확률,치명타 발생율,치명타  피해율
+int,string,int,int,int,int,int,int,int,float,float
+1101,Lionheart,1,1,110,66,22,130,0,0,0
+1501,warrior,1,5,50,30,10,124,0,0,0
+2101,Shadow Assassin,2,1,66,110,22,150,0,0,0
+2501,thief,2,5,30,50,10,143,0,0,0
+3101,Sister Maria,3,1,66,22,110,119,0,0,0
+3501,cleric,3,5,30,10,50,114,0,0,0
+4101,Wind Walker,4,1,110,66,22,130,0,0,0
+4501,archer,4,5,20,50,20,138,0,0,0
+5501,magician,5,5,20,20,50,110,0,0,0

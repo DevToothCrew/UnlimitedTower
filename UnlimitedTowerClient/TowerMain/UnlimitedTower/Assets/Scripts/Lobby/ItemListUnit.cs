@@ -31,7 +31,7 @@ public class ItemListUnit : ScrollListUnit {
         itemInfo = ItemInfoManager.Inst;
 
         //Todo :set Image
-        //ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][selected_idx].grade);
+        ImageGrade.sprite = CSVData.Inst.GetSpriteGrade(GRADE_TYPE.COMMON);
         imageItem.sprite = CSVData.Inst.GetItemData(itemInfo.ItemList[selected_idx].id).ItemIcon;
         textItemName.text = CSVData.Inst.GetItemData(itemInfo.ItemList[selected_idx].id).name;
 

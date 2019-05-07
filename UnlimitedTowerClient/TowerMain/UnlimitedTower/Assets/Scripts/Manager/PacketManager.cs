@@ -1378,6 +1378,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
             {
                 info.itemInventory = getBuyItemData.invetory_info.item_inventory;
             }
+
+            UserDataManager.Inst.SetUserInventoryInfo(info);
         }
 
         LobbyTopInfo.Inst.UpdateTopInfo();
@@ -2012,9 +2014,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 return null;
             }
             stateData.criPer = servantData.criPer;
-            stateData.mCriPer = servantData.mcriPer;
             stateData.criDmg = servantData.criDmg;
-            stateData.mCriDmg = servantData.mcriDmg;
             stateData.avoid = servantData.avoid;
             stateData.speed = servantData.speed;
             stateData.job = servantData.job;
@@ -2028,9 +2028,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 return null;
             }
             stateData.criPer = monsterData.criPer;
-            stateData.mCriPer = monsterData.mcriPer;
             stateData.criDmg = monsterData.criDmg;
-            stateData.mCriDmg = monsterData.mcriDmg;
             stateData.avoid = monsterData.avoid;
             stateData.speed = monsterData.speed;
             stateData.tribeType = (int)monsterData.tribeType;

@@ -15,7 +15,7 @@ public class CSVData : MonoSingleton<CSVData>
     public Dictionary<int, DBLocalizationData> DBLocalDataDic = new Dictionary<int, DBLocalizationData>();
     private LOCALIZATION_TYPE localType;
     public Dictionary<int, DBServantData> DBServantDataDic = new Dictionary<int, DBServantData>();
-    public Dictionary<SERVANT_JOB, DBServantStatData> DBServantStatDataDic = new Dictionary<SERVANT_JOB, DBServantStatData>();
+    public Dictionary<int, DBServantStatData> DBServantStatDataDic = new Dictionary<int, DBServantStatData>();
     public Dictionary<int, DBMonsterData> DBMonsterDataDic = new Dictionary<int, DBMonsterData>();
     public Dictionary<TRIBE_TYPE, DBMonsterStatData> DBMonsterStatDataDic = new Dictionary<TRIBE_TYPE, DBMonsterStatData>();
     public Dictionary<int, DBMonsterUpgradeData> DBMonsterUpgradeDataDic = new Dictionary<int, DBMonsterUpgradeData>();
@@ -305,7 +305,7 @@ public class CSVData : MonoSingleton<CSVData>
             //DebugLog.Log(false, "index " + (i).ToString()
             //    + " : " + data[i]["id"]
             //    + " " + data[i]["name"]
-            //    + " " + data[i]["job_limit_bit"]
+            //    + " " + data[i]["job_limit"]
             //    + " " + data[i]["tier"]
             //    + " " + data[i]["equip_type"]
             //    + " " + data[i]["option_list"]
@@ -518,8 +518,6 @@ public class CSVData : MonoSingleton<CSVData>
             //    + " " + data[i]["int"]
             //    + " " + data[i]["cri_per"]
             //    + " " + data[i]["cri_dmg"]
-            //    + " " + data[i]["mcri_per"]
-            //    + " " + data[i]["mcri_dmg"]
             //    + " " + data[i]["spd"]
             //    + " " + data[i]["avd"]
             //    + " " + data[i]["active_list"]
@@ -551,8 +549,6 @@ public class CSVData : MonoSingleton<CSVData>
 
             stageEnemyData.criPer = Convert.ToInt32(data[i]["cri_per"]);
             stageEnemyData.criDmg = Convert.ToInt32(data[i]["cri_dmg"]);
-            stageEnemyData.mcriPer = Convert.ToInt32(data[i]["mcri_per"]);
-            stageEnemyData.mcriDmg = Convert.ToInt32(data[i]["mcri_dmg"]);
             stageEnemyData.speed = Convert.ToInt32(data[i]["spd"]);
             stageEnemyData.avoid = Convert.ToInt32(data[i]["avd"]);
 
@@ -701,24 +697,29 @@ public class CSVData : MonoSingleton<CSVData>
             //DebugLog.Log(false, "index " + (i).ToString()
             //    + " : " + data[i]["id"]
             //    + " " + data[i]["job"]
+            //    + " " + data[i]["base_str"]
+            //    + " " + data[i]["base_dex"]
+            //    + " " + data[i]["base_int"]
+            //    + " " + data[i]["grade"]
             //    + " " + data[i]["speed"]
             //    + " " + data[i]["avoid"]
             //    + " " + data[i]["cri_per"]
             //    + " " + data[i]["cri_dmg"]
-            //    + " " + data[i]["mcri_per"]
-            //    + " " + data[i]["mcri_dmg"]
             //    );
 
             DBServantStatData servantStatData = new DBServantStatData();
-            servantStatData.jobEnum = (SERVANT_JOB)Convert.ToInt32(data[i]["id"]);
+            servantStatData.id = Convert.ToInt32(data[i]["id"]);
+            servantStatData.jobEnum = (SERVANT_JOB)Convert.ToInt32(data[i]["job"]);
+            servantStatData.status.basicStr = Convert.ToInt32(data[i]["base_str"]);
+            servantStatData.status.basicDex = Convert.ToInt32(data[i]["base_dex"]);
+            servantStatData.status.basicInt = Convert.ToInt32(data[i]["base_int"]);
+            servantStatData.grade = Convert.ToInt32(data[i]["grade"]);
             servantStatData.speed = Convert.ToInt32(data[i]["speed"]);
             servantStatData.avoid = Convert.ToInt32(data[i]["avoid"]);
             servantStatData.criPer = Convert.ToInt32(data[i]["cri_per"]);
             servantStatData.criDmg = Convert.ToInt32(data[i]["cri_dmg"]);
-            servantStatData.mcriPer = Convert.ToInt32(data[i]["mcri_per"]);
-            servantStatData.mcriDmg = Convert.ToInt32(data[i]["mcri_dmg"]);
 
-            DBServantStatDataDic.Add(servantStatData.jobEnum, servantStatData);
+            DBServantStatDataDic.Add(servantStatData.id, servantStatData);
         }
 
         return true;
@@ -743,22 +744,6 @@ public class CSVData : MonoSingleton<CSVData>
             servantData.id = Convert.ToInt32(data[i]["id"]);
             servantData.job = Convert.ToInt32(data[i]["job"]);
 
-            if (DBServantStatDataDic.ContainsKey((SERVANT_JOB)servantData.job) == true)
-            {
-                DBServantStatData statData = DBServantStatDataDic[(SERVANT_JOB)servantData.job];
-                servantData.speed = statData.speed;
-                servantData.avoid = statData.avoid;
-                servantData.criPer = statData.criPer;
-                servantData.criDmg = statData.criDmg;
-                servantData.mcriPer = statData.mcriPer;
-                servantData.mcriDmg = statData.mcriDmg;
-            }
-            else
-            {
-                DebugLog.Log(false, "Invalid Job Num : " + servantData.job);
-                return false;
-            }
-
             servantData.body = Convert.ToInt32(data[i]["body"]);
             servantData.gender = Convert.ToInt32(data[i]["gender"]);
             servantData.head = Convert.ToInt32(data[i]["head"]);
@@ -778,6 +763,22 @@ public class CSVData : MonoSingleton<CSVData>
                 default:
                     DebugLog.Log(true, "Invalid Request DBServant");
                     return false;
+            }
+
+            int statID = (servantData.job * 1000) + ((int)servantData.grade * 100) + 1;
+            if (DBServantStatDataDic.ContainsKey(statID) == true)
+            {
+                DBServantStatData statData = DBServantStatDataDic[statID];
+                servantData.basicStatus = statData.status;
+                servantData.speed = statData.speed;
+                servantData.avoid = statData.avoid;
+                servantData.criPer = statData.criPer;
+                servantData.criDmg = statData.criDmg;
+            }
+            else
+            {
+                DebugLog.Log(false, "Invalid Job Num : " + servantData.job);
+                return false;
             }
 
             servantData.resourceBody = Convert.ToString(data[i]["resource_body"]);
@@ -975,6 +976,7 @@ public class CSVData : MonoSingleton<CSVData>
             DBTribeResourceData resourceData = new DBTribeResourceData();
             resourceData.tribeType = i;
             resourceData.tribeIcon = Resources.Load<Sprite>(string.Format("UI/TribeIcon/ic_{0}", resourceData.tribeType.ToString()));
+            resourceData.tribeIconSmall = Resources.Load<Sprite>(string.Format("UI/TribeIcon/ic_{0}_s", resourceData.tribeType.ToString()));
 
             DBTribeTypeResourceDataDic.Add(resourceData.tribeType, resourceData);
         }
@@ -1073,7 +1075,7 @@ public class CSVData : MonoSingleton<CSVData>
     public bool SetSkillActiveData()
     {
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_skill_active");
-        for (var i = 2; i < data.Count; i++)
+        for (var i = 1; i < data.Count; i++)
         {
             //DebugLog.Log(false, "index " + (i).ToString()
             //    + " : " + data[i]["id"]
@@ -1421,7 +1423,7 @@ public class CSVData : MonoSingleton<CSVData>
 
     public int GetRandomServantID()
     {
-        int servantID = servantDataInspector[UnityEngine.Random.Range(3, servantDataInspector.Count)].id;
+        int servantID = servantDataInspector[UnityEngine.Random.Range(5, servantDataInspector.Count)].id;
 
         return servantID;
     }
@@ -1644,6 +1646,11 @@ public class CSVData : MonoSingleton<CSVData>
     public Sprite GetSpriteTribeType(TRIBE_TYPE type)
     {
         return DBTribeTypeResourceDataDic[type].tribeIcon;
+    }
+
+    public Sprite GetSmallSpriteTribeType(TRIBE_TYPE type)
+    {
+        return DBTribeTypeResourceDataDic[type].tribeIconSmall;
     }
 
     public Sprite GetSpriteServantJob(SERVANT_JOB type)

@@ -1,0 +1,18 @@
+id,type,grade,result_item_id_list,result_item_count_list
+#,아이템 타입,등급,분해시 결과 아이템 리스트,분해시 결과 아이템 개수
+int,string,int,int,int
+1,weapon,common,500001,5
+2,weapon,uncommon,500001,7
+3,weapon,rare,500001,10
+4,weapon,unique,500001,15
+5,weapon,legendary,500001,50
+6,armor,common,500001,5
+7,armor,uncommon,500001,7
+8,armor,rare,500001,10
+9,armor,unique,500001,15
+10,armor,legendary,500001,50
+11,ac,common,500001,5
+12,ac,uncommon,500001,7
+13,ac,rare,500001,10
+14,ac,unique,500001,15
+15,ac,legendary,500001,50

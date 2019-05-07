@@ -1,0 +1,13 @@
+id,job,level_min,level_max,result_item_id_list,result_item_count_list
+#,직업,최저 레벨 체크,최대 레벨 체크,분해시 결과 아이템 리스트,분해시 결과 아이템 개수
+int,string,int,int,int,int
+1,warrior,1,49,510010,1
+2,warrior,50,50,510010,5
+3,thief,1,49,510020,1
+4,thief,50,50,510020,5
+5,cleric,1,49,510030,1
+6,cleric,50,50,510030,5
+7,archer,1,49,510040,1
+8,archer,50,50,510040,5
+9,magician,1,49,510050,1
+10,magician,50,50,510050,5

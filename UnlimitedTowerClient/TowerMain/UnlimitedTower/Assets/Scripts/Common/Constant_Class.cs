@@ -276,42 +276,10 @@ public class BattleStatus
             {
                 UserStageStateData statgData = UserDataManager.Inst.GetStageState();
                 UserServantData servant = UserDataManager.Inst.GetServantInfo(data.index);
-                if (data.job == 1) // 워리어
-                {
-                    Status.Add(EFFECT_ID.STR, data.status.basicStr + (servant.level - 1) * 6);
-                    Status.Add(EFFECT_ID.DEX, data.status.basicDex + (servant.level - 1) * 3);
-                    Status.Add(EFFECT_ID.INT, data.status.basicInt + (servant.level - 1) * 1);
-                }
-                else if (data.job == 2) // 도적
-                {
-                    Status.Add(EFFECT_ID.STR, data.status.basicStr + (servant.level - 1) * 1);
-                    Status.Add(EFFECT_ID.DEX, data.status.basicDex + (servant.level - 1) * 8);
-                    Status.Add(EFFECT_ID.INT, data.status.basicInt + (servant.level - 1) * 1);
-                }
-                else if (data.job == 3) // 사제
-                {
-                    Status.Add(EFFECT_ID.STR, data.status.basicStr + (servant.level - 1) * 1);
-                    Status.Add(EFFECT_ID.DEX, data.status.basicDex + (servant.level - 1) * 2);
-                    Status.Add(EFFECT_ID.INT, data.status.basicInt + (servant.level - 1) * 7);
-                }
-                else if (data.job == 4) // 아처
-                {
-                    Status.Add(EFFECT_ID.STR, data.status.basicStr + (servant.level - 1) * 2);
-                    Status.Add(EFFECT_ID.DEX, data.status.basicDex + (servant.level - 1) * 7);
-                    Status.Add(EFFECT_ID.INT, data.status.basicInt + (servant.level - 1) * 1);
-                }
-                else if (data.job == 5) // 마법사
-                {
-                    Status.Add(EFFECT_ID.STR, data.status.basicStr + (servant.level - 1) * 1);
-                    Status.Add(EFFECT_ID.DEX, data.status.basicDex + (servant.level - 1) * 1);
-                    Status.Add(EFFECT_ID.INT, data.status.basicInt + (servant.level - 1) * 8);
-                }
-                else
-                {
+
                     Status.Add(EFFECT_ID.STR, data.status.basicStr);
                     Status.Add(EFFECT_ID.DEX, data.status.basicDex);
                     Status.Add(EFFECT_ID.INT, data.status.basicInt);
-                }
 
                 Equipment(servant.equipmentDic, true);
 
@@ -346,9 +314,11 @@ public class BattleStatus
                 {
                     UserStageStateData statgData = UserDataManager.Inst.GetStageState();
                     UserMonsterData monster = UserDataManager.Inst.GetMonsterInfo(data.index);
-                    Status.Add(EFFECT_ID.STR, (int)(data.status.basicStr + data.status.basicStr * ((monster.level - 1) * 0.1f)));
-                    Status.Add(EFFECT_ID.DEX, (int)(data.status.basicDex + data.status.basicDex * ((monster.level - 1) * 0.1f)));
-                    Status.Add(EFFECT_ID.INT, (int)(data.status.basicInt + data.status.basicInt * ((monster.level - 1) * 0.1f)));
+
+                    Status.Add(EFFECT_ID.STR, data.status.basicStr);
+                    Status.Add(EFFECT_ID.DEX, data.status.basicDex);
+                    Status.Add(EFFECT_ID.INT, data.status.basicInt);
+
                     StatusReCalculation(monster.level);
 
                     Upgrade(monster.upgrade);
@@ -602,9 +572,7 @@ public class UserCharacterStateData
     public int mDef { get { return Calculator.GetMagicDefence(status); } }
 
     public int criPer;
-    public int mCriPer;
     public int criDmg;
-    public int mCriDmg;
     public int avoid;
     public int speed;
 

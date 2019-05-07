@@ -34,8 +34,6 @@ public class ServantInfoManager : MonoSingleton<ServantInfoManager> {
     public Text textMDef;
     public Text textPCri;
     public Text textPCriPer;
-    public Text textMCri;
-    public Text textMCriPer;
 
     public Text textSkillText;
     public Text textActiveText;
@@ -138,9 +136,6 @@ public class ServantInfoManager : MonoSingleton<ServantInfoManager> {
         textMDef.text = string.Format("{0}", unit_data.mDef);
         textPCri.text = string.Format("{0}", db_unit_data.criDmg);
         textPCriPer.text = string.Format("{0}", db_unit_data.criPer);
-        //마법 크리 관련 표시X
-        //textMCri.text = string.Format("{0}", db_unit_data.mcriDmg);
-        //textMCriPer.text = string.Format("{0}", db_unit_data.mcriPer);
 
         if (unit_data.activeSkillList.Count > 0)
         {
