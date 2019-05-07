@@ -201,6 +201,7 @@ public class EquipmentInfoManager : MonoSingleton<EquipmentInfoManager>
     public void ResetScrollListBySortType(SORT_TYPE type)
     {
         sort_type = type;
+        scrollList.scrollRect.velocity = Vector2.zero;
         scrollList.SetItemOrder(getOrder());
         scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
         scrollList.ScrollViewDidScroll();
