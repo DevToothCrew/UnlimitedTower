@@ -107,6 +107,7 @@ public class DBTribeResourceData
 {
     public TRIBE_TYPE tribeType;
     public Sprite tribeIcon;
+    public Sprite tribeIconSmall;
 }
 
 [Serializable]

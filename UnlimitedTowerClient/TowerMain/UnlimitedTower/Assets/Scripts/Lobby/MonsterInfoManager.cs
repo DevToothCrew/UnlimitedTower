@@ -90,7 +90,7 @@ public class MonsterInfoManager : MonoBehaviour {
         //textUpgradeText.text;
         textUpgrade.text = string.Format("+{0}", unit_data.upgrade);
         //textClassText.text;
-        imageTribe.sprite = CSVData.Inst.GetSpriteTribeType(db_unit_data.tribeType);
+        imageTribe.sprite = CSVData.Inst.GetSmallSpriteTribeType(db_unit_data.tribeType);
         //textTypeText.text;
         imageType.sprite = CSVData.Inst.GetSpriteElementType(db_unit_data.elementType);
 

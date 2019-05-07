@@ -976,6 +976,7 @@ public class CSVData : MonoSingleton<CSVData>
             DBTribeResourceData resourceData = new DBTribeResourceData();
             resourceData.tribeType = i;
             resourceData.tribeIcon = Resources.Load<Sprite>(string.Format("UI/TribeIcon/ic_{0}", resourceData.tribeType.ToString()));
+            resourceData.tribeIconSmall = Resources.Load<Sprite>(string.Format("UI/TribeIcon/ic_{0}_s", resourceData.tribeType.ToString()));
 
             DBTribeTypeResourceDataDic.Add(resourceData.tribeType, resourceData);
         }
@@ -1645,6 +1646,11 @@ public class CSVData : MonoSingleton<CSVData>
     public Sprite GetSpriteTribeType(TRIBE_TYPE type)
     {
         return DBTribeTypeResourceDataDic[type].tribeIcon;
+    }
+
+    public Sprite GetSmallSpriteTribeType(TRIBE_TYPE type)
+    {
+        return DBTribeTypeResourceDataDic[type].tribeIconSmall;
     }
 
     public Sprite GetSpriteServantJob(SERVANT_JOB type)
