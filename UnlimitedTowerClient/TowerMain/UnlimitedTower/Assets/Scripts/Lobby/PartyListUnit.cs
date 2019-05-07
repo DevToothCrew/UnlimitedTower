@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine.UI;
 
 public class PartyListUnit : ScrollListUnit {
     public Image ImageGrade;
@@ -9,6 +6,7 @@ public class PartyListUnit : ScrollListUnit {
     public Text textCharacterName;
     public Text textLevel;
     public Text textPower;
+    public Image imageClass;
     public Image imageType;
     public Text textUpgrade;
 
@@ -44,7 +42,8 @@ public class PartyListUnit : ScrollListUnit {
             textLevel.text = string.Format("{0}", partyInfo.ServantList[selected_idx].level);
             textPower.text = string.Format("{0}", Calculator.GetPower(partyInfo.ServantList[selected_idx].status, partyInfo.ServantList[selected_idx].level));
             textUpgrade.text = string.Format(" ");
-            imageType.sprite = CSVData.Inst.GetSpriteServantJob(partyInfo.ServantList[selected_idx].jobType);
+            imageClass.sprite = CSVData.Inst.GetSpriteServantJob(partyInfo.ServantList[selected_idx].jobType);
+            imageType.gameObject.SetActive(false);
         }
         else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
         {
@@ -74,6 +73,8 @@ public class PartyListUnit : ScrollListUnit {
             }
             textUpgrade.text = upgrade;
 
+            imageClass.sprite = CSVData.Inst.GetSmallSpriteTribeType(partyInfo.MonsterList[selected_idx].tribeType);
+            imageType.gameObject.SetActive(true);
             imageType.sprite = CSVData.Inst.GetSpriteElementType(partyInfo.MonsterList[selected_idx].elementType);
         }
     }

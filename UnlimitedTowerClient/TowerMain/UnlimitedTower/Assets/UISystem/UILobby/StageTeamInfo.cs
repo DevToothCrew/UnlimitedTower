@@ -7,7 +7,8 @@ public class StageTeamInfo : MonoBehaviour {
     public Image[] IconImage = new Image[10];
 
     public GameObject[] objectInfo = new GameObject[10];
-    public Image[] imageType = new Image[10];
+    public Image[] imageClass = new Image[10];
+    public Image[] imageType = new Image[5];
     public Image[] imageExp = new Image[10];
     public Text[] textLevel = new Text[10];
     public Text[] textExpPer = new Text[10];
@@ -55,7 +56,7 @@ public class StageTeamInfo : MonoBehaviour {
                 GradeImage[i].sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)servantData.grade);
                 IconImage[i].sprite = dBServantData.servantIcon;
 
-                imageType[i].sprite = CSVData.Inst.GetSpriteServantJob(servantData.jobType);
+                imageClass[i].sprite = CSVData.Inst.GetSpriteServantJob(servantData.jobType);
                 textLevel[i].text = servantData.level.ToString();
 
                 DBExpData dbExpData = CSVData.Inst.GetExpData(servantData.level);
@@ -102,7 +103,8 @@ public class StageTeamInfo : MonoBehaviour {
                 GradeImage[i].sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)monsterData.grade);
                 IconImage[i].sprite = dbMonsterData.monsterIcon;
 
-                imageType[i].sprite = CSVData.Inst.GetSpriteElementType(monsterData.elementType);
+                imageClass[i].sprite = CSVData.Inst.GetSmallSpriteTribeType(monsterData.tribeType);
+                imageType[i - 5].sprite = CSVData.Inst.GetSpriteElementType(monsterData.elementType);
                 textLevel[i].text = monsterData.level.ToString();
 
                 DBExpData dbExpData = CSVData.Inst.GetExpData(monsterData.level);

@@ -476,6 +476,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     public Image[] imageMonsterFormation = new Image[5];
 
     public GameObject[] objectMonsterInfo = new GameObject[5];
+    public Image[] imageMonsterTribe = new Image[5];
     public Image[] imageMonsterType = new Image[5];
     public Image[] imageMonsterExp = new Image[5];
     public Text[] textMonsterLevel = new Text[5];
@@ -590,6 +591,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                 imageMonsterFormation[i].enabled = true;
                 imageMonsterFormation[i].sprite = CSVData.Inst.GetMonsterData(monster.id).monsterIcon;
 
+                imageMonsterTribe[i].sprite = CSVData.Inst.GetSmallSpriteTribeType(monster.tribeType);
                 imageMonsterType[i].sprite = CSVData.Inst.GetSpriteElementType(monster.elementType);
                 textMonsterLevel[i].text = monster.level.ToString();
 
