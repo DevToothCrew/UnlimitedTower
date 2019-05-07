@@ -69,6 +69,11 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         userInfo.userUTG = getUTG;
     }
 
+    public void SetUserInventoryInfo(UserInventoryInfo getInventoryInfo)
+    {
+        userInfo.inventoryInfo = getInventoryInfo;
+    }
+
     public void SetUserLobbyInfo(UserLobbyInfo getLobbyInfo)
     {
         userLobbyInfo = getLobbyInfo;

@@ -81,8 +81,6 @@ public class DBMonsterData
     public int avoid;
     public int criPer;
     public int criDmg;
-    public int mcriPer;
-    public int mcriDmg;
 
     public string resourceModel;
     public string resourceIcon;
@@ -158,12 +156,11 @@ public class DBServantData
         }
     }
 
+    public Status basicStatus = new Status();
     public int speed;
     public int avoid;
     public int criPer;
     public int criDmg;
-    public int mcriPer;
-    public int mcriDmg;
 
     public int body;
     public int gender;
@@ -183,13 +180,14 @@ public class DBServantData
 [Serializable]
 public class DBServantStatData
 {
+    public int id;
     public SERVANT_JOB jobEnum;
+    public int grade;
+    public Status status = new Status();
     public int speed;
     public int avoid;
     public int criPer;
     public int criDmg;
-    public int mcriPer;
-    public int mcriDmg;
 }
 
 [Serializable]
@@ -230,8 +228,6 @@ public class DBStageEnemyData
     public Status status = new Status();
     public int criPer;
     public int criDmg;
-    public int mcriPer;
-    public int mcriDmg;
     public int speed;
     public int avoid;
     public List<int> activeList = new List<int>();

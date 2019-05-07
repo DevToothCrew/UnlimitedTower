@@ -716,12 +716,6 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                 return;
             }
 
-            if (UserDataManager.Inst.GetMonsterInfo(character_unit_idx).state != 1)
-            {
-                SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Monster State");
-                return;
-            }
-
             // 몬스터일 경우
             for (int i = DEFINE.MonsterMinFormationNum; i <= DEFINE.MonsterMaxFormationNum; i++)
             {

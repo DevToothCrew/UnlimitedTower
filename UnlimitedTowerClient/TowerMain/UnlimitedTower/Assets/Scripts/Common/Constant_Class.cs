@@ -602,9 +602,7 @@ public class UserCharacterStateData
     public int mDef { get { return Calculator.GetMagicDefence(status); } }
 
     public int criPer;
-    public int mCriPer;
     public int criDmg;
-    public int mCriDmg;
     public int avoid;
     public int speed;
 

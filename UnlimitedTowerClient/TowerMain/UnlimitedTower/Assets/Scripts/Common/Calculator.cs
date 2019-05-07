@@ -40,7 +40,7 @@ public class Calculator : MonoBehaviour
 
     public static int GetCriticalPercent(Status status, int level = 1)
     {
-        return (int)((status.basicInt / 500.0f) * 100 + 5);
+        return (int)((status.basicDex / 500.0f) * 100 + 5);
     }
 
     public static int GetCriticalDamage(Status status, int level = 1)

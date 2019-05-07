@@ -36,8 +36,6 @@ public class MonsterInfoManager : MonoBehaviour {
     public Text textMDef;
     public Text textPCri;
     public Text textPCriPer;
-    public Text textMCri;
-    public Text textMCriPer;
 
     private int unit_idx;
 
@@ -110,9 +108,6 @@ public class MonsterInfoManager : MonoBehaviour {
         textMDef.text = string.Format("{0}", unit_data.mDef);
         textPCri.text = string.Format("{0}", db_unit_data.criDmg);
         textPCriPer.text = string.Format("{0}", db_unit_data.criPer);
-        //마법 크리관련 표시X
-        //textMCri.text = string.Format("{0}", db_unit_data.mcriDmg);
-        //textMCriPer.text = string.Format("{0}", db_unit_data.mcriPer);
     }
 
     //업그레이드 버튼
