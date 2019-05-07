@@ -642,11 +642,11 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
             {
                 idCount = 3;
             }
-            else if(synergy[i] == 3)
+            else if(synergy[i] >= 3)
             {
                 idCount = 2;
             }
-            else if(synergy[i] == 2)
+            else if(synergy[i] >= 2)
             {
                 idCount = 1;
             }
