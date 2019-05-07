@@ -367,9 +367,6 @@ public class SkillManager : MonoSingleton<SkillManager>
     }
     #endregion
 
-
-
-
     public void TestSkillEffect(int index)
     {
         Instantiate(effect["Skill"], BattleManager.Inst.character[index].transform.position +
