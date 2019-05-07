@@ -11,6 +11,7 @@ public class ShopBuyPopup : MonoBehaviour {
     public Text textBuyCount;
 
     public Text textName;
+    public Text textExplain;
 
     public Image imageObject;
     public Text textCount;
@@ -34,9 +35,13 @@ public class ShopBuyPopup : MonoBehaviour {
         textCount.text = "X " + shopData.productCount;
         priceCount = shopData.priceCount;
         textCost.text = (priceCount * 0.0001).ToString("N4");
-        textName.text = CSVData.Inst.GetItemData(shopData.productID).name;
 
-        imageObject.sprite = CSVData.Inst.GetItemIcon(shopData.productID); ;
+        DBItemData itemData = CSVData.Inst.GetItemData(shopData.productID);
+
+        textName.text = itemData.name;
+        textExplain.text = itemData.description;
+
+        imageObject.sprite = itemData.ItemIcon;
         imageCost.sprite = CSVData.Inst.GetItemIcon(shopData.priceID);
 
         buyCount = 1;

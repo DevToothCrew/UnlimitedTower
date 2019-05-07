@@ -171,7 +171,7 @@ public class ItemInfoManager : MonoSingleton<ItemInfoManager> {
         textItemName.text = dBItemData.name;
         //textTypeText.text;
         textType.text = string.Format("{0}", dBItemData.itemType);
-        textItemContext.text = string.Format("{0}", "아이템 설명");
+        textItemContext.text = string.Format("{0}", dBItemData.description);
 
     }
 }

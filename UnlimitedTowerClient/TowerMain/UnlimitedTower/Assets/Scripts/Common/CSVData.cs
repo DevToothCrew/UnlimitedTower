@@ -280,7 +280,7 @@ public class CSVData : MonoSingleton<CSVData>
             itemData.name = Convert.ToString(data[i]["enname"]);
             itemData.resourceIcon = Convert.ToString(data[i]["resource_icon"]);
             itemData.ItemIcon = Resources.Load<Sprite>("UI/ItemIcon/" + itemData.resourceIcon);
-            itemData.description = Convert.ToString(data[i]["description"]);
+            itemData.description = Convert.ToString(data[i]["explain"]);
             itemData.tier = Convert.ToInt32(data[i]["tier"]);
             itemData.itemType = Convert.ToString(data[i]["item_type"]);
 

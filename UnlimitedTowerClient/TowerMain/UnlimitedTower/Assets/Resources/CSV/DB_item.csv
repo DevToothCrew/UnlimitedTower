@@ -1,17 +1,17 @@
-id,#관리,resource_icon,name,enname,#,description,tier,item_type,item_param_list,sell_item_id,sell_item_count
-#,가챠 id,아이템 아이콘,아이템 이름,아이템 이름,아이템 이름,아이템 설명,티어,아이템 타입,아이템 파라미터 리스트,판매시획득재화,판매가격
-int,int,string,localize,string,string,localize,int,string,int,int,int
-500001,0,ic_utg,DB_item_name_500001,Unlimited Tower Gold,골드,,0,money,0,0,0
-500002,0,ic_eos,DB_item_name_500002,EOS,이오스,,0,money,0,0,0
-500010,0,ic_invenPlus_servant,Expands your Servant Inventory slots by 5 spaces.,Add Servant Inventory,서번트 인벤토리,,0,add_inventory,0,0,0
-500011,0,ic_invenPlus_monster,Expand your Monster Inventory slots by 5 spaces.,Add Monster Inventory,몬스터 인벤토리,,0,add_inventory,0,0,0
-500012,0,ic_invenPlus_equip,Expand your Equipment Inventory slots by 5 spaces.,Add Equipment Inventory,장비 인벤토리,,0,add_inventory,0,0,0
-500013,0,ic_invenPlus_item,Expand your Item Inventory slots by 5 spaces.,Add Item Inventory,아이템 인벤토리,,0,add_inventory,0,0,0
-500100,0,ic_upScroll_sword,This scroll item is needed to increase your value by strengthening weapons.,Weapon Scroll,무기 강화 주문서,,0,upgrade_scroll,0,500001,1
-500110,0,ic_upScroll_armor,This scroll item is needed to increase your value by strengthening armors.,Armor Scroll,방어구 강화 주문서,,0,upgrade_scroll,0,500001,1
-500120,0,ic_upScroll_ac,This scroll item is needed to increase your value by strengthening accessories.,Accessory Scroll,액세서리 강화 주문서,,0,upgrade_scroll,0,500001,1
-510010,0,ic_soul_warrior,DB_item_name_510010,Warrior Soul Pouder,전사의 영혼,,0,material_soul,0,500001,1
-510020,0,ic_soul_thief,DB_item_name_510020,Thief Soul Pouder,도적의 영혼,,0,material_soul,0,500001,1
-510030,0,ic_soul_cleric,DB_item_name_510030,Cleric Soul Pouder,성직자의 영혼,,0,material_soul,0,500001,1
-510040,0,ic_soul_archer,DB_item_name_510040,Archer Soul Pouder,궁수의 영혼,,0,material_soul,0,500001,1
-510050,0,ic_soul_magician,DB_item_name_510050,Magician Soul Pouder,마법사의 영혼,,0,material_soul,0,500001,1
+id,#관리,resource_icon,name,enname,#,description,explain,tier,item_type,item_param_list,sell_item_id,sell_item_count
+#,가챠 id,아이템 아이콘,아이템 이름,아이템 이름,아이템 이름,아이템 설명,설명 임시,티어,아이템 타입,아이템 파라미터 리스트,판매시획득재화,판매가격
+int,int,string,localize,string,string,localize,string,int,string,int,int,int
+500001,0,ic_utg,DB_item_name_500001,Unlimited Tower Gold,골드,DB_item_desc_500001,Unlimited Tower Gold,0,money,0,0,0
+500002,0,ic_eos,DB_item_name_500002,EOS,이오스,DB_item_desc_500002,Dan's Gold,0,money,0,0,0
+500010,0,ic_invenPlus_servant,DB_item_name_500010,Add Servant Inventory,서번트 인벤토리,DB_item_desc_500010,Expands your Servant Inventory slots by 5 spaces.,0,Add Inventory,0,0,0
+500011,0,ic_invenPlus_monster,DB_item_name_500011,Add Monster Inventory,몬스터 인벤토리,DB_item_desc_500011,Expand your Monster Inventory slots by 5 spaces.,0,Add Inventory,0,0,0
+500012,0,ic_invenPlus_equip,DB_item_name_500012,Add Equipment Inventory,장비 인벤토리,DB_item_desc_500012,Expand your Equipment Inventory slots by 5 spaces.,0,Add Inventory,0,0,0
+500013,0,ic_invenPlus_item,DB_item_name_500013,Add Item Inventory,아이템 인벤토리,DB_item_desc_500013,Expand your Item Inventory slots by 5 spaces.,0,Add Inventory,0,0,0
+500100,0,ic_upScroll_sword,DB_item_name_500100,Weapon Scroll,무기 강화 주문서,DB_item_desc_500100,This scroll item is needed to increase your value by strengthening weapons.,0,Scroll,0,500001,1
+500110,0,ic_upScroll_armor,DB_item_name_500110,Armor Scroll,방어구 강화 주문서,DB_item_desc_500110,This scroll item is needed to increase your value by strengthening armors.,0,Scroll,0,500001,1
+500120,0,ic_upScroll_ac,DB_item_name_500120,Accessory Scroll,액세서리 강화 주문서,DB_item_desc_500120,This scroll item is needed to increase your value by strengthening accessories.,0,Scroll,0,500001,1
+510010,0,ic_soul_warrior,DB_item_name_510010,Powder of Warrior's Soul,전사의 영혼,DB_item_desc_510010,This is Powder of Warrior's Soul. The powder of soul is said to have mysterious power.,0,Powder of Soul,0,500001,1
+510020,0,ic_soul_thief,DB_item_name_510020,Powder of Thief's Soul,도적의 영혼,DB_item_desc_510020,This is Powder of Thief's Soul. The powder of soul is said to have mysterious power.,0,Powder of Soul,0,500001,1
+510030,0,ic_soul_cleric,DB_item_name_510030,Powder of Cleric's Soul,성직자의 영혼,DB_item_desc_510030,This is Powder of Cleric's Soul. The powder of soul is said to have mysterious power.,0,Powder of Soul,0,500001,1
+510040,0,ic_soul_archer,DB_item_name_510040,Powder of Archer's Soul,궁수의 영혼,DB_item_desc_510040,This is Powder of Archer's Soul. The powder of soul is said to have mysterious power.,0,Powder of Soul,0,500001,1
+510050,0,ic_soul_magician,DB_item_name_510050,Powder of Magician's Soul,마법사의 영혼,DB_item_desc_510050,This is Powder of Magician's Soul. The powder of soul is said to have mysterious power.,0,Powder of Soul,0,500001,1
