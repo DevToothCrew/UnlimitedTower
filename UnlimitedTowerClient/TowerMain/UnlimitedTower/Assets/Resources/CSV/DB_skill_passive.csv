@@ -9,27 +9,27 @@ int,int,string,,string,localize,string,localize,string,int,string,int,string,int
 100006,1,스트렝스 트레이닝,Strength Training,공용 패시브,DB_skill_passive_name_100006,힘이 2% 증가합니다.,DB_skill_passive_desc_100006,ic_passive_str_up,0,all,0,pass_str_inc_per,6,3,2,0,self,1
 100007,1,블레스 오브 윈드,Bless of Wind,공용 패시브,DB_skill_passive_name_100007,민첩이 2% 증가합니다.,DB_skill_passive_desc_100007,ic_passive_dex_up,0,all,0,pass_dex_inc_per,7,3,2,0,self,1
 100008,1,리미트리스,Limitless,공용 패시브,DB_skill_passive_name_100008,지능이 2% 증가합니다.,DB_skill_passive_desc_100008,ic_passive_int_up,0,all,0,pass_int_inc_per,8,3,2,0,self,1
-190011,9,야수 : 난폭한 야성 Ⅰ,Beast : Rage of the Wild Ⅰ,야수 시너지,DB_skill_passive_name_190011,야수 종족의 물리 공격력이 10% 증가합니다.,DB_skill_passive_desc_190011,ic_synergy_beast_1,901,,0,,1,3,10,0,야수 시너지,901
-190012,9,야수 : 난폭한 야성 Ⅱ,Beast : Rage of the Wild Ⅱ,야수 시너지,DB_skill_passive_name_190012,야수 종족의 물리 공격력이 20% 증가합니다.,DB_skill_passive_desc_190012,ic_synergy_beast_2,901,,0,,1,3,20,0,야수 시너지,901
-190013,9,야수 : 난폭한 야성 Ⅲ,Beast : Rage of the Wild Ⅲ,야수 시너지,DB_skill_passive_name_190013,야수 종족의 물리 공격력이 45% 증가합니다.,DB_skill_passive_desc_190013,ic_synergy_beast_3,901,,0,,1,3,45,0,야수 시너지,901
-190021,9,인간 : 단결된 의지 Ⅰ,Human : Stand United Ⅰ,인간 시너지,DB_skill_passive_name_190021,인간 종족의 물리 방어력이 10% 증가합니다.,DB_skill_passive_desc_190021,ic_synergy_human_1,902,,0,,3,3,10,0,인간 시너지,902
-190022,9,인간 : 단결된 의지 Ⅱ,Human : Stand United Ⅱ,인간 시너지,DB_skill_passive_name_190022,인간 종족의 물리 방어력이 30% 증가합니다.,DB_skill_passive_desc_190022,ic_synergy_human_2,902,,0,,3,3,30,0,인간 시너지,902
-190023,9,인간 : 단결된 의지 Ⅲ,Human : Stand United Ⅲ,인간 시너지,DB_skill_passive_name_190023,인간 종족의 물리 방어력이 50% 증가합니다.,DB_skill_passive_desc_190023,ic_synergy_human_3,902,,0,,3,3,50,0,인간 시너지,902
-190031,9,악마 : 어둠의 힘 Ⅰ,Demon : Power of Darkness Ⅰ,악마 시너지,DB_skill_passive_name_190031,악마 종족의 마법 공격력이 10% 증가합니다.,DB_skill_passive_desc_190031,ic_synergy_demon_1,903,,0,,2,3,10,0,악마 시너지,903
-190032,9,악마 : 어둠의 힘 Ⅱ,Demon : Power of Darkness Ⅱ,악마 시너지,DB_skill_passive_name_190032,악마 종족의 마법 공격력이 20% 증가합니다.,DB_skill_passive_desc_190032,ic_synergy_demon_2,903,,0,,2,3,20,0,악마 시너지,903
-190033,9,악마 : 어둠의 힘 Ⅲ,Demon : Power of Darkness Ⅲ,악마 시너지,DB_skill_passive_name_190033,악마 종족의 마법 공격력이 45% 증가합니다.,DB_skill_passive_desc_190033,ic_synergy_demon_3,903,,0,,2,3,45,0,악마 시너지,903
-190041,9,정령 : 자연의 축복 Ⅰ,Spirit : The Blessing of Nature Ⅰ,정령 시너지,DB_skill_passive_name_190041,정령 종족의 체력이 10% 증가합니다.,DB_skill_passive_desc_190041,ic_synergy_spirit_1,904,,0,,5,3,10,0,정령 시너지,904
-190042,9,정령 : 자연의 축복 Ⅱ,Spirit : The Blessing of Nature Ⅱ,정령 시너지,DB_skill_passive_name_190042,정령 종족의 체력이 30% 증가합니다.,DB_skill_passive_desc_190042,ic_synergy_spirit_2,904,,0,,5,3,30,0,정령 시너지,904
-190043,9,정령 : 자연의 축복 Ⅲ,Spirit : The Blessing of Nature Ⅲ,정령 시너지,DB_skill_passive_name_190043,정령 종족의 체력이 50% 증가합니다.,DB_skill_passive_desc_190043,ic_synergy_spirit_3,904,,0,,5,3,50,0,정령 시너지,904
-190051,9,곤충 : 아드레날린 Ⅰ,Insect : Adrenaline Ⅰ,곤충 시너지,DB_skill_passive_name_190051,곤충 종족의 회피율이 20% 증가합니다.,DB_skill_passive_desc_190051,ic_synergy_insect_1,905,,0,,10,3,20,0,곤충 시너지,905
-190052,9,곤충 : 아드레날린 Ⅱ,Insect : Adrenaline Ⅱ,곤충 시너지,DB_skill_passive_name_190052,곤충 종족의 회피율이 35% 증가합니다.,DB_skill_passive_desc_190052,ic_synergy_insect_2,905,,0,,10,3,35,0,곤충 시너지,905
-190053,9,곤충 : 아드레날린 Ⅲ,Insect : Adrenaline Ⅲ,곤충 시너지,DB_skill_passive_name_190053,곤충 종족의 회피율이 55% 증가합니다.,DB_skill_passive_desc_190053,ic_synergy_insect_3,905,,0,,10,3,55,0,곤충 시너지,905
-190061,9,해인 : 바다의 가호 Ⅰ,Mermaid : Sea's Protection Ⅰ,해인 시너지,DB_skill_passive_name_190061,파티 전체의 마법 방어력이 10% 증가합니다.,DB_skill_passive_desc_190061,ic_synergy_mermaid_1,906,,0,,4,3,10,0,해인 시너지,2
-190062,9,해인 : 바다의 가호 Ⅱ,Mermaid : Sea's Protection Ⅱ,해인 시너지,DB_skill_passive_name_190062,파티 전체의 마법 방어력이 30% 증가합니다.,DB_skill_passive_desc_190062,ic_synergy_mermaid_2,906,,0,,4,3,30,0,해인 시너지,2
-190063,9,해인 : 바다의 가호 Ⅲ,Mermaid : Sea's Protection Ⅲ,해인 시너지,DB_skill_passive_name_190063,파티 전체의 마법 방어력이 50% 증가합니다.,DB_skill_passive_desc_190063,ic_synergy_mermaid_3,906,,0,,4,3,50,0,해인 시너지,2
-190071,9,미스테리어스 : 풀하우스 Ⅰ,Mysterious : Full House Ⅰ,미스테리어스 시너지,DB_skill_passive_name_190071,미스테리어스 종족의 치명타율이 10% 증가합니다.,DB_skill_passive_desc_190071,ic_synergy_mysterious_1,907,,0,,11,3,10,0,미스테리어스 시너지,907
-190072,9,미스테리어스 : 풀하우스 Ⅱ,Mysterious : Full House Ⅱ,미스테리어스 시너지,DB_skill_passive_name_190072,미스테리어스 종족의 치명타율이 25% 증가합니다.,DB_skill_passive_desc_190072,ic_synergy_mysterious_2,907,,0,,11,3,25,0,미스테리어스 시너지,907
-190073,9,미스테리어스 : 풀하우스 Ⅲ,Mysterious : Full House Ⅲ,미스테리어스 시너지,DB_skill_passive_name_190073,미스테리어스 종족의 치명타율이 45% 증가합니다.,DB_skill_passive_desc_190073,ic_synergy_mysterious_3,907,,0,,11,3,45,0,미스테리어스 시너지,907
+190011,9,야수 : 난폭한 야성 Ⅰ,Beast : Rage of the Wild Ⅰ,야수 시너지,DB_skill_passive_name_190011,야수 종족의 물리 공격력이 10% 증가합니다.,Increases the physical damage of Beast by 10%.,ic_synergy_beast_1,901,,0,,1,3,10,0,야수 시너지,901
+190012,9,야수 : 난폭한 야성 Ⅱ,Beast : Rage of the Wild Ⅱ,야수 시너지,DB_skill_passive_name_190012,야수 종족의 물리 공격력이 20% 증가합니다.,Increases the physical damage of Beast by 20%.,ic_synergy_beast_2,901,,0,,1,3,20,0,야수 시너지,901
+190013,9,야수 : 난폭한 야성 Ⅲ,Beast : Rage of the Wild Ⅲ,야수 시너지,DB_skill_passive_name_190013,야수 종족의 물리 공격력이 45% 증가합니다.,Increases the physical damage of Beast by 45%.,ic_synergy_beast_3,901,,0,,1,3,45,0,야수 시너지,901
+190021,9,인간 : 단결된 의지 Ⅰ,Human : Stand United Ⅰ,인간 시너지,DB_skill_passive_name_190021,인간 종족의 물리 방어력이 10% 증가합니다.,Increases the physical defense of the Human by 10%.,ic_synergy_human_1,902,,0,,3,3,10,0,인간 시너지,902
+190022,9,인간 : 단결된 의지 Ⅱ,Human : Stand United Ⅱ,인간 시너지,DB_skill_passive_name_190022,인간 종족의 물리 방어력이 30% 증가합니다.,Increases the physical defense of the Human by 30%.,ic_synergy_human_2,902,,0,,3,3,30,0,인간 시너지,902
+190023,9,인간 : 단결된 의지 Ⅲ,Human : Stand United Ⅲ,인간 시너지,DB_skill_passive_name_190023,인간 종족의 물리 방어력이 50% 증가합니다.,Increases the physical defense of the Human by 50%.,ic_synergy_human_3,902,,0,,3,3,50,0,인간 시너지,902
+190031,9,악마 : 어둠의 힘 Ⅰ,Demon : Power of Darkness Ⅰ,악마 시너지,DB_skill_passive_name_190031,악마 종족의 마법 공격력이 10% 증가합니다.,Increases the magical damage of the Demon by 10%.,ic_synergy_demon_1,903,,0,,2,3,10,0,악마 시너지,903
+190032,9,악마 : 어둠의 힘 Ⅱ,Demon : Power of Darkness Ⅱ,악마 시너지,DB_skill_passive_name_190032,악마 종족의 마법 공격력이 20% 증가합니다.,Increases the magical damage of the Demon by 20%.,ic_synergy_demon_2,903,,0,,2,3,20,0,악마 시너지,903
+190033,9,악마 : 어둠의 힘 Ⅲ,Demon : Power of Darkness Ⅲ,악마 시너지,DB_skill_passive_name_190033,악마 종족의 마법 공격력이 45% 증가합니다.,Increases the magical damage of the Demon by 45%.,ic_synergy_demon_3,903,,0,,2,3,45,0,악마 시너지,903
+190041,9,정령 : 자연의 축복 Ⅰ,Spirit : The Blessing of Nature Ⅰ,정령 시너지,DB_skill_passive_name_190041,정령 종족의 체력이 10% 증가합니다.,Increases the physical strength of Elemental by 10%.,ic_synergy_spirit_1,904,,0,,5,3,10,0,정령 시너지,904
+190042,9,정령 : 자연의 축복 Ⅱ,Spirit : The Blessing of Nature Ⅱ,정령 시너지,DB_skill_passive_name_190042,정령 종족의 체력이 30% 증가합니다.,Increases the physical strength of Elemental by 30%.,ic_synergy_spirit_2,904,,0,,5,3,30,0,정령 시너지,904
+190043,9,정령 : 자연의 축복 Ⅲ,Spirit : The Blessing of Nature Ⅲ,정령 시너지,DB_skill_passive_name_190043,정령 종족의 체력이 50% 증가합니다.,Increases the physical strength of Elemental by 50%.,ic_synergy_spirit_3,904,,0,,5,3,50,0,정령 시너지,904
+190051,9,곤충 : 아드레날린 Ⅰ,Insect : Adrenaline Ⅰ,곤충 시너지,DB_skill_passive_name_190051,곤충 종족의 회피율이 20% 증가합니다.,Increases the evasion rate of Insect by 20%.,ic_synergy_insect_1,905,,0,,10,3,20,0,곤충 시너지,905
+190052,9,곤충 : 아드레날린 Ⅱ,Insect : Adrenaline Ⅱ,곤충 시너지,DB_skill_passive_name_190052,곤충 종족의 회피율이 35% 증가합니다.,Increases the evasion rate of Insect by 35%.,ic_synergy_insect_2,905,,0,,10,3,35,0,곤충 시너지,905
+190053,9,곤충 : 아드레날린 Ⅲ,Insect : Adrenaline Ⅲ,곤충 시너지,DB_skill_passive_name_190053,곤충 종족의 회피율이 55% 증가합니다.,Increases the evasion rate of Insect by 55%.,ic_synergy_insect_3,905,,0,,10,3,55,0,곤충 시너지,905
+190061,9,해인 : 바다의 가호 Ⅰ,Mermaid : Sea's Protection Ⅰ,해인 시너지,DB_skill_passive_name_190061,파티 전체의 마법 방어력이 10% 증가합니다.,Increases the magical defense of the Party by 10%.,ic_synergy_mermaid_1,906,,0,,4,3,10,0,해인 시너지,2
+190062,9,해인 : 바다의 가호 Ⅱ,Mermaid : Sea's Protection Ⅱ,해인 시너지,DB_skill_passive_name_190062,파티 전체의 마법 방어력이 30% 증가합니다.,Increases the magical defense of the Party by 30%.,ic_synergy_mermaid_2,906,,0,,4,3,30,0,해인 시너지,2
+190063,9,해인 : 바다의 가호 Ⅲ,Mermaid : Sea's Protection Ⅲ,해인 시너지,DB_skill_passive_name_190063,파티 전체의 마법 방어력이 50% 증가합니다.,Increases the magical defense of the Party by 50%.,ic_synergy_mermaid_3,906,,0,,4,3,50,0,해인 시너지,2
+190071,9,미스테리어스 : 풀하우스 Ⅰ,Mysterious : Full House Ⅰ,미스테리어스 시너지,DB_skill_passive_name_190071,미스테리어스 종족의 치명타율이 10% 증가합니다.,Increases the critical rate of the Mysterious by 10%.,ic_synergy_mysterious_1,907,,0,,11,3,10,0,미스테리어스 시너지,907
+190072,9,미스테리어스 : 풀하우스 Ⅱ,Mysterious : Full House Ⅱ,미스테리어스 시너지,DB_skill_passive_name_190072,미스테리어스 종족의 치명타율이 25% 증가합니다.,Increases the critical rate of the Mysterious by 25%.,ic_synergy_mysterious_2,907,,0,,11,3,25,0,미스테리어스 시너지,907
+190073,9,미스테리어스 : 풀하우스 Ⅲ,Mysterious : Full House Ⅲ,미스테리어스 시너지,DB_skill_passive_name_190073,미스테리어스 종족의 치명타율이 45% 증가합니다.,Increases the critical rate of the Mysterious by 45%.,ic_synergy_mysterious_3,907,,0,,11,3,45,0,미스테리어스 시너지,907
 ,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,
