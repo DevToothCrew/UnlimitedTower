@@ -498,6 +498,11 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     public int selectedFormationSlot = -1;     //Selected formation slot idx : 0~4 : Servant, 5~9:Monster
     private int[] formationSlot = new int[10];  //temp formation slot;
 
+    public GameObject[] PartySynergy = new GameObject[3];
+    public Image[] imageSynergyIcon = new Image[3];
+    public Text[] textSynergySubject = new Text[3];
+    public Text[] textSynergyDetail = new Text[3];
+
     public void SetFormation()
     {
         UserPartyData partyInfo = UserDataManager.Inst.GetUserPartyInfo();
@@ -569,6 +574,8 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
             }
         }
 
+        int[] synergy = new int[8];
+
         for (int i = 0; i < 5; i++)
         {
             if(formationSlot[i + 5] == 0)
@@ -592,6 +599,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                 imageMonsterFormation[i].sprite = CSVData.Inst.GetMonsterData(monster.id).monsterIcon;
 
                 imageMonsterTribe[i].sprite = CSVData.Inst.GetSmallSpriteTribeType(monster.tribeType);
+                synergy[(int)monster.tribeType - 1] += 1;
                 imageMonsterType[i].sprite = CSVData.Inst.GetSpriteElementType(monster.elementType);
                 textMonsterLevel[i].text = monster.level.ToString();
 
@@ -621,6 +629,19 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                 }
 
                 objectMonsterInfo[i].SetActive(true);
+            }
+        }
+
+        int synergyCount = 0;
+        for(int i = 0; i < 8; i++)
+        {
+            if(synergy[i] == 5)
+            {
+                DBSkillPassiveData synergyData = CSVData.Inst.GetSynergyData(i + 1, 3);
+                imageSynergyIcon[synergyCount].sprite = synergyData.passiveIcon;
+                textSynergySubject[synergyCount].text = synergyData.name;
+                textSynergyDetail[synergyCount].text = synergyData.explain;
+                PartySynergy[synergyCount].SetActive(true);
             }
         }
 

@@ -1734,6 +1734,18 @@ public class CSVData : MonoSingleton<CSVData>
         return DBSkillPassiveDataDic[id];
     }
 
+    public DBSkillPassiveData GetSynergyData(int tribe, int count)
+    {
+        int id = 190000 + (tribe * 10) + count;
+
+        if (DBSkillPassiveDataDic.ContainsKey(id) == false)
+        {
+            return null;
+        }
+
+        return DBSkillPassiveDataDic[id];
+    }
+
     public DBShopData GetShopData(int id)
     {
         if(DBShopDataDic.ContainsKey(id) == false)
