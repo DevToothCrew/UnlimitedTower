@@ -167,11 +167,18 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
     // 배틀중 나가기
     public void BattleActionOut()
     {
+        if (UserDataManager.Inst.GetStageReward() == new stageRewardData())
+        {
 #if UNITY_EDITOR
-        Cheat.Inst.RequestStageExitCheat();
+            Cheat.Inst.RequestStageExitCheat();
 #else
         PacketManager.Inst.RequestStageExit();
 #endif
+        }
+        else
+        {
+            Debug.Log(false, "Last Turn");
+        }
     }
 
     // 배틀 종료후 나가기
