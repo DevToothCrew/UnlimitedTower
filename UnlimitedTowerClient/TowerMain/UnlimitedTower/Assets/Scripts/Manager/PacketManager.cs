@@ -1499,7 +1499,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
                 UserMonsterData getMonster = ParseMonster(getMailOpenResultData.monster_data_list[i]);
 
-                UserDataManager.Inst.AddMonsterData(getMonster);
+                if (getMonster.state != 4)
+                {
+                    UserDataManager.Inst.AddMonsterData(getMonster);
+                }
             }
         }
 
@@ -1511,7 +1514,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
                 UserEquipmentData getEquipment = ParseEquipment(getMailOpenResultData.equip_data_list[i]);
 
-                UserDataManager.Inst.AddEquipmentData(getEquipment);
+                if (getEquipment.state != 4)
+                {
+                    UserDataManager.Inst.AddEquipmentData(getEquipment);
+                }
             }
         }
 
