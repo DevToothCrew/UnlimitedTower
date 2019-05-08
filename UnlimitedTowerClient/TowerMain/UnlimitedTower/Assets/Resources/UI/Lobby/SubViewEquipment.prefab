@@ -1955,7 +1955,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1881555654748276
 GameObject:
   m_ObjectHideFlags: 1
@@ -2232,7 +2232,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1998491248825172
 GameObject:
   m_ObjectHideFlags: 1
@@ -5489,10 +5489,6 @@ MonoBehaviour:
   textMAtkChange: {fileID: 114887890047148642}
   textMDef: {fileID: 114313122137073256}
   textMDefChange: {fileID: 114633106546624308}
-  textMCri: {fileID: 114012387404338840}
-  textMCriChange: {fileID: 114395930106700022}
-  textMCriPer: {fileID: 114742482271254754}
-  textMCriPerChange: {fileID: 114614628661045714}
   buttonClear: {fileID: 114103422014245516}
   buttonChange: {fileID: 114812442976891170}
   EquipmentList: []
@@ -9840,7 +9836,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -50, y: -40}
+  m_AnchoredPosition: {x: 200, y: 0}
   m_SizeDelta: {x: 36, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224922457156073784
