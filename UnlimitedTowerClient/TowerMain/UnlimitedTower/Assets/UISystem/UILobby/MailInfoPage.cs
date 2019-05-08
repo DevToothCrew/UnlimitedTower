@@ -5,11 +5,20 @@ using UnityEngine.UI;
 
 public class MailInfoPage : MonoSingleton<MailInfoPage> {
 
-    public Text mailCount;
+    public Text textMailCount;
+    public int mailCount;
+    public Text textPageCount;
+    public int pageCount;
     public Transform mailList;
     public GameObject mailObjectPrefab;
     public GameObject[] mailObjects = null;
     public Dictionary<int, MailInfo> mailInfoDic = new Dictionary<int, MailInfo>();
+
+    public void OnEnable()
+    {
+        pageCount = 1;
+        textPageCount.text = pageCount.ToString();
+    }
 
     public void OnClickExitButton()
     {
@@ -17,7 +26,7 @@ public class MailInfoPage : MonoSingleton<MailInfoPage> {
         Destroy(this.gameObject);
     }
 
-    public void SetMailList(List<MailInfo> getMailInfoList)
+    public void SetMailList(List<MailInfo> getMailInfoList, int getMailCount)
     {
         if(mailObjects != null)
         {
@@ -29,7 +38,10 @@ public class MailInfoPage : MonoSingleton<MailInfoPage> {
             mailObjects = null;
         }
 
-        mailCount.text = UserDataManager.Inst.GetUserLobbyInfo().mailCount.ToString();
+        mailInfoDic = new Dictionary<int, MailInfo>();
+
+        mailCount = getMailCount;
+        textMailCount.text = mailCount.ToString();
 
         mailObjects = new GameObject[getMailInfoList.Count];
         for (int i = 0; i < getMailInfoList.Count; i++)
@@ -67,31 +79,59 @@ public class MailInfoPage : MonoSingleton<MailInfoPage> {
     public void DelMail(int mailIndex)
     {
         mailInfoDic.Remove(mailIndex);
+        mailCount -= 1;
     }
 
-    //public void RefreshMailList()
-    //{
-    //    if (mailObjects != null)
-    //    {
-    //        for (int i = 0; i < mailObjects.Length; i++)
-    //        {
-    //            Destroy(mailObjects[i]);
-    //        }
+    public void OnClickNextButton()
+    {
+        if(pageCount >= (mailCount / 8))
+        {
+            return;
+        }
+        pageCount += 1;
+        textPageCount.text = pageCount.ToString();
 
-    //        mailObjects = null;
-    //    }
+        PacketManager.Inst.RequestMailList(pageCount);
+    }
 
-    //    mailCount.text = UserDataManager.Inst.GetUserLobbyInfo().mailCount.ToString();
+    public void OnClickBeforeButton()
+    {
+        if(pageCount == 1)
+        {
+            return;
+        }
+        pageCount -= 1;
+        textPageCount.text = pageCount.ToString();
 
-    //    List<MailInfo> mailInfoList = mailInfoDic.Values.ToList();
+        PacketManager.Inst.RequestMailList(pageCount);
+    }
 
-    //    mailObjects = new GameObject[mailInfoList.Count];
-    //    for (int i = 0; i < mailInfoList.Count; i++)
-    //    {
-    //        GameObject mailObject = Instantiate(mailObjectPrefab);
-    //        mailObject.transform.SetParent(mailList);
-    //        mailObject.GetComponent<MailInfoObject>().SetMailInfo(mailInfoList[i]);
-    //        mailObjects[i] = mailObject;
-    //    }
-    //}
+    public void RefreshMailList()
+    {
+        if (mailObjects != null)
+        {
+            for (int i = 0; i < mailObjects.Length; i++)
+            {
+                Destroy(mailObjects[i]);
+            }
+
+            mailObjects = null;
+        }
+
+        textMailCount.text = mailCount.ToString();
+
+        if (mailCount > 0)
+        {
+            if ( mailCount > (8 * (pageCount - 1)) )
+            {
+                PacketManager.Inst.RequestMailList(pageCount);
+            }
+            else
+            {
+                pageCount -= 1;
+                textPageCount.text = pageCount.ToString();
+                PacketManager.Inst.RequestMailList(pageCount);
+            }
+        }
+    }
 }

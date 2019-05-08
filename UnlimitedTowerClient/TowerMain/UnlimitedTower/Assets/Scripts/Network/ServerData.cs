@@ -253,6 +253,7 @@ public class mailOpenResultData
 public class mailListResultData
 {
     public List<mailData> mail_data_list = new List<mailData>();
+    public int mail_list_length;
 }
 
 [Serializable]
@@ -530,6 +531,12 @@ public class ShopBuyItemJson
     public int index;
     public int type;
     public int itemCount;
+}
+
+[Serializable]
+public class MailListJson
+{
+    public int page;
 }
 
 [Serializable]

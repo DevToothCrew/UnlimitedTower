@@ -609,11 +609,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 });
     }
 
-    public void RequestMailList()
+    public void RequestMailList(int pageCount)
     {
         DebugLog.Log(false, "Request Mail List");
 
+        MailListJson mailList = new MailListJson();
+        mailList.page = pageCount;
+
+        string json = JsonUtility.ToJson(mailList);
+
         Request<mailListResultData>("MailList",
+                body: json,
                 onSuccess: ResponseMailList,
                 onFailed: msg =>
                 {
@@ -1438,7 +1444,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             mailInfoList.Add(mailInfo);
         }
 
-        MailInfoPage.Inst.SetMailList(mailInfoList);
+        MailInfoPage.Inst.SetMailList(mailInfoList, mailList.mail_list_length);
     }
 
     // 우편 수령
@@ -1467,7 +1473,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 MailInfoPage.Inst.DelMail(getMailOpenResultData.mail_open_index_list[i]);
             }
 
-            UserDataManager.Inst.DelMailCount(getMailOpenResultData.mail_open_index_list.Count);
+            //UserDataManager.Inst.DelMailCount(getMailOpenResultData.mail_open_index_list.Count);
         }
 
         if (getMailOpenResultData.servant_data_list != null && getMailOpenResultData.servant_data_list.Count > 0)
@@ -1517,7 +1523,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             }
         }
 
-        RequestMailList();
+        MailInfoPage.Inst.RefreshMailList();
     }
 
     // 타워 시작

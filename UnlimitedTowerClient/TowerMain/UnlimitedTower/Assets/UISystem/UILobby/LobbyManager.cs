@@ -197,7 +197,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 #if UNITY_EDITOR
                         Cheat.Inst.RequestMailListCheat();
 #else
-                        PacketManager.Inst.RequestMailList();
+                        PacketManager.Inst.RequestMailList(1);
 #endif
                     }
 
