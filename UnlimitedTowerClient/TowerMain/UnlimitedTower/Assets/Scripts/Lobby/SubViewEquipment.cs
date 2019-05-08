@@ -315,6 +315,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
             textCurrentItemName.text = dBEquipment.name;
             //textCurrentGradeText.text;
             textCurrentGrade.text = string.Format("{0}", ((GRADE_TYPE)currentEquipmentData.grade));
+            textCurrentGrade.color = DEFINE.GetGradeColor((GRADE_TYPE)currentEquipmentData.grade);
             //textCurrentUpgradeText.text;
             textCurrentUpgrade.text = string.Format("+{0}", (currentEquipmentData.upgrade)); ;
             //textCurrentTierText.text;
@@ -403,6 +404,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
             textChangeItemName.text = dBChangeEquipment.name;
             //textCurrentGradeText.text;
             textChangeGrade.text = string.Format("{0}", ((GRADE_TYPE)changeEquipmentData.grade));
+            textChangeGrade.color = DEFINE.GetGradeColor((GRADE_TYPE)changeEquipmentData.grade);
             //textCurrentUpgradeText.text;
             textChangeUpgrade.text = string.Format("+{0}", (changeEquipmentData.upgrade)); ;
             //textCurrentTierText.text;
