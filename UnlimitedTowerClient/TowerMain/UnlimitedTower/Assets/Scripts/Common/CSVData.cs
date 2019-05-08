@@ -1126,22 +1126,22 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_monster_upStat");
         for (var i = 2; i < data.Count; i++)
         {
-            DebugLog.Log(false, "index " + (i).ToString()
-                + " : " + data[i]["id"]
-                + " " + data[i]["common"]
-                + " " + data[i]["uncommon"]
-                + " " + data[i]["rare"]
-                + " " + data[i]["unique"]
-                + " " + data[i]["legendary"]
-                );
+            // DebugLog.Log(false, "index " + (i).ToString()
+            //    + " : " + data[i]["id"]
+            //    + " " + data[i]["common"]
+            //    + " " + data[i]["uncommon"]
+            //    + " " + data[i]["rare"]
+            //    + " " + data[i]["unique"]
+            //    + " " + data[i]["legendary"]
+            //    );
 
             DBMonsterUpgradeStatData upStatData = new DBMonsterUpgradeStatData();
             upStatData.id = Convert.ToInt32(data[i]["id"]);
-            upStatData.upStatDic.Add(GRADE_TYPE.COMMON, Convert.ToInt32(data[i]["common"]));
-            upStatData.upStatDic.Add(GRADE_TYPE.UNCOMMON, Convert.ToInt32(data[i]["uncommon"]));
-            upStatData.upStatDic.Add(GRADE_TYPE.RARE, Convert.ToInt32(data[i]["rare"]));
-            upStatData.upStatDic.Add(GRADE_TYPE.UNIQUE, Convert.ToInt32(data[i]["unique"]));
-            upStatData.upStatDic.Add(GRADE_TYPE.LEGENDARY, Convert.ToInt32(data[i]["legendary"]));
+            upStatData.upStatDic.Add(GRADE_TYPE.COMMON, (float)(data[i]["common"]));
+            upStatData.upStatDic.Add(GRADE_TYPE.UNCOMMON, (float)(data[i]["uncommon"]));
+            upStatData.upStatDic.Add(GRADE_TYPE.RARE, (float)(data[i]["rare"]));
+            upStatData.upStatDic.Add(GRADE_TYPE.UNIQUE, (float)(data[i]["unique"]));
+            upStatData.upStatDic.Add(GRADE_TYPE.LEGENDARY, (float)(data[i]["legendary"]));
 
             DBMonsterUpgradeStatDataDic.Add(upStatData.id, upStatData);
         }
