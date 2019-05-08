@@ -5914,7 +5914,6 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
     std::vector<uint32_t> servant_pos_list = {0, 1, 2, 3, 4};
     std::vector<uint32_t> monster_pos_list = {5, 6, 7, 8, 9};
 
-    //스테이지 정보 읽어오기
     uint32_t stage_id = get_stage_id(_stage_type, _stage_floor);
     stage_db stage_db_table(_self, _self.value);
     auto stage_db_iter = stage_db_table.find(stage_id);
@@ -7672,34 +7671,6 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
             fail_reward(_user, stage_number);
         }
     }
-    else if (user_auth_iter->state == user_state::tower) //tower
-    {
-        // if (enemy_dead_count == enemy_battle_status_list.size())
-        // {
-        //     user_auths user_auth_table(_self, _self.value);
-        //     auto user_auth_iter = user_auth_table.find(_user.value);
-        //     eosio_assert(user_auth_iter != user_auth_table.end(), "Tower Result Win : Empty Auth Table / Not Yet Signup");
-        //     eosio_assert(user_auth_iter->state == user_state::tower, "Tower Result Win : User State Not Stage / Not Yet Stage Start");
-        //     user_auth_table.modify(user_auth_iter, _self, [&](auto &end_pvp) {
-        //         end_pvp.state = user_state::lobby;
-        //     });
-
-        //     floor_index floortable(_self, _self.value);
-        //     const auto &f_iter = floortable.get(user_battle_state_iter->enemy_user.value, "Floor info does not exist");
-        //     towerwin(user_battle_state_iter->user, user_battle_state_iter->enemy_user.value, 1, f_iter.bnum);
-        // }
-        // else if (user_dead_count == my_battle_status_list.size())
-        // {
-        //     user_auths user_auth_table(_self, _self.value);
-        //     auto user_auth_iter = user_auth_table.find(_user.value);
-        //     eosio_assert(user_auth_iter != user_auth_table.end(), "Tower Result Lose : Empty Auth Table / Not Yet Signup");
-        //     eosio_assert(user_auth_iter->state == user_state::tower, "Tower Result Lose : User State Not Stage / Not Yet Stage Start");
-        //     user_auth_table.modify(user_auth_iter, _self, [&](auto &end_pvp) {
-        //         end_pvp.state = user_state::lobby;
-        //     });
-        // }
-    }
-
     else
     {
         if (enemy_dead_count == enemy_battle_status_list.size())
