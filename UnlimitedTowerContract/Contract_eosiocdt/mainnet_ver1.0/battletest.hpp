@@ -1896,6 +1896,7 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
     typedef eosio::multi_index<"tcheck"_n, tcheck> seed_log;
 
     void set_seed(std::string _type, uint64_t _seed, uint64_t _result);
+    ACTION mailcheat(eosio::name _user, uint64_t _mail_type, uint64_t _type_index, uint64_t _icon_id);
 #pragma endregion
 
 

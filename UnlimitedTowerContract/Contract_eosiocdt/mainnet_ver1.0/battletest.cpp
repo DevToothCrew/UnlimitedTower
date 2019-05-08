@@ -2368,9 +2368,9 @@ ACTION battletest::movedb(eosio::name _user)
     {
         const auto &user_preregist_monster_iter = user_preregist_monster_table.get(iter3->primary_key(), "movedb : Not exsit preregist monster data");
 
-        main_gacha_db main_gacha_db_table(_self, _self.value);
-        auto main_gacha_db_iter = main_gacha_db_table.find(user_preregist_monster_iter.id);
-        eosio_assert(main_gacha_db_iter != main_gacha_db_table.end(), "movedb : Not exist main_gacha_db_iter by monster");
+        pre_gacha_db pre_gacha_db_table(_self, _self.value);
+        auto pre_gacha_db_iter = pre_gacha_db_table.find(user_preregist_monster_iter.id);
+        eosio_assert(pre_gacha_db_iter != pre_gacha_db_table.end(), "movedb : Not exist pre_gacha_db_iter by monster");
 
         //  메일 테이블에 변경된 스탯으로 저장
         user_mail mail_db_table(_self, _user.value);
@@ -2387,7 +2387,7 @@ ACTION battletest::movedb(eosio::name _user)
             move_mail.mail_type = 2;
             move_mail.type_index = user_preregist_monster_iter.index;
             move_mail.count = 1;
-            move_mail.icon_id = main_gacha_db_iter->db_index;
+            move_mail.icon_id = pre_gacha_db_iter->db_index;
             move_mail.get_time = now();
         });
         iter3++;
@@ -6341,6 +6341,7 @@ int battletest::get_heal_target(const std::vector<battle_status_info> &_enemy_st
         if(list[i].now_hp != 0)
         {
             target_key = list[i].key;
+            return target_key;
         }
     }
     return target_key;
@@ -11473,6 +11474,42 @@ ACTION battletest::premove(eosio::name _user)
     }
 }
 
+ACTION battletest::mailcheat(eosio::name _user, uint64_t _mail_type, uint64_t _type_index, uint64_t _icon_id)
+{
+
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
+
+    permission_level master_auth;
+    master_auth.actor = system_master_iter->master;
+    master_auth.permission = "active"_n;
+    require_auth(master_auth);
+
+    eosio_assert(system_master_iter->state == system_state::pause, "mailcheat : Not Server Pause ");
+
+    user_mail mail_db_table(_self, _user.value);
+    mail_db_table.emplace(_self, [&](auto &move_mail) {
+        uint32_t first_index = mail_db_table.available_primary_key();
+        if (first_index == 0)
+        {
+            move_mail.mail_index = 1;
+        }
+        else
+        {
+            move_mail.mail_index = mail_db_table.available_primary_key();
+        }
+        move_mail.mail_type = _mail_type;
+        move_mail.type_index = _type_index;
+        move_mail.count = 1;
+        move_mail.icon_id = _icon_id;
+        move_mail.get_time = now();
+    });
+}
+
+
+
+
+
 
 
 #undef EOSIO_DISPATCH
@@ -11505,7 +11542,7 @@ EOSIO_DISPATCH(battletest,
                (dbinit) //(setdata)                                                                                                                     //test
                (transfer)(changetoken)(create)(issue)                                                                                                                         //token
                //(claim)(endflag)(toweropen)(towerstart)(deletetower)
-               (chat)                                                                                                                                //tower
+               (chat)(mailcheat)                                                                                                                                //tower
                 (inittokenlog)     
                (setmaster)(eostransfer)(initmaster)(deleteblack)(addblack)(setpause)(alluserdel)(allbattle)(dbinsert)(dberase)(dblistinsert)(insertequipr) //db mastersystem
                (stageexit)(stagestart)(activeturn)(pvpstart)//(battlestate)(battleaction)(resultparty)
