@@ -444,6 +444,7 @@ CONTRACT battletest : public contract
        uint64_t primary_key() const { return gacha_id; }
    };
    typedef eosio::multi_index<"dbgachapool"_n, dbgachapool> main_gacha_db;
+   typedef eosio::multi_index<"dbprepool"_n, dbgachapool> pre_gacha_db;
 
     //servant_db servant_db_table(_self, _self.value);
     //auto servant_db_iter = servant_db_table.get_index<"second"_n>();   //샘플
@@ -548,7 +549,7 @@ CONTRACT battletest : public contract
     typedef eosio::multi_index<"dbserstat"_n, dbserstat> serstat_db;
 
     void insert_job_stat(uint64_t _id,
-                        uint32_t _job,
+                         uint32_t _job,
                          uint32_t _grade,
                          uint32_t _base_str,
                          uint32_t _base_dex,
@@ -650,6 +651,7 @@ CONTRACT battletest : public contract
                        uint32_t _skill_type, uint32_t _active_turn, uint32_t _attack_type, uint32_t _dmg_type, uint32_t _elemental_type, uint32_t _target, uint32_t _target_count,
                        uint32_t _hit_count, uint32_t _atk_per, uint32_t _atk_per_add, uint32_t _atk_per_2, uint32_t _atk_per_add_2, uint32_t _heal_per, uint32_t _heal_per_add, uint32_t _option_id);
     void insert_gacha_pool(uint64_t _gacha_id, uint64_t _db_index);
+    void insert_pre_gacha_pool(uint64_t _gacha_id, uint64_t _db_index);
     void insert_equip_item_id(uint64_t _item_id,
                               uint64_t _item_set_id,
                               uint64_t _type,
@@ -687,6 +689,7 @@ CONTRACT battletest : public contract
 	// void erase_passive(uint64_t _id);
     // void erase_active(uint64_t _id);
     // void erase_gacha_pool(uint64_t _id);
+    void erase_pre_gacha_pool(uint64_t _id);
     // void erase_status_monster_up(uint64_t _id);
     // void erase_itemshop(uint64_t _id);
 
@@ -1107,8 +1110,8 @@ CONTRACT battletest : public contract
     void start_gacha(eosio::name _user, uint64_t _seed);
 
     bool check_inventory(eosio::name _user);
-   // ACTION mailopen(eosio::name _user, const std::vector<uint64_t> &_mail_index);
-    ACTION mailopen(eosio::name _user, uint64_t _mail_index);
+    ACTION mailopen(eosio::name _user, const std::vector<uint64_t> &_mail_index);
+    //ACTION mailopen(eosio::name _user, uint64_t _mail_index);
 #pragma endregion
 
 //------------------------------------------------------------------------//
@@ -1153,7 +1156,6 @@ CONTRACT battletest : public contract
         empty,
         stage, 
         tower,
-        auth_regist,
         pvp,
     };
 
@@ -1798,7 +1800,6 @@ CONTRACT battletest : public contract
 ACTION pvpstart(eosio::name _from, eosio::name _to);
 #pragma endregion
 
-
 #pragma region tower
     // TABLE teoslog
     // {
@@ -1896,5 +1897,6 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
 
     void set_seed(std::string _type, uint64_t _seed, uint64_t _result);
 #pragma endregion
+
 
 };
