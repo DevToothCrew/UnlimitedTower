@@ -1190,7 +1190,14 @@ void battletest::insert_upgrade_monster_ratio(uint32_t _main, uint64_t _upgrade_
 
 ACTION battletest::insertequipr(uint64_t _main, std::vector<uint64_t> &_upgrade_ratio, uint64_t _material_id, std::vector<uint64_t> &_material_count, std::vector<uint64_t> &_use_UTG)
 {
-    require_auth(_self);
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
+
+    permission_level master_auth;
+    master_auth.actor = system_master_iter->master;
+    master_auth.permission = "active"_n;
+    require_auth(master_auth);
+
     upgrade_equipment_ratio_dbs upgrade_equipment_ratio_db_table(_self, _self.value);
     auto upgrade_equipment_ratio_db_iter = upgrade_equipment_ratio_db_table.find(_main);
     if (upgrade_equipment_ratio_db_iter == upgrade_equipment_ratio_db_table.end())
@@ -3336,7 +3343,7 @@ void battletest::signup(eosio::name _user)
         new_user.exp = 0;
         new_user.rank = 1;
         new_user.current_servant_inventory = 1;
-        new_user.current_monster_inventory = 0;
+        new_user.current_monster_inventory = 1;
         new_user.current_item_inventory = 0;
         new_user.current_equipment_inventory = 0;
         new_user.servant_inventory = 50;
@@ -3407,9 +3414,69 @@ void battletest::signup(eosio::name _user)
         new_servant.equip_slot.resize(3);
         new_servant.state = object_state::on_party;
 
+        uint32_t active_id = get_servant_active_skill(servant_id_db_iter.job, _seed);
+        new_servant.active_skill.push_back(active_id);
+
+        uint32_t passive_id = get_servant_passive_skill(servant_id_db_iter.job, _seed);
+        new_servant.passive_skill.push_back(passive_id);
+
         update_user_servant_list.party_number = 1;
         update_user_servant_list.servant = new_servant;
     });
+
+
+    monster_random_count += 1;
+    uint32_t random_monster_id = safeseed::get_random_value(_seed, 103107, 103101, monster_random_count);
+
+    monster_db monster_id_db_table(_self, _self.value);
+    const auto &monster_id_db_iter = monster_id_db_table.get(random_monster_id, "Signup Monster : Empty Monster ID");
+
+    monster_random_count += 1;
+    uint64_t random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, DEFAULT_MIN, monster_random_count);
+    uint64_t random_grade = get_random_grade(random_rate);
+
+    monster_grade_db monster_grade_db_table(_self, _self.value);
+    const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "Signup Monster : Empty Grade");
+
+    user_monsters user_monster_table(_self, _user.value);
+    user_monster_table.emplace(_self, [&](auto &update_user_monster_list) {
+        uint32_t first_index = user_monster_table.available_primary_key();
+        if (first_index == 0)
+        {
+            update_user_monster_list.index = 1;
+        }
+        else
+        {
+            update_user_monster_list.index = user_monster_table.available_primary_key();
+        }
+
+        monster_info new_monster;
+        new_monster.id = monster_id_db_iter.id;
+        new_monster.grade = monster_grade_db_iter.grade;
+        new_monster.tribe = monster_id_db_iter.tribe;
+        new_monster.type = monster_id_db_iter.type;
+        new_monster.exp = 0;
+        new_monster.upgrade = 0;
+        monster_random_count += 1;
+        new_monster.status.basic_str = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_str, monster_grade_db_iter.min_range.base_str, monster_random_count);
+        monster_random_count += 1;
+        new_monster.status.basic_dex = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_dex, monster_grade_db_iter.min_range.base_dex, monster_random_count);
+        monster_random_count += 1;
+        new_monster.status.basic_int = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_int, monster_grade_db_iter.min_range.base_int, monster_random_count);
+
+        new_monster.status.basic_str = change_monster_statue(new_monster.grade, new_monster.status.basic_str);
+        new_monster.status.basic_dex = change_monster_statue(new_monster.grade, new_monster.status.basic_dex);
+        new_monster.status.basic_int = change_monster_statue(new_monster.grade, new_monster.status.basic_int);
+
+        new_monster.state = object_state::on_inventory;
+
+        uint32_t passive_id = get_monster_passive_skill(_seed);
+        new_monster.passive_skill.push_back(passive_id);
+
+        update_user_monster_list.party_number = EMPTY_PARTY;
+        update_user_monster_list.monster = new_monster;
+    });
+
 
     asset utg_cheat_money(0, symbol(symbol_code("UTG"), 4));
     utg_cheat_money.amount = 1000 * 10000;
@@ -3431,7 +3498,7 @@ void battletest::refer_signup(eosio::name _user, eosio::name _refer)
         new_user.exp = 0;
         new_user.rank = 1;
         new_user.current_servant_inventory = 1;
-        new_user.current_monster_inventory = 0;
+        new_user.current_monster_inventory = 1;
         new_user.current_item_inventory = 0;
         new_user.current_equipment_inventory = 0;
         new_user.servant_inventory = 50;
@@ -3502,9 +3569,69 @@ void battletest::refer_signup(eosio::name _user, eosio::name _refer)
         new_servant.equip_slot.resize(3);
         new_servant.state = object_state::on_party;
 
+        uint32_t active_id = get_servant_active_skill(servant_id_db_iter.job, _seed);
+        new_servant.active_skill.push_back(active_id);
+
+        uint32_t passive_id = get_servant_passive_skill(servant_id_db_iter.job, _seed);
+        new_servant.passive_skill.push_back(passive_id);
+
         update_user_servant_list.party_number = 1;
         update_user_servant_list.servant = new_servant;
     });
+
+
+    monster_random_count += 1;
+    uint32_t random_monster_id = safeseed::get_random_value(_seed, 103107, 103101, monster_random_count);
+
+    monster_db monster_id_db_table(_self, _self.value);
+    const auto &monster_id_db_iter = monster_id_db_table.get(random_monster_id, "Signup Monster : Empty Monster ID");
+
+    monster_random_count += 1;
+    uint64_t random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, DEFAULT_MIN, monster_random_count);
+    uint64_t random_grade = get_random_grade(random_rate);
+
+    monster_grade_db monster_grade_db_table(_self, _self.value);
+    const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "Signup Monster : Empty Grade");
+
+    user_monsters user_monster_table(_self, _user.value);
+    user_monster_table.emplace(_self, [&](auto &update_user_monster_list) {
+        uint32_t first_index = user_monster_table.available_primary_key();
+        if (first_index == 0)
+        {
+            update_user_monster_list.index = 1;
+        }
+        else
+        {
+            update_user_monster_list.index = user_monster_table.available_primary_key();
+        }
+
+        monster_info new_monster;
+        new_monster.id = monster_id_db_iter.id;
+        new_monster.grade = monster_grade_db_iter.grade;
+        new_monster.tribe = monster_id_db_iter.tribe;
+        new_monster.type = monster_id_db_iter.type;
+        new_monster.exp = 0;
+        new_monster.upgrade = 0;
+        monster_random_count += 1;
+        new_monster.status.basic_str = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_str, monster_grade_db_iter.min_range.base_str, monster_random_count);
+        monster_random_count += 1;
+        new_monster.status.basic_dex = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_dex, monster_grade_db_iter.min_range.base_dex, monster_random_count);
+        monster_random_count += 1;
+        new_monster.status.basic_int = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_int, monster_grade_db_iter.min_range.base_int, monster_random_count);
+
+        new_monster.status.basic_str = change_monster_statue(new_monster.grade, new_monster.status.basic_str);
+        new_monster.status.basic_dex = change_monster_statue(new_monster.grade, new_monster.status.basic_dex);
+        new_monster.status.basic_int = change_monster_statue(new_monster.grade, new_monster.status.basic_int);
+
+        new_monster.state = object_state::on_inventory;
+
+        uint32_t passive_id = get_monster_passive_skill(_seed);
+        new_monster.passive_skill.push_back(passive_id);
+
+        update_user_monster_list.party_number = EMPTY_PARTY;
+        update_user_monster_list.monster = new_monster;
+    });
+
 
     asset refer_signup_reward(0, symbol(symbol_code("UTG"), 4));
     refer_signup_reward.amount = 11000000;  //1100 UTG
