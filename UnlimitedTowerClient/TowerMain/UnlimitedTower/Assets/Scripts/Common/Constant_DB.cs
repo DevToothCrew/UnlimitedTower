@@ -344,4 +344,18 @@ public class DBShopData
     public int priceCount;
 }
 
+[Serializable]
+public class DBMonsterUpgradeStatData
+{
+    public int id;
+    public Dictionary<GRADE_TYPE, float> upStatDic = new Dictionary<GRADE_TYPE, float>();
+}
+
+[Serializable]
+public class DBEquipmentUpgradeStatData
+{
+    public int id;
+    public Dictionary<GRADE_TYPE, float> upStatDic = new Dictionary<GRADE_TYPE, float>();
+}
+
 #endregion

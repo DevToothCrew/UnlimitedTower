@@ -9,6 +9,7 @@ public class CSVData : MonoSingleton<CSVData>
     public Dictionary<int, DBItemData> DBItemDataDic = new Dictionary<int, DBItemData>();
     public Dictionary<int, DBEquipmentData> DBEquipmentDataDic = new Dictionary<int, DBEquipmentData>();
     public Dictionary<int, DBEquipmentUpgradeData> DBEquipmentUpgradeDataDic = new Dictionary<int, DBEquipmentUpgradeData>();
+    public Dictionary<int, DBEquipmentUpgradeStatData> DBEquipmentUpgradeStatDataDic = new Dictionary<int, DBEquipmentUpgradeStatData>();
     public Dictionary<int, DBStageData> DBStageDataDic = new Dictionary<int, DBStageData>();
     public Dictionary<int, DBStageEnemyData> DBStageEnemyDataDic = new Dictionary<int, DBStageEnemyData>();
     public Dictionary<int, DBStageRewardData> DBStageRewardDataDic = new Dictionary<int, DBStageRewardData>();
@@ -19,6 +20,7 @@ public class CSVData : MonoSingleton<CSVData>
     public Dictionary<int, DBMonsterData> DBMonsterDataDic = new Dictionary<int, DBMonsterData>();
     public Dictionary<TRIBE_TYPE, DBMonsterStatData> DBMonsterStatDataDic = new Dictionary<TRIBE_TYPE, DBMonsterStatData>();
     public Dictionary<int, DBMonsterUpgradeData> DBMonsterUpgradeDataDic = new Dictionary<int, DBMonsterUpgradeData>();
+    public Dictionary<int, DBMonsterUpgradeStatData> DBMonsterUpgradeStatDataDic = new Dictionary<int, DBMonsterUpgradeStatData>();
     public Dictionary<int, DBSkillActiveData> DBSkillActiveDataDic = new Dictionary<int, DBSkillActiveData>();
     public Dictionary<int, DBSkillPassiveData> DBSkillPassiveDataDic = new Dictionary<int, DBSkillPassiveData>();
     public Dictionary<int, DBShopData> DBShopDataDic = new Dictionary<int, DBShopData>();
@@ -101,7 +103,16 @@ public class CSVData : MonoSingleton<CSVData>
             {
                 DebugLog.Log(false, "Invalid DBSetEquipmentUpgradeData");
             }
-            //DebugLog.Log(false, "SetEquipmentData Success");
+            //DebugLog.Log(false, "SetEquipmentUpgradeData Success");
+        }
+        if (DBEquipmentUpgradeStatDataDic.Count == 0)
+        {
+            //DebugLog.Log(false, "SetEquipmentUpgradeStatData Start");
+            if (SetEquipmentUpgradeStatData() == false)
+            {
+                DebugLog.Log(false, "Invalid DBSetEquipmentUpgradeStatData");
+            }
+            //DebugLog.Log(false, "SetEquipmentUpgradeStatData Success");
         }
         if (DBStageDataDic.Count == 0)
         {
@@ -175,6 +186,16 @@ public class CSVData : MonoSingleton<CSVData>
             }
             //DebugLog.Log(false, "SetMonsterUpgradeData Success");
         }
+        if(DBMonsterUpgradeStatDataDic.Count == 0)
+        {
+            //DebugLog.Log(false, "SetMonsterUpgradeStatData Start");
+            if (SetMonsterUpgradeStatData() == false)
+            {
+                DebugLog.Log(false, "Invalid DBMonsterUpgradeStatData");
+            }
+            //DebugLog.Log(false, "SetMonsterUpgradeStatData Success");
+        }
+
         if (DBSkillActiveDataDic.Count == 0)
         {
             //DebugLog.Log(false, "SetSkillActiveData Start");
@@ -445,6 +466,34 @@ public class CSVData : MonoSingleton<CSVData>
             upgradeData.needUTGCount = Convert.ToInt32(data[i]["upgrade_price_count"]);
 
             DBEquipmentUpgradeDataDic.Add(upgradeData.id, upgradeData);
+        }
+
+        return true;
+    }
+
+    public bool SetEquipmentUpgradeStatData()
+    {
+        List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_equip_upStat");
+        for (var i = 2; i < data.Count; i++)
+        {
+            DebugLog.Log(false, "index " + (i).ToString()
+                + " : " + data[i]["id"]
+                + " " + data[i]["common"]
+                + " " + data[i]["uncommon"]
+                + " " + data[i]["rare"]
+                + " " + data[i]["unique"]
+                + " " + data[i]["legendary"]
+                );
+
+            DBEquipmentUpgradeStatData upStatData = new DBEquipmentUpgradeStatData();
+            upStatData.id = Convert.ToInt32(data[i]["id"]);
+            upStatData.upStatDic.Add(GRADE_TYPE.COMMON, Convert.ToInt32(data[i]["common"]));
+            upStatData.upStatDic.Add(GRADE_TYPE.UNCOMMON, Convert.ToInt32(data[i]["uncommon"]));
+            upStatData.upStatDic.Add(GRADE_TYPE.RARE, Convert.ToInt32(data[i]["rare"]));
+            upStatData.upStatDic.Add(GRADE_TYPE.UNIQUE, Convert.ToInt32(data[i]["unique"]));
+            upStatData.upStatDic.Add(GRADE_TYPE.LEGENDARY, Convert.ToInt32(data[i]["legendary"]));
+
+            DBEquipmentUpgradeStatDataDic.Add(upStatData.id, upStatData);
         }
 
         return true;
@@ -1067,6 +1116,34 @@ public class CSVData : MonoSingleton<CSVData>
             upgradeData.needUTGCount = Convert.ToInt32(data[i]["upgrade_price_count"]) * 10000;
 
             DBMonsterUpgradeDataDic.Add(upgradeData.id, upgradeData);
+        }
+
+        return true;
+    }
+
+    public bool SetMonsterUpgradeStatData()
+    {
+        List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_monster_upStat");
+        for (var i = 2; i < data.Count; i++)
+        {
+            DebugLog.Log(false, "index " + (i).ToString()
+                + " : " + data[i]["id"]
+                + " " + data[i]["common"]
+                + " " + data[i]["uncommon"]
+                + " " + data[i]["rare"]
+                + " " + data[i]["unique"]
+                + " " + data[i]["legendary"]
+                );
+
+            DBMonsterUpgradeStatData upStatData = new DBMonsterUpgradeStatData();
+            upStatData.id = Convert.ToInt32(data[i]["id"]);
+            upStatData.upStatDic.Add(GRADE_TYPE.COMMON, Convert.ToInt32(data[i]["common"]));
+            upStatData.upStatDic.Add(GRADE_TYPE.UNCOMMON, Convert.ToInt32(data[i]["uncommon"]));
+            upStatData.upStatDic.Add(GRADE_TYPE.RARE, Convert.ToInt32(data[i]["rare"]));
+            upStatData.upStatDic.Add(GRADE_TYPE.UNIQUE, Convert.ToInt32(data[i]["unique"]));
+            upStatData.upStatDic.Add(GRADE_TYPE.LEGENDARY, Convert.ToInt32(data[i]["legendary"]));
+
+            DBMonsterUpgradeStatDataDic.Add(upStatData.id, upStatData);
         }
 
         return true;
@@ -1754,6 +1831,40 @@ public class CSVData : MonoSingleton<CSVData>
         }
 
         return DBShopDataDic[id];
+    }
+
+    public float GetMonsterUpStatFloat(int upgrade, GRADE_TYPE gradeType)
+    {
+        float baseFloat = 1;
+
+        if(DBMonsterUpgradeStatDataDic.ContainsKey(upgrade) == false)
+        {
+            return baseFloat;
+        }
+
+        if(DBMonsterUpgradeStatDataDic[upgrade].upStatDic.ContainsKey(gradeType) == false)
+        {
+            return baseFloat;
+        }
+
+        return baseFloat + DBMonsterUpgradeStatDataDic[upgrade].upStatDic[gradeType];
+    }
+
+    public float GetEquipmentUpStatFloat(int upgrade, GRADE_TYPE gradeType)
+    {
+        float baseFloat = 1;
+
+        if (DBEquipmentUpgradeStatDataDic.ContainsKey(upgrade) == false)
+        {
+            return baseFloat;
+        }
+
+        if (DBEquipmentUpgradeStatDataDic[upgrade].upStatDic.ContainsKey(gradeType) == false)
+        {
+            return baseFloat;
+        }
+
+        return baseFloat + DBEquipmentUpgradeStatDataDic[upgrade].upStatDic[gradeType];
     }
 
     #endregion

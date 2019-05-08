@@ -4,7 +4,6 @@ using System;
 
 public class Calculator : MonoBehaviour
 {
-
     public static int GetPower(Status status, int level = 1)
     {
         int attack = (int)(((status.basicStr + status.basicDex) * 10) * (level / (float)DEFINE.MAX_LEVEL));

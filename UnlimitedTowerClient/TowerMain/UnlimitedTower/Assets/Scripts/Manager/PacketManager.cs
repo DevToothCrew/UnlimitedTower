@@ -1816,6 +1816,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         monster.exp = getMonsterData.monster.exp;
         monster.status = ParseStatus(getMonsterData.monster.status);
+        float fixStatus = CSVData.Inst.GetMonsterUpStatFloat(monster.upgrade, monster.gradeType);
+        monster.status.basicStr = (int)(monster.status.basicStr * fixStatus);
+        monster.status.basicDex = (int)(monster.status.basicDex * fixStatus);
+        monster.status.basicInt = (int)(monster.status.basicInt * fixStatus);
 
         if (getMonsterData.monster.active_skill.Count != 0)
         {
@@ -1882,6 +1886,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         equipmentData.optionType = dbEquipmentData.optionType;
         equipmentData.value = getEquipmentData.equipment.value;
+        float fixValue = CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType);
+        equipmentData.value = (int)(equipmentData.value * fixValue);
 
         equipmentData.equipServantIndex = getEquipmentData.equipment.equipservantindex;
         if(equipmentData.equipServantIndex > 0)

@@ -228,6 +228,13 @@ public class UserEquipmentData
     public int id;
 
     public int grade;
+    public GRADE_TYPE gradeType
+    {
+        get
+        {
+            return (GRADE_TYPE)grade;
+        }
+    }
     public int upgrade;
     public int state;
 
