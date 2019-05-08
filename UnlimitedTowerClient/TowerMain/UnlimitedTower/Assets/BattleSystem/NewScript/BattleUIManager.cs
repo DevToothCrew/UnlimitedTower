@@ -177,7 +177,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         }
         else
         {
-            Debug.Log(false, "Last Turn");
+            Debug.Log("Last Turn");
         }
     }
 
