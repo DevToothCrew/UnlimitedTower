@@ -722,9 +722,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         shopInfoResultData resultData = new shopInfoResultData();
         resultData.shop_type = (int)type;
-        if (type == SHOP_TYPE.UTG)
+        if (type == SHOP_TYPE.EOS)
         {
-            for (int i = 1; i <= 3; i++)
+            for (int i = 1; i <= 4; i++)
             {
                 shopProductData product = new shopProductData();
                 product.index = i;
@@ -735,9 +735,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 resultData.shop_product_list.Add(product);
             }
         }
-        else if (type == SHOP_TYPE.EOS)
+        else if (type == SHOP_TYPE.UTG)
         {
-            for (int i = 4; i <= 7; i++)
+            for (int i = 5; i <= 7; i++)
             {
                 shopProductData product = new shopProductData();
                 product.index = i;

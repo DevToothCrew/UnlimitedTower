@@ -1,0 +1,10 @@
+id,#,name,desc,shop_type,#,product_id,product_count,product_limit_max,price_id,price_count
+#,설명,이름,설명,판매 상점 타입,판매 상점 타입,지급할 아이템 id,지급 개수,서버 한정 개수,판매 재화 아이디,판매 가격
+int,int,localize,localize,int,int,int,int,int,int,int
+2001,인벤토리-서번트 칸 추가,DB_shopItem_name_2001,DB_shopItem_desc_2001,1,eos,500010,5,0,500002,1000
+2002,인벤토리-몬스터 칸 추가,DB_shopItem_name_2002,DB_shopItem_desc_2002,1,eos,500011,5,0,500002,1000
+2003,인벤토리-장비 칸 추가,DB_shopItem_name_2003,DB_shopItem_desc_2003,1,eos,500012,5,0,500002,1000
+2004,인벤토리-아이템 칸 추가,DB_shopItem_name_2004,DB_shopItem_desc_2004,1,eos,500013,5,0,500002,1000
+3001,무기 강화 스크롤,DB_shopItem_name_3001,DB_shopItem_desc_3001,2,utg,500100,1,0,500001,5000000
+3002,방어구 강화 스크롤,DB_shopItem_name_3002,DB_shopItem_desc_3002,2,utg,500110,1,0,500001,5000000
+3003,액세서리 강화 스크롤,DB_shopItem_name_3003,DB_shopItem_desc_3003,2,utg,500120,1,0,500001,5000000

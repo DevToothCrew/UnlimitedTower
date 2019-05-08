@@ -1321,7 +1321,7 @@ public class CSVData : MonoSingleton<CSVData>
 
     public bool SetShopData()
     {
-        List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_shop_ingame");
+        List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_shop_item");
         for (var i = 2; i < data.Count; i++)
         {
             //DebugLog.Log(false, "index " + (i).ToString()
@@ -1341,31 +1341,16 @@ public class CSVData : MonoSingleton<CSVData>
                 DebugLog.Log(false, "아이디 겹침 : " + shopData.id);
                 return false;
             }
-
-            switch(Convert.ToString(data[i]["shop_type"]))
-            {
-                case "UTG":
-                    shopData.type = SHOP_TYPE.UTG;
-                    break;
-                case "EOS":
-                    shopData.type = SHOP_TYPE.EOS;
-                    break;
-                case "ETC":
-                    shopData.type = SHOP_TYPE.ETC;
-                    break;
-
-                default:
-                    DebugLog.Log(false, "Invalid Shop Type : " + Convert.ToString(data[i]["shop_type"]));
-                    return false;
-            }
-
+            shopData.type = (SHOP_TYPE)Convert.ToInt32(data[i]["shop_type"]);
             shopData.productID = Convert.ToInt32(data[i]["product_id"]);
             shopData.productCount = Convert.ToInt32(data[i]["product_count"]);
-            shopData.limitMaxCount = Convert.ToInt32(data[i]["limit_max_count"]);
+            shopData.limitMaxCount = Convert.ToInt32(data[i]["product_limit_max"]);
             shopData.priceID = Convert.ToInt32(data[i]["price_id"]);
             shopData.priceCount = Convert.ToInt32(data[i]["price_count"]);
+            shopData.index = i - 1;
 
-            DBShopDataDic.Add(shopData.id, shopData);
+            // Shop List를 못받아와서 index를 사용
+            DBShopDataDic.Add(shopData.index, shopData);
         }
 
         return true;

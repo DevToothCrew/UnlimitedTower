@@ -342,6 +342,9 @@ public class DBShopData
     public int limitMaxCount;
     public int priceID;
     public int priceCount;
+
+    // 임시 서버 데이터
+    public int index;
 }
 
 [Serializable]
