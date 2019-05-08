@@ -414,13 +414,13 @@ public class BattleStatus
                     switch (equipmentData.optionType)
                     {
                         case EQUIPMENT_OPTION_TYPE.STR:
-                            Status[EFFECT_ID.STR] += (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType) + 1));
+                            Status[EFFECT_ID.STR] += (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType)));
                             break;
                         case EQUIPMENT_OPTION_TYPE.DEX:
-                            Status[EFFECT_ID.DEX] += (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType) + 1));
+                            Status[EFFECT_ID.DEX] += (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType)));
                             break;
                         case EQUIPMENT_OPTION_TYPE.INT:
-                            Status[EFFECT_ID.INT] += (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType) + 1));
+                            Status[EFFECT_ID.INT] += (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType)));
                             break;
                     }
                 }
@@ -429,16 +429,16 @@ public class BattleStatus
                     switch (equipmentData.optionType)
                     {
                         case EQUIPMENT_OPTION_TYPE.ATK:
-                            Status[EFFECT_ID.ATK] += (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType) + 1));
+                            Status[EFFECT_ID.ATK] += (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType)));
                             break;
                         case EQUIPMENT_OPTION_TYPE.MATK:
-                            Status[EFFECT_ID.MATK] += (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType) + 1));
+                            Status[EFFECT_ID.MATK] += (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType)));
                             break;
                         case EQUIPMENT_OPTION_TYPE.DEF:
-                            Status[EFFECT_ID.DEF] += (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType) + 1));
+                            Status[EFFECT_ID.DEF] += (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType)));
                             break;
                         case EQUIPMENT_OPTION_TYPE.MDEF:
-                            Status[EFFECT_ID.MDEF] += (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType) + 1));
+                            Status[EFFECT_ID.MDEF] += (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType)));
                             break;
                     }
                 }
@@ -448,9 +448,9 @@ public class BattleStatus
 
     public void Upgrade(int upgrade, GRADE_TYPE gradeType)
     {
-        Status[EFFECT_ID.STR] += (int)(Status[EFFECT_ID.STR] * CSVData.Inst.GetMonsterUpStatFloat(upgrade, gradeType));
-        Status[EFFECT_ID.DEX] += (int)(Status[EFFECT_ID.DEX] * CSVData.Inst.GetMonsterUpStatFloat(upgrade, gradeType));
-        Status[EFFECT_ID.INT] += (int)(Status[EFFECT_ID.INT] * CSVData.Inst.GetMonsterUpStatFloat(upgrade, gradeType));
+        Status[EFFECT_ID.STR] = (int)(Status[EFFECT_ID.STR] * CSVData.Inst.GetMonsterUpStatFloat(upgrade, gradeType));
+        Status[EFFECT_ID.DEX] = (int)(Status[EFFECT_ID.DEX] * CSVData.Inst.GetMonsterUpStatFloat(upgrade, gradeType));
+        Status[EFFECT_ID.INT] = (int)(Status[EFFECT_ID.INT] * CSVData.Inst.GetMonsterUpStatFloat(upgrade, gradeType));
     }
 
     public void StatusReCalculation(int level)
