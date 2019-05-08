@@ -617,7 +617,7 @@ CONTRACT battletest : public contract
     ACTION dbinsert(std::string _table, std::string _value);
     ACTION dberase(std::string _table, std::string _value);
     ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
-    ACTION dbinit(std::string _table);
+    //ACTION dbinit(std::string _table);
     ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
 
 	//ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
@@ -637,12 +637,9 @@ CONTRACT battletest : public contract
     void insert_servant_burn_item(uint64_t _servant_job, uint64_t _result_item_id);
 
     void insert_status_monster_up(uint64_t _type, uint64_t _first, uint64_t _second);
-    // void insert_itemshop(uint64_t _id, uint64_t _goods_type,
-    //                      uint64_t _goods_id, uint64_t _goods_count,
-    //                      uint64_t _goods_limited, uint64_t _price_type,
-    //                      uint64_t _etc_type, uint64_t _price_count);
-    void insert_itemshop(uint64_t _id, uint64_t _type, uint64_t _product_id, uint64_t _product_count, uint64_t _limit_count,
-                         uint64_t limit_max, uint64_t price_id, uint64_t _price_count);
+    void insert_itemshop(uint64_t _id, uint64_t _shop_type, uint64_t _product_id, uint64_t _product_count,
+                         uint64_t _product_limit_max, uint64_t _price_id, uint64_t _price_count);
+    void insert_shoplist(uint64_t _id, uint64_t _shop_type, uint64_t _shop_item_id, uint64_t _limit_count);
 
     void insert_level(uint32_t _level, uint32_t _rank_exp, uint32_t _char_exp);
     void insert_passive(uint64_t _passive_id, uint32_t _passive_type, uint32_t _job_class, uint32_t _enable_stack_max, uint32_t _effect_id,
@@ -691,7 +688,7 @@ CONTRACT battletest : public contract
     // void erase_gacha_pool(uint64_t _id);
     void erase_pre_gacha_pool(uint64_t _id);
     // void erase_status_monster_up(uint64_t _id);
-    // void erase_itemshop(uint64_t _id);
+     void erase_itemshop(uint64_t _id);
 
 #pragma endregion
 
@@ -957,49 +954,34 @@ CONTRACT battletest : public contract
 #pragma endregion
 
 #pragma region item shop
-
-    enum good_types
-    {
-        inventory_Servant = 11,
-        inventory_Monster = 12,
-        inventory_Equip = 13, 
-        inventory_Item = 14,
-        goods_item =5,
-        goods_servant = 3,
-        goods_utg= 2,
-    };
-
   
     TABLE itemshop
     {
         uint64_t id;
-        uint64_t goods_type;
-        uint64_t goods_id;
-        uint64_t goods_count;
-        uint64_t goods_limited;
-        uint64_t price_type;
-        uint64_t etc_type;
+        uint64_t shop_type;
+        uint64_t product_id;
+        uint64_t product_count;
+        uint64_t product_limit_max;
+        uint64_t price_id;
         uint64_t price_count;
 
         uint64_t primary_key() const { return id; }
     };
     typedef eosio::multi_index<"dbitemshop"_n, itemshop> item_shop;
-    
-     // 삭제 예정 
+
+
     TABLE tshoplist
     {
         uint64_t id;
-        uint64_t type;        
-        uint64_t product_id;
-        uint64_t product_count;
+        uint64_t shop_type;        
+        uint64_t shop_item_id;
         uint64_t limit_count;
-        uint64_t limit_max;
-        uint64_t price_id;
-        uint64_t price_count;
         uint64_t primary_key() const { return id; }
-        uint64_t get_type() const { return type; }
+        uint64_t get_type() const { return shop_type; }
     };
     typedef eosio::multi_index<"tshoplist"_n, tshoplist, indexed_by<"bytype"_n, const_mem_fun<tshoplist, uint64_t, &tshoplist::get_type>>> shop_list;
+
+
 
 #pragma endregion
 
@@ -1876,7 +1858,7 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
     ACTION deletewhite(eosio::name _user);
 
     //test action
-    ACTION premove(eosio::name _user);
+    //ACTION premove(eosio::name _user);
 #pragma endregion
 
 
@@ -1897,7 +1879,13 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
     typedef eosio::multi_index<"tcheck"_n, tcheck> seed_log;
 
     void set_seed(std::string _type, uint64_t _seed, uint64_t _result);
-    ACTION mailcheat(eosio::name _user, uint64_t _mail_type, uint64_t _type_index, uint64_t _icon_id);
+    //ACTION mailcheat(eosio::name _user, uint64_t _mail_type, uint64_t _type_index, uint64_t _icon_id);
+    ACTION partycheat(eosio::name _user);
+    void preregist_servant_id(eosio::name _user, uint64_t _seed);
+    void preregist_monster_id(eosio::name _user, uint64_t _seed);
+    void preregist_item_id(eosio::name _user, uint64_t _seed);
+    ACTION movecheat(eosio::name _user);
+
 #pragma endregion
 
 
