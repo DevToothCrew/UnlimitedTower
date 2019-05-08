@@ -2333,9 +2333,9 @@ ACTION battletest::movedb(eosio::name _user)
     {
         const auto &user_preregist_servant_iter = user_preregist_servant_table.get(iter2->primary_key(), "movedb : not exsit preregist servant data");
 
-        main_gacha_db main_gacha_db_table(_self, _self.value);
-        auto main_gacha_db_iter = main_gacha_db_table.find(user_preregist_servant_iter.id);
-        eosio_assert(main_gacha_db_iter != main_gacha_db_table.end(), "movedb : Not exist main_gacha_db_iter by servant");
+        pre_gacha_db pre_gacha_db_table(_self, _self.value);
+        auto pre_gacha_db_iter = pre_gacha_db_table.find(user_preregist_servant_iter.id);
+        eosio_assert(pre_gacha_db_iter != pre_gacha_db_table.end(), "movedb : Not exist pre_gacha_db_iter by servant");
 
         //  메일 테이블에 변경된 스탯으로 저장
         user_mail mail_db_table(_self, _user.value);
@@ -2352,7 +2352,7 @@ ACTION battletest::movedb(eosio::name _user)
             move_mail.mail_type = 1;
             move_mail.type_index = user_preregist_servant_iter.index;
             move_mail.count = 1;
-            move_mail.icon_id = main_gacha_db_iter->db_index;
+            move_mail.icon_id = pre_gacha_db_iter->db_index;
             move_mail.get_time = now();
         });
         iter2++;
@@ -2403,9 +2403,9 @@ ACTION battletest::movedb(eosio::name _user)
     {
         const auto &user_preregist_item_iter = user_preregist_item_table.get(iter4->primary_key(), "movedb : Not exsit preregist item data");
 
-        main_gacha_db main_gacha_db_table(_self, _self.value);
-        auto main_gacha_db_iter = main_gacha_db_table.find(user_preregist_item_iter.id);
-        eosio_assert(main_gacha_db_iter != main_gacha_db_table.end(), "movedb : Not exist main_gacha_db_iter by item");
+        pre_gacha_db pre_gacha_db_table(_self, _self.value);
+        auto pre_gacha_db_iter = pre_gacha_db_table.find(user_preregist_item_iter.id);
+        eosio_assert(pre_gacha_db_iter != pre_gacha_db_table.end(), "movedb : Not exist pre_gacha_db_iter by item");
 
         user_mail mail_db_table(_self, _user.value);
         mail_db_table.emplace(_self, [&](auto &move_mail) {
@@ -2421,7 +2421,7 @@ ACTION battletest::movedb(eosio::name _user)
             move_mail.mail_type = 3;
             move_mail.type_index = user_preregist_item_iter.index;
             move_mail.count = 1;
-            move_mail.icon_id = main_gacha_db_iter->db_index;
+            move_mail.icon_id = pre_gacha_db_iter->db_index;
             move_mail.get_time = now();
         });
         iter4++;
@@ -4247,18 +4247,39 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
             }
             else if (res.action == "inventorybuy") //인벤토리 구매
             {
-                eosio_assert(transfer_data.memo.find(':') != std::string::npos, "Eos Transfer inventorybuy : Seed Memo [:] Error");
-                eosio_assert(transfer_data.quantity.amount >= 1, "Eos Transfer inventorybuy : inventorybuy need 0.1000 EOS");    //가격 필히 수정 해야함 1000
-            
-                size_t l_end = transfer_data.memo.length() - (l_center + 1);
-                std::string result = transfer_data.memo.substr(l_center + 1, l_end);
+                size_t l_next = transfer_data.memo.find(':', l_center + 1);
+                size_t l_end = transfer_data.memo.length() - (l_next + 1);
 
-                uint64_t result_seed = atoll(result.c_str());
+                eosio_assert(transfer_data.memo.find(':') != std::string::npos, "Eos Transfer inventorybuy : Seed Memo [:] Error");
+                eosio_assert(transfer_data.memo.find(':', l_center + 1) != std::string::npos, "Eos Transfer inventorybuy : Seed Memo [:] Error");
+
+
+                std::string result_type = transfer_data.memo.substr(l_center + 1, (l_next - l_center - 1));
+                std::string result_count = transfer_data.memo.substr(l_next + 1, l_end);
+                uint64_t result_seed = atoll(result_type.c_str());
+                uint64_t result_amount = atoll(result_count.c_str());
 
                 res.type = result_seed;
-                res.count = transfer_data.quantity.amount / 1;
+                res.count = result_amount;
 
-                eosio_assert(res.type != 0, "Wrong seed convert");
+                eosio_assert(res.count == transfer_data.quantity.amount / 1000, "Eos Transfer inventorybuy : Not enough Eos");
+                eosio_assert(transfer_data.quantity.amount >= 1000, "Eos Transfer inventorybuy : Gacha need 0.1000 EOS");       
+
+
+                eosio_assert(res.type != 0, "Eos Transfer inventorybuy : Wrong Seed Convert");
+
+                // eosio_assert(transfer_data.memo.find(':') != std::string::npos, "Eos Transfer inventorybuy : Seed Memo [:] Error");
+                // eosio_assert(transfer_data.quantity.amount >= 1000, "Eos Transfer inventorybuy : inventorybuy need 0.1000 EOS");
+
+                // size_t l_end = transfer_data.memo.length() - (l_center + 1);
+                // std::string result = transfer_data.memo.substr(l_center + 1, l_end);
+
+                // uint64_t result_seed = atoll(result.c_str());
+
+                // res.type = result_seed;
+                // res.count = transfer_data.quantity.amount / 1000;
+
+                // eosio_assert(res.type != 0, "Wrong seed convert");
             }
             else
             {
@@ -6323,29 +6344,38 @@ uint32_t battletest::check_under_divide_flow(uint32_t _a, uint32_t _b)
 
 int battletest::get_heal_target(const std::vector<battle_status_info> &_enemy_state_list)
 {
-    int target_key = -1;
-    std::vector<heal_compare> list;
+   int target_key = -1;
+   std::vector<heal_compare> list;
+   list.clear();
 
-    for (uint32_t i = 0; i < _enemy_state_list.size(); ++i)
-    {
-        heal_compare heal;
-        heal.max_hp = _enemy_state_list[i].max_hp;
-        heal.now_hp = _enemy_state_list[i].now_hp;
-        heal.key = i;
-        list.push_back(heal);
-    }
+   for (uint32_t i = 0; i < _enemy_state_list.size(); ++i)
+   {
+       if(_enemy_state_list[i].now_hp == 0)
+       {
+           continue;
+       }
+       heal_compare heal;
+       heal.max_hp = _enemy_state_list[i].max_hp;
+       heal.now_hp = _enemy_state_list[i].now_hp;
+       heal.key = i;
+       list.push_back(heal);
+   }
 
-    std::sort(list.begin(), list.end(), new_sort_heal_compare);
-    for (uint32_t i = 0; i < list.size(); ++i)
-    {
-        if(list[i].now_hp != 0)
-        {
-            target_key = list[i].key;
-            return target_key;
-        }
-    }
-    return target_key;
+   std::sort(list.begin(), list.end(), new_sort_heal_compare);
+   for (uint32_t i = 0; i < list.size(); ++i)
+   {
+       if (list[i].max_hp > list[i].now_hp)
+       {
+           if (list[i].now_hp != 0)
+           {
+               target_key = list[i].key;
+               return target_key;
+           }
+       }
+   }
+   return target_key;
 }
+
 
 int battletest::get_random_target(const std::vector<battle_status_info> &_enemy_state_list, uint64_t _seed, uint32_t _max, uint32_t _min)
 {
@@ -6387,18 +6417,19 @@ bool battletest::new_sort_compare(const battle_status_info &a, const battle_stat
 
 bool battletest::new_sort_heal_compare(const heal_compare &a, const heal_compare &b)
 {
-    float a_per = a.now_hp / a.max_hp;
-    float b_per = b.now_hp / b.max_hp;
-    if (a_per > b_per)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+   uint32_t a_per = (a.now_hp * 100) / a.max_hp;
+   uint32_t b_per = (b.now_hp * 100) / b.max_hp;
+   // float a_per = a.now_hp / a.max_hp;
+   // float b_per = b.now_hp / b.max_hp;
+   if (a_per < b_per)
+   {
+       return true;
+   }
+   else
+   {
+       return false;
+   }
 }
-
 
 
 bool battletest::check_activate_skill(uint32_t _skill, uint64_t _rate)
@@ -6566,7 +6597,7 @@ bool battletest::set_action(eosio::name _user,
             int enemy_key = get_heal_target(_my_status_list);
             if (enemy_key == -1) //상대 파티가 모두 죽은 상태
             {
-                return false;
+               enemy_key = _my_key;
             }
             action_info new_action;
             new_action = get_target_action(_action, _seed, _my_key, enemy_key, _my_status_list, _my_status_list);
