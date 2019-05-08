@@ -158,11 +158,11 @@ public class UserServantData
     public int exp;
     public int level;
 
-    public int maxHP { get { return Calculator.GetMaxHp(status); } }
-    public int atk { get { return Calculator.GetAttack(status); } }
-    public int mAtk { get { return Calculator.GetMagicAttack(status); } }
-    public int def { get { return Calculator.GetDefence(status); } }
-    public int mDef { get { return Calculator.GetMagicDefence(status); } }
+    public int maxHP { get { return Calculator.GetMaxHp(status, level); } }
+    public int atk { get { return Calculator.GetAttack(status, level); } }
+    public int mAtk { get { return Calculator.GetMagicAttack(status, level); } }
+    public int def { get { return Calculator.GetDefence(status, level); } }
+    public int mDef { get { return Calculator.GetMagicDefence(status, level); } }
 
     public Dictionary<EQUIPMENT_TYPE, int> equipmentDic = new Dictionary<EQUIPMENT_TYPE, int>();
     public List<UserSkillInfo> passiveSkillList = new List<UserSkillInfo>();
@@ -210,11 +210,11 @@ public class UserMonsterData
     public int exp;
     public int level;
 
-    public int maxHP { get { return Calculator.GetMaxHp(status); } }
-    public int atk { get { return Calculator.GetAttack(status); } }
-    public int mAtk { get { return Calculator.GetMagicAttack(status); } }
-    public int def { get { return Calculator.GetDefence(status); } }
-    public int mDef { get { return Calculator.GetMagicDefence(status); } }
+    public int maxHP { get { return Calculator.GetMaxHp(status, level); } }
+    public int atk { get { return Calculator.GetAttack(status, level); } }
+    public int mAtk { get { return Calculator.GetMagicAttack(status, level); } }
+    public int def { get { return Calculator.GetDefence(status, level); } }
+    public int mDef { get { return Calculator.GetMagicDefence(status, level); } }
 
     public List<UserSkillInfo> passiveSkillList = new List<UserSkillInfo>();
     public List<UserSkillInfo> activeSkillList = new List<UserSkillInfo>();
