@@ -21,7 +21,7 @@
 
 //============Gacha==============//
 //최대값의 + 1로 지정해야한다
-#define GACHA_MAX_RATE          1000
+#define GACHA_MAX_RATE          10000000
 #define DEFAULT_MIN_DB          1
 #define MONSTER_GACHA_ID_START  20000
 #define ITEM_GACHA_ID_START     30000
