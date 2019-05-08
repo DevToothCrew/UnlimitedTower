@@ -173,6 +173,20 @@ public class SelectManager : MonoBehaviour
                             CriPer.text = status.Status[EFFECT_ID.CRI_PER].ToString();
                             CriDmg.text = status.Status[EFFECT_ID.CRI_DMG].ToString();
                         }
+                        else if (BattleManager.Inst.adminMode)
+                        {
+                            BattleStatus status = BattleManager.Inst.status[selectIndex];
+                            _Str.text = status.Status[EFFECT_ID.STR].ToString();
+                            _Dex.text = status.Status[EFFECT_ID.DEX].ToString();
+                            _Int.text = status.Status[EFFECT_ID.INT].ToString();
+                            Atk.text = "?";
+                            mAtk.text = "?";
+                            Def.text = "?";
+                            mDef.text = "?";
+                            Speed.text = status.Status[EFFECT_ID.SPEED].ToString();
+                            CriPer.text = "?";
+                            CriDmg.text = "?";
+                        }
                         else
                         {
                             _Str.text = "?";
