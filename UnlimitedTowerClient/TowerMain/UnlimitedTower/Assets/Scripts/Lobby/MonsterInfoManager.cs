@@ -37,6 +37,10 @@ public class MonsterInfoManager : MonoBehaviour {
     public Text textPCri;
     public Text textPCriPer;
 
+    public Text textSkillText;
+    public Text textPassiveText;
+    public Image imagePassive;
+
     private int unit_idx;
 
 
@@ -109,6 +113,16 @@ public class MonsterInfoManager : MonoBehaviour {
         textMDef.text = string.Format("{0}", unit_data.mDef);
         textPCri.text = string.Format("{0}", db_unit_data.criDmg);
         textPCriPer.text = string.Format("{0}", db_unit_data.criPer);
+
+        if (unit_data.passiveSkillList.Count > 0)
+        {
+            imagePassive.gameObject.SetActive(true);
+            imagePassive.sprite = CSVData.Inst.GetSkillPassiveData(unit_data.passiveSkillList[0].id).passiveIcon;
+        }
+        else
+        {
+            imagePassive.gameObject.SetActive(false);
+        }
     }
 
     //업그레이드 버튼
