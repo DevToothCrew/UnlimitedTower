@@ -210,11 +210,11 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
     //     substr_value(_value, value_list, size_list, 4);
     //     insert_monster_grade(value_list[0], atoll(value_list[1].c_str()), atoll(value_list[2].c_str()), atoll(value_list[3].c_str()));
     // }
-    // else if (_table == "dbgraderatio")
-    // {
-    //     substr_value(_value, value_list, size_list, 2);
-    //     insert_grade_ratio(atoi(value_list[0].c_str()), atoi(value_list[1].c_str()));
-    // }
+    if (_table == "dbgraderatio")
+    {
+        substr_value(_value, value_list, size_list, 2);
+        insert_grade_ratio(atoi(value_list[0].c_str()), atoi(value_list[1].c_str()));
+    }
 
     // if (_table == "dblevel")
     // {
@@ -286,12 +286,12 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
     //                     atoi(value_list[8].c_str()),
     //                     atoi(value_list[9].c_str()));
     // }
-    if (_table == "dbgachapool")
-    {
-        substr_value(_value, value_list, size_list, 2);
-        insert_gacha_pool(atoll(value_list[0].c_str()),
-                          atoll(value_list[1].c_str()));
-    }
+    // if (_table == "dbgachapool")
+    // {
+    //     substr_value(_value, value_list, size_list, 2);
+    //     insert_gacha_pool(atoll(value_list[0].c_str()),
+    //                       atoll(value_list[1].c_str()));
+    // }
 
     // if (_table == "dbprepool")
     // {
@@ -546,143 +546,143 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
     //     });
     // }
 
-    if (_table == "dbstageenemy")
-    {
-        substr_value(_value, value_list, size_list, 11);
-        insert_stage_enemy(atoll(value_list[0].c_str()),
-                           atoi(value_list[1].c_str()),
-                           atoi(value_list[2].c_str()),
-                           atoi(value_list[3].c_str()),
-                           atoi(value_list[4].c_str()),
-                           atoi(value_list[5].c_str()),
-                           atoi(value_list[6].c_str()),
-                           atoi(value_list[7].c_str()),
-                           atoi(value_list[8].c_str()),
-                           atoi(value_list[9].c_str()),
-                           atoi(value_list[10].c_str()));
-    }
+    // if (_table == "dbstageenemy")
+    // {
+    //     substr_value(_value, value_list, size_list, 11);
+    //     insert_stage_enemy(atoll(value_list[0].c_str()),
+    //                        atoi(value_list[1].c_str()),
+    //                        atoi(value_list[2].c_str()),
+    //                        atoi(value_list[3].c_str()),
+    //                        atoi(value_list[4].c_str()),
+    //                        atoi(value_list[5].c_str()),
+    //                        atoi(value_list[6].c_str()),
+    //                        atoi(value_list[7].c_str()),
+    //                        atoi(value_list[8].c_str()),
+    //                        atoi(value_list[9].c_str()),
+    //                        atoi(value_list[10].c_str()));
+    // }
 
 
-    if (_table == "dbtribe")
-    {
-        substr_value(_value, value_list, size_list, 8);
-        insert_tribe_stat(atoll(value_list[0].c_str()),
-                          atoi(value_list[1].c_str()),
-                          atoi(value_list[2].c_str()),
-                          atoi(value_list[3].c_str()),
-                          atoi(value_list[4].c_str()),
-                          atoi(value_list[5].c_str()),
-                          atoi(value_list[6].c_str()),
-                          atoi(value_list[7].c_str()));
-    }
-    if (_table == "dbtype")
-    {
-        substr_value(_value, value_list, size_list, 8);
-        insert_type(atoll(value_list[0].c_str()),
-                          atoi(value_list[1].c_str()),
-                          atoi(value_list[2].c_str()),
-                          atoi(value_list[3].c_str()),
-                          atoi(value_list[4].c_str()),
-                          atoi(value_list[5].c_str()),
-                          atoi(value_list[6].c_str()),
-                          atoi(value_list[7].c_str()));
-    }
-    if (_table == "dbmoupstat")
-    {
-        substr_value(_value, value_list, size_list, 6);
-        insert_monster_upgrade(atoll(value_list[0].c_str()),
-                               atoi(value_list[1].c_str()),
-                               atoi(value_list[2].c_str()),
-                               atoi(value_list[3].c_str()),
-                               atoi(value_list[4].c_str()),
-                               atoi(value_list[5].c_str()));
-    }
-    if (_table == "dbequpstat")
-    {
-        substr_value(_value, value_list, size_list, 6);
-        insert_equipment_upgrade(atoll(value_list[0].c_str()),
-                                 atoi(value_list[1].c_str()),
-                                 atoi(value_list[2].c_str()),
-                                 atoi(value_list[3].c_str()),
-                                 atoi(value_list[4].c_str()),
-                                 atoi(value_list[5].c_str()));
-    }
-    if (_table == "dbpassive")
-    {
-        substr_value(_value, value_list, size_list, 9);
-        insert_passive(atoll(value_list[0].c_str()),
-                       atoi(value_list[1].c_str()),
-                       atoi(value_list[2].c_str()),
-                       atoi(value_list[3].c_str()),
-                       atoi(value_list[4].c_str()),
-                       atoi(value_list[5].c_str()),
-                       atoi(value_list[6].c_str()),
-                       atoi(value_list[7].c_str()),
-                       atoi(value_list[8].c_str()));
-    }
-    if (_table == "dbactive")
-    {
-        substr_value(_value, value_list, size_list, 19);
-        insert_active(atoll(value_list[0].c_str()),
-                      atoi(value_list[1].c_str()),
-                      atoi(value_list[2].c_str()),
-                      atoi(value_list[3].c_str()),
-                      atoi(value_list[4].c_str()),
-                      atoi(value_list[5].c_str()),
-                      atoi(value_list[6].c_str()),
-                      atoi(value_list[7].c_str()),
-                      atoi(value_list[8].c_str()),
-                      atoi(value_list[9].c_str()),
-                      atoi(value_list[10].c_str()),
-                      atoi(value_list[11].c_str()),
-                      atoi(value_list[12].c_str()),
-                      atoi(value_list[13].c_str()),
-                      atoi(value_list[14].c_str()),
-                      atoi(value_list[15].c_str()),
-                      atoi(value_list[16].c_str()),
-                      atoi(value_list[17].c_str()),
-                      atoi(value_list[18].c_str()));
-    }
+    // if (_table == "dbtribe")
+    // {
+    //     substr_value(_value, value_list, size_list, 8);
+    //     insert_tribe_stat(atoll(value_list[0].c_str()),
+    //                       atoi(value_list[1].c_str()),
+    //                       atoi(value_list[2].c_str()),
+    //                       atoi(value_list[3].c_str()),
+    //                       atoi(value_list[4].c_str()),
+    //                       atoi(value_list[5].c_str()),
+    //                       atoi(value_list[6].c_str()),
+    //                       atoi(value_list[7].c_str()));
+    // }
+    // if (_table == "dbtype")
+    // {
+    //     substr_value(_value, value_list, size_list, 8);
+    //     insert_type(atoll(value_list[0].c_str()),
+    //                       atoi(value_list[1].c_str()),
+    //                       atoi(value_list[2].c_str()),
+    //                       atoi(value_list[3].c_str()),
+    //                       atoi(value_list[4].c_str()),
+    //                       atoi(value_list[5].c_str()),
+    //                       atoi(value_list[6].c_str()),
+    //                       atoi(value_list[7].c_str()));
+    // }
+    // if (_table == "dbmoupstat")
+    // {
+    //     substr_value(_value, value_list, size_list, 6);
+    //     insert_monster_upgrade(atoll(value_list[0].c_str()),
+    //                            atoi(value_list[1].c_str()),
+    //                            atoi(value_list[2].c_str()),
+    //                            atoi(value_list[3].c_str()),
+    //                            atoi(value_list[4].c_str()),
+    //                            atoi(value_list[5].c_str()));
+    // }
+    // if (_table == "dbequpstat")
+    // {
+    //     substr_value(_value, value_list, size_list, 6);
+    //     insert_equipment_upgrade(atoll(value_list[0].c_str()),
+    //                              atoi(value_list[1].c_str()),
+    //                              atoi(value_list[2].c_str()),
+    //                              atoi(value_list[3].c_str()),
+    //                              atoi(value_list[4].c_str()),
+    //                              atoi(value_list[5].c_str()));
+    // }
+    // if (_table == "dbpassive")
+    // {
+    //     substr_value(_value, value_list, size_list, 9);
+    //     insert_passive(atoll(value_list[0].c_str()),
+    //                    atoi(value_list[1].c_str()),
+    //                    atoi(value_list[2].c_str()),
+    //                    atoi(value_list[3].c_str()),
+    //                    atoi(value_list[4].c_str()),
+    //                    atoi(value_list[5].c_str()),
+    //                    atoi(value_list[6].c_str()),
+    //                    atoi(value_list[7].c_str()),
+    //                    atoi(value_list[8].c_str()));
+    // }
+    // if (_table == "dbactive")
+    // {
+    //     substr_value(_value, value_list, size_list, 19);
+    //     insert_active(atoll(value_list[0].c_str()),
+    //                   atoi(value_list[1].c_str()),
+    //                   atoi(value_list[2].c_str()),
+    //                   atoi(value_list[3].c_str()),
+    //                   atoi(value_list[4].c_str()),
+    //                   atoi(value_list[5].c_str()),
+    //                   atoi(value_list[6].c_str()),
+    //                   atoi(value_list[7].c_str()),
+    //                   atoi(value_list[8].c_str()),
+    //                   atoi(value_list[9].c_str()),
+    //                   atoi(value_list[10].c_str()),
+    //                   atoi(value_list[11].c_str()),
+    //                   atoi(value_list[12].c_str()),
+    //                   atoi(value_list[13].c_str()),
+    //                   atoi(value_list[14].c_str()),
+    //                   atoi(value_list[15].c_str()),
+    //                   atoi(value_list[16].c_str()),
+    //                   atoi(value_list[17].c_str()),
+    //                   atoi(value_list[18].c_str()));
+    // }
 
 
-    if (_table == "dbstage")
-    {
-        substr_value(_value, value_list, size_list, 9);
-        insert_stage(atoll(value_list[0].c_str()),
-                     atoi(value_list[1].c_str()),
-                     atoi(value_list[2].c_str()),
-                     atoi(value_list[3].c_str()),
-                     atoi(value_list[4].c_str()),
-                     atoi(value_list[5].c_str()),
-                     atoi(value_list[6].c_str()),
-                     atoi(value_list[7].c_str()),
-                     atoi(value_list[8].c_str()));
-    }
-    if (_table == "dbreward")
-    {
-        substr_value(_value, value_list, size_list, 9);
-        insert_stage_reward(atoll(value_list[0].c_str()),
-                      atoi(value_list[1].c_str()),
-                      atoi(value_list[2].c_str()),
-                      atoi(value_list[3].c_str()),
-                      atoi(value_list[4].c_str()),
-                      atoi(value_list[5].c_str()),
-                      atoi(value_list[6].c_str()),
-                      atoi(value_list[7].c_str()),
-                      atoi(value_list[8].c_str()));
-    }
-    if (_table == "dbmonsterup")
-    {
-        substr_value(_value, value_list, size_list, 2);
-        insert_upgrade_monster_ratio(atoll(value_list[0].c_str()),
-                                     atoll(value_list[1].c_str()));
-    }
-    if (_table == "dbburn")
-    {
-        substr_value(_value, value_list, size_list, 2);
-        insert_servant_burn_item(atoll(value_list[0].c_str()),
-                                 atoll(value_list[1].c_str()));
-    }
+    // if (_table == "dbstage")
+    // {
+    //     substr_value(_value, value_list, size_list, 9);
+    //     insert_stage(atoll(value_list[0].c_str()),
+    //                  atoi(value_list[1].c_str()),
+    //                  atoi(value_list[2].c_str()),
+    //                  atoi(value_list[3].c_str()),
+    //                  atoi(value_list[4].c_str()),
+    //                  atoi(value_list[5].c_str()),
+    //                  atoi(value_list[6].c_str()),
+    //                  atoi(value_list[7].c_str()),
+    //                  atoi(value_list[8].c_str()));
+    // }
+    // if (_table == "dbreward")
+    // {
+    //     substr_value(_value, value_list, size_list, 9);
+    //     insert_stage_reward(atoll(value_list[0].c_str()),
+    //                   atoi(value_list[1].c_str()),
+    //                   atoi(value_list[2].c_str()),
+    //                   atoi(value_list[3].c_str()),
+    //                   atoi(value_list[4].c_str()),
+    //                   atoi(value_list[5].c_str()),
+    //                   atoi(value_list[6].c_str()),
+    //                   atoi(value_list[7].c_str()),
+    //                   atoi(value_list[8].c_str()));
+    // }
+    // if (_table == "dbmonsterup")
+    // {
+    //     substr_value(_value, value_list, size_list, 2);
+    //     insert_upgrade_monster_ratio(atoll(value_list[0].c_str()),
+    //                                  atoll(value_list[1].c_str()));
+    // }
+    // if (_table == "dbburn")
+    // {
+    //     substr_value(_value, value_list, size_list, 2);
+    //     insert_servant_burn_item(atoll(value_list[0].c_str()),
+    //                              atoll(value_list[1].c_str()));
+    // }
     // else
     // {
     //     eosio_assert(1 == 0, "Not Exist Table");
@@ -1743,39 +1743,39 @@ void battletest::insert_equipment_upgrade(uint64_t _upgrade, uint32_t _common, u
 //     }    
 // }
 
-void battletest::insert_itemshop(uint64_t _id, uint64_t _type, uint64_t _product_id, uint64_t _product_count, uint64_t _limit_count,
-                            uint64_t _limit_max, uint64_t _price_id, uint64_t _price_count)
-{
-    shop_list shop_list_table(_self, _self.value);
-    auto shop_list_iter = shop_list_table.find(_id);
-    if(shop_list_iter == shop_list_table.end())
-    {
-        shop_list_table.emplace(_self, [&](auto &new_data){
-            new_data.id = _id;
-            new_data.type = _type;
-            new_data.product_id = _product_id;
-            new_data.product_count = _product_count;
-            new_data.limit_count = _limit_count;
-            new_data.limit_max = _limit_max;
-            new_data.price_id = _price_id;
-            new_data.price_count = _price_count;
+// void battletest::insert_itemshop(uint64_t _id, uint64_t _type, uint64_t _product_id, uint64_t _product_count, uint64_t _limit_count,
+//                             uint64_t _limit_max, uint64_t _price_id, uint64_t _price_count)
+// {
+//     shop_list shop_list_table(_self, _self.value);
+//     auto shop_list_iter = shop_list_table.find(_id);
+//     if(shop_list_iter == shop_list_table.end())
+//     {
+//         shop_list_table.emplace(_self, [&](auto &new_data){
+//             new_data.id = _id;
+//             new_data.type = _type;
+//             new_data.product_id = _product_id;
+//             new_data.product_count = _product_count;
+//             new_data.limit_count = _limit_count;
+//             new_data.limit_max = _limit_max;
+//             new_data.price_id = _price_id;
+//             new_data.price_count = _price_count;
 
-        });
-    }
-    else
-    {
-        shop_list_table.modify(shop_list_iter, _self, [&](auto &new_data){
-            new_data.type = _type;
-            new_data.product_id = _product_id;
-            new_data.product_count = _product_count;
-            new_data.limit_count = _limit_count;
-            new_data.limit_max = _limit_max;
-            new_data.price_id = _price_id;
-            new_data.price_count = _price_count;
-        });
-    }
+//         });
+//     }
+//     else
+//     {
+//         shop_list_table.modify(shop_list_iter, _self, [&](auto &new_data){
+//             new_data.type = _type;
+//             new_data.product_id = _product_id;
+//             new_data.product_count = _product_count;
+//             new_data.limit_count = _limit_count;
+//             new_data.limit_max = _limit_max;
+//             new_data.price_id = _price_id;
+//             new_data.price_count = _price_count;
+//         });
+//     }
     
-}
+// }
 
 void battletest::insert_servant_burn_item(uint64_t _servant_job, uint64_t _result_item_id)
 {
@@ -2826,9 +2826,9 @@ ACTION battletest::dbinit(std::string _table)
     // }
 }
 
-// ACTION battletest::setdata(eosio::name _contract, eosio::name _user, std::string _table)
-// {
-//     require_auth(_self);
+ ACTION battletest::setdata(eosio::name _contract, eosio::name _user, std::string _table)
+ {
+    require_auth(_self);
 
     // if (_table == "preauth")
     // {
@@ -3181,6 +3181,42 @@ ACTION battletest::dbinit(std::string _table)
     //         iter++;
     //     }
     // }
+    if (_table == "dbitemshop")
+   {
+       item_shop other_table(_contract, _contract.value);
+       item_shop my_table(_self, _self.value);
+       for (auto iter = other_table.begin(); iter != other_table.end();)
+       {
+           const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+           my_table.emplace(_self, [&](auto &new_data) {
+               new_data.id = get_iter.id;
+               new_data.shop_type = get_iter.shop_type;
+               new_data.product_id = get_iter.product_id;
+               new_data.product_count = get_iter.product_count;
+               new_data.product_limit_max = get_iter.product_limit_max;
+               new_data.price_id = get_iter.price_id;
+               new_data.price_count = get_iter.price_count;
+           });
+           iter++;
+       }
+   }
+
+   if (_table == "tshoplist")
+   {
+       shop_list other_table(_contract, _contract.value);
+       shop_list my_table(_self, _self.value);
+       for (auto iter = other_table.begin(); iter != other_table.end();)
+       {
+           const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+           my_table.emplace(_self, [&](auto &new_data) {
+               new_data.id = get_iter.id;
+               new_data.shop_type = get_iter.shop_type;
+               new_data.shop_item_id = get_iter.shop_item_id;
+               new_data.limit_count = get_iter.limit_count;
+           });
+           iter++;
+       }
+   }
     // if (_table == "dbservant")
     // {
     //     servant_db servant_table(_contract, _contract.value);
@@ -3344,7 +3380,7 @@ ACTION battletest::dbinit(std::string _table)
     // {
     //     eosio_assert(1 == 0, "Not Exist Table");
     // }
-//}
+}
 #pragma endresion
 
 //------------------------------------------------------------------------//
@@ -9537,20 +9573,20 @@ ACTION battletest::itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count
 {
     system_check(_user);
 
-    // item_shop item_shop_table(_self, _self.value);
-    // auto item_shop_iter = item_shop_table.find(_item_id);
-    // eosio_assert(item_shop_iter != item_shop_table.end(), "itembuy : Not exist item_shop data");
-
     shop_list shop_list_table(_self, _self.value);
     auto shop_list_iter = shop_list_table.find(_item_id);
     eosio_assert(shop_list_iter != shop_list_table.end(), "itembuy : Not exist item shop data");
+
+    item_shop item_shop_table(_self, _self.value);
+    auto item_shop_iter = item_shop_table.find(shop_list_iter->shop_item_id);
+    eosio_assert(item_shop_iter != item_shop_table.end(), "itembuy : Not exist item_shop data");
 
     user_auths user_auth_table(_self, _self.value);
     auto user_auth_iter = user_auth_table.find(_user.value);
     eosio_assert(user_auth_iter != user_auth_table.end(), "itembuy : Not exist user_auths data");
 
     user_items user_items_table(_self, _user.value);
-    auto user_items_iter = user_items_table.find(shop_list_iter->product_id);
+    auto user_items_iter = user_items_table.find(item_shop_iter->product_id);
 
     item_info items;
     uint64_t count_diff = _count;
@@ -9560,17 +9596,17 @@ ACTION battletest::itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count
     std::string contents_type = "itembuy";
     uint64_t UTG_Amount = 0;
 
-    if (shop_list_iter->type == 4)
+ if (shop_list_iter->shop_type == 3)
     {
     }
 
-    else if (shop_list_iter->type == 2)
+    else if (shop_list_iter->shop_type == 2)
     {
         if (user_items_iter == user_items_table.end())
         {
             user_items_table.emplace(_self, [&](auto &change_consumable) {
-                change_consumable.id = shop_list_iter->product_id;
-                change_consumable.type = shop_list_iter->type;
+                change_consumable.id = item_shop_iter->product_id;
+                change_consumable.type = item_shop_iter->shop_type;
 
                 uint64_t sub_size = _count / 99;
 
@@ -9600,7 +9636,7 @@ ACTION battletest::itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count
         else
         {
             user_items_table.modify(user_items_iter, _self, [&](auto &change_consumable) {
-                change_consumable.type = shop_list_iter->type;
+                change_consumable.type = item_shop_iter->shop_type;
 
                 for (uint64_t i = 0; i < change_consumable.item_list.size(); i++)
                 {
@@ -9631,7 +9667,7 @@ ACTION battletest::itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count
         });
 
         asset nomal_order_buy_result(0, symbol(symbol_code("UTG"), 4));
-        nomal_order_buy_result.amount = _count * shop_list_iter->price_count;
+        nomal_order_buy_result.amount = _count * item_shop_iter->price_count;
 
         transfer(_user, _self, nomal_order_buy_result, std::string("nomal order buy result"));
 
@@ -9664,29 +9700,37 @@ void battletest::inventory_buy(eosio::name _user, uint32_t _type, uint32_t _coun
     auto user_auth_iter = user_auth_table.find(_user.value);
     uint64_t plus_inventory = 5;
 
-        if (_type == 4)
-        {
-            eosio_assert((user_auth_iter->servant_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
+    shop_list shop_list_table(_self, _self.value);
+    auto shop_list_iter = shop_list_table.find(_type);
+    eosio_assert(shop_list_iter != shop_list_table.end(), "inventory_buy : Not exist item shop data");
 
-            user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-                change_auth_user.servant_inventory += (plus_inventory * _count);
-            });
+    item_shop item_shop_table(_self, _self.value);
+    auto item_shop_iter = item_shop_table.find(shop_list_iter->shop_item_id);
+    eosio_assert(item_shop_iter != item_shop_table.end(), "inventory_buy : Not exist item_shop data");
+
+   if (shop_list_iter->shop_item_id == 2001) 
+    {
+        eosio_assert((user_auth_iter->servant_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
+
+        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+            change_auth_user.servant_inventory += (plus_inventory * _count);
+        });
         }
-        else if (_type == 5) 
+        else if (shop_list_iter->shop_item_id == 2002) 
         {
             eosio_assert((user_auth_iter->monster_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
             user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
                 change_auth_user.monster_inventory += (plus_inventory * _count);
             });
         }
-        else if (_type == 6) 
+        else if (shop_list_iter->shop_item_id == 2003) 
         {
             eosio_assert((user_auth_iter->equipment_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
             user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
                 change_auth_user.equipment_inventory += (plus_inventory * _count);
             });
         }
-        else if (_type == 7) 
+        else if (shop_list_iter->shop_item_id == 2004) 
         {
             eosio_assert((user_auth_iter->item_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
             user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
@@ -10095,7 +10139,7 @@ ACTION battletest::deletewhite(eosio::name _user)
 
 EOSIO_DISPATCH(battletest,
                 (addrefer)(deleterefer)(addwhite)(deletewhite)
-               (dbinit) //(setdata)                                                                                                                     
+               (dbinit) (setdata)                                                                                                                     
                (transfer)(changetoken)(create)(issue)                                                                                                                        
                //(chat)                                                                                                                           
                 (inittokenlog)     

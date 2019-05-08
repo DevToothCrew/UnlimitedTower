@@ -618,7 +618,7 @@ CONTRACT battletest : public contract
     ACTION dbinit(std::string _table);
     ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
 
-	//ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
+	ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
     void insert_job(std::string _status, uint64_t _job, uint64_t _min, uint64_t _max);
     void insert_head(uint64_t _appear);
     void insert_hair(uint64_t _appear);
@@ -639,8 +639,8 @@ CONTRACT battletest : public contract
     //                      uint64_t _goods_id, uint64_t _goods_count,
     //                      uint64_t _goods_limited, uint64_t _price_type,
     //                      uint64_t _etc_type, uint64_t _price_count);
-    void insert_itemshop(uint64_t _id, uint64_t _type, uint64_t _product_id, uint64_t _product_count, uint64_t _limit_count,
-                         uint64_t limit_max, uint64_t price_id, uint64_t _price_count);
+    // void insert_itemshop(uint64_t _id, uint64_t _type, uint64_t _product_id, uint64_t _product_count, uint64_t _limit_count,
+    //                      uint64_t limit_max, uint64_t price_id, uint64_t _price_count);
 
     void insert_level(uint32_t _level, uint32_t _rank_exp, uint32_t _char_exp);
     void insert_passive(uint64_t _passive_id, uint32_t _passive_type, uint32_t _job_class, uint32_t _enable_stack_max, uint32_t _effect_id,
@@ -968,36 +968,31 @@ CONTRACT battletest : public contract
     };
 
   
-    TABLE itemshop
-    {
-        uint64_t id;
-        uint64_t goods_type;
-        uint64_t goods_id;
-        uint64_t goods_count;
-        uint64_t goods_limited;
-        uint64_t price_type;
-        uint64_t etc_type;
-        uint64_t price_count;
+TABLE itemshop
+   {
+       uint64_t id;
+       uint64_t shop_type;
+       uint64_t product_id;
+       uint64_t product_count;
+       uint64_t product_limit_max;
+       uint64_t price_id;
+       uint64_t price_count;
 
-        uint64_t primary_key() const { return id; }
-    };
-    typedef eosio::multi_index<"dbitemshop"_n, itemshop> item_shop;
-    
-     // 삭제 예정 
-    TABLE tshoplist
-    {
-        uint64_t id;
-        uint64_t type;        
-        uint64_t product_id;
-        uint64_t product_count;
-        uint64_t limit_count;
-        uint64_t limit_max;
-        uint64_t price_id;
-        uint64_t price_count;
-        uint64_t primary_key() const { return id; }
-        uint64_t get_type() const { return type; }
-    };
-    typedef eosio::multi_index<"tshoplist"_n, tshoplist, indexed_by<"bytype"_n, const_mem_fun<tshoplist, uint64_t, &tshoplist::get_type>>> shop_list;
+       uint64_t primary_key() const { return id; }
+   };
+   typedef eosio::multi_index<"dbitemshop"_n, itemshop> item_shop;
+
+
+   TABLE tshoplist
+   {
+       uint64_t id;
+       uint64_t shop_type;
+       uint64_t shop_item_id;
+       uint64_t limit_count;
+       uint64_t primary_key() const { return id; }
+       uint64_t get_type() const { return shop_type; }
+   };
+   typedef eosio::multi_index<"tshoplist"_n, tshoplist, indexed_by<"bytype"_n, const_mem_fun<tshoplist, uint64_t, &tshoplist::get_type>>> shop_list;
 
 #pragma endregion
 
