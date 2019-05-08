@@ -969,7 +969,7 @@ CONTRACT battletest : public contract
         goods_utg= 2,
     };
 
-    // 삭제 예정 
+  
     TABLE itemshop
     {
         uint64_t id;
@@ -984,7 +984,8 @@ CONTRACT battletest : public contract
         uint64_t primary_key() const { return id; }
     };
     typedef eosio::multi_index<"dbitemshop"_n, itemshop> item_shop;
-
+    
+     // 삭제 예정 
     TABLE tshoplist
     {
         uint64_t id;
@@ -1111,7 +1112,7 @@ CONTRACT battletest : public contract
 
     bool check_inventory(eosio::name _user);
     ACTION mailopen(eosio::name _user, const std::vector<uint64_t> &_mail_index);
-    //ACTION mailopen(eosio::name _user, uint64_t _mail_index);
+
 #pragma endregion
 
 //------------------------------------------------------------------------//
