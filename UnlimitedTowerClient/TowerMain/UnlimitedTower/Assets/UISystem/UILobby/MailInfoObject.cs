@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System;
+using System.Collections.Generic;
 
 public class MailInfoObject : MonoBehaviour {
 
@@ -26,6 +26,8 @@ public class MailInfoObject : MonoBehaviour {
 
     public void OnClickReceiveButton()
     {
-        PacketManager.Inst.RequestMailOpen(index);
+        List<int> mailList = new List<int>();
+        mailList.Add(index);
+        PacketManager.Inst.RequestMailOpen(mailList);
     }
 }

@@ -52,8 +52,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         GachaSound.SetActive(false);
     }
 
-    
-
     public void ChangeSceneState(SCENE_STATE state)
     {
         switch (state)

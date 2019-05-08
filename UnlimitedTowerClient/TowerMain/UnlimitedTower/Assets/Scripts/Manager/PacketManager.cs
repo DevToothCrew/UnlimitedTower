@@ -622,20 +622,17 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 우편 수령
-    public void RequestMailOpen(int mailIndex)
+    public void RequestMailOpen(List<int> mailIndexList)
     {
         DebugLog.Log(false, "Request Maill Open");
-        if (mailIndex == 0)
+        if (mailIndexList.Count == 0)
         {
             DebugLog.Log(false, "Invalid Request");
             return;
         }
 
-        List<int> mailOpenIndexList = new List<int>();
-        mailOpenIndexList.Add(mailIndex);
-
         MailOpenJson mailOpen = new MailOpenJson();
-        mailOpen.mailOpenIndexList = mailOpenIndexList;
+        mailOpen.mailOpenIndexList = mailIndexList;
 
         string json = JsonUtility.ToJson(mailOpen);
 
@@ -1425,12 +1422,12 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         for(int i = 0; i < mailList.mail_data_list.Count; i++)
         {
-            DebugLog.Log(false, "Mail Num : " + i);
-            DebugLog.Log(false, "Mail Index : " + mailList.mail_data_list[i].mail_index);
-            DebugLog.Log(false, "Mail TYPE : " + mailList.mail_data_list[i].mail_type);
-            DebugLog.Log(false, "Mail INDEX : " + mailList.mail_data_list[i].type_index);
-            DebugLog.Log(false, "Mail COUNT : " + mailList.mail_data_list[i].count);
-            DebugLog.Log(false, "Mail ICON ID : " + mailList.mail_data_list[i].icon_id);
+            //DebugLog.Log(false, "Mail Num : " + i);
+            //DebugLog.Log(false, "Mail Index : " + mailList.mail_data_list[i].mail_index);
+            //DebugLog.Log(false, "Mail TYPE : " + mailList.mail_data_list[i].mail_type);
+            //DebugLog.Log(false, "Mail INDEX : " + mailList.mail_data_list[i].type_index);
+            //DebugLog.Log(false, "Mail COUNT : " + mailList.mail_data_list[i].count);
+            //DebugLog.Log(false, "Mail ICON ID : " + mailList.mail_data_list[i].icon_id);
 
             MailInfo mailInfo = ParseMailInfo(mailList.mail_data_list[i]);
             if(mailInfo == null)
@@ -1520,7 +1517,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             }
         }
 
-        MailInfoPage.Inst.RefreshMailList();
+        RequestMailList();
     }
 
     // 타워 시작
