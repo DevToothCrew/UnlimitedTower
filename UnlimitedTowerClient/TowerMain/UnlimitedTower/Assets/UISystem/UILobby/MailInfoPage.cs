@@ -22,7 +22,6 @@ public class MailInfoPage : MonoSingleton<MailInfoPage> {
 
     public void OnClickExitButton()
     {
-        LobbyManager.Inst.OnClosePopupWindow();
         Destroy(this.gameObject);
     }
 

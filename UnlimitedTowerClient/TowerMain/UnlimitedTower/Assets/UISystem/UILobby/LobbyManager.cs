@@ -204,9 +204,9 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
             case POPUP_STATE.Setting:
                 {
-                    objSubView = Instantiate(Resources.Load("UI/Lobby/Setting")) as GameObject;
-                    objSubView.transform.SetParent(upperUI.transform);
-                    objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                    GameObject objSetting = Instantiate(Resources.Load("UI/Lobby/Setting")) as GameObject;
+                    objSetting.transform.SetParent(upperUI.transform);
+                    objSetting.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                 }
                 break;
 
@@ -241,19 +241,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         GachaSound.SetActive(false);
 
         ModelViewManager.Inst.ChangeMainCharacterModel();
-    }
-
-    public void OnClosePopupWindow()//Main, Account Info , Setting...
-    {
-        //EtcSetActiveWithAnimation(true);
-
-        //accountInfoUI.SetActive(true);
-        //BackbuttonUI.SetActive(false);
-
-        LobbySound.SetActive(true);
-        GachaSound.SetActive(false);
-
-        //ModelViewManager.Inst.ChangeMainCharacterModel();
     }
 
     public void SetTextBackButton(string text)

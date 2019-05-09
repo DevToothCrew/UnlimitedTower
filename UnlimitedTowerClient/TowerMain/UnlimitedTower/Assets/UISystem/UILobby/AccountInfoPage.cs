@@ -57,7 +57,6 @@ public class AccountInfoPage : MonoSingleton<AccountInfoPage>
 
     public void ExitButton()
     {
-        LobbyManager.Inst.OnClosePopupWindow();
         Destroy(this.gameObject);
     }
 }
