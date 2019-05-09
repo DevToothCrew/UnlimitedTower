@@ -4952,7 +4952,7 @@ void battletest::start_gacha(eosio::name _user, uint64_t _seed)
     uint64_t l_user = get_user_seed_value(_user.value);
     uint64_t l_seed = safeseed::get_seed_value(l_user, _seed);
 
-    uint64_t l_gacha_result_type = safeseed::get_random_value(l_seed, GACHA_MAX_RATE, DEFAULT_MIN, DEFAULT_RANDOM_COUNT);
+    uint64_t l_gacha_result_type = safeseed::get_random_value(l_seed, 1000, DEFAULT_MIN, DEFAULT_RANDOM_COUNT);
     if (l_gacha_result_type < 333)
     {
         gacha_servant_id(_user, l_seed);
