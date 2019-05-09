@@ -3791,10 +3791,13 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
                 auto servant_db_iter = servant_db_table.find(pre_gacha_db_iter->db_index);
                 eosio_assert(servant_db_iter != servant_db_table.end(), "mailopen : Not exist servant_db_iter");
 
-                serstat_db serstat_db_table(_self, _self.value);
-                uint32_t stat_id = (1000 * servant_db_iter->job) + (100 *5) + 1;
-                auto stat_iter = serstat_db_table.find(stat_id);
+                // serstat_db serstat_db_table(_self, _self.value);
+                // uint32_t stat_id = (1000 * servant_db_iter->job) + (100 *5) + 1;
+                // auto stat_iter = serstat_db_table.find(stat_id);
 
+                serstat_db servant_base_table(_self, _self.value);
+                uint32_t servant_job_base = (servant_db_iter.job * 1000) + (servant_db_iter.grade * 100) + 1;
+                const auto &ser_iter = servant_base_table.get(servant_job_base, "mailopen : Empty Servant Stat");
 
                 move_servant.party_number = 0;
                 move_servant.servant.state = object_state::on_inventory;
@@ -3802,9 +3805,12 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
                 move_servant.servant.id = servant_db_iter->id;
                 move_servant.servant.grade = 5;
 
-                move_servant.servant.status.basic_str = servant_lv_status_db_iter->change_status[user_preregist_servant_iter->status.basic_str].update_status + stat_iter->base_str;
-                move_servant.servant.status.basic_dex = servant_lv_status_db_iter->change_status[user_preregist_servant_iter->status.basic_dex].update_status + stat_iter->base_dex;
-                move_servant.servant.status.basic_int = servant_lv_status_db_iter->change_status[user_preregist_servant_iter->status.basic_int].update_status + stat_iter->base_int;
+                // move_servant.servant.status.basic_str = servant_lv_status_db_iter->change_status[user_preregist_servant_iter->status.basic_str].update_status + stat_iter->base_str;
+                // move_servant.servant.status.basic_dex = servant_lv_status_db_iter->change_status[user_preregist_servant_iter->status.basic_dex].update_status + stat_iter->base_dex;
+                // move_servant.servant.status.basic_int = servant_lv_status_db_iter->change_status[user_preregist_servant_iter->status.basic_int].update_status + stat_iter->base_int;
+                move_servant.servant.status.basic_str = change_servant_statue(move_servant.servant.status.basic_str) + ser_iter.base_str;
+                move_servant.servant.status.basic_dex = change_servant_statue(move_servant.servant.status.basic_dex) + ser_iter.base_dex;
+                move_servant.servant.status.basic_int = change_servant_statue(move_servant.servant.status.basic_int) + ser_iter.base_int;
 
                 move_servant.servant.equip_slot.resize(3);
 
@@ -3864,6 +3870,9 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
                 auto monster_db_iter = monster_db_table.find(pre_gacha_db_iter->db_index);
                 eosio_assert(monster_db_iter != monster_db_table.end(), "mailopen : Not exist monster_db_iter");
 
+                tribe_db tribe_db_table(_self, _self.value);
+                const auto &tribe_iter = tribe_db_table.get(monster_db_iter.tribe, "mailopen : Empty Monster Tribe");
+
                 move_monster.monster.id = monster_db_iter->id;
                 move_monster.party_number = 0;
                 move_monster.monster.state = object_state::on_inventory;
@@ -3872,9 +3881,17 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
                 move_monster.monster.tribe = monster_db_iter->tribe;
                 move_monster.monster.grade = user_preregist_monster_iter->grade;
                 move_monster.monster.upgrade = 0;
-                move_monster.monster.status.basic_str = monster_lv_status_db_iter->change_status[user_preregist_monster_iter->status.basic_str].update_status;
-                move_monster.monster.status.basic_dex = monster_lv_status_db_iter->change_status[user_preregist_monster_iter->status.basic_dex].update_status;
-                move_monster.monster.status.basic_int = monster_lv_status_db_iter->change_status[user_preregist_monster_iter->status.basic_int].update_status;
+                // move_monster.monster.status.basic_str = monster_lv_status_db_iter->change_status[user_preregist_monster_iter->status.basic_str].update_status;
+                // move_monster.monster.status.basic_dex = monster_lv_status_db_iter->change_status[user_preregist_monster_iter->status.basic_dex].update_status;
+                // move_monster.monster.status.basic_int = monster_lv_status_db_iter->change_status[user_preregist_monster_iter->status.basic_int].update_status;
+
+                move_monster.monster.status.basic_str = change_monster_statue(move_monster.monster.grade, move_monster.monster.status.basic_str);
+                move_monster.monster.status.basic_dex = change_monster_statue(move_monster.monster.grade, move_monster.monster.status.basic_dex);
+                move_monster.monster.status.basic_int = change_monster_statue(move_monster.monster.grade, move_monster.monster.status.basic_int);
+
+                move_monster.monster.status.basic_str = (move_monster.monster.status.basic_str * tribe_iter.base_str) / 100;
+                move_monster.monster.status.basic_dex = (move_monster.monster.status.basic_dex * tribe_iter.base_dex) / 100;
+                move_monster.monster.status.basic_int = (move_monster.monster.status.basic_int * tribe_iter.base_int) / 100;
 
                 uint64_t _seed = safeseed::get_seed_value(_user.value, now());
 
@@ -3932,6 +3949,9 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
                 auto commonitem_db_iter = commonitem_db_table.find(pre_gacha_db_iter->db_index);
                 eosio_assert(commonitem_db_iter != commonitem_db_table.end(), "mailopen : Not exist commonitem_db_iter 3");
 
+                item_grade_db item_grade_db_table(_self, _self.value);
+                auto item_grade_db_iter = item_grade_db_table.find(user_preregist_item_iter->grade);
+
                 move_item.equipment.id = commonitem_db_iter->id;
                 move_item.equipment.state = object_state::on_inventory;
                 move_item.equipment.type = commonitem_db_iter->type;
@@ -3939,7 +3959,12 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
                 move_item.equipment.job = equipitem_db_iter->job;
                 move_item.equipment.grade = user_preregist_item_iter->grade;
                 move_item.equipment.upgrade = 0;
-                move_item.equipment.value = equipment_lv_status_db_iter->change_status[user_preregist_item_iter->main_status].update_status;
+
+                uint32_t type_grade = ((equipitem_db_iter.type + 1) * 10) + item_grade_db_iter.grade;
+                move_item.equipment.value = change_equipment_statue(type_grade, move_item.equipment.value);
+                set_tier_status(move_item.equipment.value, equipitem_db_iter.tier);
+
+                //move_item.equipment.value = equipment_lv_status_db_iter->change_status[user_preregist_item_iter->main_status].update_status;
             });
 
             user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
@@ -4542,7 +4567,7 @@ uint32_t battletest::change_monster_statue(uint32_t _grade, uint32_t _status_gra
             return status_iter->change_status[i].update_status;
         }
     }
-    eosio_assert(a != 0, "Not Exist Status Monster 1");
+    eosio_assert(a != 0, "change_monster_statue : Not Exist Status Monster 1");
     return 0;
 }
 
