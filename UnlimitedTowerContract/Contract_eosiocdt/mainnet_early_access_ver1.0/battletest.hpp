@@ -1621,7 +1621,6 @@ TABLE itemshop
     //-------------------------------------------------------------------------------//
 
 #pragma region preregist
-    ACTION movedb(eosio::name _user);
     
     TABLE dbservantid
     {
@@ -1779,6 +1778,7 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
 
     ACTION addwhite(eosio::name _user);
     ACTION deletewhite(eosio::name _user);
+    ACTION changelobby();
 #pragma endregion
 
 TABLE tdaily
