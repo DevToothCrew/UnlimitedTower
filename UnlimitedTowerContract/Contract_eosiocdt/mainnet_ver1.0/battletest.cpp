@@ -9948,39 +9948,39 @@ void battletest::inventory_buy(eosio::name _user, uint32_t _type, uint32_t _coun
     auto item_shop_iter = item_shop_table.find(shop_list_iter->shop_item_id);
     eosio_assert(item_shop_iter != item_shop_table.end(), "inventory_buy : Not exist item_shop data");
 
-    if (shop_list_iter->shop_item_id == 2001) //서번트 인벤토리
+    if (shop_list_iter->shop_item_id == 2001 && _type == 1)
     {
         eosio_assert((user_auth_iter->servant_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
 
         user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
             change_auth_user.servant_inventory += (plus_inventory * _count);
         });
-        }
-        else if (shop_list_iter->shop_item_id == 2002) //몬스터 인벤토리
-        {
-            eosio_assert((user_auth_iter->monster_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
-            user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-                change_auth_user.monster_inventory += (plus_inventory * _count);
-            });
-        }
-        else if (shop_list_iter->shop_item_id == 2003) //장비 인벤토리
-        {
-            eosio_assert((user_auth_iter->equipment_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
-            user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-                change_auth_user.equipment_inventory += (plus_inventory * _count);
-            });
-        }
-        else if (shop_list_iter->shop_item_id == 2004) //소모품 인벤토리
-        {
-            eosio_assert((user_auth_iter->item_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
-            user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-                change_auth_user.item_inventory += (plus_inventory * _count);
-            });
-        }
-        else
-        {
-            eosio_assert(0 == 1 , "inventory_buy : not exsit this action type");
-        }
+    }
+    else if (shop_list_iter->shop_item_id == 2002 && _type == 2)
+    {
+        eosio_assert((user_auth_iter->monster_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
+        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+            change_auth_user.monster_inventory += (plus_inventory * _count);
+        });
+    }
+    else if (shop_list_iter->shop_item_id == 2003 && _type == 3)
+    {
+        eosio_assert((user_auth_iter->equipment_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
+        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+            change_auth_user.equipment_inventory += (plus_inventory * _count);
+        });
+    }
+    else if (shop_list_iter->shop_item_id == 2004 && _type == 4)
+    {
+        eosio_assert((user_auth_iter->item_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
+        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+            change_auth_user.item_inventory += (plus_inventory * _count);
+        });
+    }
+    else
+    {
+        eosio_assert(0 == 1, "inventory_buy : not exsit this action type");
+    }
 
         std::string contents_result;
         std::string contents_type = "inventorybuy";
@@ -11765,7 +11765,7 @@ ACTION battletest::movecheat(eosio::name _user)
         user_log_table.emplace(_self, [&](auto &user_log) {
             user_log.user = pre_log_iter->user;
             user_log.servant_num = pre_log_iter->servant_num;
-            user_log.monster_num = pre_log_iter->monster_num + 1;
+            user_log.monster_num = pre_log_iter->monster_num;
             user_log.equipment_num = pre_log_iter->item_num;
             user_log.gacha_num = pre_log_iter->gacha_num;
             user_log.item_num = 0;
@@ -11779,7 +11779,7 @@ ACTION battletest::movecheat(eosio::name _user)
             user_log.top_clear_tower = 0;
             user_log.add_party_count = 0;
             user_log.soul_powder = 0;
-            user_log.mail = pre_log_iter->servant_num + pre_log_iter->monster_num + pre_log_iter->item_num;
+            user_log.mail += pre_log_iter->servant_num + pre_log_iter->monster_num + pre_log_iter->item_num;
         });
 
 
@@ -11896,6 +11896,107 @@ ACTION battletest::movecheat(eosio::name _user)
 
 
 
+ACTION battletest::deleteuser2(eosio::name _user)
+{
+    user_auths pre_user_table(_self, _self.value);
+    auto pre_user_iter = pre_user_table.find(_user.value);
+    if (pre_user_iter != pre_user_table.end())
+    {
+        pre_user_table.erase(pre_user_iter);
+    }
+
+    user_logs pre_log_table(_self, _self.value);
+    auto pre_log_iter = pre_log_table.find(_user.value);
+    if (pre_log_iter != pre_log_table.end())
+    {
+        pre_log_table.erase(pre_log_iter);
+    }
+
+    user_gacha_results user_gacha_result_table(_self, _self.value);
+    auto gacha_result_iter = user_gacha_result_table.find(_user.value);
+    if (gacha_result_iter != user_gacha_result_table.end())
+    {
+        user_gacha_result_table.erase(gacha_result_iter);
+    }
+
+    user_gacha_totals user_gacha_total_table(_self, _self.value);
+    auto gacha_total_iter = user_gacha_total_table.find(_user.value);
+    if (gacha_total_iter != user_gacha_total_table.end())
+    {
+        user_gacha_total_table.erase(gacha_total_iter);
+    }
+
+    user_equip_items user_preregist_item_table(_self, _user.value);
+    auto item_iter = user_preregist_item_table.begin();
+    if (item_iter != user_preregist_item_table.end())
+    {
+        for (auto item = user_preregist_item_table.begin(); item != user_preregist_item_table.end();)
+        {
+            auto iter = user_preregist_item_table.find(item->primary_key());
+            item = user_preregist_item_table.erase(iter);
+        }
+    }
+
+    user_items user_consum_item_table(_self, _user.value);
+    auto user_consum_item_iter = user_consum_item_table.begin();
+    if(user_consum_item_iter != user_consum_item_table.end())
+    {
+        for(auto consumable = user_consum_item_table.begin(); consumable != user_consum_item_table.end();)
+        {
+            auto iter = user_consum_item_table.find(consumable->primary_key());
+            consumable = user_consum_item_table.erase(iter);
+        }
+    }
+
+    user_monsters user_preregist_monster_table(_self, _user.value);
+    auto mon_iter = user_preregist_monster_table.begin();
+    if (mon_iter != user_preregist_monster_table.end())
+    {
+        for (auto mon = user_preregist_monster_table.begin(); mon != user_preregist_monster_table.end();)
+        {
+            auto iter = user_preregist_monster_table.find(mon->primary_key());
+            mon = user_preregist_monster_table.erase(iter);
+        }
+    }
+
+    user_servants user_preregist_servant_table(_self, _user.value);
+    auto ser_iter = user_preregist_servant_table.begin();
+    if (ser_iter != user_preregist_servant_table.end())
+    {
+        for (auto ser = user_preregist_servant_table.begin(); ser != user_preregist_servant_table.end();)
+        {
+            auto iter = user_preregist_servant_table.find(ser->primary_key());
+            ser = user_preregist_servant_table.erase(iter);
+        }
+    }
+
+    account to_acnts(_self, _user.value);
+    auto to = to_acnts.begin();
+    if (to != to_acnts.end())
+    {
+        add_balance(_self, to->balance, _self);
+        sub_balance(_user, to->balance);
+    }
+
+    user_partys user_party_table(_self, _user.value);
+    auto party_iter = user_party_table.begin();
+    if (party_iter != user_party_table.end())
+
+     {
+         user_party_table.erase(party_iter);
+     } 
+
+    user_mail mail_db_table(_self, _user.value);
+    auto mail_db_iter = mail_db_table.begin();
+    if(mail_db_iter != mail_db_table.end())
+    {
+        for(auto iter = mail_db_table.begin(); iter!= mail_db_table.end();)
+        {
+            auto iter2 = mail_db_table.find(iter->primary_key());
+            iter = mail_db_table.erase(iter2);
+        }
+    }
+}
 
 
 
@@ -11936,7 +12037,7 @@ EOSIO_DISPATCH(battletest,
                (stageexit)(stagestart)(activeturn)(pvpstart)//(battlestate)(battleaction)(resultparty)
                (saveparty)(resultgacha)                                                                                                                          //party + gacha
                (itembuy)(monsterup)(equipmentup)(mailopen)(equip)(nftmail)//(movedb)
-               (burn)(itemburn))
-               //(servantburn)(monsterburn)(equipburn)(itemburn)(deleteuser))
+               (burn)(itemburn)
+               (deleteuser2))
                 //(addshop)(delshop)))                     //contants
                 //

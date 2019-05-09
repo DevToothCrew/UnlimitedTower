@@ -635,12 +635,9 @@ CONTRACT battletest : public contract
     void insert_servant_burn_item(uint64_t _servant_job, uint64_t _result_item_id);
 
     void insert_status_monster_up(uint64_t _type, uint64_t _first, uint64_t _second);
-    // void insert_itemshop(uint64_t _id, uint64_t _goods_type,
-    //                      uint64_t _goods_id, uint64_t _goods_count,
-    //                      uint64_t _goods_limited, uint64_t _price_type,
-    //                      uint64_t _etc_type, uint64_t _price_count);
-    // void insert_itemshop(uint64_t _id, uint64_t _type, uint64_t _product_id, uint64_t _product_count, uint64_t _limit_count,
-    //                      uint64_t limit_max, uint64_t price_id, uint64_t _price_count);
+    void insert_itemshop(uint64_t _id, uint64_t _shop_type, uint64_t _product_id, uint64_t _product_count,
+                         uint64_t _product_limit_max, uint64_t _price_id, uint64_t _price_count);
+    void insert_shoplist(uint64_t _id, uint64_t _shop_type, uint64_t _shop_item_id, uint64_t _limit_count);
 
     void insert_level(uint32_t _level, uint32_t _rank_exp, uint32_t _char_exp);
     void insert_passive(uint64_t _passive_id, uint32_t _passive_type, uint32_t _job_class, uint32_t _enable_stack_max, uint32_t _effect_id,
@@ -689,8 +686,8 @@ CONTRACT battletest : public contract
     void erase_gacha_pool(uint64_t _id);
     void erase_pre_gacha_pool(uint64_t _id);
     // void erase_status_monster_up(uint64_t _id);
-    // void erase_itemshop(uint64_t _id);
-
+     //void erase_itemshop(uint64_t _id);
+    // void erase_itemshop2(uint64_t _id);
 #pragma endregion
 
 #pragma region stage
@@ -955,18 +952,6 @@ CONTRACT battletest : public contract
 #pragma endregion
 
 #pragma region item shop
-
-    enum good_types
-    {
-        inventory_Servant = 11,
-        inventory_Monster = 12,
-        inventory_Equip = 13, 
-        inventory_Item = 14,
-        goods_item =5,
-        goods_servant = 3,
-        goods_utg= 2,
-    };
-
   
 TABLE itemshop
    {
