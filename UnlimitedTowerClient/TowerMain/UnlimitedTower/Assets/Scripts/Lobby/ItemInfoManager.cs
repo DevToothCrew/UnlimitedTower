@@ -70,7 +70,7 @@ public class ItemInfoManager : MonoSingleton<ItemInfoManager> {
             else
             {
                 FrameNoneItem.SetActive(true);
-                textNoneItem.text = string.Format("None Item");
+                textNoneItem.text = string.Format("None ITEM");
             }
         }
         else
