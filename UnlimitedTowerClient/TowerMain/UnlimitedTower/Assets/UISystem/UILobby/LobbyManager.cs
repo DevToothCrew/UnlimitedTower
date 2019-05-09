@@ -204,9 +204,10 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
             case POPUP_STATE.Setting:
                 {
-                    //objSubView = Instantiate(Resources.Load("UI/Lobby/MailInfoPage")) as GameObject;
-                    //objSubView.transform.SetParent(this.transform);
-                    //objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                    SetTextBackButton("Setting");
+                    objSubView = Instantiate(Resources.Load("UI/Lobby/Setting")) as GameObject;
+                    objSubView.transform.SetParent(upperUI.transform);
+                    objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                 }
                 break;
 
