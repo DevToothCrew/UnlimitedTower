@@ -165,7 +165,10 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
     public void ResetScrollDataByChangeSetData()
     {
         setData();
-        ResetScrollListBySortType(sort_type);
+        scrollList.scrollRect.velocity = Vector2.zero;
+        scrollList.SetItemOrder(getOrder());
+        scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+        scrollList.ScrollViewDidScroll();
     }
 
     public void ResetScrollListBySortType(SORT_TYPE type)
@@ -489,18 +492,18 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
 
         int[] equipmentValue = Calculator.GetStatsOnlyAllEquipment(servantData);
 
-        textStr.text = string.Format("{0}", servantData.status.basicStr + SetChangeValue(textStrChange, EQUIPMENT_OPTION_TYPE.STR));
-        textDex.text = string.Format("{0}", servantData.status.basicDex + SetChangeValue(textDexChange, EQUIPMENT_OPTION_TYPE.DEX));
-        textInt.text = string.Format("{0}", servantData.status.basicInt + SetChangeValue(textIntChange, EQUIPMENT_OPTION_TYPE.INT));
+        textStr.text = string.Format("{0}", servantData.status.basicStr + SetChangeValue(textStrChange, EQUIPMENT_OPTION_TYPE.STR) + equipmentValue[(int)EQUIPMENT_OPTION_TYPE.STR]);
+        textDex.text = string.Format("{0}", servantData.status.basicDex + SetChangeValue(textDexChange, EQUIPMENT_OPTION_TYPE.DEX) + equipmentValue[(int)EQUIPMENT_OPTION_TYPE.DEX]);
+        textInt.text = string.Format("{0}", servantData.status.basicInt + SetChangeValue(textIntChange, EQUIPMENT_OPTION_TYPE.INT) + equipmentValue[(int)EQUIPMENT_OPTION_TYPE.INT]);
 
-        textHp.text = string.Format("{0}", servantData.maxHP + SetChangeValue(textHpChange, EQUIPMENT_OPTION_TYPE.HP));
+        textHp.text = string.Format("{0}", servantData.maxHP + SetChangeValue(textHpChange, EQUIPMENT_OPTION_TYPE.HP) + equipmentValue[(int)EQUIPMENT_OPTION_TYPE.HP]);
         textSpeed.text = string.Format("{0}", dBServantData.speed);
 
-        textPAtk.text = string.Format("{0}", servantData.atk + SetChangeValue(textPAtkChange, EQUIPMENT_OPTION_TYPE.ATK));
-        textPDef.text = string.Format("{0}", servantData.def + SetChangeValue(textPDefChange, EQUIPMENT_OPTION_TYPE.DEF));
+        textPAtk.text = string.Format("{0}", servantData.atk + SetChangeValue(textPAtkChange, EQUIPMENT_OPTION_TYPE.ATK) + equipmentValue[(int)EQUIPMENT_OPTION_TYPE.ATK]);
+        textPDef.text = string.Format("{0}", servantData.def + SetChangeValue(textPDefChange, EQUIPMENT_OPTION_TYPE.DEF) + equipmentValue[(int)EQUIPMENT_OPTION_TYPE.DEF]);
 
-        textMAtk.text = string.Format("{0}", servantData.mAtk + SetChangeValue(textMAtkChange, EQUIPMENT_OPTION_TYPE.MATK));
-        textMDef.text = string.Format("{0}", servantData.mDef + SetChangeValue(textMDefChange, EQUIPMENT_OPTION_TYPE.MDEF));
+        textMAtk.text = string.Format("{0}", servantData.mAtk + SetChangeValue(textMAtkChange, EQUIPMENT_OPTION_TYPE.MATK) + equipmentValue[(int)EQUIPMENT_OPTION_TYPE.MATK]);
+        textMDef.text = string.Format("{0}", servantData.mDef + SetChangeValue(textMDefChange, EQUIPMENT_OPTION_TYPE.MDEF) + equipmentValue[(int)EQUIPMENT_OPTION_TYPE.MDEF]);
 
         textPCri.text = string.Format("{0}", servantData.criDmg);
         textPCriPer.text = string.Format("{0}", servantData.criPer);
