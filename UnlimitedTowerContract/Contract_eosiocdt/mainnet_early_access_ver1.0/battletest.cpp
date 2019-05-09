@@ -9647,49 +9647,49 @@ void battletest::inventory_buy(eosio::name _user, uint32_t _type, uint32_t _coun
     auto item_shop_iter = item_shop_table.find(shop_list_iter->shop_item_id);
     eosio_assert(item_shop_iter != item_shop_table.end(), "inventory_buy : Not exist item_shop data");
 
-   if (shop_list_iter->shop_item_id == 2001) 
+    if (shop_list_iter->shop_item_id == 2001 && _type == 1)
     {
         eosio_assert((user_auth_iter->servant_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
 
         user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
             change_auth_user.servant_inventory += (plus_inventory * _count);
         });
-        }
-        else if (shop_list_iter->shop_item_id == 2002) 
-        {
-            eosio_assert((user_auth_iter->monster_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
-            user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-                change_auth_user.monster_inventory += (plus_inventory * _count);
-            });
-        }
-        else if (shop_list_iter->shop_item_id == 2003) 
-        {
-            eosio_assert((user_auth_iter->equipment_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
-            user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-                change_auth_user.equipment_inventory += (plus_inventory * _count);
-            });
-        }
-        else if (shop_list_iter->shop_item_id == 2004) 
-        {
-            eosio_assert((user_auth_iter->item_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
-            user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-                change_auth_user.item_inventory += (plus_inventory * _count);
-            });
-        }
-        else
-        {
-            eosio_assert(0 == 1 , "inventory_buy : not exsit this action type");
-        }
+    }
+    else if (shop_list_iter->shop_item_id == 2002 && _type == 2)
+    {
+        eosio_assert((user_auth_iter->monster_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
+        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+            change_auth_user.monster_inventory += (plus_inventory * _count);
+        });
+    }
+    else if (shop_list_iter->shop_item_id == 2003 && _type == 3)
+    {
+        eosio_assert((user_auth_iter->equipment_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
+        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+            change_auth_user.equipment_inventory += (plus_inventory * _count);
+        });
+    }
+    else if (shop_list_iter->shop_item_id == 2004 && _type == 4)
+    {
+        eosio_assert((user_auth_iter->item_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
+        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+            change_auth_user.item_inventory += (plus_inventory * _count);
+        });
+    }
+    else
+    {
+        eosio_assert(0 == 1, "inventory_buy : not exsit this action type");
+    }
 
-        std::string contents_result;
-        std::string contents_type = "inventorybuy";
-        contents_result += to_string(_type) + ":";
-        contents_result += to_string(plus_inventory);
-        contents_result += to_string(_count);
-        action(permission_level{get_self(), "active"_n},
-               get_self(), "contents"_n,
-               std::make_tuple(_user, contents_type, contents_result))
-            .send();
+    std::string contents_result;
+    std::string contents_type = "inventorybuy";
+    contents_result += to_string(_type) + ":";
+    contents_result += to_string(plus_inventory);
+    contents_result += to_string(_count);
+    action(permission_level{get_self(), "active"_n},
+           get_self(), "contents"_n,
+           std::make_tuple(_user, contents_type, contents_result))
+        .send();
 
 }
 
