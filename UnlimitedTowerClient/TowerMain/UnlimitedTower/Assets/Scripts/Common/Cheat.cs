@@ -54,7 +54,9 @@ public class Cheat : MonoSingleton<Cheat>
 
         for (int i = 1; i < 20; i++)
         {
-            userLoginData.monster_list.Add(GetRandomMonster(i));
+            monsterData data = GetRandomMonster(i);
+            data.monster.id = 102311;
+            userLoginData.monster_list.Add(data);
 
             if (i < 6)
             {
