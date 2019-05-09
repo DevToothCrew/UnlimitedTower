@@ -6,8 +6,8 @@ public class Calculator : MonoBehaviour
 {
     public static int GetPower(Status status, int level = 1)
     {
-        int attack = (int)(((status.basicStr + status.basicDex) * 10) * (level / (float)DEFINE.MAX_LEVEL));
-        int magic_attack = (int)((status.basicInt * 10.0f) * (level / (float)DEFINE.MAX_LEVEL));
+        int attack = GetAttack(status, level);
+        int magic_attack = GetMagicAttack(status, level);
 
         return (attack + magic_attack);
     }
