@@ -22,4 +22,9 @@ public class Setting : MonoBehaviour {
         volumSlider.value = PlayerSetting.Inst.volum;
         volumToggle.isOn = PlayerSetting.Inst.volumMute;
     }
+
+    public void Destroy()
+    {
+        Destroy(gameObject);
+    }
 }
