@@ -1086,8 +1086,8 @@ TABLE itemshop
         uint32_t equipment_num = 0;
         uint32_t gacha_num = 0;
         uint32_t item_num = 0;
-        uint32_t get_gold = 0;
-        uint32_t use_gold = 0;
+        uint32_t get_utg = 0;
+        uint32_t use_utg = 0;
         uint64_t use_eos = 0;
         uint32_t battle_count = 0;
         uint32_t last_stage_num = 0;
@@ -1780,6 +1780,15 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
     ACTION addwhite(eosio::name _user);
     ACTION deletewhite(eosio::name _user);
 #pragma endregion
+
+TABLE tdaily
+   {
+       eosio::name user;
+       uint64_t total_day;
+       uint64_t check_time;
+       uint64_t primary_key() const { return user.value; }
+   };
+   typedef eosio::multi_index<"tdaily"_n, tdaily> dailychecks;
 
 
 
