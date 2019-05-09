@@ -11,6 +11,27 @@
 //------------------------------------------------------------------------//
 #pragma region Token action
 
+void battletest::set_eos_log(uint64_t _total_amount)
+{
+    user_logs user_log_table(_self, _self.value);
+    auto log_iter = user_log_table.find(_self.value);
+    if(log_iter == user_log_table.end())
+    {
+        user_log_table.emplace(_self, [&](auto &new_data)
+        {
+            new_data.user = _self;
+            new_data.use_eos = 0 + _total_amount;
+        });
+    }
+    else
+    {
+        user_log_table.modify(log_iter, _self, [&](auto &new_data)
+        {
+            new_data.use_eos += _total_amount;
+        });
+    }
+}
+
 void battletest::set_seed(std::string _type, uint64_t _seed, uint64_t _result)
 {
     seed_log seed_log_table(_self, _self.value);
@@ -2240,7 +2261,13 @@ void battletest::erase_itemshop(uint64_t _id)
     eosio_assert(item_shop_iter != item_shop_table.end(), "Not Exist itemshop 1");
     item_shop_table.erase(item_shop_iter);
 }
-
+void battletest::erase_itemshop2(uint64_t _id)
+{
+    item_shop item_shop_table(_self, _self.value);
+    auto item_shop_iter = item_shop_table.find(_id);
+    eosio_assert(item_shop_iter != item_shop_table.end(), "Not Exist itemshop 1");
+    item_shop_table.erase(item_shop_iter);
+}
 
 //=============================================================================================
 // ACTION battletest::movedb(eosio::name _user)
@@ -3409,7 +3436,7 @@ ACTION battletest::setmaster(eosio::name _master)
 
 #pragma region login
 
-void battletest::signup(eosio::name _user)
+void battletest::signup(eosio::name _user, uint64_t _use_eos)
 {
     user_auths auth_user_table(_self, _self.value);
     auto new_user_iter = auth_user_table.find(_user.value);
@@ -3429,12 +3456,6 @@ void battletest::signup(eosio::name _user)
         new_user.equipment_inventory = 50;
     });
 
-    user_logs user_log_table(_self, _self.value);
-    auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter == user_log_table.end(), "Signup : Already Log Table / Already Signup");
-    user_log_table.emplace(_self, [&](auto &new_log) {
-        new_log.user = _user;
-    });
 
     user_partys user_party_table(_self, _user.value);
     auto user_party_iter = user_party_table.find(1);
@@ -3558,13 +3579,23 @@ void battletest::signup(eosio::name _user)
     asset utg_cheat_money(0, symbol(symbol_code("UTG"), 4));
     utg_cheat_money.amount = 1000 * 10000;
 
+    user_logs user_log_table(_self, _self.value);
+    auto user_log_iter = user_log_table.find(_user.value);
+    eosio_assert(user_log_iter == user_log_table.end(), "Signup : Already Log Table / Already Signup");
+    user_log_table.emplace(_self, [&](auto &new_log) {
+        new_log.user = _user;
+        new_log.use_eos += _use_eos;
+        new_log.servant_num += 1;
+        new_log.monster_num += 1;
+    });
+
     action(permission_level{_self, "active"_n},
            _self, "transfer"_n,
            std::make_tuple(_self, _user, utg_cheat_money, std::string("SignUp Reward")))
         .send();
 }
 
-void battletest::refer_signup(eosio::name _user, eosio::name _refer)
+void battletest::refer_signup(eosio::name _user, eosio::name _refer, uint64_t _use_eos)
 {
     user_auths auth_user_table(_self, _self.value);
     auto new_user_iter = auth_user_table.find(_user.value);
@@ -3582,13 +3613,6 @@ void battletest::refer_signup(eosio::name _user, eosio::name _refer)
         new_user.monster_inventory = 50;
         new_user.item_inventory = 50;
         new_user.equipment_inventory = 50;
-    });
-
-    user_logs user_log_table(_self, _self.value);
-    auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter == user_log_table.end(), "Refer : Already Log Table / Already Signup");
-    user_log_table.emplace(_self, [&](auto &new_log) {
-        new_log.user = _user;
     });
 
     user_partys user_party_table(_self, _user.value);
@@ -3707,6 +3731,16 @@ void battletest::refer_signup(eosio::name _user, eosio::name _refer)
 
         update_user_monster_list.party_number = EMPTY_PARTY;
         update_user_monster_list.monster = new_monster;
+    });
+
+    user_logs user_log_table(_self, _self.value);
+    auto user_log_iter = user_log_table.find(_user.value);
+    eosio_assert(user_log_iter == user_log_table.end(), "Refer : Already Log Table / Already Signup");
+    user_log_table.emplace(_self, [&](auto &new_log) {
+        new_log.user = _user;
+        new_log.use_eos += _use_eos;
+        new_log.servant_num += 1;
+        new_log.monster_num += 1;
     });
 
 
@@ -4080,11 +4114,11 @@ ACTION battletest::eostransfer(eosio::name sender, eosio::name receiver)
         eosio_assert(ad.action.size() != 0, "Eos Transfer : Wrong Action");
         if (ad.action == action_signup)
         {
-            signup(sender);
+            signup(sender, ad.amount);
         }
         if (ad.action == action_gacha)
         {
-            start_gacha(sender, ad.type);
+            start_gacha(sender, ad.type, ad.amount);
         }
         else if (ad.action == action_inventory)
         {
@@ -4092,7 +4126,7 @@ ACTION battletest::eostransfer(eosio::name sender, eosio::name receiver)
         }
         else if (ad.action == action_referral)
         {
-            refer_signup(sender, ad.from);
+            refer_signup(sender, ad.from, ad.amount);
         }
     });
 }
@@ -4146,10 +4180,14 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
                 res.type = safeseed::check_seed(l_seed, l_sha);
 
                 eosio_assert(res.type != 0, "Eos Transfer Gacha : Wrong Seed Convert");
+                set_eos_log(transfer_data.quantity.amount);
+                res.amount = transfer_data.quantity.amount;
             }
             else if (res.action == "signup")
             {
                 eosio_assert(transfer_data.quantity.amount == 1, "Eos Transfer Signup : Signup Need 1.0000 EOS"); //가격 필히 수정해야함 10000
+                set_eos_log(transfer_data.quantity.amount);
+                res.amount = transfer_data.quantity.amount;
             }
             else if (res.action == "refer_signup")
             {
@@ -4159,6 +4197,8 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
 
                 eosio::name refer_account(result);
                 res.from = refer_account;
+                set_eos_log(transfer_data.quantity.amount);
+                res.amount = transfer_data.quantity.amount;
             }
             else if (res.action == "inventorybuy") //인벤토리 구매
             {
@@ -4179,7 +4219,7 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
 
                 eosio_assert(res.count == transfer_data.quantity.amount / 1000, "Eos Transfer inventorybuy : Not enough Eos");
                 eosio_assert(transfer_data.quantity.amount >= 1000, "Eos Transfer inventorybuy : Gacha need 0.1000 EOS");       
-
+                set_eos_log(transfer_data.quantity.amount);
                 eosio_assert(res.type != 0, "Eos Transfer inventorybuy : Wrong Seed Convert");
             }
             else
@@ -4891,37 +4931,6 @@ void battletest::gacha_equipment_id(eosio::name _user, uint64_t _seed)
 }
 
 
-void battletest::gacha_item_id(eosio::name _user)
-{
-    allitem_db allitem_db_table(_self, _self.value);
-    auto allitem_db_iter = allitem_db_table.find(500100);
-
-    user_logs user_log_table(_self, _self.value);
-    auto user_log_iter = user_log_table.find(_user.value);
-
-    user_auths auth_user_table(_self, _self.value);
-    auto auth_user_iter = auth_user_table.find(_user.value);
-
-    eosio_assert(auth_user_iter != auth_user_table.end(),"Not Exist User 5");
-
-    eosio_assert(user_log_iter != user_log_table.end(), "Not Exist User Log 5");
-
-    item_info items;
-    user_items user_item_table(_self, _user.value);
-    user_item_table.emplace(_self, [&](auto &update_user_item_list) {
-        update_user_item_list.id = allitem_db_iter->id;
-        items.index = 0;
-        update_user_item_list.type = 0;
-        items.count = 5;
-        update_user_item_list.item_list.push_back(items);
-    });
-
-    auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user){
-        update_auth_user.current_item_inventory +=1;
-    });
-}
-
-
 uint64_t battletest::get_user_seed_value(uint64_t _user)
 {
     uint64_t user;
@@ -4937,7 +4946,7 @@ uint64_t battletest::get_user_seed_value(uint64_t _user)
     return user;
 }
 
-void battletest::start_gacha(eosio::name _user, uint64_t _seed)
+void battletest::start_gacha(eosio::name _user, uint64_t _seed, uint64_t _use_eos)
 {
     user_auths user_auth_table(_self, _self.value);
     auto users_auth_iter = user_auth_table.find(_user.value);
@@ -4947,6 +4956,11 @@ void battletest::start_gacha(eosio::name _user, uint64_t _seed)
     user_logs user_log_table(_self, _self.value);
     auto user_log_iter = user_log_table.find(_user.value);
     eosio_assert(user_log_iter != user_log_table.end(), "Start Gacha : Log Table Empty / Not yet signup");
+
+    user_log_table.modify(user_log_iter, _self, [&](auto &new_data)
+    {
+        new_data.use_eos += _use_eos;
+    });
 
     eosio_assert(check_inventory(_user) == true, "Start Gacha : Inventory Is Full");
 
@@ -6371,8 +6385,8 @@ void battletest::init_buff_turn_self(battle_status_info &_status)
 void battletest::set_random_damage(action_info &_action, uint64_t _seed)
 {
     uint32_t seed = _seed >> 1;
-    //uint64_t rate = safeseed::get_random_value(seed, 111, 90, 0);
-    //_action.damage = (_action.damage * rate) / 100;
+    uint64_t rate = safeseed::get_random_value(seed, 111, 90, 0);
+    _action.damage = (_action.damage * rate) / 100;
 }
 
 void battletest::result_buff(action_info &_action, battle_status_info &_status)
@@ -6543,8 +6557,8 @@ bool battletest::set_action(eosio::name _user,
                 set_random_damage(new_action, _seed);       //90~110% 사이의 랜덤 데미지
                 result_buff(new_action, _enemy_status_list[enemy_key]);                   //버프 스킬 체크
 
-                // uint64_t rate = safeseed::get_random_value(new_seed, 111, 90, 0);
-                // new_action.damage = (new_action.damage * rate) / 100;
+                uint64_t rate = safeseed::get_random_value(new_seed, 111, 90, 0);
+                new_action.damage = (new_action.damage * rate) / 100;
 
                 if (_enemy_status_list[enemy_key].now_hp <= new_action.damage)
                 {
@@ -6577,8 +6591,8 @@ bool battletest::set_action(eosio::name _user,
                 result_type_skill(_user, new_action, _my_status_list, _enemy_status_list, _my_key, enemy_key);  //스킬의 속성 추뎀 체크
                 result_buff(new_action, _enemy_status_list[enemy_key]);                   //버프 스킬 체크
 
-                // uint64_t rate = safeseed::get_random_value(new_seed, 111, 90, 0);
-                // new_action.damage = (new_action.damage * rate) / 100;
+                uint64_t rate = safeseed::get_random_value(new_seed, 111, 90, 0);
+                new_action.damage = (new_action.damage * rate) / 100;
 
                 if (_enemy_status_list[enemy_key].now_hp <= new_action.damage)
                 {
@@ -11994,6 +12008,7 @@ ACTION battletest::deleteuser2(eosio::name _user)
         {
             auto iter2 = mail_db_table.find(iter->primary_key());
             iter = mail_db_table.erase(iter2);
+            iter++;
         }
     }
 }
