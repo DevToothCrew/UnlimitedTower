@@ -79,77 +79,77 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         if (Input.anyKeyDown)
         {
-            if (Input.GetKeyDown(KeyCode.U))
-            {
-                CheetKey[CheetIndex % 3] = (int)KeyCode.U;
-                CheetIndex++;
-            }
-            else if (Input.GetKeyDown(KeyCode.T))
-            {
-                CheetKey[CheetIndex % 3] = (int)KeyCode.T;
-                CheetIndex++;
-            }
-            else if (Input.GetKeyDown(KeyCode.G))
-            {
-                CheetKey[CheetIndex % 3] = (int)KeyCode.G;
-                CheetIndex++;
-            }
-            else if (Input.GetKeyDown(KeyCode.P))
-            {
-                CheetKey[CheetIndex % 3] = (int)KeyCode.P;
-                CheetIndex++;
-            }
-            else if (Input.GetKeyDown(KeyCode.A))
-            {
-                CheetKey[CheetIndex % 3] = (int)KeyCode.A;
-                CheetIndex++;
-            }
-            else if (Input.GetKeyDown(KeyCode.D))
-            {
-                CheetKey[CheetIndex % 3] = (int)KeyCode.D;
-                CheetIndex++;
-            }
-            else if (Input.GetKeyDown(KeyCode.M))
-            {
-                CheetKey[CheetIndex % 3] = (int)KeyCode.M;
-                CheetIndex++;
-            }
-            else
-            {
-                CheetKey = new int[3];
-            }
-            if (CheetKey[0] + CheetKey[1] + CheetKey[2] == 336)
-            {
-                if (Time.timeScale < 9)
-                {
-                    Time.timeScale = 10f;
-                    TimeScale = 10;
-                }
-                else
-                {
-                    Time.timeScale = 1f;
-                    TimeScale = 1;
-                }
-                CheetKey = new int[3];
-            }
-            if (CheetKey[0] + CheetKey[1] + CheetKey[2] == 345)
-            {
-                if (Time.timeScale < 9)
-                {
-                    Time.timeScale = 80;
-                    TimeScale = 80;
-                }
-                else
-                {
-                    Time.timeScale = 1f;
-                    TimeScale = 1;
-                }
-                CheetKey = new int[3];
-            }
-            if (CheetKey[0] + CheetKey[1] + CheetKey[2] == 306)
-            {
-                adminMode = true;
-            }
+            //if (Input.GetKeyDown(KeyCode.U))
+            //{
+            //    CheetKey[CheetIndex % 3] = (int)KeyCode.U;
+            //    CheetIndex++;
+            //}
+            //else if (Input.GetKeyDown(KeyCode.T))
+            //{
+            //    CheetKey[CheetIndex % 3] = (int)KeyCode.T;
+            //    CheetIndex++;
+            //}
+            //else if (Input.GetKeyDown(KeyCode.G))
+            //{
+            //    CheetKey[CheetIndex % 3] = (int)KeyCode.G;
+            //    CheetIndex++;
+            //}
+            //else if (Input.GetKeyDown(KeyCode.P))
+            //{
+            //    CheetKey[CheetIndex % 3] = (int)KeyCode.P;
+            //    CheetIndex++;
+            //}
+            //else if (Input.GetKeyDown(KeyCode.A))
+            //{
+            //    CheetKey[CheetIndex % 3] = (int)KeyCode.A;
+            //    CheetIndex++;
+            //}
+            //else if (Input.GetKeyDown(KeyCode.D))
+            //{
+            //    CheetKey[CheetIndex % 3] = (int)KeyCode.D;
+            //    CheetIndex++;
+            //}
+            //else if (Input.GetKeyDown(KeyCode.M))
+            //{
+            //    CheetKey[CheetIndex % 3] = (int)KeyCode.M;
+            //    CheetIndex++;
+            //}
+            //else
+            //{
+            //    CheetKey = new int[3];
+            //}
+            //if (CheetKey[0] + CheetKey[1] + CheetKey[2] == 336)
+            //{
+            //    if (Time.timeScale < 9)
+            //    {
+            //        Time.timeScale = 10f;
+            //        TimeScale = 10;
+            //    }
+            //    else
+            //    {
+            //        Time.timeScale = 1f;
+            //        TimeScale = 1;
+            //    }
+            //    CheetKey = new int[3];
+            //}
+            //if (CheetKey[0] + CheetKey[1] + CheetKey[2] == 345)
+            //{
+            //    if (Time.timeScale < 9)
+            //    {
+            //        Time.timeScale = 80;
+            //        TimeScale = 80;
+            //    }
+            //    else
+            //    {
+            //        Time.timeScale = 1f;
+            //        TimeScale = 1;
+            //    }
+            //    CheetKey = new int[3];
+            //}
+            //if (CheetKey[0] + CheetKey[1] + CheetKey[2] == 306)
+            //{
+            //    adminMode = true;
+            //}
         }
     }
 
