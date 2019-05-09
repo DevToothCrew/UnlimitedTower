@@ -3,9 +3,11 @@
 public class ItemListUnit : ScrollListUnit {
     public Image ImageGrade;
     public Image imageItem;
+    public Text textItemCount;
     public Text textItemName;
     public Text textTypeText;
     public Text textType;
+    
 
     ItemInfoManager itemInfo;
 
@@ -33,6 +35,22 @@ public class ItemListUnit : ScrollListUnit {
         //Todo :set Image
         ImageGrade.sprite = CSVData.Inst.GetSpriteGrade(GRADE_TYPE.COMMON);
         imageItem.sprite = CSVData.Inst.GetItemData(itemInfo.ItemList[selected_idx].id).ItemIcon;
+
+        int item_count = UserDataManager.Inst.GetItemCount(itemInfo.ItemList[selected_idx].id);
+        if (item_count < 0)
+        {
+            DebugLog.Log(true, "Item Count 0");
+            textItemCount.text = "";
+        }
+        else if (item_count == 1)
+        {
+            textItemCount.text = "";
+        }
+        else
+        {
+            textItemCount.text = string.Format("X{0}", UserDataManager.Inst.GetItemCount(itemInfo.ItemList[selected_idx].id));
+        }
+        
         textItemName.text = CSVData.Inst.GetItemData(itemInfo.ItemList[selected_idx].id).name;
 
         textType.text = CSVData.Inst.GetItemData(itemInfo.ItemList[selected_idx].id).itemType;
