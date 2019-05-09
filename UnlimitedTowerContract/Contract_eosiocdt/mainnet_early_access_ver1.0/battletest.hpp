@@ -473,6 +473,9 @@ CONTRACT battletest : public contract
     TABLE dbtribe
     {
         uint64_t id;
+        uint32_t base_str;
+        uint32_t base_dex;
+        uint32_t base_int;
         uint32_t speed;
         uint32_t avoid;
         uint32_t cri_per;
@@ -486,6 +489,9 @@ CONTRACT battletest : public contract
     typedef eosio::multi_index<"dbtribe"_n, dbtribe> tribe_db;
 
     void insert_tribe_stat(uint64_t _id,
+                            uint32_t _base_str,
+                            uint32_t _base_dex,
+                            uint32_t _base_int,
                            uint32_t _speed,
                            uint32_t _avoid,
                            uint32_t _cri_per,
@@ -1056,6 +1062,7 @@ TABLE itemshop
     uint32_t change_equipment_statue(uint32_t _grade, uint32_t _status_grade);
 
     void gacha_monster_id(eosio::name _user, uint64_t _seed);
+    void set_tier_status(uint32_t &_value, uint32_t _tier);
     void gacha_equipment_id(eosio::name _user, uint64_t _seed);
 
     uint64_t get_user_seed_value(uint64_t _user);
@@ -1352,7 +1359,7 @@ TABLE itemshop
         uint32_t avoid = 0;
         uint32_t speed = 0;
         uint32_t position = 0;
-        uint32_t second_speed = 0;
+        uint64_t second_speed = 0;
         uint32_t action = 0;
         status_info status;
         uint32_t id = 0;
