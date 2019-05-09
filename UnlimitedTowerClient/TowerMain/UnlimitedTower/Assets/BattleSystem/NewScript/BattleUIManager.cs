@@ -167,7 +167,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
     // 배틀중 나가기
     public void BattleActionOut()
     {
-        if (UserDataManager.Inst.GetStageReward() == new stageRewardData())
+        if (UserDataManager.Inst.stageReward == null || UserDataManager.Inst.stageReward.reward_money == 0)
         {
 #if UNITY_EDITOR
             Cheat.Inst.RequestStageExitCheat();
@@ -236,18 +236,38 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
 
     public void StageContinue()
     {
+        UserInventoryInfo inventoryInfo = UserDataManager.Inst.GetUserInventoryInfo();
+
         if (UserDataManager.Inst.GetUserPartyInfo().partyIndex == 0)
         {
             DebugLog.Log(true, "Invalid User Data");
         }
 
-#if UNITY_EDITOR
+        if (inventoryInfo.servantInventory < UserDataManager.Inst.GetServantCount())
         {
-            Cheat.Inst.RequestStageStartCheat(UserDataManager.Inst.stageState.stageType, UserDataManager.Inst.stageState.stageFloor, 1);
-            UserDataManager.Inst.stageState = new UserStageStateData();
-            UserDataManager.Inst.stageActionInfo = new battleActionData();
-            UserDataManager.Inst.stageReward = new stageRewardData();
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Servant Inventory is Full");
+            return;
         }
+        else if (inventoryInfo.monsterInventory < UserDataManager.Inst.GetMonsterCount())
+        {
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Monster Inventory is Full");
+            return;
+        }
+        else if (inventoryInfo.equipmentInventory < UserDataManager.Inst.GetEquipmentCount())
+        {
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Equipment Inventory is Full");
+            return;
+        }
+        else
+        {
+
+#if UNITY_EDITOR
+            {
+                Cheat.Inst.RequestStageStartCheat(UserDataManager.Inst.stageState.stageType, UserDataManager.Inst.stageState.stageFloor, 1);
+                UserDataManager.Inst.stageState = new UserStageStateData();
+                UserDataManager.Inst.stageActionInfo = new battleActionData();
+                UserDataManager.Inst.stageReward = new stageRewardData();
+            }
 #else
         {
             PacketManager.Inst.RequestStageStart(UserDataManager.Inst.stageState.stageType, UserDataManager.Inst.stageState.stageFloor, 1);
@@ -256,8 +276,9 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
             UserDataManager.Inst.stageReward = new stageRewardData();
         }
 #endif
-        Time.timeScale = 1;
-        BattleManager.Inst.battleFail?.SetActive(false);
-        BattleManager.Inst.rewardParent?.SetActive(false);
+            Time.timeScale = 1;
+            BattleManager.Inst.battleFail?.SetActive(false);
+            BattleManager.Inst.rewardParent?.SetActive(false);
+        }
     }
 }
