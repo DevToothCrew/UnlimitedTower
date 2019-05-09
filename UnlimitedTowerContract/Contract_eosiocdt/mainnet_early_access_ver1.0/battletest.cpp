@@ -337,234 +337,41 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
     //     });
     // }
 
-    // if (_table == "dbstatusmon")
-    // {
-    //     monster_lv_status_db monster_lv_status_db_table(_self, _self.value);
-    //     monster_lv_status_db_table.emplace(_self, [&](auto &new_data) {
-    //         new_data.grade = 5;
-    //         for (uint32_t i = 0; i < monster_common_status_list.size(); ++i)
-    //         {
-    //             lv_status_sub data;
-    //             data.pre_status = i;
-    //             data.update_status = monster_common_status_list[i];
-    //             new_data.change_status.push_back(data);
-    //         }
-    //     });
+    if (_table == "dbstatusmon")
+    {
+        substr_value(_value, value_list, size_list, 11);
+        std::vector<uint32_t> grade_list;
+        grade_list.push_back(atoi(value_list[1].c_str()));
+        grade_list.push_back(atoi(value_list[2].c_str()));
+        grade_list.push_back(atoi(value_list[3].c_str()));
+        grade_list.push_back(atoi(value_list[4].c_str()));
+        grade_list.push_back(atoi(value_list[5].c_str()));
+        grade_list.push_back(atoi(value_list[6].c_str()));
+        grade_list.push_back(atoi(value_list[7].c_str()));
+        grade_list.push_back(atoi(value_list[8].c_str()));
+        grade_list.push_back(atoi(value_list[9].c_str()));
+        grade_list.push_back(atoi(value_list[10].c_str()));
 
-    //     monster_lv_status_db_table.emplace(_self, [&](auto &new_data) {
-    //         new_data.grade = 4;
-    //         for (uint32_t i = 0; i < monster_uncommon_status_list.size(); ++i)
-    //         {
-    //             lv_status_sub data;
-    //             data.pre_status = i;
-    //             data.update_status = monster_uncommon_status_list[i];
-    //             new_data.change_status.push_back(data);
-    //         }
-    //     });
+        insert_status_monster(atoll(value_list[0].c_str()),grade_list);
+    }
 
-    //     monster_lv_status_db_table.emplace(_self, [&](auto &new_data) {
-    //         new_data.grade = 3;
-    //         for (uint32_t i = 0; i < monster_rare_status_list.size(); ++i)
-    //         {
-    //             lv_status_sub data;
-    //             data.pre_status = i;
-    //             data.update_status = monster_rare_status_list[i];
-    //             new_data.change_status.push_back(data);
-    //         }
-    //     });
+    if (_table == "dbstatusequi")
+    {
+        substr_value(_value, value_list, size_list, 11);
+        std::vector<uint32_t> grade_list;
+        grade_list.push_back(atoi(value_list[1].c_str()));
+        grade_list.push_back(atoi(value_list[2].c_str()));
+        grade_list.push_back(atoi(value_list[3].c_str()));
+        grade_list.push_back(atoi(value_list[4].c_str()));
+        grade_list.push_back(atoi(value_list[5].c_str()));
+        grade_list.push_back(atoi(value_list[6].c_str()));
+        grade_list.push_back(atoi(value_list[7].c_str()));
+        grade_list.push_back(atoi(value_list[8].c_str()));
+        grade_list.push_back(atoi(value_list[9].c_str()));
+        grade_list.push_back(atoi(value_list[10].c_str()));
 
-    //     monster_lv_status_db_table.emplace(_self, [&](auto &new_data) {
-    //         new_data.grade = 2;
-    //         for (uint32_t i = 0; i < monster_unique_status_list.size(); ++i)
-    //         {
-    //             lv_status_sub data;
-    //             data.pre_status = i;
-    //             data.update_status = monster_unique_status_list[i];
-    //             new_data.change_status.push_back(data);
-    //         }
-    //     });
-
-    //     monster_lv_status_db_table.emplace(_self, [&](auto &new_data) {
-    //         new_data.grade = 1;
-    //         for (uint32_t i = 0; i < monster_legendary_status_list.size(); ++i)
-    //         {
-    //             lv_status_sub data;
-    //             data.pre_status = i;
-    //             data.update_status = monster_legendary_status_list[i];
-    //             new_data.change_status.push_back(data);
-    //         }
-    //     });
-
-
-    //     equipment_lv_status_db servant_lv_status_db_table(_self, _self.value);
-    //     servant_lv_status_db_table.emplace(_self, [&](auto &new_data) {
-    //         new_data.type_grade = 5 + (1 * 10);
-    //         for (uint32_t i = 0; i < equipment_wepon_common_status_list.size(); ++i)
-    //         {
-    //             lv_status_sub data;
-    //             data.pre_status = i;
-    //             data.update_status = equipment_wepon_common_status_list[i];
-    //             new_data.change_status.push_back(data);
-    //         }
-    //     });
-
-    //     servant_lv_status_db_table.emplace(_self, [&](auto &new_data) {
-    //         new_data.type_grade = 4+ (1 * 10);
-    //         for (uint32_t i = 0; i < equipment_wepon_uncommon_status_list.size(); ++i)
-    //         {
-    //             lv_status_sub data;
-    //             data.pre_status = i;
-    //             data.update_status = equipment_wepon_uncommon_status_list[i];
-    //             new_data.change_status.push_back(data);
-    //         }
-    //     });
-
-    //     servant_lv_status_db_table.emplace(_self, [&](auto &new_data) {
-    //         new_data.type_grade = 3+ (1 * 10);
-    //         for (uint32_t i = 0; i < equipment_wepon_rare_status_list.size(); ++i)
-    //         {
-    //             lv_status_sub data;
-    //             data.pre_status = i;
-    //             data.update_status = equipment_wepon_rare_status_list[i];
-    //             new_data.change_status.push_back(data);
-    //         }
-    //     });
-
-    //     servant_lv_status_db_table.emplace(_self, [&](auto &new_data) {
-    //         new_data.type_grade = 2+ (1 * 10);
-    //         for (uint32_t i = 0; i < equipment_wepon_unique_status_list.size(); ++i)
-    //         {
-    //             lv_status_sub data;
-    //             data.pre_status = i;
-    //             data.update_status = equipment_wepon_unique_status_list[i];
-    //             new_data.change_status.push_back(data);
-    //         }
-    //     });
-
-    //     servant_lv_status_db_table.emplace(_self, [&](auto &new_data) {
-    //         new_data.type_grade = 1+ (1 * 10);
-    //         for (uint32_t i = 0; i < equipment_wepon_legendary_status_list.size(); ++i)
-    //         {
-    //             lv_status_sub data;
-    //             data.pre_status = i;
-    //             data.update_status = equipment_wepon_legendary_status_list[i];
-    //             new_data.change_status.push_back(data);
-    //         }
-    //     });
-
-
-
-
-    //     servant_lv_status_db_table.emplace(_self, [&](auto &new_data) {
-    //         new_data.type_grade = 5 + (2 * 10);
-    //         for (uint32_t i = 0; i < equipment_armor_common_status_list.size(); ++i)
-    //         {
-    //             lv_status_sub data;
-    //             data.pre_status = i;
-    //             data.update_status = equipment_armor_common_status_list[i];
-    //             new_data.change_status.push_back(data);
-    //         }
-    //     });
-
-    //     servant_lv_status_db_table.emplace(_self, [&](auto &new_data) {
-    //         new_data.type_grade = 4+ (2 * 10);
-    //         for (uint32_t i = 0; i < equipment_armor_uncommon_status_list.size(); ++i)
-    //         {
-    //             lv_status_sub data;
-    //             data.pre_status = i;
-    //             data.update_status = equipment_armor_uncommon_status_list[i];
-    //             new_data.change_status.push_back(data);
-    //         }
-    //     });
-
-    //     servant_lv_status_db_table.emplace(_self, [&](auto &new_data) {
-    //         new_data.type_grade = 3+ (2 * 10);
-    //         for (uint32_t i = 0; i < equipment_armor_rare_status_list.size(); ++i)
-    //         {
-    //             lv_status_sub data;
-    //             data.pre_status = i;
-    //             data.update_status = equipment_armor_rare_status_list[i];
-    //             new_data.change_status.push_back(data);
-    //         }
-    //     });
-
-    //     servant_lv_status_db_table.emplace(_self, [&](auto &new_data) {
-    //         new_data.type_grade = 2+ (2 * 10);
-    //         for (uint32_t i = 0; i < equipment_armor_unique_status_list.size(); ++i)
-    //         {
-    //             lv_status_sub data;
-    //             data.pre_status = i;
-    //             data.update_status = equipment_armor_unique_status_list[i];
-    //             new_data.change_status.push_back(data);
-    //         }
-    //     });
-
-    //     servant_lv_status_db_table.emplace(_self, [&](auto &new_data) {
-    //         new_data.type_grade = 1+ (2 * 10);
-    //         for (uint32_t i = 0; i < equipment_armor_legendary_status_list.size(); ++i)
-    //         {
-    //             lv_status_sub data;
-    //             data.pre_status = i;
-    //             data.update_status = equipment_armor_legendary_status_list[i];
-    //             new_data.change_status.push_back(data);
-    //         }
-    //     });
-
-    //     servant_lv_status_db_table.emplace(_self, [&](auto &new_data) {
-    //         new_data.type_grade = 5 + (3 * 10);
-    //         for (uint32_t i = 0; i < equipment_ac_common_status_list.size(); ++i)
-    //         {
-    //             lv_status_sub data;
-    //             data.pre_status = i;
-    //             data.update_status = equipment_ac_common_status_list[i];
-    //             new_data.change_status.push_back(data);
-    //         }
-    //     });
-
-    //     servant_lv_status_db_table.emplace(_self, [&](auto &new_data) {
-    //         new_data.type_grade = 4 + (3 * 10);
-    //         for (uint32_t i = 0; i < equipment_ac_uncommon_status_list.size(); ++i)
-    //         {
-    //             lv_status_sub data;
-    //             data.pre_status = i;
-    //             data.update_status = equipment_ac_uncommon_status_list[i];
-    //             new_data.change_status.push_back(data);
-    //         }
-    //     });
-
-    //     servant_lv_status_db_table.emplace(_self, [&](auto &new_data) {
-    //         new_data.type_grade = 3 + (3 * 10);
-    //         for (uint32_t i = 0; i < equipment_ac_rare_status_list.size(); ++i)
-    //         {
-    //             lv_status_sub data;
-    //             data.pre_status = i;
-    //             data.update_status = equipment_ac_rare_status_list[i];
-    //             new_data.change_status.push_back(data);
-    //         }
-    //     });
-
-    //     servant_lv_status_db_table.emplace(_self, [&](auto &new_data) {
-    //         new_data.type_grade = 2 + (3 * 10);
-    //         for (uint32_t i = 0; i < equipment_ac_unique_status_list.size(); ++i)
-    //         {
-    //             lv_status_sub data;
-    //             data.pre_status = i;
-    //             data.update_status = equipment_ac_unique_status_list[i];
-    //             new_data.change_status.push_back(data);
-    //         }
-    //     });
-
-    //     servant_lv_status_db_table.emplace(_self, [&](auto &new_data) {
-    //         new_data.type_grade = 1 + (3 * 10);
-    //         for (uint32_t i = 0; i < equipment_ac_legendary_status_list.size(); ++i)
-    //         {
-    //             lv_status_sub data;
-    //             data.pre_status = i;
-    //             data.update_status = equipment_ac_legendary_status_list[i];
-    //             new_data.change_status.push_back(data);
-    //         }
-    //     });
-    // }
+        insert_status_equipment(atoll(value_list[0].c_str()), grade_list);
+    }
 
     // if (_table == "dbstageenemy")
     // {
@@ -784,6 +591,64 @@ ACTION battletest::dblistinsert(std::string _list, std::string _primary_key, std
                 new_reward.count = atoi(_value_list[i + 4].c_str());
                 new_data.reward_list.push_back(new_reward);
                 i += 5;
+            }
+        });
+    }
+}
+
+void battletest::insert_status_monster(uint64_t _grade, std::vector<uint32_t> _status_list)
+{
+    monster_lv_status_db monster_lv_status_db_table(_self, _self.value);
+    auto iter = monster_lv_status_db_table.find(_grade);
+    if(iter == monster_lv_status_db_table.end())
+    {
+        monster_lv_status_db_table.emplace(_self, [&](auto &new_data)
+        {
+            new_data.grade = _grade;
+            for(uint32_t i = 0; i < _status_list.size(); ++i)
+            {
+                lv_status_sub sub;
+                sub.pre_status = i;
+                sub.update_status = _status_list[i];
+                new_data.change_status.push_back(sub);
+            }
+        });
+    }
+    else
+    {
+        monster_lv_status_db_table.modify(iter, _self, [&](auto &new_data) {
+            for (uint32_t i = 0; i < _status_list.size(); ++i)
+            {
+                new_data.change_status[i].update_status = _status_list[i];
+            }
+        });
+    }
+}
+
+void battletest::insert_status_equipment(uint64_t _grade, std::vector<uint32_t> _status_list)
+{
+    equipment_lv_status_db monster_lv_status_db_table(_self, _self.value);
+    auto iter = monster_lv_status_db_table.find(_grade);
+    if(iter == monster_lv_status_db_table.end())
+    {
+        monster_lv_status_db_table.emplace(_self, [&](auto &new_data)
+        {
+            new_data.type_grade = _grade;
+            for(uint32_t i = 0; i < _status_list.size(); ++i)
+            {
+                lv_status_sub sub;
+                sub.pre_status = i;
+                sub.update_status = _status_list[i];
+                new_data.change_status.push_back(sub);
+            }
+        });
+    }
+    else
+    {
+        monster_lv_status_db_table.modify(iter, _self, [&](auto &new_data) {
+            for (uint32_t i = 0; i < _status_list.size(); ++i)
+            {
+                new_data.change_status[i].update_status = _status_list[i];
             }
         });
     }

@@ -33,37 +33,8 @@ CONTRACT battletest : public contract
         uncommon,
         common = 5,
     };
-    std::vector<uint32_t> servant_status_list = {3, 6, 9, 12, 15, 18, 21, 24, 27, 30};
-
-    std::vector<uint32_t> monster_common_status_list = {50, 51, 52, 53, 54, 55, 56, 57, 58, 59};
-    std::vector<uint32_t> monster_uncommon_status_list = {60, 62, 64, 66, 68, 70, 72, 74, 76, 78};
-    std::vector<uint32_t> monster_rare_status_list = {80, 82, 84, 86, 88, 90, 92, 94, 96, 98};
-    std::vector<uint32_t> monster_unique_status_list = {100, 103, 106, 109, 112, 115, 118, 121, 124, 127};
-    std::vector<uint32_t> monster_legendary_status_list = {130, 134, 138, 142, 146, 150, 154, 158, 162, 166};
-
     std::vector<uint32_t> item_in = {1,2,4,8,16,32,64,128};
     std::vector<uint32_t> level_in = {0,1,2,4,8,16,32,64};
-
-    std::vector<uint32_t> equipment_wepon_common_status_list = {120, 132, 144, 156, 168, 180, 192, 204, 216, 228};
-    std::vector<uint32_t> equipment_wepon_uncommon_status_list = {180, 198, 216, 234, 252, 270, 288, 306, 324, 342};
-    std::vector<uint32_t> equipment_wepon_rare_status_list = {240, 264, 288, 312, 336, 360, 384, 408, 432, 456};
-    std::vector<uint32_t> equipment_wepon_unique_status_list = {300, 330, 360, 390, 420, 450, 480, 510, 540, 570};
-    std::vector<uint32_t> equipment_wepon_legendary_status_list = {360, 396, 432, 468, 504, 540, 576, 612, 648, 684};
-
-    std::vector<uint32_t> equipment_armor_common_status_list = {60, 66, 72, 78, 84, 90, 96, 102, 180, 114};
-    std::vector<uint32_t> equipment_armor_uncommon_status_list = {90, 99, 108, 117, 126, 135, 144, 153, 162, 171};
-    std::vector<uint32_t> equipment_armor_rare_status_list = {120, 132, 144, 156, 168, 180, 192, 204, 216, 228};
-    std::vector<uint32_t> equipment_armor_unique_status_list = {150, 165, 180, 195, 210, 225, 240, 255, 270, 285};
-    std::vector<uint32_t> equipment_armor_legendary_status_list = {180, 198, 216, 234, 252, 270, 288, 306, 306, 342};
-
-    std::vector<uint32_t> equipment_ac_common_status_list = {10, 11, 12, 13, 14, 15, 16, 17, 18, 19};
-    std::vector<uint32_t> equipment_ac_uncommon_status_list = {15, 16, 18, 19, 21, 22, 24, 25, 27, 28};
-    std::vector<uint32_t> equipment_ac_rare_status_list = {20, 22, 24, 26, 28, 30, 32, 34, 36, 38};
-    std::vector<uint32_t> equipment_ac_unique_status_list = {25, 27, 30, 32, 35, 37, 40, 42, 45, 47};
-    std::vector<uint32_t> equipment_ac_legendary_status_list = {30, 33, 36, 39, 42, 45, 48, 51, 54, 57};
-
-
-
     //------------------------------------------------------------------------//
     //-----------------------------db_table-----------------------------------//
     //------------------------------------------------------------------------//
@@ -193,6 +164,8 @@ CONTRACT battletest : public contract
         uint64_t primary_key() const { return grade; }
     };
     typedef eosio::multi_index<"dbstatusmon"_n, dbstatusmon> monster_lv_status_db;
+
+    void insert_status_monster(uint64_t _grade, std::vector<uint32_t> _status_list);
 	
     TABLE dbstatusequi
     {
@@ -201,6 +174,8 @@ CONTRACT battletest : public contract
         uint64_t primary_key() const { return type_grade; }
     };
     typedef eosio::multi_index<"dbstatusequi"_n, dbstatusequi> equipment_lv_status_db;
+
+    void insert_status_equipment(uint64_t _grade, std::vector<uint32_t> _status_list);
 
 	  TABLE dbpassive
     {
