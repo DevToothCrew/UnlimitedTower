@@ -1806,11 +1806,11 @@ ACTION battletest::dberase(std::string _table, std::string _value)
     //     value = atoll(_value.c_str());
     //     erase_active(value);
     // }
-    // if (_table == "dbgachapool")
-    // {
-    //     value = atoll(_value.c_str());
-    //     erase_gacha_pool(value);
-    // }
+    if (_table == "dbgachapool")
+    {
+        value = atoll(_value.c_str());
+        erase_gacha_pool(value);
+    }
     // if (_table == "dbprepool")
     // {
     //     value = atoll(_value.c_str());
@@ -2056,13 +2056,13 @@ void battletest::erase_monster_id(uint64_t _id)
 //     active_db_table.erase(active_db_iter);
 // }
 
-// void battletest::erase_gacha_pool(uint64_t _id)
-// {
-//     main_gacha_db main_gacha_db_table(_self, _self.value);
-//     auto main_gacha_db_iter = main_gacha_db_table.find(_id);
-//     eosio_assert(main_gacha_db_iter != main_gacha_db_table.end(), "Not Exist Gacha 1");
-//     main_gacha_db_table.erase(main_gacha_db_iter);
-// }
+void battletest::erase_gacha_pool(uint64_t _id)
+{
+    main_gacha_db main_gacha_db_table(_self, _self.value);
+    auto main_gacha_db_iter = main_gacha_db_table.find(_id);
+    eosio_assert(main_gacha_db_iter != main_gacha_db_table.end(), "Not Exist Gacha 1");
+    main_gacha_db_table.erase(main_gacha_db_iter);
+}
 
 // void battletest::erase_pre_gacha_pool(uint64_t _id)
 // {
@@ -3431,8 +3431,7 @@ void battletest::signup(eosio::name _user, uint64_t _use_eos)
     const auto &tribe_iter = tribe_db_table.get(monster_id_db_iter.tribe, "Signup Monster : Empty Monster Tribe");
 
     monster_random_count += 1;
-    uint64_t random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, DEFAULT_MIN, monster_random_count);
-    uint64_t random_grade = get_random_grade(random_rate);
+    uint64_t random_grade = 3;
 
     monster_grade_db monster_grade_db_table(_self, _self.value);
     const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "Signup Monster : Empty Grade");
@@ -3595,9 +3594,7 @@ void battletest::refer_signup(eosio::name _user, eosio::name _refer, uint64_t _u
     tribe_db tribe_db_table(_self, _self.value);
     const auto &tribe_iter = tribe_db_table.get(monster_id_db_iter.tribe, "Signup Monster : Empty Monster Tribe");
 
-    monster_random_count += 1;
-    uint64_t random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, DEFAULT_MIN, monster_random_count);
-    uint64_t random_grade = get_random_grade(random_rate);
+    uint64_t random_grade = 3;
 
     monster_grade_db monster_grade_db_table(_self, _self.value);
     const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "Signup Monster : Empty Grade");
@@ -4809,11 +4806,8 @@ void battletest::gacha_equipment_id(eosio::name _user, uint64_t _seed)
         new_item.job = equip_item_iter.job;
         new_item.grade = item_grade_db_iter.grade;
         item_random_count += 1;
-        //uint32_t total = 5 - new_item.grade;
-        // new_item.value = safeseed::get_random_value(_seed, equip_item_iter.option_value_max_list[0] + 1, equip_item_iter.option_value_min_list[0], item_random_count);
-        // new_item.value = (new_item.value * equip_item_iter.grade_multi_list[total]) / 10;
         uint32_t type_grade = ((equip_item_iter.type + 1) * 10)  + item_grade_db_iter.grade;
-        new_item.value = safeseed::get_random_value(_seed, 10, 0, monster_random_count);
+        new_item.value = safeseed::get_random_value(_seed, 10, 0, item_random_count);
         new_item.value = change_equipment_statue(type_grade, new_item.value);
         set_tier_status(new_item.value, equip_item_iter.tier);
 
@@ -7969,6 +7963,9 @@ battletest::monster_data battletest::get_reward_monster(eosio::name _user, uint3
     monster_db monster_id_db_table(_self, _self.value);
     const auto &monster_id_db_iter = monster_id_db_table.get(_id, "Get Reward Monster : Empty Monster ID / Wrong Monster ID");
 
+    tribe_db tribe_db_table(_self, _self.value);
+    const auto &tribe_iter = tribe_db_table.get(monster_id_db_iter.tribe, "Gacha Monster : Empty Monster Tribe");
+
     uint64_t random_grade = _grade;
 
     monster_grade_db monster_grade_db_table(_self, _self.value);
@@ -8007,6 +8004,10 @@ battletest::monster_data battletest::get_reward_monster(eosio::name _user, uint3
         new_monster.status.basic_str = change_monster_statue(new_monster.grade, new_monster.status.basic_str);
         new_monster.status.basic_dex = change_monster_statue(new_monster.grade, new_monster.status.basic_dex);
         new_monster.status.basic_int = change_monster_statue(new_monster.grade, new_monster.status.basic_int);
+
+        new_monster.status.basic_str = (new_monster.status.basic_str * tribe_iter.base_str) / 100;
+        new_monster.status.basic_dex = (new_monster.status.basic_dex * tribe_iter.base_dex) / 100;
+        new_monster.status.basic_int = (new_monster.status.basic_int * tribe_iter.base_int) / 100;
 
         uint32_t passive_id = get_monster_passive_skill(_seed);
         new_monster.passive_skill.push_back(passive_id);
@@ -8067,9 +8068,11 @@ battletest::equip_data battletest::get_reward_equip(eosio::name _user, uint32_t 
         new_item.job = equip_item_iter.job;
         new_item.grade = item_grade_db_iter.grade;
         item_random_count += 1;
-        uint32_t total = 5 - new_item.grade;
-        new_item.value = safeseed::get_random_value(_seed, equip_item_iter.option_value_max_list[0] + 1, equip_item_iter.option_value_min_list[0], item_random_count);
-        new_item.value = (new_item.value * equip_item_iter.grade_multi_list[total]) / 10;
+        uint32_t type_grade = ((equip_item_iter.type + 1) * 10)  + item_grade_db_iter.grade;
+        new_item.value = safeseed::get_random_value(_seed, 10, 0, item_random_count);
+        new_item.value = change_equipment_statue(type_grade, new_item.value);
+        set_tier_status(new_item.value, equip_item_iter.tier);
+
         new_item.state = object_state::on_inventory;
 
         update_user_item_list.equipment = new_item;

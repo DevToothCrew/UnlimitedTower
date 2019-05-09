@@ -668,7 +668,7 @@ CONTRACT battletest : public contract
     // void erase_equipment_lv_status_list(uint64_t _type);
 	// void erase_passive(uint64_t _id);
     // void erase_active(uint64_t _id);
-    // void erase_gacha_pool(uint64_t _id);
+    void erase_gacha_pool(uint64_t _id);
     void erase_pre_gacha_pool(uint64_t _id);
     // void erase_status_monster_up(uint64_t _id);
      void erase_itemshop(uint64_t _id);
