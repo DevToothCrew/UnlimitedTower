@@ -31,6 +31,7 @@ public class EquipmentInfoManager : MonoSingleton<EquipmentInfoManager>
     public ScrollListManager scrollList;
 
     private SORT_TYPE sort_type;
+    private bool reverse_sort = false;
 
     public List<List<UserEquipmentData>> EquipmentList = new List<List<UserEquipmentData>>();
 
@@ -202,6 +203,10 @@ public class EquipmentInfoManager : MonoSingleton<EquipmentInfoManager>
     public void ResetScrollListBySortType(SORT_TYPE type)
     {
         sort_type = type;
+        if (sort_type == type)
+        {
+            reverse_sort = !reverse_sort;
+        }
         scrollList.scrollRect.velocity = Vector2.zero;
         scrollList.SetItemOrder(getOrder());
         scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
@@ -322,6 +327,14 @@ public class EquipmentInfoManager : MonoSingleton<EquipmentInfoManager>
                 break;
             default:
                 break;
+        }
+
+        if (reverse_sort)
+        {
+            for (int i = 0; i < data_order.Length; i++)
+            {
+                data_order[i] = total_list_num - 1 - data_order[i];
+            }
         }
 
         return data_order;

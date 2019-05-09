@@ -24,6 +24,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     public GameObject frameScroll;
     public ScrollListManager scrollList;
     private SORT_TYPE sort_type;
+    private bool reverse_sort = false;
 
     //UI Set Data
     public enum menu_type
@@ -132,6 +133,10 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     public void ResetScrollListBySortType(SORT_TYPE type)
     {
         sort_type = type;
+        if (sort_type == type)
+        {
+            reverse_sort = !reverse_sort;
+        }
         scrollList.scrollRect.velocity = Vector2.zero;
         scrollList.SetItemOrder(getOrder());
         scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
@@ -342,6 +347,14 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                 break;
             default:
                 break;
+        }
+
+        if (reverse_sort)
+        {
+            for(int i=0; i< data_order.Length; i++)
+            {
+                data_order[i] = total_list_num - 1 - data_order[i];
+            }
         }
 
 
