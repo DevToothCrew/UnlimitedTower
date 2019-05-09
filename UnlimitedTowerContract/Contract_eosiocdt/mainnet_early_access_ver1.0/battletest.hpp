@@ -1100,7 +1100,7 @@ TABLE itemshop
 
     uint64_t get_user_seed_value(uint64_t _user);
 
-    void start_gacha(eosio::name _user, uint64_t _seed);
+    void start_gacha(eosio::name _user, uint64_t _seed, uint64_t _use_eos);
 
     bool check_inventory(eosio::name _user);
     ACTION mailopen(eosio::name _user, const std::vector<uint64_t> &_mail_index);
@@ -1135,7 +1135,7 @@ TABLE itemshop
     };
     typedef eosio::multi_index<"tuserlog"_n, tuserlog> user_logs;
 
-    void set_eos_log(uint64_t _amount);
+    void set_eos_log(uint64_t _total_amount);
 
 #pragma endregion
 
@@ -1198,6 +1198,7 @@ TABLE itemshop
         std::string action;
         std::string param;
         uint64_t type;
+        uint64_t amount;
         uint32_t count;
         name to;
         asset quantity;
@@ -1227,8 +1228,8 @@ TABLE itemshop
 
 #pragma region login action
     ACTION eostransfer(eosio::name sender, eosio::name receiver);
-    void signup(eosio::name _user);
-    void refer_signup(eosio::name _user, eosio::name _refer);
+    void signup(eosio::name _user, uint64_t _use_eos);
+    void refer_signup(eosio::name _user, eosio::name _refer, uint64_t _use_eos);
 #pragma endregion
 
  

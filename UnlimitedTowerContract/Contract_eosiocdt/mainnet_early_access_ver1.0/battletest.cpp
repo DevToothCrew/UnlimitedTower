@@ -10,7 +10,7 @@
 //----------------------------Token_action--------------------------------//
 //------------------------------------------------------------------------//
 #pragma region Token action
-void battletest::set_eos_log(uint64_t _amount)
+void battletest::set_eos_log(uint64_t _total_amount)
 {
     user_logs user_log_table(_self, _self.value);
     auto log_iter = user_log_table.find(_self.value);
@@ -19,14 +19,14 @@ void battletest::set_eos_log(uint64_t _amount)
         user_log_table.emplace(_self, [&](auto &new_data)
         {
             new_data.user = _self;
-            new_data.use_eos = 0 + _amount;
+            new_data.use_eos = 0 + _total_amount;
         });
     }
     else
     {
         user_log_table.modify(log_iter, _self, [&](auto &new_data)
         {
-            new_data.use_eos += _amount;
+            new_data.use_eos += _total_amount;
         });
     }
 }
@@ -3457,7 +3457,7 @@ ACTION battletest::setmaster(eosio::name _master)
 
 #pragma region login
 
-void battletest::signup(eosio::name _user)
+void battletest::signup(eosio::name _user, uint64_t _use_eos)
 {
     user_auths auth_user_table(_self, _self.value);
     auto new_user_iter = auth_user_table.find(_user.value);
@@ -3604,7 +3604,7 @@ void battletest::signup(eosio::name _user)
     eosio_assert(user_log_iter == user_log_table.end(), "Signup : Already Log Table / Already Signup");
     user_log_table.emplace(_self, [&](auto &new_log) {
         new_log.user = _user;
-        new_log.use_eos += 10000;
+        new_log.use_eos += _use_eos;
         new_log.servant_num += 1;
         new_log.monster_num += 1;
     });
@@ -3615,7 +3615,7 @@ void battletest::signup(eosio::name _user)
         .send();
 }
 
-void battletest::refer_signup(eosio::name _user, eosio::name _refer)
+void battletest::refer_signup(eosio::name _user, eosio::name _refer, uint64_t _use_eos)
 {
     user_auths auth_user_table(_self, _self.value);
     auto new_user_iter = auth_user_table.find(_user.value);
@@ -3758,7 +3758,7 @@ void battletest::refer_signup(eosio::name _user, eosio::name _refer)
     eosio_assert(user_log_iter == user_log_table.end(), "Refer : Already Log Table / Already Signup");
     user_log_table.emplace(_self, [&](auto &new_log) {
         new_log.user = _user;
-        new_log.use_eos += 10000;
+        new_log.use_eos += _use_eos;
         new_log.servant_num += 1;
         new_log.monster_num += 1;
     });
@@ -4121,11 +4121,11 @@ ACTION battletest::eostransfer(eosio::name sender, eosio::name receiver)
         eosio_assert(ad.action.size() != 0, "Eos Transfer : Wrong Action");
         if (ad.action == action_signup)
         {
-            signup(sender);
+            signup(sender, ad.amount);
         }
         if (ad.action == action_gacha)
         {
-            start_gacha(sender, ad.type);
+            start_gacha(sender, ad.type, ad.amount);
         }
         else if (ad.action == action_inventory)
         {
@@ -4133,7 +4133,7 @@ ACTION battletest::eostransfer(eosio::name sender, eosio::name receiver)
         }
         else if (ad.action == action_referral)
         {
-            refer_signup(sender, ad.from);
+            refer_signup(sender, ad.from, ad.amount);
         }
     });
 }
@@ -4185,14 +4185,17 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
                 std::string l_sha = transfer_data.memo.substr(l_next + 1, l_end);
 
                 res.type = safeseed::check_seed(l_seed, l_sha);
-
+        
                 eosio_assert(res.type != 0, "Eos Transfer Gacha : Wrong Seed Convert");
                 set_eos_log(transfer_data.quantity.amount);
+                res.amount = transfer_data.quantity.amount;
+
             }
             else if (res.action == "signup")
             {
                 eosio_assert(transfer_data.quantity.amount == 10000, "Eos Transfer Signup : Signup Need 1.0000 EOS"); 
                 set_eos_log(transfer_data.quantity.amount);
+                res.amount = transfer_data.quantity.amount;
             }
             else if (res.action == "refer_signup")
             {
@@ -4203,6 +4206,7 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
                 eosio::name refer_account(result);
                 res.from = refer_account;
                 set_eos_log(transfer_data.quantity.amount);
+                res.amount = transfer_data.quantity.amount;
             }
             else if (res.action == "inventorybuy") 
             {
@@ -4581,7 +4585,6 @@ void battletest::gacha_servant_id(eosio::name _user, uint64_t _seed)
     user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
         update_log.servant_num += 1;
         update_log.gacha_num += 1;
-        update_log.use_eos += 10000;
     });
 
     auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
@@ -4784,7 +4787,6 @@ void battletest::gacha_monster_id(eosio::name _user, uint64_t _seed)
     user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
         update_log.gacha_num += 1;
         update_log.monster_num += 1;
-        update_log.use_eos += 10000;
     });
 
     auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
@@ -4923,7 +4925,6 @@ void battletest::gacha_equipment_id(eosio::name _user, uint64_t _seed)
     user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
         update_log.equipment_num += 1;
         update_log.gacha_num += 1;
-        update_log.use_eos += 10000;
     });
 
     auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
@@ -4953,7 +4954,7 @@ uint64_t battletest::get_user_seed_value(uint64_t _user)
     return user;
 }
 
-void battletest::start_gacha(eosio::name _user, uint64_t _seed)
+void battletest::start_gacha(eosio::name _user, uint64_t _seed, uint64_t _use_eos)
 {
     user_auths user_auth_table(_self, _self.value);
     auto users_auth_iter = user_auth_table.find(_user.value);
@@ -4963,6 +4964,10 @@ void battletest::start_gacha(eosio::name _user, uint64_t _seed)
     user_logs user_log_table(_self, _self.value);
     auto user_log_iter = user_log_table.find(_user.value);
     eosio_assert(user_log_iter != user_log_table.end(), "Start Gacha : Log Table Empty / Not yet signup");
+    user_log_table.modify(user_log_iter, _self, [&](auto &new_data)
+    {
+        new_data.use_eos += _use_eos;
+    });
 
     eosio_assert(check_inventory(_user) == true, "Start Gacha : Inventory Is Full");
 
