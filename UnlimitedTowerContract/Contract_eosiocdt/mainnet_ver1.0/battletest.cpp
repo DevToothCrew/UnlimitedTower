@@ -3422,7 +3422,8 @@ void battletest::signup(eosio::name _user, uint64_t _use_eos)
 
 
     monster_random_count += 1;
-    uint32_t random_monster_id = safeseed::get_random_value(_seed, 103107, 103101, monster_random_count);
+    uint32_t random_monster_id = safeseed::get_random_value(_seed, 7, 1, monster_random_count);
+    random_monster_id += 103100;
 
     monster_db monster_id_db_table(_self, _self.value);
     const auto &monster_id_db_iter = monster_id_db_table.get(random_monster_id, "Signup Monster : Empty Monster ID");
@@ -3586,7 +3587,8 @@ void battletest::refer_signup(eosio::name _user, eosio::name _refer, uint64_t _u
 
 
     monster_random_count += 1;
-    uint32_t random_monster_id = safeseed::get_random_value(_seed, 103107, 103101, monster_random_count);
+    uint32_t random_monster_id = safeseed::get_random_value(_seed, 7, 1, monster_random_count);
+    random_monster_id += 103100;
 
     monster_db monster_id_db_table(_self, _self.value);
     const auto &monster_id_db_iter = monster_id_db_table.get(random_monster_id, "Signup Monster : Empty Monster ID");
@@ -7428,6 +7430,10 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
 
     std::vector<uint64_t> order_random_list;
     safeseed::get_battle_rand_list(order_random_list, battle_seed);
+    for(uint32_t i = 0; i < order_random_list.size(); ++i)
+    {
+        order_random_list[i] = safeseed::get_seed_value(i, order_random_list[i]);
+    }
 
     std::string turn;
     std::vector<std::string> data;

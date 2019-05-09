@@ -1368,7 +1368,7 @@ CONTRACT battletest : public contract
         uint32_t avoid = 0;
         uint32_t speed = 0;
         uint32_t position = 0;
-        uint32_t second_speed = 0;
+        uint64_t second_speed = 0;
         uint32_t action = 0;
         status_info status;
         uint32_t id = 0;
