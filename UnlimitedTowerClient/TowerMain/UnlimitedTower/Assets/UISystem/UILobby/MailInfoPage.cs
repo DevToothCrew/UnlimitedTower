@@ -84,7 +84,7 @@ public class MailInfoPage : MonoSingleton<MailInfoPage> {
 
     public void OnClickNextButton()
     {
-        if(pageCount >= (mailCount / 8))
+        if(pageCount > (mailCount / 8))
         {
             return;
         }
