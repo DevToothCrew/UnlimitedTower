@@ -502,35 +502,13 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         textMAtk.text = string.Format("{0}", servantData.mAtk + SetChangeValue(textMAtkChange, EQUIPMENT_OPTION_TYPE.MATK));
         textMDef.text = string.Format("{0}", servantData.mDef + SetChangeValue(textMDefChange, EQUIPMENT_OPTION_TYPE.MDEF));
 
-        textPCri.text = string.Format("{0}", dBServantData.criDmg);
-        textPCriPer.text = string.Format("{0}", dBServantData.criPer);
+        textPCri.text = string.Format("{0}", servantData.criDmg);
+        textPCriPer.text = string.Format("{0}", servantData.criPer);
     }
 
     public int SetChangeValue(Text textChangeValue, EQUIPMENT_OPTION_TYPE type)
     {
-        
-
         int addValue = 0;
-        //if (type == EQUIPMENT_OPTION_TYPE.HP)
-        //{
-        //    addValue = Calculator.GetMaxHp(changeStatus);
-        //}
-        //else if (type == EQUIPMENT_OPTION_TYPE.ATK)
-        //{
-        //    addValue = Calculator.GetAttack(changeStatus);
-        //}
-        //else if (type == EQUIPMENT_OPTION_TYPE.MATK)
-        //{
-        //    addValue = Calculator.GetMagicAttack(changeStatus);
-        //}
-        //else if (type == EQUIPMENT_OPTION_TYPE.DEF)
-        //{
-        //    addValue = Calculator.GetDefence(changeStatus);
-        //}
-        //else if (type == EQUIPMENT_OPTION_TYPE.MDEF)
-        //{
-        //    addValue = Calculator.GetMagicDefence(changeStatus);
-        //}
 
         int change_value = change_stat[(int)type] - current_stat[(int)type] + addValue;
 

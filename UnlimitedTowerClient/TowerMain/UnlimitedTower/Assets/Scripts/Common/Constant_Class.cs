@@ -163,6 +163,8 @@ public class UserServantData
     public int mAtk { get { return Calculator.GetMagicAttack(status, level); } }
     public int def { get { return Calculator.GetDefence(status, level); } }
     public int mDef { get { return Calculator.GetMagicDefence(status, level); } }
+    public int criPer { get { return Calculator.GetCriticalPercent(status, level); } }
+    public int criDmg { get { return Calculator.GetCriticalDamage(status, level); } }
 
     public Dictionary<EQUIPMENT_TYPE, int> equipmentDic = new Dictionary<EQUIPMENT_TYPE, int>();
     public List<UserSkillInfo> passiveSkillList = new List<UserSkillInfo>();
@@ -215,6 +217,8 @@ public class UserMonsterData
     public int mAtk { get { return Calculator.GetMagicAttack(status, level); } }
     public int def { get { return Calculator.GetDefence(status, level); } }
     public int mDef { get { return Calculator.GetMagicDefence(status, level); } }
+    public int criPer { get { return Calculator.GetCriticalPercent(status, level); } }
+    public int criDmg { get { return Calculator.GetCriticalDamage(status, level); } }
 
     public List<UserSkillInfo> passiveSkillList = new List<UserSkillInfo>();
     public List<UserSkillInfo> activeSkillList = new List<UserSkillInfo>();

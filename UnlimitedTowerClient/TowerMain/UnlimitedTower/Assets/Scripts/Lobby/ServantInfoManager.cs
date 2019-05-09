@@ -135,8 +135,8 @@ public class ServantInfoManager : MonoSingleton<ServantInfoManager> {
         textPDef.text = string.Format("{0}", unit_data.def);
         textMAtk.text = string.Format("{0}", unit_data.mAtk);
         textMDef.text = string.Format("{0}", unit_data.mDef);
-        textPCri.text = string.Format("{0}", db_unit_data.criDmg);
-        textPCriPer.text = string.Format("{0}", db_unit_data.criPer);
+        textPCri.text = string.Format("{0}", unit_data.criDmg);
+        textPCriPer.text = string.Format("{0}", unit_data.criPer);
 
         if (unit_data.activeSkillList.Count > 0)
         {
