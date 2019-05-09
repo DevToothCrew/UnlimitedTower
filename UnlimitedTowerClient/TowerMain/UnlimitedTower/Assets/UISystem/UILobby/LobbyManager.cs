@@ -152,8 +152,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     }
 
     public void OnClickTopButton(int num)
-    {
-        SetImageIconBackButton((POPUP_STATE)num);
+    {   
         switch ((POPUP_STATE)num)
         {
             case POPUP_STATE.AccountInfo:
@@ -189,7 +188,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                     }
                     else
                     {
-                        SetTextBackButton("Mail");
                         GameObject objMailInfoPage = Instantiate(Resources.Load("UI/Lobby/MailInfoPage")) as GameObject;
                         objMailInfoPage.transform.SetParent(upperUI.transform);
                         objMailInfoPage.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -45);
@@ -206,7 +204,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
             case POPUP_STATE.Setting:
                 {
-                    //SetTextBackButton("Setting");
                     //objSubView = Instantiate(Resources.Load("UI/Lobby/MailInfoPage")) as GameObject;
                     //objSubView.transform.SetParent(this.transform);
                     //objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
@@ -215,6 +212,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 
             case POPUP_STATE.PVP:
                 {
+                    SetImageIconBackButton((POPUP_STATE)num);
                     SetTextBackButton("PVP");
                     objSubView = Instantiate(Resources.Load("UI/Lobby/PVPInfoPage")) as GameObject;
                     objSubView.transform.SetParent(this.transform);
@@ -249,8 +247,8 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
     {
         //EtcSetActiveWithAnimation(true);
 
-        accountInfoUI.SetActive(true);
-        BackbuttonUI.SetActive(false);
+        //accountInfoUI.SetActive(true);
+        //BackbuttonUI.SetActive(false);
 
         LobbySound.SetActive(true);
         GachaSound.SetActive(false);

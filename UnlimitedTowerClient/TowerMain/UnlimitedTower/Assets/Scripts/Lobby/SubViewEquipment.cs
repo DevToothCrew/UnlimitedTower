@@ -511,9 +511,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
 
     public int SetChangeValue(Text textChangeValue, EQUIPMENT_OPTION_TYPE type)
     {
-        int addValue = 0;
-
-        int change_value = change_stat[(int)type] - current_stat[(int)type] + addValue;
+        int change_value = change_stat[(int)type] - current_stat[(int)type];
 
         if (change_value > 0)
         {
