@@ -618,7 +618,7 @@ CONTRACT battletest : public contract
     ACTION dbinit(std::string _table);
     ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
 
-	ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
+	//ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
     void insert_job(std::string _status, uint64_t _job, uint64_t _min, uint64_t _max);
     void insert_head(uint64_t _appear);
     void insert_hair(uint64_t _appear);
@@ -1134,6 +1134,8 @@ TABLE itemshop
         uint64_t primary_key() const { return user.value; }
     };
     typedef eosio::multi_index<"tuserlog"_n, tuserlog> user_logs;
+
+    void set_eos_log(uint64_t _amount);
 
 #pragma endregion
 
