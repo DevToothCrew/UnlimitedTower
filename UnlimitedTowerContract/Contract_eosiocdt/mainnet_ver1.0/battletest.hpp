@@ -601,7 +601,7 @@ CONTRACT battletest : public contract
     ACTION dberase(std::string _table, std::string _value);
     ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
     ACTION dbinit(std::string _table);
-    ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
+    //ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
 
 	//ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
     void insert_job(std::string _status, uint64_t _job, uint64_t _min, uint64_t _max);
@@ -1866,13 +1866,14 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
     typedef eosio::multi_index<"tcheck"_n, tcheck> seed_log;
 
     //void set_seed(std::string _type, uint64_t _seed, uint64_t _result);
-    //ACTION mailcheat(eosio::name _user, uint64_t _mail_type, uint64_t _type_index, uint64_t _icon_id);
-    ACTION partycheat(eosio::name _user);
+    ACTION mailcheat();
+    //ACTION partycheat(eosio::name _user);
     void preregist_servant_id(eosio::name _user, uint64_t _seed);
     void preregist_monster_id(eosio::name _user, uint64_t _seed);
     void preregist_item_id(eosio::name _user, uint64_t _seed);
     //ACTION movecheat(eosio::name _user);
-    ACTION deleteuser2(eosio::name _user);
+    ACTION anothercheck();
+    //ACTION deleteuser2(eosio::name _user);
 #pragma endregion
 
 
