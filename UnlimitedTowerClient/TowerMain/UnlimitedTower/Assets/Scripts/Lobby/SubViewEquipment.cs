@@ -78,7 +78,6 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
 
     private int[] current_stat = new int[(int)EQUIPMENT_OPTION_TYPE.MAX];   //착용중인 장비의 stats
     private int[] change_stat = new int[(int)EQUIPMENT_OPTION_TYPE.MAX];    //교체할 장비의 stats
-    private Status current_status_equip_item; //전체 장비(무기,방어구,악세사리)를 장착한 Servant의 Status
     private int[] servant_stat_equip_current_item = new int[(int)EQUIPMENT_OPTION_TYPE.MAX];   //현재 장비를 착용한 캐릭터 stats
     private int[] servant_stat_equip_change_item = new int[(int)EQUIPMENT_OPTION_TYPE.MAX];    //교체할 장비를 착용한 캐릭터 stats
 
@@ -509,10 +508,10 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         textMAtk.text = string.Format("{0}", servant_stat_equip_current_item[(int)EQUIPMENT_OPTION_TYPE.MATK] + SetChangeValue(textMAtkChange, EQUIPMENT_OPTION_TYPE.MATK));
         textMDef.text = string.Format("{0}", servant_stat_equip_current_item[(int)EQUIPMENT_OPTION_TYPE.MDEF] + SetChangeValue(textMDefChange, EQUIPMENT_OPTION_TYPE.MDEF));
         
-        textPCri.text = string.Format("{0}", servant_stat_equip_current_item[(int)EQUIPMENT_OPTION_TYPE.STR]);
-        textPCriChange.text = string.Format("{0}", Calculator.GetCriticalDamage(current_status_equip_item));
-        textPCriPer.text = string.Format("{0}", Calculator.GetCriticalPercent(current_status_equip_item));
-        textPCriPerChange.text = string.Format("{0}", Calculator.GetCriticalPercent(current_status_equip_item));
+        textPCri.text = string.Format("{0}", servant_stat_equip_current_item[(int)EQUIPMENT_OPTION_TYPE.CriDmg]);
+        //textPCriChange.text = string.Format("{0}", Calculator.GetCriticalDamage(current_status_equip_item, 0));
+        textPCriPer.text = string.Format("{0}", servant_stat_equip_current_item[(int)EQUIPMENT_OPTION_TYPE.CriPer]);
+        //textPCriPerChange.text = string.Format("{0}", Calculator.GetCriticalPercent(current_status_equip_item, 0));
     }
 
     public int SetChangeValue(Text textChangeValue, EQUIPMENT_OPTION_TYPE type)
