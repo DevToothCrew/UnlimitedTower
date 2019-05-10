@@ -4087,7 +4087,14 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
         user_mail_table.erase(user_mail_iter);
         
         user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
-            update_log.mail -= _mail_index[i];
+            if(update_log.mail - _mail_index[i] <=0)
+            {
+                update_log.mail = 0;
+            }
+            else
+            {
+                update_log.mail -= _mail_index[i];                            
+            }   
         });
     }
 }
