@@ -9067,14 +9067,14 @@ ACTION battletest::equip(eosio::name _user, uint32_t _servant_index, uint32_t _i
     uint32_t slot;
     slot = user_equip_item_iter->equipment.type;
 
-    if ((user_servant_iter->servant.state == object_state::on_inventory) || user_servant_iter->servant.state == object_state::on_party) // && 
-    //user_equip_item_iter->equipment.state == object_state::on_inventory)  
+    if ((user_servant_iter->servant.state == object_state::on_inventory) || user_servant_iter->servant.state == object_state::on_party) // &&
+    //user_equip_item_iter->equipment.state == object_state::on_inventory)
     {
-        if (user_equip_item_iter->equipment.tier == 1)
+        if (user_servant_iter->servant.level >= ((user_equip_item_iter->equipment.tier * 10) + 1) - 10)
         {
             if (user_servant_iter->servant.equip_slot[slot] != 0) 
             {
-                if(user_servant_iter->servant.equip_slot[slot] == user_equip_item_iter->index)
+                if (user_servant_iter->servant.equip_slot[slot] == user_equip_item_iter->index)
                 {
                     user_equip_item_table.modify(user_equip_item_iter, _self, [&](auto &unequip_item) {
                         unequip_item.equipment.state = object_state::on_inventory;
@@ -9084,7 +9084,7 @@ ACTION battletest::equip(eosio::name _user, uint32_t _servant_index, uint32_t _i
                     user_servant_table.modify(user_servant_iter, _self, [&](auto &unequip_servant) {
                         unequip_servant.servant.equip_slot[slot] = 0;
                     });
-                }                
+                }
                 else
                 {
                     user_equip_items user_equip_item_table2(_self, _user.value);
@@ -9104,7 +9104,7 @@ ACTION battletest::equip(eosio::name _user, uint32_t _servant_index, uint32_t _i
                     });
                 }
             }
-            else
+            else 
             {
                 user_equip_item_table.modify(user_equip_item_iter, _self, [&](auto &equip_item) {
                     equip_item.equipment.state = object_state::on_equip_slot;
@@ -9116,63 +9116,10 @@ ACTION battletest::equip(eosio::name _user, uint32_t _servant_index, uint32_t _i
                 });
             }
         }
-        else if (user_equip_item_iter->equipment.tier >= 2)
+        else 
         {
-            if (user_servant_iter->servant.level >= ((user_equip_item_iter->equipment.tier * 10) + 1) -10)
-            {
-                if (user_servant_iter->servant.equip_slot[slot] != 0)
-                {
-                    if (user_servant_iter->servant.equip_slot[slot] == user_equip_item_iter->index)
-                    {
-                        user_equip_item_table.modify(user_equip_item_iter, _self, [&](auto &unequip_item) {
-                            unequip_item.equipment.state = object_state::on_inventory;
-                            unequip_item.equipment.equipservantindex = 0;
-                        });
-
-                        user_servant_table.modify(user_servant_iter, _self, [&](auto &unequip_servant) {
-                            unequip_servant.servant.equip_slot[slot] = 0;
-                        });
-                    }
-                    else
-                    {
-                        user_equip_items user_equip_item_table2(_self, _user.value);
-                        auto user_equip_item_iter2 = user_equip_item_table2.find(user_servant_iter->servant.equip_slot[slot]);
-                        user_equip_item_table2.modify(user_equip_item_iter2, _self, [&](auto &unequip_item) {
-                            unequip_item.equipment.state = object_state::on_inventory;
-                            unequip_item.equipment.equipservantindex = 0;
-                        });
-
-                        user_equip_item_table.modify(user_equip_item_iter, _self, [&](auto &equip_item) {
-                            equip_item.equipment.state = object_state::on_equip_slot;
-                            equip_item.equipment.equipservantindex = user_servant_iter->index;
-                        });
-
-                        user_servant_table.modify(user_servant_iter, _self, [&](auto &unequip_servant) {
-                            unequip_servant.servant.equip_slot[slot] = _item_index;
-                        });
-                    }
-                }
-                else
-                {
-                    user_equip_item_table.modify(user_equip_item_iter, _self, [&](auto &equip_item) {
-                        equip_item.equipment.state = object_state::on_equip_slot;
-                        equip_item.equipment.equipservantindex = user_servant_iter->index;
-                    });
-
-                    user_servant_table.modify(user_servant_iter, _self, [&](auto &unequip_servant) {
-                        unequip_servant.servant.equip_slot[slot] = _item_index;
-                    });
-                }
-            }
-            else 
-            {
-                eosio_assert(0 == 1, "equip : There is not enough level.");
-            }
+            eosio_assert(0 == 1, "equip : There is not enough level.");
         }
-        else
-        {
-          eosio_assert(1 == 0, "equip : this is not equip tier item");
-        }        
     }
     else
     {
