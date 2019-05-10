@@ -76,4 +76,30 @@ public class Calculator : MonoBehaviour
         return statsValue;
     }
 
+    //착용중인 장비를 포함한 Servant Stats를 리턴
+    public static int[] GetServantStatsEquipAllItem(UserServantData servant)
+    {
+        int[] current_stats_equipment_item = Calculator.GetStatsOnlyAllEquipment(servant);    //장비에 부여된 Stats으로 올라가는 능력.
+
+        //servant의 Status 추가
+        current_stats_equipment_item[(int)EQUIPMENT_OPTION_TYPE.STR] += servant.status.basicStr;
+        current_stats_equipment_item[(int)EQUIPMENT_OPTION_TYPE.DEX] += servant.status.basicDex;
+        current_stats_equipment_item[(int)EQUIPMENT_OPTION_TYPE.INT] += servant.status.basicInt;
+
+        Status total_status = new Status(current_stats_equipment_item[(int)EQUIPMENT_OPTION_TYPE.STR], current_stats_equipment_item[(int)EQUIPMENT_OPTION_TYPE.DEX], current_stats_equipment_item[(int)EQUIPMENT_OPTION_TYPE.INT]);
+
+        //장비 Status가 반영된 Servant의 Status로 나머지 Stats 계산
+        current_stats_equipment_item[(int)EQUIPMENT_OPTION_TYPE.HP] += Calculator.GetMaxHp(total_status, servant.level);
+
+        current_stats_equipment_item[(int)EQUIPMENT_OPTION_TYPE.ATK] += Calculator.GetAttack(total_status, servant.level);
+        current_stats_equipment_item[(int)EQUIPMENT_OPTION_TYPE.DEF] += Calculator.GetDefence(total_status, servant.level);
+        current_stats_equipment_item[(int)EQUIPMENT_OPTION_TYPE.MATK] += Calculator.GetMagicAttack(total_status, servant.level);
+        current_stats_equipment_item[(int)EQUIPMENT_OPTION_TYPE.MDEF] += Calculator.GetMagicDefence(total_status, servant.level);
+
+        current_stats_equipment_item[(int)EQUIPMENT_OPTION_TYPE.CriDmg] += Calculator.GetCriticalDamage(total_status, servant.level);
+        current_stats_equipment_item[(int)EQUIPMENT_OPTION_TYPE.CriPer] += Calculator.GetCriticalPercent(total_status, servant.level);
+
+        return current_stats_equipment_item;
+    }
+
 }
