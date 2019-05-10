@@ -113,7 +113,24 @@ public class ItemInfoManager : MonoSingleton<ItemInfoManager> {
     {
         ItemList.Clear();
 
-        ItemList = UserDataManager.Inst.GetItemList();
+        List<UserItemData> userItemList = new List<UserItemData>();
+        userItemList = UserDataManager.Inst.GetItemList();
+
+        if (userItemList == null)
+        {
+            DebugLog.Log(false, "Invalid User Item List");
+        }
+        else
+        {
+            for (int i = 0; i < userItemList.Count; i++)
+            {
+                //Item 갯수가 1 이상인 것만 ItemList에 Add
+                if (UserDataManager.Inst.GetItemCount(userItemList[i].id) > 0)
+                {
+                    ItemList.Add(userItemList[i]);  
+                }
+            }
+        }
     }
 
 

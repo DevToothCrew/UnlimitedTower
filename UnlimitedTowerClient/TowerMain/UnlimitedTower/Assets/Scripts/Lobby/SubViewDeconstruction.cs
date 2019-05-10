@@ -526,7 +526,8 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
 
         setData();
         scrollList.SetItemOrder(getOrder());
-
+        scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+        scrollList.ScrollViewDidScroll();
     }
 
     public void OnClickClose()
