@@ -16,7 +16,14 @@ public class PlayerSetting : MonoSingleton<PlayerSetting>
 
     private void SceneLoadStart(Scene scene, LoadSceneMode mode)
     {
-        AudioListener.volume = volum;
+        if (volumMute)
+        {
+            AudioListener.volume = 0;
+        }
+        else
+        {
+            AudioListener.volume = volum;
+        }
     }
 
     public void SoundSlider(float volum)
