@@ -9072,7 +9072,6 @@ ACTION battletest::equip(eosio::name _user, uint32_t _servant_index, uint32_t _i
     {
         if (user_equip_item_iter->equipment.tier == 1)
         {
-            status_info item_status;
             if (user_servant_iter->servant.equip_slot[slot] != 0) 
             {
                 if(user_servant_iter->servant.equip_slot[slot] == user_equip_item_iter->index)
@@ -9121,7 +9120,6 @@ ACTION battletest::equip(eosio::name _user, uint32_t _servant_index, uint32_t _i
         {
             if (user_servant_iter->servant.level >= ((user_equip_item_iter->equipment.tier * 10) + 1) -10)
             {
-                status_info item_status;
                 if (user_servant_iter->servant.equip_slot[slot] != 0)
                 {
                     if (user_servant_iter->servant.equip_slot[slot] == user_equip_item_iter->index)
