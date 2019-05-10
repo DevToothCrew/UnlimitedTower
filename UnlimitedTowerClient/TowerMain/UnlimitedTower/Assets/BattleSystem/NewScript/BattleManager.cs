@@ -20,7 +20,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     public bool adminMode;
 
     private bool isAuto;
-    private bool isTurnEnd;
+    // private bool isTurnEnd;
     private bool isBattleStart;
     private GameObject CharacterParent;
     private SkillManager skillManager;
@@ -157,7 +157,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     public IEnumerator BattleStart()
     {
         BattleUIManager.Inst.StageInfoOff();
-        isTurnEnd = false;
+        // isTurnEnd = false;
         isBattleStart = true;
 
         battleActionData stageActionInfo = UserDataManager.Inst.GetStageAction();
@@ -248,9 +248,9 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     public void TurnEnd()
     {
-        if (isTurnEnd == false && isBattleStart == false)
+        if (isBattleStart == false) // isTurnEnd == false && 
         {
-            isTurnEnd = true;
+            // isTurnEnd = true;
 #if UNITY_EDITOR
             {
                 string battleActionInfo = Cheat.Inst.GetBattleActionData("devtooth", turnIndex);
@@ -264,6 +264,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             }
 #endif
         }
+                PacketManager.Inst.RequestBattleAction(turnIndex);
     }
 
     // 배틀 종료 후 보상 산정
