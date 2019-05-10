@@ -1779,6 +1779,6 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
 //        uint64_t primary_key() const { return user.value; }
 //    };
 //    typedef eosio::multi_index<"tdaily"_n, tdaily> dailychecks;
-    ACTION anothercheck();
+    //ACTION anothercheck();
 
 };

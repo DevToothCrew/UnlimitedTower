@@ -4144,9 +4144,21 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
     res.action = transfer_data.memo.substr(0, l_center);
     if (transfer_data.from == _self)        
     {
-        if (transfer_data.to != "eosio.ram"_n &&
-        transfer_data.to != "eosio.ramfee"_n &&
-        transfer_data.to != "eosio.stake"_n) 
+        bool flag = false;
+        if(transfer_data.to == "eosio.ram"_n)
+        {
+            flag = true;
+        }
+        if(transfer_data.to == "eosio.ramfee"_n)
+        {
+            flag = true;
+        }
+        if(transfer_data.to == "eosio.stake"_n)
+        {
+            flag = true;
+        }
+
+        if (flag == false)
         {
             system_master system_master_table(_self, _self.value);
             auto system_master_iter = system_master_table.find(transfer_data.to.value);
@@ -10198,29 +10210,29 @@ ACTION battletest::deleterefer(eosio::name _referer)
 //     referlist_tabe.erase(referlist_iter);
 // }
 
-ACTION battletest::anothercheck()
-{
-    master_active_check();
+// ACTION battletest::anothercheck()
+// {
+//     require_auth(_self);
 
-    user_logs user_logs_table(_self, _self.value);
+//     user_logs user_logs_table(_self, _self.value);
 
-    for(auto iter = user_logs_table.begin(); iter != user_logs_table.end();)
-    {
-        auto iter2 = user_logs_table.find(iter->primary_key());
+//     for(auto iter = user_logs_table.begin(); iter != user_logs_table.end();)
+//     {
+//         auto iter2 = user_logs_table.find(iter->primary_key());
 
-        user_mail user_mail_table(_self, iter2->user.value);
-        uint64_t count = 0;
-        for(auto mail = user_mail_table.begin(); mail != user_mail_table.end();)
-        {
-            mail++;
-            count++;
-        }
-        user_logs_table.modify(user_logs_iter, _self, [&](auto &new_data) {
-            new_data.mail = count;
-        });
-        iter++;
-    }
-}
+//         user_mail user_mail_table(_self, iter2->user.value);
+//         uint64_t count = 0;
+//         for(auto mail = user_mail_table.begin(); mail != user_mail_table.end();)
+//         {
+//             count++;
+//             mail++;
+//         }
+//         user_logs_table.modify(iter2, _self, [&](auto &new_data) {
+//             new_data.mail = count;
+//         });
+//         iter++;
+//     }
+// }
 
 
 #undef EOSIO_DISPATCH
@@ -10256,5 +10268,5 @@ EOSIO_DISPATCH(battletest,
                (setmaster)(eostransfer)(deleteblack)(addblack)(setpause)//(dbinsert)(dberase)(dblistinsert)(insertequipr)(dbinit)(initmaster)
                (stageexit)(stagestart)(activeturn)(pvpstart)//(battlestate)(battleaction)(resultparty)
                (saveparty)//(resultgacha)(itemburn)                                                                                                                         
-               (itembuy)(monsterup)(equipmentup)(mailopen)(equip)(nftmail)(anothercheck)
+               (itembuy)(monsterup)(equipmentup)(mailopen)(equip)(nftmail)//(anothercheck)
                (burn))
