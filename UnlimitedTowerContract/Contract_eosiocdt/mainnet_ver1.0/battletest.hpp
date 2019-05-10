@@ -590,18 +590,18 @@ CONTRACT battletest : public contract
     typedef eosio::multi_index<"systemmaster"_n, systemmaster> system_master;
 
     ACTION setmaster(eosio::name _master);
-    ACTION initmaster();
+    //ACTION initmaster();
 #pragma endregion
 
 
 #pragma region db function
   public:
     void substr_value(std::string _value, std::vector<std::string> & _value_list, std::vector<size_t> & _size_list, uint32_t _size);
-    ACTION dbinsert(std::string _table, std::string _value);
-    ACTION dberase(std::string _table, std::string _value);
-    ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
-    ACTION dbinit(std::string _table);
-    //ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
+    // ACTION dbinsert(std::string _table, std::string _value);
+    // ACTION dberase(std::string _table, std::string _value);
+    // ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
+    // ACTION dbinit(std::string _table);
+    // ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
 
 	//ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
     void insert_job(std::string _status, uint64_t _job, uint64_t _min, uint64_t _max);
@@ -671,8 +671,8 @@ CONTRACT battletest : public contract
     void erase_gacha_pool(uint64_t _id);
     void erase_pre_gacha_pool(uint64_t _id);
     // void erase_status_monster_up(uint64_t _id);
-     void erase_itemshop(uint64_t _id);
-
+     //void erase_itemshop(uint64_t _id);
+    // void erase_itemshop2(uint64_t _id);
 #pragma endregion
 
 #pragma region stage
@@ -1070,7 +1070,6 @@ CONTRACT battletest : public contract
     void gacha_monster_id(eosio::name _user, uint64_t _seed);
     void set_tier_status(uint32_t &_value, uint32_t _tier);
     void gacha_equipment_id(eosio::name _user, uint64_t _seed);
-    void gacha_item_id(eosio::name _user);
 
     uint64_t get_user_seed_value(uint64_t _user);
 
@@ -1093,8 +1092,8 @@ CONTRACT battletest : public contract
         uint32_t equipment_num = 0;
         uint32_t gacha_num = 0;
         uint32_t item_num = 0;
-        uint32_t get_gold = 0;
-        uint32_t use_gold = 0;
+        uint32_t get_utg = 0;
+        uint32_t use_utg = 0;
         uint64_t use_eos = 0;
         uint32_t battle_count = 0;
         uint32_t last_stage_num = 0;
@@ -1234,7 +1233,7 @@ CONTRACT battletest : public contract
     ACTION setpause(uint64_t _state);
     void master_active_check();
     void system_check(eosio::name _user);
-    ACTION resultgacha(eosio::name _who, std::string _type, std::string _result);
+    //ACTION resultgacha(eosio::name _who, std::string _type, std::string _result);
     //ACTION resultparty(eosio::name _who, std::string _party_info, std::string _servant_list, std::string _monster_list);
 	//ACTION battlestate(eosio::name _who, std::string _stage_info ,std::vector<std::string> &_my_state_list, std::vector<std::string> &_enemy_state_list);
     //ACTION battleaction(eosio::name _who, std::string _turn, std::vector<std::string> &_action_data);
@@ -1291,7 +1290,7 @@ CONTRACT battletest : public contract
     void monsterburn(eosio::name _user, const std::vector<uint64_t> &_list);
     void equipburn(eosio::name _user, const std::vector<uint64_t> &_list);
 
-    ACTION itemburn(eosio::name _user, const std::vector<uint64_t> &_item_list, const std::vector<uint64_t> &_count_list);
+    //ACTION itemburn(eosio::name _user, const std::vector<uint64_t> &_item_list, const std::vector<uint64_t> &_count_list);
 
     ACTION equip(eosio::name _user, uint32_t _servant_index, uint32_t _item_index);
     
@@ -1635,7 +1634,6 @@ CONTRACT battletest : public contract
     //-------------------------------------------------------------------------------//
 
 #pragma region preregist
-    ACTION movedb(eosio::name _user);
     
     TABLE dbservantid
     {
@@ -1662,27 +1660,27 @@ CONTRACT battletest : public contract
     };
     typedef eosio::multi_index<"dbitemid"_n, dbitemid> item_id_db;
 
-    TABLE preauth
-    {
-        eosio::name user;
-        uint32_t state = user_state::lobby;
-        uint64_t primary_key() const { return user.value; }
-    };
+    // TABLE preauth
+    // {
+    //     eosio::name user;
+    //     uint32_t state = user_state::lobby;
+    //     uint64_t primary_key() const { return user.value; }
+    // };
 
-    typedef eosio::multi_index<"preauth"_n, preauth> pre_users;
+    // typedef eosio::multi_index<"preauth"_n, preauth> pre_users;
 
-    TABLE prelog
-    {
-        eosio::name user;
-        uint32_t servant_num = 0;
-        uint32_t monster_num = 0;
-        uint32_t item_num = 0;
-        uint32_t gacha_num = 0;
-        uint64_t use_eos = 0;
+    // TABLE prelog
+    // {
+    //     eosio::name user;
+    //     uint32_t servant_num = 0;
+    //     uint32_t monster_num = 0;
+    //     uint32_t item_num = 0;
+    //     uint32_t gacha_num = 0;
+    //     uint64_t use_eos = 0;
 
-        uint64_t primary_key() const { return user.value; }
-    };
-    typedef eosio::multi_index<"prelog"_n, prelog> pre_logs;
+    //     uint64_t primary_key() const { return user.value; }
+    // };
+    // typedef eosio::multi_index<"prelog"_n, prelog> pre_logs;
 
     TABLE preservant
     {
@@ -1722,16 +1720,7 @@ CONTRACT battletest : public contract
 //------------------------------------------------------------------------//
 //--------------------------preregist_log_table----------------------------//
 //------------------------------------------------------------------------//
-#pragma region tokenlog table log
-    TABLE tokenlog
-    {
-        eosio::name owner;
-        uint64_t total_token_amount = 0;
-        uint64_t primary_key() const { return owner.value; }
-    };
-    typedef eosio::multi_index<"tokenlog"_n, tokenlog> total_token_logs;
-    ACTION inittokenlog();
-#pragma endregion
+
 
 
 
@@ -1834,18 +1823,15 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
 #pragma endregion
 
 #pragma region white
-    TABLE twhitelist
-    {
-        eosio::name user;
-        uint64_t primary_key() const { return user.value; }
-    };
-    typedef eosio::multi_index<"twhitelist"_n, twhitelist> whitelist;
+    // TABLE twhitelist
+    // {
+    //     eosio::name user;
+    //     uint64_t primary_key() const { return user.value; }
+    // };
+    // typedef eosio::multi_index<"twhitelist"_n, twhitelist> whitelist;
 
-    ACTION addwhite(eosio::name _user);
-    ACTION deletewhite(eosio::name _user);
-
-    //test action
-    //ACTION premove(eosio::name _user);
+    // ACTION addwhite(eosio::name _user);
+    // ACTION deletewhite(eosio::name _user);
 #pragma endregion
 
 
