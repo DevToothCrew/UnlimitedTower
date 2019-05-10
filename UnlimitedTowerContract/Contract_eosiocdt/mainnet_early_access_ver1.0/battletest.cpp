@@ -4212,8 +4212,7 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
                 res.type = result_seed;
                 res.count = result_amount;
 
-                eosio_assert(res.count == transfer_data.quantity.amount / 1000, "Eos Transfer inventorybuy : Not enough Eos");
-                eosio_assert(transfer_data.quantity.amount >= 1000, "Eos Transfer inventorybuy : Gacha need 0.1000 EOS");       
+                eosio_assert(res.count * 1000 == transfer_data.quantity.amount, "Eos Transfer inventorybuy : Not same Eos");
                 set_eos_log(transfer_data.quantity.amount);
                 eosio_assert(res.type != 0, "Eos Transfer inventorybuy : Wrong Seed Convert");
             }
@@ -8585,6 +8584,8 @@ void battletest::servantburn(eosio::name _user, const std::vector<uint64_t> &_li
 {
     user_auths user_auth_table(_self, _self.value);
     auto user_auth_iter = user_auth_table.find(_user.value);
+    user_logs user_logs_table(_self, _self.value);
+    auto user_logs_iter = user_logs_table.find(_user.value);
     user_items user_items_table(_self, _user.value);
     user_servants user_servant_table(_self, _user.value);
     burnitem_db burnitem_db_table(_self, _self.value);
@@ -8726,8 +8727,8 @@ void battletest::servantburn(eosio::name _user, const std::vector<uint64_t> &_li
         }
     }
     user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-        eosio_assert(user_auth_iter->current_item_inventory >= 0, "servantburn : current_item_inventory underflow error");
-        if (change_auth_user.current_servant_inventory <= _list.size())
+        eosio_assert(change_auth_user.current_servant_inventory >= _list.size(),"servant burn : The current number of servant and the number of units to sell are not correct.");
+        if (change_auth_user.current_servant_inventory - _list.size() <= 0)
         {
             change_auth_user.current_servant_inventory = 0;
         }
@@ -8737,6 +8738,12 @@ void battletest::servantburn(eosio::name _user, const std::vector<uint64_t> &_li
         }
         change_auth_user.current_item_inventory += check_inventory;
     });
+
+    user_logs_table.modify(user_logs_iter, _self, [&](auto &change_log){
+        change_log.get_utg += servant_burn_result.amount;
+    });
+
+
     action(permission_level{get_self(), "active"_n},
            get_self(), "transfer"_n,
            std::make_tuple(_self, _user, servant_burn_result, std::string("servant burn result")))
@@ -8756,6 +8763,8 @@ void battletest::monsterburn(eosio::name _user, const std::vector<uint64_t> &_li
     
     user_auths user_auth_table(_self, _self.value);
     auto user_auth_iter = user_auth_table.find(_user.value);
+    user_logs user_logs_table(_self, _self.value);
+    auto user_logs_iter = user_logs_table.find(_user.value);
 
     user_monsters user_monster_table(_self, _user.value);
 
@@ -8799,7 +8808,8 @@ void battletest::monsterburn(eosio::name _user, const std::vector<uint64_t> &_li
         .send();
 
     user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-        if (change_auth_user.current_monster_inventory <= _list.size())
+        eosio_assert(change_auth_user.current_monster_inventory >= _list.size(),"monster burn : The current number of monster and the number of units to sell are not correct.");
+        if (change_auth_user.current_monster_inventory - _list.size() <= 0)
         {
             change_auth_user.current_monster_inventory = 0;
         }
@@ -8807,6 +8817,10 @@ void battletest::monsterburn(eosio::name _user, const std::vector<uint64_t> &_li
         {
             change_auth_user.current_monster_inventory -= _list.size();
         }
+    });
+
+    user_logs_table.modify(user_logs_iter, _self, [&](auto &change_log) {
+        change_log.get_utg += monster_burn_result.amount;
     });
 
     // std::string contents_type = "monsterburn";
@@ -8821,6 +8835,8 @@ void battletest::equipburn(eosio::name _user, const std::vector<uint64_t> &_list
 
     user_auths user_auth_table(_self, _self.value);
     auto user_auth_iter = user_auth_table.find(_user.value);
+    user_logs user_logs_table(_self, _self.value);
+    auto user_logs_iter = user_logs_table.find(_user.value);
 
     user_equip_items user_equipment_table(_self, _user.value);
 
@@ -8885,7 +8901,8 @@ void battletest::equipburn(eosio::name _user, const std::vector<uint64_t> &_list
         .send();
 
     user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-        if (change_auth_user.current_equipment_inventory <= _list.size())
+        eosio_assert(change_auth_user.current_equipment_inventory >= _list.size(), "equipburn : The current number of equipment and the number of units to sell are not correct.");
+        if (change_auth_user.current_equipment_inventory - _list.size() <= 0)
         {
             change_auth_user.current_equipment_inventory = 0;
         }
@@ -8893,6 +8910,10 @@ void battletest::equipburn(eosio::name _user, const std::vector<uint64_t> &_list
         {
             change_auth_user.current_equipment_inventory -= _list.size();
         }
+    });
+
+    user_logs_table.modify(user_logs_iter, _self, [&](auto &change_log) {
+        change_log.get_utg += equipment_burn_result.amount;
     });
 
     // std::string contents_type = "equipburn";
@@ -8908,6 +8929,8 @@ void battletest::equipburn(eosio::name _user, const std::vector<uint64_t> &_list
 
 //     user_auths user_auth_table(_self, _self.value);
 //     auto user_auth_iter = user_auth_table.find(_user.value);
+    // user_logs user_logs_table(_self, _self.value);
+    // auto user_logs_iter = user_logs_table.find(_user.value);
 //     user_items user_item_table(_self, _user.value);
 
 //     asset item_burn_result(0, symbol(symbol_code("UTG"), 4));
@@ -8980,7 +9003,8 @@ void battletest::equipburn(eosio::name _user, const std::vector<uint64_t> &_list
 //         .send();
 
 //     user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-//         if (change_auth_user.current_item_inventory <= _count_list.size())
+        // eosio_assert(change_auth_user.current_item_inventory >= _list.size(),"itemburn : The current number of item and the number of units to sell are not correct.");
+        // if (change_auth_user.current_item_inventory - _count_list.size() <= 0)
 //         {
 //             change_auth_user.current_item_inventory = 0;
 //         }
@@ -8989,6 +9013,10 @@ void battletest::equipburn(eosio::name _user, const std::vector<uint64_t> &_list
 //             change_auth_user.current_item_inventory -= check_inventory; 
 //         }
 //     });
+
+    // user_logs_table.modify(user_logs_iter, _self, [&](auto &change_log) {
+    //     change_log.get_utg += item_burn_result.amount;
+    // });
 
 //     // std::string contents_type = "itemburn";  
 //     // action(permission_level{get_self(), "active"_n},
@@ -9184,6 +9212,9 @@ ACTION battletest::equipmentup(eosio::name _user, uint32_t _equipment, const std
     user_auths user_auth_table(_self, _self.value);
     auto user_auth_iter = user_auth_table.find(_user.value);
 
+    user_logs user_logs_table(_self, _self.value);
+    auto user_logs_iter = user_logs_table.find(_user.value);
+
     user_equip_items user_equip_item_table(_self, _user.value);
     auto user_equipment_iter = user_equip_item_table.find(_equipment);
 
@@ -9266,9 +9297,23 @@ ACTION battletest::equipmentup(eosio::name _user, uint32_t _equipment, const std
         {
             user_equip_item_table.erase(user_equipment_iter);
             user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-                eosio_assert(user_auth_iter->current_item_inventory >= 0, "equipmentup : current_item_inventory underflow error");
-                change_auth_user.current_equipment_inventory -= 1;
-                change_auth_user.current_item_inventory -= check_inventory;
+                eosio_assert(change_auth_user.current_item_inventory >= _item_list.size(),"equipmentup : The current number of item and the number of units to sell are not correct.");
+                if(change_auth_user.current_item_inventory - _item_list.size() <= 0)
+                {
+                    change_auth_user.current_item_inventory = 0;
+                }
+                else
+                {
+                    change_auth_user.current_item_inventory -= check_inventory;
+                }
+                if(change_auth_user.current_equipment_inventory <=0)
+                {
+                    change_auth_user.current_equipment_inventory = 0;
+                }
+                else
+                {
+                    change_auth_user.current_equipment_inventory -= 1;
+                }                   
             });
         }
 
@@ -9285,12 +9330,14 @@ ACTION battletest::equipmentup(eosio::name _user, uint32_t _equipment, const std
         contents_result += to_string( user_upgrade_equipment_iter->use_UTG[equipment_upgrade]) +",";
     }
 
-
     asset upgrade_use_UTG_result(0, symbol(symbol_code("UTG"), 4));
-    upgrade_use_UTG_result.amount = user_upgrade_equipment_iter->use_UTG[equipment_upgrade] *10000; 
-
+    upgrade_use_UTG_result.amount = user_upgrade_equipment_iter->use_UTG[equipment_upgrade] * 10000; 
 
     transfer(_user, _self, upgrade_use_UTG_result, std::string("upgrade use UTG result"));
+
+    user_logs_table.modify(user_logs_iter, _self, [&](auto &change_log) {
+        change_log.use_utg += upgrade_use_UTG_result.amount;
+    });
 
     // action(permission_level{get_self(), "active"_n},
     //        get_self(), "contents"_n,
@@ -9304,6 +9351,12 @@ ACTION battletest::monsterup(eosio::name _user, uint32_t _monster, uint32_t _mon
 {
     system_check(_user);
     
+    user_auths user_auth_table(_self, _self.value);
+    auto user_auth_iter = user_auth_table.find(_user.value);
+
+    user_logs user_logs_table(_self, _self.value);
+    auto user_logs_iter = user_logs_table.find(_user.value);
+
     user_monsters user_monster_table(_self, _user.value);
     auto user_monster_iter = user_monster_table.find(_monster);
 
@@ -9318,9 +9371,6 @@ ACTION battletest::monsterup(eosio::name _user, uint32_t _monster, uint32_t _mon
     upgrade_monster_ratio_db upgrade_monsterratio_db_table(_self, _self.value);
     auto user_upgrade_monster_iter = upgrade_monsterratio_db_table.find(find_sum_upgrade_iter);
 
-    user_auths user_auth_table(_self, _self.value);
-    auto user_auth_iter = user_auth_table.find(_user.value);
-   
     db_ratio = user_upgrade_monster_iter->sub[user_monster_iter2->monster.upgrade].ratio;
 
     eosio_assert(user_monster_iter != user_monster_table.end(), "monsterup : not exist monster info");
@@ -9374,6 +9424,11 @@ ACTION battletest::monsterup(eosio::name _user, uint32_t _monster, uint32_t _mon
 
     nomal_order_buy_result.amount = user_upgrade_monster_iter->use_UTG * 10000;
     transfer(_user, _self, nomal_order_buy_result, std::string("nomal order buy result"));
+
+    user_logs_table.modify(user_logs_iter, _self, [&](auto &change_log) {
+        change_log.use_utg += nomal_order_buy_result.amount;
+    });
+
 }
 
 #pragma endregion
@@ -9707,8 +9762,9 @@ void battletest::inventory_buy(eosio::name _user, uint32_t _type, uint32_t _coun
     user_logs user_log_table(_self, _self.value);
     auto user_log_iter = user_log_table.find(_user.value);
     eosio_assert(user_log_iter != user_log_table.end(), "inventory_buy : Empty Log Table / Not Yet Signup");
+   
     user_log_table.modify(user_log_iter, _self, [&](auto &new_log) {
-        new_log.use_eos += 1000;
+        new_log.use_eos += 1000 * _count;
     });
 
     shop_list shop_list_table(_self, _self.value);
@@ -9849,7 +9905,15 @@ void battletest::nftexchange(eosio::name _owner, eosio::name _master, std::strin
             user_auths user_auths_table(_self,_self.value);
             auto user_auths_iter = user_auths_table.find(_master.value);
             user_auths_table.modify(user_auths_iter, _self, [&](auto &delete_index){
-                delete_index.current_servant_inventory -= 1;
+                if(delete_index.current_servant_inventory <= 0)
+                {
+                    delete_index.current_servant_inventory = 0;
+                }
+                else
+                {
+                    delete_index.current_servant_inventory -= 1;
+                }              
+
             });
             master_table.erase(master_iter);
         }
@@ -9933,7 +9997,15 @@ void battletest::nftexchange(eosio::name _owner, eosio::name _master, std::strin
             user_auths user_auths_table(_self, _self.value);
             auto user_auths_iter = user_auths_table.find(_master.value);
             user_auths_table.modify(user_auths_iter, _self, [&](auto &delete_index) {
-                delete_index.current_monster_inventory -= 1;
+                if(delete_index.current_monster_inventory <= 0 )
+                {
+                    delete_index.current_monster_inventory = 0;
+                }
+                else
+                {
+                    delete_index.current_monster_inventory -= 1;
+                }                
+
             });
             master_table.erase(master_iter);
         }
@@ -9993,7 +10065,15 @@ void battletest::nftexchange(eosio::name _owner, eosio::name _master, std::strin
             user_auths user_auths_table(_self, _self.value);
             auto user_auths_iter = user_auths_table.find(_master.value);
             user_auths_table.modify(user_auths_iter, _self, [&](auto &delete_index) {
-                delete_index.current_equipment_inventory -= 1;
+                if(delete_index.current_equipment_inventory <= 0 )
+                {
+                    delete_index.current_equipment_inventory = 0;
+                }
+                else
+                {
+                    delete_index.current_equipment_inventory -= 1;
+                }                
+
             });
             master_table.erase(master_iter);
         }
@@ -10118,6 +10198,29 @@ ACTION battletest::deleterefer(eosio::name _referer)
 //     referlist_tabe.erase(referlist_iter);
 // }
 
+ACTION battletest::anothercheck()
+{
+    master_active_check();
+
+    user_logs user_logs_table(_self, _self.value);
+
+    for(auto iter = user_logs_table.begin(); iter != user_logs_table.end();)
+    {
+        auto iter2 = user_logs_table.find(iter->primary_key());
+
+        user_mail user_mail_table(_self, iter2->user.value);
+        uint64_t count = 0;
+        for(auto mail = user_mail_table.begin(); mail != user_mail_table.end();)
+        {
+            mail++;
+            count++;
+        }
+        user_logs_table.modify(user_logs_iter, _self, [&](auto &new_data) {
+            new_data.mail = count;
+        });
+        iter++;
+    }
+}
 
 
 #undef EOSIO_DISPATCH
@@ -10153,5 +10256,5 @@ EOSIO_DISPATCH(battletest,
                (setmaster)(eostransfer)(deleteblack)(addblack)(setpause)//(dbinsert)(dberase)(dblistinsert)(insertequipr)(dbinit)(initmaster)
                (stageexit)(stagestart)(activeturn)(pvpstart)//(battlestate)(battleaction)(resultparty)
                (saveparty)//(resultgacha)(itemburn)                                                                                                                         
-               (itembuy)(monsterup)(equipmentup)(mailopen)(equip)(nftmail)
+               (itembuy)(monsterup)(equipmentup)(mailopen)(equip)(nftmail)(anothercheck)
                (burn))
