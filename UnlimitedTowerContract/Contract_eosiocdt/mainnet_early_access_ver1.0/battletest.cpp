@@ -3817,7 +3817,7 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
       
         if (user_mail_iter->mail_type == 1) 
         {
-            eosio_assert(check_inventory(_user) == true, "mailopen : your servant inventory is full");
+            eosio_assert(check_inventory(_user) == true, "mailopen : your inventory is full");
 
             uint64_t temp_grade = 5;
 
@@ -3893,7 +3893,7 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
 
         else if (user_mail_iter->mail_type == 2) 
         {
-            eosio_assert(check_inventory(_user) == true, "mailopen : your monster inventory is full");
+            eosio_assert(check_inventory(_user) == true, "mailopen : your inventory is full");
 
             user_preregist_monsters user_preregist_monster_table(_self, _user.value);
             auto user_preregist_monster_iter = user_preregist_monster_table.find(user_mail_iter->type_index);
@@ -5009,7 +5009,7 @@ bool battletest::check_inventory(eosio::name _user)
 {
     user_auths user_auth_table(_self, _self.value);
     auto users_auth_iter = user_auth_table.find(_user.value);
-    eosio_assert(users_auth_iter != user_auth_table.end(), "Not Exist User");
+    eosio_assert(users_auth_iter != user_auth_table.end(), "check_inventory: Not Exist User");
 
     if (users_auth_iter->current_servant_inventory > users_auth_iter->servant_inventory)
     {
