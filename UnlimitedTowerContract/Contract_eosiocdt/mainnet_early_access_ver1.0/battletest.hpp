@@ -586,18 +586,18 @@ CONTRACT battletest : public contract
     typedef eosio::multi_index<"systemmaster"_n, systemmaster> system_master;
 
     ACTION setmaster(eosio::name _master);
-    ACTION initmaster();
+    //ACTION initmaster();
 #pragma endregion
 
 
 #pragma region db function
   public:
     void substr_value(std::string _value, std::vector<std::string> & _value_list, std::vector<size_t> & _size_list, uint32_t _size);
-    ACTION dbinsert(std::string _table, std::string _value);
-    ACTION dberase(std::string _table, std::string _value);
-    ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
-    ACTION dbinit(std::string _table);
-    ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
+    // ACTION dbinsert(std::string _table, std::string _value);
+    // ACTION dberase(std::string _table, std::string _value);
+    // ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
+    // ACTION dbinit(std::string _table);
+    // ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
 
 	//ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
     void insert_job(std::string _status, uint64_t _job, uint64_t _min, uint64_t _max);
@@ -1284,7 +1284,7 @@ TABLE itemshop
     void monsterburn(eosio::name _user, const std::vector<uint64_t> &_list);
     void equipburn(eosio::name _user, const std::vector<uint64_t> &_list);
 
-    ACTION itemburn(eosio::name _user, const std::vector<uint64_t> &_item_list, const std::vector<uint64_t> &_count_list);
+    //ACTION itemburn(eosio::name _user, const std::vector<uint64_t> &_item_list, const std::vector<uint64_t> &_count_list);
 
     ACTION equip(eosio::name _user, uint32_t _servant_index, uint32_t _item_index);
     
@@ -1647,27 +1647,27 @@ TABLE itemshop
     };
     typedef eosio::multi_index<"dbitemid"_n, dbitemid> item_id_db;
 
-    TABLE preauth
-    {
-        eosio::name user;
-        uint32_t state = user_state::lobby;
-        uint64_t primary_key() const { return user.value; }
-    };
+    // TABLE preauth
+    // {
+    //     eosio::name user;
+    //     uint32_t state = user_state::lobby;
+    //     uint64_t primary_key() const { return user.value; }
+    // };
 
-    typedef eosio::multi_index<"preauth"_n, preauth> pre_users;
+    // typedef eosio::multi_index<"preauth"_n, preauth> pre_users;
 
-    TABLE prelog
-    {
-        eosio::name user;
-        uint32_t servant_num = 0;
-        uint32_t monster_num = 0;
-        uint32_t item_num = 0;
-        uint32_t gacha_num = 0;
-        uint64_t use_eos = 0;
+    // TABLE prelog
+    // {
+    //     eosio::name user;
+    //     uint32_t servant_num = 0;
+    //     uint32_t monster_num = 0;
+    //     uint32_t item_num = 0;
+    //     uint32_t gacha_num = 0;
+    //     uint64_t use_eos = 0;
 
-        uint64_t primary_key() const { return user.value; }
-    };
-    typedef eosio::multi_index<"prelog"_n, prelog> pre_logs;
+    //     uint64_t primary_key() const { return user.value; }
+    // };
+    // typedef eosio::multi_index<"prelog"_n, prelog> pre_logs;
 
     TABLE preservant
     {
@@ -1707,16 +1707,7 @@ TABLE itemshop
 //------------------------------------------------------------------------//
 //--------------------------preregist_log_table----------------------------//
 //------------------------------------------------------------------------//
-#pragma region tokenlog table log
-    TABLE tokenlog
-    {
-        eosio::name owner;
-        uint64_t total_token_amount = 0;
-        uint64_t primary_key() const { return owner.value; }
-    };
-    typedef eosio::multi_index<"tokenlog"_n, tokenlog> total_token_logs;
-    ACTION inittokenlog();
-#pragma endregion
+
 
 
 
@@ -1769,27 +1760,24 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
 #pragma endregion
 
 #pragma region white
-    TABLE twhitelist
-    {
-        eosio::name user;
-        uint64_t primary_key() const { return user.value; }
-    };
-    typedef eosio::multi_index<"twhitelist"_n, twhitelist> whitelist;
+    // TABLE twhitelist
+    // {
+    //     eosio::name user;
+    //     uint64_t primary_key() const { return user.value; }
+    // };
+    // typedef eosio::multi_index<"twhitelist"_n, twhitelist> whitelist;
 
-    ACTION addwhite(eosio::name _user);
-    ACTION deletewhite(eosio::name _user);
-    ACTION changelobby();
+    // ACTION addwhite(eosio::name _user);
+    // ACTION deletewhite(eosio::name _user);
 #pragma endregion
 
-TABLE tdaily
-   {
-       eosio::name user;
-       uint64_t total_day;
-       uint64_t check_time;
-       uint64_t primary_key() const { return user.value; }
-   };
-   typedef eosio::multi_index<"tdaily"_n, tdaily> dailychecks;
-
-
+// TABLE tdaily
+//    {
+//        eosio::name user;
+//        uint64_t total_day;
+//        uint64_t check_time;
+//        uint64_t primary_key() const { return user.value; }
+//    };
+//    typedef eosio::multi_index<"tdaily"_n, tdaily> dailychecks;
 
 };
