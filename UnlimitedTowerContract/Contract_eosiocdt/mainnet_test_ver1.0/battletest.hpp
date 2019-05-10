@@ -600,10 +600,10 @@ CONTRACT battletest : public contract
     // ACTION dbinsert(std::string _table, std::string _value);
     // ACTION dberase(std::string _table, std::string _value);
     // ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
-    // ACTION dbinit(std::string _table);
+     ACTION dbinit(std::string _table);
     // ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
 
-	//ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
+	ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
     void insert_job(std::string _status, uint64_t _job, uint64_t _min, uint64_t _max);
     void insert_head(uint64_t _appear);
     void insert_hair(uint64_t _appear);
@@ -1109,6 +1109,36 @@ CONTRACT battletest : public contract
     typedef eosio::multi_index<"tuserlog"_n, tuserlog> user_logs;
 
     void set_eos_log(uint64_t _total_amount);
+
+TABLE tuserlogs
+   {
+       eosio::name user;
+       uint32_t servant_num = 0;
+       uint32_t monster_num = 0;
+       uint32_t equipment_num = 0;
+       uint32_t gacha_num = 0;
+       uint32_t item_num = 0;
+       uint64_t get_utg = 0;
+       uint64_t use_utg = 0;
+       uint64_t use_eos = 0;
+       uint32_t battle_count = 0;
+       uint32_t last_stage_num = 0;
+       uint32_t last_tower_num = 0;
+       uint32_t top_clear_stage = 0;
+       uint32_t top_clear_tower = 0;
+       uint32_t add_party_count = 0;
+       uint32_t soul_powder = 0;
+       uint32_t mail = 0;
+
+       uint64_t primary_key() const { return user.value; }
+   };
+   typedef eosio::multi_index<"tuserlogs"_n, tuserlogs> new_user_logs;
+
+   ACTION movelog();
+   ACTION deletelog();
+
+
+
 
 #pragma endregion
 
@@ -1860,6 +1890,7 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
     //ACTION movecheat(eosio::name _user);
     ACTION anothercheck();
     //ACTION deleteuser2(eosio::name _user);
+    ACTION lvcheat(eosio::name _user);
 #pragma endregion
 
 
