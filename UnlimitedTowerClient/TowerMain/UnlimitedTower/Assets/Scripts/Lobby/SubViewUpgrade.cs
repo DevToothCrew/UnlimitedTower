@@ -66,7 +66,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
         upgradeType = type;
 
         if (upgradeType == UPGRADE_TYPE.MONSTER)
-        {   
+        {
             partyInfo = PartyInfoVC.Inst;
             scrollList.prefabUnit = prefabPartyUnit;
             FrameScroll.SetActive(true);
@@ -238,7 +238,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                             }
                         }
                         else if (upgradeType == UPGRADE_TYPE.EQUIPMENT)
-                        {   
+                        {
                             if (CSVData.Inst.GetEquipmentData(equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][scrollListData[i]].id).tier < CSVData.Inst.GetEquipmentData(equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][scrollListData[j]].id).tier)
                             {
                                 data_order[i]++;
@@ -348,14 +348,14 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                 textNeedPerCount.text = "";
 
                 DBMonsterUpgradeData upgradeData = CSVData.Inst.GetMonsterUpgradeData(monsterData.grade, monsterData.upgrade, inserted_monster_data.upgrade);
-                if(upgradeData == null)
+                if (upgradeData == null)
                 {
                     DebugLog.Log(false, "Invalid Upgrade Data : " + monsterData.grade + ", " + monsterData.upgrade + ", " + inserted_monster_data.upgrade);
                     return;
                 }
 
                 //강화 비용, 성공률
-                textUgt.text = string.Format("{0}", (upgradeData.needUTGCount / 10000) );
+                textUgt.text = string.Format("{0}", (upgradeData.needUTGCount / 10000));
                 textSuccessPer.text = string.Format("{0}%", upgradeData.successPer);
 
                 //강화 성공시 오브젝트 정보
@@ -375,7 +375,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
                 buttonUpgrade.interactable = false;
             }
         }
-        else if(upgradeType == UPGRADE_TYPE.EQUIPMENT)
+        else if (upgradeType == UPGRADE_TYPE.EQUIPMENT)
         {
             FrameInsertObject.gameObject.SetActive(true);
             FrameResultSlot.gameObject.SetActive(true);
@@ -401,7 +401,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
             textInsertObjectUpgrade.text = "";
             int itemCount = UserDataManager.Inst.GetItemCount(scrollData.id);
             textNeedPerCount.text = upgradeData.needItemCount + "/" + itemCount;
-            if(itemCount < upgradeData.needItemCount)
+            if (itemCount < upgradeData.needItemCount)
             {
                 textNeedPerCount.color = Color.red;
             }
@@ -430,7 +430,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
 
             buttonUpgrade.interactable = false;
         }
-        
+
     }
 
     //19.04.12 : 장비강화의 경우, 일단 보유중인 주문서가 자동으로 삽입되도록 함. (추후, 주문서의 종류가 다양해질 경우 선택하도록 변경)
@@ -571,7 +571,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
 
     public void OnClickButtonUpgrade()
     {
-        if( (ulong)(Convert.ToInt32(textUgt.text) * 10000) > UserDataManager.Inst.GetUserUTG())
+        if ((ulong)(Convert.ToInt32(textUgt.text) * 10000) > UserDataManager.Inst.GetUserUTG())
         {
             SimpleErrorPopupVC.Inst.UpdateErrorText("Not Enough UTG");
             return;
@@ -608,47 +608,52 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
         }
         else if (upgradeType == UPGRADE_TYPE.EQUIPMENT) // Equip
         {
-            if(textNeedPerCount.color == Color.red)
-            {
-                SimpleErrorPopupVC.Inst.UpdateErrorText("Not Enough Scroll");
-                return;
-            }
+            TopUIManager.Inst.ShowPopupMessage(POPUP_TYPE.CONFIRM, MESSAGE_IDX.UPGRADE_CONFIRM);
+        }
+    }
 
-            UserEquipmentData userEquipmentData = UserDataManager.Inst.GetEquipmentInfo(equipmentData.index);
-            if (userEquipmentData == null)
-            {
-                DebugLog.Log(false, "Invalid Request Equipment ID : " + equipmentData.index);
-                return;
-            }
+    public void UpgradeEquipment()
+    {
+        if (textNeedPerCount.color == Color.red)
+        {
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Not Enough Scroll");
+            return;
+        }
 
-            if (userEquipmentData.state != 1)
-            {
-                DebugLog.Log(false, "Invalid Equipment State : " + userEquipmentData.state);
-                return;
-            }
+        UserEquipmentData userEquipmentData = UserDataManager.Inst.GetEquipmentInfo(equipmentData.index);
+        if (userEquipmentData == null)
+        {
+            DebugLog.Log(false, "Invalid Request Equipment ID : " + equipmentData.index);
+            return;
+        }
 
-            if (userEquipmentData.equipServantIndex != 0)
-            {
-                DebugLog.Log(false, "Invalid Equipment Already Equip Servant Index : " + userEquipmentData.equipServantIndex);
-                return;
-            }
+        if (userEquipmentData.state != 1)
+        {
+            DebugLog.Log(false, "Invalid Equipment State : " + userEquipmentData.state);
+            return;
+        }
 
-            List<int> addItem = new List<int>();
+        if (userEquipmentData.equipServantIndex != 0)
+        {
+            DebugLog.Log(false, "Invalid Equipment Already Equip Servant Index : " + userEquipmentData.equipServantIndex);
+            return;
+        }
 
-            DBEquipmentUpgradeData upgradeData = CSVData.Inst.GetEquipmentUpgradeData(equipmentData.grade, (int)equipmentData.equipmentType, equipmentData.upgrade);
-            if (upgradeData == null)
-            {
-                DebugLog.Log(false, "Invalid Upgrade Data : " + equipmentData.grade + ", " + equipmentData.equipmentType + ", " + equipmentData.upgrade);
-                return;
-            }
-            
-            addItem.Add(upgradeData.needItemID);
+        List<int> addItem = new List<int>();
+
+        DBEquipmentUpgradeData upgradeData = CSVData.Inst.GetEquipmentUpgradeData(equipmentData.grade, (int)equipmentData.equipmentType, equipmentData.upgrade);
+        if (upgradeData == null)
+        {
+            DebugLog.Log(false, "Invalid Upgrade Data : " + equipmentData.grade + ", " + equipmentData.equipmentType + ", " + equipmentData.upgrade);
+            return;
+        }
+
+        addItem.Add(upgradeData.needItemID);
 
 #if UNITY_EDITOR
-            Cheat.Inst.RequestEquipmentUpgradeCheat(userEquipmentData.index);
+        Cheat.Inst.RequestEquipmentUpgradeCheat(userEquipmentData.index);
 #else
-            PacketManager.Inst.RequestEquipmentUpgrade(equipmentData.index, addItem);
+        PacketManager.Inst.RequestEquipmentUpgrade(equipmentData.index, addItem);
 #endif
-        }
     }
 }

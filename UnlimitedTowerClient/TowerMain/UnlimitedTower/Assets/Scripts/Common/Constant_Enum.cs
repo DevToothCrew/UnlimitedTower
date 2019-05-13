@@ -458,4 +458,10 @@ public enum Inventory_Menu_Type
     ITEM
 }
 
+public enum MESSAGE_IDX
+{
+    UPGRADE_CONFIRM = 0,    //무기 업그레이드시 확인(파괴 가능성 언급)
+    MAX = 1 //메세지 갯수
+}
+
 #endregion

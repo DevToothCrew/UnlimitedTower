@@ -12,13 +12,13 @@ public class PopupManager : MonoBehaviour {
     public Button buttonCancel;
     public Button buttonOK;
 
-    public POPUP_TYPE popupType;
-    public int messageIdx;
+    private POPUP_TYPE popupType;
+    private MESSAGE_IDX messageIdx;
 
-    public void SetPopupMasseage(POPUP_TYPE type, int message_idx)
+    public void SetPopupMasseage(POPUP_TYPE type, MESSAGE_IDX msg_idx)
     {
         popupType = type;
-        messageIdx = message_idx;
+        messageIdx = msg_idx;
         updateView();
     }
 
@@ -30,39 +30,48 @@ public class PopupManager : MonoBehaviour {
         switch (popupType)
         {
             case POPUP_TYPE.NOTIVE:
-                //textTitle.text = "Notice";
+                textTitle.text = "Notice";
 
-                buttonFrame.gameObject.SetActive(true);
+                buttonFrame.interactable = true;
                 buttonCancel.gameObject.SetActive(false);
                 buttonOK.gameObject.SetActive(false);
                 break;
             case POPUP_TYPE.WARNING:
-                //textTitle.text = "Warning!";
+                textTitle.text = "Warning!";
 
-                buttonFrame.gameObject.SetActive(true);
+                buttonFrame.interactable = true;
                 buttonCancel.gameObject.SetActive(false);
                 buttonOK.gameObject.SetActive(false);
                 break;
             case POPUP_TYPE.CONFIRM:
-                //textTitle.text = "Confirm";
+                textTitle.text = "Confirm";
 
-                buttonFrame.gameObject.SetActive(false);
+                buttonFrame.interactable = false;
                 buttonCancel.gameObject.SetActive(true);
                 buttonOK.gameObject.SetActive(true);
-
-                //TODO : 메세지 IDX에 따라서 OK버튼에 해당 함수를 연결하면 됨.
-                //if (messageIdx == ??) {
-                //  buttonOK.onClick.AddListener(/*해당 클래스의 해당 함수*/);
-                //}
 
                 break;
             default:
                 break;
         }
+
+        textMessage.text = MessageList.GetMessage(messageIdx);
     }
 
     public void OnClickClose()
     {
+        Destroy(this.gameObject);
+    }
+
+    public void OnClickConfirm()
+    {
+        if (messageIdx == MESSAGE_IDX.UPGRADE_CONFIRM)
+        {
+            if (SubViewUpgrade.Inst != null)
+            {
+                SubViewUpgrade.Inst.UpgradeEquipment();
+            }
+        }
         Destroy(this.gameObject);
     }
 }
