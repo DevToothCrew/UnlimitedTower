@@ -669,7 +669,7 @@ public class CSVData : MonoSingleton<CSVData>
             if (rewardData.firstRewardData.rewardType != REWARD_TYPE.NONE)
             {
                 rewardData.firstRewardData.rewardID = Convert.ToInt32(data[i]["first_reward_id"]);
-                rewardData.firstRewardData.rewardGrade = GetGradeType(Convert.ToString(data[i]["first_reward_grade"]));
+                rewardData.firstRewardData.rewardGrade = (GRADE_TYPE)(Convert.ToInt32(data[i]["first_reward_grade"]));
                 rewardData.firstRewardData.rewardCount = Convert.ToInt32(data[i]["first_reward_count"]);
             }
 
@@ -680,13 +680,13 @@ public class CSVData : MonoSingleton<CSVData>
             for (int count = 1; count <= 6; count++)
             {
                 DBRewardData reward = new DBRewardData();
-                reward.rewardType = GetRewardType(Convert.ToString(data[i]["reward_type_" + count]));
+                reward.rewardType = (REWARD_TYPE)(Convert.ToInt32(data[i]["reward_type_" + count]));
                 if (reward.rewardType == REWARD_TYPE.NONE)
                 {
                     continue;
                 }
                 reward.rewardID = Convert.ToInt32(data[i]["reward_id_" + count]);
-                reward.rewardGrade = GetGradeType(Convert.ToString(data[i]["reward_grade_" + count]));
+                reward.rewardGrade = (GRADE_TYPE)(Convert.ToInt32(data[i]["reward_grade_" + count]));
                 reward.rewardCount = Convert.ToInt32(data[i]["reward_count_" + count]);
 
                 rewardData.rewardDataList.Add(reward);
@@ -696,26 +696,6 @@ public class CSVData : MonoSingleton<CSVData>
         }
 
         return true;
-    }
-
-    public GRADE_TYPE GetGradeType(string type)
-    {
-        switch (type)
-        {
-            case "common":
-                return GRADE_TYPE.COMMON;
-            case "uncommon":
-                return GRADE_TYPE.UNCOMMON;
-            case "rare":
-                return GRADE_TYPE.RARE;
-            case "unique":
-                return GRADE_TYPE.UNIQUE;
-            case "legendary":
-                return GRADE_TYPE.LEGENDARY;
-            default:
-                DebugLog.Log(false, "Invalid Grade Type String : " + type);
-                return GRADE_TYPE.NONE;
-        }
     }
 
     public REWARD_TYPE GetRewardType(string type)
