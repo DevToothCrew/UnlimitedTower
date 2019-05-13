@@ -52,10 +52,11 @@ public class Cheat : MonoSingleton<Cheat>
         //     }
         // }
 
-        for (int i = 1; i < 20; i++)
+        for (int i = 1; i < 40; i++)
         {
             monsterData data = GetRandomMonster(i);
             data.monster.id = 108402;
+            data.monster.grade = 1;
             userLoginData.monster_list.Add(data);
 
             if (i < 6)
