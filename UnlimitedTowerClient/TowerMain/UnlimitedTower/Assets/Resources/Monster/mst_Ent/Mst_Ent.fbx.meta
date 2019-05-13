@@ -1,0 +1,214 @@
+fileFormatVersion: 2
+guid: d89bfbde13e88c74592e6f5223f18c8b
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: foot_L
+    100002: foot_R
+    100004: forearm_L
+    100006: forearm_R
+    100008: hand_L
+    100010: hand_R
+    100012: heel_02_L
+    100014: heel_02_R
+    100016: metarig
+    100018: //RootNode
+    100020: Mst_Ent_000
+    100022: Mst_Ent_001
+    100024: Mst_Ent_002
+    100026: Mst_Ent_003
+    100028: Mst_Ent_004
+    100030: Mst_Ent_005
+    100032: Mst_Ent_006
+    100034: Mst_Ent_007
+    100036: Mst_Ent_008
+    100038: Mst_Ent_009
+    100040: Mst_Ent_010
+    100042: Mst_Ent_011
+    100044: Mst_Ent_012
+    100046: Mst_Ent_013
+    100048: Mst_Ent_014
+    100050: Mst_Ent_015
+    100052: Mst_Ent_016
+    100054: Mst_Ent_017
+    100056: shin_L
+    100058: shin_R
+    100060: shoulder_L
+    100062: shoulder_R
+    100064: spine
+    100066: spine_001
+    100068: spine_002
+    100070: spine_003
+    100072: spine_004
+    100074: spine_005
+    100076: spine_006
+    100078: thigh_L
+    100080: thigh_R
+    100082: toe_L
+    100084: toe_R
+    100086: upper_arm_L
+    100088: upper_arm_R
+    400000: foot_L
+    400002: foot_R
+    400004: forearm_L
+    400006: forearm_R
+    400008: hand_L
+    400010: hand_R
+    400012: heel_02_L
+    400014: heel_02_R
+    400016: metarig
+    400018: //RootNode
+    400020: Mst_Ent_000
+    400022: Mst_Ent_001
+    400024: Mst_Ent_002
+    400026: Mst_Ent_003
+    400028: Mst_Ent_004
+    400030: Mst_Ent_005
+    400032: Mst_Ent_006
+    400034: Mst_Ent_007
+    400036: Mst_Ent_008
+    400038: Mst_Ent_009
+    400040: Mst_Ent_010
+    400042: Mst_Ent_011
+    400044: Mst_Ent_012
+    400046: Mst_Ent_013
+    400048: Mst_Ent_014
+    400050: Mst_Ent_015
+    400052: Mst_Ent_016
+    400054: Mst_Ent_017
+    400056: shin_L
+    400058: shin_R
+    400060: shoulder_L
+    400062: shoulder_R
+    400064: spine
+    400066: spine_001
+    400068: spine_002
+    400070: spine_003
+    400072: spine_004
+    400074: spine_005
+    400076: spine_006
+    400078: thigh_L
+    400080: thigh_R
+    400082: toe_L
+    400084: toe_R
+    400086: upper_arm_L
+    400088: upper_arm_R
+    2100000: palette_014__Mst_Ent_png_001
+    4300000: Mst_Ent_010
+    4300002: Mst_Ent_005
+    4300004: Mst_Ent_014
+    4300006: Mst_Ent_015
+    4300008: Mst_Ent_017
+    4300010: Mst_Ent_016
+    4300012: Mst_Ent_003
+    4300014: Mst_Ent_002
+    4300016: Mst_Ent_001
+    4300018: Mst_Ent_000
+    4300020: Mst_Ent_009
+    4300022: Mst_Ent_008
+    4300024: Mst_Ent_013
+    4300026: Mst_Ent_007
+    4300028: Mst_Ent_012
+    4300030: Mst_Ent_006
+    4300032: Mst_Ent_011
+    4300034: Mst_Ent_004
+    7400000: Default Take
+    9500000: //RootNode
+    13700000: Mst_Ent_000
+    13700002: Mst_Ent_001
+    13700004: Mst_Ent_002
+    13700006: Mst_Ent_003
+    13700008: Mst_Ent_004
+    13700010: Mst_Ent_005
+    13700012: Mst_Ent_006
+    13700014: Mst_Ent_007
+    13700016: Mst_Ent_008
+    13700018: Mst_Ent_009
+    13700020: Mst_Ent_010
+    13700022: Mst_Ent_011
+    13700024: Mst_Ent_012
+    13700026: Mst_Ent_013
+    13700028: Mst_Ent_014
+    13700030: Mst_Ent_015
+    13700032: Mst_Ent_016
+    13700034: Mst_Ent_017
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

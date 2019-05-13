@@ -323,7 +323,10 @@ public enum EQUIPMENT_OPTION_TYPE
     DEX = 7,
     INT = 8,
 
-    MAX = 9,
+    CriDmg = 9,
+    CriPer = 10,
+
+    MAX = 11,
 }
 
 public enum SKILL_TYPE

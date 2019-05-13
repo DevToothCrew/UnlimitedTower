@@ -20,7 +20,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     public bool adminMode;
 
     private bool isAuto;
-    private bool isTurnEnd;
+    // private bool isTurnEnd;
     private bool isBattleStart;
     private GameObject CharacterParent;
     private SkillManager skillManager;
@@ -157,7 +157,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     public IEnumerator BattleStart()
     {
         BattleUIManager.Inst.StageInfoOff();
-        isTurnEnd = false;
+        // isTurnEnd = false;
         isBattleStart = true;
 
         battleActionData stageActionInfo = UserDataManager.Inst.GetStageAction();
@@ -248,9 +248,9 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     public void TurnEnd()
     {
-        if (isTurnEnd == false && isBattleStart == false)
+        if (isBattleStart == false) // isTurnEnd == false && 
         {
-            isTurnEnd = true;
+            // isTurnEnd = true;
 #if UNITY_EDITOR
             {
                 string battleActionInfo = Cheat.Inst.GetBattleActionData("devtooth", turnIndex);
@@ -264,6 +264,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             }
 #endif
         }
+                PacketManager.Inst.RequestBattleAction(turnIndex);
     }
 
     // 배틀 종료 후 보상 산정
@@ -284,18 +285,18 @@ public class BattleManager : MonoSingleton<BattleManager>
         {
             if (state.Value.charType == CHAR_TYPE.SERVANT)
             {
-                Exp.transform.GetChild(positionOrder[state.Value.position]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[state.Value.id].servantIcon;
-                Exp.transform.GetChild(positionOrder[state.Value.position]).GetChild(2).gameObject.SetActive(true);
-                Exp.transform.GetChild(positionOrder[state.Value.position]).GetChild(2).GetChild(0).GetComponent<Text>().text = UserDataManager.Inst.GetServantInfo(state.Value.index).level.ToString();
-                Exp.transform.GetChild(positionOrder[state.Value.position]).GetChild(3).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteServantJob((SERVANT_JOB)state.Value.job);
+                Exp.transform.GetChild(positionOrder[state.Value.position + 5]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[state.Value.id].servantIcon;
+                Exp.transform.GetChild(positionOrder[state.Value.position + 5]).GetChild(2).gameObject.SetActive(true);
+                Exp.transform.GetChild(positionOrder[state.Value.position + 5]).GetChild(2).GetChild(0).GetComponent<Text>().text = UserDataManager.Inst.GetServantInfo(state.Value.index).level.ToString();
+                Exp.transform.GetChild(positionOrder[state.Value.position + 5]).GetChild(3).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteServantJob((SERVANT_JOB)state.Value.job);
             }
             else if (state.Value.charType == CHAR_TYPE.MONSTER)
             {
-                Exp.transform.GetChild(positionOrder[state.Value.position]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
-                Exp.transform.GetChild(positionOrder[state.Value.position]).GetChild(2).gameObject.SetActive(true);
-                Exp.transform.GetChild(positionOrder[state.Value.position]).GetChild(2).GetChild(0).GetComponent<Text>().text = UserDataManager.Inst.GetMonsterInfo(state.Value.index).level.ToString();
-                Exp.transform.GetChild(positionOrder[state.Value.position]).GetChild(3).GetComponent<Image>().sprite = CSVData.Inst.GetSmallSpriteTribeType((TRIBE_TYPE)state.Value.tribeType);
-                Exp.transform.GetChild(positionOrder[state.Value.position]).GetChild(4).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteElementType((ELEMENT_TYPE)state.Value.elementType);
+                Exp.transform.GetChild(positionOrder[state.Value.position - 5]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
+                Exp.transform.GetChild(positionOrder[state.Value.position - 5]).GetChild(2).gameObject.SetActive(true);
+                Exp.transform.GetChild(positionOrder[state.Value.position - 5]).GetChild(2).GetChild(0).GetComponent<Text>().text = UserDataManager.Inst.GetMonsterInfo(state.Value.index).level.ToString();
+                Exp.transform.GetChild(positionOrder[state.Value.position - 5]).GetChild(3).GetComponent<Image>().sprite = CSVData.Inst.GetSmallSpriteTribeType((TRIBE_TYPE)state.Value.tribeType);
+                Exp.transform.GetChild(positionOrder[state.Value.position - 5]).GetChild(4).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteElementType((ELEMENT_TYPE)state.Value.elementType);
             }
             Exp.transform.GetChild(positionOrder[state.Value.position]).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)state.Value.grade);
         }

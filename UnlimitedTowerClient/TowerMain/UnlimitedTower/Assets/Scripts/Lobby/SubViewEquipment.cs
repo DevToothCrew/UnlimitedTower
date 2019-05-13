@@ -76,8 +76,10 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
     private PartyInfoVC partyInfo;
     public List<UserEquipmentData> EquipmentList = new List<UserEquipmentData>();
 
-    private int[] current_stat = new int[10];
-    private int[] change_stat = new int[10];
+    private int[] current_stat = new int[(int)EQUIPMENT_OPTION_TYPE.MAX];   //착용중인 장비의 stats
+    private int[] change_stat = new int[(int)EQUIPMENT_OPTION_TYPE.MAX];    //교체할 장비의 stats
+    private int[] servant_stat_equip_current_item = new int[(int)EQUIPMENT_OPTION_TYPE.MAX];   //현재 장비를 착용한 캐릭터 stats
+    private int[] servant_stat_equip_change_item = new int[(int)EQUIPMENT_OPTION_TYPE.MAX];    //교체할 장비를 착용한 캐릭터 stats
 
     private EQUIPMENT_TYPE selectedEquipType;
 
@@ -111,13 +113,15 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         }
         selectedEquipType = partyInfo.getSelectedEquipType();
 
+
+        UserServantData servantData = partyInfo.ServantList[partyInfo.selected_unit_idx];
+        DBServantData dbServantData = CSVData.Inst.GetServantData(servantData.id);
+
         for (int i = 0; i < UserDataManager.Inst.GetEquipmentList().Count; i++)
         {
             UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentList()[i];
             DBEquipmentData dbEquipmentData = CSVData.Inst.GetEquipmentData(equipmentData.id);
-            UserServantData servantData = partyInfo.ServantList[partyInfo.selected_unit_idx];
-            DBServantData dbServantData = CSVData.Inst.GetServantData(servantData.id);
-
+            
             // 장착 가능 레벨 검사
             bool enable_equip_level = true;
             if (dbEquipmentData.tier == 2)
@@ -490,40 +494,86 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
             return;
         }
 
-        int[] equipmentValue = Calculator.GetStatsOnlyAllEquipment(servantData);
+        servant_stat_equip_current_item = Calculator.GetServantStatsEquipAllItem(servantData);
+        
+        textStr.text = string.Format("{0}", servant_stat_equip_current_item[(int)EQUIPMENT_OPTION_TYPE.STR] + SetChangeValue(textStrChange, EQUIPMENT_OPTION_TYPE.STR));
+        textDex.text = string.Format("{0}", servant_stat_equip_current_item[(int)EQUIPMENT_OPTION_TYPE.DEX] + SetChangeValue(textDexChange, EQUIPMENT_OPTION_TYPE.DEX));
+        textInt.text = string.Format("{0}", servant_stat_equip_current_item[(int)EQUIPMENT_OPTION_TYPE.INT] + SetChangeValue(textIntChange, EQUIPMENT_OPTION_TYPE.INT));
 
-        textStr.text = string.Format("{0}", servantData.status.basicStr + SetChangeValue(textStrChange, EQUIPMENT_OPTION_TYPE.STR) + equipmentValue[(int)EQUIPMENT_OPTION_TYPE.STR]);
-        textDex.text = string.Format("{0}", servantData.status.basicDex + SetChangeValue(textDexChange, EQUIPMENT_OPTION_TYPE.DEX) + equipmentValue[(int)EQUIPMENT_OPTION_TYPE.DEX]);
-        textInt.text = string.Format("{0}", servantData.status.basicInt + SetChangeValue(textIntChange, EQUIPMENT_OPTION_TYPE.INT) + equipmentValue[(int)EQUIPMENT_OPTION_TYPE.INT]);
-
-        textHp.text = string.Format("{0}", servantData.maxHP + SetChangeValue(textHpChange, EQUIPMENT_OPTION_TYPE.HP) + equipmentValue[(int)EQUIPMENT_OPTION_TYPE.HP]);
+        textHp.text = string.Format("{0}", servant_stat_equip_current_item[(int)EQUIPMENT_OPTION_TYPE.HP] + SetChangeValue(textHpChange, EQUIPMENT_OPTION_TYPE.HP));
         textSpeed.text = string.Format("{0}", dBServantData.speed);
 
-        textPAtk.text = string.Format("{0}", servantData.atk + SetChangeValue(textPAtkChange, EQUIPMENT_OPTION_TYPE.ATK) + equipmentValue[(int)EQUIPMENT_OPTION_TYPE.ATK]);
-        textPDef.text = string.Format("{0}", servantData.def + SetChangeValue(textPDefChange, EQUIPMENT_OPTION_TYPE.DEF) + equipmentValue[(int)EQUIPMENT_OPTION_TYPE.DEF]);
-
-        textMAtk.text = string.Format("{0}", servantData.mAtk + SetChangeValue(textMAtkChange, EQUIPMENT_OPTION_TYPE.MATK) + equipmentValue[(int)EQUIPMENT_OPTION_TYPE.MATK]);
-        textMDef.text = string.Format("{0}", servantData.mDef + SetChangeValue(textMDefChange, EQUIPMENT_OPTION_TYPE.MDEF) + equipmentValue[(int)EQUIPMENT_OPTION_TYPE.MDEF]);
-
-        textPCri.text = string.Format("{0}", servantData.criDmg);
-        textPCriPer.text = string.Format("{0}", servantData.criPer);
+        textPAtk.text = string.Format("{0}", servant_stat_equip_current_item[(int)EQUIPMENT_OPTION_TYPE.ATK] + SetChangeValue(textPAtkChange, EQUIPMENT_OPTION_TYPE.ATK));
+        textPDef.text = string.Format("{0}", servant_stat_equip_current_item[(int)EQUIPMENT_OPTION_TYPE.DEF] + SetChangeValue(textPDefChange, EQUIPMENT_OPTION_TYPE.DEF));
+        textMAtk.text = string.Format("{0}", servant_stat_equip_current_item[(int)EQUIPMENT_OPTION_TYPE.MATK] + SetChangeValue(textMAtkChange, EQUIPMENT_OPTION_TYPE.MATK));
+        textMDef.text = string.Format("{0}", servant_stat_equip_current_item[(int)EQUIPMENT_OPTION_TYPE.MDEF] + SetChangeValue(textMDefChange, EQUIPMENT_OPTION_TYPE.MDEF));
+        
+        textPCri.text = string.Format("{0}", servant_stat_equip_current_item[(int)EQUIPMENT_OPTION_TYPE.CriDmg]);
+        //textPCriChange.text = string.Format("{0}", Calculator.GetCriticalDamage(current_status_equip_item, 0));
+        textPCriPer.text = string.Format("{0}", servant_stat_equip_current_item[(int)EQUIPMENT_OPTION_TYPE.CriPer]);
+        //textPCriPerChange.text = string.Format("{0}", Calculator.GetCriticalPercent(current_status_equip_item, 0));
     }
 
     public int SetChangeValue(Text textChangeValue, EQUIPMENT_OPTION_TYPE type)
     {
-        int change_value = change_stat[(int)type] - current_stat[(int)type];
+        int change_value = change_stat[(int)type] - current_stat[(int)type];    //장비의 스탯 차이
+        if (type == EQUIPMENT_OPTION_TYPE.STR || type == EQUIPMENT_OPTION_TYPE.DEX || type == EQUIPMENT_OPTION_TYPE.INT)
+        {
+            servant_stat_equip_change_item[(int)EQUIPMENT_OPTION_TYPE.STR] = servant_stat_equip_current_item[(int)EQUIPMENT_OPTION_TYPE.STR] + (change_stat[(int)EQUIPMENT_OPTION_TYPE.STR] - current_stat[(int)EQUIPMENT_OPTION_TYPE.STR]);
+            servant_stat_equip_change_item[(int)EQUIPMENT_OPTION_TYPE.DEX] = servant_stat_equip_current_item[(int)EQUIPMENT_OPTION_TYPE.DEX] + (change_stat[(int)EQUIPMENT_OPTION_TYPE.DEX] - current_stat[(int)EQUIPMENT_OPTION_TYPE.DEX]);
+            servant_stat_equip_change_item[(int)EQUIPMENT_OPTION_TYPE.INT] = servant_stat_equip_current_item[(int)EQUIPMENT_OPTION_TYPE.INT] + (change_stat[(int)EQUIPMENT_OPTION_TYPE.INT] - current_stat[(int)EQUIPMENT_OPTION_TYPE.INT]);
 
+            Status total_status = new Status(servant_stat_equip_change_item[(int)EQUIPMENT_OPTION_TYPE.STR], servant_stat_equip_change_item[(int)EQUIPMENT_OPTION_TYPE.DEX], servant_stat_equip_change_item[(int)EQUIPMENT_OPTION_TYPE.INT]);
+
+            UserServantData servantData = partyInfo.ServantList[partyInfo.selected_unit_idx];
+            if (servantData == null)
+            {
+                DebugLog.Log(false, "Invalid Select Index : " + partyInfo.ServantList[partyInfo.selected_unit_idx]);
+                return 0;
+            }
+
+            //장비 Status가 반영된 Servant의 Status로 나머지 Stats 계산
+            servant_stat_equip_change_item[(int)EQUIPMENT_OPTION_TYPE.HP] = Calculator.GetMaxHp(total_status, servantData.level);
+
+            servant_stat_equip_change_item[(int)EQUIPMENT_OPTION_TYPE.ATK] = Calculator.GetAttack(total_status, servantData.level);
+            servant_stat_equip_change_item[(int)EQUIPMENT_OPTION_TYPE.DEF] = Calculator.GetDefence(total_status, servantData.level);
+            servant_stat_equip_change_item[(int)EQUIPMENT_OPTION_TYPE.MATK] = Calculator.GetMagicAttack(total_status, servantData.level);
+            servant_stat_equip_change_item[(int)EQUIPMENT_OPTION_TYPE.MDEF] = Calculator.GetMagicDefence(total_status, servantData.level);
+
+            servant_stat_equip_change_item[(int)EQUIPMENT_OPTION_TYPE.CriDmg] = Calculator.GetCriticalDamage(total_status, servantData.level);
+            servant_stat_equip_change_item[(int)EQUIPMENT_OPTION_TYPE.CriPer] = Calculator.GetCriticalPercent(total_status, servantData.level);
+        }
+        
         if (change_value > 0)
         {
+            if (type == EQUIPMENT_OPTION_TYPE.STR || type == EQUIPMENT_OPTION_TYPE.DEX || type == EQUIPMENT_OPTION_TYPE.INT)
+            {   
+                textChangeValue.text = string.Format("(+{0})", change_value);
+                
+            }
+            else
+            {
+                textChangeValue.text = string.Format("(+{0})", change_value);
+            }
+
             textChangeValue.gameObject.SetActive(true);
-            textChangeValue.text = string.Format("(+{0})", change_value);
             textChangeValue.color = Color.green;
+
         }
         else if (change_value < 0)
         {
+            if (type == EQUIPMENT_OPTION_TYPE.STR || type == EQUIPMENT_OPTION_TYPE.DEX || type == EQUIPMENT_OPTION_TYPE.INT)
+            {   
+                textChangeValue.text = string.Format("(-{0})", change_value);
+            }
+            else
+            {
+                textChangeValue.text = string.Format("(-{0})", change_value);
+            }
+
             textChangeValue.gameObject.SetActive(true);
-            textChangeValue.text = string.Format("(-{0})", change_value);
             textChangeValue.color = Color.red;
+
         }
         else
         {
