@@ -30,21 +30,21 @@ public class PopupManager : MonoBehaviour {
         switch (popupType)
         {
             case POPUP_TYPE.NOTIVE:
-                textTitle.text = "Notice";
+                //textTitle.text = "Notice";
 
                 buttonFrame.gameObject.SetActive(true);
                 buttonCancel.gameObject.SetActive(false);
                 buttonOK.gameObject.SetActive(false);
                 break;
             case POPUP_TYPE.WARNING:
-                textTitle.text = "Warning!";
+                //textTitle.text = "Warning!";
 
                 buttonFrame.gameObject.SetActive(true);
                 buttonCancel.gameObject.SetActive(false);
                 buttonOK.gameObject.SetActive(false);
                 break;
             case POPUP_TYPE.CONFIRM:
-                textTitle.text = "Confirm";
+                //textTitle.text = "Confirm";
 
                 buttonFrame.gameObject.SetActive(false);
                 buttonCancel.gameObject.SetActive(true);

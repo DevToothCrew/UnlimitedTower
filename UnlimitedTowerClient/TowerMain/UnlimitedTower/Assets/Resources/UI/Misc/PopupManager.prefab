@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 224167785016153128}
   - component: {fileID: 222605639590650418}
   - component: {fileID: 114728756994067376}
+  - component: {fileID: 114865149377110142}
   m_Layer: 5
   m_Name: PopupManager
   m_TagString: Untagged
@@ -301,7 +302,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 3da9ab889df351b45993570a2dbbe4e3, type: 3}
+    m_Font: {fileID: 12800000, guid: bf6524f78b8fc564d87f276d50683939, type: 3}
     m_FontSize: 22
     m_FontStyle: 0
     m_BestFit: 0
@@ -375,7 +376,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 399acc4e6c3826f4f8f6860e63d1ecc0, type: 3}
+    m_Font: {fileID: 12800000, guid: bf6524f78b8fc564d87f276d50683939, type: 3}
     m_FontSize: 24
     m_FontStyle: 0
     m_BestFit: 0
@@ -462,7 +463,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 399acc4e6c3826f4f8f6860e63d1ecc0, type: 3}
+    m_Font: {fileID: 12800000, guid: bf6524f78b8fc564d87f276d50683939, type: 3}
     m_FontSize: 24
     m_FontStyle: 0
     m_BestFit: 0
@@ -508,7 +509,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1942588685711060}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -522,7 +523,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 9b04d5cbbff412343bd91e4827923f3b, type: 3}
+    m_Font: {fileID: 12800000, guid: 8cd3608c7d0328e4cbcaecfdc2e0c0ca, type: 3}
     m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
@@ -535,6 +536,25 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Popup Title
+--- !u!114 &114865149377110142
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1876527658581850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02d1af2442f1bb04d8c36c8dc50d1ce1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FramePopup: {fileID: 1698592855546060}
+  buttonFrame: {fileID: 114440655009887048}
+  textTitle: {fileID: 114741229589449778}
+  textMessage: {fileID: 114312367074127320}
+  buttonCancel: {fileID: 114165367784544182}
+  buttonOK: {fileID: 114055595143197918}
+  popupType: 0
+  messageIdx: 0
 --- !u!222 &222008253856621320
 CanvasRenderer:
   m_ObjectHideFlags: 1
