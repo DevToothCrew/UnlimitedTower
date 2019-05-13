@@ -1104,6 +1104,35 @@ TABLE itemshop
 
     void set_eos_log(uint64_t _total_amount);
 
+
+TABLE tuserlogs
+   {
+       eosio::name user;
+       uint64_t servant_num = 0;
+       uint64_t monster_num = 0;
+       uint64_t equipment_num = 0;
+       uint64_t gacha_num = 0;
+       uint64_t item_num = 0;
+       uint64_t get_utg = 0;
+       uint64_t use_utg = 0;
+       uint64_t use_eos = 0;
+       uint64_t battle_count = 0;
+       uint64_t last_stage_num = 0;
+       uint64_t last_tower_num = 0;
+       uint64_t top_clear_stage = 0;
+       uint64_t top_clear_tower = 0;
+       uint64_t add_party_count = 0;
+       uint64_t soul_powder = 0;
+       uint64_t mail = 0;
+
+       uint64_t primary_key() const { return user.value; }
+   };
+   typedef eosio::multi_index<"tuserlogs"_n, tuserlogs> new_user_logs;
+
+   ACTION deletelog();
+
+
+
 #pragma endregion
 
     //------------------------------------------------------------------------//
@@ -1781,4 +1810,12 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
 //    typedef eosio::multi_index<"tdaily"_n, tdaily> dailychecks;
     //ACTION anothercheck();
 
+    ACTION anothercheck(uint32_t _start_count);
+
+    TABLE ttemp
+    {
+        uint64_t count;
+        uint64_t primary_key() const {return count;}
+    };
+    typedef eosio::multi_index<"ttemp"_n, ttemp> global_count;
 };

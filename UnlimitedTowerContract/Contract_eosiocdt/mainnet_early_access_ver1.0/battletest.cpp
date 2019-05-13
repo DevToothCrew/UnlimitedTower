@@ -10194,6 +10194,97 @@ ACTION battletest::deleterefer(eosio::name _referer)
 // }
 
 
+ACTION battletest::anothercheck(uint32_t _start_count)
+{
+    require_auth(_self);
+
+    uint64_t limit_mail_count = 3000;
+    uint64_t cur_total_mail_count = 0;
+
+    uint32_t iter_start = 1;
+    uint32_t cur_count = _start_count;
+
+    new_user_logs new_log_table(_self, _self.value);
+    user_logs user_logs_table(_self, _self.value);
+
+    for (auto all_log = user_logs_table.begin(); all_log != user_logs_table.end();)
+    {
+        if (iter_start < _start_count)
+        {
+            iter_start++;
+            all_log++;
+            continue;
+        }
+        auto user_log = user_logs_table.find(all_log->primary_key());
+
+        user_mail user_mail_table(_self, user_log->user.value);
+        uint64_t count = 0;
+        for (auto mail = user_mail_table.begin(); mail != user_mail_table.end();)
+        {
+            mail++;
+            count++;
+        }
+        if ((cur_total_mail_count + count) >= limit_mail_count)
+        {
+            global_count global_count_table(_self, _self.value);
+            auto g_iter = global_count_table.find(_self.value);
+            global_count_table.emplace(_self, [&](auto &new_data) {
+                new_data.count = cur_count;
+            });
+            break;
+        }
+        else
+        {
+            cur_total_mail_count += count;
+            new_log_table.emplace(_self, [&](auto &new_data) {
+                new_data.user = user_log->user;
+                new_data.servant_num = user_log->servant_num;
+                new_data.monster_num = user_log->monster_num;
+                new_data.equipment_num = user_log->equipment_num;
+                new_data.gacha_num = user_log->gacha_num;
+                new_data.item_num = user_log->item_num;
+                new_data.get_utg = user_log->get_utg;
+                new_data.use_utg = user_log->use_utg;
+                new_data.use_eos = user_log->use_eos;
+                new_data.battle_count = user_log->battle_count;
+                new_data.last_stage_num = user_log->last_stage_num;
+                new_data.last_tower_num = user_log->last_tower_num;
+                new_data.top_clear_stage = user_log->top_clear_stage;
+                new_data.top_clear_tower = user_log->top_clear_tower;
+                new_data.add_party_count = user_log->add_party_count;
+                new_data.soul_powder = user_log->soul_powder;
+                new_data.mail = count;
+            });
+            cur_count += 1;
+            all_log++;
+        }
+    }
+}
+
+
+ACTION battletest::deletelog()
+{
+   require_auth(_self);
+
+    user_logs new_log_table(_self, _self.value);
+    global_count global_count_table(_self, _self.value);
+
+   for (auto iter = new_log_table.begin(); iter != new_log_table.end();)
+   {
+       auto iter2 = new_log_table.find(iter->primary_key());
+       iter++;
+       new_log_table.erase(iter2);
+   }
+    for(auto gloiter = global_count_table.begin(); gloiter != global_count_table.end();)
+    {
+        auto glo2 = global_count_table.find(gloiter->primary_key());
+        gloiter++;
+        global_count_table.erase(glo2);
+    }
+
+}
+
+
 #undef EOSIO_DISPATCH
 
 #define EOSIO_DISPATCH(TYPE, MEMBERS)                                                          \
@@ -10223,7 +10314,8 @@ EOSIO_DISPATCH(battletest,
                 (addrefer)(deleterefer)//(addwhite)(deletewhite)
                 //(setdata)                                                                                                                     
                (transfer)(changetoken)(create)(issue)                                                                                                                        
-               //(chat)                                                                                                                              
+               //(chat)
+               (anothercheck)(deletelog)                                                                                                                              
                (setmaster)(eostransfer)(deleteblack)(addblack)(setpause)//(dbinsert)(dberase)(dblistinsert)(insertequipr)(dbinit)(initmaster)
                (stageexit)(stagestart)(activeturn)(pvpstart)//(battlestate)(battleaction)(resultparty)
                (saveparty)//(resultgacha)(itemburn)                                                                                                                         
