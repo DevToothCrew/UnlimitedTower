@@ -161,6 +161,8 @@ CONTRACT battletest : public contract
     };
     typedef eosio::multi_index<"dbstatusserv"_n,dbstatusserv> servant_lv_status_db;
 
+    void insert_status_servant(uint64_t _grade, std::vector<uint32_t> _status_list);
+
     TABLE dbstatusmon
     {
         uint64_t grade;
@@ -597,13 +599,13 @@ CONTRACT battletest : public contract
 #pragma region db function
   public:
     void substr_value(std::string _value, std::vector<std::string> & _value_list, std::vector<size_t> & _size_list, uint32_t _size);
-    // ACTION dbinsert(std::string _table, std::string _value);
+    ACTION dbinsert(std::string _table, std::string _value);
     // ACTION dberase(std::string _table, std::string _value);
     // ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
     // ACTION dbinit(std::string _table);
     // ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
 
-	//ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
+	ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
     void insert_job(std::string _status, uint64_t _job, uint64_t _min, uint64_t _max);
     void insert_head(uint64_t _appear);
     void insert_hair(uint64_t _appear);
@@ -1087,22 +1089,22 @@ CONTRACT battletest : public contract
     TABLE tuserlog
     {
         eosio::name user;
-        uint32_t servant_num = 0;
-        uint32_t monster_num = 0;
-        uint32_t equipment_num = 0;
-        uint32_t gacha_num = 0;
-        uint32_t item_num = 0;
-        uint32_t get_utg = 0;
-        uint32_t use_utg = 0;
+        uint64_t servant_num = 0;
+        uint64_t monster_num = 0;
+        uint64_t equipment_num = 0;
+        uint64_t gacha_num = 0;
+        uint64_t item_num = 0;
+        uint64_t get_utg = 0;
+        uint64_t use_utg = 0;
         uint64_t use_eos = 0;
-        uint32_t battle_count = 0;
-        uint32_t last_stage_num = 0;
-        uint32_t last_tower_num = 0;
-        uint32_t top_clear_stage = 0;
-        uint32_t top_clear_tower = 0;
-        uint32_t add_party_count = 0;
-        uint32_t soul_powder = 0;
-        uint32_t mail = 0;
+        uint64_t battle_count = 0;
+        uint64_t last_stage_num = 0;
+        uint64_t last_tower_num = 0;
+        uint64_t top_clear_stage = 0;
+        uint64_t top_clear_tower = 0;
+        uint64_t add_party_count = 0;
+        uint64_t soul_powder = 0;
+        uint64_t mail = 0;
 
         uint64_t primary_key() const { return user.value; }
     };
@@ -1862,5 +1864,9 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
     //ACTION deleteuser2(eosio::name _user);
 #pragma endregion
 
+
+ACTION accountset(eosio::name _user);
+ACTION balancetest(eosio::name _user, std::string _type, std::string _value);
+ACTION monstercheat(eosio::name _user, uint32_t _grade, uint32_t _id, uint32_t _count);
 
 };
