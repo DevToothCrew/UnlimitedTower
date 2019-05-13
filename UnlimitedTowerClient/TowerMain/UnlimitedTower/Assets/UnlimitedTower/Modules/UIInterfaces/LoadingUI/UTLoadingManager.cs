@@ -52,7 +52,6 @@ public class UTLoadingManager : MonoBehaviour {
         {
             Destroy(gameObject);
         }
-        Debug.Log(CSVData.Inst.GetMonsterIcon(101403));
     }
 
     private void OnDestroy()
