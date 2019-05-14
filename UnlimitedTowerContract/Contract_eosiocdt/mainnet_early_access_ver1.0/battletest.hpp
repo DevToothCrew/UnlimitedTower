@@ -593,10 +593,10 @@ CONTRACT battletest : public contract
 #pragma region db function
   public:
     void substr_value(std::string _value, std::vector<std::string> & _value_list, std::vector<size_t> & _size_list, uint32_t _size);
-    // ACTION dbinsert(std::string _table, std::string _value);
-    // ACTION dberase(std::string _table, std::string _value);
+    ACTION dbinsert(std::string _table, std::string _value);
+    //ACTION dberase(std::string _table, std::string _value);
     // ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
-    // ACTION dbinit(std::string _table);
+    ACTION dbinit(std::string _table);
     // ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
 
 	//ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
@@ -634,10 +634,7 @@ CONTRACT battletest : public contract
                               uint64_t _tier,
                               uint64_t _job,
                               uint64_t _option,
-                              uint64_t _option_value_min,
-                              uint64_t _option_value_max,
-                              uint64_t _upgrade_option_value,
-                              std::vector<uint64_t> _grade_multi);
+                              uint64_t _upgrade_option_value);
     void insert_monster(uint64_t _monster_id, uint64_t _tribe, uint64_t _type);
 
     void erase_job(uint64_t _job);
@@ -1112,7 +1109,6 @@ TABLE tuserlogs
        uint64_t monster_num = 0;
        uint64_t equipment_num = 0;
        uint64_t gacha_num = 0;
-       uint64_t item_num = 0;
        uint64_t get_utg = 0;
        uint64_t use_utg = 0;
        uint64_t use_eos = 0;
