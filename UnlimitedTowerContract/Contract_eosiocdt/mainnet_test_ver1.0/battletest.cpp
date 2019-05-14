@@ -196,21 +196,21 @@ void battletest::substr_value(std::string _value, std::vector<std::string> &_val
     }
 }
 
-// ACTION battletest::dbinsert(std::string _table, std::string _value)
-// {
-//     system_master system_master_table(_self, _self.value);
-//     auto system_master_iter = system_master_table.begin();
+ACTION battletest::dbinsert(std::string _table, std::string _value)
+{
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
 
-//     permission_level master_auth;
-//     master_auth.actor = system_master_iter->master;
-//     master_auth.permission = "active"_n;
-//     require_auth(master_auth);
+    permission_level master_auth;
+    master_auth.actor = system_master_iter->master;
+    master_auth.permission = "active"_n;
+    require_auth(master_auth);
 
-//     eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 1");
+    eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 1");
 
-//     std::vector<size_t> size_list;
-//     std::vector<std::string> value_list;
-//     uint32_t value;
+    std::vector<size_t> size_list;
+    std::vector<std::string> value_list;
+    uint32_t value;
 //     // if (_table == "dbbody")
 //     // {
 //     //     value = atoll(_value.c_str());
@@ -279,35 +279,26 @@ void battletest::substr_value(std::string _value, std::vector<std::string> &_val
 //     //                    atoll(value_list[2].c_str()));
 //     // }
 
-//     // if (_table == "dballitem")
-//     // {
-//     //     substr_value(_value, value_list, size_list, 5);
-//     //     insert_all_item_id(atoll(value_list[0].c_str()),
-//     //                        atoi(value_list[1].c_str()),
-//     //                        atoll(value_list[2].c_str()),
-//     //                        atoll(value_list[3].c_str()),
-//     //                        atoll(value_list[4].c_str()));
-//     // }
-//     // if (_table == "dbequipment")
-//     // {
-//     //     substr_value(_value, value_list, size_list, 14);
-//     //     std::vector<uint64_t> grade_list;
-//     //     grade_list.push_back(atoll(value_list[9].c_str()));
-//     //     grade_list.push_back(atoll(value_list[10].c_str()));
-//     //     grade_list.push_back(atoll(value_list[11].c_str()));
-//     //     grade_list.push_back(atoll(value_list[12].c_str()));
-//     //     grade_list.push_back(atoll(value_list[13].c_str()));
+   if (_table == "dballitem")
+    {
+        substr_value(_value, value_list, size_list, 5);
+        insert_all_item_id(atoll(value_list[0].c_str()),
+                           atoi(value_list[1].c_str()),
+                           atoll(value_list[2].c_str()),
+                           atoll(value_list[3].c_str()),
+                           atoll(value_list[4].c_str()));
+    }
+    if (_table == "dbequipment")
+    {
+        substr_value(_value, value_list, size_list, 6);
 
-//     //     insert_equip_item_id(atoll(value_list[0].c_str()),
-//     //                          atoll(value_list[1].c_str()),
-//     //                          atoll(value_list[2].c_str()),
-//     //                          atoll(value_list[3].c_str()),
-//     //                          atoll(value_list[4].c_str()),
-//     //                          atoll(value_list[5].c_str()),
-//     //                          atoll(value_list[6].c_str()),
-//     //                          atoll(value_list[7].c_str()),
-//     //                          atoll(value_list[8].c_str()),grade_list);
-//     // }
+        insert_equip_item_id(atoll(value_list[0].c_str()),
+                             atoll(value_list[1].c_str()),
+                             atoll(value_list[2].c_str()),
+                             atoll(value_list[3].c_str()),
+                             atoll(value_list[4].c_str()),
+                             atoll(value_list[5].c_str()));
+    }
 //     if (_table == "dbserstat")
 //     {
 //         substr_value(_value, value_list, size_list, 10);
@@ -580,7 +571,7 @@ void battletest::substr_value(std::string _value, std::vector<std::string> &_val
 //     // else if (_table == "dbitemup")
 //     // {
 //     // }
-//  }
+}
 
 // ACTION battletest::dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list)
 // {
@@ -845,11 +836,7 @@ void battletest::insert_equip_item_id(uint64_t _item_id,
                                       uint64_t _type,
                                       uint64_t _tier,
                                       uint64_t _job,
-                                      uint64_t _option,
-                                      uint64_t _option_value_min,
-                                      uint64_t _option_value_max,
-                                      uint64_t _upgrade_option_value,
-                                      std::vector<uint64_t> _grade_multi)
+                                      uint64_t _option)
 {
     equipment_db my_table(_self, _self.value);
     auto iter = my_table.find(_item_id);
@@ -863,13 +850,6 @@ void battletest::insert_equip_item_id(uint64_t _item_id,
             new_data.tier = _tier;
             new_data.job = _job;
             new_data.option_list.push_back(_option);
-            new_data.option_value_min_list.push_back(_option_value_min);
-            new_data.option_value_max_list.push_back(_option_value_max);
-            new_data.upgrade_option_value_list.push_back(_upgrade_option_value);
-            for (uint32_t i = 0; i < _grade_multi.size(); ++i)
-            {
-                new_data.grade_multi_list.push_back(_grade_multi[i]);
-            }
         });
     }
     else
@@ -881,14 +861,6 @@ void battletest::insert_equip_item_id(uint64_t _item_id,
             new_data.tier = _tier;
             new_data.job = _job;
             new_data.option_list[0] = _option;
-            new_data.option_value_min_list[0] = (_option_value_min);
-            new_data.option_value_max_list[0] = (_option_value_max);
-            new_data.upgrade_option_value_list[0] = (_upgrade_option_value);
-            new_data.grade_multi_list.clear();
-            for (uint32_t i = 0; i < _grade_multi.size(); ++i)
-            {
-                new_data.grade_multi_list.push_back(_grade_multi[i]);
-            }
         });
     }
 }
@@ -2090,13 +2062,13 @@ void battletest::erase_monster_id(uint64_t _id)
 //     active_db_table.erase(active_db_iter);
 // }
 
-void battletest::erase_gacha_pool(uint64_t _id)
-{
-    main_gacha_db main_gacha_db_table(_self, _self.value);
-    auto main_gacha_db_iter = main_gacha_db_table.find(_id);
-    eosio_assert(main_gacha_db_iter != main_gacha_db_table.end(), "Not Exist Gacha 1");
-    main_gacha_db_table.erase(main_gacha_db_iter);
-}
+// void battletest::erase_gacha_pool(uint64_t _id)
+// {
+//     main_gacha_db main_gacha_db_table(_self, _self.value);
+//     auto main_gacha_db_iter = main_gacha_db_table.find(_id);
+//     eosio_assert(main_gacha_db_iter != main_gacha_db_table.end(), "Not Exist Gacha 1");
+//     main_gacha_db_table.erase(main_gacha_db_iter);
+// }
 
 // void battletest::erase_pre_gacha_pool(uint64_t _id)
 // {
@@ -2180,313 +2152,6 @@ void battletest::erase_gacha_pool(uint64_t _id)
 //     item_shop_table.erase(item_shop_iter);
 // }
 
-//=============================================================================================
-// ACTION battletest::movedb(eosio::name _user)
-// {
-//     system_master system_master_table(_self, _self.value);
-//     auto system_master_iter = system_master_table.begin();
-
-//     permission_level master_auth;
-//     master_auth.actor = system_master_iter->master;
-//     master_auth.permission = "active"_n;
-//     require_auth(master_auth);
-//     eosio_assert(system_master_iter->state == system_state::pause, "movedb : Not Server Pause 3");
-
-//     pre_users pre_user_table(_self, _self.value);
-//     auto pre_user_iter = pre_user_table.find(_user.value);
-//     eosio_assert(pre_user_iter != pre_user_table.end(), "movedb : Not exist user data");
-
-//     pre_logs pre_log_table(_self, _self.value);
-//     auto pre_log_iter = pre_log_table.find(_user.value);
-//     eosio_assert(pre_log_iter != pre_log_table.end(), "movedb : Not exist pre log data ");
-
-//     user_logs user_log_table(_self, _self.value);
-//     auto user_log_iter = user_log_table.find(pre_log_iter->user.value);
-
-//     if (user_log_iter == user_log_table.end())
-//     {
-//         user_log_table.emplace(_self, [&](auto &user_log) {
-//             user_log.user = pre_log_iter->user;
-//             user_log.servant_num = pre_log_iter->servant_num;
-//             user_log.monster_num = pre_log_iter->monster_num + 1;
-//             user_log.equipment_num = pre_log_iter->item_num;
-//             user_log.gacha_num = pre_log_iter->gacha_num;
-//             user_log.item_num = 0;
-//             user_log.get_utg = 0;
-//             user_log.use_utg = 0;
-//             user_log.use_eos = pre_log_iter->use_eos;
-//             user_log.battle_count = 0;
-//             user_log.last_stage_num = 0;
-//             user_log.last_tower_num = 0;
-//             user_log.top_clear_stage = 0;
-//             user_log.top_clear_tower = 0;
-//             user_log.add_party_count = 0;
-//             user_log.soul_powder = 0;
-//             user_log.mail = pre_log_iter->servant_num + pre_log_iter->monster_num + pre_log_iter->item_num;
-//         });
-//         set_eos_log(pre_log_iter->use_eos);
-
-//         user_auths auth_user_table(_self, _self.value);
-//         auto auth_user_iter = auth_user_table.find(pre_user_iter->user.value);
-//         eosio_assert(auth_user_iter == auth_user_table.end(), "movedb : Not exist auth_user");
-//         auth_user_table.emplace(_self, [&](auto &auth_user) {
-//             auth_user.user = pre_user_iter->user;
-//             auth_user.state = user_state::lobby;
-//             auth_user.exp = 0;
-//             auth_user.current_servant_inventory = 1;
-//             auth_user.current_monster_inventory = 1;
-//             auth_user.current_equipment_inventory = 0;
-//             auth_user.current_item_inventory = 0;
-//             auth_user.servant_inventory = 50;
-//             auth_user.monster_inventory = 50;
-//             auth_user.equipment_inventory = 50;
-//             auth_user.item_inventory = 50;
-//         });
-//     }
-
-//     pre_log_table.erase(pre_log_iter);
-//     pre_user_table.erase(pre_user_iter);
-
-//     user_preregist_servants user_preregist_servant_table(_self, _user.value);
-//     for (auto iter2 = user_preregist_servant_table.begin(); iter2 != user_preregist_servant_table.end();)
-//     {
-//         const auto &user_preregist_servant_iter = user_preregist_servant_table.get(iter2->primary_key(), "movedb : not exsit preregist servant data");
-
-//         pre_gacha_db pre_gacha_db_table(_self, _self.value);
-//         auto pre_gacha_db_iter = pre_gacha_db_table.find(user_preregist_servant_iter.id);
-//         eosio_assert(pre_gacha_db_iter != pre_gacha_db_table.end(), "movedb : Not exist pre_gacha_db_iter by servant");
-
-//         user_mail mail_db_table(_self, _user.value);
-//         mail_db_table.emplace(_self, [&](auto &move_mail) {
-//             uint32_t first_index = mail_db_table.available_primary_key();
-//             if (first_index == 0)
-//             {
-//                 move_mail.mail_index = 1;
-//             }
-//             else
-//             {
-//                 move_mail.mail_index = mail_db_table.available_primary_key();
-//             }
-//             move_mail.mail_type = 1;
-//             move_mail.type_index = user_preregist_servant_iter.index;
-//             move_mail.count = 1;
-//             move_mail.icon_id = pre_gacha_db_iter->db_index;
-//             move_mail.get_time = now();
-//         });
-//         iter2++;
-//     }
-//     //    for(auto iter2 = user_preregist_monster_table.begin(); iter2 != user_preregist_monster_table.end();)
-//     //    {
-//     //       //  user_preregist_servant_table.erase(_user.value);
-//     //        iter2++;
-//     //    }
-
-//     user_preregist_monsters user_preregist_monster_table(_self, _user.value);
-//     for (auto iter3 = user_preregist_monster_table.begin(); iter3 != user_preregist_monster_table.end();)
-//     {
-//         const auto &user_preregist_monster_iter = user_preregist_monster_table.get(iter3->primary_key(), "movedb : Not exsit preregist monster data");
-
-//         pre_gacha_db pre_gacha_db_table(_self, _self.value);
-//         auto pre_gacha_db_iter = pre_gacha_db_table.find(user_preregist_monster_iter.id);
-//         eosio_assert(pre_gacha_db_iter != pre_gacha_db_table.end(), "movedb : Not exist pre_gacha_db_iter by monster");
-
-//         user_mail mail_db_table(_self, _user.value);
-//         mail_db_table.emplace(_self, [&](auto &move_mail) {
-//             uint32_t first_index = mail_db_table.available_primary_key();
-//             if (first_index == 0)
-//             {
-//                 move_mail.mail_index = 1;
-//             }
-//             else
-//             {
-//                 move_mail.mail_index = mail_db_table.available_primary_key();
-//             }
-//             move_mail.mail_type = 2;
-//             move_mail.type_index = user_preregist_monster_iter.index;
-//             move_mail.count = 1;
-//             move_mail.icon_id = pre_gacha_db_iter->db_index;
-//             move_mail.get_time = now();
-//         });
-//         iter3++;
-//     }
-//     // for(auto iter3 = user_preregist_monster_table.begin(); iter3 != user_preregist_monster_table.end();)
-//     // {
-//     //     //user_preregist_monster_table.erase(_user.value);
-//     //     iter3++;
-//     // }
-
-//     user_preregist_items user_preregist_item_table(_self, _user.value);
-//     for (auto iter4 = user_preregist_item_table.begin(); iter4 != user_preregist_item_table.end();)
-//     {
-//         const auto &user_preregist_item_iter = user_preregist_item_table.get(iter4->primary_key(), "movedb : Not exsit preregist item data");
-
-//         pre_gacha_db pre_gacha_db_table(_self, _self.value);
-//         auto pre_gacha_db_iter = pre_gacha_db_table.find(user_preregist_item_iter.id);
-//         eosio_assert(pre_gacha_db_iter != pre_gacha_db_table.end(), "movedb : Not exist pre_gacha_db_iter by item");
-
-//         user_mail mail_db_table(_self, _user.value);
-//         mail_db_table.emplace(_self, [&](auto &move_mail) {
-//             uint32_t first_index = mail_db_table.available_primary_key();
-//             if (first_index == 0)
-//             {
-//                 move_mail.mail_index = 1;
-//             }
-//             else
-//             {
-//                 move_mail.mail_index = mail_db_table.available_primary_key();
-//             }
-//             move_mail.mail_type = 3;
-//             move_mail.type_index = user_preregist_item_iter.index;
-//             move_mail.count = 1;
-//             move_mail.icon_id = pre_gacha_db_iter->db_index;
-//             move_mail.get_time = now();
-//         });
-//         iter4++;
-//     }
-
-//     // for(auto iter4 = user_preregist_item_table.begin(); iter4 != user_preregist_item_table.end();)
-//     // {
-//     //     //user_preregist_item_table.erase(_user.value);
-//     //     iter4++;
-//     // }
-
-//     user_partys user_party_table(_self, _user.value);
-//     auto user_party_iter = user_party_table.find(1);
-//     eosio_assert(user_party_iter == user_party_table.end(), "Movedb : Already Party Table / Already Signup");
-//     user_party_table.emplace(_self, [&](auto &automatic_party) {
-//         automatic_party.index = 1;
-//         automatic_party.servant_list.resize(5);
-//         automatic_party.monster_list.resize(5);
-//         automatic_party.servant_list[0] = 1;
-//     });
-
-//     servant_job_db servant_job_table(_self, _self.value);
-//     uint64_t _seed = safeseed::get_seed_value(_user.value, now());
-//     uint32_t random_job = 1;
-//     const auto &servant_job_db_iter = servant_job_table.get(random_job, "Movedb : Empty Servant Job / Wrong Servant Job");
-//     uint32_t random_body = gacha_servant_body(_seed, servant_random_count);
-
-//     servant_random_count += 1;
-//     gender_db gender_table(_self, _self.value);
-//     uint32_t random_gender = safeseed::get_random_value(_seed, GEMDER_COUNT, DEFAULT_MIN_DB, servant_random_count);
-//     const auto &gender_db_iter = gender_table.get(random_gender, "Movedb : Empty Servant Gender / Wrong Servant Gender");
-
-//     servant_random_count += 1;
-//     uint32_t random_head = gacha_servant_head(_seed, servant_random_count);
-
-//     servant_random_count += 1;
-//     uint32_t random_hair = gacha_servant_hair(_seed, servant_random_count);
-
-//     servant_db servant_id_table(_self, _self.value);
-//     uint32_t servant_index = get_servant_index(random_job, random_body, random_gender, random_head, random_hair);
-//     const auto &servant_id_db_iter = servant_id_table.get(servant_index, "Movedb : Empty Servant ID / Wrong Servant ID");
-
-//     serstat_db servant_base_table(_self, _self.value);
-//     uint32_t servant_job_base = (servant_id_db_iter.job * 1000) + (servant_id_db_iter.grade * 100) + 1;
-//     const auto &ser_iter = servant_base_table.get(servant_job_base, "Movedb Servant : Empty Servant Stat");
-
-//     user_servants user_servant_table(_self, _user.value);
-//     user_servant_table.emplace(_self, [&](auto &update_user_servant_list) {
-//         update_user_servant_list.index = 1;
-
-//         servant_info new_servant;
-//         new_servant.id = servant_id_db_iter.id;
-//         new_servant.exp = 0;
-//         new_servant.grade = 5;
-//         servant_random_count += 1;
-//         new_servant.status.basic_str = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_str, servant_job_db_iter.min_range.base_str, servant_random_count);
-//         servant_random_count += 1;
-//         new_servant.status.basic_dex = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_dex, servant_job_db_iter.min_range.base_dex, servant_random_count);
-//         servant_random_count += 1;
-//         new_servant.status.basic_int = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_int, servant_job_db_iter.min_range.base_int, servant_random_count);
-
-//         new_servant.status.basic_str = change_servant_statue(new_servant.status.basic_str) + ser_iter.base_str;
-//         new_servant.status.basic_dex = change_servant_statue(new_servant.status.basic_dex) + ser_iter.base_dex;
-//         new_servant.status.basic_int = change_servant_statue(new_servant.status.basic_int) + ser_iter.base_int;
-//         new_servant.equip_slot.resize(3);
-//         new_servant.state = object_state::on_party;
-
-//         uint32_t active_id = get_servant_active_skill(servant_id_db_iter.job, _seed);
-//         new_servant.active_skill.push_back(active_id);
-
-//         uint32_t passive_id = get_servant_passive_skill(servant_id_db_iter.job, _seed);
-//         new_servant.passive_skill.push_back(passive_id);
-
-//         update_user_servant_list.party_number = 1;
-//         update_user_servant_list.servant = new_servant;
-//     });
-
-//     monster_random_count += 1;
-//     uint32_t random_monster_id = safeseed::get_random_value(_seed, 7, 1, monster_random_count);
-//     random_monster_id += 103100;
-
-//     monster_db monster_id_db_table(_self, _self.value);
-//     const auto &monster_id_db_iter = monster_id_db_table.get(random_monster_id, "Movedb Monster : Empty Monster ID");
-
-//     monster_random_count += 1;
-//     uint64_t random_grade = 3;
-
-//     monster_grade_db monster_grade_db_table(_self, _self.value);
-//     const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "Movedb Monster : Empty Grade");
-
-//     tribe_db tribe_db_table(_self, _self.value);
-//     const auto &tribe_iter = tribe_db_table.get(monster_id_db_iter.tribe, "Movedb Monster : Empty Monster Tribe");
-
-//     user_monsters user_monster_table(_self, _user.value);
-//     user_monster_table.emplace(_self, [&](auto &update_user_monster_list) {
-//         uint32_t first_index = user_monster_table.available_primary_key();
-//         if (first_index == 0)
-//         {
-//             update_user_monster_list.index = 1;
-//         }
-//         else
-//         {
-//             update_user_monster_list.index = user_monster_table.available_primary_key();
-//         }
-
-//         monster_info new_monster;
-//         new_monster.id = monster_id_db_iter.id;
-//         new_monster.grade = monster_grade_db_iter.grade;
-//         new_monster.tribe = monster_id_db_iter.tribe;
-//         new_monster.type = monster_id_db_iter.type;
-//         new_monster.exp = 0;
-//         new_monster.upgrade = 0;
-//         monster_random_count += 1;
-//         new_monster.status.basic_str = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_str, monster_grade_db_iter.min_range.base_str, monster_random_count);
-//         monster_random_count += 1;
-//         new_monster.status.basic_dex = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_dex, monster_grade_db_iter.min_range.base_dex, monster_random_count);
-//         monster_random_count += 1;
-//         new_monster.status.basic_int = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_int, monster_grade_db_iter.min_range.base_int, monster_random_count);
-
-//         new_monster.status.basic_str = change_monster_statue(new_monster.grade, new_monster.status.basic_str);
-//         new_monster.status.basic_dex = change_monster_statue(new_monster.grade, new_monster.status.basic_dex);
-//         new_monster.status.basic_int = change_monster_statue(new_monster.grade, new_monster.status.basic_int);
-
-//         new_monster.status.basic_str = (new_monster.status.basic_str * tribe_iter.base_str) / 100;
-//         new_monster.status.basic_dex = (new_monster.status.basic_dex * tribe_iter.base_dex) / 100;
-//         new_monster.status.basic_int = (new_monster.status.basic_int * tribe_iter.base_int) / 100;
-
-//         new_monster.state = object_state::on_inventory;
-
-//         uint32_t passive_id = get_monster_passive_skill(_seed);
-//         new_monster.passive_skill.push_back(passive_id);
-
-//         update_user_monster_list.party_number = EMPTY_PARTY;
-//         update_user_monster_list.monster = new_monster;
-//     });
-
-//     asset utg_cheat_money(0, symbol(symbol_code("UTG"), 4));
-//     utg_cheat_money.amount = 1000 * 10000;
-
-//     action(permission_level{_self, "active"_n},
-//            _self, "transfer"_n,
-//            std::make_tuple(_self, _user, utg_cheat_money, std::string("SignUp Reward")))
-//         .send();
-
-
-// }
-
-
 
 ACTION battletest::dbinit(std::string _table)
 {
@@ -2498,7 +2163,7 @@ ACTION battletest::dbinit(std::string _table)
     master_auth.permission = "active"_n;
     require_auth(master_auth);
 
-//     eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 4");
+    eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 4");
 
 //     // if (_table == "dbitemshop")
 //     // {
@@ -2593,16 +2258,16 @@ ACTION battletest::dbinit(std::string _table)
 //     //         my_table.erase(erase_iter);
 //     //     }
 //     // }
-//     // else if (_table == "dbequipup")
-//     // {
-//     //     upgrade_equipment_ratio_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
+    // if (_table == "dbequipup")
+    // {
+    //     upgrade_equipment_ratio_dbs my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
 
 //     // if (_table == "dbtribe")
 //     // {
@@ -2705,56 +2370,56 @@ ACTION battletest::dbinit(std::string _table)
 //     //         my_table.erase(erase_iter);
 //     //     }
 //     // }
-//     // if (_table == "dbequipment")
-//     // {
-//     //     equipment_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dballitem")
-//     // {
-//     //     allitem_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbservantid")
-//     // {
-//     //     servant_id_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbmonsterid")
-//     // {
-//     //     monster_id_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbitemid")
-//     // {
-//     //     item_id_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
+    if (_table == "dbequipment")
+    {
+        equipment_db my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
+    }
+    if (_table == "dballitem")
+    {
+        allitem_db my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
+    }
+    if (_table == "dbservantid")
+    {
+        servant_id_db my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
+    }
+    if (_table == "dbmonsterid")
+    {
+        monster_id_db my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
+    }
+    if (_table == "dbitemid")
+    {
+        item_id_db my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
+    }
     // if (_table == "dbgachapool")
     // {
     //     main_gacha_db my_table(_self, _self.value);
@@ -2810,46 +2475,46 @@ ACTION battletest::dbinit(std::string _table)
     //         }
     //     }
 
-    if (_table == "dbserstat")
-    {
-        serstat_db my_table(_self, _self.value);
-        for (auto iter = my_table.begin(); iter != my_table.end();)
-        {
-            auto erase_iter = my_table.find(iter->primary_key());
-            iter++;
-            my_table.erase(erase_iter);
-        }
-    }
-        if (_table == "dbtribe")
-    {
-        tribe_db my_table(_self, _self.value);
-        for (auto iter = my_table.begin(); iter != my_table.end();)
-        {
-            auto erase_iter = my_table.find(iter->primary_key());
-            iter++;
-            my_table.erase(erase_iter);
-        }
-    }
-        if (_table == "dbmoupstat")
-    {
-        upgrade_monster_db my_table(_self, _self.value);
-        for (auto iter = my_table.begin(); iter != my_table.end();)
-        {
-            auto erase_iter = my_table.find(iter->primary_key());
-            iter++;
-            my_table.erase(erase_iter);
-        }
-    }
-        if (_table == "dbequpstat")
-    {
-        upgrade_equipment_db my_table(_self, _self.value);
-        for (auto iter = my_table.begin(); iter != my_table.end();)
-        {
-            auto erase_iter = my_table.find(iter->primary_key());
-            iter++;
-            my_table.erase(erase_iter);
-        }
-    }
+    // if (_table == "dbserstat")
+    // {
+    //     serstat_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    //     if (_table == "dbtribe")
+    // {
+    //     tribe_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    //     if (_table == "dbmoupstat")
+    // {
+    //     upgrade_monster_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
+    //     if (_table == "dbequpstat")
+    // {
+    //     upgrade_equipment_db my_table(_self, _self.value);
+    //     for (auto iter = my_table.begin(); iter != my_table.end();)
+    //     {
+    //         auto erase_iter = my_table.find(iter->primary_key());
+    //         iter++;
+    //         my_table.erase(erase_iter);
+    //     }
+    // }
 
     //     // else
     //     // {
@@ -2857,9 +2522,9 @@ ACTION battletest::dbinit(std::string _table)
     //     // }
 }
 
- ACTION battletest::setdata(eosio::name _contract, eosio::name _user, std::string _table)
- {
-    require_auth(_self);
+//  ACTION battletest::setdata(eosio::name _contract, eosio::name _user, std::string _table)
+//  {
+//     require_auth(_self);
 
     // if (_table == "preauth")
     // {
@@ -3328,20 +2993,20 @@ ACTION battletest::dbinit(std::string _table)
     //         iter++;
     //     }
     // }
-    if (_table == "dbgachapool")
-    {
-        main_gacha_db other_table(_contract, _contract.value);
-        main_gacha_db my_table(_self, _self.value);
-        for (auto iter = other_table.begin(); iter != other_table.end();)
-        {
-            const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
-            my_table.emplace(_self, [&](auto &new_data) {
-                new_data.gacha_id = get_iter.gacha_id;
-                new_data.db_index = get_iter.db_index;
-            });
-            iter++;
-        }
-    }
+    // if (_table == "dbgachapool")
+    // {
+    //     main_gacha_db other_table(_contract, _contract.value);
+    //     main_gacha_db my_table(_self, _self.value);
+    //     for (auto iter = other_table.begin(); iter != other_table.end();)
+    //     {
+    //         const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+    //         my_table.emplace(_self, [&](auto &new_data) {
+    //             new_data.gacha_id = get_iter.gacha_id;
+    //             new_data.db_index = get_iter.db_index;
+    //         });
+    //         iter++;
+    //     }
+    // }
 
     // else if (_table == "dbprepool")
     // {
@@ -3358,162 +3023,162 @@ ACTION battletest::dbinit(std::string _table)
     //     }
     // }
 
-    else if (_table == "dbstageenemy")
-    {
-        stage_enemy_db other_table(_contract, _contract.value);
-        stage_enemy_db my_table(_self, _self.value);
-        for (auto iter = other_table.begin(); iter != other_table.end();)
-        {
-            const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
-            my_table.emplace(_self, [&](auto &new_data) {
-                new_data.id = get_iter.id;
-                new_data.grade = get_iter.grade;
-                new_data.enemy_tribe = get_iter.enemy_tribe;
-                new_data.type = get_iter.type;
-                new_data.enemy_str = get_iter.enemy_str;
-                new_data.enemy_dex = get_iter.enemy_dex;
-                new_data.enemy_int = get_iter.enemy_int;
-                new_data.cri_per = get_iter.cri_per;
-                new_data.cri_dmg = get_iter.cri_dmg;
-                new_data.speed = get_iter.speed;
-                new_data.avoid = get_iter.avoid;
-                new_data.active_list = get_iter.active_list;
-                new_data.passive_list = get_iter.passive_list;
-            });
-            iter++;
-        }
-    }
-    else if (_table == "dbreward")
-    {
-        reward_db other_table(_contract, _contract.value);
-        reward_db my_table(_self, _self.value);
-        for (auto iter = other_table.begin(); iter != other_table.end();)
-        {
-            const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
-            my_table.emplace(_self, [&](auto &new_data) {
-                new_data.stage_id = get_iter.stage_id;
-                new_data.rank_exp = get_iter.rank_exp;
-                new_data.char_exp = get_iter.char_exp;
-                new_data.first_reward_type = get_iter.first_reward_type;
-                new_data.first_reward_id = get_iter.first_reward_id;
-                new_data.first_reward_grade = get_iter.first_reward_grade;
-                new_data.first_reward_count = get_iter.first_reward_count;
-                new_data.reward_utg_min = get_iter.reward_utg_min;
-                new_data.reward_utg_max = get_iter.reward_utg_max;
-                new_data.reward_list = get_iter.reward_list;
-            });
-            iter++;
-        }
-    }
+    // else if (_table == "dbstageenemy")
+    // {
+    //     stage_enemy_db other_table(_contract, _contract.value);
+    //     stage_enemy_db my_table(_self, _self.value);
+    //     for (auto iter = other_table.begin(); iter != other_table.end();)
+    //     {
+    //         const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+    //         my_table.emplace(_self, [&](auto &new_data) {
+    //             new_data.id = get_iter.id;
+    //             new_data.grade = get_iter.grade;
+    //             new_data.enemy_tribe = get_iter.enemy_tribe;
+    //             new_data.type = get_iter.type;
+    //             new_data.enemy_str = get_iter.enemy_str;
+    //             new_data.enemy_dex = get_iter.enemy_dex;
+    //             new_data.enemy_int = get_iter.enemy_int;
+    //             new_data.cri_per = get_iter.cri_per;
+    //             new_data.cri_dmg = get_iter.cri_dmg;
+    //             new_data.speed = get_iter.speed;
+    //             new_data.avoid = get_iter.avoid;
+    //             new_data.active_list = get_iter.active_list;
+    //             new_data.passive_list = get_iter.passive_list;
+    //         });
+    //         iter++;
+    //     }
+    // }
+    // else if (_table == "dbreward")
+    // {
+    //     reward_db other_table(_contract, _contract.value);
+    //     reward_db my_table(_self, _self.value);
+    //     for (auto iter = other_table.begin(); iter != other_table.end();)
+    //     {
+    //         const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+    //         my_table.emplace(_self, [&](auto &new_data) {
+    //             new_data.stage_id = get_iter.stage_id;
+    //             new_data.rank_exp = get_iter.rank_exp;
+    //             new_data.char_exp = get_iter.char_exp;
+    //             new_data.first_reward_type = get_iter.first_reward_type;
+    //             new_data.first_reward_id = get_iter.first_reward_id;
+    //             new_data.first_reward_grade = get_iter.first_reward_grade;
+    //             new_data.first_reward_count = get_iter.first_reward_count;
+    //             new_data.reward_utg_min = get_iter.reward_utg_min;
+    //             new_data.reward_utg_max = get_iter.reward_utg_max;
+    //             new_data.reward_list = get_iter.reward_list;
+    //         });
+    //         iter++;
+    //     }
+    // }
 
-    else if (_table == "dbstage")
-    {
-        stage_db other_table(_contract, _contract.value);
-        stage_db my_table(_self, _self.value);
-        for (auto iter = other_table.begin(); iter != other_table.end();)
-        {
-            const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
-            my_table.emplace(_self, [&](auto &new_data) {
-                new_data.stage_id = get_iter.stage_id;
-                new_data.stage_type = get_iter.stage_type;
-                new_data.stage_floor = get_iter.stage_floor;
-                new_data.need_stage_id = get_iter.need_stage_id;
-                new_data.stage_group_index = get_iter.stage_group_index;
-                new_data.need_entrance_item_id = get_iter.need_entrance_item_id;
-                new_data.need_entrance_item_count = get_iter.need_entrance_item_count;
-                new_data.enemy_level_min = get_iter.enemy_level_min;
-                new_data.enemy_level_max = get_iter.enemy_level_max;
-                new_data.monster_list = get_iter.monster_list;
-                new_data.boss_level = get_iter.boss_level;
-                new_data.boss_passive_list = get_iter.boss_passive_list;
-                new_data.boss_skill_list = get_iter.boss_skill_list;
-            });
-            iter++;
-        }
-    }
+    // else if (_table == "dbstage")
+    // {
+    //     stage_db other_table(_contract, _contract.value);
+    //     stage_db my_table(_self, _self.value);
+    //     for (auto iter = other_table.begin(); iter != other_table.end();)
+    //     {
+    //         const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+    //         my_table.emplace(_self, [&](auto &new_data) {
+    //             new_data.stage_id = get_iter.stage_id;
+    //             new_data.stage_type = get_iter.stage_type;
+    //             new_data.stage_floor = get_iter.stage_floor;
+    //             new_data.need_stage_id = get_iter.need_stage_id;
+    //             new_data.stage_group_index = get_iter.stage_group_index;
+    //             new_data.need_entrance_item_id = get_iter.need_entrance_item_id;
+    //             new_data.need_entrance_item_count = get_iter.need_entrance_item_count;
+    //             new_data.enemy_level_min = get_iter.enemy_level_min;
+    //             new_data.enemy_level_max = get_iter.enemy_level_max;
+    //             new_data.monster_list = get_iter.monster_list;
+    //             new_data.boss_level = get_iter.boss_level;
+    //             new_data.boss_passive_list = get_iter.boss_passive_list;
+    //             new_data.boss_skill_list = get_iter.boss_skill_list;
+    //         });
+    //         iter++;
+    //     }
+    // }
 
-    else if (_table == "dbserstat")
-    {
-        serstat_db other_table(_contract, _contract.value);
-        serstat_db my_table(_self, _self.value);
-        for (auto iter = other_table.begin(); iter != other_table.end();)
-        {
-            const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
-            my_table.emplace(_self, [&](auto &new_data) {
-                new_data.id = get_iter.id;
-                new_data.job = get_iter.job;
-                new_data.grade = get_iter.grade;
-                new_data.base_str = get_iter.base_str;
-                new_data.base_dex = get_iter.base_dex;
-                new_data.base_int = get_iter.base_int;
-                new_data.speed = get_iter.speed;
-                new_data.avoid = get_iter.avoid;
-                new_data.cri_per = get_iter.cri_per;
-                new_data.cri_dmg = get_iter.cri_dmg;
-            });
-            iter++;
-        }
-    }
+    // else if (_table == "dbserstat")
+    // {
+    //     serstat_db other_table(_contract, _contract.value);
+    //     serstat_db my_table(_self, _self.value);
+    //     for (auto iter = other_table.begin(); iter != other_table.end();)
+    //     {
+    //         const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+    //         my_table.emplace(_self, [&](auto &new_data) {
+    //             new_data.id = get_iter.id;
+    //             new_data.job = get_iter.job;
+    //             new_data.grade = get_iter.grade;
+    //             new_data.base_str = get_iter.base_str;
+    //             new_data.base_dex = get_iter.base_dex;
+    //             new_data.base_int = get_iter.base_int;
+    //             new_data.speed = get_iter.speed;
+    //             new_data.avoid = get_iter.avoid;
+    //             new_data.cri_per = get_iter.cri_per;
+    //             new_data.cri_dmg = get_iter.cri_dmg;
+    //         });
+    //         iter++;
+    //     }
+    // }
 
-    else if (_table == "dbtribe")
-    {
-        tribe_db other_table(_contract, _contract.value);
-        tribe_db my_table(_self, _self.value);
-        for (auto iter = other_table.begin(); iter != other_table.end();)
-        {
-            const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
-            my_table.emplace(_self, [&](auto &new_data) {
-                new_data.id = get_iter.id;
-                new_data.base_str = get_iter.base_str;
-                new_data.base_dex = get_iter.base_dex;
-                new_data.base_int = get_iter.base_int;
-                new_data.speed = get_iter.speed;
-                new_data.avoid = get_iter.avoid;
-                new_data.cri_per = get_iter.cri_per;
-                new_data.cri_dmg = get_iter.cri_dmg;
-                new_data.pair = get_iter.pair;
-                new_data.triple = get_iter.triple;
-                new_data.penta = get_iter.penta;
-            });
-            iter++;
-        }
-    }
+    // else if (_table == "dbtribe")
+    // {
+    //     tribe_db other_table(_contract, _contract.value);
+    //     tribe_db my_table(_self, _self.value);
+    //     for (auto iter = other_table.begin(); iter != other_table.end();)
+    //     {
+    //         const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+    //         my_table.emplace(_self, [&](auto &new_data) {
+    //             new_data.id = get_iter.id;
+    //             new_data.base_str = get_iter.base_str;
+    //             new_data.base_dex = get_iter.base_dex;
+    //             new_data.base_int = get_iter.base_int;
+    //             new_data.speed = get_iter.speed;
+    //             new_data.avoid = get_iter.avoid;
+    //             new_data.cri_per = get_iter.cri_per;
+    //             new_data.cri_dmg = get_iter.cri_dmg;
+    //             new_data.pair = get_iter.pair;
+    //             new_data.triple = get_iter.triple;
+    //             new_data.penta = get_iter.penta;
+    //         });
+    //         iter++;
+    //     }
+    // }
 
-    else if (_table == "dbmoupstat")
-    {
-        upgrade_monster_db other_table(_contract, _contract.value);
-        upgrade_monster_db my_table(_self, _self.value);
-        for (auto iter = other_table.begin(); iter != other_table.end();)
-        {
-            const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
-            my_table.emplace(_self, [&](auto &new_data) {
-                new_data.upgrade = get_iter.upgrade;
-                new_data.grade_list = get_iter.grade_list;
-            });
-            iter++;
-        }
-    }
+    // else if (_table == "dbmoupstat")
+    // {
+    //     upgrade_monster_db other_table(_contract, _contract.value);
+    //     upgrade_monster_db my_table(_self, _self.value);
+    //     for (auto iter = other_table.begin(); iter != other_table.end();)
+    //     {
+    //         const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+    //         my_table.emplace(_self, [&](auto &new_data) {
+    //             new_data.upgrade = get_iter.upgrade;
+    //             new_data.grade_list = get_iter.grade_list;
+    //         });
+    //         iter++;
+    //     }
+    // }
 
-    else if (_table == "dbequpstat")
-    {
-        upgrade_equipment_db other_table(_contract, _contract.value);
-        upgrade_equipment_db my_table(_self, _self.value);
-        for (auto iter = other_table.begin(); iter != other_table.end();)
-        {
-            const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
-            my_table.emplace(_self, [&](auto &new_data) {
-                new_data.upgrade = get_iter.upgrade;
-                new_data.grade_list = get_iter.grade_list;
-            });
-            iter++;
-        }
-    }
+    // else if (_table == "dbequpstat")
+    // {
+    //     upgrade_equipment_db other_table(_contract, _contract.value);
+    //     upgrade_equipment_db my_table(_self, _self.value);
+    //     for (auto iter = other_table.begin(); iter != other_table.end();)
+    //     {
+    //         const auto &get_iter = other_table.get(iter->primary_key(), "not exist data ");
+    //         my_table.emplace(_self, [&](auto &new_data) {
+    //             new_data.upgrade = get_iter.upgrade;
+    //             new_data.grade_list = get_iter.grade_list;
+    //         });
+    //         iter++;
+    //     }
+    // }
 
     // else
     // {
     //     eosio_assert(1 == 0, "Not Exist Table");
     // }
-}
+//}
 #pragma endresion
 
 //------------------------------------------------------------------------//
@@ -4699,7 +4364,7 @@ void battletest::gacha_servant_id(eosio::name _user, uint64_t _seed)
 
         new_servant.status.basic_str = change_servant_statue(new_servant.status.basic_str) + ser_iter.base_str;
         new_servant.status.basic_dex = change_servant_statue(new_servant.status.basic_dex) + ser_iter.base_dex;
-        new_servant.status.basic_int = change_servant_statue(new_servant.status.basic_int)+ ser_iter.base_int;
+        new_servant.status.basic_int = change_servant_statue(new_servant.status.basic_int)+  ser_iter.base_int;
 
         new_servant.equip_slot.resize(3);
         new_servant.state = object_state::on_inventory;
@@ -9257,8 +8922,7 @@ void battletest::servantburn(eosio::name _user, const std::vector<uint64_t> &_li
 
 
 void battletest::monsterburn(eosio::name _user, const std::vector<uint64_t> &_list)
-{
-    
+{    
     user_auths user_auth_table(_self, _self.value);
     auto user_auth_iter = user_auth_table.find(_user.value);
     user_logs user_logs_table(_self, _self.value);
@@ -9330,7 +8994,6 @@ void battletest::monsterburn(eosio::name _user, const std::vector<uint64_t> &_li
 
 void battletest::equipburn(eosio::name _user, const std::vector<uint64_t> &_list)
 {
-
     user_auths user_auth_table(_self, _self.value);
     auto user_auth_iter = user_auth_table.find(_user.value);
     user_logs user_logs_table(_self, _self.value);
@@ -9344,7 +9007,6 @@ void battletest::equipburn(eosio::name _user, const std::vector<uint64_t> &_list
 
     for (uint32_t i = 0; i < _list.size(); ++i)
     {
-        //uint64_t UTG_Amount = 0;
         auto user_equipment_iter = user_equipment_table.find(_list[i]);
         eosio_assert(user_equipment_iter != user_equipment_table.end(), "equipburn : not exist equipment info");
         eosio_assert(user_equipment_iter->equipment.state != object_state::on_equip_slot, "equipburn : this equipment is on equip");
@@ -9354,37 +9016,29 @@ void battletest::equipburn(eosio::name _user, const std::vector<uint64_t> &_list
             if (user_equipment_iter->equipment.grade == 1)
             {
                 equipment_burn_result.amount += 500000;
-               // UTG_Amount += 500000;
             }
             else if (user_equipment_iter->equipment.grade == 2)
             {
                 equipment_burn_result.amount += 150000;
-                //UTG_Amount += 150000;
             }
             else if (user_equipment_iter->equipment.grade == 3)
             {
                 equipment_burn_result.amount += 100000;
-               // UTG_Amount += 100000;
             }
             else if (user_equipment_iter->equipment.grade == 4)
             {
                 equipment_burn_result.amount += 70000;
-                //UTG_Amount += 70000;
             }
             else if (user_equipment_iter->equipment.grade == 5)
             {
                 equipment_burn_result.amount += 50000;
-                //UTG_Amount += 50000;
             }
             else
             {
                eosio_assert(1 == 0 ,"equipburn : Wrong Type equipment grade");
             }
-          
-            // contents_list += to_string(user_equipment_iter->index) + ":";
-            // contents_list += to_string(user_equipment_iter->equipment.id) + ":";
-            // contents_list += to_string(user_equipment_iter->equipment.grade) + ":";
-            // contents_list += to_string(UTG_Amount) + ",";
+        
+
             user_equipment_table.erase(user_equipment_iter);
         }
         else
@@ -9413,12 +9067,6 @@ void battletest::equipburn(eosio::name _user, const std::vector<uint64_t> &_list
     user_logs_table.modify(user_logs_iter, _self, [&](auto &change_log) {
         change_log.get_utg += equipment_burn_result.amount;
     });
-
-    // std::string contents_type = "equipburn";
-    // action(permission_level{get_self(), "active"_n},
-    //        get_self(), "contentslist"_n,
-    //        std::make_tuple(_user, contents_type, contents_list))
-    //     .send();
 }
 
 // ACTION battletest::itemburn(eosio::name _user, const std::vector<uint64_t> &_item_list, const std::vector<uint64_t> &_count_list)
@@ -9694,8 +9342,8 @@ ACTION battletest::equipmentup(eosio::name _user, uint32_t _equipment, const std
     uint64_t temp_count =0;
     uint64_t check_inventory = 0;
     uint64_t check_total_item = 0;
-    std::string contents_result;
-    std::string contents_type = "equipmentup";
+    // std::string contents_result;
+    // std::string contents_type = "equipmentup";
     for(uint32_t i=0; i< _item_list.size(); i++)
     {
         auto user_item_iter = user_item_table.find(_item_list[i]);  
@@ -9713,15 +9361,48 @@ ACTION battletest::equipmentup(eosio::name _user, uint32_t _equipment, const std
 
         uint64_t l_seed = safeseed::get_seed_value(_user.value, now());
         uint64_t upgrade_ratio = safeseed::get_random_value(l_seed, ITEM_UPGRADE_RATE, DEFAULT_MIN, DEFAULT_RANDOM_COUNT);
-        uint64_t updatecheck = 0;
 
-        user_equip_item_table.modify(user_equipment_iter, _self, [&](auto &upgrade_item) {
-            if (db_ratio >= upgrade_ratio) // 성공 확률
-            {
+        if (db_ratio >= upgrade_ratio)
+        {
+            user_equip_item_table.modify(user_equipment_iter, _self, [&](auto &upgrade_item) {
                 upgrade_item.equipment.upgrade += 1;
-                updatecheck = 1;
-            }
-        });
+            });
+
+            user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+                eosio_assert(change_auth_user.current_item_inventory >= _item_list.size(), "equipmentup : The current number of item and the number of units to sell are not correct.");
+                if (change_auth_user.current_item_inventory - _item_list.size() <= 0)
+                {
+                    change_auth_user.current_item_inventory = 0;
+                }
+                else
+                {
+                    change_auth_user.current_item_inventory -= check_inventory;
+                }
+            });
+        }
+        else
+        {
+            user_equip_item_table.erase(user_equipment_iter);
+            user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+                eosio_assert(change_auth_user.current_item_inventory >= _item_list.size(), "equipmentup : The current number of item and the number of units to sell are not correct.");
+                if (change_auth_user.current_item_inventory - _item_list.size() <= 0)
+                {
+                    change_auth_user.current_item_inventory = 0;
+                }
+                else
+                {
+                    change_auth_user.current_item_inventory -= check_inventory;
+                }
+                if (change_auth_user.current_equipment_inventory <= 0)
+                {
+                    change_auth_user.current_equipment_inventory = 0;
+                }
+                else
+                {
+                    change_auth_user.current_equipment_inventory -= 1;
+                }
+            });
+        }
 
         user_item_table.modify(user_item_iter, _self, [&](auto &change_user_item) {
             uint64_t temp_count = user_upgrade_equipment_iter->material_count[equipment_upgrade];
@@ -9751,66 +9432,21 @@ ACTION battletest::equipmentup(eosio::name _user, uint32_t _equipment, const std
                 }
             }
         });
-
-        if (updatecheck == 0) //실패시
-        {
-            user_equip_item_table.erase(user_equipment_iter);
-            user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-                eosio_assert(change_auth_user.current_item_inventory >= _item_list.size(),"equipmentup : The current number of item and the number of units to sell are not correct.");
-                if(change_auth_user.current_item_inventory - _item_list.size() <= 0)
-                {
-                    change_auth_user.current_item_inventory = 0;
-                }
-                else
-                {
-                    change_auth_user.current_item_inventory -= check_inventory;
-                }
-                if(change_auth_user.current_equipment_inventory <=0)
-                {
-                    change_auth_user.current_equipment_inventory = 0;
-                }
-                else
-                {
-                    change_auth_user.current_equipment_inventory -= 1;
-                }                   
-            });
-        }
-
-        contents_result += to_string(user_equipment_iter->index) + ":";
-        contents_result += to_string(user_equipment_iter->equipment.id) + ":";
-        contents_result += to_string(user_equipment_iter->equipment.upgrade) + ":";
-        contents_result += to_string(user_item_iter->id) + ":";
-        contents_result += to_string(user_item_iter->type) + ":";
-        for (uint64_t i = 0; i < user_item_iter->item_list.size(); i++)
-        {
-            contents_result += to_string(user_item_iter->item_list[i].index) + ":";
-            contents_result += to_string(user_item_iter->item_list[i].count) + ":";
-        }
-        contents_result += to_string( user_upgrade_equipment_iter->use_UTG[equipment_upgrade]) +",";
     }
+        asset upgrade_use_UTG_result(0, symbol(symbol_code("UTG"), 4));
+        upgrade_use_UTG_result.amount = user_upgrade_equipment_iter->use_UTG[equipment_upgrade] * 10000;
 
+        transfer(_user, _self, upgrade_use_UTG_result, std::string("upgrade use UTG result"));
 
-    asset upgrade_use_UTG_result(0, symbol(symbol_code("UTG"), 4));
-    upgrade_use_UTG_result.amount = user_upgrade_equipment_iter->use_UTG[equipment_upgrade] *10000; 
-
-    transfer(_user, _self, upgrade_use_UTG_result, std::string("upgrade use UTG result"));
-
-    user_logs_table.modify(user_logs_iter, _self, [&](auto &change_log) {
-        change_log.use_utg += upgrade_use_UTG_result.amount;
-    });
-
-    // action(permission_level{get_self(), "active"_n},
-    //        get_self(), "contents"_n,
-    //        std::make_tuple(_user, contents_type, contents_result))
-    //     .send();  
-
-
+        user_logs_table.modify(user_logs_iter, _self, [&](auto &change_log) {
+            change_log.use_utg += upgrade_use_UTG_result.amount;
+        });
 }
 
 ACTION battletest::monsterup(eosio::name _user, uint32_t _monster, uint32_t _monster2)
 {
     system_check(_user);
-    
+
     user_auths user_auth_table(_self, _self.value);
     auto user_auth_iter = user_auth_table.find(_user.value);
 
@@ -9860,14 +9496,13 @@ ACTION battletest::monsterup(eosio::name _user, uint32_t _monster, uint32_t _mon
     {
         user_monster_table.modify(user_monster_iter, _self, [&](auto &upgrade_monster) {
             upgrade_monster.monster.upgrade = fail_upgrade;
-
         });
         user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
             change_auth_user.current_monster_inventory -= 1;
         });
     }
-    std::string contents_result;
-    std::string contents_type = "monsterup";
+    // std::string contents_result;
+    // std::string contents_type = "monsterup";
 
     // contents_result += to_string(user_monster_iter->index) + ":";
     // contents_result += to_string(user_monster_iter->monster.id) + ":";
@@ -9875,10 +9510,10 @@ ACTION battletest::monsterup(eosio::name _user, uint32_t _monster, uint32_t _mon
     // contents_result += to_string(user_monster_iter2->index) + ":";
     // contents_result += to_string(user_monster_iter2->monster.id) + ":";
     // contents_result += to_string(user_upgrade_monster_iter->use_UTG) + ",";
-    action(permission_level{get_self(), "active"_n},
-           get_self(), "contents"_n,
-           std::make_tuple(_user, contents_type, contents_result))
-        .send();
+    // action(permission_level{get_self(), "active"_n},
+    //        get_self(), "contents"_n,
+    //        std::make_tuple(_user, contents_type, contents_result))
+    //     .send();
 
     second_user_monster_table.erase(user_monster_iter2);
 
@@ -9888,12 +9523,9 @@ ACTION battletest::monsterup(eosio::name _user, uint32_t _monster, uint32_t _mon
     user_logs_table.modify(user_logs_iter, _self, [&](auto &change_log) {
         change_log.use_utg += nomal_order_buy_result.amount;
     });
-
 }
 
 #pragma endregion
-
-
 
 ACTION battletest::pvpstart(eosio::name _from, eosio::name _to)
 {
@@ -9923,7 +9555,7 @@ ACTION battletest::pvpstart(eosio::name _from, eosio::name _to)
     uint32_t from_party_num = 1;
     auto from_party_iter = from_party.find(from_party_num);
     eosio_assert(from_party_iter != from_party.end(), "PVP Start : Empty Party Table / Not Yet Signup");
-        eosio_assert(from_party_iter->state == party_state::on_wait, "PVP Start : Party State Wrong");
+    eosio_assert(from_party_iter->state == party_state::on_wait, "PVP Start : Party State Wrong");
     eosio_assert(true == possible_start(_from, from_party_num), "PVP Start : Empty Your Party");
 
     user_partys to_party(_self, _to.value);
@@ -9991,10 +9623,10 @@ ACTION battletest::pvpstart(eosio::name _from, eosio::name _to)
                 }
             }
             set_synergy(data.my_state_list, data.my_synergy_list);
-           set_hp_synergy(data.my_state_list, data.my_synergy_list);
+            set_hp_synergy(data.my_state_list, data.my_synergy_list);
 
-           set_synergy(data.enemy_state_list, data.enemy_synergy_list);
-           set_hp_synergy(data.enemy_state_list, data.enemy_synergy_list);
+            set_synergy(data.enemy_state_list, data.enemy_synergy_list);
+            set_hp_synergy(data.enemy_state_list, data.enemy_synergy_list);
         });
     }
     else
@@ -10051,10 +9683,10 @@ ACTION battletest::pvpstart(eosio::name _from, eosio::name _to)
                 }
             }
             set_synergy(data.my_state_list, data.my_synergy_list);
-           set_hp_synergy(data.my_state_list, data.my_synergy_list);
+            set_hp_synergy(data.my_state_list, data.my_synergy_list);
 
-           set_synergy(data.enemy_state_list, data.enemy_synergy_list);
-           set_hp_synergy(data.enemy_state_list, data.enemy_synergy_list);
+            set_synergy(data.enemy_state_list, data.enemy_synergy_list);
+            set_hp_synergy(data.enemy_state_list, data.enemy_synergy_list);
         });
     }
 
@@ -10080,1303 +9712,1293 @@ ACTION battletest::pvpstart(eosio::name _from, eosio::name _to)
     //        get_self(), "battlestate"_n,
     //        std::make_tuple(_from, stage_info, from_state, to_state))
     //     .send();
-}
-
+    }
 
 #pragma region store function
-//------------------------------------------------------------------------//
-//-------------------------------store_function---------------------------//
-//------------------------------------------------------------------------//
+    //------------------------------------------------------------------------//
+    //-------------------------------store_function---------------------------//
+    //------------------------------------------------------------------------//
 
-ACTION battletest::itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count)
-{
-    system_check(_user);
-
-    shop_list shop_list_table(_self, _self.value);
-    auto shop_list_iter = shop_list_table.find(_item_id);
-    eosio_assert(shop_list_iter != shop_list_table.end(), "itembuy : Not exist item shop data");
-
-    item_shop item_shop_table(_self, _self.value);
-    auto item_shop_iter = item_shop_table.find(shop_list_iter->shop_item_id);
-    eosio_assert(item_shop_iter != item_shop_table.end(), "itembuy : Not exist item_shop data");
-
-    user_auths user_auth_table(_self, _self.value);
-    auto user_auth_iter = user_auth_table.find(_user.value);
-    eosio_assert(user_auth_iter != user_auth_table.end(), "itembuy : Not exist user_auths data");
-
-    user_items user_items_table(_self, _user.value);
-    auto user_items_iter = user_items_table.find(item_shop_iter->product_id);
-
-    item_info items;
-    uint64_t count_diff = _count;
-    uint64_t check_inventory = 0;
-
-    uint64_t UTG_Amount = 0;
-
-    //로얄 서번트 구매
-    if (shop_list_iter->shop_type == 3)
+    ACTION battletest::itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count)
     {
-    }
+        system_check(_user);
 
-    //소모품(리스트류)
-    else if (shop_list_iter->shop_type == 2)
-    {
-        if (user_items_iter == user_items_table.end())
+        shop_list shop_list_table(_self, _self.value);
+        auto shop_list_iter = shop_list_table.find(_item_id);
+        eosio_assert(shop_list_iter != shop_list_table.end(), "itembuy : Not exist item shop data");
+
+        item_shop item_shop_table(_self, _self.value);
+        auto item_shop_iter = item_shop_table.find(shop_list_iter->shop_item_id);
+        eosio_assert(item_shop_iter != item_shop_table.end(), "itembuy : Not exist item_shop data");
+
+        user_auths user_auth_table(_self, _self.value);
+        auto user_auth_iter = user_auth_table.find(_user.value);
+        eosio_assert(user_auth_iter != user_auth_table.end(), "itembuy : Not exist user_auths data");
+
+        user_items user_items_table(_self, _user.value);
+        auto user_items_iter = user_items_table.find(item_shop_iter->product_id);
+
+        item_info items;
+        uint64_t count_diff = _count;
+        uint64_t check_inventory = 0;
+
+        uint64_t UTG_Amount = 0;
+
+        //로얄 서번트 구매
+        if (shop_list_iter->shop_type == 3)
         {
-            user_items_table.emplace(_self, [&](auto &change_consumable) {
-                change_consumable.id = item_shop_iter->product_id;
-                change_consumable.type = item_shop_iter->shop_type;
+        }
 
-                uint64_t sub_size = _count / 99;
+        //소모품(리스트류)
+        else if (shop_list_iter->shop_type == 2)
+        {
+            if (user_items_iter == user_items_table.end())
+            {
+                user_items_table.emplace(_self, [&](auto &change_consumable) {
+                    change_consumable.id = item_shop_iter->product_id;
+                    change_consumable.type = item_shop_iter->shop_type;
 
-                for (uint64_t i = 0; i <= sub_size; i++)
-                {
-                    if (count_diff > 99)
+                    uint64_t sub_size = _count / 99;
+
+                    for (uint64_t i = 0; i <= sub_size; i++)
                     {
-                        change_consumable.item_list[i].count = 99;
+                        if (count_diff > 99)
+                        {
+                            change_consumable.item_list[i].count = 99;
 
+                            items.index = change_consumable.item_list.size();
+                            items.count = 99;
+                            change_consumable.item_list.push_back(items);
+                            check_inventory += 1;
+                            count_diff -= 99;
+                        }
+                        else
+                        {
+                            change_consumable.item_list[i].count = count_diff;
+                            items.index = change_consumable.item_list.size();
+                            items.count = count_diff;
+                            change_consumable.item_list.push_back(items);
+                            check_inventory += 1;
+                        }
+                    }
+                });
+            }
+            else
+            {
+                user_items_table.modify(user_items_iter, _self, [&](auto &change_consumable) {
+                    change_consumable.type = item_shop_iter->shop_type;
+
+                    for (uint64_t i = 0; i < change_consumable.item_list.size(); i++)
+                    {
+                        if ((change_consumable.item_list[i].count + count_diff) > 99)
+                        {
+                            count_diff = (change_consumable.item_list[i].count + count_diff) - 99;
+                            change_consumable.item_list[i].count = 99;
+                        }
+                        else
+                        {
+                            change_consumable.item_list[i].count += count_diff;
+                            count_diff = 0;
+                            break;
+                        }
+                    }
+                    if (count_diff != 0)
+                    {
                         items.index = change_consumable.item_list.size();
-                        items.count = 99;
+                        items.count += count_diff;
                         change_consumable.item_list.push_back(items);
                         check_inventory += 1;
-                        count_diff -= 99;
+                    }
+                });
+            }
+            eosio_assert(user_auth_iter->current_item_inventory >= 0, "itembuy : current_item_inventory underflow error");
+            user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
+                add_auth.current_item_inventory += check_inventory;
+            });
+
+            asset nomal_order_buy_result(0, symbol(symbol_code("UTG"), 4));
+            nomal_order_buy_result.amount = _count * item_shop_iter->price_count;
+
+            transfer(_user, _self, nomal_order_buy_result, std::string("nomal order buy result"));
+        }
+        else
+        {
+            eosio_assert(0 == 1, "itembuy : Invalid purchase request");
+        }
+    }
+
+    void battletest::inventory_buy(eosio::name _user, uint32_t _type, uint32_t _count)
+    {
+        system_check(_user);
+
+        user_auths user_auth_table(_self, _self.value);
+        auto user_auth_iter = user_auth_table.find(_user.value);
+        uint64_t plus_inventory = 5;
+
+        user_logs user_log_table(_self, _self.value);
+        auto user_log_iter = user_log_table.find(_user.value);
+        eosio_assert(user_log_iter != user_log_table.end(), "inventory_buy : Empty Log Table / Not Yet Signup");
+
+        user_log_table.modify(user_log_iter, _self, [&](auto &new_log) {
+            new_log.use_eos += 1000 * _count;
+        });
+
+        shop_list shop_list_table(_self, _self.value);
+        auto shop_list_iter = shop_list_table.find(_type);
+        eosio_assert(shop_list_iter != shop_list_table.end(), "inventory_buy : Not exist item shop data");
+
+        item_shop item_shop_table(_self, _self.value);
+        auto item_shop_iter = item_shop_table.find(shop_list_iter->shop_item_id);
+        eosio_assert(item_shop_iter != item_shop_table.end(), "inventory_buy : Not exist item_shop data");
+
+        if (shop_list_iter->shop_item_id == 2001 && _type == 1)
+        {
+            eosio_assert((user_auth_iter->servant_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
+
+            user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+                change_auth_user.servant_inventory += (plus_inventory * _count);
+            });
+        }
+        else if (shop_list_iter->shop_item_id == 2002 && _type == 2)
+        {
+            eosio_assert((user_auth_iter->monster_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
+            user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+                change_auth_user.monster_inventory += (plus_inventory * _count);
+            });
+        }
+        else if (shop_list_iter->shop_item_id == 2003 && _type == 3)
+        {
+            eosio_assert((user_auth_iter->equipment_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
+            user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+                change_auth_user.equipment_inventory += (plus_inventory * _count);
+            });
+        }
+        else if (shop_list_iter->shop_item_id == 2004 && _type == 4)
+        {
+            eosio_assert((user_auth_iter->item_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
+            user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+                change_auth_user.item_inventory += (plus_inventory * _count);
+            });
+        }
+        else
+        {
+            eosio_assert(0 == 1, "inventory_buy : not exsit this action type");
+        }
+
+        std::string contents_result;
+        std::string contents_type = "inventorybuy";
+        contents_result += to_string(_type) + ":";
+        contents_result += to_string(plus_inventory);
+        contents_result += to_string(_count);
+        action(permission_level{get_self(), "active"_n},
+               get_self(), "contents"_n,
+               std::make_tuple(_user, contents_type, contents_result))
+            .send();
+    }
+
+    void battletest::nftexchange(eosio::name _owner, eosio::name _master, std::string _type, uint64_t _master_index)
+    {
+        require_auth(_owner);
+        std::string contents_list;
+        if (_type == "servant")
+        {
+            if (_owner == _master)
+            {
+                user_servants user_servant_table(_self, _owner.value);
+                auto servant_iter = user_servant_table.find(_master_index);
+                eosio_assert(servant_iter != user_servant_table.end(), "nftexchange : Not Exist Servant");
+                user_servant_table.modify(servant_iter, _self, [&](auto &new_servant) {
+                    new_servant.servant.state = object_state::on_inventory;
+
+                    // contents_list += "[" + to_string(new_servant.index) + ":";
+                    // contents_list += to_string(new_servant.party_number) + ":";
+                    // contents_list += to_string(new_servant.servant.state) + ":";
+                    // contents_list += to_string(new_servant.servant.exp) + ":";
+                    // contents_list += to_string(new_servant.servant.id) + ":";
+                    // contents_list += to_string(new_servant.servant.grade) + ":";
+                    // contents_list += to_string(new_servant.servant.status.basic_str) + ":";
+                    // contents_list += to_string(new_servant.servant.status.basic_dex) + ":";
+                    // contents_list += to_string(new_servant.servant.status.basic_int) + ":";
+                    // for (uint64_t j = 0; j < new_servant.servant.equip_slot.size(); j++)
+                    // {
+                    //     contents_list += to_string(new_servant.servant.equip_slot[j]) + ":";
+                    // }
+                    // for (uint64_t j = 0; j < new_servant.servant.active_skill.size(); j++)
+                    // {
+                    //     contents_list += to_string(new_servant.servant.active_skill[j]) + ":";
+                    // }
+                    // for (uint64_t j = 0; j < new_servant.servant.passive_skill.size(); j++)
+                    // {
+                    //     contents_list += to_string(new_servant.servant.passive_skill[j]) + "]";
+                    // }
+                });
+            }
+            else
+            {
+                user_servants master_table(_self, _master.value);
+                auto master_iter = master_table.find(_master_index);
+                eosio_assert(master_iter != master_table.end(), "nftexchange : Wrong Master Index 1");
+
+                user_servants owner_table(_self, _owner.value);
+                owner_table.emplace(_self, [&](auto &new_servant) {
+                    uint32_t first_index = owner_table.available_primary_key();
+                    if (first_index == 0)
+                    {
+                        new_servant.index = 1;
                     }
                     else
                     {
-                        change_consumable.item_list[i].count = count_diff;
-                        items.index = change_consumable.item_list.size();
-                        items.count = count_diff;
-                        change_consumable.item_list.push_back(items);
-                        check_inventory += 1;
+                        new_servant.index = owner_table.available_primary_key();
                     }
-                }
-            });
-        }
-        else
-        {
-            user_items_table.modify(user_items_iter, _self, [&](auto &change_consumable) {
-                change_consumable.type = item_shop_iter->shop_type;
+                    new_servant.party_number = 0;
+                    new_servant.servant = master_iter->servant;
+                    new_servant.servant.state = object_state::on_inventory;
 
-                for (uint64_t i = 0; i < change_consumable.item_list.size(); i++)
-                {
-                    if ((change_consumable.item_list[i].count + count_diff) > 99)
+                    // contents_list += "[" + to_string(new_servant.index) + ":";
+                    // contents_list += to_string(new_servant.party_number) + ":";
+                    // contents_list += to_string(new_servant.servant.state) + ":";
+                    // contents_list += to_string(new_servant.servant.exp) + ":";
+                    // contents_list += to_string(new_servant.servant.id) + ":";
+                    // contents_list += to_string(new_servant.servant.grade) + ":";
+                    // contents_list += to_string(new_servant.servant.status.basic_str) + ":";
+                    // contents_list += to_string(new_servant.servant.status.basic_dex) + ":";
+                    // contents_list += to_string(new_servant.servant.status.basic_int) + ":";
+                    // for (uint64_t j = 0; j < new_servant.servant.equip_slot.size(); j++)
+                    // {
+                    //     contents_list += to_string(new_servant.servant.equip_slot[j]) + ":";
+                    // }
+                    // for (uint64_t j = 0; j < new_servant.servant.active_skill.size(); j++)
+                    // {
+                    //     contents_list += to_string(new_servant.servant.active_skill[j]) + ":";
+                    // }
+                    // for (uint64_t j = 0; j < new_servant.servant.passive_skill.size(); j++)
+                    // {
+                    //     contents_list += to_string(new_servant.servant.passive_skill[j]) + "]";
+                    // }
+                });
+                user_auths user_auths_table(_self, _self.value);
+                auto user_auths_iter = user_auths_table.find(_master.value);
+                user_auths_table.modify(user_auths_iter, _self, [&](auto &delete_index) {
+                    if (delete_index.current_servant_inventory <= 0)
                     {
-                        count_diff = (change_consumable.item_list[i].count + count_diff) - 99;
-                        change_consumable.item_list[i].count = 99;
+                        delete_index.current_servant_inventory = 0;
                     }
                     else
                     {
-                        change_consumable.item_list[i].count += count_diff;
-                        count_diff = 0;
-                        break;
+                        delete_index.current_servant_inventory -= 1;
                     }
-                }
-                if (count_diff != 0)
-                {
-                    items.index = change_consumable.item_list.size();
-                    items.count += count_diff;
-                    change_consumable.item_list.push_back(items);
-                    check_inventory += 1;
-                }
-            });
+                });
+                master_table.erase(master_iter);
+            }
         }
-        eosio_assert(user_auth_iter->current_item_inventory >= 0, "itembuy : current_item_inventory underflow error");
-        user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
-            add_auth.current_item_inventory += check_inventory;
-        });
-
-        asset nomal_order_buy_result(0, symbol(symbol_code("UTG"), 4));
-        nomal_order_buy_result.amount = _count * item_shop_iter->price_count;
-
-        transfer(_user, _self, nomal_order_buy_result, std::string("nomal order buy result"));
-    }
-    else
-    {
-        eosio_assert(0 == 1, "itembuy : Invalid purchase request");
-    }
-}
-
-void battletest::inventory_buy(eosio::name _user, uint32_t _type, uint32_t _count)
-{
-    system_check(_user);
-
-    user_auths user_auth_table(_self, _self.value);
-    auto user_auth_iter = user_auth_table.find(_user.value);
-    uint64_t plus_inventory = 5;
-
-    user_logs user_log_table(_self, _self.value);
-    auto user_log_iter = user_log_table.find(_user.value);
-    eosio_assert(user_log_iter != user_log_table.end(), "inventory_buy : Empty Log Table / Not Yet Signup");
-   
-    user_log_table.modify(user_log_iter, _self, [&](auto &new_log) {
-        new_log.use_eos += 1000 * _count;
-    });
-
-    shop_list shop_list_table(_self, _self.value);
-    auto shop_list_iter = shop_list_table.find(_type);
-    eosio_assert(shop_list_iter != shop_list_table.end(), "inventory_buy : Not exist item shop data");
-
-    item_shop item_shop_table(_self, _self.value);
-    auto item_shop_iter = item_shop_table.find(shop_list_iter->shop_item_id);
-    eosio_assert(item_shop_iter != item_shop_table.end(), "inventory_buy : Not exist item_shop data");
-
-    if (shop_list_iter->shop_item_id == 2001 && _type == 1)
-    {
-        eosio_assert((user_auth_iter->servant_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
-
-        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-            change_auth_user.servant_inventory += (plus_inventory * _count);
-        });
-    }
-    else if (shop_list_iter->shop_item_id == 2002 && _type == 2)
-    {
-        eosio_assert((user_auth_iter->monster_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
-        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-            change_auth_user.monster_inventory += (plus_inventory * _count);
-        });
-    }
-    else if (shop_list_iter->shop_item_id == 2003 && _type == 3)
-    {
-        eosio_assert((user_auth_iter->equipment_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
-        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-            change_auth_user.equipment_inventory += (plus_inventory * _count);
-        });
-    }
-    else if (shop_list_iter->shop_item_id == 2004 && _type == 4)
-    {
-        eosio_assert((user_auth_iter->item_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
-        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-            change_auth_user.item_inventory += (plus_inventory * _count);
-        });
-    }
-    else
-    {
-        eosio_assert(0 == 1, "inventory_buy : not exsit this action type");
-    }
-
-
-    std::string contents_result;
-    std::string contents_type = "inventorybuy";
-    contents_result += to_string(_type) + ":";
-    contents_result += to_string(plus_inventory);
-    contents_result += to_string(_count);
-    action(permission_level{get_self(), "active"_n},
-           get_self(), "contents"_n,
-           std::make_tuple(_user, contents_type, contents_result))
-        .send();
-}
-
-void battletest::nftexchange(eosio::name _owner, eosio::name _master, std::string _type, uint64_t _master_index)
-{
-    require_auth(_owner);
-    std::string contents_list;
-    if (_type == "servant")
-    {
-        if (_owner == _master)
+        else if (_type == "monster")
         {
-            user_servants user_servant_table(_self, _owner.value);
-            auto servant_iter = user_servant_table.find(_master_index);
-            eosio_assert(servant_iter != user_servant_table.end(), "nftexchange : Not Exist Servant");
-            user_servant_table.modify(servant_iter, _self, [&](auto &new_servant) {
-                new_servant.servant.state = object_state::on_inventory;
+            if (_owner == _master)
+            {
+                user_monsters user_monster_table(_self, _owner.value);
+                auto monster_iter = user_monster_table.find(_master_index);
+                eosio_assert(monster_iter != user_monster_table.end(), "nftexchange : Not Exist Monster");
+                user_monster_table.modify(monster_iter, _self, [&](auto &new_monster) {
+                    new_monster.monster.state = object_state::on_inventory;
 
-            // contents_list += "[" + to_string(new_servant.index) + ":";
-            // contents_list += to_string(new_servant.party_number) + ":";
-            // contents_list += to_string(new_servant.servant.state) + ":";
-            // contents_list += to_string(new_servant.servant.exp) + ":";
-            // contents_list += to_string(new_servant.servant.id) + ":";
-            // contents_list += to_string(new_servant.servant.grade) + ":";
-            // contents_list += to_string(new_servant.servant.status.basic_str) + ":";
-            // contents_list += to_string(new_servant.servant.status.basic_dex) + ":";
-            // contents_list += to_string(new_servant.servant.status.basic_int) + ":";
-            // for (uint64_t j = 0; j < new_servant.servant.equip_slot.size(); j++)
-            // {
-            //     contents_list += to_string(new_servant.servant.equip_slot[j]) + ":";
-            // }
-            // for (uint64_t j = 0; j < new_servant.servant.active_skill.size(); j++)
-            // {
-            //     contents_list += to_string(new_servant.servant.active_skill[j]) + ":";
-            // }
-            // for (uint64_t j = 0; j < new_servant.servant.passive_skill.size(); j++)
-            // {
-            //     contents_list += to_string(new_servant.servant.passive_skill[j]) + "]";
-            // }
+                    // contents_list += "[" + to_string(new_monster.index) + ":";
+                    // contents_list += to_string(new_monster.party_number) + ":";
+                    // contents_list += to_string(new_monster.monster.state) + ":";
+                    // contents_list += to_string(new_monster.monster.exp) + ":";
+                    // contents_list += to_string(new_monster.monster.id) + ":";
+                    // contents_list += to_string(new_monster.monster.type) + ":";
+                    // contents_list += to_string(new_monster.monster.tribe) + ":";
+                    // contents_list += to_string(new_monster.monster.grade) + ":";
+                    // contents_list += to_string(new_monster.monster.upgrade) + ":";
+                    // contents_list += to_string(new_monster.monster.status.basic_str) + ":";
+                    // contents_list += to_string(new_monster.monster.status.basic_dex) + ":";
+                    // contents_list += to_string(new_monster.monster.status.basic_int) + ":";
+                    // for (uint64_t j = 0; j < new_monster.monster.active_skill.size(); j++)
+                    // {
+                    //     contents_list += to_string(new_monster.monster.active_skill[j]) + ":";
+                    // }
+                    // for (uint64_t j = 0; j < new_monster.monster.passive_skill.size(); j++)
+                    // {
+                    //     contents_list += to_string(new_monster.monster.passive_skill[j]) + "]";
+                    // }
+                });
+            }
+            else
+            {
+                user_monsters master_table(_self, _master.value);
+                auto master_iter = master_table.find(_master_index);
+                eosio_assert(master_iter != master_table.end(), "nftexchange : Wrong Master Index 2");
+
+                user_monsters owner_table(_self, _owner.value);
+                owner_table.emplace(_self, [&](auto &new_monster) {
+                    uint32_t first_index = owner_table.available_primary_key();
+                    if (first_index == 0)
+                    {
+                        new_monster.index = 1;
+                    }
+                    else
+                    {
+                        new_monster.index = owner_table.available_primary_key();
+                    }
+                    new_monster.monster = master_iter->monster;
+                    new_monster.monster.state = object_state::on_inventory;
+
+                    // contents_list += "[" + to_string(new_monster.index) + ":";
+                    // contents_list += to_string(new_monster.party_number) + ":";
+                    // contents_list += to_string(new_monster.monster.state) + ":";
+                    // contents_list += to_string(new_monster.monster.exp) + ":";
+                    // contents_list += to_string(new_monster.monster.id) + ":";
+                    // contents_list += to_string(new_monster.monster.type) + ":";
+                    // contents_list += to_string(new_monster.monster.tribe) + ":";
+                    // contents_list += to_string(new_monster.monster.grade) + ":";
+                    // contents_list += to_string(new_monster.monster.upgrade) + ":";
+                    // contents_list += to_string(new_monster.monster.status.basic_str) + ":";
+                    // contents_list += to_string(new_monster.monster.status.basic_dex) + ":";
+                    // contents_list += to_string(new_monster.monster.status.basic_int) + ":";
+                    // for (uint64_t j = 0; j < new_monster.monster.active_skill.size(); j++)
+                    // {
+                    //     contents_list += to_string(new_monster.monster.active_skill[j]) + ":";
+                    // }
+                    // for (uint64_t j = 0; j < new_monster.monster.passive_skill.size(); j++)
+                    // {
+                    //     contents_list += to_string(new_monster.monster.passive_skill[j]) + "]";
+                    // }
+                });
+
+                user_auths user_auths_table(_self, _self.value);
+                auto user_auths_iter = user_auths_table.find(_master.value);
+                user_auths_table.modify(user_auths_iter, _self, [&](auto &delete_index) {
+                    if (delete_index.current_monster_inventory <= 0)
+                    {
+                        delete_index.current_monster_inventory = 0;
+                    }
+                    else
+                    {
+                        delete_index.current_monster_inventory -= 1;
+                    }
+                });
+                master_table.erase(master_iter);
+            }
+        }
+        else if (_type == "equipment")
+        {
+            if (_owner == _master)
+            {
+                user_equip_items user_equipment_table(_self, _owner.value);
+                auto equipment_iter = user_equipment_table.find(_master_index);
+                eosio_assert(equipment_iter != user_equipment_table.end(), "nftexchange : Not Exist equipment");
+                user_equipment_table.modify(equipment_iter, _self, [&](auto &new_equip) {
+                    new_equip.equipment.state = object_state::on_inventory;
+
+                    // contents_list += "[" + to_string(new_equip.index) + ":";
+                    // contents_list += to_string(new_equip.equipment.state) + ":";
+                    // contents_list += to_string(new_equip.equipment.id) + ":";
+                    // contents_list += to_string(new_equip.equipment.type) + ":";
+                    // contents_list += to_string(new_equip.equipment.tier) + ":";
+                    // contents_list += to_string(new_equip.equipment.job) + ":";
+                    // contents_list += to_string(new_equip.equipment.grade) + ":";
+                    // contents_list += to_string(new_equip.equipment.upgrade) + ":";
+                    // contents_list += to_string(new_equip.equipment.value) + "]";
+                });
+            }
+            else
+            {
+                user_equip_items master_table(_self, _master.value);
+                auto master_iter = master_table.find(_master_index);
+                eosio_assert(master_iter != master_table.end(), "nftexchange : Wrong Master Index 3");
+
+                user_equip_items owner_table(_self, _owner.value);
+                owner_table.emplace(_self, [&](auto &new_equip) {
+                    uint32_t first_index = owner_table.available_primary_key();
+                    if (first_index == 0)
+                    {
+                        new_equip.index = 1;
+                    }
+                    else
+                    {
+                        new_equip.index = owner_table.available_primary_key();
+                    }
+                    new_equip.equipment = master_iter->equipment;
+                    new_equip.equipment.state = object_state::on_inventory;
+
+                    // contents_list += "[" + to_string(new_equip.index) + ":";
+                    // contents_list += to_string(new_equip.equipment.state) + ":";
+                    // contents_list += to_string(new_equip.equipment.id) + ":";
+                    // contents_list += to_string(new_equip.equipment.type) + ":";
+                    // contents_list += to_string(new_equip.equipment.tier) + ":";
+                    // contents_list += to_string(new_equip.equipment.job) + ":";
+                    // contents_list += to_string(new_equip.equipment.grade) + ":";
+                    // contents_list += to_string(new_equip.equipment.upgrade) + ":";
+                    // contents_list += to_string(new_equip.equipment.value) + "]";
+                });
+                user_auths user_auths_table(_self, _self.value);
+                auto user_auths_iter = user_auths_table.find(_master.value);
+                user_auths_table.modify(user_auths_iter, _self, [&](auto &delete_index) {
+                    if (delete_index.current_equipment_inventory <= 0)
+                    {
+                        delete_index.current_equipment_inventory = 0;
+                    }
+                    else
+                    {
+                        delete_index.current_equipment_inventory -= 1;
+                    }
+                });
+                master_table.erase(master_iter);
+            }
+        }
+        else
+        {
+            eosio_assert(1 == 0, "nftexchange : Wrong Type Token");
+        }
+        // std::string contents_type = "nftmailopen";
+        // action(permission_level{get_self(), "active"_n},
+        //        get_self(), "contentslist"_n,
+        //        std::make_tuple(_owner, contents_type, contents_list))
+        //     .send();
+    }
+
+    ACTION battletest::chat(name _user, asset _price, string _text)
+    {
+        require_auth(_user);
+
+        eosio_assert(_price.symbol == symbol("UTG", 4), "Only UTG can be uses.");
+
+        // Get User's UTG balance
+        account acnt_table(_self, _user.value);
+        auto a_iter = acnt_table.find(_price.symbol.code().raw());
+
+        // Get Chat table info
+        chat_index chat_table(_self, _self.value);
+        auto iter = chat_table.find(_self.value);
+
+        // Set basic price
+        string _symbol = "UTG";
+        asset basic_price(1000000, symbol(symbol_code(_symbol), 4));
+
+        if (iter == chat_table.end())
+        {
+            eosio_assert(a_iter->balance.amount >= basic_price.amount, "Not enough UTG.");
+            eosio_assert(basic_price.amount == _price.amount, "Can not register at current price.");
+
+            chat_table.emplace(_user, [&](auto &data) {
+                data.owner = _self;
+                data.price = basic_price;
+                data.user = _user;
+                data.text = _text;
+                data.start_time = now();
             });
         }
         else
         {
-            user_servants master_table(_self, _master.value);
-            auto master_iter = master_table.find(_master_index);
-            eosio_assert(master_iter != master_table.end(), "nftexchange : Wrong Master Index 1");
+            if (iter->start_time < now() - 86400)
+            {
+                eosio_assert(a_iter->balance.amount >= basic_price.amount, "Not enough UTG.");
+                eosio_assert(basic_price.amount == _price.amount, "Can not register at current price.");
 
-            user_servants owner_table(_self, _owner.value);
-            owner_table.emplace(_self, [&](auto &new_servant) {
-                uint32_t first_index = owner_table.available_primary_key();
-                if (first_index == 0)
-                {
-                    new_servant.index = 1;
-                }
-                else
-                {
-                    new_servant.index = owner_table.available_primary_key();
-                }
-                new_servant.party_number = 0;
-                new_servant.servant = master_iter->servant;
-                new_servant.servant.state = object_state::on_inventory;
+                chat_table.modify(iter, _user, [&](auto &data) {
+                    data.price = basic_price;
+                    data.user = _user;
+                    data.text = _text;
+                    data.start_time = now();
+                });
+            }
+            else
+            {
+                eosio_assert(a_iter->balance.amount >= _price.amount, "Not enough UTG.");
+                basic_price.amount = iter->price.amount * 2;
+                eosio_assert(basic_price.amount == _price.amount, "Can not register at current price.");
 
-            // contents_list += "[" + to_string(new_servant.index) + ":";
-            // contents_list += to_string(new_servant.party_number) + ":";
-            // contents_list += to_string(new_servant.servant.state) + ":";
-            // contents_list += to_string(new_servant.servant.exp) + ":";
-            // contents_list += to_string(new_servant.servant.id) + ":";
-            // contents_list += to_string(new_servant.servant.grade) + ":";
-            // contents_list += to_string(new_servant.servant.status.basic_str) + ":";
-            // contents_list += to_string(new_servant.servant.status.basic_dex) + ":";
-            // contents_list += to_string(new_servant.servant.status.basic_int) + ":";
-            // for (uint64_t j = 0; j < new_servant.servant.equip_slot.size(); j++)
-            // {
-            //     contents_list += to_string(new_servant.servant.equip_slot[j]) + ":";
-            // }
-            // for (uint64_t j = 0; j < new_servant.servant.active_skill.size(); j++)
-            // {
-            //     contents_list += to_string(new_servant.servant.active_skill[j]) + ":";
-            // }
-            // for (uint64_t j = 0; j < new_servant.servant.passive_skill.size(); j++)
-            // {
-            //     contents_list += to_string(new_servant.servant.passive_skill[j]) + "]";
-            // }
-
-            });
-            user_auths user_auths_table(_self,_self.value);
-            auto user_auths_iter = user_auths_table.find(_master.value);
-            user_auths_table.modify(user_auths_iter, _self, [&](auto &delete_index){
-                if(delete_index.current_servant_inventory <= 0)
-                {
-                    delete_index.current_servant_inventory = 0;
-                }
-                else
-                {
-                    delete_index.current_servant_inventory -= 1;
-                }              
-
-            });
-            master_table.erase(master_iter);
+                chat_table.modify(iter, _user, [&](auto &data) {
+                    data.price = _price;
+                    data.user = _user;
+                    data.text = _text;
+                    data.start_time = now();
+                });
+            }
         }
-       
+
+        string msg = "Regist chat message. " + std::to_string(_price.amount) + " UTG";
+        transfer(_user, _self, _price, msg);
     }
-    else if(_type == "monster")
+
+    void battletest::towersnap(uint64_t fnum) //층수 인자값 추가
     {
-        if (_owner == _master)
-        {
-            user_monsters user_monster_table(_self, _owner.value);
-            auto monster_iter = user_monster_table.find(_master_index);
-            eosio_assert(monster_iter != user_monster_table.end(), "nftexchange : Not Exist Monster");
-            user_monster_table.modify(monster_iter, _self, [&](auto &new_monster) {
-                new_monster.monster.state = object_state::on_inventory;
+        // eos_logs eos_log_table(_self, _self.value);
+        // auto eos_log_iter = eos_log_table.find(_self.value);
+        // eosio_assert(eos_log_iter != eos_log_table.end(), "Need Set Eos Log");
 
-                // contents_list += "[" + to_string(new_monster.index) + ":";
-                // contents_list += to_string(new_monster.party_number) + ":";
-                // contents_list += to_string(new_monster.monster.state) + ":";
-                // contents_list += to_string(new_monster.monster.exp) + ":";
-                // contents_list += to_string(new_monster.monster.id) + ":";
-                // contents_list += to_string(new_monster.monster.type) + ":";
-                // contents_list += to_string(new_monster.monster.tribe) + ":";
-                // contents_list += to_string(new_monster.monster.grade) + ":";
-                // contents_list += to_string(new_monster.monster.upgrade) + ":";
-                // contents_list += to_string(new_monster.monster.status.basic_str) + ":";
-                // contents_list += to_string(new_monster.monster.status.basic_dex) + ":";
-                // contents_list += to_string(new_monster.monster.status.basic_int) + ":";
-                // for (uint64_t j = 0; j < new_monster.monster.active_skill.size(); j++)
-                // {
-                //     contents_list += to_string(new_monster.monster.active_skill[j]) + ":";
-                // }
-                // for (uint64_t j = 0; j < new_monster.monster.passive_skill.size(); j++)
-                // {
-                //     contents_list += to_string(new_monster.monster.passive_skill[j]) + "]";
-                // }
-            });
-        }
-        else
-        {
-            user_monsters master_table(_self, _master.value);
-            auto master_iter = master_table.find(_master_index);
-            eosio_assert(master_iter != master_table.end(),"nftexchange : Wrong Master Index 2");
+        // eos_snapshots eos_snapshot_table(_self, _self.value);
+        // eos_snapshot_table.emplace(_self, [&](auto &new_snap_shot) {
+        //     uint32_t first_index = eos_snapshot_table.available_primary_key();
+        //     new_snap_shot.snapshot_count = fnum;
+        //     new_snap_shot.signup_eos = eos_log_iter->signup_eos;
+        //     new_snap_shot.status_change_num = eos_log_iter->status_change_num;
+        //     new_snap_shot.gacha_eos = eos_log_iter->gacha_eos;
+        //     new_snap_shot.total_eos = eos_log_iter->signup_eos + eos_log_iter->status_change_num + eos_log_iter->gacha_eos;
+        // });
 
-            user_monsters owner_table(_self, _owner.value);
-            owner_table.emplace(_self, [&](auto &new_monster) {
-                uint32_t first_index = owner_table.available_primary_key();
-                if (first_index == 0)
-                {
-                    new_monster.index = 1;
-                }
-                else
-                {
-                    new_monster.index = owner_table.available_primary_key();
-                }
-                new_monster.monster = master_iter->monster;
-                new_monster.monster.state = object_state::on_inventory;
-
-                // contents_list += "[" + to_string(new_monster.index) + ":";
-                // contents_list += to_string(new_monster.party_number) + ":";
-                // contents_list += to_string(new_monster.monster.state) + ":";
-                // contents_list += to_string(new_monster.monster.exp) + ":";
-                // contents_list += to_string(new_monster.monster.id) + ":";
-                // contents_list += to_string(new_monster.monster.type) + ":";
-                // contents_list += to_string(new_monster.monster.tribe) + ":";
-                // contents_list += to_string(new_monster.monster.grade) + ":";
-                // contents_list += to_string(new_monster.monster.upgrade) + ":";
-                // contents_list += to_string(new_monster.monster.status.basic_str) + ":";
-                // contents_list += to_string(new_monster.monster.status.basic_dex) + ":";
-                // contents_list += to_string(new_monster.monster.status.basic_int) + ":";
-                // for (uint64_t j = 0; j < new_monster.monster.active_skill.size(); j++)
-                // {
-                //     contents_list += to_string(new_monster.monster.active_skill[j]) + ":";
-                // }
-                // for (uint64_t j = 0; j < new_monster.monster.passive_skill.size(); j++)
-                // {
-                //     contents_list += to_string(new_monster.monster.passive_skill[j]) + "]";
-                // }
-
-            });
-
-            user_auths user_auths_table(_self, _self.value);
-            auto user_auths_iter = user_auths_table.find(_master.value);
-            user_auths_table.modify(user_auths_iter, _self, [&](auto &delete_index) {
-                if(delete_index.current_monster_inventory <= 0 )
-                {
-                    delete_index.current_monster_inventory = 0;
-                }
-                else
-                {
-                    delete_index.current_monster_inventory -= 1;
-                }                
-
-            });
-            master_table.erase(master_iter);
-        }
+        // eos_log_table.modify(eos_log_iter, _self, [&](auto &new_log) {
+        //     new_log.signup_eos = 0;
+        //     new_log.status_change_num = 0;
+        //     new_log.gacha_eos = 0;
+        // });
     }
-    else if(_type == "equipment")
+
+    // ACTION battletest::toweropen()
+    // {
+    //     require_auth(_self);
+
+    //     uint64_t _floor = 1;
+    //     floor_index floortable(_self, _self.value);
+    //     auto iter = floortable.find(_floor);
+
+    //     eosio_assert(iter == floortable.end(), "Tower is already open.");
+
+    //     floortable.emplace(_self, [&](auto &floordata) {
+    //         floordata.fnum = _floor;
+    //         floordata.owner = _self;
+    //         floordata.bnum = 0;
+    //         floordata.pnum = 0;
+    //         floordata.state = "lock";
+    //         floordata.endtime = 0;
+    //     });
+    // }
+
+    // ACTION battletest::endflag(name _winner, uint64_t _fnum)
+    // {
+    //     require_auth(_self);
+    //     floor_index floortable(_self, _self.value);
+    //     const auto &f_iter = floortable.get(_fnum, "Floor info does not exist");
+
+    //     eosio_assert(f_iter.owner == _winner, "It does not match the Floor Master.");
+
+    //     eosio_assert(f_iter.endtime <= now(), "Not enough time.");
+
+    //     floortable.modify(f_iter, _self, [&](auto &floordata) {
+    //         floordata.state = "end";
+    //     });
+
+    //     towersnap(_fnum);
+    // }
+
+    void battletest::resetparty(eosio::name _user, uint64_t _pnum)
     {
-        if (_owner == _master)
+        user_partys user_party_table(_self, _user.value);
+        auto party_iter = user_party_table.find(_pnum);
+        eosio_assert(party_iter != user_party_table.end(), "Not Exist Party");
+
+        for (uint32_t i = 0; i < party_iter->servant_list.size(); ++i)
         {
-            user_equip_items user_equipment_table(_self, _owner.value);
-            auto equipment_iter = user_equipment_table.find(_master_index);
-            eosio_assert(equipment_iter != user_equipment_table.end(), "nftexchange : Not Exist equipment");
-            user_equipment_table.modify(equipment_iter, _self, [&](auto &new_equip) {
-                new_equip.equipment.state = object_state::on_inventory;
-
-                // contents_list += "[" + to_string(new_equip.index) + ":";
-                // contents_list += to_string(new_equip.equipment.state) + ":";
-                // contents_list += to_string(new_equip.equipment.id) + ":";
-                // contents_list += to_string(new_equip.equipment.type) + ":";
-                // contents_list += to_string(new_equip.equipment.tier) + ":";
-                // contents_list += to_string(new_equip.equipment.job) + ":";
-                // contents_list += to_string(new_equip.equipment.grade) + ":";
-                // contents_list += to_string(new_equip.equipment.upgrade) + ":";
-                // contents_list += to_string(new_equip.equipment.value) + "]";
-            });
-        }
-        else
-        {
-            user_equip_items master_table(_self, _master.value);
-            auto master_iter = master_table.find(_master_index);
-            eosio_assert(master_iter != master_table.end(), "nftexchange : Wrong Master Index 3");
-
-            user_equip_items owner_table(_self, _owner.value);
-            owner_table.emplace(_self, [&](auto &new_equip) {
-                uint32_t first_index = owner_table.available_primary_key();
-                if (first_index == 0)
-                {
-                    new_equip.index = 1;
-                }
-                else
-                {
-                    new_equip.index = owner_table.available_primary_key();
-                }
-                new_equip.equipment = master_iter->equipment;
-                new_equip.equipment.state = object_state::on_inventory;
-
-                // contents_list += "[" + to_string(new_equip.index) + ":";
-                // contents_list += to_string(new_equip.equipment.state) + ":";
-                // contents_list += to_string(new_equip.equipment.id) + ":";
-                // contents_list += to_string(new_equip.equipment.type) + ":";
-                // contents_list += to_string(new_equip.equipment.tier) + ":";
-                // contents_list += to_string(new_equip.equipment.job) + ":";
-                // contents_list += to_string(new_equip.equipment.grade) + ":";
-                // contents_list += to_string(new_equip.equipment.upgrade) + ":";
-                // contents_list += to_string(new_equip.equipment.value) + "]";
-
-            });
-            user_auths user_auths_table(_self, _self.value);
-            auto user_auths_iter = user_auths_table.find(_master.value);
-            user_auths_table.modify(user_auths_iter, _self, [&](auto &delete_index) {
-                if(delete_index.current_equipment_inventory <= 0 )
-                {
-                    delete_index.current_equipment_inventory = 0;
-                }
-                else
-                {
-                    delete_index.current_equipment_inventory -= 1;
-                }                
-
-            });
-            master_table.erase(master_iter);
-        }
-    }
-    else
-    {
-        eosio_assert(1 == 0 ,"nftexchange : Wrong Type Token");
-    }
-    // std::string contents_type = "nftmailopen";
-    // action(permission_level{get_self(), "active"_n},
-    //        get_self(), "contentslist"_n,
-    //        std::make_tuple(_owner, contents_type, contents_list))
-    //     .send();
-}
-
-ACTION battletest::chat(name _user, asset _price, string _text)
-{
-   require_auth(_user);
-
-   eosio_assert(_price.symbol == symbol("UTG", 4), "Only UTG can be uses.");
-
-   // Get User's UTG balance
-   account acnt_table(_self, _user.value);
-   auto a_iter = acnt_table.find(_price.symbol.code().raw());
-
-   // Get Chat table info
-   chat_index chat_table(_self, _self.value);
-   auto iter = chat_table.find(_self.value);
-
-   // Set basic price
-   string _symbol = "UTG";
-   asset basic_price(1000000, symbol(symbol_code(_symbol), 4));
-
-   if(iter == chat_table.end()){
-       eosio_assert(a_iter->balance.amount >= basic_price.amount, "Not enough UTG.");
-       eosio_assert(basic_price.amount == _price.amount, "Can not register at current price.");
-
-       chat_table.emplace(_user, [&](auto &data){
-           data.owner = _self;
-           data.price = basic_price;
-           data.user = _user;
-           data.text = _text;
-           data.start_time = now();
-       });
-   }
-   else{
-       if(iter->start_time < now() - 86400){
-           eosio_assert(a_iter->balance.amount >= basic_price.amount, "Not enough UTG.");
-           eosio_assert(basic_price.amount == _price.amount, "Can not register at current price.");
-
-           chat_table.modify(iter, _user, [&](auto &data){
-               data.price = basic_price;
-               data.user = _user;
-               data.text = _text;
-               data.start_time = now();
-           });
-       }
-       else{
-           eosio_assert(a_iter->balance.amount >= _price.amount, "Not enough UTG.");
-           basic_price.amount = iter->price.amount * 2;
-           eosio_assert(basic_price.amount == _price.amount, "Can not register at current price.");
-
-           chat_table.modify(iter, _user, [&](auto &data){
-               data.price = _price;
-               data.user = _user;
-               data.text = _text;
-               data.start_time = now();
-           });
-       }
-   }
-
-   string msg = "Regist chat message. " + std::to_string(_price.amount) + " UTG";
-   transfer(_user, _self, _price, msg);
-}
- 
-
-void battletest::towersnap(uint64_t fnum)      //층수 인자값 추가
-{
-    // eos_logs eos_log_table(_self, _self.value);
-    // auto eos_log_iter = eos_log_table.find(_self.value);
-    // eosio_assert(eos_log_iter != eos_log_table.end(), "Need Set Eos Log");
-
-    // eos_snapshots eos_snapshot_table(_self, _self.value);
-    // eos_snapshot_table.emplace(_self, [&](auto &new_snap_shot) {
-    //     uint32_t first_index = eos_snapshot_table.available_primary_key();
-    //     new_snap_shot.snapshot_count = fnum;
-    //     new_snap_shot.signup_eos = eos_log_iter->signup_eos;
-    //     new_snap_shot.status_change_num = eos_log_iter->status_change_num;
-    //     new_snap_shot.gacha_eos = eos_log_iter->gacha_eos;
-    //     new_snap_shot.total_eos = eos_log_iter->signup_eos + eos_log_iter->status_change_num + eos_log_iter->gacha_eos;
-    // });
-
-    // eos_log_table.modify(eos_log_iter, _self, [&](auto &new_log) {
-    //     new_log.signup_eos = 0;
-    //     new_log.status_change_num = 0;
-    //     new_log.gacha_eos = 0;
-    // });
-}
-
-// ACTION battletest::toweropen()
-// {
-//     require_auth(_self);
-
-//     uint64_t _floor = 1;
-//     floor_index floortable(_self, _self.value);
-//     auto iter = floortable.find(_floor);
-
-//     eosio_assert(iter == floortable.end(), "Tower is already open.");
-
-//     floortable.emplace(_self, [&](auto &floordata) {
-//         floordata.fnum = _floor;
-//         floordata.owner = _self;
-//         floordata.bnum = 0;
-//         floordata.pnum = 0;
-//         floordata.state = "lock";
-//         floordata.endtime = 0;
-//     });
-// }
-
-// ACTION battletest::endflag(name _winner, uint64_t _fnum)
-// {
-//     require_auth(_self);
-//     floor_index floortable(_self, _self.value);
-//     const auto &f_iter = floortable.get(_fnum, "Floor info does not exist");
-
-//     eosio_assert(f_iter.owner == _winner, "It does not match the Floor Master.");
-
-//     eosio_assert(f_iter.endtime <= now(), "Not enough time.");
-
-//     floortable.modify(f_iter, _self, [&](auto &floordata) {
-//         floordata.state = "end";
-//     });
-
-//     towersnap(_fnum);
-// }
-
-void battletest::resetparty(eosio::name _user, uint64_t _pnum)
-{
- user_partys user_party_table(_self, _user.value);
-    auto party_iter = user_party_table.find(_pnum);
-    eosio_assert(party_iter != user_party_table.end(),"Not Exist Party");
-
-    for(uint32_t i =0; i <party_iter->servant_list.size(); ++i)
-    {
-        if(party_iter->servant_list[i] == 0)
-        {
-            continue;
-        }
-        user_servants user_servant_table(_self, _user.value);
-        auto servant = user_servant_table.find(party_iter->servant_list[i]);
-        eosio_assert(servant != user_servant_table.end(),"Not Exist Servant");
-        for(uint32_t equip = 0; equip < servant->servant.equip_slot.size(); ++equip)
-        {
-            if(servant->servant.equip_slot[equip] == 0)
+            if (party_iter->servant_list[i] == 0)
             {
                 continue;
             }
-            user_equip_items user_equip_table(_self, _user.value);
-            auto equip_iter = user_equip_table.find(servant->servant.equip_slot[equip]);
-            eosio_assert(equip_iter != user_equip_table.end(),"Not Exist Equipment");
-            user_equip_table.erase(equip_iter);
+            user_servants user_servant_table(_self, _user.value);
+            auto servant = user_servant_table.find(party_iter->servant_list[i]);
+            eosio_assert(servant != user_servant_table.end(), "Not Exist Servant");
+            for (uint32_t equip = 0; equip < servant->servant.equip_slot.size(); ++equip)
+            {
+                if (servant->servant.equip_slot[equip] == 0)
+                {
+                    continue;
+                }
+                user_equip_items user_equip_table(_self, _user.value);
+                auto equip_iter = user_equip_table.find(servant->servant.equip_slot[equip]);
+                eosio_assert(equip_iter != user_equip_table.end(), "Not Exist Equipment");
+                user_equip_table.erase(equip_iter);
+            }
+            user_servant_table.erase(servant);
         }
-        user_servant_table.erase(servant);
-    }
 
-    for (uint32_t i = 0; i < party_iter->monster_list.size(); ++i)
-    {
-        if (party_iter->monster_list[i] == 0)
+        for (uint32_t i = 0; i < party_iter->monster_list.size(); ++i)
         {
-            continue;
+            if (party_iter->monster_list[i] == 0)
+            {
+                continue;
+            }
+            user_monsters user_servant_table(_self, _user.value);
+            auto monster = user_servant_table.find(party_iter->monster_list[i]);
+            eosio_assert(monster != user_servant_table.end(), "Not Exist Monster");
+            user_servant_table.erase(monster);
         }
-        user_monsters user_servant_table(_self, _user.value);
-        auto monster = user_servant_table.find(party_iter->monster_list[i]);
-        eosio_assert(monster != user_servant_table.end(), "Not Exist Monster");
-        user_servant_table.erase(monster);
     }
-}
 
-// ACTION battletest::claim(name who, uint64_t fnum)
-// {
-//     system_check(who);
-//     floor_index floortable(_self, _self.value);
-//     const auto &f_iter = floortable.get(fnum, "Floor info does not exist");
-
-//     eosio_assert(f_iter.owner == who, "It does not match the Floor Master.");
-//     eosio_assert(f_iter.endtime <= now(), "Not enough time.");
-//     eosio_assert(f_iter.state == "end", "Impossible state");
-
-//     // 우승자 테이블에서 파티 정보 삭제
-//     //지우는 처리 들어감
-//     resetparty(who, 1);
-
-
-//     // 다음층 테이블 추가
-    
-//     floortable.emplace(who, [&](auto &floordata) {
-//         floordata.fnum = fnum + 1;
-//         floordata.owner = _self;
-//         floordata.bnum = 0;
-//         floordata.pnum = 0;
-//         floordata.state = "lock";
-//         floordata.endtime = 0;
-//     });
-
-//     // 우승자 정보 수정
-//     user_logs user_log(_self, _self.value);
-//     auto log_iter = user_log.find(who.value);
-//     user_log.modify(log_iter, who, [&](auto &data) {
-//         data.top_clear_tower = fnum + 1;
-//     });
-
-//     // EOS 스냅샷 확인후 지급
-//     eos_snapshots eos_snapshot_table(_self, _self.value);
-//     auto eos_snapshot_iter = eos_snapshot_table.find(fnum);
-//     eosio_assert(eos_snapshot_iter != eos_snapshot_table.end(), "Wrong SnapShot");
-
-//     asset tower_reward(0, symbol(symbol_code("EOS"), 4));
-//     tower_reward.amount = eos_snapshot_iter->total_eos;
-
-//     std::string memo;
-//     memo += "tower:";
-//     memo += to_string(fnum);
-//     //이오스 보내는것에 대한 예외처리 필요
-//     action(permission_level{get_self(), "active"_n},
-//            "eosio.token"_n, "transfer"_n,
-//            std::make_tuple(_self, who, tower_reward, memo))
-//         .send();
-// }
-
-
-void battletest::towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint64_t bnum)
-{
-    // floor_index floortable(_self, _self.value);
-    // auto f_iter = floortable.find(fnum);
-
-    // eosio_assert(f_iter->bnum == bnum, "Another user has already conquered.");
-
-    // if (f_iter->owner == _self)
+    // ACTION battletest::claim(name who, uint64_t fnum)
     // {
-    //     // 비어있는걸 차지한 경우
-    //     uint64_t temp = 0;
-    //     settower(_self, winner, temp, pnum);
-    // }
-    // else
-    // {
-    //     // 도전해서 이긴 경우
-    //     settower(f_iter->owner, winner, f_iter->pnum, pnum);
-    // }
-    // // 층이 이미 정복된 경우에는 사용자 정보만 변경
-    // if (f_iter->state == "end")
-    // {
-    //     user_logs user_log(_self, _self.value);
-    //     auto iter = user_log.find(winner.value);
+    //     system_check(who);
+    //     floor_index floortable(_self, _self.value);
+    //     const auto &f_iter = floortable.get(fnum, "Floor info does not exist");
 
-    //     if (iter->top_clear_tower == fnum)
-    //     {
-    //         user_log.modify(iter, _self, [&](auto &data) {
-    //             data.top_clear_tower = data.top_clear_tower + 1;
-    //         });
-    //     }
-    // }
-    // // 층을 정복한 경우, 혹은 최초 등록시에는 NPC화
-    // else
-    // {
-    //     floortable.modify(f_iter, _self, [&](auto &floordata) {
-    //         floordata.owner = winner;
-    //         floordata.bnum = bnum + 1;
-    //         floordata.pnum = pnum; // 패배시 유저의 어떤 파티인지 알기 위해 기록
-    //         floordata.endtime = now() + 86400;
-    //         floordata.state = "idle";
+    //     eosio_assert(f_iter.owner == who, "It does not match the Floor Master.");
+    //     eosio_assert(f_iter.endtime <= now(), "Not enough time.");
+    //     eosio_assert(f_iter.state == "end", "Impossible state");
+
+    //     // 우승자 테이블에서 파티 정보 삭제
+    //     //지우는 처리 들어감
+    //     resetparty(who, 1);
+
+    //     // 다음층 테이블 추가
+
+    //     floortable.emplace(who, [&](auto &floordata) {
+    //         floordata.fnum = fnum + 1;
+    //         floordata.owner = _self;
+    //         floordata.bnum = 0;
+    //         floordata.pnum = 0;
+    //         floordata.state = "lock";
+    //         floordata.endtime = 0;
     //     });
-    //     /***********************/
-    //     /**** 파티 정보 저장 ****/
-    //     /***********************/
 
-    //     // 우승자가 존재하는 유저인지 체크
-    //     user_auths user(_self, _self.value);
-    //     auto user_exist_iter = user.find(winner.value);
-    //     eosio_assert(user_exist_iter != user.end(), "Not Exist User.");
+    //     // 우승자 정보 수정
+    //     user_logs user_log(_self, _self.value);
+    //     auto log_iter = user_log.find(who.value);
+    //     user_log.modify(log_iter, who, [&](auto &data) {
+    //         data.top_clear_tower = fnum + 1;
+    //     });
 
-    //     // 우승자 파티 정보 저장
-    //     user_equip_items user_equipment(_self, winner.value);
-    //     user_equip_items npc_equipment(_self, fnum);
+    //     // EOS 스냅샷 확인후 지급
+    //     eos_snapshots eos_snapshot_table(_self, _self.value);
+    //     auto eos_snapshot_iter = eos_snapshot_table.find(fnum);
+    //     eosio_assert(eos_snapshot_iter != eos_snapshot_table.end(), "Wrong SnapShot");
 
-    //     user_partys user_party(_self, winner.value);
-    //     auto user_party_iter = user_party.get(pnum, "Not exist party.");
+    //     asset tower_reward(0, symbol(symbol_code("EOS"), 4));
+    //     tower_reward.amount = eos_snapshot_iter->total_eos;
 
-    //     user_servants user_servant(_self, winner.value);
-    //     user_servants npc_servant(_self, fnum);
-
-    //     user_monsters user_monster(_self, winner.value);
-    //     user_monsters npc_monster(_self, fnum);
-
-    //     // 서번트 정보 이식
-    //     uint64_t servant_idx = 1;
-    //     uint64_t equipment_idx = 1;
-
-    //     // NPC 테이블이 비어있나 확인
-    //     auto npc_servant_iter = npc_servant.find(servant_idx);
-
-    //     // NPC 테이블이 비어 있는 경우 
-    //     if (npc_servant_iter == npc_servant.end())
-    //     {
-    //         // 유저 파티 정보에서 해당 파티에 배치된 서번트 리스트를 가져옴
-    //         for (auto iter = user_party_iter.servant_list.begin(); iter != user_party_iter.servant_list.end(); iter++)
-    //         {
-    //             if(*iter == 0){
-    //                 npc_servant.emplace(_self, [&](auto &npc_data) {
-    //                     npc_data.index = servant_idx;
-    //                     npc_data.party_number = 0;
-    //                 });
-    //                 servant_idx += 1;
-    //                 for(uint32_t i = 0; i < 3; ++i)
-    //                 {
-    //                     equipment_info temp;
-    //                     temp.id = 0;
-    //                     temp.state = 0;
-    //                     temp.type = 0;
-    //                     temp.tier = 0;
-    //                     temp.job = 0;
-    //                     temp.grade = 0;
-    //                     temp.upgrade = 0;
-    //                     temp.value = 0;
-    //                     temp.equipservantindex = servant_idx;
-
-    //                     npc_equipment.emplace(_self, [&](auto &equipment_data) {
-    //                         equipment_data.index = equipment_idx;
-    //                         equipment_data.equipment = temp;
-    //                     });
-    //                     equipment_idx += 1;
-    //                 }
-    //                 continue;
-    //             }
-    //             // 서번트 리스트에 있는 서번트 인덱스로 서번트 정보를 가져옴
-    //             auto user_servant_iter = user_servant.get(*iter, "Not exist servant");
-
-    //             // 각 층마다 서번트 몬스터는 고정이므로, 1번부터 5번인덱스로 삽입
-    //             npc_servant.emplace(_self, [&](auto &npc_data) {
-    //                 npc_data.index = servant_idx;
-    //                 npc_data.party_number = fnum;
-    //                 npc_data.servant = user_servant_iter.servant;
-
-    //                 // 서번트 아이템 복사
-    //                 uint8_t temp_index = 0;
-    //                 for (auto item_iter = user_servant_iter.servant.equip_slot.begin(); item_iter != user_servant_iter.servant.equip_slot.end(); item_iter++)
-    //                 {
-    //                     if (*item_iter != 0)
-    //                     {
-    //                         // 장착을 했다면 해당 인덱스로 유저 테이블에서 장착 아이템 정보를 가져옴
-    //                         auto user_equipment_iter = user_equipment.get(*item_iter, "Not exist item");
-
-    //                         npc_equipment.emplace(_self, [&](auto &equipment_data) {
-    //                             equipment_data.index = equipment_idx;
-    //                             equipment_data.equipment = user_equipment_iter.equipment;
-    //                             equipment_data.equipment.equipservantindex = servant_idx;
-    //                         });
-    //                         npc_data.servant.equip_slot[temp_index] = equipment_idx;
-    //                     }
-    //                     else
-    //                     {
-    //                         // 장착된 아이템이 없다면 id값을 0으로 해서 데이터 삽입
-    //                         equipment_info temp;
-    //                         temp.id = 0;
-    //                         temp.state = 0;
-    //                         temp.type = 0;
-    //                         temp.tier = 0;
-    //                         temp.job = 0;
-    //                         temp.grade = 0;
-    //                         temp.upgrade = 0;
-    //                         temp.value = 0;
-    //                         temp.equipservantindex = servant_idx;
-
-    //                         npc_equipment.emplace(_self, [&](auto &equipment_data) {
-    //                             equipment_data.index = equipment_idx;
-    //                             equipment_data.equipment = temp;
-    //                         });
-
-    //                         npc_data.servant.equip_slot[temp_index] = 0;
-    //                     }
-    //                     equipment_idx++;
-    //                     temp_index++;
-    //                 }
-
-    //             });
-
-    //             servant_idx++;
-    //         }
-    //     }
-    //     else
-    //     {
-    //         for (auto iter = user_party_iter.servant_list.begin(); iter != user_party_iter.servant_list.end(); iter++)
-    //         {
-    //             if (*iter == 0)
-    //             {
-    //                 auto temp_servant_iter = npc_servant.find(*iter);
-    //                 npc_servant.modify(temp_servant_iter, _self, [&](auto &npc_data) {
-    //                     npc_data.party_number = 0;
-    //                 });
-    //                 servant_idx += 1;
-    //                 for (uint32_t i = 0; i < 3; ++i)
-    //                 {
-    //                     auto temp_iter = npc_equipment.find(equipment_idx);
-    //                     equipment_info temp;
-    //                     temp.id = 0;
-    //                     temp.state = 0;
-    //                     temp.type = 0;
-    //                     temp.tier = 0;
-    //                     temp.job = 0;
-    //                     temp.grade = 0;
-    //                     temp.upgrade = 0;
-    //                     temp.value = 0;
-    //                     temp.equipservantindex = servant_idx;
-
-    //                     npc_equipment.modify(temp_iter, _self, [&](auto &equipment_data) {
-    //                         equipment_data.equipment = temp;
-    //                     });
-    //                     equipment_idx += 1;
-    //                 }
-    //                 continue;
-    //             }
-    //             auto user_servant_iter = user_servant.get(*iter, "Not exist servant");
-    //             auto temp_iter = npc_servant.find(servant_idx);
-
-    //             npc_servant.modify(temp_iter, _self, [&](auto &npc_data) {
-    //                 npc_data.party_number = fnum;
-    //                 npc_data.servant = user_servant_iter.servant;
-
-    //                 // 서번트 아이템 복사
-    //                 uint8_t temp_index = 0;
-    //                 for (auto item_iter = user_servant_iter.servant.equip_slot.begin(); item_iter != user_servant_iter.servant.equip_slot.end(); item_iter++)
-    //                 {
-    //                     auto npc_temp_iter = npc_equipment.find(equipment_idx);
-
-    //                     if (*item_iter != 0)
-    //                     {
-    //                         auto user_equipment_iter = user_equipment.get(*item_iter, "Not exist item");
-
-    //                         npc_equipment.modify(npc_temp_iter, _self, [&](auto &equipment_data) {
-    //                             equipment_data.equipment = user_equipment_iter.equipment;
-    //                             equipment_data.equipment.equipservantindex = servant_idx;
-    //                         });
-
-    //                         npc_data.servant.equip_slot[temp_index] = equipment_idx;
-    //                     }
-    //                     else
-    //                     {
-    //                         equipment_info temp;
-    //                         temp.id = 0;
-    //                         temp.state = 0;
-    //                         temp.type = 0;
-    //                         temp.tier = 0;
-    //                         temp.job = 0;
-    //                         temp.grade = 0;
-    //                         temp.upgrade = 0;
-    //                         temp.value = 0;
-    //                         temp.equipservantindex = servant_idx;
-
-    //                         npc_equipment.modify(npc_temp_iter, _self, [&](auto &equipment_data) {
-    //                             equipment_data.equipment = temp;
-    //                         });
-
-    //                         npc_data.servant.equip_slot[temp_index] = 0;
-    //                     }
-    //                     equipment_idx++;
-    //                     temp_index++;
-    //                 }
-    //             });
-                
-    //             servant_idx++;
-    //         }
-    //     }
-
-    //     // 몬스터 정보 이식
-    //     uint64_t monster_idx = 1;
-    //     auto npc_monster_iter = npc_monster.find(monster_idx);
-
-    //     if (npc_monster_iter == npc_monster.end())
-    //     {
-    //         for (auto iter = user_party_iter.monster_list.begin(); iter != user_party_iter.monster_list.end(); iter++)
-    //         {
-    //             if(*iter == 0)
-    //             {
-    //                 npc_monster.emplace(_self, [&](auto &npc_data) {
-    //                     npc_data.index = monster_idx;
-    //                     npc_data.party_number = 0;
-    //                 });
-    //                 monster_idx += 1;
-    //                 continue;
-    //             }
-    //             auto user_monster_iter = user_monster.get(*iter, "Not exist servant");
-
-    //             npc_monster.emplace(_self, [&](auto &npc_data) {
-    //                 npc_data.index = monster_idx;
-    //                 npc_data.party_number = fnum;
-    //                 npc_data.monster = user_monster_iter.monster;
-    //             });
-
-    //             monster_idx++;
-    //         }
-    //     }
-    //     else
-    //     {
-    //         for (auto iter = user_party_iter.monster_list.begin(); iter != user_party_iter.monster_list.end(); iter++)
-    //         {
-    //             if (*iter == 0)
-    //             {
-    //                 auto temp_monster_iter = npc_monster.find(monster_idx);
-    //                 npc_monster.modify(temp_monster_iter, _self, [&](auto &npc_data) {
-    //                     npc_data.party_number = 0;
-    //                 });
-    //                 monster_idx += 1;
-    //                 continue;
-    //             }
-    //             auto user_monster_iter = user_monster.find(*iter);
-
-    //             auto npc_monster_iter = npc_monster.find(monster_idx);
-
-    //             npc_monster.modify(npc_monster_iter, _self, [&](auto &npc_data) {
-    //                 npc_data.index = monster_idx;
-    //                 npc_data.party_number = fnum;
-    //                 npc_data.monster = user_monster_iter->monster;
-    //             });
-
-    //             monster_idx++;
-    //         }
-    //     }
+    //     std::string memo;
+    //     memo += "tower:";
+    //     memo += to_string(fnum);
+    //     //이오스 보내는것에 대한 예외처리 필요
+    //     action(permission_level{get_self(), "active"_n},
+    //            "eosio.token"_n, "transfer"_n,
+    //            std::make_tuple(_self, who, tower_reward, memo))
+    //         .send();
     // }
-}
 
-void battletest::towerlose(name loser)
-{
-    // battle_state_list battle_state_list_table(_self, _self.value);
-    // auto user_battle_state_iter = battle_state_list_table.find(_user.value);
-    // eosio_assert(user_battle_state_iter != battle_state_list_table.end(), "End Battle 1");
-    
-    // battle_state_list_table.modify(user_battle_state_iter, _self, [&](auto &end_battle) {
-    //     end_battle.turn = stage_state::lose;
-    // });
-}
-
-
-void battletest::get_tower_state(uint64_t _fnum, std::vector<character_state_data> &_enemy_state_list, std::vector<std::string> &_state)
-{
- 
-    status_info status;
-    status_info basic_status;
-
-    uint32_t temp_equip_iter = 1;
-    std::vector<uint32_t> servant_pos_list = {10, 11, 12, 13, 14};
-    std::vector<uint32_t> monster_pos_list = {15, 16, 17, 18, 19};
-
-    user_equip_items npc_equipment(_self, _fnum);
-    user_servants npc_servant(_self, _fnum);
-    for (uint32_t b = 1; b < 6; ++b)
+    void battletest::towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint64_t bnum)
     {
-            uint32_t increase_hp = 0;
-    uint32_t increase_hp_per = 0;
-        character_state_data get_state;
-        auto user_servant_iter = npc_servant.find(b);
-        eosio_assert(user_servant_iter != npc_servant.end(), "Tower User State : Empty Servant Index / Wrong Servant Index");
-        if (user_servant_iter->party_number == 0)
-        {
-            continue;
-        }
+        // floor_index floortable(_self, _self.value);
+        // auto f_iter = floortable.find(fnum);
 
-        //서번트 아이디가 제대로 된 아이디인지 확인
-        servant_db servant_db_table(_self, _self.value);
-        auto servant_db_iter = servant_db_table.find(user_servant_iter->servant.id);
-        eosio_assert(servant_db_iter != servant_db_table.end(), "Tower User State : Empty Servant ID / Wrong Servant ID");
+        // eosio_assert(f_iter->bnum == bnum, "Another user has already conquered.");
 
-        status = user_servant_iter->servant.status; //증가시킬 스테이터스
-        basic_status = user_servant_iter->servant.status;   //기본 스테이터스
+        // if (f_iter->owner == _self)
+        // {
+        //     // 비어있는걸 차지한 경우
+        //     uint64_t temp = 0;
+        //     settower(_self, winner, temp, pnum);
+        // }
+        // else
+        // {
+        //     // 도전해서 이긴 경우
+        //     settower(f_iter->owner, winner, f_iter->pnum, pnum);
+        // }
+        // // 층이 이미 정복된 경우에는 사용자 정보만 변경
+        // if (f_iter->state == "end")
+        // {
+        //     user_logs user_log(_self, _self.value);
+        //     auto iter = user_log.find(winner.value);
+
+        //     if (iter->top_clear_tower == fnum)
+        //     {
+        //         user_log.modify(iter, _self, [&](auto &data) {
+        //             data.top_clear_tower = data.top_clear_tower + 1;
+        //         });
+        //     }
+        // }
+        // // 층을 정복한 경우, 혹은 최초 등록시에는 NPC화
+        // else
+        // {
+        //     floortable.modify(f_iter, _self, [&](auto &floordata) {
+        //         floordata.owner = winner;
+        //         floordata.bnum = bnum + 1;
+        //         floordata.pnum = pnum; // 패배시 유저의 어떤 파티인지 알기 위해 기록
+        //         floordata.endtime = now() + 86400;
+        //         floordata.state = "idle";
+        //     });
+        //     /***********************/
+        //     /**** 파티 정보 저장 ****/
+        //     /***********************/
+
+        //     // 우승자가 존재하는 유저인지 체크
+        //     user_auths user(_self, _self.value);
+        //     auto user_exist_iter = user.find(winner.value);
+        //     eosio_assert(user_exist_iter != user.end(), "Not Exist User.");
+
+        //     // 우승자 파티 정보 저장
+        //     user_equip_items user_equipment(_self, winner.value);
+        //     user_equip_items npc_equipment(_self, fnum);
+
+        //     user_partys user_party(_self, winner.value);
+        //     auto user_party_iter = user_party.get(pnum, "Not exist party.");
+
+        //     user_servants user_servant(_self, winner.value);
+        //     user_servants npc_servant(_self, fnum);
+
+        //     user_monsters user_monster(_self, winner.value);
+        //     user_monsters npc_monster(_self, fnum);
+
+        //     // 서번트 정보 이식
+        //     uint64_t servant_idx = 1;
+        //     uint64_t equipment_idx = 1;
+
+        //     // NPC 테이블이 비어있나 확인
+        //     auto npc_servant_iter = npc_servant.find(servant_idx);
+
+        //     // NPC 테이블이 비어 있는 경우
+        //     if (npc_servant_iter == npc_servant.end())
+        //     {
+        //         // 유저 파티 정보에서 해당 파티에 배치된 서번트 리스트를 가져옴
+        //         for (auto iter = user_party_iter.servant_list.begin(); iter != user_party_iter.servant_list.end(); iter++)
+        //         {
+        //             if(*iter == 0){
+        //                 npc_servant.emplace(_self, [&](auto &npc_data) {
+        //                     npc_data.index = servant_idx;
+        //                     npc_data.party_number = 0;
+        //                 });
+        //                 servant_idx += 1;
+        //                 for(uint32_t i = 0; i < 3; ++i)
+        //                 {
+        //                     equipment_info temp;
+        //                     temp.id = 0;
+        //                     temp.state = 0;
+        //                     temp.type = 0;
+        //                     temp.tier = 0;
+        //                     temp.job = 0;
+        //                     temp.grade = 0;
+        //                     temp.upgrade = 0;
+        //                     temp.value = 0;
+        //                     temp.equipservantindex = servant_idx;
+
+        //                     npc_equipment.emplace(_self, [&](auto &equipment_data) {
+        //                         equipment_data.index = equipment_idx;
+        //                         equipment_data.equipment = temp;
+        //                     });
+        //                     equipment_idx += 1;
+        //                 }
+        //                 continue;
+        //             }
+        //             // 서번트 리스트에 있는 서번트 인덱스로 서번트 정보를 가져옴
+        //             auto user_servant_iter = user_servant.get(*iter, "Not exist servant");
+
+        //             // 각 층마다 서번트 몬스터는 고정이므로, 1번부터 5번인덱스로 삽입
+        //             npc_servant.emplace(_self, [&](auto &npc_data) {
+        //                 npc_data.index = servant_idx;
+        //                 npc_data.party_number = fnum;
+        //                 npc_data.servant = user_servant_iter.servant;
+
+        //                 // 서번트 아이템 복사
+        //                 uint8_t temp_index = 0;
+        //                 for (auto item_iter = user_servant_iter.servant.equip_slot.begin(); item_iter != user_servant_iter.servant.equip_slot.end(); item_iter++)
+        //                 {
+        //                     if (*item_iter != 0)
+        //                     {
+        //                         // 장착을 했다면 해당 인덱스로 유저 테이블에서 장착 아이템 정보를 가져옴
+        //                         auto user_equipment_iter = user_equipment.get(*item_iter, "Not exist item");
+
+        //                         npc_equipment.emplace(_self, [&](auto &equipment_data) {
+        //                             equipment_data.index = equipment_idx;
+        //                             equipment_data.equipment = user_equipment_iter.equipment;
+        //                             equipment_data.equipment.equipservantindex = servant_idx;
+        //                         });
+        //                         npc_data.servant.equip_slot[temp_index] = equipment_idx;
+        //                     }
+        //                     else
+        //                     {
+        //                         // 장착된 아이템이 없다면 id값을 0으로 해서 데이터 삽입
+        //                         equipment_info temp;
+        //                         temp.id = 0;
+        //                         temp.state = 0;
+        //                         temp.type = 0;
+        //                         temp.tier = 0;
+        //                         temp.job = 0;
+        //                         temp.grade = 0;
+        //                         temp.upgrade = 0;
+        //                         temp.value = 0;
+        //                         temp.equipservantindex = servant_idx;
+
+        //                         npc_equipment.emplace(_self, [&](auto &equipment_data) {
+        //                             equipment_data.index = equipment_idx;
+        //                             equipment_data.equipment = temp;
+        //                         });
+
+        //                         npc_data.servant.equip_slot[temp_index] = 0;
+        //                     }
+        //                     equipment_idx++;
+        //                     temp_index++;
+        //                 }
+
+        //             });
+
+        //             servant_idx++;
+        //         }
+        //     }
+        //     else
+        //     {
+        //         for (auto iter = user_party_iter.servant_list.begin(); iter != user_party_iter.servant_list.end(); iter++)
+        //         {
+        //             if (*iter == 0)
+        //             {
+        //                 auto temp_servant_iter = npc_servant.find(*iter);
+        //                 npc_servant.modify(temp_servant_iter, _self, [&](auto &npc_data) {
+        //                     npc_data.party_number = 0;
+        //                 });
+        //                 servant_idx += 1;
+        //                 for (uint32_t i = 0; i < 3; ++i)
+        //                 {
+        //                     auto temp_iter = npc_equipment.find(equipment_idx);
+        //                     equipment_info temp;
+        //                     temp.id = 0;
+        //                     temp.state = 0;
+        //                     temp.type = 0;
+        //                     temp.tier = 0;
+        //                     temp.job = 0;
+        //                     temp.grade = 0;
+        //                     temp.upgrade = 0;
+        //                     temp.value = 0;
+        //                     temp.equipservantindex = servant_idx;
+
+        //                     npc_equipment.modify(temp_iter, _self, [&](auto &equipment_data) {
+        //                         equipment_data.equipment = temp;
+        //                     });
+        //                     equipment_idx += 1;
+        //                 }
+        //                 continue;
+        //             }
+        //             auto user_servant_iter = user_servant.get(*iter, "Not exist servant");
+        //             auto temp_iter = npc_servant.find(servant_idx);
+
+        //             npc_servant.modify(temp_iter, _self, [&](auto &npc_data) {
+        //                 npc_data.party_number = fnum;
+        //                 npc_data.servant = user_servant_iter.servant;
+
+        //                 // 서번트 아이템 복사
+        //                 uint8_t temp_index = 0;
+        //                 for (auto item_iter = user_servant_iter.servant.equip_slot.begin(); item_iter != user_servant_iter.servant.equip_slot.end(); item_iter++)
+        //                 {
+        //                     auto npc_temp_iter = npc_equipment.find(equipment_idx);
+
+        //                     if (*item_iter != 0)
+        //                     {
+        //                         auto user_equipment_iter = user_equipment.get(*item_iter, "Not exist item");
+
+        //                         npc_equipment.modify(npc_temp_iter, _self, [&](auto &equipment_data) {
+        //                             equipment_data.equipment = user_equipment_iter.equipment;
+        //                             equipment_data.equipment.equipservantindex = servant_idx;
+        //                         });
+
+        //                         npc_data.servant.equip_slot[temp_index] = equipment_idx;
+        //                     }
+        //                     else
+        //                     {
+        //                         equipment_info temp;
+        //                         temp.id = 0;
+        //                         temp.state = 0;
+        //                         temp.type = 0;
+        //                         temp.tier = 0;
+        //                         temp.job = 0;
+        //                         temp.grade = 0;
+        //                         temp.upgrade = 0;
+        //                         temp.value = 0;
+        //                         temp.equipservantindex = servant_idx;
+
+        //                         npc_equipment.modify(npc_temp_iter, _self, [&](auto &equipment_data) {
+        //                             equipment_data.equipment = temp;
+        //                         });
+
+        //                         npc_data.servant.equip_slot[temp_index] = 0;
+        //                     }
+        //                     equipment_idx++;
+        //                     temp_index++;
+        //                 }
+        //             });
+
+        //             servant_idx++;
+        //         }
+        //     }
+
+        //     // 몬스터 정보 이식
+        //     uint64_t monster_idx = 1;
+        //     auto npc_monster_iter = npc_monster.find(monster_idx);
+
+        //     if (npc_monster_iter == npc_monster.end())
+        //     {
+        //         for (auto iter = user_party_iter.monster_list.begin(); iter != user_party_iter.monster_list.end(); iter++)
+        //         {
+        //             if(*iter == 0)
+        //             {
+        //                 npc_monster.emplace(_self, [&](auto &npc_data) {
+        //                     npc_data.index = monster_idx;
+        //                     npc_data.party_number = 0;
+        //                 });
+        //                 monster_idx += 1;
+        //                 continue;
+        //             }
+        //             auto user_monster_iter = user_monster.get(*iter, "Not exist servant");
+
+        //             npc_monster.emplace(_self, [&](auto &npc_data) {
+        //                 npc_data.index = monster_idx;
+        //                 npc_data.party_number = fnum;
+        //                 npc_data.monster = user_monster_iter.monster;
+        //             });
+
+        //             monster_idx++;
+        //         }
+        //     }
+        //     else
+        //     {
+        //         for (auto iter = user_party_iter.monster_list.begin(); iter != user_party_iter.monster_list.end(); iter++)
+        //         {
+        //             if (*iter == 0)
+        //             {
+        //                 auto temp_monster_iter = npc_monster.find(monster_idx);
+        //                 npc_monster.modify(temp_monster_iter, _self, [&](auto &npc_data) {
+        //                     npc_data.party_number = 0;
+        //                 });
+        //                 monster_idx += 1;
+        //                 continue;
+        //             }
+        //             auto user_monster_iter = user_monster.find(*iter);
+
+        //             auto npc_monster_iter = npc_monster.find(monster_idx);
+
+        //             npc_monster.modify(npc_monster_iter, _self, [&](auto &npc_data) {
+        //                 npc_data.index = monster_idx;
+        //                 npc_data.party_number = fnum;
+        //                 npc_data.monster = user_monster_iter->monster;
+        //             });
+
+        //             monster_idx++;
+        //         }
+        //     }
+        // }
+    }
+
+    void battletest::towerlose(name loser)
+    {
+        // battle_state_list battle_state_list_table(_self, _self.value);
+        // auto user_battle_state_iter = battle_state_list_table.find(_user.value);
+        // eosio_assert(user_battle_state_iter != battle_state_list_table.end(), "End Battle 1");
+
+        // battle_state_list_table.modify(user_battle_state_iter, _self, [&](auto &end_battle) {
+        //     end_battle.turn = stage_state::lose;
+        // });
+    }
+
+    void battletest::get_tower_state(uint64_t _fnum, std::vector<character_state_data> & _enemy_state_list, std::vector<std::string> & _state)
+    {
+
+        status_info status;
+        status_info basic_status;
+
+        uint32_t temp_equip_iter = 1;
+        std::vector<uint32_t> servant_pos_list = {10, 11, 12, 13, 14};
+        std::vector<uint32_t> monster_pos_list = {15, 16, 17, 18, 19};
 
         user_equip_items npc_equipment(_self, _fnum);
-        equipment_db equipment_db_table(_self, _self.value);
-        for (uint32_t equip = 0; equip < user_servant_iter->servant.equip_slot.size(); ++equip) //서번트 장비 슬롯을 돌면서 힘민지에 대한 증가 효과 적용
+        user_servants npc_servant(_self, _fnum);
+        for (uint32_t b = 1; b < 6; ++b)
         {
-            if (user_servant_iter->servant.equip_slot[equip] == 0)
+            uint32_t increase_hp = 0;
+            uint32_t increase_hp_per = 0;
+            character_state_data get_state;
+            auto user_servant_iter = npc_servant.find(b);
+            eosio_assert(user_servant_iter != npc_servant.end(), "Tower User State : Empty Servant Index / Wrong Servant Index");
+            if (user_servant_iter->party_number == 0)
             {
-                temp_equip_iter += 1;
                 continue;
             }
-            auto user_equipment_iter = npc_equipment.find(temp_equip_iter);
-            eosio_assert(user_equipment_iter != npc_equipment.end(), "Tower User State : Empty Equipment Index / Wrong Equipment Index");
 
-            auto db_equipment_iter = equipment_db_table.find(user_equipment_iter->equipment.id);
-            eosio_assert(db_equipment_iter != equipment_db_table.end(), "Tower User State : Empty Equipment ID / Wrong Equipment ID");
+            //서번트 아이디가 제대로 된 아이디인지 확인
+            servant_db servant_db_table(_self, _self.value);
+            auto servant_db_iter = servant_db_table.find(user_servant_iter->servant.id);
+            eosio_assert(servant_db_iter != servant_db_table.end(), "Tower User State : Empty Servant ID / Wrong Servant ID");
 
-            for (uint32_t a = 0; a < db_equipment_iter->option_list.size(); ++a)
+            status = user_servant_iter->servant.status;       //증가시킬 스테이터스
+            basic_status = user_servant_iter->servant.status; //기본 스테이터스
+
+            user_equip_items npc_equipment(_self, _fnum);
+            equipment_db equipment_db_table(_self, _self.value);
+            for (uint32_t equip = 0; equip < user_servant_iter->servant.equip_slot.size(); ++equip) //서번트 장비 슬롯을 돌면서 힘민지에 대한 증가 효과 적용
             {
-                if (db_equipment_iter->option_list[a] == option_list::status_str) //힘 증가
+                if (user_servant_iter->servant.equip_slot[equip] == 0)
                 {
-                    status.basic_str += (user_equipment_iter->equipment.value + ((user_equipment_iter->equipment.upgrade * 10) / 100));
+                    temp_equip_iter += 1;
+                    continue;
                 }
-                else if (db_equipment_iter->option_list[a] == option_list::status_dex) //민 증가
+                auto user_equipment_iter = npc_equipment.find(temp_equip_iter);
+                eosio_assert(user_equipment_iter != npc_equipment.end(), "Tower User State : Empty Equipment Index / Wrong Equipment Index");
+
+                auto db_equipment_iter = equipment_db_table.find(user_equipment_iter->equipment.id);
+                eosio_assert(db_equipment_iter != equipment_db_table.end(), "Tower User State : Empty Equipment ID / Wrong Equipment ID");
+
+                for (uint32_t a = 0; a < db_equipment_iter->option_list.size(); ++a)
                 {
-                    status.basic_dex += (user_equipment_iter->equipment.value + ((user_equipment_iter->equipment.upgrade * 10) / 100));
+                    if (db_equipment_iter->option_list[a] == option_list::status_str) //힘 증가
+                    {
+                        status.basic_str += (user_equipment_iter->equipment.value + ((user_equipment_iter->equipment.upgrade * 10) / 100));
+                    }
+                    else if (db_equipment_iter->option_list[a] == option_list::status_dex) //민 증가
+                    {
+                        status.basic_dex += (user_equipment_iter->equipment.value + ((user_equipment_iter->equipment.upgrade * 10) / 100));
+                    }
+                    else if (db_equipment_iter->option_list[a] == option_list::status_int) //지 증가
+                    {
+                        status.basic_int += (user_equipment_iter->equipment.value + ((user_equipment_iter->equipment.upgrade * 10) / 100));
+                    }
+                    else if (db_equipment_iter->option_list[a] == option_list::status_hp) //hp 증가
+                    {
+                        increase_hp += (user_equipment_iter->equipment.value + ((user_equipment_iter->equipment.upgrade * 10) / 100));
+                    }
                 }
-                else if (db_equipment_iter->option_list[a] == option_list::status_int) //지 증가
-                {
-                    status.basic_int += (user_equipment_iter->equipment.value + ((user_equipment_iter->equipment.upgrade * 10) / 100));
-                }
-                else if (db_equipment_iter->option_list[a] == option_list::status_hp) //hp 증가
-                {
-                    increase_hp += (user_equipment_iter->equipment.value + ((user_equipment_iter->equipment.upgrade * 10) / 100));
-                }
+                temp_equip_iter += 1;
             }
-            temp_equip_iter += 1;
+
+            //힘민지에 대한 패시브 적용
+            for (uint32_t pass = 0; pass < user_servant_iter->servant.passive_skill.size(); ++pass)
+            {
+                passive_db passive_db_table(_self, _self.value);
+                auto passive_db_iter = passive_db_table.find(user_servant_iter->servant.passive_skill[pass]);
+                eosio_assert(passive_db_iter != passive_db_table.end(), "Tower User State : Empty Servant Passive ID / Wrong Servant Passive ID");
+                if (passive_db_iter->effect_id == passive_effect_id::b_str)
+                {
+                    if (passive_db_iter->effect_type_id == passive_effect_type_id::per_up)
+                    {
+                        status.basic_str += (status.basic_str * passive_db_iter->effect_value_a) / 100;
+                    }
+                }
+                else if (passive_db_iter->effect_id == passive_effect_id::b_dex)
+                {
+                    if (passive_db_iter->effect_type_id == passive_effect_type_id::per_up)
+                    {
+                        status.basic_dex += (status.basic_dex * passive_db_iter->effect_value_a) / 100;
+                    }
+                }
+                else if (passive_db_iter->effect_id == passive_effect_id::b_int)
+                {
+                    if (passive_db_iter->effect_type_id == passive_effect_type_id::per_up)
+                    {
+                        status.basic_int += (status.basic_int * passive_db_iter->effect_value_a) / 100;
+                    }
+                }
+                else if (passive_db_iter->effect_id == passive_effect_id::hp)
+                {
+                    if (passive_db_iter->effect_type_id == passive_effect_type_id::per_up)
+                    {
+                        increase_hp_per += passive_db_iter->effect_value_a;
+                    }
+                }
+                get_state.passive_skill_list.push_back(passive_db_iter->passive_id);
+            }
+
+            //액티브 스킬의 존재 여부 확인
+            for (uint32_t active = 0; active < user_servant_iter->servant.active_skill.size(); ++active)
+            {
+                active_db active_db_table(_self, _self.value);
+                auto active_db_iter = active_db_table.find(user_servant_iter->servant.active_skill[active]);
+                eosio_assert(active_db_iter != active_db_table.end(), "Tower User State : Empty Servant Active ID / Wrong Servant Active ID");
+
+                get_state.active_skill_list.push_back(active_db_iter->active_id);
+            }
+
+            get_state.level = user_servant_iter->servant.level;
+            get_state.grade = 5;
+            get_state.index = user_servant_iter->index;
+            get_state.id = user_servant_iter->servant.id;
+            get_state.position = servant_pos_list[b - 1];
+            get_state.now_hp = get_max_hp(status, user_servant_iter->servant.level) + increase_hp;
+            get_state.now_hp += (get_state.now_hp * increase_hp_per) / 100;
+            get_state.max_hp = get_state.now_hp;
+            get_state.type = character_type::t_servant;
+            get_state.upgrade = 0;
+            get_state.state = battle_member_state::live;
+            get_state.status = basic_status;
+
+            _enemy_state_list.push_back(get_state);
+
+            //=================================영수증 처리==========================================//
+            // std::string state;
+            // state += to_string(get_state.grade) + ":";
+            // state += to_string(get_state.position) + ":";
+            // state += to_string(get_state.index) + ":";
+            // state += to_string(get_state.id) + ":";
+            // state += to_string(get_state.now_hp) + ":";
+            // state += to_string(get_state.state) + ":";
+            // state += to_string(get_state.type) + ":";
+            // state += to_string(get_state.upgrade) + ":";
+            // state += to_string(get_state.max_hp) + ":";
+
+            // state += "[";
+            // for (uint32_t i = 0; i < get_state.passive_skill_list.size(); ++i)
+            // {
+            //     if (get_state.passive_skill_list.size() - 1 == i)
+            //     {
+            //         state += to_string(get_state.passive_skill_list[i]);
+            //     }
+            //     else
+            //     {
+            //         state += to_string(get_state.passive_skill_list[i]) + ":";
+            //     }
+            // }
+            // state += "]";
+            // state += ":";
+
+            // state += "[";
+            // for (uint32_t i = 0; i < get_state.active_skill_list.size(); ++i)
+            // {
+            //     if (get_state.active_skill_list.size() - 1 == i)
+            //     {
+            //         state += to_string(get_state.active_skill_list[i]);
+            //     }
+            //     else
+            //     {
+            //         state += to_string(get_state.active_skill_list[i]) + ":";
+            //     }
+            // }
+            // state += "]";
+            // state += ":";
+
+            // state += to_string(get_state.status.basic_str) + ":";
+            // state += to_string(get_state.status.basic_dex) + ":";
+            // state += to_string(get_state.status.basic_int);
+
+            // _state.push_back(state);
         }
 
-        //힘민지에 대한 패시브 적용
-        for (uint32_t pass = 0; pass < user_servant_iter->servant.passive_skill.size(); ++pass)
+        user_monsters npc_monster(_self, _fnum);
+        for (uint32_t a = 1; a < 6; ++a)
         {
-            passive_db passive_db_table(_self, _self.value);
-            auto passive_db_iter = passive_db_table.find(user_servant_iter->servant.passive_skill[pass]);
-            eosio_assert(passive_db_iter != passive_db_table.end(), "Tower User State : Empty Servant Passive ID / Wrong Servant Passive ID");
-            if (passive_db_iter->effect_id == passive_effect_id::b_str)
-            {
-                if (passive_db_iter->effect_type_id == passive_effect_type_id::per_up)
-                {
-                    status.basic_str += (status.basic_str * passive_db_iter->effect_value_a) / 100;
-                }
-            }
-            else if (passive_db_iter->effect_id == passive_effect_id::b_dex)
-            {
-                if (passive_db_iter->effect_type_id == passive_effect_type_id::per_up)
-                {
-                    status.basic_dex += (status.basic_dex * passive_db_iter->effect_value_a) / 100;
-                }
-            }
-            else if (passive_db_iter->effect_id == passive_effect_id::b_int)
-            {
-                if (passive_db_iter->effect_type_id == passive_effect_type_id::per_up)
-                {
-                    status.basic_int += (status.basic_int * passive_db_iter->effect_value_a) / 100;
-                }
-            }
-            else if (passive_db_iter->effect_id == passive_effect_id::hp)
-            {
-                if (passive_db_iter->effect_type_id == passive_effect_type_id::per_up)
-                {
-                    increase_hp_per += passive_db_iter->effect_value_a;
-                }
-            }
-            get_state.passive_skill_list.push_back(passive_db_iter->passive_id);
-        }
-
-        //액티브 스킬의 존재 여부 확인
-        for (uint32_t active = 0; active < user_servant_iter->servant.active_skill.size(); ++active)
-        {
-            active_db active_db_table(_self, _self.value);
-            auto active_db_iter = active_db_table.find(user_servant_iter->servant.active_skill[active]);
-            eosio_assert(active_db_iter != active_db_table.end(), "Tower User State : Empty Servant Active ID / Wrong Servant Active ID");
-
-            get_state.active_skill_list.push_back(active_db_iter->active_id);
-        }
-
-
-        get_state.level = user_servant_iter->servant.level;
-        get_state.grade = 5;
-        get_state.index = user_servant_iter->index;
-        get_state.id = user_servant_iter->servant.id;
-        get_state.position = servant_pos_list[b - 1];
-        get_state.now_hp = get_max_hp(status, user_servant_iter->servant.level) + increase_hp;
-        get_state.now_hp += (get_state.now_hp * increase_hp_per) / 100;
-        get_state.max_hp = get_state.now_hp;
-        get_state.type = character_type::t_servant;
-        get_state.upgrade = 0;
-        get_state.state = battle_member_state::live;
-        get_state.status = basic_status;
-
-        _enemy_state_list.push_back(get_state);
-
-        //=================================영수증 처리==========================================//
-        // std::string state;
-        // state += to_string(get_state.grade) + ":";
-        // state += to_string(get_state.position) + ":";
-        // state += to_string(get_state.index) + ":";
-        // state += to_string(get_state.id) + ":";
-        // state += to_string(get_state.now_hp) + ":";
-        // state += to_string(get_state.state) + ":";
-        // state += to_string(get_state.type) + ":";
-        // state += to_string(get_state.upgrade) + ":";
-        // state += to_string(get_state.max_hp) + ":";
-
-        // state += "[";
-        // for (uint32_t i = 0; i < get_state.passive_skill_list.size(); ++i)
-        // {
-        //     if (get_state.passive_skill_list.size() - 1 == i)
-        //     {
-        //         state += to_string(get_state.passive_skill_list[i]);
-        //     }
-        //     else
-        //     {
-        //         state += to_string(get_state.passive_skill_list[i]) + ":";
-        //     }
-        // }
-        // state += "]";
-        // state += ":";
-
-        // state += "[";
-        // for (uint32_t i = 0; i < get_state.active_skill_list.size(); ++i)
-        // {
-        //     if (get_state.active_skill_list.size() - 1 == i)
-        //     {
-        //         state += to_string(get_state.active_skill_list[i]);
-        //     }
-        //     else
-        //     {
-        //         state += to_string(get_state.active_skill_list[i]) + ":";
-        //     }
-        // }
-        // state += "]";
-        // state += ":";
-
-        // state += to_string(get_state.status.basic_str) + ":";
-        // state += to_string(get_state.status.basic_dex) + ":";
-        // state += to_string(get_state.status.basic_int);
-
-        // _state.push_back(state);
-    }
-
-    user_monsters npc_monster(_self, _fnum);
-    for (uint32_t a = 1; a < 6; ++a)
-    {
             uint32_t increase_hp = 0;
-    uint32_t increase_hp_per = 0;
-        character_state_data get_state;
-        auto user_monster_iter = npc_monster.find(a);
-        eosio_assert(user_monster_iter != npc_monster.end(), "Tower User State : Empty Monster Index / Wrong Monster Index");
-        if (user_monster_iter->party_number == 0)
-        {
-            continue;
+            uint32_t increase_hp_per = 0;
+            character_state_data get_state;
+            auto user_monster_iter = npc_monster.find(a);
+            eosio_assert(user_monster_iter != npc_monster.end(), "Tower User State : Empty Monster Index / Wrong Monster Index");
+            if (user_monster_iter->party_number == 0)
+            {
+                continue;
+            }
+
+            //몬스터 아이디가 제대로된 아이디인지
+            monster_db monster_db_table(_self, _self.value);
+            auto monster_db_iter = monster_db_table.find(user_monster_iter->monster.id);
+            eosio_assert(monster_db_iter != monster_db_table.end(), "Set User State : Empty Monster ID / Wrong Monster ID");
+
+            status = user_monster_iter->monster.status;
+            basic_status = user_monster_iter->monster.status;
+
+            //몬스터 패시브 처리
+            for (uint32_t i = 0; i < user_monster_iter->monster.passive_skill.size(); ++i)
+            {
+                passive_db passive_db_table(_self, _self.value);
+                auto passive_db_iter = passive_db_table.find(user_monster_iter->monster.passive_skill[i]);
+                eosio_assert(passive_db_iter != passive_db_table.end(), "Tower User State : Empty Monster Passive ID / Wrong Monster Passive ID");
+                if (passive_db_iter->effect_id == passive_effect_id::b_str)
+                {
+                    if (passive_db_iter->effect_type_id == passive_effect_type_id::per_up)
+                    {
+                        status.basic_str += (status.basic_str * passive_db_iter->effect_value_a) / 100;
+                    }
+                }
+                else if (passive_db_iter->effect_id == passive_effect_id::b_dex)
+                {
+                    if (passive_db_iter->effect_type_id == passive_effect_type_id::per_up)
+                    {
+                        status.basic_dex += (status.basic_dex * passive_db_iter->effect_value_a) / 100;
+                    }
+                }
+                else if (passive_db_iter->effect_id == passive_effect_id::b_int)
+                {
+                    if (passive_db_iter->effect_type_id == passive_effect_type_id::per_up)
+                    {
+                        status.basic_int += (status.basic_int * passive_db_iter->effect_value_a) / 100;
+                    }
+                }
+                else if (passive_db_iter->effect_id == passive_effect_id::hp)
+                {
+                    if (passive_db_iter->effect_type_id == passive_effect_type_id::per_up)
+                    {
+                        increase_hp_per += passive_db_iter->effect_value_a;
+                    }
+                }
+                get_state.passive_skill_list.push_back(passive_db_iter->passive_id);
+            }
+
+            //몬스터 액티브 스킬 확인
+            active_db active_db_table(_self, _self.value);
+            for (uint32_t i = 0; i < user_monster_iter->monster.active_skill.size(); ++i)
+            {
+                auto active_db_iter = active_db_table.find(user_monster_iter->monster.active_skill[i]);
+                eosio_assert(active_db_iter != active_db_table.end(), "Set User State : Empty Monster Active ID / Wrong Monster Active ID");
+
+                get_state.active_skill_list.push_back(active_db_iter->active_id);
+            }
+
+            get_state.level = user_monster_iter->monster.level;
+            get_state.grade = user_monster_iter->monster.grade;
+            get_state.index = user_monster_iter->index;
+            get_state.id = user_monster_iter->monster.id;
+            get_state.position = monster_pos_list[a - 1];
+            get_state.now_hp = get_max_hp(status, user_monster_iter->monster.level) + increase_hp;
+            get_state.now_hp += (get_state.now_hp * increase_hp_per) / 100;
+            get_state.max_hp = get_state.now_hp;
+            get_state.type = character_type::t_monster;
+            get_state.upgrade = user_monster_iter->monster.upgrade;
+            get_state.state = battle_member_state::live;
+            get_state.status = basic_status;
+
+            _enemy_state_list.push_back(get_state);
+
+            //=================================영수증 처리==========================================//
+            // std::string state;
+            // state += to_string(get_state.grade) + ":";
+            // state += to_string(get_state.position) + ":";
+            // state += to_string(get_state.index) + ":";
+            // state += to_string(get_state.id) + ":";
+            // state += to_string(get_state.now_hp) + ":";
+            // state += to_string(get_state.state) + ":";
+            // state += to_string(get_state.type) + ":";
+            // state += to_string(get_state.upgrade) + ":";
+            // state += to_string(get_state.max_hp) + ":";
+
+            // state += "[";
+            // for (uint32_t i = 0; i < get_state.passive_skill_list.size(); ++i)
+            // {
+            //     if (get_state.passive_skill_list.size() - 1 == i)
+            //     {
+            //         state += to_string(get_state.passive_skill_list[i]);
+            //     }
+            //     else
+            //     {
+            //         state += to_string(get_state.passive_skill_list[i]) + ":";
+            //     }
+            // }
+            // state += "]";
+            // state += ":";
+
+            // state += "[";
+            // for (uint32_t i = 0; i < get_state.active_skill_list.size(); ++i)
+            // {
+            //     if (get_state.active_skill_list.size() - 1 == i)
+            //     {
+            //         state += to_string(get_state.active_skill_list[i]);
+            //     }
+            //     else
+            //     {
+            //         state += to_string(get_state.active_skill_list[i]) + ":";
+            //     }
+            // }
+            // state += "]";
+            // state += ":";
+
+            // state += to_string(get_state.status.basic_str) + ":";
+            // state += to_string(get_state.status.basic_dex) + ":";
+            // state += to_string(get_state.status.basic_int);
+
+            // _state.push_back(state);
         }
-
-        //몬스터 아이디가 제대로된 아이디인지
-        monster_db monster_db_table(_self, _self.value);
-        auto monster_db_iter = monster_db_table.find(user_monster_iter->monster.id);
-        eosio_assert(monster_db_iter != monster_db_table.end(), "Set User State : Empty Monster ID / Wrong Monster ID");
-
-        status = user_monster_iter->monster.status;
-        basic_status = user_monster_iter->monster.status;
-
-        //몬스터 패시브 처리
-        for (uint32_t i = 0; i < user_monster_iter->monster.passive_skill.size(); ++i)
-        {
-            passive_db passive_db_table(_self, _self.value);
-            auto passive_db_iter = passive_db_table.find(user_monster_iter->monster.passive_skill[i]);
-            eosio_assert(passive_db_iter != passive_db_table.end(), "Tower User State : Empty Monster Passive ID / Wrong Monster Passive ID");
-            if (passive_db_iter->effect_id == passive_effect_id::b_str)
-            {
-                if (passive_db_iter->effect_type_id == passive_effect_type_id::per_up)
-                {
-                    status.basic_str += (status.basic_str * passive_db_iter->effect_value_a) / 100;
-                }
-            }
-            else if (passive_db_iter->effect_id == passive_effect_id::b_dex)
-            {
-                if (passive_db_iter->effect_type_id == passive_effect_type_id::per_up)
-                {
-                    status.basic_dex += (status.basic_dex * passive_db_iter->effect_value_a) / 100;
-                }
-            }
-            else if (passive_db_iter->effect_id == passive_effect_id::b_int)
-            {
-                if (passive_db_iter->effect_type_id == passive_effect_type_id::per_up)
-                {
-                    status.basic_int += (status.basic_int * passive_db_iter->effect_value_a) / 100;
-                }
-            }
-            else if (passive_db_iter->effect_id == passive_effect_id::hp)
-            {
-                if (passive_db_iter->effect_type_id == passive_effect_type_id::per_up)
-                {
-                    increase_hp_per += passive_db_iter->effect_value_a;
-                }
-            }
-            get_state.passive_skill_list.push_back(passive_db_iter->passive_id);
-        }
-
-        //몬스터 액티브 스킬 확인
-        active_db active_db_table(_self, _self.value);
-        for (uint32_t i = 0; i < user_monster_iter->monster.active_skill.size(); ++i)
-        {
-            auto active_db_iter = active_db_table.find(user_monster_iter->monster.active_skill[i]);
-            eosio_assert(active_db_iter != active_db_table.end(), "Set User State : Empty Monster Active ID / Wrong Monster Active ID");
-
-            get_state.active_skill_list.push_back(active_db_iter->active_id);
-        }
-
-        get_state.level = user_monster_iter->monster.level;
-        get_state.grade = user_monster_iter->monster.grade;
-        get_state.index = user_monster_iter->index;
-        get_state.id = user_monster_iter->monster.id;
-        get_state.position = monster_pos_list[a - 1];
-        get_state.now_hp = get_max_hp(status, user_monster_iter->monster.level) + increase_hp;
-        get_state.now_hp += (get_state.now_hp * increase_hp_per) / 100;
-        get_state.max_hp = get_state.now_hp;
-        get_state.type = character_type::t_monster;
-        get_state.upgrade = user_monster_iter->monster.upgrade;
-        get_state.state = battle_member_state::live;
-        get_state.status = basic_status;
-
-        _enemy_state_list.push_back(get_state);
-
-        //=================================영수증 처리==========================================//
-        // std::string state;
-        // state += to_string(get_state.grade) + ":";
-        // state += to_string(get_state.position) + ":";
-        // state += to_string(get_state.index) + ":";
-        // state += to_string(get_state.id) + ":";
-        // state += to_string(get_state.now_hp) + ":";
-        // state += to_string(get_state.state) + ":";
-        // state += to_string(get_state.type) + ":";
-        // state += to_string(get_state.upgrade) + ":";
-        // state += to_string(get_state.max_hp) + ":";
-
-        // state += "[";
-        // for (uint32_t i = 0; i < get_state.passive_skill_list.size(); ++i)
-        // {
-        //     if (get_state.passive_skill_list.size() - 1 == i)
-        //     {
-        //         state += to_string(get_state.passive_skill_list[i]);
-        //     }
-        //     else
-        //     {
-        //         state += to_string(get_state.passive_skill_list[i]) + ":";
-        //     }
-        // }
-        // state += "]";
-        // state += ":";
-
-        // state += "[";
-        // for (uint32_t i = 0; i < get_state.active_skill_list.size(); ++i)
-        // {
-        //     if (get_state.active_skill_list.size() - 1 == i)
-        //     {
-        //         state += to_string(get_state.active_skill_list[i]);
-        //     }
-        //     else
-        //     {
-        //         state += to_string(get_state.active_skill_list[i]) + ":";
-        //     }
-        // }
-        // state += "]";
-        // state += ":";
-
-        // state += to_string(get_state.status.basic_str) + ":";
-        // state += to_string(get_state.status.basic_dex) + ":";
-        // state += to_string(get_state.status.basic_int);
-
-        // _state.push_back(state);
     }
-}
 
-// ACTION battletest::towerstart(eosio::name _from, uint64_t _fnum)
-// {
-//     system_check(_from);
+    // ACTION battletest::towerstart(eosio::name _from, uint64_t _fnum)
+    // {
+    //     system_check(_from);
 
     // user_logs user_log_table(_self, _self.value);
     // auto log_iter = user_log_table.find(_from.value);
@@ -11523,11 +11145,11 @@ void battletest::get_tower_state(uint64_t _fnum, std::vector<character_state_dat
     //            std::make_tuple(_from, stage_info, from_state, enemy_state))
     //         .send();
     // }
-// }
+    // }
 
-// ACTION battletest::deletetower()
-// {
-//     require_auth(_self);
+    // ACTION battletest::deletetower()
+    // {
+    //     require_auth(_self);
 
     // floor_index floor_index_table(_self, _self.value);
     // for(auto iter = floor_index_table.begin(); iter != floor_index_table.end();)
@@ -11566,245 +11188,130 @@ void battletest::get_tower_state(uint64_t _fnum, std::vector<character_state_dat
     //     iter++;
     //     floor_index_table.erase(fl);
     // }
-// }
+    // }
 
-ACTION battletest::addrefer(eosio::name _referer)
-{
-    master_active_check();
-
-    user_auths user_auth_table(_self, _self.value);
-    auto iter = user_auth_table.find(_referer.value);
-    eosio_assert(iter != user_auth_table.end(),"Add Refer : Not Yet Signup");
-
-    referlist referlist_tabe(_self, _self.value);
-    auto referlist_iter = referlist_tabe.find(_referer.value);
-    eosio_assert(referlist_iter == referlist_tabe.end(), "Add Refer : Already Exist");
-    referlist_tabe.emplace(_self, [&](auto &new_refer) {
-        new_refer.referer = _referer;
-    });
-}
-    
-ACTION battletest::deleterefer(eosio::name _referer)
-{
-    master_active_check();
-
-    referlist referlist_tabe(_self, _self.value);
-    auto referlist_iter = referlist_tabe.find(_referer.value);
-    eosio_assert(referlist_iter != referlist_tabe.end(), "Delete Refer : Not Exist");
-    referlist_tabe.erase(referlist_iter);
-}
-
-
-// ACTION battletest::addwhite(eosio::name _user)
-// {
-//     master_active_check();
-
-//     whitelist referlist_tabe(_self, _self.value);
-//     auto referlist_iter = referlist_tabe.find(_user.value);
-//     eosio_assert(referlist_iter == referlist_tabe.end(), "Add White : Already Exist");
-//     referlist_tabe.emplace(_self, [&](auto &new_refer) {
-//         new_refer.user = _user;
-//     });
-// }
-    
-// ACTION battletest::deletewhite(eosio::name _user)
-// {
-//     master_active_check();
-
-//     whitelist referlist_tabe(_self, _self.value);
-//     auto referlist_iter = referlist_tabe.find(_user.value);
-//     eosio_assert(referlist_iter != referlist_tabe.end(), "Delete White : Not Exist");
-//     referlist_tabe.erase(referlist_iter);
-// }
-
-// ACTION battletest::premove(eosio::name _user)
-// {
-//     master_active_check();
-
-//     pre_users pre_users_table("untowermain1"_n, "untowermain1"_n.value);
-//     pre_users my_auth_table(_self, _self.value);
-
-//     const auto &auth_iter = pre_users_table.get(_user.value, "not exist data ");
-
-//     my_auth_table.emplace(_self, [&](auto &new_data) {
-//         new_data.user = auth_iter.user;
-//         new_data.state = auth_iter.state;
-//     });
-
-//     pre_logs pre_logs_table("untowermain1"_n, "untowermain1"_n.value);
-//     pre_logs my_log_table(_self, _self.value);
-
-//     const auto &log_iter = pre_logs_table.get(_user.value, "not exist data ");
-
-//     my_log_table.emplace(_self, [&](auto &new_data) {
-//         new_data.user = log_iter.user;
-//         new_data.servant_num = log_iter.servant_num;
-//         new_data.monster_num = log_iter.monster_num;
-//         new_data.item_num = log_iter.item_num;
-//         new_data.gacha_num = log_iter.gacha_num;
-//         new_data.use_eos = log_iter.use_eos;
-//     });
-
-//     user_preregist_monsters user_preregist_monsters_table("untowermain1"_n, _user.value);
-//     user_preregist_monsters my_monster_table(_self, _user.value);
-//     for (auto iter = user_preregist_monsters_table.begin(); iter != user_preregist_monsters_table.end();)
-//     {
-//         const auto &get_iter = user_preregist_monsters_table.get(iter->primary_key(), "not exist data ");
-
-//         my_monster_table.emplace(_self, [&](auto &new_data) {
-//             new_data.index = get_iter.index;
-//             new_data.id = get_iter.id;
-//             new_data.grade = get_iter.grade;
-//             new_data.status.basic_str = get_iter.status.basic_str;
-//             new_data.status.basic_dex = get_iter.status.basic_dex;
-//             new_data.status.basic_int = get_iter.status.basic_int;
-//         });
-//         iter++;
-//     }
-
-//     user_preregist_servants user_preregist_servants_table("untowermain1"_n, _user.value);
-//     user_preregist_servants my_servant_table(_self, _user.value);
-//     for (auto iter = user_preregist_servants_table.begin(); iter != user_preregist_servants_table.end();)
-//     {
-//         const auto &get_iter = user_preregist_servants_table.get(iter->primary_key(), "not exist data ");
-
-//         my_servant_table.emplace(_self, [&](auto &new_data) {
-//             new_data.index = get_iter.index;
-//             new_data.id = get_iter.id;
-//             new_data.status.basic_str = get_iter.status.basic_str;
-//             new_data.status.basic_dex = get_iter.status.basic_dex;
-//             new_data.status.basic_int = get_iter.status.basic_int;
-//         });
-//         iter++;
-//     }
-
-//     user_preregist_items user_preregist_items_table("untowermain1"_n, _user.value);
-//     user_preregist_items my_equipment_table(_self, _user.value);
-//     for (auto iter = user_preregist_items_table.begin(); iter != user_preregist_items_table.end();)
-//     {
-//         const auto &get_iter = user_preregist_items_table.get(iter->primary_key(), "not exist data ");
-
-//         my_equipment_table.emplace(_self, [&](auto &new_data) {
-//             new_data.index = get_iter.index;
-//             new_data.id = get_iter.id;
-//             new_data.type = get_iter.type;
-//             new_data.tier = get_iter.tier;
-//             new_data.job = get_iter.job;
-//             new_data.grade = get_iter.grade;
-//             new_data.main_status = get_iter.main_status;
-//         });
-//         iter++;
-//     }
-// }
-
-ACTION battletest::mailcheat()
-{
-
-    system_master system_master_table(_self, _self.value);
-    auto system_master_iter = system_master_table.begin();
-
-    permission_level master_auth;
-    master_auth.actor = system_master_iter->master;
-    master_auth.permission = "active"_n;
-    require_auth(master_auth);
-
-    eosio_assert(system_master_iter->state == system_state::pause, "mailcheat : Not Server Pause ");
-    user_logs user_logs_table(_self, _self.value);
-    
-    for(auto iter = user_logs_table.begin(); iter!= user_logs_table.end();)
+    ACTION battletest::addrefer(eosio::name _referer)
     {
-        auto iter2 = user_logs_table.find(iter->primary_key());
+        master_active_check();
 
-        user_mail mail_db_table(_self, iter2->user.value);
-        for (uint32_t i = 0; i < 300; ++i)
-        {
-            mail_db_table.emplace(_self, [&](auto &move_mail) {
-                uint32_t first_index = mail_db_table.available_primary_key();
-                if (first_index == 0)
-                {
-                    move_mail.mail_index = 1;
-                }
-                else
-                {
-                    move_mail.mail_index = mail_db_table.available_primary_key();
-                }
-                move_mail.mail_type = 1;
-                move_mail.type_index = 2;
-                move_mail.count = 1;
-                move_mail.icon_id = 3;
-                move_mail.get_time = now();
-            });
-        }
-        iter++;
+        user_auths user_auth_table(_self, _self.value);
+        auto iter = user_auth_table.find(_referer.value);
+        eosio_assert(iter != user_auth_table.end(), "Add Refer : Not Yet Signup");
+
+        referlist referlist_tabe(_self, _self.value);
+        auto referlist_iter = referlist_tabe.find(_referer.value);
+        eosio_assert(referlist_iter == referlist_tabe.end(), "Add Refer : Already Exist");
+        referlist_tabe.emplace(_self, [&](auto &new_refer) {
+            new_refer.referer = _referer;
+        });
     }
-}
 
+    ACTION battletest::deleterefer(eosio::name _referer)
+    {
+        master_active_check();
 
+        referlist referlist_tabe(_self, _self.value);
+        auto referlist_iter = referlist_tabe.find(_referer.value);
+        eosio_assert(referlist_iter != referlist_tabe.end(), "Delete Refer : Not Exist");
+        referlist_tabe.erase(referlist_iter);
+    }
 
-ACTION battletest::anothercheck()
+    // ACTION battletest::addwhite(eosio::name _user)
+    // {
+    //     master_active_check();
+
+    //     whitelist referlist_tabe(_self, _self.value);
+    //     auto referlist_iter = referlist_tabe.find(_user.value);
+    //     eosio_assert(referlist_iter == referlist_tabe.end(), "Add White : Already Exist");
+    //     referlist_tabe.emplace(_self, [&](auto &new_refer) {
+    //         new_refer.user = _user;
+    //     });
+    // }
+
+    // ACTION battletest::deletewhite(eosio::name _user)
+    // {
+    //     master_active_check();
+
+    //     whitelist referlist_tabe(_self, _self.value);
+    //     auto referlist_iter = referlist_tabe.find(_user.value);
+    //     eosio_assert(referlist_iter != referlist_tabe.end(), "Delete White : Not Exist");
+    //     referlist_tabe.erase(referlist_iter);
+    // }
+
+    
+ACTION battletest::anothercheck(uint32_t _start_count)
 {
-    master_active_check();
+    require_auth(_self);
 
+    uint64_t limit_mail_count = 3000;
+    uint64_t cur_total_mail_count = 0;
+
+    uint32_t iter_start = 1;
+    uint32_t cur_count = _start_count;
+
+    new_user_logs new_log_table(_self, _self.value);
     user_logs user_logs_table(_self, _self.value);
 
-    for(auto iter = user_logs_table.begin(); iter != user_logs_table.end();)
+    for (auto all_log = user_logs_table.begin(); all_log != user_logs_table.end();)
     {
-        auto iter2 = user_logs_table.find(iter->primary_key());
+        if (iter_start < _start_count)
+        {
+            iter_start++;
+            all_log++;
+            continue;
+        }
+        auto user_log = user_logs_table.find(all_log->primary_key());
 
-        user_mail user_mail_table(_self, iter2->user.value);
+        user_mail user_mail_table(_self, user_log->user.value);
         uint64_t count = 0;
-        for(auto mail = user_mail_table.begin(); mail != user_mail_table.end();)
+        for (auto mail = user_mail_table.begin(); mail != user_mail_table.end();)
         {
             mail++;
             count++;
         }
-        user_logs_table.modify(iter2, _self, [&](auto &new_data) {
-            new_data.mail = count;
-        });
-        iter++;
+        if ((cur_total_mail_count + count) >= limit_mail_count)
+        {
+            global_count global_count_table(_self, _self.value);
+            auto g_iter = global_count_table.find(_self.value);
+            global_count_table.emplace(_self, [&](auto &new_data) {
+                new_data.count = cur_count;
+            });
+            break;
+        }
+        else
+        {
+            cur_total_mail_count += count;
+            new_log_table.emplace(_self, [&](auto &new_data) {
+                new_data.user = user_log->user;
+                new_data.servant_num = user_log->servant_num;
+                new_data.monster_num = user_log->monster_num;
+                new_data.equipment_num = user_log->equipment_num;
+                new_data.gacha_num = user_log->gacha_num;
+                new_data.get_utg = user_log->get_utg;
+                new_data.use_utg = user_log->use_utg;
+                new_data.use_eos = user_log->use_eos;
+                new_data.battle_count = user_log->battle_count;
+                new_data.last_stage_num = user_log->last_stage_num;
+                new_data.last_tower_num = user_log->last_tower_num;
+                new_data.top_clear_stage = user_log->top_clear_stage;
+                new_data.top_clear_tower = user_log->top_clear_tower;
+                new_data.add_party_count = user_log->add_party_count;
+                new_data.soul_powder = user_log->soul_powder;
+                new_data.mail = count;
+            });
+            cur_count += 1;
+            all_log++;
+        }
     }
 }
 
-
-ACTION battletest::movelog()
-{
-   require_auth(_self);
-
-   user_logs user_logs_table(_self, _self.value);
-   new_user_logs new_log_table(_self, _self.value);
-
-   for (auto iter = user_logs_table.begin(); iter != user_logs_table.end();)
-   {
-       auto iter2 = user_logs_table.find(iter->primary_key());
-       new_log_table.emplace(_self, [&](auto &new_data) {
-           new_data.user = iter2->user;
-           new_data.servant_num = iter2->servant_num;
-           new_data.monster_num = iter2->monster_num;
-           new_data.equipment_num = iter2->equipment_num;
-           new_data.gacha_num = iter2->gacha_num;
-           new_data.item_num = iter2->item_num;
-           new_data.get_utg = iter2->get_utg;
-           new_data.use_utg = iter2->use_utg;
-           new_data.use_eos = iter2->use_eos;
-           new_data.battle_count = iter2->battle_count;
-           new_data.last_stage_num = iter2->last_stage_num;
-           new_data.last_tower_num = iter2->last_tower_num;
-           new_data.top_clear_stage = iter2->top_clear_stage;
-           new_data.top_clear_tower = iter2->top_clear_tower;
-           new_data.add_party_count = iter2->add_party_count;
-           new_data.soul_powder = iter2->soul_powder;
-           new_data.mail = iter2->mail;
-       });
-       iter++;
-   }
-}
 
 ACTION battletest::deletelog()
 {
    require_auth(_self);
 
-   user_logs new_log_table(_self, _self.value);
-
+    user_logs new_log_table(_self, _self.value);
+    global_count global_count_table(_self, _self.value);
 
    for (auto iter = new_log_table.begin(); iter != new_log_table.end();)
    {
@@ -11812,595 +11319,131 @@ ACTION battletest::deletelog()
        iter++;
        new_log_table.erase(iter2);
    }
-}
-
-ACTION battletest::lvcheat(eosio::name _user)
-{
-    require_auth(_self);
-    user_servants user_servant_table(_self, _user.value);
-    for(auto iter = user_servant_table.begin(); iter != user_servant_table.end();)
+    for(auto gloiter = global_count_table.begin(); gloiter != global_count_table.end();)
     {
-        auto ser = user_servant_table.find(iter->primary_key());
-        user_servant_table.modify(ser, _self, [&](auto &new_data)
-        {
-            new_data.servant.level = 1;            
-        });
-        iter++;
+        auto glo2 = global_count_table.find(gloiter->primary_key());
+        gloiter++;
+        global_count_table.erase(glo2);
     }
 
 }
 
-
-// void battletest::preregist_servant_id(eosio::name _user, uint64_t _seed)
-// {
-//     servant_job_db servant_job_table(_self, _self.value);
-//     uint32_t random_job = safeseed::get_random_value(_seed, SERVANT_JOB_COUNT, DEFAULT_MIN_DB, servant_random_count);
-//     const auto &servant_job_db_iter = servant_job_table.get(random_job, "Not Get Servant Job Data 2");
-
-//     servant_random_count += 1;
-//     uint32_t random_body = gacha_servant_body(_seed, servant_random_count);
-
-//     servant_random_count += 1;
-//     gender_db gender_table(_self, _self.value);
-//     uint32_t random_gender = safeseed::get_random_value(_seed, GEMDER_COUNT, DEFAULT_MIN_DB, servant_random_count);
-//     const auto &gender_db_iter = gender_table.get(random_gender, "Not Get Gender Data 2");
-
-//     servant_random_count += 1;
-//     uint32_t random_head = gacha_servant_head(_seed, servant_random_count);
-
-//     servant_random_count += 1;
-//     uint32_t random_hair = gacha_servant_hair(_seed, servant_random_count);
-
-//     servant_id_db servant_id_table(_self, _self.value);
-//     uint32_t servant_index = get_servant_index(random_job, random_body, random_gender, random_head, random_hair);
-//     const auto &servant_id_db_iter = servant_id_table.get(servant_index, "Not Exist Servant ID 2");
-
-//     pre_logs pre_log_table(_self, _self.value);
-//     auto user_log_iter = pre_log_table.find(_user.value);
-//     eosio_assert(user_log_iter != pre_log_table.end(), "Not Exist User Log 8");
-
-//     result_info result;
-//     user_preregist_servants user_servant_table(_self, _user.value);
-//     user_servant_table.emplace(_self, [&](auto &update_user_servant_list) {
-//         uint32_t first_index = user_servant_table.available_primary_key();
-//         if (first_index == 0)
-//         {
-//             update_user_servant_list.index = 1;
-            
-//         }
-//         else
-//         {
-//             update_user_servant_list.index = user_servant_table.available_primary_key();
-//         }
-
-//         update_user_servant_list.id = servant_id_db_iter.id;
-
-//         servant_random_count += 1;
-//         update_user_servant_list.status.basic_str = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_str, servant_job_db_iter.min_range.base_str, servant_random_count);
-//         servant_random_count += 1;
-//         update_user_servant_list.status.basic_dex = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_dex, servant_job_db_iter.min_range.base_dex, servant_random_count);
-//         servant_random_count += 1;
-//         update_user_servant_list.status.basic_int = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_int, servant_job_db_iter.min_range.base_int, servant_random_count);
-
-//         result.index = update_user_servant_list.index;
-//         result.type = result::servant;
-//     });
-
-//     user_gacha_results user_gacha_result_table(_self, _self.value);
-//     user_gacha_totals user_gacha_total_table(_self, _self.value);
-
-//     auto user_gacha_result_iter = user_gacha_result_table.find(_user.value);
-//     if (user_gacha_result_iter == user_gacha_result_table.end())
-//     {
-//         user_gacha_result_table.emplace(_self, [&](auto &new_result) {
-//             new_result.user = _user;
-//             new_result.result = result;
-//         });
-//     }
-//     else
-//     {
-//         user_gacha_result_table.modify(user_gacha_result_iter, _self, [&](auto &new_result) {
-//             new_result.result = result;
-//         });
-//     }
-
-//     auto user_gacha_total_iter = user_gacha_total_table.find(_user.value);
-//     if (user_gacha_total_iter == user_gacha_total_table.end())
-//     {
-//         user_gacha_total_table.emplace(_self, [&](auto &new_result) {
-//             new_result.user = _user;
-//             new_result.result_list.push_back(result);
-//         });
-//     }
-//     else
-//     {
-//         user_gacha_total_table.modify(user_gacha_total_iter, _self, [&](auto &new_result) {
-//             new_result.result_list.push_back(result);
-//         });
-//     }
-
-//     //로그 남기는 부분
-//     pre_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
-//         update_log.servant_num += 1;
-//         update_log.gacha_num += 1;
-//     });
-// }
-
-// void battletest::preregist_monster_id(eosio::name _user, uint64_t _seed)
-// {
-//     monster_id_db monster_id_db_table(_self, _self.value);
-//     uint64_t random_monster_id = safeseed::get_random_value(_seed, 51, DEFAULT_MIN_DB, monster_random_count);
-//     random_monster_id += MONSTER_GACHA_ID_START;
-//     const auto &monster_id_db_iter = monster_id_db_table.get(random_monster_id, "Not Exist Monster ID 2");
-
-//     monster_random_count += 1;
-//     uint32_t random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, 0, monster_random_count);
-//     uint32_t random_grade = get_random_grade(random_rate);
-
-//     monster_grade_db monster_grade_db_table(_self, _self.value);
-//     const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "Not Exist Monster Grade 2");
-
-//     pre_logs pre_log_table(_self, _self.value);
-//     auto user_log_iter = pre_log_table.find(_user.value);
-//     eosio_assert(user_log_iter != pre_log_table.end(), "Not Exist User Log 9");
-
-//     result_info result;
-//     user_preregist_monsters user_monster_table(_self, _user.value);
-//     user_monster_table.emplace(_self, [&](auto &update_user_monster_list) {
-//         uint32_t first_index = user_monster_table.available_primary_key();
-//         if (first_index == 0)
-//         {
-//             update_user_monster_list.index = 1;
-//         }
-//         else
-//         {
-//             update_user_monster_list.index = user_monster_table.available_primary_key();
-//         }
-
-//         update_user_monster_list.id = monster_id_db_iter.id;
-//         update_user_monster_list.grade = monster_grade_db_iter.grade;
-//         monster_random_count += 1;
-//         update_user_monster_list.status.basic_str = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_str, monster_grade_db_iter.min_range.base_str, monster_random_count);
-//         monster_random_count += 1;
-//         update_user_monster_list.status.basic_dex = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_dex, monster_grade_db_iter.min_range.base_dex, monster_random_count);
-//         monster_random_count += 1;
-//         update_user_monster_list.status.basic_int = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_int, monster_grade_db_iter.min_range.base_int, monster_random_count);
-
-//         result.index = update_user_monster_list.index;
-//         result.type = result::monster;
-//     });
-
-//     user_gacha_results user_gacha_result_table(_self, _self.value);
-//     user_gacha_totals user_gacha_total_table(_self, _self.value);
-
-//     auto user_gacha_result_iter = user_gacha_result_table.find(_user.value);
-//     if (user_gacha_result_iter == user_gacha_result_table.end())
-//     {
-//         user_gacha_result_table.emplace(_self, [&](auto &new_result) {
-//             new_result.user = _user;
-//             new_result.result = result;
-//         });
-//     }
-//     else
-//     {
-//         user_gacha_result_table.modify(user_gacha_result_iter, _self, [&](auto &new_result) {
-//             new_result.result = result;
-//         });
-//     }
-
-//     auto user_gacha_total_iter = user_gacha_total_table.find(_user.value);
-//     if (user_gacha_total_iter == user_gacha_total_table.end())
-//     {
-//         user_gacha_total_table.emplace(_self, [&](auto &new_result) {
-//             new_result.user = _user;
-//             new_result.result_list.push_back(result);
-//         });
-//     }
-//     else
-//     {
-//         user_gacha_total_table.modify(user_gacha_total_iter, _self, [&](auto &new_result) {
-//             new_result.result_list.push_back(result);
-//         });
-//     }
-
-//     pre_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
-//         update_log.gacha_num += 1;
-//         update_log.monster_num += 1;
-//     });
-// }
-
-// void battletest::preregist_item_id(eosio::name _user, uint64_t _seed)
-// {
-//     item_id_db item_id_db_table(_self, _self.value);
-//     uint64_t random_item_id = safeseed::get_random_value(_seed, 33, DEFAULT_MIN_DB, item_random_count);
-//     random_item_id += ITEM_GACHA_ID_START;
-//     const auto &item_id_db_iter = item_id_db_table.get(random_item_id, "Not Exist Item ID 2");
-
-//     item_random_count += 1;
-//     uint32_t random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, 0, item_random_count);
-//     uint32_t random_grade = get_random_grade(random_rate);
-
-//     item_grade_db item_grade_db_table(_self, _self.value);
-//     const auto &item_grade_db_iter = item_grade_db_table.get(random_grade, "Not Exist Tier 2");
-
-//     pre_logs pre_log_table(_self, _self.value);
-//     auto user_log_iter = pre_log_table.find(_user.value);
-//     eosio_assert(user_log_iter != pre_log_table.end(), "Not Exist User Log 10");
-
-//     result_info result;
-//     user_preregist_items user_item_table(_self, _user.value);
-//     user_item_table.emplace(_self, [&](auto &update_user_item_list) {
-//         uint32_t first_index = user_item_table.available_primary_key();
-//         if (first_index == 0)
-//         {
-//             update_user_item_list.index = 1;
-//         }
-//         else
-//         {
-//             update_user_item_list.index = user_item_table.available_primary_key();
-//         }
-
-//         update_user_item_list.id = item_id_db_iter.id;
-//         update_user_item_list.type = item_id_db_iter.type;
-//         update_user_item_list.tier = item_id_db_iter.tier;
-//         update_user_item_list.job = item_id_db_iter.job;
-//         update_user_item_list.grade = item_grade_db_iter.grade;
-//         item_random_count += 1;
-//         update_user_item_list.main_status = safeseed::get_random_value(_seed, item_grade_db_iter.max_range.base_str, item_grade_db_iter.min_range.base_str, item_random_count);
-
-//         result.index = update_user_item_list.index;
-//         result.type = result::item;
-//     });
-
-//     user_gacha_results user_gacha_result_table(_self, _self.value);
-//     user_gacha_totals user_gacha_total_table(_self, _self.value);
-
-//     auto user_gacha_result_iter = user_gacha_result_table.find(_user.value);
-//     if (user_gacha_result_iter == user_gacha_result_table.end())
-//     {
-//         user_gacha_result_table.emplace(_self, [&](auto &new_result) {
-//             new_result.user = _user;
-//             new_result.result = result;
-//         });
-//     }
-//     else
-//     {
-//         user_gacha_result_table.modify(user_gacha_result_iter, _self, [&](auto &new_result) {
-//             new_result.result = result;
-//         });
-//     }
-
-//     auto user_gacha_total_iter = user_gacha_total_table.find(_user.value);
-//     if (user_gacha_total_iter == user_gacha_total_table.end())
-//     {
-//         user_gacha_total_table.emplace(_self, [&](auto &new_result) {
-//             new_result.user = _user;
-//             new_result.result_list.push_back(result);
-//         });
-//     }
-//     else
-//     {
-//         user_gacha_total_table.modify(user_gacha_total_iter, _self, [&](auto &new_result) {
-//             new_result.result_list.push_back(result);
-//         });
-//     }
-
-//     pre_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
-//         update_log.item_num += 1;
-//         update_log.gacha_num += 1;
-//     });
-// }
-
-// ACTION battletest::partycheat(eosio::name _user)
-// {
-//     system_master system_master_table(_self, _self.value);
-//     auto system_master_iter = system_master_table.begin();
-
-//     permission_level master_auth;
-//     master_auth.actor = system_master_iter->master;
-//     master_auth.permission = "active"_n;
-//     require_auth(master_auth);
-//     eosio_assert(system_master_iter->state == system_state::pause, "partycheat : Not Server Pause 3");
-
-//     uint64_t user_value = get_user_seed_value(_user.value);
-//     uint64_t seed = safeseed::get_seed_value(user_value, now());
-
-//     pre_logs pre_log_table(_self, _self.value);
-//     auto user_log_iter = pre_log_table.find(_user.value);
-
-//     pre_log_table.emplace(_self, [&](auto &new_user) {
-//         new_user.user = _user;
-//         new_user.servant_num = 0;
-//         new_user.monster_num = 0;
-//         new_user.item_num = 0;
-//         new_user.gacha_num = 0;
-//         new_user.use_eos = 0;
-//     });
-
-//     pre_users pre_user_table(_self, _self.value);
-//     auto pre_user_iter = pre_user_table.find(_user.value);
-    
-//     pre_user_table.emplace(_self, [&](auto &new_user){
-//         new_user.user = _user;
-//         new_user.state = 1;
-//     });
-
-//     for (uint32_t i = 0; i < 400; ++i)
-//     {
-//         preregist_servant_id(_user, seed);
-//     }
-//     for (uint32_t i = 0; i <400; ++i)
-//     {
-//         preregist_monster_id(_user, seed);
-//     }
-//     for (uint32_t i = 0; i < 400; ++i)
-//     {
-//         preregist_item_id(_user, seed);
-//     }
-// }
-
-// ACTION battletest::movecheat(eosio::name _user)
-// {
-//     system_master system_master_table(_self, _self.value);
-//     auto system_master_iter = system_master_table.begin();
-
-//     permission_level master_auth;
-//     master_auth.actor = system_master_iter->master;
-//     master_auth.permission = "active"_n;
-//     require_auth(master_auth);
-//     eosio_assert(system_master_iter->state == system_state::pause, "movedb : Not Server Pause 3");
-
-//     pre_users pre_user_table(_self, _self.value);
-//     auto pre_user_iter = pre_user_table.find(_user.value);
-//     eosio_assert(pre_user_iter != pre_user_table.end(), "movedb : Not exist user data");
-
-//     pre_logs pre_log_table(_self, _self.value);
-//     auto pre_log_iter = pre_log_table.find(_user.value);
-//     eosio_assert(pre_log_iter != pre_log_table.end(), "movedb : Not exist pre log data ");
-
-//     user_logs user_log_table(_self, _self.value);
-//     auto user_log_iter = user_log_table.find(pre_log_iter->user.value);
-
-//     if (user_log_iter == user_log_table.end())
-//     {
-//         user_log_table.emplace(_self, [&](auto &user_log) {
-//             user_log.user = pre_log_iter->user;
-//             user_log.servant_num = pre_log_iter->servant_num;
-//             user_log.monster_num = pre_log_iter->monster_num;
-//             user_log.equipment_num = pre_log_iter->item_num;
-//             user_log.gacha_num = pre_log_iter->gacha_num;
-//             user_log.item_num = 0;
-//             user_log.get_gold = 0;
-//             user_log.use_gold = 0;
-//             user_log.use_eos = pre_log_iter->use_eos;
-//             user_log.battle_count = 0;
-//             user_log.last_stage_num = 0;
-//             user_log.last_tower_num = 0;
-//             user_log.top_clear_stage = 0;
-//             user_log.top_clear_tower = 0;
-//             user_log.add_party_count = 0;
-//             user_log.soul_powder = 0;
-//             user_log.mail = pre_log_iter->servant_num + pre_log_iter->monster_num + pre_log_iter->item_num;
-//         });
-
-
-//         user_auths auth_user_table(_self, _self.value);
-//         auto auth_user_iter = auth_user_table.find(pre_user_iter->user.value);
-//         eosio_assert(auth_user_iter == auth_user_table.end(), "movedb : Not exist auth_user");
-//         auth_user_table.emplace(_self, [&](auto &auth_user) {
-//             auth_user.user = pre_user_iter->user;
-//             auth_user.state = user_state::pre_regist;
-//             auth_user.exp = 0;
-//             auth_user.current_servant_inventory = 0;
-//             auth_user.current_monster_inventory = 0;
-//             auth_user.current_equipment_inventory = 0;
-//             auth_user.current_item_inventory = 0;
-//             auth_user.servant_inventory = 50;
-//             auth_user.monster_inventory = 50;
-//             auth_user.equipment_inventory = 50;
-//             auth_user.item_inventory = 50;
-//         });
-
-//     }
-
-//     pre_log_table.erase(pre_log_iter);
-//     pre_user_table.erase(pre_user_iter);
-
-//     user_preregist_servants user_preregist_servant_table(_self, _user.value);
-//     for (auto iter2 = user_preregist_servant_table.begin(); iter2 != user_preregist_servant_table.end();)
-//     {
-//         const auto &user_preregist_servant_iter = user_preregist_servant_table.get(iter2->primary_key(), "movedb : not exsit preregist servant data");
-
-//         pre_gacha_db pre_gacha_db_table(_self, _self.value);
-//         auto pre_gacha_db_iter = pre_gacha_db_table.find(user_preregist_servant_iter.id);
-//         eosio_assert(pre_gacha_db_iter != pre_gacha_db_table.end(), "movedb : Not exist pre_gacha_db_iter by servant");
-
-//         //  메일 테이블에 변경된 스탯으로 저장
-//         user_mail mail_db_table(_self, _user.value);
-//         mail_db_table.emplace(_self, [&](auto &move_mail) {
-//             uint32_t first_index = mail_db_table.available_primary_key();
-//             if (first_index == 0)
-//             {
-//                 move_mail.mail_index = 1;
-//             }
-//             else
-//             {
-//                 move_mail.mail_index = mail_db_table.available_primary_key();
-//             }
-//             move_mail.mail_type = 1;
-//             move_mail.type_index = user_preregist_servant_iter.index;
-//             move_mail.count = 1;
-//             move_mail.icon_id = pre_gacha_db_iter->db_index;
-//             move_mail.get_time = now();
-//         });
-//         iter2++;
-//     }
-
-//     user_preregist_monsters user_preregist_monster_table(_self, _user.value);
-//     for (auto iter3 = user_preregist_monster_table.begin(); iter3 != user_preregist_monster_table.end();)
-//     {
-//         const auto &user_preregist_monster_iter = user_preregist_monster_table.get(iter3->primary_key(), "movedb : Not exsit preregist monster data");
-
-//         pre_gacha_db pre_gacha_db_table(_self, _self.value);
-//         auto pre_gacha_db_iter = pre_gacha_db_table.find(user_preregist_monster_iter.id);
-//         eosio_assert(pre_gacha_db_iter != pre_gacha_db_table.end(), "movedb : Not exist pre_gacha_db_iter by monster");
-
-//         //  메일 테이블에 변경된 스탯으로 저장
-//         user_mail mail_db_table(_self, _user.value);
-//         mail_db_table.emplace(_self, [&](auto &move_mail) {
-//             uint32_t first_index = mail_db_table.available_primary_key();
-//             if (first_index == 0)
-//             {
-//                 move_mail.mail_index = 1;
-//             }
-//             else
-//             {
-//                 move_mail.mail_index = mail_db_table.available_primary_key();
-//             }
-//             move_mail.mail_type = 2;
-//             move_mail.type_index = user_preregist_monster_iter.index;
-//             move_mail.count = 1;
-//             move_mail.icon_id = pre_gacha_db_iter->db_index;
-//             move_mail.get_time = now();
-//         });
-//         iter3++;
-//     }
-//     user_preregist_items user_preregist_item_table(_self, _user.value);
-//     for (auto iter4 = user_preregist_item_table.begin(); iter4 != user_preregist_item_table.end();)
-//     {
-//         const auto &user_preregist_item_iter = user_preregist_item_table.get(iter4->primary_key(), "movedb : Not exsit preregist item data");
-
-//         pre_gacha_db pre_gacha_db_table(_self, _self.value);
-//         auto pre_gacha_db_iter = pre_gacha_db_table.find(user_preregist_item_iter.id);
-//         eosio_assert(pre_gacha_db_iter != pre_gacha_db_table.end(), "movedb : Not exist pre_gacha_db_iter by item");
-
-//         user_mail mail_db_table(_self, _user.value);
-//         mail_db_table.emplace(_self, [&](auto &move_mail) {
-//             uint32_t first_index = mail_db_table.available_primary_key();
-//             if (first_index == 0)
-//             {
-//                 move_mail.mail_index = 1;
-//             }
-//             else
-//             {
-//                 move_mail.mail_index = mail_db_table.available_primary_key();
-//             }
-//             move_mail.mail_type = 3;
-//             move_mail.type_index = user_preregist_item_iter.index;
-//             move_mail.count = 1;
-//             move_mail.icon_id = pre_gacha_db_iter->db_index;
-//             move_mail.get_time = now();
-//         });
-//         iter4++;
-//     }
-// }
-
-
-
-// ACTION battletest::deleteuser2(eosio::name _user)
-// {
-//     user_auths pre_user_table(_self, _self.value);
-//     auto pre_user_iter = pre_user_table.find(_user.value);
-//     if (pre_user_iter != pre_user_table.end())
-//     {
-//         pre_user_table.erase(pre_user_iter);
-//     }
-
-//     user_logs pre_log_table(_self, _self.value);
-//     auto pre_log_iter = pre_log_table.find(_user.value);
-//     if (pre_log_iter != pre_log_table.end())
-//     {
-//         pre_log_table.erase(pre_log_iter);
-//     }
-
-//     user_gacha_results user_gacha_result_table(_self, _self.value);
-//     auto gacha_result_iter = user_gacha_result_table.find(_user.value);
-//     if (gacha_result_iter != user_gacha_result_table.end())
-//     {
-//         user_gacha_result_table.erase(gacha_result_iter);
-//     }
-
-//     user_gacha_totals user_gacha_total_table(_self, _self.value);
-//     auto gacha_total_iter = user_gacha_total_table.find(_user.value);
-//     if (gacha_total_iter != user_gacha_total_table.end())
-//     {
-//         user_gacha_total_table.erase(gacha_total_iter);
-//     }
-
-//     user_equip_items user_preregist_item_table(_self, _user.value);
-//     auto item_iter = user_preregist_item_table.begin();
-//     if (item_iter != user_preregist_item_table.end())
-//     {
-//         for (auto item = user_preregist_item_table.begin(); item != user_preregist_item_table.end();)
-//         {
-//             auto iter = user_preregist_item_table.find(item->primary_key());
-//             item = user_preregist_item_table.erase(iter);
-//         }
-//     }
-
-//     user_items user_consum_item_table(_self, _user.value);
-//     auto user_consum_item_iter = user_consum_item_table.begin();
-//     if(user_consum_item_iter != user_consum_item_table.end())
-//     {
-//         for(auto consumable = user_consum_item_table.begin(); consumable != user_consum_item_table.end();)
-//         {
-//             auto iter = user_consum_item_table.find(consumable->primary_key());
-//             consumable = user_consum_item_table.erase(iter);
-//         }
-//     }
-
-//     user_monsters user_preregist_monster_table(_self, _user.value);
-//     auto mon_iter = user_preregist_monster_table.begin();
-//     if (mon_iter != user_preregist_monster_table.end())
-//     {
-//         for (auto mon = user_preregist_monster_table.begin(); mon != user_preregist_monster_table.end();)
-//         {
-//             auto iter = user_preregist_monster_table.find(mon->primary_key());
-//             mon = user_preregist_monster_table.erase(iter);
-//         }
-//     }
-
-//     user_servants user_preregist_servant_table(_self, _user.value);
-//     auto ser_iter = user_preregist_servant_table.begin();
-//     if (ser_iter != user_preregist_servant_table.end())
-//     {
-//         for (auto ser = user_preregist_servant_table.begin(); ser != user_preregist_servant_table.end();)
-//         {
-//             auto iter = user_preregist_servant_table.find(ser->primary_key());
-//             ser = user_preregist_servant_table.erase(iter);
-//         }
-//     }
-
-//     account to_acnts(_self, _user.value);
-//     auto to = to_acnts.begin();
-//     if (to != to_acnts.end())
-//     {
-//         add_balance(_self, to->balance, _self);
-//         sub_balance(_user, to->balance);
-//     }
-
-//     user_partys user_party_table(_self, _user.value);
-//     auto party_iter = user_party_table.begin();
-//     if (party_iter != user_party_table.end())
-
-//      {
-//          user_party_table.erase(party_iter);
-//      } 
-
-//     user_mail mail_db_table(_self, _user.value);
-//     auto mail_db_iter = mail_db_table.begin();
-//     if(mail_db_iter != mail_db_table.end())
-//     {
-//         for(auto iter = mail_db_table.begin(); iter!= mail_db_table.end();)
-//         {
-//             auto iter2 = mail_db_table.find(iter->primary_key());
-//             iter = mail_db_table.erase(iter2);
-//         }
-//     }
-// }
-
-
-
+    // ACTION battletest::lvcheat(eosio::name _user)
+    // {
+    //     require_auth(_self);
+    //     user_servants user_servant_table(_self, _user.value);
+    //     for(auto iter = user_servant_table.begin(); iter != user_servant_table.end();)
+    //     {
+    //         auto ser = user_servant_table.find(iter->primary_key());
+    //         user_servant_table.modify(ser, _self, [&](auto &new_data)
+    //         {
+    //             new_data.servant.level = 1;
+    //         });
+    //         iter++;
+    //     }
+    // }
+
+    // ACTION battletest::deleteuser2(eosio::name _user)
+    // {
+    //     user_auths pre_user_table(_self, _self.value);
+    //     auto pre_user_iter = pre_user_table.find(_user.value);
+    //     if (pre_user_iter != pre_user_table.end())
+    //     {
+    //         pre_user_table.erase(pre_user_iter);
+    //     }
+
+    //     user_logs pre_log_table(_self, _self.value);
+    //     auto pre_log_iter = pre_log_table.find(_user.value);
+    //     if (pre_log_iter != pre_log_table.end())
+    //     {
+    //         pre_log_table.erase(pre_log_iter);
+    //     }
+
+    //     user_gacha_results user_gacha_result_table(_self, _self.value);
+    //     auto gacha_result_iter = user_gacha_result_table.find(_user.value);
+    //     if (gacha_result_iter != user_gacha_result_table.end())
+    //     {
+    //         user_gacha_result_table.erase(gacha_result_iter);
+    //     }
+
+    //     user_gacha_totals user_gacha_total_table(_self, _self.value);
+    //     auto gacha_total_iter = user_gacha_total_table.find(_user.value);
+    //     if (gacha_total_iter != user_gacha_total_table.end())
+    //     {
+    //         user_gacha_total_table.erase(gacha_total_iter);
+    //     }
+
+    //     user_equip_items user_preregist_item_table(_self, _user.value);
+    //     auto item_iter = user_preregist_item_table.begin();
+    //     if (item_iter != user_preregist_item_table.end())
+    //     {
+    //         for (auto item = user_preregist_item_table.begin(); item != user_preregist_item_table.end();)
+    //         {
+    //             auto iter = user_preregist_item_table.find(item->primary_key());
+    //             item = user_preregist_item_table.erase(iter);
+    //         }
+    //     }
+
+    //     user_items user_consum_item_table(_self, _user.value);
+    //     auto user_consum_item_iter = user_consum_item_table.begin();
+    //     if(user_consum_item_iter != user_consum_item_table.end())
+    //     {
+    //         for(auto consumable = user_consum_item_table.begin(); consumable != user_consum_item_table.end();)
+    //         {
+    //             auto iter = user_consum_item_table.find(consumable->primary_key());
+    //             consumable = user_consum_item_table.erase(iter);
+    //         }
+    //     }
+
+    //     user_monsters user_preregist_monster_table(_self, _user.value);
+    //     auto mon_iter = user_preregist_monster_table.begin();
+    //     if (mon_iter != user_preregist_monster_table.end())
+    //     {
+    //         for (auto mon = user_preregist_monster_table.begin(); mon != user_preregist_monster_table.end();)
+    //         {
+    //             auto iter = user_preregist_monster_table.find(mon->primary_key());
+    //             mon = user_preregist_monster_table.erase(iter);
+    //         }
+    //     }
+
+    //     user_servants user_preregist_servant_table(_self, _user.value);
+    //     auto ser_iter = user_preregist_servant_table.begin();
+    //     if (ser_iter != user_preregist_servant_table.end())
+    //     {
+    //         for (auto ser = user_preregist_servant_table.begin(); ser != user_preregist_servant_table.end();)
+    //         {
+    //             auto iter = user_preregist_servant_table.find(ser->primary_key());
+    //             ser = user_preregist_servant_table.erase(iter);
+    //         }
+    //     }
+
+    //     account to_acnts(_self, _user.value);
+    //     auto to = to_acnts.begin();
+    //     if (to != to_acnts.end())
+    //     {
+    //         add_balance(_self, to->balance, _self);
+    //         sub_balance(_user, to->balance);
+    //     }
+
+    //     user_partys user_party_table(_self, _user.value);
+    //     auto party_iter = user_party_table.begin();
+    //     if (party_iter != user_party_table.end())
+
+    //      {
+    //          user_party_table.erase(party_iter);
+    //      }
+
+    //     user_mail mail_db_table(_self, _user.value);
+    //     auto mail_db_iter = mail_db_table.begin();
+    //     if(mail_db_iter != mail_db_table.end())
+    //     {
+    //         for(auto iter = mail_db_table.begin(); iter!= mail_db_table.end();)
+    //         {
+    //             auto iter2 = mail_db_table.find(iter->primary_key());
+    //             iter = mail_db_table.erase(iter2);
+    //         }
+    //     }
+    // }
 
 #undef EOSIO_DISPATCH
 
@@ -12425,20 +11468,19 @@ ACTION battletest::lvcheat(eosio::name _user)
             }                                                                                  \
         }                                                                                      \
     }
-// eos 금액에 대해 체크 하는 함
+    // eos 금액에 대해 체크 하는 함
 
-EOSIO_DISPATCH(battletest,
-                (addrefer)(deleterefer)//(addwhite)(deletewhite)//(premove)
-               (dbinit)(setdata)                                                                                                                     //test
-               (transfer)(changetoken)(create)(issue)                                                                                                                         //token
-               //(claim)(endflag)(toweropen)(towerstart)(deletetower)
-               (chat)(mailcheat)(anothercheck)(movelog)(deletelog)(lvcheat)                      //(partycheat)(movecheat)                                                                                                                              //tower
-                //(inittokenlog) (initmaster)    
-               (setmaster)(eostransfer)(deleteblack)(addblack)(setpause)(alluserdel)(allbattle)//(dbinsert)(dberase)(dblistinsert)//(insertequipr) //db mastersystem
-               (stageexit)(stagestart)(activeturn)(pvpstart)//(battlestate)(battleaction)(resultparty)
-               (saveparty)//(resultgacha)                                                                                                                          //party + gacha
-               (itembuy)(monsterup)(equipmentup)(mailopen)(equip)(nftmail)//(movedb)
-               (burn))//(itemburn))
-//               (deleteuser2))
-                //(addshop)(delshop)))                     //contants
-                //
+    EOSIO_DISPATCH(battletest,
+                   (addrefer)(deleterefer)                //(addwhite)(deletewhite)
+                   (dbinit)(dbinsert)    //(setdata)                  //test
+                   (transfer)(changetoken)(create)(issue) //token
+                   //(claim)(endflag)(toweropen)(towerstart)(deletetower)
+                   (chat)(anothercheck)(deletelog)                                                  //(movelog)//(lvcheat)                      //(partycheat)                                                                                                                              //tower
+                                                                                                    //(inittokenlog) (initmaster)
+                   (setmaster)(eostransfer)(deleteblack)(addblack)(setpause)(alluserdel)(allbattle) //(insertequipr)//(dberase)(dblistinsert)// //db mastersystem
+                   (stageexit)(stagestart)(activeturn)(pvpstart)                                    //(battlestate)(battleaction)(resultparty)
+                   (saveparty)                                                                      //(resultgacha)                                                                                                                          //party + gacha
+                   (itembuy)(monsterup)(equipmentup)(mailopen)(equip)(nftmail)(burn))               //(itemburn))
+                                                                                                    //               (deleteuser2))
+                                                                                                    //(addshop)(delshop)))                     //contants
+                                                                                                    //
