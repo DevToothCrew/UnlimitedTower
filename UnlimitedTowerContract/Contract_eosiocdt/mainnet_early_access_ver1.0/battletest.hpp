@@ -595,7 +595,7 @@ CONTRACT battletest : public contract
     void substr_value(std::string _value, std::vector<std::string> & _value_list, std::vector<size_t> & _size_list, uint32_t _size);
     ACTION dbinsert(std::string _table, std::string _value);
     //ACTION dberase(std::string _table, std::string _value);
-    // ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
+    ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
     ACTION dbinit(std::string _table);
     // ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
 

@@ -284,6 +284,20 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
                              atoll(value_list[4].c_str()),
                              atoll(value_list[5].c_str()));
     }
+    if (_table == "dbstage")
+    {
+        substr_value(_value, value_list, size_list, 9);
+        insert_stage(atoll(value_list[0].c_str()),
+                     atoi(value_list[1].c_str()),
+                     atoi(value_list[2].c_str()),
+                     atoi(value_list[3].c_str()),
+                     atoi(value_list[4].c_str()),
+                     atoi(value_list[5].c_str()),
+                     atoi(value_list[6].c_str()),
+                     atoi(value_list[7].c_str()),
+                     atoi(value_list[8].c_str()));
+    }
+
 //     if (_table == "dbserstat")
 //     {
 //         substr_value(_value, value_list, size_list, 10);
@@ -558,57 +572,57 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
 //     // }
 }
 
-// ACTION battletest::dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list)
-// {
-//     system_master system_master_table(_self, _self.value);
-//     auto system_master_iter = system_master_table.begin();
+ACTION battletest::dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list)
+{
+    system_master system_master_table(_self, _self.value);
+    auto system_master_iter = system_master_table.begin();
 
-//     permission_level master_auth;
-//     master_auth.actor = system_master_iter->master;
-//     master_auth.permission = "active"_n;
-//     require_auth(master_auth);
+    permission_level master_auth;
+    master_auth.actor = system_master_iter->master;
+    master_auth.permission = "active"_n;
+    require_auth(master_auth);
 
-//     eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 1");
-//     if (_list == "dbstage_monsterlist")
-//     {
-//         uint64_t stage_id = atoll(_primary_key.c_str());
-//         stage_db stage_db_table(_self, _self.value);
-//         auto stage_db_iter = stage_db_table.find(stage_id);
-//         eosio_assert(stage_db_iter != stage_db_table.end(), "DB List Insert : Not Exist Stage");
+    eosio_assert(system_master_iter->state == system_state::pause, "Not Server Pause 1");
+    if (_list == "dbstage_monsterlist")
+    {
+        uint64_t stage_id = atoll(_primary_key.c_str());
+        stage_db stage_db_table(_self, _self.value);
+        auto stage_db_iter = stage_db_table.find(stage_id);
+        eosio_assert(stage_db_iter != stage_db_table.end(), "DB List Insert : Not Exist Stage");
 
-//         stage_db_table.modify(stage_db_iter, _self, [&](auto &new_data) {
-//             for (uint32_t i = 0; i < _value_list.size();)
-//             {
-//                 stage_monster_info new_monster;
-//                 new_monster.monster_id = atoi(_value_list[i].c_str());
-//                 new_monster.position = atoi(_value_list[i+1].c_str());
-//                 new_data.monster_list.push_back(new_monster);
-//                 i += 2;
-//             }
-//         });
-//     }
-//     if (_list == "dbreward_rewardlist")
-//     {
-//         uint64_t stage_id = atoll(_primary_key.c_str());
-//         reward_db reward_db_table(_self, _self.value);
-//         auto stage_db_iter = reward_db_table.find(stage_id);
-//         eosio_assert(stage_db_iter != reward_db_table.end(), "DB List Insert : Not Exist Reward");
+        stage_db_table.modify(stage_db_iter, _self, [&](auto &new_data) {
+            for (uint32_t i = 0; i < _value_list.size();)
+            {
+                stage_monster_info new_monster;
+                new_monster.monster_id = atoi(_value_list[i].c_str());
+                new_monster.position = atoi(_value_list[i+1].c_str());
+                new_data.monster_list.push_back(new_monster);
+                i += 2;
+            }
+        });
+    }
+    if (_list == "dbreward_rewardlist")
+    {
+        uint64_t stage_id = atoll(_primary_key.c_str());
+        reward_db reward_db_table(_self, _self.value);
+        auto stage_db_iter = reward_db_table.find(stage_id);
+        eosio_assert(stage_db_iter != reward_db_table.end(), "DB List Insert : Not Exist Reward");
 
-//         reward_db_table.modify(stage_db_iter, _self, [&](auto &new_data) {
-//             for (uint32_t i = 0; i < _value_list.size();)
-//             {
-//                 reward_info new_reward;
-//                 new_reward.type = atoi(_value_list[i].c_str());
-//                 new_reward.id = atoi(_value_list[i + 1].c_str());
-//                 new_reward.grade = atoi(_value_list[i + 2].c_str());
-//                 new_reward.per = atoi(_value_list[i + 3].c_str());
-//                 new_reward.count = atoi(_value_list[i + 4].c_str());
-//                 new_data.reward_list.push_back(new_reward);
-//                 i += 5;
-//             }
-//         });
-//     }
-// }
+        reward_db_table.modify(stage_db_iter, _self, [&](auto &new_data) {
+            for (uint32_t i = 0; i < _value_list.size();)
+            {
+                reward_info new_reward;
+                new_reward.type = atoi(_value_list[i].c_str());
+                new_reward.id = atoi(_value_list[i + 1].c_str());
+                new_reward.grade = atoi(_value_list[i + 2].c_str());
+                new_reward.per = atoi(_value_list[i + 3].c_str());
+                new_reward.count = atoi(_value_list[i + 4].c_str());
+                new_data.reward_list.push_back(new_reward);
+                i += 5;
+            }
+        });
+    }
+}
 
 void battletest::insert_status_monster(uint64_t _grade, std::vector<uint32_t> _status_list)
 {
@@ -2718,6 +2732,17 @@ ACTION battletest::dbinit(std::string _table)
             my_table.erase(erase_iter);
         }
     }
+    if (_table == "dbstage")
+    {
+        stage_db my_table(_self, _self.value);
+        for (auto iter = my_table.begin(); iter != my_table.end();)
+        {
+            auto erase_iter = my_table.find(iter->primary_key());
+            iter++;
+            my_table.erase(erase_iter);
+        }
+    }
+
 //     // if (_table == "dbgachapool")
 //     // {
 //     //     main_gacha_db my_table(_self, _self.value);
@@ -10295,7 +10320,7 @@ EOSIO_DISPATCH(battletest,
                (transfer)(changetoken)(create)(issue)                                                                                                                        
                //(chat)
                (anothercheck)(deletelog)                                                                                                                              
-               (setmaster)(eostransfer)(deleteblack)(addblack)(setpause)(dbinsert)(dbinit)//(dberase)(insertequipr)(initmaster)(dblistinsert)
+               (setmaster)(eostransfer)(deleteblack)(addblack)(setpause)(dbinsert)(dbinit)(dblistinsert)//(dberase)(insertequipr)(initmaster)
                (stageexit)(stagestart)(activeturn)(pvpstart)//(battlestate)(battleaction)(resultparty)
                (saveparty)//(resultgacha)(itemburn)                                                                                                                         
                (itembuy)(monsterup)(equipmentup)(mailopen)(equip)(nftmail)
