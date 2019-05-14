@@ -10298,5 +10298,5 @@ EOSIO_DISPATCH(battletest,
                (setmaster)(eostransfer)(deleteblack)(addblack)(setpause)(dbinsert)(dbinit)//(dberase)(insertequipr)(initmaster)(dblistinsert)
                (stageexit)(stagestart)(activeturn)(pvpstart)//(battlestate)(battleaction)(resultparty)
                (saveparty)//(resultgacha)(itemburn)                                                                                                                         
-               (itembuy)(monsterup)(equipmentup)(mailopen)(equip)(nftmail)//(anothercheck)
+               (itembuy)(monsterup)(equipmentup)(mailopen)(equip)(nftmail)
                (burn))
