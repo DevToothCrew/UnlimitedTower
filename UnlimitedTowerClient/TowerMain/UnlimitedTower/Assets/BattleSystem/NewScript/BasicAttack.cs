@@ -63,9 +63,10 @@ public class BasicAttack : MonoBehaviour {
     {
         attacker.LookAt(target);
         ani.SetTrigger("isRun");
-        for (int i = 0; i < 80; i += BattleManager.Inst.TimeScale)
+        Vector3 distance = attackerEndPos - attackerStartPos;
+        for (float i = Vector3.Distance(attackerEndPos, attackerStartPos); i > 0; i -= 0.1f * BattleManager.Inst.TimeScale)
         {
-            attacker.transform.position = Vector3.Lerp(attackerStartPos, attackerEndPos, i * 0.0125f);
+            attacker.position += (distance.normalized / 10 * BattleManager.Inst.TimeScale);// * BattleManager.Inst.TimeScale);
             yield return new WaitForSecondsRealtime(0.015f);
         }
         attacker.transform.position = attackerEndPos;
@@ -77,9 +78,10 @@ public class BasicAttack : MonoBehaviour {
     {
         attacker.Rotate(0, 180, 0);
         ani.SetTrigger("isRun");
-        for (int i = 0; i < 80; i += BattleManager.Inst.TimeScale)
+        Vector3 distance = attackerStartPos - attackerEndPos;
+        for (float i = Vector3.Distance(attackerEndPos, attackerStartPos); i > 0; i -= 0.1f * BattleManager.Inst.TimeScale)
         {
-            attacker.transform.position = Vector3.Lerp(attackerEndPos, attackerStartPos, i * 0.0125f);
+            attacker.position += (distance.normalized / 10 * BattleManager.Inst.TimeScale);// * BattleManager.Inst.TimeScale);
             yield return new WaitForSecondsRealtime(0.015f);
         }
         attacker.transform.position = attackerStartPos;
@@ -127,9 +129,9 @@ public class BasicAttack : MonoBehaviour {
         Vector3 startPos = arrow.transform.position;
         Vector3 endPos = target - (target - startPos).normalized * 0.2f;
         
-        for (int i = 0; i < 50; i += BattleManager.Inst.TimeScale)
+        for (int i = 0; i < 30; i += BattleManager.Inst.TimeScale)
         {
-            arrow.transform.position = Vector3.Lerp(startPos, endPos, i * 0.02f);
+            arrow.transform.position = Vector3.Lerp(startPos, endPos, i * 0.033f);
             yield return new WaitForSecondsRealtime(0.01f);
         }
         Destroy(arrow);

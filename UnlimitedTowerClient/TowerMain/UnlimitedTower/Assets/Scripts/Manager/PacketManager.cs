@@ -900,8 +900,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void ResponseLogout()
     {
         DebugLog.Log(false, "ResponseLogout");
-        UserDataManager.Inst.InitUserInfo();
-        StartCoroutine(LoadSceneAsync("login", "Loading scene ... "));
     }
 
     public void ResponseSaveParty(partyData getPartyData)
@@ -1369,25 +1367,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
         ParseItemDic(getBuyItemData.item_list, ref itemDic);
         UserDataManager.Inst.SetItemDic(itemDic);
 
-        if (getBuyItemData.invetory_info != null)
+        if (getBuyItemData.inventory_info != null)
         {
-            UserInventoryInfo info = UserDataManager.Inst.GetUserInventoryInfo();
-            if (info.servantInventory <= getBuyItemData.invetory_info.servant_inventory)
-            {
-                info.servantInventory = getBuyItemData.invetory_info.servant_inventory;
-            }
-            if (info.monsterInventory <= getBuyItemData.invetory_info.monster_inventory)
-            {
-                info.monsterInventory = getBuyItemData.invetory_info.monster_inventory;
-            }
-            if (info.equipmentInventory <= getBuyItemData.invetory_info.equipment_inventory)
-            {
-                info.equipmentInventory = getBuyItemData.invetory_info.equipment_inventory;
-            }
-            if (info.itemInventory <= getBuyItemData.invetory_info.item_inventory)
-            {
-                info.itemInventory = getBuyItemData.invetory_info.item_inventory;
-            }
+            UserInventoryInfo info = new UserInventoryInfo();
+            info.servantInventory = getBuyItemData.inventory_info.servant_inventory;
+            info.monsterInventory = getBuyItemData.inventory_info.monster_inventory;
+            info.equipmentInventory = getBuyItemData.inventory_info.equipment_inventory;
+            info.itemInventory = getBuyItemData.inventory_info.item_inventory;
 
             UserDataManager.Inst.SetUserInventoryInfo(info);
         }

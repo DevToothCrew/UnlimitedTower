@@ -75,7 +75,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
     
     public void TimeScaleX2()
     {
-        int Speed = 2;
+        int Speed = 4;
         if (BattleManager.Inst.TimeScale != Speed)
         {
             BattleManager.Inst.TimeScale = Speed;
@@ -83,8 +83,8 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         }
         else
         {
-            BattleManager.Inst.TimeScale = 1;
-            Time.timeScale = 1;
+            BattleManager.Inst.TimeScale = 2;
+            Time.timeScale = 2;
         }
     }
 
@@ -167,7 +167,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
     // 배틀중 나가기
     public void BattleActionOut()
     {
-        if (UserDataManager.Inst.stageReward == null || UserDataManager.Inst.stageReward.reward_money == 0)
+        if (UserDataManager.Inst.stageReward?.reward_money == 0)
         {
 #if UNITY_EDITOR
             Cheat.Inst.RequestStageExitCheat();
@@ -175,9 +175,15 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         PacketManager.Inst.RequestStageExit();
 #endif
         }
+        else if (BattleManager.Inst.isBattleStart == false)
+        {
+            PacketManager.Inst.ResponseStageExit();
+        }
         else
         {
-            Debug.Log("Last Turn");
+#if UNITY_EDITOR
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Last Turn");
+#endif
         }
     }
 
@@ -250,7 +256,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
             UserDataManager.Inst.stageReward = new stageRewardData();
         }
 #endif
-            Time.timeScale = 1;
+            Time.timeScale = 2;
             BattleManager.Inst.rewardParent?.SetActive(false);
         }
     }
@@ -297,7 +303,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
             UserDataManager.Inst.stageReward = new stageRewardData();
         }
 #endif
-            Time.timeScale = 1;
+            Time.timeScale = 2;
             BattleManager.Inst.battleFail?.SetActive(false);
             BattleManager.Inst.rewardParent?.SetActive(false);
         }
