@@ -8,42 +8,61 @@ public class UpgradeResultVC : MonoBehaviour {
 
     public Image imageResultEffect;
     public Transform FrameResultImage;
+    public GameObject objBreak;
     
     public GameObject resultMonsterPrefab;
     public GameObject resultItemPrefab;
-    
+
+    public Sprite spriteSuccess;
+    public Sprite spriteFail;
+
 
     public void updateView(bool is_success, UserMonsterData monsterData)
     {
+        objBreak.SetActive(false);
         if (is_success)
         {
-            textResult.text = "Upgrade Sucess!!!";
+            textResult.text = "Upgrade Success!!!";
+            textResult.GetComponent<UITextGradient>().m_color1 = new Color(1, 245 / 255f, 138 / 255f);
+            textResult.GetComponent<UITextGradient>().m_color2 = new Color(1, 176 / 255f, 45 / 255f);
+            imageResultEffect.sprite = spriteSuccess;
         }
         else
         {
-            textResult.text = "Upgrade Fail!!!";
+            textResult.text = "Upgrade Fail...";
+            textResult.GetComponent<UITextGradient>().m_color1 = new Color(150 / 255f, 150 / 255f, 150 / 255f);
+            textResult.GetComponent<UITextGradient>().m_color2 = new Color(50 / 255f, 50 / 255f, 50 / 255f);
+            imageResultEffect.sprite = spriteFail;
         }
 
-        GameObject resultMonster = Instantiate(resultItemPrefab);
+        GameObject resultMonster = Instantiate(resultMonsterPrefab);
         resultMonster.transform.SetParent(FrameResultImage);
-        //resultItem.GetComponent<BurnResultItemInfo>().UpdateItem(getItemID, getItemCount);
-        
+        resultMonster.GetComponent<UpgradeResultMonster>().updateView(monsterData);
+
     }
 
     public void updateView(bool is_success, UserEquipmentData equipmentData)
     {
         if (is_success)
         {
+            objBreak.SetActive(false);
             textResult.text = "Upgrade Sucess!!!";
+            textResult.GetComponent<UITextGradient>().m_color1 = new Color(1, 245 / 255f, 138 / 255f);
+            textResult.GetComponent<UITextGradient>().m_color2 = new Color(1, 176 / 255f, 45 / 255f);
+            imageResultEffect.sprite = spriteSuccess;
         }
         else
         {
-            textResult.text = "Upgrade Fail!!!";
+            objBreak.SetActive(true);
+            textResult.text = "Upgrade Fail...";
+            textResult.GetComponent<UITextGradient>().m_color1 = new Color(150 / 255f, 150 / 255f, 150 / 255f);
+            textResult.GetComponent<UITextGradient>().m_color2 = new Color(50 / 255f, 50 / 255f, 50 / 255f);
+            imageResultEffect.sprite = spriteFail;
         }
 
-        GameObject resultMonster = Instantiate(resultItemPrefab);
-        resultMonster.transform.SetParent(FrameResultImage);
-        //resultItem.GetComponent<BurnResultItemInfo>().UpdateItem(getItemID, getItemCount);
+        GameObject resultEquipment = Instantiate(resultItemPrefab);
+        resultEquipment.transform.SetParent(FrameResultImage);
+        resultEquipment.GetComponent<UpgradeResuiltItem>().updateView(equipmentData);
     }
 
     public void OnClickButtonOK()

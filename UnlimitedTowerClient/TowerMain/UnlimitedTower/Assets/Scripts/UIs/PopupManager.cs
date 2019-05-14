@@ -65,12 +65,22 @@ public class PopupManager : MonoBehaviour {
 
     public void OnClickConfirm()
     {
-        if (messageIdx == MESSAGE_IDX.UPGRADE_CONFIRM)
+        switch(messageIdx)
         {
-            if (SubViewUpgrade.Inst != null)
-            {
-                SubViewUpgrade.Inst.UpgradeEquipment();
-            }
+            case MESSAGE_IDX.UPGRADE_MONSTER_CONFIRM:
+                if (SubViewUpgrade.Inst != null)
+                {
+                    SubViewUpgrade.Inst.UpgradeMonster();
+                }
+                break;
+            case MESSAGE_IDX.UPGRADE_EQUIPMENT_CONFIRM:
+                if (SubViewUpgrade.Inst != null)
+                {
+                    SubViewUpgrade.Inst.UpgradeEquipment();
+                }
+                break;
+            default:
+                break;
         }
         Destroy(this.gameObject);
     }

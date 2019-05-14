@@ -10,8 +10,11 @@ public class MessageList
 
         switch(idx)
         {
-            case MESSAGE_IDX.UPGRADE_CONFIRM:
-                msg = "장비 업그레이드시, 장비가 파괴될 가능성이 있습니다.\n그래도 진행 하시겠습니까?";
+            case MESSAGE_IDX.UPGRADE_MONSTER_CONFIRM:
+                msg = "If reinforcement is fails, the enhancement phase will be reduced by a random number.";
+                break;
+            case MESSAGE_IDX.UPGRADE_EQUIPMENT_CONFIRM:
+                msg = "If reinforcement is fails, the equipment will be destroyed.";
                 break;
             default:
                 break;
