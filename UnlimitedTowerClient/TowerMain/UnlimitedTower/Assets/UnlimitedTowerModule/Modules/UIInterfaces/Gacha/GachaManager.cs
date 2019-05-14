@@ -88,7 +88,7 @@ public class GachaManager : MonoBehaviour {
                 return;
             }
 
-            if (UserDataManager.Inst.GetUserEOS() < 10000)
+            if (UserDataManager.Inst.GetUserEOS() < DEFINE.NeedGachaEos)
             {
                 SimpleErrorPopupVC.Inst.UpdateErrorText("Not Enough EOS");
                 return;
