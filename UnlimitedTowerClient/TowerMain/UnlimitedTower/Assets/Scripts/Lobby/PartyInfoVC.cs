@@ -405,10 +405,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         {
             Destroy(SubViewUpgrade.Inst.gameObject);
         }
-
-        scrollList.SetItemOrder(getOrder());
-        scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
-        scrollList.ScrollViewDidScroll();
+        resetScroll();
         updateDetailInfo(scrollList.getFirstItemOrder());
     }
 
