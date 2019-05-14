@@ -262,7 +262,14 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
         }
     }
 
-
+    public void OnClickLogoutButton()
+    {
+#if UNITY_EDITOR
+        PacketManager.Inst.ResponseLogout();
+#else
+        PacketManager.Inst.RequestLogout();
+#endif
+    }
 
     public void OnClickChatButton()
     {

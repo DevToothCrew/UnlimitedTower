@@ -900,6 +900,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void ResponseLogout()
     {
         DebugLog.Log(false, "ResponseLogout");
+
+        if (SceneManager.GetActiveScene().name == "Lobby")
+        {
+            SceneManager.LoadScene("Login");
+        }
     }
 
     public void ResponseSaveParty(partyData getPartyData)

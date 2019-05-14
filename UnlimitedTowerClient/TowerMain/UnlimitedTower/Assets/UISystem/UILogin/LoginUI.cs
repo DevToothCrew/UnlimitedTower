@@ -23,6 +23,10 @@ public class LoginUI : MonoBehaviour {
 
     public void OnClickLogoutButton()
     {
+#if UNITY_EDITOR
+        PacketManager.Inst.ResponseLogout();
+#else
         PacketManager.Inst.RequestLogout();
+#endif
     }
 }
