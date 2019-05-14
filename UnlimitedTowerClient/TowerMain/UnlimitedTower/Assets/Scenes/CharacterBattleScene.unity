@@ -41700,10 +41700,10 @@ GameObject:
   - component: {fileID: 1616318305}
   - component: {fileID: 1616318303}
   - component: {fileID: 1616318308}
-  - component: {fileID: 1616318304}
   - component: {fileID: 1616318306}
   - component: {fileID: 1616318307}
   - component: {fileID: 1616318309}
+  - component: {fileID: 1616318304}
   m_Layer: 0
   m_Name: BattleManager
   m_TagString: Untagged
@@ -41855,6 +41855,7 @@ MonoBehaviour:
   CheetKey: 000000000000000000000000
   CheetIndex: 0
   adminMode: 0
+  isBattleStart: 0
   selectEffect: {fileID: 1251770570014520, guid: 2cbad998f9456824292810dcc90ff200,
     type: 2}
   rewardParent: {fileID: 0}
@@ -41903,67 +41904,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1616318300}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 670b3aed82ce8e54e9f5ebbf3bcc4a6c, type: 3}
+  m_Script: {fileID: 11500000, guid: a1309d5ea4c90824cb60027992b6bc00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabList:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  soundList:
+  - {fileID: 8300000, guid: 46749fbd80ed38541aa66bd3ac66e1a3, type: 3}
+  - {fileID: 8300000, guid: 9d6f7a7e564acfb408150edae0687b3c, type: 3}
+  - {fileID: 8300000, guid: 6857041823f25c2448811a3995b3519f, type: 3}
+  - {fileID: 8300000, guid: bc2c1886077426f4f816efbc04c36424, type: 3}
+  - {fileID: 8300000, guid: 3d6a054fe29c5ba43a41ddcbd7008220, type: 3}
 --- !u!114 &1616318305
 MonoBehaviour:
   m_ObjectHideFlags: 0
