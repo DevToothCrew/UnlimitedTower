@@ -4,30 +4,15 @@ using UnityEngine;
 
 public class SoundManager : MonoSingleton<SoundManager> {
     public List<AudioClip> soundList = new List<AudioClip>();
-    
-    public void SoundPlay(int SoundIndex, bool isLoop = false)
+    public new AudioSource audio;
+
+    public void Awake()
     {
-        StartCoroutine(SoundPlayCo(SoundIndex, isLoop));
+        audio = GetComponent<AudioSource>();
     }
 
-    IEnumerator SoundPlayCo(int SoundIndex, bool isLoop = false)
+    public void SoundPlay(int SoundIndex)
     {
-        AudioSource audio = gameObject.AddComponent<AudioSource>();
-        audio.clip = soundList[SoundIndex];
-        audio.loop = isLoop;
-        audio.Play();
-
-        if (!isLoop)
-        {
-            for (; ; )
-            {
-                yield return new WaitForSeconds(0.1f);
-                if (audio.isPlaying == false)
-                {
-                    Destroy(audio);
-                    break;
-                }
-            }
-        }
+        audio.PlayOneShot(soundList[SoundIndex]);
     }
 }
