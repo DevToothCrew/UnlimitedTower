@@ -41700,10 +41700,11 @@ GameObject:
   - component: {fileID: 1616318305}
   - component: {fileID: 1616318303}
   - component: {fileID: 1616318308}
-  - component: {fileID: 1616318304}
   - component: {fileID: 1616318306}
   - component: {fileID: 1616318307}
   - component: {fileID: 1616318309}
+  - component: {fileID: 1616318304}
+  - component: {fileID: 1616318310}
   m_Layer: 0
   m_Name: BattleManager
   m_TagString: Untagged
@@ -41855,6 +41856,7 @@ MonoBehaviour:
   CheetKey: 000000000000000000000000
   CheetIndex: 0
   adminMode: 0
+  isBattleStart: 0
   selectEffect: {fileID: 1251770570014520, guid: 2cbad998f9456824292810dcc90ff200,
     type: 2}
   rewardParent: {fileID: 0}
@@ -41903,67 +41905,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1616318300}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 670b3aed82ce8e54e9f5ebbf3bcc4a6c, type: 3}
+  m_Script: {fileID: 11500000, guid: a1309d5ea4c90824cb60027992b6bc00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabList:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  soundList:
+  - {fileID: 8300000, guid: 46749fbd80ed38541aa66bd3ac66e1a3, type: 3}
+  - {fileID: 8300000, guid: 9d6f7a7e564acfb408150edae0687b3c, type: 3}
+  - {fileID: 8300000, guid: 6857041823f25c2448811a3995b3519f, type: 3}
+  - {fileID: 8300000, guid: bc2c1886077426f4f816efbc04c36424, type: 3}
+  - {fileID: 8300000, guid: 3d6a054fe29c5ba43a41ddcbd7008220, type: 3}
+  audio: {fileID: 1616318310}
 --- !u!114 &1616318305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42060,6 +42011,86 @@ MonoBehaviour:
     obj: {fileID: 1786655242775346, guid: d03a362b9731a51428e628963324f8c5, type: 2}
   - name: 200016
     obj: {fileID: 1141034766698990, guid: 76d4d57cfb320734db603ad603b2ec35, type: 2}
+--- !u!82 &1616318310
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1616318300}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!1001 &1616652545
 Prefab:
   m_ObjectHideFlags: 0

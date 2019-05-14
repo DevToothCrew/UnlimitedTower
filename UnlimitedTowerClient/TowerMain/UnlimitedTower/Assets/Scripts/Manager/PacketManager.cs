@@ -1314,6 +1314,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         //SubViewUpgrade.Inst.updateViewFinishRequest();
         PartyInfoVC.Inst.updateViewFinishRequest();
+
+        TopUIManager.Inst.ShowUpgradeMonsterResult(getMonsterUpgradeResultData.is_success, monsterData);
     }
 
     // 아이템 강화
@@ -1321,22 +1323,27 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         DebugLog.Log(false, "장비 업그레이드 !");
 
-        if (getEquipmentUpgradeResultData.is_success == true)
+        UserEquipmentData equipmentData = ParseEquipment(getEquipmentUpgradeResultData.main_equipment_data);
+        if (equipmentData == null)
         {
-            UserEquipmentData equipmentData = ParseEquipment(getEquipmentUpgradeResultData.main_equipment_data);
-            if(equipmentData == null)
-            {
-                DebugLog.Log(false, "Invalid Equipment Data : " + getEquipmentUpgradeResultData.main_equipment_data);
-                return;
-            }
+            DebugLog.Log(false, "Invalid Equipment Data : " + getEquipmentUpgradeResultData.main_equipment_data);
+            return;
+        }
+
+        if (getEquipmentUpgradeResultData.is_success == true)
+        {   
             UserDataManager.Inst.SetEquipment(equipmentData);
+            TopUIManager.Inst.ShowUpgradeEquipmentResult(getEquipmentUpgradeResultData.is_success, equipmentData);
         }
         else
         {
-            if(UserDataManager.Inst.DelEquipment(getEquipmentUpgradeResultData.del_equipment_index) == false)
+            UserEquipmentData deleteEquipmentData = new UserEquipmentData();
+            deleteEquipmentData = equipmentData;
+            if (UserDataManager.Inst.DelEquipment(getEquipmentUpgradeResultData.del_equipment_index) == false)
             {
                 DebugLog.Log(false, "Invalid Equipment Index : " + getEquipmentUpgradeResultData.del_equipment_index);
             }
+            TopUIManager.Inst.ShowUpgradeEquipmentResult(getEquipmentUpgradeResultData.is_success, deleteEquipmentData);
         }
 
         for (int i = 0; i < getEquipmentUpgradeResultData.add_item_list.Count; i++)

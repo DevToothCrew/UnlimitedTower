@@ -544,12 +544,18 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
         else if (InventoryVC.checkInst())
         {
             InventoryVC inventory = InventoryVC.Inst;
+            inventory.FrameMain.SetActive(true);
             if (inventory.FrameEquipmentInfo.activeSelf)
             {
                 EquipmentInfoManager equipmentInfo = EquipmentInfoManager.Inst;
                 equipmentInfo.setData();
                 equipmentInfo.resetScroll();
                 equipmentInfo.updateDetailInfo(equipmentInfo.scrollList.getFirstItemOrder());
+
+                if (SubViewUpgrade.checkInst() == true)
+                {
+                    Destroy(SubViewUpgrade.Inst.gameObject);
+                }
                 //OnClickClose();
             }
         }
@@ -579,37 +585,42 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
 
         if (upgradeType == UPGRADE_TYPE.MONSTER)  // Monster
         {
-            UserMonsterData subMonsterData = UserDataManager.Inst.GetMonsterInfo(inserted_object_idx);
-            if (subMonsterData == null)
-            {
-                DebugLog.Log(false, "Invalid Request Monster ID : " + inserted_object_idx);
-                return;
-            }
-
-            if (monsterData.state != 1 || subMonsterData.state != 1)
-            {
-                DebugLog.Log(false, "Invalid Monster State : " + subMonsterData.state);
-                SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Monster State");
-                return;
-            }
-
-            if (subMonsterData.partyIndex != 0)
-            {
-                DebugLog.Log(false, "Invalid Monster Index : " + subMonsterData.partyIndex);
-                SimpleErrorPopupVC.Inst.UpdateErrorText("Monster Already In Party");
-                return;
-            }
-
-#if UNITY_EDITOR
-            Cheat.Inst.RequestMonsterUpgradeCheat(monsterData.index, subMonsterData.index);
-#else
-            PacketManager.Inst.RequestMonsterUpgrade(monsterData.index, subMonsterData.index);
-#endif
+            TopUIManager.Inst.ShowPopupMessage(POPUP_TYPE.CONFIRM, MESSAGE_IDX.UPGRADE_MONSTER_CONFIRM);
         }
         else if (upgradeType == UPGRADE_TYPE.EQUIPMENT) // Equip
         {
-            TopUIManager.Inst.ShowPopupMessage(POPUP_TYPE.CONFIRM, MESSAGE_IDX.UPGRADE_CONFIRM);
+            TopUIManager.Inst.ShowPopupMessage(POPUP_TYPE.CONFIRM, MESSAGE_IDX.UPGRADE_EQUIPMENT_CONFIRM);
         }
+    }
+
+    public void UpgradeMonster()
+    {
+        UserMonsterData subMonsterData = UserDataManager.Inst.GetMonsterInfo(inserted_object_idx);
+        if (subMonsterData == null)
+        {
+            DebugLog.Log(false, "Invalid Request Monster ID : " + inserted_object_idx);
+            return;
+        }
+
+        if (monsterData.state != 1 || subMonsterData.state != 1)
+        {
+            DebugLog.Log(false, "Invalid Monster State : " + subMonsterData.state);
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Monster State");
+            return;
+        }
+
+        if (subMonsterData.partyIndex != 0)
+        {
+            DebugLog.Log(false, "Invalid Monster Index : " + subMonsterData.partyIndex);
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Monster Already In Party");
+            return;
+        }
+
+#if UNITY_EDITOR
+        Cheat.Inst.RequestMonsterUpgradeCheat(monsterData.index, subMonsterData.index);
+#else
+        PacketManager.Inst.RequestMonsterUpgrade(monsterData.index, subMonsterData.index);
+#endif
     }
 
     public void UpgradeEquipment()

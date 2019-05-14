@@ -460,8 +460,9 @@ public enum Inventory_Menu_Type
 
 public enum MESSAGE_IDX
 {
-    UPGRADE_CONFIRM = 0,    //무기 업그레이드시 확인(파괴 가능성 언급)
-    MAX = 1 //메세지 갯수
+    UPGRADE_MONSTER_CONFIRM = 0,    //몬스터 업그레이드시 확인(강화 하락 언급)
+    UPGRADE_EQUIPMENT_CONFIRM = 1,    //무기 업그레이드시 확인(파괴 가능성 언급)
+    MAX = 2 //메세지 갯수
 }
 
 #endregion
