@@ -569,6 +569,10 @@ public class Cheat : MonoSingleton<Cheat>
         getEquipmentUpgradeResultData.add_item_list = new List<itemData>();
         getEquipmentUpgradeResultData.add_item_list.Add(needItemData);
         getEquipmentUpgradeResultData.utg = Convert.ToString(utg);
+        if(getEquipmentUpgradeResultData.is_success == false)
+        {
+            getEquipmentUpgradeResultData.del_equipment_index = equipmentIndex;
+        }
 
         return JsonMapper.ToJson(getEquipmentUpgradeResultData).ToString();
     }
