@@ -75,7 +75,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
     
     public void TimeScaleX2()
     {
-        int Speed = 2;
+        int Speed = 4;
         if (BattleManager.Inst.TimeScale != Speed)
         {
             BattleManager.Inst.TimeScale = Speed;
@@ -83,8 +83,8 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         }
         else
         {
-            BattleManager.Inst.TimeScale = 1;
-            Time.timeScale = 1;
+            BattleManager.Inst.TimeScale = 2;
+            Time.timeScale = 2;
         }
     }
 
@@ -250,7 +250,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
             UserDataManager.Inst.stageReward = new stageRewardData();
         }
 #endif
-            Time.timeScale = 1;
+            Time.timeScale = 2;
             BattleManager.Inst.rewardParent?.SetActive(false);
         }
     }
@@ -297,7 +297,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
             UserDataManager.Inst.stageReward = new stageRewardData();
         }
 #endif
-            Time.timeScale = 1;
+            Time.timeScale = 2;
             BattleManager.Inst.battleFail?.SetActive(false);
             BattleManager.Inst.rewardParent?.SetActive(false);
         }

@@ -116,8 +116,8 @@ public class CharacterCustom : MonoBehaviour
         characterInformation[1] = new CharacterInfo(0.9f, 1.0f, 1.5f, 0.7f);
         characterInformation[2] = new CharacterInfo(0.9f, 1.0f, 1.5f, 0.7f);
         characterInformation[3] = new CharacterInfo(0.9f, 1.0f, 1.5f, 0.6f);
-        characterInformation[4] = new CharacterInfo(2.0f, 0.7f, 1.5f, 0.0f);
-        characterInformation[5] = new CharacterInfo(0.8f, 0.7f, 1.5f, 0.0f);
+        characterInformation[4] = new CharacterInfo(2.0f, 0.46f, 1.5f, 0.0f);
+        characterInformation[5] = new CharacterInfo(0.8f, 0.46f, 1.5f, 0.0f);
 
         if (SceneManager.GetActiveScene().name == "Lobby")
         {

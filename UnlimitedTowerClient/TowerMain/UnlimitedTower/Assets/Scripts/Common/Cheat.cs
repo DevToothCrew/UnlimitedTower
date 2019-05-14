@@ -52,7 +52,7 @@ public class Cheat : MonoSingleton<Cheat>
         //     }
         // }
 
-        for (int i = 1; i < 40; i++)
+        for (int i = 1; i < 50; i++)
         {
             monsterData data = GetRandomMonster(i);
             data.monster.id = 108402;

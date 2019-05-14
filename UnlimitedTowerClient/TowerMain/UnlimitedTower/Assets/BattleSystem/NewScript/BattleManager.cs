@@ -13,7 +13,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     public bool[] isPlace = new bool[20];
     public bool isAfterDelay;
     public int turnIndex = 1;
-    public int TimeScale = 1;
+    public int TimeScale = 2;
     public TumbAnimation tumbAnimation;
     public int[] CheetKey = new int[3];
     public int CheetIndex;
@@ -37,7 +37,8 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     private void Awake()
     {
-        TimeScale = (int)Time.timeScale;
+        TimeScale = 2;
+        Time.timeScale = 2;
 
         CharacterParent = GameObject.Find("Character Object");
         characterCustom = GameObject.Find("CharacterCustomInstance").GetComponent<CharacterCustom>();
@@ -264,7 +265,6 @@ public class BattleManager : MonoSingleton<BattleManager>
             }
 #endif
         }
-                PacketManager.Inst.RequestBattleAction(turnIndex);
     }
 
     // 배틀 종료 후 보상 산정
@@ -387,7 +387,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetChild(1).gameObject.SetActive(true);
         }
 
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSecondsRealtime(5.0f);
         temp.SetActive(false);
     }
 
