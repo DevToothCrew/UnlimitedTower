@@ -544,12 +544,18 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
         else if (InventoryVC.checkInst())
         {
             InventoryVC inventory = InventoryVC.Inst;
+            inventory.FrameMain.SetActive(true);
             if (inventory.FrameEquipmentInfo.activeSelf)
             {
                 EquipmentInfoManager equipmentInfo = EquipmentInfoManager.Inst;
                 equipmentInfo.setData();
                 equipmentInfo.resetScroll();
                 equipmentInfo.updateDetailInfo(equipmentInfo.scrollList.getFirstItemOrder());
+
+                if (SubViewUpgrade.checkInst() == true)
+                {
+                    Destroy(SubViewUpgrade.Inst.gameObject);
+                }
                 //OnClickClose();
             }
         }

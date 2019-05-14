@@ -37,6 +37,7 @@ public class UpgradeResultVC : MonoBehaviour {
 
         GameObject resultMonster = Instantiate(resultMonsterPrefab);
         resultMonster.transform.SetParent(FrameResultImage);
+        resultMonster.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         resultMonster.GetComponent<UpgradeResultMonster>().updateView(monsterData);
 
     }
@@ -62,6 +63,7 @@ public class UpgradeResultVC : MonoBehaviour {
 
         GameObject resultEquipment = Instantiate(resultItemPrefab);
         resultEquipment.transform.SetParent(FrameResultImage);
+        resultEquipment.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         resultEquipment.GetComponent<UpgradeResuiltItem>().updateView(equipmentData);
     }
 

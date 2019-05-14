@@ -94,6 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imageItem: {fileID: 114483557305929714}
+  imageGrade: {fileID: 114723228701584616}
   textTier: {fileID: 114420514209248306}
   textUpgrade: {fileID: 114325322887957400}
 --- !u!114 &114325322887957400
