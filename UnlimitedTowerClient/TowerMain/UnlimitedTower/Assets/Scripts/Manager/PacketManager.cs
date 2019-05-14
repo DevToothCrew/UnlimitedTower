@@ -1360,13 +1360,13 @@ public class PacketManager : MonoSingleton<PacketManager> {
         ParseItemDic(getBuyItemData.item_list, ref itemDic);
         UserDataManager.Inst.SetItemDic(itemDic);
 
-        if (getBuyItemData.invetory_info != null)
+        if (getBuyItemData.inventory_info != null)
         {
             UserInventoryInfo info = new UserInventoryInfo();
-            info.servantInventory = getBuyItemData.invetory_info.servant_inventory;
-            info.monsterInventory = getBuyItemData.invetory_info.monster_inventory;
-            info.equipmentInventory = getBuyItemData.invetory_info.equipment_inventory;
-            info.itemInventory = getBuyItemData.invetory_info.item_inventory;
+            info.servantInventory = getBuyItemData.inventory_info.servant_inventory;
+            info.monsterInventory = getBuyItemData.inventory_info.monster_inventory;
+            info.equipmentInventory = getBuyItemData.inventory_info.equipment_inventory;
+            info.itemInventory = getBuyItemData.inventory_info.item_inventory;
 
             UserDataManager.Inst.SetUserInventoryInfo(info);
         }
