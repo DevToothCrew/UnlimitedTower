@@ -20,4 +20,9 @@ public class LoginUI : MonoBehaviour {
         // 로딩씬에 추가가 되야할듯 임시로 로그인에 넣어둠
         CSVData.Inst.InitCSVData();
     }
+
+    public void OnClickLogoutButton()
+    {
+        PacketManager.Inst.RequestLogout();
+    }
 }

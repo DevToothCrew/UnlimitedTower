@@ -900,8 +900,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
     public void ResponseLogout()
     {
         DebugLog.Log(false, "ResponseLogout");
-        UserDataManager.Inst.InitUserInfo();
-        StartCoroutine(LoadSceneAsync("login", "Loading scene ... "));
     }
 
     public void ResponseSaveParty(partyData getPartyData)
