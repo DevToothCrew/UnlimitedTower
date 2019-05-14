@@ -5102,8 +5102,14 @@ void battletest::system_check(eosio::name _user)
 {
     require_auth(_user);
     system_master system_master_table(_self, _self.value);
-    auto system_master_iter = system_master_table.begin();
-    eosio_assert(system_master_iter->state != system_state::pause, "System Check : Server Pause");
+    auto system_master_iter = system_master_table.begin();    
+    eosio_assert(system_master_iter != system_master_table.end(), "System Check : Need Master");
+    if (system_master_iter->state == system_state::pause)
+    {
+        whitelist whitelist_table(_self, _self.value);
+        auto whitelist_iter = whitelist_table.find(_user.value);
+        eosio_assert(whitelist_iter != whitelist_table.end(), "System Check : Server Pause");
+    }
 
     blacklist blacklist_table(_self, _self.value);
     auto blacklist_iter = blacklist_table.find(_user.value);
