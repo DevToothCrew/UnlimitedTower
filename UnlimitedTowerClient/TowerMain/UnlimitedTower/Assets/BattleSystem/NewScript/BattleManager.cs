@@ -20,8 +20,7 @@ public class BattleManager : MonoSingleton<BattleManager>
     public bool adminMode;
 
     private bool isAuto;
-    // private bool isTurnEnd;
-    private bool isBattleStart;
+    public bool isBattleStart;
     private GameObject CharacterParent;
     private SkillManager skillManager;
     private CharacterCustom characterCustom;
@@ -309,7 +308,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 Exp.transform.GetChild(positionOrder[rewardData.get_char_exp_list[i].pos]).GetChild(5).GetChild(0).GetComponent<Text>().text = "+" + rewardData.get_char_exp_list[i].lvup.ToString();
             }
             Exp.transform.GetChild(positionOrder[rewardData.get_char_exp_list[i].pos]).GetChild(1).gameObject.SetActive(true);
-            Exp.transform.GetChild(positionOrder[rewardData.get_char_exp_list[i].pos]).GetChild(1).GetComponent<Text>().text = "+ " + rewardData.get_char_exp_list[i].exp;
+            Exp.transform.GetChild(positionOrder[rewardData.get_char_exp_list[i].pos]).GetChild(1).GetComponent<Text>().text = "+ " + rewardData.get_char_exp_list[i].exp + " Exp";
         }
 
         for (int i = 0; i < rewardData.get_servant_list.Count; i++)

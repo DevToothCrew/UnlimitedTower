@@ -167,7 +167,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
     // 배틀중 나가기
     public void BattleActionOut()
     {
-        if (UserDataManager.Inst.stageReward == null || UserDataManager.Inst.stageReward.reward_money == 0)
+        if (UserDataManager.Inst.stageReward?.reward_money == 0)
         {
 #if UNITY_EDITOR
             Cheat.Inst.RequestStageExitCheat();
@@ -175,9 +175,15 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         PacketManager.Inst.RequestStageExit();
 #endif
         }
+        else if (BattleManager.Inst.isBattleStart == false)
+        {
+            PacketManager.Inst.ResponseStageExit();
+        }
         else
         {
-            Debug.Log("Last Turn");
+#if UNITY_EDITOR
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Last Turn");
+#endif
         }
     }
 
