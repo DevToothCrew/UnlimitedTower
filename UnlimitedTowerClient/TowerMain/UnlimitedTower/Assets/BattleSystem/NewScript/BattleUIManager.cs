@@ -167,7 +167,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
     // 배틀중 나가기
     public void BattleActionOut()
     {
-        if (UserDataManager.Inst.stageReward?.reward_money == 0)
+        if (UserDataManager.Inst.stageReward?.reward_money == 0 || UserDataManager.Inst.stageReward == null)
         {
 #if UNITY_EDITOR
             Cheat.Inst.RequestStageExitCheat();
