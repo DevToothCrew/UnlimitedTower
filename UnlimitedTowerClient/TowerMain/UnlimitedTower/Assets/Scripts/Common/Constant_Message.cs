@@ -11,10 +11,10 @@ public class MessageList
         switch(idx)
         {
             case MESSAGE_IDX.UPGRADE_MONSTER_CONFIRM:
-                msg = "If reinforcement is fails, the enhancement phase will be reduced by a random number.";
+                msg = "If the upgrade fails, ability of the main monster will be recuded by a random number. And the sub monster will be deleted.";
                 break;
             case MESSAGE_IDX.UPGRADE_EQUIPMENT_CONFIRM:
-                msg = "If reinforcement is fails, the equipment will be destroyed.";
+                msg = "If the upgrade fails, the equipment will be destroyed.";
                 break;
             default:
                 break;
