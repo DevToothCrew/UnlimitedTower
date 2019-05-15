@@ -1632,7 +1632,7 @@ TABLE tuserlogs
     servant_data get_reward_servant(eosio::name _user, uint32_t _job, uint32_t _grade, uint64_t _seed);
     monster_data get_reward_monster(eosio::name _user, uint32_t _id, uint32_t _grade, uint64_t _seed);
     equip_data get_reward_equip(eosio::name _user, uint32_t _id, uint32_t _grade, uint64_t _seed);
-    item_data get_reward_item(eosio::name _user, uint32_t _id, uint32_t _count);
+    //item_data get_reward_item(eosio::name _user, uint32_t _id, uint32_t _count);
     void win_reward(eosio::name _user, uint64_t _stage_number, uint64_t _seed);
     void fail_reward(eosio::name _user, uint64_t _stage_number);
 
@@ -1847,15 +1847,15 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
 #pragma endregion
 
 #pragma region white
-    // TABLE twhitelist
-    // {
-    //     eosio::name user;
-    //     uint64_t primary_key() const { return user.value; }
-    // };
-    // typedef eosio::multi_index<"twhitelist"_n, twhitelist> whitelist;
+    TABLE twhitelist
+    {
+        eosio::name user;
+        uint64_t primary_key() const { return user.value; }
+    };
+    typedef eosio::multi_index<"twhitelist"_n, twhitelist> whitelist;
 
-    // ACTION addwhite(eosio::name _user);
-    // ACTION deletewhite(eosio::name _user);
+    ACTION addwhite(eosio::name _user);
+    ACTION deletewhite(eosio::name _user);
 #pragma endregion
 
 

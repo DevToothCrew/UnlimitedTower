@@ -4993,8 +4993,14 @@ void battletest::system_check(eosio::name _user)
 {
     require_auth(_user);
     system_master system_master_table(_self, _self.value);
-    auto system_master_iter = system_master_table.begin();
-    eosio_assert(system_master_iter->state != system_state::pause, "System Check : Server Pause");
+    auto system_master_iter = system_master_table.begin();    
+    eosio_assert(system_master_iter != system_master_table.end(), "System Check : Need Master");
+    if (system_master_iter->state == system_state::pause)
+    {
+        whitelist whitelist_table(_self, _self.value);
+        auto whitelist_iter = whitelist_table.find(_user.value);
+        eosio_assert(whitelist_iter != whitelist_table.end(), "System Check : Server Pause");
+    }
 
     blacklist blacklist_table(_self, _self.value);
     auto blacklist_iter = blacklist_table.find(_user.value);
@@ -8067,60 +8073,63 @@ battletest::equip_data battletest::get_reward_equip(eosio::name _user, uint32_t 
     });
     return new_data;
 }
-battletest::item_data battletest::get_reward_item(eosio::name _user, uint32_t _id, uint32_t _count)
-{
-    allitem_db allitem_db_table(_self, _self.value);
-    auto allitem_db_iter = allitem_db_table.find(_id);
-    eosio_assert(allitem_db_iter != allitem_db_table.end(), "Get Reward Item : Empty Item ID / Wrong Item ID");
+// battletest::item_data battletest::get_reward_item(eosio::name _user, uint32_t _id, uint32_t _count)
+// {
+//     allitem_db allitem_db_table(_self, _self.value);
+//     auto allitem_db_iter = allitem_db_table.find(_id);
+//     eosio_assert(allitem_db_iter != allitem_db_table.end(), "Get Reward Item : Empty Item ID / Wrong Item ID");
 
-    item_data new_item;
-    user_items user_item_table(_self, _user.value);
-    auto user_item_iter = user_item_table.find(allitem_db_iter->id);
-    if (user_item_iter == user_item_table.end())
-    {
-        user_item_table.emplace(_self, [&](auto &new_index) {
-            new_index.id = allitem_db_iter->id;
-            new_index.type = allitem_db_iter->type;
-            //new_index.count = _count;
-        });
-        user_logs user_log_table(_self, _self.value);
-        auto user_log_iter = user_log_table.find(_user.value);
+//     item_data new_item;
+//     user_items user_item_table(_self, _user.value);
+//     auto user_item_iter = user_item_table.find(allitem_db_iter->id);
+//     if (user_item_iter == user_item_table.end())
+//     {
+//         user_item_table.emplace(_self, [&](auto &new_index) {
+//             new_index.id = allitem_db_iter->id;
+//             new_index.type = allitem_db_iter->type;
+//             item_info new_item;
+//             new_item.index = 0;
+//             new_item.count = _count;
+//             new_index.push_back(new_item);
+//         });
+//         user_logs user_log_table(_self, _self.value);
+//         auto user_log_iter = user_log_table.find(_user.value);
 
-        user_auths user_auth_table(_self, _self.value);
-        auto user_auth_iter = user_auth_table.find(_user.value);
+//         user_auths user_auth_table(_self, _self.value);
+//         auto user_auth_iter = user_auth_table.find(_user.value);
 
-        user_log_table.modify(user_log_iter, _self, [&](auto &add_log) {
-            add_log.item_num += _count;
-        });
-        user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
-            add_auth.current_item_inventory += _count;
-        });
-    }
-    else
-    {
-        user_item_table.modify(user_item_iter, _self, [&](auto &new_index) {
-            new_index.type = allitem_db_iter->type;
-            //new_index.count += _count;
-        });
-        user_logs user_log_table(_self, _self.value);
-        auto user_log_iter = user_log_table.find(_user.value);
+//         // user_log_table.modify(user_log_iter, _self, [&](auto &add_log) {
+//         //     add_log.item_num += _count;
+//         // });
+//         user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
+//             add_auth.current_item_inventory += _count;
+//         });
+//     }
+//     else
+//     {
+//         user_item_table.modify(user_item_iter, _self, [&](auto &new_index) {
+//             new_index.type = allitem_db_iter->type;
+//             //new_index.count += _count;
+//         });
+//         user_logs user_log_table(_self, _self.value);
+//         auto user_log_iter = user_log_table.find(_user.value);
 
-        user_auths user_auth_table(_self, _self.value);
-        auto user_auth_iter = user_auth_table.find(_user.value);
+//         user_auths user_auth_table(_self, _self.value);
+//         auto user_auth_iter = user_auth_table.find(_user.value);
 
-        user_log_table.modify(user_log_iter, _self, [&](auto &add_log) {
-            add_log.item_num += _count;
-        });
-        user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
-            add_auth.current_item_inventory += _count;
-        });
-    }
-    new_item.id = allitem_db_iter->id;
-    new_item.type = allitem_db_iter->type;
-    new_item.count = _count;
+//         user_log_table.modify(user_log_iter, _self, [&](auto &add_log) {
+//             add_log.item_num += _count;
+//         });
+//         user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
+//             add_auth.current_item_inventory += _count;
+//         });
+//     }
+//     new_item.id = allitem_db_iter->id;
+//     new_item.type = allitem_db_iter->type;
+//     new_item.count = _count;
 
-    return new_item;
-}
+//     return new_item;
+// }
 
 void battletest::win_reward(eosio::name _user, uint64_t _stage_number, uint64_t _seed)
 {
@@ -8256,15 +8265,15 @@ void battletest::win_reward(eosio::name _user, uint64_t _stage_number, uint64_t 
                 }
             }
         }
-        else if (reward_iter->reward_list[i].type == 4) //item
-        {
-            uint64_t rate = safeseed::get_random_value(_seed, 10000, 0, 4);
-            if (reward_iter->reward_list[i].per >= rate)
-            {
-                item_data new_item = get_reward_item(_user, reward_iter->reward_list[i].id, reward_iter->reward_list[i].count);
-                item_list.push_back(new_item);
-            }
-        }
+        // else if (reward_iter->reward_list[i].type == 4) //item
+        // {
+        //     uint64_t rate = safeseed::get_random_value(_seed, 10000, 0, 4);
+        //     if (reward_iter->reward_list[i].per >= rate)
+        //     {
+        //         item_data new_item = get_reward_item(_user, reward_iter->reward_list[i].id, reward_iter->reward_list[i].count);
+        //         item_list.push_back(new_item);
+        //     }
+        // }
     }
 
     asset stage_reward_money(0, symbol(symbol_code("UTG"), 4));
@@ -8280,6 +8289,10 @@ void battletest::win_reward(eosio::name _user, uint64_t _stage_number, uint64_t 
     auto user_log_iter = user_log_table.find(_user.value);
     eosio_assert(user_log_iter != user_log_table.end(), "Win Reward : Empty Log Table / Not Yet Signup");
     user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
+        if(update_log.top_clear_stage < _stage_number)
+        {
+            update_log.top_clear_stage = _stage_number;
+        }
         update_log.last_stage_num = _stage_number;
         update_log.battle_count += 1;
         update_log.get_utg += stage_reward_money.amount;
@@ -11216,29 +11229,54 @@ ACTION battletest::pvpstart(eosio::name _from, eosio::name _to)
         referlist_tabe.erase(referlist_iter);
     }
 
-    // ACTION battletest::addwhite(eosio::name _user)
-    // {
-    //     master_active_check();
 
-    //     whitelist referlist_tabe(_self, _self.value);
-    //     auto referlist_iter = referlist_tabe.find(_user.value);
-    //     eosio_assert(referlist_iter == referlist_tabe.end(), "Add White : Already Exist");
-    //     referlist_tabe.emplace(_self, [&](auto &new_refer) {
-    //         new_refer.user = _user;
-    //     });
-    // }
+ACTION battletest::addwhite(eosio::name _user)
+{
+    master_active_check();
 
-    // ACTION battletest::deletewhite(eosio::name _user)
-    // {
-    //     master_active_check();
-
-    //     whitelist referlist_tabe(_self, _self.value);
-    //     auto referlist_iter = referlist_tabe.find(_user.value);
-    //     eosio_assert(referlist_iter != referlist_tabe.end(), "Delete White : Not Exist");
-    //     referlist_tabe.erase(referlist_iter);
-    // }
-
+    whitelist referlist_tabe(_self, _self.value);
+    auto referlist_iter = referlist_tabe.find(_user.value);
+    eosio_assert(referlist_iter == referlist_tabe.end(), "Add White : Already Exist");
+    referlist_tabe.emplace(_self, [&](auto &new_refer) {
+        new_refer.user = _user;
+    });
+}
     
+ACTION battletest::deletewhite(eosio::name _user)
+{
+    master_active_check();
+
+    whitelist referlist_tabe(_self, _self.value);
+    auto referlist_iter = referlist_tabe.find(_user.value);
+    eosio_assert(referlist_iter != referlist_tabe.end(), "Delete White : Not Exist");
+    referlist_tabe.erase(referlist_iter);
+}
+
+// ACTION battletest::anothercheck()
+// {
+//     require_auth(_self);
+
+//     user_logs user_logs_table(_self, _self.value);
+
+//     for(auto iter = user_logs_table.begin(); iter != user_logs_table.end();)
+//     {
+//         auto iter2 = user_logs_table.find(iter->primary_key());
+
+//         user_mail user_mail_table(_self, iter2->user.value);
+//         uint64_t count = 0;
+//         for(auto mail = user_mail_table.begin(); mail != user_mail_table.end();)
+//         {
+//             count++;
+//             mail++;
+//         }
+//         user_logs_table.modify(iter2, _self, [&](auto &new_data) {
+//             new_data.mail = count;
+//         });
+//         iter++;
+//     }
+// }
+
+
 ACTION battletest::anothercheck(uint32_t _start_count)
 {
     require_auth(_self);
@@ -11471,7 +11509,7 @@ ACTION battletest::deletelog()
     // eos 금액에 대해 체크 하는 함
 
     EOSIO_DISPATCH(battletest,
-                   (addrefer)(deleterefer)                //(addwhite)(deletewhite)
+                   (addrefer)(deleterefer)(addwhite)(deletewhite)                //(addwhite)(deletewhite)
                    (dbinit)(dbinsert)    //(setdata)                  //test
                    (transfer)(changetoken)(create)(issue) //token
                    //(claim)(endflag)(toweropen)(towerstart)(deletetower)

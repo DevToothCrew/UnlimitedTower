@@ -594,7 +594,7 @@ CONTRACT battletest : public contract
   public:
     void substr_value(std::string _value, std::vector<std::string> & _value_list, std::vector<size_t> & _size_list, uint32_t _size);
     ACTION dbinsert(std::string _table, std::string _value);
-    //ACTION dberase(std::string _table, std::string _value);
+    ACTION dberase(std::string _table, std::string _value);
     ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
     ACTION dbinit(std::string _table);
     // ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
@@ -633,8 +633,7 @@ CONTRACT battletest : public contract
                               uint64_t _type,
                               uint64_t _tier,
                               uint64_t _job,
-                              uint64_t _option,
-                              uint64_t _upgrade_option_value);
+                              uint64_t _option);
     void insert_monster(uint64_t _monster_id, uint64_t _tribe, uint64_t _type);
 
     void erase_job(uint64_t _job);
@@ -1625,7 +1624,7 @@ TABLE tuserlogs
     servant_data get_reward_servant(eosio::name _user, uint32_t _job, uint32_t _grade, uint64_t _seed);
     monster_data get_reward_monster(eosio::name _user, uint32_t _id, uint32_t _grade, uint64_t _seed);
     equip_data get_reward_equip(eosio::name _user, uint32_t _id, uint32_t _grade, uint64_t _seed);
-    item_data get_reward_item(eosio::name _user, uint32_t _id, uint32_t _count);
+    //item_data get_reward_item(eosio::name _user, uint32_t _id, uint32_t _count);
     void win_reward(eosio::name _user, uint64_t _stage_number, uint64_t _seed);
     void fail_reward(eosio::name _user, uint64_t _stage_number);
 
@@ -1785,15 +1784,15 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
 #pragma endregion
 
 #pragma region white
-    // TABLE twhitelist
-    // {
-    //     eosio::name user;
-    //     uint64_t primary_key() const { return user.value; }
-    // };
-    // typedef eosio::multi_index<"twhitelist"_n, twhitelist> whitelist;
+    TABLE twhitelist
+    {
+        eosio::name user;
+        uint64_t primary_key() const { return user.value; }
+    };
+    typedef eosio::multi_index<"twhitelist"_n, twhitelist> whitelist;
 
-    // ACTION addwhite(eosio::name _user);
-    // ACTION deletewhite(eosio::name _user);
+    ACTION addwhite(eosio::name _user);
+    ACTION deletewhite(eosio::name _user);
 #pragma endregion
 
 // TABLE tdaily
