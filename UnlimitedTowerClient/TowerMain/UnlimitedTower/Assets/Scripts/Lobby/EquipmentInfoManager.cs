@@ -24,6 +24,9 @@ public class EquipmentInfoManager : MonoSingleton<EquipmentInfoManager>
     public Image imageStatsIcon;
     public Text textStats;
 
+    public Button buttonUpgrade;
+    public Text textEquipItem;
+
     //ScrollView UI
     public Text textOwned;
     public Text textTotal;
@@ -198,6 +201,18 @@ public class EquipmentInfoManager : MonoSingleton<EquipmentInfoManager>
 
         imageStatsIcon.sprite = CSVData.Inst.GetSpriteOptionType(dBEquipmentData.optionType);
         textStats.text = string.Format("{0}", equipmentData.value);
+
+        //장착 중인 장비인지.
+        if (equipmentData.equipServantIndex > 0)
+        {
+            buttonUpgrade.interactable = false;
+            textEquipItem.text = "E";
+        }
+        else
+        {
+            buttonUpgrade.interactable = true;
+            textEquipItem.text = "";
+        }
     }
 
     public void ResetScrollListBySortType(SORT_TYPE type)

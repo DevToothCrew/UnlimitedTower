@@ -12,6 +12,7 @@ public class MonsterInfoManager : MonoBehaviour {
     public Button buttonUpgrade;
     public Button buttonBurn;
     public Button buttonEtc;
+    public Text textSetParty;
 
     public Text textGradeText;
     public Text textGrade;
@@ -122,6 +123,18 @@ public class MonsterInfoManager : MonoBehaviour {
         else
         {
             imagePassive.gameObject.SetActive(false);
+        }
+
+        //파티에 등록된 상태인지
+        if (unit_data.partyIndex > 0)
+        {
+            buttonUpgrade.interactable = false;
+            textSetParty.text = "P";
+        }
+        else
+        {
+            buttonUpgrade.interactable = true;
+            textSetParty.text = "";
         }
     }
 
