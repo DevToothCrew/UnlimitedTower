@@ -297,7 +297,7 @@ public class BattleManager : MonoSingleton<BattleManager>
                 Exp.transform.GetChild(positionOrder[state.Value.position - 5]).GetChild(3).GetComponent<Image>().sprite = CSVData.Inst.GetSmallSpriteTribeType((TRIBE_TYPE)state.Value.tribeType);
                 Exp.transform.GetChild(positionOrder[state.Value.position - 5]).GetChild(4).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteElementType((ELEMENT_TYPE)state.Value.elementType);
             }
-            Exp.transform.GetChild(positionOrder[state.Value.position]).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)state.Value.grade);
+            Exp.transform.GetChild(positionOrder[state.Value.position < 5 ? state.Value.position + 5 : state.Value.position - 5]).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)state.Value.grade);
         }
 
         for (int i = 0; i < rewardData.get_char_exp_list.Count; i++)
