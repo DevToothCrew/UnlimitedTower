@@ -8569,7 +8569,6 @@ void battletest::servantburn(eosio::name _user, const std::vector<uint64_t> &_li
 
     std::string contents_list;
 
-    uint64_t check_item_count = 0;
     uint64_t check_inventory = 0;
     item_info items;
 
@@ -8602,14 +8601,12 @@ void battletest::servantburn(eosio::name _user, const std::vector<uint64_t> &_li
                     {
                         items.count = 5;
                         change_consumable.item_list.push_back(items);
-                        check_item_count = 5;
                         servant_burn_result.amount += 2500000;
                     }
                     else
                     {
                         items.count = 1;
                         change_consumable.item_list.push_back(items);
-                        check_item_count = 1;
                         servant_burn_result.amount += 50000;
                     }
                     // contents_list += "[" + to_string(user_servant_iter->index) + ":";
@@ -8652,7 +8649,6 @@ void battletest::servantburn(eosio::name _user, const std::vector<uint64_t> &_li
                             items.count += count_diff;
                             change_consumable.item_list.push_back(items);
                         }
-                        check_item_count = 5;
                         servant_burn_result.amount += 2500000;
                     }
                     else
@@ -8672,7 +8668,6 @@ void battletest::servantburn(eosio::name _user, const std::vector<uint64_t> &_li
                                 break;
                             }
                         }
-                        check_item_count = 1;
                         if (count_diff != 0)
                         {
                             items.index = change_consumable.item_list.size();
@@ -9180,7 +9175,6 @@ ACTION battletest::equipmentup(eosio::name _user, uint32_t _equipment, const std
 
     for (uint32_t i = 0; i < _item_list.size(); ++i)
     {
-        item_info items;
         auto user_item_iter = user_item_table.find(_item_list[i]);        
 
         eosio_assert(user_item_iter != user_item_table.end(), "equipmentup : not exist consumables info");
@@ -9199,34 +9193,39 @@ ACTION battletest::equipmentup(eosio::name _user, uint32_t _equipment, const std
             }
         });
 
-        user_item_table.modify(user_item_iter, _self, [&](auto &change_user_item) {
-            uint64_t temp_count = user_upgrade_equipment_iter->material_count[equipment_upgrade];
-            uint64_t temp_sum;
+        uint64_t temp_count = user_upgrade_equipment_iter->material_count[equipment_upgrade];
+        if (check_total_item == temp_count)
+        {
+            user_item_table.erase(user_item_iter);
+        }
+        else
+        {
+            user_item_table.modify(user_item_iter, _self, [&](auto &change_user_item) {
+                auto item_iter = change_user_item.item_list.end() - 1;
 
-            auto item_iter = change_user_item.item_list.end() - 1;
-
-            for (uint64_t k = change_user_item.item_list.size() - 1; k >= 0; k--)
-            {
-                if (change_user_item.item_list[k].count < temp_count)
+                for (uint64_t k = change_user_item.item_list.size() - 1; k >= 0; k--)
                 {
-                    temp_count = (temp_count - change_user_item.item_list[k].count);
-                    change_user_item.item_list[k].count = 0;
-                    change_user_item.item_list.erase(item_iter);
-                    check_inventory += 1;
-                }
-                else
-                {
-                    change_user_item.item_list[k].count -= temp_count;
-                    if (change_user_item.item_list[k].count == 0)
+                    if (change_user_item.item_list[k].count < temp_count)
                     {
+                        temp_count = (temp_count - change_user_item.item_list[k].count);
+                        change_user_item.item_list[k].count = 0;
                         change_user_item.item_list.erase(item_iter);
                         check_inventory += 1;
-                        item_iter--;
                     }
-                    break;
+                    else
+                    {
+                        change_user_item.item_list[k].count -= temp_count;
+                        if (change_user_item.item_list[k].count == 0)
+                        {
+                            change_user_item.item_list.erase(item_iter);
+                            check_inventory += 1;
+                            item_iter--;
+                        }
+                        break;
+                    }
                 }
-            }
-        });
+            });
+        }
 
         if (updatecheck == 0)
         {
@@ -9252,17 +9251,17 @@ ACTION battletest::equipmentup(eosio::name _user, uint32_t _equipment, const std
             });
         }
 
-        contents_result += to_string(user_equipment_iter->index) + ":";
-        contents_result += to_string(user_equipment_iter->equipment.id) + ":";
-        contents_result += to_string(user_equipment_iter->equipment.upgrade) + ":";
-        contents_result += to_string(user_item_iter->id) + ":";
-        contents_result += to_string(user_item_iter->type) + ":";
-        for (uint64_t i = 0; i < user_item_iter->item_list.size(); i++)
-        {
-            contents_result += to_string(user_item_iter->item_list[i].index) + ":";
-            contents_result += to_string(user_item_iter->item_list[i].count) + ":";
-        }
-        contents_result += to_string( user_upgrade_equipment_iter->use_UTG[equipment_upgrade]) +",";
+        // contents_result += to_string(user_equipment_iter->index) + ":";
+        // contents_result += to_string(user_equipment_iter->equipment.id) + ":";
+        // contents_result += to_string(user_equipment_iter->equipment.upgrade) + ":";
+        // contents_result += to_string(user_item_iter->id) + ":";
+        // contents_result += to_string(user_item_iter->type) + ":";
+        // for (uint64_t i = 0; i < user_item_iter->item_list.size(); i++)
+        // {
+        //     contents_result += to_string(user_item_iter->item_list[i].index) + ":";
+        //     contents_result += to_string(user_item_iter->item_list[i].count) + ":";
+        // }
+        // contents_result += to_string( user_upgrade_equipment_iter->use_UTG[equipment_upgrade]) +",";
     }
 
     asset upgrade_use_UTG_result(0, symbol(symbol_code("UTG"), 4));
