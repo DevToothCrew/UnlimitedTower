@@ -167,7 +167,18 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
     // 배틀중 나가기
     public void BattleActionOut()
     {
-        if (UserDataManager.Inst.stageReward?.reward_money == 0 || UserDataManager.Inst.stageReward == null)
+        int myHp = 0, enemyHp = 0;
+        for (int i = 0; i < 10; i++)
+        {
+            myHp += BattleManager.Inst.status[i].NowHp;
+            enemyHp += BattleManager.Inst.status[i + 10].NowHp;
+        }
+
+        if (myHp <= 0 || enemyHp <= 0)
+        {
+            PacketManager.Inst.ResponseStageExit();
+        }
+        else if (UserDataManager.Inst.stageReward?.reward_money == 0 || UserDataManager.Inst.stageReward == null)
         {
 #if UNITY_EDITOR
             Cheat.Inst.RequestStageExitCheat();
@@ -175,15 +186,9 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         PacketManager.Inst.RequestStageExit();
 #endif
         }
-        else if (BattleManager.Inst.isBattleStart == false)
-        {
-            PacketManager.Inst.ResponseStageExit();
-        }
         else
         {
-#if UNITY_EDITOR
             SimpleErrorPopupVC.Inst.UpdateErrorText("Last Turn");
-#endif
         }
     }
 
