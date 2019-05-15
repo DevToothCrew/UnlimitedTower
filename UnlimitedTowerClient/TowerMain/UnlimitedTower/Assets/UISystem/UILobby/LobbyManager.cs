@@ -267,7 +267,7 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
 #if UNITY_EDITOR
         PacketManager.Inst.ResponseLogout();
 #else
-        PacketManager.Inst.RequestLogout();
+        PacketManager.Inst.ResponseLogout();
 #endif
     }
 
