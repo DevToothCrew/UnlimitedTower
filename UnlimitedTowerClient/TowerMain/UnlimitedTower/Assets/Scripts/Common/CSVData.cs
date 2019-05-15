@@ -321,7 +321,7 @@ public class CSVData : MonoSingleton<CSVData>
     {
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_equipment");
         // 관리 텍스트 버그로 삭제로 인한 1부터 시작
-        for (var i = 1; i < data.Count; i++)
+        for (var i = 2; i < data.Count; i++)
         {
             //DebugLog.Log(false, "index " + (i).ToString()
             //    + " : " + data[i]["id"]
@@ -330,10 +330,6 @@ public class CSVData : MonoSingleton<CSVData>
             //    + " " + data[i]["tier"]
             //    + " " + data[i]["equip_type"]
             //    + " " + data[i]["option_list"]
-            //    + " " + data[i]["option_value_min"]
-            //    + " " + data[i]["option_value_max"]
-            //    + " " + data[i]["upgrade_option_value"]
-            //    + " " + data[i]["grade_multi_list"]
             //    + " " + data[i]["resource_icon"]
             //    + " " + data[i]["sell_item_id"]
             //    + " " + data[i]["sell_item_count"]
@@ -364,19 +360,6 @@ public class CSVData : MonoSingleton<CSVData>
             equipmentData.tier = Convert.ToInt32(data[i]["tier"]);
             equipmentData.equipmentType = (EQUIPMENT_TYPE)Convert.ToInt32(data[i]["equip_type"]);
             equipmentData.optionType = (EQUIPMENT_OPTION_TYPE)Convert.ToInt32(data[i]["option_list"]);
-            equipmentData.optionMin = Convert.ToInt32(data[i]["option_value_min"]);
-            equipmentData.optionMax = Convert.ToInt32(data[i]["option_value_max"]);
-            equipmentData.upgradeValue = Convert.ToInt32(data[i]["upgrade_option_value"]);
-
-            string[] gmList = Convert.ToString(data[i]["grade_multi_list"]).Split('/');
-            for (GRADE_TYPE j = GRADE_TYPE.COMMON; j != GRADE_TYPE.NONE; j--)
-            {
-                //DebugLog.Log(false, "Test GRADE_TYPE : " + j.ToString());
-                //DebugLog.Log(false, "Test gmList : " + Convert.ToDouble(gmList[(5 - (int)j)]));
-
-                equipmentData.gradeMultiValueDic.Add(j, Convert.ToDouble(gmList[(5 - (int)j)]));
-            }
-
             equipmentData.resourceIcon = Convert.ToString(data[i]["resource_icon"]);
             equipmentData.equipmentIcon = Resources.Load<Sprite>("UI/EquipmentIcon/" + equipmentData.resourceIcon);
             if (equipmentData.equipmentIcon == null)

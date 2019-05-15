@@ -917,7 +917,8 @@ public class Cheat : MonoSingleton<Cheat>
         equipmentData.equipment.type = (int)dbEquipmentData.equipmentType;
         equipmentData.equipment.job = (int)dbEquipmentData.jobLimit;
         equipmentData.equipment.tier = dbEquipmentData.tier;
-        equipmentData.equipment.value = (int)(UnityEngine.Random.Range(dbEquipmentData.optionMin, dbEquipmentData.optionMax) * dbEquipmentData.gradeMultiValueDic[(GRADE_TYPE)equipmentData.equipment.grade]);
+        // DB 수정 필요
+        equipmentData.equipment.value = UnityEngine.Random.Range(1, 1000);
 
         return equipmentData;
     }

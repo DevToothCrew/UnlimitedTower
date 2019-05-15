@@ -59,10 +59,6 @@ public class DBEquipmentData
 
     public EQUIPMENT_TYPE equipmentType;
     public EQUIPMENT_OPTION_TYPE optionType;
-    public int optionMin;
-    public int optionMax;
-    public int upgradeValue;    // 강화당 %
-    public Dictionary<GRADE_TYPE, double> gradeMultiValueDic = new Dictionary<GRADE_TYPE, double>();
     public string resourceIcon;
     public Sprite equipmentIcon = new Sprite();
     public int sellItemID;
