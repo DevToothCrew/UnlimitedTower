@@ -343,9 +343,7 @@ CONTRACT battletest : public contract
     {
         uint64_t id;
         uint32_t type;
-        std::vector<uint32_t>  item_param_list;
-        uint64_t sell_id;
-        uint64_t sell_cost;
+        uint64_t max_count;
         uint64_t primary_key() const { return id; }
     };
     typedef eosio::multi_index<"dballitem"_n, dballitem> allitem_db;
@@ -373,12 +371,6 @@ CONTRACT battletest : public contract
         uint64_t tier;
         uint64_t job;
         std::vector<uint64_t> option_list;
-        std::vector<uint64_t> option_value_min_list;
-        std::vector<uint64_t> option_value_max_list;
-        std::vector<uint64_t> upgrade_option_value_list;
-        std::vector<uint64_t> random_option_id_list;
-        std::vector<uint64_t> grade_multi_list;
-
         uint64_t primary_key() const { return item_id; }
     };
     typedef eosio::multi_index<"dbequipment"_n, dbequipment> equipment_db;
@@ -593,10 +585,10 @@ CONTRACT battletest : public contract
 #pragma region db function
   public:
     void substr_value(std::string _value, std::vector<std::string> & _value_list, std::vector<size_t> & _size_list, uint32_t _size);
-    ACTION dbinsert(std::string _table, std::string _value);
-    ACTION dberase(std::string _table, std::string _value);
-    ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
-    ACTION dbinit(std::string _table);
+    //ACTION dbinsert(std::string _table, std::string _value);
+    //ACTION dberase(std::string _table, std::string _value);
+    //ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
+    //ACTION dbinit(std::string _table);
     // ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
 
 	//ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
@@ -609,7 +601,7 @@ CONTRACT battletest : public contract
     
     void insert_monster_grade(std::string _status, uint64_t _grade, uint64_t _min, uint64_t _max);
 
-    void insert_all_item_id(uint64_t _item_id, uint32_t _type, uint32_t _param, uint64_t _sell_id, uint64_t _sell_cost);
+    void insert_all_item_id(uint64_t _item_id, uint32_t _type, uint64_t _max_count);
     void insert_item_grade(std::string _status, uint64_t _grade, uint64_t _min, uint64_t _max);
     void insert_grade_ratio(uint64_t _grade, uint64_t _ratio);
     void insert_upgrade_monster_ratio(uint32_t _main, uint64_t _upgrade_price_count);
@@ -1074,57 +1066,32 @@ TABLE itemshop
 //------------------------------user_log_table----------------------------//
 //------------------------------------------------------------------------//
 #pragma region login table prelog
-    TABLE tuserlog
-    {
-        eosio::name user;
-        uint32_t servant_num = 0;
-        uint32_t monster_num = 0;
-        uint32_t equipment_num = 0;
-        uint32_t gacha_num = 0;
-        uint32_t item_num = 0;
-        uint32_t get_utg = 0;
-        uint32_t use_utg = 0;
-        uint64_t use_eos = 0;
-        uint32_t battle_count = 0;
-        uint32_t last_stage_num = 0;
-        uint32_t last_tower_num = 0;
-        uint32_t top_clear_stage = 0;
-        uint32_t top_clear_tower = 0;
-        uint32_t add_party_count = 0;
-        uint32_t soul_powder = 0;
-        uint32_t mail = 0;
 
-        uint64_t primary_key() const { return user.value; }
-    };
-    typedef eosio::multi_index<"tuserlog"_n, tuserlog> user_logs;
 
     void set_eos_log(uint64_t _total_amount);
 
+    TABLE tuserlogs
+    {
+        eosio::name user;
+        uint64_t servant_num = 0;
+        uint64_t monster_num = 0;
+        uint64_t equipment_num = 0;
+        uint64_t gacha_num = 0;
+        uint64_t get_utg = 0;
+        uint64_t use_utg = 0;
+        uint64_t use_eos = 0;
+        uint64_t battle_count = 0;
+        uint64_t last_stage_num = 0;
+        uint64_t last_tower_num = 0;
+        uint64_t top_clear_stage = 0;
+        uint64_t top_clear_tower = 0;
+        uint64_t add_party_count = 0;
+        uint64_t soul_powder = 0;
+        uint64_t mail = 0;
 
-TABLE tuserlogs
-   {
-       eosio::name user;
-       uint64_t servant_num = 0;
-       uint64_t monster_num = 0;
-       uint64_t equipment_num = 0;
-       uint64_t gacha_num = 0;
-       uint64_t get_utg = 0;
-       uint64_t use_utg = 0;
-       uint64_t use_eos = 0;
-       uint64_t battle_count = 0;
-       uint64_t last_stage_num = 0;
-       uint64_t last_tower_num = 0;
-       uint64_t top_clear_stage = 0;
-       uint64_t top_clear_tower = 0;
-       uint64_t add_party_count = 0;
-       uint64_t soul_powder = 0;
-       uint64_t mail = 0;
-
-       uint64_t primary_key() const { return user.value; }
-   };
-   typedef eosio::multi_index<"tuserlogs"_n, tuserlogs> new_user_logs;
-
-   ACTION deletelog();
+        uint64_t primary_key() const { return user.value; }
+    };
+    typedef eosio::multi_index<"tuserlogs"_n, tuserlogs> user_logs;
 
 
 
@@ -1646,30 +1613,30 @@ TABLE tuserlogs
 
 #pragma region preregist
     
-    TABLE dbservantid
-    {
-        uint64_t index;
-        uint64_t id;
-        uint64_t primary_key() const { return index; }
-    };
-    typedef eosio::multi_index<"dbservantid"_n, dbservantid> servant_id_db;
+    // TABLE dbservantid
+    // {
+    //     uint64_t index;
+    //     uint64_t id;
+    //     uint64_t primary_key() const { return index; }
+    // };
+    // typedef eosio::multi_index<"dbservantid"_n, dbservantid> servant_id_db;
 
-    TABLE dbmonsterid
-    {
-        uint64_t id;
-        uint64_t primary_key() const { return id; }
-    };
-    typedef eosio::multi_index<"dbmonsterid"_n, dbmonsterid> monster_id_db;
+    // TABLE dbmonsterid
+    // {
+    //     uint64_t id;
+    //     uint64_t primary_key() const { return id; }
+    // };
+    // typedef eosio::multi_index<"dbmonsterid"_n, dbmonsterid> monster_id_db;
 
-    TABLE dbitemid
-    {
-        uint64_t id;
-        uint64_t type;
-        uint64_t job;
-        uint64_t tier;
-        uint64_t primary_key() const { return id; }
-    };
-    typedef eosio::multi_index<"dbitemid"_n, dbitemid> item_id_db;
+    // TABLE dbitemid
+    // {
+    //     uint64_t id;
+    //     uint64_t type;
+    //     uint64_t job;
+    //     uint64_t tier;
+    //     uint64_t primary_key() const { return id; }
+    // };
+    // typedef eosio::multi_index<"dbitemid"_n, dbitemid> item_id_db;
 
     // TABLE preauth
     // {
@@ -1791,8 +1758,8 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
     };
     typedef eosio::multi_index<"twhitelist"_n, twhitelist> whitelist;
 
-    ACTION addwhite(eosio::name _user);
-    ACTION deletewhite(eosio::name _user);
+    // ACTION addwhite(eosio::name _user);
+    // ACTION deletewhite(eosio::name _user);
 #pragma endregion
 
 // TABLE tdaily
@@ -1803,14 +1770,5 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
 //        uint64_t primary_key() const { return user.value; }
 //    };
 //    typedef eosio::multi_index<"tdaily"_n, tdaily> dailychecks;
-    //ACTION anothercheck();
 
-    ACTION anothercheck(uint32_t _start_count);
-
-    TABLE ttemp
-    {
-        uint64_t count;
-        uint64_t primary_key() const {return count;}
-    };
-    typedef eosio::multi_index<"ttemp"_n, ttemp> global_count;
 };
