@@ -117,28 +117,31 @@ public class EquipmentInfoManager : MonoSingleton<EquipmentInfoManager>
             EquipmentList.Add(item_list);
         }
 
-
-        for (int i = 0; i < UserDataManager.Inst.GetEquipmentList().Count; i++)
+        if (UserDataManager.Inst.GetEquipmentList() != null)
         {
-            UserEquipmentData equip_info = UserDataManager.Inst.GetEquipmentList()[i];
+            for (int i = 0; i < UserDataManager.Inst.GetEquipmentList().Count; i++)
+            {
+                UserEquipmentData equip_info = UserDataManager.Inst.GetEquipmentList()[i];
 
-            if (EQUIPMENT_TYPE.WEAPON == equip_info.equipmentType)
-            {
-                EquipmentList[(int)Inventory_Menu_Type.WEAPON].Add(equip_info);
-            }
-            else if (EQUIPMENT_TYPE.ARMOR == equip_info.equipmentType)
-            {
-                EquipmentList[(int)Inventory_Menu_Type.ARMOR].Add(equip_info);
-            }
-            else if (EQUIPMENT_TYPE.ACCESSSORY == equip_info.equipmentType)
-            {
-                EquipmentList[(int)Inventory_Menu_Type.ACCESSORY].Add(equip_info);
-            }
-            else
-            {
-                DebugLog.Log(false, "Equipment type : max");
+                if (EQUIPMENT_TYPE.WEAPON == equip_info.equipmentType)
+                {
+                    EquipmentList[(int)Inventory_Menu_Type.WEAPON].Add(equip_info);
+                }
+                else if (EQUIPMENT_TYPE.ARMOR == equip_info.equipmentType)
+                {
+                    EquipmentList[(int)Inventory_Menu_Type.ARMOR].Add(equip_info);
+                }
+                else if (EQUIPMENT_TYPE.ACCESSSORY == equip_info.equipmentType)
+                {
+                    EquipmentList[(int)Inventory_Menu_Type.ACCESSORY].Add(equip_info);
+                }
+                else
+                {
+                    DebugLog.Log(false, "Equipment type : max");
+                }
             }
         }
+        
     }
 
     public int GetUnitIdx()

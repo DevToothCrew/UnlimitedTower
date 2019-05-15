@@ -548,9 +548,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
             if (inventory.FrameEquipmentInfo.activeSelf)
             {
                 EquipmentInfoManager equipmentInfo = EquipmentInfoManager.Inst;
-                equipmentInfo.setData();
-                equipmentInfo.resetScroll();
-                equipmentInfo.updateDetailInfo(equipmentInfo.scrollList.getFirstItemOrder());
+                equipmentInfo.updateAllView();
 
                 if (SubViewUpgrade.checkInst() == true)
                 {
