@@ -11,7 +11,6 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     public UserLobbyInfo userLobbyInfo = new UserLobbyInfo();
 
     public Dictionary<int, UserServantData> servantDic = new Dictionary<int, UserServantData>();
-    public List<UserServantData> servantList = new List<UserServantData>();
 
     public Dictionary<int, UserMonsterData> monsterDic = new Dictionary<int, UserMonsterData>();
 
@@ -33,21 +32,24 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
     public int usingPartyNum = 1;
 
-    private void FixedUpdate()
-    {
-        servantList = servantDic.Values.ToList();
-    }
-
     #region InitFunction
 
     public void InitUserInfo()
     {
-        userInfo = new UserInfo();
+        userInfo = null;
+        userMainCharInfo = new MainCharInfo();
+        userLobbyInfo = new UserLobbyInfo();
         servantDic = new Dictionary<int, UserServantData>();
         monsterDic = new Dictionary<int, UserMonsterData>();
         equipmentDic = new Dictionary<int, UserEquipmentData>();
+        weaponDic = new Dictionary<int, UserEquipmentData>();
+        armorDic = new Dictionary<int, UserEquipmentData>();
+        accessoryDic = new Dictionary<int, UserEquipmentData>();
         itemDic = new Dictionary<int, UserItemData>();
         partyInfo = new UserPartyData();
+        stageState = new UserStageStateData();
+        stageActionInfo = new battleActionData();
+        stageReward = new stageRewardData();
     }
 
     #endregion
@@ -185,6 +187,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
     {
         userMainCharInfo = charInfo;
     }
+
     public void InitStageInfo()
     {
         stageState = new UserStageStateData();
