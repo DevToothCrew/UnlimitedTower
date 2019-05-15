@@ -47,7 +47,7 @@ public class UpgradeResultVC : MonoBehaviour {
         if (is_success)
         {
             objBreak.SetActive(false);
-            textResult.text = "Upgrade Sucess!!!";
+            textResult.text = "Upgrade Success!!!";
             textResult.GetComponent<UITextGradient>().m_color1 = new Color(1, 245 / 255f, 138 / 255f);
             textResult.GetComponent<UITextGradient>().m_color2 = new Color(1, 176 / 255f, 45 / 255f);
             imageResultEffect.sprite = spriteSuccess;
