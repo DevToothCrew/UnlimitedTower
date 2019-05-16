@@ -25,9 +25,10 @@ public class PartyListUnit : ScrollListUnit {
 
         partyInfo = PartyInfoVC.Inst;
 
+        int check_formation_unit_idx = 0;
         //Todo :set Image
         if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.SERVANT_INFO)
-        {
+        {   
             int selected_idx;
             if (SubViewDeconstruction.checkInst() && unit_controller.Equals(SubViewDeconstruction.Inst))
             {
@@ -37,6 +38,7 @@ public class PartyListUnit : ScrollListUnit {
             {
                 selected_idx = main_idx;
             }
+            check_formation_unit_idx = partyInfo.ServantList[main_idx].index;
 
             ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)partyInfo.ServantList[selected_idx].grade);
             imageCharacter.sprite = CSVData.Inst.GetServantData(partyInfo.ServantList[selected_idx].id).servantIcon;
@@ -62,6 +64,7 @@ public class PartyListUnit : ScrollListUnit {
             {
                 selected_idx = main_idx;
             }
+            check_formation_unit_idx = partyInfo.MonsterList[main_idx].index;
 
             ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)partyInfo.MonsterList[selected_idx].grade);
             imageCharacter.sprite = CSVData.Inst.GetMonsterData(partyInfo.MonsterList[selected_idx].id).monsterIcon;
@@ -69,7 +72,7 @@ public class PartyListUnit : ScrollListUnit {
             textLevel.text = string.Format("{0}", partyInfo.MonsterList[selected_idx].level);
             textPower.text = string.Format("{0}", Calculator.GetPower(partyInfo.MonsterList[selected_idx].status, partyInfo.MonsterList[selected_idx].level));
             string upgrade = string.Format(" ");
-            if(partyInfo.MonsterList[selected_idx].upgrade > 0)
+            if (partyInfo.MonsterList[selected_idx].upgrade > 0)
             {
                 upgrade = string.Format("+{0}", partyInfo.MonsterList[selected_idx].upgrade);
             }
@@ -80,7 +83,18 @@ public class PartyListUnit : ScrollListUnit {
             imageType.sprite = CSVData.Inst.GetSpriteElementType(partyInfo.MonsterList[selected_idx].elementType);
         }
 
-        if (SubViewDeconstruction.checkInst())
+        if (partyInfo.selectedMenu == PartyInfoVC.menu_type.FORMATION && check_formation_unit_idx != 0)
+        {
+            if (partyInfo.checkSetFormationUnit(check_formation_unit_idx))
+            {
+                GetComponent<Image>().color = Color.cyan;
+            }
+            else
+            {
+                GetComponent<Image>().color = Color.white;
+            }
+        }   
+        else if (SubViewDeconstruction.checkInst())
         {
             int chracter_unit_idx = partyInfo.ServantList[SubViewDeconstruction.Inst.scrollListData[main_idx]].index;
             if (SubViewDeconstruction.Inst.checkInsertedUnit(chracter_unit_idx))

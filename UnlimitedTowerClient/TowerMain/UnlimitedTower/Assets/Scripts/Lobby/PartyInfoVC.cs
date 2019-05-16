@@ -799,6 +799,38 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         updateFormation();
     }
 
+    public bool checkSetFormationUnit(int character_unit_idx)
+    {
+        bool set_formation_unit = false;
+        if (selectedFormationSlot <= DEFINE.ServantMaxFormationNum)
+        {
+            // 서번트일 경우
+            for (int i = DEFINE.ServantMinFormationNum; i <= DEFINE.ServantMaxFormationNum; i++)
+            {
+                if (character_unit_idx == formationSlot[i])
+                {
+                    set_formation_unit = true;
+                    break;
+                }
+
+            }
+        }
+        else if (selectedFormationSlot <= DEFINE.MonsterMaxFormationNum)
+        {
+            // 몬스터일 경우
+            for (int i = DEFINE.MonsterMinFormationNum; i <= DEFINE.MonsterMaxFormationNum; i++)
+            {
+                if (character_unit_idx == formationSlot[i])
+                {
+                    set_formation_unit = true;
+                    break;
+                }
+            }
+        }
+
+        return set_formation_unit;
+    }
+
     public void OnClickSaveFormation()
     {
         bool isDiff = false;
