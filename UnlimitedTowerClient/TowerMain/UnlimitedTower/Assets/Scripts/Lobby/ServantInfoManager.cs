@@ -81,13 +81,13 @@ public class ServantInfoManager : MonoSingleton<ServantInfoManager> {
                 }
 
                 buttonEquip[(int)type].image.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)equip_info.grade);
-                buttonEquip[(int)type].transform.GetChild(0).GetComponent<Image>().enabled = true;
-                buttonEquip[(int)type].transform.GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.GetEquipmentData(equip_info.id).equipmentIcon;
+                buttonEquip[(int)type].transform.GetChild(1).GetComponent<Image>().enabled = true;
+                buttonEquip[(int)type].transform.GetChild(1).GetComponent<Image>().sprite = CSVData.Inst.GetEquipmentData(equip_info.id).equipmentIcon;
             }
             else
             {
                 buttonEquip[(int)type].image.sprite = spriteEmptySlot;
-                buttonEquip[(int)type].transform.GetChild(0).GetComponent<Image>().enabled = false;
+                buttonEquip[(int)type].transform.GetChild(1).GetComponent<Image>().enabled = false;
             }
 
         }
