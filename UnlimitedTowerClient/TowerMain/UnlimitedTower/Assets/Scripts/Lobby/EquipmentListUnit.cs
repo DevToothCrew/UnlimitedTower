@@ -1,4 +1,5 @@
-﻿using UnityEngine.UI;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class EquipmentListUnit : ScrollListUnit
 {
@@ -9,6 +10,7 @@ public class EquipmentListUnit : ScrollListUnit
     public Text textUpgrade;
     public Image imageStats;
     public Text textStats;
+    public GameObject imageDisable;
 
     EquipmentInfoManager equipmentInfo;
 
@@ -66,6 +68,20 @@ public class EquipmentListUnit : ScrollListUnit
             imageStats.sprite = CSVData.Inst.GetSpriteOptionType(equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][selected_idx].optionType);
             textStats.text = string.Format("{0}", equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][selected_idx].value);
 
+            if (SubViewDeconstruction.checkInst())
+            {
+                int chracter_unit_idx = equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][SubViewDeconstruction.Inst.scrollListData[main_idx]].index;
+                if (SubViewDeconstruction.Inst.checkInsertedUnit(chracter_unit_idx))
+                {
+                    GetComponent<Button>().interactable = false;
+                    imageDisable.SetActive(true);
+                }
+                else
+                {
+                    GetComponent<Button>().interactable = true;
+                    imageDisable.SetActive(false);
+                }
+            }
         }
 
     }
@@ -98,10 +114,31 @@ public class EquipmentListUnit : ScrollListUnit
             }
             else
             {
-                SubViewDeconstruction.Inst.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
+                SubViewDeconstruction subview_deconstruction = SubViewDeconstruction.Inst;
+                subview_deconstruction.scrollList.MoveScrollSelectedUnit(this.RectTr.anchoredPosition, main_idx);
                 int item_unit_idx = 0;
-                item_unit_idx = equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][SubViewDeconstruction.Inst.scrollListData[main_idx]].index;
-                SubViewDeconstruction.Inst.InsertUnit(item_unit_idx);
+                item_unit_idx = equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][subview_deconstruction.scrollListData[main_idx]].index;
+                
+
+                if (subview_deconstruction.checkInsertMax())
+                {
+                    DebugLog.Log(false, "Warning : 분해 슬롯 최대치!");
+                    SimpleErrorPopupVC.Inst.UpdateErrorText("Max Burn List");
+                }
+                else
+                {
+                    if (subview_deconstruction.checkInsertedUnit(item_unit_idx))
+                    {
+                        DebugLog.Log(false, "Warning : 이미 분해 슬롯에 등록된 유닛 입니다.");
+                        SimpleErrorPopupVC.Inst.UpdateErrorText("Already Listed");
+                    }
+                    else
+                    {
+                        GetComponent<Button>().interactable = false;
+                        imageDisable.SetActive(true);
+                        SubViewDeconstruction.Inst.InsertUnit(item_unit_idx);
+                    }
+                }
 
             }
         }

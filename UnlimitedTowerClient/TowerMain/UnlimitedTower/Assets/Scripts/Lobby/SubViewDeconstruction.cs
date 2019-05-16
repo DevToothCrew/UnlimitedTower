@@ -351,109 +351,100 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
 
     public void InsertUnit(int scroll_unit_idx)
     {
+        UserDataManager u_data = UserDataManager.Inst;
+
+        if (dType == DECONSTRUCTION_TYPE.SERVANT || dType == DECONSTRUCTION_TYPE.MONSTER)
+        {
+            if (dType == DECONSTRUCTION_TYPE.SERVANT)  // Servant
+            {
+                UserServantData servantData = UserDataManager.Inst.GetServantInfo(scroll_unit_idx);
+                if (servantData == null)
+                {
+                    DebugLog.Log(false, "Invalid Request Servant ID : " + scroll_unit_idx);
+                    return;
+                }
+
+                if (servantData.state != 1)
+                {
+                    DebugLog.Log(false, "Invalid Servant State : " + servantData.state);
+                    SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Servant State");
+                    return;
+                }
+
+                if (servantData.partyIndex != 0)
+                {
+                    DebugLog.Log(false, "Invalid Servant Party Index : " + servantData.partyIndex);
+                    SimpleErrorPopupVC.Inst.UpdateErrorText("Already In Party");
+                    return;
+                }
+            }
+            else//Monster
+            {
+                UserMonsterData monsterData = UserDataManager.Inst.GetMonsterInfo(scroll_unit_idx);
+                if (monsterData == null)
+                {
+                    DebugLog.Log(false, "Invalid Request Monster ID : " + scroll_unit_idx);
+                    return;
+                }
+
+                if (monsterData.state != 1)
+                {
+                    DebugLog.Log(false, "Invalid Monster State : " + monsterData.state);
+                    SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Monster State");
+                    return;
+                }
+
+                if (monsterData.partyIndex != 0)
+                {
+                    DebugLog.Log(false, "Invalid Monster Index : " + monsterData.partyIndex);
+                    SimpleErrorPopupVC.Inst.UpdateErrorText("Already In Party");
+                    return;
+                }
+            }
+        }
+        else//Equip
+        {
+            UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(scroll_unit_idx);
+            if (equipmentData == null)
+            {
+                DebugLog.Log(false, "Invalid Request Servant ID : " + scroll_unit_idx);
+                return;
+            }
+
+            if (equipmentData.state != 1)
+            {
+                DebugLog.Log(false, "Invalid Equip State : " + equipmentData.state);
+                SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Equipment State");
+                return;
+            }
+
+            if (equipmentData.isEquiped)
+            {
+                DebugLog.Log(false, "Invalid Equip isEquiped : " + equipmentData.isEquiped);
+                SimpleErrorPopupVC.Inst.UpdateErrorText("Already Equiped Servant");
+                return;
+            }
+        }
+
+        deconstructionUnitList[unit_count] = scroll_unit_idx;
+        unit_count++;
+        updateView();
+
+    }
+
+    public bool checkInsertMax()
+    {
         if (unit_count >= deconstructionUnitList.Length)
         {
-            DebugLog.Log(false, "Warning : 분해 슬롯 최대치!");
-            SimpleErrorPopupVC.Inst.UpdateErrorText("Max Burn List");
+            return true;
         }
         else
         {
-            UserDataManager u_data = UserDataManager.Inst;
-            int unit_idx = 0;
-
-            if (checkInsertedUnit(scroll_unit_idx))
-            {
-                DebugLog.Log(false, "Warning : 이미 분해 슬롯에 등록된 유닛 입니다.");
-                SimpleErrorPopupVC.Inst.UpdateErrorText("Already Listed");
-            }
-            else
-            {
-                if (dType == DECONSTRUCTION_TYPE.SERVANT || dType == DECONSTRUCTION_TYPE.MONSTER)
-                {
-                    if (dType == DECONSTRUCTION_TYPE.SERVANT)  // Servant
-                    {
-                        UserServantData servantData = UserDataManager.Inst.GetServantInfo(scroll_unit_idx);
-                        if (servantData == null)
-                        {
-                            DebugLog.Log(false, "Invalid Request Servant ID : " + scroll_unit_idx);
-                            return;
-                        }
-
-                        if (servantData.state != 1)
-                        {
-                            DebugLog.Log(false, "Invalid Servant State : " + servantData.state);
-                            SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Servant State");
-                            return;
-                        }
-
-                        if (servantData.partyIndex != 0)
-                        {
-                            DebugLog.Log(false, "Invalid Servant Party Index : " + servantData.partyIndex);
-                            SimpleErrorPopupVC.Inst.UpdateErrorText("Already In Party");
-                            return;
-                        }
-                    }
-                    else//Monster
-                    {
-                        UserMonsterData monsterData = UserDataManager.Inst.GetMonsterInfo(scroll_unit_idx);
-                        if (monsterData == null)
-                        {
-                            DebugLog.Log(false, "Invalid Request Monster ID : " + scroll_unit_idx);
-                            return;
-                        }
-
-                        if (monsterData.state != 1)
-                        {
-                            DebugLog.Log(false, "Invalid Monster State : " + monsterData.state);
-                            SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Monster State");
-                            return;
-                        }
-
-                        if (monsterData.partyIndex != 0)
-                        {
-                            DebugLog.Log(false, "Invalid Monster Index : " + monsterData.partyIndex);
-                            SimpleErrorPopupVC.Inst.UpdateErrorText("Already In Party");
-                            return;
-                        }
-                    }
-                }
-                else//Equip
-                {
-                    UserEquipmentData equipmentData = UserDataManager.Inst.GetEquipmentInfo(scroll_unit_idx);
-                    if (equipmentData == null)
-                    {
-                        DebugLog.Log(false, "Invalid Request Servant ID : " + scroll_unit_idx);
-                        return;
-                    }
-
-                    if (equipmentData.state != 1)
-                    {
-                        DebugLog.Log(false, "Invalid Equip State : " + equipmentData.state);
-                        SimpleErrorPopupVC.Inst.UpdateErrorText("Invalid Equipment State");
-                        return;
-                    }
-
-                    if (equipmentData.isEquiped)
-                    {
-                        DebugLog.Log(false, "Invalid Equip isEquiped : " + equipmentData.isEquiped);
-                        SimpleErrorPopupVC.Inst.UpdateErrorText("Already Equiped Servant");
-                        return;
-                    }
-                }
-
-                
-
-                unit_idx = scroll_unit_idx;
-                deconstructionUnitList[unit_count] = unit_idx;
-                unit_count++;
-                updateView();
-            }
-
+            return false;
         }
-        
     }
 
-    bool checkInsertedUnit(int unit_idx)
+    public bool checkInsertedUnit(int unit_idx)
     {
         bool is_insert = false;
         for (int i = 0; i < unit_count; i++)
@@ -484,6 +475,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
             unit_count = 0;
 
         updateView();
+        scrollList.UpdateScrollView();
     }
 
     //Slot 초기화
@@ -497,6 +489,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
         }
 
         updateView();
+        scrollList.UpdateScrollView();
     }
 
     //분해 완료(서버에서 응답) 후 화면 전체 갱신

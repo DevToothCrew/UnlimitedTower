@@ -1,4 +1,5 @@
-﻿using UnityEngine.UI;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class PartyListUnit : ScrollListUnit {
     public Image ImageGrade;
@@ -9,6 +10,7 @@ public class PartyListUnit : ScrollListUnit {
     public Image imageClass;
     public Image imageType;
     public Text textUpgrade;
+    public GameObject imageDisable;
 
     PartyInfoVC partyInfo = null;
 
@@ -77,6 +79,21 @@ public class PartyListUnit : ScrollListUnit {
             imageType.gameObject.SetActive(true);
             imageType.sprite = CSVData.Inst.GetSpriteElementType(partyInfo.MonsterList[selected_idx].elementType);
         }
+
+        if (SubViewDeconstruction.checkInst())
+        {
+            int chracter_unit_idx = partyInfo.ServantList[SubViewDeconstruction.Inst.scrollListData[main_idx]].index;
+            if (SubViewDeconstruction.Inst.checkInsertedUnit(chracter_unit_idx))
+            {
+                GetComponent<Button>().interactable = false;
+                imageDisable.SetActive(true);
+            }
+            else
+            {
+                GetComponent<Button>().interactable = true;
+                imageDisable.SetActive(false);
+            }
+        }
     }
 
     public override void Selected(bool selected)
@@ -108,8 +125,26 @@ public class PartyListUnit : ScrollListUnit {
                 {
                     chracter_unit_idx = partyInfo.MonsterList[subview_deconstruction.scrollListData[main_idx]].index;
                 }
-                SubViewDeconstruction.Inst.InsertUnit(chracter_unit_idx);
-                
+
+                if (subview_deconstruction.checkInsertMax())
+                {
+                    DebugLog.Log(false, "Warning : 분해 슬롯 최대치!");
+                    SimpleErrorPopupVC.Inst.UpdateErrorText("Max Burn List");
+                }
+                else
+                {
+                    if (subview_deconstruction.checkInsertedUnit(chracter_unit_idx))
+                    {
+                        DebugLog.Log(false, "Warning : 이미 분해 슬롯에 등록된 유닛 입니다.");
+                        SimpleErrorPopupVC.Inst.UpdateErrorText("Already Listed");
+                    }
+                    else
+                    {
+                        GetComponent<Button>().interactable = false;
+                        imageDisable.SetActive(true);
+                        SubViewDeconstruction.Inst.InsertUnit(chracter_unit_idx);
+                    }
+                }
             }
             else if (SubViewUpgrade.checkInst())
             {
