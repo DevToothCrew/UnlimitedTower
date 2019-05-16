@@ -25,7 +25,7 @@ public class PartyListUnit : ScrollListUnit {
 
         partyInfo = PartyInfoVC.Inst;
 
-        int check_formation_unit_idx = 0;
+        int chracter_unit_idx = 0;
         //Todo :set Image
         if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.SERVANT_INFO)
         {   
@@ -33,12 +33,13 @@ public class PartyListUnit : ScrollListUnit {
             if (SubViewDeconstruction.checkInst() && unit_controller.Equals(SubViewDeconstruction.Inst))
             {
                 selected_idx = SubViewDeconstruction.Inst.scrollListData[main_idx];
+                chracter_unit_idx = partyInfo.ServantList[SubViewDeconstruction.Inst.scrollListData[main_idx]].index;
             }
             else
             {
                 selected_idx = main_idx;
+                chracter_unit_idx = partyInfo.ServantList[main_idx].index;
             }
-            check_formation_unit_idx = partyInfo.ServantList[main_idx].index;
 
             ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)partyInfo.ServantList[selected_idx].grade);
             imageCharacter.sprite = CSVData.Inst.GetServantData(partyInfo.ServantList[selected_idx].id).servantIcon;
@@ -59,12 +60,13 @@ public class PartyListUnit : ScrollListUnit {
             else if (SubViewDeconstruction.checkInst() && unit_controller.Equals(SubViewDeconstruction.Inst))
             {
                 selected_idx = SubViewDeconstruction.Inst.scrollListData[main_idx];
+                chracter_unit_idx = partyInfo.MonsterList[SubViewDeconstruction.Inst.scrollListData[main_idx]].index;
             }
             else
             {
                 selected_idx = main_idx;
+                chracter_unit_idx = partyInfo.MonsterList[main_idx].index;
             }
-            check_formation_unit_idx = partyInfo.MonsterList[main_idx].index;
 
             ImageGrade.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)partyInfo.MonsterList[selected_idx].grade);
             imageCharacter.sprite = CSVData.Inst.GetMonsterData(partyInfo.MonsterList[selected_idx].id).monsterIcon;
@@ -83,9 +85,9 @@ public class PartyListUnit : ScrollListUnit {
             imageType.sprite = CSVData.Inst.GetSpriteElementType(partyInfo.MonsterList[selected_idx].elementType);
         }
 
-        if (partyInfo.selectedMenu == PartyInfoVC.menu_type.FORMATION && check_formation_unit_idx != 0)
+        if (partyInfo.selectedMenu == PartyInfoVC.menu_type.FORMATION && chracter_unit_idx != 0)
         {
-            if (partyInfo.checkSetFormationUnit(check_formation_unit_idx))
+            if (partyInfo.checkSetFormationUnit(chracter_unit_idx))
             {
                 GetComponent<Image>().color = Color.cyan;
             }
@@ -95,8 +97,7 @@ public class PartyListUnit : ScrollListUnit {
             }
         }   
         else if (SubViewDeconstruction.checkInst())
-        {
-            int chracter_unit_idx = partyInfo.ServantList[SubViewDeconstruction.Inst.scrollListData[main_idx]].index;
+        {   
             if (SubViewDeconstruction.Inst.checkInsertedUnit(chracter_unit_idx))
             {
                 GetComponent<Button>().interactable = false;
