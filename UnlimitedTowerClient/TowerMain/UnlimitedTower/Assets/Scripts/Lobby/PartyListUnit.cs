@@ -49,6 +49,16 @@ public class PartyListUnit : ScrollListUnit {
             textUpgrade.text = string.Format(" ");
             imageClass.sprite = CSVData.Inst.GetSpriteServantJob(partyInfo.ServantList[selected_idx].jobType);
             imageType.gameObject.SetActive(false);
+
+            //TODO:나중에 파티가 여러개일 경우, 수정이 필요할 수 있음
+            if (partyInfo.ServantList[selected_idx].partyIndex > 0)
+            {
+                GetComponent<Image>().color = Color.cyan;
+            }
+            else
+            {
+                GetComponent<Image>().color = Color.white;
+            }
         }
         else if (partyInfo.currentScrollType == PartyInfoVC.scroll_type.MONSTER_INFO)
         {
@@ -83,6 +93,16 @@ public class PartyListUnit : ScrollListUnit {
             imageClass.sprite = CSVData.Inst.GetSmallSpriteTribeType(partyInfo.MonsterList[selected_idx].tribeType);
             imageType.gameObject.SetActive(true);
             imageType.sprite = CSVData.Inst.GetSpriteElementType(partyInfo.MonsterList[selected_idx].elementType);
+
+            //TODO:나중에 파티가 여러개일 경우, 수정이 필요할 수 있음
+            if (partyInfo.MonsterList[selected_idx].partyIndex > 0)
+            {
+                GetComponent<Image>().color = Color.cyan;
+            }
+            else
+            {
+                GetComponent<Image>().color = Color.white;
+            }
         }
 
         if (partyInfo.selectedMenu == PartyInfoVC.menu_type.FORMATION && chracter_unit_idx != 0)
@@ -96,7 +116,7 @@ public class PartyListUnit : ScrollListUnit {
                 GetComponent<Image>().color = Color.white;
             }
         }   
-        else if (SubViewDeconstruction.checkInst())
+        if (SubViewDeconstruction.checkInst())
         {   
             if (SubViewDeconstruction.Inst.checkInsertedUnit(chracter_unit_idx))
             {
