@@ -279,6 +279,7 @@ public class BattleStatus
     {
         Status.Add(EFFECT_ID.HP, data.maxHP);
         Status.Add(EFFECT_ID.SPEED, data.speed);
+        Status.Add(EFFECT_ID.AVOID, data.avoid);
         NowHp = data.nowHp;
 
         if (isMyParty)
