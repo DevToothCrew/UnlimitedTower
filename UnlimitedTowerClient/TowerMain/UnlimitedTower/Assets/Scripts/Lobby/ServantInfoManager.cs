@@ -127,6 +127,22 @@ public class ServantInfoManager : MonoSingleton<ServantInfoManager> {
         imagejob.sprite = CSVData.Inst.GetSpriteServantJob(unit_data.jobType);
         //textStatsText.text;
 
+        int[] stat_by_set_equipment = Calculator.GetServantStatsEquipAllItem(unit_data);
+
+        textStr.text = string.Format("{0}", stat_by_set_equipment[(int)EQUIPMENT_OPTION_TYPE.STR]);
+        textDex.text = string.Format("{0}", stat_by_set_equipment[(int)EQUIPMENT_OPTION_TYPE.DEX]);
+        textInt.text = string.Format("{0}", stat_by_set_equipment[(int)EQUIPMENT_OPTION_TYPE.INT]);
+
+        textHP.text = string.Format("{0}", stat_by_set_equipment[(int)EQUIPMENT_OPTION_TYPE.HP]);
+        textSpeed.text = string.Format("{0}", db_unit_data.speed);
+        textPAtk.text = string.Format("{0}", stat_by_set_equipment[(int)EQUIPMENT_OPTION_TYPE.ATK]);
+        textPDef.text = string.Format("{0}", stat_by_set_equipment[(int)EQUIPMENT_OPTION_TYPE.DEF]);
+        textMAtk.text = string.Format("{0}", stat_by_set_equipment[(int)EQUIPMENT_OPTION_TYPE.MATK]);
+        textMDef.text = string.Format("{0}", stat_by_set_equipment[(int)EQUIPMENT_OPTION_TYPE.MDEF]);
+        textPCri.text = string.Format("{0}", stat_by_set_equipment[(int)EQUIPMENT_OPTION_TYPE.CriDmg]);
+        textPCriPer.text = string.Format("{0}", stat_by_set_equipment[(int)EQUIPMENT_OPTION_TYPE.CriPer]);
+
+        /*
         textStr.text = string.Format("{0}", unit_data.status.basicStr);
         textDex.text = string.Format("{0}", unit_data.status.basicDex);
         textInt.text = string.Format("{0}", unit_data.status.basicInt);
@@ -139,6 +155,7 @@ public class ServantInfoManager : MonoSingleton<ServantInfoManager> {
         textMDef.text = string.Format("{0}", unit_data.mDef);
         textPCri.text = string.Format("{0}", unit_data.criDmg);
         textPCriPer.text = string.Format("{0}", unit_data.criPer);
+        */
 
         if (unit_data.activeSkillList.Count > 0)
         {
