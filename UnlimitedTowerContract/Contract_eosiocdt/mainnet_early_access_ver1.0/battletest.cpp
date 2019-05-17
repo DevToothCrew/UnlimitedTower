@@ -3759,6 +3759,7 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
     main_gacha_db main_gacha_db_table(_self, _self.value);
     pre_gacha_db pre_gacha_db_table(_self, _self.value);
     eosio_assert(_mail_index.size() < 9, "mailopen : Max mail open count = 8");
+    uint32_t mail_erase_count = 0 ;    
     for (uint32_t i = 0; i < _mail_index.size(); ++i)
     {
         uint32_t _seed = safeseed::get_seed_value(_user.value + i, now());
@@ -4036,18 +4037,19 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
         }
 
         user_mail_table.erase(user_mail_iter);
-        
-        user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
-            if(update_log.mail - _mail_index[i] <=0)
-            {
-                update_log.mail = 0;
-            }
-            else
-            {
-                update_log.mail -= _mail_index[i];                            
-            }   
-        });
+        mail_erase_count +=1;
     }
+
+    user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
+        if (update_log.mail - mail_erase_count <= 0)
+        {
+            update_log.mail = 0;
+        }
+        else
+        {
+            update_log.mail -= mail_erase_count;
+        }
+    });
 }
 
 // eosio.token recipient
