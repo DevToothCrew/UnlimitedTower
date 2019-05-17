@@ -82,7 +82,9 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
             case DECONSTRUCTION_TYPE.SERVANT:
                 for (int i=0; i < partyInfo.ServantList.Count; i++)
                 {
-                    if (partyInfo.ServantList[i].state == 1 && partyInfo.ServantList[i].partyIndex == 0)
+                    //장비를 장착하고 있으면 분해 불가능
+                    if (partyInfo.ServantList[i].state == 1 && partyInfo.ServantList[i].partyIndex == 0 && partyInfo.ServantList[i].equipmentDic[EQUIPMENT_TYPE.WEAPON] == 0
+                         && partyInfo.ServantList[i].equipmentDic[EQUIPMENT_TYPE.ARMOR] == 0 && partyInfo.ServantList[i].equipmentDic[EQUIPMENT_TYPE.ACCESSSORY] == 0)
                     {
                         scrollListData.Add(i);
                     }
