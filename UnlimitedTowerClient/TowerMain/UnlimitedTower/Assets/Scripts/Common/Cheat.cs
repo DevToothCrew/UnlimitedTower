@@ -339,13 +339,14 @@ public class Cheat : MonoSingleton<Cheat>
         return JsonMapper.ToJson(battleactiondata);
     }
 
-    public string GetStageStartData(string user, int stageType, int stageFloor, int partyNum)
+    public string GetStageStartData(string user, int stageType, int stageFloor, int stageDifficult, int partyNum)
     {
         stageStateData battlestatedata = new stageStateData();
         battlestatedata.user = user;
-        battlestatedata.stage_type = stageType;
         battlestatedata.enemy_user = user;
-        battlestatedata.stage_number = stageFloor;
+        battlestatedata.type = stageType;
+        battlestatedata.tier = stageFloor;
+        battlestatedata.grade = stageDifficult;
         battlestatedata.turn = 0;
 
         battlestatedata.my_synergy_list.Add(190033);
@@ -1014,7 +1015,7 @@ public class Cheat : MonoSingleton<Cheat>
         PacketManager.Inst.ResponseStageExit();
     }
 
-    public void RequestStageStartCheat(int stageType, int stageFloor, int partyNum)
+    public void RequestStageStartCheat(int stageType, int stageFloor, int stageDifficult, int partyNum)
     {
         if (UserDataManager.Inst.GetUserInfo() == null)
         {
@@ -1024,7 +1025,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         DebugLog.Log(false, "Start SetStageStartCheat");
 
-        string stageStateJson = GetStageStartData(UserDataManager.Inst.GetUserInfo().userName, stageType, stageFloor, partyNum);
+        string stageStateJson = GetStageStartData(UserDataManager.Inst.GetUserInfo().userName, stageType, stageFloor, stageDifficult, partyNum);
         DebugLog.Log(false, "[SUCCESS] User Stage Start :" + stageStateJson);
 
         stageStateData getBattleStageData = JsonUtility.FromJson<stageStateData>(stageStateJson);

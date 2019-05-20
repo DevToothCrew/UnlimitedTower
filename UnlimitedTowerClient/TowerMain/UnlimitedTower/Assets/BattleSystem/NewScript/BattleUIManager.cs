@@ -246,7 +246,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
             {
                 if (UserDataManager.Inst.stageState.stageFloor != 10)
                 {
-                    Cheat.Inst.RequestStageStartCheat(UserDataManager.Inst.stageState.stageType, UserDataManager.Inst.stageState.stageFloor + 1, UserDataManager.Inst.stageState.stageDifficult, 500230, 1);
+                    Cheat.Inst.RequestStageStartCheat(UserDataManager.Inst.stageState.stageType, UserDataManager.Inst.stageState.stageFloor + 1, UserDataManager.Inst.stageState.stageDifficult, 1);
                     UserDataManager.Inst.stageState = new UserStageStateData();
                     UserDataManager.Inst.stageActionInfo = new battleActionData();
                     UserDataManager.Inst.stageReward = new stageRewardData();
@@ -295,7 +295,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
 
 #if UNITY_EDITOR
             {
-                Cheat.Inst.RequestStageStartCheat(UserDataManager.Inst.stageState.stageType, UserDataManager.Inst.stageState.stageFloor, UserDataManager.Inst.stageState.stageDifficult,500230, 1);
+                Cheat.Inst.RequestStageStartCheat(UserDataManager.Inst.stageState.stageType, UserDataManager.Inst.stageState.stageFloor, UserDataManager.Inst.stageState.stageDifficult, 1);
                 UserDataManager.Inst.stageState = new UserStageStateData();
                 UserDataManager.Inst.stageActionInfo = new battleActionData();
                 UserDataManager.Inst.stageReward = new stageRewardData();
