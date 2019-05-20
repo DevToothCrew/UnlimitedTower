@@ -1,8 +1,8 @@
 id,#관리,resource_icon,name,enname,#,description,explain,tier,grade,item_type_name,item_type,max_count,item_param_list,sell_item_id,sell_item_count
 #,가챠 id,아이템 아이콘,아이템 이름,아이템 이름,아이템 이름,아이템 설명,설명 임시,티어,등급,아이템 타입,아이템 타입,슬롯 당 최대 소지 개수,아이템 파라미터 리스트,판매시획득재화,판매가격
 int,int,string,localize,string,string,localize,string,int,int,string,int,itn,int,int,int
-500001,0,ic_utg,DB_item_name_500001,Unlimited Tower Gold,골드,DB_item_desc_500001,Unlimited Tower Gold,0,0,Money,0,0,0,0,0
-500002,0,ic_eos,DB_item_name_500002,EOS,이오스,DB_item_desc_500002,Dan's Gold,0,0,Money,0,0,0,0,0
+500001,0,ic_utg,DB_item_name_500001,Unlimited Tower Gold,골드,DB_item_desc_500001,Unlimited Tower Gold,0,0,Money,1,0,0,0,0
+500002,0,ic_eos,DB_item_name_500002,EOS,이오스,DB_item_desc_500002,Dan's Gold,0,0,Money,1,0,0,0,0
 500010,0,ic_invenPlus_servant,DB_item_name_500010,Add Servant Inventory,서번트 인벤토리,DB_item_desc_500010,Expands your Servant Inventory slots by 5 spaces.,0,0,Add Inventory,1,0,0,0,0
 500011,0,ic_invenPlus_monster,DB_item_name_500011,Add Monster Inventory,몬스터 인벤토리,DB_item_desc_500011,Expand your Monster Inventory slots by 5 spaces.,0,0,Add Inventory,1,0,0,0,0
 500012,0,ic_invenPlus_equip,DB_item_name_500012,Add Equipment Inventory,장비 인벤토리,DB_item_desc_500012,Expand your Equipment Inventory slots by 5 spaces.,0,0,Add Inventory,1,0,0,0,0

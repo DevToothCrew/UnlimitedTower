@@ -19,6 +19,7 @@ public class DBItemData
     public string name;
     public string description;
     public int tier;
+    public GRADE_TYPE grade;
     public string itemType;
 
     public List<int> itemParamIDList;
@@ -204,7 +205,6 @@ public class DBStageData
     public int stageFloor;
     public string stageString;
     public int needStageId;
-    public int stageGroupIndex;
     public int needEntranceItemId;
     public int needEntranceItemCount;
     public int enemyLevelMin;
@@ -219,14 +219,10 @@ public class DBStageData
 public class DBStageEnemyData
 {
     public int id;
+    public ELEMENT_TYPE elementType;
+    public int index;
     public CHAR_TYPE charType;
-    public int charID;
-    public GRADE_TYPE grade;
     public Status status = new Status();
-    public int criPer;
-    public int criDmg;
-    public int speed;
-    public int avoid;
     public List<int> activeList = new List<int>();
     public List<int> passiveList = new List<int>();
 }
@@ -235,23 +231,21 @@ public class DBStageEnemyData
 public class DBStageRewardData
 {
     public int id;
+    public int rewardUTG;
     public int rankExp;
     public int charExp;
-    public DBRewardData firstRewardData;
-    public int rewardMinUTG;
-    public int rewardMaxUTG;
-    public string rewardUTGString;
-    public List<DBRewardData> rewardDataList = new List<DBRewardData>();
+    public int maxCount;
+    public int perMonster;
+    public int perEquipment;
+    public List<DBRewardItemData> rewardItemDataList = new List<DBRewardItemData>();
 }
 
 [Serializable]
-public class DBRewardData
+public class DBRewardItemData
 {
     public int rewardID;
     public int rewardCount;
     public int rewardPer;
-    public REWARD_TYPE rewardType;
-    public GRADE_TYPE rewardGrade;
 }
 
 [Serializable]

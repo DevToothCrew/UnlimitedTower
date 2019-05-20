@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class StagePage : MonoSingleton<StagePage> {
@@ -24,7 +25,6 @@ public class StagePage : MonoSingleton<StagePage> {
     private int stageDifficult = 5;
 
     public GameObject[] OnActiveImage = new GameObject[6];
-    public GameObject[] OnActiveStageList = new GameObject[6];
     public GameObject StageScreenBackButton;
     private int maxStageList = 6;
 
@@ -38,6 +38,8 @@ public class StagePage : MonoSingleton<StagePage> {
     public GameObject FrameDifficult;
     private bool isShowDifficultList = false;
 
+    public Text textMonsterPer;
+    public Text textEquipmentPer;
 
     void Awake ()
     {
@@ -61,27 +63,29 @@ public class StagePage : MonoSingleton<StagePage> {
             rewardObjects = null;
         }
 
-        DBStageRewardData rewardData = CSVData.Inst.GetStageRewardData(stageType, stageFloor);
+        DBStageRewardData rewardData = CSVData.Inst.GetStageRewardData(stageType, stageFloor, stageDifficult);
         if(rewardData == null)
         {
-            DebugLog.Log(true, "Invalid Stage Type & Floor : " + stageType + " & " + stageFloor);
+            DebugLog.Log(true, "Invalid Stage Type & Floor & Difficult : " + stageType + " & " + stageFloor + " & " + stageDifficult);
             return;
         }
 
         RewardRankExp.text = rewardData.rankExp.ToString();
         RewardCharExp.text = rewardData.charExp.ToString();
-        RewardUTG.text = rewardData.rewardUTGString;
+        RewardUTG.text = rewardData.rewardUTG.ToString();
+        textMonsterPer.text = "Monster " + (rewardData.perMonster * 0.01) + "%";
+        textEquipmentPer.text = "Equipment " + (rewardData.perEquipment * 0.01) + "%";
 
-        rewardObjects = new GameObject[rewardData.rewardDataList.Count];
-        for(int i = 0; i < rewardData.rewardDataList.Count; i++)
+        rewardObjects = new GameObject[rewardData.rewardItemDataList.Count];
+        for(int i = 0; i < rewardData.rewardItemDataList.Count; i++)
         {
             GameObject rewardObject = Instantiate(rewardObjectPrefab);
             rewardObject.transform.SetParent(rewardInfo.transform);
-            rewardObject.GetComponent<RewardInfoObject>().SetResourceImage(rewardData.rewardDataList[i]);
+            rewardObject.GetComponent<RewardInfoObject>().SetResourceImage(rewardData.rewardItemDataList[i]);
             rewardObjects[i] = rewardObject;
         }
 
-        rewardInfo.GetComponentInChildren<RectTransform>().sizeDelta = new Vector2( (100 + (111 * rewardData.rewardDataList.Count)), 100);
+        rewardInfo.GetComponentInChildren<RectTransform>().sizeDelta = new Vector2( (100 + (111 * rewardData.rewardItemDataList.Count)), 100);
     }
 
     public void SetEnemyInfo()
@@ -96,24 +100,23 @@ public class StagePage : MonoSingleton<StagePage> {
             enemyObjects = null;
         }
 
-        DBStageData stageData = CSVData.Inst.GetStageData(stageType, stageFloor);
-        if (stageData == null)
+        List<DBStageEnemyData> stageEnemyList = CSVData.Inst.GetEnemyDataList((ELEMENT_TYPE)stageType);
+        if (stageEnemyList == null)
         {
-            DebugLog.Log(true, "Invalid Stage Type & Floor : " + stageType + " & " + stageFloor);
+            DebugLog.Log(true, "Invalid Stage Type : " + stageType);
             return;
         }
-        
 
-       enemyObjects = new GameObject[stageData.enemyIdList.Count];
-        for (int i = 0; i < stageData.enemyIdList.Count; i++)
+        enemyObjects = new GameObject[stageEnemyList.Count];
+        for (int i = 0; i < stageEnemyList.Count; i++)
         {
             GameObject enemyObject = Instantiate(enemyObjectPrefab);
             enemyObject.transform.SetParent(enemyInfo.transform);
-            enemyObject.GetComponent<EnemyInfoObject>().SetEnemyImage(stageData.enemyIdList[i]);
+            enemyObject.GetComponent<EnemyInfoObject>().SetEnemyImage(stageEnemyList[i].id, stageDifficult);
             enemyObjects[i] = enemyObject;
         }
 
-        enemyInfo.GetComponentInChildren<RectTransform>().sizeDelta = new Vector2((100 + (111 * stageData.enemyIdList.Count)), 100);
+        enemyInfo.GetComponentInChildren<RectTransform>().sizeDelta = new Vector2((100 + (111 * stageEnemyList.Count)), 100);
     }
 
     public void ShowDifficultList()
@@ -148,29 +151,31 @@ public class StagePage : MonoSingleton<StagePage> {
         int itemID = 0;
         switch(difficult)
         {
-            case 0:
+            case 5:
                 NeedTicket.SetActive(false);
                 StageDetailText.text = stageFloor + "F - Easy";
                 textSelectDifficult.text = "Easy";
 
                 ShowDifficultList();
+                SetRewardInfo();
+                SetEnemyInfo();
                 return;
-            case 1:
+            case 4:
                 itemID = 500200;
                 StageDetailText.text = stageFloor + "F - Normal";
                 textSelectDifficult.text = "Normal";
                 break;
-            case 2:
+            case 3:
                 itemID = 500210;
                 StageDetailText.text = stageFloor + "F - Hard";
                 textSelectDifficult.text = "Hard";
                 break;
-            case 3:
+            case 2:
                 itemID = 500220;
                 StageDetailText.text = stageFloor + "F - Nightmare";
                 textSelectDifficult.text = "Nightmare";
                 break;
-            case 4:
+            case 1:
                 itemID = 500230;
                 StageDetailText.text = stageFloor + "F - Hell";
                 textSelectDifficult.text = "Hell";
@@ -180,6 +185,8 @@ public class StagePage : MonoSingleton<StagePage> {
                 return;
         }
         ShowDifficultList();
+        SetRewardInfo();
+        SetEnemyInfo();
 
         NeedTicket.SetActive(true);
         NeedTicketImage.sprite = CSVData.Inst.GetSpriteItemIcon(itemID);
@@ -193,6 +200,7 @@ public class StagePage : MonoSingleton<StagePage> {
         {
             NeedTicketCount.color = Color.white;
         }
+
     }
 
     public void OnClickStageButton(int stageIndex)
@@ -205,23 +213,23 @@ public class StagePage : MonoSingleton<StagePage> {
         // 임시로 때려박기
         if (stageType == 1)
         {
-            StageText.text = "Stage - Under Ruins";
+            StageText.text = "Stage - Lava Zone";
         }
         else if (stageType == 2)
         {
-            StageText.text = "Stage - Lava Zone";
+            StageText.text = "Stage - Ice Berg";
         }
         else if (stageType == 3)
         {
-            StageText.text = "Stage - Ice Berg";
+            StageText.text = "Stage - Under Ruins";
         }
         else if (stageType == 4)
         {
-            StageText.text = "Stage - Sky Temple";
+            StageText.text = "Stage - Grassland";
         }
         else if (stageType == 5)
         {
-            StageText.text = "Stage - Grassland";
+            StageText.text = "Stage - Sky Temple";
         }
         else if (stageType == 6)
         {
@@ -304,7 +312,6 @@ public class StagePage : MonoSingleton<StagePage> {
         for (int i = 0; i < maxStageList; i++)
         {
             OnActiveImage[i].SetActive(false);
-            OnActiveStageList[i].SetActive(false);
         }
         scrollList.gameObject.SetActive(false);
         StageScreenBackButton.SetActive(false);
@@ -312,7 +319,7 @@ public class StagePage : MonoSingleton<StagePage> {
 
     public void OnClickStageScreen(int stage_type)
     {
-        stageType = stage_type + 1;//인자값 stage_type가 0부터 시작함
+        stageType = stage_type;
         InitStageButton();
 
         if (stageType > maxStageList)
@@ -323,7 +330,6 @@ public class StagePage : MonoSingleton<StagePage> {
 
         StageScreenBackButton.SetActive(true);
         OnActiveImage[stageType - 1].SetActive(true);
-        //OnActiveStageList[stageType - 1].SetActive(true);
         
         scrollList.SetItemOrder(getOrder());
         scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
@@ -340,7 +346,7 @@ public class StagePage : MonoSingleton<StagePage> {
     //스크롤 생성
     void initScrollList()
     {
-        total_scoll_unit_num = 10; //스테이지 타입별 스테이지 갯수 (현재 고정 10개, 나중에 유동적으로 바뀔 수 있음)
+        total_scoll_unit_num = 7; //스테이지 타입별 스테이지 갯수 (현재 고정 10개, 나중에 유동적으로 바뀔 수 있음)
 
         scrollList.Init(this, 20, total_scoll_unit_num, getOrder());
     }

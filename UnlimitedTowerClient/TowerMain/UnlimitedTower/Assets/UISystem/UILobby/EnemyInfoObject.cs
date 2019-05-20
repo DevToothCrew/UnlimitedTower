@@ -6,7 +6,7 @@ public class EnemyInfoObject : MonoBehaviour {
     public Image GradeImage;
     public Image ResourceImage;
 
-    public void SetEnemyImage(int enemyID)
+    public void SetEnemyImage(int enemyID, int difficult)
     {
         DBStageEnemyData enemyData = CSVData.Inst.GetStageEnemyData(enemyID);
         if(enemyData == null)
@@ -15,8 +15,8 @@ public class EnemyInfoObject : MonoBehaviour {
             return;
         }
         
-        GradeImage.sprite = CSVData.Inst.GetSpriteGrade(enemyData.grade);
-        ResourceImage.sprite = CSVData.Inst.GetMonsterIcon(enemyData.charID);
+        GradeImage.sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)difficult);
+        ResourceImage.sprite = CSVData.Inst.GetMonsterIcon(enemyData.id);
     }
 
 }

@@ -12,6 +12,7 @@ public class CSVData : MonoSingleton<CSVData>
     public Dictionary<int, DBEquipmentUpgradeStatData> DBEquipmentUpgradeStatDataDic = new Dictionary<int, DBEquipmentUpgradeStatData>();
     public Dictionary<int, DBStageData> DBStageDataDic = new Dictionary<int, DBStageData>();
     public Dictionary<int, DBStageEnemyData> DBStageEnemyDataDic = new Dictionary<int, DBStageEnemyData>();
+    public Dictionary<ELEMENT_TYPE, List<DBStageEnemyData>> DBStageEnemyDataDicByElementType = new Dictionary<ELEMENT_TYPE, List<DBStageEnemyData>>();
     public Dictionary<int, DBStageRewardData> DBStageRewardDataDic = new Dictionary<int, DBStageRewardData>();
     public Dictionary<int, DBLocalizationData> DBLocalDataDic = new Dictionary<int, DBLocalizationData>();
     private LOCALIZATION_TYPE localType;
@@ -303,6 +304,7 @@ public class CSVData : MonoSingleton<CSVData>
             itemData.ItemIcon = Resources.Load<Sprite>("UI/ItemIcon/" + itemData.resourceIcon);
             itemData.description = Convert.ToString(data[i]["explain"]);
             itemData.tier = Convert.ToInt32(data[i]["tier"]);
+            itemData.grade = (GRADE_TYPE)Convert.ToInt32(data[i]["grade"]);
             itemData.itemType = Convert.ToString(data[i]["item_type"]);
 
             itemData.itemParamIDList = new List<int>();
@@ -492,8 +494,6 @@ public class CSVData : MonoSingleton<CSVData>
             //    + " " + data[i]["stage_type"]
             //    + " " + data[i]["stage_floor"]
             //    + " " + data[i]["stage_string"]
-            //    + " " + data[i]["need_stage_id"]
-            //    + " " + data[i]["stage_group_index"]
             //    + " " + data[i]["need_entrance_item_id"]
             //    + " " + data[i]["need_entrance_item_count"]
             //    + " " + data[i]["enemy_level_min"]
@@ -509,8 +509,6 @@ public class CSVData : MonoSingleton<CSVData>
             stageData.stageType = Convert.ToInt32(data[i]["stage_type"]);
             stageData.stageFloor = Convert.ToInt32(data[i]["stage_floor"]);
             stageData.stageString = Convert.ToString(data[i]["stage_string"]);
-            stageData.needStageId = Convert.ToInt32(data[i]["need_stage_id"]);
-            stageData.stageGroupIndex = Convert.ToInt32(data[i]["stage_group_index"]);
             stageData.needEntranceItemId = Convert.ToInt32(data[i]["need_entrance_item_id"]);
             stageData.needEntranceItemCount = Convert.ToInt32(data[i]["need_entrance_item_count"]);
             stageData.enemyLevelMin = Convert.ToInt32(data[i]["enemy_level_min"]);
@@ -542,49 +540,42 @@ public class CSVData : MonoSingleton<CSVData>
         {
             //DebugLog.Log(false, "index " + (i).ToString()
             //    + " : " + data[i]["id"]
+            //    + " " + data[i]["element_type"]
+            //    + " " + data[i]["index"]
             //    + " " + data[i]["char_type"]
-            //    + " " + data[i]["char_id"]
-            //    + " " + data[i]["char_grade"]
-            //    + " " + data[i]["str"]
-            //    + " " + data[i]["dex"]
-            //    + " " + data[i]["int"]
-            //    + " " + data[i]["cri_per"]
-            //    + " " + data[i]["cri_dmg"]
-            //    + " " + data[i]["spd"]
-            //    + " " + data[i]["avd"]
             //    + " " + data[i]["active_list"]
             //    + " " + data[i]["passive_list"]
             //    );
 
             DBStageEnemyData stageEnemyData = new DBStageEnemyData();
             stageEnemyData.id = Convert.ToInt32(data[i]["id"]);
+            stageEnemyData.elementType = (ELEMENT_TYPE)Convert.ToInt32(data[i]["element_type"]);
+            stageEnemyData.index = Convert.ToInt32(data[i]["index"]);
+            stageEnemyData.charType = (CHAR_TYPE)Convert.ToInt32(data[i]["char_type"]);
 
-            switch (Convert.ToString(data[i]["char_type"]))
+            string[] activeList = Convert.ToString(data[i]["active_list"]).Split('/');
+            for (int j = 0; j < activeList.Length; j++)
             {
-                case "monster":
-                    stageEnemyData.charType = CHAR_TYPE.MONSTER;
-                    break;
-                case "servant":
-                    stageEnemyData.charType = CHAR_TYPE.SERVANT;
-                    break;
-
-                default:
-                    return false;
+                stageEnemyData.activeList.Add(Convert.ToInt32(activeList[j]));
             }
 
-            stageEnemyData.charID = Convert.ToInt32(data[i]["char_id"]);
-            stageEnemyData.grade = (GRADE_TYPE)Convert.ToInt32(data[i]["char_grade"]);
-
-            stageEnemyData.status.basicStr = Convert.ToInt32(data[i]["str"]);
-            stageEnemyData.status.basicDex = Convert.ToInt32(data[i]["dex"]);
-            stageEnemyData.status.basicInt = Convert.ToInt32(data[i]["int"]);
-
-            stageEnemyData.criPer = Convert.ToInt32(data[i]["cri_per"]);
-            stageEnemyData.criDmg = Convert.ToInt32(data[i]["cri_dmg"]);
-            stageEnemyData.speed = Convert.ToInt32(data[i]["spd"]);
-            stageEnemyData.avoid = Convert.ToInt32(data[i]["avd"]);
+            string[] passiveList = Convert.ToString(data[i]["passive_list"]).Split('/');
+            for (int j = 0; j < passiveList.Length; j++)
+            {
+                stageEnemyData.passiveList.Add(Convert.ToInt32(passiveList[j]));
+            }
 
             DBStageEnemyDataDic.Add(stageEnemyData.id, stageEnemyData);
+            if(DBStageEnemyDataDicByElementType.ContainsKey(stageEnemyData.elementType) == false)
+            {
+                List<DBStageEnemyData> enemyList = new List<DBStageEnemyData>();
+                enemyList.Add(stageEnemyData);
+                DBStageEnemyDataDicByElementType.Add(stageEnemyData.elementType, enemyList);
+            }
+            else
+            {
+                DBStageEnemyDataDicByElementType[stageEnemyData.elementType].Add(stageEnemyData);
+            }
         }
 
         return true;
@@ -595,47 +586,27 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_stage_reward");
         for (var i = 2; i < data.Count; i++)
         {
-            //DebugLog.Log(false, "index " + (i).ToString()
-            //    + " : " + data[i]["id"]
-            //    + " " + data[i]["rank_exp"]
-            //    + " " + data[i]["char_exp"]
-            //    + " " + data[i]["first_reward_type"]
-            //    + " " + data[i]["first_reward_id"]
-            //    + " " + data[i]["first_reward_grade"]
-            //    + " " + data[i]["first_reward_count"]
-            //    + " " + data[i]["reward_utg_min"]
-            //    + " " + data[i]["reward_utg_max"]
-            //    + " " + data[i]["reward_type_1"]
-            //    + " " + data[i]["reward_id_1"]
-            //    + " " + data[i]["reward_grade_1"]
-            //    + " " + data[i]["reward_per_1"]
-            //    + " " + data[i]["reward_count_1"]
-            //    + " " + data[i]["reward_type_2"]
-            //    + " " + data[i]["reward_id_2"]
-            //    + " " + data[i]["reward_grade_2"]
-            //    + " " + data[i]["reward_per_2"]
-            //    + " " + data[i]["reward_count_2"]
-            //    + " " + data[i]["reward_type_3"]
-            //    + " " + data[i]["reward_id_3"]
-            //    + " " + data[i]["reward_grade_3"]
-            //    + " " + data[i]["reward_per_3"]
-            //    + " " + data[i]["reward_count_3"]
-            //    + " " + data[i]["reward_type_4"]
-            //    + " " + data[i]["reward_id_4"]
-            //    + " " + data[i]["reward_grade_4"]
-            //    + " " + data[i]["reward_per_4"]
-            //    + " " + data[i]["reward_count_4"]
-            //    + " " + data[i]["reward_type_5"]
-            //    + " " + data[i]["reward_id_5"]
-            //    + " " + data[i]["reward_grade_5"]
-            //    + " " + data[i]["reward_per_5"]
-            //    + " " + data[i]["reward_count_5"]
-            //    + " " + data[i]["reward_type_6"]
-            //    + " " + data[i]["reward_id_6"]
-            //    + " " + data[i]["reward_grade_6"]
-            //    + " " + data[i]["reward_per_6"]
-            //    + " " + data[i]["reward_count_6"]
-            //    );
+            DebugLog.Log(false, "index " + (i).ToString()
+                + " : " + data[i]["id"]
+                + " " + data[i]["reward_utg"]
+                + " " + data[i]["rank_exp"]
+                + " " + data[i]["char_exp"]
+                + " " + data[i]["count"]
+                + " " + data[i]["per_monster"]
+                + " " + data[i]["per_equip"]
+                + " " + data[i]["reward_id_1"]
+                + " " + data[i]["reward_per_1"]
+                + " " + data[i]["reward_count_1"]
+                + " " + data[i]["reward_id_2"]
+                + " " + data[i]["reward_per_2"]
+                + " " + data[i]["reward_count_2"]
+                + " " + data[i]["reward_id_3"]
+                + " " + data[i]["reward_per_3"]
+                + " " + data[i]["reward_count_3"]
+                + " " + data[i]["reward_id_4"]
+                + " " + data[i]["reward_per_4"]
+                + " " + data[i]["reward_count_4"]
+                );
 
             DBStageRewardData rewardData = new DBStageRewardData();
             rewardData.id = Convert.ToInt32(data[i]["id"]);
@@ -644,35 +615,25 @@ public class CSVData : MonoSingleton<CSVData>
                 DebugLog.Log(true, "Invalid Reward ID : " + rewardData.id);
                 return false;
             }
-
+            rewardData.rewardUTG = Convert.ToInt32(data[i]["reward_utg"]);
             rewardData.rankExp = Convert.ToInt32(data[i]["rank_exp"]);
             rewardData.charExp = Convert.ToInt32(data[i]["char_exp"]);
-            rewardData.firstRewardData = new DBRewardData();
-            rewardData.firstRewardData.rewardType = GetRewardType(Convert.ToString(data[i]["first_reward_type"]));
-            if (rewardData.firstRewardData.rewardType != REWARD_TYPE.NONE)
-            {
-                rewardData.firstRewardData.rewardID = Convert.ToInt32(data[i]["first_reward_id"]);
-                rewardData.firstRewardData.rewardGrade = (GRADE_TYPE)(Convert.ToInt32(data[i]["first_reward_grade"]));
-                rewardData.firstRewardData.rewardCount = Convert.ToInt32(data[i]["first_reward_count"]);
-            }
+            rewardData.maxCount = Convert.ToInt32(data[i]["count"]);
+            rewardData.perMonster = Convert.ToInt32(data[i]["per_monster"]);
+            rewardData.perEquipment = Convert.ToInt32(data[i]["per_equip"]);
 
-            rewardData.rewardMinUTG = Convert.ToInt32(data[i]["reward_utg_min"]);
-            rewardData.rewardMaxUTG = Convert.ToInt32(data[i]["reward_utg_max"]);
-            rewardData.rewardUTGString = rewardData.rewardMinUTG.ToString("N0") + " ~ " + rewardData.rewardMaxUTG.ToString("N0");
-
-            for (int count = 1; count <= 6; count++)
+            for (int count = 1; count <= 4; count++)
             {
-                DBRewardData reward = new DBRewardData();
-                reward.rewardType = (REWARD_TYPE)(Convert.ToInt32(data[i]["reward_type_" + count]));
-                if (reward.rewardType == REWARD_TYPE.NONE)
+                DBRewardItemData reward = new DBRewardItemData();
+                reward.rewardID = Convert.ToInt32(data[i]["reward_id_" + count]);
+                if(reward.rewardID == 0)
                 {
                     continue;
                 }
-                reward.rewardID = Convert.ToInt32(data[i]["reward_id_" + count]);
-                reward.rewardGrade = (GRADE_TYPE)(Convert.ToInt32(data[i]["reward_grade_" + count]));
+                reward.rewardPer = Convert.ToInt32(data[i]["reward_per_" + count]);
                 reward.rewardCount = Convert.ToInt32(data[i]["reward_count_" + count]);
 
-                rewardData.rewardDataList.Add(reward);
+                rewardData.rewardItemDataList.Add(reward);
             }
 
             DBStageRewardDataDic.Add(rewardData.id, rewardData);
@@ -1594,9 +1555,9 @@ public class CSVData : MonoSingleton<CSVData>
         return DBStageEnemyDataDic[id];
     }
 
-    public DBStageRewardData GetStageRewardData(int stageType, int stageFloor)
+    public DBStageRewardData GetStageRewardData(int stageType, int stageFloor, int stageDifficult)
     {
-        int id = 100000 + (stageType * 100) + stageFloor;
+        int id = (stageType * 1000) + (stageFloor * 10) + stageDifficult;
 
         if(DBStageRewardDataDic.ContainsKey(id) == false)
         {
@@ -1823,6 +1784,16 @@ public class CSVData : MonoSingleton<CSVData>
         }
 
         return baseFloat + DBEquipmentUpgradeStatDataDic[upgrade].upStatDic[gradeType];
+    }
+    
+    public List<DBStageEnemyData> GetEnemyDataList(ELEMENT_TYPE elementType)
+    {
+        if(DBStageEnemyDataDicByElementType.ContainsKey(elementType) == false)
+        {
+            return null;
+        }
+
+        return DBStageEnemyDataDicByElementType[elementType];
     }
 
     #endregion

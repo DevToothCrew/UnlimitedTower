@@ -451,10 +451,10 @@ public class Cheat : MonoSingleton<Cheat>
                 return null;
             }
 
-            DBMonsterData monsterData = CSVData.Inst.GetMonsterData(enemyData.charID);
+            DBMonsterData monsterData = CSVData.Inst.GetMonsterData(enemyData.id);
             if(monsterData == null)
             {
-                DebugLog.Log(false, "Invalid Monster ID : " + enemyData.charID);
+                DebugLog.Log(false, "Invalid Monster ID : " + enemyData.id);
                 return null;
             }
 
