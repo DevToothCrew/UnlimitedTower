@@ -126,9 +126,16 @@ public class MonsterInfoManager : MonoBehaviour {
         }
 
         //파티에 등록된 상태인지
-        if (unit_data.partyIndex > 0)
+        if (unit_data.upgrade >= 9)
         {
             buttonUpgrade.interactable = false;
+            textSetParty.fontSize = 40;
+            textSetParty.text = "MAX";
+        }
+        else if(unit_data.partyIndex > 0)
+        {
+            buttonUpgrade.interactable = false;
+            textSetParty.fontSize = 60;
             textSetParty.text = "P";
         }
         else

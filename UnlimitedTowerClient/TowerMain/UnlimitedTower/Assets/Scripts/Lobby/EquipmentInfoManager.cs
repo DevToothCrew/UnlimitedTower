@@ -206,9 +206,16 @@ public class EquipmentInfoManager : MonoSingleton<EquipmentInfoManager>
         textStats.text = string.Format("{0}", equipmentData.value);
 
         //장착 중인 장비인지.
-        if (equipmentData.equipServantIndex > 0)
+        if (equipmentData.upgrade >= 9)
         {
             buttonUpgrade.interactable = false;
+            textEquipItem.fontSize = 40;
+            textEquipItem.text = "MAX";
+        }
+        else if (equipmentData.equipServantIndex > 0)
+        {
+            buttonUpgrade.interactable = false;
+            textEquipItem.fontSize = 60;
             textEquipItem.text = "E";
         }
         else
