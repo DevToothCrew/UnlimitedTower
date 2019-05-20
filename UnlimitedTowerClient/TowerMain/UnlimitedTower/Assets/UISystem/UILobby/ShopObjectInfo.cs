@@ -30,7 +30,14 @@ public class ShopObjectInfo : MonoBehaviour {
         id = getInfo.id;
 
         textCount.text = "X " + shopData.productCount;
-        textCost.text = (shopData.priceCount * 0.0001).ToString("N4");
+        if(shopType == SHOP_TYPE.ETC)
+        {
+            textCost.text = shopData.priceCount.ToString();
+        }
+        else
+        {
+            textCost.text = (shopData.priceCount * 0.0001).ToString("N4");
+        }
         textName.text = CSVData.Inst.GetItemData(shopData.productID).name;
 
         imageObject.sprite = CSVData.Inst.GetItemIcon(shopData.productID); ;
