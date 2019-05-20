@@ -33,12 +33,12 @@ public class TumbAnimation : MonoBehaviour {
             }
             yield return new WaitForSeconds(0.01f);
         }
-        
+        BattleManager.Inst.character[index].SetActive(false);
+
         for (int i = 0; i < 25; i++)
         {
             temp.transform.Translate(0, -0.4f, 0);
             yield return new WaitForSeconds(0.01f);
         }
-        BattleManager.Inst.character[index].SetActive(false);
     }
 }

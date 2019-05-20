@@ -48,7 +48,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         StageInfoName = GameObject.Find("Stage Info Name").GetComponent<Text>();
         BattleTurn = GameObject.Find("Battle Turn Text").GetComponent<Text>();
 
-        battleOutCheck = GameObject.Find("Battle Exit Check Window");
+        battleOutCheck = GameObject.Find("Pause Background");
         battleOutCheck.SetActive(false);
 
         mySkill = GameObject.Find("MySkill").GetComponent<Animator>();
