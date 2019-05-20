@@ -8181,19 +8181,38 @@ void battletest::win_reward(eosio::name _user, uint64_t _stage_number, uint64_t 
     auto user_auth_iter = user_auth_table.find(_user.value);
     eosio_assert(user_auth_iter != user_auth_table.end(), "Win Reward : Empty Auth Table / Not Yet Signup");
 
+    lv_exp lv_exp_table(_self, _self.value);
     uint32_t get_exp = user_auth_iter->exp + reward_iter->rank_exp;
     uint32_t level_up_count = check_rank_level_up(user_auth_iter->rank, get_exp);
     user_auth_table.modify(user_auth_iter, _self, [&](auto &upadate_exp) {
-        upadate_exp.rank += level_up_count;
-        upadate_exp.exp = get_exp;
+        
+        if (user_auth_iter->rank < 50)
+        {
+            if(user_auth_iter->rank + level_up_count >= 50){
+                auto iter = lv_exp_table.find(50);
+                get_rank_exp.exp = iter->rank_exp - user_auth_iter->exp;
+                upadate_exp.rank = 50;
+                upadate_exp.exp = iter->rank_exp;
+            }
+            else
+            {
+                upadate_exp.rank += level_up_count;
+                upadate_exp.exp = get_exp;
+                get_rank_exp.exp = reward_iter->rank_exp;
+            }
+        }
+        else
+        {
+            get_rank_exp.exp = 0;
+        }
         upadate_exp.state = user_state::lobby;
 
         get_rank_exp.pos = 0;
-        get_rank_exp.exp = reward_iter->rank_exp;
+        
         get_rank_exp.lvup = level_up_count;
     });
 
-    lv_exp lv_exp_table(_self, _self.value);
+    
     user_servants user_servant_table(_self, _user.value);
     for (uint32_t i = 0; i < 5; ++i)
     {
@@ -8204,19 +8223,39 @@ void battletest::win_reward(eosio::name _user, uint64_t _stage_number, uint64_t 
         auto user_servant_iter = user_servant_table.find(user_party_iter->servant_list[i]);
         eosio_assert(user_servant_iter != user_servant_table.end(), "Win Reward : Empty Servant Index / Wrong Servant Index");
         uint64_t get_exp = user_servant_iter->servant.exp + reward_iter->char_exp;
-
+        
         servant_db servant_db_table(_self, _self.value);
         auto servant_db_iter = servant_db_table.find(user_servant_iter->servant.id);
         eosio_assert(servant_db_iter != servant_db_table.end(), "Win Reward : Empty Servant ID / Wrong Servant UD");
         user_servant_table.modify(user_servant_iter, _self, [&](auto &update_servant_exp) {
             uint32_t level_up_count = check_char_level_up(user_servant_iter->servant.level, get_exp);
-            update_servant_exp.servant.level += level_up_count;
-            update_servant_exp.servant.exp = get_exp;
 
             exp_info char_exp;
             char_exp.pos = servant_pos_list[i];
-            char_exp.exp = reward_iter->char_exp;
             char_exp.lvup = level_up_count;
+
+            if (update_servant_exp.servant.level < 50)
+            {
+                if((update_servant_exp.servant.level + level_up_count) >= 50)
+                {
+                    auto iter = lv_exp_table.find(50);
+                    char_exp.exp = iter->char_exp - update_servant_exp.servant.exp;
+                    update_servant_exp.servant.level = 50;
+                    update_servant_exp.servant.exp = iter->char_exp;
+                }
+                else
+                {
+                    update_servant_exp.servant.level += level_up_count;
+                    update_servant_exp.servant.exp = get_exp;
+                    char_exp.exp = reward_iter->char_exp;
+                }
+            }
+            else
+            {
+                get_exp = 0;
+                char_exp.exp = 0;
+            }
+
             get_char_exp_list.push_back(char_exp);
         });
     }
@@ -8233,13 +8272,33 @@ void battletest::win_reward(eosio::name _user, uint64_t _stage_number, uint64_t 
         uint64_t get_exp = user_monster_iter->monster.exp + reward_iter->char_exp;
         user_monster_table.modify(user_monster_iter, _self, [&](auto &update_monster_exp) {
             uint32_t level_up_count = check_char_level_up(user_monster_iter->monster.level, get_exp);
-            update_monster_exp.monster.level += level_up_count;
-            update_monster_exp.monster.exp = get_exp;
 
             exp_info char_exp;
             char_exp.pos = monster_pos_list[i];
-            char_exp.exp = reward_iter->char_exp;
             char_exp.lvup = level_up_count;
+            if (update_monster_exp.monster.level < 50)
+            {
+                if ((update_monster_exp.monster.level + level_up_count) >= 50)
+                {
+                    auto iter = lv_exp_table.find(50);
+                    char_exp.exp = iter->char_exp - update_monster_exp.monster.exp;
+                    update_monster_exp.monster.level = 50;
+                    update_monster_exp.monster.exp = iter->char_exp;
+                    
+                }
+                else
+                {
+                    update_monster_exp.monster.level += level_up_count;
+                    update_monster_exp.monster.exp = get_exp;
+                    char_exp.exp = reward_iter->char_exp;
+                }
+            }
+            else
+            {
+                get_exp = 0;
+                char_exp.exp = 0;
+            }
+            
             get_char_exp_list.push_back(char_exp);
         });
     }
