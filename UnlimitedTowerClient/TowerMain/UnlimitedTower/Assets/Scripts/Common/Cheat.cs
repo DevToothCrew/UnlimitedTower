@@ -978,6 +978,42 @@ public class Cheat : MonoSingleton<Cheat>
         return status;
     }
 
+    public string GetEnterStageItem(int difficult)
+    {
+        int id = 0;
+        if (difficult == 1)
+        {
+            id = 500200;
+        }
+        else if (difficult == 2)
+        {
+            id = 500210;
+        }
+        else if (difficult == 3)
+        {
+            id = 500220;
+        }
+        else if (difficult == 4)
+        {
+            id = 500230;
+        }
+
+        UserItemData enterItem = new UserItemData();
+        enterItem = UserDataManager.Inst.GetItemInfo(id);
+
+        itemData enterItemData = new itemData();
+        enterItemData.id = enterItem.id;
+        enterItemData.type = 0;
+
+        itemInfo newItem = new itemInfo();
+        newItem.count = enterItem.itemInfoList[0].count - 1;
+        newItem.index = enterItem.itemInfoList[0].index;
+
+        enterItemData.item_list.Add(newItem);
+
+        return JsonMapper.ToJson(enterItemData).ToString();
+    }
+
     #region RequestPacketCheat
 
     public void RequestLoginCheat()
@@ -1029,7 +1065,19 @@ public class Cheat : MonoSingleton<Cheat>
         DebugLog.Log(false, "[SUCCESS] User Stage Start :" + stageStateJson);
 
         stageStateData getBattleStageData = JsonUtility.FromJson<stageStateData>(stageStateJson);
-        PacketManager.Inst.ResponseStageStart(getBattleStageData);
+
+        string itemJson = GetEnterStageItem(1);
+        DebugLog.Log(false, "[SUCCESS] User Enter Item :" + itemJson);
+
+        itemData getEnterItemData = JsonUtility.FromJson<itemData>(itemJson);
+        //getEnterItemData.item_list[0].count--;
+
+        stageStartResultData getStageStartResultData = new stageStartResultData();
+        getStageStartResultData.battle_state = getBattleStageData;
+        getStageStartResultData.enter_item = getEnterItemData;
+
+        PacketManager.Inst.ResponseEnterStageStart(getStageStartResultData);
+        //PacketManager.Inst.ResponseStageStart(getBattleStageData);
     }
 
     public void RequestGachaCheat(int gachaIndex)

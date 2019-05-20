@@ -248,7 +248,7 @@ public class StagePage : MonoSingleton<StagePage> {
         }
 #else
         {
-            PacketManager.Inst.RequestStageStart(stageType, stageFloor, 1);
+            PacketManager.Inst.RequestStageStart(stageType, stageFloor, stageDifficult, 1);
         }
 #endif
     }

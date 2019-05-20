@@ -295,9 +295,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         DebugLog.Log(false, "Json start : " + json);
 
-        Request<stageStateData>("StageStart",
+        Request<stageStartResultData>("StageStart",
                 body: json,
-                onSuccess: ResponseStageStart,
+                onSuccess: ResponseEnterStageStart,
                 onFailed: msg => { DebugLog.Log(false, $"[Failed Requesting StageStart] {msg}"); }
                 );
     }
