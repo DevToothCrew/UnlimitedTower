@@ -759,6 +759,11 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                 if(character_unit_idx == formationSlot[i])
                 {
                     DebugLog.Log(false, "이동");
+                    if(formationSlot[i + 5] != 0)
+                    {
+                        SimpleErrorPopupVC.Inst.UpdateErrorText("THERE IS MONSTER IN THE FRONT");
+                        return;
+                    }
                     formationSlot[i] = 0;
                 }
 
