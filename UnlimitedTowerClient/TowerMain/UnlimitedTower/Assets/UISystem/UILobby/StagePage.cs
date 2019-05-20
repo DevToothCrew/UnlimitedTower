@@ -34,6 +34,11 @@ public class StagePage : MonoSingleton<StagePage> {
     public Image NeedTicketImage;
     public Text NeedTicketCount;
 
+    public Text textSelectDifficult;
+    public GameObject FrameDifficult;
+    private bool isShowDifficultList = false;
+
+
     void Awake ()
     {
         StageInfoPage.SetActive(false);
@@ -111,6 +116,32 @@ public class StagePage : MonoSingleton<StagePage> {
         enemyInfo.GetComponentInChildren<RectTransform>().sizeDelta = new Vector2((100 + (111 * stageData.enemyIdList.Count)), 100);
     }
 
+    public void ShowDifficultList()
+    {
+        isShowDifficultList = !isShowDifficultList;
+
+        if (isShowDifficultList)
+        {
+            Animation anim = FrameDifficult.GetComponent<Animation>();
+            foreach (AnimationState state in anim)
+            {
+                state.speed = -1f;
+                state.time = state.length;
+            }
+            anim.Play();
+        }
+        else
+        {
+            Animation anim = FrameDifficult.GetComponent<Animation>();
+            foreach (AnimationState state in anim)
+            {
+                state.speed = 1f;
+                //state.time = state.length;
+            }
+            anim.Play();
+        }
+    }
+
     public void SetDifficultInfo(int difficult)
     {
         stageDifficult = difficult;
@@ -120,27 +151,35 @@ public class StagePage : MonoSingleton<StagePage> {
             case 0:
                 NeedTicket.SetActive(false);
                 StageDetailText.text = stageFloor + "F - Easy";
+                textSelectDifficult.text = "Easy";
+
+                ShowDifficultList();
                 return;
             case 1:
                 itemID = 500200;
                 StageDetailText.text = stageFloor + "F - Normal";
+                textSelectDifficult.text = "Normal";
                 break;
             case 2:
                 itemID = 500210;
                 StageDetailText.text = stageFloor + "F - Hard";
+                textSelectDifficult.text = "Hard";
                 break;
             case 3:
                 itemID = 500220;
                 StageDetailText.text = stageFloor + "F - Nightmare";
+                textSelectDifficult.text = "Nightmare";
                 break;
             case 4:
                 itemID = 500230;
                 StageDetailText.text = stageFloor + "F - Hell";
+                textSelectDifficult.text = "Hell";
                 break;
             default:
                 DebugLog.Log(false, "InvalidRequest" + difficult);
                 return;
         }
+        ShowDifficultList();
 
         NeedTicket.SetActive(true);
         NeedTicketImage.sprite = CSVData.Inst.GetSpriteItemIcon(itemID);
@@ -191,9 +230,16 @@ public class StagePage : MonoSingleton<StagePage> {
 
         SetRewardInfo();
         SetEnemyInfo();
-        SetDifficultInfo(0);
+        
+        //난이도 선택 Default
+        stageDifficult = 0;
+        NeedTicket.SetActive(false);
+        StageDetailText.text = stageFloor + "F - Easy";
+        textSelectDifficult.text = "Easy";
+        //end 난이도 선택 Default
 
         StageInfoPage.SetActive(true);
+
     }
 
     public void OnClickExitButton()
