@@ -21,7 +21,7 @@ public class StagePage : MonoSingleton<StagePage> {
 
     private int stageType = 0;
     private int stageFloor = 0;
-    private int stageDifficult = 0;
+    private int stageDifficult = 5;
 
     public GameObject[] OnActiveImage = new GameObject[6];
     public GameObject[] OnActiveStageList = new GameObject[6];
@@ -232,7 +232,7 @@ public class StagePage : MonoSingleton<StagePage> {
         SetEnemyInfo();
         
         //난이도 선택 Default
-        stageDifficult = 0;
+        stageDifficult = 5;
         NeedTicket.SetActive(false);
         StageDetailText.text = stageFloor + "F - Easy";
         textSelectDifficult.text = "Easy";

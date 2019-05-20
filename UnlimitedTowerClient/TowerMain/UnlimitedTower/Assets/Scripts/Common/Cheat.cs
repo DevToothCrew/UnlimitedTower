@@ -981,19 +981,19 @@ public class Cheat : MonoSingleton<Cheat>
     public string GetEnterStageItem(int difficult)
     {
         int id = 0;
-        if (difficult == 1)
+        if (difficult == 4)
         {
             id = 500200;
         }
-        else if (difficult == 2)
+        else if (difficult == 3)
         {
             id = 500210;
         }
-        else if (difficult == 3)
+        else if (difficult == 2)
         {
             id = 500220;
         }
-        else if (difficult == 4)
+        else if (difficult == 1)
         {
             id = 500230;
         }
