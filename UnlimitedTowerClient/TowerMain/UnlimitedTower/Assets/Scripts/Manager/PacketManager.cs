@@ -280,22 +280,24 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 스테이지 시작
-    public void RequestStageStart(int stageType, int stageFloor, int partyNum)
+    public void RequestStageStart(int stageType, int stageFloor, int stageDifficult ,int partyNum)
     {
         DebugLog.Log(false, "Request Start Battle");
 
         StageStartJson startBattle = new StageStartJson();
         startBattle.stageType = stageType;
         startBattle.stageFloor = stageFloor;
+        startBattle.stageDifficult = stageDifficult;
         startBattle.partyNum = partyNum;
+        
 
         string json = JsonUtility.ToJson(startBattle);
 
         DebugLog.Log(false, "Json start : " + json);
 
-        Request<stageStateData>("StageStart",
+        Request<stageStartResultData>("StageStart",
                 body: json,
-                onSuccess: ResponseStageStart,
+                onSuccess: ResponseEnterStageStart,
                 onFailed: msg => { DebugLog.Log(false, $"[Failed Requesting StageStart] {msg}"); }
                 );
     }
@@ -955,6 +957,26 @@ public class PacketManager : MonoSingleton<PacketManager> {
             DebugLog.Log(false, "Invalid StageData");
         }
 
+        UserDataManager.Inst.SetStageState(stageData);
+        UserDataManager.Inst.SetSceneState(SCENE_STATE.StageBattle);
+        StartCoroutine(LoadSceneAsync("CharacterBattleScene", "Now, Loading battle field ... "));
+    }
+
+    //입장권 사용하는 스테이지 스타트
+    public void ResponseEnterStageStart(stageStartResultData getBattleStateData)
+    {
+        UserStageStateData stageData = ParseStageStateData(getBattleStateData.battle_state);
+        if (stageData == null)
+        {
+            DebugLog.Log(false, "Invalid StageData");
+        }
+        UserItemData itemData = ParseItem(getBattleStateData.enter_item);
+        if (itemData == null)
+        {
+            DebugLog.Log(false, "Invalid Item Info");
+            return;
+        }
+        UserDataManager.Inst.SetItem(itemData);
         UserDataManager.Inst.SetStageState(stageData);
         UserDataManager.Inst.SetSceneState(SCENE_STATE.StageBattle);
         StartCoroutine(LoadSceneAsync("CharacterBattleScene", "Now, Loading battle field ... "));
@@ -1986,8 +2008,9 @@ public class PacketManager : MonoSingleton<PacketManager> {
         UserStageStateData stageData = new UserStageStateData();
         stageData.user = getStageData.user;
         stageData.enemyUser = getStageData.enemy_user;
-        stageData.stageType = getStageData.stage_type;
-        stageData.stageFloor = getStageData.stage_number;
+        stageData.stageType = getStageData.type;
+        stageData.stageFloor = getStageData.tier;
+        stageData.stageDifficult = getStageData.grade;
         stageData.turn = getStageData.turn;
         stageData.mySynergyList = ParseSkillList(getStageData.my_synergy_list);
         stageData.enemySynergyList = ParseSkillList(getStageData.enemy_synergy_list);

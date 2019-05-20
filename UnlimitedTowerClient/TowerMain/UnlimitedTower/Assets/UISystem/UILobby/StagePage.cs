@@ -290,11 +290,11 @@ public class StagePage : MonoSingleton<StagePage> {
 
 #if UNITY_EDITOR
         {
-            Cheat.Inst.RequestStageStartCheat(stageType, stageFloor, 1);
+            Cheat.Inst.RequestStageStartCheat(stageType, stageFloor, stageDifficult, 1);
         }
 #else
         {
-            PacketManager.Inst.RequestStageStart(stageType, stageFloor, 1);
+            PacketManager.Inst.RequestStageStart(stageType, stageFloor, stageDifficult, 1);
         }
 #endif
     }

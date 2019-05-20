@@ -543,7 +543,8 @@ public class UserStageStateData
     public string enemyUser;
 
     public int stageType; // PVP : 0 으로 주세요
-    public int stageFloor;
+    public int stageFloor;  //->tier
+    public int stageDifficult;//->grade
 
     public int turn;
 

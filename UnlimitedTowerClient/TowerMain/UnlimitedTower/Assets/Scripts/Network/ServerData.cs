@@ -321,14 +321,22 @@ public class characterStateData
 public class stageStateData
 {
     public string user;
-    public int stage_type;
     public string enemy_user;
-    public int stage_number;
+    public int type;
+    public int grade;
+    public int tier;
     public int turn;
     public List<characterStateData> my_state_list = new List<characterStateData>();
     public List<characterStateData> enemy_state_list = new List<characterStateData>();
     public List<int> my_synergy_list = new List<int>();
     public List<int> enemy_synergy_list = new List<int>();
+}
+
+[Serializable]
+public class stageStartResultData
+{
+    public stageStateData battle_state = new stageStateData();
+    public itemData enter_item = new itemData();
 }
 
 [Serializable]
@@ -452,7 +460,7 @@ public class ShopJson
 [Serializable]
 public class PartySaveJson
 {
-    public int partyNum = 0;
+    public int partyNum;
     public List<int> servantList = new List<int>();
     public List<int> monsterList = new List<int>();
 }
@@ -460,9 +468,10 @@ public class PartySaveJson
 [Serializable]
 public class StageStartJson
 {
-    public int partyNum = 0;
-    public int stageType = 0;
-    public int stageFloor = 0;
+    public int partyNum;
+    public int stageType;
+    public int stageFloor;
+    public int stageDifficult;
 }
 
 [Serializable]
