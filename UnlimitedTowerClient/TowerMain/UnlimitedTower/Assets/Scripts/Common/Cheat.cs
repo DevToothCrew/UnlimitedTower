@@ -81,6 +81,30 @@ public class Cheat : MonoSingleton<Cheat>
 
         userLoginData.item_list.Add(newItem);
 
+        for (int i = 0; i < 4; i++)
+        {
+            itemData resourceItem = new itemData();
+            resourceItem.id = 500200 + (i * 10);
+            resourceItem.type = 1;
+            itemInfo resourceInfo = new itemInfo();
+            resourceInfo.index = 0;
+            resourceInfo.count = 99;
+            resourceItem.item_list.Add(info);
+            userLoginData.item_list.Add(resourceItem);
+        }
+
+        for (int i = 0; i < 4; i++)
+        {
+            itemData resourceItem = new itemData();
+            resourceItem.id = 510010 + (i * 10);
+            resourceItem.type = 1;
+            itemInfo resourceInfo = new itemInfo();
+            resourceInfo.index = 0;
+            resourceInfo.count = 99;
+            resourceItem.item_list.Add(info);
+            userLoginData.item_list.Add(resourceItem);
+        }
+
         userLoginData.party_info = partyData;
 
         return JsonMapper.ToJson(userLoginData).ToString();

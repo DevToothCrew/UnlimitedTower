@@ -736,10 +736,34 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
                 resultData.shop_product_list.Add(product);
             }
+
+            for(int i = 8; i <= 11; i++)
+            {
+                shopProductData product = new shopProductData();
+                product.index = i;
+                product.type = (int)type;
+                product.id = i;
+                product.limit_count = 0;
+
+                resultData.shop_product_list.Add(product);
+            }
         }
         else if (type == SHOP_TYPE.UTG)
         {
             for (int i = 5; i <= 7; i++)
+            {
+                shopProductData product = new shopProductData();
+                product.index = i;
+                product.type = (int)type;
+                product.id = i;
+                product.limit_count = 0;
+
+                resultData.shop_product_list.Add(product);
+            }
+        }
+        else if(type == SHOP_TYPE.ETC)
+        {
+            for(int i = 12; i <= 15; i++)
             {
                 shopProductData product = new shopProductData();
                 product.index = i;
