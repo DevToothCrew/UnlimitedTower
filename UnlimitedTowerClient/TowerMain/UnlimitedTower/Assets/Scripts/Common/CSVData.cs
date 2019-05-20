@@ -1683,6 +1683,16 @@ public class CSVData : MonoSingleton<CSVData>
         return DBServantJobResourceDataDic[type].jobIcon;
     }
 
+    public Sprite GetSpriteItemIcon(int id)
+    {
+        if(DBItemDataDic.ContainsKey(id) == false)
+        {
+            return null;
+        }
+
+        return DBItemDataDic[id].ItemIcon;
+    }
+
     public DBSkillActiveData GetSkillActiveData(int id)
     {
         if(DBSkillActiveDataDic.ContainsKey(id) == false)

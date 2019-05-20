@@ -21,6 +21,7 @@ public class StagePage : MonoSingleton<StagePage> {
 
     private int stageType = 0;
     private int stageFloor = 0;
+    private int stageDifficult = 0;
 
     public GameObject[] OnActiveImage = new GameObject[6];
     public GameObject[] OnActiveStageList = new GameObject[6];
@@ -28,6 +29,10 @@ public class StagePage : MonoSingleton<StagePage> {
     private int maxStageList = 6;
 
     public ScrollListManager scrollList;
+
+    public GameObject NeedTicket;
+    public Image NeedTicketImage;
+    public Text NeedTicketCount;
 
     void Awake ()
     {
@@ -104,7 +109,51 @@ public class StagePage : MonoSingleton<StagePage> {
         }
 
         enemyInfo.GetComponentInChildren<RectTransform>().sizeDelta = new Vector2((100 + (111 * stageData.enemyIdList.Count)), 100);
+    }
 
+    public void SetDifficultInfo(int difficult)
+    {
+        stageDifficult = difficult;
+        int itemID = 0;
+        switch(difficult)
+        {
+            case 0:
+                NeedTicket.SetActive(false);
+                StageDetailText.text = stageFloor + "F - Easy";
+                return;
+            case 1:
+                itemID = 500200;
+                StageDetailText.text = stageFloor + "F - Normal";
+                break;
+            case 2:
+                itemID = 500210;
+                StageDetailText.text = stageFloor + "F - Hard";
+                break;
+            case 3:
+                itemID = 500220;
+                StageDetailText.text = stageFloor + "F - Nightmare";
+                break;
+            case 4:
+                itemID = 500230;
+                StageDetailText.text = stageFloor + "F - Hell";
+                break;
+            default:
+                DebugLog.Log(false, "InvalidRequest" + difficult);
+                return;
+        }
+
+        NeedTicket.SetActive(true);
+        NeedTicketImage.sprite = CSVData.Inst.GetSpriteItemIcon(itemID);
+        int itemCount = UserDataManager.Inst.GetItemCount(itemID);
+        NeedTicketCount.text = " x 1 / " + itemCount;
+        if (itemCount < 1)
+        {
+            NeedTicketCount.color = Color.red;
+        }
+        else
+        {
+            NeedTicketCount.color = Color.white;
+        }
     }
 
     public void OnClickStageButton(int stageIndex)
@@ -140,10 +189,9 @@ public class StagePage : MonoSingleton<StagePage> {
             StageText.text = "Stage - Dark Forest";
         }
 
-        StageDetailText.text = stageFloor + "F";
-
         SetRewardInfo();
         SetEnemyInfo();
+        SetDifficultInfo(0);
 
         StageInfoPage.SetActive(true);
     }
@@ -191,6 +239,8 @@ public class StagePage : MonoSingleton<StagePage> {
             SimpleErrorPopupVC.Inst.UpdateErrorText("Item Inventory is Full");
             return;
         }
+
+        // 재화 검사 추가 필요
 
 #if UNITY_EDITOR
         {
