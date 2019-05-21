@@ -43,8 +43,6 @@ public class GachaResultPopup : MonoBehaviour {
     [SerializeField]
     private Button exitButton;
 
-
-
     private void OnEnable()
     {
         SetActiveButtons(false);
@@ -62,7 +60,7 @@ public class GachaResultPopup : MonoBehaviour {
         SetActiveButtons(false);
 
         gameObject.SetActivateWithAnimation(false);
-        GachaManager.Instance.ExecuteGacha();
+        GachaManager.Instance.ExecuteGacha(GachaManager.Inst.gachaID);
     }
 
     public void Exit()

@@ -30,7 +30,8 @@ public class GachaBoxParticleController : MonoBehaviour
 
     private Action callback = null;
 
-    public Text gachaText;
+    public GameObject gachaList;
+    public GameObject skipButton;
     public bool isGachaStart = false;
 
     private void Awake()
@@ -146,7 +147,8 @@ public class GachaBoxParticleController : MonoBehaviour
 
     public void BeginSummonAnimation(System.Action callback)
     {
-        gachaText.text = "Skip";
+        gachaList.SetActive(false);
+        skipButton.SetActive(true);
         isGachaStart = true;
 
         StopAllCoroutines();
@@ -179,7 +181,8 @@ public class GachaBoxParticleController : MonoBehaviour
 
     public void FinishAnimation()
     {
-        gachaText.text = "1 EOS";
+        gachaList.SetActive(true);
+        skipButton.SetActive(false);
         isGachaStart = false;
         StopAllCoroutines();
         callback?.Invoke();

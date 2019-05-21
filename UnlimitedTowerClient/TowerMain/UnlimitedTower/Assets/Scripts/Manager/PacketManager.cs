@@ -776,7 +776,16 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
         else if(type == SHOP_TYPE.PACKAGE)
         {
+            for(int i = 16; i<= 23; i++)
+            {
+                shopProductData product = new shopProductData();
+                product.index = i;
+                product.type = (int)type;
+                product.id = i;
+                product.limit_count = 0;
 
+                resultData.shop_product_list.Add(product);
+            }
         }
 
         ResponseShopInfo(resultData);
@@ -1116,7 +1125,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 }
                 UserDataManager.Inst.SetItem(itemData);
             }
-
         }
 
         BattleManager.Inst.SetReward();

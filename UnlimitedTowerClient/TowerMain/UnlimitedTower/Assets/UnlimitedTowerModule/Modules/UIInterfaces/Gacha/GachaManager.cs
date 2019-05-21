@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GachaManager : MonoBehaviour {
+public class GachaManager : MonoSingleton<GachaManager> {
 
     static public GachaManager Instance = null;
 
@@ -23,6 +23,7 @@ public class GachaManager : MonoBehaviour {
     private GameObject gachaResultPopup;
 
     public float glowingFxPanelAlpha = 0.0f;
+    public int gachaID;
     
     private void Update()
     {
@@ -44,13 +45,14 @@ public class GachaManager : MonoBehaviour {
         // startButton.interactable = value;
     }
 
-    public void ExecuteGacha(bool withoutAnimation = false)
+    public void ExecuteGacha(int id)
     {
         // bool 처리를 통해 Gacha 처리가 필요할수도
 
         // GachaIndex에 따른 필요 EOS를 체크한다.
 
-        // 현재는 1EOS로 박아두기
+        // id 11 = EOS x1 / id 12 = EOX x10 / id 21 = UTG x 1 / id 22 = UTG x 10
+        gachaID = id;
 
         if (particleController.isGachaStart == true)
         {
@@ -96,11 +98,11 @@ public class GachaManager : MonoBehaviour {
 
 #if UNITY_EDITOR
             {
-                Cheat.Inst.RequestGachaCheat(1);
+                Cheat.Inst.RequestGachaCheat(gachaID);
             }
 #else
         {
-            PacketManager.Inst.RequestGacha(1);
+            PacketManager.Inst.RequestGacha(gachaID);
         }
 #endif
         }

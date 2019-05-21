@@ -32,15 +32,25 @@ public class ShopObjectInfo : MonoBehaviour {
         textCount.text = "X " + shopData.productCount;
         if(shopType == SHOP_TYPE.ETC)
         {
+            // 기타등등은 소수점없다
             textCost.text = shopData.priceCount.ToString();
         }
         else
         {
             textCost.text = (shopData.priceCount * 0.0001).ToString("N4");
         }
-        textName.text = CSVData.Inst.GetItemData(shopData.productID).name;
 
-        imageObject.sprite = CSVData.Inst.GetItemIcon(shopData.productID); ;
+        if (shopType == SHOP_TYPE.PACKAGE)
+        {
+            // 패키지면 패키지에서 찾아야한다...
+            imageObject.sprite = CSVData.Inst.GetItemIcon(500002);
+            textName.text = CSVData.Inst.GetItemData(500002).name;
+        }
+        else
+        {
+            imageObject.sprite = CSVData.Inst.GetItemIcon(shopData.productID);
+            textName.text = CSVData.Inst.GetItemData(shopData.productID).name;
+        }
         imageCost.sprite = CSVData.Inst.GetItemIcon(shopData.priceID);
 
         shopProductInfo = getInfo;

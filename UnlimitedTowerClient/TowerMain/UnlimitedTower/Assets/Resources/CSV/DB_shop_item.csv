@@ -10,9 +10,17 @@ int,int,localize,localize,int,int,int,int,int,int,int
 3003,액세서리 강화 스크롤,DB_shopItem_name_3003,DB_shopItem_desc_3003,2,utg,500120,1,0,500001,5000000
 4001,스테이지 입장권 : 보통,DB_shopItem_name_4001,DB_shopItem_desc_4001,1,eos,500200,1,0,500002,1000
 4002,스테이지 입장권 : 어려움,DB_shopItem_name_4002,DB_shopItem_desc_4002,1,eos,500210,1,0,500002,2500
-4003,스테이지 입장권 : 극단,DB_shopItem_name_4003,DB_shopItem_desc_4003,1,eos,500220,1,0,500002,5000
+4003,스테이지 입장권 : 악몽,DB_shopItem_name_4003,DB_shopItem_desc_4003,1,eos,500220,1,0,500002,5000
 4004,스테이지 입장권 : 지옥,DB_shopItem_name_4004,DB_shopItem_desc_4004,1,eos,500230,1,0,500002,10000
 4101,서번트 소환권,DB_shopItem_name_4101,DB_shopItem_desc_4101,3,etc,590001,1,0,500200,100
 4102,서번트 소환권,DB_shopItem_name_4102,DB_shopItem_desc_4102,3,etc,590001,1,0,500210,50
 4103,서번트 소환권,DB_shopItem_name_4103,DB_shopItem_desc_4103,3,etc,590001,1,0,500220,15
 4104,서번트 소환권,DB_shopItem_name_4104,DB_shopItem_desc_4104,3,etc,590001,1,0,500230,3
+1001,스타트 패키지,DB_shopItem_name_1001,DB_shopItem_desc_1001,4,package,1001,1,0,500002,10000
+1006,강화 패키지 1,DB_shopItem_name_1006,DB_shopItem_desc_1006,4,package,1006,1,0,500002,100000
+1007,강화 패키지 2,DB_shopItem_name_1007,DB_shopItem_desc_1007,4,package,1007,1,0,500002,1000000
+1008,입장권 패키지,DB_shopItem_name_1008,DB_shopItem_desc_1008,4,package,1008,1,0,500002,100000
+9001,레전드 패키지,DB_shopItem_name_9001,DB_shopItem_desc_9001,4,package,9001,1,0,500002,1000000
+9002,유니크 패키지,DB_shopItem_name_9002,DB_shopItem_desc_9002,4,package,9002,1,0,500002,500000
+9003,레어 패키지,DB_shopItem_name_9003,DB_shopItem_desc_9003,4,package,9003,1,0,500002,250000
+9004,언커먼 패키지,DB_shopItem_name_9004,DB_shopItem_desc_9004,4,package,9004,1,0,500002,50000

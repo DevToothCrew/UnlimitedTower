@@ -37,6 +37,10 @@ public class ShopBuyPopup : MonoBehaviour {
         textCost.text = (priceCount * 0.0001).ToString("N4");
 
         DBItemData itemData = CSVData.Inst.GetItemData(shopData.productID);
+        if(itemData == null)
+        {
+            itemData = CSVData.Inst.GetItemData(500002);
+        }
 
         textName.text = itemData.name;
         textExplain.text = itemData.description;
