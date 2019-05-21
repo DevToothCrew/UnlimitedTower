@@ -428,45 +428,43 @@ public class Cheat : MonoSingleton<Cheat>
             battlestatedata.my_state_list.Add(newMember);
         }
 
-        DBStageData stageData = CSVData.Inst.GetStageData(stageType, stageFloor);
+        DBStageData stageData = CSVData.Inst.GetStageData(stageType, stageFloor, stageDifficult);
         if(stageData == null)
         {
             return null;
         }
 
-        for (int i = 0; i < stageData.enemyIdList.Count; ++i)
+        List<DBStageEnemyData> enemyDataList = CSVData.Inst.GetEnemyDataList((ELEMENT_TYPE)stageData.stageType);
+        if(enemyDataList == null)
         {
+            return null;
+        }
+
+        for (int i = 0; i < stageData.monsterCount; ++i)
+        {
+            DBStageEnemyData enemy = enemyDataList[rand.Next(0, enemyDataList.Count)];
+
             characterStateData newMember = new characterStateData();
-            newMember.grade = 5;
-            newMember.position = stageData.enemyPositionList[i];
-            newMember.index = 0;
-            newMember.id = stageData.enemyIdList[i];
+            newMember.grade = stageData.stageDifficult;
+            newMember.position = i + 10;
+            newMember.index = enemy.index;
+            newMember.id = enemy.id;
             newMember.type = 2;
-            newMember.level = 5;
+            newMember.level = rand.Next(stageData.enemyLevelMin, stageData.enemyLevelMax + 1);
 
-            DBStageEnemyData enemyData = CSVData.Inst.GetStageEnemyData(newMember.id);
-            if(enemyData == null)
+            DBStageEnemyStatData statData = CSVData.Inst.GetEnemyStatData((int)enemy.tribeType, newMember.grade);
+            if(statData == null)
             {
-                DebugLog.Log(false, "Invalid Enemy ID : " + newMember.id);
+                DebugLog.Log(false, "Invalid Monster ID : " + enemy.id);
                 return null;
             }
-
-            DBMonsterData monsterData = CSVData.Inst.GetMonsterData(enemyData.id);
-            if(monsterData == null)
-            {
-                DebugLog.Log(false, "Invalid Monster ID : " + enemyData.id);
-                return null;
-            }
-
-            int level = UnityEngine.Random.Range(stageData.enemyLevelMin, stageData.enemyLevelMax + 1);
-            Status addStatus = new Status();
 
             newMember.status = new statusInfo();
-            newMember.status.basic_str = enemyData.status.basicStr + (level * addStatus.basicStr);
-            newMember.status.basic_dex = enemyData.status.basicDex + (level * addStatus.basicDex);
-            newMember.status.basic_int = enemyData.status.basicInt + (level * addStatus.basicInt);
-            newMember.now_hp = ((newMember.status.basic_str) * 14) + ((newMember.status.basic_dex) * 5) + ((newMember.status.basic_int) * 3);
-            newMember.max_hp = ((newMember.status.basic_str) * 14) + ((newMember.status.basic_dex) * 5) + ((newMember.status.basic_int) * 3);
+            newMember.status.basic_str = statData.status.basicStr;
+            newMember.status.basic_dex = statData.status.basicDex;
+            newMember.status.basic_int = statData.status.basicInt;
+            newMember.now_hp = Calculator.GetMaxHp(statData.status, newMember.level);
+            newMember.max_hp = newMember.now_hp;
 
             battlestatedata.enemy_state_list.Add(newMember);
         }
@@ -997,6 +995,10 @@ public class Cheat : MonoSingleton<Cheat>
         {
             id = 500230;
         }
+        else
+        {
+            return null;
+        }
 
         UserItemData enterItem = new UserItemData();
         enterItem = UserDataManager.Inst.GetItemInfo(id);
@@ -1066,7 +1068,7 @@ public class Cheat : MonoSingleton<Cheat>
 
         stageStateData getBattleStageData = JsonUtility.FromJson<stageStateData>(stageStateJson);
 
-        string itemJson = GetEnterStageItem(1);
+        string itemJson = GetEnterStageItem(stageDifficult);
         DebugLog.Log(false, "[SUCCESS] User Enter Item :" + itemJson);
 
         itemData getEnterItemData = JsonUtility.FromJson<itemData>(itemJson);

@@ -203,14 +203,14 @@ public class DBStageData
     public int id;
     public int stageType;
     public int stageFloor;
+    public int stageDifficult;
     public string stageString;
-    public int needStageId;
     public int needEntranceItemId;
     public int needEntranceItemCount;
     public int enemyLevelMin;
     public int enemyLevelMax;
-    public List<int> enemyIdList = new List<int>();
-    public List<int> enemyPositionList = new List<int>();
+    public int monsterCount;
+    public List<int> optionList = new List<int>();
     public string mapResource;
     public int bgmSoundId;
 }
@@ -219,12 +219,21 @@ public class DBStageData
 public class DBStageEnemyData
 {
     public int id;
+    public TRIBE_TYPE tribeType;
     public ELEMENT_TYPE elementType;
     public int index;
     public CHAR_TYPE charType;
-    public Status status = new Status();
     public List<int> activeList = new List<int>();
     public List<int> passiveList = new List<int>();
+}
+
+[Serializable]
+public class DBStageEnemyStatData
+{
+    public int id;
+    public TRIBE_TYPE tribeType;
+    public GRADE_TYPE grade;
+    public Status status = new Status();
 }
 
 [Serializable]

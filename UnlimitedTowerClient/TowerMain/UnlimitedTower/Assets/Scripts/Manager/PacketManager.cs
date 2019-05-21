@@ -971,12 +971,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
             DebugLog.Log(false, "Invalid StageData");
         }
         UserItemData itemData = ParseItem(getBattleStateData.enter_item);
-        if (itemData == null)
+        if (itemData != null)
         {
-            DebugLog.Log(false, "Invalid Item Info");
-            return;
+            UserDataManager.Inst.SetItem(itemData);
         }
-        UserDataManager.Inst.SetItem(itemData);
         UserDataManager.Inst.SetStageState(stageData);
         UserDataManager.Inst.SetSceneState(SCENE_STATE.StageBattle);
         StartCoroutine(LoadSceneAsync("CharacterBattleScene", "Now, Loading battle field ... "));

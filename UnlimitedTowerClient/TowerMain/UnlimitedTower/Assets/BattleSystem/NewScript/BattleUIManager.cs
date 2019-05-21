@@ -119,7 +119,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         else
         {
             StageInfoFloor.text = "Stage " + StageData.stageType + " : " + StageData.stageFloor + "F";
-            StageInfoName.text = CSVData.Inst.GetStageData(StageData.stageType, StageData.stageFloor).mapResource;
+            StageInfoName.text = CSVData.Inst.GetStageData(StageData.stageType, StageData.stageFloor, StageData.stageDifficult).mapResource;
         }
         BattleTurn.text = (StageData.turn == 0 ? "1" : (StageData.turn + 1).ToString()) + " Turn";
 
