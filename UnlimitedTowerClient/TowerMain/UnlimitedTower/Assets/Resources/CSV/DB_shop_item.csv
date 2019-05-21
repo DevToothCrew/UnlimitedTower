@@ -20,7 +20,7 @@ int,int,localize,localize,int,int,int,int,int,int,int
 1006,강화 패키지 1,DB_shopItem_name_1006,DB_shopItem_desc_1006,4,package,1006,1,0,500002,100000
 1007,강화 패키지 2,DB_shopItem_name_1007,DB_shopItem_desc_1007,4,package,1007,1,0,500002,1000000
 1008,입장권 패키지,DB_shopItem_name_1008,DB_shopItem_desc_1008,4,package,1008,1,0,500002,100000
-9001,레전드 패키지,DB_shopItem_name_9001,DB_shopItem_desc_9001,4,package,9001,1,0,500002,1000000
-9002,유니크 패키지,DB_shopItem_name_9002,DB_shopItem_desc_9002,4,package,9002,1,0,500002,500000
-9003,레어 패키지,DB_shopItem_name_9003,DB_shopItem_desc_9003,4,package,9003,1,0,500002,250000
-9004,언커먼 패키지,DB_shopItem_name_9004,DB_shopItem_desc_9004,4,package,9004,1,0,500002,50000
+9001,언커먼 패키지,DB_shopItem_name_9001,DB_shopItem_desc_9001,4,package,9001,1,0,500002,50000
+9002,레어 패키지,DB_shopItem_name_9002,DB_shopItem_desc_9002,4,package,9002,1,0,500002,250000
+9003,유니크 패키지,DB_shopItem_name_9003,DB_shopItem_desc_9003,4,package,9003,1,0,500002,500000
+9004,레전드 패키지,DB_shopItem_name_9004,DB_shopItem_desc_9004,4,package,9004,1,0,500002,1000000

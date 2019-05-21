@@ -40,6 +40,7 @@ public class StagePage : MonoSingleton<StagePage> {
 
     public Text textMonsterPer;
     public Text textEquipmentPer;
+    private bool isEnterStage = false;
 
     void Awake ()
     {
@@ -155,7 +156,7 @@ public class StagePage : MonoSingleton<StagePage> {
                 NeedTicket.SetActive(false);
                 StageDetailText.text = stageFloor + "F - Easy";
                 textSelectDifficult.text = "Easy";
-
+                isEnterStage = true;
                 ShowDifficultList();
                 SetRewardInfo();
                 SetEnemyInfo();
@@ -195,12 +196,13 @@ public class StagePage : MonoSingleton<StagePage> {
         if (itemCount < 1)
         {
             NeedTicketCount.color = Color.red;
+            isEnterStage = false;
         }
         else
         {
             NeedTicketCount.color = Color.white;
+            isEnterStage = true;
         }
-
     }
 
     public void OnClickStageButton(int stageIndex)
@@ -294,7 +296,11 @@ public class StagePage : MonoSingleton<StagePage> {
             return;
         }
 
-        // 재화 검사 추가 필요
+        if (isEnterStage == false)
+        {
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Not Enough Stage Ticket");
+            return;
+        }
 
 #if UNITY_EDITOR
         {
