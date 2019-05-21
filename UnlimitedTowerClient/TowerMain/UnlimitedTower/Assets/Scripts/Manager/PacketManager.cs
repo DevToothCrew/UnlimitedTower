@@ -1114,7 +1114,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                     DebugLog.Log(false, "Invalid Item Info : " + i);
                     return;
                 }
-                UserDataManager.Inst.SetItem(itemData);
+                UserDataManager.Inst.AddItem(itemData);
             }
 
         }

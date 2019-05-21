@@ -344,6 +344,53 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return true;
     }
 
+    public bool checkItemIndex(int id, int index, int arrayIndex, UserItemData itemData)
+    {
+        if (itemDic.ContainsKey(id) == true)
+        {
+            for (int j = 0; j < itemDic[id].itemInfoList.Count; ++j)
+            {
+                if (itemDic[id].itemInfoList[j].index == index)
+                {
+                    itemDic[id].itemInfoList[j].count += itemData.itemInfoList[arrayIndex].count;
+                    return true;
+                }
+            }
+        }
+        else
+        {
+            return false;
+        }
+        return false;
+    }
+
+
+    public bool AddItem(UserItemData itemData)
+    {
+        if (itemDic.ContainsKey(itemData.id) == true)
+        {
+            for (int i = 0; i < itemData.itemInfoList.Count; ++i)
+            {
+                if(false == checkItemIndex(itemData.id, itemData.itemInfoList[i].index, i, itemData))
+                {
+                    UserItemInfo newItem = new UserItemInfo();
+                    newItem.index = itemData.itemInfoList[i].index;
+                    newItem.count = itemData.itemInfoList[i].count;
+                    itemDic[itemData.id].itemInfoList.Add(newItem);
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+        else
+        {
+            itemDic.Add(itemData.id, itemData);
+        }
+        return true;
+    }
+
     public bool SetItemList(List<UserItemData> itemDataList)
     {
         for(int i = 0; i < itemDataList.Count; i++)
