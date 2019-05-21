@@ -364,33 +364,6 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return false;
     }
 
-
-    public bool AddItem(UserItemData itemData)
-    {
-        if (itemDic.ContainsKey(itemData.id) == true)
-        {
-            for (int i = 0; i < itemData.itemInfoList.Count; ++i)
-            {
-                if(false == checkItemIndex(itemData.id, itemData.itemInfoList[i].index, i, itemData))
-                {
-                    UserItemInfo newItem = new UserItemInfo();
-                    newItem.index = itemData.itemInfoList[i].index;
-                    newItem.count = itemData.itemInfoList[i].count;
-                    itemDic[itemData.id].itemInfoList.Add(newItem);
-                }
-                else
-                {
-                    return true;
-                }
-            }
-        }
-        else
-        {
-            itemDic.Add(itemData.id, itemData);
-        }
-        return true;
-    }
-
     public bool SetItemList(List<UserItemData> itemDataList)
     {
         for(int i = 0; i < itemDataList.Count; i++)
