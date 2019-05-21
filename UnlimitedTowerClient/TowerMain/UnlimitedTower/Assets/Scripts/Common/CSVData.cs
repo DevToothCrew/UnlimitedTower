@@ -969,24 +969,24 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_package");
         for (var i = 2; i < data.Count; i++)
         {
-            DebugLog.Log(false, "index " + (i).ToString()
-                + " : " + data[i]["id"]
-                + " " + data[i]["name"]
-                + " " + data[i]["desc"]
-                + " " + data[i]["servant_list"]
-                + " " + data[i]["servant_count_list"]
-                + " " + data[i]["monster_grade"]
-                + " " + data[i]["monster_count"]
-                + " " + data[i]["equip_grade"]
-                + " " + data[i]["equip_count"]
-                + " " + data[i]["item_id_list"]
-                + " " + data[i]["item_count_list"]
-                + " " + data[i]["utg"]
-                + " " + data[i]["private_limit_max"]
-                + " " + data[i]["price_id"]
-                + " " + data[i]["price_count"]
-                + " " + data[i]["resource_icon"]
-                );
+            //DebugLog.Log(false, "index " + (i).ToString()
+            //    + " : " + data[i]["id"]
+            //    + " " + data[i]["name"]
+            //    + " " + data[i]["desc"]
+            //    + " " + data[i]["servant_list"]
+            //    + " " + data[i]["servant_count_list"]
+            //    + " " + data[i]["monster_grade"]
+            //    + " " + data[i]["monster_count"]
+            //    + " " + data[i]["equip_grade"]
+            //    + " " + data[i]["equip_count"]
+            //    + " " + data[i]["item_id_list"]
+            //    + " " + data[i]["item_count_list"]
+            //    + " " + data[i]["utg"]
+            //    + " " + data[i]["private_limit_max"]
+            //    + " " + data[i]["price_id"]
+            //    + " " + data[i]["price_count"]
+            //    + " " + data[i]["resource_icon"]
+            //    );
 
             DBPackageData packageData = new DBPackageData();
             packageData.id = Convert.ToInt32(data[i]["id"]);
