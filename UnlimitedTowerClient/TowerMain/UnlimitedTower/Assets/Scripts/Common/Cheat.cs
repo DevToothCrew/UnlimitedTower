@@ -852,6 +852,9 @@ public class Cheat : MonoSingleton<Cheat>
         rewardData.get_monster_list.Add(GetRandomMonster(UserDataManager.Inst.monsterDic.Count + 2));
         rewardData.get_monster_list.Add(GetRandomMonster(UserDataManager.Inst.monsterDic.Count + 3));
 
+        rewardData.get_item_list.Add(GetStageEnterItemData());
+        rewardData.get_item_list.Add(GetStageEnterItemData());
+
         return JsonMapper.ToJson(rewardData);
     }
 
@@ -872,6 +875,21 @@ public class Cheat : MonoSingleton<Cheat>
         servant.servant = GetRandomServant();
 
         return servant;
+    }
+
+    public itemData GetStageEnterItemData()
+    {
+        itemData enterItem = new itemData();
+        enterItem.id = 500200;
+        enterItem.type = 3;
+
+        itemInfo newItem = new itemInfo();
+        newItem.index = 0;
+        newItem.count = 2;
+
+        enterItem.item_list.Add(newItem);
+
+        return enterItem;
     }
 
     public servantInfo GetRandomServant()
