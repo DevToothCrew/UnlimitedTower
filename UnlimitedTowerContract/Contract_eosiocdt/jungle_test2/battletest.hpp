@@ -313,9 +313,9 @@ CONTRACT battletest : public contract
     enum active_skill_type
     {
         type_buff = 1,
-        type_attack,
-        type_heal,
-        type_attack_debuff,
+        type_attack,    //2
+        type_heal,      //3
+        type_attack_debuff, //4
     };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -595,8 +595,8 @@ CONTRACT battletest : public contract
   public:
     void substr_value(std::string _value, std::vector<std::string> & _value_list, std::vector<size_t> & _size_list, uint32_t _size);
     ACTION dbinsert(std::string _table, std::string _value);
-    ACTION dberase(std::string _table, std::string _value);
-    ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
+    //ACTION dberase(std::string _table, std::string _value);
+    //ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
     ACTION dbinit(std::string _table);
     // ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
 
@@ -1928,7 +1928,17 @@ void new_set_stage_state(uint64_t _stage_id, uint64_t _seed, std::vector<charact
 void new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t _seed, std::vector<uint32_t> _reward_monster_id);
 
 //치트키
-ACTION monstercheat(eosio::name _user, uint32_t _grade, uint32_t _id, uint32_t _count);
-ACTION balancetest(eosio::name _user, std::string _type, std::string _value);
+//ACTION monstercheat(eosio::name _user, uint32_t _grade, uint32_t _id, uint32_t _count);
+//ACTION balancetest(eosio::name _user, std::string _type, std::string _value);
 ACTION accountset(eosio::name _user);
+ACTION leveltest(eosio::name _user);
+
+TABLE ttemp
+{
+    uint64_t count;
+    uint64_t primary_key() const { return count; }
+};
+typedef eosio::multi_index<"ttemp"_n, ttemp> global_count;
+
+ACTION anothercheck(uint32_t _start_count);
 };
