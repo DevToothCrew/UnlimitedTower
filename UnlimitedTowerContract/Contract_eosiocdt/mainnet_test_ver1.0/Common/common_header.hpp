@@ -20,12 +20,12 @@
 #define PAIR_SLOT               5
 
 //============Gacha==============//
-//최대값의 + 1로 지정해야한다
 #define GACHA_MAX_RATE          10000000
 #define DEFAULT_MIN_DB          1
 #define MONSTER_GACHA_ID_START  20000
-#define ITEM_GACHA_ID_START     30000
+#define EQUIP_GACHA_ID_START    30000
 #define SERVANT_GACHA_ID_START  10000
+#define ITEM_GACHA_ID_START     60000
 #define SERVANT_JOB_COUNT       4
 #define HEAD_COUNT              4
 #define HAIR_COUNT              4
@@ -42,6 +42,7 @@
 #define GACHA_EQUIPMENT_COUNT_ID  3
 #define GACHA_PUBLIC_PASSIVE_COUNT_ID  4
 #define GACHA_PUBLIC_ACTIVE_COUNT_ID  5
+#define GACHA_ITEM_COUNT_ID 6
 
 
 //============Gacha==============//
