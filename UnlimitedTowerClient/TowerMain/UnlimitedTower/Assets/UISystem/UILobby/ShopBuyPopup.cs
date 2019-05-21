@@ -34,7 +34,15 @@ public class ShopBuyPopup : MonoBehaviour {
 
         textCount.text = "X " + shopData.productCount;
         priceCount = shopData.priceCount;
-        textCost.text = (priceCount * 0.0001).ToString("N4");
+
+        if (shopType == SHOP_TYPE.ETC)
+        {
+            textCost.text = priceCount.ToString();
+        }
+        else
+        {
+            textCost.text = (priceCount * 0.0001).ToString("N4");
+        }
 
         DBItemData itemData = CSVData.Inst.GetItemData(shopData.productID);
         if(itemData == null)
@@ -64,6 +72,14 @@ public class ShopBuyPopup : MonoBehaviour {
         buyCount += 1;
         textBuyCount.text = buyCount.ToString();
         textCost.text = (priceCount * buyCount * 0.0001).ToString("N4");
+        if (shopType == SHOP_TYPE.ETC)
+        {
+            textCost.text = (priceCount * buyCount).ToString();
+        }
+        else
+        {
+            textCost.text = (priceCount * buyCount * 0.0001).ToString("N4");
+        }
     }
 
     public void OnClickDownButton()
@@ -75,7 +91,14 @@ public class ShopBuyPopup : MonoBehaviour {
 
         buyCount -= 1;
         textBuyCount.text = buyCount.ToString();
-        textCost.text = (priceCount * buyCount * 0.0001).ToString("N4");
+        if (shopType == SHOP_TYPE.ETC)
+        {
+            textCost.text = (priceCount * buyCount).ToString();
+        }
+        else
+        {
+            textCost.text = (priceCount * buyCount * 0.0001).ToString("N4");
+        }
     }
 
     public void OnClickOKButton()
@@ -101,6 +124,13 @@ public class ShopBuyPopup : MonoBehaviour {
         // 금액 맥스로 할것인지 카운트 맥스로 할것인지?
         buyCount = 99;
         textBuyCount.text = buyCount.ToString();
-        textCost.text = (priceCount * buyCount * 0.0001).ToString("N4");
+        if (shopType == SHOP_TYPE.ETC)
+        {
+            textCost.text = (priceCount * buyCount).ToString();
+        }
+        else
+        {
+            textCost.text = (priceCount * buyCount * 0.0001).ToString("N4");
+        }
     }
 }
