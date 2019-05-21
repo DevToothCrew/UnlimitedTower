@@ -331,6 +331,14 @@ public class BattleManager : MonoSingleton<BattleManager>
             rewardItemImage.sprite = CSVData.Inst.GetEquipmentData(rewardData.get_equipment_list[i].equipment.id).equipmentIcon;
             Instantiate(rewardItemBack, rewardItemParent.transform).gameObject.SetActive(true);
         }
+
+        for (int i = 0; i < rewardData.get_item_list.Count; i++)
+        {
+            rewardItemBack.sprite = CSVData.Inst.GetSpriteGrade(CSVData.Inst.GetItemData(rewardData.get_item_list[i].id).grade);
+            rewardItemImage.sprite = CSVData.Inst.GetItemData(rewardData.get_item_list[i].id).ItemIcon;
+            Instantiate(rewardItemBack, rewardItemParent.transform).gameObject.SetActive(true);
+        }
+
         rewardUTG.text = (rewardData.reward_money / 10000.0f).ToString("#.0000");
     }
 
