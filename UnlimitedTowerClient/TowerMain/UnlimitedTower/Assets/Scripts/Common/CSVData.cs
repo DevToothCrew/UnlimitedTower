@@ -26,6 +26,7 @@ public class CSVData : MonoSingleton<CSVData>
     public Dictionary<int, DBSkillActiveData> DBSkillActiveDataDic = new Dictionary<int, DBSkillActiveData>();
     public Dictionary<int, DBSkillPassiveData> DBSkillPassiveDataDic = new Dictionary<int, DBSkillPassiveData>();
     public Dictionary<int, DBShopData> DBShopDataDic = new Dictionary<int, DBShopData>();
+    public Dictionary<int, DBPackageData> DBPackageDataDic = new Dictionary<int, DBPackageData>();
 
     // Resource Data
     public Dictionary<GRADE_TYPE, DBGradeResourceData> DBGradeResourceDataDic = new Dictionary<GRADE_TYPE, DBGradeResourceData>();
@@ -232,6 +233,15 @@ public class CSVData : MonoSingleton<CSVData>
                 DebugLog.Log(false, "Invalid DBShopData");
             }
             //DebugLog.Log(false, "SetShopData Success");
+        }
+        if (DBPackageDataDic.Count == 0)
+        {
+            //DebugLog.Log(false, "SetPackageData Start");
+            if (SetPackageData() == false)
+            {
+                DebugLog.Log(false, "Invalid DBPackageData");
+            }
+            //DebugLog.Log(false, "SetPackageData Success");
         }
         if (DBGradeResourceDataDic.Count == 0)
         {
@@ -604,12 +614,12 @@ public class CSVData : MonoSingleton<CSVData>
         List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_stage_enemy_stat");
         for (var i = 2; i < data.Count; i++)
         {
-            DebugLog.Log(false, "index " + (i).ToString()
-                + " : " + data[i]["id"]
-                + " " + data[i]["str"]
-                + " " + data[i]["dex"]
-                + " " + data[i]["int"]
-                );
+            //DebugLog.Log(false, "index " + (i).ToString()
+            //    + " : " + data[i]["id"]
+            //    + " " + data[i]["str"]
+            //    + " " + data[i]["dex"]
+            //    + " " + data[i]["int"]
+            //    );
 
             DBStageEnemyStatData stageEnemyStatData = new DBStageEnemyStatData();
             stageEnemyStatData.id = Convert.ToInt32(data[i]["id"]);
@@ -950,6 +960,75 @@ public class CSVData : MonoSingleton<CSVData>
         }
 
         monsterDataInspector = DBMonsterDataDic.Values.ToList();
+
+        return true;
+    }
+
+    public bool SetPackageData()
+    {
+        List<Dictionary<string, object>> data = CSVReader.Read("CSV/DB_package");
+        for (var i = 2; i < data.Count; i++)
+        {
+            DebugLog.Log(false, "index " + (i).ToString()
+                + " : " + data[i]["id"]
+                + " " + data[i]["name"]
+                + " " + data[i]["desc"]
+                + " " + data[i]["servant_list"]
+                + " " + data[i]["servant_count_list"]
+                + " " + data[i]["monster_grade"]
+                + " " + data[i]["monster_count"]
+                + " " + data[i]["equip_grade"]
+                + " " + data[i]["equip_count"]
+                + " " + data[i]["item_id_list"]
+                + " " + data[i]["item_count_list"]
+                + " " + data[i]["utg"]
+                + " " + data[i]["private_limit_max"]
+                + " " + data[i]["price_id"]
+                + " " + data[i]["price_count"]
+                + " " + data[i]["resource_icon"]
+                );
+
+            DBPackageData packageData = new DBPackageData();
+            packageData.id = Convert.ToInt32(data[i]["id"]);
+            packageData.name = Convert.ToString(data[i]["name"]);
+            packageData.desc = Convert.ToString(data[i]["desc"]);
+
+            string[] servantJob = Convert.ToString(data[i]["servant_list"]).Split('/');
+            for (int j = 0; j < servantJob.Length; j++)
+            {
+                packageData.servantJobList.Add(Convert.ToInt32(servantJob[j]));
+            }
+
+            string[] servantCount = Convert.ToString(data[i]["servant_count_list"]).Split('/');
+            for (int j = 0; j < servantCount.Length; j++)
+            {
+                packageData.servantCountList.Add(Convert.ToInt32(servantCount[j]));
+            }
+
+            packageData.monsterGrade = Convert.ToInt32(data[i]["monster_grade"]);
+            packageData.monsterCount = Convert.ToInt32(data[i]["monster_count"]);
+            packageData.equipGrade = Convert.ToInt32(data[i]["equip_grade"]);
+            packageData.equipCount = Convert.ToInt32(data[i]["equip_count"]);
+
+            string[] itemID = Convert.ToString(data[i]["item_id_list"]).Split('/');
+            for (int j = 0; j < itemID.Length; j++)
+            {
+                packageData.itemIDList.Add(Convert.ToInt32(itemID[j]));
+            }
+
+            string[] itemCount = Convert.ToString(data[i]["item_count_list"]).Split('/');
+            for (int j = 0; j < itemCount.Length; j++)
+            {
+                packageData.itemCountList.Add(Convert.ToInt32(itemCount[j]));
+            }
+
+            packageData.utg = Convert.ToUInt64(data[i]["utg"]);
+            packageData.priceID = Convert.ToInt32(data[i]["price_id"]);
+            packageData.priceCount = Convert.ToInt32(data[i]["price_count"]);
+            packageData.resourceIcon = Resources.Load<Sprite>(string.Format("UI/Package/" + Convert.ToString(data[i]["resource_icon"])));
+
+            DBPackageDataDic.Add(packageData.id, packageData);
+        }
 
         return true;
     }
@@ -1850,6 +1929,16 @@ public class CSVData : MonoSingleton<CSVData>
         }
 
         return DBStageEnemyStatDataDic[id];
+    }
+
+    public DBPackageData GetPackageData(int id)
+    {
+        if(DBPackageDataDic.ContainsKey(id) == false)
+        {
+            return null;
+        }
+
+        return DBPackageDataDic[id];
     }
 
     #endregion

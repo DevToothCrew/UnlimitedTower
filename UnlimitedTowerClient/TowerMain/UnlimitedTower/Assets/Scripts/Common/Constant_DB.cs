@@ -347,6 +347,26 @@ public class DBShopData
 }
 
 [Serializable]
+public class DBPackageData
+{
+    public int id;
+    public string name;
+    public string desc;
+    public List<int> servantJobList = new List<int>();
+    public List<int> servantCountList = new List<int>();
+    public int monsterGrade;
+    public int monsterCount;
+    public int equipGrade;
+    public int equipCount;
+    public List<int> itemIDList = new List<int>();
+    public List<int> itemCountList = new List<int>();
+    public ulong utg;
+    public int priceID;
+    public int priceCount;
+    public Sprite resourceIcon;
+}
+
+[Serializable]
 public class DBMonsterUpgradeStatData
 {
     public int id;

@@ -10,10 +10,12 @@ public class ShopInfoPage : MonoSingleton<ShopInfoPage>
     public GameObject[] shopObjects = null;
 
     public GameObject shopBuyPopup;
+    public GameObject shopBuyPackagePopup;
 
     public void SetShopInfo(List<ShopProductInfo> getShopProductInfo)
     {
         shopBuyPopup.SetActive(false);
+        shopBuyPackagePopup.SetActive(false);
 
         if (shopObjects != null)
         {
@@ -43,21 +45,39 @@ public class ShopInfoPage : MonoSingleton<ShopInfoPage>
 
     public void SetShopBuyPopup(ShopProductInfo getProductInfo)
     {
-        if(shopBuyPopup.activeSelf == true)
+        if (getProductInfo.type != SHOP_TYPE.PACKAGE)
         {
-            return;
-        }
+            if (shopBuyPopup.activeSelf == true)
+            {
+                return;
+            }
 
-        if(shopBuyPopup.GetComponent<ShopBuyPopup>().SetShopBuyPopup(getProductInfo) == false)
+            if (shopBuyPopup.GetComponent<ShopBuyPopup>().SetShopBuyPopup(getProductInfo) == false)
+            {
+                return;
+            }
+
+            shopBuyPopup.SetActive(true);
+        }
+        else
         {
-            return;
-        }
+            if (shopBuyPackagePopup.activeSelf == true)
+            {
+                return;
+            }
 
-        shopBuyPopup.SetActive(true);
+            if (shopBuyPackagePopup.GetComponent<ShopBuyPackagePopup>().SetShopPackageBuyPopup(getProductInfo) == false)
+            {
+                return;
+            }
+
+            shopBuyPackagePopup.SetActive(true);
+        }
     }
 
     public void OnClickPopupCancelButton()
     {
         shopBuyPopup.SetActive(false);
+        shopBuyPackagePopup.SetActive(false);
     }
 }

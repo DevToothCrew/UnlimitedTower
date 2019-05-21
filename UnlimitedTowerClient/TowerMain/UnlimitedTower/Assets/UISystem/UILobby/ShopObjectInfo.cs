@@ -43,8 +43,14 @@ public class ShopObjectInfo : MonoBehaviour {
         if (shopType == SHOP_TYPE.PACKAGE)
         {
             // 패키지면 패키지에서 찾아야한다...
-            imageObject.sprite = CSVData.Inst.GetItemIcon(500002);
-            textName.text = CSVData.Inst.GetItemData(500002).name;
+            DBPackageData packageData = CSVData.Inst.GetPackageData(shopData.productID);
+            if(packageData == null)
+            {
+                DebugLog.Log(true, "Error");
+                return;
+            }
+            imageObject.sprite = packageData.resourceIcon;
+            textName.text = packageData.name;
         }
         else
         {

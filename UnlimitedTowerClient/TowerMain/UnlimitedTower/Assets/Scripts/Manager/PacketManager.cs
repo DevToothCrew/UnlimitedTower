@@ -225,13 +225,30 @@ public class PacketManager : MonoSingleton<PacketManager> {
     {
         DebugLog.Log(false, "RequestGacha");
 
-        GachaJson gacha = new GachaJson();
-        gacha.gachaIndex = getGachaIndex;
+        string gacha;
+        // id 11 = EOS x1 / id 12 = EOX x10 / id 21 = UTG x 1 / id 22 = UTG x 10
+        if (getGachaIndex == 11) //EOS 1
+        {
+            gacha = "Gacha";
+        }
+        else if (getGachaIndex == 12) //EOS 10
+        {
+            gacha = "GachaTen";
+        }
+        else if (getGachaIndex == 21) //UTG 1
+        {
+            gacha = "GoldGacha";
+        }
+        else if (getGachaIndex == 22) //UTG 10
+        {
+            gacha = "GoldGachaTen";
+        }
+        else
+        {
+            return;
+        }
 
-        string json = JsonUtility.ToJson(gacha);
-
-        Request("Gacha",
-            body: json,
+        Request(gacha,
             onSuccess: ResponseGacha,
             onFailed: msg =>
             {
