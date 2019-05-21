@@ -557,30 +557,39 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                 imageServantType[i].sprite = CSVData.Inst.GetSpriteServantJob(servant.jobType);
                 textServantLevel[i].text = servant.level.ToString();
 
-                DBExpData dbExpData = CSVData.Inst.GetExpData(servant.level);
-                if (dbExpData == null)
+                if (servant.level >= DEFINE.MAX_LEVEL)
                 {
-                    DebugLog.Log(false, "Invalid Level Data");
+                    textServantExpPer[i].text = "MAX";
+                    imageServantExp[i].fillAmount = 1f;
                 }
                 else
                 {
-                    int exExp = 0;
-                    if (servant.level - 1 > 0)
+                    DBExpData dbExpData = CSVData.Inst.GetExpData(servant.level);
+                    if (dbExpData == null)
                     {
-                        DBExpData exDBExpData = CSVData.Inst.GetExpData(servant.level - 1);
-                        if (exDBExpData == null)
-                        {
-                            DebugLog.Log(false, "Invalid Level Data");
-                        }
-                        else
-                        {
-                            exExp = exDBExpData.charExp;
-                        }
+                        DebugLog.Log(false, "Invalid Level Data");
                     }
-                    float expPer = (exExp - servant.exp) / (float)(exExp - dbExpData.charExp);
-                    textServantExpPer[i].text = (int)(expPer * 100) + "%";
-                    imageServantExp[i].fillAmount = expPer;
+                    else
+                    {
+                        int exExp = 0;
+                        if (servant.level - 1 > 0)
+                        {
+                            DBExpData exDBExpData = CSVData.Inst.GetExpData(servant.level - 1);
+                            if (exDBExpData == null)
+                            {
+                                DebugLog.Log(false, "Invalid Level Data");
+                            }
+                            else
+                            {
+                                exExp = exDBExpData.charExp;
+                            }
+                        }
+                        float expPer = (exExp - servant.exp) / (float)(exExp - dbExpData.charExp);
+                        textServantExpPer[i].text = (int)(expPer * 100) + "%";
+                        imageServantExp[i].fillAmount = expPer;
+                    }
                 }
+                
 
                 objectServantInfo[i].SetActive(true);
             }
@@ -615,30 +624,39 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                 imageMonsterType[i].sprite = CSVData.Inst.GetSpriteElementType(monster.elementType);
                 textMonsterLevel[i].text = monster.level.ToString();
 
-                DBExpData dbExpData = CSVData.Inst.GetExpData(monster.level);
-                if (dbExpData == null)
+                if (monster.level >= DEFINE.MAX_LEVEL)
                 {
-                    DebugLog.Log(false, "Invalid Level Data");
+                    textMonsterExpPer[i].text = "MAX";
+                    imageMonsterExp[i].fillAmount = 1f;
                 }
                 else
                 {
-                    int exExp = 0;
-                    if (monster.level - 1 > 0)
+                    DBExpData dbExpData = CSVData.Inst.GetExpData(monster.level);
+                    if (dbExpData == null)
                     {
-                        DBExpData exDBExpData = CSVData.Inst.GetExpData(monster.level - 1);
-                        if (exDBExpData == null)
-                        {
-                            DebugLog.Log(false, "Invalid Level Data");
-                        }
-                        else
-                        {
-                            exExp = exDBExpData.charExp;
-                        }
+                        DebugLog.Log(false, "Invalid Level Data");
                     }
-                    float expPer = (exExp - monster.exp) / (float)(exExp - dbExpData.charExp);
-                    textMonsterExpPer[i].text = (int)(expPer * 100) + "%";
-                    imageMonsterExp[i].fillAmount = expPer;
+                    else
+                    {
+                        int exExp = 0;
+                        if (monster.level - 1 > 0)
+                        {
+                            DBExpData exDBExpData = CSVData.Inst.GetExpData(monster.level - 1);
+                            if (exDBExpData == null)
+                            {
+                                DebugLog.Log(false, "Invalid Level Data");
+                            }
+                            else
+                            {
+                                exExp = exDBExpData.charExp;
+                            }
+                        }
+                        float expPer = (exExp - monster.exp) / (float)(exExp - dbExpData.charExp);
+                        textMonsterExpPer[i].text = (int)(expPer * 100) + "%";
+                        imageMonsterExp[i].fillAmount = expPer;
+                    }
                 }
+                
 
                 objectMonsterInfo[i].SetActive(true);
             }

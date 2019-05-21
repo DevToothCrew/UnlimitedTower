@@ -63,32 +63,39 @@ public class MonsterInfoManager : MonoBehaviour {
         textUnitName.text = db_unit_data.name;
         textLevel.text = string.Format("{0}", unit_data.level);
 
-
-        DBExpData dbExpData = CSVData.Inst.GetExpData(unit_data.level);
-        if (dbExpData == null)
+        if (unit_data.level >= DEFINE.MAX_LEVEL)
         {
-            DebugLog.Log(false, "Invalid Level Data");
+            textExp.text = "MAX";
+            imageExp.fillAmount = 1f;
         }
         else
         {
-            int exExp = 0;
-            if (unit_data.level - 1 > 0)
+            DBExpData dbExpData = CSVData.Inst.GetExpData(unit_data.level);
+            if (dbExpData == null)
             {
-                DBExpData exDBExpData = CSVData.Inst.GetExpData(unit_data.level - 1);
-                if (exDBExpData == null)
-                {
-                    DebugLog.Log(false, "Invalid Level Data");
-                }
-                else
-                {
-                    exExp = exDBExpData.charExp;
-                }
+                DebugLog.Log(false, "Invalid Level Data");
             }
+            else
+            {
+                int exExp = 0;
+                if (unit_data.level - 1 > 0)
+                {
+                    DBExpData exDBExpData = CSVData.Inst.GetExpData(unit_data.level - 1);
+                    if (exDBExpData == null)
+                    {
+                        DebugLog.Log(false, "Invalid Level Data");
+                    }
+                    else
+                    {
+                        exExp = exDBExpData.charExp;
+                    }
+                }
 
-            textExp.text = unit_data.exp + " / " + dbExpData.charExp;
-            imageExp.fillAmount = (exExp - unit_data.exp) / (float)(exExp - dbExpData.charExp);
+                textExp.text = unit_data.exp + " / " + dbExpData.charExp;
+                imageExp.fillAmount = (exExp - unit_data.exp) / (float)(exExp - dbExpData.charExp);
+            }
         }
-
+        
 
         //textGradeText.text;
         textGrade.text = string.Format("{0}", unit_data.gradeType);
@@ -126,7 +133,7 @@ public class MonsterInfoManager : MonoBehaviour {
         }
 
         //파티에 등록된 상태인지
-        if (unit_data.upgrade >= 9)
+        if (unit_data.upgrade >= DEFINE.MAX_MONSTER_UPGRADE_COUNT)
         {
             buttonUpgrade.interactable = false;
             textSetParty.fontSize = 40;

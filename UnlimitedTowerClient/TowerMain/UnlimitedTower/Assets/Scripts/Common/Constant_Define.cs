@@ -26,6 +26,7 @@ public class DEFINE
     public static readonly int MAX_EXP = 5000;
     public static readonly int BONUS_STAT = 1;
     public static readonly int MAX_MONSTER_UPGRADE_COUNT = 9;
+    public static readonly int MAX_EQUIPMENT_UPGRADE_COUNT = 9;
 
     // SHADER Name
     public static readonly string OUTLINE_SHADER = "Outlined/UltimateOutline";

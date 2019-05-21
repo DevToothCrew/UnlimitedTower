@@ -94,32 +94,39 @@ public class ServantInfoManager : MonoSingleton<ServantInfoManager> {
 
         }
 
-        DBExpData dbExpData = CSVData.Inst.GetExpData(unit_data.level);
-        if (dbExpData == null)
+        if (unit_data.level >= DEFINE.MAX_LEVEL)
         {
-            DebugLog.Log(false, "Invalid Level Data");
+            textExp.text = "MAX";
+            imageExp.fillAmount = 1f;
         }
         else
         {
-            int exExp = 0;
-            if (unit_data.level - 1 > 0)
+            DBExpData dbExpData = CSVData.Inst.GetExpData(unit_data.level);
+            if (dbExpData == null)
             {
-                DBExpData exDBExpData = CSVData.Inst.GetExpData(unit_data.level - 1);
-                if (exDBExpData == null)
-                {
-                    DebugLog.Log(false, "Invalid Level Data");
-                }
-                else
-                {
-                    exExp = exDBExpData.charExp;
-                }
+                DebugLog.Log(false, "Invalid Level Data");
             }
+            else
+            {
+                int exExp = 0;
+                if (unit_data.level - 1 > 0)
+                {
+                    DBExpData exDBExpData = CSVData.Inst.GetExpData(unit_data.level - 1);
+                    if (exDBExpData == null)
+                    {
+                        DebugLog.Log(false, "Invalid Level Data");
+                    }
+                    else
+                    {
+                        exExp = exDBExpData.charExp;
+                    }
+                }
 
-            textExp.text = unit_data.exp + " / " + dbExpData.charExp;
-            imageExp.fillAmount = (exExp - unit_data.exp) / (float)(exExp - dbExpData.charExp);
+                textExp.text = unit_data.exp + " / " + dbExpData.charExp;
+                imageExp.fillAmount = (exExp - unit_data.exp) / (float)(exExp - dbExpData.charExp);
+            }
         }
-
-
+        
         //textGradeText.text;
         textGrade.text = string.Format("{0}", unit_data.gradeType);
         textGrade.color = DEFINE.GetGradeColor(unit_data.gradeType);
