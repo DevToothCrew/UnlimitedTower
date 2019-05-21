@@ -774,6 +774,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 resultData.shop_product_list.Add(product);
             }
         }
+        else if(type == SHOP_TYPE.PACKAGE)
+        {
+
+        }
 
         ResponseShopInfo(resultData);
     }

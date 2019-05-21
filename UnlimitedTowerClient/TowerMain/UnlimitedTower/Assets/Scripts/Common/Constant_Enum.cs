@@ -441,6 +441,7 @@ public enum SHOP_TYPE
     EOS = 1,
     UTG = 2,
     ETC = 3,
+    PACKAGE = 4,
 }
 
 public enum POPUP_TYPE
