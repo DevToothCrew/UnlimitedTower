@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
@@ -19,8 +21,19 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
     private Sprite alertImage;
     private Sprite notAlertImage;
 
+    private ulong lastEOS = 0;
+    private ulong lastUTG = 0;
+
     void Awake()
     {
+        UserInfo userInfo = UserDataManager.Inst.GetUserInfo();
+        if (userInfo != null)
+        {
+            lastEOS = userInfo.userEOS;
+            lastUTG = userInfo.userUTG;
+        }
+            
+
         alertImage = Resources.Load<Sprite>("UI/AccountInfo/red_button");
         notAlertImage = Resources.Load<Sprite>("UI/AccountInfo/green_button");
         CPUImage.sprite = notAlertImage;
@@ -57,8 +70,31 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
                 ExpSlide.fillAmount = (exExp - userInfo.userEXP) / (float)(exExp - dbExpData.rankExp);
             }
 
-            EOSCount.text = (userInfo.userEOS * 0.0001).ToString("N4");
-            UTGCount.text = (userInfo.userUTG * 0.0001).ToString("N4");
+
+
+            if (lastEOS != userInfo.userEOS)
+            {
+                NumberCountingEffect(EOSCount, lastEOS, userInfo.userEOS);
+            }
+            else
+            {
+                EOSCount.text = (userInfo.userEOS * 0.0001).ToString("N4");
+            }
+
+            if (lastUTG != userInfo.userUTG)
+            {
+                NumberCountingEffect(UTGCount, lastUTG, userInfo.userUTG);
+            }
+            else
+            {
+                UTGCount.text = (userInfo.userUTG * 0.0001).ToString("N4");
+            }
+
+            lastEOS = userInfo.userEOS;
+            lastUTG = userInfo.userUTG;
+
+            //EOSCount.text = (userInfo.userEOS * 0.0001).ToString("N4");
+            //UTGCount.text = (userInfo.userUTG * 0.0001).ToString("N4");
         }
         if (UserDataManager.Inst.GetMainCharInfo() != null)
         {
@@ -110,6 +146,94 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
         else
         {
             MailCountImage.SetActive(false);
+        }
+    }
+
+
+    //////////////////////////////////////////
+    //////* Text Counting Animation */////////
+    //////////////////////////////////////////
+    private Text textNumber;
+    private ulong startValue;
+    private ulong finishValue;
+
+    public ulong StartValue
+    {
+        get { return startValue; }
+        set { startValue = value; }
+    }
+    public ulong FinishValue
+    {
+        get { return finishValue; }
+        set { finishValue = value; }
+    }
+
+    private ulong changeValue;
+
+    public void NumberCountingEffect(Text text, ulong start, ulong finish)
+    {
+        textNumber = text;
+        startValue = start;
+        finishValue = finish;
+
+        if (start > finish)
+        {
+            changeValue = (start - finish) / 60;
+
+            if (changeValue == 0)
+            {
+                changeValue = 1;
+            }
+
+            StartCoroutine("DicreaseCounting");
+        }
+        else if (start < finish)
+        {
+            changeValue = (finish - start) / 60;
+
+            if (changeValue == 0)
+            {
+                changeValue = 1;
+            }
+
+            StartCoroutine("IncreaseCounting");
+        }
+        else
+        {
+            //None change
+            return;
+        }
+    }
+
+    IEnumerator IncreaseCounting()
+    {
+        while (startValue < finishValue)
+        {
+            startValue += changeValue;
+            if (startValue > finishValue)
+            {
+                startValue = finishValue;
+            }
+
+            textNumber.text = (startValue * 0.0001).ToString("N4");
+
+            yield return new WaitForSeconds(.015f);
+        }
+    }
+
+    IEnumerator DicreaseCounting()
+    {
+        while (startValue > finishValue)
+        {
+            startValue -= changeValue;
+            if (startValue < finishValue)
+            {
+                startValue = finishValue;
+            }
+
+            textNumber.text = (startValue * 0.0001).ToString("N4");
+
+            yield return new WaitForSeconds(.015f);
         }
     }
 }
