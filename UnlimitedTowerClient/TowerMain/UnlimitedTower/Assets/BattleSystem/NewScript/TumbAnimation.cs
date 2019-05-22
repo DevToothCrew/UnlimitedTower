@@ -2,20 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TumbAnimation : MonoBehaviour {
+public class TumbAnimation : MonoBehaviour
+{
     public GameObject tumb;
-    public Renderer[] model;
 
     public void DieTumb(int index)
     {
         StartCoroutine(Tumb(index));
     }
-    
+
     public IEnumerator Tumb(int index)
     {
         yield return new WaitForSeconds(4.0f);
+
         GameObject temp = Instantiate(tumb, BattleManager.Inst.character[index].transform.position + new Vector3(0, 10, 0), BattleManager.Inst.character[index].transform.rotation);
-        model = new Renderer[BattleManager.Inst.character[index].transform.childCount - 2];
+        Renderer[] model = new Renderer[BattleManager.Inst.character[index].transform.childCount - 2];
         model = BattleManager.Inst.character[index].transform.GetComponentsInChildren<Renderer>();
 
         for (int i = 0; i < model.Length; i++)
