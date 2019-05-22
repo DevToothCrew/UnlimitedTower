@@ -59,6 +59,12 @@ public class ShopBuyPackagePopup : MonoBehaviour {
             DebugLog.Log(false, "Invalid ShopData");
         }
 
+        if((ulong)shopData.priceCount > UserDataManager.Inst.GetUserEOS())
+        {
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Not Enough EOS");
+            return;
+        }
+
         PacketManager.Inst.RequestShopBuyItem(index, 1, 1);
     }
 }

@@ -113,6 +113,7 @@ public class ShopBuyPopup : MonoBehaviour {
         {
             if((ulong)shopData.priceCount > UserDataManager.Inst.GetUserUTG())
             {
+                SimpleErrorPopupVC.Inst.UpdateErrorText("Not Enough UTG");
                 return;
             }
 
@@ -122,6 +123,7 @@ public class ShopBuyPopup : MonoBehaviour {
         {
             if ((ulong)shopData.priceCount > UserDataManager.Inst.GetUserEOS())
             {
+                SimpleErrorPopupVC.Inst.UpdateErrorText("Not Enough EOS");
                 return;
             }
 
@@ -131,6 +133,7 @@ public class ShopBuyPopup : MonoBehaviour {
         {
             if(shopData.priceCount > UserDataManager.Inst.GetItemCount(shopData.priceID))
             {
+                SimpleErrorPopupVC.Inst.UpdateErrorText("Not Enough Item");
                 return;
             }
 

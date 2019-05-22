@@ -6699,7 +6699,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 114846113663831808}
         m_MethodName: OnClickOKButton
         m_Mode: 1
         m_Arguments:
@@ -8661,6 +8661,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36c6b0105a8e06941950c8152b80b73b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  index: 0
   textName: {fileID: 114423174612524502}
   textGetUTG: {fileID: 114190302032818484}
   utgObject: {fileID: 1300598914065250}
