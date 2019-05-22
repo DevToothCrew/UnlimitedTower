@@ -24,16 +24,6 @@ public class TopUIManager : MonoSingleton<TopUIManager> {
         LobbyTopInfo.Inst.UpdateTopInfo();
     }
 
-    public void ShowUpgradeEquipmentResult(bool is_success, UserMonsterData monsterData)
-    {
-        GameObject objSubView = Instantiate(Resources.Load("UI/Misc/UpgradeResultVC")) as GameObject;
-        objSubView.transform.SetParent(this.transform);
-        objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-        objSubView.GetComponent<UpgradeResultVC>().updateView(is_success, monsterData);
-
-        LobbyTopInfo.Inst.UpdateTopInfo();
-    }
-
     public void ShowUpgradeEquipmentResult(bool is_success, UserEquipmentData equipmentData)
     {
         GameObject objSubView = Instantiate(Resources.Load("UI/Misc/UpgradeResultVC")) as GameObject;

@@ -1419,6 +1419,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             DebugLog.Log(false, "Invalid ParseMonster");
             return;
         }
+
         UserDataManager.Inst.SetMonster(monsterData);
         UserDataManager.Inst.DelMonster(getMonsterUpgradeResultData.sub_monster_index);
         UserDataManager.Inst.SetUserUTG(Convert.ToUInt64(getMonsterUpgradeResultData.utg));
@@ -1450,13 +1451,11 @@ public class PacketManager : MonoSingleton<PacketManager> {
         }
         else
         {
-            UserEquipmentData deleteEquipmentData = new UserEquipmentData();
-            deleteEquipmentData = equipmentData;
             if (UserDataManager.Inst.DelEquipment(getEquipmentUpgradeResultData.del_equipment_index) == false)
             {
                 DebugLog.Log(false, "Invalid Equipment Index : " + getEquipmentUpgradeResultData.del_equipment_index);
             }
-            TopUIManager.Inst.ShowUpgradeEquipmentResult(getEquipmentUpgradeResultData.is_success, deleteEquipmentData);
+            TopUIManager.Inst.ShowUpgradeEquipmentResult(getEquipmentUpgradeResultData.is_success, equipmentData);
         }
 
         for (int i = 0; i < getEquipmentUpgradeResultData.add_item_list.Count; i++)
