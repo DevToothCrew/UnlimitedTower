@@ -1998,7 +1998,7 @@ void new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t _seed, std::
 //치트키
 //ACTION monstercheat(eosio::name _user, uint32_t _grade, uint32_t _id, uint32_t _count);
 //ACTION balancetest(eosio::name _user, std::string _type, std::string _value);
-ACTION accountset(eosio::name _user);
+//ACTION accountset(eosio::name _user);
 ACTION leveltest(eosio::name _user);
 //ACTION updatecheack(uint32_t _start_count);
 
