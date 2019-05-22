@@ -409,7 +409,10 @@ public class shopBuyResultData
 {
     public string eos;
     public string utg;
-    public List<itemData> item_list = new List<itemData>();
+    public List<servantData> get_servant_list = new List<servantData>();
+    public List<monsterData> get_monster_list = new List<monsterData>();
+    public List<equipmentData> get_equipment_list = new List<equipmentData>();
+    public List<itemData> get_item_list = new List<itemData>();
     public inventoryInfo inventory_info;
 }
 
