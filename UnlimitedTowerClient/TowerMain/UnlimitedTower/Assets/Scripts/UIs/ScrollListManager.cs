@@ -300,8 +300,8 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
             }
         }
 
-        ScrollViewDidScroll();
         UpdateScrollView();
+        ScrollViewDidScroll();
     }
 
 
