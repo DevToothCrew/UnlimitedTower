@@ -118,8 +118,53 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
         }
         else
         {
-            StageInfoFloor.text = "Stage " + StageData.stageType + " : " + StageData.stageFloor + "F";
-            StageInfoName.text = CSVData.Inst.GetStageData(StageData.stageType, StageData.stageFloor, StageData.stageDifficult).stageString;
+            StageInfoFloor.text = CSVData.Inst.GetStageData(StageData.stageType, StageData.stageFloor, StageData.stageDifficult).stageString;
+
+            if (StageData.stageType == 1)
+            {
+                StageInfoName.text = "Stage - Lava Zone";
+            }
+            else if (StageData.stageType == 2)
+            {
+                StageInfoName.text = "Stage - Ice Berg";
+            }
+            else if (StageData.stageType == 3)
+            {
+                StageInfoName.text = "Stage - Under Ruins";
+            }
+            else if (StageData.stageType == 4)
+            {
+                StageInfoName.text = "Stage - Grassland";
+            }
+            else if (StageData.stageType == 5)
+            {
+                StageInfoName.text = "Stage - Sky Temple";
+            }
+            else if (StageData.stageType == 6)
+            {
+                StageInfoName.text = "Stage - Dark Forest";
+            }
+
+            if (StageData.stageDifficult == 5)
+            {
+                StageInfoName.text = StageInfoName.text + " Easy";
+            }
+            else if (StageData.stageDifficult == 4)
+            {
+                StageInfoName.text = StageInfoName.text + " Normal";
+            }
+            else if (StageData.stageDifficult == 3)
+            {
+                StageInfoName.text = StageInfoName.text + " Hard";
+            }
+            else if (StageData.stageDifficult == 2)
+            {
+                StageInfoName.text = StageInfoName.text + " Nightmare";
+            }
+            else if (StageData.stageDifficult == 1)
+            {
+                StageInfoName.text = StageInfoName.text + " Hell";
+            }
         }
         BattleTurn.text = (StageData.turn == 0 ? "1" : (StageData.turn + 1).ToString()) + " Turn";
 

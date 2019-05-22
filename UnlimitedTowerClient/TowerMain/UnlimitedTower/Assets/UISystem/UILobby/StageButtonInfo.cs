@@ -13,7 +13,7 @@ public class StageButtonInfo : ScrollListUnit {
         int stage_type = StagePage.Inst.GetStageType();
         stageNum = (stage_type * 100) + main_idx + 1;
         int stage_floor = (stageNum % 100);
-
+        
         if (stage_type == 1)
         {
             textStageType.text = "Stage - Lava Zone";
@@ -39,7 +39,7 @@ public class StageButtonInfo : ScrollListUnit {
             textStageType.text = "Stage - Dark Forest";
         }
 
-        textStageFloor.text = string.Format("{0}F ", stage_floor);
+        textStageFloor.text = CSVData.Inst.GetStageData(stage_type, stage_floor, 1).stageString;
         enemyImage.sprite = CSVData.Inst.GetSpriteElementType((ELEMENT_TYPE)stage_type);
     }
 

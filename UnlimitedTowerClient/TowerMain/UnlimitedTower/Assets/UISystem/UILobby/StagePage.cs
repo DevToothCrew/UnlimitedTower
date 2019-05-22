@@ -244,12 +244,11 @@ public class StagePage : MonoSingleton<StagePage> {
         //난이도 선택 Default
         stageDifficult = 5;
         NeedTicket.SetActive(false);
-        StageDetailText.text = stageFloor + "F - Easy";
+        StageDetailText.text = CSVData.Inst.GetStageData(stageType, stageFloor, stageDifficult).stageString + " - Easy";
         textSelectDifficult.text = "Easy";
         isEnterStage = true;
         SetRewardInfo();
         SetEnemyInfo();
-        //end 난이도 선택 Default
 
         StageInfoPage.SetActive(true);
 
