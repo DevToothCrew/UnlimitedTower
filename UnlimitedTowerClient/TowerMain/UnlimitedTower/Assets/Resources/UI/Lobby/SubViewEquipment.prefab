@@ -5247,8 +5247,8 @@ MonoBehaviour:
   textIntChange: {fileID: 114923441485970148}
   textHp: {fileID: 114008522934747470}
   textHpChange: {fileID: 114458015171209062}
-  textAvoid: {fileID: 0}
-  textAvoidChange: {fileID: 0}
+  textAvoid: {fileID: 114207852173391922}
+  textAvoidChange: {fileID: 114710474753942638}
   textPAtk: {fileID: 114659737106483898}
   textPAtkChange: {fileID: 114198692123714854}
   textPDef: {fileID: 114769376457437646}
