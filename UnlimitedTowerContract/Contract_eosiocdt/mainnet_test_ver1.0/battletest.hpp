@@ -1066,6 +1066,8 @@ CONTRACT battletest : public contract
     const char *action_gacha_10 = "gacha_10";
     const char *action_ticket = "ticketbuy";
     const char *action_package = "packagebuy";
+    const char *action_shopbuyitem = "shopbuyitem";
+
     uint32_t servant_random_count;
     uint32_t monster_random_count;
     uint32_t equipment_random_count;
@@ -1365,11 +1367,13 @@ CONTRACT battletest : public contract
 #pragma region store system
 
     ACTION itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count);
-    void inventory_buy(eosio::name _user, uint32_t _type, uint32_t _count);
-    void ticket_buy(eosio::name _user, uint32_t _type, uint32_t _count);
+
     void utg_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _count);
     void etc_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _count);
-    void etc_servant_get(eosio::name _user);
+
+    void shop_buy_item(eosio::name _user, uint32_t _type, uint32_t _count);
+    void inventory_buy(eosio::name _user, uint32_t _type, uint32_t _count);
+    void ticket_buy(eosio::name _user, uint32_t _type, uint32_t _count);
     void package_buy(eosio::name _user, uint32_t _type, uint32_t _count);
     void grade_package(eosio::name _user, uint32_t _type);
     void start_package(eosio::name _user);
