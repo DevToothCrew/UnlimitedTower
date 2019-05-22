@@ -170,8 +170,9 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
     {
         setData();
         scrollList.scrollRect.velocity = Vector2.zero;
-        scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
         scrollList.SetItemOrder(getOrder());
+        scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+        scrollList.ScrollViewDidScroll();
     }
 
     public void ResetScrollListBySortType(SORT_TYPE type)
@@ -182,8 +183,9 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
             reverse_sort = !reverse_sort;
         }
         scrollList.scrollRect.velocity = Vector2.zero;
-        scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
         scrollList.SetItemOrder(getOrder());
+        scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+        scrollList.ScrollViewDidScroll();
     }
     
     public SORT_TYPE GetSortType()

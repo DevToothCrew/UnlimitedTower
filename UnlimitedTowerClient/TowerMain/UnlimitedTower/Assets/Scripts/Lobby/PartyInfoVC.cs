@@ -172,10 +172,12 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
                 textOwned.color = Color.white;
             }
         }
-
+        
         scrollList.scrollRect.velocity = Vector2.zero;
-        scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
         scrollList.SetItemOrder(getOrder());
+        scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+        scrollList.ScrollViewDidScroll();
+        
     }
 
 

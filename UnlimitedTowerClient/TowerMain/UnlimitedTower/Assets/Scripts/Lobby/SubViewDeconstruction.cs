@@ -124,8 +124,9 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
             reverse_sort = !reverse_sort;
         }
         scrollList.scrollRect.velocity = Vector2.zero;
-        scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
         scrollList.SetItemOrder(getOrder());
+        scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+        scrollList.ScrollViewDidScroll();
     }
 
     //스크롤 정렬
@@ -519,8 +520,9 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
         }
 
         setData();
-        scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
         scrollList.SetItemOrder(getOrder());
+        scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+        scrollList.ScrollViewDidScroll();
     }
 
     public void OnClickClose()

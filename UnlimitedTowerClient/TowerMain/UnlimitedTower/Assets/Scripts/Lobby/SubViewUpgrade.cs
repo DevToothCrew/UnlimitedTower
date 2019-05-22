@@ -132,8 +132,9 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
             reverse_sort = !reverse_sort;
         }
         scrollList.scrollRect.velocity = Vector2.zero;
-        scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
         scrollList.SetItemOrder(getOrder());
+        scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+        scrollList.ScrollViewDidScroll();
     }
 
     //스크롤 정렬
@@ -537,7 +538,7 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
             PartyInfoVC patyInfo = PartyInfoVC.Inst;
             patyInfo.setData();
             patyInfo.resetScroll();
-            //patyInfo.updateDetailInfo(patyInfo.scrollList.getFirstItemOrder());
+            patyInfo.updateDetailInfo(patyInfo.scrollList.getFirstItemOrder());
             //OnClickClose();
         }
         else if (InventoryVC.checkInst())
