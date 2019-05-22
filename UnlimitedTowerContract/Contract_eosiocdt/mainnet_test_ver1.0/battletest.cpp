@@ -5649,20 +5649,20 @@ void battletest::gold_gacha(eosio::name _user, uint64_t _seed, uint32_t _second_
     //가차 뽑기 참여 횟수
 
     uint64_t l_gacha_result_type = safeseed::get_random_value(l_seed, 1000, DEFAULT_MIN, DEFAULT_RANDOM_COUNT);
-    // if (l_gacha_result_type < 333)
-    // {
-    //     //   gold_gacha_monster_id(_user, l_seed);
-    //     gacha_monster_id(_user, l_seed, 0, 3, 2);
-    // }
-    // else if (l_gacha_result_type > 333 && l_gacha_result_type <= 666)
-    // {
-    //     //gold_gacha_equipment_id(_user, l_seed);
-    //     gacha_equipment_id(_user, l_seed, 0, 3, 2);
-    // }
-    // else
-    // {
+    if (l_gacha_result_type < 333)
+    {
+        //   gold_gacha_monster_id(_user, l_seed);
+        gacha_monster_id(_user, l_seed, 0, 3, 2);
+    }
+    else if (l_gacha_result_type > 333 && l_gacha_result_type <= 666)
+    {
+        //gold_gacha_equipment_id(_user, l_seed);
+        gacha_equipment_id(_user, l_seed, 0, 3, 2);
+    }
+    else
+    {
         gold_gacha_item_id(_user, l_seed);
-    //}
+    }
 }
 
 // void battletest::gold_gacha_monster_id(eosio::name _user, uint64_t _seed)
@@ -7768,7 +7768,7 @@ battletest::action_info battletest::get_target_action(uint32_t _active_id, uint6
         }
         else if (active_iter->option_id == active_option::option_ignoreevade)
         {
-            target_avoid = 100;
+            target_avoid = 0;
         }
         else if (active_iter->option_id == active_option::option_nocritical)
         {
@@ -13808,9 +13808,9 @@ void battletest::new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t 
         {
             uint64_t random_rate = safeseed::get_random_value(seed, GACHA_MAX_RATE, DEFAULT_MIN, 1);
             uint64_t random_grade = get_random_grade(random_rate);
-            if(grade >= random_grade)
+            if(grade > random_grade)
             {
-                random_grade = grade;
+                random_grade = 5;
             }
             uint64_t random_monster = safeseed::get_random_value((seed >> 1), _reward_monster_id.size(), 0, 0);
             monster_data new_monster = get_reward_monster(_user, _reward_monster_id[random_monster], random_grade, seed);
@@ -13892,9 +13892,9 @@ void battletest::new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t 
                     {
                         uint64_t random_rate = safeseed::get_random_value(seed, GACHA_MAX_RATE, DEFAULT_MIN, 1);
                         uint64_t random_grade = get_random_grade(random_rate);
-                        if (grade >= random_grade)
+                        if (grade > random_grade)
                         {
-                            random_grade = grade;
+                            random_grade = 5;
                         }
                         equip_data new_equipment = get_reward_equip(_user, tier_iter->item_id, random_grade, seed);
                         equipment_list.push_back(new_equipment);
@@ -13920,8 +13920,6 @@ void battletest::new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t 
     }
 
     asset stage_reward_money(0, symbol(symbol_code("UTG"), 4));
-    uint64_t random_money = reward_iter->reward_utg;
-    stage_reward_money.amount = random_money * 10000;
 
     stats statstable(_self, stage_reward_money.symbol.code().raw());
     auto existing = statstable.find(stage_reward_money.symbol.code().raw());
@@ -13934,19 +13932,17 @@ void battletest::new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t 
     uint64_t contract_token_amount = from->balance.amount / 10000;
     uint64_t total_token_amount = existing->supply.amount / 10000;
 
-    contract_token_amount = contract_token_amount * 100;
-
-    uint64_t token_per = contract_token_amount / total_token_amount;
+    uint64_t token_per = (contract_token_amount * 100) / total_token_amount;
     if((contract_token_amount % total_token_amount) > 0)
     {
         token_per += 1;
     }
 
-    stage_reward_money.amount = (stage_reward_money.amount * token_per) / 100;
-    uint64_t reward_amount = (stage_reward_money.amount / 10000) * 10000;
-    if ((stage_reward_money.amount % 10000) > 0)
+    stage_reward_money.amount = (reward_iter->reward_utg * token_per) / 100;
+    uint64_t remain_utg = stage_reward_money.amount % 10000;
+    if (remain_utg > 0)
     {
-        stage_reward_money.amount += 10000;
+        stage_reward_money.amount += (10000 - remain_utg);
     }
 
     action(permission_level{_self, "active"_n},
@@ -14033,98 +14029,98 @@ ACTION battletest::leveltest(eosio::name _user)
     }
 }
 
-// ACTION battletest::updatecheack(uint32_t _start_count)
-// {
-//     require_auth(_self);
+ACTION battletest::updatecheack(uint32_t _start_count)
+{
+    require_auth(_self);
 
-//     uint64_t limit_mail_count = 2000;
-//     uint64_t cur_total_mail_count = 0;
+    uint64_t limit_mail_count = 2000;
+    uint64_t cur_total_mail_count = 0;
 
-//     uint32_t iter_start = 1;
-//     uint32_t cur_count = _start_count;
+    uint32_t iter_start = 1;
+    uint32_t cur_count = _start_count;
 
-//     user_logs user_logs_table(_self, _self.value);
+    user_logs user_logs_table(_self, _self.value);
 
-//     for (auto all_log = user_logs_table.begin(); all_log != user_logs_table.end();)
-//     {
-//         if (iter_start < _start_count)
-//         {
-//             iter_start++;
-//             all_log++;
-//             continue;
-//         }
-//         auto user_log = user_logs_table.find(all_log->primary_key());
+    for (auto all_log = user_logs_table.begin(); all_log != user_logs_table.end();)
+    {
+        if (iter_start < _start_count)
+        {
+            iter_start++;
+            all_log++;
+            continue;
+        }
+        auto user_log = user_logs_table.find(all_log->primary_key());
 
-//         user_monsters user_monster_table(_self, user_log->user.value);
-//         user_servants user_servant_tabla(_self, user_log->user.value);
-//         uint64_t count = 0;
-//         for (auto mail = user_monster_table.begin(); mail != user_monster_table.end();)
-//         {
-//             mail++;
-//             count++;
-//         }
-//         for(auto ser = user_servant_tabla.begin(); ser != user_servant_tabla.end();)
-//         {
-//             ser++;
-//             count++;
-//         }
+        user_monsters user_monster_table(_self, user_log->user.value);
+        user_servants user_servant_tabla(_self, user_log->user.value);
+        uint64_t count = 0;
+        for (auto mail = user_monster_table.begin(); mail != user_monster_table.end();)
+        {
+            mail++;
+            count++;
+        }
+        for(auto ser = user_servant_tabla.begin(); ser != user_servant_tabla.end();)
+        {
+            ser++;
+            count++;
+        }
 
-//         if ((cur_total_mail_count + count) >= limit_mail_count)
-//         {
-//             global_count global_count_table(_self, _self.value);
-//             auto g_iter = global_count_table.find(_self.value);
-//             global_count_table.emplace(_self, [&](auto &new_data) {
-//                 new_data.count = cur_count;
-//             });
-//             break;
-//         }
-//         else
-//         {
-//             cur_total_mail_count += count;
-//             lv_exp lv_exp_table(_self, _self.value);
-//             for(auto mon = user_monster_table.begin(); mon != user_monster_table.end();)
-//             {
-//                 auto iter = user_monster_table.find(mon->primary_key());
-//                 auto lv_iter = lv_exp_table.find(49);
-//                 if (iter->monster.level == 50)
-//                 {
-//                     if (lv_iter->char_exp < iter->monster.exp)
-//                     {
-//                         user_monster_table.modify(iter, _self, [&](auto &new_data) {
-//                             new_data.monster.exp = lv_iter->char_exp;
-//                         });
-//                     }
-//                 }
-//                 mon++;
-//             }
+        if ((cur_total_mail_count + count) >= limit_mail_count)
+        {
+            global_count global_count_table(_self, _self.value);
+            auto g_iter = global_count_table.find(_self.value);
+            global_count_table.emplace(_self, [&](auto &new_data) {
+                new_data.count = cur_count;
+            });
+            break;
+        }
+        else
+        {
+            cur_total_mail_count += count;
+            lv_exp lv_exp_table(_self, _self.value);
+            for(auto mon = user_monster_table.begin(); mon != user_monster_table.end();)
+            {
+                auto iter = user_monster_table.find(mon->primary_key());
+                auto lv_iter = lv_exp_table.find(49);
+                if (iter->monster.level == 50)
+                {
+                    if (lv_iter->char_exp < iter->monster.exp)
+                    {
+                        user_monster_table.modify(iter, _self, [&](auto &new_data) {
+                            new_data.monster.exp = lv_iter->char_exp;
+                        });
+                    }
+                }
+                mon++;
+            }
 
-//             for (auto ser = user_servant_tabla.begin(); ser != user_servant_tabla.end();)
-//             {
-//                 auto iter = user_servant_tabla.find(ser->primary_key());
-//                 auto lv_iter = lv_exp_table.find(49);
-//                 if (iter->servant.level == 50)
-//                 {
-//                     if (lv_iter->char_exp < iter->servant.exp)
-//                     {
-//                         user_servant_tabla.modify(iter, _self, [&](auto &new_data) {
-//                             new_data.servant.exp = lv_iter->char_exp;
-//                         });
-//                     }
-//                 }
-//                 ser++;
-//             }
-//             battle_state_list battle_state_list_table(_self, _self.value);
-//             auto battle_iter = battle_state_list_table.find(user_log->user.value);
-//             if(battle_iter != battle_state_list_table.end())
-//             {
-//                 battle_state_list_table.erase(battle_iter);
-//             }
+            for (auto ser = user_servant_tabla.begin(); ser != user_servant_tabla.end();)
+            {
+                auto iter = user_servant_tabla.find(ser->primary_key());
+                auto lv_iter = lv_exp_table.find(49);
+                if (iter->servant.level == 50)
+                {
+                    if (lv_iter->char_exp < iter->servant.exp)
+                    {
+                        user_servant_tabla.modify(iter, _self, [&](auto &new_data) {
+                            new_data.servant.exp = lv_iter->char_exp;
+                        });
+                    }
+                }
+                ser++;
+            }
+            battle_state_list battle_state_list_table(_self, _self.value);
+            auto battle_iter = battle_state_list_table.find(user_log->user.value);
+            if(battle_iter != battle_state_list_table.end())
+            {
+                battle_state_list_table.erase(battle_iter);
+            }
 
-//             cur_count += 1;
-//             all_log++;
-//         }
-//     }
-// }
+            cur_count += 1;
+            all_log++;
+        }
+    }
+}
 
 #undef EOSIO_DISPATCH
 
@@ -14153,8 +14149,8 @@ ACTION battletest::leveltest(eosio::name _user)
 
 EOSIO_DISPATCH(battletest,
                (addrefer)(deleterefer)(addwhite)(deletewhite) //(addwhite)(deletewhite)
-               (dbinsert)//(dberase)//(dbinit) //(dblistinsert)////                            //     //(setdata)                  //test
-               (transfer)(changetoken)(create)(issue)(leveltest)//(accountset)//(deleteuser2)//// (updatecheack)        //token
+               //(dbinsert)//(dberase)//(dbinit) //(dblistinsert)////                            //     //(setdata)                  //test
+               (transfer)(changetoken)(create)(issue)(leveltest)(updatecheack) //(accountset)//(deleteuser2)////        //token
                //(claim)(endflag)(toweropen)(towerstart)(deletetower)
                //(chat)//(simulate)(deletelog)                                                                           //()                                                  //(movelog)//(lvcheat)                      //(partycheat)                                                                                                                              //tower
                 (goldgacha)//(itemburn)               // (anothercheck)                                            //(inittokenlog) (initmaster)
