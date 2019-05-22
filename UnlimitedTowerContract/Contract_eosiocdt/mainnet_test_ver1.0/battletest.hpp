@@ -600,7 +600,7 @@ CONTRACT battletest : public contract
     ACTION dbinsert(std::string _table, std::string _value);
     //ACTION dberase(std::string _table, std::string _value);
     //ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
-    // ACTION dbinit(std::string _table);
+    //ACTION dbinit(std::string _table);
     //ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
 
 	//ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
@@ -650,7 +650,7 @@ CONTRACT battletest : public contract
     // void erase_servant_id(uint64_t _id);
     // void erase_monster_id(uint64_t _id);
   //  void erase_monster_grade(uint64_t _grade);
-  //  void erase_equip_item_id(uint64_t _id);
+    void erase_equip_item_id(uint64_t _id);
   //  void erase_all_item_id(uint64_t _id);
   //  void erase_item_grade(uint64_t _grade);
  //   void erase_grade_ratio(uint64_t _grade);
@@ -1903,7 +1903,7 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
     //ACTION simulate(eosio::name _user, std::string _type, std::string _value);
     //ACTION lvcheat(eosio::name _user);
     void utg_exchange(eosio::name _user);
-    ACTION deletelog();
+    //ACTION deletelog();
     //ACTION anothercheck(uint32_t _start_count);
     ACTION anothercheck2(uint32_t _start_count);
 
@@ -2001,8 +2001,8 @@ void new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t _seed, std::
 //치트키
 //ACTION monstercheat(eosio::name _user, uint32_t _grade, uint32_t _id, uint32_t _count);
 //ACTION balancetest(eosio::name _user, std::string _type, std::string _value);
-//ACTION accountset(eosio::name _user);
+ACTION accountset(eosio::name _user);
 ACTION leveltest(eosio::name _user);
-ACTION updatecheack(uint32_t _start_count);
+//ACTION updatecheack(uint32_t _start_count);
 
 };
