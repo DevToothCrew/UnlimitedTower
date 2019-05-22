@@ -49,6 +49,12 @@
 #define MONSTER_UPGRADE_RATE        10000 
 #define ITEM_UPGRADE_RATE     100
 
+//============reward============//
+#define TIER_1_MAX_COUNT        8
+#define TIER_2_MAX_COUNT        8
+#define TIER_3_MAX_COUNT        8
+#define TIER_4_MAX_COUNT        8
+
 using namespace std;
 using namespace eosio;
 

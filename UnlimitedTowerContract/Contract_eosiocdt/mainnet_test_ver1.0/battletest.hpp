@@ -161,6 +161,8 @@ CONTRACT battletest : public contract
     };
     typedef eosio::multi_index<"dbstatusserv"_n,dbstatusserv> servant_lv_status_db;
 
+    void insert_status_servant(uint64_t _grade, std::vector<uint32_t> _status_list);
+
     TABLE dbstatusmon
     {
         uint64_t grade;
@@ -380,8 +382,9 @@ CONTRACT battletest : public contract
         uint64_t job;
         std::vector<uint64_t> option_list;
         uint64_t primary_key() const { return item_id; }
+        uint64_t get_tier() const { return tier; }
     };
-    typedef eosio::multi_index<"dbequipment"_n, dbequipment> equipment_db;
+    typedef eosio::multi_index<"dbequipment"_n, dbequipment, indexed_by<"tier"_n, const_mem_fun<dbequipment, uint64_t, &dbequipment::get_tier>>> equipment_db;
 #pragma endregion
 
 #pragma region db dbitemburn
@@ -594,7 +597,7 @@ CONTRACT battletest : public contract
 #pragma region db function
   public:
     void substr_value(std::string _value, std::vector<std::string> & _value_list, std::vector<size_t> & _size_list, uint32_t _size);
-    //ACTION dbinsert(std::string _table, std::string _value);
+    ACTION dbinsert(std::string _table, std::string _value);
     // ACTION dberase(std::string _table, std::string _value);
     // ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
     // ACTION dbinit(std::string _table);
@@ -1554,7 +1557,7 @@ CONTRACT battletest : public contract
    {
        uint64_t id;
        uint32_t type;
-       uint64_t count;
+       std::vector<item_info> item_list;
    };
    struct exp_info
    {
@@ -1587,7 +1590,7 @@ CONTRACT battletest : public contract
     uint32_t check_under_divide_flow(uint32_t _a, uint32_t _b);
     void set_upgrade_equip_status(uint64_t _grade, uint32_t _value, uint32_t _upgrade);
     void set_upgrade_monster_status(uint64_t _grade, status_info &_status, uint32_t _upgrade);
-    uint32_t get_stage_id(uint32_t _stage_type, uint32_t _stage_floor);
+    uint32_t get_stage_id(uint32_t _tier, uint32_t _type, uint32_t _grade);
     uint32_t get_max_hp(status_info _status, uint32_t _level);
     uint32_t get_magic_attack(status_info _status, uint32_t _level);
     uint32_t get_physical_attack(status_info _status, uint32_t _level);
@@ -1603,7 +1606,7 @@ CONTRACT battletest : public contract
         std::vector<character_state_data> & _my_state_list, std::vector<uint32_t> &_synergy_list);
     character_state_data get_user_state(eosio::name _user, std::string _type, uint64_t _index, uint32_t _position, std::vector<std::string> & _state);
     bool possible_start(eosio::name _user, uint32_t _party_number);
-    ACTION stagestart(eosio::name _user, uint32_t _party_number, uint32_t _stage_type, uint32_t _stage_floor);
+    ACTION stagestart(eosio::name _user, uint32_t _party_number, uint32_t _tier, uint32_t _type, uint32_t _grade);
 
     void init_buff_turn_self(battle_status_info & _status);
     bool check_activate_skill(uint32_t _skill, uint64_t _rate);
@@ -1669,7 +1672,7 @@ CONTRACT battletest : public contract
     servant_data get_reward_servant(eosio::name _user, uint32_t _job, uint32_t _grade, uint64_t _seed);
     monster_data get_reward_monster(eosio::name _user, uint32_t _id, uint32_t _grade, uint64_t _seed);
     equip_data get_reward_equip(eosio::name _user, uint32_t _id, uint32_t _grade, uint64_t _seed);
-    //item_data get_reward_item(eosio::name _user, uint32_t _id, uint32_t _count);
+    item_data get_reward_item(eosio::name _user, uint32_t _id, uint32_t _count);
     void win_reward(eosio::name _user, uint64_t _stage_number, uint64_t _seed);
     void fail_reward(eosio::name _user, uint64_t _stage_number);
 
@@ -1688,7 +1691,7 @@ CONTRACT battletest : public contract
     void deletebattle(eosio::name _user);
     void deleteuser(eosio::name _user);
     ACTION alluserdel();
-    ACTION allbattle();
+    //ACTION allbattle();
 
     //-------------------------------------------------------------------------------//
     //-----------------------------preregist_table-----------------------------------//
@@ -1905,5 +1908,101 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
     ACTION anothercheck2(uint32_t _start_count);
 
 #pragma endregion
+
+TABLE stageinfo
+{
+    uint64_t id;
+    uint32_t type;
+    uint32_t tier;
+    uint32_t grade;
+    uint32_t need_entrance_item_id;
+    uint32_t need_entrance_item_count;
+    uint32_t enemy_level_min;
+    uint32_t enemy_level_max;
+    uint32_t enemy_count;
+    std::vector<uint32_t> option_list;
+    uint64_t primary_key() const { return id; }
+};
+
+typedef eosio::multi_index<"dbstageinfo"_n, stageinfo> stageinfo_db;
+void insert_stage_info(std::vector<uint32_t> _stage_info);
+
+TABLE enemyinfo
+{
+    uint64_t index;
+    uint64_t id;
+    uint32_t type;
+    std::vector<uint32_t> active_list;
+    std::vector<uint32_t> passive_list;
+    uint64_t primary_key() const { return index; }
+};
+
+typedef eosio::multi_index<"dbenemyinfo"_n, enemyinfo> enemyinfo_db;
+void insert_enemy_info(std::vector<uint32_t> _enemy_info);
+
+TABLE enemystat
+{
+    uint64_t id;
+    uint32_t base_str;
+    uint32_t base_dex;
+    uint32_t base_int;
+    uint64_t primary_key() const { return id; }
+};  
+
+typedef eosio::multi_index<"dbenemystat"_n, enemystat> enemystat_db;
+void insert_enemy_stat(std::vector<uint32_t> _enemy_stat);
+
+struct reward_item_info
+{
+    uint32_t id;
+    uint32_t per;
+    uint32_t count;
+};
+
+TABLE reward
+{
+    uint64_t id;
+    uint32_t reward_utg;
+    uint32_t rank_exp;
+    uint32_t char_exp;
+    uint32_t reward_count;
+    uint32_t per_monster;
+    uint32_t per_equipment;
+    std::vector<reward_item_info> reward_list;
+    uint64_t primary_key() const { return id; }
+};
+
+typedef eosio::multi_index<"dbnewreward"_n, reward> new_reward_db;
+
+void insert_new_reward(std::vector<uint32_t> _reward);
+
+
+TABLE stagestateinfo
+{
+    eosio::name user;
+    eosio::name enemy_user;
+    uint8_t type;
+    uint8_t grade;
+    uint8_t tier;
+    uint64_t turn = 0;
+    std::vector<character_state_data> my_state_list;
+    std::vector<character_state_data> enemy_state_list;
+    std::vector<uint32_t> my_synergy_list;
+    std::vector<uint32_t> enemy_synergy_list;
+
+    uint64_t primary_key() const { return user.value; }
+};
+typedef eosio::multi_index<"tstgstates"_n, stagestateinfo> new_battle_state_list;
+
+void check_enter_stage(eosio::name _user, uint32_t _stage_id);
+void new_set_stage_state(uint64_t _stage_id, uint64_t _seed, std::vector<character_state_data> & _enemy_state_list, std::vector<std::string> & _state);
+void new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t _seed, std::vector<uint32_t> _reward_monster_id);
+
+//치트키
+//ACTION monstercheat(eosio::name _user, uint32_t _grade, uint32_t _id, uint32_t _count);
+//ACTION balancetest(eosio::name _user, std::string _type, std::string _value);
+//ACTION accountset(eosio::name _user);
+ACTION leveltest(eosio::name _user);
+ACTION updatecheack(uint32_t _start_count);
 
 };
