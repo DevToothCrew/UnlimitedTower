@@ -113,14 +113,28 @@ public class ShopBuyPopup : MonoBehaviour {
         {
             if((ulong)shopData.priceCount > UserDataManager.Inst.GetUserUTG())
             {
-                
                 return;
             }
+
             PacketManager.Inst.RequestShopBuyItem(index, 2, buyCount);
+        }
+        else if (shopData.priceID == 500002)
+        {
+            if ((ulong)shopData.priceCount > UserDataManager.Inst.GetUserEOS())
+            {
+                return;
+            }
+
+            PacketManager.Inst.RequestShopBuyItem(index, 1, buyCount);
         }
         else
         {
-            PacketManager.Inst.RequestShopBuyItem(index, 1, buyCount);
+            if(shopData.priceCount > UserDataManager.Inst.GetItemCount(shopData.priceID))
+            {
+                return;
+            }
+
+            PacketManager.Inst.RequestShopBuyItem(index, 2, buyCount);
         }
     }
 
