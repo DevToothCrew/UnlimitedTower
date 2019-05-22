@@ -124,8 +124,8 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
             reverse_sort = !reverse_sort;
         }
         scrollList.scrollRect.velocity = Vector2.zero;
-        scrollList.SetItemOrder(getOrder());
         scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+        scrollList.SetItemOrder(getOrder());
         scrollList.ScrollViewDidScroll();
     }
 
@@ -520,8 +520,9 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
         }
 
         setData();
-        scrollList.SetItemOrder(getOrder());
+        
         scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+        scrollList.SetItemOrder(getOrder());
         scrollList.ScrollViewDidScroll();
     }
 

@@ -96,8 +96,8 @@ public class ItemInfoManager : MonoSingleton<ItemInfoManager> {
             textOwned.color = Color.white;
         }
 
-        scrollList.SetItemOrder(getOrder());
         scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+        scrollList.SetItemOrder(getOrder());
         scrollList.ScrollViewDidScroll();
     }
 

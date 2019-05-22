@@ -174,8 +174,8 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         }
         
         scrollList.scrollRect.velocity = Vector2.zero;
-        scrollList.SetItemOrder(getOrder());
         scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+        scrollList.SetItemOrder(getOrder());
         scrollList.ScrollViewDidScroll();
         
     }
