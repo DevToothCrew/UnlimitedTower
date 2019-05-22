@@ -45,6 +45,11 @@ public class GachaManager : MonoSingleton<GachaManager> {
         // startButton.interactable = value;
     }
 
+    public void SkipButton()
+    {
+        ExecuteGacha(gachaID);
+    }
+
     public void ExecuteGacha(int id)
     {
         // bool 처리를 통해 Gacha 처리가 필요할수도
@@ -52,6 +57,8 @@ public class GachaManager : MonoSingleton<GachaManager> {
         // GachaIndex에 따른 필요 EOS를 체크한다.
 
         // id 11 = EOS x1 / id 12 = EOX x10 / id 21 = UTG x 1 / id 22 = UTG x 10
+
+        DebugLog.Log(false, "Pre ID : " + gachaID + ", Request ID : " + id);
         gachaID = id;
 
         if (particleController.isGachaStart == true)
