@@ -263,7 +263,7 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
 
         InitScrollView();
         SetItemOrder(_data_order);
-
+        DrawScrollView();
 
         Canvas.ForceUpdateCanvases();
     }
