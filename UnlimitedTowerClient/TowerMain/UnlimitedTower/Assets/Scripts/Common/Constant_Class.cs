@@ -304,8 +304,7 @@ public class BattleStatus
                 {
                     Buff(servant.passiveSkillList[i].id, true);
                 }
-
-
+                
                 StatusReCalculation(servant.level);
 
                 Equipment(servant.equipmentDic, false);
@@ -344,8 +343,7 @@ public class BattleStatus
                     {
                         Buff(monster.passiveSkillList[i].id, true);
                     }
-
-
+                    
                     StatusReCalculation(monster.level);
 
                     for (int i = 0; i < statgData.mySynergyList.Count; i++)
@@ -419,13 +417,13 @@ public class BattleStatus
                     switch (equipmentData.optionType)
                     {
                         case EQUIPMENT_OPTION_TYPE.STR:
-                            Status[EFFECT_ID.STR] += (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType)));
+                            Status[EFFECT_ID.STR] = (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType)));
                             break;
                         case EQUIPMENT_OPTION_TYPE.DEX:
-                            Status[EFFECT_ID.DEX] += (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType)));
+                            Status[EFFECT_ID.DEX] = (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType)));
                             break;
                         case EQUIPMENT_OPTION_TYPE.INT:
-                            Status[EFFECT_ID.INT] += (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType)));
+                            Status[EFFECT_ID.INT] = (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType)));
                             break;
                     }
                 }
@@ -434,16 +432,16 @@ public class BattleStatus
                     switch (equipmentData.optionType)
                     {
                         case EQUIPMENT_OPTION_TYPE.ATK:
-                            Status[EFFECT_ID.ATK] += (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType)));
+                            Status[EFFECT_ID.ATK] = (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType)));
                             break;
                         case EQUIPMENT_OPTION_TYPE.MATK:
-                            Status[EFFECT_ID.MATK] += (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType)));
+                            Status[EFFECT_ID.MATK] = (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType)));
                             break;
                         case EQUIPMENT_OPTION_TYPE.DEF:
-                            Status[EFFECT_ID.DEF] += (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType)));
+                            Status[EFFECT_ID.DEF] = (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType)));
                             break;
                         case EQUIPMENT_OPTION_TYPE.MDEF:
-                            Status[EFFECT_ID.MDEF] += (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType)));
+                            Status[EFFECT_ID.MDEF] = (int)(equipmentData.value * (CSVData.Inst.GetEquipmentUpStatFloat(equipmentData.upgrade, equipmentData.gradeType)));
                             break;
                     }
                 }
