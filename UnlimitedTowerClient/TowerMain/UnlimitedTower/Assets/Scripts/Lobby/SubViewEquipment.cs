@@ -52,8 +52,8 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
 
     public Text textHp;
     public Text textHpChange;
-    public Text textSpeed;
-    public Text textSpeedChange;
+    public Text textAvoid;
+    public Text textAvoidChange;
 
     public Text textPAtk;
     public Text textPAtkChange;
@@ -499,7 +499,7 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
         textInt.text = string.Format("{0}", servant_stat_equip_current_item[(int)EQUIPMENT_OPTION_TYPE.INT] + SetChangeValue(textIntChange, EQUIPMENT_OPTION_TYPE.INT));
 
         textHp.text = string.Format("{0}", servant_stat_equip_current_item[(int)EQUIPMENT_OPTION_TYPE.HP] + SetChangeValue(textHpChange, EQUIPMENT_OPTION_TYPE.HP));
-        textSpeed.text = string.Format("{0}", dBServantData.speed);
+        textAvoid.text = string.Format("{0}", dBServantData.avoid);
 
         textPAtk.text = string.Format("{0}", servant_stat_equip_current_item[(int)EQUIPMENT_OPTION_TYPE.ATK] + SetChangeValue(textPAtkChange, EQUIPMENT_OPTION_TYPE.ATK));
         textPDef.text = string.Format("{0}", servant_stat_equip_current_item[(int)EQUIPMENT_OPTION_TYPE.DEF] + SetChangeValue(textPDefChange, EQUIPMENT_OPTION_TYPE.DEF));

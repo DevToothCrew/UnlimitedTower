@@ -14,8 +14,8 @@ int,int,localize,localize,int,int,int,int,int,int,int
 4004,스테이지 입장권 : 지옥,DB_shopItem_name_4004,DB_shopItem_desc_4004,1,eos,500230,1,0,500002,10000
 4101,서번트 소환권,DB_shopItem_name_4101,DB_shopItem_desc_4101,3,etc,590001,1,0,500200,100
 4102,서번트 소환권,DB_shopItem_name_4102,DB_shopItem_desc_4102,3,etc,590001,1,0,500210,50
-4103,서번트 소환권,DB_shopItem_name_4103,DB_shopItem_desc_4103,3,etc,590001,1,0,500220,15
-4104,서번트 소환권,DB_shopItem_name_4104,DB_shopItem_desc_4104,3,etc,590001,1,0,500230,3
+4103,서번트 소환권,DB_shopItem_name_4103,DB_shopItem_desc_4103,3,etc,590001,1,0,500220,20
+4104,서번트 소환권,DB_shopItem_name_4104,DB_shopItem_desc_4104,3,etc,590001,1,0,500230,10
 1001,스타트 패키지,DB_shopItem_name_1001,DB_shopItem_desc_1001,4,package,1001,1,0,500002,10000
 1006,강화 패키지 1,DB_shopItem_name_1006,DB_shopItem_desc_1006,4,package,1006,1,0,500002,100000
 1007,강화 패키지 2,DB_shopItem_name_1007,DB_shopItem_desc_1007,4,package,1007,1,0,500002,1000000
