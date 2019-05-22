@@ -299,10 +299,9 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
                 item_order[i] = i;
             }
         }
-        
-        UpdateScrollView();
-        DrawScrollView();
+
         ScrollViewDidScroll();
+        UpdateScrollView();
     }
 
 
@@ -434,9 +433,11 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
 
             DrawScrollView();
         }
+        else
+        {
+            DrawScrollView();
+        }
 
-
-        DrawScrollView();
         if (moveScrollSelectedUnit == false)
         {
             selectedUnit();
