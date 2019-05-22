@@ -1,8 +1,8 @@
 id,#관리,resource_icon,name,enname,#,description,explain,tier,grade,item_type_name,item_type,max_count,item_param_list,sell_item_id,sell_item_count
 #,가챠 id,아이템 아이콘,아이템 이름,아이템 이름,아이템 이름,아이템 설명,설명 임시,티어,등급,아이템 타입,아이템 타입,슬롯 당 최대 소지 개수,아이템 파라미터 리스트,판매시획득재화,판매가격
 int,int,string,localize,string,string,localize,string,int,int,string,int,itn,int,int,int
-500001,0,ic_utg,DB_item_name_500001,Unlimited Tower Gold,골드,DB_item_desc_500001,Unlimited Tower Gold,0,0,Money,1,0,0,0,0
-500002,0,ic_eos,DB_item_name_500002,EOS,이오스,DB_item_desc_500002,Dan's Gold,0,0,Money,1,0,0,0,0
+500001,0,ic_utg,DB_item_name_500001,Unlimited Tower Gold,골드,DB_item_desc_500001,Unlimited Tower Gold,0,0,Money,0,0,0,0,0
+500002,0,ic_eos,DB_item_name_500002,EOS,이오스,DB_item_desc_500002,Dan's Gold,0,0,Money,0,0,0,0,0
 500010,0,ic_invenPlus_servant,DB_item_name_500010,Add Servant Inventory,서번트 인벤토리,DB_item_desc_500010,Expands your Servant Inventory slots by 5 spaces.,0,0,Add Inventory,1,0,0,0,0
 500011,0,ic_invenPlus_monster,DB_item_name_500011,Add Monster Inventory,몬스터 인벤토리,DB_item_desc_500011,Expand your Monster Inventory slots by 5 spaces.,0,0,Add Inventory,1,0,0,0,0
 500012,0,ic_invenPlus_equip,DB_item_name_500012,Add Equipment Inventory,장비 인벤토리,DB_item_desc_500012,Expand your Equipment Inventory slots by 5 spaces.,0,0,Add Inventory,1,0,0,0,0
@@ -12,7 +12,7 @@ int,int,string,localize,string,string,localize,string,int,int,string,int,itn,int
 500120,0,ic_upScroll_ac,DB_item_name_500120,Accessory Scroll,액세서리 강화 주문서,DB_item_desc_500120,This scroll item is needed to increase your value by strengthening accessories.,0,3,Upgrade Scroll,2,99,0,500001,1
 500200,0,ic_ticket_stage_uncommon,DB_item_name_500200,Stage Ticket : Normal,스테이지 입장권 : 보통,DB_item_desc_500200,This item is usually required to enter the Normal stage.,0,4,Stage Ticket,3,99,0,500001,1
 500210,0,ic_ticket_stage_rare,DB_item_name_500210,Stage Ticket : Hard,스테이지 입장권 : 어려움,DB_item_desc_500210,This item is usually required to enter the Hard stage.,0,3,Stage Ticket,3,99,0,500001,1
-500220,0,ic_ticket_stage_unique,DB_item_name_500220,Stage Ticket : Extreme,스테이지 입장권 : 극단,DB_item_desc_500220,This item is usually required to enter the Extreme stage.,0,2,Stage Ticket,3,99,0,500001,1
+500220,0,ic_ticket_stage_unique,DB_item_name_500220,Stage Ticket : Nightmare,스테이지 입장권 : 악몽,DB_item_desc_500220,This item is usually required to enter the Nightmare stage.,0,2,Stage Ticket,3,99,0,500001,1
 500230,0,ic_ticket_stage_legendary,DB_item_name_500230,Stage Ticket : Hell,스테이지 입장권 : 지옥,DB_item_desc_500230,This item is usually required to enter the Hell stage.,0,1,Stage Ticket,3,99,0,500001,1
 510010,0,ic_soul_warrior,DB_item_name_510010,Powder of Warrior's Soul,전사의 영혼,DB_item_desc_510010,This is Powder of Warrior's Soul. The powder of soul is said to have mysterious power.,0,5,Material Soul,0,99,0,500001,1
 510020,0,ic_soul_thief,DB_item_name_510020,Powder of Thief's Soul,도적의 영혼,DB_item_desc_510020,This is Powder of Thief's Soul. The powder of soul is said to have mysterious power.,0,5,Material Soul,0,99,0,500001,1
