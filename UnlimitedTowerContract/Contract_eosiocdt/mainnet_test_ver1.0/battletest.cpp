@@ -4082,6 +4082,11 @@ ACTION battletest::eostransfer(eosio::name sender, eosio::name receiver)
             eosio_assert(check_inventory(sender,1) ==true, "Buy Package : Inventory is Full");
             package_buy(sender, ad.type, ad.count);
         }
+        else if(ad.action == action_shopbuyitem)
+        {
+            eosio_assert(check_inventory(sender,1) == true, "Buy Shop Item : Inventory is Full");
+            shop_buy_item(sender, ad.type, ad.count);
+        }
     });
 }
 
@@ -4241,7 +4246,7 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
 
             else if (res.action == "packagebuy") 
             {
-                  size_t l_next = transfer_data.memo.find(':', l_center + 1);
+                size_t l_next = transfer_data.memo.find(':', l_center + 1);
                 size_t l_end = transfer_data.memo.length() - (l_next + 1);
 
                 eosio_assert(transfer_data.memo.find(':') != std::string::npos, "Eos Transfer Packagebuy : Seed Memo [:] Error");
@@ -4262,12 +4267,50 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
                 auto package_shop_iter = package_shop_table.find(shop_list_iter->shop_item_id);
                 eosio_assert(res.count == 1, "Eos Transfer Packagebuy : only 1 buy count");
                 
- //               eosio_assert(user_packages_iter->count !=1,"Eos Transfer Packagebuy : You already Made a package");
                 eosio_assert(package_shop_iter->price_count /10000 == transfer_data.quantity.amount, "Eos Transfer Packagebuy : Not same Eos");
                 set_eos_log(transfer_data.quantity.amount);
 
             }
 
+            else if (res.action == "shopbuyitem") 
+            {
+                size_t l_next = transfer_data.memo.find(':', l_center + 1);
+                size_t l_end = transfer_data.memo.length() - (l_next + 1);
+
+                eosio_assert(transfer_data.memo.find(':') != std::string::npos, "Eos Transfer Shop Buy item : Seed Memo [:] Error");
+                eosio_assert(transfer_data.memo.find(':', l_center + 1) != std::string::npos, "Eos Transfer Shop Buy item : Seed Memo [:] Error");
+
+                std::string result_type = transfer_data.memo.substr(l_center + 1, (l_next - l_center - 1));
+                std::string result_count = transfer_data.memo.substr(l_next + 1, l_end);
+                uint64_t result_seed = atoll(result_type.c_str());
+                uint64_t result_amount = atoll(result_count.c_str());
+
+                res.type = result_seed;
+                res.count = result_amount;
+                res.amount = transfer_data.quantity.amount;
+
+                shop_list shop_list_table(_self, _self.value);
+                auto shop_list_iter = shop_list_table.find(res.type);
+                eosio_assert(shop_list_iter != shop_list_table.end(), "Eos Transfer Shop Buy item : Not Exist Shop type");
+ 
+//                eosio_assert(res.count * 1 == transfer_data.quantity.amount, "Eos Transfer inventorybuy : Not same Eos");
+                
+                if (res.type <= 4 && res.type >=8 && res.type <=11)
+                {
+                    item_shop item_shop_table(_self, _self.value);
+                    auto item_shop_iter = item_shop_table.find(shop_list_iter->shop_item_id);
+                    eosio_assert(res.count * (item_shop_iter->price_count /1000) == transfer_data.quantity.amount, "Eos Transfer Item Shop : Not same Eos");
+                }
+                else if (res.type >= 16 && res.type <=23)
+                {
+                    package_shop package_shop_table(_self, _self.value);
+                    auto package_shop_iter = package_shop_table.find(shop_list_iter->shop_item_id);
+                    eosio_assert(res.count *(package_shop_iter->price_count /10000) == transfer_data.quantity.amount, "Eos Transfer Package Shop : Not same Eos");                    
+                }
+//                eosio_assert(res.count == 1, "Eos Transfer Packagebuy : only 1 buy count");               
+                
+                set_eos_log(transfer_data.quantity.amount);
+            }
             else
             {
                 eosio_assert(1 == 0, "Wrong Action 4");
@@ -10772,6 +10815,7 @@ ACTION battletest::itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count
     }
 }
 
+
 void battletest::utg_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _count)
 {
 
@@ -10997,103 +11041,39 @@ void battletest::etc_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _co
 
         uint64_t l_seed = safeseed::get_seed_value(_user.value, now());
         gacha_servant_id(_user,l_seed,0,0,3);
-        //etc_servant_get(_user);
+       
     }
 }
 
+void battletest::shop_buy_item(eosio::name _user, uint32_t _type, uint32_t _count)
+{
+    system_check(_user);
 
-// void battletest::etc_servant_get(eosio::name _user)
-// {      
-//     servant_job_db servant_job_table(_self, _self.value);
-//     uint64_t _seed = safeseed::get_seed_value(_user.value, now());
-//     uint32_t random_job = safeseed::get_random_value(_seed, SERVANT_JOB_COUNT, DEFAULT_MIN_DB, servant_random_count);
-//     const auto &servant_job_db_iter = servant_job_table.get(random_job, "Gacha Servant : Empty Servant Job");
+    shop_list shop_list_table(_self, _self.value);
+    auto shop_list_iter = shop_list_table.find(_type);
+    eosio_assert(shop_list_iter != shop_list_table.end(), "shop_buy_item : Not exist item shop data");
 
-//     servant_random_count += 1;
-//     uint32_t random_body = gacha_servant_body(_seed, servant_random_count);
-
-//     servant_random_count += 1;
-//     gender_db gender_table(_self, _self.value);
-//     uint32_t random_gender = safeseed::get_random_value(_seed, GEMDER_COUNT, DEFAULT_MIN_DB, servant_random_count);
-//     const auto &gender_db_iter = gender_table.get(random_gender, "Gacha Servant : Empty Servant Gender");
-
-//     servant_random_count += 1;
-//     uint32_t random_head = gacha_servant_head(_seed, servant_random_count);
-
-//     servant_random_count += 1;
-//     uint32_t random_hair = gacha_servant_hair(_seed, servant_random_count);
-
-//     servant_db servant_id_table(_self, _self.value);
-//     uint32_t servant_index = get_servant_index(random_job, random_body, random_gender, random_head, random_hair);
-//     const auto &servant_id_db_iter = servant_id_table.get(servant_index, "Gacha Servant : Empty Servant ID");
-
-//     serstat_db servant_base_table(_self, _self.value);
-//     uint32_t servant_job_base = (servant_id_db_iter.job * 1000) + (servant_id_db_iter.grade * 100) + 1;
-//     const auto &ser_iter = servant_base_table.get(servant_job_base, "Gacha Servant : Empty Servant Stat");
-
-//     user_logs user_log_table(_self, _self.value);
-//     auto user_log_iter = user_log_table.find(_user.value);
-
-//     user_auths auth_user_table(_self, _self.value);
-//     auto auth_user_iter = auth_user_table.find(_user.value);
-//     eosio_assert(auth_user_iter != auth_user_table.end(), "Gacha Servant : Empty Auth Table / Not Yet Signup");
-
-//     eosio_assert(user_log_iter != user_log_table.end(), "Gacha Servant : Empty Log Table / Not Yet Signup");
-
-//     std::string new_data;
-//     result_info result;
-//     user_servants user_servant_table(_self, _user.value);
-//     user_servant_table.emplace(_self, [&](auto &update_user_servant_list) {
-//         uint32_t first_index = user_servant_table.available_primary_key();
-//         if (first_index == 0)
-//         {
-//             update_user_servant_list.index = 1;
-//         }
-//         else
-//         {
-//             update_user_servant_list.index = user_servant_table.available_primary_key();
-//         }
-
-//         servant_info new_servant;
-
-//         new_servant.id = servant_id_db_iter.id;
-//         new_servant.exp = 0;
-//         new_servant.grade = 5;
-//         servant_random_count += 1;
-
-//         new_servant.status.basic_str = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_str, servant_job_db_iter.min_range.base_str, servant_random_count);
-//         servant_random_count += 1;
-//         new_servant.status.basic_dex = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_dex, servant_job_db_iter.min_range.base_dex, servant_random_count);
-//         servant_random_count += 1;
-//         new_servant.status.basic_int = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_int, servant_job_db_iter.min_range.base_int, servant_random_count);
-
-//         new_servant.status.basic_str = change_servant_statue(new_servant.status.basic_str) + ser_iter.base_str;
-//         new_servant.status.basic_dex = change_servant_statue(new_servant.status.basic_dex) + ser_iter.base_dex;
-//         new_servant.status.basic_int = change_servant_statue(new_servant.status.basic_int) + ser_iter.base_int;
-
-//         new_servant.equip_slot.resize(3);
-//         new_servant.state = object_state::on_inventory;
-
-//         uint32_t active_id = get_servant_active_skill(servant_id_db_iter.job, _seed);
-//         new_servant.active_skill.push_back(active_id);
-
-//         uint32_t passive_id = get_servant_passive_skill(servant_id_db_iter.job, _seed);
-//         new_servant.passive_skill.push_back(passive_id);
-
-//         result.index = update_user_servant_list.index;
-//         result.type = result::servant;
-
-//         update_user_servant_list.party_number = EMPTY_PARTY;
-//         update_user_servant_list.servant = new_servant;
-
-//        });
-
-//     auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
-//         update_auth_user.current_servant_inventory += 1;
-//     });
-
-// }
-
+    // 인벤토리 구매 
+    if (shop_list_iter->id >=1 && shop_list_iter->id <= 4)
+    {
+        inventory_buy(_user, shop_list_iter->id, _count);
+    }
+    // 티켓 구매
+    else if (shop_list_iter->id >=8 && shop_list_iter->id <= 11)
+    {
+        ticket_buy(_user, shop_list_iter->id, _count);
+    }
+    // 패키지 구매 
+    else if (shop_list_iter->id >= 16 && shop_list_iter->id <= 23)
+    {
+        package_buy(_user, shop_list_iter->id, _count);        
+    }
+    else
+    {
+       eosio_assert(0 == 1, "shop_buy_item : Invalid purchase request");
+    }
+    
+}
 
 void battletest::inventory_buy(eosio::name _user, uint32_t _type, uint32_t _count)
 {
@@ -11152,16 +11132,6 @@ void battletest::inventory_buy(eosio::name _user, uint32_t _type, uint32_t _coun
     {
         eosio_assert(0 == 1, "inventory_buy : not exsit this action type");
     }
-
-    std::string contents_result;
-    std::string contents_type = "inventorybuy";
-    contents_result += to_string(_type) + ":";
-    contents_result += to_string(plus_inventory);
-    contents_result += to_string(_count);
-    action(permission_level{get_self(), "active"_n},
-           get_self(), "contents"_n,
-           std::make_tuple(_user, contents_type, contents_result))
-        .send();
 }
 
 
