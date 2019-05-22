@@ -153,28 +153,12 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
     //////////////////////////////////////////
     //////* Text Counting Animation */////////
     //////////////////////////////////////////
-    private Text textNumber;
-    private ulong startValue;
-    private ulong finishValue;
-
-    public ulong StartValue
-    {
-        get { return startValue; }
-        set { startValue = value; }
-    }
-    public ulong FinishValue
-    {
-        get { return finishValue; }
-        set { finishValue = value; }
-    }
-
     private ulong changeValue;
 
     public void NumberCountingEffect(Text text, ulong start, ulong finish)
     {
-        textNumber = text;
-        startValue = start;
-        finishValue = finish;
+        StopCoroutine("IncreaseCounting");
+        StopCoroutine("DicreaseCounting");
 
         if (start > finish)
         {
@@ -185,7 +169,7 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
                 changeValue = 1;
             }
 
-            StartCoroutine("DicreaseCounting");
+            StartCoroutine(DicreaseCounting(text, start, finish));
         }
         else if (start < finish)
         {
@@ -196,7 +180,7 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
                 changeValue = 1;
             }
 
-            StartCoroutine("IncreaseCounting");
+            StartCoroutine(IncreaseCounting(text, start, finish));
         }
         else
         {
@@ -205,7 +189,7 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
         }
     }
 
-    IEnumerator IncreaseCounting()
+    IEnumerator IncreaseCounting(Text textNumber, ulong startValue, ulong finishValue)
     {
         while (startValue < finishValue)
         {
@@ -221,7 +205,7 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
         }
     }
 
-    IEnumerator DicreaseCounting()
+    IEnumerator DicreaseCounting(Text textNumber, ulong startValue, ulong finishValue)
     {
         while (startValue > finishValue)
         {
