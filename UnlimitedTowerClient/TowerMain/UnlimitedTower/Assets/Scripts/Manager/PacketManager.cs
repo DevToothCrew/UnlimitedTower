@@ -1442,9 +1442,70 @@ public class PacketManager : MonoSingleton<PacketManager> {
         UserDataManager.Inst.SetUserEOS(Convert.ToUInt64(getBuyItemData.eos));
         UserDataManager.Inst.SetUserUTG(Convert.ToUInt64(getBuyItemData.utg));
 
-        Dictionary<int, UserItemData> itemDic = new Dictionary<int, UserItemData>();
-        ParseItemDic(getBuyItemData.item_list, ref itemDic);
-        UserDataManager.Inst.SetItemDic(itemDic);
+        if (getBuyItemData.get_servant_list.Count > 0)
+        {
+            for (int i = 0; i < getBuyItemData.get_servant_list.Count; i++)
+            {
+                servantData servant = getBuyItemData.get_servant_list[i];
+
+                UserServantData servantData = ParseServant(servant);
+                if (servantData == null)
+                {
+                    DebugLog.Log(false, "Invalid Servant Info : " + i);
+                    return;
+                }
+                UserDataManager.Inst.AddServantData(servantData);
+            }
+        }
+
+        if (getBuyItemData.get_monster_list.Count > 0)
+        {
+            for (int i = 0; i < getBuyItemData.get_monster_list.Count; i++)
+            {
+                monsterData monster = getBuyItemData.get_monster_list[i];
+
+                UserMonsterData monsterData = ParseMonster(monster);
+                if (monsterData == null)
+                {
+                    DebugLog.Log(false, "Invalid Monster Info : " + i);
+                    return;
+                }
+                UserDataManager.Inst.AddMonsterData(monsterData);
+            }
+        }
+
+        if (getBuyItemData.get_equipment_list.Count > 0)
+        {
+            for (int i = 0; i < getBuyItemData.get_equipment_list.Count; i++)
+            {
+                equipmentData equipment = getBuyItemData.get_equipment_list[i];
+
+                UserEquipmentData equipmentData = ParseEquipment(equipment);
+                if (equipmentData == null)
+                {
+                    DebugLog.Log(false, "Invalid Equipment Info : " + i);
+                    return;
+                }
+                UserDataManager.Inst.AddEquipmentData(equipmentData);
+            }
+
+        }
+
+        if (getBuyItemData.get_item_list.Count > 0)
+        {
+            for (int i = 0; i < getBuyItemData.get_item_list.Count; i++)
+            {
+                itemData item = getBuyItemData.get_item_list[i];
+
+                UserItemData itemData = ParseItem(item);
+                if (itemData == null)
+                {
+                    DebugLog.Log(false, "Invalid Item Info : " + i);
+                    return;
+                }
+                UserDataManager.Inst.SetItem(itemData);
+            }
+        }
 
         if (getBuyItemData.inventory_info != null)
         {
