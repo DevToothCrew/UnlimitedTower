@@ -183,9 +183,8 @@ public class SubViewEquipment : MonoSingleton<SubViewEquipment>
             reverse_sort = !reverse_sort;
         }
         scrollList.scrollRect.velocity = Vector2.zero;
-        scrollList.SetItemOrder(getOrder());
         scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
-        scrollList.ScrollViewDidScroll();
+        scrollList.SetItemOrder(getOrder());
     }
     
     public SORT_TYPE GetSortType()

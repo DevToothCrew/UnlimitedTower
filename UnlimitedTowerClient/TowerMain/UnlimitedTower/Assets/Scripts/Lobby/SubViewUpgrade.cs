@@ -132,9 +132,8 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
             reverse_sort = !reverse_sort;
         }
         scrollList.scrollRect.velocity = Vector2.zero;
-        scrollList.SetItemOrder(getOrder());
         scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
-        scrollList.ScrollViewDidScroll();
+        scrollList.SetItemOrder(getOrder());
     }
 
     //스크롤 정렬

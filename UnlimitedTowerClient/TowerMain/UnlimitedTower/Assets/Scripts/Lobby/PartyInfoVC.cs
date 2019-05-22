@@ -138,11 +138,9 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
             reverse_sort = !reverse_sort;
         }
         scrollList.scrollRect.velocity = Vector2.zero;
-        scrollList.SetItemOrder(getOrder());
         scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
-        scrollList.ScrollViewDidScroll();
+        scrollList.SetItemOrder(getOrder());
         updateDetailInfo(scrollList.getFirstItemOrder());
-        scrollList.UpdateScrollView();
     }
 
     //현재 화면에 따른 스크롤 UI 재설정 
