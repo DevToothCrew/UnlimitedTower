@@ -231,24 +231,24 @@ public class PacketManager : MonoSingleton<PacketManager> {
         {
             gacha = "Gacha";
         }
-        else if (getGachaIndex == 12) //EOS 10
-        {
-            gacha = "GachaTen";
-        }
+        //else if (getGachaIndex == 12) //EOS 10
+        //{
+        //    gacha = "GachaTen";
+        //}
         else if (getGachaIndex == 21) //UTG 1
         {
             gacha = "GoldGacha";
         }
-        else if (getGachaIndex == 22) //UTG 10
-        {
-            gacha = "GoldGachaTen";
-        }
+        //else if (getGachaIndex == 22) //UTG 10
+        //{
+        //    gacha = "GoldGachaTen";
+        //}
         else
         {
             return;
         }
 
-        Request(gacha,
+        Request<gachaResultData>(gacha,
             onSuccess: ResponseGacha,
             onFailed: msg =>
             {
@@ -908,47 +908,84 @@ public class PacketManager : MonoSingleton<PacketManager> {
     }
 
     // 가챠
-    public void ResponseGacha(string getGachaInfo)
+    public void ResponseGacha(gachaResultData getGachaResultData)
     {
-        DebugLog.Log(false, "ResponseGacha : " + getGachaInfo);
+        DebugLog.Log(false, "ResponseGacha : " + getGachaResultData);
 
-        JsonData getInfo = JsonMapper.ToObject(getGachaInfo);
-        int type = Convert.ToInt32(getInfo["result_type"].ToString());
+        UserDataManager.Inst.SetUserEOS(Convert.ToUInt64(getGachaResultData.eos));
+        UserDataManager.Inst.SetUserUTG(Convert.ToUInt64(getGachaResultData.utg));
 
-        UserDataManager.Inst.UseEOS(DEFINE.NeedGachaEos);
-
-        if (type == (int)GACHA_RESULT_TYPE.Servant)
+        if (getGachaResultData.get_servant_list.Count > 0)
         {
-            DebugLog.Log(false, getGachaInfo);
+            for (int i = 0; i < getGachaResultData.get_servant_list.Count; i++)
+            {
+                servantData servant = getGachaResultData.get_servant_list[i];
 
-            gachaServantData gachaData = JsonUtility.FromJson<gachaServantData>(getGachaInfo);
-            UserServantData getServant = ParseServant(gachaData.data);
+                UserServantData servantData = ParseServant(servant);
+                if (servantData == null)
+                {
+                    DebugLog.Log(false, "Invalid Servant Info : " + i);
+                    return;
+                }
+                UserDataManager.Inst.AddServantData(servantData);
 
-            UserDataManager.Inst.AddServantData(getServant);
-
-            GachaManager.Instance.ResultGacha(getServant);
+                GachaManager.Instance.ResultGacha(servantData);
+            }
         }
-        else if (type == (int)GACHA_RESULT_TYPE.Monster)
+
+        if (getGachaResultData.get_monster_list.Count > 0)
         {
-            DebugLog.Log(false, getGachaInfo);
+            for (int i = 0; i < getGachaResultData.get_monster_list.Count; i++)
+            {
+                monsterData monster = getGachaResultData.get_monster_list[i];
 
-            gachaMonsterData gachaData = JsonUtility.FromJson<gachaMonsterData>(getGachaInfo);
-            UserMonsterData getMonster = ParseMonster(gachaData.data);
+                UserMonsterData monsterData = ParseMonster(monster);
+                if (monsterData == null)
+                {
+                    DebugLog.Log(false, "Invalid Monster Info : " + i);
+                    return;
+                }
+                UserDataManager.Inst.AddMonsterData(monsterData);
 
-            UserDataManager.Inst.AddMonsterData(getMonster);
-
-            GachaManager.Instance.ResultGacha(getMonster);
+                GachaManager.Instance.ResultGacha(monsterData);
+            }
         }
-        else if (type == (int)GACHA_RESULT_TYPE.Equipment)
+
+        if (getGachaResultData.get_equipment_list.Count > 0)
         {
-            DebugLog.Log(false, getGachaInfo);
+            for (int i = 0; i < getGachaResultData.get_equipment_list.Count; i++)
+            {
+                equipmentData equipment = getGachaResultData.get_equipment_list[i];
 
-            gachaEquipmentData gachaData = JsonUtility.FromJson<gachaEquipmentData>(getGachaInfo);
-            UserEquipmentData getEquipment = ParseEquipment(gachaData.data);
+                UserEquipmentData equipmentData = ParseEquipment(equipment);
+                if (equipmentData == null)
+                {
+                    DebugLog.Log(false, "Invalid Equipment Info : " + i);
+                    return;
+                }
+                UserDataManager.Inst.AddEquipmentData(equipmentData);
 
-            UserDataManager.Inst.AddEquipmentData(getEquipment);
+                GachaManager.Instance.ResultGacha(equipmentData);
+            }
 
-            GachaManager.Instance.ResultGacha(getEquipment);
+        }
+
+        if (getGachaResultData.get_item_list.Count > 0)
+        {
+            for (int i = 0; i < getGachaResultData.get_item_list.Count; i++)
+            {
+                itemData item = getGachaResultData.get_item_list[i];
+
+                UserItemData itemData = ParseItem(item);
+                if (itemData == null)
+                {
+                    DebugLog.Log(false, "Invalid Item Info : " + i);
+                    return;
+                }
+                UserDataManager.Inst.SetItem(itemData);
+
+                GachaManager.Instance.ResultGacha(itemData);
+            }
         }
     }
 

@@ -234,6 +234,7 @@ public enum GACHA_RESULT_TYPE
     Servant = 1,
     Monster,
     Equipment,
+    Item,
     Max,
 }
 

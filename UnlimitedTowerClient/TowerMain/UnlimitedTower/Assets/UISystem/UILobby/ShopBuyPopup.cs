@@ -109,8 +109,13 @@ public class ShopBuyPopup : MonoBehaviour {
             DebugLog.Log(false, "Invalid ShopData");
         }
 
-        if(shopData.priceID == 500001)
+        if (shopData.priceID == 500001)
         {
+            if((ulong)shopData.priceCount > UserDataManager.Inst.GetUserUTG())
+            {
+                
+                return;
+            }
             PacketManager.Inst.RequestShopBuyItem(index, 2, buyCount);
         }
         else

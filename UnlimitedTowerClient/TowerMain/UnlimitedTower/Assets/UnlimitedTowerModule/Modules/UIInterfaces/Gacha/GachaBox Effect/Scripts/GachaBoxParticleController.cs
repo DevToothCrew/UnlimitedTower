@@ -32,6 +32,8 @@ public class GachaBoxParticleController : MonoBehaviour
 
     public GameObject gachaList;
     public GameObject skipButton;
+    public GameObject explainEOS;
+    public GameObject explainUTG;
     public bool isGachaStart = false;
 
     private void Awake()
@@ -148,6 +150,8 @@ public class GachaBoxParticleController : MonoBehaviour
     public void BeginSummonAnimation(System.Action callback)
     {
         gachaList.SetActive(false);
+        explainEOS.SetActive(false);
+        explainUTG.SetActive(false);
         skipButton.SetActive(true);
         isGachaStart = true;
 
@@ -182,6 +186,8 @@ public class GachaBoxParticleController : MonoBehaviour
     public void FinishAnimation()
     {
         gachaList.SetActive(true);
+        explainEOS.SetActive(true);
+        explainUTG.SetActive(true);
         skipButton.SetActive(false);
         isGachaStart = false;
         StopAllCoroutines();

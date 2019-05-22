@@ -159,6 +159,26 @@ public class GachaResultPopup : MonoBehaviour {
         resultValueStat.text = result.value.ToString();
     }
 
+    public void Popup(UserItemData result)
+    {
+        SetActiveButtons(true);
+
+        DBItemData itemData = CSVData.Inst.GetItemData(result.id);
+        if (itemData == null)
+        {
+            DebugLog.Log(false, "Invalid Item ID : " + result.id);
+            return;
+        }
+
+        resultName.text = itemData.name;
+        if (itemData.ItemIcon.texture == null)
+        {
+            DebugLog.Log(false, "Invalid Texture : " + itemData.name);
+        }
+        resultImage.texture = itemData.ItemIcon.texture;
+        gradeImage.texture = CSVData.Inst.GetSpriteGachaGrade(itemData.grade).texture;
+    }
+
     public static void PopupAlert(object result)
     {
         DebugLog.Log(false, "" + result);
@@ -188,6 +208,15 @@ public class GachaResultPopup : MonoBehaviour {
 
             Instance.gameObject.SetActivateWithAnimation(true);
             Instance.Popup(result as UserEquipmentData);
+        }
+
+        else if (result is UserItemData)
+        {
+            Instance.equipmentValue.SetActive(false);
+            Instance.characterStatus.SetActive(false);
+
+            Instance.gameObject.SetActivateWithAnimation(true);
+            Instance.Popup(result as UserItemData);
         }
 
         else

@@ -110,50 +110,57 @@ public class Cheat : MonoSingleton<Cheat>
         return JsonMapper.ToJson(userLoginData).ToString();
     }
 
-    public string GetGachaResultData(int gachaIndex)
+    public gachaResultData GetGachaResultData(int gachaIndex)
     {
         UserInfo userInfo = UserDataManager.Inst.GetUserInfo();
         if (userInfo == null)
         {
             return null;
         }
+        int type = 0;
+        gachaResultData gachaResultData = new gachaResultData();
 
-        if(userInfo.userEOS < 10000)
+        if (gachaIndex == 11)
         {
-            return null;
-        }
+            if (userInfo.userEOS < 1)
+            {
+                return null;
+            }
 
-        int type = rand.Next((int)GACHA_RESULT_TYPE.Servant, (int)GACHA_RESULT_TYPE.Max);
+            type = rand.Next((int)GACHA_RESULT_TYPE.Servant, (int)GACHA_RESULT_TYPE.Item);
+        }
+        else if(gachaIndex == 21)
+        {
+            if(userInfo.userUTG < 1)
+            {
+                return null;
+            }
+
+            type = rand.Next((int)GACHA_RESULT_TYPE.Monster, (int)GACHA_RESULT_TYPE.Max);
+        }
 
         if (type == (int)GACHA_RESULT_TYPE.Servant)
         {
-            gachaServantData gachaResult = new gachaServantData();
-            gachaResult.result_type = type;
-            gachaResult.data = GetRandomServantData(UserDataManager.Inst.servantDic.Count + 1);
-
-            return JsonMapper.ToJson(gachaResult).ToString();
+            gachaResultData.get_servant_list.Add(GetRandomServantData(UserDataManager.Inst.servantDic.Count + 1));
         }
         else if (type == (int)GACHA_RESULT_TYPE.Monster)
         {
-            gachaMonsterData gachaResult = new gachaMonsterData();
-            gachaResult.result_type = type;
-            gachaResult.data = GetRandomMonster(UserDataManager.Inst.monsterDic.Count + 1);
-
-            return JsonMapper.ToJson(gachaResult).ToString();
+            gachaResultData.get_monster_list.Add(GetRandomMonster(UserDataManager.Inst.monsterDic.Count + 1));
         }
         else if (type == (int)GACHA_RESULT_TYPE.Equipment)
         {
-            // 아이템은 아직
-            gachaEquipmentData gachaResult = new gachaEquipmentData();
-            gachaResult.result_type = type;
-            gachaResult.data = GetRandomEquipment(UserDataManager.Inst.equipmentDic.Count + 1);
-
-            return JsonMapper.ToJson(gachaResult).ToString();
+            gachaResultData.get_equipment_list.Add(GetRandomEquipment(UserDataManager.Inst.equipmentDic.Count + 1));
+        }
+        else if (type == (int)GACHA_RESULT_TYPE.Item)
+        {
+            gachaResultData.get_item_list.Add(GetRandomItem());
         }
         else
         {
             return null;
         }
+
+        return gachaResultData;
     }
 
     public string GetBattleActionData(string user, int getTurn)
@@ -964,6 +971,57 @@ public class Cheat : MonoSingleton<Cheat>
         return equipmentData;
     }
 
+    public itemData GetRandomItem()
+    {
+        int itemID = 500100 + (rand.Next(0, 2) * 100) + (rand.Next(0,3) * 10);
+
+        DBItemData dbItemData = CSVData.Inst.GetItemData(itemID);
+        if(dbItemData == null)
+        {
+            DebugLog.Log(false, "Invalid ID : " + itemID);
+            return null;
+        }
+
+        itemData data = new itemData();
+
+        UserItemData getItemInfo = UserDataManager.Inst.GetItemInfo(itemID);
+        if(getItemInfo == null)
+        {
+            data.id = itemID;
+            data.type = 1;
+            itemInfo info = new itemInfo();
+            info.index = 1;
+            info.count = 1;
+            data.item_list.Add(info);
+        }
+        else
+        {
+            data.id = itemID;
+            data.type = 1;
+
+            for (int i = 0; i < getItemInfo.itemInfoList.Count; i++)
+            {
+                itemInfo info = new itemInfo();
+                info.index = getItemInfo.itemInfoList[i].index;
+                info.count = getItemInfo.itemInfoList[i].count;
+                data.item_list.Add(info);
+            }
+
+            if(data.item_list[getItemInfo.itemInfoList.Count - 1].count >= 99)
+            {
+                itemInfo info = new itemInfo();
+                info.index = data.item_list[getItemInfo.itemInfoList.Count - 1].index + 1;
+                info.count = 1;
+                data.item_list.Add(info);
+            }
+            else
+            {
+                data.item_list[getItemInfo.itemInfoList.Count - 1].count += 1;
+            }
+        }
+        return data;
+    }
+
     public appearInfo GetRandomAppear()
     {
         appearInfo appear = new appearInfo();
@@ -1102,15 +1160,14 @@ public class Cheat : MonoSingleton<Cheat>
 
     public void RequestGachaCheat(int gachaIndex)
     {
-        string gachaDataJson = GetGachaResultData(gachaIndex);
-        if (gachaDataJson == null)
+        gachaResultData gachaResultData = GetGachaResultData(gachaIndex);
+        if (gachaResultData == null)
         {
             DebugLog.Log(false, "[Fail] RequestGachaCheat");
             return;
         }
 
-        DebugLog.Log(false, "[SUCCESS] Gacha : " + gachaDataJson);
-        PacketManager.Inst.ResponseGacha(gachaDataJson);
+        PacketManager.Inst.ResponseGacha(gachaResultData);
     }
 
     public void RequestMonsterUpgradeCheat(int mainMonsterIndex, int subMonsterIndex)
