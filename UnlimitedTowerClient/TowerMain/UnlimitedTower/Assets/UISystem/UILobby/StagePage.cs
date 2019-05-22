@@ -340,9 +340,8 @@ public class StagePage : MonoSingleton<StagePage> {
         StageScreenBackButton.SetActive(true);
         OnActiveImage[stageType - 1].SetActive(true);
         
-        scrollList.SetItemOrder(getOrder());
         scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
-        scrollList.ScrollViewDidScroll();
+        scrollList.SetItemOrder(getOrder());
         scrollList.gameObject.SetActive(true);
     }
 

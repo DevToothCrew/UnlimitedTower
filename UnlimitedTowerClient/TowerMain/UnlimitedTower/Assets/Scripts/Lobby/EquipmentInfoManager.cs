@@ -233,9 +233,8 @@ public class EquipmentInfoManager : MonoSingleton<EquipmentInfoManager>
             reverse_sort = !reverse_sort;
         }
         scrollList.scrollRect.velocity = Vector2.zero;
-        scrollList.SetItemOrder(getOrder());
         scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
-        scrollList.ScrollViewDidScroll();
+        scrollList.SetItemOrder(getOrder());
         EquipmentInfoManager.Inst.updateDetailInfo(scrollList.getFirstItemOrder());
     }
 
@@ -252,8 +251,9 @@ public class EquipmentInfoManager : MonoSingleton<EquipmentInfoManager>
         {
             textOwned.color = Color.white;
         }
-        scrollList.SetItemOrder(getOrder());
+        
         scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+        scrollList.SetItemOrder(getOrder());
     }
 
     //스크롤 생성
