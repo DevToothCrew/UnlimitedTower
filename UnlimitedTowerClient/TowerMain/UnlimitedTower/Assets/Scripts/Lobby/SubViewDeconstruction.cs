@@ -512,9 +512,7 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
             if (inventory.FrameEquipmentInfo.activeSelf)
             {
                 EquipmentInfoManager equipmentInfo = EquipmentInfoManager.Inst;
-                equipmentInfo.setData();
-                equipmentInfo.resetScroll();
-                equipmentInfo.updateDetailInfo(equipmentInfo.scrollList.getFirstItemOrder());
+                equipmentInfo.updateAllView();
                 //OnClickClose();
             }
         }
