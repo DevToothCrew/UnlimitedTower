@@ -133,7 +133,7 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
             }
             else if (StageData.stageType == 4)
             {
-                StageInfoFloor.text = "Stage - Grassland";
+                StageInfoFloor.text = "Stage - Flowing Meadow";
             }
             else if (StageData.stageType == 5)
             {
