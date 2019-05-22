@@ -1063,12 +1063,9 @@ CONTRACT battletest : public contract
 #pragma region gacha values
     const char *action_gacha = "gacha";
     const char *action_signup = "signup";
-    const char *action_inventory = "inventorybuy";
     const char *action_referral = "refer_signup";
     const char *action_exchange = "exchange";
     const char *action_gacha_10 = "gacha_10";
-    const char *action_ticket = "ticketbuy";
-    const char *action_package = "packagebuy";
     const char *action_shopbuyitem = "shopbuyitem";
 
     uint32_t servant_random_count;
