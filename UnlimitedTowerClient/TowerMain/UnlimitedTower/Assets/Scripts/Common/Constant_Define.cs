@@ -5,7 +5,8 @@
 //공통 사항을 모아둔 클래스.
 public class DEFINE
 {
-    public static readonly ulong NeedGachaEos = 10000;
+    public static readonly ulong NeedGachaEOS = 1;
+    public static readonly ulong NeedGachaUTG = 1;
     public static readonly int MonsterMinFormationNum = 5;
     public static readonly int MonsterMaxFormationNum = 9;
     public static readonly int ServantMinFormationNum = 0;

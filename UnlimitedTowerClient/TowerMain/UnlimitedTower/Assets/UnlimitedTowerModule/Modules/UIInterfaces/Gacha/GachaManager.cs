@@ -90,10 +90,21 @@ public class GachaManager : MonoSingleton<GachaManager> {
                 return;
             }
 
-            if (UserDataManager.Inst.GetUserEOS() < DEFINE.NeedGachaEos)
+            if (gachaID == 11)
             {
-                SimpleErrorPopupVC.Inst.UpdateErrorText("Not Enough EOS");
-                return;
+                if (UserDataManager.Inst.GetUserEOS() < DEFINE.NeedGachaEOS)
+                {
+                    SimpleErrorPopupVC.Inst.UpdateErrorText("Not Enough EOS");
+                    return;
+                }
+            }
+            else if(gachaID == 21)
+            {
+                if (UserDataManager.Inst.GetUserUTG() < DEFINE.NeedGachaUTG)
+                {
+                    SimpleErrorPopupVC.Inst.UpdateErrorText("Not Enough UTG");
+                    return;
+                }
             }
 
 #if UNITY_EDITOR

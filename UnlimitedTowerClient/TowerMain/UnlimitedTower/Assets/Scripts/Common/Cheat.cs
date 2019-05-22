@@ -119,7 +119,7 @@ public class Cheat : MonoSingleton<Cheat>
         }
         int type = 0;
         gachaResultData gachaResultData = new gachaResultData();
-
+        int gradeMax = 1;
         if (gachaIndex == 11)
         {
             if (userInfo.userEOS < 1)
@@ -137,6 +137,7 @@ public class Cheat : MonoSingleton<Cheat>
             }
 
             type = rand.Next((int)GACHA_RESULT_TYPE.Monster, (int)GACHA_RESULT_TYPE.Max);
+            gradeMax = 3;
         }
 
         if (type == (int)GACHA_RESULT_TYPE.Servant)
@@ -145,11 +146,11 @@ public class Cheat : MonoSingleton<Cheat>
         }
         else if (type == (int)GACHA_RESULT_TYPE.Monster)
         {
-            gachaResultData.get_monster_list.Add(GetRandomMonster(UserDataManager.Inst.monsterDic.Count + 1));
+            gachaResultData.get_monster_list.Add(GetRandomMonster(UserDataManager.Inst.monsterDic.Count + 1, gradeMax));
         }
         else if (type == (int)GACHA_RESULT_TYPE.Equipment)
         {
-            gachaResultData.get_equipment_list.Add(GetRandomEquipment(UserDataManager.Inst.equipmentDic.Count + 1));
+            gachaResultData.get_equipment_list.Add(GetRandomEquipment(UserDataManager.Inst.equipmentDic.Count + 1, gradeMax));
         }
         else if (type == (int)GACHA_RESULT_TYPE.Item)
         {
@@ -159,6 +160,8 @@ public class Cheat : MonoSingleton<Cheat>
         {
             return null;
         }
+        gachaResultData.eos = (UserDataManager.Inst.GetUserEOS() - 1).ToString();
+        gachaResultData.utg = (UserDataManager.Inst.GetUserUTG() - 1).ToString();
 
         return gachaResultData;
     }
@@ -920,7 +923,7 @@ public class Cheat : MonoSingleton<Cheat>
         return servant;
     }
 
-    public monsterData GetRandomMonster(int index)
+    public monsterData GetRandomMonster(int index, int gradeMax = 1)
     {
         monsterData monsterData = new monsterData();
         monsterData.index = index;
@@ -935,7 +938,7 @@ public class Cheat : MonoSingleton<Cheat>
         monsterData.monster.type = 0;
 
         monsterData.monster.id = CSVData.Inst.GetRandomMonsterID();
-        monsterData.monster.grade = rand.Next(1, 6);
+        monsterData.monster.grade = rand.Next(gradeMax, 6);
         monsterData.monster.upgrade = 0;
         monsterData.monster.status = GetRandomStatusInfo(CHAR_TYPE.MONSTER, monsterData.monster.grade);
         // TODO : 업그레이드에 따른 스테이터스 가중치 추가 필요
@@ -943,7 +946,7 @@ public class Cheat : MonoSingleton<Cheat>
         return monsterData;
     }
 
-    public equipmentData GetRandomEquipment(int index)
+    public equipmentData GetRandomEquipment(int index, int gradMax = 1)
     {
         equipmentData equipmentData = new equipmentData();
         equipmentData.index = index;
@@ -951,7 +954,7 @@ public class Cheat : MonoSingleton<Cheat>
         equipmentData.equipment = new equipmentInfo();
         equipmentData.equipment.state = 1;
         equipmentData.equipment.id = CSVData.Inst.GetRandomEquipmentID();
-        equipmentData.equipment.grade = rand.Next(1, 6);
+        equipmentData.equipment.grade = rand.Next(gradMax, 6);
         equipmentData.equipment.upgrade = 0;
         equipmentData.equipment.equipservantindex = 0;
 
