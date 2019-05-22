@@ -9,23 +9,21 @@ public class MapChange : MonoSingleton<MapChange>
     private readonly Color[] backgroundColor = 
         {
         new Color(0.0f,0.0f,0.0f,1.0f),
-        new Color(0.29f,1.0f,1.0f,1.0f),
         new Color(1.0f,1.0f,1.0f,1.0f),
         new Color(0.71f,0.71f,0.71f,1.0f),
-        new Color(0.84f, 0.98f, 1.0f, 1.0f),
+        new Color(0.29f,1.0f,1.0f,1.0f),
         new Color(0.7f, 0.64f, 0.57f, 1.0f),
         new Color(0.84f, 0.98f, 1.0f, 1.0f),
-        new Color(0.24f, 0.22f, 0.19f, 1.0f)
+        new Color(0.84f, 0.98f, 1.0f, 1.0f)
         };
     private readonly Vector3[] cameraPosition =
     {
         new Vector3(-10, 10, -10),
-        new Vector3(-10, 10, -10),
-        new Vector3(-10, 8, -10),
-        new Vector3(-10, 10, -10),
         new Vector3(-10, 8, -10),
         new Vector3(-10, 10, -10),
         new Vector3(-10, 10, -10),
+        new Vector3(-10, 10, -10),
+        new Vector3(-10, 8, -10),
         new Vector3(-10, 10, -10)
     };
 
