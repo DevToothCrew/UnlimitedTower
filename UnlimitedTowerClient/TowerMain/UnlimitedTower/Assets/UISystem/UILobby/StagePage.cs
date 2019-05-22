@@ -154,7 +154,7 @@ public class StagePage : MonoSingleton<StagePage> {
         {
             case 5:
                 NeedTicket.SetActive(false);
-                StageDetailText.text = stageFloor + "F - Easy";
+                StageDetailText.text = CSVData.Inst.GetStageData(stageType, stageFloor, stageDifficult).stageString + " - Easy";
                 textSelectDifficult.text = "Easy";
                 isEnterStage = true;
                 ShowDifficultList();
@@ -163,22 +163,22 @@ public class StagePage : MonoSingleton<StagePage> {
                 return;
             case 4:
                 itemID = 500200;
-                StageDetailText.text = stageFloor + "F - Normal";
+                StageDetailText.text = CSVData.Inst.GetStageData(stageType, stageFloor, stageDifficult).stageString + " - Normal";
                 textSelectDifficult.text = "Normal";
                 break;
             case 3:
                 itemID = 500210;
-                StageDetailText.text = stageFloor + "F - Hard";
+                StageDetailText.text = CSVData.Inst.GetStageData(stageType, stageFloor, stageDifficult).stageString + " - Hard";
                 textSelectDifficult.text = "Hard";
                 break;
             case 2:
                 itemID = 500220;
-                StageDetailText.text = stageFloor + "F - Nightmare";
+                StageDetailText.text = CSVData.Inst.GetStageData(stageType, stageFloor, stageDifficult).stageString + " - Nightmare";
                 textSelectDifficult.text = "Nightmare";
                 break;
             case 1:
                 itemID = 500230;
-                StageDetailText.text = stageFloor + "F - Hell";
+                StageDetailText.text = CSVData.Inst.GetStageData(stageType, stageFloor, stageDifficult).stageString + " - Hell";
                 textSelectDifficult.text = "Hell";
                 break;
             default:
@@ -227,7 +227,7 @@ public class StagePage : MonoSingleton<StagePage> {
         }
         else if (stageType == 4)
         {
-            StageText.text = "Stage - Grassland";
+            StageText.text = "Stage - Flowing Meadow";
         }
         else if (stageType == 5)
         {
