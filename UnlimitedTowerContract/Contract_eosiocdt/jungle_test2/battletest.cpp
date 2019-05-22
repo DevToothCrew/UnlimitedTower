@@ -12544,7 +12544,7 @@ ACTION battletest::accountset(eosio::name _user)
 
     uint32_t job = 1;
     servant_job_db servant_job_table(_self, _self.value);
-    for (uint32_t i = 0; i < 200; ++i)
+    for (uint32_t i = 0; i < 100; ++i)
     {
         uint64_t _seed = safeseed::get_seed_value(_user.value, i);
         uint32_t random_job = job;
@@ -13158,7 +13158,10 @@ void battletest::new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t 
     {
         auto lv_iter = lv_exp_table.find(50);
         level_up_count = 50 - user_auth_iter->rank;
-        get_exp = lv_iter->rank_exp;
+        if (user_auth_iter->exp >= lv_iter->char_exp)
+        {
+            get_exp = lv_iter->rank_exp;
+        }
     }
     get_rank_exp.pos = 0;
     get_rank_exp.exp = get_exp - user_auth_iter->exp;
@@ -13186,7 +13189,10 @@ void battletest::new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t 
         {
             auto lv_iter = lv_exp_table.find(50);
             level_up_count = 50 - user_servant_iter->servant.level;
-            get_exp = lv_iter->char_exp;
+            if (user_servant_iter->servant.exp >= lv_iter->char_exp)
+            {
+                get_exp = lv_iter->char_exp;
+            }
         }
 
         exp_info char_exp;
@@ -13219,7 +13225,10 @@ void battletest::new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t 
         {
             auto lv_iter = lv_exp_table.find(50);
             level_up_count = 50 - user_monster_iter->monster.level;
-            get_exp = lv_iter->char_exp;
+            if (user_monster_iter->monster.exp >= lv_iter->char_exp)
+            {
+                get_exp = lv_iter->char_exp;
+            }
         }
 
         exp_info char_exp;
@@ -13547,6 +13556,13 @@ ACTION battletest::anothercheck(uint32_t _start_count)
                 }
                 ser++;
             }
+            battle_state_list battle_state_list_table(_self, _self.value);
+            auto battle_iter = battle_state_list_table.find(user_log->user.value);
+            if(battle_iter != battle_state_list_table.end())
+            {
+                battle_state_list_table.erase(battle_iter);
+            }
+
             cur_count += 1;
             all_log++;
         }
