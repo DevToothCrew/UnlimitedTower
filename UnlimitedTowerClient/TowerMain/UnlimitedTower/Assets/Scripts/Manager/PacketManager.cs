@@ -1557,6 +1557,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
             UserDataManager.Inst.SetUserInventoryInfo(info);
         }
 
+        ShopResourceList.Inst.SetResourceCount();
         LobbyTopInfo.Inst.UpdateTopInfo();
         ShopInfoPage.Inst.OnClickPopupCancelButton();
     }
