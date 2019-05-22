@@ -324,7 +324,7 @@ public class CSVData : MonoSingleton<CSVData>
             itemData.description = Convert.ToString(data[i]["explain"]);
             itemData.tier = Convert.ToInt32(data[i]["tier"]);
             itemData.grade = (GRADE_TYPE)Convert.ToInt32(data[i]["grade"]);
-            itemData.itemType = Convert.ToString(data[i]["item_type"]);
+            itemData.itemType = Convert.ToString(data[i]["item_type_name"]);
 
             itemData.itemParamIDList = new List<int>();
             // Param List검사 추가 필요
