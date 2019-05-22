@@ -987,6 +987,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 GachaManager.Instance.ResultGacha(itemData);
             }
         }
+
+        LobbyTopInfo.Inst.UpdateTopInfo();
     }
 
     // 로그아웃

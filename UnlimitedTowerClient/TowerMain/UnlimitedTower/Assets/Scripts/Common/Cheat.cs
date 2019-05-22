@@ -128,6 +128,8 @@ public class Cheat : MonoSingleton<Cheat>
             }
 
             type = rand.Next((int)GACHA_RESULT_TYPE.Servant, (int)GACHA_RESULT_TYPE.Item);
+            gachaResultData.eos = (UserDataManager.Inst.GetUserEOS() - DEFINE.NeedGachaEOS).ToString();
+            gachaResultData.utg = (UserDataManager.Inst.GetUserUTG()).ToString();
         }
         else if(gachaIndex == 21)
         {
@@ -137,6 +139,8 @@ public class Cheat : MonoSingleton<Cheat>
             }
 
             type = rand.Next((int)GACHA_RESULT_TYPE.Monster, (int)GACHA_RESULT_TYPE.Max);
+            gachaResultData.eos = (UserDataManager.Inst.GetUserEOS()).ToString();
+            gachaResultData.utg = (UserDataManager.Inst.GetUserUTG() - DEFINE.NeedGachaUTG).ToString();
             gradeMax = 3;
         }
 
@@ -160,8 +164,6 @@ public class Cheat : MonoSingleton<Cheat>
         {
             return null;
         }
-        gachaResultData.eos = (UserDataManager.Inst.GetUserEOS() - 1).ToString();
-        gachaResultData.utg = (UserDataManager.Inst.GetUserUTG() - 1).ToString();
 
         return gachaResultData;
     }
