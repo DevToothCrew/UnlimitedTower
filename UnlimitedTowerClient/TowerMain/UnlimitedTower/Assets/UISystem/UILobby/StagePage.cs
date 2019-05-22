@@ -73,7 +73,7 @@ public class StagePage : MonoSingleton<StagePage> {
 
         RewardRankExp.text = rewardData.rankExp.ToString();
         RewardCharExp.text = rewardData.charExp.ToString();
-        RewardUTG.text = rewardData.rewardUTG.ToString();
+        RewardUTG.text = (rewardData.rewardUTG * 0.0001).ToString("N4");
         textMonsterPer.text = "Monster " + (rewardData.perMonster * 0.0001) + "%";
         textEquipmentPer.text = "Equipment " + (rewardData.perEquipment * 0.0001) + "%";
 
