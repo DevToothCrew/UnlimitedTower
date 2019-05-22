@@ -62,9 +62,13 @@ public class Calculator : MonoBehaviour
         int equip_type_max = (int)EQUIPMENT_TYPE.MAX;
         for (int equip_type = 0; equip_type < equip_type_max; equip_type++)
         {
-            UserEquipmentData equipData = UserDataManager.Inst.GetEquipmentInfo(servant.equipmentDic[(EQUIPMENT_TYPE)equip_type]);
-            if (equipData != null)
+            if (servant.equipmentDic[(EQUIPMENT_TYPE)equip_type] > 0)
             {
+                UserEquipmentData equipData = UserDataManager.Inst.GetEquipmentInfo(servant.equipmentDic[(EQUIPMENT_TYPE)equip_type]);
+                if (equipData == null)
+                {
+                    DebugLog.Log(false, "Invalid EquipData Info " + servant.equipmentDic[(EQUIPMENT_TYPE)equip_type]);
+                }
                 statsValue[(int)equipData.optionType] += equipData.value;
             }
             else

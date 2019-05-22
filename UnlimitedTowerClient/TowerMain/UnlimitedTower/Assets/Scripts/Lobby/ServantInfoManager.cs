@@ -27,7 +27,7 @@ public class ServantInfoManager : MonoSingleton<ServantInfoManager> {
     public Text textInt;
 
     public Text textHP;
-    public Text textSpeed;
+    public Text textAvoid;
     public Text textPAtk;
     public Text textPDef;
     public Text textMAtk;
@@ -141,7 +141,7 @@ public class ServantInfoManager : MonoSingleton<ServantInfoManager> {
         textInt.text = string.Format("{0}", stat_by_set_equipment[(int)EQUIPMENT_OPTION_TYPE.INT]);
 
         textHP.text = string.Format("{0}", stat_by_set_equipment[(int)EQUIPMENT_OPTION_TYPE.HP]);
-        textSpeed.text = string.Format("{0}", db_unit_data.speed);
+        textAvoid.text = string.Format("{0}", db_unit_data.avoid);
         textPAtk.text = string.Format("{0}", stat_by_set_equipment[(int)EQUIPMENT_OPTION_TYPE.ATK]);
         textPDef.text = string.Format("{0}", stat_by_set_equipment[(int)EQUIPMENT_OPTION_TYPE.DEF]);
         textMAtk.text = string.Format("{0}", stat_by_set_equipment[(int)EQUIPMENT_OPTION_TYPE.MATK]);

@@ -30,7 +30,7 @@ public class MonsterInfoManager : MonoBehaviour {
     public Text textInt;
 
     public Text textHP;
-    public Text textSpeed;
+    public Text textAvoid;
     public Text textPAtk;
     public Text textPDef;
     public Text textMAtk;
@@ -114,7 +114,7 @@ public class MonsterInfoManager : MonoBehaviour {
         textInt.text = string.Format("{0}", unit_data.status.basicInt);
 
         textHP.text = string.Format("{0}", unit_data.maxHP);
-        textSpeed.text = string.Format("{0}", db_unit_data.speed);
+        textAvoid.text = string.Format("{0}", db_unit_data.avoid);
         textPAtk.text = string.Format("{0}", unit_data.atk);
         textPDef.text = string.Format("{0}", unit_data.def);
         textMAtk.text = string.Format("{0}", unit_data.mAtk);
