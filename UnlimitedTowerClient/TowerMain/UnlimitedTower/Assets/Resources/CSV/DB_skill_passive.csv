@@ -21,9 +21,9 @@ int,int,string,,string,localize,string,localize,string,int,string,int,string,int
 190041,9,정령 : 자연의 축복 Ⅰ,Spirit : The Blessing of Nature Ⅰ,정령 시너지,DB_skill_passive_name_190041,정령 종족의 체력이 10% 증가합니다.,Increases the HP of Elemental by 10%.,ic_synergy_spirit_1,904,,0,,5,3,10,0,정령 시너지,904
 190042,9,정령 : 자연의 축복 Ⅱ,Spirit : The Blessing of Nature Ⅱ,정령 시너지,DB_skill_passive_name_190042,정령 종족의 체력이 30% 증가합니다.,Increases the HP of Elemental by 30%.,ic_synergy_spirit_2,904,,0,,5,3,30,0,정령 시너지,904
 190043,9,정령 : 자연의 축복 Ⅲ,Spirit : The Blessing of Nature Ⅲ,정령 시너지,DB_skill_passive_name_190043,정령 종족의 체력이 50% 증가합니다.,Increases the HP of Elemental by 50%.,ic_synergy_spirit_3,904,,0,,5,3,50,0,정령 시너지,904
-190051,9,곤충 : 아드레날린 Ⅰ,Insect : Adrenaline Ⅰ,곤충 시너지,DB_skill_passive_name_190051,곤충 종족의 회피율이 20% 증가합니다.,Increases the evasion rate of Insect by 20%.,ic_synergy_insect_1,905,,0,,10,3,20,0,곤충 시너지,905
-190052,9,곤충 : 아드레날린 Ⅱ,Insect : Adrenaline Ⅱ,곤충 시너지,DB_skill_passive_name_190052,곤충 종족의 회피율이 35% 증가합니다.,Increases the evasion rate of Insect by 35%.,ic_synergy_insect_2,905,,0,,10,3,35,0,곤충 시너지,905
-190053,9,곤충 : 아드레날린 Ⅲ,Insect : Adrenaline Ⅲ,곤충 시너지,DB_skill_passive_name_190053,곤충 종족의 회피율이 55% 증가합니다.,Increases the evasion rate of Insect by 55%.,ic_synergy_insect_3,905,,0,,10,3,55,0,곤충 시너지,905
+190051,9,곤충 : 아드레날린 Ⅰ,Insect : Adrenaline Ⅰ,곤충 시너지,DB_skill_passive_name_190051,곤충 종족의 회피율이 20% 증가합니다.,Increases the evasion rate of Insect by 20%.,ic_synergy_insect_1,905,,0,,10,1,20,0,곤충 시너지,905
+190052,9,곤충 : 아드레날린 Ⅱ,Insect : Adrenaline Ⅱ,곤충 시너지,DB_skill_passive_name_190052,곤충 종족의 회피율이 35% 증가합니다.,Increases the evasion rate of Insect by 35%.,ic_synergy_insect_2,905,,0,,10,1,35,0,곤충 시너지,905
+190053,9,곤충 : 아드레날린 Ⅲ,Insect : Adrenaline Ⅲ,곤충 시너지,DB_skill_passive_name_190053,곤충 종족의 회피율이 55% 증가합니다.,Increases the evasion rate of Insect by 55%.,ic_synergy_insect_3,905,,0,,10,1,55,0,곤충 시너지,905
 190061,9,해인 : 바다의 가호 Ⅰ,Mermaid : Sea's Protection Ⅰ,해인 시너지,DB_skill_passive_name_190061,파티 전체의 마법 방어력이 10% 증가합니다.,Increases the magical defense of the Party by 10%.,ic_synergy_mermaid_1,906,,0,,4,3,10,0,해인 시너지,2
 190062,9,해인 : 바다의 가호 Ⅱ,Mermaid : Sea's Protection Ⅱ,해인 시너지,DB_skill_passive_name_190062,파티 전체의 마법 방어력이 30% 증가합니다.,Increases the magical defense of the Party by 30%.,ic_synergy_mermaid_2,906,,0,,4,3,30,0,해인 시너지,2
 190063,9,해인 : 바다의 가호 Ⅲ,Mermaid : Sea's Protection Ⅲ,해인 시너지,DB_skill_passive_name_190063,파티 전체의 마법 방어력이 50% 증가합니다.,Increases the magical defense of the Party by 50%.,ic_synergy_mermaid_3,906,,0,,4,3,50,0,해인 시너지,2

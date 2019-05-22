@@ -52,10 +52,10 @@ public class Cheat : MonoSingleton<Cheat>
         //     }
         // }
 
-        for (int i = 1; i < 50; i++)
+        for (int i = 1; i < 30; i++)
         {
             monsterData data = GetRandomMonster(i);
-            data.monster.id = 108402;
+            data.monster.id = 101601;
             data.monster.grade = 1;
             userLoginData.monster_list.Add(data);
 
@@ -349,8 +349,8 @@ public class Cheat : MonoSingleton<Cheat>
         battlestatedata.grade = stageDifficult;
         battlestatedata.turn = 0;
 
-        battlestatedata.my_synergy_list.Add(190033);
-        battlestatedata.my_synergy_list.Add(190043);
+        battlestatedata.my_synergy_list.Add(190053);
+        battlestatedata.my_synergy_list.Add(190052);
 
         battlestatedata.enemy_synergy_list.Add(190012);
 

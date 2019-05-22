@@ -169,7 +169,7 @@ public class SelectManager : MonoBehaviour
                             mAtk.text = status.Status[EFFECT_ID.MATK].ToString();
                             Def.text = status.Status[EFFECT_ID.DEF].ToString();
                             mDef.text = status.Status[EFFECT_ID.MDEF].ToString();
-                            Speed.text = status.Status[EFFECT_ID.SPEED].ToString();
+                            Speed.text = status.Status[EFFECT_ID.AVOID].ToString();
                             CriPer.text = status.Status[EFFECT_ID.CRI_PER].ToString();
                             CriDmg.text = status.Status[EFFECT_ID.CRI_DMG].ToString();
                         }
