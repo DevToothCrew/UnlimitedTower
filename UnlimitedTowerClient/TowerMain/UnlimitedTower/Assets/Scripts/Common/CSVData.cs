@@ -531,8 +531,8 @@ public class CSVData : MonoSingleton<CSVData>
             stageData.stageFloor = Convert.ToInt32(data[i]["floor"]);
             stageData.stageDifficult = Convert.ToInt32(data[i]["difficult"]);
             // 임시
-            stageData.stageString = Convert.ToString(data[i]["stage_string"]);
-            //stageData.stageString = Convert.ToString(data[i]["stage_explain"]);
+            // stageData.stageString = Convert.ToString(data[i]["stage_string"]);
+            stageData.stageString = Convert.ToString(data[i]["stage_explain"]);
             stageData.needEntranceItemId = Convert.ToInt32(data[i]["need_entrance_item_id"]);
             stageData.needEntranceItemCount = Convert.ToInt32(data[i]["need_entrance_item_count"]);
             stageData.enemyLevelMin = Convert.ToInt32(data[i]["enemy_level_min"]);
