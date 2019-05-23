@@ -9988,9 +9988,10 @@ void battletest::inventory_buy(eosio::name _user, uint32_t _type, uint32_t _coun
    }
 }
 
-
 void battletest::ticket_buy(eosio::name _user, uint32_t _type, uint32_t _count)
 {
+    eosio_assert(_count <= 99, "Invalid Item Count");
+
     system_check(_user);
 
     user_auths user_auth_table(_self, _self.value);
@@ -10009,82 +10010,73 @@ void battletest::ticket_buy(eosio::name _user, uint32_t _type, uint32_t _count)
     eosio_assert(item_shop_iter != item_shop_table.end(), "ticket buy : Not exist item_shop data");
     eosio_assert(_type == 8 || _type == 9 || _type == 10 || _type == 11, "ticket buy : Not exist this action type");
 
+    allitem_db allitem_db_table(_self, _self.value);
+    auto allitem_db_iter = allitem_db_table.find(item_shop_iter->product_id);
+    eosio_assert(allitem_db_iter != allitem_db_table.end(), "ticket buy : Not exist allitem data");
+
+    uint64_t add_inventory = 0;
+
     user_items user_items_table(_self, _user.value);
     auto user_items_iter = user_items_table.find(item_shop_iter->product_id);
+    if (user_items_iter == user_items_table.end())
+    {
+        user_items_table.emplace(_self, [&](auto &change_consumable) {
+            change_consumable.id = allitem_db_iter->id;
+            change_consumable.type = allitem_db_iter->type;
 
-    item_info items;
-    uint64_t count_diff = _count;
-    uint64_t check_inventory = 0;
-    uint64_t UTG_Amount = 0;
+            item_info get_item_info;
+            get_item_info.index = 0;
+            get_item_info.count = _count;
+            change_consumable.item_list.push_back(get_item_info);
 
- if (user_items_iter == user_items_table.end())
-        {
-            user_items_table.emplace(_self, [&](auto &change_consumable) {
-                change_consumable.id = item_shop_iter->product_id;
-                change_consumable.type = item_shop_iter->shop_type;
-
-                uint64_t sub_size = _count / 99;
-
-                for (uint64_t i = 0; i <= sub_size; i++)
-                {
-                    if (count_diff > 99)
-                    {
-                        change_consumable.item_list[i].count = 99;
-
-                        items.index = change_consumable.item_list.size();
-                        items.count = 99;
-                        change_consumable.item_list.push_back(items);
-                        check_inventory += 1;
-                        count_diff -= 99;
-                    }
-                    else
-                    {
-                        change_consumable.item_list[i].count = count_diff;
-                        items.index = change_consumable.item_list.size();
-                        items.count = count_diff;
-                        change_consumable.item_list.push_back(items);
-                        check_inventory += 1;
-                    }
-                }
-            });
-        }
-        else
-        {
-            user_items_table.modify(user_items_iter, _self, [&](auto &change_consumable) {
-                change_consumable.type = item_shop_iter->shop_type;
-
-                for (uint64_t i = 0; i < change_consumable.item_list.size(); i++)
-                {
-                    if ((change_consumable.item_list[i].count + count_diff) > 99)
-                    {
-                        count_diff = (change_consumable.item_list[i].count + count_diff) - 99;
-                        change_consumable.item_list[i].count = 99;
-                    }
-                    else
-                    {
-                        change_consumable.item_list[i].count += count_diff;
-                        count_diff = 0;
-                        break;
-                    }
-                }
-                if (count_diff != 0)
-                {
-                    items.index = change_consumable.item_list.size();
-                    items.count += count_diff;
-                    change_consumable.item_list.push_back(items);
-                    check_inventory += 1;
-                }
-            });
-        }
-        eosio_assert(user_auth_iter->current_item_inventory >= 0, "itembuy : current_item_inventory underflow error");
-        user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
-            add_auth.current_item_inventory += check_inventory;
+            add_inventory = 1;
         });
+    }
+    else
+    {
+        user_items_table.modify(user_items_iter, _self, [&](auto &change_consumable) {
+            uint64_t size_count = change_consumable.item_list.size();
 
-        user_log_table.modify(user_log_iter, _self, [&](auto &new_log) {
-        new_log.use_eos += item_shop_iter->price_count * _count;
+            for (uint64_t i = 0; i < size_count; i++)
+            {
+                if (change_consumable.item_list[i].count < 99)
+                {
+                    if (change_consumable.item_list[i].count + _count > 99)
+                    {
+                        uint64_t new_count = change_consumable.item_list[i].count + _count - 99;
+                        change_consumable.item_list[i].count = 99;
+
+                        item_info get_item_info;
+                        get_item_info.index = size_count;
+                        get_item_info.count = new_count;
+                        change_consumable.item_list.push_back(get_item_info);
+                        add_inventory = 1;
+                    }
+                    else
+                    {
+                        change_consumable.item_list[i].count += _count;
+                    }
+                }
+                else if (change_consumable.item_list[i].count == 99 && i == (size_count - 1))
+                {
+                    item_info get_item_info;
+                    get_item_info.index = size_count;
+                    get_item_info.count = _count;
+                    change_consumable.item_list.push_back(get_item_info);
+                    add_inventory = 1;
+                }
+            }
+        });
+    }
+
+    user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
+        add_auth.current_item_inventory += add_inventory;
     });
 
+
+   user_log_table.modify(user_log_iter, _self, [&](auto &new_log) {
+        new_log.use_eos += item_shop_iter->price_count * _count;
+   });
 }
 
 void battletest::package_buy(eosio::name _user, uint32_t _type, uint32_t _count)
@@ -11255,6 +11247,104 @@ void battletest::new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t 
 }
 
 
+// ACTION battletest::deletetemp()
+// {
+//     require_auth(_self);
+//     temp_list temp_table(_self, _self.value);
+//     for(auto iter=temp_table.begin(); iter != temp_table.end();)
+//     {
+//         auto temp = temp_table.find(iter->primary_key());
+//         iter++;
+//         temp_table.erase(temp);
+//     }
+//     global_count global_count_table(_self, _self.value);
+//     for(auto global = global_count_table.begin(); global != global_count_table.end();)
+//     {
+//         auto g_iter = global_count_table.find(global->primary_key());
+//         global++;
+//         global_count_table.erase(g_iter);
+//     }
+// }
+
+// ACTION battletest::recorduser(uint32_t _start_count)
+// {
+//     require_auth(_self);
+
+//     uint64_t limit_count = 3000;
+//     uint64_t cur_total_item_count = 0;
+
+//     uint32_t iter_start = 1;
+//     uint32_t cur_count = _start_count;
+
+//     temp_list temp_table(_self, _self.value);
+//     user_auths user_auth_table(_self, _self.value);
+//     for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
+//     {
+//         if (iter_start < _start_count)
+//         {
+//             iter_start++;
+//             iter++;
+//             continue;
+//         }
+
+//         auto user = user_auth_table.find(iter->primary_key());
+//         user_items user_item_table(_self, user->user.value);
+
+//         uint64_t count = 0;
+//         for (auto mail = user_item_table.begin(); mail != user_item_table.end();)
+//         {
+//             mail++;
+//             count++;
+//         }
+
+//         if ((cur_total_item_count + count) >= limit_count) //ttemp에 넣기
+//         {
+//             global_count global_count_table(_self, _self.value);
+//             auto g_iter = global_count_table.find(_self.value);
+//             global_count_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.count = cur_count;
+//             });
+//             break;
+//         }
+//         else
+//         {
+//             cur_total_item_count += count;
+//             for (auto item = user_item_table.begin(); item != user_item_table.end();)
+//             {
+//                 auto item_iter = user_item_table.find(item->primary_key());
+//                 for (uint32_t i = 0; i < item_iter->item_list.size(); ++i)
+//                 {
+//                     if (item_iter->item_list[i].count > 99)
+//                     {
+//                         temp_table.emplace(_self, [&](auto &new_data) {
+//                             new_data.user = user->user;
+//                         });
+//                     }
+//                     else if (item_iter->item_list[i].count == 0)
+//                     {
+//                         temp_table.emplace(_self, [&](auto &new_data) {
+//                             new_data.user = user->user;
+//                         });
+//                     }
+//                 }
+//                 item++;
+//             }
+//             cur_count += 1;
+//             iter++;
+//         }
+//     }
+// }
+
+// ACTION battletest::itemchange(eosio::name _user)
+// {
+//     require_auth(_self);
+//     user_items user_item_table(_self, _user.value);
+//     auto item_iter = user_item_table.find(500200);
+//     user_item_table.modify(item_iter, _self, [&](auto &new_data) {
+//         new_data.item_list[1].count = 1;
+//     });
+// }
+
 #undef EOSIO_DISPATCH
 
 #define EOSIO_DISPATCH(TYPE, MEMBERS)                                                          \
@@ -11282,7 +11372,7 @@ void battletest::new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t 
 
 EOSIO_DISPATCH(battletest,
                 (addrefer)(deleterefer)//(addwhite)(deletewhite)
-                //(setdata)(dbinsert)                                                                                                                    
+                //(itemchange)(deletetemp)(recorduser)//(setdata)(dbinsert)                                                                                                                    
                (transfer)(changetoken)(create)(issue)                                                                                                                        
                //(chat)      
                (goldgacha)                                                                                                                

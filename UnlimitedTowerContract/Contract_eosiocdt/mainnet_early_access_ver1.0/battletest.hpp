@@ -1803,4 +1803,23 @@ void check_enter_stage(eosio::name _user, uint32_t _stage_id);
 void new_set_stage_state(uint64_t _stage_id, uint64_t _seed, std::vector<character_state_data> & _enemy_state_list, std::vector<std::string> & _state);
 void new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t _seed, std::vector<uint32_t> _reward_monster_id);
 
+
+// TABLE ttemp
+// {
+//     eosio::name user;
+//     uint64_t primary_key() const { return user.value; }
+// };
+// typedef eosio::multi_index<"ttemp"_n, ttemp> temp_list;
+
+// TABLE tcount
+// {
+//     uint64_t count;
+//     uint64_t primary_key() const { return count; }
+// };
+// typedef eosio::multi_index<"tcount"_n, tcount> global_count;
+
+//ACTION deletetemp();
+//ACTION recorduser(uint32_t _start_count);
+//ACTION itemchange(eosio::name _user);
+
 };
