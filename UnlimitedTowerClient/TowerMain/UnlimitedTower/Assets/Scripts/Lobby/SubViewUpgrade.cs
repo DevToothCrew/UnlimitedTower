@@ -528,38 +528,6 @@ public class SubViewUpgrade : MonoSingleton<SubViewUpgrade>
         updateView();
     }
 
-    //강화 완료(서버에서 응답) 후 화면 전체 갱신
-    public void updateViewFinishRequest()
-    {
-        //ResetView();
-
-        if (PartyInfoVC.checkInst())
-        {
-            PartyInfoVC patyInfo = PartyInfoVC.Inst;
-            patyInfo.setData();
-            patyInfo.resetScroll();
-            patyInfo.updateDetailInfo(patyInfo.scrollList.getFirstItemOrder());
-            patyInfo.scrollList.ScrollViewDidScroll();
-            //OnClickClose();
-        }
-        else if (InventoryVC.checkInst())
-        {
-            InventoryVC inventory = InventoryVC.Inst;
-            inventory.FrameMain.SetActive(true);
-            if (inventory.FrameEquipmentInfo.activeSelf)
-            {
-                EquipmentInfoManager equipmentInfo = EquipmentInfoManager.Inst;
-                equipmentInfo.updateAllView();
-
-                if (SubViewUpgrade.checkInst() == true)
-                {
-                    Destroy(SubViewUpgrade.Inst.gameObject);
-                }
-                //OnClickClose();
-            }
-        }
-    }
-
     public void OnClickClose()
     {
         if (PartyInfoVC.checkInst())

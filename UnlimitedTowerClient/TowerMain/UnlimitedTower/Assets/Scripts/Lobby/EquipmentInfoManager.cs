@@ -103,6 +103,54 @@ public class EquipmentInfoManager : MonoSingleton<EquipmentInfoManager>
         }
     }
 
+    public void updateViewByUpgradeSuccess(int unit_idx)
+    {
+        if (InventoryVC.checkInst())
+        {
+            InventoryVC inventory = InventoryVC.Inst;
+            inventory.FrameMain.SetActive(true);
+
+            setData();
+            frameScroll.SetActive(true);
+            if (SubViewUpgrade.checkInst() == true)
+            {
+                Destroy(SubViewUpgrade.Inst.gameObject);
+            }
+            resetScroll();
+            int update_unit_arr_idx = 0;
+            for (int i = 0; i < EquipmentList[(int)selectedMenu].Count; i++)
+            {
+                if (EquipmentList[(int)selectedMenu][i].index == unit_idx)
+                {
+                    update_unit_arr_idx = i;
+                    break;
+                }
+            }
+
+            scrollList.SetContentOffset(update_unit_arr_idx);
+            scrollList.ScrollViewDidScroll();
+            updateDetailInfo(update_unit_arr_idx);
+        }
+        
+    }
+
+    //강화 완료(서버에서 응답) 후 화면 전체 갱신
+    public void updateViewByUpgradeFail()
+    {
+        if (InventoryVC.checkInst())
+        {
+            InventoryVC inventory = InventoryVC.Inst;
+            inventory.FrameMain.SetActive(true);
+
+            updateAllView();
+
+            if (SubViewUpgrade.checkInst() == true)
+            {
+                Destroy(SubViewUpgrade.Inst.gameObject);
+            }
+        }
+    }
+
     public void setData()
     {
         for (int i = 0; i < EquipmentList.Count; i++)

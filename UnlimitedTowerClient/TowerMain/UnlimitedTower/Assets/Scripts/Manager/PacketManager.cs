@@ -1468,7 +1468,15 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
         LobbyTopInfo.Inst.UpdateTopInfo();
 
-        SubViewUpgrade.Inst.updateViewFinishRequest();
+
+        if (getEquipmentUpgradeResultData.is_success == true)
+        {
+            EquipmentInfoManager.Inst.updateViewByUpgradeSuccess(equipmentData.index);
+        }
+        else
+        {
+            EquipmentInfoManager.Inst.updateViewByUpgradeFail();
+        }
         //PartyInfoVC.Inst.updateViewFinishRequest();
     }
 
