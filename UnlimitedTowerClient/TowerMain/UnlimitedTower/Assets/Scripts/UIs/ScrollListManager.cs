@@ -306,29 +306,11 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
 
 
     // anchor_type 0: center, 1: top
-    public void SetContentOffset(int data_idx, int anchor_type = 0)
+    public void SetContentOffset(int data_idx)
     {
         int idx = data_order[data_idx];
 
-        Vector2 pos = rectTrScrollLayer.anchoredPosition;
-        if (anchor_type == 0)
-        {
-            float offset_y = view_height * 0.5f - unit_height * 0.5f;
-            pos.y = unit_height * idx - offset_y; // 선택한 유닛이 가운데 위치하도록 ScrolllLayer 위치 조정 
-        }
-        else
-        {
-            float offset_y = unit_height * 0.5f;
-            pos.y = unit_height * idx - offset_y;
-        }
-
-        if (pos.y < 0f)
-            pos.y = 0f;
-        else if (pos.y > rectTrScrollLayer.sizeDelta.y - view_height)
-            pos.y = rectTrScrollLayer.sizeDelta.y - view_height;
-
-
-        rectTrScrollLayer.anchoredPosition = pos;
+        rectTrScrollLayer.anchoredPosition = new Vector2(0, unit_height * idx);
         ScrollViewDidScroll();
     }
 

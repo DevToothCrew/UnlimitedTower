@@ -397,7 +397,7 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     }
 
     //강화 완료(서버에서 응답) 후 화면 전체 갱신
-    public void updateViewFinishRequest()
+    public void updateViewFinishRequest(int unit_idx)
     {
         setData();
         frameScroll.SetActive(true);
@@ -406,7 +406,19 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
             Destroy(SubViewUpgrade.Inst.gameObject);
         }
         resetScroll();
-        updateDetailInfo(scrollList.getFirstItemOrder());
+        int update_unit_arr_idx = 0;
+        for (int i=0; i<MonsterList.Count; i++)
+        {
+            if (MonsterList[i].index == unit_idx)
+            {
+                update_unit_arr_idx = i;
+                break;
+            }
+        }
+
+        scrollList.SetContentOffset(update_unit_arr_idx);
+        scrollList.ScrollViewDidScroll();
+        updateDetailInfo(update_unit_arr_idx);
     }
 
     public void ShowUpgrade()

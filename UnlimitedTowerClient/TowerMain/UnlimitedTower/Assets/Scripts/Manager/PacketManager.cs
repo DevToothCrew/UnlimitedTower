@@ -1427,7 +1427,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         LobbyTopInfo.Inst.UpdateTopInfo();
 
         //SubViewUpgrade.Inst.updateViewFinishRequest();
-        PartyInfoVC.Inst.updateViewFinishRequest();
+        PartyInfoVC.Inst.updateViewFinishRequest(monsterData.index);
 
         TopUIManager.Inst.ShowUpgradeMonsterResult(getMonsterUpgradeResultData.is_success, monsterData);
     }
