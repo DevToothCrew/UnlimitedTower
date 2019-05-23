@@ -1094,7 +1094,7 @@ CONTRACT battletest : public contract
     void gacha_monster_id(eosio::name _user, uint64_t _seed, uint32_t _grade, uint32_t _max, uint32_t _gold_type);
     void set_tier_status(uint32_t &_value, uint32_t _tier);
     void gacha_equipment_id(eosio::name _user, uint64_t _seed, uint32_t _grade, uint32_t _max, uint32_t _gold_type);
-    void gacha_item_id(eosio::name _user, uint32_t _item_id, uint32_t _count, uint32_t _gold_type);
+    void get_new_item(eosio::name _user, uint32_t _item_id, uint32_t _count);
 
     uint64_t get_user_seed_value(uint64_t _user);
 
@@ -1897,7 +1897,7 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
     //void set_seed(std::string _type, uint64_t _seed, uint64_t _result);
     //ACTION partycheat(eosio::name _user);
     //ACTION deleteuser2(eosio::name _user);
-    //ACTION simulate(eosio::name _user, std::string _type, std::string _value);
+    ACTION simulate(eosio::name _user, std::string _type, std::string _value);
     //ACTION lvcheat(eosio::name _user);
     void utg_exchange(eosio::name _user);
     //ACTION deletelog();
