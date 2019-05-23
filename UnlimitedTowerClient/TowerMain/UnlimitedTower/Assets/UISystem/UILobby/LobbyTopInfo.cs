@@ -209,7 +209,15 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
     {
         while (startValue > finishValue)
         {
-            startValue -= changeValue;
+            if (startValue >= changeValue)
+            {
+                startValue -= changeValue;
+            }
+            else
+            {
+                startValue = 0;
+            }
+            
             if (startValue < finishValue)
             {
                 startValue = finishValue;
