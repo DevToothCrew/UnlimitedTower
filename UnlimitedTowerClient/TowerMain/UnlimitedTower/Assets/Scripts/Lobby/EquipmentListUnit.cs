@@ -70,16 +70,19 @@ public class EquipmentListUnit : ScrollListUnit
 
             if (SubViewDeconstruction.checkInst())
             {
-                int chracter_unit_idx = equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][SubViewDeconstruction.Inst.scrollListData[main_idx]].index;
-                if (SubViewDeconstruction.Inst.checkInsertedUnit(chracter_unit_idx))
+                if (unit_controller.Equals(SubViewDeconstruction.Inst))
                 {
-                    GetComponent<Button>().interactable = false;
-                    imageDisable.SetActive(true);
-                }
-                else
-                {
-                    GetComponent<Button>().interactable = true;
-                    imageDisable.SetActive(false);
+                    int chracter_unit_idx = equipmentInfo.EquipmentList[(int)equipmentInfo.GetSelectedMenu()][SubViewDeconstruction.Inst.scrollListData[main_idx]].index;
+                    if (SubViewDeconstruction.Inst.checkInsertedUnit(chracter_unit_idx))
+                    {
+                        GetComponent<Button>().interactable = false;
+                        imageDisable.SetActive(true);
+                    }
+                    else
+                    {
+                        GetComponent<Button>().interactable = true;
+                        imageDisable.SetActive(false);
+                    }
                 }
             }
         }
