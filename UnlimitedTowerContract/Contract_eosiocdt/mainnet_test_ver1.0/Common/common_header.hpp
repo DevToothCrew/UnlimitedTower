@@ -55,6 +55,10 @@
 #define TIER_3_MAX_COUNT        8
 #define TIER_4_MAX_COUNT        8
 
+//==========change_money=======//
+#define ORIGINRAL_MONEY         10000
+#define TEST_MONEY              1
+
 using namespace std;
 using namespace eosio;
 
