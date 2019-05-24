@@ -28,9 +28,12 @@ public class TumbAnimation : MonoBehaviour
         {
             foreach (Renderer mater in model)
             {
-                mater.material.color = new Color(1, 1, 1, 1 - 0.04f * i);
-                if (mater.material.color.a < 0)
-                    mater.material.color = new Color(1, 1, 1, 0);
+                if (mater?.material != null)
+                {
+                    mater.material.color = new Color(1, 1, 1, 1 - 0.04f * i);
+                    if (mater?.material?.color.a < 0)
+                        mater.material.color = new Color(1, 1, 1, 0);
+                }
             }
             yield return new WaitForSeconds(0.01f);
         }
