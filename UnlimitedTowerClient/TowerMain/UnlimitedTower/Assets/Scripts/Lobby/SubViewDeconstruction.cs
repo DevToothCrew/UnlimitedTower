@@ -505,23 +505,30 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
             patyInfo.setData();
             patyInfo.resetScroll();
             patyInfo.updateDetailInfo(patyInfo.scrollList.getFirstItemOrder());
+
+            setData();
+
+            scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+            scrollList.SetItemOrder(getOrder());
+            scrollList.ScrollViewDidScroll();
         }
         else if (InventoryVC.checkInst())
         {
-            InventoryVC inventory = InventoryVC.Inst;
-            if (inventory.FrameEquipmentInfo.activeSelf)
+            if (EquipmentInfoManager.checkInst())
             {
                 EquipmentInfoManager equipmentInfo = EquipmentInfoManager.Inst;
+                //equipmentInfo.setData();
+                //equipmentInfo.resetScroll();
+                //equipmentInfo.updateDetailInfo(equipmentInfo.scrollList.getFirstItemOrder());
                 equipmentInfo.updateAllView();
-                //OnClickClose();
+
+                setData();
+
+                scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
+                scrollList.SetItemOrder(getOrder());
+                scrollList.ScrollViewDidScroll();
             }
         }
-
-        setData();
-        
-        scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
-        scrollList.SetItemOrder(getOrder());
-        scrollList.ScrollViewDidScroll();
     }
 
     public void OnClickClose()
