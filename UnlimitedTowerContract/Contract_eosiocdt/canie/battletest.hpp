@@ -998,9 +998,8 @@ CONTRACT battletest : public contract
 #pragma region gacha function
     uint64_t get_random_grade(uint64_t _rate);
     uint32_t get_servant_index(uint32_t _job, uint32_t _body, uint32_t _gender, uint32_t _head, uint32_t _hair);
-    uint32_t get_monster_passive_skill(uint32_t _seed);
-    uint32_t get_servant_passive_skill(uint32_t _job, uint32_t _seed);
     uint32_t get_servant_active_skill(uint32_t _job, uint32_t _seed);
+    uint32_t get_passive_skill(uint32_t _type, uint32_t _job_or_tribe, uint64_t _seed);
 
     void gacha_servant_id(eosio::name _user, uint64_t _seed, uint32_t _job, uint32_t _max, uint32_t _gold_type);
     uint8_t gacha_servant_head(uint64_t _seed, uint32_t _count);
@@ -1902,7 +1901,7 @@ void new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t _seed, std::
 //ACTION monstercheat(eosio::name _user, uint32_t _grade, uint32_t _id, uint32_t _count);
 //ACTION balancetest(eosio::name _user, std::string _type, std::string _value);
 ACTION accountset(eosio::name _user);
-ACTION leveltest(eosio::name _user);
-ACTION updatecheack(uint32_t _start_count);
+//ACTION leveltest(eosio::name _user);
+//ACTION updatecheack(uint32_t _start_count);
 
 };
