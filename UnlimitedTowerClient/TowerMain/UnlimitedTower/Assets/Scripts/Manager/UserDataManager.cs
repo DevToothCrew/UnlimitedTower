@@ -1043,21 +1043,25 @@ public class UserDataManager : MonoSingleton<UserDataManager>
 
         servantDic[servantIndex].equipmentDic[equipmentType] = 0;
         equipmentDic[equipmentIndex].equipServantIndex = 0;
+        equipmentDic[equipmentIndex].state = 1;
         equipmentDic[equipmentIndex].isEquiped = false;
 
         if(equipmentType == EQUIPMENT_TYPE.WEAPON)
         {
             weaponDic[equipmentIndex].equipServantIndex = 0;
+            weaponDic[equipmentIndex].state = 1;
             weaponDic[equipmentIndex].isEquiped = false;
         }
         else if(equipmentType == EQUIPMENT_TYPE.ARMOR)
         {
             armorDic[equipmentIndex].equipServantIndex = 0;
+            armorDic[equipmentIndex].state = 1;
             armorDic[equipmentIndex].isEquiped = false;
         }
         else if(equipmentType == EQUIPMENT_TYPE.ACCESSSORY)
         {
             accessoryDic[equipmentIndex].equipServantIndex = 0;
+            armorDic[equipmentIndex].state = 1;
             accessoryDic[equipmentIndex].isEquiped = false;
         }
 
