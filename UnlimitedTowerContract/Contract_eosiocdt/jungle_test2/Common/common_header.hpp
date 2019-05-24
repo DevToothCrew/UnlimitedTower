@@ -59,6 +59,7 @@
 //==========change_money=======//
 #define ORIGINRAL_MONEY         10000
 #define TEST_MONEY              1
+#define UTG                     10000
 
 using namespace std;
 using namespace eosio;
