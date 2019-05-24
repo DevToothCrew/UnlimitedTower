@@ -2905,7 +2905,7 @@ ACTION battletest::dbinit(std::string _table)
     //     // {
     //     //     eosio_assert(1 == 0, "Not Exist Table");
     //     // }
-//}
+}
 
 // //  ACTION battletest::setdata(eosio::name _contract, eosio::name _user, std::string _table)
 // //  {
@@ -11262,7 +11262,8 @@ void battletest::inventory_buy(eosio::name _user, uint32_t _type, uint32_t _coun
    }
 }
 
-
+void battletest::ticket_buy(eosio::name _user, uint32_t _type, uint32_t _count)
+{
  eosio_assert(_count <= 99, "Invalid Item Count");
 
     system_check(_user);
@@ -11285,7 +11286,7 @@ void battletest::inventory_buy(eosio::name _user, uint32_t _type, uint32_t _coun
 
     allitem_db allitem_db_table(_self, _self.value);
     auto allitem_db_iter = allitem_db_table.find(item_shop_iter->product_id);
-    eosio_assert(allitem_db_iter != allitem_db_table.end(), "utg_item_buy : Not exist allitem data");
+    eosio_assert(allitem_db_iter != allitem_db_table.end(), "ticket buy : Not exist allitem data");
 
     uint64_t add_inventory = 0;
 
