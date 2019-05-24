@@ -40,7 +40,7 @@ public class EquipmentInfoManager : MonoSingleton<EquipmentInfoManager>
 
     private int unit_idx;
 
-    private Inventory_Menu_Type selectedMenu;
+    public Inventory_Menu_Type selectedMenu;
 
     private bool is_init_scroll = false;
 
