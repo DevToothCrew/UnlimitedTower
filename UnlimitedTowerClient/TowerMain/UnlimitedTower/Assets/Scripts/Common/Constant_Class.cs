@@ -331,9 +331,7 @@ public class BattleStatus
                     Status.Add(EFFECT_ID.INT, data.status.basicInt);
 
                     StatusReCalculation(monster.level);
-
-                    Upgrade(monster.upgrade, monster.gradeType);
-
+                    
                     for (int i = 0; i < statgData.mySynergyList.Count; i++)
                     {
                         Buff(statgData.mySynergyList[i].id, true, (int)monster.tribeType);
@@ -449,6 +447,7 @@ public class BattleStatus
         }
     }
 
+    // 추후 삭제
     public void Upgrade(int upgrade, GRADE_TYPE gradeType)
     {
         Status[EFFECT_ID.STR] = (int)(Status[EFFECT_ID.STR] * CSVData.Inst.GetMonsterUpStatFloat(upgrade, gradeType));
