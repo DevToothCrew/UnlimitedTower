@@ -992,7 +992,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         else if (equipmentType == EQUIPMENT_TYPE.ACCESSSORY)
         {
             accessoryDic[equipmentIndex].equipServantIndex = equipmentIndex;
-            armorDic[equipmentIndex].state = 2;
+            accessoryDic[equipmentIndex].state = 2;
             accessoryDic[equipmentIndex].isEquiped = true;
         }
 
@@ -1065,7 +1065,7 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         else if(equipmentType == EQUIPMENT_TYPE.ACCESSSORY)
         {
             accessoryDic[equipmentIndex].equipServantIndex = 0;
-            armorDic[equipmentIndex].state = 1;
+            accessoryDic[equipmentIndex].state = 1;
             accessoryDic[equipmentIndex].isEquiped = false;
         }
 
