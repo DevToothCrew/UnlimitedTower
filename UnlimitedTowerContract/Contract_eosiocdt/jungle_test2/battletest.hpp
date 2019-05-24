@@ -1456,23 +1456,6 @@ CONTRACT battletest : public contract
         status_info status;                       //4+4+4 = 12
     };
 
-    TABLE tstagestate
-    {
-        eosio::name user;
-        uint64_t stage_type;    // Tower / Field 1~5
-        eosio::name enemy_user; // if : Tower = account Name / else : untowermain1
-        uint64_t stage_number;  //4
-        uint64_t turn = 0;      //4
-        std::vector<character_state_data> my_state_list;
-        std::vector<character_state_data> enemy_state_list;
-        std::vector<uint32_t> my_synergy_list;
-        std::vector<uint32_t> enemy_synergy_list;
-
-        uint64_t primary_key() const { return user.value; }
-    };
-
-    typedef eosio::multi_index<"tstgstate"_n, tstagestate> battle_state_list;
-
 #pragma endregion
 
     //------------------------------------------------------------------------//
@@ -1860,8 +1843,8 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
     };
     typedef eosio::multi_index<"twhitelist"_n, twhitelist> whitelist;
 
-    // ACTION addwhite(eosio::name _user);
-    // ACTION deletewhite(eosio::name _user);
+    ACTION addwhite(eosio::name _user);
+    ACTION deletewhite(eosio::name _user);
 #pragma endregion
 
 // TABLE tdaily
@@ -1904,7 +1887,7 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
     void utg_exchange(eosio::name _user);
     //ACTION deletelog();
     //ACTION anothercheck(uint32_t _start_count);
-    ACTION anothercheck2(uint32_t _start_count);
+    //ACTION anothercheck2(uint32_t _start_count);
 
 #pragma endregion
 
@@ -2003,6 +1986,6 @@ void new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t _seed, std::
 //ACTION balancetest(eosio::name _user, std::string _type, std::string _value);
 ACTION accountset(eosio::name _user);
 ACTION leveltest(eosio::name _user);
-//ACTION updatecheack(uint32_t _start_count);
+ACTION updatecheack(uint32_t _start_count);
 
 };
