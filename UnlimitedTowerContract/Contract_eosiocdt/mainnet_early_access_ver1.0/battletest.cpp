@@ -8688,6 +8688,14 @@ battletest::item_data battletest::get_reward_item(eosio::name _user, uint32_t _i
                        change_consumable.item_list[i].count += _count;
                    }
                }
+               else if (change_consumable.item_list[i].count == 99 && i == (size_count - 1))
+               {
+                   item_info get_item_info;
+                   get_item_info.index = size_count;
+                   get_item_info.count = _count;
+                   change_consumable.item_list.push_back(get_item_info);
+                   add_inventory = 1;
+               }
            }
 
            new_item.item_list = change_consumable.item_list;
