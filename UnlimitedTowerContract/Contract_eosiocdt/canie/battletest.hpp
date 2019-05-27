@@ -1184,9 +1184,7 @@ CONTRACT battletest : public contract
     //——————————————blacklist_system—————————————//
     //————————————————————————————————————//
 #pragma region blacklist action
-
-    ACTION deleteblack(eosio::name _user);
-    ACTION addblack(eosio::name _user);
+    void black(eosio::name _user, std::string _type);
 
 #pragma endregion
 
@@ -1218,7 +1216,6 @@ CONTRACT battletest : public contract
 
     TABLE tparty
     {
-      public:
         uint32_t index;
         uint32_t state = party_state::on_wait;
         std::vector<uint64_t> servant_list;
@@ -1575,8 +1572,8 @@ CONTRACT battletest : public contract
 
     void deletebattle(eosio::name _user);
     void deleteuser(eosio::name _user);
-    ACTION alluserdel();
-    ACTION allbattle();
+    // ACTION alluserdel();
+    // ACTION allbattle();
 
     //-------------------------------------------------------------------------------//
     //-----------------------------preregist_table-----------------------------------//
@@ -1742,8 +1739,7 @@ CONTRACT battletest : public contract
     };
     typedef eosio::multi_index<"treferlist"_n, treferlist> referlist;
 
-    ACTION addrefer(eosio::name _referer);
-    ACTION deleterefer(eosio::name _referer);
+    void refer(eosio::name _referer, std::string _type);
 #pragma endregion
 
 #pragma region white
@@ -1754,8 +1750,7 @@ CONTRACT battletest : public contract
     };
     typedef eosio::multi_index<"twhitelist"_n, twhitelist> whitelist;
 
-    ACTION addwhite(eosio::name _user);
-    ACTION deletewhite(eosio::name _user);
+    void white(eosio::name _user, std::string _type);
 #pragma endregion
 
 // TABLE tdaily
@@ -1902,5 +1897,7 @@ ACTION accountset(eosio::name _user);
 
 void change_user_state(eosio::name _user, uint32_t _check_state, uint32_t _state);
 void init_action_reward_table(eosio::name _user);
+
+ACTION systemact(std::string _function, eosio::name _user, std::string _type);
 
 };
