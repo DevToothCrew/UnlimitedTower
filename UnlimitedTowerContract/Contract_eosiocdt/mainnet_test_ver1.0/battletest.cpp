@@ -9612,6 +9612,14 @@ void battletest::servantburn(eosio::name _user, const std::vector<uint64_t> &_li
                             change_consumable.item_list[i].count += get_count;
                         }
                     }
+                    else if (change_consumable.item_list[i].count == 99 && i == (size_count - 1))
+                    {
+                        item_info get_item_info;
+                        get_item_info.index = size_count;
+                        get_item_info.count = get_count;
+                        change_consumable.item_list.push_back(get_item_info);
+                        check_inventory += 1;
+                    }
                 }
                 servant_burn_result.amount += get_utg;
             });
