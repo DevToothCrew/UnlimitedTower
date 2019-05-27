@@ -588,8 +588,7 @@ CONTRACT battletest : public contract
     };
     typedef eosio::multi_index<"systemmaster"_n, systemmaster> system_master;
 
-    ACTION setmaster(eosio::name _master);
-    //ACTION initmaster();
+    ACTION setmaster(eosio::name _master, uint32_t _type);
 #pragma endregion
 
 
@@ -1005,8 +1004,8 @@ CONTRACT battletest : public contract
     uint8_t gacha_servant_head(uint64_t _seed, uint32_t _count);
     uint8_t gacha_servant_hair(uint64_t _seed, uint32_t _count);
     uint8_t gacha_servant_body(uint64_t _seed, uint32_t _count);
-    uint32_t change_servant_statue(uint32_t _status_grade);
-    uint32_t change_monster_statue(uint32_t _grade, uint32_t _status_grade);
+    uint32_t change_servant_status(uint32_t _status_grade);
+    uint32_t change_monster_status(uint32_t _grade, uint32_t _status_grade);
     uint32_t change_equipment_statue(uint32_t _grade, uint32_t _status_grade);
 
     void gacha_monster_id(eosio::name _user, uint64_t _seed, uint32_t _grade, uint32_t _max, uint32_t _gold_type);
@@ -1681,7 +1680,7 @@ CONTRACT battletest : public contract
         uint64_t get_user() const { return user.value; }
     };
     typedef eosio::multi_index<"pvplog"_n, pvplog> pvp_log_index;
-ACTION pvpstart(eosio::name _from, eosio::name _to);
+    //ACTION pvpstart(eosio::name _from, eosio::name _to);
 #pragma endregion
 
 #pragma region tower
@@ -1901,6 +1900,7 @@ ACTION accountset(eosio::name _user);
 //ACTION updatecheack(uint32_t _start_count);
 
 
-void change_user_state(eosio::name _user, uint32_t _state);
+void change_user_state(eosio::name _user, uint32_t _check_state, uint32_t _state);
+void init_action_reward_table(eosio::name _user);
 
 };
