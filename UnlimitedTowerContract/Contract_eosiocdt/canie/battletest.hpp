@@ -596,10 +596,10 @@ CONTRACT battletest : public contract
 #pragma region db function
   public:
     void substr_value(std::string _value, std::vector<std::string> & _value_list, std::vector<size_t> & _size_list, uint32_t _size);
-    ACTION dbinsert(std::string _table, std::string _value);
+    //ACTION dbinsert(std::string _table, std::string _value);
     //ACTION dberase(std::string _table, std::string _value);
     //ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
-    ACTION dbinit(std::string _table);
+    //ACTION dbinit(std::string _table);
     // ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
 
 	//ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
@@ -1476,10 +1476,6 @@ CONTRACT battletest : public contract
     //-------------------------------battle_function--------------------------//
     //------------------------------------------------------------------------//
 #pragma region battle function
-   uint32_t check_under_minus_flow(uint32_t _a, uint32_t _b);
-    uint32_t check_over_plus_flow(uint32_t _a, uint32_t _b);
-    uint32_t check_over_mult_flow(uint32_t _a, uint32_t _b);
-    uint32_t check_under_divide_flow(uint32_t _a, uint32_t _b);
     void set_upgrade_equip_status(uint64_t _grade, uint32_t _value, uint32_t _upgrade);
     void set_upgrade_monster_status(uint64_t _grade, status_info &_status, uint32_t _upgrade);
     uint32_t get_stage_id(uint32_t _tier, uint32_t _type, uint32_t _grade);
@@ -1497,7 +1493,7 @@ CONTRACT battletest : public contract
         std::vector<character_state_data> & _my_state_list, std::vector<uint32_t> &_synergy_list);
     character_state_data get_user_state(eosio::name _user, std::string _type, uint64_t _index, uint32_t _position, std::vector<std::string> & _state);
     bool possible_start(eosio::name _user, uint32_t _party_number);
-    ACTION stagestart(eosio::name _user, uint32_t _party_number, uint32_t _tier, uint32_t _type, uint32_t _grade);
+    ACTION stagestart(eosio::name _user, uint32_t _party_number, uint32_t _floor, uint32_t _type, uint32_t _difficult);
 
     void init_buff_turn_self(battle_status_info & _status);
     bool check_activate_skill(uint32_t _skill, uint64_t _rate);
@@ -1812,8 +1808,8 @@ TABLE stageinfo
 {
     uint64_t id;
     uint32_t type;
-    uint32_t tier;
-    uint32_t grade;
+    uint32_t floor;
+    uint32_t difficult;
     uint32_t need_entrance_item_id;
     uint32_t need_entrance_item_count;
     uint32_t enemy_level_min;
@@ -1881,8 +1877,8 @@ TABLE stagestateinfo
     eosio::name user;
     eosio::name enemy_user;
     uint8_t type;
-    uint8_t grade;
-    uint8_t tier;
+    uint8_t difficult;
+    uint8_t floor;
     uint64_t turn = 0;
     std::vector<character_state_data> my_state_list;
     std::vector<character_state_data> enemy_state_list;
@@ -1903,5 +1899,8 @@ void new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t _seed, std::
 ACTION accountset(eosio::name _user);
 //ACTION leveltest(eosio::name _user);
 //ACTION updatecheack(uint32_t _start_count);
+
+
+void change_user_state(eosio::name _user, uint32_t _state);
 
 };
