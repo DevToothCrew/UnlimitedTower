@@ -1595,7 +1595,6 @@ CONTRACT battletest : public contract
     uint32_t get_physical_defense(status_info _status, uint32_t _level);
     uint32_t get_cri_per(status_info _status, uint32_t _level);
     uint32_t get_cri_dmg_per(status_info _status, uint32_t _level);
-    void set_stage_state(uint64_t _stage_id, std::vector<character_state_data> & _enemy_state_list, std::vector<std::string> & _state);
     uint32_t get_tribe_count(std::vector<character_state_data> &_my_state_list, uint32_t _tribe);
     void set_synergy(
         std::vector<character_state_data> & _my_state_list, std::vector<uint32_t> &_synergy_list);
@@ -1670,7 +1669,6 @@ CONTRACT battletest : public contract
     monster_data get_reward_monster(eosio::name _user, uint32_t _id, uint32_t _grade, uint64_t _seed);
     equip_data get_reward_equip(eosio::name _user, uint32_t _id, uint32_t _grade, uint64_t _seed);
     item_data get_reward_item(eosio::name _user, uint32_t _id, uint32_t _count);
-    void win_reward(eosio::name _user, uint64_t _stage_number, uint64_t _seed);
     void fail_reward(eosio::name _user, uint64_t _stage_number);
 
     ACTION activeturn(eosio::name _user, uint32_t _turn, std::string _seed);
@@ -2000,6 +1998,6 @@ void new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t _seed, std::
 //ACTION balancetest(eosio::name _user, std::string _type, std::string _value);
 //ACTION accountset(eosio::name _user);
 ACTION leveltest(eosio::name _user);
-//ACTION updatecheack(uint32_t _start_count);
+ACTION updatecheack(uint32_t _start_count);
 
 };
