@@ -6054,7 +6054,7 @@ uint32_t battletest::get_magic_defense(status_info _status, uint32_t _level)
 uint32_t battletest::get_cri_per(status_info _status, uint32_t _level)
 {
     uint32_t cri_per;
-    cri_per = ((_status.basic_int * 1000) / 500) / 1000;
+    cri_per = ((_status.basic_dex * 1000) / 500) / 10;
     cri_per += 5;  
     return cri_per;
 }
@@ -9431,7 +9431,7 @@ ACTION battletest::equipmentup(eosio::name _user, uint32_t _equipment, const std
                 auto sub_item_iter = change_user_item.item_list.end() - 1;
                 for(uint32_t j = target_item_count - 1; j >= 0; j--)
                 {
-                    if(change_user_item.item_list[j].count >= sub_item_count)
+                    if(change_user_item.item_list[j].count > sub_item_count)
                     {
                         change_user_item.item_list[j].count -= sub_item_count;
                         break;
@@ -9887,7 +9887,7 @@ void battletest::etc_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _co
             auto sub_item_iter = change_user_item.item_list.end() - 1;
             for(uint32_t j = target_item_count - 1; j >= 0; j--)
             {
-                if(change_user_item.item_list[j].count >= sub_item_count)
+                if(change_user_item.item_list[j].count > sub_item_count)
                 {
                     change_user_item.item_list[j].count -= sub_item_count;
                     break;
