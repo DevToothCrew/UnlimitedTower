@@ -5365,29 +5365,24 @@ bool battletest::check_inventory(eosio::name _user, uint32_t _count)
 
 #pragma region blacklist action
 
-ACTION battletest::deleteblack(eosio::name _user)
+void battletest::black(eosio::name _user, std::string _type)
 {
-    master_active_check();
-
     blacklist blacklist_table(_self, _self.value);
     auto blacklist_iter = blacklist_table.find(_user.value);
-    eosio_assert(blacklist_iter != blacklist_table.end(), "User Not Black List");
-
-    blacklist_table.erase(blacklist_iter);
+    if (_type == "add")
+    {
+        eosio_assert(blacklist_iter == blacklist_table.end(), "Black List User 4");
+        blacklist_table.emplace(_self, [&](auto &new_black_user) {
+            new_black_user.user = _user;
+        });
+    }
+    if (_type == "delete")
+    {
+        eosio_assert(blacklist_iter != blacklist_table.end(), "User Not Black List");
+        blacklist_table.erase(blacklist_iter);
+    }
 }
 
-ACTION battletest::addblack(eosio::name _user)
-{
-    master_active_check();
-
-    blacklist blacklist_table(_self, _self.value);
-    auto blacklist_iter = blacklist_table.find(_user.value);
-    eosio_assert(blacklist_iter == blacklist_table.end(), "Black List User 4");
-
-    blacklist_table.emplace(_self, [&](auto &new_black_user) {
-        new_black_user.user = _user;
-    });
-}
 
 #pragma endregion
 
@@ -8284,6 +8279,14 @@ battletest::item_data battletest::get_reward_item(eosio::name _user, uint32_t _i
                         change_consumable.item_list[i].count += _count;
                     }
                 }
+                else if (change_consumable.item_list[i].count == 99 && i == (size_count - 1))
+                {
+                    item_info get_item_info;
+                    get_item_info.index = size_count;
+                    get_item_info.count = _count;
+                    change_consumable.item_list.push_back(get_item_info);
+                    add_inventory = 1;
+                }
             }
             
             new_item.item_list = change_consumable.item_list;
@@ -8601,40 +8604,40 @@ void battletest::deleteuser(eosio::name _user)
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ACTION battletest::alluserdel()
-{
-    require_auth(_self);
-    user_auths user_auth_table(_self, _self.value);
-    for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
-    {
-        auto iter_2 = user_auth_table.find(iter->primary_key());
-        //deletebattle(iter_2->user);
-        iter++;
-        deletebattle(iter_2->user);
-        deleteuser(iter_2->user);
-    }
+// ACTION battletest::alluserdel()
+// {
+//     require_auth(_self);
+//     user_auths user_auth_table(_self, _self.value);
+//     for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
+//     {
+//         auto iter_2 = user_auth_table.find(iter->primary_key());
+//         //deletebattle(iter_2->user);
+//         iter++;
+//         deletebattle(iter_2->user);
+//         deleteuser(iter_2->user);
+//     }
 
-    // seed_log seed_log_table(_self, _self.value);
-    // for (auto see = seed_log_table.begin(); see != seed_log_table.end();)
-    // {
-    //     auto iter_2 = seed_log_table.find(see->primary_key());
-    //     see = seed_log_table.erase(iter_2);
-    // }
-}
+//     // seed_log seed_log_table(_self, _self.value);
+//     // for (auto see = seed_log_table.begin(); see != seed_log_table.end();)
+//     // {
+//     //     auto iter_2 = seed_log_table.find(see->primary_key());
+//     //     see = seed_log_table.erase(iter_2);
+//     // }
+// }
 
-ACTION battletest::allbattle()
-{
-    require_auth(_self);
-    user_auths user_auth_table(_self, _self.value);
-    for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
-    {
-        auto iter_2 = user_auth_table.find(iter->primary_key());
-        //deletebattle(iter_2->user);
-        iter++;
-        deletebattle(iter_2->user);
-        //deleteuser(iter_2->user);
-    }
-}
+// ACTION battletest::allbattle()
+// {
+//     require_auth(_self);
+//     user_auths user_auth_table(_self, _self.value);
+//     for (auto iter = user_auth_table.begin(); iter != user_auth_table.end();)
+//     {
+//         auto iter_2 = user_auth_table.find(iter->primary_key());
+//         //deletebattle(iter_2->user);
+//         iter++;
+//         deletebattle(iter_2->user);
+//         //deleteuser(iter_2->user);
+//     }
+// }
 
 ACTION battletest::changetoken(eosio::name _user, std::string _type, uint64_t _index)
 {
@@ -8796,6 +8799,14 @@ void battletest::servantburn(eosio::name _user, const std::vector<uint64_t> &_li
                         {
                             change_consumable.item_list[i].count += get_count;
                         }
+                    }
+                    else if (change_consumable.item_list[i].count == 99 && i == (size_count - 1))
+                    {
+                        item_info get_item_info;
+                        get_item_info.index = size_count;
+                        get_item_info.count = get_count;
+                        change_consumable.item_list.push_back(get_item_info);
+                        check_inventory += 1;
                     }
                 }
                 servant_burn_result.amount += get_utg;
@@ -11070,52 +11081,43 @@ ACTION battletest::deletetower()
     // }
 }
 
-ACTION battletest::addrefer(eosio::name _referer)
+void battletest::refer(eosio::name _referer, std::string _type)
 {
-    master_active_check();
-
-    change_user_state(_referer, 0, 0);
-
     referlist referlist_tabe(_self, _self.value);
     auto referlist_iter = referlist_tabe.find(_referer.value);
-    eosio_assert(referlist_iter == referlist_tabe.end(), "Add Refer : Already Exist");
-    referlist_tabe.emplace(_self, [&](auto &new_refer) {
-        new_refer.referer = _referer;
-    });
+    if(_type == "add")
+    {
+        change_user_state(_referer, 0, 0);
+        eosio_assert(referlist_iter == referlist_tabe.end(), "Add Refer : Already Exist");
+        referlist_tabe.emplace(_self, [&](auto &new_refer) {
+            new_refer.referer = _referer;
+        });
+    }
+    if(_type == "delete")
+    {
+        eosio_assert(referlist_iter != referlist_tabe.end(), "Delete Refer : Not Exist");
+        referlist_tabe.erase(referlist_iter);
+    }
+
 }
-    
-ACTION battletest::deleterefer(eosio::name _referer)
-{
-    master_active_check();
 
-    referlist referlist_tabe(_self, _self.value);
-    auto referlist_iter = referlist_tabe.find(_referer.value);
-    eosio_assert(referlist_iter != referlist_tabe.end(), "Delete Refer : Not Exist");
-    referlist_tabe.erase(referlist_iter);
-}
-
-ACTION battletest::addwhite(eosio::name _user)
-{
-    master_active_check();
-
+void battletest::white(eosio::name _user, std::string _type)
+{   
     whitelist referlist_tabe(_self, _self.value);
     auto referlist_iter = referlist_tabe.find(_user.value);
-    eosio_assert(referlist_iter == referlist_tabe.end(), "Add White : Already Exist");
-    referlist_tabe.emplace(_self, [&](auto &new_refer) {
-        new_refer.user = _user;
-    });
+    if(_type == "add")
+    {
+        eosio_assert(referlist_iter == referlist_tabe.end(), "Add White : Already Exist");
+        referlist_tabe.emplace(_self, [&](auto &new_refer) {
+            new_refer.user = _user;
+        });
+    }
+    if(_type == "delete")
+    {
+        eosio_assert(referlist_iter != referlist_tabe.end(), "Delete White : Not Exist");
+        referlist_tabe.erase(referlist_iter);
+    }
 }
-
-ACTION battletest::deletewhite(eosio::name _user)
-{
-    master_active_check();
-
-    whitelist referlist_tabe(_self, _self.value);
-    auto referlist_iter = referlist_tabe.find(_user.value);
-    eosio_assert(referlist_iter != referlist_tabe.end(), "Delete White : Not Exist");
-    referlist_tabe.erase(referlist_iter);
-}
-
 // ACTION battletest::anothercheck(uint32_t _start_count)
 // {
 //     require_auth(_self);
@@ -12762,6 +12764,23 @@ void battletest::init_action_reward_table(eosio::name _user)
     }
 }
 
+ACTION battletest::systemact(std::string _function, eosio::name _user, std::string _type)
+{
+    master_active_check();
+    if(_function == "refer")
+    {
+        refer(_user, _type);
+    }
+    if(_function == "white")
+    {
+        white(_user, _type);
+    }
+    if(_function == "black")
+    {
+        black(_user, _type);
+    }
+}
+
 
 #undef EOSIO_DISPATCH
 
@@ -12791,7 +12810,7 @@ void battletest::init_action_reward_table(eosio::name _user)
 
 EOSIO_DISPATCH(battletest,
               //admin
-              (addwhite)(deletewhite)(addrefer)(deleterefer)(deleteblack)(addblack)(setmaster)(eostransfer)(setpause)                                                                                                          
+              (systemact)(setmaster)(eostransfer)(setpause)                                                                                                          
               (transfer)(changetoken)(create)(issue)            //
               //contants
               (goldgacha)(itembuy)(monsterup)(equipmentup)(mailopen)(equip)(nftmail)(burn)      //(itemburn)
@@ -12800,5 +12819,5 @@ EOSIO_DISPATCH(battletest,
               //tower
               (claim)(endflag)(toweropen)(towerstart)(deletetower)(chat)
               //cheat    (leveltest)   (updatecheack)
-              (accountset)       // (monstercheat)(anothercheck)                                                                                                       
-              (alluserdel)(allbattle))
+              (accountset))       // (monstercheat)(anothercheck)                                                                                                       
+              //(alluserdel)(allbattle))
