@@ -1896,6 +1896,7 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
     //ACTION partycheat(eosio::name _user);
     //ACTION deleteuser2(eosio::name _user);
     ACTION simulate(eosio::name _user, std::string _type, std::string _value);
+    ACTION usersimul(eosio::name _user, eosio::name _contract, eosio::name _target);
     //ACTION lvcheat(eosio::name _user);
     void utg_exchange(eosio::name _user);
     //ACTION deletelog();
