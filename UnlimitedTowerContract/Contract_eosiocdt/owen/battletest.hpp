@@ -313,9 +313,9 @@ CONTRACT battletest : public contract
     enum active_skill_type
     {
         type_buff = 1,
-        type_attack,    //2
-        type_heal,      //3
-        type_attack_debuff, //4
+        type_attack,
+        type_heal,
+        type_attack_debuff,
     };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -353,6 +353,7 @@ CONTRACT battletest : public contract
         uint64_t max_count;
         uint64_t sell_item_id;
         uint64_t sell_item_count;
+        
         uint64_t primary_key() const { return id; }
     };
     typedef eosio::multi_index<"dballitem"_n, dballitem> allitem_db;
@@ -599,8 +600,8 @@ CONTRACT battletest : public contract
     ACTION dbinsert(std::string _table, std::string _value);
     //ACTION dberase(std::string _table, std::string _value);
     //ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
-    ACTION dbinit(std::string _table);
-    // ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
+    //ACTION dbinit(std::string _table);
+    //ACTION insertequipr(uint64_t _main, std::vector<uint64_t>&_upgrade_ratio, uint64_t _material_id , std::vector<uint64_t>&_material_count , std::vector<uint64_t>&_use_UTG );
 
 	//ACTION setdata(eosio::name _contract, eosio::name _user, std::string _table);
     void insert_job(std::string _status, uint64_t _job, uint64_t _min, uint64_t _max);
@@ -641,15 +642,15 @@ CONTRACT battletest : public contract
                               uint64_t _option);
     void insert_monster(uint64_t _monster_id, uint64_t _tribe, uint64_t _type);
 
-    void erase_job(uint64_t _job);
+   // void erase_job(uint64_t _job);
     //  void erase_head(uint64_t _appear);
     //  void erase_hair(uint64_t _appear);
     //  void erase_body(uint64_t _appear);
     //  void erase_gender(uint64_t _appear);
-    void erase_servant_id(uint64_t _id);
-    void erase_monster_id(uint64_t _id);
+    // void erase_servant_id(uint64_t _id);
+    // void erase_monster_id(uint64_t _id);
   //  void erase_monster_grade(uint64_t _grade);
-  //  void erase_equip_item_id(uint64_t _id);
+    void erase_equip_item_id(uint64_t _id);
   //  void erase_all_item_id(uint64_t _id);
   //  void erase_item_grade(uint64_t _grade);
  //   void erase_grade_ratio(uint64_t _grade);
@@ -665,14 +666,94 @@ CONTRACT battletest : public contract
     // void erase_equipment_lv_status_list(uint64_t _type);
 	// void erase_passive(uint64_t _id);
     // void erase_active(uint64_t _id);
-    void erase_gacha_pool(uint64_t _id);
-    void erase_pre_gacha_pool(uint64_t _id);
+    // void erase_gacha_pool(uint64_t _id);
+    // void erase_pre_gacha_pool(uint64_t _id);
     // void erase_status_monster_up(uint64_t _id);
      //void erase_itemshop(uint64_t _id);
     // void erase_itemshop2(uint64_t _id);
 #pragma endregion
 
 #pragma region stage
+
+    struct stage_monster_info
+    {
+        uint64_t monster_id;
+        uint64_t position;
+    };
+
+
+    TABLE dbstage
+    {
+        uint64_t stage_id;
+        uint32_t stage_type;
+        uint32_t stage_floor;
+        uint32_t need_stage_id;
+        uint32_t stage_group_index;
+        uint32_t need_entrance_item_id;
+        uint32_t need_entrance_item_count;
+        uint32_t enemy_level_min;
+        uint32_t enemy_level_max;
+        std::vector<stage_monster_info> monster_list;
+        uint32_t boss_level;
+        std::vector<uint32_t> boss_passive_list;
+        std::vector<uint32_t> boss_skill_list;
+
+        uint64_t primary_key() const { return stage_id; }
+    };
+    typedef eosio::multi_index<"dbstage"_n, dbstage> stage_db;
+
+    void insert_stage(uint64_t _stage_id,
+    uint32_t _stage_type,
+    uint32_t _stage_floor,
+    uint32_t _need_stage_id,
+    uint32_t _stage_group_index,
+    uint32_t _need_entrance_item_id,
+    uint32_t _need_entrance_item_count,
+    uint32_t _enemy_level_min,
+    uint32_t _enemy_level_max);
+
+    void insert_stage_monster(uint64_t _stage_id ,uint32_t _monster_id, uint32_t _position);
+
+
+    void erase_stage(uint64_t _id);
+    void erase_stage_monster_list(uint64_t _id);
+
+    struct reward_info
+    {
+        uint32_t type;
+        uint64_t id;
+        uint32_t grade;
+        uint64_t per;
+        uint64_t count;
+    };
+    TABLE dbreward
+    {
+        uint64_t stage_id;
+        uint32_t rank_exp;
+        uint32_t char_exp;
+        uint32_t first_reward_type;
+        uint32_t first_reward_id;
+        uint32_t first_reward_grade;
+        uint32_t first_reward_count;
+        uint64_t reward_utg_min;
+        uint64_t reward_utg_max;
+        std::vector<reward_info> reward_list;
+        uint64_t primary_key() const { return stage_id; }
+    };
+    typedef eosio::multi_index<"dbreward"_n, dbreward> reward_db;
+
+    void insert_stage_reward(uint64_t _stage_id,
+                             uint32_t _rank_exp,
+                             uint32_t _char_exp,
+                             uint32_t _first_reward_type,
+                             uint32_t _first_reward_id,
+                             uint32_t _first_reward_grade,
+                             uint32_t _first_reward_count,
+                             uint32_t _reward_utg_min,
+                             uint32_t _reward_utg_max);
+    void insert_reward(uint64_t _stage_id, uint32_t _type, uint32_t _id, uint32_t _grade, uint32_t _per, uint32_t _count);
+    void erase_stage_reward(uint64_t _id);
+    void erase_stage_reward_list(uint64_t _id);
 
 #pragma endregion
 
@@ -835,6 +916,7 @@ CONTRACT battletest : public contract
         item,
     };
 
+
     struct result_info
     {
         uint64_t index;
@@ -903,8 +985,6 @@ CONTRACT battletest : public contract
         uint64_t get_type() const { return shop_type; }
     };
     typedef eosio::multi_index<"tshoplist"_n, tshoplist, indexed_by<"bytype"_n, const_mem_fun<tshoplist, uint64_t, &tshoplist::get_type>>> shop_list;
-
-
 
 #pragma endregion
 
@@ -1002,10 +1082,12 @@ CONTRACT battletest : public contract
     uint32_t get_servant_passive_skill(uint32_t _job, uint32_t _seed);
     uint32_t get_servant_active_skill(uint32_t _job, uint32_t _seed);
 
-    void gacha_servant_id(eosio::name _user, uint64_t _seed, uint32_t _job, uint32_t _max, uint32_t _gold_type);
+    void gacha_servant_id(eosio::name _user, uint64_t _seed, uint32_t _job, uint32_t _min, uint32_t _max, uint32_t _gold_type);
+
     uint8_t gacha_servant_head(uint64_t _seed, uint32_t _count);
     uint8_t gacha_servant_hair(uint64_t _seed, uint32_t _count);
     uint8_t gacha_servant_body(uint64_t _seed, uint32_t _count);
+
     uint32_t change_servant_statue(uint32_t _status_grade);
     uint32_t change_monster_statue(uint32_t _grade, uint32_t _status_grade);
     uint32_t change_equipment_statue(uint32_t _grade, uint32_t _status_grade);
@@ -1023,11 +1105,9 @@ CONTRACT battletest : public contract
     bool check_inventory(eosio::name _user, uint32_t _count);
     ACTION mailopen(eosio::name _user, const std::vector<uint64_t> &_mail_index);
 
-    // void gold_gacha_monster_id(eosio::name _user, uint64_t _seed);
-    // void gold_gacha_equipment_id(eosio::name _user, uint64_t _seed);
     void gold_gacha_item_id(eosio::name _user, uint64_t _seed);
 
-    void write_log(eosio::name _user, uint32_t _type, uint32_t _gacha_type, uint32_t _gacha_index, uint32_t _inventory_count);
+    void write_log(eosio::name _user, uint32_t _gold_type, uint32_t _gacha_type, uint32_t _gacha_index, uint32_t _inventory_count);
 
     ACTION goldgacha(eosio::name _user, string _memo);
     void gold_gacha(eosio::name _user, uint64_t _seed, uint32_t _second_seed);
@@ -1038,14 +1118,13 @@ CONTRACT battletest : public contract
 //------------------------------user_log_table----------------------------//
 //------------------------------------------------------------------------//
 #pragma region login table prelog
-    TABLE tuserlog
+    TABLE tuserlogs
     {
         eosio::name user;
         uint64_t servant_num = 0;
         uint64_t monster_num = 0;
         uint64_t equipment_num = 0;
         uint64_t gacha_num = 0;
-        uint64_t item_num = 0;
         uint64_t get_utg = 0;
         uint64_t use_utg = 0;
         uint64_t use_eos = 0;
@@ -1060,8 +1139,9 @@ CONTRACT battletest : public contract
 
         uint64_t primary_key() const { return user.value; }
     };
-    typedef eosio::multi_index<"tuserlog"_n, tuserlog> user_logs;
-  TABLE tgoldlogs
+    typedef eosio::multi_index<"tuserlogs"_n, tuserlogs> user_logs;
+    
+    TABLE tgoldlogs
     {
         eosio::name user;
         uint64_t monster_num = 0;
@@ -1075,6 +1155,11 @@ CONTRACT battletest : public contract
     typedef eosio::multi_index<"tgoldlogs"_n, tgoldlogs> gold_logs;
 
     void set_eos_log(uint64_t _total_amount);
+
+
+
+
+
 
 #pragma endregion
 
@@ -1376,6 +1461,23 @@ CONTRACT battletest : public contract
         status_info status;                       //4+4+4 = 12
     };
 
+    TABLE tstagestate
+    {
+        eosio::name user;
+        uint64_t stage_type;    // Tower / Field 1~5
+        eosio::name enemy_user; // if : Tower = account Name / else : untowermain1
+        uint64_t stage_number;  //4
+        uint64_t turn = 0;      //4
+        std::vector<character_state_data> my_state_list;
+        std::vector<character_state_data> enemy_state_list;
+        std::vector<uint32_t> my_synergy_list;
+        std::vector<uint32_t> enemy_synergy_list;
+
+        uint64_t primary_key() const { return user.value; }
+    };
+
+    typedef eosio::multi_index<"tstgstate"_n, tstagestate> battle_state_list;
+
 #pragma endregion
 
     //------------------------------------------------------------------------//
@@ -1582,8 +1684,8 @@ CONTRACT battletest : public contract
 
     void deletebattle(eosio::name _user);
     void deleteuser(eosio::name _user);
-    ACTION alluserdel();
-    ACTION allbattle();
+    //ACTION alluserdel();
+    //ACTION allbattle();
 
     //-------------------------------------------------------------------------------//
     //-----------------------------preregist_table-----------------------------------//
@@ -1661,7 +1763,7 @@ CONTRACT battletest : public contract
 #pragma endregion
 
 #pragma region chat
-    ACTION chat(name _user, asset _price, string _text);
+   // ACTION chat(name _user, asset _price, string _text);
     TABLE tchat
     {
         name owner;
@@ -1691,53 +1793,53 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
 #pragma endregion
 
 #pragma region tower
-    TABLE teoslog
-    {
-        eosio::name user;
-        uint64_t signup_eos = 0;
-        uint64_t status_change_num = 0;
-        uint64_t gacha_eos = 0;
-        uint64_t primary_key() const { return user.value; }
-    };
-    typedef eosio::multi_index<"teoslog"_n, teoslog> eos_logs;
+    // TABLE teoslog
+    // {
+    //     eosio::name user;
+    //     uint64_t signup_eos = 0;
+    //     uint64_t status_change_num = 0;
+    //     uint64_t gacha_eos = 0;
+    //     uint64_t primary_key() const { return user.value; }
+    // };
+    // typedef eosio::multi_index<"teoslog"_n, teoslog> eos_logs;
 
-    TABLE tsnapshot
-    {
-        uint64_t snapshot_count = 0;
-        uint64_t signup_eos = 0;
-        uint64_t status_change_num = 0;
-        uint64_t gacha_eos = 0;
-        uint64_t total_eos = 0;
-        eosio::name winner;
-        uint64_t primary_key() const { return snapshot_count; }
-    };
-    typedef eosio::multi_index<"tsnapshot"_n, tsnapshot> eos_snapshots;
+    // TABLE tsnapshot
+    // {
+    //     uint64_t snapshot_count = 0;
+    //     uint64_t signup_eos = 0;
+    //     uint64_t status_change_num = 0;
+    //     uint64_t gacha_eos = 0;
+    //     uint64_t total_eos = 0;
+    //     eosio::name winner;
+    //     uint64_t primary_key() const { return snapshot_count; }
+    // };
+    // typedef eosio::multi_index<"tsnapshot"_n, tsnapshot> eos_snapshots;
 
     void towersnap(uint64_t fnum);
     void settower(eosio::name _loser, eosio::name _winner, uint64_t _loser_party_num, uint64_t _winner_party_num);
 
-    TABLE floorinfo
-    {
-        uint64_t fnum;
-        name owner;
-        uint64_t bnum;
-        uint64_t pnum;
-        string state;
-        uint64_t endtime;
+    // TABLE floorinfo
+    // {
+    //     uint64_t fnum;
+    //     name owner;
+    //     uint64_t bnum;
+    //     uint64_t pnum;
+    //     string state;
+    //     uint64_t endtime;
 
-        uint64_t primary_key() const { return fnum; }
-    };
-    typedef eosio::multi_index<"floorinfos"_n, floorinfo> floor_index;
+    //     uint64_t primary_key() const { return fnum; }
+    // };
+    // typedef eosio::multi_index<"floorinfos"_n, floorinfo> floor_index;
 
-    ACTION toweropen();                                  //1층에 아무도 없을때 우리가 열어주는 기능
-    ACTION endflag(eosio::name _winner, uint64_t _fnum); //24시간 체크
+    //ACTION toweropen();                                  //1층에 아무도 없을때 우리가 열어주는 기능
+    //ACTION endflag(eosio::name _winner, uint64_t _fnum); //24시간 체크
     void resetparty(eosio::name _user, uint64_t _pnum);
-    ACTION claim(eosio::name who, uint64_t funm);        //인출하고  다음층여는기능
+    //ACTION claim(eosio::name who, uint64_t funm);        //인출하고  다음층여는기능
     void towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint64_t bnum);
     void towerlose(eosio::name loser);
     void get_tower_state(uint64_t _fnum, std::vector<character_state_data> &_enemy_state_list, std::vector<std::string> &_state);
-    ACTION towerstart(eosio::name _from, uint64_t _fnum);
-    ACTION deletetower();
+    //ACTION towerstart(eosio::name _from, uint64_t _fnum);
+    //ACTION deletetower();
 
 #pragma endregion
 
@@ -1765,14 +1867,6 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
     ACTION deletewhite(eosio::name _user);
 #pragma endregion
 
-// TABLE tdaily
-//    {
-//        eosio::name user;
-//        uint64_t total_day;
-//        uint64_t check_time;
-//        uint64_t primary_key() const { return user.value; }
-//    };
-//    typedef eosio::multi_index<"tdaily"_n, tdaily> dailychecks;
 
 #pragma region seed check
     struct seed_info
@@ -1805,10 +1899,9 @@ ACTION pvpstart(eosio::name _from, eosio::name _to);
     void utg_exchange(eosio::name _user);
     //ACTION deletelog();
     //ACTION anothercheck(uint32_t _start_count);
-    //ACTION anothercheck2(uint32_t _start_count);
+    ACTION anothercheck2(uint32_t _start_count);
 
 #pragma endregion
-
 
 TABLE stageinfo
 {
@@ -1902,8 +1995,32 @@ void new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t _seed, std::
 //치트키
 //ACTION monstercheat(eosio::name _user, uint32_t _grade, uint32_t _id, uint32_t _count);
 //ACTION balancetest(eosio::name _user, std::string _type, std::string _value);
-ACTION accountset(eosio::name _user);
+//ACTION accountset(eosio::name _user);
 ACTION leveltest(eosio::name _user);
 ACTION updatecheack(uint32_t _start_count);
+
+
+//------------------------------------------------------------------------//
+//--------------------------daily_check_table-----------------------------//
+//------------------------------------------------------------------------//
+
+#pragma region dailycheck 
+
+    TABLE tdaily
+    {        
+        eosio::name user;
+        uint64_t total_day; 
+        uint64_t check_time;
+        uint64_t primary_key() const { return user.value; }
+    };
+    typedef eosio::multi_index<"tdaily"_n, tdaily> dailychecks;
+   
+    ACTION dailycheck(eosio::name _user, string _seed);
+    bool timecheck(uint64_t user_checktime);
+    void daily_check_reward(eosio::name _user, uint64_t totalday,uint64_t _seed);
+
+
+#pragma endregion
+
 
 };
