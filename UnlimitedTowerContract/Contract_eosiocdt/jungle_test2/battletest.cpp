@@ -10124,13 +10124,13 @@ void battletest::sub_item_check(eosio::name _user, uint32_t _item_id, uint32_t _
 
     uint32_t target_item_count = user_items_iter->item_list.size();
     uint32_t total_item_count = 0;
-    for(uint32_t i = 0; i < target_item_count; i++)
+    for (uint32_t i = 0; i < target_item_count; i++)
     {
         total_item_count += user_items_iter->item_list[i].count;
     }
     eosio_assert(total_item_count >= sub_item_count, "sub_item_check : Not Enough Total Item Count");
 
-    if(total_item_count == sub_item_count)
+    if (total_item_count == sub_item_count)
     {
         user_items_table.erase(user_items_iter);
     }
@@ -10138,9 +10138,9 @@ void battletest::sub_item_check(eosio::name _user, uint32_t _item_id, uint32_t _
     {
         user_items_table.modify(user_items_iter, _self, [&](auto &change_user_item) {
             auto sub_item_iter = change_user_item.item_list.end() - 1;
-            for(uint32_t j = target_item_count - 1; j >= 0; j--)
+            for (uint32_t j = target_item_count - 1; j >= 0; j--)
             {
-                if(change_user_item.item_list[j].count > sub_item_count)
+                if (change_user_item.item_list[j].count > sub_item_count)
                 {
                     change_user_item.item_list[j].count -= sub_item_count;
                     break;
@@ -10162,9 +10162,7 @@ void battletest::sub_item_check(eosio::name _user, uint32_t _item_id, uint32_t _
     user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
         add_auth.current_item_inventory -= sub_inventory;
     });
-
 }
-
 
 void battletest::nftexchange(eosio::name _owner, eosio::name _master, std::string _type, uint64_t _master_index)
 {
@@ -11939,6 +11937,9 @@ ACTION battletest::accountset(eosio::name _user)
             monster_db monster_id_db_table(_self, _self.value);
             const auto &monster_id_db_iter = monster_id_db_table.get(gacha_monster_db_iter->db_index, "Account Test Monster : Empty Monster ID");
 
+            tribe_db tribe_db_table(_self, _self.value);
+            const auto &tribe_iter = tribe_db_table.get(monster_id_db_iter.tribe, "Gacha Monster : Empty Monster Tribe");
+
             monster_random_count += 1;
             uint64_t random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, DEFAULT_MIN, monster_random_count);
             uint64_t random_grade = get_random_grade(random_rate);
@@ -11975,6 +11976,10 @@ ACTION battletest::accountset(eosio::name _user)
                 new_monster.status.basic_str = change_monster_status(new_monster.grade, new_monster.status.basic_str);
                 new_monster.status.basic_dex = change_monster_status(new_monster.grade, new_monster.status.basic_dex);
                 new_monster.status.basic_int = change_monster_status(new_monster.grade, new_monster.status.basic_int);
+
+                new_monster.status.basic_str = (new_monster.status.basic_str * tribe_iter.base_str) / 100;
+                new_monster.status.basic_dex = (new_monster.status.basic_dex * tribe_iter.base_dex) / 100;
+                new_monster.status.basic_int = (new_monster.status.basic_int * tribe_iter.base_int) / 100;
 
                 new_monster.state = object_state::on_inventory;
 
@@ -13398,7 +13403,7 @@ EOSIO_DISPATCH(battletest,
               (systemact)(setmaster)(eostransfer)(setpause)                                                                                                          
               (transfer)(changetoken)(create)(issue)            //
               //event
-              (dailycheck)
+              //(dailycheck)
               //contants
               (goldgacha)(itembuy)(monsterup)(equipmentup)(mailopen)(equip)(nftmail)(burn)      //(itemburn)
               //battle (pvpstart)
