@@ -9602,7 +9602,7 @@ void battletest::inventory_buy(eosio::name _user, uint32_t _type, uint32_t _coun
    auto shop_list_iter = shop_list_table.find(_type);
    eosio_assert(shop_list_iter != shop_list_table.end(), "shop_buy_item : Not exist item shop data");
 
-   if (shop_list_iter->shop_item_id == 2001)
+  if (_type == 1)
    {
        eosio_assert((user_auth_iter->servant_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
 
@@ -9610,21 +9610,21 @@ void battletest::inventory_buy(eosio::name _user, uint32_t _type, uint32_t _coun
            change_auth_user.servant_inventory += (plus_inventory * _count);
        });
    }
-   else if (shop_list_iter->shop_item_id == 2002)
+   else if (_type == 2)
    {
        eosio_assert((user_auth_iter->monster_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
            change_auth_user.monster_inventory += (plus_inventory * _count);
        });
    }
-   else if (shop_list_iter->shop_item_id == 2003)
+   else if (_type == 3)
    {
        eosio_assert((user_auth_iter->equipment_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
            change_auth_user.equipment_inventory += (plus_inventory * _count);
        });
    }
-   else if (shop_list_iter->shop_item_id == 2004)
+   else if (_type == 4)
    {
        eosio_assert((user_auth_iter->item_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
