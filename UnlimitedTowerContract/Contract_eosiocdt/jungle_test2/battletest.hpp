@@ -1000,7 +1000,8 @@ CONTRACT battletest : public contract
     uint32_t get_servant_active_skill(uint32_t _job, uint32_t _seed);
     uint32_t get_passive_skill(uint32_t _type, uint32_t _job_or_tribe, uint64_t _seed);
 
-    void gacha_servant_id(eosio::name _user, uint64_t _seed, uint32_t _job, uint32_t _max, uint32_t _gold_type);
+    void gacha_servant_id(eosio::name _user, uint64_t _seed, uint32_t _job, uint32_t _min, uint32_t _max, uint32_t _gold_type);
+
     uint8_t gacha_servant_head(uint64_t _seed, uint32_t _count);
     uint8_t gacha_servant_hair(uint64_t _seed, uint32_t _count);
     uint8_t gacha_servant_body(uint64_t _seed, uint32_t _count);
@@ -1021,11 +1022,9 @@ CONTRACT battletest : public contract
     bool check_inventory(eosio::name _user, uint32_t _count);
     ACTION mailopen(eosio::name _user, const std::vector<uint64_t> &_mail_index);
 
-    // void gold_gacha_monster_id(eosio::name _user, uint64_t _seed);
-    // void gold_gacha_equipment_id(eosio::name _user, uint64_t _seed);
     void gold_gacha_item_id(eosio::name _user, uint64_t _seed);
 
-    void write_log(eosio::name _user, uint32_t _type, uint32_t _gacha_type, uint32_t _gacha_index, uint32_t _inventory_count);
+    void write_log(eosio::name _user, uint32_t _gold_type, uint32_t _gacha_type, uint32_t _gacha_index, uint32_t _inventory_count);
 
     ACTION goldgacha(eosio::name _user, string _memo);
     void gold_gacha(eosio::name _user, uint64_t _seed, uint32_t _second_seed);
@@ -1266,6 +1265,9 @@ CONTRACT battletest : public contract
 
     ACTION equipmentup(eosio::name _user, uint32_t _equipment, const std::vector<uint64_t> &_item_list);
     ACTION monsterup(eosio::name _user, uint32_t _monster, uint32_t _monster2);
+    ACTION upgrade(eosio::name _user, uint32_t _type, uint32_t _main, const std::vector<uint64_t> &_item_list);
+    void equip_upgrade(eosio::name _user, uint32_t _equipment, const std::vector<uint64_t> &_item_list); 
+    void skill_lvup();
 #pragma endregion
 
     //------------------------------------------------------------------------//
@@ -1278,6 +1280,9 @@ CONTRACT battletest : public contract
 
     void utg_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _count);
     void etc_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _count);
+    void skill_lvup_buy(eosio::name _user, uint32_t _item_id, uint32_t _count);
+    void common_skill_change_buy(eosio::name _user, uint32_t _item_id, uint32_t _count);
+    void main_skill_change_buy(eosio::name _user, uint32_t _item_id, uint32_t _count);
 
     void shop_buy_item(eosio::name _user, uint32_t _type, uint32_t _count);
     void inventory_buy(eosio::name _user, uint32_t _type, uint32_t _count);
@@ -1753,14 +1758,6 @@ CONTRACT battletest : public contract
     void white(eosio::name _user, std::string _type);
 #pragma endregion
 
-// TABLE tdaily
-//    {
-//        eosio::name user;
-//        uint64_t total_day;
-//        uint64_t check_time;
-//        uint64_t primary_key() const { return user.value; }
-//    };
-//    typedef eosio::multi_index<"tdaily"_n, tdaily> dailychecks;
 
 #pragma region seed check
     struct seed_info
@@ -1887,6 +1884,8 @@ void check_enter_stage(eosio::name _user, uint32_t _stage_id);
 void new_set_stage_state(uint64_t _stage_id, uint64_t _seed, std::vector<character_state_data> & _enemy_state_list, std::vector<std::string> & _state);
 void new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t _seed, std::vector<uint32_t> _reward_monster_id);
 
+void sum_item_check(eosio::name _user, uint32_t _item_id, uint32_t _count);
+void sub_item_check(eosio::name _user, uint32_t _item_id, uint32_t _count);
 //치트키
 //ACTION monstercheat(eosio::name _user, uint32_t _grade, uint32_t _id, uint32_t _count);
 //ACTION balancetest(eosio::name _user, std::string _type, std::string _value);
@@ -1899,5 +1898,31 @@ void change_user_state(eosio::name _user, uint32_t _check_state, uint32_t _state
 void init_action_reward_table(eosio::name _user);
 
 ACTION systemact(std::string _function, eosio::name _user, std::string _type);
+
+//------------------------------------------------------------------------//
+//--------------------------daily_check_table-----------------------------//
+//------------------------------------------------------------------------//
+
+#pragma region dailycheck 
+
+    TABLE tdaily
+    {        
+        eosio::name user;
+        uint64_t total_day; 
+        uint64_t check_time;
+        uint64_t primary_key() const { return user.value; }
+    };
+    typedef eosio::multi_index<"tdaily"_n, tdaily> dailychecks;
+   
+    ACTION dailycheck(eosio::name _user, string _seed);
+    bool timecheck(uint64_t user_checktime);
+    void daily_check_reward(eosio::name _user, uint64_t totalday,uint64_t _seed);
+    //ACTION resetdaily(eosio::name _user);
+
+    servant_info get_servant_random_state(uint32_t _id, uint64_t _seed, uint32_t _job, uint32_t _base_str, uint32_t _base_dex, uint32_t _base_int);
+    monster_info get_monster_random_state(uint32_t _id, uint64_t _seed, uint32_t _grade, uint32_t _tribe, uint32_t _type, uint32_t _base_str, uint32_t _base_dex, uint32_t _base_int);
+    equipment_info get_equip_random_state(uint32_t _id, uint64_t _seed, uint32_t _type, uint32_t _tier, uint32_t _job, uint32_t _grade);
+
+#pragma endregion
 
 };
