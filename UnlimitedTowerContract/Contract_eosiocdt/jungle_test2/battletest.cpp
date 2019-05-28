@@ -53,14 +53,14 @@ ACTION battletest::create(eosio::name issuer, asset maximum_supply)
     require_auth(owner_auth);
 
     auto sym = maximum_supply.symbol;
-    eosio_assert(sym.is_valid(), "create : invalid symbol name");
-    eosio_assert(maximum_supply.is_valid(), "create : invalid Supply");
+    eosio_assert(sym.is_valid(), "invalid symbol name");
+    eosio_assert(maximum_supply.is_valid(), "invalid Supply");
 
-    eosio_assert(maximum_supply.amount > 0, "create : max supply more than 0");
+    eosio_assert(maximum_supply.amount > 0, "max supply more than 0");
 
     stats statstable(_self, sym.code().raw());
     auto existing = statstable.find(sym.code().raw());
-    eosio_assert(existing == statstable.end(), "create : token symbol already exists");
+    eosio_assert(existing == statstable.end(), "token symbol already exists");
 
     statstable.emplace(_self, [&](auto &s) {
         s.supply.symbol = maximum_supply.symbol;
@@ -72,20 +72,20 @@ ACTION battletest::create(eosio::name issuer, asset maximum_supply)
 ACTION battletest::issue(eosio::name to, asset quantity, string memo)
 {
     auto sym = quantity.symbol;
-    eosio_assert(sym.is_valid(), "issue : Invalid symbol name");
-    eosio_assert(memo.size() <= 256, "issue : Memo has more than 256 bytes");
+    eosio_assert(sym.is_valid(), "Invalid symbol name");
+    eosio_assert(memo.size() <= 256, "Memo has more than 256 bytes");
 
     stats statstable(_self, sym.code().raw());
     auto existing = statstable.find(sym.code().raw());
-    eosio_assert(existing != statstable.end(), "issue : Token with symbol does now exist, Create token before issue");
+    eosio_assert(existing != statstable.end(), "Token with symbol does now exist, Create token before issue");
     const auto &st = *existing;
 
     require_auth(owner_auth);
-    eosio_assert(quantity.is_valid(), "issue : Invalid quantity");
-    eosio_assert(quantity.amount > 0, "issue : Must issue positive quantity");
+    eosio_assert(quantity.is_valid(), "Invalid quantity");
+    eosio_assert(quantity.amount > 0, "Must issue positive quantity");
 
-    eosio_assert(quantity.symbol == st.supply.symbol, "issue : Symbol precision mismatch");
-    eosio_assert(quantity.amount <= st.max_supply.amount - st.supply.amount, "issue : Quantity exceeds available supply");
+    eosio_assert(quantity.symbol == st.supply.symbol, "Symbol precision mismatch");
+    eosio_assert(quantity.amount <= st.max_supply.amount - st.supply.amount, "Quantity exceeds available supply");
 
     statstable.modify(st, same_payer, [&](auto &s) {
         s.supply += quantity;
@@ -106,22 +106,22 @@ ACTION battletest::transfer(name from, name to, asset quantity, string memo)
 {
     blacklist blacklist_table(_self, _self.value);
     auto blacklist_iter = blacklist_table.find(from.value);
-    eosio_assert(blacklist_iter == blacklist_table.end(), "transfer : black list user1");
+    eosio_assert(blacklist_iter == blacklist_table.end(), "black list user1");
 
-    eosio_assert(from != to, "transfer : Cannot transfer to self");
+    eosio_assert(from != to, "Cannot transfer to self");
     require_auth(from);
-    eosio_assert(is_account(to), "transfer : To account does not exist");
+    eosio_assert(is_account(to), "To account does not exist");
     auto sym = quantity.symbol.code().raw();
     stats statstable(_self, sym);
-    const auto &st = statstable.get(sym, "transfer : Not exist symbol");
+    const auto &st = statstable.get(sym, "Not exist symbol");
 
     require_recipient(from);
     require_recipient(to);
 
-    eosio_assert(quantity.is_valid(), "transfer : Invalid quantity");
-    eosio_assert(quantity.amount > 0, "transfer : Must transfer positive quantity");
-    eosio_assert(quantity.symbol == st.supply.symbol, "transfer : Symbol precision mismatch");
-    eosio_assert(memo.size() <= 256, "transfer : Memo has more than 256 bytes");
+    eosio_assert(quantity.is_valid(), "Invalid quantity");
+    eosio_assert(quantity.amount > 0, "Must transfer positive quantity");
+    eosio_assert(quantity.symbol == st.supply.symbol, "Symbol precision mismatch");
+    eosio_assert(memo.size() <= 256, "Memo has more than 256 bytes");
 
     sub_balance(from, quantity);
     add_balance(to, quantity, from);
@@ -131,8 +131,8 @@ void battletest::sub_balance(name user, asset value)
 {
     account from_acnts(_self, user.value);
 
-    const auto &from = from_acnts.get(value.symbol.code().raw(), "sub_balance : No balance object found");
-    eosio_assert(from.balance.amount >= value.amount, "sub_balance : over account balance");
+    const auto &from = from_acnts.get(value.symbol.code().raw(), "No balance object found");
+    eosio_assert(from.balance.amount >= value.amount, "over account balance");
 
     if (from.balance.amount == value.amount)
     {
