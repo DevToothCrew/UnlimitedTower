@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MonsterInfoManager : MonoBehaviour {
+    public GameObject FrameMonsterInfo;
+    public GameObject FrameNoneMonster;
+
     public Text textUnitName;
     public Text textLevel;
     public Image imageExp;

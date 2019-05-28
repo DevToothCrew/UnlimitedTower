@@ -148,29 +148,47 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     {
         if (currentScrollType == scroll_type.SERVANT_INFO)
         {
-            textOwned.text = string.Format("{0}", ServantList.Count);
-            textTotal.text = string.Format("/ {0}", UserDataManager.Inst.GetUserInventoryInfo().servantInventory);
-            if (ServantList.Count >= UserDataManager.Inst.GetUserInventoryInfo().servantInventory )
+            if (ServantList != null)
             {
-                textOwned.color = Color.red;
+                textOwned.text = string.Format("{0}", ServantList.Count);
+                textTotal.text = string.Format("/ {0}", UserDataManager.Inst.GetUserInventoryInfo().servantInventory);
+                if (ServantList.Count >= UserDataManager.Inst.GetUserInventoryInfo().servantInventory)
+                {
+                    textOwned.color = Color.red;
+                }
+                else
+                {
+                    textOwned.color = Color.white;
+                }
             }
             else
             {
-                textOwned.color = Color.white;
+                frameScroll.SetActive(false);
+                return;
             }
+
         }
         else if (currentScrollType == scroll_type.MONSTER_INFO)
         {
-            textOwned.text = string.Format("{0}", MonsterList.Count);
-            textTotal.text = string.Format("/ {0}", UserDataManager.Inst.GetUserInventoryInfo().monsterInventory);
-            if (MonsterList.Count >= UserDataManager.Inst.GetUserInventoryInfo().monsterInventory)
+            if (MonsterList != null)
             {
-                textOwned.color = Color.red;
+                textOwned.text = string.Format("{0}", MonsterList.Count);
+                textTotal.text = string.Format("/ {0}", UserDataManager.Inst.GetUserInventoryInfo().monsterInventory);
+                if (MonsterList.Count >= UserDataManager.Inst.GetUserInventoryInfo().monsterInventory)
+                {
+                    textOwned.color = Color.red;
+                }
+                else
+                {
+                    textOwned.color = Color.white;
+                }
             }
             else
             {
-                textOwned.color = Color.white;
+                frameScroll.SetActive(false);
+                return;
             }
+
         }
         
         scrollList.scrollRect.velocity = Vector2.zero;
@@ -372,7 +390,15 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
         }
         else if (selectedMenu == menu_type.MONSTER)
         {
-            updateMonsterInfo(MonsterList[selected_unit_idx]);
+            if (MonsterList != null)
+            {
+                updateMonsterInfo(MonsterList[selected_unit_idx]);
+            }
+            else
+            {
+                updateMonsterInfo(null);
+                return;
+            }
         }
 
         if (ModelViewManager.checkInst())
@@ -390,10 +416,23 @@ public class PartyInfoVC : MonoSingleton<PartyInfoVC>
     }
 
     public void updateMonsterInfo(UserMonsterData m_data)
-    {   
+    {
         FrameServantInfo.SetActive(false);
-        FrameMonsterInfo.GetComponent<MonsterInfoManager>().updateMonsterInfo(m_data);
         FrameMonsterInfo.SetActive(true);
+        MonsterInfoManager m_info_manager = FrameMonsterInfo.GetComponent<MonsterInfoManager>();
+        if (m_data != null)
+        {
+            m_info_manager.updateMonsterInfo(m_data);
+            m_info_manager.FrameMonsterInfo.SetActive(true);
+            m_info_manager.FrameNoneMonster.SetActive(false);
+        }
+        else
+        {
+            frameScroll.SetActive(false);
+            m_info_manager.FrameMonsterInfo.SetActive(false);
+            m_info_manager.FrameNoneMonster.SetActive(true);
+        }
+
     }
 
     //강화 완료(서버에서 응답) 후 화면 전체 갱신
