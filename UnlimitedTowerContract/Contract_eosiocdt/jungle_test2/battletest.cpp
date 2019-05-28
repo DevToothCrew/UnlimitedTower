@@ -9476,22 +9476,22 @@ void battletest::etc_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _co
 {
     eosio_assert(_count <= 99, "ETC Item buy : Invalid Item Count");
   
-    item_shop item_shop_table(_self, _self.value);
-    auto item_shop_iter = item_shop_table.find(_item_id);
-    eosio_assert(item_shop_iter != item_shop_table.end(), "ETC Item buy : Not exist item_shop data");
+    // item_shop item_shop_table(_self, _self.value);
+    // auto item_shop_iter = item_shop_table.find(_item_id);
+    // eosio_assert(item_shop_iter != item_shop_table.end(), "ETC Item buy : Not exist item_shop data");
 
-    allitem_db allitem_db_table(_self, _self.value);
-    auto allitem_db_iter = allitem_db_table.find(item_shop_iter->price_id);     //판매
-    auto allitem_db_iter2 = allitem_db_table.find(item_shop_iter->product_id);  //구매
-    eosio_assert(allitem_db_iter != allitem_db_table.end(), "ETC Item buy : Not exist allitem data");
-    eosio_assert(allitem_db_iter2 != allitem_db_table.end(), "ETC Item buy : Not exist allitem2 data");
+    // allitem_db allitem_db_table(_self, _self.value);
+    // auto allitem_db_iter = allitem_db_table.find(item_shop_iter->price_id);     //판매
+    // auto allitem_db_iter2 = allitem_db_table.find(item_shop_iter->product_id);  //구매
+    // eosio_assert(allitem_db_iter != allitem_db_table.end(), "ETC Item buy : Not exist allitem data");
+    // eosio_assert(allitem_db_iter2 != allitem_db_table.end(), "ETC Item buy : Not exist allitem2 data");
     
 
     
     
     if(_item_id == 4101 || _item_id == 4102 || _item_id == 4103 || _item_id == 4104)    //티켓 (서번트 소환권)
     {
-        sub_item_check(_user, allitem_db_iter->id, _count);
+        sub_item_check(_user, _item_id, _count);
 
         for (uint32_t i = 0; i < _count; i++)
         {
@@ -10105,7 +10105,7 @@ void battletest::sub_item_check(eosio::name _user, uint32_t _item_id, uint32_t _
 {
     item_shop item_shop_table(_self, _self.value);
     auto item_shop_iter = item_shop_table.find(_item_id);
-    eosio_assert(item_shop_iter != item_shop_table.end(), "ETC Item buy : Not exist item_shop data");
+    eosio_assert(item_shop_iter != item_shop_table.end(), "sub_item_check : Not exist item_shop data");
 
     allitem_db allitem_db_table(_self, _self.value);
     auto allitem_db_iter = allitem_db_table.find(item_shop_iter->price_id);
