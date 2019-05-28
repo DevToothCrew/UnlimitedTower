@@ -27,7 +27,7 @@
 #define EQUIP_GACHA_ID_START    30000
 #define SERVANT_GACHA_ID_START  10000
 #define ITEM_GACHA_ID_START     60000
-#define SERVANT_JOB_COUNT       4
+#define SERVANT_JOB_COUNT       5
 #define HEAD_COUNT              4
 #define HAIR_COUNT              4
 #define BODY_COUNT              3
@@ -58,7 +58,7 @@
 
 //==========change_money=======//
 #define ORIGINRAL_MONEY         10000
-#define TEST_MONEY              1
+#define TEST_MONEY              10000
 #define UTG                     10000
 
 using namespace std;
