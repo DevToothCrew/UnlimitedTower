@@ -428,39 +428,6 @@ CONTRACT battletest : public contract
     //------------------------------------------------------------------------//
     //----------------------------db_system-----------------------------------//
     //------------------------------------------------------------------------//
-    TABLE dbstageenemy
-    {
-        uint64_t id;
-        uint32_t grade;
-        uint32_t enemy_tribe;
-        uint32_t type;
-        uint32_t enemy_str;
-        uint32_t enemy_dex;
-        uint32_t enemy_int;
-        uint32_t cri_per;
-        uint32_t cri_dmg;
-        uint32_t speed;
-        uint32_t avoid;
-        std::vector<uint32_t> active_list;
-        std::vector<uint32_t> passive_list;
-
-        uint64_t primary_key() const { return id; }
-    };
-    typedef eosio::multi_index<"dbstageenem"_n, dbstageenemy> stage_enemy_db;
-
-    void insert_stage_enemy(uint64_t _id,
-                            uint32_t _grade,
-                            uint32_t _enemy_class,
-                            uint32_t _type,
-                            uint32_t _enemy_str,
-                            uint32_t _enemy_dex,
-                            uint32_t _enemy_int,
-                            uint32_t _cri_per,
-                            uint32_t _cri_dmg,
-                            uint32_t _speed,
-                            uint32_t _avoid);
-
-    void erase_stage_enemy(uint64_t _id);
 
     enum tribe_type
     {
@@ -1922,6 +1889,64 @@ ACTION systemact(std::string _function, eosio::name _user, std::string _type);
     servant_info get_servant_random_state(uint32_t _id, uint64_t _seed, uint32_t _job, uint32_t _base_str, uint32_t _base_dex, uint32_t _base_int);
     monster_info get_monster_random_state(uint32_t _id, uint64_t _seed, uint32_t _grade, uint32_t _tribe, uint32_t _type, uint32_t _base_str, uint32_t _base_dex, uint32_t _base_int);
     equipment_info get_equip_random_state(uint32_t _id, uint64_t _seed, uint32_t _type, uint32_t _tier, uint32_t _job, uint32_t _grade);
+
+#pragma endregion
+
+
+#pragma region new servant monster
+
+struct skill_info
+{
+    uint32_t id;
+    uint32_t level;
+};
+
+struct new_servant_info
+{
+    uint32_t state;   //서번트 상태
+    uint32_t exp = 0; //서번트 경험치
+    uint64_t id = 0;
+    uint32_t level = 1;
+    uint32_t grade = 5;
+    status_info status;
+    std::vector<uint32_t> equip_slot; //서번트 장비 리스트
+    std::vector<skill_info> passive_skill;
+    std::vector<skill_info> active_skill;
+};
+
+TABLE tservants
+{
+    uint64_t index;
+    uint32_t party_number = 0;
+    new_servant_info servant;
+    uint64_t primary_key() const { return index; }
+};
+typedef eosio::multi_index<"tservants"_n, tservants> new_user_servants;
+struct new_monster_info
+{
+    uint64_t id;          //몬스터 id 값
+    uint32_t state;       //몬스터 상태값
+    uint32_t exp = 0;     //경험치
+    uint32_t type = 0;    //속성 타입
+    uint32_t tribe = 0;   //몬스터의 클래스
+    uint32_t grade;       // 등급
+    uint32_t upgrade = 0; //강화수치
+    uint32_t level = 1;
+    status_info status; //기본 힘,민,지 추가 힘,민,지
+    std::vector<skill_info> passive_skill;
+    std::vector<skill_info> active_skill;
+};
+
+TABLE tmonsters
+{
+    uint64_t index;
+    uint32_t party_number = 0;
+    new_monster_info monster;
+    uint64_t primary_key() const { return index; }
+};
+typedef eosio::multi_index<"tmonsters"_n, tmonsters> new_user_monsters;
+
+//ACTION movedata(uint32_t _start_count);
 
 #pragma endregion
 
