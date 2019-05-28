@@ -24,7 +24,14 @@ public class ItemInfoManager : MonoSingleton<ItemInfoManager> {
 
     private int unit_idx;
 
-    public List<UserItemData> ItemList = new List<UserItemData>();
+    //아이템은 최대 99개로 묶이기에 리스트 표시용으로 따로 생성
+    public struct item_unit
+    {
+        public  int id;     //아이템 타입
+        public  int idx;
+        public  int count;
+    }
+    public List<item_unit> ItemList = new List<item_unit>();
 
     private Inventory_Menu_Type selectedMenu;
     private bool is_init_scroll = false;
@@ -127,7 +134,18 @@ public class ItemInfoManager : MonoSingleton<ItemInfoManager> {
                 //Item 갯수가 1 이상인 것만 ItemList에 Add
                 if (UserDataManager.Inst.GetItemCount(userItemList[i].id) > 0)
                 {
-                    ItemList.Add(userItemList[i]);  
+                    UserItemData i_data = UserDataManager.Inst.GetItemInfo(userItemList[i].id);
+                    for (int j = 0; j < i_data.itemInfoList.Count; j++)
+                    {
+                        if (i_data.itemInfoList[i].count > 0)
+                        {
+                            item_unit i_unit = new item_unit();
+                            i_unit.id = userItemList[i].id;
+                            i_unit.idx = i_data.itemInfoList[i].index;
+                            i_unit.count = i_data.itemInfoList[i].count;
+                            ItemList.Add(i_unit);
+                        }
+                    }
                 }
             }
         }

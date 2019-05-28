@@ -27,7 +27,7 @@ public class ItemListUnit : ScrollListUnit {
         ImageGrade.sprite = CSVData.Inst.GetSpriteGrade(itemData.grade);
         imageItem.sprite = itemData.ItemIcon;
 
-        int item_count = UserDataManager.Inst.GetItemCount(itemData.id);
+        int item_count = itemInfo.ItemList[selected_idx].count;
         if (item_count < 0)
         {
             DebugLog.Log(true, "Item Count 0");
@@ -39,7 +39,7 @@ public class ItemListUnit : ScrollListUnit {
         }
         else
         {
-            textItemCount.text = string.Format("X{0}", UserDataManager.Inst.GetItemCount(itemData.id));
+            textItemCount.text = string.Format("X{0}", item_count);
         }
         
         textItemName.text = itemData.name;
