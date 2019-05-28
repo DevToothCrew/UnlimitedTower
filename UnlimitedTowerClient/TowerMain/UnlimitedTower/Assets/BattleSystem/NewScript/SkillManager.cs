@@ -113,8 +113,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         DamageManager.Inst.DamageShow(battleInfo.action_info_list[0], true, (ELEMENT_TYPE)BattleManager.Inst.GetCharState(battleInfo.my_position).elementType);
         Instantiate(effect["Heal"], BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform.position +
             new Vector3(0, BattleManager.Inst.charInfo[battleInfo.action_info_list[0].target_position].Height * 0.5f, 0),
-            Quaternion.identity,
-            BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform);
+            Quaternion.identity);
 
         yield return new WaitForSeconds(2.0f);
 
@@ -239,8 +238,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.5f);
         Instantiate(effect["200009"], BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform.position +
             new Vector3(0, BattleManager.Inst.charInfo[battleInfo.action_info_list[0].target_position].Height * 0.5f, 0),
-            Quaternion.identity,
-            BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform);
+            Quaternion.identity);
     }
     #endregion
 
@@ -257,8 +255,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.3f);
         Instantiate(effect["200010"], BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform.position +
             new Vector3(0, BattleManager.Inst.charInfo[battleInfo.action_info_list[0].target_position].Height * 0.5f, 0),
-            Quaternion.identity,
-            BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform);
+            Quaternion.identity);
     }
     #endregion
 
@@ -275,8 +272,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.3f);
         Instantiate(effect["200011"], BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform.position +
             new Vector3(0, BattleManager.Inst.charInfo[battleInfo.action_info_list[0].target_position].Height * 0.5f, 0),
-            Quaternion.identity,
-            BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform);
+            Quaternion.identity);
     }
     #endregion
 
@@ -293,8 +289,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.3f);
         Instantiate(effect["200012"], BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform.position +
             new Vector3(0, BattleManager.Inst.charInfo[battleInfo.action_info_list[0].target_position].Height * 0.5f, 0),
-            Quaternion.identity,
-            BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform);
+            Quaternion.identity);
     }
     #endregion
 
@@ -311,8 +306,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.3f);
         Instantiate(effect["200013"], BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform.position +
             new Vector3(0, BattleManager.Inst.charInfo[battleInfo.action_info_list[0].target_position].Height * 0.5f, 0),
-            Quaternion.identity,
-            BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform);
+            Quaternion.identity);
     }
     #endregion
 
@@ -329,8 +323,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.3f);
         Instantiate(effect["200014"], BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform.position +
             new Vector3(0, BattleManager.Inst.charInfo[battleInfo.action_info_list[0].target_position].Height * 0.5f, 0),
-            Quaternion.identity,
-            BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform);
+            Quaternion.identity);
     }
     #endregion
 
@@ -362,8 +355,7 @@ public class SkillManager : MonoSingleton<SkillManager>
         yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay);
         Instantiate(effect["200016"], BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform.position +
            new Vector3(0, BattleManager.Inst.charInfo[battleInfo.action_info_list[0].target_position].Height * 0.5f, 0),
-           Quaternion.identity,
-           BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform);
+           Quaternion.identity);
     }
     #endregion
 
@@ -371,7 +363,6 @@ public class SkillManager : MonoSingleton<SkillManager>
     {
         Instantiate(effect["Skill"], BattleManager.Inst.character[index].transform.position +
             new Vector3(0, BattleManager.Inst.charInfo[index].Height * 0.5f, 0),
-            Quaternion.identity,
-            BattleManager.Inst.character[index].transform);
+            Quaternion.identity);
     }
 }

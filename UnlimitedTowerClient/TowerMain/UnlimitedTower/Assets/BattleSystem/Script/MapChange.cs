@@ -37,41 +37,15 @@ public class MapChange : MonoSingleton<MapChange>
             MapPack[i] = transform.GetChild(i).gameObject;
     }
 
-    // void Update()
-    // {
-    //     if (Input.GetKeyDown(KeyCode.Alpha1))
-    //     {
-    //         MapEneble(0);
-    //     }
-    //     if (Input.GetKeyDown(KeyCode.Alpha2))
-    //     {
-    //         MapEneble(1);
-    //     }
-    //     if (Input.GetKeyDown(KeyCode.Alpha3))
-    //     {
-    //         MapEneble(2);
-    //     }
-    //     if (Input.GetKeyDown(KeyCode.Alpha4))
-    //     {
-    //         MapEneble(3);
-    //     }
-    //     if (Input.GetKeyDown(KeyCode.Alpha5))
-    //     {
-    //         MapEneble(4);
-    //     }
-    //     if (Input.GetKeyDown(KeyCode.Alpha6))
-    //     {
-    //         MapEneble(5);
-    //     }
-    //     if (Input.GetKeyDown(KeyCode.Alpha7))
-    //     {
-    //         MapEneble(6);
-    //     }
-    //     if (Input.GetKeyDown(KeyCode.Alpha8))
-    //     {
-    //         MapEneble(7);
-    //     }
-    // }
+    void Update()
+    {
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            MapEneble(13);
+        }
+#endif
+    }
 
     public void MapEneble(int index)
     {

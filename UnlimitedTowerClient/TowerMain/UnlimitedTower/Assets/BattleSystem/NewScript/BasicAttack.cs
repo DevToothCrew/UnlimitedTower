@@ -22,16 +22,10 @@ public class BasicAttack : MonoBehaviour {
 
     IEnumerator NearAttackAction(characterActionData attackInfo, ELEMENT_TYPE type = ELEMENT_TYPE.None)
     {
-        Transform attacker;
-        Transform target;
-        Vector3 attackerStartPos;
-        Vector3 attackerEndPos;
-
-        attacker = BattleManager.Inst.character[attackInfo.my_position].transform;
-        target = BattleManager.Inst.character[attackInfo.action_info_list[0].target_position].transform;
-
-        attackerStartPos = attacker.position;
-        attackerEndPos = target.position;
+        Transform attacker = BattleManager.Inst.character[attackInfo.my_position].transform;
+        Transform target = BattleManager.Inst.character[attackInfo.action_info_list[0].target_position].transform;
+        Vector3 attackerStartPos = attacker.position;
+        Vector3 attackerEndPos = target.position;
 
         yield return StartCoroutine(AttackMove(attacker, target, attackerStartPos, attackerEndPos - (attackerEndPos - attackerStartPos).normalized * charInfo.AttackRange));
 

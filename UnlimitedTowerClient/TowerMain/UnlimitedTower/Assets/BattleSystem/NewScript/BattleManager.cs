@@ -150,6 +150,41 @@ public class BattleManager : MonoSingleton<BattleManager>
             //{
             //    adminMode = true;
             //}
+
+#if UNITY_EDITOR
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                for (int i = 1; i < 6; i++)
+                {
+                    Destroy(character[i + 9]);
+                    // charInfo[i + 9] = new CharInfo().SetValue(0,0,2.0f,0);
+                    character[i + 9] = GameObject.Find("goldmine" + i.ToString());
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                StartCoroutine(TowerMine());
+            }
+#endif
+        }
+    }
+
+    // 채굴 시뮬레이션
+    public IEnumerator TowerMine()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            characterActionData data = new characterActionData();
+            actionInfo info = new actionInfo();
+            data.my_position = i;
+            info.target_position = Random.Range(10, 16);
+            info.damage = Random.Range(1000, 1600);
+            data.action_info_list.Add(info);
+            character[i].GetComponent<BasicAttack>().Attack(data);
+
+            yield return new WaitUntil(() => isAfterDelay == true);
+            isAfterDelay = false;
         }
     }
 
