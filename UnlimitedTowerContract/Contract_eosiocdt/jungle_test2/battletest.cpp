@@ -53,14 +53,14 @@ ACTION battletest::create(eosio::name issuer, asset maximum_supply)
     require_auth(owner_auth);
 
     auto sym = maximum_supply.symbol;
-    eosio_assert(sym.is_valid(), "invalid symbol name");
-    eosio_assert(maximum_supply.is_valid(), "invalid Supply");
+    eosio_assert(sym.is_valid(), "create : invalid symbol name");
+    eosio_assert(maximum_supply.is_valid(), "create : invalid Supply");
 
-    eosio_assert(maximum_supply.amount > 0, "max supply more than 0");
+    eosio_assert(maximum_supply.amount > 0, "create : max supply more than 0");
 
     stats statstable(_self, sym.code().raw());
     auto existing = statstable.find(sym.code().raw());
-    eosio_assert(existing == statstable.end(), "token symbol already exists");
+    eosio_assert(existing == statstable.end(), "create : token symbol already exists");
 
     statstable.emplace(_self, [&](auto &s) {
         s.supply.symbol = maximum_supply.symbol;
@@ -72,20 +72,20 @@ ACTION battletest::create(eosio::name issuer, asset maximum_supply)
 ACTION battletest::issue(eosio::name to, asset quantity, string memo)
 {
     auto sym = quantity.symbol;
-    eosio_assert(sym.is_valid(), "Invalid symbol name");
-    eosio_assert(memo.size() <= 256, "Memo has more than 256 bytes");
+    eosio_assert(sym.is_valid(), "issue : Invalid symbol name");
+    eosio_assert(memo.size() <= 256, "issue : Memo has more than 256 bytes");
 
     stats statstable(_self, sym.code().raw());
     auto existing = statstable.find(sym.code().raw());
-    eosio_assert(existing != statstable.end(), "Token with symbol does now exist, Create token before issue");
+    eosio_assert(existing != statstable.end(), "issue : Token with symbol does now exist, Create token before issue");
     const auto &st = *existing;
 
     require_auth(owner_auth);
-    eosio_assert(quantity.is_valid(), "Invalid quantity");
-    eosio_assert(quantity.amount > 0, "Must issue positive quantity");
+    eosio_assert(quantity.is_valid(), "issue : Invalid quantity");
+    eosio_assert(quantity.amount > 0, "issue : Must issue positive quantity");
 
-    eosio_assert(quantity.symbol == st.supply.symbol, "Symbol precision mismatch");
-    eosio_assert(quantity.amount <= st.max_supply.amount - st.supply.amount, "Quantity exceeds available supply");
+    eosio_assert(quantity.symbol == st.supply.symbol, "issue : Symbol precision mismatch");
+    eosio_assert(quantity.amount <= st.max_supply.amount - st.supply.amount, "issue : Quantity exceeds available supply");
 
     statstable.modify(st, same_payer, [&](auto &s) {
         s.supply += quantity;
@@ -106,22 +106,22 @@ ACTION battletest::transfer(name from, name to, asset quantity, string memo)
 {
     blacklist blacklist_table(_self, _self.value);
     auto blacklist_iter = blacklist_table.find(from.value);
-    eosio_assert(blacklist_iter == blacklist_table.end(), "black list user1");
+    eosio_assert(blacklist_iter == blacklist_table.end(), "transfer : black list user1");
 
-    eosio_assert(from != to, "Cannot transfer to self");
+    eosio_assert(from != to, "transfer : Cannot transfer to self");
     require_auth(from);
-    eosio_assert(is_account(to), "To account does not exist");
+    eosio_assert(is_account(to), "transfer : To account does not exist");
     auto sym = quantity.symbol.code().raw();
     stats statstable(_self, sym);
-    const auto &st = statstable.get(sym, "Not exist symbol");
+    const auto &st = statstable.get(sym, "transfer : Not exist symbol");
 
     require_recipient(from);
     require_recipient(to);
 
-    eosio_assert(quantity.is_valid(), "Invalid quantity");
-    eosio_assert(quantity.amount > 0, "Must transfer positive quantity");
-    eosio_assert(quantity.symbol == st.supply.symbol, "Symbol precision mismatch");
-    eosio_assert(memo.size() <= 256, "Memo has more than 256 bytes");
+    eosio_assert(quantity.is_valid(), "transfer : Invalid quantity");
+    eosio_assert(quantity.amount > 0, "transfer : Must transfer positive quantity");
+    eosio_assert(quantity.symbol == st.supply.symbol, "transfer : Symbol precision mismatch");
+    eosio_assert(memo.size() <= 256, "transfer : Memo has more than 256 bytes");
 
     sub_balance(from, quantity);
     add_balance(to, quantity, from);
@@ -131,8 +131,8 @@ void battletest::sub_balance(name user, asset value)
 {
     account from_acnts(_self, user.value);
 
-    const auto &from = from_acnts.get(value.symbol.code().raw(), "No balance object found");
-    eosio_assert(from.balance.amount >= value.amount, "over account balance");
+    const auto &from = from_acnts.get(value.symbol.code().raw(), "sub_balance : No balance object found");
+    eosio_assert(from.balance.amount >= value.amount, "sub_balance : over account balance");
 
     if (from.balance.amount == value.amount)
     {
@@ -4395,27 +4395,62 @@ void battletest::write_log(eosio::name _user, uint32_t _gold_type, uint32_t _gac
                 update_auth_user.current_item_inventory += _inventory_count;
             });
         }
+
+        user_gacha_results user_gacha_result_table(_self, _self.value);
+        user_gacha_totals user_gacha_total_table(_self, _self.value);
+
+        auto user_gacha_result_iter = user_gacha_result_table.find(_user.value);
+        if (user_gacha_result_iter == user_gacha_result_table.end())
+        {
+            user_gacha_result_table.emplace(_self, [&](auto &new_result) {
+                new_result.user = _user;
+                new_result.result = result;
+            });
+        }
+        else
+        {
+            user_gacha_result_table.modify(user_gacha_result_iter, _self, [&](auto &new_result) {
+                new_result.result = result;
+            });
+        }
+
+        auto user_gacha_total_iter = user_gacha_total_table.find(_user.value);
+        if (user_gacha_total_iter == user_gacha_total_table.end())
+        {
+            user_gacha_total_table.emplace(_self, [&](auto &new_result) {
+                new_result.user = _user;
+                new_result.result_list.push_back(result);
+            });
+        }
+        else
+        {
+            user_gacha_total_table.modify(user_gacha_total_iter, _self, [&](auto &new_result) {
+                new_result.result_list.push_back(result);
+            });
+        }
        
     }
 }
 
-void battletest::gacha_servant_id(eosio::name _user, uint64_t _seed, uint32_t _job, uint32_t _max, uint32_t _gold_type)
+
+void battletest::gacha_servant_id(eosio::name _user, uint64_t _seed, uint32_t _job, uint32_t _min, uint32_t _max, uint32_t _gold_type)
 {
     servant_job_db servant_job_table(_self, _self.value);
     uint32_t random_job = 0;
 
-   if(_max == 0 && _job == 0) //선택 직업, 범위가 없을 때 MAX 현재 4 
-   {
-       random_job = safeseed::get_random_value(_seed, SERVANT_JOB_COUNT, DEFAULT_MIN_DB, 1);
-   } 
-   else if(_max != 0 && _job == 0)  //직업 범위 제한 
-   {
-       random_job = safeseed::get_random_value(_seed, _max, DEFAULT_MIN_DB, 1);
-   }
-   else if( _max ==0 && _job != 0)
-   {
-       random_job = _job;
-   }  
+    //직업값 0이면 랜덤, 숫자면 고정 
+    if(_job !=0)
+    {
+        random_job = _job;
+    }
+    else if(_job == 0 && _min ==0 && _max == 0)
+    {
+        random_job = safeseed::get_random_value(_seed, SERVANT_JOB_COUNT, DEFAULT_MIN_DB, 1);
+    }
+    else    //직업값이 0이 아니면, min과 max에서 나오는 범위 고정 
+    {
+           random_job = safeseed::get_random_value(_seed, _max +1, _min, 1);        //1,2,3 중에 하나 나오려면 _max = 3, _min = 1 
+    }
 
     const auto &servant_job_db_iter = servant_job_table.get(random_job, "Gacha Servant : Empty Servant Job");    
 
@@ -4459,39 +4494,40 @@ void battletest::gacha_servant_id(eosio::name _user, uint64_t _seed, uint32_t _j
         {
             update_user_servant_list.index = user_servant_table.available_primary_key();
         }
+        
+        // servant_info new_servant;
 
-        servant_info new_servant;
+        // new_servant.id = servant_id_db_iter.id;
+        // new_servant.exp = 0;
+        // new_servant.grade = 5;
 
-        new_servant.id = servant_id_db_iter.id;
-        new_servant.exp = 0;
-        new_servant.grade = 5;
+        // new_servant.status.basic_str = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_str, servant_job_db_iter.min_range.base_str, 4);
+        // new_servant.status.basic_dex = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_dex, servant_job_db_iter.min_range.base_dex, 5);
+        // new_servant.status.basic_int = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_int, servant_job_db_iter.min_range.base_int, 6);
 
-        new_servant.status.basic_str = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_str, servant_job_db_iter.min_range.base_str, 4);
-        new_servant.status.basic_dex = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_dex, servant_job_db_iter.min_range.base_dex, 5);
-        new_servant.status.basic_int = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_int, servant_job_db_iter.min_range.base_int, 6);
+        // new_servant.status.basic_str = change_servant_statue(new_servant.status.basic_str) + ser_iter.base_str;
+        // new_servant.status.basic_dex = change_servant_statue(new_servant.status.basic_dex) + ser_iter.base_dex;
+        // new_servant.status.basic_int = change_servant_statue(new_servant.status.basic_int) + ser_iter.base_int;
 
-        new_servant.status.basic_str = change_servant_status(new_servant.status.basic_str) + ser_iter.base_str;
-        new_servant.status.basic_dex = change_servant_status(new_servant.status.basic_dex) + ser_iter.base_dex;
-        new_servant.status.basic_int = change_servant_status(new_servant.status.basic_int)+ ser_iter.base_int;
+        // new_servant.equip_slot.resize(3);
+        // new_servant.state = object_state::on_inventory;
 
-        new_servant.equip_slot.resize(3);
-        new_servant.state = object_state::on_inventory;
+        // uint32_t active_id = get_servant_active_skill(servant_id_db_iter.job, _seed);
+        // new_servant.active_skill.push_back(active_id);
 
-        uint32_t active_id = get_servant_active_skill(servant_id_db_iter.job, _seed);
-        new_servant.active_skill.push_back(active_id);
-
-        uint32_t passive_id = get_passive_skill(1, servant_id_db_iter.job, _seed);
-        new_servant.passive_skill.push_back(passive_id);
+        // uint32_t passive_id = get_servant_passive_skill(servant_id_db_iter.job, _seed);
+        // new_servant.passive_skill.push_back(passive_id);
 
         result.index = update_user_servant_list.index;
         result.type = result::servant;
 
         update_user_servant_list.party_number = EMPTY_PARTY;
-        update_user_servant_list.servant = new_servant;
-        
+        //update_user_servant_list.servant = new_servant;
+        update_user_servant_list.servant = get_servant_random_state(servant_id_db_iter.id, _seed, servant_id_db_iter.job,ser_iter.base_str,ser_iter.base_dex,ser_iter.base_int);
 
     });
-    write_log(_user, _gold_type, 1, result.index, 1);
+            write_log(_user, _gold_type, 1, result.index, 1);
+   
 }
 
 uint8_t battletest::gacha_servant_head(uint64_t _seed, uint32_t _count)
@@ -4619,40 +4655,41 @@ void battletest::gacha_monster_id(eosio::name _user, uint64_t _seed, uint32_t _g
         {
             update_user_monster_list.index = user_monster_table.available_primary_key();
         }
+        
+        // monster_info new_monster;
+        // new_monster.id = monster_id_db_iter.id;
+        // new_monster.grade = monster_grade_db_iter.grade;
+        // new_monster.tribe = monster_id_db_iter.tribe;
+        // new_monster.type = monster_id_db_iter.type;
+        // new_monster.exp = 0;
+        // new_monster.upgrade = 0;
 
-        monster_info new_monster;
-        new_monster.id = monster_id_db_iter.id;
-        new_monster.grade = monster_grade_db_iter.grade;
-        new_monster.tribe = monster_id_db_iter.tribe;
-        new_monster.type = monster_id_db_iter.type;
-        new_monster.exp = 0;
-        new_monster.upgrade = 0;
+        // new_monster.status.basic_str = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_str, monster_grade_db_iter.min_range.base_str, 3);
+        // new_monster.status.basic_dex = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_dex, monster_grade_db_iter.min_range.base_dex, 4);
+        // new_monster.status.basic_int = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_int, monster_grade_db_iter.min_range.base_int, 5);
 
-        new_monster.status.basic_str = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_str, monster_grade_db_iter.min_range.base_str, 3);
-        new_monster.status.basic_dex = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_dex, monster_grade_db_iter.min_range.base_dex, 4);
-        new_monster.status.basic_int = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_int, monster_grade_db_iter.min_range.base_int, 5);
+        // new_monster.status.basic_str = change_monster_statue(new_monster.grade, new_monster.status.basic_str);
+        // new_monster.status.basic_dex = change_monster_statue(new_monster.grade, new_monster.status.basic_dex);
+        // new_monster.status.basic_int = change_monster_statue(new_monster.grade, new_monster.status.basic_int);
 
-        new_monster.status.basic_str = change_monster_status(new_monster.grade, new_monster.status.basic_str);
-        new_monster.status.basic_dex = change_monster_status(new_monster.grade, new_monster.status.basic_dex);
-        new_monster.status.basic_int = change_monster_status(new_monster.grade, new_monster.status.basic_int);
+        // new_monster.status.basic_str = (new_monster.status.basic_str * tribe_iter.base_str) / 100;
+        // new_monster.status.basic_dex = (new_monster.status.basic_dex * tribe_iter.base_dex) / 100;
+        // new_monster.status.basic_int = (new_monster.status.basic_int * tribe_iter.base_int) / 100;
 
-        new_monster.status.basic_str = (new_monster.status.basic_str * tribe_iter.base_str) / 100;
-        new_monster.status.basic_dex = (new_monster.status.basic_dex * tribe_iter.base_dex) / 100;
-        new_monster.status.basic_int = (new_monster.status.basic_int * tribe_iter.base_int) / 100;
+        // new_monster.state = object_state::on_inventory;
 
-        new_monster.state = object_state::on_inventory;
-
-        uint32_t passive_id = get_passive_skill(2, monster_id_db_iter.tribe, _seed);
-        new_monster.passive_skill.push_back(passive_id);
+        // uint32_t passive_id = get_monster_passive_skill(_seed);
+        // new_monster.passive_skill.push_back(passive_id);
 
         result.index = update_user_monster_list.index;
         result.type = result::monster;
 
         update_user_monster_list.party_number = EMPTY_PARTY;
-        update_user_monster_list.monster = new_monster;
-
+        //update_user_monster_list.monster = new_monster; 
+        update_user_monster_list.monster = get_monster_random_state(monster_id_db_iter.id, _seed, monster_grade_db_iter.grade,monster_id_db_iter.tribe, monster_id_db_iter.type,tribe_iter.base_str,tribe_iter.base_dex,tribe_iter.base_int);
     });
     write_log(_user, _gold_type, result::monster, result.index, 1);
+
 }
 
 uint32_t battletest::change_equipment_statue(uint32_t _grade, uint32_t _status_grade)
@@ -4775,170 +4812,172 @@ void battletest::gacha_equipment_id(eosio::name _user, uint64_t _seed, uint32_t 
         {
             update_user_item_list.index = user_item_table.available_primary_key();
         }
+        
+        // equipment_info new_item;
+        // new_item.id = equip_item_iter.item_id;
+        // new_item.type = equip_item_iter.type;
+        // new_item.tier = equip_item_iter.tier;
+        // new_item.job = equip_item_iter.job;
+        // new_item.grade = item_grade_db_iter.grade;
 
-    
-        equipment_info new_item;
-        new_item.id = equip_item_iter.item_id;
-        new_item.type = equip_item_iter.type;
-        new_item.tier = equip_item_iter.tier;
-        new_item.job = equip_item_iter.job;
-        new_item.grade = item_grade_db_iter.grade;
+        // uint32_t type_grade = ((equip_item_iter.type + 1) * 10) + item_grade_db_iter.grade;
+        // new_item.value = safeseed::get_random_value(_seed, 10, 0, 3);
+        // new_item.value = change_equipment_statue(type_grade, new_item.value);
+        // set_tier_status(new_item.value, equip_item_iter.tier);
 
-        uint32_t type_grade = ((equip_item_iter.type + 1) * 10) + item_grade_db_iter.grade;
-        new_item.value = safeseed::get_random_value(_seed, 10, 0, 3);
-        new_item.value = change_equipment_statue(type_grade, new_item.value);
-        set_tier_status(new_item.value, equip_item_iter.tier);
-
-
-        new_item.state = object_state::on_inventory;
+        // new_item.state = object_state::on_inventory;
 
         result.index = update_user_item_list.index;
         result.type = result::equipment;
 
-        update_user_item_list.equipment = new_item;    
+       // update_user_item_list.equipment = new_item;
+        update_user_item_list.equipment = get_equip_random_state(equip_item_iter.item_id, _seed, equip_item_iter.type, equip_item_iter.tier, equip_item_iter.job, item_grade_db_iter.grade);
+    
     });
         write_log(_user, _gold_type, result::equipment, result.index, 1);
-  
 }
 
 void battletest::get_new_item(eosio::name _user, uint32_t _item_id, uint32_t _count)
 {
-    eosio_assert(_count <= 150, "Invalid Get Item Count");
+    eosio_assert(_count <= 150, "Gacha Item : Invalid Get Item Count");
 
     result_info get_item_result;
-    uint64_t add_inventory = 0;
-
-    allitem_db allitem_db_table(_self, _self.value);
-    const auto &allitem_db_iter = allitem_db_table.get(_item_id, " Gacha Item : Empty Item ID / Not Set Item ID");
-
-    user_auths auth_user_table(_self, _self.value);
-    auto auth_user_iter = auth_user_table.find(_user.value);
-    eosio_assert(auth_user_iter != auth_user_table.end(), " Gacha Item : Empty Auth Table / Not Yet Signup");
-
-    user_items user_items_table(_self, _user.value);
-    auto user_items_iter = user_items_table.find(allitem_db_iter.id);
-    if (user_items_iter == user_items_table.end())
-    {
-        user_items_table.emplace(_self, [&](auto &change_consumable) {
-
-            change_consumable.id = allitem_db_iter.id;
-            change_consumable.type = allitem_db_iter.type;
-
-            if(_count > 99)
-            {
-                item_info get_item_info;
-                get_item_info.index = 0;
-                get_item_info.count = 99;
+    sum_item_check(_user, _item_id, _count);
     
-                change_consumable.item_list.push_back(get_item_info);
+    // uint64_t add_inventory = 0;
 
-                item_info get_second_item_info;
-                get_second_item_info.index = 1;
-                get_second_item_info.count = _count - 99;
+    // allitem_db allitem_db_table(_self, _self.value);
+    // const auto &allitem_db_iter = allitem_db_table.get(_item_id, " Gacha Item : Empty Item ID / Not Set Item ID");
+
+    // user_auths auth_user_table(_self, _self.value);
+    // auto auth_user_iter = auth_user_table.find(_user.value);
+    // eosio_assert(auth_user_iter != auth_user_table.end(), " Gacha Item : Empty Auth Table / Not Yet Signup");
+
+    // user_items user_items_table(_self, _user.value);
+    // auto user_items_iter = user_items_table.find(allitem_db_iter.id);
+    // if (user_items_iter == user_items_table.end())
+    // {
+    //     user_items_table.emplace(_self, [&](auto &change_consumable) {
+
+    //         change_consumable.id = allitem_db_iter.id;
+    //         change_consumable.type = allitem_db_iter.type;
+
+    //         if(_count > 99)
+    //         {
+    //             item_info get_item_info;
+    //             get_item_info.index = 0;
+    //             get_item_info.count = 99;
     
-                change_consumable.item_list.push_back(get_second_item_info);
-                add_inventory = 2;
-            }
-            else
-            {
-                item_info get_item_info;
-                get_item_info.index = 0;
-                get_item_info.count = _count;
+    //             change_consumable.item_list.push_back(get_item_info);
 
-                change_consumable.item_list.push_back(get_item_info);
-                add_inventory = 1;
-            }
-       });
-    }
-    else
-    {
-        user_items_table.modify(user_items_iter, _self, [&](auto &change_consumable) {
+    //             item_info get_second_item_info;
+    //             get_second_item_info.index = 1;
+    //             get_second_item_info.count = _count - 99;
+    
+    //             change_consumable.item_list.push_back(get_second_item_info);
+    //             add_inventory = 2;
+    //         }
+    //         else
+    //         {
+    //             item_info get_item_info;
+    //             get_item_info.index = 0;
+    //             get_item_info.count = _count;
+
+    //             change_consumable.item_list.push_back(get_item_info);
+    //             add_inventory = 1;
+    //         }
+    //    });
+    // }
+    // else
+    // {
+    //     user_items_table.modify(user_items_iter, _self, [&](auto &change_consumable) {
             
-            uint64_t size_count = change_consumable.item_list.size();
+    //         uint64_t size_count = change_consumable.item_list.size();
 
-            for (uint64_t i = 0; i < size_count; i++)
-            {
-                if(change_consumable.item_list[i].count < 99)
-                {
-                    if(change_consumable.item_list[i].count + _count > 99)
-                    {
-                        uint64_t new_count = change_consumable.item_list[i].count + _count - 99;
-                        change_consumable.item_list[i].count = 99;
+    //         for (uint64_t i = 0; i < size_count; i++)
+    //         {
+    //             if(change_consumable.item_list[i].count < 99)
+    //             {
+    //                 if(change_consumable.item_list[i].count + _count > 99)
+    //                 {
+    //                     uint64_t new_count = change_consumable.item_list[i].count + _count - 99;
+    //                     change_consumable.item_list[i].count = 99;
 
-                        if(new_count >= 99)
-                        {
+    //                     if(new_count >= 99)
+    //                     {
 
-                            item_info get_item_info;
-                            get_item_info.index = size_count;
-                            get_item_info.count = 99;
-                            change_consumable.item_list.push_back(get_item_info);
+    //                         item_info get_item_info;
+    //                         get_item_info.index = size_count;
+    //                         get_item_info.count = 99;
+    //                         change_consumable.item_list.push_back(get_item_info);
 
-                            add_inventory = 1;
+    //                         add_inventory = 1;
 
-                            uint64_t new_second_count = new_count - 99;
-                            if(new_second_count > 0)
-                            {
-                                item_info get_second_item_info;
-                                get_second_item_info.index = size_count + 1;
-                                get_second_item_info.count = new_second_count;
-                                change_consumable.item_list.push_back(get_second_item_info);
+    //                         uint64_t new_second_count = new_count - 99;
+    //                         if(new_second_count > 0)
+    //                         {
+    //                             item_info get_second_item_info;
+    //                             get_second_item_info.index = size_count + 1;
+    //                             get_second_item_info.count = new_second_count;
+    //                             change_consumable.item_list.push_back(get_second_item_info);
                                 
-                                add_inventory = 2;
-                            }
-                        }
-                        else
-                        {
-                            item_info get_item_info;
-                            get_item_info.index = size_count;
-                            get_item_info.count = new_count;
-                            change_consumable.item_list.push_back(get_item_info);
-                            add_inventory = 1;
-                        }
-                    }
-                    else
-                    {
-                        change_consumable.item_list[i].count += _count;
-                    }
-                }
-                else if(change_consumable.item_list[i].count == 99 && i == (size_count - 1))
-                {
-                        uint64_t new_count = _count;
+    //                             add_inventory = 2;
+    //                         }
+    //                     }
+    //                     else
+    //                     {
+    //                         item_info get_item_info;
+    //                         get_item_info.index = size_count;
+    //                         get_item_info.count = new_count;
+    //                         change_consumable.item_list.push_back(get_item_info);
+    //                         add_inventory = 1;
+    //                     }
+    //                 }
+    //                 else
+    //                 {
+    //                     change_consumable.item_list[i].count += _count;
+    //                 }
+    //             }
+    //             else if(change_consumable.item_list[i].count == 99 && i == (size_count - 1))
+    //             {
+    //                     uint64_t new_count = _count;
 
-                        if(new_count >= 99)
-                        {
+    //                     if(new_count >= 99)
+    //                     {
 
-                            item_info get_item_info;
-                            get_item_info.index = size_count;
-                            get_item_info.count = 99;
-                            change_consumable.item_list.push_back(get_item_info);
+    //                         item_info get_item_info;
+    //                         get_item_info.index = size_count;
+    //                         get_item_info.count = 99;
+    //                         change_consumable.item_list.push_back(get_item_info);
 
-                            add_inventory = 1;
+    //                         add_inventory = 1;
 
-                            uint64_t new_second_count = new_count - 99;
-                            if(new_second_count > 0)
-                            {
-                                item_info get_second_item_info;
-                                get_second_item_info.index = size_count + 1;
-                                get_second_item_info.count = new_second_count;
-                                change_consumable.item_list.push_back(get_second_item_info);
+    //                         uint64_t new_second_count = new_count - 99;
+    //                         if(new_second_count > 0)
+    //                         {
+    //                             item_info get_second_item_info;
+    //                             get_second_item_info.index = size_count + 1;
+    //                             get_second_item_info.count = new_second_count;
+    //                             change_consumable.item_list.push_back(get_second_item_info);
                                 
-                                add_inventory = 2;
-                            }
-                        }
-                        else
-                        {
-                            item_info get_item_info;
-                            get_item_info.index = size_count;
-                            get_item_info.count = new_count;
-                            change_consumable.item_list.push_back(get_item_info);
-                            add_inventory = 1;
-                        }
-                }
-            }
-        });
-    }
+    //                             add_inventory = 2;
+    //                         }
+    //                     }
+    //                     else
+    //                     {
+    //                         item_info get_item_info;
+    //                         get_item_info.index = size_count;
+    //                         get_item_info.count = new_count;
+    //                         change_consumable.item_list.push_back(get_item_info);
+    //                         add_inventory = 1;
+    //                     }
+    //             }
+    //         }
+    //     });
+    // }
 
-    get_item_result.index = allitem_db_iter.id;
+    get_item_result.index = _item_id;
+//    get_item_result.index = allitem_db_iter.id;
     get_item_result.type = result::item;
 
     user_gacha_results user_gacha_result_table(_self, _self.value);
@@ -4973,9 +5012,9 @@ void battletest::get_new_item(eosio::name _user, uint32_t _item_id, uint32_t _co
         });
     }
 
-    auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
-        update_auth_user.current_item_inventory += add_inventory;
-    });
+    // auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
+    //     update_auth_user.current_item_inventory += add_inventory;
+    // });
 }
 
 
@@ -5018,7 +5057,7 @@ void battletest::start_gacha(eosio::name _user, uint64_t _seed, uint64_t _use_eo
     uint64_t l_gacha_result_type = safeseed::get_random_value(l_seed, 1000, DEFAULT_MIN, DEFAULT_RANDOM_COUNT);
    if (l_gacha_result_type < 333)
    {
-        gacha_servant_id(_user, l_seed, 0, 0, 1);
+        gacha_servant_id(_user, l_seed, 0, 0, 0, 1);
    }
     else if (l_gacha_result_type > 333 && l_gacha_result_type <= 666)
     {
@@ -5056,14 +5095,16 @@ void battletest::start_gacha_10(eosio::name _user, uint64_t _seed, uint64_t _use
         uint64_t l_user = get_user_seed_value(_user.value);
         uint64_t l_change_seed = _seed + i;
 
-        uint64_t l_seed = safeseed::get_seed_value(l_user, l_change_seed);
+        uint64_t l_seed = safeseed::get_seed_value(l_user+i, l_change_seed);
+        l_seed = l_seed >> 2;
 
+        l_seed = safeseed::get_seed_value(i, l_seed);
         //가차 뽑기 참여 횟수
 
         uint64_t l_gacha_result_type = safeseed::get_random_value(l_seed, 1000, DEFAULT_MIN, DEFAULT_RANDOM_COUNT);
         if (l_gacha_result_type < 333)
         {
-            gacha_servant_id(_user, l_seed, 0, 0, 1);
+            gacha_servant_id(_user, l_seed, 0, 0, 0, 1);
         }
         else if (l_gacha_result_type > 333 && l_gacha_result_type <= 666)
         {
@@ -5097,10 +5138,10 @@ ACTION battletest::goldgacha(eosio::name _user, string _memo)
     std::string l_seed = memo.substr(l_center + 1, (l_next - l_center - 1));
     std::string l_sha = memo.substr(l_next + 1, l_end);
 
-    uint64_t type;
-    type = safeseed::check_seed(l_seed, l_sha);
+    uint64_t gold_seed;
+    gold_seed = safeseed::check_seed(l_seed, l_sha);
 
-    eosio_assert(type != 0, "UTG Transfer Gacha : Wrong Seed Convert");
+    eosio_assert(gold_seed != 0, "UTG Transfer Gacha : Wrong Seed Convert");
     eosio_assert(check_inventory(_user, 1) == true, "Gold Gacha : Inventory Is Full");
 
     gold_logs gold_logs_table(_self, _self.value);
@@ -5120,24 +5161,25 @@ ACTION battletest::goldgacha(eosio::name _user, string _memo)
 
     if (action == "goldgacha")
     {
-        gold_gacha(_user, type,1);
+        gold_gacha(_user, gold_seed,1);
         asset gacha_use_UTG_result(0, symbol(symbol_code("UTG"), 4));
-        gacha_use_UTG_result.amount = 1000 * UTG;
-        //gacha_use_UTG_result.amount = UTG;
+        gacha_use_UTG_result.amount = 10000000;
+        //gacha_use_UTG_result.amount = 10000;
         transfer(_user, _self, gacha_use_UTG_result, std::string("gold gacha use UTG result"));
     }
-    // else if (action == "goldgacha_10")
-    // {
-    //     for (uint32_t i = 0; i < 10; i++)
-    //     {
-    //         uint64_t gacha_seed = type + i;
-    //         gold_gacha(_user, gacha_seed,i);
-    //     }
-    //     asset gacha_use_UTG_result(0, symbol(symbol_code("UTG"), 4));
-    //   //  gacha_use_UTG_result.amount = 90000000;
-    //     gacha_use_UTG_result.amount = 90000;
-    //     transfer(_user, _self, gacha_use_UTG_result, std::string("gold gacha_10 use UTG result"));
-    // }
+    else if (action == "goldgacha_10")
+    {
+        for (uint32_t i = 0; i < 10; i++)
+        {
+            uint64_t gacha_seed = gold_seed + i;
+            gacha_seed = gacha_seed >>2;
+            gold_gacha(_user, gacha_seed,i);
+        }
+        asset gacha_use_UTG_result(0, symbol(symbol_code("UTG"), 4));
+      //  gacha_use_UTG_result.amount = 90000000;
+        gacha_use_UTG_result.amount = 90000;
+        transfer(_user, _self, gacha_use_UTG_result, std::string("gold gacha_10 use UTG result"));
+    }
     else
     {
         eosio_assert(1 == 0, "Gold Gacha : wrong Type");
@@ -5158,16 +5200,15 @@ void battletest::gold_gacha(eosio::name _user, uint64_t _seed, uint32_t _second_
     eosio_assert(users_auth_iter != user_auth_table.end(), "Gold gacha : Empty Auth Table / Not Yet Signup");
     eosio_assert(users_auth_iter->state == user_state::lobby, "Gold gacha :  It Is Possible Lobby");
     eosio_assert(user_log_iter != user_log_table.end(), "Gold gacha : Log Table Empty / Not yet signup");
-    //eosio_assert(check_inventory(_user, 1) == true, "Gold gacha : Inventory Is Full");
 
     user_log_table.modify(user_log_iter, _self, [&](auto &new_data) {
-       // new_data.use_utg += 1000 * UTG;
-        new_data.use_utg += UTG;
+       // new_data.use_utg += 10000000;
+        new_data.use_utg += 10000;
     });
 
     gold_logs_table.modify(gold_logs_iter, _self, [&](auto &new_data) {
-        // new_data.use_utg += 1000 * UTG;
-        new_data.use_utg += UTG;
+        // new_data.use_utg += 10000000;
+        new_data.use_utg += 10000;
     });
 
     uint64_t l_user = get_user_seed_value(_user.value);
@@ -5224,69 +5265,73 @@ void battletest::gold_gacha_item_id(eosio::name _user, uint64_t _seed)
     auto gold_logs_iter = gold_logs_table.find(_user.value);
     eosio_assert(gold_logs_iter != gold_logs_table.end(), "Gold gacha Item : Not Exist Gold_logs");
 
-    allitem_db allitem_db_table(_self, _self.value);
-    const auto &allitem_db_iter = allitem_db_table.get(gacha_id_db_iter->db_index, " Gacha Item : Empty Item ID / Not Set Item ID");
+    // allitem_db allitem_db_table(_self, _self.value);
+    // const auto &allitem_db_iter = allitem_db_table.get(gacha_id_db_iter->db_index, " Gacha Item : Empty Item ID / Not Set Item ID");
 
     user_auths auth_user_table(_self, _self.value);
     auto auth_user_iter = auth_user_table.find(_user.value);
     eosio_assert(auth_user_iter != auth_user_table.end(), " Gacha Item : Empty Auth Table / Not Yet Signup");
 
-    user_items user_items_table(_self, _user.value);
-    auto user_items_iter = user_items_table.find(allitem_db_iter.id);
-    if (user_items_iter == user_items_table.end())
-    {
-        user_items_table.emplace(_self, [&](auto &change_consumable) {
+    sum_item_check(_user, gacha_id_db_iter->db_index, 1);
+    //sum_item_check(_user, allitem_db_iter.id, 1);
 
-            change_consumable.id = allitem_db_iter.id;
-            change_consumable.type = allitem_db_iter.type;
-            item_info get_item_info;
-            get_item_info.index = 0;
-            get_item_info.count = _count;
+    // user_items user_items_table(_self, _user.value);
+    // auto user_items_iter = user_items_table.find(allitem_db_iter.id);
+    // if (user_items_iter == user_items_table.end())
+    // {
+    //     user_items_table.emplace(_self, [&](auto &change_consumable) {
 
-            change_consumable.item_list.push_back(get_item_info);
-            add_inventory = 1;
-       });
-    }
-    else
-    {
-        user_items_table.modify(user_items_iter, _self, [&](auto &change_consumable) {
+    //         change_consumable.id = allitem_db_iter.id;
+    //         change_consumable.type = allitem_db_iter.type;
+    //         item_info get_item_info;
+    //         get_item_info.index = 0;
+    //         get_item_info.count = _count;
+
+    //         change_consumable.item_list.push_back(get_item_info);
+    //         add_inventory = 1;
+    //    });
+    // }
+    // else
+    // {
+    //     user_items_table.modify(user_items_iter, _self, [&](auto &change_consumable) {
             
-            uint64_t size_count = change_consumable.item_list.size();
+    //         uint64_t size_count = change_consumable.item_list.size();
 
-            for (uint64_t i = 0; i < size_count; i++)
-            {
-                if(change_consumable.item_list[i].count < 99)
-                {
-                    if(change_consumable.item_list[i].count + _count > 99)
-                    {
-                        uint64_t new_count = change_consumable.item_list[i].count + _count - 99;
-                        change_consumable.item_list[i].count = 99;
+    //         for (uint64_t i = 0; i < size_count; i++)
+    //         {
+    //             if(change_consumable.item_list[i].count < 99)
+    //             {
+    //                 if(change_consumable.item_list[i].count + _count > 99)
+    //                 {
+    //                     uint64_t new_count = change_consumable.item_list[i].count + _count - 99;
+    //                     change_consumable.item_list[i].count = 99;
 
-                        item_info get_item_info;
-                        get_item_info.index = size_count;
-                        get_item_info.count = _count;
-                        change_consumable.item_list.push_back(get_item_info);
-                        add_inventory = 1;
-                    }
-                    else
-                    {
-                        change_consumable.item_list[i].count += _count;
-                    }
-                }
-                else if(change_consumable.item_list[i].count == 99 && i == (size_count - 1))
-                {
-                    item_info get_item_info;
-                    get_item_info.index = size_count;
-                    get_item_info.count = _count;
-                    change_consumable.item_list.push_back(get_item_info);
-                    add_inventory = 1;
-                }
-            }
-        });
-    }
+    //                     item_info get_item_info;
+    //                     get_item_info.index = size_count;
+    //                     get_item_info.count = _count;
+    //                     change_consumable.item_list.push_back(get_item_info);
+    //                     add_inventory = 1;
+    //                 }
+    //                 else
+    //                 {
+    //                     change_consumable.item_list[i].count += _count;
+    //                 }
+    //             }
+    //             else if(change_consumable.item_list[i].count == 99 && i == (size_count - 1))
+    //             {
+    //                 item_info get_item_info;
+    //                 get_item_info.index = size_count;
+    //                 get_item_info.count = _count;
+    //                 change_consumable.item_list.push_back(get_item_info);
+    //                 add_inventory = 1;
+    //             }
+    //         }
+    //     });
+    // }
 
     result_info get_item_result;
-    get_item_result.index = allitem_db_iter.id;
+    //get_item_result.index = allitem_db_iter.id;
+    get_item_result.index = gacha_id_db_iter->db_index;
     get_item_result.type = result::item;
 
     gold_gacha_results gold_gacha_result_table(_self, _self.value);
@@ -5321,15 +5366,15 @@ void battletest::gold_gacha_item_id(eosio::name _user, uint64_t _seed)
         });
     }
 
-    auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
-        update_auth_user.current_item_inventory += add_inventory;
-    });
+    // auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
+    //     update_auth_user.current_item_inventory += add_inventory;
+    // });
 
     gold_logs_table.modify(gold_logs_iter, _self, [&](auto &update_log) {
         update_log.item_num += 1;
         update_log.gold_gacha_num += 1;
-        update_log.use_utg += UTG;
-        //update_log.use_utg += 1000 * UTG;
+        update_log.use_utg += 1000;
+        //update_log.use_utg += 10000000;
     });
 }
 
@@ -8758,68 +8803,71 @@ void battletest::servantburn(eosio::name _user, const std::vector<uint64_t> &_li
             get_count = 5;
             get_utg = 1000000;
         }
+        sum_item_check(_user,burnitem_db_iter->result_item_id, get_count);
+        user_servant_table.erase(user_servant_iter);
+        servant_burn_result.amount += get_utg;
 
-        if (user_items_iter == user_items_table.end())
-        {
-            user_items_table.emplace(_self, [&](auto &change_consumable) {
-                change_consumable.id = burnitem_db_iter->result_item_id;
-                change_consumable.type = 0;
+        // if (user_items_iter == user_items_table.end())
+        // {
+        //     user_items_table.emplace(_self, [&](auto &change_consumable) {
+        //         change_consumable.id = burnitem_db_iter->result_item_id;
+        //         change_consumable.type = 0;
                 
-                item_info items;
-                items.index = 0;
-                items.count = get_count;
-                change_consumable.item_list.push_back(items);
-                servant_burn_result.amount += get_utg;
-            });
+        //         item_info items;
+        //         items.index = 0;
+        //         items.count = get_count;
+        //         change_consumable.item_list.push_back(items);
+        //         servant_burn_result.amount += get_utg;
+        //     });
 
-            check_inventory += 1;
-            user_servant_table.erase(user_servant_iter);
-        }
-        else
-        {
-            user_items_table.modify(user_items_iter, _self, [&](auto &change_consumable) {
+        //     check_inventory += 1;
+        //     user_servant_table.erase(user_servant_iter);
+        // }
+        // else
+        // {
+        //     user_items_table.modify(user_items_iter, _self, [&](auto &change_consumable) {
 
-                uint64_t size_count = change_consumable.item_list.size();
+        //         uint64_t size_count = change_consumable.item_list.size();
 
-                for (uint64_t i = 0; i < size_count; i++)
-                {
-                    if(change_consumable.item_list[i].count < 99)
-                    {
-                        if(change_consumable.item_list[i].count + get_count > 99)
-                        {
-                            uint64_t new_count = change_consumable.item_list[i].count + get_count - 99;
-                            change_consumable.item_list[i].count = 99;
+        //         for (uint64_t i = 0; i < size_count; i++)
+        //         {
+        //             if(change_consumable.item_list[i].count < 99)
+        //             {
+        //                 if(change_consumable.item_list[i].count + get_count > 99)
+        //                 {
+        //                     uint64_t new_count = change_consumable.item_list[i].count + get_count - 99;
+        //                     change_consumable.item_list[i].count = 99;
 
-                            items.index = size_count;
-                            items.count = new_count;
-                            change_consumable.item_list.push_back(items);
-                            check_inventory += 1;
-                        }
-                        else
-                        {
-                            change_consumable.item_list[i].count += get_count;
-                        }
-                    }
-                    else if (change_consumable.item_list[i].count == 99 && i == (size_count - 1))
-                    {
-                        item_info get_item_info;
-                        get_item_info.index = size_count;
-                        get_item_info.count = get_count;
-                        change_consumable.item_list.push_back(get_item_info);
-                        check_inventory += 1;
-                    }
-                }
-                servant_burn_result.amount += get_utg;
-            });
+        //                     items.index = size_count;
+        //                     items.count = new_count;
+        //                     change_consumable.item_list.push_back(items);
+        //                     check_inventory += 1;
+        //                 }
+        //                 else
+        //                 {
+        //                     change_consumable.item_list[i].count += get_count;
+        //                 }
+        //             }
+        //             else if (change_consumable.item_list[i].count == 99 && i == (size_count - 1))
+        //             {
+        //                 item_info get_item_info;
+        //                 get_item_info.index = size_count;
+        //                 get_item_info.count = get_count;
+        //                 change_consumable.item_list.push_back(get_item_info);
+        //                 check_inventory += 1;
+        //             }
+        //         }
+        //         servant_burn_result.amount += get_utg;
+        //     });
 
-            user_servant_table.erase(user_servant_iter);
-        }
+        //     user_servant_table.erase(user_servant_iter);
+        // }
     }
 
     user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
         eosio_assert(change_auth_user.current_servant_inventory >= burn_count, "servant burn : The current number of servant and the number of units to sell are not correct.");
         change_auth_user.current_servant_inventory -= burn_count;
-        change_auth_user.current_item_inventory += check_inventory;
+        //change_auth_user.current_item_inventory += check_inventory;
     });
 
     user_logs_table.modify(user_logs_iter, _self, [&](auto &change_log) {
@@ -9213,7 +9261,7 @@ ACTION battletest::equipmentup(eosio::name _user, uint32_t _equipment, const std
                 auto sub_item_iter = change_user_item.item_list.end() - 1;
                 for(uint32_t j = target_item_count - 1; j >= 0; j--)
                 {
-                    if(change_user_item.item_list[j].count >= sub_item_count)
+                    if(change_user_item.item_list[j].count > sub_item_count)
                     {
                         change_user_item.item_list[j].count -= sub_item_count;
                         break;
@@ -9526,7 +9574,7 @@ ACTION battletest::itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count
 
 void battletest::utg_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _count)
 {
-    eosio_assert(_count <= 99, "Invalid Item Count");
+    eosio_assert(_count <= 99, "utg_item_buy : Invalid Item Count");
 
     item_shop item_shop_table(_self, _self.value);
     auto item_shop_iter = item_shop_table.find(_item_id);
@@ -9536,68 +9584,72 @@ void battletest::utg_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _co
     auto user_auth_iter = user_auth_table.find(_user.value);
     eosio_assert(user_auth_iter != user_auth_table.end(), "utg_item_buy : Not exist user_auths data");
 
-    allitem_db allitem_db_table(_self, _self.value);
-    auto allitem_db_iter = allitem_db_table.find(item_shop_iter->product_id);
-    eosio_assert(allitem_db_iter != allitem_db_table.end(), "utg_item_buy : Not exist allitem data");
+    // allitem_db allitem_db_table(_self, _self.value);
+    // auto allitem_db_iter = allitem_db_table.find(item_shop_iter->product_id);
+    // eosio_assert(allitem_db_iter != allitem_db_table.end(), "utg_item_buy : Not exist allitem data");
+    
+    sum_item_check(_user, item_shop_iter->product_id, _count);
+   
 
-    uint64_t add_inventory = 0;
 
-    user_items user_items_table(_self, _user.value);
-    auto user_items_iter = user_items_table.find(item_shop_iter->product_id);
-    if (user_items_iter == user_items_table.end())
-    {
-        user_items_table.emplace(_self, [&](auto &change_consumable) {
-            change_consumable.id = allitem_db_iter->id;
-            change_consumable.type = allitem_db_iter->type;
+    // uint64_t add_inventory = 0;
 
-            item_info get_item_info;
-            get_item_info.index = 0;
-            get_item_info.count = _count;
-            change_consumable.item_list.push_back(get_item_info);
+    // user_items user_items_table(_self, _user.value);
+    // auto user_items_iter = user_items_table.find(item_shop_iter->product_id);
+    // if (user_items_iter == user_items_table.end())
+    // {
+    //     user_items_table.emplace(_self, [&](auto &change_consumable) {
+    //         change_consumable.id = allitem_db_iter->id;
+    //         change_consumable.type = allitem_db_iter->type;
 
-            add_inventory = 1;
-        });
-    }
-    else
-    {
-        user_items_table.modify(user_items_iter, _self, [&](auto &change_consumable) {
-            uint64_t size_count = change_consumable.item_list.size();
+    //         item_info get_item_info;
+    //         get_item_info.index = 0;
+    //         get_item_info.count = _count;
+    //         change_consumable.item_list.push_back(get_item_info);
 
-            for (uint64_t i = 0; i < size_count; i++)
-            {
-                if(change_consumable.item_list[i].count < 99)
-                {
-                    if(change_consumable.item_list[i].count + _count > 99)
-                    {
-                        uint64_t new_count = change_consumable.item_list[i].count + _count - 99;
-                        change_consumable.item_list[i].count = 99;
+    //         add_inventory = 1;
+    //     });
+    // }
+    // else
+    // {
+    //     user_items_table.modify(user_items_iter, _self, [&](auto &change_consumable) {
+    //         uint64_t size_count = change_consumable.item_list.size();
 
-                        item_info get_item_info;
-                        get_item_info.index = size_count;
-                        get_item_info.count = new_count;
-                        change_consumable.item_list.push_back(get_item_info);
-                        add_inventory = 1;
-                    }
-                    else
-                    {
-                        change_consumable.item_list[i].count += _count;
-                    }
-                }
-                else if(change_consumable.item_list[i].count == 99 && i == (size_count - 1))
-                {
-                        item_info get_item_info;
-                        get_item_info.index = size_count;
-                        get_item_info.count = _count;
-                        change_consumable.item_list.push_back(get_item_info);
-                        add_inventory = 1;
-                }
-            }
-        });
-    }
+    //         for (uint64_t i = 0; i < size_count; i++)
+    //         {
+    //             if(change_consumable.item_list[i].count < 99)
+    //             {
+    //                 if(change_consumable.item_list[i].count + _count > 99)
+    //                 {
+    //                     uint64_t new_count = change_consumable.item_list[i].count + _count - 99;
+    //                     change_consumable.item_list[i].count = 99;
 
-    user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
-        add_auth.current_item_inventory += add_inventory;
-    });
+    //                     item_info get_item_info;
+    //                     get_item_info.index = size_count;
+    //                     get_item_info.count = new_count;
+    //                     change_consumable.item_list.push_back(get_item_info);
+    //                     add_inventory = 1;
+    //                 }
+    //                 else
+    //                 {
+    //                     change_consumable.item_list[i].count += _count;
+    //                 }
+    //             }
+    //             else if(change_consumable.item_list[i].count == 99 && i == (size_count - 1))
+    //             {
+    //                     item_info get_item_info;
+    //                     get_item_info.index = size_count;
+    //                     get_item_info.count = _count;
+    //                     change_consumable.item_list.push_back(get_item_info);
+    //                     add_inventory = 1;
+    //             }
+    //         }
+    //     });
+    // }
+
+    // user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
+    //     add_auth.current_item_inventory += add_inventory;
+    // });
 
     asset nomal_order_buy_result(0, symbol(symbol_code("UTG"), 4));
     nomal_order_buy_result.amount = _count * item_shop_iter->price_count;
@@ -9615,70 +9667,91 @@ void battletest::utg_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _co
 
 void battletest::etc_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _count)
 {
-    eosio_assert(_count <= 99, "Invalid Item Count");
-    
+    eosio_assert(_count <= 99, "ETC Item buy : Invalid Item Count");
+  
     item_shop item_shop_table(_self, _self.value);
     auto item_shop_iter = item_shop_table.find(_item_id);
     eosio_assert(item_shop_iter != item_shop_table.end(), "ETC Item buy : Not exist item_shop data");
 
-    user_auths user_auth_table(_self, _self.value);
-    auto user_auth_iter = user_auth_table.find(_user.value);
-    eosio_assert(user_auth_iter != user_auth_table.end(), "ETC Item buy : Not exist user_auths data");
-
     allitem_db allitem_db_table(_self, _self.value);
-    auto allitem_db_iter = allitem_db_table.find(item_shop_iter->price_id);
-    eosio_assert(allitem_db_iter != allitem_db_table.end(), "utg_item_buy : Not exist allitem data");
+    auto allitem_db_iter = allitem_db_table.find(item_shop_iter->price_id);     //판매
+    auto allitem_db_iter2 = allitem_db_table.find(item_shop_iter->product_id);  //구매
+    eosio_assert(allitem_db_iter != allitem_db_table.end(), "ETC Item buy : Not exist allitem data");
+    eosio_assert(allitem_db_iter2 != allitem_db_table.end(), "ETC Item buy : Not exist allitem2 data");
+    
 
-    user_items user_items_table(_self, _user.value);
-    auto user_items_iter = user_items_table.find(allitem_db_iter->id);
-    eosio_assert(user_items_iter != user_items_table.end(), "Invalid User Item Table");
-
-    uint64_t sub_item_count = item_shop_iter->price_count * _count;
-    uint64_t sub_inventory = 0;
-
-    uint32_t target_item_count = user_items_iter->item_list.size();
-    uint32_t total_item_count = 0;
-    for(uint32_t i = 0; i < target_item_count; i++)
+    
+    
+    if(_item_id == 12 || _item_id == 13 || _item_id == 14 || _item_id == 15)    //티켓 (서번트 소환권)
     {
-        total_item_count += user_items_iter->item_list[i].count;
+        sub_item_check(_user, allitem_db_iter->id, _count);
+
+        for (uint32_t i = 0; i < _count; i++)
+        {
+            uint64_t l_seed = safeseed::get_seed_value(_user.value, now() + i);
+            l_seed = l_seed >> 2;
+            gacha_servant_id(_user, l_seed, 0, 1, 3, 3); //job = 0 , min =1, max= 3
+        }
     }
-    if(total_item_count == sub_item_count)
-    {
-        user_items_table.erase(user_items_iter);
-    }
-    else
-    {
-        user_items_table.modify(user_items_iter, _self, [&](auto &change_user_item) {
-            auto sub_item_iter = change_user_item.item_list.end() - 1;
-            for(uint32_t j = target_item_count - 1; j >= 0; j--)
-            {
-                if(change_user_item.item_list[j].count >= sub_item_count)
-                {
-                    change_user_item.item_list[j].count -= sub_item_count;
-                    break;
-                }
-                else
-                {
-                    sub_item_count -= change_user_item.item_list[j].count;
-                    change_user_item.item_list.erase(sub_item_iter);
-                    sub_inventory += 1;
-                    sub_item_iter--;
-                }
-            }
-        });
+    else        //스킬 강화 및 변경권 구매 
+    {   
+        sub_item_check(_user, allitem_db_iter->id, _count);
+        //sum_item_check(_user, allitem_db_iter2->id, _count);
     }
 
-    eosio_assert(user_auth_iter->current_item_inventory >= sub_inventory, "ETC Item buy : current_item_inventory underflow error");
-    user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
-        add_auth.current_item_inventory -= sub_inventory;
-    });
+    // user_auths user_auth_table(_self, _self.value);
+    // auto user_auth_iter = user_auth_table.find(_user.value);
+    // eosio_assert(user_auth_iter != user_auth_table.end(), "ETC Item buy : Not exist user_auths data");
 
-    for (uint32_t i = 0; i < _count; i++)
-    {
-        uint64_t l_seed = safeseed::get_seed_value(_user.value, now() + i);
-        l_seed = l_seed >> 2;
-        gacha_servant_id(_user, l_seed, 0, 0, 3);
-    }
+    // allitem_db allitem_db_table(_self, _self.value);
+    // auto allitem_db_iter = allitem_db_table.find(item_shop_iter->price_id);
+    // eosio_assert(allitem_db_iter != allitem_db_table.end(), "utg_item_buy : Not exist allitem data");
+
+    // user_items user_items_table(_self, _user.value);
+    // auto   = user_items_table.find(allitem_db_iter->id);
+    // eosio_assert(user_items_iter != user_items_table.end(), "ETC Item buy : Invalid User Item Table");
+
+    // uint64_t sub_item_count = item_shop_iter->price_count * _count;
+    // uint64_t sub_inventory = 0;
+
+    // uint32_t target_item_count = user_items_iter->item_list.size();
+    // uint32_t total_item_count = 0;
+    // for(uint32_t i = 0; i < target_item_count; i++)
+    // {
+    //     total_item_count += user_items_iter->item_list[i].count;
+    // }
+    // if(total_item_count == sub_item_count)
+    // {
+    //     user_items_table.erase(user_items_iter);
+    // }
+    // else
+    // {
+    //     user_items_table.modify(user_items_iter, _self, [&](auto &change_user_item) {
+    //         auto sub_item_iter = change_user_item.item_list.end() - 1;
+    //         for(uint32_t j = target_item_count - 1; j >= 0; j--)
+    //         {
+    //             if(change_user_item.item_list[j].count > sub_item_count)
+    //             {
+    //                 change_user_item.item_list[j].count -= sub_item_count;
+    //                 break;
+    //             }
+    //             else
+    //             {
+    //                 sub_item_count -= change_user_item.item_list[j].count;
+    //                 change_user_item.item_list.erase(sub_item_iter);
+    //                 sub_inventory += 1;
+    //                 sub_item_iter--;
+    //             }
+    //         }
+    //     });
+    // }
+
+    // eosio_assert(user_auth_iter->current_item_inventory >= sub_inventory, "ETC Item buy : current_item_inventory underflow error");
+    // user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
+    //     add_auth.current_item_inventory -= sub_inventory;
+    // });
+
+
 }
 
 void battletest::shop_buy_item(eosio::name _user, uint32_t _type, uint32_t _count)
@@ -9693,19 +9766,19 @@ void battletest::shop_buy_item(eosio::name _user, uint32_t _type, uint32_t _coun
    // 인벤토리 구매
    if (_type ==1 || _type ==2 || _type ==3 || _type == 4)
    {
-       inventory_buy(_user, _type, _count);
+       inventory_buy(_user, shop_list_iter->shop_item_id, _count);
    }
    // 티켓 구매
    else if (_type ==8 || _type ==9 ||_type == 10 || _type == 11)
    {
        eosio_assert(check_inventory(_user, 1) == true, "shop_buy_item : Inventory is Full");
-       ticket_buy(_user, _type, _count);
+       ticket_buy(_user, shop_list_iter->shop_item_id, _count);
    }
    // 패키지 구매
    else if (_type == 16 || _type == 17 || _type == 18 || _type == 19 || _type == 20 || _type == 21 || _type == 22 || _type == 23)
    {
        eosio_assert(check_inventory(_user, 1) == true, "shop_buy_item : Inventory is Full");
-       package_buy(_user, _type, _count);
+       package_buy(_user, shop_list_iter->shop_item_id, _count);
    }
    else
    {
@@ -9729,12 +9802,7 @@ void battletest::inventory_buy(eosio::name _user, uint32_t _type, uint32_t _coun
        new_log.use_eos += 1000 * _count;
    });
 
-   shop_list shop_list_table(_self, _self.value);
-   auto shop_list_iter = shop_list_table.find(_type);
-   eosio_assert(shop_list_iter != shop_list_table.end(), "inventory_buy : Not exist item shop data");
-
-
-   if (_type == 1)
+   if (_type == 2001)
    {
        eosio_assert((user_auth_iter->servant_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
 
@@ -9742,21 +9810,21 @@ void battletest::inventory_buy(eosio::name _user, uint32_t _type, uint32_t _coun
            change_auth_user.servant_inventory += (plus_inventory * _count);
        });
    }
-   else if (_type == 2)
+   else if (_type == 2002)
    {
        eosio_assert((user_auth_iter->monster_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
            change_auth_user.monster_inventory += (plus_inventory * _count);
        });
    }
-   else if (_type == 3)
+   else if (_type == 2003)
    {
        eosio_assert((user_auth_iter->equipment_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
            change_auth_user.equipment_inventory += (plus_inventory * _count);
        });
    }
-   else if (_type == 4)
+   else if (_type == 2004)
    {
        eosio_assert((user_auth_iter->item_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
@@ -9771,7 +9839,7 @@ void battletest::inventory_buy(eosio::name _user, uint32_t _type, uint32_t _coun
 
 void battletest::ticket_buy(eosio::name _user, uint32_t _type, uint32_t _count)
 {
- eosio_assert(_count <= 99, "Invalid Item Count");
+    eosio_assert(_count <= 99, "ticket buy : Invalid Item Count");
 
     system_check(_user);
 
@@ -9782,77 +9850,77 @@ void battletest::ticket_buy(eosio::name _user, uint32_t _type, uint32_t _count)
     auto user_log_iter = user_log_table.find(_user.value);
     eosio_assert(user_log_iter != user_log_table.end(), "ticket buy : Empty Log Table / Not Yet Signup");
 
-    shop_list shop_list_table(_self, _self.value);
-    auto shop_list_iter = shop_list_table.find(_type);
-    eosio_assert(shop_list_iter != shop_list_table.end(), "ticket buy : Not exist item shop data");
-
     item_shop item_shop_table(_self, _self.value);
-    auto item_shop_iter = item_shop_table.find(shop_list_iter->shop_item_id);
+    auto item_shop_iter = item_shop_table.find(_type);
     eosio_assert(item_shop_iter != item_shop_table.end(), "ticket buy : Not exist item_shop data");
-    eosio_assert(_type == 8 || _type == 9 || _type == 10 || _type == 11, "ticket buy : Not exist this action type");
+    eosio_assert(_type == 4001 || _type == 4002 || _type == 4003 || _type == 4004, "ticket buy : Not exist this action type");
 
-    allitem_db allitem_db_table(_self, _self.value);
-    auto allitem_db_iter = allitem_db_table.find(item_shop_iter->product_id);
-    eosio_assert(allitem_db_iter != allitem_db_table.end(), "ticket buy : Not exist allitem data");
+    // allitem_db allitem_db_table(_self, _self.value);
+    // auto allitem_db_iter = allitem_db_table.find(item_shop_iter->product_id);
+    // eosio_assert(allitem_db_iter != allitem_db_table.end(), "ticket buy : Not exist allitem data");
 
-    uint64_t add_inventory = 0;
+    sum_item_check(_user, item_shop_iter->product_id, _count);
 
-    user_items user_items_table(_self, _user.value);
-    auto user_items_iter = user_items_table.find(item_shop_iter->product_id);
-    if (user_items_iter == user_items_table.end())
-    {
-        user_items_table.emplace(_self, [&](auto &change_consumable) {
-            change_consumable.id = allitem_db_iter->id;
-            change_consumable.type = allitem_db_iter->type;
 
-            item_info get_item_info;
-            get_item_info.index = 0;
-            get_item_info.count = _count;
-            change_consumable.item_list.push_back(get_item_info);
 
-            add_inventory = 1;
-        });
-    }
-    else
-    {
-        user_items_table.modify(user_items_iter, _self, [&](auto &change_consumable) {
-            uint64_t size_count = change_consumable.item_list.size();
+    // uint64_t add_inventory = 0;
 
-            for (uint64_t i = 0; i < size_count; i++)
-            {
-                if(change_consumable.item_list[i].count < 99)
-                {
-                    if(change_consumable.item_list[i].count + _count > 99)
-                    {
-                        uint64_t new_count = change_consumable.item_list[i].count + _count - 99;
-                        change_consumable.item_list[i].count = 99;
+    // user_items user_items_table(_self, _user.value);
+    // auto user_items_iter = user_items_table.find(item_shop_iter->product_id);
+    // if (user_items_iter == user_items_table.end())
+    // {
+    //     user_items_table.emplace(_self, [&](auto &change_consumable) {
+    //         change_consumable.id = allitem_db_iter->id;
+    //         change_consumable.type = allitem_db_iter->type;
 
-                        item_info get_item_info;
-                        get_item_info.index = size_count;
-                        get_item_info.count = new_count;
-                        change_consumable.item_list.push_back(get_item_info);
-                        add_inventory = 1;
-                    }
-                    else
-                    {
-                        change_consumable.item_list[i].count += _count;
-                    }
-                }
-                else if(change_consumable.item_list[i].count == 99 && i == (size_count - 1))
-                {
-                        item_info get_item_info;
-                        get_item_info.index = size_count;
-                        get_item_info.count = _count;
-                        change_consumable.item_list.push_back(get_item_info);
-                        add_inventory = 1;
-                }
-            }
-        });
-    }
+    //         item_info get_item_info;
+    //         get_item_info.index = 0;
+    //         get_item_info.count = _count;
+    //         change_consumable.item_list.push_back(get_item_info);
 
-    user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
-        add_auth.current_item_inventory += add_inventory;
-    });
+    //         add_inventory = 1;
+    //     });
+    // }
+    // else
+    // {
+    //     user_items_table.modify(user_items_iter, _self, [&](auto &change_consumable) {
+    //         uint64_t size_count = change_consumable.item_list.size();
+
+    //         for (uint64_t i = 0; i < size_count; i++)
+    //         {
+    //             if(change_consumable.item_list[i].count < 99)
+    //             {
+    //                 if(change_consumable.item_list[i].count + _count > 99)
+    //                 {
+    //                     uint64_t new_count = change_consumable.item_list[i].count + _count - 99;
+    //                     change_consumable.item_list[i].count = 99;
+
+    //                     item_info get_item_info;
+    //                     get_item_info.index = size_count;
+    //                     get_item_info.count = new_count;
+    //                     change_consumable.item_list.push_back(get_item_info);
+    //                     add_inventory = 1;
+    //                 }
+    //                 else
+    //                 {
+    //                     change_consumable.item_list[i].count += _count;
+    //                 }
+    //             }
+    //             else if(change_consumable.item_list[i].count == 99 && i == (size_count - 1))
+    //             {
+    //                     item_info get_item_info;
+    //                     get_item_info.index = size_count;
+    //                     get_item_info.count = _count;
+    //                     change_consumable.item_list.push_back(get_item_info);
+    //                     add_inventory = 1;
+    //             }
+    //         }
+    //     });
+    // }
+
+    // user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
+    //     add_auth.current_item_inventory += add_inventory;
+    // });
 
   
     user_log_table.modify(user_log_iter, _self, [&](auto &new_log) {
@@ -10008,7 +10076,7 @@ void battletest::start_package(eosio::name _user)
     for(uint32_t i=1; i<=3;i++)
     {
         uint32_t _seed = safeseed::get_seed_value(_user.value+i, now());
-        gacha_servant_id(_user, _seed, i,0,1);
+        gacha_servant_id(_user, _seed, i,0,0,1);
     }  
 }
 
@@ -10017,6 +10085,283 @@ void battletest::grade_package(eosio::name _user, uint32_t _type)
    uint32_t _seed = safeseed::get_seed_value(_user.value, now()); 
    gacha_monster_id(_user, _seed, _type, 0,1);
    gacha_equipment_id(_user, _seed, _type , 0,1);
+}
+
+
+
+
+void battletest::sum_item_check(eosio::name _user, uint32_t _item_id, uint32_t _count)
+{
+    uint64_t add_inventory = 0;
+
+    allitem_db allitem_db_table(_self, _self.value);
+    const auto &allitem_db_iter = allitem_db_table.get(_item_id, " Gacha Item : Empty Item ID / Not Set Item ID");
+
+    user_auths auth_user_table(_self, _self.value);
+    auto auth_user_iter = auth_user_table.find(_user.value);
+    eosio_assert(auth_user_iter != auth_user_table.end(), " Gacha Item : Empty Auth Table / Not Yet Signup");
+
+    user_items user_items_table(_self, _user.value);
+    auto user_items_iter = user_items_table.find(allitem_db_iter.id);
+    if (user_items_iter == user_items_table.end())
+    {
+        user_items_table.emplace(_self, [&](auto &change_consumable) {
+
+            change_consumable.id = allitem_db_iter.id;
+            change_consumable.type = allitem_db_iter.type;
+
+            if(_count > 99)
+            {
+                item_info get_item_info;
+                get_item_info.index = 0;
+                get_item_info.count = 99;
+    
+                change_consumable.item_list.push_back(get_item_info);
+
+                item_info get_second_item_info;
+                get_second_item_info.index = 1;
+                get_second_item_info.count = _count - 99;
+    
+                change_consumable.item_list.push_back(get_second_item_info);
+                add_inventory = 2;
+            }
+            else
+            {
+                item_info get_item_info;
+                get_item_info.index = 0;
+                get_item_info.count = _count;
+
+                change_consumable.item_list.push_back(get_item_info);
+                add_inventory = 1;
+            }
+       });
+    }
+    else
+    {
+        user_items_table.modify(user_items_iter, _self, [&](auto &change_consumable) {
+            
+            uint64_t size_count = change_consumable.item_list.size();
+
+            for (uint64_t i = 0; i < size_count; i++)
+            {
+                if(change_consumable.item_list[i].count < 99)
+                {
+                    if(change_consumable.item_list[i].count + _count > 99)
+                    {
+                        uint64_t new_count = change_consumable.item_list[i].count + _count - 99;
+                        change_consumable.item_list[i].count = 99;
+
+                        if(new_count >= 99)
+                        {
+
+                            item_info get_item_info;
+                            get_item_info.index = size_count;
+                            get_item_info.count = 99;
+                            change_consumable.item_list.push_back(get_item_info);
+
+                            add_inventory = 1;
+
+                            uint64_t new_second_count = new_count - 99;
+                            if(new_second_count > 0)
+                            {
+                                item_info get_second_item_info;
+                                get_second_item_info.index = size_count + 1;
+                                get_second_item_info.count = new_second_count;
+                                change_consumable.item_list.push_back(get_second_item_info);
+                                
+                                add_inventory = 2;
+                            }
+                        }
+                        else
+                        {
+                            item_info get_item_info;
+                            get_item_info.index = size_count;
+                            get_item_info.count = new_count;
+                            change_consumable.item_list.push_back(get_item_info);
+                            add_inventory = 1;
+                        }
+                    }
+                    else
+                    {
+                        change_consumable.item_list[i].count += _count;
+                    }
+                }
+                else if(change_consumable.item_list[i].count == 99 && i == (size_count - 1))
+                {
+                        uint64_t new_count = _count;
+
+                        if(new_count >= 99)
+                        {
+
+                            item_info get_item_info;
+                            get_item_info.index = size_count;
+                            get_item_info.count = 99;
+                            change_consumable.item_list.push_back(get_item_info);
+
+                            add_inventory = 1;
+
+                            uint64_t new_second_count = new_count - 99;
+                            if(new_second_count > 0)
+                            {
+                                item_info get_second_item_info;
+                                get_second_item_info.index = size_count + 1;
+                                get_second_item_info.count = new_second_count;
+                                change_consumable.item_list.push_back(get_second_item_info);
+                                
+                                add_inventory = 2;
+                            }
+                        }
+                        else
+                        {
+                            item_info get_item_info;
+                            get_item_info.index = size_count;
+                            get_item_info.count = new_count;
+                            change_consumable.item_list.push_back(get_item_info);
+                            add_inventory = 1;
+                        }
+                }
+            }
+        });
+    }
+
+    auth_user_table.modify(auth_user_iter, _self, [&](auto &update_auth_user) {
+        update_auth_user.current_item_inventory += add_inventory;
+    });
+
+
+
+    // allitem_db allitem_db_table(_self, _self.value);
+    // auto allitem_db_iter = allitem_db_table.find(_item_id);
+    // eosio_assert(allitem_db_iter != allitem_db_table.end(), "ticket buy : Not exist allitem data");
+
+    // item_data new_item;
+    // new_item.id = allitem_db_iter->id;
+    // new_item.type = allitem_db_iter->type;
+
+    // uint64_t add_inventory = 0;
+
+    // user_items user_items_table(_self, _user.value);
+    // auto user_items_iter = user_items_table.find(allitem_db_iter->id);
+    // if (user_items_iter == user_items_table.end())
+    // {
+    //     user_items_table.emplace(_self, [&](auto &change_consumable) {
+    //         change_consumable.id = allitem_db_iter->id;
+    //         change_consumable.type = allitem_db_iter->type;
+
+    //         item_info get_item_info;
+    //         get_item_info.index = 0;
+    //         get_item_info.count = _count;
+    //         change_consumable.item_list.push_back(get_item_info);
+
+    //         add_inventory = 1;
+    //     });
+    // }
+    // else
+    // {
+    //     user_items_table.modify(user_items_iter, _self, [&](auto &change_consumable) {
+    //         uint64_t size_count = change_consumable.item_list.size();
+
+    //         for (uint64_t i = 0; i < size_count; i++)
+    //         {
+    //             if(change_consumable.item_list[i].count < 99)
+    //             {
+    //                 if(change_consumable.item_list[i].count + _count > 99)
+    //                 {
+    //                     uint64_t new_count = change_consumable.item_list[i].count + _count - 99;
+    //                     change_consumable.item_list[i].count = 99;
+
+    //                     item_info get_item_info;
+    //                     get_item_info.index = size_count;
+    //                     get_item_info.count = new_count;
+    //                     change_consumable.item_list.push_back(get_item_info);
+    //                     add_inventory = 1;
+    //                 }
+    //                 else
+    //                 {
+    //                     change_consumable.item_list[i].count += _count;
+    //                 }
+    //             }
+    //             else if(change_consumable.item_list[i].count == 99 && i == (size_count - 1))
+    //             {
+    //                     item_info get_item_info;
+    //                     get_item_info.index = size_count;
+    //                     get_item_info.count = _count;
+    //                     change_consumable.item_list.push_back(get_item_info);
+    //                     add_inventory = 1;
+    //             }
+    //         }
+    //     });
+    // }
+    // user_auths user_auth_table(_self, _self.value);
+    // auto user_auth_iter = user_auth_table.find(_user.value);
+    // user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
+    //     add_auth.current_item_inventory += add_inventory;
+    // });
+
+}
+
+void battletest::sub_item_check(eosio::name _user, uint32_t _item_id, uint32_t _count)
+{
+    item_shop item_shop_table(_self, _self.value);
+    auto item_shop_iter = item_shop_table.find(_item_id);
+    eosio_assert(item_shop_iter != item_shop_table.end(), "ETC Item buy : Not exist item_shop data");
+
+    allitem_db allitem_db_table(_self, _self.value);
+    auto allitem_db_iter = allitem_db_table.find(item_shop_iter->price_id);
+    eosio_assert(allitem_db_iter != allitem_db_table.end(), "sub_item_check : Not exist allitem data");
+
+    item_data new_item;
+    new_item.id = allitem_db_iter->id;
+    new_item.type = allitem_db_iter->type;
+
+    user_items user_items_table(_self, _user.value);
+    auto user_items_iter = user_items_table.find(allitem_db_iter->id);
+    eosio_assert(user_items_iter != user_items_table.end(), "sub_item_check : Invalid User Item Table");
+
+    uint64_t sub_item_count = item_shop_iter->price_count * _count;
+    uint64_t sub_inventory = 0;
+
+    uint32_t target_item_count = user_items_iter->item_list.size();
+    uint32_t total_item_count = 0;
+    for(uint32_t i = 0; i < target_item_count; i++)
+    {
+        total_item_count += user_items_iter->item_list[i].count;
+    }
+    eosio_assert(total_item_count >= sub_item_count, "sub_item_check : Not Enough Total Item Count");
+
+    if(total_item_count == sub_item_count)
+    {
+        user_items_table.erase(user_items_iter);
+    }
+    else
+    {
+        user_items_table.modify(user_items_iter, _self, [&](auto &change_user_item) {
+            auto sub_item_iter = change_user_item.item_list.end() - 1;
+            for(uint32_t j = target_item_count - 1; j >= 0; j--)
+            {
+                if(change_user_item.item_list[j].count > sub_item_count)
+                {
+                    change_user_item.item_list[j].count -= sub_item_count;
+                    break;
+                }
+                else
+                {
+                    sub_item_count -= change_user_item.item_list[j].count;
+                    change_user_item.item_list.erase(sub_item_iter);
+                    sub_inventory += 1;
+                    sub_item_iter--;
+                }
+            }
+        });
+    }
+    user_auths user_auth_table(_self, _self.value);
+    auto user_auth_iter = user_auth_table.find(_user.value);
+
+    eosio_assert(user_auth_iter->current_item_inventory >= sub_inventory, "sub_item_check : current_item_inventory underflow error");
+    user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
+        add_auth.current_item_inventory -= sub_inventory;
+    });
+
 }
 
 
@@ -12781,6 +13126,294 @@ ACTION battletest::systemact(std::string _function, eosio::name _user, std::stri
     }
 }
 
+//------------------------------------------------------------------------//
+//--------------------------dailycheck_action-----------------------------//
+//------------------------------------------------------------------------//
+#pragma region dailycheck
+
+ACTION battletest::dailycheck(name _user, string _seed)
+{
+    system_check(_user);
+
+    user_auths user_auths_table(_self, _self.value);
+    auto user_auths_iter = user_auths_table.find(_user.value);
+    eosio_assert(user_auths_iter != user_auths_table.end(), "daily check : No user data");
+
+    size_t center = _seed.find(':');
+    size_t end = _seed.length() - (center + 1);
+    eosio_assert(_seed.find(':') != std::string::npos, "daily check : Wrong Seed Error");
+
+    std::string result_seed = _seed.substr(0, center);
+    std::string result_sha = _seed.substr(center + 1, end);
+
+    uint64_t seed_check_result = safeseed::check_seed(result_seed, result_sha);
+
+    dailychecks daily_check_table(_self, _self.value);
+    auto user_daily_check_iter = daily_check_table.find(_user.value);
+    
+    if(user_daily_check_iter == daily_check_table.end())
+    {
+        daily_check_table.emplace(_user, [&](auto &check_result){
+            check_result.user = _user;
+            check_result.total_day = 1;
+            check_result.check_time = ( now() + 32400 )/86400 ; 
+            daily_check_reward(_user,1,seed_check_result);
+        });
+    }
+    else
+    {       
+        auto iter = *user_daily_check_iter;
+        eosio_assert(timecheck(iter.check_time), "daily check : your already daily checked");
+        daily_check_table.modify(user_daily_check_iter, _user, [&](auto &check_result){
+            check_result.user = _user;
+            check_result.total_day += 1;
+            check_result.check_time = ( now() + 32400 )/ 86400 ;    
+            daily_check_reward(_user,check_result.total_day,seed_check_result);
+        });
+    }   
+
+}
+
+bool battletest::timecheck(uint64_t user_checktime)
+{    
+    uint64_t server_standard_time = now();    
+    uint64_t server_check_time = ( server_standard_time + 32400) / 86400 ;           
+
+    if(user_checktime == server_check_time)
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
+void battletest::daily_check_reward(eosio::name _user, uint64_t total_day, uint64_t _seed)
+{
+    asset daily_check_result(0, symbol(symbol_code("UTG"), 4));
+    switch(total_day)
+    {
+        case 1:       //50UTG
+        case 4:
+        case 8:
+        case 11:
+        case 15:
+        case 18:
+        case 22:
+        case 25:
+        {
+            user_logs user_logs_table(_self,_self.value);
+            auto user_logs_iter = user_logs_table.find(_user.value);
+            eosio_assert(user_logs_iter != user_logs_table.end(), "daily check reward : Not exist user_log");
+
+            daily_check_result.amount = 500000;
+
+            action(permission_level{get_self(), "active"_n},
+                   get_self(), "transfer"_n,
+                   std::make_tuple(_self, _user, daily_check_result, std::string("daily check get UTG")))
+                .send();
+            
+            user_logs_table.modify(user_logs_iter, _self, [&](auto &update_data) {
+                update_data.get_utg += daily_check_result.amount;
+            });
+
+            break;
+        }
+        
+        case 2:     //100UTG
+        case 5:
+        case 9:
+        case 12:
+        case 16:
+        case 19:
+        case 23:
+        case 26:
+        {
+            user_logs user_logs_table(_self,_self.value);
+            auto user_logs_iter = user_logs_table.find(_user.value);
+            eosio_assert(user_logs_iter != user_logs_table.end(), "daily check reward : Not exist user_log");
+
+            daily_check_result.amount = 1000000;
+
+            action(permission_level{get_self(), "active"_n},
+                   get_self(), "transfer"_n,
+                   std::make_tuple(_self, _user, daily_check_result, std::string("daily check get UTG")))
+                .send();
+            
+            user_logs_table.modify(user_logs_iter, _self, [&](auto &update_data) {
+                update_data.get_utg += daily_check_result.amount;
+            });
+            break;
+        }
+        case 3:     //서번트 워리어
+        {
+            uint64_t l_user = get_user_seed_value(_user.value);
+            uint64_t l_seed = safeseed::get_seed_value(l_user, _seed);
+            gacha_servant_id(_user,l_seed,1,0,0,3);
+            break;
+        }
+        break;
+        case 17:    //서번트 클래릭
+        {
+            uint64_t l_user = get_user_seed_value(_user.value);
+            uint64_t l_seed = safeseed::get_seed_value(l_user, _seed);
+            gacha_servant_id(_user,l_seed,3,0,0,3);
+            break;
+        }
+        case 6:     //150UTG
+        case 13:
+        case 20:
+        case 27:
+        {
+            user_logs user_logs_table(_self,_self.value);
+            auto user_logs_iter = user_logs_table.find(_user.value);
+            eosio_assert(user_logs_iter != user_logs_table.end(), "daily check reward : Not exist user_log");
+
+            daily_check_result.amount = 1500000;
+
+            action(permission_level{get_self(), "active"_n},
+                   get_self(), "transfer"_n,
+                   std::make_tuple(_self, _user, daily_check_result, std::string("daily check get UTG")))
+                .send();
+            
+            user_logs_table.modify(user_logs_iter, _self, [&](auto &update_data) {
+                update_data.get_utg += daily_check_result.amount;
+            });
+            break;
+        }
+        case 7:      //몬스터 판다
+        {
+            uint64_t l_user = get_user_seed_value(_user.value);
+            uint64_t l_seed = safeseed::get_seed_value(l_user, _seed);
+            gacha_monster_id(_user,l_seed,0,0,3);
+            break;
+        }
+        case 21:    //몬스터 살라맨더 
+        {
+            uint64_t l_user = get_user_seed_value(_user.value);
+            uint64_t l_seed = safeseed::get_seed_value(l_user, _seed);
+            gacha_monster_id(_user,l_seed,0,0,3);
+            break;
+        }
+        case 10:     //아이템 모험자의 검 
+                {
+            uint64_t l_user = get_user_seed_value(_user.value);
+            uint64_t l_seed = safeseed::get_seed_value(l_user, _seed);
+            gacha_equipment_id(_user,l_seed,0,0,3);
+            break;
+        }
+        case 24:    //아이템 모험자의 둔기
+        {
+            uint64_t l_user = get_user_seed_value(_user.value);
+            uint64_t l_seed = safeseed::get_seed_value(l_user, _seed);
+            gacha_equipment_id(_user,l_seed,0,0,3);
+            break;
+        }
+        case 14:     //가차         
+        case 28:
+        {
+           uint64_t l_user = get_user_seed_value(_user.value);
+           uint64_t l_seed = safeseed::get_seed_value(l_user, _seed);
+            start_gacha(_user,l_seed,0);
+        break;
+        }   
+        default:
+        {
+            eosio_assert(0 == 1, "daily check reward : You can not longer daily check ");
+            break;
+        }
+    }
+}
+
+// ACTION battletest::resetdaily(eosio::name _user)
+// {
+//     dailychecks daily_check_table(_self, _self.value);
+//     auto user_daily_check_iter = daily_check_table.find(_user.value);
+
+//     daily_check_table.modify(user_daily_check_iter, _self, [&](auto &data){
+//         data.check_time = 0;
+//     });
+// }
+
+battletest::servant_info battletest::get_servant_random_state(uint32_t _id, uint64_t _seed, uint32_t _job, uint32_t _base_str, uint32_t _base_dex, uint32_t _base_int)
+{
+        //servant_data new_data;
+        servant_info new_servant;
+        new_servant.id = _id;
+        new_servant.exp = 0;
+        new_servant.grade = 5;
+        new_servant.level = 1;
+
+        new_servant.status.basic_str = safeseed::get_random_value(_seed, 10, 0, 4);
+        new_servant.status.basic_dex = safeseed::get_random_value(_seed, 10, 0, 5);
+        new_servant.status.basic_int = safeseed::get_random_value(_seed, 10, 0, 6);
+
+        new_servant.status.basic_str = change_servant_statue(new_servant.status.basic_str) + _base_str;
+        new_servant.status.basic_dex = change_servant_statue(new_servant.status.basic_dex) + _base_dex;
+        new_servant.status.basic_int = change_servant_statue(new_servant.status.basic_int) + _base_int;
+
+        new_servant.equip_slot.resize(3);
+        new_servant.state = object_state::on_inventory;
+
+        uint32_t active_id = get_servant_active_skill(_job, _seed);
+        new_servant.active_skill.push_back(active_id);
+
+        uint32_t passive_id = get_servant_passive_skill(_job, _seed);
+        new_servant.passive_skill.push_back(passive_id);
+
+        return new_servant;
+}
+
+battletest::monster_info battletest::get_monster_random_state(uint32_t _id, uint64_t _seed, uint32_t _grade, uint32_t _tribe, uint32_t _type, uint32_t _base_str, uint32_t _base_dex, uint32_t _base_int)
+{
+        monster_info new_monster;
+        new_monster.id = _id;
+        new_monster.grade = _grade;
+        new_monster.tribe = _tribe;
+        new_monster.type = _type;
+        new_monster.exp = 0;
+        new_monster.upgrade = 0;
+
+        new_monster.status.basic_str = safeseed::get_random_value(_seed, 10, 0, 3);
+        new_monster.status.basic_dex = safeseed::get_random_value(_seed, 10, 0, 4);
+        new_monster.status.basic_int = safeseed::get_random_value(_seed, 10, 0, 5);
+
+        new_monster.status.basic_str = change_monster_statue(_grade, new_monster.status.basic_str);
+        new_monster.status.basic_dex = change_monster_statue(_grade, new_monster.status.basic_dex);
+        new_monster.status.basic_int = change_monster_statue(_grade, new_monster.status.basic_int);
+
+        new_monster.status.basic_str = (new_monster.status.basic_str * _base_str) / 100;
+        new_monster.status.basic_dex = (new_monster.status.basic_dex * _base_dex) / 100;
+        new_monster.status.basic_int = (new_monster.status.basic_int * _base_int) / 100;
+
+        new_monster.state = object_state::on_inventory;
+
+        uint32_t passive_id = get_monster_passive_skill(_seed);
+        new_monster.passive_skill.push_back(passive_id);
+
+        return new_monster;
+
+}
+battletest::equipment_info battletest::get_equip_random_state(uint32_t _id, uint64_t _seed, uint32_t _type, uint32_t _tier, uint32_t _job, uint32_t _grade)
+{
+
+        equipment_info new_item;
+        new_item.id = _id;
+        new_item.type = _type;
+        new_item.tier = _tier;
+        new_item.job = _job;
+        new_item.grade = _grade;
+
+        uint32_t type_grade = ((_type + 1) * 10) + _grade;
+        new_item.value = safeseed::get_random_value(_seed, 10, 0, 3);
+        new_item.value = change_equipment_statue(type_grade, new_item.value);
+        set_tier_status(new_item.value, _tier);
+
+        new_item.state = object_state::on_inventory;
+
+        return new_item;
+}
 
 #undef EOSIO_DISPATCH
 
