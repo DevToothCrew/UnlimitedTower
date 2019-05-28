@@ -1894,10 +1894,61 @@ ACTION accountset(eosio::name _user);
 //ACTION leveltest(eosio::name _user);
 //ACTION updatecheack(uint32_t _start_count);
 
-
 void change_user_state(eosio::name _user, uint32_t _check_state, uint32_t _state);
 void init_action_reward_table(eosio::name _user);
 
 ACTION systemact(std::string _function, eosio::name _user, std::string _type);
 
+struct skill_info
+{
+    uint32_t id;
+    uint32_t level;
+};
+
+struct new_servant_info
+{
+    uint32_t state;   //서번트 상태
+    uint32_t exp = 0; //서번트 경험치
+    uint64_t id = 0;
+    uint32_t level = 1;
+    uint32_t grade = 5;
+    status_info status;
+    std::vector<uint32_t> equip_slot; //서번트 장비 리스트
+    std::vector<skill_info> passive_skill;
+    std::vector<skill_info> active_skill;
+};
+
+TABLE tservants
+{
+    uint64_t index;
+    uint32_t party_number = 0;
+    new_servant_info servant;
+    uint64_t primary_key() const { return index; }
+};
+typedef eosio::multi_index<"tservants"_n, tservants> new_user_servants;
+struct new_monster_info
+{
+    uint64_t id;          //몬스터 id 값
+    uint32_t state;       //몬스터 상태값
+    uint32_t exp = 0;     //경험치
+    uint32_t type = 0;    //속성 타입
+    uint32_t tribe = 0;   //몬스터의 클래스
+    uint32_t grade;       // 등급
+    uint32_t upgrade = 0; //강화수치
+    uint32_t level = 1;
+    status_info status; //기본 힘,민,지 추가 힘,민,지
+    std::vector<skill_info> passive_skill;
+    std::vector<skill_info> active_skill;
+};
+
+TABLE tmonsters
+{
+    uint64_t index;
+    uint32_t party_number = 0;
+    new_monster_info monster;
+    uint64_t primary_key() const { return index; }
+};
+typedef eosio::multi_index<"tmonsters"_n, tmonsters> new_user_monsters;
+
+//ACTION movedata(uint32_t _start_count);
 };

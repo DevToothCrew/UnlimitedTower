@@ -5727,7 +5727,6 @@ uint32_t battletest::get_magic_defense(status_info _status, uint32_t _level)
     return magic_defense / decimal;
 }
 
-
 uint32_t battletest::get_cri_per(status_info _status, uint32_t _level)
 {
     uint32_t cri_per;
@@ -6291,6 +6290,7 @@ ACTION battletest::stagestart(eosio::name _user, uint32_t _party_number, uint32_
                 new_battle_set.my_state_list.push_back(monster_battle_state);
             }
             new_set_stage_state(stage_db_iter->id, now(), new_battle_set.enemy_state_list, enemy_state);
+
             set_synergy(new_battle_set.my_state_list, new_battle_set.my_synergy_list);
             set_hp_synergy(new_battle_set.my_state_list, new_battle_set.my_synergy_list);
 
@@ -6650,9 +6650,6 @@ bool battletest::set_action(eosio::name _user,
                 set_random_damage(new_action, _seed);       //90~110% 사이의 랜덤 데미지
                 result_buff(new_action, _enemy_status_list[enemy_key]);                   //버프 스킬 체크
 
-                // uint64_t rate = safeseed::get_random_value(new_seed, 111, 90, 0);
-                // new_action.damage = (new_action.damage * rate) / 100;
-
                 if (_enemy_status_list[enemy_key].now_hp <= new_action.damage)
                 {
                     _enemy_status_list[enemy_key].now_hp = 0;
@@ -6684,9 +6681,6 @@ bool battletest::set_action(eosio::name _user,
                 result_type_skill(_user, new_action, _my_status_list, _enemy_status_list, _my_key, enemy_key);  //스킬의 속성 추뎀 체크
                 result_buff(new_action, _enemy_status_list[enemy_key]);                   //버프 스킬 체크
 
-                // uint64_t rate = safeseed::get_random_value(new_seed, 111, 90, 0);
-                // new_action.damage = (new_action.damage * rate) / 100;
-
                 if (_enemy_status_list[enemy_key].now_hp <= new_action.damage)
                 {
                     _enemy_status_list[enemy_key].now_hp = 0;
@@ -6701,26 +6695,6 @@ bool battletest::set_action(eosio::name _user,
         }
     }
 
-    // action_data += to_string(_action_info.my_position) + ":";
-    // action_data += to_string(_action_info.action_type) + ":";
-    // action_data += "[";
-    // for (uint32_t i = 0; i < _action_info.action_info_list.size(); ++i)
-    // {
-    //     action_data += to_string(_action_info.action_info_list[i].target_position) + ":";
-    //     action_data += to_string(_action_info.action_info_list[i].avoid) + ":";
-    //     action_data += to_string(_action_info.action_info_list[i].critical) + ":";
-    //     if (i + 1 == _action_info.action_info_list.size())
-    //     {
-    //         action_data += to_string(_action_info.action_info_list[i].damage);
-    //     }
-    //     else
-    //     {
-    //         action_data += to_string(_action_info.action_info_list[i].damage) + ":";
-    //     }
-    // }
-    // action_data += "]";
-
-    // _data.push_back(action_data);
     return true;
 }
 
@@ -7578,7 +7552,6 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
         order_random_list[i] = safeseed::get_seed_value(i, order_random_list[i]);
     }
 
-    std::string turn;
     std::vector<std::string> data;
     //공격순서 정렬하는 부분
     std::vector<battle_status_info> second_attack_order_list;
@@ -7608,7 +7581,6 @@ ACTION battletest::activeturn(eosio::name _user, uint32_t _turn, std::string _se
         //배틀에 액션테이블에 데이터를 추가해주는 부분
         battle_action_table.modify(user_battle_action_iter, _self, [&](auto &update_action) {
             update_action.turn += 1;
-            turn += to_string(update_action.turn);
             update_action.character_action_list.clear();
             //먼저 스킬 발동 여부 확인
             for (uint32_t i = 0; i < skill_order_list.size(); ++i)  
@@ -12781,6 +12753,122 @@ ACTION battletest::systemact(std::string _function, eosio::name _user, std::stri
     }
 }
 
+// ACTION battletest::movedata(uint32_t _start_count)
+// {
+//     require_auth(_self);
+
+//     uint64_t limit_mail_count = 1000;
+//     uint64_t cur_total_mail_count = 0;
+
+//     uint32_t iter_start = 1;
+//     uint32_t cur_count = _start_count;
+
+//     user_auths user_auth_table(_self, _self.value);
+
+//     for (auto all_log = user_auth_table.begin(); all_log != user_auth_table.end();)
+//     {
+//         if (iter_start < _start_count)
+//         {
+//             iter_start++;
+//             all_log++;
+//             continue;
+//         }
+//         auto user_log = user_auth_table.find(all_log->primary_key());
+
+//         user_monsters user_monster_table(_self, user_log->user.value);
+//         user_servants user_servant_tabla(_self, user_log->user.value);
+//         uint64_t count = 0;
+//         for (auto mail = user_monster_table.begin(); mail != user_monster_table.end();)
+//         {
+//             mail++;
+//             count++;
+//         }
+//         for(auto ser = user_servant_tabla.begin(); ser != user_servant_tabla.end();)
+//         {
+//             ser++;
+//             count++;
+//         }
+
+//         if ((cur_total_mail_count + count) >= limit_mail_count)
+//         {
+//             global_count global_count_table(_self, _self.value);
+//             auto g_iter = global_count_table.find(_self.value);
+//             global_count_table.emplace(_self, [&](auto &new_data) {
+//                 new_data.count = cur_count;
+//             });
+//             break;
+//         }
+//         else
+//         {
+//             cur_total_mail_count += count;
+
+//             new_user_monsters new_user_monster_table(_self, user_log->user.value);
+//             new_user_servants new_user_servant_table(_self, user_log->user.value);
+
+//             for(auto mon = user_monster_table.begin(); mon != user_monster_table.end();)
+//             {
+//                 auto iter = user_monster_table.find(mon->primary_key());
+//                 mon++;
+//                 new_user_monster_table.emplace(_self, [&](auto &new_data) {
+//                     new_data.index = iter->index;
+//                     new_data.party_number = iter->party_number;
+
+//                     new_data.monster.id = iter->monster.id;
+//                     new_data.monster.state = iter->monster.state;
+//                     new_data.monster.exp = iter->monster.exp;
+//                     new_data.monster.type = iter->monster.type;
+//                     new_data.monster.tribe = iter->monster.tribe;
+//                     new_data.monster.grade = iter->monster.grade;
+//                     new_data.monster.upgrade = iter->monster.upgrade;
+//                     new_data.monster.level = iter->monster.level;
+//                     new_data.monster.status = iter->monster.status;
+                    
+//                     skill_info new_passive_skill;
+//                     new_passive_skill.id = iter->monster.passive_skill[0];
+//                     new_passive_skill.level = 1;
+
+//                     new_data.monster.passive_skill.push_back(new_passive_skill);
+//                 });
+//                 user_monster_table.erase(iter);
+//             }
+
+//             for (auto ser = user_servant_tabla.begin(); ser != user_servant_tabla.end();)
+//             {
+//                 auto iter = user_servant_tabla.find(ser->primary_key());
+//                 ser++;
+//                 new_user_servant_table.emplace(_self, [&](auto &new_data)
+//                 {
+//                     new_data.index = iter->index;
+//                     new_data.party_number = iter->party_number;
+                    
+//                     new_data.servant.state = iter->servant.state;
+//                     new_data.servant.exp = iter->servant.exp;
+//                     new_data.servant.id = iter->servant.id;
+//                     new_data.servant.level = iter->servant.level;
+//                     new_data.servant.grade = iter->servant.grade;
+//                     new_data.servant.status = iter->servant.status;
+//                     new_data.servant.equip_slot = iter->servant.equip_slot;
+
+//                     skill_info new_passive_skill;
+//                     new_passive_skill.id = iter->servant.passive_skill[0];
+//                     new_passive_skill.level = 1;
+
+//                     new_data.servant.passive_skill.push_back(new_passive_skill);
+
+//                     skill_info new_active_skill;
+//                     new_active_skill.id = iter->servant.active_skill[0];
+//                     new_active_skill.level = 1;
+
+//                     new_data.servant.active_skill.push_back(new_active_skill);
+//                 });
+//                 user_servant_tabla.erase(iter);
+//             }
+
+//             cur_count += 1;
+//             all_log++;
+//         }
+//     }
+// }
 
 #undef EOSIO_DISPATCH
 
