@@ -6516,7 +6516,7 @@ bool battletest::set_action(eosio::name _user,
                 {
                     return false;
                 }
-                new_seed = new_seed >> 1;
+                new_seed = new_seed >> (i + 2);
 
                 action_info new_action;
                 new_action = get_target_action(_action, _seed, _my_key, enemy_key, _my_status_list, _enemy_status_list);
@@ -6524,9 +6524,6 @@ bool battletest::set_action(eosio::name _user,
                 set_random_damage(new_action, _seed);       //90~110% 사이의 랜덤 데미지
                 result_type_skill(_user, new_action, _my_status_list, _enemy_status_list, _my_key, enemy_key);  //스킬의 속성 추뎀 체크
                 result_buff(new_action, _enemy_status_list[enemy_key]);                   //버프 스킬 체크
-
-                // uint64_t rate = safeseed::get_random_value(new_seed, 111, 90, 0);
-                // new_action.damage = (new_action.damage * rate) / 100;
 
                 if (_enemy_status_list[enemy_key].now_hp <= new_action.damage)
                 {
