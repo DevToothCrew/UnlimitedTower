@@ -9657,7 +9657,8 @@ void battletest::ticket_buy(eosio::name _user, uint32_t _type, uint32_t _count)
     item_shop item_shop_table(_self, _self.value);
     auto item_shop_iter = item_shop_table.find(shop_list_iter->shop_item_id);
     eosio_assert(item_shop_iter != item_shop_table.end(), "ticket buy : Not exist item_shop data");
-    eosio_assert(shop_list_iter->shop_item_id == 4001 || shop_list_iter->shop_item_id == 4002 || shop_list_iter->shop_item_id == 4003 || shop_list_iter->shop_item_id == 4004, "ticket buy : Not exist this action type");
+    eosio_assert(_type == 8 || _type == 9 || _type == 10 || _type == 11, "ticket buy : Not exist this action type");
+    //eosio_assert(shop_list_iter->shop_item_id == 4001 || shop_list_iter->shop_item_id == 4002 || shop_list_iter->shop_item_id == 4003 || shop_list_iter->shop_item_id == 4004, "ticket buy : Not exist this action type");
 
     // allitem_db allitem_db_table(_self, _self.value);
     // auto allitem_db_iter = allitem_db_table.find(item_shop_iter->product_id);
