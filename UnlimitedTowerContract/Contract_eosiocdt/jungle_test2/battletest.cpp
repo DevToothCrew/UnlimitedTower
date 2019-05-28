@@ -9087,7 +9087,7 @@ ACTION battletest::equipmentup(eosio::name _user, uint32_t _equipment, const std
     }
 
     asset upgrade_use_UTG_result(0, symbol(symbol_code("UTG"), 4));
-    upgrade_use_UTG_result.amount = user_upgrade_equipment_iter->use_UTG[user_equipment_iter->equipment.upgrade] * 10000;
+    upgrade_use_UTG_result.amount = user_upgrade_equipment_iter->use_UTG[user_equipment_iter->equipment.upgrade];
 
     transfer(_user, _self, upgrade_use_UTG_result, std::string("upgrade use UTG result"));
 
@@ -9160,7 +9160,7 @@ ACTION battletest::monsterup(eosio::name _user, uint32_t _monster, uint32_t _mon
         change_auth_user.current_monster_inventory -= 1;
     });
 
-    utg_result.amount = user_upgrade_monster_iter->use_UTG * 10000;
+    utg_result.amount = user_upgrade_monster_iter->use_UTG;
     transfer(_user, _self, utg_result, std::string("upgrade use UTG result"));
 
     user_logs_table.modify(user_logs_iter, _self, [&](auto &change_log) {
@@ -9559,19 +9559,19 @@ void battletest::shop_buy_item(eosio::name _user, uint32_t _type, uint32_t _coun
    // 인벤토리 구매
    if (_type ==1 || _type ==2 || _type ==3 || _type == 4)
    {
-       inventory_buy(_user, _type, _count);
+       inventory_buy(_user, shop_list_iter->shop_item_id, _count);
    }
    // 티켓 구매
    else if (_type ==8 || _type ==9 ||_type == 10 || _type == 11)
    {
        eosio_assert(check_inventory(_user, 1) == true, "shop_buy_item : Inventory is Full");
-       ticket_buy(_user, _type, _count);
+       ticket_buy(_user, shop_list_iter->shop_item_id, _count);
    }
    // 패키지 구매
    else if (_type == 16 || _type == 17 || _type == 18 || _type == 19 || _type == 20 || _type == 21 || _type == 22 || _type == 23)
    {
        eosio_assert(check_inventory(_user, 1) == true, "shop_buy_item : Inventory is Full");
-       package_buy(_user, _type, _count);
+       package_buy(_user, shop_list_iter->shop_item_id, _count);
    }
    else
    {
@@ -9595,11 +9595,7 @@ void battletest::inventory_buy(eosio::name _user, uint32_t _type, uint32_t _coun
        new_log.use_eos += 1000 * _count;
    });
 
-   shop_list shop_list_table(_self, _self.value);
-   auto shop_list_iter = shop_list_table.find(_type);
-   eosio_assert(shop_list_iter != shop_list_table.end(), "shop_buy_item : Not exist item shop data");
-
-  if (_type == 1)
+  if (_type == 2001)
    {
        eosio_assert((user_auth_iter->servant_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
 
@@ -9607,21 +9603,21 @@ void battletest::inventory_buy(eosio::name _user, uint32_t _type, uint32_t _coun
            change_auth_user.servant_inventory += (plus_inventory * _count);
        });
    }
-   else if (_type == 2)
+   else if (_type == 2002)
    {
        eosio_assert((user_auth_iter->monster_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
            change_auth_user.monster_inventory += (plus_inventory * _count);
        });
    }
-   else if (_type == 3)
+   else if (_type == 2003)
    {
        eosio_assert((user_auth_iter->equipment_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
            change_auth_user.equipment_inventory += (plus_inventory * _count);
        });
    }
-   else if (_type == 4)
+   else if (_type == 2004)
    {
        eosio_assert((user_auth_iter->item_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
@@ -9647,15 +9643,10 @@ void battletest::ticket_buy(eosio::name _user, uint32_t _type, uint32_t _count)
     auto user_log_iter = user_log_table.find(_user.value);
     eosio_assert(user_log_iter != user_log_table.end(), "ticket buy : Empty Log Table / Not Yet Signup");
 
-    shop_list shop_list_table(_self, _self.value);
-    auto shop_list_iter = shop_list_table.find(_type);
-    eosio_assert(shop_list_iter != shop_list_table.end(), "ticket buy : Not exist item shop data");
-
     item_shop item_shop_table(_self, _self.value);
-    auto item_shop_iter = item_shop_table.find(shop_list_iter->shop_item_id);
+    auto item_shop_iter = item_shop_table.find(_type);
     eosio_assert(item_shop_iter != item_shop_table.end(), "ticket buy : Not exist item_shop data");
-    eosio_assert(_type == 8 || _type == 9 || _type == 10 || _type == 11, "ticket buy : Not exist this action type");
-    //eosio_assert(shop_list_iter->shop_item_id == 4001 || shop_list_iter->shop_item_id == 4002 || shop_list_iter->shop_item_id == 4003 || shop_list_iter->shop_item_id == 4004, "ticket buy : Not exist this action type");
+    eosio_assert(item_shop_iter->id == 4001 || item_shop_iter->id == 4002 || item_shop_iter->id == 4003 || item_shop_iter->id == 4004, "ticket buy : Not exist this action type");
 
     // allitem_db allitem_db_table(_self, _self.value);
     // auto allitem_db_iter = allitem_db_table.find(item_shop_iter->product_id);
@@ -9739,16 +9730,12 @@ void battletest::package_buy(eosio::name _user, uint32_t _type, uint32_t _count)
     auto user_log_iter = user_log_table.find(_user.value);
     eosio_assert(user_log_iter != user_log_table.end(), "ticket buy : Empty Log Table / Not Yet Signup");
 
-    shop_list shop_list_table(_self, _self.value);
-    auto shop_list_iter = shop_list_table.find(_type);
-    eosio_assert(shop_list_iter != shop_list_table.end(), "package_buy : Not exist item shop data");
-
     package_shop package_shop_table(_self, _self.value);
-    auto package_shop_iter = package_shop_table.find(shop_list_iter->shop_item_id);
+    auto package_shop_iter = package_shop_table.find(_type);
     eosio_assert(package_shop_iter != package_shop_table.end(), "package_buy : Not exist package_shop data");
 
     user_packages user_packages_table(_self, _user.value);
-    auto user_packages_iter = user_packages_table.find(shop_list_iter->shop_item_id);
+    auto user_packages_iter = user_packages_table.find(package_shop_iter->id);
 
     //패키지 구매를 추가로 못하게 하는 코드 
 
@@ -9781,79 +9768,79 @@ void battletest::package_buy(eosio::name _user, uint32_t _type, uint32_t _count)
 
     asset package_result(0, symbol(symbol_code("UTG"), 4));
 
-    if (shop_list_iter->shop_item_id == 1001)
+    if (package_shop_iter->id == 1001)
     {
         start_package(_user);
-        package_result.amount += 10000000;
+        package_result.amount += package_shop_iter->GET_UTG;
         action(permission_level{get_self(), "active"_n},
                get_self(), "transfer"_n,
                std::make_tuple(_self, _user, package_result, std::string("package result")))
             .send();
     }
-    else if (shop_list_iter->shop_item_id == 1006)
+    else if (package_shop_iter->id == 1006)
     {
         get_new_item(_user, 500100, 11);
         get_new_item(_user, 500110, 11);
         get_new_item(_user, 500120, 11);
-        package_result.amount += 100000000;
+        package_result.amount += package_shop_iter->GET_UTG;
         action(permission_level{get_self(), "active"_n},
                get_self(), "transfer"_n,
                std::make_tuple(_self, _user, package_result, std::string("package result")))
             .send();
     }
-    else if (shop_list_iter->shop_item_id == 1007)
+    else if (package_shop_iter->id == 1007)
     {
         get_new_item(_user, 500100, 150);
         get_new_item(_user, 500110, 150);
         get_new_item(_user, 500120, 150);
-        package_result.amount += 1000000000;
+        package_result.amount += package_shop_iter->GET_UTG;
         action(permission_level{get_self(), "active"_n},
                get_self(), "transfer"_n,
                std::make_tuple(_self, _user, package_result, std::string("package result")))
             .send();
     }
-    else if (shop_list_iter->shop_item_id == 1008)
+    else if (package_shop_iter->id == 1008)
     {
         get_new_item(_user, 500200, 10);
         get_new_item(_user, 500210, 10);
         get_new_item(_user, 500220, 10);
         get_new_item(_user, 500230, 10);
     }
-    else if (shop_list_iter->shop_item_id == 9001)
+    else if (package_shop_iter->id == 9001)
     {
         grade_package(_user, 4);
         get_new_item(_user, 500200, 10);
-        package_result.amount += 50000000;
+        package_result.amount += package_shop_iter->GET_UTG;
         action(permission_level{get_self(), "active"_n},
                get_self(), "transfer"_n,
                std::make_tuple(_self, _user, package_result, std::string("package result")))
             .send();
     }
-    else if (shop_list_iter->shop_item_id == 9002)
+    else if (package_shop_iter->id == 9002)
     {
         grade_package(_user, 3);
         get_new_item(_user, 500200, 10);
         get_new_item(_user, 500210, 10);
-        package_result.amount += 250000000;
+        package_result.amount += package_shop_iter->GET_UTG;
         action(permission_level{get_self(), "active"_n},
                get_self(), "transfer"_n,
                std::make_tuple(_self, _user, package_result, std::string("package result")))
             .send();
     }
-    else if (shop_list_iter->shop_item_id == 9003)
+    else if (package_shop_iter->id == 9003)
     {
         grade_package(_user, 2);
 
         get_new_item(_user, 500200, 10);
         get_new_item(_user, 500210, 10);
         get_new_item(_user, 500220, 10);
-        package_result.amount += 500000000;
+        package_result.amount += package_shop_iter->GET_UTG;
         action(permission_level{get_self(), "active"_n},
                get_self(), "transfer"_n,
                std::make_tuple(_self, _user, package_result, std::string("package result")))
             .send();
     }
-    else if (shop_list_iter->shop_item_id == 9004)
+    else if (package_shop_iter->id == 9004)
     {
         grade_package(_user, 1);
 
@@ -9861,7 +9848,7 @@ void battletest::package_buy(eosio::name _user, uint32_t _type, uint32_t _count)
         get_new_item(_user, 500210, 10);
         get_new_item(_user, 500220, 10);
         get_new_item(_user, 500230, 10);
-        package_result.amount += 1000000000;
+        package_result.amount += package_shop_iter->GET_UTG;
         action(permission_level{get_self(), "active"_n},
                get_self(), "transfer"_n,
                std::make_tuple(_self, _user, package_result, std::string("package result")))
@@ -9888,8 +9875,6 @@ void battletest::grade_package(eosio::name _user, uint32_t _type)
    gacha_monster_id(_user, _seed, _type, 0,1);
    gacha_equipment_id(_user, _seed, _type , 0,1);
 }
-
-
 
 
 void battletest::sum_item_check(eosio::name _user, uint32_t _item_id, uint32_t _count)
