@@ -9562,19 +9562,19 @@ void battletest::shop_buy_item(eosio::name _user, uint32_t _type, uint32_t _coun
    // 인벤토리 구매
    if (_type ==1 || _type ==2 || _type ==3 || _type == 4)
    {
-       inventory_buy(_user, shop_list_iter->shop_item_id, _count);
+       inventory_buy(_user, _type, _count);
    }
    // 티켓 구매
    else if (_type ==8 || _type ==9 ||_type == 10 || _type == 11)
    {
        eosio_assert(check_inventory(_user, 1) == true, "shop_buy_item : Inventory is Full");
-       ticket_buy(_user, shop_list_iter->shop_item_id, _count);
+       ticket_buy(_user, _type, _count);
    }
    // 패키지 구매
    else if (_type == 16 || _type == 17 || _type == 18 || _type == 19 || _type == 20 || _type == 21 || _type == 22 || _type == 23)
    {
        eosio_assert(check_inventory(_user, 1) == true, "shop_buy_item : Inventory is Full");
-       package_buy(_user, shop_list_iter->shop_item_id, _count);
+       package_buy(_user, _type, _count);
    }
    else
    {
@@ -9598,7 +9598,11 @@ void battletest::inventory_buy(eosio::name _user, uint32_t _type, uint32_t _coun
        new_log.use_eos += 1000 * _count;
    });
 
-   if (_type == 2001)
+   shop_list shop_list_table(_self, _self.value);
+   auto shop_list_iter = shop_list_table.find(_type);
+   eosio_assert(shop_list_iter != shop_list_table.end(), "shop_buy_item : Not exist item shop data");
+
+   if (shop_list_iter->shop_item_id == 2001)
    {
        eosio_assert((user_auth_iter->servant_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
 
@@ -9606,21 +9610,21 @@ void battletest::inventory_buy(eosio::name _user, uint32_t _type, uint32_t _coun
            change_auth_user.servant_inventory += (plus_inventory * _count);
        });
    }
-   else if (_type == 2002)
+   else if (shop_list_iter->shop_item_id == 2002)
    {
        eosio_assert((user_auth_iter->monster_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
            change_auth_user.monster_inventory += (plus_inventory * _count);
        });
    }
-   else if (_type == 2003)
+   else if (shop_list_iter->shop_item_id == 2003)
    {
        eosio_assert((user_auth_iter->equipment_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
            change_auth_user.equipment_inventory += (plus_inventory * _count);
        });
    }
-   else if (_type == 2004)
+   else if (shop_list_iter->shop_item_id == 2004)
    {
        eosio_assert((user_auth_iter->item_inventory + (plus_inventory * _count)) < 200, "inventroy_buy : Max inventory is 200");
        user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
@@ -9646,10 +9650,14 @@ void battletest::ticket_buy(eosio::name _user, uint32_t _type, uint32_t _count)
     auto user_log_iter = user_log_table.find(_user.value);
     eosio_assert(user_log_iter != user_log_table.end(), "ticket buy : Empty Log Table / Not Yet Signup");
 
+    shop_list shop_list_table(_self, _self.value);
+    auto shop_list_iter = shop_list_table.find(_type);
+    eosio_assert(shop_list_iter != shop_list_table.end(), "ticket buy : Not exist item shop data");
+
     item_shop item_shop_table(_self, _self.value);
-    auto item_shop_iter = item_shop_table.find(_type);
+    auto item_shop_iter = item_shop_table.find(shop_list_iter->shop_item_id);
     eosio_assert(item_shop_iter != item_shop_table.end(), "ticket buy : Not exist item_shop data");
-    eosio_assert(_type == 4001 || _type == 4002 || _type == 4003 || _type == 4004, "ticket buy : Not exist this action type");
+    eosio_assert(shop_list_iter->shop_item_id == 4001 || shop_list_iter->shop_item_id == 4002 || shop_list_iter->shop_item_id == 4003 || shop_list_iter->shop_item_id == 4004, "ticket buy : Not exist this action type");
 
     // allitem_db allitem_db_table(_self, _self.value);
     // auto allitem_db_iter = allitem_db_table.find(item_shop_iter->product_id);
