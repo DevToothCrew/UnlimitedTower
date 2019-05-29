@@ -3094,6 +3094,7 @@ void battletest::signup(eosio::name _user, eosio::name _refer ,uint64_t _use_eos
                                                             ser_iter.base_str,
                                                             ser_iter.base_dex,
                                                             ser_iter.base_int);
+        new_servant.state = object_state::on_party;
 
         update_user_servant_list.party_number = 1;
         update_user_servant_list.servant = new_servant;
