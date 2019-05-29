@@ -1736,7 +1736,7 @@ CONTRACT battletest : public contract
     //void set_seed(std::string _type, uint64_t _seed, uint64_t _result);
     //ACTION partycheat(eosio::name _user);
     //ACTION deleteuser2(eosio::name _user);
-    //ACTION simulate(eosio::name _user, std::string _type, std::string _value);
+    ACTION simulate(eosio::name _user, std::string _type, std::string _value);
     //ACTION lvcheat(eosio::name _user);
     void utg_exchange(eosio::name _user);
     //ACTION deletelog();
