@@ -1835,7 +1835,7 @@ void check_enter_stage(eosio::name _user, uint32_t _stage_id);
 void new_set_stage_state(uint64_t _stage_id, uint64_t _seed, std::vector<character_state_data> & _enemy_state_list, std::vector<std::string> & _state);
 void new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t _seed, std::vector<uint32_t> _reward_monster_id);
 
-void sum_item_check(eosio::name _user, uint32_t _item_id, uint32_t _count);
+uint32_t sum_item_check(eosio::name _user, uint32_t _item_id, uint32_t _count);
 uint32_t sub_item_check(eosio::name _user, uint32_t _item_id, uint32_t _count);
 //치트키
 //ACTION monstercheat(eosio::name _user, uint32_t _grade, uint32_t _id, uint32_t _count);
