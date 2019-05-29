@@ -546,7 +546,7 @@ CONTRACT battletest : public contract
 #pragma region db function
   public:
     void substr_value(std::string _value, std::vector<std::string> & _value_list, std::vector<size_t> & _size_list, uint32_t _size);
-    //ACTION dbinsert(std::string _table, std::string _value);
+    ACTION dbinsert(std::string _table, std::string _value);
     //ACTION dberase(std::string _table, std::string _value);
     //ACTION dblistinsert(std::string _list, std::string _primary_key, std::vector<std::string> _value_list);
     //ACTION dbinit(std::string _table);
@@ -1736,7 +1736,7 @@ CONTRACT battletest : public contract
     //void set_seed(std::string _type, uint64_t _seed, uint64_t _result);
     //ACTION partycheat(eosio::name _user);
     //ACTION deleteuser2(eosio::name _user);
-    ACTION simulate(eosio::name _user, std::string _type, std::string _value);
+    //ACTION simulate(eosio::name _user, std::string _type, std::string _value);
     //ACTION lvcheat(eosio::name _user);
     void utg_exchange(eosio::name _user);
     //ACTION deletelog();
