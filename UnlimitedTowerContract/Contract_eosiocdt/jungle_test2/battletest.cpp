@@ -9558,7 +9558,9 @@ void battletest::etc_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _co
     //         }
     //     });
     // }
-
+    user_auth user_auth_table(_self, _self.value);
+    auto user_auth_iter = user_auth_table.find(_user.value);
+    
     eosio_assert(user_auth_iter->current_item_inventory >= sub_inventory, "ETC Item buy : current_item_inventory underflow error");
     user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
         add_auth.current_item_inventory -= sub_inventory;
