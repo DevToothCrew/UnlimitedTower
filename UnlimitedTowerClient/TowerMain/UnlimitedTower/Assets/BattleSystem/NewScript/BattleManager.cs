@@ -10,7 +10,6 @@ public class BattleManager : MonoSingleton<BattleManager>
     public BattleStatus[] status = new BattleStatus[20];
     public CharInfo[] charInfo = new CharInfo[20];
     public Animator[] animator = new Animator[20];
-    public bool[] isPlace = new bool[20];
     public bool isAfterDelay;
     public int turnIndex = 1;
     public int TimeScale = 2;
@@ -55,154 +54,27 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         UserStageStateData stateData = UserDataManager.Inst.GetStageState();
         BattleUIManager.Inst.BattleTurn.text = stateData.turn.ToString();
-        if (stateData == null)
-        {
-            DebugLog.Log(true, "버그 : stageStateInfo is NULL");
-            return;
-        }
 
         turnIndex = stateData.turn + 1;
 
         MapChange.Inst.MapEneble(stateData.stageType);
 
         StartCoroutine(SetStartImage(stateData));
-        IsPlaceCheck(stateData);
         SettingCharacter(stateData);
-        SettingScript(stateData);
-        SettingHp(stateData);
         SettingPosition();
         SettingDieCheck();
         BattleUIManager.Inst.StageInfoOn();
-    }
-
-    private void Update()
-    {
-        if (Input.anyKeyDown)
-        {
-            //if (Input.GetKeyDown(KeyCode.U))
-            //{
-            //    CheetKey[CheetIndex % 3] = (int)KeyCode.U;
-            //    CheetIndex++;
-            //}
-            //else if (Input.GetKeyDown(KeyCode.T))
-            //{
-            //    CheetKey[CheetIndex % 3] = (int)KeyCode.T;
-            //    CheetIndex++;
-            //}
-            //else if (Input.GetKeyDown(KeyCode.G))
-            //{
-            //    CheetKey[CheetIndex % 3] = (int)KeyCode.G;
-            //    CheetIndex++;
-            //}
-            //else if (Input.GetKeyDown(KeyCode.P))
-            //{
-            //    CheetKey[CheetIndex % 3] = (int)KeyCode.P;
-            //    CheetIndex++;
-            //}
-            //else if (Input.GetKeyDown(KeyCode.A))
-            //{
-            //    CheetKey[CheetIndex % 3] = (int)KeyCode.A;
-            //    CheetIndex++;
-            //}
-            //else if (Input.GetKeyDown(KeyCode.D))
-            //{
-            //    CheetKey[CheetIndex % 3] = (int)KeyCode.D;
-            //    CheetIndex++;
-            //}
-            //else if (Input.GetKeyDown(KeyCode.M))
-            //{
-            //    CheetKey[CheetIndex % 3] = (int)KeyCode.M;
-            //    CheetIndex++;
-            //}
-            //else
-            //{
-            //    CheetKey = new int[3];
-            //}
-            //if (CheetKey[0] + CheetKey[1] + CheetKey[2] == 336)
-            //{
-            //    if (Time.timeScale < 9)
-            //    {
-            //        Time.timeScale = 10f;
-            //        TimeScale = 10;
-            //    }
-            //    else
-            //    {
-            //        Time.timeScale = 1f;
-            //        TimeScale = 1;
-            //    }
-            //    CheetKey = new int[3];
-            //}
-            //if (CheetKey[0] + CheetKey[1] + CheetKey[2] == 345)
-            //{
-            //    if (Time.timeScale < 9)
-            //    {
-            //        Time.timeScale = 80;
-            //        TimeScale = 80;
-            //    }
-            //    else
-            //    {
-            //        Time.timeScale = 1f;
-            //        TimeScale = 1;
-            //    }
-            //    CheetKey = new int[3];
-            //}
-            //if (CheetKey[0] + CheetKey[1] + CheetKey[2] == 306)
-            //{
-            //    adminMode = true;
-            //}
-
-#if UNITY_EDITOR
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                for (int i = 1; i < 6; i++)
-                {
-                    Destroy(character[i + 9]);
-                    // charInfo[i + 9] = new CharInfo().SetValue(0,0,2.0f,0);
-                    character[i + 9] = GameObject.Find("goldmine" + i.ToString());
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                StartCoroutine(TowerMine());
-            }
-#endif
-        }
-    }
-
-    // 채굴 시뮬레이션
-    public IEnumerator TowerMine()
-    {
-        for (int i = 0; i < 10; i++)
-        {
-            characterActionData data = new characterActionData();
-            actionInfo info = new actionInfo();
-            data.my_position = i;
-            info.target_position = Random.Range(10, 16);
-            info.damage = Random.Range(1000, 1600);
-            data.action_info_list.Add(info);
-            character[i].GetComponent<BasicAttack>().Attack(data);
-
-            yield return new WaitUntil(() => isAfterDelay == true);
-            isAfterDelay = false;
-        }
     }
 
     // 배틀데이터를 받아와 공격 ( 메인 배틀 한턴 )
     public IEnumerator BattleStart()
     {
         BattleUIManager.Inst.StageInfoOff();
-        // isTurnEnd = false;
         isBattleStart = true;
 
         battleActionData stageActionInfo = UserDataManager.Inst.GetStageAction();
         UserDataManager.Inst.stageState.turn = stageActionInfo.turn;
-        if (stageActionInfo == null)
-        {
-            DebugLog.Log(true, "버그 : stageActionInfo is Null");
-            yield break;
-        }
-        // TODO : Skill 관련 코드 정리 필요
+        
         for (int i = 0; i < stageActionInfo.character_action_list.Count; i++)
         {
             if (stageActionInfo.character_action_list[i].action_type == 2)
@@ -214,12 +86,6 @@ public class BattleManager : MonoSingleton<BattleManager>
             }
             else if (stageActionInfo.character_action_list[i].action_type == 3)
             {
-                if (GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList.Count == 0)
-                {
-                    DebugLog.Log(false, "ActiveSkillList is Null");
-                }
-                else
-                {
                     if (stageActionInfo.character_action_list[i].my_position < 10)
                         BattleUIManager.Inst.MySkAction(GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id);
                     else
@@ -227,7 +93,6 @@ public class BattleManager : MonoSingleton<BattleManager>
 
                     SkillManager.Inst.SendMessage("Skill_" + GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id.ToString(), stageActionInfo.character_action_list[i]);
                     yield return new WaitUntil(() => isAfterDelay == true);
-                }
                 isAfterDelay = false;
             }
         }
@@ -258,7 +123,6 @@ public class BattleManager : MonoSingleton<BattleManager>
             {
                 PacketManager.Inst.RequestStageReward();
             }
-            
 #endif
         }
         else if (myHp == 0)
@@ -283,9 +147,8 @@ public class BattleManager : MonoSingleton<BattleManager>
 
     public void TurnEnd()
     {
-        if (isBattleStart == false) // isTurnEnd == false && 
+        if (isBattleStart == false)
         {
-            // isTurnEnd = true;
 #if UNITY_EDITOR
             {
                 string battleActionInfo = Cheat.Inst.GetBattleActionData("devtooth", turnIndex);
@@ -319,31 +182,34 @@ public class BattleManager : MonoSingleton<BattleManager>
         {
             if (state.Value.charType == CHAR_TYPE.SERVANT)
             {
-                Exp.transform.GetChild(positionOrder[state.Value.position + 5]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[state.Value.id].servantIcon;
-                Exp.transform.GetChild(positionOrder[state.Value.position + 5]).GetChild(2).gameObject.SetActive(true);
-                Exp.transform.GetChild(positionOrder[state.Value.position + 5]).GetChild(2).GetChild(0).GetComponent<Text>().text = UserDataManager.Inst.GetServantInfo(state.Value.index).level.ToString();
-                Exp.transform.GetChild(positionOrder[state.Value.position + 5]).GetChild(3).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteServantJob((SERVANT_JOB)state.Value.job);
+                Transform tf = Exp.transform.GetChild(positionOrder[state.Value.position + 5]);
+                tf.GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[state.Value.id].servantIcon;
+                tf.GetChild(2).gameObject.SetActive(true);
+                tf.GetChild(2).GetChild(0).GetComponent<Text>().text = UserDataManager.Inst.GetServantInfo(state.Value.index).level.ToString();
+                tf.GetChild(3).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteServantJob((SERVANT_JOB)state.Value.job);
             }
             else if (state.Value.charType == CHAR_TYPE.MONSTER)
             {
-                Exp.transform.GetChild(positionOrder[state.Value.position - 5]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
-                Exp.transform.GetChild(positionOrder[state.Value.position - 5]).GetChild(2).gameObject.SetActive(true);
-                Exp.transform.GetChild(positionOrder[state.Value.position - 5]).GetChild(2).GetChild(0).GetComponent<Text>().text = UserDataManager.Inst.GetMonsterInfo(state.Value.index).level.ToString();
-                Exp.transform.GetChild(positionOrder[state.Value.position - 5]).GetChild(3).GetComponent<Image>().sprite = CSVData.Inst.GetSmallSpriteTribeType((TRIBE_TYPE)state.Value.tribeType);
-                Exp.transform.GetChild(positionOrder[state.Value.position - 5]).GetChild(4).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteElementType((ELEMENT_TYPE)state.Value.elementType);
+                Transform tf = Exp.transform.GetChild(positionOrder[state.Value.position - 5]);
+                tf.GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
+                tf.GetChild(2).gameObject.SetActive(true);
+                tf.GetChild(2).GetChild(0).GetComponent<Text>().text = UserDataManager.Inst.GetMonsterInfo(state.Value.index).level.ToString();
+                tf.GetChild(3).GetComponent<Image>().sprite = CSVData.Inst.GetSmallSpriteTribeType((TRIBE_TYPE)state.Value.tribeType);
+                tf.GetChild(4).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteElementType((ELEMENT_TYPE)state.Value.elementType);
             }
             Exp.transform.GetChild(positionOrder[state.Value.position < 5 ? state.Value.position + 5 : state.Value.position - 5]).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)state.Value.grade);
         }
 
         for (int i = 0; i < rewardData.get_char_exp_list.Count; i++)
         {
+            Transform tf = Exp.transform.GetChild(positionOrder[rewardData.get_char_exp_list[i].pos < 5 ? rewardData.get_char_exp_list[i].pos + 5 : rewardData.get_char_exp_list[i].pos - 5]);
             if (rewardData.get_char_exp_list[i].lvup != 0)
             {
-                Exp.transform.GetChild(positionOrder[rewardData.get_char_exp_list[i].pos < 5 ? rewardData.get_char_exp_list[i].pos + 5 : rewardData.get_char_exp_list[i].pos - 5]).GetChild(5).gameObject.SetActive(true);
-                Exp.transform.GetChild(positionOrder[rewardData.get_char_exp_list[i].pos < 5 ? rewardData.get_char_exp_list[i].pos + 5 : rewardData.get_char_exp_list[i].pos - 5]).GetChild(5).GetChild(0).GetComponent<Text>().text = "+" + rewardData.get_char_exp_list[i].lvup.ToString();
+                tf.GetChild(5).gameObject.SetActive(true);
+                tf.GetChild(5).GetChild(0).GetComponent<Text>().text = "+" + rewardData.get_char_exp_list[i].lvup.ToString();
             }
-            Exp.transform.GetChild(positionOrder[rewardData.get_char_exp_list[i].pos < 5 ? rewardData.get_char_exp_list[i].pos + 5 : rewardData.get_char_exp_list[i].pos - 5]).GetChild(1).gameObject.SetActive(true);
-            Exp.transform.GetChild(positionOrder[rewardData.get_char_exp_list[i].pos < 5 ? rewardData.get_char_exp_list[i].pos + 5 : rewardData.get_char_exp_list[i].pos - 5]).GetChild(1).GetComponent<Text>().text = "+ " + rewardData.get_char_exp_list[i].exp + " Exp";
+            tf.GetChild(1).gameObject.SetActive(true);
+            tf.GetChild(1).GetComponent<Text>().text = "+ " + rewardData.get_char_exp_list[i].exp + " Exp";
         }
 
         for (int i = 0; i < rewardData.get_servant_list.Count; i++)
@@ -393,64 +259,45 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         foreach (KeyValuePair<int, UserCharacterStateData> state in stateData.myStateList)
         {
+            Transform tf = temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]);
             if (state.Value.charType == CHAR_TYPE.SERVANT)
             {
-                temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[state.Value.id].servantIcon;
-                temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetChild(1).gameObject.SetActive(true);
-                temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetChild(1).GetChild(0).GetComponent<Text>().text = UserDataManager.Inst.GetServantInfo(state.Value.index).level.ToString();
-                temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetChild(2).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteServantJob((SERVANT_JOB)state.Value.job);
+                tf.GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[state.Value.id].servantIcon;
+                tf.GetChild(1).gameObject.SetActive(true);
+                tf.GetChild(1).GetChild(0).GetComponent<Text>().text = UserDataManager.Inst.GetServantInfo(state.Value.index).level.ToString();
+                tf.GetChild(2).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteServantJob((SERVANT_JOB)state.Value.job);
             }
             else if (state.Value.charType == CHAR_TYPE.MONSTER)
             {
-                temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
-                temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetChild(1).gameObject.SetActive(true);
-                temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetChild(1).GetChild(0).GetComponent<Text>().text = UserDataManager.Inst.GetMonsterInfo(state.Value.index).level.ToString();
-                temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetChild(2).GetComponent<Image>().sprite = CSVData.Inst.GetSmallSpriteTribeType((TRIBE_TYPE)state.Value.tribeType);
-                temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetChild(3).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteElementType((ELEMENT_TYPE)state.Value.elementType);
+                tf.GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
+                tf.GetChild(1).gameObject.SetActive(true);
+                tf.GetChild(1).GetChild(0).GetComponent<Text>().text = UserDataManager.Inst.GetMonsterInfo(state.Value.index).level.ToString();
+                tf.GetChild(2).GetComponent<Image>().sprite = CSVData.Inst.GetSmallSpriteTribeType((TRIBE_TYPE)state.Value.tribeType);
+                tf.GetChild(3).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteElementType((ELEMENT_TYPE)state.Value.elementType);
             }
-            temp.transform.GetChild(0).GetChild(positionOrder[state.Value.position]).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)state.Value.grade);
-
+            tf.GetComponent<Image>().sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)state.Value.grade);
         }
 
         foreach (KeyValuePair<int, UserCharacterStateData> state in stateData.enemyStateList)
         {
+            Transform tf = temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]);
             if (state.Value.charType == CHAR_TYPE.SERVANT)
             {
-                temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[state.Value.id].servantIcon;
+                tf.GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBServantDataDic[state.Value.id].servantIcon;
             }
             else if (state.Value.charType == CHAR_TYPE.MONSTER)
             {
-                temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
-                temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetChild(2).GetComponent<Image>().sprite = CSVData.Inst.GetSmallSpriteTribeType((TRIBE_TYPE)state.Value.tribeType);
-                temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetChild(3).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteElementType((ELEMENT_TYPE)state.Value.elementType);
+                tf.GetChild(0).GetComponent<Image>().sprite = CSVData.Inst.DBMonsterDataDic[state.Value.id].monsterIcon;
+                tf.GetChild(2).GetComponent<Image>().sprite = CSVData.Inst.GetSmallSpriteTribeType((TRIBE_TYPE)state.Value.tribeType);
+                tf.GetChild(3).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteElementType((ELEMENT_TYPE)state.Value.elementType);
             }
-            temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetComponent<Image>().sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)state.Value.grade);
-            temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetChild(1).GetChild(0).GetComponent<Text>().text = "?";
-            temp.transform.GetChild(1).GetChild(positionOrder[state.Value.position - 10]).GetChild(1).gameObject.SetActive(true);
+            tf.GetComponent<Image>().sprite = CSVData.Inst.GetSpriteGrade((GRADE_TYPE)state.Value.grade);
+            tf.GetChild(1).GetChild(0).GetComponent<Text>().text = "?";
+            tf.GetChild(1).gameObject.SetActive(true);
         }
 
         yield return new WaitForSecondsRealtime(5.0f);
         temp.SetActive(false);
-    }
-
-    // 캐릭터 존재 여부 체크
-    public void IsPlaceCheck(UserStageStateData stateData)
-    {
-        for (int i = 0; i < 10; i++)
-        {
-            if (stateData.myStateList.ContainsKey(i) == true)
-            {
-                isPlace[i] = true;
-            }
-        }
-
-        for (int i = 10; i < 20; i++)
-        {
-            if (stateData.enemyStateList.ContainsKey(i) == true)
-            {
-                isPlace[i] = true;
-            }
-        }
     }
 
     // 캐릭터 박스 콜라이더 셋팅
@@ -480,11 +327,6 @@ public class BattleManager : MonoSingleton<BattleManager>
             if (state.Value.charType == CHAR_TYPE.SERVANT)
             {
                 DBServantData ServantInfo = CSVData.Inst.GetServantData(state.Value.id);
-                if (ServantInfo == null)
-                {
-                    DebugLog.Log(false, "Invalid Servant ID : " + state.Value.id);
-                    return;
-                }
 
                 character[state.Value.position] = Instantiate(characterCustom.Create(ServantInfo.job, ServantInfo.head, ServantInfo.hair, ServantInfo.gender, ServantInfo.body), CharacterParent.transform.GetChild(0));
                 character[state.Value.position].name = "Servant : " + state.Value.position + " - " + ServantInfo.name;
@@ -492,11 +334,6 @@ public class BattleManager : MonoSingleton<BattleManager>
             else if (state.Value.charType == CHAR_TYPE.MONSTER)
             {
                 DBMonsterData MonsterInfo = CSVData.Inst.GetMonsterData(state.Value.id);
-                if (MonsterInfo == null)
-                {
-                    DebugLog.Log(false, "Invalid Monster ID : " + state.Value.id);
-                    return;
-                }
 
                 character[state.Value.position] = Instantiate(Resources.Load("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResourceModel(state.Value.id)) as GameObject, CharacterParent.transform.GetChild(0));
                 character[state.Value.position].name = "Monster : " + state.Value.position + " - " + MonsterInfo.name;
@@ -505,6 +342,9 @@ public class BattleManager : MonoSingleton<BattleManager>
             character[state.Value.position].AddComponent<CharacterIndex>().index = state.Value.position;
             SettingBoxCollider(character[state.Value.position]);
             animator[state.Value.position] = character[state.Value.position].GetComponent<Animator>();
+            character[state.Value.position].AddComponent<BasicAttack>();
+            charInfo[state.Value.position] = character[state.Value.position].GetComponent<CharInfo>();
+            status[state.Value.position] = new BattleStatus(stateData.myStateList[state.Value.position], true);
         }
 
         foreach (KeyValuePair<int, UserCharacterStateData> state in stateData.enemyStateList)
@@ -512,11 +352,6 @@ public class BattleManager : MonoSingleton<BattleManager>
             if (state.Value.charType == CHAR_TYPE.SERVANT)
             {
                 DBServantData ServantInfo = CSVData.Inst.GetServantData(state.Value.id);
-                if (ServantInfo == null)
-                {
-                    DebugLog.Log(false, "Invalid Servant ID : " + state.Value.id);
-                    return;
-                }
 
                 character[state.Value.position] = Instantiate(characterCustom.Create(ServantInfo.job, ServantInfo.head, ServantInfo.hair, ServantInfo.gender, ServantInfo.body), CharacterParent.transform.GetChild(1));
                 character[state.Value.position].name = "Servant : " + state.Value.position + " - " + ServantInfo.name;
@@ -524,12 +359,7 @@ public class BattleManager : MonoSingleton<BattleManager>
             else if (state.Value.charType == CHAR_TYPE.MONSTER)
             {
                 DBMonsterData MonsterInfo = CSVData.Inst.GetMonsterData(state.Value.id);
-                if (MonsterInfo == null)
-                {
-                    DebugLog.Log(false, "Invalid Monster ID : " + state.Value.id);
-                    return;
-                }
-                
+
                 character[state.Value.position] = Instantiate(Resources.Load("InGameCharacterPrefabs/" + CSVData.Inst.GetMonsterDBResourceModel(state.Value.id)) as GameObject, CharacterParent.transform.GetChild(1));
                 character[state.Value.position].name = "Monster : " + state.Value.position + " - " + MonsterInfo.name;
             }
@@ -537,6 +367,9 @@ public class BattleManager : MonoSingleton<BattleManager>
             character[state.Value.position].AddComponent<CharacterIndex>().index = state.Value.position;
             SettingBoxCollider(character[state.Value.position]);
             animator[state.Value.position] = character[state.Value.position].GetComponent<Animator>();
+            character[state.Value.position].AddComponent<BasicAttack>();
+            charInfo[state.Value.position] = character[state.Value.position].GetComponent<CharInfo>();
+            status[state.Value.position] = new BattleStatus(stateData.enemyStateList[state.Value.position], false);
         }
     }
 
@@ -562,56 +395,6 @@ public class BattleManager : MonoSingleton<BattleManager>
         }
     }
 
-    // 모든 캐릭터 스크립트 생성 
-    public void SettingScript(UserStageStateData stateData)
-    {
-        for (int i = 0; i < 10; i++)
-        {
-            if (stateData.myStateList.ContainsKey(i) == false)
-            {
-                continue;
-            }
-
-            character[i].AddComponent<BasicAttack>();
-            charInfo[i] = character[i].GetComponent<CharInfo>();
-        }
-
-        for (int i = 10; i < 20; i++)
-        {
-            if (stateData.enemyStateList.ContainsKey(i) == false)
-            {
-                continue;
-            }
-
-            character[i].AddComponent<BasicAttack>();
-            charInfo[i] = character[i].GetComponent<CharInfo>();
-        }
-    }
-
-    // 캐릭터별 체력 설정
-    public void SettingHp(UserStageStateData stateData)
-    {
-        for (int i = 0; i < 10; i++)
-        {
-            if (stateData.myStateList.ContainsKey(i) == false)
-            {
-                continue;
-            }
-
-            status[i] = new BattleStatus(stateData.myStateList[i], true);
-        }
-
-        for (int i = 10; i < 20; i++)
-        {
-            if (stateData.enemyStateList.ContainsKey(i) == false)
-            {
-                continue;
-            }
-
-            status[i] = new BattleStatus(stateData.enemyStateList[i], false);
-        }
-    }
-
     // 재접속시 죽었는지 체크
     public void SettingDieCheck()
     {
@@ -632,11 +415,25 @@ public class BattleManager : MonoSingleton<BattleManager>
     {
         if (index < 10)
         {
-            return UserDataManager.Inst.GetStageState().myStateList[index];
+            if (UserDataManager.Inst.GetStageState().myStateList.ContainsKey(index))
+            {
+                return UserDataManager.Inst.GetStageState().myStateList[index];
+            }
+            else
+            {
+                return null;
+            }
         }
         else
         {
-            return UserDataManager.Inst.GetStageState().enemyStateList[index];
+            if (UserDataManager.Inst.GetStageState().enemyStateList.ContainsKey(index))
+            {
+                return UserDataManager.Inst.GetStageState().enemyStateList[index];
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

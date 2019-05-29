@@ -22,7 +22,7 @@ public class HpManager : MonoBehaviour {
     {
         for (int i = 0; i < 20; i++)
         {
-            if (BattleManager.Inst.isPlace[i] == true)
+            if (BattleManager.Inst.GetCharState(i) != null)
             {
                 HpObj[i].transform.position = Camera.main.WorldToScreenPoint(
                   BattleManager.Inst.character[i].transform.position +

@@ -180,16 +180,20 @@ public class SkillManager : MonoSingleton<SkillManager>
         if (BattleManager.Inst.status[battleInfo.action_info_list[0].target_position].NowHp > 0)
             BattleManager.Inst.animator[battleInfo.action_info_list[0].target_position].SetTrigger("isHit");
         else
+        {
             BattleManager.Inst.animator[battleInfo.action_info_list[0].target_position].SetTrigger("isDie");
-
+            BattleManager.Inst.tumbAnimation.DieTumb(battleInfo.action_info_list[0].target_position);
+        }
         yield return new WaitForSeconds(0.2f);
 
         DamageManager.Inst.DamageShow(battleInfo.action_info_list[1], false, (ELEMENT_TYPE)BattleManager.Inst.GetCharState(battleInfo.my_position).elementType);
         if (BattleManager.Inst.status[battleInfo.action_info_list[1].target_position].NowHp > 0)
             BattleManager.Inst.animator[battleInfo.action_info_list[1].target_position].SetTrigger("isHit");
         else
+        {
             BattleManager.Inst.animator[battleInfo.action_info_list[1].target_position].SetTrigger("isDie");
-
+            BattleManager.Inst.tumbAnimation.DieTumb(battleInfo.action_info_list[1].target_position);
+        }
         yield return new WaitForSeconds(1.0f);
 
         BattleManager.Inst.isAfterDelay = true;
