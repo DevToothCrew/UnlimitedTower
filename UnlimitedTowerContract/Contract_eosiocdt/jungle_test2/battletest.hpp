@@ -1478,7 +1478,7 @@ CONTRACT battletest : public contract
     int get_state_position_key(std::vector<character_state_data> & _state_list, uint32_t _position);
     int get_status_position_key(std::vector<battle_status_info> & _status_list, uint32_t _position);
 
-    void set_skill_damage(uint32_t _skill_id, uint32_t & _attack, uint32_t _cur_skill_per);
+    void set_skill_damage(battle_status_info &_my_status, battle_status_info &_enemy_status, uint32_t &_attack, uint32_t &_target_defense, uint32_t &_target_avoid);
 
     //================================================//
     void result_type_skill(eosio::name _user ,action_info &_action, std::vector<battle_status_info> &_my_status_list,

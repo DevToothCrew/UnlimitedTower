@@ -4497,9 +4497,9 @@ void battletest::get_new_item(eosio::name _user, uint32_t _item_id, uint32_t _co
     // allitem_db allitem_db_table(_self, _self.value);
     // const auto &allitem_db_iter = allitem_db_table.get(_item_id, " Gacha Item : Empty Item ID / Not Set Item ID");
 
-    // user_auths auth_user_table(_self, _self.value);
-    // auto auth_user_iter = auth_user_table.find(_user.value);
-    // eosio_assert(auth_user_iter != auth_user_table.end(), " Gacha Item : Empty Auth Table / Not Yet Signup");
+    user_auths auth_user_table(_self, _self.value);
+    auto auth_user_iter = auth_user_table.find(_user.value);
+    eosio_assert(auth_user_iter != auth_user_table.end(), " Gacha Item : Empty Auth Table / Not Yet Signup");
 
     // user_items user_items_table(_self, _user.value);
     // auto user_items_iter = user_items_table.find(allitem_db_iter.id);
@@ -6414,30 +6414,70 @@ bool battletest::set_action(eosio::name _user,
     return true;
 }
 
-void battletest::set_skill_damage(uint32_t _skill_id, uint32_t &_attack, uint32_t _cur_skill_per)
+void battletest::set_skill_damage(battle_status_info &_my_status, battle_status_info &_enemy_status, uint32_t &_attack, uint32_t &_target_defense, uint32_t &_target_avoid)
 {
     active_db active_db_table(_self, _self.value);
-    auto active_iter = active_db_table.find(_skill_id);
-    eosio_assert(active_iter != active_db_table.end(), "Skill Dmg Type : Empty Active ID / Wrong Activd ID");
+    auto active_iter = active_db_table.find(_my_status.active_skill_list[0]);
+    eosio_assert(active_iter != active_db_table.end(), "Skill Atk Dmg Type : Empty Active ID / Wrong Activd ID");
 
-    if(active_iter->skill_type == active_skill_type::type_attack)
+    //액티브 스킬의 공격타입과 설정
+    if (active_iter->attack_type == atk_type::physical_atk)
     {
-        _attack = (_attack * active_iter->atk_per_1) / 100;
+        _attack = (_my_status.p_atk * active_iter->atk_per_1) / 100;
     }
-    else if(active_iter->skill_type == active_skill_type::type_heal)
+    else if (active_iter->attack_type == atk_type::magic_physical_atk)
     {
-        uint32_t heal_per = active_iter->heal_per;
-        // if (_cur_skill_per != 0)
-        // {
-        //     heal_per += (active_iter->heal_per * _cur_skill_per) / 100;
-        // }
-        _attack = (_attack * heal_per) / 100;
+        _attack = (_my_status.p_atk * active_iter->atk_per_1) / 100;
+        _attack += (_my_status.m_atk * active_iter->atk_per_2) / 100;
     }
-    else
+    else if (active_iter->attack_type == atk_type::magic_atk)
     {
-        eosio_assert(1 == 0 ,"Skill Dmg Type : Empty Skill Type / Wrong Skill Type");
+        if (active_iter->skill_type == active_skill_type::type_heal)
+        {
+            _attack = (_my_status.m_atk * active_iter->heal_per) / 100;
+            _target_defense = 0;
+        }
+        else
+        {
+            _attack = (_my_status.m_atk * active_iter->atk_per_1) / 100;
+        }
     }
-    
+
+    //액티스 스킬의 방어타입 설정
+    if (active_iter->dmg_type == dmg_type::physical_dfs)
+    {
+        _target_defense = _enemy_status.p_dfs;
+        _target_avoid = _enemy_status.avoid;
+    }
+    else if (active_iter->dmg_type == dmg_type::true_dmg)
+    {
+        _target_defense = 0;
+        _target_avoid = _enemy_status.avoid;
+    }
+    else if (active_iter->dmg_type == dmg_type::magic_dfs)
+    {
+        _target_defense = _enemy_status.m_dfs;
+        _target_avoid = _enemy_status.avoid;
+    }
+
+
+    if (active_iter->option_id == active_option::option_perfectcri)
+    {
+        _my_status.cri_per = 100;
+    }
+    else if (active_iter->option_id == active_option::option_ignoreevade)
+    {
+        _target_avoid = 0;
+    }
+    else if (active_iter->option_id == active_option::option_nocritical)
+    {
+        _my_status.cri_per = 0;
+    }
+    else if (active_iter->option_id == active_option::option_nocri_noavoid)
+    {
+        _my_status.cri_per = 0;
+        _target_avoid = 0;
+    }
 }
 
 battletest::action_info battletest::get_target_action(uint32_t _active_id, uint64_t _seed, uint64_t _my_key, uint64_t _target_key,
@@ -6461,7 +6501,6 @@ battletest::action_info battletest::get_target_action(uint32_t _active_id, uint6
         cur_attack = _my_status_list[_my_key].p_atk;
         cur_cirtical_dmg = (_my_status_list[_my_key].p_atk * _my_status_list[_my_key].cri_dmg_per) / 100;
         cur_critical_dmg_per = _my_status_list[_my_key].cri_dmg_per;
-        cur_cri_per = _my_status_list[_my_key].cri_per;
 
         target_defense = _enemy_status_list[_target_key].p_dfs;
         target_avoid = _enemy_status_list[_target_key].avoid;
@@ -6469,74 +6508,12 @@ battletest::action_info battletest::get_target_action(uint32_t _active_id, uint6
     }
     case action_type::skill:
     {
-        active_db active_db_table(_self, _self.value);
-        auto active_iter = active_db_table.find(_my_status_list[_my_key].active_skill_list[0]);
-        eosio_assert(active_iter != active_db_table.end(), "Skill Atk Dmg Type : Empty Active ID / Wrong Activd ID");
-
-        cur_critical_dmg_per = _my_status_list[_my_key].cri_dmg_per;
-        cur_cri_per = _my_status_list[_my_key].cri_per;
-
-        //액티브 스킬의 공격타입과 설정
-        if(active_iter->attack_type == atk_type::physical_atk)
-        {
-            cur_attack = _my_status_list[_my_key].p_atk;
-        }
-        else if(active_iter->attack_type == atk_type::magic_physical_atk)
-        {
-            cur_attack = _my_status_list[_my_key].p_atk;
-            cur_attack += _my_status_list[_my_key].m_atk;
-        }
-        else if(active_iter->attack_type == atk_type::magic_atk)
-        {
-            cur_attack = _my_status_list[_my_key].m_atk;
-        }
-
-        //액티스 스킬의 방어타입 설정
-        if (active_iter->dmg_type == dmg_type::physical_dfs)
-        {
-            target_defense = _enemy_status_list[_target_key].p_dfs;
-            target_avoid = _enemy_status_list[_target_key].avoid;
-        }
-        else if(active_iter->dmg_type == dmg_type::true_dmg)
-        {
-            target_defense = 0;
-            target_avoid = _enemy_status_list[_target_key].avoid;
-        }
-        else if(active_iter->dmg_type == dmg_type::magic_dfs)
-        {
-            target_defense = _enemy_status_list[_target_key].m_dfs;
-            target_avoid = _enemy_status_list[_target_key].avoid;
-        }
-
-        //스킬 계수에 따른 공격력 설정
-        set_skill_damage(_my_status_list[_my_key].active_skill_list[0],
-                         cur_attack, cur_heal_skill_per);
-        
-                    
-
-        if(active_iter->option_id == active_option::option_perfectcri)
-        {
-            cur_cri_per = 100;
-        }
-        else if(active_iter->option_id == active_option::option_ignoreevade)
-        {
-            target_avoid = 0;
-        }
-        else if(active_iter->option_id == active_option::option_nocritical)
-        {
-            cur_cri_per = 0;
-        }
-        else if(active_iter->option_id == active_option::option_nocri_noavoid)
-        {
-            cur_cri_per = 0;
-            target_avoid = 0;
-            if (active_iter->skill_type == active_skill_type::type_heal)
-            {
-                target_defense = 0;
-            }
-        }
-
-        cur_cirtical_dmg = (cur_attack * cur_critical_dmg_per) / 100;
+        set_skill_damage(_my_status_list[_my_key],
+                            _enemy_status_list[_target_key],
+                            cur_attack,
+                            target_defense,
+                            target_avoid);
+        cur_cirtical_dmg = (cur_attack * _my_status_list[_my_key].cri_dmg_per) / 100;
         break;
     }
     default:
@@ -6557,7 +6534,7 @@ battletest::action_info battletest::get_target_action(uint32_t _active_id, uint6
     }
     else
     {
-        if (false == check_critical(cur_cri_per, _seed))
+        if (false == check_critical(_my_status_list[_my_key].cri_per, _seed))
         {
             cur_damage = get_damage(cur_attack, target_defense);
             new_action.target_position = _enemy_status_list[_target_key].position;
@@ -13302,6 +13279,7 @@ battletest::equipment_info battletest::get_equip_random_state(uint32_t _id, uint
 //         }
 //     }
 // }
+
 
 #undef EOSIO_DISPATCH
 
