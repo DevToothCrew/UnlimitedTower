@@ -137,12 +137,12 @@ public class ItemInfoManager : MonoSingleton<ItemInfoManager> {
                     UserItemData i_data = UserDataManager.Inst.GetItemInfo(userItemList[i].id);
                     for (int j = 0; j < i_data.itemInfoList.Count; j++)
                     {
-                        if (i_data.itemInfoList[i].count > 0)
+                        if (i_data.itemInfoList[j].count > 0)
                         {
                             item_unit i_unit = new item_unit();
                             i_unit.id = userItemList[i].id;
-                            i_unit.idx = i_data.itemInfoList[i].index;
-                            i_unit.count = i_data.itemInfoList[i].count;
+                            i_unit.idx = i_data.itemInfoList[j].index;
+                            i_unit.count = i_data.itemInfoList[j].count;
                             ItemList.Add(i_unit);
                         }
                     }

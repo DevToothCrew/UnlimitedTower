@@ -52,7 +52,7 @@ public class Cheat : MonoSingleton<Cheat>
         //     }
         // }
 
-        for (int i = 1; i < 10; i++)
+        for (int i = 1; i < 30; i++)
         {
             monsterData data = GetRandomMonster(i);
             data.monster.id = 101601;
@@ -71,15 +71,24 @@ public class Cheat : MonoSingleton<Cheat>
             userLoginData.equipment_list.Add(GetRandomEquipment(i));
         }
 
-        itemData newItem = new itemData();
-        newItem.id = 500100;
-        newItem.type = 1;
-        itemInfo info = new itemInfo();
-        info.index = 0;
-        info.count = 99;
-        newItem.item_list.Add(info);
+        //itemData newItem = new itemData();
+        //newItem.id = 500100;
+        //newItem.type = 1;
+        //itemInfo info = new itemInfo();
+        //info.index = 0;
+        //info.count = 99;
 
-        userLoginData.item_list.Add(newItem);
+        //userLoginData.item_list.Add(newItem);
+
+        insertItem(userLoginData, 500100, 2, 6);
+        insertItem(userLoginData, 500110, 2, 2);
+        insertItem(userLoginData, 500120, 2, 1);
+        insertItem(userLoginData, 500200, 3, 20);
+        insertItem(userLoginData, 500210, 3, 21);
+        insertItem(userLoginData, 500220, 3, 20);
+        insertItem(userLoginData, 500230, 3, 20);
+        insertItem(userLoginData, 510010, 0, 1);
+        insertItem(userLoginData, 510040, 0, 1);
 
         //for (int i = 0; i < 4; i++)
         //{
@@ -108,6 +117,19 @@ public class Cheat : MonoSingleton<Cheat>
         userLoginData.party_info = partyData;
 
         return JsonMapper.ToJson(userLoginData).ToString();
+    }
+
+    public void insertItem(UserLoginData u_data, int item_id, int item_type, int count)
+    {
+        itemData newItem = new itemData();
+        newItem.id = item_id;
+        newItem.type = item_type;
+        itemInfo info = new itemInfo();
+        info.index = 0;
+        info.count = count;
+        newItem.item_list.Add(info);
+
+        u_data.item_list.Add(newItem);
     }
 
     public gachaResultData GetGachaResultData(int gachaIndex)
