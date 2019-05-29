@@ -304,6 +304,7 @@ public class EquipmentInfoManager : MonoSingleton<EquipmentInfoManager>
 
         scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
         scrollList.SetItemOrder(getOrder());
+        scrollList.ScrollViewDidScroll();
     }
 
     //스크롤 생성
