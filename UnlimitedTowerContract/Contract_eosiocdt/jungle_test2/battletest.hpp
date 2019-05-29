@@ -78,24 +78,6 @@ CONTRACT battletest : public contract
     };
     typedef eosio::multi_index<"dbgender"_n, dbgender> gender_db;
 
-    TABLE dbitemgrade
-    {
-        uint64_t grade;
-        object_status min_range;
-        object_status max_range;
-        uint64_t primary_key() const { return grade; }
-    };
-    typedef eosio::multi_index<"dbitemgrade"_n, dbitemgrade> item_grade_db;
-
-    TABLE dbmonstergd
-    {
-        uint64_t grade;
-        object_status min_range;
-        object_status max_range;
-        uint64_t primary_key() const { return grade; }
-    };
-    typedef eosio::multi_index<"dbmonstergd"_n, dbmonstergd> monster_grade_db;
-
     TABLE dbservantjob
     {
         uint64_t job;
@@ -160,26 +142,28 @@ CONTRACT battletest : public contract
         uint64_t primary_key() const { return grade; }
     };
     typedef eosio::multi_index<"dbstatusserv"_n,dbstatusserv> servant_lv_status_db;
+    typedef eosio::multi_index<"dbstatusmon"_n, dbstatusserv> monster_lv_status_db;
+    typedef eosio::multi_index<"dbstatusequi"_n, dbstatusserv> equipment_lv_status_db;
 
     void insert_status_servant(uint64_t _grade, std::vector<uint32_t> _status_list);
 
-    TABLE dbstatusmon
-    {
-        uint64_t grade;
-        std::vector<lv_status_sub> change_status;
-        uint64_t primary_key() const { return grade; }
-    };
-    typedef eosio::multi_index<"dbstatusmon"_n, dbstatusmon> monster_lv_status_db;
+    // TABLE dbstatusmon
+    // {
+    //     uint64_t grade;
+    //     std::vector<lv_status_sub> change_status;
+    //     uint64_t primary_key() const { return grade; }
+    // };
+    // typedef eosio::multi_index<"dbstatusmon"_n, dbstatusmon> monster_lv_status_db;
 
     void insert_status_monster(uint64_t _grade, std::vector<uint32_t> _status_list);
 	
-    TABLE dbstatusequi
-    {
-        uint64_t type_grade;
-        std::vector<lv_status_sub> change_status;
-        uint64_t primary_key() const { return type_grade; }
-    };
-    typedef eosio::multi_index<"dbstatusequi"_n, dbstatusequi> equipment_lv_status_db;
+    // TABLE dbstatusequi
+    // {
+    //     uint64_t type_grade;
+    //     std::vector<lv_status_sub> change_status;
+    //     uint64_t primary_key() const { return type_grade; }
+    // };
+    // typedef eosio::multi_index<"dbstatusequi"_n, dbstatusequi> equipment_lv_status_db;
 
     void insert_status_equipment(uint64_t _grade, std::vector<uint32_t> _status_list);
 

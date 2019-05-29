@@ -1015,72 +1015,7 @@ void battletest::insert_equip_item_id(uint64_t _item_id,
 //         });
 //     }
 // }
-
-// void battletest::insert_item_grade(std::string _status, uint64_t _grade, uint64_t _min, uint64_t _max)
-// {
-//     item_grade_db item_grade_db_table(_self, _self.value);
-//     auto item_grade_iter = item_grade_db_table.find(_grade);
-//     if (item_grade_iter == item_grade_db_table.end())
-//     {
-//         item_grade_db_table.emplace(_self, [&](auto &new_item_grade) {
-//             new_item_grade.grade = _grade;
-//             if (_status == "all")
-//             {
-//                 new_item_grade.min_range.base_dex = _min;
-//                 new_item_grade.min_range.base_int = _min;
-//                 new_item_grade.min_range.base_str = _min;
-//                 new_item_grade.max_range.base_dex = _max;
-//                 new_item_grade.max_range.base_int = _max;
-//                 new_item_grade.max_range.base_str = _max;
-//             }
-//             else if (_status == "str")
-//             {
-//                 new_item_grade.max_range.base_str = _max;
-//                 new_item_grade.min_range.base_str = _min;
-//             }
-//             else if (_status == "dex")
-//             {
-//                 new_item_grade.max_range.base_dex = _max;
-//                 new_item_grade.min_range.base_dex = _min;
-//             }
-//             else if (_status == "int")
-//             {
-//                 new_item_grade.max_range.base_int = _max;
-//                 new_item_grade.min_range.base_int = _min;
-//             }
-//         });
-//     }
-//     else
-//     {
-//         item_grade_db_table.modify(item_grade_iter, _self, [&](auto &new_item_grade) {
-//             new_item_grade.grade = _grade;
-//             if (_status == "all")
-//             {
-//                 new_item_grade.min_range.base_dex = _min;
-//                 new_item_grade.min_range.base_int = _min;
-//                 new_item_grade.min_range.base_str = _min;
-//                 new_item_grade.max_range.base_dex = _max;
-//                 new_item_grade.max_range.base_int = _max;
-//                 new_item_grade.max_range.base_str = _max;
-//             }
-//             else if (_status == "str")
-//             {
-//                 new_item_grade.max_range.base_str = _max;
-//                 new_item_grade.min_range.base_str = _min;
-//             }
-//             else if (_status == "dex")
-//             {
-//                 new_item_grade.max_range.base_dex = _max;
-//                 new_item_grade.min_range.base_dex = _min;
-//             }
-//             else if (_status == "int")
-//             {
-//                 new_item_grade.max_range.base_int = _max;
-//                 new_item_grade.min_range.base_int = _min;
-//             }
-//         });
-//     }
-// }
+ 
 
 // void battletest::insert_grade_ratio(uint64_t _grade, uint64_t _ratio)
 // {
@@ -1861,13 +1796,7 @@ void battletest::insert_packageshop(uint64_t _id, uint64_t _get_utg, uint64_t _l
 // //     monster_grade_db_table.erase(monster_grade_iter);
 // // }
 
-// // void battletest::erase_item_grade(uint64_t _grade)
-// // {
-// //     item_grade_db item_grade_db_table(_self, _self.value);
-// //     auto item_grade_iter = item_grade_db_table.find(_grade);
-// //     eosio_assert(item_grade_iter != item_grade_db_table.end(), "Not Exist Item Grade Data");
-// //     item_grade_db_table.erase(item_grade_iter);
-// // }
+ 
 
 // // void battletest::erase_equip_item_id(uint64_t _id)
 // // {
@@ -2098,16 +2027,6 @@ void battletest::insert_packageshop(uint64_t _id, uint64_t _get_utg, uint64_t _l
 //     // else if (_table == "dbgender")
 //     // {
 //     //     gender_db my_table(_self, _self.value);
-//     //     for (auto iter = my_table.begin(); iter != my_table.end();)
-//     //     {
-//     //         auto erase_iter = my_table.find(iter->primary_key());
-//     //         iter++;
-//     //         my_table.erase(erase_iter);
-//     //     }
-//     // }
-//     // else if (_table == "dbitemgrade")
-//     // {
-//     //     item_grade_db my_table(_self, _self.value);
 //     //     for (auto iter = my_table.begin(); iter != my_table.end();)
 //     //     {
 //     //         auto erase_iter = my_table.find(iter->primary_key());
@@ -2551,26 +2470,7 @@ void battletest::insert_packageshop(uint64_t _id, uint64_t _get_utg, uint64_t _l
 // //             iter++;
 // //         }
 // //     }
-// //     if (_table == "dbitemgrade")
-// //     {
-// //         item_grade_db item_grade_table(_contract, _contract.value);
-// //         for (auto iter = item_grade_table.begin(); iter != item_grade_table.end();)
-// //         {
-// //             const auto &data_iter = item_grade_table.get(iter->primary_key(), "Not Exist Data");
-// //             insert_item_grade(std::string("all"), data_iter.grade, 0, 10);
-// //             iter++;
-// //         }
-// //     }
-// //     if (_table == "dbmonstergd")
-// //     {
-// //         monster_grade_db monster_grade_table(_contract, _contract.value);
-// //         for (auto iter = monster_grade_table.begin(); iter != monster_grade_table.end();)
-// //         {
-// //             const auto &data_iter = monster_grade_table.get(iter->primary_key(), "Not Exist Data");
-// //             insert_monster_grade(std::string("all"), data_iter.grade, 0, 10);
-// //             iter++;
-// //         }
-// //     }
+
 // //     if (_table == "dbservantjob")
 // //     {
 // //         servant_job_db servant_job_table(_contract, _contract.value);
@@ -3202,11 +3102,6 @@ void battletest::signup(eosio::name _user, eosio::name _refer ,uint64_t _use_eos
     tribe_db tribe_db_table(_self, _self.value);
     const auto &tribe_iter = tribe_db_table.get(monster_id_db_iter.tribe, "Signup Monster : Empty Monster Tribe");
 
-    uint64_t random_grade = 3;
-
-    monster_grade_db monster_grade_db_table(_self, _self.value);
-    const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "Signup Monster : Empty Grade");
-
     user_monsters user_monster_table(_self, _user.value);
     user_monster_table.emplace(_self, [&](auto &update_user_monster_list) {
         uint32_t first_index = user_monster_table.available_primary_key();
@@ -3221,14 +3116,14 @@ void battletest::signup(eosio::name _user, eosio::name _refer ,uint64_t _use_eos
 
         monster_info new_monster;
         new_monster.id = monster_id_db_iter.id;
-        new_monster.grade = monster_grade_db_iter.grade;
+        new_monster.grade = 3;
         new_monster.tribe = monster_id_db_iter.tribe;
         new_monster.type = monster_id_db_iter.type;
         new_monster.exp = 0;
         new_monster.upgrade = 0;
-        new_monster.status.basic_str = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_str, monster_grade_db_iter.min_range.base_str, 2);
-        new_monster.status.basic_dex = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_dex, monster_grade_db_iter.min_range.base_dex, 3);
-        new_monster.status.basic_int = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_int, monster_grade_db_iter.min_range.base_int, 4);
+        new_monster.status.basic_str = safeseed::get_random_value(_seed, 10, 0, 2);
+        new_monster.status.basic_dex = safeseed::get_random_value(_seed, 10, 0, 3);
+        new_monster.status.basic_int = safeseed::get_random_value(_seed, 10, 0, 4);
 
         new_monster.status.basic_str = change_monster_status(new_monster.grade, new_monster.status.basic_str);
         new_monster.status.basic_dex = change_monster_status(new_monster.grade, new_monster.status.basic_dex);
@@ -3559,9 +3454,6 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
                 auto equipitem_db_iter = equipitem_db_table.find(pre_gacha_db_iter->db_index);
                 eosio_assert(equipitem_db_iter != equipitem_db_table.end(), "mailopen : Not exist equipment_db_iter3");
 
-                item_grade_db item_grade_db_table(_self, _self.value);
-                auto item_grade_db_iter = item_grade_db_table.find(user_preregist_item_iter->grade);
-
                 move_item.equipment.id = equipitem_db_iter->item_id;
                 move_item.equipment.state = object_state::on_inventory;
                 move_item.equipment.type = equipitem_db_iter->type;
@@ -3570,7 +3462,7 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
                 move_item.equipment.grade = user_preregist_item_iter->grade;
                 move_item.equipment.upgrade = 0;
 
-                uint32_t type_grade = ((equipitem_db_iter->type + 1) * 10) + item_grade_db_iter->grade;
+                uint32_t type_grade = ((equipitem_db_iter->type + 1) * 10) + user_preregist_item_iter->grade;
                 move_item.equipment.value = equipment_lv_status_db_iter->change_status[user_preregist_item_iter->main_status].update_status;
                 //move_item.equipment.value = change_equipment_statue(type_grade, move_item.equipment.value);
                 set_tier_status(move_item.equipment.value, equipitem_db_iter->tier);
@@ -4291,28 +4183,6 @@ void battletest::gacha_servant_id(eosio::name _user, uint64_t _seed, uint32_t _j
             update_user_servant_list.index = user_servant_table.available_primary_key();
         }
         
-        // servant_info new_servant;
-
-        // new_servant.id = servant_id_db_iter.id;
-        // new_servant.exp = 0;
-        // new_servant.grade = 5;
-
-        // new_servant.status.basic_str = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_str, servant_job_db_iter.min_range.base_str, 4);
-        // new_servant.status.basic_dex = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_dex, servant_job_db_iter.min_range.base_dex, 5);
-        // new_servant.status.basic_int = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_int, servant_job_db_iter.min_range.base_int, 6);
-
-        // new_servant.status.basic_str = change_servant_statue(new_servant.status.basic_str) + ser_iter.base_str;
-        // new_servant.status.basic_dex = change_servant_statue(new_servant.status.basic_dex) + ser_iter.base_dex;
-        // new_servant.status.basic_int = change_servant_statue(new_servant.status.basic_int) + ser_iter.base_int;
-
-        // new_servant.equip_slot.resize(3);
-        // new_servant.state = object_state::on_inventory;
-
-        // uint32_t active_id = get_servant_active_skill(servant_id_db_iter.job, _seed);
-        // new_servant.active_skill.push_back(active_id);
-
-        // uint32_t passive_id = get_servant_passive_skill(servant_id_db_iter.job, _seed);
-        // new_servant.passive_skill.push_back(passive_id);
 
         result.index = update_user_servant_list.index;
         result.type = result::servant;
@@ -4427,9 +4297,6 @@ void battletest::gacha_monster_id(eosio::name _user, uint64_t _seed, uint32_t _g
        random_grade = _grade;
    }
 
-    monster_grade_db monster_grade_db_table(_self, _self.value);
-    const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "Gacha Monster : Empty Grade");
-
     user_logs user_log_table(_self, _self.value);
     auto user_log_iter = user_log_table.find(_user.value);
 
@@ -4452,37 +4319,11 @@ void battletest::gacha_monster_id(eosio::name _user, uint64_t _seed, uint32_t _g
             update_user_monster_list.index = user_monster_table.available_primary_key();
         }
         
-        // monster_info new_monster;
-        // new_monster.id = monster_id_db_iter.id;
-        // new_monster.grade = monster_grade_db_iter.grade;
-        // new_monster.tribe = monster_id_db_iter.tribe;
-        // new_monster.type = monster_id_db_iter.type;
-        // new_monster.exp = 0;
-        // new_monster.upgrade = 0;
-
-        // new_monster.status.basic_str = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_str, monster_grade_db_iter.min_range.base_str, 3);
-        // new_monster.status.basic_dex = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_dex, monster_grade_db_iter.min_range.base_dex, 4);
-        // new_monster.status.basic_int = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_int, monster_grade_db_iter.min_range.base_int, 5);
-
-        // new_monster.status.basic_str = change_monster_statue(new_monster.grade, new_monster.status.basic_str);
-        // new_monster.status.basic_dex = change_monster_statue(new_monster.grade, new_monster.status.basic_dex);
-        // new_monster.status.basic_int = change_monster_statue(new_monster.grade, new_monster.status.basic_int);
-
-        // new_monster.status.basic_str = (new_monster.status.basic_str * tribe_iter.base_str) / 100;
-        // new_monster.status.basic_dex = (new_monster.status.basic_dex * tribe_iter.base_dex) / 100;
-        // new_monster.status.basic_int = (new_monster.status.basic_int * tribe_iter.base_int) / 100;
-
-        // new_monster.state = object_state::on_inventory;
-
-        // uint32_t passive_id = get_monster_passive_skill(_seed);
-        // new_monster.passive_skill.push_back(passive_id);
-
-        result.index = update_user_monster_list.index;
+         result.index = update_user_monster_list.index;
         result.type = result::monster;
 
         update_user_monster_list.party_number = EMPTY_PARTY;
-        //update_user_monster_list.monster = new_monster; 
-        update_user_monster_list.monster = get_monster_random_state(monster_id_db_iter.id, _seed, monster_grade_db_iter.grade,monster_id_db_iter.tribe, monster_id_db_iter.type,tribe_iter.base_str,tribe_iter.base_dex,tribe_iter.base_int);
+        update_user_monster_list.monster = get_monster_random_state(monster_id_db_iter.id, _seed, random_grade,monster_id_db_iter.tribe, monster_id_db_iter.type,tribe_iter.base_str,tribe_iter.base_dex,tribe_iter.base_int);
     });
     write_log(_user, _gold_type, result::monster, result.index, 1);
 
@@ -4583,9 +4424,6 @@ void battletest::gacha_equipment_id(eosio::name _user, uint64_t _seed, uint32_t 
        random_grade = _grade;
    }
 
-    item_grade_db item_grade_db_table(_self, _self.value);
-    const auto &item_grade_db_iter = item_grade_db_table.get(random_grade, "Gacha Equipment : Empty Grade / Not Set Grade");
-
     user_logs user_log_table(_self, _self.value);
     auto user_log_iter = user_log_table.find(_user.value);
 
@@ -4609,25 +4447,10 @@ void battletest::gacha_equipment_id(eosio::name _user, uint64_t _seed, uint32_t 
             update_user_item_list.index = user_item_table.available_primary_key();
         }
         
-        // equipment_info new_item;
-        // new_item.id = equip_item_iter.item_id;
-        // new_item.type = equip_item_iter.type;
-        // new_item.tier = equip_item_iter.tier;
-        // new_item.job = equip_item_iter.job;
-        // new_item.grade = item_grade_db_iter.grade;
-
-        // uint32_t type_grade = ((equip_item_iter.type + 1) * 10) + item_grade_db_iter.grade;
-        // new_item.value = safeseed::get_random_value(_seed, 10, 0, 3);
-        // new_item.value = change_equipment_statue(type_grade, new_item.value);
-        // set_tier_status(new_item.value, equip_item_iter.tier);
-
-        // new_item.state = object_state::on_inventory;
-
         result.index = update_user_item_list.index;
         result.type = result::equipment;
 
-       // update_user_item_list.equipment = new_item;
-        update_user_item_list.equipment = get_equip_random_state(equip_item_iter.item_id, _seed, equip_item_iter.type, equip_item_iter.tier, equip_item_iter.job, item_grade_db_iter.grade);
+        update_user_item_list.equipment = get_equip_random_state(equip_item_iter.item_id, _seed, equip_item_iter.type, equip_item_iter.tier, equip_item_iter.job, random_grade);
     
     });
         write_log(_user, _gold_type, result::equipment, result.index, 1);
@@ -7938,10 +7761,10 @@ battletest::monster_data battletest::get_reward_monster(eosio::name _user, uint3
     tribe_db tribe_db_table(_self, _self.value);
     const auto &tribe_iter = tribe_db_table.get(monster_id_db_iter.tribe, "Gacha Reward Monster : Empty Monster Tribe");
 
-    uint64_t random_grade = _grade;
+    // uint64_t random_grade = _grade;
 
-    monster_grade_db monster_grade_db_table(_self, _self.value);
-    const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "Get Reward Monster : Empty Monster Grade / Wrong Monster Grade");
+    // monster_grade_db monster_grade_db_table(_self, _self.value);
+    // const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "Get Reward Monster : Empty Monster Grade / Wrong Monster Grade");
 
     user_auths auth_user_table(_self, _self.value);
     auto auth_user_iter = auth_user_table.find(_user.value);
@@ -7961,14 +7784,14 @@ battletest::monster_data battletest::get_reward_monster(eosio::name _user, uint3
 
         monster_info new_monster;
         new_monster.id = monster_id_db_iter.id;
-        new_monster.grade = monster_grade_db_iter.grade;
+        new_monster.grade = _grade;
         new_monster.tribe = monster_id_db_iter.tribe;
         new_monster.type = monster_id_db_iter.type;
         new_monster.exp = 0;
         new_monster.upgrade = 0;
-        new_monster.status.basic_str = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_str, monster_grade_db_iter.min_range.base_str, 1);
-        new_monster.status.basic_dex = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_dex, monster_grade_db_iter.min_range.base_dex, 2);
-        new_monster.status.basic_int = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_int, monster_grade_db_iter.min_range.base_int, 3);
+        new_monster.status.basic_str = safeseed::get_random_value(_seed, 10,0, 1);
+        new_monster.status.basic_dex = safeseed::get_random_value(_seed, 10,0, 2);
+        new_monster.status.basic_int = safeseed::get_random_value(_seed, 10,0, 3);
 
         new_monster.status.basic_str = change_monster_status(new_monster.grade, new_monster.status.basic_str);
         new_monster.status.basic_dex = change_monster_status(new_monster.grade, new_monster.status.basic_dex);
@@ -8009,10 +7832,7 @@ battletest::equip_data battletest::get_reward_equip(eosio::name _user, uint32_t 
     equipment_db equip_item_table(_self, _self.value);
     const auto &equip_item_iter = equip_item_table.get(_id, "Get Reward Equipment : Empty Equipment ID / Wrong Equipment ID");
 
-    uint64_t random_grade = _grade;
-
-    item_grade_db item_grade_db_table(_self, _self.value);
-    const auto &item_grade_db_iter = item_grade_db_table.get(random_grade, "Get Reward Equipment : Empty Equipmnet Grade / Wrong Equipment Grade");
+    // uint64_t random_grade = _grade;
 
     user_auths auth_user_table(_self, _self.value);
     auto auth_user_iter = auth_user_table.find(_user.value);
@@ -8035,9 +7855,9 @@ battletest::equip_data battletest::get_reward_equip(eosio::name _user, uint32_t 
         new_item.type = equip_item_iter.type;
         new_item.tier = equip_item_iter.tier;
         new_item.job = equip_item_iter.job;
-        new_item.grade = item_grade_db_iter.grade;
+        new_item.grade = _grade;
         item_random_count += 1;
-        uint32_t type_grade = ((equip_item_iter.type + 1) * 10)  + item_grade_db_iter.grade;
+        uint32_t type_grade = ((equip_item_iter.type + 1) * 10)  + _grade;
         new_item.value = safeseed::get_random_value(_seed, 10, 0, item_random_count);
         new_item.value = change_equipment_statue(type_grade, new_item.value);
         set_tier_status(new_item.value, equip_item_iter.tier);
@@ -11942,12 +11762,8 @@ ACTION battletest::accountset(eosio::name _user)
             tribe_db tribe_db_table(_self, _self.value);
             const auto &tribe_iter = tribe_db_table.get(monster_id_db_iter.tribe, "Gacha Monster : Empty Monster Tribe");
 
-            monster_random_count += 1;
-            uint64_t random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, DEFAULT_MIN, monster_random_count);
+            uint64_t random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, DEFAULT_MIN, 3);
             uint64_t random_grade = get_random_grade(random_rate);
-
-            monster_grade_db monster_grade_db_table(_self, _self.value);
-            const auto &monster_grade_db_iter = monster_grade_db_table.get(random_grade, "Account Test Monster : Empty Grade");
 
             user_monsters user_monster_table(_self, _user.value);
             user_monster_table.emplace(_self, [&](auto &update_user_monster_list) {
@@ -11963,17 +11779,15 @@ ACTION battletest::accountset(eosio::name _user)
 
                 monster_info new_monster;
                 new_monster.id = monster_id_db_iter.id;
-                new_monster.grade = monster_grade_db_iter.grade;
+                new_monster.grade = random_grade;
                 new_monster.tribe = monster_id_db_iter.tribe;
                 new_monster.type = monster_id_db_iter.type;
                 new_monster.exp = 0;
                 new_monster.upgrade = 9;
-                monster_random_count += 1;
-                new_monster.status.basic_str = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_str, monster_grade_db_iter.min_range.base_str, monster_random_count);
-                monster_random_count += 1;
-                new_monster.status.basic_dex = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_dex, monster_grade_db_iter.min_range.base_dex, monster_random_count);
-                monster_random_count += 1;
-                new_monster.status.basic_int = safeseed::get_random_value(_seed, monster_grade_db_iter.max_range.base_int, monster_grade_db_iter.min_range.base_int, monster_random_count);
+  
+                new_monster.status.basic_str = safeseed::get_random_value(_seed, 10,0, 4);
+                new_monster.status.basic_dex = safeseed::get_random_value(_seed, 10,0, 5);
+                new_monster.status.basic_int = safeseed::get_random_value(_seed, 10,0, 6);
 
                 new_monster.status.basic_str = change_monster_status(new_monster.grade, new_monster.status.basic_str);
                 new_monster.status.basic_dex = change_monster_status(new_monster.grade, new_monster.status.basic_dex);
@@ -12016,9 +11830,6 @@ ACTION battletest::accountset(eosio::name _user)
         uint64_t random_rate = safeseed::get_random_value(_seed, GACHA_MAX_RATE, DEFAULT_MIN, item_random_count);
         uint64_t random_grade = get_random_grade(random_rate);
 
-        item_grade_db item_grade_db_table(_self, _self.value);
-        const auto &item_grade_db_iter = item_grade_db_table.get(random_grade, "Account Test Equipment : Empty Grade / Not Set Grade");
-
         user_equip_items user_item_table(_self, _user.value);
         user_item_table.emplace(_self, [&](auto &update_user_item_list) {
             uint32_t first_index = user_item_table.available_primary_key();
@@ -12036,10 +11847,10 @@ ACTION battletest::accountset(eosio::name _user)
             new_item.type = equip_item_iter.type;
             new_item.tier = equip_item_iter.tier;
             new_item.job = equip_item_iter.job;
-            new_item.grade = item_grade_db_iter.grade;
+            new_item.grade = random_grade;
             new_item.upgrade = 8;
             item_random_count += 1;
-            uint32_t type_grade = ((equip_item_iter.type + 1) * 10) + item_grade_db_iter.grade;
+            uint32_t type_grade = ((equip_item_iter.type + 1) * 10) + random_grade;
             new_item.value = safeseed::get_random_value(_seed, 10, 0, item_random_count);
             new_item.value = change_equipment_statue(type_grade, new_item.value);
             set_tier_status(new_item.value, equip_item_iter.tier);
