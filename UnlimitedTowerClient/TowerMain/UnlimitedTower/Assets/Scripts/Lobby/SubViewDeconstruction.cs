@@ -77,6 +77,12 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
     {
         scrollListData.Clear();
 
+        if ((dType == DECONSTRUCTION_TYPE.SERVANT && partyInfo.ServantList == null) ||
+            (dType == DECONSTRUCTION_TYPE.MONSTER && partyInfo.MonsterList == null))
+        {
+            return;
+        }
+
         switch (dType)
         {
             case DECONSTRUCTION_TYPE.SERVANT:
@@ -503,11 +509,12 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
         {
             PartyInfoVC patyInfo = PartyInfoVC.Inst;
             patyInfo.setData();
+
             patyInfo.resetScroll();
+
             patyInfo.updateDetailInfo(patyInfo.scrollList.getFirstItemOrder());
 
             setData();
-
             scrollList.rectTrScrollLayer.anchoredPosition = Vector2.zero;
             scrollList.SetItemOrder(getOrder());
             scrollList.ScrollViewDidScroll();
@@ -546,7 +553,11 @@ public class SubViewDeconstruction : MonoSingleton<SubViewDeconstruction>
     {
         if (PartyInfoVC.checkInst())
         {
-            PartyInfoVC.Inst.frameScroll.SetActive(true);
+            if ((dType == DECONSTRUCTION_TYPE.SERVANT && partyInfo.ServantList != null) ||
+            (dType == DECONSTRUCTION_TYPE.MONSTER && partyInfo.MonsterList != null))
+            {
+                PartyInfoVC.Inst.frameScroll.SetActive(true);
+            }
         }
         else if (InventoryVC.checkInst())
         {

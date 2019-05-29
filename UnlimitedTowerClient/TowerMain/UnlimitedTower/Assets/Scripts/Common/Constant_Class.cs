@@ -289,9 +289,9 @@ public class BattleStatus
                 UserStageStateData statgData = UserDataManager.Inst.GetStageState();
                 UserServantData servant = UserDataManager.Inst.GetServantInfo(data.index);
 
-                    Status.Add(EFFECT_ID.STR, data.status.basicStr);
-                    Status.Add(EFFECT_ID.DEX, data.status.basicDex);
-                    Status.Add(EFFECT_ID.INT, data.status.basicInt);
+                    Status.Add(EFFECT_ID.STR, servant.status.basicStr);
+                    Status.Add(EFFECT_ID.DEX, servant.status.basicDex);
+                    Status.Add(EFFECT_ID.INT, servant.status.basicInt);
 
                 Equipment(servant.equipmentDic, true);
 
@@ -326,9 +326,9 @@ public class BattleStatus
                     UserStageStateData statgData = UserDataManager.Inst.GetStageState();
                     UserMonsterData monster = UserDataManager.Inst.GetMonsterInfo(data.index);
 
-                    Status.Add(EFFECT_ID.STR, data.status.basicStr);
-                    Status.Add(EFFECT_ID.DEX, data.status.basicDex);
-                    Status.Add(EFFECT_ID.INT, data.status.basicInt);
+                    Status.Add(EFFECT_ID.STR, monster.status.basicStr);
+                    Status.Add(EFFECT_ID.DEX, monster.status.basicDex);
+                    Status.Add(EFFECT_ID.INT, monster.status.basicInt);
 
                     StatusReCalculation(monster.level);
                     
