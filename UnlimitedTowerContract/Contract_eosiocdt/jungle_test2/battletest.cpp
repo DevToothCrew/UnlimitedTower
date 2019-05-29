@@ -8872,10 +8872,32 @@ bool battletest::compare_item(uint32_t _user_servant, uint32_t _user_item)
 //-----------------------------upgrade_function---------------------------//
 //------------------------------------------------------------------------//
 
-ACTION battletest::equipmentup(eosio::name _user, uint32_t _equipment, const std::vector<uint64_t> &_get_item_list)
+
+ACTION battletest::upgrade(eosio::name _user, uint32_t _type, uint32_t _main, const std::vector<uint64_t> &_item_list)
 {
     system_check(_user);
 
+    if(_type == 1)  //장비 강화 
+    {
+        equip_upgrade(_user,_main,_item_list);
+    }
+    else if(_type ==2 ) //스킬 강화
+    {
+        skill_lvup(_user, _main, _item_list);
+    }
+    else if(_type ==3)  //몬스터도...?
+    {
+        
+    }
+    else
+    {
+        eosio_assert(0 == 1, "upgrade : not exist type.");
+    }
+}
+
+void battletest::equip_upgrade(eosio::name _user, uint32_t _equip, const std::vector<uint64_t> &_get_item_list)
+{
+    
     user_auths user_auth_table(_self, _self.value);
     auto user_auth_iter = user_auth_table.find(_user.value);
 
@@ -8883,10 +8905,10 @@ ACTION battletest::equipmentup(eosio::name _user, uint32_t _equipment, const std
     auto user_logs_iter = user_logs_table.find(_user.value);
 
     user_equip_items user_equip_item_table(_self, _user.value);
-    auto user_equipment_iter = user_equip_item_table.find(_equipment);
-    eosio_assert(user_equipment_iter != user_equip_item_table.end(), "equipmentup : not exist equipment info");
-    eosio_assert(user_equipment_iter->equipment.state == object_state::on_inventory, "equipmentup : this item already in Wearing");
-    eosio_assert(user_equipment_iter->equipment.upgrade < 9, "equipmentup : this item upgrade is MAX");
+    auto user_equipment_iter = user_equip_item_table.find(_equip);
+    eosio_assert(user_equipment_iter != user_equip_item_table.end(), "equip upgrade : not exist equipment info");
+    eosio_assert(user_equipment_iter->equipment.state == object_state::on_inventory, "equip upgrade : this item already in Wearing");
+    eosio_assert(user_equipment_iter->equipment.upgrade < 9, "equip upgrade : this item upgrade is MAX");
 
     uint64_t sum = (((user_equipment_iter->equipment.type + 1) * 10) + (user_equipment_iter->equipment.grade * 1));
     upgrade_equipment_ratio_dbs upgrade_equipment_ratio_db_table(_self, _self.value);
@@ -8903,9 +8925,11 @@ ACTION battletest::equipmentup(eosio::name _user, uint32_t _equipment, const std
     for (uint32_t i = 0; i < get_item_count; i++)
     {
         auto user_items_iter = user_items_table.find(_get_item_list[i]);
-        eosio_assert(user_items_iter != user_items_table.end(), "equipmentup : not exist consumables info");
-        eosio_assert(user_items_iter->id == user_upgrade_equipment_iter->material_id, "equipmentup : upgrade sub item no match");
-
+        eosio_assert(user_items_iter != user_items_table.end(), "equip upgrade : not exist consumables info");
+        eosio_assert(user_items_iter->id == user_upgrade_equipment_iter->material_id, "equip upgrade : upgrade sub item no match");
+      
+       
+        uint32_t sub_item_count = user_upgrade_equipment_iter->material_count[user_equipment_iter->equipment.upgrade];
         uint32_t target_item_count = user_items_iter->item_list.size();
         inventory_size += target_item_count;
         uint64_t total_item_count = 0;
@@ -8913,35 +8937,36 @@ ACTION battletest::equipmentup(eosio::name _user, uint32_t _equipment, const std
         {
             total_item_count += user_items_iter->item_list[j].count;
         }
-
-        eosio_assert(total_item_count >= user_upgrade_equipment_iter->material_count[user_equipment_iter->equipment.upgrade], "equipmentup : Invalid Item Count");
-
-        uint32_t sub_item_count = user_upgrade_equipment_iter->material_count[user_equipment_iter->equipment.upgrade];
-        if (total_item_count == sub_item_count)
-        {
-            user_items_table.erase(user_items_iter);
-        }
-        else
-        {
-            user_items_table.modify(user_items_iter, _self, [&](auto &change_user_item) {
-                auto sub_item_iter = change_user_item.item_list.end() - 1;
-                for(uint32_t j = target_item_count - 1; j >= 0; j--)
-                {
-                    if(change_user_item.item_list[j].count > sub_item_count)
-                    {
-                        change_user_item.item_list[j].count -= sub_item_count;
-                        break;
-                    }
-                    else
-                    {
-                        sub_item_count -= change_user_item.item_list[j].count;
-                        change_user_item.item_list.erase(sub_item_iter);
-                        sub_inventory += 1;
-                        sub_item_iter--;
-                    }
-                }
-            });
-        }
+        sub_item_check(_user, user_items_iter->id, sub_item_count);
+        
+        //eosio_assert(total_item_count >= user_upgrade_equipment_iter->material_count[user_equipment_iter->equipment.upgrade], "equip upgrade : Invalid Item Count");
+        eosio_assert(total_item_count >= sub_item_count, "equip upgrade : Invalid Item Count");
+        
+        // if (total_item_count == sub_item_count)
+        // {
+        //     user_items_table.erase(user_items_iter);
+        // }
+        // else
+        // {
+        //     user_items_table.modify(user_items_iter, _self, [&](auto &change_user_item) {
+        //         auto sub_item_iter = change_user_item.item_list.end() - 1;
+        //         for(uint32_t j = target_item_count - 1; j >= 0; j--)
+        //         {
+        //             if(change_user_item.item_list[j].count > sub_item_count)
+        //             {
+        //                 change_user_item.item_list[j].count -= sub_item_count;
+        //                 break;
+        //             }
+        //             else
+        //             {
+        //                 sub_item_count -= change_user_item.item_list[j].count;
+        //                 change_user_item.item_list.erase(sub_item_iter);
+        //                 sub_inventory += 1;
+        //                 sub_item_iter--;
+        //             }
+        //         }
+        //     });
+        // }
     }
 
     uint64_t l_seed = safeseed::get_seed_value(_user.value, now());
@@ -8962,15 +8987,15 @@ ACTION battletest::equipmentup(eosio::name _user, uint32_t _equipment, const std
     asset upgrade_use_UTG_result(0, symbol(symbol_code("UTG"), 4));
     upgrade_use_UTG_result.amount = user_upgrade_equipment_iter->use_UTG[user_equipment_iter->equipment.upgrade];
 
-    transfer(_user, _self, upgrade_use_UTG_result, std::string("upgrade use UTG result"));
+    transfer(_user, _self, upgrade_use_UTG_result, std::string("equip upgrade use UTG result"));
 
     user_logs_table.modify(user_logs_iter, _self, [&](auto &change_log) {
         change_log.use_utg += upgrade_use_UTG_result.amount;
     });
 
     user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-        eosio_assert(change_auth_user.current_item_inventory >= sub_inventory, "equipmentup : The current number of item and the number of units to sell are not correct.");
-        change_auth_user.current_item_inventory -= sub_inventory;
+        //eosio_assert(change_auth_user.current_item_inventory >= sub_inventory, "equip upgrade : The current number of item and the number of units to sell are not correct.");
+        //change_auth_user.current_item_inventory -= sub_inventory;
 
         if(is_success == false)
         {
@@ -8978,6 +9003,113 @@ ACTION battletest::equipmentup(eosio::name _user, uint32_t _equipment, const std
         }
     });
 }
+
+// ACTION battletest::equipmentup(eosio::name _user, uint32_t _equipment, const std::vector<uint64_t> &_get_item_list)
+// {
+//     system_check(_user);
+
+//     user_auths user_auth_table(_self, _self.value);
+//     auto user_auth_iter = user_auth_table.find(_user.value);
+
+//     user_logs user_logs_table(_self, _self.value);
+//     auto user_logs_iter = user_logs_table.find(_user.value);
+
+//     user_equip_items user_equip_item_table(_self, _user.value);
+//     auto user_equipment_iter = user_equip_item_table.find(_equipment);
+//     eosio_assert(user_equipment_iter != user_equip_item_table.end(), "equipmentup : not exist equipment info");
+//     eosio_assert(user_equipment_iter->equipment.state == object_state::on_inventory, "equipmentup : this item already in Wearing");
+//     eosio_assert(user_equipment_iter->equipment.upgrade < 9, "equipmentup : this item upgrade is MAX");
+
+//     uint64_t sum = (((user_equipment_iter->equipment.type + 1) * 10) + (user_equipment_iter->equipment.grade * 1));
+//     upgrade_equipment_ratio_dbs upgrade_equipment_ratio_db_table(_self, _self.value);
+//     auto user_upgrade_equipment_iter = upgrade_equipment_ratio_db_table.find(sum);
+
+//     uint64_t success_ratio = user_upgrade_equipment_iter->upgrade_ratio[user_equipment_iter->equipment.upgrade];
+
+//     user_items user_items_table(_self, _user.value);
+//     uint64_t sub_inventory = 0;
+//     bool is_success = false;
+
+//     uint32_t get_item_count = _get_item_list.size();
+//     uint32_t inventory_size = 0;
+//     for (uint32_t i = 0; i < get_item_count; i++)
+//     {
+//         auto user_items_iter = user_items_table.find(_get_item_list[i]);
+//         eosio_assert(user_items_iter != user_items_table.end(), "equipmentup : not exist consumables info");
+//         eosio_assert(user_items_iter->id == user_upgrade_equipment_iter->material_id, "equipmentup : upgrade sub item no match");
+
+//         uint32_t target_item_count = user_items_iter->item_list.size();
+//         inventory_size += target_item_count;
+//         uint64_t total_item_count = 0;
+//         for(uint32_t j = 0; j < target_item_count; j++)
+//         {
+//             total_item_count += user_items_iter->item_list[j].count;
+//         }
+
+//         eosio_assert(total_item_count >= user_upgrade_equipment_iter->material_count[user_equipment_iter->equipment.upgrade], "equipmentup : Invalid Item Count");
+
+//         uint32_t sub_item_count = user_upgrade_equipment_iter->material_count[user_equipment_iter->equipment.upgrade];
+//         if (total_item_count == sub_item_count)
+//         {
+//             user_items_table.erase(user_items_iter);
+//         }
+//         else
+//         {
+//             user_items_table.modify(user_items_iter, _self, [&](auto &change_user_item) {
+//                 auto sub_item_iter = change_user_item.item_list.end() - 1;
+//                 for(uint32_t j = target_item_count - 1; j >= 0; j--)
+//                 {
+//                     if(change_user_item.item_list[j].count > sub_item_count)
+//                     {
+//                         change_user_item.item_list[j].count -= sub_item_count;
+//                         break;
+//                     }
+//                     else
+//                     {
+//                         sub_item_count -= change_user_item.item_list[j].count;
+//                         change_user_item.item_list.erase(sub_item_iter);
+//                         sub_inventory += 1;
+//                         sub_item_iter--;
+//                     }
+//                 }
+//             });
+//         }
+//     }
+
+//     uint64_t l_seed = safeseed::get_seed_value(_user.value, now());
+//     uint64_t upgrade_ratio = safeseed::get_random_value(l_seed, ITEM_UPGRADE_RATE, DEFAULT_MIN, DEFAULT_RANDOM_COUNT);
+
+//     if (success_ratio >= upgrade_ratio)
+//     {
+//         user_equip_item_table.modify(user_equipment_iter, _self, [&](auto &upgrade_item) {
+//             upgrade_item.equipment.upgrade += 1;
+//         });
+//         is_success = true;
+//     }
+//     else
+//     {
+//         user_equip_item_table.erase(user_equipment_iter);
+//     }
+
+//     asset upgrade_use_UTG_result(0, symbol(symbol_code("UTG"), 4));
+//     upgrade_use_UTG_result.amount = user_upgrade_equipment_iter->use_UTG[user_equipment_iter->equipment.upgrade];
+
+//     transfer(_user, _self, upgrade_use_UTG_result, std::string("upgrade use UTG result"));
+
+//     user_logs_table.modify(user_logs_iter, _self, [&](auto &change_log) {
+//         change_log.use_utg += upgrade_use_UTG_result.amount;
+//     });
+
+//     user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
+//         eosio_assert(change_auth_user.current_item_inventory >= sub_inventory, "equipmentup : The current number of item and the number of units to sell are not correct.");
+//         change_auth_user.current_item_inventory -= sub_inventory;
+
+//         if(is_success == false)
+//         {
+//             change_auth_user.current_equipment_inventory -= 1;
+//         }
+//     });
+// }
 
 ACTION battletest::monsterup(eosio::name _user, uint32_t _monster, uint32_t _monster2)
 {
@@ -13255,7 +13387,7 @@ EOSIO_DISPATCH(battletest,
               //event
               (dailycheck)
               //contants
-              (goldgacha)(itembuy)(monsterup)(equipmentup)(mailopen)(equip)(nftmail)(burn)      //(itemburn)
+              (goldgacha)(itembuy)(monsterup)(mailopen)(equip)(nftmail)(burn)(upgrade)      //(itemburn)(equipmentup)
               //battle (pvpstart)
               (activeturn)(stagestart)(stageexit)(saveparty)  
               //tower
