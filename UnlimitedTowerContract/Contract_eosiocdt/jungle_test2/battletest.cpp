@@ -8950,7 +8950,7 @@ void battletest::equip_upgrade(eosio::name _user, uint32_t _equip, const std::ve
         {
             total_item_count += user_items_iter->item_list[j].count;
         }
-        sub_item_check(_user, user_items_iter->id, sub_item_count);
+        sub_inventory = sub_item_check(_user, user_items_iter->id, sub_item_count);
         
         //eosio_assert(total_item_count >= user_upgrade_equipment_iter->material_count[user_equipment_iter->equipment.upgrade], "equip upgrade : Invalid Item Count");
         eosio_assert(total_item_count >= sub_item_count, "equip upgrade : Invalid Item Count");
@@ -9007,8 +9007,8 @@ void battletest::equip_upgrade(eosio::name _user, uint32_t _equip, const std::ve
     });
 
     user_auth_table.modify(user_auth_iter, _self, [&](auto &change_auth_user) {
-        //eosio_assert(change_auth_user.current_item_inventory >= sub_inventory, "equip upgrade : The current number of item and the number of units to sell are not correct.");
-        //change_auth_user.current_item_inventory -= sub_inventory;
+        eosio_assert(change_auth_user.current_item_inventory >= sub_inventory, "equip upgrade : The current number of item and the number of units to sell are not correct.");
+        change_auth_user.current_item_inventory -= sub_inventory;
 
         if(is_success == false)
         {
@@ -9492,12 +9492,12 @@ void battletest::etc_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _co
     
     uint64_t _shop_price_count = item_shop_iter->price_count * _count;
     uint64_t _shop_price_id = item_shop_iter->price_id;
-    
+    uint32_t sub_inventory = 0;
     
     if(_item_id == 4101 || _item_id == 4102 || _item_id == 4103 || _item_id == 4104)    //티켓 (서번트 소환권)
     {
-        sub_item_check(_user, _shop_price_id, _shop_price_count);
-
+        sub_inventory = sub_item_check(_user, _shop_price_id, _shop_price_count);
+    
         for (uint32_t i = 0; i < _count; i++)
         {
             uint64_t l_seed = safeseed::get_seed_value(_user.value, now() + i);
@@ -9507,7 +9507,7 @@ void battletest::etc_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _co
     }
     else        //스킬 강화 및 변경권 구매 
     {   
-        sub_item_check(_user, _shop_price_id, _shop_price_count);
+        sub_inventory = sub_item_check(_user, _shop_price_id, _shop_price_count);
         //skill_lvup_buy(_user, _item_id,_count);
         //sum_item_check(_user, allitem_db_iter2->id, _count);
     }
@@ -9559,10 +9559,10 @@ void battletest::etc_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _co
     //     });
     // }
 
-    // eosio_assert(user_auth_iter->current_item_inventory >= sub_inventory, "ETC Item buy : current_item_inventory underflow error");
-    // user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
-    //     add_auth.current_item_inventory -= sub_inventory;
-    // });
+    eosio_assert(user_auth_iter->current_item_inventory >= sub_inventory, "ETC Item buy : current_item_inventory underflow error");
+    user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
+        add_auth.current_item_inventory -= sub_inventory;
+    });
 
 
 }
@@ -10110,7 +10110,7 @@ void battletest::sum_item_check(eosio::name _user, uint32_t _item_id, uint32_t _
 
 }
 
-void battletest::sub_item_check(eosio::name _user, uint32_t _item_id, uint32_t _count)
+uint32_t battletest::sub_item_check(eosio::name _user, uint32_t _item_id, uint32_t _count)
 {
     allitem_db allitem_db_table(_self, _self.value);
     auto allitem_db_iter = allitem_db_table.find(_item_id);
@@ -10162,13 +10162,15 @@ void battletest::sub_item_check(eosio::name _user, uint32_t _item_id, uint32_t _
             }
         });
     }
-    user_auths user_auth_table(_self, _self.value);
-    auto user_auth_iter = user_auth_table.find(_user.value);
 
-    eosio_assert(user_auth_iter->current_item_inventory >= sub_inventory, "sub_item_check : current_item_inventory underflow error");
-    user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
-        add_auth.current_item_inventory -= sub_inventory;
-    });
+    return sub_inventory;
+    // user_auths user_auth_table(_self, _self.value);
+    // auto user_auth_iter = user_auth_table.find(_user.value);
+
+    // eosio_assert(user_auth_iter->current_item_inventory >= sub_inventory, "sub_item_check : current_item_inventory underflow error");
+    // user_auth_table.modify(user_auth_iter, _self, [&](auto &add_auth) {
+    //     add_auth.current_item_inventory -= sub_inventory;
+    // });
 }
 
 void battletest::nftexchange(eosio::name _owner, eosio::name _master, std::string _type, uint64_t _master_index)
