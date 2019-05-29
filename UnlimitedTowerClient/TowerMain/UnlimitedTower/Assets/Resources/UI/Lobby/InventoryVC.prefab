@@ -1776,7 +1776,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1868543495083258
 GameObject:
   m_ObjectHideFlags: 1
@@ -2589,6 +2589,7 @@ MonoBehaviour:
   textTotal: {fileID: 114707034935311164}
   frameScroll: {fileID: 1143063022948980}
   scrollList: {fileID: 114119419475455286}
+  selectedMenu: 0
 --- !u!114 &114161724248661786
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2626,7 +2627,6 @@ MonoBehaviour:
   textTotal: {fileID: 114075184063124938}
   frameScroll: {fileID: 1486502702314694}
   scrollList: {fileID: 114392818391631594}
-  ItemList: []
 --- !u!114 &114170743182227140
 MonoBehaviour:
   m_ObjectHideFlags: 1
