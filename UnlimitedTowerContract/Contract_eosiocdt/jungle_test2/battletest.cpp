@@ -9476,9 +9476,9 @@ void battletest::etc_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _co
 {
     eosio_assert(_count <= 99, "ETC Item buy : Invalid Item Count");
   
-    // item_shop item_shop_table(_self, _self.value);
-    // auto item_shop_iter = item_shop_table.find(_item_id);
-    // eosio_assert(item_shop_iter != item_shop_table.end(), "ETC Item buy : Not exist item_shop data");
+    item_shop item_shop_table(_self, _self.value);
+    auto item_shop_iter = item_shop_table.find(_item_id);
+    eosio_assert(item_shop_iter != item_shop_table.end(), "ETC Item buy : Not exist item_shop data");
 
     // allitem_db allitem_db_table(_self, _self.value);
     // auto allitem_db_iter = allitem_db_table.find(item_shop_iter->price_id);     //판매
@@ -9486,12 +9486,13 @@ void battletest::etc_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _co
     // eosio_assert(allitem_db_iter != allitem_db_table.end(), "ETC Item buy : Not exist allitem data");
     // eosio_assert(allitem_db_iter2 != allitem_db_table.end(), "ETC Item buy : Not exist allitem2 data");
     
-
+    uint64_t _shop_price_count = item_shop_iter->price_count * _count;
+    uint64_t _shop_price_id = item_shop_iter->price_id;
     
     
     if(_item_id == 4101 || _item_id == 4102 || _item_id == 4103 || _item_id == 4104)    //티켓 (서번트 소환권)
     {
-        sub_item_check(_user, _item_id, _count);
+        sub_item_check(_user, _shop_price_id, _shop_price_count);
 
         for (uint32_t i = 0; i < _count; i++)
         {
@@ -9502,7 +9503,8 @@ void battletest::etc_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _co
     }
     else        //스킬 강화 및 변경권 구매 
     {   
-        sub_item_check(_user, allitem_db_iter->id, _count);
+        sub_item_check(_user, _shop_price_id, _shop_price_count);
+        //skill_lvup_buy(_user, _item_id,_count);
         //sum_item_check(_user, allitem_db_iter2->id, _count);
     }
 
@@ -9560,7 +9562,10 @@ void battletest::etc_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _co
 
 
 }
+void battletest::skill_lvup_buy(eosio::name _user, uint32_t _type, uint32_t _count)
+{
 
+}
 void battletest::shop_buy_item(eosio::name _user, uint32_t _type, uint32_t _count)
 {
    system_check(_user);
@@ -10103,12 +10108,8 @@ void battletest::sum_item_check(eosio::name _user, uint32_t _item_id, uint32_t _
 
 void battletest::sub_item_check(eosio::name _user, uint32_t _item_id, uint32_t _count)
 {
-    item_shop item_shop_table(_self, _self.value);
-    auto item_shop_iter = item_shop_table.find(_item_id);
-    eosio_assert(item_shop_iter != item_shop_table.end(), "sub_item_check : Not exist item_shop data");
-
     allitem_db allitem_db_table(_self, _self.value);
-    auto allitem_db_iter = allitem_db_table.find(item_shop_iter->price_id);
+    auto allitem_db_iter = allitem_db_table.find(_item_id);
     eosio_assert(allitem_db_iter != allitem_db_table.end(), "sub_item_check : Not exist allitem data");
 
     item_data new_item;
@@ -10119,7 +10120,8 @@ void battletest::sub_item_check(eosio::name _user, uint32_t _item_id, uint32_t _
     auto user_items_iter = user_items_table.find(allitem_db_iter->id);
     eosio_assert(user_items_iter != user_items_table.end(), "sub_item_check : Invalid User Item Table");
 
-    uint64_t sub_item_count = item_shop_iter->price_count * _count;
+    uint64_t sub_item_count = _count;
+    //uint64_t sub_item_count = item_shop_iter->price_count * _count;
     uint64_t sub_inventory = 0;
 
     uint32_t target_item_count = user_items_iter->item_list.size();
