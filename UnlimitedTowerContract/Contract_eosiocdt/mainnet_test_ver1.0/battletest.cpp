@@ -6524,7 +6524,8 @@ battletest::action_info battletest::get_target_action(uint32_t _active_id, uint6
     }
 
     action_info new_action;
-    if (true == check_avoid(target_avoid, _seed))
+    uint64_t seed = _seed >> 5;
+    if (true == check_avoid(target_avoid, seed))
     {
         new_action.target_position = _enemy_status_list[_target_key].position;
         new_action.avoid = 1;
@@ -6534,7 +6535,7 @@ battletest::action_info battletest::get_target_action(uint32_t _active_id, uint6
     }
     else
     {
-        if (false == check_critical(_my_status_list[_my_key].cri_per, _seed))
+        if (false == check_critical(_my_status_list[_my_key].cri_per, seed))
         {
             cur_damage = get_damage(cur_attack, target_defense);
             new_action.target_position = _enemy_status_list[_target_key].position;
