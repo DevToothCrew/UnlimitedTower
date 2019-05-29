@@ -323,8 +323,8 @@ public class stageStateData
     public string user;
     public string enemy_user;
     public int type;
-    public int grade;
-    public int tier;
+    public int difficult;
+    public int floor;
     public int turn;
     public List<characterStateData> my_state_list = new List<characterStateData>();
     public List<characterStateData> enemy_state_list = new List<characterStateData>();

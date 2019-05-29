@@ -357,8 +357,8 @@ public class Cheat : MonoSingleton<Cheat>
         battlestatedata.user = user;
         battlestatedata.enemy_user = user;
         battlestatedata.type = stageType;
-        battlestatedata.tier = stageFloor;
-        battlestatedata.grade = stageDifficult;
+        battlestatedata.floor = stageFloor;
+        battlestatedata.difficult = stageDifficult;
         battlestatedata.turn = 0;
 
         battlestatedata.my_synergy_list.Add(190053);

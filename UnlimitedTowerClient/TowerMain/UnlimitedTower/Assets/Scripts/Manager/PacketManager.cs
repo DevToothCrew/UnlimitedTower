@@ -2144,8 +2144,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
         stageData.user = getStageData.user;
         stageData.enemyUser = getStageData.enemy_user;
         stageData.stageType = getStageData.type;
-        stageData.stageFloor = getStageData.tier;
-        stageData.stageDifficult = getStageData.grade;
+        stageData.stageFloor = getStageData.floor;
+        stageData.stageDifficult = getStageData.difficult;
         stageData.turn = getStageData.turn;
         stageData.mySynergyList = ParseSkillList(getStageData.my_synergy_list);
         stageData.enemySynergyList = ParseSkillList(getStageData.enemy_synergy_list);
