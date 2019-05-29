@@ -1218,7 +1218,7 @@ CONTRACT battletest : public contract
     ACTION monsterup(eosio::name _user, uint32_t _monster, uint32_t _monster2);
     ACTION upgrade(eosio::name _user, uint32_t _type, uint32_t _main, const std::vector<uint64_t> &_item_list);
     void equip_upgrade(eosio::name _user, uint32_t _equipment, const std::vector<uint64_t> &_item_list); 
-    void skill_lvup(eosio::name _user, uint32_t _main, const std::vector<uint64_t> &_item_list);
+    //void skill_lvup(eosio::name _user, uint32_t _main, const std::vector<uint64_t> &_item_list);
 #pragma endregion
 
     //------------------------------------------------------------------------//

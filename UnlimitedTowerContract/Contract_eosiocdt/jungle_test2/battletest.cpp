@@ -8883,7 +8883,7 @@ ACTION battletest::upgrade(eosio::name _user, uint32_t _type, uint32_t _main, co
     }
     else if(_type ==2 ) //스킬 강화
     {
-        skill_lvup(_user, _main, _item_list);
+        //skill_lvup(_user, _main, _item_list);
     }
     else if(_type ==3)  //몬스터도...?
     {
