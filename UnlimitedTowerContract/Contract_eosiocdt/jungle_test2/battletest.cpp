@@ -10126,6 +10126,7 @@ void battletest::sub_item_check(eosio::name _user, uint32_t _item_id, uint32_t _
     if (total_item_count == sub_item_count)
     {
         user_items_table.erase(user_items_iter);
+        sub_inventory += 1;
     }
     else
     {
