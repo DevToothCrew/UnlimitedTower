@@ -3069,24 +3069,31 @@ void battletest::signup(eosio::name _user, eosio::name _refer ,uint64_t _use_eos
     user_servant_table.emplace(_self, [&](auto &update_user_servant_list) {
         update_user_servant_list.index = 1;
 
-        servant_info new_servant;
-        new_servant.id = servant_id_db_iter.id;
-        new_servant.exp = 0;
-        new_servant.grade = 5;
-        new_servant.status.basic_str = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_str, servant_job_db_iter.min_range.base_str, 5);
-        new_servant.status.basic_dex = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_dex, servant_job_db_iter.min_range.base_dex, 6);
-        new_servant.status.basic_int = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_int, servant_job_db_iter.min_range.base_int, 7);
-        new_servant.status.basic_str = change_servant_status(new_servant.status.basic_str) + ser_iter.base_str;
-        new_servant.status.basic_dex = change_servant_status(new_servant.status.basic_dex) + ser_iter.base_dex;
-        new_servant.status.basic_int = change_servant_status(new_servant.status.basic_int) + ser_iter.base_int;
-        new_servant.equip_slot.resize(3);
-        new_servant.state = object_state::on_party;
+        // servant_info new_servant;
+        // new_servant.id = servant_id_db_iter.id;
+        // new_servant.exp = 0;
+        // new_servant.grade = 5;
+        // new_servant.status.basic_str = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_str, servant_job_db_iter.min_range.base_str, 5);
+        // new_servant.status.basic_dex = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_dex, servant_job_db_iter.min_range.base_dex, 6);
+        // new_servant.status.basic_int = safeseed::get_random_value(_seed, servant_job_db_iter.max_range.base_int, servant_job_db_iter.min_range.base_int, 7);
+        // new_servant.status.basic_str = change_servant_status(new_servant.status.basic_str) + ser_iter.base_str;
+        // new_servant.status.basic_dex = change_servant_status(new_servant.status.basic_dex) + ser_iter.base_dex;
+        // new_servant.status.basic_int = change_servant_status(new_servant.status.basic_int) + ser_iter.base_int;
+        // new_servant.equip_slot.resize(3);
+        // new_servant.state = object_state::on_party;
 
-        uint32_t active_id = get_servant_active_skill(servant_id_db_iter.job, _seed);
-        new_servant.active_skill.push_back(active_id);
+        // uint32_t active_id = get_servant_active_skill(servant_id_db_iter.job, _seed);
+        // new_servant.active_skill.push_back(active_id);
 
-        uint32_t passive_id = get_passive_skill(1, servant_id_db_iter.job, _seed);
-        new_servant.passive_skill.push_back(passive_id);
+        // uint32_t passive_id = get_passive_skill(1, servant_id_db_iter.job, _seed);
+        // new_servant.passive_skill.push_back(passive_id);
+
+        servant_info new_servant = get_servant_random_state(servant_id_db_iter.id,
+                                                            _seed,
+                                                            random_job,
+                                                            ser_iter.base_str,
+                                                            ser_iter.base_dex,
+                                                            ser_iter.base_int);
 
         update_user_servant_list.party_number = 1;
         update_user_servant_list.servant = new_servant;
@@ -3114,29 +3121,37 @@ void battletest::signup(eosio::name _user, eosio::name _refer ,uint64_t _use_eos
             update_user_monster_list.index = user_monster_table.available_primary_key();
         }
 
-        monster_info new_monster;
-        new_monster.id = monster_id_db_iter.id;
-        new_monster.grade = 3;
-        new_monster.tribe = monster_id_db_iter.tribe;
-        new_monster.type = monster_id_db_iter.type;
-        new_monster.exp = 0;
-        new_monster.upgrade = 0;
-        new_monster.status.basic_str = safeseed::get_random_value(_seed, 10, 0, 2);
-        new_monster.status.basic_dex = safeseed::get_random_value(_seed, 10, 0, 3);
-        new_monster.status.basic_int = safeseed::get_random_value(_seed, 10, 0, 4);
+        // monster_info new_monster;
+        // new_monster.id = monster_id_db_iter.id;
+        // new_monster.grade = 3;
+        // new_monster.tribe = monster_id_db_iter.tribe;
+        // new_monster.type = monster_id_db_iter.type;
+        // new_monster.exp = 0;
+        // new_monster.upgrade = 0;
+        // new_monster.status.basic_str = safeseed::get_random_value(_seed, 10, 0, 2);
+        // new_monster.status.basic_dex = safeseed::get_random_value(_seed, 10, 0, 3);
+        // new_monster.status.basic_int = safeseed::get_random_value(_seed, 10, 0, 4);
 
-        new_monster.status.basic_str = change_monster_status(new_monster.grade, new_monster.status.basic_str);
-        new_monster.status.basic_dex = change_monster_status(new_monster.grade, new_monster.status.basic_dex);
-        new_monster.status.basic_int = change_monster_status(new_monster.grade, new_monster.status.basic_int);
+        // new_monster.status.basic_str = change_monster_status(new_monster.grade, new_monster.status.basic_str);
+        // new_monster.status.basic_dex = change_monster_status(new_monster.grade, new_monster.status.basic_dex);
+        // new_monster.status.basic_int = change_monster_status(new_monster.grade, new_monster.status.basic_int);
 
-        new_monster.status.basic_str = (new_monster.status.basic_str * tribe_iter.base_str) / 100;
-        new_monster.status.basic_dex = (new_monster.status.basic_dex * tribe_iter.base_dex) / 100;
-        new_monster.status.basic_int = (new_monster.status.basic_int * tribe_iter.base_int) / 100;
+        // new_monster.status.basic_str = (new_monster.status.basic_str * tribe_iter.base_str) / 100;
+        // new_monster.status.basic_dex = (new_monster.status.basic_dex * tribe_iter.base_dex) / 100;
+        // new_monster.status.basic_int = (new_monster.status.basic_int * tribe_iter.base_int) / 100;
 
-        new_monster.state = object_state::on_inventory;
+        // new_monster.state = object_state::on_inventory;
 
-        uint32_t passive_id = get_passive_skill(2, monster_id_db_iter.tribe,_seed);
-        new_monster.passive_skill.push_back(passive_id);
+        // uint32_t passive_id = get_passive_skill(2, monster_id_db_iter.tribe,_seed);
+        // new_monster.passive_skill.push_back(passive_id);
+        monster_info new_monster = get_monster_random_state(monster_id_db_iter.id,
+                                                            _seed,
+                                                            3,
+                                                            monster_id_db_iter.tribe,
+                                                            monster_id_db_iter.type,
+                                                            tribe_iter.base_str,
+                                                            tribe_iter.base_dex,
+                                                            tribe_iter.base_int);
 
         update_user_monster_list.party_number = EMPTY_PARTY;
         update_user_monster_list.monster = new_monster;
@@ -10933,7 +10948,6 @@ ACTION battletest::towerstart(eosio::name _from, uint64_t _fnum)
     }
     else
     {
-
         std::vector<uint32_t> servant_pos_list = {0, 1, 2, 3, 4};
         std::vector<uint32_t> monster_pos_list = {5, 6, 7, 8, 9};
 
