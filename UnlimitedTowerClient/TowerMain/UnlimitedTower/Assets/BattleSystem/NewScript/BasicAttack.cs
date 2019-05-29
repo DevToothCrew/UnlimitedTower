@@ -17,7 +17,7 @@ public class BasicAttack : MonoBehaviour {
         if (charInfo.AttackRange > 0.1f)
             StartCoroutine(NearAttackAction(attackInfo, type));
         else
-            StartCoroutine(FarAttackAction(attackInfo));
+            StartCoroutine(FarAttackAction(attackInfo, type));
     }
 
     IEnumerator NearAttackAction(characterActionData attackInfo, ELEMENT_TYPE type = ELEMENT_TYPE.None)
@@ -87,7 +87,7 @@ public class BasicAttack : MonoBehaviour {
         ani.SetTrigger("isIdle");
     }
 
-    IEnumerator FarAttackAction(characterActionData attackInfo)
+    IEnumerator FarAttackAction(characterActionData attackInfo, ELEMENT_TYPE type = ELEMENT_TYPE.None)
     {
         Transform attacker;
         Transform target;
@@ -108,8 +108,9 @@ public class BasicAttack : MonoBehaviour {
         attacker.rotation = attackInfo.my_position < 10 ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0);
     
         yield return new WaitForSeconds(charInfo.AttackAfterDelay);
-    
-        DamageManager.Inst.DamageShow(attackInfo.action_info_list[0], false, (ELEMENT_TYPE)BattleManager.Inst.GetCharState(attackInfo.my_position).elementType);
+
+        DamageManager.Inst.DamageShow(attackInfo.action_info_list[0], false, type == ELEMENT_TYPE.None ? (ELEMENT_TYPE)BattleManager.Inst.GetCharState(attackInfo.my_position).elementType : type);
+
         if (BattleManager.Inst.status[attackInfo.action_info_list[0].target_position].NowHp > 0)
             BattleManager.Inst.animator[attackInfo.action_info_list[0].target_position].SetTrigger("isHit");
         else
