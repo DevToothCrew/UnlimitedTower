@@ -419,6 +419,40 @@ public class UserDataManager : MonoSingleton<UserDataManager>
         return userInfo.inventoryInfo;
     }
 
+    public bool CheckInventoryCount()
+    {
+        if(userInfo == null)
+        {
+            return false;
+        }
+
+        if (userInfo.inventoryInfo.servantInventory <= GetServantCount())
+        {
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Servant Inventory is Full");
+            return false;
+        }
+
+        if (userInfo.inventoryInfo.monsterInventory <= GetMonsterCount())
+        {
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Monster Inventory is Full");
+            return false;
+        }
+
+        if (userInfo.inventoryInfo.equipmentInventory <= GetEquipmentCount())
+        {
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Equipment Inventory is Full");
+            return false;
+        }
+
+        if (userInfo.inventoryInfo.itemInventory <= GetItemTotalCount())
+        {
+            SimpleErrorPopupVC.Inst.UpdateErrorText("Item Inventory is Full");
+            return false;
+        }
+
+        return true;
+    }
+
     public ulong GetUserEOS() /* 기본적으로 EOS와 UTG는 1이 10000으로 처리됩니다. */
     {
         return userInfo.userEOS;

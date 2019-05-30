@@ -1,5 +1,4 @@
-﻿using LitJson;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -2374,4 +2373,3 @@ public class PacketManager : MonoSingleton<PacketManager> {
 
     #endregion
 }
-

@@ -262,100 +262,62 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
 
     public void NextStage()
     {
-        UserInventoryInfo inventoryInfo = UserDataManager.Inst.GetUserInventoryInfo();
-
         if (UserDataManager.Inst.GetUserPartyInfo().partyIndex == 0)
         {
             DebugLog.Log(true, "Invalid User Data");
         }
 
-        if (inventoryInfo.servantInventory <= UserDataManager.Inst.GetServantCount())
+        if (UserDataManager.Inst.CheckInventoryCount() == false)
         {
-            SimpleErrorPopupVC.Inst.UpdateErrorText("Servant Inventory is Full");
             return;
         }
-        else if (inventoryInfo.monsterInventory <= UserDataManager.Inst.GetMonsterCount())
-        {
-            SimpleErrorPopupVC.Inst.UpdateErrorText("Monster Inventory is Full");
-            return;
-        }
-        else if (inventoryInfo.equipmentInventory <= UserDataManager.Inst.GetEquipmentCount())
-        {
-            SimpleErrorPopupVC.Inst.UpdateErrorText("Equipment Inventory is Full");
-            return;
-        }
-        else
-        {
 
 #if UNITY_EDITOR
-            {
-                if (UserDataManager.Inst.stageState.stageFloor != 10)
-                {
-                    Cheat.Inst.RequestStageStartCheat(UserDataManager.Inst.stageState.stageType, UserDataManager.Inst.stageState.stageFloor + 1, UserDataManager.Inst.stageState.stageDifficult, 1);
-                    UserDataManager.Inst.stageState = new UserStageStateData();
-                    UserDataManager.Inst.stageActionInfo = new battleActionData();
-                    UserDataManager.Inst.stageReward = new stageRewardData();
-                }
-            }
-#else
-        {
         if (UserDataManager.Inst.stageState.stageFloor != 10)
+        {
+            Cheat.Inst.RequestStageStartCheat(UserDataManager.Inst.stageState.stageType, UserDataManager.Inst.stageState.stageFloor + 1, UserDataManager.Inst.stageState.stageDifficult, 1);
+            UserDataManager.Inst.stageState = new UserStageStateData();
+            UserDataManager.Inst.stageActionInfo = new battleActionData();
+            UserDataManager.Inst.stageReward = new stageRewardData();
+        }
+#else
+        if (UserDataManager.Inst.stageState.stageFloor != 10)
+        {
             PacketManager.Inst.RequestStageStart(UserDataManager.Inst.stageState.stageType, UserDataManager.Inst.stageState.stageFloor + 1, UserDataManager.Inst.stageState.stageDifficult,1);
             UserDataManager.Inst.stageState = new UserStageStateData();
             UserDataManager.Inst.stageActionInfo = new battleActionData();
             UserDataManager.Inst.stageReward = new stageRewardData();
         }
 #endif
-            Time.timeScale = 2;
-            BattleManager.Inst.rewardParent?.SetActive(false);
-        }
+        Time.timeScale = 2;
+        BattleManager.Inst.rewardParent?.SetActive(false);
     }
 
     public void StageContinue()
     {
-        UserInventoryInfo inventoryInfo = UserDataManager.Inst.GetUserInventoryInfo();
-
         if (UserDataManager.Inst.GetUserPartyInfo().partyIndex == 0)
         {
             DebugLog.Log(true, "Invalid User Data");
         }
 
-        if (inventoryInfo.servantInventory <= UserDataManager.Inst.GetServantCount())
+        if (UserDataManager.Inst.CheckInventoryCount() == false)
         {
-            SimpleErrorPopupVC.Inst.UpdateErrorText("Servant Inventory is Full");
             return;
         }
-        else if (inventoryInfo.monsterInventory <= UserDataManager.Inst.GetMonsterCount())
-        {
-            SimpleErrorPopupVC.Inst.UpdateErrorText("Monster Inventory is Full");
-            return;
-        }
-        else if (inventoryInfo.equipmentInventory <= UserDataManager.Inst.GetEquipmentCount())
-        {
-            SimpleErrorPopupVC.Inst.UpdateErrorText("Equipment Inventory is Full");
-            return;
-        }
-        else
-        {
 
 #if UNITY_EDITOR
-            {
-                Cheat.Inst.RequestStageStartCheat(UserDataManager.Inst.stageState.stageType, UserDataManager.Inst.stageState.stageFloor, UserDataManager.Inst.stageState.stageDifficult, 1);
-                UserDataManager.Inst.stageState = new UserStageStateData();
-                UserDataManager.Inst.stageActionInfo = new battleActionData();
-                UserDataManager.Inst.stageReward = new stageRewardData();
-            }
+        Cheat.Inst.RequestStageStartCheat(UserDataManager.Inst.stageState.stageType, UserDataManager.Inst.stageState.stageFloor, UserDataManager.Inst.stageState.stageDifficult, 1);
+        UserDataManager.Inst.stageState = new UserStageStateData();
+        UserDataManager.Inst.stageActionInfo = new battleActionData();
+        UserDataManager.Inst.stageReward = new stageRewardData();
 #else
-        {
-            PacketManager.Inst.RequestStageStart(UserDataManager.Inst.stageState.stageType, UserDataManager.Inst.stageState.stageFloor, UserDataManager.Inst.stageState.stageDifficult,1);
-            UserDataManager.Inst.stageState = new UserStageStateData();
-            UserDataManager.Inst.stageActionInfo = new battleActionData();
-            UserDataManager.Inst.stageReward = new stageRewardData();
-        }
+        PacketManager.Inst.RequestStageStart(UserDataManager.Inst.stageState.stageType, UserDataManager.Inst.stageState.stageFloor, UserDataManager.Inst.stageState.stageDifficult,1);
+        UserDataManager.Inst.stageState = new UserStageStateData();
+        UserDataManager.Inst.stageActionInfo = new battleActionData();
+        UserDataManager.Inst.stageReward = new stageRewardData();
 #endif
-            Time.timeScale = 2;
-            BattleManager.Inst.battleFail?.SetActive(false);
-            BattleManager.Inst.rewardParent?.SetActive(false);
-        }
+        Time.timeScale = 2;
+        BattleManager.Inst.battleFail?.SetActive(false);
+        BattleManager.Inst.rewardParent?.SetActive(false);
     }
 }

@@ -66,34 +66,8 @@ public class GachaManager : MonoSingleton<GachaManager> {
             particleController.BeginDispersionAnimation();
         }
         else {
-            UserInventoryInfo inventoryInfo = UserDataManager.Inst.GetUserInventoryInfo();
-            if (inventoryInfo == null)
+            if (UserDataManager.Inst.CheckInventoryCount() == false)
             {
-                DebugLog.Log(false, "Invalid Inventory Info");
-                return;
-            }
-
-            if (inventoryInfo.servantInventory < UserDataManager.Inst.GetServantCount())
-            {
-                SimpleErrorPopupVC.Inst.UpdateErrorText("Servant Inventory is Full");
-                return;
-            }
-
-            if (inventoryInfo.monsterInventory < UserDataManager.Inst.GetMonsterCount())
-            {
-                SimpleErrorPopupVC.Inst.UpdateErrorText("Monster Inventory is Full");
-                return;
-            }
-
-            if (inventoryInfo.equipmentInventory < UserDataManager.Inst.GetEquipmentCount())
-            {
-                SimpleErrorPopupVC.Inst.UpdateErrorText("Equipment Inventory is Full");
-                return;
-            }
-
-            if (inventoryInfo.itemInventory < UserDataManager.Inst.GetItemTotalCount())
-            {
-                SimpleErrorPopupVC.Inst.UpdateErrorText("Item Inventory is Full");
                 return;
             }
 
