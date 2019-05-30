@@ -104,17 +104,6 @@ public class LobbyManager : MonoSingleton<LobbyManager> {
                 }
                 break;
 
-            case POPUP_STATE.Item:
-                {
-                    SetTextBackButton("Item");
-                    objSubView = Instantiate(Resources.Load("UI/Lobby/ItemVC")) as GameObject;
-                    objSubView.transform.SetParent(this.transform);
-                    objSubView.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-                    BackbuttonUI.SetActive(true);
-                    imageBackButtonIcon.sprite = Resources.Load<Sprite>("UI/Lobby/Image/icon_inventory");
-                }
-                break;
-
             case POPUP_STATE.EOS:
                 {
                     SetTextBackButton("Shop");

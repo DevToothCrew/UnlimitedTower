@@ -16,7 +16,7 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
 
     //Menu Buttons UI
     public Text textButtonBack;
-    public Button[] buttonMenu = new Button[3];
+    public Button[] buttonMenu = new Button[4];
 
     [HideInInspector]
     public int selected_tab = 0;
@@ -35,18 +35,30 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
     void updateAllView()
     {
         FrameMain.SetActive(true);
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 4; i++)
         {
             buttonMenu[i].image.sprite = buttonMenu[i].spriteState.disabledSprite;
             buttonMenu[i].GetComponentInChildren<Text>().color = Color.white;
         }
 
-        FrameEquipmentInfo.SetActive(true);
+        if (selectedMenu == Inventory_Menu_Type.ITEM)
+        {
+            FrameEquipmentInfo.SetActive(false);
+            FrameItemInfo.SetActive(true);
 
-        buttonMenu[(int)selectedMenu].image.sprite = buttonMenu[(int)selectedMenu].spriteState.pressedSprite;
-        buttonMenu[(int)selectedMenu].GetComponentInChildren<Text>().color = Color.black;
+            buttonMenu[(int)selectedMenu].image.sprite = buttonMenu[(int)selectedMenu].spriteState.pressedSprite;
+            buttonMenu[(int)selectedMenu].GetComponentInChildren<Text>().color = Color.black;
+        }
+        else
+        {
+            FrameItemInfo.SetActive(false);
+            FrameEquipmentInfo.SetActive(true);
 
-        EquipmentInfoManager.Inst.updateAllView();
+            buttonMenu[(int)selectedMenu].image.sprite = buttonMenu[(int)selectedMenu].spriteState.pressedSprite;
+            buttonMenu[(int)selectedMenu].GetComponentInChildren<Text>().color = Color.black;
+
+            EquipmentInfoManager.Inst.updateAllView();
+        }
 
     }
 
@@ -64,6 +76,10 @@ public class InventoryVC : MonoSingleton<InventoryVC> {
         else if (tag == (int)Inventory_Menu_Type.ACCESSORY)
         {
             selectedMenu = Inventory_Menu_Type.ACCESSORY;
+        }
+        else
+        {
+            selectedMenu = Inventory_Menu_Type.ITEM;
         }
         updateAllView();
     }

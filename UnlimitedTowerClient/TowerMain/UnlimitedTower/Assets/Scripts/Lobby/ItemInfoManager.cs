@@ -33,6 +33,7 @@ public class ItemInfoManager : MonoSingleton<ItemInfoManager> {
     }
     public List<item_unit> ItemList = new List<item_unit>();
 
+    private Inventory_Menu_Type selectedMenu;
     private bool is_init_scroll = false;
 
     private void OnEnable()
@@ -40,39 +41,49 @@ public class ItemInfoManager : MonoSingleton<ItemInfoManager> {
         FrameItemInfo.SetActive(false);
         FrameNoneItem.SetActive(false);
 
-        setData();
-
-        if (ItemList.Count > 0)
+        if (InventoryVC.Inst.selectedMenu == Inventory_Menu_Type.ITEM)
         {
-            FrameItemInfo.SetActive(true);
+            selectedMenu = InventoryVC.Inst.selectedMenu;
 
-            if (is_init_scroll)
+            setData();
+
+            if (ItemList.Count > 0)
             {
-                scrollList.SetItemOrder(getOrder());
+                FrameItemInfo.SetActive(true);
+
+                if (is_init_scroll)
+                {
+                    scrollList.SetItemOrder(getOrder());
+                }
+                else
+                {
+                    is_init_scroll = true;
+                    initScrollList();
+                }
+
+                textOwned.text = string.Format("{0}", ItemList.Count);
+                textTotal.text = string.Format("/ {0}", UserDataManager.Inst.GetUserInventoryInfo().itemInventory);
+                if (ItemList.Count >= UserDataManager.Inst.GetUserInventoryInfo().itemInventory)
+                {
+                    textOwned.color = Color.red;
+                }
+                else
+                {
+                    textOwned.color = Color.white;
+                }
+
+                updateItemDetailInfo(scrollList.getFirstItemOrder());
             }
             else
             {
-                is_init_scroll = true;
-                initScrollList();
+                FrameNoneItem.SetActive(true);
+                textNoneItem.text = string.Format("None ITEM");
             }
-
-            textOwned.text = string.Format("{0}", ItemList.Count);
-            textTotal.text = string.Format("/ {0}", UserDataManager.Inst.GetUserInventoryInfo().itemInventory);
-            if (ItemList.Count >= UserDataManager.Inst.GetUserInventoryInfo().itemInventory)
-            {
-                textOwned.color = Color.red;
-            }
-            else
-            {
-                textOwned.color = Color.white;
-            }
-
-            updateItemDetailInfo(scrollList.getFirstItemOrder());
         }
         else
         {
-            FrameNoneItem.SetActive(true);
-            textNoneItem.text = string.Format("None ITEM");
+            DebugLog.Log(false, "Invalid Item Menu");
+            return;
         }
 
     }
