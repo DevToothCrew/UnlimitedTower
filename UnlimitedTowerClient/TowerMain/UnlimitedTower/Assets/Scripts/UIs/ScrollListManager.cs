@@ -150,32 +150,33 @@ public class ScrollListManager : MonoBehaviour, IBeginDragHandler, IEndDragHandl
         {
             if (InventoryVC.checkInst())
             {
-                if (InventoryVC.Inst.selectedMenu == Inventory_Menu_Type.ITEM)
+                bool none_subview = true;
+                if (SubViewDeconstruction.checkInst() || SubViewEquipment.checkInst() || SubViewUpgrade.checkInst())
                 {
-                    if (ItemInfoManager.Inst.ItemList.Count > 0)
-                    {
-                        ItemInfoManager.Inst.updateItemDetailInfo(selected_main_idx);
-                    }
+                    none_subview = false;
                 }
-                else
+
+                if (InventoryVC.checkInst() && none_subview)
                 {
-                    bool none_subview = true;
-                    if (SubViewDeconstruction.checkInst() || SubViewEquipment.checkInst() || SubViewUpgrade.checkInst())
-                    {
-                        none_subview = false;
-                    }
 
-                    if (InventoryVC.checkInst() && none_subview)
+                    if (EquipmentInfoManager.Inst.EquipmentList[(int)EquipmentInfoManager.Inst.GetSelectedMenu()].Count > 0)
                     {
-
-                        if (EquipmentInfoManager.Inst.EquipmentList[(int)EquipmentInfoManager.Inst.GetSelectedMenu()].Count > 0)
-                        {
-                            EquipmentInfoManager.Inst.updateDetailInfo(selected_main_idx);
-                        }
+                        EquipmentInfoManager.Inst.updateDetailInfo(selected_main_idx);
                     }
                 }
             }
              
+        }
+        else//Item
+        {
+            if (ItemVC.checkInst())
+            {
+                if (ItemInfoManager.Inst.ItemList.Count > 0)
+                {
+                    ItemInfoManager.Inst.updateItemDetailInfo(selected_main_idx);
+                }
+            }
+                
         }
 
     }

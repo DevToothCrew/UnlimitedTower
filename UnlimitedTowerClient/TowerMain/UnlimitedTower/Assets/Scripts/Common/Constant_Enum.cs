@@ -299,6 +299,9 @@ public enum POPUP_STATE
     Mail = 41,
     Setting = 42,
     PVP = 43,
+
+    // Item
+    Item = 50,
 }
 
 public enum EQUIPMENT_TYPE
@@ -456,8 +459,13 @@ public enum Inventory_Menu_Type
 {
     WEAPON = 0,
     ARMOR,
-    ACCESSORY,
-    ITEM
+    ACCESSORY
+}
+
+public enum Item_Menu_Type
+{
+    ITEM_0 = 0,
+    ITEM_1
 }
 
 public enum MESSAGE_IDX
