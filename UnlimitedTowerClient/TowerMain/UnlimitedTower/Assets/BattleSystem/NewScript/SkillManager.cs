@@ -59,7 +59,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     {
         BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
         //skillText.text = "배쉬";
-        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.5f);
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.0f);
         TestSkillEffect(battleInfo.action_info_list[0].target_position);
     }
     #endregion
@@ -75,7 +75,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     {
         BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
         //skillText.text = "패스트 어택";
-        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.5f);
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.0f);
         TestSkillEffect(battleInfo.action_info_list[0].target_position);
     }
     #endregion
@@ -91,7 +91,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     {
         BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
         //skillText.text = "크리티컬 스트라이크";
-        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.5f);
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.0f);
         TestSkillEffect(battleInfo.action_info_list[0].target_position);
     }
     #endregion
@@ -132,7 +132,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     {
         BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
         //skillText.text = "매직 스트라이크";
-        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.5f);
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.0f);
         TestSkillEffect(battleInfo.action_info_list[0].target_position);
     }
     #endregion
@@ -239,7 +239,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     public IEnumerator Skill_200009_Co(characterActionData battleInfo)
     {
         BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo, ELEMENT_TYPE.Fire);
-        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.5f);
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.0f);
         Instantiate(effect["200009"], BattleManager.Inst.character[battleInfo.action_info_list[0].target_position].transform.position +
             new Vector3(0, BattleManager.Inst.charInfo[battleInfo.action_info_list[0].target_position].Height * 0.5f, 0),
             Quaternion.identity);
@@ -341,7 +341,7 @@ public class SkillManager : MonoSingleton<SkillManager>
     public IEnumerator Skill_200015_Co(characterActionData battleInfo)
     {
         BattleManager.Inst.character[battleInfo.my_position].GetComponent<BasicAttack>().Attack(battleInfo);
-        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.5f);
+        yield return new WaitForSeconds(BattleManager.Inst.charInfo[battleInfo.my_position].AttackDelay + 1.0f);
         TestSkillEffect(battleInfo.action_info_list[0].target_position);
     }
     #endregion
