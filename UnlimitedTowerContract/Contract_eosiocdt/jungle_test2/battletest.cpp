@@ -343,20 +343,20 @@ ACTION battletest::dbinsert(std::string _table, std::string _value)
     //     insert_new_reward(info);
     // }
 
-    // if (_table == "dbserstat")
-    // {
-    //     substr_value(_value, value_list, size_list, 10);
-    //     insert_job_stat(atoll(value_list[0].c_str()),
-    //                     atoi(value_list[1].c_str()),
-    //                     atoi(value_list[2].c_str()),
-    //                     atoi(value_list[3].c_str()),
-    //                     atoi(value_list[4].c_str()),
-    //                     atoi(value_list[5].c_str()),
-    //                     atoi(value_list[6].c_str()),
-    //                     atoi(value_list[7].c_str()),
-    //                     atoi(value_list[8].c_str()),
-    //                     atoi(value_list[9].c_str()));
-    // }
+    if (_table == "dbserstat")
+    {
+        substr_value(_value, value_list, size_list, 10);
+        insert_job_stat(atoll(value_list[0].c_str()),
+                        atoi(value_list[1].c_str()),
+                        atoi(value_list[2].c_str()),
+                        atoi(value_list[3].c_str()),
+                        atoi(value_list[4].c_str()),
+                        atoi(value_list[5].c_str()),
+                        atoi(value_list[6].c_str()),
+                        atoi(value_list[7].c_str()),
+                        atoi(value_list[8].c_str()),
+                        atoi(value_list[9].c_str()));
+    }
 
     // if (_table == "dbprepool")
     // {
@@ -1325,49 +1325,49 @@ void battletest::insert_gold_gacha_pool(uint64_t _gacha_id, uint64_t _db_index)
 //     }
 // }
 
-// void battletest::insert_job_stat(uint64_t _id,
-//                                 uint32_t _job,
-//                                 uint32_t _grade,
-//                                  uint32_t _base_str,
-//                                  uint32_t _base_dex,
-//                                  uint32_t _base_int,
-//                                  uint32_t _speed,
-//                                  uint32_t _avoid,
-//                                  uint32_t _cri_per,
-//                                  uint32_t _cri_dmg)
-// {
-//     serstat_db class_stat_db_table(_self, _self.value);
-//     auto class_iter = class_stat_db_table.find(_id);
-//     if (class_iter == class_stat_db_table.end())
-//     {
-//         class_stat_db_table.emplace(_self, [&](auto &new_data) {
-//             new_data.id = _id;
-//             new_data.job = _job;
-//             new_data.grade = _grade;
-//             new_data.base_str = _base_str;
-//             new_data.base_dex = _base_dex;
-//             new_data.base_int = _base_int;
-//             new_data.speed = _speed;
-//             new_data.avoid = _avoid;
-//             new_data.cri_per = _cri_per;
-//             new_data.cri_dmg = _cri_dmg;
-//         });
-//     }
-//     else
-//     {
-//         class_stat_db_table.modify(class_iter, _self, [&](auto &new_data) {
-//             new_data.job = _job;
-//             new_data.grade = _grade;
-//             new_data.base_str = _base_str;
-//             new_data.base_dex = _base_dex;
-//             new_data.base_int = _base_int;
-//             new_data.speed = _speed;
-//             new_data.avoid = _avoid;
-//             new_data.cri_per = _cri_per;
-//             new_data.cri_dmg = _cri_dmg;
-//         });
-//     }
-// }
+void battletest::insert_job_stat(uint64_t _id,
+                                uint32_t _job,
+                                uint32_t _grade,
+                                 uint32_t _base_str,
+                                 uint32_t _base_dex,
+                                 uint32_t _base_int,
+                                 uint32_t _speed,
+                                 uint32_t _avoid,
+                                 uint32_t _cri_per,
+                                 uint32_t _cri_dmg)
+{
+    serstat_db class_stat_db_table(_self, _self.value);
+    auto class_iter = class_stat_db_table.find(_id);
+    if (class_iter == class_stat_db_table.end())
+    {
+        class_stat_db_table.emplace(_self, [&](auto &new_data) {
+            new_data.id = _id;
+            new_data.job = _job;
+            new_data.grade = _grade;
+            new_data.base_str = _base_str;
+            new_data.base_dex = _base_dex;
+            new_data.base_int = _base_int;
+            new_data.speed = _speed;
+            new_data.avoid = _avoid;
+            new_data.cri_per = _cri_per;
+            new_data.cri_dmg = _cri_dmg;
+        });
+    }
+    else
+    {
+        class_stat_db_table.modify(class_iter, _self, [&](auto &new_data) {
+            new_data.job = _job;
+            new_data.grade = _grade;
+            new_data.base_str = _base_str;
+            new_data.base_dex = _base_dex;
+            new_data.base_int = _base_int;
+            new_data.speed = _speed;
+            new_data.avoid = _avoid;
+            new_data.cri_per = _cri_per;
+            new_data.cri_dmg = _cri_dmg;
+        });
+    }
+}
 
 // void battletest::insert_type(uint64_t _id, uint32_t _strong, uint32_t _weak, uint32_t _strong_per, uint32_t _weak_per, uint32_t _pair, uint32_t _triple, uint32_t _penta)
 // {
@@ -12617,13 +12617,32 @@ void battletest::new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t 
            std::make_tuple(_self, _user, stage_reward_money, std::string("stage reward")))
         .send();
 
+
+
+
     user_logs user_log_table(_self, _self.value);
     auto user_log_iter = user_log_table.find(_user.value);
     eosio_assert(user_log_iter != user_log_table.end(), "Win Reward : Empty Log Table / Not Yet Signup");
-    user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
-        if(update_log.top_clear_stage < _stage_id)
+
+    auto stage_log_iter = reward_db_table.find(user_log_iter->top_clear_stage);
+
+    uint64_t top_user_stage_id = 0;
+    if(stage_log_iter == reward_db_table.end())
+    {
+        top_user_stage_id = reward_iter->id;
+    }
+    else
+    {
+        if(stage_log_iter->char_exp < reward_iter->char_exp)
         {
-            update_log.top_clear_stage = _stage_id;
+            top_user_stage_id = reward_iter->id;
+        }
+    }
+
+    user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
+        if (top_user_stage_id != 0)
+        {
+            update_log.top_clear_stage = top_user_stage_id;
         }
         update_log.last_stage_num = _stage_id;
         update_log.battle_count += 1;
