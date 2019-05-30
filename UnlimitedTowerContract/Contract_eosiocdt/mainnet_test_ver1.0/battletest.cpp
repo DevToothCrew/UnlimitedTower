@@ -8910,6 +8910,7 @@ ACTION battletest::equipmentup(eosio::name _user, uint32_t _equipment, const std
         eosio_assert(user_items_iter != user_items_table.end(), "equipmentup : not exist consumables info");
         eosio_assert(user_items_iter->id == user_upgrade_equipment_iter->material_id, "equipmentup : upgrade sub item no match");
 
+        uint32_t sub_item_count = user_upgrade_equipment_iter->material_count[user_equipment_iter->equipment.upgrade];
         uint32_t target_item_count = user_items_iter->item_list.size();
         inventory_size += target_item_count;
         uint64_t total_item_count = 0;
@@ -8917,35 +8918,34 @@ ACTION battletest::equipmentup(eosio::name _user, uint32_t _equipment, const std
         {
             total_item_count += user_items_iter->item_list[j].count;
         }
-
+        sub_inventory = sub_item_check(_user, user_items_iter->id, sub_item_count);
         eosio_assert(total_item_count >= user_upgrade_equipment_iter->material_count[user_equipment_iter->equipment.upgrade], "equipmentup : Invalid Item Count");
 
-        uint32_t sub_item_count = user_upgrade_equipment_iter->material_count[user_equipment_iter->equipment.upgrade];
-        if (total_item_count == sub_item_count)
-        {
-            user_items_table.erase(user_items_iter);
-        }
-        else
-        {
-            user_items_table.modify(user_items_iter, _self, [&](auto &change_user_item) {
-                auto sub_item_iter = change_user_item.item_list.end() - 1;
-                for(uint32_t j = target_item_count - 1; j >= 0; j--)
-                {
-                    if(change_user_item.item_list[j].count > sub_item_count)
-                    {
-                        change_user_item.item_list[j].count -= sub_item_count;
-                        break;
-                    }
-                    else
-                    {
-                        sub_item_count -= change_user_item.item_list[j].count;
-                        change_user_item.item_list.erase(sub_item_iter);
-                        sub_inventory += 1;
-                        sub_item_iter--;
-                    }
-                }
-            });
-        }
+        // if (total_item_count == sub_item_count)
+        // {
+        //     user_items_table.erase(user_items_iter);
+        // }
+        // else
+        // {
+        //     user_items_table.modify(user_items_iter, _self, [&](auto &change_user_item) {
+        //         auto sub_item_iter = change_user_item.item_list.end() - 1;
+        //         for(uint32_t j = target_item_count - 1; j >= 0; j--)
+        //         {
+        //             if(change_user_item.item_list[j].count > sub_item_count)
+        //             {
+        //                 change_user_item.item_list[j].count -= sub_item_count;
+        //                 break;
+        //             }
+        //             else
+        //             {
+        //                 sub_item_count -= change_user_item.item_list[j].count;
+        //                 change_user_item.item_list.erase(sub_item_iter);
+        //                 sub_inventory += 1;
+        //                 sub_item_iter--;
+        //             }
+        //         }
+        //     });
+        // }
     }
 
     uint64_t l_seed = safeseed::get_seed_value(_user.value, now());
