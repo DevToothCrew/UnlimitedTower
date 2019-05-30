@@ -637,7 +637,7 @@ void battletest::insert_status_equipment(uint64_t _grade, std::vector<uint32_t> 
     {
         monster_lv_status_db_table.emplace(_self, [&](auto &new_data)
         {
-            new_data.type_grade = _grade;
+            new_data.grade = _grade;
             for(uint32_t i = 0; i < _status_list.size(); ++i)
             {
                 lv_status_sub sub;
@@ -905,27 +905,34 @@ void battletest::insert_monster_grade(std::string _status, uint64_t _grade, uint
     }
 }
 
-void battletest::insert_all_item_id(uint64_t _item_id, uint32_t _type, uint64_t _max_count)
-{
-   allitem_db item_id_db_table(_self, _self.value);
-   auto item_id_iter = item_id_db_table.find(_item_id);
-   if (item_id_iter == item_id_db_table.end())
-   {
-       item_id_db_table.emplace(_self, [&](auto &new_item_id) {
-           new_item_id.id = _item_id;
-           new_item_id.type = _type;
-           new_item_id.max_count = _max_count;
-       });
-   }
-   else
-   {
-       item_id_db_table.modify(item_id_iter, _self, [&](auto &new_item_id) {
-           new_item_id.id = _item_id;
-           new_item_id.type = _type;
-           new_item_id.max_count = _max_count;
-       });
-   }
-}
+// void battletest::insert_all_item_id(uint64_t _item_id, uint32_t _type, uint32_t _grade, uint64_t _max_count, uint64_t _sell_item_id, uint64_t _sell_item_count)
+// {
+//     allitem_db item_id_db_table(_self, _self.value);
+//     auto item_id_iter = item_id_db_table.find(_item_id);
+//     if (item_id_iter == item_id_db_table.end())
+//     {
+//         item_id_db_table.emplace(_self, [&](auto &new_item_id) {
+//             new_item_id.id = _item_id;
+//             new_item_id.type = _type;
+//             new_item_id.grade = _grade;
+//             new_item_id.max_count = _max_count;
+//             new_item_id.sell_item_id = _sell_item_id;
+//             new_item_id.sell_item_count = _sell_item_count;
+//         });
+//     }
+//     else
+//     {
+//         item_id_db_table.modify(item_id_iter, _self, [&](auto &new_item_id) {
+//             new_item_id.id = _item_id;
+//             new_item_id.type = _type;
+//             new_item_id.grade = _grade;
+//             new_item_id.max_count = _max_count;
+//             new_item_id.sell_item_id = _sell_item_id;
+//             new_item_id.sell_item_count = _sell_item_count;
+//         });
+//     }
+// }
+ 
 void battletest::insert_item_grade(std::string _status, uint64_t _grade, uint64_t _min, uint64_t _max)
 {
     item_grade_db item_grade_db_table(_self, _self.value);
@@ -3387,7 +3394,7 @@ void battletest::signup(eosio::name _user, eosio::name _refer ,uint64_t _use_eos
         // new_monster.passive_skill.push_back(passive_id);
         monster_info new_monster = get_monster_random_state(monster_id_db_iter.id,
                                                             _seed,
-                                                            3,
+                                                            5,
                                                             monster_id_db_iter.tribe,
                                                             monster_id_db_iter.type,
                                                             tribe_iter.base_str,
@@ -3398,15 +3405,11 @@ void battletest::signup(eosio::name _user, eosio::name _refer ,uint64_t _use_eos
         update_user_monster_list.monster = new_monster;
     });
 
-
     asset utg_cheat_money(0, symbol(symbol_code("UTG"), 4));
-    if (_user == _refer)
+    utg_cheat_money.amount = 0;
+    if(_user != _refer)
     {
-        utg_cheat_money.amount = 1000 * 10000;
-    }
-    else
-    {
-        utg_cheat_money.amount = 11000000; //1100 UTG
+        utg_cheat_money.amount = 100 * 10000; 
 
         referlist refermaster_table(_self, _self.value);
         auto referlist_iter = refermaster_table.find(_refer.value);
@@ -3418,7 +3421,7 @@ void battletest::signup(eosio::name _user, eosio::name _refer ,uint64_t _use_eos
         });
 
         asset refer_reward(0, symbol(symbol_code("UTG"), 4));
-        refer_reward.amount = 1000000; // 100 UTG
+        refer_reward.amount = 100 * 10000; 
 
         user_logs user_log_table(_self, _self.value);
         auto log_refer_iter = user_log_table.find(referlist_iter->referer.value);
