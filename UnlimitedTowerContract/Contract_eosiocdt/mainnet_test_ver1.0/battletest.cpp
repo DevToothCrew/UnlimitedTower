@@ -12570,15 +12570,32 @@ void battletest::new_win_reward(eosio::name _user, uint64_t _stage_id, uint64_t 
     user_logs user_log_table(_self, _self.value);
     auto user_log_iter = user_log_table.find(_user.value);
     eosio_assert(user_log_iter != user_log_table.end(), "Win Reward : Empty Log Table / Not Yet Signup");
-    user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
-        if(update_log.top_clear_stage < _stage_id)
+
+    auto stage_log_iter = reward_db_table.find(user_log_iter->top_clear_stage);
+
+    uint64_t top_user_stage_id = 0;
+    if(stage_log_iter == reward_db_table.end())
+    {
+        top_user_stage_id = reward_iter->id;
+    }
+    else
+    {
+        if(stage_log_iter->char_exp < reward_iter->char_exp)
         {
-            update_log.top_clear_stage = _stage_id;
+            top_user_stage_id = reward_iter->id;
+        }
+    }
+
+    user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
+        if (top_user_stage_id != 0)
+        {
+            update_log.top_clear_stage = top_user_stage_id;
         }
         update_log.last_stage_num = _stage_id;
         update_log.battle_count += 1;
         update_log.get_utg += stage_reward_money.amount;
     });
+
 
     battle_reward_list battle_reward_list_table(_self, _self.value);
     auto user_battle_reward_iter = battle_reward_list_table.find(_user.value);
