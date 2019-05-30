@@ -45,9 +45,6 @@ public class MonsterInfoManager : MonoBehaviour {
     public Text textPassiveText;
     public Image imagePassive;
 
-    private int unit_idx;
-
-
     public void updateMonsterInfo(UserMonsterData m_data)
     {
         //unit_idx = u_idx;
