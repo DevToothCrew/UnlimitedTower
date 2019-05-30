@@ -6171,7 +6171,8 @@ void battletest::init_buff_turn_self(battle_status_info &_status)
 void battletest::set_random_damage(action_info &_action, uint64_t _seed)
 {
     uint32_t seed = _seed >> 1;
-    uint64_t rate = safeseed::get_random_value(seed, 111, 90, 0);
+    uint64_t rate = safeseed::get_random_value(seed, 21, 0, 0);
+    rate += 90;
     _action.damage = (_action.damage * rate) / 100;
 }
 
