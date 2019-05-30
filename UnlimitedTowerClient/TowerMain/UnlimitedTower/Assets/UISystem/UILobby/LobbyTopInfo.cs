@@ -191,9 +191,10 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
 
     IEnumerator IncreaseCounting(Text textNumber, ulong startValue, ulong finishValue)
     {
+        ulong changeValue_ = changeValue;
         while (startValue < finishValue)
         {
-            startValue += changeValue;
+            startValue += changeValue_;
             if (startValue > finishValue)
             {
                 startValue = finishValue;
@@ -207,11 +208,12 @@ public class LobbyTopInfo : MonoSingleton<LobbyTopInfo> {
 
     IEnumerator DicreaseCounting(Text textNumber, ulong startValue, ulong finishValue)
     {
+        ulong changeValue_ = changeValue;
         while (startValue > finishValue)
         {
-            if (startValue >= changeValue)
+            if (startValue >= changeValue_)
             {
-                startValue -= changeValue;
+                startValue -= changeValue_;
             }
             else
             {
