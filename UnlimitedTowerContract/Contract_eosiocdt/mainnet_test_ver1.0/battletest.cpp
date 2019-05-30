@@ -3567,6 +3567,7 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
 
 
         user_mail_table.erase(user_mail_iter);
+        mail_erase_count +=1;
     }
     
     user_log_table.modify(user_log_iter, _self, [&](auto &update_log) {
@@ -6120,8 +6121,6 @@ bool battletest::new_sort_heal_compare(const heal_compare &a, const heal_compare
 {
    uint32_t a_per = (a.now_hp * 100) / a.max_hp;
    uint32_t b_per = (b.now_hp * 100) / b.max_hp;
-   // float a_per = a.now_hp / a.max_hp;
-   // float b_per = b.now_hp / b.max_hp;
    if (a_per < b_per)
    {
        return true;
