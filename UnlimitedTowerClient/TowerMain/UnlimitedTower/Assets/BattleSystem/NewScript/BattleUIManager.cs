@@ -269,17 +269,17 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
             DebugLog.Log(true, "Invalid User Data");
         }
 
-        if (inventoryInfo.servantInventory < UserDataManager.Inst.GetServantCount())
+        if (inventoryInfo.servantInventory <= UserDataManager.Inst.GetServantCount())
         {
             SimpleErrorPopupVC.Inst.UpdateErrorText("Servant Inventory is Full");
             return;
         }
-        else if (inventoryInfo.monsterInventory < UserDataManager.Inst.GetMonsterCount())
+        else if (inventoryInfo.monsterInventory <= UserDataManager.Inst.GetMonsterCount())
         {
             SimpleErrorPopupVC.Inst.UpdateErrorText("Monster Inventory is Full");
             return;
         }
-        else if (inventoryInfo.equipmentInventory < UserDataManager.Inst.GetEquipmentCount())
+        else if (inventoryInfo.equipmentInventory <= UserDataManager.Inst.GetEquipmentCount())
         {
             SimpleErrorPopupVC.Inst.UpdateErrorText("Equipment Inventory is Full");
             return;
@@ -320,17 +320,17 @@ public class BattleUIManager : MonoSingleton<BattleUIManager> {
             DebugLog.Log(true, "Invalid User Data");
         }
 
-        if (inventoryInfo.servantInventory < UserDataManager.Inst.GetServantCount())
+        if (inventoryInfo.servantInventory <= UserDataManager.Inst.GetServantCount())
         {
             SimpleErrorPopupVC.Inst.UpdateErrorText("Servant Inventory is Full");
             return;
         }
-        else if (inventoryInfo.monsterInventory < UserDataManager.Inst.GetMonsterCount())
+        else if (inventoryInfo.monsterInventory <= UserDataManager.Inst.GetMonsterCount())
         {
             SimpleErrorPopupVC.Inst.UpdateErrorText("Monster Inventory is Full");
             return;
         }
-        else if (inventoryInfo.equipmentInventory < UserDataManager.Inst.GetEquipmentCount())
+        else if (inventoryInfo.equipmentInventory <= UserDataManager.Inst.GetEquipmentCount())
         {
             SimpleErrorPopupVC.Inst.UpdateErrorText("Equipment Inventory is Full");
             return;
