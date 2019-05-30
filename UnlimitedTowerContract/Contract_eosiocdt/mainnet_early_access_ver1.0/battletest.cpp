@@ -3278,6 +3278,11 @@ void battletest::signup(eosio::name _user, eosio::name _refer ,uint64_t _use_eos
                _self, "transfer"_n,
                std::make_tuple(_self, referlist_iter->referer, refer_reward, std::string("Refer Reward")))
             .send();
+            
+        action(permission_level{_self, "active"_n},
+               _self, "transfer"_n,
+               std::make_tuple(_self, _user, utg_cheat_money, std::string("SignUp Reward")))
+            .send();
     }
 
     user_logs user_log_table(_self, _self.value);
@@ -3291,10 +3296,7 @@ void battletest::signup(eosio::name _user, eosio::name _refer ,uint64_t _use_eos
         new_log.get_utg += utg_cheat_money.amount;
     });
 
-    action(permission_level{_self, "active"_n},
-           _self, "transfer"_n,
-           std::make_tuple(_self, _user, utg_cheat_money, std::string("SignUp Reward")))
-        .send();
+
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
