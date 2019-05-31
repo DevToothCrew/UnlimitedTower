@@ -20,7 +20,7 @@
 #define PAIR_SLOT               5
 
 //============Gacha==============//
-//ÃÖ´ë°ªÀÇ + 1·Î ÁöÁ¤ÇØ¾ßÇÑ´Ù
+//ï¿½Ö´ë°ªï¿½ï¿½ + 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Ñ´ï¿½
 #define GACHA_MAX_RATE          10000000
 #define DEFAULT_MIN_DB          1
 #define MONSTER_GACHA_ID_START  20000
@@ -51,10 +51,10 @@
 #define ITEM_UPGRADE_RATE     100
 
 //============reward============//
-#define TIER_1_MAX_COUNT        8
-#define TIER_2_MAX_COUNT        8
-#define TIER_3_MAX_COUNT        8
-#define TIER_4_MAX_COUNT        8
+#define TIER_1_MAX_COUNT        9
+#define TIER_2_MAX_COUNT        9
+#define TIER_3_MAX_COUNT        9
+#define TIER_4_MAX_COUNT        9
 
 //==========change_money=======//
 #define ORIGINRAL_MONEY         10000
