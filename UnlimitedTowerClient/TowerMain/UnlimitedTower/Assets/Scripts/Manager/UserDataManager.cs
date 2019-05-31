@@ -250,11 +250,11 @@ public class UserDataManager : MonoSingleton<UserDataManager>
             servantDic[index].level += getLvup;
             //레벨업시 스탯 증가 반영해주는 코드 필요
 
-            Status addStatus = CSVData.Inst.GetServantLevelPerAddStatus(servantDic[index].jobType, servantDic[index].gradeType);
-
-            servantDic[index].status.basicStr += (getLvup * addStatus.basicStr);
-            servantDic[index].status.basicDex += (getLvup * addStatus.basicDex);
-            servantDic[index].status.basicInt += (getLvup * addStatus.basicInt);
+            // Status addStatus = CSVData.Inst.GetServantLevelPerAddStatus(servantDic[index].jobType, servantDic[index].gradeType);
+            // 
+            // servantDic[index].status.basicStr += (getLvup * addStatus.basicStr);
+            // servantDic[index].status.basicDex += (getLvup * addStatus.basicDex);
+            // servantDic[index].status.basicInt += (getLvup * addStatus.basicInt);
         }
     }
 
