@@ -74,24 +74,6 @@ CONTRACT battletest : public contract
     };
     typedef eosio::multi_index<"dbgender"_n, dbgender> gender_db;
 
-    TABLE dbitemgrade
-    {
-        uint64_t grade;
-        object_status min_range;
-        object_status max_range;
-        uint64_t primary_key() const { return grade; }
-    };
-    typedef eosio::multi_index<"dbitemgrade"_n, dbitemgrade> item_grade_db;
-
-    TABLE dbmonstergd
-    {
-        uint64_t grade;
-        object_status min_range;
-        object_status max_range;
-        uint64_t primary_key() const { return grade; }
-    };
-    typedef eosio::multi_index<"dbmonstergd"_n, dbmonstergd> monster_grade_db;
-
     TABLE dbservantjob
     {
         uint64_t job;
@@ -564,10 +546,8 @@ CONTRACT battletest : public contract
     void insert_gender(uint64_t _appear);
     void insert_servant(uint64_t _servant_id, uint32_t _job, uint32_t _body, uint32_t _gender, uint32_t _head, uint32_t _hair, uint32_t _grade);
     
-    void insert_monster_grade(std::string _status, uint64_t _grade, uint64_t _min, uint64_t _max);
+     void insert_all_item_id(uint64_t _item_id, uint32_t _type, uint32_t _grade, uint64_t _max_count, uint64_t _sell_item_id, uint64_t _sell_item_count);
 
-    void insert_all_item_id(uint64_t _item_id, uint32_t _type, uint32_t _grade, uint64_t _max_count, uint64_t _sell_item_id, uint64_t _sell_item_count);
-    void insert_item_grade(std::string _status, uint64_t _grade, uint64_t _min, uint64_t _max);
     void insert_grade_ratio(uint64_t _grade, uint64_t _ratio);
     void insert_upgrade_monster_ratio(uint32_t _main, uint64_t _upgrade_price_count);
     void insert_servant_burn_item(uint64_t _servant_job, uint64_t _result_item_id);
@@ -595,7 +575,7 @@ CONTRACT battletest : public contract
                               uint64_t _option);
     void insert_monster(uint64_t _monster_id, uint64_t _tribe, uint64_t _type);
 
-    void erase_job(uint64_t _job);
+    //void erase_job(uint64_t _job);
     //  void erase_head(uint64_t _appear);
     //  void erase_hair(uint64_t _appear);
     //  void erase_body(uint64_t _appear);
