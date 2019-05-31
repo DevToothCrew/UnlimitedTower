@@ -7,7 +7,7 @@
 //preregist_log_table, user_log_table
 
 //owner_system
-static const eosio::name NFT_CONTRACT = "epochchasert"_n;
+static const eosio::name NFT_CONTRACT = "nftbaymain11"_n;
 
 CONTRACT battletest : public contract
 {

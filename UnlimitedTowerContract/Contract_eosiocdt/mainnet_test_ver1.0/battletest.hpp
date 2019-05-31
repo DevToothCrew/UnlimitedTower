@@ -9,7 +9,7 @@
 //preregist_log_table, user_log_table
 //컨트랙트 계정용
 //owner_system
-static const eosio::name NFT_CONTRACT = "epochchasert"_n;
+static const eosio::name NFT_CONTRACT = "nftbaymain11"_n;
 
 CONTRACT battletest : public contract
 {
