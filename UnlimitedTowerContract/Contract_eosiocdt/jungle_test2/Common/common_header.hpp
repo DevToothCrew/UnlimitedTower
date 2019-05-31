@@ -51,10 +51,10 @@
 #define ITEM_UPGRADE_RATE     100
 
 //============reward============//
-#define TIER_1_MAX_COUNT        8
-#define TIER_2_MAX_COUNT        8
-#define TIER_3_MAX_COUNT        8
-#define TIER_4_MAX_COUNT        8
+#define TIER_1_MAX_COUNT        9
+#define TIER_2_MAX_COUNT        9
+#define TIER_3_MAX_COUNT        9
+#define TIER_4_MAX_COUNT        9
 
 //==========change_money=======//
 #define ORIGINRAL_MONEY         10000
