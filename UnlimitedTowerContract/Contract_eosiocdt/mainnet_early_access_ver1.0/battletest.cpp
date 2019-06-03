@@ -7627,7 +7627,7 @@ ACTION battletest::stageexit(eosio::name _user)
 
 ACTION battletest::changetoken(eosio::name _user, std::string _type, uint64_t _index)
 {
-    require_auth("epochchasert"_n);
+    require_auth(NFT_CONTRACT);
     if (_type == "servant")
     {
         user_servants user_servant_table(_self, _user.value);
