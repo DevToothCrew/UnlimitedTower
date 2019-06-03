@@ -3652,7 +3652,7 @@ ACTION battletest::eostransfer(eosio::name sender, eosio::name receiver)
         }
         else if(ad.action == action_shopbuyitem)
         {
-            shop_buy_item(sender, ad.type, ad.count);
+            shop_buy_item(sender, ad.type, ad.count, ad.seed);
         }
     });
 }
