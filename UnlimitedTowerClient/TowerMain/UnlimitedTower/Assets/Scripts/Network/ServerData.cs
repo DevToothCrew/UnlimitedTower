@@ -247,6 +247,7 @@ public class mailOpenResultData
     public List<monsterData> monster_data_list = new List<monsterData>();
     public List<equipmentData> equip_data_list = new List<equipmentData>();
     public List<itemData> item_data_list = new List<itemData>();
+    public string utg;
 }
 
 [Serializable]

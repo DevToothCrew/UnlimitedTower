@@ -1708,6 +1708,8 @@ public class PacketManager : MonoSingleton<PacketManager> {
             }
         }
 
+        UserDataManager.Inst.SetUserUTG(Convert.ToUInt64(getMailOpenResultData.utg));
+
         MailInfoPage.Inst.RefreshMailList();
     }
 
