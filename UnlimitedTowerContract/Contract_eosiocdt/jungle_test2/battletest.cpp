@@ -3773,7 +3773,7 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
                 eosio_assert(transfer_data.memo.find(':') != std::string::npos, "Eos Transfer Shop Buy item : Seed Memo [:] Error");
                 eosio_assert(transfer_data.memo.find(':', l_center + 1) != std::string::npos, "Eos Transfer Shop Buy item : Seed Memo [:] Error");
 
-                auto shop_list_iter = get_shop_list(_type);
+                auto shop_list_iter = get_shop_list(res.type);
                 
                 item_shop item_shop_table(_self, _self.value);
                 package_shop package_shop_table(_self, _self.value);
@@ -13579,7 +13579,7 @@ battletest::shop_list::const_iterator battletest::get_shop_list(uint64_t _id)
     eosio_assert(iter != my_table.end(), "shop DB : Empty Shop ID");
     return iter;
 }
-battletest::item_shop::const_iterator battletest::get_item_shop(uint64_t _index)
+battletest::item_shop::const_iterator battletest::get_item_shop(uint64_t _id)
 {
     item_shop my_table(_self, _self.value);
     auto iter = my_table.find(_id);
