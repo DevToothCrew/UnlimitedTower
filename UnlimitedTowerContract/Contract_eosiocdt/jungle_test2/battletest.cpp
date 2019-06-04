@@ -8169,9 +8169,10 @@ battletest::equip_data battletest::get_reward_equip(eosio::name _user, uint32_t 
 
 battletest::item_data battletest::get_reward_item(eosio::name _user, uint32_t _id, uint32_t _count, uint32_t _type)
 {
-    allitem_db allitem_db_table(_self, _self.value);
-    auto allitem_db_iter = allitem_db_table.find(_id);
-    eosio_assert(allitem_db_iter != allitem_db_table.end(), "Get Reward Item : Empty Item ID / Wrong Item ID");
+    // allitem_db allitem_db_table(_self, _self.value);
+    // auto allitem_db_iter = allitem_db_table.find(_id);
+    // eosio_assert(allitem_db_iter != allitem_db_table.end(), "Get Reward Item : Empty Item ID / Wrong Item ID");
+    auto allitem_db_iter = get_allitem_db(_id);
 
     user_logs user_log_table(_self, _self.value);
     auto user_log_iter = user_log_table.find(_user.value);
@@ -10087,9 +10088,10 @@ uint32_t battletest::sum_item_check(eosio::name _user, uint32_t _item_id, uint32
 {
     uint64_t add_inventory = 0;
 
-    allitem_db allitem_db_table(_self, _self.value);
-    const auto &allitem_db_iter = allitem_db_table.get(_item_id, " Gacha Item : Empty Item ID / Not Set Item ID");
-
+    // allitem_db allitem_db_table(_self, _self.value);
+    // const auto &allitem_db_iter = allitem_db_table.get(_item_id, " Gacha Item : Empty Item ID / Not Set Item ID");
+    auto allitem_db_iter = get_allitem_db(_item_id);
+    
     user_auths auth_user_table(_self, _self.value);
     auto auth_user_iter = auth_user_table.find(_user.value);
     eosio_assert(auth_user_iter != auth_user_table.end(), " Gacha Item : Empty Auth Table / Not Yet Signup");
@@ -10221,10 +10223,11 @@ uint32_t battletest::sum_item_check(eosio::name _user, uint32_t _item_id, uint32
 
 uint32_t battletest::sub_item_check(eosio::name _user, uint32_t _item_id, uint32_t _count)
 {
-    allitem_db allitem_db_table(_self, _self.value);
-    auto allitem_db_iter = allitem_db_table.find(_item_id);
-    eosio_assert(allitem_db_iter != allitem_db_table.end(), "sub_item_check : Not exist allitem data");
-
+    // allitem_db allitem_db_table(_self, _self.value);
+    // auto allitem_db_iter = allitem_db_table.find(_item_id);
+    // eosio_assert(allitem_db_iter != allitem_db_table.end(), "sub_item_check : Not exist allitem data");
+    auto allitem_db_iter = get_allitem_db(_item_id);
+    
     item_data new_item;
     new_item.id = allitem_db_iter->id;
     new_item.type = allitem_db_iter->type;
@@ -13585,6 +13588,13 @@ battletest::item_shop::const_iterator battletest::get_item_shop(uint64_t _id)
     auto iter = my_table.find(_id);
     eosio_assert(iter != my_table.end(), "shop DB : Empty Shop ID");
     return iter; 
+}
+battletest::allitem_db::const_iterator battletest::get_allitem_db(uint64_t _id)
+{
+    allitem_db my_table(_self, _self.value);
+    auto iter = my_table.find(_id);
+    eosio_assert(iter != my_table.end(), "shop DB : Empty Shop ID");
+    return iter;
 }
 
 

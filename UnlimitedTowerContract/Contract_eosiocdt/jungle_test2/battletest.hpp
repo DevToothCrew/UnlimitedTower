@@ -1890,6 +1890,7 @@ user_monsters::const_iterator get_user_monster(eosio::name _user, uint64_t _inde
 user_equip_items::const_iterator get_user_equipment(eosio::name _user, uint64_t _index);
 shop_list::const_iterator get_shop_list(uint64_t _id);
 item_shop::const_iterator get_item_shop(uint64_t _id);
+allitem_db::const_iterator get_allitem_db(uint64_t _id);
 
 #pragma region new servant monster
 
