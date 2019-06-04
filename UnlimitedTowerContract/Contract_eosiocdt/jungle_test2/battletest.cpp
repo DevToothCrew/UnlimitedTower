@@ -5493,7 +5493,7 @@ battletest::character_state_data battletest::get_user_state(eosio::name _user, s
 
         auto servant_db_iter = get_servant_db(user_servant_iter->servant.id);
 
-        user_equip_items user_equipment_table(_self, _user.value);
+        //user_equip_items user_equipment_table(_self, _user.value);
         //equipment_db equipment_db_table(_self, _self.value);
         for (uint32_t i = 0; i < user_servant_iter->servant.equip_slot.size(); ++i)         //서번트 장비 슬롯을 돌면서 힘민지에 대한 증가 효과 적용
         {
@@ -5501,8 +5501,9 @@ battletest::character_state_data battletest::get_user_state(eosio::name _user, s
             {
                 continue;
             }
-            auto user_equipment_iter = user_equipment_table.find(user_servant_iter->servant.equip_slot[i]);
-            eosio_assert(user_equipment_iter != user_equipment_table.end(), "Set User State : Empty Equipment Index / Wrong Equipment Index");
+            // auto user_equipment_iter = user_equipment_table.find(user_servant_iter->servant.equip_slot[i]);
+            // eosio_assert(user_equipment_iter != user_equipment_table.end(), "Set User State : Empty Equipment Index / Wrong Equipment Index");
+            auto user_equipment_iter = get_user_equipment(_user, user_servant_iter->servant.equip_slot[i]);
 
             // auto db_equipment_iter = equipment_db_table.find(user_equipment_iter->equipment.id);
             // eosio_assert(db_equipment_iter != equipment_db_table.end(), "Set User State : Empty Equipment ID / Wrong Equipment ID");
@@ -6634,7 +6635,7 @@ void battletest::set_equipment_basic_status(eosio::name _from,
             auto job_iter = job_stat_db_table.find(servant_job_base);
             eosio_assert(job_iter != job_stat_db_table.end(), "Set Battle Status My : Empty Servant Job / Wrong Servant Job");
             
-            user_equip_items user_equipment_table(_self, _from.value);
+            //user_equip_items user_equipment_table(_self, _from.value);
             //equipment_db equipment_db_table(_self, _self.value);
             for (uint32_t equip = 0; equip < user_servant_iter->servant.equip_slot.size(); ++equip) //서번트 장비 슬롯을 돌면서 힘민지에 대한 증가 효과 적용
             {
@@ -6642,8 +6643,9 @@ void battletest::set_equipment_basic_status(eosio::name _from,
                 {
                     continue;
                 }
-                auto user_equipment_iter = user_equipment_table.find(user_servant_iter->servant.equip_slot[equip]);
-                eosio_assert(user_equipment_iter != user_equipment_table.end(), "Set User State : Empty Equipment Index / Wrong Equipment Index");
+                // auto user_equipment_iter = user_equipment_table.find(user_servant_iter->servant.equip_slot[equip]);
+                // eosio_assert(user_equipment_iter != user_equipment_table.end(), "Set User State : Empty Equipment Index / Wrong Equipment Index");
+                auto user_equipment_iter = get_user_equipment(_from, user_servant_iter->servant.equip_slot[equip]);
 
                 // auto db_equipment_iter = equipment_db_table.find(user_equipment_iter->equipment.id);
                 // eosio_assert(db_equipment_iter != equipment_db_table.end(), "Set User State : Empty Equipment ID / Wrong Equipment ID");
@@ -6686,8 +6688,9 @@ void battletest::set_equipment_basic_status(eosio::name _from,
                 {
                     continue;
                 }
-                auto user_equipment_iter = user_equipment_table.find(user_servant_iter->servant.equip_slot[equip]);
-                eosio_assert(user_equipment_iter != user_equipment_table.end(), "Set User State : Empty Equipment Index / Wrong Equipment Index");
+                // auto user_equipment_iter = user_equipment_table.find(user_servant_iter->servant.equip_slot[equip]);
+                // eosio_assert(user_equipment_iter != user_equipment_table.end(), "Set User State : Empty Equipment Index / Wrong Equipment Index");
+                auto user_equipment_iter = get_user_equipment(_from, user_servant_iter->servant.equip_slot[equip]);
 
                 // auto db_equipment_iter = equipment_db_table.find(user_equipment_iter->equipment.id);
                 // eosio_assert(db_equipment_iter != equipment_db_table.end(), "Set User State : Empty Equipment ID / Wrong Equipment ID");
@@ -6789,7 +6792,7 @@ void battletest::set_equipment_basic_status(eosio::name _from,
             //장비 장착에 대한 기본 능력치 예외 처리 [ 힘, 민, 지]
             if (_to != _from)   //스테이지를 진행하는 거지만 서번트가 있을수 있으므로 체크
             {
-                user_equip_items user_equipment_table(_self, _to.value);
+                //user_equip_items user_equipment_table(_self, _to.value);
                 //equipment_db equipment_db_table(_self, _self.value);
                 for (uint32_t equip = 0; equip < user_servant_iter->servant.equip_slot.size(); ++equip) //서번트 장비 슬롯을 돌면서 힘민지에 대한 증가 효과 적용
                 {
@@ -6797,8 +6800,9 @@ void battletest::set_equipment_basic_status(eosio::name _from,
                     {
                         continue;
                     }
-                    auto user_equipment_iter = user_equipment_table.find(user_servant_iter->servant.equip_slot[equip]);
-                    eosio_assert(user_equipment_iter != user_equipment_table.end(), "Set User State : Empty Equipment Index / Wrong Equipment Index");
+                    // auto user_equipment_iter = user_equipment_table.find(user_servant_iter->servant.equip_slot[equip]);
+                    // eosio_assert(user_equipment_iter != user_equipment_table.end(), "Set User State : Empty Equipment Index / Wrong Equipment Index");
+                    auto user_equipment_iter = get_user_equipment(_to, user_servant_iter->servant.equip_slot[equip]);
 
                     // auto db_equipment_iter = equipment_db_table.find(user_equipment_iter->equipment.id);
                     // eosio_assert(db_equipment_iter != equipment_db_table.end(), "Set User State : Empty Equipment ID / Wrong Equipment ID");
@@ -6837,7 +6841,7 @@ void battletest::set_equipment_basic_status(eosio::name _from,
 
             if (_to != _from)       //스테이지를 진행하는 거지만 서번트가 있을수 있으므로 체크
             {
-                user_equip_items user_equipment_table(_self, _to.value);
+                //user_equip_items user_equipment_table(_self, _to.value);
                 //equipment_db equipment_db_table(_self, _self.value);
                 for (uint32_t equip = 0; equip < user_servant_iter->servant.equip_slot.size(); ++equip) //서번트 장비 슬롯을 돌면서 힘민지에 대한 증가 효과 적용
                 {
@@ -6845,8 +6849,9 @@ void battletest::set_equipment_basic_status(eosio::name _from,
                     {
                         continue;
                     }
-                    auto user_equipment_iter = user_equipment_table.find(user_servant_iter->servant.equip_slot[equip]);
-                    eosio_assert(user_equipment_iter != user_equipment_table.end(), "Set User State : Empty Equipment Index / Wrong Equipment Index");
+                    // auto user_equipment_iter = user_equipment_table.find(user_servant_iter->servant.equip_slot[equip]);
+                    // eosio_assert(user_equipment_iter != user_equipment_table.end(), "Set User State : Empty Equipment Index / Wrong Equipment Index");
+                    auto user_equipment_iter = get_user_equipment(_to, user_servant_iter->servant.equip_slot[equip]);
 
                     // auto db_equipment_iter = equipment_db_table.find(user_equipment_iter->equipment.id);
                     // eosio_assert(db_equipment_iter != equipment_db_table.end(), "Set User State : Empty Equipment ID / Wrong Equipment ID");
