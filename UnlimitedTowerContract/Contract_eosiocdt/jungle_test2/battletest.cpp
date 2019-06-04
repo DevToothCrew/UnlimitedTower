@@ -3489,10 +3489,6 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
 
 void battletest::get_mail(eosio::name _user, uint32_t _type_index)
 {
-    mail_reward_list mail_reward_list_table(_self, _user.value);
-    auto mail_reward_list_iter = mail_reward_list_table.find(_type_index);
-    eosio_assert(mail_reward_list_iter != mail_reward_list_table.end(), "get mail : end table error");
-
     user_logs user_logs_table(_self, _self.value);
     auto user_logs_iter = user_logs_table.find(_user.value);
     eosio_assert(user_logs_iter != user_logs_table.end(), "get mail : Not exist user_log");
@@ -3500,6 +3496,10 @@ void battletest::get_mail(eosio::name _user, uint32_t _type_index)
     user_auths user_auth_table(_self, _self.value);
     auto user_auth_iter = user_auth_table.find(_user.value);
     eosio_assert(user_auth_iter != user_auth_table.end(), "get mail : Empty user_auth Table / Not Yet Signup");
+   
+    mail_reward_list mail_reward_list_table(_self, _user.value);
+    auto mail_reward_list_iter = mail_reward_list_table.find(_type_index);
+    eosio_assert(mail_reward_list_iter != mail_reward_list_table.end(), "get mail : end table error");
 
     std::vector<size_t> size_list;
     std::vector<std::string> value_list;
@@ -3759,24 +3759,6 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
                 eosio_assert(system_master_iter->state != system_state::pause, "Eos Transfer secret : Server Pause");
                 eosio_assert(transfer_data.quantity.amount == TEST_MONEY, "Eos Transfer secret : secret need 1 EOS");
             }
-            // else if (res.action == "gacha_10")
-            // {
-            //     size_t l_next = transfer_data.memo.find(':', l_center + 1);
-            //     size_t l_end = transfer_data.memo.length() - (l_next + 1);
-
-            //     eosio_assert(transfer_data.memo.find(':') != std::string::npos, "Eos Transfer Gacha : Seed Memo [:] Error");
-            //     eosio_assert(transfer_data.memo.find(':', l_center + 1) != std::string::npos, "Eos Transfer Gacha : Seed Memo [:] Error");
-            //     eosio_assert(transfer_data.quantity.amount == TEST_MONEY*9, "Eos Transfer Gacha : Gacha need 9.0000 EOS"); //가격 필히 수정해야함 10000
-
-            //     std::string l_seed = transfer_data.memo.substr(l_center + 1, (l_next - l_center - 1));
-            //     std::string l_sha = transfer_data.memo.substr(l_next + 1, l_end);
-
-            //     res.type = safeseed::check_seed(l_seed, l_sha);
-
-            //     eosio_assert(res.type != 0, "Eos Transfer Gacha : Wrong Seed Convert");
-            //     set_eos_log(transfer_data.quantity.amount);
-            //     res.amount = transfer_data.quantity.amount;
-            // }
             else if (res.action == "shopbuyitem")
             {
                 std::vector<size_t> size_list;
@@ -3785,22 +3767,11 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
 
                 res.type = atoll(value_list[1].c_str());
                 res.count = atoll(value_list[2].c_str());              
-                res.seed = safeseed::check_seed(value_list[3], value_list[4]);
+                res.seed = safeseed::check_seed(value_list[3], value_list[4]);               
+                res.amount = transfer_data.quantity.amount;
                 
-                // size_t l_next = transfer_data.memo.find(':', l_center + 1);
-                // size_t l_end = transfer_data.memo.length() - (l_next + 1);
-
                 eosio_assert(transfer_data.memo.find(':') != std::string::npos, "Eos Transfer Shop Buy item : Seed Memo [:] Error");
                 eosio_assert(transfer_data.memo.find(':', l_center + 1) != std::string::npos, "Eos Transfer Shop Buy item : Seed Memo [:] Error");
-
-                // std::string result_type = transfer_data.memo.substr(l_center + 1, (l_next - l_center - 1));
-                // std::string result_count = transfer_data.memo.substr(l_next + 1, l_end);
-                // uint64_t result_seed = atoll(result_type.c_str());
-                // uint64_t result_amount = atoll(result_count.c_str());
-
-                // res.type = result_seed;
-                // res.count = result_amount;
-                res.amount = transfer_data.quantity.amount;
 
                 shop_list shop_list_table(_self, _self.value);
                 auto shop_list_iter = shop_list_table.find(res.type);
