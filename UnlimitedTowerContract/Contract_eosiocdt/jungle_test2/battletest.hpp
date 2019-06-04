@@ -1876,6 +1876,15 @@ equipment_info get_equip_random_state(uint32_t _id, uint64_t _seed, uint32_t _ty
 
 #pragma endregion
 
+//dailychecks::const_iterator get_daily(eosio::name _user);
+
+floor_index::const_iterator get_floor(uint64_t _fnum);
+servant_db::const_iterator get_servant_db(uint64_t _id);
+monster_db::const_iterator get_monster_db(uint64_t _id);
+tribe_db::const_iterator get_tribe_db(uint64_t _id);
+equipment_db::const_iterator get_equipment_db(uint64_t _id);
+
+
 
 #pragma region new servant monster
 
