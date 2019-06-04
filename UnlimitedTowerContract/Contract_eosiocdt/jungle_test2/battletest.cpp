@@ -3773,15 +3773,14 @@ void battletest::eosiotoken_transfer(eosio::name sender, eosio::name receiver, T
                 eosio_assert(transfer_data.memo.find(':') != std::string::npos, "Eos Transfer Shop Buy item : Seed Memo [:] Error");
                 eosio_assert(transfer_data.memo.find(':', l_center + 1) != std::string::npos, "Eos Transfer Shop Buy item : Seed Memo [:] Error");
 
-                shop_list shop_list_table(_self, _self.value);
-                auto shop_list_iter = shop_list_table.find(res.type);
-                eosio_assert(shop_list_iter != shop_list_table.end(), "Eos Transfer Shop Buy item : Not Exist Shop type");
+                auto shop_list_iter = get_shop_list(_type);
+                
                 item_shop item_shop_table(_self, _self.value);
                 package_shop package_shop_table(_self, _self.value);
 
                 if (res.type == 1 || res.type == 2 || res.type == 3 || res.type == 4 || res.type == 8 || res.type == 9 || res.type == 10 || res.type == 11)
                 {
-                    auto item_shop_iter = item_shop_table.find(shop_list_iter->shop_item_id);
+                    auto item_shop_iter = get_item_shop(shop_list_iter->shop_item_id);
                     //eosio_assert(res.count * TEST_MONEY == transfer_data.quantity.amount, "Eos Transfer Item Shop : Not same EOS");
                     eosio_assert(res.count * item_shop_iter->price_count == transfer_data.quantity.amount, "Eos Transfer Item Shop : Not same EOS");
                 }
@@ -8733,7 +8732,7 @@ void battletest::servantburn(eosio::name _user, const std::vector<uint64_t> &_li
     user_items user_items_table(_self, _user.value);
     user_servants user_servant_table(_self, _user.value);
     burnitem_db burnitem_db_table(_self, _self.value);
-    servant_db servant_db_table(_self, _self.value);
+    //servant_db servant_db_table(_self, _self.value);
 
     std::string contents_list;
 
@@ -8748,7 +8747,8 @@ void battletest::servantburn(eosio::name _user, const std::vector<uint64_t> &_li
         eosio_assert(user_servant_iter != user_servant_table.end(), "servantburn : Empty servant info");
         eosio_assert(user_servant_iter->party_number == 0, "servantburn : this servant already in party");
         eosio_assert(user_servant_iter->servant.state == object_state::on_inventory, "servantburn : this servant is not inventory state");
-        auto servant_db_iter = servant_db_table.find(user_servant_iter->servant.id);
+        //auto servant_db_iter = servant_db_table.find(user_servant_iter->servant.id);
+        auto servant_db_iter = get_servant_db(user_servant_iter->servant.id);
         auto burnitem_db_iter = burnitem_db_table.find(servant_db_iter->job);
         auto user_items_iter = user_items_table.find(burnitem_db_iter->result_item_id);
         eosio_assert(user_auth_iter->current_servant_inventory >= 0, "servantburn : current_servant_inventory underflow error");
@@ -9649,9 +9649,10 @@ ACTION battletest::itembuy(eosio::name _user, uint32_t _item_id, uint32_t _count
 {
     system_check(_user);
 
-    shop_list shop_list_table(_self, _self.value);
-    auto shop_list_iter = shop_list_table.find(_item_id);
-    eosio_assert(shop_list_iter != shop_list_table.end(), "itembuy : Not exist item shop data");
+    // shop_list shop_list_table(_self, _self.value);
+    // auto shop_list_iter = shop_list_table.find(_item_id);
+    // eosio_assert(shop_list_iter != shop_list_table.end(), "itembuy : Not exist item shop data");
+    auto shop_list_iter = get_shop_list(_item_id);
 
     eosio_assert(check_inventory(_user, 1) == true, "itembuy : Inventory Is Full");
 
@@ -9676,9 +9677,11 @@ void battletest::utg_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _co
 {
     eosio_assert(_count <= 99, "utg_item_buy : Invalid Item Count");
 
-    item_shop item_shop_table(_self, _self.value);
-    auto item_shop_iter = item_shop_table.find(_item_id);
-    eosio_assert(item_shop_iter != item_shop_table.end(), "utg_item_buy : Not exist item_shop data");
+    // item_shop item_shop_table(_self, _self.value);
+    // auto item_shop_iter = item_shop_table.find(_item_id);
+    // eosio_assert(item_shop_iter != item_shop_table.end(), "utg_item_buy : Not exist item_shop data");
+
+    auto item_shop_iter = get_item_shop(_item_id);
 
     user_auths user_auth_table(_self, _self.value);
     auto user_auth_iter = user_auth_table.find(_user.value);
@@ -9769,10 +9772,11 @@ void battletest::etc_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _co
 {
     eosio_assert(_count <= 99, "ETC Item buy : Invalid Item Count");
   
-    item_shop item_shop_table(_self, _self.value);
-    auto item_shop_iter = item_shop_table.find(_item_id);
-    eosio_assert(item_shop_iter != item_shop_table.end(), "ETC Item buy : Not exist item_shop data");
-
+    // item_shop item_shop_table(_self, _self.value);
+    // auto item_shop_iter = item_shop_table.find(_item_id);
+    // eosio_assert(item_shop_iter != item_shop_table.end(), "ETC Item buy : Not exist item_shop data");
+     auto item_shop_iter = get_item_shop(_item_id);
+    
     // allitem_db allitem_db_table(_self, _self.value);
     // auto allitem_db_iter = allitem_db_table.find(item_shop_iter->price_id);     //판매
     // auto allitem_db_iter2 = allitem_db_table.find(item_shop_iter->product_id);  //구매
@@ -9866,10 +9870,11 @@ void battletest::shop_buy_item(eosio::name _user, uint32_t _type, uint32_t _coun
 {
    system_check(_user);
 
-   shop_list shop_list_table(_self, _self.value);
-   auto shop_list_iter = shop_list_table.find(_type);
-   eosio_assert(shop_list_iter != shop_list_table.end(), "shop_buy_item : Not exist item shop data");
-
+//    shop_list shop_list_table(_self, _self.value);
+//    auto shop_list_iter = shop_list_table.find(_type);
+//    eosio_assert(shop_list_iter != shop_list_table.end(), "shop_buy_item : Not exist item shop data");
+   
+   auto shop_list_iter = get_shop_list(_type);
 
    // 인벤토리 구매
    if (_type ==1 || _type ==2 || _type ==3 || _type == 4)
@@ -9958,9 +9963,11 @@ void battletest::ticket_buy(eosio::name _user, uint32_t _type, uint32_t _count)
     auto user_log_iter = user_log_table.find(_user.value);
     eosio_assert(user_log_iter != user_log_table.end(), "ticket buy : Empty Log Table / Not Yet Signup");
 
-    item_shop item_shop_table(_self, _self.value);
-    auto item_shop_iter = item_shop_table.find(_type);
-    eosio_assert(item_shop_iter != item_shop_table.end(), "ticket buy : Not exist item_shop data");
+    // item_shop item_shop_table(_self, _self.value);
+    //auto item_shop_iter = item_shop_table.find(_type);
+    //eosio_assert(item_shop_iter != item_shop_table.end(), "ticket buy : Not exist item_shop data");
+    auto item_shop_iter = get_item_shop(_type);
+    
     eosio_assert(item_shop_iter->id == 4001 || item_shop_iter->id == 4002 || item_shop_iter->id == 4003 || item_shop_iter->id == 4004, "ticket buy : Not exist this action type");
  
     uint64_t add_inventory = 0;
@@ -10063,18 +10070,18 @@ void battletest::start_package(eosio::name _user)
 { 
     for(uint32_t i=1; i<=3;i++)
     {
-        uint32_t _seed = safeseed::get_seed_value(_user.value+i, now());
-        gacha_servant_id(_user, _seed, i,0,0,1);
+        uint32_t _seed = safeseed::get_seed_value(_user.value+i, now());        
+        //gacha_servant_id(_user, _seed, i,0,0,1);
+        servant_data servant = get_reward_servant(_user, i, _seed, 2);
     }  
 }
 
-void battletest::grade_package(eosio::name _user, uint32_t _type) 
-{
-   uint32_t _seed = safeseed::get_seed_value(_user.value, now()); 
-   gacha_monster_id(_user, _seed, _type, 0,1);
-   gacha_equipment_id(_user, _seed, _type , 0,1);
-}
-
+// void battletest::grade_package(eosio::name _user, uint32_t _type) 
+// {
+//    uint32_t _seed = safeseed::get_seed_value(_user.value, now()); 
+//    gacha_monster_id(_user, _seed, _type, 0,1);
+//    gacha_equipment_id(_user, _seed, _type , 0,1);
+// }
 
 uint32_t battletest::sum_item_check(eosio::name _user, uint32_t _item_id, uint32_t _count)
 {
@@ -13564,6 +13571,22 @@ battletest::user_equip_items::const_iterator battletest::get_user_equipment(eosi
     eosio_assert(iter != my_table.end(),"User Equipment : Empty Equipment");
     return iter;
 }
+
+battletest::shop_list::const_iterator battletest::get_shop_list(uint64_t _id)
+{
+    shop_list my_table(_self, _self.value);
+    auto iter = my_table.find(_id);
+    eosio_assert(iter != my_table.end(), "shop DB : Empty Shop ID");
+    return iter;
+}
+battletest::item_shop::const_iterator battletest::get_item_shop(uint64_t _index)
+{
+    item_shop my_table(_self, _self.value);
+    auto iter = my_table.find(_id);
+    eosio_assert(iter != my_table.end(), "shop DB : Empty Shop ID");
+    return iter; 
+}
+
 
 #undef EOSIO_DISPATCH
 
