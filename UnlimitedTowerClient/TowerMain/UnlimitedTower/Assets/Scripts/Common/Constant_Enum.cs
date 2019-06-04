@@ -433,8 +433,11 @@ public enum MAIL_TYPE
     NFT_SERVANT = 5,
     NFT_MONSTER = 6,
     NFT_EQUIPMENT = 7,
-    ETC_ITEM = 8,
-    MAX = 9,
+    ETC_SERVANT = 8,
+    ETC_MONSTER = 9,
+    ETC_EQUIPMENT = 10,
+    ETC_ITEM = 11,
+    ETC_UTG = 12,
 }
 
 public enum SHOP_TYPE
