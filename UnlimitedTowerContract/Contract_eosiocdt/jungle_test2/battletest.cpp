@@ -3461,7 +3461,7 @@ ACTION battletest::mailopen(eosio::name _user, const std::vector<uint64_t> &_mai
                    std::make_tuple(temp, uti_db_iter->idx))
                 .send();
         }
-        else if(user_mail_iter->mail_type == 8) //이벤트성 
+        else if(user_mail_iter->mail_type == 8 || user_mail_iter->mail_type ==9 || user_mail_iter->mail_type ==10 || user_mail_iter->mail_type ==11 ||user_mail_iter->mail_type ==12) 
         {            
 
             get_mail(_user,user_mail_iter->type_index);                             
@@ -7779,7 +7779,7 @@ void battletest::get_reward_utg(eosio::name _user, uint32_t _count)
         {
             move_mail.mail_index = user_mail_table.available_primary_key();
         }
-        move_mail.mail_type = 8;
+        move_mail.mail_type = 12;
         move_mail.type_index = mail_reward_first_index;
         move_mail.count = 1;
         move_mail.icon_id = 500001;
@@ -7836,6 +7836,8 @@ battletest::servant_data battletest::get_reward_servant(eosio::name _user, uint3
     mail_reward_list mail_reward_list_table(_self, _user.value);
     user_mail user_mail_table(_self, _user.value);
     
+    servant_info new_servant = get_servant_random_state(servant_id_db_iter.id, _seed, random_job, ser_iter.base_str, ser_iter.base_dex, ser_iter.base_int);
+
     if (_type == 1) //일반 보상
     {
         user_servant_table.emplace(_self, [&](auto &update_user_servant_list) {
@@ -7848,13 +7850,6 @@ battletest::servant_data battletest::get_reward_servant(eosio::name _user, uint3
             {
                 update_user_servant_list.index = user_servant_table.available_primary_key();
             }
-            servant_info new_servant = get_servant_random_state(servant_id_db_iter.id,
-                                                                _seed,
-                                                                random_job,
-                                                                ser_iter.base_str,
-                                                                ser_iter.base_dex,
-                                                                ser_iter.base_int);
-
             update_user_servant_list.party_number = EMPTY_PARTY;
             update_user_servant_list.servant = new_servant;
 
@@ -7886,13 +7881,6 @@ battletest::servant_data battletest::get_reward_servant(eosio::name _user, uint3
                 update_reward.index = mail_reward_list_table.available_primary_key();
             }
             update_reward.type = 1;
-
-            servant_info new_servant = get_servant_random_state(servant_id_db_iter.id,
-                                                                _seed,
-                                                                random_job,
-                                                                ser_iter.base_str,
-                                                                ser_iter.base_dex,
-                                                                ser_iter.base_int);
             
             new_data.index = update_reward.index;
             new_data.party_number = EMPTY_PARTY;
@@ -7983,6 +7971,16 @@ battletest::monster_data battletest::get_reward_monster(eosio::name _user, uint3
    }
    
     monster_data new_data;
+
+    monster_info new_monster = get_monster_random_state(monster_id_db_iter.id,
+                                                            _seed,
+                                                            random_grade,
+                                                            monster_id_db_iter.tribe,
+                                                            monster_id_db_iter.type,
+                                                            tribe_iter.base_str,
+                                                            tribe_iter.base_dex,
+                                                            tribe_iter.base_int);
+
     user_monsters user_monster_table(_self, _user.value);
     if(_type ==1)   //일반 보상 
     {
@@ -7996,15 +7994,6 @@ battletest::monster_data battletest::get_reward_monster(eosio::name _user, uint3
         {
             update_user_monster_list.index = user_monster_table.available_primary_key();
         }
-
-        monster_info new_monster = get_monster_random_state(monster_id_db_iter.id,
-                                                            _seed,
-                                                            random_grade,
-                                                            monster_id_db_iter.tribe,
-                                                            monster_id_db_iter.type,
-                                                            tribe_iter.base_str,
-                                                            tribe_iter.base_dex,
-                                                            tribe_iter.base_int);
 
         update_user_monster_list.party_number = EMPTY_PARTY;
         update_user_monster_list.monster = new_monster;
@@ -8034,15 +8023,6 @@ battletest::monster_data battletest::get_reward_monster(eosio::name _user, uint3
             }
             update_reward.type = 2; //몬스터 2
 
-            monster_info new_monster = get_monster_random_state(monster_id_db_iter.id,
-                                                                _seed,
-                                                                random_grade,
-                                                                monster_id_db_iter.tribe,
-                                                                monster_id_db_iter.type,
-                                                                tribe_iter.base_str,
-                                                                tribe_iter.base_dex,
-                                                                tribe_iter.base_int);
-
             new_data.index = update_reward.index;
             new_data.party_number = EMPTY_PARTY;
             new_data.monster = new_monster;
@@ -8069,7 +8049,7 @@ battletest::monster_data battletest::get_reward_monster(eosio::name _user, uint3
                 move_mail.mail_index = user_mail_table.available_primary_key();
             }
             mail_reward_first_index = move_mail.mail_index;
-            move_mail.mail_type = 8;
+            move_mail.mail_type = 9;
             move_mail.type_index = mail_reward_first_index;
             move_mail.count = 1;
             move_mail.icon_id = monster_id_db_iter.id;
@@ -8131,6 +8111,13 @@ battletest::equip_data battletest::get_reward_equip(eosio::name _user, uint32_t 
    }
 
     equip_data new_data;
+    equipment_info new_item = get_equip_random_state(equip_item_iter.item_id,
+                                                     _seed,
+                                                     equip_item_iter.type,
+                                                     equip_item_iter.tier,
+                                                     equip_item_iter.job,
+                                                     random_grade);
+
     user_equip_items user_item_table(_self, _user.value);
     if (_type == 1)
     {
@@ -8144,13 +8131,6 @@ battletest::equip_data battletest::get_reward_equip(eosio::name _user, uint32_t 
             {
                 update_user_item_list.index = user_item_table.available_primary_key();
             }
-
-            equipment_info new_item = get_equip_random_state(equip_item_iter.item_id,
-                                                             _seed,
-                                                             equip_item_iter.type,
-                                                             equip_item_iter.tier,
-                                                             equip_item_iter.job,
-                                                             random_grade);
 
             update_user_item_list.equipment = new_item;
 
@@ -8178,14 +8158,6 @@ battletest::equip_data battletest::get_reward_equip(eosio::name _user, uint32_t 
             }
             update_reward.type = 3; //장비 3
 
-            equipment_info new_item = get_equip_random_state(equip_item_iter.item_id,
-                                                             _seed,
-                                                             equip_item_iter.type,
-                                                             equip_item_iter.tier,
-                                                             equip_item_iter.job,
-                                                             random_grade);
-
-
             new_data.index = update_reward.index;
             new_data.equipment = new_item;
 
@@ -8208,7 +8180,7 @@ battletest::equip_data battletest::get_reward_equip(eosio::name _user, uint32_t 
                 move_mail.mail_index = user_mail_table.available_primary_key();
             }
             mail_reward_first_index = move_mail.mail_index;
-            move_mail.mail_type = 8;
+            move_mail.mail_type = 10;
             move_mail.type_index = mail_reward_first_index;
             move_mail.count = 1;
             move_mail.icon_id = equip_item_iter.item_id;
@@ -8341,7 +8313,7 @@ battletest::item_data battletest::get_reward_item(eosio::name _user, uint32_t _i
                 move_mail.mail_index = user_mail_table.available_primary_key();
             }
             mail_reward_first_index = move_mail.mail_index;
-            move_mail.mail_type = 8;
+            move_mail.mail_type = 11;
             move_mail.type_index = mail_reward_first_index;
             move_mail.count = 1;
             move_mail.icon_id = _id;
@@ -9848,7 +9820,9 @@ void battletest::etc_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _co
         {
             uint64_t l_seed = safeseed::get_seed_value(_user.value, now() + i);
             l_seed = l_seed >> 2;
-            gacha_servant_id(_user, l_seed, 0, 1, 4, 3); //job = 0 , min =1, max= 3
+           // gacha_servant_id(_user, l_seed, 0, 1, 4, 3); //job = 0 , min =1, max= 3
+            servant_data servant = get_reward_servant(_user, 0, l_seed, 2);
+
         }
     }
     else        //스킬 강화 및 변경권 구매 
