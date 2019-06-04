@@ -10518,37 +10518,37 @@ void battletest::towersnap(uint64_t fnum) //층수 인자값 추가
 
 ACTION battletest::toweropen()
 {
-    // require_auth(_self);
+    require_auth(_self);
 
-    // uint64_t _floor = 1;
-    // floor_index floortable(_self, _self.value);
-    // auto iter = floortable.find(_floor);
+    uint64_t _floor = 1;
+    floor_index floortable(_self, _self.value);
+    auto iter = floortable.find(_floor);
 
-    // eosio_assert(iter == floortable.end(), "Tower is already open.");
+    eosio_assert(iter == floortable.end(), "Tower is already open.");
 
-    // floortable.emplace(_self, [&](auto &floordata) {
-    //     floordata.fnum = _floor;
-    //     floordata.owner = _self;
-    //     floordata.bnum = 0;
-    //     floordata.pnum = 0;
-    //     floordata.state = "lock";
-    //     floordata.endtime = 0;
-    // });
+    floortable.emplace(_self, [&](auto &floordata) {
+        floordata.fnum = _floor;
+        floordata.owner = _self;
+        floordata.bnum = 0;
+        floordata.pnum = 0;
+        floordata.state = "lock";
+        floordata.endtime = 0;
+    });
 }
 
 ACTION battletest::endflag(name _winner, uint64_t _fnum)
 {
-    // require_auth(_self);
-    // floor_index floortable(_self, _self.value);
-    // const auto &f_iter = floortable.get(_fnum, "Floor info does not exist");
+    require_auth(_self);
+    floor_index floortable(_self, _self.value);
+    const auto &f_iter = floortable.get(_fnum, "Floor info does not exist");
 
-    // eosio_assert(f_iter.owner == _winner, "It does not match the Floor Master.");
+    eosio_assert(f_iter.owner == _winner, "It does not match the Floor Master.");
 
-    // eosio_assert(f_iter.endtime <= now(), "Not enough time.");
+    eosio_assert(f_iter.endtime <= now(), "Not enough time.");
 
-    // floortable.modify(f_iter, _self, [&](auto &floordata) {
-    //     floordata.state = "end";
-    // });
+    floortable.modify(f_iter, _self, [&](auto &floordata) {
+        floordata.state = "end";
+    });
 
     //towersnap(_fnum);
 }
@@ -10610,38 +10610,41 @@ void battletest::utg_exchange(eosio::name _user)
 
 ACTION battletest::claim(name who, uint64_t fnum)
 {
-    // system_check(who);
-    // floor_index floortable(_self, _self.value);
-    // auto f_iter = floortable.find(fnum);
-    // eosio_assert(f_iter !=  floortable.end(), "Floor info does not exist");
-    // eosio_assert(f_iter->owner == who, "It does not match the Floor Master.");
-    // eosio_assert(f_iter->endtime <= now(), "Not enough time.");
-    // eosio_assert(f_iter->state == "end", "Impossible state");
+    system_check(who);
+    floor_index floortable(_self, _self.value);
+    auto f_iter = floortable.find(fnum);
+    eosio_assert(f_iter !=  floortable.end(), "Floor info does not exist");
+    eosio_assert(f_iter->owner == who, "It does not match the Floor Master.");
+    eosio_assert(f_iter->endtime <= now(), "Not enough time.");
+    eosio_assert(f_iter->state == "end", "Impossible state");
 
-    // //보상을 획득한거에 대한 상태 처리가 없음
-    // floortable.erase(f_iter);
+    //보상을 획득한거에 대한 상태 처리가 없음
+    floortable.modify(f_iter, _self, [&](auto &new_data)
+    {
+        new_data.state = "claim";
+    });
 
-    // // 우승자 테이블에서 파티 정보 삭제
-    // //지우는 처리 들어감
-    // //resetparty(who, 1);
+    // 우승자 테이블에서 파티 정보 삭제
+    //지우는 처리 들어감
+    //resetparty(who, 1);
 
-    // // 다음층 테이블 추가
+    // 다음층 테이블 추가
 
-    // floortable.emplace(_self, [&](auto &floordata) {
-    //     floordata.fnum = fnum + 1;
-    //     floordata.owner = _self;
-    //     floordata.bnum = 0;
-    //     floordata.pnum = 0;
-    //     floordata.state = "lock";
-    //     floordata.endtime = 0;
-    // });
+    floortable.emplace(_self, [&](auto &floordata) {
+        floordata.fnum = fnum + 1;
+        floordata.owner = _self;
+        floordata.bnum = 0;
+        floordata.pnum = 0;
+        floordata.state = "lock";
+        floordata.endtime = 0;
+    });
 
-    // // 우승자 정보 수정
-    // user_logs user_log(_self, _self.value);
-    // auto log_iter = user_log.find(who.value);
-    // user_log.modify(log_iter, _self, [&](auto &data) {
-    //     data.top_clear_tower = fnum + 1;
-    // });
+    // 우승자 정보 수정
+    user_logs user_log(_self, _self.value);
+    auto log_iter = user_log.find(who.value);
+    user_log.modify(log_iter, _self, [&](auto &data) {
+        data.top_clear_tower = fnum + 1;
+    });
 
     // // EOS 스냅샷 확인후 지급
     // eos_snapshots eos_snapshot_table(_self, _self.value);
@@ -10680,7 +10683,7 @@ void battletest::towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint
         //settower(f_iter->owner, winner, f_iter->pnum, pnum);
     }
     // 층이 이미 정복된 경우에는 사용자 정보만 변경
-    if (f_iter->state == "end")
+    if (f_iter->state == "end" || f_iter->state == "claim")
     {
         user_logs user_log(_self, _self.value);
         auto iter = user_log.find(winner.value);
@@ -10699,7 +10702,7 @@ void battletest::towerwin(eosio::name winner, uint64_t fnum, uint64_t pnum, uint
             floordata.owner = winner;
             floordata.bnum = bnum + 1;
             floordata.pnum = pnum; // 패배시 유저의 어떤 파티인지 알기 위해 기록
-            floordata.endtime = now() + 86400;      //7일 기준으로 변경해야 한다.
+            floordata.endtime = now() + 1;      //7일 기준으로 변경해야 한다. 86400
             floordata.state = "idle";
         });
         /***********************/
@@ -11320,45 +11323,45 @@ ACTION battletest::towerstart(eosio::name _from, uint64_t _fnum)
 
 ACTION battletest::deletetower()
 {
-    // require_auth(_self);
+    require_auth(_self);
 
-    // floor_index floor_index_table(_self, _self.value);
-    // for (auto iter = floor_index_table.begin(); iter != floor_index_table.end();)
-    // {
-    //     auto fl = floor_index_table.find(iter->primary_key());
+    floor_index floor_index_table(_self, _self.value);
+    for (auto iter = floor_index_table.begin(); iter != floor_index_table.end();)
+    {
+        auto fl = floor_index_table.find(iter->primary_key());
 
-    //     user_servants table(_self, fl->fnum);
-    //     for(auto ser = table.begin(); ser != table.end();)
-    //     {
-    //         auto s = table.find(ser->primary_key());
-    //         ser++;
-    //         table.erase(s);
+        user_servants table(_self, fl->fnum);
+        for(auto ser = table.begin(); ser != table.end();)
+        {
+            auto s = table.find(ser->primary_key());
+            ser++;
+            table.erase(s);
 
-    //     }
-    //     user_monsters npc_mon(_self, fl->fnum);
-    //     for (auto ser = npc_mon.begin(); ser != npc_mon.end();)
-    //     {
-    //         auto s = npc_mon.find(ser->primary_key());
-    //         ser++;
-    //         npc_mon.erase(s);
+        }
+        user_monsters npc_mon(_self, fl->fnum);
+        for (auto ser = npc_mon.begin(); ser != npc_mon.end();)
+        {
+            auto s = npc_mon.find(ser->primary_key());
+            ser++;
+            npc_mon.erase(s);
 
-    //     }
-    //     user_equip_items npc_equip(_self, fl->fnum);
-    //     for (auto ser = npc_equip.begin(); ser != npc_equip.end();)
-    //     {
-    //         auto s = npc_equip.find(ser->primary_key());
-    //         ser++;
-    //         npc_equip.erase(s);
-    //     }
-    //     user_partys user_party_table(_self, fl->owner.value);
-    //     auto party = user_party_table.begin();
-    //     user_party_table.modify(party, _self, [&](auto &data) {
-    //         data.state = party_state::on_wait;
-    //     });
+        }
+        user_equip_items npc_equip(_self, fl->fnum);
+        for (auto ser = npc_equip.begin(); ser != npc_equip.end();)
+        {
+            auto s = npc_equip.find(ser->primary_key());
+            ser++;
+            npc_equip.erase(s);
+        }
+        user_partys user_party_table(_self, fl->owner.value);
+        auto party = user_party_table.begin();
+        user_party_table.modify(party, _self, [&](auto &data) {
+            data.state = party_state::on_wait;
+        });
 
-    //     iter++;
-    //     floor_index_table.erase(fl);
-    // }
+        iter++;
+        floor_index_table.erase(fl);
+    }
 }
 
 void battletest::refer(eosio::name _referer, std::string _type)
@@ -13126,44 +13129,44 @@ ACTION battletest::systemact(std::string _function, eosio::name _user, std::stri
 
 ACTION battletest::dailycheck(name _user, string _seed)
 {
-    // system_check(_user);
+    system_check(_user);
 
-    // user_auths user_auths_table(_self, _self.value);
-    // auto user_auths_iter = user_auths_table.find(_user.value);
-    // eosio_assert(user_auths_iter != user_auths_table.end(), "daily check : No user data");
+    user_auths user_auths_table(_self, _self.value);
+    auto user_auths_iter = user_auths_table.find(_user.value);
+    eosio_assert(user_auths_iter != user_auths_table.end(), "daily check : No user data");
 
-    // size_t center = _seed.find(':');
-    // size_t end = _seed.length() - (center + 1);
-    // eosio_assert(_seed.find(':') != std::string::npos, "daily check : Wrong Seed Error");
+    size_t center = _seed.find(':');
+    size_t end = _seed.length() - (center + 1);
+    eosio_assert(_seed.find(':') != std::string::npos, "daily check : Wrong Seed Error");
 
-    // std::string result_seed = _seed.substr(0, center);
-    // std::string result_sha = _seed.substr(center + 1, end);
+    std::string result_seed = _seed.substr(0, center);
+    std::string result_sha = _seed.substr(center + 1, end);
 
-    // uint64_t seed_check_result = safeseed::check_seed(result_seed, result_sha);
+    uint64_t seed_check_result = safeseed::check_seed(result_seed, result_sha);
 
-    // dailychecks daily_check_table(_self, _self.value);
-    // auto user_daily_check_iter = daily_check_table.find(_user.value);
+    dailychecks daily_check_table(_self, _self.value);
+    auto user_daily_check_iter = daily_check_table.find(_user.value);
     
-    // if(user_daily_check_iter == daily_check_table.end())
-    // {
-    //     daily_check_table.emplace(_user, [&](auto &check_result){
-    //         check_result.user = _user;
-    //         check_result.total_day = 1;
-    //         check_result.check_time = ( now() + 32400 )/86400 ; 
-    //         daily_check_reward(_user,1,seed_check_result);
-    //     });
-    // }
-    // else
-    // {       
-    //     auto iter = *user_daily_check_iter;
-    //    // eosio_assert(timecheck(iter.check_time), "daily check : your already daily checked");
-    //     daily_check_table.modify(user_daily_check_iter, _user, [&](auto &check_result){
-    //         check_result.user = _user;
-    //         check_result.total_day += 1;
-    //         check_result.check_time = ( now() + 32400 )/ 86400 ;    
-    //         daily_check_reward(_user,check_result.total_day,seed_check_result);
-    //     });
-    // }   
+    if(user_daily_check_iter == daily_check_table.end())
+    {
+        daily_check_table.emplace(_user, [&](auto &check_result){
+            check_result.user = _user;
+            check_result.total_day = 1;
+            check_result.check_time = ( now() + 32400 )/86400 ; 
+            daily_check_reward(_user,1,seed_check_result);
+        });
+    }
+    else
+    {       
+        auto iter = *user_daily_check_iter;
+       // eosio_assert(timecheck(iter.check_time), "daily check : your already daily checked");
+        daily_check_table.modify(user_daily_check_iter, _user, [&](auto &check_result){
+            check_result.user = _user;
+            check_result.total_day += 1;
+            check_result.check_time = ( now() + 32400 )/ 86400 ;    
+            daily_check_reward(_user,check_result.total_day,seed_check_result);
+        });
+    }   
 
 }
 
