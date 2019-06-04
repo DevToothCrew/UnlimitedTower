@@ -1883,8 +1883,11 @@ servant_db::const_iterator get_servant_db(uint64_t _id);
 monster_db::const_iterator get_monster_db(uint64_t _id);
 tribe_db::const_iterator get_tribe_db(uint64_t _id);
 equipment_db::const_iterator get_equipment_db(uint64_t _id);
-
-
+active_db::const_iterator get_active_db(uint64_t _id);
+passive_db::const_iterator get_passive_db(uint64_t _id);
+user_servants::const_iterator get_user_servant(eosio::name _user, uint64_t _index);
+user_monsters::const_iterator get_user_monster(eosio::name _user, uint64_t _index);
+user_equip_items::const_iterator get_user_equipment(eosio::name _user, uint64_t _index);
 
 #pragma region new servant monster
 
