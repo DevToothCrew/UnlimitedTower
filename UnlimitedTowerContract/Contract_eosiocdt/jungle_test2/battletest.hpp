@@ -1892,6 +1892,24 @@ shop_list::const_iterator get_shop_list(uint64_t _id);
 item_shop::const_iterator get_item_shop(uint64_t _id);
 allitem_db::const_iterator get_allitem_db(uint64_t _id);
 
+
+TABLE dbbuff
+{
+    uint64_t id;
+    uint32_t option_check;
+    uint32_t buff_debuff_check;
+    uint32_t target;
+    uint32_t overlapping_check;
+    uint32_t effect_type;
+    uint32_t effect_stat;
+    uint32_t value;
+    uint32_t turn_count;
+    uint64_t primary_key() const {return id;}
+};
+typedef eosio::multi_index<"dbbuff"_n, dbbuff> buff_db;
+
+
+
 #pragma region new servant monster
 
 // struct skill_info

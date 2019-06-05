@@ -8306,7 +8306,7 @@ battletest::item_data battletest::get_reward_item(eosio::name _user, uint32_t _i
             mail_reward_first_index = move_mail.mail_index;
             move_mail.mail_type = 11;
             move_mail.type_index = mail_reward_first_index;
-            move_mail.count = 1;
+            move_mail.count = _count;
             move_mail.icon_id = _id;
             move_mail.get_time = now();
         });
@@ -10055,7 +10055,7 @@ void battletest::package_buy(eosio::name _user, uint32_t _type, uint32_t _count,
     auto user_packages_iter = user_packages_table.find(package_shop_iter->id);
 
     //패키지 구매를 추가로 못하게 하는 코드
-
+/*
     if (user_packages_iter == user_packages_table.end())
     {
         user_packages_table.emplace(_self, [&](auto &new_data) {
@@ -10085,7 +10085,7 @@ void battletest::package_buy(eosio::name _user, uint32_t _type, uint32_t _count,
             }
         }
     }
-
+*/
     user_log_table.modify(user_log_iter, _self, [&](auto &new_data) {
         new_data.get_utg += package_shop_iter->GET_UTG;
         new_data.use_eos += TEST_MONEY;
