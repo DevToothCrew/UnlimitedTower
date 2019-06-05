@@ -74,27 +74,27 @@ public class BattleManager : MonoSingleton<BattleManager>
 
         battleActionData stageActionInfo = UserDataManager.Inst.GetStageAction();
         UserDataManager.Inst.stageState.turn = stageActionInfo.turn;
-        
+
         for (int i = 0; i < stageActionInfo.character_action_list.Count; i++)
         {
             if (stageActionInfo.character_action_list[i].action_type == 2)
             {
                 character[stageActionInfo.character_action_list[i].my_position].GetComponent<BasicAttack>().Attack(stageActionInfo.character_action_list[i]);
 
-                yield return new WaitUntil(() => isAfterDelay == true);
                 isAfterDelay = false;
             }
             else if (stageActionInfo.character_action_list[i].action_type == 3)
             {
-                    if (stageActionInfo.character_action_list[i].my_position < 10)
-                        BattleUIManager.Inst.MySkAction(GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id);
-                    else
-                        BattleUIManager.Inst.EnemySkAction(GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id);
+                if (stageActionInfo.character_action_list[i].my_position < 10)
+                    BattleUIManager.Inst.MySkAction(GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id);
+                else
+                    BattleUIManager.Inst.EnemySkAction(GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id);
 
-                    SkillManager.Inst.SendMessage("Skill_" + GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id.ToString(), stageActionInfo.character_action_list[i]);
-                    yield return new WaitUntil(() => isAfterDelay == true);
+                SkillManager.Inst.SendMessage("Skill_" + GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id.ToString(), stageActionInfo.character_action_list[i]);
                 isAfterDelay = false;
             }
+
+            yield return new WaitForSeconds(3.0f);
         }
 
         isBattleStart = false;
