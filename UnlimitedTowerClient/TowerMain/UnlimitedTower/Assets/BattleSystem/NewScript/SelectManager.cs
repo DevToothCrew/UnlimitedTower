@@ -110,7 +110,7 @@ public class SelectManager : MonoBehaviour
                                     nemeText.text = "Warrior";
                                     break;
                                 case 2:
-                                    nemeText.text = "Theif";
+                                    nemeText.text = "Thief";
                                     break;
                                 case 3:
                                     nemeText.text = "Cleric";
