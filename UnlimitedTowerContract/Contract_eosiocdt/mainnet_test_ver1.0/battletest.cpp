@@ -5881,7 +5881,7 @@ void battletest::set_hp_synergy(
                             // auto monster_iter = monster_db_table.find(_my_state_list[my].id);
                             // eosio_assert(monster_iter != monster_db_table.end(),"Hp Synergy Set : Empty Monster ID / Wrong Monster ID");
 
-                            auto monster_iter = get_monster_db(_my_state_list[i].id);
+                            auto monster_iter = get_monster_db(_my_state_list[my].id);
                             if(passvie_target_id::t_spirit == (monster_iter->tribe + 900))
                             {
                                 _my_state_list[my].now_hp += (_my_state_list[my].now_hp * passive_iter->effect_value_a) / 100;
