@@ -10314,65 +10314,65 @@ void battletest::nftexchange(eosio::name _owner, eosio::name _master, std::strin
     }
 }
 
-ACTION battletest::chat(name _user, asset _price, string _text)
-{
-   require_auth(_user);
+// ACTION battletest::chat(name _user, asset _price, string _text)
+// {
+//    require_auth(_user);
 
-   eosio_assert(_price.symbol == symbol("UTG", 4), "Only UTG can be uses.");
+//    eosio_assert(_price.symbol == symbol("UTG", 4), "Only UTG can be uses.");
 
-   // Get User's UTG balance
-   account acnt_table(_self, _user.value);
-   auto a_iter = acnt_table.find(_price.symbol.code().raw());
+//    // Get User's UTG balance
+//    account acnt_table(_self, _user.value);
+//    auto a_iter = acnt_table.find(_price.symbol.code().raw());
 
-   // Get Chat table info
-   chat_index chat_table(_self, _self.value);
-   auto iter = chat_table.find(_self.value);
+//    // Get Chat table info
+//    chat_index chat_table(_self, _self.value);
+//    auto iter = chat_table.find(_self.value);
 
-   // Set basic price
-   string _symbol = "UTG";
-   asset basic_price(1000000, symbol(symbol_code(_symbol), 4));
+//    // Set basic price
+//    string _symbol = "UTG";
+//    asset basic_price(1000000, symbol(symbol_code(_symbol), 4));
 
-   if(iter == chat_table.end()){
-       eosio_assert(a_iter->balance.amount >= basic_price.amount, "Not enough UTG.");
-       eosio_assert(basic_price.amount == _price.amount, "Can not register at current price.");
+//    if(iter == chat_table.end()){
+//        eosio_assert(a_iter->balance.amount >= basic_price.amount, "Not enough UTG.");
+//        eosio_assert(basic_price.amount == _price.amount, "Can not register at current price.");
 
-       chat_table.emplace(_user, [&](auto &data){
-           data.owner = _self;
-           data.price = basic_price;
-           data.user = _user;
-           data.text = _text;
-           data.start_time = now();
-       });
-   }
-   else{
-       if(iter->start_time < now() - 86400){
-           eosio_assert(a_iter->balance.amount >= basic_price.amount, "Not enough UTG.");
-           eosio_assert(basic_price.amount == _price.amount, "Can not register at current price.");
+//        chat_table.emplace(_user, [&](auto &data){
+//            data.owner = _self;
+//            data.price = basic_price;
+//            data.user = _user;
+//            data.text = _text;
+//            data.start_time = now();
+//        });
+//    }
+//    else{
+//        if(iter->start_time < now() - 86400){
+//            eosio_assert(a_iter->balance.amount >= basic_price.amount, "Not enough UTG.");
+//            eosio_assert(basic_price.amount == _price.amount, "Can not register at current price.");
 
-           chat_table.modify(iter, _user, [&](auto &data){
-               data.price = basic_price;
-               data.user = _user;
-               data.text = _text;
-               data.start_time = now();
-           });
-       }
-       else{
-           eosio_assert(a_iter->balance.amount >= _price.amount, "Not enough UTG.");
-           basic_price.amount = iter->price.amount * 2;
-           eosio_assert(basic_price.amount == _price.amount, "Can not register at current price.");
+//            chat_table.modify(iter, _user, [&](auto &data){
+//                data.price = basic_price;
+//                data.user = _user;
+//                data.text = _text;
+//                data.start_time = now();
+//            });
+//        }
+//        else{
+//            eosio_assert(a_iter->balance.amount >= _price.amount, "Not enough UTG.");
+//            basic_price.amount = iter->price.amount * 2;
+//            eosio_assert(basic_price.amount == _price.amount, "Can not register at current price.");
 
-           chat_table.modify(iter, _user, [&](auto &data){
-               data.price = _price;
-               data.user = _user;
-               data.text = _text;
-               data.start_time = now();
-           });
-       }
-   }
+//            chat_table.modify(iter, _user, [&](auto &data){
+//                data.price = _price;
+//                data.user = _user;
+//                data.text = _text;
+//                data.start_time = now();
+//            });
+//        }
+//    }
 
-   string msg = "Regist chat message. " + std::to_string(_price.amount) + " UTG";
-   transfer(_user, _self, _price, msg);
-}
+//    string msg = "Regist chat message. " + std::to_string(_price.amount) + " UTG";
+//    transfer(_user, _self, _price, msg);
+// }
  
 
 void battletest::towersnap(uint64_t fnum) //층수 인자값 추가
@@ -11460,298 +11460,298 @@ void battletest::white(eosio::name _user, std::string _type)
 //     }
 // }
 
-ACTION battletest::simulate(eosio::name _user, std::string _type, std::string _value)
-{
-   master_active_check();
+// ACTION battletest::simulate(eosio::name _user, std::string _type, std::string _value)
+// {
+//    master_active_check();
 
-   std::vector<size_t> size_list;
-   std::vector<std::string> value_list;
-   uint32_t value;
+//    std::vector<size_t> size_list;
+//    std::vector<std::string> value_list;
+//    uint32_t value;
 
-   lv_exp lv_exp_table(_self, _self.value);
+//    lv_exp lv_exp_table(_self, _self.value);
 
-   user_auths user_auths_table(_self, _self.value);
-   auto user_auths_iter = user_auths_table.find(_user.value);
-   user_equip_items user_equipment_table(_self, _user.value);
-   user_servants user_servant_table(_self, _user.value);
+//    user_auths user_auths_table(_self, _self.value);
+//    auto user_auths_iter = user_auths_table.find(_user.value);
+//    user_equip_items user_equipment_table(_self, _user.value);
+//    user_servants user_servant_table(_self, _user.value);
 
-   user_monsters user_monster_table(_self, _user.value);
+//    user_monsters user_monster_table(_self, _user.value);
 
-   if (_type == "servant")
-   {
-       substr_value(_value, value_list, size_list, 7); //id, level, str, dex, int, passive, active
+//    if (_type == "servant")
+//    {
+//        substr_value(_value, value_list, size_list, 7); //id, level, str, dex, int, passive, active
 
-       auto iter = lv_exp_table.find(atoi(value_list[1].c_str()));
+//        auto iter = lv_exp_table.find(atoi(value_list[1].c_str()));
 
-       user_servant_table.emplace(_self, [&](auto &new_data) {
-           new_data.index = user_servant_table.available_primary_key();
-           new_data.party_number = 0;
+//        user_servant_table.emplace(_self, [&](auto &new_data) {
+//            new_data.index = user_servant_table.available_primary_key();
+//            new_data.party_number = 0;
 
-           servant_info new_servant;
-           new_servant.id = atoi(value_list[0].c_str());
-           new_servant.grade = 5;
-           new_servant.level = iter->lv;
-           new_servant.exp = iter->char_exp;
-           new_servant.state = object_state::on_inventory;
-           new_servant.status.basic_str = atoi(value_list[2].c_str());
-           new_servant.status.basic_dex = atoi(value_list[3].c_str());
-           new_servant.status.basic_int = atoi(value_list[4].c_str());
-           new_servant.passive_skill.push_back(atoi(value_list[5].c_str()));
-           new_servant.active_skill.push_back(atoi(value_list[6].c_str()));
-           new_servant.equip_slot.resize(3);
+//            servant_info new_servant;
+//            new_servant.id = atoi(value_list[0].c_str());
+//            new_servant.grade = 5;
+//            new_servant.level = iter->lv;
+//            new_servant.exp = iter->char_exp;
+//            new_servant.state = object_state::on_inventory;
+//            new_servant.status.basic_str = atoi(value_list[2].c_str());
+//            new_servant.status.basic_dex = atoi(value_list[3].c_str());
+//            new_servant.status.basic_int = atoi(value_list[4].c_str());
+//            new_servant.passive_skill.push_back(atoi(value_list[5].c_str()));
+//            new_servant.active_skill.push_back(atoi(value_list[6].c_str()));
+//            new_servant.equip_slot.resize(3);
 
-           new_data.servant = new_servant;
-       });
+//            new_data.servant = new_servant;
+//        });
 
-       user_auths_table.modify(user_auths_iter, _self, [&](auto &new_data) {
-           new_data.current_servant_inventory += 1;
-       });
-   }
-   else if (_type == "monster")
-   {
-       substr_value(_value, value_list, size_list, 8); //id, level, grade, upgrade, str, dex, int, passive
-       auto iter = lv_exp_table.find(atoi(value_list[1].c_str()));
+//        user_auths_table.modify(user_auths_iter, _self, [&](auto &new_data) {
+//            new_data.current_servant_inventory += 1;
+//        });
+//    }
+//    else if (_type == "monster")
+//    {
+//        substr_value(_value, value_list, size_list, 8); //id, level, grade, upgrade, str, dex, int, passive
+//        auto iter = lv_exp_table.find(atoi(value_list[1].c_str()));
 
-       monster_db monster_db_table(_self, _self.value);
-       auto monster_db_iter = monster_db_table.find(atoi(value_list[0].c_str()));
+//        monster_db monster_db_table(_self, _self.value);
+//        auto monster_db_iter = monster_db_table.find(atoi(value_list[0].c_str()));
 
-       user_monster_table.emplace(_self, [&](auto &new_data) {
-           new_data.index = user_monster_table.available_primary_key();
-           new_data.party_number = 0;
+//        user_monster_table.emplace(_self, [&](auto &new_data) {
+//            new_data.index = user_monster_table.available_primary_key();
+//            new_data.party_number = 0;
 
-           monster_info new_servant;
-           new_servant.id = monster_db_iter->id;
-           new_servant.state = object_state::on_inventory;
-           new_servant.type = monster_db_iter->type;
-           new_servant.tribe = monster_db_iter->tribe;
-           new_servant.grade = atoi(value_list[2].c_str());
-           new_servant.level = iter->lv;
-           new_servant.exp = iter->char_exp;
-           new_servant.upgrade = atoi(value_list[3].c_str());
-           new_servant.status.basic_str = atoi(value_list[4].c_str());
-           new_servant.status.basic_dex = atoi(value_list[5].c_str());
-           new_servant.status.basic_int = atoi(value_list[6].c_str());
-           new_servant.passive_skill.push_back(atoi(value_list[7].c_str()));
+//            monster_info new_servant;
+//            new_servant.id = monster_db_iter->id;
+//            new_servant.state = object_state::on_inventory;
+//            new_servant.type = monster_db_iter->type;
+//            new_servant.tribe = monster_db_iter->tribe;
+//            new_servant.grade = atoi(value_list[2].c_str());
+//            new_servant.level = iter->lv;
+//            new_servant.exp = iter->char_exp;
+//            new_servant.upgrade = atoi(value_list[3].c_str());
+//            new_servant.status.basic_str = atoi(value_list[4].c_str());
+//            new_servant.status.basic_dex = atoi(value_list[5].c_str());
+//            new_servant.status.basic_int = atoi(value_list[6].c_str());
+//            new_servant.passive_skill.push_back(atoi(value_list[7].c_str()));
 
-           new_data.monster = new_servant;
-       });
-       user_auths_table.modify(user_auths_iter, _self, [&](auto &new_data) {
-           new_data.current_monster_inventory += 1;
-       });
-   }
-   else if (_type == "equipment")
-   {
-       substr_value(_value, value_list, size_list, 4); //id,  grade, upgrade, value
+//            new_data.monster = new_servant;
+//        });
+//        user_auths_table.modify(user_auths_iter, _self, [&](auto &new_data) {
+//            new_data.current_monster_inventory += 1;
+//        });
+//    }
+//    else if (_type == "equipment")
+//    {
+//        substr_value(_value, value_list, size_list, 4); //id,  grade, upgrade, value
 
-       equipment_db equipment_db_table(_self, _self.value);
-       auto equipment_db_iter = equipment_db_table.find(atoi(value_list[0].c_str()));
+//        equipment_db equipment_db_table(_self, _self.value);
+//        auto equipment_db_iter = equipment_db_table.find(atoi(value_list[0].c_str()));
 
-       user_equipment_table.emplace(_self, [&](auto &new_data) {
-           new_data.index = user_equipment_table.available_primary_key();
+//        user_equipment_table.emplace(_self, [&](auto &new_data) {
+//            new_data.index = user_equipment_table.available_primary_key();
 
-           equipment_info new_servant;
-           new_servant.id = equipment_db_iter->item_id;
-           new_servant.state = object_state::on_inventory;
-           new_servant.type = equipment_db_iter->type;
-           new_servant.tier = equipment_db_iter->tier;
-           new_servant.job = equipment_db_iter->job;
-           new_servant.grade = atoi(value_list[1].c_str());
-           new_servant.upgrade = atoi(value_list[2].c_str());
-           new_servant.value = atoi(value_list[3].c_str());
-           new_servant.equipservantindex = 0;
+//            equipment_info new_servant;
+//            new_servant.id = equipment_db_iter->item_id;
+//            new_servant.state = object_state::on_inventory;
+//            new_servant.type = equipment_db_iter->type;
+//            new_servant.tier = equipment_db_iter->tier;
+//            new_servant.job = equipment_db_iter->job;
+//            new_servant.grade = atoi(value_list[1].c_str());
+//            new_servant.upgrade = atoi(value_list[2].c_str());
+//            new_servant.value = atoi(value_list[3].c_str());
+//            new_servant.equipservantindex = 0;
 
-           new_data.equipment = new_servant;
-       });
-       user_auths_table.modify(user_auths_iter, _self, [&](auto &new_data) {
-           new_data.current_equipment_inventory += 1;
-       });
-   }
+//            new_data.equipment = new_servant;
+//        });
+//        user_auths_table.modify(user_auths_iter, _self, [&](auto &new_data) {
+//            new_data.current_equipment_inventory += 1;
+//        });
+//    }
 
-   else if (_type == "count")
-   {
-       uint32_t count1 = 0;
-       uint32_t count2 = 0;
-       uint32_t count3 = 0;
-       for (auto iter1 = user_servant_table.begin(); iter1 != user_servant_table.end();)
-       {
-           count1++;
-           iter1++;
-       }
-       for (auto iter2 = user_monster_table.begin(); iter2 != user_monster_table.end();)
-       {
-           count2++;
-           iter2++;
-       }
-       for (auto iter3 = user_equipment_table.begin(); iter3 != user_equipment_table.end();)
-       {
-           count3++;
-           iter3++;
-       }
+//    else if (_type == "count")
+//    {
+//        uint32_t count1 = 0;
+//        uint32_t count2 = 0;
+//        uint32_t count3 = 0;
+//        for (auto iter1 = user_servant_table.begin(); iter1 != user_servant_table.end();)
+//        {
+//            count1++;
+//            iter1++;
+//        }
+//        for (auto iter2 = user_monster_table.begin(); iter2 != user_monster_table.end();)
+//        {
+//            count2++;
+//            iter2++;
+//        }
+//        for (auto iter3 = user_equipment_table.begin(); iter3 != user_equipment_table.end();)
+//        {
+//            count3++;
+//            iter3++;
+//        }
 
-       user_auths_table.modify(user_auths_iter, _self, [&](auto &new_data) {
-           new_data.current_servant_inventory = count1;
-           new_data.current_monster_inventory = count2;
-           new_data.current_equipment_inventory = count3;
-       });
-   }
-   else if(_type == "deleteitem")
-   {
-       user_items user_item_table(_self, _user.value);
-       for (auto iter = user_item_table.begin(); iter != user_item_table.end();)
-       {
-           auto item = user_item_table.find(iter->primary_key());
-           iter++;
-           user_item_table.erase(item);
-       }
-        user_auths my_auths_table(_self, _self.value);
-        auto my_auth_iter = my_auths_table.find(_user.value);
-        my_auths_table.modify(my_auth_iter, _self, [&](auto &new_data) {
-            new_data.current_item_inventory = 0;
-        });
-   }
-}
+//        user_auths_table.modify(user_auths_iter, _self, [&](auto &new_data) {
+//            new_data.current_servant_inventory = count1;
+//            new_data.current_monster_inventory = count2;
+//            new_data.current_equipment_inventory = count3;
+//        });
+//    }
+//    else if(_type == "deleteitem")
+//    {
+//        user_items user_item_table(_self, _user.value);
+//        for (auto iter = user_item_table.begin(); iter != user_item_table.end();)
+//        {
+//            auto item = user_item_table.find(iter->primary_key());
+//            iter++;
+//            user_item_table.erase(item);
+//        }
+//         user_auths my_auths_table(_self, _self.value);
+//         auto my_auth_iter = my_auths_table.find(_user.value);
+//         my_auths_table.modify(my_auth_iter, _self, [&](auto &new_data) {
+//             new_data.current_item_inventory = 0;
+//         });
+//    }
+// }
 
-ACTION battletest::usersimul(eosio::name _user, eosio::name _contract, eosio::name _target)
-{
-    master_active_check();
+// ACTION battletest::usersimul(eosio::name _user, eosio::name _contract, eosio::name _target)
+// {
+//     master_active_check();
 
-    user_auths user_auth_table(_contract, _contract.value);
-    auto user_auth_iter = user_auth_table.find(_target.value);
-    user_auths my_auths_table(_self, _self.value);
-    auto my_auth_iter = my_auths_table.find(_user.value);
-    my_auths_table.modify(my_auth_iter, _self, [&](auto &new_data)
-    {
-        new_data.state = user_state::lobby;
-        new_data.exp = user_auth_iter->exp;
-        new_data.rank = user_auth_iter->rank;
-        new_data.current_servant_inventory = user_auth_iter->current_servant_inventory;
-        new_data.current_monster_inventory = user_auth_iter->current_monster_inventory;
-        new_data.current_equipment_inventory = user_auth_iter->current_equipment_inventory;
-        new_data.current_item_inventory = user_auth_iter->current_item_inventory;
-        new_data.servant_inventory = user_auth_iter->servant_inventory;
-        new_data.monster_inventory = user_auth_iter->monster_inventory;
-        new_data.equipment_inventory = user_auth_iter->equipment_inventory;
-        new_data.item_inventory = user_auth_iter->item_inventory;
-    });
+//     user_auths user_auth_table(_contract, _contract.value);
+//     auto user_auth_iter = user_auth_table.find(_target.value);
+//     user_auths my_auths_table(_self, _self.value);
+//     auto my_auth_iter = my_auths_table.find(_user.value);
+//     my_auths_table.modify(my_auth_iter, _self, [&](auto &new_data)
+//     {
+//         new_data.state = user_state::lobby;
+//         new_data.exp = user_auth_iter->exp;
+//         new_data.rank = user_auth_iter->rank;
+//         new_data.current_servant_inventory = user_auth_iter->current_servant_inventory;
+//         new_data.current_monster_inventory = user_auth_iter->current_monster_inventory;
+//         new_data.current_equipment_inventory = user_auth_iter->current_equipment_inventory;
+//         new_data.current_item_inventory = user_auth_iter->current_item_inventory;
+//         new_data.servant_inventory = user_auth_iter->servant_inventory;
+//         new_data.monster_inventory = user_auth_iter->monster_inventory;
+//         new_data.equipment_inventory = user_auth_iter->equipment_inventory;
+//         new_data.item_inventory = user_auth_iter->item_inventory;
+//     });
 
-    user_logs user_log_table(_contract, _contract.value);
-    auto user_log_iter = user_log_table.find(_target.value);
-    user_logs my_logs_table(_self, _self.value);
-    auto my_logs_iter = my_logs_table.find(_user.value);
-    my_logs_table.modify(my_logs_iter, _self, [&](auto &new_data) {
-        new_data.servant_num = user_log_iter->servant_num;
-        new_data.monster_num = user_log_iter->monster_num;
-        new_data.equipment_num = user_log_iter->equipment_num;
-        new_data.gacha_num = user_log_iter->gacha_num;
-        new_data.get_utg = user_log_iter->get_utg;
-        new_data.use_utg = user_log_iter->use_utg;
-        new_data.use_eos = user_log_iter->use_eos;
-        new_data.battle_count = user_log_iter->battle_count;
-        new_data.last_stage_num = user_log_iter->last_stage_num;
-        new_data.last_tower_num = user_log_iter->last_tower_num;
-        new_data.top_clear_stage = user_log_iter->top_clear_stage;
-        new_data.top_clear_tower = user_log_iter->top_clear_tower;
-        new_data.add_party_count = user_log_iter->add_party_count;
-        new_data.soul_powder = user_log_iter->soul_powder;
-        new_data.mail = user_log_iter->mail;
-    });
-
-
-    user_items target_item(_contract, _target.value);
-    user_servants target_servant(_contract, _target.value);
-    user_monsters target_monster(_contract, _target.value);
-    user_equip_items target_equipment(_contract, _target.value);
-
-    user_items my_item(_self, _user.value);
-    for(auto iter = my_item.begin(); iter != my_item.end();)
-    {
-        auto item = my_item.find(iter->primary_key());
-        iter++;
-        my_item.erase(item);
-    }
-
-    user_servants my_servant(_self, _user.value);
-    for(auto iter = my_servant.begin(); iter != my_servant.end();)
-    {
-        auto item = my_servant.find(iter->primary_key());
-        iter++;
-        my_servant.erase(item);
-    }
-    user_monsters my_monster(_self, _user.value);
-    for(auto iter = my_monster.begin(); iter != my_monster.end();)
-    {
-        auto item = my_monster.find(iter->primary_key());
-        iter++;
-        my_monster.erase(item);
-    }
-
-    user_equip_items my_equipment(_self, _user.value);
-    for(auto iter = my_equipment.begin(); iter != my_equipment.end();)
-    {
-        auto item = my_equipment.find(iter->primary_key());
-        iter++;
-        my_equipment.erase(item);
-    }
+//     user_logs user_log_table(_contract, _contract.value);
+//     auto user_log_iter = user_log_table.find(_target.value);
+//     user_logs my_logs_table(_self, _self.value);
+//     auto my_logs_iter = my_logs_table.find(_user.value);
+//     my_logs_table.modify(my_logs_iter, _self, [&](auto &new_data) {
+//         new_data.servant_num = user_log_iter->servant_num;
+//         new_data.monster_num = user_log_iter->monster_num;
+//         new_data.equipment_num = user_log_iter->equipment_num;
+//         new_data.gacha_num = user_log_iter->gacha_num;
+//         new_data.get_utg = user_log_iter->get_utg;
+//         new_data.use_utg = user_log_iter->use_utg;
+//         new_data.use_eos = user_log_iter->use_eos;
+//         new_data.battle_count = user_log_iter->battle_count;
+//         new_data.last_stage_num = user_log_iter->last_stage_num;
+//         new_data.last_tower_num = user_log_iter->last_tower_num;
+//         new_data.top_clear_stage = user_log_iter->top_clear_stage;
+//         new_data.top_clear_tower = user_log_iter->top_clear_tower;
+//         new_data.add_party_count = user_log_iter->add_party_count;
+//         new_data.soul_powder = user_log_iter->soul_powder;
+//         new_data.mail = user_log_iter->mail;
+//     });
 
 
-    for(auto iter = target_item.begin(); iter != target_item.end();)
-    {
-        auto item = target_item.find(iter->primary_key());
-        my_item.emplace(_self, [&](auto &new_data)
-        {
-            new_data.id = item->id;
-            new_data.type = item->type;
-            new_data.item_list = item->item_list;
-        });
-        iter++;
-    }
+//     user_items target_item(_contract, _target.value);
+//     user_servants target_servant(_contract, _target.value);
+//     user_monsters target_monster(_contract, _target.value);
+//     user_equip_items target_equipment(_contract, _target.value);
 
-    for(auto iter = target_servant.begin(); iter != target_servant.end();)
-    {
-        auto item = target_servant.find(iter->primary_key());
-        my_servant.emplace(_self, [&](auto &new_data)
-        {
-            new_data.index = item->index;
-            new_data.party_number = item->party_number;
-            new_data.servant = item->servant;
-        });
-        iter++;
-    }
+//     user_items my_item(_self, _user.value);
+//     for(auto iter = my_item.begin(); iter != my_item.end();)
+//     {
+//         auto item = my_item.find(iter->primary_key());
+//         iter++;
+//         my_item.erase(item);
+//     }
 
-    for(auto iter = target_monster.begin(); iter != target_monster.end();)
-    {
-        auto item = target_monster.find(iter->primary_key());
-        my_monster.emplace(_self, [&](auto &new_data)
-        {
-            new_data.index = item->index;
-            new_data.party_number = item->party_number;
-            new_data.monster = item->monster;
-        });
-        iter++;
-    }
+//     user_servants my_servant(_self, _user.value);
+//     for(auto iter = my_servant.begin(); iter != my_servant.end();)
+//     {
+//         auto item = my_servant.find(iter->primary_key());
+//         iter++;
+//         my_servant.erase(item);
+//     }
+//     user_monsters my_monster(_self, _user.value);
+//     for(auto iter = my_monster.begin(); iter != my_monster.end();)
+//     {
+//         auto item = my_monster.find(iter->primary_key());
+//         iter++;
+//         my_monster.erase(item);
+//     }
 
-    for (auto iter = target_equipment.begin(); iter != target_equipment.end();)
-    {
-        auto item = target_equipment.find(iter->primary_key());
-        my_equipment.emplace(_self, [&](auto &new_data) {
-            new_data.index = item->index;
-            new_data.equipment = item->equipment;
-        });
-        iter++;
-    }
+//     user_equip_items my_equipment(_self, _user.value);
+//     for(auto iter = my_equipment.begin(); iter != my_equipment.end();)
+//     {
+//         auto item = my_equipment.find(iter->primary_key());
+//         iter++;
+//         my_equipment.erase(item);
+//     }
 
-    user_partys user_party_table(_contract, _target.value);
-    auto user_party_iter = user_party_table.find(1);
 
-    user_partys my_party_table(_self, _user.value);
-    auto my_party_iter = my_party_table.find(1);
-    my_party_table.modify(my_party_iter, _self, [&](auto &new_data)
-    {
-        new_data.state = party_state::on_wait;
-        new_data.servant_list = user_party_iter->servant_list;
-        new_data.monster_list = user_party_iter->monster_list;
-    });
-}
+//     for(auto iter = target_item.begin(); iter != target_item.end();)
+//     {
+//         auto item = target_item.find(iter->primary_key());
+//         my_item.emplace(_self, [&](auto &new_data)
+//         {
+//             new_data.id = item->id;
+//             new_data.type = item->type;
+//             new_data.item_list = item->item_list;
+//         });
+//         iter++;
+//     }
+
+//     for(auto iter = target_servant.begin(); iter != target_servant.end();)
+//     {
+//         auto item = target_servant.find(iter->primary_key());
+//         my_servant.emplace(_self, [&](auto &new_data)
+//         {
+//             new_data.index = item->index;
+//             new_data.party_number = item->party_number;
+//             new_data.servant = item->servant;
+//         });
+//         iter++;
+//     }
+
+//     for(auto iter = target_monster.begin(); iter != target_monster.end();)
+//     {
+//         auto item = target_monster.find(iter->primary_key());
+//         my_monster.emplace(_self, [&](auto &new_data)
+//         {
+//             new_data.index = item->index;
+//             new_data.party_number = item->party_number;
+//             new_data.monster = item->monster;
+//         });
+//         iter++;
+//     }
+
+//     for (auto iter = target_equipment.begin(); iter != target_equipment.end();)
+//     {
+//         auto item = target_equipment.find(iter->primary_key());
+//         my_equipment.emplace(_self, [&](auto &new_data) {
+//             new_data.index = item->index;
+//             new_data.equipment = item->equipment;
+//         });
+//         iter++;
+//     }
+
+//     user_partys user_party_table(_contract, _target.value);
+//     auto user_party_iter = user_party_table.find(1);
+
+//     user_partys my_party_table(_self, _user.value);
+//     auto my_party_iter = my_party_table.find(1);
+//     my_party_table.modify(my_party_iter, _self, [&](auto &new_data)
+//     {
+//         new_data.state = party_state::on_wait;
+//         new_data.servant_list = user_party_iter->servant_list;
+//         new_data.monster_list = user_party_iter->monster_list;
+//     });
+// }
 
 void battletest::utg_exchange(eosio::name _user)
 {
@@ -13126,13 +13126,13 @@ battletest::equipment_info battletest::get_equip_random_state(uint32_t _id, uint
     return new_item;
 }
 
-battletest::floor_index::const_iterator battletest::get_floor(uint64_t _fnum)
-{
-    floor_index floor_index_table(_self, _self.value);
-    auto iter = floor_index_table.find(_fnum);
-    eosio_assert(iter != floor_index_table.end(), "Tower Start : Empty Floor");
-    return iter;
-}
+// battletest::floor_index::const_iterator battletest::get_floor(uint64_t _fnum)
+// {
+//     floor_index floor_index_table(_self, _self.value);
+//     auto iter = floor_index_table.find(_fnum);
+//     eosio_assert(iter != floor_index_table.end(), "Tower Start : Empty Floor");
+//     return iter;
+// }
 
 battletest::servant_db::const_iterator battletest::get_servant_db(uint64_t _id)
 {
@@ -13266,7 +13266,7 @@ EOSIO_DISPATCH(battletest,
               //battle 
               (pvpstart)(activeturn)(stagestart)(stageexit)(saveparty)  
               //tower
-              (chat)//(claim)(endflag)(toweropen)(towerstart)(deletetower)
+              //(chat)//(claim)(endflag)(toweropen)(towerstart)(deletetower)(simulate)(usersimul)
               //cheat    (leveltest)   (updatecheack)(accountset)(deleteuser2)
-              (simulate)(usersimul))       // (monstercheat)(anothercheck)                                                                                                       
+              )       // (monstercheat)(anothercheck)                                                                                                       
               //(alluserdel)(allbattle))
