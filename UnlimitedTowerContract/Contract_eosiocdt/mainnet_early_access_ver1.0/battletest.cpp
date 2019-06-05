@@ -9346,7 +9346,6 @@ void battletest::etc_item_buy(eosio::name _user, uint32_t _item_id, uint32_t _co
     });
 }
 
-}
 void battletest::shop_buy_item(eosio::name _user, uint32_t _type, uint32_t _count, uint64_t _seed)
 {
    system_check(_user);
