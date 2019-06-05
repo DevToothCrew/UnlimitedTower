@@ -1705,6 +1705,10 @@ public class PacketManager : MonoSingleton<PacketManager> {
             for (int i = 0; i < getMailOpenResultData.item_data_list.Count; i++)
             {
                 DebugLog.Log(false, "Item : " + getMailOpenResultData.item_data_list[i].id);
+
+                UserItemData getItem = ParseItem(getMailOpenResultData.item_data_list[i]);
+
+                UserDataManager.Inst.SetItem(getItem);
             }
         }
 
