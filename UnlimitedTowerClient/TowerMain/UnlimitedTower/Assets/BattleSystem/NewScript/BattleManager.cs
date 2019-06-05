@@ -80,8 +80,6 @@ public class BattleManager : MonoSingleton<BattleManager>
             if (stageActionInfo.character_action_list[i].action_type == 2)
             {
                 character[stageActionInfo.character_action_list[i].my_position].GetComponent<BasicAttack>().Attack(stageActionInfo.character_action_list[i]);
-
-                isAfterDelay = false;
             }
             else if (stageActionInfo.character_action_list[i].action_type == 3)
             {
@@ -91,10 +89,19 @@ public class BattleManager : MonoSingleton<BattleManager>
                     BattleUIManager.Inst.EnemySkAction(GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id);
 
                 SkillManager.Inst.SendMessage("Skill_" + GetCharState(stageActionInfo.character_action_list[i].my_position).activeSkillList[0].id.ToString(), stageActionInfo.character_action_list[i]);
-                isAfterDelay = false;
             }
 
-            yield return new WaitForSeconds(3.0f);
+            if (i + 1 != stageActionInfo.character_action_list.Count && (
+                stageActionInfo.character_action_list[i + 1].action_info_list[0].target_position == stageActionInfo.character_action_list[i].my_position ||
+                 stageActionInfo.character_action_list[i + 1].my_position == stageActionInfo.character_action_list[i].action_info_list[0].target_position))
+            {
+                yield return new WaitForSeconds(5.0f);
+            }
+            else
+            {
+                yield return new WaitForSeconds(3.0f);
+            }
+            isAfterDelay = false;
         }
 
         isBattleStart = false;
