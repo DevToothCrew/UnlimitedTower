@@ -2293,7 +2293,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
         {
             case MAIL_TYPE.PRE_SERVANT:
             case MAIL_TYPE.NFT_SERVANT:
-            case MAIL_TYPE.ETC_SERVANT:
+            case MAIL_TYPE.SERVANT:
                 DBServantData dbServantData = CSVData.Inst.GetServantData(getMailData.icon_id);
                 if (dbServantData == null)
                 {
@@ -2305,7 +2305,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 break;
             case MAIL_TYPE.PRE_MONSTER:
             case MAIL_TYPE.NFT_MONSTER:
-            case MAIL_TYPE.ETC_MONSTER:
+            case MAIL_TYPE.MONSTER:
                 DBMonsterData dbMonsterData = CSVData.Inst.GetMonsterData(getMailData.icon_id);
                 if(dbMonsterData == null)
                 {
@@ -2317,7 +2317,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 break;
             case MAIL_TYPE.PRE_EQUIPMENT:
             case MAIL_TYPE.NFT_EQUIPMENT:
-            case MAIL_TYPE.ETC_EQUIPMENT:
+            case MAIL_TYPE.EQUIPMENT:
                 DBEquipmentData dbEquipmentData = CSVData.Inst.GetEquipmentData(getMailData.icon_id);
                 if(dbEquipmentData == null)
                 {
@@ -2327,7 +2327,6 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 mailInfo.resourceIcon = dbEquipmentData.equipmentIcon;
                 break;
             case MAIL_TYPE.UTG:
-            case MAIL_TYPE.ETC_UTG:
                 DBItemData dbItemData = CSVData.Inst.GetItemData(500001);
                 if (dbItemData == null)
                 {
@@ -2336,7 +2335,7 @@ public class PacketManager : MonoSingleton<PacketManager> {
                 mailInfo.name = dbItemData.name;
                 mailInfo.resourceIcon = dbItemData.ItemIcon;
                 break;
-            case MAIL_TYPE.ETC_ITEM:
+            case MAIL_TYPE.ITEM:
                 DBItemData dbETCItemData = CSVData.Inst.GetItemData(getMailData.icon_id);
                 if (dbETCItemData == null)
                 {

@@ -429,15 +429,14 @@ public enum MAIL_TYPE
     PRE_SERVANT = 1,
     PRE_MONSTER = 2,
     PRE_EQUIPMENT = 3,
-    UTG = 4,
     NFT_SERVANT = 5,
     NFT_MONSTER = 6,
     NFT_EQUIPMENT = 7,
-    ETC_SERVANT = 8,
-    ETC_MONSTER = 9,
-    ETC_EQUIPMENT = 10,
-    ETC_ITEM = 11,
-    ETC_UTG = 12,
+    SERVANT = 8,
+    MONSTER = 9,
+    EQUIPMENT = 10,
+    ITEM = 11,
+    UTG = 12,
 }
 
 public enum SHOP_TYPE
