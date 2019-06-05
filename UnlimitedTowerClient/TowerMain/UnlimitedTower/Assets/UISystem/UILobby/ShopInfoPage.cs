@@ -12,6 +12,8 @@ public class ShopInfoPage : MonoSingleton<ShopInfoPage>
     public GameObject shopBuyPopup;
     public GameObject shopBuyPackagePopup;
 
+    public SHOP_TYPE selecteShopType;
+
     public void SetShopInfo(List<ShopProductInfo> getShopProductInfo)
     {
         shopBuyPopup.SetActive(false);
@@ -40,6 +42,7 @@ public class ShopInfoPage : MonoSingleton<ShopInfoPage>
 
     public void OnClickShopMenu(int type)
     {
+        selecteShopType = (SHOP_TYPE)type;
         PacketManager.Inst.RequestLocalShopInfo((SHOP_TYPE)type);
     }
 

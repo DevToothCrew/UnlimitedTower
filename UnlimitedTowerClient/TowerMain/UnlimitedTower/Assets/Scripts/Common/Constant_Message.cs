@@ -16,6 +16,10 @@ public class MessageList
             case MESSAGE_IDX.UPGRADE_EQUIPMENT_CONFIRM:
                 msg = "If the upgrade fails, the equipment will be destroyed.";
                 break;
+            case MESSAGE_IDX.BUY_PACKAGE_NOTICE:
+                msg = "Purchase complete.\nYou can pick things up from the mailbox.";
+                break;
+
             default:
                 break;
         }

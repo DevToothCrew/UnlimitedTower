@@ -1563,6 +1563,15 @@ public class PacketManager : MonoSingleton<PacketManager> {
             UserDataManager.Inst.SetUserInventoryInfo(info);
         }
 
+        //패키지, ETC 구매시에만 메일에 구매 품목이 발송 됐다는 메세지 팝업.
+        if (ShopInfoPage.checkInst())
+        {
+            if (ShopInfoPage.Inst.selecteShopType == SHOP_TYPE.ETC || ShopInfoPage.Inst.selecteShopType == SHOP_TYPE.PACKAGE)
+            {
+                TopUIManager.Inst.ShowPopupMessage(POPUP_TYPE.NOTIVE, MESSAGE_IDX.BUY_PACKAGE_NOTICE);
+            }
+        }
+
         ShopResourceList.Inst.SetResourceCount();
         LobbyTopInfo.Inst.UpdateTopInfo();
         ShopInfoPage.Inst.OnClickPopupCancelButton();

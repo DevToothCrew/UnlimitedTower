@@ -466,7 +466,8 @@ public enum MESSAGE_IDX
 {
     UPGRADE_MONSTER_CONFIRM = 0,    //몬스터 업그레이드시 확인(강화 하락 언급)
     UPGRADE_EQUIPMENT_CONFIRM = 1,    //무기 업그레이드시 확인(파괴 가능성 언급)
-    MAX = 2 //메세지 갯수
+    BUY_PACKAGE_NOTICE = 2,
+    MAX = 3 //메세지 갯수
 }
 
 #endregion
