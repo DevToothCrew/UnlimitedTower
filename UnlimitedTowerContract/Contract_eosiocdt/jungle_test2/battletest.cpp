@@ -10090,10 +10090,14 @@ void battletest::package_buy(eosio::name _user, uint32_t _type, uint32_t _count,
     }
     else if (package_shop_iter->id == 1008)
     {
-        get_new_item(_user, 500200, 10);
-        get_new_item(_user, 500210, 10);
-        get_new_item(_user, 500220, 10);
-        get_new_item(_user, 500230, 10);
+        // get_new_item(_user, 500200, 10);
+        // get_new_item(_user, 500210, 10);
+        // get_new_item(_user, 500220, 10);
+        // get_new_item(_user, 500230, 10);
+        get_reward_item(_user, 500200, 10, 2);
+        get_reward_item(_user, 500210, 10, 2);
+        get_reward_item(_user, 500220, 10, 2);
+        get_reward_item(_user, 500230, 10, 2);
     }
     else if (package_shop_iter->id == 1011)
     {
